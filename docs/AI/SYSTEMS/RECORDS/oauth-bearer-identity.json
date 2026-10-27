@@ -42,6 +42,18 @@
 	"changeRisk": "Token validation, expiry, issuer/subject, scope, or CORS behavior is security-sensitive.",
 	"environmentEvidence": [
 		{
+			"name": "AWTSMOOS_ARTIFACT_STORAGE_ROOT",
+			"classification": "path/storage",
+			"sources": 6,
+			"exampleSources": "geelooy/api/tunnel/control/core/artifactPublicationStore.js; geelooy/api/tunnel/control/core/binaryArtifactPublication.js; geelooy/api/tunnel/control/core/binaryArtifactPublication.test.cjs"
+		},
+		{
+			"name": "AWTSMOOS_BINARY_ARTIFACT_ROOT",
+			"classification": "path/storage",
+			"sources": 6,
+			"exampleSources": "geelooy/api/tunnel/control/core/binaryArtifactVault.js; geelooy/api/tunnel/control/routes/test/artifactBinaryHttp.test.cjs; geelooy/api/tunnel/control/routes/test/artifactBinaryPrivateRangeHttp.test.cjs"
+		},
+		{
 			"name": "AWTSMOOS_BINDING_HISTORY_PER_IDENTITY",
 			"classification": "runtime-config",
 			"sources": 1,

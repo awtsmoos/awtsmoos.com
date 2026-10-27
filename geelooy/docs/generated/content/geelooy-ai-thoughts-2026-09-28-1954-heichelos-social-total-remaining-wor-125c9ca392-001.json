@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# REMAINING_WORK\n\n- Full Heichel nested series/post listing redesign beyond empty-root hydration\n- Reader Scribe default hierarchy browser proof at 390 and 430\n- Auto-scroll interval measurement in a real post vessel\n- Community composer de-duplication proof\n- Social hub route-by-route implementation (profiles, search, notifications)\n- Isolated clean release worktree + public SHA verification\n- RTL / reduced-motion / keyboard matrix on production\n"
+}

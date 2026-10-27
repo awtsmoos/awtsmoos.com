@@ -9,7 +9,7 @@
 		"id": "apps",
 		"title": "Applications"
 	},
-	"title": "AssemblyAI Transcription",
+	"title": "Awtsmoos Transcription Studio",
 	"entries": [
 		"index.html"
 	],
@@ -21,24 +21,24 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-transcribe-82ebd494.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 2,
-		"tests": 0,
+		"source": 12,
+		"tests": 1,
 		"assets": 0,
 		"generated": 0,
 		"docs": 0,
 		"other": 0
 	},
-	"totalFiles": 2,
+	"totalFiles": 13,
 	"symbolSummary": {
-		"files": 1,
-		"classes": 0,
-		"functions": 4,
-		"exports": 0,
+		"files": 6,
+		"classes": 4,
+		"functions": 0,
+		"exports": 4,
 		"samples": [
-			"uploadAudio",
-			"requestTranscription",
-			"pollTranscription",
-			"displayTranscription"
+			"ChochmahTranscriptionApi",
+			"TiferesTranscriptionController",
+			"NetzachTranscriptionPoller",
+			"MalchusTranscriptionView"
 		]
 	},
 	"outgoingDependencies": [],
@@ -48,12 +48,12 @@
 		{
 			"url": "/apps/transcribe",
 			"file": "geelooy/apps/transcribe/index.html",
-			"title": "AssemblyAI Transcription",
-			"scripts": 0,
-			"styles": 0
+			"title": "Awtsmoos Transcription Studio",
+			"scripts": 1,
+			"styles": 1
 		}
 	],
-	"requiresLocalDocumentation": false,
+	"requiresLocalDocumentation": true,
 	"documentationCovered": false,
 	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
 }

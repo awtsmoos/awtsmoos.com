@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-c73b5bac78",
+	"title": "Evidence Ledger",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/.ai-thoughts/20260902_0315-universal-procedural-api/EVIDENCE_LEDGER.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Evidence Ledger",
+			"anchor": "evidence-ledger"
+		},
+		{
+			"level": 2,
+			"text": "Repository baseline",
+			"anchor": "repository-baseline"
+		},
+		{
+			"level": 2,
+			"text": "Architecture evidence",
+			"anchor": "architecture-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Historical design evidence",
+			"anchor": "historical-design-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Deployment evidence",
+			"anchor": "deployment-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Evidence still required",
+			"anchor": "evidence-still-required"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-c73b5bac78-001.json"
+	]
+}

@@ -2,7 +2,7 @@ B"H
 Boruch Hashem
 Blessed is He
 
-# Project Tutorial: geelooy/logout
+# Project Tutorial: Logged Out · Awtsmoos
 
 **Path:** `geelooy/logout` · **Type:** public · **Family:** Public and Other Boundaries
 
@@ -25,7 +25,7 @@ Blessed is He
 
 ## Public entry points
 
-- `/logout` → `geelooy/logout/index.html`
+- `/logout` → `geelooy/logout/index.html` — Logged Out · Awtsmoos
 
 ## Symbol evidence
 

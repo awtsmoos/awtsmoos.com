@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-master-execution-plan-05-civilization-gamepla-f549a4cb44",
+	"title": "05 — NPC Civilization, Wildlife, Traversal, Quests, Torah, Economy",
+	"sourcePath": "geelooy/games/mitzvahWorld/MASTER_EXECUTION_PLAN/05_CIVILIZATION_GAMEPLAY.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "05 — NPC Civilization, Wildlife, Traversal, Quests, Torah, Economy",
+			"anchor": "05-npc-civilization-wildlife-traversal-quests-torah-economy"
+		},
+		{
+			"level": 2,
+			"text": "NPC identity and schedules",
+			"anchor": "npc-identity-and-schedules"
+		},
+		{
+			"level": 2,
+			"text": "Economy and settlement life",
+			"anchor": "economy-and-settlement-life"
+		},
+		{
+			"level": 2,
+			"text": "Wildlife / ecology",
+			"anchor": "wildlife-ecology"
+		},
+		{
+			"level": 2,
+			"text": "Traversal / character feel",
+			"anchor": "traversal-character-feel"
+		},
+		{
+			"level": 2,
+			"text": "Quests / world transformation",
+			"anchor": "quests-world-transformation"
+		},
+		{
+			"level": 2,
+			"text": "Torah / learning / community",
+			"anchor": "torah-learning-community"
+		},
+		{
+			"level": 2,
+			"text": "Navigation",
+			"anchor": "navigation"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-master-execution-plan-05-civilization-gamepla-f549a4cb44-001.json"
+	]
+}

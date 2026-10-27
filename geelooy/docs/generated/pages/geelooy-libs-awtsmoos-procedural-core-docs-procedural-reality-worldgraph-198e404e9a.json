@@ -1,0 +1,69 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-docs-procedural-reality-worldgraph-198e404e9a",
+	"title": "B\"H — Reality WorldGraph → Procedural Definition Bridge",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/PROCEDURAL_REALITY_WORLDGRAPH_BRIDGE.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Reality WorldGraph → Procedural Definition Bridge",
+			"anchor": "b-h-reality-worldgraph-procedural-definition-bridge"
+		},
+		{
+			"level": 2,
+			"text": "Purpose",
+			"anchor": "purpose"
+		},
+		{
+			"level": 2,
+			"text": "Direct usage",
+			"anchor": "direct-usage"
+		},
+		{
+			"level": 2,
+			"text": "Receipt contract",
+			"anchor": "receipt-contract"
+		},
+		{
+			"level": 2,
+			"text": "Node mapping",
+			"anchor": "node-mapping"
+		},
+		{
+			"level": 2,
+			"text": "Seed law",
+			"anchor": "seed-law"
+		},
+		{
+			"level": 2,
+			"text": "Relationship law",
+			"anchor": "relationship-law"
+		},
+		{
+			"level": 2,
+			"text": "Incremental-regeneration consequence",
+			"anchor": "incremental-regeneration-consequence"
+		},
+		{
+			"level": 2,
+			"text": "What this bridge does not do",
+			"anchor": "what-this-bridge-does-not-do"
+		},
+		{
+			"level": 2,
+			"text": "Verification evidence",
+			"anchor": "verification-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Future integration",
+			"anchor": "future-integration"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-docs-procedural-reality-worldgraph-198e404e9a-001.json"
+	]
+}

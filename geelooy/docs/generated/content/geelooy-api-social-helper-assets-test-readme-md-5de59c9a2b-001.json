@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Assets Tests (geelooy/api/social/helper/assets/test/)\n\nTests for the social asset pipeline.\n\n- `assetCopy.test.js` / `assetCopy.test.mjs` — asset copy behavior across sources.\n- `assetCopySource.test.js` — copy-source resolution.\n- `AssetCopySourceTestVessel.js`, `AssetCopyTestVessel.js` — test fixtures/vessels.\n- `assetBindingAndCommentSections.test.mjs` — asset bindings to comment sections.\n"
+}

@@ -1,0 +1,71 @@
+B"H
+Boruch Hashem
+Blessed is He
+
+# API Tutorial: /api/tunnel/control/pairing/status
+
+**Family:** Tunnel Control · **Mount:** `/api/tunnel/control` · **Derech health:** OK
+
+**Source:** `geelooy/api/tunnel/control/_awtsmoos.derech.js` · **Discovery:** static-literal · **Confidence:** source-lexical
+
+[Read the human Tunnel Control tutorial](../../../TUTORIALS/API/TUNNEL_CONTROL.md)
+
+> Generated evidence is a navigation and teaching aid, not an OpenAPI contract. Unknown evidence stays unknown; inspect current source/tests before production use.
+
+## Contract evidence
+
+- Methods: `POST`
+- Request vessels: `route-vars`
+- Observed status literals: `200`, `500`
+- Observed headers: —
+
+## Path parameters
+
+None.
+
+## Starter call
+
+> Starter only: method evidence is lexical at the source-file level; inspect the handler before relying on payload or response shape.
+
+```sh
+curl -X POST 'https://awtsmoos.com/api/tunnel/control/pairing/status' \
+  -H 'content-type: application/json' \
+  --data '{}'
+```
+
+```js
+const response = await fetch("/api/tunnel/control/pairing/status", {
+	method: "POST"
+	headers: { "content-type": "application/json" },
+	body: JSON.stringify({})
+});
+const result = await response.json();
+```
+
+## Observed callers
+
+Pattern-compatible evidence only; it does not prove runtime dispatch.
+
+| Literal | Source | Kind |
+| --- | --- | --- |
+| `/api/tunnel/control/pairing/status` | `geelooy/apps/tunnel/downloads/unix-pairing-direct.cjs` | runtime |
+
+## Related tests
+
+Heuristic family matches:
+
+- `test:mission-continuity-actions` — `node geelooy/apps/tunnel/agent/tools/fs/actionGroups/test/missionContinuityActions.test.mjs`
+- `test:treasury` — `node geelooy/api/tunnel/control/test/runTreasuryTests.cjs`
+- `test:treasury:full` — `node geelooy/api/tunnel/control/test/treasury/runAll.cjs`
+- `test:tunnel-release` — `node --test scripts/tunnel/testing/*.test.cjs scripts/repository-hygiene/testing/*.test.cjs`
+
+## Related routes
+
+- [`/api/tunnel/control/admin-vault`](./api-tunnel-control-admin-vault-0c79867071.md)
+- [`/api/tunnel/control/admin/perutas`](./api-tunnel-control-admin-perutas-5d22edeedf.md)
+- [`/api/tunnel/control/agent-economy`](./api-tunnel-control-agent-economy-55b9aaa475.md)
+- [`/api/tunnel/control/agent-lobby`](./api-tunnel-control-agent-lobby-01f88f681b.md)
+- [`/api/tunnel/control/agent-lobby/join`](./api-tunnel-control-agent-lobby-join-6e29b3e243.md)
+- [`/api/tunnel/control/agent-lobby/post`](./api-tunnel-control-agent-lobby-post-397d4d9166.md)
+- [`/api/tunnel/control/agent-manifest`](./api-tunnel-control-agent-manifest-3d95678bf3.md)
+- [`/api/tunnel/control/agent-room`](./api-tunnel-control-agent-room-1f9266b1f2.md)

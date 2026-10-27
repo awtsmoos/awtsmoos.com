@@ -1,0 +1,67 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-api-portal-0f25dcae",
+	"path": "geelooy/api/portal",
+	"type": "api",
+	"family": {
+		"id": "apis",
+		"title": "API Projects"
+	},
+	"title": "geelooy/api/portal",
+	"entries": [
+		"_awtsmoos.derech.js",
+		"README.md",
+		"readme.md"
+	],
+	"humanDocumentation": [
+		"docs/TUTORIALS/PROJECTS/APIS.md",
+		"docs/API/README.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/APIS.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-portal-0f25dcae.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 18,
+		"tests": 4,
+		"assets": 0,
+		"generated": 0,
+		"docs": 6,
+		"other": 0
+	},
+	"totalFiles": 28,
+	"symbolSummary": {
+		"files": 18,
+		"classes": 2,
+		"functions": 31,
+		"exports": 45,
+		"samples": [
+			"adaptApiFamilyResource",
+			"getApiFamilyResource",
+			"listApiFamilyResources",
+			"revealApiFamilies",
+			"CONFIRMATION_LEVELS",
+			"EXECUTION_MODES",
+			"IDEMPOTENCY_MODES",
+			"normalizePortalActionDefinition",
+			"PORTAL_CONTRACT_LIMITS",
+			"clampPortalInteger",
+			"MACHINE_ID_PATTERN",
+			"NAMESPACED_TYPE_PATTERN"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/api/core",
+			"count": 1,
+			"examples": "geelooy/api/portal/adapters/ApiFamilyResourceAdapter.js"
+		}
+	],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": false,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

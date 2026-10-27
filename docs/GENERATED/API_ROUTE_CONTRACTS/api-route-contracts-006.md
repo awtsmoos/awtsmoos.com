@@ -8,42 +8,45 @@ Every discovered path joined to its source-file contract evidence; unknown remai
 
 | URL pattern | Source | Methods | Vessels | Statuses | Headers |
 | --- | --- | --- | --- | --- | --- |
-| /api/social/heichelos/:heichel/series/:series/details | geelooy/api/social/_awtsmoos.series.js | GET | $_GET, $_POST, $_DELETE, route-vars | — | — |
-| /api/social/heichelos/:heichel/series/:series/details | geelooy/api/social/old/_awtsmoos.series.js | GET, POST | $_GET, $_POST | — | — |
-| /api/social/heichelos/:heichel/series/:series/editSeriesDetails | geelooy/api/social/_awtsmoos.series.base.js | GET | $_GET, $_POST, $_DELETE | — | — |
-| /api/social/heichelos/:heichel/series/:series/editSeriesDetails | geelooy/api/social/_awtsmoos.series.js | GET | $_GET, $_POST, $_DELETE, route-vars | — | — |
-| /api/social/heichelos/:heichel/series/:series/editSeriesDetails | geelooy/api/social/old/_awtsmoos.series.js | GET, POST | $_GET, $_POST | — | — |
-| /api/social/heichelos/:heichel/series/:series/filterPostsBy/:propKey/:propVal | geelooy/api/social/_awtsmoos.posts.base.js | GET, PUT | $_GET, $_POST, $_DELETE, route-vars | — | — |
-| /api/social/heichelos/:heichel/series/:series/filterPostsBy/:propKey/:propVal | geelooy/api/social/old/_awtsmoos.series.js | GET, POST | $_GET, $_POST | — | — |
-| /api/social/heichelos/:heichel/series/:series/filterSeriesBy/:propKey/:propVal | geelooy/api/social/_awtsmoos.series.base.js | GET | $_GET, $_POST, $_DELETE | — | — |
-| /api/social/heichelos/:heichel/series/:series/filterSeriesBy/:propKey/:propVal | geelooy/api/social/old/_awtsmoos.series.js | GET, POST | $_GET, $_POST | — | — |
-| /api/social/heichelos/:heichel/series/:series/parent | geelooy/api/social/_awtsmoos.series.base.js | GET | $_GET, $_POST, $_DELETE | — | — |
-| /api/social/heichelos/:heichel/series/:series/parent | geelooy/api/social/old/_awtsmoos.series.js | GET, POST | $_GET, $_POST | — | — |
-| /api/social/heichelos/:heichel/series/:series/post/:post | geelooy/api/social/_awtsmoos.posts.base.js | GET, PUT | $_GET, $_POST, $_DELETE, route-vars | — | — |
-| /api/social/heichelos/:heichel/series/:series/post/:post/delete | geelooy/api/social/_awtsmoos.posts.base.js | GET, PUT | $_GET, $_POST, $_DELETE, route-vars | — | — |
+| /api/social/heichelos/:heichel/review/:review/approve | geelooy/api/social/_awtsmoos.community.js | unknown | $_GET, $_POST, $_DELETE | — | — |
+| /api/social/heichelos/:heichel/review/:review/reject | geelooy/api/social/_awtsmoos.community.js | unknown | $_GET, $_POST, $_DELETE | — | — |
+| /api/social/heichelos/:heichel/roles/:role | geelooy/api/social/_awtsmoos.heichel.js | unknown | $_GET, $_POST, $_DELETE, route-vars | — | — |
+| /api/social/heichelos/:heichel/series | geelooy/api/social/helper/routes/series/readRoutes.js | GET | route-vars | — | — |
+| /api/social/heichelos/:heichel/series/:parentSeriesId/clearSubSeries/:seriesId | geelooy/api/social/helper/routes/series/mutationRoutes.js | unknown | $_GET, $_POST, $_DELETE, route-vars | — | — |
+| /api/social/heichelos/:heichel/series/:parentSeriesId/deleteSubSeries/:seriesId | geelooy/api/social/helper/routes/series/mutationRoutes.js | unknown | $_GET, $_POST, $_DELETE, route-vars | — | — |
+| /api/social/heichelos/:heichel/series/:series | geelooy/api/social/helper/routes/series/readRoutes.js | GET | route-vars | — | — |
+| /api/social/heichelos/:heichel/series/:series/books/html | geelooy/api/social/_awtsmoos.books.js | unknown | route-vars | — | — |
+| /api/social/heichelos/:heichel/series/:series/books/jobs | geelooy/api/social/_awtsmoos.books.js | unknown | route-vars | — | — |
+| /api/social/heichelos/:heichel/series/:series/books/jobs/:job | geelooy/api/social/_awtsmoos.books.js | unknown | route-vars | — | — |
+| /api/social/heichelos/:heichel/series/:series/books/jobs/:job/archive.zip | geelooy/api/social/_awtsmoos.books.js | unknown | route-vars | — | — |
+| /api/social/heichelos/:heichel/series/:series/books/jobs/:job/files/:file | geelooy/api/social/_awtsmoos.books.js | unknown | route-vars | — | — |
+| /api/social/heichelos/:heichel/series/:series/breadcrumb | geelooy/api/social/helper/routes/series/navigationRoutes.js | unknown | route-vars | — | — |
+| /api/social/heichelos/:heichel/series/:series/changeSubSeriesInSeries | geelooy/api/social/helper/routes/series/mutationRoutes.js | unknown | $_GET, $_POST, $_DELETE, route-vars | — | — |
+| /api/social/heichelos/:heichel/series/:series/details | geelooy/api/social/helper/routes/series/readRoutes.js | GET | route-vars | — | — |
+| /api/social/heichelos/:heichel/series/:series/editSeriesDetails | geelooy/api/social/helper/routes/series/mutationRoutes.js | unknown | $_GET, $_POST, $_DELETE, route-vars | — | — |
+| /api/social/heichelos/:heichel/series/:series/filterPostsBy/:propKey/:propVal | geelooy/api/social/helper/routes/posts/seriesRoutes.js | unknown | $_GET, $_POST, $_DELETE, route-vars | — | — |
+| /api/social/heichelos/:heichel/series/:series/filterSeriesBy/:propKey/:propVal | geelooy/api/social/helper/routes/series/navigationRoutes.js | unknown | route-vars | — | — |
+| /api/social/heichelos/:heichel/series/:series/parent | geelooy/api/social/helper/routes/series/navigationRoutes.js | unknown | route-vars | — | — |
+| /api/social/heichelos/:heichel/series/:series/post/:post | geelooy/api/social/helper/routes/posts/seriesRoutes.js | unknown | $_GET, $_POST, $_DELETE, route-vars | — | — |
+| /api/social/heichelos/:heichel/series/:series/post/:post/comments | geelooy/api/social/helper/comments/routes/rich.js | unknown | $_GET, $_POST, $_DELETE | — | — |
+| /api/social/heichelos/:heichel/series/:series/post/:post/comments/moderated | geelooy/api/social/helper/comments/routes/moderated.js | unknown | $_POST | — | — |
+| /api/social/heichelos/:heichel/series/:series/post/:post/delete | geelooy/api/social/helper/routes/posts/seriesRoutes.js | unknown | $_GET, $_POST, $_DELETE, route-vars | — | — |
+| /api/social/heichelos/:heichel/series/:series/post/:post/translation-annotations | geelooy/api/social/helper/comments/routes/translationAnnotations.js | unknown | $_GET, $_POST | — | — |
+| /api/social/heichelos/:heichel/series/:series/post/:post/translation-annotations/:annotationId | geelooy/api/social/helper/comments/routes/translationAnnotations.js | unknown | $_GET, $_POST | — | — |
+| /api/social/heichelos/:heichel/series/:series/post/:post/translation-annotations/by-phrase/:sectionId/:phraseId | geelooy/api/social/helper/comments/routes/translationAnnotations.js | unknown | $_GET, $_POST | — | — |
+| /api/social/heichelos/:heichel/series/:series/post/:post/translation-annotations/by-unit/:unitIndex/:phraseIndex | geelooy/api/social/helper/comments/routes/translationAnnotations.js | unknown | $_GET, $_POST | — | — |
 | /api/social/heichelos/:heichel/series/:series/post/:post/translations | geelooy/api/social/helper/comments/routes/translations.js | unknown | $_GET | — | — |
-| /api/social/heichelos/:heichel/series/:series/posts | geelooy/api/social/_awtsmoos.posts.base.js | GET, PUT | $_GET, $_POST, $_DELETE, route-vars | — | — |
-| /api/social/heichelos/:heichel/series/:series/posts | geelooy/api/social/old/_awtsmoos.series.js | GET, POST | $_GET, $_POST | — | — |
-| /api/social/heichelos/:heichel/series/:series/posts/details | geelooy/api/social/_awtsmoos.posts.base.js | GET, PUT | $_GET, $_POST, $_DELETE, route-vars | — | — |
-| /api/social/heichelos/:heichel/series/:series/posts/details | geelooy/api/social/old/_awtsmoos.series.js | GET, POST | $_GET, $_POST | — | — |
+| /api/social/heichelos/:heichel/series/:series/posts | geelooy/api/social/helper/routes/posts/seriesRoutes.js | unknown | $_GET, $_POST, $_DELETE, route-vars | — | — |
+| /api/social/heichelos/:heichel/series/:series/posts/bulk | geelooy/api/social/helper/routes/posts/seriesRoutes.js | unknown | $_GET, $_POST, $_DELETE, route-vars | — | — |
+| /api/social/heichelos/:heichel/series/:series/posts/details | geelooy/api/social/helper/routes/posts/seriesRoutes.js | unknown | $_GET, $_POST, $_DELETE, route-vars | — | — |
 | /api/social/heichelos/:heichel/series/:series/rich-posts | geelooy/api/social/_awtsmoos.richSocial.js | GET | — | — | — |
-| /api/social/heichelos/:heichel/series/:series/series | geelooy/api/social/old/_awtsmoos.series.js | GET, POST | $_GET, $_POST | — | — |
-| /api/social/heichelos/:heichel/series/:series/subSeries | geelooy/api/social/_awtsmoos.series.base.js | GET | $_GET, $_POST, $_DELETE | — | — |
-| /api/social/heichelos/:heichel/series/:series/subSeries | geelooy/api/social/old/_awtsmoos.series.js | GET, POST | $_GET, $_POST | — | — |
-| /api/social/heichelos/:heichel/series/:series/subSeries/details | geelooy/api/social/_awtsmoos.series.base.js | GET | $_GET, $_POST, $_DELETE | — | — |
-| /api/social/heichelos/:heichel/series/:series/subSeries/details | geelooy/api/social/old/_awtsmoos.series.js | GET, POST | $_GET, $_POST | — | — |
-| /api/social/heichelos/:heichel/series/:series/subSeriesDetails | geelooy/api/social/_awtsmoos.series.base.js | GET | $_GET, $_POST, $_DELETE | — | — |
+| /api/social/heichelos/:heichel/series/:series/subSeries | geelooy/api/social/helper/routes/series/readRoutes.js | GET | route-vars | — | — |
+| /api/social/heichelos/:heichel/series/:series/subSeries/details | geelooy/api/social/helper/routes/series/readRoutes.js | GET | route-vars | — | — |
+| /api/social/heichelos/:heichel/series/:series/subSeriesDetails | geelooy/api/social/helper/routes/series/readRoutes.js | GET | route-vars | — | — |
 | /api/social/heichelos/:heichel/series/:series/translations | geelooy/api/social/helper/comments/routes/translations.js | unknown | $_GET | — | — |
 | /api/social/heichelos/:heichel/series/:series/translations/coverage | geelooy/api/social/helper/comments/routes/translations.js | unknown | $_GET | — | — |
 | /api/social/heichelos/:heichel/series/:series/translations/search | geelooy/api/social/helper/comments/routes/translations.js | unknown | $_GET | — | — |
-| /api/social/heichelos/:heichel/series/:seriesFrom/changeSubSeriesFromOneSeriesToAnother/:seriesTo | geelooy/api/social/_awtsmoos.series.js | GET | $_GET, $_POST, $_DELETE, route-vars | — | — |
-| /api/social/heichelos/:heichel/series/:seriesFrom/moveSubSeriesTo/:seriesTo | geelooy/api/social/_awtsmoos.series.base.js | GET | $_GET, $_POST, $_DELETE | — | — |
-| /api/social/heichelos/:heichel/series/details | geelooy/api/social/_awtsmoos.series.js | GET | $_GET, $_POST, $_DELETE, route-vars | — | — |
-| /api/social/heichelos/:heichel/series/root | geelooy/api/social/_awtsmoos.series.js | GET | $_GET, $_POST, $_DELETE, route-vars | — | — |
-| /api/social/heichelos/:heichel/series/root/breadcrumb | geelooy/api/social/_awtsmoos.series.js | GET | $_GET, $_POST, $_DELETE, route-vars | — | — |
-| /api/social/heichelos/:heichel/series/root/details | geelooy/api/social/_awtsmoos.series.js | GET | $_GET, $_POST, $_DELETE, route-vars | — | — |
-| /api/social/heichelos/:heichel/series/root/subSeries | geelooy/api/social/_awtsmoos.series.js | GET | $_GET, $_POST, $_DELETE, route-vars | — | — |
-| /api/social/heichelos/:heichel/series/root/subSeries/details | geelooy/api/social/_awtsmoos.series.js | GET | $_GET, $_POST, $_DELETE, route-vars | — | — |
+| /api/social/heichelos/:heichel/series/:seriesFrom/moveSubSeriesTo/:seriesTo | geelooy/api/social/helper/routes/series/mutationRoutes.js | unknown | $_GET, $_POST, $_DELETE, route-vars | — | — |
 | /api/social/heichelos/:heichel/settings/community | geelooy/api/social/_awtsmoos.community.js | unknown | $_GET, $_POST, $_DELETE | — | — |
 | /api/social/heichelos/:heichel/settings/full | geelooy/api/social/_awtsmoos.governance.js | GET, POST, PUT | $_GET, $_POST, route-vars | — | — |
 | /api/social/heichelos/:heichel/settings/submissions | geelooy/api/social/_awtsmoos.heichel.js | unknown | $_GET, $_POST, $_DELETE, route-vars | — | — |
@@ -52,14 +55,11 @@ Every discovered path joined to its source-file contract evidence; unknown remai
 | /api/social/heichelos/:heichel/submissions/:submission/reject | geelooy/api/social/_awtsmoos.governance.js | GET, POST, PUT | $_GET, $_POST, route-vars | — | — |
 | /api/social/heichelos/:heichel/submissions/full | geelooy/api/social/_awtsmoos.governance.js | GET, POST, PUT | $_GET, $_POST, route-vars | — | — |
 | /api/social/heichelos/:heichel/submittedComments | geelooy/api/social/helper/comments/routes/submitted.js | unknown | $_GET, $_POST, route-vars | — | — |
-| /api/social/heichelos/:heichel/submittedComments | geelooy/api/social/old/_awtsmoos.comments-old.js | GET, POST, PUT, DELETE | $_GET, $_POST, route-vars, identity | — | — |
 | /api/social/heichelos/:heichel/submittedComments/approve | geelooy/api/social/helper/comments/routes/submitted.js | unknown | $_GET, $_POST, route-vars | — | — |
-| /api/social/heichelos/:heichel/submittedComments/approve | geelooy/api/social/old/_awtsmoos.comments-old.js | GET, POST, PUT, DELETE | $_GET, $_POST, route-vars, identity | — | — |
 | /api/social/heichelos/:heichel/submittedComments/deny | geelooy/api/social/helper/comments/routes/submitted.js | unknown | $_GET, $_POST, route-vars | — | — |
-| /api/social/heichelos/:heichel/submittedComments/deny | geelooy/api/social/old/_awtsmoos.comments-old.js | GET, POST, PUT, DELETE | $_GET, $_POST, route-vars, identity | — | — |
-| /api/social/heichelos/:heichel/submittedPosts | geelooy/api/social/_awtsmoos.posts.base.js | GET, PUT | $_GET, $_POST, $_DELETE, route-vars | — | — |
 | /api/social/heichelos/:heichel/submittedPosts | geelooy/api/social/_awtsmoos.posts.js | GET, POST | — | — | — |
-| /api/social/heichelos/:heichel/submittedPosts/approve | geelooy/api/social/_awtsmoos.posts.base.js | GET, PUT | $_GET, $_POST, $_DELETE, route-vars | — | — |
+| /api/social/heichelos/:heichel/submittedPosts | geelooy/api/social/helper/routes/posts/submissionRoutes.js | unknown | $_POST, route-vars | — | — |
 | /api/social/heichelos/:heichel/submittedPosts/approve | geelooy/api/social/_awtsmoos.posts.js | GET, POST | — | — | — |
-| /api/social/heichelos/:heichel/submittedPosts/deny | geelooy/api/social/_awtsmoos.posts.base.js | GET, PUT | $_GET, $_POST, $_DELETE, route-vars | — | — |
+| /api/social/heichelos/:heichel/submittedPosts/approve | geelooy/api/social/helper/routes/posts/submissionRoutes.js | unknown | $_POST, route-vars | — | — |
 | /api/social/heichelos/:heichel/submittedPosts/deny | geelooy/api/social/_awtsmoos.posts.js | GET, POST | — | — | — |
+| /api/social/heichelos/:heichel/submittedPosts/deny | geelooy/api/social/helper/routes/posts/submissionRoutes.js | unknown | $_POST, route-vars | — | — |

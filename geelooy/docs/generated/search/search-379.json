@@ -1,0 +1,159 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-08-30-2130-olam-futuristic-api-hardening-00-pha-105c3df083",
+		"title": "Phase One — Broad Possibility Map",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-30-2130-olam-futuristic-api-hardening/00-phase-one-brainstorm.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase One — Broad Possibility Map",
+				"anchor": "phase-one-broad-possibility-map"
+			},
+			{
+				"level": 2,
+				"text": "UX possibilities",
+				"anchor": "ux-possibilities"
+			},
+			{
+				"level": 2,
+				"text": "Performance possibilities",
+				"anchor": "performance-possibilities"
+			},
+			{
+				"level": 2,
+				"text": "API verification possibilities",
+				"anchor": "api-verification-possibilities"
+			}
+		],
+		"excerpt": "Phase One — Broad Possibility Map UX possibilities Sharper rectangular glass panels with clipped or small radius corners rather than pill heavy cards. A HUD like reference workspace: compact rows, status rails, and media slots instead of giant explanation cards. Layered glass using one compositor friendly blur layer ra",
+		"searchText": "phase one — broad possibility map ux possibilities sharper rectangular glass panels with clipped or small radius corners rather than pill heavy cards. a hud like reference workspace: compact rows, status rails, and media slots instead of giant explanation cards. layered glass using one compositor friendly blur layer rather than many nested backdrop filters. subtle scan line, border trace, parallax light, and hover/focus animations with reduced motion fallbacks. stronger contrast hierarchy: black glass, graphite rails, lime data accents, violet/cyan refractions. compact rectangular menus with clear selected state and faster thumb scanning. reference guidance that collapses into concise inline rules instead of occupying large permanent height. better asset thumbnails and visible per reference role/state. image replacement/update action that visibly confirms the new media and persists immediately. performance possibilities reduce nested backdrop filter count. restrict animated properties to transform, opacity, filter only where necessary. add contain / content visibility selectively to long off screen sections. lazy render heavy media previews and defer video metadata work. avoid whole view rerenders for prompt/reference micro updates. debounce only expensive persistence, never visible feedback. reuse object urls and revoke stale ones deterministically. avoid repeated fetches of provider status where cached state is sufficient. api verification possibilities inventory every browser awtsmoos proxy call. inventory every awtsmoos proxy minimax call. validate http methods, paths, headers, json shapes, error forwarding, timeouts, status mapping, and result extraction. validate every h3 mode against official v2 rules. validate image mime, size, dimensions, ratio, role, count, and data/public url handling. verify first/last frame roles never mix with reference roles. verify reference audio cannot be the only reference media. verify text mode never emits adaptive ratio because official h3 requires a concrete ratio for text only generation. verify task polling uses /v2/query/video generation/{task id} and reads task.content.url. verify provider errors 400/401/402/422/429/500 remain understandable to the ui.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-30-2130-olam-futuristic-api-hardening-00-pha-105c3df083.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-30-2130-olam-futuristic-api-hardening-01-pha-559e964137",
+		"title": "Phase Two — Candidate File Map",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-30-2130-olam-futuristic-api-hardening/01-phase-two-file-map.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Two — Candidate File Map",
+				"anchor": "phase-two-candidate-file-map"
+			},
+			{
+				"level": 2,
+				"text": "Read before touching",
+				"anchor": "read-before-touching"
+			},
+			{
+				"level": 2,
+				"text": "Likely new modules after inspection",
+				"anchor": "likely-new-modules-after-inspection"
+			},
+			{
+				"level": 2,
+				"text": "Safety boundaries",
+				"anchor": "safety-boundaries"
+			}
+		],
+		"excerpt": "Phase Two — Candidate File Map Read before touching All geelooy/api/olam h3/ server handlers and provider helpers. scripts/api/ browser proxy client. scripts/domain/ request builders, validators, assets, pricing, readiness. Reference and asset UI modules plus their event controllers. Current glass/compact/reference CSS",
+		"searchText": "phase two — candidate file map read before touching all geelooy/api/olam h3/ server handlers and provider helpers. scripts/api/ browser proxy client. scripts/domain/ request builders, validators, assets, pricing, readiness. reference and asset ui modules plus their event controllers. current glass/compact/reference css and directorstyles.js. unit and browser tests that cover provider, assets, references, generation, and mobile geometry. likely new modules after inspection api contract constants / capability policy if existing code mixes schema knowledge across layers. media reference validator focused on official h3 media constraints. asset image update coordinator if replacement currently spans multiple ui responsibilities. a small futuristic rectangle/glass css module rather than bloating existing files. api contract tests that exercise every local route without requiring a real paid minimax request. safety boundaries never expose minimax api key to browser code. do not fabricate a real paid upstream test while production key is absent. use mocked/upstream stub verification for complete request/response contracts. preserve unrelated staged work through an isolated clean worktree. full file rewrites only; no partial patching.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-30-2130-olam-futuristic-api-hardening-01-pha-559e964137.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-30-2130-olam-futuristic-api-hardening-02-pha-826cc43671",
+		"title": "Phase Three — Improvement Checklist",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-30-2130-olam-futuristic-api-hardening/02-phase-three-improvements.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Three — Improvement Checklist",
+				"anchor": "phase-three-improvement-checklist"
+			}
+		],
+		"excerpt": "Phase Three — Improvement Checklist 1. Reduce pill geometry in primary menus. 2. Give selected menu items a luminous rectangular edge rather than a swollen bubble. 3. Make glass depth visible through border light, not excessive blur. 4. Keep animation compositor friendly. 5. Add reduced motion support. 6. Prevent neste",
+		"searchText": "phase three — improvement checklist 1. reduce pill geometry in primary menus. 2. give selected menu items a luminous rectangular edge rather than a swollen bubble. 3. make glass depth visible through border light, not excessive blur. 4. keep animation compositor friendly. 5. add reduced motion support. 6. prevent nested backdrop filter stacks. 7. compact provider banner actions. 8. compact reference explanation in active reference mode. 9. improve reference role labels. 10. surface image replacement as a first class action. 11. preserve asset identity when replacing image bytes if the domain contract permits. 12. revoke obsolete object urls. 13. ensure image updates survive reload. 14. ensure image replacement updates all assigned reference previews immediately. 15. verify public url references and local data urls use correct h3 image url form. 16. validate supported image types. 17. validate image size limits. 18. validate image dimensions and aspect ratio where metadata is available. 19. enforce 9 reference image maximum. 20. enforce one first frame and one last frame. 21. prevent frame/reference role mixing. 22. enforce video count and duration rules. 23. enforce audio count and duration rules. 24. prevent audio only reference payloads. 25. enforce concrete ratio for text only h3 requests. 26. force adaptive ratio for first/last frame image to video payloads. 27. keep reference ratio optional/concrete as supported. 28. verify exact v2 create endpoint. 29. verify exact v2 query endpoint. 30. verify task id handling. 31. verify all task statuses including cancelled. 32. verify successful url extraction from task.content.url. 33. preserve upstream error http status where safe. 34. test missing key status and create behavior. 35. test malformed json/body behavior. 36. test network/upstream timeout behavior. 37. test browser client methods against local proxy routes. 38. keep every touched file <=120 lines. 39. keep tab indentation and expanded functions. 40. run unit + api contract + local chrome + production chrome before release.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-30-2130-olam-futuristic-api-hardening-02-pha-826cc43671.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-30-2130-olam-futuristic-api-hardening-03-fin-a1b8f59afd",
+		"title": "Final Pre-Code Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-30-2130-olam-futuristic-api-hardening/03-final-precode-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Final Pre-Code Plan",
+				"anchor": "final-pre-code-plan"
+			}
+		],
+		"excerpt": "Final Pre Code Plan 1. Inspect current origin/main and Olam status. 2. Read the real API/server/client/reference/image files and tests. 3. Compare exact current payload behavior with official MiniMax H3 V2 documentation. 4. Create a clean release worktree from the newest safe remote parent. 5. Rewrite only files proven",
+		"searchText": "final pre code plan 1. inspect current origin/main and olam status. 2. read the real api/server/client/reference/image files and tests. 3. compare exact current payload behavior with official minimax h3 v2 documentation. 4. create a clean release worktree from the newest safe remote parent. 5. rewrite only files proven necessary; split new responsibilities into small modules. 6. add futuristic rectangular glass ui with minimal compositor cost. 7. harden image replacement/update persistence and immediate preview refresh if inspection reveals gaps. 8. correct any h3 request contract mismatches found in the audit. 9. add deterministic api contract tests for every local olam endpoint and every generation mode. 10. run file limit, tabs, syntax, unit, api contract, and performance oriented browser gates. 11. test local mobile screenshots/geometry and reference image update flows in chrome. 12. fast forward push only after remote race check. 13. canonically deploy the exact commit sha. 14. verify every public olam api route, assets, status, and both browser suites in production. 15. record evidence and return the completed live url only after production proof succeeds.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-30-2130-olam-futuristic-api-hardening-03-fin-a1b8f59afd.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-30t1955-geelooy-social-better-00-remaining-w-ef56be83dc",
+		"title": "REMAINING WORK — Social Hub Release Closed",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-30T1955-geelooy-social-better/00_REMAINING_WORK.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "REMAINING WORK — Social Hub Release Closed",
+				"anchor": "remaining-work-social-hub-release-closed"
+			},
+			{
+				"level": 2,
+				"text": "Completion evidence",
+				"anchor": "completion-evidence"
+			},
+			{
+				"level": 2,
+				"text": "REMAININGWORK",
+				"anchor": "remainingwork"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He REMAINING WORK — Social Hub Release Closed The Awtsmoos renews every route before a browser can name its beginning; Awtsmoos.com now carries this release through implementation, regression proof, remote publication, and a live public doorway. Completion evidence [x] Persistent internal C",
+		"searchText": "b\"h boruch hashem blessed is he remaining work — social hub release closed the awtsmoos renews every route before a browser can name its beginning; awtsmoos.com now carries this release through implementation, regression proof, remote publication, and a live public doorway. completion evidence [x] persistent internal create post experience complete. [x] twelve route 390px mobile quality audit complete. [x] shared chat link repaired to a 44px minimum touch target. [x] route quality audit permanently wired into test:browser. [x] unit/static contracts passed on the committed release tree. [x] browser smoke passed. [x] all twelve route quality checks passed through the default browser covenant. [x] standalone all route runner passed. [x] git head contains final package, creator, route quality, and chat artifacts. [x] local main equaled origin/main at release discovery (826ed0611). [x] public github main exposes the final release artifacts. [x] https://awtsmoos.com/social hub/ is publicly reachable. [x] unrelated apps/olam h3/scripts/ui/createdirectorbrief.js state was untouched. remaining work none within the requested internal social hub release scope. next action no scoped release action remains. begin again only from a new request or a newly observed production defect. the awtsmoos gathers many routes into one living release; awtsmoos.com lets the vessel stand in light, every measured edge witnessed and every known release debt made right.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-30t1955-geelooy-social-better-00-remaining-w-ef56be83dc.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-30t1955-geelooy-social-better-01-revelation--98452f242d",
+		"title": "Phase One — Revelation Brainstorm",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-30T1955-geelooy-social-better/01_REVELATION_BRAINSTORM.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase One — Revelation Brainstorm",
+				"anchor": "phase-one-revelation-brainstorm"
+			},
+			{
+				"level": 2,
+				"text": "Observed truth",
+				"anchor": "observed-truth"
+			},
+			{
+				"level": 2,
+				"text": "Better-project possibilities",
+				"anchor": "better-project-possibilities"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase One — Revelation Brainstorm The Awtsmoos renews the Social Hub in every instant; Awtsmoos.com should therefore make every route deliberate, reachable, and alive rather than merely technically valid. Observed truth The twelve route mobile quality audit exists and passed after the Ch",
+		"searchText": "b\"h boruch hashem blessed is he phase one — revelation brainstorm the awtsmoos renews the social hub in every instant; awtsmoos.com should therefore make every route deliberate, reachable, and alive rather than merely technically valid. observed truth the twelve route mobile quality audit exists and passed after the chat touch target repair. the shared chat app link is now isolated in drawer link.css; drawer.css is below 120 lines. package.json still runs only the ordinary browser smoke under test:browser. the older remaining work ledger is stale and contradicts completed evidence. better project possibilities 1. wire exhaustive route quality into the default browser covenant. 2. keep its standalone runner for diagnosis. 3. re run every unit/static contract on the final tree. 4. re run both browser witnesses from the normal package command. 5. stress 320px as a narrower phone width. 6. check home creator chips at 320px. 7. check create vs dock geometry at 320px. 8. check chat app link remains at least 44px high at 320px. 9. traverse all twelve routes at 390px. 10. preserve fixture only, non destructive browser behavior. 11. check browser console errors. 12. check horizontal overflow at every route. 13. check visible descendants cannot escape the viewport accidentally. 14. check truly loose direct text remains absent. 15. check invisible/zero typography remains absent. 16. check ordinary mobile controls do not collapse. 17. check external youtube/facebook/instagram/oauth language remains excluded. 18. check todo/fixme/hack residue in scoped touched sources. 19. check all touched source/test files remain <=120 lines. 20. check tab indentation in touched js/css. 21. check required b\"h headers. 22. check awtsmoos and awtsmoos.com meditations in touched human authored source. 23. keep git staging/commit state untouched. 24. refresh both continuation ledgers from actual evidence. 25. leave a precise final verification/handoff artifact. the awtsmoos is one while the routes are many; each route can be a measured vessel, each test a witness, each narrow edge held in light by awtsmoos.com.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-30t1955-geelooy-social-better-01-revelation--98452f242d.json"
+	}
+]

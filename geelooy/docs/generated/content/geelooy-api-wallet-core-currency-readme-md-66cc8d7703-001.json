@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Wallet Currency (geelooy/api/wallet/core/currency/)\n\nCurrency math for the wallet: denominations, conversion, and decomposition of\namounts across currencies.\n\nFiles:\n- `denominations.js` — currency denominations\n- `conversion.js` — cross-currency conversion\n- `decompose.js` — breaking amounts into denomination units\n- `sources.js` — rate/source providers\n\nExposed via the `currency` route (`routes/currencyInfo.js`); tested by\n`tests/currency.test.js` and `tests/currencyRoute.test.js`.\n"
+}

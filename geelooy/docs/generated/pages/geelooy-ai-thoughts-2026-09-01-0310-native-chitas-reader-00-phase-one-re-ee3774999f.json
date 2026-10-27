@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-01-0310-native-chitas-reader-00-phase-one-re-ee3774999f",
+	"title": "Phase One — Revelation Without Limits",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-01-0310-native-chitas-reader/00-phase-one-revelation.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase One — Revelation Without Limits",
+			"anchor": "phase-one-revelation-without-limits"
+		},
+		{
+			"level": 2,
+			"text": "User truth revealed by the screenshots",
+			"anchor": "user-truth-revealed-by-the-screenshots"
+		},
+		{
+			"level": 2,
+			"text": "Unlimited architecture possibilities",
+			"anchor": "unlimited-architecture-possibilities"
+		},
+		{
+			"level": 2,
+			"text": "Five competing architectures",
+			"anchor": "five-competing-architectures"
+		},
+		{
+			"level": 3,
+			"text": "A — Chitas-only custom reader",
+			"anchor": "a-chitas-only-custom-reader"
+		},
+		{
+			"level": 3,
+			"text": "B — External redirect with better wrapper",
+			"anchor": "b-external-redirect-with-better-wrapper"
+		},
+		{
+			"level": 3,
+			"text": "C — Generic reference post resolved inside normal post reader",
+			"anchor": "c-generic-reference-post-resolved-inside-normal-post-reader"
+		},
+		{
+			"level": 3,
+			"text": "D — Persist generated Chitas posts daily in database",
+			"anchor": "d-persist-generated-chitas-posts-daily-in-database"
+		},
+		{
+			"level": 3,
+			"text": "E — Treat every Torah verse as a tiny standalone route and iframe/embed them",
+			"anchor": "e-treat-every-torah-verse-as-a-tiny-standalone-route-and-iframe-embed-them"
+		},
+		{
+			"level": 2,
+			"text": "Phase-one winner",
+			"anchor": "phase-one-winner"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-01-0310-native-chitas-reader-00-phase-one-re-ee3774999f-001.json"
+	]
+}

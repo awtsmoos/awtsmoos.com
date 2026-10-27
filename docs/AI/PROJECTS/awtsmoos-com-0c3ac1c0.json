@@ -21,20 +21,20 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/awtsmoos-com-0c3ac1c0.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 1,
+		"source": 4,
 		"tests": 0,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
-		"other": 6
+		"other": 19
 	},
-	"totalFiles": 8,
+	"totalFiles": 24,
 	"symbolSummary": null,
 	"outgoingDependencies": [],
 	"incomingDependencies": [],
 	"externalDependencies": [],
 	"publicEntries": [],
-	"requiresLocalDocumentation": false,
+	"requiresLocalDocumentation": true,
 	"documentationCovered": true,
 	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
 }

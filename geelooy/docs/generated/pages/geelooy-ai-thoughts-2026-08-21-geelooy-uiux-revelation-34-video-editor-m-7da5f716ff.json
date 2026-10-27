@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-34-video-editor-m-7da5f716ff",
+	"title": "Video Editor Mobile — Phase One Evidence",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-21-geelooy-uiux-revelation/34-video-editor-mobile-phase-one.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Video Editor Mobile — Phase One Evidence",
+			"anchor": "video-editor-mobile-phase-one-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Runtime truth",
+			"anchor": "runtime-truth"
+		},
+		{
+			"level": 2,
+			"text": "Proven defect",
+			"anchor": "proven-defect"
+		},
+		{
+			"level": 2,
+			"text": "Secondary mobile interaction debt",
+			"anchor": "secondary-mobile-interaction-debt"
+		},
+		{
+			"level": 2,
+			"text": "Protected behavior",
+			"anchor": "protected-behavior"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-34-video-editor-m-7da5f716ff-001.json"
+	]
+}

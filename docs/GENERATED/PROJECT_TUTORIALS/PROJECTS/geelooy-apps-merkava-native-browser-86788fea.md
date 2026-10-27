@@ -2,7 +2,7 @@ B"H
 Boruch Hashem
 Blessed is He
 
-# Project Tutorial: geelooy/apps/merkava-native-browser
+# Project Tutorial: Merkava Native Browser Engine — Awtsmoos
 
 **Path:** `geelooy/apps/merkava-native-browser` · **Type:** app · **Family:** Applications
 
@@ -12,7 +12,7 @@ Blessed is He
 
 ## Entry and documentation evidence
 
-- Entry files: `package.json`, `DOCUMENTATION.md`
+- Entry files: `index.html`, `package.json`, `DOCUMENTATION.md`
 - Local documentation: `geelooy/apps/merkava-native-browser/DOCUMENTATION.md`
 - Local-doc requirement: yes; covered: yes
 - Symlink target: —
@@ -21,15 +21,16 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 60 | 0 | 0 | 10 | 1 | 8 | 79 |
+| 72 | 0 | 0 | 62 | 1 | 95 | 230 |
 
 ## Public entry points
 
+- `/apps/merkava-native-browser` → `geelooy/apps/merkava-native-browser/index.html` — Merkava Native Browser Engine — Awtsmoos
 - `/apps/merkava-native-browser/tmp-chrome-webgl` → `geelooy/apps/merkava-native-browser/tmp-chrome-webgl/index.html`
 
 ## Symbol evidence
 
-Source files: 55; classes: 0; functions: 55; exports: 10; samples: readSample, cStringLiteral, cMacroString, stopGeneratedExeIfRunning, fileStats, buildReport, injectCssIntoHtml, collectCssAssets, collectScriptAssets, attrsOf, fetchText, describeEmbeddedExecutor.
+Source files: 58; classes: 0; functions: 71; exports: 15; samples: readSample, cStringLiteral, cMacroString, stopGeneratedExeIfRunning, fileStats, buildReport, injectCssIntoHtml, collectCssAssets, collectScriptAssets, attrsOf, fetchText, describeEmbeddedExecutor.
 
 ## Depends on
 

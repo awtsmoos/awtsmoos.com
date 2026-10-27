@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Post (geelooy/api/social/helper/post/)\n\nPost/series read and submission helpers for the social API.\n\n## Files\n- `index.js` — module entry.\n- `seriesRecordReader.js`, `seriesReadCache.js`, `seriesReadCompatibility.js` — series record reads with caching and compatibility shims.\n- `meluketSeriesMap.js`, `seriesKeyCompleteness.js` — Meluket series mapping and series-key completeness checks.\n- `submissions.js` — post submissions (review workflow).\n- `test/` — submission fixture, submission review convergence, series-key completeness, series-read compatibility (incl. singular and single-enumeration), `postSubmissionFixture.js`.\n\n## Routes (examples)\n- `/social/heichelos/h1/editors`, `/social/heichelos/h1/moderators`, `/social/heichelos/h1/settings/submissions`\n- `/ownership`\n"
+}

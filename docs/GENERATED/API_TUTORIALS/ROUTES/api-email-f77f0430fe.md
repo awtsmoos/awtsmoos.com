@@ -15,7 +15,7 @@ Blessed is He
 ## Contract evidence
 
 - Methods: **unknown**
-- Request vessels: —
+- Request vessels: `identity`
 - Observed status literals: —
 - Observed headers: —
 
@@ -29,7 +29,11 @@ No executable starter is generated because method evidence is unknown. Inspect t
 
 ## Observed callers
 
-No matching literal caller evidence was found.
+Pattern-compatible evidence only; it does not prove runtime dispatch.
+
+| Literal | Source | Kind |
+| --- | --- | --- |
+| `/api/email` | `geelooy/email/ui/settings/mailSettingsApi.js` | runtime |
 
 ## Related tests
 
@@ -39,4 +43,5 @@ Heuristic family matches:
 
 ## Related routes
 
-- [`/api/email/email`](./api-email-email-21dde810a8.md)
+- [`/api/email/capabilities`](./api-email-capabilities-f24a8a356b.md)
+- [`/api/email/settings/schema`](./api-email-settings-schema-059e1193b6.md)

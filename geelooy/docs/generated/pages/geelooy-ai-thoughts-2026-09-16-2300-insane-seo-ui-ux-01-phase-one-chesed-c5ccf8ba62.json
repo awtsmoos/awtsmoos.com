@@ -1,0 +1,69 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-16-2300-insane-seo-ui-ux-01-phase-one-chesed-c5ccf8ba62",
+	"title": "Phase One — Chesed: Unlimited SEO and UX Brainstorm",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-16-2300-insane-seo-ui-ux/01-phase-one-chesed-brainstorm.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase One — Chesed: Unlimited SEO and UX Brainstorm",
+			"anchor": "phase-one-chesed-unlimited-seo-and-ux-brainstorm"
+		},
+		{
+			"level": 2,
+			"text": "Search discovery possibilities",
+			"anchor": "search-discovery-possibilities"
+		},
+		{
+			"level": 2,
+			"text": "UX simplicity possibilities",
+			"anchor": "ux-simplicity-possibilities"
+		},
+		{
+			"level": 2,
+			"text": "Complexity underneath",
+			"anchor": "complexity-underneath"
+		},
+		{
+			"level": 2,
+			"text": "Five competing architectures",
+			"anchor": "five-competing-architectures"
+		},
+		{
+			"level": 3,
+			"text": "A — Per-page hand tuning",
+			"anchor": "a-per-page-hand-tuning"
+		},
+		{
+			"level": 3,
+			"text": "B — Central client-side SEO injector",
+			"anchor": "b-central-client-side-seo-injector"
+		},
+		{
+			"level": 3,
+			"text": "C — Central server/static route metadata registry",
+			"anchor": "c-central-server-static-route-metadata-registry"
+		},
+		{
+			"level": 3,
+			"text": "D — Template-owned metadata factories",
+			"anchor": "d-template-owned-metadata-factories"
+		},
+		{
+			"level": 3,
+			"text": "E — Hybrid registry plus template factories",
+			"anchor": "e-hybrid-registry-plus-template-factories"
+		},
+		{
+			"level": 2,
+			"text": "First-pass preference",
+			"anchor": "first-pass-preference"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-16-2300-insane-seo-ui-ux-01-phase-one-chesed-c5ccf8ba62-001.json"
+	]
+}

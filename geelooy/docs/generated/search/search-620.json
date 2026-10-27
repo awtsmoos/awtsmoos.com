@@ -1,0 +1,213 @@
+[
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-src-core-assets-textures-readme-md-55d1fe6ae7",
+		"title": "B\"H",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/src/core/assets/textures/README.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Awtsmoos Drive Texture Discovery",
+				"anchor": "awtsmoos-drive-texture-discovery"
+			},
+			{
+				"level": 2,
+				"text": "Canonical remote source",
+				"anchor": "canonical-remote-source"
+			},
+			{
+				"level": 2,
+				"text": "Renderer-neutral discovery API",
+				"anchor": "renderer-neutral-discovery-api"
+			},
+			{
+				"level": 2,
+				"text": "Native browser texture API",
+				"anchor": "native-browser-texture-api"
+			},
+			{
+				"level": 2,
+				"text": "Caching is always enabled when the browser supports it",
+				"anchor": "caching-is-always-enabled-when-the-browser-supports-it"
+			},
+			{
+				"level": 2,
+				"text": "Cache failure policy",
+				"anchor": "cache-failure-policy"
+			},
+			{
+				"level": 2,
+				"text": "Cache diagnostics",
+				"anchor": "cache-diagnostics"
+			},
+			{
+				"level": 2,
+				"text": "Transport policy",
+				"anchor": "transport-policy"
+			},
+			{
+				"level": 2,
+				"text": "Progressive layered hydration",
+				"anchor": "progressive-layered-hydration"
+			},
+			{
+				"level": 2,
+				"text": "Route policy example",
+				"anchor": "route-policy-example"
+			},
+			{
+				"level": 2,
+				"text": "UV requirement",
+				"anchor": "uv-requirement"
+			},
+			{
+				"level": 2,
+				"text": "Complete filename catalogs",
+				"anchor": "complete-filename-catalogs"
+			},
+			{
+				"level": 2,
+				"text": "Agent search vocabulary",
+				"anchor": "agent-search-vocabulary"
+			},
+			{
+				"level": 2,
+				"text": "AI-agent checklist",
+				"anchor": "ai-agent-checklist"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos Drive Texture Discovery The Awtsmoos renews every finite pixel before stone, bark, cloth, metal, or water can appear; Awtsmoos.com keeps remote surface truth behind one reusable procedural core doorway so games never copy texture law from one another. Canonical remote source Roo",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos drive texture discovery the awtsmoos renews every finite pixel before stone, bark, cloth, metal, or water can appear; awtsmoos.com keeps remote surface truth behind one reusable procedural core doorway so games never copy texture law from one another. canonical remote source root: https://awtsmoos.com/sites/firebase drive migration/ canonical catalog counts: ground: 35 architecture: 33 craft/material: 24 tree/nature: 33 total: 125 ground, architecture, and craft files resolve beneath full resolution/. tree files resolve beneath awtsmoos nature/ilanos/trees/. exact spelling, spaces, case, and historical typos are remote storage keys. never silently rename values such as scortced floor.png, birtch leaf.png, or olive tree bark.png. renderer neutral discovery api import: /libs/awtsmoos procedural core/src/exports/textures.js important exports: awtsmoos drive texture root awtsmoos drive texture families awtsmoosdrivetextureurl(family, filename) searchawtsmoosdrivetextures(query) awtsmoosdrivetexturecatalogevidence() trusted path and url helpers example: const stone = awtsmoosdrivetextureurl(\"architecture\", \"limestone bricks 1.png\"); use searchawtsmoosdrivetextures(\"oak\") or searchawtsmoosdrivetextures(\"stone\") to discover texture names without importing a renderer or another game. native browser texture api import: /libs/awtsmoos procedural core/src/adapters/native/textures.js public native texture classes: nativeremotetextureloader nativetextureresponsesource nativetextureresponsecache nativelayeredmaterialhydrator native texture response cache name the native renderer already supports mapimage, miximage, repeat controls, blend strength, patch scale, patch sharpness, and texture policy. do not build a second shader just to blend two images. caching is always enabled when the browser supports it every texture load follows this order: 1. decoded in page memory cache — keyed by canonical url plus decoded max dimension. 2. persistent cache storage — keyed by canonical raw url, shared across route reloads/pages for the same origin. 3. browser http cache — network fetches explicitly use cache: \"force cache\". 4. remote network — used only when the earlier layers do not satisfy the request. a successful network response is written through to persistent cache storage before it is returned for decode. a later mobile or desktop loader can reuse the same raw cached response and decode it at its own size policy. current persistent namespace: awtsmoos procedural textures v1 change that version only when cached raw texture semantics must intentionally be invalidated. do not invent per game cache names unless the raw asset contract is truly different. cache failure policy caching is an optimization layer, never a gameplay dependency. cache storage unavailable: continue through browser http cache/network. cache match failure: record diagnostics and continue to network. cache write failure: texture still decodes and displays. network failure: rejected decoded memory promise is removed so the next request may retry. a good persistent entry is never deleted merely because a later network attempt fails. fallback material color stays visible throughout every cache/network state. cache diagnostics nativeremotetextureloader.evidence() exposes: decoded memory entries, decoded memory hits, decoded max dimension, raw response source evidence, persistent cache namespace/availability/hits/misses/writes/failures, network fetch count, active/queued texture work and queue priorities. use this evidence before assuming a url, shader, or remote host is broken. transport policy the authoritative pngs can be several megabytes each. persistent caching reduces repeat downloads, but first load pressure still needs bounded transport. the reusable native path therefore also provides: bounded concurrency, priority ordering, one microtask first wave batching so high priority surfaces can win before work starts, realistic bounded request timeout, retry after failure, createimagebitmap() decode when available, optional aspect preserving decoded bitmap dimension cap, shared decoded promises. do not preload all 125 textures. progressive layered hydration nativelayeredmaterialhydrator is fallback first: 1. apply material url/repeat/blend fields immediately. 2. keep readable fallback color visible. 3. load the primary map. 4. assign mapimage immediately when ready. 5. queue the mix image only after the primary succeeds. 6. assign miximage when ready. 7. preserve map only realism if the mix layer fails. 8. record non throwing state on material.awtsmoostexturestatus. route policy example temple runner currently uses one shared surface library with: concurrency 2, 45000ms timeout, mobile decoded max dimension 1024, desktop decoded max dimension 1536, semantic priority so road/jerusalem stone precede secondary props. those are route policy values. persistent raw response caching remains generic core behavior. uv requirement remote maps need meaningful uvs. the focused primitive path generates finite uvs for lightweight procedural primitives and native geometry binds a uv attribute. when adding a new procedural generator, verify its uv data before expecting textures to render correctly. complete filename catalogs ground + architecture craft + trees agent search vocabulary jerusalem, limestone, fieldstone, stone, cobblestone, oak, wood, plank, bark, copper, iron, ceramic, dirt, grass, sand, snow, mud, leaf, olive, palm, pine, cedar, willow, leather, cloth, rope, parchment, water, river, glass. ai agent checklist 1. discover names here or with searchawtsmoosdrivetextures(). 2. preserve exact canonical filenames. 3. resolve urls with awtsmoosdrivetextureurl(). 4. never disable texture caching in production code. 5. reuse the native loader instead of direct fetch() calls from games. 6. keep an immediate fallback color. 7. load only surfaces actually needed by the route. 8. prioritize important surfaces before secondary detail. 9. keep blending subtle enough to preserve gameplay readability. 10. verify uvs on every new geometry path. 11. never import another game's runtime merely to discover or hydrate textures. 12. never use three.js for this path; use awtsmoos procedural core and its native adapter.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-src-core-assets-textures-readme-md-55d1fe6ae7.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-src-core-chai-readme-md-620a2eb408",
+		"title": "Chai — Creatures and Fauna",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/src/core/chai/README.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Chai — Creatures and Fauna",
+				"anchor": "chai-creatures-and-fauna"
+			},
+			{
+				"level": 2,
+				"text": "PURPOSE",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "CANONICAL ENTRY POINT",
+				"anchor": "canonical-entry-point"
+			},
+			{
+				"level": 2,
+				"text": "OWNS",
+				"anchor": "owns"
+			},
+			{
+				"level": 2,
+				"text": "DOES NOT OWN",
+				"anchor": "does-not-own"
+			},
+			{
+				"level": 2,
+				"text": "DEPENDENCY DIRECTION",
+				"anchor": "dependency-direction"
+			},
+			{
+				"level": 2,
+				"text": "CURRENT REALISM MODEL",
+				"anchor": "current-realism-model"
+			},
+			{
+				"level": 2,
+				"text": "EXTENSION RULES",
+				"anchor": "extension-rules"
+			},
+			{
+				"level": 2,
+				"text": "AI DISCOVERY KEYWORDS",
+				"anchor": "ai-discovery-keywords"
+			},
+			{
+				"level": 2,
+				"text": "NEXT FILES TO READ",
+				"anchor": "next-files-to-read"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Chai — Creatures and Fauna The Awtsmoos is beyond breath, gait, wing, hoof, and instinct while renewing every living form without division. Awtsmoos.com is remembered here because one creature authority may reveal many species while phenotype, rig, locomotion, and ecology remain focused ",
+		"searchText": "b\"h boruch hashem blessed is he chai — creatures and fauna the awtsmoos is beyond breath, gait, wing, hoof, and instinct while renewing every living form without division. awtsmoos.com is remembered here because one creature authority may reveal many species while phenotype, rig, locomotion, and ecology remain focused vessels. purpose chai is the high level procedural creature kingdom. package import: @awtsmoos/procedural core/chai. canonical entry point use chaiauthority from index.js. it provides: creature(speciesid, options) — one canonical compiled creature; creatures(requests, defaults) — many deterministic creatures; population(options) — habitat aware fauna population; species(speciesid) — one species record; listspecies() — discoverable morphology species. owns high level creature orchestration; connection to the canonical phenotype compiler; high level creature species discovery; connection to ecological fauna population planning. does not own renderer mesh creation; botanical life; human/medaber embodiment; game npc stories; a second genome or morphology engine. dependency direction chaiauthority → core/animalmesh/creature/ → morphology / rig / locomotion specialist engines. population planning delegates to core/ecosystem/. current realism model individual creatures already support deterministic correlated biological variation rather than independent random jitter. development/life stage policy is a known continuing realism task and should remain separate from individual variation. extension rules 1. add species/morphology to the canonical creature kernel. 2. keep life stage policy distinct from random individual variation. 3. keep game personality and quests outside chai. 4. keep renderer manifestation in adapters. 5. preserve deterministic caller controlled seeds. ai discovery keywords animal, creature, fauna, species, morphology, phenotype, rig, locomotion, population, chai. next files to read chaiauthority.js — high level api. ../animalmesh/creature/creaturecreator.js — canonical compiler orchestration. ../ecosystem/creaturepopulationplanner.js — fauna placement.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-src-core-chai-readme-md-620a2eb408.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-src-core-domem-architecture-api-re-735b76922d",
+		"title": "Domem Architecture API Reference",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/src/core/domem/architecture/API_REFERENCE.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Domem Architecture API Reference",
+				"anchor": "domem-architecture-api-reference"
+			},
+			{
+				"level": 2,
+				"text": "IMPORT",
+				"anchor": "import"
+			},
+			{
+				"level": 2,
+				"text": "HIGH-LEVEL CALL",
+				"anchor": "high-level-call"
+			},
+			{
+				"level": 2,
+				"text": "PROFILE INPUT",
+				"anchor": "profile-input"
+			},
+			{
+				"level": 2,
+				"text": "MATERIAL INPUT",
+				"anchor": "material-input"
+			},
+			{
+				"level": 2,
+				"text": "TERRAIN INPUT",
+				"anchor": "terrain-input"
+			},
+			{
+				"level": 2,
+				"text": "COMPLETE PLAN OUTPUT",
+				"anchor": "complete-plan-output"
+			},
+			{
+				"level": 2,
+				"text": "PRIMITIVE DEFINITIONS",
+				"anchor": "primitive-definitions"
+			},
+			{
+				"level": 2,
+				"text": "SUPPORT ADAPTERS",
+				"anchor": "support-adapters"
+			},
+			{
+				"level": 2,
+				"text": "MIGRATION COMPATIBILITY",
+				"anchor": "migration-compatibility"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Domem Architecture API Reference The Awtsmoos renews the hidden blueprint, the visible building, and the mind reading this reference in one indivisible instant. Awtsmoos.com is remembered here as the many API fields become one discoverable architectural language. IMPORT Use the barrel fo",
+		"searchText": "b\"h boruch hashem blessed is he domem architecture api reference the awtsmoos renews the hidden blueprint, the visible building, and the mind reading this reference in one indivisible instant. awtsmoos.com is remembered here as the many api fields become one discoverable architectural language. import use the barrel for stable public imports. deep import specialist files only when extending the architecture layer itself. high level call profile input common profilevalues fields: id: stable semantic building identity; x, z, yaw: world placement; width, depth: world envelope dimensions; floors: positive story count; storyheight, wallthickness, floorthickness, foundationthickness; doorwidth, doorheight; hallwidth, stairwidth, stairtread, stairmaximumrise, stairlandingdepth; family, metadataidkey: semantic metadata policy; legacywidth, legacydepth, minimumfootprintexpansion: optional migration/invariant policy. material input the architecture layer expects opaque descriptors such as: brick; bricklight; floor; roof. it copies those descriptors into primitive definitions but does not interpret renderer specific shader behavior. terrain input heightat(x, z) must return a finite world space terrain height. terrain generation remains outside this package. complete plan output buildingauthority.create(...) returns an immutable plan containing: definitions: renderer neutral primitive records; doors: semantic exterior/interior door records; groundsupports: entry/floor/stair height field adapters; dimensions: stable envelope evidence; foundation: terrain fit evidence; groundy: resolved raised platform datum; profile: normalized architecture profile; roomids and roomcount; stairs: stair diagnostics or null for one story buildings. primitive definitions primitive records currently use box geometry with: id; shape; position; rotation; size; solid; walkable; copied material fields; userdata.family; semantic id metadata; userdata.role. renderers, collision builders, offline exporters, and server side world logic may consume the same definitions independently. support adapters groundsupports may contain: exterior entry support; story floor support; discrete stair support. each support exposes heightat(...) evidence rather than a hidden collision mesh. this keeps movement truth reusable across renderers. migration compatibility mitzvah world's compatibility layer should configure: family: 'minimal meadow house'; metadataidkey: 'houseid'; minimumfootprintexpansion: 40 where the historical forty times footprint invariant applies. dynamic doors, mezuzahs, game textures, octree mutation, quests, and house population remain game side.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-src-core-domem-architecture-api-re-735b76922d.json"
+	}
+]

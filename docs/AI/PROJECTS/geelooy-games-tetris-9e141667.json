@@ -9,7 +9,7 @@
 		"id": "games",
 		"title": "Games and Worlds"
 	},
-	"title": "Tikkun HaOlam - The Final Rectification",
+	"title": "Tikkun HaOlam — Tetris",
 	"entries": [
 		"index.html",
 		"main.js"
@@ -22,47 +22,53 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-tetris-9e141667.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 8,
+		"source": 61,
 		"tests": 0,
 		"assets": 0,
 		"generated": 0,
 		"docs": 0,
 		"other": 0
 	},
-	"totalFiles": 8,
+	"totalFiles": 61,
 	"symbolSummary": {
-		"files": 6,
-		"classes": 10,
-		"functions": 9,
-		"exports": 0,
+		"files": 52,
+		"classes": 18,
+		"functions": 89,
+		"exports": 103,
 		"samples": [
+			"landingCandidate",
+			"evaluateBoard",
 			"AIEngine",
-			"Effect",
-			"Shard",
-			"CharacterParticle",
-			"LightningBolt",
-			"EffectsEngine",
-			"Starfield",
-			"SeededRandom",
-			"GameInstance",
-			"BackgroundFX",
-			"startGame",
-			"initCanvasesAndWorker"
+			"COLS",
+			"HIDDEN_ROWS",
+			"VISIBLE_ROWS",
+			"LOGICAL_ROWS",
+			"LOCK_DELAY_MS",
+			"MAX_LOCK_RESETS",
+			"COLORS",
+			"SHAPES",
+			"LINE_SCORES"
 		]
 	},
-	"outgoingDependencies": [],
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/games/scripts",
+			"count": 1,
+			"examples": "geelooy/games/tetris/game/render-primitives.js"
+		}
+	],
 	"incomingDependencies": [],
 	"externalDependencies": [],
 	"publicEntries": [
 		{
 			"url": "/games/tetris",
 			"file": "geelooy/games/tetris/index.html",
-			"title": "Tikkun HaOlam - The Final Rectification",
-			"scripts": 1,
-			"styles": 1
+			"title": "Tikkun HaOlam — Tetris",
+			"scripts": 3,
+			"styles": 3
 		}
 	],
-	"requiresLocalDocumentation": false,
+	"requiresLocalDocumentation": true,
 	"documentationCovered": false,
 	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
 }

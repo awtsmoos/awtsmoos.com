@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Unified Social Identity (geelooy/api/social/helper/unifiedSocial/identity/)\n\nNative identity for unified social: alias context and bootstrap.\n\n- `AliasContext.js` — public alias context for acting aliases.\n- `AliasBootstrapService.js` — alias creation through native helpers.\n"
+}

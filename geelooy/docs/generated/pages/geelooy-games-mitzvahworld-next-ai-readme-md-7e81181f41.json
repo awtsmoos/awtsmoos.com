@@ -14,37 +14,37 @@
 		},
 		{
 			"level": 1,
-			"text": "Mitzvah World — Verified Handoff",
-			"anchor": "mitzvah-world-verified-handoff"
+			"text": "Mitzvah World — Verified AI Handoff",
+			"anchor": "mitzvah-world-verified-ai-handoff"
 		},
 		{
 			"level": 2,
-			"text": "Public Route",
-			"anchor": "public-route"
+			"text": "Start here",
+			"anchor": "start-here"
 		},
 		{
 			"level": 2,
-			"text": "Runtime Boundary",
+			"text": "Texture discovery",
+			"anchor": "texture-discovery"
+		},
+		{
+			"level": 2,
+			"text": "Runtime boundary",
 			"anchor": "runtime-boundary"
 		},
 		{
 			"level": 2,
-			"text": "CompactJS Build",
+			"text": "CompactJS build",
 			"anchor": "compactjs-build"
 		},
 		{
 			"level": 2,
-			"text": "Model Delivery",
+			"text": "Model delivery",
 			"anchor": "model-delivery"
 		},
 		{
 			"level": 2,
-			"text": "Verified Production Evidence",
-			"anchor": "verified-production-evidence"
-		},
-		{
-			"level": 2,
-			"text": "Maintenance Guardrails",
+			"text": "Maintenance guardrails",
 			"anchor": "maintenance-guardrails"
 		}
 	],

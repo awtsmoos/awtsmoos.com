@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-28t0144-do-all-long-render-closure-09-ffmpeg-add50f0882",
+	"title": "Tiferes Final Plan — Canonical Browser Frames to Native ffmpeg",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0144-do-all-long-render-closure/09_FFMPEG_FALLBACK_FINAL_PLAN.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Tiferes Final Plan — Canonical Browser Frames to Native ffmpeg",
+			"anchor": "tiferes-final-plan-canonical-browser-frames-to-native-ffmpeg"
+		},
+		{
+			"level": 2,
+			"text": "Python source modules",
+			"anchor": "python-source-modules"
+		},
+		{
+			"level": 2,
+			"text": "Browser source modules",
+			"anchor": "browser-source-modules"
+		},
+		{
+			"level": 2,
+			"text": "Verification sequence",
+			"anchor": "verification-sequence"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-28t0144-do-all-long-render-closure-09-ffmpeg-add50f0882-001.json"
+	]
+}

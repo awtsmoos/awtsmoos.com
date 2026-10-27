@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Lexicon Binary Format (geelooy/api/social/helper/search/lexicon/binary/)\n\nBinary record format for the search lexicon.\n\n- `recordSchema.js` — binary record schema.\n- `recordWriter.js`, `recordReader.js`, `recordCursor.js` — write, read, and cursor through binary records.\n"
+}

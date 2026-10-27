@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-db4d74bdda",
+	"title": "Phase Three — Deployment and Release Plan",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/.ai-thoughts/20260902_0315-universal-procedural-api/09_DEPLOYMENT_RELEASE_PLAN.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase Three — Deployment and Release Plan",
+			"anchor": "phase-three-deployment-and-release-plan"
+		},
+		{
+			"level": 2,
+			"text": "Before commit",
+			"anchor": "before-commit"
+		},
+		{
+			"level": 2,
+			"text": "Concurrent-upstream safety",
+			"anchor": "concurrent-upstream-safety"
+		},
+		{
+			"level": 2,
+			"text": "Deployment discovery already observed",
+			"anchor": "deployment-discovery-already-observed"
+		},
+		{
+			"level": 2,
+			"text": "Publication gates",
+			"anchor": "publication-gates"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-db4d74bdda-001.json"
+	]
+}

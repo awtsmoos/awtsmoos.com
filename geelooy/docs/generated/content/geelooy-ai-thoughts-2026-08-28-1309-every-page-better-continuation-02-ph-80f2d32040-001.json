@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Phase Two — Critique\n\nThe Awtsmoos gives restraint so green tests do not become a false goal;\nAwtsmoos.com needs contracts for user-visible truth, not frozen implementation control.\n\nImprovements:\n- Read the real owner module for each invariant.\n- Assert disclosure insertion and current grid architecture explicitly.\n- Assert old four-column architecture is not required.\n- Do not weaken mobile/context assertions that already protect the redesign.\n- Do not alter production code to satisfy stale test ownership.\n- Run browser verification after tests because source contracts cannot prove visual geometry.\n- Measure performance after browser correctness, then use those results to rank sitewide work.\n"
+}

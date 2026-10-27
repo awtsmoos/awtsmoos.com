@@ -34,6 +34,7 @@ Pattern-compatible evidence only; it does not prove runtime dispatch.
 | Literal | Source | Kind |
 | --- | --- | --- |
 | `/api/ohr-hagnuz/realtime-ticket` | `geelooy/games/ohr-hagnuz/tests/browser/SharedJourneyTestServer.mjs` | test |
+| `/api/ohr-hagnuz/realtime-ticket?${o}` | `geelooy/games/ohr-hagnuz/src/bundle/ohr-gate.bundle.js` | runtime |
 | `/api/ohr-hagnuz/realtime-ticket?${parameters}` | `geelooy/games/ohr-hagnuz/src/multiplayer/auth/SharedJourneyTicketClient.js` | runtime |
 
 ## Related tests

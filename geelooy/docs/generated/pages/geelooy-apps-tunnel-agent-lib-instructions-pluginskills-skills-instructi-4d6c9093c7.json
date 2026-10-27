@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-4d6c9093c7",
+	"title": "Quality sweep after the first successful implementation",
+	"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/QUALITY_SWEEP.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 2,
+			"text": "Current tunnel integration takes precedence",
+			"anchor": "current-tunnel-integration-takes-precedence"
+		},
+		{
+			"level": 1,
+			"text": "Quality sweep after the first successful implementation",
+			"anchor": "quality-sweep-after-the-first-successful-implementation"
+		},
+		{
+			"level": 2,
+			"text": "First pass: behavior and evidence",
+			"anchor": "first-pass-behavior-and-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Second pass: material improvements",
+			"anchor": "second-pass-material-improvements"
+		},
+		{
+			"level": 2,
+			"text": "Decision after each pass",
+			"anchor": "decision-after-each-pass"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-4d6c9093c7-001.json"
+	]
+}

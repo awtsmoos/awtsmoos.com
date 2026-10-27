@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — YouTube Routes (geelooy/api/youtube/routes/)\n\nHandler modules registered in `table.js`:\n\n- `auth.js` — `auth/start`, `auth/callback`, `auth/status`, `auth/logout`\n  (also exposed under the `oauth/` prefix)\n- `channel.js` — `channel`, `channel/mine` (own channel info)\n- `uploads.js` — `uploads/start` (video upload flow)\n- `videos.js` — `videos`, `videos/list`, `videos/update` (owned video metadata)\n- `live.js` — `live`, `live/list`, `live/create`, `live/transition` (live broadcasts)\n\n`table.js` exports `routeTable` plus a `''` index listing all routes.\n`_awtsmoos.derech.js` resolves up to three path segments against it.\n"
+}

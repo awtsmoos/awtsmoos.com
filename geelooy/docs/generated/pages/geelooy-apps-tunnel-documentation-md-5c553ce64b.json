@@ -11,6 +11,16 @@
 			"level": 1,
 			"text": "Tunnel App Documentation",
 			"anchor": "tunnel-app-documentation"
+		},
+		{
+			"level": 2,
+			"text": "Read this first during an outage",
+			"anchor": "read-this-first-during-an-outage"
+		},
+		{
+			"level": 2,
+			"text": "Wider architecture",
+			"anchor": "wider-architecture"
 		}
 	],
 	"markdownParts": [

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "<!-- B\"H -->\n<!-- Boruch Hashem -->\n<!-- Blessed be He -->\n# Final Plan\nTouch only `.ai/domain/olamTree.registry.js` and `.ai/domain/olamTree.registry.test.mjs` if evidence proves side deltas are not already superseded. Use a whole-file three-way merge from side HEAD -> canonical current + side working copy. Test, commit on main, then retire the side worktree/branch only after ancestry and content gates pass.\n"
+}

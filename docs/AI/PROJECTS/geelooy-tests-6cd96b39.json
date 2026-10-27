@@ -22,18 +22,26 @@
 	"symlinkTarget": null,
 	"counts": {
 		"source": 0,
-		"tests": 107,
+		"tests": 133,
 		"assets": 0,
 		"generated": 0,
-		"docs": 2,
+		"docs": 3,
 		"other": 0
 	},
-	"totalFiles": 109,
+	"totalFiles": 136,
 	"symbolSummary": null,
 	"outgoingDependencies": [],
 	"incomingDependencies": [],
 	"externalDependencies": [],
-	"publicEntries": [],
+	"publicEntries": [
+		{
+			"url": "/tests/glyph-engine",
+			"file": "geelooy/tests/glyph-engine/index.html",
+			"title": "Awtsmoos Glyph Lab · All-Letter Hebrew Font Experiments",
+			"scripts": 1,
+			"styles": 1
+		}
+	],
 	"requiresLocalDocumentation": true,
 	"documentationCovered": true,
 	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."

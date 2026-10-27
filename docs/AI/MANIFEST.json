@@ -23,13 +23,13 @@
 	"aiStart": "docs/AI/README.md",
 	"regenerate": "node scripts/docs/generate-docs.js",
 	"validate": "node scripts/docs/validate-docs.js",
-	"projectCount": 179,
+	"projectCount": 238,
 	"projectIndexChunks": [
 		"projects-001.json",
 		"projects-002.json",
 		"projects-003.json"
 	],
-	"missingLocalDocumentationCount": 0,
+	"missingLocalDocumentationCount": 51,
 	"keyGeneratedIndexes": [
 		"docs/GENERATED/PROJECT_TUTORIAL_INDEX.md",
 		"docs/GENERATED/PROJECT_ATLAS.md",

@@ -1,0 +1,142 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27t2314-do-all-unified-movie-system-05-phase-198f4a8de9",
+		"title": "Phase Three — 34 Final Revelations",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27T2314-do-all-unified-movie-system/05_PHASE_THREE_34_REVELATIONS.md",
+		"category": "Systems",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Three — 34 Final Revelations",
+				"anchor": "phase-three-34-final-revelations"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Three — 34 Final Revelations The Awtsmoos recreates even the plan, so yesterday's certainty can become today's clearer rhyme; Awtsmoos.com will make these last revelations guard architecture across time. 1. Existing root filenames may already be consumed; root modules should become",
+		"searchText": "b\"h boruch hashem blessed is he phase three — 34 final revelations the awtsmoos recreates even the plan, so yesterday's certainty can become today's clearer rhyme; awtsmoos.com will make these last revelations guard architecture across time. 1. existing root filenames may already be consumed; root modules should become compatibility facades over new focused folders. 2. the canonical protocol string and version must live in exactly one module. 3. movielayerkind must stay backward compatible while adding richer semantic kinds. 4. a migration must be idempotent when handed current v1 data. 5. migration must clone rather than mutate caller state. 6. validation should produce code/path/message/severity objects while preserving old errors strings for compatibility. 7. movie duration can be arbitrary positive finite seconds. 8. scene overlaps may be legal for compositing, so validator should not wrongly require serial scenes. 9. layer local timing must be bounded by scene duration. 10. parent references must not create obvious self parent cycles. 11. asset/cast references should be warnings when absent only if a semantic placeholder is intentionally allowed; otherwise errors. 12. patch operations need add/remove/replace/move with explicit entity types rather than arbitrary json pointer danger. 13. patch apply must clone canonical state before changes. 14. patch history should store before/after or inverse operations for reliable undo/redo. 15. ai director accepts injected provider but deterministic fallback remains operational offline. 16. ai generated output must migrate, normalize and validate before manifestation. 17. revision provider should return patches, not uncontrolled complete state, when possible. 18. character continuity should inspect cast ids and scene references without depending on renderer rigs. 19. asset registry should tolerate url, local reference and generated placeholder sources. 20. adapter base should carry app id, capabilities and fidelity reporting. 21. every adapter must preserve the canonical movie alongside native projection. 22. compatibility adapters should re export canonical classes rather than duplicate behavior. 23. ui panels should communicate via callbacks/events, not import app globals. 24. timeline panel can start as semantic scene/shot cards while specialized nle surfaces keep advanced trims. 25. prompt panel must expose duration, mode, orientation and exact prompt text. 26. storyboard panel must show scene titles, timing and layer/camera summaries. 27. export panel should expose quality profiles and app handoff choices. 28. the shared canvas runtime should render new semantic caption/media/audio layers gracefully even when audio itself is nonvisual. 29. render profile should explicitly separate preview from final quality. 30. render manifest should include project fingerprint fields even if cryptographic hashing is injected later. 31. tests need zero external package assumptions where possible so node can run them directly. 32. browser proof should exercise a narrow mobile viewport and at least one director flow. 33. real media proof should use ffmpeg/ffprobe if present; otherwise browser frame evidence is insufficient for the original export requirement. 34. final completion must state any truly external future engine (cloud collaboration, full webgpu physics) as an extension boundary only if every local safe implementation path has been exhausted.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27t2314-do-all-unified-movie-system-05-phase-198f4a8de9.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27t2314-do-all-unified-movie-system-06-final-96346c4909",
+		"title": "Final Execution Manifest",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27T2314-do-all-unified-movie-system/06_FINAL_EXECUTION_MANIFEST.md",
+		"category": "Systems",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Final Execution Manifest",
+				"anchor": "final-execution-manifest"
+			},
+			{
+				"level": 2,
+				"text": "Existing files eligible for full rewrite after collision checks",
+				"anchor": "existing-files-eligible-for-full-rewrite-after-collision-checks"
+			},
+			{
+				"level": 2,
+				"text": "New focused modules",
+				"anchor": "new-focused-modules"
+			},
+			{
+				"level": 2,
+				"text": "Preserve",
+				"anchor": "preserve"
+			},
+			{
+				"level": 2,
+				"text": "Verification sequence",
+				"anchor": "verification-sequence"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Final Execution Manifest The Awtsmoos is the source beyond every source file we can see; Awtsmoos.com will let each small module become one faithful vessel in the movie tree. Existing files eligible for full rewrite after collision checks apps/shared/movie/MovieKinds.js apps/shared/movie",
+		"searchText": "b\"h boruch hashem blessed is he final execution manifest the awtsmoos is the source beyond every source file we can see; awtsmoos.com will let each small module become one faithful vessel in the movie tree. existing files eligible for full rewrite after collision checks apps/shared/movie/moviekinds.js apps/shared/movie/movieprotocol.js apps/shared/movie/movievalidator.js apps/shared/movie/moviecapabilities.js apps/shared/movie/aimoviecontract.js apps/shared/movie/index.js apps/shared/movie/ui/moviedock.js apps/shared/movie/ui/movie dock.css app adapter/install files only after full read/call site inspection. new focused modules protocol, migration, schema validation helpers, patches/history, ai provider/director/revision, characters, assets, adapter base, renderer contracts, render profiles/manifests, split director ui panels and shared tests. preserve current external export names where sensible canonical seconds current 180 second example existing canvas proof renderer app personalities uncommitted peer work outside our owned module lane verification sequence 1. source first draft complete before test driven fixes. 2. node syntax/import checks. 3. shared test universe. 4. app adapter smoke tests. 5. indentation/header/awtsmoos/jsdoc/file length review. 6. local browser mobile director proof. 7. exactly 180 second movie validation and frame sampling. 8. real media export plus ffprobe. 9. reread every touched source. 10. planned versus actual delta and second write pass. 11. repeat verification until remaining safe work is empty.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27t2314-do-all-unified-movie-system-06-final-96346c4909.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27t2314-do-all-unified-movie-system-07-evide-f081907871",
+		"title": "Evidence Ledger",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27T2314-do-all-unified-movie-system/07_EVIDENCE_LEDGER.md",
+		"category": "Systems",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Evidence Ledger",
+				"anchor": "evidence-ledger"
+			},
+			{
+				"level": 2,
+				"text": "Direct observations",
+				"anchor": "direct-observations"
+			},
+			{
+				"level": 2,
+				"text": "Required future evidence",
+				"anchor": "required-future-evidence"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Evidence Ledger The Awtsmoos renews fact beyond confidence and claim; Awtsmoos.com records each witness so completion earns its name. Direct observations Native repo is /Users/awtsmoos/work/awtsmoos.com/geelooy. All relevant movie directories are currently untracked in Git. Canonical sha",
+		"searchText": "b\"h boruch hashem blessed is he evidence ledger the awtsmoos renews fact beyond confidence and claim; awtsmoos.com records each witness so completion earns its name. direct observations native repo is /users/awtsmoos/work/awtsmoos.com/geelooy. all relevant movie directories are currently untracked in git. canonical shared core has 30 ish focused files but no tests/ directory yet. only five discovered movie smoke tests live under animator. two animator adapter paths exist. canonical shared core already has a canvas renderer, prompt intent parser, structured intent compiler, capability profiles and a three minute example. required future evidence complete target file readbacks and sha snapshots public api imports resolving structured validation/migration/patch tests adapter fidelity tests mobile browser proof real three minute output media ffprobe duration/resolution/container sampled non identical frames final touched file hygiene audit",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27t2314-do-all-unified-movie-system-07-evide-f081907871.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28-0255-awtsmoos-studio-completion-00-contin-9db18ffaa6",
+		"title": "Continuation Reality — Awtsmoos Studio Completion",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28-0255-awtsmoos-studio-completion/00_CONTINUATION_REALITY.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Continuation Reality — Awtsmoos Studio Completion",
+				"anchor": "continuation-reality-awtsmoos-studio-completion"
+			},
+			{
+				"level": 2,
+				"text": "Observed Reality",
+				"anchor": "observed-reality"
+			},
+			{
+				"level": 2,
+				"text": "Completion Mission",
+				"anchor": "completion-mission"
+			}
+		],
+		"excerpt": "B\"H Continuation Reality — Awtsmoos Studio Completion The Awtsmoos makes the next instant new; evidence decides which vessel is true. Awtsmoos.com will not call a painted shell a movie tool while time and frames remain uncoupled from the whole. Observed Reality The canonical shared movie ecosystem now exists under apps",
+		"searchText": "b\"h continuation reality — awtsmoos studio completion the awtsmoos makes the next instant new; evidence decides which vessel is true. awtsmoos.com will not call a painted shell a movie tool while time and frames remain uncoupled from the whole. observed reality the canonical shared movie ecosystem now exists under apps/shared/movie and libs/awtsmoos movie core. awtsmoos procedural core now contains core/movieassets plus the procedural movie gateway written in the previous pass. apps/awtsmoos studio exists and uses the new libs/awtsmoosui declarative ui library. the current studio bridge still imports awtsmoos movie core directly rather than the procedural movie gateway. the current studio viewport is decorative dom/css. it does not execute the shared canvas movie runtime. the current play button only toggles playing; no requestanimationframe playback clock advances playhead. the canonical shared three minute movie is exactly 180 seconds across 18 ten second scenes and asserts world3d, light3d, model3d, shapes, paths, charts, 2d/3d particles, 2d/3d characters, text, overlays, and six plus camera kinds. a historical proof mp4 exists, but ffprobe measures only 63.833333 seconds, so it fails the requested three minute acceptance gate. a canonical browser proof server and blob receiver are currently running. chrome has an older durationms=180000 target and a fresh durationms=30000 stability target owned by another render session. do not interfere with their leased browser targets. ffmpeg and ffprobe are installed locally. existing animator and mitzvah trees are heavily dirty; new adapter/integration files are safer than broad rewrites. completion mission turn awtsmoos studio into a real mobile first movie authoring/player surface, make its movie bridge go through procedural core, verify the five known studio personalities, add the missing slides adapter if still absent, run all relevant tests, browser test desktop/mobile, and produce/probe a genuine current 180 second media artifact.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28-0255-awtsmoos-studio-completion-00-contin-9db18ffaa6.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28-0255-awtsmoos-studio-completion-01-three--fd14dbd4b2",
+		"title": "Three-Pass Critique and Improvements",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28-0255-awtsmoos-studio-completion/01_THREE_PASS_CRITIQUE.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Three-Pass Critique and Improvements",
+				"anchor": "three-pass-critique-and-improvements"
+			},
+			{
+				"level": 2,
+				"text": "Pass One — Boundless Improvements",
+				"anchor": "pass-one-boundless-improvements"
+			},
+			{
+				"level": 2,
+				"text": "Pass Two — Failure Attack",
+				"anchor": "pass-two-failure-attack"
+			},
+			{
+				"level": 2,
+				"text": "Pass Three — Final Improvements",
+				"anchor": "pass-three-final-improvements"
+			}
+		],
+		"excerpt": "B\"H Three Pass Critique and Improvements Chesed sees every feature, Gevurah tests each claim; Tiferes joins the vessels without making them the same. The Awtsmoos renews both scene and test; Awtsmoos.com must prove the user facing path, not merely import the rest. Pass One — Boundless Improvements 1. Real Canvas previe",
+		"searchText": "b\"h three pass critique and improvements chesed sees every feature, gevurah tests each claim; tiferes joins the vessels without making them the same. the awtsmoos renews both scene and test; awtsmoos.com must prove the user facing path, not merely import the rest. pass one — boundless improvements 1. real canvas preview from the canonical shared movie runtime. 2. real requestanimationframe playback synchronized to movie duration. 3. frame accurate scrubbing and selected scene synchronization. 4. shared movie json loading normalized through procedural core. 5. ai intent compilation from the procedural movie gateway. 6. procedural asset capability display in studio. 7. native procedural asset invocation hooks for renderer capable surfaces. 8. 2d, 3d, and hybrid capability badges derived from actual profiles. 9. mobile first viewport preserving a fixed logical render resolution. 10. responsive timeline with scene markers and playhead feedback. 11. scene selection jumps playback to its start. 12. playback stops exactly at movie duration. 13. loading a new movie resets stale playback state. 14. browser console remains clean under load, play, seek, and resize. 15. reduced motion ui preference must not break movie timing semantics. 16. five app adapters declare distinct personalities rather than identical wrappers. 17. slides receives an adapter if missing. 18. adapter tests verify projection/roundtrip shape, not only imports. 19. shared ui compiler gets runtime smoke through the real studio app. 20. canonical three minute movie remains source of truth for proof rendering. 21. current proof export must be exactly near 180 seconds by ffprobe. 22. visual diversity must be checked from multiple temporal samples. 23. current source line count and tab audits must pass for touched files. 24. handoff must distinguish native 3d rendering from canvas fallback semantics. pass two — failure attack decorative viewport risk bind actual canvas renderer. fake play risk dedicated playback controller with raf lifecycle. two canonical movie libraries risk procedural gateway becomes studio's single public import gate. render target collision risk never take over another session's leased chrome target. old proof confusion write fresh output to a uniquely named completion proof folder. codec instability honor the active 30 second stability experiment; inspect its result before launching the long render. mobile jank cap rendering work to canonical canvas size and css scale it. json invalidity bridge validates before replacing active project. adapter drift shared capability report test across all five personalities. hidden 3d fallback expose native/fallback capability metadata explicitly. pass three — final improvements 1. reuse the mature shared canvas renderer rather than inventing a second painter. 2. keep playback/controller separate from ui action functions. 3. keep dom lookup isolated in a viewport binding module. 4. use named data attributes so browser tests can select controls reliably. 5. use current canonical threeminutemovie in studio instead of the weaker 12 scene duplicate if format compatibility permits. 6. convert only through a tested bridge, never by guessing scene shapes. 7. split any new source before 120 lines. 8. do not rewrite dirty legacy roots to add adapters; import adapters independently and verify them. 9. write fresh proof receipts alongside the final mp4 with ffprobe json. 10. sample at least six timestamps from the final mp4 and compare frame hashes/entropy so a static or frozen movie cannot pass by duration alone. 11. confirm audio stream presence if browser export promises audio; otherwise document video only truth. 12. run all shared movie tests plus studio, ui, procedural gateway, and adapter smokes after implementation. 13. re read every touched file after tests. 14. re run git status immediately before final report to avoid attributing concurrent work incorrectly. 15. keep remaining work non empty until browser mobile proof and exact media proof both pass.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28-0255-awtsmoos-studio-completion-01-three--fd14dbd4b2.json"
+	}
+]

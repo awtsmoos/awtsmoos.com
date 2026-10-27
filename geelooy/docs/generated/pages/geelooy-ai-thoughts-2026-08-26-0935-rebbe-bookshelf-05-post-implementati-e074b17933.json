@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-26-0935-rebbe-bookshelf-05-post-implementati-e074b17933",
+	"title": "Bookshelf — Post-Implementation Delta",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-26-0935-rebbe-bookshelf/05-post-implementation-delta.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Bookshelf — Post-Implementation Delta",
+			"anchor": "bookshelf-post-implementation-delta"
+		},
+		{
+			"level": 2,
+			"text": "Planned",
+			"anchor": "planned"
+		},
+		{
+			"level": 2,
+			"text": "Actual",
+			"anchor": "actual"
+		},
+		{
+			"level": 2,
+			"text": "DELTA",
+			"anchor": "delta"
+		},
+		{
+			"level": 2,
+			"text": "NEXTACTION",
+			"anchor": "nextaction"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-26-0935-rebbe-bookshelf-05-post-implementati-e074b17933-001.json"
+	]
+}

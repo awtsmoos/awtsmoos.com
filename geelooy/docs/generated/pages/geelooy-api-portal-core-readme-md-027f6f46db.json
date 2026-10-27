@@ -1,0 +1,24 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-portal-core-readme-md-027f6f46db",
+	"title": "B\"H — Portal Core (geelooy/api/portal/core/)",
+	"sourcePath": "geelooy/api/portal/core/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Portal Core (geelooy/api/portal/core/)",
+			"anchor": "b-h-portal-core-geelooy-api-portal-core"
+		},
+		{
+			"level": 2,
+			"text": "Files",
+			"anchor": "files"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-portal-core-readme-md-027f6f46db-001.json"
+	]
+}

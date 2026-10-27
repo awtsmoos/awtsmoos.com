@@ -1,222 +1,344 @@
 [
 	{
-		"id": "docs-operations-dayuh-recovery-and-conflicts-md-cdf82f272c",
-		"title": "Dayuh sync recovery and conflict handling",
-		"sourcePath": "docs/operations/dayuh-recovery-and-conflicts.md",
-		"category": "Operations",
-		"provenance": "manual",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Dayuh sync recovery and conflict handling",
-				"anchor": "dayuh-sync-recovery-and-conflict-handling"
-			},
-			{
-				"level": 2,
-				"text": "Remote paths",
-				"anchor": "remote-paths"
-			},
-			{
-				"level": 2,
-				"text": "Stale lock",
-				"anchor": "stale-lock"
-			},
-			{
-				"level": 2,
-				"text": "Interrupted changed-file transfer",
-				"anchor": "interrupted-changed-file-transfer"
-			},
-			{
-				"level": 2,
-				"text": "Sync conflict",
-				"anchor": "sync-conflict"
-			},
-			{
-				"level": 2,
-				"text": "Interrupted seed",
-				"anchor": "interrupted-seed"
-			},
-			{
-				"level": 2,
-				"text": "Remote-only runtime data",
-				"anchor": "remote-only-runtime-data"
-			},
-			{
-				"level": 2,
-				"text": "Service recovery",
-				"anchor": "service-recovery"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Dayuh sync recovery and conflict handling Use this guide only after reading the main runbook. Recovery must preserve the current database until the failed stage is understood. Remote paths For the production database: Do not use paths from older /root/dayuhChadash deployments when inspec",
-		"searchText": "b\"h boruch hashem blessed is he dayuh sync recovery and conflict handling use this guide only after reading the main runbook. recovery must preserve the current database until the failed stage is understood. remote paths for the production database: do not use paths from older /root/dayuhchadash deployments when inspecting the current production service. stale lock a lock prevents concurrent sync operations. a timeout in the tunnel ui does not prove the worker stopped. 1. search local processes for dayuh sync.mjs and dayuh seed.mjs. 2. inspect tunnel durable jobs and process family receipts. 3. through custom ssh, inspect the remote lock and relevant processes. 4. clear the lock only when no operation can still own it. 5. rerun with force only after that proof. force removes the remote lock before acquiring a new one. it does not repair an active or partially completed transfer. interrupted changed file transfer the sftp layer writes temporary files and renames them after verification. after interruption: 1. do not manually copy the partial file over the target. 2. run status again; manifests will identify the incomplete path. 3. inspect .part files only through custom ssh. 4. remove a proven orphaned temporary file, never the verified target. 5. rerun the same push or pull without delete. 6. run status again and require zero pending uploads for a push. sync conflict three way sync compares local and remote manifests with the last common base.json. when both sides changed one path: the remote version is copied under ../.dayuh conflicts/ / locally; the operation reports the conflict and stops; neither side is silently overwritten. resolve by comparing the local file, remote conflict copy, and application semantics. write the chosen result to one side, then use a directional push or pull to establish a new common base. interrupted seed the seed process owns the incoming, previous, and archive paths. it verifies the compressed archive sha 256 before extraction. during the swap, a trap restores the previous target when the new target was not installed. recovery sequence: 1. confirm whether the seed process is still alive. 2. confirm whether the active database path exists. 3. if the active path exists and the service is healthy, do not move it. 4. inspect the incoming, previous, and archive paths. 5. preserve a previous seed until target health is proven. 6. remove only artifacts proven to be abandoned. 7. prefer a changed only push after a successful target install; do not reseed several gigabytes merely because final verification failed. never manually delete the active database root during recovery. remote only runtime data a status report can show downloads even when every local change is published. this means production has files not present locally or has newer versions. examples can include email threads, queues, sessions, moderation state, or other runtime records. preserve them by omitting delete from push. pull them only when local should become a replica of production. do not classify them as stale based only on directory name. record preserved remote only paths in the operation report. service recovery inspect through the custom ssh cli: restart only when required by code or database lifecycle rules: after restart, verify the pid working directory, the rag catalog endpoint, and a representative content endpoint. a running process alone is not completion.",
-		"page": "pages/docs-operations-dayuh-recovery-and-conflicts-md-cdf82f272c.json"
-	},
-	{
-		"id": "docs-operations-readme-md-3492caf43a",
-		"title": "Awtsmoos production operations",
-		"sourcePath": "docs/operations/README.md",
-		"category": "Operations",
-		"provenance": "manual",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Awtsmoos production operations",
-				"anchor": "awtsmoos-production-operations"
-			},
-			{
-				"level": 2,
-				"text": "Current production topology",
-				"anchor": "current-production-topology"
-			},
-			{
-				"level": 2,
-				"text": "Guides",
-				"anchor": "guides"
-			},
-			{
-				"level": 2,
-				"text": "Non-negotiable boundaries",
-				"anchor": "non-negotiable-boundaries"
-			},
-			{
-				"level": 2,
-				"text": "Last known verified state",
-				"anchor": "last-known-verified-state"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos production operations This directory is the future agent entry point for database synchronization and code deployment. Read the relevant guide before changing production. Current production topology Component Path or value Local repository /Users/awtsmoos/work/awtsmoos.com Local",
-		"searchText": "b\"h boruch hashem blessed is he awtsmoos production operations this directory is the future agent entry point for database synchronization and code deployment. read the relevant guide before changing production. current production topology component path or value local repository /users/awtsmoos/work/awtsmoos.com local dayuh chadash /users/awtsmoos/documents/awtsmoos/dayuhchadash remote dayuh chadash /mnt/hc volume 102267213/dayuhchadash local sync state /users/awtsmoos/documents/awtsmoos/.dayuh sync/awtsmoos.com remote repository /mnt/hc volume 102267213/git/awtsmoos.com production service awtsmoos.service ssh endpoint root@awtsmoos.com:22 the production remote database is not /root/dayuhchadash. always pass the remote path explicitly to sync and seed commands. guides dayuh database sync runbook.md: exact local to remote, remote to local, bidirectional, seed, and verification commands. dayuh agent checklist.md: mandatory preflight, execution, and completion checklist for ai agents. dayuh recovery and conflicts.md: stale locks, conflicts, interrupted transfers, seed staging, and rollback. dayuh code deploy and git.md: separation of database sync, git publication, remote code deployment, and service restart. ../../scripts/dayuh sync.md: concise command reference beside the implementation. non negotiable boundaries 1. use the repository custom ssh client; do not substitute openssh, scp, or remote rsync for production transfer. 2. never reveal the ssh password. inspect only its credential descriptor. 3. run status and dry run before every database write. 4. do not use delete without explicit owner approval of the exact paths. 5. preserve legitimate remote only runtime files, including email thread data. 6. do not run npm run bh or npm run ship casually: ship.mjs stages all files. 7. do not commit or push unless the owner explicitly requests it. 8. verify the remote service and public api after every production operation. last known verified state on 2026 07 26 the deployment was verified with: awtsmoos.service active in the production repository; three public rag lanes; middot phrase counts 8 / 8 / 14 / 30 for the representative post; 766 series, 11,366 unique posts, and zero local/public series mismatches; zero pending local database uploads after the final push; intentional remote only runtime records preserved. this record is historical evidence, not a substitute for a fresh verification.",
-		"page": "pages/docs-operations-readme-md-3492caf43a.json"
-	},
-	{
-		"id": "docs-projects-awtsmoos-ai-md-3ab2bfe677",
-		"title": "Awtsmoos AI",
-		"sourcePath": "docs/PROJECTS/AWTSMOOS_AI.md",
+		"id": "docs-generated-project-tutorials-projects-geelooy-apps-lyric-sync-78687d-bafeac5051",
+		"title": "Project Tutorial: Lyric Sync Engine",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-lyric-sync-78687d22.md",
 		"category": "Projects",
-		"provenance": "manual",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Awtsmoos AI",
-				"anchor": "awtsmoos-ai"
+				"text": "Project Tutorial: Lyric Sync Engine",
+				"anchor": "project-tutorial-lyric-sync-engine"
 			},
 			{
 				"level": 2,
-				"text": "Primary source areas",
-				"anchor": "primary-source-areas"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Do not flatten AI into one backend",
-				"anchor": "do-not-flatten-ai-into-one-backend"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Generated evidence",
-				"anchor": "generated-evidence"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "Human manuals",
-				"anchor": "human-manuals"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Change strategy",
-				"anchor": "change-strategy"
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos AI The Awtsmoos lets language and model computation enter many vessels while Awtsmoos.com keeps browser AI, server APIs, local model work, search and developer integrations distinct enough to reason about safely. Primary source areas geelooy/ai/ — large browser facing AI project",
-		"searchText": "b\"h boruch hashem blessed is he awtsmoos ai the awtsmoos lets language and model computation enter many vessels while awtsmoos.com keeps browser ai, server apis, local model work, search and developer integrations distinct enough to reason about safely. primary source areas geelooy/ai/ — large browser facing ai project. geelooy/api/gpt/ — gpt health/capability/chat/reset http family. geelooy/apps/awtsmoos gguf/ — local/gguf model tooling. awtsmoos code ai integrations — developer workflows. dynamic server ai helpers — server side model/provider plumbing where imported. search/vector/graph systems — related data systems, not automatically the same api contract. do not flatten ai into one backend a local gguf app, browser chat page, provider backed gpt api, embedding/search pipeline and code ai feature can share concepts without sharing credentials, model format, request schema or lifecycle. begin from the concrete caller/source pair. generated evidence use project atlas.md for ai project boundaries, project symbol summary.md for lexical symbol summaries, project dependencies.md for cross project imports, api route contract atlas.md for gpt routes, api caller index.md for browser callers and environment variables.md for configuration names without values. human manuals docs/systems/ai.md docs/api/other families.md docs/configuration.md docs/integrations.md docs/security/secrets and config.md change strategy for model/provider/api changes, trace the exact caller, configuration source, failure shape and tests. for local models, inspect model file/runtime assumptions. for search/embedding changes, treat index/data paths as persistence contracts. verify only the layers actually involved rather than assuming every ai labelled feature shares one runtime.",
-		"page": "pages/docs-projects-awtsmoos-ai-md-3ab2bfe677.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Lyric Sync Engine Path: geelooy/apps/lyric sync · Type: app · Family: Applications Read the human Applications guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health gua",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: lyric sync engine path: geelooy/apps/lyric sync · type: app · family: applications read the human applications guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 5 0 0 0 0 0 5 public entry points /apps/lyric sync → geelooy/apps/lyric sync/index.html — lyric sync engine symbol evidence source files: 2; classes: 2; functions: 18; exports: 0; samples: savesettings, loadsettings, parsevtt, collectsettings, updatelyrics, timetoseconds, formattime, downloadblob, particlesystem, is, handleexport, drawframe. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-apps-lyric-sync-78687d-bafeac5051.json"
 	},
 	{
-		"id": "docs-projects-code-md-43fa7863f7",
-		"title": "Awtsmoos Code",
-		"sourcePath": "docs/PROJECTS/CODE.md",
+		"id": "docs-generated-project-tutorials-projects-geelooy-apps-merkava-a9bf1c92--a4e6c96747",
+		"title": "Project Tutorial: Merkava",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-merkava-a9bf1c92.md",
 		"category": "Projects",
-		"provenance": "manual",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Awtsmoos Code",
-				"anchor": "awtsmoos-code"
+				"text": "Project Tutorial: Merkava",
+				"anchor": "project-tutorial-merkava"
 			},
 			{
 				"level": 2,
-				"text": "Canonical source",
-				"anchor": "canonical-source"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Surrounding systems",
-				"anchor": "surrounding-systems"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Generated evidence",
-				"anchor": "generated-evidence"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "Human manuals",
-				"anchor": "human-manuals"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Change strategy",
-				"anchor": "change-strategy"
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos Code The Awtsmoos lets source become an interactive developer world while Awtsmoos.com connects browser editing, compiler/runtime services, AI assistance, shared platform code and project previews. Canonical source geelooy/apps/code/ This is one of the largest application projec",
-		"searchText": "b\"h boruch hashem blessed is he awtsmoos code the awtsmoos lets source become an interactive developer world while awtsmoos.com connects browser editing, compiler/runtime services, ai assistance, shared platform code and project previews. canonical source geelooy/apps/code/ this is one of the largest application projects in the repository. its local documentation.md is the in tree entry point; central developer docs explain how it connects to the rest of awtsmoos.com. surrounding systems compiler api and compiler application behavior. native/runtime apis and platform execution. shared browser/platform modules. ai/model assistance and provider configuration where enabled. tunnel/native preview workflows where remote execution is involved. generated evidence use project symbol summary.md for lexical symbol scale, project dependencies.md for cross project source references, external dependencies.md for package imports, public entry points.md for the browser entry and test ownership.md for test neighborhoods. human manuals docs/apps/developer tools.md docs/systems/geelooy os.md docs/systems/ai.md docs/api/other families.md docs/development/readme.md change strategy a ui only editor change may remain local, but compiler, native execution, ai orchestration, filesystem/project loading or shared platform changes can cross multiple projects. trace generated dependency edges, inspect the owning backend contract and run code specific plus shared platform tests when those boundaries move.",
-		"page": "pages/docs-projects-code-md-43fa7863f7.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Merkava Path: geelooy/apps/merkava · Type: app · Family: Applications Read the human Applications guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. Entr",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: merkava path: geelooy/apps/merkava · type: app · family: applications read the human applications guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html local documentation: no local documentation.md observed. local doc requirement: yes; covered: no symlink target: — file shape source tests assets generated docs other total 74 3 0 0 0 2 79 public entry points /apps/merkava → geelooy/apps/merkava/index.html — merkava symbol evidence source files: 72; classes: 66; functions: 973; exports: 297; samples: guest dom backend, extractscripts, async, guestelement, guestdocument, guestwindow, guestframebuffer, interactivepage, extractcsstext, maketextnode, makeelementnode, textof. depends on geelooy/apps/merkavaastparser — 1 lexical reference; examples: geelooy/apps/merkava/engine/merkava js pipeline.js used by none observed. external packages react — 1 lexical reference verification clue observed test classified files: 3 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-apps-merkava-a9bf1c92--a4e6c96747.json"
 	},
 	{
-		"id": "docs-projects-dosdb-md-867be882f9",
-		"title": "DosDB Project",
-		"sourcePath": "docs/PROJECTS/DOSDB.md",
-		"category": "Data",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-apps-merkava-native-br-3eea5bfb2a",
+		"title": "Project Tutorial: Merkava Native Browser Engine — Awtsmoos",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-merkava-native-browser-86788fea.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "DosDB Project",
-				"anchor": "dosdb-project"
+				"text": "Project Tutorial: Merkava Native Browser Engine — Awtsmoos",
+				"anchor": "project-tutorial-merkava-native-browser-engine-awtsmoos"
 			},
 			{
 				"level": 2,
-				"text": "Canonical source",
-				"anchor": "canonical-source"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Architectural layers",
-				"anchor": "architectural-layers"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Human documentation",
-				"anchor": "human-documentation"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "Dependency relationship",
-				"anchor": "dependency-relationship"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Verification strategy",
-				"anchor": "verification-strategy"
+				"text": "Depends on",
+				"anchor": "depends-on"
 			},
 			{
 				"level": 2,
-				"text": "Local navigation",
-				"anchor": "local-navigation"
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He DosDB Project The Awtsmoos lets many generations of persistence remain reachable while Awtsmoos.com uses DosDB as the bridge between legacy logical APIs and newer binary/VirtualFs storage. Canonical source ayzarim/DosDB/ This is a major data project, not a tiny helper. Generated symbol/t",
-		"searchText": "b\"h boruch hashem blessed is he dosdb project the awtsmoos lets many generations of persistence remain reachable while awtsmoos.com uses dosdb as the bridge between legacy logical apis and newer binary/virtualfs storage. canonical source ayzarim/dosdb/ this is a major data project, not a tiny helper. generated symbol/test discovery shows a very large implementation and test surface, so changes should begin from the data manuals rather than from one method file in isolation. architectural layers index.js — main dosdb compatibility wrapper and method binding. methods/ — legacy logical read/write/path/array/object/directory behavior. awtsmoosdbfsadapter.js — routing into modern awtsmoosdb virtualfs or compatible legacy binary files. awtsmoosdbbridge.js — lazy parallel awtsmoosdb for ai/search/vector/graph experimentation. runtimereadguard.js — null safe parser result normalization without byte mutation. awtsmoosbinary/ — binary storage, parsing, awtsmoosdb and compatibility infrastructure. human documentation docs/data/readme.md — persistence overview. docs/data/dosdb.md — compatibility/read/write/cache architecture. docs/data/awtsmoosdb and virtualfs.md — modern database and legacy file detection. docs/data/path contracts.md — migration sensitive logical paths. dependency relationship generated dependency evidence shows social api source importing dosdb internals. the dynamic server also initializes dosdb as the runtime database. therefore a dosdb compatibility change can affect social behavior, server boot, tests, repair tools and any subsystem using $i.db. verification strategy use dosdb local tests plus dynamic server db initialization tests and representative social persistence tests. for format/router changes, include real historical/legacy fixture shapes in addition to newly written files. local navigation a local ayzarim/dosdb/documentation.md should point here and to the data manuals, while detailed method behavior remains in source and tests.",
-		"page": "pages/docs-projects-dosdb-md-867be882f9.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Merkava Native Browser Engine — Awtsmoos Path: geelooy/apps/merkava native browser · Type: app · Family: Applications Read the human Applications guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, ",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: merkava native browser engine — awtsmoos path: geelooy/apps/merkava native browser · type: app · family: applications read the human applications guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, package.json, documentation.md local documentation: geelooy/apps/merkava native browser/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 72 0 0 62 1 95 230 public entry points /apps/merkava native browser → geelooy/apps/merkava native browser/index.html — merkava native browser engine — awtsmoos /apps/merkava native browser/tmp chrome webgl → geelooy/apps/merkava native browser/tmp chrome webgl/index.html symbol evidence source files: 58; classes: 0; functions: 71; exports: 15; samples: readsample, cstringliteral, cmacrostring, stopgeneratedexeifrunning, filestats, buildreport, injectcssintohtml, collectcssassets, collectscriptassets, attrsof, fetchtext, describeembeddedexecutor. depends on geelooy/scripts — 44 lexical references; examples: geelooy/apps/merkava native browser/.inspect md2.cjs; geelooy/apps/merkava native browser/.test compile webgl.cjs; geelooy/apps/merkava native browser/build seed.mjs used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-apps-merkava-native-br-3eea5bfb2a.json"
+	},
+	{
+		"id": "docs-generated-project-tutorials-projects-geelooy-apps-mitzvah-pushkuh-8-102756bbb1",
+		"title": "Project Tutorial: Mitzvah Pushkuh · Garden of Sparks",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-mitzvah-pushkuh-8cd09b5d.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: Mitzvah Pushkuh · Garden of Sparks",
+				"anchor": "project-tutorial-mitzvah-pushkuh-garden-of-sparks"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Mitzvah Pushkuh · Garden of Sparks Path: geelooy/apps/mitzvah pushkuh · Type: app · Family: Applications Read the human Applications guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime o",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: mitzvah pushkuh · garden of sparks path: geelooy/apps/mitzvah pushkuh · type: app · family: applications read the human applications guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, documentation.md local documentation: geelooy/apps/mitzvah pushkuh/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 156 7 0 0 1 2 166 public entry points /apps/mitzvah pushkuh → geelooy/apps/mitzvah pushkuh/index.html — mitzvah pushkuh · garden of sparks symbol evidence source files: 131; classes: 0; functions: 361; exports: 181; samples: setritual, setfilter, refresh, async, plant, open, mutate, relightselected, persist, seed, bindgarden, startgarden. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 7 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-apps-mitzvah-pushkuh-8-102756bbb1.json"
+	},
+	{
+		"id": "docs-generated-project-tutorials-projects-geelooy-apps-mitzvah-studio-2a-507bbb6fec",
+		"title": "Project Tutorial: Mitzvah Studio · Awtsmoos",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-mitzvah-studio-2afbe7d0.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: Mitzvah Studio · Awtsmoos",
+				"anchor": "project-tutorial-mitzvah-studio-awtsmoos"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Mitzvah Studio · Awtsmoos Path: geelooy/apps/mitzvah studio · Type: app · Family: Applications Read the human Applications guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership o",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: mitzvah studio · awtsmoos path: geelooy/apps/mitzvah studio · type: app · family: applications read the human applications guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, main.js local documentation: no local documentation.md observed. local doc requirement: yes; covered: no symlink target: — file shape source tests assets generated docs other total 51 0 0 0 0 0 51 public entry points /apps/mitzvah studio → geelooy/apps/mitzvah studio/index.html — mitzvah studio · awtsmoos symbol evidence source files: 40; classes: 20; functions: 172; exports: 75; samples: bootnativestudio, reportstudiobootfailure, installmovieai, studiodocumentactions, bootmitzvahstudio, mountstudiopanel, createstudiocreatetabs, announcestudio, openmitzvahworld, readmitzvahstudiohandoff, mitzvahstudiocatalog, searchmitzvahstudiocatalog. depends on geelooy/libs — 5 lexical references; examples: geelooy/apps/mitzvah studio/modules/catalog/mitzvahstudiocatalog.js; geelooy/apps/mitzvah studio/modules/generate/geometrygenerators.js; geelooy/apps/mitzvah studio/modules/state/studiodocumentmutations.js geelooy/apps/shared — 2 lexical references; examples: geelooy/apps/mitzvah studio/modules/movie/mitzvahmovieadapter.js; geelooy/apps/mitzvah studio/modules/movie/installmovieai.js geelooy/games/mitzvahworld — 1 lexical reference; examples: geelooy/apps/mitzvah studio/modules/catalog/mitzvahstudiocatalog.js used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-apps-mitzvah-studio-2a-507bbb6fec.json"
+	},
+	{
+		"id": "docs-generated-project-tutorials-projects-geelooy-apps-nesher-studio-ad4-692e7407be",
+		"title": "Project Tutorial: 🦅 AWTSMOOS STUDIO",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-nesher-studio-ad4bc144.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: 🦅 AWTSMOOS STUDIO",
+				"anchor": "project-tutorial-awtsmoos-studio"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: 🦅 AWTSMOOS STUDIO Path: geelooy/apps/nesher studio · Type: app · Family: Applications Read the human Applications guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: 🦅 awtsmoos studio path: geelooy/apps/nesher studio · type: app · family: applications read the human applications guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, main.js, package.json, documentation.md local documentation: geelooy/apps/nesher studio/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 563 138 0 0 5 4 710 public entry points /apps/nesher studio → geelooy/apps/nesher studio/index.html — 🦅 awtsmoos studio symbol evidence source files: 501; classes: 35; functions: 1487; exports: 1118; samples: renderaudiomixerpanel, mountaudiomixerpanel, renderbinpanel, mountbinpanel, rendercolorpanel, mountcolorpanel, rendereffectspanel, mounteffectspanel, renderexportpanel, mountexportpanel, renderpreviewmonitor, mountpreviewmonitor. depends on geelooy/apps/shared — 2 lexical references; examples: geelooy/apps/nesher studio/modules/movie/neshermovieadapter.js; geelooy/apps/nesher studio/modules/movie/installmovieai.js used by none observed. external packages none observed. verification clue observed test classified files: 138 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-apps-nesher-studio-ad4-692e7407be.json"
 	}
 ]

@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-scripts-awtsmoos-merkavaexecutor-merkava-canonical-canonical-mer-bcb4bc9ca7",
+	"title": "Canonical Merkava v1",
+	"sourcePath": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-canonical/CANONICAL_MERKAVA_V1.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Canonical Merkava v1",
+			"anchor": "canonical-merkava-v1"
+		},
+		{
+			"level": 2,
+			"text": "Header",
+			"anchor": "header"
+		},
+		{
+			"level": 2,
+			"text": "Directory",
+			"anchor": "directory"
+		},
+		{
+			"level": 2,
+			"text": "Core sections",
+			"anchor": "core-sections"
+		},
+		{
+			"level": 2,
+			"text": "Transition",
+			"anchor": "transition"
+		},
+		{
+			"level": 2,
+			"text": "Platform law",
+			"anchor": "platform-law"
+		},
+		{
+			"level": 2,
+			"text": "Completion gates",
+			"anchor": "completion-gates"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-scripts-awtsmoos-merkavaexecutor-merkava-canonical-canonical-mer-bcb4bc9ca7-001.json"
+	]
+}

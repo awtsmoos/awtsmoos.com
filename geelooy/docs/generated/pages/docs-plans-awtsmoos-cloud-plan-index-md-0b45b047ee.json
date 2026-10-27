@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-plans-awtsmoos-cloud-plan-index-md-0b45b047ee",
+	"title": "Awtsmoos Cloud Master Plan",
+	"sourcePath": "docs/PLANS/AWTSMOOS_CLOUD/PLAN_INDEX.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Awtsmoos Cloud Master Plan",
+			"anchor": "awtsmoos-cloud-master-plan"
+		},
+		{
+			"level": 2,
+			"text": "Session start order",
+			"anchor": "session-start-order"
+		},
+		{
+			"level": 2,
+			"text": "Source laws",
+			"anchor": "source-laws"
+		},
+		{
+			"level": 2,
+			"text": "Phase files",
+			"anchor": "phase-files"
+		},
+		{
+			"level": 2,
+			"text": "Status notation",
+			"anchor": "status-notation"
+		}
+	],
+	"markdownParts": [
+		"content/docs-plans-awtsmoos-cloud-plan-index-md-0b45b047ee-001.json"
+	]
+}

@@ -1,0 +1,723 @@
+[
+	{
+		"projectId": "geelooy-tanya-a0f1a973",
+		"path": "geelooy/tanya",
+		"type": "public",
+		"family": {
+			"id": "public",
+			"title": "Public and Other Boundaries"
+		},
+		"title": "Tanya — Awtsmoos.com",
+		"entries": [
+			"index.html",
+			"_awtsmoos.derech.js"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-tanya-a0f1a973.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 2,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 2,
+		"symbolSummary": {
+			"files": 1,
+			"classes": 0,
+			"functions": 0,
+			"exports": 0,
+			"samples": []
+		},
+		"outgoing": [
+			{
+				"project": "geelooy/heichelos",
+				"count": 1,
+				"examples": "geelooy/tanya/_awtsmoos.derech.js"
+			}
+		],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/tanya",
+				"file": "geelooy/tanya/index.html",
+				"title": "Tanya — Awtsmoos.com",
+				"scripts": 0,
+				"styles": 1
+			}
+		],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-test-517ef8d5",
+		"path": "geelooy/test",
+		"type": "project",
+		"family": {
+			"id": "public",
+			"title": "Public and Other Boundaries"
+		},
+		"title": "geelooy/test",
+		"entries": [],
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-test-517ef8d5.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 0,
+			"tests": 15,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 15,
+		"symbolSummary": null,
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": true,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-tests-6cd96b39",
+		"path": "geelooy/tests",
+		"type": "test",
+		"family": {
+			"id": "libraries",
+			"title": "Libraries and Tooling"
+		},
+		"title": "geelooy/tests",
+		"entries": [
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/LIBRARIES_AND_TOOLING.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-tests-6cd96b39.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/tests/DOCUMENTATION.md",
+				"documentId": "geelooy-tests-documentation-md-4ae0affefc"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/LIBRARIES_AND_TOOLING.md",
+				"documentId": "docs-tutorials-projects-libraries-and-tooling-md-f171c0f31f"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 0,
+			"tests": 133,
+			"assets": 0,
+			"generated": 0,
+			"docs": 3,
+			"other": 0
+		},
+		"totalFiles": 136,
+		"symbolSummary": null,
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/tests/glyph-engine",
+				"file": "geelooy/tests/glyph-engine/index.html",
+				"title": "Awtsmoos Glyph Lab · All-Letter Hebrew Font Experiments",
+				"scripts": 1,
+				"styles": 1
+			}
+		],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-tmp-39336fb9",
+		"path": "geelooy/tmp",
+		"type": "project",
+		"family": {
+			"id": "public",
+			"title": "Public and Other Boundaries"
+		},
+		"title": "geelooy/tmp",
+		"entries": [],
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-tmp-39336fb9.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 3,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 6
+		},
+		"totalFiles": 9,
+		"symbolSummary": {
+			"files": 1,
+			"classes": 0,
+			"functions": 3,
+			"exports": 0,
+			"samples": [
+				"send",
+				"captureBrowserEvent",
+				"readPageState"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-tools-3e61fa29",
+		"path": "geelooy/tools",
+		"type": "project",
+		"family": {
+			"id": "public",
+			"title": "Public and Other Boundaries"
+		},
+		"title": "geelooy/tools",
+		"entries": [],
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-tools-3e61fa29.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 19,
+			"tests": 2,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 21,
+		"symbolSummary": {
+			"files": 19,
+			"classes": 3,
+			"functions": 23,
+			"exports": 25,
+			"samples": [
+				"scanPerformanceRisks",
+				"scanReferenceCandidates",
+				"buildReferenceIndex",
+				"isReferenced",
+				"scanSourceQuality",
+				"trackedFiles",
+				"trackedSourceFiles",
+				"isProtectedPath",
+				"classifyProductEvidence",
+				"classifyAuditError",
+				"argumentValue",
+				"DEFAULT_BASE_URL"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [
+			{
+				"dependency": "ws",
+				"count": 1,
+				"examples": "geelooy/tools/runtime-audit/devtoolsClient.mjs"
+			}
+		],
+		"publicEntries": [],
+		"requiresLocalDoc": true,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-translations-46cd7ed4",
+		"path": "geelooy/translations",
+		"type": "public",
+		"family": {
+			"id": "public",
+			"title": "Public and Other Boundaries"
+		},
+		"title": "English Torah Translations | Awtsmoos",
+		"entries": [
+			"index.html"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-translations-46cd7ed4.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 294,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 88
+		},
+		"totalFiles": 382,
+		"symbolSummary": null,
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/translations",
+				"file": "geelooy/translations/index.html",
+				"title": "English Torah Translations | Awtsmoos",
+				"scripts": 0,
+				"styles": 1
+			}
+		],
+		"requiresLocalDoc": true,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-tunnel-6ffd6bdc",
+		"path": "geelooy/tunnel",
+		"type": "project",
+		"family": {
+			"id": "public",
+			"title": "Public and Other Boundaries"
+		},
+		"title": "geelooy/tunnel",
+		"entries": [],
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-tunnel-6ffd6bdc.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 3,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 3,
+		"symbolSummary": {
+			"files": 1,
+			"classes": 0,
+			"functions": 7,
+			"exports": 1,
+			"samples": [
+				"dynamicRoutes",
+				"escapeHtml",
+				"pageShell",
+				"machineJson",
+				"ownerSection",
+				"guestSection",
+				"redeemSection",
+				"connectPage"
+			]
+		},
+		"outgoing": [
+			{
+				"project": "geelooy/api/tunnel",
+				"count": 2,
+				"examples": "geelooy/tunnel/connect/_awtsmoos.derech.js"
+			}
+		],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/tunnel/connect",
+				"file": "geelooy/tunnel/connect/index.html",
+				"title": "Connect an agent — Awtsmoos Tunnel",
+				"scripts": 0,
+				"styles": 0
+			},
+			{
+				"url": "/tunnel/device",
+				"file": "geelooy/tunnel/device/index.html",
+				"title": "Approve a device — Awtsmoos Tunnel",
+				"scripts": 0,
+				"styles": 0
+			}
+		],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-view-c3c15515",
+		"path": "geelooy/view",
+		"type": "project",
+		"family": {
+			"id": "public",
+			"title": "Public and Other Boundaries"
+		},
+		"title": "geelooy/view",
+		"entries": [
+			"_awtsmoos.derech.js"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-view-c3c15515.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 1,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 1,
+		"symbolSummary": {
+			"files": 1,
+			"classes": 0,
+			"functions": 0,
+			"exports": 1,
+			"samples": [
+				"dynamicRoutes"
+			]
+		},
+		"outgoing": [
+			{
+				"project": "geelooy/api/tunnel",
+				"count": 1,
+				"examples": "geelooy/view/_awtsmoos.derech.js"
+			}
+		],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-webscrapers-1466bc35",
+		"path": "geelooy/webScrapers",
+		"type": "project",
+		"family": {
+			"id": "public",
+			"title": "Public and Other Boundaries"
+		},
+		"title": "geelooy/webScrapers",
+		"entries": [],
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-webscrapers-1466bc35.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 5,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 5,
+		"symbolSummary": {
+			"files": 5,
+			"classes": 0,
+			"functions": 30,
+			"exports": 0,
+			"samples": [
+				"processGemaraJson",
+				"processChabadOneText",
+				"doAll",
+				"getFilesInDirectory",
+				"formatPage",
+				"getDafData",
+				"getPage",
+				"getEntireChabadLibraryBookSequential",
+				"processItemSequential",
+				"getEntireChabadLibraryBook",
+				"downloadJ",
+				"getData"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-youtube-c14506c7",
+		"path": "geelooy/youtube",
+		"type": "public",
+		"family": {
+			"id": "public",
+			"title": "Public and Other Boundaries"
+		},
+		"title": "Awtsmoos YouTube Manager",
+		"entries": [
+			"index.html",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-youtube-c14506c7.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/youtube/DOCUMENTATION.md",
+				"documentId": "geelooy-youtube-documentation-md-1d74e31a03"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 34,
+			"tests": 1,
+			"assets": 0,
+			"generated": 0,
+			"docs": 1,
+			"other": 0
+		},
+		"totalFiles": 36,
+		"symbolSummary": {
+			"files": 16,
+			"classes": 9,
+			"functions": 44,
+			"exports": 17,
+			"samples": [
+				"HodCommandQuoter",
+				"YesodLocalSecretVault",
+				"async",
+				"videoFile",
+				"sidecarFile",
+				"videoIdFromName",
+				"isoDate",
+				"fallbackItem",
+				"itemFromInfo",
+				"metadataById",
+				"readLocalYouTubeBundle",
+				"YouTubeArchiveCheckpoint"
+			]
+		},
+		"outgoing": [
+			{
+				"project": "geelooy/shared",
+				"count": 11,
+				"examples": "geelooy/youtube/migrate/js/LocalSecretVault.js; geelooy/youtube/migrate/js/LocalYouTubeBundle.js; geelooy/youtube/migrate/js/YouTubeArchiveCheckpoint.js"
+			}
+		],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/youtube",
+				"file": "geelooy/youtube/index.html",
+				"title": "Awtsmoos YouTube Manager",
+				"scripts": 1,
+				"styles": 1
+			},
+			{
+				"url": "/youtube/migrate",
+				"file": "geelooy/youtube/migrate/index.html",
+				"title": "YouTube Migration Studio · Awtsmoos",
+				"scripts": 1,
+				"styles": 2
+			}
+		],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-zmanim-3ad5830d",
+		"path": "geelooy/zmanim",
+		"type": "public",
+		"family": {
+			"id": "public",
+			"title": "Public and Other Boundaries"
+		},
+		"title": "Halachic Zmanim · Awtsmoos",
+		"entries": [
+			"index.html",
+			"package.json",
+			"DOCUMENTATION.md",
+			"README.md",
+			"readme.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-zmanim-3ad5830d.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/zmanim/DOCUMENTATION.md",
+				"documentId": "geelooy-zmanim-documentation-md-f3dd7909d8"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 115,
+			"tests": 17,
+			"assets": 0,
+			"generated": 0,
+			"docs": 2,
+			"other": 0
+		},
+		"totalFiles": 134,
+		"symbolSummary": {
+			"files": 67,
+			"classes": 35,
+			"functions": 116,
+			"exports": 121,
+			"samples": [
+				"ZmanimApp",
+				"AwtsmoosZmanimCalendar",
+				"MALCHUS_CALENDAR_DAY_STYLES",
+				"parseIsoDate",
+				"toIsoDate",
+				"shiftDays",
+				"shiftMonths",
+				"monthLabel",
+				"monthGrid",
+				"isCurrentMonth",
+				"BinahCalendarRenderer",
+				"malchusTodayIsoDate"
+			]
+		},
+		"outgoing": [
+			{
+				"project": "geelooy/libs",
+				"count": 2,
+				"examples": "geelooy/zmanim/js/components/celestial-webgl.js; geelooy/zmanim/js/domain/celestial-zmanim.js"
+			}
+		],
+		"incoming": [
+			{
+				"project": "geelooy/heichelos",
+				"count": 2,
+				"examples": "geelooy/heichelos/post/logic/dreamCelestial.js"
+			},
+			{
+				"project": "geelooy/games/mitzvahWorld",
+				"count": 1,
+				"examples": "geelooy/games/mitzvahWorld/shared/gameTimeOfDay.js"
+			}
+		],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/zmanim",
+				"file": "geelooy/zmanim/index.html",
+				"title": "Halachic Zmanim · Awtsmoos",
+				"scripts": 1,
+				"styles": 40
+			}
+		],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-33d12459",
+		"path": "geelooy/אגרות-קודש",
+		"type": "public",
+		"family": {
+			"id": "public",
+			"title": "Public and Other Boundaries"
+		},
+		"title": "Igeres HaKodesh — Awtsmoos.com",
+		"entries": [
+			"index.html",
+			"_awtsmoos.derech.js"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-33d12459.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 2,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 2,
+		"symbolSummary": {
+			"files": 1,
+			"classes": 0,
+			"functions": 0,
+			"exports": 0,
+			"samples": []
+		},
+		"outgoing": [
+			{
+				"project": "geelooy/heichelos",
+				"count": 1,
+				"examples": "geelooy/אגרות-קודש/_awtsmoos.derech.js"
+			}
+		],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/אגרות-קודש",
+				"file": "geelooy/אגרות-קודש/index.html",
+				"title": "Igeres HaKodesh — Awtsmoos.com",
+				"scripts": 0,
+				"styles": 1
+			}
+		],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	}
+]

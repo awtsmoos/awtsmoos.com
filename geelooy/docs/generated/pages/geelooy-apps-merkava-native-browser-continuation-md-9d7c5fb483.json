@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-merkava-native-browser-continuation-md-9d7c5fb483",
+	"title": "Merkava Android Browser — Continuation Handoff",
+	"sourcePath": "geelooy/apps/merkava-native-browser/CONTINUATION.md",
+	"category": "Apps",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Merkava Android Browser — Continuation Handoff",
+			"anchor": "merkava-android-browser-continuation-handoff"
+		},
+		{
+			"level": 2,
+			"text": "1. What was built",
+			"anchor": "1-what-was-built"
+		},
+		{
+			"level": 2,
+			"text": "2. Test results (on-device, real Pixel 6 Pro, 2026-10-09)",
+			"anchor": "2-test-results-on-device-real-pixel-6-pro-2026-10-09"
+		},
+		{
+			"level": 2,
+			"text": "3. Crash diagnosis — HONEST",
+			"anchor": "3-crash-diagnosis-honest"
+		},
+		{
+			"level": 2,
+			"text": "4. How to continue",
+			"anchor": "4-how-to-continue"
+		},
+		{
+			"level": 2,
+			"text": "5. Commits touching geelooy/apps/merkava-native-browser/",
+			"anchor": "5-commits-touching-geelooy-apps-merkava-native-browser"
+		},
+		{
+			"level": 2,
+			"text": "6. APK artifacts",
+			"anchor": "6-apk-artifacts"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-merkava-native-browser-continuation-md-9d7c5fb483-001.json"
+	]
+}

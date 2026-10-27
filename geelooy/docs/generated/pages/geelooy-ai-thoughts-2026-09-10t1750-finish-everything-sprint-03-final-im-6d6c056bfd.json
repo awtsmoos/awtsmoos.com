@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-10t1750-finish-everything-sprint-03-final-im-6d6c056bfd",
+	"title": "Final Implementation Plan",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-10T1750-finish-everything-sprint/03-final-implementation-plan.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Final Implementation Plan",
+			"anchor": "final-implementation-plan"
+		},
+		{
+			"level": 2,
+			"text": "Wave A — Close retention core",
+			"anchor": "wave-a-close-retention-core"
+		},
+		{
+			"level": 2,
+			"text": "Wave B — Global integration",
+			"anchor": "wave-b-global-integration"
+		},
+		{
+			"level": 2,
+			"text": "Wave C — Full verification",
+			"anchor": "wave-c-full-verification"
+		},
+		{
+			"level": 2,
+			"text": "Wave D — Reliability and economy",
+			"anchor": "wave-d-reliability-and-economy"
+		},
+		{
+			"level": 2,
+			"text": "Wave E — Workflow and product value",
+			"anchor": "wave-e-workflow-and-product-value"
+		},
+		{
+			"level": 2,
+			"text": "Wave F — Final audit",
+			"anchor": "wave-f-final-audit"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-10t1750-finish-everything-sprint-03-final-im-6d6c056bfd-001.json"
+	]
+}

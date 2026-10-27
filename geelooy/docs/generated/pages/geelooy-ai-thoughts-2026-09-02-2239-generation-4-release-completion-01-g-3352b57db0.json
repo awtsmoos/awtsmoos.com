@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-02-2239-generation-4-release-completion-01-g-3352b57db0",
+	"title": "Generation 4 — Gevurah Risk Map",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-02-2239-generation-4-release-completion/01-gevurah-risk-map.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Generation 4 — Gevurah Risk Map",
+			"anchor": "generation-4-gevurah-risk-map"
+		},
+		{
+			"level": 2,
+			"text": "Highest-risk failure modes",
+			"anchor": "highest-risk-failure-modes"
+		},
+		{
+			"level": 2,
+			"text": "Release doctrine",
+			"anchor": "release-doctrine"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-02-2239-generation-4-release-completion-01-g-3352b57db0-001.json"
+	]
+}

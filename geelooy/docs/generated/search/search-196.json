@@ -1,344 +1,36 @@
 [
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-games-ohr-hagnuz-e946b-5315f7a5b6",
-		"title": "Project Tutorial: B&quot;H — Ohr HaGnuz: The Concealed Frontier",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-ohr-hagnuz-e946b787.md",
-		"category": "Projects",
+		"id": "docs-generated-dynamic-parameters-dynamic-parameters-004-md-6fc94bf3cd",
+		"title": "Generated Dynamic Parameter Inventory 256–340",
+		"sourcePath": "docs/GENERATED/DYNAMIC_PARAMETERS/dynamic-parameters-004.md",
+		"category": "General",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: B&quot;H — Ohr HaGnuz: The Concealed Frontier",
-				"anchor": "project-tutorial-b-quot-h-ohr-hagnuz-the-concealed-frontier"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Generated Dynamic Parameter Inventory 256–340",
+				"anchor": "generated-dynamic-parameter-inventory-256-340"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: B&quot;H — Ohr HaGnuz: The Concealed Frontier Path: geelooy/games/ohr hagnuz · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observation",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: b&quot;h — ohr hagnuz: the concealed frontier path: geelooy/games/ohr hagnuz · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, package.json, documentation.md local documentation: geelooy/games/ohr hagnuz/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 700 89 0 0 1 3 793 public entry points /games/ohr hagnuz → geelooy/games/ohr hagnuz/index.html — b&quot;h — ohr hagnuz: the concealed frontier symbol evidence source files: 671; classes: 189; functions: 195; exports: 1124; samples: collisionmatrix, validates, encountervalidator, interactionvalidator, overworldlogic, portalvalidator, worldmapassembler, takes, encountergenerator, movementlogic, pathlogic, divinewill. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 89 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-ohr-hagnuz-e946b-5315f7a5b6.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Dynamic Parameter Inventory 256–340 Colon prefixed URL parameters are path grammar; dollar prefixed request vessels are not. URL pattern Source Discovery /api/social/node os/mount/assets/:alias geelooy/api/social/ awtsmoos.nodeOs.js static literal /api/social/node os/mount/enti",
+		"searchText": "b\"h boruch hashem blessed is he generated dynamic parameter inventory 256–340 colon prefixed url parameters are path grammar; dollar prefixed request vessels are not. url pattern source discovery /api/social/node os/mount/assets/:alias geelooy/api/social/ awtsmoos.nodeos.js static literal /api/social/node os/mount/entity/:type/:id geelooy/api/social/ awtsmoos.nodeos.js static literal /api/social/node os/nodes/:node geelooy/api/social/ awtsmoos.nodeos.js static literal /api/social/node os/nodes/:node/children geelooy/api/social/ awtsmoos.nodeos.js static literal /api/social/notifications/:alias geelooy/api/social/ awtsmoos.notifications.js static literal /api/social/notifications/:alias/:notification geelooy/api/social/ awtsmoos.notifications.js static literal /api/social/notifications/:alias/:notification/archive geelooy/api/social/ awtsmoos.notifications.js static literal /api/social/notifications/:alias/:notification/read geelooy/api/social/ awtsmoos.notifications.js static literal /api/social/notifications/:alias/poll geelooy/api/social/ awtsmoos.notifications.js static literal /api/social/notifications/:alias/preferences geelooy/api/social/ awtsmoos.notifications.js static literal /api/social/notifications/:alias/read/all geelooy/api/social/ awtsmoos.notifications.js static literal /api/social/notifications/:alias/unread/count geelooy/api/social/ awtsmoos.notifications.js static literal /api/social/notifications/digest/:alias geelooy/api/social/helper/platform/routes/platformruntimeroutes.js static literal /api/social/objects/:type/:id geelooy/api/social/ awtsmoos.objects.js static literal /api/social/objects/:type/:id/card geelooy/api/social/ awtsmoos.objects.js static literal /api/social/objects/:type/:id/inspect geelooy/api/social/ awtsmoos.objects.js static literal /api/social/objects/:type/:id/relationships geelooy/api/social/ awtsmoos.objects.js static literal /api/social/objects/:type/:id/timeline geelooy/api/social/ awtsmoos.objects.js static literal /api/social/objects/adapt/:adapter geelooy/api/social/ awtsmoos.objects.js static literal /api/social/qa/question/:question geelooy/api/social/helper/platform/routes/platformqaroutes.js static literal /api/social/qa/question/:question/answer geelooy/api/social/helper/platform/routes/platformqaroutes.js static literal /api/social/qa/question/:question/answers geelooy/api/social/helper/platform/routes/platformqaroutes.js static literal /api/social/qa/question/:question/best geelooy/api/social/helper/platform/routes/platformqaroutes.js static literal /api/social/reactions/:type/:id geelooy/api/social/ awtsmoos.reactions.js static literal /api/social/relationships/:alias geelooy/api/social/helper/platform/routes/platformlivediscoveryroutes.js static literal /api/social/relationships/:alias/:type/:target geelooy/api/social/helper/platform/routes/platformlivediscoveryroutes.js static literal /api/social/search/rag/comments/:comment geelooy/api/social/helper/search/routes/comments.js static literal /api/social/sync/pull/:alias geelooy/api/social/helper/platform/routes/platformruntimeroutes.js static literal /api/social/thoughts/:entitytype/:entityid geelooy/api/social/ awtsmoos.thoughts.js static literal /api/social/thoughts/:entitytype/:entityid/stats geelooy/api/social/ awtsmoos.thoughts.js static literal /api/social/thoughts/:thoughtid geelooy/api/social/ awtsmoos.thoughts.js static literal /api/social/thoughts/:thoughtid/reactions geelooy/api/social/ awtsmoos.thoughts.js static literal /api/social/thoughts/:thoughtid/replies geelooy/api/social/ awtsmoos.thoughts.js static literal /api/social/thoughts/thread/:thoughtid geelooy/api/social/ awtsmoos.thoughts.js static literal /api/social/unified social/activity/:alias geelooy/api/social/ awtsmoos.activityledger.js static literal /api/social/unified social/activity/:alias/events/:event geelooy/api/social/ awtsmoos.activityledger.js static literal /api/social/unified social/activity/:alias/export geelooy/api/social/ awtsmoos.activityledger.js static literal /api/social/unified social/activity/:alias/preferences geelooy/api/social/ awtsmoos.activityledger.js static literal /api/social/unified social/activity/:alias/shared geelooy/api/social/ awtsmoos.activityledger.js static literal /api/social/unified social/destinations/:heichel/:series geelooy/api/social/ awtsmoos.destinations.js static literal /api/social/unified social/heichelos/:heichel/access geelooy/api/social/ awtsmoos.destinations.js static literal /api/social/unified social/heichelos/:heichel/governance geelooy/api/social/ awtsmoos.membergovernance.js static literal /api/social/unified social/heichelos/:heichel/invitations geelooy/api/social/ awtsmoos.membergovernance.js static literal /api/social/unified social/heichelos/:heichel/invitations/:invitation/respond geelooy/api/social/ awtsmoos.membergovernance.js static literal /api/social/unified social/heichelos/:heichel/members geelooy/api/social/ awtsmoos.destinations.js static literal /api/social/unified social/heichelos/:heichel/members/:member geelooy/api/social/ awtsmoos.membergovernance.js static literal /api/social/unified social/heichelos/:heichel/review geelooy/api/social/ awtsmoos.reviewcenter.js static literal /api/social/unified social/heichelos/:heichel/review/:submission geelooy/api/social/ awtsmoos.reviewcenter.js static literal /api/social/unified social/heichelos/:heichel/series geelooy/api/social/ awtsmoos.destinations.js static literal /api/social/unified social/heichelos/:heichel/series/:series/placements geelooy/api/social/ awtsmoos.publishflow.js static literal /api/social/unified social/heichelos/:heichel/series/:series/policy geelooy/api/social/ awtsmoos.destinations.js static literal /api/social/unified social/interactions/comments/:comment/promote geelooy/api/social/ awtsmoos.interactionflow.js static literal /api/social/unified social/interactions/comments/:comment/promote preview geelooy/api/social/ awtsmoos.interactionflow.js static literal /api/social/unified social/interactions/posts/:post/embed comment geelooy/api/social/ awtsmoos.interactionflow.js static literal /api/social/unified social/profile hub/:alias geelooy/api/social/ awtsmoos.profilehub.js static literal /api/streaming/:connector geelooy/api/streaming/ awtsmoos.derech.js static literal /api/streaming/:connector/:action geelooy/api/streaming/ awtsmoos.derech.js static literal /api/text/timestamp/:jobid geelooy/api/text/ awtsmoos.derech.js static literal /api/text/timestamp/:jobid/result geelooy/api/text/ awtsmoos.derech.js static literal /api/tunnel/control/artifact/:token/:filename geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/artifact/binary/chunk/:id geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/artifact/binary/offset/:id geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/artifact/binary/private range/:id geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/blob/:blobid geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/blob/:blobid/manifest geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/blob/:blobid/view geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/ephemeral/:resultid geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/ephemeral/:resultid/delete geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/ephemeral/:resultid/page geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/ephemeral/:resultid/search geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/fs/:tunnelname geelooy/api/tunnel/control/ awtsmoos.derech.js static literal /api/tunnel/control/fs/:tunnelname geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/handoff/:tunnelname geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/lanes/simple/:filename geelooy/api/tunnel/control/ awtsmoos.derech.js static literal /api/tunnel/control/preview link/:tunnelname/:tokenid/:tail geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/preview/:tunnelname geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/transfer/get/:tunnelname geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/view/:previewid geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/view/:previewid/proxy geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/view/:previewid/raw geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/view/:previewid/ws geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/write large/:tunnelname geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/fs/:tunnelname geelooy/api/tunnel/ awtsmoos.derech.js static literal /api/tunnel/request/:tunnelname geelooy/api/tunnel/ awtsmoos.derech.js static literal /api/what/:are/you/:doing geelooy/api/core/legacyapidemoroutes.js static literal",
+		"page": "pages/docs-generated-dynamic-parameters-dynamic-parameters-004-md-6fc94bf3cd.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-games-oros-ha-kelim-07-e00926e4e0",
-		"title": "Project Tutorial: Oros HaKelim · Awtsmoos.com",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-oros-ha-kelim-070ea630.md",
-		"category": "Projects",
+		"id": "docs-generated-dynamic-parameters-dynamic-parameters-005-md-b269c99ec3",
+		"title": "Generated Dynamic Parameter Inventory 341–344",
+		"sourcePath": "docs/GENERATED/DYNAMIC_PARAMETERS/dynamic-parameters-005.md",
+		"category": "General",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: Oros HaKelim · Awtsmoos.com",
-				"anchor": "project-tutorial-oros-hakelim-awtsmoos-com"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Generated Dynamic Parameter Inventory 341–344",
+				"anchor": "generated-dynamic-parameter-inventory-341-344"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Oros HaKelim · Awtsmoos.com Path: geelooy/games/oros ha kelim · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: oros hakelim · awtsmoos.com path: geelooy/games/oros ha kelim · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, package.json, documentation.md, readme.md, readme.md local documentation: geelooy/games/oros ha kelim/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 59 14 0 0 3 0 76 public entry points /games/oros ha kelim → geelooy/games/oros ha kelim/index.html — oros hakelim · awtsmoos.com symbol evidence source files: 54; classes: 49; functions: 3; exports: 68; samples: installdebugbridge, collectruntimeerrors, frameconductor, creategameframeassembly, matchsession, orosgame, rendercoordinator, grid size, cell size, tick ms, round seconds, respawn ticks. depends on geelooy/libs — 11 lexical references; examples: geelooy/games/oros ha kelim/src/render/core/coregeometryfactory.js; geelooy/games/oros ha kelim/src/render/core/coregpuvessel.js; geelooy/games/oros ha kelim/src/render/core/coremesh.js used by none observed. external packages none observed. verification clue observed test classified files: 14 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-oros-ha-kelim-07-e00926e4e0.json"
-	},
-	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-games-party-7fcd4a78-m-f418a466b2",
-		"title": "Project Tutorial: Party Challenge — Awtsmoos Games",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-party-7fcd4a78.md",
-		"category": "Projects",
-		"provenance": "generated",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Project Tutorial: Party Challenge — Awtsmoos Games",
-				"anchor": "project-tutorial-party-challenge-awtsmoos-games"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Party Challenge — Awtsmoos Games Path: geelooy/games/party · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime own",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: party challenge — awtsmoos games path: geelooy/games/party · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, documentation.md local documentation: geelooy/games/party/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 15 0 0 0 1 0 16 public entry points /games/party → geelooy/games/party/index.html — party challenge — awtsmoos games symbol evidence source files: 8; classes: 1; functions: 22; exports: 21; samples: startchallenge, reloadcurrentturn, recordcurrentturn, activesession, begincurrentturn, finishchallenge, dom, setframegame, loadfreshturn, framegame, partygames, resolvepartygame. depends on geelooy/games/scripts — 1 lexical reference; examples: geelooy/games/party/js/game catalog.mjs used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-party-7fcd4a78-m-f418a466b2.json"
-	},
-	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-games-pong-d3953f2b-md-e368efa524",
-		"title": "Project Tutorial: Pong · Awtsmoos Games",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-pong-d3953f2b.md",
-		"category": "Projects",
-		"provenance": "generated",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Project Tutorial: Pong · Awtsmoos Games",
-				"anchor": "project-tutorial-pong-awtsmoos-games"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Pong · Awtsmoos Games Path: geelooy/games/pong · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or he",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: pong · awtsmoos games path: geelooy/games/pong · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, documentation.md local documentation: geelooy/games/pong/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 11 0 0 0 1 0 12 public entry points /games/pong → geelooy/games/pong/index.html — pong · awtsmoos games symbol evidence source files: 9; classes: 0; functions: 22; exports: 0; samples: createball, bindpongcontrols, clampedpaddley, getrandomemoji, resizecanvas, draw, formattedelapsedtime, gameloop, createpongupdater, update, increasespeedwithtime, handlepossiblepaddlecollision. depends on geelooy/games/scripts — 1 lexical reference; examples: geelooy/games/pong/js/wallet reward.mjs used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-pong-d3953f2b-md-e368efa524.json"
-	},
-	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-games-rambam-9b03ea55--b02fbdd7f5",
-		"title": "Project Tutorial: geelooy/games/rambam",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-rambam-9b03ea55.md",
-		"category": "Projects",
-		"provenance": "generated",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Project Tutorial: geelooy/games/rambam",
-				"anchor": "project-tutorial-geelooy-games-rambam"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/games/rambam Path: geelooy/games/rambam · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or h",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/games/rambam path: geelooy/games/rambam · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: — local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 1 0 0 0 0 0 1 public entry points /games/rambam/kiddushhachodesh/12 → geelooy/games/rambam/kiddushhachodesh/12/index.html — sun movement visualization symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-rambam-9b03ea55--b02fbdd7f5.json"
-	},
-	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-games-rebbe-runner-775-69c34745fa",
-		"title": "Project Tutorial: The Rebbe's Runner",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-rebbe-runner-775c456f.md",
-		"category": "Projects",
-		"provenance": "generated",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Project Tutorial: The Rebbe's Runner",
-				"anchor": "project-tutorial-the-rebbe-s-runner"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: The Rebbe's Runner Path: geelooy/games/rebbe runner · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership ",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: the rebbe's runner path: geelooy/games/rebbe runner · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 4 0 0 0 0 0 4 public entry points /games/rebbe runner → geelooy/games/rebbe runner/index.html — the rebbe's runner symbol evidence source files: 2; classes: 3; functions: 9; exports: 0; samples: player, obstacle, collectible, resizecanvas, drawroadlines, createbackground, init, drawbackground, animate, detectcollision, endgame, handlestart. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-rebbe-runner-775-69c34745fa.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Dynamic Parameter Inventory 341–344 Colon prefixed URL parameters are path grammar; dollar prefixed request vessels are not. URL pattern Source Discovery /api/wow/:asd/asd/:rt/k geelooy/api/core/LegacyApiDemoRoutes.js static literal /api/youtube/:a geelooy/api/youtube/ awtsmoos",
+		"searchText": "b\"h boruch hashem blessed is he generated dynamic parameter inventory 341–344 colon prefixed url parameters are path grammar; dollar prefixed request vessels are not. url pattern source discovery /api/wow/:asd/asd/:rt/k geelooy/api/core/legacyapidemoroutes.js static literal /api/youtube/:a geelooy/api/youtube/ awtsmoos.derech.js static literal /api/youtube/:a/:b geelooy/api/youtube/ awtsmoos.derech.js static literal /api/youtube/:a/:b/:c geelooy/api/youtube/ awtsmoos.derech.js static literal",
+		"page": "pages/docs-generated-dynamic-parameters-dynamic-parameters-005-md-b269c99ec3.json"
 	}
 ]

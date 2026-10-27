@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-25t2250-reader-revelation-05-runtime-evidenc-0a28a72d9c",
+	"title": "Runtime Evidence Delta",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-25T2250-reader-revelation/05_RUNTIME_EVIDENCE_DELTA.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Runtime Evidence Delta",
+			"anchor": "runtime-evidence-delta"
+		},
+		{
+			"level": 2,
+			"text": "Measured browser evidence",
+			"anchor": "measured-browser-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Proven root cause",
+			"anchor": "proven-root-cause"
+		},
+		{
+			"level": 2,
+			"text": "Secondary contract failure",
+			"anchor": "secondary-contract-failure"
+		},
+		{
+			"level": 2,
+			"text": "UX consequence",
+			"anchor": "ux-consequence"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-25t2250-reader-revelation-05-runtime-evidenc-0a28a72d9c-001.json"
+	]
+}

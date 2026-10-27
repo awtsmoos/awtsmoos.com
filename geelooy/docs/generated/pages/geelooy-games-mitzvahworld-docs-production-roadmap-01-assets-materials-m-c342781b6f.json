@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-docs-production-roadmap-01-assets-materials-m-c342781b6f",
+	"title": "Assets and Materials",
+	"sourcePath": "geelooy/games/mitzvahWorld/docs/production-roadmap/01-assets-materials.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Assets and Materials",
+			"anchor": "assets-and-materials"
+		},
+		{
+			"level": 2,
+			"text": "Immediate publication",
+			"anchor": "immediate-publication"
+		},
+		{
+			"level": 2,
+			"text": "Ingestion",
+			"anchor": "ingestion"
+		},
+		{
+			"level": 2,
+			"text": "AI discovery",
+			"anchor": "ai-discovery"
+		},
+		{
+			"level": 2,
+			"text": "Runtime materials",
+			"anchor": "runtime-materials"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-docs-production-roadmap-01-assets-materials-m-c342781b6f-001.json"
+	]
+}

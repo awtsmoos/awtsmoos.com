@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 38 | 0 | 0 | 0 | 1 | 0 | 39 |
+| 61 | 0 | 0 | 0 | 1 | 0 | 62 |
 
 ## Public entry points
 
@@ -29,11 +29,11 @@ Blessed is He
 
 ## Symbol evidence
 
-Source files: 35; classes: 32; functions: 16; exports: 61; samples: CONFIG, HEBREW_LETTERS, COLORS, SPRITES, AudioSynth, SETTINGS, WEAPONS, SOUNDS, SCALES, SEFIROT, TRAITS, SPELLS.
+Source files: 55; classes: 40; functions: 75; exports: 93; samples: CONFIG, HEBREW_LETTERS, COLORS, SPRITES, AudioSynth, SETTINGS, WEAPONS, SOUNDS, SCALES, SEFIROT, TRAITS, SPELLS.
 
 ## Depends on
 
-None observed.
+- `geelooy/libs` — 7 lexical references; examples: geelooy/games/kabbalah-shooter/js/runtime/KabbalahNative3DRenderer.js; geelooy/games/kabbalah-shooter/js/runtime/kabbalah-native-3d-meshes.js; geelooy/games/kabbalah-shooter/js/runtime/kabbalah-native-3d-pool.js
 
 ## Used by
 

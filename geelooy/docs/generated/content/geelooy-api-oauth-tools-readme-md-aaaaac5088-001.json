@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — OAuth tools (`/api/oauth/tools/`)\n\nSmall shared helpers for the OAuth routes.\n\n- `bodyParser.js` — Parse request bodies.\n- `requestData.js` — Extract request data.\n- `respond.js` — Response helpers.\n- `html.js` — HTML escaping/building.\n- `urls.js` — URL builders.\n"
+}

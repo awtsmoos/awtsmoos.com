@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Admin API (`/api/admin/`)\n\nPrivileged administrative operations. Dangerous capabilities are gated behind\nexplicit auth checks — never mistaken for ordinary state.\n\n## Files\n\n- `_awtsmoos.derech.js` — Route registration.\n- `DOCUMENTATION.md` — Full admin API documentation.\n\n## Routes\n\n| Method | Path | Purpose |\n| --- | --- | --- |\n| `POST` | `/api/admin/code` | Execute JS in a sandbox (restricted to account `asdf` only). |\n\nThe `/code` route runs submitted code via `vm` with a timeout. Any other\naccount gets `{\"er\": \"No auth\"}`.\n\n## See also\n\n- `../../../docs/API/OTHER_FAMILIES.md`\n- `../../../docs/API/AUTHENTICATION.md`\n- `../../../docs/HEALTH.md`\n"
+}

@@ -1,0 +1,181 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-09-02-0240-real-public-sitemap-release-06-final-af40397382",
+		"title": "Final Planned vs Actual",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-02-0240-real-public-sitemap-release/06-final-planned-vs-actual.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Final Planned vs Actual",
+				"anchor": "final-planned-vs-actual"
+			},
+			{
+				"level": 2,
+				"text": "Planned",
+				"anchor": "planned"
+			},
+			{
+				"level": 2,
+				"text": "Actual",
+				"anchor": "actual"
+			},
+			{
+				"level": 3,
+				"text": "Delta 1 — deep sitemap recursion rejected",
+				"anchor": "delta-1-deep-sitemap-recursion-rejected"
+			},
+			{
+				"level": 3,
+				"text": "Delta 2 — release verifier repaired",
+				"anchor": "delta-2-release-verifier-repaired"
+			},
+			{
+				"level": 2,
+				"text": "Verification actually completed",
+				"anchor": "verification-actually-completed"
+			},
+			{
+				"level": 2,
+				"text": "Remaining delta",
+				"anchor": "remaining-delta"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Final Planned vs Actual The Awtsmoos turns plan into vessel, then tests the vessel against the sea; Awtsmoos.com reached a smaller, faster crawl design than the first map imagined to be. Planned give Google a root sitemap door; make Heichel and Road content visible without client JavaScr",
+		"searchText": "b\"h boruch hashem blessed is he final planned vs actual the awtsmoos turns plan into vessel, then tests the vessel against the sea; awtsmoos.com reached a smaller, faster crawl design than the first map imagined to be. planned give google a root sitemap door; make heichel and road content visible without client javascript; generate canonical post metadata; expose crawlable hierarchy links; ship the result through canonical main and production release; preserve concurrent local work. actual all planned outcomes were achieved, with two material architecture improvements discovered during execution. delta 1 — deep sitemap recursion rejected the first deep per heichel sitemap implementation was measured at 30–120+ seconds and could monopolize a verifier. it was removed completely. the final architecture is faster and more standards native: robots.txt → sitemap seeds → public heichel html → series html → stable named post html. ordinary links carry depth; the sitemap seeds discovery instead of rebuilding the whole torah graph synchronously. delta 2 — release verifier repaired production activation revealed a separate tunnel agent manifest defect. rather than bypassing the release guard, the authoritative manifest was regenerated and its dedicated release suite was passed before production was allowed to switch. verification actually completed source syntax/import/xml checks; heichel quality suite over 1,261 files; 135 route api contract suite; release zip/runtime probe; 23/23 tunnel release tests; isolated/local real data raw http acceptance; direct canonical public https acceptance; numeric vs named torah body identity; missing post noindex proof; browser navigation shadow proof; final local main/origin main equality; test server cleanup. remaining delta no implementation, release, verification, or repository reconciliation delta remains for this mission. google and other search engines still control their own crawl scheduling, indexing decisions, and cache refresh timing. that is external system latency, not unfinished repository work.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-02-0240-real-public-sitemap-release-06-final-af40397382.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-02-0240-real-public-sitemap-release-07-brows-2553a119a8",
+		"title": "Browser Shadow Proof",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-02-0240-real-public-sitemap-release/07-browser-shadow-proof.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Browser Shadow Proof",
+				"anchor": "browser-shadow-proof"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Browser Shadow Proof The Awtsmoos lets raw source carry the Torah before the browser may dance; Awtsmoos.com then hydrates the same Road, adding life without stealing the crawler's chance. The public Road was navigated in the owned Chrome target after production deployment. Observed brow",
+		"searchText": "b\"h boruch hashem blessed is he browser shadow proof the awtsmoos lets raw source carry the torah before the browser may dance; awtsmoos.com then hydrates the same road, adding life without stealing the crawler's chance. the public road was navigated in the owned chrome target after production deployment. observed browser title: בפ' נסכים ikar awtsmoos the chrome evaluation completed without exception and returned that live document title. the raw public html proof remains the primary seo evidence because search crawlability must not depend on javascript. earlier isolated browser hydration testing also preserved the server rendered torah without fatal javascript errors.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-02-0240-real-public-sitemap-release-07-brows-2553a119a8.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-02-0240-real-public-sitemap-release-remainin-965f6312ba",
+		"title": "REMAININGWORK — Completion Ledger",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-02-0240-real-public-sitemap-release/REMAINING_WORK-02.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "REMAININGWORK — Completion Ledger",
+				"anchor": "remainingwork-completion-ledger"
+			},
+			{
+				"level": 2,
+				"text": "Remaining safe useful work",
+				"anchor": "remaining-safe-useful-work"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He REMAINING WORK — Completion Ledger The Awtsmoos drew every known unfinished thread into tested public light; Awtsmoos.com now closes this mission with implementation, release, and verification aligned right. [x] Make public /robots.txt real and correctly typed. [x] Make public /sitemap.x",
+		"searchText": "b\"h boruch hashem blessed is he remaining work — completion ledger the awtsmoos drew every known unfinished thread into tested public light; awtsmoos.com now closes this mission with implementation, release, and verification aligned right. [x] make public /robots.txt real and correctly typed. [x] make public /sitemap.xml real, valid xml, and correctly typed. [x] make /heichelos/sitemap.xml a fast privacy filtered public seed map. [x] remove unsafe expensive recursive sitemap generation. [x] server render heichel semantic fallback and crawlable series links. [x] server render road torah before javascript. [x] resolve numeric road position to stable named post canonical. [x] emit indexable metadata for valid teachings. [x] emit noindex,follow for unavailable teachings. [x] prove numeric and named teaching bodies are identical. [x] repair static .txt and .xml mime handling. [x] pass heichel quality and route contract suites. [x] repair stale tunnel release manifest with repo native generator. [x] pass 2,442 file release coverage and zip/runtime probe. [x] pass 23/23 tunnel release tests. [x] reach canonical production origin. [x] pass full direct public https crawl/ssr acceptance. [x] confirm browser navigation reaches the live road title. [x] reconcile local main and origin/main without changing unrelated dirty bytes. [x] confirm final local and origin sha equality at 8c9dfc9ba4a4942c3042c6141fba20fa7d833b8e. [x] stop the last owned local verifier; older owned verifiers were already terminal. [x] record planned vs actual delta and production evidence. remaining safe useful work none for this mission. search engine crawl scheduling, indexing decisions, and cache propagation are external asynchronous behavior. the public origin is now crawlable and ready for those systems. next action: none — completion gate satisfied.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-02-0240-real-public-sitemap-release-remainin-965f6312ba.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-02-0240-real-public-sitemap-release-remainin-92912813ec",
+		"title": "REMAININGWORK",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-02-0240-real-public-sitemap-release/REMAINING_WORK.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "REMAININGWORK",
+				"anchor": "remainingwork"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He REMAINING WORK [x] Confirm public /sitemap.xml currently fails. [x] Confirm canonical local path and live tunnel. [x] Fresh fetch origin/main and observe local main/origin divergence. [x] Confirm SEO files remain local modified/untracked. [ ] Inventory exact SEO diff and dependencies aga",
+		"searchText": "b\"h boruch hashem blessed is he remaining work [x] confirm public /sitemap.xml currently fails. [x] confirm canonical local path and live tunnel. [x] fresh fetch origin/main and observe local main/origin divergence. [x] confirm seo files remain local modified/untracked. [ ] inventory exact seo diff and dependencies against local committed main. [ ] re read current seo source and release scripts. [ ] build isolated release worktree from current local main. [ ] copy only approved whole seo files. [ ] pass isolated static tests and relevant route tests. [ ] pass isolated runtime seo acceptance. [ ] fresh fetch and prove fast forward publication safety. [ ] commit exact release set. [ ] fast forward canonical local main safely. [ ] push exact main commit to origin. [ ] deploy exact pushed sha to production. [ ] verify public robots, root sitemap, heichel sitemap, heichel hierarchy, named post canonical, road ssr, and missing post noindex. [ ] confirm local main, origin/main, and production sha agree. [ ] write final planned vs actual and completion evidence.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-02-0240-real-public-sitemap-release-remainin-92912813ec.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-02-0340-sitewide-public-indexing-00-boundles-a6c09b8003",
+		"title": "Boundless Brainstorm — Every Public Revelation Becomes Searchable",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-02-0340-sitewide-public-indexing/00-boundless-brainstorm.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Boundless Brainstorm — Every Public Revelation Becomes Searchable",
+				"anchor": "boundless-brainstorm-every-public-revelation-becomes-searchable"
+			},
+			{
+				"level": 2,
+				"text": "Mission universe",
+				"anchor": "mission-universe"
+			},
+			{
+				"level": 2,
+				"text": "Architectural possibilities",
+				"anchor": "architectural-possibilities"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Boundless Brainstorm — Every Public Revelation Becomes Searchable The Awtsmoos recreates every public word in every instant, and Awtsmoos.com should not hide that light behind a JavaScript veil; comments, translations, aliases, games, apps, Torah, tools, and public pages must leave a sem",
+		"searchText": "b\"h boruch hashem blessed is he boundless brainstorm — every public revelation becomes searchable the awtsmoos recreates every public word in every instant, and awtsmoos.com should not hide that light behind a javascript veil; comments, translations, aliases, games, apps, torah, tools, and public pages must leave a semantic trail. mission universe every public heichel and series. every public post and road route. every public comment and nested reply, including translated/english rendering where public data supplies it. every public alias profile and alias display name. every public awtsmoos app landing page. every public game and game landing page. every ordinary public content page currently reachable through awtsmoos navigation. every canonical url should provide meaningful title, description, h1/body/link semantics without depending on client javascript. search discovery must be scalable: sitemap indexes/seed maps where appropriate, ordinary html links for depth, and no synchronous whole database recursion. private, draft, editor, admin, action only, api only, authenticated, destructive, ephemeral, and internal routes must not be indexed. architectural possibilities 1. one giant root sitemap enumerating every url. 2. sitemap index split by surface family. 3. generated static sitemap shards during release. 4. dynamic family sitemaps backed by bounded direct datastore reads. 5. search index driven sitemap exports. 6. semantic server rendered discovery hubs plus bounded sitemaps. 7. canonical resource pages for comments/replies where no stable page exists today. 8. server render comments inside their parent post only, with fragment anchors. 9. hybrid: canonical comment anchors on parent pages + optional dedicated comment routes only where already supported. 10. app/game registry based sitemap generation from actual route/catalog sources. the winning architecture should combine stable public route catalogs, bounded family sitemaps, semantic ssr, and crawlable html graph edges.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-02-0340-sitewide-public-indexing-00-boundles-a6c09b8003.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-02-0340-sitewide-public-indexing-01-first-re-9576be2434",
+		"title": "First Realistic Plan — Chesed Meets Gevurah",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-02-0340-sitewide-public-indexing/01-first-realistic-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "First Realistic Plan — Chesed Meets Gevurah",
+				"anchor": "first-realistic-plan-chesed-meets-gevurah"
+			},
+			{
+				"level": 2,
+				"text": "Discovery first",
+				"anchor": "discovery-first"
+			},
+			{
+				"level": 2,
+				"text": "Likely implementation families",
+				"anchor": "likely-implementation-families"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He First Realistic Plan — Chesed Meets Gevurah The Awtsmoos gives without limit, yet Gevurah shapes the vessel so Awtsmoos.com remains fast, private, and true; we index every public revelation, but never leak internal actions merely because a crawler can ask them too. Discovery first 1. Inv",
+		"searchText": "b\"h boruch hashem blessed is he first realistic plan — chesed meets gevurah the awtsmoos gives without limit, yet gevurah shapes the vessel so awtsmoos.com remains fast, private, and true; we index every public revelation, but never leak internal actions merely because a crawler can ask them too. discovery first 1. inventory all awtsmoos.derech.js route maps and top level static public directories. 2. trace alias routes/templates/api helpers. 3. trace comment/reply routes/templates/data shapes and translation fields. 4. trace apps catalog/registry and game catalog/registry. 5. trace root navigation and static page routing. 6. identify publication/privacy gates for each domain. 7. compare raw public html for representative routes against client rendered meaning. likely implementation families geelooy/seo/ shared canonical/xml/semantic helpers. root sitemap index/url set expanded to all public surface families. alias sitemap + alias server metadata. app/game sitemap based on canonical registries. comment ssr module loaded into post initial html, including public translation text and alias attribution. semantic crawl links from alias pages to public authored content and from posts to comments/replies only through stable anchors/routes. no code until route/data contracts are read.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-02-0340-sitewide-public-indexing-01-first-re-9576be2434.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-02-0340-sitewide-public-indexing-02-critique-5c25d34cf9",
+		"title": "Critique — Twenty Ways the First Plan Could Fail",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-02-0340-sitewide-public-indexing/02-critique-and-improvements.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Critique — Twenty Ways the First Plan Could Fail",
+				"anchor": "critique-twenty-ways-the-first-plan-could-fail"
+			},
+			{
+				"level": 2,
+				"text": "Improvements",
+				"anchor": "improvements"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Critique — Twenty Ways the First Plan Could Fail The Awtsmoos tears false certainty from the wall; Awtsmoos.com must survive scale, privacy, duplicate URLs, and crawler call. 1. A sitemap may expose private aliases. 2. A sitemap may expose unpublished Heichel content. 3. Comments may hav",
+		"searchText": "b\"h boruch hashem blessed is he critique — twenty ways the first plan could fail the awtsmoos tears false certainty from the wall; awtsmoos.com must survive scale, privacy, duplicate urls, and crawler call. 1. a sitemap may expose private aliases. 2. a sitemap may expose unpublished heichel content. 3. comments may have no stable canonical route. 4. comment translations may be computed client side from data not stored publicly. 5. nested replies may form deep or cyclic structures. 6. alias names may need escaping and fallback rules. 7. apps may include internal/debug/admin tools. 8. games may be static folders without registry metadata. 9. static pages may be aliases/redirect duplicates. 10. synchronous global enumeration may overload production. 11. sitemaps may exceed 50,000 urls or 50 mb. 12. comment text may contain markup needing safe semantic rendering. 13. search snippets may accidentally include moderation/private metadata. 14. url casing/encoding may generate duplicate canonicals. 15. existing client actions may expect empty ssr containers and break hydration. 16. translation fields may need language markers (lang, alternate text headings). 17. comments deleted after sitemap generation may create stale urls. 18. alias ownership and author display apis may be slower than content reads. 19. root crawl graph may orphan app/game pages even if sitemap listed. 20. a deployment may ship sitemap code without production runtime manifest coverage. improvements prefer seed maps and semantic links over deep recursive enumeration. create explicit public policy adapters per content family. use data catalogs already serving ui whenever possible. keep comment indexing parent scoped if stable standalone urls do not exist. give comments deterministic anchors from ids. render translations as visible semantic sibling blocks when supplied by public data. batch alias lookups and avoid n+1 requests. add sitemap sharding abstractions before family counts can exceed limits. include explicit noindex handling for missing/deleted resources. test both raw html and hydrated page stability.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-02-0340-sitewide-public-indexing-02-critique-5c25d34cf9.json"
+	}
+]

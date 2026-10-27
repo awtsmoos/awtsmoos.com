@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 11 | 0 | 0 | 0 | 1 | 0 | 12 |
+| 15 | 0 | 0 | 0 | 1 | 0 | 16 |
 
 ## Public entry points
 
@@ -29,11 +29,11 @@ Blessed is He
 
 ## Symbol evidence
 
-Source files: 9; classes: 0; functions: 22; exports: 0; samples: createBall, bindPongControls, clampedPaddleY, getRandomEmoji, resizeCanvas, draw, formattedElapsedTime, gameLoop, createPongUpdater, update, increaseSpeedWithTime, handlePossiblePaddleCollision.
+Source files: 13; classes: 0; functions: 51; exports: 0; samples: createBall, bindPongControls, moveToPointer, clampedPaddleY, createPongCourt, resize, buildStars, centerActors, scorePulse, tip, draw, drawArena.
 
 ## Depends on
 
-- `geelooy/games/scripts` — 1 lexical reference; examples: geelooy/games/pong/js/wallet-reward.mjs
+- `geelooy/games/scripts` — 1 lexical reference; examples: geelooy/games/pong/js/wallet-reward.js
 
 ## Used by
 

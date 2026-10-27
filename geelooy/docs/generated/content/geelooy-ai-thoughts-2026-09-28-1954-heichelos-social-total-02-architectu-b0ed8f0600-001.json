@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H Architecture\n\nikar HTML → semantic fallback → critical-boot → ikar-stable.boot → ikar-first.boot\nikar-first now hydrates empty identity via /api/social/heichelos/:id and /series\nseries cards use /heichelos/:id/series/:seriesId (200 on local)\nsocial styles stay imported under .awtsmoos-social-root\nreader auto-scroll modules already own Start/Stop river\n"
+}

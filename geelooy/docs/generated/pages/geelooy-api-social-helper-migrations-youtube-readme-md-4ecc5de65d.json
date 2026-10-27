@@ -1,0 +1,24 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-social-helper-migrations-youtube-readme-md-4ecc5de65d",
+	"title": "B\"H — YouTube Migration (geelooy/api/social/helper/migrations/youtube/)",
+	"sourcePath": "geelooy/api/social/helper/migrations/youtube/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — YouTube Migration (geelooy/api/social/helper/migrations/youtube/)",
+			"anchor": "b-h-youtube-migration-geelooy-api-social-helper-migrations-youtube"
+		},
+		{
+			"level": 2,
+			"text": "Files",
+			"anchor": "files"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-social-helper-migrations-youtube-readme-md-4ecc5de65d-001.json"
+	]
+}

@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-admin-readme-md-fdc43fa81f",
+	"title": "B\"H — Admin API (/api/admin/)",
+	"sourcePath": "geelooy/api/admin/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Admin API (/api/admin/)",
+			"anchor": "b-h-admin-api-api-admin"
+		},
+		{
+			"level": 2,
+			"text": "Files",
+			"anchor": "files"
+		},
+		{
+			"level": 2,
+			"text": "Routes",
+			"anchor": "routes"
+		},
+		{
+			"level": 2,
+			"text": "See also",
+			"anchor": "see-also"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-admin-readme-md-fdc43fa81f-001.json"
+	]
+}

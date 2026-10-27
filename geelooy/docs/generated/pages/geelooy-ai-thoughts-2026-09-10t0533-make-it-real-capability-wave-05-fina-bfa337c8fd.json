@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-10t0533-make-it-real-capability-wave-05-fina-bfa337c8fd",
+	"title": "Final Radiance Implementation Plan",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-10T0533-make-it-real-capability-wave/05-final-radiance-plan.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Final Radiance Implementation Plan",
+			"anchor": "final-radiance-implementation-plan"
+		},
+		{
+			"level": 2,
+			"text": "Server Truth",
+			"anchor": "server-truth"
+		},
+		{
+			"level": 2,
+			"text": "Exactly-Once Ownership",
+			"anchor": "exactly-once-ownership"
+		},
+		{
+			"level": 2,
+			"text": "Files",
+			"anchor": "files"
+		},
+		{
+			"level": 2,
+			"text": "Immediate Follow-On",
+			"anchor": "immediate-follow-on"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-10t0533-make-it-real-capability-wave-05-fina-bfa337c8fd-001.json"
+	]
+}

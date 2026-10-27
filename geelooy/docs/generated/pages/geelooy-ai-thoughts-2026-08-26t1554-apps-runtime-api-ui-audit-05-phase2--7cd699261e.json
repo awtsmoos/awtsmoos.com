@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-26t1554-apps-runtime-api-ui-audit-05-phase2--7cd699261e",
+	"title": "Phase 2 — Improved Executable File Plan",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-26T1554-apps-runtime-api-ui-audit/05_PHASE2_IMPROVED_FILE_PLAN.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase 2 — Improved Executable File Plan",
+			"anchor": "phase-2-improved-executable-file-plan"
+		},
+		{
+			"level": 2,
+			"text": "Files and Areas To Read Before Any Production Rewrite",
+			"anchor": "files-and-areas-to-read-before-any-production-rewrite"
+		},
+		{
+			"level": 2,
+			"text": "Files We May Create If Evidence Supports Them",
+			"anchor": "files-we-may-create-if-evidence-supports-them"
+		},
+		{
+			"level": 2,
+			"text": "Files We May Rewrite If Root Cause Requires Them",
+			"anchor": "files-we-may-rewrite-if-root-cause-requires-them"
+		},
+		{
+			"level": 2,
+			"text": "Required Complete-File Rewrite Rules",
+			"anchor": "required-complete-file-rewrite-rules"
+		},
+		{
+			"level": 2,
+			"text": "Test Artifacts To Add Or Update",
+			"anchor": "test-artifacts-to-add-or-update"
+		},
+		{
+			"level": 2,
+			"text": "Deployment Files To Inspect Before Touching",
+			"anchor": "deployment-files-to-inspect-before-touching"
+		},
+		{
+			"level": 2,
+			"text": "NEXTACTION",
+			"anchor": "nextaction"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-26t1554-apps-runtime-api-ui-audit-05-phase2--7cd699261e-001.json"
+	]
+}

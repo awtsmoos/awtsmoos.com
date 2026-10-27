@@ -1,0 +1,24 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-zmanim-lib-readme-md-e0e2b79e27",
+	"title": "B\"H — Zmanim Lib (geelooy/api/zmanim/lib/)",
+	"sourcePath": "geelooy/api/zmanim/lib/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Zmanim Lib (geelooy/api/zmanim/lib/)",
+			"anchor": "b-h-zmanim-lib-geelooy-api-zmanim-lib"
+		},
+		{
+			"level": 2,
+			"text": "Services",
+			"anchor": "services"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-zmanim-lib-readme-md-e0e2b79e27-001.json"
+	]
+}

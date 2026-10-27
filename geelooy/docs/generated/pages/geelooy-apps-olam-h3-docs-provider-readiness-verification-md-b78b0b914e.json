@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-olam-h3-docs-provider-readiness-verification-md-b78b0b914e",
+	"title": "Provider Readiness Verification",
+	"sourcePath": "geelooy/apps/olam-h3/docs/provider-readiness-verification.md",
+	"category": "Apps",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Provider Readiness Verification",
+			"anchor": "provider-readiness-verification"
+		},
+		{
+			"level": 2,
+			"text": "Why this patch exists",
+			"anchor": "why-this-patch-exists"
+		},
+		{
+			"level": 2,
+			"text": "Implemented behavior",
+			"anchor": "implemented-behavior"
+		},
+		{
+			"level": 2,
+			"text": "Automated evidence",
+			"anchor": "automated-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Deterministic browser evidence",
+			"anchor": "deterministic-browser-evidence"
+		},
+		{
+			"level": 2,
+			"text": "External boundary",
+			"anchor": "external-boundary"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-olam-h3-docs-provider-readiness-verification-md-b78b0b914e-001.json"
+	]
+}

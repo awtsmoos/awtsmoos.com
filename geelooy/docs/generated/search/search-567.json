@@ -1,0 +1,136 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-ui-styles-readme-md-f1f68e985c",
+		"title": "Localized UI Style Architecture",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/styles/README.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Localized UI Style Architecture",
+				"anchor": "localized-ui-style-architecture"
+			},
+			{
+				"level": 2,
+				"text": "Core contract",
+				"anchor": "core-contract"
+			},
+			{
+				"level": 2,
+				"text": "Localization rules",
+				"anchor": "localization-rules"
+			},
+			{
+				"level": 2,
+				"text": "Layer rules",
+				"anchor": "layer-rules"
+			},
+			{
+				"level": 2,
+				"text": "Viewport rules",
+				"anchor": "viewport-rules"
+			},
+			{
+				"level": 2,
+				"text": "Interaction rules",
+				"anchor": "interaction-rules"
+			},
+			{
+				"level": 2,
+				"text": "Animation rules",
+				"anchor": "animation-rules"
+			},
+			{
+				"level": 2,
+				"text": "File-size rule",
+				"anchor": "file-size-rule"
+			},
+			{
+				"level": 2,
+				"text": "Current manifests",
+				"anchor": "current-manifests"
+			},
+			{
+				"level": 2,
+				"text": "Verification",
+				"anchor": "verification"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Localized UI Style Architecture The Awtsmoos recreates every garment without confusing it with the soul beneath; Awtsmoos.com composes each UI family through small localized fragments so beauty may expand without conflict or grief. Core contract Every style family has three layers: 1. In",
+		"searchText": "b\"h boruch hashem blessed is he localized ui style architecture the awtsmoos recreates every garment without confusing it with the soul beneath; awtsmoos.com composes each ui family through small localized fragments so beauty may expand without conflict or grief. core contract every style family has three layers: 1. installer — a tiny javascript facade extending yesodstylesheetinstaller. 2. manifest — one css file containing ordered @import statements only. 3. fragments — small authored css modules named by one visual responsibility. this replaces giant javascript template strings and repair layer overrides. localization rules shared/component css must be rooted beneath its owner. current canonical roots include: .awtsmoos gameplay mitzvah world root for page owned npc/status surfaces .mitzvah combat host .awtsmoos menu in launcher styles do not add shared selectors for :root, html, or body. a standalone html document may define its own document root only inside that isolated page's style system. layer rules do not scatter arbitrary z index values across fragments. foundation modules publish named layer tokens; consumers use them. if a new semantic layer is genuinely required, add a named token in the owning foundation and document its relationship to existing layers. viewport rules design mobile portrait first. use dynamic viewport units where overlays/sheets depend on viewport height. respect env(safe area inset ). bound panels with max width / max height and internal scrolling. hidden surfaces must leave pointer and focus flow, not merely become transparent. short landscape requires its own height constraints. interaction rules every relevant control should define intentional states for: rest :hover when hover exists :active :focus visible disabled/unavailable selected/expanded/open when semantic reduced motion state differences should not depend on color alone when urgency or availability matters. animation rules prefer transform, opacity, filter, and composited effects. avoid animation that continuously changes layout geometry. keep motion short and purposeful; honor prefers reduced motion. file size rule if an authored source reaches the 120 line boundary, split by responsibility. never solve the limit by minifying declarations, collapsing functions, or deleting useful documentation. current manifests gameplay/gameplay ui.css responsive/responsive gameplay.css actionbar/action bar.css each manifest should remain tiny enough that import order and ownership can be understood immediately. verification before considering a style family change complete: 1. run its localization test. 2. run the shared direct world css test. 3. search for accidental global selectors and !important. 4. check authored line limits. 5. inspect real mobile portrait and short landscape geometry. 6. confirm drawers/tooltips/dialogs remain fully in bounds. 7. confirm focus, pointer, and hidden state behavior. one root, one layer covenant, one clear state machine: the infinite light of the awtsmoos deserves finite css whose boundaries stay pristine.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-ui-styles-readme-md-f1f68e985c.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-botany-directo-6e1617a5bb",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/botany/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/src/world/botany",
+				"anchor": "directory-guide-experiments-awtsmoos-src-world-botany"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Exported symbols worth searching",
+				"anchor": "exported-symbols-worth-searching"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/world/botany Role: World systems Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 10 files, 0 structural child directories Purpose Botanical generation, flower or plant geometry, and botany specific world rul",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/world/botany role: world systems snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 10 files, 0 structural child directories purpose botanical generation, flower or plant geometry, and botany specific world rules. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: world systems search terms: botanical, village, species, reference, through, arrival, canonical, com, composition, deterministic, district, placements file mix: .js: 9 good first question: “does the behavior or asset i need belong to world systems, or is this only a neighboring/test/reference layer?” semantic evidence b\"h joins thousands of botanical triangles into six material vessels. the garden keeps its many species while draw calls rest in the unity of awtsmoos. measures botanical sites against canonical roads, homes, water, slope, and access. the awtsmoos joins each blossom to the village around it; awtsmoos.com records every boundary so deterministic abundance becomes lived ecology rather than flowers thrown through walls. distributes canonical species through one budgeted, spatially verified composition. the awtsmoos renews gardens through measured district relationships; awtsmoos.com keeps primary species, arrival beds, and repeated color masses deterministic, clear, and bounded. representative files villagebotanicalbatchassembler.js — joins thousands of botanical triangles into six material vessels. the garden keeps its many species while draw calls rest in the unity of awtsmoos. exports: assemblevillagebotanicalbatches, botanicalbatchstats. villagebotanicalclearance.js — measures botanical sites against canonical roads, homes, water, slope, and access. the awtsmoos joins each blossom to the village around it; awtsmoos.com records every boundary so deterministic abundance becomes lived ecology rather than flowers thrown through walls. exports: botanicalsiteevidence. villagebotanicalcomposition.js — distributes canonical species through one budgeted, spatially verified composition. the awtsmoos renews gardens through measured district relationships; awtsmoos.com keeps primary species, arrival beds, and repeated color masses deterministic, clear, and bounded. exports: createvillagebotanicalcomposition. villagebotanicaldiagnostics.js — counts the living garden by species, district, family, and role. evidence keeps the many honest before the indivisible awtsmoos. exports: summarizevillagebotanicalplacements. villagebotanicalplacement.js — places deterministic plants through the canonical spatial truth policy. the awtsmoos renews abundance as relationship rather than clutter; awtsmoos.com binds every bloom to clear ground, district purpose, ecology, access, and a fixed frame budget. exports: createreferencebotanicalplacement. villagebotanicalquality.js — holds measured garden budgets for deterministic district composition. the awtsmoos renews abundance without hidden discarded work; awtsmoos.com names every featured bed, repeated mass, cluster, placement, and triangle before geometry generation. exports: village botanical quality, villagebotanicalquality. villagebotanicalsitepolicy.js — finds the nearest valid deterministic site around an authored botanical intention. the awtsmoos does not discard the gardener's purpose when one point is occupied; awtsmoos.com searches outward in bounded rings until village and ecology agree. exports: resolvebotanicalsite. villagebotanicalspeciesprofiles.js — curates the flowers that form the reference image's strongest color masses. every catalog species still appears; these return as repeated notes in the garden song through which the awtsmoos clothes the mountain. exports: referencerepeatspecies, referencespeciesscale, referencespeciesrole. villagefeaturedarrivalplacements.js — places featured beds beside the authored arrival lane through one site policy. the awtsmoos welcomes the traveler with color without blocking road, river, or sightline; awtsmoos.com keeps each paired bed near its authored anchor and inside measured village truth. exports: appendfeaturedarrivalplacements. exported symbols worth searching assemblevillagebotanicalbatches · botanicalbatchstats · botanicalsiteevidence · createvillagebotanicalcomposition · summarizevillagebotanicalplacements · createreferencebotanicalplacement · village botanical quality · villagebotanicalquality · resolvebotanicalsite · referencerepeatspecies · referencespeciesscale · referencespeciesrole · appendfeaturedarrivalplacements import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ../village/villagebotanicalpalette.js ../village/canonicalvillagefootprints.js ../village/canonicalvillagebiomes.js ../village/canonicalvillageroads.js ../village/villageriverpath.js ../village/villagereferencecomposition.js ../../../../../../../libs/awtsmoos procedural core/src/index.js ./villagebotanicaldiagnostics.js ./villagefeaturedarrivalplacements.js ./villagebotanicalplacement.js ./villagebotanicalquality.js ./villagebotanicalspeciesprofiles.js directory map parent: experiments/awtsmoos/src/world children: none. related and overlapping systems vegetation, trees, and forest systems — botany rules, tree generation, forest composition, grass, and source texture libraries overlap semantically but own different layers. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-botany-directo-6e1617a5bb.json"
+	}
+]

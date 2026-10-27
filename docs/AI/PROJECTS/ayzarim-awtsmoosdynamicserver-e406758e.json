@@ -23,19 +23,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-awtsmoosdynamicserver-e406758e.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 826,
-		"tests": 207,
+		"source": 994,
+		"tests": 306,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
-		"other": 1
+		"other": 4
 	},
-	"totalFiles": 1035,
+	"totalFiles": 1305,
 	"symbolSummary": {
-		"files": 826,
-		"classes": 227,
-		"functions": 2248,
-		"exports": 2002,
+		"files": 994,
+		"classes": 239,
+		"functions": 2768,
+		"exports": 2540,
 		"samples": [
 			"DependencyInjector",
 			"greet",
@@ -54,13 +54,23 @@
 	"outgoingDependencies": [
 		{
 			"project": "geelooy/api/tunnel",
-			"count": 11,
+			"count": 12,
 			"examples": "ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/channel.js; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/channelSnapshot.js; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomUpgradeFakes.cjs"
 		},
 		{
+			"project": "ayzarim/DosDB",
+			"count": 8,
+			"examples": "ayzarim/awtsmoosDynamicServer/projectHosting/ProjectDatabaseBoundedKeys.js; ayzarim/awtsmoosDynamicServer/server/deps.js; ayzarim/awtsmoosDynamicServer/server/initDb.js"
+		},
+		{
 			"project": "geelooy/api/social",
-			"count": 6,
-			"examples": "ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/integrationGateway.js; ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/meaningfulActivity.js; ayzarim/awtsmoosDynamicServer/websocket/apps/universalChat/activityAdapter.js"
+			"count": 7,
+			"examples": "ayzarim/awtsmoosDynamicServer/server/searchStartupWarmup.js; ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/integrationGateway.js; ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/meaningfulActivity.js"
+		},
+		{
+			"project": "ayzarim/email",
+			"count": 3,
+			"examples": "ayzarim/awtsmoosDynamicServer/server/deps.js; ayzarim/awtsmoosDynamicServer/websocket/apps/forms/emailNotifications.js"
 		},
 		{
 			"project": "ayzarim/tools",
@@ -68,9 +78,14 @@
 			"examples": "ayzarim/awtsmoosDynamicServer/server/deps.js"
 		},
 		{
-			"project": "ayzarim/email",
-			"count": 2,
-			"examples": "ayzarim/awtsmoosDynamicServer/server/deps.js"
+			"project": "geelooy/apps/tunnel",
+			"count": 3,
+			"examples": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/actionAliases.js; ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/instructionCatalog.js; ayzarim/awtsmoosDynamicServer/zipBundles/sourceResolver.js"
+		},
+		{
+			"project": "geelooy/seo",
+			"count": 3,
+			"examples": "ayzarim/awtsmoosDynamicServer/static/PublicCatalogInventoryRecords.js; ayzarim/awtsmoosDynamicServer/static/PublicCatalogSeoMetadata.js; ayzarim/awtsmoosDynamicServer/static/PublicHtmlSeo.js"
 		},
 		{
 			"project": "geelooy/api/ohr-hagnuz",
@@ -78,26 +93,31 @@
 			"examples": "ayzarim/awtsmoosDynamicServer/websocket/apps/ohrHagnuz/AuthenticatedWorldTestHarness.cjs; ayzarim/awtsmoosDynamicServer/websocket/apps/ohrHagnuz/auth/GameTicketConsumer.js"
 		},
 		{
-			"project": "geelooy/apps/tunnel",
-			"count": 2,
-			"examples": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/actionAliases.js; ayzarim/awtsmoosDynamicServer/zipBundles/sourceResolver.js"
-		},
-		{
 			"project": "ayzarim/awtsmoos.config.json",
 			"count": 1,
 			"examples": "ayzarim/awtsmoosDynamicServer/server/deps.js"
 		},
 		{
-			"project": "ayzarim/DosDB",
+			"project": "geelooy/api/platform",
 			"count": 1,
-			"examples": "ayzarim/awtsmoosDynamicServer/server/deps.js"
+			"examples": "ayzarim/awtsmoosDynamicServer/static/HtmlProductMetadata.js"
 		}
 	],
 	"incomingDependencies": [
 		{
+			"project": "geelooy/apps/android-emulator",
+			"count": 6,
+			"examples": "geelooy/apps/android-emulator/node/localTcpRelay/clientSession.cjs; geelooy/apps/android-emulator/node/localTcpRelay/frameHandling.cjs; geelooy/apps/android-emulator/node/localTcpRelay/server.cjs"
+		},
+		{
 			"project": "geelooy/api/social",
 			"count": 5,
 			"examples": "geelooy/api/social/helper/drive/projectDatabaseService.js; geelooy/api/social/helper/drive/projectRuntimeMaterializer.js; geelooy/api/social/helper/drive/routes/projectHostingRoutes.js"
+		},
+		{
+			"project": "geelooy/api/tunnel",
+			"count": 3,
+			"examples": "geelooy/api/tunnel/_awtsmoos.derech.js; geelooy/api/tunnel/control/core/respond.js; geelooy/api/tunnel/control/routes/fsVessel/tunnelClient.js"
 		},
 		{
 			"project": "geelooy/api/projectHosting",
@@ -105,9 +125,14 @@
 			"examples": "geelooy/api/projectHosting/planRoute.js; geelooy/api/projectHosting/runtimeRoutes.js"
 		},
 		{
-			"project": "geelooy/api/tunnel",
+			"project": "geelooy/heichelos",
 			"count": 1,
-			"examples": "geelooy/api/tunnel/control/routes/fsVessel/tunnelClient.js"
+			"examples": "geelooy/heichelos/routes/friendlyIds/friendlyDerech.js"
+		},
+		{
+			"project": "geelooy/platform",
+			"count": 1,
+			"examples": "geelooy/platform/products/readiness/ProductReadinessAudit.cjs"
 		},
 		{
 			"project": "geelooy/sites",
@@ -118,8 +143,8 @@
 	"externalDependencies": [
 		{
 			"dependency": "ws",
-			"count": 3,
-			"examples": "ayzarim/awtsmoosDynamicServer/websocket/apps/chess/realtimeTestClient.js; ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/socketIntegrationFixture.cjs; ayzarim/awtsmoosDynamicServer/websocket/apps/universalChat/realtimeTestClient.js"
+			"count": 2,
+			"examples": "ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/socketIntegrationFixture.cjs; ayzarim/awtsmoosDynamicServer/websocket/apps/universalChat/realtimeTestClient.js"
 		}
 	],
 	"publicEntries": [],

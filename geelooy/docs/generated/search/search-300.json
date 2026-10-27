@@ -1,312 +1,214 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-movies-directory-guide-md-9c1ae6d7bb",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/movies/DIRECTORY_GUIDE.md",
-		"category": "Games",
+		"id": "geelooy-ai-thoughts-2026-08-25t1914-all-pages-extreme-04-first-implement-de122f5953",
+		"title": "First Implementation File Map",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25T1914-all-pages-extreme/04_FIRST_IMPLEMENTATION_FILE_MAP.md",
+		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: movies",
-				"anchor": "directory-guide-movies"
+				"text": "First Implementation File Map",
+				"anchor": "first-implementation-file-map"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Read before rewrite",
+				"anchor": "read-before-rewrite"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Probable first rewrites after evidence",
+				"anchor": "probable-first-rewrites-after-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Verification artifacts",
+				"anchor": "verification-artifacts"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Data keys observed",
-				"anchor": "data-keys-observed"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: movies Role: Movies Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 7 files, 3 structural child directories Purpose Movie projects, generated evidence, manifests, and tool entry points. The Awtsmoos renews every path and every artif",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: movies role: movies snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 7 files, 3 structural child directories purpose movie projects, generated evidence, manifests, and tool entry points. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: movies search terms: 30s, chossid, journey, json, movie, mp4, browser, ffprobe, guide, jpg, maker, master file mix: .json: 2 · .webm: 1 · .jpg: 1 · .mp4: 1 good first question: “does the behavior or asset i need belong to movies, or is this only a neighboring/test/reference layer?” semantic evidence b\"h b\"h — mitzvah world movie maker representative files readme.md — b\"h — mitzvah world movie maker chossid journey 30s browser master.webm — a .webm artifact in this directory. chossid journey 30s poster.jpg — a .jpg artifact in this directory. chossid journey 30s.mp4 — a .mp4 artifact in this directory. chossid journey 30s.mp4.ffprobe.json — a .json artifact in this directory. movie project.schema.json — a .json artifact in this directory. data keys observed output · project · source · sha256 · dialogues · probe · $schema · $id · title · type · required · properties · $defs directory map parent: . children: movies/evidence movies/projects movies/tools existing markdown: readme.md related and overlapping systems movie runtime, projects, tools, and evidence — runtime movie logic is separated from authored projects, exact generation tools, and captured evidence. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-movies-directory-guide-md-9c1ae6d7bb.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He First Implementation File Map Read before rewrite geelooy/social hub/styles/future hygiene.css geelooy/social hub/styles/future interaction baseline.css geelooy/social hub/styles/mobile.css geelooy/social hub/styles/mobile narrow.css geelooy/social hub/styles/desktop retraction.css geelo",
+		"searchText": "b\"h boruch hashem blessed is he first implementation file map read before rewrite geelooy/social hub/styles/future hygiene.css geelooy/social hub/styles/future interaction baseline.css geelooy/social hub/styles/mobile.css geelooy/social hub/styles/mobile narrow.css geelooy/social hub/styles/desktop retraction.css geelooy/social hub/styles/interaction disclosure.css geelooy/social hub/styles/surface contract.css geelooy/social hub/js/main.js and appassembly selector contracts before html structural changes. geelooy/index.html and geelooy/index.css. geelooy/docs/index.html plus local style manifest/modules. geelooy/drive/index.html plus shell/layout style modules. probable first rewrites after evidence no file below is authorized solely because it appears here. it becomes a rewrite target only if the full read proves the listed debt. social hub local hygiene/interaction modules: overflow, local layers, complete state transitions. social hub index.html: readability and progressive disclosure while preserving ids. home index.css: route root localization if naked document selectors remain. docs route local shell modules: mobile disclosure and focus hygiene. drive route local shell modules: narrow screen pane retraction and scroll ownership. verification artifacts route family browser screenshots/snapshots. scrollwidth <= innerwidth checks. interactive focus/open/active state checks. console/network error checks. existing route tests. whole file readback and line count checks. next action read the seven social hub style modules named above and its main assembly selector contracts; then write only the minimum coherent set of whole file replacements required to close actual gaps.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25t1914-all-pages-extreme-04-first-implement-de122f5953.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-movies-evidence-chossid-journey-30s-corrected-1c9a2d651f",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/movies/evidence/chossid-journey-30s-corrected/DIRECTORY_GUIDE.md",
-		"category": "Games",
+		"id": "geelooy-ai-thoughts-2026-08-25t1915-extreme-social-revelation-01-chesed--241eeb071f",
+		"title": "Chesed — Extreme Product Field",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25T1915-extreme-social-revelation/01_CHESED_EXTREME_PRODUCT_FIELD.md",
+		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: movies/evidence/chossid-journey-30s-corrected",
-				"anchor": "directory-guide-movies-evidence-chossid-journey-30s-corrected"
+				"text": "Chesed — Extreme Product Field",
+				"anchor": "chesed-extreme-product-field"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Mission",
+				"anchor": "mission"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Desired experience",
+				"anchor": "desired-experience"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Data keys observed",
-				"anchor": "data-keys-observed"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Extreme extensions",
+				"anchor": "extreme-extensions"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: movies/evidence/chossid journey 30s corrected Role: Movies Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 11 files, 0 structural child directories Purpose Evidence artifacts for the corrected 30 second Chossid journey movie. The Aw",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: movies/evidence/chossid journey 30s corrected role: movies snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 11 files, 0 structural child directories purpose evidence artifacts for the corrected 30 second chossid journey movie. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: movies search terms: jpg, frame, txt, 14s, 17s, 24s, 29s, audio, chossid journey 30s corrected, contact, evidence, ffprobe file mix: .jpg: 7 · .txt: 2 · .json: 1 good first question: “does the behavior or asset i need belong to movies, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files audio levels.txt — a .txt artifact in this directory. contact sheet.jpg — a .jpg artifact in this directory. frame 14s.jpg — a .jpg artifact in this directory. frame 17s.jpg — a .jpg artifact in this directory. frame 1s.jpg — a .jpg artifact in this directory. frame 24s.jpg — a .jpg artifact in this directory. frame 29s.jpg — a .jpg artifact in this directory. frame 8s.jpg — a .jpg artifact in this directory. independent ffprobe.json — a .json artifact in this directory. sha256.txt — a .txt artifact in this directory. data keys observed programs · stream groups · streams · format directory map parent: movies/evidence children: none. related and overlapping systems movie runtime, projects, tools, and evidence — runtime movie logic is separated from authored projects, exact generation tools, and captured evidence. boundaries and cautions these files record observations or outputs; they do not own the behavior they describe. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-movies-evidence-chossid-journey-30s-corrected-1c9a2d651f.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Chesed — Extreme Product Field The Awtsmoos renews the whole social palace before one pixel can grow old; Awtsmoos.com should feel calm at first touch, yet unfold impossible depth when called. Mission Turn every Geelooy social surface into one coherent mobile first system: feed, Social H",
+		"searchText": "b\"h boruch hashem blessed is he chesed — extreme product field the awtsmoos renews the whole social palace before one pixel can grow old; awtsmoos.com should feel calm at first touch, yet unfold impossible depth when called. mission turn every geelooy social surface into one coherent mobile first system: feed, social hub, profile, aliases, heichelos, series reader, posts, comments, notifications, composer, editors, review, and developer observability. desired experience one dominant human action per local context. secondary power retracts into native disclosure, sheet, or contextual rail. search and filtering appear where lists become mentally heavy. empty, loading, failure, retry, disabled, pending, and success states are designed states. interaction feedback is tactile but never causes layout shift. advanced provenance/api evidence remains available without replacing human language. touch targets survive 320px widths and safe area insets. keyboard focus remains visible, logical, and restored after transient ui closes. motion clarifies hierarchy and state; reduced motion remains first class. css is locally rooted and imported through deliberate manifests only. javascript becomes data driven, class based where lifecycle exists, and split by real responsibility. extreme extensions capability search across every social hub doorway. context aware action ranking instead of permanent action walls. heichel quality signals so incomplete machine like records recede visually. reader shell that can collapse typography, commentary, navigation, and identity controls into calm islands. alias identity switcher that treats identity as context, not chrome. result normalization that separates transport truth from human meaning. shared z layer and safe area systems inherited by every social surface. observable runtime health panels for developers without polluting ordinary user flows.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25t1915-extreme-social-revelation-01-chesed--241eeb071f.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-movies-evidence-directory-guide-md-b9250c0f20",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/movies/evidence/DIRECTORY_GUIDE.md",
-		"category": "Games",
+		"id": "geelooy-ai-thoughts-2026-08-25t1915-extreme-social-revelation-02-gevurah-df7f1bdeb6",
+		"title": "Gevurah — Architecture and File Boundaries",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25T1915-extreme-social-revelation/02_GEVURAH_ARCHITECTURE_AND_FILES.md",
+		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: movies/evidence",
-				"anchor": "directory-guide-movies-evidence"
+				"text": "Gevurah — Architecture and File Boundaries",
+				"anchor": "gevurah-architecture-and-file-boundaries"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Immediate correction tranche",
+				"anchor": "immediate-correction-tranche"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Shared-social hardening tranche",
+				"anchor": "shared-social-hardening-tranche"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Native Social Hub tranche",
+				"anchor": "native-social-hub-tranche"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
+				"text": "Reader tranche",
+				"anchor": "reader-tranche"
 			},
 			{
 				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Heichelos/profile/aliases tranche",
+				"anchor": "heichelos-profile-aliases-tranche"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: movies/evidence Role: Movies Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 1 files, 1 structural child directories Purpose Rendered or captured evidence grouped by movie run. The Awtsmoos renews every path and every artifact from ",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: movies/evidence role: movies snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 1 files, 1 structural child directories purpose rendered or captured evidence grouped by movie run. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: movies search terms: evidence, guide, movies file mix: .md: 1 good first question: “does the behavior or asset i need belong to movies, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files no immediate files. this directory is an organizational parent; follow the child guides below. directory map parent: movies children: movies/evidence/chossid journey 30s corrected related and overlapping systems movie runtime, projects, tools, and evidence — runtime movie logic is separated from authored projects, exact generation tools, and captured evidence. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-movies-evidence-directory-guide-md-b9250c0f20.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Gevurah — Architecture and File Boundaries The Awtsmoos gives no independent power to any module or line; Awtsmoos.com becomes stronger when each vessel guards one contract by design. Immediate correction tranche Split SocialExperienceInstaller.js into installer facade, stylesheet regist",
+		"searchText": "b\"h boruch hashem blessed is he gevurah — architecture and file boundaries the awtsmoos gives no independent power to any module or line; awtsmoos.com becomes stronger when each vessel guards one contract by design. immediate correction tranche split socialexperienceinstaller.js into installer facade, stylesheet registry, and ambient lifecycle coordinator. keep installsocialexperience, style sheets, release, resolvedocument, ensurestyle, and startambient externally available through compatibility exports. keep every rewritten executable source file under 120 lines where possible. preserve .awtsmoossocialexperience as the single shared style ownership root. shared social hardening tranche inspect and, if touched, fully rewrite: ui/identityminisheet.js ui/socialgestureadapter.js ui/universaladdsheet.js their call sites and tests potential extra vessels: ui/sheetdialogfactory.js ui/sheetfocuslifecycle.js gestures/gevurahswipepolicy.js gestures/chaigesturesession.js native social hub tranche after shared primitives verify: create native capability catalog with only real routemodel destinations add capability center controller/view/plugin modules import capability center css through existing social hub style manifest mount through hubapp or assembly lifecycle only after exact call site tracing reader tranche trace exact template/import graph before editing: extract inline critical css split global menu state/view/controller split unread mail indicator preserve existing ids and awtsmoosaliaschange heichelos/profile/aliases tranche trace data normalizers, ranking, card renderers, and identity context before changing ui. prefer source backed quality signaling over cosmetic reordering.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25t1915-extreme-social-revelation-02-gevurah-df7f1bdeb6.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-movies-projects-directory-guide-md-fd6ac0e425",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/movies/projects/DIRECTORY_GUIDE.md",
-		"category": "Games",
+		"id": "geelooy-ai-thoughts-2026-08-25t1915-extreme-social-revelation-03-tiferes-369396d876",
+		"title": "Tiferes — Thirty Corrections Before Expansion",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25T1915-extreme-social-revelation/03_TIFERES_CRITIQUE_30.md",
+		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: movies/projects",
-				"anchor": "directory-guide-movies-projects"
-			},
-			{
-				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
-			},
-			{
-				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
-			},
-			{
-				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Data keys observed",
-				"anchor": "data-keys-observed"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Tiferes — Thirty Corrections Before Expansion",
+				"anchor": "tiferes-thirty-corrections-before-expansion"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: movies/projects Role: Movies Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 5 files, 0 structural child directories Purpose Authored movie project definitions and timelines. The Awtsmoos renews every path and every artifact from no",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: movies/projects role: movies snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 5 files, 0 structural child directories purpose authored movie project definitions and timelines. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: movies search terms: json, shlichus, village, 120s, 180s, 30s, 60s, chossid, emerald, guide, journey, movies file mix: .json: 4 · .md: 1 good first question: “does the behavior or asset i need belong to movies, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files chossid journey 30s.json — a .json artifact in this directory. emerald village shlichus 180s.json — a .json artifact in this directory. reference village 60s.json — a .json artifact in this directory. tefillin shlichus 120s.json — a .json artifact in this directory. data keys observed version · title · duration · fps · resolution · seed · render · tracks · characters · viewmode · camerarigs · materialgraphs · sequences directory map parent: movies children: none. related and overlapping systems movie runtime, projects, tools, and evidence — runtime movie logic is separated from authored projects, exact generation tools, and captured evidence. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-movies-projects-directory-guide-md-fd6ac0e425.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Tiferes — Thirty Corrections Before Expansion The Awtsmoos joins abundance and boundary until the interface breathes in time; Awtsmoos.com should make technical rigor and human ease reveal the same design. 1. Split any touched source file above the architectural size boundary. 2. Replace",
+		"searchText": "b\"h boruch hashem blessed is he tiferes — thirty corrections before expansion the awtsmoos joins abundance and boundary until the interface breathes in time; awtsmoos.com should make technical rigor and human ease reveal the same design. 1. split any touched source file above the architectural size boundary. 2. replace compressed callbacks in touched shared social modules. 3. preserve every existing public export unless all consumers are migrated. 4. preserve canonical social hub route ids exactly. 5. keep external observatory navigation explicitly external. 6. keep discovery components mutation free. 7. keep mutation handlers injected and observable. 8. make pending action state keyboard and screen reader visible. 9. restore disabled state correctly after async actions. 10. preserve aria pressed state for toggle like actions. 11. prevent duplicate installer ownership per document. 12. prevent duplicate listener attachment on repeated mounts. 13. keep all shared selectors rooted beneath .awtsmoossocialexperience. 14. keep social hub only selectors beneath .social hub document. 15. reject accidental 100vw component sizing. 16. use dynamic viewport units only with bounded fallbacks where needed. 17. replace literal z index escalation with local layer tokens. 18. respect safe area insets for fixed mobile ui. 19. ensure flex/grid children declare min inline size: 0 where text may grow. 20. keep hover enhancement behind hover capable media queries. 21. give every relevant control visible :focus visible and :active states. 22. honor prefers reduced motion for every new animation. 23. preserve forced colors legibility for custom controls. 24. use textcontent or trusted descriptors instead of innerhtml. 25. keep raw api evidence available after human normalization. 26. re read all written files from disk rather than trusting write payloads. 27. search all touched files for leading space indentation. 28. run syntax/import tests only after the coherent code tranche is complete. 29. browser test narrow mobile, wide mobile, tablet, and desktop. 30. convert every planned versus actual delta into new remaining work before stopping.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25t1915-extreme-social-revelation-03-tiferes-369396d876.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-movies-readme-md-67bc694a6f",
-		"title": "B\"H — Mitzvah World Movie Maker",
-		"sourcePath": "geelooy/games/mitzvahWorld/movies/README.md",
-		"category": "Games",
+		"id": "geelooy-ai-thoughts-2026-08-25t1915-extreme-social-revelation-04-final-e-842a645385",
+		"title": "Final Execution Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25T1915-extreme-social-revelation/04_FINAL_EXECUTION_PLAN.md",
+		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H — Mitzvah World Movie Maker",
-				"anchor": "b-h-mitzvah-world-movie-maker"
+				"text": "Final Execution Plan",
+				"anchor": "final-execution-plan"
 			},
 			{
 				"level": 2,
-				"text": "Entry routes",
-				"anchor": "entry-routes"
+				"text": "Phase A — close our own shared-social delta",
+				"anchor": "phase-a-close-our-own-shared-social-delta"
 			},
 			{
 				"level": 2,
-				"text": "NLE tracks",
-				"anchor": "nle-tracks"
+				"text": "Phase B — shared primitive cleanup",
+				"anchor": "phase-b-shared-primitive-cleanup"
 			},
 			{
 				"level": 2,
-				"text": "Editing",
-				"anchor": "editing"
+				"text": "Phase C — native capability center",
+				"anchor": "phase-c-native-capability-center"
 			},
 			{
 				"level": 2,
-				"text": "Browser output",
-				"anchor": "browser-output"
+				"text": "Phase D — reader extraction",
+				"anchor": "phase-d-reader-extraction"
 			},
 			{
 				"level": 2,
-				"text": "Final MP4",
-				"anchor": "final-mp4"
-			},
-			{
-				"level": 2,
-				"text": "Included film",
-				"anchor": "included-film"
+				"text": "Phase E — expansion",
+				"anchor": "phase-e-expansion"
 			}
 		],
-		"excerpt": "B\"H — Mitzvah World Movie Maker The Movie Maker directs the real Mitzvah World renderer, actors, houses, trees, doors, cameras, animations, subtitles, audio, and scene visibility from one JSON project. Entry routes /games/mitzvahWorld/ opens the short launcher menu. /games/mitzvahWorld/?mode=world enters normal gamepla",
-		"searchText": "b\"h — mitzvah world movie maker the movie maker directs the real mitzvah world renderer, actors, houses, trees, doors, cameras, animations, subtitles, audio, and scene visibility from one json project. entry routes /games/mitzvahworld/ opens the short launcher menu. /games/mitzvahworld/?mode=world enters normal gameplay directly. /games/mitzvahworld/?mode=movie&movie=sample30 opens the included 30 second project. movie= opens an encoded project. moviejson= opens raw json. movieurl=/path/project.json fetches a project. autorender=1 starts rendering after the studio is ready. nle tracks scene applies labels, color grades, transitions, and object visibility maps. actor targets player or npc. clips support move, pose, talk, and jump, named animations, facing targets, positions, jump height, and easing. door targets a real door definition id and interpolates its open amount from zero to one. camera contains cinematic shots with eased position and target paths. targets may be explicit points or live actors. dialogue draws timed speaker subtitles and supplies speech text to post production. audio schedules score and event tones into the browser capture stream. editing the studio contains a track based timeline, clip lanes, scrub playhead, preview, json editor, apply json button, get url generator, and render + download button. the json schema is movie project.schema.json. the complete example is projects/chossid journey 30s.json. browser output the real tiny renderer draws the world into its webgl canvas. movieoverlay composites that frame into a deterministic output canvas with scene grading, title cards, shot labels, transitions, and subtitles. movierecorder captures the output canvas with mediarecorder, preferring vp8/opus webm. webaudio is included when the browser allows the context to run. final mp4 run: the finalizer reads dialogue directly from the project json, creates speaker voices with macos say, mixes them over browser audio, normalizes the movie to the requested duration and frame rate, and writes h.264/aac mp4 plus an ffprobe json report. included film chossid journey 30s.mp4 is the accepted final movie. it contains a chossid walking, running, speaking to another person, approaching and passing through the real main house front door, running inside, jumping, and finishing under a rising crane camera. verified properties: 30.000 seconds 960 × 540 24 fps 720 h.264 frames aac stereo at 48 khz four spoken dialogue cues full video/audio decode without errors the browser master, final mp4, poster, probe report, and sampled frame evidence are retained in this folder.",
-		"page": "pages/geelooy-games-mitzvahworld-movies-readme-md-67bc694a6f.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Final Execution Plan The Awtsmoos renews the road before the traveler takes the next pace; Awtsmoos.com should let every refactor leave less confusion and more usable space. Phase A — close our own shared social delta 1. Trace all imports/exports of SocialExperienceInstaller.js. 2. Split",
+		"searchText": "b\"h boruch hashem blessed is he final execution plan the awtsmoos renews the road before the traveler takes the next pace; awtsmoos.com should let every refactor leave less confusion and more usable space. phase a — close our own shared social delta 1. trace all imports/exports of socialexperienceinstaller.js. 2. split stylesheet definitions from ambient startup and installer lifecycle. 3. rewrite the installer facade completely around those modules. 4. re read all three files and verify each remains focused and compact. phase b — shared primitive cleanup 5. read identityminisheet.js, universaladdsheet.js, socialgestureadapter.js fully. 6. trace consumers and tests before changing any public contract. 7. rewrite complete files and split genuine responsibilities into smaller modules. 8. keep all sheet ui rooted in the shared social experience and use the common dom factory. 9. preserve action semantics, focus lifecycle, and gesture cleanup contracts. phase c — native capability center 10. reconcile staged capability catalog with current native routemodel.js. 11. create native modules inside social hub with real route ids only. 12. add one localized css import to the existing social hub manifest. 13. mount through verified hubapp/appassembly lifecycle without editing monolithic html. phase d — reader extraction 14. locate exact reader template and all linked scripts/styles. 15. extract inline critical styles into localized reader shell imports. 16. split menu state/view/controller and unread mail indicator. 17. replace literal layer values with reader local z tokens and safe area rules. 18. preserve existing ids, events, reader data flows, and post/commentary behavior. phase e — expansion 19. inspect heichelos data/ranking/card source and improve information quality hierarchy. 20. inspect profile/alias identity flows and collapse advanced identity controls progressively. 21. inspect comments, notifications, composer, and editors for the same shared primitives. 22. run syntax, import, focused tests, then browser/mobile/runtime verification. 23. re read touched files, compare planned versus actual, and continue through every discovered delta.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25t1915-extreme-social-revelation-04-final-e-842a645385.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-25t1915-extreme-social-revelation-remaining--060f979596",
+		"title": "REMAINING WORK",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25T1915-extreme-social-revelation/REMAINING_WORK.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "REMAINING WORK",
+				"anchor": "remaining-work"
+			},
+			{
+				"level": 2,
+				"text": "Shared social",
+				"anchor": "shared-social"
+			},
+			{
+				"level": 2,
+				"text": "Social Hub",
+				"anchor": "social-hub"
+			},
+			{
+				"level": 2,
+				"text": "Reader",
+				"anchor": "reader"
+			},
+			{
+				"level": 2,
+				"text": "Other social surfaces",
+				"anchor": "other-social-surfaces"
+			},
+			{
+				"level": 2,
+				"text": "Verification",
+				"anchor": "verification"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He REMAINING WORK The Awtsmoos renews what remains before completion can pretend to be near; Awtsmoos.com keeps every unresolved vessel named so the next action stays clear. Shared social [ ] trace installer imports and compatibility exports [ ] split oversized installer into focused module",
+		"searchText": "b\"h boruch hashem blessed is he remaining work the awtsmoos renews what remains before completion can pretend to be near; awtsmoos.com keeps every unresolved vessel named so the next action stays clear. shared social [ ] trace installer imports and compatibility exports [ ] split oversized installer into focused modules [ ] reread installer split from disk [ ] inspect identityminisheet.js [ ] inspect universaladdsheet.js [ ] inspect socialgestureadapter.js [ ] rewrite shared primitive debt without changing public contracts [ ] inspect shared primitive tests [ ] add/update tests only after code tranche is complete social hub [ ] reconcile native capability center against current routemodel.js [ ] inspect hubapp/appassembly mount lifecycle [ ] integrate capability center modules [ ] import locally scoped capability center css [ ] verify no duplicate mount/listeners reader [ ] locate exact source template [ ] trace inline menu/unread scripts and css [ ] extract localized reader shell styles [ ] extract menu state/view/controller [ ] extract unread indicator [ ] replace literal z layers with local tokens other social surfaces [ ] inspect heichelos ranking/data/card source [ ] inspect profile/aliases identity context [ ] inspect comments/thread actions [ ] inspect notifications states [ ] inspect composer/editor interaction density verification [ ] all touched files under architectural size boundary where sensible [ ] tabs only in touched source [ ] no compressed meaningful logic [ ] syntax/import checks [ ] focused tests [ ] browser console/network checks [ ] 320px/390px/tablet/desktop overflow checks [ ] keyboard/focus verification [ ] reduced motion verification [ ] planned vs actual delta review next action: trace installer consumers and split the oversized installer before expanding scope.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25t1915-extreme-social-revelation-remaining--060f979596.json"
 	}
 ]

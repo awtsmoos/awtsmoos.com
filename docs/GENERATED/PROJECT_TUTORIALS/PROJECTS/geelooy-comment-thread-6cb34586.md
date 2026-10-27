@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 20 | 2 | 0 | 0 | 1 | 0 | 23 |
+| 56 | 6 | 0 | 0 | 1 | 0 | 63 |
 
 ## Public entry points
 
@@ -29,10 +29,12 @@ Blessed is He
 
 ## Symbol evidence
 
-Source files: 18; classes: 3; functions: 44; exports: 18; samples: async, uploadMalchusCommentAsset, createCommentReactionRail, createYesodContextPanel, coordinateField, textAreaField, YesodManifestStore, ManifestStore, createChesedMediaPicker, createHodReferencePicker, referenceManifest, textField.
+Source files: 43; classes: 18; functions: 85; exports: 72; samples: revealCommentThread, async, uploadCommentVideo, uploadNativeCommentAsset, uploadMalchusCommentAsset, CommentAudioPlayer, finiteTime, formatTime, buildCommentAudioPlayer, actionButton, createCommentReactionRail, commentActionModel.
 
 ## Depends on
 
+- `geelooy/shared` — 8 lexical references; examples: geelooy/comment-thread/modules/AssetVaultClient.js; geelooy/comment-thread/modules/CommentUniversalActions.js; geelooy/comment-thread/modules/ContextPanel.js
+- `geelooy/scripts` — 1 lexical reference; examples: geelooy/comment-thread/modules/ThreadContextPublisher.js
 - `geelooy/social-actions` — 1 lexical reference; examples: geelooy/comment-thread/modules/CommentReaction.js
 
 ## Used by
@@ -45,4 +47,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **2**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **6**. Treat this as file evidence, not proof of behavioral coverage.

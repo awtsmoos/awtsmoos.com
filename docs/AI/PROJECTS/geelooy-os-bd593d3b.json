@@ -9,7 +9,7 @@
 		"id": "public",
 		"title": "Public and Other Boundaries"
 	},
-	"title": "Geelooy OS — Files, AwtsmoosDB, Runtime & Control",
+	"title": "Geelooy OS — Awtsmoos Workspace",
 	"entries": [
 		"index.html",
 		"DOCUMENTATION.md"
@@ -22,19 +22,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-os-bd593d3b.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 648,
-		"tests": 79,
+		"source": 819,
+		"tests": 107,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
-		"other": 1
+		"other": 2
 	},
-	"totalFiles": 729,
+	"totalFiles": 929,
 	"symbolSummary": {
-		"files": 595,
-		"classes": 60,
-		"functions": 1887,
-		"exports": 1112,
+		"files": 732,
+		"classes": 80,
+		"functions": 2426,
+		"exports": 1346,
 		"samples": [
 			"for",
 			"AwtsmoosDB",
@@ -53,7 +53,7 @@
 	"outgoingDependencies": [
 		{
 			"project": "geelooy/shared",
-			"count": 54,
+			"count": 58,
 			"examples": "geelooy/os/programs/advanced-code-editor/compilerBridge.js; geelooy/os/programs/advanced-code-editor/embedConfiguration.js; geelooy/os/programs/advanced-code-editor/vfsBridge.js"
 		},
 		{
@@ -70,6 +70,26 @@
 			"project": "geelooy/apps/android-emulator",
 			"count": 2,
 			"examples": "geelooy/os/programs/awtsmoos-executable/android-web/apkWebDocument.js; geelooy/os/programs/awtsmoos-executable/browserRuntime.js"
+		},
+		{
+			"project": "geelooy/apps/drive",
+			"count": 1,
+			"examples": "geelooy/os/vfs/macBridgeHook.js"
+		},
+		{
+			"project": "geelooy/apps/scripts",
+			"count": 1,
+			"examples": "geelooy/os/shell/appCatalogPublicProducts.js"
+		},
+		{
+			"project": "geelooy/games/scripts",
+			"count": 1,
+			"examples": "geelooy/os/shell/appCatalogPublicProducts.js"
+		},
+		{
+			"project": "geelooy/scripts",
+			"count": 1,
+			"examples": "geelooy/os/drive/driveAuthority.js"
 		}
 	],
 	"incomingDependencies": [
@@ -77,6 +97,16 @@
 			"project": "geelooy/drive",
 			"count": 4,
 			"examples": "geelooy/drive/transport/credentialedFs.js; geelooy/drive/transport/tunnelDiscovery.js; geelooy/drive/transport/tunnelPublishing.js"
+		},
+		{
+			"project": "geelooy/apps/drive",
+			"count": 2,
+			"examples": "geelooy/apps/drive/js/macBridgeActions.js; geelooy/apps/drive/js/macBridgeWiring.js"
+		},
+		{
+			"project": "geelooy/apps/tunnel",
+			"count": 1,
+			"examples": "geelooy/apps/tunnel/js/account/AccountProducts.js"
 		}
 	],
 	"externalDependencies": [],
@@ -84,9 +114,9 @@
 		{
 			"url": "/os",
 			"file": "geelooy/os/index.html",
-			"title": "Geelooy OS — Files, AwtsmoosDB, Runtime & Control",
+			"title": "Geelooy OS — Awtsmoos Workspace",
 			"scripts": 1,
-			"styles": 19
+			"styles": 26
 		}
 	],
 	"requiresLocalDocumentation": true,

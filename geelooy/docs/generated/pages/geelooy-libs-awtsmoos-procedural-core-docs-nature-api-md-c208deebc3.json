@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-docs-nature-api-md-c208deebc3",
+	"title": "Nature API — One Door Into a Living World",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/NATURE_API.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Nature API — One Door Into a Living World",
+			"anchor": "nature-api-one-door-into-a-living-world"
+		},
+		{
+			"level": 2,
+			"text": "Install-time import surface",
+			"anchor": "install-time-import-surface"
+		},
+		{
+			"level": 2,
+			"text": "Create one immutable API",
+			"anchor": "create-one-immutable-api"
+		},
+		{
+			"level": 2,
+			"text": "The small direct surface",
+			"anchor": "the-small-direct-surface"
+		},
+		{
+			"level": 2,
+			"text": "Natural rocks versus morphology",
+			"anchor": "natural-rocks-versus-morphology"
+		},
+		{
+			"level": 2,
+			"text": "Local-first materials",
+			"anchor": "local-first-materials"
+		},
+		{
+			"level": 2,
+			"text": "Discover before calling",
+			"anchor": "discover-before-calling"
+		},
+		{
+			"level": 2,
+			"text": "Clone profiles without shared mutable state",
+			"anchor": "clone-profiles-without-shared-mutable-state"
+		},
+		{
+			"level": 2,
+			"text": "Progressive disclosure",
+			"anchor": "progressive-disclosure"
+		},
+		{
+			"level": 2,
+			"text": "Architecture covenant",
+			"anchor": "architecture-covenant"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-docs-nature-api-md-c208deebc3-001.json"
+	]
+}

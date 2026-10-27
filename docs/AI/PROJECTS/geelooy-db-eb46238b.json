@@ -22,18 +22,18 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-db-eb46238b.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 7,
-		"tests": 0,
+		"source": 13,
+		"tests": 1,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
 		"other": 1
 	},
-	"totalFiles": 9,
+	"totalFiles": 16,
 	"symbolSummary": {
-		"files": 2,
+		"files": 3,
 		"classes": 0,
-		"functions": 20,
+		"functions": 24,
 		"exports": 0,
 		"samples": [
 			"checkAuth",
@@ -44,10 +44,10 @@
 			"handleCreateItem",
 			"handleDeleteItem",
 			"main",
-			"showLoading",
-			"hideLoading",
-			"showMessage",
-			"updateBreadcrumbs"
+			"revealEndpoint",
+			"revealResponse",
+			"setState",
+			"handleSubmit"
 		]
 	},
 	"outgoingDependencies": [],
@@ -64,9 +64,9 @@
 		{
 			"url": "/db/console",
 			"file": "geelooy/db/console/index.html",
-			"title": "Simple DosDB GUI",
-			"scripts": 0,
-			"styles": 0
+			"title": "DosDB Console",
+			"scripts": 1,
+			"styles": 1
 		},
 		{
 			"url": "/db/explorer",
@@ -76,7 +76,7 @@
 			"styles": 2
 		}
 	],
-	"requiresLocalDocumentation": false,
+	"requiresLocalDocumentation": true,
 	"documentationCovered": true,
 	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
 }

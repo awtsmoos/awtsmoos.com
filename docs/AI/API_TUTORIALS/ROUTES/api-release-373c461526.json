@@ -1,0 +1,53 @@
+{
+	"schema": "awtsmoos-api-tutorial-v1",
+	"id": "api-release-373c461526",
+	"route": "/api/release",
+	"source": "geelooy/api/release/_awtsmoos.derech.js",
+	"discoveryKind": "static-literal",
+	"family": {
+		"mount": "/api/release",
+		"title": "/api/release",
+		"manual": "docs/API/README.md"
+	},
+	"derech": {
+		"source": "geelooy/api/release/_awtsmoos.derech.js",
+		"status": "OK",
+		"issue": "—",
+		"mount": "/api/release"
+	},
+	"dynamic": false,
+	"pathParameters": [],
+	"methods": [],
+	"methodEvidence": "unknown",
+	"vessels": [],
+	"statuses": [],
+	"headers": [
+		"Cache-Control"
+	],
+	"callers": [
+		{
+			"literal": "/api/release/",
+			"source": "geelooy/apps/tunnel/agent/tools/chrome/frontendSourceProof.js",
+			"kind": "runtime"
+		}
+	],
+	"callerCount": 1,
+	"tests": [
+		{
+			"name": "test:dayuh-cutover",
+			"command": "node tools/dayuhChadashCutover/releaseCheck.js"
+		},
+		{
+			"name": "test:dayuh-release",
+			"command": "npm run test:routes && npm run test:comments && npm run test:social-content && npm run test:social-packed && npm run test:packed-engine && node --test tools/dayuhChadashMaintenance/test/*.test.js && npm run test:dayuh-cutover"
+		},
+		{
+			"name": "test:tunnel-release",
+			"command": "node --test scripts/tunnel/testing/*.test.cjs scripts/repository-hygiene/testing/*.test.cjs"
+		}
+	],
+	"examples": [],
+	"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-release-373c461526.md",
+	"confidence": "unknown-method",
+	"related": []
+}

@@ -2,7 +2,7 @@ B"H
 Boruch Hashem
 Blessed is He
 
-# Project Tutorial: Nitzotz.io — Shlichus Adventure Metropolis
+# Project Tutorial: Nitzotz.io — Gather. Grow. Reveal.
 
 **Path:** `geelooy/games/nitzotz-io` · **Type:** game · **Family:** Games and Worlds
 
@@ -21,19 +21,19 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 220 | 29 | 0 | 0 | 1 | 0 | 250 |
+| 285 | 44 | 0 | 0 | 1 | 0 | 330 |
 
 ## Public entry points
 
-- `/games/nitzotz-io` → `geelooy/games/nitzotz-io/index.html` — Nitzotz.io — Shlichus Adventure Metropolis
+- `/games/nitzotz-io` → `geelooy/games/nitzotz-io/index.html` — Nitzotz.io — Gather. Grow. Reveal.
 
 ## Symbol evidence
 
-Source files: 187; classes: 0; functions: 574; exports: 372; samples: selectShlichus, shlichusTemplates, resolveTemplate, descriptionFor, template, hash, mix, adventureMetric, adventureProgress, settleAdventureReward, emptySettlement, updateAdventure.
+Source files: 230; classes: 0; functions: 708; exports: 448; samples: selectShlichus, shlichusTemplates, resolveTemplate, descriptionFor, template, hash, mix, adventureMetric, adventureProgress, settleAdventureReward, emptySettlement, updateAdventure.
 
 ## Depends on
 
-- `geelooy/libs` — 2 lexical references; examples: geelooy/games/nitzotz-io/js/procedural/localMeshes.js; geelooy/games/nitzotz-io/js/webgl/meshUpload.js
+- `geelooy/libs` — 11 lexical references; examples: geelooy/games/nitzotz-io/js/procedural/cityRoad.js; geelooy/games/nitzotz-io/js/procedural/localMeshes.js; geelooy/games/nitzotz-io/js/procedural/realityHouses.js
 
 ## Used by
 
@@ -45,4 +45,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **29**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **44**. Treat this as file evidence, not proof of behavioral coverage.

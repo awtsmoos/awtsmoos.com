@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-subwaysurfer-docs-handoff-md-e83ab36b91",
+	"title": "B\"H",
+	"sourcePath": "geelooy/games/mitzvahWorld/subwaySurfer/docs/HANDOFF.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Peruta Run / Subway Surfer — Short Handoff",
+			"anchor": "peruta-run-subway-surfer-short-handoff"
+		},
+		{
+			"level": 2,
+			"text": "Snapshot",
+			"anchor": "snapshot"
+		},
+		{
+			"level": 2,
+			"text": "Gameplay",
+			"anchor": "gameplay"
+		},
+		{
+			"level": 2,
+			"text": "World theme",
+			"anchor": "world-theme"
+		},
+		{
+			"level": 2,
+			"text": "Textures + realism",
+			"anchor": "textures-realism"
+		},
+		{
+			"level": 2,
+			"text": "Public API",
+			"anchor": "public-api"
+		},
+		{
+			"level": 2,
+			"text": "UI",
+			"anchor": "ui"
+		},
+		{
+			"level": 2,
+			"text": "Key files",
+			"anchor": "key-files"
+		},
+		{
+			"level": 2,
+			"text": "Next agent",
+			"anchor": "next-agent"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-subwaysurfer-docs-handoff-md-e83ab36b91-001.json"
+	]
+}

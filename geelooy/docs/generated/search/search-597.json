@@ -1,0 +1,173 @@
+[
+	{
+		"id": "geelooy-games-ohrfront-docs-ai-absolute-handoff-md-5d08e71faa",
+		"title": "AI Absolute-System Handoff",
+		"sourcePath": "geelooy/games/ohrfront/docs/AI_ABSOLUTE_HANDOFF.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "AI Absolute-System Handoff",
+				"anchor": "ai-absolute-system-handoff"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Required session",
+				"anchor": "required-session"
+			},
+			{
+				"level": 2,
+				"text": "Human handoff",
+				"anchor": "human-handoff"
+			},
+			{
+				"level": 2,
+				"text": "JSON handoff",
+				"anchor": "json-handoff"
+			},
+			{
+				"level": 2,
+				"text": "Physical AI thoughts versus human alias",
+				"anchor": "physical-ai-thoughts-versus-human-alias"
+			},
+			{
+				"level": 2,
+				"text": "Current session evidence",
+				"anchor": "current-session-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Safety boundary",
+				"anchor": "safety-boundary"
+			},
+			{
+				"level": 2,
+				"text": "Verification",
+				"anchor": "verification"
+			}
+		],
+		"excerpt": "B\"H AI Absolute System Handoff The Awtsmoos renews repository, evidence, executable, URL, and inheriting agent every instant. Awtsmoos.com keeps this handoff deliberately exact: a filesystem path is not a URL, a symlink spelling is not a physical realpath, and a shell command should not depend on where the next agent h",
+		"searchText": "b\"h ai absolute system handoff the awtsmoos renews repository, evidence, executable, url, and inheriting agent every instant. awtsmoos.com keeps this handoff deliberately exact: a filesystem path is not a url, a symlink spelling is not a physical realpath, and a shell command should not depend on where the next agent happens to stand. purpose ohrfront's canonical path registry already knows physical project topology. the handoff executable consumes that authority and emits the small subset another ai needs to resume work safely. it does not create a second root discovery system and it never enters the browser bundle. absolute handoff executable: /users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/tools/ai/malchusprintaiabsolutehandoff.mjs observed node executable on this workstation: /users/awtsmoos/.nvm/versions/node/v24.17.0/bin/node source derives the node executable from process.execpath; the observed path above is documentation evidence, not a hardcoded runtime dependency. required session a normal handoff requires one validated ai session: session= or the environment variable: awtsmoos ai session= help is the only session free operation: /users/awtsmoos/.nvm/versions/node/v24.17.0/bin/node /users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/tools/ai/malchusprintaiabsolutehandoff.mjs help unsafe session traversal is rejected by the existing canonical session validator before path manifestation. human handoff run from any directory, including /tmp: /users/awtsmoos/.nvm/versions/node/v24.17.0/bin/node /users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/tools/ai/malchusprintaiabsolutehandoff.mjs session=2026 08 26 1702 universal portal ui revelation the output has four intentionally separate sections: [filesystem] — canonical physical filesystem paths and differing requested aliases. [system] — absolute executable paths such as node and the handoff cli. [urls] — network locations such as the local ohrfront route. [commands] — copy pastable continuation commands built from absolute executables and files. json handoff machine consumers use: /users/awtsmoos/.nvm/versions/node/v24.17.0/bin/node /users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/tools/ai/malchusprintaiabsolutehandoff.mjs session=2026 08 26 1702 universal portal ui revelation json schema: awtsmoos.ai.absolute handoff.v1 the record contains filesystem, system, urls, and commands branches. every filesystem record contains canonicalpath, requestedpath, exists, and kind. physical ai thoughts versus human alias canonical physical root: /users/awtsmoos/work/.ai thoughts human friendly alias: /users/awtsmoos/work/ai thoughts the alias resolves to the canonical hidden root. handoff/evidence tooling preserves both identities instead of silently pretending they are the same spelling. session evidence is always physically rooted beneath .ai thoughts. current session evidence canonical session root: /users/awtsmoos/work/.ai thoughts/2026 08 26 1702 universal portal ui revelation canonical evidence root: /users/awtsmoos/work/.ai thoughts/2026 08 26 1702 universal portal ui revelation/evidence canonical remaining work ledger: /users/awtsmoos/work/.ai thoughts/2026 08 26 1702 universal portal ui revelation/remaining work.md these are filesystem locations. the local application url is separately: http://127.0.0.1:8080/games/ohrfront/ safety boundary this handoff is node only operational tooling. browser/runtime source must never import it, and public ui must never expose workstation filesystem topology. the handoff is for agents, tests, release evidence, and local project continuation only. verification the dedicated handoff witness covers help, missing/unsafe sessions, json schema, canonical versus alias identity, absolute executable commands, and execution from /tmp. it is also run inside the larger absolute path test universe so additions cannot silently fork the existing path authority.",
+		"page": "pages/geelooy-games-ohrfront-docs-ai-absolute-handoff-md-5d08e71faa.json"
+	},
+	{
+		"id": "geelooy-games-ohrfront-docs-ai-absolute-paths-md-0a05b8d502",
+		"title": "AI Absolute System Paths",
+		"sourcePath": "geelooy/games/ohrfront/docs/AI_ABSOLUTE_PATHS.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "AI Absolute System Paths",
+				"anchor": "ai-absolute-system-paths"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Canonical printer",
+				"anchor": "canonical-printer"
+			},
+			{
+				"level": 2,
+				"text": "Registered roots",
+				"anchor": "registered-roots"
+			},
+			{
+				"level": 2,
+				"text": "Current physical mission paths",
+				"anchor": "current-physical-mission-paths"
+			},
+			{
+				"level": 2,
+				"text": "Safety and correctness laws",
+				"anchor": "safety-and-correctness-laws"
+			},
+			{
+				"level": 2,
+				"text": "Handoff rule",
+				"anchor": "handoff-rule"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He AI Absolute System Paths The Awtsmoos renews every finite location while remaining beyond place itself; Awtsmoos.com lets local agents speak filesystem truth precisely without confusing a private machine path with a public URL. Purpose Ohrfront AI, release, evidence, and handoff tooling ",
+		"searchText": "b\"h boruch hashem blessed is he ai absolute system paths the awtsmoos renews every finite location while remaining beyond place itself; awtsmoos.com lets local agents speak filesystem truth precisely without confusing a private machine path with a public url. purpose ohrfront ai, release, evidence, and handoff tooling must report canonical absolute local system paths . relative paths are useful inside imports, but they are insufficient as handoff evidence because their meaning changes with the caller's current working directory. this subsystem is intentionally node only. browser gameplay, public telemetry, deployed html, and public apis must never expose host filesystem paths. canonical printer executable: /users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/scripts/ai/malchusprintabsolutepaths.mjs human report: node /users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/scripts/ai/malchusprintabsolutepaths.mjs machine readable json: node /users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/scripts/ai/malchusprintabsolutepaths.mjs json current mission plus existence verification: node /users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/scripts/ai/malchusprintabsolutepaths.mjs check mission 2026 08 26 1702 universal portal ui revelation one named root: node /users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/scripts/ai/malchusprintabsolutepaths.mjs name game registered roots repository — repository root. work — local workspace containing repository and ai thoughts state. game — ohrfront game root. source — browser/game source tree. styles — localized ohrfront styles. tests — ohrfront test universe. docs — ohrfront documentation. scripts — local tooling. aitools — node only ai path tooling. proceduralcore — shared awtsmoos procedural core. dynamicserver — awtsmoos dynamic server. aithoughts — canonical physical ai thoughts root. the source does not hardcode /users/awtsmoos. these paths are derived from import.meta.url and project topology. the command examples above intentionally show this machine's current resolved paths for direct human/agent use. current physical mission paths mission root: /users/awtsmoos/work/.ai thoughts/2026 08 26 1702 universal portal ui revelation evidence root: /users/awtsmoos/work/.ai thoughts/2026 08 26 1702 universal portal ui revelation/evidence remaining work ledger: /users/awtsmoos/work/.ai thoughts/2026 08 26 1702 universal portal ui revelation/remaining work.md safety and correctness laws 1. resolve topology from module location, never mutable process.cwd(). 2. unknown root names throw instead of guessing. 3. descendant resolution rejects traversal outside the selected root. 4. mission names are explicit single safe directory names. 5. human output prints absolute local paths plus existence truth. 6. json output is plain immutable evidence suitable for agents and automation. 7. existing symlinks may expose a separate physicalpath when it differs from the declared absolute path. 8. local filesystem paths and public urls are separate concepts and must never share a field merely because both are strings. 9. host paths stay in local ai/release/handoff tooling; they do not enter browser bundles. handoff rule when an ai agent names a local file that another agent is expected to inspect, run, verify, or continue from, prefer the canonical absolute path in the handoff/evidence record. when writing browser source or portable imports, continue using normal relative/module paths. precision belongs at the tooling boundary, not as leaked machine identity inside the shipped game.",
+		"page": "pages/geelooy-games-ohrfront-docs-ai-absolute-paths-md-0a05b8d502.json"
+	},
+	{
+		"id": "geelooy-games-ohrfront-docs-authoring-pipeline-md-1a10eae242",
+		"title": "Authoring Pipeline",
+		"sourcePath": "geelooy/games/ohrfront/docs/AUTHORING_PIPELINE.md",
+		"category": "Security",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Authoring Pipeline",
+				"anchor": "authoring-pipeline"
+			},
+			{
+				"level": 2,
+				"text": "Goal",
+				"anchor": "goal"
+			},
+			{
+				"level": 2,
+				"text": "Authoring-only boundary",
+				"anchor": "authoring-only-boundary"
+			},
+			{
+				"level": 2,
+				"text": "Modeling-language flow",
+				"anchor": "modeling-language-flow"
+			},
+			{
+				"level": 2,
+				"text": "MeshText flow",
+				"anchor": "meshtext-flow"
+			},
+			{
+				"level": 2,
+				"text": "Stable recipes",
+				"anchor": "stable-recipes"
+			},
+			{
+				"level": 2,
+				"text": "Geometry operations",
+				"anchor": "geometry-operations"
+			},
+			{
+				"level": 2,
+				"text": "Native node graph",
+				"anchor": "native-node-graph"
+			},
+			{
+				"level": 2,
+				"text": "Blender parity",
+				"anchor": "blender-parity"
+			},
+			{
+				"level": 2,
+				"text": "Tool file plan",
+				"anchor": "tool-file-plan"
+			},
+			{
+				"level": 2,
+				"text": "Verification",
+				"anchor": "verification"
+			}
+		],
+		"excerpt": "B\"H Authoring Pipeline The Awtsmoos renews idea, recipe, graph, mesh, and manifested world while Awtsmoos.com lets human readable intent descend through deterministic vessels without confusing authoring language with combat runtime. Goal World building should become data first. A designer should be able to describe a b",
+		"searchText": "b\"h authoring pipeline the awtsmoos renews idea, recipe, graph, mesh, and manifested world while awtsmoos.com lets human readable intent descend through deterministic vessels without confusing authoring language with combat runtime. goal world building should become data first. a designer should be able to describe a battlefield object or compound prop through validated modeling/recipe data, compile it through shared core, hash it deterministically, and manifest it through the native runtime without hand writing one off geometry code. authoring only boundary these capabilities belong primarily in tools/ohrfront core/ and must not become browser startup dependencies: blender adapter, modeling language compiler and explanation apis, meshtext compiler/tokenizer, blender node parity metadata, export/parity reports. modeling language flow 1. read declarative modeling document/text. 2. compile with shared core modeling language. 3. validate operations and primitive vocabulary. 4. lower to procedural object or stable recipe data. 5. validate the lowered recipe. 6. create canonical json and stable hash. 7. manifest native geometry during map assembly. 8. record hash in diagnostics/evidence. meshtext flow meshtext is used for compact procedural experiments and authored generators, not for hot combat loop parsing. tool responsibilities: list registered generators, resolve a named generator, tokenize/compile authored source, preview resulting recipe/geometry evidence, reject invalid or unknown operations with clear messages. stable recipes stable recipe hashes provide: reproducible battlefield evidence, cache/deduplication keys, regression witnesses, authoring change detection, handoff traceability. unstable json serialization must not be substituted for core canonical hashing. geometry operations procedural geometry, modifiers, face/vertex queries, sculpting, booleans and csg run during authoring or runtime assembly whenever possible. they do not belong in every rendered frame. good uses: blast openings, ruined wall cuts, trenches and berm profiles, masonry damage, selected face material assignment, deterministic prop variation. native node graph native node graph ir can describe bounded geometry/material procedures. cpu reference execution is valuable for validation, previews and small deterministic effects. heavy arbitrary graph evaluation must not silently move into the combat hot path. blender parity blender integration proves authoring parity and supports export workflows. it is never imported by the browser runtime. blenderparityreport.mjs should report: supported operations, unsupported/degraded operations, material/node differences, recipe hashes, actionable mismatches. tool file plan chochmahmodelingcatalog.mjs compilebattlefieldmodel.mjs validatemeshrecipes.mjs meshtextpreview.mjs blenderparityreport.mjs each tool remains a small cli facade over deeper reusable modules. verification compile a known modeling document deterministically, reject malformed authoring data, stable hash remains stable across equivalent canonical data, meshtext registered generator can compile a fixture, native lowered recipe produces expected geometry evidence, blender tooling stays absent from browser dependency graph, no tool file exceeds the modularity ceiling.",
+		"page": "pages/geelooy-games-ohrfront-docs-authoring-pipeline-md-1a10eae242.json"
+	}
+]

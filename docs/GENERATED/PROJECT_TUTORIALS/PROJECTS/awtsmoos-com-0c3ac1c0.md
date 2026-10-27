@@ -14,14 +14,14 @@ Blessed is He
 
 - Entry files: `DOCUMENTATION.md`
 - Local documentation: `awtsmoos.com/DOCUMENTATION.md`
-- Local-doc requirement: no; covered: yes
+- Local-doc requirement: yes; covered: yes
 - Symlink target: —
 
 ## File shape
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 1 | 0 | 0 | 0 | 1 | 6 | 8 |
+| 4 | 0 | 0 | 0 | 1 | 19 | 24 |
 
 ## Public entry points
 

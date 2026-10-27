@@ -12,16 +12,16 @@ Blessed is He
 
 ## Entry and documentation evidence
 
-- Entry files: `index.html`
+- Entry files: `index.html`, `app.js`
 - Local documentation: No local `DOCUMENTATION.md` observed.
-- Local-doc requirement: no; covered: no
+- Local-doc requirement: yes; covered: no
 - Symlink target: —
 
 ## File shape
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 1 | 0 | 0 | 0 | 0 | 0 | 1 |
+| 17 | 0 | 0 | 0 | 0 | 0 | 17 |
 
 ## Public entry points
 
@@ -29,7 +29,7 @@ Blessed is He
 
 ## Symbol evidence
 
-No lexical symbol summary observed.
+Source files: 10; classes: 0; functions: 32; exports: 13; samples: mountPdfConverter, async, updateControls, createCard, info, metadata, startConversion, convertPage, canvasBlob, setWorking, revealProgress, revealDone.
 
 ## Depends on
 

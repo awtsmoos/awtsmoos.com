@@ -1,239 +1,344 @@
 [
 	{
-		"id": "docs-readme-md-0b5ca119d2",
-		"title": "Awtsmoos.com Documentation",
-		"sourcePath": "docs/README.md",
-		"category": "General",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-apps-sheets-95681150-m-83fc8093f0",
+		"title": "Project Tutorial: Awtsmoos Sheets",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-sheets-95681150.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Awtsmoos.com Documentation",
-				"anchor": "awtsmoos-com-documentation"
+				"text": "Project Tutorial: Awtsmoos Sheets",
+				"anchor": "project-tutorial-awtsmoos-sheets"
 			},
 			{
 				"level": 2,
-				"text": "Fastest doorway — /docs/",
-				"anchor": "fastest-doorway-docs"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Human learning",
-				"anchor": "human-learning"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Generated teaching",
-				"anchor": "generated-teaching"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "Enter by task",
-				"anchor": "enter-by-task"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Authority order",
-				"anchor": "authority-order"
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos.com Documentation The Awtsmoos lets one repository be understood through human meaning, exhaustive route/project evidence, stable system contracts, current source, and verification. Fastest doorway — /docs/ The public documentation application has five primary modes: Learn — fiv",
-		"searchText": "b\"h boruch hashem blessed is he awtsmoos.com documentation the awtsmoos lets one repository be understood through human meaning, exhaustive route/project evidence, stable system contracts, current source, and verification. fastest doorway — /docs/ the public documentation application has five primary modes: learn — five source backed curricula with browser local progress. api explorer — every discovered api route with method/source/caller/test evidence. project explorer — every current project boundary with entries, dependencies, symbols, tests, docs, and public surfaces. systems explorer — curated data, security, and realtime contracts joined to bounded project/source/environment/application/event evidence. documents — global search, safe markdown reading, provenance, favorites/recents, deep links, and retrieval first ask. open /docs/?view=learn, /docs/?view=api, /docs/?view=projects, or /docs/?view=systems directly. human learning start at learn/readme.md. deeper tutorials live under tutorials/readme.md, including api families, projects, content, and data/security/realtime system workflows. generated teaching api tutorial index — one generated tutorial per current route. project tutorial index — one generated tutorial per current project boundary. system tutorial index — one generated tutorial per curated stable system concept. system district summary — current data/security/realtime evidence summary. generated evidence stays conservative. unknown http methods stay unknown. project imports/events are lexical clues, environment evidence contains names only , and system packets are not security audits or persistence/protocol guarantees. enter by task url/api → api/readme.md → route tutorial → source/tests/runtime. directory/project → projects/readme.md → project tutorial → dependencies/entries → source. persistence/trust/realtime contract → tutorials/systems/readme.md → system tutorial → source/project/tests/runtime. data → data/readme.md. security → security/readme.md. websockets → websockets/readme.md. ai discovery → ai/readme.md, ai/manifest.json, ai/systems/manifest.json, and root llms.txt. authority order human manuals explain meaning and risk. generated route/project/system packets enumerate changing evidence. ai packets provide bounded machine navigation. public publication mirrors intentional documentation safely. current source/tests/runtime remain final authority.",
-		"page": "pages/docs-readme-md-0b5ca119d2.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Awtsmoos Sheets Path: geelooy/apps/sheets · Type: app · Family: Applications Read the human Applications guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantee",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: awtsmoos sheets path: geelooy/apps/sheets · type: app · family: applications read the human applications guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, documentation.md local documentation: geelooy/apps/sheets/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 165 4 0 0 1 0 170 public entry points /apps/sheets → geelooy/apps/sheets/index.html — awtsmoos sheets symbol evidence source files: 131; classes: 52; functions: 334; exports: 242; samples: gevurahworkbookactions, applydocumentoperation, applysharestate, applyvaluepatches, applystylepatches, applyextensionsave, applyextensionremove, async, malchuschromestate, selectedtsv, parseclipboardmatrix, matrixpatches. depends on geelooy/apps/shared — 1 lexical reference; examples: geelooy/apps/sheets/js/app/poweruicomposition.js used by none observed. external packages none observed. verification clue observed test classified files: 4 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-apps-sheets-95681150-m-83fc8093f0.json"
 	},
 	{
-		"id": "docs-routes-dynamic-paths-md-dbebabb93e",
-		"title": "Dynamic Paths and Dollar Variables",
-		"sourcePath": "docs/ROUTES/DYNAMIC_PATHS.md",
-		"category": "Routes",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-apps-slides-31197e15-m-707255350f",
+		"title": "Project Tutorial: Awtsmoos Slides",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-slides-31197e15.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Dynamic Paths and Dollar Variables",
-				"anchor": "dynamic-paths-and-dollar-variables"
+				"text": "Project Tutorial: Awtsmoos Slides",
+				"anchor": "project-tutorial-awtsmoos-slides"
 			},
 			{
 				"level": 2,
-				"text": "The actual URL parameter grammar",
-				"anchor": "the-actual-url-parameter-grammar"
-			},
-			{
-				"level": 3,
-				"text": "Single segment",
-				"anchor": "single-segment"
-			},
-			{
-				"level": 3,
-				"text": "Catch-all",
-				"anchor": "catch-all"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "The dollar-sign question",
-				"anchor": "the-dollar-sign-question"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Leading and trailing slashes",
-				"anchor": "leading-and-trailing-slashes"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "Derech mounting",
-				"anchor": "derech-mounting"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Generated parameter list",
-				"anchor": "generated-parameter-list"
+				"text": "Depends on",
+				"anchor": "depends-on"
 			},
 			{
 				"level": 2,
-				"text": "Caveat",
-				"anchor": "caveat"
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Dynamic Paths and Dollar Variables The Awtsmoos separates the path from the vessel so symbols do not deceive the eye; Awtsmoos.com uses colons for the road, while dollar names carry request data nearby. The actual URL parameter grammar ayzarim/awtsmoosDynamicServer/routing/dynamicRouteMa",
-		"searchText": "b\"h boruch hashem blessed is he dynamic paths and dollar variables the awtsmoos separates the path from the vessel so symbols do not deceive the eye; awtsmoos.com uses colons for the road, while dollar names carry request data nearby. the actual url parameter grammar ayzarim/awtsmoosdynamicserver/routing/dynamicroutematcher.js defines the route grammar observed in this checkout. single segment a route part beginning with : captures one url segment. examples from the api surface: /api/sefarim/:sefer /api/tunnel/control/blob/:blobid /api/ssh/connect/:username/:host social routes containing :alias, :heichelid, :postid, :seriesid, or :commentid the captured values are published as route variables. catch all a terminal part of the form :name captures the remaining path. the matcher requires a catch all to be last. the dollar sign question a filesystem search found no route files whose names require a $ path convention. in the inspected derech code, dollar prefixed names serve a different purpose: $i — request/server context vessel. $ get — parsed query/input data. $ post — parsed submitted body data. $ delete — parsed delete oriented input where used. $u — commonly a user/identity object in some modules. therefore do not translate a route like :alias into $alias . they are different layers. leading and trailing slashes routing/routeforms.js normalizes route aliases with common leading/trailing slash forms. this is why route tables may store keys such as balance while the mounted public route is documented as /api/wallet/balance. derech mounting the derech file is not itself a visible url filename. its directory determines the mount context. for example: geelooy/api/gpt/ awtsmoos.derech.js → /api/gpt/... geelooy/api/tunnel/control/ awtsmoos.derech.js → /api/tunnel/control/... generated parameter list see ../generated/dynamic parameter inventory.md for every parameterized route row discovered by the current generator. caveat a textually discoverable route is not necessarily healthy. geelooy/api/text/ awtsmoos.derech.js currently has a syntax error, so its patterns must be treated as source evidence, not verified runtime availability.",
-		"page": "pages/docs-routes-dynamic-paths-md-dbebabb93e.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Awtsmoos Slides Path: geelooy/apps/slides · Type: app · Family: Applications Read the human Applications guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantee",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: awtsmoos slides path: geelooy/apps/slides · type: app · family: applications read the human applications guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, package.json, documentation.md local documentation: geelooy/apps/slides/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 72 10 0 0 1 1 84 public entry points /apps/slides → geelooy/apps/slides/index.html — awtsmoos slides symbol evidence source files: 56; classes: 32; functions: 93; exports: 91; samples: collab version, sync event, request event, createpublishmessage, parsecollaborationevent, createroomid, createclientid, presenceslidestransport, presentationcollaboration, placeroominurl, async, copysharelink. depends on geelooy/apps/shared — 1 lexical reference; examples: geelooy/apps/slides/src/movie/slidesmovieadapter.js geelooy/scripts — 1 lexical reference; examples: geelooy/apps/slides/src/collab/presenceslidestransport.js used by none observed. external packages none observed. verification clue observed test classified files: 10 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-apps-slides-31197e15-m-707255350f.json"
 	},
 	{
-		"id": "docs-routes-public-routes-md-cad4e6c9b9",
-		"title": "Major Public Routes",
-		"sourcePath": "docs/ROUTES/PUBLIC_ROUTES.md",
-		"category": "Routes",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-apps-styles-c794a9eb-m-222012fc5b",
+		"title": "Project Tutorial: geelooy/apps/styles",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-styles-c794a9eb.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Major Public Routes",
-				"anchor": "major-public-routes"
+				"text": "Project Tutorial: geelooy/apps/styles",
+				"anchor": "project-tutorial-geelooy-apps-styles"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Major Public Routes The Awtsmoos clothes one light in many pages, each doorway shaped for a different need; Awtsmoos.com gives a human the route first, then the source where that doorway is made to lead. Because geelooy is the default public root, these directory to URL mappings are the ",
-		"searchText": "b\"h boruch hashem blessed is he major public routes the awtsmoos clothes one light in many pages, each doorway shaped for a different need; awtsmoos.com gives a human the route first, then the source where that doorway is made to lead. because geelooy is the default public root, these directory to url mappings are the natural first lookup. dynamic behavior may still modify a request. url family source human purpose / geelooy/index.html main public entry /about geelooy/about/ about geelooy /contact geelooy/contact/ contact ui /login geelooy/login/ login /logout geelooy/logout/ logout /register geelooy/register/ account creation /profile geelooy/profile/ profile /social geelooy/social/ social hub launcher/surface /social hub geelooy/social hub/ rich social hub /social composer geelooy/social composer/ post creation /comment thread geelooy/comment thread/ comment thread ui /notifications geelooy/notifications/ signals/notifications /heichelos geelooy/heichelos/ heichel browsing/apps /heichel editor geelooy/heichel editor/ heichel editor /heichel review geelooy/heichel review/ review/governance center /post editor geelooy/post editor/ post editor /os geelooy/os/ geelooy os /node os geelooy/node os/ awtsmoos node os /apps geelooy/apps/ application catalog /games geelooy/games/ game/world catalog /game geelooy/game/ game launch/redirect surface /ai geelooy/ai/ awtsmoos ai /youtube geelooy/youtube/ youtube manager /record geelooy/record/ camera preview/recording /recorder geelooy/recorder/ local recorder /ayin geelooy/ayin/ real awtsmoos recorder /email geelooy/email/ mail ui /db geelooy/db/ db console/explorer /editor geelooy/editor/ editor surface /control geelooy/control/ code control panel /ocr geelooy/ocr/ ocr related ui /reeyuh geelooy/reeyuh/ shulchan aruch viewer /mawgawl geelooy/mawgawl/ sefarim oriented surface /legal geelooy/legal/ legal/privacy/terms /donate geelooy/donate/ donation surface for every immediate directory, file count, title, and index.html presence, use ../generated/public route inventory.md.",
-		"page": "pages/docs-routes-public-routes-md-cad4e6c9b9.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/apps/styles Path: geelooy/apps/styles · Type: app · Family: Applications Read the human Applications guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guara",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/apps/styles path: geelooy/apps/styles · type: app · family: applications read the human applications guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: — local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 9 0 0 0 0 0 9 public entry points none observed. symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-apps-styles-c794a9eb-m-222012fc5b.json"
 	},
 	{
-		"id": "docs-routes-readme-md-8ea0afd4f4",
-		"title": "Routes",
-		"sourcePath": "docs/ROUTES/README.md",
-		"category": "Routes",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-apps-tests-427fc317-md-5ececbcea6",
+		"title": "Project Tutorial: geelooy/apps/tests",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-tests-427fc317.md",
+		"category": "Testing",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Routes",
-				"anchor": "routes"
+				"text": "Project Tutorial: geelooy/apps/tests",
+				"anchor": "project-tutorial-geelooy-apps-tests"
 			},
 			{
 				"level": 2,
-				"text": "Public filesystem routes",
-				"anchor": "public-filesystem-routes"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Dynamic/API routes",
-				"anchor": "dynamic-api-routes"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Dynamic parameters",
-				"anchor": "dynamic-parameters"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "URL lookup workflow",
-				"anchor": "url-lookup-workflow"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Do not confuse these three things",
-				"anchor": "do-not-confuse-these-three-things"
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Routes The Awtsmoos sends a path through filesystem and derech, both visible and concealed; Awtsmoos.com becomes navigable when URL, parameter, and source are all revealed. This section explains how to travel from a browser URL to the source that serves it. Public filesystem routes The d",
-		"searchText": "b\"h boruch hashem blessed is he routes the awtsmoos sends a path through filesystem and derech, both visible and concealed; awtsmoos.com becomes navigable when url, parameter, and source are all revealed. this section explains how to travel from a browser url to the source that serves it. public filesystem routes the dynamic server's default public root is geelooy. therefore a public url such as /login, /os, /apps/code, or /games/... normally begins by resolving inside the corresponding geelooy/... path. directory index.html files are common entry points, but dynamic derech behavior can intercept or augment a request. use public routes.md for major human facing areas and ../generated/public route inventory.md for the immediate directory inventory. dynamic/api routes derech files named awtsmoos.derech.js are discovered by walking upward from the request's physical path. a derech can return route definitions with exact path strings or colon parameters. api mounts are inventoried in ../generated/derech mounts.md. dynamic parameters :name matches exactly one segment. a terminal :name captures the remainder. catch all parameters must be the final route part. dollar prefixed request variables are not url syntax. read dynamic paths.md for the exact distinction. url lookup workflow 1. if the url starts with /api/, search ../generated/api route atlas.md. 2. otherwise map its first segment to geelooy/ /. 3. look for index.html, client scripts, and nested directories. 4. search ancestors for awtsmoos.derech.js if behavior is dynamic. 5. if the feature uses websockets, also inspect ayzarim/awtsmoosdynamicserver/websocket/. 6. use url to source.md for common examples. do not confuse these three things filesystem url path — source location under public geelooy/. derech route pattern — an exact or colon parameterized dynamic handler. request data vessel — $i, $ get, $ post, $ delete, headers, cookies, body, or auth state.",
-		"page": "pages/docs-routes-readme-md-8ea0afd4f4.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/apps/tests Path: geelooy/apps/tests · Type: app · Family: Applications Read the human Applications guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarant",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/apps/tests path: geelooy/apps/tests · type: app · family: applications read the human applications guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: — local documentation: no local documentation.md observed. local doc requirement: yes; covered: no symlink target: — file shape source tests assets generated docs other total 0 13 0 0 0 0 13 public entry points none observed. symbol evidence no lexical symbol summary observed. depends on none observed. used by geelooy/apps/tunnel — 5 lexical references; examples: geelooy/apps/tunnel/css guarantee/layer1/interactivestates.mjs; geelooy/apps/tunnel/css guarantee/layer1/ownershipcontracts.mjs; geelooy/apps/tunnel/css guarantee/layer1/selectorregistry.mjs external packages none observed. verification clue observed test classified files: 13 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-apps-tests-427fc317-md-5ececbcea6.json"
 	},
 	{
-		"id": "docs-routes-url-to-source-md-a765505c6a",
-		"title": "URL to Source",
-		"sourcePath": "docs/ROUTES/URL_TO_SOURCE.md",
-		"category": "Routes",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-apps-transcribe-82ebd4-59e8b1dcf3",
+		"title": "Project Tutorial: Awtsmoos Transcription Studio",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-transcribe-82ebd494.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "URL to Source",
-				"anchor": "url-to-source"
+				"text": "Project Tutorial: Awtsmoos Transcription Studio",
+				"anchor": "project-tutorial-awtsmoos-transcription-studio"
 			},
 			{
 				"level": 2,
-				"text": "General rule",
-				"anchor": "general-rule"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "API URL lookup",
-				"anchor": "api-url-lookup"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Root-direct exception",
-				"anchor": "root-direct-exception"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "WebSocket exception",
-				"anchor": "websocket-exception"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He URL to Source The Awtsmoos lets the visible address point back toward the hidden file; Awtsmoos.com gives this lookup so a maintainer can cross the distance in a little while. General rule The server's default public root is geelooy. For a non API URL, begin by joining the URL path benea",
-		"searchText": "b\"h boruch hashem blessed is he url to source the awtsmoos lets the visible address point back toward the hidden file; awtsmoos.com gives this lookup so a maintainer can cross the distance in a little while. general rule the server's default public root is geelooy. for a non api url, begin by joining the url path beneath geelooy/. then inspect index.html, scripts, nested files, and any ancestor awtsmoos.derech.js. url first source location additional system /os geelooy/os/ geelooy/shared/virtual os, platform modules /apps/code geelooy/apps/code/ compiler/runtime/tunnel apis as used /apps/tunnel control geelooy/apps/tunnel control/ /api/tunnel/control/ , shared tunnel /apps/tunnel geelooy/apps/tunnel/ /api/tunnel/ /apps/wallet geelooy/apps/wallet/ /api/wallet/ /youtube geelooy/youtube/ /api/youtube/ /profile geelooy/profile/ /api/social/ /heichelos/... geelooy/heichelos/ /api/social/ /social hub geelooy/social hub/ /api/social/ /games/... geelooy/games/... possible websocket server apps /db geelooy/db/ dosdb runtime /ai geelooy/ai/ /api/gpt/ api url lookup search ../generated/api route atlas.md. each row includes the url pattern, source file, and discovery method. examples: /api/gpt/health → gpt derech. /api/wallet/balance → wallet route table. /api/tunnel/control/my device → tunnel control route table. /api/tunnel/install/windows → tunnel installer derech. /api/ssh/connect/:username/:host → ssh derech. root direct exception /mitzvahworld/autoplay ping, /mitzvahworld/autoplay report, and /api/mitzvahworld/autoplay report are handled directly in root index.js before generic dynamic server dispatch. see ../api/direct root handlers.md. websocket exception a url or ticket flow that upgrades to websocket may continue in ayzarim/awtsmoosdynamicserver/websocket/ rather than an ordinary derech response. mission rooms and some game systems are examples of this second runtime plane.",
-		"page": "pages/docs-routes-url-to-source-md-a765505c6a.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Awtsmoos Transcription Studio Path: geelooy/apps/transcribe · Type: app · Family: Applications Read the human Applications guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership o",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: awtsmoos transcription studio path: geelooy/apps/transcribe · type: app · family: applications read the human applications guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html local documentation: no local documentation.md observed. local doc requirement: yes; covered: no symlink target: — file shape source tests assets generated docs other total 12 1 0 0 0 0 13 public entry points /apps/transcribe → geelooy/apps/transcribe/index.html — awtsmoos transcription studio symbol evidence source files: 6; classes: 4; functions: 0; exports: 4; samples: chochmahtranscriptionapi, tiferestranscriptioncontroller, netzachtranscriptionpoller, malchustranscriptionview. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 1 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-apps-transcribe-82ebd4-59e8b1dcf3.json"
 	},
 	{
-		"id": "docs-security-readme-md-19893eb549",
-		"title": "Security and Trust",
-		"sourcePath": "docs/SECURITY/README.md",
-		"category": "Security",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-apps-tunnel-6deaa3a1-m-9ce4ada7e0",
+		"title": "Project Tutorial: Awtsmoos Tunnel Console",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-tunnel-6deaa3a1.md",
+		"category": "Tunnel",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Security and Trust",
-				"anchor": "security-and-trust"
+				"text": "Project Tutorial: Awtsmoos Tunnel Console",
+				"anchor": "project-tutorial-awtsmoos-tunnel-console"
 			},
 			{
 				"level": 2,
-				"text": "Interactive system map",
-				"anchor": "interactive-system-map"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Human manuals",
-				"anchor": "human-manuals"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Identity sources",
-				"anchor": "identity-sources"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "Secrets/config evidence",
-				"anchor": "secrets-config-evidence"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Security-evidence boundary",
-				"anchor": "security-evidence-boundary"
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Security and Trust Security questions must preserve distinct layers: authentication, authorization, resource ownership, scopes/grants, origin policy, and realtime admission are not interchangeable . Interactive system map Open /docs/?view=systems&systemDistrict=security for curated trust",
-		"searchText": "b\"h boruch hashem blessed is he security and trust security questions must preserve distinct layers: authentication, authorization, resource ownership, scopes/grants, origin policy, and realtime admission are not interchangeable . interactive system map open /docs/?view=systems&systemdistrict=security for curated trust systems joined to bounded source/project/environment name evidence. human manuals trust boundaries realtime security secrets and config identity sources current inspected source includes signed sessions, oauth bearer records, verified api keys, and server attached websocket identity. identity shaped request fields are not authority unless server verification explicitly establishes them. use trace trusted identity to follow verifier → authoritative identity → authorization → ownership/grants → negative cases. secrets/config evidence generated documentation records environment variable names, classifications, source reference counts, and example source paths only . it does not read .env files or publish values. security evidence boundary system/route/project packets help locate trust boundaries. they do not constitute a security audit, vulnerability assessment, or proof that authorization is complete.",
-		"page": "pages/docs-security-readme-md-19893eb549.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Awtsmoos Tunnel Console Path: geelooy/apps/tunnel · Type: app · Family: Applications Read the human Applications guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health g",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: awtsmoos tunnel console path: geelooy/apps/tunnel · type: app · family: applications read the human applications guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, documentation.md, readme.md, readme.md local documentation: geelooy/apps/tunnel/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 2228 1207 0 0 24 215 3674 public entry points /apps/tunnel → geelooy/apps/tunnel/index.html — awtsmoos tunnel console /apps/tunnel/agent/tools/fs/testing/.tmp all actions source stress → geelooy/apps/tunnel/agent/tools/fs/testing/.tmp all actions source stress/index.html /apps/tunnel/agent/tools/fs/testing/.tmp connected bulk runtime actors → geelooy/apps/tunnel/agent/tools/fs/testing/.tmp connected bulk runtime actors/index.html /apps/tunnel/agent/tools/fs/testing/.tmp connected files pagination stress → geelooy/apps/tunnel/agent/tools/fs/testing/.tmp connected files pagination stress/index.html /apps/tunnel/agent/tools/fs/testing/.tmp connected pagination → geelooy/apps/tunnel/agent/tools/fs/testing/.tmp connected pagination/index.html /apps/tunnel/agent/tools/fs/testing/.tmp runtime actions real → geelooy/apps/tunnel/agent/tools/fs/testing/.tmp runtime actions real/index.html symbol evidence source files: 2115; classes: 182; functions: 11073; exports: 7535; samples: buildidentity, canonicalstring, samerequest, sha256, sortvalue, required, clean, failure, terminal, transitions, isterminal, transition. depends on geelooy/apps/tests — 5 lexical references; examples: geelooy/apps/tunnel/css guarantee/layer1/interactivestates.mjs; geelooy/apps/tunnel/css guarantee/layer1/ownershipcontracts.mjs; geelooy/apps/tunnel/css guarantee/layer1/selectorregistry.mjs geelooy/os — 1 lexical reference; examples: geelooy/apps/tunnel/js/account/accountproducts.js geelooy/shared — 1 lexical reference; examples: geelooy/apps/tunnel/js/browserpagetunneldispatch.js scripts — 1 lexical reference; examples: geelooy/apps/tunnel/agent/rebuild manifest.cjs used by geelooy/api/tunnel — 14 lexical references; examples: geelooy/api/tunnel/control/routes/filetransferget.js; geelooy/api/tunnel/control/routes/fsvessel/publicactionresolver.js; geelooy/api/tunnel/control/routes/fsvessel/responsecontractidentity.js geelooy/scripts — 5 lexical references; examples: geelooy/scripts/awtsmoos/merkavaexecutor/.test tunnel directory entry env.cjs; geelooy/scripts/awtsmoos/merkavaexecutor/.test tunnel simulate runtime helpers.cjs; geelooy/scripts/awtsmoos/merkavaexecutor/.test tunnel simulate runtime url puppeteer.cjs ayzarim/awtsmoosdynamicserver — 3 lexical references; examples: ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/actionaliases.js; ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/instructioncatalog.js; ayzarim/awtsmoosdynamicserver/zipbundles/sourceresolver.js external packages yaml — 2 lexical references react — 1 lexical reference verification clue observed test classified files: 1207 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-apps-tunnel-6deaa3a1-m-9ce4ada7e0.json"
 	}
 ]

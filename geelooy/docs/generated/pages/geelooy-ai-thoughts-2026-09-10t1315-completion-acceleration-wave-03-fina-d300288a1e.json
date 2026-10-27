@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-10t1315-completion-acceleration-wave-03-fina-d300288a1e",
+	"title": "Final Implementation Plan",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-10T1315-completion-acceleration-wave/03-final-implementation-plan.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Final Implementation Plan",
+			"anchor": "final-implementation-plan"
+		},
+		{
+			"level": 2,
+			"text": "Wave A — Close current proof",
+			"anchor": "wave-a-close-current-proof"
+		},
+		{
+			"level": 2,
+			"text": "Wave B — Runtime proof",
+			"anchor": "wave-b-runtime-proof"
+		},
+		{
+			"level": 2,
+			"text": "Wave C — Startup evidence",
+			"anchor": "wave-c-startup-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Wave D — Parallel discovery",
+			"anchor": "wave-d-parallel-discovery"
+		},
+		{
+			"level": 2,
+			"text": "Wave E — Implement next high-value shared capability",
+			"anchor": "wave-e-implement-next-high-value-shared-capability"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-10t1315-completion-acceleration-wave-03-fina-d300288a1e-001.json"
+	]
+}

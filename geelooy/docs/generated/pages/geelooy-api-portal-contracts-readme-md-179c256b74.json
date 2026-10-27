@@ -1,0 +1,24 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-portal-contracts-readme-md-179c256b74",
+	"title": "B\"H — Portal Contracts (geelooy/api/portal/contracts/)",
+	"sourcePath": "geelooy/api/portal/contracts/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Portal Contracts (geelooy/api/portal/contracts/)",
+			"anchor": "b-h-portal-contracts-geelooy-api-portal-contracts"
+		},
+		{
+			"level": 2,
+			"text": "Files",
+			"anchor": "files"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-portal-contracts-readme-md-179c256b74-001.json"
+	]
+}

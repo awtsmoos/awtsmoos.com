@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-28-1423-data-only-movie-protocol-01-brainsto-4cedbe2bcc",
+	"title": "Pass One — Architecture Possibilities",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-28-1423-data-only-movie-protocol/01-brainstorm.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Pass One — Architecture Possibilities",
+			"anchor": "pass-one-architecture-possibilities"
+		},
+		{
+			"level": 2,
+			"text": "Preferred model",
+			"anchor": "preferred-model"
+		},
+		{
+			"level": 2,
+			"text": "Possible machine interfaces",
+			"anchor": "possible-machine-interfaces"
+		},
+		{
+			"level": 2,
+			"text": "Data vocabulary",
+			"anchor": "data-vocabulary"
+		},
+		{
+			"level": 2,
+			"text": "Rejected boundaries",
+			"anchor": "rejected-boundaries"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-28-1423-data-only-movie-protocol-01-brainsto-4cedbe2bcc-001.json"
+	]
+}

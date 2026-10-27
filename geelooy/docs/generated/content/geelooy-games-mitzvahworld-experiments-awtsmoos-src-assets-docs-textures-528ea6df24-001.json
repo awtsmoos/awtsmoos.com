@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H\n\nBoruch Hashem\nBlessed is He\n\n# Remote Texture Inventory\n\nThe Awtsmoos is one beyond all surfaces while Awtsmoos.com gathers the finite remote garments into discoverable families;\nthis generated index records counts and exact source pages so an agent need never guess a texture identity.\n\nRemote root: `https://awtsmoos.com/sites/firebase_drive_migration/`\n\nCanonical filename textures: **125**\n\n- **architecture**: 33 — [REMOTE_TEXTURE_ARCHITECTURE.md](./REMOTE_TEXTURE_ARCHITECTURE.md)\n- **craft**: 24 — [REMOTE_TEXTURE_CRAFT.md](./REMOTE_TEXTURE_CRAFT.md)\n- **ground**: 35 — [REMOTE_TEXTURE_GROUND.md](./REMOTE_TEXTURE_GROUND.md)\n- **trees**: 33 — [REMOTE_TEXTURE_TREES.md](./REMOTE_TEXTURE_TREES.md)\n\n- **preferred Chai Forest sources**: [REMOTE_TEXTURE_CHAI_FOREST.md](./REMOTE_TEXTURE_CHAI_FOREST.md)\n"
+}

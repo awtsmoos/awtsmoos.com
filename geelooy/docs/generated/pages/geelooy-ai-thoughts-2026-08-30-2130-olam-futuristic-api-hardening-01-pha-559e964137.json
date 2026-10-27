@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-30-2130-olam-futuristic-api-hardening-01-pha-559e964137",
+	"title": "Phase Two — Candidate File Map",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-30-2130-olam-futuristic-api-hardening/01-phase-two-file-map.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase Two — Candidate File Map",
+			"anchor": "phase-two-candidate-file-map"
+		},
+		{
+			"level": 2,
+			"text": "Read before touching",
+			"anchor": "read-before-touching"
+		},
+		{
+			"level": 2,
+			"text": "Likely new modules after inspection",
+			"anchor": "likely-new-modules-after-inspection"
+		},
+		{
+			"level": 2,
+			"text": "Safety boundaries",
+			"anchor": "safety-boundaries"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-30-2130-olam-futuristic-api-hardening-01-pha-559e964137-001.json"
+	]
+}

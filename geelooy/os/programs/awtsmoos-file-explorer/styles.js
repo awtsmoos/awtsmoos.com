@@ -270,11 +270,11 @@ export default /*css*/`
     background-repeat: no-repeat; 
     background-position: center; 
 }
-.folder-icon { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ffd43b"><path d="M20 6h-8l-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2z"/></svg>'); }
-.file-icon { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23adb5bd"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zM13 9V3.5L18.5 9H13z"/></svg>'); }
-.js-icon { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23f7df1e" d="M0 0h24v24H0z"/><path d="M11.5 16.5h-2v-6h2c.8 0 1.5.5 1.5 1.2s-.7 1.3-1.5 1.3h-1v3.5zm5-4.5h-2v4.5h2c.8 0 1.5-.5 1.5-1.2s-.7-1.3-1.5-1.3h-1v-2h1c.8 0 1.5-.5 1.5-1.2S17.3 9.5 16.5 9.5h-2v2.5z"/></svg>'); } 
-.css-icon { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%231572b6"><path d="M1.5 0h21l-1.91 21.563L11.977 24l-8.564-2.438zM8.5 6.5l.25 2.5h6.5l-.25 2.5h-6.5l.25 2.5h6.5l-.25 2.5-2.5 1-2.5-1-.125-1.5h-2.25l.25 3 4.5 1.5 4.5-1.5.5-5.5.5-5.5.5-5.5h-13z"/></svg>'); }
-.html-icon { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23e34f26"><path d="M1.5 0h21l-1.91 21.563L11.977 24l-8.565-2.438L1.5 0zm7.031 9.75l-.234-2.719 8.375.002.234-2.717H4.937l.938 10.594h9.875l.938-10.875H8.531z"/></svg>'); }
+.folder-icon { background-image: url('https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo-image-archive/sha256/be26e84b5496d0aebd9df529d7c15b24b4abed8f2ba1bf478d1c9c9d09407c2b/asset'); }
+.file-icon { background-image: url('https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo-image-archive/sha256/9ca405c7ef6c158a17d527e9cd922b07f9078adad787577c78c07dc82490a6e2/asset'); }
+.js-icon { background-image: url('https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo-image-archive/sha256/9331be10283cc785d6d74e194886abacdabcd3798ceaa9088f7a0309bc0e0435/asset'); }
+.css-icon { background-image: url('https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo-image-archive/sha256/f9c9ae2ae3c1307ded2e3ab5bd420549a5d445897a4b62e800e3e53dabfdb128/asset'); }
+.html-icon { background-image: url('https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo-image-archive/sha256/6bd70a7527adfbfe84b64841f19bb5080fe2115ae19218290eaf890c9d754c25/asset'); }
 
 
 /* Details View */
@@ -337,7 +337,7 @@ export default /*css*/`
     content: '';
     display: block;
     width: 48px; height: 48px;
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23dee2e6"><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>');
+    background-image: url('https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo-image-archive/sha256/06d4b9cac1a03a7acffd60f6853e9d58fb87db80e076d1fb2f9be849e00acf77/asset');
     background-size: contain;
     margin-bottom: 10px;
 }

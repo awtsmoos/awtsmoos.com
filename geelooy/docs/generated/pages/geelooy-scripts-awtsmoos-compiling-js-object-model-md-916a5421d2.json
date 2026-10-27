@@ -1,0 +1,140 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-scripts-awtsmoos-compiling-js-object-model-md-916a5421d2",
+	"title": "Merkava Native Tier v2 — Object Model Contract",
+	"sourcePath": "geelooy/scripts/awtsmoos/compiling/js/OBJECT_MODEL.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Merkava Native Tier v2 — Object Model Contract",
+			"anchor": "merkava-native-tier-v2-object-model-contract"
+		},
+		{
+			"level": 2,
+			"text": "CHANGELOG",
+			"anchor": "changelog"
+		},
+		{
+			"level": 2,
+			"text": "1. Goals and non-goals",
+			"anchor": "1-goals-and-non-goals"
+		},
+		{
+			"level": 2,
+			"text": "2. Tagged values (64 bits, low 3 bits = tag)",
+			"anchor": "2-tagged-values-64-bits-low-3-bits-tag"
+		},
+		{
+			"level": 2,
+			"text": "3. Fixnums — signed 61-bit",
+			"anchor": "3-fixnums-signed-61-bit"
+		},
+		{
+			"level": 2,
+			"text": "4. Immediates — tag 100, value (code << 3) | 4",
+			"anchor": "4-immediates-tag-100-value-code-3-4"
+		},
+		{
+			"level": 2,
+			"text": "5. Strings — UTF-16, with small-string optimization",
+			"anchor": "5-strings-utf-16-with-small-string-optimization"
+		},
+		{
+			"level": 3,
+			"text": "5a. Small strings (tag 011) — inline, no allocation",
+			"anchor": "5a-small-strings-tag-011-inline-no-allocation"
+		},
+		{
+			"level": 3,
+			"text": "5b. Heap strings (header type 1)",
+			"anchor": "5b-heap-strings-header-type-1"
+		},
+		{
+			"level": 2,
+			"text": "6. Heap references and alignment",
+			"anchor": "6-heap-references-and-alignment"
+		},
+		{
+			"level": 2,
+			"text": "7. Boxed doubles — tag 010 (header type 4)",
+			"anchor": "7-boxed-doubles-tag-010-header-type-4"
+		},
+		{
+			"level": 2,
+			"text": "8. Heap object header — 16 bytes, little-endian",
+			"anchor": "8-heap-object-header-16-bytes-little-endian"
+		},
+		{
+			"level": 3,
+			"text": "Flags (u32)",
+			"anchor": "flags-u32"
+		},
+		{
+			"level": 2,
+			"text": "9. Arrays",
+			"anchor": "9-arrays"
+		},
+		{
+			"level": 3,
+			"text": "Holes and sparseness (§10 is the policy; this is the mechanism)",
+			"anchor": "holes-and-sparseness-10-is-the-policy-this-is-the-mechanism"
+		},
+		{
+			"level": 2,
+			"text": "10. Array holes / sparseness policy (DECIDED)",
+			"anchor": "10-array-holes-sparseness-policy-decided"
+		},
+		{
+			"level": 2,
+			"text": "11. Objects and shapes (hidden classes) — transition strategy (DECIDED)",
+			"anchor": "11-objects-and-shapes-hidden-classes-transition-strategy-decided"
+		},
+		{
+			"level": 2,
+			"text": "12. Strict equality (===) protocol",
+			"anchor": "12-strict-equality-protocol"
+		},
+		{
+			"level": 2,
+			"text": "13. Truthiness",
+			"anchor": "13-truthiness"
+		},
+		{
+			"level": 2,
+			"text": "14. typeof mapping",
+			"anchor": "14-typeof-mapping"
+		},
+		{
+			"level": 2,
+			"text": "15. Allocation (runtime contract for codegen)",
+			"anchor": "15-allocation-runtime-contract-for-codegen"
+		},
+		{
+			"level": 2,
+			"text": "16. Interop with the interpreter (DefaultMerkavaHost.js)",
+			"anchor": "16-interop-with-the-interpreter-defaultmerkavahost-js"
+		},
+		{
+			"level": 2,
+			"text": "17. Codegen notes (for the asm.js stream)",
+			"anchor": "17-codegen-notes-for-the-asm-js-stream"
+		},
+		{
+			"level": 2,
+			"text": "18. Open questions / deferred",
+			"anchor": "18-open-questions-deferred"
+		},
+		{
+			"level": 2,
+			"text": "19. value-model.js API (summary)",
+			"anchor": "19-value-model-js-api-summary"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-scripts-awtsmoos-compiling-js-object-model-md-916a5421d2-001.json",
+		"content/geelooy-scripts-awtsmoos-compiling-js-object-model-md-916a5421d2-002.json"
+	]
+}

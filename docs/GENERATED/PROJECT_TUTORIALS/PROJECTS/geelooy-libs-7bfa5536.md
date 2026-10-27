@@ -21,28 +21,30 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 2098 | 138 | 0 | 0 | 20 | 12 | 2268 |
+| 3937 | 298 | 0 | 0 | 45 | 538 | 4818 |
 
 ## Public entry points
 
-None observed.
+- `/libs/awtsmoos-procedural-core/demo/selective-artifact-lineage/public` → `geelooy/libs/awtsmoos-procedural-core/demo/selective-artifact-lineage/public/index.html` — Awtsmoos Selective Artifact Lineage
 
 ## Symbol evidence
 
-Source files: 2093; classes: 458; functions: 2951; exports: 2782; samples: makeGoldenProbe, inspectMesh, hashSeed, createRng, range, rng, v3, sub, cross, length, normalize, isFiniteVec3.
+Source files: 3910; classes: 843; functions: 7426; exports: 5580; samples: AwtsmoosUiActions, AwtsmoosUiStore, UI, bind, when, each, element, buildElement, AwtsmoosUiElement, AwtsmoosUiRenderer, normalizeUiNode, collectDomProps.
 
 ## Depends on
 
-- `geelooy/games/mitzvahWorld` — 5 lexical references; examples: geelooy/libs/awtsmoos-procedural-core/src/adapters/mitzvahWorld/modelAssets.js; geelooy/libs/awtsmoos-procedural-core/src/adapters/mitzvahWorld/nativeRuntime.js; geelooy/libs/awtsmoos-procedural-core/src/adapters/mitzvahWorld/renderer.js
+None observed.
 
 ## Used by
 
-- `geelooy/games/mitzvahWorld` — 47 lexical references; examples: geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowCreatureMesh.js; geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseAssembly.js; geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseDimensionPolicy.js
-- `geelooy/games/seven-mitzvos` — 12 lexical references; examples: geelooy/games/seven-mitzvos/js/materials/firebase-material-manifest.js; geelooy/games/seven-mitzvos/js/materials/seven-material-runtime.js; geelooy/games/seven-mitzvos/js/materials/stage-material-runtime.js
-- `geelooy/games/oros-ha-kelim` — 11 lexical references; examples: geelooy/games/oros-ha-kelim/src/render/core/CoreGeometryFactory.js; geelooy/games/oros-ha-kelim/src/render/core/CoreGpuVessel.js; geelooy/games/oros-ha-kelim/src/render/core/CoreMesh.js
-- `geelooy/games/Merkava` — 2 lexical references; examples: geelooy/games/Merkava/src/render/createCoreMeshes.js; geelooy/games/Merkava/src/render/createEnemyMeshes.js
-- `geelooy/games/nitzotz-io` — 2 lexical references; examples: geelooy/games/nitzotz-io/js/procedural/localMeshes.js; geelooy/games/nitzotz-io/js/webgl/meshUpload.js
-- `geelooy/zmanim` — 2 lexical references; examples: geelooy/zmanim/js/components/celestial-webgl.js; geelooy/zmanim/js/domain/celestial-zmanim.js
+- `geelooy/games/mitzvahWorld` — 174 lexical references; examples: geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/api/portal/MitzvahWorldDoorwayPortalFields.js; geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/api/portal/MitzvahWorldHousePortalFields.js; geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/api/portal/MitzvahWorldPortalFactory.js
+- `geelooy/apps/awtsmoos-studio` — 65 lexical references; examples: geelooy/apps/awtsmoos-studio/src/AwtsmoosStudioApp.js; geelooy/apps/awtsmoos-studio/src/StudioLayout.js; geelooy/apps/awtsmoos-studio/src/StudioMovieBridge.js
+- `geelooy/games/seven-mitzvos` — 23 lexical references; examples: geelooy/games/seven-mitzvos/js/assets/gltf-model-library.js; geelooy/games/seven-mitzvos/js/city/city-district-builder.js; geelooy/games/seven-mitzvos/js/games3d/world-label.js
+- `geelooy/games/oros-ha-kelim` — 14 lexical references; examples: geelooy/games/oros-ha-kelim/src/render/core/CoreGeometryFactory.js; geelooy/games/oros-ha-kelim/src/render/core/CoreGpuGeometryPool.js; geelooy/games/oros-ha-kelim/src/render/core/CoreGpuVessel.js
+- `geelooy/games/ohrbound` — 13 lexical references; examples: geelooy/games/ohrbound/src/nature/OhrboundNatureDirector.js; geelooy/games/ohrbound/src/render/AmbientParticleField.js; geelooy/games/ohrbound/src/render/CoreBufferAtlas.js
+- `geelooy/games/nitzotz-io` — 11 lexical references; examples: geelooy/games/nitzotz-io/js/procedural/cityRoad.js; geelooy/games/nitzotz-io/js/procedural/localMeshes.js; geelooy/games/nitzotz-io/js/procedural/realityHouses.js
+- `geelooy/games/ohrfront` — 11 lexical references; examples: geelooy/games/ohrfront/src/core/AwtsmoosNativeApi.js; geelooy/games/ohrfront/src/core/api/AwtsmoosMaterialApi.js; geelooy/games/ohrfront/src/core/api/AwtsmoosPerformanceApi.js
+- `geelooy/games/kabbalah-shooter` — 7 lexical references; examples: geelooy/games/kabbalah-shooter/js/runtime/KabbalahNative3DRenderer.js; geelooy/games/kabbalah-shooter/js/runtime/kabbalah-native-3d-meshes.js; geelooy/games/kabbalah-shooter/js/runtime/kabbalah-native-3d-pool.js
 
 ## External packages
 
@@ -50,4 +52,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **138**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **298**. Treat this as file evidence, not proof of behavioral coverage.

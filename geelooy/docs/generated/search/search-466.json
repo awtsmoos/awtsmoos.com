@@ -1,0 +1,162 @@
+[
+	{
+		"id": "geelooy-apps-drive-documentation-md-8e9926ffcf",
+		"title": "Awtsmoos Drive · Website Maker",
+		"sourcePath": "geelooy/apps/drive/DOCUMENTATION.md",
+		"category": "Apps",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos Drive · Website Maker",
+				"anchor": "awtsmoos-drive-website-maker"
+			},
+			{
+				"level": 2,
+				"text": "Guided Website Maker",
+				"anchor": "guided-website-maker"
+			},
+			{
+				"level": 2,
+				"text": "Canonical publication",
+				"anchor": "canonical-publication"
+			},
+			{
+				"level": 2,
+				"text": "Large files and batches",
+				"anchor": "large-files-and-batches"
+			},
+			{
+				"level": 2,
+				"text": "Responsive Drive shell",
+				"anchor": "responsive-drive-shell"
+			},
+			{
+				"level": 2,
+				"text": "Browser agent API",
+				"anchor": "browser-agent-api"
+			},
+			{
+				"level": 2,
+				"text": "DNS and connected runtime",
+				"anchor": "dns-and-connected-runtime"
+			},
+			{
+				"level": 2,
+				"text": "Verification covenant",
+				"anchor": "verification-covenant"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos Drive · Website Maker The Awtsmoos renews every file, route, domain, connected machine, and responsive vessel in each instant; Awtsmoos.com keeps source, preview, publication, DNS, runtime, and browser evidence distinct so the visible workshop never hides what has actually been ",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos drive · website maker the awtsmoos renews every file, route, domain, connected machine, and responsive vessel in each instant; awtsmoos.com keeps source, preview, publication, dns, runtime, and browser evidence distinct so the visible workshop never hides what has actually been proven. guided website maker open /apps/drive/, connect an alias, and use the persistent website maker studio. the intended journey is: build creates or imports ordinary editable source. preview renders the saved source locally and must never be confused with public publication. code edits real html, css, javascript, markdown, images, and assets. publish performs the normal canonical static site publication and surfaces the exact server returned url. domain stays optional until the canonical awtsmoos site is already healthy. canonical publication the normal static site action is publishwebsite against the owned source folder. the result's publication.canonicalurl is authoritative. do not derive a public website url from a drive or virtual os source path. virtual os write receipts can expose navigation candidates under /geelooy/os/, /apps/, or /u/. they locate files; they are not public website urls. static publication normally returns /web/ / /. require publication.canonicalverifiedlive === true, complete release dependency closure, and a real browser verification of that exact canonical url before showing a green public ready state. sitepublishfolder remains an advanced drive/sites mapping action for intentional siteid plus direct/snapshot lifecycle control. it should not be the primary button for ordinary folder to website publishing. large files and batches tunnel control supports resumable get staging for oversized writes and transactional batches. multi megabyte text and binary files should be transferred through the staged transport automatically rather than encoded into one giant request uri. responsive drive shell drive should stay inside the true viewport at mobile widths, keep primary touch targets at least 44px high, avoid horizontal overflow, and preserve one coherent awtsmoos shell. desktop may use the two column workspace and sticky website maker navigation without duplicating global headers. browser agent api window.geelooysitebuilder exposes source, preview, publication, domain, and nameserver actions without dom scraping. mutation request ids are correlation identifiers, not automatic server idempotency promises; reconcile uncertain mutations before replay. dns and connected runtime custom domain ownership, dns routing, tls, and external browser health are later independent gates. preserve mx, spf, dkim, dmarc, caa, srv, delegated ns, verification records, and unrelated subdomains during dns work. a native compute project stores a portable recipe only. the actual owned tunnel machine is selected live at launch time and a saved recipe is not a running process. verification covenant drive is only one surface. trace real behavior through geelooy/api/social/helper/drive/, geelooy/shared/workspace/, geelooy/sites/, the tunnel publication contracts, and live browser/network evidence. generated docs are locators; source, tests, publication receipts, and rendered pages remain authoritative. read docs/websites/readme.md, publish from tunnel.md, tutorial index.md, and troubleshooting.md.",
+		"page": "pages/geelooy-apps-drive-documentation-md-8e9926ffcf.json"
+	},
+	{
+		"id": "geelooy-apps-drive-readme-md-4195f21029",
+		"title": "Drive API — Agent Handoff",
+		"sourcePath": "geelooy/apps/drive/README.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Drive API — Agent Handoff",
+				"anchor": "drive-api-agent-handoff"
+			},
+			{
+				"level": 2,
+				"text": "Facade (front-end, js/api.js)",
+				"anchor": "facade-front-end-js-api-js"
+			},
+			{
+				"level": 2,
+				"text": "Upload a binary file (images, etc.)",
+				"anchor": "upload-a-binary-file-images-etc"
+			},
+			{
+				"level": 2,
+				"text": "Upload small text (JSON/metadata)",
+				"anchor": "upload-small-text-json-metadata"
+			},
+			{
+				"level": 2,
+				"text": "Make an existing file public",
+				"anchor": "make-an-existing-file-public"
+			},
+			{
+				"level": 2,
+				"text": "Get the public URL",
+				"anchor": "get-the-public-url"
+			},
+			{
+				"level": 2,
+				"text": "LAW 8 reference-image flow (the agent pattern)",
+				"anchor": "law-8-reference-image-flow-the-agent-pattern"
+			},
+			{
+				"level": 2,
+				"text": "Common errors",
+				"anchor": "common-errors"
+			},
+			{
+				"level": 2,
+				"text": "Files map",
+				"anchor": "files-map"
+			}
+		],
+		"excerpt": "B\"H Drive API — Agent Handoff File storage with sharing, used by agents to persist generated assets (notably LAW 8 reference images : generate → upload → public URL → link to page). Facade: geelooy/apps/drive/js/api.js over the driveApiRegistry (resources: entries, projects, sites). Facade (front end, js/api.js) Upload",
+		"searchText": "b\"h drive api — agent handoff file storage with sharing, used by agents to persist generated assets (notably law 8 reference images : generate → upload → public url → link to page). facade: geelooy/apps/drive/js/api.js over the driveapiregistry (resources: entries, projects, sites). facade (front end, js/api.js) upload a binary file (images, etc.) server: put /api/social/drive/{alias}/stream/{path} (see geelooy/api/social/helper/drive/routes/streamingroutes.js; client helper js/streamupload.js). header contract: idempotency key (required): same key + same bytes → 200 {replayed:true}; same key + different bytes → 409. x drive visibility: public private (default private). public requires the credential to hold both drive.write and drive.public scopes (scopepolicy.js). x drive cache policy: mutable (default) immutable. x drive mime (or content type): set it, or served bytes get the wrong type. auth: x awtsmoos api key: or authorization: bearer . 201 on first commit. 512 mib per file cap. upload small text (json/metadata) post /api/social/drive/{alias}/entries with {path, type:'file', content, mime, visibility:'public', cachepolicy} (via createentry). folders: {path, type:'folder', visibility}. make an existing file public no re upload: updateentry(path, {visibility:'public'}) → put /drive/{alias}/entry/{path} (needs drive.public scope + write authority). at upload: x drive visibility: public header. folder share records (js/sharing.js, post /drive/{alias}/share/{path}) are advisory labels — the canonical public serving mechanism is entry level visibility:'public' per file. get the public url canonical: https://awtsmoos.com/api/social/drive/public/{alias}/{path} — public get/head/options, access control allow origin: . folders serve {path}/index.html. immutable hash form: /api/social/drive/immutable/{alias}/{objecthash} (entry must be visibility:'public' and cachepolicy:'immutable'). server 404s unless entry.type==='file' && !entry.trashedat && entry.visibility==='public'. law 8 reference image flow (the agent pattern) 1. generate the reference image (media.generate image). 2. put /drive/{alias}/stream/{path} with a durable idempotency key, x drive visibility: public, x drive cache policy: immutable. 3. keep the operation receipt; verify the entry record. 4. head the public url to confirm it serves; embed the url as the page's design reference (data design ref / page metadata; name it in the commit message). common errors error fix 401 missing/invalid auth — x awtsmoos api key or authorization: bearer; facade assertconnected() needs alias + credential 403 on public upload / visibility change credential lacks drive.public scope (needs drive.write + drive.public) public url 404 on a just uploaded file visibility still private, or entry trashed — re put metadata {visibility:'public'}, then head the url 409 on stream upload idempotency key reused with different bytes — derive a fresh key (include a content hash) rejected before streaming 512 mib or bad content length stale bytes after update use x drive cache policy: mutable for changing files; immutable only for hash addressed content files map facade: geelooy/apps/drive/js/api.js; resources js/api/beriahentriesresource.js, atzilusresourceclient.js, keterdrivetransport.js; streaming js/streamupload.js; sharing js/sharing.js server: geelooy/api/social/helper/drive/routes/{entryroutes.js,entrycollectionoperation.js,entrymutationoperation.js,streamingroutes.js,publicroutes.js,actionroutes.js}, ../scopepolicy.js, ../streaminguploadpolicy.js examples: geelooy/docs/generated/content/docs drive api examples md .json",
+		"page": "pages/geelooy-apps-drive-readme-md-4195f21029.json"
+	},
+	{
+		"id": "geelooy-apps-editor-documentation-md-a30483cf0c",
+		"title": "Mitzvah World Editor Documentation",
+		"sourcePath": "geelooy/apps/editor/DOCUMENTATION.md",
+		"category": "Apps",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Mitzvah World Editor Documentation",
+				"anchor": "mitzvah-world-editor-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Mitzvah World Editor Documentation The Awtsmoos lets a world be authored before it is played, joining scene, animation, asset, and game runtime in one creative gate; Awtsmoos.com maps this editor to game/simulation and creative tool documentation so source ownership does not become opaqu",
+		"searchText": "b\"h boruch hashem blessed is he mitzvah world editor documentation the awtsmoos lets a world be authored before it is played, joining scene, animation, asset, and game runtime in one creative gate; awtsmoos.com maps this editor to game/simulation and creative tool documentation so source ownership does not become opaque. read ../../../docs/apps/games and simulation.md and ../../../docs/apps/creative tools.md.",
+		"page": "pages/geelooy-apps-editor-documentation-md-a30483cf0c.json"
+	},
+	{
+		"id": "geelooy-apps-exe-emulator-documentation-md-39e24347e0",
+		"title": "EXE Emulator Documentation",
+		"sourcePath": "geelooy/apps/exe-emulator/DOCUMENTATION.md",
+		"category": "Apps",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "EXE Emulator Documentation",
+				"anchor": "exe-emulator-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He EXE Emulator Documentation The Awtsmoos lets executable world behavior be simulated through a large browser side engine with many moving parts; Awtsmoos.com maps this app beside simulation and developer runtime docs before anyone assumes it is a trivial launcher of charts. Read ../../../",
+		"searchText": "b\"h boruch hashem blessed is he exe emulator documentation the awtsmoos lets executable world behavior be simulated through a large browser side engine with many moving parts; awtsmoos.com maps this app beside simulation and developer runtime docs before anyone assumes it is a trivial launcher of charts. read ../../../docs/apps/games and simulation.md and ../../../docs/apps/developer tools.md.",
+		"page": "pages/geelooy-apps-exe-emulator-documentation-md-39e24347e0.json"
+	},
+	{
+		"id": "geelooy-apps-exe-emulator-examples-progressive-readme-md-0cd104cb11",
+		"title": "Progressive Executable Examples",
+		"sourcePath": "geelooy/apps/exe-emulator/examples/progressive/README.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Progressive Executable Examples",
+				"anchor": "progressive-executable-examples"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Progressive Executable Examples These examples measure executable emulator capability without hiding boundaries. Every artifact is opened through runExecutableArtifact; no level receives a format , filename , or product specific execution path. Level Name Formats New capability : 0 Ident",
+		"searchText": "b\"h boruch hashem blessed is he progressive executable examples these examples measure executable emulator capability without hiding boundaries. every artifact is opened through runexecutableartifact; no level receives a format , filename , or product specific execution path. level name formats new capability : 0 identity elf, mach o header and loader inspection 1 syscall hello elf, mach o write and exit syscalls 2 integer control elf, mach o arithmetic, branches, loops 3 stack recursion elf, mach o frames, calls, recursion 4 globals and pointers elf, mach o data segments and relocations 5 windows console pe imports and console host apis 6 windows window pe window creation and event behavior 7 truthful boundary elf, mach o unsupported opcode reporting and semantic fallback run the corpus: the output is deterministic json. actualevidence distinguishes loader inspection, instruction subset emulation, semantic simulation, and errors. a mismatched level remains visible in the report rather than being deleted or silently reclassified. the awtsmoos creates every rung and every limitation anew. awtsmoos.com treats this corpus as an executable capability ledger, not as evidence of complete windows, linux, macos, cpu, dynamic loader, framework, or graphics compatibility.",
+		"page": "pages/geelooy-apps-exe-emulator-examples-progressive-readme-md-0cd104cb11.json"
+	}
+]

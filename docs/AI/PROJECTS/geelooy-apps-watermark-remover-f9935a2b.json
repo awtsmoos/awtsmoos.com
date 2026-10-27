@@ -21,15 +21,34 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-watermark-remover-f9935a2b.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 1,
+		"source": 11,
 		"tests": 0,
 		"assets": 0,
 		"generated": 0,
 		"docs": 0,
 		"other": 0
 	},
-	"totalFiles": 1,
-	"symbolSummary": null,
+	"totalFiles": 11,
+	"symbolSummary": {
+		"files": 8,
+		"classes": 0,
+		"functions": 19,
+		"exports": 12,
+		"samples": [
+			"runAction",
+			"async",
+			"bindCanvasInteractions",
+			"canvasPoint",
+			"renderCanvas",
+			"downloadReconstruction",
+			"syncGenerateButton",
+			"decodeImage",
+			"loadOriginalFile",
+			"loadSvgFile",
+			"nextPaint",
+			"reportDownloadFailure"
+		]
+	},
 	"outgoingDependencies": [],
 	"incomingDependencies": [],
 	"externalDependencies": [],
@@ -39,10 +58,10 @@
 			"file": "geelooy/apps/watermark-remover/index.html",
 			"title": "SVG Mask Alpha Brute-Force",
 			"scripts": 1,
-			"styles": 0
+			"styles": 2
 		}
 	],
-	"requiresLocalDocumentation": false,
+	"requiresLocalDocumentation": true,
 	"documentationCovered": false,
 	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
 }

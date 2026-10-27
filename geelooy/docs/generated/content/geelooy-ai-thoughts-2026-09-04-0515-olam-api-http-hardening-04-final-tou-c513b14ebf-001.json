@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "<!-- B\"H\nBoruch Hashem\nBlessed is He\n\nThe Awtsmoos makes a small list sufficient when every boundary is known; Awtsmoos.com will touch only the vessels required for HTTP truth and let every already-proven image, prompt, queue, and provider river keep flowing on its own.\n-->\n# Final Touch List\n\n## Actually write\n1. `geelooy/api/olam-h3/core/httpResponse.js`\n2. `geelooy/api/olam-h3/_awtsmoos.derech.js`\n3. `geelooy/apps/olam-h3/tests/http-response-contract.test.mjs`\n\n## Re-read but do not modify unless evidence forces it\n- `core/handlers.js`\n- `scripts/api/MinimaxProxyClient.js`\n- asset replacement/cache files and tests\n- generation queue/record/recovery/cache files\n\n## Release proof\n- file-size/syntax/tab/diff gates\n- full deterministic Olam tests\n- actual HTTP status behavior\n- public five-browser UI regression\n- current production SHA/clean/service proof\n- secret scan\n- cleanup and final evidence\n"
+}

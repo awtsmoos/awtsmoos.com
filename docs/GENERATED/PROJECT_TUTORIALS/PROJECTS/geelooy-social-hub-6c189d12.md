@@ -21,20 +21,22 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 217 | 46 | 0 | 0 | 2 | 0 | 265 |
+| 395 | 91 | 0 | 0 | 2 | 1 | 489 |
 
 ## Public entry points
 
 - `/social-hub` → `geelooy/social-hub/index.html` — Social Hub — Geelooy
+- `/social-hub/heichelos` → `geelooy/social-hub/heichelos/index.html` — Heichelos — Social Hub
 
 ## Symbol evidence
 
-Source files: 128; classes: 77; functions: 166; exports: 159; samples: createSocialHub, HubApp, activityCard, durationLabel, timestamp, ActivityPanel, ActivityTracker, PrivacyActions, prepared, PrivacyPanel, CATEGORIES, preferencesFromFields.
+Source files: 230; classes: 150; functions: 239; exports: 283; samples: createSocialHub, HubApp, activityCard, durationLabel, timestamp, ActivityMutationCoordinator, ActivityPanel, manifestMalchusActivity, ActivityTimelineView, ActivityTracker, PrivacyActions, prepared.
 
 ## Depends on
 
-- `geelooy/shared` — 5 lexical references; examples: geelooy/social-hub/js/interactions/CreatorLaunchModel.js; geelooy/social-hub/js/ui/feed/FeedPostModel.js; geelooy/social-hub/js/ui/feed/FeedUniversalActions.js
+- `geelooy/shared` — 13 lexical references; examples: geelooy/social-hub/js/api/InteractionApi.js; geelooy/social-hub/js/interactions/CreatorLaunchModel.js; geelooy/social-hub/js/ui/PublicDiscovery.js
 - `geelooy/social-actions` — 4 lexical references; examples: geelooy/social-hub/js/ui/feed/FeedReaction.js; geelooy/social-hub/js/ui/feed/SocialActionRail.js
+- `geelooy/apps/universal-chat` — 3 lexical references; examples: geelooy/social-hub/js/messages/ConversationVoiceComposer.js; geelooy/social-hub/js/messages/ConversationVoiceView.js
 
 ## Used by
 
@@ -46,4 +48,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **46**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **91**. Treat this as file evidence, not proof of behavioral coverage.

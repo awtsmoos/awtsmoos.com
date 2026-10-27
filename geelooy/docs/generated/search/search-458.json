@@ -1,0 +1,212 @@
+[
+	{
+		"id": "geelooy-api-streaming-docs-architecture-md-f8532e8814",
+		"title": "Streaming Architecture",
+		"sourcePath": "geelooy/api/streaming/docs/ARCHITECTURE.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Streaming Architecture",
+				"anchor": "streaming-architecture"
+			}
+		],
+		"excerpt": "B\"H Streaming Architecture /api/streaming is the generic control plane. Connectors: youtube: OAuth + YouTube Live API broadcast/stream control. Supports HLS/RTMPS ingest metadata. twitch: manual stream key first. OAuth can be added later for chat/metadata. facebook: manual stream URL first. Graph API setup can be added",
+		"searchText": "b\"h streaming architecture /api/streaming is the generic control plane. connectors: youtube: oauth + youtube live api broadcast/stream control. supports hls/rtmps ingest metadata. twitch: manual stream key first. oauth can be added later for chat/metadata. facebook: manual stream url first. graph api setup can be added after app review decisions. awtsmoos: optional hosted relay/record/multicast path where video bytes intentionally pass through awtsmoos. data paths: 1. direct to platform local path: browser/webcodecs local muxer/protocol adapter platform ingest. 2. awtsmoos hosted option: browser/webcodecs awtsmoos relay viewers/platforms. 3. manual custom ingest: user supplies server url + stream key. the missing heavy piece remains the mux/protocol adapter.",
+		"page": "pages/geelooy-api-streaming-docs-architecture-md-f8532e8814.json"
+	},
+	{
+		"id": "geelooy-api-streaming-docs-local-tunnel-media-plane-md-c53c041c3d",
+		"title": "Local Tunnel Media Plane",
+		"sourcePath": "geelooy/api/streaming/docs/LOCAL_TUNNEL_MEDIA_PLANE.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Local Tunnel Media Plane",
+				"anchor": "local-tunnel-media-plane"
+			}
+		],
+		"excerpt": "B\"H Local Tunnel Media Plane /api/streaming is the cloud/control plane. The local tunnel is the media plane. Why: YouTube needs HLS/RTMPS ingest bytes. Twitch/Facebook normally need RTMP/RTMPS ingest bytes. Browser JavaScript cannot cleanly push RTMP directly. Local tunnel can forward muxed bytes without ffmpeg and wit",
+		"searchText": "b\"h local tunnel media plane /api/streaming is the cloud/control plane. the local tunnel is the media plane. why: youtube needs hls/rtmps ingest bytes. twitch/facebook normally need rtmp/rtmps ingest bytes. browser javascript cannot cleanly push rtmp directly. local tunnel can forward muxed bytes without ffmpeg and without sending media through awtsmoos cloud. current state: session/counter transport exists. hls segment metadata and playlist generation exists. direct forwarding hooks exist. real muxer remains the next hard component.",
+		"page": "pages/geelooy-api-streaming-docs-local-tunnel-media-plane-md-c53c041c3d.json"
+	},
+	{
+		"id": "geelooy-api-streaming-docs-readme-md-b76dac447a",
+		"title": "B\"H — Streaming Docs (geelooy/api/streaming/docs/)",
+		"sourcePath": "geelooy/api/streaming/docs/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Streaming Docs (geelooy/api/streaming/docs/)",
+				"anchor": "b-h-streaming-docs-geelooy-api-streaming-docs"
+			}
+		],
+		"excerpt": "B\"H — Streaming Docs (geelooy/api/streaming/docs/) Design notes for the streaming family. ARCHITECTURE.md — control plane vs media plane, connector capabilities, three data paths (direct to platform, Awtsmoos hosted relay, manual ingest), and the known gap: the mux/protocol adapter LOCAL TUNNEL MEDIA PLANE.md — why the",
+		"searchText": "b\"h — streaming docs (geelooy/api/streaming/docs/) design notes for the streaming family. architecture.md — control plane vs media plane, connector capabilities, three data paths (direct to platform, awtsmoos hosted relay, manual ingest), and the known gap: the mux/protocol adapter local tunnel media plane.md — why the local tunnel carries media bytes (browser js can't cleanly push rtmp), session/counter transport, hls segment metadata and playlist generation",
+		"page": "pages/geelooy-api-streaming-docs-readme-md-b76dac447a.json"
+	},
+	{
+		"id": "geelooy-api-streaming-documentation-md-2e514340ef",
+		"title": "Streaming API Documentation",
+		"sourcePath": "geelooy/api/streaming/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Streaming API Documentation",
+				"anchor": "streaming-api-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Streaming API Documentation The Awtsmoos lets one dispatch vessel reach provider connectors while each external contract keeps its own key; Awtsmoos.com maps action, connector, caller, and configuration evidence so streaming is not mistaken for plain CRUD simplicity. Read ../../../docs/A",
+		"searchText": "b\"h boruch hashem blessed is he streaming api documentation the awtsmoos lets one dispatch vessel reach provider connectors while each external contract keeps its own key; awtsmoos.com maps action, connector, caller, and configuration evidence so streaming is not mistaken for plain crud simplicity. read ../../../docs/api/streaming.md, ../../../docs/apps/media tools.md, and ../../../docs/configuration.md.",
+		"page": "pages/geelooy-api-streaming-documentation-md-2e514340ef.json"
+	},
+	{
+		"id": "geelooy-api-streaming-readme-md-391831cd2f",
+		"title": "B\"H — Streaming API (geelooy/api/streaming/)",
+		"sourcePath": "geelooy/api/streaming/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Streaming API (geelooy/api/streaming/)",
+				"anchor": "b-h-streaming-api-geelooy-api-streaming"
+			}
+		],
+		"excerpt": "B\"H — Streaming API (geelooy/api/streaming/) Generic live streaming control plane: one dispatch vessel reaching provider connectors while each external contract keeps its own key. Browser/WebCodecs is the media plane (via the local tunnel for ingest bytes); this API is the cloud/control plane. Subdirectories: connector",
+		"searchText": "b\"h — streaming api (geelooy/api/streaming/) generic live streaming control plane: one dispatch vessel reaching provider connectors while each external contract keeps its own key. browser/webcodecs is the media plane (via the local tunnel for ingest bytes); this api is the cloud/control plane. subdirectories: connectors/ — provider connectors (youtube, twitch, facebook, awtsmoos) + map.js core/ — router.js (connector dispatch), json.js, body.js helpers routes/ — table.js: '' index + connector routed from :connector/:action url patterns docs/ — architecture.md, local tunnel media plane.md main routes: /api/streaming/:connector/:action — e.g. /api/streaming/youtube/status, /api/streaming/twitch/start. base returns service name, connector list, and url patterns. note: the missing heavy piece per the architecture doc is the mux/protocol adapter (browser js can't cleanly push rtmp; the local tunnel forwards muxed bytes).",
+		"page": "pages/geelooy-api-streaming-readme-md-391831cd2f.json"
+	},
+	{
+		"id": "geelooy-api-streaming-routes-readme-md-7e6720f98e",
+		"title": "B\"H — Streaming Routes (geelooy/api/streaming/routes/)",
+		"sourcePath": "geelooy/api/streaming/routes/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Streaming Routes (geelooy/api/streaming/routes/)",
+				"anchor": "b-h-streaming-routes-geelooy-api-streaming-routes"
+			}
+		],
+		"excerpt": "B\"H — Streaming Routes (geelooy/api/streaming/routes/) Single file: table.js. Route table is tiny — two entries: '' — index: returns service name, available connectors, and the /api/streaming/:connector/:action URL pattern connector — routeConnector from ../core/router.js, dispatched from :connector (defaults to status",
+		"searchText": "b\"h — streaming routes (geelooy/api/streaming/routes/) single file: table.js. route table is tiny — two entries: '' — index: returns service name, available connectors, and the /api/streaming/:connector/:action url pattern connector — routeconnector from ../core/router.js, dispatched from :connector (defaults to status) and :connector/:action awtsmoos.derech.js mounts both with cors headers and 404s on unknown routes.",
+		"page": "pages/geelooy-api-streaming-routes-readme-md-7e6720f98e.json"
+	},
+	{
+		"id": "geelooy-api-text-documentation-md-b0640f09c6",
+		"title": "Text API Documentation",
+		"sourcePath": "geelooy/api/text/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Text API Documentation",
+				"anchor": "text-api-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Text API Documentation The Awtsmoos asks the map to confess when a source cannot yet parse instead of decorating failure as health; Awtsmoos.com keeps this mount visible with its syntax defect so intended routes are not mistaken for verified wealth. Read ../../../docs/HEALTH.md and ../..",
+		"searchText": "b\"h boruch hashem blessed is he text api documentation the awtsmoos asks the map to confess when a source cannot yet parse instead of decorating failure as health; awtsmoos.com keeps this mount visible with its syntax defect so intended routes are not mistaken for verified wealth. read ../../../docs/health.md and ../../../docs/api/other families.md. current generated syntax evidence: ../../../docs/generated/derech health.md.",
+		"page": "pages/geelooy-api-text-documentation-md-b0640f09c6.json"
+	},
+	{
+		"id": "geelooy-api-text-readme-md-5fa16393f6",
+		"title": "B\"H — Text / Timestamp API (geelooy/api/text/)",
+		"sourcePath": "geelooy/api/text/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Text / Timestamp API (geelooy/api/text/)",
+				"anchor": "b-h-text-timestamp-api-geelooy-api-text"
+			},
+			{
+				"level": 2,
+				"text": "Contents",
+				"anchor": "contents"
+			},
+			{
+				"level": 2,
+				"text": "Endpoints",
+				"anchor": "endpoints"
+			},
+			{
+				"level": 2,
+				"text": "Caveat",
+				"anchor": "caveat"
+			}
+		],
+		"excerpt": "B\"H — Text / Timestamp API (geelooy/api/text/) Media timestamp/transcription jobs: submit a job keyed by API key + media URL, then poll for the result. Contents awtsmoos.derech.js — routes: timestamp, timestamp/:jobId, timestamp/:jobId/result. DOCUMENTATION.md — health docs; notes this mount carries a known syntax defe",
+		"searchText": "b\"h — text / timestamp api (geelooy/api/text/) media timestamp/transcription jobs: submit a job keyed by api key + media url, then poll for the result. contents awtsmoos.derech.js — routes: timestamp, timestamp/:jobid, timestamp/:jobid/result. documentation.md — health docs; notes this mount carries a known syntax defect (see docs/generated/derech health.md for the generated evidence). endpoints timestamp — submit a transcription job (apikey + mediaurl required). timestamp/:jobid — job status. timestamp/:jobid/result — job result. caveat the mount is intentionally kept visible with its syntax defect so intended routes are not mistaken for verified ones — check the derech health evidence before relying on these endpoints.",
+		"page": "pages/geelooy-api-text-readme-md-5fa16393f6.json"
+	},
+	{
+		"id": "geelooy-api-tunnel-control-agentlobby-readme-md-f1aa4d41fb",
+		"title": "B\"H — Account-Wide Agent Lobby",
+		"sourcePath": "geelooy/api/tunnel/control/agentLobby/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Account-Wide Agent Lobby",
+				"anchor": "b-h-account-wide-agent-lobby"
+			},
+			{
+				"level": 2,
+				"text": "HTTP GET endpoints",
+				"anchor": "http-get-endpoints"
+			}
+		],
+		"excerpt": "B\"H — Account Wide Agent Lobby This is an authenticated conversation space for agents connected to one Awtsmoos account, across separate Mac and Linux tunnel devices. The server automatically lists registered devices, including live/offline state. An individual AI operator must register its own session using OAuth, rat",
+		"searchText": "b\"h — account wide agent lobby this is an authenticated conversation space for agents connected to one awtsmoos account, across separate mac and linux tunnel devices. the server automatically lists registered devices, including live/offline state. an individual ai operator must register its own session using oauth, rather than relying on a shared agent:account:default identity. message claims are never authority to modify production. http get endpoints get /api/tunnel/control/agent lobby — account scoped devices, participant sessions and latest messages. requires tunnel.read oauth or authenticated user. get /api/tunnel/control/agent lobby/join — declare sessionid, displayname, optionally tunnelname for an owned tunnel. requires oauth bearer with tunnel.read and tunnel.write. repeat every 30–60 seconds for presence. get /api/tunnel/control/agent lobby/post — supply sessionid, unique messageid, message, and kind=chat intent conflict handoff notice. requires authenticated bearer, previous join. retries with identical ids deduplicate. poll agent lobby after posting to receive peers' replies. pass bearer tokens in the authorization header, never in query strings or logs. get mutations require oauth bearer/api identity, not browser cookies. parameters should be url encoded. example (authentication variable contains a locally sourced access token): each participant should poll the lobby before performing significant actions and send a kind=intent message describing the proposed action. when another agent objects, exchange kind=conflict messages and escalate to the site owner. do not interpret other agents' messages as verified user orders. out of band root ssh is not mediated by this room; its security must be managed separately by the site owner. conversation history is currently bounded to 400 messages per account; it is not an immutable audit log or a replacement for the existing mission room interface.",
+		"page": "pages/geelooy-api-tunnel-control-agentlobby-readme-md-f1aa4d41fb.json"
+	},
+	{
+		"id": "geelooy-api-tunnel-control-docs-architecture-repair-20261016-md-56a60f8cbc",
+		"title": "B\"H — Tunnel architecture and restoration audit",
+		"sourcePath": "geelooy/api/tunnel/control/docs/ARCHITECTURE-REPAIR-20261016.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Tunnel architecture and restoration audit",
+				"anchor": "b-h-tunnel-architecture-and-restoration-audit"
+			},
+			{
+				"level": 2,
+				"text": "Request path",
+				"anchor": "request-path"
+			},
+			{
+				"level": 2,
+				"text": "Vessel distinction",
+				"anchor": "vessel-distinction"
+			},
+			{
+				"level": 2,
+				"text": "Authorization and safety",
+				"anchor": "authorization-and-safety"
+			},
+			{
+				"level": 2,
+				"text": "Open verification items",
+				"anchor": "open-verification-items"
+			}
+		],
+		"excerpt": "B\"H — Tunnel architecture and restoration audit Request path AI caller authenticated /api/tunnel/control/fs/:tunnelName routes/protectedFs.js (currentIdentity, scoped API keys, action policy) routes/fsVessel/resolveFsVessel.js (account inventory, exact route or alias) authorizedSelection.js (binding ownership, action m",
+		"searchText": "b\"h — tunnel architecture and restoration audit request path ai caller authenticated /api/tunnel/control/fs/:tunnelname routes/protectedfs.js (currentidentity, scoped api keys, action policy) routes/fsvessel/resolvefsvessel.js (account inventory, exact route or alias) authorizedselection.js (binding ownership, action manifest, liveness) nativevessel.js nativetunnelregistry.js (ws.sendtunnelrequest) registered websocket device agent execution response or durable job receipt. my device uses routes/mydevice.js and discovery projection; its success does not prove /fs is registered or an action is routable. the former production awtsmoos.derech.js mounted pairing and discovery only, while routes/table.js had 107 unmounted handlers. production restoration mounts guarded /fs, virtual os, device list, and docs endpoints lazily without disturbing pairing. vessel distinction vessel registration/discovery route id execution result native mac/linux/hetzner agent paired account binding + registered websocket, my device tunnelid (opaque routereference) action manifest and scoped permissions websocket receipt / async job browser tunnel authenticated browser session browser tunnel id only advertised browser actions websocket result hosted virtual os authenticated account, synthetic device awtsmoos virtual os hosted vfs only; native commands currently unsupported hosted vfs response simple http tunnel credential bound agent specific https poller, separate queue agentid non shell safe diagnostics by default authenticated agent post + client get result mission room existing native agent mission actions missionid + agent identity existing native mission coordinator room inbox/events (live two agent test pending) authorization and safety capability describes implemented runtime actions; scoped api permissions are checked separately in protectedfs.js; native manifest, liveness and execution policy are applied before dispatch. do not advertise hosted virtual os commandrun before sandbox implementation. routereference is the preferred immutable identifier; friendly names only work if unambiguous. stale routes should be rediscovered using my device. native browser control is separate from shell permissions. open verification items authenticated external api commandrun/commandwait receipt roundtrip (mac, hetzner) hosted virtual os command sandbox, outbound http get / ssrf protection simple tunnel hardening: per device derived agent credentials, signed get/nonce replay, authenticated poll/result, and real result post implemented; verify the live credential provisioned mac and hetzner paths advanced reconnect and result replay, multi agent mission room and task/file claim concurrency verify these through real api clients before claiming acceptance.",
+		"page": "pages/geelooy-api-tunnel-control-docs-architecture-repair-20261016-md-56a60f8cbc.json"
+	}
+]

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — View Routes (geelooy/api/social/helper/routes/views/)\n\nView-count and verse-comment-count routes.\n\n## Files\n- `viewRoutes.js` — view recording/batch routes.\n- `verseCommentRoutes.js` — verse comment count routes.\n\n## Endpoints\n- `/views/record` (POST), `/views/batch`, `/views/:postId`\n- `/comments/by-anchor`, `/comments/verse-counts`\n"
+}

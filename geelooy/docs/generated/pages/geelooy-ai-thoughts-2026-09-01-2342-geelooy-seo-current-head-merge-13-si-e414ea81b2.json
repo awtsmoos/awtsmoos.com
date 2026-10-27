@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-13-si-e414ea81b2",
+	"title": "Sitemap Seed-Map Delta",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-01-2342-geelooy-seo-current-head-merge/13-sitemap-seed-map-delta.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Sitemap Seed-Map Delta",
+			"anchor": "sitemap-seed-map-delta"
+		},
+		{
+			"level": 2,
+			"text": "Measured rejection of deep sitemap traversal",
+			"anchor": "measured-rejection-of-deep-sitemap-traversal"
+		},
+		{
+			"level": 2,
+			"text": "Replacement architecture",
+			"anchor": "replacement-architecture"
+		},
+		{
+			"level": 2,
+			"text": "MIME repair",
+			"anchor": "mime-repair"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-13-si-e414ea81b2-001.json"
+	]
+}

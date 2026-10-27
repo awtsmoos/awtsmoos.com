@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-52cbef7844",
+	"title": "OAuth safety, routing, and recovery",
+	"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/OAUTH_SECURITY_AND_RECOVERY.md",
+	"category": "Security",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 2,
+			"text": "Current tunnel integration takes precedence",
+			"anchor": "current-tunnel-integration-takes-precedence"
+		},
+		{
+			"level": 1,
+			"text": "OAuth safety, routing, and recovery",
+			"anchor": "oauth-safety-routing-and-recovery"
+		},
+		{
+			"level": 2,
+			"text": "Credential lifecycle",
+			"anchor": "credential-lifecycle"
+		},
+		{
+			"level": 2,
+			"text": "Route selection and proof",
+			"anchor": "route-selection-and-proof"
+		},
+		{
+			"level": 2,
+			"text": "Failure map",
+			"anchor": "failure-map"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-52cbef7844-001.json"
+	]
+}

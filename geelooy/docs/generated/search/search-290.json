@@ -1,146 +1,163 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-primitives-dir-6355152785",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/primitives/DIRECTORY_GUIDE.md",
-		"category": "Games",
+		"id": "geelooy-ai-thoughts-2026-08-25-1237-geelooy-massive-revelation-02-phase--15c8a484dc",
+		"title": "Phase Two — Architecture and Evidence Map",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25-1237-geelooy-massive-revelation/02-phase-two-architecture-and-file-map.md",
+		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/world/primitives",
-				"anchor": "directory-guide-experiments-awtsmoos-src-world-primitives"
+				"text": "Phase Two — Architecture and Evidence Map",
+				"anchor": "phase-two-architecture-and-evidence-map"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Observed project regions",
+				"anchor": "observed-project-regions"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Candidate architectural layers to inspect before source writes",
+				"anchor": "candidate-architectural-layers-to-inspect-before-source-writes"
+			},
+			{
+				"level": 3,
+				"text": "Public discovery layer",
+				"anchor": "public-discovery-layer"
+			},
+			{
+				"level": 3,
+				"text": "Shared UI layer",
+				"anchor": "shared-ui-layer"
+			},
+			{
+				"level": 3,
+				"text": "Agent/API layer",
+				"anchor": "agent-api-layer"
+			},
+			{
+				"level": 3,
+				"text": "2D/scene layer",
+				"anchor": "2d-scene-layer"
+			},
+			{
+				"level": 3,
+				"text": "High-risk UI families from previous mission",
+				"anchor": "high-risk-ui-families-from-previous-mission"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Candidate inheritance/data model",
+				"anchor": "candidate-inheritance-data-model"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
+				"text": "CSS localization contract",
+				"anchor": "css-localization-contract"
 			},
 			{
 				"level": 2,
-				"text": "Exported symbols worth searching",
-				"anchor": "exported-symbols-worth-searching"
+				"text": "JavaScript contract",
+				"anchor": "javascript-contract"
 			},
 			{
 				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
+				"text": "Verification graph",
+				"anchor": "verification-graph"
 			},
 			{
 				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Current unknowns to resolve before final implementation plan",
+				"anchor": "current-unknowns-to-resolve-before-final-implementation-plan"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/world/primitives Role: World systems Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 11 files, 0 structural child directories Purpose Reusable procedural geometry primitives for world construction. The Awtsm",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/world/primitives role: world systems snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 11 files, 0 structural child directories purpose reusable procedural geometry primitives for world construction. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: world systems search terms: primitive, geometry, create, com, box, builds, diamond, doorway, exact, finite, material, normals file mix: .js: 10 good first question: “does the behavior or asset i need belong to world systems, or is this only a neighboring/test/reference layer?” semantic evidence b\"h builds an exact rectangular doorway from two piers and one lintel. the awtsmoos reveals an opening without tearing the whole wall apart; awtsmoos.com gives the finite renderer the same silhouette as box subtraction with no boolean cost. builds face separated boxes whose uv spans preserve world distance. the awtsmoos reveals six boundaries around one finite vessel; awtsmoos.com gives each face its own normal and measured uv field so stone and timber never smear. builds the legacy six point diamond while preserving world transforms. the awtsmoos encloses one center through opposing points; awtsmoos.com keeps the compatibility shape measurable while better village art replaces its old misuse. representative files doorwayframegeometry.js — builds an exact rectangular doorway from two piers and one lintel. the awtsmoos reveals an opening without tearing the whole wall apart; awtsmoos.com gives the finite renderer the same silhouette as box subtraction with no boolean cost. exports: createdoorwayframegeometry. primitiveboxgeometry.js — builds face separated boxes whose uv spans preserve world distance. the awtsmoos reveals six boundaries around one finite vessel; awtsmoos.com gives each face its own normal and measured uv field so stone and timber never smear. exports: createprimitiveboxgeometry. primitivediamondgeometry.js — builds the legacy six point diamond while preserving world transforms. the awtsmoos encloses one center through opposing points; awtsmoos.com keeps the compatibility shape measurable while better village art replaces its old misuse. exports: createprimitivediamondgeometry. primitivegeometrybuffers.js — converts world geometry into exact renderer buffers and smooth safe normals. the awtsmoos gathers finite points into one visible decree; awtsmoos.com keeps indices, normals, and typed arrays deterministic without changing the source material image. exports: flattenprimitivevertices, primitiveindexarray, createprimitivevertexnormals. primitivegeometryfactory.js — resolves authored definitions into bounded geometry while preserving ecological masks. the awtsmoos reveals each form through its proper vessel; awtsmoos.com sends exact masonry, procedural silhouettes, and layered mountain meaning through one verified geometry contract. exports: createprimitivegeometrydata, isproceduralshape, colorarray. primitivematerialfactory.js — binds measured local images and existing layered recipes to primitive geometry. the awtsmoos clothes each finite surface without changing the garment's pixels; awtsmoos.com preserves authored strata through hydration, lighting, batching, and final gpu submission. exports: createprimitivematerial. primitivetexturepolicy.js — distinguishes physically tiled materials from intentional whole image cards. the awtsmoos grants stone and parchment different purposes; awtsmoos.com repeats physical surfaces at one world basis while leaving signs, atlases, leaves, and portraits whole. exports: createprimitivetexturepolicy, primitiveusesnativedensity, primitiveuseswholeimage. primitivetransform.js — moves local procedural points into their measured world positions. the awtsmoos renews place and direction together; awtsmoos.com keeps geometry, collision, and texture density measurements inside the same revealed coordinates. exports: transformprimitivepoint, rotateprimitivepoint. primitiveuvprojection.js — projects missing uvs, measures their world scale, and bakes one world unit basis. the awtsmoos joins image coordinates to physical place without stretching either vessel; awtsmoos.com bakes geometric scale into uvs so identical materials can batch as one revelation. exports: projectprimitiveuvs, normalizeprimitiveuvstoworld, measureuvunitsperworld. primitivezoneweights.js — normalizes authored ecological masks for layered primitive materials. the awtsmoos gives each surface its measured portion without burdening every unrelated form; awtsmoos.com emits four channels only where layered texture meaning truly requires them. exports: primitivezoneweights. exported symbols worth searching createdoorwayframegeometry · createprimitiveboxgeometry · createprimitivediamondgeometry · flattenprimitivevertices · primitiveindexarray · createprimitivevertexnormals · createprimitivegeometrydata · isproceduralshape · colorarray · createprimitivematerial · createprimitivetexturepolicy · primitiveusesnativedensity · primitiveuseswholeimage · transformprimitivepoint · rotateprimitivepoint · projectprimitiveuvs import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ../../math/geometry3d.js ./primitiveboxgeometry.js ./primitivetransform.js ../proceduralbridge.js ./primitivediamondgeometry.js ./doorwayframegeometry.js ../../../../light three gltf/tiny runtime.js ../../assets/publicmaterialcache.js ../../assets/productionmaterialurlpolicy.js ../../assets/texturecatalog.js ./primitivegeometryfactory.js ./primitivetexturepolicy.js directory map parent: experiments/awtsmoos/src/world children: none. related and overlapping systems procedural world and village generation — village, road, house, primitive, text driven, and public api systems collaborate but are maintained in separate directories. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-primitives-dir-6355152785.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Two — Architecture and Evidence Map The Awtsmoos gives form to possibility through vessels that preserve the light; Awtsmoos.com must become more capable by making each boundary clearer, smaller, safer, and right. Observed project regions The geelooy root currently exposes public a",
+		"searchText": "b\"h boruch hashem blessed is he phase two — architecture and evidence map the awtsmoos gives form to possibility through vessels that preserve the light; awtsmoos.com must become more capable by making each boundary clearer, smaller, safer, and right. observed project regions the geelooy root currently exposes public and internal families including apps, games, api, docs, shared, style, css, editors, social surfaces, drive, os, media, auth, and product specific routes. previous same day evidence confirms catalog work already exists and warns against treating every filesystem directory as a public product. candidate architectural layers to inspect before source writes public discovery layer geelooy/apps/index.html geelooy/apps/ catalog/data/render modules geelooy/games/index.html geelooy/games/scripts/ catalog/data/render modules goal: ensure every real product is discoverable once, every action is truthful, and catalog ui remains clean and retractable. shared ui layer geelooy/shared/ geelooy/style/ geelooy/css/ local styles within high risk product folders goal: discover whether there is already a scoped design token/component system. reuse compatible foundations; do not add a second global styling universe. agent/api layer geelooy/api/ geelooy/.well known/ geelooy/docs/ geelooy/documentation.md any manifests describing tunnel/agent/auth capabilities goal: one data backed capability model that can power machine discovery, human docs, examples, and install/bootstrap flows without duplicated truth. 2d/scene layer search geelooy/ for cartoon, scene, canvas, svg, animation, timeline, merkava, character, sprite, and related apis inspect geelooy/.ai thoughts/2026 08 25 merkava flagship revelation/ goal: extend the real existing rendering system instead of inventing a disconnected cartoon framework. high risk ui families from previous mission rebbe overlays universal chat db explorer code menus drive site builder dock csv tools lyric sync archive uploader game hud/control families goal: runtime evidence first, then page local rewrites only where measured defects exist. candidate inheritance/data model kelicontract — bounded interface for data validation and lifecycle. sefirahregistry extends kelicontract — immutable capability/product records with validation and normalization. merkavasurface extends kelicontract — page/component lifecycle for a scoped dom root and local state. merkavascene extends kelicontract — 2d scene data, layout constraints, timeline, and adapter selection if a real scene engine exists. inheritance is permitted only if inspection proves shared behavior. otherwise composition wins. css localization contract 1. every new stylesheet owns exactly one surface/component family. 2. every selector begins beneath a unique scope such as [data awtsmoos surface=\"...\"] or a unique component root. 3. no new global reset. 4. no new generic utility class names. 5. local css custom properties live on the scope root. 6. nested child component style modules use their own namespace when independently reusable. 7. @import is explicit from the page/component stylesheet; no hidden global injection. 8. overlay components create deliberate local stacking contexts and documented z index tiers. 9. motion is transform/opacity first and respects prefers reduced motion. 10. interaction selectors cover hover capable pointers separately from active/focus visible state. javascript contract 1. every touched file is read completely and rewritten completely. 2. human authored source remains small enough to understand in one screen sized mental model; responsibilities split before growth. 3. tabs for indentation. 4. jsdoc for every exported class/function and all non obvious internal functions. 5. public api names remain boringly predictable even when internal domain classes use meaningful torah/kabbalah metaphors. 6. data structures own variation; branching logic should not become the catalog. 7. errors are structured and observable. 8. async work is abortable when user navigation can make it stale. 9. dom querying is rooted to the component surface. 10. no mutation of unrelated global styles/state. verification graph source read architecture trace full file rewrite syntax/static validation local unit/schema check runtime page probe mobile overflow/focus/state probe readback planned/actual delta second pass if needed. current unknowns to resolve before final implementation plan which shared style primitives already exist and are actively imported? which api manifest is canonical today? whether party catalog delta was already implemented. which files are over the modular limit and must not be extended. what current 2d/cartoon/scene engine already exists. which public pages are currently failing mobile containment rather than merely looking old. which docs are generated vs manually maintained. which tests already cover catalogs, agents, docs, and rendering.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25-1237-geelooy-massive-revelation-02-phase--15c8a484dc.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-proceduralapi--f55c9b5475",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/proceduralApi/DIRECTORY_GUIDE.md",
-		"category": "Games",
+		"id": "geelooy-ai-thoughts-2026-08-25-1237-geelooy-massive-revelation-03-phase--0fbffb909f",
+		"title": "Phase Two Critique — Twenty Improvements",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25-1237-geelooy-massive-revelation/03-phase-two-critique-20-improvements.md",
+		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/world/proceduralApi",
-				"anchor": "directory-guide-experiments-awtsmoos-src-world-proceduralapi"
+				"text": "Phase Two Critique — Twenty Improvements",
+				"anchor": "phase-two-critique-twenty-improvements"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Critique of phase one",
+				"anchor": "critique-of-phase-one"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Improvements",
+				"anchor": "improvements"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Exported symbols worth searching",
-				"anchor": "exported-symbols-worth-searching"
-			},
-			{
-				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Improved direction",
+				"anchor": "improved-direction"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/world/proceduralApi Role: World systems Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 14 files, 0 structural child directories Purpose Public procedural world API and request/response adapters. The Awtsmoo",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/world/proceduralapi role: world systems snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 14 files, 0 structural child directories purpose public procedural world api and request/response adapters. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: world systems search terms: recipe, geometry, water, asset, cube, generate, shader, create, firebase, marching, density, material file mix: .js: 13 good first question: “does the behavior or asset i need belong to world systems, or is this only a neighboring/test/reference layer?” semantic evidence b\"h public firebase texture manifests with explicit uv law. preserves the procedural api water shader contract for tools and saved projects. the awtsmoos renews moving water beyond any finite photograph; awtsmoos.com keeps canonical albedo untouched while readable glsl reveals procedural waves, crest foam, and fresnel light. polygonizes each voxel cube through six deterministic tetrahedra, avoiding ambiguous cube faces while preserving a watertight local isosurface. representative files firebasematerialrecipe.js — public firebase texture manifests with explicit uv law. exports: createfirebasematerialrecipe, waterfirebasematerialrecipe. legacywatershaderrecipe.js — preserves the procedural api water shader contract for tools and saved projects. the awtsmoos renews moving water beyond any finite photograph; awtsmoos.com keeps canonical albedo untouched while readable glsl reveals procedural waves, crest foam, and fresnel light. exports: createwatershaderrecipe. marchingcubecell.js — polygonizes each voxel cube through six deterministic tetrahedra, avoiding ambiguous cube faces while preserving a watertight local isosurface. exports: polygonizecube. marchingcubedensity.js — deterministic signed density fields for voxel worlds. exports: createdensitysampler. marchingcubesvolume.js — bounded voxel cube isosurface extraction for world chunks. exports: generatemarchingcubesvolume. rivergeometry.js — builds a flowing ribbon, banks, uvs, and collision from a river path. exports: generaterivergeometry. uvmapper.js — deterministic planar, cylindrical, and spherical uv projection. exports: mapgeometryuvs. watershaderrecipe.js — declares deterministic alpine lake, stream, cascade, foam, and sun glint layers. the awtsmoos renews one connected water cycle through many visible scales; awtsmoos.com keeps flow, depth, reflection, refraction, ripple, and foam controls explicit for tools and tests. exports: watershaderrecipe, createwatershaderrecipe. wellgeometry.js — stone ring, posts, roof, water, semantics, and collision. exports: generatewellgeometry. worldassetapi.js — one json doorway into meshes, botany, terrain, rivers, wells, and water. exports: generateworldasset, generateworldassets. worldassetrecipe.js — versioned json contract for every world asset generator. exports: normalizeworldassetrecipe, validateworldassetrecipe, requireworldassetrecipe, supported types. worldgeometry.js — small truthful geometry vessels shared by terrain, rivers, and wells. exports: createworldgeometry, addtriangle, addquad, finalizeworldgeometry, geometrybounds. index.js — public doorway for mitzvah world procedural assets. exports: createfirebasematerialrecipe, waterfirebasematerialrecipe, generatemarchingcubesvolume, generaterivergeometry, createwatershaderrecipe. exported symbols worth searching createfirebasematerialrecipe · waterfirebasematerialrecipe · createwatershaderrecipe · polygonizecube · createdensitysampler · generatemarchingcubesvolume · generaterivergeometry · mapgeometryuvs · watershaderrecipe · generatewellgeometry · generateworldasset · generateworldassets · normalizeworldassetrecipe · validateworldassetrecipe · requireworldassetrecipe · supported types import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ../../assets/publicmaterialorigin.js ./worldgeometry.js ./marchingcubedensity.js ./marchingcubecell.js ./uvmapper.js ./legacywatershaderrecipe.js ../../../../../../../libs/awtsmoos procedural core/src/index.js ./firebasematerialrecipe.js ./marchingcubesvolume.js ./rivergeometry.js ./watershaderrecipe.js ./wellgeometry.js directory map parent: experiments/awtsmoos/src/world children: none. related and overlapping systems procedural world and village generation — village, road, house, primitive, text driven, and public api systems collaborate but are maintained in separate directories. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-proceduralapi--f55c9b5475.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Two Critique — Twenty Improvements The Awtsmoos tests every vessel before more light is poured inside; Awtsmoos.com becomes stronger when each beautiful idea survives evidence, restraint, and a skeptical guide. Critique of phase one The first brainstorm correctly widened the possib",
+		"searchText": "b\"h boruch hashem blessed is he phase two critique — twenty improvements the awtsmoos tests every vessel before more light is poured inside; awtsmoos.com becomes stronger when each beautiful idea survives evidence, restraint, and a skeptical guide. critique of phase one the first brainstorm correctly widened the possibility space, but it risks inventing infrastructure before tracing existing contracts. it also mixes site wide aspirations with changes that should only occur on measured failing surfaces. the improved plan must maximize leverage while minimizing parallel foundations. improvements 1. existing first architecture. search for shared style and lifecycle primitives before creating any merkavasurface base class. 2. canonical source rule. identify the single source of truth for app/game/api metadata before adding registries. 3. public contract preservation. internal kabbalistic naming must never make external agent apis harder to guess or document. 4. measured ui mutation. static risk signals trigger inspection, not automatic rewriting. 5. scoped style proof. every candidate stylesheet must be scanned for its selector root and import chain before reuse. 6. import graph before consolidation. do not consolidate css merely because filenames look related; verify actual consumers. 7. no second token universe. if active design tokens already exist, extend them locally rather than create competing variables. 8. mobile acceptance first. define 320×568 and 390×844 containment before aesthetic polish. 9. focus contract first class. any retractable menu/drawer must define opener focus, internal traversal, escape, and focus return. 10. stacking context documentation. replace arbitrary z index escalation with local layer tiers only when touching an affected surface. 11. motion budget. each animation must communicate entry, state change, selection, or hierarchy; decorative perpetual motion is excluded. 12. reduced motion parity. reduced motion must preserve visual state, not merely disable all transitions blindly. 13. pointer modality separation. hover effects belong inside (hover: hover) or equivalent where touch behavior would otherwise become sticky. 14. data schema before renderer changes. for agent/cartoon work, define/locate schemas before adding rendering features. 15. renderer reuse. if an existing canvas/svg/game engine can host cartoon scenes, extend it with adapters rather than duplicate rendering stacks. 16. agent bootstrap minimalism. a machine bootstrap should return capability metadata and next steps, not the entire documentation payload. 17. error contracts. api improvements must include retryability/idempotency semantics because autonomous agents need failure guidance more than prose flourish. 18. examples as tests. every public quickstart example should be executable or schema validated so docs cannot silently rot. 19. catalog truth before catalog beauty. product records must be correct before visual enhancement; no beautiful dead links. 20. no blanket page injection. “improve all pages” should be achieved through verified shared imports plus targeted local modules, never a global stylesheet/script dropped onto every page. 21. legacy ceiling protection. large files are read for context but new responsibilities move to small modules; touching a legacy monolith requires decomposition, not append only growth. 22. performance budget. new effects should avoid heavy backdrop/filter use on scrolling mobile surfaces unless profiling proves it acceptable. 23. accessibility semantics over div choreography. prefer native buttons/details/dialog patterns where support and behavior fit. 24. dom root discipline. reusable js must query beneath its supplied root and must not assume unique global ids unless that is the existing contract. 25. security boundary. ai install/bootstrap docs must not encourage credential transport through urls, logs, or client visible callback pages. 26. version compatibility. capability manifests must state protocol/api versions and preserve old clients unless an explicit migration exists. 27. test the smallest boundary. validate a registry/schema/class independently before browser level probes. 28. runtime screenshots are evidence, not decoration. capture before/after only for surfaces actually changed. 29. readback is mandatory. every full file write must be reread from disk before being considered complete. 30. remaining work gravity. every discovery adds or closes a concrete node in remaining work.md; completion cannot be inferred from enthusiasm. improved direction the next pass will discover current shared foundations and the real scene/agent architecture, then choose a narrow set of high leverage files whose changes can truthfully improve many pages. it will not claim site wide improvement from a single stylesheet unless import evidence proves that scope.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25-1237-geelooy-massive-revelation-03-phase--0fbffb909f.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-25-1237-geelooy-massive-revelation-04-phase--6446c80407",
+		"title": "Phase Two — Improved Execution Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25-1237-geelooy-massive-revelation/04-phase-two-improved-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Two — Improved Execution Plan",
+				"anchor": "phase-two-improved-execution-plan"
+			},
+			{
+				"level": 2,
+				"text": "Evidence absorbed",
+				"anchor": "evidence-absorbed"
+			},
+			{
+				"level": 2,
+				"text": "Wave A — Apps route style isolation",
+				"anchor": "wave-a-apps-route-style-isolation"
+			},
+			{
+				"level": 2,
+				"text": "Wave B — Apps discovery UX",
+				"anchor": "wave-b-apps-discovery-ux"
+			},
+			{
+				"level": 2,
+				"text": "Wave C — Global style-risk evidence",
+				"anchor": "wave-c-global-style-risk-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Wave D — Agent and docs bridge",
+				"anchor": "wave-d-agent-and-docs-bridge"
+			},
+			{
+				"level": 2,
+				"text": "Wave E — Runtime proof",
+				"anchor": "wave-e-runtime-proof"
+			},
+			{
+				"level": 2,
+				"text": "File ownership restraint",
+				"anchor": "file-ownership-restraint"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Two — Improved Execution Plan The Awtsmoos reveals greater light by choosing the vessel that already fits; Awtsmoos.com grows faster when evidence removes duplication before a single source file shifts. Evidence absorbed The Apps hub already has a modular catalog, renderer, abortab",
+		"searchText": "b\"h boruch hashem blessed is he phase two — improved execution plan the awtsmoos reveals greater light by choosing the vessel that already fits; awtsmoos.com grows faster when evidence removes duplication before a single source file shifts. evidence absorbed the apps hub already has a modular catalog, renderer, abortable runtime, and import only stylesheet manifest. apps/styles/base.css contains a naked body selector. filter.css, interactions.css, cards.css, hero.css, discovery.css, and responsive.css use apps specific classes without the route root, so their ownership is conventional rather than enforced. card hover is currently unconditional, while filter hover is correctly pointer qualified. animator is actively being redesigned by a separate same minute mission with its own final file plan. those files are reserved from this wave. prior mobile work already verified several high risk surfaces; this wave must extend evidence instead of rewriting verified pages blindly. wave a — apps route style isolation read every apps stylesheet completely, then fully rewrite each affected stylesheet so every effective selector is rooted beneath body[data geelooy route=\"apps\"]. preserve the existing variables and visual language. improve only ownership, interaction modality, containment, and state completeness where evidence supports it. candidate full file rewrites after all reads: geelooy/apps/styles/base.css geelooy/apps/styles/filter.css geelooy/apps/styles/interactions.css geelooy/apps/styles/cards.css geelooy/apps/styles/hero.css geelooy/apps/styles/discovery.css geelooy/apps/styles/responsive.css geelooy/apps/style.css stays import only unless a new apps local module is justified. wave b — apps discovery ux the current runtime is already small, class based, abortable, and documented. do not rewrite it merely to satisfy novelty. inspect the view and filter policy next. improve progressive disclosure only if catalog metadata can be surfaced without duplicating the catalog registry. prefer semantic or an apps local drawer over permanent dense controls. wave c — global style risk evidence before touching more pages, locate any existing static style scanner. if none exists, create one small modular verification tool that reports rather than mutates: naked html, body, :root, , and generic element selectors in page local style families; 100vw and hard viewport widths; suspicious fixed/min widths; extreme z index values; fixed overlays without containment clues; hover only interactive styles where no focus/active counterpart is visible. use its ranked output to choose the next public surfaces. the scanner is evidence generation, not an auto rewriter. wave d — agent and docs bridge do not duplicate animator's active agent facade. after its files land, verify them and connect global discovery/docs to the real capability manifest. inspect geelooy/docs, geelooy/api, and geelooy/.well known for the canonical machine discovery route. add crosslinks only after the real public contract is known. wave e — runtime proof for each changed public surface: syntax/static checks; selector scope verification; browser console check; 320px and 390px overflow probe; keyboard focus probe; pointer hover/active behavior where relevant; reduced motion check; full touched file reread; planned vs actual delta. file ownership restraint this wave will not overwrite animator files listed in its fresh 04 phase three final file plan.md, merkava files in its active same day mission, or already verified mobile surfaces unless new evidence proves a regression.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25-1237-geelooy-massive-revelation-04-phase--6446c80407.json"
 	}
 ]

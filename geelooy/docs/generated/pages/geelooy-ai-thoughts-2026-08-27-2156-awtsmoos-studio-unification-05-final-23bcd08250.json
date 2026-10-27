@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-27-2156-awtsmoos-studio-unification-05-final-23bcd08250",
+	"title": "Final Execution Plan — File-by-File",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-27-2156-awtsmoos-studio-unification/05_FINAL_EXECUTION_PLAN.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Final Execution Plan — File-by-File",
+			"anchor": "final-execution-plan-file-by-file"
+		},
+		{
+			"level": 2,
+			"text": "Slice One — Canonical Movie Domain",
+			"anchor": "slice-one-canonical-movie-domain"
+		},
+		{
+			"level": 2,
+			"text": "Slice Two — Shared Awtsmoos UI",
+			"anchor": "slice-two-shared-awtsmoos-ui"
+		},
+		{
+			"level": 2,
+			"text": "Slice Three — Awtsmoos Studio",
+			"anchor": "slice-three-awtsmoos-studio"
+		},
+		{
+			"level": 2,
+			"text": "Slice Four — Legacy Studio Adapters",
+			"anchor": "slice-four-legacy-studio-adapters"
+		},
+		{
+			"level": 2,
+			"text": "Slice Five — Real Three-Minute Render / Export",
+			"anchor": "slice-five-real-three-minute-render-export"
+		},
+		{
+			"level": 2,
+			"text": "Slice Six — Tests and Verification",
+			"anchor": "slice-six-tests-and-verification"
+		},
+		{
+			"level": 2,
+			"text": "Write Discipline",
+			"anchor": "write-discipline"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-27-2156-awtsmoos-studio-unification-05-final-23bcd08250-001.json"
+	]
+}

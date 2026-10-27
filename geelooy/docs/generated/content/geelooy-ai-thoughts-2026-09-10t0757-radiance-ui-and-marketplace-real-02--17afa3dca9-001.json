@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "<!-- B\"H -->\n<!-- Boruch Hashem -->\n<!-- Blessed be He -->\n\n# Phase Three — Exact First Files\n\n## Verify First\n- Radiance catalog, handler, start/finish settlement, entitlement bridge and tests.\n\n## Read Before Rewrite\n- `api/wallet/routes/commerceProducts.js`\n- `shared/commerce/model.js`\n- `shared/commerce/render.js`\n- `shared/commerce/surface.js`\n- `shared/commerce/controller.js`\n- `scripts/awtsmoos/ui/productCommerce.js`\n- `scripts/awtsmoos/ui/foundation.js`\n- product-commerce CSS modules.\n\n## Preferred New Modules\n- capability client/model/render helpers.\n- Radiance theme projector.\n- focused UI/model tests.\n- static marketplace generator modules.\n"
+}

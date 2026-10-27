@@ -36,40 +36,65 @@
 		"Access-Control-Allow-Origin",
 		"Cache-Control"
 	],
-	"callers": [],
-	"callerCount": 0,
+	"callers": [
+		{
+			"literal": "/api/oauth/authorize?client=social-hub",
+			"source": "geelooy/social-hub/tests/legalEntry.test.mjs",
+			"kind": "test"
+		},
+		{
+			"literal": "/api/oauth/device",
+			"source": "geelooy/apps/tunnel-control/index.html",
+			"kind": "runtime"
+		},
+		{
+			"literal": "/api/oauth/device",
+			"source": "geelooy/apps/tunnel-control/js/shell/agentLinks.js",
+			"kind": "runtime"
+		},
+		{
+			"literal": "/api/oauth/device-authorization",
+			"source": "geelooy/apps/tunnel/test/externalAiInstructions.test.cjs",
+			"kind": "test"
+		},
+		{
+			"literal": "/api/oauth/metadata",
+			"source": "geelooy/scripts/shliach/ConnectionMetadata.js",
+			"kind": "runtime"
+		},
+		{
+			"literal": "/api/oauth/start?client_id=chatgpt",
+			"source": "geelooy/apps/tunnel-control/js/api/auth.js",
+			"kind": "runtime"
+		},
+		{
+			"literal": "/api/oauth/start?next=${next}",
+			"source": "geelooy/apps/code/js/session/inline-login.js",
+			"kind": "runtime"
+		},
+		{
+			"literal": "/api/oauth/token",
+			"source": "geelooy/apps/tunnel/test/externalAiInstructions.test.cjs",
+			"kind": "test"
+		}
+	],
+	"callerCount": 8,
 	"tests": [],
 	"examples": [],
 	"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-oauth-route-99d253c847.md",
 	"confidence": "unknown-method",
 	"related": [
 		{
-			"id": "api-oauth-agent-callback-b4e6bf1061",
-			"route": "/api/oauth/agent-callback"
+			"id": "api-oauth-getroutehandler-487575ef09",
+			"route": "/api/oauth/getRouteHandler"
 		},
 		{
-			"id": "api-oauth-authorize-bdf605a5c6",
-			"route": "/api/oauth/authorize"
+			"id": "api-oauth-getroutetable-632912a20b",
+			"route": "/api/oauth/getRouteTable"
 		},
 		{
-			"id": "api-oauth-device-ff7c9e5d87",
-			"route": "/api/oauth/device"
-		},
-		{
-			"id": "api-oauth-device-authorization-c8c90e0df0",
-			"route": "/api/oauth/device-authorization"
-		},
-		{
-			"id": "api-oauth-metadata-323cb59001",
-			"route": "/api/oauth/metadata"
-		},
-		{
-			"id": "api-oauth-start-7c94ba48c1",
-			"route": "/api/oauth/start"
-		},
-		{
-			"id": "api-oauth-token-037d29e842",
-			"route": "/api/oauth/token"
+			"id": "api-oauth-listroutenames-9be1b1f0f5",
+			"route": "/api/oauth/listRouteNames"
 		}
 	]
 }

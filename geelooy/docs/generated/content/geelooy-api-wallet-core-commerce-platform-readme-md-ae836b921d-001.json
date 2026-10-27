@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Commerce Platform (geelooy/api/wallet/core/commerce/platform/)\n\nProduct directory and route manifests for apps/games sold through commerce.\n\nFiles:\n- `productDirectory.js`, `productDiscovery.js` — listing and discovering products\n- `productManifest.js`, `productRouteManifest.js` — product + route manifests\n- `productAppRoutes.js`, `productGameRoutes.js` — app/game-specific route tables\n\nFeeds the `commerce/products` route and platform readiness checks\n(`tests/platformCommerceCoverage.test.js`, `tests/platformReadiness.test.js`).\n"
+}

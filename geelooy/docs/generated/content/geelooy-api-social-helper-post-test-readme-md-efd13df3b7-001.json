@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Post Tests (geelooy/api/social/helper/post/test/)\n\nTests for post submissions and series reads.\n\n- `postSubmissions.test.js`, `postSubmissionFixture.js` — submission flows.\n- `postSubmissionReviewConvergence.test.js` — review convergence.\n- `seriesKeyCompleteness.test.js` — series-key completeness.\n- `seriesReadCompatibility.test.js`, `singularSeriesReadCompatibility.test.js`, `seriesReadSingleEnumeration.test.cjs` — read compatibility.\n"
+}

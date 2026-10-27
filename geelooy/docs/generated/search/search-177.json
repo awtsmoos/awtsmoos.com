@@ -1,241 +1,284 @@
 [
 	{
-		"id": "docs-generated-project-tutorial-index-projects-001-md-0fa25b4558",
-		"title": "Project Tutorial Index 1–45",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIAL_INDEX/projects-001.md",
-		"category": "Projects",
+		"id": "docs-generated-api-tutorials-routes-api-tunnel-control-simple-cmd-bfa7b5-33d6bfb351",
+		"title": "API Tutorial: /api/tunnel/control/simple/cmd",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-simple-cmd-bfa7b5e73b.md",
+		"category": "Tunnel",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial Index 1–45",
-				"anchor": "project-tutorial-index-1-45"
+				"text": "API Tutorial: /api/tunnel/control/simple/cmd",
+				"anchor": "api-tutorial-api-tunnel-control-simple-cmd"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial Index 1–45 Every discovered project boundary linked to generated evidence teaching. Project Type Files Tests Public entries Tutorial ai thoughts evidence 75 0 0 tutorial ai thoughts alias 8663 100 0 tutorial awtsmoos.com project 8 0 0 tutorial ayzarim runtime root 2105 3",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial index 1–45 every discovered project boundary linked to generated evidence teaching. project type files tests public entries tutorial ai thoughts evidence 75 0 0 tutorial ai thoughts alias 8663 100 0 tutorial awtsmoos.com project 8 0 0 tutorial ayzarim runtime root 2105 367 0 tutorial ayzarim/dosdb data 1008 160 0 tutorial ayzarim/awtsmoosdynamicserver runtime 1035 207 0 tutorial ayzarim/email infrastructure 5 0 0 tutorial ayzarim/maintence infrastructure 1 0 0 tutorial ayzarim/math infrastructure 1 0 0 tutorial ayzarim/ssh infrastructure 48 0 0 tutorial ayzarim/tools infrastructure 4 0 0 tutorial geelooy public root 34697 4699 1 tutorial geelooy/.awtsmoos project 6 0 0 tutorial geelooy/.awtsmoos agent thoughts evidence 200 0 1 tutorial geelooy/.awtsmoos agent transfer project 139 14 1 tutorial geelooy/.awtsmoos smoke project 4 0 0 tutorial geelooy/.awtsmoos transfer project 8 0 0 tutorial geelooy/.data project 1 0 0 tutorial geelooy/.well known project 1 0 0 tutorial geelooy/@ project 3 0 0 tutorial geelooy/about public 1 0 1 tutorial geelooy/ai public 884 165 2 tutorial geelooy/api project 2242 399 0 tutorial geelooy/api/admin api 2 0 0 tutorial geelooy/api/compiler api 10 1 0 tutorial geelooy/api/contact api 2 0 0 tutorial geelooy/api/email api 2 0 0 tutorial geelooy/api/fetch api 2 0 0 tutorial geelooy/api/gpt api 14 3 0 tutorial geelooy/api/nav api 1 0 0 tutorial geelooy/api/oauth api 58 10 0 tutorial geelooy/api/ohr hagnuz api 8 1 0 tutorial geelooy/api/perutas api 33 0 0 tutorial geelooy/api/projecthosting api 8 2 0 tutorial geelooy/api/public api 2 0 0 tutorial geelooy/api/runtime api 6 0 0 tutorial geelooy/api/sefarim api 3 1 0 tutorial geelooy/api/social api 1516 250 0 tutorial geelooy/api/ssh api 34 0 0 tutorial geelooy/api/streaming api 17 0 0 tutorial geelooy/api/text api 2 0 0 tutorial geelooy/api/tunnel api 381 106 0 tutorial geelooy/api/wallet api 85 19 0 tutorial geelooy/api/youtube api 22 1 0 tutorial geelooy/api/zmanim api 30 5 0 tutorial",
-		"page": "pages/docs-generated-project-tutorial-index-projects-001-md-0fa25b4558.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/tunnel/control/simple/cmd Family: Tunnel Control · Mount: /api/tunnel/control · Derech health: OK Source: geelooy/api/tunnel/control/ awtsmoos.derech.js · Discovery: static literal · Confidence: source lexical Read the human Tunnel Control tutorial Generated evidence i",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/tunnel/control/simple/cmd family: tunnel control · mount: /api/tunnel/control · derech health: ok source: geelooy/api/tunnel/control/ awtsmoos.derech.js · discovery: static literal · confidence: source lexical read the human tunnel control tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: post request vessels: route vars observed status literals: 200, 500 observed headers: — path parameters none. starter call starter only: method evidence is lexical at the source file level; inspect the handler before relying on payload or response shape. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test:mission continuity actions — node geelooy/apps/tunnel/agent/tools/fs/actiongroups/test/missioncontinuityactions.test.mjs test:treasury — node geelooy/api/tunnel/control/test/runtreasurytests.cjs test:treasury:full — node geelooy/api/tunnel/control/test/treasury/runall.cjs test:tunnel release — node test scripts/tunnel/testing/ .test.cjs scripts/repository hygiene/testing/ .test.cjs related routes /api/tunnel/control/admin vault /api/tunnel/control/admin/perutas /api/tunnel/control/agent economy /api/tunnel/control/agent lobby /api/tunnel/control/agent lobby/join /api/tunnel/control/agent lobby/post /api/tunnel/control/agent manifest /api/tunnel/control/agent room",
+		"page": "pages/docs-generated-api-tutorials-routes-api-tunnel-control-simple-cmd-bfa7b5-33d6bfb351.json"
 	},
 	{
-		"id": "docs-generated-project-tutorial-index-projects-002-md-73bd49a25d",
-		"title": "Project Tutorial Index 46–90",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIAL_INDEX/projects-002.md",
-		"category": "Projects",
+		"id": "docs-generated-api-tutorials-routes-api-tunnel-control-simple-poll-b814f-7b23563a3e",
+		"title": "API Tutorial: /api/tunnel/control/simple/poll",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-simple-poll-b814f87542.md",
+		"category": "Tunnel",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial Index 46–90",
-				"anchor": "project-tutorial-index-46-90"
+				"text": "API Tutorial: /api/tunnel/control/simple/poll",
+				"anchor": "api-tutorial-api-tunnel-control-simple-poll"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial Index 46–90 Every discovered project boundary linked to generated evidence teaching. Project Type Files Tests Public entries Tutorial geelooy/api/zmanimms api 1 0 0 tutorial geelooy/apps public 10325 1790 1 tutorial geelooy/apps/android emulator app 1495 566 0 tutorial g",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial index 46–90 every discovered project boundary linked to generated evidence teaching. project type files tests public entries tutorial geelooy/api/zmanimms api 1 0 0 tutorial geelooy/apps public 10325 1790 1 tutorial geelooy/apps/android emulator app 1495 566 0 tutorial geelooy/apps/animator app 2488 0 1 tutorial geelooy/apps/archive uploader app 3 0 1 tutorial geelooy/apps/audio editor app 4 0 1 tutorial geelooy/apps/awtsmoos gguf app 88 0 1 tutorial geelooy/apps/bookcovermaker app 1 0 1 tutorial geelooy/apps/broadcaster app 3 0 1 tutorial geelooy/apps/byteviewer app 4 0 1 tutorial geelooy/apps/captions app 68 0 2 tutorial geelooy/apps/code app 1125 44 1 tutorial geelooy/apps/compiler app 79 1 1 tutorial geelooy/apps/csv app 5 0 1 tutorial geelooy/apps/docs app 194 0 2 tutorial geelooy/apps/drive app 105 9 1 tutorial geelooy/apps/editor app 40 0 2 tutorial geelooy/apps/exe emulator app 416 133 2 tutorial geelooy/apps/forms app 0 0 0 tutorial geelooy/apps/gpt api pulse garden app 1 0 1 tutorial geelooy/apps/lyric sync app 4 0 1 tutorial geelooy/apps/merkava native browser app 79 0 1 tutorial geelooy/apps/mitzvah pushkuh app 150 7 1 tutorial geelooy/apps/nesher studio app 542 117 1 tutorial geelooy/apps/pdf to img app 1 0 1 tutorial geelooy/apps/piano app 60 0 1 tutorial geelooy/apps/rebbe app 126 0 1 tutorial geelooy/apps/scripts app 16 0 0 tutorial geelooy/apps/sheets app 130 2 1 tutorial geelooy/apps/slides app 82 10 1 tutorial geelooy/apps/styles app 6 0 0 tutorial geelooy/apps/tests app 1 1 0 tutorial geelooy/apps/transcribe app 2 0 1 tutorial geelooy/apps/tunnel app 2295 820 6 tutorial geelooy/apps/tunnel control app 490 57 3 tutorial geelooy/apps/universal chat app 173 22 1 tutorial geelooy/apps/video editor app 2 0 1 tutorial geelooy/apps/virtual os stress light counter app 1 0 1 tutorial geelooy/apps/wallet app 40 1 1 tutorial geelooy/apps/watermark remover app 1 0 1 tutorial geelooy/awtai db public 9 0 1 tutorial geelooy/ayin public 1 0 1 tutorial geelooy/browser test project 2 1 0 tutorial geelooy/comment thread public 23 2 1 tutorial geelooy/contact public 3 0 1 tutorial",
-		"page": "pages/docs-generated-project-tutorial-index-projects-002-md-73bd49a25d.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/tunnel/control/simple/poll Family: Tunnel Control · Mount: /api/tunnel/control · Derech health: OK Source: geelooy/api/tunnel/control/ awtsmoos.derech.js · Discovery: static literal · Confidence: source lexical Read the human Tunnel Control tutorial Generated evidence ",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/tunnel/control/simple/poll family: tunnel control · mount: /api/tunnel/control · derech health: ok source: geelooy/api/tunnel/control/ awtsmoos.derech.js · discovery: static literal · confidence: source lexical read the human tunnel control tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: post request vessels: route vars observed status literals: 200, 500 observed headers: — path parameters none. starter call starter only: method evidence is lexical at the source file level; inspect the handler before relying on payload or response shape. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test:mission continuity actions — node geelooy/apps/tunnel/agent/tools/fs/actiongroups/test/missioncontinuityactions.test.mjs test:treasury — node geelooy/api/tunnel/control/test/runtreasurytests.cjs test:treasury:full — node geelooy/api/tunnel/control/test/treasury/runall.cjs test:tunnel release — node test scripts/tunnel/testing/ .test.cjs scripts/repository hygiene/testing/ .test.cjs related routes /api/tunnel/control/admin vault /api/tunnel/control/admin/perutas /api/tunnel/control/agent economy /api/tunnel/control/agent lobby /api/tunnel/control/agent lobby/join /api/tunnel/control/agent lobby/post /api/tunnel/control/agent manifest /api/tunnel/control/agent room",
+		"page": "pages/docs-generated-api-tutorials-routes-api-tunnel-control-simple-poll-b814f-7b23563a3e.json"
 	},
 	{
-		"id": "docs-generated-project-tutorial-index-projects-003-md-dc048d0f3c",
-		"title": "Project Tutorial Index 91–135",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIAL_INDEX/projects-003.md",
-		"category": "Projects",
+		"id": "docs-generated-api-tutorials-routes-api-tunnel-control-simple-request-98-a76fbe8996",
+		"title": "API Tutorial: /api/tunnel/control/simple/request",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-simple-request-989220f009.md",
+		"category": "Tunnel",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial Index 91–135",
-				"anchor": "project-tutorial-index-91-135"
+				"text": "API Tutorial: /api/tunnel/control/simple/request",
+				"anchor": "api-tutorial-api-tunnel-control-simple-request"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial Index 91–135 Every discovered project boundary linked to generated evidence teaching. Project Type Files Tests Public entries Tutorial geelooy/control public 3 0 1 tutorial geelooy/css project 1 0 0 tutorial geelooy/db public 9 0 3 tutorial geelooy/docs public 3555 0 1 t",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial index 91–135 every discovered project boundary linked to generated evidence teaching. project type files tests public entries tutorial geelooy/control public 3 0 1 tutorial geelooy/css project 1 0 0 tutorial geelooy/db public 9 0 3 tutorial geelooy/docs public 3555 0 1 tutorial geelooy/donate public 1 0 1 tutorial geelooy/drive public 213 52 1 tutorial geelooy/editor public 1 0 1 tutorial geelooy/email public 167 4 1 tutorial geelooy/entity view public 2 0 1 tutorial geelooy/fetch public 1 0 1 tutorial geelooy/game public 1 0 1 tutorial geelooy/games public 8519 1469 1 tutorial geelooy/games/kavanah game 16 0 1 tutorial geelooy/games/merkava game 128 32 1 tutorial geelooy/games/nachash game 5 0 1 tutorial geelooy/games/adventure game 1 0 1 tutorial geelooy/games/brick blast game 80 0 1 tutorial geelooy/games/cards game 11 0 1 tutorial geelooy/games/chess game 97 22 2 tutorial geelooy/games/city of light game 80 11 1 tutorial geelooy/games/connect4 game 6 0 1 tutorial geelooy/games/dove game 8 0 1 tutorial geelooy/games/emojis game 37 0 1 tutorial geelooy/games/kabbalah shooter game 39 0 1 tutorial geelooy/games/migdol game 12 0 1 tutorial geelooy/games/mitzvahworld game 3920 1015 3 tutorial geelooy/games/neshama quest game 7 0 1 tutorial geelooy/games/nitzotz io game 250 29 1 tutorial geelooy/games/ohr hagnuz game 793 89 1 tutorial geelooy/games/oros ha kelim game 76 14 1 tutorial geelooy/games/party game 16 0 1 tutorial geelooy/games/pong game 12 0 1 tutorial geelooy/games/rambam game 1 0 1 tutorial geelooy/games/rebbe runner game 4 0 1 tutorial geelooy/games/scribe journey game 476 99 1 tutorial geelooy/games/scripts game 81 0 0 tutorial geelooy/games/sefira clash game 1381 41 1 tutorial geelooy/games/seven mitzvos game 597 66 1 tutorial geelooy/games/shema strike game 173 21 1 tutorial geelooy/games/soul jump game 2 0 1 tutorial geelooy/games/styles game 14 0 0 tutorial geelooy/games/sulam ha sod game 167 14 1 tutorial geelooy/games/tests game 17 16 4 tutorial geelooy/games/tetris game 8 0 1 tutorial geelooy/geelooy project 5 3 0 tutorial",
-		"page": "pages/docs-generated-project-tutorial-index-projects-003-md-dc048d0f3c.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/tunnel/control/simple/request Family: Tunnel Control · Mount: /api/tunnel/control · Derech health: OK Source: geelooy/api/tunnel/control/ awtsmoos.derech.js · Discovery: static literal · Confidence: source lexical Read the human Tunnel Control tutorial Generated eviden",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/tunnel/control/simple/request family: tunnel control · mount: /api/tunnel/control · derech health: ok source: geelooy/api/tunnel/control/ awtsmoos.derech.js · discovery: static literal · confidence: source lexical read the human tunnel control tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: post request vessels: route vars observed status literals: 200, 500 observed headers: — path parameters none. starter call starter only: method evidence is lexical at the source file level; inspect the handler before relying on payload or response shape. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test:mission continuity actions — node geelooy/apps/tunnel/agent/tools/fs/actiongroups/test/missioncontinuityactions.test.mjs test:treasury — node geelooy/api/tunnel/control/test/runtreasurytests.cjs test:treasury:full — node geelooy/api/tunnel/control/test/treasury/runall.cjs test:tunnel release — node test scripts/tunnel/testing/ .test.cjs scripts/repository hygiene/testing/ .test.cjs related routes /api/tunnel/control/admin vault /api/tunnel/control/admin/perutas /api/tunnel/control/agent economy /api/tunnel/control/agent lobby /api/tunnel/control/agent lobby/join /api/tunnel/control/agent lobby/post /api/tunnel/control/agent manifest /api/tunnel/control/agent room",
+		"page": "pages/docs-generated-api-tutorials-routes-api-tunnel-control-simple-request-98-a76fbe8996.json"
 	},
 	{
-		"id": "docs-generated-project-tutorial-index-projects-004-md-3bd5b39520",
-		"title": "Project Tutorial Index 136–179",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIAL_INDEX/projects-004.md",
-		"category": "Projects",
+		"id": "docs-generated-api-tutorials-routes-api-tunnel-control-simple-result-ecb-84f13e5d6a",
+		"title": "API Tutorial: /api/tunnel/control/simple/result",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-simple-result-ecbe5a387f.md",
+		"category": "Tunnel",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial Index 136–179",
-				"anchor": "project-tutorial-index-136-179"
+				"text": "API Tutorial: /api/tunnel/control/simple/result",
+				"anchor": "api-tutorial-api-tunnel-control-simple-result"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial Index 136–179 Every discovered project boundary linked to generated evidence teaching. Project Type Files Tests Public entries Tutorial geelooy/git project 1 0 0 tutorial geelooy/heichel project 1 0 0 tutorial geelooy/heichel editor public 19 2 1 tutorial geelooy/heichel",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial index 136–179 every discovered project boundary linked to generated evidence teaching. project type files tests public entries tutorial geelooy/git project 1 0 0 tutorial geelooy/heichel project 1 0 0 tutorial geelooy/heichel editor public 19 2 1 tutorial geelooy/heichel review public 40 4 1 tutorial geelooy/heichelos project 1051 131 4 tutorial geelooy/legal project 6 0 2 tutorial geelooy/libs library 2268 138 0 tutorial geelooy/login public 1 0 1 tutorial geelooy/logout public 1 0 1 tutorial geelooy/mawgawl public 80 14 2 tutorial geelooy/node os public 2 0 1 tutorial geelooy/notifications public 34 2 1 tutorial geelooy/ocr public 1 0 1 tutorial geelooy/os public 729 79 1 tutorial geelooy/parsers project 1 0 1 tutorial geelooy/platform project 110 19 0 tutorial geelooy/post editor public 15 2 1 tutorial geelooy/profile public 39 4 2 tutorial geelooy/public project 17 0 8 tutorial geelooy/record public 7 0 1 tutorial geelooy/recorder public 13 0 1 tutorial geelooy/reeyuh public 1 0 1 tutorial geelooy/register public 1 0 1 tutorial geelooy/resources project 2 0 0 tutorial geelooy/scripts library 1587 113 9 tutorial geelooy/shared library 154 28 0 tutorial geelooy/sites project 35 11 0 tutorial geelooy/social public 62 7 2 tutorial geelooy/social actions project 11 1 0 tutorial geelooy/social composer public 354 28 2 tutorial geelooy/social hub public 265 46 1 tutorial geelooy/sod public 1 0 1 tutorial geelooy/style library 1184 48 0 tutorial geelooy/tests test 109 107 0 tutorial geelooy/tmp project 9 0 0 tutorial geelooy/view project 1 0 0 tutorial geelooy/webscrapers project 5 0 0 tutorial geelooy/youtube public 10 0 1 tutorial geelooy/zmanim public 128 16 1 tutorial ops operations 5 0 0 tutorial scripts tooling 398 30 0 tutorial templates tooling 17 1 0 tutorial tests test 93 92 0 tutorial tools tooling 201 29 0 tutorial",
-		"page": "pages/docs-generated-project-tutorial-index-projects-004-md-3bd5b39520.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/tunnel/control/simple/result Family: Tunnel Control · Mount: /api/tunnel/control · Derech health: OK Source: geelooy/api/tunnel/control/ awtsmoos.derech.js · Discovery: static literal · Confidence: source lexical Read the human Tunnel Control tutorial Generated evidenc",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/tunnel/control/simple/result family: tunnel control · mount: /api/tunnel/control · derech health: ok source: geelooy/api/tunnel/control/ awtsmoos.derech.js · discovery: static literal · confidence: source lexical read the human tunnel control tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: post request vessels: route vars observed status literals: 200, 500 observed headers: — path parameters none. starter call starter only: method evidence is lexical at the source file level; inspect the handler before relying on payload or response shape. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test:mission continuity actions — node geelooy/apps/tunnel/agent/tools/fs/actiongroups/test/missioncontinuityactions.test.mjs test:treasury — node geelooy/api/tunnel/control/test/runtreasurytests.cjs test:treasury:full — node geelooy/api/tunnel/control/test/treasury/runall.cjs test:tunnel release — node test scripts/tunnel/testing/ .test.cjs scripts/repository hygiene/testing/ .test.cjs related routes /api/tunnel/control/admin vault /api/tunnel/control/admin/perutas /api/tunnel/control/agent economy /api/tunnel/control/agent lobby /api/tunnel/control/agent lobby/join /api/tunnel/control/agent lobby/post /api/tunnel/control/agent manifest /api/tunnel/control/agent room",
+		"page": "pages/docs-generated-api-tutorials-routes-api-tunnel-control-simple-result-ecb-84f13e5d6a.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-ai-thoughts-021beb76-md-67e55b525a",
-		"title": "Project Tutorial: ai-thoughts",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ai-thoughts-021beb76.md",
-		"category": "Projects",
+		"id": "docs-generated-api-tutorials-routes-api-tunnel-control-simple-setup-b15a-2714a52e6b",
+		"title": "API Tutorial: /api/tunnel/control/simple/setup",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-simple-setup-b15af34d6f.md",
+		"category": "Tunnel",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: ai-thoughts",
-				"anchor": "project-tutorial-ai-thoughts"
+				"text": "API Tutorial: /api/tunnel/control/simple/setup",
+				"anchor": "api-tutorial-api-tunnel-control-simple-setup"
 			},
 			{
 				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
 			},
 			{
 				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
+				"text": "Path parameters",
+				"anchor": "path-parameters"
 			},
 			{
 				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
+				"text": "Starter call",
+				"anchor": "starter-call"
 			},
 			{
 				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
+				"text": "Observed callers",
+				"anchor": "observed-callers"
 			},
 			{
 				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
+				"text": "Related tests",
+				"anchor": "related-tests"
 			},
 			{
 				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Related routes",
+				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: ai thoughts Path: ai thoughts · Type: evidence · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime owners",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: ai thoughts path: ai thoughts · type: evidence · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: — local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 0 0 0 0 0 75 75 public entry points none observed. symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-ai-thoughts-021beb76-md-67e55b525a.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/tunnel/control/simple/setup Family: Tunnel Control · Mount: /api/tunnel/control · Derech health: OK Source: geelooy/api/tunnel/control/ awtsmoos.derech.js · Discovery: static literal · Confidence: source lexical Read the human Tunnel Control tutorial Generated evidence",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/tunnel/control/simple/setup family: tunnel control · mount: /api/tunnel/control · derech health: ok source: geelooy/api/tunnel/control/ awtsmoos.derech.js · discovery: static literal · confidence: source lexical read the human tunnel control tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: post request vessels: route vars observed status literals: 200, 500 observed headers: — path parameters none. starter call starter only: method evidence is lexical at the source file level; inspect the handler before relying on payload or response shape. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test:mission continuity actions — node geelooy/apps/tunnel/agent/tools/fs/actiongroups/test/missioncontinuityactions.test.mjs test:treasury — node geelooy/api/tunnel/control/test/runtreasurytests.cjs test:treasury:full — node geelooy/api/tunnel/control/test/treasury/runall.cjs test:tunnel release — node test scripts/tunnel/testing/ .test.cjs scripts/repository hygiene/testing/ .test.cjs related routes /api/tunnel/control/admin vault /api/tunnel/control/admin/perutas /api/tunnel/control/agent economy /api/tunnel/control/agent lobby /api/tunnel/control/agent lobby/join /api/tunnel/control/agent lobby/post /api/tunnel/control/agent manifest /api/tunnel/control/agent room",
+		"page": "pages/docs-generated-api-tutorials-routes-api-tunnel-control-simple-setup-b15a-2714a52e6b.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-ai-thoughts-e431fde4-md-542cb14530",
-		"title": "Project Tutorial: aithoughts",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ai-thoughts-e431fde4.md",
-		"category": "Projects",
+		"id": "docs-generated-api-tutorials-routes-api-tunnel-control-simple-status-5b7-5a054bdffd",
+		"title": "API Tutorial: /api/tunnel/control/simple/status",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-simple-status-5b7c6e89a0.md",
+		"category": "Tunnel",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: aithoughts",
-				"anchor": "project-tutorial-aithoughts"
+				"text": "API Tutorial: /api/tunnel/control/simple/status",
+				"anchor": "api-tutorial-api-tunnel-control-simple-status"
 			},
 			{
 				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
 			},
 			{
 				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
+				"text": "Path parameters",
+				"anchor": "path-parameters"
 			},
 			{
 				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
+				"text": "Starter call",
+				"anchor": "starter-call"
 			},
 			{
 				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
+				"text": "Observed callers",
+				"anchor": "observed-callers"
 			},
 			{
 				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
+				"text": "Related tests",
+				"anchor": "related-tests"
 			},
 			{
 				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Related routes",
+				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: ai thoughts Path: ai thoughts · Type: alias · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: ai thoughts path: ai thoughts · type: alias · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: — local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: /users/awtsmoos/work/awtsmoos.com artifacts/ai thoughts file shape source tests assets generated docs other total 5733 100 0 0 60 2770 8663 public entry points none observed. symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 100 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-ai-thoughts-e431fde4-md-542cb14530.json"
-	},
-	{
-		"id": "docs-generated-project-tutorials-projects-awtsmoos-com-0c3ac1c0-md-d5ed92968a",
-		"title": "Project Tutorial: awtsmoos.com",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/awtsmoos-com-0c3ac1c0.md",
-		"category": "Projects",
-		"provenance": "generated",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Project Tutorial: awtsmoos.com",
-				"anchor": "project-tutorial-awtsmoos-com"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: awtsmoos.com Path: awtsmoos.com · Type: project · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime owner",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: awtsmoos.com path: awtsmoos.com · type: project · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: documentation.md local documentation: awtsmoos.com/documentation.md local doc requirement: no; covered: yes symlink target: — file shape source tests assets generated docs other total 1 0 0 0 1 6 8 public entry points none observed. symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-awtsmoos-com-0c3ac1c0-md-d5ed92968a.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/tunnel/control/simple/status Family: Tunnel Control · Mount: /api/tunnel/control · Derech health: OK Source: geelooy/api/tunnel/control/ awtsmoos.derech.js · Discovery: static literal · Confidence: source lexical Read the human Tunnel Control tutorial Generated evidenc",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/tunnel/control/simple/status family: tunnel control · mount: /api/tunnel/control · derech health: ok source: geelooy/api/tunnel/control/ awtsmoos.derech.js · discovery: static literal · confidence: source lexical read the human tunnel control tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: post request vessels: route vars observed status literals: 200, 500 observed headers: — path parameters none. starter call starter only: method evidence is lexical at the source file level; inspect the handler before relying on payload or response shape. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test:mission continuity actions — node geelooy/apps/tunnel/agent/tools/fs/actiongroups/test/missioncontinuityactions.test.mjs test:treasury — node geelooy/api/tunnel/control/test/runtreasurytests.cjs test:treasury:full — node geelooy/api/tunnel/control/test/treasury/runall.cjs test:tunnel release — node test scripts/tunnel/testing/ .test.cjs scripts/repository hygiene/testing/ .test.cjs related routes /api/tunnel/control/admin vault /api/tunnel/control/admin/perutas /api/tunnel/control/agent economy /api/tunnel/control/agent lobby /api/tunnel/control/agent lobby/join /api/tunnel/control/agent lobby/post /api/tunnel/control/agent manifest /api/tunnel/control/agent room",
+		"page": "pages/docs-generated-api-tutorials-routes-api-tunnel-control-simple-status-5b7-5a054bdffd.json"
 	}
 ]

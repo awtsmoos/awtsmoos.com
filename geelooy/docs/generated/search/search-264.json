@@ -1,146 +1,279 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-gameplay-combat-dire-a5744956f0",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/combat/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-projects-dosdb-md-867be882f9",
+		"title": "DosDB Project",
+		"sourcePath": "docs/PROJECTS/DOSDB.md",
+		"category": "Data",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/gameplay/combat",
-				"anchor": "directory-guide-experiments-awtsmoos-src-gameplay-combat"
+				"text": "DosDB Project",
+				"anchor": "dosdb-project"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Canonical source",
+				"anchor": "canonical-source"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Architectural layers",
+				"anchor": "architectural-layers"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Human documentation",
+				"anchor": "human-documentation"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
+				"text": "Dependency relationship",
+				"anchor": "dependency-relationship"
 			},
 			{
 				"level": 2,
-				"text": "Exported symbols worth searching",
-				"anchor": "exported-symbols-worth-searching"
+				"text": "Verification strategy",
+				"anchor": "verification-strategy"
 			},
 			{
 				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Local navigation",
+				"anchor": "local-navigation"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/gameplay/combat Role: Gameplay Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 26 files, 0 structural child directories Purpose Combat turns, melee, Torah abilities, cooldowns, targeting gates, progression r",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/gameplay/combat role: gameplay snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 26 files, 0 structural child directories purpose combat turns, melee, torah abilities, cooldowns, targeting gates, progression rewards, and encounter state. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: gameplay search terms: torah, combat, turn, ability, player, status, melee, effect, enemy, rules, state, store file mix: .js: 25 good first question: “does the behavior or asset i need belong to gameplay, or is this only a neighboring/test/reference layer?” semantic evidence owns only encounter phase while existing combat systems own every consequence. yesod remembers whose deed may begin, and tiferes restores balance after each bounded ray; awtsmoos.com adds no frame loop, health store, damage engine, cooldown clock, or rival ai array. binds existing combat events to one encounter phase coordinator. the awtsmoos sends no duplicate pulse; each old event enters one new measured gate, and awtsmoos.com preserves synchronous intent while every domain retains its native state. names immutable phases for one alternating encounter without owning damage or ai. the awtsmoos is beyond before and after, yet grants each deed a measured gate; awtsmoos.com lets player and foe answer in rhythm while older combat vessels keep their fate. computes alternating encounter transitions without owning events, clocks, or consequences. the awtsmoos holds player and foe inside one measured tiferes, where each gevurah answers in time; awtsmoos.com returns immutable state and explicit decisions, so no hidden combat authority can climb. representative files combatturncoordinator.js — owns only encounter phase while existing combat systems own every consequence. yesod remembers whose deed may begin, and tiferes restores balance after each bounded ray; awtsmoos.com adds no frame loop, health store, damage engine, cooldown clock, or rival ai array. exports: combatturncoordinator. combatturneventbindings.js — binds existing combat events to one encounter phase coordinator. the awtsmoos sends no duplicate pulse; each old event enters one new measured gate, and awtsmoos.com preserves synchronous intent while every domain retains its native state. exports: bindcombatturnevents. combatturnrules.js — names immutable phases for one alternating encounter without owning damage or ai. the awtsmoos is beyond before and after, yet grants each deed a measured gate; awtsmoos.com lets player and foe answer in rhythm while older combat vessels keep their fate. exports: combat turn phase, idlecombatturnstate, begincombatturnstate, transitioncombatturn, endcombatturnstate. combatturntransitions.js — computes alternating encounter transitions without owning events, clocks, or consequences. the awtsmoos holds player and foe inside one measured tiferes, where each gevurah answers in time; awtsmoos.com returns immutable state and explicit decisions, so no hidden combat authority can climb. exports: playerturnreadiness, reserveplayerturn, resolveplayerturn, cancelplayerturn, reserveenemyturn. enemyprogressioncoordinator.js — awards bounded exactly once xp from enemy defeat events and publishes hud state. the awtsmoos remembers every true act without duplication; awtsmoos.com keeps only a bounded receipt window while the canonical profile store remains the sole owner of levels and xp. exports: enemyprogressioncoordinator. enemyprogressionrules.js — pure enemy armor, xp scaling, and player hud projection laws. the awtsmoos renews strength through measured vessels; awtsmoos.com turns level difference, protection, and earned experience into deterministic values without hidden mutable state. exports: mitigatephysicaldamage, enemyexperiencereward, playerhudprofile. playermeleecontroller.js — converts keyboard or hotbar intention into one canonical physical strike transaction. the awtsmoos renews resolve before the staff can fly; gevurah is measured, tiferes keeps time, and awtsmoos.com sends one bounded request without polling the world or multiplying listeners. exports: playermeleecontroller. playermeleerules.js — derives one physical strike from canonical level, attributes, and equipped items. the awtsmoos gathers many measured garments into one decisive ray; damage and cadence rhyme, while awtsmoos.com keeps every number pure, bounded, deterministic, and absent from frame loops. exports: default player melee attack, resolveplayermeleeattack, playermeleereadiness. playermeleeturngateway.js — adapts melee readiness to one optional encounter phase authority. the awtsmoos lets cooldown and turn remain distinct vessels that meet only at the gate; awtsmoos.com preserves free real time strikes outside encounters and measured answers within fate. exports: playermeleeturngateway. torahabilityactivationrules.js — pure preflight rules shared by ability execution, slots, and tooltips. exports: evaluatetorahabilityactivation. torahabilitycastrules.js — pure cast state construction, charge ratios, and bounded channel tick planning. exports: createabilitycast, abilitycastsnapshot, abilitychargeratio, channeltickplan. torahabilitycatalog.js — action bar timelines derived from the canonical learned passage combat values. exports: torah ability catalog, torahabilitydefinition, torahabilityforpassage. torahabilitycooldownstore.js — lazily recovers charges and global cooldowns without timers or per frame allocation. exports: torahabilitycooldownstore. exported symbols worth searching combatturncoordinator · bindcombatturnevents · combat turn phase · idlecombatturnstate · begincombatturnstate · transitioncombatturn · endcombatturnstate · combatturnexpired · hostilecombattargetid · playerturnreadiness · reserveplayerturn · resolveplayerturn · cancelplayerturn · reserveenemyturn · resolveenemyturn · applyturnoutcome import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ./combatturneventbindings.js ./combatturnrules.js ./combatturntransitions.js ./enemyprogressionrules.js ../shliachprofilerules.js ./playermeleerules.js ./playermeleeturngateway.js ../torahpassagecatalog.js ./torahabilitycastrules.js ./torahabilityactivationrules.js ./torahabilitycatalog.js ./torahabilitycooldownstore.js directory map parent: experiments/awtsmoos/src/gameplay children: none. related and overlapping systems combat domain, action bars, targeting, and hud — domain rules live under gameplay while browser widgets and target presentation live under ui and styles. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-gameplay-combat-dire-a5744956f0.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He DosDB Project The Awtsmoos lets many generations of persistence remain reachable while Awtsmoos.com uses DosDB as the bridge between legacy logical APIs and newer binary/VirtualFs storage. Canonical source ayzarim/DosDB/ This is a major data project, not a tiny helper. Generated symbol/t",
+		"searchText": "b\"h boruch hashem blessed is he dosdb project the awtsmoos lets many generations of persistence remain reachable while awtsmoos.com uses dosdb as the bridge between legacy logical apis and newer binary/virtualfs storage. canonical source ayzarim/dosdb/ this is a major data project, not a tiny helper. generated symbol/test discovery shows a very large implementation and test surface, so changes should begin from the data manuals rather than from one method file in isolation. architectural layers index.js — main dosdb compatibility wrapper and method binding. methods/ — legacy logical read/write/path/array/object/directory behavior. awtsmoosdbfsadapter.js — routing into modern awtsmoosdb virtualfs or compatible legacy binary files. awtsmoosdbbridge.js — lazy parallel awtsmoosdb for ai/search/vector/graph experimentation. runtimereadguard.js — null safe parser result normalization without byte mutation. awtsmoosbinary/ — binary storage, parsing, awtsmoosdb and compatibility infrastructure. human documentation docs/data/readme.md — persistence overview. docs/data/dosdb.md — compatibility/read/write/cache architecture. docs/data/awtsmoosdb and virtualfs.md — modern database and legacy file detection. docs/data/path contracts.md — migration sensitive logical paths. dependency relationship generated dependency evidence shows social api source importing dosdb internals. the dynamic server also initializes dosdb as the runtime database. therefore a dosdb compatibility change can affect social behavior, server boot, tests, repair tools and any subsystem using $i.db. verification strategy use dosdb local tests plus dynamic server db initialization tests and representative social persistence tests. for format/router changes, include real historical/legacy fixture shapes in addition to newly written files. local navigation a local ayzarim/dosdb/documentation.md should point here and to the data manuals, while detailed method behavior remains in source and tests.",
+		"page": "pages/docs-projects-dosdb-md-867be882f9.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-gameplay-directory-g-dcf0ac3868",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/DIRECTORY_GUIDE.md",
+		"id": "docs-projects-games-platform-md-95e7f4354e",
+		"title": "Games and Simulation Platform",
+		"sourcePath": "docs/PROJECTS/GAMES_PLATFORM.md",
 		"category": "Games",
-		"provenance": "project",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/gameplay",
-				"anchor": "directory-guide-experiments-awtsmoos-src-gameplay"
+				"text": "Games and Simulation Platform",
+				"anchor": "games-and-simulation-platform"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Canonical area",
+				"anchor": "canonical-area"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Shared versus game-specific roots",
+				"anchor": "shared-versus-game-specific-roots"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Realtime applications",
+				"anchor": "realtime-applications"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
+				"text": "Generated evidence",
+				"anchor": "generated-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Exported symbols worth searching",
-				"anchor": "exported-symbols-worth-searching"
+				"text": "Human guidance",
+				"anchor": "human-guidance"
 			},
 			{
 				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Change strategy",
+				"anchor": "change-strategy"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/gameplay Role: Gameplay Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 22 files, 2 structural child directories Purpose Gameplay domain rules and coordinators shared by combat, action bars, progression, abi",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/gameplay role: gameplay snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 22 files, 2 structural child directories purpose gameplay domain rules and coordinators shared by combat, action bars, progression, abilities, and player state. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: gameplay search terms: inventory, shliach, adventure, shlichus, store, torah, catalog, profile, rules, combat, event, passage file mix: .js: 21 good first question: “does the behavior or asset i need belong to gameplay, or is this only a neighboring/test/reference layer?” semantic evidence defines stable village shlichus records for local and shared play. coordinates quest offers, progress, pins, completion, serialization, and restoration. the awtsmoos renews each mission while memory crosses reloads; awtsmoos.com persists only mutable record state, then reunites it with the canonical catalog instead of duplicating truth. holds pure quest record creation, event matching, progress, and snapshots. the awtsmoos renews each objective beneath one lawful transition; awtsmoos.com keeps store coordination small while every shlichus rule remains directly testable. normalizes every symbolic combat consequence into one immutable envelope. the awtsmoos is one while effects appear many; awtsmoos.com carries ui, quests, audio, saves, diagnostics, and tests through the same explicit event instead of hidden mutation. representative files adventurecatalog.js — defines stable village shlichus records for local and shared play. exports: adventure catalog, adventuredefinition. adventurestore.js — coordinates quest offers, progress, pins, completion, serialization, and restoration. the awtsmoos renews each mission while memory crosses reloads; awtsmoos.com persists only mutable record state, then reunites it with the canonical catalog instead of duplicating truth. exports: adventurestore. adventurestorerules.js — holds pure quest record creation, event matching, progress, and snapshots. the awtsmoos renews each objective beneath one lawful transition; awtsmoos.com keeps store coordination small while every shlichus rule remains directly testable. exports: createadventurerecord, resetadventurerecord, applyadventureevent, adventuresnapshot, currentadventureobjective. combatdamageevent.js — normalizes every symbolic combat consequence into one immutable envelope. the awtsmoos is one while effects appear many; awtsmoos.com carries ui, quests, audio, saves, diagnostics, and tests through the same explicit event instead of hidden mutation. exports: createcombatdamageevent. inventorycatalog.js — defines tools, weapons, shields, books, clothing, materials, and quest items. the awtsmoos renews every carried vessel beneath explicit ownership and equipment law; awtsmoos.com keeps canonical ids, slots, actions, stats, prices, and models inspectable. exports: inventory catalog, starter inventory, inventorydefinition. inventorylearningrules.js — applies learning, book pinning, passage pinning, and passage use times. the awtsmoos renews knowledge without confusing it with ordinary inventory quantity; awtsmoos.com keeps every learning transition pure enough for direct testing. exports: learninventorypassage, toggleinventorypassage, toggleinventorybook, markinventorypassageused. inventorypersistencerules.js — serializes and validates the compact mutable inventory state used by saves. exports: serializableinventorystate, restoreinventorystate. inventorystore.js — coordinates inventory, equipment, torah learning, and compact restoration. exports: inventorystore. inventorystorerules.js — holds pure inventory stack, pinning, equipment stat, and snapshot rules. the awtsmoos renews each carried vessel beneath quantity and slot boundaries; awtsmoos.com keeps mutable store coordination small while rules remain testable. exports: addinventoryitem, removeinventoryitem, derivedinventorystats, togglepinnedvalue, inventorysnapshot. playercombatdefense.js — resolves tehillim ward timing and generosity earned protection. the awtsmoos is the true protection; awtsmoos.com models a respectful fictional ward through visible timing, bounded mitigation, perfect response, and explicit receipts. exports: playercombatdefense. rivercrossingshlichus.js — defines the event driven bridge repair mission and its permanent world result. exports: river crossing shlichus. shliachprofilecatalog.js — mirrors server attribute, derived stat, and timed powerup contracts. the awtsmoos renews wisdom, understanding, integration, courage, and protection; awtsmoos.com keeps local labels and formulas aligned with authoritative shared truth. exports: shliach attributes, shliach powerups, defaultshliachattributes, deriveshliachstats, applyshliachpowerups. shliachprofilerules.js — applies pure allocation, powerup, reward, level, synchronization, and expiry laws. the awtsmoos renews every earned spark beyond mutable illusion; awtsmoos.com turns shlichus reward into bounded xp, mitzvah points, levels, and attribute vessels deterministically. exports: createshliachprofilestate, allocateshliachattribute, awardshlichusprogress, xpfornextlevel, activateshliachpowerup. exported symbols worth searching adventure catalog · adventuredefinition · adventurestore · createadventurerecord · resetadventurerecord · applyadventureevent · adventuresnapshot · currentadventureobjective · createcombatdamageevent · inventory catalog · starter inventory · inventorydefinition · learninventorypassage · toggleinventorypassage · toggleinventorybook · markinventorypassageused import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ./rivercrossingshlichus.js ./adventurecatalog.js ./adventurestorerules.js ./torahpassagecatalog.js ./inventorystorerules.js ./inventorycatalog.js ./inventorylearningrules.js ./inventorypersistencerules.js ./combatdamageevent.js ./shliachprofilecatalog.js ./shliachprofilerules.js ./shlichuspersistence.js directory map parent: experiments/awtsmoos/src children: experiments/awtsmoos/src/gameplay/actionbar experiments/awtsmoos/src/gameplay/combat related and overlapping systems combat domain, action bars, targeting, and hud — domain rules live under gameplay while browser widgets and target presentation live under ui and styles. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-gameplay-directory-g-dcf0ac3868.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Games and Simulation Platform The Awtsmoos lets many worlds appear beneath geelooy/games/ while Awtsmoos.com shares libraries, styles, tests and realtime infrastructure across projects of very different size. Canonical area geelooy/games/ The generated project atlas enumerates each game,",
+		"searchText": "b\"h boruch hashem blessed is he games and simulation platform the awtsmoos lets many worlds appear beneath geelooy/games/ while awtsmoos.com shares libraries, styles, tests and realtime infrastructure across projects of very different size. canonical area geelooy/games/ the generated project atlas enumerates each game, file categories, entry files and local documentation status. the public entry atlas maps game urls to index.html, titles, scripts and styles. shared versus game specific roots geelooy/games/scripts/, styles/ and tests/ are shared game infrastructure rather than independent games. individual game directories such as mitzvah world, ohr hagnuz, sefira clash, scribe journey and shema strike can also have realtime/server relationships. realtime applications the dynamic server currently registers versioned realtime applications for mitzvah world, ohr hagnuz, sefira clash, scribe journey and shema strike. not every game is realtime; use websocket applications.md rather than assuming a socket layer from the presence of a game directory. generated evidence project atlas.md — game boundaries and file categories. public entry points.md — browser entry points. project symbol summary.md — lexical source summaries. project dependencies.md — shared library relationships. test ownership.md — test neighborhoods. human guidance docs/apps/games and simulation.md is the broad chooser. docs/projects/mitzvah world.md gives a deeper example of a large project with its own internal documentation universe. change strategy for a game local change read its local documentation.md or readme first. for shared scripts/styles/libraries or realtime transport, identify every dependent game and run representative cross game tests rather than validating only one title.",
+		"page": "pages/docs-projects-games-platform-md-95e7f4354e.json"
+	},
+	{
+		"id": "docs-projects-mitzvah-world-md-4fe811a7ae",
+		"title": "Mitzvah World",
+		"sourcePath": "docs/PROJECTS/MITZVAH_WORLD.md",
+		"category": "Projects",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Mitzvah World",
+				"anchor": "mitzvah-world"
+			},
+			{
+				"level": 2,
+				"text": "Canonical source",
+				"anchor": "canonical-source"
+			},
+			{
+				"level": 2,
+				"text": "Existing in-project documentation",
+				"anchor": "existing-in-project-documentation"
+			},
+			{
+				"level": 2,
+				"text": "Surrounding runtime systems",
+				"anchor": "surrounding-runtime-systems"
+			},
+			{
+				"level": 2,
+				"text": "Human documentation",
+				"anchor": "human-documentation"
+			},
+			{
+				"level": 2,
+				"text": "Change strategy",
+				"anchor": "change-strategy"
+			},
+			{
+				"level": 2,
+				"text": "Documentation boundary",
+				"anchor": "documentation-boundary"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Mitzvah World The Awtsmoos lets a browser project become a world of assets, scenes, movies, experiments, shared systems and realtime behavior; Awtsmoos.com treats Mitzvah World as a major project rather than a single game page. Canonical source geelooy/games/mitzvahWorld/ The observed ro",
+		"searchText": "b\"h boruch hashem blessed is he mitzvah world the awtsmoos lets a browser project become a world of assets, scenes, movies, experiments, shared systems and realtime behavior; awtsmoos.com treats mitzvah world as a major project rather than a single game page. canonical source geelooy/games/mitzvahworld/ the observed root contains assets/, docs/, experiments/, movies/, proof/, references/, shared/, styles/, ai/evidence directories, an index.html, and multiple project audit/index documents. it also carries an external assets link. existing in project documentation before changing a major subsystem, inspect project local documents such as: directory guide.md directory index.md directory catalog.json system overlap map.md next ai readme.md remaining work.md focused audit documents for movie/procedural systems these are project specific evidence and should be preserved rather than replaced by central generic docs. surrounding runtime systems mitzvah world is not isolated to static game files: root index.js contains direct autoplay ping/report handlers associated with mitzvah world; report material is written beneath the mitzvah world tree; the dynamic server has a registered realtime application with id mitzvah world version 1; generated dependency evidence shows the project importing shared libraries heavily; generated test ownership identifies this as one of the largest test neighborhoods in the repository. human documentation docs/apps/games and simulation.md docs/api/direct root handlers.md docs/websockets/applications.md generated project atlas, project symbol summary, project dependencies, test ownership change strategy a scene/asset/editor change may be browser only, but engine/shared/realtime/report changes can cross project boundaries. begin from the local directory maps, trace imports/callers, identify whether websocket or root direct server behavior participates, then run the nearest focused tests plus relevant game/runtime regression tests. documentation boundary central docs explain how mitzvah world relates to the repository. the project's own directory guides remain the detailed internal map. do not duplicate their entire subsystem catalog centrally.",
+		"page": "pages/docs-projects-mitzvah-world-md-4fe811a7ae.json"
+	},
+	{
+		"id": "docs-projects-readme-md-13c3e5100d",
+		"title": "Awtsmoos.com Project Guide",
+		"sourcePath": "docs/PROJECTS/README.md",
+		"category": "Projects",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos.com Project Guide",
+				"anchor": "awtsmoos-com-project-guide"
+			},
+			{
+				"level": 2,
+				"text": "Interactive Project Explorer",
+				"anchor": "interactive-project-explorer"
+			},
+			{
+				"level": 2,
+				"text": "Generated project teaching",
+				"anchor": "generated-project-teaching"
+			},
+			{
+				"level": 2,
+				"text": "Human project-family manuals",
+				"anchor": "human-project-family-manuals"
+			},
+			{
+				"level": 2,
+				"text": "Deeper named manuals",
+				"anchor": "deeper-named-manuals"
+			},
+			{
+				"level": 2,
+				"text": "Investigation order",
+				"anchor": "investigation-order"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos.com Project Guide A project boundary is a practical unit for navigation, documentation, dependency evidence, and testing—not a promise that the runtime is isolated at that directory. Interactive Project Explorer Open /docs/?view=projects to browse every current project boundary.",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos.com project guide a project boundary is a practical unit for navigation, documentation, dependency evidence, and testing—not a promise that the runtime is isolated at that directory. interactive project explorer open /docs/?view=projects to browse every current project boundary. the explorer can filter by exact generated type, public entry evidence, test file evidence, documentation coverage, and text across paths, entries, public urls, and dependency names. selecting a project reveals: exact path/type/family; file category shape; source entry files; public html entry evidence; lexical symbol summary; incoming/outgoing project dependency evidence; external package evidence; test file evidence; local/central human documentation; generated project tutorial; project aware ask and copyable project path. generated project teaching project tutorial index gives one generated tutorial for every current project boundary. project type summary summarizes the current type census without freezing counts into this manual. each generated tutorial is evidence, not architecture law: imports are lexical, public entries are discovered index.html files, symbols are lexical summaries, and test file counts are not behavioral coverage scores. human project family manuals start with project and system tutorials, then choose: applications api projects games and worlds runtime and infrastructure libraries and tooling public and other boundaries deeper named manuals major systems such as runtime server, dosdb, mitzvah world, awtsmoos ai, code, social platform, tunnel platform, and games platform also have focused manuals in this directory. those interpret important systems in more depth than the generated per project evidence can. investigation order human family/system manual → generated project tutorial → dependency/public entry/symbol evidence → exact source/tests → runtime verification.",
+		"page": "pages/docs-projects-readme-md-13c3e5100d.json"
+	},
+	{
+		"id": "docs-projects-runtime-server-md-2ba142f313",
+		"title": "Awtsmoos Dynamic Server",
+		"sourcePath": "docs/PROJECTS/RUNTIME_SERVER.md",
+		"category": "Projects",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos Dynamic Server",
+				"anchor": "awtsmoos-dynamic-server"
+			},
+			{
+				"level": 2,
+				"text": "Canonical source",
+				"anchor": "canonical-source"
+			},
+			{
+				"level": 2,
+				"text": "Main responsibilities",
+				"anchor": "main-responsibilities"
+			},
+			{
+				"level": 2,
+				"text": "Entry docs",
+				"anchor": "entry-docs"
+			},
+			{
+				"level": 2,
+				"text": "Generated evidence",
+				"anchor": "generated-evidence"
+			},
+			{
+				"level": 2,
+				"text": "High-risk change areas",
+				"anchor": "high-risk-change-areas"
+			},
+			{
+				"level": 2,
+				"text": "Local breadcrumb",
+				"anchor": "local-breadcrumb"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos Dynamic Server The Awtsmoos lets Awtsmoos.com become a running world through HTTP, filesystem serving, derech routing, authentication, DosDB, WebSocket upgrades, realtime applications and server utilities. Canonical source ayzarim/awtsmoosDynamicServer/ The root process imports ",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos dynamic server the awtsmoos lets awtsmoos.com become a running world through http, filesystem serving, derech routing, authentication, dosdb, websocket upgrades, realtime applications and server utilities. canonical source ayzarim/awtsmoosdynamicserver/ the root process imports the server from this runtime layer. awtsmoosstaticserver uses geelooy as the default public root unless configuration supplies another public directory. main responsibilities http request bootstrap and parsing. static/public filesystem serving. upward discovery of awtsmoos.derech.js dynamic route modules. exact and parameterized route matching. authentication installation for http and sockets. dosdb initialization and runtime sharing. websocket upgrade/session handling. versioned realtime application registry/router. mission room and tunnel related realtime subsystems. runtime/body/compact js/server utilities. entry docs docs/architecture.md — whole request/runtime architecture. docs/routes/dynamic paths.md — derech discovery and :name grammar. docs/websockets/readme.md — realtime platform. docs/data/readme.md — persistence startup and storage layers. docs/security/readme.md — auth and trust boundaries. generated evidence the generated project atlas and symbol summary expose the size/symbol surface of the runtime. project dependencies.md shows lexical cross project imports, including the server's relationships with apis and dosdb. this is discovery evidence, not a runtime call graph. high risk change areas changes to request path resolution, derech discovery, auth installation, db initialization, websocket upgrade policy or shared response behavior can affect many otherwise unrelated applications. treat them as platform changes: search dependents, run dynamic server tests, representative api tests, socket tests and browser smoke checks. local breadcrumb ayzarim/awtsmoosdynamicserver/documentation.md should remain the in tree entry point and link back to the central manuals rather than duplicate this entire chapter.",
+		"page": "pages/docs-projects-runtime-server-md-2ba142f313.json"
+	},
+	{
+		"id": "docs-projects-social-platform-md-807c541919",
+		"title": "Social and Heichel Platform",
+		"sourcePath": "docs/PROJECTS/SOCIAL_PLATFORM.md",
+		"category": "Projects",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Social and Heichel Platform",
+				"anchor": "social-and-heichel-platform"
+			},
+			{
+				"level": 2,
+				"text": "Core source families",
+				"anchor": "core-source-families"
+			},
+			{
+				"level": 2,
+				"text": "Domain concepts",
+				"anchor": "domain-concepts"
+			},
+			{
+				"level": 2,
+				"text": "Trust boundary",
+				"anchor": "trust-boundary"
+			},
+			{
+				"level": 2,
+				"text": "Generated evidence",
+				"anchor": "generated-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Human manuals",
+				"anchor": "human-manuals"
+			},
+			{
+				"level": 2,
+				"text": "Change strategy",
+				"anchor": "change-strategy"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Social and Heichel Platform The Awtsmoos lets identity become relationship, content, discussion, governance, discovery and notification while Awtsmoos.com spreads that one domain across APIs and many focused public interfaces. Core source families geelooy/api/social/ — backend domain and",
+		"searchText": "b\"h boruch hashem blessed is he social and heichel platform the awtsmoos lets identity become relationship, content, discussion, governance, discovery and notification while awtsmoos.com spreads that one domain across apis and many focused public interfaces. core source families geelooy/api/social/ — backend domain and route composition. geelooy/social hub/ and related social public pages. geelooy/profile/, comment thread/, post editor/, heichel editor/, heichel review/, notifications/ and composer surfaces. dosdb/social packed storage for persisted content and comments. realtime social presence/typing/event compatibility. domain concepts aliases, profiles, follows, posts, heichelos, series, editors/governance, comments, submissions/review, notifications/signals, drive/search/graph/mail and discovery live in one broad domain but have separate authorization rules and ui surfaces. trust boundary signed sessions and verified social api keys establish authenticated identity; alias/heichel/resource rules still decide authorization. client provided alias or owner fields do not replace trusted server identity. generated evidence use api route contract atlas.md, api caller index.md, project dependencies.md, public entry points.md, test ownership.md and environment variables.md to locate exhaustive source relationships. human manuals docs/api/social.md docs/systems/social and heichel.md docs/api/authentication.md docs/data/readme.md docs/security/trust boundaries.md change strategy trace api route, caller, alias/heichel authorization, persistent path family, notification/search side effects and realtime events. shared social helper changes deserve broader route/content/governance/comment/notification tests than a single ui page change.",
+		"page": "pages/docs-projects-social-platform-md-807c541919.json"
 	}
 ]

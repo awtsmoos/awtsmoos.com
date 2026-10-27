@@ -1,0 +1,561 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-bca1708905",
+	"title": "Execution Continuation Engine",
+	"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/10_EXECUTION_CONTINUATION_ENGINE.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 2,
+			"text": "Current tunnel integration takes precedence",
+			"anchor": "current-tunnel-integration-takes-precedence"
+		},
+		{
+			"level": 1,
+			"text": "Execution Continuation Engine",
+			"anchor": "execution-continuation-engine"
+		},
+		{
+			"level": 2,
+			"text": "Cycle 1: Discovery Breath",
+			"anchor": "cycle-1-discovery-breath"
+		},
+		{
+			"level": 3,
+			"text": "Prime Directive",
+			"anchor": "prime-directive"
+		},
+		{
+			"level": 3,
+			"text": "Reality Before Confidence",
+			"anchor": "reality-before-confidence"
+		},
+		{
+			"level": 3,
+			"text": "Expansion Law",
+			"anchor": "expansion-law"
+		},
+		{
+			"level": 3,
+			"text": "Evidence Ledger",
+			"anchor": "evidence-ledger"
+		},
+		{
+			"level": 3,
+			"text": "Work Graph",
+			"anchor": "work-graph"
+		},
+		{
+			"level": 3,
+			"text": "Unknowns Map",
+			"anchor": "unknowns-map"
+		},
+		{
+			"level": 3,
+			"text": "Dependency Discovery",
+			"anchor": "dependency-discovery"
+		},
+		{
+			"level": 3,
+			"text": "Atomic Decomposition",
+			"anchor": "atomic-decomposition"
+		},
+		{
+			"level": 3,
+			"text": "Execution Discipline",
+			"anchor": "execution-discipline"
+		},
+		{
+			"level": 3,
+			"text": "Verification Discipline",
+			"anchor": "verification-discipline"
+		},
+		{
+			"level": 3,
+			"text": "Continuation Loop",
+			"anchor": "continuation-loop"
+		},
+		{
+			"level": 3,
+			"text": "Completion Gate",
+			"anchor": "completion-gate"
+		},
+		{
+			"level": 3,
+			"text": "Self Critique",
+			"anchor": "self-critique"
+		},
+		{
+			"level": 3,
+			"text": "Memory Kernel",
+			"anchor": "memory-kernel"
+		},
+		{
+			"level": 3,
+			"text": "Anti Stopping Covenant",
+			"anchor": "anti-stopping-covenant"
+		},
+		{
+			"level": 3,
+			"text": "Large Project Rhythm",
+			"anchor": "large-project-rhythm"
+		},
+		{
+			"level": 3,
+			"text": "Failure Imagination",
+			"anchor": "failure-imagination"
+		},
+		{
+			"level": 3,
+			"text": "Future Horizon",
+			"anchor": "future-horizon"
+		},
+		{
+			"level": 3,
+			"text": "Awtsmoos Chapter",
+			"anchor": "awtsmoos-chapter"
+		},
+		{
+			"level": 3,
+			"text": "Cycle 1 Closing Gate",
+			"anchor": "cycle-1-closing-gate"
+		},
+		{
+			"level": 2,
+			"text": "Cycle 2: Evidence Flame",
+			"anchor": "cycle-2-evidence-flame"
+		},
+		{
+			"level": 3,
+			"text": "Prime Directive",
+			"anchor": "prime-directive-2"
+		},
+		{
+			"level": 3,
+			"text": "Reality Before Confidence",
+			"anchor": "reality-before-confidence-2"
+		},
+		{
+			"level": 3,
+			"text": "Expansion Law",
+			"anchor": "expansion-law-2"
+		},
+		{
+			"level": 3,
+			"text": "Evidence Ledger",
+			"anchor": "evidence-ledger-2"
+		},
+		{
+			"level": 3,
+			"text": "Work Graph",
+			"anchor": "work-graph-2"
+		},
+		{
+			"level": 3,
+			"text": "Unknowns Map",
+			"anchor": "unknowns-map-2"
+		},
+		{
+			"level": 3,
+			"text": "Dependency Discovery",
+			"anchor": "dependency-discovery-2"
+		},
+		{
+			"level": 3,
+			"text": "Atomic Decomposition",
+			"anchor": "atomic-decomposition-2"
+		},
+		{
+			"level": 3,
+			"text": "Execution Discipline",
+			"anchor": "execution-discipline-2"
+		},
+		{
+			"level": 3,
+			"text": "Verification Discipline",
+			"anchor": "verification-discipline-2"
+		},
+		{
+			"level": 3,
+			"text": "Continuation Loop",
+			"anchor": "continuation-loop-2"
+		},
+		{
+			"level": 3,
+			"text": "Completion Gate",
+			"anchor": "completion-gate-2"
+		},
+		{
+			"level": 3,
+			"text": "Self Critique",
+			"anchor": "self-critique-2"
+		},
+		{
+			"level": 3,
+			"text": "Memory Kernel",
+			"anchor": "memory-kernel-2"
+		},
+		{
+			"level": 3,
+			"text": "Anti Stopping Covenant",
+			"anchor": "anti-stopping-covenant-2"
+		},
+		{
+			"level": 3,
+			"text": "Large Project Rhythm",
+			"anchor": "large-project-rhythm-2"
+		},
+		{
+			"level": 3,
+			"text": "Failure Imagination",
+			"anchor": "failure-imagination-2"
+		},
+		{
+			"level": 3,
+			"text": "Future Horizon",
+			"anchor": "future-horizon-2"
+		},
+		{
+			"level": 3,
+			"text": "Awtsmoos Chapter",
+			"anchor": "awtsmoos-chapter-2"
+		},
+		{
+			"level": 3,
+			"text": "Cycle 2 Closing Gate",
+			"anchor": "cycle-2-closing-gate"
+		},
+		{
+			"level": 2,
+			"text": "Cycle 3: Unknowns Gate",
+			"anchor": "cycle-3-unknowns-gate"
+		},
+		{
+			"level": 3,
+			"text": "Prime Directive",
+			"anchor": "prime-directive-3"
+		},
+		{
+			"level": 3,
+			"text": "Reality Before Confidence",
+			"anchor": "reality-before-confidence-3"
+		},
+		{
+			"level": 3,
+			"text": "Expansion Law",
+			"anchor": "expansion-law-3"
+		},
+		{
+			"level": 3,
+			"text": "Evidence Ledger",
+			"anchor": "evidence-ledger-3"
+		},
+		{
+			"level": 3,
+			"text": "Work Graph",
+			"anchor": "work-graph-3"
+		},
+		{
+			"level": 3,
+			"text": "Unknowns Map",
+			"anchor": "unknowns-map-3"
+		},
+		{
+			"level": 3,
+			"text": "Dependency Discovery",
+			"anchor": "dependency-discovery-3"
+		},
+		{
+			"level": 3,
+			"text": "Atomic Decomposition",
+			"anchor": "atomic-decomposition-3"
+		},
+		{
+			"level": 3,
+			"text": "Execution Discipline",
+			"anchor": "execution-discipline-3"
+		},
+		{
+			"level": 3,
+			"text": "Verification Discipline",
+			"anchor": "verification-discipline-3"
+		},
+		{
+			"level": 3,
+			"text": "Continuation Loop",
+			"anchor": "continuation-loop-3"
+		},
+		{
+			"level": 3,
+			"text": "Completion Gate",
+			"anchor": "completion-gate-3"
+		},
+		{
+			"level": 3,
+			"text": "Self Critique",
+			"anchor": "self-critique-3"
+		},
+		{
+			"level": 3,
+			"text": "Memory Kernel",
+			"anchor": "memory-kernel-3"
+		},
+		{
+			"level": 3,
+			"text": "Anti Stopping Covenant",
+			"anchor": "anti-stopping-covenant-3"
+		},
+		{
+			"level": 3,
+			"text": "Large Project Rhythm",
+			"anchor": "large-project-rhythm-3"
+		},
+		{
+			"level": 3,
+			"text": "Failure Imagination",
+			"anchor": "failure-imagination-3"
+		},
+		{
+			"level": 3,
+			"text": "Future Horizon",
+			"anchor": "future-horizon-3"
+		},
+		{
+			"level": 3,
+			"text": "Awtsmoos Chapter",
+			"anchor": "awtsmoos-chapter-3"
+		},
+		{
+			"level": 3,
+			"text": "Cycle 3 Closing Gate",
+			"anchor": "cycle-3-closing-gate"
+		},
+		{
+			"level": 2,
+			"text": "Cycle 4: Dependency River",
+			"anchor": "cycle-4-dependency-river"
+		},
+		{
+			"level": 3,
+			"text": "Prime Directive",
+			"anchor": "prime-directive-4"
+		},
+		{
+			"level": 3,
+			"text": "Reality Before Confidence",
+			"anchor": "reality-before-confidence-4"
+		},
+		{
+			"level": 3,
+			"text": "Expansion Law",
+			"anchor": "expansion-law-4"
+		},
+		{
+			"level": 3,
+			"text": "Evidence Ledger",
+			"anchor": "evidence-ledger-4"
+		},
+		{
+			"level": 3,
+			"text": "Work Graph",
+			"anchor": "work-graph-4"
+		},
+		{
+			"level": 3,
+			"text": "Unknowns Map",
+			"anchor": "unknowns-map-4"
+		},
+		{
+			"level": 3,
+			"text": "Dependency Discovery",
+			"anchor": "dependency-discovery-4"
+		},
+		{
+			"level": 3,
+			"text": "Atomic Decomposition",
+			"anchor": "atomic-decomposition-4"
+		},
+		{
+			"level": 3,
+			"text": "Execution Discipline",
+			"anchor": "execution-discipline-4"
+		},
+		{
+			"level": 3,
+			"text": "Verification Discipline",
+			"anchor": "verification-discipline-4"
+		},
+		{
+			"level": 3,
+			"text": "Continuation Loop",
+			"anchor": "continuation-loop-4"
+		},
+		{
+			"level": 3,
+			"text": "Completion Gate",
+			"anchor": "completion-gate-4"
+		},
+		{
+			"level": 3,
+			"text": "Self Critique",
+			"anchor": "self-critique-4"
+		},
+		{
+			"level": 3,
+			"text": "Memory Kernel",
+			"anchor": "memory-kernel-4"
+		},
+		{
+			"level": 3,
+			"text": "Anti Stopping Covenant",
+			"anchor": "anti-stopping-covenant-4"
+		},
+		{
+			"level": 3,
+			"text": "Large Project Rhythm",
+			"anchor": "large-project-rhythm-4"
+		},
+		{
+			"level": 3,
+			"text": "Failure Imagination",
+			"anchor": "failure-imagination-4"
+		},
+		{
+			"level": 3,
+			"text": "Future Horizon",
+			"anchor": "future-horizon-4"
+		},
+		{
+			"level": 3,
+			"text": "Awtsmoos Chapter",
+			"anchor": "awtsmoos-chapter-4"
+		},
+		{
+			"level": 3,
+			"text": "Cycle 4 Closing Gate",
+			"anchor": "cycle-4-closing-gate"
+		},
+		{
+			"level": 2,
+			"text": "Cycle 5: Atomic Stone",
+			"anchor": "cycle-5-atomic-stone"
+		},
+		{
+			"level": 3,
+			"text": "Prime Directive",
+			"anchor": "prime-directive-5"
+		},
+		{
+			"level": 3,
+			"text": "Reality Before Confidence",
+			"anchor": "reality-before-confidence-5"
+		},
+		{
+			"level": 3,
+			"text": "Expansion Law",
+			"anchor": "expansion-law-5"
+		},
+		{
+			"level": 3,
+			"text": "Evidence Ledger",
+			"anchor": "evidence-ledger-5"
+		},
+		{
+			"level": 3,
+			"text": "Work Graph",
+			"anchor": "work-graph-5"
+		},
+		{
+			"level": 3,
+			"text": "Unknowns Map",
+			"anchor": "unknowns-map-5"
+		},
+		{
+			"level": 3,
+			"text": "Dependency Discovery",
+			"anchor": "dependency-discovery-5"
+		},
+		{
+			"level": 3,
+			"text": "Atomic Decomposition",
+			"anchor": "atomic-decomposition-5"
+		},
+		{
+			"level": 3,
+			"text": "Execution Discipline",
+			"anchor": "execution-discipline-5"
+		},
+		{
+			"level": 3,
+			"text": "Verification Discipline",
+			"anchor": "verification-discipline-5"
+		},
+		{
+			"level": 3,
+			"text": "Continuation Loop",
+			"anchor": "continuation-loop-5"
+		},
+		{
+			"level": 3,
+			"text": "Completion Gate",
+			"anchor": "completion-gate-5"
+		},
+		{
+			"level": 3,
+			"text": "Self Critique",
+			"anchor": "self-critique-5"
+		},
+		{
+			"level": 3,
+			"text": "Memory Kernel",
+			"anchor": "memory-kernel-5"
+		},
+		{
+			"level": 3,
+			"text": "Anti Stopping Covenant",
+			"anchor": "anti-stopping-covenant-5"
+		},
+		{
+			"level": 3,
+			"text": "Large Project Rhythm",
+			"anchor": "large-project-rhythm-5"
+		},
+		{
+			"level": 3,
+			"text": "Failure Imagination",
+			"anchor": "failure-imagination-5"
+		},
+		{
+			"level": 3,
+			"text": "Future Horizon",
+			"anchor": "future-horizon-5"
+		},
+		{
+			"level": 3,
+			"text": "Awtsmoos Chapter",
+			"anchor": "awtsmoos-chapter-5"
+		},
+		{
+			"level": 3,
+			"text": "Cycle 5 Closing Gate",
+			"anchor": "cycle-5-closing-gate"
+		},
+		{
+			"level": 2,
+			"text": "Final Constitutional Command",
+			"anchor": "final-constitutional-command"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-bca1708905-001.json",
+		"content/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-bca1708905-002.json",
+		"content/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-bca1708905-003.json",
+		"content/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-bca1708905-004.json",
+		"content/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-bca1708905-005.json",
+		"content/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-bca1708905-006.json",
+		"content/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-bca1708905-007.json",
+		"content/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-bca1708905-008.json"
+	]
+}

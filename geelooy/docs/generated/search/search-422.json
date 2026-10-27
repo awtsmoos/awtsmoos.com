@@ -1,0 +1,170 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-09-18-1624-shliach-homepage-campaign-05-phase-t-5a383b7f31",
+		"title": "Phase Three — Tiferes Review: 32 Final Revelations",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-18_1624_shliach-homepage-campaign/05_PHASE_THREE_32_REVELATIONS.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Three — Tiferes Review: 32 Final Revelations",
+				"anchor": "phase-three-tiferes-review-32-final-revelations"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Three — Tiferes Review: 32 Final Revelations After Chesed and Gevurah, Tiferes asks whether beauty and truth align, The Awtsmoos renews the balance; Awtsmoos.com must let every detail shine. 1. The Home repair must not depend on /Shliach/ JavaScript; the canonical image belongs dir",
+		"searchText": "b\"h boruch hashem blessed is he phase three — tiferes review: 32 final revelations after chesed and gevurah, tiferes asks whether beauty and truth align, the awtsmoos renews the balance; awtsmoos.com must let every detail shine. 1. the home repair must not depend on /shliach/ javascript; the canonical image belongs directly in the existing content module design. 2. the public drive hero logo should be eager only on the dedicated hero, avoiding unnecessary home wide preload cost in the line. 3. the public drive logo stays primary and the repository cache stays fallback, so the user request remains primary by design. 4. the home spotlight should expose both /shliach/ discovery and the real chatgpt action, making learning and launching easy to find. 5. every dedicated page should contain the exact gpt anchor above the fold or in persistent navigation, never buried at the end of the line. 6. the landing page should repeat a compact prompt portal near the final cta so late deciding readers have an immediate design. 7. secondary pages should reuse compact prompt panels instead of duplicating hero scale forms, preserving hierarchy in the line. 8. prompt examples should populate the textarea, never auto launch, so no user is surprised before deciding the design. 9. example controls need type=\"button\", preventing accidental form submission and preserving the intended line. 10. empty prompt submission should focus the textarea and show a polite inline status rather than opening a meaningless url by design. 11. native form semantics should remain intact so keyboard submission works while multiline textarea editing stays possible in the line. 12. new tab opening should use noopener,noreferrer alongside external link rel attributes wherever browser apis align. 13. javascript must not inject core campaign copy; html should own searchable text so crawlers and no script visitors see the design. 14. each page needs a unique title, description, and canonical url, avoiding duplicate metadata across the search line. 15. open graph imagery should match page intent: identity logo for landing, coder portal for prompts, bridge for poems, curated art for gallery design. 16. twitter metadata should use summary large image, matching the visual campaign without overcomplicating the line. 17. robots should allow indexing and large image previews without fake schema or deceptive markup in the design. 18. semantic article, figure, and figcaption elements should hold poems and gallery work, strengthening relationships in the line. 19. decorative animated orbs should remain pseudo elements, preventing accessibility trees from carrying meaningless design. 20. focus styling should use :focus visible, keeping keyboard guidance clear without painting every mouse click in the line. 21. buttons and links should maintain comfortable touch targets, especially the mobile prompt controls in the design. 22. text contrast must remain readable over art and gradients, never asking imagery to carry essential legibility in the line. 23. remote image failures must leave captions and layout intact; no essential claim may vanish with an image design. 24. below fold art should lazy load while the main shliach logo loads eagerly so the opening identity stabilizes in the line. 25. major imagery should carry intrinsic dimensions or stable aspect ratio so layout does not jump while loading the design. 26. motion should avoid giant mobile blur costs, keeping animation luminous without burning battery in the line. 27. reduced motion mode must disable continuous logo drift, aurora travel, shimmer, and reveal transitions together by design. 28. internal routes should use trailing slashes consistently: /shliach/, /shliach/prompts/, /shliach/poems/, /shliach/gallery/ in the line. 29. every page should link back to home so the campaign never becomes an isolated search island by design. 30. tests should assert the exact user provided public logo url and exact gpt base url, guarding future drift in the line. 31. browser verification must include a hebrew/unicode prompt so urlsearchparams behavior is proven beyond plain ascii design. 32. completion requires rereading every touched file, comparing plan to actual, resolving deltas, and closing remaining work with evidence in line.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-18-1624-shliach-homepage-campaign-05-phase-t-5a383b7f31.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-18-1624-shliach-homepage-campaign-06-phase-t-aff217ecce",
+		"title": "Phase Three — Final Execution Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-18_1624_shliach-homepage-campaign/06_PHASE_THREE_FINAL_PLAN.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Three — Final Execution Plan",
+				"anchor": "phase-three-final-execution-plan"
+			},
+			{
+				"level": 2,
+				"text": "Files that will actually be rewritten or created",
+				"anchor": "files-that-will-actually-be-rewritten-or-created"
+			},
+			{
+				"level": 3,
+				"text": "Existing Home module",
+				"anchor": "existing-home-module"
+			},
+			{
+				"level": 3,
+				"text": "HTML route family",
+				"anchor": "html-route-family"
+			},
+			{
+				"level": 3,
+				"text": "Shared Shliach CSS",
+				"anchor": "shared-shliach-css"
+			},
+			{
+				"level": 3,
+				"text": "Shared browser modules",
+				"anchor": "shared-browser-modules"
+			},
+			{
+				"level": 3,
+				"text": "Tests written only after source implementation",
+				"anchor": "tests-written-only-after-source-implementation"
+			},
+			{
+				"level": 2,
+				"text": "Source-pass order",
+				"anchor": "source-pass-order"
+			},
+			{
+				"level": 2,
+				"text": "Completion gate",
+				"anchor": "completion-gate"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Three — Final Execution Plan The Awtsmoos renews the whole while every vessel keeps its place, Awtsmoos.com will now move from plan into verified Shliach interface. Files that will actually be rewritten or created Existing Home module geelooy/scripts/home simple/ShliachSpotlightCon",
+		"searchText": "b\"h boruch hashem blessed is he phase three — final execution plan the awtsmoos renews the whole while every vessel keeps its place, awtsmoos.com will now move from plan into verified shliach interface. files that will actually be rewritten or created existing home module geelooy/scripts/home simple/shliachspotlightcontent.js html route family geelooy/shliach/index.html geelooy/shliach/prompts/index.html geelooy/shliach/poems/index.html geelooy/shliach/gallery/index.html shared shliach css geelooy/style/shliach/index.css geelooy/style/shliach/tokens.css geelooy/style/shliach/foundation.css geelooy/style/shliach/navigation.css geelooy/style/shliach/hero.css geelooy/style/shliach/sections.css geelooy/style/shliach/prompt.css geelooy/style/shliach/motion.css geelooy/style/shliach/responsive.css shared browser modules geelooy/scripts/shliach/shliachpaths.js geelooy/scripts/shliach/ohrpromptportal.js geelooy/scripts/shliach/chesedrevealorchestrator.js geelooy/scripts/shliach/index.js tests written only after source implementation geelooy/scripts/shliach/shliachpagecontract.test.mjs source pass order 1. create route, style, and script directories without changing source content. 2. rewrite the home content module in full; do not rewrite the home html because the existing runtime already injects the spotlight. 3. write every shared css module in full. 4. write every shared browser module in full. 5. write all four public html pages in full. 6. re read every source file before any test file is authored. 7. write the test contract in full, then run existing and new tests plus syntax and line count checks. 8. preview every page in a real browser, inspect desktop/mobile behavior, console errors, images, direct gpt anchors, and prompt launch encoding. 9. write a new post pass delta artifact comparing every original plan node to actual work. resolve any delta with a second full file pass, reread, and verify again. 10. write final completion evidence only when remaining work is empty and no safe relevant action remains. completion gate the task closes only when the home canonical logo is visible or safely falls back, all four /shliach/ pages load, every actual gpt cta points to the exact requested destination, prompt submission produces that base url plus the complete encoded prompt, motion respects reduced preference, every touched source file stays at or below 120 lines, existing and new tests pass, and browser inspection finds no blocking console, image, navigation, or layout failure.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-18-1624-shliach-homepage-campaign-06-phase-t-aff217ecce.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-18-1624-shliach-homepage-campaign-07-post-so-ffe16235a4",
+		"title": "Post-Source Reread and Delta",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-18_1624_shliach-homepage-campaign/07_POST_SOURCE_REREAD_AND_DELTA.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Post-Source Reread and Delta",
+				"anchor": "post-source-reread-and-delta"
+			},
+			{
+				"level": 2,
+				"text": "Original plan",
+				"anchor": "original-plan"
+			},
+			{
+				"level": 2,
+				"text": "What was actually written",
+				"anchor": "what-was-actually-written"
+			},
+			{
+				"level": 2,
+				"text": "DELTA",
+				"anchor": "delta"
+			},
+			{
+				"level": 3,
+				"text": "Resolved",
+				"anchor": "resolved"
+			},
+			{
+				"level": 3,
+				"text": "Remaining before completion",
+				"anchor": "remaining-before-completion"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Post Source Reread and Delta The Awtsmoos renews what was planned and what the files reveal today; Awtsmoos.com compares intention to evidence before the tests may have their say. Original plan 1. Repair Home by making the supplied public Shliach logo primary and preserving the cached fa",
+		"searchText": "b\"h boruch hashem blessed is he post source reread and delta the awtsmoos renews what was planned and what the files reveal today; awtsmoos.com compares intention to evidence before the tests may have their say. original plan 1. repair home by making the supplied public shliach logo primary and preserving the cached fallback. 2. keep a clear direct link to the exact awtsmoos shliach custom gpt. 3. create /shliach/, /shliach/prompts/, /shliach/poems/, and /shliach/gallery/. 4. use the supplied logo, golden bridge art, and aleph coder portal art across the campaign. 5. add rich seo, internal navigation, original poetry, responsive design, and css animation. 6. add a prompt portal that opens a new tab at the exact gpt url with the full encoded prompt. 7. preserve keyboard accessibility, safe new tab behavior, progressive enhancement, and reduced motion support. 8. keep every touched source file at or below 120 lines, tab indented, readable, and fully rewritten rather than patched. 9. write tests only after all source implementation was complete. 10. reread, test, inspect in a browser, verify public assets/routes, and close only with evidence. what was actually written home now points first to the exact supplied public logo and falls back to /resources/branding/awtsmoos shliach agent.png before text fallback. home exposes both /shliach/ discovery and the exact chatgpt shliach destination. four public shliach pages exist with unique titles, descriptions, canonicals, open graph data, visible headings, cross navigation, and direct gpt actions. shared shliach css is split into tokens, foundation, navigation, hero, sections, prompt, motion, and responsive vessels. shared browser code is split into path building, prompt behavior, reveal behavior, and boot orchestration. the prompt url uses url plus searchparams.set, preserving unicode and multiline intent. prompt examples populate the textarea without auto launching; empty submission focuses the prompt and explains what is missing. motion is decorative and disabled for prefers reduced motion. the supplied bridge and coder images appear both as narrative art and scene backgrounds; the supplied logo anchors identity. a late audit found home content at 128 lines; rather than compressing it, generic dom/link construction moved into shliachspotlightelements.js and home content fell to 103 lines. delta resolved large tunnel payloads exceeded the gateway uri ceiling. whole file gzip/base64 transport was used for large html, preserving complete readable files without partial patching. secondary html first contained cramped card markup. all three pages were fully rewritten into expanded readable source. javascript jsdoc spacing violated the strict no space indent interpretation. every touched js file was fully rewritten with zero leading space lines. a transient constant reference typo was discovered during self review before tests and corrected by a full file rewrite. home exceeded the 120 line ceiling after readability expansion. responsibility was split into a dedicated helper rather than shrinking documentation. remaining before completion 1. create the deferred shliach campaign contract tests. 2. run the pre existing home contract and the new campaign contracts. 3. verify exact unicode prompt encoding by executable test. 4. verify the three public image endpoints and the chatgpt target respond meaningfully. 5. serve the local campaign and inspect home plus all four shliach routes in a real browser. 6. check browser console, responsive behavior, visible logo/art, animations, and prompt interaction. 7. check deployed awtsmoos routes and determine whether any deployment action remains. 8. write final verification evidence and close remaining work only if every relevant node is resolved. next action write the deferred tests now, run them, and let failures create the next work rather than declaring victory from source alone.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-18-1624-shliach-homepage-campaign-07-post-so-ffe16235a4.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-28-0240-heichelos-social-glass-overhaul-00-p-2f6ed70b36",
+		"title": "Phase One — Revelation and Possibility Map",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-28-0240-heichelos-social-glass-overhaul/00-phase-one-revelation.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase One — Revelation and Possibility Map",
+				"anchor": "phase-one-revelation-and-possibility-map"
+			},
+			{
+				"level": 2,
+				"text": "Mission",
+				"anchor": "mission"
+			},
+			{
+				"level": 2,
+				"text": "Visible failures from the supplied mobile evidence",
+				"anchor": "visible-failures-from-the-supplied-mobile-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Architecture possibilities",
+				"anchor": "architecture-possibilities"
+			},
+			{
+				"level": 2,
+				"text": "Non-negotiable constraints",
+				"anchor": "non-negotiable-constraints"
+			},
+			{
+				"level": 2,
+				"text": "REMAININGWORK",
+				"anchor": "remainingwork"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase One — Revelation and Possibility Map The Awtsmoos renews each instant; this pass refuses cosmetic guessing in the mist. Awtsmoos.com must reveal one coherent vessel where motion, glass, access, and function coexist. Mission Rebuild the Geelooy social surfaces as a consistent futuri",
+		"searchText": "b\"h boruch hashem blessed is he phase one — revelation and possibility map the awtsmoos renews each instant; this pass refuses cosmetic guessing in the mist. awtsmoos.com must reveal one coherent vessel where motion, glass, access, and function coexist. mission rebuild the geelooy social surfaces as a consistent futuristic interaction system, with special focus on heichelos/heichel and heichelos/post, while preserving working public contracts and eliminating css specificity warfare. visible failures from the supplied mobile evidence community panel can fall into an unavailable/retry state on post paragraphs. auto scroll presents controls but does not deliver trustworthy start/stop behavior. scribe's lens is visually dense, with weak hierarchy and an oversized low energy primary action. main menu is flat, modal controls compete for attention, and mobile spacing wastes precious viewport height. floating reader controls overlap content and do not feel like one system. interaction states need clear hover, active, focus visible, disabled, and reduced motion behavior. architecture possibilities 1. a shared geelooy surface token layer for glass, borders, shadows, motion, focus rings, and spacing. 2. route specific component css that consumes tokens instead of redefining global primitives. 3. a dedicated reader control system for speed, typography, sources, menu, and auto scroll state. 4. a single modal/sheet contract shared by scribe's lens, main menu, community, and post tools. 5. a deterministic auto scroll controller using requestanimationframe with explicit running/paused state. 6. community loading with typed empty/error/retry states and preserved scroll context. 7. mobile first bottom sheets with safe area padding, bounded height, internal scrolling, and sticky actions. 8. glass depth created through translucent surfaces, gradients, backdrop blur, border light, and shadow rather than !important overrides. 9. motion that signals causality: press depth, focus glow, panel entrance, loading shimmer, and state morphs. 10. accessibility as part of the visual system: focus visible, minimum tap targets, semantic disabled states, contrast, and reduced motion. non negotiable constraints no !important in rewritten css. no partial source edits: every touched existing source file is rewritten as a whole artifact. preserve route/api contracts unless direct runtime evidence proves a contract is broken. prefer new small modules over enlarging monoliths. tabs for indentation where indentation applies. browser verification at narrow mobile widths plus desktop sanity checks. remaining work discover all current heichel and post route entry files and css import graphs. trace auto scroll event ownership and its scroll target. trace community request construction and failure handling. inventory active !important and conflicting selector ownership on the target routes. read existing geelooy surface tokens and interaction modules. produce phase two critique after evidence reads. produce final file level execution plan before source writes. implement full file modular rewrites. run static checks and browser interaction verification. re read every touched file and close the planned vs actual delta. next action map the exact heichelos/heichel and heichelos/post directory trees, then read their boot html/js/css owners.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-28-0240-heichelos-social-glass-overhaul-00-p-2f6ed70b36.json"
+	}
+]

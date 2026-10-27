@@ -34,6 +34,7 @@ Pattern-compatible evidence only; it does not prove runtime dispatch.
 | Literal | Source | Kind |
 | --- | --- | --- |
 | `/api/wallet/paypal/create` | `geelooy/apps/wallet/scripts/checkout.js` | runtime |
+| `/api/wallet/paypal/create` | `geelooy/shared/commerce/controller.js` | runtime |
 
 ## Related tests
 
@@ -43,9 +44,9 @@ No package-script heuristic match was found.
 
 - [`/api/wallet/balance`](./api-wallet-balance-59097f364b.md)
 - [`/api/wallet/buy/mock`](./api-wallet-buy-mock-45ef52f2b5.md)
+- [`/api/wallet/commerce/actions`](./api-wallet-commerce-actions-8e2f72034a.md)
+- [`/api/wallet/commerce/actions/execute`](./api-wallet-commerce-actions-execute-1b212726d5.md)
 - [`/api/wallet/commerce/catalog`](./api-wallet-commerce-catalog-f9d5b627eb.md)
-- [`/api/wallet/commerce/entitlements`](./api-wallet-commerce-entitlements-31c234acf1.md)
-- [`/api/wallet/commerce/purchase`](./api-wallet-commerce-purchase-762f54f3a2.md)
-- [`/api/wallet/currency`](./api-wallet-currency-8de1c94e4f.md)
-- [`/api/wallet/game-rewards/claim`](./api-wallet-game-rewards-claim-abc370c4e1.md)
-- [`/api/wallet/me`](./api-wallet-me-c462e10539.md)
+- [`/api/wallet/commerce/credits/commit`](./api-wallet-commerce-credits-commit-514993bf32.md)
+- [`/api/wallet/commerce/credits/consume`](./api-wallet-commerce-credits-consume-6e724abb1d.md)
+- [`/api/wallet/commerce/credits/release`](./api-wallet-commerce-credits-release-01fbab351a.md)

@@ -20,14 +20,14 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-login-ba67339f.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 1,
-		"tests": 0,
+		"source": 2,
+		"tests": 1,
 		"assets": 0,
 		"generated": 0,
 		"docs": 0,
 		"other": 0
 	},
-	"totalFiles": 1,
+	"totalFiles": 3,
 	"symbolSummary": null,
 	"outgoingDependencies": [],
 	"incomingDependencies": [],
@@ -37,7 +37,7 @@
 			"url": "/login",
 			"file": "geelooy/login/index.html",
 			"title": "Login with Awtsmoos",
-			"scripts": 1,
+			"scripts": 0,
 			"styles": 2
 		}
 	],

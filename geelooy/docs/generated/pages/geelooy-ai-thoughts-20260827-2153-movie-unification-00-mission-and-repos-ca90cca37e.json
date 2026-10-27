@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-20260827-2153-movie-unification-00-mission-and-repos-ca90cca37e",
+	"title": "Mission and Repository Facts",
+	"sourcePath": "geelooy/.ai-thoughts/20260827-2153-movie-unification/00_MISSION_AND_REPOSITORY_FACTS.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Mission and Repository Facts",
+			"anchor": "mission-and-repository-facts"
+		},
+		{
+			"level": 2,
+			"text": "Mission",
+			"anchor": "mission"
+		},
+		{
+			"level": 2,
+			"text": "Directly observed facts",
+			"anchor": "directly-observed-facts"
+		},
+		{
+			"level": 2,
+			"text": "Concurrency safety rule",
+			"anchor": "concurrency-safety-rule"
+		},
+		{
+			"level": 2,
+			"text": "Acceptance evidence required",
+			"anchor": "acceptance-evidence-required"
+		},
+		{
+			"level": 2,
+			"text": "Initial remaining work",
+			"anchor": "initial-remaining-work"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-20260827-2153-movie-unification-00-mission-and-repos-ca90cca37e-001.json"
+	]
+}

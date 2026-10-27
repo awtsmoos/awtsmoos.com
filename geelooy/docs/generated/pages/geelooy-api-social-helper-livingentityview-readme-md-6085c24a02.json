@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-social-helper-livingentityview-readme-md-6085c24a02",
+	"title": "B\"H — Living Entity View (geelooy/api/social/helper/livingEntityView/)",
+	"sourcePath": "geelooy/api/social/helper/livingEntityView/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Living Entity View (geelooy/api/social/helper/livingEntityView/)",
+			"anchor": "b-h-living-entity-view-geelooy-api-social-helper-livingentityview"
+		},
+		{
+			"level": 2,
+			"text": "Files",
+			"anchor": "files"
+		},
+		{
+			"level": 2,
+			"text": "Routes (examples)",
+			"anchor": "routes-examples"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-social-helper-livingentityview-readme-md-6085c24a02-001.json"
+	]
+}

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Search Routes Tests (geelooy/api/social/helper/search/routes/test/)\n\nSearch route tests.\n\n- `lexiconBrowseRegistration.test.js` — lexicon browse route registration.\n- `semanticRoute.test.js` — semantic search route.\n"
+}

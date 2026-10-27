@@ -1,0 +1,116 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27t2202-chatgpt-geelooy-studio-unification-0-08f2a8a300",
+		"title": "Phase One — Theoretical File and Dependency Graph",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27T2202-chatgpt-geelooy-studio-unification/02_PHASE_ONE_THEORETICAL_FILE_GRAPH.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase One — Theoretical File and Dependency Graph",
+				"anchor": "phase-one-theoretical-file-and-dependency-graph"
+			},
+			{
+				"level": 2,
+				"text": "Shared movie core — preferred new namespace",
+				"anchor": "shared-movie-core-preferred-new-namespace"
+			},
+			{
+				"level": 2,
+				"text": "Existing procedural systems to depend on, not duplicate",
+				"anchor": "existing-procedural-systems-to-depend-on-not-duplicate"
+			},
+			{
+				"level": 2,
+				"text": "Shared Awtsmoos UI — theoretical new library",
+				"anchor": "shared-awtsmoos-ui-theoretical-new-library"
+			},
+			{
+				"level": 2,
+				"text": "Flagship app — entirely new if still absent at source-write time",
+				"anchor": "flagship-app-entirely-new-if-still-absent-at-source-write-time"
+			},
+			{
+				"level": 2,
+				"text": "Three-minute proof structure",
+				"anchor": "three-minute-proof-structure"
+			},
+			{
+				"level": 2,
+				"text": "Thin existing-app integrations — only if current live code lacks them",
+				"anchor": "thin-existing-app-integrations-only-if-current-live-code-lacks-them"
+			},
+			{
+				"level": 2,
+				"text": "Dependency graph",
+				"anchor": "dependency-graph"
+			},
+			{
+				"level": 2,
+				"text": "Collision policy",
+				"anchor": "collision-policy"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase One — Theoretical File and Dependency Graph The Awtsmoos is one, yet vessels divide so every purpose can be seen; Awtsmoos.com should share the deepest engines while each app stays focused, small, and clean. This is a theoretical graph, not authorization to edit these paths. Exact ",
+		"searchText": "b\"h boruch hashem blessed is he phase one — theoretical file and dependency graph the awtsmoos is one, yet vessels divide so every purpose can be seen; awtsmoos.com should share the deepest engines while each app stays focused, small, and clean. this is a theoretical graph, not authorization to edit these paths. exact source files will be chosen only after current imports/exports and concurrent changes are re read. shared movie core — preferred new namespace libs/awtsmoos procedural core/src/core/movie/ potential small modules: moviedocument.js — normalized top level identity, duration, metadata, aspect ratio, frame rate. movievalidationerror.js — path, code, reason, repair hint. movievalidator.js — structural validation and capability checks. moviescene.js — normalized scene contract. moviesceneclock.js — global time to scene/local time resolution. movietimeline.js — deterministic ordered scene spans and overlap/transition semantics. moviekeyframe.js — canonical keyframe shape. movieinterpolator.js — interpolation and easing delegation. movietransition.js — scene transition contract. moviecameracue.js — angle/movement/focus intent. movielayer.js — engine neutral layer contract. movieactor.js — reusable actor/character reference. movieassetintent.js — portable generator/import descriptor. moviecapabilitycatalog.js — machine readable vocabulary for ai and apps. moviecompiler.js — validated input to normalized executable timeline artifact. moviepatch.js — safe json like declarative patch contract, never arbitrary code. moviefeatureinventory.js — proof/testing inventory. index.js — public movie namespace only. potential adapter subfolders if evidence supports them: adapters/canvas2d/ — shape/text/chart/particle realization. adapters/three/ — 3d object/camera/light/particle realization through existing three/procedural systems. adapters/assets/ — bridge movie asset intents into existing procedural core asset generators. adapters/media/ — generic media clip descriptors without importing app specific nle implementation into core. existing procedural systems to depend on, not duplicate core/animation/ for skeletons, mixers, keyframes, shape keys, speech. core/components/human/ and related character systems for people. core/proceduralobject/assets/ for asset generator registry and recipes. core/proceduralobject/particles/ for particle systems. core/text/ for text geometry/bitmap capabilities where appropriate. core/geometry/ and core/proceduralobject/geometry/ for geometry generation. core/webgl/camera/ for camera math where compatible. core/reality/json/ for established json validation/facade patterns. core/assets/ for asset resolution/cache patterns. shared awtsmoos ui — theoretical new library preferred path if no canonical equivalent is discovered: libs/awtsmoos ui/ potential modules: src/schema/uirecipe.js — canonical recipe shape. src/schema/uinode.js — one ui node contract. src/schema/uivalidationerror.js — json path errors. src/core/uinormalizer.js — strict defaults and normalization. src/core/uiactionregistry.js — named actions and guarded dispatch. src/core/uistatereader.js — controlled state bindings. src/dom/uielementfactory.js — safe element creation. src/dom/uiattributepolicy.js — permitted attributes/dataset/aria. src/dom/uidomrenderer.js — recursive renderer. src/dom/uirepeater.js — keyed collections. src/dom/uiconditional.js — visibility/branch nodes. src/mobile/uiresponsivepolicy.js — compact/mobile presentation hints. src/studio/studioshellrecipe.js — reusable studio shell vocabulary. src/studio/studioworkspacerecipe.js — preview/timeline/inspector layouts. src/tokens/studiotokens.js — dimensions and semantic token names. src/index.js — public ui api. readme.md — grammar, examples, security model. if discovery finds an existing canonical json/dom system in libs/awtsmoos, these responsibilities should extend that existing home instead of spawning duplicate architecture. flagship app — entirely new if still absent at source write time apps/awtsmoos studio/ potential modules: index.html — tiny shell and module entry. main.js — boot only. modules/app/bootawtsmoosstudio.js — composition root. modules/state/studiomoviesession.js — canonical movie session state. modules/state/studioselection.js — scene/layer selection. modules/ai/studioaimoviebridge.js — prompt/spec import/validation/repair surface. modules/movie/studiomovieloader.js — manifest/scenes load. modules/movie/studiomovieplayback.js — timeline play/seek. modules/movie/studiomoviepreview.js — adapter selection and render scheduling. modules/movie/studiomovieexport.js — delegates to verified export provider. modules/ui/studiorecipe.js — json ui recipe. modules/ui/studioactions.js — action registry. modules/ui/studioviewmodel.js — data for ui recipe. styles/tokens.css, styles/base.css, styles/studio.css, styles/mobile.css only if shared ui does not supply equivalent structure. three minute proof structure prefer split data under: apps/awtsmoos studio/examples/three minute revelation/ manifest.js or .json — metadata and ordered scene imports/references. scenes/01 opening.js scenes/02 world.js scenes/03 characters.js scenes/04 tutorial.js scenes/05 infographic.js scenes/06 data rise.js scenes/07 dialogue.js scenes/08 procedural world.js scenes/09 particles.js scenes/10 climax.js scenes/11 recap.js scenes/12 credits.js each scene should remain a readable, non minified small module. total timeline must equal exactly 180 seconds. thin existing app integrations — only if current live code lacks them possible new bridge files that avoid rewriting contested app cores: apps/animator/js/movie/awtsmoosmovieadapter.js apps/video editor/js/awtsmoosmovieadapter.js apps/mitzvah studio/modules/bridge/awtsmoosmoviebridge.js apps/nesher studio/modules/movie/awtsmoosmoviebridge.js only add them if there is a real entry/integration path that can consume them. a bridge no app imports is not integration. dependency graph ai prompt/spec → awtsmoosmovie schema + validator → moviecompiler → movietimeline + moviesceneclock → movieassetintent → existing procedural core generators → renderer adapter (2d or 3d) → preview frame → app specific timeline/editor state where needed → export adapter / nesher derived verified encoding path awtsmoos ui recipe → uinormalizer → uidomrenderer → named action registry → app session state → movie compiler/playback/export services collision policy 1. prefer new files in new namespaces. 2. re read any legacy file immediately before full rewrite. 3. use hashes or write if hash semantics if a contested file must change. 4. never overwrite another agent's uncommitted changes blindly. 5. never reset or stash unrelated work. 6. if a parallel agent lands an equivalent shared implementation first, inspect and extend it instead of duplicating it. the graph is provisional by design: revelation must follow real imports, not desire.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27t2202-chatgpt-geelooy-studio-unification-0-08f2a8a300.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27t2202-chatgpt-geelooy-studio-unification-0-94d878f4dc",
+		"title": "Phase Two — Gevurah Critique: 25 Improvements",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27T2202-chatgpt-geelooy-studio-unification/03_PHASE_TWO_CRITIQUE_20_PLUS.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Two — Gevurah Critique: 25 Improvements",
+				"anchor": "phase-two-gevurah-critique-25-improvements"
+			},
+			{
+				"level": 2,
+				"text": "Critiques and improvements",
+				"anchor": "critiques-and-improvements"
+			},
+			{
+				"level": 2,
+				"text": "Additional architecture corrections",
+				"anchor": "additional-architecture-corrections"
+			},
+			{
+				"level": 3,
+				"text": "Keep core pure enough to test without DOM",
+				"anchor": "keep-core-pure-enough-to-test-without-dom"
+			},
+			{
+				"level": 3,
+				"text": "Separate semantic nodes from visual realization",
+				"anchor": "separate-semantic-nodes-from-visual-realization"
+			},
+			{
+				"level": 3,
+				"text": "Define graceful degradation",
+				"anchor": "define-graceful-degradation"
+			},
+			{
+				"level": 3,
+				"text": "Treat export as a provider interface",
+				"anchor": "treat-export-as-a-provider-interface"
+			},
+			{
+				"level": 3,
+				"text": "Treat AI repair as first-class",
+				"anchor": "treat-ai-repair-as-first-class"
+			},
+			{
+				"level": 2,
+				"text": "Reality gate before implementation",
+				"anchor": "reality-gate-before-implementation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Two — Gevurah Critique: 25 Improvements The Awtsmoos gives without limit, then Gevurah draws the line; Awtsmoos.com becomes stronger when each bright idea receives a measured design. Phase One exposed the desired universe. This pass attacks it so the implementation stays real, inte",
+		"searchText": "b\"h boruch hashem blessed is he phase two — gevurah critique: 25 improvements the awtsmoos gives without limit, then gevurah draws the line; awtsmoos.com becomes stronger when each bright idea receives a measured design. phase one exposed the desired universe. this pass attacks it so the implementation stays real, integrated, testable, and collision safe. critiques and improvements 1. do not invent a second capability catalog. a parallel agent is actively writing one. re read the live core after planning and extend the canonical implementation if valid. 2. do not equate a json schema with a working movie engine. the compiler must resolve actual scene time, produce renderable state, and drive preview/export. 3. do not make “renderer neutral” mean “renderer vague.” canonical nodes need enough dimensions, transforms, timing, and semantics that adapters can deterministically render them. 4. do not put dom or three.js runtime assumptions into the schema. adapter hints may exist, but canonical meaning must stay portable. 5. do not move mature app code into core solely to satisfy a relocation request. only generic asset generation belongs in core; nle ui, browser recording, and app workflow remain adapters. 6. do not duplicate procedural core generators. movie asset intents should address existing generators/registries by stable names and recipes. 7. do not claim all four apps are “integrated” because bridge files exist. every bridge must be imported by a real entry path and exercised in runtime verification. 8. do not force every app to expose every feature. persona/capability profiles define supported subsets while preserving one canonical document. 9. do not let unsupported capabilities fail silently. compilation must yield explicit path based errors or adapter capability warnings. 10. do not let ai emit arbitrary html or js. ui and movie recipes must be declarative, validated, and action registry based. 11. do not build a general ui framework before searching existing libs/awtsmoos. extend a real shared ui primitive if present; otherwise create one narrow library. 12. do not render rich text through unsafe innerhtml. text, structured spans, and optional sanitized rich nodes require separate contracts. 13. do not make mobile a css afterthought. interaction topology should start with one preview surface + bottom navigation/sheet model and progressively enhance on desktop. 14. do not create one giant awtsmoosstudio.js. composition root, session, playback, preview, ai bridge, export, ui recipe, and actions stay separate small modules. 15. do not put the 180 second proof in one giant data file. split by scene and compile through a manifest. 16. do not validate only total duration. validate scene contiguity, ids, references, transitions, local keyframe ranges, and feature coverage. 17. do not use random particles without deterministic seeds in the proof. reproducible playback is essential for tests and export. 18. do not assume one renderer can cover both 2d and 3d. share clock/document semantics; preserve dedicated realization paths. 19. do not reimplement camera math if core already provides it. canonical camera cues should map into existing camera systems where possible. 20. do not fake “people” with rectangles in a proof that claims character support. at least one scene must invoke a real reusable character/procedural person path if available. 21. do not fake export by saving json. export verification means an actual encoded visual artifact when browser/platform codecs support it; otherwise document the exact codec boundary. 22. do not require full 180 second real time playback to verify timing. programmatic seek/frame checks can cover the timeline efficiently, while export can run accelerated/offline if supported. 23. do not overwrite currently dirty legacy entry files casually. prefer new modules; if a legacy file must change, re read immediately, capture sha, then perform a full file hash guarded rewrite. 24. do not let source size rules be solved by deleting comments. split modules while preserving detailed jsdoc and readable formatting. 25. do not stop at green unit tests. browser console, responsive geometry, representative timeline seeks, ai import, and actual integration routes are required completion evidence. additional architecture corrections keep core pure enough to test without dom movie schema, validation, timeline resolution, capability discovery, feature inventory, and compilation should run in node without a browser. render adapters may depend on dom/canvas/three. separate semantic nodes from visual realization a chart node means data + chart semantics + animation cues. a 2d adapter may draw it on canvas/svg; a 3d adapter may place bars in depth; both should receive the same normalized values. define graceful degradation if a movie asks a compact app to display a 3d fluid simulation it cannot render, the app should either delegate to the shared preview renderer, show a clear capability message, or retain the node without destructive loss. treat export as a provider interface the shared movie core should define frame/audio/export intent, not import nesher's entire exporter. awtsmoos studio can bind the best available exporter provider discovered at runtime. treat ai repair as first class validation errors should include fields such as path, code, message, expected, received, repairhint, and possibly capabilityalternatives. this turns invalid model output into an iterative repair loop. reality gate before implementation before any source write: re run source discovery because parallel agents are landing new files now; inspect package/export conventions; inspect any newly created movie capability modules; inspect existing shared ui candidates; confirm apps/awtsmoos studio is still absent; freeze exact files only then. gevurah conclusion: the project succeeds by making a small set of canonical truths actually drive existing render/export systems, not by creating another impressive but disconnected framework.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27t2202-chatgpt-geelooy-studio-unification-0-94d878f4dc.json"
+	}
+]

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — SSH Lib (geelooy/api/ssh/lib/)\n\nPlain-data composition root for the SSH route families (see `../README.md`).\nCombines four independently built route maps into one declarative surface.\n\n## Files\n- `routes.js` — composition root: `buildRoutes(requestVessel)` merges the\n  command, file, shell, and virtual route maps.\n- `routeSupport.js` / `request.js` / `responses.js` — route context, request\n  handling, response shaping.\n- `commandRoutes.js` / `commands.js` — remote command routes and implementations.\n- `fileRoutes.js` / `fileContentTransport.js` — file/folder/stat/mode/path routes.\n- `shellRoutes.js` / `shellSessions.js` / `shellSessionRegistry.js` /\n  `shellSessionRecord.js` — living shell sessions and their registry.\n- `virtualRoutes.js` — bridges the alias-backed virtual world into the route map.\n- `sftpFiles.js` / `sftpTransfer.js` / `sftpRemove.js` — SFTP file operations.\n- `client.js` / `callbacks.js` / `posix.js` — outbound SSH client and helpers.\n"
+}

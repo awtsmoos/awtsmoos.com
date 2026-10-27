@@ -8,29 +8,6 @@ Each row links one discovered API route to generated teaching. Method/contract f
 
 | Route | Family | Method evidence | Health | Tutorial | Source |
 | --- | --- | --- | --- | --- | --- |
-| `/api/social/sync/pull/:alias` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-sync-pull-alias-1a9e661031.md) | `geelooy/api/social/_awtsmoos.platform.js` |
-| `/api/social/thoughts/:entityType/:entityId` | Social | GET, POST, PUT, DELETE | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-thoughts-entitytype-entityid-9582abc87a.md) | `geelooy/api/social/_awtsmoos.thoughts.js` |
-| `/api/social/thoughts/:entityType/:entityId/stats` | Social | GET, POST, PUT, DELETE | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-thoughts-entitytype-entityid-stats-e4cbd513f3.md) | `geelooy/api/social/_awtsmoos.thoughts.js` |
-| `/api/social/thoughts/:thoughtId` | Social | GET, POST, PUT, DELETE | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-thoughts-thoughtid-aedffbb94b.md) | `geelooy/api/social/_awtsmoos.thoughts.js` |
-| `/api/social/thoughts/:thoughtId/reactions` | Social | GET, POST, PUT, DELETE | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-thoughts-thoughtid-reactions-bbd376b1bd.md) | `geelooy/api/social/_awtsmoos.thoughts.js` |
-| `/api/social/thoughts/:thoughtId/replies` | Social | GET, POST, PUT, DELETE | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-thoughts-thoughtid-replies-1b1875b63a.md) | `geelooy/api/social/_awtsmoos.thoughts.js` |
-| `/api/social/thoughts/feed` | Social | GET, POST, PUT, DELETE | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-thoughts-feed-c095719633.md) | `geelooy/api/social/_awtsmoos.thoughts.js` |
-| `/api/social/thoughts/thread/:thoughtId` | Social | GET, POST, PUT, DELETE | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-thoughts-thread-thoughtid-e923f31029.md) | `geelooy/api/social/_awtsmoos.thoughts.js` |
-| `/api/social/trending` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-trending-03b39bec77.md) | `geelooy/api/social/_awtsmoos.profile.js` |
-| `/api/social/trending` | Social | GET | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-trending-329dbde843.md) | `geelooy/api/social/_awtsmoos.publicDiscovery.js` |
-| `/api/social/unified-social/activity/:alias` | Social | GET, POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-unified-social-activity-alias-f74ec84442.md) | `geelooy/api/social/_awtsmoos.activityLedger.js` |
-| `/api/social/unified-social/activity/:alias/events/:event` | Social | GET, POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-unified-social-activity-alias-events-event-4b32471913.md) | `geelooy/api/social/_awtsmoos.activityLedger.js` |
-| `/api/social/unified-social/activity/:alias/export` | Social | GET, POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-unified-social-activity-alias-export-af45dc4a20.md) | `geelooy/api/social/_awtsmoos.activityLedger.js` |
-| `/api/social/unified-social/activity/:alias/preferences` | Social | GET, POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-unified-social-activity-alias-preferences-2a82f3ebc1.md) | `geelooy/api/social/_awtsmoos.activityLedger.js` |
-| `/api/social/unified-social/activity/:alias/shared` | Social | GET, POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-unified-social-activity-alias-shared-5101ea9ad0.md) | `geelooy/api/social/_awtsmoos.activityLedger.js` |
-| `/api/social/unified-social/activity/meta` | Social | GET, POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-unified-social-activity-meta-a9f949860c.md) | `geelooy/api/social/_awtsmoos.activityLedger.js` |
-| `/api/social/unified-social/destinations` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-unified-social-destinations-d5b8a9e9bf.md) | `geelooy/api/social/_awtsmoos.destinations.js` |
-| `/api/social/unified-social/destinations/:heichel/:series` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-unified-social-destinations-heichel-series-731e2fa75a.md) | `geelooy/api/social/_awtsmoos.destinations.js` |
-| `/api/social/unified-social/destinations/meta` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-unified-social-destinations-meta-8ef01e268e.md) | `geelooy/api/social/_awtsmoos.destinations.js` |
-| `/api/social/unified-social/governance/meta` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-unified-social-governance-meta-2b95f68032.md) | `geelooy/api/social/_awtsmoos.memberGovernance.js` |
-| `/api/social/unified-social/heichelos` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-unified-social-heichelos-cee05f71f2.md) | `geelooy/api/social/_awtsmoos.destinations.js` |
-| `/api/social/unified-social/heichelos/:heichel/access` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-unified-social-heichelos-heichel-access-5dfe98e529.md) | `geelooy/api/social/_awtsmoos.destinations.js` |
-| `/api/social/unified-social/heichelos/:heichel/governance` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-unified-social-heichelos-heichel-governance-55f529fd96.md) | `geelooy/api/social/_awtsmoos.memberGovernance.js` |
 | `/api/social/unified-social/heichelos/:heichel/invitations` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-unified-social-heichelos-heichel-invitations-24b6789962.md) | `geelooy/api/social/_awtsmoos.memberGovernance.js` |
 | `/api/social/unified-social/heichelos/:heichel/invitations/:invitation/respond` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-unified-social-heichelos-heichel-invitations-invitati-b03dc3e0d8.md) | `geelooy/api/social/_awtsmoos.memberGovernance.js` |
 | `/api/social/unified-social/heichelos/:heichel/members` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-unified-social-heichelos-heichel-members-814fd2a5d6.md) | `geelooy/api/social/_awtsmoos.destinations.js` |
@@ -53,3 +30,26 @@ Each row links one discovered API route to generated teaching. Method/contract f
 | `/api/social/unified-social/publish` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-unified-social-publish-ff1e64dda8.md) | `geelooy/api/social/_awtsmoos.publishFlow.js` |
 | `/api/social/unified-social/publish/meta` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-unified-social-publish-meta-73ce29aaaf.md) | `geelooy/api/social/_awtsmoos.publishFlow.js` |
 | `/api/social/unified-social/publish/preview` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-unified-social-publish-preview-095356f8ee.md) | `geelooy/api/social/_awtsmoos.publishFlow.js` |
+| `/api/social/unified-social/review/meta` | Social | GET | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-unified-social-review-meta-eeea1d3196.md) | `geelooy/api/social/_awtsmoos.reviewCenter.js` |
+| `/api/streaming` | Streaming | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-streaming-0d2c5324f4.md) | `geelooy/api/streaming/routes/table.js` |
+| `/api/streaming/:connector` | Streaming | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-streaming-connector-a95136bcd4.md) | `geelooy/api/streaming/_awtsmoos.derech.js` |
+| `/api/streaming/:connector/:action` | Streaming | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-streaming-connector-action-d87f3b29ce.md) | `geelooy/api/streaming/_awtsmoos.derech.js` |
+| `/api/streaming/connector` | Streaming | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-streaming-connector-6a59d84a9f.md) | `geelooy/api/streaming/routes/table.js` |
+| `/api/text/timestamp/:jobId` | Text Jobs | unknown | FAIL | [tutorial](../API_TUTORIALS/ROUTES/api-text-timestamp-jobid-3d76712ed4.md) | `geelooy/api/text/_awtsmoos.derech.js` |
+| `/api/text/timestamp/:jobId/result` | Text Jobs | unknown | FAIL | [tutorial](../API_TUTORIALS/ROUTES/api-text-timestamp-jobid-result-b55642d5dc.md) | `geelooy/api/text/_awtsmoos.derech.js` |
+| `/api/tunnel/control/admin-vault` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-admin-vault-0c79867071.md) | `geelooy/api/tunnel/control/routes/table.js` |
+| `/api/tunnel/control/admin/perutas` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-admin-perutas-5d22edeedf.md) | `geelooy/api/tunnel/control/routes/table.js` |
+| `/api/tunnel/control/agent-economy` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-agent-economy-55b9aaa475.md) | `geelooy/api/tunnel/control/routes/table.js` |
+| `/api/tunnel/control/agent-lobby` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-agent-lobby-01f88f681b.md) | `geelooy/api/tunnel/control/routes/table.js` |
+| `/api/tunnel/control/agent-lobby/join` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-agent-lobby-join-6e29b3e243.md) | `geelooy/api/tunnel/control/routes/table.js` |
+| `/api/tunnel/control/agent-lobby/post` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-agent-lobby-post-397d4d9166.md) | `geelooy/api/tunnel/control/routes/table.js` |
+| `/api/tunnel/control/agent-manifest` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-agent-manifest-3d95678bf3.md) | `geelooy/api/tunnel/control/routes/table.js` |
+| `/api/tunnel/control/agent-room` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-agent-room-1f9266b1f2.md) | `geelooy/api/tunnel/control/routes/table.js` |
+| `/api/tunnel/control/agent-room/join` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-agent-room-join-b220b47caa.md) | `geelooy/api/tunnel/control/routes/table.js` |
+| `/api/tunnel/control/agent-room/message` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-agent-room-message-381aea1392.md) | `geelooy/api/tunnel/control/routes/table.js` |
+| `/api/tunnel/control/api-keys` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-api-keys-db993bf8af.md) | `geelooy/api/tunnel/control/routes/table.js` |
+| `/api/tunnel/control/api-keys/create` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-api-keys-create-91bd090e21.md) | `geelooy/api/tunnel/control/routes/table.js` |
+| `/api/tunnel/control/api-keys/revoke` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-api-keys-revoke-4d16d58e2e.md) | `geelooy/api/tunnel/control/routes/table.js` |
+| `/api/tunnel/control/app-api/call` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-app-api-call-358e209e7f.md) | `geelooy/api/tunnel/control/routes/table.js` |
+| `/api/tunnel/control/app-api/catalog` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-app-api-catalog-affd6a4d88.md) | `geelooy/api/tunnel/control/routes/table.js` |
+| `/api/tunnel/control/artifact/:token/:filename` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-artifact-token-filename-8e82866842.md) | `geelooy/api/tunnel/control/routes/table.js` |

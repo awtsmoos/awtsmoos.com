@@ -37,7 +37,7 @@
 	"tests": [
 		{
 			"name": "test",
-			"command": "npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported-style-ownership && npm run test:css-quality && npm run test:heichelos-quality && npm run test:profile-menu && npm run test:heichel-governance && npm run test:post-submissions && npm run test:comments && npm run test:api-keys && npm run test:graph && npm run test:social-content && npm run test:notifications && npm run test:social-packed && npm run test:packed-engine && npm run test:platform-ops && npm run test:platform-execution && npm run test:node-client && npm run test:dayuh-cutover"
+			"command": "npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported-style-ownership && npm run test:css-quality && npm run test:heichelos-quality && npm run test:heichel-cache-scale && npm run test:profile-menu && npm run test:heichel-governance && npm run test:post-submissions && npm run test:comments && npm run test:api-keys && npm run test:graph && npm run test:social-content && npm run test:notifications && npm run test:social-packed && npm run test:packed-engine && npm run test:platform-ops && npm run test:platform-execution && npm run test:node-client && npm run test:dayuh-cutover"
 		},
 		{
 			"name": "test:api-keys",
@@ -77,16 +77,8 @@
 			"route": "/api/social"
 		},
 		{
-			"id": "api-social-abuse-ratelimit-check-0a30b621f8",
+			"id": "api-social-abuse-ratelimit-check-5b49fb70cc",
 			"route": "/api/social/abuse/rateLimit/check"
-		},
-		{
-			"id": "api-social-alias-alias-2cc6a9ba6e",
-			"route": "/api/social/alias/:alias"
-		},
-		{
-			"id": "api-social-alias-alias-details-7e4136898b",
-			"route": "/api/social/alias/:alias/details"
 		},
 		{
 			"id": "api-social-alias-alias-heichelos-34bfb8e313",
@@ -103,6 +95,14 @@
 		{
 			"id": "api-social-alias-alias-heichelos-details-75a049464f",
 			"route": "/api/social/alias/:alias/heichelos/details"
+		},
+		{
+			"id": "api-social-aliases-alias-commentsmade-bff96a6bfa",
+			"route": "/api/social/aliases/:alias/commentsMade"
+		},
+		{
+			"id": "api-social-aliases-alias-commentsmade-heichel-heichel-1ed2696840",
+			"route": "/api/social/aliases/:alias/commentsMade/heichel/:heichel"
 		}
 	]
 }

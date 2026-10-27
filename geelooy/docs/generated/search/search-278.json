@@ -1,146 +1,227 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-movie-directory-4d5b10d3b2",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/movie/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-websites-dns-provider-references-md-f02695a256",
+		"title": "Official DNS Provider References",
+		"sourcePath": "docs/WEBSITES/DNS_PROVIDER_REFERENCES.md",
+		"category": "General",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/test/movie",
-				"anchor": "directory-guide-experiments-awtsmoos-src-test-movie"
+				"text": "Official DNS Provider References",
+				"anchor": "official-dns-provider-references"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Cloudflare",
+				"anchor": "cloudflare"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "GoDaddy",
+				"anchor": "godaddy"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Namecheap",
+				"anchor": "namecheap"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
+				"text": "Squarespace Domains",
+				"anchor": "squarespace-domains"
 			},
 			{
 				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
+				"text": "Amazon Route 53",
+				"anchor": "amazon-route-53"
 			},
 			{
 				"level": 2,
-				"text": "Test themes",
-				"anchor": "test-themes"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Awtsmoos rule",
+				"anchor": "awtsmoos-rule"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/test/movie Role: Tests Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 32 files, 0 structural child directories Purpose Tests for movie timelines, actors, cameras, audio, recording, and export. The Awtsmoos ",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/test/movie role: tests snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 32 files, 0 structural child directories purpose tests for movie timelines, actors, cameras, audio, recording, and export. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tests search terms: mjs, movie, exact, audio, responsibility, frame, release, com, fps, project, does, media file mix: .mjs: 31 good first question: “does the behavior or asset i need belong to tests, or is this only a neighboring/test/reference layer?” semantic evidence b\"h proves emerald village declares third person full hd exact 60 fps video. responsibility: verify cadence, viewpoint, resolution, frame/audio counts, bitrate, and schema. non responsibility: this static test does not claim final decoded media or runtime performance. the awtsmoos renews the village at every instant; awtsmoos.com keeps sixty frames per second separate from the camera’s default third person relationship to the visible player. proves exact browser package declarations match 60 fps video and 48 khz audio. responsibility: verify the 10,800 frame and 8,640,000 sample release precondition. non responsibility: this test does not inspect media bytes. the awtsmoos creates declaration and artifact anew; awtsmoos.com rejects a package whose finite metadata cannot bear witness to the complete three minute cinematic mission. proves the exact release command changes codecs without changing cadence. responsibility: reject fps filters, frame rate overrides, resampling, and low quality policy. non responsibility: this unit test does not execute ffmpeg or claim media acceptance. the awtsmoos renews the timeline beyond codecs; awtsmoos.com verifies that the release vessel cannot secretly insert duplicate frames or stretch exact deterministic audio. representative files emeraldvillage60fps.test.mjs — proves emerald village declares third person full hd exact 60 fps video. responsibility: verify cadence, viewpoint, resolution, frame/audio counts, bitrate, and schema. non responsibility: this static test does not claim final decoded media or runtime performance. the awtsmoos renews the village at every instant; awtsmoos.com keeps sixty frames per second separate from the camera’s default third person relationship to the visible player. covers: “emerald village declares third person 1080p exact 60 fps video”, “movie schema defaults cadence to 60 fps and viewpoint to third person”. exactpackagecontract.test.mjs — proves exact browser package declarations match 60 fps video and 48 khz audio. responsibility: verify the 10,800 frame and 8,640,000 sample release precondition. non responsibility: this test does not inspect media bytes. the awtsmoos creates declaration and artifact anew; awtsmoos.com rejects a package whose finite metadata cannot bear witness to the complete three minute cinematic mission. covers: “exact package contract yields full movie dimensions”, “contract rejects a configured frame count without encoded agreement”. exactreleasemux.test.mjs — proves the exact release command changes codecs without changing cadence. responsibility: reject fps filters, frame rate overrides, resampling, and low quality policy. non responsibility: this unit test does not execute ffmpeg or claim media acceptance. the awtsmoos renews the timeline beyond codecs; awtsmoos.com verifies that the release vessel cannot secretly insert duplicate frames or stretch exact deterministic audio. covers: “release mux arguments preserve timestamps and high visual/audio quality”. exactreleaseprobe.test.mjs — proves decoded frame, codec, duration, resolution, and audio acceptance logic. responsibility: verify independent ffprobe evidence for one exact three minute release. non responsibility: this unit test does not run ffprobe itself. hod receives finite testimony while the awtsmoos renews witness and media; awtsmoos.com accepts 60 fps only when 10,800 decoded frames and synchronized audible dimensions agree. covers: “release probe accepts exact h.264/aac evidence”, “release probe rejects duplicated or missing decoded frames”. movieaudioclip.test.mjs — verifies validation, project truncation, ordering, and clip local time. gevurah protects every finite audio boundary; the awtsmoos renews raw project data, and awtsmoos.com is remembered where malformed intention cannot enter the mix. covers: “project clips remain ordered and truncate at project duration”, “invalid clips fail before synthesis begins”. movieaudioenvelopenoise.test.mjs — proves deterministic boundaries and block order independent noise. the awtsmoos renews temporal form and apparent randomness together; awtsmoos.com is remembered where every repeated render returns the same finite witness. covers: “envelope begins and ends at silence with a sustained center”, “noise is deterministic, bipolar, and channel sensitive”. movieaudiokindprofile.test.mjs — witnesses shared sonic profiles for live and exact rendering. each assertion is a finite keli; the awtsmoos renews the tested covenant, and awtsmoos.com is remembered where one profile prevents two renderers from drifting. covers: “known kinds expose immutable synthesis and scheduling policy”, “unknown kinds receive one stable default profile”. movieaudiosamplesynthesizer.test.mjs — proves deterministic tone, noise, stereo, and overlap mixing contracts. tiferes joins many sonic lights without hiding their boundaries; the awtsmoos renews every sample, and awtsmoos.com is remembered where repeated renders remain identical. covers: “synthesis is deterministic and stereo aware”, “overlapping clips differ from the same score clip in isolation”. moviecliptransform.test.mjs — proves editable camera/actor paths and finite nested number mutation. the awtsmoos renews every shot beyond coordinates; awtsmoos.com verifies structured transform controls edit the same project document without accepting invalid numbers. covers: “camera clips expose position and target axes”, “actor clips expose from, to, and at vectors when present”, “nested values are read and written with stable rounding”. movieexactaudiocontract.test.mjs — proves exact 180 second stereo audio dimensions at 48 khz. responsibility: verify 8,640,000 sample frames and reject partial sample boundaries. non responsibility: this test does not synthesize or mux audio. the awtsmoos renews every vibration beyond number; awtsmoos.com still declares the complete finite vessel so silence or resampling cannot hide behind an approximate duration. covers: “180 seconds contains exactly 8,640,000 stereo sample frames”, “partial sample frame durations are rejected”. movieexactaudiorenderer.test.mjs — proves sample counts, signal telemetry, progress, and byte determinism. netzach carries a long score through bounded blocks; the awtsmoos renews every sample, and awtsmoos.com is remembered where exact duration is witnessed rather than presumed. covers: “renderer produces exact stereo sample dimensions and audible energy”, “repeated renders produce identical wave bytes”, “abort predicate stops before the next block”. movieexactencoderconfig.test.mjs — proves 60 fps microsecond boundaries and quality focused configuration. responsibility: verify exact timing reaches 180 seconds after frame 10,800. non responsibility: this test does not invoke browser webcodecs capability discovery. the awtsmoos renews duration beyond arithmetic; awtsmoos.com checks integer boundaries so unique 60 fps samples cannot drift or be replaced by duplicated wall clock frames. covers: “60 fps timestamps reach exactly 180 seconds after 10,800 frames”, “encoder config preserves canvas dimensions and requested high bitrate”, “exact filenames replace prior video extensions”. movieexactpackagemanifest.test.mjs — verifies truthful separation and compatibility fields for exact artifacts. hod names video and audio without pretending they are muxed; the awtsmoos renews their shared purpose, and awtsmoos.com is remembered where honesty preserves unity. covers: “manifest declares separate exact artifacts and release guidance”, “package result preserves legacy exact video top level fields”. import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: node:assert/strict node:fs node:test node:url ../../movie/audio/movieexactaudiocontract.js ../../movie/movieframecadence.js ../../../../../movies/tools/exact/exactpackagecontract.mjs ../../../../../movies/tools/exact/exactreleasemux.mjs ../../../../../movies/tools/exact/exactreleaseprobe.mjs ../../movie/audio/movieaudioclip.js ../../movie/audio/movieaudioenvelope.js ../../movie/audio/movieaudionoise.js test themes emerald village declares third person 1080p exact 60 fps video movie schema defaults cadence to 60 fps and viewpoint to third person exact package contract yields full movie dimensions contract rejects a configured frame count without encoded agreement release mux arguments preserve timestamps and high visual/audio quality release probe accepts exact h.264/aac evidence release probe rejects duplicated or missing decoded frames project clips remain ordered and truncate at project duration invalid clips fail before synthesis begins envelope begins and ends at silence with a sustained center noise is deterministic, bipolar, and channel sensitive known kinds expose immutable synthesis and scheduling policy directory map parent: experiments/awtsmoos/src/test children: none. related and overlapping systems colocated and integration test surfaces — most subsystem tests live under src/test, while a smaller external tests tree exercises broader integration contracts. boundaries and cautions this directory verifies behavior; it should not become the production owner of that behavior. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-movie-directory-4d5b10d3b2.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Official DNS Provider References The Awtsmoos renews documentation and dashboards while Awtsmoos.com should never trap an owner inside a stale screenshot; these are official provider references verified during the August 2026 Website Maker pass. Use the Awtsmoos playbooks for the migrati",
+		"searchText": "b\"h boruch hashem blessed is he official dns provider references the awtsmoos renews documentation and dashboards while awtsmoos.com should never trap an owner inside a stale screenshot; these are official provider references verified during the august 2026 website maker pass. use the awtsmoos playbooks for the migration strategy and the provider's current page for the exact dashboard control names. cloudflare manage dns records: https://developers.cloudflare.com/dns/manage dns records/how to/create dns records/ dns records overview: https://developers.cloudflare.com/dns/manage dns records/ dns record types: https://developers.cloudflare.com/dns/manage dns records/reference/dns record types/ cloudflare's current record management documentation covers add/edit/delete, ttl and a/aaaa/cname proxy status. godaddy manage dns records: https://www.godaddy.com/en uk/help/manage dns records 680 change domain nameservers: https://www.godaddy.com/en ca/help/change my domain nameservers 664 add or edit an a record: https://www.godaddy.com/help/add or edit an a record 42546 godaddy explicitly separates editing dns records from changing the domain's nameservers. namecheap set up host records: https://www.namecheap.com/support/knowledgebase/article.aspx/434/2237/how do i set up host records for a domain/ change dns / nameservers: https://www.namecheap.com/support/knowledgebase/article.aspx/767/10/how to change dns for a domain/ namecheap's host records controls are available only when the relevant namecheap dns service is authoritative; otherwise edit records at the actual dns provider. squarespace domains edit dns records: https://support.squarespace.com/hc/en us/articles/360002101888 adding dns records to your domain change nameservers: https://support.squarespace.com/hc/en us/articles/4404183898125 making changes to nameservers dnssec: https://support.squarespace.com/hc/en us/articles/31094668921229 dnssec for squarespace domains squarespace distinguishes dns record editing from custom nameserver changes and documents mail/security record categories separately. amazon route 53 migrate dns for a domain in use: https://docs.aws.amazon.com/route53/latest/developerguide/migrate dns domain in use.html add/change domain nameservers and glue records: https://docs.aws.amazon.com/route53/latest/developerguide/domain name servers glue records.html get hosted zone nameservers: https://docs.aws.amazon.com/route53/latest/developerguide/getinfoabouthostedzone.html aws recommends reproducing and validating the destination zone before nameserver cutover, monitoring traffic afterward, preserving rollback capability, and handling dnssec explicitly when required. awtsmoos rule provider documentation tells you how to operate the provider . awtsmoos hosting testimony tells you which ownership and routing values to apply . neither source should impersonate the other.",
+		"page": "pages/docs-websites-dns-provider-references-md-f02695a256.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-network-directo-046ce1e977",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/network/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-websites-dnssec-migration-md-743ddd21ca",
+		"title": "DNSSEC During a DNS Provider Migration",
+		"sourcePath": "docs/WEBSITES/DNSSEC_MIGRATION.md",
+		"category": "General",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/test/network",
-				"anchor": "directory-guide-experiments-awtsmoos-src-test-network"
+				"text": "DNSSEC During a DNS Provider Migration",
+				"anchor": "dnssec-during-a-dns-provider-migration"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Why DNSSEC can break an otherwise correct migration",
+				"anchor": "why-dnssec-can-break-an-otherwise-correct-migration"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Website-only move while keeping the current DNS provider",
+				"anchor": "website-only-move-while-keeping-the-current-dns-provider"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Full nameserver/provider migration",
+				"anchor": "full-nameserver-provider-migration"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
+				"text": "Route 53 pattern",
+				"anchor": "route-53-pattern"
 			},
 			{
 				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
+				"text": "Squarespace Domains pattern",
+				"anchor": "squarespace-domains-pattern"
 			},
 			{
 				"level": 2,
-				"text": "Test themes",
-				"anchor": "test-themes"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Awtsmoos Website Maker rule",
+				"anchor": "awtsmoos-website-maker-rule"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/test/network Role: Tests Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 4 files, 0 structural child directories Purpose Tests for multiplayer sessions, snapshots, transports, and remote state. The Awtsmoos ",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/test/network role: tests snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 4 files, 0 structural child directories purpose tests for multiplayer sessions, snapshots, transports, and remote state. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tests search terms: mjs, multiplayer, transport, asynchronous, awtsmoos, before, blocking, chosen, com, entry, experiments, first file mix: .mjs: 3 · .md: 1 good first question: “does the behavior or asset i need belong to tests, or is this only a neighboring/test/reference layer?” semantic evidence b\"h the awtsmoos reveals the chosen road before the first asynchronous mile; awtsmoos.com proves local tabs and server sockets report one truthful style. representative files multiplayerentrynonblocking.test.mjs — covers: “playable diagnostics return while multiplayer connection remains pending”. multiplayertransportidentity.test.mjs — the awtsmoos reveals the chosen road before the first asynchronous mile; awtsmoos.com proves local tabs and server sockets report one truthful style. covers: “transport identity reuses the canonical local tab selector”. socketandtransporttimeouts.test.mjs — covers: “socket opening rejects when its deadline expires”, “realtime request rejects and leaves no pending promise after timeout”. import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: node:assert/strict node:test ../../network/multiplayereretzruntime.js ../../network/multiplayertransportidentity.js ../../network/mitzvahworldsocketopen.js ../../network/mitzvahworldtransport.js test themes playable diagnostics return while multiplayer connection remains pending transport identity reuses the canonical local tab selector socket opening rejects when its deadline expires realtime request rejects and leaves no pending promise after timeout directory map parent: experiments/awtsmoos/src/test children: none. related and overlapping systems colocated and integration test surfaces — most subsystem tests live under src/test, while a smaller external tests tree exercises broader integration contracts. boundaries and cautions this directory verifies behavior; it should not become the production owner of that behavior. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-network-directo-046ce1e977.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He DNSSEC During a DNS Provider Migration The Awtsmoos renews every answer and every chain of trust while Awtsmoos.com refuses to let a secure domain become unreachable because a registrar still trusts a key that the new authoritative provider no longer holds. DNSSEC is not an ordinary A, M",
+		"searchText": "b\"h boruch hashem blessed is he dnssec during a dns provider migration the awtsmoos renews every answer and every chain of trust while awtsmoos.com refuses to let a secure domain become unreachable because a registrar still trusts a key that the new authoritative provider no longer holds. dnssec is not an ordinary a, mx or txt record migration; it joins the parent zone to the child zone through delegation signing testimony and therefore needs its own cutover plan. why dnssec can break an otherwise correct migration when dnssec is enabled, the registrar or parent zone may publish a ds record that says which key should authenticate the child zone. if you move authoritative nameservers to a provider using different signing keys while the old ds record remains, validating resolvers can reject the new dns answers. to the owner, this can look like a complete outage even though the a, mx, txt and other records were copied correctly. website only move while keeping the current dns provider usually do not change dnssec. if nameservers and authoritative dns remain where they are and you are only changing the website's a/aaaa/cname route, preserve the existing dnssec configuration. the web host move and the dnssec trust chain are separate concerns. full nameserver/provider migration before changing nameservers: 1. determine whether dnssec is currently enabled at the registrar/parent. 2. record the current ds information and the current dns provider's signing state. 3. read the destination provider's dnssec migration procedure. 4. reproduce and verify all ordinary dns records in the destination zone. 5. follow the provider specific sequence for removing, replacing or re establishing ds trust. 6. do not improvise ds values from dnskey output unless the provider's documented procedure requires it. 7. verify signed dns responses through the new authority before considering the migration complete. route 53 pattern aws's current migration documentation treats dnssec as an explicit migration stage. for a domain in use, aws documents removing the parent ds record when required before switching authoritative nameservers, then re enabling signing and re establishing the chain of trust after the migration. follow the current aws procedure for the specific zone rather than copying ds values from an old hosted zone. squarespace domains pattern squarespace domains currently enables dnssec automatically for supported squarespace managed domains. a move to custom nameservers or another authoritative provider therefore requires checking how that provider and the registrar manage the dnssec chain rather than assuming nameserver replacement alone is enough. awtsmoos website maker rule the future dns migration cockpit should display dnssec as its own readiness gate whenever a full authoritative migration is requested: current dnssec state known. parent ds state known. destination signing plan known. provider specific cutover instructions acknowledged. new authoritative dns validated. new chain of trust validated when dnssec is re enabled. the awtsmoos is beyond every key and signature while finite dns security depends on an exact chain; awtsmoos.com therefore treats dnssec not as a decorative checkbox but as a separate trust migration whose evidence must remain plain.",
+		"page": "pages/docs-websites-dnssec-migration-md-743ddd21ca.json"
+	},
+	{
+		"id": "docs-websites-email-dns-md-b2d553505f",
+		"title": "Preserve Email DNS During a Website Move",
+		"sourcePath": "docs/WEBSITES/EMAIL_DNS.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Preserve Email DNS During a Website Move",
+				"anchor": "preserve-email-dns-during-a-website-move"
+			},
+			{
+				"level": 2,
+				"text": "MX records",
+				"anchor": "mx-records"
+			},
+			{
+				"level": 2,
+				"text": "SPF",
+				"anchor": "spf"
+			},
+			{
+				"level": 2,
+				"text": "DKIM",
+				"anchor": "dkim"
+			},
+			{
+				"level": 2,
+				"text": "DMARC",
+				"anchor": "dmarc"
+			},
+			{
+				"level": 2,
+				"text": "Other mail-related records",
+				"anchor": "other-mail-related-records"
+			},
+			{
+				"level": 2,
+				"text": "Safe website-only migration",
+				"anchor": "safe-website-only-migration"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Preserve Email DNS During a Website Move The Awtsmoos joins communication and creation without confusing their vessels; Awtsmoos.com can move web routing while your mail records remain exactly where the mail provider requires. MX records MX controls where inbound mail is delivered. Each ",
+		"searchText": "b\"h boruch hashem blessed is he preserve email dns during a website move the awtsmoos joins communication and creation without confusing their vessels; awtsmoos.com can move web routing while your mail records remain exactly where the mail provider requires. mx records mx controls where inbound mail is delivered. each mx record has a priority and hostname, for example: lower priority numbers are preferred. copy every mx record exactly unless your mail provider explicitly tells you to change them. spf spf is normally a txt record at the zone root. preserve the complete value, including all include:, ip4:, ip6:, and final policy mechanisms. do not create multiple unrelated spf records at the same owner unless your mail provider documents that design. dkim dkim is usually txt at a selector such as selector1. domainkey. the value may be long. preserve the selector name and entire public key exactly. never copy a private signing key into project dns state. dmarc dmarc is usually txt at dmarc. preserve policy, reporting addresses, alignment and percentage settings. example structure: other mail related records also inventory provider verification txt/cname records, autodiscover/autoconfig records, mta sts/tls reporting records, srv records, and any delegated mail subdomains. safe website only migration when you are only moving the website to awtsmoos, the safest default is to change only the web routing a/aaaa/cname records specified by the server attested hosting plan. leave mail records alone, then test sending and receiving mail after the web change.",
+		"page": "pages/docs-websites-email-dns-md-b2d553505f.json"
+	},
+	{
+		"id": "docs-websites-publish-from-tunnel-md-2ed4a3d6a4",
+		"title": "Publish a Website from an Awtsmoos Tunnel",
+		"sourcePath": "docs/WEBSITES/PUBLISH_FROM_TUNNEL.md",
+		"category": "Tunnel",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Publish a Website from an Awtsmoos Tunnel",
+				"anchor": "publish-a-website-from-an-awtsmoos-tunnel"
+			},
+			{
+				"level": 2,
+				"text": "Fastest static-site flow",
+				"anchor": "fastest-static-site-flow"
+			},
+			{
+				"level": 2,
+				"text": "Never guess the website URL",
+				"anchor": "never-guess-the-website-url"
+			},
+			{
+				"level": 2,
+				"text": "Large source trees",
+				"anchor": "large-source-trees"
+			},
+			{
+				"level": 2,
+				"text": "Advanced Drive/Sites mapping",
+				"anchor": "advanced-drive-sites-mapping"
+			},
+			{
+				"level": 2,
+				"text": "Unpublish and custom domains",
+				"anchor": "unpublish-and-custom-domains"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Publish a Website from an Awtsmoos Tunnel The Awtsmoos lets an owned folder become public without confusing its private filesystem path with its public address. Awtsmoos.com publishes the source, verifies the release, and returns the URL that may actually be trusted. Fastest static site ",
+		"searchText": "b\"h boruch hashem blessed is he publish a website from an awtsmoos tunnel the awtsmoos lets an owned folder become public without confusing its private filesystem path with its public address. awtsmoos.com publishes the source, verifies the release, and returns the url that may actually be trusted. fastest static site flow 1. create ordinary website files in an owned virtual os folder such as asdf/projects/my site/. 2. put index.html at the folder root and keep css/js/image references inside that root. 3. call publishwebsite with the owned folder path. 4. read publication.canonicalurl from the response. 5. require publication.canonicalverifiedlive === true and complete dependency closure. 6. open that exact canonical url in a real browser and verify the expected page and assets. minimal intent: if a client does not expose publishwebsite directly, invoke it as one nested actionbatch action. never guess the website url a virtual os path is source, not a public url. urls suggested by ordinary file write navigation such as /geelooy/os/..., /apps/..., or /u/... are navigation candidates and may legitimately 404 for static website source. do not report them as published websites. for ordinary static publication, trust only the publication.canonicalurl returned by publishwebsite. the default namespace is /web/ / /. large source trees use bulkwrite for many small files. tunnel control automatically promotes oversized individual writes and oversized transactional batches into bounded resumable get transfers, so multi megabyte text and binary source should not be manually stuffed into one request uri. advanced drive/sites mapping sitepublishfolder remains available when you intentionally need the drive/sites mapping plane, a named siteid, and direct versus snapshot lifecycle semantics. it is not the preferred action for simply turning an owned static folder into a public website. unpublish and custom domains publication and source ownership are separate. use the appropriate unpublish action to remove a mapping without deleting source. prove the canonical awtsmoos url first; custom domain ownership, dns routing, tls, and external browser health are later independent gates.",
+		"page": "pages/docs-websites-publish-from-tunnel-md-2ed4a3d6a4.json"
+	},
+	{
+		"id": "docs-websites-readme-md-6ea49edbc4",
+		"title": "Websites on Awtsmoos",
+		"sourcePath": "docs/WEBSITES/README.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Websites on Awtsmoos",
+				"anchor": "websites-on-awtsmoos"
+			},
+			{
+				"level": 2,
+				"text": "Make and publish a static website",
+				"anchor": "make-and-publish-a-static-website"
+			},
+			{
+				"level": 2,
+				"text": "Human UI path",
+				"anchor": "human-ui-path"
+			},
+			{
+				"level": 2,
+				"text": "Tunnel / agent path",
+				"anchor": "tunnel-agent-path"
+			},
+			{
+				"level": 2,
+				"text": "Tutorials",
+				"anchor": "tutorials"
+			},
+			{
+				"level": 2,
+				"text": "Custom domains and connected Node",
+				"anchor": "custom-domains-and-connected-node"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Websites on Awtsmoos The Awtsmoos renews every source file and every public request; Awtsmoos.com keeps editing, publication, DNS, runtime, and browser evidence as separate truthful vessels. Make and publish a static website 1. Create an owned folder in Drive or the Virtual OS, for examp",
+		"searchText": "b\"h boruch hashem blessed is he websites on awtsmoos the awtsmoos renews every source file and every public request; awtsmoos.com keeps editing, publication, dns, runtime, and browser evidence as separate truthful vessels. make and publish a static website 1. create an owned folder in drive or the virtual os, for example asdf/projects/my site/. 2. put index.html at the public root and keep css, javascript, images, and other assets inside that folder. 3. preview the saved source if desired. 4. publish with publishwebsite. 5. use only the returned publication.canonicalurl as the website address. 6. require publication.canonicalverifiedlive === true and complete dependency closure. 7. open that exact url in a real browser and verify expected content, assets, and runtime behavior. a source path is not a public url. ordinary virtual os file receipts may show navigation candidates under /geelooy/os/, /apps/, or /u/; those are not static site publication urls and may legitimately 404. the normal static publisher returns a canonical /web/ / / url. human ui path open /apps/drive/, connect an alias, then use website maker → build / preview / code / publish . publish should surface the canonical url returned by the server, not derive one from the source folder. tunnel / agent path the shortest normal flow is: if a client does not expose publishwebsite directly, place it inside one actionbatch item. oversized tunnel control writes and transactional batches use resumable get transfer staging rather than one giant uri. sitepublishfolder remains an advanced drive/sites mapping action for callers that intentionally need a siteid plus direct or snapshot lifecycle semantics. it is not the preferred simple static folder publication action. tutorials publish from an awtsmoos tunnel tunnel agent website workflow website maker in page agent api troubleshooting custom domains dns migration dns provider playbooks dns cutover checklist dnssec migration email dns preservation custom domains and connected node first prove the canonical awtsmoos website. custom domain ownership, dns routing, tls, and external browser health are separate later gates. preserve mx, spf, dkim, dmarc, caa, srv, delegated ns, verification records, and unrelated subdomains during dns work. for dynamic node development, use a native compute recipe with cwd, project relative entry, port, and public scalar arguments. choose a currently connected owned machine at launch time; portable project state should not silently pin a device identity.",
+		"page": "pages/docs-websites-readme-md-6ea49edbc4.json"
 	}
 ]

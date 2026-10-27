@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-25-merkava-flagship-revelation-03-phase-thre-0e305c50aa",
+	"title": "Merkava Flagship Revelation — Phase Three Final Plan",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-25-merkava-flagship-revelation/03-phase-three.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Merkava Flagship Revelation — Phase Three Final Plan",
+			"anchor": "merkava-flagship-revelation-phase-three-final-plan"
+		},
+		{
+			"level": 2,
+			"text": "Thirty final refinements",
+			"anchor": "thirty-final-refinements"
+		},
+		{
+			"level": 2,
+			"text": "Exact first-wave production files",
+			"anchor": "exact-first-wave-production-files"
+		},
+		{
+			"level": 3,
+			"text": "New CSS",
+			"anchor": "new-css"
+		},
+		{
+			"level": 3,
+			"text": "Existing CSS: complete rewrites",
+			"anchor": "existing-css-complete-rewrites"
+		},
+		{
+			"level": 3,
+			"text": "New JS",
+			"anchor": "new-js"
+		},
+		{
+			"level": 3,
+			"text": "Existing JS: complete rewrites",
+			"anchor": "existing-js-complete-rewrites"
+		},
+		{
+			"level": 2,
+			"text": "Baseline-before-write gate",
+			"anchor": "baseline-before-write-gate"
+		},
+		{
+			"level": 2,
+			"text": "Runtime acceptance after writing",
+			"anchor": "runtime-acceptance-after-writing"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-25-merkava-flagship-revelation-03-phase-thre-0e305c50aa-001.json"
+	]
+}

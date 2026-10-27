@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-14-ein-sof-captio-8c069c6d6f",
+	"title": "Ein Sof Captions — Phase Two: Gevurah Boundaries",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-21-geelooy-uiux-revelation/14-ein-sof-captions-phase-two.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Ein Sof Captions — Phase Two: Gevurah Boundaries",
+			"anchor": "ein-sof-captions-phase-two-gevurah-boundaries"
+		},
+		{
+			"level": 2,
+			"text": "Concrete source defects",
+			"anchor": "concrete-source-defects"
+		},
+		{
+			"level": 2,
+			"text": "Architectural boundaries",
+			"anchor": "architectural-boundaries"
+		},
+		{
+			"level": 3,
+			"text": "Markup",
+			"anchor": "markup"
+		},
+		{
+			"level": 3,
+			"text": "CSS",
+			"anchor": "css"
+		},
+		{
+			"level": 3,
+			"text": "Main-thread JS",
+			"anchor": "main-thread-js"
+		},
+		{
+			"level": 3,
+			"text": "Worker modules",
+			"anchor": "worker-modules"
+		},
+		{
+			"level": 2,
+			"text": "Preserve / improve line",
+			"anchor": "preserve-improve-line"
+		},
+		{
+			"level": 2,
+			"text": "Verification graph",
+			"anchor": "verification-graph"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-14-ein-sof-captio-8c069c6d6f-001.json"
+	]
+}

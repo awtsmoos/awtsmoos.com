@@ -1,0 +1,280 @@
+[
+	{
+		"id": "geelooy-api-social-helper-series-readme-md-db513fdbd1",
+		"title": "B\"H — Series (geelooy/api/social/helper/series/)",
+		"sourcePath": "geelooy/api/social/helper/series/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Series (geelooy/api/social/helper/series/)",
+				"anchor": "b-h-series-geelooy-api-social-helper-series"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "B\"H — Series (geelooy/api/social/helper/series/) Series store: direct and virtual series, post membership, and prateem (details) recovery. Files directSeriesStore.js — direct series storage. directSeriesPrateem.js — series detail (prateem) records. virtualSeries.js, virtualSeriesMeta.js, virtualSeriesPosts.js — virtual",
+		"searchText": "b\"h — series (geelooy/api/social/helper/series/) series store: direct and virtual series, post membership, and prateem (details) recovery. files directseriesstore.js — direct series storage. directseriesprateem.js — series detail (prateem) records. virtualseries.js, virtualseriesmeta.js, virtualseriesposts.js — virtual series views (meta and posts). seriesprateemrecovery.js — recovery of series details after corruption/migration. test/ — directseriesprateem.test.js, seriesprateemrecovery.test.js.",
+		"page": "pages/geelooy-api-social-helper-series-readme-md-db513fdbd1.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-series-test-readme-md-632f87f388",
+		"title": "B\"H — Series Tests (geelooy/api/social/helper/series/test/)",
+		"sourcePath": "geelooy/api/social/helper/series/test/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Series Tests (geelooy/api/social/helper/series/test/)",
+				"anchor": "b-h-series-tests-geelooy-api-social-helper-series-test"
+			}
+		],
+		"excerpt": "B\"H — Series Tests (geelooy/api/social/helper/series/test/) Series store tests. directSeriesPrateem.test.js — direct series prateem records. seriesPrateemRecovery.test.js — prateem recovery.",
+		"searchText": "b\"h — series tests (geelooy/api/social/helper/series/test/) series store tests. directseriesprateem.test.js — direct series prateem records. seriesprateemrecovery.test.js — prateem recovery.",
+		"page": "pages/geelooy-api-social-helper-series-test-readme-md-632f87f388.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-socialkernel-actions-readme-md-933843db00",
+		"title": "B\"H — Social Kernel Actions (geelooy/api/social/helper/socialKernel/actions/)",
+		"sourcePath": "geelooy/api/social/helper/socialKernel/actions/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Social Kernel Actions (geelooy/api/social/helper/socialKernel/actions/)",
+				"anchor": "b-h-social-kernel-actions-geelooy-api-social-helper-socialkernel-actions"
+			}
+		],
+		"excerpt": "B\"H — Social Kernel Actions (geelooy/api/social/helper/socialKernel/actions/) SocialActionDescriptor.js — describes actions that can be performed on social entities.",
+		"searchText": "b\"h — social kernel actions (geelooy/api/social/helper/socialkernel/actions/) socialactiondescriptor.js — describes actions that can be performed on social entities.",
+		"page": "pages/geelooy-api-social-helper-socialkernel-actions-readme-md-933843db00.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-socialkernel-activity-readme-md-ab1c225ab8",
+		"title": "B\"H — Social Kernel Activity (geelooy/api/social/helper/socialKernel/activity/)",
+		"sourcePath": "geelooy/api/social/helper/socialKernel/activity/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Social Kernel Activity (geelooy/api/social/helper/socialKernel/activity/)",
+				"anchor": "b-h-social-kernel-activity-geelooy-api-social-helper-socialkernel-activity"
+			}
+		],
+		"excerpt": "B\"H — Social Kernel Activity (geelooy/api/social/helper/socialKernel/activity/) SocialActivityNormalizer.js — normalizes social activity events into a uniform shape.",
+		"searchText": "b\"h — social kernel activity (geelooy/api/social/helper/socialkernel/activity/) socialactivitynormalizer.js — normalizes social activity events into a uniform shape.",
+		"page": "pages/geelooy-api-social-helper-socialkernel-activity-readme-md-ab1c225ab8.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-socialkernel-capabilities-readme-md-6ecb549e59",
+		"title": "B\"H — Social Kernel Capabilities (geelooy/api/social/helper/socialKernel/capabilities/)",
+		"sourcePath": "geelooy/api/social/helper/socialKernel/capabilities/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Social Kernel Capabilities (geelooy/api/social/helper/socialKernel/capabilities/)",
+				"anchor": "b-h-social-kernel-capabilities-geelooy-api-social-helper-socialkernel-capabilities"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "B\"H — Social Kernel Capabilities (geelooy/api/social/helper/socialKernel/capabilities/) Capability system for the social kernel: what an actor may do, compiled into a catalog and enforced by policy. Files SocialCapabilityCatalog.js — catalog of capabilities. SocialCapabilityPolicy.js — policy deciding which capabilitie",
+		"searchText": "b\"h — social kernel capabilities (geelooy/api/social/helper/socialkernel/capabilities/) capability system for the social kernel: what an actor may do, compiled into a catalog and enforced by policy. files socialcapabilitycatalog.js — catalog of capabilities. socialcapabilitypolicy.js — policy deciding which capabilities apply. socialanswercapability.js, socialauthoritycapability.js, socialfollowcapability.js — answer/authority/follow capabilities.",
+		"page": "pages/geelooy-api-social-helper-socialkernel-capabilities-readme-md-6ecb549e59.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-socialkernel-deeplinks-readme-md-6f9d258c92",
+		"title": "B\"H — Social Kernel Deep Links (geelooy/api/social/helper/socialKernel/deepLinks/)",
+		"sourcePath": "geelooy/api/social/helper/socialKernel/deepLinks/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Social Kernel Deep Links (geelooy/api/social/helper/socialKernel/deepLinks/)",
+				"anchor": "b-h-social-kernel-deep-links-geelooy-api-social-helper-socialkernel-deeplinks"
+			}
+		],
+		"excerpt": "B\"H — Social Kernel Deep Links (geelooy/api/social/helper/socialKernel/deepLinks/) SocialDeepLink.js — builds/parses deep links into social entities.",
+		"searchText": "b\"h — social kernel deep links (geelooy/api/social/helper/socialkernel/deeplinks/) socialdeeplink.js — builds/parses deep links into social entities.",
+		"page": "pages/geelooy-api-social-helper-socialkernel-deeplinks-readme-md-6f9d258c92.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-socialkernel-entity-readme-md-1e124608aa",
+		"title": "B\"H — Social Kernel Entity (geelooy/api/social/helper/socialKernel/entity/)",
+		"sourcePath": "geelooy/api/social/helper/socialKernel/entity/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Social Kernel Entity (geelooy/api/social/helper/socialKernel/entity/)",
+				"anchor": "b-h-social-kernel-entity-geelooy-api-social-helper-socialkernel-entity"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "B\"H — Social Kernel Entity (geelooy/api/social/helper/socialKernel/entity/) Entity layer of the social kernel. Files SocialEntityLoader.js — loads social entities. SocialEntityNormalizer.js — normalizes entity records. SocialEntityType.js — entity type definitions.",
+		"searchText": "b\"h — social kernel entity (geelooy/api/social/helper/socialkernel/entity/) entity layer of the social kernel. files socialentityloader.js — loads social entities. socialentitynormalizer.js — normalizes entity records. socialentitytype.js — entity type definitions.",
+		"page": "pages/geelooy-api-social-helper-socialkernel-entity-readme-md-1e124608aa.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-socialkernel-errors-readme-md-3089d30776",
+		"title": "B\"H — Social Kernel Errors (geelooy/api/social/helper/socialKernel/errors/)",
+		"sourcePath": "geelooy/api/social/helper/socialKernel/errors/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Social Kernel Errors (geelooy/api/social/helper/socialKernel/errors/)",
+				"anchor": "b-h-social-kernel-errors-geelooy-api-social-helper-socialkernel-errors"
+			}
+		],
+		"excerpt": "B\"H — Social Kernel Errors (geelooy/api/social/helper/socialKernel/errors/) SocialError.js — kernel error type with codes used across social kernel modules.",
+		"searchText": "b\"h — social kernel errors (geelooy/api/social/helper/socialkernel/errors/) socialerror.js — kernel error type with codes used across social kernel modules.",
+		"page": "pages/geelooy-api-social-helper-socialkernel-errors-readme-md-3089d30776.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-socialkernel-readme-md-257c782d98",
+		"title": "B\"H — Social Kernel (geelooy/api/social/helper/socialKernel/)",
+		"sourcePath": "geelooy/api/social/helper/socialKernel/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Social Kernel (geelooy/api/social/helper/socialKernel/)",
+				"anchor": "b-h-social-kernel-geelooy-api-social-helper-socialkernel"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			},
+			{
+				"level": 2,
+				"text": "Subdirectories",
+				"anchor": "subdirectories"
+			}
+		],
+		"excerpt": "B\"H — Social Kernel (geelooy/api/social/helper/socialKernel/) The social kernel: a unified core for social entities — loading, normalizing, capabilities, relations, actions, activity, deep links, and errors — with its own route surface. Mounted via awtsmoos.socialKernel.js. Files SocialKernel.js — kernel core; SocialKe",
+		"searchText": "b\"h — social kernel (geelooy/api/social/helper/socialkernel/) the social kernel: a unified core for social entities — loading, normalizing, capabilities, relations, actions, activity, deep links, and errors — with its own route surface. mounted via awtsmoos.socialkernel.js. files socialkernel.js — kernel core; socialkernelbatch.js — batched operations; socialkernelprojection.js — projected views. subdirectories entity/ — socialentityloader, socialentitynormalizer, socialentitytype. capabilities/ — socialcapabilitycatalog, socialcapabilitypolicy, socialanswercapability, socialauthoritycapability, socialfollowcapability. relations/ — socialrelationcatalog, socialrelationreader. actions/ — socialactiondescriptor. activity/ — socialactivitynormalizer. deeplinks/ — socialdeeplink. errors/ — socialerror. routes/ — kernel route handlers (socialkernelhandlers, socialkernelroutetools, tiferesentityhandlers, yesodcollectionhandlers). test/ — capability policy, entity contract/loader, batch, composition, projection, routes, relation activity tests.",
+		"page": "pages/geelooy-api-social-helper-socialkernel-readme-md-257c782d98.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-socialkernel-relations-readme-md-30fba8118c",
+		"title": "B\"H — Social Kernel Relations (geelooy/api/social/helper/socialKernel/relations/)",
+		"sourcePath": "geelooy/api/social/helper/socialKernel/relations/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Social Kernel Relations (geelooy/api/social/helper/socialKernel/relations/)",
+				"anchor": "b-h-social-kernel-relations-geelooy-api-social-helper-socialkernel-relations"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "B\"H — Social Kernel Relations (geelooy/api/social/helper/socialKernel/relations/) Relation layer of the social kernel. Files SocialRelationCatalog.js — catalog of relation types. SocialRelationReader.js — reads relations between entities.",
+		"searchText": "b\"h — social kernel relations (geelooy/api/social/helper/socialkernel/relations/) relation layer of the social kernel. files socialrelationcatalog.js — catalog of relation types. socialrelationreader.js — reads relations between entities.",
+		"page": "pages/geelooy-api-social-helper-socialkernel-relations-readme-md-30fba8118c.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-socialkernel-routes-readme-md-29c2341446",
+		"title": "B\"H — Social Kernel Routes (geelooy/api/social/helper/socialKernel/routes/)",
+		"sourcePath": "geelooy/api/social/helper/socialKernel/routes/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Social Kernel Routes (geelooy/api/social/helper/socialKernel/routes/)",
+				"anchor": "b-h-social-kernel-routes-geelooy-api-social-helper-socialkernel-routes"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "B\"H — Social Kernel Routes (geelooy/api/social/helper/socialKernel/routes/) HTTP route handlers for the social kernel. Files SocialKernelHandlers.js — core kernel routes. SocialKernelRouteTools.js — shared route tooling. TiferesEntityHandlers.js — entity routes. YesodCollectionHandlers.js — collection routes.",
+		"searchText": "b\"h — social kernel routes (geelooy/api/social/helper/socialkernel/routes/) http route handlers for the social kernel. files socialkernelhandlers.js — core kernel routes. socialkernelroutetools.js — shared route tooling. tiferesentityhandlers.js — entity routes. yesodcollectionhandlers.js — collection routes.",
+		"page": "pages/geelooy-api-social-helper-socialkernel-routes-readme-md-29c2341446.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-socialkernel-test-readme-md-dc903c2cb1",
+		"title": "B\"H — Social Kernel Tests (geelooy/api/social/helper/socialKernel/test/)",
+		"sourcePath": "geelooy/api/social/helper/socialKernel/test/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Social Kernel Tests (geelooy/api/social/helper/socialKernel/test/)",
+				"anchor": "b-h-social-kernel-tests-geelooy-api-social-helper-socialkernel-test"
+			}
+		],
+		"excerpt": "B\"H — Social Kernel Tests (geelooy/api/social/helper/socialKernel/test/) Social kernel tests. SocialKernelRoutes.test.js, SocialKernelComposition.test.js — routes and composition. SocialKernelBatch.test.js, SocialKernelProjection.test.js — batch ops and projections. SocialEntityContract.test.js, SocialEntityLoader.test",
+		"searchText": "b\"h — social kernel tests (geelooy/api/social/helper/socialkernel/test/) social kernel tests. socialkernelroutes.test.js, socialkernelcomposition.test.js — routes and composition. socialkernelbatch.test.js, socialkernelprojection.test.js — batch ops and projections. socialentitycontract.test.js, socialentityloader.test.js — entity contract and loader. socialcapabilitypolicy.test.js — capability policy. socialrelationactivity.test.js — relation activity. testmodulevessel.js — test fixture vessel.",
+		"page": "pages/geelooy-api-social-helper-socialkernel-test-readme-md-dc903c2cb1.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-socialsummary-readme-md-92df32c854",
+		"title": "B\"H — Social Summary (geelooy/api/social/helper/socialSummary/)",
+		"sourcePath": "geelooy/api/social/helper/socialSummary/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Social Summary (geelooy/api/social/helper/socialSummary/)",
+				"anchor": "b-h-social-summary-geelooy-api-social-helper-socialsummary"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "B\"H — Social Summary (geelooy/api/social/helper/socialSummary/) Social summaries: compact summaries of answers, comments, reactions, and references attached to social entities, batched per target and scoped to the viewer. Files SocialSummary.js — core summary builder; SocialSummaryBatch.js — batched summaries. AnswerSu",
+		"searchText": "b\"h — social summary (geelooy/api/social/helper/socialsummary/) social summaries: compact summaries of answers, comments, reactions, and references attached to social entities, batched per target and scoped to the viewer. files socialsummary.js — core summary builder; socialsummarybatch.js — batched summaries. answersummary.js, commentsummary.js, reactionsummary.js, referencesummary.js — per kind summaries. socialsummarytarget.js — summary targets; socialsummaryviewer.js — viewer scoped rendering. test/ — comment summary, adapters, batch, composition, routes, target tests.",
+		"page": "pages/geelooy-api-social-helper-socialsummary-readme-md-92df32c854.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-socialsummary-test-readme-md-7f8b697f3c",
+		"title": "B\"H — Social Summary Tests (geelooy/api/social/helper/socialSummary/test/)",
+		"sourcePath": "geelooy/api/social/helper/socialSummary/test/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Social Summary Tests (geelooy/api/social/helper/socialSummary/test/)",
+				"anchor": "b-h-social-summary-tests-geelooy-api-social-helper-socialsummary-test"
+			}
+		],
+		"excerpt": "B\"H — Social Summary Tests (geelooy/api/social/helper/socialSummary/test/) Social summary tests. SocialSummaryRoutes.test.js, SocialSummaryComposition.test.js — routes and composition. SocialSummaryBatch.test.js, SocialSummaryTarget.test.js — batch and targets. CommentSummary.test.js, SocialSummaryAdapters.test.js — co",
+		"searchText": "b\"h — social summary tests (geelooy/api/social/helper/socialsummary/test/) social summary tests. socialsummaryroutes.test.js, socialsummarycomposition.test.js — routes and composition. socialsummarybatch.test.js, socialsummarytarget.test.js — batch and targets. commentsummary.test.js, socialsummaryadapters.test.js — comment summaries and adapters. testmodulevessel.js — test fixture vessel.",
+		"page": "pages/geelooy-api-social-helper-socialsummary-test-readme-md-7f8b697f3c.json"
+	}
+]

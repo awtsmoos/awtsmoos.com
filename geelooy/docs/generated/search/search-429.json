@@ -1,0 +1,195 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-09-28-1725-total-ui-repair-05-design-system-pla-1e1bf97eb2",
+		"title": "B\"H — 05 — Design System Plan (palace metaphor = first-class principle)",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-28-1725-total-ui-repair/05-design-system-plan.md",
+		"category": "Systems",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — 05 — Design System Plan (palace metaphor = first-class principle)",
+				"anchor": "b-h-05-design-system-plan-palace-metaphor-first-class-principle"
+			},
+			{
+				"level": 2,
+				"text": "1. The metaphor, stated as law",
+				"anchor": "1-the-metaphor-stated-as-law"
+			},
+			{
+				"level": 2,
+				"text": "2. Palette — vivid-extreme-professional",
+				"anchor": "2-palette-vivid-extreme-professional"
+			},
+			{
+				"level": 2,
+				"text": "3. Motion / alive bar",
+				"anchor": "3-motion-alive-bar"
+			},
+			{
+				"level": 2,
+				"text": "4. Global top nav (gating check)",
+				"anchor": "4-global-top-nav-gating-check"
+			},
+			{
+				"level": 2,
+				"text": "5. Breadth track",
+				"anchor": "5-breadth-track"
+			},
+			{
+				"level": 2,
+				"text": "6. CSS governance (source law)",
+				"anchor": "6-css-governance-source-law"
+			}
+		],
+		"excerpt": "B\"H — 05 — Design System Plan (palace metaphor = first class principle) 1. The metaphor, stated as law \"Like walking through a palace. But better.\" Heichelos literally means palaces — the metaphor is not decoration, it is the design principle. ARRIVAL: entering a Heichel feels like stepping through grand doors. The ide",
+		"searchText": "b\"h — 05 — design system plan (palace metaphor = first class principle) 1. the metaphor, stated as law \"like walking through a palace. but better.\" heichelos literally means palaces — the metaphor is not decoration, it is the design principle. arrival: entering a heichel feels like stepping through grand doors. the identity hero lands with weight, then opens into the space. never a dashboard that just appears. every major route has an entrance sequence with presence. architecture: halls → chambers → scrolls. grand hall (heichel root), chambers (series / sub series), scrolls (posts). information hierarchy reads as palace architecture. navigation transitions feel like moving through rooms: forward motion into spaces, graceful return, route continuity. depth and light: the futuristic material language — deep midnight, cyan intelligence, gold warmth, glass — creates palatial depth. layered surfaces, light suggesting vastness, parallax conveying architecture. grandeur through space and light, never ornament spam. \"but better\": a living palace, not a museum. alive with recent learning, community presence, continuing paths. every chamber shows signs of life — or a truthful, elegant quiet when empty. procession: core journeys (heichel → series → post → lens → community) feel like a guided procession — one obvious next step, momentum, no getting lost. breadcrumbs are the thread back through the rooms. metaphor test (in the embarrassment walk): does this feel like processing through a palace, or clicking through an admin panel? admin panel = redesign. 2. palette — vivid extreme professional rich midnight / cyan / violet / gold, used with intent. bold heroes, deep color, confident scale. never neon everywhere or glow for glow's sake. timid / washed out = defect. gold is warmth (arrival, identity, sacred emphasis); cyan is intelligence (data, signals, interactive); violet is depth (chambers, transitions); midnight is the stone of the palace (the base everything is carved from). 3. motion / alive bar transform/opacity only; 60fps budget; every animation ships a reduced motion counterpart (stillness, not lesser motion). thriving content: real data, real counts, real progress. truthful empty states where data is absent. shared language: staggered card entrances, tactile press, route continuity — identical vocabulary in heichel, reader, and social. 4. global top nav (gating check) persistent on every route. one tap home from everywhere — this gates the whole mission. mobile: safe area insets, touch targets ≥ 44px, thumb reachable. 5. breadth track whole site chrome under the shared tokens — heichelos is the focus, but the rest of the site must read as the same palace, not adjacent buildings. 6. css governance (source law) classify every stylesheet: active / compatibility / dormant / legacy / dead. no !important wars. social scoped under .awtsmoos social root. code: read before writing, rewrite complete files, tabs, no minify, 120 line modules, read after write, preserve public contracts or trace every consumer.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-28-1725-total-ui-repair-05-design-system-pla-1e1bf97eb2.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-28-1725-total-ui-repair-06-execution-plan-md-5335e207a1",
+		"title": "B\"H — 06 — Execution Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-28-1725-total-ui-repair/06-execution-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — 06 — Execution Plan",
+				"anchor": "b-h-06-execution-plan"
+			},
+			{
+				"level": 2,
+				"text": "Phase order (strict — each phase gates the next)",
+				"anchor": "phase-order-strict-each-phase-gates-the-next"
+			},
+			{
+				"level": 3,
+				"text": "P0 — Boot repair (GATE: /heichelos/ikar renders)",
+				"anchor": "p0-boot-repair-gate-heichelos-ikar-renders"
+			},
+			{
+				"level": 3,
+				"text": "P1 — Heichel root + AMAZING listing layer (first-class track, 02)",
+				"anchor": "p1-heichel-root-amazing-listing-layer-first-class-track-02"
+			},
+			{
+				"level": 3,
+				"text": "P2 — Reader (03)",
+				"anchor": "p2-reader-03"
+			},
+			{
+				"level": 3,
+				"text": "P3 — Social (04)",
+				"anchor": "p3-social-04"
+			},
+			{
+				"level": 3,
+				"text": "P4 — Design-system sweep (05, breadth track)",
+				"anchor": "p4-design-system-sweep-05-breadth-track"
+			},
+			{
+				"level": 3,
+				"text": "P5 — Verification matrix (07)",
+				"anchor": "p5-verification-matrix-07"
+			},
+			{
+				"level": 3,
+				"text": "P6 — Clean release (gates, then ship)",
+				"anchor": "p6-clean-release-gates-then-ship"
+			},
+			{
+				"level": 2,
+				"text": "Standing rules for every worker, every phase",
+				"anchor": "standing-rules-for-every-worker-every-phase"
+			}
+		],
+		"excerpt": "B\"H — 06 — Execution Plan Phase order (strict — each phase gates the next) P0 — Boot repair (GATE: /heichelos/ikar renders) 1. Read critical boot.js, ikar stable.js, ikar first.js in FULL. 2. Trace every consumer of their exports. 3. Rewrite complete files: bootIkarFirst a function through the chain, semantic in the do",
+		"searchText": "b\"h — 06 — execution plan phase order (strict — each phase gates the next) p0 — boot repair (gate: /heichelos/ikar renders) 1. read critical boot.js, ikar stable.js, ikar first.js in full. 2. trace every consumer of their exports. 3. rewrite complete files: bootikarfirst a function through the chain, semantic in the document before first light. 4. tabs, no minify, 120 line modules, read after write. 5. restart node index on 8080 (no watcher — never verify without a restart). 6. verify: heichel boot title + discovery list painted from the semantic model; title from the api payload, never a literal. nothing below starts until p0 passes. this is the mission gate. p1 — heichel root + amazing listing layer (first class track, 02) root hydration from get /api/social/heichelos/ikar (no description field — elegant quiet, never fabrication). series listing: rich discovery cards (db titles, counts, recency signals, progress where data exists, featured paths). \"not basic\" bar enforced. sub series navigation: parent → sub series → posts, breadcrumbs, contextual movement, beautiful at 390/430. post listings: meaningful ordering, metadata hierarchy, continue reading / recently visited signals. search/filter at listing level where useful. truthful loading/empty/error states at every level; staggered entrances, tactile press, route continuity. palace metaphor throughout: arrival with weight, halls → chambers → scrolls, depth and light, living palace, procession, metaphor test. p2 — reader (03) auto scroll contract lock in: start=immediate continuous motion, stop=stop and stay, no countdown, no phantom stops, real vessel measured. interval measurement proven in a real post vessel (real browser). scribe's lens default hierarchy proof at 390 and 430. new regression test files (none exist); full test: list, headless node. p3 — social (04) composer de duplication proof (idempotency key, single flight, new tests). hub route by route: profiles, search, notifications — each with arrival, real data, truthful empties, one tap home, motion language. p4 — design system sweep (05, breadth track) whole site chrome under shared tokens; css classification active/compatibility/dormant/legacy/dead; kill !important wars by scoping; social stays under .awtsmoos social root. global top nav: persistent, one tap home from every route (gating check), safe area + 44px targets. vivid extreme professional pass: bold heroes, midnight/cyan/violet/gold with intent; timid/washed out treated as defect. p5 — verification matrix (07) real browser pass on every route; 390/430/desktop; rtl; reduced motion; keyboard only. embarrassment walk + metaphor test + takeover tests. p6 — clean release (gates, then ship) 1. fresh isolated worktree from origin/main — never the dirty shared tree. 2. exact file set; full test: green; review gates. 3. commit; fast forward push only (no force, no merge commits). 4. read scripts/bhrelease.mjs first, then npm run bh on the remote ssh host. 5. verify public production in a real browser + public sha verification. standing rules for every worker, every phase read before writing; rewrite complete files; tabs; no minify; 120 line modules; read after write; preserve public contracts or trace consumers. restart the server after every change (no watcher). embarrassment + takeover tests run continuously — not a final phase. tunnel 409/502s are transient: wait 15s, refresh route, retry up to 4x; blocked only if down 5 min. never hard code db backed names/titles in presentation; never fabricate data for cards; truthful elegant empty states.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-28-1725-total-ui-repair-06-execution-plan-md-5335e207a1.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-28-1725-total-ui-repair-07-browser-verificat-669d6504f7",
+		"title": "B\"H — 07 — Browser Verification Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-28-1725-total-ui-repair/07-browser-verification.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — 07 — Browser Verification Plan",
+				"anchor": "b-h-07-browser-verification-plan"
+			},
+			{
+				"level": 2,
+				"text": "Routes to walk (every one, in order — the procession)",
+				"anchor": "routes-to-walk-every-one-in-order-the-procession"
+			},
+			{
+				"level": 2,
+				"text": "Per-route checks",
+				"anchor": "per-route-checks"
+			},
+			{
+				"level": 2,
+				"text": "Matrix (each route × each condition)",
+				"anchor": "matrix-each-route-each-condition"
+			},
+			{
+				"level": 2,
+				"text": "The embarrassment walk (continuous, every worker)",
+				"anchor": "the-embarrassment-walk-continuous-every-worker"
+			},
+			{
+				"level": 2,
+				"text": "Production verification (after npm run bh)",
+				"anchor": "production-verification-after-npm-run-bh"
+			}
+		],
+		"excerpt": "B\"H — 07 — Browser Verification Plan Subagents cannot drive a live browser. Every item below is specified here so the parent can delegate it to an eligible browser worker. Never claim a site visit from a fetched page — only from a real browser session. Routes to walk (every one, in order — the procession) 1. / → 2. /he",
+		"searchText": "b\"h — 07 — browser verification plan subagents cannot drive a live browser. every item below is specified here so the parent can delegate it to an eligible browser worker. never claim a site visit from a fetched page — only from a real browser session. routes to walk (every one, in order — the procession) 1. / → 2. /heichelos → 3. /heichelos/ikar (grand hall) → 4. series (chamber) → 5. sub series (deeper chamber) → 6. post (scroll) → 7. scribe's lens → 8. social hub → 9. profile → 10. search → 11. notifications. per route checks boot: heichel boot title and discovery list populated from the semantic model on first paint (p0 gate, re verified after every phase). listings: rich discovery cards — not a file browser, not a generic grid. counts, recency, progress, featured paths where data exists; elegant quiet where it does not. the \"not basic\" bar. navigation: breadcrumbs at every depth; contextual movement; one tap home from every route (gating check — a single failure fails the track). reader: auto scroll start=immediate continuous motion, stop=stop and stay, in a real post vessel; interval measurement recorded; no countdown, no phantom stops. scribe's lens hierarchy at 390 and 430. social: composer cannot double post (double tap proof); profiles/search/ notifications render real data with truthful empties. states: loading, empty, and error states are truthful and elegant on every level — force each one (throttle, empty db slice, killed api) and look. matrix (each route × each condition) widths: 390, 430, desktop. safe area + 44px targets on mobile. rtl layout; reduced motion (stillness everywhere motion was); keyboard only navigation (focus visible, logical order, no traps). motion: transform/opacity only, 60fps feel, staggered entrances, tactile press, route continuity (forward pushes in, back returns gracefully). the embarrassment walk (continuous, every worker) walk the procession as a first time visitor. anything cheap, broken, confusing, or timid gets filed immediately — not \"later\". metaphor test on every route: does this feel like processing through a palace, or clicking through an admin panel? admin panel = redesign. takeover tests run continuously: hand the session to a fresh eye and watch where they stumble; fix what they find. production verification (after npm run bh) public production in a real browser: full procession, boot gate, nav gate. public sha verification: the deployed commit matches the released commit.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-28-1725-total-ui-repair-07-browser-verificat-669d6504f7.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-28-1725-total-ui-repair-08-final-handoff-md-a3bb27c46f",
+		"title": "B\"H — 08 — Final Handoff",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-28-1725-total-ui-repair/08-final-handoff.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — 08 — Final Handoff",
+				"anchor": "b-h-08-final-handoff"
+			},
+			{
+				"level": 2,
+				"text": "What this continuation is",
+				"anchor": "what-this-continuation-is"
+			},
+			{
+				"level": 2,
+				"text": "Ready for execution workers",
+				"anchor": "ready-for-execution-workers"
+			},
+			{
+				"level": 2,
+				"text": "Key risks to watch",
+				"anchor": "key-risks-to-watch"
+			},
+			{
+				"level": 2,
+				"text": "Open questions for the coordinator / user",
+				"anchor": "open-questions-for-the-coordinator-user"
+			},
+			{
+				"level": 2,
+				"text": "File ownership",
+				"anchor": "file-ownership"
+			}
+		],
+		"excerpt": "B\"H — 08 — Final Handoff What this continuation is Planning successor to 2026 09 28 1954 heichelos social total/, built on its 00 reality.md + REMAINING WORK.md (its NEXT ACTION.md was empty). It folds in two coordinator scope updates: (1) the /heichelos listing + navigation layer is a FIRST CLASS \"AMAZING, not basic\" ",
+		"searchText": "b\"h — 08 — final handoff what this continuation is planning successor to 2026 09 28 1954 heichelos social total/, built on its 00 reality.md + remaining work.md (its next action.md was empty). it folds in two coordinator scope updates: (1) the /heichelos listing + navigation layer is a first class \"amazing, not basic\" track; (2) the user's palace metaphor — \"like walking through a palace. but better.\" — is a first class design principle in 02, 03, and 05. ready for execution workers 00 current breakage.md — what is broken, incl. phase 0 bootikarfirst 01 runtime contract map.md — contracts that must not be violated 02 heichel repair plan.md — p0 boot fix + root + amazing listing layer 03 reader repair plan.md — auto scroll contract + scribe's lens + scroll room 04 social repair plan.md — composer de dup + hub routes + living quarters 05 design system plan.md — tokens, motion, nav, palette, palace law 06 execution plan.md — strict phase order p0→p6 + release procedure 07 browser verification.md — real browser spec for the parent to delegate key risks to watch tunnel control plane flaked during planning (http 409 tunnel not alive and http 502 on the route refresh endpoint). policy held: wait 15s, refresh, retry ≤4x. treat recurrence as transient unless down 5 min. no watcher on node index:8080 — workers must restart before verifying. dirty shared worktree (dd77276a2) — release only from a clean isolated worktree off fresh origin/main. open questions for the coordinator / user db has no description field for ikar (or, presumably, series) — confirm the \"elegant quiet, never fabricate\" policy is the desired long term stance vs. adding a description column. featured paths + progress signals: which data source feeds them? (plan assumes \"where data exists\"; needs a source of truth decision in p1.) scripts/bhrelease.mjs must be read before the first npm run bh. file ownership only geelooy/.ai thoughts/2026 09 28 1725 total ui repair/ was written. nothing else in the repo was touched.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-28-1725-total-ui-repair-08-final-handoff-md-a3bb27c46f.json"
+	}
+]

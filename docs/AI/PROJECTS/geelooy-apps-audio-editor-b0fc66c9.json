@@ -9,7 +9,7 @@
 		"id": "apps",
 		"title": "Applications"
 	},
-	"title": "Pro Audio Editor",
+	"title": "Awtsmoos Pro Audio Editor",
 	"entries": [
 		"index.html",
 		"main.js"
@@ -22,18 +22,18 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-audio-editor-b0fc66c9.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 4,
+		"source": 6,
 		"tests": 0,
 		"assets": 0,
 		"generated": 0,
 		"docs": 0,
 		"other": 0
 	},
-	"totalFiles": 4,
+	"totalFiles": 6,
 	"symbolSummary": {
-		"files": 2,
+		"files": 3,
 		"classes": 0,
-		"functions": 26,
+		"functions": 28,
 		"exports": 0,
 		"samples": [
 			"initAudioContext",
@@ -57,9 +57,9 @@
 		{
 			"url": "/apps/audio-editor",
 			"file": "geelooy/apps/audio-editor/index.html",
-			"title": "Pro Audio Editor",
-			"scripts": 2,
-			"styles": 2
+			"title": "Awtsmoos Pro Audio Editor",
+			"scripts": 3,
+			"styles": 3
 		}
 	],
 	"requiresLocalDocumentation": false,

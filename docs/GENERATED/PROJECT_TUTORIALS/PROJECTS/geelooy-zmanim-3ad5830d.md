@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 109 | 16 | 1 | 0 | 2 | 0 | 128 |
+| 115 | 17 | 0 | 0 | 2 | 0 | 134 |
 
 ## Public entry points
 
@@ -29,7 +29,7 @@ Blessed is He
 
 ## Symbol evidence
 
-Source files: 65; classes: 35; functions: 108; exports: 115; samples: ZmanimApp, AwtsmoosZmanimCalendar, MALCHUS_CALENDAR_DAY_STYLES, parseIsoDate, toIsoDate, shiftDays, shiftMonths, monthLabel, monthGrid, isCurrentMonth, BinahCalendarRenderer, malchusTodayIsoDate.
+Source files: 67; classes: 35; functions: 116; exports: 121; samples: ZmanimApp, AwtsmoosZmanimCalendar, MALCHUS_CALENDAR_DAY_STYLES, parseIsoDate, toIsoDate, shiftDays, shiftMonths, monthLabel, monthGrid, isCurrentMonth, BinahCalendarRenderer, malchusTodayIsoDate.
 
 ## Depends on
 
@@ -37,7 +37,8 @@ Source files: 65; classes: 35; functions: 108; exports: 115; samples: ZmanimApp,
 
 ## Used by
 
-None observed.
+- `geelooy/heichelos` — 2 lexical references; examples: geelooy/heichelos/post/logic/dreamCelestial.js
+- `geelooy/games/mitzvahWorld` — 1 lexical reference; examples: geelooy/games/mitzvahWorld/shared/gameTimeOfDay.js
 
 ## External packages
 
@@ -45,4 +46,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **16**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **17**. Treat this as file evidence, not proof of behavioral coverage.

@@ -7,7 +7,7 @@ Blessed is He
 | Script | Command |
 | --- | --- |
 | emailTest | node ayzarim/email/emailTest.js |
-| test | npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported-style-ownership && npm run test:css-quality && npm run test:heichelos-quality && npm run test:profile-menu && npm run test:heichel-governance && npm run test:post-submissions && npm run test:comments && npm run test:api-keys && npm run test:graph && npm run test:social-content && npm run test:notifications && npm run test:social-packed && npm run test:packed-engine && npm run test:platform-ops && npm run test:platform-execution && npm run test:node-client && npm run test:dayuh-cutover |
+| test | npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported-style-ownership && npm run test:css-quality && npm run test:heichelos-quality && npm run test:heichel-cache-scale && npm run test:profile-menu && npm run test:heichel-governance && npm run test:post-submissions && npm run test:comments && npm run test:api-keys && npm run test:graph && npm run test:social-content && npm run test:notifications && npm run test:social-packed && npm run test:packed-engine && npm run test:platform-ops && npm run test:platform-execution && npm run test:node-client && npm run test:dayuh-cutover |
 | test:ai | node geelooy/ai/tests/harness/run.cjs all |
 | test:ai:stress | AWTSMOOS_AI_TEST_ROUNDS=5 node geelooy/ai/tests/harness/run.cjs all |
 | test:api-keys | node geelooy/api/social/helper/test/apiKeys.test.js |
@@ -18,6 +18,7 @@ Blessed is He
 | test:dayuh-cutover | node tools/dayuhChadashCutover/releaseCheck.js |
 | test:dayuh-release | npm run test:routes && npm run test:comments && npm run test:social-content && npm run test:social-packed && npm run test:packed-engine && node --test tools/dayuhChadashMaintenance/test/*.test.js && npm run test:dayuh-cutover |
 | test:graph | node geelooy/api/social/helper/test/socialGraph.test.js |
+| test:heichel-cache-scale | node --test ayzarim/awtsmoosDynamicServer/static/heichelCacheScale.test.js |
 | test:heichel-governance | node geelooy/heichelos/heichel/modules/test/editorManagement.test.mjs && node geelooy/api/social/helper/test/heichelRoles.test.js |
 | test:heichelos-quality | node geelooy/heichelos/test/heichelosQuality.test.js |
 | test:imported-style-ownership | node geelooy/heichelos/post/styles/test/importedStyleOwnership.test.js |

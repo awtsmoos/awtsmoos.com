@@ -1,0 +1,69 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-api-platform-3f7a7112",
+	"path": "geelooy/api/platform",
+	"type": "api",
+	"family": {
+		"id": "apis",
+		"title": "API Projects"
+	},
+	"title": "geelooy/api/platform",
+	"entries": [
+		"_awtsmoos.derech.js",
+		"README.md",
+		"readme.md"
+	],
+	"humanDocumentation": [
+		"docs/TUTORIALS/PROJECTS/APIS.md",
+		"docs/API/README.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/APIS.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-platform-3f7a7112.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 3,
+		"tests": 1,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 0
+	},
+	"totalFiles": 5,
+	"symbolSummary": {
+		"files": 3,
+		"classes": 0,
+		"functions": 7,
+		"exports": 5,
+		"samples": [
+			"query",
+			"manifestResponse",
+			"installableProductForRoute",
+			"isInstallableProductRoute",
+			"normalizeInstallableRoute",
+			"buildProductManifest",
+			"normalizeRoute",
+			"shortName"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/api/wallet",
+			"count": 1,
+			"examples": "geelooy/api/platform/installableProductDirectory.js"
+		}
+	],
+	"incomingDependencies": [
+		{
+			"project": "ayzarim/awtsmoosDynamicServer",
+			"count": 1,
+			"examples": "ayzarim/awtsmoosDynamicServer/static/HtmlProductMetadata.js"
+		}
+	],
+	"externalDependencies": [],
+	"publicEntries": [],
+	"requiresLocalDocumentation": false,
+	"documentationCovered": false,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

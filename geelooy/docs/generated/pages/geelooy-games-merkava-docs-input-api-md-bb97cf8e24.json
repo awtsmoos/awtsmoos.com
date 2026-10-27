@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-merkava-docs-input-api-md-bb97cf8e24",
+	"title": "Merkava Input API",
+	"sourcePath": "geelooy/games/Merkava/docs/input-api.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Merkava Input API",
+			"anchor": "merkava-input-api"
+		},
+		{
+			"level": 2,
+			"text": "Boundary",
+			"anchor": "boundary"
+		},
+		{
+			"level": 2,
+			"text": "YesodInputPort",
+			"anchor": "yesodinputport"
+		},
+		{
+			"level": 2,
+			"text": "MerkavaInputActions",
+			"anchor": "merkavainputactions"
+		},
+		{
+			"level": 2,
+			"text": "Keyboard contract",
+			"anchor": "keyboard-contract"
+		},
+		{
+			"level": 2,
+			"text": "Pointer contract",
+			"anchor": "pointer-contract"
+		},
+		{
+			"level": 2,
+			"text": "Regression coverage",
+			"anchor": "regression-coverage"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-merkava-docs-input-api-md-bb97cf8e24-001.json"
+	]
+}

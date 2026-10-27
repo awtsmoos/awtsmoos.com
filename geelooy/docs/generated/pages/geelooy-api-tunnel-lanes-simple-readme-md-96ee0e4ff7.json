@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-tunnel-lanes-simple-readme-md-96ee0e4ff7",
+	"title": "B\"H — Simple Tunnel: authenticated limited transport",
+	"sourcePath": "geelooy/api/tunnel/lanes/simple/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Simple Tunnel: authenticated limited transport",
+			"anchor": "b-h-simple-tunnel-authenticated-limited-transport"
+		},
+		{
+			"level": 2,
+			"text": "Production security",
+			"anchor": "production-security"
+		},
+		{
+			"level": 2,
+			"text": "API",
+			"anchor": "api"
+		},
+		{
+			"level": 3,
+			"text": "Restart and retention",
+			"anchor": "restart-and-retention"
+		},
+		{
+			"level": 3,
+			"text": "Lanes",
+			"anchor": "lanes"
+		},
+		{
+			"level": 3,
+			"text": "Limitations",
+			"anchor": "limitations"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-tunnel-lanes-simple-readme-md-96ee0e4ff7-001.json"
+	]
+}

@@ -1,0 +1,130 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-assets-directory-gui-7b78dfaae4",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "MitzvahWorld Remote Asset Discovery",
+				"anchor": "mitzvahworld-remote-asset-discovery"
+			},
+			{
+				"level": 2,
+				"text": "Fast texture path for AI agents",
+				"anchor": "fast-texture-path-for-ai-agents"
+			},
+			{
+				"level": 2,
+				"text": "Public website root",
+				"anchor": "public-website-root"
+			},
+			{
+				"level": 2,
+				"text": "Texture source contracts",
+				"anchor": "texture-source-contracts"
+			},
+			{
+				"level": 2,
+				"text": "WebGL realism contracts",
+				"anchor": "webgl-realism-contracts"
+			},
+			{
+				"level": 2,
+				"text": "Hydration and cache layers",
+				"anchor": "hydration-and-cache-layers"
+			},
+			{
+				"level": 2,
+				"text": "Models",
+				"anchor": "models"
+			},
+			{
+				"level": 2,
+				"text": "Enforcement and regression evidence",
+				"anchor": "enforcement-and-regression-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Regenerating texture documentation",
+				"anchor": "regenerating-texture-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He MitzvahWorld Remote Asset Discovery The Awtsmoos clothes the world in finite texture, model, and material identity while remaining beyond every image and form; Awtsmoos.com keeps those bytes on trusted remote roads and keeps their source contracts discoverable, so agents can improve the ",
+		"searchText": "b\"h boruch hashem blessed is he mitzvahworld remote asset discovery the awtsmoos clothes the world in finite texture, model, and material identity while remaining beyond every image and form; awtsmoos.com keeps those bytes on trusted remote roads and keeps their source contracts discoverable, so agents can improve the world without creating a second asset storm. fast texture path for ai agents start with texture discovery.md. it explains the remote root, exact filename law, webgl blend paths, runtime hydration, and procedural realism entry points. the generated inventory index is docs/textures/remote texture inventory.md. it lists the canonical 125 filename textures as four source derived families: ground: 35 architecture: 33 craft/water: 24 trees: 33 preferred chai forest grass, dirt, bark, oak, ash, aspen, and pine sources are documented separately because they supplement rather than enlarge the 125 file filename catalog. public website root all production textures and models are served beneath: https://awtsmoos.com/sites/firebase drive migration/ the upload api is authenticated, but public website files are readable without credentials after upload. texture source contracts remotetexturetransport.js owns the trusted root and path encoding. remotetexturecatalog.js owns canonical filename identity and agent readable records. use: remotefullresolutiontextureurl(filename) remotetreetextureurl(filename) remotetexturerecords() remotetextureagentcatalog() remotetexturecatalogevidence() remotetexturepreferredsources.js owns the seven currently proven chai forest semantic source records. do not normalize filenames. spaces, capitalization, and historical misspellings are part of the real remote identity. webgl realism contracts ordinary procedural surfaces use the existing tiny renderer two sampler gpu mix path. primitivematerialfactory.js binds base and detail images plus world space patch parameters. primitivefallbacksurfacerecipe.js supplies safe canonical pairs only when an object has not authored its own material truth. terrain uses a separate ecological layered material path with up to six active samplers and slope, height, wetness, angle, strength, repeat, and zone masks. do not replace it with ordinary two map weathering. water has its own flow mixing path. tree leaves remain single source alpha masks; bark may use the two sampler world patch path. hydration and cache layers remote images use: 1. publicimageresponsecache.js — browser cache storage. 2. publicmaterialcache.js — shared in flight and decoded image/material objects. 3. scene material hydration/residency — only referenced surfaces hydrate. do not preload the full inventory merely because it is discoverable. models remotemodelrecords.js records exact byte length and sha 256 for uploaded glbs. remotemodelcatalog.js resolves semantic identities such as player and reference world models. content addressed urls keep model caching immutable. enforcement and regression evidence productionmaterialurlpolicy.js rejects local, inline, foreign origin, preview, and malformed production texture urls. localmaterialpathrules.js preserves the legacy validation surface while delegating to the remote only production policy. src/test/assets/remoteonlytexturepolicy.test.mjs verifies production texture references remain remote only. src/test/assets/productionmaterialurlpolicy.test.mjs verifies trusted awtsmoos production routes and rejection cases. tests/assets/materialoriginpolicy.test.js independently verifies local, external, data, and forbidden host paths are rejected. do not claim a repository hygiene script exists unless inspection finds one; use the policy modules and tests above as the current source of truth. regenerating texture documentation from experiments/awtsmoos run: the generator reads source catalog exports and writes the family inventory documents completely. it does not download image bytes.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-assets-directory-gui-7b78dfaae4.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-assets-docs-textures-3c59a5ca48",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/docs/textures/REMOTE_TEXTURE_ARCHITECTURE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Architecture Remote Textures",
+				"anchor": "architecture-remote-textures"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Architecture Remote Textures The Awtsmoos clothes architecture in exact finite names while Awtsmoos.com preserves every canonical letter on the remote road; this generated page lists 33 identities without loading a single image payload. Collection: full resolution 1. displacement map for",
+		"searchText": "b\"h boruch hashem blessed is he architecture remote textures the awtsmoos clothes architecture in exact finite names while awtsmoos.com preserves every canonical letter on the remote road; this generated page lists 33 identities without loading a single image payload. collection: full resolution 1. displacement map for tiled roof 4.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/displacement%20map%20for%20tiled%20roof%204.png 2. gray brick 1.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/gray%20brick%201.png 3. limestone bricks 1.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/limestone%20bricks%201.png 4. limestone bricks 2.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/limestone%20bricks%202.png 5. marble 1.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/marble%201.png 6. new bricks 1.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/new%20bricks%201.png 7. new red bricks 2.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/new%20red%20bricks%202.png 8. oak wood 1.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/oak%20wood%201.png 9. oak wood 2.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/oak%20wood%202.png 10. oak wood 3.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/oak%20wood%203.png 11. oak wooden planks 2.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/oak%20wooden%20planks%202.png 12. polished granite rock 1.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/polished%20granite%20rock%201.png 13. polished granite rock 2.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/polished%20granite%20rock%202.png 14. polished granite rock 3.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/polished%20granite%20rock%203.png 15. polished granite rock 4.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/polished%20granite%20rock%204.png 16. red brick 1.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/red%20brick%201.png 17. red brick 2.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/red%20brick%202.png 18. red brick 3.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/red%20brick%203.png 19. tiled roof 1.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/tiled%20roof%201.png 20. tiled roof 2.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/tiled%20roof%202.png 21. tiled roof 3 smaller tiles.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/tiled%20roof%203%20smaller%20tiles.png 22. tiled roof 4.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/tiled%20roof%204.png 23. tree bark 1.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/tree%20bark%201.png 24. weathered red bricks 1.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/weathered%20red%20bricks%201.png 25. weathered red bricks 3.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/weathered%20red%20bricks%203.png 26. weathered red bricks 5.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/weathered%20red%20bricks%205.png 27. weathered red bricks 6.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/weathered%20red%20bricks%206.png 28. weathered red bricks with slight yellow touch4.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/weathered%20red%20bricks%20with%20slight%20yellow%20touch4.png 29. weathered red bricks2.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/weathered%20red%20bricks2.png 30. white brick 1.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/white%20brick%201.png 31. wooden oak planks 1.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/wooden%20oak%20planks%201.png 32. wooden planked floor.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/wooden%20planked%20floor.png 33. yellow brick 1.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/yellow%20brick%201.png",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-assets-docs-textures-3c59a5ca48.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-assets-docs-textures-10b7fd5c0b",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/docs/textures/REMOTE_TEXTURE_CHAI_FOREST.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Preferred Chai Forest Texture Sources",
+				"anchor": "preferred-chai-forest-texture-sources"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Preferred Chai Forest Texture Sources The Awtsmoos lets preferred photographic sources deepen the world while Awtsmoos.com keeps them distinct from the counted 125 name library; these proven Chai Forest paths are semantic authorities, not extra filename catalog entries. Preferred sources",
+		"searchText": "b\"h boruch hashem blessed is he preferred chai forest texture sources the awtsmoos lets preferred photographic sources deepen the world while awtsmoos.com keeps them distinct from the counted 125 name library; these proven chai forest paths are semantic authorities, not extra filename catalog entries. preferred sources: 7 1. terrain.grass — chai forest grass path: awtsmoos nature/chai forest/textures/ground/grass.jpg url: https://awtsmoos.com/sites/firebase drive migration/awtsmoos nature/chai forest/textures/ground/grass.jpg 2. terrain.dirtmix — chai forest dirt path: awtsmoos nature/chai forest/textures/ground/dirt color.jpg url: https://awtsmoos.com/sites/firebase drive migration/awtsmoos nature/chai forest/textures/ground/dirt color.jpg 3. forest.bark — chai forest bark path: awtsmoos nature/chai forest/textures/bark/bark001 1k jpg/bark001 1k jpg color.jpg url: https://awtsmoos.com/sites/firebase drive migration/awtsmoos nature/chai forest/textures/bark/bark001 1k jpg/bark001 1k jpg color.jpg 4. forest.chaioak — chai oak leaf path: awtsmoos nature/chai forest/textures/leaves/oak.png url: https://awtsmoos.com/sites/firebase drive migration/awtsmoos nature/chai forest/textures/leaves/oak.png 5. forest.chaiash — chai ash leaf path: awtsmoos nature/chai forest/textures/leaves/ash.png url: https://awtsmoos.com/sites/firebase drive migration/awtsmoos nature/chai forest/textures/leaves/ash.png 6. forest.chaiaspen — chai aspen leaf path: awtsmoos nature/chai forest/textures/leaves/aspen.png url: https://awtsmoos.com/sites/firebase drive migration/awtsmoos nature/chai forest/textures/leaves/aspen.png 7. forest.chaipine — chai pine leaf path: awtsmoos nature/chai forest/textures/leaves/pine.png url: https://awtsmoos.com/sites/firebase drive migration/awtsmoos nature/chai forest/textures/leaves/pine.png",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-assets-docs-textures-10b7fd5c0b.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-assets-docs-textures-f53c0b3221",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/docs/textures/REMOTE_TEXTURE_CRAFT.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Craft Remote Textures",
+				"anchor": "craft-remote-textures"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Craft Remote Textures The Awtsmoos clothes craft in exact finite names while Awtsmoos.com preserves every canonical letter on the remote road; this generated page lists 24 identities without loading a single image payload. Collection: full resolution 1. copper 1.png — https://awtsmoos.co",
+		"searchText": "b\"h boruch hashem blessed is he craft remote textures the awtsmoos clothes craft in exact finite names while awtsmoos.com preserves every canonical letter on the remote road; this generated page lists 24 identities without loading a single image payload. collection: full resolution 1. copper 1.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/copper%201.png 2. copper 2.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/copper%202.png 3. cow fur 1.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/cow%20fur%201.png 4. cracked glass.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/cracked%20glass.png 5. deer fur 1.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/deer%20fur%201.png 6. fox fur 1.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/fox%20fur%201.png 7. gold 2.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/gold%202.png 8. horse fur 1.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/horse%20fur%201.png 9. leaf 1.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/leaf%201.png 10. leather.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/leather.png 11. oak leaf fall.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/oak%20leaf%20fall.png 12. oak leaf spring.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/oak%20leaf%20spring.png 13. parchment.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/parchment.png 14. raveled rope.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/raveled%20rope.png 15. red ceramic.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/red%20ceramic.png 16. rusty iron.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/rusty%20iron.png 17. seamless water brighter.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/seamless%20water%20brighter.png 18. seamless water.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/seamless%20water.png 19. shallow river water.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/shallow%20river%20water.png 20. silver 1.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/silver%201.png 21. silver 2.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/silver%202.png 22. tan cloth.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/tan%20cloth.png 23. unraveled rope.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/unraveled%20rope.png 24. water not seamless.png — https://awtsmoos.com/sites/firebase drive migration/full resolution/water%20not%20seamless.png",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-assets-docs-textures-f53c0b3221.json"
+	}
+]

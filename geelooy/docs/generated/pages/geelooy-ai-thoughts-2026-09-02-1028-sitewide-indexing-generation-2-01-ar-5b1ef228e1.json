@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-02-1028-sitewide-indexing-generation-2-01-ar-5b1ef228e1",
+	"title": "Architecture Options",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-02-1028-sitewide-indexing-generation-2/01-architecture-options.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Architecture Options",
+			"anchor": "architecture-options"
+		},
+		{
+			"level": 2,
+			"text": "Option A — edit every app/game HTML page",
+			"anchor": "option-a-edit-every-app-game-html-page"
+		},
+		{
+			"level": 2,
+			"text": "Option B — generated wrapper/detail pages",
+			"anchor": "option-b-generated-wrapper-detail-pages"
+		},
+		{
+			"level": 2,
+			"text": "Option C — central static-HTML response enrichment",
+			"anchor": "option-c-central-static-html-response-enrichment"
+		},
+		{
+			"level": 2,
+			"text": "Option D — service-worker/client metadata",
+			"anchor": "option-d-service-worker-client-metadata"
+		},
+		{
+			"level": 2,
+			"text": "Option E — sitemap/catalog only",
+			"anchor": "option-e-sitemap-catalog-only"
+		},
+		{
+			"level": 2,
+			"text": "Selected direction",
+			"anchor": "selected-direction"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-02-1028-sitewide-indexing-generation-2-01-ar-5b1ef228e1-001.json"
+	]
+}

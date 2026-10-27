@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Imported Comments Tests (geelooy/api/social/helper/comments/imported/test/)\n\nTests for the imported-comment subsystem.\n\n- `federationCore.test.js` — imported-corpus federation core behavior.\n"
+}

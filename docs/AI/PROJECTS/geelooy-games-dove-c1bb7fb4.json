@@ -9,7 +9,7 @@
 		"id": "games",
 		"title": "Games and Worlds"
 	},
-	"title": "Noah's Dove's 🕊️ Quest ❓ for Shalom",
+	"title": "Noah's Dove · Quest for Shalom",
 	"entries": [
 		"index.html"
 	],
@@ -21,32 +21,32 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-dove-c1bb7fb4.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 8,
+		"source": 15,
 		"tests": 0,
 		"assets": 0,
 		"generated": 0,
 		"docs": 0,
 		"other": 0
 	},
-	"totalFiles": 8,
+	"totalFiles": 15,
 	"symbolSummary": {
-		"files": 6,
-		"classes": 0,
-		"functions": 22,
-		"exports": 32,
+		"files": 13,
+		"classes": 2,
+		"functions": 41,
+		"exports": 41,
 		"samples": [
+			"DoveGame",
+			"DoveLoop",
 			"init",
 			"update",
 			"draw",
-			"drawWaveLine",
-			"CANVAS_WIDTH",
-			"CANVAS_HEIGHT",
-			"updateDimensions",
-			"DOVE_START_X",
-			"DOVE_START_Y",
-			"DOVE_WIDTH",
-			"DOVE_HEIGHT",
-			"DOVE_RADIUS"
+			"drawBackground",
+			"drawSky",
+			"drawCloud",
+			"blob",
+			"drawOcean",
+			"drawOceanActors",
+			"drawFish"
 		]
 	},
 	"outgoingDependencies": [],
@@ -56,12 +56,12 @@
 		{
 			"url": "/games/dove",
 			"file": "geelooy/games/dove/index.html",
-			"title": "Noah's Dove's 🕊️ Quest ❓ for Shalom",
-			"scripts": 1,
-			"styles": 1
+			"title": "Noah's Dove · Quest for Shalom",
+			"scripts": 4,
+			"styles": 3
 		}
 	],
-	"requiresLocalDocumentation": false,
+	"requiresLocalDocumentation": true,
 	"documentationCovered": false,
 	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
 }

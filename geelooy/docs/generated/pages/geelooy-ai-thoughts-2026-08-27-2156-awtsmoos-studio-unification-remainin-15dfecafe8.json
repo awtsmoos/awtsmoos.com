@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-27-2156-awtsmoos-studio-unification-remainin-15dfecafe8",
+	"title": "REMAINING WORK",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-27-2156-awtsmoos-studio-unification/REMAINING_WORK.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "REMAINING WORK",
+			"anchor": "remaining-work"
+		},
+		{
+			"level": 2,
+			"text": "Open — Architecture and Collision Safety",
+			"anchor": "open-architecture-and-collision-safety"
+		},
+		{
+			"level": 2,
+			"text": "Open — Canonical Movie Core",
+			"anchor": "open-canonical-movie-core"
+		},
+		{
+			"level": 2,
+			"text": "Open — Awtsmoos UI",
+			"anchor": "open-awtsmoos-ui"
+		},
+		{
+			"level": 2,
+			"text": "Open — Awtsmoos Studio",
+			"anchor": "open-awtsmoos-studio"
+		},
+		{
+			"level": 2,
+			"text": "Open — Legacy Studio Unification",
+			"anchor": "open-legacy-studio-unification"
+		},
+		{
+			"level": 2,
+			"text": "Open — Real Media Proof",
+			"anchor": "open-real-media-proof"
+		},
+		{
+			"level": 2,
+			"text": "Open — Tests and Runtime Verification",
+			"anchor": "open-tests-and-runtime-verification"
+		},
+		{
+			"level": 2,
+			"text": "Open — Completion Shadow Work",
+			"anchor": "open-completion-shadow-work"
+		},
+		{
+			"level": 2,
+			"text": "NEXTACTION",
+			"anchor": "nextaction"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-27-2156-awtsmoos-studio-unification-remainin-15dfecafe8-001.json"
+	]
+}

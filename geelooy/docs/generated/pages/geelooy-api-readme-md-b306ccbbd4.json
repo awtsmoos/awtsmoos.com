@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-readme-md-b306ccbbd4",
+	"title": "B\"H — Geelooy API Master Index (Yaakov 2026-10-15)",
+	"sourcePath": "geelooy/api/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Geelooy API Master Index (Yaakov 2026-10-15)",
+			"anchor": "b-h-geelooy-api-master-index-yaakov-2026-10-15"
+		},
+		{
+			"level": 2,
+			"text": "Core APIs",
+			"anchor": "core-apis"
+		},
+		{
+			"level": 3,
+			"text": "Tunnel (/api/tunnel/)",
+			"anchor": "tunnel-api-tunnel"
+		},
+		{
+			"level": 3,
+			"text": "OAuth (/api/oauth/)",
+			"anchor": "oauth-api-oauth"
+		},
+		{
+			"level": 3,
+			"text": "Admin (/api/admin/)",
+			"anchor": "admin-api-admin"
+		},
+		{
+			"level": 3,
+			"text": "Contact (/api/contact/)",
+			"anchor": "contact-api-contact"
+		},
+		{
+			"level": 3,
+			"text": "Email (/api/email/)",
+			"anchor": "email-api-email"
+		},
+		{
+			"level": 3,
+			"text": "GPT (/api/gpt/)",
+			"anchor": "gpt-api-gpt"
+		},
+		{
+			"level": 2,
+			"text": "Documentation Standards",
+			"anchor": "documentation-standards"
+		},
+		{
+			"level": 2,
+			"text": "For AI Agents",
+			"anchor": "for-ai-agents"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-readme-md-b306ccbbd4-001.json"
+	]
+}

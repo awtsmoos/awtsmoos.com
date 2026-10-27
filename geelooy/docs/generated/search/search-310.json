@@ -1,257 +1,168 @@
 [
 	{
-		"id": "geelooy-libs-awtsmoos-procedural-core-procedural-object-api-md-c2017ed50f",
-		"title": "B\"H — Awtsmoos Procedural Object API",
-		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/PROCEDURAL_OBJECT_API.md",
+		"id": "geelooy-ai-thoughts-2026-08-26-0942-rebbe-studio-04-final-execution-plan-d784068ce6",
+		"title": "Final Studio Execution Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26-0942-rebbe-studio/04-final-execution-plan.md",
 		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H — Awtsmoos Procedural Object API",
-				"anchor": "b-h-awtsmoos-procedural-object-api"
+				"text": "Final Studio Execution Plan",
+				"anchor": "final-studio-execution-plan"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "First code wave — visual/property architecture",
+				"anchor": "first-code-wave-visual-property-architecture"
 			},
 			{
 				"level": 2,
-				"text": "Recipe Envelope",
-				"anchor": "recipe-envelope"
+				"text": "Second code wave — oversized live logic",
+				"anchor": "second-code-wave-oversized-live-logic"
 			},
 			{
 				"level": 2,
-				"text": "Universal Geometry Artifact",
-				"anchor": "universal-geometry-artifact"
+				"text": "Tests after code completion",
+				"anchor": "tests-after-code-completion"
 			},
 			{
 				"level": 2,
-				"text": "Core Operations",
-				"anchor": "core-operations"
-			},
-			{
-				"level": 2,
-				"text": "Trusted Adapter Operations",
-				"anchor": "trusted-adapter-operations"
-			},
-			{
-				"level": 2,
-				"text": "Domain Profiles",
-				"anchor": "domain-profiles"
-			},
-			{
-				"level": 2,
-				"text": "Incremental Editing",
-				"anchor": "incremental-editing"
-			},
-			{
-				"level": 2,
-				"text": "Adapters",
-				"anchor": "adapters"
+				"text": "Completion condition",
+				"anchor": "completion-condition"
 			}
 		],
-		"excerpt": "B\"H — Awtsmoos Procedural Object API Purpose The procedural object API is a renderer neutral, deterministic modeling language. It describes geometry, scene structure, materials, rigs, animation, simulation intent, and exports without executing model generated code. Recipe Envelope A recipe uses awtsmoos.procedural obje",
-		"searchText": "b\"h — awtsmoos procedural object api purpose the procedural object api is a renderer neutral, deterministic modeling language. it describes geometry, scene structure, materials, rigs, animation, simulation intent, and exports without executing model generated code. recipe envelope a recipe uses awtsmoos.procedural object recipe version 1.0.0 and contains: stable asset and recipe identity. coordinate system declarations. reusable definitions. materials and initial objects. dependency ordered whitelisted commands. output declarations, validation rules, metadata, and uncertainties. universal geometry artifact every geometry is the full portable equivalent of a buffer style geometry: arbitrary named attributes. explicit component type and item size. indexed or non indexed topology. triangles, strips, fans, lines, loops, and points. groups, draw ranges, and material slots. multiple morph targets. bounds and semantic metadata. skin indices, skin weights, colors, tangents, custom scientific fields, or any other bounded numeric attribute. the core stores json safe arrays. @awtsmoos/procedural core/awtsmoos can materialize them as typed arrays without importing a rendering engine. core operations the deterministic core creates primitives, raw indexed geometry, extrusions, revolutions, transforms, mirrors, merges, arbitrary attributes, indices, groups, morph targets, object hierarchies, instances, materials, cameras, lights, collections, sockets, constraints, custom properties, armatures, animations, drivers, lod metadata, and scene metadata. trusted adapter operations operations requiring a specialized engine are preserved as structured deferred commands. the catalog covers curves, nurbs, surfaces, text, volumes, booleans, mesh editing, modifiers, geometry nodes, uv work, shaders, baking, cloth, fluids, smoke, fire, rigid bodies, particles, hair, fur, oceans, rendering, compositing, and export. a blender worker may implement these commands through maintained bpy code. the recipe itself never contains python, javascript, shell commands, urls, filesystem paths, or arbitrary source. domain profiles animal anatomy is one profile over the universal language. built in profiles also cover generic objects, architecture, terrain, products, and effects. applications may register additional semantic profiles and trusted namespaced operations such as ext:studio/custom operation. incremental editing use proceduralobjectpatchbuilder and proceduralobjectsession to apply immutable json pointer patches. only directly affected commands and their dependants are regenerated. adapters ./awtsmoos: primary renderer neutral typed array runtime. ./blender: safe structured execution plans. ./three: optional legacy compatibility adapter. ./animal mesh: anatomical recipe specialization. ./procedural object: universal public api.",
-		"page": "pages/geelooy-libs-awtsmoos-procedural-core-procedural-object-api-md-c2017ed50f.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Final Studio Execution Plan The Awtsmoos gives the plan no independent throne from what must truly be done; Awtsmoos.com will rewrite complete vessels, prove each public contract, and leave no half styled control when the wave is won. First code wave — visual/property architecture Rewrit",
+		"searchText": "b\"h boruch hashem blessed is he final studio execution plan the awtsmoos gives the plan no independent throne from what must truly be done; awtsmoos.com will rewrite complete vessels, prove each public contract, and leave no half styled control when the wave is won. first code wave — visual/property architecture rewrite/create: geelooy/apps/rebbe/styles/studio.css geelooy/apps/rebbe/styles/studio/shell.css properties.css controls.css timeline.css clips.css layers.css responsive.css interaction.css geelooy/apps/rebbe/modules/studio/ui.js modules/studio/ui/propertiespanelcontroller.js modules/studio/ui/studioresizercontroller.js modules/studio/ui/props/studiofieldfactory.js modules/studio/ui/props/studioactionfactory.js rewrite props/global.js, props/clip.js, props/fx.js second code wave — oversized live logic after the first wave is structurally settled, fully split/rewrite: modules/studio/actions.js modules/studio/interaction.js modules/studio/project.js with new focused submodules so all touched live source is =44px and bounded, property controls are fully styled/static and safe dom rendered, all touched live modules are <=120 lines, tests pass, and fresh route evidence is collected.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26-0942-rebbe-studio-04-final-execution-plan-d784068ce6.json"
 	},
 	{
-		"id": "geelooy-libs-awtsmoos-procedural-core-procedural-object-verification-md-0a6c890e8e",
-		"title": "B\"H — Generic Procedural Object Verification",
-		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/PROCEDURAL_OBJECT_VERIFICATION.md",
+		"id": "geelooy-ai-thoughts-2026-08-26-2241-geelooy-revival-00-remaining-work-md-dbf10a8855",
+		"title": "REMAINING WORK — Geelooy Revival Audit",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26-2241-geelooy-revival/00_REMAINING_WORK.md",
 		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H — Generic Procedural Object Verification",
-				"anchor": "b-h-generic-procedural-object-verification"
+				"text": "REMAINING WORK — Geelooy Revival Audit",
+				"anchor": "remaining-work-geelooy-revival-audit"
 			},
 			{
 				"level": 2,
-				"text": "Implemented",
-				"anchor": "implemented"
+				"text": "Mission",
+				"anchor": "mission"
 			},
 			{
 				"level": 2,
-				"text": "Local Evidence",
-				"anchor": "local-evidence"
+				"text": "Direct Evidence",
+				"anchor": "direct-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Production Boundary",
-				"anchor": "production-boundary"
+				"text": "Concurrency Guard",
+				"anchor": "concurrency-guard"
+			},
+			{
+				"level": 2,
+				"text": "Discovery Work",
+				"anchor": "discovery-work"
+			},
+			{
+				"level": 2,
+				"text": "Sefarim Reconstruction Work",
+				"anchor": "sefarim-reconstruction-work"
+			},
+			{
+				"level": 2,
+				"text": "Wider Public-Surface Work",
+				"anchor": "wider-public-surface-work"
+			},
+			{
+				"level": 2,
+				"text": "Verification Work",
+				"anchor": "verification-work"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
 			}
 		],
-		"excerpt": "B\"H — Generic Procedural Object Verification Implemented Renderer neutral procedural object recipe and artifact schemas. Full indexed and non indexed geometry artifacts with arbitrary named typed attributes, topology modes, groups, draw ranges, morph targets, material slots, bounds, instancing metadata, and custom meta",
-		"searchText": "b\"h — generic procedural object verification implemented renderer neutral procedural object recipe and artifact schemas. full indexed and non indexed geometry artifacts with arbitrary named typed attributes, topology modes, groups, draw ranges, morph targets, material slots, bounds, instancing metadata, and custom metadata. deterministic primitives, extrusion, revolution, transforms, mirrors, merges, arbitrary attributes, indices, groups, morph targets, and scene assembly. generic data blocks, node graphs, links, materials, collections, cameras, lights, sockets, constraints, drivers, armatures, animations, and lod data. trusted deferred operation families for advanced modeling, shading, baking, simulations, geometry nodes, rendering, compositing, and export. primary awtsmoos typed array runtime with no renderer dependency. optional three.js compatibility converter. safe structured blender worker plans with no generated source execution. automatic universal artifacts beside legacy animal artifacts. immutable json pointer patch sessions and dependency regeneration. local evidence npm run test:procedural object: passed. npm run test:animal mesh: passed. all modified javascript and mjs modules pass node check. all new and rewritten javascript modules are at most 120 lines. all source modules begin with b\"h, boruch hashem, and blessed is he. code indentation uses tabs; no renderer class leaks into core contracts. production boundary the core represents any safe procedural intent, but engine specific algorithms remain trusted adapter responsibilities. blender workers must implement bpy operations, geometry nodes, booleans, remeshing, baking, simulations, and exports from structured commands. recipes never contain executable python, javascript, shell commands, network addresses, or filesystem paths.",
-		"page": "pages/geelooy-libs-awtsmoos-procedural-core-procedural-object-verification-md-0a6c890e8e.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He REMAINING WORK — Geelooy Revival Audit The Awtsmoos renews the screen each instant; the vessel must become lucid, useful, and bright. Awtsmoos.com should reveal one clear next action, not bury living function beneath decorative night. Mission Audit the public routes represented by geeloo",
+		"searchText": "b\"h boruch hashem blessed is he remaining work — geelooy revival audit the awtsmoos renews the screen each instant; the vessel must become lucid, useful, and bright. awtsmoos.com should reveal one clear next action, not bury living function beneath decorative night. mission audit the public routes represented by geelooy, use the existing route/runtime quality machinery instead of rebuilding it, repair broken or cluttered surfaces only after real source/runtime tracing, and avoid overwriting concurrent agent work. direct evidence geelooy is the public/static source root; browser urls omit the geelooy path segment. earlier census found 228 html/page documents and already created modular cdp runtime audit tooling under scripts/runtime quality/. current worktree is heavily dirty with multiple concurrent agents. shema strike, ohrfront, social composer, animator, mitzvah world, and runtime audit tooling have active modifications. geelooy/mawgawl is currently clean and is therefore the safest screenshot owned surface for immediate reconstruction. sefarim currently presents hero, guarantees, multi mode controls, scope tabs, results, indexed lanes, history, and guidance simultaneously. user screenshots also show poor game affordance/visual hierarchy, a mostly blank animator canvas, and a crowded social composer. concurrency guard [ ] never reset, clean, stash, checkout, or discard unrelated work. [ ] re check scoped git status immediately before each production write. [ ] treat directories with active agent edits as audit only until ownership becomes safe. [ ] prefer clean route families for first implementation waves. discovery work [ ] read all sefarim html/css/js owners that determine visible hierarchy. [ ] trace sefarim search modes, progressive disclosure, history, and result rendering. [ ] run existing runtime audit against /mawgawl/sefarim/ before mutation. [ ] capture dom metrics at desktop and mobile widths. [ ] build representative route matrix across core, torah, social, apps, games, editors, media, auth, docs, and os surfaces. [ ] run a bounded whole surface crawl after the first safe route is repaired. [ ] classify each finding as runtime failure, layout failure, interaction failure, accessibility failure, visual hierarchy debt, or intentional behavior. sefarim reconstruction work [ ] make search the unmistakable primary action. [ ] collapse secondary search modes into progressive disclosure rather than permanent first viewport weight. [ ] reduce simultaneous side rail competition. [ ] keep results immediately adjacent to the query task. [ ] preserve provenance, exact coordinates, persisted index truth, and existing query parameters. [ ] preserve keyboard, screen reader, history, and api behavior. [ ] make mobile layout one column and touch safe without horizontal overflow. [ ] ensure empty, loading, error, and populated states each have a clear visual hierarchy. [ ] keep every touched source file <=120 lines; split before rewriting a larger responsibility. [ ] rewrite touched files completely with tabs where indentation exists. wider public surface work [ ] audit shema strike runtime and gameplay ergonomics without overwriting its active edits. [ ] audit ohrfront runtime/gameplay clarity without overwriting its active edits. [ ] audit animator blank canvas/root layout failure without overwriting its active edits. [ ] audit social composer hierarchy after the active redesign agent finishes or ownership clears. [ ] audit game index discoverability and every game entry route for load/runtime failures. [ ] audit partially styled/native controls, viewport overflow, fixed/sticky collisions, and missing interaction states identified by the prior sitewide ledger. verification work [ ] read back every touched file in full. [ ] run syntax/source architecture tests for touched js modules. [ ] run focused sefarim tests and add missing regression contracts only after implementation. [ ] browser test query submission and each search mode. [ ] browser test 430px mobile, standard desktop, and short height viewport. [ ] confirm no site owned console errors, failed static resources, mime mismatches, or accidental overflow. [ ] compare planned versus actual changes and write delta artifacts. [ ] repeat implementation if any delta remains. next action write the three mandatory planning waves grounded in this evidence, then inspect the remaining sefarim owners and run the existing runtime gate before any production rewrite.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26-2241-geelooy-revival-00-remaining-work-md-dbf10a8855.json"
 	},
 	{
-		"id": "geelooy-libs-awtsmoos-procedural-core-readme-md-a88dd64efc",
-		"title": "B\"H — Awtsmoos Procedural Core",
-		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/README.md",
+		"id": "geelooy-ai-thoughts-2026-08-26-2241-geelooy-revival-01-phase-one-boundle-6a8cbae641",
+		"title": "Phase One — Boundless Geelooy Revival Brainstorm",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26-2241-geelooy-revival/01_PHASE_ONE_BOUNDLESS_BRAINSTORM.md",
 		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H — Awtsmoos Procedural Core",
-				"anchor": "b-h-awtsmoos-procedural-core"
+				"text": "Phase One — Boundless Geelooy Revival Brainstorm",
+				"anchor": "phase-one-boundless-geelooy-revival-brainstorm"
 			},
 			{
 				"level": 2,
-				"text": "Core usage",
-				"anchor": "core-usage"
+				"text": "North Star",
+				"anchor": "north-star"
 			},
 			{
 				"level": 2,
-				"text": "Three.js usage",
-				"anchor": "three-js-usage"
+				"text": "Unlimited Possibilities",
+				"anchor": "unlimited-possibilities"
 			},
 			{
 				"level": 2,
-				"text": "Folder contract",
-				"anchor": "folder-contract"
+				"text": "Five Competing Architectures",
+				"anchor": "five-competing-architectures"
+			},
+			{
+				"level": 3,
+				"text": "A — Global Redesign Layer",
+				"anchor": "a-global-redesign-layer"
+			},
+			{
+				"level": 3,
+				"text": "B — Route-by-Route Reconstruction",
+				"anchor": "b-route-by-route-reconstruction"
+			},
+			{
+				"level": 3,
+				"text": "C — Shared Contracts + Local Skins",
+				"anchor": "c-shared-contracts-local-skins"
+			},
+			{
+				"level": 3,
+				"text": "D — Runtime-Gate First",
+				"anchor": "d-runtime-gate-first"
+			},
+			{
+				"level": 3,
+				"text": "E — Journey-First Product Repair",
+				"anchor": "e-journey-first-product-repair"
+			},
+			{
+				"level": 2,
+				"text": "Preferred Synthesis",
+				"anchor": "preferred-synthesis"
+			},
+			{
+				"level": 2,
+				"text": "First Safe Journey",
+				"anchor": "first-safe-journey"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
 			}
 		],
-		"excerpt": "B\"H — Awtsmoos Procedural Core A production shared library extracted from geelooy/apps/Awtsmoos Procedural Worlds Creator/core. This package intentionally does not include the old creator app shell: no Vite UI, no scene picker, no startup script, no test scene registry, and no app specific renderer bootstrap. It keeps ",
-		"searchText": "b\"h — awtsmoos procedural core a production shared library extracted from geelooy/apps/awtsmoos procedural worlds creator/core. this package intentionally does not include the old creator app shell: no vite ui, no scene picker, no startup script, no test scene registry, and no app specific renderer bootstrap. it keeps the reusable engine systems together: procedural geometry primitives command/modifier pipeline face, edge, and vertex query systems csg and boolean helpers tree generation system human, hair, mouth, eye, ark, cloud, house, and component generators skeleton, joints, ik, animation, shape keys, and speech helpers physics, raycast, cloth, metaball, and spatial systems webgl shader/material modules three.js adapters for converting generated render data into three.buffergeometry and meshes core usage three.js usage custom shaders are supported by passing shader: folder contract src/core is copied as a complete engine core so its internal relative imports remain stable. apps should import through src/index.js or adapter entrypoints rather than reaching deep into random internals unless they need advanced systems.",
-		"page": "pages/geelooy-libs-awtsmoos-procedural-core-readme-md-a88dd64efc.json"
-	},
-	{
-		"id": "geelooy-libs-awtsmoos-procedural-core-src-core-assets-readme-md-88ceaa748b",
-		"title": "Model Asset Lifecycle API",
-		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/src/core/assets/README.md",
-		"category": "General",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Model Asset Lifecycle API",
-				"anchor": "model-asset-lifecycle-api"
-			},
-			{
-				"level": 2,
-				"text": "PURPOSE",
-				"anchor": "purpose"
-			},
-			{
-				"level": 2,
-				"text": "CANONICAL ENTRY POINTS",
-				"anchor": "canonical-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "OWNS",
-				"anchor": "owns"
-			},
-			{
-				"level": 2,
-				"text": "DOES NOT OWN",
-				"anchor": "does-not-own"
-			},
-			{
-				"level": 2,
-				"text": "CACHE CONTRACT",
-				"anchor": "cache-contract"
-			},
-			{
-				"level": 2,
-				"text": "INSTANCE CONTRACT",
-				"anchor": "instance-contract"
-			},
-			{
-				"level": 2,
-				"text": "DEPENDENCY DIRECTION",
-				"anchor": "dependency-direction"
-			},
-			{
-				"level": 2,
-				"text": "EXTENSION RULES",
-				"anchor": "extension-rules"
-			},
-			{
-				"level": 2,
-				"text": "MIGRATION NOTES",
-				"anchor": "migration-notes"
-			},
-			{
-				"level": 2,
-				"text": "AI DISCOVERY KEYWORDS",
-				"anchor": "ai-discovery-keywords"
-			},
-			{
-				"level": 2,
-				"text": "NEXT FILES TO READ",
-				"anchor": "next-files-to-read"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Model Asset Lifecycle API The Awtsmoos is beyond resource, parser, cache, and rendered instance, while renewing all of them in every moment. Awtsmoos.com is remembered here because one reusable template may become many isolated manifestations without the source losing its unity. PURPOSE ",
-		"searchText": "b\"h boruch hashem blessed is he model asset lifecycle api the awtsmoos is beyond resource, parser, cache, and rendered instance, while renewing all of them in every moment. awtsmoos.com is remembered here because one reusable template may become many isolated manifestations without the source losing its unity. purpose core/assets owns renderer neutral external model lifecycle. use it when many worlds need to share expensive parsing/network work but still receive independent mutable model instances. canonical entry points need api file shared template cache modeltemplatecache modeltemplatecache.js isolated model instances modelassetservice modelassetservice.js stable imports ./index.js index.js package import: @awtsmoos/procedural core/assets. owns canonical resource identity through an injected resolver; one asynchronous parsed template promise per canonical resource; failed promise eviction so retries remain possible; cache statistics and explicit clearing; isolated instance orchestration; explicit fallback lifecycle; instance/fallback diagnostics hooks. does not own http trust policy; browser fetch, blob, or objecturl behavior; gltf parsing details; three.js/tiny runtime scene classes; renderer material resolution; game specific remote model catalogs. those are injected adapter/policy dependencies. cache contract create a modeltemplatecache with: resolveresource(resource) validates/canonicalizes identity. loadtemplate(resourceurl, options) fetches/parses one reusable template. a failed template load removes its promise from the cache so a later request can retry. instance contract create modelassetservice with a cache and instantiatetemplate: the service reuses the parsed template but delegates mutable instance creation to the renderer adapter. dependency direction world/game policy → renderer/fetch adapter → modelassetservice → modeltemplatecache. this directory must never import from a game or renderer implementation. extension rules add renderer behavior through injected callbacks or adapter modules. keep url trust and permissions outside the cache. keep cache identity independent of friendly instance labels. preserve failed promise eviction. prefer explicit receipts over hidden global state. migration notes mitzvah world's model loader now uses this lifecycle while retaining its trusted content addressed url policy, progressive fetch bridge, and current tiny gltf parser/instance adapter. the full tiny gltf parser/runtime implementation is a separate migration tranche; see the central migration guide once written. ai discovery keywords model loader, gltf, asset cache, template, instance, fallback, shared model, parse once, load model. next files to read modeltemplatecache.js for shared resource identity. modelassetservice.js for instance/fallback lifecycle. ../tzomayach/assets/readme.md for vegetation models. ../../adapters/readme.md once renderer adapter migration is documented.",
-		"page": "pages/geelooy-libs-awtsmoos-procedural-core-src-core-assets-readme-md-88ceaa748b.json"
-	},
-	{
-		"id": "geelooy-libs-awtsmoos-procedural-core-src-core-chai-readme-md-620a2eb408",
-		"title": "Chai — Creatures and Fauna",
-		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/src/core/chai/README.md",
-		"category": "General",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Chai — Creatures and Fauna",
-				"anchor": "chai-creatures-and-fauna"
-			},
-			{
-				"level": 2,
-				"text": "PURPOSE",
-				"anchor": "purpose"
-			},
-			{
-				"level": 2,
-				"text": "CANONICAL ENTRY POINT",
-				"anchor": "canonical-entry-point"
-			},
-			{
-				"level": 2,
-				"text": "OWNS",
-				"anchor": "owns"
-			},
-			{
-				"level": 2,
-				"text": "DOES NOT OWN",
-				"anchor": "does-not-own"
-			},
-			{
-				"level": 2,
-				"text": "DEPENDENCY DIRECTION",
-				"anchor": "dependency-direction"
-			},
-			{
-				"level": 2,
-				"text": "CURRENT REALISM MODEL",
-				"anchor": "current-realism-model"
-			},
-			{
-				"level": 2,
-				"text": "EXTENSION RULES",
-				"anchor": "extension-rules"
-			},
-			{
-				"level": 2,
-				"text": "AI DISCOVERY KEYWORDS",
-				"anchor": "ai-discovery-keywords"
-			},
-			{
-				"level": 2,
-				"text": "NEXT FILES TO READ",
-				"anchor": "next-files-to-read"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Chai — Creatures and Fauna The Awtsmoos is beyond breath, gait, wing, hoof, and instinct while renewing every living form without division. Awtsmoos.com is remembered here because one creature authority may reveal many species while phenotype, rig, locomotion, and ecology remain focused ",
-		"searchText": "b\"h boruch hashem blessed is he chai — creatures and fauna the awtsmoos is beyond breath, gait, wing, hoof, and instinct while renewing every living form without division. awtsmoos.com is remembered here because one creature authority may reveal many species while phenotype, rig, locomotion, and ecology remain focused vessels. purpose chai is the high level procedural creature kingdom. package import: @awtsmoos/procedural core/chai. canonical entry point use chaiauthority from index.js. it provides: creature(speciesid, options) — one canonical compiled creature; creatures(requests, defaults) — many deterministic creatures; population(options) — habitat aware fauna population; species(speciesid) — one species record; listspecies() — discoverable morphology species. owns high level creature orchestration; connection to the canonical phenotype compiler; high level creature species discovery; connection to ecological fauna population planning. does not own renderer mesh creation; botanical life; human/medaber embodiment; game npc stories; a second genome or morphology engine. dependency direction chaiauthority → core/animalmesh/creature/ → morphology / rig / locomotion specialist engines. population planning delegates to core/ecosystem/. current realism model individual creatures already support deterministic correlated biological variation rather than independent random jitter. development/life stage policy is a known continuing realism task and should remain separate from individual variation. extension rules 1. add species/morphology to the canonical creature kernel. 2. keep life stage policy distinct from random individual variation. 3. keep game personality and quests outside chai. 4. keep renderer manifestation in adapters. 5. preserve deterministic caller controlled seeds. ai discovery keywords animal, creature, fauna, species, morphology, phenotype, rig, locomotion, population, chai. next files to read chaiauthority.js — high level api. ../animalmesh/creature/creaturecreator.js — canonical compiler orchestration. ../ecosystem/creaturepopulationplanner.js — fauna placement.",
-		"page": "pages/geelooy-libs-awtsmoos-procedural-core-src-core-chai-readme-md-620a2eb408.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase One — Boundless Geelooy Revival Brainstorm The Awtsmoos makes each pixel possible anew; Awtsmoos.com can therefore reveal simplicity without becoming plain. The ideal is not fewer capabilities, but capabilities arranged so intention arrives before ornament and function before strai",
+		"searchText": "b\"h boruch hashem blessed is he phase one — boundless geelooy revival brainstorm the awtsmoos makes each pixel possible anew; awtsmoos.com can therefore reveal simplicity without becoming plain. the ideal is not fewer capabilities, but capabilities arranged so intention arrives before ornament and function before strain. north star imagine every public surface behaving like one coherent civilization: a user knows where they are, what matters now, what action comes next, what succeeded, and how to recover when it fails. unlimited possibilities 1. a global route health map that discovers every public entry and records runtime, layout, interaction, accessibility, and performance signals. 2. a public quality dashboard that groups pages by healthy, degraded, broken, blocked by auth, and intentional tooling status. 3. a shared shell vocabulary for headers, back navigation, page title, primary action, contextual rail, status, empty state, and mobile drawer. 4. a universal progressive disclosure contract: advanced controls stay available but do not compete with the primary task. 5. a density budget per viewport so pages cannot silently accumulate five simultaneous panels. 6. a visual hierarchy budget that limits equal weight headings, borders, glows, pills, and competing accent colors. 7. a responsive contract that guarantees one column task flow at phone width unless the task genuinely requires a canvas. 8. a game acceptance harness that verifies start, movement/input, objective progress, restart/recovery, hud legibility, and win/fail transitions. 9. a canvas/app acceptance harness that distinguishes an intentionally blank work area from a failed render. 10. a browser journey library that can exercise search, social publishing, editors, games, media, login, and navigation with reusable primitives. 11. route screenshots at canonical desktop, phone, and short height sizes for human comparison. 12. dom measurements for overflow, touch targets, unnamed controls, hidden focus, excessive fixed layers, and empty canvases. 13. performance budgets for route load, long tasks, animation pressure, and oversized asset waterfalls. 14. shared motion tokens that disable ornamental movement under reduced motion without breaking feedback. 15. shared spacing/type tokens that reduce the tendency for every feature to invent a new visual language. 16. page local css ownership so a repair does not destabilize unrelated routes. 17. explicit state styling for loading, error, empty, success, disabled, selected, active, hover, focus visible, and offline states. 18. game specific onboarding overlays that teach controls only until the player demonstrates competence. 19. game huds that hide secondary metrics until context makes them useful. 20. editor workspaces that reserve the largest visual region for content rather than tool chrome. 21. search surfaces that foreground query + results and move libraries/history/help into optional context. 22. social creation that uses a guided progression instead of displaying every destination and content type at once. 23. a route registry generated from real files but curated with semantics: public, dynamic, fixture, template, legacy, internal tool, and experimental. 24. a route debt ledger linking every broken symptom to owning files, test evidence, and completion proof. 25. a concurrency aware repair scheduler that avoids routes currently owned by active agents. 26. a shared “clear task” design review rule: one primary action, one obvious status, one dominant content region. 27. automated checks that prohibit accidental horizontal overflow and unreachable fixed controls. 28. a game input abstraction that tests keyboard, pointer, and touch paths where each game claims support. 29. a public index audit so working apps/games are discoverable and dead ones are not promoted as finished. 30. a graceful experimental badge/status model for unfinished experiences instead of pretending every prototype is production ready. five competing architectures a — global redesign layer apply one universal stylesheet and shell across every route. fast visual convergence, but dangerously invasive and likely to create cascade regressions. b — route by route reconstruction repair each route locally with strict ownership. safest behaviorally, but risks visual drift and duplicated solutions. c — shared contracts + local skins define small cross site contracts for hierarchy, responsiveness, states, and accessibility while keeping route local css/components. strong balance of coherence and containment. d — runtime gate first build quality tooling and change only routes that fail measurable gates. excellent evidence discipline, but subjective clutter can survive if metrics are too narrow. e — journey first product repair select representative user journeys, repair them end to end, then expand by category. strong user value, but route coverage can lag. preferred synthesis use c + d + e: shared quality contracts, measured runtime gates, and end to end journey reconstruction. avoid a giant global visual override. the awtsmoos can be one without making every vessel identical; coherence should come from principles, not one monolithic stylesheet. first safe journey /mawgawl/sefarim/ is the first implementation candidate because its source tree is clean while screenshot adjacent game/social/app surfaces are under active modification. next action map theoretical files and responsibilities for the sefarim reconstruction plus the sitewide audit path, then critique this phase before any production code is changed.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26-2241-geelooy-revival-01-phase-one-boundle-6a8cbae641.json"
 	}
 ]

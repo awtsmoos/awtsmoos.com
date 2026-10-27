@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 827 | 160 | 0 | 0 | 21 | 0 | 1008 |
+| 870 | 178 | 0 | 0 | 23 | 1 | 1072 |
 
 ## Public entry points
 
@@ -29,7 +29,7 @@ None observed.
 
 ## Symbol evidence
 
-Source files: 813; classes: 383; functions: 1117; exports: 731; samples: AwtsmoosDbEmbedderConfig, defaultEmbeddingDimensions, embedTextFallback, attachDefaultEmbedding, AWTSMOOS_DB_AI_CONFIG_PATH, loadEmbedderConfig, getDefaultEmbedderConfig, resolveEmbedderModelPath, providerShape, detectGgufRunner, assertGgufEmbedderReady, embedTextWithConfiguredGguf.
+Source files: 856; classes: 390; functions: 1290; exports: 883; samples: AwtsmoosDbEmbedderConfig, defaultEmbeddingDimensions, embedTextFallback, attachDefaultEmbedding, AWTSMOOS_DB_AI_CONFIG_PATH, loadEmbedderConfig, getDefaultEmbedderConfig, resolveEmbedderModelPath, providerShape, detectGgufRunner, assertGgufEmbedderReady, embedTextWithConfiguredGguf.
 
 ## Depends on
 
@@ -37,15 +37,17 @@ None observed.
 
 ## Used by
 
-- `geelooy/api/social` — 33 lexical references; examples: geelooy/api/social/helper/comments/aliasIndex/PackedIndexStore.js; geelooy/api/social/helper/comments/canonicalCommentSource.js; geelooy/api/social/helper/comments/commentAwtsmoosDbBridge.js
+- `geelooy/api/social` — 54 lexical references; examples: geelooy/api/social/helper/comments/aliasIndex/PackedIndexStore.js; geelooy/api/social/helper/comments/canonicalCommentSource.js; geelooy/api/social/helper/comments/commentAwtsmoosDbBridge.js
+- `ayzarim/awtsmoosDynamicServer` — 8 lexical references; examples: ayzarim/awtsmoosDynamicServer/projectHosting/ProjectDatabaseBoundedKeys.js; ayzarim/awtsmoosDynamicServer/server/deps.js; ayzarim/awtsmoosDynamicServer/server/initDb.js
 - `ayzarim/maintence` — 2 lexical references; examples: ayzarim/maintence/transferOldDBToAwtsmoosDB.js
-- `ayzarim/awtsmoosDynamicServer` — 1 lexical reference; examples: ayzarim/awtsmoosDynamicServer/server/deps.js
 - `geelooy/scripts` — 1 lexical reference; examples: geelooy/scripts/awtsmoos/minimax-virtual-os-game/seed-users.cjs
 
 ## External packages
 
+- `awtsmoosDB` — 1 lexical reference
 - `entries` — 1 lexical reference
+- `mongodb` — 1 lexical reference
 
 ## Verification clue
 
-Observed test-classified files: **160**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **178**. Treat this as file evidence, not proof of behavioral coverage.

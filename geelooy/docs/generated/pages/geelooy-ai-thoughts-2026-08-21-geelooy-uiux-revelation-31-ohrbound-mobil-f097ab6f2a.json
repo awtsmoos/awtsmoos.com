@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-31-ohrbound-mobil-f097ab6f2a",
+	"title": "Ohrbound — Mobile Surface and Touch Proof",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-21-geelooy-uiux-revelation/31-ohrbound-mobile-proof.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Ohrbound — Mobile Surface and Touch Proof",
+			"anchor": "ohrbound-mobile-surface-and-touch-proof"
+		},
+		{
+			"level": 2,
+			"text": "Proven pre-change state",
+			"anchor": "proven-pre-change-state"
+		},
+		{
+			"level": 2,
+			"text": "Isolated implementation",
+			"anchor": "isolated-implementation"
+		},
+		{
+			"level": 2,
+			"text": "Final runtime geometry",
+			"anchor": "final-runtime-geometry"
+		},
+		{
+			"level": 2,
+			"text": "Regression and source gates",
+			"anchor": "regression-and-source-gates"
+		},
+		{
+			"level": 2,
+			"text": "NEXTACTION",
+			"anchor": "nextaction"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-31-ohrbound-mobil-f097ab6f2a-001.json"
+	]
+}

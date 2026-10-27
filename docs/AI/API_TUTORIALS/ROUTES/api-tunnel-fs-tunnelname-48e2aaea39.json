@@ -62,6 +62,18 @@
 	"confidence": "unknown-method",
 	"related": [
 		{
+			"id": "api-tunnel-hetzner-exec-267e52e243",
+			"route": "/api/tunnel/hetzner/exec"
+		},
+		{
+			"id": "api-tunnel-hetzner-health-d92bb398ee",
+			"route": "/api/tunnel/hetzner/health"
+		},
+		{
+			"id": "api-tunnel-hetzner-readlog-d12187a4e3",
+			"route": "/api/tunnel/hetzner/readlog"
+		},
+		{
 			"id": "api-tunnel-request-tunnelname-4e57b0d0cc",
 			"route": "/api/tunnel/request/:tunnelName"
 		}

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Zmanim Lib (geelooy/api/zmanim/lib/)\n\nService layer behind the Zmanim (halachic times) API (see `../README.md`).\n\n## Services\n- `dayService.js` / `calendarService.js` / `rangeService.js` — day, calendar,\n  and date-range zmanim.\n- `comparisonService.js` / `comparisonValidation.js` — compare zmanim across\n  opinions/methods.\n- `locationService.js` / `usnoService.js` / `domainLoader.js` / `metadataService.js`\n  — location resolution, USNO data, domain loading, metadata.\n- `presentationService.js` / `embedService.js` / `embedMarkup.js` /\n  `embedComparisonMarkup.js` / `embedStyles.js` / `embedComparisonStyles.js` /\n  `interactiveLink.js` — presentation and embeddable-widget rendering.\n- `htmlResponse.js` / `htmlEscape.js` / `response.js` / `serializer.js` /\n  `validation.js` — response shaping, escaping, serialization, input validation.\n"
+}

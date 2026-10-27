@@ -1,0 +1,66 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-messages-8ba33749",
+	"path": "geelooy/messages",
+	"type": "public",
+	"family": {
+		"id": "public",
+		"title": "Public and Other Boundaries"
+	},
+	"title": "Messages | Awtsmoos",
+	"entries": [
+		"index.html"
+	],
+	"humanDocumentation": [
+		"docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-messages-8ba33749.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 3,
+		"tests": 0,
+		"assets": 0,
+		"generated": 0,
+		"docs": 0,
+		"other": 0
+	},
+	"totalFiles": 3,
+	"symbolSummary": {
+		"files": 1,
+		"classes": 0,
+		"functions": 11,
+		"exports": 1,
+		"samples": [
+			"async",
+			"cleanAlias",
+			"json",
+			"ep",
+			"listFrom",
+			"esc",
+			"fmtDate",
+			"loadAliases",
+			"loadInbox",
+			"openThread",
+			"sendMessage",
+			"bootMessages"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/messages",
+			"file": "geelooy/messages/index.html",
+			"title": "Messages | Awtsmoos",
+			"scripts": 0,
+			"styles": 2
+		}
+	],
+	"requiresLocalDocumentation": false,
+	"documentationCovered": false,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

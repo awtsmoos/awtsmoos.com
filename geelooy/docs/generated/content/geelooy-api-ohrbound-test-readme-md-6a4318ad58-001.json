@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Ohrbound Tests (geelooy/api/ohrbound/test/)\n\nNode tests for the Ohrbound API services (see `../README.md`).\n\n- `authorization.test.cjs` — verifies who may read/mutate progress and levels.\n- `levelPolicy.test.cjs` — verifies level policy enforcement against the contract.\n"
+}

@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-01-0310-native-chitas-reader-04-range-refere-2b87c73b17",
+	"title": "Native Tanach + Existing Range-Reference Revelation",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-01-0310-native-chitas-reader/04-range-reference-native-tanach-revelation.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Native Tanach + Existing Range-Reference Revelation",
+			"anchor": "native-tanach-existing-range-reference-revelation"
+		},
+		{
+			"level": 2,
+			"text": "New hard evidence",
+			"anchor": "new-hard-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Revised architecture",
+			"anchor": "revised-architecture"
+		},
+		{
+			"level": 2,
+			"text": "Exact first implementation files",
+			"anchor": "exact-first-implementation-files"
+		},
+		{
+			"level": 2,
+			"text": "Completion proof",
+			"anchor": "completion-proof"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-01-0310-native-chitas-reader-04-range-refere-2b87c73b17-001.json"
+	]
+}

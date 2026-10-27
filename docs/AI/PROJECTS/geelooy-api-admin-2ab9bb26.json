@@ -12,7 +12,9 @@
 	"title": "geelooy/api/admin",
 	"entries": [
 		"_awtsmoos.derech.js",
-		"DOCUMENTATION.md"
+		"DOCUMENTATION.md",
+		"README.md",
+		"readme.md"
 	],
 	"humanDocumentation": [
 		"geelooy/api/admin/DOCUMENTATION.md",
@@ -27,10 +29,10 @@
 		"tests": 0,
 		"assets": 0,
 		"generated": 0,
-		"docs": 1,
+		"docs": 2,
 		"other": 0
 	},
-	"totalFiles": 2,
+	"totalFiles": 3,
 	"symbolSummary": {
 		"files": 1,
 		"classes": 0,

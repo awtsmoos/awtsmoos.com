@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-28t0144-do-all-long-render-closure-01-phase--ef423048f6",
+	"title": "Phase One — Chesed: Every Plausible Long-Render Architecture",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0144-do-all-long-render-closure/01_PHASE_ONE_CHESED_BRAINSTORM.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase One — Chesed: Every Plausible Long-Render Architecture",
+			"anchor": "phase-one-chesed-every-plausible-long-render-architecture"
+		},
+		{
+			"level": 2,
+			"text": "Candidate causes of the frame-12 stall",
+			"anchor": "candidate-causes-of-the-frame-12-stall"
+		},
+		{
+			"level": 2,
+			"text": "Candidate repairs",
+			"anchor": "candidate-repairs"
+		},
+		{
+			"level": 2,
+			"text": "Chosen direction criteria",
+			"anchor": "chosen-direction-criteria"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-28t0144-do-all-long-render-closure-01-phase--ef423048f6-001.json"
+	]
+}

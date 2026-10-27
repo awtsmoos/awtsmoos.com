@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — YouTube Migration Tests (geelooy/api/social/helper/migrations/youtube/test/)\n\nYouTube migration tests.\n\n- `ManifestGuard.test.js` — manifest validation guard.\n- `YouTubeManifest.test.js` — manifest behavior.\n"
+}

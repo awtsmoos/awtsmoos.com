@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-28-1725-total-ui-repair-00-current-breakage--e67c47a413",
+	"title": "B\"H — 00 — Current Breakage (2026-09-28-1725)",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-28-1725-total-ui-repair/00-current-breakage.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — 00 — Current Breakage (2026-09-28-1725)",
+			"anchor": "b-h-00-current-breakage-2026-09-28-1725"
+		},
+		{
+			"level": 2,
+			"text": "Phase 0 — the boot failure (gating, nothing else matters until fixed)",
+			"anchor": "phase-0-the-boot-failure-gating-nothing-else-matters-until-fixed"
+		},
+		{
+			"level": 2,
+			"text": "Listing layer — beyond the empty root",
+			"anchor": "listing-layer-beyond-the-empty-root"
+		},
+		{
+			"level": 2,
+			"text": "Reader",
+			"anchor": "reader"
+		},
+		{
+			"level": 2,
+			"text": "Social",
+			"anchor": "social"
+		},
+		{
+			"level": 2,
+			"text": "Process / environment hazards",
+			"anchor": "process-environment-hazards"
+		},
+		{
+			"level": 2,
+			"text": "Known-good ground (do not re-verify, build on it)",
+			"anchor": "known-good-ground-do-not-re-verify-build-on-it"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-28-1725-total-ui-repair-00-current-breakage--e67c47a413-001.json"
+	]
+}

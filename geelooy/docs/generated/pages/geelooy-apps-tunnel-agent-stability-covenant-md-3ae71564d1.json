@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-agent-stability-covenant-md-3ae71564d1",
+	"title": "Awtsmoos Tunnel Stability Covenant",
+	"sourcePath": "geelooy/apps/tunnel/agent/STABILITY_COVENANT.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Awtsmoos Tunnel Stability Covenant",
+			"anchor": "awtsmoos-tunnel-stability-covenant"
+		},
+		{
+			"level": 2,
+			"text": "Why this file exists",
+			"anchor": "why-this-file-exists"
+		},
+		{
+			"level": 2,
+			"text": "Request lifecycle",
+			"anchor": "request-lifecycle"
+		},
+		{
+			"level": 2,
+			"text": "Identity taxonomy — never collapse these",
+			"anchor": "identity-taxonomy-never-collapse-these"
+		},
+		{
+			"level": 2,
+			"text": "Stability invariants",
+			"anchor": "stability-invariants"
+		},
+		{
+			"level": 2,
+			"text": "Files that own these invariants",
+			"anchor": "files-that-own-these-invariants"
+		},
+		{
+			"level": 2,
+			"text": "Regressions that must remain green",
+			"anchor": "regressions-that-must-remain-green"
+		},
+		{
+			"level": 2,
+			"text": "Release covenant",
+			"anchor": "release-covenant"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-agent-stability-covenant-md-3ae71564d1-001.json"
+	]
+}

@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "scripts-tunnel-stability-next-edits-md-c84b57197c",
+	"title": "Awtsmoos tunnel: next edits",
+	"sourcePath": "scripts/tunnel/STABILITY_NEXT_EDITS.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Awtsmoos tunnel: next edits",
+			"anchor": "awtsmoos-tunnel-next-edits"
+		},
+		{
+			"level": 2,
+			"text": "Current inspected state",
+			"anchor": "current-inspected-state"
+		},
+		{
+			"level": 2,
+			"text": "First edit: durable continuation and truthful recovery",
+			"anchor": "first-edit-durable-continuation-and-truthful-recovery"
+		},
+		{
+			"level": 2,
+			"text": "Speed edit: reduce round trips before raising concurrency",
+			"anchor": "speed-edit-reduce-round-trips-before-raising-concurrency"
+		},
+		{
+			"level": 2,
+			"text": "Stability edit: reserve control capacity",
+			"anchor": "stability-edit-reserve-control-capacity"
+		},
+		{
+			"level": 2,
+			"text": "Better skills and mission workflow",
+			"anchor": "better-skills-and-mission-workflow"
+		},
+		{
+			"level": 2,
+			"text": "Longer unattended work",
+			"anchor": "longer-unattended-work"
+		},
+		{
+			"level": 2,
+			"text": "Owner files and order",
+			"anchor": "owner-files-and-order"
+		}
+	],
+	"markdownParts": [
+		"content/scripts-tunnel-stability-next-edits-md-c84b57197c-001.json"
+	]
+}

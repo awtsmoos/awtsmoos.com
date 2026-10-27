@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Meta Migration (geelooy/api/social/helper/migrations/meta/)\n\nImporter for migrating Meta (Facebook/Instagram) assets and content into Awtsmoos.\n\n## Files\n- `MetaManifest.js`, `MetaManifestGuard.js` — migration manifest and validation guard.\n- `MetaAssetGuard.js`, `MetaContentKind.js` — asset validation and content-kind mapping.\n- `MetaMigrationPlan.js`, `MetaMigrationRoutes.js` — migration planning and HTTP routes.\n- `MetaMigrationCapabilities.js`, `MetaMigrationDiagnostics.js` — capability checks and diagnostics.\n- `MetaSourceProvenance.js`, `SecretFieldGuard.js` — provenance tracking and secret-field scrubbing.\n"
+}

@@ -9,7 +9,7 @@
 		"id": "games",
 		"title": "Games and Worlds"
 	},
-	"title": "KAVANAH",
+	"title": "KAVANAH — Four Worlds Ascent",
 	"entries": [
 		"index.html",
 		"DOCUMENTATION.md"
@@ -23,19 +23,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-kavanah-e1949492.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 15,
+		"source": 20,
 		"tests": 0,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
 		"other": 0
 	},
-	"totalFiles": 16,
+	"totalFiles": 21,
 	"symbolSummary": {
-		"files": 13,
-		"classes": 8,
-		"functions": 47,
-		"exports": 51,
+		"files": 17,
+		"classes": 10,
+		"functions": 54,
+		"exports": 57,
 		"samples": [
 			"Otiot",
 			"Tzomeach",
@@ -58,9 +58,9 @@
 		{
 			"url": "/games/KAVANAH",
 			"file": "geelooy/games/KAVANAH/index.html",
-			"title": "KAVANAH",
-			"scripts": 1,
-			"styles": 2
+			"title": "KAVANAH — Four Worlds Ascent",
+			"scripts": 4,
+			"styles": 5
 		}
 	],
 	"requiresLocalDocumentation": true,

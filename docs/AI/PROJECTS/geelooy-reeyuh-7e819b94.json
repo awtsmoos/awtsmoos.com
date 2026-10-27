@@ -9,7 +9,7 @@
 		"id": "public",
 		"title": "Public and Other Boundaries"
 	},
-	"title": "Shulchan Aruch Viewer",
+	"title": "Reeyuh · Shulchan Aruch Reader",
 	"entries": [
 		"index.html"
 	],
@@ -20,15 +20,34 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-reeyuh-7e819b94.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 1,
-		"tests": 0,
+		"source": 11,
+		"tests": 1,
 		"assets": 0,
 		"generated": 0,
 		"docs": 0,
 		"other": 0
 	},
-	"totalFiles": 1,
-	"symbolSummary": null,
+	"totalFiles": 12,
+	"symbolSummary": {
+		"files": 5,
+		"classes": 4,
+		"functions": 8,
+		"exports": 9,
+		"samples": [
+			"TiferesReeyuhContentRenderer",
+			"KliReeyuhDom",
+			"GevurahReeyuhNavigator",
+			"normalizeBookName",
+			"normalizeNamedEntries",
+			"findShulchanAruch",
+			"buildSeferUrl",
+			"buildSectionUrl",
+			"ReeyuhSefarimRepository",
+			"normalizeEntry",
+			"loadPortion",
+			"initialize"
+		]
+	},
 	"outgoingDependencies": [],
 	"incomingDependencies": [],
 	"externalDependencies": [],
@@ -36,12 +55,12 @@
 		{
 			"url": "/reeyuh",
 			"file": "geelooy/reeyuh/index.html",
-			"title": "Shulchan Aruch Viewer",
-			"scripts": 0,
+			"title": "Reeyuh · Shulchan Aruch Reader",
+			"scripts": 1,
 			"styles": 2
 		}
 	],
-	"requiresLocalDocumentation": false,
+	"requiresLocalDocumentation": true,
 	"documentationCovered": false,
 	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
 }

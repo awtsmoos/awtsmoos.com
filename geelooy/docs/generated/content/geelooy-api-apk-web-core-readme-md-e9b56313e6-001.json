@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — APK Web Core (geelooy/api/apk-web/core/)\n\nInternal machinery behind the APK web publication gate (see `../README.md`).\n\n## Files\n- `handlers.js` — `publishApkWebBundle` / `serveApkWebAsset` used by the route mount.\n- `mime.js` — content-type mapping for served bundle assets.\n- `store.js` — persistence of published bundles and their asset tokens.\n- `validation.js` — bundle shape and token validation before anything is served.\n"
+}

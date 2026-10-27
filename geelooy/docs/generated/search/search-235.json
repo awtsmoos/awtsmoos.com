@@ -1,229 +1,287 @@
 [
 	{
-		"id": "docs-websockets-applications-md-a79ecc151d",
-		"title": "Realtime Applications and Events",
-		"sourcePath": "docs/WEBSOCKETS/APPLICATIONS.md",
-		"category": "Realtime",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-heichel-review-b8b78ec-427c525cba",
+		"title": "Project Tutorial: Heichel Review and Governance Center",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-heichel-review-b8b78ec5.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Realtime Applications and Events",
-				"anchor": "realtime-applications-and-events"
+				"text": "Project Tutorial: Heichel Review and Governance Center",
+				"anchor": "project-tutorial-heichel-review-and-governance-center"
 			},
 			{
 				"level": 2,
-				"text": "Application registry model",
-				"anchor": "application-registry-model"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Built-in domains",
-				"anchor": "built-in-domains"
-			},
-			{
-				"level": 3,
-				"text": "awtsmoos-core",
-				"anchor": "awtsmoos-core"
-			},
-			{
-				"level": 3,
-				"text": "awtsmoos-social",
-				"anchor": "awtsmoos-social"
-			},
-			{
-				"level": 3,
-				"text": "Game/journey applications",
-				"anchor": "game-journey-applications"
-			},
-			{
-				"level": 3,
-				"text": "tunnel-activity",
-				"anchor": "tunnel-activity"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Protocol versions",
-				"anchor": "protocol-versions"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "Event inventory limitation",
-				"anchor": "event-inventory-limitation"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Realtime Applications and Events The Awtsmoos gives one realtime doorway many worlds, each application keeping version and domain apart; Awtsmoos.com preserves compatibility while new factories can enter the registry without rewriting transport at its heart. Application registry model ap",
-		"searchText": "b\"h boruch hashem blessed is he realtime applications and events the awtsmoos gives one realtime doorway many worlds, each application keeping version and domain apart; awtsmoos.com preserves compatibility while new factories can enter the registry without rewriting transport at its heart. application registry model applicationdefinitions.js returns built in factories. realtimeplatform registers them into applicationregistry; applicationrouter resolves legacy or versioned messages. future applications can be registered without editing the historic message router signature. built in domains awtsmoos core core realtime behavior and health/compatibility messages. awtsmoos social social live compatibility. inspected sociallive.js emits or handles source visible message types including social subscribed, social event, social presence, social presence ack, social pong, page entered, page left, and page presence. page presence state can describe alias, status, reading target, typing state, entry time, and update time. disconnect cleanup removes clients from remembered social/page channels. livepreview.js emits live preview only after checking the recipient alias's email setting viewtyping === true. game/journey applications versioned applications exist for sefira clash, mitzvah world, ohr hagnuz, scribe journey, and shema strike. their substantial source directories live under websocket/apps/; consult the generated application directory inventory before changing a game protocol. tunnel activity account bound activity/realtime events around tunnel state. socket opening itself publishes connection.opened when an account identity exists. protocol versions most currently inspected applications declare version 1. scribe journey declares versions 1 and 2. never send a guessed version; resolve the application's accepted versions from current source/generated inventory. event inventory limitation ../generated/websocket event index.md extracts lexical event/message literals from production websocket source. some strings are transport events and some domain events; dynamically constructed types can be absent. use it to locate source, not as a formal protocol guarantee.",
-		"page": "pages/docs-websockets-applications-md-a79ecc151d.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Heichel Review and Governance Center Path: geelooy/heichel review · Type: public · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexica",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: heichel review and governance center path: geelooy/heichel review · type: public · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, documentation.md, readme.md, readme.md local documentation: geelooy/heichel review/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 35 4 0 0 2 0 41 public entry points /heichel review → geelooy/heichel review/index.html — heichel review and governance center symbol evidence source files: 19; classes: 10; functions: 37; exports: 18; samples: governanceapi, renderinvitations, invitationcard, rendermembers, membercard, governancemutations, governancepanel, reviewactionpolicy, reviewactionnames, reviewapi, ensureconsequencesurface, setdecisionfieldvisibility. depends on geelooy/shared — 1 lexical reference; examples: geelooy/heichel review/js/main.js used by none observed. external packages none observed. verification clue observed test classified files: 4 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-heichel-review-b8b78ec-427c525cba.json"
 	},
 	{
-		"id": "docs-websockets-mission-rooms-md-07b0b06bb8",
-		"title": "Mission Room WebSocket Admission",
-		"sourcePath": "docs/WEBSOCKETS/MISSION_ROOMS.md",
-		"category": "Realtime",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-heichelos-d9fbb499-md-fa5ace18b1",
+		"title": "Project Tutorial: geelooy/heichelos",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-heichelos-d9fbb499.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Mission Room WebSocket Admission",
-				"anchor": "mission-room-websocket-admission"
+				"text": "Project Tutorial: geelooy/heichelos",
+				"anchor": "project-tutorial-geelooy-heichelos"
 			},
 			{
 				"level": 2,
-				"text": "WebSocket path",
-				"anchor": "websocket-path"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Admission sequence observed in source",
-				"anchor": "admission-sequence-observed-in-source"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "After successful handshake",
-				"anchor": "after-successful-handshake"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "Security implications",
-				"anchor": "security-implications"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
 			},
 			{
 				"level": 2,
-				"text": "HTTP relationship",
-				"anchor": "http-relationship"
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Mission Room WebSocket Admission The Awtsmoos renews ticket, account, origin, permission, protocol, and handshake in one gate; Awtsmoos.com consumes trust before the socket opens, so stale authority cannot simply ride remembered state. WebSocket path /api/tunnel/control/mission room/ws T",
-		"searchText": "b\"h boruch hashem blessed is he mission room websocket admission the awtsmoos renews ticket, account, origin, permission, protocol, and handshake in one gate; awtsmoos.com consumes trust before the socket opens, so stale authority cannot simply ride remembered state. websocket path /api/tunnel/control/mission room/ws this path is handled specially during websocket upgrade by ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/upgradepolicy.js. it is not an ordinary json endpoint even though it begins with /api/. admission sequence observed in source 1. parse the requested url. if it is not the mission room path, mission room policy does not own the upgrade. 2. require sec websocket key; otherwise deny with 400 missing websocket key. 3. require trusted socket identity with accountid; otherwise deny with 401 mission room authentication required. 4. canonicalize and require the request origin; otherwise deny with 403 missing websocket origin. 5. build claims from url, origin, and trusted identity. 6. consume the one time ticket from query parameter ticket. 7. re authorize the current account/tunnel against tunnel.mission. 8. require the consumed ticket's authority to match current authority. 9. require the claim protocol version to equal room protocol version; mismatch is denied with 409 mission room protocol version mismatch. 10. only then return an accepted ticket to the socket upgrade layer. after successful handshake socketupgrade.js attaches the client and starts the mission room channel when an accepted ticket exists. connection activity is published with channel mission room, mission id, and room id. security implications a url containing a ticket is not enough by itself. admission also binds to trusted account identity, current mission permission, canonical origin, and protocol version. the ticket is consumed rather than treated as a permanent bearer credential. http relationship tunnel control has http routes for mission room streams/control alongside the websocket path. use ../api/tunnel control.md for the http control plane; keep socket admission/protocol logic separate.",
-		"page": "pages/docs-websockets-mission-rooms-md-07b0b06bb8.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/heichelos Path: geelooy/heichelos · Type: project · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not run",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/heichelos path: geelooy/heichelos · type: project · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: awtsmoos.derech.js, documentation.md local documentation: geelooy/heichelos/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 1713 212 0 0 1 22 1948 public entry points /heichelos/manage alias heichelos → geelooy/heichelos/manage alias heichelos/index.html /heichelos/mittler rebbe → geelooy/heichelos/mittler rebbe/index.html — מפתח מאמרי אדמו״ר האמצעי · mittler rebbe maamar index /heichelos/parsha index → geelooy/heichelos/parsha index/index.html — מפתח החסידות · parsha &amp; date index /heichelos/settings/community → geelooy/heichelos/settings/community/index.html — community governance — awtsmoos /heichelos/settings/community/moderation → geelooy/heichelos/settings/community/moderation/index.html — community moderation /heichelos/social/demo → geelooy/heichelos/social/demo/index.html — awtsmoos social revamp demo symbol evidence source files: 873; classes: 183; functions: 3115; exports: 1669; samples: revealheichelroutes, xmur3, mulberry32, makerand, buildatlas, compile, program, ambient, attrbuf, bindattr, stylecanvas, init. depends on geelooy/api/social — 12 lexical references; examples: geelooy/heichelos/routes/heichel/comments/commenthtml.js; geelooy/heichelos/routes/heichel/comments/commentpage.js; geelooy/heichelos/routes/heichel/comments/postannotations.js geelooy/shared — 10 lexical references; examples: geelooy/heichelos/heichel/modules/app/post ready experience.js; geelooy/heichelos/heichel/modules/legend/carddepthobserver.js; geelooy/heichelos/heichel/modules/legend/heroscrolldepth.js geelooy/seo — 7 lexical references; examples: geelooy/heichelos/routes/heichel/comments/commenthtml.js; geelooy/heichelos/routes/heichel/comments/commentpage.js; geelooy/heichelos/routes/heichel/comments/commenttext.js geelooy/social actions — 3 lexical references; examples: geelooy/heichelos/heichel/modules/ui/render/heichelreactionaction.js; geelooy/heichelos/heichel/modules/ui/render/secondary social actions.js; geelooy/heichelos/heichel/modules/ui/render/social action urls.js geelooy/scripts — 2 lexical references; examples: geelooy/heichelos/heichel/modules/app/post ready experience.js; geelooy/heichelos/heichel/modules/ui/blueprints/pending profile context.js geelooy/zmanim — 2 lexical references; examples: geelooy/heichelos/post/logic/dreamcelestial.js ayzarim/awtsmoosdynamicserver — 1 lexical reference; examples: geelooy/heichelos/routes/friendlyids/friendlyderech.js used by geelooy/igeres hakodesh — 1 lexical reference; examples: geelooy/igeres hakodesh/ awtsmoos.derech.js geelooy/likutei torah — 1 lexical reference; examples: geelooy/likutei torah/ awtsmoos.derech.js geelooy/tanya — 1 lexical reference; examples: geelooy/tanya/ awtsmoos.derech.js geelooy/אגרות קודש — 1 lexical reference; examples: geelooy/אגרות קודש/ awtsmoos.derech.js geelooy/לקוטי תורה — 1 lexical reference; examples: geelooy/לקוטי תורה/ awtsmoos.derech.js geelooy/תניא — 1 lexical reference; examples: geelooy/תניא/ awtsmoos.derech.js external packages none observed. verification clue observed test classified files: 212 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-heichelos-d9fbb499-md-fa5ace18b1.json"
 	},
 	{
-		"id": "docs-websockets-readme-md-fed34d4d65",
-		"title": "WebSockets and Realtime",
-		"sourcePath": "docs/WEBSOCKETS/README.md",
-		"category": "Realtime",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-igeres-hakodesh-8d7ed0-bc0caaa62c",
+		"title": "Project Tutorial: Igeres HaKodesh — Awtsmoos.com",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-igeres-hakodesh-8d7ed0e6.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "WebSockets and Realtime",
-				"anchor": "websockets-and-realtime"
+				"text": "Project Tutorial: Igeres HaKodesh — Awtsmoos.com",
+				"anchor": "project-tutorial-igeres-hakodesh-awtsmoos-com"
 			},
 			{
 				"level": 2,
-				"text": "Interactive system map",
-				"anchor": "interactive-system-map"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Human manuals",
-				"anchor": "human-manuals"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Evidence rules",
-				"anchor": "evidence-rules"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He WebSockets and Realtime Awtsmoos.com realtime behavior has multiple layers: upgrade/session identity, platform application routing, specialized Mission Room admission, Tunnel Relay transport, and application/event handling. Interactive system map Open /docs/?view=systems&systemDistrict=r",
-		"searchText": "b\"h boruch hashem blessed is he websockets and realtime awtsmoos.com realtime behavior has multiple layers: upgrade/session identity, platform application routing, specialized mission room admission, tunnel relay transport, and application/event handling. interactive system map open /docs/?view=systems&systemdistrict=realtime for the curated realtime systems. human manuals applications mission rooms tunnel relay realtime security use trace realtime admission to follow upgrade identity → specialized admission/registry → app/version → message handling. evidence rules generated application rows reflect source registration, not deployment health. event/message strings are lexical search clues, not formal payload schemas. mission room tickets/origin/protocol/snapshot checks and tunnel relay registration/correlation are specialized trust/transport contracts and should not be collapsed into ordinary app routing.",
-		"page": "pages/docs-websockets-readme-md-fed34d4d65.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Igeres HaKodesh — Awtsmoos.com Path: geelooy/igeres hakodesh · Type: public · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical obs",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: igeres hakodesh — awtsmoos.com path: geelooy/igeres hakodesh · type: public · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, awtsmoos.derech.js local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 2 0 0 0 0 0 2 public entry points /igeres hakodesh → geelooy/igeres hakodesh/index.html — igeres hakodesh — awtsmoos.com symbol evidence source files: 1; classes: 0; functions: 0; exports: 0; samples: —. depends on geelooy/heichelos — 1 lexical reference; examples: geelooy/igeres hakodesh/ awtsmoos.derech.js used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-igeres-hakodesh-8d7ed0-bc0caaa62c.json"
 	},
 	{
-		"id": "docs-websockets-tunnel-relay-md-0cfdbb9dce",
-		"title": "Tunnel Relay WebSocket System",
-		"sourcePath": "docs/WEBSOCKETS/TUNNEL_RELAY.md",
-		"category": "Realtime",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-js-4b7a83be-md-1478cd8413",
+		"title": "Project Tutorial: geelooy/js",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-js-4b7a83be.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Tunnel Relay WebSocket System",
-				"anchor": "tunnel-relay-websocket-system"
+				"text": "Project Tutorial: geelooy/js",
+				"anchor": "project-tutorial-geelooy-js"
 			},
 			{
 				"level": 2,
-				"text": "Source root",
-				"anchor": "source-root"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Registration flow observed",
-				"anchor": "registration-flow-observed"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "TUNNELACK evidence",
-				"anchor": "tunnelack-evidence"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "Replacement activity",
-				"anchor": "replacement-activity"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Request lifecycle",
-				"anchor": "request-lifecycle"
+				"text": "Depends on",
+				"anchor": "depends-on"
 			},
 			{
 				"level": 2,
-				"text": "Relationship to HTTP Tunnel Control",
-				"anchor": "relationship-to-http-tunnel-control"
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Tunnel Relay WebSocket System The Awtsmoos bridges distant vessel to server while account, generation, request, acknowledgement, and replacement remain known; Awtsmoos.com treats relay authority as a transport covenant, not a message field a contender may declare on its own. Source root ",
-		"searchText": "b\"h boruch hashem blessed is he tunnel relay websocket system the awtsmoos bridges distant vessel to server while account, generation, request, acknowledgement, and replacement remain known; awtsmoos.com treats relay authority as a transport covenant, not a message field a contender may declare on its own. source root ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/ the continuation inventory found more than fifty files in this subsystem. it contains registration authority, security bridging, request dispatch, acknowledgement tracking, transfer/replacement logic, durable paths, limits, heartbeat/progress behavior, and tests. registration flow observed register.js calls security.authorizeregistration(client, data). if identity fails, registration is rejected. a registration key is derived from trusted identity, then current server state is inspected for an incumbent connection. registration authority decides whether the contender is accepted, replaces an older connection, or is fenced. after successful registration, the server records tunnel/client state, sends an acknowledgement, recovers pending work, monitors accepted work, and publishes connection activity. tunnel ack evidence the acknowledgement emitted by inspected source includes: type: \"tunnel ack\"; ok: true; accountbound: true; tunnel id and tunnel name; whether an older connection was replaced; vessel type; protocol version; registration generation; server time. replacement activity the subsystem publishes connection.registered and can publish connection.replaced when a newer authorized contender replaces an existing connection. request lifecycle separate source files manage dispatch, response acknowledgement, pending recovery, timeout/progress bounds, quarantine/completed retention, and durable relay state. environment names controlling these policies appear in ../generated/environment variables.md. relationship to http tunnel control http routes create/control devices, grants, previews, calls, missions, compute, and other management operations. relay websockets are the live transport plane that can carry remote device work. do not flatten http control routes and relay messages into one api list.",
-		"page": "pages/docs-websockets-tunnel-relay-md-0cfdbb9dce.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/js Path: geelooy/js · Type: project · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/js path: geelooy/js · type: project · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: — local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 6 0 0 0 0 0 6 public entry points none observed. symbol evidence source files: 5; classes: 3; functions: 21; exports: 4; samples: awtsmoosaudioplayer, formattime, escapehtml, escapeattr, build, open, close, isopen, enhanceall, injectstyles, init, loadstyles. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-js-4b7a83be-md-1478cd8413.json"
 	},
 	{
-		"id": "geelooy-awtsmoos-agent-transfer-documentation-md-6a6a9c041e",
-		"title": "Awtsmoos Agent Transfer Archive",
-		"sourcePath": "geelooy/.awtsmoos-agent-transfer/DOCUMENTATION.md",
-		"category": "General",
-		"provenance": "breadcrumb",
+		"id": "docs-generated-project-tutorials-projects-geelooy-legal-fbbec91a-md-76a0fae5dd",
+		"title": "Project Tutorial: geelooy/legal",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-legal-fbbec91a.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Awtsmoos Agent Transfer Archive",
-				"anchor": "awtsmoos-agent-transfer-archive"
+				"text": "Project Tutorial: geelooy/legal",
+				"anchor": "project-tutorial-geelooy-legal"
 			},
 			{
 				"level": 2,
-				"text": "Boundary",
-				"anchor": "boundary"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Authority",
-				"anchor": "authority"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Safe use",
-				"anchor": "safe-use"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos Agent Transfer Archive The Awtsmoos preserves transfer evidence without confusing an archived handoff with the live source; Awtsmoos.com keeps this boundary inspectable so deployments can be audited and compared safely. Boundary geelooy/.awtsmoos agent transfer/ contains dated s",
-		"searchText": "b\"h boruch hashem blessed is he awtsmoos agent transfer archive the awtsmoos preserves transfer evidence without confusing an archived handoff with the live source; awtsmoos.com keeps this boundary inspectable so deployments can be audited and compared safely. boundary geelooy/.awtsmoos agent transfer/ contains dated social future transfer trees such as social future 20260821 and social future 20260821 v2. these are staging, verified stage, predeploy backup, and handoff artifacts used to compare or promote social/youtube work. authority runtime authority remains in the corresponding live geelooy/social/, geelooy/youtube/, api, and shared social modules. never route production behavior to this archive merely because a newer looking copy exists here. safe use use the archive for deployment evidence, diff review, recovery context, and provenance. verify current source before promotion and preserve explicit stage/predeploy semantics.",
-		"page": "pages/geelooy-awtsmoos-agent-transfer-documentation-md-6a6a9c041e.json"
-	},
-	{
-		"id": "geelooy-awtsmoos-agent-transfer-social-future-20260821-v2-predeploy-back-a866554be5",
-		"title": "YouTube Manager Documentation · Predeploy Backup",
-		"sourcePath": "geelooy/.awtsmoos-agent-transfer/social-future-20260821-v2/predeploy-backup/youtube/DOCUMENTATION.md",
-		"category": "General",
-		"provenance": "breadcrumb",
-		"headings": [
-			{
-				"level": 1,
-				"text": "YouTube Manager Documentation · Predeploy Backup",
-				"anchor": "youtube-manager-documentation-predeploy-backup"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He YouTube Manager Documentation · Predeploy Backup The Awtsmoos lets channel, video, upload, and live state pass through a guarded provider key; Awtsmoos.com keeps this predeploy copy as historical transfer evidence rather than current runtime authority. Current manuals: YouTube API Media ",
-		"searchText": "b\"h boruch hashem blessed is he youtube manager documentation · predeploy backup the awtsmoos lets channel, video, upload, and live state pass through a guarded provider key; awtsmoos.com keeps this predeploy copy as historical transfer evidence rather than current runtime authority. current manuals: youtube api media tools use the live geelooy/youtube/documentation.md for current migration behavior.",
-		"page": "pages/geelooy-awtsmoos-agent-transfer-social-future-20260821-v2-predeploy-back-a866554be5.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/legal Path: geelooy/legal · Type: project · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime own",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/legal path: geelooy/legal · type: project · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: — local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 8 0 0 0 0 0 8 public entry points /legal/privacy → geelooy/legal/privacy/index.html — awtsmoos.com privacy policy /legal/terms → geelooy/legal/terms/index.html — awtsmoos.com terms of use symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-legal-fbbec91a-md-76a0fae5dd.json"
 	}
 ]

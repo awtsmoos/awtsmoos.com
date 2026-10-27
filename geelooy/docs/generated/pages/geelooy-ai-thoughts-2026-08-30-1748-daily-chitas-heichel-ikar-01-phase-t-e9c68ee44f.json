@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-30-1748-daily-chitas-heichel-ikar-01-phase-t-e9c68ee44f",
+	"title": "Phase Two — Architecture and File Map",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-30-1748-daily-chitas-heichel-ikar/01-phase-two-architecture-and-file-map.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase Two — Architecture and File Map",
+			"anchor": "phase-two-architecture-and-file-map"
+		},
+		{
+			"level": 2,
+			"text": "Candidate architecture to test against the repository",
+			"anchor": "candidate-architecture-to-test-against-the-repository"
+		},
+		{
+			"level": 2,
+			"text": "Preferred shape if the code supports it",
+			"anchor": "preferred-shape-if-the-code-supports-it"
+		},
+		{
+			"level": 2,
+			"text": "Expected responsibilities",
+			"anchor": "expected-responsibilities"
+		},
+		{
+			"level": 2,
+			"text": "Files to touch",
+			"anchor": "files-to-touch"
+		},
+		{
+			"level": 2,
+			"text": "Constraints",
+			"anchor": "constraints"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-30-1748-daily-chitas-heichel-ikar-01-phase-t-e9c68ee44f-001.json"
+	]
+}

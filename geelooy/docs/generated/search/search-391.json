@@ -1,0 +1,209 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-05-co-5315888f71",
+		"title": "Core SSR Proof",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-2342-geelooy-seo-current-head-merge/05-core-ssr-proof.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Core SSR Proof",
+				"anchor": "core-ssr-proof"
+			},
+			{
+				"level": 2,
+				"text": "Numeric Road proof",
+				"anchor": "numeric-road-proof"
+			},
+			{
+				"level": 2,
+				"text": "Stable named-post identity proof",
+				"anchor": "stable-named-post-identity-proof"
+			},
+			{
+				"level": 2,
+				"text": "Missing-post safety proof",
+				"anchor": "missing-post-safety-proof"
+			},
+			{
+				"level": 2,
+				"text": "Parser defect discovered and resolved",
+				"anchor": "parser-defect-discovered-and-resolved"
+			}
+		],
+		"excerpt": "B\"H Core SSR Proof Boruch Hashem. Blessed is He. The Awtsmoos joins the hidden source to the visible word; on Awtsmoos.com the Road now carries its Torah in the first HTTP vessel, before JavaScript adds its living motion. Numeric Road proof Fresh isolated server: 127.0.0.1:8898. Route: /heichelos/ikar/series/BH likkute",
+		"searchText": "b\"h core ssr proof boruch hashem. blessed is he. the awtsmoos joins the hidden source to the visible word; on awtsmoos.com the road now carries its torah in the first http vessel, before javascript adds its living motion. numeric road proof fresh isolated server: 127.0.0.1:8898. route: /heichelos/ikar/series/bh likkuteitorah שלח/4 observed: http 200. title: בפ' נסכים ikar awtsmoos after entity decoding. stable canonical points to named post bh post 1749784377821 thealterrebbe 94. robots: index,follow,max image preview:large,max snippet: 1,max video preview: 1. real description present. real h1 present. data awtsmoos initial post article present. normalized article text length: 16,527 characters. calm/mobile css bundle present. calm reader client boot present. reader settings present. no referenceerror, syntaxerror, or dynamic template error marker. assertion marker: road raw html pass. stable named post identity proof named post route returned http 200 with the same title, h1, canonical url, normalized body length, and exact sha 256 body hash as the numeric road. body hash for both: 1f08e9709245f17eacb30baeb8732b7dde1505d8d7c4765e9825232bd0211f10 assertion marker: named post identity pass. missing post safety proof a deliberately nonexistent named post returned: robots: noindex,follow; h1: torah teaching unavailable; missing article semantic marker; no template error. assertion marker: missing post noindex pass. parser defect discovered and resolved the template parser terminates embedded script at literal ? . the earlier regex contained that byte sequence inside /...\\/? /, truncating the child template. the equivalent matcher now uses / ] /gi, which preserves behavior without embedding the terminator.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-05-co-5315888f71.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-06-he-3661d7dc1b",
+		"title": "Heichel Discovery Delta",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-2342-geelooy-seo-current-head-merge/06-heichel-discovery-delta.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Heichel Discovery Delta",
+				"anchor": "heichel-discovery-delta"
+			},
+			{
+				"level": 2,
+				"text": "Observed runtime failure",
+				"anchor": "observed-runtime-failure"
+			},
+			{
+				"level": 2,
+				"text": "Proven source cause",
+				"anchor": "proven-source-cause"
+			}
+		],
+		"excerpt": "B\"H Heichel Discovery Delta Boruch Hashem. Blessed is He. The Awtsmoos already gathered the public links in the route vessel, yet Awtsmoos.com lost them at the final chamber because the mobile Heichel shell asked a nested path to discover them again. Observed runtime failure Fresh isolated verifier on 127.0.0.1:8898 re",
+		"searchText": "b\"h heichel discovery delta boruch hashem. blessed is he. the awtsmoos already gathered the public links in the route vessel, yet awtsmoos.com lost them at the final chamber because the mobile heichel shell asked a nested path to discover them again. observed runtime failure fresh isolated verifier on 127.0.0.1:8898 returned http 200 and correct semantic title/canonical metadata for both /heichelos/ikar and the known likkutei torah series page. however both responses had: no semantic fallback marker; no server rendered h1; zero crawlable series/post discovery links; no template exception. the absence was therefore silent, not an api failure. proven source cause heichelos/routes/heichel/shell.js already renders both semantichead and semanticfallback at the route layer and passes both strings into ./heichel/ awtsmoos.heichel.html. the active heichelos/heichel/ awtsmoos.heichel.html uses the passed semantichead, but ignores the passed semanticfallback and instead calls nested $a(\"semantic/fallback.html\", { semantic }). earlier template engine archaeology proved nested include paths are resolved from route context and may silently return empty output. this exactly matches the raw html evidence.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-06-he-3661d7dc1b.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-07-he-aa8e721e6a",
+		"title": "Heichel Discovery Fix Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-2342-geelooy-seo-current-head-merge/07-heichel-discovery-fix-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Heichel Discovery Fix Plan",
+				"anchor": "heichel-discovery-fix-plan"
+			},
+			{
+				"level": 2,
+				"text": "Single-file correction",
+				"anchor": "single-file-correction"
+			},
+			{
+				"level": 2,
+				"text": "Proof before broader crawl work",
+				"anchor": "proof-before-broader-crawl-work"
+			}
+		],
+		"excerpt": "B\"H Heichel Discovery Fix Plan Boruch Hashem. Blessed is He. The Awtsmoos joins head and body in one prepared vessel; Awtsmoos.com should consume the semantic fallback already rendered by the route, not seek the same light through a second uncertain path. Single file correction Rewrite only heichelos/heichel/ awtsmoos.",
+		"searchText": "b\"h heichel discovery fix plan boruch hashem. blessed is he. the awtsmoos joins head and body in one prepared vessel; awtsmoos.com should consume the semantic fallback already rendered by the route, not seek the same light through a second uncertain path. single file correction rewrite only heichelos/heichel/ awtsmoos.heichel.html. preserve: every heichel mobile 007 stylesheet; every current mobile/cosmic script; all body/root classes and data attributes; the existing route render root. change only the fallback boundary conceptually: remove the nested $a(\"semantic/fallback.html\", { semantic }) call; insert the already prepared semanticfallback string with a safe empty string fallback. proof before broader crawl work 1. re read the whole rewritten template. 2. verify line ceiling and diff whitespace. 3. re fetch root heichel and known series from 8898 without restarting the verifier. 4. require semantic fallback marker, h1, ordinary series/post links, and no template error. 5. if green, leave discovery.js, shell.js, and semantic fragments unchanged.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-07-he-aa8e721e6a.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-08-ro-6b28f0b03f",
+		"title": "Robots and Sitemap Architecture",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-2342-geelooy-seo-current-head-merge/08-robots-sitemap-architecture.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Robots and Sitemap Architecture",
+				"anchor": "robots-and-sitemap-architecture"
+			},
+			{
+				"level": 2,
+				"text": "Evidence",
+				"anchor": "evidence"
+			},
+			{
+				"level": 2,
+				"text": "Chosen architecture",
+				"anchor": "chosen-architecture"
+			},
+			{
+				"level": 3,
+				"text": "Static root robots",
+				"anchor": "static-root-robots"
+			},
+			{
+				"level": 3,
+				"text": "Static root core sitemap",
+				"anchor": "static-root-core-sitemap"
+			},
+			{
+				"level": 3,
+				"text": "Dynamic Heichel sitemap index",
+				"anchor": "dynamic-heichel-sitemap-index"
+			},
+			{
+				"level": 3,
+				"text": "Dynamic per-Heichel sitemap",
+				"anchor": "dynamic-per-heichel-sitemap"
+			}
+		],
+		"excerpt": "B\"H Robots and Sitemap Architecture Boruch Hashem. Blessed is He. The Awtsmoos gathers every public doorway without confusing abundance with exposure; Awtsmoos.com should show Google only canonical public vessels, while hidden chambers remain outside the map and the Torah road stays in repose. Evidence Geelooy has no r",
+		"searchText": "b\"h robots and sitemap architecture boruch hashem. blessed is he. the awtsmoos gathers every public doorway without confusing abundance with exposure; awtsmoos.com should show google only canonical public vessels, while hidden chambers remain outside the map and the torah road stays in repose. evidence geelooy has no root awtsmoos.derech.js; root files are naturally static. there is currently no real robots.txt or sitemap implementation. /api/social/heichelos/discover already enforces persisted public visibility, discoverable !== false, and excludes debug, fixture, internal, staging, and test environments by default. heichel discovery pagination uses limit plus an opaque cursor; meta.pageinfo.nextcursor and hasmore prove continuation. series details includes both child subseries ids and posts. numeric road urls canonicalize to named series post urls and therefore must not appear in sitemaps. google supports multiple sitemap: lines in robots.txt and recommends canonical absolute urls in sitemaps. chosen architecture static root robots /robots.txt is a static root file. it allows ordinary crawling and advertises: https://awtsmoos.com/sitemap.xml https://awtsmoos.com/heichelos/sitemap.xml this avoids inventing a root dynamic router. static root core sitemap /sitemap.xml is a small root url set for canonical public entry points only, initially / and /heichelos. dynamic heichel sitemap index /heichelos/sitemap.xml is a sitemap index. it follows every page of the privacy filtered public discovery api and emits one sitemap url per discoverable heichel: https://awtsmoos.com/heichelos/ /sitemap.xml dynamic per heichel sitemap /heichelos/:heichel/sitemap.xml first proves the requested heichel is present in public discovery, then traverses only that heichel from series root through public series details. it emits canonical urls for: the heichel root; every discovered named series; every stable named post under its containing series. it never emits numeric road positions, api routes, submit/edit/delete pages, or private heichel identities.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-08-ro-6b28f0b03f.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-09-ro-523d07b557",
+		"title": "Robots and Sitemap Implementation Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-2342-geelooy-seo-current-head-merge/09-robots-sitemap-implementation-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Robots and Sitemap Implementation Plan",
+				"anchor": "robots-and-sitemap-implementation-plan"
+			},
+			{
+				"level": 2,
+				"text": "New modules",
+				"anchor": "new-modules"
+			},
+			{
+				"level": 2,
+				"text": "Existing file rewrite",
+				"anchor": "existing-file-rewrite"
+			},
+			{
+				"level": 2,
+				"text": "Static root files",
+				"anchor": "static-root-files"
+			},
+			{
+				"level": 2,
+				"text": "Safety ceilings",
+				"anchor": "safety-ceilings"
+			},
+			{
+				"level": 2,
+				"text": "Verification order",
+				"anchor": "verification-order"
+			}
+		],
+		"excerpt": "B\"H Robots and Sitemap Implementation Plan Boruch Hashem. Blessed is He. The Awtsmoos divides one immense map into measured vessels of Oros and Keilim; Awtsmoos.com gains discoverability without making every crawler request rebuild every palace and every trail. New modules Create heichelos/routes/heichel/sitemap/ with ",
+		"searchText": "b\"h robots and sitemap implementation plan boruch hashem. blessed is he. the awtsmoos divides one immense map into measured vessels of oros and keilim; awtsmoos.com gains discoverability without making every crawler request rebuild every palace and every trail. new modules create heichelos/routes/heichel/sitemap/ with small files: 1. xml.js xml escaping. absolute canonical url construction. urlset and sitemapindex builders. dynamic server xml response wrapper. 2. publicheichels.js normalizes discovery response shapes. follows meta.pageinfo.nextcursor while hasmore. deduplicates valid public heichel ids. provides exact public heichel membership proof. 3. heichelgraph.js starts at series root. fetches /api/social/heichelos/:heichel/series/:series/details. normalizes child series ids and post ids from arrays or objects. uses a visited set and hard safety ceilings. returns canonical heichel/series/post paths. 4. routes.js composes the sitemap index and per heichel sitemap renderers. keeps route wiring separate from xml/data traversal. existing file rewrite rewrite heichelos/routes/heichel/createroutes.js completely after a clean file concurrency guard. add /sitemap.xml and /:heichel/sitemap.xml before the generic /:heichel route while preserving all current editor, reader, series, and shell routes. static root files create: robots.txt sitemap.xml both remain intentionally tiny and stable. safety ceilings public heichel discovery pagination: bounded loop with repeated cursor detection and maximum page count. per heichel traversal: visited series set plus maximum series count. url output: stop below sitemap protocol 50,000 url ceiling. missing/non public heichel sitemap returns an empty url set or non success response only after public membership proof; never traverse private topology first. verification order 1. re read every new/rewritten file. 2. js syntax/import checks and line ceilings. 3. confirm root static files contain only absolute canonical urls. 4. start one new isolated verifier on a newly proven free port. 5. verify /robots.txt content type/body. 6. verify /sitemap.xml xml structure/core urls. 7. verify /heichelos/sitemap.xml xml sitemap index and ikar entry. 8. verify /heichelos/ikar/sitemap.xml contains ikar root, known likkutei torah series, and stable target named post, while excluding numeric /4 and private/editor/api routes. 9. compare sitemap index heichel ids against the public discovery api result for the same pagination traversal. 10. re run road ssr and heichel hierarchy smoke tests on the new verifier. 11. stop only that isolated verifier after proof.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-09-ro-523d07b557.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-10-si-b2e1522615",
+		"title": "Sitemap Discovery Scaling Delta",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-2342-geelooy-seo-current-head-merge/10-sitemap-discovery-scaling-delta.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Sitemap Discovery Scaling Delta",
+				"anchor": "sitemap-discovery-scaling-delta"
+			},
+			{
+				"level": 2,
+				"text": "Plan delta",
+				"anchor": "plan-delta"
+			},
+			{
+				"level": 2,
+				"text": "Improved implementation",
+				"anchor": "improved-implementation"
+			}
+		],
+		"excerpt": "B\"H Sitemap Discovery Scaling Delta Boruch Hashem. Blessed is He. The Awtsmoos revealed one hidden ceiling beneath the public discovery doorway; Awtsmoos.com must not mistake a UI sized window for the whole public city when a complete map is the mission of the day. Plan delta The earlier sitemap plan proposed paging /a",
+		"searchText": "b\"h sitemap discovery scaling delta boruch hashem. blessed is he. the awtsmoos revealed one hidden ceiling beneath the public discovery doorway; awtsmoos.com must not mistake a ui sized window for the whole public city when a complete map is the mission of the day. plan delta the earlier sitemap plan proposed paging /api/social/heichelos/discover. archaeology showed that heicheldiscover() truncates its no query candidate scan to the first 500 heichel ids before api pagination. paging that response therefore cannot reveal public heichelos beyond candidate 500. the canonical internals already expose a better complete path: allheicheldiscoveryids($i) gathers indexed and physical heichel ids without the ui scan cap. discoveryitem($i, heichelid, environment) applies the same publication and discoverability policy used by the public discovery endpoint. improved implementation the dynamic heichel sitemap index will use allheicheldiscoveryids() and filter each candidate through discoveryitem() with the default public environment policy. this does not duplicate privacy rules. it reuses the same canonical policy while removing only the presentation layer 500 item ceiling. a bounded batch size will prevent unbounded simultaneous database reads. ids will be deduplicated and sorted before xml rendering so the sitemap remains deterministic.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-10-si-b2e1522615.json"
+	}
+]

@@ -1,0 +1,191 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-remai-ab880a9bd8",
+		"title": "REMAININGWORK",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-2342-geelooy-seo-current-head-merge/REMAINING_WORK.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "REMAININGWORK",
+				"anchor": "remainingwork"
+			}
+		],
+		"excerpt": "B\"H REMAINING WORK Boruch Hashem. Blessed is He. [x] Reconnect healthy native tunnel. [x] Reconcile port 8898 and current HEAD. [x] Detect concurrent repository history change. [x] Read current post renderer, shell, placeholder, and data resolver. [x] Compare mobile/calm consolidation against earlier SEO implementation",
+		"searchText": "b\"h remaining work boruch hashem. blessed is he. [x] reconnect healthy native tunnel. [x] reconcile port 8898 and current head. [x] detect concurrent repository history change. [x] read current post renderer, shell, placeholder, and data resolver. [x] compare mobile/calm consolidation against earlier seo implementation. [x] choose current head merge architecture. [ ] re read current semantic head/model before write. [ ] rewrite the five file core merge boundary completely. [ ] re read all five written files. [ ] run syntax/import/style invariants. [ ] verify 8898 remains unused. [ ] start one isolated 8898 verifier. [ ] verify numeric road raw html has real torah content and metadata. [ ] verify named post raw html has the same identity. [ ] verify missing post is non indexable. [ ] verify browser hydration preserves the new calm/mobile reader. [ ] audit heichel/series crawlable discovery links. [ ] add/repair robots discovery. [ ] add/repair public sitemap discovery. [ ] verify robots/sitemap headers and public only urls. [ ] re read every touched file and inspect final diff. [ ] record planned versus actual delta. [ ] close all safe remaining work.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-remai-ab880a9bd8.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-02-0240-real-public-sitemap-release-00-missi-c14835877e",
+		"title": "Mission — Make Search Discovery a Real Public Door",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-02-0240-real-public-sitemap-release/00-mission-and-broad-brainstorm.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Mission — Make Search Discovery a Real Public Door",
+				"anchor": "mission-make-search-discovery-a-real-public-door"
+			},
+			{
+				"level": 2,
+				"text": "User-visible mission",
+				"anchor": "user-visible-mission"
+			},
+			{
+				"level": 2,
+				"text": "Broad possibilities considered",
+				"anchor": "broad-possibilities-considered"
+			},
+			{
+				"level": 2,
+				"text": "Release reality",
+				"anchor": "release-reality"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Mission — Make Search Discovery a Real Public Door The Awtsmoos reveals no doorway through an imagined URL; Awtsmoos.com must answer in public truth, with crawlable Torah flowing from root to route. User visible mission Turn the current local SEO work into a real production capability on",
+		"searchText": "b\"h boruch hashem blessed is he mission — make search discovery a real public door the awtsmoos reveals no doorway through an imagined url; awtsmoos.com must answer in public truth, with crawlable torah flowing from root to route. user visible mission turn the current local seo work into a real production capability on canonical main: https://awtsmoos.com/sitemap.xml must return real xml, not 404. https://awtsmoos.com/robots.txt must return real crawler guidance. /heichelos/sitemap.xml must be a fast useful seed map, not an expensive recursive computation. heichel and series html must expose ordinary crawlable links. numeric road routes must server render the real torah teaching before javascript. canonical named post urls must remain stable and indexable. nonexistent posts must remain non indexable. broad possibilities considered 1. static root sitemap plus dynamic heichel sitemap. 2. one giant recursive dynamic sitemap. 3. per heichel recursive sitemaps. 4. generated sitemap artifacts during deploy. 5. search index driven sitemap generation. 6. fast seed sitemap plus semantic html graph traversal. 7. root dynamic routing for robots/sitemap. the rejected deep recursion designs already proved capable of 30–120 second timeouts and server monopolization. the strongest practical architecture is a real static root sitemap plus a fast privacy filtered heichel seed sitemap, while server rendered html links reveal deeper series and named posts. release reality the local branch is main. local committed head is ahead of freshly fetched origin/main. seo changes remain modified/untracked in the shared working tree. production currently returns 404 for /sitemap.xml, proving the local work was never activated publicly.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-02-0240-real-public-sitemap-release-00-missi-c14835877e.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-02-0240-real-public-sitemap-release-01-first-ec681d8e3c",
+		"title": "First Critique — What Can Still Go Wrong",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-02-0240-real-public-sitemap-release/01-first-critique-and-risk-map.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "First Critique — What Can Still Go Wrong",
+				"anchor": "first-critique-what-can-still-go-wrong"
+			},
+			{
+				"level": 2,
+				"text": "Risks",
+				"anchor": "risks"
+			},
+			{
+				"level": 2,
+				"text": "Verification obligations",
+				"anchor": "verification-obligations"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He First Critique — What Can Still Go Wrong The Awtsmoos demands evidence before confidence may rise; Awtsmoos.com must not trade one missing door for a fragile surprise. Risks Shared working tree contains unrelated changes from other agents. origin/main is behind local committed main; a re",
+		"searchText": "b\"h boruch hashem blessed is he first critique — what can still go wrong the awtsmoos demands evidence before confidence may rise; awtsmoos.com must not trade one missing door for a fragile surprise. risks shared working tree contains unrelated changes from other agents. origin/main is behind local committed main; a release must preserve the canonical local main lineage without staging unrelated dirty files. root static .txt and .xml mime support must be committed with the feature or production may serve weak content types. sitemap routes must be ordered before generic /:heichel routes. sitemap generation must reuse canonical public/discoverability policy and avoid private/test heichelos. deep synchronous sitemap recursion must remain deleted. numeric road aliases must not appear as sitemap canonical urls. post and heichel templates must consume pre rendered semantic fragments rather than fragile nested template includes. production deployment must activate an exact pushed sha and then be verified from the public origin. verification obligations source readback; isolated clean worktree diff review; js syntax/import checks; xml parse tests; relevant route tests; isolated server raw http acceptance; public production http acceptance; final branch/origin/production sha reconciliation.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-02-0240-real-public-sitemap-release-01-first-ec681d8e3c.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-02-0240-real-public-sitemap-release-02-secon-21b8cc0bcb",
+		"title": "Second Critique — Real Door, Not Decorative XML",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-02-0240-real-public-sitemap-release/02-second-architecture-critique.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Second Critique — Real Door, Not Decorative XML",
+				"anchor": "second-critique-real-door-not-decorative-xml"
+			},
+			{
+				"level": 2,
+				"text": "Improvement over the earlier sitemap idea",
+				"anchor": "improvement-over-the-earlier-sitemap-idea"
+			},
+			{
+				"level": 2,
+				"text": "Release architecture",
+				"anchor": "release-architecture"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Second Critique — Real Door, Not Decorative XML The Awtsmoos opens a door only when a crawler can walk through what it names; Awtsmoos.com therefore needs discovery links, canonical documents, and production truth in the same frame. Improvement over the earlier sitemap idea The sitemap i",
+		"searchText": "b\"h boruch hashem blessed is he second critique — real door, not decorative xml the awtsmoos opens a door only when a crawler can walk through what it names; awtsmoos.com therefore needs discovery links, canonical documents, and production truth in the same frame. improvement over the earlier sitemap idea the sitemap is not the entire crawl graph. it is the seed. the real crawl architecture is: robots.txt → root sitemap + heichel seed sitemap → public heichel roots → server rendered child series links → server rendered child series / stable named post links → server rendered torah article with canonical metadata this avoids giant recursive sitemap latency while still making the torah graph discoverable through standard links. release architecture because the shared main worktree is dirty, create an isolated worktree from the current local main commit—not from stale origin/main. copy only the reviewed seo files into that release worktree. test there. commit there on a temporary release branch. then fast forward local main to that exact commit only if its original head has not diverged unexpectedly. push main after a fresh fetch/fast forward ancestry check. this preserves every existing committed local main change while excluding unrelated uncommitted work.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-02-0240-real-public-sitemap-release-02-secon-21b8cc0bcb.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-02-0240-real-public-sitemap-release-03-final-0ac6aeadb2",
+		"title": "Final Execution Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-02-0240-real-public-sitemap-release/03-final-execution-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Final Execution Plan",
+				"anchor": "final-execution-plan"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Final Execution Plan The Awtsmoos moves from hidden source to tested vessel to public light; Awtsmoos.com shall not call the work complete until the canonical domain answers right. 1. Inventory exact SEO delta against current local main and origin/main. 2. Re read every SEO source file a",
+		"searchText": "b\"h boruch hashem blessed is he final execution plan the awtsmoos moves from hidden source to tested vessel to public light; awtsmoos.com shall not call the work complete until the canonical domain answers right. 1. inventory exact seo delta against current local main and origin/main. 2. re read every seo source file and the canonical release scripts. 3. determine exact ship set and dependencies; reject planning artifacts from release. 4. create isolated release worktree from current local main head. 5. copy whole seo files into isolated worktree only. 6. verify isolated status lists only approved paths. 7. run syntax, import, xml, targeted tests, and diff checks. 8. run isolated server acceptance covering robots, root sitemap, heichel sitemap, heichel hierarchy, series named post links, road ssr/canonical/noindex behavior. 9. fresh fetch origin/main; prove origin remains an ancestor of release lineage. 10. commit exact release files. 11. fast forward local main to release commit without touching unrelated dirty files. 12. push main to origin. 13. deploy exact pushed sha through the repository's canonical production release path. 14. verify public awtsmoos.com crawler endpoints and target road with direct http and independent web fetch. 15. update remaining work, planned vs actual delta, and final release evidence.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-02-0240-real-public-sitemap-release-03-final-0ac6aeadb2.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-02-0240-real-public-sitemap-release-04-git-r-01b4d49ee2",
+		"title": "Git Reality Delta",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-02-0240-real-public-sitemap-release/04-git-reality-delta.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Git Reality Delta",
+				"anchor": "git-reality-delta"
+			},
+			{
+				"level": 2,
+				"text": "Correction",
+				"anchor": "correction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Git Reality Delta The Awtsmoos lets the fetched horizon correct the map before release may rise; Awtsmoos.com follows the remote main that actually exists, not an earlier snapshot wearing yesterday's guise. Correction The first scan briefly showed local main and origin/main at different ",
+		"searchText": "b\"h boruch hashem blessed is he git reality delta the awtsmoos lets the fetched horizon correct the map before release may rise; awtsmoos.com follows the remote main that actually exists, not an earlier snapshot wearing yesterday's guise. correction the first scan briefly showed local main and origin/main at different shas. a subsequent ancestry read proved the local branch had no unique commits and the remote had the newer lineage. during source review, other release activity continued and the origin only log became empty, proving the shared main horizon was moving in real time. therefore the release does not trust the earlier sha. it performs a new git fetch origin main immediately before constructing its isolated worktree, uses that exact origin/main sha as the base, and copies only the audited seo working tree files into the isolated vessel.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-02-0240-real-public-sitemap-release-04-git-r-01b4d49ee2.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-02-0240-real-public-sitemap-release-05-produ-1d2c22a5ce",
+		"title": "Production Live Evidence",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-02-0240-real-public-sitemap-release/05-production-live-evidence.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Production Live Evidence",
+				"anchor": "production-live-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Public crawler doors",
+				"anchor": "public-crawler-doors"
+			},
+			{
+				"level": 2,
+				"text": "Public crawl graph",
+				"anchor": "public-crawl-graph"
+			},
+			{
+				"level": 2,
+				"text": "Public Road SSR",
+				"anchor": "public-road-ssr"
+			},
+			{
+				"level": 2,
+				"text": "Release infrastructure",
+				"anchor": "release-infrastructure"
+			},
+			{
+				"level": 2,
+				"text": "Main branch reconciliation",
+				"anchor": "main-branch-reconciliation"
+			},
+			{
+				"level": 2,
+				"text": "External cache note",
+				"anchor": "external-cache-note"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Production Live Evidence The Awtsmoos opens not an imagined map but a public road of light; Awtsmoos.com now answers crawler, reader, and Torah path in the same visible sight. Public crawler doors Fresh direct HTTPS requests to the canonical origin proved: https://awtsmoos.com/robots.txt",
+		"searchText": "b\"h boruch hashem blessed is he production live evidence the awtsmoos opens not an imagined map but a public road of light; awtsmoos.com now answers crawler, reader, and torah path in the same visible sight. public crawler doors fresh direct https requests to the canonical origin proved: https://awtsmoos.com/robots.txt — http 200, text/plain; charset=utf 8, advertising both sitemap urls. https://awtsmoos.com/sitemap.xml — http 200, application/xml; charset=utf 8, valid xml containing / and /heichelos. https://awtsmoos.com/heichelos/sitemap.xml — http 200, application/xml; charset=utf 8, valid url set xml containing the public ikar heichel. the root sitemap is intentionally a seed map. deep discovery proceeds through ordinary server rendered html links rather than an expensive recursive sitemap request. public crawl graph fresh raw html proved: /heichelos/ikar has h1 ikar, the semantic fallback marker, and two ordinary series links. the likkutei torah שלח series has h1 שלח, eighteen ordinary named post links, and the target post link. no javascript execution is required for those discovery links to exist in source html. public road ssr fresh public raw html for numeric road position 4 proved: http 200; title בפ& 39; נסכים ikar awtsmoos; h1 בפ& 39; נסכים; canonical named post url ending in bh post 1749784377821 thealterrebbe 94; robots index,follow,max image preview:large,max snippet: 1,max video preview: 1; 16,527 characters of server rendered torah article text; normalized article sha 256 1f08e9709245f17eacb30baeb8732b7dde1505d8d7c4765e9825232bd0211f10; no template, referenceerror, or syntaxerror marker. the stable named post url produced the same 16,527 character body and the exact same normalized sha 256 hash. a nonexistent named post produced noindex,follow, h1 torah teaching unavailable, the missing article marker, and no template error. the final public assertion emitted public real door acceptance pass; both sitemap documents also parsed successfully as xml. release infrastructure production activation initially exposed a stale tunnel agent release manifest. the authoritative runtime collector expected 2,442 files while the checked in witness omitted twenty one runtime files. the repository native manifest builder regenerated version 1.0.575 from the authoritative catalog. evidence before publication: 2,442 runtime files covered; zip/runtime probe passed; dedicated test:tunnel release suite passed 23/23; the byte identical regenerated manifest reached main and removed the production verifier blockage. main branch reconciliation at the final bounded synchronization check: local /users/awtsmoos/work/awtsmoos.com main sha: 8c9dfc9ba4a4942c3042c6141fba20fa7d833b8e; origin/main sha: 8c9dfc9ba4a4942c3042c6141fba20fa7d833b8e; targeted seo/release paths were clean. earlier divergent local history was proven patch equivalent upstream with git cherry; every unrelated dirty file was fingerprinted before reconciliation, and all 180 fingerprints remained unchanged after the safe reset keep reconciliation. external cache note an independent web/search fetch briefly continued showing the pre deployment snapshot immediately after production flipped. fresh direct https requests to the canonical origin already returned the new documents. search engine recrawl and cache refresh are external asynchronous processes and are not evidence that the origin remains stale.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-02-0240-real-public-sitemap-release-05-produ-1d2c22a5ce.json"
+	}
+]

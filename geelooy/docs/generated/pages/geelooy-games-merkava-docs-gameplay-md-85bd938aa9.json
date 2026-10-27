@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-merkava-docs-gameplay-md-85bd938aa9",
+	"title": "Merkava Gameplay Contract",
+	"sourcePath": "geelooy/games/Merkava/docs/gameplay.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Merkava Gameplay Contract",
+			"anchor": "merkava-gameplay-contract"
+		},
+		{
+			"level": 2,
+			"text": "Core loop",
+			"anchor": "core-loop"
+		},
+		{
+			"level": 2,
+			"text": "Controls",
+			"anchor": "controls"
+		},
+		{
+			"level": 2,
+			"text": "Campaign",
+			"anchor": "campaign"
+		},
+		{
+			"level": 2,
+			"text": "Endless",
+			"anchor": "endless"
+		},
+		{
+			"level": 2,
+			"text": "Seeded roads",
+			"anchor": "seeded-roads"
+		},
+		{
+			"level": 2,
+			"text": "Worlds",
+			"anchor": "worlds"
+		},
+		{
+			"level": 2,
+			"text": "Strategic systems",
+			"anchor": "strategic-systems"
+		},
+		{
+			"level": 2,
+			"text": "Enemies and bosses",
+			"anchor": "enemies-and-bosses"
+		},
+		{
+			"level": 2,
+			"text": "Persistence",
+			"anchor": "persistence"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-merkava-docs-gameplay-md-85bd938aa9-001.json"
+	]
+}

@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-generated-project-tutorials-projects-geelooy-encyclopedia-ad5e61bc--b22ff238e7",
+	"title": "Project Tutorial: Awtsmoos Encyclopedia — Torah Knowledge — Awtsmoos Encyclopedia",
+	"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-encyclopedia-ad5e61bc.md",
+	"category": "Projects",
+	"provenance": "generated",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Project Tutorial: Awtsmoos Encyclopedia — Torah Knowledge — Awtsmoos Encyclopedia",
+			"anchor": "project-tutorial-awtsmoos-encyclopedia-torah-knowledge-awtsmoos-encyclopedia"
+		},
+		{
+			"level": 2,
+			"text": "Entry and documentation evidence",
+			"anchor": "entry-and-documentation-evidence"
+		},
+		{
+			"level": 2,
+			"text": "File shape",
+			"anchor": "file-shape"
+		},
+		{
+			"level": 2,
+			"text": "Public entry points",
+			"anchor": "public-entry-points"
+		},
+		{
+			"level": 2,
+			"text": "Symbol evidence",
+			"anchor": "symbol-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Depends on",
+			"anchor": "depends-on"
+		},
+		{
+			"level": 2,
+			"text": "Used by",
+			"anchor": "used-by"
+		},
+		{
+			"level": 2,
+			"text": "External packages",
+			"anchor": "external-packages"
+		},
+		{
+			"level": 2,
+			"text": "Verification clue",
+			"anchor": "verification-clue"
+		}
+	],
+	"markdownParts": [
+		"content/docs-generated-project-tutorials-projects-geelooy-encyclopedia-ad5e61bc--b22ff238e7-001.json"
+	]
+}

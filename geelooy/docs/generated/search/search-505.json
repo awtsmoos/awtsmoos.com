@@ -1,0 +1,76 @@
+[
+	{
+		"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-52cbef7844",
+		"title": "OAuth safety, routing, and recovery",
+		"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/OAUTH_SECURITY_AND_RECOVERY.md",
+		"category": "Security",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 2,
+				"text": "Current tunnel integration takes precedence",
+				"anchor": "current-tunnel-integration-takes-precedence"
+			},
+			{
+				"level": 1,
+				"text": "OAuth safety, routing, and recovery",
+				"anchor": "oauth-safety-routing-and-recovery"
+			},
+			{
+				"level": 2,
+				"text": "Credential lifecycle",
+				"anchor": "credential-lifecycle"
+			},
+			{
+				"level": 2,
+				"text": "Route selection and proof",
+				"anchor": "route-selection-and-proof"
+			},
+			{
+				"level": 2,
+				"text": "Failure map",
+				"anchor": "failure-map"
+			}
+		],
+		"excerpt": "Current tunnel integration takes precedence This reference retains the user's original ideas. Its historical transport names, fixed action lists, local thought folder defaults, retry assumptions and installation advice are superseded by MODERN TUNNEL CONTRACT.md and the current authenticated instructionResolve/instruct",
+		"searchText": "current tunnel integration takes precedence this reference retains the user's original ideas. its historical transport names, fixed action lists, local thought folder defaults, retry assumptions and installation advice are superseded by modern tunnel contract.md and the current authenticated instructionresolve/instructionget results. use tunnel native plans and bounded operational summaries; do not publish hidden chain of thought. treat brainstorming as proposals, not authorization to implement unrelated work. preserve user scope. use mcp's required post transport; get is an http fallback only. never infer tool access from prose. no arbitrary number of tests, critiques or improvements substitutes for real relevant verification. oauth safety, routing, and recovery use this guide for awtsmoos login across plugins, especially when diagnosing failed authorization or a mac that appears connected but rejects actions. keep the user in control of scopes and preserve a clear distinction between authentication, route discovery, and action acceptance. credential lifecycle device authorization returns a user code for the human and a distinct device code for the client. show only the short user code and verification url. the user approves on the awtsmoos origin; the client exchanges the device code for tokens. respect the server's poll interval and terminal errors. pkce s256 uses a high entropy verifier, its challenge, and a separate state value. verify the returned state exactly before token exchange. a callback code is short lived and is not a bearer token. never publish the verifier, state, code, access token, or refresh token. use https and validate the exact awtsmoos origin. do not send credentials to a lookalike domain, unrelated plugin, third party proxy, browser page, or log collector. follow the target product's secure authentication method when it provides one. keep tokens in an approved secret store or an owner readable temporary file protected from other users. do not print complete api responses if they might contain tokens, cookies, private paths, or private file contents. remove temporary credentials when the task is finished or the environment is no longer trusted. if an access token expires and a refresh token was issued, refresh through the documented token endpoint with the proper client id. treat refresh failure as requiring a new authorization; never ask the user to paste the refresh token into chat. if a user denies or cancels, stop polling and do not start another authorization attempt until requested. if the oauth server reports slow down, wait longer. if it expires, explain that a fresh short code is required. route selection and proof my device may return both awt awtsmoos 2184 and a rescue route, plus stale routes. these were examples observed on september 24, 2026; rediscover current ids each session. multiple authorized tunnels can accompany a usable device list. select only a device that matches the user's requested machine and has fresh liveness evidence; ask if multiple plausible live choices remain. read connected, isalive, executionhealthy, ready, readinessstate, and action receipts separately. a heartbeat means a transport exists. acceptance unproven means no fresh individual action has established successful acceptance. a scoped, targeted read can prove that specific action works. use the immutable route id in the field named tunnelname or the url segment specified by live docs. do not replace it with a friendly label or a stale tunnel id. confirm the response's actual route, action, and path before reporting success. for a native mac rooted at /users/awtsmoos/work, an api path may be relative to that workspace, such as awtsmoos.com/geelooy/apps/tunnel/readme.md. rediscover the current root and validate the requested path. do not assume a github path, virtual os path, and native filesystem path refer to the same bytes. start with the narrowest user authorized read. set bounded sizes and pagination limits. avoid broad p=. listings of a private workspace. if automatic review rejects a broad request, obey it and use a genuinely narrower authorized path only when supported by the user's request; do not recreate the same disclosure through another operation. a tunnel.read token cannot write, run commands, control a browser, or publish. to perform such a user requested task, start a new authorization with the required scope; then confirm the target action is supported and independently verify its receipt. failure map network failure: test the public manifest or docs without credentials; report the unreachable endpoint, not a failed mac tunnel. authorization pending: show the verification url and code, then wait within the allowed interval. do not claim approval from the browser redirect alone. unauthorized or insufficient scope: check token status and documented scope requirements; reauthorize only for the capability the user requested. no live route: distinguish stale tunnels from connected native or virtual os routes; use the repository's recovery guidance rather than installing repeatedly. action timeout or acceptance failure: check the returned request id and status in the documented api; do not infer a write failed or succeeded solely from a timeout. avoid replaying non idempotent actions without reconciliation. path error: verify root, route, case, and relative path before concluding that a file does not exist. product limitation: a plugin that only ships skills cannot invoke an absent action. describe the required https client, app, or mcp connection plainly; do not imply that editing prose changes account permissions.",
+		"page": "pages/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-52cbef7844.json"
+	},
+	{
+		"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-5333047f45",
+		"title": "Plugin integration and connection doctor",
+		"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/PLUGIN_INTEGRATION_AND_DOCTOR.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 2,
+				"text": "Current tunnel integration takes precedence",
+				"anchor": "current-tunnel-integration-takes-precedence"
+			},
+			{
+				"level": 1,
+				"text": "Plugin integration and connection doctor",
+				"anchor": "plugin-integration-and-connection-doctor"
+			},
+			{
+				"level": 2,
+				"text": "A focused integration",
+				"anchor": "a-focused-integration"
+			},
+			{
+				"level": 2,
+				"text": "Connection doctor sequence",
+				"anchor": "connection-doctor-sequence"
+			},
+			{
+				"level": 2,
+				"text": "Publication boundary",
+				"anchor": "publication-boundary"
+			}
+		],
+		"excerpt": "Current tunnel integration takes precedence This reference retains the user's original ideas. Its historical transport names, fixed action lists, local thought folder defaults, retry assumptions and installation advice are superseded by MODERN TUNNEL CONTRACT.md and the current authenticated instructionResolve/instruct",
+		"searchText": "current tunnel integration takes precedence this reference retains the user's original ideas. its historical transport names, fixed action lists, local thought folder defaults, retry assumptions and installation advice are superseded by modern tunnel contract.md and the current authenticated instructionresolve/instructionget results. use tunnel native plans and bounded operational summaries; do not publish hidden chain of thought. treat brainstorming as proposals, not authorization to implement unrelated work. preserve user scope. use mcp's required post transport; get is an http fallback only. never infer tool access from prose. no arbitrary number of tests, critiques or improvements substitutes for real relevant verification. plugin integration and connection doctor use this when another plugin needs awtsmoos login or the user asks for a concise connection diagnosis. this is a procedure over existing supported https or app tools. it is not an mcp server or a new callable tool by itself. a focused integration expose a small tool catalog first: authenticated profile, my device, one scoped file read/list operation, and only the write or command actions the workflow needs. do not expose the entire awtsmoos action inventory by default. give each tool a precise schema, path bounds, required oauth scope, and truthful read/write/destructive annotation. the server, not the model, must enforce account ownership and access. a profile tool should identify the connected awtsmoos account without returning tokens. test that account and route identity are correct before accessing files. build test connection as a status check plus an optional narrow read of a user named file. do not list p=. or browse a private workspace to make a green indicator. return distinct, concise errors for missing scope, stale route, offline agent, invalid path, expired token, and action rejection. include a safe next step, not a raw credential or private log. test successful login, refresh, consent denial, account mismatch, two live routes, stale primary with live rescue, offline mac, and a successful bounded read. keep each plugin's tokens in that plugin's approved credential store; no cross plugin copying. verify current product support before giving ui instructions. a legacy gpt action, a chatgpt plugin skill, a custom mcp app, and a direct https client have different connection surfaces and may differ by account plan. connection doctor sequence 1. check whether the current session has a callable awtsmoos tool or an https client. test the public manifest and docs for reachability without exposing private state. 2. check whether this exact client has a valid securely stored oauth connection. if not, report auth required and start the shortest supported authorization only when the user asks for access. 3. with a valid token, call my device. report no live device, multiple live devices, or the chosen live route. distinguish primary, rescue, and virtual os. do not display unnecessary private device metadata. 4. report scope separately: read granted, write granted, command granted, or scope missing according to the token. device capabilities alone do not prove permission. 5. if the user provided a file, perform one bounded read of that exact authorized path and report read verified or the precise failure. otherwise report action untested rather than reading an arbitrary private file. 6. compose one compact answer: oauth state; selected route and health; granted scope; action verification; one next step. example: “oauth valid; primary mac alive; read verified for the named file; write scope absent.” use only observed facts. 7. preserve the original user task and resume it after the doctor check. do not make the user repeat the request or approve the same valid scope again. publication boundary instructions can teach this procedure but cannot install tools, register oauth clients, or bypass a product's permissions. a genuine one click doctor requires an implemented authenticated endpoint or callable action. describe that missing implementation if the target plugin lacks it.",
+		"page": "pages/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-5333047f45.json"
+	}
+]

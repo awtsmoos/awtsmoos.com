@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Radiance (geelooy/api/social/helper/radiance/)\n\n\"Radiance\" quality/ranking signal for social discovery: scores and ranks content so the best rises.\n\n## Files\n- `index.js` — module entry.\n- `RadianceScorer.js` — computes radiance scores.\n- `RadianceSignal.js` — signal inputs to scoring.\n- `RadianceWeights.js` — scoring weights.\n- `RadianceRanker.js` — ranks content by radiance.\n- `test/` — `radianceDiscovery.test.js`.\n\nMounted via `_awtsmoos.radiance.js`.\n"
+}

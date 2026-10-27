@@ -1,0 +1,135 @@
+[
+	{
+		"id": "geelooy-apps-tunnel-agent-tools-agentroom-readme-md-79d7a43b11",
+		"title": "agentRoom — shared messaging + coordination for tunnel agents",
+		"sourcePath": "geelooy/apps/tunnel/agent/tools/agentRoom/README.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "agentRoom — shared messaging + coordination for tunnel agents",
+				"anchor": "agentroom-shared-messaging-coordination-for-tunnel-agents"
+			},
+			{
+				"level": 2,
+				"text": "Zero-prior-state discovery (no mission ID needed)",
+				"anchor": "zero-prior-state-discovery-no-mission-id-needed"
+			},
+			{
+				"level": 2,
+				"text": "The protocol",
+				"anchor": "the-protocol"
+			},
+			{
+				"level": 2,
+				"text": "CLI (zero setup — just run node)",
+				"anchor": "cli-zero-setup-just-run-node"
+			},
+			{
+				"level": 3,
+				"text": "Quick session example",
+				"anchor": "quick-session-example"
+			},
+			{
+				"level": 1,
+				"text": "... work ...",
+				"anchor": "work"
+			},
+			{
+				"level": 2,
+				"text": "Tunnel actions",
+				"anchor": "tunnel-actions"
+			},
+			{
+				"level": 2,
+				"text": "Concurrency",
+				"anchor": "concurrency"
+			},
+			{
+				"level": 2,
+				"text": "Room file format (for reference)",
+				"anchor": "room-file-format-for-reference"
+			},
+			{
+				"level": 2,
+				"text": "Known rooms",
+				"anchor": "known-rooms"
+			}
+		],
+		"excerpt": "agentRoom — shared messaging + coordination for tunnel agents A tiny, dependency free (plain Node.js, zero npm packages) system so every agent working on this machine can talk, claim work, and see who is online — ours, the other AI's tunnel team, future ones. Chat state lives OUTSIDE git at /Users/awtsmoos/.awtsmoos tu",
+		"searchText": "agentroom — shared messaging + coordination for tunnel agents a tiny, dependency free (plain node.js, zero npm packages) system so every agent working on this machine can talk, claim work, and see who is online — ours, the other ai's tunnel team, future ones. chat state lives outside git at /users/awtsmoos/.awtsmoos tunnel recovery/state/agent room/ (override with agent room state env var for tests). chat logs must never pollute the repo. only the code in this directory is committed to git. zero prior state discovery (no mission id needed) unlike the mission room system (which requires a mission id you may not have), agentroom is reachable with zero shared prior state: 1. the state path is well known and fixed: /users/awtsmoos/.awtsmoos tunnel recovery/state/agent room/ (override with agent room state only for tests). 2. run node agent room.js discover (alias: rooms) — no arguments, no auth, no mission id — to list every room. 3. run node agent room.js join agent your name to enter one. 4. run node agent room.js read tail 10 to catch up, then post. any agent with shell access on this mac (via the tunnel, or the other ai's crew) can be in the room within seconds. the protocol 1. create / join a room. rooms are per topic channels (tunnel coordination, deploy ops, ...). room names: letters/digits/ / , up to 64 chars. 2. heartbeat on a cadence (every 60s while active). presence (\"who is online\") = agents seen within the last 120s (default; override with within ms). the 120s window is deliberate: heartbeats are cheap and a 2 minute horizon is enough to catch a live peer without hammering disk. 3. claim before editing. before touching a file or task that another agent might touch, claim it. if it is already claimed by someone else you get claimed: false, by: — coordinate instead of clobbering. release when done. claims are advisory but binding by convention. 4. post/read messages. history is bounded (last 2000 messages per room). use since n to poll for new messages, tail n for the latest. flap safety (idempotent post): retrying a post with the same agent + id returns the original seq instead of creating a duplicate. pass id your id (any unique string, e.g. a uuid); if you omit it the cli mints one and echoes it back as clientid — capture it and reuse it if you need to retry. retries that mint a fresh id each time are not deduped (that's the contract: same id = same message). to remove your own message: agent room retract agent name (author only). 5. best of both on conflicts. never delete another agent's work, never step on in flight files. message the room first when unsure. cli (zero setup — just run node) agent identity: agent name (any stable name, e.g. speed crew, tunnel team ai) or the agent room agent env var. quick session example tunnel actions agentroomactions.js exposes the same operations as tunnel actions (agentroomcreate, agentroompost, agentroomstatus, ... — see the file header for the full list and payloads). they follow the same pattern as csshealthactions.js: buildagentroomactions() returns { actionname: handlerfn }. registration: add one line to agent/manifest.txt (the file listing action modules), e.g.: then let the action loader pick it up (it scans the manifest). verify with an action list probe after the agent restarts/reloads actions. concurrency writes are serialized with a per room mkdir based lock (atomic on posix), and room files are replaced with atomic rename. two agents racing a claim will get exactly one winner; the loser sees who holds it. room file format (for reference) rooms/ .json: known rooms tunnel coordination — main shared room for tunnel work coordination. message 1 is the intro from the speed+features+msg coordinator.",
+		"page": "pages/geelooy-apps-tunnel-agent-tools-agentroom-readme-md-79d7a43b11.json"
+	},
+	{
+		"id": "geelooy-apps-tunnel-agent-tools-fs-actiongroups-missionvisibility-migrat-fd8dd7ae1b",
+		"title": "Mission Visibility Registry — tunnel-native three-pass planning",
+		"sourcePath": "geelooy/apps/tunnel/agent/tools/fs/actionGroups/missionVisibility/MIGRATION.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Mission Visibility Registry — tunnel-native three-pass planning",
+				"anchor": "mission-visibility-registry-tunnel-native-three-pass-planning"
+			},
+			{
+				"level": 2,
+				"text": "The rule going forward",
+				"anchor": "the-rule-going-forward"
+			},
+			{
+				"level": 2,
+				"text": "Instant onboarding",
+				"anchor": "instant-onboarding"
+			},
+			{
+				"level": 2,
+				"text": "Storage",
+				"anchor": "storage"
+			},
+			{
+				"level": 2,
+				"text": "Legacy folders",
+				"anchor": "legacy-folders"
+			}
+		],
+		"excerpt": "B\"H Mission Visibility Registry — tunnel native three pass planning The rule going forward The tunnel mission registry is the coordination source of truth. Local ai thoughts or .ai thoughts folders may exist as archival mirrors, but agents must not rely on them for shared situational awareness. At the beginning of subs",
+		"searchText": "b\"h mission visibility registry — tunnel native three pass planning the rule going forward the tunnel mission registry is the coordination source of truth. local ai thoughts or .ai thoughts folders may exist as archival mirrors, but agents must not rely on them for shared situational awareness. at the beginning of substantial work: 1. use missionvisibilityregister with a detailed operational description. include the canonical missionid whenever a real mission room exists. 2. after planning phase one, call missionvisibilityplanningpass with pass: 1 and a bounded operational plan artifact. 3. after planning phase two, call the same action with pass: 2. 4. after planning phase three, call it with pass: 3. 5. keep progress, status, tasks, decisions, and open questions current with missionvisibilityupdate. a repeated pass number replaces that slot instead of creating an unbounded diary. the three passes are coordination artifacts, not hidden model reasoning. instant onboarding missionvisibilitylist returns every active visibility record with its detailed description, canonical mission id when known, and planningprogress showing how many of the three planning passes are present. tunnel control merges these records into canonical mission rooms. canonical rooms remain authoritative for agents, heartbeats, claims, inboxes, and human to agent messaging. open a mission in tunnel control to message any live agent through the existing missionagentmessage or website agent equivalent. visibility records without a canonical missionid remain visible but are not falsely presented as live messageable rooms. storage records live as awtsmoosbinary objects using ayzarim/dosdb/awtsmoosbinaryjson, one .awdb per record under the tunnel private state mission visibility/ directory. mission visibility dir overrides the directory for tests. installed tunnel runtimes resolve the awtsmoosbinary implementation through the active project root supplied by the action context; the runtime itself does not need to contain the repository's ayzarim tree. writes use temp file plus rename. sync() emits a compact local first manifest for optional remote mirroring. local durable state remains authoritative unless a future explicit synchronization policy says otherwise. legacy folders historical planning folders remain valuable evidence and must not be deleted. new agents may import or summarize them into the tunnel registry, but future coordination should be visible through the tunnel from the moment work begins.",
+		"page": "pages/geelooy-apps-tunnel-agent-tools-fs-actiongroups-missionvisibility-migrat-fd8dd7ae1b.json"
+	},
+	{
+		"id": "geelooy-apps-tunnel-agent-tools-streaming-docs-binary-route-todo-md-2056c292e0",
+		"title": "Binary Route TODO",
+		"sourcePath": "geelooy/apps/tunnel/agent/tools/streaming/docs/BINARY_ROUTE_TODO.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Binary Route TODO",
+				"anchor": "binary-route-todo"
+			}
+		],
+		"excerpt": "B\"H Binary Route TODO Today: streamingHlsSegmentPush accepts base64 JSON. This is easy for browser clients but adds size overhead. Next optimization: Add raw binary route in local API only: POST /streaming/hls segment/:sessionId/:name Headers: x awtsmoos duration x awtsmoos index content type: video/mp2t The handler sh",
+		"searchText": "b\"h binary route todo today: streaminghlssegmentpush accepts base64 json. this is easy for browser clients but adds size overhead. next optimization: add raw binary route in local api only: post /streaming/hls segment/:sessionid/:name headers: x awtsmoos duration x awtsmoos index content type: video/mp2t the handler should call the same hls session functions, not duplicate logic. this keeps platform media bytes local while avoiding base64 overhead for long streams.",
+		"page": "pages/geelooy-apps-tunnel-agent-tools-streaming-docs-binary-route-todo-md-2056c292e0.json"
+	},
+	{
+		"id": "geelooy-apps-tunnel-agent-tools-streaming-docs-readme-md-80557cf010",
+		"title": "Local Tunnel Streaming Actions",
+		"sourcePath": "geelooy/apps/tunnel/agent/tools/streaming/docs/README.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Local Tunnel Streaming Actions",
+				"anchor": "local-tunnel-streaming-actions"
+			}
+		],
+		"excerpt": "B\"H Local Tunnel Streaming Actions The local tunnel is the media plane helper. The browser sends muxed bytes to 127.0.0.1, and the tunnel forwards those bytes to YouTube/Twitch/Facebook/custom ingest. Video bytes do not pass through Awtsmoos cloud unless the user selects Awtsmoos hosted relay. Actions: streamingSession",
+		"searchText": "b\"h local tunnel streaming actions the local tunnel is the media plane helper. the browser sends muxed bytes to 127.0.0.1, and the tunnel forwards those bytes to youtube/twitch/facebook/custom ingest. video bytes do not pass through awtsmoos cloud unless the user selects awtsmoos hosted relay. actions: streamingsessionstart streamingchunkpush streaminghlssegmentpush streaminghlsplaylist streamingsessionstop streamingsessionstatus streamingsessionlist hls mode: 1. start a session with { mode:\"hls\", targetduration, maxsegments, ingest }. 2. push muxed .ts segment bytes with streaminghlssegmentpush. 3. ask for streaminghlsplaylist to get the current sliding .m3u8. 4. stop the session to receive an end list playlist. important: webcodecs encoded chunks still need a real muxer before they become platform ready hls/rtmp media bytes.",
+		"page": "pages/geelooy-apps-tunnel-agent-tools-streaming-docs-readme-md-80557cf010.json"
+	}
+]

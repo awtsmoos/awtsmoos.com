@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — GPT API (`/api/gpt/`)\n\nLanguage-model gateway: health, capability, chat, and reset gates.\nMaps to browser AI and developer clients without hiding model state.\n\n## Subdirectories\n\n- `core/` — Auth, request bodies, transports, relay client, method policy.\n- `test/` — Tests.\n\n## Files\n\n- `_awtsmoos.derech.js` — Route registration.\n- `DOCUMENTATION.md` — Full GPT API documentation.\n\n## Routes\n\n| Method | Path | Purpose |\n| --- | --- | --- |\n| `GET` | `/api/gpt/` | Legacy handler. |\n| `GET` | `/api/gpt/health` | Model/service health. |\n| `GET` | `/api/gpt/capability` | Declared capabilities. |\n| `POST` | `/api/gpt/chat` | Chat completion. |\n| `POST` | `/api/gpt/reset` | Reset conversation state. |\n\n## See also\n\n- `../../../docs/SYSTEMS/AI.md`\n- `../../../docs/API/OTHER_FAMILIES.md`\n- `../../../docs/CONFIGURATION.md`\n"
+}

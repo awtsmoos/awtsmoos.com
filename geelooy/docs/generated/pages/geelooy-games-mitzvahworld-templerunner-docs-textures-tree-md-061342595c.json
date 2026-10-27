@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-templerunner-docs-textures-tree-md-061342595c",
+	"title": "Tree Texture Catalog",
+	"sourcePath": "geelooy/games/mitzvahWorld/templeRunner/docs/textures/TREE.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Tree Texture Catalog",
+			"anchor": "tree-texture-catalog"
+		},
+		{
+			"level": 2,
+			"text": "Exact filenames",
+			"anchor": "exact-filenames"
+		},
+		{
+			"level": 2,
+			"text": "Usage",
+			"anchor": "usage"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-templerunner-docs-textures-tree-md-061342595c-001.json"
+	]
+}

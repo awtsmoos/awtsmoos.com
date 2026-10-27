@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-ohrfront-docs-performance-and-visibility-md-553bdbd981",
+	"title": "Performance and Visibility",
+	"sourcePath": "geelooy/games/ohrfront/docs/PERFORMANCE_AND_VISIBILITY.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Performance and Visibility",
+			"anchor": "performance-and-visibility"
+		},
+		{
+			"level": 2,
+			"text": "Root invariant",
+			"anchor": "root-invariant"
+		},
+		{
+			"level": 2,
+			"text": "Evidence pipeline",
+			"anchor": "evidence-pipeline"
+		},
+		{
+			"level": 2,
+			"text": "Framebuffer scaling contract",
+			"anchor": "framebuffer-scaling-contract"
+		},
+		{
+			"level": 2,
+			"text": "Named frame costs",
+			"anchor": "named-frame-costs"
+		},
+		{
+			"level": 2,
+			"text": "Visibility contract",
+			"anchor": "visibility-contract"
+		},
+		{
+			"level": 2,
+			"text": "Hysteresis law",
+			"anchor": "hysteresis-law"
+		},
+		{
+			"level": 2,
+			"text": "Quality degradation order",
+			"anchor": "quality-degradation-order"
+		},
+		{
+			"level": 2,
+			"text": "Diagnostics",
+			"anchor": "diagnostics"
+		},
+		{
+			"level": 2,
+			"text": "Verification",
+			"anchor": "verification"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-ohrfront-docs-performance-and-visibility-md-553bdbd981-001.json"
+	]
+}

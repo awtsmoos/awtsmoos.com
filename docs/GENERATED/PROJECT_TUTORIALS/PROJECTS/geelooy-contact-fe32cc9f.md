@@ -14,14 +14,14 @@ Blessed is He
 
 - Entry files: `index.html`
 - Local documentation: No local `DOCUMENTATION.md` observed.
-- Local-doc requirement: no; covered: no
+- Local-doc requirement: yes; covered: no
 - Symlink target: —
 
 ## File shape
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 3 | 0 | 0 | 0 | 0 | 0 | 3 |
+| 11 | 0 | 0 | 0 | 0 | 0 | 11 |
 
 ## Public entry points
 
@@ -29,7 +29,7 @@ Blessed is He
 
 ## Symbol evidence
 
-Source files: 1; classes: 0; functions: 1; exports: 0; samples: submitContact.
+Source files: 4; classes: 3; functions: 1; exports: 3; samples: revealContactPage, ContactSignalClient, ContactSignalController, YesodJsonClient.
 
 ## Depends on
 

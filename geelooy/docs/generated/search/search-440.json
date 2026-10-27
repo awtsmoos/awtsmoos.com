@@ -1,0 +1,316 @@
+[
+	{
+		"id": "geelooy-api-portal-adapters-readme-md-cdf0927c9a",
+		"title": "B\"H — Portal Adapters (geelooy/api/portal/adapters/)",
+		"sourcePath": "geelooy/api/portal/adapters/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Portal Adapters (geelooy/api/portal/adapters/)",
+				"anchor": "b-h-portal-adapters-geelooy-api-portal-adapters"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "B\"H — Portal Adapters (geelooy/api/portal/adapters/) Bridge between the Portal read model and the real API family world (see ../README.md). Files ApiFamilyResourceAdapter.js — adapts an actual Awtsmoos API family into portal resources, so /api families and /api family expose live discovery data through the portal envel",
+		"searchText": "b\"h — portal adapters (geelooy/api/portal/adapters/) bridge between the portal read model and the real api family world (see ../readme.md). files apifamilyresourceadapter.js — adapts an actual awtsmoos api family into portal resources, so /api families and /api family expose live discovery data through the portal envelope shapes.",
+		"page": "pages/geelooy-api-portal-adapters-readme-md-cdf0927c9a.json"
+	},
+	{
+		"id": "geelooy-api-portal-contracts-readme-md-179c256b74",
+		"title": "B\"H — Portal Contracts (geelooy/api/portal/contracts/)",
+		"sourcePath": "geelooy/api/portal/contracts/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Portal Contracts (geelooy/api/portal/contracts/)",
+				"anchor": "b-h-portal-contracts-geelooy-api-portal-contracts"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "B\"H — Portal Contracts (geelooy/api/portal/contracts/) The declarative contract vocabulary of the Portal API (see ../README.md). Files PortalResourceEnvelope.js — the canonical response envelope. PortalTypeDefinition.js / PortalTransformation.js / PortalRelationship.js — type shapes, transforms, and relations. PortalQu",
+		"searchText": "b\"h — portal contracts (geelooy/api/portal/contracts/) the declarative contract vocabulary of the portal api (see ../readme.md). files portalresourceenvelope.js — the canonical response envelope. portaltypedefinition.js / portaltransformation.js / portalrelationship.js — type shapes, transforms, and relations. portalquerydefinition.js / portalactiondefinition.js / portaljob.js — queries, actions, and async jobs. portalcontractprimitives.js / portalcontractlimits.js — primitives and bounds. portalerrorresource.js — error resource shape. portalprovenance.js — provenance metadata carried on responses.",
+		"page": "pages/geelooy-api-portal-contracts-readme-md-179c256b74.json"
+	},
+	{
+		"id": "geelooy-api-portal-core-readme-md-027f6f46db",
+		"title": "B\"H — Portal Core (geelooy/api/portal/core/)",
+		"sourcePath": "geelooy/api/portal/core/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Portal Core (geelooy/api/portal/core/)",
+				"anchor": "b-h-portal-core-geelooy-api-portal-core"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "B\"H — Portal Core (geelooy/api/portal/core/) Read path behind the Portal routes (see ../README.md). Files PortalHttpHandlers.js — route handlers: extracts bounded query values from the dynamic route context, delegates to the read service, and translates failures into portal error resources. PortalReadService.js — the d",
+		"searchText": "b\"h — portal core (geelooy/api/portal/core/) read path behind the portal routes (see ../readme.md). files portalhttphandlers.js — route handlers: extracts bounded query values from the dynamic route context, delegates to the read service, and translates failures into portal error resources. portalreadservice.js — the domain read service: portal root, types, api family discovery; free of http transport details.",
+		"page": "pages/geelooy-api-portal-core-readme-md-027f6f46db.json"
+	},
+	{
+		"id": "geelooy-api-portal-readme-md-991ee7bf35",
+		"title": "B\"H — Portal API (geelooy/api/portal/)",
+		"sourcePath": "geelooy/api/portal/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Portal API (geelooy/api/portal/)",
+				"anchor": "b-h-portal-api-geelooy-api-portal"
+			},
+			{
+				"level": 2,
+				"text": "Contents",
+				"anchor": "contents"
+			},
+			{
+				"level": 2,
+				"text": "Endpoints",
+				"anchor": "endpoints"
+			}
+		],
+		"excerpt": "B\"H — Portal API (geelooy/api/portal/) One read only Portal doorway: discovers capabilities, types, and real API family resources without disturbing legacy paths. HTTP extraction and error translation live outside the read service so transport never confuses domain meaning. Contents awtsmoos.derech.js — routes: /, /typ",
+		"searchText": "b\"h — portal api (geelooy/api/portal/) one read only portal doorway: discovers capabilities, types, and real api family resources without disturbing legacy paths. http extraction and error translation live outside the read service so transport never confuses domain meaning. contents awtsmoos.derech.js — routes: /, /types, /type, /api families, /api family contracts/ — 12 resource/type/query/job/action/error/provenance contract definitions. core/ — portalhttphandlers.js, portalreadservice.js. registry/ — builtin types, capability root, type registry. adapters/ — apifamilyresourceadapter.js bridging real api families. tests/ — capability, envelope, read service, and registry adapter contract tests. endpoints / — portal root / capability discovery. /types / /type — list and describe portal types. /api families / /api family — discover api families and one family's resources. see subdir readmes for the contract, core, registry, adapter, and test layers.",
+		"page": "pages/geelooy-api-portal-readme-md-991ee7bf35.json"
+	},
+	{
+		"id": "geelooy-api-portal-registry-readme-md-f0f70b40d6",
+		"title": "B\"H — Portal Registry (geelooy/api/portal/registry/)",
+		"sourcePath": "geelooy/api/portal/registry/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Portal Registry (geelooy/api/portal/registry/)",
+				"anchor": "b-h-portal-registry-geelooy-api-portal-registry"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "B\"H — Portal Registry (geelooy/api/portal/registry/) The capability and type registry backing Portal discovery (see ../README.md). Files PortalTypeRegistry.js — registry of known portal types. PortalBuiltinTypes.js — the built in type definitions. PortalCapabilityRoot.js — the capability root exposed at /.",
+		"searchText": "b\"h — portal registry (geelooy/api/portal/registry/) the capability and type registry backing portal discovery (see ../readme.md). files portaltyperegistry.js — registry of known portal types. portalbuiltintypes.js — the built in type definitions. portalcapabilityroot.js — the capability root exposed at /.",
+		"page": "pages/geelooy-api-portal-registry-readme-md-f0f70b40d6.json"
+	},
+	{
+		"id": "geelooy-api-portal-tests-readme-md-59feaec231",
+		"title": "B\"H — Portal Tests (geelooy/api/portal/tests/)",
+		"sourcePath": "geelooy/api/portal/tests/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Portal Tests (geelooy/api/portal/tests/)",
+				"anchor": "b-h-portal-tests-geelooy-api-portal-tests"
+			}
+		],
+		"excerpt": "B\"H — Portal Tests (geelooy/api/portal/tests/) Node contract tests for the Portal API (see ../README.md). PortalCapabilityContracts.test.js — capability root contracts. PortalEnvelopeContracts.test.js — response envelope contracts. PortalReadService.test.js — read service behavior. PortalRegistryAdapter.test.js — regis",
+		"searchText": "b\"h — portal tests (geelooy/api/portal/tests/) node contract tests for the portal api (see ../readme.md). portalcapabilitycontracts.test.js — capability root contracts. portalenvelopecontracts.test.js — response envelope contracts. portalreadservice.test.js — read service behavior. portalregistryadapter.test.js — registry + api family adapter contracts.",
+		"page": "pages/geelooy-api-portal-tests-readme-md-59feaec231.json"
+	},
+	{
+		"id": "geelooy-api-projecthosting-readme-md-a68ba7c87e",
+		"title": "B\"H — Project Hosting API (geelooy/api/projectHosting/)",
+		"sourcePath": "geelooy/api/projectHosting/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Project Hosting API (geelooy/api/projectHosting/)",
+				"anchor": "b-h-project-hosting-api-geelooy-api-projecthosting"
+			},
+			{
+				"level": 2,
+				"text": "Contents",
+				"anchor": "contents"
+			},
+			{
+				"level": 2,
+				"text": "Endpoints",
+				"anchor": "endpoints"
+			}
+		],
+		"excerpt": "B\"H — Project Hosting API (geelooy/api/projectHosting/) Geelooy project hosting: owner scoped hosting plan discovery plus authenticated lifecycle and bounded observability routes for trusted project runtimes. Contents awtsmoos.derech.js — composition root: / plan route plus spread of runtimeRoutes(info). planRoute.js —",
+		"searchText": "b\"h — project hosting api (geelooy/api/projecthosting/) geelooy project hosting: owner scoped hosting plan discovery plus authenticated lifecycle and bounded observability routes for trusted project runtimes. contents awtsmoos.derech.js — composition root: / plan route plus spread of runtimeroutes(info). planroute.js — owner scoped declarative hosting plan route (what's ready, what still awaits a vessel). requestidentity.js — resolves the authenticated project owner. runtimerequest.js — runtime request body parsing. runtimeroutesupport.js — route helpers: owner/project guards, activity limits, success/failure envelopes. runtimeroutes.js — authenticated runtime lifecycle + observability routes. runtimeroutes.test.cjs, runtimeroutesupport.test.cjs — node tests. endpoints / — hosting plan bound to the authenticated owner. runtime routes — trusted geelooy project runtime lifecycle (start/stop/status) and bounded observability, all owner scoped.",
+		"page": "pages/geelooy-api-projecthosting-readme-md-a68ba7c87e.json"
+	},
+	{
+		"id": "geelooy-api-public-documentation-md-f05980d63c",
+		"title": "Public DB API Documentation",
+		"sourcePath": "geelooy/api/public/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Public DB API Documentation",
+				"anchor": "public-db-api-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Public DB API Documentation The Awtsmoos distinguishes public reading from privileged mutation so a friendly prefix does not erase authority; Awtsmoos.com maps this source beside authentication and database docs before any write is attempted casually. Read ../../../docs/API/OTHER FAMILIE",
+		"searchText": "b\"h boruch hashem blessed is he public db api documentation the awtsmoos distinguishes public reading from privileged mutation so a friendly prefix does not erase authority; awtsmoos.com maps this source beside authentication and database docs before any write is attempted casually. read ../../../docs/api/other families.md, ../../../docs/api/authentication.md, and ../../../docs/systems/database and storage.md.",
+		"page": "pages/geelooy-api-public-documentation-md-f05980d63c.json"
+	},
+	{
+		"id": "geelooy-api-public-readme-md-399589c005",
+		"title": "B\"H — Public DB File API (geelooy/api/public/)",
+		"sourcePath": "geelooy/api/public/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Public DB File API (geelooy/api/public/)",
+				"anchor": "b-h-public-db-file-api-geelooy-api-public"
+			},
+			{
+				"level": 2,
+				"text": "Contents",
+				"anchor": "contents"
+			},
+			{
+				"level": 2,
+				"text": "Endpoint",
+				"anchor": "endpoint"
+			}
+		],
+		"excerpt": "B\"H — Public DB File API (geelooy/api/public/) An API to get files from the \"public\" folder in the DB, if the file exists. Contents awtsmoos.derech.js — whole API: route /. DOCUMENTATION.md — auth and database context pointers. Endpoint / — serve a public folder DB file addressed by the path query param. An $ POST.auth",
+		"searchText": "b\"h — public db file api (geelooy/api/public/) an api to get files from the \"public\" folder in the db, if the file exists. contents awtsmoos.derech.js — whole api: route /. documentation.md — auth and database context pointers. endpoint / — serve a public folder db file addressed by the path query param. an $ post.authorized check gates privileged access; public reads are distinguished from privileged mutation.",
+		"page": "pages/geelooy-api-public-readme-md-399589c005.json"
+	},
+	{
+		"id": "geelooy-api-readme-md-b306ccbbd4",
+		"title": "B\"H — Geelooy API Master Index (Yaakov 2026-10-15)",
+		"sourcePath": "geelooy/api/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Geelooy API Master Index (Yaakov 2026-10-15)",
+				"anchor": "b-h-geelooy-api-master-index-yaakov-2026-10-15"
+			},
+			{
+				"level": 2,
+				"text": "Core APIs",
+				"anchor": "core-apis"
+			},
+			{
+				"level": 3,
+				"text": "Tunnel (/api/tunnel/)",
+				"anchor": "tunnel-api-tunnel"
+			},
+			{
+				"level": 3,
+				"text": "OAuth (/api/oauth/)",
+				"anchor": "oauth-api-oauth"
+			},
+			{
+				"level": 3,
+				"text": "Admin (/api/admin/)",
+				"anchor": "admin-api-admin"
+			},
+			{
+				"level": 3,
+				"text": "Contact (/api/contact/)",
+				"anchor": "contact-api-contact"
+			},
+			{
+				"level": 3,
+				"text": "Email (/api/email/)",
+				"anchor": "email-api-email"
+			},
+			{
+				"level": 3,
+				"text": "GPT (/api/gpt/)",
+				"anchor": "gpt-api-gpt"
+			},
+			{
+				"level": 2,
+				"text": "Documentation Standards",
+				"anchor": "documentation-standards"
+			},
+			{
+				"level": 2,
+				"text": "For AI Agents",
+				"anchor": "for-ai-agents"
+			}
+		],
+		"excerpt": "B\"H — Geelooy API Master Index (Yaakov 2026 10 15) Complete API documentation for Awtsmoos.com. Core APIs Tunnel (/api/tunnel/) Secure remote command execution and device management. control/ — Pairing, commands, WebSocket, device management install/ — Installer scripts (7 tunnel choices) and agent bundles lanes/ — Sim",
+		"searchText": "b\"h — geelooy api master index (yaakov 2026 10 15) complete api documentation for awtsmoos.com. core apis tunnel (/api/tunnel/) secure remote command execution and device management. control/ — pairing, commands, websocket, device management install/ — installer scripts (7 tunnel choices) and agent bundles lanes/ — simple tunnel lanes (permanent baseline) see tunnel/readme.md for details. oauth (/api/oauth/) authentication and authorization. core/ — oauth core logic routes/ — oauth endpoints views/ — login/consent pages admin (/api/admin/) administrative endpoints. contact (/api/contact/) contact form and messaging. email (/api/email/) email sending and templates. gpt (/api/gpt/) gpt integration endpoints. documentation standards each api directory should have a readme.md explaining: 1. what the api does 2. main endpoints/routes 3. request/response formats 4. authentication requirements 5. critical bugs fixed and lessons learned for ai agents before modifying tunnel code, read: 1. tunnel/readme.md — overview and lessons learned 2. tunnel/control/readme.md — pairing flow and critical bugs 3. tunnel/lanes/how to run commands.md — how to test each lane critical rules: simple tunnel is permanent baseline — never remove always save pairing credentials (requestsecret) immediately test with real commands, not just code review bump manifest version to rebuild agent bundle",
+		"page": "pages/geelooy-api-readme-md-b306ccbbd4.json"
+	},
+	{
+		"id": "geelooy-api-release-readme-md-6c34972760",
+		"title": "B\"H — Release Identity API (geelooy/api/release/)",
+		"sourcePath": "geelooy/api/release/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Release Identity API (geelooy/api/release/)",
+				"anchor": "b-h-release-identity-api-geelooy-api-release"
+			},
+			{
+				"level": 2,
+				"text": "Contents",
+				"anchor": "contents"
+			},
+			{
+				"level": 2,
+				"text": "Endpoint",
+				"anchor": "endpoint"
+			}
+		],
+		"excerpt": "B\"H — Release Identity API (geelooy/api/release/) Reports the identity of the loaded service release — the release is named by the running process, never merely the Git directory. Contents awtsmoos.derech.js — whole API: route /. Endpoint GET / — returns {ok, releaseSha, evidence: \"running process environment\"} where r",
+		"searchText": "b\"h — release identity api (geelooy/api/release/) reports the identity of the loaded service release — the release is named by the running process, never merely the git directory. contents awtsmoos.derech.js — whole api: route /. endpoint get / — returns {ok, releasesha, evidence: \"running process environment\"} where releasesha is awtsmoos release sha only if it is a valid 40 char hex sha (http 200), otherwise 503 with an empty sha. cache control: no store.",
+		"page": "pages/geelooy-api-release-readme-md-6c34972760.json"
+	},
+	{
+		"id": "geelooy-api-runtime-core-readme-md-3431fa8386",
+		"title": "B\"H — Runtime Core (geelooy/api/runtime/core/)",
+		"sourcePath": "geelooy/api/runtime/core/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Runtime Core (geelooy/api/runtime/core/)",
+				"anchor": "b-h-runtime-core-geelooy-api-runtime-core"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "B\"H — Runtime Core (geelooy/api/runtime/core/) Internals behind the native runtime API (see ../README.md). Files handlers.js — joins authenticated capability, launch, status, and stop routes into one service boundary. auth.js — authorizes each runtime request. body.js — request body parsing. serviceLoader.js — loads th",
+		"searchText": "b\"h — runtime core (geelooy/api/runtime/core/) internals behind the native runtime api (see ../readme.md). files handlers.js — joins authenticated capability, launch, status, and stop routes into one service boundary. auth.js — authorizes each runtime request. body.js — request body parsing. serviceloader.js — loads the runtime service / native adapter.",
+		"page": "pages/geelooy-api-runtime-core-readme-md-3431fa8386.json"
+	}
+]

@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-28-1236-heichelos-final-completion-03-commun-e6b7d4c568",
+	"title": "Community Cold-Start Evidence",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-28-1236-heichelos-final-completion/03-community-cold-start-evidence.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Community Cold-Start Evidence",
+			"anchor": "community-cold-start-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Reproduced defect before repair",
+			"anchor": "reproduced-defect-before-repair"
+		},
+		{
+			"level": 2,
+			"text": "Root cause proven",
+			"anchor": "root-cause-proven"
+		},
+		{
+			"level": 2,
+			"text": "Repair",
+			"anchor": "repair"
+		},
+		{
+			"level": 2,
+			"text": "Cold verification after repair",
+			"anchor": "cold-verification-after-repair"
+		},
+		{
+			"level": 2,
+			"text": "Conclusion",
+			"anchor": "conclusion"
+		},
+		{
+			"level": 2,
+			"text": "REMAININGWORK",
+			"anchor": "remainingwork"
+		},
+		{
+			"level": 2,
+			"text": "NEXTACTION",
+			"anchor": "nextaction"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-28-1236-heichelos-final-completion-03-commun-e6b7d4c568-001.json"
+	]
+}

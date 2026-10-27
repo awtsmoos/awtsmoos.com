@@ -1,0 +1,68 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-apps-universal-procedural-f973127a",
+	"path": "geelooy/apps/universal-procedural",
+	"type": "app",
+	"family": {
+		"id": "apps",
+		"title": "Applications"
+	},
+	"title": "Universal Procedural Awtsmoos",
+	"entries": [
+		"index.html",
+		"app.js"
+	],
+	"humanDocumentation": [
+		"docs/TUTORIALS/PROJECTS/APPS.md",
+		"docs/APPS/README.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-universal-procedural-f973127a.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 20,
+		"tests": 0,
+		"assets": 0,
+		"generated": 0,
+		"docs": 0,
+		"other": 0
+	},
+	"totalFiles": 20,
+	"symbolSummary": {
+		"files": 14,
+		"classes": 0,
+		"functions": 53,
+		"exports": 19,
+		"samples": [
+			"DEMO_COMPILER_ID",
+			"DEMO_COMPILER_CAPABILITY",
+			"DEMO_CONSTRAINT_SOLVERS",
+			"DEMO_DEFINITIONS",
+			"async",
+			"executeDemoLifecycle",
+			"createDemoLifecycleSummary",
+			"countPipelineSupport",
+			"resolveCacheState",
+			"normalizeMetric",
+			"normalizeCount",
+			"installDemoNavigation"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/apps/universal-procedural",
+			"file": "geelooy/apps/universal-procedural/index.html",
+			"title": "Universal Procedural Awtsmoos",
+			"scripts": 1,
+			"styles": 5
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": false,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

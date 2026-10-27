@@ -1,0 +1,65 @@
+{
+	"schema": "awtsmoos-api-tutorial-v1",
+	"id": "api-merkava-download-bundle-c98f28d7b5",
+	"route": "/api/merkava/download-bundle",
+	"source": "geelooy/api/merkava/_awtsmoos.derech.js",
+	"discoveryKind": "static-literal",
+	"family": {
+		"mount": "/api/merkava",
+		"title": "/api/merkava",
+		"manual": "docs/API/README.md"
+	},
+	"derech": {
+		"source": "geelooy/api/merkava/_awtsmoos.derech.js",
+		"status": "OK",
+		"issue": "—",
+		"mount": "/api/merkava"
+	},
+	"dynamic": false,
+	"pathParameters": [],
+	"methods": [],
+	"methodEvidence": "unknown",
+	"vessels": [
+		"$_POST",
+		"headers"
+	],
+	"statuses": [
+		"400",
+		"404",
+		"405",
+		"429",
+		"500"
+	],
+	"headers": [
+		"Content-Disposition",
+		"Content-Type"
+	],
+	"callers": [],
+	"callerCount": 0,
+	"tests": [],
+	"examples": [],
+	"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-merkava-download-bundle-c98f28d7b5.md",
+	"confidence": "unknown-method",
+	"related": [
+		{
+			"id": "api-merkava-68df970464",
+			"route": "/api/merkava"
+		},
+		{
+			"id": "api-merkava-devices-9b2399e2c0",
+			"route": "/api/merkava/devices"
+		},
+		{
+			"id": "api-merkava-download-installer-28c990a8c4",
+			"route": "/api/merkava/download-installer"
+		},
+		{
+			"id": "api-merkava-run-8c99141d56",
+			"route": "/api/merkava/run"
+		},
+		{
+			"id": "api-merkava-run-js-8a969517a7",
+			"route": "/api/merkava/run-js"
+		}
+	]
+}

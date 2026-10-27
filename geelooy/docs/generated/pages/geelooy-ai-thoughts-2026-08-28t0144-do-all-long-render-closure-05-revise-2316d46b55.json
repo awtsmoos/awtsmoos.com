@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-28t0144-do-all-long-render-closure-05-revise-2316d46b55",
+	"title": "Revised Execution Plan After Frame-Six Evidence",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0144-do-all-long-render-closure/05_REVISED_EXECUTION_PLAN_AFTER_FRAME6.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Revised Execution Plan After Frame-Six Evidence",
+			"anchor": "revised-execution-plan-after-frame-six-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Source pass",
+			"anchor": "source-pass"
+		},
+		{
+			"level": 2,
+			"text": "Test pass",
+			"anchor": "test-pass"
+		},
+		{
+			"level": 2,
+			"text": "Runtime pass",
+			"anchor": "runtime-pass"
+		},
+		{
+			"level": 2,
+			"text": "Remaining closure",
+			"anchor": "remaining-closure"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-28t0144-do-all-long-render-closure-05-revise-2316d46b55-001.json"
+	]
+}

@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-plans-awtsmoos-cloud-session-protocol-md-e1d9273bfb",
+	"title": "Session Continuation Protocol",
+	"sourcePath": "docs/PLANS/AWTSMOOS_CLOUD/SESSION_PROTOCOL.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Session Continuation Protocol",
+			"anchor": "session-continuation-protocol"
+		},
+		{
+			"level": 2,
+			"text": "Before editing",
+			"anchor": "before-editing"
+		},
+		{
+			"level": 2,
+			"text": "During implementation",
+			"anchor": "during-implementation"
+		},
+		{
+			"level": 2,
+			"text": "Before marking a task complete",
+			"anchor": "before-marking-a-task-complete"
+		},
+		{
+			"level": 2,
+			"text": "Before ending any session",
+			"anchor": "before-ending-any-session"
+		}
+	],
+	"markdownParts": [
+		"content/docs-plans-awtsmoos-cloud-session-protocol-md-e1d9273bfb-001.json"
+	]
+}

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Social Kernel Entity (geelooy/api/social/helper/socialKernel/entity/)\n\nEntity layer of the social kernel.\n\n## Files\n- `SocialEntityLoader.js` — loads social entities.\n- `SocialEntityNormalizer.js` — normalizes entity records.\n- `SocialEntityType.js` — entity type definitions.\n"
+}

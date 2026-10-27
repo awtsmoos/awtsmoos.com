@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-d7faf0d162",
+	"title": "The Awtsmoos opens the authenticated tunnel",
+	"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/LIVE_CONNECTION.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "The Awtsmoos opens the authenticated tunnel",
+			"anchor": "the-awtsmoos-opens-the-authenticated-tunnel"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-d7faf0d162-001.json"
+	]
+}

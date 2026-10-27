@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-social-helper-packed-citationindexes-readme-md-4450d498e6",
+	"title": "Citation indexes — reader \"Connections\" data",
+	"sourcePath": "geelooy/api/social/helper/packed/citationIndexes/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Citation indexes — reader \"Connections\" data",
+			"anchor": "citation-indexes-reader-connections-data"
+		},
+		{
+			"level": 2,
+			"text": "Format",
+			"anchor": "format"
+		},
+		{
+			"level": 2,
+			"text": "Adding new indexes",
+			"anchor": "adding-new-indexes"
+		},
+		{
+			"level": 2,
+			"text": "Matching (incoming)",
+			"anchor": "matching-incoming"
+		},
+		{
+			"level": 2,
+			"text": "Snapshot note",
+			"anchor": "snapshot-note"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-social-helper-packed-citationindexes-readme-md-4450d498e6-001.json"
+	]
+}

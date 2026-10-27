@@ -22,13 +22,13 @@
 	"symlinkTarget": null,
 	"counts": {
 		"source": 0,
-		"tests": 92,
+		"tests": 105,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
 		"other": 0
 	},
-	"totalFiles": 93,
+	"totalFiles": 106,
 	"symbolSummary": null,
 	"outgoingDependencies": [],
 	"incomingDependencies": [],

@@ -1,53 +1,284 @@
 [
 	{
-		"id": "docs-generated-project-dependencies-dependencies-001-md-00fbbe63d3",
-		"title": "Generated Cross-Project Dependency Evidence 1–65",
-		"sourcePath": "docs/GENERATED/PROJECT_DEPENDENCIES/dependencies-001.md",
-		"category": "Projects",
+		"id": "docs-generated-api-tutorials-routes-api-tunnel-control-pairing-status-2a-44da758244",
+		"title": "API Tutorial: /api/tunnel/control/pairing/status",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-pairing-status-2afa3091d7.md",
+		"category": "Tunnel",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Generated Cross-Project Dependency Evidence 1–65",
-				"anchor": "generated-cross-project-dependency-evidence-1-65"
+				"text": "API Tutorial: /api/tunnel/control/pairing/status",
+				"anchor": "api-tutorial-api-tunnel-control-pairing-status"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Cross Project Dependency Evidence 1–65 Relative import edges between observed project boundaries; counts are lexical references, not runtime reachability. Source project Target project References Example sources geelooy/os geelooy/shared 54 geelooy/os/programs/advanced code edi",
-		"searchText": "b\"h boruch hashem blessed is he generated cross project dependency evidence 1–65 relative import edges between observed project boundaries; counts are lexical references, not runtime reachability. source project target project references example sources geelooy/os geelooy/shared 54 geelooy/os/programs/advanced code editor/compilerbridge.js; geelooy/os/programs/advanced code editor/embedconfiguration.js; geelooy/os/programs/advanced code editor/vfsbridge.js geelooy/games/mitzvahworld geelooy/libs 47 geelooy/games/mitzvahworld/experiments/awtsmoos/src/app/minimalmeadowcreaturemesh.js; geelooy/games/mitzvahworld/experiments/awtsmoos/src/app/minimalmeadowhouseassembly.js; geelooy/games/mitzvahworld/experiments/awtsmoos/src/app/minimalmeadowhousedimensionpolicy.js geelooy/apps/merkava native browser geelooy/scripts 44 geelooy/apps/merkava native browser/.inspect md2.cjs; geelooy/apps/merkava native browser/.test compile webgl.cjs; geelooy/apps/merkava native browser/build seed.mjs geelooy/scripts geelooy/shared 38 geelooy/scripts/awtsmoos/compiling/native/asmimage.js; geelooy/scripts/awtsmoos/compiling/native/asmobjectdata.js; geelooy/scripts/awtsmoos/compiling/native/c/frame.js geelooy/api/social ayzarim/dosdb 33 geelooy/api/social/helper/comments/aliasindex/packedindexstore.js; geelooy/api/social/helper/comments/canonicalcommentsource.js; geelooy/api/social/helper/comments/commentawtsmoosdbbridge.js geelooy/sites geelooy/api/social 27 geelooy/sites/customdomaingateway.js; geelooy/sites/directsitereadiness.js; geelooy/sites/directsiteresponse.js geelooy/apps/code geelooy/shared 19 geelooy/apps/code/js/actions/commands/compileprojectmanifest.js; geelooy/apps/code/js/ai studio/oracle.js; geelooy/apps/code/js/ai studio/panel.js geelooy/api/tunnel geelooy/api/perutas 16 geelooy/api/tunnel/control/core/usagestore.js; geelooy/api/tunnel/control/routes/adminperutas.js; geelooy/api/tunnel/control/routes/adminvault.js geelooy/games/seven mitzvos geelooy/games/scripts 16 geelooy/games/seven mitzvos/js/assets/advanced model hydrator.js; geelooy/games/seven mitzvos/js/assets/gltf model library.js; geelooy/games/seven mitzvos/js/city/city district builder.js geelooy/games/seven mitzvos geelooy/libs 12 geelooy/games/seven mitzvos/js/materials/firebase material manifest.js; geelooy/games/seven mitzvos/js/materials/seven material runtime.js; geelooy/games/seven mitzvos/js/materials/stage material runtime.js ayzarim/awtsmoosdynamicserver geelooy/api/tunnel 11 ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/channel.js; ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/channelsnapshot.js; ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/missionroomupgradefakes.cjs geelooy/games/oros ha kelim geelooy/libs 11 geelooy/games/oros ha kelim/src/render/core/coregeometryfactory.js; geelooy/games/oros ha kelim/src/render/core/coregpuvessel.js; geelooy/games/oros ha kelim/src/render/core/coremesh.js geelooy/apps/compiler geelooy/shared 9 geelooy/apps/compiler/embed/oscompilerchannel.js; geelooy/apps/compiler/ui/browserartifactbuilders.js; geelooy/apps/compiler/ui/nativebuildclient.js geelooy/os geelooy/apps/exe emulator 9 geelooy/os/programs/awtsmoos executable/browserruntime.js; geelooy/os/programs/awtsmoos executable/index.js; geelooy/os/programs/awtsmoos executable/nativelifecycle.js geelooy/api/tunnel geelooy/apps/tunnel 8 geelooy/api/tunnel/control/routes/fsvessel/responsecontractidentity.js; geelooy/api/tunnel/control/routes/osfs/virtualaiagents.js; geelooy/api/tunnel/install/tools/zipsources.js geelooy/apps/exe emulator geelooy/scripts 8 geelooy/apps/exe emulator/examples/progressive/generatedartifacts.mjs; geelooy/apps/exe emulator/source/compilesourceartifact.js; geelooy/apps/exe emulator/source/nativecontainers.js geelooy/apps/exe emulator geelooy/shared 8 geelooy/apps/exe emulator/core/awtexeruntime.js; geelooy/apps/exe emulator/core/executablehost.js; geelooy/apps/exe emulator/core/wasmguiimports.js geelooy/heichelos geelooy/shared 8 geelooy/heichelos/heichel/modules/legend/carddepthobserver.js; geelooy/heichelos/heichel/modules/legend/heroscrolldepth.js; geelooy/heichelos/post/functions/ui/context/relatedsearchpanel.js ayzarim/awtsmoosdynamicserver geelooy/api/social 6 ayzarim/awtsmoosdynamicserver/websocket/apps/privatemessaging/integrationgateway.js; ayzarim/awtsmoosdynamicserver/websocket/apps/privatemessaging/meaningfulactivity.js; ayzarim/awtsmoosdynamicserver/websocket/apps/universalchat/activityadapter.js geelooy/api/social ayzarim/awtsmoosdynamicserver 5 geelooy/api/social/helper/drive/projectdatabaseservice.js; geelooy/api/social/helper/drive/projectruntimematerializer.js; geelooy/api/social/helper/drive/routes/projecthostingroutes.js geelooy/libs geelooy/games/mitzvahworld 5 geelooy/libs/awtsmoos procedural core/src/adapters/mitzvahworld/modelassets.js; geelooy/libs/awtsmoos procedural core/src/adapters/mitzvahworld/nativeruntime.js; geelooy/libs/awtsmoos procedural core/src/adapters/mitzvahworld/renderer.js geelooy/scripts geelooy/apps/tunnel 5 geelooy/scripts/awtsmoos/merkavaexecutor/.test tunnel directory entry env.cjs; geelooy/scripts/awtsmoos/merkavaexecutor/.test tunnel simulate runtime helpers.cjs; geelooy/scripts/awtsmoos/merkavaexecutor/.test tunnel simulate runtime url puppeteer.cjs geelooy/sites geelooy/api/tunnel 5 geelooy/sites/directsitereadiness.js; geelooy/sites/hostedfoldermanifest.js; geelooy/sites/sitefolderpublication.js geelooy/social hub geelooy/shared 5 geelooy/social hub/js/interactions/creatorlaunchmodel.js; geelooy/social hub/js/ui/feed/feedpostmodel.js; geelooy/social hub/js/ui/feed/feeduniversalactions.js geelooy/api/tunnel geelooy/api/social 4 geelooy/api/tunnel/control/routes/fsvessel/hostedvirtualos/sitepublicationdispatcher.js; geelooy/api/tunnel/control/routes/osfs/listread.js; geelooy/api/tunnel/control/routes/osfs/writeops.js geelooy/apps/code geelooy/apps/android emulator 4 geelooy/apps/code/js/actions/commands/build android apk.js; geelooy/apps/code/js/actions/commands/build rebbe apk.js geelooy/apps/drive geelooy/shared 4 geelooy/apps/drive/js/osbridge.js; geelooy/apps/drive/js/projectplatform.js geelooy/drive geelooy/os 4 geelooy/drive/transport/credentialedfs.js; geelooy/drive/transport/tunneldiscovery.js; geelooy/drive/transport/tunnelpublishing.js geelooy/social composer geelooy/games/mitzvahworld 4 geelooy/social composer/reel studio/nle/nleaiprojectcodec.js; geelooy/social composer/reel studio/nle/nlemovieactionexecutor.js; geelooy/social composer/reel studio/nle/nlemoviepackage.js geelooy/social composer geelooy/shared 4 geelooy/social composer/js/creator/creatorcommandcatalog.js; geelooy/social composer/js/creator/creatorcommandpalette.js; geelooy/social composer/js/creator/creatorintentmodel.js geelooy/social hub geelooy/social actions 4 geelooy/social hub/js/ui/feed/feedreaction.js; geelooy/social hub/js/ui/feed/socialactionrail.js ayzarim/awtsmoosdynamicserver ayzarim/tools 3 ayzarim/awtsmoosdynamicserver/server/deps.js geelooy/apps/code geelooy/ai 3 geelooy/apps/code/js/code chat/oracle.js; geelooy/apps/code/js/vibe/api/multimodal adapter.js geelooy/apps/code scripts 3 geelooy/apps/code/js/android/android source builder.js geelooy/apps/compiler geelooy/scripts 3 geelooy/apps/compiler/compiler.js; geelooy/apps/compiler/compiler c.js; geelooy/apps/compiler/ui/browserartifactbuilders.js geelooy/drive geelooy/shared 3 geelooy/drive/core/platformcapabilitybridge.js; geelooy/drive/transport/osworkspace.js; geelooy/drive/ui/platformjourney.js geelooy/heichelos geelooy/social actions 3 geelooy/heichelos/heichel/modules/ui/render/heichelreactionaction.js; geelooy/heichelos/heichel/modules/ui/render/secondary social actions.js; geelooy/heichelos/heichel/modules/ui/render/social action urls.js geelooy/os geelooy/apps/tunnel control 3 geelooy/os/programs/connected node server/tunnelclient.js; geelooy/os/programs/peruta usage/api.js geelooy/scripts geelooy/apps/android emulator 3 geelooy/scripts/awtsmoos/compiling/android/apk/zipwriter.js; geelooy/scripts/awtsmoos/extracting/webview apk/extract.js geelooy/scripts geelooy/apps/compiler 3 geelooy/scripts/awtsmoos/compiling/cpp/compiler.js ayzarim/awtsmoosdynamicserver ayzarim/email 2 ayzarim/awtsmoosdynamicserver/server/deps.js ayzarim/awtsmoosdynamicserver geelooy/api/ohr hagnuz 2 ayzarim/awtsmoosdynamicserver/websocket/apps/ohrhagnuz/authenticatedworldtestharness.cjs; ayzarim/awtsmoosdynamicserver/websocket/apps/ohrhagnuz/auth/gameticketconsumer.js ayzarim/awtsmoosdynamicserver geelooy/apps/tunnel 2 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/actionaliases.js; ayzarim/awtsmoosdynamicserver/zipbundles/sourceresolver.js ayzarim/maintence ayzarim/dosdb 2 ayzarim/maintence/transferolddbtoawtsmoosdb.js geelooy/ai geelooy/shared 2 geelooy/ai/central/index.js; geelooy/ai/central/streamclient.js geelooy/api/oauth geelooy/api/tunnel 2 geelooy/api/oauth/data/clients.js; geelooy/api/oauth/data/publicagentpolicy.js geelooy/api/ohr hagnuz geelooy/api/tunnel 2 geelooy/api/ohr hagnuz/routes/realtimeticket.js geelooy/api/projecthosting ayzarim/awtsmoosdynamicserver 2 geelooy/api/projecthosting/planroute.js; geelooy/api/projecthosting/runtimeroutes.js geelooy/api/projecthosting geelooy/api/social 2 geelooy/api/projecthosting/requestidentity.js geelooy/api/social geelooy/ai 2 geelooy/api/social/helper/drive/browser/interactivebrowsertargetcatalog.js; geelooy/api/social/helper/drive/browser/interactivetargetcontroller.js geelooy/api/ssh ayzarim/ssh 2 geelooy/api/ssh/lib/client.js; geelooy/api/ssh/virtual/service.js geelooy/api/ssh geelooy/api/social 2 geelooy/api/ssh/virtual/accessguard.js geelooy/apps/code geelooy/apps/compiler 2 geelooy/apps/code/js/actions/commands/build native project.js geelooy/apps/tunnel control geelooy/shared 2 geelooy/apps/tunnel control/js/runtime/mesh/runtimeadapters.js; geelooy/apps/tunnel control/js/runtime/mesh/virtualfilesystem.js geelooy/games/merkava geelooy/libs 2 geelooy/games/merkava/src/render/createcoremeshes.js; geelooy/games/merkava/src/render/createenemymeshes.js geelooy/games/nitzotz io geelooy/libs 2 geelooy/games/nitzotz io/js/procedural/localmeshes.js; geelooy/games/nitzotz io/js/webgl/meshupload.js geelooy/os geelooy/apps/android emulator 2 geelooy/os/programs/awtsmoos executable/android web/apkwebdocument.js; geelooy/os/programs/awtsmoos executable/browserruntime.js geelooy/shared geelooy/ai 2 geelooy/shared/awtsmoos runtime/actions.js; geelooy/shared/awtsmoos runtime/agent core.js geelooy/shared geelooy/social actions 2 geelooy/shared/social/composer/composerlaunch.js geelooy/zmanim geelooy/libs 2 geelooy/zmanim/js/components/celestial webgl.js; geelooy/zmanim/js/domain/celestial zmanim.js ayzarim/awtsmoosdynamicserver ayzarim/awtsmoos.config.json 1 ayzarim/awtsmoosdynamicserver/server/deps.js ayzarim/awtsmoosdynamicserver ayzarim/dosdb 1 ayzarim/awtsmoosdynamicserver/server/deps.js ayzarim/email geelooy/api/social 1 ayzarim/email/awtsmoosemailingress.js geelooy/.well known geelooy/api/oauth 1 geelooy/.well known/ awtsmoos.derech.js geelooy/ai geelooy/scripts 1 geelooy/ai/js/render/event ui/codehighlight.js",
-		"page": "pages/docs-generated-project-dependencies-dependencies-001-md-00fbbe63d3.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/tunnel/control/pairing/status Family: Tunnel Control · Mount: /api/tunnel/control · Derech health: OK Source: geelooy/api/tunnel/control/ awtsmoos.derech.js · Discovery: static literal · Confidence: source lexical Read the human Tunnel Control tutorial Generated eviden",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/tunnel/control/pairing/status family: tunnel control · mount: /api/tunnel/control · derech health: ok source: geelooy/api/tunnel/control/ awtsmoos.derech.js · discovery: static literal · confidence: source lexical read the human tunnel control tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: post request vessels: route vars observed status literals: 200, 500 observed headers: — path parameters none. starter call starter only: method evidence is lexical at the source file level; inspect the handler before relying on payload or response shape. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/tunnel/control/pairing/status geelooy/apps/tunnel/downloads/unix pairing direct.cjs runtime related tests heuristic family matches: test:mission continuity actions — node geelooy/apps/tunnel/agent/tools/fs/actiongroups/test/missioncontinuityactions.test.mjs test:treasury — node geelooy/api/tunnel/control/test/runtreasurytests.cjs test:treasury:full — node geelooy/api/tunnel/control/test/treasury/runall.cjs test:tunnel release — node test scripts/tunnel/testing/ .test.cjs scripts/repository hygiene/testing/ .test.cjs related routes /api/tunnel/control/admin vault /api/tunnel/control/admin/perutas /api/tunnel/control/agent economy /api/tunnel/control/agent lobby /api/tunnel/control/agent lobby/join /api/tunnel/control/agent lobby/post /api/tunnel/control/agent manifest /api/tunnel/control/agent room",
+		"page": "pages/docs-generated-api-tutorials-routes-api-tunnel-control-pairing-status-2a-44da758244.json"
 	},
 	{
-		"id": "docs-generated-project-dependencies-dependencies-002-md-1881bd4e55",
-		"title": "Generated Cross-Project Dependency Evidence 66–105",
-		"sourcePath": "docs/GENERATED/PROJECT_DEPENDENCIES/dependencies-002.md",
-		"category": "Projects",
+		"id": "docs-generated-api-tutorials-routes-api-tunnel-control-pairing-status-43-d022575b70",
+		"title": "API Tutorial: /api/tunnel/control/pairing/status",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-pairing-status-434005a0c0.md",
+		"category": "Tunnel",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Generated Cross-Project Dependency Evidence 66–105",
-				"anchor": "generated-cross-project-dependency-evidence-66-105"
+				"text": "API Tutorial: /api/tunnel/control/pairing/status",
+				"anchor": "api-tutorial-api-tunnel-control-pairing-status"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Cross Project Dependency Evidence 66–105 Relative import edges between observed project boundaries; counts are lexical references, not runtime reachability. Source project Target project References Example sources geelooy/api/compiler geelooy/apps/rebbe 1 geelooy/api/compiler/c",
-		"searchText": "b\"h boruch hashem blessed is he generated cross project dependency evidence 66–105 relative import edges between observed project boundaries; counts are lexical references, not runtime reachability. source project target project references example sources geelooy/api/compiler geelooy/apps/rebbe 1 geelooy/api/compiler/core/rebbeapkhandler.js geelooy/api/email geelooy/api/social 1 geelooy/api/email/ awtsmoos.derech.js geelooy/api/social geelooy/api/tunnel 1 geelooy/api/social/helper/repositories/gitcloneservice.js geelooy/api/social geelooy/sites 1 geelooy/api/social/helper/drive/sitestatusservice.js geelooy/api/tunnel ayzarim/awtsmoosdynamicserver 1 geelooy/api/tunnel/control/routes/fsvessel/tunnelclient.js geelooy/api/tunnel geelooy/api/oauth 1 geelooy/api/tunnel/control/core/auth.js geelooy/api/tunnel geelooy/sites 1 geelooy/api/tunnel/control/routes/fsvessel/hostedvirtualos/sitepublicationdispatcher.js geelooy/api/wallet geelooy/api/social 1 geelooy/api/wallet/core/transferidentity.js geelooy/api/youtube geelooy/api/oauth 1 geelooy/api/youtube/routes/auth.js geelooy/api/zmanimms geelooy/api/zmanim 1 geelooy/api/zmanimms/ awtsmoos.derech.js geelooy/apps/exe emulator geelooy/apps/android emulator 1 geelooy/apps/exe emulator/source/runsourceartifact.js geelooy/apps/rebbe geelooy/scripts 1 geelooy/apps/rebbe/android/build.js geelooy/apps/scripts geelooy/games/scripts 1 geelooy/apps/scripts/catalog/games.mjs geelooy/apps/slides geelooy/scripts 1 geelooy/apps/slides/src/collab/presenceslidestransport.js geelooy/apps/tunnel ayzarim/ssh 1 geelooy/apps/tunnel/agent/lib/fakessh/wireserver.js geelooy/apps/tunnel geelooy/scripts 1 geelooy/apps/tunnel/agent/tools/fs/jswriteverifier.js geelooy/apps/tunnel geelooy/shared 1 geelooy/apps/tunnel/js/browserpagetunnel.js geelooy/apps/tunnel scripts 1 geelooy/apps/tunnel/agent/rebuild manifest.cjs geelooy/apps/tunnel control geelooy/api/tunnel 1 geelooy/apps/tunnel control/gpt/generate oauth scopes.cjs geelooy/apps/universal chat geelooy/scripts 1 geelooy/apps/universal chat/messagingconversationactions.js geelooy/awtai db geelooy/scripts 1 geelooy/awtai db/app.js geelooy/comment thread geelooy/social actions 1 geelooy/comment thread/modules/commentreaction.js geelooy/email geelooy/scripts 1 geelooy/email/index.js geelooy/games/mitzvahworld libs 1 geelooy/games/mitzvahworld/experiments/awtsmoos/src/app/minimalmeadowtreecorefacade.js geelooy/games/party geelooy/games/scripts 1 geelooy/games/party/js/game catalog.mjs geelooy/games/pong geelooy/games/scripts 1 geelooy/games/pong/js/wallet reward.mjs geelooy/git geelooy/api/social 1 geelooy/git/ awtsmoos.derech.js geelooy/heichel editor geelooy/scripts 1 geelooy/heichel editor/app.js geelooy/heichel review geelooy/shared 1 geelooy/heichel review/js/main.js geelooy/heichelos geelooy/scripts 1 geelooy/heichelos/heichel/modules/ui/blueprints/pending profile context.js geelooy/mawgawl geelooy/shared 1 geelooy/mawgawl/sefarim/searchhistory.js geelooy/post editor geelooy/scripts 1 geelooy/post editor/app.js geelooy/profile geelooy/scripts 1 geelooy/profile/auth.js geelooy/scripts ayzarim/dosdb 1 geelooy/scripts/awtsmoos/minimax virtual os game/seed users.cjs geelooy/scripts geelooy/api/social 1 geelooy/scripts/release assets/seed drive.js geelooy/scripts geelooy/api/tunnel 1 geelooy/scripts/awtsmoos/minimax virtual os game/seed users.cjs geelooy/scripts geelooy/apps/app.js 1 geelooy/scripts/awtsmoos/social/navigation/adapters/appsroute.js geelooy/shared geelooy/apps/android emulator 1 geelooy/shared/compiling/native/apkidentity.js geelooy/sites ayzarim/awtsmoosdynamicserver 1 geelooy/sites/hostedprojectproxy.js geelooy/view geelooy/api/tunnel 1 geelooy/view/ awtsmoos.derech.js",
-		"page": "pages/docs-generated-project-dependencies-dependencies-002-md-1881bd4e55.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/tunnel/control/pairing/status Family: Tunnel Control · Mount: /api/tunnel/control · Derech health: OK Source: geelooy/api/tunnel/control/routes/table.js · Discovery: route table · Confidence: unknown method Read the human Tunnel Control tutorial Generated evidence is a",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/tunnel/control/pairing/status family: tunnel control · mount: /api/tunnel/control · derech health: ok source: geelooy/api/tunnel/control/routes/table.js · discovery: route table · confidence: unknown method read the human tunnel control tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/tunnel/control/pairing/status geelooy/apps/tunnel/downloads/unix pairing direct.cjs runtime related tests heuristic family matches: test:mission continuity actions — node geelooy/apps/tunnel/agent/tools/fs/actiongroups/test/missioncontinuityactions.test.mjs test:treasury — node geelooy/api/tunnel/control/test/runtreasurytests.cjs test:treasury:full — node geelooy/api/tunnel/control/test/treasury/runall.cjs test:tunnel release — node test scripts/tunnel/testing/ .test.cjs scripts/repository hygiene/testing/ .test.cjs related routes /api/tunnel/control/admin vault /api/tunnel/control/admin/perutas /api/tunnel/control/agent economy /api/tunnel/control/agent lobby /api/tunnel/control/agent lobby/join /api/tunnel/control/agent lobby/post /api/tunnel/control/agent manifest /api/tunnel/control/agent room",
+		"page": "pages/docs-generated-api-tutorials-routes-api-tunnel-control-pairing-status-43-d022575b70.json"
 	},
 	{
-		"id": "docs-generated-project-symbol-summary-md-7a8dcc2a93",
-		"title": "Generated Project Symbol Summary",
-		"sourcePath": "docs/GENERATED/PROJECT_SYMBOL_SUMMARY.md",
-		"category": "Projects",
+		"id": "docs-generated-api-tutorials-routes-api-tunnel-control-preview-access-re-fd9ea321f9",
+		"title": "API Tutorial: /api/tunnel/control/preview/access/revoke",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-preview-access-revoke-4971246ad8.md",
+		"category": "Tunnel",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Generated Project Symbol Summary",
-				"anchor": "generated-project-symbol-summary"
+				"text": "API Tutorial: /api/tunnel/control/preview/access/revoke",
+				"anchor": "api-tutorial-api-tunnel-control-preview-access-revoke"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Project Symbol Summary Lexical JavaScript family symbol evidence grouped by project; sample names aid discovery without replacing source inspection. 131 rows. Chunk Rows Count symbols 001.md 1–55 55 symbols 002.md 56–110 55 symbols 003.md 111–131 21",
-		"searchText": "b\"h boruch hashem blessed is he generated project symbol summary lexical javascript family symbol evidence grouped by project; sample names aid discovery without replacing source inspection. 131 rows. chunk rows count symbols 001.md 1–55 55 symbols 002.md 56–110 55 symbols 003.md 111–131 21",
-		"page": "pages/docs-generated-project-symbol-summary-md-7a8dcc2a93.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/tunnel/control/preview/access/revoke Family: Tunnel Control · Mount: /api/tunnel/control · Derech health: OK Source: geelooy/api/tunnel/control/routes/table.js · Discovery: route table · Confidence: unknown method Read the human Tunnel Control tutorial Generated eviden",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/tunnel/control/preview/access/revoke family: tunnel control · mount: /api/tunnel/control · derech health: ok source: geelooy/api/tunnel/control/routes/table.js · discovery: route table · confidence: unknown method read the human tunnel control tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test:mission continuity actions — node geelooy/apps/tunnel/agent/tools/fs/actiongroups/test/missioncontinuityactions.test.mjs test:treasury — node geelooy/api/tunnel/control/test/runtreasurytests.cjs test:treasury:full — node geelooy/api/tunnel/control/test/treasury/runall.cjs test:tunnel release — node test scripts/tunnel/testing/ .test.cjs scripts/repository hygiene/testing/ .test.cjs related routes /api/tunnel/control/admin vault /api/tunnel/control/admin/perutas /api/tunnel/control/agent economy /api/tunnel/control/agent lobby /api/tunnel/control/agent lobby/join /api/tunnel/control/agent lobby/post /api/tunnel/control/agent manifest /api/tunnel/control/agent room",
+		"page": "pages/docs-generated-api-tutorials-routes-api-tunnel-control-preview-access-re-fd9ea321f9.json"
+	},
+	{
+		"id": "docs-generated-api-tutorials-routes-api-tunnel-control-preview-create-e5-40390990b2",
+		"title": "API Tutorial: /api/tunnel/control/preview/create",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-preview-create-e51606bb4a.md",
+		"category": "Tunnel",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/tunnel/control/preview/create",
+				"anchor": "api-tutorial-api-tunnel-control-preview-create"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/tunnel/control/preview/create Family: Tunnel Control · Mount: /api/tunnel/control · Derech health: OK Source: geelooy/api/tunnel/control/routes/table.js · Discovery: route table · Confidence: unknown method Read the human Tunnel Control tutorial Generated evidence is a",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/tunnel/control/preview/create family: tunnel control · mount: /api/tunnel/control · derech health: ok source: geelooy/api/tunnel/control/routes/table.js · discovery: route table · confidence: unknown method read the human tunnel control tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/tunnel/control/preview/create geelooy/os/remote/tunnelpreviewclient.js runtime related tests heuristic family matches: test:mission continuity actions — node geelooy/apps/tunnel/agent/tools/fs/actiongroups/test/missioncontinuityactions.test.mjs test:treasury — node geelooy/api/tunnel/control/test/runtreasurytests.cjs test:treasury:full — node geelooy/api/tunnel/control/test/treasury/runall.cjs test:tunnel release — node test scripts/tunnel/testing/ .test.cjs scripts/repository hygiene/testing/ .test.cjs related routes /api/tunnel/control/admin vault /api/tunnel/control/admin/perutas /api/tunnel/control/agent economy /api/tunnel/control/agent lobby /api/tunnel/control/agent lobby/join /api/tunnel/control/agent lobby/post /api/tunnel/control/agent manifest /api/tunnel/control/agent room",
+		"page": "pages/docs-generated-api-tutorials-routes-api-tunnel-control-preview-create-e5-40390990b2.json"
+	},
+	{
+		"id": "docs-generated-api-tutorials-routes-api-tunnel-control-preview-grant-d4c-0e07b0fce2",
+		"title": "API Tutorial: /api/tunnel/control/preview/grant",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-preview-grant-d4c4ec0d16.md",
+		"category": "Tunnel",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/tunnel/control/preview/grant",
+				"anchor": "api-tutorial-api-tunnel-control-preview-grant"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/tunnel/control/preview/grant Family: Tunnel Control · Mount: /api/tunnel/control · Derech health: OK Source: geelooy/api/tunnel/control/routes/table.js · Discovery: route table · Confidence: unknown method Read the human Tunnel Control tutorial Generated evidence is a ",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/tunnel/control/preview/grant family: tunnel control · mount: /api/tunnel/control · derech health: ok source: geelooy/api/tunnel/control/routes/table.js · discovery: route table · confidence: unknown method read the human tunnel control tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test:mission continuity actions — node geelooy/apps/tunnel/agent/tools/fs/actiongroups/test/missioncontinuityactions.test.mjs test:treasury — node geelooy/api/tunnel/control/test/runtreasurytests.cjs test:treasury:full — node geelooy/api/tunnel/control/test/treasury/runall.cjs test:tunnel release — node test scripts/tunnel/testing/ .test.cjs scripts/repository hygiene/testing/ .test.cjs related routes /api/tunnel/control/admin vault /api/tunnel/control/admin/perutas /api/tunnel/control/agent economy /api/tunnel/control/agent lobby /api/tunnel/control/agent lobby/join /api/tunnel/control/agent lobby/post /api/tunnel/control/agent manifest /api/tunnel/control/agent room",
+		"page": "pages/docs-generated-api-tutorials-routes-api-tunnel-control-preview-grant-d4c-0e07b0fce2.json"
+	},
+	{
+		"id": "docs-generated-api-tutorials-routes-api-tunnel-control-preview-link-tunn-dd3d29d099",
+		"title": "API Tutorial: /api/tunnel/control/preview-link/:tunnelName/:tokenId/:tail",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-preview-link-tunnelname-tokenid-tail-16497b69b6.md",
+		"category": "Tunnel",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/tunnel/control/preview-link/:tunnelName/:tokenId/:tail",
+				"anchor": "api-tutorial-api-tunnel-control-preview-link-tunnelname-tokenid-tail"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/tunnel/control/preview link/:tunnelName/:tokenId/:tail Family: Tunnel Control · Mount: /api/tunnel/control · Derech health: OK Source: geelooy/api/tunnel/control/routes/table.js · Discovery: route table · Confidence: unknown method Read the human Tunnel Control tutoria",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/tunnel/control/preview link/:tunnelname/:tokenid/:tail family: tunnel control · mount: /api/tunnel/control · derech health: ok source: geelooy/api/tunnel/control/routes/table.js · discovery: route table · confidence: unknown method read the human tunnel control tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters name shape tunnelname single segment tokenid single segment tail terminal catch all starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test:mission continuity actions — node geelooy/apps/tunnel/agent/tools/fs/actiongroups/test/missioncontinuityactions.test.mjs test:treasury — node geelooy/api/tunnel/control/test/runtreasurytests.cjs test:treasury:full — node geelooy/api/tunnel/control/test/treasury/runall.cjs test:tunnel release — node test scripts/tunnel/testing/ .test.cjs scripts/repository hygiene/testing/ .test.cjs related routes /api/tunnel/control/admin vault /api/tunnel/control/admin/perutas /api/tunnel/control/agent economy /api/tunnel/control/agent lobby /api/tunnel/control/agent lobby/join /api/tunnel/control/agent lobby/post /api/tunnel/control/agent manifest /api/tunnel/control/agent room",
+		"page": "pages/docs-generated-api-tutorials-routes-api-tunnel-control-preview-link-tunn-dd3d29d099.json"
 	}
 ]

@@ -14,14 +14,14 @@ Blessed is He
 
 - Entry files: `index.html`, `main.js`
 - Local documentation: No local `DOCUMENTATION.md` observed.
-- Local-doc requirement: no; covered: no
+- Local-doc requirement: yes; covered: no
 - Symlink target: —
 
 ## File shape
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 5 | 0 | 0 | 0 | 0 | 0 | 5 |
+| 24 | 0 | 0 | 0 | 0 | 0 | 24 |
 
 ## Public entry points
 
@@ -29,7 +29,7 @@ Blessed is He
 
 ## Symbol evidence
 
-Source files: 3; classes: 8; functions: 31; exports: 0; samples: onPointerDown, onPointerMove, onPointerUp, updateKeyboardDirection, handleKeyDown, handleKeyUp, handleResize, startGame, endGame, createAndShowGameOverScreen, handleWorkerMessage, init.
+Source files: 19; classes: 16; functions: 43; exports: 12; samples: bindBoost, NachashKeyboardInput, editable, NachashPointerInput, NachashAudio, NachashPauseState, loadNachashPreferences, saveNachashPreferences, recordNachashScore, read, safeNumber, NachashResultReporter.
 
 ## Depends on
 

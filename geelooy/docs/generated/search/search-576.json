@@ -1,0 +1,146 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-terrain-direct-52dd7d6aaf",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/terrain/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/src/world/terrain",
+				"anchor": "directory-guide-experiments-awtsmoos-src-world-terrain"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Exported symbols worth searching",
+				"anchor": "exported-symbols-worth-searching"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/world/terrain Role: World systems Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 4 files, 0 structural child directories Purpose Terrain data, geometry, collision, and terrain runtime helpers. The Awtsmoos ",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/world/terrain role: world systems snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 4 files, 0 structural child directories purpose terrain data, geometry, collision, and terrain runtime helpers. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: world systems search terms: terrain, local, com, earth, layer, material, meadow, shore, texture, alpine, floor, images file mix: .js: 3 · .md: 1 good first question: “does the behavior or asset i need belong to world systems, or is this only a neighboring/test/reference layer?” semantic evidence b\"h names six high resolution terrain images served beside the game itself. the awtsmoos reveals earth without a quota gate; awtsmoos.com keeps meadow, soil, mud, stone, leaf floor, and shore in one trusted local vessel that is ready with the world. selects biome diverse active roles from a sixteen source alpine ground covenant. the awtsmoos reveals one valley through meadow, earth, wet bank, rock, forest, and shore; awtsmoos.com serves first view terrain locally while preserving the complete authored stack. creates a visibly textured alpine terrain material from guaranteed local images. the awtsmoos clothes the valley in meadow and earth before distant enrichment can arrive; awtsmoos.com binds real pixels directly, then adds mud, stone, leaf floor, and shore layers. representative files localterraintexturecatalog.js — names six high resolution terrain images served beside the game itself. the awtsmoos reveals earth without a quota gate; awtsmoos.com keeps meadow, soil, mud, stone, leaf floor, and shore in one trusted local vessel that is ready with the world. exports: local terrain textures, localterraintextureurl, localterraintextureurls. terrainlayerrecipe.js — selects biome diverse active roles from a sixteen source alpine ground covenant. the awtsmoos reveals one valley through meadow, earth, wet bank, rock, forest, and shore; awtsmoos.com serves first view terrain locally while preserving the complete authored stack. exports: terrain layer count, terrainlayerrecipe. terrainmaterialfactory.js — creates a visibly textured alpine terrain material from guaranteed local images. the awtsmoos clothes the valley in meadow and earth before distant enrichment can arrive; awtsmoos.com binds real pixels directly, then adds mud, stone, leaf floor, and shore layers. exports: createterrainmaterial. exported symbols worth searching local terrain textures · localterraintextureurl · localterraintextureurls · terrain layer count · terrainlayerrecipe · createterrainmaterial import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ../materials/mountainvillagematerialpresets.js ./localterraintexturecatalog.js ../../../../light three gltf/tiny runtime.js ../../assets/publicmaterialcache.js ../../assets/texturerepeat.js ../materials/materialstackrecipe.js ./terrainlayerrecipe.js directory map parent: experiments/awtsmoos/src/world children: none. related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-terrain-direct-52dd7d6aaf.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-trees-director-0b20c21868",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/trees/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/src/world/trees",
+				"anchor": "directory-guide-experiments-awtsmoos-src-world-trees"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Exported symbols worth searching",
+				"anchor": "exported-symbols-worth-searching"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/world/trees Role: World systems Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 13 files, 0 structural child directories Purpose Tree generation, placement, geometry, and world integration. The Awtsmoos rene",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/world/trees role: world systems snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 13 files, 0 structural child directories purpose tree generation, placement, geometry, and world integration. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: world systems search terms: forest, create, tree, leaf, texture, geometry, bark, collision, material, com, procedural, trunk file mix: .js: 12 good first question: “does the behavior or asset i need belong to world systems, or is this only a neighboring/test/reference layer?” semantic evidence b\"h builds bounded collision only from selected visible lower trunk triangles. the awtsmoos preserves truthful contact without copying every branch face into physics; awtsmoos.com uses deterministic visible mesh stratification and never inserts proxy primitives. selects bounded real trunk triangles by height and angular coverage. the awtsmoos preserves the visible trunk while physics needs fewer finite vessels; awtsmoos.com keeps the largest authored triangle in each of ninety six spatial cells. batches procedural core trees by semantic bark and leaf material type. the awtsmoos reveals one forest without erasing species; awtsmoos.com merges geometry only where bark or leaf identity truly matches and preserves collision transform compatibility. representative files forestcollision.js — builds bounded collision only from selected visible lower trunk triangles. the awtsmoos preserves truthful contact without copying every branch face into physics; awtsmoos.com uses deterministic visible mesh stratification and never inserts proxy primitives. exports: createforestcolliders. forestcollisionselection.js — selects bounded real trunk triangles by height and angular coverage. the awtsmoos preserves the visible trunk while physics needs fewer finite vessels; awtsmoos.com keeps the largest authored triangle in each of ninety six spatial cells. exports: selectvisibletrunktriangles. forestgeometry.js — batches procedural core trees by semantic bark and leaf material type. the awtsmoos reveals one forest without erasing species; awtsmoos.com merges geometry only where bark or leaf identity truly matches and preserves collision transform compatibility. exports: createmergedforestgeometry, transformtreepoint. forestgeometrybuffer.js — transforms procedural core tree geometry into renderer ready merged buffers. the awtsmoos carries every branch from abstract seed into measured place; awtsmoos.com rotates, scales, colors, indexes, and exposes collision transforms without generating trees. exports: appendtreegeometry, createforestmesh, emptyforestbuilder, rgba, transformtreepoint. forestleaftexture.js — builds the green fallback and prepares opaque source chai leaves for mask rendering. the licensed chai pngs are rgb images on a witnessed 486c55 studio green field. a one time, idle sliced connected chroma key converts only edge reachable background to alpha, avoiding square foliage cards, protecting similar interior leaf greens, and preventing frame time spikes. exports: createforestleaftexture, createforestleafpublictexture, forestleafpublictexturecontract. forestmaterialfactory.js — creates one high resolution bark or alpha cutout leaf material per semantic type. the awtsmoos refuses one painted canopy for every species; awtsmoos.com binds each core type to its own public texture and hides missing leaf cards rather than showing opaque green blobs. exports: createtreebarkmaterial, createtreeleafmaterial. forestplacement.js — deterministic terrain placement against measured world truth. exports: createforestplacements. forestpolicy.js — adapts every procedural core tree preset or species to measured world placement. the awtsmoos reveals many botanical forms through one generator; awtsmoos.com changes only runtime density, height, spacing, collision, and seed while core owns all tree construction. exports: createforestpolicy, createreferenceforestpolicy. forestrecordfactory.js — generates preset trees and bounded live reference canopies from one placement shape. the awtsmoos renews every species beyond polygon count; awtsmoos.com requests the runtime vessel only for the running forest while canonical procedural exports retain cinematic density. exports: buildforestrecord. forestsystemstats.js — summarizes one procedural forest and its single semantic renderer. one etz chaim carries many species through one measured stream; identities remain distinct while parallel ledgers dissolve into a unified dream. exports: createforestsystemstats. proceduralforestsystem.js — reveals one procedural core forest through one renderer and collision covenant. from one etz chaim the many species rise, each branch retaining its name; one heichal merges their material light, one ledger measures the flame. exports: createproceduralforest. treesemanticmaterialcatalog.js — maps every procedural core bark and leaf type to a high resolution public asset. the awtsmoos reveals each species through its own garment; awtsmoos.com preserves oak, willow, pine, palm, redwood, sakura, and every neighboring form without generic canopy paint. exports: treebarktextureurl, treeleaftextureurl, treesemantictextureurls, tree bark texture types, tree leaf texture types. exported symbols worth searching createforestcolliders · selectvisibletrunktriangles · createmergedforestgeometry · transformtreepoint · appendtreegeometry · createforestmesh · emptyforestbuilder · rgba · createforestleaftexture · createforestleafpublictexture · forestleafpublictexturecontract · createtreebarkmaterial · createtreeleafmaterial · createforestplacements · createforestpolicy · createreferenceforestpolicy import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ../../collision/trianglecollider.js ./forestcollisionselection.js ./forestgeometry.js ../../../../light three gltf/tiny runtime.js ./forestgeometrybuffer.js ./forestmaterialfactory.js ../../assets/publicmaterialcache.js ./treesemanticmaterialcatalog.js ../village/villagereferencecomposition.js ../../../../../../../libs/awtsmoos procedural core/src/index.js ./forestcollision.js ./forestplacement.js directory map parent: experiments/awtsmoos/src/world children: none. related and overlapping systems vegetation, trees, and forest systems — botany rules, tree generation, forest composition, grass, and source texture libraries overlap semantically but own different layers. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-trees-director-0b20c21868.json"
+	}
+]

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H File plan\n\nAdded: ikar-identity.js, ikar-identity-paint.js, social/styles/motion.css, social/styles/reduced-motion.css\nRewrote: ikar-first.js, social/styles/index.css\nRestored from HEAD after regression: fallback.html (then left as restored server template)\n"
+}

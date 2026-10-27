@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Profile Tests (geelooy/api/social/helper/profile/test/)\n\nProfile domain tests.\n\n- `DiscoveryContentKind.test.js` — discovery content kinds.\n- `HeichelDiscoveryPrivacy.test.js` — Heichel discovery privacy rules.\n- `HeichelPublicationPolicy.test.js` — publication policy.\n- `PublicSites.test.js` — public sites behavior.\n"
+}

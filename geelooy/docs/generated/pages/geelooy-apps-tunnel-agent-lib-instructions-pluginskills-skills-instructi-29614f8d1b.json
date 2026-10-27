@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-29614f8d1b",
+	"title": "Identity, path, and change gates",
+	"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/IDENTITY_AND_CHANGE_GATES.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 2,
+			"text": "Current tunnel integration takes precedence",
+			"anchor": "current-tunnel-integration-takes-precedence"
+		},
+		{
+			"level": 1,
+			"text": "Identity, path, and change gates",
+			"anchor": "identity-path-and-change-gates"
+		},
+		{
+			"level": 2,
+			"text": "Identity and consent",
+			"anchor": "identity-and-consent"
+		},
+		{
+			"level": 2,
+			"text": "Narrow path resolution",
+			"anchor": "narrow-path-resolution"
+		},
+		{
+			"level": 2,
+			"text": "Multi-file edit transaction",
+			"anchor": "multi-file-edit-transaction"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-29614f8d1b-001.json"
+	]
+}

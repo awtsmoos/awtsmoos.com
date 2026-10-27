@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Email API (`/api/email/`)\n\nCompact public gateway for the social-mail engine. Preserves canonical\n`/mail/...` routes, adds short aliases and machine-readable discovery.\n\n## Files\n\n- `_awtsmoos.derech.js` — Route registration.\n- `DOCUMENTATION.md` — Full capability and route documentation.\n- `capabilities.js` — Runtime capability manifest (`live` / `foundation` / `planned`).\n- `settingsSchema.js` — Progressive advanced-settings schema.\n\n## Discovery\n\n- `GET /api/email/` — Legacy: `B\"H - Awtsmoos Mail System Active`.\n- `GET /api/email/email` — Versioned service discovery with links.\n- `GET /api/email/capabilities` — Capability manifest.\n- `GET /api/email/settings/schema` — Settings schema.\n\n## Operations\n\nInbox/sent/thread views, read + mark-read, delete, send (local aliases or\nexternal SMTP when configured), unread counts, push subscriptions, gatekeeper\napproval, stored rules, and universe mirror/link ops. Canonical\n`/api/email/mail/get` and short `/api/email/get` resolve to the same handler.\n"
+}

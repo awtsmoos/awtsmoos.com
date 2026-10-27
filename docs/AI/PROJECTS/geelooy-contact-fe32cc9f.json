@@ -20,21 +20,24 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-contact-fe32cc9f.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 3,
+		"source": 11,
 		"tests": 0,
 		"assets": 0,
 		"generated": 0,
 		"docs": 0,
 		"other": 0
 	},
-	"totalFiles": 3,
+	"totalFiles": 11,
 	"symbolSummary": {
-		"files": 1,
-		"classes": 0,
+		"files": 4,
+		"classes": 3,
 		"functions": 1,
-		"exports": 0,
+		"exports": 3,
 		"samples": [
-			"submitContact"
+			"revealContactPage",
+			"ContactSignalClient",
+			"ContactSignalController",
+			"YesodJsonClient"
 		]
 	},
 	"outgoingDependencies": [],
@@ -45,11 +48,11 @@
 			"url": "/contact",
 			"file": "geelooy/contact/index.html",
 			"title": "Contact — Awtsmoos",
-			"scripts": 1,
-			"styles": 1
+			"scripts": 2,
+			"styles": 2
 		}
 	],
-	"requiresLocalDocumentation": false,
+	"requiresLocalDocumentation": true,
 	"documentationCovered": false,
 	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
 }

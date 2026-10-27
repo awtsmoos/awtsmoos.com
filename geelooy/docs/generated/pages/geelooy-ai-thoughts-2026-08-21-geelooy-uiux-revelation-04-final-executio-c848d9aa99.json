@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-04-final-executio-c848d9aa99",
+	"title": "Final Execution Plan",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-21-geelooy-uiux-revelation/04-final-execution-plan.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Final Execution Plan",
+			"anchor": "final-execution-plan"
+		},
+		{
+			"level": 2,
+			"text": "Phase A — Repository revelation",
+			"anchor": "phase-a-repository-revelation"
+		},
+		{
+			"level": 2,
+			"text": "Phase B — Structural UI risk scan",
+			"anchor": "phase-b-structural-ui-risk-scan"
+		},
+		{
+			"level": 2,
+			"text": "Phase C — Runtime verification",
+			"anchor": "phase-c-runtime-verification"
+		},
+		{
+			"level": 2,
+			"text": "Phase D — Implementation",
+			"anchor": "phase-d-implementation"
+		},
+		{
+			"level": 2,
+			"text": "Phase E — Verification",
+			"anchor": "phase-e-verification"
+		},
+		{
+			"level": 2,
+			"text": "Remaining-work ledger",
+			"anchor": "remaining-work-ledger"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-04-final-executio-c848d9aa99-001.json"
+	]
+}

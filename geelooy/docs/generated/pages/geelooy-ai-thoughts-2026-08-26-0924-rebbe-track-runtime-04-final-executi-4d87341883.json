@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-26-0924-rebbe-track-runtime-04-final-executi-4d87341883",
+	"title": "Final Execution Plan",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-26-0924-rebbe-track-runtime/04-final-execution-plan.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Final Execution Plan",
+			"anchor": "final-execution-plan"
+		},
+		{
+			"level": 2,
+			"text": "Files actually planned for source mutation",
+			"anchor": "files-actually-planned-for-source-mutation"
+		},
+		{
+			"level": 2,
+			"text": "Test files after code phase",
+			"anchor": "test-files-after-code-phase"
+		},
+		{
+			"level": 2,
+			"text": "Stop condition for this node",
+			"anchor": "stop-condition-for-this-node"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-26-0924-rebbe-track-runtime-04-final-executi-4d87341883-001.json"
+	]
+}

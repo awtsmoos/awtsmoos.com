@@ -9,7 +9,7 @@
 		"id": "apps",
 		"title": "Applications"
 	},
-	"title": "Light Counter",
+	"title": "Light Counter · Awtsmoos",
 	"entries": [
 		"index.html"
 	],
@@ -21,15 +21,25 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-virtual-os-stress-light-counter-1f69ac90.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 1,
+		"source": 8,
 		"tests": 0,
 		"assets": 0,
 		"generated": 0,
 		"docs": 0,
 		"other": 0
 	},
-	"totalFiles": 1,
-	"symbolSummary": null,
+	"totalFiles": 8,
+	"symbolSummary": {
+		"files": 4,
+		"classes": 3,
+		"functions": 0,
+		"exports": 3,
+		"samples": [
+			"MalchusLightCounterView",
+			"OhrLightCounterState",
+			"TiferesLightCounterController"
+		]
+	},
 	"outgoingDependencies": [],
 	"incomingDependencies": [],
 	"externalDependencies": [],
@@ -37,9 +47,9 @@
 		{
 			"url": "/apps/virtual-os-stress-light-counter",
 			"file": "geelooy/apps/virtual-os-stress-light-counter/index.html",
-			"title": "Light Counter",
-			"scripts": 0,
-			"styles": 0
+			"title": "Light Counter · Awtsmoos",
+			"scripts": 1,
+			"styles": 1
 		}
 	],
 	"requiresLocalDocumentation": false,

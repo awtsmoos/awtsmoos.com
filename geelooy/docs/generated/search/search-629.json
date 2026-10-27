@@ -1,0 +1,223 @@
+[
+	{
+		"id": "geelooy-scripts-awtsmoos-merkavaexecutor-merkava-service-readme-md-19abf6dfc7",
+		"title": "B\"H — Merkava Service (tunnel render path)",
+		"sourcePath": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-service/README.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Merkava Service (tunnel render path)",
+				"anchor": "b-h-merkava-service-tunnel-render-path"
+			},
+			{
+				"level": 2,
+				"text": "What the tunnel render path CAN do",
+				"anchor": "what-the-tunnel-render-path-can-do"
+			},
+			{
+				"level": 2,
+				"text": "What native Merkava CANNOT do (static render only)",
+				"anchor": "what-native-merkava-cannot-do-static-render-only"
+			},
+			{
+				"level": 2,
+				"text": "Chrome absent → honest fallback",
+				"anchor": "chrome-absent-honest-fallback"
+			},
+			{
+				"level": 2,
+				"text": "Tests",
+				"anchor": "tests"
+			}
+		],
+		"excerpt": "B\"H — Merkava Service (tunnel render path) In process service layer behind the tunnel's render lab actions (geelooy/apps/tunnel/agent/tools/fs/actionGroups/renderLabActions.js calls service.runRenderLab(...), where service is this package's index.js). What the tunnel render path CAN do With mode=chrome if available (or",
+		"searchText": "b\"h — merkava service (tunnel render path) in process service layer behind the tunnel's render lab actions (geelooy/apps/tunnel/agent/tools/fs/actiongroups/renderlabactions.js calls service.runrenderlab(...), where service is this package's index.js). what the tunnel render path can do with mode=chrome if available (or any mode containing chrome) on a vessel that has chrome (discovered via chrome path, /opt/meta chromium/chrome, /usr/bin/google chrome, path names, etc.): full page js execution. browser actions/chromeheadless.js launches a throwaway headless chrome, loads the page html, and waits for document.readystate === \"complete\" plus settle — every runs to completion in a real v8. returnvalues are evaluated against the live page. real input events via cdp (input.dispatchkeyevent / input.dispatchmouseevent): keyboard: keydown / keyup / keypress / press / type, carrying key, code (e.g. keya), and modifiers (alt/ctrl/meta/shift); mouse: click at x/y (mousedown+mouseup+click), hover/move at x/y or on a selector, down/up, doubleclick; scroll: mousewheel with deltax/deltay (actually scrolls the page; window.scrolly changes). real png screenshot from page.capturescreenshot, with proof metadata (backend: \"chrome headless cdp\"), console entries, and page exceptions. what native merkava cannot do (static render only) merkava's native software renderer (merkava, merkava image modes) is a static dom + pixel pipeline with no js engine . it never executes page s, has no layout engine for hit testing, and cannot synthesize real input events. interactions that require a real browser fail loudly on the virtual path as chrome only interaction: ... — they are never silently faked: coordinate clicks/hover (click/hover with x/y), keydown/keyup/keypress with key+code, or any keyboard action with explicit code/modifiers, scroll / mouse.scroll (wheel). selector based click/type/press keep working on the virtual path through the synthetic dom (they dispatch synthetic dom events, not real input). chrome absent → honest fallback if mode=chrome if available is requested but no chrome binary is found, runrendermode falls back to merkava's static renderer with fallbackreason: \"chrome not found\" on the screenshot metadata and a suggestion to install chrome. the mode result never claims a chrome backend it did not use. tests render lab/renderlabchrome.test.mjs — t1..t4 through runrenderlab (the exact tunnel path call): js evaluation, coordinate click counter, keydown key/code capture, hover state + wheel scroll. requires chrome. render lab/renderlabvirtualhonesty.test.mjs — the virtual path refuses chrome only interactions loudly; selector clicks still work. render lab/testrenderlab.mjs — legacy smoke test for the static modes. run: node test render lab/renderlabchrome.test.mjs",
+		"page": "pages/geelooy-scripts-awtsmoos-merkavaexecutor-merkava-service-readme-md-19abf6dfc7.json"
+	},
+	{
+		"id": "geelooy-scripts-awtsmoos-streaming-docs-muxer-roadmap-md-3d773fedd6",
+		"title": "Streaming Muxer Roadmap",
+		"sourcePath": "geelooy/scripts/awtsmoos/streaming/docs/MUXER_ROADMAP.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Streaming Muxer Roadmap",
+				"anchor": "streaming-muxer-roadmap"
+			}
+		],
+		"excerpt": "B\"H Streaming Muxer Roadmap Current landing: Shared muxer contract exists. HLS passthrough muxer accepts already muxed segment bytes. Nesher pipeline can push those segments through the local tunnel. The local tunnel has a raw binary segment route, so browser to tunnel segment upload can avoid JSON/base64 overhead. Evi",
+		"searchText": "b\"h streaming muxer roadmap current landing: shared muxer contract exists. hls passthrough muxer accepts already muxed segment bytes. nesher pipeline can push those segments through the local tunnel. the local tunnel has a raw binary segment route, so browser to tunnel segment upload can avoid json/base64 overhead. evidence from local inspection: no package references were found for mux.js, mp4box.js, mpegts.js, hls.js, mp4 muxer, webm muxer, or @webav in the searched app/script surfaces. the bundled mediabunny library exposes mp4outputformat, videosamplesource, audiobuffersource, streamtarget, and buffertarget. the bundled mediabunny code contains fragmented mp4 support through faststart: \"fragmented\" and minimumfragmentduration. the bundled mediabunny code did not expose an hls/m3u8 helper by string search. practical next layer: build a real fragmented mp4/cmaf adapter around mediabunny, then feed real .m4s segments plus an init map into the local hls playlist path. keep mpeg ts as a separate research path if a browser compatible ts muxer is introduced later. do not claim youtube/twitch/facebook streaming works until encoded chunks become valid media segments and an ingest smoke test proves it. binary route note: post /streaming/hls segment/:sessionid/:name already exists in the local api path per current project handoff. the hls playlist helper now preserves fmp4 oriented metadata such as ext x map when mapuri or initsegmentname is supplied.",
+		"page": "pages/geelooy-scripts-awtsmoos-streaming-docs-muxer-roadmap-md-3d773fedd6.json"
+	},
+	{
+		"id": "geelooy-scripts-documentation-md-56189279f9",
+		"title": "Public Script Runtime Documentation",
+		"sourcePath": "geelooy/scripts/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Public Script Runtime Documentation",
+				"anchor": "public-script-runtime-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Public Script Runtime Documentation The Awtsmoos lets many pages share parser, runtime, utility, and browser logic, multiplying every consequence of a common line; Awtsmoos.com maps this large script district beside shared libraries so maintainers trace importers before they redesign. Re",
+		"searchText": "b\"h boruch hashem blessed is he public script runtime documentation the awtsmoos lets many pages share parser, runtime, utility, and browser logic, multiplying every consequence of a common line; awtsmoos.com maps this large script district beside shared libraries so maintainers trace importers before they redesign. read ../../docs/systems/shared libraries.md, ../../docs/architecture.md, and ../../docs/test index.md.",
+		"page": "pages/geelooy-scripts-documentation-md-56189279f9.json"
+	},
+	{
+		"id": "geelooy-scripts-tricks-ai-relay-readme-md-a9d86aabb4",
+		"title": "B\"H Awtsmoos AI Relay",
+		"sourcePath": "geelooy/scripts/tricks/ai-relay/README.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H Awtsmoos AI Relay",
+				"anchor": "b-h-awtsmoos-ai-relay"
+			},
+			{
+				"level": 2,
+				"text": "Run",
+				"anchor": "run"
+			},
+			{
+				"level": 2,
+				"text": "macOS / Linux quick install",
+				"anchor": "macos-linux-quick-install"
+			},
+			{
+				"level": 2,
+				"text": "Windows quick run",
+				"anchor": "windows-quick-run"
+			},
+			{
+				"level": 2,
+				"text": "Environment",
+				"anchor": "environment"
+			}
+		],
+		"excerpt": "B\"H Awtsmoos AI Relay A tiny local Node.js relay for geelooy/ai when the Awtsmoos Chrome server extension is not available or not injected yet. Run Default health URL: macOS / Linux quick install Windows quick run Environment The relay keeps an in memory cookie jar per upstream origin and streams upstream response bodi",
+		"searchText": "b\"h awtsmoos ai relay a tiny local node.js relay for geelooy/ai when the awtsmoos chrome server extension is not available or not injected yet. run default health url: macos / linux quick install windows quick run environment the relay keeps an in memory cookie jar per upstream origin and streams upstream response bodies back to the browser.",
+		"page": "pages/geelooy-scripts-tricks-ai-relay-readme-md-a9d86aabb4.json"
+	},
+	{
+		"id": "geelooy-seo-readme-md-214433b677",
+		"title": "Awtsmoos.com Public Indexing Architecture",
+		"sourcePath": "geelooy/seo/README.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos.com Public Indexing Architecture",
+				"anchor": "awtsmoos-com-public-indexing-architecture"
+			},
+			{
+				"level": 2,
+				"text": "Public content families",
+				"anchor": "public-content-families"
+			},
+			{
+				"level": 2,
+				"text": "Static HTML enrichment",
+				"anchor": "static-html-enrichment"
+			},
+			{
+				"level": 2,
+				"text": "Discovery graph",
+				"anchor": "discovery-graph"
+			},
+			{
+				"level": 2,
+				"text": "Audits",
+				"anchor": "audits"
+			},
+			{
+				"level": 2,
+				"text": "Important quality boundaries",
+				"anchor": "important-quality-boundaries"
+			},
+			{
+				"level": 2,
+				"text": "Release gate",
+				"anchor": "release-gate"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos.com Public Indexing Architecture The Awtsmoos gives public content an ordinary semantic road before client JavaScript begins to shine. This directory documents the indexing vessels that keep Awtsmoos.com crawlable without turning private/action surfaces into search pages. Public",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos.com public indexing architecture the awtsmoos gives public content an ordinary semantic road before client javascript begins to shine. this directory documents the indexing vessels that keep awtsmoos.com crawlable without turning private/action surfaces into search pages. public content families heichel roots, series, and torah posts: dynamic ssr with stable post canonicals. aliases: validated dynamic ssr with profile, bounded authored posts, public discussion, and profilepage json ld. native comments/replies: canonical comment routes discovered from compact alias indexes. imported english translations: deterministic manifest backed pages with english and hebrew source rows. apps and games: registry backed static html enrichment plus catalog/family sitemaps. about, contact, docs, social, apps root, games root: curated authored static pages. static html enrichment ayzarim/awtsmoosdynamicserver/static/publichtmlseo.js runs only for exact generated metadata records. it fills missing description, robots, canonical, opengraph, twitter, and json ld while preserving authored equivalents. unknown html is unchanged. generated metadata lives under geelooy/seo/generated/public pages/ and is rebuilt by: node geelooy/scripts/seo/writeartifacts.mjs discovery graph /robots.txt points to /sitemap.xml. the root sitemap links bounded family sitemaps. core discovery contains only durable public roots; app/game catalog urls live in their family sitemaps to avoid duplicate crawl entries. auth, api, edit, submit, delete, admin, internal, debug, staging, and similar action surfaces are intentionally excluded. audits static audit: node geelooy/scripts/seo/audit/run.mjs this fails on missing files/titles, duplicate canonicals, duplicate/invalid sitemap urls, or sitemap size/count overflow. missing visible h1 is advisory because hidden crawler only headings are forbidden. translation corpus integrity is covered by translationintegrity.mjs and its regression test. it verifies manifest bundle existence and row id uniqueness. human translation titles are not fabricated because current imported manifests do not provide a trustworthy title field. runtime audit against a local server: node geelooy/scripts/seo/runtimeaudit/run.mjs http://127.0.0.1:port the runtime audit walks sitemap indexes with bounded url count and concurrency, exposes redirects, and reports html title/canonical advisories. it is diagnostic only and never runs inside production requests. important quality boundaries canonical urls must be final 200 urls, never redirecting extensionless directory forms. generated registry metadata refuses missing target files. authored noindex, canonical, json ld, opengraph, and twitter tags are preserved. no fake lastmod, ratings, prices, publication dates, translation titles, or hreflang values are generated. alias authored post discovery is bounded to 12 records. comment sitemap aliases paginate by 500; comment shards split at 10,000. source and generated js modules remain at or below 120 lines. release gate before production activation: focused seo tests, heichel quality tests, route tests, artifact idempotence, xml parsing, line ceilings, static audit, bounded runtime audit, and git diff check must pass. release uses a clean worktree and exact sha guarded activation, followed by raw public origin acceptance.",
+		"page": "pages/geelooy-seo-readme-md-214433b677.json"
+	},
+	{
+		"id": "geelooy-shared-documentation-md-02d3743582",
+		"title": "Shared Code Documentation",
+		"sourcePath": "geelooy/shared/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Shared Code Documentation",
+				"anchor": "shared-code-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Shared Code Documentation The Awtsmoos lets many apps receive from one shared vessel, so a small edit may travel far; Awtsmoos.com asks maintainers to trace every importer before changing a common library or bar. Read ../../docs/SYSTEMS/SHARED LIBRARIES.md. Important shared domains inclu",
+		"searchText": "b\"h boruch hashem blessed is he shared code documentation the awtsmoos lets many apps receive from one shared vessel, so a small edit may travel far; awtsmoos.com asks maintainers to trace every importer before changing a common library or bar. read ../../docs/systems/shared libraries.md. important shared domains include tunnel and virtual os material. search all importers and run broad tests for shared changes.",
+		"page": "pages/geelooy-shared-documentation-md-02d3743582.json"
+	},
+	{
+		"id": "geelooy-shliach-plugin-docs-static-asset-deployment-md-a7695c44fb",
+		"title": "Browser-only production deployment without tunnel interruption",
+		"sourcePath": "geelooy/shliach-plugin/docs/STATIC_ASSET_DEPLOYMENT.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Browser-only production deployment without tunnel interruption",
+				"anchor": "browser-only-production-deployment-without-tunnel-interruption"
+			},
+			{
+				"level": 2,
+				"text": "Verification contract",
+				"anchor": "verification-contract"
+			}
+		],
+		"excerpt": "B\"H Browser only production deployment without tunnel interruption The production deployment coordinator may fast forward static assets beneath geelooy/games/mitzvahWorld/, geelooy/apps/rebbe/, and geelooy/shliach plugin/ without restarting awtsmoos.service or reloading Nginx, only when every changed file is in those p",
+		"searchText": "b\"h browser only production deployment without tunnel interruption the production deployment coordinator may fast forward static assets beneath geelooy/games/mitzvahworld/, geelooy/apps/rebbe/, and geelooy/shliach plugin/ without restarting awtsmoos.service or reloading nginx, only when every changed file is in those paths and live service health and ownership can be verified. changes to websocket code, runtime services, installers, api routes, deployment scripts, or mixed static/server paths require a guarded activation. backend renames cannot masquerade as static only changes. a static release marker is bound to the precise git commit and incumbent systemd process id; the marker expires automatically when that server generation changes. a normal server restart still closes existing websockets. preserve accepted operation receipts and reconnect using the same approved device identity; never blindly repeat an uncertain write. verification contract record systemctl show p mainpid awtsmoos.service before and after a browser only release. the pid must remain identical; the deploy record must state mode=static no restart. check the active websocket registration and verify the precise commit in the static release marker. a repeated deployment of the same commit must be a no op and preserve that pid too.",
+		"page": "pages/geelooy-shliach-plugin-docs-static-asset-deployment-md-a7695c44fb.json"
+	},
+	{
+		"id": "geelooy-sites-documentation-md-d1a863c76b",
+		"title": "Public Site Gateway",
+		"sourcePath": "geelooy/sites/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Public Site Gateway",
+				"anchor": "public-site-gateway"
+			},
+			{
+				"level": 2,
+				"text": "Entry point",
+				"anchor": "entry-point"
+			},
+			{
+				"level": 2,
+				"text": "Security boundary",
+				"anchor": "security-boundary"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Public Site Gateway The Awtsmoos gives every published alias one stable doorway while Awtsmoos.com carries static source and explicitly hosted project traffic through one canonical public name without teaching static Sites to execute arbitrary code. Entry point awtsmoos.derech.js mounts ",
+		"searchText": "b\"h boruch hashem blessed is he public site gateway the awtsmoos gives every published alias one stable doorway while awtsmoos.com carries static source and explicitly hosted project traffic through one canonical public name without teaching static sites to execute arbitrary code. entry point awtsmoos.derech.js mounts /:aliasid and /:aliasid/:path , forwarding request testimony into sitegateway.js. the gateway resolves published source, direct site readiness, virtual os source, custom domains, and hosted project proxy behavior through focused modules. security boundary raw request bodies/cookies belong only to the hosted project transport path. static site resolution, direct paths, source manifests, custom domain host policy, and virtual os responses remain separately bounded. tests under test/ witness these routing rules.",
+		"page": "pages/geelooy-sites-documentation-md-d1a863c76b.json"
+	}
+]

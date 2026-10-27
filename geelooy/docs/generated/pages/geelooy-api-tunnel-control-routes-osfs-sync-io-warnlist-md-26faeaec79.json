@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-tunnel-control-routes-osfs-sync-io-warnlist-md-26faeaec79",
+	"title": "Sync-I/O warn list — geelooy/api (safeguards Phase 3, 2026-10-20)",
+	"sourcePath": "geelooy/api/tunnel/control/routes/osFs/SYNC_IO_WARNLIST.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Sync-I/O warn list — geelooy/api (safeguards Phase 3, 2026-10-20)",
+			"anchor": "sync-i-o-warn-list-geelooy-api-safeguards-phase-3-2026-10-20"
+		},
+		{
+			"level": 2,
+			"text": "The rule",
+			"anchor": "the-rule"
+		},
+		{
+			"level": 2,
+			"text": "Existing offenders: warn-listed, NOT grandfathered for edits",
+			"anchor": "existing-offenders-warn-listed-not-grandfathered-for-edits"
+		},
+		{
+			"level": 2,
+			"text": "Offenders by directory (file counts, 2026-10-20)",
+			"anchor": "offenders-by-directory-file-counts-2026-10-20"
+		},
+		{
+			"level": 2,
+			"text": "Regenerate the exact file list",
+			"anchor": "regenerate-the-exact-file-list"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-tunnel-control-routes-osfs-sync-io-warnlist-md-26faeaec79-001.json"
+	]
+}

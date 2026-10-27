@@ -24,20 +24,21 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-rebbe-d2246f9f.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 125,
-		"tests": 0,
+		"source": 222,
+		"tests": 33,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
 		"other": 0
 	},
-	"totalFiles": 126,
+	"totalFiles": 256,
 	"symbolSummary": {
-		"files": 117,
-		"classes": 8,
-		"functions": 588,
-		"exports": 261,
+		"files": 181,
+		"classes": 37,
+		"functions": 730,
+		"exports": 355,
 		"samples": [
+			"RuntimeStyleYesod",
 			"async",
 			"collectRebbeAssets",
 			"collectDirectory",
@@ -47,16 +48,15 @@
 			"generateRebbeResponsaApk",
 			"REBBE_ANDROID_SOURCE",
 			"MainActivity",
-			"handleBack",
-			"handleNext",
-			"handlePrev"
+			"startApplication",
+			"waitForTimeline"
 		]
 	},
 	"outgoingDependencies": [
 		{
 			"project": "geelooy/scripts",
-			"count": 1,
-			"examples": "geelooy/apps/rebbe/android/build.js"
+			"count": 2,
+			"examples": "geelooy/apps/rebbe/android/build.js; geelooy/apps/rebbe/boot-entry.js"
 		}
 	],
 	"incomingDependencies": [
@@ -73,7 +73,7 @@
 			"file": "geelooy/apps/rebbe/index.html",
 			"title": "AWTSMOOS ARCHIVE // OMEGA",
 			"scripts": 1,
-			"styles": 4
+			"styles": 6
 		}
 	],
 	"requiresLocalDocumentation": true,

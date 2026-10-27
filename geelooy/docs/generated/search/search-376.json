@@ -1,0 +1,195 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-08-30-1651-olam-premium-polish-03-verification--23111dca6b",
+		"title": "Premium Polish Verification",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-30-1651-olam-premium-polish/03-verification.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Premium Polish Verification",
+				"anchor": "premium-polish-verification"
+			},
+			{
+				"level": 2,
+				"text": "Release identity",
+				"anchor": "release-identity"
+			},
+			{
+				"level": 2,
+				"text": "Visual polish delivered",
+				"anchor": "visual-polish-delivered"
+			},
+			{
+				"level": 2,
+				"text": "Onboarding delivered",
+				"anchor": "onboarding-delivered"
+			},
+			{
+				"level": 2,
+				"text": "MiniMax setup delivered",
+				"anchor": "minimax-setup-delivered"
+			},
+			{
+				"level": 2,
+				"text": "Automated verification",
+				"anchor": "automated-verification"
+			},
+			{
+				"level": 2,
+				"text": "Local premium browser verification",
+				"anchor": "local-premium-browser-verification"
+			},
+			{
+				"level": 2,
+				"text": "Production deployment and verification",
+				"anchor": "production-deployment-and-verification"
+			},
+			{
+				"level": 2,
+				"text": "External boundary",
+				"anchor": "external-boundary"
+			}
+		],
+		"excerpt": "Premium Polish Verification Release identity Premium polish commit: 84667872befb4810ba695fffbc825f1543b07a4e. Parent: 2fcf49b3cc2d47ae6bcd30ad5acd66da07424ecf. Push: normal fast forward to origin/main; never force pushed. Commit scope: 13 Olam app files only. Original shared worktree retained its unrelated local HEAD a",
+		"searchText": "premium polish verification release identity premium polish commit: 84667872befb4810ba695fffbc825f1543b07a4e. parent: 2fcf49b3cc2d47ae6bcd30ad5acd66da07424ecf. push: normal fast forward to origin/main; never force pushed. commit scope: 13 olam app files only. original shared worktree retained its unrelated local head and 105 staged files. visual polish delivered animated ambient gradient orbs behind the shell. real glass surfaces using blur, saturation, translucent borders, inset highlights, and layered shadows. glass header and bottom navigation. gradient hero/page headings and glowing brand orb. staggered card/page entrance animation. generate button light sweep when enabled. provider status pulse and richer selected navigation/mode states. hover lift/glow for templates, workflow cards, official links, and asset actions. prefers reduced motion disables nonessential motion. onboarding delivered three step create guide: describe, guide, review. prompt formula: subject + action + camera + light + atmosphere + audio. paste prompt and one tap templates remain prominent. frame/image/video/audio reference guidance remains intact. minimax setup delivered official destinations are centralized in scripts/config/minimaxlinks.js: api keys: https://platform.minimax.io/console/access. h3 video docs: https://platform.minimax.io/docs/guides/video generation. balance: https://platform.minimax.io/console/recharge records. create's missing key banner links to the official minimax api keys page. settings explains: 1. create a pay as you go api key. 2. configure minimax api key on the awtsmoos server. 3. restart or redeploy, then let olam re detect provider readiness. the ui warns never to expose the key in html, javascript, screenshots, browser storage, or chat logs. no password/secret input exists in browser ui. automated verification every olam file: <=120 lines. javascript syntax: pass. node suite: 19 passed, 0 failed. official link, reduced motion, and secret input gates: pass. local premium browser verification fresh 360x800 chrome proved: onboarding and three workflow cards render computed glass backdrop filter is active brand orb animation is active official api key link is exact templates preserve textarea identity/focus reference instructions remain available estimated cost does not overlap generate submission panel clears bottom navigation settings contains pay as you go, minimax api key, and security instructions no password input exists 360px, 768px, and 1440px stay overflow free no captured console errors or failed http responses the local gate printed premium final local browser pass. production deployment and verification canonical deploy fast forwarded production to 84667872befb4810ba695fffbc825f1543b07a4e and emitted canonical server active and canonical deploy ok. a fresh production chrome profile fetched the new minimax link and glass assets and printed: pass browser smoke: glass, motion, onboarding, minimax setup, templates, references, no overlap followed by public premium polish pass. external boundary production still does not contain the third party minimax api key. the ui now makes the official acquisition/setup path explicit, but the credential itself must be supplied by an authorized operator.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-30-1651-olam-premium-polish-03-verification--23111dca6b.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-30-1747-olam-director-console-03-verificatio-a1b9b55817",
+		"title": "Director Console Verification",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-30-1747-olam-director-console/03-verification.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Director Console Verification",
+				"anchor": "director-console-verification"
+			},
+			{
+				"level": 2,
+				"text": "Release identity",
+				"anchor": "release-identity"
+			},
+			{
+				"level": 2,
+				"text": "Director Console delivered",
+				"anchor": "director-console-delivered"
+			},
+			{
+				"level": 2,
+				"text": "Automated verification",
+				"anchor": "automated-verification"
+			},
+			{
+				"level": 2,
+				"text": "Local browser verification",
+				"anchor": "local-browser-verification"
+			},
+			{
+				"level": 2,
+				"text": "Production deployment",
+				"anchor": "production-deployment"
+			},
+			{
+				"level": 2,
+				"text": "Public browser verification",
+				"anchor": "public-browser-verification"
+			},
+			{
+				"level": 2,
+				"text": "External boundary",
+				"anchor": "external-boundary"
+			}
+		],
+		"excerpt": "Director Console Verification Release identity Director Console commit: df2b30c338582fda21d533c2f500bb248133cdb2. Parent: 569f142f45fe72f83e85b22ffda089e429de4e79. The parent had advanced from the prior premium release because of unrelated repository work. A direct diff proved that newer remote work changed zero Olam H",
+		"searchText": "director console verification release identity director console commit: df2b30c338582fda21d533c2f500bb248133cdb2. parent: 569f142f45fe72f83e85b22ffda089e429de4e79. the parent had advanced from the prior premium release because of unrelated repository work. a direct diff proved that newer remote work changed zero olam h3 files before this release was cut. push was a normal fast forward; no force push was used. commit scope: 19 geelooy/apps/olam h3/ files only. director console delivered cinematic director console hero with animated viewfinder, focus marks, scanning beam, and compact output/cost rail. live shot brief with prompt ingredient coverage for subject, action, camera, light, atmosphere, and audio. coverage labels: blank canvas, early direction, taking shape, and fully directed. explicit copy clarifies that ingredient coverage is not an artistic quality score. live prompt analysis updates the existing shot brief and textarea nodes without rerendering either one. four editable style lanes: neo noir, golden hour, documentary, and dreamlike macro. style fragments append only once and remain ordinary editable prompt text. four practical reference recipes: character consistency, motion/camera transfer, frame transition, and voice/ambience. recipe cards switch to the correct h3 control mode. existing premium glass, provider onboarding, prompt templates, reference guidance, submission geometry, and security behavior remain intact. automated verification every olam file remains at or below 120 lines. javascript and test syntax checks passed. clean release tree unit suite: 23 tests passed, 0 failed . new domain tests prove blank, partial, and fully directed ingredient coverage plus idempotent style lane appending. a fully directed prompt reaches 100% with all six ingredients present. local browser verification two fresh chrome profiles were run against the same current code server at phone geometry. director specific browser proof passed: one director hero rendered four reference recipes rendered viewfinder animation was active initial coverage was 0% a full prompt updated coverage to 100% all six ingredient chips became present textarea identity stayed unchanged shot brief identity stayed unchanged textarea focus stayed active golden hour style lane appended editable direction frame transition recipe switched to frames mode no horizontal overflow zero captured console errors and failed http responses the complete previously shipped premium/mobile/security smoke also passed unchanged in a separate fresh chrome profile. production deployment canonical deployment fast forwarded production to df2b30c338582fda21d533c2f500bb248133cdb2 and emitted: canonical server active sha=df2b30c338582fda21d533c2f500bb248133cdb2 canonical deploy ok sha=df2b30c338582fda21d533c2f500bb248133cdb2 public requests for promptingredients.js, directorstyles.js, and director brief.css succeeded before browser verification. public browser verification a fresh production director chrome profile and a separate fresh premium regression chrome profile both completed under one guarded job with exit code 0. the director production assertions were identical to the local director proof: live 0% to 100% coverage, all six ingredients, preserved dom identity/focus, style lane append, recipe driven frames mode, active viewfinder animation, no overflow, and zero captured browser/network errors. the complete premium/mobile/security smoke then passed against https://awtsmoos.com in its own profile, proving the director console did not regress the prior ui, minimax onboarding, provider guard, or no overlap behavior. external boundary production still requires an authorized minimax api key before a real paid h3 request can be sent. no safe repository action can invent or recover that third party secret.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-30-1747-olam-director-console-03-verificatio-a1b9b55817.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-30-1748-daily-chitas-heichel-ikar-00-phase-o-e8e1653ab5",
+		"title": "Phase One — Revelation Map",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-30-1748-daily-chitas-heichel-ikar/00-phase-one-revelation.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase One — Revelation Map",
+				"anchor": "phase-one-revelation-map"
+			},
+			{
+				"level": 2,
+				"text": "Mission",
+				"anchor": "mission"
+			},
+			{
+				"level": 2,
+				"text": "Facts already observed",
+				"anchor": "facts-already-observed"
+			},
+			{
+				"level": 2,
+				"text": "Unknowns to resolve from code",
+				"anchor": "unknowns-to-resolve-from-code"
+			},
+			{
+				"level": 2,
+				"text": "Research target",
+				"anchor": "research-target"
+			},
+			{
+				"level": 2,
+				"text": "Evidence gate",
+				"anchor": "evidence-gate"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase One — Revelation Map The Awtsmoos renews the road and the reader, the date and the deed; Awtsmoos.com should reveal one daily Chumash portion with no duplicated creed. Mission Build daily Chitas Chumash study into the existing geelooy road read / Heichel Ikar system, using the proj",
+		"searchText": "b\"h boruch hashem blessed is he phase one — revelation map the awtsmoos renews the road and the reader, the date and the deed; awtsmoos.com should reveal one daily chumash portion with no duplicated creed. mission build daily chitas chumash study into the existing geelooy road read / heichel ikar system, using the project's real grouping model and existing torah text rather than a parallel interface. facts already observed repository root: work/awtsmoos.com. target web tree: work/awtsmoos.com/geelooy. root law requires inspection before claims and complete file rewrites only. geelooy contains heichel/, heichelos/, zmanim/, shared/, libs/, api/, and existing thought folders. unknowns to resolve from code 1. what the user means by “mc l” in heichel ikar and where that entity/alias is represented. 2. where the road read system calculates reading order, progression, and grouping. 3. what a “grouping” is in runtime data: schema, renderer, navigation, persistence, and url contract. 4. where torah/chumash content comes from and whether aliyah boundaries already exist. 5. whether the repository already has hebrew calendar, parsha, zmanim, or locale logic. 6. whether israel/diaspora parsha divergence is supported or must be modeled. 7. how holidays and double parshiyos affect the weekly seven aliyos and daily chitas split. 8. how the chabad chitas convention handles shabbos, yom tov, and rosh chodesh relative to the weekly sedra. research target the calculation must be deterministic from a civil date plus calendar mode/location. prefer a local algorithm and canonical metadata over scraping a daily page at runtime. external sources may be used to verify the rules and seed canonical aliyah boundaries. evidence gate no source file will be changed until the road read call path, grouping shape, text source, and calendar entry point are observed directly.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-30-1748-daily-chitas-heichel-ikar-00-phase-o-e8e1653ab5.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-30-1748-daily-chitas-heichel-ikar-01-phase-t-e9c68ee44f",
+		"title": "Phase Two — Architecture and File Map",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-30-1748-daily-chitas-heichel-ikar/01-phase-two-architecture-and-file-map.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Two — Architecture and File Map",
+				"anchor": "phase-two-architecture-and-file-map"
+			},
+			{
+				"level": 2,
+				"text": "Candidate architecture to test against the repository",
+				"anchor": "candidate-architecture-to-test-against-the-repository"
+			},
+			{
+				"level": 2,
+				"text": "Preferred shape if the code supports it",
+				"anchor": "preferred-shape-if-the-code-supports-it"
+			},
+			{
+				"level": 2,
+				"text": "Expected responsibilities",
+				"anchor": "expected-responsibilities"
+			},
+			{
+				"level": 2,
+				"text": "Files to touch",
+				"anchor": "files-to-touch"
+			},
+			{
+				"level": 2,
+				"text": "Constraints",
+				"anchor": "constraints"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Two — Architecture and File Map The Awtsmoos gives each boundary a vessel and each vessel a name; Awtsmoos.com should let calendar, Torah text, and road read meet without tangling the frame. Candidate architecture to test against the repository A. Calendar first resolver: date Hebr",
+		"searchText": "b\"h boruch hashem blessed is he phase two — architecture and file map the awtsmoos gives each boundary a vessel and each vessel a name; awtsmoos.com should let calendar, torah text, and road read meet without tangling the frame. candidate architecture to test against the repository a. calendar first resolver: date hebrew date weekly sedra weekday aliyah range. b. data first resolver: canonical annual calendar table date key sedra/aliyah metadata. c. provider first resolver: trusted external daily chitas endpoint normalized local grouping. d. hybrid resolver: local hebrew calendar/parsha calculation + canonical aliyah boundaries from existing torah metadata. e. heichel native resolver: use an existing grouping/progression plugin if road read already supports computed groups. preferred shape if the code supports it choose d + e: keep the heichel ui generic, add a small pure chitas calendar domain layer, and feed its result into the existing grouping abstraction. expected responsibilities calendar: determine jewish date and relevant weekly sedra in selected israel/diaspora mode. parsha: map sedra names/identifiers to seven aliyah boundaries. chitas: map weekday to the corresponding daily chumash span. adapter: translate the chitas span into the road read grouping schema. tests: verify ordinary weeks, double parshiyos, festival displacement, year boundary, israel/diaspora divergence, and sunday to shabbos sequence. files to touch unknown until tracing is complete. the final plan will enumerate exact observed paths only. no speculative source path will be created merely because this document names a responsibility. constraints complete file writes only. new modules should be small and focused. no runtime scraping if a deterministic local calculation is feasible. existing heichel routing/grouping conventions win over a new custom ui. chumash text should come from the project’s existing torah source where possible. a date calculation must make timezone/location policy explicit instead of relying on ambient browser utc.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-30-1748-daily-chitas-heichel-ikar-01-phase-t-e9c68ee44f.json"
+	}
+]

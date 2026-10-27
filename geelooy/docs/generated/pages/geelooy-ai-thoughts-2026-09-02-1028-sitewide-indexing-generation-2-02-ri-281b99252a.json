@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-02-1028-sitewide-indexing-generation-2-02-ri-281b99252a",
+	"title": "Risk and Quality Gates",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-02-1028-sitewide-indexing-generation-2/02-risk-and-quality-gates.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Risk and Quality Gates",
+			"anchor": "risk-and-quality-gates"
+		},
+		{
+			"level": 2,
+			"text": "Critical risks",
+			"anchor": "critical-risks"
+		},
+		{
+			"level": 2,
+			"text": "Required gates",
+			"anchor": "required-gates"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-02-1028-sitewide-indexing-generation-2-02-ri-281b99252a-001.json"
+	]
+}

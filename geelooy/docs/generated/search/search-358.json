@@ -1,0 +1,194 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28-1318-geelooy-better-render-ai-remaining-w-899a4bb8e4",
+		"title": "REMAININGWORK — Better Render + AI + Release Mission",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28-1318-geelooy-better-render-ai/REMAINING_WORK.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "REMAININGWORK — Better Render + AI + Release Mission",
+				"anchor": "remainingwork-better-render-ai-release-mission"
+			},
+			{
+				"level": 2,
+				"text": "Planning",
+				"anchor": "planning"
+			},
+			{
+				"level": 2,
+				"text": "Render Performance",
+				"anchor": "render-performance"
+			},
+			{
+				"level": 2,
+				"text": "AI Richness",
+				"anchor": "ai-richness"
+			},
+			{
+				"level": 2,
+				"text": "Repository / Release Hardening",
+				"anchor": "repository-release-hardening"
+			},
+			{
+				"level": 2,
+				"text": "Studio / Product Improvement Frontier",
+				"anchor": "studio-product-improvement-frontier"
+			},
+			{
+				"level": 2,
+				"text": "Verification / Handoff",
+				"anchor": "verification-handoff"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H REMAINING WORK — Better Render + AI + Release Mission The Awtsmoos renews every unfinished edge until measurement, Git, and production tell one story still; Awtsmoos.com lets each vessel become richer, faster, safer, and deployed according to the tested will. Planning [x] Phase One boundless improvement brainstorm ",
+		"searchText": "b\"h remaining work — better render + ai + release mission the awtsmoos renews every unfinished edge until measurement, git, and production tell one story still; awtsmoos.com lets each vessel become richer, faster, safer, and deployed according to the tested will. planning [x] phase one boundless improvement brainstorm written. [x] phase two architecture critique with 20+ corrections written. [x] phase three final execution plan with 30+ additional refinements written. [x] release/improvement evidence written from measured results. render performance [x] fresh read the cinematic renderer and pixel primitives. [x] establish representative baseline latency and frame hashes. [x] identify per pixel color parsing / recursive primitive overhead as the dominant bottleneck. [x] fully rewrite pixelcanvas.js with cached rgb decoding and direct bounded writes. [x] prove seven representative cinematic frame hashes remain byte identical. [x] measure about 10.45x representative mean frame speedup. [x] measure a sustained 120 frame 12 fps sample at about 141.94 ms/frame. [x] reject child process frame farming for this pass because primitive optimization removed the practical bottleneck. [x] render the complete 180 second movie at the original 12 fps / 2,160 true frames. [x] preserve regression tests and a reusable render benchmark. ai richness [x] fresh read prompt/compiler/scene composition seams without overwriting the concurrently dirty compiler lane. [x] capture five prompt baseline showing the old forced ten layer recipe. [x] fix the motion graphic / graph false feature inference. [x] add deterministic feature policy below the director. [x] add purpose driven camera grammar. [x] add semantic layer composition for 2d, infographic, tutorial, 3d, particles, characters, and hybrid intent. [x] add scene purpose/narrative vocabulary. [x] verify requested feature coverage and 2d only restraint. [x] pass the focused semantic richness suite 5/5. repository / release hardening [x] detect and reject a false merge resolution that still contained raw conflict markers. [x] repair the poisoned merge overlap without force pushing. [x] restore mitzvahworld production/source contracts and pass 9/9 focused tests. [x] restore required homepage direct routes and pass verifyhomesource.mjs. [x] replace stale comments white box policy testing with a modular runtime contract. [x] pass comments tests 18/18. [x] pass root npm test with exit code 0 across the repository wide release chain. [x] establish that scripts/bhrelease.mjs, not the invalid github workflow placeholder, is the guarded production authority. [ ] collect every current staged, unstaged, and untracked workspace change into one exact publish snapshot. [ ] run focused validation for studio federation/backend/export and apps filter changes that landed after the root suite began. [ ] re run exact snapshot conflict, diff integrity, secret pattern, secret path, and repository hygiene gates. [ ] commit the complete workspace snapshot on main. [ ] fetch and non destructively integrate any remote movement after commit if necessary. [ ] push main without force. [ ] prove remote main sha equals local release sha. [ ] run the guarded production activation for that exact pushed sha. [ ] independently verify production homepage and critical studio/public routes. studio / product improvement frontier [ ] inspect and converge the newly landed studio federation/backend/export/spatial renderer stack after release. [ ] add compact semantic richness and target fidelity feedback to studio. [ ] add render quality/profile disclosure without mutating canonical movie content. [ ] verify studio real 3d capability claims against actual renderer behavior. [ ] browser test desktop and mobile interactions, overflow, accessibility, ai generation, seek, playback, and export flows. [ ] search again for duplicated movie schemas/renderers/generators that can move into shared libraries or procedural core. verification / handoff [x] bank focused studio 5/5 and shared movie 27/27 suites from the prior stable snapshot. [x] bank pixelcanvas and ai semantic regression evidence. [x] bank root repository wide test exit 0 after the comments policy repair. [ ] re run focused tests against the final concurrent publish tail. [ ] read back the final release evidence and all source touched by this pass. [ ] record exact commit sha, remote sha, deployment receipt, and production verification. [ ] search for hidden technical debt / unfinished work after deployment. next action collect the complete current workspace into an exact staged snapshot, run focused tests for the newly landed studio/apps tail plus final publish safety gates, then commit, push, activate the exact sha, and verify production before returning to deeper studio improvements.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28-1318-geelooy-better-render-ai-remaining-w-899a4bb8e4.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28-1423-data-only-movie-protocol-00-mission--5fb957a7cf",
+		"title": "Mission — Data-Only Movie Protocol",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28-1423-data-only-movie-protocol/00-mission.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Mission — Data-Only Movie Protocol",
+				"anchor": "mission-data-only-movie-protocol"
+			},
+			{
+				"level": 2,
+				"text": "Non-negotiable invariant",
+				"anchor": "non-negotiable-invariant"
+			},
+			{
+				"level": 2,
+				"text": "Completion gates",
+				"anchor": "completion-gates"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Mission — Data Only Movie Protocol The Awtsmoos renews every frame while data names each vessel exactly; Awtsmoos.com must render what an agent declares, never guess what human language means indirectly. Non negotiable invariant The movie maker must never parse, classify, infer, or inter",
+		"searchText": "b\"h boruch hashem blessed is he mission — data only movie protocol the awtsmoos renews every frame while data names each vessel exactly; awtsmoos.com must render what an agent declares, never guess what human language means indirectly. non negotiable invariant the movie maker must never parse, classify, infer, or interpret english or any other natural language. external ai agents or ordinary programs create explicit canonical movie data. the movie maker only: 1. migrates versioned data, 2. validates it, 3. normalizes mechanical defaults, 4. applies explicit machine patches, 5. projects it through app adapters, 6. previews/renders/exports it. no prompt to movie fallback, regex semantics, keyword cameras, prose feature inference, or internal ai provider abstraction belongs inside the movie maker. completion gates public api exposes a stable machine authored contract. ui accepts/imports canonical json/data instead of prose prompts. revisions are explicit patch arrays/data only. app installers do not inject ai providers. prompt/nlp modules are not reachable from the public movie runtime. tests prove arbitrary structured movie data renders without any text interpretation. existing 2d/3d adapters, three minute showcase, mobile ux, export, and validation remain working.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28-1423-data-only-movie-protocol-00-mission--5fb957a7cf.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28-1423-data-only-movie-protocol-01-brainsto-4cedbe2bcc",
+		"title": "Pass One — Architecture Possibilities",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28-1423-data-only-movie-protocol/01-brainstorm.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Pass One — Architecture Possibilities",
+				"anchor": "pass-one-architecture-possibilities"
+			},
+			{
+				"level": 2,
+				"text": "Preferred model",
+				"anchor": "preferred-model"
+			},
+			{
+				"level": 2,
+				"text": "Possible machine interfaces",
+				"anchor": "possible-machine-interfaces"
+			},
+			{
+				"level": 2,
+				"text": "Data vocabulary",
+				"anchor": "data-vocabulary"
+			},
+			{
+				"level": 2,
+				"text": "Rejected boundaries",
+				"anchor": "rejected-boundaries"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Pass One — Architecture Possibilities The Awtsmoos is beyond word and schema, yet a schema can faithfully carry a declared deed; Awtsmoos.com should be a deterministic vessel where external intelligence supplies every semantic seed. Preferred model Agent/Program MovieDataEnvelope migrate",
+		"searchText": "b\"h boruch hashem blessed is he pass one — architecture possibilities the awtsmoos is beyond word and schema, yet a schema can faithfully carry a declared deed; awtsmoos.com should be a deterministic vessel where external intelligence supplies every semantic seed. preferred model agent/program moviedataenvelope migrate validate normalize patch project render/export the movie maker never has an english intent arrow. possible machine interfaces direct javascript object import, json text import parsed only as json syntax, file/drop import of canonical movie json, postmessage or customevent carrying structured movie objects, globally callable api such as loadmovie(moviedata) for external agents, explicit patch protocol for revisions, json schema or equivalent machine readable contract for agent tool generation, capability document so an agent knows what each renderer can project, validation result containing paths/codes rather than prose interpretation. data vocabulary movie metadata, format, duration, scenes, cameras, layers, transforms, tracks, keyframes, transitions, assets, characters, dialogue/audio metadata, particles, charts, paths, text strings, 2d shapes, 3d world/mesh/light semantics, renderer hints, and extension metadata. text content inside a movie is allowed as literal display data. the engine must never infer behavior from that text. rejected boundaries prompt textarea that creates scenes, feature regexes over prompt/subject, camera keyword grammar, internal provider planmovie() calls, internal provider revisemovie() calls, prompt derived local fallback generator, natural language revision instructions.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28-1423-data-only-movie-protocol-01-brainsto-4cedbe2bcc.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28-1423-data-only-movie-protocol-02-file-map-75c4800a04",
+		"title": "Pass Two — Theoretical File Map",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28-1423-data-only-movie-protocol/02-file-map.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Pass Two — Theoretical File Map",
+				"anchor": "pass-two-theoretical-file-map"
+			},
+			{
+				"level": 2,
+				"text": "Read before touching",
+				"anchor": "read-before-touching"
+			},
+			{
+				"level": 2,
+				"text": "Likely new/reframed vessels",
+				"anchor": "likely-new-reframed-vessels"
+			},
+			{
+				"level": 2,
+				"text": "Files likely removed from runtime/public API",
+				"anchor": "files-likely-removed-from-runtime-public-api"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Pass Two — Theoretical File Map The Awtsmoos gives each responsibility one vessel, clean and small; Awtsmoos.com will remove the language bridge while preserving renderer, validator, and protocol hall. Read before touching apps/shared/movie/index.js apps/shared/movie/AiMovieContract.js a",
+		"searchText": "b\"h boruch hashem blessed is he pass two — theoretical file map the awtsmoos gives each responsibility one vessel, clean and small; awtsmoos.com will remove the language bridge while preserving renderer, validator, and protocol hall. read before touching apps/shared/movie/index.js apps/shared/movie/aimoviecontract.js apps/shared/movie/ai/moviedirector.js apps/shared/movie/ai/movierevisionservice.js apps/shared/movie/ai/moviepromptintent.js apps/shared/movie/ai/movieintentcompiler.js apps/shared/movie/ai/planning/ apps/shared/movie/ui/movieairuntime.js apps/shared/movie/ui/moviedirectordock.js apps/shared/movie/ui/moviedirectorstate.js apps/shared/movie/ui/moviepromptpanel.js apps/shared/movie/ui/movierevisionpanel.js all five app installmovieai.js files, tests referencing prompt/provider/director generation. likely new/reframed vessels machine contract/export descriptor, data import panel, structured patch panel or api, data only state controller, agent bridge api for object/json/event ingestion, contract tests proving no language derived behavior. files likely removed from runtime/public api prompt intent, provider abstraction, prompt feature policy, camera grammar, semantic prompt composer, local intent compiler/director if their only purpose is language to movie generation. removal must follow import/call site proof; do not delete by filename assumption.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28-1423-data-only-movie-protocol-02-file-map-75c4800a04.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28-1423-data-only-movie-protocol-03-critique-d12ac0087e",
+		"title": "First Critique — Twenty Corrections",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28-1423-data-only-movie-protocol/03-critique-20.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "First Critique — Twenty Corrections",
+				"anchor": "first-critique-twenty-corrections"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He First Critique — Twenty Corrections The Awtsmoos burns away ambiguity; Awtsmoos.com lets each contract stand plain; these twenty gates prevent hidden prompt logic from returning through another name again. 1. Literal text layers must remain legal; only semantic inference from text is for",
+		"searchText": "b\"h boruch hashem blessed is he first critique — twenty corrections the awtsmoos burns away ambiguity; awtsmoos.com lets each contract stand plain; these twenty gates prevent hidden prompt logic from returning through another name again. 1. literal text layers must remain legal; only semantic inference from text is forbidden. 2. json parsing is syntax processing, not natural language interpretation. 3. validation errors should use codes and paths usable by agents. 4. mechanical defaults may fill omitted numeric/structural fields but must not invent story semantics. 5. unknown extension metadata should survive round trips when safe. 6. schema version must be explicit. 7. public exports must stop advertising prompt/provider apis. 8. runtime option objects must stop accepting provider callbacks. 9. app installers must stop reading awtsmoosmovieaiprovider globals. 10. revision must accept explicit patch data only. 11. ui should say data/import, not prompt/generate. 12. external agents need a programmatic load entrypoint, not just a textarea. 13. external agents need capability discovery. 14. tests must grep/runtime check that prompt interpretation modules are unreachable. 15. existing showcase data must continue to validate/render. 16. existing adapters must receive canonical movie objects unchanged semantically. 17. mobile ui must retain import/edit/preview usability. 18. data import must reject malformed json without mutating current movie. 19. data import must reject schema invalid objects with actionable paths. 20. text strings such as orbit inside captions must never alter camera behavior.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28-1423-data-only-movie-protocol-03-critique-d12ac0087e.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28-1423-data-only-movie-protocol-04-improved-a757043b8a",
+		"title": "Improved Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28-1423-data-only-movie-protocol/04-improved-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Improved Plan",
+				"anchor": "improved-plan"
+			},
+			{
+				"level": 2,
+				"text": "Architecture",
+				"anchor": "architecture"
+			},
+			{
+				"level": 2,
+				"text": "Migration strategy",
+				"anchor": "migration-strategy"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Improved Plan The Awtsmoos gives the agent freedom to imagine, the engine discipline to obey; Awtsmoos.com receives declared data only, then renders the declaration without semantic sway. Architecture Use the existing canonical protocol/validator/runtime as the center. Replace the AI/pro",
+		"searchText": "b\"h boruch hashem blessed is he improved plan the awtsmoos gives the agent freedom to imagine, the engine discipline to obey; awtsmoos.com receives declared data only, then renders the declaration without semantic sway. architecture use the existing canonical protocol/validator/runtime as the center. replace the ai/prompt façade with a data director façade: moviedataruntime installs ui/api. moviedatastate imports canonical objects and applies explicit patches. moviedatapanel accepts canonical json for humans/debuggers and exposes import/export. movieagentbridge exposes a stable programmatic interface and event ingestion for external agents. storyboard/timeline/canvas/export panels continue observing the same canonical state. the external ai agent is outside the repository boundary: it can read the contract/capabilities and submit a complete movie object or explicit patch list. migration strategy 1. read every current prompt/provider call site. 2. reuse canonical migration/validation/patch modules. 3. add data only state/bridge/panel in small files. 4. rewire dock/runtime/installers. 5. remove prompt/provider exports and unused runtime modules only after proving no call sites remain. 6. rewrite tests around structured data. 7. browser test direct object injection and json import across product surfaces.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28-1423-data-only-movie-protocol-04-improved-a757043b8a.json"
+	}
+]

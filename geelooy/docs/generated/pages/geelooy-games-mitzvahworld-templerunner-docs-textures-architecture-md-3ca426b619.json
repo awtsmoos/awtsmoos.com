@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-templerunner-docs-textures-architecture-md-3ca426b619",
+	"title": "Architecture Texture Catalog",
+	"sourcePath": "geelooy/games/mitzvahWorld/templeRunner/docs/textures/ARCHITECTURE.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Architecture Texture Catalog",
+			"anchor": "architecture-texture-catalog"
+		},
+		{
+			"level": 2,
+			"text": "Exact filenames",
+			"anchor": "exact-filenames"
+		},
+		{
+			"level": 2,
+			"text": "Usage",
+			"anchor": "usage"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-templerunner-docs-textures-architecture-md-3ca426b619-001.json"
+	]
+}

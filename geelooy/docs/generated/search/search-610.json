@@ -1,0 +1,170 @@
+[
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-756c19b96b",
+		"title": "Tiferes Execution Graph",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/.ai-thoughts/20260902_0315-universal-procedural-api/23_TIFERES_EXECUTION_GRAPH.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Tiferes Execution Graph",
+				"anchor": "tiferes-execution-graph"
+			},
+			{
+				"level": 2,
+				"text": "Wave A — six concurrent verification lanes",
+				"anchor": "wave-a-six-concurrent-verification-lanes"
+			},
+			{
+				"level": 2,
+				"text": "Wave B — browser proof",
+				"anchor": "wave-b-browser-proof"
+			},
+			{
+				"level": 2,
+				"text": "Wave C — closure artifacts",
+				"anchor": "wave-c-closure-artifacts"
+			},
+			{
+				"level": 2,
+				"text": "Wave D — Git integration",
+				"anchor": "wave-d-git-integration"
+			},
+			{
+				"level": 2,
+				"text": "Wave E — release/public proof",
+				"anchor": "wave-e-release-public-proof"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Tiferes Execution Graph The Awtsmoos renews Chesed and Gevurah into one ordered beauty; Awtsmoos.com makes every next action carry implementation, evidence, ownership, and duty. Wave A — six concurrent verification lanes A1. New lifecycle input/planning parity + cache authority/failure +",
+		"searchText": "b\"h boruch hashem blessed is he tiferes execution graph the awtsmoos renews chesed and gevurah into one ordered beauty; awtsmoos.com makes every next action carry implementation, evidence, ownership, and duty. wave a — six concurrent verification lanes a1. new lifecycle input/planning parity + cache authority/failure + demo contract/safety tests. a2. existing universal/compiler/constraint/default compiler regression suite. a3. package subpath + recursive static import graph proof. a4. structural gate across all changed js/mjs/css/html including test helpers. a5. full package test universe; compare new failures against known 19 red baseline. a6. static server + fresh chrome v3 readiness preparation. wave b — browser proof b1. fresh cache busted demo target. b2. unknown query fallback and canonical query rewrite. b3. five scenario receipts + 15 pipeline stages + expected unresolved counts. b4. compile again miss hit. b5. arrow/home/end navigation and focus. b6. modifier key guards and editable target guards. b7. rapid selection generation race check. b8. workspace busy/live/status final state. b9. nine summary cards including timing/primitives/pipeline support. b10. 320px and 390px no overflow. b11. same origin resource audit and lifecycle core module measurement. b12. zero exceptions / console errors / severe logs. wave c — closure artifacts c1. update performance doc with v3 browser measurements. c2. rewrite evidence ledger from exact jobs/results. c3. write planned vs actual delta and resolve every release important delta. c4. search todo/fixme/dead new modules/stale version assumptions. c5. build explicit mission file manifest. wave d — git integration d1. refresh branch/head/origin and fetch. d2. create clean worktree from fresh origin/main. d3. transfer mission patch/files only. d4. inspect diff; ensure no unrelated quantity/reality/nature/tunnel/editor/emulator work. d5. run critical tests/import graph/structural gate inside integration worktree. d6. commit coherent tranche. d7. fresh fetch and fast forward safety proof. d8. push and verify remote main sha. wave e — release/public proof e1. re read bhrelease.mjs and deploy helper from integration state. e2. run prepare with explicit intended sha/message. e3. run activate on exact pushed sha. e4. verify production worktree and origin sha. e5. fresh public browser e2e on canonical route. e6. verify same origin resources and lifecycle composition publicly. e7. update ledgers/docs with release sha and public evidence. e8. remove temporary worktrees/server/browser only after durable evidence exists. e9. run completion, embarrassment, takeover, and unknown work discovery gates. e10. empty remaining work only if no safe useful work remains.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-756c19b96b.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-c73b5bac78",
+		"title": "Evidence Ledger",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/.ai-thoughts/20260902_0315-universal-procedural-api/EVIDENCE_LEDGER.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Evidence Ledger",
+				"anchor": "evidence-ledger"
+			},
+			{
+				"level": 2,
+				"text": "Repository baseline",
+				"anchor": "repository-baseline"
+			},
+			{
+				"level": 2,
+				"text": "Architecture evidence",
+				"anchor": "architecture-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Historical design evidence",
+				"anchor": "historical-design-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Deployment evidence",
+				"anchor": "deployment-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Evidence still required",
+				"anchor": "evidence-still-required"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Evidence Ledger Confidence fades; evidence stays. The Awtsmoos.com release follows observed files, commands, tests, commits, and public rays. Repository baseline Repository: /Users/awtsmoos/work/awtsmoos.com. Initial branch: main. Initial HEAD: e5e4909d1c055795c77740a2ad37ff3250dd42d8. I",
+		"searchText": "b\"h boruch hashem blessed is he evidence ledger confidence fades; evidence stays. the awtsmoos.com release follows observed files, commands, tests, commits, and public rays. repository baseline repository: /users/awtsmoos/work/awtsmoos.com. initial branch: main. initial head: e5e4909d1c055795c77740a2ad37ff3250dd42d8. initial origin/main: aligned with head when inspected. extensive unrelated dirty work exists in android emulator, nesher studio, piano, plus unrelated mitzvahworld handoff work. architecture evidence src/core/procedurallanguage/ contains canonical semantic language, validators, definitions, compiler registry, artifact planning/execution. universalsemantickernel exposes definition/compiler/planning/compile capabilities. proceduralcompilercapabilityregistry keeps public descriptors separate from private executors. proceduraldefinition contains fluent immutable authored semantics and hash/provenance behavior. src/core/proceduralportal/ provides world orchestration and imports universalapi/world.js directly. src/core/universalapi/ provides command registry, runtime projection, history, events, world documents, reality/textures definitions, api contract and explorer. createuniversalawtsmoosapi() is the existing transactional universal world api. root src/index.js re exports core/universalapi/index.js and procedural portal. historical design evidence aug. 26 world data plans explicitly choose portable semantic data plus compiler plugins and a simple createawtsmoos style doorway. later compiler federation/portal plans evolved that design rather than replacing it. aug. 31 authored semantics plan implemented quantity/provenance/identity/fluent authoring but left verification/closure work in its remaining work. deployment evidence repository contains scripts/bhrelease.mjs, immutable deploy helpers, publishlocalsnapshot, canonical server activation, production authority, nginx and deployment contract tests. exact current command, target and public url remain to be verified before release. evidence still required new source behavior tests; inherited semantic debt verification; compatibility regression results; browser/runtime results; final head/upstream/staged diff; pushed github sha; deployed sha/version; fresh browser public url proof.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-c73b5bac78.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-dc40da6ff7",
+		"title": "NEXT ACTION",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/.ai-thoughts/20260902_0315-universal-procedural-api/NEXT_ACTION.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "NEXT ACTION",
+				"anchor": "next-action"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He NEXT ACTION The Awtsmoos renews the next deed while six other paths remain awake; Awtsmoos.com turns every waiting moment into another verified step we take. 1. Finish source readability cleanup of current demo wave as complete file rewrites. 2. Harvest registry/cache audit and extract o",
+		"searchText": "b\"h boruch hashem blessed is he next action the awtsmoos renews the next deed while six other paths remain awake; awtsmoos.com turns every waiting moment into another verified step we take. 1. finish source readability cleanup of current demo wave as complete file rewrites. 2. harvest registry/cache audit and extract only evidence backed hardening tests. 3. write lifecycle parity, cache identity, and updated demo contract tests after source draft is complete. 4. run new tests in parallel with existing universal regressions, structural gate, and documentation rewrites. 5. run fresh browser e2e at 320px and 390px with unknown query, home/end, modifier/editable guards, same origin resource check, 9 summary cards, busy/ready announcement, cache hit, all five scenarios, and zero severe logs. 6. rewrite api/migration/performance docs from verified results and refresh evidence ledgers. 7. locate current production authority/release paths, build exact mission staging manifest, and prepare clean origin integration strategy. 8. fully reread mission files, write planned vs actual delta, resolve all release important deltas, then stage/commit/push/activate/public verify exact sha. continue automatically while any safe item remains.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-dc40da6ff7.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-1b7035bd4e",
+		"title": "REMAINING WORK",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/.ai-thoughts/20260902_0315-universal-procedural-api/REMAINING_WORK.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "REMAINING WORK",
+				"anchor": "remaining-work"
+			},
+			{
+				"level": 2,
+				"text": "Massive-improvement planning",
+				"anchor": "massive-improvement-planning"
+			},
+			{
+				"level": 2,
+				"text": "Verified architecture already complete",
+				"anchor": "verified-architecture-already-complete"
+			},
+			{
+				"level": 2,
+				"text": "Current source wave — implemented, verification pending",
+				"anchor": "current-source-wave-implemented-verification-pending"
+			},
+			{
+				"level": 2,
+				"text": "Lifecycle/core regression work",
+				"anchor": "lifecycle-core-regression-work"
+			},
+			{
+				"level": 2,
+				"text": "Compiler / constraint / cache hardening",
+				"anchor": "compiler-constraint-cache-hardening"
+			},
+			{
+				"level": 2,
+				"text": "Demo/browser/accessibility/security verification",
+				"anchor": "demo-browser-accessibility-security-verification"
+			},
+			{
+				"level": 2,
+				"text": "Documentation / handoff",
+				"anchor": "documentation-handoff"
+			},
+			{
+				"level": 2,
+				"text": "Security findings",
+				"anchor": "security-findings"
+			},
+			{
+				"level": 2,
+				"text": "Git/release ownership",
+				"anchor": "git-release-ownership"
+			},
+			{
+				"level": 2,
+				"text": "Production / public proof",
+				"anchor": "production-public-proof"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He REMAINING WORK The Awtsmoos renews every unfinished edge until evidence and release become one; Awtsmoos.com keeps this ledger alive while any safe verifiable work remains undone. Massive improvement planning [x] Write exhaustive 150 item improvement universe. [x] Write critique/prioriti",
+		"searchText": "b\"h boruch hashem blessed is he remaining work the awtsmoos renews every unfinished edge until evidence and release become one; awtsmoos.com keeps this ledger alive while any safe verifiable work remains undone. massive improvement planning [x] write exhaustive 150 item improvement universe. [x] write critique/priorities pass with 30 concrete improvements and explicit deferrals. [x] write atomic six lane implementation matrix. [x] launch parallel audits for docs, lifecycle semantics, compiler/cache/constraints, demo/accessibility, browser/security, git/release, plus registry/cache dimensions. verified architecture already complete [x] full createawtsmoos() and lightweight createawtsmooslifecycle() share one semantic/compiler/constraint/cache/provenance engine. [x] full factory retains portal/world; lifecycle factory claims neither. [x] package subpath @awtsmoos/procedural core/universal lifecycle resolves. [x] static graph measured at 1,538 full modules vs 133 lifecycle modules: 1,406 avoided, 91.4% reduction in current repository state. [x] new lifecycle/demo regression suite previously 10/10 green; existing universal regression lane 44/44 green. [x] earlier chrome e2e green for five scenarios, 15 stages, cache hit, deferred constraints, keyboard arrows, 390px no overflow, zero severe logs. [x] earlier bounded cache benchmark: each 500 compile round executes compiler once with 499 hits / 1 miss / 1 entry. [x] full package 519 test universe classified: 500 pass + 19 proven inherited baseline reds. current source wave — implemented, verification pending [x] add demolifecyclerun.js to isolate measured lifecycle execution. [x] extend lifecycle summary with local compile duration and primitive count. [x] add home/end keyboard navigation, modifier guards, editable target guards, and roving tabindex. [x] add lifecycle wide busy/ready/error state and polite screen reader announcements. [x] add bounded public error text while retaining detailed console diagnostics. [x] add render generation guard so stale async completion cannot overwrite newer scenario selection. [x] add visible lightweight composition architecture badge. [x] surface pipeline support counts, primitive count, and local compile duration in summary. [ ] expand remaining compressed one line source/html constructs before test phase; preserve <=120 line rule by splitting rather than compressing. [ ] run syntax/header/tab/line ceiling source gate after cleanup. lifecycle/core regression work [ ] add lightweight lifecycle parity tests for json string input, tojson wrapper input, factory seed fallback, authored seed precedence, authored compile policy, explicit request override, malformed json, and explanation purity. [ ] confirm explanation invokes neither compiler nor constraint solver executor. [ ] add package subpath/import graph guard if current source file graph test does not already exercise package resolution. compiler / constraint / cache hardening [ ] harvest registry/cache audit job and record duplicate registration semantics exactly. [ ] add compiler version cache invalidation test using shared cache across independently configured facades. [ ] add compiler support state cache invalidation test if executor semantics allow a meaningful native/adapter comparison. [ ] add solver capability/version or resolution plan cache invalidation test. [ ] add environment dependent solver cache bypass test. [ ] add compile failure not cached test. [ ] lock duplicate compiler/solver registration behavior without inventing unsupported ordering semantics. demo/browser/accessibility/security verification [ ] update structural demo contract for version 3, architecture badge, lifecycle announcement, 9 summary cards, home/end, modifier/editable guards, local timing, bounded error text, no innerhtml/eval/network apis. [ ] re run real browser e2e after current source wave. [ ] verify unknown ?scenario= falls back safely to first scenario and canonicalizes query state. [ ] verify home and end select/focus first/last scenario. [ ] verify ctrl/meta/alt/shift + arrows do not navigate. [ ] verify arrow/home/end inside editable controls do not navigate. [ ] verify 320px and 390px css viewports have no page level horizontal overflow. [ ] verify lifecycle state ends ready, workspace aria busy=false, announcement says compiled. [ ] verify 9 summary cards include local duration, primitive count, and pipeline support counts. [ ] verify all runtime resources remain same origin; no external network calls. [ ] verify zero runtime exceptions, console errors, and severe browser logs. documentation / handoff [x] reconcile uncertain earlier docs mutation: it did not land. [ ] rewrite universal awtsmoos api.md with full vs lifecycle decision table and package subpath. [ ] rewrite universal awtsmoos migration.md with lifecycle migration guidance and non goals. [ ] create universal awtsmoos performance.md with graph/browser/cache evidence and caveats. [ ] add troubleshooting for accidental heavy imports, missing executor, deferred constraints, cache bypass, and public browser verification. [ ] refresh evidence ledger.md, next action.md, and this ledger after every material proof. security findings [x] static audit found no demo fetch/xhr/websocket/eventsource usage, no innerhtml/outerhtml/insertadjacenthtml, and no eval/function use; svg namespace literal is the only demo url matched. [ ] browser prove every loaded resource is same origin after current source wave. [ ] preserve trusted code boundary: compiler/solver executors are trusted functions; public manifests remain data only. git/release ownership [x] current audit observed dirty primary checkout with extensive unrelated concurrent work. [x] current audit observed main behind origin/main by 4 commits at audit time. [x] decide integration strategy: never stash/rebase dirty primary; use isolated fresh origin worktree. [ ] re run release script discovery because historical scripts/lib/productionauthority.mjs path has moved. [ ] locate current production authority implementation and exact bhrelease.mjs prepare/activate contract. [ ] build exact mission file manifest from dependency/ownership evidence. [ ] refresh head/origin immediately before staging. [ ] stage explicit files only; inspect complete staged name status/stat/diff. [ ] run critical tests against exact staged/clean integration content. [ ] commit mission tranche, fetch fresh origin, cherry pick/integrate in clean worktree if needed, push exact sha, verify remote ref. production / public proof [ ] run audited two phase release from clean exact sha worktree. [ ] verify production authority/canonical server sha equals intended release. [ ] fresh browser verify https://awtsmoos.com/apps/universal procedural/ with the same e2e contract. [ ] verify public resource graph still uses lifecycle path and only same origin assets. [ ] stop temporary local server/browser and remove temporary worktrees only after evidence is preserved. [ ] empty this ledger only when implementation, verification, github, production activation, and public exact sha proof all close.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-1b7035bd4e.json"
+	}
+]

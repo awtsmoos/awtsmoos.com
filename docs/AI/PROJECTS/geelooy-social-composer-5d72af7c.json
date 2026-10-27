@@ -25,19 +25,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-social-composer-5d72af7c.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 317,
-		"tests": 28,
+		"source": 389,
+		"tests": 33,
 		"assets": 0,
 		"generated": 0,
 		"docs": 9,
 		"other": 0
 	},
-	"totalFiles": 354,
+	"totalFiles": 431,
 	"symbolSummary": {
-		"files": 200,
-		"classes": 81,
-		"functions": 452,
-		"exports": 323,
+		"files": 233,
+		"classes": 87,
+		"functions": 531,
+		"exports": 374,
 		"samples": [
 			"createComposer",
 			"createWorkflow",
@@ -56,12 +56,12 @@
 	"outgoingDependencies": [
 		{
 			"project": "geelooy/games/mitzvahWorld",
-			"count": 4,
-			"examples": "geelooy/social-composer/reel-studio/nle/NleAiProjectCodec.js; geelooy/social-composer/reel-studio/nle/NleMovieActionExecutor.js; geelooy/social-composer/reel-studio/nle/NleMoviePackage.js"
+			"count": 9,
+			"examples": "geelooy/social-composer/reel-studio/nle/NleAiProjectCodec.js; geelooy/social-composer/reel-studio/nle/NleMoviePackage.js; geelooy/social-composer/reel-studio/nle/NleMovieSimpleMutations.js"
 		},
 		{
 			"project": "geelooy/shared",
-			"count": 4,
+			"count": 9,
 			"examples": "geelooy/social-composer/js/creator/CreatorCommandCatalog.js; geelooy/social-composer/js/creator/CreatorCommandPalette.js; geelooy/social-composer/js/creator/CreatorIntentModel.js"
 		}
 	],

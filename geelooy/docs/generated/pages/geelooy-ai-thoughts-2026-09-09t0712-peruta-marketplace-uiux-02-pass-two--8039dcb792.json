@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-09t0712-peruta-marketplace-uiux-02-pass-two--8039dcb792",
+	"title": "Pass Two — Architecture Choice",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-09T0712-peruta-marketplace-uiux/02-pass-two-architecture.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Pass Two — Architecture Choice",
+			"anchor": "pass-two-architecture-choice"
+		},
+		{
+			"level": 2,
+			"text": "Competing Approaches",
+			"anchor": "competing-approaches"
+		},
+		{
+			"level": 2,
+			"text": "Layers To Preserve / Extend",
+			"anchor": "layers-to-preserve-extend"
+		},
+		{
+			"level": 2,
+			"text": "Contract Questions Before Source Changes",
+			"anchor": "contract-questions-before-source-changes"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-09t0712-peruta-marketplace-uiux-02-pass-two--8039dcb792-001.json"
+	]
+}

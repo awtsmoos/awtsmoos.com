@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-26-0942-rebbe-studio-04-final-execution-plan-d784068ce6",
+	"title": "Final Studio Execution Plan",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-26-0942-rebbe-studio/04-final-execution-plan.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Final Studio Execution Plan",
+			"anchor": "final-studio-execution-plan"
+		},
+		{
+			"level": 2,
+			"text": "First code wave — visual/property architecture",
+			"anchor": "first-code-wave-visual-property-architecture"
+		},
+		{
+			"level": 2,
+			"text": "Second code wave — oversized live logic",
+			"anchor": "second-code-wave-oversized-live-logic"
+		},
+		{
+			"level": 2,
+			"text": "Tests after code completion",
+			"anchor": "tests-after-code-completion"
+		},
+		{
+			"level": 2,
+			"text": "Completion condition",
+			"anchor": "completion-condition"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-26-0942-rebbe-studio-04-final-execution-plan-d784068ce6-001.json"
+	]
+}

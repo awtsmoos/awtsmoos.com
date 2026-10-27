@@ -1,0 +1,24 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-social-helper-reading-readme-md-88dd025443",
+	"title": "B\"H — Reading (geelooy/api/social/helper/reading/)",
+	"sourcePath": "geelooy/api/social/helper/reading/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Reading (geelooy/api/social/helper/reading/)",
+			"anchor": "b-h-reading-geelooy-api-social-helper-reading"
+		},
+		{
+			"level": 2,
+			"text": "Endpoints",
+			"anchor": "endpoints"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-social-helper-reading-readme-md-88dd025443-001.json"
+	]
+}

@@ -1,0 +1,127 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27t2210-geelooy-movie-integration-verificati-078e6e1a49",
+		"title": "Phase Three — 34 Final Revelations Before Source Writes",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27T2210-geelooy-movie-integration-verification/06_PHASE_THREE_CRITIQUE_30_REVELATIONS.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Three — 34 Final Revelations Before Source Writes",
+				"anchor": "phase-three-34-final-revelations-before-source-writes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Three — 34 Final Revelations Before Source Writes The Awtsmoos renews the plan as He renews the frame; Awtsmoos.com demands the last critique before implementation earns its name. 1. A canonical protocol needs explicit protocol/version fields everywhere, including translators. 2. C",
+		"searchText": "b\"h boruch hashem blessed is he phase three — 34 final revelations before source writes the awtsmoos renews the plan as he renews the frame; awtsmoos.com demands the last critique before implementation earns its name. 1. a canonical protocol needs explicit protocol/version fields everywhere, including translators. 2. canonical duration must never default silently when validating ai output. 3. resolution, fps, orientation and safe area belong at movie level. 4. scene time and layer local time need separately documented coordinate spaces. 5. keyframe at is layer local and must fit effective layer duration. 6. camera semantics must survive projection even when a 2d editor cannot render a true camera. 7. hybrid scenes must not collapse to 3d merely because one layer has depth. 8. characters should reference stable cast ids instead of duplicating persona definitions. 9. charts need semantic data as well as visual styles so editors can re author them. 10. paths and patches need explicit geometry, not screenshot only representations. 11. particles require deterministic seed/count/emitter fields. 12. text needs safe area metadata for portrait and mobile outputs. 13. adapters need stable ids for round trip edit handoff. 14. unsupported layers must be preserved in projection metadata, never silently ignored. 15. capability profiles must name dimensions, semantic layers and strengths separately. 16. the ai contract should include field examples while remaining json safe. 17. structured intent templates must distribute timing from requested duration, never hard code 60 or 120 seconds. 18. three minute proof must assert exact 180 second canonical duration. 19. acceptance scenes collectively include every major semantic layer kind. 20. acceptance cameras include wide, close, overhead/angle, orbit/dolly/crane variants. 21. characters appear in multiple scenes, not merely metadata. 22. infographics animate data oriented visuals, not just labels. 23. tutorial scenes contain ordered visual steps and callouts. 24. narrative scenes contain cast/action progression. 25. 2d and 3d particles are both represented. 26. rendering samples deterministic movie time independent of wall clock playback. 27. acceptance may render at 12fps while production apis still allow higher fps. 28. export success is not proof until the resulting file is readable by ffprobe. 29. duration success is not visual proof until distant frame witnesses differ. 30. mobile ui success needs a narrow viewport and practical touch targets. 31. concurrent agents make stale reads dangerous; hash gate every existing file rewrite. 32. new compatibility modules are safer than deleting peer prototypes during active work. 33. completion documentation must identify the canonical path so future agents stop spawning duplicate cores. 34. if an app cannot consume the full movie, that limitation belongs in capabilities and fidelity reports rather than marketing language.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27t2210-geelooy-movie-integration-verificati-078e6e1a49.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27t2210-geelooy-movie-integration-verificati-c11f7f98db",
+		"title": "Phase Three Final Brainstorm — One Covenant, Distinct Studios",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27T2210-geelooy-movie-integration-verification/07_PHASE_THREE_FINAL_BRAINSTORM.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Three Final Brainstorm — One Covenant, Distinct Studios",
+				"anchor": "phase-three-final-brainstorm-one-covenant-distinct-studios"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Three Final Brainstorm — One Covenant, Distinct Studios The Awtsmoos is One while the keilim remain many; Awtsmoos.com should make the movie language one while preserving every studio's specialty. Canonical movie data is the interchange, not a universal renderer. The source of trut",
+		"searchText": "b\"h boruch hashem blessed is he phase three final brainstorm — one covenant, distinct studios the awtsmoos is one while the keilim remain many; awtsmoos.com should make the movie language one while preserving every studio's specialty. canonical movie data is the interchange, not a universal renderer. the source of truth should be small, inspectable, serializable and renderer neutral. ai generates that data. apps project it according to explicit capabilities. fidelity reports make handoff honest. the proof movie is not a decorative demo. it is the acceptance suite embodied as 180 seconds: eighteen scenes, visual and dimensional variety, changing cameras, people, shapes, paths, text, charts, particles, worlds and transitions. it must travel through validators and adapters, then become actual media whose measured duration and sampled visual differences prove runtime reality. mobile first authoring is a small shared dock layered over distinct app uis, not a forced redesign of all apps. it exposes the contract, structured intent, duration/mode controls and injected ai hooks without coupling to private dom state.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27t2210-geelooy-movie-integration-verificati-c11f7f98db.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27t2210-geelooy-movie-integration-verificati-7a7293e080",
+		"title": "Final Authorized Execution Manifest",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27T2210-geelooy-movie-integration-verification/08_FINAL_EXECUTION_MANIFEST.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Final Authorized Execution Manifest",
+				"anchor": "final-authorized-execution-manifest"
+			},
+			{
+				"level": 2,
+				"text": "Canonical lane",
+				"anchor": "canonical-lane"
+			},
+			{
+				"level": 2,
+				"text": "Expected source writes",
+				"anchor": "expected-source-writes"
+			},
+			{
+				"level": 2,
+				"text": "Files deliberately avoided unless proven necessary",
+				"anchor": "files-deliberately-avoided-unless-proven-necessary"
+			},
+			{
+				"level": 2,
+				"text": "Completion proof",
+				"anchor": "completion-proof"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Final Authorized Execution Manifest The Awtsmoos gives one covenant many vessels to reveal; Awtsmoos.com shall unify the grammar while each studio keeps its native feel. Canonical lane Prefer apps/shared/movie/ as canonical if fresh smoke tests pass. Source modules remain under 120 lines",
+		"searchText": "b\"h boruch hashem blessed is he final authorized execution manifest the awtsmoos gives one covenant many vessels to reveal; awtsmoos.com shall unify the grammar while each studio keeps its native feel. canonical lane prefer apps/shared/movie/ as canonical if fresh smoke tests pass. source modules remain under 120 lines and split further rather than compress. existing files are fully rewritten only after immediate sha collision checks. expected source writes exact list may shrink if peer work already satisfies an item; it may expand only through documented delta. canonical capabilities, validation and ai intent modules in apps/shared/movie/. canonical app adapters for animator, nesher, video editor and mitzvah studio. compatibility bridge modules for alternate prototypes where import tracing proves necessary. mobile authoring dock modules/css if current peer ui remains incomplete. verification modules and deterministic proof renderer/exporter. files deliberately avoided unless proven necessary animator's currently active command router, camera engine, character realism and mobile studio internals. unrelated mitzvah view refactors already dirty in the shared workspace. repository wide config/build files unless import evidence requires them. completion proof canonical contract import passes. arbitrary short and 180 second movies validate. all major semantic kinds are representable. all four app projections execute with explicit fidelity results. mobile dock works at narrow viewport. real 180 second media is generated. ffprobe confirms duration, resolution and container. distant frame witnesses differ. touched file syntax checks pass. final reread finds no unresolved planned versus actual delta.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27t2210-geelooy-movie-integration-verificati-7a7293e080.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27t2210-geelooy-movie-integration-verificati-b652f99dcd",
+		"title": "Evidence Ledger",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27T2210-geelooy-movie-integration-verification/09_EVIDENCE_LEDGER.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Evidence Ledger",
+				"anchor": "evidence-ledger"
+			},
+			{
+				"level": 2,
+				"text": "Observed before source writes",
+				"anchor": "observed-before-source-writes"
+			},
+			{
+				"level": 2,
+				"text": "Evidence still required",
+				"anchor": "evidence-still-required"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Evidence Ledger The Awtsmoos renews truth beyond confidence or claim; Awtsmoos.com records paths, hashes, tests and runtime witnesses by name. Observed before source writes Native repository: /Users/awtsmoos/work/awtsmoos.com/geelooy. Workspace is highly dirty with concurrent agents; res",
+		"searchText": "b\"h boruch hashem blessed is he evidence ledger the awtsmoos renews truth beyond confidence or claim; awtsmoos.com records paths, hashes, tests and runtime witnesses by name. observed before source writes native repository: /users/awtsmoos/work/awtsmoos.com/geelooy. workspace is highly dirty with concurrent agents; reset, stash and checkout are forbidden for this pass. apps/shared/movie contains a 180 second example and explicit 2d/3d semantic layers. shared/movie contains a separate millisecond protocol and broader app capability list. libs/awtsmoos movie core contains a third partial movie contract. animator and nesher adapters currently point at different shared cores, proving unification is incomplete. current strongest canonical candidate omitted video editor and mitzvah from capabilities at discovery time. evidence still required fresh hashes at write boundaries. module import and syntax results. validator and adapter test results. browser/mobile assertions. generated media path, bytes and ffprobe report. frame diversity witnesses. final git diff limited to intended files plus explicitly pre existing unrelated dirt.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27t2210-geelooy-movie-integration-verificati-b652f99dcd.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27t2258-geelooy-movie-full-improvement-brain-6c2aceca4b",
+		"title": "Current Reality and Gaps",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27T2258-geelooy-movie-full-improvement-brainstorm/00_CURRENT_REALITY_AND_GAPS.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Current Reality and Gaps",
+				"anchor": "current-reality-and-gaps"
+			},
+			{
+				"level": 2,
+				"text": "What exists now",
+				"anchor": "what-exists-now"
+			},
+			{
+				"level": 2,
+				"text": "Concrete defects observed today",
+				"anchor": "concrete-defects-observed-today"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Current Reality and Gaps The Awtsmoos renews every frame, every vessel, every way; Awtsmoos.com can make one movie language truthful while every studio keeps its own display. What exists now apps/shared/movie is the strongest canonical candidate and is modular. It models 2D shapes/text/p",
+		"searchText": "b\"h boruch hashem blessed is he current reality and gaps the awtsmoos renews every frame, every vessel, every way; awtsmoos.com can make one movie language truthful while every studio keeps its own display. what exists now apps/shared/movie is the strongest canonical candidate and is modular. it models 2d shapes/text/paths/charts/particles/characters/groups and 3d models/characters/particles/lights/worlds. it models semantic cameras, transitions, keyframes, cast, assets, scenes, format and handoff metadata. it has a prompt intent parser, structured intent compiler, canvas proof renderer, runtime samplers and a mobile dock. animator, nesher, video editor and mitzvah studio have adapters targeting this shared movie area. a three minute canonical example and separate animator long movie proofs exist. concrete defects observed today 1. the canonical movie directory is still entirely untracked in git. 2. shared core tests are essentially absent; most movie smoke tests still live under animator. 3. moviepromptintent.js exists but is not exported from apps/shared/movie/index.js; the public import smoke test fails. 4. aimoviecontract.js reads moviecapabilities.protocol, but the current capability facade exposes for() and all(), so the contract protocol can become undefined. 5. movievalidator.js checks scene range and layer start, but not layer end, keyframe bounds, camera kinds, transition kinds, duplicate cast ids, asset references or semantic payload validity. 6. movieprotocol.js still uses compact inline object formatting and truthy defaults such as input.duration 0, which can hide intent and makes evolution harder. 7. the mobile moviedock is primarily a json textarea with two buttons; it is not yet a true ai directing ux. 8. there are two animator movie adapter implementations (src/movie and src/sharedmovie), creating ambiguity about the authoritative bridge. 9. app adapters preserve the canonical movie differently; not all return the same projection/fidelity report shape. 10. the shared layer vocabulary has no first class audio, dialogue, video/media, mask, matte, camera track, adjustment, subtitle or data source layer kinds. 11. search found no meaningful shared support for physics, collision, undo/redo, collaboration, migrations, serialization apis, webgpu, offscreencanvas, render queues or caching. 12. character semantics are still shallow compared with the desired film director model: no canonical skeleton, pose track, gaze, emotion, lipsync, blocking, wardrobe or continuity contract. 13. 3d rendering in the shared canvas is a proof renderer, not a full spatial renderer with true depth, materials, shadows and post processing. 14. cross app round trip editing is not defined: projection mostly flows canonical app, without app canonical reconciliation. 15. there is no canonical project diff/patch language for an ai to safely revise one scene, character or keyframe without regenerating the entire movie. 16. no canonical asset provenance, licensing, hashing, proxy/original relationship or offline availability model exists. 17. no performance budget or adaptive quality contract exists for mobile devices. 18. no accessibility contract exists for captions, audio description, color contrast, motion reduction or reading order. 19. no deterministic render acceptance suite proves the same movie remains semantically consistent across all adapters. 20. no single canonical documentation page currently tells future agents which movie core is authoritative and which old prototypes are compatibility only.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27t2258-geelooy-movie-full-improvement-brain-6c2aceca4b.json"
+	}
+]

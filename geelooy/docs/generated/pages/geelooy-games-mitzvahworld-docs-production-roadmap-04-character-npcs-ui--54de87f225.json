@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-docs-production-roadmap-04-character-npcs-ui--54de87f225",
+	"title": "Player, NPC Civilization, Camera, UI, and Accessibility",
+	"sourcePath": "geelooy/games/mitzvahWorld/docs/production-roadmap/04-character-npcs-ui.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Player, NPC Civilization, Camera, UI, and Accessibility",
+			"anchor": "player-npc-civilization-camera-ui-and-accessibility"
+		},
+		{
+			"level": 2,
+			"text": "Player and traversal",
+			"anchor": "player-and-traversal"
+		},
+		{
+			"level": 2,
+			"text": "Camera and controls",
+			"anchor": "camera-and-controls"
+		},
+		{
+			"level": 2,
+			"text": "NPC civilization",
+			"anchor": "npc-civilization"
+		},
+		{
+			"level": 2,
+			"text": "HUD and menus",
+			"anchor": "hud-and-menus"
+		},
+		{
+			"level": 2,
+			"text": "Accessibility and localization",
+			"anchor": "accessibility-and-localization"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-docs-production-roadmap-04-character-npcs-ui--54de87f225-001.json"
+	]
+}

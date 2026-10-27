@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-14-fi-e14823bc08",
+	"title": "Final Seed Sitemap Write Plan",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-01-2342-geelooy-seo-current-head-merge/14-final-seed-sitemap-write-plan.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Final Seed Sitemap Write Plan",
+			"anchor": "final-seed-sitemap-write-plan"
+		},
+		{
+			"level": 2,
+			"text": "Final implementation boundary",
+			"anchor": "final-implementation-boundary"
+		},
+		{
+			"level": 2,
+			"text": "Behavioral result",
+			"anchor": "behavioral-result"
+		},
+		{
+			"level": 2,
+			"text": "Verification before exposure",
+			"anchor": "verification-before-exposure"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-14-fi-e14823bc08-001.json"
+	]
+}

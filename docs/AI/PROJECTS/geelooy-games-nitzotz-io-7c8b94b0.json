@@ -9,7 +9,7 @@
 		"id": "games",
 		"title": "Games and Worlds"
 	},
-	"title": "Nitzotz.io — Shlichus Adventure Metropolis",
+	"title": "Nitzotz.io — Gather. Grow. Reveal.",
 	"entries": [
 		"index.html",
 		"package.json",
@@ -24,19 +24,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-nitzotz-io-7c8b94b0.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 220,
-		"tests": 29,
+		"source": 285,
+		"tests": 44,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
 		"other": 0
 	},
-	"totalFiles": 250,
+	"totalFiles": 330,
 	"symbolSummary": {
-		"files": 187,
+		"files": 230,
 		"classes": 0,
-		"functions": 574,
-		"exports": 372,
+		"functions": 708,
+		"exports": 448,
 		"samples": [
 			"selectShlichus",
 			"shlichusTemplates",
@@ -55,8 +55,8 @@
 	"outgoingDependencies": [
 		{
 			"project": "geelooy/libs",
-			"count": 2,
-			"examples": "geelooy/games/nitzotz-io/js/procedural/localMeshes.js; geelooy/games/nitzotz-io/js/webgl/meshUpload.js"
+			"count": 11,
+			"examples": "geelooy/games/nitzotz-io/js/procedural/cityRoad.js; geelooy/games/nitzotz-io/js/procedural/localMeshes.js; geelooy/games/nitzotz-io/js/procedural/realityHouses.js"
 		}
 	],
 	"incomingDependencies": [],
@@ -65,9 +65,9 @@
 		{
 			"url": "/games/nitzotz-io",
 			"file": "geelooy/games/nitzotz-io/index.html",
-			"title": "Nitzotz.io — Shlichus Adventure Metropolis",
-			"scripts": 1,
-			"styles": 2
+			"title": "Nitzotz.io — Gather. Grow. Reveal.",
+			"scripts": 6,
+			"styles": 7
 		}
 	],
 	"requiresLocalDocumentation": true,

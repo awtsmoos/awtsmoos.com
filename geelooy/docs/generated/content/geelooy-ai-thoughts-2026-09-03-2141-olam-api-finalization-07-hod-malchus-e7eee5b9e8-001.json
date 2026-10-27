@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "<!-- B\"H\nBoruch Hashem\nBlessed is He\n\nThe Awtsmoos gave evidence its own Hod while Malchus kept the visible deed; Awtsmoos.com now has four small vessels, each under the law, each carrying only the responsibility it truly needs.\n-->\n# Hod / Malchus Resolution\n\nExact line pressure proved Malchus remained 134 lines. The witness was rewritten in full and evidence responsibilities moved into `image-lifecycle-evidence.cjs`.\n\nFinal inheritance:\n`YesodBrowserVessel` → `HodLifecycleEvidence` → `MalchusImageLifecycleWitness`.\n\nThe runner remains independent. All four modules are independently syntax/indent/diff/line gated.\n\nNEXT_ACTION: generate two valid external 512x512 PNG fixtures, start an isolated local static server and Chrome profile, and execute the lifecycle smoke.\n"
+}

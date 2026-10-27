@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Contact API (`/api/contact/`)\n\nPublic contact-signal intake: issue reports, ideas, account questions.\nValidates input, rate-gates per client, delivers via mail transport.\n\n## Subdirectories\n\n- `services/` — Validation, delivery, and rate-gate policy modules.\n\n## Files\n\n- `_awtsmoos.derech.js` — Route registration.\n- `DOCUMENTATION.md` — Full payload spec and route table.\n\n## Routes\n\n| Method | Path | Purpose |\n| --- | --- | --- |\n| `GET` | `/api/contact/` | Health and discovery. |\n| `GET` | `/api/contact/status` | Explicit health endpoint. |\n| `POST` | `/api/contact/` | Validate and deliver one contact signal. |\n\n## POST payload\n\nRequired: `name` (≤80), `email` (email-shaped, ≤160), `subject` (≤140),\n`message` (≥12 chars, ≤5000). `kind` is one of `issue`, `idea`, `account`,\n`other`. `company` is a honeypot (must stay empty); `startedAt` guards\nagainst instant bot submissions.\n"
+}

@@ -23,19 +23,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-dosdb-eaaa802e.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 827,
-		"tests": 160,
+		"source": 870,
+		"tests": 178,
 		"assets": 0,
 		"generated": 0,
-		"docs": 21,
-		"other": 0
+		"docs": 23,
+		"other": 1
 	},
-	"totalFiles": 1008,
+	"totalFiles": 1072,
 	"symbolSummary": {
-		"files": 813,
-		"classes": 383,
-		"functions": 1117,
-		"exports": 731,
+		"files": 856,
+		"classes": 390,
+		"functions": 1290,
+		"exports": 883,
 		"samples": [
 			"AwtsmoosDbEmbedderConfig",
 			"defaultEmbeddingDimensions",
@@ -55,18 +55,18 @@
 	"incomingDependencies": [
 		{
 			"project": "geelooy/api/social",
-			"count": 33,
+			"count": 54,
 			"examples": "geelooy/api/social/helper/comments/aliasIndex/PackedIndexStore.js; geelooy/api/social/helper/comments/canonicalCommentSource.js; geelooy/api/social/helper/comments/commentAwtsmoosDbBridge.js"
+		},
+		{
+			"project": "ayzarim/awtsmoosDynamicServer",
+			"count": 8,
+			"examples": "ayzarim/awtsmoosDynamicServer/projectHosting/ProjectDatabaseBoundedKeys.js; ayzarim/awtsmoosDynamicServer/server/deps.js; ayzarim/awtsmoosDynamicServer/server/initDb.js"
 		},
 		{
 			"project": "ayzarim/maintence",
 			"count": 2,
 			"examples": "ayzarim/maintence/transferOldDBToAwtsmoosDB.js"
-		},
-		{
-			"project": "ayzarim/awtsmoosDynamicServer",
-			"count": 1,
-			"examples": "ayzarim/awtsmoosDynamicServer/server/deps.js"
 		},
 		{
 			"project": "geelooy/scripts",
@@ -76,9 +76,19 @@
 	],
 	"externalDependencies": [
 		{
+			"dependency": "awtsmoosDB",
+			"count": 1,
+			"examples": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/compat/redis/index.js"
+		},
+		{
 			"dependency": "entries",
 			"count": 1,
 			"examples": "ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON/operations/obj/makomChafshee_aiPrompt.js"
+		},
+		{
+			"dependency": "mongodb",
+			"count": 1,
+			"examples": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/compat/mongo/client.js"
 		}
 	],
 	"publicEntries": [],

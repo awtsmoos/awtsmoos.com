@@ -1,0 +1,172 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-08-31t1030-global-mobile-reader-repair-00-remai-7952c95b6c",
+		"title": "REMAININGWORK — Global Mobile + Reader Repair",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-31T1030-global-mobile-reader-repair/00_REMAINING_WORK.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "REMAININGWORK — Global Mobile + Reader Repair",
+				"anchor": "remainingwork-global-mobile-reader-repair"
+			},
+			{
+				"level": 2,
+				"text": "P0 Reader/runtime",
+				"anchor": "p0-reader-runtime"
+			},
+			{
+				"level": 2,
+				"text": "P1 Mobile UX surfaces",
+				"anchor": "p1-mobile-ux-surfaces"
+			},
+			{
+				"level": 2,
+				"text": "P2 Cross-page verification",
+				"anchor": "p2-cross-page-verification"
+			},
+			{
+				"level": 2,
+				"text": "P3 Release",
+				"anchor": "p3-release"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He REMAINING WORK — Global Mobile + Reader Repair P0 Reader/runtime [ ] Trace the exact Heichel/post dynamic template path behind $$sd is not defined. [ ] Reproduce the failure locally. [ ] Repair the reader template/runtime contract with complete file rewrites. [ ] Add focused regression c",
+		"searchText": "b\"h boruch hashem blessed is he remaining work — global mobile + reader repair p0 reader/runtime [ ] trace the exact heichel/post dynamic template path behind $$sd is not defined. [ ] reproduce the failure locally. [ ] repair the reader template/runtime contract with complete file rewrites. [ ] add focused regression coverage. [ ] verify the reader manifests torah content and never raw server stack text. p1 mobile ux surfaces [ ] read and validate current heichel mobile first dirty work without overwriting it. [ ] reproduce heichel tree geometry and remaining overlap/clutter defects. [ ] repair remaining heichel mobile defects. [ ] trace social composer sticky/fixed controls and canvas clearance. [ ] simplify composer mobile hierarchy and make advanced sections retractable. [ ] verify home and social hub remain consistent with the same mobile hierarchy. p2 cross page verification [ ] 390px journey across home, heichel tree, post reader, composer, social hub. [ ] 320px journey across the same surfaces. [ ] zero horizontal overflow. [ ] no large fixed panel covering reading/writing content. [ ] reduced motion/accessibility verification. [ ] full touched subsystem test suites. p3 release [ ] inspect the repository's real production deployment contract. [ ] commit only verified scoped files against latest main. [ ] push safely without force. [ ] invoke actual production deployment mechanism. [ ] poll live awtsmoos.com pages until new source/runtime signatures are served. [ ] re test live reader and mobile routes. next action read the reader templates/runtime call chain, current heichel mobile diff, and social composer mobile layout owners in bounded batches.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-31t1030-global-mobile-reader-repair-00-remai-7952c95b6c.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-31t1030-global-mobile-reader-repair-01-chese-11330d6d81",
+		"title": "Phase One — Chesed Brainstorm: Make Every Mobile Surface Inviting",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-31T1030-global-mobile-reader-repair/01_CHESED_BRAINSTORM.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase One — Chesed Brainstorm: Make Every Mobile Surface Inviting",
+				"anchor": "phase-one-chesed-brainstorm-make-every-mobile-surface-inviting"
+			},
+			{
+				"level": 2,
+				"text": "Screenshot wounds that must become durable contracts",
+				"anchor": "screenshot-wounds-that-must-become-durable-contracts"
+			},
+			{
+				"level": 2,
+				"text": "Twenty possible improvements",
+				"anchor": "twenty-possible-improvements"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase One — Chesed Brainstorm: Make Every Mobile Surface Inviting The Awtsmoos creates the reader, the tree, the composer, and the social road anew; Awtsmoos.com should greet the thumb with one clear deed, while deeper instruments wait for the user to choose. Screenshot wounds that must ",
+		"searchText": "b\"h boruch hashem blessed is he phase one — chesed brainstorm: make every mobile surface inviting the awtsmoos creates the reader, the tree, the composer, and the social road anew; awtsmoos.com should greet the thumb with one clear deed, while deeper instruments wait for the user to choose. screenshot wounds that must become durable contracts the heichel/post reader can render raw server exception text instead of torah content. heichel tree cards consume too much vertical space and expose advanced platform controls over content. social composer overlays a large review/publish command slab over the writing canvas. composer shows too many format/media/creator detail choices simultaneously on a narrow phone. social hub production still shows the old expanded identity/context stack and large discovery controls. the advanced tool affordance can overlap meaningful content. multiple mobile docks use different spacing, elevation, labels, and interruption patterns. blank/fallback/loading states are not consistently inviting or actionable. twenty possible improvements 1. repair dynamic reader template composition before styling. 2. add a reader template regression test that executes the real composition contract. 3. render a calm reader recovery state instead of raw stack traces if data fails. 4. make the reader content itself the first visible surface. 5. collapse reader utilities behind one compact tools disclosure. 6. keep reading controls below or beside content rather than over it. 7. reduce heichel series card vertical padding and metadata chrome. 8. keep one primary card action visible and move secondary actions into overflow. 9. make platform/advanced tools a true closed disclosure on mobile. 10. prevent advanced panels from floating over the bottom dock. 11. preserve current heichel mobile first work rather than overwrite it. 12. make composer identity a compact row, not a large card. 13. make post/photo/video mode selection a compact segmented control. 14. put advanced media formats behind one disclosure. 15. put creator details behind one disclosure. 16. replace the giant sticky publish slab with a compact bottom action bar. 17. ensure the bottom action bar never covers editable content. 18. share mobile safe area and dock clearance tokens across surfaces where practical. 19. keep motion/glass subtle and never animate blur. 20. verify every affected route at 390px and 320px with real chrome. the awtsmoos is not hidden by simplicity; simplicity removes the false walls that hide the deed.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-31t1030-global-mobile-reader-repair-01-chese-11330d6d81.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-31t1030-global-mobile-reader-repair-02-gevur-8db949af6c",
+		"title": "Phase Two — Gevurah Critique: Bound the Repair by Real Ownership",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-31T1030-global-mobile-reader-repair/02_GEVURAH_CRITIQUE.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Two — Gevurah Critique: Bound the Repair by Real Ownership",
+				"anchor": "phase-two-gevurah-critique-bound-the-repair-by-real-ownership"
+			},
+			{
+				"level": 2,
+				"text": "Known boundaries",
+				"anchor": "known-boundaries"
+			},
+			{
+				"level": 2,
+				"text": "Twenty safeguards",
+				"anchor": "twenty-safeguards"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Two — Gevurah Critique: Bound the Repair by Real Ownership The Awtsmoos gives every ohr a keli and every possibility a border; Awtsmoos.com must improve the lived road without trampling concurrent work or inventing a new order. Known boundaries Shared checkout contains unrelated di",
+		"searchText": "b\"h boruch hashem blessed is he phase two — gevurah critique: bound the repair by real ownership the awtsmoos gives every ohr a keli and every possibility a border; awtsmoos.com must improve the lived road without trampling concurrent work or inventing a new order. known boundaries shared checkout contains unrelated dirty work and active heichel edits. whole file rewrites only; no partial patches. touched source uses tabs, full documentation, b\"h prologue, awtsmoos and awtsmoos.com. no touched source file may exceed 120 lines; split responsibilities instead. production deployment requires the repository's real release machinery; git push alone was insufficient. twenty safeguards 1. trace the exact template caller that supplies reader server data. 2. do not rename template variables until call sites are known. 3. do not swallow reader errors; translate them into bounded user facing recovery. 4. keep reader apis and url contracts stable. 5. inspect existing reader tests before adding a new test. 6. inspect heichel dirty diff before touching any overlapping file. 7. prefer a clean worktree for new cross page changes when overlap is risky. 8. if current heichel edits are good, preserve them as observed candidate work rather than recreate them. 9. never stage unrelated repository changes. 10. keep primary navigation reachable with one thumb. 11. keep bottom bars below content and include safe area clearance. 12. avoid position: fixed for large multi row controls on phones. 13. allow only compact single row fixed actions when truly persistent. 14. do not hide essential publishing validation behind advanced disclosures. 15. keep form labels and errors visible when fields are active. 16. preserve keyboard navigation and native details semantics. 17. preserve reduced motion and reduced transparency behavior. 18. test fallback/loading/error states, not only happy paths. 19. verify actual production source signatures after deployment. 20. keep remaining work open until reader, tree, composer, hub, and deployment are proven. gevurah does not choke the light; it shapes the glass so the light can be read.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-31t1030-global-mobile-reader-repair-02-gevur-8db949af6c.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-31t1030-global-mobile-reader-repair-03-tifer-805c52ef57",
+		"title": "Phase Three — Tiferes Execution Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-31T1030-global-mobile-reader-repair/03_TIFERES_EXECUTION_PLAN.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Three — Tiferes Execution Plan",
+				"anchor": "phase-three-tiferes-execution-plan"
+			},
+			{
+				"level": 2,
+				"text": "Thirty final execution checks",
+				"anchor": "thirty-final-execution-checks"
+			},
+			{
+				"level": 2,
+				"text": "Expected file families",
+				"anchor": "expected-file-families"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Three — Tiferes Execution Plan The Awtsmoos joins broken runtime and crowded surface into one repairable story; Awtsmoos.com will reveal Torah first, creation second, and advanced machinery only when intention asks for glory. Thirty final execution checks 1. Read post route templat",
+		"searchText": "b\"h boruch hashem blessed is he phase three — tiferes execution plan the awtsmoos joins broken runtime and crowded surface into one repairable story; awtsmoos.com will reveal torah first, creation second, and advanced machinery only when intention asks for glory. thirty final execution checks 1. read post route template and initial content.html completely. 2. trace dynamic template data variables from route entry to included content. 3. reproduce the $$sd failure locally with the project server/template processor. 4. identify whether the bug is source or deployment drift. 5. rewrite the broken reader template file completely. 6. split any touched oversized reader file before adding behavior. 7. add a focused reader composition regression test. 8. verify reader returns content rather than raw exception code. 9. inspect reader mobile css and fixed controls. 10. create a small reader mobile hierarchy layer only if real evidence requires it. 11. read current heichel mobile first diff and contract. 12. run its existing test before altering heichel work. 13. reproduce the tree screenshot geometry in chrome. 14. repair only remaining heichel defects, respecting current work. 15. inspect composer dom ownership for sticky publish, commands, tools, and canvas. 16. inspect composer css import order and mobile breakpoints. 17. rewrite composer mobile layout into compact action/disclosure modules. 18. ensure writing canvas has bottom clearance and no overlay coverage. 19. ensure publish remains obvious and one tap reachable. 20. verify composer at 390px and 320px with editable text area visible. 21. verify social hub current local simplified build remains green. 22. confirm production deployment still needs explicit release action. 23. inspect repository production deployment contract. 24. build one mobile journey covering home → heichel → post reader → composer → social hub. 25. assert zero raw error text and zero horizontal overflow. 26. assert no large fixed panel overlaps content. 27. assert advanced controls are closed by default where nonessential. 28. run route/unit suites for every touched subsystem. 29. commit only isolated release files and push safely against latest main. 30. deploy using the real project release mechanism and verify live assets/content. expected file families reader route/template under heichelos/post/ and a focused reader regression test. heichel mobile files only if current dirty work still leaves screenshot defects. composer mobile css/templates split into focused modules. social hub only if final integration evidence finds a regression. production release scripts are read and invoked, not guessed or rewritten unless objectively broken. tiferes is the meeting point: torah becomes readable, creation becomes possible, and the machine becomes quiet enough to serve both.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-31t1030-global-mobile-reader-repair-03-tifer-805c52ef57.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-0134-chitas-release-ui-final-00-phase-one-b059d41938",
+		"title": "Phase One — Release Universe",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-0134-chitas-release-ui-final/00-phase-one-release-universe.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase One — Release Universe",
+				"anchor": "phase-one-release-universe"
+			},
+			{
+				"level": 2,
+				"text": "Mission",
+				"anchor": "mission"
+			},
+			{
+				"level": 2,
+				"text": "Known implementation surface",
+				"anchor": "known-implementation-surface"
+			},
+			{
+				"level": 2,
+				"text": "Release graph",
+				"anchor": "release-graph"
+			},
+			{
+				"level": 2,
+				"text": "Failure map",
+				"anchor": "failure-map"
+			},
+			{
+				"level": 2,
+				"text": "Candidate UX improvements",
+				"anchor": "candidate-ux-improvements"
+			},
+			{
+				"level": 2,
+				"text": "Completion evidence required",
+				"anchor": "completion-evidence-required"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase One — Release Universe The Awtsmoos reveals the final mile not as a button but as a river of custody, proof, and public light; Awtsmoos.com must carry one coherent Chitas vessel from canonical source through mobile sight. Mission Finish Daily Chitas as a native Heichel Ikar experie",
+		"searchText": "b\"h boruch hashem blessed is he phase one — release universe the awtsmoos reveals the final mile not as a button but as a river of custody, proof, and public light; awtsmoos.com must carry one coherent chitas vessel from canonical source through mobile sight. mission finish daily chitas as a native heichel ikar experience, improve mobile first ui/ux on the clean latest main integration tree, publish the exact tested sha, activate production through the repository's current release covenant, and verify the public live link. known implementation surface ikar native chumash source posts and pasuk sections. reusable post range reference/resolver. dynamic daily chitas/chitas yyyy mm dd reader identity. chabad calendar compatible seven day schedule metadata. simchas torah/isru chag handling. native comments/discussion endpoint. chitas aware reader previous/next day navigation. guarded native post shell. sunday through shabbos mobile week panel. honest hebrew torah / english interface semantics. release graph origin/main clean integration worktree full file chitas transfer integration tests mobile browser proof ux corrections complete file second write regression commit fast forward main push bhrelease exact sha public verification live link. failure map missing hidden reader dependency could recreate dynamic reader failure. dirty root staging could absorb unfinished unrelated agents. new upstream commit could invalidate a copied owner. calendar fetch could fail in browser while source range tests still pass. mobile week cards could overflow or bury controls. synthetic discussion identity could diverge after clean integration. production cache generation could mix old/new modules. release activation could target a different sha than pushed main. public host could serve a healthy shell but fail client side manifestation. week/date selector could change ui query but not reader post identity. candidate ux improvements stronger chitas week identity without generic timeline language. compact day cards with weekday, aliyah, source reference, and clear current day state. sticky or visually anchored study controls on narrow screens without covering torah. better responsive spacing for 320–430px widths. clear bilingual interface switch labeling that does not imply unavailable english torah. better focus visible states and 48px touch targets. date picker full width behavior on narrow devices. selected day card affordance and today affordance. native reader masthead hierarchy that leaves torah as visual center. clean source reference typography and overflow wrapping. completion evidence required no completion claim until the exact public deployment sha is observed, public heichel chitas grouping is reachable, public dynamic day route is reachable, browser dom contains the chitas masthead and native hebrew torah, controls fit mobile viewport, no chabad redirect occurs, discussion endpoint is healthy, and production serves the committed chitas module generation.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-0134-chitas-release-ui-final-00-phase-one-b059d41938.json"
+	}
+]

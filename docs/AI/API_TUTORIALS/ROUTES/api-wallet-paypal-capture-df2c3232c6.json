@@ -27,9 +27,14 @@
 			"literal": "/api/wallet/paypal/capture",
 			"source": "geelooy/apps/wallet/scripts/checkout.js",
 			"kind": "runtime"
+		},
+		{
+			"literal": "/api/wallet/paypal/capture",
+			"source": "geelooy/shared/commerce/return.js",
+			"kind": "runtime"
 		}
 	],
-	"callerCount": 1,
+	"callerCount": 2,
 	"tests": [],
 	"examples": [],
 	"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-paypal-capture-df2c3232c6.md",
@@ -44,28 +49,28 @@
 			"route": "/api/wallet/buy/mock"
 		},
 		{
+			"id": "api-wallet-commerce-actions-8e2f72034a",
+			"route": "/api/wallet/commerce/actions"
+		},
+		{
+			"id": "api-wallet-commerce-actions-execute-1b212726d5",
+			"route": "/api/wallet/commerce/actions/execute"
+		},
+		{
 			"id": "api-wallet-commerce-catalog-f9d5b627eb",
 			"route": "/api/wallet/commerce/catalog"
 		},
 		{
-			"id": "api-wallet-commerce-entitlements-31c234acf1",
-			"route": "/api/wallet/commerce/entitlements"
+			"id": "api-wallet-commerce-credits-commit-514993bf32",
+			"route": "/api/wallet/commerce/credits/commit"
 		},
 		{
-			"id": "api-wallet-commerce-purchase-762f54f3a2",
-			"route": "/api/wallet/commerce/purchase"
+			"id": "api-wallet-commerce-credits-consume-6e724abb1d",
+			"route": "/api/wallet/commerce/credits/consume"
 		},
 		{
-			"id": "api-wallet-currency-8de1c94e4f",
-			"route": "/api/wallet/currency"
-		},
-		{
-			"id": "api-wallet-game-rewards-claim-abc370c4e1",
-			"route": "/api/wallet/game-rewards/claim"
-		},
-		{
-			"id": "api-wallet-me-c462e10539",
-			"route": "/api/wallet/me"
+			"id": "api-wallet-commerce-credits-release-01fbab351a",
+			"route": "/api/wallet/commerce/credits/release"
 		}
 	]
 }

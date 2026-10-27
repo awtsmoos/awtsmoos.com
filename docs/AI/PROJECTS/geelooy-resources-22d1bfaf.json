@@ -20,12 +20,12 @@
 	"counts": {
 		"source": 2,
 		"tests": 0,
-		"assets": 0,
+		"assets": 1,
 		"generated": 0,
 		"docs": 0,
 		"other": 0
 	},
-	"totalFiles": 2,
+	"totalFiles": 3,
 	"symbolSummary": null,
 	"outgoingDependencies": [],
 	"incomingDependencies": [],

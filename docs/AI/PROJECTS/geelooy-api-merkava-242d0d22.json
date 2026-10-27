@@ -1,0 +1,57 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-api-merkava-242d0d22",
+	"path": "geelooy/api/merkava",
+	"type": "api",
+	"family": {
+		"id": "apis",
+		"title": "API Projects"
+	},
+	"title": "geelooy/api/merkava",
+	"entries": [
+		"_awtsmoos.derech.js",
+		"README.md",
+		"readme.md"
+	],
+	"humanDocumentation": [
+		"docs/TUTORIALS/PROJECTS/APIS.md",
+		"docs/API/README.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/APIS.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-merkava-242d0d22.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 1,
+		"tests": 0,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 1
+	},
+	"totalFiles": 3,
+	"symbolSummary": {
+		"files": 1,
+		"classes": 0,
+		"functions": 7,
+		"exports": 1,
+		"samples": [
+			"dynamicRoutes",
+			"rateLimited",
+			"cleanStr",
+			"parseBody",
+			"loadCore",
+			"loadJsCore",
+			"loadPageRunner",
+			"crownMerkavaRoutes"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [],
+	"requiresLocalDocumentation": false,
+	"documentationCovered": false,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

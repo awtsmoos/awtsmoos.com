@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Comment Creation Pipeline (geelooy/api/social/helper/comments/creation/)\n\nThe comment-creation pipeline, decomposed in the codebase's sephirah naming style. Each file owns one responsibility in turning a submission into a stored comment record.\n\n## Files\n- `KeserCommentCreationCoordinator.js` — orchestrates the whole creation flow.\n- `BinahCommentInput.js` — decodes/validates incoming comment input.\n- `BinahCommentSubmissionService.js` — submission handling.\n- `ChesedBulkCommentService.js` — bulk comment creation.\n- `GevurahCommentAuthority.js` — permission/authority checks before writing.\n- `NetzachCommentIdentity.js` — resolves the authoring identity.\n- `HodAliasCommentIndex.js` — updates the alias comment index on creation.\n- `TiferesCommentCreationService.js` — the core creation service.\n- `MalchusCommentRecord.js` — final comment record shape written to storage.\n"
+}

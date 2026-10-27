@@ -1,0 +1,74 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-27-2103-every-page-absolute-continuation-02--b5fed06c4e",
+	"title": "Phase One — Route Family and Verification Map",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-27-2103-every-page-absolute-continuation/02_PHASE_ONE_ROUTE_FAMILY_MAP.md",
+	"category": "Routes",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase One — Route Family and Verification Map",
+			"anchor": "phase-one-route-family-and-verification-map"
+		},
+		{
+			"level": 2,
+			"text": "Route Families To Discover From Files",
+			"anchor": "route-families-to-discover-from-files"
+		},
+		{
+			"level": 2,
+			"text": "Family Verification Contracts",
+			"anchor": "family-verification-contracts"
+		},
+		{
+			"level": 3,
+			"text": "Documents / libraries",
+			"anchor": "documents-libraries"
+		},
+		{
+			"level": 3,
+			"text": "Search",
+			"anchor": "search"
+		},
+		{
+			"level": 3,
+			"text": "Social / CRUD",
+			"anchor": "social-crud"
+		},
+		{
+			"level": 3,
+			"text": "Editors",
+			"anchor": "editors"
+		},
+		{
+			"level": 3,
+			"text": "Games",
+			"anchor": "games"
+		},
+		{
+			"level": 3,
+			"text": "Media",
+			"anchor": "media"
+		},
+		{
+			"level": 2,
+			"text": "Concurrency Rules",
+			"anchor": "concurrency-rules"
+		},
+		{
+			"level": 2,
+			"text": "First Planned Tranche",
+			"anchor": "first-planned-tranche"
+		},
+		{
+			"level": 2,
+			"text": "NEXTACTION",
+			"anchor": "nextaction"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-27-2103-every-page-absolute-continuation-02--b5fed06c4e-001.json"
+	]
+}

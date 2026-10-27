@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-26-sitewide-ui-audit-01-revelation-md-86dd5ece6f",
+	"title": "Phase One — Sitewide UI Revelation",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-26-sitewide-ui-audit/01_revelation.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase One — Sitewide UI Revelation",
+			"anchor": "phase-one-sitewide-ui-revelation"
+		},
+		{
+			"level": 2,
+			"text": "Mission",
+			"anchor": "mission"
+		},
+		{
+			"level": 2,
+			"text": "Evidence from the supplied screenshots",
+			"anchor": "evidence-from-the-supplied-screenshots"
+		},
+		{
+			"level": 2,
+			"text": "Sitewide failure contract",
+			"anchor": "sitewide-failure-contract"
+		},
+		{
+			"level": 2,
+			"text": "Audit dimensions",
+			"anchor": "audit-dimensions"
+		},
+		{
+			"level": 2,
+			"text": "Immediate priority order",
+			"anchor": "immediate-priority-order"
+		},
+		{
+			"level": 2,
+			"text": "Preservation law",
+			"anchor": "preservation-law"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-26-sitewide-ui-audit-01-revelation-md-86dd5ece6f-001.json"
+	]
+}

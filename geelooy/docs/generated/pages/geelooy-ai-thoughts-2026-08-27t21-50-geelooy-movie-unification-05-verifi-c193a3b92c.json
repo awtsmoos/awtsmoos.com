@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-27t21-50-geelooy-movie-unification-05-verifi-c193a3b92c",
+	"title": "Verification Universe",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-27T21-50-geelooy-movie-unification/05_VERIFICATION_UNIVERSE.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Verification Universe",
+			"anchor": "verification-universe"
+		},
+		{
+			"level": 2,
+			"text": "Static",
+			"anchor": "static"
+		},
+		{
+			"level": 2,
+			"text": "Protocol",
+			"anchor": "protocol"
+		},
+		{
+			"level": 2,
+			"text": "Showcase",
+			"anchor": "showcase"
+		},
+		{
+			"level": 2,
+			"text": "Adapters",
+			"anchor": "adapters"
+		},
+		{
+			"level": 2,
+			"text": "Runtime",
+			"anchor": "runtime"
+		},
+		{
+			"level": 2,
+			"text": "Render Evidence",
+			"anchor": "render-evidence"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-27t21-50-geelooy-movie-unification-05-verifi-c193a3b92c-001.json"
+	]
+}

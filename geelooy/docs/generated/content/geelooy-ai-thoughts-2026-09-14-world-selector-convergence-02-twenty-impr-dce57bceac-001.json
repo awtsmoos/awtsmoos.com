@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "<!-- B\"H -->\n<!-- Boruch Hashem -->\n<!-- Blessed be He -->\n# Phase Two — Twenty Improvements\n1. Work only on canonical main. 2. Never create a branch. 3. Treat side worktree as read-only. 4. Inspect side HEAD ancestry. 5. Compare current/base/feature. 6. Whole-file merge only. 7. Exact blessing headers. 8. Tabs only in JS. 9. Keep touched JS below 120 lines. 10. Preserve current generated-world contracts. 11. Preserve newer main APIs. 12. Do not hand-edit generated JSON. 13. Prefer generator source when available. 14. Run focused registry test. 15. Run syntax checks. 16. Run diff hygiene. 17. Re-read merged files. 18. Commit only selector paths. 19. Make old branch an ancestor before deletion. 20. Remove worktree only after content and history are represented on main.\n"
+}

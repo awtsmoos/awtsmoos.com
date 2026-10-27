@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-c80fd29820",
+	"title": "Phase Two — Exact Files to Touch",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/.ai-thoughts/20260902_0315-universal-procedural-api/06_EXACT_FILES_TO_TOUCH.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase Two — Exact Files to Touch",
+			"anchor": "phase-two-exact-files-to-touch"
+		},
+		{
+			"level": 2,
+			"text": "First implementation draft",
+			"anchor": "first-implementation-draft"
+		},
+		{
+			"level": 2,
+			"text": "Tests after first source draft",
+			"anchor": "tests-after-first-source-draft"
+		},
+		{
+			"level": 2,
+			"text": "Documentation/examples after behavior verifies",
+			"anchor": "documentation-examples-after-behavior-verifies"
+		},
+		{
+			"level": 2,
+			"text": "Potential public demo",
+			"anchor": "potential-public-demo"
+		},
+		{
+			"level": 2,
+			"text": "Files explicitly not to rewrite merely for style",
+			"anchor": "files-explicitly-not-to-rewrite-merely-for-style"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-c80fd29820-001.json"
+	]
+}

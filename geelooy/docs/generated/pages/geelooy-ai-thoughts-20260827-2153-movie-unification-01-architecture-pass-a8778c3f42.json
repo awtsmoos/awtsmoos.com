@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-20260827-2153-movie-unification-01-architecture-pass-a8778c3f42",
+	"title": "Architecture Pass",
+	"sourcePath": "geelooy/.ai-thoughts/20260827-2153-movie-unification/01_ARCHITECTURE_PASS.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Architecture Pass",
+			"anchor": "architecture-pass"
+		},
+		{
+			"level": 2,
+			"text": "Chosen architecture",
+			"anchor": "chosen-architecture"
+		},
+		{
+			"level": 2,
+			"text": "Runtime proof seam",
+			"anchor": "runtime-proof-seam"
+		},
+		{
+			"level": 2,
+			"text": "File split",
+			"anchor": "file-split"
+		},
+		{
+			"level": 2,
+			"text": "Invariants",
+			"anchor": "invariants"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-20260827-2153-movie-unification-01-architecture-pass-a8778c3f42-001.json"
+	]
+}

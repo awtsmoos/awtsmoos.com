@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-11t1342-deployment-hardening-recovery-05-pla-51e8dfc796",
+	"title": "Deployment Hardening — Planned Versus Actual",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-11T1342-deployment-hardening-recovery/05-planned-vs-actual.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Deployment Hardening — Planned Versus Actual",
+			"anchor": "deployment-hardening-planned-versus-actual"
+		},
+		{
+			"level": 2,
+			"text": "Original recovery plan",
+			"anchor": "original-recovery-plan"
+		},
+		{
+			"level": 2,
+			"text": "What was observed",
+			"anchor": "what-was-observed"
+		},
+		{
+			"level": 2,
+			"text": "What was changed",
+			"anchor": "what-was-changed"
+		},
+		{
+			"level": 2,
+			"text": "Structural outcome",
+			"anchor": "structural-outcome"
+		},
+		{
+			"level": 2,
+			"text": "Remaining action",
+			"anchor": "remaining-action"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-11t1342-deployment-hardening-recovery-05-pla-51e8dfc796-001.json"
+	]
+}

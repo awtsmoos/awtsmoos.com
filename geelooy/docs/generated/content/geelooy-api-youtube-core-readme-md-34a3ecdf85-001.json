@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — YouTube Core (geelooy/api/youtube/core/)\n\nServer-side plumbing for the YouTube API family.\n\n- `googleOAuth.js`, `identity.js` — Google OAuth flow + identity\n- `tokenStore.js`, `session.js`, `cookies.js`, `signedToken.js` — token/session storage and signing\n- `vault.js`, `config.js` — secret vault + configuration (secrets live outside Git)\n- `client.js` — YouTube Data API v3 client\n- `origin.js`, `body.js`, `json.js` — origin checks, body parsing, response packets\n\nSecrets are never copied into the route leaves; setup instructions live in\n`../docs/SETUP.md`.\n"
+}

@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-26t134731-portal-universal-ui-resource-platf-758068bb83",
+	"title": "Better Pass — Verification Attack",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-26T134731-portal-universal-ui-resource-platform/10_BETTER_VERIFICATION_ATTACK.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Better Pass — Verification Attack",
+			"anchor": "better-pass-verification-attack"
+		},
+		{
+			"level": 2,
+			"text": "Phase A — Mechanical Truth",
+			"anchor": "phase-a-mechanical-truth"
+		},
+		{
+			"level": 2,
+			"text": "Phase B — Contract Truth",
+			"anchor": "phase-b-contract-truth"
+		},
+		{
+			"level": 2,
+			"text": "Phase C — Runtime Truth",
+			"anchor": "phase-c-runtime-truth"
+		},
+		{
+			"level": 2,
+			"text": "Phase D — UX Truth",
+			"anchor": "phase-d-ux-truth"
+		},
+		{
+			"level": 2,
+			"text": "NEXTACTION",
+			"anchor": "nextaction"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-26t134731-portal-universal-ui-resource-platf-758068bb83-001.json"
+	]
+}

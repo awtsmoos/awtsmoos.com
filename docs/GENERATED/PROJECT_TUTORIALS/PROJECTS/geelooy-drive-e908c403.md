@@ -2,7 +2,7 @@ B"H
 Boruch Hashem
 Blessed is He
 
-# Project Tutorial: Geelooy Sites · Awtsmoos
+# Project Tutorial: Awtsmoos Drive
 
 **Path:** `geelooy/drive` · **Type:** public · **Family:** Public and Other Boundaries
 
@@ -21,15 +21,15 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 159 | 52 | 0 | 0 | 2 | 0 | 213 |
+| 211 | 76 | 1 | 0 | 2 | 0 | 290 |
 
 ## Public entry points
 
-- `/drive` → `geelooy/drive/index.html` — Geelooy Sites · Awtsmoos
+- `/drive` → `geelooy/drive/index.html` — Awtsmoos Drive
 
 ## Symbol evidence
 
-Source files: 132; classes: 30; functions: 448; exports: 222; samples: initializeBuilder, installKeyboardCommands, installUnloadGuard, installTransportCleanup, builderAgentActions, builderAgentAction, action, capabilityStatusFor, reasonFor, GeelooyWebsiteBuilderApi, installWebsiteBuilderApi, unknownActionError.
+Source files: 170; classes: 37; functions: 628; exports: 314; samples: initializeBuilder, installKeyboardCommands, installUnloadGuard, installTransportCleanup, builderAgentActions, builderAgentAction, action, capabilityStatusFor, reasonFor, GeelooyWebsiteBuilderApi, installWebsiteBuilderApi, unknownActionError.
 
 ## Depends on
 
@@ -46,4 +46,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **52**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **76**. Treat this as file evidence, not proof of behavioral coverage.

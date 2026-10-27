@@ -25,19 +25,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-zmanim-3ad5830d.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 109,
-		"tests": 16,
-		"assets": 1,
+		"source": 115,
+		"tests": 17,
+		"assets": 0,
 		"generated": 0,
 		"docs": 2,
 		"other": 0
 	},
-	"totalFiles": 128,
+	"totalFiles": 134,
 	"symbolSummary": {
-		"files": 65,
+		"files": 67,
 		"classes": 35,
-		"functions": 108,
-		"exports": 115,
+		"functions": 116,
+		"exports": 121,
 		"samples": [
 			"ZmanimApp",
 			"AwtsmoosZmanimCalendar",
@@ -60,7 +60,18 @@
 			"examples": "geelooy/zmanim/js/components/celestial-webgl.js; geelooy/zmanim/js/domain/celestial-zmanim.js"
 		}
 	],
-	"incomingDependencies": [],
+	"incomingDependencies": [
+		{
+			"project": "geelooy/heichelos",
+			"count": 2,
+			"examples": "geelooy/heichelos/post/logic/dreamCelestial.js"
+		},
+		{
+			"project": "geelooy/games/mitzvahWorld",
+			"count": 1,
+			"examples": "geelooy/games/mitzvahWorld/shared/gameTimeOfDay.js"
+		}
+	],
 	"externalDependencies": [],
 	"publicEntries": [
 		{
@@ -68,7 +79,7 @@
 			"file": "geelooy/zmanim/index.html",
 			"title": "Halachic Zmanim · Awtsmoos",
 			"scripts": 1,
-			"styles": 37
+			"styles": 40
 		}
 	],
 	"requiresLocalDocumentation": true,

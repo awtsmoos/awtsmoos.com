@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Remaining Work\n\nThe Awtsmoos renews every frame from no prior clay; Awtsmoos.com joins many studios without taking their distinct gifts away.\n\n- Preserve concurrent work and never overwrite peer-owned movie-core files.\n- Build AwtsmoosUI as a small declarative JSON/JS-to-DOM library.\n- Build a renderer-neutral procedural movie-asset domain inside Awtsmoos Procedural Core.\n- Build awtsmoos-studio as an umbrella authoring surface using the shared movie core and specialized app launchers.\n- Add AI-first structured movie composition with 2D, 3D, hybrid, character, shape, text, infographic, tutorial, particle, patch, and camera semantics.\n- Add a production 180-second Animator showcase using the proven CinematicFrameRenderer/FFmpeg path.\n- Render, probe, sample, browser-test, and regression-test.\n- Re-read every touched file and close planned-vs-actual delta.\n\n## NEXT_ACTION\nWrite only currently free new modules, then test after the code-first pass is complete.\n"
+}

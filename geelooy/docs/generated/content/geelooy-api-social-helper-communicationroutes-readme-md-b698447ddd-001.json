@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Communication Routes (geelooy/api/social/helper/communicationRoutes/)\n\nHTTP routes for alias communications: inbox, threads, overview, live map, and notification digest.\n\n## Files\n- `CommunicationRouteVessel.js` — assembles the route set.\n- `CommunicationInboxRoutes.js` — inbox read/mark-read.\n- `CommunicationThreadRoutes.js` — thread read/mark-read.\n- `CommunicationOverviewRoutes.js` — per-alias communication overview.\n- `CommunicationNotificationRoutes.js` — notification digests.\n\n## Endpoints\n- `/communications/:alias/inbox` · `/communications/:alias/inbox/unread` · `/communications/:alias/inbox/:item/read`\n- `/communications/:alias/threads/:thread` · `/communications/:alias/threads/:thread/read`\n- `/communications/:alias/overview`\n- `/communications/:alias/live-map`\n- `/communications/:alias/notification-digest`\n"
+}

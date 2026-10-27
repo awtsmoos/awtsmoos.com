@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Tanach Native Data (geelooy/api/social/helper/search/tanach/native-data/)\n\nNative Tanach text data: one JSON file per sefer (39 sefarim) plus `manifest.json`.\n\nRaw corpus data consumed by `../search.js` / `../nativeTranslations.js` — never edited by hand.\n"
+}

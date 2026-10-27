@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Social Kernel Tests (geelooy/api/social/helper/socialKernel/test/)\n\nSocial kernel tests.\n\n- `SocialKernelRoutes.test.js`, `SocialKernelComposition.test.js` — routes and composition.\n- `SocialKernelBatch.test.js`, `SocialKernelProjection.test.js` — batch ops and projections.\n- `SocialEntityContract.test.js`, `SocialEntityLoader.test.js` — entity contract and loader.\n- `SocialCapabilityPolicy.test.js` — capability policy.\n- `SocialRelationActivity.test.js` — relation activity.\n- `TestModuleVessel.js` — test fixture vessel.\n"
+}

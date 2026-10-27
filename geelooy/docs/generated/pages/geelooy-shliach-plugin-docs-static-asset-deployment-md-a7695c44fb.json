@@ -1,0 +1,24 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-shliach-plugin-docs-static-asset-deployment-md-a7695c44fb",
+	"title": "Browser-only production deployment without tunnel interruption",
+	"sourcePath": "geelooy/shliach-plugin/docs/STATIC_ASSET_DEPLOYMENT.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Browser-only production deployment without tunnel interruption",
+			"anchor": "browser-only-production-deployment-without-tunnel-interruption"
+		},
+		{
+			"level": 2,
+			"text": "Verification contract",
+			"anchor": "verification-contract"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-shliach-plugin-docs-static-asset-deployment-md-a7695c44fb-001.json"
+	]
+}

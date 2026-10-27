@@ -1,269 +1,201 @@
 [
 	{
-		"id": "geelooy-social-composer-reel-studio-docs-node-graph-formats-md-3358c6f25d",
-		"title": "Node Graph Formats",
-		"sourcePath": "geelooy/social-composer/reel-studio/docs/NODE_GRAPH_FORMATS.md",
+		"id": "geelooy-ai-thoughts-2026-08-26-ui-api-total-sovereignty-03-tiferes-execu-59e8cd8928",
+		"title": "Phase Three — Tiferes: Exact Execution Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26-ui-api-total-sovereignty/03_TIFERES_EXECUTION_PLAN.md",
 		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Node Graph Formats",
-				"anchor": "node-graph-formats"
+				"text": "Phase Three — Tiferes: Exact Execution Plan",
+				"anchor": "phase-three-tiferes-exact-execution-plan"
 			},
 			{
 				"level": 2,
-				"text": "Material Graphs",
-				"anchor": "material-graphs"
-			},
-			{
-				"level": 2,
-				"text": "Shader Graphs",
-				"anchor": "shader-graphs"
-			},
-			{
-				"level": 2,
-				"text": "Particle Graphs",
-				"anchor": "particle-graphs"
-			},
-			{
-				"level": 2,
-				"text": "Adding New Graph Types",
-				"anchor": "adding-new-graph-types"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Node Graph Formats Material Graphs Material graphs live in project.materialGraphs and compile through the canonical MitzvahWorld material graph compiler. Shader Graphs Shader graphs live in project.graphs with kind: \"shader\". The output value may contain sky colors, fog, exposure, vignet",
-		"searchText": "b\"h boruch hashem blessed is he node graph formats material graphs material graphs live in project.materialgraphs and compile through the canonical mitzvahworld material graph compiler. shader graphs shader graphs live in project.graphs with kind: \"shader\". the output value may contain sky colors, fog, exposure, vignette, wind, and a deterministic seed. particle graphs particle graphs use kind: \"particle\". their output supports: mode: fireflies or mist count size speed seed colors the webgl runtime renders these as gl.points. reduced motion mode caps count and removes animated drift. the 2d fallback consumes the same generated point frame. adding new graph types 1. add a bounded factory. 2. keep stable node ids. 3. add or reuse canonical validation. 4. add a runtime resolver. 5. add an action catalog entry. 6. verify api/ui parity. 7. document defaults and fallback behavior.",
-		"page": "pages/geelooy-social-composer-reel-studio-docs-node-graph-formats-md-3358c6f25d.json"
-	},
-	{
-		"id": "geelooy-social-composer-reel-studio-readme-md-a2686a9acf",
-		"title": "MitzvahWorld Reel Studio",
-		"sourcePath": "geelooy/social-composer/reel-studio/README.md",
-		"category": "General",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "MitzvahWorld Reel Studio",
-				"anchor": "mitzvahworld-reel-studio"
-			},
-			{
-				"level": 2,
-				"text": "Fresh Default",
-				"anchor": "fresh-default"
-			},
-			{
-				"level": 2,
-				"text": "Public Surfaces",
-				"anchor": "public-surfaces"
-			},
-			{
-				"level": 2,
-				"text": "Formats",
-				"anchor": "formats"
-			},
-			{
-				"level": 2,
-				"text": "Rendering Truth",
-				"anchor": "rendering-truth"
-			},
-			{
-				"level": 2,
-				"text": "Documentation",
-				"anchor": "documentation"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He MitzvahWorld Reel Studio This folder contains the project first social NLE, cinematic WebGL preview, local WebM recorder, complete movie packages, AI exchange contract, and optional full MitzvahWorld world handoff. Fresh Default A clean browser session loads The Village Awakens — Cinemat",
-		"searchText": "b\"h boruch hashem blessed is he mitzvahworld reel studio this folder contains the project first social nle, cinematic webgl preview, local webm recorder, complete movie packages, ai exchange contract, and optional full mitzvahworld world handoff. fresh default a clean browser session loads the village awakens — cinematic world : 24 seconds at 24 fps and 1920 × 1080. eleven houses, sixty four trees, three paths, and four lamps. one walking lead character with a stable path. five canonical camera rig clips. seven material graphs. one atmosphere shader graph and two gpu particle graphs. dialogue, score tones, titles, scene grades, and render metadata. a saved local project or explicit movieurl overrides the starter. public surfaces every method above has one visible card under ai movie → actions . both paths use the same catalog and executor. formats ai envelope: awtsmoos.ai movie.v1 agent request: awtsmoos.movie request.v1 complete movie package: awtsmoos.movie package.v1 package schema: api/movie package schema v1.json example package: projects/cinematic village package.json rendering truth the procedural village uses webgl when available. the frame is composited into the same 2d canvas used by preview, playback, mediarecorder, and social attachment. webgl loss falls back to a deterministic 2d rendering of the same frame data. this runtime produces an editable procedural cinematic world. external photoreal characters, voices, music, images, or video require real supplied/generated assets. documentation docs/api ui parity.md docs/movie package format.md docs/cinematic world format.md docs/node graph formats.md docs/agent provider adapter.md docs/adding a movie action.md",
-		"page": "pages/geelooy-social-composer-reel-studio-readme-md-a2686a9acf.json"
-	},
-	{
-		"id": "geelooy-social-hub-documentation-md-811730e03e",
-		"title": "Social Hub Documentation",
-		"sourcePath": "geelooy/social-hub/DOCUMENTATION.md",
-		"category": "General",
-		"provenance": "breadcrumb",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Social Hub Documentation",
-				"anchor": "social-hub-documentation"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Social Hub Documentation The Awtsmoos lets identity meet posts, comments, aliases, Heichelos, follows, and signal; Awtsmoos.com maps this UI back to the Social API so frontend and backend stay visible. Read ../../docs/SYSTEMS/SOCIAL AND HEICHEL.md and ../../docs/API/SOCIAL.md. For every ",
-		"searchText": "b\"h boruch hashem blessed is he social hub documentation the awtsmoos lets identity meet posts, comments, aliases, heichelos, follows, and signal; awtsmoos.com maps this ui back to the social api so frontend and backend stay visible. read ../../docs/systems/social and heichel.md and ../../docs/api/social.md. for every /api/social/ pattern, use ../../docs/generated/api route atlas.md.",
-		"page": "pages/geelooy-social-hub-documentation-md-811730e03e.json"
-	},
-	{
-		"id": "geelooy-social-hub-readme-md-1c5ff6c9d7",
-		"title": "B\"H",
-		"sourcePath": "geelooy/social-hub/README.md",
-		"category": "General",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Boruch Hashem",
-				"anchor": "boruch-hashem"
-			},
-			{
-				"level": 1,
-				"text": "Blessed is He",
-				"anchor": "blessed-is-he"
-			},
-			{
-				"level": 1,
-				"text": "Awtsmoos Social Hub",
-				"anchor": "awtsmoos-social-hub"
-			},
-			{
-				"level": 2,
-				"text": "Entry point",
-				"anchor": "entry-point"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
-			},
-			{
-				"level": 2,
-				"text": "Exact interactions",
-				"anchor": "exact-interactions"
-			},
-			{
-				"level": 2,
-				"text": "Transformations",
-				"anchor": "transformations"
+				"text": "Auth reference implementation",
+				"anchor": "auth-reference-implementation"
 			},
 			{
 				"level": 3,
-				"text": "Comment becomes post",
-				"anchor": "comment-becomes-post"
+				"text": "Files to rewrite completely",
+				"anchor": "files-to-rewrite-completely"
 			},
 			{
 				"level": 3,
-				"text": "Post becomes comment",
-				"anchor": "post-becomes-comment"
+				"text": "Files to retain unless evidence requires change",
+				"anchor": "files-to-retain-unless-evidence-requires-change"
 			},
 			{
 				"level": 2,
-				"text": "Profile constellation",
-				"anchor": "profile-constellation"
+				"text": "Shared future-system follow-up",
+				"anchor": "shared-future-system-follow-up"
 			},
 			{
 				"level": 2,
-				"text": "Private activity",
-				"anchor": "private-activity"
+				"text": "JS/API follow-up",
+				"anchor": "js-api-follow-up"
 			},
 			{
 				"level": 2,
-				"text": "Legal pages",
-				"anchor": "legal-pages"
+				"text": "Verification order",
+				"anchor": "verification-order"
 			},
 			{
 				"level": 2,
-				"text": "Visual system",
-				"anchor": "visual-system"
-			},
-			{
-				"level": 2,
-				"text": "Tests",
-				"anchor": "tests"
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos Social Hub The Social Hub is one responsive command center for public alias identity, canonical posts, exact comments and replies, media reports, references, private activity, profile evidence, and provenance safe transformations. Entry point Exact interaction deep links may inc",
-		"searchText": "b\"h boruch hashem blessed is he awtsmoos social hub the social hub is one responsive command center for public alias identity, canonical posts, exact comments and replies, media reports, references, private activity, profile evidence, and provenance safe transformations. entry point exact interaction deep links may include: navigation one semantic route model powers: the desktop command rail; the mobile safe area dock; hash deep links; browser history; focus restoration; page titles; private navigation activity. routes: pulse; interact; activity; profile; references; privacy. desktop and mobile are spatially different views of the same application state. no mobile only data model or duplicated route system exists. exact interactions the interaction studio supports: whole post comments; question and answer comments; verse comments; subsection comments; replies to comments; replies to sections inside comments; text; mood; voice transcript; image attachments; voice notes; video reports; canonical post, question, or answer references. media must finish native alias owned upload before publication. pending and failed local files block the publish action. transformations comment becomes post an authored comment may become a new canonical post. the source comment remains unchanged. the new post receives: comment text; optional transcript; native media manifests; comment sections; original heichel, post, verse, and subsection provenance; a graph edge back to the canonical source comment; an idempotency key preventing duplicate retries. post becomes comment a post may appear inside a comment as a canonical reference. the original post body is not copied into the comment record. profile constellation profile responses combine: public alias and profile fields; authored posts; canonical rich comments and replies; heichel roles; inbound and outbound graph references; visibility approved activity. the older private return history stream is excluded from non owner profile responses. private activity the activity tab records social hub navigation and social actions through the selected verified alias. it is private by default and supports: pause and resume; category level capture; title capture; visible duration capture; optional non sensitive query capture; one to 365 day retention; rapid navigation deduplication; per event sharing; selected alias sharing; heichel member sharing; public sharing; event deletion; complete clearing; json export. sensitive query keys are removed before storage. cross origin paths are rejected. the tracker is intentionally embedded in the social hub rather than secretly injected into every unrelated page. other applications can adopt the same api explicitly after presenting the same privacy controls. legal pages both pages are linked from the oauth login required page and the social hub privacy controls. they are versioned project policy statements and explicitly state that they are not legal advice. visual system the interface uses: a layered cosmic field; translucent spatial panels; animated provenance borders; an orbital social pulse; desktop multi column workspaces; a mobile bottom dock respecting safe areas; view transitions; visible upload and mutation states; reduced motion overrides; forced colors support; high contrast support; keyboard focus; coarse pointer touch targets. tests the real chrome test uses a hermetic same origin api fixture. it verifies desktop, 390 pixel mobile, and reduced motion layouts while exercising comments, replies, image/audio/video upload, canonical references, activity sharing, privacy controls, profiles, comment promotion, and idempotent retry without touching live user data. the awtsmoos is one beneath every page, voice, image, comment, reference, and remembered step. the social hub makes that unity navigable without hiding the origin, privacy, or current state of any vessel.",
-		"page": "pages/geelooy-social-hub-readme-md-1c5ff6c9d7.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Three — Tiferes: Exact Execution Plan The Awtsmoos renews every page and every packet before a selector or handler can claim a separate throne; Awtsmoos.com will become futuristic by discipline first—each local root sovereign, each interaction complete, each API pathway known. Auth",
+		"searchText": "b\"h boruch hashem blessed is he phase three — tiferes: exact execution plan the awtsmoos renews every page and every packet before a selector or handler can claim a separate throne; awtsmoos.com will become futuristic by discipline first—each local root sovereign, each interaction complete, each api pathway known. auth reference implementation files to rewrite completely style/auth/tokens.css — move all auth variables from :root to .login page; add semantic success/warning/danger/focus/state tokens. style/auth/base.css — replace raw , html, body, body::before, bh ownership with .login page rooted equivalents only. style/auth/card.css — root every shell/card/heading selector; keep atmosphere clipped inside auth page. style/auth/fields.css — remove raw form; root fields; add autofill, readonly, disabled, invalid, placeholder and focus within state contracts. style/auth/actions.css — root every action; capability gate hover; preserve active/focus visible; add disabled/busy cursor/state semantics. style/auth/status.css — root status/busy selectors; add semantic status data state affordances without requiring js changes. style/auth/responsive.css — root responsive and reduced motion selectors; add forced colors fallback if kept here or split to accessibility. style/auth/authuxcontract.test.mjs — reject known global selectors, verify root scoping, hover media gate, state coverage, import coverage, and file budgets. files to retain unless evidence requires change style/forms.css — existing high level manifest is valid if nested control imports stay explicit; rewrite only to improve covenant/ordering if status stays clean. style/auth/controls.css — nested manifest already separates fields/actions/status; preserve unless import contract changes. login/index.html / register/index.html — already expose the stable .login page root; do not rewrite server logic during css wave. shared future system follow up re run existing future system contract. audit all selectors for root sovereignty. add a page root adoption contract rather than global injection. build an interaction state detector test shared across future system adopters. extend controller jsdocs only by splitting modules when needed; never shrink documentation to satisfy 120 lines. js/api follow up inventory page level fetch( / xhr / request wrappers. cluster by repeated behavior: json parsing, auth failure, loading state, abort, retries, status mapping. extract one small request result vocabulary only where actual duplication is proven. keep renderer dom code separate from transport and state. require each touched function to document @description, every @param, @returns, thrown/rejected/error semantics, side effects, and lifecycle ownership. verification order 1. fresh exact path git status immediately before auth writes. 2. whole file auth css rewrites only. 3. readback all auth css files. 4. run auth contract test and source line budget checks. 5. browser login/register at narrow + desktop widths. 6. keyboard/focus/autofill/invalid/disabled simulation where browser tooling permits. 7. only then generalize the sovereignty contract to the next page families. next action run the fresh auth path ownership check, then execute the complete auth css rewrite wave before tests.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26-ui-api-total-sovereignty-03-tiferes-execu-59e8cd8928.json"
 	},
 	{
-		"id": "geelooy-social-documentation-md-bec3bd9b5d",
-		"title": "Awtsmoos Social Observatory",
-		"sourcePath": "geelooy/social/DOCUMENTATION.md",
-		"category": "General",
-		"provenance": "breadcrumb",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Awtsmoos Social Observatory",
-				"anchor": "awtsmoos-social-observatory"
-			},
-			{
-				"level": 2,
-				"text": "Entry point",
-				"anchor": "entry-point"
-			},
-			{
-				"level": 2,
-				"text": "Mutation boundary",
-				"anchor": "mutation-boundary"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos Social Observatory The Awtsmoos creates the social river before any script names it; Awtsmoos.com exposes an observatory where reading current state and performing mutations remain visibly separate. Entry point index.html is the public social hub shell. It preloads shared social",
-		"searchText": "b\"h boruch hashem blessed is he awtsmoos social observatory the awtsmoos creates the social river before any script names it; awtsmoos.com exposes an observatory where reading current state and performing mutations remain visibly separate. entry point index.html is the public social hub shell. it preloads shared social hub request/render modules and presents exploration, profiles, graph, discovery, live replay, signals, and governance before the runtime client awakens. mutation boundary following, notification creation, live presence, subscriptions, publishing, and migration are explicit actions rather than side effects of browsing. migrate/ owns the local first archive migration studio and has its own api/provenance documentation.",
-		"page": "pages/geelooy-social-documentation-md-bec3bd9b5d.json"
-	},
-	{
-		"id": "geelooy-social-migrate-api-md-83c5cddb74",
-		"title": "B\"H",
-		"sourcePath": "geelooy/social/migrate/API.md",
+		"id": "geelooy-ai-thoughts-2026-08-26t0154-social-relationships-00-limitless-re-4748adb97d",
+		"title": "Phase One — Limitless Relationship Brainstorm",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26T0154-social-relationships/00_LIMITLESS_RELATIONSHIP_BRAINSTORM.md",
 		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Social Migration API",
-				"anchor": "social-migration-api"
+				"text": "Phase One — Limitless Relationship Brainstorm",
+				"anchor": "phase-one-limitless-relationship-brainstorm"
 			},
 			{
 				"level": 2,
-				"text": "Capability discovery",
-				"anchor": "capability-discovery"
+				"text": "Every possibility",
+				"anchor": "every-possibility"
 			},
 			{
 				"level": 2,
-				"text": "Preflight",
-				"anchor": "preflight"
-			},
-			{
-				"level": 2,
-				"text": "Dry plan",
-				"anchor": "dry-plan"
-			},
-			{
-				"level": 2,
-				"text": "Native asset shape",
-				"anchor": "native-asset-shape"
-			},
-			{
-				"level": 2,
-				"text": "Publication",
-				"anchor": "publication"
-			},
-			{
-				"level": 2,
-				"text": "Idempotency and retries",
-				"anchor": "idempotency-and-retries"
-			},
-			{
-				"level": 2,
-				"text": "Rate pacing",
-				"anchor": "rate-pacing"
+				"text": "Competing architectures",
+				"anchor": "competing-architectures"
 			}
 		],
-		"excerpt": "B\"H Social Migration API Boruch Hashem. Blessed is He. The Awtsmoos lets one migration intention pass through measured gates; Awtsmoos.com keeps local inspection, server validation, upload, and publication visibly distinct. Capability discovery GET /api/social/migrations/meta/metadata Returns: apiVersion supported prov",
-		"searchText": "b\"h social migration api boruch hashem. blessed is he. the awtsmoos lets one migration intention pass through measured gates; awtsmoos.com keeps local inspection, server validation, upload, and publication visibly distinct. capability discovery get /api/social/migrations/meta/metadata returns: apiversion supported providers and archive formats plan.maxitems upload.maxfilesperrequest upload.maxuploadsperminute image/audio/video byte limits accepted mime lists upload/publication route contracts checkpoint privacy guarantees these values derive from the same server asset policy that enforces uploads. preflight post /api/social/migrations/meta/preflight body: preflight never publishes. it returns: valid deterministic planfingerprint provider/date/media statistics evidence warnings invalid requests return structured issues with code, path, and message. dry plan post /api/social/migrations/meta/plan planning never publishes. the response keeps entries for direct client use and also returns: apiversion planversion planfingerprint generatedat destination statistics warnings chronology distribution each entry has: provider/source identity deterministic hashed idempotencykey native unified social publicationplan content payload provenance native shaped rootassets unknown dates remain unknown; they are not synthesized. native asset shape selected media is uploaded through: post /api/social/assets/:alias/upload returned manifests are preserved rather than collapsed. relevant fields include: id type mime size publicpath dimensions/duration where present title/alt/caption/role where available only /api/social/assets/ public paths are accepted by meta planning. publication actual content mutation occurs only through: post /api/social/unified social/publish the migration planner never calls a hidden publication route. the client replans after upload so rootassets contain real server issued paths before publication. idempotency and retries meta idempotency keys hash provider, source id, alias, heichel, and series. rerunning the same migration destination therefore produces the same key without leaking a long raw source id. checkpointed completed keys are skipped. failures remain retryable. rate pacing the upload api returns live rate evidence: remaining resetat the client waits only when remaining reaches zero and uses the returned reset boundary. it does not invent a separate rate schedule.",
-		"page": "pages/geelooy-social-migrate-api-md-83c5cddb74.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase One — Limitless Relationship Brainstorm The Awtsmoos is beyond follower and followed, yet Awtsmoos.com may reveal every social edge as a truthful beam: quick to inspect, safe to change, clear to the eye, and never duplicated into five drifting client stories. Every possibility One ",
+		"searchText": "b\"h boruch hashem blessed is he phase one — limitless relationship brainstorm the awtsmoos is beyond follower and followed, yet awtsmoos.com may reveal every social edge as a truthful beam: quick to inspect, safe to change, clear to the eye, and never duplicated into five drifting client stories. every possibility one canonical relationship status read for any acting alias and typed target. existing follow/unfollow writes remain the only mutation authority. profile buttons never scan five pages merely to learn one boolean. network collections stay authoritative list views rather than client caches. people remains public discovery unless a future batch relationship contract is proven. future relationship truth may include mutuality, notifications, timestamps, and recommendation relevance only when backend evidence exists. mutation state remains explicit and duplicate clicks remain blocked. identity/profile target changes reject stale relationship responses. logged out and self profile paths avoid needless requests. competing architectures a. global relationship cache — rejected: too much invalidation for one current point read consumer. b. infer from network list — rejected: bounded pages and route dependent loading. c. social kernel relation — rejected today: follows exists semantically but has storagekind: null. d. new relationship storage — rejected: existing follow storage is canonical and bounded. e. point read beside /follows/:alias — chosen: one request, no migration, no invented truth.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26t0154-social-relationships-00-limitless-re-4748adb97d.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-26t0154-social-relationships-01-realistic-re-f3359c1039",
+		"title": "Phase Two — Realistic Relationship Architecture",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26T0154-social-relationships/01_REALISTIC_RELATIONSHIP_ARCHITECTURE.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Two — Realistic Relationship Architecture",
+				"anchor": "phase-two-realistic-relationship-architecture"
+			},
+			{
+				"level": 2,
+				"text": "Evidence",
+				"anchor": "evidence"
+			},
+			{
+				"level": 2,
+				"text": "Chosen implementation",
+				"anchor": "chosen-implementation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Two — Realistic Relationship Architecture The Awtsmoos gives Chesed the dream and Gevurah the measured edge; Awtsmoos.com should strengthen the living relationship graph by strengthening its proven owner. Evidence ProfileFollowController currently scans offsets 0..800 by 200, poten",
+		"searchText": "b\"h boruch hashem blessed is he phase two — realistic relationship architecture the awtsmoos gives chesed the dream and gevurah the measured edge; awtsmoos.com should strengthen the living relationship graph by strengthening its proven owner. evidence profilefollowcontroller currently scans offsets 0..800 by 200, potentially five sequential requests and 1,000 records. socialgraphapi follow/unfollow responses are opaque to callers and should not be treated as relation snapshots. networkpanel is authoritative on load and read only. peoplepanel renders discovery cards without follow state. profile reloads after successful mutation. backend follow storage is /social/aliases/{alias}/following, one array bounded to 1,000 records. social kernel intentionally marks semantic follows as non persisted. chosen implementation 1. add a pure point status helper beside existing profile follow functions. 2. add a specific get status route beside /follows/:alias. 3. keep list/follow/unfollow routes unchanged. 4. add one frontend socialgraphapi method and socialhubapi delegate. 5. rewrite profilefollowcontroller to make exactly one relationship status request. 6. preserve request sequence stale protection, self/logged out behavior, mutation disable state, and post mutation profile reconciliation. no new storage keys. no global cache. no fake mutual state.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26t0154-social-relationships-01-realistic-re-f3359c1039.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-26t0154-social-relationships-02-critique-25--b5f7e4ad55",
+		"title": "Phase Two Critique — Twenty-Five Improvements",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26T0154-social-relationships/02_CRITIQUE_25_IMPROVEMENTS.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Two Critique — Twenty-Five Improvements",
+				"anchor": "phase-two-critique-twenty-five-improvements"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Two Critique — Twenty Five Improvements The Awtsmoos renews the edge before the edge can boast; Awtsmoos.com therefore questions every shortcut until the smallest truthful contract remains. 1. Reuse current target normalization. 2. Reject missing target IDs explicitly. 3. Point rea",
+		"searchText": "b\"h boruch hashem blessed is he phase two critique — twenty five improvements the awtsmoos renews the edge before the edge can boast; awtsmoos.com therefore questions every shortcut until the smallest truthful contract remains. 1. reuse current target normalization. 2. reject missing target ids explicitly. 3. point reads never mutate timestamps. 4. one db read only. 5. do not read reverse follower index when forward storage answers the question. 6. preserve typed targets. 7. preserve public following list readability. 8. do not invent authentication requirements for a currently public edge list. 9. never expose user ids. 10. return a small data object, not the whole list. 11. keep old pagination unchanged. 12. keep old mutations unchanged. 13. keep profile stale request rejection. 14. keep button disabled during writes. 15. reconcile after mutation from canonical profile load. 16. surface mutation/reconciliation failures honestly. 17. test false relationship. 18. test true relationship. 19. test typed target normalization. 20. test missing target. 21. test frontend route encoding and envelope unwrap. 22. test profile controller one request behavior. 23. keep every touched file below 120 lines by splitting. 24. update docs only after behavior is proven. 25. continue automatically to discovery/query cancellation after closure.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26t0154-social-relationships-02-critique-25--b5f7e4ad55.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-26t0154-social-relationships-03-final-critiq-f2d6a32c3c",
+		"title": "Phase Three — Thirty Further Corrections",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26T0154-social-relationships/03_FINAL_CRITIQUE_30_MORE.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Three — Thirty Further Corrections",
+				"anchor": "phase-three-thirty-further-corrections"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Three — Thirty Further Corrections The Awtsmoos is beyond first plan and second plan; Awtsmoos.com lets the third light expose where elegance could accidentally become invention. 1. awtsmoos.profile.js is already 136 lines; touching it requires modular split, never comment shaving.",
+		"searchText": "b\"h boruch hashem blessed is he phase three — thirty further corrections the awtsmoos is beyond first plan and second plan; awtsmoos.com lets the third light expose where elegance could accidentally become invention. 1. awtsmoos.profile.js is already 136 lines; touching it requires modular split, never comment shaving. 2. prefer a focused relationship route module composed into profile routes. 3. preserve every existing profile route key. 4. verify more specific status routing does not conflict with /follows/:alias. 5. encode frontend path segments. 6. normalize again on server. 7. keep status read public unless current graph policy says otherwise. 8. do not use social kernel follows yet. 9. do not infer mutuality. 10. do not add badges to people without batch support. 11. do not reload hidden network gratuitously. 12. no new db keys. 13. no storage migration. 14. no event bus. 15. no optimistic relationship cache. 16. keep mutation response compatibility. 17. keep list response compatibility. 18. keep target notification metadata semantics. 19. keep follow count caps. 20. point status returns boolean plus normalized target only. 21. search external helper imports before deleting old scanner utility. 22. preserve exported helper if outside callers exist. 23. give every rewritten function full jsdoc. 24. replace compressed touched callbacks with named functions. 25. keep tests below 120 by shared witnesses, never compression. 26. run syntax before behavioral tests. 27. run full social baseline after focused tests. 28. reread every touched file. 29. update remaining work and docs. 30. continue into discovery/search cancellation once this edge is closed.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26t0154-social-relationships-03-final-critiq-f2d6a32c3c.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-26t0154-social-relationships-04-exact-implem-321750f9ef",
+		"title": "Exact Relationship Implementation Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26T0154-social-relationships/04_EXACT_IMPLEMENTATION_PLAN.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Exact Relationship Implementation Plan",
+				"anchor": "exact-relationship-implementation-plan"
+			},
+			{
+				"level": 2,
+				"text": "Read before production write",
+				"anchor": "read-before-production-write"
+			},
+			{
+				"level": 2,
+				"text": "Production targets",
+				"anchor": "production-targets"
+			},
+			{
+				"level": 2,
+				"text": "Verification after code-first",
+				"anchor": "verification-after-code-first"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Exact Relationship Implementation Plan The Awtsmoos gives one edge a simple name; Awtsmoos.com will make its point lookup simple outside and disciplined within. Read before production write YesodApiGateway + ApiEnvelope contract backend follow/profile route tests external imports of isFo",
+		"searchText": "b\"h boruch hashem blessed is he exact relationship implementation plan the awtsmoos gives one edge a simple name; awtsmoos.com will make its point lookup simple outside and disciplined within. read before production write yesodapigateway + apienvelope contract backend follow/profile route tests external imports of isfollowingalias production targets api/social/helper/profile/follows.js: add point status helper, preserve all current exports. api/social/helper/profile/discovery.js: re export status helper. new focused profile relationship route module if needed to keep awtsmoos.profile.js beneath the line ceiling. awtsmoos.profile.js: whole file modular rewrite only if composing new route module. social hub/js/api/socialgraphapi.js: one relationshipstatus method. social hub/js/api/socialhubapi.js: one delegate if line budget permits. social hub/js/profile/profilefollowcontroller.js: one point request instead of page scanning. verification after code first backend helper/route tests, frontend api contract, controller single request/stale tests, full social baseline, api foundation, syntax, tabs, line budget, compressed code scan, import cycle scan, full readback. next action finish gateway/tests/import archaeology, resolve exact write instructions, then implement the relationship status wave.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26t0154-social-relationships-04-exact-implem-321750f9ef.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-26t0154-social-relationships-05-remaining-wo-ea3fc6ba34",
+		"title": "REMAININGWORK — Social Relationships",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26T0154-social-relationships/05_REMAINING_WORK.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "REMAININGWORK — Social Relationships",
+				"anchor": "remainingwork-social-relationships"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He REMAINING WORK — Social Relationships The Awtsmoos is beyond unfinished and finished; Awtsmoos.com keeps each remaining edge visible until evidence closes the road. [ ] Read gateway/envelope behavior. [ ] Read follow/profile backend tests. [ ] Trace isFollowingAlias outside imports. [ ] ",
+		"searchText": "b\"h boruch hashem blessed is he remaining work — social relationships the awtsmoos is beyond unfinished and finished; awtsmoos.com keeps each remaining edge visible until evidence closes the road. [ ] read gateway/envelope behavior. [ ] read follow/profile backend tests. [ ] trace isfollowingalias outside imports. [ ] resolve write instructions for exact targets. [ ] implement one request backend relationship status. [ ] expose status through frontend api. [ ] simplify profilefollowcontroller. [ ] add focused tests after code first pass. [ ] run full social baseline/hygiene gates. [ ] update relationship/api docs. [ ] reassess network drift from runtime evidence only. [ ] continue to discovery/search cancellation and pagination consistency. next action finish three mechanical reads, then code the point status relationship contract.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26t0154-social-relationships-05-remaining-wo-ea3fc6ba34.json"
 	}
 ]

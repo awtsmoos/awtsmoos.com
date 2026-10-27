@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-01-0134-chitas-release-ui-final-00-phase-one-b059d41938",
+	"title": "Phase One — Release Universe",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-01-0134-chitas-release-ui-final/00-phase-one-release-universe.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase One — Release Universe",
+			"anchor": "phase-one-release-universe"
+		},
+		{
+			"level": 2,
+			"text": "Mission",
+			"anchor": "mission"
+		},
+		{
+			"level": 2,
+			"text": "Known implementation surface",
+			"anchor": "known-implementation-surface"
+		},
+		{
+			"level": 2,
+			"text": "Release graph",
+			"anchor": "release-graph"
+		},
+		{
+			"level": 2,
+			"text": "Failure map",
+			"anchor": "failure-map"
+		},
+		{
+			"level": 2,
+			"text": "Candidate UX improvements",
+			"anchor": "candidate-ux-improvements"
+		},
+		{
+			"level": 2,
+			"text": "Completion evidence required",
+			"anchor": "completion-evidence-required"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-01-0134-chitas-release-ui-final-00-phase-one-b059d41938-001.json"
+	]
+}

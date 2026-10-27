@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-28-1719-reader-simplicity-heichel-identity-0-138cb6a70e",
+	"title": "Exact owner plan",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-28-1719-reader-simplicity-heichel-identity/02-owner-plan.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Exact owner plan",
+			"anchor": "exact-owner-plan"
+		},
+		{
+			"level": 2,
+			"text": "Behavior owners",
+			"anchor": "behavior-owners"
+		},
+		{
+			"level": 2,
+			"text": "Reader UI owners",
+			"anchor": "reader-ui-owners"
+		},
+		{
+			"level": 2,
+			"text": "Ikar owners",
+			"anchor": "ikar-owners"
+		},
+		{
+			"level": 2,
+			"text": "Verification",
+			"anchor": "verification"
+		},
+		{
+			"level": 2,
+			"text": "NEXTACTION",
+			"anchor": "nextaction"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-28-1719-reader-simplicity-heichel-identity-0-138cb6a70e-001.json"
+	]
+}

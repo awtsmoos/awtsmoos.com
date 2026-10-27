@@ -1,0 +1,74 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-25-1411-social-network-revelation-02-phase-t-be96beb893",
+	"title": "Phase Two — Architecture and Capability Parity",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-25-1411-social-network-revelation/02_PHASE_TWO_ARCHITECTURE_AND_PARITY.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase Two — Architecture and Capability Parity",
+			"anchor": "phase-two-architecture-and-capability-parity"
+		},
+		{
+			"level": 2,
+			"text": "Evidence",
+			"anchor": "evidence"
+		},
+		{
+			"level": 2,
+			"text": "Chosen architecture",
+			"anchor": "chosen-architecture"
+		},
+		{
+			"level": 3,
+			"text": "Product center",
+			"anchor": "product-center"
+		},
+		{
+			"level": 3,
+			"text": "Capability model",
+			"anchor": "capability-model"
+		},
+		{
+			"level": 3,
+			"text": "Capability center UI",
+			"anchor": "capability-center-ui"
+		},
+		{
+			"level": 3,
+			"text": "Observatory bridge",
+			"anchor": "observatory-bridge"
+		},
+		{
+			"level": 3,
+			"text": "API cleanup",
+			"anchor": "api-cleanup"
+		},
+		{
+			"level": 3,
+			"text": "CSS",
+			"anchor": "css"
+		},
+		{
+			"level": 2,
+			"text": "Verification graph",
+			"anchor": "verification-graph"
+		},
+		{
+			"level": 2,
+			"text": "Files that may be touched after final critique",
+			"anchor": "files-that-may-be-touched-after-final-critique"
+		},
+		{
+			"level": 2,
+			"text": "Protected areas",
+			"anchor": "protected-areas"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-25-1411-social-network-revelation-02-phase-t-be96beb893-001.json"
+	]
+}

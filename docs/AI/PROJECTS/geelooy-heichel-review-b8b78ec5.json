@@ -24,14 +24,14 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-heichel-review-b8b78ec5.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 34,
+		"source": 35,
 		"tests": 4,
 		"assets": 0,
 		"generated": 0,
 		"docs": 2,
 		"other": 0
 	},
-	"totalFiles": 40,
+	"totalFiles": 41,
 	"symbolSummary": {
 		"files": 19,
 		"classes": 10,

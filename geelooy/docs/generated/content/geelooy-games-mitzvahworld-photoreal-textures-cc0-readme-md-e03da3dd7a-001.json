@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — photographic house materials\n\nFive **actual 1k JPEG diffuse photographs** from [Poly Haven](https://polyhaven.com/), licensed **CC0** (public domain). These are downloaded, committed, versioned assets. No fake empty texture, canvas-only substitution, or remote third-party dependency occurs during gameplay.\n\n| Local filename | Source |\n| --- | --- |\n| brick_4.jpg | https://polyhaven.com/a/brick_4 |\n| clay_plaster.jpg | https://polyhaven.com/a/clay_plaster |\n| cobblestone_01.jpg | https://polyhaven.com/a/cobblestone_01 |\n| clay_roof_tiles.jpg | https://polyhaven.com/a/clay_roof_tiles |\n| oak_wood_planks.jpg | https://polyhaven.com/a/oak_wood_planks |\n\nAll photos were fetched from `https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/<asset>/<asset>_diff_1k.jpg`. Original textures remain CC0; game geometry and renderer are independent authored code.\n"
+}

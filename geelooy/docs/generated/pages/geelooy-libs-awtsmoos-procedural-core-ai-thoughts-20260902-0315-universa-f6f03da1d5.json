@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-f6f03da1d5",
+	"title": "Phase Three — Final Execution Plan",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/.ai-thoughts/20260902_0315-universal-procedural-api/11_FINAL_EXECUTION_PLAN.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase Three — Final Execution Plan",
+			"anchor": "phase-three-final-execution-plan"
+		},
+		{
+			"level": 2,
+			"text": "Source pass one — code first",
+			"anchor": "source-pass-one-code-first"
+		},
+		{
+			"level": 2,
+			"text": "Verification pass one",
+			"anchor": "verification-pass-one"
+		},
+		{
+			"level": 2,
+			"text": "Documentation/runtime pass",
+			"anchor": "documentation-runtime-pass"
+		},
+		{
+			"level": 2,
+			"text": "Closure pass",
+			"anchor": "closure-pass"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-f6f03da1d5-001.json"
+	]
+}

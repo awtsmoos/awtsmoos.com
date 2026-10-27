@@ -2,50 +2,60 @@
 	"BH": "B\"H / Boruch Hashem / Blessed is He",
 	"schema": "awtsmoos-doc-page-v2",
 	"id": "geelooy-apps-tunnel-control-readme-md-36047e4064",
-	"title": "Awtsmoos Tunnel Control — Universal AI Guide",
+	"title": "Awtsmoos Tunnel Control",
 	"sourcePath": "geelooy/apps/tunnel-control/README.md",
 	"category": "Tunnel",
 	"provenance": "project",
 	"headings": [
 		{
 			"level": 1,
-			"text": "Awtsmoos Tunnel Control — Universal AI Guide",
-			"anchor": "awtsmoos-tunnel-control-universal-ai-guide"
+			"text": "Awtsmoos Tunnel Control",
+			"anchor": "awtsmoos-tunnel-control"
 		},
 		{
 			"level": 2,
-			"text": "Canonical discovery",
-			"anchor": "canonical-discovery"
+			"text": "Protocol law",
+			"anchor": "protocol-law"
 		},
 		{
 			"level": 2,
-			"text": "Mode A — PKCE callback authorization",
-			"anchor": "mode-a-pkce-callback-authorization"
+			"text": "Recommended authorization flow",
+			"anchor": "recommended-authorization-flow"
 		},
 		{
 			"level": 2,
-			"text": "Mode B — Headless Device Authorization",
-			"anchor": "mode-b-headless-device-authorization"
+			"text": "Headless authorization",
+			"anchor": "headless-authorization"
 		},
 		{
 			"level": 2,
-			"text": "Compatibility clients",
-			"anchor": "compatibility-clients"
+			"text": "Huge files and videos",
+			"anchor": "huge-files-and-videos"
+		},
+		{
+			"level": 3,
+			"text": "GET-only fallback",
+			"anchor": "get-only-fallback"
+		},
+		{
+			"level": 3,
+			"text": "Device-to-device",
+			"anchor": "device-to-device"
 		},
 		{
 			"level": 2,
-			"text": "Start or refresh the local tunnel",
-			"anchor": "start-or-refresh-the-local-tunnel"
+			"text": "Discovery",
+			"anchor": "discovery"
 		},
 		{
 			"level": 2,
-			"text": "After either OAuth mode",
-			"anchor": "after-either-oauth-mode"
+			"text": "Routing and recovery",
+			"anchor": "routing-and-recovery"
 		},
 		{
 			"level": 2,
-			"text": "Security",
-			"anchor": "security"
+			"text": "Installation",
+			"anchor": "installation"
 		}
 	],
 	"markdownParts": [

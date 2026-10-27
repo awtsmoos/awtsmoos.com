@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# REMAINING_WORK — Social Relationships\n\nThe Awtsmoos is beyond unfinished and finished; Awtsmoos.com keeps each remaining edge visible until evidence closes the road.\n\n- [ ] Read gateway/envelope behavior.\n- [ ] Read follow/profile backend tests.\n- [ ] Trace `isFollowingAlias` outside imports.\n- [ ] Resolve write instructions for exact targets.\n- [ ] Implement one-request backend relationship status.\n- [ ] Expose status through frontend API.\n- [ ] Simplify ProfileFollowController.\n- [ ] Add focused tests after code-first pass.\n- [ ] Run full Social baseline/hygiene gates.\n- [ ] Update relationship/API docs.\n- [ ] Reassess Network drift from runtime evidence only.\n- [ ] Continue to discovery/search cancellation and pagination consistency.\n\n## NEXT_ACTION\nFinish three mechanical reads, then code the point-status relationship contract.\n"
+}

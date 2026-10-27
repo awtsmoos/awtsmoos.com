@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Perutas Analytics (geelooy/api/perutas/analytics/)\n\nSingle module: `treasuryGraphService.js`. Treasury graph analytics over the\nperuta economy — flow/relationship views across accounts and value movement.\nAggregated as `treasuryGraph` in `../index.js`.\n"
+}

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Migrations (geelooy/api/social/helper/migrations/)\n\nExternal-platform migration importers: Meta assets/content and YouTube captions/manifests.\n\n## Subdirectories\n- `meta/` — Meta migration: manifest + guards, content kinds, plan, routes, diagnostics, capabilities, source provenance, secret-field guarding.\n- `youtube/` — YouTube migration: caption assets, manifest + guard, migration plan/routes, source provenance, plus `test/`.\n- `ArchiveOrgPublicAsset.js` — archive.org public-asset migration helper.\n"
+}

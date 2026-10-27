@@ -9,7 +9,7 @@
 		"id": "apps",
 		"title": "Applications"
 	},
-	"title": "geelooy/apps/broadcaster",
+	"title": "Awtsmoos Broadcaster",
 	"entries": [
 		"index.html"
 	],
@@ -21,25 +21,30 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-broadcaster-e3a9a676.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 3,
-		"tests": 0,
+		"source": 15,
+		"tests": 1,
 		"assets": 0,
 		"generated": 0,
 		"docs": 0,
 		"other": 0
 	},
-	"totalFiles": 3,
+	"totalFiles": 16,
 	"symbolSummary": {
-		"files": 2,
-		"classes": 3,
+		"files": 8,
+		"classes": 8,
 		"functions": 2,
-		"exports": 0,
+		"exports": 6,
 		"samples": [
-			"SefirotParticle",
-			"AwtsmoosLayeredRiver",
 			"initializeAwtsmoosLayeredRiver",
+			"name",
 			"AwtsmoosBroadcaster",
-			"createBroadcastControls"
+			"createBroadcastControls",
+			"BroadcasterController",
+			"StageDragController",
+			"AwtsmoosLayeredRiver",
+			"SefirotParticle",
+			"BroadcastSession",
+			"BroadcastStage"
 		]
 	},
 	"outgoingDependencies": [],
@@ -49,12 +54,12 @@
 		{
 			"url": "/apps/broadcaster",
 			"file": "geelooy/apps/broadcaster/index.html",
-			"title": "",
+			"title": "Awtsmoos Broadcaster",
 			"scripts": 0,
-			"styles": 0
+			"styles": 1
 		}
 	],
-	"requiresLocalDocumentation": false,
+	"requiresLocalDocumentation": true,
 	"documentationCovered": false,
 	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
 }

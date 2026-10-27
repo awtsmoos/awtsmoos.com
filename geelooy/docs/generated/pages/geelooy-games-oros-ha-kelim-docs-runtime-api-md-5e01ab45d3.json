@@ -2,40 +2,35 @@
 	"BH": "B\"H / Boruch Hashem / Blessed is He",
 	"schema": "awtsmoos-doc-page-v2",
 	"id": "geelooy-games-oros-ha-kelim-docs-runtime-api-md-5e01ab45d3",
-	"title": "Oros HaKelim Runtime API v2",
+	"title": "Oros HaKelim Runtime API v4",
 	"sourcePath": "geelooy/games/oros-ha-kelim/docs/RUNTIME_API.md",
 	"category": "Games",
 	"provenance": "project",
 	"headings": [
 		{
 			"level": 1,
-			"text": "Oros HaKelim Runtime API v2",
-			"anchor": "oros-hakelim-runtime-api-v2"
+			"text": "Oros HaKelim Runtime API v4",
+			"anchor": "oros-hakelim-runtime-api-v4"
 		},
 		{
 			"level": 2,
-			"text": "Entry point",
-			"anchor": "entry-point"
+			"text": "Canonical versions",
+			"anchor": "canonical-versions"
 		},
 		{
 			"level": 2,
-			"text": "Observations",
-			"anchor": "observations"
+			"text": "Public boundary",
+			"anchor": "public-boundary"
 		},
 		{
-			"level": 2,
-			"text": "Lifecycle",
-			"anchor": "lifecycle"
+			"level": 3,
+			"text": "Commands",
+			"anchor": "commands"
 		},
 		{
-			"level": 2,
-			"text": "Direct controls",
-			"anchor": "direct-controls"
-		},
-		{
-			"level": 2,
-			"text": "Generic commands",
-			"anchor": "generic-commands"
+			"level": 3,
+			"text": "Queries",
+			"anchor": "queries"
 		},
 		{
 			"level": 2,
@@ -44,8 +39,13 @@
 		},
 		{
 			"level": 2,
-			"text": "Runtime errors",
-			"anchor": "runtime-errors"
+			"text": "Replay covenant",
+			"anchor": "replay-covenant"
+		},
+		{
+			"level": 2,
+			"text": "Compatibility policy",
+			"anchor": "compatibility-policy"
 		}
 	],
 	"markdownParts": [

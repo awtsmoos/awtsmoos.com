@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-agent-tools-agentroom-readme-md-79d7a43b11",
+	"title": "agentRoom — shared messaging + coordination for tunnel agents",
+	"sourcePath": "geelooy/apps/tunnel/agent/tools/agentRoom/README.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "agentRoom — shared messaging + coordination for tunnel agents",
+			"anchor": "agentroom-shared-messaging-coordination-for-tunnel-agents"
+		},
+		{
+			"level": 2,
+			"text": "Zero-prior-state discovery (no mission ID needed)",
+			"anchor": "zero-prior-state-discovery-no-mission-id-needed"
+		},
+		{
+			"level": 2,
+			"text": "The protocol",
+			"anchor": "the-protocol"
+		},
+		{
+			"level": 2,
+			"text": "CLI (zero setup — just run node)",
+			"anchor": "cli-zero-setup-just-run-node"
+		},
+		{
+			"level": 3,
+			"text": "Quick session example",
+			"anchor": "quick-session-example"
+		},
+		{
+			"level": 1,
+			"text": "... work ...",
+			"anchor": "work"
+		},
+		{
+			"level": 2,
+			"text": "Tunnel actions",
+			"anchor": "tunnel-actions"
+		},
+		{
+			"level": 2,
+			"text": "Concurrency",
+			"anchor": "concurrency"
+		},
+		{
+			"level": 2,
+			"text": "Room file format (for reference)",
+			"anchor": "room-file-format-for-reference"
+		},
+		{
+			"level": 2,
+			"text": "Known rooms",
+			"anchor": "known-rooms"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-agent-tools-agentroom-readme-md-79d7a43b11-001.json"
+	]
+}

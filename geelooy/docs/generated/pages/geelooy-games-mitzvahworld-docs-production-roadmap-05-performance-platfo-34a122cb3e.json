@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-docs-production-roadmap-05-performance-platfo-34a122cb3e",
+	"title": "Performance, Streaming, Platform, and Scale",
+	"sourcePath": "geelooy/games/mitzvahWorld/docs/production-roadmap/05-performance-platform.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Performance, Streaming, Platform, and Scale",
+			"anchor": "performance-streaming-platform-and-scale"
+		},
+		{
+			"level": 2,
+			"text": "Boot",
+			"anchor": "boot"
+		},
+		{
+			"level": 2,
+			"text": "Runtime budgets",
+			"anchor": "runtime-budgets"
+		},
+		{
+			"level": 2,
+			"text": "Adaptive quality",
+			"anchor": "adaptive-quality"
+		},
+		{
+			"level": 2,
+			"text": "Streaming and LOD",
+			"anchor": "streaming-and-lod"
+		},
+		{
+			"level": 2,
+			"text": "Browser/device resilience",
+			"anchor": "browser-device-resilience"
+		},
+		{
+			"level": 2,
+			"text": "Multiplayer boundary",
+			"anchor": "multiplayer-boundary"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-docs-production-roadmap-05-performance-platfo-34a122cb3e-001.json"
+	]
+}

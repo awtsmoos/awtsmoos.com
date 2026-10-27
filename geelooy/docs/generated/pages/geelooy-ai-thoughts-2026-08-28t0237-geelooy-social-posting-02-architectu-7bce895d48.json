@@ -1,0 +1,74 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-28t0237-geelooy-social-posting-02-architectu-7bce895d48",
+	"title": "Phase Two — Architecture Comparison and Critique",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0237-geelooy-social-posting/02_ARCHITECTURE_CRITIQUE.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase Two — Architecture Comparison and Critique",
+			"anchor": "phase-two-architecture-comparison-and-critique"
+		},
+		{
+			"level": 2,
+			"text": "Observed execution graph",
+			"anchor": "observed-execution-graph"
+		},
+		{
+			"level": 2,
+			"text": "Proven healthy seams",
+			"anchor": "proven-healthy-seams"
+		},
+		{
+			"level": 2,
+			"text": "Proven gap",
+			"anchor": "proven-gap"
+		},
+		{
+			"level": 2,
+			"text": "Competing architectures",
+			"anchor": "competing-architectures"
+		},
+		{
+			"level": 3,
+			"text": "A — Archive-specific fields directly on every attachment",
+			"anchor": "a-archive-specific-fields-directly-on-every-attachment"
+		},
+		{
+			"level": 3,
+			"text": "B — Generic attachment storage provenance object",
+			"anchor": "b-generic-attachment-storage-provenance-object"
+		},
+		{
+			"level": 3,
+			"text": "C — Public URL only",
+			"anchor": "c-public-url-only"
+		},
+		{
+			"level": 3,
+			"text": "D — Reuse post-level sourceProvenance",
+			"anchor": "d-reuse-post-level-sourceprovenance"
+		},
+		{
+			"level": 3,
+			"text": "E — Separate durable asset registry referenced only by ID",
+			"anchor": "e-separate-durable-asset-registry-referenced-only-by-id"
+		},
+		{
+			"level": 2,
+			"text": "Twenty-five improvements over the first brainstorm",
+			"anchor": "twenty-five-improvements-over-the-first-brainstorm"
+		},
+		{
+			"level": 2,
+			"text": "Phase-two conclusion",
+			"anchor": "phase-two-conclusion"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-28t0237-geelooy-social-posting-02-architectu-7bce895d48-001.json"
+	]
+}

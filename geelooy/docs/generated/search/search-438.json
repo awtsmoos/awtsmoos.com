@@ -1,0 +1,320 @@
+[
+	{
+		"id": "geelooy-api-oauth-core-readme-md-da7d3fd9b5",
+		"title": "B\"H — OAuth core (/api/oauth/core/)",
+		"sourcePath": "geelooy/api/oauth/core/README.md",
+		"category": "Security",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — OAuth core (/api/oauth/core/)",
+				"anchor": "b-h-oauth-core-api-oauth-core"
+			},
+			{
+				"level": 2,
+				"text": "Key files",
+				"anchor": "key-files"
+			}
+		],
+		"excerpt": "B\"H — OAuth core (/api/oauth/core/) Token, client, device flow, scope, and PKCE internals. Key files accessToken.js, tokenMaker.js, tokenDecoder.js, tokenReader.js — Token lifecycle. refreshStore.js, codeStore.js — Refresh tokens and auth codes. clients.js, dynamicClientStore.js, dynamicClientPolicy.js — Client registr",
+		"searchText": "b\"h — oauth core (/api/oauth/core/) token, client, device flow, scope, and pkce internals. key files accesstoken.js, tokenmaker.js, tokendecoder.js, tokenreader.js — token lifecycle. refreshstore.js, codestore.js — refresh tokens and auth codes. clients.js, dynamicclientstore.js, dynamicclientpolicy.js — client registry. devicecodes.js, devicestore.js, devicepolicy.js, deviceverifylimiter.js — device flow. scopes.js, scopeevolution.js — scope catalog. pkce.js — pkce verification. servermetadata.js, serversecret.js, resourceindicator.js — server metadata. currentuser.js, requestbody.js — request context helpers. agenthandoffpolicy.js, agenthandoffstore.js, agentlinkpolicy.js, agentlinkstore.js, agentlinkfile.js — agent delegation.",
+		"page": "pages/geelooy-api-oauth-core-readme-md-da7d3fd9b5.json"
+	},
+	{
+		"id": "geelooy-api-oauth-data-readme-md-5f312974ea",
+		"title": "B\"H — OAuth data (/api/oauth/data/)",
+		"sourcePath": "geelooy/api/oauth/data/README.md",
+		"category": "Security",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — OAuth data (/api/oauth/data/)",
+				"anchor": "b-h-oauth-data-api-oauth-data"
+			}
+		],
+		"excerpt": "B\"H — OAuth data (/api/oauth/data/) Seed and policy data for OAuth. clients.js — Pre registered OAuth clients. publicAgentPolicy.js — Policy for public agent clients.",
+		"searchText": "b\"h — oauth data (/api/oauth/data/) seed and policy data for oauth. clients.js — pre registered oauth clients. publicagentpolicy.js — policy for public agent clients.",
+		"page": "pages/geelooy-api-oauth-data-readme-md-5f312974ea.json"
+	},
+	{
+		"id": "geelooy-api-oauth-documentation-md-e06e4ac2da",
+		"title": "OAuth API Documentation",
+		"sourcePath": "geelooy/api/oauth/DOCUMENTATION.md",
+		"category": "Security",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "OAuth API Documentation",
+				"anchor": "oauth-api-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He OAuth API Documentation The Awtsmoos lets delegated trust enter by explicit authorization rather than client declared identity claim; Awtsmoos.com maps authorization, clients, token, me, start, logout, and downstream trust in one frame. Read ../../../docs/API/OAUTH.md, ../../../docs/API/",
+		"searchText": "b\"h boruch hashem blessed is he oauth api documentation the awtsmoos lets delegated trust enter by explicit authorization rather than client declared identity claim; awtsmoos.com maps authorization, clients, token, me, start, logout, and downstream trust in one frame. read ../../../docs/api/oauth.md, ../../../docs/api/authentication.md, and ../../../docs/systems/auth and identity.md.",
+		"page": "pages/geelooy-api-oauth-documentation-md-e06e4ac2da.json"
+	},
+	{
+		"id": "geelooy-api-oauth-readme-md-d00cdbd089",
+		"title": "B\"H — OAuth API (/api/oauth/)",
+		"sourcePath": "geelooy/api/oauth/README.md",
+		"category": "Security",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — OAuth API (/api/oauth/)",
+				"anchor": "b-h-oauth-api-api-oauth"
+			},
+			{
+				"level": 2,
+				"text": "Subdirectories",
+				"anchor": "subdirectories"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			},
+			{
+				"level": 2,
+				"text": "Main routes",
+				"anchor": "main-routes"
+			},
+			{
+				"level": 2,
+				"text": "See also",
+				"anchor": "see-also"
+			}
+		],
+		"excerpt": "B\"H — OAuth API (/api/oauth/) Delegated authorization: clients, tokens, device flow, and agent handoff. Trust enters by explicit authorization, never by client declared identity. Subdirectories core/ — Token, client, device code, scope, and PKCE logic. routes/ — HTTP route handlers (authorize, token, device, agent link",
+		"searchText": "b\"h — oauth api (/api/oauth/) delegated authorization: clients, tokens, device flow, and agent handoff. trust enters by explicit authorization, never by client declared identity. subdirectories core/ — token, client, device code, scope, and pkce logic. routes/ — http route handlers (authorize, token, device, agent links). views/ — approval and login page renderers. tools/ — body parsing, html helpers, url builders, responders. data/ — seed data (clients, public agent policy). files awtsmoos.derech.js — route registration. documentation.md — full oauth documentation. main routes authorize / start — begin the authorization flow. token — exchange codes for tokens (see routes/). deviceauthorization / deviceverification — device flow. me — current user info. logout — end session. agentlinks / agenthandoff — agent delegation. see also ../../../docs/api/oauth.md ../../../docs/api/authentication.md ../../../docs/systems/auth and identity.md",
+		"page": "pages/geelooy-api-oauth-readme-md-d00cdbd089.json"
+	},
+	{
+		"id": "geelooy-api-oauth-routes-readme-md-c39be5b4bc",
+		"title": "B\"H — OAuth routes (/api/oauth/routes/)",
+		"sourcePath": "geelooy/api/oauth/routes/README.md",
+		"category": "Security",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — OAuth routes (/api/oauth/routes/)",
+				"anchor": "b-h-oauth-routes-api-oauth-routes"
+			},
+			{
+				"level": 2,
+				"text": "Key files",
+				"anchor": "key-files"
+			}
+		],
+		"excerpt": "B\"H — OAuth routes (/api/oauth/routes/) HTTP handlers for the authorization flows. Key files authorize.js, authorizeRequest.js, authorizeView.js, authorizeStyles.js — Authorization endpoint + consent UI. deviceAuthorization.js, deviceVerification.js, deviceGrant.js, deviceView.js, deviceStyles.js — Device flow. clients",
+		"searchText": "b\"h — oauth routes (/api/oauth/routes/) http handlers for the authorization flows. key files authorize.js, authorizerequest.js, authorizeview.js, authorizestyles.js — authorization endpoint + consent ui. deviceauthorization.js, deviceverification.js, devicegrant.js, deviceview.js, devicestyles.js — device flow. clients.js, register.js — client management and dynamic registration. start.js, logout.js, me.js, metadata.js, table.js — session and discovery. agentcallback.js, agenthandoff.js, agentlinkgrant.js, agentlinks.js — agent delegation.",
+		"page": "pages/geelooy-api-oauth-routes-readme-md-c39be5b4bc.json"
+	},
+	{
+		"id": "geelooy-api-oauth-tools-readme-md-aaaaac5088",
+		"title": "B\"H — OAuth tools (/api/oauth/tools/)",
+		"sourcePath": "geelooy/api/oauth/tools/README.md",
+		"category": "Security",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — OAuth tools (/api/oauth/tools/)",
+				"anchor": "b-h-oauth-tools-api-oauth-tools"
+			}
+		],
+		"excerpt": "B\"H — OAuth tools (/api/oauth/tools/) Small shared helpers for the OAuth routes. bodyParser.js — Parse request bodies. requestData.js — Extract request data. respond.js — Response helpers. html.js — HTML escaping/building. urls.js — URL builders.",
+		"searchText": "b\"h — oauth tools (/api/oauth/tools/) small shared helpers for the oauth routes. bodyparser.js — parse request bodies. requestdata.js — extract request data. respond.js — response helpers. html.js — html escaping/building. urls.js — url builders.",
+		"page": "pages/geelooy-api-oauth-tools-readme-md-aaaaac5088.json"
+	},
+	{
+		"id": "geelooy-api-oauth-views-readme-md-2fd67a1620",
+		"title": "B\"H — OAuth views (/api/oauth/views/)",
+		"sourcePath": "geelooy/api/oauth/views/README.md",
+		"category": "Security",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — OAuth views (/api/oauth/views/)",
+				"anchor": "b-h-oauth-views-api-oauth-views"
+			}
+		],
+		"excerpt": "B\"H — OAuth views (/api/oauth/views/) Server rendered HTML for the OAuth flows. approvalPage.js — Consent/approval page (grant or deny scopes). loginPage.js — Login page shown before authorization.",
+		"searchText": "b\"h — oauth views (/api/oauth/views/) server rendered html for the oauth flows. approvalpage.js — consent/approval page (grant or deny scopes). loginpage.js — login page shown before authorization.",
+		"page": "pages/geelooy-api-oauth-views-readme-md-2fd67a1620.json"
+	},
+	{
+		"id": "geelooy-api-ohr-hagnuz-auth-readme-md-636805ffd8",
+		"title": "B\"H — Ohr HaGnuz Auth (geelooy/api/ohr-hagnuz/auth/)",
+		"sourcePath": "geelooy/api/ohr-hagnuz/auth/README.md",
+		"category": "Security",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Ohr HaGnuz Auth (geelooy/api/ohr-hagnuz/auth/)",
+				"anchor": "b-h-ohr-hagnuz-auth-geelooy-api-ohr-hagnuz-auth"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "B\"H — Ohr HaGnuz Auth (geelooy/api/ohr hagnuz/auth/) Game ticket authentication internals (see ../README.md). Files GameTicketIssuer.js — mints a one use online journey ticket for an authenticated account once identity, origin, slot, and protocol agree. GameTicketClaims.js — claim shapes and the game protocol version. ",
+		"searchText": "b\"h — ohr hagnuz auth (geelooy/api/ohr hagnuz/auth/) game ticket authentication internals (see ../readme.md). files gameticketissuer.js — mints a one use online journey ticket for an authenticated account once identity, origin, slot, and protocol agree. gameticketclaims.js — claim shapes and the game protocol version. gameticketstore.js — ticket persistence (issue, spend once semantics). gameticketstore.test.cjs — node test for the ticket store.",
+		"page": "pages/geelooy-api-ohr-hagnuz-auth-readme-md-636805ffd8.json"
+	},
+	{
+		"id": "geelooy-api-ohr-hagnuz-documentation-md-7ac05c17c0",
+		"title": "Ohr HaGnuz API Documentation",
+		"sourcePath": "geelooy/api/ohr-hagnuz/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Ohr HaGnuz API Documentation",
+				"anchor": "ohr-hagnuz-api-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Ohr HaGnuz API Documentation The Awtsmoos lets HTTP ticket and realtime world meet without confusing the two protocol shores; Awtsmoos.com maps the ticket route beside the registered WebSocket application and its deeper source doors. Read ../../../docs/API/OTHER FAMILIES.md and ../../../",
+		"searchText": "b\"h boruch hashem blessed is he ohr hagnuz api documentation the awtsmoos lets http ticket and realtime world meet without confusing the two protocol shores; awtsmoos.com maps the ticket route beside the registered websocket application and its deeper source doors. read ../../../docs/api/other families.md and ../../../docs/websockets/applications.md.",
+		"page": "pages/geelooy-api-ohr-hagnuz-documentation-md-7ac05c17c0.json"
+	},
+	{
+		"id": "geelooy-api-ohr-hagnuz-readme-md-0e8110ad4a",
+		"title": "B\"H — Ohr HaGnuz API (geelooy/api/ohr-hagnuz/)",
+		"sourcePath": "geelooy/api/ohr-hagnuz/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Ohr HaGnuz API (geelooy/api/ohr-hagnuz/)",
+				"anchor": "b-h-ohr-hagnuz-api-geelooy-api-ohr-hagnuz"
+			},
+			{
+				"level": 2,
+				"text": "Contents",
+				"anchor": "contents"
+			},
+			{
+				"level": 2,
+				"text": "Endpoints",
+				"anchor": "endpoints"
+			},
+			{
+				"level": 2,
+				"text": "Security",
+				"anchor": "security"
+			}
+		],
+		"excerpt": "B\"H — Ohr HaGnuz API (geelooy/api/ohr hagnuz/) Private Ohr HaGnuz authenticated HTTP surface: HTTP game tickets plus the realtime world, isolated from tunnel control and every other dynamic application. All credential responses are marked no store. Contents awtsmoos.derech.js — mounts the immutable routes/table.js rout",
+		"searchText": "b\"h — ohr hagnuz api (geelooy/api/ohr hagnuz/) private ohr hagnuz authenticated http surface: http game tickets plus the realtime world, isolated from tunnel control and every other dynamic application. all credential responses are marked no store. contents awtsmoos.derech.js — mounts the immutable routes/table.js route table; sets cache control: no store, vary: cookie, authorization. documentation.md — full docs; ticket route sits beside the registered websocket application. auth/ — game ticket auth: issuer, claims, store (+ test). routes/ — route table: realtime ticket. endpoints realtime ticket — issues a one use online journey ticket, only for an authenticated account and only when identity, origin, slot, and protocol agree. security game credentials never mix with other apps; tickets are minted per account and spent once. see auth/readme.md and routes/readme.md.",
+		"page": "pages/geelooy-api-ohr-hagnuz-readme-md-0e8110ad4a.json"
+	},
+	{
+		"id": "geelooy-api-ohr-hagnuz-routes-readme-md-ba6068cc88",
+		"title": "B\"H — Ohr HaGnuz Routes (geelooy/api/ohr-hagnuz/routes/)",
+		"sourcePath": "geelooy/api/ohr-hagnuz/routes/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Ohr HaGnuz Routes (geelooy/api/ohr-hagnuz/routes/)",
+				"anchor": "b-h-ohr-hagnuz-routes-geelooy-api-ohr-hagnuz-routes"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "B\"H — Ohr HaGnuz Routes (geelooy/api/ohr hagnuz/routes/) Route declarations for the Ohr HaGnuz HTTP surface (see ../README.md). Files table.js — the frozen route table: realtime ticket. Every server door is declared as data, so mounting, testing, and docs consume the same table. realtimeTicket.js — the realtime ticket ",
+		"searchText": "b\"h — ohr hagnuz routes (geelooy/api/ohr hagnuz/routes/) route declarations for the ohr hagnuz http surface (see ../readme.md). files table.js — the frozen route table: realtime ticket. every server door is declared as data, so mounting, testing, and docs consume the same table. realtimeticket.js — the realtime ticket route handler.",
+		"page": "pages/geelooy-api-ohr-hagnuz-routes-readme-md-ba6068cc88.json"
+	},
+	{
+		"id": "geelooy-api-ohrbound-contracts-readme-md-59b6d17e59",
+		"title": "B\"H — Ohrbound Contracts (geelooy/api/ohrbound/contracts/)",
+		"sourcePath": "geelooy/api/ohrbound/contracts/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Ohrbound Contracts (geelooy/api/ohrbound/contracts/)",
+				"anchor": "b-h-ohrbound-contracts-geelooy-api-ohrbound-contracts"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "B\"H — Ohrbound Contracts (geelooy/api/ohrbound/contracts/) Immutable bounded contracts for the Ohrbound API (see ../README.md). Files progressContract.js — the cloud progress document contract: version 1, objectType \"ohrbound progress\", max 200 completed levels, max level id length 80. Keeps persistence small, inspecta",
+		"searchText": "b\"h — ohrbound contracts (geelooy/api/ohrbound/contracts/) immutable bounded contracts for the ohrbound api (see ../readme.md). files progresscontract.js — the cloud progress document contract: version 1, objecttype \"ohrbound progress\", max 200 completed levels, max level id length 80. keeps persistence small, inspectable, and safe to evolve. levelpolicycontract.js — the community level policy contract governing what may be published.",
+		"page": "pages/geelooy-api-ohrbound-contracts-readme-md-59b6d17e59.json"
+	},
+	{
+		"id": "geelooy-api-ohrbound-readme-md-5a19b53fb8",
+		"title": "B\"H — Ohrbound API (geelooy/api/ohrbound/)",
+		"sourcePath": "geelooy/api/ohrbound/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Ohrbound API (geelooy/api/ohrbound/)",
+				"anchor": "b-h-ohrbound-api-geelooy-api-ohrbound"
+			},
+			{
+				"level": 2,
+				"text": "Contents",
+				"anchor": "contents"
+			},
+			{
+				"level": 2,
+				"text": "Endpoints",
+				"anchor": "endpoints"
+			},
+			{
+				"level": 2,
+				"text": "Design",
+				"anchor": "design"
+			}
+		],
+		"excerpt": "B\"H — Ohrbound API (geelooy/api/ohrbound/) Game API for Ohrbound: cloud progress tracking per player alias plus a community published level catalog. Mounted from an immutable route table with no store response headers. Contents awtsmoos.derech.js — mounts routes/table.js; Cache Control: no store. routes/ — progress/:al",
+		"searchText": "b\"h — ohrbound api (geelooy/api/ohrbound/) game api for ohrbound: cloud progress tracking per player alias plus a community published level catalog. mounted from an immutable route table with no store response headers. contents awtsmoos.derech.js — mounts routes/table.js; cache control: no store. routes/ — progress/:alias, levels route implementations + table. contracts/ — progresscontract.js (bounded progress doc, v1, max 200 completed levels), levelpolicycontract.js. services/ — authorization, level policy, object gateway, api response envelope. test/ — node tests for authorization and level policy. endpoints progress/:alias — get/post one bounded progress document bound to an alias. levels — get/post/delete community level intents (public catalog, publish, delete). design routes are frozen data (not registration order); domain, authorization, and persistence stay in separate modules. see subdir readmes.",
+		"page": "pages/geelooy-api-ohrbound-readme-md-5a19b53fb8.json"
+	},
+	{
+		"id": "geelooy-api-ohrbound-routes-readme-md-b53df9f69a",
+		"title": "B\"H — Ohrbound Routes (geelooy/api/ohrbound/routes/)",
+		"sourcePath": "geelooy/api/ohrbound/routes/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Ohrbound Routes (geelooy/api/ohrbound/routes/)",
+				"anchor": "b-h-ohrbound-routes-geelooy-api-ohrbound-routes"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "B\"H — Ohrbound Routes (geelooy/api/ohrbound/routes/) Route implementations for the Ohrbound API (see ../README.md). Files table.js — the frozen route table: progress/:alias, levels. One explicit table consumed by mounting, testing, and docs alike. progress.js — binds one bounded cloud progress document to a player alia",
+		"searchText": "b\"h — ohrbound routes (geelooy/api/ohrbound/routes/) route implementations for the ohrbound api (see ../readme.md). files table.js — the frozen route table: progress/:alias, levels. one explicit table consumed by mounting, testing, and docs alike. progress.js — binds one bounded cloud progress document to a player alias. levels.js — public level catalog plus get/post/delete publish/delete intents.",
+		"page": "pages/geelooy-api-ohrbound-routes-readme-md-b53df9f69a.json"
+	}
+]

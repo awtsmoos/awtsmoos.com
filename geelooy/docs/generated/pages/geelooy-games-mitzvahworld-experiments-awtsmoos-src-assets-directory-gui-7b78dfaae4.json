@@ -14,8 +14,13 @@
 		},
 		{
 			"level": 1,
-			"text": "Mitzvah World Remote Runtime Assets",
-			"anchor": "mitzvah-world-remote-runtime-assets"
+			"text": "MitzvahWorld Remote Asset Discovery",
+			"anchor": "mitzvahworld-remote-asset-discovery"
+		},
+		{
+			"level": 2,
+			"text": "Fast texture path for AI agents",
+			"anchor": "fast-texture-path-for-ai-agents"
 		},
 		{
 			"level": 2,
@@ -24,8 +29,18 @@
 		},
 		{
 			"level": 2,
-			"text": "Textures",
-			"anchor": "textures"
+			"text": "Texture source contracts",
+			"anchor": "texture-source-contracts"
+		},
+		{
+			"level": 2,
+			"text": "WebGL realism contracts",
+			"anchor": "webgl-realism-contracts"
+		},
+		{
+			"level": 2,
+			"text": "Hydration and cache layers",
+			"anchor": "hydration-and-cache-layers"
 		},
 		{
 			"level": 2,
@@ -34,18 +49,13 @@
 		},
 		{
 			"level": 2,
-			"text": "Cache layers",
-			"anchor": "cache-layers"
+			"text": "Enforcement and regression evidence",
+			"anchor": "enforcement-and-regression-evidence"
 		},
 		{
 			"level": 2,
-			"text": "Enforcement",
-			"anchor": "enforcement"
-		},
-		{
-			"level": 2,
-			"text": "Verification",
-			"anchor": "verification"
+			"text": "Regenerating texture documentation",
+			"anchor": "regenerating-texture-documentation"
 		}
 	],
 	"markdownParts": [

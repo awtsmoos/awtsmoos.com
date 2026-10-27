@@ -1,0 +1,163 @@
+[
+	{
+		"id": "geelooy-heichelos-routes-friendlyids-friendly-ids-md-9c4018d331",
+		"title": "B\"H — Human-Friendly Content IDs",
+		"sourcePath": "geelooy/heichelos/routes/friendlyIds/FRIENDLY_IDS.md",
+		"category": "Routes",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Human-Friendly Content IDs",
+				"anchor": "b-h-human-friendly-content-ids"
+			},
+			{
+				"level": 2,
+				"text": "Architecture (two layers)",
+				"anchor": "architecture-two-layers"
+			},
+			{
+				"level": 2,
+				"text": "Mounts",
+				"anchor": "mounts"
+			},
+			{
+				"level": 2,
+				"text": "Patterns",
+				"anchor": "patterns"
+			},
+			{
+				"level": 3,
+				"text": "Sefer landing",
+				"anchor": "sefer-landing"
+			},
+			{
+				"level": 3,
+				"text": "Chapters (Tanya = Likkutei Amarim perakim 1–53)",
+				"anchor": "chapters-tanya-likkutei-amarim-perakim-1-53"
+			},
+			{
+				"level": 3,
+				"text": "Verses / sections (fragment hint for scroll/highlight)",
+				"anchor": "verses-sections-fragment-hint-for-scroll-highlight"
+			},
+			{
+				"level": 3,
+				"text": "Likkutei Torah (parsha → chapter)",
+				"anchor": "likkutei-torah-parsha-chapter"
+			},
+			{
+				"level": 3,
+				"text": "Igeres HaKodesh (volume → letter)",
+				"anchor": "igeres-hakodesh-volume-letter"
+			},
+			{
+				"level": 2,
+				"text": "Normalization rules",
+				"anchor": "normalization-rules"
+			},
+			{
+				"level": 2,
+				"text": "404 contract",
+				"anchor": "404-contract"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			},
+			{
+				"level": 2,
+				"text": "Verification",
+				"anchor": "verification"
+			}
+		],
+		"excerpt": "B\"H — Human Friendly Content IDs Short Hebrew/English URLs for Awtsmoos seforim, all resolving to the same canonical reader posts (/heichelos/ikar/series/ /post/ ). Old ugly IDs (BH POST ..., tanya he la 01, ...) are untouched and keep working forever — this layer only adds new entry points. Architecture (two layers) L",
+		"searchText": "b\"h — human friendly content ids short hebrew/english urls for awtsmoos seforim, all resolving to the same canonical reader posts (/heichelos/ikar/series/ /post/ ). old ugly ids (bh post ..., tanya he la 01, ...) are untouched and keep working forever — this layer only adds new entry points. architecture (two layers) layer 1 — server side (primary). one awtsmoos.derech.js per mount (geelooy/ /) resolves every pattern below to 302 redirects at the canonical reader urls. pure resolver in friendlyresolver.js (unit tested). layer 2 — static landing fallback. each mount also ships an index.html meta refresh page pointing at the sefer's series landing. until nginx proxies the mount to node (see below), /tanya etc. already resolve live through nginx's static serving; once proxied, the dynamic derech shadows the static page and full chapter routing goes live. no conflicts either way. nginx requirement for deep paths. nginx serves top level paths statically and proxies only listed prefixes to the node app (see scripts/production/ensure dynamic platform routes.sh). that script now includes all six mounts; run it on production (or wait for the next canonical deploy, which runs it automatically) to activate chapter/verse/letter urls: bash scripts/production/ensure dynamic platform routes.sh needs root: nginx t && systemctl reload nginx until then: the six sefer landings work; deeper friendly paths 404 at nginx. the resolver, routes, and tests are already deployed and waiting. mounts mount sefer landing target /tanya tanya (alter rebbe) likkutei amarim series /תניא תניא same /likutei torah likkutei torah bamidbar series (sefer opens with bamidbar) /לקוטי תורה לקוטי תורה same /igeres hakodesh igeres hakodesh (the rebbe, 28 vols) volume 1 series /אגרות קודש אגרות קודש same patterns sefer landing /tanya → /heichelos/ikar/series/tanyalikkuteiamarim /תניא → same · /likutei torah → /heichelos/ikar/series/bh likkuteitorah במדבר /igeres hakodesh → /heichelos/ikar/series/igereshakodeshvolume1 chapters (tanya = likkutei amarim perakim 1–53) /tanya/chapter 1, /tanya/1 → .../post/tanya he la 01 /תניא/פרק א, /תניא/א → same other tanya sections: /tanya/shaar hayichud/3, /תניא/שער היחוד/ג → tanya he sh 03 (1–12) /tanya/igeres hateshuvah/12, /תניא/אגרת התשובה/יב → tanya he it 12 (1–12) /tanya/kuntres acharon/9, /תניא/קונטרס אחרון/ט → tanya he ka 09 (1–9) bare section slug (/tanya/shaar hayichud) → that section's series page verses / sections (fragment hint for scroll/highlight) /tanya/chapter 1/verse 5 → .../post/tanya he la 01 verse 5 /תניא/פרק א/פסוק ה → same bare forms also work: /tanya/1/5, /תניא/א/ה the verse n fragment is forward compatible: it scrolls natively once the reader renders per unit anchors; today it lands on the exact perek post. likkutei torah (parsha → chapter) live parshas: bamidbar (21 ch), tzav (12), shabbat shuvah (3), shemini atzeret (8). hebrew slugs: במדבר, צו, שבת שובה, שמיני עצרת (דרושים prefixed forms also accepted). /likutei torah/bamidbar → series bh likkuteitorah במדבר /likutei torah/bamidbar/1, /לקוטי תורה/במדבר/א → .../post/lt bamidbar ch01 /likutei torah/bamidbar/1/verse 2 → .../post/lt bamidbar ch01 verse 2 igeres hakodesh (volume → letter) 28 volumes; letter counts per volume are bounds checked in friendlyresolver.js (vol 1: 169 … vol 28: 415). /igeres hakodesh/letter 42, /igeres hakodesh/42, /אגרות קודש/אגרת מב, /אגרות קודש/מב → .../post/igeres he v01 0042 /igeres hakodesh/vol 3/letter 42, /igeres hakodesh/3/42, /אגרות קודש/כרך ג/אגרת מב → .../post/igeres he v03 0042 /igeres hakodesh/vol 3, /אגרות קודש/כרך ג → volume 3 series page normalization rules hebrew numerals : א=1 … ת=400, finals ךםןףץ included; geresh/gershayim (מב, מ״ב, מב׳) and טו/טז handled by summation. url encoded hebrew : decoded by the server before routing; %d7%aa... forms resolve identically. trailing slashes : stripped by the route matcher (/tanya/ = /tanya). case : inner segments are case insensitive (/tanya/chapter 1, /likutei torah/bamidbar/1). the mount slug itself follows the site's existing case sensitive convention (/heichelos 404s today too). 404 contract unknown paths under any mount (/tanya/bogus, /tanya/54, /likutei torah/bereishis, 4+ segments, …) return a bilingual 404 html page (status 404) — never a hang, never a blank page. out of range numbers (chapter 0/54, letter 170 of vol 1, volume 29) also 404. files geelooy/heichelos/routes/friendlyids/friendlyresolver.js — pure resolver + all data tables (no framework dependency; unit tested) geelooy/heichelos/routes/friendlyids/friendlyderech.js — $i.use(...) route map builder, 302 + 404 responses geelooy/heichelos/routes/friendlyids/friendlyresolver.test.js — node test suite (11 tests) geelooy/{tanya,תניא,likutei torah,לקוטי תורה,igeres hakodesh,אגרות קודש}/ awtsmoos.derech.js — one line mounts; the dynamic server discovers them per request, no restart needed on deploy verification node test geelooy/heichelos/routes/friendlyids/friendlyresolver.test.js plus live curl checks against production following redirects (curl l).",
+		"page": "pages/geelooy-heichelos-routes-friendlyids-friendly-ids-md-9c4018d331.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-aaf424ebbb",
+		"title": "Phase One — Unconstrained Universal Procedural Brainstorm",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/.ai-thoughts/20260902_0315-universal-procedural-api/00_UNCONSTRAINED_BRAINSTORM.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase One — Unconstrained Universal Procedural Brainstorm",
+				"anchor": "phase-one-unconstrained-universal-procedural-brainstorm"
+			},
+			{
+				"level": 2,
+				"text": "Mission",
+				"anchor": "mission"
+			},
+			{
+				"level": 2,
+				"text": "Everything the ideal system could become",
+				"anchor": "everything-the-ideal-system-could-become"
+			},
+			{
+				"level": 2,
+				"text": "Architectural non-negotiables discovered from the repository",
+				"anchor": "architectural-non-negotiables-discovered-from-the-repository"
+			},
+			{
+				"level": 2,
+				"text": "Wild possibilities worth preserving for future evolution",
+				"anchor": "wild-possibilities-worth-preserving-for-future-evolution"
+			},
+			{
+				"level": 2,
+				"text": "Phase-one conclusion",
+				"anchor": "phase-one-conclusion"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase One — Unconstrained Universal Procedural Brainstorm From one semantic spark the many artifacts stream; Awtsmoos.com keeps meaning above machinery, so every compiler may reveal one dream. Mission Make @awtsmoos/procedural core feel like one coherent data driven reality engine withou",
+		"searchText": "b\"h boruch hashem blessed is he phase one — unconstrained universal procedural brainstorm from one semantic spark the many artifacts stream; awtsmoos.com keeps meaning above machinery, so every compiler may reveal one dream. mission make @awtsmoos/procedural core feel like one coherent data driven reality engine without deleting the mature systems already present. the strongest future is not a warehouse of noun generators. it is a portable definition graph plus a truthful federation of planners, compilers, adapters, world orchestration, transactions, caches, and discovery. everything the ideal system could become one noun neutral definition vocabulary for identity, kind, traits, properties, relationships, constraints, materials, behaviors, resources, compile policy, budgets, provenance, derivation, and metadata. one tiny public doorway: createawtsmoos() with define, validate, plan, explain, and compile. existing specialist apis remain authorities, exposed through expert namespaces rather than duplicated. every compiler advertises kinds, semantic support policy, required traits, artifact channels, execution tier, determinism, versions, cost, lod, adapters, examples, and diagnostics. every output carries semantic hash, compiler identity/version, dependency hashes, seed, quality policy, channel, and provenance. every requested artifact channel is independently plannable and may be native, adapter backed, deferred, or unsupported. world documents recursively compose entities, references, templates, variants, spatial partitions, streaming boundaries, lod, and dependency graphs. constraints evolve from validation into graph aware solvers for clearance, attachment, support, slope, topology, navigation, biological proportion, structural rules, and semantic exclusions. materials remain semantic definitions; renderers resolve them through shared texture registries, decoded caches, physical scale, weathering, masks, decals, blending, and provenance. modeling intent can represent browser native geometry plus deferred blender level operations without lying about execution support. ai/rag authoring consumes discoverable schemas and examples and emits only validated portable definitions, never canonical executable source. transactions/history support semantic diffs, undo/redo, replay, dependency invalidation, editor collaboration, and multiplayer authoring. incremental compilation eventually reuses immutable artifacts by semantic hash and recompiles only affected dependency subgraphs. a public demo proves the same api can describe architecture, vegetation, mechanics, terrain/water, and navigation/collision metadata. architectural non negotiables discovered from the repository 1. awtsmoos.procedural language/1 already owns per definition semantic truth. 2. awtsmoos.world.v1 already owns multi resource project/world documents. 3. the universal semantic kernel already owns compiler capability registration, planning, and truthful execution/deferred descriptors. 4. the procedural portal already owns world scale orchestration, validation, explanation, revisions, capabilities, and compilation. 5. createuniversalawtsmoosapi() already owns transactional command/runtime/history behavior over awtsmoos.world.v1. 6. reality, nature, modelingdocument, proceduralobject, materials, three, native, and blender adapters are existing authorities to bridge, not replace. wild possibilities worth preserving for future evolution multi pass constraint solvers selected by semantic domain and quality budget. capability negotiation between browser, worker, native, blender, server, and future gpu compute adapters. portable artifact plan manifests that can be executed remotely. semantic caches shared across sessions and worlds. streaming city/planet graphs with deterministic regional seeds. compiler chain explanations suitable for both humans and ai agents. cost aware plan alternatives showing why mobile, balanced, and cinematic strategies differ. provenance trails connecting authored intent to every generated triangle, collider, nav surface, animation, texture, and export. phase one conclusion the grandest move is convergence, not replacement: expose one canonical awtsmoos facade that composes existing authorities, make its pipeline and capability truth discoverable, then harden the inherited semantics work and prove compatibility through tests, examples, browser execution, release, and production verification.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-aaf424ebbb.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-524191f070",
+		"title": "Phase One — Current Architecture Map",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/.ai-thoughts/20260902_0315-universal-procedural-api/01_CURRENT_ARCHITECTURE_MAP.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase One — Current Architecture Map",
+				"anchor": "phase-one-current-architecture-map"
+			},
+			{
+				"level": 2,
+				"text": "Observed authorities",
+				"anchor": "observed-authorities"
+			},
+			{
+				"level": 2,
+				"text": "Dependency observations",
+				"anchor": "dependency-observations"
+			},
+			{
+				"level": 2,
+				"text": "Existing semantic Definition Graph",
+				"anchor": "existing-semantic-definition-graph"
+			},
+			{
+				"level": 2,
+				"text": "Existing compiler capability truth",
+				"anchor": "existing-compiler-capability-truth"
+			},
+			{
+				"level": 2,
+				"text": "Missing product seam",
+				"anchor": "missing-product-seam"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase One — Current Architecture Map The Awtsmoos is one while interfaces appear many; the engineering task is to expose their unity without erasing any. Observed authorities Authority Canonical responsibility Must remain awtsmoos.procedural language/1 Portable single definition semantic",
+		"searchText": "b\"h boruch hashem blessed is he phase one — current architecture map the awtsmoos is one while interfaces appear many; the engineering task is to expose their unity without erasing any. observed authorities authority canonical responsibility must remain awtsmoos.procedural language/1 portable single definition semantic truth yes universal semantic kernel compiler capability registry, selection, artifact planning, native/deferred execution yes creation portal stable six verb one definition generation facade yes, exact contract preserved procedural portal world scale orchestration, validation, planning, explanation, revisions, compile federation yes awtsmoos.world.v1 authoritative multi resource world/project document yes createuniversalawtsmoosapi() transactional command/runtime/history api over world documents yes reality semantic discovery/planning and realism vocabulary yes nature ergonomic specialist generation vocabulary yes modelingdocument specialist modeling dialect lowered to canonical intent yes proceduralobject renderer neutral execution oriented procedural layer yes materials semantic material definitions, texture registry/cache, renderer resolution yes adapters native/three/blender/mitzvahworld execution bridges yes dependency observations proceduralportal imports procedural language primitives and universalapi/world.js. universalapi imports reality definitions. reality imports nature, but production reality does not import the universal barrel. root src/index.js already re exports universalapi and proceduralportal. therefore a new module inside core/universalapi may import proceduralportal without forcing the portal through the universal barrel; the existing direct world.js import remains acyclic. existing semantic definition graph observed schema sections already include revision, traits, relationships, behaviors, provenance, payload, actions, constraints, resources, compile, editor, metadata, and extensions. proceduraldefinition already supports immutable fluent derivation and semantic hashing/provenance primitives. existing compiler capability truth compiler capabilities already describe id/version/compilerversion, kinds, semantic support policy, required traits, provided traits, channels, execution tier, determinism, adapters, cost, lod, stability, description, and metadata. registry discovery is serializable and executor free. missing product seam there is no single canonical facade whose flat surface is exactly the semantic lifecycle users naturally expect: define → validate → plan → explain → compile the missing work is composition, not ontology. the facade should delegate to existing semantic validation/kernel/portal/world transaction authorities and expose them under expert namespaces.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-524191f070.json"
+	}
+]

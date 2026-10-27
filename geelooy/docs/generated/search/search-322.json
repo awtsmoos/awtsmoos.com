@@ -1,0 +1,156 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-08-26t134731-portal-universal-ui-resource-platf-bd9c5636b2",
+		"title": "Phase 3 — Final Execution Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26T134731-portal-universal-ui-resource-platform/06_PHASE3_FINAL_EXECUTION_PLAN.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase 3 — Final Execution Plan",
+				"anchor": "phase-3-final-execution-plan"
+			},
+			{
+				"level": 2,
+				"text": "Stage A — Discover Reality Before Choosing Files",
+				"anchor": "stage-a-discover-reality-before-choosing-files"
+			},
+			{
+				"level": 2,
+				"text": "Stage B — Implement Universal Contracts Additively",
+				"anchor": "stage-b-implement-universal-contracts-additively"
+			},
+			{
+				"level": 2,
+				"text": "Stage C — Prove One Real Domain Adapter",
+				"anchor": "stage-c-prove-one-real-domain-adapter"
+			},
+			{
+				"level": 2,
+				"text": "Stage D — Add Discoverable Portal Routes",
+				"anchor": "stage-d-add-discoverable-portal-routes"
+			},
+			{
+				"level": 2,
+				"text": "Stage E — Build Generic Client Resource Engine",
+				"anchor": "stage-e-build-generic-client-resource-engine"
+			},
+			{
+				"level": 2,
+				"text": "Stage F — Build Scoped Stable UI Foundation",
+				"anchor": "stage-f-build-scoped-stable-ui-foundation"
+			},
+			{
+				"level": 2,
+				"text": "Stage G — Create A Real Portal/Inspector Surface",
+				"anchor": "stage-g-create-a-real-portal-inspector-surface"
+			},
+			{
+				"level": 2,
+				"text": "Stage H — Strengthen Automated UI/Runtime Gates",
+				"anchor": "stage-h-strengthen-automated-ui-runtime-gates"
+			},
+			{
+				"level": 2,
+				"text": "Stage I — Expand Integration Incrementally",
+				"anchor": "stage-i-expand-integration-incrementally"
+			},
+			{
+				"level": 2,
+				"text": "Stage J — Mandatory Reconciliation",
+				"anchor": "stage-j-mandatory-reconciliation"
+			},
+			{
+				"level": 2,
+				"text": "Stage K — Verification And Production",
+				"anchor": "stage-k-verification-and-production"
+			},
+			{
+				"level": 2,
+				"text": "Completion Invariant",
+				"anchor": "completion-invariant"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Phase 3 — Final Execution Plan The Awtsmoos gives boundless possibility and exact boundaries in the same renewed instant; Awtsmoos.com should manifest a universal Portal that feels calm to humans and remains precise to every client. Stage A — Discover Reality Before Choosing Files 1. Read the API route aggregator a",
+		"searchText": "b\"h phase 3 — final execution plan the awtsmoos gives boundless possibility and exact boundaries in the same renewed instant; awtsmoos.com should manifest a universal portal that feels calm to humans and remains precise to every client. stage a — discover reality before choosing files 1. read the api route aggregator and dynamic server registration path completely. 2. read representative existing schema systems: social entities/universe/activity, forms, ai tool schemas, drive resource clients, shared file intent schema, resource accounting. 3. trace error helpers, authorization/resource ownership, pagination/query conventions, and response wrappers. 4. read shared ui foundations/shells and inspect current default element styling, mobile navigation, dialogs, lists, forms, tables, rtl, loading/error states. 5. inspect tests and git status around every candidate file. 6. record 07 discovered actual file plan.md naming only files justified by direct evidence. stage b — implement universal contracts additively create focused server side modules for: envelope normalization and validation type definition validation schema descriptor normalization/adapters action descriptor normalization relationship descriptor normalization query/collection capability descriptors structured error/validation issue resources provenance/revision descriptors job descriptor/state validation transformation descriptor validation registry/capability root composition do not change existing endpoint payloads during this stage. stage c — prove one real domain adapter choose the mature existing resource/entity domain with the clearest tests. build a read only compatibility adapter that wraps its current result into a portal resource without altering its authoritative api. prove field identity, actions, relationships, permissions, and schema hints against real fixtures/tests. stage d — add discoverable portal routes follow the actual router conventions to add minimal discovery endpoints: capability root type registry/type definition lookup one representative adapted resource lookup/collection if existing security and routing evidence supports it routes remain read only until contract and authorization tests are stable. stage e — build generic client resource engine create small client modules for: resource contract normalization renderer registry and deterministic precedence semantic field registry generic bounded value rendering action rendering/invocation transport relationship/history/provenance presentation unknown resource fallback developer resource inspector the api may choose semantic renderer ids but can never inject executable code or arbitrary css/html. stage f — build scoped stable ui foundation create a scoped portal foundation, initially under a dedicated root attribute/class, with: tokens: type, spacing, surfaces, border, elevation, focus, status, motion, widths, safe areas baseline: box sizing, typography, links, headings, prose, lists, tables, code, media, details controls: buttons, inputs, selects, textareas, checks/radios, fieldsets, validation structures: cards only where semantically discrete, rows, stacks, grids, toolbars, panels, badges, status overlays: dialog, sheet, popover/menu behavior hooks states: loading, empty, error, offline/stale, busy, disabled, selected responsive behavior: logical properties, mobile sheets/drawers, target sizes, dvh, keyboard safe spacing, constrained reading widths reduced motion and focus visible contracts no neon/glass/futuristic default. solid surfaces, restrained shadows, calm readable hierarchy. stage g — create a real portal/inspector surface add a dedicated safe page/surface that can: load the capability root browse registered resource types display a real adapted resource switch summary/detail/raw/developer views render unknown fields without crashing show actions/permissions/relationships/provenance when present remain fully usable on narrow mobile widths this proves the universal ui without globally rewriting specialized apps prematurely. stage h — strengthen automated ui/runtime gates extend the existing audit system to flag: visible native controls with accidental default styling risk unstyled navigation list markers horizontal root overflow undersized targets missing accessible names dialogs without labels code/pre blocks escaping viewport wrong module mime/runtime exceptions/resource failures reduced motion/focus regressions where measurable run representative viewport matrices. stage i — expand integration incrementally after the proof surface passes: add adapters for drive/files, social content/activity, forms, jobs/ai tools where current contracts fit progressively adopt stable ui primitives in ordinary informational/resource pages keep games/editors/media apps visually sovereign while inheriting accessibility/error/control foundations when safe never migrate an endpoint merely for architectural purity stage j — mandatory reconciliation after each implementation pass: 1. read every touched file completely 2. compare planned versus actual 3. write a new delta file 4. rewrite whole files for every discovered delta 5. re read again 6. run source size/tab/jsdoc/import/export/cycle/public contract checks stage k — verification and production contract tests adapter equivalence tests malformed/unknown schema tests permission/authorization tests query/action budget tests where implemented browser desktop/mobile/cinema tests full public route runtime/style audit api http probes existing test/build suites git diff/secret/artifact review including unrelated work requested by user commit and push canonical github branch verify remote head deploy through the actual repository mechanism repeat api/ui/runtime audit against production completion invariant the work is not complete because a generic renderer exists. completion requires a real existing resource crossing the entire chain—domain api → adapter → type registry → portal discovery → generic ui → mobile runtime → tests → production verification—without breaking its legacy consumers. next action inspect the actual router, resource/entity schema patterns, drive resource clients, authorization/error helpers, and shared ui foundation in parallel, then write the discovered actual file plan before touching production source.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26t134731-portal-universal-ui-resource-platf-bd9c5636b2.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-26t134731-portal-universal-ui-resource-platf-e2aecad9aa",
+		"title": "Discovered Actual File Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26T134731-portal-universal-ui-resource-platform/07_DISCOVERED_ACTUAL_FILE_PLAN.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Discovered Actual File Plan",
+				"anchor": "discovered-actual-file-plan"
+			},
+			{
+				"level": 2,
+				"text": "Direct Evidence",
+				"anchor": "direct-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Existing File Approved For Complete Rewrite",
+				"anchor": "existing-file-approved-for-complete-rewrite"
+			},
+			{
+				"level": 3,
+				"text": "geelooy/api/core/ApiFamilyCatalogData.js",
+				"anchor": "geelooy-api-core-apifamilycatalogdata-js"
+			},
+			{
+				"level": 3,
+				"text": "Universal UI files",
+				"anchor": "universal-ui-files"
+			},
+			{
+				"level": 2,
+				"text": "New Portal Server Contract Modules",
+				"anchor": "new-portal-server-contract-modules"
+			},
+			{
+				"level": 2,
+				"text": "New Portal Server Registry + Adapter Modules",
+				"anchor": "new-portal-server-registry-adapter-modules"
+			},
+			{
+				"level": 2,
+				"text": "New Portal Client Engine",
+				"anchor": "new-portal-client-engine"
+			},
+			{
+				"level": 2,
+				"text": "New Tests",
+				"anchor": "new-tests"
+			},
+			{
+				"level": 2,
+				"text": "Runtime Audit Extension",
+				"anchor": "runtime-audit-extension"
+			},
+			{
+				"level": 2,
+				"text": "First-Pass Boundary",
+				"anchor": "first-pass-boundary"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Discovered Actual File Plan The Awtsmoos reveals the real vessels before any abstraction claims authority; Awtsmoos.com therefore grows by additive covenants first, preserving every existing family's sovereignty. Direct Evidence geelooy/api/ awtsmoos.derech.js is a small federation facade and does not need modifica",
+		"searchText": "b\"h discovered actual file plan the awtsmoos reveals the real vessels before any abstraction claims authority; awtsmoos.com therefore grows by additive covenants first, preserving every existing family's sovereignty. direct evidence geelooy/api/ awtsmoos.derech.js is a small federation facade and does not need modification. geelooy/api/core/apifamilycatalogdata.js is the explicit family metadata catalog and is currently clean in git. api families are routed by their own awtsmoos.derech.js; geelooy/api/runtime/ awtsmoos.derech.js demonstrates the preferred small delegating route style. social already contains mature entity types, relationship edge types, activity pointers, visibility policy, and provenance schemas. drive already has focused typed resource clients with inheritance around atzilusresourceclient. shared file intent already demonstrates versioning and size/age budgets. ai tool schemas demonstrate dynamic action/schema descriptions but the current file is too large to touch safely in this mission. geelooy/style/universal ui/ is clean in git and already owns classless native control fallback styling. existing universal ui has good 44px/focus/reduced motion ideas but still uses gradients, blur, strong shadows, and lacks complete semantic coverage for prose, lists, tables, code/media, fieldsets, and mobile dialog/sheet behavior. geelooy/style/foundation/ contains useful safe area/type/spacing behavior but also theme specific dark/gold/cyan assumptions and some space indented legacy css; it will be read/reused conceptually, not modified in this pass. concurrent agents are actively editing auth, social shell, and geelooy app styles; those files are excluded from this mission's writes. existing file approved for complete rewrite geelooy/api/core/apifamilycatalogdata.js add a portal family descriptor while preserving every existing family record exactly in meaning and order where compatibility requires it. this is the only federation core integration file. universal ui files rewrite the complete existing clean universal ui entry and owned modules to remove futuristic defaults and add stable semantic coverage: geelooy/style/universal ui.css geelooy/style/universal ui/tokens.css geelooy/style/universal ui/raw fields.css geelooy/style/universal ui/raw choices.css geelooy/style/universal ui/raw actions.css geelooy/style/universal ui/raw feedback.css geelooy/style/universal ui/motion.css add focused new semantic modules instead of bloating those files: geelooy/style/universal ui/raw prose.css geelooy/style/universal ui/raw lists.css geelooy/style/universal ui/raw tables.css geelooy/style/universal ui/raw media code.css geelooy/style/universal ui/raw structure.css geelooy/style/universal ui/responsive.css every selector remains zero/low specificity and limited to classless/unclaimed elements or explicit portal roots so specialist components retain authority. new portal server contract modules create under geelooy/api/portal/contracts/: portalcontractlimits.js — immutable depth/size/query/render budget constants. portalresourceenvelope.js — minimal stable resource envelope normalization/validation. portaltypedefinition.js — namespaced type definition/lifecycle/schema/capability normalization. portalactiondefinition.js — stable action ids, input/output schema, confirmation, idempotency, job semantics. portalrelationship.js — typed direction/target/link relationship descriptors. portalquerydefinition.js — bounded query/operator/sort/page normalization. portalerrorresource.js — structured safe errors and field issues. portalprovenance.js — source kind, verified/inferred status, references, transformation metadata. portaljob.js — honest job states/progress/stages/cancel/retry/output descriptors. portaltransformation.js — accepted/input/output/config/determinism/side effect/fanout descriptors. new portal server registry + adapter modules create under geelooy/api/portal/registry/: portaltyperegistry.js — deterministic type registration/read/list with version/lifecycle metadata. portalbuiltintypes.js — portal resource type and api family type definitions. portalcapabilityroot.js — discoverable links/capabilities/envelope version. create under geelooy/api/portal/adapters/: apifamilyresourceadapter.js — wraps existing apifamilycatalogdata records into real portal resources without changing /api/catalog. create under geelooy/api/portal/core/: portalreadservice.js — read only orchestration for root/types/api family resources. portalhttphandlers.js — translate service outputs/errors to dynamic route responses. create geelooy/api/portal/ awtsmoos.derech.js using the proven small route delegation pattern. new portal client engine create under geelooy/scripts/awtsmoos/portal/: portalapiclient.js portalresourcenormalizer.js portalrendererregistry.js portalrendererselection.js portalfieldregistry.js portaldom.js create renderers under .../renderers/: portalgenericrenderer.js portalcollectionrenderer.js portalapifamilyrenderer.js portalunknownrenderer.js portalinspectorrenderer.js create app modules under geelooy/portal/scripts/: portalapp.js portalstate.js portalnavigation.js portal.js create a real surface: geelooy/portal/index.html geelooy/portal/portal.css the page must load /style/universal ui.css, browse the real portal type registry, render real api family resources, expose generic and developer inspector modes, and remain usable at narrow mobile widths. new tests create focused node tests under geelooy/api/portal/tests/ for: minimal/maximal envelope unknown extensions/forward compatibility namespaced type validation and lifecycle action confirmation/idempotency semantics bounded queries structured errors provenance/job/transformation contracts api family adapter equivalence type registry/capability root route handler read behavior where direct handler testing is possible create lightweight client tests where dom free modules permit it under geelooy/portal/tests/. runtime audit extension only after the portal page exists, inspect the existing scripts/runtime quality/dommetrics.mjs again and, if necessary, completely rewrite it or split it to add findings for unstyled navigation list markers, unlabeled dialogs, and viewport escaping code/pre. do not modify it before seeing the actual portal rendering. first pass boundary this pass intentionally implements read only universal discovery and rendering plus complete stable html fallback styling. mutation/action execution, persistent jobs, live event streams, pipelines, and domain specific write adapters will have fully defined contracts but no fake execution backends. future capabilities must attach to real domain services rather than pretend to exist. next action read the exact current apifamilycatalogdata.js once more for whole file replacement fidelity, then write all additive portal contract/registry/adapter/service/route files and the catalog replacement before any tests. after server code, write the universal ui and portal client/page, then perform the mandatory full readback and delta pass.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26t134731-portal-universal-ui-resource-platf-e2aecad9aa.json"
+	}
+]

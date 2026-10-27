@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-master-execution-plan-03-weather-environment--40ae7caeb8",
+	"title": "03 — Weather, Atmosphere, Climate, Environment Authority",
+	"sourcePath": "geelooy/games/mitzvahWorld/MASTER_EXECUTION_PLAN/03_WEATHER_ENVIRONMENT.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "03 — Weather, Atmosphere, Climate, Environment Authority",
+			"anchor": "03-weather-atmosphere-climate-environment-authority"
+		},
+		{
+			"level": 2,
+			"text": "Core law",
+			"anchor": "core-law"
+		},
+		{
+			"level": 2,
+			"text": "Existing weather lane to finish",
+			"anchor": "existing-weather-lane-to-finish"
+		},
+		{
+			"level": 2,
+			"text": "Required atmospheric simulation",
+			"anchor": "required-atmospheric-simulation"
+		},
+		{
+			"level": 2,
+			"text": "Storms and precipitation",
+			"anchor": "storms-and-precipitation"
+		},
+		{
+			"level": 2,
+			"text": "Environmental memory and coupling",
+			"anchor": "environmental-memory-and-coupling"
+		},
+		{
+			"level": 2,
+			"text": "Realtime outside-weather mode",
+			"anchor": "realtime-outside-weather-mode"
+		},
+		{
+			"level": 2,
+			"text": "Presentation targets outside Core",
+			"anchor": "presentation-targets-outside-core"
+		},
+		{
+			"level": 2,
+			"text": "Performance / persistence",
+			"anchor": "performance-persistence"
+		},
+		{
+			"level": 2,
+			"text": "Acceptance tests",
+			"anchor": "acceptance-tests"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-master-execution-plan-03-weather-environment--40ae7caeb8-001.json"
+	]
+}

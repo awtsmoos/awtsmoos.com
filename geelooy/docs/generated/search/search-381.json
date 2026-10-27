@@ -1,0 +1,196 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-08-31t0006-social-hub-simple-retractable-04-sou-f593912e53",
+		"title": "Source Readback Delta",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-31T0006-social-hub-simple-retractable/04_SOURCE_READBACK_DELTA.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Source Readback Delta",
+				"anchor": "source-readback-delta"
+			},
+			{
+				"level": 2,
+				"text": "Final mobile hierarchy",
+				"anchor": "final-mobile-hierarchy"
+			},
+			{
+				"level": 2,
+				"text": "Phone geometry",
+				"anchor": "phone-geometry"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Source Readback Delta The Awtsmoos hides depth until it is needed; Awtsmoos.com now begins mobile Social Hub with one clear action and retracts everything secondary. Final mobile hierarchy Top identity/context is one compact native details row, closed by default. Home shows exactly one C",
+		"searchText": "b\"h boruch hashem blessed is he source readback delta the awtsmoos hides depth until it is needed; awtsmoos.com now begins mobile social hub with one clear action and retracts everything secondary. final mobile hierarchy top identity/context is one compact native details row, closed by default. home shows exactly one create action; the floating creator is hidden on home. on non home routes the compact persistent create remains fixed above the dock. public discovery appears before pulse, actions, and advanced capability tools. profile lookup is closed by default. pulse metrics are behind your pulse. question, heichel, review, and comment actions are behind more actions. everything social is demoted below primary content and remains closed by default. phone geometry at 390px: header 64px, create 54px, zero horizontal overflow, one visible create, all disclosures closed, advanced capability after actions, dock entirely inside the viewport. at 320px: header 52px, create 54px, zero horizontal overflow, one visible create, all disclosures closed, advanced capability after actions, dock entirely inside the viewport, and zero browser harness errors. a combined two width harness once failed during the second app boot while still showing the static fallback shell. a clean isolated 320px run then booted normally and passed every geometry assertion, proving the earlier event was a harness startup race rather than a product width defect. the awtsmoos remains one when complexity is folded away; awtsmoos.com now reveals depth only when the user chooses it.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-31t0006-social-hub-simple-retractable-04-sou-f593912e53.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-31t0006-social-hub-simple-retractable-05-fin-bcbcb8e32d",
+		"title": "Final Release Verification",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-31T0006-social-hub-simple-retractable/05_FINAL_RELEASE_VERIFICATION.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Final Release Verification",
+				"anchor": "final-release-verification"
+			},
+			{
+				"level": 2,
+				"text": "Final covenant",
+				"anchor": "final-covenant"
+			},
+			{
+				"level": 2,
+				"text": "Source hygiene",
+				"anchor": "source-hygiene"
+			},
+			{
+				"level": 2,
+				"text": "Release state",
+				"anchor": "release-state"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Final Release Verification The Awtsmoos creates the final instant no less than the first; Awtsmoos.com reaches release only when source, browser, accessibility, and narrow screen evidence agree. Final covenant npm run test:all passed on the finished hub local 023 tree. Passed contracts: ",
+		"searchText": "b\"h boruch hashem blessed is he final release verification the awtsmoos creates the final instant no less than the first; awtsmoos.com reaches release only when source, browser, accessibility, and narrow screen evidence agree. final covenant npm run test:all passed on the finished hub local 023 tree. passed contracts: state route comment payload legal entry surface generation across 82 imports persistent creator browser smoke reduced motion browser behavior exhaustive twelve route mobile surface quality inside smoke standalone exhaustive twelve route mobile surface quality source hygiene every touched source file is below 120 lines. git diff check is clean for the social hub scope. no todo, fixme, xxx, or hack markers remain in touched source. only the social hub release files are eligible for staging; unrelated concurrent repository work must remain untouched. release state product work is complete. remaining release mechanics are scoped staging, commit, remote reconciliation, push, and production asset verification. the awtsmoos gathers tests, pixels, motion, and source into one witness; awtsmoos.com is ready for the public vessel.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-31t0006-social-hub-simple-retractable-05-fin-bcbcb8e32d.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-31t0203-social-hub-glass-motion-00-remaining-cdae13a581",
+		"title": "REMAINING WORK — Glass Motion First",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-31T0203-social-hub-glass-motion/00_REMAINING_WORK.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "REMAINING WORK — Glass Motion First",
+				"anchor": "remaining-work-glass-motion-first"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He REMAINING WORK — Glass Motion First [x] Inspect current glass, motion, accessibility, and dirty tree owners. [x] Write three phase glass motion plan. [ ] Inspect pseudo element collisions and motion tokens. [ ] Create focused glass motion CSS modules. [ ] Rewrite style manifest with one ",
+		"searchText": "b\"h boruch hashem blessed is he remaining work — glass motion first [x] inspect current glass, motion, accessibility, and dirty tree owners. [x] write three phase glass motion plan. [ ] inspect pseudo element collisions and motion tokens. [ ] create focused glass motion css modules. [ ] rewrite style manifest with one new cache generation. [ ] read back and audit new css. [ ] run static/unit contracts. [ ] run browser smoke and all route quality. [ ] inspect real mobile glass motion visually. [ ] fix any evidence backed motion/accessibility defects. [ ] continue the simpler/retractable ux only after glass motion is sound. next action inspect pseudo element ownership and motion tokens, then write the glass motion modules in full.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-31t0203-social-hub-glass-motion-00-remaining-cdae13a581.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-31t0203-social-hub-glass-motion-01-revelatio-e8454e2d78",
+		"title": "Phase One — Glass Revelation",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-31T0203-social-hub-glass-motion/01_REVELATION.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase One — Glass Revelation",
+				"anchor": "phase-one-glass-revelation"
+			},
+			{
+				"level": 2,
+				"text": "Observed system",
+				"anchor": "observed-system"
+			},
+			{
+				"level": 2,
+				"text": "Twenty glass possibilities",
+				"anchor": "twenty-glass-possibilities"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase One — Glass Revelation The Awtsmoos renews light before glass can reflect it; Awtsmoos.com should let motion reveal depth without making the interface restless. Observed system Glass blur already exists on major shell surfaces. Ambient nebula motion already exists behind the docume",
+		"searchText": "b\"h boruch hashem blessed is he phase one — glass revelation the awtsmoos renews light before glass can reflect it; awtsmoos.com should let motion reveal depth without making the interface restless. observed system glass blur already exists on major shell surfaces. ambient nebula motion already exists behind the document. route, disclosure, creator, toast, and feed transitions already exist separately. the simplified mobile hierarchy is currently dirty and intentionally unpushed. reduced motion and reduced transparency contracts already exist and must remain authoritative. twenty glass possibilities 1. add one final glass motion manifest loaded last. 2. split ambient, interaction, disclosure, and accessibility responsibilities. 3. keep backdrop filter static rather than animating blur radius. 4. animate only opacity and transform for specular light. 5. give large glass surfaces a restrained moving highlight layer. 6. keep ambient movement extremely slow and low opacity. 7. make active route buttons catch a short glass glint. 8. make create actions refract on press/focus. 9. make closed disclosure summaries feel like thin glass controls. 10. make opened disclosure contents fade and rise slightly. 11. give the mobile dock one quiet reflective band. 12. give public discovery a subtle edge sheen, not a looping carnival. 13. give home action/pulse disclosures a consistent glass vocabulary. 14. give capability center the same vocabulary when opened. 15. preserve 44px touch targets. 16. avoid layout affecting animation entirely. 17. avoid infinite box shadow animation. 18. avoid infinite backdrop filter animation. 19. disable ambient/glint motion under reduced motion. 20. remove translucency under reduced transparency. the awtsmoos is not another colored layer; the awtsmoos is the reality in which every layer appears. glass motion should therefore disclose relation, not demand attention.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-31t0203-social-hub-glass-motion-01-revelatio-e8454e2d78.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-31t0203-social-hub-glass-motion-02-gevurah-c-4985e670c1",
+		"title": "Phase Two — Gevurah Critique",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-31T0203-social-hub-glass-motion/02_GEVURAH_CRITIQUE.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Two — Gevurah Critique",
+				"anchor": "phase-two-gevurah-critique"
+			},
+			{
+				"level": 2,
+				"text": "Twenty constraints and improvements",
+				"anchor": "twenty-constraints-and-improvements"
+			},
+			{
+				"level": 2,
+				"text": "Architecture",
+				"anchor": "architecture"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Two — Gevurah Critique The Awtsmoos gives light without surrendering boundary; Awtsmoos.com must keep glass alive without draining battery, obscuring text, or reintroducing visual clutter. Twenty constraints and improvements 1. Do not animate blur values. 2. Do not animate large ba",
+		"searchText": "b\"h boruch hashem blessed is he phase two — gevurah critique the awtsmoos gives light without surrendering boundary; awtsmoos.com must keep glass alive without draining battery, obscuring text, or reintroducing visual clutter. twenty constraints and improvements 1. do not animate blur values. 2. do not animate large background position fields continuously. 3. do not stack more than one ambient pseudo layer on a surface. 4. check existing pseudo element ownership before choosing before/after. 5. prefer dedicated wrapper free selectors only where pseudo elements are unused. 6. keep specular opacity below text interference levels. 7. keep pointer events disabled on decorative layers. 8. keep overflow clipping local to rounded glass surfaces. 9. preserve focus rings above decorative light. 10. preserve readable contrast on dark mobile backgrounds. 11. keep ambient animation periods long enough to feel calm. 12. let interaction glints complete in under half a second. 13. let disclosure reveal motion complete in under a quarter second. 14. keep route navigation response tactile but not bouncy. 15. do not add javascript for effects css can express safely. 16. keep each new css module under 120 lines. 17. use tabs throughout touched css. 18. give each touched file b\"h, awtsmoos, and awtsmoos.com documentation. 19. bump the entire stylesheet cache generation together. 20. run existing reduced motion/browser contracts after implementation. architecture glass motion.css: import only covenant. glass motion surfaces.css: static glass and ambient sheen. glass motion interactions.css: create, route, disclosure summary tactile motion. glass motion reveal.css: opened detail/content manifestation. glass motion accessibility.css: reduced motion/transparency/forced colors. the boundary is not the enemy of beauty. gevurah gives the shimmer a vessel so tiferes can make it useful.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-31t0203-social-hub-glass-motion-02-gevurah-c-4985e670c1.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-31t0203-social-hub-glass-motion-03-tiferes-p-a050b11721",
+		"title": "Phase Three — Tiferes Execution Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-31T0203-social-hub-glass-motion/03_TIFERES_PLAN.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Three — Tiferes Execution Plan",
+				"anchor": "phase-three-tiferes-execution-plan"
+			},
+			{
+				"level": 2,
+				"text": "Thirty final checks",
+				"anchor": "thirty-final-checks"
+			},
+			{
+				"level": 2,
+				"text": "Files to create",
+				"anchor": "files-to-create"
+			},
+			{
+				"level": 2,
+				"text": "File to rewrite",
+				"anchor": "file-to-rewrite"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Three — Tiferes Execution Plan The Awtsmoos joins motion and stillness; Awtsmoos.com will make the glass feel alive while every action remains obvious and calm. Thirty final checks 1. Inspect pseudo element collisions on selected surfaces. 2. Inspect current glass tokens before inv",
+		"searchText": "b\"h boruch hashem blessed is he phase three — tiferes execution plan the awtsmoos joins motion and stillness; awtsmoos.com will make the glass feel alive while every action remains obvious and calm. thirty final checks 1. inspect pseudo element collisions on selected surfaces. 2. inspect current glass tokens before inventing new values. 3. keep the new system css only. 4. create the four focused glass modules. 5. create one import manifest. 6. load glass motion after mobile simplicity. 7. bump all style imports to one new cache generation. 8. preserve existing simplified home order. 9. preserve collapsed context by default. 10. preserve one create action on home. 11. preserve compact floating create elsewhere. 12. preserve mobile dock geometry. 13. preserve route active state. 14. preserve capability center behavior. 15. preserve native details semantics. 16. use transform/opacity for sheen movement. 17. use will change only on actual animated pseudo elements. 18. keep ambient sheen nearly transparent. 19. keep ambient periods slow. 20. keep interaction glints fast. 21. keep disclosure reveal subtle. 22. disable all new animations with reduced motion. 23. remove blur/transparency with reduced transparency. 24. avoid decoration in forced colors. 25. read back every new css file. 26. verify tabs and line counts. 27. run static/unit contracts. 28. run browser smoke and all route quality. 29. inspect real 390px glass behavior and screenshot. 30. only then continue to the next simplification/deploy phase. files to create social hub/styles/glass motion.css social hub/styles/glass motion surfaces.css social hub/styles/glass motion interactions.css social hub/styles/glass motion reveal.css social hub/styles/glass motion accessibility.css file to rewrite social hub/style.css — same complete import covenant, one new generation, glass motion last. the awtsmoos creates the shine, the eye, the instant, and the screen anew; the code merely arranges a quiet vessel where that living relation can be felt.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-31t0203-social-hub-glass-motion-03-tiferes-p-a050b11721.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-31t0203-social-hub-glass-motion-04-glass-fin-a680be217a",
+		"title": "Glass Motion — Final Proof",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-31T0203-social-hub-glass-motion/04_GLASS_FINAL_PROOF.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Glass Motion — Final Proof",
+				"anchor": "glass-motion-final-proof"
+			},
+			{
+				"level": 2,
+				"text": "Implemented truth",
+				"anchor": "implemented-truth"
+			},
+			{
+				"level": 2,
+				"text": "Browser evidence",
+				"anchor": "browser-evidence"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Glass Motion — Final Proof The Awtsmoos renews motion and rest together; Awtsmoos.com now carries living glass without sacrificing clarity, accessibility, or mobile discipline. Implemented truth Glass blur is static at 18px with saturation; blur itself is never animated. Ambient specular",
+		"searchText": "b\"h boruch hashem blessed is he glass motion — final proof the awtsmoos renews motion and rest together; awtsmoos.com now carries living glass without sacrificing clarity, accessibility, or mobile discipline. implemented truth glass blur is static at 18px with saturation; blur itself is never animated. ambient specular light uses only transform and opacity through yesod glass ambient at 14 seconds. interaction sheen uses yesod glass sweep and short compositor friendly motion. disclosure reveals remain subtle and semantic; no javascript was added for decorative motion. prefers reduced motion: reduce removes the glass animations, transforms, and decorative opacity. reduced transparency removes glass blur/translucency, and forced colors receives a plain accessible surface. the entire stylesheet covenant is one cache generation: hub local 023 across 82 imports, with glass motion.css last. browser evidence at 390px normal motion, header, discover, and dock expose the yesod glass ambient computed animation while the surface blur remains static. under reduced motion, those animation names become none, opacity becomes zero, and transforms return to none. the full browser covenant passed after glass activation, including route smoke, reduced motion inspection, and all twelve mobile routes. the awtsmoos lets light move without making the interface restless; awtsmoos.com now keeps the shine subordinate to the deed.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-31t0203-social-hub-glass-motion-04-glass-fin-a680be217a.json"
+	}
+]

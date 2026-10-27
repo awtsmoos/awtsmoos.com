@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-streaming-connectors-youtube-readme-md-bec42d3a3a",
+	"title": "B\"H — YouTube Streaming Connector (geelooy/api/streaming/connectors/youtube/)",
+	"sourcePath": "geelooy/api/streaming/connectors/youtube/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — YouTube Streaming Connector (geelooy/api/streaming/connectors/youtube/)",
+			"anchor": "b-h-youtube-streaming-connector-geelooy-api-streaming-connectors-youtube"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-streaming-connectors-youtube-readme-md-bec42d3a3a-001.json"
+	]
+}

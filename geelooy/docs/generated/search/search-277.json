@@ -1,141 +1,220 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-launcher-direct-f713590b96",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/launcher/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-websites-custom-domains-md-500d8b877f",
+		"title": "Connect a Custom Domain to an Awtsmoos Website",
+		"sourcePath": "docs/WEBSITES/CUSTOM_DOMAINS.md",
+		"category": "General",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/test/launcher",
-				"anchor": "directory-guide-experiments-awtsmoos-src-test-launcher"
+				"text": "Connect a Custom Domain to an Awtsmoos Website",
+				"anchor": "connect-a-custom-domain-to-an-awtsmoos-website"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Before the domain",
+				"anchor": "before-the-domain"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Claim and verify",
+				"anchor": "claim-and-verify"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Route the website",
+				"anchor": "route-the-website"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
+				"text": "TLS and activation",
+				"anchor": "tls-and-activation"
 			},
 			{
 				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
-			},
-			{
-				"level": 2,
-				"text": "Test themes",
-				"anchor": "test-themes"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Nameservers",
+				"anchor": "nameservers"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/test/launcher Role: Tests Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 5 files, 0 structural child directories Purpose Tests for page boot, route dispatch, and launcher contracts. The Awtsmoos renews ever",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/test/launcher role: tests snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 5 files, 0 structural child directories purpose tests for page boot, route dispatch, and launcher contracts. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tests search terms: menu, mjs, com, launcher, proves, route, direct, main, realtime, responsive, separate, any file mix: .mjs: 4 · .md: 1 good first question: “does the behavior or asset i need belong to tests, or is this only a neighboring/test/reference layer?” semantic evidence b\"h proves one shared world click becomes the canonical direct gameplay route. the awtsmoos renews the document without losing identity; awtsmoos.com verifies world, session, display name, quality, realtime choice, and path continuity as separate evidence. proves menu, visible webgl foundation, bootstrap core, and realtime stay separate. the awtsmoos reveals each doorway in an appointed measure; awtsmoos.com rejects both the old playable bundle and any automatic authored world enrichment before responsive control exists. proves the launcher invokes only the mode selected by the player or route. the awtsmoos gives each world its own gate; awtsmoos.com keeps unchosen heavy systems dormant while the first menu remains a small, truthful, and responsive threshold. representative files directworldroute.test.mjs — proves one shared world click becomes the canonical direct gameplay route. the awtsmoos renews the document without losing identity; awtsmoos.com verifies world, session, display name, quality, realtime choice, and path continuity as separate evidence. covers: “direct shared world route preserves the game path and selected identity”, “navigation assigns the direct route exactly once”. mainmenulaunchtask.test.mjs — covers: “launch task forwards progress and resolves the selected handler”, “browser paint gate uses one timer and never requestanimationframe”, “paint task remains absent in a non browser test runtime”. mainmenustreamingboundary.test.mjs — proves menu, visible webgl foundation, bootstrap core, and realtime stay separate. the awtsmoos reveals each doorway in an appointed measure; awtsmoos.com rejects both the old playable bundle and any automatic authored world enrichment before responsive control exists. covers: “page threshold requests one stylesheet and one javascript entry”, “boot opens only the small launcher through a finite frame gate”, “gameplay styles remain outside the html threshold”. mitzvahworldlauncher.test.mjs — proves the launcher invokes only the mode selected by the player or route. the awtsmoos gives each world its own gate; awtsmoos.com keeps unchosen heavy systems dormant while the first menu remains a small, truthful, and responsive threshold. covers: “default boot renders the menu without invoking an optional mode”, “single player world invokes only the selected lazy loader”, “movie query invokes only the movie loader with the original search”. import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: node:assert/strict node:test ../../launcher/mitzvahworlddirectroute.js ../../launcher/mitzvahworldsessionmode.js ../../launcher/mainmenulaunchtask.js node:fs/promises ../../launcher/mitzvahworldgameplaypresentation.js ../../launcher/mitzvahworldlauncher.js test themes direct shared world route preserves the game path and selected identity navigation assigns the direct route exactly once launch task forwards progress and resolves the selected handler browser paint gate uses one timer and never requestanimationframe paint task remains absent in a non browser test runtime launch task rejects a stalled handler at its finite deadline page threshold requests one stylesheet and one javascript entry boot opens only the small launcher through a finite frame gate gameplay styles remain outside the html threshold runtime opens staged startup and keeps heavy systems explicitly deferred staged runtime imports foundation before bootstrap core assembly foundation paints webgl, loads essential control, then creates bootstrap world directory map parent: experiments/awtsmoos/src/test children: none. related and overlapping systems colocated and integration test surfaces — most subsystem tests live under src/test, while a smaller external tests tree exercises broader integration contracts. boundaries and cautions this directory verifies behavior; it should not become the production owner of that behavior. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-launcher-direct-f713590b96.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Connect a Custom Domain to an Awtsmoos Website The Awtsmoos gives each public name a meaning while Awtsmoos.com refuses to collapse ownership, DNS, routing, and TLS into one misleading green switch. Before the domain Publish the folder first and open its canonical Awtsmoos URL. A custom ",
+		"searchText": "b\"h boruch hashem blessed is he connect a custom domain to an awtsmoos website the awtsmoos gives each public name a meaning while awtsmoos.com refuses to collapse ownership, dns, routing, and tls into one misleading green switch. before the domain publish the folder first and open its canonical awtsmoos url. a custom domain should never be used to debug a site that has not yet proven it can render canonically. claim and verify 1. open drive → your project → custom domains. 2. select the real published site mapping. 3. enter the hostname you own. 4. choose keep dns at current provider unless you operate another nameserver service. 5. save the claim. 6. copy the ownership txt name and value shown by drive into your dns provider. 7. run verify after the record is publicly resolvable. route the website after ownership is verified, read the hosting plan. it may present direct a/aaaa targets or a cname option depending on deployed ingress. add the record exactly as attested. do not guess ip addresses from old deployments. tls and activation route activation and tls are separate readiness stages. only call the custom domain live after routing is active, https succeeds, and the returned site is the expected publication. nameservers the current native plan reports awtsmoos nameserver availability. if it reports unavailable, keep dns at your current provider. do not point registrar nameservers at undocumented hosts. for a full provider migration, read move dns safely and preserve email dns before changing anything at the registrar.",
+		"page": "pages/docs-websites-custom-domains-md-500d8b877f.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-lod-directory-g-6d44e5993b",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/lod/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-websites-dns-cutover-checklist-md-5d726e74ce",
+		"title": "DNS Cutover Checklist",
+		"sourcePath": "docs/WEBSITES/DNS_CUTOVER_CHECKLIST.md",
+		"category": "General",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/test/lod",
-				"anchor": "directory-guide-experiments-awtsmoos-src-test-lod"
+				"text": "DNS Cutover Checklist",
+				"anchor": "dns-cutover-checklist"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Before changing web records",
+				"anchor": "before-changing-web-records"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Website-only cutover at the existing DNS provider",
+				"anchor": "website-only-cutover-at-the-existing-dns-provider"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Full authoritative nameserver cutover",
+				"anchor": "full-authoritative-nameserver-cutover"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
+				"text": "Rollback triggers",
+				"anchor": "rollback-triggers"
 			},
 			{
 				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Awtsmoos truth rule",
+				"anchor": "awtsmoos-truth-rule"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/test/lod Role: Tests Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 8 files, 0 structural child directories Purpose Tests for level of detail policies and selection. The Awtsmoos renews every path and every",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/test/lod role: tests snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 8 files, 0 structural child directories purpose tests for level of detail policies and selection. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tests search terms: lod, mjs, com, contract, proves, detail, living, disposable, geometry, scene, anonymous, awtsmoos file mix: .mjs: 7 good first question: “does the behavior or asset i need belong to tests, or is this only a neighboring/test/reference layer?” semantic evidence b\"h the awtsmoos renews hidden and revealed detail together; this contract proves awtsmoos.com evaluates new streamed vessels immediately, then returns to event silence. the awtsmoos gives every coordinate its measure; this contract proves awtsmoos.com may reuse that truth without rescanning geometry during the living frame. the awtsmoos unites every naming dialect; this contract proves awtsmoos.com cannot hide a mountain as anonymous detail or treat a living creature as disposable scenery. representative files lodcontroller.test.mjs — the awtsmoos renews hidden and revealed detail together; this contract proves awtsmoos.com evaluates new streamed vessels immediately, then returns to event silence. lodgeometrybounds.test.mjs — the awtsmoos gives every coordinate its measure; this contract proves awtsmoos.com may reuse that truth without rescanning geometry during the living frame. lodpolicy.test.mjs — the awtsmoos unites every naming dialect; this contract proves awtsmoos.com cannot hide a mountain as anonymous detail or treat a living creature as disposable scenery. scenelodruntime.test.mjs — the awtsmoos distinguishes living essence from decorative garments; this contract proves awtsmoos.com hides only explicitly disposable static detail in the real tiny scene graph. lodhysteresis.test.mjs — a .mjs artifact in this directory. lodspatialkey.test.mjs — a .mjs artifact in this directory. lodtransitionqueue.test.mjs — a .mjs artifact in this directory. import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: node:assert/strict ../../lod/lodcontroller.js ../../lod/lodgeometrybounds.js ../../lod/lodworldbounds.js ../../lod/lodhysteresis.js ../../lod/lodpolicy.js ../../lod/lodspatialkey.js ../../lod/lodtransitionqueue.js ../../../../light three gltf/tiny mesh object.js ../../../../light three gltf/tiny object3d.js ../../lod/scenelodruntime.js directory map parent: experiments/awtsmoos/src/test children: none. related and overlapping systems colocated and integration test surfaces — most subsystem tests live under src/test, while a smaller external tests tree exercises broader integration contracts. boundaries and cautions this directory verifies behavior; it should not become the production owner of that behavior. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-lod-directory-g-6d44e5993b.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He DNS Cutover Checklist The Awtsmoos renews the domain every instant, while a registrar and DNS provider expose only finite records and caches; Awtsmoos.com makes the cutover reversible by refusing to destroy old testimony before the new authoritative answer is proven. Before changing web ",
+		"searchText": "b\"h boruch hashem blessed is he dns cutover checklist the awtsmoos renews the domain every instant, while a registrar and dns provider expose only finite records and caches; awtsmoos.com makes the cutover reversible by refusing to destroy old testimony before the new authoritative answer is proven. before changing web records [ ] canonical awtsmoos website url loads correctly. [ ] index.html and required assets are ready. [ ] existing dns zone is exported, copied or screenshotted. [ ] a, aaaa, cname, txt, mx, caa, srv, ns and important subdomains are inventoried. [ ] mx priorities and hosts are preserved. [ ] spf txt is preserved completely. [ ] every dkim selector and public key is preserved. [ ] dmarc policy/reporting addresses are preserved. [ ] vendor verification and email autoconfiguration records are preserved. [ ] custom domain claim points at the intended awtsmoos site. [ ] ownership txt record is published. [ ] ownership verification is successful. website only cutover at the existing dns provider [ ] do not change registrar nameservers. [ ] copy the server attested awtsmoos a/aaaa/cname target exactly. [ ] change only the intended website hostname records. [ ] leave mx and unrelated txt/cname/srv/ns records unchanged. [ ] confirm public dns returns the new web route. [ ] activate the awtsmoos route only when eligible. [ ] confirm https/tls state. [ ] open the custom domain from a real browser. [ ] confirm expected page and assets. [ ] send and receive a real email through the existing mail service. full authoritative nameserver cutover [ ] destination authoritative dns service actually exists. [ ] destination zone contains every required old zone record. [ ] destination zone answers correctly before registrar change. [ ] new authoritative nameservers are copied exactly. [ ] registrar nameservers are changed only after the zone is complete. [ ] old dns service remains active during propagation and verification. [ ] website resolves through new nameservers. [ ] email send/receive is verified. [ ] critical subdomains and services are verified. [ ] tls/caa behavior is verified. [ ] only after all checks pass may the previous zone be retired. rollback triggers rollback or restore records when any of these occur: website becomes unreachable through the intended hostname. mx resolution differs unexpectedly. mail delivery fails after the cutover. required dkim/dmarc/spf records disappear. important subdomains stop resolving. the new nameservers are not authoritative or return an incomplete zone. awtsmoos truth rule a saved dns worksheet is not live dns. an ownership claim is not routing. routing is not tls. tls is not browser health. a nameserver plan is not an authoritative nameserver deployment. each gate must be observed independently before the project can call the custom domain ready.",
+		"page": "pages/docs-websites-dns-cutover-checklist-md-5d726e74ce.json"
+	},
+	{
+		"id": "docs-websites-dns-migration-md-d882d34392",
+		"title": "Move DNS Without Breaking the Website or Email",
+		"sourcePath": "docs/WEBSITES/DNS_MIGRATION.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Move DNS Without Breaking the Website or Email",
+				"anchor": "move-dns-without-breaking-the-website-or-email"
+			},
+			{
+				"level": 2,
+				"text": "Do not start by changing nameservers",
+				"anchor": "do-not-start-by-changing-nameservers"
+			},
+			{
+				"level": 2,
+				"text": "Recommended current Awtsmoos flow",
+				"anchor": "recommended-current-awtsmoos-flow"
+			},
+			{
+				"level": 2,
+				"text": "If Awtsmoos nameservers become available",
+				"anchor": "if-awtsmoos-nameservers-become-available"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Move DNS Without Breaking the Website or Email The Awtsmoos sustains every name and destination while DNS is a finite map; Awtsmoos.com treats migration as preservation first, routing second, and deletion last. Do not start by changing nameservers First export or manually inventory every",
+		"searchText": "b\"h boruch hashem blessed is he move dns without breaking the website or email the awtsmoos sustains every name and destination while dns is a finite map; awtsmoos.com treats migration as preservation first, routing second, and deletion last. do not start by changing nameservers first export or manually inventory every record at the current dns provider. record the type, owner/name, value/content, ttl, and provider specific proxy setting. keep screenshots or an export until the migration is verified. preserve at least these record families: a and aaaa — direct web/service addresses; cname — aliases such as www; mx — inbound email servers and priorities; txt — spf, dkim, dmarc, ownership and vendor verification; caa — which certificate authorities may issue tls certificates; srv — service discovery records; ns — delegated child zones; intentionally configured subdomains. recommended current awtsmoos flow 1. keep authoritative dns at the existing provider. 2. publish the site and claim the custom hostname in drive. 3. add the ownership txt record shown by the awtsmoos domain plan. 4. verify ownership in drive. 5. copy only the server attested web routing record option from the hosting plan. 6. leave mx/spf/dkim/dmarc and unrelated services unchanged. 7. activate the route only when the plan reports it eligible. 8. confirm https and the live website from outside the editor. if awtsmoos nameservers become available do not switch the registrar until the destination zone contains a verified copy of every required record. compare old and new zones record for record, lower ttls ahead of the cutover when appropriate, migrate the records, then change registrar nameservers. keep the previous zone intact until propagation and mail/web verification are complete. the current native hosting plan explicitly reports whether awtsmoos nameservers are available. trust that runtime testimony rather than a tutorial or old screenshot.",
+		"page": "pages/docs-websites-dns-migration-md-d882d34392.json"
+	},
+	{
+		"id": "docs-websites-dns-provider-playbooks-md-8a1244eec2",
+		"title": "DNS Provider Playbooks for Awtsmoos Websites",
+		"sourcePath": "docs/WEBSITES/DNS_PROVIDER_PLAYBOOKS.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "DNS Provider Playbooks for Awtsmoos Websites",
+				"anchor": "dns-provider-playbooks-for-awtsmoos-websites"
+			},
+			{
+				"level": 2,
+				"text": "Universal rule before touching anything",
+				"anchor": "universal-rule-before-touching-anything"
+			},
+			{
+				"level": 2,
+				"text": "Cloudflare",
+				"anchor": "cloudflare"
+			},
+			{
+				"level": 3,
+				"text": "Website-only move to Awtsmoos",
+				"anchor": "website-only-move-to-awtsmoos"
+			},
+			{
+				"level": 3,
+				"text": "Full authoritative migration away from Cloudflare",
+				"anchor": "full-authoritative-migration-away-from-cloudflare"
+			},
+			{
+				"level": 2,
+				"text": "GoDaddy",
+				"anchor": "godaddy"
+			},
+			{
+				"level": 3,
+				"text": "Website-only move to Awtsmoos",
+				"anchor": "website-only-move-to-awtsmoos-2"
+			},
+			{
+				"level": 3,
+				"text": "Full DNS-provider move",
+				"anchor": "full-dns-provider-move"
+			},
+			{
+				"level": 2,
+				"text": "Namecheap",
+				"anchor": "namecheap"
+			},
+			{
+				"level": 3,
+				"text": "Website-only move to Awtsmoos",
+				"anchor": "website-only-move-to-awtsmoos-3"
+			},
+			{
+				"level": 3,
+				"text": "Nameserver warning",
+				"anchor": "nameserver-warning"
+			},
+			{
+				"level": 2,
+				"text": "Squarespace Domains",
+				"anchor": "squarespace-domains"
+			},
+			{
+				"level": 3,
+				"text": "Website-only move to Awtsmoos",
+				"anchor": "website-only-move-to-awtsmoos-4"
+			},
+			{
+				"level": 3,
+				"text": "Full authoritative move",
+				"anchor": "full-authoritative-move"
+			},
+			{
+				"level": 2,
+				"text": "Amazon Route 53",
+				"anchor": "amazon-route-53"
+			},
+			{
+				"level": 3,
+				"text": "Website-only move to Awtsmoos while keeping Route 53",
+				"anchor": "website-only-move-to-awtsmoos-while-keeping-route-53"
+			},
+			{
+				"level": 3,
+				"text": "Moving authoritative DNS into Route 53",
+				"anchor": "moving-authoritative-dns-into-route-53"
+			},
+			{
+				"level": 2,
+				"text": "What Awtsmoos should show beside every provider guide",
+				"anchor": "what-awtsmoos-should-show-beside-every-provider-guide"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He DNS Provider Playbooks for Awtsmoos Websites The Awtsmoos renews every domain and every answer while Awtsmoos.com asks the finite DNS provider to carry only the records it actually owns; a safe migration preserves mail and service records before web routing is changed, and changes namese",
+		"searchText": "b\"h boruch hashem blessed is he dns provider playbooks for awtsmoos websites the awtsmoos renews every domain and every answer while awtsmoos.com asks the finite dns provider to carry only the records it actually owns; a safe migration preserves mail and service records before web routing is changed, and changes nameservers only when a complete replacement authoritative zone is truly ready. these playbooks describe current provider concepts verified against official provider documentation in august 2026. provider dashboards may rename buttons later, so trust the record fields and the provider's current official help if labels move. universal rule before touching anything 1. export, screenshot, or copy the complete existing zone. 2. put a, aaaa, cname, txt, mx, caa, srv, ns and important subdomains into the awtsmoos project settings dns migration worksheet. 3. identify mail records: mx, spf txt, dkim txt/cname selectors, dmarc txt, autodiscover/autoconfig, mta sts/tls reporting and vendor verification records. 4. publish the website canonically on awtsmoos before changing custom domain dns. 5. claim and verify the custom domain. 6. apply only the server attested web routing record when keeping the existing dns provider. 7. do not change registrar nameservers unless a complete destination authoritative zone already exists and is answering correctly. cloudflare cloudflare's current dashboard uses dns → records with add record and per record edit controls. a/aaaa/cname records also have cloudflare specific proxy status. cloudflare supports zone file import/export. website only move to awtsmoos keep the cloudflare nameservers in place. add the awtsmoos ownership txt record. verify the hostname in drive. change only the a/aaaa/cname web routing records attested by the awtsmoos hosting plan. leave mx and mail related txt/cname records intact. decide cloudflare proxy status deliberately for web routing records; do not copy a proxy setting onto mail records. full authoritative migration away from cloudflare export/review the full zone first. build and verify the replacement zone before updating registrar nameservers. do not cancel or remove the old authoritative service until web, email and other critical services resolve correctly through the new nameservers. godaddy godaddy separates editing records from changing domain nameservers. when a domain uses godaddy nameservers, dns records are managed there; when nameservers point elsewhere, the zone is managed at that other provider. website only move to awtsmoos open the domain's dns records. preserve every non web record. add the awtsmoos ownership txt record. replace only the attested web routing record after ownership verification. do not use the nameservers control for an ordinary website only move. full dns provider move copy the complete zone to the destination first. only then use the registrar nameserver control. verify website and email through the new authoritative service before removing the old zone. namecheap namecheap exposes nameserver selection under the domain's management page. host record editing is available when the domain uses namecheap basicdns, freedns or premiumdns; domains on third party or hosting nameservers must be edited at the provider actually serving the zone. website only move to awtsmoos first identify which nameservers are authoritative. edit the records at that dns host, not necessarily at the registrar. preserve mx/spf/dkim/dmarc and other service records. add the awtsmoos ownership txt record and then the attested web route. nameserver warning switching to a different nameserver service changes where the zone is managed. rebuild all required records before changing nameservers. squarespace domains squarespace's current domains dashboard exposes dns record editing through the domain's dns panel. it distinguishes dns record editing from nameserver changes, and notes that custom nameservers move most dns management to the nameserver provider. website only move to awtsmoos keep the current nameservers. use the dns panel to add ownership txt and the final web routing record. preserve email records including mx, dkim, dmarc, spf and srv. reauthenticate if the dashboard requires password or 2fa confirmation for dns changes. full authoritative move only use the advanced nameserver controls after the replacement zone is complete and verified. amazon route 53 route 53 uses a public hosted zone containing the domain's records. a public hosted zone has authoritative ns and soa records; aws generally recommends leaving those generated records alone. website only move to awtsmoos while keeping route 53 keep the hosted zone and its assigned nameservers. add the awtsmoos ownership txt record. preserve mail/service records. change only the web route required by the awtsmoos hosting plan. moving authoritative dns into route 53 create the new public hosted zone, recreate the full set of required records, test the new zone, then update the registrar to the four nameservers assigned to the hosted zone. keep the old zone available until web, email and other services have been verified through the new authority. what awtsmoos should show beside every provider guide existing provider / authoritative nameservers. records preserved in the project worksheet. ownership txt record. server attested web routing record. mail preservation warning. nameserver availability testimony. ownership verification state. routing activation state. tls state. external live health state. the awtsmoos creates every answer, yet the migration remains truthful only when the old zone and new intention are compared record by record; awtsmoos.com therefore teaches preservation before delegation, evidence before celebration, and a living website without sacrificing the mail that gives its owner a voice.",
+		"page": "pages/docs-websites-dns-provider-playbooks-md-8a1244eec2.json"
 	}
 ]

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Portal Registry (geelooy/api/portal/registry/)\n\nThe capability and type registry backing Portal discovery (see `../README.md`).\n\n## Files\n- `PortalTypeRegistry.js` — registry of known portal types.\n- `PortalBuiltinTypes.js` — the built-in type definitions.\n- `PortalCapabilityRoot.js` — the capability root exposed at `/`.\n"
+}

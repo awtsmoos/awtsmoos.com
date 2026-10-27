@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Final Release Plan\n\nInspect -> classify -> finish release-relevant correctness -> verify -> stage explicit paths -> review staged diff -> commit on main -> fetch -> merge remote main if needed -> retest if merge changes code -> push main -> observe deploy -> verify public runtime -> record evidence.\n"
+}

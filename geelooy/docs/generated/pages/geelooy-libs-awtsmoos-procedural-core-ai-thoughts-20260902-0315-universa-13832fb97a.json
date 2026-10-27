@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-13832fb97a",
+	"title": "Default Compiler and Public Demo Plan",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/.ai-thoughts/20260902_0315-universal-procedural-api/13_DEFAULT_COMPILER_AND_PUBLIC_DEMO_PLAN.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Default Compiler and Public Demo Plan",
+			"anchor": "default-compiler-and-public-demo-plan"
+		},
+		{
+			"level": 2,
+			"text": "Evidence incorporated",
+			"anchor": "evidence-incorporated"
+		},
+		{
+			"level": 2,
+			"text": "Public proof architecture",
+			"anchor": "public-proof-architecture"
+		},
+		{
+			"level": 2,
+			"text": "Files",
+			"anchor": "files"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-13832fb97a-001.json"
+	]
+}

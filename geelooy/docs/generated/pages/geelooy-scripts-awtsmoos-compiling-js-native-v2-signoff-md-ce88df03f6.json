@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-scripts-awtsmoos-compiling-js-native-v2-signoff-md-ce88df03f6",
+	"title": "B\"H — NATIVE TIER v2 VERIFICATION SIGN-OFF (stream 8/8, the gatekeeper)",
+	"sourcePath": "geelooy/scripts/awtsmoos/compiling/js/NATIVE_V2_SIGNOFF.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — NATIVE TIER v2 VERIFICATION SIGN-OFF (stream 8/8, the gatekeeper)",
+			"anchor": "b-h-native-tier-v2-verification-sign-off-stream-8-8-the-gatekeeper"
+		},
+		{
+			"level": 2,
+			"text": "Per-stream sign-off table",
+			"anchor": "per-stream-sign-off-table"
+		},
+		{
+			"level": 2,
+			"text": "🔴 S1 — why it goes back (2 confirmed bugs, both reproduced)",
+			"anchor": "s1-why-it-goes-back-2-confirmed-bugs-both-reproduced"
+		},
+		{
+			"level": 2,
+			"text": "🔴 S3 / S5 — why they go back (object-model contract drift)",
+			"anchor": "s3-s5-why-they-go-back-object-model-contract-drift"
+		},
+		{
+			"level": 2,
+			"text": "Independent edge suites (all new, seeded, vs V8)",
+			"anchor": "independent-edge-suites-all-new-seeded-vs-v8"
+		},
+		{
+			"level": 2,
+			"text": "Benchmark gate",
+			"anchor": "benchmark-gate"
+		},
+		{
+			"level": 2,
+			"text": "What \"green\" requires (per stream, before it ships)",
+			"anchor": "what-green-requires-per-stream-before-it-ships"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-scripts-awtsmoos-compiling-js-native-v2-signoff-md-ce88df03f6-001.json"
+	]
+}

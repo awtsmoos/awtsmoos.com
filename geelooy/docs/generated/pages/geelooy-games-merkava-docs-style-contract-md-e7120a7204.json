@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-merkava-docs-style-contract-md-e7120a7204",
+	"title": "Merkava Style Contract",
+	"sourcePath": "geelooy/games/Merkava/docs/style-contract.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Merkava Style Contract",
+			"anchor": "merkava-style-contract"
+		},
+		{
+			"level": 2,
+			"text": "Single ownership boundary",
+			"anchor": "single-ownership-boundary"
+		},
+		{
+			"level": 2,
+			"text": "Manifest order",
+			"anchor": "manifest-order"
+		},
+		{
+			"level": 2,
+			"text": "Named stacking layers",
+			"anchor": "named-stacking-layers"
+		},
+		{
+			"level": 2,
+			"text": "Interaction contract",
+			"anchor": "interaction-contract"
+		},
+		{
+			"level": 2,
+			"text": "Motion contract",
+			"anchor": "motion-contract"
+		},
+		{
+			"level": 2,
+			"text": "Overlay contract",
+			"anchor": "overlay-contract"
+		},
+		{
+			"level": 2,
+			"text": "Automated enforcement",
+			"anchor": "automated-enforcement"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-merkava-docs-style-contract-md-e7120a7204-001.json"
+	]
+}

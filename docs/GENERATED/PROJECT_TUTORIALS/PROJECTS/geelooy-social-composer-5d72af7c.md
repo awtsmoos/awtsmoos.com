@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 317 | 28 | 0 | 0 | 9 | 0 | 354 |
+| 389 | 33 | 0 | 0 | 9 | 0 | 431 |
 
 ## Public entry points
 
@@ -30,12 +30,12 @@ Blessed is He
 
 ## Symbol evidence
 
-Source files: 200; classes: 81; functions: 452; exports: 323; samples: createComposer, createWorkflow, createController, createCreatorAssembly, createDestinationAssembly, DraftAssembly, createDraftAssembly, createEditorAssembly, createReelAssembly, createReviewAssembly, installComposerAccessibility, hasAccessibleName.
+Source files: 233; classes: 87; functions: 531; exports: 374; samples: createComposer, createWorkflow, createController, createCreatorAssembly, createDestinationAssembly, DraftAssembly, createDraftAssembly, createEditorAssembly, createReelAssembly, createReviewAssembly, installComposerAccessibility, hasAccessibleName.
 
 ## Depends on
 
-- `geelooy/games/mitzvahWorld` — 4 lexical references; examples: geelooy/social-composer/reel-studio/nle/NleAiProjectCodec.js; geelooy/social-composer/reel-studio/nle/NleMovieActionExecutor.js; geelooy/social-composer/reel-studio/nle/NleMoviePackage.js
-- `geelooy/shared` — 4 lexical references; examples: geelooy/social-composer/js/creator/CreatorCommandCatalog.js; geelooy/social-composer/js/creator/CreatorCommandPalette.js; geelooy/social-composer/js/creator/CreatorIntentModel.js
+- `geelooy/games/mitzvahWorld` — 9 lexical references; examples: geelooy/social-composer/reel-studio/nle/NleAiProjectCodec.js; geelooy/social-composer/reel-studio/nle/NleMoviePackage.js; geelooy/social-composer/reel-studio/nle/NleMovieSimpleMutations.js
+- `geelooy/shared` — 9 lexical references; examples: geelooy/social-composer/js/creator/CreatorCommandCatalog.js; geelooy/social-composer/js/creator/CreatorCommandPalette.js; geelooy/social-composer/js/creator/CreatorIntentModel.js
 
 ## Used by
 
@@ -47,4 +47,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **28**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **33**. Treat this as file evidence, not proof of behavioral coverage.

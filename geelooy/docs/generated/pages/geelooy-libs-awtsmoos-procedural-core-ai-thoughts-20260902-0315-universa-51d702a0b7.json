@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-51d702a0b7",
+	"title": "Phase Three — Testing Universe",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/.ai-thoughts/20260902_0315-universal-procedural-api/08_TESTING_UNIVERSE.md",
+	"category": "Testing",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase Three — Testing Universe",
+			"anchor": "phase-three-testing-universe"
+		},
+		{
+			"level": 2,
+			"text": "Structural gates",
+			"anchor": "structural-gates"
+		},
+		{
+			"level": 2,
+			"text": "New facade tests",
+			"anchor": "new-facade-tests"
+		},
+		{
+			"level": 2,
+			"text": "Inherited Aug. 31 debt",
+			"anchor": "inherited-aug-31-debt"
+		},
+		{
+			"level": 2,
+			"text": "Regression universe",
+			"anchor": "regression-universe"
+		},
+		{
+			"level": 2,
+			"text": "Runtime gates",
+			"anchor": "runtime-gates"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-51d702a0b7-001.json"
+	]
+}

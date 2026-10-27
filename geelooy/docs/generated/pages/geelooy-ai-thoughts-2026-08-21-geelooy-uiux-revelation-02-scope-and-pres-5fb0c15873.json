@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-02-scope-and-pres-5fb0c15873",
+	"title": "Scope and Preservation Map",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-21-geelooy-uiux-revelation/02-scope-and-preservation-map.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Scope and Preservation Map",
+			"anchor": "scope-and-preservation-map"
+		},
+		{
+			"level": 2,
+			"text": "Surfaces to enumerate",
+			"anchor": "surfaces-to-enumerate"
+		},
+		{
+			"level": 2,
+			"text": "Files theoretically touched only after evidence",
+			"anchor": "files-theoretically-touched-only-after-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Preservation gates",
+			"anchor": "preservation-gates"
+		},
+		{
+			"level": 2,
+			"text": "Anti-regression rules",
+			"anchor": "anti-regression-rules"
+		},
+		{
+			"level": 2,
+			"text": "Verification matrix",
+			"anchor": "verification-matrix"
+		},
+		{
+			"level": 2,
+			"text": "File graph strategy",
+			"anchor": "file-graph-strategy"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-02-scope-and-pres-5fb0c15873-001.json"
+	]
+}

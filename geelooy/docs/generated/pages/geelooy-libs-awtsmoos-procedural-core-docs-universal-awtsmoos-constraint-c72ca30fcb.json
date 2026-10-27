@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-docs-universal-awtsmoos-constraint-c72ca30fcb",
+	"title": "B\"H",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/UNIVERSAL_AWTSMOOS_CONSTRAINTS_CACHE.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Constraints, Provenance, and Cache",
+			"anchor": "constraints-provenance-and-cache"
+		},
+		{
+			"level": 2,
+			"text": "Generic constraint vocabulary",
+			"anchor": "generic-constraint-vocabulary"
+		},
+		{
+			"level": 2,
+			"text": "Solver capability truth",
+			"anchor": "solver-capability-truth"
+		},
+		{
+			"level": 2,
+			"text": "Registration example",
+			"anchor": "registration-example"
+		},
+		{
+			"level": 2,
+			"text": "Compilation cache",
+			"anchor": "compilation-cache"
+		},
+		{
+			"level": 2,
+			"text": "Provenance",
+			"anchor": "provenance"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-docs-universal-awtsmoos-constraint-c72ca30fcb-001.json"
+	]
+}

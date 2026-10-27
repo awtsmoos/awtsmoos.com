@@ -1,0 +1,49 @@
+{
+	"schema": "awtsmoos-api-tutorial-v1",
+	"id": "api-portal-api-families-7af93e2f88",
+	"route": "/api/portal/api-families",
+	"source": "geelooy/api/portal/_awtsmoos.derech.js",
+	"discoveryKind": "static-literal",
+	"family": {
+		"mount": "/api/portal",
+		"title": "/api/portal",
+		"manual": "docs/API/README.md"
+	},
+	"derech": {
+		"source": "geelooy/api/portal/_awtsmoos.derech.js",
+		"status": "OK",
+		"issue": "—",
+		"mount": "/api/portal"
+	},
+	"dynamic": false,
+	"pathParameters": [],
+	"methods": [],
+	"methodEvidence": "unknown",
+	"vessels": [],
+	"statuses": [],
+	"headers": [],
+	"callers": [],
+	"callerCount": 0,
+	"tests": [],
+	"examples": [],
+	"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-portal-api-families-7af93e2f88.md",
+	"confidence": "unknown-method",
+	"related": [
+		{
+			"id": "api-portal-3392c8d0f2",
+			"route": "/api/portal"
+		},
+		{
+			"id": "api-portal-api-family-cf29681266",
+			"route": "/api/portal/api-family"
+		},
+		{
+			"id": "api-portal-type-1810bf410f",
+			"route": "/api/portal/type"
+		},
+		{
+			"id": "api-portal-types-8127a50268",
+			"route": "/api/portal/types"
+		}
+	]
+}

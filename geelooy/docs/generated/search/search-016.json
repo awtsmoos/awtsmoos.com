@@ -1,36 +1,182 @@
 [
 	{
-		"id": "docs-generated-api-callers-api-callers-003-md-cba76466fe",
-		"title": "Generated API Caller Index 161–240",
-		"sourcePath": "docs/GENERATED/API_CALLERS/api-callers-003.md",
+		"id": "docs-geelooy-revelation-architecture-md-fd97afabef",
+		"title": "Geelooy Revelation Architecture",
+		"sourcePath": "docs/geelooy/REVELATION_ARCHITECTURE.md",
 		"category": "General",
-		"provenance": "generated",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Generated API Caller Index 161–240",
-				"anchor": "generated-api-caller-index-161-240"
+				"text": "Geelooy Revelation Architecture",
+				"anchor": "geelooy-revelation-architecture"
+			},
+			{
+				"level": 2,
+				"text": "Product law",
+				"anchor": "product-law"
+			},
+			{
+				"level": 2,
+				"text": "Shell ownership",
+				"anchor": "shell-ownership"
+			},
+			{
+				"level": 2,
+				"text": "Shared layers",
+				"anchor": "shared-layers"
+			},
+			{
+				"level": 2,
+				"text": "Progressive disclosure",
+				"anchor": "progressive-disclosure"
+			},
+			{
+				"level": 2,
+				"text": "Source discipline",
+				"anchor": "source-discipline"
+			},
+			{
+				"level": 2,
+				"text": "Current major ownership",
+				"anchor": "current-major-ownership"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Generated API Caller Index 161–240 Literal /api/ references found outside the API source tree; test callers are labeled. API literal Caller source Kind /api/social/drive/alpha/domains/Site.Example/verify geelooy/apps/drive/test/domainApi.test.mjs test /api/social/drive/alpha/sites/home/d",
-		"searchText": "b\"h boruch hashem blessed is he generated api caller index 161–240 literal /api/ references found outside the api source tree; test callers are labeled. api literal caller source kind /api/social/drive/alpha/domains/site.example/verify geelooy/apps/drive/test/domainapi.test.mjs test /api/social/drive/alpha/sites/home/domains/site.example geelooy/apps/drive/test/domainapi.test.mjs test /api/social/drive/asdf/browser/fetch geelooy/os/test/awtsmoosbrowsermerkavaproxytransport.test.mjs test /api/social/drive/asdf/browser/jars geelooy/os/test/awtsmoosbrowserproxyclient.test.mjs test /api/social/drive/asdf/browser/jars/main geelooy/os/test/awtsmoosbrowserproxyclient.test.mjs test /api/social/drive/asdf/browser/sessions/ibs 123/targets/target 1/cookies geelooy/os/test/awtsmoosbrowserinteractiveclient.test.mjs test /api/social/drive/asdf/browser/sessions/ibs 123/targets/target%201/navigate geelooy/os/test/awtsmoosbrowserinteractiveclient.test.mjs test /api/social/drive/my%20alias/browser/fetch geelooy/os/test/awtsmoosbrowserproxyclient.test.mjs test /api/social/drive/my%20alias/sites geelooy/drive/test/sitemappingclient.test.mjs test /api/social/drive/my%20alias/sites/docs/runtime geelooy/drive/test/siteruntimeclient.test.mjs test /api/social/editor/posts/drafts geelooy/post editor/modules/api.js runtime /api/social/editor/posts/drafts geelooy/post editor/test/posteditorroutecontract.test.mjs test /api/social/editor/posts/drafts/publish geelooy/post editor/modules/api.js runtime /api/social/embeds/code app manifest geelooy/heichelos/social/test/socialhypergraphcontract.test.mjs test /api/social/embeds/iframe app geelooy/heichelos/social/test/socialhypergraphcontract.test.mjs test /api/social/entities/batch geelooy/shared/social/api/socialkernelapi.js runtime /api/social/entities/universe?type=post geelooy/entity view/app.js runtime /api/social/entities/universe/${state.type}/${state.id} geelooy/entity view/app.js runtime /api/social/entities/universe/${state.type}/${state.id}/children geelooy/entity view/app.js runtime /api/social/entities/universe/${state.type}/${state.id}/dna geelooy/entity view/app.js runtime /api/social/entities/universe/${state.type}/${state.id}/edges geelooy/entity view/app.js runtime /api/social/entities/universe/${state.type}/${state.id}/fork geelooy/entity view/app.js runtime /api/social/entities/universe/${state.type}/${state.id}/snapshot geelooy/entity view/app.js runtime /api/social/entity geelooy/shared/social/api/socialkernelapi.js runtime /api/social/entity/action/preview geelooy/shared/social/api/socialkernelapi.js runtime /api/social/entity/capabilities geelooy/shared/social/api/socialkernelapi.js runtime /api/social/entity/relations geelooy/shared/social/api/socialkernelapi.js runtime /api/social/federation/import geelooy/heichelos/heichel/modules/test/platformopsapi.test.mjs test /api/social/feed?limit=12 geelooy/social hub/tests/socialapiv2.test.mjs test /api/social/feed?page=2 geelooy/heichelos/social/test/socialapicontract.test.mjs test /api/social/feed/home geelooy/heichelos/heichel/modules/test/sociallivesmoke.test.mjs test /api/social/feed/home geelooy/tests/home search repair/apifixture.mjs test /api/social/feed/home geelooy/tests/premium visual/homeapifixture.mjs test /api/social/feed/home?limit=6 geelooy/os/social/socialpanel.js runtime /api/social/feed/trending geelooy/heichelos/heichel/modules/test/sociallivesmoke.test.mjs test /api/social/feed/trending?limit=3 geelooy/scripts/awtsmoos/social/hub/api.js runtime /api/social/feed/trending?limit=8 geelooy/scripts/awtsmoos/social/hub/api.js runtime /api/social/followers/alias/alice?limit=12 geelooy/social hub/tests/socialrelationshipsapi.test.mjs test /api/social/follows/alice?limit=12 geelooy/social hub/tests/socialrelationshipsapi.test.mjs test /api/social/follows/viewer geelooy/social hub/tests/socialrelationshipsapi.test.mjs test /api/social/graph?heichel=h1 geelooy/heichelos/social/test/socialapicontract.test.mjs test /api/social/graph/references geelooy/heichelos/heichel/modules/test/browserapirequestshapes.test.mjs test /api/social/heichelactions/generateheichelid geelooy/scripts/awtsmoos/social/addnewbtn.js runtime /api/social/heichelos/ geelooy/scripts/awtsmoos/social/feed/realikarfeedcontract.test.mjs test /api/social/heichelos/${config.heichelid}/invites geelooy/heichel editor/modules/forms/inviteform.js runtime /api/social/heichelos/${config.heichelid}/posts/${config.postid} geelooy/comment thread/modules/api.js runtime /api/social/heichelos/${config.heichelid}/posts/${config.postid}/comment tree${suffix} geelooy/comment thread/modules/api.js runtime /api/social/heichelos/${config.heichelid}/submissions/full geelooy/heichel editor/modules/forms/submissionform.js runtime /api/social/heichelos/${heichel}/series/${seriesid}/breadcrumb geelooy/heichelos/post/logic/api.js runtime /api/social/heichelos/${heichel}/series/${seriesid}/details geelooy/heichelos/post/logic/api.js runtime /api/social/heichelos/${heichel}/series/${seriesid}/post/${postid} geelooy/heichelos/post/logic/api.js runtime /api/social/heichelos/${heichelid}/${endpointtype} geelooy/heichelos/ awtsmoos.derech.js runtime /api/social/heichelos/${heichelid}/post/${postid}/comments/ geelooy/heichelos/post/ai/chat/save.js runtime /api/social/heichelos/${heichelid}/post/${postid}/comments/ geelooy/heichelos/post/comments/render/ai/input/branch.js runtime /api/social/heichelos/${heichelid}/post/${postid}/comments/ geelooy/heichelos/post/comments/render/ai/input/terminal.js runtime /api/social/heichelos/${heichelid}/posts/details?${params} geelooy/heichelos/heichel/logic/heichelapi.js runtime /api/social/heichelos/${heichelid}/series/${series}/breadcrumb geelooy/heichelos/heichel/logic/heichelapi.js runtime /api/social/heichelos/${heichelid}/series/${series}/details geelooy/heichelos/heichel/logic/heichelapi.js runtime /api/social/heichelos/${heichelid}/series/${seriesid}/details geelooy/heichelos/heichel/logic/heichelapi.js runtime /api/social/heichelos/${id} geelooy/heichelos/heichel/logic/heichelapi.js runtime /api/social/heichelos/${safeheichel}/post/${safepostid} geelooy/heichelos/post/logic/core.js runtime /api/social/heichelos/${safeheichel}/series/${safeseries}/breadcrumb geelooy/heichelos/post/logic/core.js runtime /api/social/heichelos/${safeheichel}/series/${safeseries}/details geelooy/heichelos/post/logic/core.js runtime /api/social/heichelos/${vars.heichel} geelooy/heichelos/ awtsmoos.derech.js runtime /api/social/heichelos/${window.post?.heichel?.id}/posts/${window.post?.id}/comment tree geelooy/heichelos/post/commentsection/submit.js runtime /api/social/heichelos/${window.post?.heichel?.id}/submittedcomments/${action} geelooy/heichelos/post/comments/panel/approvals/data.js runtime /api/social/heichelos/${window.post.heichel.id}/post/${window.post.id}/comments/ geelooy/heichelos/post/ai/api.js runtime /api/social/heichelos/${window.post.heichel.id}/post/${window.post.id}/comments/ geelooy/heichelos/post/comments/actions/media.js runtime /api/social/heichelos/${window.post.heichel.id}/post/${window.post.id}/comments/ geelooy/heichelos/post/comments/actions/reply.js runtime /api/social/heichelos/beit%20alpha/posts/details?seriesid=torah%2fweekly geelooy/social hub/js/api/communitycapabilities.test.mjs test /api/social/heichelos/discover?limit=100 geelooy/heichelos/ awtsmoos.index.html runtime /api/social/heichelos/discover?limit=3 geelooy/scripts/awtsmoos/social/hub/api.js runtime /api/social/heichelos/h%201/posts/p1/comment tree geelooy/heichelos/heichel/modules/test/browserapirequestshapes.test.mjs test /api/social/heichelos/h%201/posts/p1/comment tree? geelooy/heichelos/heichel/modules/test/browserapirequestshapes.test.mjs test /api/social/heichelos/h%201/posts/p1/comments/c1/replies geelooy/heichelos/heichel/modules/test/browserapirequestshapes.test.mjs test /api/social/heichelos/ikar/series/%d7%aa%d7%a9%d7%a8%d7%99 meluket/post/post%2fone/translations geelooy/heichelos/post/test/translationalignment.test.mjs test /api/social/heichelos/ikar/series/root/posts/details geelooy/tests/premium visual/homeapifixture.mjs test /api/social/heichelos/searchbyaliasowner/ geelooy/heichelos/ awtsmoos.index.html runtime /api/social/heichelos/searchbyaliasowner/ geelooy/heichelos/heichel/modules/test/socialspacescontract.test.mjs test /api/social/heichelos/testheichel/roles/editors geelooy/heichelos/heichel/modules/test/sociallivesmoke.test.mjs test",
-		"page": "pages/docs-generated-api-callers-api-callers-003-md-cba76466fe.json"
+		"excerpt": "B\"H Geelooy Revelation Architecture Product law Revelation v4 is the shared visual/interaction foundation. It supplies tokens, focus, touch, surfaces, motion, responsive behavior and reduced motion law without forcing every route into identical chrome. Shell ownership OS alone owns the desktop metaphor: windows, dock, ",
+		"searchText": "b\"h geelooy revelation architecture product law revelation v4 is the shared visual/interaction foundation. it supplies tokens, focus, touch, surfaces, motion, responsive behavior and reduced motion law without forcing every route into identical chrome. shell ownership os alone owns the desktop metaphor: windows, dock, start surface and command shell. workspace/application routes use the shared geelooy application shell exactly once. editorial, landing and reader routes may remain bespoke, but should inherit revelation foundations where useful without mounting duplicate global navigation. server rendered heichelos routes retain their real template ownership; tests must inspect awtsmoos. composition instead of pretending every route is static html. shared layers 1. geelooy/style/revelation v4/ — global design behavior and tokens. 2. geelooy/style/geelooy app/ — application shell surfaces. 3. geelooy/style/social system/ — social/editor primitives. 4. small route adapters — route identity only, not duplicate design systems. progressive disclosure primary work stays immediately visible. advanced destination, publication, infrastructure, administration and destructive controls remain reachable underneath more, details, context menus or dedicated owner surfaces. capability is hidden progressively; it is not deleted. source discipline keep new/touched source <=120 lines when practical. split by responsibility instead of compressing functions. preserve ids, data attributes and backend routes before changing presentation. prefer shared semantic tokens over duplicated hard coded design concepts. do not resurrect deprecated home/dashboard generations to satisfy obsolete witnesses. current major ownership home: bespoke landing + revelation foundation. os: desktop shell. files: os program with simple first disclosure. drive/social/composer/mail/profile/notifications/apps: shared app shell consumers. about/login: focused bespoke routes; login inherits revelation auth foundations. heichel reader: bespoke reader chrome. heichel directory/workspace/editor: server/shared ownership according to the current template composition.",
+		"page": "pages/docs-geelooy-revelation-architecture-md-fd97afabef.json"
 	},
 	{
-		"id": "docs-generated-api-callers-api-callers-004-md-2814562e6f",
-		"title": "Generated API Caller Index 241–320",
-		"sourcePath": "docs/GENERATED/API_CALLERS/api-callers-004.md",
+		"id": "docs-geelooy-route-ownership-md-18279ffd67",
+		"title": "Route Ownership",
+		"sourcePath": "docs/geelooy/ROUTE_OWNERSHIP.md",
+		"category": "Routes",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Route Ownership",
+				"anchor": "route-ownership"
+			},
+			{
+				"level": 2,
+				"text": "One route, one global shell",
+				"anchor": "one-route-one-global-shell"
+			},
+			{
+				"level": 2,
+				"text": "Verification",
+				"anchor": "verification"
+			},
+			{
+				"level": 2,
+				"text": "Server templates",
+				"anchor": "server-templates"
+			}
+		],
+		"excerpt": "B\"H Route Ownership One route, one global shell A route may have local toolbars and local navigation, but it must not mount two global Geelooy shells. The shared shell boot is an application/workspace concern, not a universal requirement. Surface Ownership / bespoke Home /os/ OS desktop shell /apps/drive/ shared app sh",
+		"searchText": "b\"h route ownership one route, one global shell a route may have local toolbars and local navigation, but it must not mount two global geelooy shells. the shared shell boot is an application/workspace concern, not a universal requirement. surface ownership / bespoke home /os/ os desktop shell /apps/drive/ shared app shell /social hub/ shared social/app shell /social composer/ focused shared composer shell /email/ shared app shell /profile/ shared app shell /notifications/ shared app shell /apps/ shared app shell /about/ bespoke editorial /login/ focused auth gate heichel directory server navigation shell heichel reader bespoke reader heichel create/editor one route appropriate shell + shared editor partials verification geelooy/style/test/remainingrouteownership.test.mjs is the executable witness for the second wave consumers. existing app quality and shell ownership tests cover the original flagship routes. server templates never infer server ownership from filenames alone. read the awtsmoos. template and its gett(...) composition. cache/query suffixes are versioning details, not separate architectures.",
+		"page": "pages/docs-geelooy-route-ownership-md-18279ffd67.json"
+	},
+	{
+		"id": "docs-geelooy-session-security-md-a0fff6d042",
+		"title": "Session and Password Security",
+		"sourcePath": "docs/geelooy/SESSION_SECURITY.md",
+		"category": "Security",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Session and Password Security",
+				"anchor": "session-and-password-security"
+			},
+			{
+				"level": 2,
+				"text": "Session model",
+				"anchor": "session-model"
+			},
+			{
+				"level": 2,
+				"text": "Lifetime policy",
+				"anchor": "lifetime-policy"
+			},
+			{
+				"level": 2,
+				"text": "Cookie law",
+				"anchor": "cookie-law"
+			},
+			{
+				"level": 2,
+				"text": "Password storage",
+				"anchor": "password-storage"
+			},
+			{
+				"level": 2,
+				"text": "What is not claimed",
+				"anchor": "what-is-not-claimed"
+			},
+			{
+				"level": 2,
+				"text": "Executable witnesses",
+				"anchor": "executable-witnesses"
+			}
+		],
+		"excerpt": "B\"H Session and Password Security Session model awtsmoosKey remains the compatible cookie name. Tokens remain HMAC SHA256 signed and wire compatible with recent legacy sessions, but signature validity is no longer treated as infinite authorization. The canonical verifier is ayzarim/tools/auth.js. It serves both ordinar",
+		"searchText": "b\"h session and password security session model awtsmooskey remains the compatible cookie name. tokens remain hmac sha256 signed and wire compatible with recent legacy sessions, but signature validity is no longer treated as infinite authorization. the canonical verifier is ayzarim/tools/auth.js. it serves both ordinary requests and websocket/session middleware, so lifetime enforcement belongs there rather than in individual pages. lifetime policy ayzarim/tools/sessionpolicy.js enforces: one year absolute maximum session age; small future clock skew tolerance; rejection of malformed/future/expired tokens; v2 metadata with signed expiresat, version, and random sid. recent legacy tokens are accepted until the same absolute age limit. this allows migration without forcing a mass logout. cookie law login/registration cookies are expected to remain httponly, secure, samesite=lax, and path=/. logout clears the cookie with matching attributes and accepts only same site/relative redirects. password storage new account password records use a versioned scrypt v1$... representation. the verifier still understands the historic hmac sha256 password record so existing accounts can log in. do not silently bulk rewrite account records. a future lazy migration may replace a verified legacy hash only after account database update semantics are explicitly tested. what is not claimed sid is a future revocation handle; there is no proven server side per session registry yet. no tracked main login webauthn/passkey/phone key/otp implementation was found during this mission. separate drive credential crypto is not evidence that the login cookie is device bound. therefore a copied valid token can be replayed until bounded expiry unless a future session registry/device binding layer is added. executable witnesses ayzarim/tools/test/sessionsecurity.test.js ayzarim/tools/test/passwordstorage.test.js ayzarim/tools/test/servertemplatesyntax.test.js geelooy/login/test/authsurfacecontract.test.mjs",
+		"page": "pages/docs-geelooy-session-security-md-a0fff6d042.json"
+	},
+	{
+		"id": "docs-geelooy-verification-md-42e146c071",
+		"title": "Geelooy Verification",
+		"sourcePath": "docs/geelooy/VERIFICATION.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Geelooy Verification",
+				"anchor": "geelooy-verification"
+			},
+			{
+				"level": 2,
+				"text": "Runtime structure audit",
+				"anchor": "runtime-structure-audit"
+			},
+			{
+				"level": 2,
+				"text": "Visual reference capture",
+				"anchor": "visual-reference-capture"
+			},
+			{
+				"level": 2,
+				"text": "Quality audit",
+				"anchor": "quality-audit"
+			},
+			{
+				"level": 2,
+				"text": "Completion gates",
+				"anchor": "completion-gates"
+			}
+		],
+		"excerpt": "B\"H Geelooy Verification Runtime structure audit node geelooy/tools/runtime audit/cli.mjs output= The maintained auditor owns disposable Chrome targets, hard times every HTTP/WebSocket/CDP operation, navigates once per product, emulates 1440/430/375/320 widths, checks overflow/required selectors/runtime/local network f",
+		"searchText": "b\"h geelooy verification runtime structure audit node geelooy/tools/runtime audit/cli.mjs output= the maintained auditor owns disposable chrome targets, hard times every http/websocket/cdp operation, navigates once per product, emulates 1440/430/375/320 widths, checks overflow/required selectors/runtime/local network failures, verifies reduced motion emulation, and classifies infrastructure failures separately from product failures. use product=mail or another configured name for isolated diagnosis. visual reference capture node geelooy/tools/runtime audit/visualcli.mjs output= this creates reference pngs for configured products/viewports plus a json manifest. these are review artifacts, not brittle pixel perfect release blockers. quality audit node geelooy/tools/quality audit/cli.mjs output= the quality audit uses tracked source and excludes protected user work. it reports: source line/compression risks; selected css performance/scroll risks; apparently unreferenced generation candidates. reference findings are review candidates, never automatic deletion commands. before deleting a generation, verify css imports, html/script references, server template composition and runtime ownership. completion gates 1. focused tests for changed behavior; 2. affected broad suites; 3. js/template syntax witnesses; 4. import graph/style budget; 5. git diff check; 6. no mission temp remnants; 7. http route health; 8. runtime audit; 9. protected path overlap review; 10. final plan vs actual and handoff records.",
+		"page": "pages/docs-geelooy-verification-md-42e146c071.json"
+	},
+	{
+		"id": "docs-generated-api-caller-index-md-ff07dce14c",
+		"title": "Generated API Caller Index",
+		"sourcePath": "docs/GENERATED/API_CALLER_INDEX.md",
 		"category": "General",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Generated API Caller Index 241–320",
-				"anchor": "generated-api-caller-index-241-320"
+				"text": "Generated API Caller Index",
+				"anchor": "generated-api-caller-index"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Generated API Caller Index 241–320 Literal /api/ references found outside the API source tree; test callers are labeled. API literal Caller source Kind /api/social/heichelos/testHeichel/roles/moderators geelooy/heichelos/heichel/modules/test/socialLiveSmoke.test.mjs test /api/social/heic",
-		"searchText": "b\"h boruch hashem blessed is he generated api caller index 241–320 literal /api/ references found outside the api source tree; test callers are labeled. api literal caller source kind /api/social/heichelos/testheichel/roles/moderators geelooy/heichelos/heichel/modules/test/sociallivesmoke.test.mjs test /api/social/heichelos/testheichel/series/root/details geelooy/heichelos/heichel/modules/test/sociallivesmoke.test.mjs test /api/social/heichelos/testheichel/settings/submissions geelooy/heichelos/heichel/modules/test/sociallivesmoke.test.mjs test /api/social/heichelos/testheichel/submittedposts geelooy/heichelos/heichel/modules/test/sociallivesmoke.test.mjs test /api/social/live/presence geelooy/scripts/awtsmoos/social/hub/api.js runtime /api/social/live/publish geelooy/scripts/awtsmoos/social/hub/api.js runtime /api/social/live/subscribe geelooy/scripts/awtsmoos/social/hub/api.js runtime /api/social/mail geelooy/email/network.js runtime /api/social/mail/sendto geelooy/scripts/awtsmoos/social/shared/inlinemessaging.js runtime /api/social/mail/sendto geelooy/scripts/awtsmoos/social/test/inlinemessagingcontract.test.mjs test /api/social/media/aud%201/audio manifest geelooy/heichelos/social/test/socialhypergraphcontract.test.mjs test /api/social/media/aud%201/waveform geelooy/heichelos/social/test/socialhypergraphcontract.test.mjs test /api/social/media/show%201/slideshow manifest geelooy/heichelos/social/test/socialhypergraphcontract.test.mjs test /api/social/meta geelooy/scripts/awtsmoos/social/hub/api.js runtime /api/social/migrations/meta/metadata geelooy/.awtsmoos agent transfer/social future 20260821 v2/verified stage/social/migrate/js/publish/migrationapi.js runtime /api/social/migrations/meta/metadata geelooy/social/migrate/js/publish/migrationapi.js runtime /api/social/migrations/meta/plan geelooy/.awtsmoos agent transfer/social future 20260821 v2/verified stage/api/social/helper/migrations/meta/metamigrationcapabilities.js runtime /api/social/migrations/meta/plan geelooy/.awtsmoos agent transfer/social future 20260821 v2/verified stage/social/migrate/js/publish/migrationapi.js runtime /api/social/migrations/meta/plan geelooy/social/migrate/js/publish/migrationapi.js runtime /api/social/migrations/meta/preflight geelooy/.awtsmoos agent transfer/social future 20260821 v2/verified stage/api/social/helper/migrations/meta/metamigrationcapabilities.js runtime /api/social/migrations/meta/preflight geelooy/.awtsmoos agent transfer/social future 20260821 v2/verified stage/social/migrate/js/publish/migrationapi.js runtime /api/social/migrations/meta/preflight geelooy/social/migrate/js/publish/migrationapi.js runtime /api/social/migrations/posts/v2/dryrun? geelooy/heichelos/heichel/modules/test/platformopsapi.test.mjs test /api/social/migrations/posts/v2/dryrun? geelooy/heichelos/heichel/modules/test/platformpanelnodesimulation.test.mjs test /api/social/migrations/posts/v2/run geelooy/heichelos/heichel/modules/test/platformopsapi.test.mjs test /api/social/mod/queues geelooy/heichelos/heichel/modules/test/platformopsapi.test.mjs test /api/social/mod/queues geelooy/heichelos/heichel/modules/test/platformpanelnodesimulation.test.mjs test /api/social/notifications geelooy/notifications/script.js runtime /api/social/notifications?unread=true geelooy/heichelos/social/test/socialapicontract.test.mjs test /api/social/notifications/a?includeread=yes geelooy/heichelos/heichel/modules/test/browserapirequestshapes.test.mjs test /api/social/notifications/a/n1/read geelooy/heichelos/heichel/modules/test/browserapirequestshapes.test.mjs test /api/social/notifications/a/unread/count geelooy/heichelos/heichel/modules/test/browserapirequestshapes.test.mjs test /api/social/notifications/alice?includeread=no geelooy/heichelos/heichel/modules/test/notificationspanelnodesimulation.test.mjs test /api/social/notifications/alice/n1/read geelooy/heichelos/heichel/modules/test/notificationspanelnodesimulation.test.mjs test /api/social/notifications/alice/poll?since=0 geelooy/heichelos/heichel/modules/test/notificationspanelnodesimulation.test.mjs test /api/social/notifications/b geelooy/heichelos/heichel/modules/test/browserapirequestshapes.test.mjs test /api/social/notifications/b/poll?since=9 geelooy/heichelos/heichel/modules/test/browserapirequestshapes.test.mjs test /api/social/notifications/fanout geelooy/heichelos/heichel/modules/test/browserapirequestshapes.test.mjs test /api/social/notifications/testalias geelooy/heichelos/heichel/modules/test/sociallivesmoke.test.mjs test /api/social/notifications/testalias/poll geelooy/heichelos/heichel/modules/test/sociallivesmoke.test.mjs test /api/social/notifications/testalias/unread/count geelooy/heichelos/heichel/modules/test/sociallivesmoke.test.mjs test /api/social/objects/types geelooy/apps/code/js/civilization/client.js runtime /api/social/objects/types geelooy/os/civilization/client.js runtime /api/social/openapi.json geelooy/scripts/awtsmoos/social/hub/api.js runtime /api/social/packed/snapshot geelooy/heichelos/heichel/modules/test/sociallivesmoke.test.mjs test /api/social/packed/stats geelooy/heichelos/heichel/modules/test/platformpanelnodesimulation.test.mjs test /api/social/packed/stats geelooy/heichelos/heichel/modules/test/sociallivesmoke.test.mjs test /api/social/people?q=teacher&page=2&limit=12 geelooy/social hub/tests/peoplediscovery.test.mjs test /api/social/permissions/compile geelooy/heichelos/heichel/modules/test/platformopsapi.test.mjs test /api/social/posts/post%201/attachments geelooy/heichelos/social/test/socialhypergraphcontract.test.mjs test /api/social/posts/post%201/copy to series geelooy/heichelos/social/test/socialhypergraphcontract.test.mjs test /api/social/posts/post%201/reference graph geelooy/heichelos/social/test/socialhypergraphcontract.test.mjs test /api/social/posts/post%201/remix to series geelooy/heichelos/social/test/socialhypergraphcontract.test.mjs test /api/social/posts/post%201/source scan?lang=he geelooy/heichelos/social/test/socialhypergraphcontract.test.mjs test /api/social/posts/post%201/verse scan?range=1 3 geelooy/heichelos/social/test/socialhypergraphcontract.test.mjs test /api/social/posts/post%20one geelooy/heichelos/social/test/socialapicontract.test.mjs test /api/social/posts/post%20one/comments geelooy/heichelos/social/test/socialapicontract.test.mjs test /api/social/posts/post%20one/comments?depth=2 geelooy/heichelos/social/test/socialapicontract.test.mjs test /api/social/profiles/alias%20one/activity?since=now geelooy/heichelos/social/test/socialapicontract.test.mjs test /api/social/profiles/alias%20one/comments?cursor=c1 geelooy/heichelos/social/test/socialapicontract.test.mjs test /api/social/profiles/alias%20one/posts?cursor=p1 geelooy/heichelos/social/test/socialapicontract.test.mjs test /api/social/profiles/alice/living card geelooy/social hub/tests/socialrelationshipsapi.test.mjs test /api/social/profiles/living alias geelooy/social hub/tests/socialapiv2.test.mjs test /api/social/questions geelooy/heichelos/social/test/socialhypergraphcontract.test.mjs test /api/social/questions/question%201/answers geelooy/heichelos/social/test/socialhypergraphcontract.test.mjs test /api/social/relationships/a? geelooy/heichelos/heichel/modules/test/platformopsapi.test.mjs test /api/social/relationships/a/follow/b geelooy/heichelos/heichel/modules/test/platformopsapi.test.mjs test /api/social/search/exact/hebrew geelooy/heichelos/post/functions/ui/context/relatedsearchapi.test.mjs test /api/social/search/exact/hebrew?${parameters} geelooy/mawgawl/sefarim/exactapi.js runtime /api/social/search/exact/hebrew?${values} geelooy/heichelos/post/functions/ui/context/relatedsearchapi.js runtime /api/social/search/library/query geelooy/heichelos/post/functions/ui/context/relatedsearchapi.test.mjs test /api/social/search/library/query geelooy/mawgawl/sefarim/searchapiboundedcomments.test.mjs test /api/social/search/library/query geelooy/tests/home search repair/apifixture.mjs test /api/social/search/library/query?${parameters} geelooy/mawgawl/sefarim/searchlibraryrequest.js runtime /api/social/search/library/query?${values} geelooy/heichelos/post/functions/ui/context/relatedsearchapi.js runtime /api/social/search/library/shards geelooy/mawgawl/sefarim/searchapi.js runtime /api/social/search/library/shards geelooy/tests/home search repair/apifixture.mjs test /api/social/search/rag/post comments?${params} geelooy/heichelos/post/comments/logic/inlinemanifest/bulkloader.js runtime /api/social/search/semantic? geelooy/heichelos/heichel/modules/test/browserapirequestshapes.test.mjs test /api/social/search/tanach/hebrew geelooy/heichelos/post/functions/ui/context/relatedsearchapi.test.mjs test",
-		"page": "pages/docs-generated-api-callers-api-callers-004-md-2814562e6f.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated API Caller Index Literal /api/ references found outside the API source tree; test callers are labeled. 701 rows. Chunk Rows Count api callers 001.md 1–80 80 api callers 002.md 81–160 80 api callers 003.md 161–240 80 api callers 004.md 241–320 80 api callers 005.md 321–400 80 ap",
+		"searchText": "b\"h boruch hashem blessed is he generated api caller index literal /api/ references found outside the api source tree; test callers are labeled. 701 rows. chunk rows count api callers 001.md 1–80 80 api callers 002.md 81–160 80 api callers 003.md 161–240 80 api callers 004.md 241–320 80 api callers 005.md 321–400 80 api callers 006.md 401–480 80 api callers 007.md 481–560 80 api callers 008.md 561–640 80 api callers 009.md 641–701 61",
+		"page": "pages/docs-generated-api-caller-index-md-ff07dce14c.json"
 	}
 ]

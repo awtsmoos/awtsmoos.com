@@ -196,22 +196,5 @@
 		"excerpt": "B\"H Boruch Hashem Blessed is He The Awtsmoos renews every logical path while Awtsmoos.com keeps the contract visible and exact. Awtsmoos Drive and self hosted public hosting Awtsmoos Drive replaces Firebase Hosting and Google Drive dependencies with one repository native service. It provides authenticated logical file ",
 		"searchText": "b\"h boruch hashem blessed is he the awtsmoos renews every logical path while awtsmoos.com keeps the contract visible and exact. awtsmoos drive and self hosted public hosting awtsmoos drive replaces firebase hosting and google drive dependencies with one repository native service. it provides authenticated logical file management, content addressed object deduplication, public http delivery, migration tooling, reconciliation, quotas, a browser manager, and bounded raw streaming uploads. documents architecture and security operations, migration, rollback, and recovery api examples openapi catalog core contracts logical entries live in one alias scoped state document; physical objects are sha 256 addressed files. multiple logical files may reference one immutable physical object. private entries never disclose existence through the public route. missing and private public requests use safe, non cacheable responses. public files support get, head, byte ranges, etag, last modified, conditional 304 responses, and cors. mutable names use revalidation caching. immutable caching requires an explicit immutable policy or content addressed naming. the raw streaming route is bounded streaming , not arbitrary size ingestion. it requires content length, enforces the configured 512 mib single file quota, uses backpressure and incremental hashing, and never buffers the complete object in application memory. verified implementation surfaces contract source tests entry crud geelooy/api/social/helper/drive/routes/entryroutes.js geelooy/api/social/helper/drive/test/drivehttp.test.js move, copy, trash, restore, purge routes/actionroutes.js, movecopyservice.js, trashservice.js drive top level test suite public hosting routes/publicroutes.js, publicreadservice.js test/public .test.js, subset http verification bounded streaming routes/streamingroutes.js, streaminguploadservice.js streamingupload.test.js, streamingfailure.test.js, streamingbodybypass.test.js authentication and scopes authorization.js, credentialservice.js authentication and provisioning tests quotas and rate limits quotapolicy.js, usageservice.js, ratepolicy.js quota and rate tests migration and receipts migration/ test/migration/ reconciliation reconciliationservice.js reconciliation tests and operational report manager ui geelooy/apps/drive/, routes/managerroutes.js manager route, client contract, and browser reports known limitation the json entry write route accepts base64 content and therefore buffers that request. use the raw streaming put route for bounded large file ingestion. the configured maximum single file is 512 mib. removing that limit without changing quota policy is unsupported.",
 		"page": "pages/docs-drive-readme-md-65360eae3b.json"
-	},
-	{
-		"id": "docs-generated-api-caller-index-md-ff07dce14c",
-		"title": "Generated API Caller Index",
-		"sourcePath": "docs/GENERATED/API_CALLER_INDEX.md",
-		"category": "General",
-		"provenance": "generated",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Generated API Caller Index",
-				"anchor": "generated-api-caller-index"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Generated API Caller Index Literal /api/ references found outside the API source tree; test callers are labeled. 475 rows. Chunk Rows Count api callers 001.md 1–80 80 api callers 002.md 81–160 80 api callers 003.md 161–240 80 api callers 004.md 241–320 80 api callers 005.md 321–400 80 ap",
-		"searchText": "b\"h boruch hashem blessed is he generated api caller index literal /api/ references found outside the api source tree; test callers are labeled. 475 rows. chunk rows count api callers 001.md 1–80 80 api callers 002.md 81–160 80 api callers 003.md 161–240 80 api callers 004.md 241–320 80 api callers 005.md 321–400 80 api callers 006.md 401–475 75",
-		"page": "pages/docs-generated-api-caller-index-md-ff07dce14c.json"
 	}
 ]

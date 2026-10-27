@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-eacd208a3d",
+	"title": "Release truth and plugin integration gates",
+	"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/RELEASE_AND_INTEGRATION_GATES.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 2,
+			"text": "Current tunnel integration takes precedence",
+			"anchor": "current-tunnel-integration-takes-precedence"
+		},
+		{
+			"level": 1,
+			"text": "Release truth and plugin integration gates",
+			"anchor": "release-truth-and-plugin-integration-gates"
+		},
+		{
+			"level": 2,
+			"text": "Deployment stages",
+			"anchor": "deployment-stages"
+		},
+		{
+			"level": 2,
+			"text": "Plugin quality",
+			"anchor": "plugin-quality"
+		},
+		{
+			"level": 2,
+			"text": "Stop or continue",
+			"anchor": "stop-or-continue"
+		},
+		{
+			"level": 2,
+			"text": "Native tunnel implementation checks",
+			"anchor": "native-tunnel-implementation-checks"
+		},
+		{
+			"level": 2,
+			"text": "Deeper execution and recovery rules",
+			"anchor": "deeper-execution-and-recovery-rules"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-eacd208a3d-001.json"
+	]
+}

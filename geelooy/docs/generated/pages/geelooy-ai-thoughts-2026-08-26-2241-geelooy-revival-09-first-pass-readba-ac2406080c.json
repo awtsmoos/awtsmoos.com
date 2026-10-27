@@ -1,0 +1,74 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-26-2241-geelooy-revival-09-first-pass-readba-ac2406080c",
+	"title": "First Pass Readback and Delta",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-26-2241-geelooy-revival/09_FIRST_PASS_READBACK_AND_DELTA.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "First Pass Readback and Delta",
+			"anchor": "first-pass-readback-and-delta"
+		},
+		{
+			"level": 2,
+			"text": "Original Plan — Complete Reconstruction Promises",
+			"anchor": "original-plan-complete-reconstruction-promises"
+		},
+		{
+			"level": 2,
+			"text": "What The First Pass Actually Wrote",
+			"anchor": "what-the-first-pass-actually-wrote"
+		},
+		{
+			"level": 2,
+			"text": "Direct Line-Census Evidence",
+			"anchor": "direct-line-census-evidence"
+		},
+		{
+			"level": 2,
+			"text": "DELTA — What The Readback Found Missing",
+			"anchor": "delta-what-the-readback-found-missing"
+		},
+		{
+			"level": 3,
+			"text": "Delta 1 — HTML readability",
+			"anchor": "delta-1-html-readability"
+		},
+		{
+			"level": 3,
+			"text": "Delta 2 — Explicit focus-visible proof",
+			"anchor": "delta-2-explicit-focus-visible-proof"
+		},
+		{
+			"level": 3,
+			"text": "Delta 3 — Mobile import cache boundary",
+			"anchor": "delta-3-mobile-import-cache-boundary"
+		},
+		{
+			"level": 3,
+			"text": "Delta 4 — Dead mobile selectors created by the new markup",
+			"anchor": "delta-4-dead-mobile-selectors-created-by-the-new-markup"
+		},
+		{
+			"level": 2,
+			"text": "Second-Pass Production Write Set",
+			"anchor": "second-pass-production-write-set"
+		},
+		{
+			"level": 2,
+			"text": "Second-Pass Completion Prompt",
+			"anchor": "second-pass-completion-prompt"
+		},
+		{
+			"level": 2,
+			"text": "NEXTACTION",
+			"anchor": "nextaction"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-26-2241-geelooy-revival-09-first-pass-readba-ac2406080c-001.json"
+	]
+}

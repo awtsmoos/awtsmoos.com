@@ -48,6 +48,7 @@ Manual Markdown pages outside the generated tree, with title, line count, and re
 | docs/DEVELOPMENT/DOCUMENTATION_WORKFLOW.md | Documentation Workflow | 65 | 0 |
 | docs/DEVELOPMENT/README.md | Development and Contribution Guide | 39 | 6 |
 | docs/DIRECTORY_ATLAS.md | Directory Atlas | 50 | 1 |
+| docs/FASTER_IMPORT_DESIGN.md | B"H — Faster Future Import Path: Bottleneck Analysis + Design | 180 | 0 |
 | docs/GLOSSARY.md | Repository Glossary | 61 | 1 |
 | docs/HEALTH.md | Source and API Health Evidence | 47 | 1 |
 | docs/HOW_TO_CHOOSE_A_PROJECT.md | How to Choose a Project Boundary | 42 | 0 |
@@ -69,12 +70,11 @@ Manual Markdown pages outside the generated tree, with title, line count, and re
 | docs/LEARN/WEBSOCKETS_101.md | WebSockets 101 | 40 | 3 |
 | docs/MAINTAINING_THE_DOCS.md | Maintaining the Documentation | 45 | 0 |
 | docs/OPERATIONS_AND_TOOLING.md | Operations, Scripts, Tools and Tests | 40 | 0 |
-| docs/PROJECTS/AWTSMOOS_AI.md | Awtsmoos AI | 37 | 0 |
-| docs/PROJECTS/CODE.md | Awtsmoos Code | 38 | 0 |
-| docs/PROJECTS/DOSDB.md | DosDB Project | 42 | 0 |
-| docs/PROJECTS/GAMES_PLATFORM.md | Games and Simulation Platform | 38 | 0 |
-| docs/PROJECTS/MITZVAH_WORLD.md | Mitzvah World | 53 | 0 |
-| docs/PROJECTS/README.md | Awtsmoos.com Project Guide | 51 | 9 |
-| docs/PROJECTS/RUNTIME_SERVER.md | Awtsmoos Dynamic Server | 47 | 0 |
-| docs/PROJECTS/SOCIAL_PLATFORM.md | Social and Heichel Platform | 40 | 0 |
-| docs/PROJECTS/TUNNEL_PLATFORM.md | Tunnel Platform | 37 | 0 |
+| docs/PLANS/AWTSMOOS_CLOUD/BUSINESS_AND_AWS_REPLACEMENT.md | Business and AWS-Replacement Strategy | 47 | 0 |
+| docs/PLANS/AWTSMOOS_CLOUD/CURRENT_STATE.md | Current State | 50 | 0 |
+| docs/PLANS/AWTSMOOS_CLOUD/PHASE_00_LOAD_AND_AI_CREATE.md | Phase 00 — Load Truth + Ask AI To Create Here | 63 | 0 |
+| docs/PLANS/AWTSMOOS_CLOUD/PHASE_01_DEPLOYMENTS.md | Phase 01 — Immutable Hosting Deployments | 52 | 0 |
+| docs/PLANS/AWTSMOOS_CLOUD/PHASE_02_PROMPT_PUBLISH.md | Phase 02 — One Prompt to a Production Website or App | 40 | 0 |
+| docs/PLANS/AWTSMOOS_CLOUD/PHASE_03_CLOUD_PRIMITIVES.md | Phase 03 — Cloud Primitives | 41 | 0 |
+| docs/PLANS/AWTSMOOS_CLOUD/PHASE_04_OS_TUNNEL.md | Phase 04 — Geelooy OS and Tunnel Control Plane | 35 | 0 |
+| docs/PLANS/AWTSMOOS_CLOUD/PHASE_05_COMMERCE_SCALE.md | Phase 05 — Commerce, Security, Observability, and Scale | 41 | 0 |

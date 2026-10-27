@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-01-1150-olam-better-v2-11-release-audit-md-9c27c2df72",
+	"title": "Better V2 Release Audit",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-01-1150-olam-better-v2/11-release-audit.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Better V2 Release Audit",
+			"anchor": "better-v2-release-audit"
+		},
+		{
+			"level": 2,
+			"text": "Planned",
+			"anchor": "planned"
+		},
+		{
+			"level": 2,
+			"text": "Actual",
+			"anchor": "actual"
+		},
+		{
+			"level": 2,
+			"text": "Resolved delta",
+			"anchor": "resolved-delta"
+		},
+		{
+			"level": 2,
+			"text": "Race window",
+			"anchor": "race-window"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-01-1150-olam-better-v2-11-release-audit-md-9c27c2df72-001.json"
+	]
+}

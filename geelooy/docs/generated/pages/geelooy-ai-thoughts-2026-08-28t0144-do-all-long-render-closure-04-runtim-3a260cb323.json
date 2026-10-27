@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-28t0144-do-all-long-render-closure-04-runtim-3a260cb323",
+	"title": "Runtime Discovery — Frame Six Reveals Flush Reuse Failure",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0144-do-all-long-render-closure/04_RUNTIME_DISCOVERY_FRAME6.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Runtime Discovery — Frame Six Reveals Flush Reuse Failure",
+			"anchor": "runtime-discovery-frame-six-reveals-flush-reuse-failure"
+		},
+		{
+			"level": 2,
+			"text": "Direct evidence",
+			"anchor": "direct-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Conclusion",
+			"anchor": "conclusion"
+		},
+		{
+			"level": 2,
+			"text": "Revised design",
+			"anchor": "revised-design"
+		},
+		{
+			"level": 2,
+			"text": "NEXTACTION",
+			"anchor": "nextaction"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-28t0144-do-all-long-render-closure-04-runtim-3a260cb323-001.json"
+	]
+}

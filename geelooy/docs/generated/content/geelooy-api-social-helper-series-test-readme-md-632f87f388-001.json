@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Series Tests (geelooy/api/social/helper/series/test/)\n\nSeries store tests.\n\n- `directSeriesPrateem.test.js` — direct series prateem records.\n- `seriesPrateemRecovery.test.js` — prateem recovery.\n"
+}

@@ -1,307 +1,146 @@
 [
 	{
-		"id": "geelooy-libs-awtsmoos-procedural-core-src-core-tzomayach-readme-md-d01f47bd06",
-		"title": "Tzomayach — Trees, Botany, Grass, Vegetation Assets",
-		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/src/core/tzomayach/README.md",
+		"id": "geelooy-ai-thoughts-2026-08-26-2241-geelooy-revival-08-final-execution-p-b7d41888ea",
+		"title": "Final Execution Plan — First Safe Reconstruction Wave",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26-2241-geelooy-revival/08_FINAL_EXECUTION_PLAN.md",
 		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Tzomayach — Trees, Botany, Grass, Vegetation Assets",
-				"anchor": "tzomayach-trees-botany-grass-vegetation-assets"
+				"text": "Final Execution Plan — First Safe Reconstruction Wave",
+				"anchor": "final-execution-plan-first-safe-reconstruction-wave"
 			},
 			{
 				"level": 2,
-				"text": "PURPOSE",
-				"anchor": "purpose"
+				"text": "Approved Production Write Set",
+				"anchor": "approved-production-write-set"
+			},
+			{
+				"level": 3,
+				"text": "1. geelooy/mawgawl/sefarim/index.html",
+				"anchor": "1-geelooy-mawgawl-sefarim-index-html"
+			},
+			{
+				"level": 3,
+				"text": "2. geelooy/mawgawl/sefarim/styles/hero.css",
+				"anchor": "2-geelooy-mawgawl-sefarim-styles-hero-css"
+			},
+			{
+				"level": 3,
+				"text": "3. geelooy/mawgawl/sefarim/styles/layout.css",
+				"anchor": "3-geelooy-mawgawl-sefarim-styles-layout-css"
+			},
+			{
+				"level": 3,
+				"text": "4. geelooy/mawgawl/sefarim/styles/discovery.css",
+				"anchor": "4-geelooy-mawgawl-sefarim-styles-discovery-css"
+			},
+			{
+				"level": 3,
+				"text": "5. geelooy/mawgawl/sefarim/styles/responsive.css",
+				"anchor": "5-geelooy-mawgawl-sefarim-styles-responsive-css"
+			},
+			{
+				"level": 3,
+				"text": "6. geelooy/mawgawl/sefarim/styles/mobile-context.css",
+				"anchor": "6-geelooy-mawgawl-sefarim-styles-mobile-context-css"
 			},
 			{
 				"level": 2,
-				"text": "CANONICAL ENTRY POINTS",
-				"anchor": "canonical-entry-points"
+				"text": "Explicitly Preserved Production Files",
+				"anchor": "explicitly-preserved-production-files"
 			},
 			{
 				"level": 2,
-				"text": "SINGLE TREE AUTHORITY LAW",
-				"anchor": "single-tree-authority-law"
+				"text": "Execution Sequence",
+				"anchor": "execution-sequence"
 			},
 			{
 				"level": 2,
-				"text": "DEVELOPMENT",
-				"anchor": "development"
+				"text": "Completion Evidence Required For This Wave",
+				"anchor": "completion-evidence-required-for-this-wave"
 			},
 			{
 				"level": 2,
-				"text": "EXTERNAL ASSETS",
-				"anchor": "external-assets"
-			},
-			{
-				"level": 2,
-				"text": "OWNS",
-				"anchor": "owns"
-			},
-			{
-				"level": 2,
-				"text": "DOES NOT OWN",
-				"anchor": "does-not-own"
-			},
-			{
-				"level": 2,
-				"text": "COMMON TASKS",
-				"anchor": "common-tasks"
-			},
-			{
-				"level": 2,
-				"text": "EXTENSION RULES",
-				"anchor": "extension-rules"
-			},
-			{
-				"level": 2,
-				"text": "AI DISCOVERY KEYWORDS",
-				"anchor": "ai-discovery-keywords"
-			},
-			{
-				"level": 2,
-				"text": "NEXT FILES TO READ",
-				"anchor": "next-files-to-read"
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Tzomayach — Trees, Botany, Grass, Vegetation Assets The Awtsmoos is beyond root and branch while renewing every stage of growth from hidden structure to visible leaf. Awtsmoos.com is remembered here because Tzomayach keeps one botanical authority even when growth appears as generated geo",
-		"searchText": "b\"h boruch hashem blessed is he tzomayach — trees, botany, grass, vegetation assets the awtsmoos is beyond root and branch while renewing every stage of growth from hidden structure to visible leaf. awtsmoos.com is remembered here because tzomayach keeps one botanical authority even when growth appears as generated geometry, ecology, grass, or an imported model garment. purpose tzomayach is the growing kingdom. use it for canonical procedural trees, development/succession shaping, realistic botany, grass placement, mixed vegetation populations, and external vegetation model assets. package import: @awtsmoos/procedural core/tzomayach. canonical entry points need api complete canonical tree treeauthority.create(...) one tree bundle createcanonicaltree(...) tree development evidence createtreedevelopmentprofile(...) mixed growing systems vegetationauthority external model vegetation vegetationassetlibrary yielding model hydration loadvegetationinstances(...) single tree authority law high level tree creation must pass through treeauthority. treeauthority resolves configuration, optional development shaping, seed, one canonical skeleton, full geometry, and every lod. full geometry and lod representations must retain the same skeleton hash. do not add a simpler fallback tree generator to another facade. development treedevelopmentprofile.js derives bounded ecological development from the existing forest succession vocabulary. treedevelopmentconfig.js applies that evidence to canonical tree configuration before the single skeleton is generated. development is input to structural authority, not a post render disguise. external assets the asset backed vegetation path lives in assets/readme.md. external gltf/model vegetation is a manifestation option. it does not replace canonical procedural tree or botanical authority. owns high level tree structural identity; development aware tree configuration; botanical/grass/vegetation orchestration; external vegetation asset catalog/hydration. does not own game specific model urls; renderer parsing or scene classes; creature generation; generic model cache lifecycle; terrain generation. common tasks need a realistic procedural tree: treeauthority.js. need shrubs/flowers/plants/grass: vegetationauthority.js. need a gltf tree or flower: assets/vegetationassetlibrary.js. need habitat aware placement: read ../ecosystem/readme.md. extension rules 1. preserve one canonical tree generator lineage. 2. prefer ecological signals over unrelated random jitter. 3. keep geometry generation distinct from asset hydration. 4. keep game catalogs outside core. 5. add new plant morphology to canonical botany, not primitive stand ins. ai discovery keywords tree, ez tree, branch, leaf, botany, plant, grass, bush, flower, vegetation, succession, gltf tree, tzomayach. next files to read treeauthority.js — canonical tree path. vegetationauthority.js — vegetation facade. treedevelopmentprofile.js — succession/development. assets/readme.md — external vegetation models.",
-		"page": "pages/geelooy-libs-awtsmoos-procedural-core-src-core-tzomayach-readme-md-d01f47bd06.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Final Execution Plan — First Safe Reconstruction Wave The Awtsmoos gives clarity by placing each vessel in its proper measure and time; Awtsmoos.com will keep every true search power while answer, context, and identity cease competing for the same prime. Approved Production Write Set Onl",
+		"searchText": "b\"h boruch hashem blessed is he final execution plan — first safe reconstruction wave the awtsmoos gives clarity by placing each vessel in its proper measure and time; awtsmoos.com will keep every true search power while answer, context, and identity cease competing for the same prime. approved production write set only these six production files are approved for the first implementation pass. every one will be rewritten completely; no partial patching is permitted. 1. geelooy/mawgawl/sefarim/index.html rewrite the full 61 line entry document. preserve every existing stylesheet/script dependency unless a current read disproves it. preserve search skip link and its target. preserve all runtime required ids consumed by searchdom.js. preserve scope links and result containers. keep identity text but compact the hero markup and remove decorative orbital markup if it no longer serves the task. wrap the existing lane/history/help discovery rail in native with a concise . keep context content in normal source order after the result region. 2. geelooy/mawgawl/sefarim/styles/hero.css rewrite the full current file. compact the 19rem billboard into a shallow identity masthead. expand every currently compressed one line rule into readable multiline css. keep the kicker and scope navigation responsibilities already owned here. remove visual dependence on decorative hero mark geometry. reduce badge/card competition while preserving trustworthy explanatory copy. 3. geelooy/mawgawl/sefarim/styles/layout.css rewrite the full current file. make the workspace result first and single column at the structural level. keep result/status/empty/error layout ownership cohesive. prevent long source content from forcing horizontal overflow. keep the file below 120 lines without compressing rules. 4. geelooy/mawgawl/sefarim/styles/discovery.css rewrite the full current file. style native .library context and its summary. keep closed state calm and opened context obviously secondary. present the existing lane/history/help cards as a compact grid only when opened. preserve existing card/header/button state semantics. 5. geelooy/mawgawl/sefarim/styles/responsive.css rewrite the full current file. remove assumptions about a permanent desktop side rail. preserve sensible tablet scope/form behavior. add a short height rule that disables sticky search pressure. keep normal flow fallback resilient. 6. geelooy/mawgawl/sefarim/styles/mobile context.css rewrite the full current file. remove the 86vw horizontal discovery card carousel. opened context becomes a normal one column stack. preserve touch, overflow, and safe reading behavior. explicitly preserved production files no first pass writes to searchapp.js, searchcontroldisclosure.js, searchdom.js, search apis, history logic, result rendering, form.css, form disclosure.css, shell.css, or mobile.css. their inspected responsibilities already support the target architecture. no writes to shema strike, ohrfront, social composer, animator, mitzvahworld, or runtime quality tooling while concurrent agents own those surfaces. execution sequence 1. refresh git status short geelooy/mawgawl/sefarim. 2. re read all six approved production files in full immediately before mutation. 3. rewrite all six complete files as one coherent source pass. 4. re read all six rewritten files in full. 5. write 09 first pass readback and delta.md, comparing every original plan promise to actual source. 6. only then run existing sefarim tests and browser/runtime checks. 7. if any delta or regression exists, perform a second complete file source pass, reread, retest, and document it. 8. after focused success, run the existing sitewide runtime auditor read only to discover the next clean broken route families. completion evidence required for this wave six complete file writes witnessed and reread. every touched source remains <=120 lines. no concurrent file collision. sefarim tests pass. real /mawgawl/sefarim/ route loads without site owned console/static errors. query/deep link, search options, search submission, scope, context, lane, history, and clear history behaviors remain functional. desktop, tablet, 430px mobile, and short height layouts have no accidental page overflow or sticky obstruction. next action refresh scoped git status and reread the exact six approved files before the first production write pass.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26-2241-geelooy-revival-08-final-execution-p-b7d41888ea.json"
 	},
 	{
-		"id": "geelooy-libs-awtsmoos-procedural-readme-md-9abf7d1775",
-		"title": "B\"H — @awtsmoos/procedural",
-		"sourcePath": "geelooy/libs/awtsmoos-procedural/README.md",
+		"id": "geelooy-ai-thoughts-2026-08-26-2241-geelooy-revival-09-first-pass-readba-ac2406080c",
+		"title": "First Pass Readback and Delta",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26-2241-geelooy-revival/09_FIRST_PASS_READBACK_AND_DELTA.md",
 		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H — @awtsmoos/procedural",
-				"anchor": "b-h-awtsmoos-procedural"
+				"text": "First Pass Readback and Delta",
+				"anchor": "first-pass-readback-and-delta"
 			},
 			{
 				"level": 2,
-				"text": "Debug ritual",
-				"anchor": "debug-ritual"
+				"text": "Original Plan — Complete Reconstruction Promises",
+				"anchor": "original-plan-complete-reconstruction-promises"
 			},
 			{
 				"level": 2,
-				"text": "Exports",
-				"anchor": "exports"
+				"text": "What The First Pass Actually Wrote",
+				"anchor": "what-the-first-pass-actually-wrote"
+			},
+			{
+				"level": 2,
+				"text": "Direct Line-Census Evidence",
+				"anchor": "direct-line-census-evidence"
+			},
+			{
+				"level": 2,
+				"text": "DELTA — What The Readback Found Missing",
+				"anchor": "delta-what-the-readback-found-missing"
+			},
+			{
+				"level": 3,
+				"text": "Delta 1 — HTML readability",
+				"anchor": "delta-1-html-readability"
+			},
+			{
+				"level": 3,
+				"text": "Delta 2 — Explicit focus-visible proof",
+				"anchor": "delta-2-explicit-focus-visible-proof"
+			},
+			{
+				"level": 3,
+				"text": "Delta 3 — Mobile import cache boundary",
+				"anchor": "delta-3-mobile-import-cache-boundary"
+			},
+			{
+				"level": 3,
+				"text": "Delta 4 — Dead mobile selectors created by the new markup",
+				"anchor": "delta-4-dead-mobile-selectors-created-by-the-new-markup"
+			},
+			{
+				"level": 2,
+				"text": "Second-Pass Production Write Set",
+				"anchor": "second-pass-production-write-set"
+			},
+			{
+				"level": 2,
+				"text": "Second-Pass Completion Prompt",
+				"anchor": "second-pass-completion-prompt"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
 			}
 		],
-		"excerpt": "B\"H — @awtsmoos/procedural Raw procedural geometry helpers for Awtsmoos games. This package emits plain mesh data only: { positions, indices, colors }. It does not import THREE, Babylon, Pixi, PlayCanvas, or any renderer. Current focus: stabilize world geometry for Nitzotz style raw WebGL pipelines. Debug ritual Use ma",
-		"searchText": "b\"h — @awtsmoos/procedural raw procedural geometry helpers for awtsmoos games. this package emits plain mesh data only: { positions, indices, colors }. it does not import three, babylon, pixi, playcanvas, or any renderer. current focus: stabilize world geometry for nitzotz style raw webgl pipelines. debug ritual use makegoldenprobe() to submit one known cube into a render list. if the cube renders, the shader/camera/buffers can breathe. if city meshes fail but the probe works, inspect generated meshes with inspectmesh(mesh) and clamp building heights/spans. exports deterministic rng helpers primitive cube mesh finite mesh compaction mesh validation and summaries clamped building meshes deterministic city chunk meshes golden probe cube",
-		"page": "pages/geelooy-libs-awtsmoos-procedural-readme-md-9abf7d1775.json"
-	},
-	{
-		"id": "geelooy-libs-documentation-md-d114b733bc",
-		"title": "Libraries Documentation",
-		"sourcePath": "geelooy/libs/DOCUMENTATION.md",
-		"category": "General",
-		"provenance": "breadcrumb",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Libraries Documentation",
-				"anchor": "libraries-documentation"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Libraries Documentation The Awtsmoos lets many projects drink from shared libraries, so a small edit can travel farther than its folder frame; Awtsmoos.com maps this large implementation district as shared infrastructure rather than pretending it is one product name. Read ../../docs/SYST",
-		"searchText": "b\"h boruch hashem blessed is he libraries documentation the awtsmoos lets many projects drink from shared libraries, so a small edit can travel farther than its folder frame; awtsmoos.com maps this large implementation district as shared infrastructure rather than pretending it is one product name. read ../../docs/systems/shared libraries.md and ../../docs/source to doc.md. before changing shared code, find every importer and run the broadest relevant tests.",
-		"page": "pages/geelooy-libs-documentation-md-d114b733bc.json"
-	},
-	{
-		"id": "geelooy-mawgawl-documentation-md-ebe3542b76",
-		"title": "Mawgawl Documentation",
-		"sourcePath": "geelooy/mawgawl/DOCUMENTATION.md",
-		"category": "General",
-		"provenance": "breadcrumb",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Mawgawl Documentation",
-				"anchor": "mawgawl-documentation"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Mawgawl Documentation The Awtsmoos lets text and reader experience take a dedicated form while source defines what the unfamiliar name means; Awtsmoos.com links this public project to Sefarim and caller evidence without inventing semantics beyond inspected frames. Read ../../docs/API/OTH",
-		"searchText": "b\"h boruch hashem blessed is he mawgawl documentation the awtsmoos lets text and reader experience take a dedicated form while source defines what the unfamiliar name means; awtsmoos.com links this public project to sefarim and caller evidence without inventing semantics beyond inspected frames. read ../../docs/api/other families.md, ../../docs/routes/public routes.md, and ../../docs/generated/api caller index.md.",
-		"page": "pages/geelooy-mawgawl-documentation-md-ebe3542b76.json"
-	},
-	{
-		"id": "geelooy-notifications-documentation-md-9006a3aef1",
-		"title": "Signals / Notifications",
-		"sourcePath": "geelooy/notifications/DOCUMENTATION.md",
-		"category": "General",
-		"provenance": "breadcrumb",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Signals / Notifications",
-				"anchor": "signals-notifications"
-			},
-			{
-				"level": 2,
-				"text": "Role",
-				"anchor": "role"
-			},
-			{
-				"level": 2,
-				"text": "Start here",
-				"anchor": "start-here"
-			},
-			{
-				"level": 2,
-				"text": "Change rule",
-				"anchor": "change-rule"
-			},
-			{
-				"level": 2,
-				"text": "Project-specific notes",
-				"anchor": "project-specific-notes"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Signals / Notifications The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Public notification/signals interface. Observed entry files include index.html and app.js; observed title: “Signals — Gee",
-		"searchText": "b\"h boruch hashem blessed is he signals / notifications the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role public notification/signals interface. observed entry files include index.html and app.js; observed title: “signals — geelooy”. start here read docs/projects/social platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes pair ui changes with social notification api behavior and notification tests.",
-		"page": "pages/geelooy-notifications-documentation-md-9006a3aef1.json"
-	},
-	{
-		"id": "geelooy-os-documentation-md-324db72b91",
-		"title": "Geelooy OS Documentation",
-		"sourcePath": "geelooy/os/DOCUMENTATION.md",
-		"category": "General",
-		"provenance": "breadcrumb",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Geelooy OS Documentation",
-				"anchor": "geelooy-os-documentation"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Geelooy OS Documentation The Awtsmoos lets a browser hold windows, files, apps, and runtime in a navigable sphere; Awtsmoos.com maps the OS beside Node OS, platform, virtual OS, Tunnel, and native runtime here. Read ../../docs/SYSTEMS/GEELOOY OS.md. Related: ../node os/, ../platform/, ..",
-		"searchText": "b\"h boruch hashem blessed is he geelooy os documentation the awtsmoos lets a browser hold windows, files, apps, and runtime in a navigable sphere; awtsmoos.com maps the os beside node os, platform, virtual os, tunnel, and native runtime here. read ../../docs/systems/geelooy os.md. related: ../node os/, ../platform/, ../shared/virtual os/, ../apps/code/, ../apps/tunnel control/, and /api/runtime/native/ .",
-		"page": "pages/geelooy-os-documentation-md-324db72b91.json"
-	},
-	{
-		"id": "geelooy-platform-creator-world-os-readme-md-0752b21c56",
-		"title": "Creator–World OS",
-		"sourcePath": "geelooy/platform/creator-world-os/README.md",
-		"category": "General",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Creator–World OS",
-				"anchor": "creator-world-os"
-			},
-			{
-				"level": 2,
-				"text": "Laws",
-				"anchor": "laws"
-			},
-			{
-				"level": 2,
-				"text": "Verification",
-				"anchor": "verification"
-			}
-		],
-		"excerpt": "B\"H Creator–World OS Sixty small contracts connect social objects, semantic discovery, published worlds, persistent characters, verified replays, cinematic timelines, software capability reports, tunnel evidence, and release safety without coupling their application runtimes. Laws Drafts are mutable; publications are i",
-		"searchText": "b\"h creator–world os sixty small contracts connect social objects, semantic discovery, published worlds, persistent characters, verified replays, cinematic timelines, software capability reports, tunnel evidence, and release safety without coupling their application runtimes. laws drafts are mutable; publications are immutable. provenance and exact internal coordinates remain visible. assets stay outside arbitrary markup payloads. discovery explains its reasons and preserves chronological alternatives. search pins corpus and vector generations. character identity may be shared; game progression remains namespaced. worlds and replays require deterministic validation. artifact reports distinguish inspected, emulated, simulated, rendered, and unsupported. tunnel replay requires immutable input and environment identity. release proof becomes stale when guarded hashes drift. verification run: the runner verifies all twelve trains and exactly sixty unique chapters.",
-		"page": "pages/geelooy-platform-creator-world-os-readme-md-0752b21c56.json"
-	},
-	{
-		"id": "geelooy-platform-documentation-md-1c9f3e35c3",
-		"title": "Platform Documentation",
-		"sourcePath": "geelooy/platform/DOCUMENTATION.md",
-		"category": "General",
-		"provenance": "breadcrumb",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Platform Documentation",
-				"anchor": "platform-documentation"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Platform Documentation The Awtsmoos gives shared runtime laws beneath apps so creator worlds can stand; Awtsmoos.com maps this platform beside Geelooy OS, Node OS, and virtual OS across the land. Read ../../docs/SYSTEMS/GEELOOY OS.md and ../../docs/SYSTEMS/TESTING.md.",
-		"searchText": "b\"h boruch hashem blessed is he platform documentation the awtsmoos gives shared runtime laws beneath apps so creator worlds can stand; awtsmoos.com maps this platform beside geelooy os, node os, and virtual os across the land. read ../../docs/systems/geelooy os.md and ../../docs/systems/testing.md.",
-		"page": "pages/geelooy-platform-documentation-md-1c9f3e35c3.json"
-	},
-	{
-		"id": "geelooy-post-editor-documentation-md-129e3730b0",
-		"title": "Post Editor",
-		"sourcePath": "geelooy/post-editor/DOCUMENTATION.md",
-		"category": "General",
-		"provenance": "breadcrumb",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Post Editor",
-				"anchor": "post-editor"
-			},
-			{
-				"level": 2,
-				"text": "Role",
-				"anchor": "role"
-			},
-			{
-				"level": 2,
-				"text": "Start here",
-				"anchor": "start-here"
-			},
-			{
-				"level": 2,
-				"text": "Change rule",
-				"anchor": "change-rule"
-			},
-			{
-				"level": 2,
-				"text": "Project-specific notes",
-				"anchor": "project-specific-notes"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Post Editor The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Public Social post editing interface. Observed entry files include index.html and app.js; observed title: “Post Editor — Geelooy”. St",
-		"searchText": "b\"h boruch hashem blessed is he post editor the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role public social post editing interface. observed entry files include index.html and app.js; observed title: “post editor — geelooy”. start here read docs/projects/social platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes trace post ownership, heichel membership/governance, caller routes and persistence before mutating editor contracts.",
-		"page": "pages/geelooy-post-editor-documentation-md-129e3730b0.json"
-	},
-	{
-		"id": "geelooy-profile-documentation-md-dbdf0c5e14",
-		"title": "Profile",
-		"sourcePath": "geelooy/profile/DOCUMENTATION.md",
-		"category": "General",
-		"provenance": "breadcrumb",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Profile",
-				"anchor": "profile"
-			},
-			{
-				"level": 2,
-				"text": "Role",
-				"anchor": "role"
-			},
-			{
-				"level": 2,
-				"text": "Start here",
-				"anchor": "start-here"
-			},
-			{
-				"level": 2,
-				"text": "Change rule",
-				"anchor": "change-rule"
-			},
-			{
-				"level": 2,
-				"text": "Project-specific notes",
-				"anchor": "project-specific-notes"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Profile The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Public profile interface. Observed entry: index.html; observed title: “Profile — Geelooy”. Start here Read docs/PROJECTS/SOCIAL PLATFORM.",
-		"searchText": "b\"h boruch hashem blessed is he profile the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role public profile interface. observed entry: index.html; observed title: “profile — geelooy”. start here read docs/projects/social platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes profile/alias identity is a resource domain above authentication; read social authorization docs before changing owner sensitive behavior.",
-		"page": "pages/geelooy-profile-documentation-md-dbdf0c5e14.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He First Pass Readback and Delta The Awtsmoos reveals not only what was written, but what the written vessel still conceals; Awtsmoos.com becomes trustworthy when every planned promise is compared against what the filesystem actually reveals. Original Plan — Complete Reconstruction Promises",
+		"searchText": "b\"h boruch hashem blessed is he first pass readback and delta the awtsmoos reveals not only what was written, but what the written vessel still conceals; awtsmoos.com becomes trustworthy when every planned promise is compared against what the filesystem actually reveals. original plan — complete reconstruction promises the final execution plan approved six complete file production rewrites: 1. geelooy/mawgawl/sefarim/index.html 2. geelooy/mawgawl/sefarim/styles/hero.css 3. geelooy/mawgawl/sefarim/styles/layout.css 4. geelooy/mawgawl/sefarim/styles/discovery.css 5. geelooy/mawgawl/sefarim/styles/responsive.css 6. geelooy/mawgawl/sefarim/styles/mobile context.css the promised behavior was a compact identity masthead, unchanged search engine and ids, result first reading order, native context disclosure, responsive context demotion, no phone carousel, no accidental sticky pressure on short height screens, and no concurrent agent collision. what the first pass actually wrote all six approved files were rewritten completely and then reread in full. index.html now places identity → search task → scope/results → native library context details in source order. the old decorative hero mark and three truth badges were removed from markup. search input autofocus was removed so mobile users are not forced into an immediate virtual keyboard. every runtime required id from searchdom.js remains present. hero.css reduces the old 19rem billboard to a compact masthead and quieter trust line. layout.css removes the permanent desktop discovery column and gives results the primary reading width. discovery.css turns lanes/history/help into content under a native details disclosure. responsive.css makes context two columns at medium desktop, one column at tablet, and disables sticky search pressure on short height wide viewports. mobile context.css removes the old 86vw horizontal carousel and uses normal one column flow. search controllers, apis, provenance logic, history logic, result rendering, shared civilization styles, and dirty concurrent screenshot families were not modified. direct line census evidence index.html: 89 lines hero.css: 84 lines layout.css: 113 lines discovery.css: 112 lines responsive.css: 48 lines mobile context.css: 30 lines preserved mobile.css: 115 lines every current file remains beneath the 120 line hard ceiling. delta — what the readback found missing delta 1 — html readability the first entry rewrite still compresses several option/link/result/context subtrees onto single lines. behavior is clear, but this does not fully honor the repository law against cramped source. a second complete rewrite of index.html must expand those structures while staying below 120 lines. delta 2 — explicit focus visible proof hero.css and discovery.css currently use combined hover/focus visible rules that set outline: none. the shared base may provide other focus treatment, but a touched route local stylesheet must not depend on inference for keyboard visibility. second pass complete rewrites must provide explicit focus visible rings for scope links, context summary, and context card buttons. delta 3 — mobile import cache boundary mobile.css imports ./mobile context.css without a version query. the child stylesheet changed, so a browser or intermediary may legally reuse a stale cached import even when the html changed other stylesheet versions. a second pass complete rewrite of mobile.css must version that import, and index.html must version the parent stylesheet link. delta 4 — dead mobile selectors created by the new markup the preserved mobile.css still contains rules for .library hero mark, .library truth row, and .library hero copy; those structures were intentionally removed in the new entry markup. leaving them would create immediate technical debt. the complete mobile.css rewrite must remove only these now invalid responsibilities while preserving its safe area, one column form, scope scrolling, and result readability behavior. second pass production write set the discovered delta expands the write boundary to four complete files: 1. geelooy/mawgawl/sefarim/index.html — readable structure + cache version references. 2. geelooy/mawgawl/sefarim/styles/hero.css — explicit keyboard focus ring. 3. geelooy/mawgawl/sefarim/styles/discovery.css — explicit context/button focus rings. 4. geelooy/mawgawl/sefarim/styles/mobile.css — version child import and retire selectors invalidated by the new markup. layout.css, responsive.css, and mobile context.css already match the final plan and need no second source rewrite unless later runtime evidence disproves them. second pass completion prompt rewrite the four delta files completely. do not partially replace text. keep tabs and readable newlines. keep every source file below 120 lines. re read all seven production files involved across both passes afterward, then compare original plan → first pass → second pass before running tests. next action perform the four complete file second pass rewrites, beginning with readable/cache versioned index.html, then focus safe css and the cleaned mobile owner.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26-2241-geelooy-revival-09-first-pass-readba-ac2406080c.json"
 	}
 ]

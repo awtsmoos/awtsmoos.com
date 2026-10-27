@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — OAuth routes (`/api/oauth/routes/`)\n\nHTTP handlers for the authorization flows.\n\n## Key files\n\n- `authorize.js`, `authorizeRequest.js`, `authorizeView.js`, `authorizeStyles.js` — Authorization endpoint + consent UI.\n- `deviceAuthorization.js`, `deviceVerification.js`, `deviceGrant.js`, `deviceView.js`, `deviceStyles.js` — Device flow.\n- `clients.js`, `register.js` — Client management and dynamic registration.\n- `start.js`, `logout.js`, `me.js`, `metadata.js`, `table.js` — Session and discovery.\n- `agentCallback.js`, `agentHandoff.js`, `agentLinkGrant.js`, `agentLinks.js` — Agent delegation.\n"
+}

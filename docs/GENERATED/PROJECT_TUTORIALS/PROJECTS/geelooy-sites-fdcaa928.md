@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 23 | 11 | 0 | 0 | 1 | 0 | 35 |
+| 41 | 27 | 0 | 0 | 1 | 0 | 69 |
 
 ## Public entry points
 
@@ -29,18 +29,19 @@ None observed.
 
 ## Symbol evidence
 
-Source files: 23; classes: 0; functions: 90; exports: 56; samples: buildCustomDomainResponse, createCustomDomainHttpIngress, driveContext, rawRequestPath, writeGatewayResponse, customDomainHttpIngress, closeExternalHost, badPathResponse, RESERVED_SEGMENTS, assertDirectPublicPath, privatePathError, assertPublicSegment.
+Source files: 41; classes: 0; functions: 161; exports: 120; samples: buildCustomDomainResponse, createCustomDomainHttpIngress, driveContext, rawRequestPath, writeGatewayResponse, customDomainHttpIngress, closeExternalHost, badPathResponse, buildDeploymentResponse, fallbackResponse, entryResponse, RESERVED_SEGMENTS.
 
 ## Depends on
 
-- `geelooy/api/social` — 27 lexical references; examples: geelooy/sites/customDomainGateway.js; geelooy/sites/directSiteReadiness.js; geelooy/sites/directSiteResponse.js
-- `geelooy/api/tunnel` — 5 lexical references; examples: geelooy/sites/directSiteReadiness.js; geelooy/sites/hostedFolderManifest.js; geelooy/sites/siteFolderPublication.js
+- `geelooy/api/social` — 34 lexical references; examples: geelooy/sites/customDomainGateway.js; geelooy/sites/deploymentSiteResponse.js; geelooy/sites/directSiteReadiness.js
+- `geelooy/api/tunnel` — 6 lexical references; examples: geelooy/sites/directSiteReadiness.js; geelooy/sites/hostedFolderManifest.js; geelooy/sites/publicRootPublication.js
 - `ayzarim/awtsmoosDynamicServer` — 1 lexical reference; examples: geelooy/sites/hostedProjectProxy.js
+- `geelooy/api/oauth` — 1 lexical reference; examples: geelooy/sites/siteRemixReceiptCrypto.js
 
 ## Used by
 
-- `geelooy/api/social` — 1 lexical reference; examples: geelooy/api/social/helper/drive/siteStatusService.js
-- `geelooy/api/tunnel` — 1 lexical reference; examples: geelooy/api/tunnel/control/routes/fsVessel/hostedVirtualOs/sitePublicationDispatcher.js
+- `geelooy/api/tunnel` — 4 lexical references; examples: geelooy/api/tunnel/control/routes/agentManifest.js; geelooy/api/tunnel/control/routes/fsVessel/hostedVirtualOs/sitePublicationDispatcher.js
+- `geelooy/api/social` — 3 lexical references; examples: geelooy/api/social/helper/drive/siteDiscoveryRecord.js; geelooy/api/social/helper/drive/siteProjectLineage.js; geelooy/api/social/helper/drive/siteStatusService.js
 
 ## External packages
 
@@ -48,4 +49,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **11**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **27**. Treat this as file evidence, not proof of behavioral coverage.

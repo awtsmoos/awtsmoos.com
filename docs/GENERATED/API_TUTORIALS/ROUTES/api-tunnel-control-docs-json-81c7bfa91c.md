@@ -34,7 +34,7 @@ Pattern-compatible evidence only; it does not prove runtime dispatch.
 | Literal | Source | Kind |
 | --- | --- | --- |
 | `/api/tunnel/control/docs.json` | `geelooy/apps/tunnel-control/js/api/controlKeys.js` | runtime |
-| `/api/tunnel/control/docs.json` | `geelooy/apps/tunnel-control/js/shell/pageSpecs.js` | runtime |
+| `/api/tunnel/control/docs.json` | `geelooy/apps/tunnel-control/js/shell/pageSpecs/systemPages.js` | runtime |
 
 ## Related tests
 
@@ -50,8 +50,8 @@ Heuristic family matches:
 - [`/api/tunnel/control/admin-vault`](./api-tunnel-control-admin-vault-0c79867071.md)
 - [`/api/tunnel/control/admin/perutas`](./api-tunnel-control-admin-perutas-5d22edeedf.md)
 - [`/api/tunnel/control/agent-economy`](./api-tunnel-control-agent-economy-55b9aaa475.md)
+- [`/api/tunnel/control/agent-lobby`](./api-tunnel-control-agent-lobby-01f88f681b.md)
+- [`/api/tunnel/control/agent-lobby/join`](./api-tunnel-control-agent-lobby-join-6e29b3e243.md)
+- [`/api/tunnel/control/agent-lobby/post`](./api-tunnel-control-agent-lobby-post-397d4d9166.md)
 - [`/api/tunnel/control/agent-manifest`](./api-tunnel-control-agent-manifest-3d95678bf3.md)
-- [`/api/tunnel/control/api-keys`](./api-tunnel-control-api-keys-db993bf8af.md)
-- [`/api/tunnel/control/api-keys/create`](./api-tunnel-control-api-keys-create-91bd090e21.md)
-- [`/api/tunnel/control/api-keys/revoke`](./api-tunnel-control-api-keys-revoke-4d16d58e2e.md)
-- [`/api/tunnel/control/bank`](./api-tunnel-control-bank-0febb5b433.md)
+- [`/api/tunnel/control/agent-room`](./api-tunnel-control-agent-room-1f9266b1f2.md)

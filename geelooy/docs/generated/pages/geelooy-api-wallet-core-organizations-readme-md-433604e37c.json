@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-wallet-core-organizations-readme-md-433604e37c",
+	"title": "B\"H — Wallet Organizations (geelooy/api/wallet/core/organizations/)",
+	"sourcePath": "geelooy/api/wallet/core/organizations/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Wallet Organizations (geelooy/api/wallet/core/organizations/)",
+			"anchor": "b-h-wallet-organizations-geelooy-api-wallet-core-organizations"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-wallet-core-organizations-readme-md-433604e37c-001.json"
+	]
+}

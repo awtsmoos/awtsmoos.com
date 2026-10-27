@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Notifications (geelooy/api/social/helper/notifications/)\n\nNotification domain model: types, storage, mutations, queries, preferences, and mirroring.\n\n## Files\n- `NotificationModel.js`, `NotificationTypes.js` — model and notification types.\n- `NotificationMutations.js`, `NotificationQueries.js` — write/read operations.\n- `NotificationPreferences.js` — per-user preferences.\n- `NotificationMirror.js` — mirrors notifications to other stores/surfaces.\n"
+}

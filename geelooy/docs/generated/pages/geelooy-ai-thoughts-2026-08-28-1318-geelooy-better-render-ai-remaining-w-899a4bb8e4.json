@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-28-1318-geelooy-better-render-ai-remaining-w-899a4bb8e4",
+	"title": "REMAININGWORK — Better Render + AI + Release Mission",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-28-1318-geelooy-better-render-ai/REMAINING_WORK.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "REMAININGWORK — Better Render + AI + Release Mission",
+			"anchor": "remainingwork-better-render-ai-release-mission"
+		},
+		{
+			"level": 2,
+			"text": "Planning",
+			"anchor": "planning"
+		},
+		{
+			"level": 2,
+			"text": "Render Performance",
+			"anchor": "render-performance"
+		},
+		{
+			"level": 2,
+			"text": "AI Richness",
+			"anchor": "ai-richness"
+		},
+		{
+			"level": 2,
+			"text": "Repository / Release Hardening",
+			"anchor": "repository-release-hardening"
+		},
+		{
+			"level": 2,
+			"text": "Studio / Product Improvement Frontier",
+			"anchor": "studio-product-improvement-frontier"
+		},
+		{
+			"level": 2,
+			"text": "Verification / Handoff",
+			"anchor": "verification-handoff"
+		},
+		{
+			"level": 2,
+			"text": "NEXTACTION",
+			"anchor": "nextaction"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-28-1318-geelooy-better-render-ai-remaining-w-899a4bb8e4-001.json"
+	]
+}

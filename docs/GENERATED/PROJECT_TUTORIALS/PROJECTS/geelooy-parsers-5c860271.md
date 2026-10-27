@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 1 | 0 | 0 | 0 | 0 | 0 | 1 |
+| 4 | 0 | 0 | 0 | 0 | 0 | 4 |
 
 ## Public entry points
 
@@ -29,7 +29,7 @@ Blessed is He
 
 ## Symbol evidence
 
-No lexical symbol summary observed.
+Source files: 2; classes: 1; functions: 5; exports: 2; samples: buildArchiveDocument, escapeHtml, renderContent, renderMessage, renderDay, WhatsAppParser.
 
 ## Depends on
 

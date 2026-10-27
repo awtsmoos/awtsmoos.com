@@ -1,0 +1,183 @@
+[
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-docs-procedural-reality-session-md-136a81f356",
+		"title": "B\"H",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/PROCEDURAL_REALITY_SESSION.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Procedural Reality Session",
+				"anchor": "procedural-reality-session"
+			},
+			{
+				"level": 2,
+				"text": "When to use it",
+				"anchor": "when-to-use-it"
+			},
+			{
+				"level": 2,
+				"text": "Construction",
+				"anchor": "construction"
+			},
+			{
+				"level": 2,
+				"text": "Stage whole Definitions",
+				"anchor": "stage-whole-definitions"
+			},
+			{
+				"level": 2,
+				"text": "Stage precise patches",
+				"anchor": "stage-precise-patches"
+			},
+			{
+				"level": 2,
+				"text": "Plan and explain without execution",
+				"anchor": "plan-and-explain-without-execution"
+			},
+			{
+				"level": 2,
+				"text": "Compile versus apply",
+				"anchor": "compile-versus-apply"
+			},
+			{
+				"level": 2,
+				"text": "Reset and retire",
+				"anchor": "reset-and-retire"
+			},
+			{
+				"level": 2,
+				"text": "Inspect portable state",
+				"anchor": "inspect-portable-state"
+			},
+			{
+				"level": 2,
+				"text": "Incremental truth",
+				"anchor": "incremental-truth"
+			}
+		],
+		"excerpt": "B\"H Procedural Reality Session Boruch Hashem. Blessed is He. The Awtsmoos renews committed world and draft possibility before either can call itself final; Awtsmoos.com lets a finite session plan, explain, materialize, and commit only the exact artifacts whose living witnesses truly changed. RealitySession is the state",
+		"searchText": "b\"h procedural reality session boruch hashem. blessed is he. the awtsmoos renews committed world and draft possibility before either can call itself final; awtsmoos.com lets a finite session plan, explain, materialize, and commit only the exact artifacts whose living witnesses truly changed. realitysession is the stateful incremental world api. it is publicly available from the supported procedural language package subpath: it complements, rather than replaces, the stateless five verb lifecycle documented in universal awtsmoos api.md. when to use it use realitysession when one process owns a current world and needs repeated edits with selective artifact regeneration, freshness reuse, rollback safe commits, and inspectable snapshots. the session owns two semantic states: committed — the last world accepted after successful artifact execution; draft — the staged world that define(), patch(), and remove() mutate immutably. the committed world never changes merely because a draft exists. construction artifactexecution is the existing artifact execution authority used by the procedural language stack. it must provide plan() and compile(); realitysession does not create a second compiler or cache system. stage whole definitions a newly added definition regenerates all currently requested channels. replacing an existing definition with define() deliberately does not fabricate patch precision; when exact affected channel evidence is unavailable, selective lineage stays conservative. stage precise patches patch() uses the existing atomic patch transaction authority and stores its real receipt. the receipt feeds selective artifact lineage, so a collision only patch may regenerate collision while an unchanged visual artifact remains fresh. plan and explain without execution these operations compute committed to draft semantic impact and artifact consequences without invoking compilers or committing the world. compile versus apply compile() materializes the draft transition but intentionally leaves committed semantic state and the session revision unchanged. apply() executes first and commits the draft only after required artifact execution succeeds. when an unchanged draft was already materialized by compile(), apply() can fresh skip instead of compiling the same artifact twice. if execution throws, committed semantic hashes and revision stay unchanged, the draft remains available for retry, pending patch receipts remain available, and failed replacement freshness stays stale until a real retry succeeds. reset and retire reset() discards staged semantic changes and pending patch receipts while preserving valid artifact freshness evidence. remove() stages retirement; applying a removal retires freshness/materialization records for that definition instead of compiling it again. inspect portable state the snapshot is deterministic, frozen, json safe, and excludes opaque runtime artifact objects. it reports session revision, dirty state, pending patch count, committed/draft semantic and dependency hashes, definition ids, and portable freshness evidence. incremental truth freshness is not a boolean promise. a channel may skip work only when its output relevant witness still agrees with the materialized runtime artifact: definition identity, canonical artifact request, compiler plan/version manifest, concrete causal upstream identities, and explicit execution identity where supplied. that is the central invariant: unrelated world edits do not force needless rebuilds, causal changes do, and a process restart cannot pretend an opaque runtime artifact still exists merely because portable json remembers yesterday's evidence.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-docs-procedural-reality-session-md-136a81f356.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-docs-procedural-reality-worldgraph-198e404e9a",
+		"title": "B\"H — Reality WorldGraph → Procedural Definition Bridge",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/PROCEDURAL_REALITY_WORLDGRAPH_BRIDGE.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Reality WorldGraph → Procedural Definition Bridge",
+				"anchor": "b-h-reality-worldgraph-procedural-definition-bridge"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Direct usage",
+				"anchor": "direct-usage"
+			},
+			{
+				"level": 2,
+				"text": "Receipt contract",
+				"anchor": "receipt-contract"
+			},
+			{
+				"level": 2,
+				"text": "Node mapping",
+				"anchor": "node-mapping"
+			},
+			{
+				"level": 2,
+				"text": "Seed law",
+				"anchor": "seed-law"
+			},
+			{
+				"level": 2,
+				"text": "Relationship law",
+				"anchor": "relationship-law"
+			},
+			{
+				"level": 2,
+				"text": "Incremental-regeneration consequence",
+				"anchor": "incremental-regeneration-consequence"
+			},
+			{
+				"level": 2,
+				"text": "What this bridge does not do",
+				"anchor": "what-this-bridge-does-not-do"
+			},
+			{
+				"level": 2,
+				"text": "Verification evidence",
+				"anchor": "verification-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Future integration",
+				"anchor": "future-integration"
+			}
+		],
+		"excerpt": "B\"H — Reality WorldGraph → Procedural Definition Bridge Boruch Hashem. Blessed is He. The Awtsmoos renews the whole before a world can appear as nodes, edges, kinds, and seed; Awtsmoos.com keeps each truthful vessel distinct while one deterministic bridge joins what authors need. Purpose The Reality WorldGraph bridge c",
+		"searchText": "b\"h — reality worldgraph → procedural definition bridge boruch hashem. blessed is he. the awtsmoos renews the whole before a world can appear as nodes, edges, kinds, and seed; awtsmoos.com keeps each truthful vessel distinct while one deterministic bridge joins what authors need. purpose the reality worldgraph bridge connects two existing canonical authorities without introducing another authoring language: awtsmoos.world graph.v1 remains reality world/topology truth. awtsmoos.procedural language/1 remains per entity semantic definition truth. reality world graph definition bridge/v1 is only a deterministic transformation receipt between them. the bridge deliberately preserves more semantic graph information than current reality execution can realize. a relationship can therefore remain valid semantic data even when no compiler or runtime adapter executes it yet. direct usage direct import is intentional in the first tranche. shared package barrels and creation portal authorities remain untouched while concurrent universal api work owns those files. receipt contract the returned frozen receipt contains: bridge — reality world graph definition bridge/v1. version — bridge contract version. graph — canonical frozen worldgraph document. definitions — canonical procedural definitions in authored node order. definitionsbyid — frozen null prototype lookup keyed by stable node id. diagnostics — factual projection evidence, never speculative compiler support claims. the canonical graph and definitions are json safe data, so the receipt can be serialized for transport, inspection, or deterministic tooling. node mapping worldgraph node procedural definition id id type kind normalized/derived seed canonical string seed options payload constraints constraints relationships canonical relationships metadata metadata unchanged domain/profile/source/capability requirements/original provenance extensions.realityworldgraph bridge lineage is recorded through procedural provenance. graph wide defaults, metadata, and provenance remain graph context rather than being copied into every node definition. seed law the bridge reuses reality's existing deterministic seed authority: 1. explicit node seed → normalizerealityseed(node.seed). 2. missing node seed → deriverealityseed(rootseed, 'reality intent', type + ':' + id). 3. createproceduraldefinition then stores that deterministic value as the canonical definition seed string. node array order never participates in derived seed identity, so reordering identified nodes does not perturb their seeds. relationship law worldgraph relationship meaning is preserved independently of runtime support. local string target → canonical from and to ids. external string target → string to remains intact and metadata records externality. structured external target → canonical to becomes null; the exact target remains under metadata.realityworldgraph.target. relationship options become canonical relationship values. structured endpoints therefore never collapse into lossy strings such as [object object]. incremental regeneration consequence node definitions intentionally exclude unrelated graph wide metadata. this preserves locality: changing world documentation or unrelated graph metadata does not mutate every node's semantic definition. future semantic hash/dependency infrastructure can therefore cache and regenerate node artifacts independently while separately tracking world topology. graph defaults are not expanded during this bridge. default resolution is planning/compiler policy and belongs in a later stage rather than semantic projection. what this bridge does not do it does not replace worldgraph. it does not replace modelingdocument or proceduralobject. it does not register a new universal language. it does not infer traits from reality nouns. it does not translate capability requirements into artifact requests prematurely. it does not claim unsupported relationships execute. it does not choose a compiler. it does not mutate the public creation portal api. verification evidence the bridge has been verified by an adversarial targeted test covering hostile ids, structured external targets, reorder stable seeds, graph metadata isolation, immutability, and json serialization. existing reality worldgraph parity/planning/execution tests pass, and all 18 procedurallanguage .test.mjs files pass with the bridge present. future integration the next safe layers are intentionally separate: semantic hashes and world/node dependency receipts; cache keys and incremental regeneration planning; a reality compiler capability that consumes canonical definitions; public discovery/export once concurrent ownership of shared authorities is clean; cross document external relationship resolution. the bridge is therefore foundation, not finale: graph truth descends into semantic definition without erasing the world that gave it birth.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-docs-procedural-reality-worldgraph-198e404e9a.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-docs-procedural-world-semantic-lin-349187746d",
+		"title": "B\"H — World Semantic Lineage Details",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/PROCEDURAL_WORLD_SEMANTIC_LINEAGE_DETAILS.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — World Semantic Lineage Details",
+				"anchor": "b-h-world-semantic-lineage-details"
+			},
+			{
+				"level": 2,
+				"text": "Why semantic relationships are not dependencies",
+				"anchor": "why-semantic-relationships-are-not-dependencies"
+			},
+			{
+				"level": 2,
+				"text": "Why identity is split",
+				"anchor": "why-identity-is-split"
+			},
+			{
+				"level": 2,
+				"text": "Deletion-safe impact",
+				"anchor": "deletion-safe-impact"
+			},
+			{
+				"level": 2,
+				"text": "Ordering and portability",
+				"anchor": "ordering-and-portability"
+			},
+			{
+				"level": 2,
+				"text": "Unresolved external targets",
+				"anchor": "unresolved-external-targets"
+			},
+			{
+				"level": 2,
+				"text": "Next composition layer",
+				"anchor": "next-composition-layer"
+			}
+		],
+		"excerpt": "B\"H — World Semantic Lineage Details Boruch Hashem. Blessed is He. The Awtsmoos renews every dependency before an artifact can claim yesterday's cause is gone; Awtsmoos.com preserves lineage through change so selective rebuilding can know what truth it depends upon. Why semantic relationships are not dependencies A gen",
+		"searchText": "b\"h — world semantic lineage details boruch hashem. blessed is he. the awtsmoos renews every dependency before an artifact can claim yesterday's cause is gone; awtsmoos.com preserves lineage through change so selective rebuilding can know what truth it depends upon. why semantic relationships are not dependencies a generic relationship is descriptive truth, not automatically causal truth. treating every near, inside, wears, or growingon edge as invalidation would over rebuild worlds and hardcode domain ontology into the generic kernel. worlddependencypolicyregistry therefore carries explicit regeneration policy outside canonical relationship meaning. a later authored policy adapter may place that evidence nearer source data without changing this kernel contract. why identity is split definition identity is already authoritative through createdefinitionidentityreceipt. world semantichash composes those definition identities with semantic topology. it deliberately ignores dependency policy. dependencyhash composes the policy snapshot with promoted causal edges. it may change while semantic identity remains stable. compiler cache keys remain a third authority because runtime artifact identity also depends on compiler/version/request/channel/quality/options. deletion safe impact a before snapshot may contain: root leaf if root is removed, the after snapshot cannot contain that edge. traversing only after state dependencies would incorrectly leave leaf untouched. createworldchangeimpactreceipt therefore creates a union dependency graph from before + after causal edges and asks the existing findaffectedproceduralnodes authority for transitive closure. this also preserves policy change consequences: changing edge direction or enabling/disabling policy seeds both changed endpoints before closure. ordering and portability definition collection order is preserved separately as definitionorder but excluded from semantic/dependency hashes. identity receipts and topology edges are canonicalized for deterministic hashing. public lookups use frozen null prototype objects so hostile but valid ids such as proto remain safe. all snapshot/change receipts are json safe and omit timestamps so identical inputs produce identical evidence. unresolved external targets semantic topology retains unresolved endpoint evidence and emits world semantic target unresolved. if a dependency policy would otherwise promote that relationship, dependency topology emits world dependency target unresolved instead of manufacturing a local dependency. a cross document resolver can later bind such targets explicitly. next composition layer world lineage currently answers: which definitions require reconsideration? the next layer should answer: which concrete artifact channels require regeneration? that future composition should reuse: world affectedids; definition patch receipts and affectedartifacts; compiler capability/artifact channel evidence; compiler/version aware compile cache keys; artifact provenance/lineage receipts. it should not create another semantic hash, dependency graph, or cache.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-docs-procedural-world-semantic-lin-349187746d.json"
+	}
+]

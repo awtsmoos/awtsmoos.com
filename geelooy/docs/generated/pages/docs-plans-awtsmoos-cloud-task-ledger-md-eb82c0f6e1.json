@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-plans-awtsmoos-cloud-task-ledger-md-eb82c0f6e1",
+	"title": "Durable Task Ledger",
+	"sourcePath": "docs/PLANS/AWTSMOOS_CLOUD/TASK_LEDGER.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Durable Task Ledger",
+			"anchor": "durable-task-ledger"
+		},
+		{
+			"level": 2,
+			"text": "Phase 00 — load truth and directory AI creation",
+			"anchor": "phase-00-load-truth-and-directory-ai-creation"
+		},
+		{
+			"level": 3,
+			"text": "Built-in Geelooy Browser",
+			"anchor": "built-in-geelooy-browser"
+		},
+		{
+			"level": 2,
+			"text": "Phase 01 — immutable hosting deployments",
+			"anchor": "phase-01-immutable-hosting-deployments"
+		},
+		{
+			"level": 2,
+			"text": "Phase 02 — one-prompt website/application publishing",
+			"anchor": "phase-02-one-prompt-website-application-publishing"
+		},
+		{
+			"level": 2,
+			"text": "Phase 03 — cloud primitives",
+			"anchor": "phase-03-cloud-primitives"
+		},
+		{
+			"level": 2,
+			"text": "Phase 04 — Geelooy OS and Tunnel control plane",
+			"anchor": "phase-04-geelooy-os-and-tunnel-control-plane"
+		},
+		{
+			"level": 2,
+			"text": "Phase 05 — commerce, security, observability, scale",
+			"anchor": "phase-05-commerce-security-observability-scale"
+		},
+		{
+			"level": 2,
+			"text": "Phase 06 — validation and release",
+			"anchor": "phase-06-validation-and-release"
+		}
+	],
+	"markdownParts": [
+		"content/docs-plans-awtsmoos-cloud-task-ledger-md-eb82c0f6e1-001.json"
+	]
+}

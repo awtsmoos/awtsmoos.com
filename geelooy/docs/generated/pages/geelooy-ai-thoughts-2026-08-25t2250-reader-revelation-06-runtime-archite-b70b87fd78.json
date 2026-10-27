@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-25t2250-reader-revelation-06-runtime-archite-b70b87fd78",
+	"title": "Runtime Architecture — Truth Before Decoration",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-25T2250-reader-revelation/06_RUNTIME_ARCHITECTURE.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Runtime Architecture — Truth Before Decoration",
+			"anchor": "runtime-architecture-truth-before-decoration"
+		},
+		{
+			"level": 2,
+			"text": "Chosen architecture",
+			"anchor": "chosen-architecture"
+		},
+		{
+			"level": 3,
+			"text": "1. Bound timing collaborators",
+			"anchor": "1-bound-timing-collaborators"
+		},
+		{
+			"level": 3,
+			"text": "2. Immediate shell-control boot",
+			"anchor": "2-immediate-shell-control-boot"
+		},
+		{
+			"level": 3,
+			"text": "3. Truthful fatal propagation",
+			"anchor": "3-truthful-fatal-propagation"
+		},
+		{
+			"level": 3,
+			"text": "4. Explicit boot-state invariant",
+			"anchor": "4-explicit-boot-state-invariant"
+		},
+		{
+			"level": 2,
+			"text": "Compatibility laws",
+			"anchor": "compatibility-laws"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-25t2250-reader-revelation-06-runtime-archite-b70b87fd78-001.json"
+	]
+}

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Entities Tests (geelooy/api/social/helper/entities/test/)\n\nEntity schema tests.\n\n- `entityContentAndComments.test.mjs` — entity content and comment attachment behavior.\n"
+}

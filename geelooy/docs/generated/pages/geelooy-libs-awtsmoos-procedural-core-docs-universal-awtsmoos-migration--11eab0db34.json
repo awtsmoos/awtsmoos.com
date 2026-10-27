@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-docs-universal-awtsmoos-migration--11eab0db34",
+	"title": "B\"H",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/UNIVERSAL_AWTSMOOS_MIGRATION.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Universal API Migration and Extension",
+			"anchor": "universal-api-migration-and-extension"
+		},
+		{
+			"level": 2,
+			"text": "Moving compile-only callers",
+			"anchor": "moving-compile-only-callers"
+		},
+		{
+			"level": 2,
+			"text": "Why the direct package subpath matters",
+			"anchor": "why-the-direct-package-subpath-matters"
+		},
+		{
+			"level": 2,
+			"text": "Low-level kernel isolation",
+			"anchor": "low-level-kernel-isolation"
+		},
+		{
+			"level": 2,
+			"text": "Adding a compiler",
+			"anchor": "adding-a-compiler"
+		},
+		{
+			"level": 2,
+			"text": "Adding a constraint solver",
+			"anchor": "adding-a-constraint-solver"
+		},
+		{
+			"level": 2,
+			"text": "Renderer and adapter boundary",
+			"anchor": "renderer-and-adapter-boundary"
+		},
+		{
+			"level": 2,
+			"text": "Current non-goals",
+			"anchor": "current-non-goals"
+		},
+		{
+			"level": 2,
+			"text": "Troubleshooting",
+			"anchor": "troubleshooting"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-docs-universal-awtsmoos-migration--11eab0db34-001.json"
+	]
+}

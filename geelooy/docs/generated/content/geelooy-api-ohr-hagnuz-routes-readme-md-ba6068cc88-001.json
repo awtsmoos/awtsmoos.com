@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Ohr HaGnuz Routes (geelooy/api/ohr-hagnuz/routes/)\n\nRoute declarations for the Ohr HaGnuz HTTP surface (see `../README.md`).\n\n## Files\n- `table.js` — the frozen route table: `realtime-ticket`. Every server door is\n  declared as data, so mounting, testing, and docs consume the same table.\n- `realtimeTicket.js` — the realtime ticket route handler.\n"
+}

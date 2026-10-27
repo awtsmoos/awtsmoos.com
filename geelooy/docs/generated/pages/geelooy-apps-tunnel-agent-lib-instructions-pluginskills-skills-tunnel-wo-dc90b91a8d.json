@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-tunnel-wo-dc90b91a8d",
+	"title": "SKILL",
+	"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/tunnel-workflow/SKILL.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 2,
+			"text": "Shared tunnel skill discovery and verified continuation",
+			"anchor": "shared-tunnel-skill-discovery-and-verified-continuation"
+		},
+		{
+			"level": 2,
+			"text": "CSS and actual screenshot review",
+			"anchor": "css-and-actual-screenshot-review"
+		},
+		{
+			"level": 2,
+			"text": "Resumable clients and channel evidence",
+			"anchor": "resumable-clients-and-channel-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Diagnose the living route before risky work",
+			"anchor": "diagnose-the-living-route-before-risky-work"
+		},
+		{
+			"level": 2,
+			"text": "Binary screenshots and external sharing",
+			"anchor": "binary-screenshots-and-external-sharing"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-tunnel-wo-dc90b91a8d-001.json"
+	]
+}

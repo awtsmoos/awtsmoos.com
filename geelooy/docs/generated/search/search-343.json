@@ -1,0 +1,111 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27t2202-chatgpt-geelooy-studio-unification-0-caed91698c",
+		"title": "REMAINING WORK — Geelooy Movie and Studio Unification",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27T2202-chatgpt-geelooy-studio-unification/00_REMAINING_WORK.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "REMAINING WORK — Geelooy Movie and Studio Unification",
+				"anchor": "remaining-work-geelooy-movie-and-studio-unification"
+			},
+			{
+				"level": 2,
+				"text": "Evidence already established",
+				"anchor": "evidence-already-established"
+			},
+			{
+				"level": 2,
+				"text": "Discovery still required before source writes",
+				"anchor": "discovery-still-required-before-source-writes"
+			},
+			{
+				"level": 2,
+				"text": "Architecture work",
+				"anchor": "architecture-work"
+			},
+			{
+				"level": 2,
+				"text": "Implementation work",
+				"anchor": "implementation-work"
+			},
+			{
+				"level": 2,
+				"text": "Three-minute proof movie",
+				"anchor": "three-minute-proof-movie"
+			},
+			{
+				"level": 2,
+				"text": "Verification work — only after first full source-writing pass",
+				"anchor": "verification-work-only-after-first-full-source-writing-pass"
+			},
+			{
+				"level": 2,
+				"text": "Closure and shadow work",
+				"anchor": "closure-and-shadow-work"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He REMAINING WORK — Geelooy Movie and Studio Unification The Awtsmoos renews each frame before the frame can claim its name; Awtsmoos.com must hold one movie heart, while every studio keeps its flame. Evidence already established [x] Real repository root inspected at work/awtsmoos.com/geelo",
+		"searchText": "b\"h boruch hashem blessed is he remaining work — geelooy movie and studio unification the awtsmoos renews each frame before the frame can claim its name; awtsmoos.com must hold one movie heart, while every studio keeps its flame. evidence already established [x] real repository root inspected at work/awtsmoos.com/geelooy. [x] native tunnel route verified against the user's mac checkout. [x] existing movie/studio surfaces identified: animator, video editor, mitzvah studio, nesher studio. [x] confirmed apps/awtsmoos studio does not currently exist. [x] confirmed libs/awtsmoos procedural core already contains substantial animation, character, procedural asset, particle, text, camera, geometry, physics, and json reality systems. [x] confirmed heavy concurrent work exists; no reset, stash, destructive cleanup, or blind rewrite is permitted. [x] read independent parallel movie unification plans and preserved their compatible requirements. discovery still required before source writes [ ] read library package/export conventions and public entry points. [ ] read current core animation/assets/particles/text/camera facades used by applications. [ ] read current app entry points and trace imports for animator, video editor, mitzvah studio, nesher studio. [ ] search for existing general json to dom/ui frameworks inside libs/awtsmoos before creating a new shared ui namespace. [ ] re check git status and hashes for every legacy file considered for modification. [ ] identify whether another live agent has already landed canonical movie modules or an awtsmoos studio app before our source pass. architecture work [ ] define canonical declarative movie document schema. [ ] define deterministic timeline, scene local time, interpolation, easing, transition, and camera cut semantics. [ ] define ai repairable validation errors with json paths and actionable reasons. [ ] define engine neutral scene vocabulary for actors, people, 2d shapes, 3d primitives, text, diagrams, charts, arrows, callouts, particles, lights, cameras, audio/caption cues, groups, and reusable assets. [ ] bridge canonical assets into existing awtsmoos procedural core generators rather than duplicating generation logic. [ ] define renderer/adaptor contracts so 2d and 3d share timing/meaning but preserve distinct rendering paths. [ ] define studio persona/pet descriptors so each app keeps specialized ux and capabilities. [ ] define general awtsmoos ui json grammar, normalization, event/action binding, responsive tokens, and dom rendering. implementation work [ ] add canonical movie modules to shared core with small files and explicit exports. [ ] add shared awtsmoos ui library or extend the correct existing shared ui home if discovery proves one already exists. [ ] add a new mobile first apps/awtsmoos studio flagship that composes shared movie + ui systems. [ ] add thin compatibility/adaptor modules for existing studio apps without flattening their identity. [ ] reuse/extract only genuinely generic asset generation into awtsmoos procedural core. [ ] keep renderer/media/export specific code in adapters when it depends on app/runtime capabilities. [ ] provide ai safe movie compile/validate/repair loop from declarative json. [ ] provide mobile first prompt, preview, scene navigator, timeline, inspector, play/seek, and export controls. three minute proof movie [ ] build exactly 180 seconds of authored movie data. [ ] use at least 12 scenes with clearly different composition and pacing. [ ] include 2d infographic/tutorial scenes and 3d cinematic scenes. [ ] include multiple characters/people with reusable identities. [ ] include animated text, titles, captions, geometric shapes, arrows, charts, labels, callouts, masks/patches, and panels. [ ] include particle systems and procedural effects. [ ] include at least six camera compositions/angles plus camera motion and hard/soft cuts. [ ] include transitions, easing variety, keyframed transforms, layered groups, and scene local animation. [ ] include beginning, teaching/progression, conflict/energy rise, climax, recap, and credits like ending. [ ] make the proof loadable in the flagship app without hidden manual setup. [ ] attempt actual encoded movie export through verified existing export infrastructure; if an environment capability prevents encoding, record the exact boundary rather than claiming success. verification work — only after first full source writing pass [ ] re read every touched source file in full. [ ] verify every touched code file uses tabs and stays at or under the user line size ceiling by splitting modules. [ ] syntax check every touched javascript module. [ ] run relevant existing tests for procedural core and each integrated studio. [ ] add focused tests for canonical movie schema, validation, timeline boundaries, interpolation, renderer contracts, and ui grammar. [ ] assert proof movie duration exactly equals 180 seconds. [ ] assert proof movie feature inventory contains people, text, shapes, infographics, particles, 2d, 3d, cameras, transitions, and animation. [ ] browser load every affected route. [ ] inspect console/runtime errors. [ ] verify desktop layout. [ ] verify narrow/mobile viewports and touch friendly controls. [ ] seek representative timestamps throughout the complete movie. [ ] exercise ai json editing/import path. [ ] exercise export path and inspect produced artifact if encoding succeeds. closure and shadow work [ ] write planned vs actual delta after first implementation pass. [ ] complete a second source writing pass if any required behavior is missing. [ ] re read all touched files again after fixes. [ ] compare original three phase plan against actual implementation. [ ] record limitations, evidence, commands, runtime checks, and artifact paths. [ ] re scan for unfinished movie/studio duplication and hidden missing integrations. [ ] stop only when every safe in scope item is completed or tied to a concrete hard capability boundary.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27t2202-chatgpt-geelooy-studio-unification-0-caed91698c.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27t2202-chatgpt-geelooy-studio-unification-0-c315b030c1",
+		"title": "Phase One — Chessed Boundless Brainstorm",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27T2202-chatgpt-geelooy-studio-unification/01_PHASE_ONE_BOUNDLESS_BRAINSTORM.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase One — Chessed Boundless Brainstorm",
+				"anchor": "phase-one-chessed-boundless-brainstorm"
+			},
+			{
+				"level": 2,
+				"text": "One movie language, many pets",
+				"anchor": "one-movie-language-many-pets"
+			},
+			{
+				"level": 2,
+				"text": "AI that authors real movies, not fake snippets",
+				"anchor": "ai-that-authors-real-movies-not-fake-snippets"
+			},
+			{
+				"level": 2,
+				"text": "Engine-neutral cinematic vocabulary",
+				"anchor": "engine-neutral-cinematic-vocabulary"
+			},
+			{
+				"level": 2,
+				"text": "Procedural core as the true asset foundry",
+				"anchor": "procedural-core-as-the-true-asset-foundry"
+			},
+			{
+				"level": 2,
+				"text": "Awtsmoos UI as a JSON vessel",
+				"anchor": "awtsmoos-ui-as-a-json-vessel"
+			},
+			{
+				"level": 2,
+				"text": "Mobile-first cinematic UX",
+				"anchor": "mobile-first-cinematic-ux"
+			},
+			{
+				"level": 2,
+				"text": "Three-minute proof as a living integration test",
+				"anchor": "three-minute-proof-as-a-living-integration-test"
+			},
+			{
+				"level": 2,
+				"text": "Extreme future possibilities worth preserving without overbuilding now",
+				"anchor": "extreme-future-possibilities-worth-preserving-without-overbuilding-now"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase One — Chessed Boundless Brainstorm The Awtsmoos makes a frame from naught, then births the next before it ends; Awtsmoos.com can become a cinema language where every studio shares the truth yet keeps its friends. This pass intentionally explores the largest useful possibility space",
+		"searchText": "b\"h boruch hashem blessed is he phase one — chessed boundless brainstorm the awtsmoos makes a frame from naught, then births the next before it ends; awtsmoos.com can become a cinema language where every studio shares the truth yet keeps its friends. this pass intentionally explores the largest useful possibility space before narrowing implementation. one movie language, many pets imagine one declarative awtsmoosmovie document understood by every movie capable app. the document contains scenes, reusable actors, assets, layers, tracks, cameras, lights, captions, sound cues, transitions, behaviors, keyframes, particles, diagrams, charts, and render hints. each app presents a different personality over that common truth: animator remains the character/performance/directing pet: gestures, gait, facial performance, procedural people, cameras, expressive animation. nesher studio remains the post production/media pet: ingest, tracks, effects, recording, audio mix, export, webcodecs, delivery. video editor remains the compact timeline pet: fast trim, arrange, captions, simple assembly. mitzvah studio remains the structured visual authoring pet: objects, canvas composition, inspector, reusable documents. awtsmoos studio becomes the flagship orchestration pet: ai prompt → canonical movie → interactive editing → preview → export, with access to shared capabilities from all the others. ai that authors real movies, not fake snippets the ai path should never require arbitrary executable js. a model writes structured json, receives path specific validation feedback, repairs invalid nodes, and can ask for capability discovery. a canonical capability catalog tells the model exactly which scene node types, properties, transitions, cameras, generators, effects, and render targets exist. potential ai workflow: 1. user prompt describes movie intent. 2. planner emits story beats and a duration budget. 3. asset planner chooses procedural people, props, text, diagrams, charts, particles, and environments. 4. scene compiler creates normalized scenes. 5. validator emits machine readable errors and warnings. 6. repair pass fixes invalid paths. 7. timeline compiler produces deterministic scene local time. 8. renderer adapters consume the same normalized movie. 9. export adapter captures/encodes frames and audio. engine neutral cinematic vocabulary the movie document can support: 2d primitives: rectangle, rounded rectangle, ellipse, line, path, polygon, arrow, brace, mask, clipping patch. text primitives: title, paragraph, caption, label, code/tutorial block, highlighted word runs, counters, kinetic typography. data graphics: bars, lines, pies/donuts, gauges, timelines, flow diagrams, nodes/edges, progress rings, comparison tables. people/characters: human procedural actors, stylized avatars, rig references, pose/action cues, speech metadata. 3d primitives: box, sphere, cylinder, extrusions, procedural architecture, rocks, vegetation, fluids, particles, imported models. cameras: wide, close up, extreme close up, profile, over shoulder, top down, low angle, high angle, orbit, dolly, crane, handheld like procedural motion. lights: ambient, key/fill/rim, point, spot, directional, emissive cues. particles: emitter presets, trails, sparks, confetti, dust, smoke like sprites, orbit fields, procedural energy motifs. transitions: cut, dissolve, wipe, push, iris, morph like cross composition, matched camera motion. animation: keyframes, easing, path motion, spring like motion, stagger, reveal, count up, chart growth, type on, rig actions. audio intent: narration cues, music sections, sound effect cues, gain envelopes, ducking metadata. procedural core as the true asset foundry move no code merely for the sake of relocation. instead, make every generic generator addressable through stable shared contracts. existing core systems already reveal geometry, people, text, particles, animation, physics, materials, reality json, camera, and asset services. the movie system should point into those capabilities using portable asset descriptors. possible asset descriptor: stable id semantic kind generator namespace generation recipe optional deterministic seed dimensions/bounds hints quality profile adapter hints cache key this lets ai say “generate a teacher character”, “create a 3d city block”, “emit gold particles”, or “build an infographic arrow” through declarative intent rather than implementation knowledge. awtsmoos ui as a json vessel create or extend a shared ui grammar where pages are data, not repeated dom boilerplate. a ui recipe can describe: shells, headers, toolbars, docks, sheets, drawers, tabs, split panes, canvases, timelines, lists, forms, inspectors, modals, toasts. semantic actions rather than inline listeners. responsive rules and mobile priorities. accessibility labels/roles. state bindings and conditional visibility. repeaters for arrays and keyed collections. slots for app specific custom renderers. token themes and density profiles. the renderer should be small, strict, and secure: known element tags, controlled attributes, action registry, text vs html separation, no arbitrary script execution. mobile first cinematic ux a phone should not be a shrunk desktop. potential design: full screen preview canvas with gesture seek/play. bottom sheet timeline with magnetic scene snapping. thumb friendly primary actions. one tap switch between prompt, scenes, timeline, assets, inspector, export. inspector as drill down sheet rather than permanent side column. scene thumbnails generated lazily. compact ai command composer always reachable. landscape mode unlocks dual pane preview + timeline. desktop progressively adds docks, multi pane views, keyboard shortcuts, and larger timeline lanes. three minute proof as a living integration test the 180 second movie should intentionally traverse the entire vocabulary: opening cosmic particles, a 3d city or landscape, characters entering, a narrated tutorial board, animated shapes and callouts, data charts, a split screen explanation, camera orbit, close up dialogue/performance, procedural environment, particle climax, recap cards, credits. the movie should be authored from split scene files to honor small module discipline while still compiling into one canonical movie document. extreme future possibilities worth preserving without overbuilding now ai storyboard thumbnails before full render. deterministic render farm/headless renderer. collaborative edits with crdt like patches. reusable cinematic templates. semantic “shot intent” to camera realization. motion capture import adapters. subtitle translation tracks. vector/svg export for infographic scenes. webgpu rendering adapters. offline render queue. automatic aspect ratio reframing for vertical/social formats. provenance and reproducibility manifests for ai generated assets. phase one conclusion: build a narrow canonical grammar with extensible registries, not an impossible monolith. let the awtsmoos be one source of truth while the keilim—the apps—remain beautifully distinct.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27t2202-chatgpt-geelooy-studio-unification-0-c315b030c1.json"
+	}
+]

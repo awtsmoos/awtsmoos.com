@@ -1,0 +1,163 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-collision-directory--fb2eb97f2f",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/collision/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/src/collision",
+				"anchor": "directory-guide-experiments-awtsmoos-src-collision"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Exported symbols worth searching",
+				"anchor": "exported-symbols-worth-searching"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/collision Role: Runtime subsystem Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 8 files, 0 structural child directories Purpose Octree storage, triangle geometry, capsule collision, raycasts, and step reso",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/collision role: runtime subsystem snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 8 files, 0 structural child directories purpose octree storage, triangle geometry, capsule collision, raycasts, and step resolution. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: runtime subsystem search terms: capsule, octree, collision, triangle, contact, step, branches, collider, finite, lets, mover, ray file mix: .js: 7 good first question: “does the behavior or asset i need belong to runtime subsystem, or is this only a neighboring/test/reference layer?” semantic evidence resolves a capsule against actual octree triangles, including visible risers. stores and removes collision vessels in deterministic spatial branches. the awtsmoos renews the whole valley while awtsmoos.com lets one ray question only the finite branches it can touch, and lets streamed matter depart by exact identity. capsule triangle contact: copied as an idea from octree.js, reborn raw. b\"h representative files awtsmoosoctree.js — stores and removes collision vessels in deterministic spatial branches. the awtsmoos renews the whole valley while awtsmoos.com lets one ray question only the finite branches it can touch, and lets streamed matter depart by exact identity. exports: awtsmoosoctree. awtsmooscollisionmover.js — resolves a capsule against actual octree triangles, including visible risers. exports: awtsmooscollisionmover. trianglecollider.js — gives one rendered triangle an exact collision body and spatial box. the awtsmoos renews every face without division; awtsmoos.com lets each finite surface reveal its normal, solidity, floor meaning, and searchable boundary. exports: trianglecollider, trianglesfromindexed. capsulecollisionquery.js — exports: capsulefor, deepestcontact. octreeraycast.js — follows one ray through the octree without flattening the entire world. every nearer finite answer shortens the remaining horizon, while malformed faces are left outside the covenant of collision truth. exports: raycastoctree. capsuletriangle.js — capsule triangle contact: copied as an idea from octree.js, reborn raw. exports: capsuletrianglecontact. stepupresolver.js — finds the next real tread before the capsule's leading edge reaches its riser. exports: findwalkablestep, applywalkablestep. exported symbols worth searching awtsmooscollisionmover · awtsmoosoctree · capsulefor · deepestcontact · capsuletrianglecontact · raycastoctree · findwalkablestep · applywalkablestep · trianglecollider · trianglesfromindexed import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ./capsulecollisionquery.js ../math/aabb.js ../math/ray.js ./octreeraycast.js ./capsuletriangle.js ../math/geometry3d.js ../math/rayaabb.js directory map parent: experiments/awtsmoos/src children: none. related and overlapping systems see the system overlap map before creating a similarly named subsystem elsewhere. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-collision-directory--fb2eb97f2f.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-courses-course-schem-64712f5a69",
+		"title": "Mitzvah World Course Schema — v1 (FROZEN)",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/courses/COURSE_SCHEMA.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Mitzvah World Course Schema — v1 (FROZEN)",
+				"anchor": "mitzvah-world-course-schema-v1-frozen"
+			},
+			{
+				"level": 2,
+				"text": "Units",
+				"anchor": "units"
+			},
+			{
+				"level": 2,
+				"text": "Top-level fields",
+				"anchor": "top-level-fields"
+			},
+			{
+				"level": 2,
+				"text": "Surfaces",
+				"anchor": "surfaces"
+			},
+			{
+				"level": 2,
+				"text": "Movers",
+				"anchor": "movers"
+			},
+			{
+				"level": 2,
+				"text": "Hazards (sweepers)",
+				"anchor": "hazards-sweepers"
+			},
+			{
+				"level": 2,
+				"text": "Run rules",
+				"anchor": "run-rules"
+			}
+		],
+		"excerpt": "// B\"H // Boruch Hashem // Blessed is He / @file COURSE SCHEMA.md @description Frozen schema for Mitzvah World obstacle course definitions. / / Mitzvah World Course Schema — v1 (FROZEN) Course definitions are plain JSON objects validated by courseSchema.js. Schema version: mitzvah world.course/1. Do not change field me",
+		"searchText": "// b\"h // boruch hashem // blessed is he / @file course schema.md @description frozen schema for mitzvah world obstacle course definitions. / / mitzvah world course schema — v1 (frozen) course definitions are plain json objects validated by courseschema.js. schema version: mitzvah world.course/1. do not change field meanings without bumping the version and updating the validator. units meters, seconds, radians. y is up. player capsule: radius 0.35, height 1.6. physics envelope: walk 4.2 m/s, run 7.2 m/s, jump v=9.2 (height 2.0m), double jump v=8.1, gravity 21, step up limit 0.55m. top level fields field type required meaning schema string yes must equal mitzvah world.course/1. id string yes url safe id, used in ?course= and best time storage keys. name string yes display name. difficulty string yes one of easy, medium, hard. description string yes one line player facing description. parseconds number yes par time in seconds ( 0). spawn object yes {x, y, z, facing} — y is feet height; facing in radians (0 = +z). killy number yes feet below this height → instant respawn at last checkpoint. region object yes {minx, maxx, minz, maxz} — course physics only applies inside. checkpoints array yes ordered [{x, z, y, radius}] — y is feet height at the checkpoint. finish object yes {x, z, y, radius} — valid only after all checkpoints are hit in order. platforms array yes static boxes [{x, z, top, w, d, surface, thickness?, visualonly?}] — x/z center, top = walkable surface height, thickness (default 1) extends downward. visualonly: true renders the box with no physics (water, decoration). movers array yes moving boxes (see below). hazards array yes rotating sweepers (see below). coins array yes [{x, y, z}] pickups, radius 1.3m. surfaces grass (grip 1.0), stone (0.95), wood (0.85), ice (accel 0.35, decel 0.12 — slides). movers {id, kind, w, d, thickness?, surface, period, phase?} plus kind fields: kind: 'sinusoid' — {axis: 'x' 'y' 'z', base: {x, z, top}, amplitude}. position = base + amplitude sin(2π (t / period) + phase) along axis. vertical amplitude must keep per frame travel ≤ 0.4m at 60fps for carry stability. kind: 'path' — {path: [[x, z, top], ...2+], loop: true}. constant speed travel along the polyline loop; period = full loop seconds. movers carry standing players (platform delta is added to the player before the movement frame) and use substepped swept push out so a fast mover can never tunnel through the player — it pushes instead. hazards (sweepers) {kind: 'sweeper', center: {x, y, z}, armlength, armwidth, armheight, period, phase?}. the arm rotates about y at center; y is the arm's vertical center. a hit (respawn at last checkpoint + 1.2s invulnerability) occurs when the player's torso band overlaps the arm's height band and the player's xz capsule touches the arm segment. run rules timer runs on real frame delta while the run is active (started, not finished). checkpoints must be touched in order; respawn always returns to the highest checkpoint reached (or spawn). respawn is synchronous (well under 250ms). best times persist in localstorage under mitzvahworld.coursebest. . course state is per player: in multiplayer every client simulates its own run; the multiplayer bridge keeps replicating positions, so other avatars stay visible. / export const course schema documented version = 'mitzvah world.course/1';",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-courses-course-schem-64712f5a69.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-creator-ui-styles-re-58353446d4",
+		"title": "Creator Rail Style Architecture",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/creator/ui/styles/README.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Creator Rail Style Architecture",
+				"anchor": "creator-rail-style-architecture"
+			},
+			{
+				"level": 2,
+				"text": "Scope law",
+				"anchor": "scope-law"
+			},
+			{
+				"level": 2,
+				"text": "Layer law",
+				"anchor": "layer-law"
+			},
+			{
+				"level": 2,
+				"text": "Geometry law",
+				"anchor": "geometry-law"
+			},
+			{
+				"level": 2,
+				"text": "Interaction law",
+				"anchor": "interaction-law"
+			},
+			{
+				"level": 2,
+				"text": "Motion law",
+				"anchor": "motion-law"
+			}
+		],
+		"excerpt": "Creator Rail Style Architecture The creator rail owns exactly one styling root: .Awtsmoos creator rail. creator rail.css is an import manifest only. It orders small responsibility fragments: creator foundation.css — creator local tokens, typography, layer identity, and box model. creator shell.css — viewport safe shell",
+		"searchText": "creator rail style architecture the creator rail owns exactly one styling root: .awtsmoos creator rail. creator rail.css is an import manifest only. it orders small responsibility fragments: creator foundation.css — creator local tokens, typography, layer identity, and box model. creator shell.css — viewport safe shell, open/closed/collapsed geometry, header, and scrolling body. creator controls.css — button hierarchy, movement grid, commit actions, focus/active/disabled states. creator palette.css — bounded horizontal material selection and selected state evidence. creator disclosure.css — native advanced disclosure and non blocking status output. creator responsive.css — portrait first adaptations for narrow phones, short landscape, tablet, and desktop. creator motion.css — composited transitions, hover capable enhancement, and reduced motion shutdown. scope law every ordinary selector in this family begins with .awtsmoos creator rail. do not add :root, html, body, or unscoped element selectors. do not use !important. add new visual states through semantic data , aria, or owned creator classes rather than dom depth selectors. layer law the creator publishes one local creator layer value at its owned root. do not scatter new z index literals through fragments. true dialogs, menus, or later overlays should receive their own documented layer authority rather than incrementing numbers locally. geometry law portrait mobile is the baseline. the rail must stay inside safe area and dynamic viewport bounds, use internal scrolling for long content, never force document horizontal overflow, and remain recoverable when collapsed. short landscape gets a narrow right side rail instead of an over tall bottom sheet. interaction law every relevant control receives rest, :active, :focus visible, disabled, and selected/expanded state evidence. hover polish lives only inside (hover: hover) and (pointer: fine). closed or collapsed content must leave focus/pointer flow through the view's inert state authority. motion law motion explains state; it does not decorate continuously. prefer transform, opacity, filter, and color/border transitions. prefers reduced motion: reduce must collapse transition duration to effectively zero.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-creator-ui-styles-re-58353446d4.json"
+	}
+]

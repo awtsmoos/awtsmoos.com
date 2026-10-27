@@ -1,0 +1,60 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-964d8be5",
+	"path": "geelooy/תניא",
+	"type": "public",
+	"family": {
+		"id": "public",
+		"title": "Public and Other Boundaries"
+	},
+	"title": "Tanya — Awtsmoos.com",
+	"entries": [
+		"index.html",
+		"_awtsmoos.derech.js"
+	],
+	"humanDocumentation": [
+		"docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-964d8be5.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 2,
+		"tests": 0,
+		"assets": 0,
+		"generated": 0,
+		"docs": 0,
+		"other": 0
+	},
+	"totalFiles": 2,
+	"symbolSummary": {
+		"files": 1,
+		"classes": 0,
+		"functions": 0,
+		"exports": 0,
+		"samples": []
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/heichelos",
+			"count": 1,
+			"examples": "geelooy/תניא/_awtsmoos.derech.js"
+		}
+	],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/תניא",
+			"file": "geelooy/תניא/index.html",
+			"title": "Tanya — Awtsmoos.com",
+			"scripts": 0,
+			"styles": 1
+		}
+	],
+	"requiresLocalDocumentation": false,
+	"documentationCovered": false,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

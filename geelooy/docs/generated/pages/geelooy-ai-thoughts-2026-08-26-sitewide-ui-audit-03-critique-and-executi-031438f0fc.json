@@ -1,0 +1,69 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-26-sitewide-ui-audit-03-critique-and-executi-031438f0fc",
+	"title": "Phase Three — Critique and Execution",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-26-sitewide-ui-audit/03_critique_and_execution.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase Three — Critique and Execution",
+			"anchor": "phase-three-critique-and-execution"
+		},
+		{
+			"level": 2,
+			"text": "Critical risks",
+			"anchor": "critical-risks"
+		},
+		{
+			"level": 2,
+			"text": "Execution waves",
+			"anchor": "execution-waves"
+		},
+		{
+			"level": 3,
+			"text": "Wave 1 — Site census and audit tooling",
+			"anchor": "wave-1-site-census-and-audit-tooling"
+		},
+		{
+			"level": 3,
+			"text": "Wave 2 — Social Hub reference remediation",
+			"anchor": "wave-2-social-hub-reference-remediation"
+		},
+		{
+			"level": 3,
+			"text": "Wave 3 — High-risk route clusters",
+			"anchor": "wave-3-high-risk-route-clusters"
+		},
+		{
+			"level": 3,
+			"text": "Wave 4 — Public apps and games",
+			"anchor": "wave-4-public-apps-and-games"
+		},
+		{
+			"level": 3,
+			"text": "Wave 5 — Utilities/admin/tooling",
+			"anchor": "wave-5-utilities-admin-tooling"
+		},
+		{
+			"level": 3,
+			"text": "Wave 6 — Permanent regression gate",
+			"anchor": "wave-6-permanent-regression-gate"
+		},
+		{
+			"level": 2,
+			"text": "First files to touch",
+			"anchor": "first-files-to-touch"
+		},
+		{
+			"level": 2,
+			"text": "Verification gate",
+			"anchor": "verification-gate"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-26-sitewide-ui-audit-03-critique-and-executi-031438f0fc-001.json"
+	]
+}

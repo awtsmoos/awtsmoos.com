@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 59 | 0 | 0 | 0 | 1 | 0 | 60 |
+| 342 | 34 | 0 | 0 | 1 | 0 | 377 |
 
 ## Public entry points
 
@@ -29,7 +29,7 @@ Blessed is He
 
 ## Symbol evidence
 
-Source files: 57; classes: 1; functions: 255; exports: 126; samples: populateSelects, fillSelect, fillWaveSelect, formatWaveName, startApp, bindChromeToggles, bindRecordingButtons, bindControlEvents, bindPresetControls, bindSynthControls, refreshActiveSound, applyEffectModeToElements.
+Source files: 324; classes: 20; functions: 923; exports: 633; samples: initializePianoShell, handleStartClick, handleMicClick, startAccompaniment, stopAccompaniment, setAccompanimentBpm, getAccompanimentBpm, playAccompanimentBeat, restartActiveClock, releaseCurrentBassVoices, beatTimeMilliseconds, findLowestActiveNote.
 
 ## Depends on
 
@@ -45,4 +45,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **0**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **34**. Treat this as file evidence, not proof of behavioral coverage.

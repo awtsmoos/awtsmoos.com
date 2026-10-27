@@ -1,0 +1,76 @@
+[
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-c8fe2b4410",
+		"title": "Massive Improvement Architecture Critique",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/.ai-thoughts/20260902_0315-universal-procedural-api/16_MASSIVE_IMPROVEMENT_CRITIQUE.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Massive Improvement Architecture Critique",
+				"anchor": "massive-improvement-architecture-critique"
+			},
+			{
+				"level": 2,
+				"text": "Evidence",
+				"anchor": "evidence"
+			},
+			{
+				"level": 2,
+				"text": "Rejected routes",
+				"anchor": "rejected-routes"
+			},
+			{
+				"level": 2,
+				"text": "Chosen architecture",
+				"anchor": "chosen-architecture"
+			},
+			{
+				"level": 2,
+				"text": "Required proof",
+				"anchor": "required-proof"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Massive Improvement Architecture Critique The Awtsmoos renews restraint together with expansion; Awtsmoos.com asks every bright idea to survive the blade of truth before code receives the crown. Evidence The five lifecycle verbs use semantic, compiler, constraint, cache, and pipeline aut",
+		"searchText": "b\"h boruch hashem blessed is he massive improvement architecture critique the awtsmoos renews restraint together with expansion; awtsmoos.com asks every bright idea to survive the blade of truth before code receives the crown. evidence the five lifecycle verbs use semantic, compiler, constraint, cache, and pipeline authorities. those verbs do not call procedural portal or transactional world apis. the current full composer statically imports and eagerly constructs both heavy systems anyway. direct browser import of createawtsmoos.js therefore inherits that graph. browser html loaded without exceptions while module boot lagged beyond the verification window. rejected routes longer timeout only: hides architecture cost. bundle/minify the demo: masks the dependency problem. remove world/portal from existing createawtsmoos(): breaks promised compatibility. copy lifecycle logic: forks semantic truth. browser specific core branching: solves the wrong layer. absolute millisecond contracts: too hardware/load dependent. chosen architecture add createawtsmooslifecycle() in its own static graph. reuse the exact existing awtsmoos class and lifecycle machinery. build semantic/compiler/constraint/cache/pipeline authorities only. make the base facade bind portal/world properties only when supplied. refactor the full authority composer to extend the same lifecycle composer with portal/world so both modes cannot drift. required proof full factory compatibility remains green. lifecycle facade has five verbs and lifecycle namespaces, but no false world/portal authority claim. equivalent plugin inputs produce equivalent plan/artifact/provenance essentials. recursive lifecycle import graph excludes portal/world and major domain/renderer roots. browser demo boots from direct lifecycle module and exposes real pipeline/constraint/cache evidence.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-c8fe2b4410.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-205fddab63",
+		"title": "Massive Improvement Final Plan",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/.ai-thoughts/20260902_0315-universal-procedural-api/17_MASSIVE_IMPROVEMENT_FINAL_PLAN.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Massive Improvement Final Plan",
+				"anchor": "massive-improvement-final-plan"
+			},
+			{
+				"level": 2,
+				"text": "Core source",
+				"anchor": "core-source"
+			},
+			{
+				"level": 2,
+				"text": "Demo source",
+				"anchor": "demo-source"
+			},
+			{
+				"level": 2,
+				"text": "Tests after source is complete",
+				"anchor": "tests-after-source-is-complete"
+			},
+			{
+				"level": 2,
+				"text": "Verification",
+				"anchor": "verification"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Massive Improvement Final Plan The Awtsmoos renews kindness and restraint as one harmony; Awtsmoos.com turns the surviving architecture into exact files, tests, and proof. Core source Create createAwtsmoosLifecycleAuthorities.js with semantic/compiler/constraint/cache/pipeline only. Crea",
+		"searchText": "b\"h boruch hashem blessed is he massive improvement final plan the awtsmoos renews kindness and restraint as one harmony; awtsmoos.com turns the surviving architecture into exact files, tests, and proof. core source create createawtsmooslifecycleauthorities.js with semantic/compiler/constraint/cache/pipeline only. create createawtsmooslifecycle.js using the existing awtsmoos class. rewrite awtsmoosauthoringfacade.js so portal/world bind only when supplied. rewrite createawtsmoosauthorities.js to extend lifecycle authorities with portal/world. rewrite universal api index.js to export the lifecycle factory additively. inspect package metadata before deciding on a dedicated package subpath. demo source import direct lifecycle factory, never package wide source barrel. add lifecycle summary, pipeline renderer, unresolved work renderer, query/keyboard navigation. add application ready dataset marker only after first successful lifecycle render. preserve safe dom construction and renderer neutral svg separation. tests after source is complete lifecycle facade contract; lifecycle/full equivalence; default modeling behavior; recursive import graph exclusion; public demo route/import/readiness contract; existing universal/default/compiler/constraint/cache suites. verification browser: ready marker, five scenarios, svg, fifteen pipeline stages, cache hit, deferred work, mobile no overflow, no severe logs, resource counts. performance: bounded plan/compile/cache microbenchmark with environment disclosure. then complete reread, delta, evidence ledger, exact staging, clean integration, push, two phase production activation, and public browser proof.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-205fddab63.json"
+	}
+]

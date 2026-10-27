@@ -24,19 +24,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-sefira-clash-94c3f01f.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 1337,
+		"source": 1354,
 		"tests": 41,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
 		"other": 2
 	},
-	"totalFiles": 1381,
+	"totalFiles": 1398,
 	"symbolSummary": {
-		"files": 1289,
-		"classes": 59,
-		"functions": 2762,
-		"exports": 1932,
+		"files": 1300,
+		"classes": 61,
+		"functions": 2799,
+		"exports": 1947,
 		"samples": [
 			"neutralInput",
 			"botReport",
@@ -60,8 +60,8 @@
 			"url": "/games/sefira-clash",
 			"file": "geelooy/games/sefira-clash/index.html",
 			"title": "Sefira Clash · Open World, Expedition, Co-op, Adventure &amp; VS",
-			"scripts": 2,
-			"styles": 9
+			"scripts": 5,
+			"styles": 13
 		}
 	],
 	"requiresLocalDocumentation": true,

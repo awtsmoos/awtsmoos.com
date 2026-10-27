@@ -1,5 +1,16 @@
 [
 	{
+		"id": "awtsmoos-com-ai-content-staging-chassidus-rebuild-staging-md-36a5d5a856",
+		"title": "STAGING",
+		"sourcePath": "awtsmoos.com/.ai-content-staging/chassidus-rebuild/STAGING.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [],
+		"excerpt": "test",
+		"searchText": "test",
+		"page": "pages/awtsmoos-com-ai-content-staging-chassidus-rebuild-staging-md-36a5d5a856.json"
+	},
+	{
 		"id": "awtsmoos-com-documentation-md-96d1ba1331",
 		"title": "Nested Awtsmoos.com Documentation",
 		"sourcePath": "awtsmoos.com/DOCUMENTATION.md",
@@ -69,6 +80,80 @@
 		"excerpt": "B\"H Boruch Hashem Blessed is He Ayzarim Runtime and Infrastructure The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Primary server/runtime/infrastructure district. It contains the Dynamic Server, DosDB, SSH infrastructure and ",
 		"searchText": "b\"h boruch hashem blessed is he ayzarim runtime and infrastructure the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role primary server/runtime/infrastructure district. it contains the dynamic server, dosdb, ssh infrastructure and other server side systems; it is not merely a bag of utilities. start here read docs/architecture.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes for persistence use docs/data/readme.md; for security use docs/security/readme.md; for realtime use docs/websockets/readme.md.",
 		"page": "pages/ayzarim-documentation-md-959e1682a2.json"
+	},
+	{
+		"id": "ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-api-compat-mongo-readme-md-1a156b2cfb",
+		"title": "AwtsmoosDB — MongoDB Compatibility Layer",
+		"sourcePath": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/compat/mongo/README.md",
+		"category": "Data",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "AwtsmoosDB — MongoDB Compatibility Layer",
+				"anchor": "awtsmoosdb-mongodb-compatibility-layer"
+			},
+			{
+				"level": 2,
+				"text": "Connection URL",
+				"anchor": "connection-url"
+			},
+			{
+				"level": 2,
+				"text": "API surface (mirrors the mongodb npm driver)",
+				"anchor": "api-surface-mirrors-the-mongodb-npm-driver"
+			},
+			{
+				"level": 2,
+				"text": "Storage",
+				"anchor": "storage"
+			},
+			{
+				"level": 2,
+				"text": "Honest limitations (v1)",
+				"anchor": "honest-limitations-v1"
+			},
+			{
+				"level": 2,
+				"text": "Test",
+				"anchor": "test"
+			}
+		],
+		"excerpt": "AwtsmoosDB — MongoDB Compatibility Layer B\"H Drop in MongoDB compatible API on top of AwtsmoosDB. Migration is an import swap: Everything after connect() is the real MongoDB driver API. Connection URL awtsmoos:///absolute/path/to/file.awtsdb — use this AwtsmoosDB file. mongodb://... — accepted for import swap convenien",
+		"searchText": "awtsmoosdb — mongodb compatibility layer b\"h drop in mongodb compatible api on top of awtsmoosdb. migration is an import swap: everything after connect() is the real mongodb driver api. connection url awtsmoos:///absolute/path/to/file.awtsdb — use this awtsmoosdb file. mongodb://... — accepted for import swap convenience; the file comes from options.dbpath (or options.awtdbpath), default ./awtsmoos mongo.awtsdb. options.awtopts — engine options passed to new awtsmoosdb(path, opts). api surface (mirrors the mongodb npm driver) mongoclient : constructor(url, options), connect(), db(name), close() db : collection(name), createcollection(name), dropcollection(name), dropdatabase(), listcollections() collection : insertone, insertmany, findone, find (filter + options, chainable cursor: sort/skip/limit/project/toarray/next/hasnext), updateone, updatemany, replaceone, deleteone, deletemany, countdocuments, estimateddocumentcount, aggregate, createindex, drop objectid : generation, tohexstring(), equals(), gettimestamp(), createfromhexstring(), isvalid() filter operators : $eq $ne $gt $gte $lt $lte $in $nin $exists $regex $and $or $nor, dot notation paths update operators : $set $inc $unset $push ($each) $addtoset $pop $mul, plus replacement style updates aggregation : $match $project $group $sort $limit $skip; expressions $add $subtract $multiply $divide $mod $concat $toupper $tolower $size $cond $ifnull $literal; accumulators $sum $avg $min $max $first $last $push $addtoset storage collections live as subtrees of the awtsmoosdb root map under the mongo: key prefix: one key per document (o(1) writes), chunked id lists (1000/chunk) for scans, per collection metadata. documents are stored as awtsmoosdb native values; objectid/date values are tagged ({$oid: hex} / {$date: ms}) and revived on read. zero stringify calls anywhere in this layer — all serialization uses hand rolled canonical encoders. honest limitations (v1) queries are collection scans. createindex() records index definitions for api compatibility, but v1 does not use them for planning — same complexity class as mongodb without a usable index. no multi document transactions. single document writes are atomic as provided by the engine. insertmany unordered mode reports per index write errors on the thrown error (.writeerrors, .result); the real driver's error type is approximated. capped collections, ttl indexes, change streams, gridfs are not implemented. write durability : acknowledged writes are wal safe against process crash; a full checkpoint runs on close() (and the engine's idle tick). os/power failure can lose writes since the last checkpoint — same posture as the engine itself. test runs the full conformance suite against a throwaway /tmp database, including a self check that the banned stringify call appears nowhere in this layer.",
+		"page": "pages/ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-api-compat-mongo-readme-md-1a156b2cfb.json"
+	},
+	{
+		"id": "ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-api-compat-redis-readme-md-bc3eb3c43e",
+		"title": "AwtsmoosDB — Redis-compatible API",
+		"sourcePath": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/compat/redis/README.md",
+		"category": "Data",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "AwtsmoosDB — Redis-compatible API",
+				"anchor": "awtsmoosdb-redis-compatible-api"
+			},
+			{
+				"level": 2,
+				"text": "Design",
+				"anchor": "design"
+			},
+			{
+				"level": 2,
+				"text": "Supported commands",
+				"anchor": "supported-commands"
+			},
+			{
+				"level": 2,
+				"text": "Honestly not supported",
+				"anchor": "honestly-not-supported"
+			}
+		],
+		"excerpt": "AwtsmoosDB — Redis compatible API B\"H — use AwtsmoosDB with the exact node redis (v4) command surface. Change the import + 1–2 lines of setup; every other call stays identical. Design Storage: every Redis key lives at db.root[' rd:' + key] as a native AwtsmoosBinaryJSON record { t, v, e } — t is the type tag (s/h/l/set",
+		"searchText": "awtsmoosdb — redis compatible api b\"h — use awtsmoosdb with the exact node redis (v4) command surface. change the import + 1–2 lines of setup; every other call stays identical. design storage: every redis key lives at db.root[' rd:' + key] as a native awtsmoosbinaryjson record { t, v, e } — t is the type tag (s/h/l/set/z), v the native value, e the expiry timestamp in ms (0 = persistent). the rd: prefix keeps redis data from ever colliding with other database uses. zero stringify based serialization anywhere in this layer. expiry: lazy. every read checks the timestamp; expired keys are deleted on sight and behave as missing (get → null, ttl → 2, keys skips them). no background sweeper — documented, honest, and o(1). pub/sub: in process. a process wide bus connects duplicated clients in the same node process. cross process / network pub/sub is not provided. durability: quit() flushes then closes; every write is crash safe via the wal. disconnect() closes without flushing. engine quirks handled: (1) db.root object reads can return function handles (typeof 'function' with resolve ()) instead of plain objects — the client resolves them before reading any field (pattern shared with the mongo compat layer). (2) the engine may buffer db.batch() writes until flush() — a write through cache serves read your writes, invalidated on delete/rename/expiry. (3) the engine enforces one exclusive writer per file, so duplicate() shares the source client's engine (and cache) via refcounting instead of opening a second one; the last holder to quit flushes and closes. performance (2026 09 30, mac, real engine, under concurrent load): set p50 3.6ms avg 16ms; get p50 0.9ms cold / 0.004ms cached (n=500). plain set skips the pre read (only nx/xx/get need it). 10k sequential write runs hit the known engine crash (map insertion could not load a child node below 2.5k keys) — an engine bug, not this layer; see worker d/i. supported commands strings: set (ex/px/nx/xx/get), get, getset, incr/decr/incrby/decrby, append, strlen, mget, mset. keys: del, exists, expire/pexpire, ttl/pttl, persist, keys (glob ? [..]), type, rename. hashes: hset, hget, hgetall, hdel, hexists, hkeys, hvals, hincrby. lists: lpush, rpush, lpop, rpop, lrange, llen. sets: sadd, srem, smembers, sismember, scard. sorted sets: zadd, zrange (+rev), zrank, zscore, zcard — ordered by score ascending, ties broken lexicographically by member. pub/sub: subscribe, unsubscribe, publish. lifecycle: connect, duplicate, quit, disconnect, isconnected. errors mirror redis: wrongtype on type misuse, err value is not an integer or out of range on bad incr, err no such key on bad rename. honestly not supported select, transactions (multi/exec/watch), lua (eval), streams, geospatial, hyperloglog, scan family (use keys), blocking pops (blpop), set options exat/pxat/keepttl, zrange by score/lex ranges, withscores, keyspace notifications, client/config/info introspection, replication/cluster. pub/sub is in process only.",
+		"page": "pages/ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-api-compat-redis-readme-md-bc3eb3c43e.json"
 	},
 	{
 		"id": "ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-ai-agent-decision-tree-md-41303cb860",

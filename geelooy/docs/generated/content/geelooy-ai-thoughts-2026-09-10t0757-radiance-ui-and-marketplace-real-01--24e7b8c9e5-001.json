@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "<!-- B\"H -->\n<!-- Boruch Hashem -->\n<!-- Blessed be He -->\n\n# Phase Two — Failure Boundaries\n\n- UI must not show Radiance if the server action is unavailable.\n- UI must not invent its 25-credit cost; server testimony owns cost.\n- Already-owned state must come from account entitlement testimony.\n- Unlock button must preserve idempotency across retries.\n- Successful unlock must refresh ownership and credit balance visibly.\n- Failed unlock must not leave a false owned state.\n- Theme application must remain readable in high contrast and reduced motion.\n- Global styling must not break games/editors.\n- Crawlable catalog generation must not replace runtime filtering/search.\n- Every touched source remains exact-header, tab-indented, fully documented and <120 lines.\n"
+}

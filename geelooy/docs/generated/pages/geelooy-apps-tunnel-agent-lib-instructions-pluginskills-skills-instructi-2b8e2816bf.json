@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-2b8e2816bf",
+	"title": "Core operating contract",
+	"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/CORE_OPERATING_CONTRACT.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 2,
+			"text": "Current tunnel integration takes precedence",
+			"anchor": "current-tunnel-integration-takes-precedence"
+		},
+		{
+			"level": 1,
+			"text": "Core operating contract",
+			"anchor": "core-operating-contract"
+		},
+		{
+			"level": 2,
+			"text": "Ground truth first",
+			"anchor": "ground-truth-first"
+		},
+		{
+			"level": 2,
+			"text": "Work autonomously inside authorization",
+			"anchor": "work-autonomously-inside-authorization"
+		},
+		{
+			"level": 2,
+			"text": "Protect the project",
+			"anchor": "protect-the-project"
+		},
+		{
+			"level": 2,
+			"text": "Communicate truthfully",
+			"anchor": "communicate-truthfully"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-2b8e2816bf-001.json"
+	]
+}

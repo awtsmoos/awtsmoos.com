@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-master-execution-plan-11-step-by-step-executi-258571c9f5",
+	"title": "11 — Step-by-Step Execution Order",
+	"sourcePath": "geelooy/games/mitzvahWorld/MASTER_EXECUTION_PLAN/11_STEP_BY_STEP_EXECUTION_ORDER.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "11 — Step-by-Step Execution Order",
+			"anchor": "11-step-by-step-execution-order"
+		},
+		{
+			"level": 2,
+			"text": "Phase A — Reconcile current lanes",
+			"anchor": "phase-a-reconcile-current-lanes"
+		},
+		{
+			"level": 2,
+			"text": "Phase B — Truthful official worlds",
+			"anchor": "phase-b-truthful-official-worlds"
+		},
+		{
+			"level": 2,
+			"text": "Phase C — Tree/vegetation completion",
+			"anchor": "phase-c-tree-vegetation-completion"
+		},
+		{
+			"level": 2,
+			"text": "Phase D — Weather/environment completion",
+			"anchor": "phase-d-weather-environment-completion"
+		},
+		{
+			"level": 2,
+			"text": "Phase E — Terrain/hydrology/settlement",
+			"anchor": "phase-e-terrain-hydrology-settlement"
+		},
+		{
+			"level": 2,
+			"text": "Phase F — Civilization / gameplay / Creator",
+			"anchor": "phase-f-civilization-gameplay-creator"
+		},
+		{
+			"level": 2,
+			"text": "Phase G — API discoverability",
+			"anchor": "phase-g-api-discoverability"
+		},
+		{
+			"level": 2,
+			"text": "Phase H — Production hardening",
+			"anchor": "phase-h-production-hardening"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-master-execution-plan-11-step-by-step-executi-258571c9f5-001.json"
+	]
+}

@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-tunnel-control-docs-architecture-repair-20261016-md-56a60f8cbc",
+	"title": "B\"H — Tunnel architecture and restoration audit",
+	"sourcePath": "geelooy/api/tunnel/control/docs/ARCHITECTURE-REPAIR-20261016.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Tunnel architecture and restoration audit",
+			"anchor": "b-h-tunnel-architecture-and-restoration-audit"
+		},
+		{
+			"level": 2,
+			"text": "Request path",
+			"anchor": "request-path"
+		},
+		{
+			"level": 2,
+			"text": "Vessel distinction",
+			"anchor": "vessel-distinction"
+		},
+		{
+			"level": 2,
+			"text": "Authorization and safety",
+			"anchor": "authorization-and-safety"
+		},
+		{
+			"level": 2,
+			"text": "Open verification items",
+			"anchor": "open-verification-items"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-tunnel-control-docs-architecture-repair-20261016-md-56a60f8cbc-001.json"
+	]
+}

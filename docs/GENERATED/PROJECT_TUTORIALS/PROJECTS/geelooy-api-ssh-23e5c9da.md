@@ -12,7 +12,7 @@ Blessed is He
 
 ## Entry and documentation evidence
 
-- Entry files: `_awtsmoos.derech.js`, `DOCUMENTATION.md`
+- Entry files: `_awtsmoos.derech.js`, `DOCUMENTATION.md`, `README.md`, `readme.md`
 - Local documentation: `geelooy/api/ssh/DOCUMENTATION.md`
 - Local-doc requirement: yes; covered: yes
 - Symlink target: —
@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 33 | 0 | 0 | 0 | 1 | 0 | 34 |
+| 52 | 3 | 0 | 0 | 5 | 0 | 60 |
 
 ## Public entry points
 
@@ -29,11 +29,11 @@ None observed.
 
 ## Symbol evidence
 
-Source files: 33; classes: 4; functions: 102; exports: 71; samples: call, connect, withClient, openSftp, buildCommandRoutes, execCommand, readContent, writeContent, decodeBase64, buildFileRoutes, quote, bodyOf.
+Source files: 52; classes: 4; functions: 149; exports: 108; samples: revealSshRoutes, call, connect, withClient, openSftp, buildCommandRoutes, execCommand, readContent, writeContent, decodeBase64, buildFileRoutes, quote.
 
 ## Depends on
 
-- `ayzarim/ssh` — 2 lexical references; examples: geelooy/api/ssh/lib/client.js; geelooy/api/ssh/virtual/service.js
+- `ayzarim/ssh` — 2 lexical references; examples: geelooy/api/ssh/lib/client.js; geelooy/api/ssh/virtual/serviceComponents.js
 - `geelooy/api/social` — 2 lexical references; examples: geelooy/api/ssh/virtual/accessGuard.js
 
 ## Used by
@@ -46,4 +46,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **0**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **3**. Treat this as file evidence, not proof of behavioral coverage.

@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-03-pa-7e67866758",
+	"title": "Pass Two — Gevurah",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-01-2342-geelooy-seo-current-head-merge/03-pass-two-gevurah.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Pass Two — Gevurah",
+			"anchor": "pass-two-gevurah"
+		},
+		{
+			"level": 2,
+			"text": "First implementation boundary",
+			"anchor": "first-implementation-boundary"
+		},
+		{
+			"level": 2,
+			"text": "Preservation requirements",
+			"anchor": "preservation-requirements"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-03-pa-7e67866758-001.json"
+	]
+}

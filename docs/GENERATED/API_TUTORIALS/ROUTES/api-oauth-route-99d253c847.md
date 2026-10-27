@@ -31,7 +31,16 @@ No executable starter is generated because method evidence is unknown. Inspect t
 
 ## Observed callers
 
-No matching literal caller evidence was found.
+Pattern-compatible evidence only; it does not prove runtime dispatch.
+
+| Literal | Source | Kind |
+| --- | --- | --- |
+| `/api/oauth/authorize?client=social-hub` | `geelooy/social-hub/tests/legalEntry.test.mjs` | test |
+| `/api/oauth/device` | `geelooy/apps/tunnel-control/index.html` | runtime |
+| `/api/oauth/device` | `geelooy/apps/tunnel-control/js/shell/agentLinks.js` | runtime |
+| `/api/oauth/device-authorization` | `geelooy/apps/tunnel/test/externalAiInstructions.test.cjs` | test |
+| `/api/oauth/metadata` | `geelooy/scripts/shliach/ConnectionMetadata.js` | runtime |
+| `/api/oauth/start?client_id=chatgpt` | `geelooy/apps/tunnel-control/js/api/auth.js` | runtime |
 
 ## Related tests
 
@@ -39,10 +48,6 @@ No package-script heuristic match was found.
 
 ## Related routes
 
-- [`/api/oauth/agent-callback`](./api-oauth-agent-callback-b4e6bf1061.md)
-- [`/api/oauth/authorize`](./api-oauth-authorize-bdf605a5c6.md)
-- [`/api/oauth/device`](./api-oauth-device-ff7c9e5d87.md)
-- [`/api/oauth/device-authorization`](./api-oauth-device-authorization-c8c90e0df0.md)
-- [`/api/oauth/metadata`](./api-oauth-metadata-323cb59001.md)
-- [`/api/oauth/start`](./api-oauth-start-7c94ba48c1.md)
-- [`/api/oauth/token`](./api-oauth-token-037d29e842.md)
+- [`/api/oauth/getRouteHandler`](./api-oauth-getroutehandler-487575ef09.md)
+- [`/api/oauth/getRouteTable`](./api-oauth-getroutetable-632912a20b.md)
+- [`/api/oauth/listRouteNames`](./api-oauth-listroutenames-9be1b1f0f5.md)

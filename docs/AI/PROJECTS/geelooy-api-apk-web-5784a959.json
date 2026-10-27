@@ -1,0 +1,61 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-api-apk-web-5784a959",
+	"path": "geelooy/api/apk-web",
+	"type": "api",
+	"family": {
+		"id": "apis",
+		"title": "API Projects"
+	},
+	"title": "geelooy/api/apk-web",
+	"entries": [
+		"_awtsmoos.derech.js",
+		"README.md",
+		"readme.md"
+	],
+	"humanDocumentation": [
+		"docs/TUTORIALS/PROJECTS/APIS.md",
+		"docs/API/README.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/APIS.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-apk-web-5784a959.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 5,
+		"tests": 0,
+		"assets": 0,
+		"generated": 0,
+		"docs": 2,
+		"other": 0
+	},
+	"totalFiles": 7,
+	"symbolSummary": {
+		"files": 5,
+		"classes": 0,
+		"functions": 15,
+		"exports": 9,
+		"samples": [
+			"dynamicRoutes",
+			"publishApkWebBundle",
+			"serveApkWebAsset",
+			"assetUrl",
+			"methodNotAllowed",
+			"notFound",
+			"requestError",
+			"apkWebMimeType",
+			"publishBundle",
+			"readBundleAsset",
+			"cleanupBundles",
+			"decodePublishedBundle"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [],
+	"requiresLocalDocumentation": false,
+	"documentationCovered": false,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

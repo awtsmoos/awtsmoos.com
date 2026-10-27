@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 15 | 0 | 0 | 0 | 1 | 0 | 16 |
+| 18 | 0 | 0 | 0 | 1 | 0 | 19 |
 
 ## Public entry points
 
@@ -29,7 +29,7 @@ Blessed is He
 
 ## Symbol evidence
 
-Source files: 8; classes: 1; functions: 22; exports: 21; samples: startChallenge, reloadCurrentTurn, recordCurrentTurn, activeSession, beginCurrentTurn, finishChallenge, dom, setFrameGame, loadFreshTurn, frameGame, partyGames, resolvePartyGame.
+Source files: 10; classes: 1; functions: 29; exports: 27; samples: startChallenge, reloadCurrentTurn, recordCurrentTurn, recordAutomatedTurn, activeSession, recordTurnValue, beginCurrentTurn, finishChallenge, dom, setFrameGame, loadFreshTurn, frameGame.
 
 ## Depends on
 

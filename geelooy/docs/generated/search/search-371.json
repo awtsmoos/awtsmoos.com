@@ -1,0 +1,205 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28t0310-geelooy-social-mobile-09-routewide-q-ca12dbe9d6",
+		"title": "Phase Three — Route-Wide Mobile Quality Execution Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0310-geelooy-social-mobile/09_ROUTEWIDE_QUALITY_EXECUTION.md",
+		"category": "Routes",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Three — Route-Wide Mobile Quality Execution Plan",
+				"anchor": "phase-three-route-wide-mobile-quality-execution-plan"
+			},
+			{
+				"level": 2,
+				"text": "Production-first rule for this discovered mission",
+				"anchor": "production-first-rule-for-this-discovered-mission"
+			},
+			{
+				"level": 2,
+				"text": "Files to create",
+				"anchor": "files-to-create"
+			},
+			{
+				"level": 3,
+				"text": "tests/BrowserSurfaceQualityInspector.mjs",
+				"anchor": "tests-browsersurfacequalityinspector-mjs"
+			},
+			{
+				"level": 3,
+				"text": "tests/BrowserRouteQualityJourney.mjs",
+				"anchor": "tests-browserroutequalityjourney-mjs"
+			},
+			{
+				"level": 2,
+				"text": "Existing file to rewrite only after focused audit proves stable",
+				"anchor": "existing-file-to-rewrite-only-after-focused-audit-proves-stable"
+			},
+			{
+				"level": 3,
+				"text": "tests/browserSmoke.test.mjs",
+				"anchor": "tests-browsersmoke-test-mjs"
+			},
+			{
+				"level": 2,
+				"text": "Objective quality rules",
+				"anchor": "objective-quality-rules"
+			},
+			{
+				"level": 2,
+				"text": "Repair protocol if failures appear",
+				"anchor": "repair-protocol-if-failures-appear"
+			},
+			{
+				"level": 2,
+				"text": "Verification and closure",
+				"anchor": "verification-and-closure"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Three — Route Wide Mobile Quality Execution Plan Production first rule for this discovered mission No production mutation is justified yet. The first implementation is a browser quality instrument because the unknown is whether route wide defects exist. If the instrument reveals de",
+		"searchText": "b\"h boruch hashem blessed is he phase three — route wide mobile quality execution plan production first rule for this discovered mission no production mutation is justified yet. the first implementation is a browser quality instrument because the unknown is whether route wide defects exist. if the instrument reveals defects, then production fixes will be written first in the repair pass, followed by rerun tests. files to create tests/browsersurfacequalityinspector.mjs a focused cdp dom inspector under 120 lines. it receives the active route id and returns objective evidence: panel geometry, document overflow, horizontal escape samples, loose direct text samples, invisible text samples, and undersized ordinary interactive samples. tests/browserroutequalityjourney.mjs a focused orchestrator under 120 lines. it imports live routes, iterates all twelve route ids, sets the hash without invoking destructive controls, waits for active panel visibility, invokes the inspector, and asserts zero objective defects with route specific messages. existing file to rewrite only after focused audit proves stable tests/browsersmoke.test.mjs if the route wide journey works deterministically, rewrite the whole smoke file to invoke it during the existing 390px fixture session. keep the file below 120 lines. do not modify the normal unit test package chain unless the browser suite remains the correct owner. objective quality rules 1. active panel has positive width/height. 2. document horizontal overflow 1px unless their computed overflow contract explicitly contains internal scrolling. 4. meaningful direct text nodes under generic div/section/article/li containers are allowed only when the parent itself is a styled/semantic vessel: class/id present plus visible typography or surface treatment. 5. visible text bearing elements must have nontransparent color and positive font size/line height. 6. ordinary visible buttons/anchors/selects/inputs/textarea should have practical mobile height; exceptions include checkbox/radio/range/file controls and controls explicitly styled as compact inline utilities. 7. audit never clicks posting, deletion, membership, privacy mutation, or communication send controls. 8. persistent mobile create and dock remain present while each route is inspected, so global collisions remain visible to document overflow. repair protocol if failures appear for every failing route: record exact evidence → read exact template/controller/style owner → add defect to remaining work → rewrite whole production file(s) with modular split if necessary → reread source → rerun focused route audit → run full npm run test:all. verification and closure node check new browser modules; line count all new/touched files; run route wide browser journey alone; integrate it into browser smoke only after deterministic pass; rerun npm run test:all; update final verification and remaining work with actual route results. the awtsmoos is not served by invented defects; awtsmoos.com will ask each of the twelve chambers to stand before living chrome. what spills will be repaired, what is already clothed will be left whole, and the final word will come from evidence.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28t0310-geelooy-social-mobile-09-routewide-q-ca12dbe9d6.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28t0310-geelooy-social-mobile-10-chat-touch--9b0475aa77",
+		"title": "Chat Touch-Target Repair",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0310-geelooy-social-mobile/10_CHAT_TOUCH_TARGET_REPAIR.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Chat Touch-Target Repair",
+				"anchor": "chat-touch-target-repair"
+			},
+			{
+				"level": 2,
+				"text": "Browser evidence",
+				"anchor": "browser-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Real owner trace",
+				"anchor": "real-owner-trace"
+			},
+			{
+				"level": 2,
+				"text": "Repair architecture",
+				"anchor": "repair-architecture"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Chat Touch Target Repair Browser evidence The twelve route mobile quality audit passes Home, Inbox, Messages, Spaces, People, and Profile. Chat is the first failing chamber. Its only reported defect is .universal chat app link with text Open Public Torah app ↗, rendered below the ordinar",
+		"searchText": "b\"h boruch hashem blessed is he chat touch target repair browser evidence the twelve route mobile quality audit passes home, inbox, messages, spaces, people, and profile. chat is the first failing chamber. its only reported defect is .universal chat app link with text open public torah app ↗, rendered below the ordinary mobile control size gate. real owner trace social hub styles/chat route.css does not own the class. scripts/awtsmoos/social/universalchat/universalchatshell.js emits the anchor. scripts/awtsmoos/social/universalchat/drawer.css owns its styling. drawer.css is already 119 lines, so adding another rule would violate the <=120 line law. bootstrap.js loads panel.css, and panel.css imports drawer.css. repair architecture 1. create scripts/awtsmoos/social/universalchat/drawer link.css as the sole owner of .universal chat app link. 2. give the link a deliberate 44px minimum touch height, visible border/radius/padding, focus visible state, and centered narrow phone behavior while preserving its green semantic emphasis. 3. rewrite drawer.css in full, remove the old app link block, and add one top level import for drawer link.css before ordinary rules. 4. preserve every other drawer rule unchanged. 5. read back both files and prove both remain <=120 lines. 6. rerun the twelve route audit. if chat passes, continue through interact, activity, network, references, and privacy and repair only evidence backed failures. next action perform the atomic two file production rewrite, read it back, then rerun the focused route wide browser audit. the awtsmoos gives even a small outward doorway a vessel fit for the hand; awtsmoos.com will not hide the flaw beneath a local override, but reveal its true shared garment and make the touch path bright, bounded, and right.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28t0310-geelooy-social-mobile-10-chat-touch--9b0475aa77.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-30-1307-olam-h3-studio-00-revelation-and-wor-d034b9b1ed",
+		"title": "Olam H3 Studio — Revelation and Work Graph",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-30-1307-olam-h3-studio/00-revelation-and-work-graph.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Olam H3 Studio — Revelation and Work Graph",
+				"anchor": "olam-h3-studio-revelation-and-work-graph"
+			},
+			{
+				"level": 2,
+				"text": "Mission",
+				"anchor": "mission"
+			},
+			{
+				"level": 2,
+				"text": "Observed reality",
+				"anchor": "observed-reality"
+			},
+			{
+				"level": 2,
+				"text": "Work graph",
+				"anchor": "work-graph"
+			},
+			{
+				"level": 2,
+				"text": "Evidence gates",
+				"anchor": "evidence-gates"
+			}
+		],
+		"excerpt": "Olam H3 Studio — Revelation and Work Graph Mission Create a production grade, mobile first AI video workspace at /apps/olam h3/ using the current official MiniMax H3 API. The application must treat generations, prompts, assets, costs, and unfinished jobs as durable reusable material rather than disposable form state. O",
+		"searchText": "olam h3 studio — revelation and work graph mission create a production grade, mobile first ai video workspace at /apps/olam h3/ using the current official minimax h3 api. the application must treat generations, prompts, assets, costs, and unfinished jobs as durable reusable material rather than disposable form state. observed reality repository: /users/awtsmoos/work/awtsmoos.com/geelooy. app directory: geelooy/apps. /apps is a generated public catalog, so registration should follow its source registry rather than hand copying a card into the page. minimax h3 current api uses post /v2/video generation and get /v2/query/video generation/{task id}. h3 accepts text, first/last frame images, reference images, reference video, and reference audio under documented mutually exclusive mode rules. h3 supports 768p and 2k output, 4–15 second integer durations, and documented aspect ratios. h3 reference mode supports up to 9 images, 3 videos, and 3 audio references with documented file and duration limits. the browser must never receive the minimax api key. work graph evidence gates 1. no implementation claim closes until changed files are read back. 2. no ui claim closes until the route loads in a browser equivalent runtime without console/runtime errors. 3. no api claim closes until request translation matches official h3 documentation. 4. no live generation claim closes unless an actual configured minimax key produces a real task/result. 5. remaining work.md stays non empty until implementation, tests, and handoff evidence are complete.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-30-1307-olam-h3-studio-00-revelation-and-wor-d034b9b1ed.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-30-1307-olam-h3-studio-01-architecture-optio-010eb00080",
+		"title": "Architecture Pass Two — Options, Critique, Improvements",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-30-1307-olam-h3-studio/01-architecture-options-and-critique.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Architecture Pass Two — Options, Critique, Improvements",
+				"anchor": "architecture-pass-two-options-critique-improvements"
+			},
+			{
+				"level": 2,
+				"text": "Competing shapes",
+				"anchor": "competing-shapes"
+			},
+			{
+				"level": 3,
+				"text": "A. One static app + direct MiniMax calls",
+				"anchor": "a-one-static-app-direct-minimax-calls"
+			},
+			{
+				"level": 3,
+				"text": "B. One static app + tiny same-project proxy + IndexedDB domain layer",
+				"anchor": "b-one-static-app-tiny-same-project-proxy-indexeddb-domain-layer"
+			},
+			{
+				"level": 3,
+				"text": "C. Full server database for generations/assets",
+				"anchor": "c-full-server-database-for-generations-assets"
+			},
+			{
+				"level": 3,
+				"text": "D. Service-worker-first offline application",
+				"anchor": "d-service-worker-first-offline-application"
+			},
+			{
+				"level": 3,
+				"text": "E. Framework migration inside /apps",
+				"anchor": "e-framework-migration-inside-apps"
+			},
+			{
+				"level": 2,
+				"text": "Selected architecture",
+				"anchor": "selected-architecture"
+			},
+			{
+				"level": 2,
+				"text": "Improvement ledger",
+				"anchor": "improvement-ledger"
+			},
+			{
+				"level": 2,
+				"text": "Failure map",
+				"anchor": "failure-map"
+			},
+			{
+				"level": 2,
+				"text": "Completion principle",
+				"anchor": "completion-principle"
+			}
+		],
+		"excerpt": "Architecture Pass Two — Options, Critique, Improvements Competing shapes A. One static app + direct MiniMax calls Rejected. It leaks the API key and violates the security requirement. B. One static app + tiny same project proxy + IndexedDB domain layer Preferred. The browser owns durable local creative state; the exist",
+		"searchText": "architecture pass two — options, critique, improvements competing shapes a. one static app + direct minimax calls rejected. it leaks the api key and violates the security requirement. b. one static app + tiny same project proxy + indexeddb domain layer preferred. the browser owns durable local creative state; the existing server owns only credentialed minimax transport. this keeps the backend small and avoids inventing cloud persistence claims. c. full server database for generations/assets rejected for this scope. it duplicates indexeddb intent, increases privacy/security surface, and creates an unrelated backend product. d. service worker first offline application useful later, but not the first foundation. it adds lifecycle complexity before core generation/recovery is verified. e. framework migration inside /apps rejected. existing awtsmoos apps are compatible with native browser modules; bringing a second spa build tool would increase loading and integration risk. selected architecture native es modules and css, mobile first. static route: /apps/olam h3/. central provider capability record for minimax h3. central pricing record, never scattered constants. indexeddb database adapter with stores for generations, assets, prompts, preferences, and cached media metadata. queue coordinator that restores nonterminal generation records on boot and resumes polling. secure same project server route that validates structured client input, injects minimax api key, calls minimax, and normalizes upstream errors. client never stores or displays the api key. app catalog registration uses the existing registry source discovered by the /apps filtering module. improvement ledger 1. separate provider capabilities from rendering so future providers do not infect every component. 2. keep pricing independent from capabilities so price changes do not require ui surgery. 3. validate modes twice: immediately in the client for ux and again on the server for security/integrity. 4. persist a generation before the network call so refresh cannot erase an attempted job. 5. persist task id immediately after create response. 6. poll only nonterminal tasks and use bounded increasing intervals. 7. treat remote video url and cached blob as separate sources with explicit precedence. 8. use asset ids in generation records rather than duplicating blobs. 9. hash practical asset identity from name/size/type/lastmodified and allow reuse instead of repeated inserts. 10. keep prompt history in its own store so prompts are searchable even without opening generations. 11. deduplicate identical normalized prompts while preserving last used timestamps. 12. model i2v versus reference to video as explicit modes rather than a pile of nullable fields. 13. auto clear incompatible references when a user switches mode, with a reversible explanation toast. 14. enforce minimax request size guidance before submit. 15. use storagemanager estimates when available and degrade gracefully when unavailable. 16. never auto cache completed videos unless the preference says automatic. 17. make cache failure nonfatal to generation success. 18. calculate dashboard spend from app recorded records and label it local accounting. 19. store pricing snapshot/rule version with each generation so historical totals remain explainable after future price updates. 20. normalize upstream http errors without erasing minimax’s meaningful message/status. 21. use touch safe bottom navigation and a sticky generate affordance at 360px. 22. avoid browser only hover assumptions; every key action must be reachable by touch and keyboard. 23. keep sheet/modal patterns consistent and focus managed. 24. render large libraries incrementally and avoid eagerly creating blob urls for offscreen assets. 25. revoke object urls when cards unmount/change to avoid memory leaks. 26. give active jobs a persistent compact queue strip accessible from every screen. 27. keep all nontrivial modules small enough to reread in one glance and split by stable responsibility. 28. do not expose undocumented h3 options merely because an older minimax model had them. 29. hide/disable any future model whose pricing is not verified rather than inventing cost estimates. 30. test /apps itself after registration, because a perfect child app is still a regression if the catalog breaks. failure map authentication: missing/invalid server secret. billing: insufficient minimax balance. throttling: 429 rate limit. moderation: rejected prompt/reference. validation: unsupported ratio/resolution/duration/mode. asset transport: oversized or malformed media. network: offline browser, proxy unavailable, upstream timeout. persistence: indexeddb denied/quota exceeded/version migration failure. media: expired remote result url with or without local cache. recovery: task survives reload but becomes older than minimax query window. ui: keyboard covers sticky controls, bottom sheet traps focus, long prompt overflows. registry: /apps import breaks from malformed new catalog entry. completion principle the preferred architecture is only accepted if the existing repository’s server and registry contracts support it. those contracts are inspected before code is written; any mismatch creates a new plan delta rather than a guessed integration.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-30-1307-olam-h3-studio-01-architecture-optio-010eb00080.json"
+	}
+]

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Route Composition Tests (geelooy/api/social/helper/routes/test/)\n\nContract tests proving the route groups compose into one coherent derech surface.\n\n- `routeComposition.contract.js` — overall route composition.\n- `aliasComposition.contract.js` — alias route composition.\n- `packedComposition.contract.js` — packed route composition.\n- `profileComposition.contract.js` — profile route composition.\n- `seriesCompatibility.contract.js` — series route compatibility.\n- `apiHttp.test.js` — apiHttp plumbing.\n"
+}

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Browser Shadow Proof\n\nThe Awtsmoos lets raw source carry the Torah before the browser may dance;\nAwtsmoos.com then hydrates the same Road, adding life without stealing the crawler's chance.\n\nThe public Road was navigated in the owned Chrome target after production deployment.\n\nObserved browser title:\n\n`בפ' נסכים | Ikar | Awtsmoos`\n\nThe Chrome evaluation completed without exception and returned that live document title. The raw public HTML proof remains the primary SEO evidence because search crawlability must not depend on JavaScript. Earlier isolated browser hydration testing also preserved the server-rendered Torah without fatal JavaScript errors.\n"
+}

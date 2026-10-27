@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# NEXT_ACTION\n\nRun ikar contract tests and syntax checks. Then open local /heichelos/ikar after server reload and confirm H1 + two series names from API.\n"
+}

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\n\n# Phase Three: Evidence-Gated Final Plan\n\nBoruch Hashem. Blessed is He.\n\nNo source file is named here until inspection proves ownership. The Awtsmoos renews the world from truth, so the final edit set will be the smallest complete set supported by traced runtime evidence.\n\n## Execution gates\n\n- Identify server entry point and route mapping.\n- Identify the actual Road/Heichel public URL shapes.\n- Identify public APIs/data access used by those pages.\n- Identify existing SEO utilities before creating new ones.\n- Read every candidate file fully before rewrite.\n- Record exact files to touch after the trace.\n- Rewrite entire touched files, preserving public contracts.\n- Run syntax/lint/tests available for changed modules.\n- Fetch representative URLs without browser JavaScript and inspect returned HTML.\n- Run browser verification to ensure enhancement still works.\n- Audit robots, sitemap, canonical, status codes, and accidental noindex.\n- Re-read all touched files and compare planned versus actual changes.\n"
+}

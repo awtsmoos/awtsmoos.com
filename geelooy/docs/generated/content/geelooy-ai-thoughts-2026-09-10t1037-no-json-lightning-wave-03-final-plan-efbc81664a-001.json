@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "<!-- B\"H -->\n<!-- Boruch Hashem -->\n<!-- Blessed be He -->\n\n# Final Plan\n\n1. Refresh current dirty tree, prior remaining work, and current generated catalog counts.\n2. Run seven read/proof lanes immediately: Chrome, SEO, sitemap/robots, readiness, telemetry, startup, dirty-tree conflicts.\n3. Implement the first returned high-value lane with only whole-file rewrites.\n4. While that write/test worker runs, open seven additional independent lanes.\n5. Keep all new artifacts out of JSON files.\n6. After each write wave: syntax, exact headers, tabs, line-count, behavioral tests, then browser/runtime where relevant.\n7. Re-read all touched files and record planned-versus-actual results plus remaining work.\n"
+}

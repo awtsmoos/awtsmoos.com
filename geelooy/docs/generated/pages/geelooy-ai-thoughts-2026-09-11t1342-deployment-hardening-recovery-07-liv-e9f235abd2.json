@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-11t1342-deployment-hardening-recovery-07-liv-e9f235abd2",
+	"title": "Live Deployment Evidence",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-11T1342-deployment-hardening-recovery/07-live-deployment.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Live Deployment Evidence",
+			"anchor": "live-deployment-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Production is serving the hardened release",
+			"anchor": "production-is-serving-the-hardened-release"
+		},
+		{
+			"level": 2,
+			"text": "Current remote release state",
+			"anchor": "current-remote-release-state"
+		},
+		{
+			"level": 2,
+			"text": "Product verification authority",
+			"anchor": "product-verification-authority"
+		},
+		{
+			"level": 2,
+			"text": "Remaining CI testimony",
+			"anchor": "remaining-ci-testimony"
+		},
+		{
+			"level": 2,
+			"text": "Tunnel-control 502 testimony",
+			"anchor": "tunnel-control-502-testimony"
+		},
+		{
+			"level": 2,
+			"text": "Release conclusion",
+			"anchor": "release-conclusion"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-11t1342-deployment-hardening-recovery-07-liv-e9f235abd2-001.json"
+	]
+}

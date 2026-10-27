@@ -1,146 +1,202 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-light-three-gltf-test-directory-g-75aa421554",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/light-three-gltf/test/DIRECTORY_GUIDE.md",
-		"category": "Games",
+		"id": "geelooy-ai-thoughts-2026-08-25t1457-geelooy-social-ui-api-intense-gate-p-ccd5f9ce6b",
+		"title": "Dry-run gate probe",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25T1457-geelooy-social-ui-api-intense/GATE_PROBE.md",
+		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/light-three-gltf/test",
-				"anchor": "directory-guide-experiments-light-three-gltf-test"
-			},
-			{
-				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
-			},
-			{
-				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
-			},
-			{
-				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Exported symbols worth searching",
-				"anchor": "exported-symbols-worth-searching"
-			},
-			{
-				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
-			},
-			{
-				"level": 2,
-				"text": "Test themes",
-				"anchor": "test-themes"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Dry-run gate probe",
+				"anchor": "dry-run-gate-probe"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/light three gltf/test Role: Rendering library Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 27 files, 0 structural child directories Purpose Tests for the lightweight scene graph, GLTF, math, and renderer primitives. T",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/light three gltf/test role: rendering library snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 27 files, 0 structural child directories purpose tests for the lightweight scene graph, gltf, math, and renderer primitives. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: rendering library search terms: mjs, tiny, state, render, texture, cache, com, proves, layered, material, native, static file mix: .mjs: 26 good first question: “does the behavior or asset i need belong to rendering library, or is this only a neighboring/test/reference layer?” semantic evidence b\"h proves first clip activation, exact looping, crossfade, and bind restoration. the awtsmoos gives motion to clip zero before any clock has passed; awtsmoos.com verifies that idle begins alive, continues without reset, and yields cleanly to every later gesture. creates a fake webgl context whose native call ledger remains observable. proves exact skips, selective vao invalidation, restore, and identity. the awtsmoos remembers without confusion; awtsmoos.com erases only the declarations a hidden vertex array change can alter while preserving every unrelated witnessed state. representative files tiny animation player.test.mjs — proves first clip activation, exact looping, crossfade, and bind restoration. the awtsmoos gives motion to clip zero before any clock has passed; awtsmoos.com verifies that idle begins alive, continues without reset, and yields cleanly to every later gesture. tiny gl state cache fixture.mjs — creates a fake webgl context whose native call ledger remains observable. exports: createfakegl, nativecallcount. tiny gl state cache.test.mjs — proves exact skips, selective vao invalidation, restore, and identity. the awtsmoos remembers without confusion; awtsmoos.com erases only the declarations a hidden vertex array change can alter while preserving every unrelated witnessed state. tiny gltf instance.test.mjs — proves resource sharing and mutable skeleton isolation between actors. the awtsmoos renews each body through one shared form; awtsmoos.com verifies that geometry and palette vessels are reused while bones and transforms remain independent. covers: “instances share geometry and default material but not bones”, “palette resolvers can share one variant across many instances”. tiny gpu texture binding.test.mjs — proves an already bound unit needs neither activation nor another texture bind. the awtsmoos joins memory and garment without empty motion; awtsmoos.com verifies that returning to a resident unit changes only the sampler uniform, not global webgl texture state. covers: “resident texture units skip redundant activetexture and bindtexture calls”. tiny layered terrain shader.test.mjs — proves six active samplers, ecological controls, and smaller gpu compilation. the awtsmoos is one beneath every stacked garment; awtsmoos.com verifies distinct earth without assuming every finite gpu should evaluate ten overlapping textures per pixel. covers: “default fragment shader contains six terrain samplers and seven mixes”, “a smaller shader contains only its measured layer capacity”, “ecological zone weights travel from vertex input to fragment shader”. tiny layered texture binder.test.mjs — proves zero ordinary material tax and hardware aware terrain layer capacity. the awtsmoos fills six vessels on broad hardware and five on a smaller vessel; awtsmoos.com never makes cottages or chassidim walk through empty terrain binding declarations. covers: “ordinary materials perform no terrain texture operations”, “verified hardware binds all six layers to units three through eight”, “eight unit hardware disables only the sixth excess terrain layer”. tiny layered texture state.test.mjs — proves ordinary materials stay empty while six active layers compare exactly. the awtsmoos joins only truly equal garments; awtsmoos.com detects image, readiness, repeat, ecology, height, slope, rotation, strength, and wetness without blank ordinary state. covers: “ordinary materials expose no layered state”, “six complete layers compare by exact shader visible state”, “missing logical layers become disabled default shader records”. tiny material signature.test.mjs — prevents batching across sidedness or incompatible native pixel density contracts. the awtsmoos unites forms without confusing their boundaries or scale; awtsmoos.com keeps distinct culling covenants and original pixel measurements in separate renderer vessels. covers: “material signatures distinguish every renderer visible sidedness contract”, “pre hydration signatures preserve distinct native density policies”, “hydrated source dimensions become part of the effective repeat signature”. tiny native texture density.test.mjs — proves original pixels produce fractional world scale repeats without resampling. the awtsmoos preserves the finite dimensions of every image vessel; awtsmoos.com verifies that world uvs reveal more or less of that source rather than enlarging or shrinking the source. covers: “world uv density uses exact source width, height, and uv scale”, “normalized surfaces calculate fractional cycles from measured surface size”, “unresolved and opted out sources preserve authored fallback repetition”. tiny render allocation cache.test.mjs — proves frame, transform, world map, and bounds storage reuse without math drift. the awtsmoos renews every coordinate; awtsmoos.com verifies the same finite vessels may receive those exact values again instead of becoming short lived frame garbage. covers: “world traversal reuses map, snapshots, hierarchy matrices, and sphere storage”, “render frames reuse camera matrices, camera position, and world map exactly”. tiny render culling.test.mjs — proves conservative bounds, camera culling, and invisible matrix skipping. the awtsmoos renews seen and unseen forms alike; awtsmoos.com verifies that the renderer conceals only what evidence places outside the present camera vessel. covers: “local and world spheres are cached and transformed”, “camera collection preserves front meshes and rejects side and distant meshes”, “explicit mountains remain visible and missing bounds fail open”. tiny render gl state stats.test.mjs — proves exact aggregation of cache and vertex array invalidation evidence. the awtsmoos contains every call and lawful omission; awtsmoos.com records their measure so an optimization remains a tested vessel rather than a flattering boast. exported symbols worth searching createfakegl · nativecallcount · createscene · collect · material · triangle · readyimage import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: node:assert/strict ../tiny runtime.js ../tiny animation.js ../tiny gl state cache.js ./tiny gl state cache fixture.mjs node:test ../tiny gltf instance.js ../tiny gpu texture cache.js ../tiny fragment shader.js ../tiny unified shaders.js ../tiny render webgl utils.js ../tiny layered texture binder.js test themes instances share geometry and default material but not bones palette resolvers can share one variant across many instances resident texture units skip redundant activetexture and bindtexture calls default fragment shader contains six terrain samplers and seven mixes a smaller shader contains only its measured layer capacity ecological zone weights travel from vertex input to fragment shader only explicit layered terrain enters material mode five ordinary materials perform no terrain texture operations verified hardware binds all six layers to units three through eight eight unit hardware disables only the sixth excess terrain layer ordinary materials expose no layered state six complete layers compare by exact shader visible state directory map parent: experiments/light three gltf children: none. related and overlapping systems rendering stacks — the project contains a lightweight scene/gltf library, the canonical app level progressive renderer, and focused render helpers. emergency fallback visuals were absorbed into the app renderer. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-light-three-gltf-test-directory-g-75aa421554.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Dry run gate probe No mutation is intended. This probe exists only to expose the mandatory instruction pack requirements before authoritative source work.",
+		"searchText": "b\"h boruch hashem blessed is he dry run gate probe no mutation is intended. this probe exists only to expose the mandatory instruction pack requirements before authoritative source work.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25t1457-geelooy-social-ui-api-intense-gate-p-ccd5f9ce6b.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-movie-maker-audit-md-555789cc24",
-		"title": "B\"H — Mitzvah World Movie Maker Audit",
-		"sourcePath": "geelooy/games/mitzvahWorld/MOVIE_MAKER_AUDIT.md",
-		"category": "Games",
+		"id": "geelooy-ai-thoughts-2026-08-25t1914-all-pages-extreme-00-remaining-work--dd54e10a08",
+		"title": "REMAINING WORK — All Pages Extreme",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25T1914-all-pages-extreme/00_REMAINING_WORK.md",
+		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H — Mitzvah World Movie Maker Audit",
-				"anchor": "b-h-mitzvah-world-movie-maker-audit"
+				"text": "REMAINING WORK — All Pages Extreme",
+				"anchor": "remaining-work-all-pages-extreme"
 			},
 			{
 				"level": 2,
-				"text": "Recovered systems",
-				"anchor": "recovered-systems"
+				"text": "Mission",
+				"anchor": "mission"
 			},
 			{
 				"level": 2,
-				"text": "Launcher",
-				"anchor": "launcher"
+				"text": "Known production families",
+				"anchor": "known-production-families"
 			},
 			{
 				"level": 2,
-				"text": "Runtime architecture",
-				"anchor": "runtime-architecture"
+				"text": "Cross-cutting obligations",
+				"anchor": "cross-cutting-obligations"
 			},
 			{
 				"level": 2,
-				"text": "AI project contract",
-				"anchor": "ai-project-contract"
+				"text": "Current evidence",
+				"anchor": "current-evidence"
 			},
 			{
 				"level": 2,
-				"text": "NLE",
-				"anchor": "nle"
-			},
-			{
-				"level": 2,
-				"text": "Thirty-second film",
-				"anchor": "thirty-second-film"
-			},
-			{
-				"level": 2,
-				"text": "Floor correction",
-				"anchor": "floor-correction"
-			},
-			{
-				"level": 2,
-				"text": "Final media",
-				"anchor": "final-media"
-			},
-			{
-				"level": 2,
-				"text": "Regression proof",
-				"anchor": "regression-proof"
-			},
-			{
-				"level": 2,
-				"text": "Honest limitations",
-				"anchor": "honest-limitations"
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
 			}
 		],
-		"excerpt": "B\"H — Mitzvah World Movie Maker Audit Recovered systems The repository did not contain an older Mitzvah World movie maker, but it did contain the two required foundations. geelooy/apps/animator supplied NLE track, camera shot, scene, performance, and export architecture. geelooy/apps/piano supplied ordered browser reco",
-		"searchText": "b\"h — mitzvah world movie maker audit recovered systems the repository did not contain an older mitzvah world movie maker, but it did contain the two required foundations. geelooy/apps/animator supplied nle track, camera shot, scene, performance, and export architecture. geelooy/apps/piano supplied ordered browser recording, audio stream, worker, finalization, and download patterns. the new system adapts those ideas to the real mitzvah world runtime rather than creating a disconnected renderer. launcher the game no longer boots invisibly underneath its opening screen. the short main menu offers: enter world movie maker mode=world bypasses the menu for normal gameplay. movie get parameters bypass the menu and open the studio. runtime architecture ai project contract projects may arrive through encoded get json, raw get json, fetched json, pasted editor json, or the included sample. tracks support scene changes and visibility, actor motion and animation, door motion, eased cinematic cameras, dialogue, and audio. the complete machine readable contract is movies/movie project.schema.json. nle the visible studio provides track lanes, colored clips, ruler, scrub playhead, live preview, json editor, apply json, get url generation, play/stop, render progress, and browser download. the source webgl canvas remains active but hidden. the output canvas composites real world frames with scene grades, transitions, titles, camera shot names, and dialogue subtitles. thirty second film project: movies/projects/chossid journey 30s.json. the film uses seven tracks and thirty three clips. the chossid walks, runs, speaks with another character, approaches the real main house door, passes through it after it opens, runs inside, jumps, and completes the journey. eight camera shots include establishing, side tracking, two shot, low angle hero, doorway follow, interior tracking, jump low angle, and crane ending. floor correction the first rendered candidate was rejected after evidence showed the general collision ground sampler was striking the house roof overhang. movie actors now use terrain height outdoors and explicit rotated house floor metadata indoors. verified heights: outdoor approach: approximately 0.52 m interior floor: approximately 0.77 m interior jump apex: approximately 3.02 m grounded interior ending: approximately 0.77 m the rejected evidence was deleted and the entire movie was rerendered. final media accepted final: movies/chossid journey 30s.mp4. browser master: movies/chossid journey 30s browser master.webm. poster: movies/chossid journey 30s poster.jpg. final format: h.264 video 960 × 540 24 fps 720 frames 30.000 seconds aac stereo 48 khz 13,794,089 bytes sha 256 0eb45182641022bfc51d17030aafc341dd8c55be1d7c36e867671ebaab2e9c8a full video and audio decode completed without errors. audio measures approximately −23.0 db mean and −2.1 db peak. regression proof movie project and floor resolver tests pass. the original forest still contains fifty four trees and all thirty six presets. the prior geometry suite still reports five houses, fourteen doors and mezuzahs, four staircases, zero stair penetrations, and zero road gaps or intersections. honest limitations browser live webaudio depends on trusted playback permissions. the accepted render obtained a running live audio context, and the finalizer always adds timed spoken dialogue from the same json before mp4 verification. the nle is json first: clips can be scrubbed and projects rebuilt, but drag resize editing is not yet implemented.",
-		"page": "pages/geelooy-games-mitzvahworld-movie-maker-audit-md-555789cc24.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He REMAINING WORK — All Pages Extreme The Awtsmoos renews every route before any stylesheet can claim permanence; Awtsmoos.com therefore asks each page to receive a precise garment, local to its vessel, simple at first glance and infinitely expandable beneath. Mission Transform every produc",
+		"searchText": "b\"h boruch hashem blessed is he remaining work — all pages extreme the awtsmoos renews every route before any stylesheet can claim permanence; awtsmoos.com therefore asks each page to receive a precise garment, local to its vessel, simple at first glance and infinitely expandable beneath. mission transform every production geelooy page family into a clean, mobile first, retractable, futuristic interface with localized styling, complete interaction states, bounded layering, overflow safety, better documentation, and progressively simplified javascript/api surfaces. known production families [ ] home/root shell. [ ] apps catalogue and shared future system verification. [ ] social hub and shared social shells. [ ] docs. [ ] drive. [ ] editor/post/heichel authoring family. [ ] heichel/heichelos/read/review family. [ ] profile/social/comment/thread/entity family. [ ] authentication/register/mfa/account surfaces. [ ] notifications/email/messages/media surfaces. [ ] games/game/procedural world pages. [ ] os/node os/control/db/awtai db/git/admin tooling. [ ] ai/ocr/fetch/parsers/web scrapers utilities. [ ] legal/about/contact/donate informational pages. [ ] reeyuh/record/recorder/youtube/zmanim and remaining media/tools. [ ] archive/test/generated fixtures classified and excluded from production migrations unless actually routed. cross cutting obligations [ ] no unscoped route css introduced. [ ] every migrated stylesheet rooted to a page contract or route owned component root. [ ] all interactive controls receive hover, active, focus visible, disabled, selected/open/busy states where semantically relevant. [ ] touch targets remain mobile safe. [ ] horizontal overflow eliminated at 320px unless intentionally scrollable. [ ] fixed/sticky layers use explicit local layer tokens and never arbitrary giant z index values. [ ] reduced motion and forced colors remain functional. [ ] advanced controls retract by default where complexity would otherwise crowd the page. [ ] all touched javascript remains modular, data first, documented, and compatible with existing callers. [ ] all touched files retain b\"h / boruch hashem / blessed is he headers and meaningful awtsmoos/awtsmoos.com documentation. [ ] all touched source files use tabs and remain under the project line ceiling through module splits. [ ] browser smoke and console/network checks performed after each route family wave. [ ] documentation updated after verified behavior, not before. current evidence apps and future system already received a major route local mobile first pass. social hub already owns a large import based local css system and modular js architecture; its remaining debt is html density, mobile disclosure, consistency, and runtime/browser proof rather than absence of modularity. root geelooy contains dozens of route families; blanket global css is explicitly rejected. procedural core enhancement remains a parallel mission with staged rock/texture/botany/grass architecture awaiting reliable native source promotion. next action audit social hub local style modules for selector scope, overflow, z index, and interaction state gaps; then rewrite only proven weak modules and simplify dense shell markup without changing required dom ids or js contracts.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25t1914-all-pages-extreme-00-remaining-work--dd54e10a08.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-25t1914-all-pages-extreme-01-limitless-ui-un-c1551fd339",
+		"title": "Phase One — Limitless UI Universe",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25T1914-all-pages-extreme/01_LIMITLESS_UI_UNIVERSE.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase One — Limitless UI Universe",
+				"anchor": "phase-one-limitless-ui-universe"
+			},
+			{
+				"level": 2,
+				"text": "Ideal experience",
+				"anchor": "ideal-experience"
+			},
+			{
+				"level": 2,
+				"text": "JavaScript/API universe",
+				"anchor": "javascript-api-universe"
+			},
+			{
+				"level": 2,
+				"text": "Documentation universe",
+				"anchor": "documentation-universe"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase One — Limitless UI Universe The Awtsmoos is beyond interface and user flow; Awtsmoos.com can nevertheless reveal one coherent digital world where every route feels related without one route leaking style into another. Ideal experience Every page opens in a calm primary state with o",
+		"searchText": "b\"h boruch hashem blessed is he phase one — limitless ui universe the awtsmoos is beyond interface and user flow; awtsmoos.com can nevertheless reveal one coherent digital world where every route feels related without one route leaking style into another. ideal experience every page opens in a calm primary state with only the actions needed now. advanced controls live inside native or accessible disclosures, side sheets, command palettes, inspector drawers, contextual rails, or expandable cards. the same conceptual patterns repeat across routes: command/search, identity, status, primary action, contextual details, advanced expansion. mobile is the foundation rather than a compressed desktop afterthought. every route defines its own local color/accent variables beneath an explicit body route selector. shared visual contracts are opt in utilities whose selectors always require a route root or dedicated component root. all panels use min inline size: 0, bounded media, safe wrapping, and explicit scroll ownership. sticky/fixed navigation is sparse, safe area aware, and never hides page content. layering uses semantic local tokens such as content, sticky, overlay, sheet, toast, and modal rather than arbitrary numbers. motion communicates state: hover lift, press compression, disclosure expansion, loading shimmer, focus illumination, route transitions, and success/error feedback. motion automatically collapses under reduced motion preferences. dense creation tools expose a simple primary canvas first; secondary inspectors retract. data heavy admin pages expose summary cards first, filters second, raw payload/advanced controls only on demand. docs show five line quick starts before schemas and failure contracts. social pages foreground conversation/content and retract governance/debug metadata. drive/editor pages foreground the selected file/document and collapse secondary navigation on narrow screens. auth pages remain exceptionally simple and distraction free. every page can survive 320px viewport width without accidental horizontal page scrolling. every interactive element has discoverable keyboard focus and a pressed/active response. any intentional horizontally scrollable region advertises that behavior visually and keeps the document itself fixed. javascript/api universe route boot files become small assemblies that compose domain classes instead of owning logic. dom reads/writes live in views; business state lives in models/policies; network access lives in gateways; orchestration lives in coordinators. public apis accept small serializable option objects and return stable result records. existing low level apis remain available through adapters while ergonomic facades become easier. event names and dom selectors become data registries rather than repeated string literals. abortsignal, timeout, retry, loading, empty, failure, and optimistic states are explicit. complex route state can serialize enough information to reproduce bugs. tests verify public contracts and dom integration separately. documentation universe each route family has a compact readme: purpose, entry point, style root, js assembly, api boundaries, tests, known extensions. architecture docs explain why modules exist and which direction dependencies flow. ui docs define the route's body/root contract and layering/overflow ownership. advanced implementation details stay below quick start guidance.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25t1914-all-pages-extreme-01-limitless-ui-un-c1551fd339.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-25t1914-all-pages-extreme-02-realistic-route-7ebc6b9735",
+		"title": "Phase Two — Realistic Route Architecture",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25T1914-all-pages-extreme/02_REALISTIC_ROUTE_ARCHITECTURE.md",
+		"category": "Routes",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Two — Realistic Route Architecture",
+				"anchor": "phase-two-realistic-route-architecture"
+			},
+			{
+				"level": 2,
+				"text": "Chosen architecture",
+				"anchor": "chosen-architecture"
+			},
+			{
+				"level": 3,
+				"text": "1. Route-owned style manifests",
+				"anchor": "1-route-owned-style-manifests"
+			},
+			{
+				"level": 3,
+				"text": "2. Opt-in shared future contracts",
+				"anchor": "2-opt-in-shared-future-contracts"
+			},
+			{
+				"level": 3,
+				"text": "3. Route-family migration instead of page-by-page duplication",
+				"anchor": "3-route-family-migration-instead-of-page-by-page-duplication"
+			},
+			{
+				"level": 3,
+				"text": "4. Native disclosure first",
+				"anchor": "4-native-disclosure-first"
+			},
+			{
+				"level": 3,
+				"text": "5. Semantic layer tokens",
+				"anchor": "5-semantic-layer-tokens"
+			},
+			{
+				"level": 3,
+				"text": "6. JavaScript boundaries",
+				"anchor": "6-javascript-boundaries"
+			},
+			{
+				"level": 2,
+				"text": "First route-family wave",
+				"anchor": "first-route-family-wave"
+			},
+			{
+				"level": 3,
+				"text": "Social Hub",
+				"anchor": "social-hub"
+			},
+			{
+				"level": 3,
+				"text": "Home",
+				"anchor": "home"
+			},
+			{
+				"level": 3,
+				"text": "Docs",
+				"anchor": "docs"
+			},
+			{
+				"level": 3,
+				"text": "Drive",
+				"anchor": "drive"
+			},
+			{
+				"level": 2,
+				"text": "Second wave",
+				"anchor": "second-wave"
+			},
+			{
+				"level": 2,
+				"text": "Third wave",
+				"anchor": "third-wave"
+			},
+			{
+				"level": 2,
+				"text": "Parallel procedural wave",
+				"anchor": "parallel-procedural-wave"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Two — Realistic Route Architecture Chesed imagines one shining universe; Gevurah protects the boundaries. The Awtsmoos is beyond both, while Awtsmoos.com needs an architecture where shared language never becomes shared leakage. Chosen architecture 1. Route owned style manifests Eac",
+		"searchText": "b\"h boruch hashem blessed is he phase two — realistic route architecture chesed imagines one shining universe; gevurah protects the boundaries. the awtsmoos is beyond both, while awtsmoos.com needs an architecture where shared language never becomes shared leakage. chosen architecture 1. route owned style manifests each production route owns a local style.css or equivalent manifest. the manifest imports small modules. ordinary selectors inside those modules must begin from the route's body/root contract. 2. opt in shared future contracts shared future system modules remain legal only when selectors require explicit route participation such as body[data future page] or a dedicated component root. no :root, naked body, universal interactive selector, or generic .button is allowed in shared route styling. 3. route family migration instead of page by page duplication families with common runtime/dom structures migrate together: social, authoring, heichel reading, account/auth, admin/tooling, media, games. shared components may own styles, but page documents still opt into them explicitly. 4. native disclosure first use for advanced static controls where possible. custom sheets/drawers only where state/navigation requires them. this reduces javascript and improves accessibility. 5. semantic layer tokens each route defines bounded layer variables. shared components may map to them but must not introduce arbitrary global stacking values. 6. javascript boundaries view: dom rendering and accessibility state. policy/model: pure state and validation. gateway: http/storage/browser capability. coordinator/runtime: lifecycle and event orchestration. assembly: dependency wiring only. inheritance is used only when a stable base contract has genuine specializations; composition remains preferred otherwise. first route family wave social hub preserve all existing ids and import map js contracts. split dense html sections into readable multiline markup without changing semantics. audit future hygiene, future interaction baseline, mobile, desktop retraction, interaction disclosure, surface contract. add or correct local overflow/layer/focus states only where absent. verify mobile dock/sheets do not cover content. home audit geelooy/index.css for naked selectors and localize under home route body. preserve launcher/search behavior. verify mobile dock and card grid overflow. docs preserve docs information architecture. simplify first screen to search/navigation/current topic; retract implementation heavy controls. localize any document global selectors. drive preserve existing file operations. collapse secondary panes on narrow screens. make pane ownership/scrolling explicit. verify selection, drag/drop, context menus, dialogs, and keyboard focus. second wave authoring + heichel + profile/social + auth/account. third wave admin/tooling + ai/utilities + media + informational/legal. parallel procedural wave procedural core source promotion proceeds independently but follows the same contracts: simple facade, small focused authorities, whole file rewrites, compatibility tests, documentation after verification.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25t1914-all-pages-extreme-02-realistic-route-7ebc6b9735.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-25t1914-all-pages-extreme-03-critique-30-imp-b87a35c88e",
+		"title": "Phase Three — Thirty Improvements After Critique",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25T1914-all-pages-extreme/03_CRITIQUE_30_IMPROVEMENTS.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Three — Thirty Improvements After Critique",
+				"anchor": "phase-three-thirty-improvements-after-critique"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Three — Thirty Improvements After Critique The Awtsmoos renews the plan as surely as the page; Awtsmoos.com must challenge its own elegance before asking users to trust it. 1. Do not migrate archive/test pages merely to improve counts. 2. Identify actual entry routes before touchin",
+		"searchText": "b\"h boruch hashem blessed is he phase three — thirty improvements after critique the awtsmoos renews the plan as surely as the page; awtsmoos.com must challenge its own elegance before asking users to trust it. 1. do not migrate archive/test pages merely to improve counts. 2. identify actual entry routes before touching a family. 3. never add future system imports where a route already owns equivalent local systems. 4. prefer deleting redundant style responsibility over adding another override. 5. audit selectors for accidental shared class collisions before changing markup. 6. preserve every dom id consumed by javascript unless callers are migrated in the same verified wave. 7. prefer min inline size: 0 at layout boundaries over scattered overflow hacks. 8. use overflow wrap: anywhere only for genuinely untrusted identifiers/text. 9. do not hide overflow to conceal layout defects. 10. keep sticky elements inside predictable scroll containers. 11. treat mobile safe area insets as route shell responsibilities. 12. verify keyboard reachability after adding retractable panels. 13. ensure native summaries have hover, active, focus visible, and open states. 14. ensure form controls have invalid/disabled/read only styles where relevant. 15. avoid hover only affordances on touch first surfaces. 16. add active state feedback even for links styled as cards/buttons. 17. avoid animation on layout heavy properties when transform/opacity can communicate the same state. 18. keep reduced motion output functionally equivalent. 19. use content visibility only on long independent lists, not interactive regions requiring immediate measurement. 20. keep z index token ranges small and documented. 21. browser check focus rings against actual backgrounds. 22. browser check 320px, 375px, tablet, and desktop widths. 23. measure document scrollwidth after every shell rewrite. 24. check console and failed network resources after each route family wave. 25. run route specific tests before broad repository suites. 26. read back every rewritten file in full. 27. compare planned vs actual files and record delta. 28. update readme/architecture only after implementation proof. 29. keep procedural world ui demos under the same local style contract. 30. treat any newly discovered global selector or oversized source file as remaining work rather than silently accepting debt.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25t1914-all-pages-extreme-03-critique-30-imp-b87a35c88e.json"
 	}
 ]

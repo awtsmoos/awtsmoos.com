@@ -22,19 +22,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-ssh-099c712a.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 47,
+		"source": 53,
 		"tests": 0,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
 		"other": 0
 	},
-	"totalFiles": 48,
+	"totalFiles": 54,
 	"symbolSummary": {
-		"files": 47,
-		"classes": 31,
-		"functions": 112,
-		"exports": 133,
+		"files": 53,
+		"classes": 32,
+		"functions": 121,
+		"exports": 140,
 		"samples": [
 			"IGNORE",
 			"UNIMPLEMENTED",
@@ -55,12 +55,7 @@
 		{
 			"project": "geelooy/api/ssh",
 			"count": 2,
-			"examples": "geelooy/api/ssh/lib/client.js; geelooy/api/ssh/virtual/service.js"
-		},
-		{
-			"project": "geelooy/apps/tunnel",
-			"count": 1,
-			"examples": "geelooy/apps/tunnel/agent/lib/fakeSsh/wireServer.js"
+			"examples": "geelooy/api/ssh/lib/client.js; geelooy/api/ssh/virtual/serviceComponents.js"
 		}
 	],
 	"externalDependencies": [],

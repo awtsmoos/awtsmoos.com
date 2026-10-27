@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-02-0340-sitewide-public-indexing-06-release--13f674294a",
+	"title": "Release Manifest Blocker and Public Proof",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-02-0340-sitewide-public-indexing/06-release-manifest-blocker-and-public-proof.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Release Manifest Blocker and Public Proof",
+			"anchor": "release-manifest-blocker-and-public-proof"
+		},
+		{
+			"level": 2,
+			"text": "Observed public proof",
+			"anchor": "observed-public-proof"
+		},
+		{
+			"level": 2,
+			"text": "Release verifier blocker",
+			"anchor": "release-verifier-blocker"
+		},
+		{
+			"level": 2,
+			"text": "Repair strategy",
+			"anchor": "repair-strategy"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-02-0340-sitewide-public-indexing-06-release--13f674294a-001.json"
+	]
+}

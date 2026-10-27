@@ -1,0 +1,134 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-merkava-native-browser-merkava-unique-features-md-8ea4244acc",
+	"title": "Merkava Browser — Features No Other Browser Has",
+	"sourcePath": "geelooy/apps/merkava-native-browser/MERKAVA_UNIQUE_FEATURES.md",
+	"category": "Apps",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Merkava Browser — Features No Other Browser Has",
+			"anchor": "merkava-browser-features-no-other-browser-has"
+		},
+		{
+			"level": 2,
+			"text": "1. Bytecode Page Cache — visit once, instant forever [PARTIAL]",
+			"anchor": "1-bytecode-page-cache-visit-once-instant-forever-partial"
+		},
+		{
+			"level": 2,
+			"text": "2. Offline-First Browsing — every page you viewed works without internet [NEW]",
+			"anchor": "2-offline-first-browsing-every-page-you-viewed-works-without-internet-new"
+		},
+		{
+			"level": 2,
+			"text": "3. Time-Travel Browsing — see any page as it was on any date [NEW]",
+			"anchor": "3-time-travel-browsing-see-any-page-as-it-was-on-any-date-new"
+		},
+		{
+			"level": 2,
+			"text": "4. Hebrew/RTL-First Rendering [BUILT]",
+			"anchor": "4-hebrew-rtl-first-rendering-built"
+		},
+		{
+			"level": 2,
+			"text": "5. Bytecode-Level Ad & Tracker Blocking [NEW]",
+			"anchor": "5-bytecode-level-ad-tracker-blocking-new"
+		},
+		{
+			"level": 2,
+			"text": "6. P2P Tab Sync — no cloud [NEW]",
+			"anchor": "6-p2p-tab-sync-no-cloud-new"
+		},
+		{
+			"level": 2,
+			"text": "7. On-Device AI Reader Mode [NEW]",
+			"anchor": "7-on-device-ai-reader-mode-new"
+		},
+		{
+			"level": 2,
+			"text": "8. Split-View with Shared JS Context [NEW]",
+			"anchor": "8-split-view-with-shared-js-context-new"
+		},
+		{
+			"level": 2,
+			"text": "9. Voice-Controlled Navigation [NEW]",
+			"anchor": "9-voice-controlled-navigation-new"
+		},
+		{
+			"level": 2,
+			"text": "10. Instant Full-Text Search Over Everything You Visited [NEW]",
+			"anchor": "10-instant-full-text-search-over-everything-you-visited-new"
+		},
+		{
+			"level": 2,
+			"text": "11. Session Replay [NEW]",
+			"anchor": "11-session-replay-new"
+		},
+		{
+			"level": 2,
+			"text": "12. Predictive Bytecode Prefetch [NEW]",
+			"anchor": "12-predictive-bytecode-prefetch-new"
+		},
+		{
+			"level": 2,
+			"text": "13. Page-Change Watcher [NEW]",
+			"anchor": "13-page-change-watcher-new"
+		},
+		{
+			"level": 2,
+			"text": "14. Extensions as Bytecode — Mobile Extension System [PARTIAL]",
+			"anchor": "14-extensions-as-bytecode-mobile-extension-system-partial"
+		},
+		{
+			"level": 2,
+			"text": "15. Full PWA + Service Worker — Better Than Desktop Chrome [PARTIAL]",
+			"anchor": "15-full-pwa-service-worker-better-than-desktop-chrome-partial"
+		},
+		{
+			"level": 2,
+			"text": "16. Unified History = Cache [NEW]",
+			"anchor": "16-unified-history-cache-new"
+		},
+		{
+			"level": 2,
+			"text": "17. Bandwidth Saver Sync [NEW]",
+			"anchor": "17-bandwidth-saver-sync-new"
+		},
+		{
+			"level": 2,
+			"text": "18. Provable Zero Telemetry [NEW]",
+			"anchor": "18-provable-zero-telemetry-new"
+		},
+		{
+			"level": 2,
+			"text": "19. Per-Site Focus Profiles [NEW]",
+			"anchor": "19-per-site-focus-profiles-new"
+		},
+		{
+			"level": 2,
+			"text": "20. Built-in Screenshot + Annotate [BUILT]",
+			"anchor": "20-built-in-screenshot-annotate-built"
+		},
+		{
+			"level": 2,
+			"text": "21. Developer Time Machine [NEW]",
+			"anchor": "21-developer-time-machine-new"
+		},
+		{
+			"level": 2,
+			"text": "22. One-Click Native App Export [PARTIAL]",
+			"anchor": "22-one-click-native-app-export-partial"
+		},
+		{
+			"level": 2,
+			"text": "Implementation priority (Yaakov's order)",
+			"anchor": "implementation-priority-yaakov-s-order"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-merkava-native-browser-merkava-unique-features-md-8ea4244acc-001.json"
+	]
+}

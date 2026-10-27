@@ -2,11 +2,16 @@
 	"BH": "B\"H / Boruch Hashem / Blessed is He",
 	"schema": "awtsmoos-doc-page-v2",
 	"id": "geelooy-youtube-documentation-md-1d74e31a03",
-	"title": "YouTube Migration",
+	"title": "B\"H",
 	"sourcePath": "geelooy/youtube/DOCUMENTATION.md",
 	"category": "General",
 	"provenance": "breadcrumb",
 	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
 		{
 			"level": 1,
 			"text": "YouTube Migration",
@@ -19,28 +24,53 @@
 		},
 		{
 			"level": 2,
-			"text": "Whole-channel archive",
-			"anchor": "whole-channel-archive"
+			"text": "Google Takeout",
+			"anchor": "google-takeout"
 		},
 		{
 			"level": 2,
-			"text": "One owned video",
-			"anchor": "one-owned-video"
+			"text": "Download one owned video",
+			"anchor": "download-one-owned-video"
 		},
 		{
 			"level": 2,
-			"text": "Advanced creator migration",
-			"anchor": "advanced-creator-migration"
+			"text": "Advanced yt-dlp creator workflow",
+			"anchor": "advanced-yt-dlp-creator-workflow"
 		},
 		{
 			"level": 2,
-			"text": "Playlist, chronology, captions, and archives",
-			"anchor": "playlist-chronology-captions-and-archives"
+			"text": "Archive.org direct video storage",
+			"anchor": "archive-org-direct-video-storage"
 		},
 		{
 			"level": 2,
-			"text": "Dry planning and resumability",
-			"anchor": "dry-planning-and-resumability"
+			"text": "Resilient video recovery",
+			"anchor": "resilient-video-recovery"
+		},
+		{
+			"level": 2,
+			"text": "Public verification after PUT",
+			"anchor": "public-verification-after-put"
+		},
+		{
+			"level": 2,
+			"text": "Legacy checkpoint compatibility",
+			"anchor": "legacy-checkpoint-compatibility"
+		},
+		{
+			"level": 2,
+			"text": "Dry plan and explicit publish",
+			"anchor": "dry-plan-and-explicit-publish"
+		},
+		{
+			"level": 2,
+			"text": "Playlist, chronology, and provenance",
+			"anchor": "playlist-chronology-and-provenance"
+		},
+		{
+			"level": 2,
+			"text": "Publication resumability",
+			"anchor": "publication-resumability"
 		}
 	],
 	"markdownParts": [

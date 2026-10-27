@@ -20,14 +20,14 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-about-6ad77115.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 1,
+		"source": 7,
 		"tests": 0,
 		"assets": 0,
 		"generated": 0,
 		"docs": 0,
 		"other": 0
 	},
-	"totalFiles": 1,
+	"totalFiles": 7,
 	"symbolSummary": null,
 	"outgoingDependencies": [],
 	"incomingDependencies": [],
@@ -37,8 +37,8 @@
 			"url": "/about",
 			"file": "geelooy/about/index.html",
 			"title": "About — Geelooy",
-			"scripts": 2,
-			"styles": 3
+			"scripts": 1,
+			"styles": 2
 		}
 	],
 	"requiresLocalDocumentation": false,

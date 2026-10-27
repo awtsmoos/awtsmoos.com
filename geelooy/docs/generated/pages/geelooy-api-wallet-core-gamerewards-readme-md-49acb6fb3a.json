@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-wallet-core-gamerewards-readme-md-49acb6fb3a",
+	"title": "B\"H — Game Rewards (geelooy/api/wallet/core/gameRewards/)",
+	"sourcePath": "geelooy/api/wallet/core/gameRewards/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Game Rewards (geelooy/api/wallet/core/gameRewards/)",
+			"anchor": "b-h-game-rewards-geelooy-api-wallet-core-gamerewards"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-wallet-core-gamerewards-readme-md-49acb6fb3a-001.json"
+	]
+}

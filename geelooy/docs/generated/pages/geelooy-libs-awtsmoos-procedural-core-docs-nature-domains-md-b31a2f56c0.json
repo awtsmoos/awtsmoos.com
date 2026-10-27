@@ -1,0 +1,79 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-docs-nature-domains-md-b31a2f56c0",
+	"title": "Nature Domains — Deep Systems Behind the Small Door",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/NATURE_DOMAINS.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Nature Domains — Deep Systems Behind the Small Door",
+			"anchor": "nature-domains-deep-systems-behind-the-small-door"
+		},
+		{
+			"level": 2,
+			"text": "Architecture at a glance",
+			"anchor": "architecture-at-a-glance"
+		},
+		{
+			"level": 2,
+			"text": "Domem — geology and rocks",
+			"anchor": "domem-geology-and-rocks"
+		},
+		{
+			"level": 2,
+			"text": "Materials and generated textures",
+			"anchor": "materials-and-generated-textures"
+		},
+		{
+			"level": 2,
+			"text": "Tzomayach — plants, flowers, grass, and trees",
+			"anchor": "tzomayach-plants-flowers-grass-and-trees"
+		},
+		{
+			"level": 3,
+			"text": "Canonical trees",
+			"anchor": "canonical-trees"
+		},
+		{
+			"level": 2,
+			"text": "Chai — creatures",
+			"anchor": "chai-creatures"
+		},
+		{
+			"level": 2,
+			"text": "Water — conserved state first, appearance second",
+			"anchor": "water-conserved-state-first-appearance-second"
+		},
+		{
+			"level": 2,
+			"text": "Ecosystems and biomes",
+			"anchor": "ecosystems-and-biomes"
+		},
+		{
+			"level": 2,
+			"text": "Catalog discovery",
+			"anchor": "catalog-discovery"
+		},
+		{
+			"level": 2,
+			"text": "Expert escape hatches",
+			"anchor": "expert-escape-hatches"
+		},
+		{
+			"level": 2,
+			"text": "Determinism and profiles",
+			"anchor": "determinism-and-profiles"
+		},
+		{
+			"level": 2,
+			"text": "Responsibility covenant",
+			"anchor": "responsibility-covenant"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-docs-nature-domains-md-b31a2f56c0-001.json"
+	]
+}

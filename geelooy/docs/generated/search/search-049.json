@@ -1,331 +1,70 @@
 [
 	{
-		"id": "docs-generated-api-tutorials-routes-api-projecthosting-cleanup-86c3f103e-c3152202f8",
-		"title": "API Tutorial: /api/projectHosting/cleanup",
-		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-projecthosting-cleanup-86c3f103e2.md",
-		"category": "Projects",
-		"provenance": "generated",
-		"headings": [
-			{
-				"level": 1,
-				"text": "API Tutorial: /api/projectHosting/cleanup",
-				"anchor": "api-tutorial-api-projecthosting-cleanup"
-			},
-			{
-				"level": 2,
-				"text": "Contract evidence",
-				"anchor": "contract-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Path parameters",
-				"anchor": "path-parameters"
-			},
-			{
-				"level": 2,
-				"text": "Starter call",
-				"anchor": "starter-call"
-			},
-			{
-				"level": 2,
-				"text": "Observed callers",
-				"anchor": "observed-callers"
-			},
-			{
-				"level": 2,
-				"text": "Related tests",
-				"anchor": "related-tests"
-			},
-			{
-				"level": 2,
-				"text": "Related routes",
-				"anchor": "related-routes"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/projectHosting/cleanup Family: /api/projectHosting · Mount: /api/projectHosting · Derech health: OK Source: geelooy/api/projectHosting/runtimeRoutes.js · Discovery: static literal · Confidence: unknown method Read the human /api/projectHosting tutorial Generated eviden",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/projecthosting/cleanup family: /api/projecthosting · mount: /api/projecthosting · derech health: ok source: geelooy/api/projecthosting/runtimeroutes.js · discovery: static literal · confidence: unknown method read the human /api/projecthosting tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: $ get observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/projecthosting /api/projecthosting/activity /api/projecthosting/materialize /api/projecthosting/restart /api/projecthosting/start /api/projecthosting/status /api/projecthosting/stop",
-		"page": "pages/docs-generated-api-tutorials-routes-api-projecthosting-cleanup-86c3f103e-c3152202f8.json"
-	},
-	{
-		"id": "docs-generated-api-tutorials-routes-api-projecthosting-materialize-04d0c-98fabee0f8",
-		"title": "API Tutorial: /api/projectHosting/materialize",
-		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-projecthosting-materialize-04d0cae6e7.md",
-		"category": "Projects",
-		"provenance": "generated",
-		"headings": [
-			{
-				"level": 1,
-				"text": "API Tutorial: /api/projectHosting/materialize",
-				"anchor": "api-tutorial-api-projecthosting-materialize"
-			},
-			{
-				"level": 2,
-				"text": "Contract evidence",
-				"anchor": "contract-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Path parameters",
-				"anchor": "path-parameters"
-			},
-			{
-				"level": 2,
-				"text": "Starter call",
-				"anchor": "starter-call"
-			},
-			{
-				"level": 2,
-				"text": "Observed callers",
-				"anchor": "observed-callers"
-			},
-			{
-				"level": 2,
-				"text": "Related tests",
-				"anchor": "related-tests"
-			},
-			{
-				"level": 2,
-				"text": "Related routes",
-				"anchor": "related-routes"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/projectHosting/materialize Family: /api/projectHosting · Mount: /api/projectHosting · Derech health: OK Source: geelooy/api/projectHosting/runtimeRoutes.js · Discovery: static literal · Confidence: unknown method Read the human /api/projectHosting tutorial Generated ev",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/projecthosting/materialize family: /api/projecthosting · mount: /api/projecthosting · derech health: ok source: geelooy/api/projecthosting/runtimeroutes.js · discovery: static literal · confidence: unknown method read the human /api/projecthosting tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: $ get observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/projecthosting /api/projecthosting/activity /api/projecthosting/cleanup /api/projecthosting/restart /api/projecthosting/start /api/projecthosting/status /api/projecthosting/stop",
-		"page": "pages/docs-generated-api-tutorials-routes-api-projecthosting-materialize-04d0c-98fabee0f8.json"
-	},
-	{
-		"id": "docs-generated-api-tutorials-routes-api-projecthosting-restart-332876897-1f1dc72f92",
-		"title": "API Tutorial: /api/projectHosting/restart",
-		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-projecthosting-restart-3328768971.md",
-		"category": "Projects",
-		"provenance": "generated",
-		"headings": [
-			{
-				"level": 1,
-				"text": "API Tutorial: /api/projectHosting/restart",
-				"anchor": "api-tutorial-api-projecthosting-restart"
-			},
-			{
-				"level": 2,
-				"text": "Contract evidence",
-				"anchor": "contract-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Path parameters",
-				"anchor": "path-parameters"
-			},
-			{
-				"level": 2,
-				"text": "Starter call",
-				"anchor": "starter-call"
-			},
-			{
-				"level": 2,
-				"text": "Observed callers",
-				"anchor": "observed-callers"
-			},
-			{
-				"level": 2,
-				"text": "Related tests",
-				"anchor": "related-tests"
-			},
-			{
-				"level": 2,
-				"text": "Related routes",
-				"anchor": "related-routes"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/projectHosting/restart Family: /api/projectHosting · Mount: /api/projectHosting · Derech health: OK Source: geelooy/api/projectHosting/runtimeRoutes.js · Discovery: static literal · Confidence: unknown method Read the human /api/projectHosting tutorial Generated eviden",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/projecthosting/restart family: /api/projecthosting · mount: /api/projecthosting · derech health: ok source: geelooy/api/projecthosting/runtimeroutes.js · discovery: static literal · confidence: unknown method read the human /api/projecthosting tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: $ get observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/projecthosting /api/projecthosting/activity /api/projecthosting/cleanup /api/projecthosting/materialize /api/projecthosting/start /api/projecthosting/status /api/projecthosting/stop",
-		"page": "pages/docs-generated-api-tutorials-routes-api-projecthosting-restart-332876897-1f1dc72f92.json"
-	},
-	{
-		"id": "docs-generated-api-tutorials-routes-api-projecthosting-start-15affd017d--d315bddda2",
-		"title": "API Tutorial: /api/projectHosting/start",
-		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-projecthosting-start-15affd017d.md",
-		"category": "Projects",
-		"provenance": "generated",
-		"headings": [
-			{
-				"level": 1,
-				"text": "API Tutorial: /api/projectHosting/start",
-				"anchor": "api-tutorial-api-projecthosting-start"
-			},
-			{
-				"level": 2,
-				"text": "Contract evidence",
-				"anchor": "contract-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Path parameters",
-				"anchor": "path-parameters"
-			},
-			{
-				"level": 2,
-				"text": "Starter call",
-				"anchor": "starter-call"
-			},
-			{
-				"level": 2,
-				"text": "Observed callers",
-				"anchor": "observed-callers"
-			},
-			{
-				"level": 2,
-				"text": "Related tests",
-				"anchor": "related-tests"
-			},
-			{
-				"level": 2,
-				"text": "Related routes",
-				"anchor": "related-routes"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/projectHosting/start Family: /api/projectHosting · Mount: /api/projectHosting · Derech health: OK Source: geelooy/api/projectHosting/runtimeRoutes.js · Discovery: static literal · Confidence: unknown method Read the human /api/projectHosting tutorial Generated evidence",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/projecthosting/start family: /api/projecthosting · mount: /api/projecthosting · derech health: ok source: geelooy/api/projecthosting/runtimeroutes.js · discovery: static literal · confidence: unknown method read the human /api/projecthosting tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: $ get observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/projecthosting /api/projecthosting/activity /api/projecthosting/cleanup /api/projecthosting/materialize /api/projecthosting/restart /api/projecthosting/status /api/projecthosting/stop",
-		"page": "pages/docs-generated-api-tutorials-routes-api-projecthosting-start-15affd017d--d315bddda2.json"
-	},
-	{
-		"id": "docs-generated-api-tutorials-routes-api-projecthosting-status-e49bd88d04-7ba804e04e",
-		"title": "API Tutorial: /api/projectHosting/status",
-		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-projecthosting-status-e49bd88d04.md",
-		"category": "Projects",
-		"provenance": "generated",
-		"headings": [
-			{
-				"level": 1,
-				"text": "API Tutorial: /api/projectHosting/status",
-				"anchor": "api-tutorial-api-projecthosting-status"
-			},
-			{
-				"level": 2,
-				"text": "Contract evidence",
-				"anchor": "contract-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Path parameters",
-				"anchor": "path-parameters"
-			},
-			{
-				"level": 2,
-				"text": "Starter call",
-				"anchor": "starter-call"
-			},
-			{
-				"level": 2,
-				"text": "Observed callers",
-				"anchor": "observed-callers"
-			},
-			{
-				"level": 2,
-				"text": "Related tests",
-				"anchor": "related-tests"
-			},
-			{
-				"level": 2,
-				"text": "Related routes",
-				"anchor": "related-routes"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/projectHosting/status Family: /api/projectHosting · Mount: /api/projectHosting · Derech health: OK Source: geelooy/api/projectHosting/runtimeRoutes.js · Discovery: static literal · Confidence: unknown method Read the human /api/projectHosting tutorial Generated evidenc",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/projecthosting/status family: /api/projecthosting · mount: /api/projecthosting · derech health: ok source: geelooy/api/projecthosting/runtimeroutes.js · discovery: static literal · confidence: unknown method read the human /api/projecthosting tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: $ get observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/projecthosting/status?projectid=drive site geelooy/drive/test/projectruntimeclient.test.mjs test related tests no package script heuristic match was found. related routes /api/projecthosting /api/projecthosting/activity /api/projecthosting/cleanup /api/projecthosting/materialize /api/projecthosting/restart /api/projecthosting/start /api/projecthosting/stop",
-		"page": "pages/docs-generated-api-tutorials-routes-api-projecthosting-status-e49bd88d04-7ba804e04e.json"
-	},
-	{
-		"id": "docs-generated-api-tutorials-routes-api-projecthosting-stop-7e644b25e9-m-10c279628c",
-		"title": "API Tutorial: /api/projectHosting/stop",
-		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-projecthosting-stop-7e644b25e9.md",
-		"category": "Projects",
-		"provenance": "generated",
-		"headings": [
-			{
-				"level": 1,
-				"text": "API Tutorial: /api/projectHosting/stop",
-				"anchor": "api-tutorial-api-projecthosting-stop"
-			},
-			{
-				"level": 2,
-				"text": "Contract evidence",
-				"anchor": "contract-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Path parameters",
-				"anchor": "path-parameters"
-			},
-			{
-				"level": 2,
-				"text": "Starter call",
-				"anchor": "starter-call"
-			},
-			{
-				"level": 2,
-				"text": "Observed callers",
-				"anchor": "observed-callers"
-			},
-			{
-				"level": 2,
-				"text": "Related tests",
-				"anchor": "related-tests"
-			},
-			{
-				"level": 2,
-				"text": "Related routes",
-				"anchor": "related-routes"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/projectHosting/stop Family: /api/projectHosting · Mount: /api/projectHosting · Derech health: OK Source: geelooy/api/projectHosting/runtimeRoutes.js · Discovery: static literal · Confidence: unknown method Read the human /api/projectHosting tutorial Generated evidence ",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/projecthosting/stop family: /api/projecthosting · mount: /api/projecthosting · derech health: ok source: geelooy/api/projecthosting/runtimeroutes.js · discovery: static literal · confidence: unknown method read the human /api/projecthosting tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: $ get observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/projecthosting /api/projecthosting/activity /api/projecthosting/cleanup /api/projecthosting/materialize /api/projecthosting/restart /api/projecthosting/start /api/projecthosting/status",
-		"page": "pages/docs-generated-api-tutorials-routes-api-projecthosting-stop-7e644b25e9-m-10c279628c.json"
-	},
-	{
-		"id": "docs-generated-api-tutorials-routes-api-public-97cc9d947c-md-5c6a5799a1",
-		"title": "API Tutorial: /api/public",
-		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-public-97cc9d947c.md",
+		"id": "docs-generated-api-routes-api-routes-007-md-abad5fddd9",
+		"title": "Generated API Route Atlas 511–595",
+		"sourcePath": "docs/GENERATED/API_ROUTES/api-routes-007.md",
 		"category": "Routes",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "API Tutorial: /api/public",
-				"anchor": "api-tutorial-api-public"
-			},
-			{
-				"level": 2,
-				"text": "Contract evidence",
-				"anchor": "contract-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Path parameters",
-				"anchor": "path-parameters"
-			},
-			{
-				"level": 2,
-				"text": "Starter call",
-				"anchor": "starter-call"
-			},
-			{
-				"level": 2,
-				"text": "Observed callers",
-				"anchor": "observed-callers"
-			},
-			{
-				"level": 2,
-				"text": "Related tests",
-				"anchor": "related-tests"
-			},
-			{
-				"level": 2,
-				"text": "Related routes",
-				"anchor": "related-routes"
+				"text": "Generated API Route Atlas 511–595",
+				"anchor": "generated-api-route-atlas-511-595"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/public Family: Public · Mount: /api/public · Derech health: OK Source: geelooy/api/public/ awtsmoos.derech.js · Discovery: static literal · Confidence: unknown method Read the human Public tutorial Generated evidence is a navigation and teaching aid, not an OpenAPI con",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/public family: public · mount: /api/public · derech health: ok source: geelooy/api/public/ awtsmoos.derech.js · discovery: static literal · confidence: unknown method read the human public tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: $ get, $ post, route vars, identity, db observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/public geelooy/db/api bridge.js runtime /api/public geelooy/db/explorer/script.js runtime related tests no package script heuristic match was found. related routes none generated.",
-		"page": "pages/docs-generated-api-tutorials-routes-api-public-97cc9d947c-md-5c6a5799a1.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated API Route Atlas 511–595 Source derived route rows. Dynamic parameters use :name; terminal catch alls use :name . URL pattern Source Discovery /api/tunnel/control/bootstrap geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/budgets geelooy/api/tunnel/cont",
+		"searchText": "b\"h boruch hashem blessed is he generated api route atlas 511–595 source derived route rows. dynamic parameters use :name; terminal catch alls use :name . url pattern source discovery /api/tunnel/control/bootstrap geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/budgets geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/compute geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/compute/capture geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/compute/history geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/compute/receipt geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/compute/subscription geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/conversations/get geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/conversations/list geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/conversations/register geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/device geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/device login/approve geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/device login/code geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/device login/deny geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/device login/describe geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/device login/status geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/devices geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/devices/protocol/capabilities geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/devices/protocol/invitations geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/devices/protocol/invitations/accept geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/devices/protocol/invitations/cancel geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/devices/protocol/invitations/create geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/devices/protocol/invitations/decline geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/devices/protocol/messages geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/devices/protocol/messages/ack geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/devices/protocol/messages/send geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/devices/protocol/presence geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/devices/protocol/relationships geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/devices/protocol/relationships/revoke geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/docs geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/docs.json geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/ephemeral/:resultid geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/ephemeral/:resultid/delete geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/ephemeral/:resultid/page geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/ephemeral/:resultid/search geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/ephemeral/list geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/external agent/invite/create geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/external agent/invite/describe geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/external agent/invite/redeem geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/flow geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/fs/:tunnelname geelooy/api/tunnel/control/ awtsmoos.derech.js static literal /api/tunnel/control/fs/:tunnelname geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/fs/awtsmoos os geelooy/api/tunnel/control/ awtsmoos.derech.js static literal /api/tunnel/control/fs/awtsmoos os geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/handoff/:tunnelname geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/lanes/simple/:filename geelooy/api/tunnel/control/ awtsmoos.derech.js static literal /api/tunnel/control/live calls geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/live calls/stream geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/marketplace geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/mcp geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/me geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/mission room/stream geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/my device geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/openapi geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/openapi key geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/organization geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/pairing/approve geelooy/api/tunnel/control/ awtsmoos.derech.js static literal /api/tunnel/control/pairing/approve geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/pairing/page geelooy/api/tunnel/control/ awtsmoos.derech.js static literal /api/tunnel/control/pairing/page geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/pairing/request geelooy/api/tunnel/control/ awtsmoos.derech.js static literal /api/tunnel/control/pairing/request geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/pairing/state geelooy/api/tunnel/control/ awtsmoos.derech.js static literal /api/tunnel/control/pairing/state geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/pairing/status geelooy/api/tunnel/control/ awtsmoos.derech.js static literal /api/tunnel/control/pairing/status geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/preview link/:tunnelname/:tokenid/:tail geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/preview/:tunnelname geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/preview/access/revoke geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/preview/create geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/preview/grant geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/preview/list geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/preview/revoke geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/preview/settings geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/preview/settings/set geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/preview/update geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/provider geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/receipt/certificate geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/refund geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/reputation geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/resource accounting geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/simple/approved geelooy/api/tunnel/control/ awtsmoos.derech.js static literal /api/tunnel/control/simple/cmd geelooy/api/tunnel/control/ awtsmoos.derech.js static literal /api/tunnel/control/simple/poll geelooy/api/tunnel/control/ awtsmoos.derech.js static literal /api/tunnel/control/simple/request geelooy/api/tunnel/control/ awtsmoos.derech.js static literal",
+		"page": "pages/docs-generated-api-routes-api-routes-007-md-abad5fddd9.json"
+	},
+	{
+		"id": "docs-generated-api-routes-api-routes-008-md-ce9c8ac3ca",
+		"title": "Generated API Route Atlas 596–680",
+		"sourcePath": "docs/GENERATED/API_ROUTES/api-routes-008.md",
+		"category": "Routes",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Generated API Route Atlas 596–680",
+				"anchor": "generated-api-route-atlas-596-680"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated API Route Atlas 596–680 Source derived route rows. Dynamic parameters use :name; terminal catch alls use :name . URL pattern Source Discovery /api/tunnel/control/simple/result geelooy/api/tunnel/control/ awtsmoos.derech.js static literal /api/tunnel/control/simple/setup geelooy",
+		"searchText": "b\"h boruch hashem blessed is he generated api route atlas 596–680 source derived route rows. dynamic parameters use :name; terminal catch alls use :name . url pattern source discovery /api/tunnel/control/simple/result geelooy/api/tunnel/control/ awtsmoos.derech.js static literal /api/tunnel/control/simple/setup geelooy/api/tunnel/control/ awtsmoos.derech.js static literal /api/tunnel/control/simple/status geelooy/api/tunnel/control/ awtsmoos.derech.js static literal /api/tunnel/control/transfer/device geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/transfer/get/:tunnelname geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/treasury geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/treasury test geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/treasury/advisor geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/treasury/agents geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/treasury/budgets geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/treasury/forecast geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/treasury/graph geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/treasury/home geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/treasury/marketplace geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/treasury/providers geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/treasury/reputation geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/tunnels/access geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/tunnels/devices/revoke geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/tunnels/grants/create geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/tunnels/grants/revoke geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/usage geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/view/:previewid geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/view/:previewid/proxy geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/view/:previewid/raw geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/view/:previewid/ws geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/write large/:tunnelname geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/fs/:tunnelname geelooy/api/tunnel/ awtsmoos.derech.js static literal /api/tunnel/hetzner/exec geelooy/api/tunnel/hetzner/opsroutes.js static literal /api/tunnel/hetzner/health geelooy/api/tunnel/hetzner/opsroutes.js static literal /api/tunnel/hetzner/readlog geelooy/api/tunnel/hetzner/opsroutes.js static literal /api/tunnel/request/:tunnelname geelooy/api/tunnel/ awtsmoos.derech.js static literal /api/wallet/balance geelooy/api/wallet/routes/table.js route table /api/wallet/buy/mock geelooy/api/wallet/routes/table.js route table /api/wallet/commerce/actions geelooy/api/wallet/routes/table.js route table /api/wallet/commerce/actions/execute geelooy/api/wallet/routes/table.js route table /api/wallet/commerce/catalog geelooy/api/wallet/routes/table.js route table /api/wallet/commerce/credits/commit geelooy/api/wallet/routes/table.js route table /api/wallet/commerce/credits/consume geelooy/api/wallet/routes/table.js route table /api/wallet/commerce/credits/release geelooy/api/wallet/routes/table.js route table /api/wallet/commerce/credits/reserve geelooy/api/wallet/routes/table.js route table /api/wallet/commerce/digital good geelooy/api/wallet/routes/table.js route table /api/wallet/commerce/entitlements geelooy/api/wallet/routes/table.js route table /api/wallet/commerce/products geelooy/api/wallet/routes/table.js route table /api/wallet/commerce/purchase geelooy/api/wallet/routes/table.js route table /api/wallet/commerce/reconciliation/health geelooy/api/wallet/routes/table.js route table /api/wallet/currency geelooy/api/wallet/routes/table.js route table /api/wallet/game rewards/claim geelooy/api/wallet/routes/table.js route table /api/wallet/marketplace geelooy/api/wallet/routes/table.js route table /api/wallet/marketplace/action geelooy/api/wallet/routes/table.js route table /api/wallet/me geelooy/api/wallet/routes/table.js route table /api/wallet/organizations geelooy/api/wallet/routes/table.js route table /api/wallet/organizations/action geelooy/api/wallet/routes/table.js route table /api/wallet/paypal/capture geelooy/api/wallet/routes/table.js route table /api/wallet/paypal/create geelooy/api/wallet/routes/table.js route table /api/wallet/resource/quote geelooy/api/wallet/routes/table.js route table /api/wallet/transfer geelooy/api/wallet/routes/table.js route table /api/what/:are/you/:doing geelooy/api/core/legacyapidemoroutes.js static literal /api/wow/:asd/asd/:rt/k geelooy/api/core/legacyapidemoroutes.js static literal /api/youtube geelooy/api/youtube/routes/table.js route table /api/youtube/:a geelooy/api/youtube/ awtsmoos.derech.js static literal /api/youtube/:a/:b geelooy/api/youtube/ awtsmoos.derech.js static literal /api/youtube/:a/:b/:c geelooy/api/youtube/ awtsmoos.derech.js static literal /api/youtube/auth/callback geelooy/api/youtube/routes/table.js route table /api/youtube/auth/logout geelooy/api/youtube/routes/table.js route table /api/youtube/auth/start geelooy/api/youtube/routes/table.js route table /api/youtube/auth/status geelooy/api/youtube/routes/table.js route table /api/youtube/channel geelooy/api/youtube/routes/table.js route table /api/youtube/channel/mine geelooy/api/youtube/routes/table.js route table /api/youtube/live geelooy/api/youtube/routes/table.js route table /api/youtube/live/create geelooy/api/youtube/routes/table.js route table /api/youtube/live/list geelooy/api/youtube/routes/table.js route table /api/youtube/live/transition geelooy/api/youtube/routes/table.js route table /api/youtube/oauth/callback geelooy/api/youtube/routes/table.js route table /api/youtube/oauth/logout geelooy/api/youtube/routes/table.js route table /api/youtube/oauth/start geelooy/api/youtube/routes/table.js route table /api/youtube/oauth/status geelooy/api/youtube/routes/table.js route table /api/youtube/uploads/start geelooy/api/youtube/routes/table.js route table /api/youtube/videos geelooy/api/youtube/routes/table.js route table /api/youtube/videos/list geelooy/api/youtube/routes/table.js route table /api/youtube/videos/update geelooy/api/youtube/routes/table.js route table /api/zmanim geelooy/api/zmanim/ awtsmoos.derech.js static literal /api/zmanim/calendar geelooy/api/zmanim/ awtsmoos.derech.js static literal /api/zmanim/compare geelooy/api/zmanim/ awtsmoos.derech.js static literal /api/zmanim/day geelooy/api/zmanim/ awtsmoos.derech.js static literal /api/zmanim/embed geelooy/api/zmanim/ awtsmoos.derech.js static literal",
+		"page": "pages/docs-generated-api-routes-api-routes-008-md-ce9c8ac3ca.json"
+	},
+	{
+		"id": "docs-generated-api-routes-api-routes-009-md-c862834a43",
+		"title": "Generated API Route Atlas 681–687",
+		"sourcePath": "docs/GENERATED/API_ROUTES/api-routes-009.md",
+		"category": "Routes",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Generated API Route Atlas 681–687",
+				"anchor": "generated-api-route-atlas-681-687"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated API Route Atlas 681–687 Source derived route rows. Dynamic parameters use :name; terminal catch alls use :name . URL pattern Source Discovery /api/zmanim/health geelooy/api/zmanim/ awtsmoos.derech.js static literal /api/zmanim/location geelooy/api/zmanim/ awtsmoos.derech.js sta",
+		"searchText": "b\"h boruch hashem blessed is he generated api route atlas 681–687 source derived route rows. dynamic parameters use :name; terminal catch alls use :name . url pattern source discovery /api/zmanim/health geelooy/api/zmanim/ awtsmoos.derech.js static literal /api/zmanim/location geelooy/api/zmanim/ awtsmoos.derech.js static literal /api/zmanim/methodology geelooy/api/zmanim/ awtsmoos.derech.js static literal /api/zmanim/opinions geelooy/api/zmanim/ awtsmoos.derech.js static literal /api/zmanim/options geelooy/api/zmanim/ awtsmoos.derech.js static literal /api/zmanim/range geelooy/api/zmanim/ awtsmoos.derech.js static literal /api/zmanim/usno geelooy/api/zmanim/ awtsmoos.derech.js static literal",
+		"page": "pages/docs-generated-api-routes-api-routes-009-md-c862834a43.json"
+	},
+	{
+		"id": "docs-generated-api-source-contracts-md-6bb95099d3",
+		"title": "Generated API Source Contract Evidence",
+		"sourcePath": "docs/GENERATED/API_SOURCE_CONTRACTS.md",
+		"category": "General",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Generated API Source Contract Evidence",
+				"anchor": "generated-api-source-contract-evidence"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated API Source Contract Evidence Lexical source evidence; methods marked unknown are not assumed GET. 643 rows. Chunk Rows Count api source contracts 001.md 1–65 65 api source contracts 002.md 66–130 65 api source contracts 003.md 131–195 65 api source contracts 004.md 196–260 65 a",
+		"searchText": "b\"h boruch hashem blessed is he generated api source contract evidence lexical source evidence; methods marked unknown are not assumed get. 643 rows. chunk rows count api source contracts 001.md 1–65 65 api source contracts 002.md 66–130 65 api source contracts 003.md 131–195 65 api source contracts 004.md 196–260 65 api source contracts 005.md 261–325 65 api source contracts 006.md 326–390 65 api source contracts 007.md 391–455 65 api source contracts 008.md 456–520 65 api source contracts 009.md 521–585 65 api source contracts 010.md 586–643 58",
+		"page": "pages/docs-generated-api-source-contracts-md-6bb95099d3.json"
 	}
 ]

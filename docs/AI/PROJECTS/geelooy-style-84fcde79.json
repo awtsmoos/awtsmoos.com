@@ -21,15 +21,30 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-style-84fcde79.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 1132,
-		"tests": 48,
+		"source": 1324,
+		"tests": 59,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
 		"other": 3
 	},
-	"totalFiles": 1184,
-	"symbolSummary": null,
+	"totalFiles": 1387,
+	"symbolSummary": {
+		"files": 1,
+		"classes": 0,
+		"functions": 5,
+		"exports": 7,
+		"samples": [
+			"AUTH_STYLE_ROOT",
+			"AUTH_MODULE_NAMES",
+			"AUTH_MANIFEST_NAMES",
+			"readAuthSource",
+			"assertContainsEvery",
+			"assertNoGlobalSelectorLeak",
+			"assertAuthLineBudget",
+			"stripCssComments"
+		]
+	},
 	"outgoingDependencies": [],
 	"incomingDependencies": [],
 	"externalDependencies": [],

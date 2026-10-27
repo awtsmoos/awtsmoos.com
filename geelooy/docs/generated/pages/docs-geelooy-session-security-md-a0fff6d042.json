@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-geelooy-session-security-md-a0fff6d042",
+	"title": "Session and Password Security",
+	"sourcePath": "docs/geelooy/SESSION_SECURITY.md",
+	"category": "Security",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Session and Password Security",
+			"anchor": "session-and-password-security"
+		},
+		{
+			"level": 2,
+			"text": "Session model",
+			"anchor": "session-model"
+		},
+		{
+			"level": 2,
+			"text": "Lifetime policy",
+			"anchor": "lifetime-policy"
+		},
+		{
+			"level": 2,
+			"text": "Cookie law",
+			"anchor": "cookie-law"
+		},
+		{
+			"level": 2,
+			"text": "Password storage",
+			"anchor": "password-storage"
+		},
+		{
+			"level": 2,
+			"text": "What is not claimed",
+			"anchor": "what-is-not-claimed"
+		},
+		{
+			"level": 2,
+			"text": "Executable witnesses",
+			"anchor": "executable-witnesses"
+		}
+	],
+	"markdownParts": [
+		"content/docs-geelooy-session-security-md-a0fff6d042-001.json"
+	]
+}

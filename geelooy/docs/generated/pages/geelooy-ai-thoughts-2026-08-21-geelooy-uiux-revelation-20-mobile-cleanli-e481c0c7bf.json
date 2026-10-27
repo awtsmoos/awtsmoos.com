@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-20-mobile-cleanli-e481c0c7bf",
+	"title": "Mobile Cleanliness — Phase Two: Gevurah Evidence Gates",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-21-geelooy-uiux-revelation/20-mobile-cleanliness-phase-two.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Mobile Cleanliness — Phase Two: Gevurah Evidence Gates",
+			"anchor": "mobile-cleanliness-phase-two-gevurah-evidence-gates"
+		},
+		{
+			"level": 2,
+			"text": "Evidence gate before any production rewrite",
+			"anchor": "evidence-gate-before-any-production-rewrite"
+		},
+		{
+			"level": 2,
+			"text": "Required mobile measurements",
+			"anchor": "required-mobile-measurements"
+		},
+		{
+			"level": 2,
+			"text": "CSS conflict scan",
+			"anchor": "css-conflict-scan"
+		},
+		{
+			"level": 2,
+			"text": "Interaction-state contract",
+			"anchor": "interaction-state-contract"
+		},
+		{
+			"level": 2,
+			"text": "Rewrite threshold",
+			"anchor": "rewrite-threshold"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-20-mobile-cleanli-e481c0c7bf-001.json"
+	]
+}

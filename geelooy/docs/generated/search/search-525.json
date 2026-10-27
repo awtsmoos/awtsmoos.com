@@ -1,0 +1,257 @@
+[
+	{
+		"id": "geelooy-games-merkava-docs-architecture-md-9dac757519",
+		"title": "Merkava Architecture",
+		"sourcePath": "geelooy/games/Merkava/docs/architecture.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Merkava Architecture",
+				"anchor": "merkava-architecture"
+			},
+			{
+				"level": 2,
+				"text": "Composition law",
+				"anchor": "composition-law"
+			},
+			{
+				"level": 2,
+				"text": "Domain map",
+				"anchor": "domain-map"
+			},
+			{
+				"level": 2,
+				"text": "Dependency direction",
+				"anchor": "dependency-direction"
+			},
+			{
+				"level": 2,
+				"text": "Extension rule",
+				"anchor": "extension-rule"
+			},
+			{
+				"level": 2,
+				"text": "Stable browser contracts",
+				"anchor": "stable-browser-contracts"
+			}
+		],
+		"excerpt": "Merkava Architecture Composition law Merkava is assembled from small domain modules. The application layer coordinates them but does not own their rules. The runtime path is: index.html → src/main.js → KesserMerkavaBootstrap → MerkavaApp → domain systems. src/main.js is intentionally tiny. Runtime publication, error ev",
+		"searchText": "merkava architecture composition law merkava is assembled from small domain modules. the application layer coordinates them but does not own their rules. the runtime path is: index.html → src/main.js → kessermerkavabootstrap → merkavaapp → domain systems. src/main.js is intentionally tiny. runtime publication, error evidence, input translation, rendering, persistence, commerce and gameplay each live behind separate apis. domain map src/app/ — composition, lifecycle, bootstrap, diagnostics and strategic choices. src/input/ — keyboard/pointer lifecycle and explicit gameplay commands. src/game/ — state, progression, encounters, enemies, bosses and collisions. src/routes/ — deterministic route generation, catalogs, modifiers and effects. src/modes/ — mode definitions and bounded endless scaling. src/render/ — raw webgl resources, procedural meshes and rendering passes. src/ui/ — hud, labels, overlays and presentation events. src/persistence/ — migration, validation, checkpoints, records and history. src/audio/ — optional web audio with graceful failure. src/commerce/ — optional commander sigil account cosmetic. src/config/ — campaign, economy, color and quality constants. dependency direction input never receives mutable gamestate directly. merkavainputactions translates state and commands into a narrow contract. ui never needs to discover anonymous callbacks. merkavainterfaceactions exposes named application intentions to gamehud. optional commerce loads after the application exists. optionalcommercegateway cannot prevent gameplay boot. runtime errors are collected by ohrruntimejournal. kesser publishes legacy browser diagnostics without pushing diagnostics into game systems. extension rule add new behavior to the narrowest domain that owns it. if a file approaches 120 lines, split responsibility instead of compressing comments, jsdoc or logic. prefer new adapters, coordinators and catalogs over adding conditionals to central classes. preserve save and browser contracts through explicit boundary modules. stable browser contracts existing browser diagnostics and acceptance tools continue to receive: window. merkava app window. merkava diagnostics window. merkava runtime errors these globals are compatibility surfaces, not internal architecture. new gameplay code should consume normal module apis instead.",
+		"page": "pages/geelooy-games-merkava-docs-architecture-md-9dac757519.json"
+	},
+	{
+		"id": "geelooy-games-merkava-docs-gameplay-md-85bd938aa9",
+		"title": "Merkava Gameplay Contract",
+		"sourcePath": "geelooy/games/Merkava/docs/gameplay.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Merkava Gameplay Contract",
+				"anchor": "merkava-gameplay-contract"
+			},
+			{
+				"level": 2,
+				"text": "Core loop",
+				"anchor": "core-loop"
+			},
+			{
+				"level": 2,
+				"text": "Controls",
+				"anchor": "controls"
+			},
+			{
+				"level": 2,
+				"text": "Campaign",
+				"anchor": "campaign"
+			},
+			{
+				"level": 2,
+				"text": "Endless",
+				"anchor": "endless"
+			},
+			{
+				"level": 2,
+				"text": "Seeded roads",
+				"anchor": "seeded-roads"
+			},
+			{
+				"level": 2,
+				"text": "Worlds",
+				"anchor": "worlds"
+			},
+			{
+				"level": 2,
+				"text": "Strategic systems",
+				"anchor": "strategic-systems"
+			},
+			{
+				"level": 2,
+				"text": "Enemies and bosses",
+				"anchor": "enemies-and-bosses"
+			},
+			{
+				"level": 2,
+				"text": "Persistence",
+				"anchor": "persistence"
+			}
+		],
+		"excerpt": "Merkava Gameplay Contract Core loop Merkava is a raw WebGL three lane army roguelite about gathering holy sparks, collecting Prutahs, choosing arithmetic gates and deterministic roads, building Sefirah paths, and confronting multi phase bosses. The run remains readable at every moment: choose a lane, preserve the army,",
+		"searchText": "merkava gameplay contract core loop merkava is a raw webgl three lane army roguelite about gathering holy sparks, collecting prutahs, choosing arithmetic gates and deterministic roads, building sefirah paths, and confronting multi phase bosses. the run remains readable at every moment: choose a lane, preserve the army, collect value, survive hazards, choose strategic rewards, and carry a bounded build deeper into the campaign. controls a / d or arrow keys: change lane. tap or drag the canvas: direct mobile lane control. space: activate the charged merkava command. p or escape: toggle pause. hud command button: mobile ability activation. campaign campaign crosses five worlds and ends after sar ha hester falls. each world contains five authored levels: introduction, pressure, elite encounter, mixed combat and boss. ordinary level completion opens a deterministic three road decision and then a sefirah blessing. checkpoint shrines, boss blessings and world transitions preserve the campaign spine. endless endless rotates through the same five mechanically distinct worlds without declaring campaign victory. completed rotations advance a deterministic cycle with bounded increases to road speed, encounter cadence, enemy pressure, boss endurance, attack cadence and prutah rewards. continue restores the exact mode, cycle, route seed and strategic build. seeded roads each run owns one persisted unsigned seed. ordinary non checkpoint boundaries offer three unique roads: one guaranteed low risk guarded road plus two seed ranked alternatives. roads expose risk and reward before selection. they may alter sparks, health, shields, command charge, prutahs, score, lasting damage or future prutah value. offered choices are validated, selected history is capped, malformed saves are repaired, and reload recreates the same route sequence from the seed. worlds 1. assiyah — formations, barricades, golems, prince of dust. 2. yetzirah — curved shots, lightning lanes, ravens, wheel of the storm. 3. beriah — shifting arithmetic, corrupters, mirrors, architect of mirrors. 4. atzilus — faster beams, elites, white fire, serpent of white fire. 5. great concealment — combined corruption and sar ha hester. strategic systems holy sparks control formation size, firing density and survival. prutahs appear in trails, risky lanes, drops, elite rewards, roads and bosses. consecutive collection increases combo value; golden prutahs are worth more. checkpoint prices rise after purchases and as worlds deepen. temporary upgrades alter sparks, damage, fire rate, side shots and piercing. other upgrades alter shields, magnetism, prutah value, gates and healing. blessings level chesed, gevurah, tiferet, netzach, hod, yesod, malchut and keter. named cross sefirah synergies alter combat and economy. the first checkpoint chooses light burst, gathering call or shofar blast. elite shells grant run changing relics with implemented effects. enemies and bosses enemy behaviors include infantry, golems, ravens, archers, drainers, splitters, summoners, gate corrupters, thieves, elites and breakable obstacles. bosses expose names, health, phases, warned unsafe lanes, summons, rage pressure and rewards. endless scaling copies and bounds boss values without replacing mechanics or readable counterplay. persistence save key: awtsmoos.merkava.save.v4. versioned validation repairs malformed values and migrates partial saves through defaults. saves include permanent prutahs, upgrades, campaign/endless records, capped history, relic discoveries, settings and one strategic checkpoint. continue restores mode, cycle, route seed/history, world, level, army, build, relics, command and economy while rebuilding transient combat and visible road cards.",
+		"page": "pages/geelooy-games-merkava-docs-gameplay-md-85bd938aa9.json"
+	},
+	{
+		"id": "geelooy-games-merkava-docs-input-api-md-bb97cf8e24",
+		"title": "Merkava Input API",
+		"sourcePath": "geelooy/games/Merkava/docs/input-api.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Merkava Input API",
+				"anchor": "merkava-input-api"
+			},
+			{
+				"level": 2,
+				"text": "Boundary",
+				"anchor": "boundary"
+			},
+			{
+				"level": 2,
+				"text": "YesodInputPort",
+				"anchor": "yesodinputport"
+			},
+			{
+				"level": 2,
+				"text": "MerkavaInputActions",
+				"anchor": "merkavainputactions"
+			},
+			{
+				"level": 2,
+				"text": "Keyboard contract",
+				"anchor": "keyboard-contract"
+			},
+			{
+				"level": 2,
+				"text": "Pointer contract",
+				"anchor": "pointer-contract"
+			},
+			{
+				"level": 2,
+				"text": "Regression coverage",
+				"anchor": "regression-coverage"
+			}
+		],
+		"excerpt": "Merkava Input API Boundary InputController never receives GameState directly. The live path is: keyboard/pointer → YesodInputPort → InputController → MerkavaInputActions → command. This boundary prevents gesture code from depending on arbitrary mutable state methods. YesodInputPort YesodInputPort is the lifecycle base ",
+		"searchText": "merkava input api boundary inputcontroller never receives gamestate directly. the live path is: keyboard/pointer → yesodinputport → inputcontroller → merkavainputactions → command. this boundary prevents gesture code from depending on arbitrary mutable state methods. yesodinputport yesodinputport is the lifecycle base class for concrete merkava input ports. it owns: injected canvas and keyboard targets; stable bound listener references; idempotent connect() / disconnect(); pointer capture and release helpers; abstract keyboard and pointer methods. new input implementations should extend this class rather than register anonymous global listeners. merkavainputactions the action adapter exposes only the commands input needs: currentlane() — reads the authoritative target lane; chooselane(lane) — normalizes and writes lane 0–2; controlsreversed() — evaluates the injected reversal predicate; activateability() — delegates to the application ability command; togglepause() — delegates to the application pause command. reversal defaults to false. the current game has a boss attack named reverse, but no implemented state modifier currently reverses player controls. a future mechanic may inject the predicate without changing inputcontroller. keyboard contract a / left arrow: one lane left. d / right arrow: one lane right. space: activate charged ability. p / escape: toggle pause. lane writes are always bounded to 0–2. pointer contract pointer x position maps the canvas width into three equal lane regions. the active pointer is captured when available. secondary pointers cannot hijack an existing gesture. pointerup and pointercancel both close the gesture. disconnect() clears listeners and transient gesture state. regression coverage test/inputcontroller.test.mjs permanently protects the production seam that once passed raw gamestate into an incompatible controller api. the suite verifies keyboard movement, bounds, pointer mapping, reversal injection, ability, pause, capture release and listener teardown.",
+		"page": "pages/geelooy-games-merkava-docs-input-api-md-bb97cf8e24.json"
+	},
+	{
+		"id": "geelooy-games-merkava-docs-runtime-bootstrap-md-38b0859e6f",
+		"title": "Merkava Runtime Bootstrap",
+		"sourcePath": "geelooy/games/Merkava/docs/runtime-bootstrap.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Merkava Runtime Bootstrap",
+				"anchor": "merkava-runtime-bootstrap"
+			},
+			{
+				"level": 2,
+				"text": "Runtime path",
+				"anchor": "runtime-path"
+			},
+			{
+				"level": 2,
+				"text": "KesserMerkavaBootstrap",
+				"anchor": "kessermerkavabootstrap"
+			},
+			{
+				"level": 2,
+				"text": "Runtime evidence",
+				"anchor": "runtime-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Compatibility globals",
+				"anchor": "compatibility-globals"
+			},
+			{
+				"level": 2,
+				"text": "Optional commerce",
+				"anchor": "optional-commerce"
+			},
+			{
+				"level": 2,
+				"text": "Fatal behavior",
+				"anchor": "fatal-behavior"
+			},
+			{
+				"level": 2,
+				"text": "Testing",
+				"anchor": "testing"
+			}
+		],
+		"excerpt": "Merkava Runtime Bootstrap Runtime path The production browser path is: index.html → src/main.js → KesserMerkavaBootstrap → MerkavaApp. src/main.js intentionally performs one act: construct Kesser and call awaken(). KesserMerkavaBootstrap Kesser coordinates startup but does not own gameplay rules. It receives injectable",
+		"searchText": "merkava runtime bootstrap runtime path the production browser path is: index.html → src/main.js → kessermerkavabootstrap → merkavaapp. src/main.js intentionally performs one act: construct kesser and call awaken(). kessermerkavabootstrap kesser coordinates startup but does not own gameplay rules. it receives injectable dependencies for: browser publication target; document target; application factory; diagnostics factory; runtime journal; optional commerce gateway. awaken() connects runtime evidence first, creates the application, publishes compatibility globals, then starts optional commerce without awaiting it. a construction failure is recorded and revealed through the bounded fatalerror ui instead of leaving a half published game. runtime evidence ohrruntimejournal owns browser runtime error listeners. it preserves the legacy live array at window. merkava runtime errors , records normal runtime errors, unhandled promise rejections and fatal boot errors, and can detach every listener through disconnect(). snapshot() returns detached frozen records for safe diagnostics consumption. compatibility globals successful boot preserves these existing browser driver contracts: window. merkava app window. merkava diagnostics window. merkava runtime errors merkava diagnostics remains frozen. it identifies the engine as raw webgl with procedural meshes enabled. these globals are diagnostic compatibility surfaces. new game code should use imported module apis instead of reaching through them. optional commerce optionalcommercegateway owns only the dynamic import boundary. the existing bootcommandersigil() remains authoritative for the feature itself. the gateway loads that module after the game exists and converts load failure into a warning plus a false result. a wallet outage, account state, missing feature module, or commander sigil error must never reject core gameplay boot. fatal behavior when application construction fails: 1. the journal records a boot entry; 2. the configured console receives the original error; 3. fatalerror is displayed when available; 4. no merkava app global is published; 5. optional commerce does not become gameplay authority. testing test/bootstrap.test.mjs protects journal identity and listener cleanup, successful global publication, frozen diagnostics, bounded fatal presentation, and non fatal optional commerce failure.",
+		"page": "pages/geelooy-games-merkava-docs-runtime-bootstrap-md-38b0859e6f.json"
+	},
+	{
+		"id": "geelooy-games-merkava-docs-style-contract-md-e7120a7204",
+		"title": "Merkava Style Contract",
+		"sourcePath": "geelooy/games/Merkava/docs/style-contract.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Merkava Style Contract",
+				"anchor": "merkava-style-contract"
+			},
+			{
+				"level": 2,
+				"text": "Single ownership boundary",
+				"anchor": "single-ownership-boundary"
+			},
+			{
+				"level": 2,
+				"text": "Manifest order",
+				"anchor": "manifest-order"
+			},
+			{
+				"level": 2,
+				"text": "Named stacking layers",
+				"anchor": "named-stacking-layers"
+			},
+			{
+				"level": 2,
+				"text": "Interaction contract",
+				"anchor": "interaction-contract"
+			},
+			{
+				"level": 2,
+				"text": "Motion contract",
+				"anchor": "motion-contract"
+			},
+			{
+				"level": 2,
+				"text": "Overlay contract",
+				"anchor": "overlay-contract"
+			},
+			{
+				"level": 2,
+				"text": "Automated enforcement",
+				"anchor": "automated-enforcement"
+			}
+		],
+		"excerpt": "Merkava Style Contract Single ownership boundary Every normal Merkava selector begins beneath gameShell. Do not add bare body, html, button, input, , .overlay, .hud, or other global selectors to Merkava styles. The game may coexist with the shared player shell and future hosts. Its CSS must never repaint siblings. game",
+		"searchText": "merkava style contract single ownership boundary every normal merkava selector begins beneath gameshell. do not add bare body, html, button, input, , .overlay, .hud, or other global selectors to merkava styles. the game may coexist with the shared player shell and future hosts. its css must never repaint siblings. gameshell is the local viewport root and an isolated stacking context. manifest order styles/game.css loads the cascade in deliberate layers: 1. tokens.css 2. foundation.css 3. feature styles such as hud, modes, bosses and overlays 4. interactions.css 5. responsive.css 6. motion.css tokens establish law before feature rules. reduced motion closes the cascade. named stacking layers tokens.css defines the only merkava stacking authorities: canvas: 0 labels: 20 hud: 30 overlay: 40 notice: 50 fatal: 60 feature styles use var( merkava layer ...). do not introduce raw numeric z index declarations. interaction contract relevant buttons, links and form controls need deliberate states. hover motion belongs inside (hover: hover) and (pointer: fine). :active feedback remains universal for mouse, pen and touch. :focus visible stays obvious and independent from hover. mobile action controls keep a 44px minimum block size. disabled controls remain visibly and semantically distinct. motion contract motion is short and purposeful. transform, opacity, border, background and shadow communicate hierarchy or state. avoid infinite decorative motion except bounded ambient identity effects. motion.css contains local prefers reduced motion handling under gameshell. never add a page global reduced motion reset from this game. overlay contract merkava overlays are absolute inside gameshell, not global fixed layers. panels use safe area aware padding, bounded dvh sizing, internal scrolling, and overscroll behavior: contain. document overflow is not a valid substitute for panel scrolling. a phone viewport must not acquire accidental horizontal spill. automated enforcement test/cssscope.test.mjs fails when selectors leak outside gameshell, z index bypasses named tokens, the interaction contract disappears, or manifest ordering changes incorrectly. test/support/cssselectorbranches.mjs understands functional selectors such as :is() so this invariant remains strict without false positives.",
+		"page": "pages/geelooy-games-merkava-docs-style-contract-md-e7120a7204.json"
+	}
+]

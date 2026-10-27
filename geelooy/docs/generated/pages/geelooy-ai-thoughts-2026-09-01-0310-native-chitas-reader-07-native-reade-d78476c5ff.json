@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-01-0310-native-chitas-reader-07-native-reade-d78476c5ff",
+	"title": "Native Chitas Reader UX Delta",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-01-0310-native-chitas-reader/07-native-reader-chitas-ux-delta.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Native Chitas Reader UX Delta",
+			"anchor": "native-chitas-reader-ux-delta"
+		},
+		{
+			"level": 2,
+			"text": "Browser evidence after shared-reader repairs",
+			"anchor": "browser-evidence-after-shared-reader-repairs"
+		},
+		{
+			"level": 2,
+			"text": "Remaining product defects",
+			"anchor": "remaining-product-defects"
+		},
+		{
+			"level": 2,
+			"text": "Repair architecture",
+			"anchor": "repair-architecture"
+		},
+		{
+			"level": 2,
+			"text": "Verification",
+			"anchor": "verification"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-01-0310-native-chitas-reader-07-native-reade-d78476c5ff-001.json"
+	]
+}

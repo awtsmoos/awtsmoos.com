@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-01c7b3f6d1",
+	"title": "Kernel Hardening Delta Plan",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/.ai-thoughts/20260902_0315-universal-procedural-api/12_KERNEL_HARDENING_DELTA_PLAN.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Kernel Hardening Delta Plan",
+			"anchor": "kernel-hardening-delta-plan"
+		},
+		{
+			"level": 2,
+			"text": "New evidence since the first implementation plan",
+			"anchor": "new-evidence-since-the-first-implementation-plan"
+		},
+		{
+			"level": 2,
+			"text": "Exact hardening architecture",
+			"anchor": "exact-hardening-architecture"
+		},
+		{
+			"level": 3,
+			"text": "Compiler manifest",
+			"anchor": "compiler-manifest"
+		},
+		{
+			"level": 3,
+			"text": "Constraint federation",
+			"anchor": "constraint-federation"
+		},
+		{
+			"level": 3,
+			"text": "Cache convergence",
+			"anchor": "cache-convergence"
+		},
+		{
+			"level": 2,
+			"text": "Exact source files",
+			"anchor": "exact-source-files"
+		},
+		{
+			"level": 2,
+			"text": "Verification after complete code draft",
+			"anchor": "verification-after-complete-code-draft"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-01c7b3f6d1-001.json"
+	]
+}

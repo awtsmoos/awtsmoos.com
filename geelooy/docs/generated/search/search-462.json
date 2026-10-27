@@ -1,0 +1,236 @@
+[
+	{
+		"id": "geelooy-api-wallet-core-gamerewards-readme-md-49acb6fb3a",
+		"title": "B\"H — Game Rewards (geelooy/api/wallet/core/gameRewards/)",
+		"sourcePath": "geelooy/api/wallet/core/gameRewards/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Game Rewards (geelooy/api/wallet/core/gameRewards/)",
+				"anchor": "b-h-game-rewards-geelooy-api-wallet-core-gamerewards"
+			}
+		],
+		"excerpt": "B\"H — Game Rewards (geelooy/api/wallet/core/gameRewards/) Game reward economy: catalogs of rewards, claim flow, daily policy, results. Files: catalog.js — reward catalog claim.js — claiming a reward day.js — daily/periodic reward logic policy.js — reward policy rules result.js — claim results Exposed via the game rewar",
+		"searchText": "b\"h — game rewards (geelooy/api/wallet/core/gamerewards/) game reward economy: catalogs of rewards, claim flow, daily policy, results. files: catalog.js — reward catalog claim.js — claiming a reward day.js — daily/periodic reward logic policy.js — reward policy rules result.js — claim results exposed via the game rewards/claim route; tested by tests/gamerewards.test.js, tests/gamerewardpolicy.test.js, and tests/gamerewardroute.test.js.",
+		"page": "pages/geelooy-api-wallet-core-gamerewards-readme-md-49acb6fb3a.json"
+	},
+	{
+		"id": "geelooy-api-wallet-core-marketplace-readme-md-2d1c050f56",
+		"title": "B\"H — Wallet Marketplace (geelooy/api/wallet/core/marketplace/)",
+		"sourcePath": "geelooy/api/wallet/core/marketplace/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Wallet Marketplace (geelooy/api/wallet/core/marketplace/)",
+				"anchor": "b-h-wallet-marketplace-geelooy-api-wallet-core-marketplace"
+			}
+		],
+		"excerpt": "B\"H — Wallet Marketplace (geelooy/api/wallet/core/marketplace/) Marketplace treasury logic behind the marketplace and marketplace/action routes. Files: marketplaceCreate.js, marketplacePurchase.js — listing creation and purchases marketplacePolicy.js — marketplace rules/fees marketplaceService.js — service orchestratio",
+		"searchText": "b\"h — wallet marketplace (geelooy/api/wallet/core/marketplace/) marketplace treasury logic behind the marketplace and marketplace/action routes. files: marketplacecreate.js, marketplacepurchase.js — listing creation and purchases marketplacepolicy.js — marketplace rules/fees marketplaceservice.js — service orchestration marketplacestate.js — marketplace state route helpers routes/marketplaceactionsupport.js; business tests in tests/business/marketplaceeconomics.test.js.",
+		"page": "pages/geelooy-api-wallet-core-marketplace-readme-md-2d1c050f56.json"
+	},
+	{
+		"id": "geelooy-api-wallet-core-organizations-readme-md-433604e37c",
+		"title": "B\"H — Wallet Organizations (geelooy/api/wallet/core/organizations/)",
+		"sourcePath": "geelooy/api/wallet/core/organizations/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Wallet Organizations (geelooy/api/wallet/core/organizations/)",
+				"anchor": "b-h-wallet-organizations-geelooy-api-wallet-core-organizations"
+			}
+		],
+		"excerpt": "B\"H — Wallet Organizations (geelooy/api/wallet/core/organizations/) Organization treasuries: org creation, funding, budgets, member management, and consumption rules — behind the organizations and organizations/action routes. Files: organizationCreate.js, organizationFund.js, organizationConsume.js — lifecycle organiza",
+		"searchText": "b\"h — wallet organizations (geelooy/api/wallet/core/organizations/) organization treasuries: org creation, funding, budgets, member management, and consumption rules — behind the organizations and organizations/action routes. files: organizationcreate.js, organizationfund.js, organizationconsume.js — lifecycle organizationbudget.js, organizationstate.js, organizationevents.js — budgets/state organizationmembers.js, organizationmemberservice.js — membership organizationpolicy.js, organizationservice.js — policy/service orchestration route helpers in routes/organizationactionsupport.js; tested in tests/business/organization{members,treasury}.test.js.",
+		"page": "pages/geelooy-api-wallet-core-organizations-readme-md-433604e37c.json"
+	},
+	{
+		"id": "geelooy-api-wallet-core-readme-md-d49d363d10",
+		"title": "B\"H — Wallet Core (geelooy/api/wallet/core/)",
+		"sourcePath": "geelooy/api/wallet/core/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Wallet Core (geelooy/api/wallet/core/)",
+				"anchor": "b-h-wallet-core-geelooy-api-wallet-core"
+			}
+		],
+		"excerpt": "B\"H — Wallet Core (geelooy/api/wallet/core/) Treasury business logic the routes call. Root level helpers: balance buckets and state, ledger, transfers (identity/validation/operations), spend/credit operations, PayPal transport/receipt/return path, persistence + file locking, transaction runner, request/response utiliti",
+		"searchText": "b\"h — wallet core (geelooy/api/wallet/core/) treasury business logic the routes call. root level helpers: balance buckets and state, ledger, transfers (identity/validation/operations), spend/credit operations, paypal transport/receipt/return path, persistence + file locking, transaction runner, request/response utilities, environment + storage paths. subdirectories: commerce/ — catalogs, paid actions, entitlements, purchase engine, credits currency/ — conversion, denominations, decompose, sources gamerewards/ — reward catalog, claim, daily policy, results marketplace/ — marketplace create/purchase/policy/service/state organizations/ — org create/fund/consume, members, budgets, policy, events the route files in ../routes/ are thin; the real money logic lives here.",
+		"page": "pages/geelooy-api-wallet-core-readme-md-d49d363d10.json"
+	},
+	{
+		"id": "geelooy-api-wallet-documentation-md-39c91f6ac5",
+		"title": "Wallet API Documentation",
+		"sourcePath": "geelooy/api/wallet/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Wallet API Documentation",
+				"anchor": "wallet-api-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Wallet API Documentation The Awtsmoos lets value move through balance, catalog, entitlement, purchase, mock, and provider paths with care; Awtsmoos.com maps Wallet beside PayPal configuration and commerce docs so no monetary contract is guessed from a route name there. Read ../../../docs",
+		"searchText": "b\"h boruch hashem blessed is he wallet api documentation the awtsmoos lets value move through balance, catalog, entitlement, purchase, mock, and provider paths with care; awtsmoos.com maps wallet beside paypal configuration and commerce docs so no monetary contract is guessed from a route name there. read ../../../docs/api/wallet.md, ../../../docs/apps/commerce and wallet.md, and ../../../docs/configuration.md.",
+		"page": "pages/geelooy-api-wallet-documentation-md-39c91f6ac5.json"
+	},
+	{
+		"id": "geelooy-api-wallet-readme-md-45df986885",
+		"title": "B\"H — Wallet API (geelooy/api/wallet/)",
+		"sourcePath": "geelooy/api/wallet/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Wallet API (geelooy/api/wallet/)",
+				"anchor": "b-h-wallet-api-geelooy-api-wallet"
+			}
+		],
+		"excerpt": "B\"H — Wallet API (geelooy/api/wallet/) The Awtsmoos wallet/treasury family: balances, PayPal, commerce, marketplace, organizations, transfers, and game rewards. Value moves through guarded doorways — public catalog reads are anonymous, every mutation does its own authorization. Subdirectories: core/ — treasury logic (l",
+		"searchText": "b\"h — wallet api (geelooy/api/wallet/) the awtsmoos wallet/treasury family: balances, paypal, commerce, marketplace, organizations, transfers, and game rewards. value moves through guarded doorways — public catalog reads are anonymous, every mutation does its own authorization. subdirectories: core/ — treasury logic (ledger, balances, transfers, paypal, persistence) routes/ — http route handlers + table.js route registry tests/ — unit/route tests ( .test.js) + tests/business/ key files: awtsmoos.derech.js (dynamic route dispatch), documentation.md (points to docs/api/wallet.md, docs/apps/commerce and wallet.md). main routes (from routes/table.js): me, balance, currency, transfer, buy/mock, paypal/create, paypal/capture, resource/quote, marketplace, marketplace/action, organizations, organizations/action, commerce/catalog, commerce/actions, commerce/actions/execute, commerce/entitlements, commerce/digital good, commerce/purchase, commerce/products, commerce/credits/reserve consume commit release, commerce/reconciliation/health, game rewards/claim.",
+		"page": "pages/geelooy-api-wallet-readme-md-45df986885.json"
+	},
+	{
+		"id": "geelooy-api-wallet-routes-readme-md-a9fec3c658",
+		"title": "B\"H — Wallet Routes (geelooy/api/wallet/routes/)",
+		"sourcePath": "geelooy/api/wallet/routes/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Wallet Routes (geelooy/api/wallet/routes/)",
+				"anchor": "b-h-wallet-routes-geelooy-api-wallet-routes"
+			}
+		],
+		"excerpt": "B\"H — Wallet Routes (geelooy/api/wallet/routes/) One handler file per wallet route, registered in table.js. Handlers: me.js, balance.js, currencyInfo.js, transfer.js, buyMock.js, paypalCreate.js / paypalCapture.js, resourceQuote.js, marketplace.js / marketplaceAction.js / marketplaceActionSupport.js, organizations.js /",
+		"searchText": "b\"h — wallet routes (geelooy/api/wallet/routes/) one handler file per wallet route, registered in table.js. handlers: me.js, balance.js, currencyinfo.js, transfer.js, buymock.js, paypalcreate.js / paypalcapture.js, resourcequote.js, marketplace.js / marketplaceaction.js / marketplaceactionsupport.js, organizations.js / organizationaction.js / organizationactionsupport.js, and the commerce{,catalog,actions,actionexecute,entitlements,digitalgood,purchase,products,credit , reconciliationhealth}.js family plus gamerewardclaim.js. table.js exports routetable — public catalog reads stay anonymous; every mutation re checks authorization in its handler before touching private state. awtsmoos.derech.js mounts the whole table dynamically.",
+		"page": "pages/geelooy-api-wallet-routes-readme-md-a9fec3c658.json"
+	},
+	{
+		"id": "geelooy-api-wallet-tests-business-readme-md-be39cacf14",
+		"title": "B\"H — Wallet Business Tests (geelooy/api/wallet/tests/business/)",
+		"sourcePath": "geelooy/api/wallet/tests/business/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Wallet Business Tests (geelooy/api/wallet/tests/business/)",
+				"anchor": "b-h-wallet-business-tests-geelooy-api-wallet-tests-business"
+			}
+		],
+		"excerpt": "B\"H — Wallet Business Tests (geelooy/api/wallet/tests/business/) Economics level tests for wallet organizations and marketplace: marketplaceEconomics.test.js, organizationMembers.test.js, organizationTreasury.test.js, resourceQuotePolicy.test.js. These verify money behavior rules (who can spend what, fee/policy math) r",
+		"searchText": "b\"h — wallet business tests (geelooy/api/wallet/tests/business/) economics level tests for wallet organizations and marketplace: marketplaceeconomics.test.js, organizationmembers.test.js, organizationtreasury.test.js, resourcequotepolicy.test.js. these verify money behavior rules (who can spend what, fee/policy math) rather than single route handlers.",
+		"page": "pages/geelooy-api-wallet-tests-business-readme-md-be39cacf14.json"
+	},
+	{
+		"id": "geelooy-api-wallet-tests-readme-md-2bf2c7e38f",
+		"title": "B\"H — Wallet Tests (geelooy/api/wallet/tests/)",
+		"sourcePath": "geelooy/api/wallet/tests/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Wallet Tests (geelooy/api/wallet/tests/)",
+				"anchor": "b-h-wallet-tests-geelooy-api-wallet-tests"
+			}
+		],
+		"excerpt": "B\"H — Wallet Tests (geelooy/api/wallet/tests/) Node test suite for the wallet family ( .test.js), covering currency, balances, PayPal, game rewards, commerce engine + routes, paid action execution, idempotency, monetization, and product credit reconciliation. commerceRouteFixture.js, productCreditReconciliationFixtures",
+		"searchText": "b\"h — wallet tests (geelooy/api/wallet/tests/) node test suite for the wallet family ( .test.js), covering currency, balances, paypal, game rewards, commerce engine + routes, paid action execution, idempotency, monetization, and product credit reconciliation. commerceroutefixture.js, productcreditreconciliationfixtures.js — shared fixtures business/ — economics level tests (marketplace, org treasury, resource quotes) run with node's built in test runner against the local checkout.",
+		"page": "pages/geelooy-api-wallet-tests-readme-md-2bf2c7e38f.json"
+	},
+	{
+		"id": "geelooy-api-youtube-core-readme-md-34a3ecdf85",
+		"title": "B\"H — YouTube Core (geelooy/api/youtube/core/)",
+		"sourcePath": "geelooy/api/youtube/core/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — YouTube Core (geelooy/api/youtube/core/)",
+				"anchor": "b-h-youtube-core-geelooy-api-youtube-core"
+			}
+		],
+		"excerpt": "B\"H — YouTube Core (geelooy/api/youtube/core/) Server side plumbing for the YouTube API family. googleOAuth.js, identity.js — Google OAuth flow + identity tokenStore.js, session.js, cookies.js, signedToken.js — token/session storage and signing vault.js, config.js — secret vault + configuration (secrets live outside Gi",
+		"searchText": "b\"h — youtube core (geelooy/api/youtube/core/) server side plumbing for the youtube api family. googleoauth.js, identity.js — google oauth flow + identity tokenstore.js, session.js, cookies.js, signedtoken.js — token/session storage and signing vault.js, config.js — secret vault + configuration (secrets live outside git) client.js — youtube data api v3 client origin.js, body.js, json.js — origin checks, body parsing, response packets secrets are never copied into the route leaves; setup instructions live in ../docs/setup.md.",
+		"page": "pages/geelooy-api-youtube-core-readme-md-34a3ecdf85.json"
+	},
+	{
+		"id": "geelooy-api-youtube-docs-readme-md-43fea238fe",
+		"title": "B\"H — YouTube Docs (geelooy/api/youtube/docs/)",
+		"sourcePath": "geelooy/api/youtube/docs/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — YouTube Docs (geelooy/api/youtube/docs/)",
+				"anchor": "b-h-youtube-docs-geelooy-api-youtube-docs"
+			}
+		],
+		"excerpt": "B\"H — YouTube Docs (geelooy/api/youtube/docs/) Single guide: SETUP.md — Awtsmoos YouTube integration setup. Covers the public manager at /youtube/, Google Cloud configuration (enable YouTube Data API v3, create a Web OAuth client with redirect URI https://awtsmoos.com/api/youtube/oauth/callback), the incremental OAuth ",
+		"searchText": "b\"h — youtube docs (geelooy/api/youtube/docs/) single guide: setup.md — awtsmoos youtube integration setup. covers the public manager at /youtube/, google cloud configuration (enable youtube data api v3, create a web oauth client with redirect uri https://awtsmoos.com/api/youtube/oauth/callback), the incremental oauth permission modes (read / upload / manage), and how to install the oauth json secret without it ever entering git.",
+		"page": "pages/geelooy-api-youtube-docs-readme-md-43fea238fe.json"
+	},
+	{
+		"id": "geelooy-api-youtube-docs-setup-md-b230bcce36",
+		"title": "B\"H — Awtsmoos YouTube integration",
+		"sourcePath": "geelooy/api/youtube/docs/SETUP.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Awtsmoos YouTube integration",
+				"anchor": "b-h-awtsmoos-youtube-integration"
+			},
+			{
+				"level": 2,
+				"text": "Public manager",
+				"anchor": "public-manager"
+			},
+			{
+				"level": 2,
+				"text": "Google Cloud configuration",
+				"anchor": "google-cloud-configuration"
+			},
+			{
+				"level": 2,
+				"text": "Secret installation",
+				"anchor": "secret-installation"
+			},
+			{
+				"level": 2,
+				"text": "Token model",
+				"anchor": "token-model"
+			},
+			{
+				"level": 2,
+				"text": "Upload model",
+				"anchor": "upload-model"
+			},
+			{
+				"level": 2,
+				"text": "API routes",
+				"anchor": "api-routes"
+			}
+		],
+		"excerpt": "B\"H — Awtsmoos YouTube integration Public manager The browser manager lives at /youtube/. A user connects Google with the server side OAuth flow, selects a YouTube channel, uploads videos, and updates owned video metadata. Google Cloud configuration Enable YouTube Data API v3 and create a Web application OAuth client. ",
+		"searchText": "b\"h — awtsmoos youtube integration public manager the browser manager lives at /youtube/. a user connects google with the server side oauth flow, selects a youtube channel, uploads videos, and updates owned video metadata. google cloud configuration enable youtube data api v3 and create a web application oauth client. the required production redirect uri is: the manager requests permissions incrementally through these modes: read: identity and youtube.readonly upload: read plus youtube.upload manage: upload plus youtube.force ssl for metadata and live broadcast changes secret installation the oauth json must never enter git. from a repository worktree, run: the script uses the repository's custom ssh and sftp implementation. it atomically installs the json at /root/.awtsmoos secrets/youtube/google oauth.json, creates independent session signing and token encryption keys, and applies mode 0700 to directories and 0600 to files. token model refresh and access tokens are encrypted with aes 256 gcm. each google subject receives a separate encrypted record under /root/.awtsmoos secrets/youtube/users. browser cookies contain only signed opaque identity state; google tokens never enter browser javascript. upload model awtsmoos authenticates the user and creates a google resumable upload session. the browser then sends the selected video directly to that google upload url. this keeps large media files out of awtsmoos process memory while preserving upload progress. api routes get /api/youtube/auth/start?mode=manage&returnto=/youtube/ get /api/youtube/oauth/callback get /api/youtube/auth/status post /api/youtube/auth/logout get /api/youtube/channel/mine post /api/youtube/uploads/start get /api/youtube/videos/list post /api/youtube/videos/update get /api/youtube/live/list post /api/youtube/live/create post /api/youtube/live/transition",
+		"page": "pages/geelooy-api-youtube-docs-setup-md-b230bcce36.json"
+	}
+]

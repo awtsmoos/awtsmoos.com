@@ -1,0 +1,49 @@
+[
+	{
+		"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-drive-tun-b04bd8c556",
+		"title": "Drive Upload via Tunnel Service Auth",
+		"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/drive-tunnel-upload/SKILL.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Drive Upload via Tunnel Service Auth",
+				"anchor": "drive-upload-via-tunnel-service-auth"
+			},
+			{
+				"level": 2,
+				"text": "Quick upload (one command)",
+				"anchor": "quick-upload-one-command"
+			},
+			{
+				"level": 2,
+				"text": "How it works",
+				"anchor": "how-it-works"
+			},
+			{
+				"level": 2,
+				"text": "Options",
+				"anchor": "options"
+			},
+			{
+				"level": 2,
+				"text": "Verify the upload",
+				"anchor": "verify-the-upload"
+			},
+			{
+				"level": 2,
+				"text": "Security notes",
+				"anchor": "security-notes"
+			},
+			{
+				"level": 2,
+				"text": "Troubleshooting",
+				"anchor": "troubleshooting"
+			}
+		],
+		"excerpt": "name: drive tunnel upload description: Upload files to Awtsmoos Drive using the tunnel's own Ed25519 service authentication. No user login needed — the VM's signing key is the credential. Use whenever you need to store a file on Awtsmoos Drive or get a public URL for an image, document, or any file. Drive Upload via Tu",
+		"searchText": "name: drive tunnel upload description: upload files to awtsmoos drive using the tunnel's own ed25519 service authentication. no user login needed — the vm's signing key is the credential. use whenever you need to store a file on awtsmoos drive or get a public url for an image, document, or any file. drive upload via tunnel service auth the tunnel's ed25519 signing key authenticates as a service actor across the awtsmoos api. no user session, no password, no oauth — the key is the login. quick upload (one command) example: on success prints: how it works 1. the script signs the request with /.awtsmoos/secure/deploy signing key (ed25519, chmod 600, never leaves the vm). 2. production verifies via geelooy/api/social/helper/serviceauth.js (public key baked in source). 3. the drive api (geelooy/api/social/helper/drive/authorization.js) accepts the service actor with drive.write + drive.public scopes. 4. file streams via put /api/social/drive/{alias}/stream/{path}. 5. public files resolve at https://awtsmoos.com/api/social/drive/public/{alias}/{path}. options alias: drive alias to upload under (required) path: destination path within the alias's drive (required) file: local file to upload (required) visibility: public or private (default: private) mime: mime type (auto detected if omitted) key: deploy or import (default: deploy) — which signing key to use verify the upload expect http 200 with the correct content type and byte size. security notes private keys never leave /.awtsmoos/secure/ (chmod 600). never commit, log, or transmit them. service actor gets drive.write + drive.public only — far less than deploy power. signatures are bound to the alias and operation (5 min window, replay guard). a signature for one alias cannot be reused for another. troubleshooting 401 login or credential required: the serviceauth module isn't deployed yet, or the key doesn't match. check that geelooy/api/social/helper/serviceauth.js is live on production. 403 credential scope required: the operation needs a scope the service actor doesn't have. service actors have drive.write and drive.public only.",
+		"page": "pages/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-drive-tun-b04bd8c556.json"
+	}
+]

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Alias Routes (geelooy/api/social/helper/routes/alias/)\n\nAlias and user-alias HTTP routes: alias details, ownership, sites, and ID generation.\n\n## Files\n- `userRoutes.js` — `/user/:user/aliases*` routes.\n- `collectionRoutes.js`, `entityRoutes.js`, `operations.js` — collection/entity/operation routes.\n- `publicSiteRoute.js` — public site route.\n- `test/` — `PublicSiteRoute.test.js`.\n\n## Endpoints\n- `/aliases`, `/aliases/:alias[/details|ownership|sites]`, `/aliases/details`, `/aliases/checkOrGenerateId`\n- `/alias/:alias[/details|ownership|sites]`, `/alias/default`\n- `/user/:user/aliases`, `/user/:user/aliases/:alias[/details]`\n"
+}

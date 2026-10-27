@@ -2,7 +2,7 @@ B"H
 Boruch Hashem
 Blessed is He
 
-# Project Tutorial: KAVANAH
+# Project Tutorial: KAVANAH — Four Worlds Ascent
 
 **Path:** `geelooy/games/KAVANAH` · **Type:** game · **Family:** Games and Worlds
 
@@ -21,15 +21,15 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 15 | 0 | 0 | 0 | 1 | 0 | 16 |
+| 20 | 0 | 0 | 0 | 1 | 0 | 21 |
 
 ## Public entry points
 
-- `/games/KAVANAH` → `geelooy/games/KAVANAH/index.html` — KAVANAH
+- `/games/KAVANAH` → `geelooy/games/KAVANAH/index.html` — KAVANAH — Four Worlds Ascent
 
 ## Symbol evidence
 
-Source files: 13; classes: 8; functions: 47; exports: 51; samples: Otiot, Tzomeach, Chai, and, Entity, Particle, HEBREW_LETTERS, PLANT_EMOJIS, ANIMAL_EMOJIS, getPointerState, setupControls, clearPointer.
+Source files: 17; classes: 10; functions: 54; exports: 57; samples: Otiot, Tzomeach, Chai, and, Entity, Particle, HEBREW_LETTERS, PLANT_EMOJIS, ANIMAL_EMOJIS, getPointerState, setupControls, clearPointer.
 
 ## Depends on
 

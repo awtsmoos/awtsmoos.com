@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-25t1237-geelooy-total-revelation-02-first-ar-53320fce29",
+	"title": "Phase One Architecture and File Map",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-25T1237-geelooy-total-revelation/02_FIRST_ARCHITECTURE_AND_FILE_MAP.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase One Architecture and File Map",
+			"anchor": "phase-one-architecture-and-file-map"
+		},
+		{
+			"level": 2,
+			"text": "Competing architectures",
+			"anchor": "competing-architectures"
+		},
+		{
+			"level": 3,
+			"text": "A — One global design system",
+			"anchor": "a-one-global-design-system"
+		},
+		{
+			"level": 3,
+			"text": "B — Fully bespoke CSS per page",
+			"anchor": "b-fully-bespoke-css-per-page"
+		},
+		{
+			"level": 3,
+			"text": "C — Opt-in scoped primitives + local page composition",
+			"anchor": "c-opt-in-scoped-primitives-local-page-composition"
+		},
+		{
+			"level": 3,
+			"text": "D — Shadow DOM everywhere",
+			"anchor": "d-shadow-dom-everywhere"
+		},
+		{
+			"level": 3,
+			"text": "E — Utility-class migration",
+			"anchor": "e-utility-class-migration"
+		},
+		{
+			"level": 2,
+			"text": "Proposed platform vessels",
+			"anchor": "proposed-platform-vessels"
+		},
+		{
+			"level": 2,
+			"text": "First migration wave",
+			"anchor": "first-migration-wave"
+		},
+		{
+			"level": 2,
+			"text": "Explicit non-targets in this wave",
+			"anchor": "explicit-non-targets-in-this-wave"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-25t1237-geelooy-total-revelation-02-first-ar-53320fce29-001.json"
+	]
+}

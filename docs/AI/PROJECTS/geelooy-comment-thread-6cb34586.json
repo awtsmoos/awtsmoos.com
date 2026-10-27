@@ -23,35 +23,45 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-comment-thread-6cb34586.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 20,
-		"tests": 2,
+		"source": 56,
+		"tests": 6,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
 		"other": 0
 	},
-	"totalFiles": 23,
+	"totalFiles": 63,
 	"symbolSummary": {
-		"files": 18,
-		"classes": 3,
-		"functions": 44,
-		"exports": 18,
+		"files": 43,
+		"classes": 18,
+		"functions": 85,
+		"exports": 72,
 		"samples": [
+			"revealCommentThread",
 			"async",
+			"uploadCommentVideo",
+			"uploadNativeCommentAsset",
 			"uploadMalchusCommentAsset",
+			"CommentAudioPlayer",
+			"finiteTime",
+			"formatTime",
+			"buildCommentAudioPlayer",
+			"actionButton",
 			"createCommentReactionRail",
-			"createYesodContextPanel",
-			"coordinateField",
-			"textAreaField",
-			"YesodManifestStore",
-			"ManifestStore",
-			"createChesedMediaPicker",
-			"createHodReferencePicker",
-			"referenceManifest",
-			"textField"
+			"commentActionModel"
 		]
 	},
 	"outgoingDependencies": [
+		{
+			"project": "geelooy/shared",
+			"count": 8,
+			"examples": "geelooy/comment-thread/modules/AssetVaultClient.js; geelooy/comment-thread/modules/CommentUniversalActions.js; geelooy/comment-thread/modules/ContextPanel.js"
+		},
+		{
+			"project": "geelooy/scripts",
+			"count": 1,
+			"examples": "geelooy/comment-thread/modules/ThreadContextPublisher.js"
+		},
 		{
 			"project": "geelooy/social-actions",
 			"count": 1,

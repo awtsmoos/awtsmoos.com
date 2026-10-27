@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Profile Trending Tests (geelooy/api/social/helper/profile/trending/test/)\n\nTrending tests.\n\n- `TrendingRanker.test.js` — trending ranker behavior.\n- `TrendingScore.test.js` — trending score computation.\n"
+}

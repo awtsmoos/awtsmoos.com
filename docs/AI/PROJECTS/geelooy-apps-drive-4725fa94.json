@@ -9,10 +9,12 @@
 		"id": "apps",
 		"title": "Applications"
 	},
-	"title": "Awtsmoos Drive · Website Maker",
+	"title": "Awtsmoos Drive",
 	"entries": [
 		"index.html",
-		"DOCUMENTATION.md"
+		"DOCUMENTATION.md",
+		"README.md",
+		"readme.md"
 	],
 	"humanDocumentation": [
 		"geelooy/apps/drive/DOCUMENTATION.md",
@@ -23,50 +25,71 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-drive-4725fa94.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 95,
-		"tests": 9,
+		"source": 246,
+		"tests": 47,
 		"assets": 0,
 		"generated": 0,
-		"docs": 1,
-		"other": 0
+		"docs": 2,
+		"other": 1
 	},
-	"totalFiles": 105,
+	"totalFiles": 296,
 	"symbolSummary": {
-		"files": 75,
-		"classes": 0,
-		"functions": 409,
-		"exports": 182,
+		"files": 162,
+		"classes": 41,
+		"functions": 741,
+		"exports": 372,
 		"samples": [
-			"async",
-			"routeEntryAction",
 			"createFolder",
+			"makePublic",
+			"downloadEntry",
 			"saveMetadata",
 			"applyPathAction",
+			"renameEntry",
 			"applyConfirmedAction",
+			"async",
+			"routeEntryAction",
 			"copyPublicLink",
 			"copyWithSelection",
-			"listEntries",
-			"getProjectPlan",
-			"listProjects",
-			"saveProject"
+			"revealAdvancedDrive"
 		]
 	},
 	"outgoingDependencies": [
 		{
 			"project": "geelooy/shared",
-			"count": 4,
-			"examples": "geelooy/apps/drive/js/osBridge.js; geelooy/apps/drive/js/projectPlatform.js"
+			"count": 6,
+			"examples": "geelooy/apps/drive/js/api/DrivePrivateContent.js; geelooy/apps/drive/js/osBridge.js; geelooy/apps/drive/js/projectPlatform.js"
+		},
+		{
+			"project": "geelooy/os",
+			"count": 2,
+			"examples": "geelooy/apps/drive/js/macBridgeActions.js; geelooy/apps/drive/js/macBridgeWiring.js"
+		},
+		{
+			"project": "geelooy/scripts",
+			"count": 2,
+			"examples": "geelooy/apps/drive/js/app.js; geelooy/apps/drive/js/driveIdentity.js"
+		},
+		{
+			"project": "geelooy/apps/os",
+			"count": 1,
+			"examples": "geelooy/apps/drive/js/macBridge.js"
 		}
 	],
-	"incomingDependencies": [],
+	"incomingDependencies": [
+		{
+			"project": "geelooy/os",
+			"count": 1,
+			"examples": "geelooy/os/vfs/macBridgeHook.js"
+		}
+	],
 	"externalDependencies": [],
 	"publicEntries": [
 		{
 			"url": "/apps/drive",
 			"file": "geelooy/apps/drive/index.html",
-			"title": "Awtsmoos Drive · Website Maker",
+			"title": "Awtsmoos Drive",
 			"scripts": 1,
-			"styles": 15
+			"styles": 4
 		}
 	],
 	"requiresLocalDocumentation": true,

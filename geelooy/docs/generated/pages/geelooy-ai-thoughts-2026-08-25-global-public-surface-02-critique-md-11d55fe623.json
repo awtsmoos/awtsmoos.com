@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-25-global-public-surface-02-critique-md-11d55fe623",
+	"title": "Global Public Surface — Phase Two Critique",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-25-global-public-surface/02-critique.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Global Public Surface — Phase Two Critique",
+			"anchor": "global-public-surface-phase-two-critique"
+		},
+		{
+			"level": 2,
+			"text": "Critique of naive catalog expansion",
+			"anchor": "critique-of-naive-catalog-expansion"
+		},
+		{
+			"level": 2,
+			"text": "Better discovery rules",
+			"anchor": "better-discovery-rules"
+		},
+		{
+			"level": 2,
+			"text": "UI danger map",
+			"anchor": "ui-danger-map"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-25-global-public-surface-02-critique-md-11d55fe623-001.json"
+	]
+}

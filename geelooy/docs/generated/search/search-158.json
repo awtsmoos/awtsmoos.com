@@ -1,15 +1,15 @@
 [
 	{
-		"id": "docs-generated-api-tutorials-routes-api-tunnel-control-tunnels-grants-cr-5dcf835f1c",
-		"title": "API Tutorial: /api/tunnel/control/tunnels/grants/create",
-		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-tunnels-grants-create-717555beac.md",
+		"id": "docs-generated-api-tutorials-routes-api-tunnel-control-admin-perutas-5d2-acdd5a0ec2",
+		"title": "API Tutorial: /api/tunnel/control/admin/perutas",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-admin-perutas-5d22edeedf.md",
 		"category": "Tunnel",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "API Tutorial: /api/tunnel/control/tunnels/grants/create",
-				"anchor": "api-tutorial-api-tunnel-control-tunnels-grants-create"
+				"text": "API Tutorial: /api/tunnel/control/admin/perutas",
+				"anchor": "api-tutorial-api-tunnel-control-admin-perutas"
 			},
 			{
 				"level": 2,
@@ -42,21 +42,21 @@
 				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/tunnel/control/tunnels/grants/create Family: Tunnel Control · Mount: /api/tunnel/control · Derech health: OK Source: geelooy/api/tunnel/control/routes/table.js · Discovery: route table · Confidence: unknown method Read the human Tunnel Control tutorial Generated eviden",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/tunnel/control/tunnels/grants/create family: tunnel control · mount: /api/tunnel/control · derech health: ok source: geelooy/api/tunnel/control/routes/table.js · discovery: route table · confidence: unknown method read the human tunnel control tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test:mission continuity actions — node geelooy/apps/tunnel/agent/tools/fs/actiongroups/test/missioncontinuityactions.test.mjs test:treasury — node geelooy/api/tunnel/control/test/runtreasurytests.cjs test:treasury:full — node geelooy/api/tunnel/control/test/treasury/runall.cjs test:tunnel release — node test scripts/tunnel/testing/ .test.cjs scripts/repository hygiene/testing/ .test.cjs related routes /api/tunnel/control/admin vault /api/tunnel/control/admin/perutas /api/tunnel/control/agent economy /api/tunnel/control/agent manifest /api/tunnel/control/api keys /api/tunnel/control/api keys/create /api/tunnel/control/api keys/revoke /api/tunnel/control/bank",
-		"page": "pages/docs-generated-api-tutorials-routes-api-tunnel-control-tunnels-grants-cr-5dcf835f1c.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/tunnel/control/admin/perutas Family: Tunnel Control · Mount: /api/tunnel/control · Derech health: OK Source: geelooy/api/tunnel/control/routes/table.js · Discovery: route table · Confidence: unknown method Read the human Tunnel Control tutorial Generated evidence is a ",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/tunnel/control/admin/perutas family: tunnel control · mount: /api/tunnel/control · derech health: ok source: geelooy/api/tunnel/control/routes/table.js · discovery: route table · confidence: unknown method read the human tunnel control tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test:mission continuity actions — node geelooy/apps/tunnel/agent/tools/fs/actiongroups/test/missioncontinuityactions.test.mjs test:treasury — node geelooy/api/tunnel/control/test/runtreasurytests.cjs test:treasury:full — node geelooy/api/tunnel/control/test/treasury/runall.cjs test:tunnel release — node test scripts/tunnel/testing/ .test.cjs scripts/repository hygiene/testing/ .test.cjs related routes /api/tunnel/control/admin vault /api/tunnel/control/agent economy /api/tunnel/control/agent lobby /api/tunnel/control/agent lobby/join /api/tunnel/control/agent lobby/post /api/tunnel/control/agent manifest /api/tunnel/control/agent room /api/tunnel/control/agent room/join",
+		"page": "pages/docs-generated-api-tutorials-routes-api-tunnel-control-admin-perutas-5d2-acdd5a0ec2.json"
 	},
 	{
-		"id": "docs-generated-api-tutorials-routes-api-tunnel-control-tunnels-grants-re-67f90625ac",
-		"title": "API Tutorial: /api/tunnel/control/tunnels/grants/revoke",
-		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-tunnels-grants-revoke-3e2b676743.md",
+		"id": "docs-generated-api-tutorials-routes-api-tunnel-control-admin-vault-0c798-116f52f969",
+		"title": "API Tutorial: /api/tunnel/control/admin-vault",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-admin-vault-0c79867071.md",
 		"category": "Tunnel",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "API Tutorial: /api/tunnel/control/tunnels/grants/revoke",
-				"anchor": "api-tutorial-api-tunnel-control-tunnels-grants-revoke"
+				"text": "API Tutorial: /api/tunnel/control/admin-vault",
+				"anchor": "api-tutorial-api-tunnel-control-admin-vault"
 			},
 			{
 				"level": 2,
@@ -89,21 +89,21 @@
 				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/tunnel/control/tunnels/grants/revoke Family: Tunnel Control · Mount: /api/tunnel/control · Derech health: OK Source: geelooy/api/tunnel/control/routes/table.js · Discovery: route table · Confidence: unknown method Read the human Tunnel Control tutorial Generated eviden",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/tunnel/control/tunnels/grants/revoke family: tunnel control · mount: /api/tunnel/control · derech health: ok source: geelooy/api/tunnel/control/routes/table.js · discovery: route table · confidence: unknown method read the human tunnel control tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test:mission continuity actions — node geelooy/apps/tunnel/agent/tools/fs/actiongroups/test/missioncontinuityactions.test.mjs test:treasury — node geelooy/api/tunnel/control/test/runtreasurytests.cjs test:treasury:full — node geelooy/api/tunnel/control/test/treasury/runall.cjs test:tunnel release — node test scripts/tunnel/testing/ .test.cjs scripts/repository hygiene/testing/ .test.cjs related routes /api/tunnel/control/admin vault /api/tunnel/control/admin/perutas /api/tunnel/control/agent economy /api/tunnel/control/agent manifest /api/tunnel/control/api keys /api/tunnel/control/api keys/create /api/tunnel/control/api keys/revoke /api/tunnel/control/bank",
-		"page": "pages/docs-generated-api-tutorials-routes-api-tunnel-control-tunnels-grants-re-67f90625ac.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/tunnel/control/admin vault Family: Tunnel Control · Mount: /api/tunnel/control · Derech health: OK Source: geelooy/api/tunnel/control/routes/table.js · Discovery: route table · Confidence: unknown method Read the human Tunnel Control tutorial Generated evidence is a na",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/tunnel/control/admin vault family: tunnel control · mount: /api/tunnel/control · derech health: ok source: geelooy/api/tunnel/control/routes/table.js · discovery: route table · confidence: unknown method read the human tunnel control tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test:mission continuity actions — node geelooy/apps/tunnel/agent/tools/fs/actiongroups/test/missioncontinuityactions.test.mjs test:treasury — node geelooy/api/tunnel/control/test/runtreasurytests.cjs test:treasury:full — node geelooy/api/tunnel/control/test/treasury/runall.cjs test:tunnel release — node test scripts/tunnel/testing/ .test.cjs scripts/repository hygiene/testing/ .test.cjs related routes /api/tunnel/control/admin/perutas /api/tunnel/control/agent economy /api/tunnel/control/agent lobby /api/tunnel/control/agent lobby/join /api/tunnel/control/agent lobby/post /api/tunnel/control/agent manifest /api/tunnel/control/agent room /api/tunnel/control/agent room/join",
+		"page": "pages/docs-generated-api-tutorials-routes-api-tunnel-control-admin-vault-0c798-116f52f969.json"
 	},
 	{
-		"id": "docs-generated-api-tutorials-routes-api-tunnel-control-usage-c5ce956ee8--4a6f79abfe",
-		"title": "API Tutorial: /api/tunnel/control/usage",
-		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-usage-c5ce956ee8.md",
+		"id": "docs-generated-api-tutorials-routes-api-tunnel-control-agent-economy-55b-518faa507d",
+		"title": "API Tutorial: /api/tunnel/control/agent-economy",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-agent-economy-55b9aaa475.md",
 		"category": "Tunnel",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "API Tutorial: /api/tunnel/control/usage",
-				"anchor": "api-tutorial-api-tunnel-control-usage"
+				"text": "API Tutorial: /api/tunnel/control/agent-economy",
+				"anchor": "api-tutorial-api-tunnel-control-agent-economy"
 			},
 			{
 				"level": 2,
@@ -136,21 +136,21 @@
 				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/tunnel/control/usage Family: Tunnel Control · Mount: /api/tunnel/control · Derech health: OK Source: geelooy/api/tunnel/control/routes/table.js · Discovery: route table · Confidence: unknown method Read the human Tunnel Control tutorial Generated evidence is a navigati",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/tunnel/control/usage family: tunnel control · mount: /api/tunnel/control · derech health: ok source: geelooy/api/tunnel/control/routes/table.js · discovery: route table · confidence: unknown method read the human tunnel control tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/tunnel/control/usage geelooy/apps/tunnel control/js/api/controlkeys.js runtime related tests heuristic family matches: test:mission continuity actions — node geelooy/apps/tunnel/agent/tools/fs/actiongroups/test/missioncontinuityactions.test.mjs test:treasury — node geelooy/api/tunnel/control/test/runtreasurytests.cjs test:treasury:full — node geelooy/api/tunnel/control/test/treasury/runall.cjs test:tunnel release — node test scripts/tunnel/testing/ .test.cjs scripts/repository hygiene/testing/ .test.cjs related routes /api/tunnel/control/admin vault /api/tunnel/control/admin/perutas /api/tunnel/control/agent economy /api/tunnel/control/agent manifest /api/tunnel/control/api keys /api/tunnel/control/api keys/create /api/tunnel/control/api keys/revoke /api/tunnel/control/bank",
-		"page": "pages/docs-generated-api-tutorials-routes-api-tunnel-control-usage-c5ce956ee8--4a6f79abfe.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/tunnel/control/agent economy Family: Tunnel Control · Mount: /api/tunnel/control · Derech health: OK Source: geelooy/api/tunnel/control/routes/table.js · Discovery: route table · Confidence: unknown method Read the human Tunnel Control tutorial Generated evidence is a ",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/tunnel/control/agent economy family: tunnel control · mount: /api/tunnel/control · derech health: ok source: geelooy/api/tunnel/control/routes/table.js · discovery: route table · confidence: unknown method read the human tunnel control tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test:mission continuity actions — node geelooy/apps/tunnel/agent/tools/fs/actiongroups/test/missioncontinuityactions.test.mjs test:treasury — node geelooy/api/tunnel/control/test/runtreasurytests.cjs test:treasury:full — node geelooy/api/tunnel/control/test/treasury/runall.cjs test:tunnel release — node test scripts/tunnel/testing/ .test.cjs scripts/repository hygiene/testing/ .test.cjs related routes /api/tunnel/control/admin vault /api/tunnel/control/admin/perutas /api/tunnel/control/agent lobby /api/tunnel/control/agent lobby/join /api/tunnel/control/agent lobby/post /api/tunnel/control/agent manifest /api/tunnel/control/agent room /api/tunnel/control/agent room/join",
+		"page": "pages/docs-generated-api-tutorials-routes-api-tunnel-control-agent-economy-55b-518faa507d.json"
 	},
 	{
-		"id": "docs-generated-api-tutorials-routes-api-tunnel-control-view-previewid-1b-2048757fba",
-		"title": "API Tutorial: /api/tunnel/control/view/:previewId",
-		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-view-previewid-1b7633d943.md",
+		"id": "docs-generated-api-tutorials-routes-api-tunnel-control-agent-lobby-01f88-9eefb4a736",
+		"title": "API Tutorial: /api/tunnel/control/agent-lobby",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-agent-lobby-01f88f681b.md",
 		"category": "Tunnel",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "API Tutorial: /api/tunnel/control/view/:previewId",
-				"anchor": "api-tutorial-api-tunnel-control-view-previewid"
+				"text": "API Tutorial: /api/tunnel/control/agent-lobby",
+				"anchor": "api-tutorial-api-tunnel-control-agent-lobby"
 			},
 			{
 				"level": 2,
@@ -183,21 +183,21 @@
 				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/tunnel/control/view/:previewId Family: Tunnel Control · Mount: /api/tunnel/control · Derech health: OK Source: geelooy/api/tunnel/control/routes/table.js · Discovery: route table · Confidence: unknown method Read the human Tunnel Control tutorial Generated evidence is ",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/tunnel/control/view/:previewid family: tunnel control · mount: /api/tunnel/control · derech health: ok source: geelooy/api/tunnel/control/routes/table.js · discovery: route table · confidence: unknown method read the human tunnel control tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters name shape previewid single segment starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test:mission continuity actions — node geelooy/apps/tunnel/agent/tools/fs/actiongroups/test/missioncontinuityactions.test.mjs test:treasury — node geelooy/api/tunnel/control/test/runtreasurytests.cjs test:treasury:full — node geelooy/api/tunnel/control/test/treasury/runall.cjs test:tunnel release — node test scripts/tunnel/testing/ .test.cjs scripts/repository hygiene/testing/ .test.cjs related routes /api/tunnel/control/admin vault /api/tunnel/control/admin/perutas /api/tunnel/control/agent economy /api/tunnel/control/agent manifest /api/tunnel/control/api keys /api/tunnel/control/api keys/create /api/tunnel/control/api keys/revoke /api/tunnel/control/bank",
-		"page": "pages/docs-generated-api-tutorials-routes-api-tunnel-control-view-previewid-1b-2048757fba.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/tunnel/control/agent lobby Family: Tunnel Control · Mount: /api/tunnel/control · Derech health: OK Source: geelooy/api/tunnel/control/routes/table.js · Discovery: route table · Confidence: unknown method Read the human Tunnel Control tutorial Generated evidence is a na",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/tunnel/control/agent lobby family: tunnel control · mount: /api/tunnel/control · derech health: ok source: geelooy/api/tunnel/control/routes/table.js · discovery: route table · confidence: unknown method read the human tunnel control tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test:mission continuity actions — node geelooy/apps/tunnel/agent/tools/fs/actiongroups/test/missioncontinuityactions.test.mjs test:treasury — node geelooy/api/tunnel/control/test/runtreasurytests.cjs test:treasury:full — node geelooy/api/tunnel/control/test/treasury/runall.cjs test:tunnel release — node test scripts/tunnel/testing/ .test.cjs scripts/repository hygiene/testing/ .test.cjs related routes /api/tunnel/control/admin vault /api/tunnel/control/admin/perutas /api/tunnel/control/agent economy /api/tunnel/control/agent lobby/join /api/tunnel/control/agent lobby/post /api/tunnel/control/agent manifest /api/tunnel/control/agent room /api/tunnel/control/agent room/join",
+		"page": "pages/docs-generated-api-tutorials-routes-api-tunnel-control-agent-lobby-01f88-9eefb4a736.json"
 	},
 	{
-		"id": "docs-generated-api-tutorials-routes-api-tunnel-control-view-previewid-pr-6ae5d0a89b",
-		"title": "API Tutorial: /api/tunnel/control/view/:previewId/proxy",
-		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-view-previewid-proxy-995aea3db1.md",
+		"id": "docs-generated-api-tutorials-routes-api-tunnel-control-agent-lobby-join--25ffdf4a97",
+		"title": "API Tutorial: /api/tunnel/control/agent-lobby/join",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-agent-lobby-join-6e29b3e243.md",
 		"category": "Tunnel",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "API Tutorial: /api/tunnel/control/view/:previewId/proxy",
-				"anchor": "api-tutorial-api-tunnel-control-view-previewid-proxy"
+				"text": "API Tutorial: /api/tunnel/control/agent-lobby/join",
+				"anchor": "api-tutorial-api-tunnel-control-agent-lobby-join"
 			},
 			{
 				"level": 2,
@@ -230,21 +230,21 @@
 				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/tunnel/control/view/:previewId/proxy Family: Tunnel Control · Mount: /api/tunnel/control · Derech health: OK Source: geelooy/api/tunnel/control/routes/table.js · Discovery: route table · Confidence: unknown method Read the human Tunnel Control tutorial Generated eviden",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/tunnel/control/view/:previewid/proxy family: tunnel control · mount: /api/tunnel/control · derech health: ok source: geelooy/api/tunnel/control/routes/table.js · discovery: route table · confidence: unknown method read the human tunnel control tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters name shape previewid single segment starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test:mission continuity actions — node geelooy/apps/tunnel/agent/tools/fs/actiongroups/test/missioncontinuityactions.test.mjs test:treasury — node geelooy/api/tunnel/control/test/runtreasurytests.cjs test:treasury:full — node geelooy/api/tunnel/control/test/treasury/runall.cjs test:tunnel release — node test scripts/tunnel/testing/ .test.cjs scripts/repository hygiene/testing/ .test.cjs related routes /api/tunnel/control/admin vault /api/tunnel/control/admin/perutas /api/tunnel/control/agent economy /api/tunnel/control/agent manifest /api/tunnel/control/api keys /api/tunnel/control/api keys/create /api/tunnel/control/api keys/revoke /api/tunnel/control/bank",
-		"page": "pages/docs-generated-api-tutorials-routes-api-tunnel-control-view-previewid-pr-6ae5d0a89b.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/tunnel/control/agent lobby/join Family: Tunnel Control · Mount: /api/tunnel/control · Derech health: OK Source: geelooy/api/tunnel/control/routes/table.js · Discovery: route table · Confidence: unknown method Read the human Tunnel Control tutorial Generated evidence is",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/tunnel/control/agent lobby/join family: tunnel control · mount: /api/tunnel/control · derech health: ok source: geelooy/api/tunnel/control/routes/table.js · discovery: route table · confidence: unknown method read the human tunnel control tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test:mission continuity actions — node geelooy/apps/tunnel/agent/tools/fs/actiongroups/test/missioncontinuityactions.test.mjs test:treasury — node geelooy/api/tunnel/control/test/runtreasurytests.cjs test:treasury:full — node geelooy/api/tunnel/control/test/treasury/runall.cjs test:tunnel release — node test scripts/tunnel/testing/ .test.cjs scripts/repository hygiene/testing/ .test.cjs related routes /api/tunnel/control/admin vault /api/tunnel/control/admin/perutas /api/tunnel/control/agent economy /api/tunnel/control/agent lobby /api/tunnel/control/agent lobby/post /api/tunnel/control/agent manifest /api/tunnel/control/agent room /api/tunnel/control/agent room/join",
+		"page": "pages/docs-generated-api-tutorials-routes-api-tunnel-control-agent-lobby-join--25ffdf4a97.json"
 	},
 	{
-		"id": "docs-generated-api-tutorials-routes-api-tunnel-control-view-previewid-ra-e357ea6638",
-		"title": "API Tutorial: /api/tunnel/control/view/:previewId/raw",
-		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-view-previewid-raw-0e6f4f3539.md",
+		"id": "docs-generated-api-tutorials-routes-api-tunnel-control-agent-lobby-post--19487ca3c0",
+		"title": "API Tutorial: /api/tunnel/control/agent-lobby/post",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-agent-lobby-post-397d4d9166.md",
 		"category": "Tunnel",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "API Tutorial: /api/tunnel/control/view/:previewId/raw",
-				"anchor": "api-tutorial-api-tunnel-control-view-previewid-raw"
+				"text": "API Tutorial: /api/tunnel/control/agent-lobby/post",
+				"anchor": "api-tutorial-api-tunnel-control-agent-lobby-post"
 			},
 			{
 				"level": 2,
@@ -277,8 +277,8 @@
 				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/tunnel/control/view/:previewId/raw Family: Tunnel Control · Mount: /api/tunnel/control · Derech health: OK Source: geelooy/api/tunnel/control/routes/table.js · Discovery: route table · Confidence: unknown method Read the human Tunnel Control tutorial Generated evidence",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/tunnel/control/view/:previewid/raw family: tunnel control · mount: /api/tunnel/control · derech health: ok source: geelooy/api/tunnel/control/routes/table.js · discovery: route table · confidence: unknown method read the human tunnel control tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters name shape previewid single segment starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test:mission continuity actions — node geelooy/apps/tunnel/agent/tools/fs/actiongroups/test/missioncontinuityactions.test.mjs test:treasury — node geelooy/api/tunnel/control/test/runtreasurytests.cjs test:treasury:full — node geelooy/api/tunnel/control/test/treasury/runall.cjs test:tunnel release — node test scripts/tunnel/testing/ .test.cjs scripts/repository hygiene/testing/ .test.cjs related routes /api/tunnel/control/admin vault /api/tunnel/control/admin/perutas /api/tunnel/control/agent economy /api/tunnel/control/agent manifest /api/tunnel/control/api keys /api/tunnel/control/api keys/create /api/tunnel/control/api keys/revoke /api/tunnel/control/bank",
-		"page": "pages/docs-generated-api-tutorials-routes-api-tunnel-control-view-previewid-ra-e357ea6638.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/tunnel/control/agent lobby/post Family: Tunnel Control · Mount: /api/tunnel/control · Derech health: OK Source: geelooy/api/tunnel/control/routes/table.js · Discovery: route table · Confidence: unknown method Read the human Tunnel Control tutorial Generated evidence is",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/tunnel/control/agent lobby/post family: tunnel control · mount: /api/tunnel/control · derech health: ok source: geelooy/api/tunnel/control/routes/table.js · discovery: route table · confidence: unknown method read the human tunnel control tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test:mission continuity actions — node geelooy/apps/tunnel/agent/tools/fs/actiongroups/test/missioncontinuityactions.test.mjs test:treasury — node geelooy/api/tunnel/control/test/runtreasurytests.cjs test:treasury:full — node geelooy/api/tunnel/control/test/treasury/runall.cjs test:tunnel release — node test scripts/tunnel/testing/ .test.cjs scripts/repository hygiene/testing/ .test.cjs related routes /api/tunnel/control/admin vault /api/tunnel/control/admin/perutas /api/tunnel/control/agent economy /api/tunnel/control/agent lobby /api/tunnel/control/agent lobby/join /api/tunnel/control/agent manifest /api/tunnel/control/agent room /api/tunnel/control/agent room/join",
+		"page": "pages/docs-generated-api-tutorials-routes-api-tunnel-control-agent-lobby-post--19487ca3c0.json"
 	}
 ]

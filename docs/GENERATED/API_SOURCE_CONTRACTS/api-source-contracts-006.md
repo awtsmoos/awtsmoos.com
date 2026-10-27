@@ -2,73 +2,74 @@ B"H
 Boruch Hashem
 Blessed is He
 
-# Generated API Source Contract Evidence 326–389
+# Generated API Source Contract Evidence 326–390
 
 Lexical source evidence; methods marked unknown are not assumed GET.
 
 | Source | Methods | Vessels | Statuses | Headers |
 | --- | --- | --- | --- | --- |
-| geelooy/api/tunnel/control/routes/deviceDiscovery.js | unknown | identity | — | — |
-| geelooy/api/tunnel/control/routes/docsHtml.js | unknown | — | — | Cache-Control, Content-Type, Referrer-Policy, X-Content-Type-Options |
-| geelooy/api/tunnel/control/routes/ephemeral.js | unknown | route-vars | — | — |
-| geelooy/api/tunnel/control/routes/fsVessel/accountInventory.js | unknown | identity | — | — |
-| geelooy/api/tunnel/control/routes/fsVessel/authorizedAutoSelection.js | unknown | identity | — | — |
-| geelooy/api/tunnel/control/routes/fsVessel/authorizedSelection.js | unknown | identity | — | — |
-| geelooy/api/tunnel/control/routes/fsVessel/browserClient.js | unknown | identity | — | — |
-| geelooy/api/tunnel/control/routes/fsVessel/hostedVirtualOs/recoveryRepository.js | unknown | db | — | — |
-| geelooy/api/tunnel/control/routes/fsVessel/nativeTunnelRegistry.js | unknown | identity | — | — |
-| geelooy/api/tunnel/control/routes/fsVessel/queryHints.js | unknown | $_GET | — | — |
-| geelooy/api/tunnel/control/routes/fsVessel/resolveFsVessel.js | unknown | identity | — | — |
-| geelooy/api/tunnel/control/routes/fsVessel/responseContractIdentity.js | unknown | — | 409 | — |
-| geelooy/api/tunnel/control/routes/fsVessel/tunnelClient.js | unknown | identity | — | — |
-| geelooy/api/tunnel/control/routes/fsVessel/vesselErrors.js | unknown | — | 409 | — |
-| geelooy/api/tunnel/control/routes/fsVessel/vesselFactory.js | unknown | identity | — | — |
-| geelooy/api/tunnel/control/routes/handoff.js | unknown | route-vars | 200 | — |
-| geelooy/api/tunnel/control/routes/liveCalls.js | unknown | — | 200 | Cache-Control, Connection, Content-Type |
-| geelooy/api/tunnel/control/routes/liveCallsRealtime/activity.js | unknown | identity | — | — |
-| geelooy/api/tunnel/control/routes/myDevice.js | unknown | identity | — | — |
-| geelooy/api/tunnel/control/routes/openApi.js | unknown | — | — | Cache-Control, Content-Type |
-| geelooy/api/tunnel/control/routes/openApiKey.js | unknown | — | — | Cache-Control, Content-Type |
-| geelooy/api/tunnel/control/routes/osFs/actionRegistrationReport.js | unknown | cookies | — | — |
-| geelooy/api/tunnel/control/routes/osFs/aliases.js | unknown | db | — | — |
-| geelooy/api/tunnel/control/routes/osFs/index.js | unknown | — | 400 | — |
-| geelooy/api/tunnel/control/routes/osFs/listRead.js | unknown | db | 400, 403 | — |
-| geelooy/api/tunnel/control/routes/osFs/networkSupport.js | unknown | cookies | — | — |
-| geelooy/api/tunnel/control/routes/osFs/patchOps.js | unknown | — | 400 | — |
-| geelooy/api/tunnel/control/routes/osFs/virtualActionBridge.js | unknown | cookies | — | — |
-| geelooy/api/tunnel/control/routes/osFs/virtualAiAgents.js | unknown | — | 409 | — |
-| geelooy/api/tunnel/control/routes/osFs/writeAccess.js | unknown | — | 400, 403 | — |
-| geelooy/api/tunnel/control/routes/osFs/writeOps.js | unknown | db | — | — |
-| geelooy/api/tunnel/control/routes/pairing.js | unknown | identity | — | — |
-| geelooy/api/tunnel/control/routes/previewGateway/activity.js | unknown | identity | — | — |
-| geelooy/api/tunnel/control/routes/previewProxy.js | unknown | $_GET, $_POST | — | — |
-| geelooy/api/tunnel/control/routes/previewProxyPolicy.js | unknown | identity | 401, 404 | — |
-| geelooy/api/tunnel/control/routes/previewProxyResponse.js | unknown | cookies | — | — |
-| geelooy/api/tunnel/control/routes/protectedFs.js | unknown | $_POST | — | — |
-| geelooy/api/tunnel/control/routes/protectedFsCompatibility.js | unknown | route-vars | — | — |
-| geelooy/api/tunnel/control/routes/tunnelAccess.js | unknown | identity | — | — |
-| geelooy/api/tunnel/control/routes/view.js | unknown | $_GET, route-vars | — | content-type |
-| geelooy/api/tunnel/control/scripts/pruneBindings.cjs | unknown | identity | — | — |
-| geelooy/api/tunnel/install/_awtsmoos.derech.js | unknown | — | 200 | Access-Control-Allow-Origin, Cache-Control, Content-Disposition, Content-Length, Content-Type, Pragma, X-Awtsmoos-Descriptor-Schema, X-Awtsmoos-Files, X-Awtsmoos-Manifest-SHA256, X-Awtsmoos-SHA256 |
-| geelooy/api/tunnel/install/tools/respond.js | unknown | — | 200 | Content-Type |
-| geelooy/api/wallet/_awtsmoos.derech.js | unknown | route-vars | — | Access-Control-Allow-Headers, Access-Control-Allow-Methods, Access-Control-Allow-Origin, Cache-Control |
-| geelooy/api/wallet/core/paypalEnvironment.js | unknown | — | 503 | — |
-| geelooy/api/wallet/core/paypalReceipt.js | unknown | — | 400 | — |
-| geelooy/api/wallet/core/request.js | unknown | $_POST | 403, 405 | — |
-| geelooy/api/wallet/core/respond.js | unknown | — | — | Cache-Control, Content-Type |
-| geelooy/api/wallet/core/transferIdentity.js | unknown | db | — | — |
-| geelooy/api/wallet/routes/buyMock.js | unknown | $_GET | — | — |
-| geelooy/api/youtube/_awtsmoos.derech.js | unknown | — | — | Cache-Control, Referrer-Policy, X-Content-Type-Options |
-| geelooy/api/youtube/core/body.js | unknown | $_POST | — | — |
-| geelooy/api/youtube/core/client.js | unknown | — | 502 | — |
-| geelooy/api/youtube/core/cookies.js | unknown | headers, cookies | — | Set-Cookie |
-| geelooy/api/youtube/core/identity.js | unknown | — | 401 | — |
-| geelooy/api/youtube/core/json.js | unknown | — | 200, 302, 400 | — |
-| geelooy/api/youtube/core/origin.js | unknown | headers | — | — |
-| geelooy/api/youtube/core/session.js | unknown | cookies | — | — |
-| geelooy/api/youtube/core/tokenStore.js | unknown | — | 401 | — |
-| geelooy/api/youtube/routes/auth.js | unknown | $_GET | — | — |
-| geelooy/api/youtube/routes/live.js | unknown | $_GET | — | — |
-| geelooy/api/youtube/routes/videos.js | unknown | $_GET | — | — |
-| geelooy/api/zmanim/lib/htmlResponse.js | OPTIONS | $_GET | — | — |
-| geelooy/api/zmanim/lib/response.js | OPTIONS | $_GET | — | Access-Control-Allow-Headers, Access-Control-Allow-Methods, Access-Control-Allow-Origin, Cache-Control |
+| geelooy/api/social/helper/profile/writeProfile.js | unknown | $_POST, db | — | — |
+| geelooy/api/social/helper/reactions/entityReactionStore.js | unknown | db | — | — |
+| geelooy/api/social/helper/repositories/gitBasicAuth.js | unknown | — | 401 | — |
+| geelooy/api/social/helper/repositories/gitCgiResponse.js | unknown | — | 200 | — |
+| geelooy/api/social/helper/repositories/gitCloneService.js | unknown | db | — | — |
+| geelooy/api/social/helper/repositories/repositoryAuthorization.js | unknown | — | 404 | — |
+| geelooy/api/social/helper/response/routeResponses.js | unknown | — | 400, 405 | — |
+| geelooy/api/social/helper/richSocial/RichPostService.js | unknown | $_GET, $_POST | — | — |
+| geelooy/api/social/helper/routes/agent/engine.js | unknown | db | — | — |
+| geelooy/api/social/helper/routes/agent/routesClass.js | unknown | db | — | — |
+| geelooy/api/social/helper/routes/agent/routesHeichel.js | unknown | $_POST | — | — |
+| geelooy/api/social/helper/routes/agent/routesJobSubmit.js | unknown | $_POST | — | — |
+| geelooy/api/social/helper/routes/agent/routesPostList.js | unknown | $_POST | — | — |
+| geelooy/api/social/helper/routes/agent/routesPostWrite.js | unknown | $_POST | — | — |
+| geelooy/api/social/helper/routes/agent/routesTranslate.js | unknown | $_POST, db | — | Cache-Control, Connection, Content-Type, Transfer-Encoding |
+| geelooy/api/social/helper/routes/agent/transactions.js | unknown | db | — | — |
+| geelooy/api/social/helper/routes/agent/transactionsAuth.js | unknown | $_POST, $_DELETE, identity | — | — |
+| geelooy/api/social/helper/routes/agent/transactionsHeichel.js | unknown | route-vars, db | — | — |
+| geelooy/api/social/helper/routes/agent/transactionsList.js | unknown | db | — | — |
+| geelooy/api/social/helper/routes/agent/transactionsPostCreate.js | unknown | db | — | — |
+| geelooy/api/social/helper/routes/agent/transactionsPostModify.js | unknown | db | — | — |
+| geelooy/api/social/helper/routes/alias/collectionRoutes.js | GET, POST | — | — | — |
+| geelooy/api/social/helper/routes/alias/entityRoutes.js | unknown | route-vars | — | — |
+| geelooy/api/social/helper/routes/alias/operations.js | PUT, DELETE | identity | — | — |
+| geelooy/api/social/helper/routes/alias/userRoutes.js | GET, POST | route-vars | — | — |
+| geelooy/api/social/helper/routes/packed/aliasMixin.js | unknown | db | — | — |
+| geelooy/api/social/helper/routes/packed/authCoreMixin.js | unknown | identity | — | — |
+| geelooy/api/social/helper/routes/packed/authSignMixin.js | unknown | $_POST | — | — |
+| geelooy/api/social/helper/routes/packed/backlinksMixin.js | unknown | db | — | — |
+| geelooy/api/social/helper/routes/packed/backlinksRepairMixin.js | unknown | db | — | — |
+| geelooy/api/social/helper/routes/packed/censusMixin.js | unknown | identity, db | — | — |
+| geelooy/api/social/helper/routes/packed/deployRoutesClass.js | unknown | $_POST | — | — |
+| geelooy/api/social/helper/routes/packed/deployRoutesPush.js | unknown | $_POST | — | — |
+| geelooy/api/social/helper/routes/packed/deploySign.js | unknown | route-vars | — | — |
+| geelooy/api/social/helper/routes/packed/maintenanceRoutesAdmin.js | unknown | $_POST, db | — | — |
+| geelooy/api/social/helper/routes/packed/nativeWriteMixin.js | unknown | db | — | — |
+| geelooy/api/social/helper/routes/packed/notesMixin.js | unknown | $_POST, identity, db | — | — |
+| geelooy/api/social/helper/routes/packed/notesStore.js | unknown | db | — | — |
+| geelooy/api/social/helper/routes/packed/ownershipAliases.js | unknown | identity, db | — | — |
+| geelooy/api/social/helper/routes/packed/ownershipHeichel.js | unknown | db | — | — |
+| geelooy/api/social/helper/routes/packed/ownershipIdentity.js | unknown | identity | — | — |
+| geelooy/api/social/helper/routes/packed/processOneWrite.js | unknown | db | — | — |
+| geelooy/api/social/helper/routes/packed/removeMixin.js | unknown | db | — | — |
+| geelooy/api/social/helper/routes/packed/requestValues.js | unknown | $_GET, $_POST | — | — |
+| geelooy/api/social/helper/routes/packed/runVerifyMixin.js | unknown | db | — | — |
+| geelooy/api/social/helper/routes/packed/seriesAddsMixin.js | unknown | db | — | — |
+| geelooy/api/social/helper/routes/packed/seriesPrateemMixin.js | unknown | db | — | — |
+| geelooy/api/social/helper/routes/packed/shardRoutesClass.js | unknown | $_POST | — | — |
+| geelooy/api/social/helper/routes/packed/startPosts.js | unknown | $_POST | — | — |
+| geelooy/api/social/helper/routes/packed/submissionsMixin.js | GET, POST | $_POST, identity, db | — | — |
+| geelooy/api/social/helper/routes/packed/updateMixin.js | unknown | $_POST, db | — | — |
+| geelooy/api/social/helper/routes/packed/verifyMixin.js | unknown | db | — | — |
+| geelooy/api/social/helper/routes/posts/aliasRoutes.js | unknown | route-vars | — | — |
+| geelooy/api/social/helper/routes/posts/bulkPublishCore.js | unknown | identity | — | — |
+| geelooy/api/social/helper/routes/posts/bulkPublishPosts.js | unknown | db | — | — |
+| geelooy/api/social/helper/routes/posts/bulkPublishRoute.js | unknown | $_POST, identity | — | — |
+| geelooy/api/social/helper/routes/posts/needsWorkDb.js | unknown | db | — | — |
+| geelooy/api/social/helper/routes/posts/needsWorkReport.js | unknown | $_GET | — | — |
+| geelooy/api/social/helper/routes/posts/needsWorkRoutes.js | unknown | route-vars, identity, db | — | — |
+| geelooy/api/social/helper/routes/posts/readersQuery.js | unknown | $_GET | — | — |
+| geelooy/api/social/helper/routes/posts/seriesRoutes.js | unknown | $_GET, $_POST, $_DELETE, route-vars | — | — |
+| geelooy/api/social/helper/routes/posts/submissionRoutes.js | unknown | $_POST, route-vars | — | — |
+| geelooy/api/social/helper/routes/profile/commentBrowseRoutes.js | unknown | route-vars | — | — |
+| geelooy/api/social/helper/routes/profile/discoveryRecommendationRoutes.js | unknown | route-vars | — | — |
+| geelooy/api/social/helper/routes/profile/legacyAuthoredRoutes.js | unknown | route-vars | — | — |

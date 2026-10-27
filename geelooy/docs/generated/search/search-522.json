@@ -1,0 +1,234 @@
+[
+	{
+		"id": "geelooy-apps-workos-build-log-md-ba56c11244",
+		"title": "WorkOS — Build Log (v0.1)",
+		"sourcePath": "geelooy/apps/workos/BUILD_LOG.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "WorkOS — Build Log (v0.1)",
+				"anchor": "workos-build-log-v0-1"
+			},
+			{
+				"level": 2,
+				"text": "What works today",
+				"anchor": "what-works-today"
+			},
+			{
+				"level": 2,
+				"text": "Tests & verification (all in the real repo, node on the Mac)",
+				"anchor": "tests-verification-all-in-the-real-repo-node-on-the-mac"
+			},
+			{
+				"level": 2,
+				"text": "Intentionally stubbed / future (not in v0.1)",
+				"anchor": "intentionally-stubbed-future-not-in-v0-1"
+			},
+			{
+				"level": 2,
+				"text": "Known limitations",
+				"anchor": "known-limitations"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "WorkOS — Build Log (v0.1) Location: geelooy/apps/workos/ · served conventionally at /apps/workos/ Status: v0.1 working vertical slice · local first (browser localStorage), dependency free vanilla JS Last updated: 2026 09 20 (UTC) Constraint honored: purely additive. No tunnel files touched; tunnel behavior unchanged. W",
+		"searchText": "workos — build log (v0.1) location: geelooy/apps/workos/ · served conventionally at /apps/workos/ status: v0.1 working vertical slice · local first (browser localstorage), dependency free vanilla js last updated: 2026 09 20 (utc) constraint honored: purely additive. no tunnel files touched; tunnel behavior unchanged. what works today core (work graph + event fabric as source of truth) permanent entity identities: awts://entity/ / for missions, work items, agents, files, rooms. append only causal event fabric: every change is an event with sequence number, timestamp, actor, and causal links. facts vs claims vs decisions kept separate: fact. , claim. , decision. event families; decisions.list() returns one aggregated object per title {title, status, mission, ts, seq, rationale, supersedes, eventid} where status = latest decision. suffix. missions + work items: statuses todo doing blocked review done, dependencies, blockers, progress rollups, delegation. persistent semantic mission rooms: message kinds (question/answer/decision/progress/blocker/note/handoff/request), presence, history. provenance: file entities with who/why edit history; tool boundary records. graph queries: graph.related(entityid, {depth}) across links/mentions/dependencies. context capsule compiler: layered, token budgeted (laws mandatory → objective → canonical decisions → active work → blockers → peer obligations → recent discoveries → known failures), truncates lowest priority first. idempotent seed: \"tunnel hardening — v0.1\" demo world (mission, 6 work items, 3 agents + human, semantic room, facts/claims, decisions incl. a superseded one, provenance, file history). ui (filesystem/desktop feel over the graph) index.html + hash router: home grid (missions, agents, recent activity) and mission pages with 7 tabs — overview, work, agents, room, files, decisions, activity. semantic room badges + composer with message kind picker; agent roster with presence; work status controls + filters; file who/why history; decision lifecycle pills incl. superseded chains; xss safe escaping of interpolated data; responsive dark first styling. ui/stub.workos.js exists for dev/test only and is not loaded by index.html. tests & verification (all in the real repo, node on the mac) suite result core/core.test.mjs 17 passed, 0 failed ui/ui.test.mjs 14 passed, 0 failed node check on every core + ui file clean integration harness (real core + real views, no dom) 12/12 green — home/mission render, all 7 tabs, room badges/messages, file history, decisions incl. superseded, activity, capsule budget + laws layer wiring fixes found by the integration harness (2026 09 20): 1. views treated ev.actor (object {kind,id,name?}) as a string → added shared actorname() helper in ui/components.js, hardened avatar() against non strings; fixed 5 call sites in home.js/mission.js. 2. decisions tab assumed raw decision events; core returns aggregated decision objects → tab now accepts both shapes. 3. contract.md amended to document the aggregated decisions.list() return shape. intentionally stubbed / future (not in v0.1) projects/shared areas are visually present but marked \"soon\" (no backend). no server event log api, cross device room sync, or realtime transport. no capability token permission system, no sharing/fork/contribution backend. no federation, no embeddings assisted retrieval, no agent reliability scoring. state is per browser localstorage; not yet multi user or server synchronized. known limitations v0.1 is a single user local slice; the work graph vision (server fabric, rooms sync, provenance across tools) arrives in v0.2+. browser visual qa (real chromium walkthrough) has not been performed in this build pass. public serving path assumed /apps/workos/ by geelooy convention; not yet verified against a live server response. files architecture.md — north star blueprint · contract.md — v0.1 js api contract core/: util, events, entities, graph, work, rooms, provenance, capsule, seed, store (+ core.test.mjs) ui/: app.js (router/boot), components.js, views/home.js, views/mission.js, styles.css (+ ui.test.mjs, stub.workos.js dev only) index.html — entry point",
+		"page": "pages/geelooy-apps-workos-build-log-md-ba56c11244.json"
+	},
+	{
+		"id": "geelooy-apps-workos-contract-md-873fbd0ec0",
+		"title": "WorkOS v0.1 — JS Integration Contract",
+		"sourcePath": "geelooy/apps/workos/CONTRACT.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "WorkOS v0.1 — JS Integration Contract",
+				"anchor": "workos-v0-1-js-integration-contract"
+			},
+			{
+				"level": 2,
+				"text": "Conventions",
+				"anchor": "conventions"
+			},
+			{
+				"level": 2,
+				"text": "Events",
+				"anchor": "events"
+			},
+			{
+				"level": 2,
+				"text": "Entities",
+				"anchor": "entities"
+			},
+			{
+				"level": 2,
+				"text": "Missions",
+				"anchor": "missions"
+			},
+			{
+				"level": 2,
+				"text": "Work",
+				"anchor": "work"
+			},
+			{
+				"level": 2,
+				"text": "Rooms",
+				"anchor": "rooms"
+			},
+			{
+				"level": 2,
+				"text": "Provenance",
+				"anchor": "provenance"
+			},
+			{
+				"level": 2,
+				"text": "Context capsules",
+				"anchor": "context-capsules"
+			},
+			{
+				"level": 2,
+				"text": "Graph & convenience queries",
+				"anchor": "graph-convenience-queries"
+			},
+			{
+				"level": 2,
+				"text": "Lifecycle",
+				"anchor": "lifecycle"
+			}
+		],
+		"excerpt": "WorkOS v0.1 — JS Integration Contract The only surface the UI may call. Core exposes it as the global WorkOS namespace (plain scripts, load order: util → events → entities → graph → work → rooms → provenance → capsule → seed → store). WorkOS.version === \"0.1.0\" Conventions Entity ids: awts://entity/ / · Event ids: evt ",
+		"searchText": "workos v0.1 — js integration contract the only surface the ui may call. core exposes it as the global workos namespace (plain scripts, load order: util → events → entities → graph → work → rooms → provenance → capsule → seed → store). workos.version === \"0.1.0\" conventions entity ids: awts://entity/ / · event ids: evt · uid() = base36 time + 6 random chars (core/util.js). event envelope: {id, seq, ts, type, actor:{kind:\"human\" \"agent\" \"system\",id,name?}, entity:null, mission:null, work:null, room:null, causes:[], data:{}} persistence: browser localstorage[\"awtsmoos.workos.v1\"] = {events:[], entities:{}}; in memory fallback when localstorage is undefined (node). token estimate: ceil(chars/4). events events.append({type, actor, entity?, mission?, work?, room?, causes?, data?}) → event events.list({type?, typeprefix?, mission?, work?, room?, entity?, actorid?, since?, limit?}) → newest first types: fact.file mutated fact.test passed fact.test failed fact.command exited fact.http status fact.deployed fact.agent read files · claim.made · decision.proposed accepted implemented superseded reversed deprecated · work.created status changed blocked unblocked delegated completed linked · mission.created status changed · room.created message presence · agent.registered heartbeat · file.created renamed edited · provenance.recorded. entities entities.register(kind, {name, attrs?, pathaliases?}) → {id, kind, name, createdts, attrs:{}, pathaliases:[]} entities.get(id) → entity null entities.find(kind, q?) — case insensitive name substring, sorted by name. entities.rename(id, newname, newpath?) — id stable; old address → pathaliases; emits file.renamed for kind \"file\". missions missions.create({title, objective, acceptance?}) → entity (+ mission.created) missions.get(id) · missions.list() missions.overview(id) → {mission, progress:{total,done,pct}, blockers[], agents:[{agent,status,currentwork}], recentactivity[8], decisions[], openrequests[]} work work.create({missionid, title, owner?, acceptance?, parentid?}) → entity (attrs {missionid, status:\"todo\", owner:null, acceptance:\"\", parentid:null, links:[]}) work.get(id) · work.list({missionid?, status?, owner?}) work.setstatus(id, status, {note?, evidence?}) — status ∈ todo doing blocked review done; emits work.status changed (+ work.blocked unblocked completed on entering those). work.link(aid, bid, rel) — rel ∈ blocks depends on supersedes part of; emits work.linked. rooms rooms.create({missionid, name}) → entity (+ room.created) rooms.post(roomid, {author, msgkind, body, to?}) → event — msgkind ∈ message announcement request response obligation delegation discovery blocker review request handoff rooms.history(roomid, {limit=100}) — oldest first rooms.setpresence(roomid, agentid, status) — status ∈ online away offline rooms.presence(roomid) → [{agentid, name?, status, ts}] (latest per agent) provenance provenance.record({tool, agentid, entityid?, summary, intent?, beforehash?, afterhash?, outcome?, data?}) → event; also appends {ts, tool, summary, outcome, beforehash, afterhash} to entity.attrs.history[]. context capsules capsule.compile({missionid?, workid?, agentid?, budgettokens=4000}) → {layers, totaltokens, text} layers by priority: laws (mandatory) · objective · canonical decisions · active work · blockers · peer obligations · recent discoveries · known failures. fit: truncate/drop lowest priority non mandatory first; mandatory never dropped. text joins layers under headers. graph & convenience queries graph.related(entityid, {depth=2}) → {nodes, edges:[{from,to,rel}]} facts.list({entity?, mission?, limit?}) · claims.list(...) · decisions.list({mission?, status?}) → one aggregated object per title: {title, status, mission, ts, seq, rationale, supersedes, eventid} (status = latest decision. suffix per data.title) lifecycle workos.reset() · workos.seed() (idempotent demo world: \"tunnel hardening — v0.1\" mission, 6 work items, 3 agents + human, semantic room, decisions incl. a superseded one, facts/claims, provenance, file entities with history).",
+		"page": "pages/geelooy-apps-workos-contract-md-873fbd0ec0.json"
+	},
+	{
+		"id": "geelooy-comment-thread-documentation-md-246a3c0178",
+		"title": "Comment Thread",
+		"sourcePath": "geelooy/comment-thread/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Comment Thread",
+				"anchor": "comment-thread"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Comment Thread The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Public Social interface. Observed entry: index.html; observed title: “Comment Thread — Geelooy”. Start here Read docs/PROJECTS/SOC",
+		"searchText": "b\"h boruch hashem blessed is he comment thread the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role public social interface. observed entry: index.html; observed title: “comment thread — geelooy”. start here read docs/projects/social platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes trace comment api callers, alias/heichel authorization and persisted comment paths before changing behavior.",
+		"page": "pages/geelooy-comment-thread-documentation-md-246a3c0178.json"
+	},
+	{
+		"id": "geelooy-db-documentation-md-94231c30f4",
+		"title": "Database Tool Documentation",
+		"sourcePath": "geelooy/db/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Database Tool Documentation",
+				"anchor": "database-tool-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Database Tool Documentation The Awtsmoos gives stored state a vessel and gives the human a window to inspect; Awtsmoos.com separates this browser DB tooling from the server DosDB root that runtime must protect. Read ../../docs/SYSTEMS/DATABASE AND STORAGE.md. Server initialization lives ",
+		"searchText": "b\"h boruch hashem blessed is he database tool documentation the awtsmoos gives stored state a vessel and gives the human a window to inspect; awtsmoos.com separates this browser db tooling from the server dosdb root that runtime must protect. read ../../docs/systems/database and storage.md. server initialization lives in ../../ayzarim/awtsmoosdynamicserver/server/initdb.js; changing persisted path contracts may require migration.",
+		"page": "pages/geelooy-db-documentation-md-94231c30f4.json"
+	},
+	{
+		"id": "geelooy-docs-documentation-md-c958ffbba2",
+		"title": "Interactive Documentation Frontend",
+		"sourcePath": "geelooy/docs/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Interactive Documentation Frontend",
+				"anchor": "interactive-documentation-frontend"
+			},
+			{
+				"level": 2,
+				"text": "What this directory owns",
+				"anchor": "what-this-directory-owns"
+			},
+			{
+				"level": 2,
+				"text": "Canonical content",
+				"anchor": "canonical-content"
+			},
+			{
+				"level": 2,
+				"text": "Bounded publication",
+				"anchor": "bounded-publication"
+			},
+			{
+				"level": 2,
+				"text": "Search and Ask",
+				"anchor": "search-and-ask"
+			},
+			{
+				"level": 2,
+				"text": "Safety covenant",
+				"anchor": "safety-covenant"
+			},
+			{
+				"level": 2,
+				"text": "Human manuals",
+				"anchor": "human-manuals"
+			},
+			{
+				"level": 2,
+				"text": "Verification",
+				"anchor": "verification"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Interactive Documentation Frontend The Awtsmoos lets the repository's written map become a living public doorway; geelooy/docs/ is the browser facing documentation application for Awtsmoos.com. What this directory owns index.html — semantic application shell for /docs/. styles/ — respons",
+		"searchText": "b\"h boruch hashem blessed is he interactive documentation frontend the awtsmoos lets the repository's written map become a living public doorway; geelooy/docs/ is the browser facing documentation application for awtsmoos.com. what this directory owns index.html — semantic application shell for /docs/. styles/ — responsive visual system, document typography, rails, dialogs, and print behavior. modules/ — dependency free es modules for state, search, navigation, markdown rendering, ask retrieval, optional gpt synthesis, and browser local preferences. generated/ — machine generated transport bounded publication data. never edit this directory manually. canonical content the frontend is not the source of truth for documentation prose. canonical human documentation remains in repository markdown. node scripts/docs/generate docs.js publishes an intentional searchable reflection into geelooy/docs/generated/. bounded publication generated/manifest.json declares search shards, project shards, categories, compact page metadata, and markdown content shards. this design was proven necessary by real browser testing: the existing awtsmoos server returned http 413 for larger json files. content is split losslessly rather than truncated or served by changing unrelated server limits. search and ask global search runs locally in the browser. it supports ordinary terms plus category:, kind:, and path: filters. ask retrieves local documentation passages first. the existing /api/gpt/chat relay may optionally synthesize only bounded retrieved context; if unavailable, cited local passages remain usable. safety covenant markdown is rendered through explicit dom construction. raw markdown html is not executed and frontend source does not assign innerhtml. hidden agent thought, generic thought, dependency, build, and vendor trees are excluded from publication. human manuals read docs/interactive documentation.md for architecture and user workflow, docs/maintaining the docs.md for regeneration, and docs/development/documentation workflow.md before changing the publication pipeline. verification browser verification covers desktop/mobile layout, search, deep links, document rendering, local ask retrieval, graceful gpt unavailability, and console/network errors.",
+		"page": "pages/geelooy-docs-documentation-md-c958ffbba2.json"
+	},
+	{
+		"id": "geelooy-documentation-md-6e23cc3842",
+		"title": "Geelooy Documentation Map",
+		"sourcePath": "geelooy/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Geelooy Documentation Map",
+				"anchor": "geelooy-documentation-map"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Geelooy Documentation Map The Awtsmoos makes this public root a city of pages, APIs, apps, games, and shared light; Awtsmoos.com keeps the full human map in ../docs/ so a traveler can choose the right site. Start with ../docs/START HERE.md. Directory map: ../docs/DIRECTORY ATLAS.md Publi",
+		"searchText": "b\"h boruch hashem blessed is he geelooy documentation map the awtsmoos makes this public root a city of pages, apis, apps, games, and shared light; awtsmoos.com keeps the full human map in ../docs/ so a traveler can choose the right site. start with ../docs/start here.md. directory map: ../docs/directory atlas.md public urls: ../docs/routes/public routes.md apis: ../docs/api/readme.md apps: ../docs/apps/readme.md cross cutting systems: ../docs/systems/readme.md geelooy is the server's default public root (config.public \"geelooy\").",
+		"page": "pages/geelooy-documentation-md-6e23cc3842.json"
+	}
+]

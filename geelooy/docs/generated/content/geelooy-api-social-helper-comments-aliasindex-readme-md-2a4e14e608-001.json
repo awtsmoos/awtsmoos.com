@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Comment Alias Index (geelooy/api/social/helper/comments/aliasIndex/)\n\nPacked index mapping aliases to their comments, so \"comments made by alias X\" queries are fast.\n\n## Files\n- `IndexCodec.js` — encodes/decodes index records.\n- `IndexQueries.js` — query interface over the index.\n- `PackedIndexStore.js` — persistent packed storage for the index.\n\n## What it does\nMaintains a compact, queryable index of which comments belong to which alias, backing the `/aliases/:alias/commentsMade` route family.\n"
+}

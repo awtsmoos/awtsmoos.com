@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-27t2150-geelooy-movie-unification-04-discove-41b98d9c20",
+	"title": "Phase 4 — Discovery: Four Vessels, One Movie Language",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-27T2150-geelooy-movie-unification/04_DISCOVERY.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase 4 — Discovery: Four Vessels, One Movie Language",
+			"anchor": "phase-4-discovery-four-vessels-one-movie-language"
+		},
+		{
+			"level": 2,
+			"text": "Observed app roles",
+			"anchor": "observed-app-roles"
+		},
+		{
+			"level": 2,
+			"text": "Existing Animator movie grammar",
+			"anchor": "existing-animator-movie-grammar"
+		},
+		{
+			"level": 2,
+			"text": "Existing Nesher grammar",
+			"anchor": "existing-nesher-grammar"
+		},
+		{
+			"level": 2,
+			"text": "Existing Mitzvah grammar",
+			"anchor": "existing-mitzvah-grammar"
+		},
+		{
+			"level": 2,
+			"text": "Existing lightweight editor grammar",
+			"anchor": "existing-lightweight-editor-grammar"
+		},
+		{
+			"level": 2,
+			"text": "Architectural conclusion",
+			"anchor": "architectural-conclusion"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-27t2150-geelooy-movie-unification-04-discove-41b98d9c20-001.json"
+	]
+}

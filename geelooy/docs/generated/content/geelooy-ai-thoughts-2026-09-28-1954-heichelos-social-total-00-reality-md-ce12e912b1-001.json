@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H Reality\n\nConnected tunnel: awt-awtsmoos-2184 / tun_RC99m5Wz75O789hZ0pIsay5p on Yackovs-Air.\nProject root: /Users/awtsmoos/work/awtsmoos.com\nPort 8080 owner: node PID 3818, cwd project root, command `node index`.\n\nAPI truth (local and public shape):\n- GET /api/social/heichelos/ikar → id=ikar, name/title=\"The Entire Torah\"\n- GET /api/social/heichelos/ikar/series → The Written Torah, The Oral Torah\n\nObserved defect: live HTML first-light painted empty `#heichel-boot-title` and empty discovery list because `semantic` was not in the document. Document title already said The Entire Torah. Public browse of /heichelos/ikar showed only \"TORAH · LIVING LIBRARY\" and \"Explore\".\n\nWorktree is dirty with unrelated tunnel/oauth work plus in-progress reader auto-scroll and social CSS. Do not deploy from this shared tree.\n\nAuto-scroll session already implements Start=river, Stop=still, countdown 0. Reader settings HTML already simplified toward Scribe's Lens. Social tokens already midnight/cyan/violet/gold under `.awtsmoos-social-root`.\n"
+}

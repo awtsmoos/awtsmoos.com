@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-28t0040-geelooy-movie-export-verification-co-81315a4ad2",
+	"title": "Phase Three — Tiferes Final Execution Plan",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0040-geelooy-movie-export-verification-continuation/03_PHASE_THREE_TIFERES_FINAL_PLAN.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase Three — Tiferes Final Execution Plan",
+			"anchor": "phase-three-tiferes-final-execution-plan"
+		},
+		{
+			"level": 2,
+			"text": "Source files to create",
+			"anchor": "source-files-to-create"
+		},
+		{
+			"level": 2,
+			"text": "Existing files eligible for whole rewrite only if required",
+			"anchor": "existing-files-eligible-for-whole-rewrite-only-if-required"
+		},
+		{
+			"level": 2,
+			"text": "Verification files to create after source freeze",
+			"anchor": "verification-files-to-create-after-source-freeze"
+		},
+		{
+			"level": 2,
+			"text": "Runtime sequence",
+			"anchor": "runtime-sequence"
+		},
+		{
+			"level": 2,
+			"text": "Completion gate",
+			"anchor": "completion-gate"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-28t0040-geelooy-movie-export-verification-co-81315a4ad2-001.json"
+	]
+}

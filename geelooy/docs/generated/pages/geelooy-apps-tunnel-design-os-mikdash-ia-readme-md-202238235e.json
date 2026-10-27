@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-design-os-mikdash-ia-readme-md-202238235e",
+	"title": "Mikdash IA — Beis Hamikdash Information Architecture",
+	"sourcePath": "geelooy/apps/tunnel/design-os/mikdash-ia/README.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Mikdash IA — Beis Hamikdash Information Architecture",
+			"anchor": "mikdash-ia-beis-hamikdash-information-architecture"
+		},
+		{
+			"level": 2,
+			"text": "Quick start",
+			"anchor": "quick-start"
+		},
+		{
+			"level": 2,
+			"text": "Modules",
+			"anchor": "modules"
+		},
+		{
+			"level": 2,
+			"text": "The kavanah gate",
+			"anchor": "the-kavanah-gate"
+		},
+		{
+			"level": 2,
+			"text": "Curating the Kodesh HaKodashim",
+			"anchor": "curating-the-kodesh-hakodashim"
+		},
+		{
+			"level": 2,
+			"text": "Themes + the constraint solver",
+			"anchor": "themes-the-constraint-solver"
+		},
+		{
+			"level": 2,
+			"text": "Tests",
+			"anchor": "tests"
+		},
+		{
+			"level": 2,
+			"text": "Design notes",
+			"anchor": "design-notes"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-design-os-mikdash-ia-readme-md-202238235e-001.json"
+	]
+}

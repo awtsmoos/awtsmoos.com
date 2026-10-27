@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Ohrbound API (geelooy/api/ohrbound/)\n\nGame API for Ohrbound: cloud progress tracking per player alias plus a\ncommunity-published level catalog. Mounted from an immutable route table with\nno-store response headers.\n\n## Contents\n- `_awtsmoos.derech.js` — mounts `routes/table.js`; `Cache-Control: no-store`.\n- `routes/` — `progress/:alias`, `levels` route implementations + table.\n- `contracts/` — `progressContract.js` (bounded progress doc, v1, max 200\n  completed levels), `levelPolicyContract.js`.\n- `services/` — authorization, level policy, object gateway, API response envelope.\n- `test/` — node tests for authorization and level policy.\n\n## Endpoints\n- `progress/:alias` — GET/POST one bounded progress document bound to an alias.\n- `levels` — GET/POST/DELETE community level intents (public catalog, publish, delete).\n\n## Design\nRoutes are frozen data (not registration order); domain, authorization, and\npersistence stay in separate modules. See subdir READMEs.\n"
+}

@@ -20,19 +20,25 @@
 	"symlinkTarget": null,
 	"counts": {
 		"source": 0,
-		"tests": 1,
+		"tests": 13,
 		"assets": 0,
 		"generated": 0,
 		"docs": 0,
 		"other": 0
 	},
-	"totalFiles": 1,
+	"totalFiles": 13,
 	"symbolSummary": null,
 	"outgoingDependencies": [],
-	"incomingDependencies": [],
+	"incomingDependencies": [
+		{
+			"project": "geelooy/apps/tunnel",
+			"count": 5,
+			"examples": "geelooy/apps/tunnel/css-guarantee/layer1/interactiveStates.mjs; geelooy/apps/tunnel/css-guarantee/layer1/ownershipContracts.mjs; geelooy/apps/tunnel/css-guarantee/layer1/selectorRegistry.mjs"
+		}
+	],
 	"externalDependencies": [],
 	"publicEntries": [],
-	"requiresLocalDocumentation": false,
+	"requiresLocalDocumentation": true,
 	"documentationCovered": false,
 	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
 }

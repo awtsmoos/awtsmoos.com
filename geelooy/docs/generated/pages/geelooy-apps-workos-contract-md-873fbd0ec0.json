@@ -1,0 +1,69 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-workos-contract-md-873fbd0ec0",
+	"title": "WorkOS v0.1 — JS Integration Contract",
+	"sourcePath": "geelooy/apps/workos/CONTRACT.md",
+	"category": "Apps",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "WorkOS v0.1 — JS Integration Contract",
+			"anchor": "workos-v0-1-js-integration-contract"
+		},
+		{
+			"level": 2,
+			"text": "Conventions",
+			"anchor": "conventions"
+		},
+		{
+			"level": 2,
+			"text": "Events",
+			"anchor": "events"
+		},
+		{
+			"level": 2,
+			"text": "Entities",
+			"anchor": "entities"
+		},
+		{
+			"level": 2,
+			"text": "Missions",
+			"anchor": "missions"
+		},
+		{
+			"level": 2,
+			"text": "Work",
+			"anchor": "work"
+		},
+		{
+			"level": 2,
+			"text": "Rooms",
+			"anchor": "rooms"
+		},
+		{
+			"level": 2,
+			"text": "Provenance",
+			"anchor": "provenance"
+		},
+		{
+			"level": 2,
+			"text": "Context capsules",
+			"anchor": "context-capsules"
+		},
+		{
+			"level": 2,
+			"text": "Graph & convenience queries",
+			"anchor": "graph-convenience-queries"
+		},
+		{
+			"level": 2,
+			"text": "Lifecycle",
+			"anchor": "lifecycle"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-workos-contract-md-873fbd0ec0-001.json"
+	]
+}

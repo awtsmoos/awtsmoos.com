@@ -1,0 +1,69 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-28-0240-heichelos-social-glass-overhaul-02-p-d393181eac",
+	"title": "Phase Three — Final Execution Covenant",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-28-0240-heichelos-social-glass-overhaul/02-phase-three-final-plan.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase Three — Final Execution Covenant",
+			"anchor": "phase-three-final-execution-covenant"
+		},
+		{
+			"level": 2,
+			"text": "Final architecture",
+			"anchor": "final-architecture"
+		},
+		{
+			"level": 2,
+			"text": "Thirty-five final safeguards and revelations",
+			"anchor": "thirty-five-final-safeguards-and-revelations"
+		},
+		{
+			"level": 2,
+			"text": "Exact implementation files",
+			"anchor": "exact-implementation-files"
+		},
+		{
+			"level": 3,
+			"text": "Auto-scroll behavior",
+			"anchor": "auto-scroll-behavior"
+		},
+		{
+			"level": 3,
+			"text": "Post reader CSS ownership",
+			"anchor": "post-reader-css-ownership"
+		},
+		{
+			"level": 3,
+			"text": "Social-system intensification",
+			"anchor": "social-system-intensification"
+		},
+		{
+			"level": 2,
+			"text": "Verification graph",
+			"anchor": "verification-graph"
+		},
+		{
+			"level": 2,
+			"text": "Browser acceptance criteria",
+			"anchor": "browser-acceptance-criteria"
+		},
+		{
+			"level": 2,
+			"text": "REMAININGWORK",
+			"anchor": "remainingwork"
+		},
+		{
+			"level": 2,
+			"text": "NEXTACTION",
+			"anchor": "nextaction"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-28-0240-heichelos-social-glass-overhaul-02-p-d393181eac-001.json"
+	]
+}

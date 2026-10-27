@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Nav Utilities (geelooy/api/nav/)\n\nClient-side navigation helper, not an HTTP route family (no `_awtsmoos.derech.js`).\n\n## Files\n- `highlighter.js` — `ParagraphHighlighter`: highlights the currently-in-view\n  paragraph inside a container, with highlight/deselect callbacks and an option\n  to disable deselection. Used by reader-style navigation UI.\n"
+}

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Entity Universe (geelooy/api/social/helper/entityUniverse/)\n\nThe \"universe\" store for entities: schema, DNA, paths, and persistence for the entity universe graph.\n\n## Files\n- `universeSchema.js`, `universeDna.js` — universe schema and entity DNA definitions.\n- `universePaths.js` — storage paths.\n- `universeStore.js` — read/write store.\n- `rangeReferences.js` — range-based references between entities.\n- `test/` — store and stress-network tests (`universeStore.test.mjs`, `universeStressNetwork.test.mjs`).\n"
+}

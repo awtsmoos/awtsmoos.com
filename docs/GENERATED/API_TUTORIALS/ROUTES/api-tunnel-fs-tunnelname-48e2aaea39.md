@@ -44,4 +44,7 @@ Heuristic family matches:
 
 ## Related routes
 
+- [`/api/tunnel/hetzner/exec`](./api-tunnel-hetzner-exec-267e52e243.md)
+- [`/api/tunnel/hetzner/health`](./api-tunnel-hetzner-health-d92bb398ee.md)
+- [`/api/tunnel/hetzner/readlog`](./api-tunnel-hetzner-readlog-d12187a4e3.md)
 - [`/api/tunnel/request/:tunnelName`](./api-tunnel-request-tunnelname-4e57b0d0cc.md)

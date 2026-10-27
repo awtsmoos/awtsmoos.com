@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-27-2150-geelooy-movie-unification-04-improve-c9f93a387e",
+	"title": "Pass Two — Improved Execution Plan",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-27-2150-geelooy-movie-unification/04-improved-plan.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Pass Two — Improved Execution Plan",
+			"anchor": "pass-two-improved-execution-plan"
+		},
+		{
+			"level": 2,
+			"text": "Discovery",
+			"anchor": "discovery"
+		},
+		{
+			"level": 2,
+			"text": "Architecture",
+			"anchor": "architecture"
+		},
+		{
+			"level": 2,
+			"text": "Product",
+			"anchor": "product"
+		},
+		{
+			"level": 2,
+			"text": "Verification",
+			"anchor": "verification"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-27-2150-geelooy-movie-unification-04-improve-c9f93a387e-001.json"
+	]
+}

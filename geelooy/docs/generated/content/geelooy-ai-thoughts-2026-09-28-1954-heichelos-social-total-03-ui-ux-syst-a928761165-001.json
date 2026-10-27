@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H UI UX\n\nHeichel: DB title as H1, series names as card labels, descriptions as title hints only if API supplies them.\nSocial: existing tokens + motion.css + reduced-motion.css.\nReader: keep text first; do not expand Scribe cockpit this pass.\n"
+}

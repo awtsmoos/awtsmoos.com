@@ -1,0 +1,185 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27t21-50-geelooy-movie-unification-00-missio-f20595178b",
+		"title": "Unified Movie Mission",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27T21-50-geelooy-movie-unification/00_MISSION_AND_REMAINING_WORK.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Unified Movie Mission",
+				"anchor": "unified-movie-mission"
+			},
+			{
+				"level": 2,
+				"text": "Mission",
+				"anchor": "mission"
+			},
+			{
+				"level": 2,
+				"text": "Observed Authoring Centers",
+				"anchor": "observed-authoring-centers"
+			},
+			{
+				"level": 2,
+				"text": "Non-negotiable Boundaries",
+				"anchor": "non-negotiable-boundaries"
+			},
+			{
+				"level": 2,
+				"text": "REMAININGWORK",
+				"anchor": "remainingwork"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Unified Movie Mission The Awtsmoos renews each frame and scene; distinct vessels may shine without becoming the same machine. Animator directs worlds and people, Captions moves text and graphic light, Nesher edits time and export right. Mission Unify Geelooy's true movie authoring apps b",
+		"searchText": "b\"h boruch hashem blessed is he unified movie mission the awtsmoos renews each frame and scene; distinct vessels may shine without becoming the same machine. animator directs worlds and people, captions moves text and graphic light, nesher edits time and export right. mission unify geelooy's true movie authoring apps behind one deterministic ai writable movie document while preserving each app's specialty, then prove the protocol with an exact 180 second mixed 2d/3d showcase and runtime evidence. observed authoring centers apps/animator: cinematic authoring, characters, camera, ai facade, film/export, procedural scene systems. apps/captions/video: canvas based 2d captions, backgrounds, particles, effects, text composition. apps/nesher studio: nle timeline/editor/export/webcodecs surface. other recording capable apps are consumers unless their code proves general authoring responsibility. non negotiable boundaries do not overwrite concurrent animator work. new shared modules first; adapter files second; only fresh read integration points may be rewritten. full file writes only. source modules stay small, readable, tab indented, documented, and non minified. ai input is declarative data with validation and capability discovery, not private dom mutation. mobile first interaction and reduced motion/accessibility behavior are part of completion. remaining work 1. inspect shared/movie signals and clean integration points in captions and nesher. 2. freeze canonical movie document, scene, layer, camera, animation, chart, particle, character contracts. 3. build validator/normalizer/capability manifest/time sampler. 4. build app adapters without flattening app identities. 5. build mobile ai movie dock only where conflict free. 6. create exact 180 second showcase with many scenes, angles, shapes, charts, text, particles, characters, 2d and 3d declarations. 7. add protocol/adapter/showcase tests. 8. integrate with current animator api through conflict free extension or standalone adapter. 9. run syntax/unit/integration/app regression tests. 10. render/export real 180 second artifact through the strongest existing render path available. 11. verify duration/codec/size with ffprobe and inspect representative frames/runtime console. 12. re read every touched file, compare planned vs actual, resolve delta, and record final evidence. next action inspect current shared modules and app integration seams, then execute phase one through phase three before source writes.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27t21-50-geelooy-movie-unification-00-missio-f20595178b.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27t21-50-geelooy-movie-unification-01-phase--941a8b208b",
+		"title": "Phase One — Broad Movie Possibility Space",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27T21-50-geelooy-movie-unification/01_PHASE_ONE_BROAD_BRAINSTORM.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase One — Broad Movie Possibility Space",
+				"anchor": "phase-one-broad-movie-possibility-space"
+			},
+			{
+				"level": 2,
+				"text": "Movie Language Possibilities",
+				"anchor": "movie-language-possibilities"
+			},
+			{
+				"level": 2,
+				"text": "Five Candidate Architectures",
+				"anchor": "five-candidate-architectures"
+			},
+			{
+				"level": 3,
+				"text": "A — One Giant Renderer",
+				"anchor": "a-one-giant-renderer"
+			},
+			{
+				"level": 3,
+				"text": "B — Shared JSON Protocol + Capability Adapters",
+				"anchor": "b-shared-json-protocol-capability-adapters"
+			},
+			{
+				"level": 3,
+				"text": "C — Nesher as Universal Host",
+				"anchor": "c-nesher-as-universal-host"
+			},
+			{
+				"level": 3,
+				"text": "D — Animator as Universal Host",
+				"anchor": "d-animator-as-universal-host"
+			},
+			{
+				"level": 3,
+				"text": "E — Event Bus Only",
+				"anchor": "e-event-bus-only"
+			},
+			{
+				"level": 2,
+				"text": "Preferred Direction",
+				"anchor": "preferred-direction"
+			},
+			{
+				"level": 2,
+				"text": "Ideal End State",
+				"anchor": "ideal-end-state"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase One — Broad Movie Possibility Space From one point of intent let many frames arise; the Awtsmoos gives every vessel a different disguise. The protocol should describe meaning, not dictate renderer internals, so 2D and 3D can share time without sharing every implementation. Movie La",
+		"searchText": "b\"h boruch hashem blessed is he phase one — broad movie possibility space from one point of intent let many frames arise; the awtsmoos gives every vessel a different disguise. the protocol should describe meaning, not dictate renderer internals, so 2d and 3d can share time without sharing every implementation. movie language possibilities narrative films: casts, dialogue beats, blocking, gaze, expression, entrances, exits, reactions. tutorials: numbered steps, cursor/hand focus, arrows, highlights, zooms, labels, callouts, before/after states. infographics: bar, line, pie/donut, counters, timelines, progress rings, maps as shapes, comparison cards. motion graphics: text, rectangles, circles, polygons, paths, patches, masks, gradients, strokes, icons, grids. 3d scenes: cameras, perspective, lights, world objects, character/object transforms, fog/depth declarations. particles: sparks, snow, dust, confetti, fireflies, trails, bursts, star fields, data points. cinematography: wide, medium, closeup, extreme closeup, overhead, low/high angle, pov, orbit, dolly, truck, crane, rack focus intent. transitions: cut, crossfade, wipe, push, zoom, iris, match motion, dip, flash. animation: keyframes, easing, spring intent, loops, staggering, path motion, transform/opacity/style channels. audio metadata: dialogue/music/sfx cues and ducking intent, even when a renderer only preserves metadata. accessibility: safe title areas, caption semantics, contrast hints, reduced motion substitutions. formats: landscape, portrait, square, responsive preview, explicit fps/duration. five candidate architectures a — one giant renderer one engine draws everything. rejected: destroys mature app identities and duplicates specialist work. b — shared json protocol + capability adapters canonical movie document plus per app adapters. preferred: ai gets one language while each app advertises supported subsets. c — nesher as universal host everything becomes nle clips. useful for finishing, weak for semantic authoring and live procedural character control. d — animator as universal host everything becomes animator entities. strong cinematic path, but over couples simple motion graphics and editing workflows. e — event bus only apps exchange loose events. flexible but insufficiently deterministic for ai generation, validation, or durable movie files. preferred direction architecture b, with optional handoff into d for cinematic realization and c for finishing/export. captions remains a fast 2d composition pet; animator remains the director/world pet; nesher remains the editor/export pet. ideal end state an ai can inspect capabilities(), emit one schema valid document, preview it, hand scenes to the best renderer, preserve unsupported semantic layers for another app, and export or edit without reverse engineering private internals.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27t21-50-geelooy-movie-unification-01-phase--941a8b208b.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27t21-50-geelooy-movie-unification-02-phase--5a14a5210e",
+		"title": "Phase Two — Realistic Architecture and File Map",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27T21-50-geelooy-movie-unification/02_PHASE_TWO_ARCHITECTURE_AND_FILE_MAP.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Two — Realistic Architecture and File Map",
+				"anchor": "phase-two-realistic-architecture-and-file-map"
+			},
+			{
+				"level": 2,
+				"text": "Shared Core — New Files",
+				"anchor": "shared-core-new-files"
+			},
+			{
+				"level": 2,
+				"text": "Adapter Targets — Prefer New Files",
+				"anchor": "adapter-targets-prefer-new-files"
+			},
+			{
+				"level": 2,
+				"text": "Mobile AI Surface — Conditional",
+				"anchor": "mobile-ai-surface-conditional"
+			},
+			{
+				"level": 2,
+				"text": "Showcase — New Files",
+				"anchor": "showcase-new-files"
+			},
+			{
+				"level": 2,
+				"text": "Verification — New Files",
+				"anchor": "verification-new-files"
+			},
+			{
+				"level": 2,
+				"text": "Integration Rule",
+				"anchor": "integration-rule"
+			},
+			{
+				"level": 2,
+				"text": "Data Shape",
+				"anchor": "data-shape"
+			},
+			{
+				"level": 2,
+				"text": "Verification Graph",
+				"anchor": "verification-graph"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Two — Realistic Architecture and File Map Chesed expands the movie language; Gevurah guards each engine's border. Tiferes joins them through a small contract in proper order. Shared Core — New Files Target folder: apps/shared/movie/ MovieProtocol.js — protocol/version constants and",
+		"searchText": "b\"h boruch hashem blessed is he phase two — realistic architecture and file map chesed expands the movie language; gevurah guards each engine's border. tiferes joins them through a small contract in proper order. shared core — new files target folder: apps/shared/movie/ movieprotocol.js — protocol/version constants and document factory. moviekinds.js — scene/layer/camera/transition/animation kind vocabulary. moviecapabilities.js — discoverable common and per app capability descriptors. movievalidator.js — structural and timeline validation with actionable errors. movienormalizer.js — safe defaults, stable ids, duration/frame normalization. movieclock.js — scene lookup/local time/frame sampling helpers. moviekeyframes.js — deterministic keyframe interpolation/easing. aimoviecontract.js — ai facing schema/manifest/example guidance as data. index.js — stable public imports. adapter targets — prefer new files apps/animator/src/movie/animatormovieadapter.js apps/captions/video/modules/movie/captionmovieadapter.js apps/nesher studio/modules/movie/neshermovieadapter.js each adapter returns explicit supported/unsupported layer information instead of silently dropping intent. mobile ai surface — conditional if clean entry hooks exist: apps/shared/movie/ui/moviedock.js apps/shared/movie/ui/movie dock.css the dock must be thumb friendly, bottom sheet oriented, narrow screen safe, keyboard accessible, and themeable by app identity. showcase — new files apps/shared/movie/examples/threeminutemovie.js — deterministic 180 second document generator. apps/shared/movie/examples/threeminutescenes.js — scene list factory if line count requires split. apps/shared/movie/examples/threeminutecast.js — recurring character definitions. verification — new files apps/shared/movie/tests/movieprotocolsmoke.mjs apps/shared/movie/tests/threeminuteshowcasesmoke.mjs app specific adapter smoke tests near each adapter if test conventions permit. integration rule do not modify animator files already dirty from another agent unless a fresh hash/read proves a stable, conflict free extension seam. standalone importable adapters are acceptable evidence of unification; invasive integration is not worth destroying concurrent work. data shape a movie has protocol/version, metadata, format, duration, fps, reusable assets/cast, scenes, and optional handoff metadata. a scene has start/duration, camera, layers, transition, and cues. a layer has kind, start/duration, transform/style/content/data/keyframes and renderer hints. unknown keys are preserved where safe. verification graph document normalize validate sample timeline adapter capability report app native conversion browser preview export ffprobe representative frame/console review.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27t21-50-geelooy-movie-unification-02-phase--5a14a5210e.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27t21-50-geelooy-movie-unification-03-critiq-31e065294a",
+		"title": "Phase Two Critique — Twenty Improvements",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27T21-50-geelooy-movie-unification/03_CRITIQUE_20_IMPROVEMENTS.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Two Critique — Twenty Improvements",
+				"anchor": "phase-two-critique-twenty-improvements"
+			},
+			{
+				"level": 2,
+				"text": "Revised Decision",
+				"anchor": "revised-decision"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Two Critique — Twenty Improvements The Awtsmoos hides no weakness from review; each critique makes the vessel more true. 1. Require exact protocol versioning and forward compatible unknown metadata. 2. Distinguish semantic layer kind from preferred renderer implementation. 3. Make ",
+		"searchText": "b\"h boruch hashem blessed is he phase two critique — twenty improvements the awtsmoos hides no weakness from review; each critique makes the vessel more true. 1. require exact protocol versioning and forward compatible unknown metadata. 2. distinguish semantic layer kind from preferred renderer implementation. 3. make duration validation exact enough to prove 180 seconds. 4. require stable ids so ai retries do not create accidental duplicates. 5. add capability reports rather than pretending every app supports every primitive. 6. preserve unsupported layers during handoff instead of dropping them. 7. validate scene overlap/gaps intentionally rather than accidentally. 8. normalize transforms to explicit x/y/z, rotation, scale, anchor and opacity fields. 9. support both frame based and second based sampling through one clock. 10. keep easing deterministic and serializable. 11. separate chart data from chart visual style so ai can author factual structures cleanly. 12. separate character intent from low level rig channels. 13. separate camera intent from app specific camera math. 14. add safe area metadata for mobile captions and controls. 15. expose reduced motion substitutions for preview ui. 16. make adapter conversion return warnings and unsupported capabilities. 17. test first/middle/last frames and every scene boundary. 18. include recurring cast continuity across scenes in the showcase. 19. include mixed 2d over 3d overlays to prove compositing semantics. 20. keep every new source file below the repository's modular size target and split before compression. revised decision build a deliberately small core with no renderer dependency. the protocol is the shared language; adapters are translation boundaries; existing renderers remain authoritative for their specialty.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27t21-50-geelooy-movie-unification-03-critiq-31e065294a.json"
+	}
+]

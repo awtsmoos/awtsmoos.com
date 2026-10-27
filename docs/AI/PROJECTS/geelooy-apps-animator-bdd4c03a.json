@@ -9,7 +9,7 @@
 		"id": "apps",
 		"title": "Applications"
 	},
-	"title": "Awtsmoos Park Engine — B\"H",
+	"title": "Awtsmoos Animator — B\"H",
 	"entries": [
 		"index.html",
 		"package.json",
@@ -24,19 +24,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-animator-bdd4c03a.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 2458,
-		"tests": 0,
-		"assets": 0,
-		"generated": 0,
-		"docs": 1,
-		"other": 29
+		"source": 3099,
+		"tests": 16,
+		"assets": 75,
+		"generated": 51,
+		"docs": 3,
+		"other": 258
 	},
-	"totalFiles": 2488,
+	"totalFiles": 3502,
 	"symbolSummary": {
-		"files": 2396,
-		"classes": 1929,
-		"functions": 250,
-		"exports": 2331,
+		"files": 2965,
+		"classes": 2370,
+		"functions": 453,
+		"exports": 2960,
 		"samples": [
 			"VibeDB",
 			"Editor",
@@ -52,16 +52,33 @@
 			"BatchExecutor"
 		]
 	},
-	"outgoingDependencies": [],
-	"incomingDependencies": [],
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/apps/shared",
+			"count": 13,
+			"examples": "geelooy/apps/animator/src/movie/AnimatorMovieAdapter.js; geelooy/apps/animator/src/scenes/AwtsmoosThreeMinuteMovie.js; geelooy/apps/animator/src/scenes/awtsmoosThreeMinute/AwtsmoosThreeMinuteData.js"
+		},
+		{
+			"project": "geelooy/libs",
+			"count": 4,
+			"examples": "geelooy/apps/animator/src/scenes/showcase/UnifiedShowcaseCanonicalMovie.js; geelooy/apps/animator/src/unified-movie/AnimatorMovieAdapter.js; geelooy/apps/animator/tools/render/threeMinute/ThreeMinuteFeatureOverlay.js"
+		}
+	],
+	"incomingDependencies": [
+		{
+			"project": "geelooy/apps/awtsmoos-studio",
+			"count": 7,
+			"examples": "geelooy/apps/awtsmoos-studio/src/movie/export/StudioAnimatorExportController.js"
+		}
+	],
 	"externalDependencies": [],
 	"publicEntries": [
 		{
 			"url": "/apps/animator",
 			"file": "geelooy/apps/animator/index.html",
-			"title": "Awtsmoos Park Engine — B\"H",
-			"scripts": 2,
-			"styles": 2
+			"title": "Awtsmoos Animator — B\"H",
+			"scripts": 1,
+			"styles": 3
 		}
 	],
 	"requiresLocalDocumentation": true,

@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-design-os-shabbos-mode-readme-md-692c944389",
+	"title": "Shabbos Mode",
+	"sourcePath": "geelooy/apps/tunnel/design-os/shabbos-mode/README.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Shabbos Mode",
+			"anchor": "shabbos-mode"
+		},
+		{
+			"level": 2,
+			"text": "What it does",
+			"anchor": "what-it-does"
+		},
+		{
+			"level": 2,
+			"text": "Usage",
+			"anchor": "usage"
+		},
+		{
+			"level": 2,
+			"text": "Modules",
+			"anchor": "modules"
+		},
+		{
+			"level": 2,
+			"text": "Tests",
+			"anchor": "tests"
+		},
+		{
+			"level": 2,
+			"text": "Design principles",
+			"anchor": "design-principles"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-design-os-shabbos-mode-readme-md-692c944389-001.json"
+	]
+}

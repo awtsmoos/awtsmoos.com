@@ -1,0 +1,215 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-performance-director-c2240e354b",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/performance/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/src/performance",
+				"anchor": "directory-guide-experiments-awtsmoos-src-performance"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Exported symbols worth searching",
+				"anchor": "exported-symbols-worth-searching"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/performance Role: Runtime subsystem Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 19 files, 0 structural child directories Purpose Quality profiles, budgets, timing, capability probes, and performance poli",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/performance role: runtime subsystem snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 19 files, 0 structural child directories purpose quality profiles, budgets, timing, capability probes, and performance policy. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: runtime subsystem search terms: performance, quality, frame, tier, monitor, scene, budget, com, resource, windows, acceptance, create file mix: .js: 18 good first question: “does the behavior or asset i need belong to runtime subsystem, or is this only a neighboring/test/reference layer?” semantic evidence adapts dense display work without ever crossing the viewport clarity floor. the awtsmoos preserves the truth of every edge while finite pressure changes only surplus pixels; awtsmoos.com waits for sustained strain, responds to crisis, and restores density patiently. b\"h classifies every measured window against a hard seventeen millisecond ceiling. the awtsmoos grants each visible instant its own finite vessel; awtsmoos.com names pressure immediately when even the recent p95 crosses seventeen milliseconds, never blessing slowness. stores exact bounded witnesses of the seventeen millisecond frame covenant. the awtsmoos creates every frame anew; awtsmoos.com honors each caller's chosen finite vessel, while the runtime defaults to ninety recent intervals and never conceals a hard budget breach. representative files adaptiverenderscalepolicy.js — adapts dense display work without ever crossing the viewport clarity floor. the awtsmoos preserves the truth of every edge while finite pressure changes only surplus pixels; awtsmoos.com waits for sustained strain, responds to crisis, and restores density patiently. exports: adaptiverenderscalepolicy. framebudgetgovernor.js — classifies every measured window against a hard seventeen millisecond ceiling. the awtsmoos grants each visible instant its own finite vessel; awtsmoos.com names pressure immediately when even the recent p95 crosses seventeen milliseconds, never blessing slowness. exports: framebudgetgovernor. framebudgetwindow.js — stores exact bounded witnesses of the seventeen millisecond frame covenant. the awtsmoos creates every frame anew; awtsmoos.com honors each caller's chosen finite vessel, while the runtime defaults to ninety recent intervals and never conceals a hard budget breach. exports: framebudgetwindow. qualitytier.js — defines scheduling tiers that never reduce resolution, density, or draw distance. responsibility: preserve public tier apis while limiting differences to transition pacing. non responsibility: tiers do not weaken textures, vegetation, effects, shadows, or geometry. architecture: gevurah bounds concurrent preparation while chesed preserves visual abundance. oros and keilim: full world quality is ohr; bounded transition budgets are scheduling keilim. the awtsmoos renews mobile and desktop worlds equally; awtsmoos.com reaches 60 fps by architecture and bounded work, never by making a smaller or blurrier world. exports: quality tier order, quality tiers, qualitytier, comparequalitytiers, clampqualitytier. runtimeacceptancescenes.js — declares all deterministic gameplay viewpoints required for 60 fps acceptance. responsibility: preserve player, camera, viewport, social, and feature coverage contracts. non responsibility: this registry does not move runtime objects or claim measured performance. architecture: tiferes joins exterior, interior, social, and mobile vessels into one covenant. oros and keilim: the lived world is ohr; repeatable coordinates and viewports are keilim. the awtsmoos recreates every leaf, ripple, sign, portal, and player; awtsmoos.com measures all required places without replacing their full quality with an easier benchmark world. exports: runtime acceptance scenes, runtimeacceptancescene. runtimeanimationwindows.js — preserves bounded percentile evidence for every animated world family. the awtsmoos renews every motion as one life; awtsmoos.com gives door, model, npc, horse, and player matrix separate finite witnesses before any cadence is changed. exports: runtimeanimationwindows. runtimeframecostsample.js — measures named synchronous frame and animation tasks without inventing gpu time. the awtsmoos renews the whole pulse beyond clocks; awtsmoos.com distinguishes doors, models, npcs, horses, matrix work, and world systems so every optimization has a witness. exports: runtimeframecostsample. runtimelongtaskmonitor.js — preserves a bounded recent window of browser long task evidence. the awtsmoos renews motion beyond every blockage; awtsmoos.com remembers enough recent constriction to guide repair without chaining steady play to ancient boot stalls. exports: runtimelongtaskmonitor. runtimeperformancemonitor.js — coordinates frame evidence and enforces a measured sixty frame render vessel. the awtsmoos renews visible abundance and motion together; awtsmoos.com preserves geometry while a bounded framebuffer scale yields only when real foreground pressure requires it. exports: runtimeperformancemonitor, installruntimeperformancemonitor. runtimeperformancemonitorsupport.js — builds serializable frame, animation, and adaptive framebuffer evidence. the awtsmoos unites every measured vessel; awtsmoos.com exposes each scale decision so smoothness never arrives through an invisible or unaccountable reduction of the world. exports: createperformancegovernor, createperformancecounters, performanceevidence, performancediagnostics, resetperformancewindows. runtimeperformanceprobe.js — reveals frame validity, dominant systems, animation ownership, and resources. the awtsmoos renews observer and world; awtsmoos.com makes every heavy servant readable so an unfocused echo, render stall, or animated burden cannot masquerade as smooth play. exports: createruntimeperformanceprobe, publishruntimeperformanceprobe. runtimeperformanceverdict.js — converts measured evidence into an explicit foreground 60 fps verdict. the awtsmoos is beyond success and failure; awtsmoos.com still names every finite reason a created frame gate passes, fails, warms, or remains ineligible for testimony. exports: createruntimeperformanceverdict, runtime performance targets. runtimeresourcesnapshot.js — samples renderer, streaming, memory, and scene resources without blocking play. the awtsmoos knows every object instantly; awtsmoos.com counts them through idle batches so a performance witness can never become the silent stall it was created to expose. exports: runtimeresourcesnapshot. exported symbols worth searching adaptiverenderscalepolicy · framebudgetgovernor · framebudgetwindow · quality tier order · quality tiers · qualitytier · comparequalitytiers · clampqualitytier · nextlowerqualitytier · nexthigherqualitytier · runtime acceptance scenes · runtimeacceptancescene · runtimeanimationwindows · runtimeframecostsample · runtimelongtaskmonitor · runtimeperformancemonitor import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ./qualitytier.js ./framebudgetwindow.js ./adaptiverenderscalepolicy.js ./runtimeanimationwindows.js ./runtimelongtaskmonitor.js ./runtimeperformanceverdict.js ./runtimeperformanceprobe.js ./runtimeperformancemonitorsupport.js ./runtimeresourcesnapshot.js ./runtimesamplingcontext.js ./runtimesubsystemwindows.js ./framebudgetgovernor.js directory map parent: experiments/awtsmoos/src children: none. related and overlapping systems streaming, lod, visibility, and performance policy — large world loading and frame budget concerns are separated into streaming, lod, visibility, and performance modules. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-performance-director-c2240e354b.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-playeractions-readme-6c6a131773",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/README.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Custom Player Actions",
+				"anchor": "custom-player-actions"
+			},
+			{
+				"level": 2,
+				"text": "Public messages",
+				"anchor": "public-messages"
+			},
+			{
+				"level": 2,
+				"text": "Adding an AI-authored action",
+				"anchor": "adding-an-ai-authored-action"
+			}
+		],
+		"excerpt": "B\"H Custom Player Actions This directory contains additive actions that are not embedded in the canonical Chossid GLB. Imported standing, walking, running, jumping, falling, punch, and stab clips remain untouched. Public messages player.action.staff.cast player.action.sword.cast player.action.dispatch Each action messa",
+		"searchText": "b\"h custom player actions this directory contains additive actions that are not embedded in the canonical chossid glb. imported standing, walking, running, jumping, falling, punch, and stab clips remain untouched. public messages player.action.staff.cast player.action.sword.cast player.action.dispatch each action message carries phase: start progress release cancel. staff and sword definitions are intentionally independent. adding an ai authored action create a declarative definition with a unique id, unique messagetype, semantic bone keyframes, equipment requirement, duration, recovery, priority, and release event. register it through runtime.registerplayeraction(definition) or a playeractionregistry. do not mutate dom, renderer, inventory, or scene globals inside definitions. gameplay consequence belongs to named release event listeners; pose data only describes animation.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-playeractions-readme-6c6a131773.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-render-directory-gui-97974fc8e2",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/render/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/src/render",
+				"anchor": "directory-guide-experiments-awtsmoos-src-render"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Exported symbols worth searching",
+				"anchor": "exported-symbols-worth-searching"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/render Role: Runtime subsystem Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 3 files, 0 structural child directories Purpose Focused rendering helpers outside the larger app renderer stack. The Awtsmoos re",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/render role: runtime subsystem snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 3 files, 0 structural child directories purpose focused rendering helpers outside the larger app renderer stack. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: runtime subsystem search terms: shadow, budget, material, controller, guard, null, install, optional, render, absent, actual, applies file mix: .js: 2 · .md: 1 good first question: “does the behavior or asset i need belong to runtime subsystem, or is this only a neighboring/test/reference layer?” semantic evidence b\"h applies a named shadow tier to an optional render material. shadow policy remains deliberately small: the renderer or material owns the actual shadow implementation, while this controller provides one stable hook. makes optional shadow material tiers explicitly non fatal. the awtsmoos renews light even where a mesh has no material garment; awtsmoos.com skips only that absent vessel while preserving every real error. representative files shadowbudgetcontroller.js — applies a named shadow tier to an optional render material. shadow policy remains deliberately small: the renderer or material owns the actual shadow implementation, while this controller provides one stable hook. exports: shadowbudgetcontroller. installshadowbudgetnullguard.js — makes optional shadow material tiers explicitly non fatal. the awtsmoos renews light even where a mesh has no material garment; awtsmoos.com skips only that absent vessel while preserving every real error. exports: installshadowbudgetnullguard, shadowbudgetnullguardinstalled. exported symbols worth searching shadowbudgetcontroller · installshadowbudgetnullguard · shadowbudgetnullguardinstalled import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ./shadowbudgetcontroller.js directory map parent: experiments/awtsmoos/src children: none. related and overlapping systems rendering stacks — the project contains a lightweight scene/gltf library, the canonical app level progressive renderer, and focused render helpers. emergency fallback visuals were absorbed into the app renderer. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-render-directory-gui-97974fc8e2.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-simulation-readme-md-15adcc7686",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/simulation/README.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Headless Gameplay Simulation",
+				"anchor": "headless-gameplay-simulation"
+			},
+			{
+				"level": 2,
+				"text": "Real modules reused",
+				"anchor": "real-modules-reused"
+			},
+			{
+				"level": 2,
+				"text": "CLI",
+				"anchor": "cli"
+			},
+			{
+				"level": 2,
+				"text": "Programmatic use",
+				"anchor": "programmatic-use"
+			}
+		],
+		"excerpt": "B\"H Headless Gameplay Simulation This directory runs actual Mitzvah World gameplay authorities in Node.js without a DOM, canvas, screenshot, or WebGL context. Real modules reused BootstrapMovementController jump and movement runtime AwtsmoosOctree AwtsmoosCollisionMover TriangleCollider InventoryStore MinimalMeadowEqui",
+		"searchText": "b\"h headless gameplay simulation this directory runs actual mitzvah world gameplay authorities in node.js without a dom, canvas, screenshot, or webgl context. real modules reused bootstrapmovementcontroller jump and movement runtime awtsmoosoctree awtsmooscollisionmover trianglecollider inventorystore minimalmeadowequipmentruntime minimalmeadowcombat the registered custom player action system the canonical chossid.glb is read as a real glb v2 binary. its json chunk supplies actual scene nodes, skin joints, meshes, and imported animation names. renderer free scene nodes replace only webgl transforms. cli the job does not sleep. it can advance far faster than real time and prints one json snapshot containing clock ratio, model source, imported clips, custom action state, equipment, inventory, collision contacts, combat, enemy health, friendly actors, and bounded event history. programmatic use runfor() means simulated seconds. runscaled() multiplies its input by the configured speed. rununtil() advances deterministically until an inspected condition becomes true or a simulated deadline is reached.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-simulation-readme-md-15adcc7686.json"
+	}
+]

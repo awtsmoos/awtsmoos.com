@@ -1,74 +1,143 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-world-directory-1aefe2e3eb",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/world/DIRECTORY_GUIDE.md",
-		"category": "Games",
+		"id": "geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-10-main-constella-f6119d13f3",
+		"title": "Phase One — Main Constellation Possibilities",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-21-geelooy-uiux-revelation/10-main-constellation-phase-one.md",
+		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/test/world",
-				"anchor": "directory-guide-experiments-awtsmoos-src-test-world"
+				"text": "Phase One — Main Constellation Possibilities",
+				"anchor": "phase-one-main-constellation-possibilities"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "User intent translated into missions",
+				"anchor": "user-intent-translated-into-missions"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Extreme possibility field",
+				"anchor": "extreme-possibility-field"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Five possible architectures",
+				"anchor": "five-possible-architectures"
+			},
+			{
+				"level": 3,
+				"text": "A — Duplicate everything into world-catalog.js",
+				"anchor": "a-duplicate-everything-into-world-catalog-js"
+			},
+			{
+				"level": 3,
+				"text": "B — Homepage imports PUBLICAPPS and GAMES directly",
+				"anchor": "b-homepage-imports-publicapps-and-games-directly"
+			},
+			{
+				"level": 3,
+				"text": "C — Generate a build-time merged JSON catalog",
+				"anchor": "c-generate-a-build-time-merged-json-catalog"
+			},
+			{
+				"level": 3,
+				"text": "D — Fetch /apps/ and /games/ rendered DOM",
+				"anchor": "d-fetch-apps-and-games-rendered-dom"
+			},
+			{
+				"level": 3,
+				"text": "E — Add a shared universal discovery registry consumed by homepage/apps/games",
+				"anchor": "e-add-a-shared-universal-discovery-registry-consumed-by-homepage-apps-games"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
-			},
-			{
-				"level": 2,
-				"text": "Test themes",
-				"anchor": "test-themes"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Phase-one winner",
+				"anchor": "phase-one-winner"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/test/world Role: Tests Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 23 files, 0 structural child directories Purpose Tests for world generation, village systems, terrain, creatures, enemies, and environme",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/test/world role: tests snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 23 files, 0 structural child directories purpose tests for world generation, village systems, terrain, creatures, enemies, and environmental integration. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tests search terms: mjs, village, geometry, proves, com, terrain, deferred, demon, enrichment, shadow, without, botany file mix: .mjs: 22 good first question: “does the behavior or asset i need belong to tests, or is this only a neighboring/test/reference layer?” semantic evidence b\"h proves authored valley topology, aligned snow, and continuous physical texture scale. the awtsmoos closes ridge to ridge without tearing the garment of stone; awtsmoos.com keeps deterministic geography and duplicates one seam row so no compressed texture band appears. proves one carved opening serves every equivalent village wall. the awtsmoos renews each house without needless repetition; awtsmoos.com measures that visual and collision requests share one immutable csg revelation. proves one movement first chain owns terrain, botany, and later models. one kav descends through every world without a rival stream in sight; the valley wakes, the garden blooms, then hidden forms receive their light. representative files atmosphericmountaingeometry.test.mjs — proves authored valley topology, aligned snow, and continuous physical texture scale. the awtsmoos closes ridge to ridge without tearing the garment of stone; awtsmoos.com keeps deterministic geography and duplicates one seam row so no compressed texture band appears. covers: “mountain geometry opens one authored valley with a continuous uv seam”. booleandoorwaygeometrycache.test.mjs — proves one carved opening serves every equivalent village wall. the awtsmoos renews each house without needless repetition; awtsmoos.com measures that visual and collision requests share one immutable csg revelation. covers: “equivalent doorway instances reuse one immutable csg result”, “geometry dimensions and material scale remain cache boundaries”, “the bounded cache retains only the newest dimensional revelations”. cooperativeterrainpreparation.test.mjs — covers: “terrain sampling, topology, collision, and normals yield cooperatively”, “world collision insertion yields and returns a queryable octree”. deferredforestboot.test.mjs — proves one movement first chain owns terrain, botany, and later models. one kav descends through every world without a rival stream in sight; the valley wakes, the garden blooms, then hidden forms receive their light. covers: “canonical deferred terrain vessels contain no startup geometry”, “essential terrain defers both forest and sacred landmark generation”, “movement starts before the one post movement orchestration gate”. deferredterrainenrichment.test.mjs — proves collision precedes streamed terrain visuals and stale work cannot manifest. the awtsmoos gives every trunk and carved letter a truthful boundary before appearance; awtsmoos.com preserves order, exactly once work, cancellation, and reversible enrichment. covers: “text collision precedes text, forest input, forest collision, and forest visuals”, “destroy before text module resolution prevents all installation”, “destroy after completion removes visuals, collision, and obstacle additions”. deferredvillagebotanicalenrichment.test.mjs — proves optional botany never blocks movement and never installs twice. the awtsmoos reveals every petal at its proper time; awtsmoos.com protects the living scene from duplicate growth, stale promises, and geometry arriving after destruction. covers: “start schedules once and installs visual batches exactly once”, “destroy before import resolution rejects stale geometry”, “destroy removes already installed meshes”. doorwayframegeometry.test.mjs — proves rectangular doorway geometry is exact, transformed, and free of csg. the awtsmoos opens a passage through ordered vessels; awtsmoos.com verifies two piers and one lintel preserve the inhabited village while first movement no longer waits for booleans. covers: “doorway factory creates three exact boxes without invoking csg”. enemylifecyclestatepolicy.test.mjs — proves canonical spawn, alert, timeline, return, stagger, and defeat phases. the awtsmoos grants every concealment a beginning and an end; awtsmoos.com records warning, impact, recovery, pursuit, return, and defeat as finite witnessed states. covers: “health, sanctuary, and territory override combat intent”, “spawn and warning finish before the canonical attack timeline begins”, “stagger and cooldown resolve into bounded pursuit”. hostiletorahabilitysystem.test.mjs — proves construction, direct identity, and bounded regional torah targeting. covers: “live hostile population constructs and hydrates the setactors seam”, “single target ability resolves the canonical actor by stable id without a regional query”, “area ability visits only cells intersecting its bounded range”. shadowdemonanatomygeometry.test.mjs — proves six deterministic articulated hostiles remain one draw each. the awtsmoos joins many limbs into one finite garment; awtsmoos.com verifies anatomy, indices, normals, colors, quality budgets, and renderer neutral evidence together. covers: “high quality reveals six merged deterministic hostile anatomies”. shadowdemonanimation.test.mjs — guards canonical hostile states against exact local glb clip names. the awtsmoos renews one intention through many finite poses; awtsmoos.com lets idle, travel, warning, impact, recovery, and defeat find honest animated garments. covers: “clip aliases resolve the audited local hostile asset”, “canonical semantic states select stable animation intentions”. shadowdemoncombatfunctions.test.mjs — proves canonical light, sanctuary, hurt windows, defeat, and full respawn reset. the awtsmoos gives no finite shadow permission to forge strength or strike without measure; awtsmoos.com records health, range, protection, clearing, and return as visible contracts. covers: “torah light uses canonical damage and enforces world range”, “one player hurt window prevents simultaneous shadow damage”, “village sanctuary cancels hostile impact at the damage boundary”. villagedistrictplacement.test.mjs — proves every rendered cottage is an authored numbered home at every quality tier. the awtsmoos joins identity to location and location to responsibility; awtsmoos.com rejects anonymous ellipse filler so roads, courtyards, terrain, interiors, and missions share one truth. covers: “all quality tiers preserve exactly the numbered district houses”, “placement is deterministic and returns no anonymous homes”, “an unauthored density request fails instead of scattering filler”. import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: node:assert/strict node:test ../../world/village/atmosphericmountainridgeatlas.js ../../world/village/atmosphericmountaingeometry.js ../../world/booleandoorwaygeometry.js ../../world/booleandoorwaygeometrycache.js ../../app/worldcollisionoctree.js ../../world/terraingeometry.js node:fs/promises ../../world/streaming/deferredterrainfeaturestate.js ../../world/streaming/deferredterrainenrichment.js ../../world/streaming/deferredvillagebotanicalenrichment.js test themes mountain geometry opens one authored valley with a continuous uv seam equivalent doorway instances reuse one immutable csg result geometry dimensions and material scale remain cache boundaries the bounded cache retains only the newest dimensional revelations terrain sampling, topology, collision, and normals yield cooperatively world collision insertion yields and returns a queryable octree canonical deferred terrain vessels contain no startup geometry essential terrain defers both forest and sacred landmark generation movement starts before the one post movement orchestration gate optional world streaming is the sole botanical runtime owner the botanical gate alone releases deferred world models text collision precedes text, forest input, forest collision, and forest visuals directory map parent: experiments/awtsmoos/src/test children: none. related and overlapping systems colocated and integration test surfaces — most subsystem tests live under src/test, while a smaller external tests tree exercises broader integration contracts. boundaries and cautions this directory verifies behavior; it should not become the production owner of that behavior. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-world-directory-1aefe2e3eb.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase One — Main Constellation Possibilities The Awtsmoos creates every doorway anew, yet the home should not become a wall; Awtsmoos.com can reveal every living app and game while keeping the first glance calm and small. User intent translated into missions Give the whole product family",
+		"searchText": "b\"h boruch hashem blessed is he phase one — main constellation possibilities the awtsmoos creates every doorway anew, yet the home should not become a wall; awtsmoos.com can reveal every living app and game while keeping the first glance calm and small. user intent translated into missions give the whole product family a simple futuristic visual language: dark luminous surfaces, restrained glass, tiny orbital motion, quick transforms, no decorative clutter. make secondary ui retractable instead of permanently occupying space. expose every legitimate unpublished app and game from the main discovery experience. keep the homepage itself sparse: one launcher/search surface should carry breadth rather than hundreds of visible cards. repair concrete usability problems encountered while validating newly exposed routes. preserve working app/game visual identities unless they are objectively broken. extreme possibility field 1. main worlds launcher becomes a searchable constellation containing top level worlds plus every cataloged app and game. 2. results grouped into compact retractable sections: core, apps, games, community/system. 3. each group can collapse without hiding search matches. 4. search can match titles, aliases, categories, descriptions, genres, and route names. 5. cards use one line title + one line purpose, no long marketing paragraphs. 6. hover/focus gives subtle parallax glow, not giant motion. 7. mobile launcher becomes a bottom sheet/full height drawer with sticky search and retractable groups. 8. reduced motion users get no spatial movement. 9. main launcher imports source catalogs instead of duplicating 69+26 records. 10. catalog completeness can be tested mechanically against every launchable first level app/game directory. 11. unpublished but real routes can be promoted by adding one catalog record rather than hand editing homepage markup. 12. invalid/debug/test/internal routes remain excluded through an explicit publication policy. 13. apps and games storefront counts should derive from catalog lengths instead of stale hardcoded numbers. 14. main homepage can show one compact live count such as “95 tools & worlds” inside the launcher rather than adding visible clutter. 15. keyboard navigation should cross section boundaries cleanly and enter opens the selected door. 16. escape collapses the launcher; slash or g focuses discovery according to existing shortcut patterns. 17. cards should support pointer, keyboard, touch, and reduced motion uniformly. 18. current dirty homepage/storefront changes must be preserved, not reset. 19. newly exposed routes should receive focused smoke checks for viewport, load errors, overflow, and obviously unusable controls. 20. any broken candidate should be fixed locally; a working unusual ui should remain unusual. five possible architectures a — duplicate everything into world catalog.js simple runtime, terrible maintenance, guaranteed catalog drift. reject. b — homepage imports public apps and games directly single source of truth, easiest completeness testing, reasonable module graph. strong candidate. c — generate a build time merged json catalog fast runtime and explicit artifact, but adds generation obligations and stale output risk. useful only if import graph becomes too heavy. d — fetch /apps/ and /games/ rendered dom fragile, slow, semantically backward. reject. e — add a shared universal discovery registry consumed by homepage/apps/games architecturally cleanest long term, but too invasive while those catalogs are concurrently dirty. defer unless direct imports prove impossible. phase one winner architecture b: preserve the existing core world catalog, import public apps and games, normalize them into lightweight launcher records, and render grouped retractable sections. catalog completeness remains independently testable.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-10-main-constella-f6119d13f3.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-11-main-constella-b0c83e45b6",
+		"title": "Phase Two — Constraint, Risk, and File Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-21-geelooy-uiux-revelation/11-main-constellation-phase-two.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Two — Constraint, Risk, and File Plan",
+				"anchor": "phase-two-constraint-risk-and-file-plan"
+			},
+			{
+				"level": 2,
+				"text": "What must remain simple",
+				"anchor": "what-must-remain-simple"
+			},
+			{
+				"level": 2,
+				"text": "Real constraints discovered",
+				"anchor": "real-constraints-discovered"
+			},
+			{
+				"level": 2,
+				"text": "Planned file ownership",
+				"anchor": "planned-file-ownership"
+			},
+			{
+				"level": 2,
+				"text": "Risk graph",
+				"anchor": "risk-graph"
+			},
+			{
+				"level": 2,
+				"text": "Verification",
+				"anchor": "verification"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Two — Constraint, Risk, and File Plan The Awtsmoos hides infinite breadth behind a simple door; Awtsmoos.com should reveal more worlds without making the user endure more visual roar. What must remain simple The homepage is already intentionally sparse. Do not add a giant persisten",
+		"searchText": "b\"h boruch hashem blessed is he phase two — constraint, risk, and file plan the awtsmoos hides infinite breadth behind a simple door; awtsmoos.com should reveal more worlds without making the user endure more visual roar. what must remain simple the homepage is already intentionally sparse. do not add a giant persistent app/game wall. preserve the hero, direct navigation, featured cards, mobile dock, and current aesthetic unless runtime proves a defect. the new breadth belongs in the retractable worlds launcher and search layer. real constraints discovered index.html is already modified by concurrent work. apps/index.html, apps/style.css, app catalog files, games/index.html, and games/style.css are also modified. homepage discovery currently uses a 14 record world catalog. apps already have 69 public records and games have 26 records. the homepage launcher should therefore consume catalogs instead of manually duplicating records. publication must exclude tests, debug tools, dead experiment folders, and infrastructure only pages unless they are clearly intended for end users. planned file ownership preferred clean additions: scripts/home simple/constellation catalog.js — normalize core + apps + games into lightweight grouped discovery records. scripts/home simple/constellation sections.js — retractable group state and filtering policy. style/home simple/constellation groups.css — clean group headings/collapse animations. scripts/home simple/catalog completeness.test.mjs — filesystem/catalog completeness contract if tests can import both catalogs safely. existing files touched only if fully read first: scripts/home simple/index.js — composition import only. scripts/home simple/world launcher renderer.js — only if current renderer cannot consume grouped records. scripts/home simple/launcher filter.js — only if current filter assumes flat 14 item catalog. index.html — avoid if possible because it is dirty; use existing launcher dom hooks. app/game catalog leaf modules — add missing legitimate entries only after filesystem verification. games/index.html — fix stale counts only if no dynamic renderer already overrides them. risk graph catalog duplication future drift missing unpublished apps again. too many launcher cards mobile clutter retractable grouping required. importing huge runtime modules slower homepage catalogs are data only modules, acceptable if measured. dirty existing files merge collision prefer new modules and minimal full file rewrites of small composition files. raw filesystem discovery in browser impossible/static hosting mismatch publication remains source catalog driven. experimental game publication broken public route smoke check candidate before catalog promotion. verification catalog completeness diff becomes empty for legitimate first level launchable app/game routes. homepage launcher count matches normalized catalog count. search finds newly exposed titles. groups retract and expand with keyboard accessible buttons. mobile launcher has no document overflow and does not exceed usable viewport height without internal scrolling. reduced motion disables group/card movement. existing homepage hero/featured/dock layout remains unchanged.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-11-main-constella-b0c83e45b6.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-12-main-constella-cddf9e9dc4",
+		"title": "Phase Three — Final Revelation Before Code",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-21-geelooy-uiux-revelation/12-main-constellation-phase-three.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Three — Final Revelation Before Code",
+				"anchor": "phase-three-final-revelation-before-code"
+			},
+			{
+				"level": 2,
+				"text": "Final critique",
+				"anchor": "final-critique"
+			},
+			{
+				"level": 2,
+				"text": "Thirty final improvements over the earlier plan",
+				"anchor": "thirty-final-improvements-over-the-earlier-plan"
+			},
+			{
+				"level": 2,
+				"text": "Final implementation order",
+				"anchor": "final-implementation-order"
+			},
+			{
+				"level": 2,
+				"text": "Files expected to be touched",
+				"anchor": "files-expected-to-be-touched"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Three — Final Revelation Before Code The Awtsmoos is infinite without clutter, simple without lack; Awtsmoos.com should let every doorway emerge when summoned, then fold the constellation back. Final critique The first idea was to make every app/game immediately visible. That would",
+		"searchText": "b\"h boruch hashem blessed is he phase three — final revelation before code the awtsmoos is infinite without clutter, simple without lack; awtsmoos.com should let every doorway emerge when summoned, then fold the constellation back. final critique the first idea was to make every app/game immediately visible. that would satisfy breadth but violate the user's stronger visual requirement: simple, clean, futuristic, retractable. the improved interpretation is complete discoverability through a calm launcher whose sections expand only when wanted. search temporarily expands relevant groups. nothing important is hidden permanently; nothing noisy is forced into the first frame. thirty final improvements over the earlier plan 1. preserve top level core worlds above generated catalog groups. 2. use exact source catalogs, never duplicate app/game metadata. 3. normalize relative catalog hrefs to absolute public routes centrally. 4. prefix generated ids by group to prevent collisions. 5. distinguish app vs game visibly but minimally. 6. keep descriptions to one concise line with truncation. 7. collapse large groups by default on narrow screens. 8. keep apps and games expanded on desktop only if viewport height allows. 9. search expands matching groups automatically. 10. clearing search restores user chosen collapse state. 11. use native button controls for section headers. 12. announce result counts accessibly. 13. preserve arrow key card navigation. 14. make collapse state keyboard reachable. 15. use css grid auto fit rather than fixed card counts. 16. use subtle opacity/translate reveals below 180ms. 17. respect prefers reduced motion. 18. avoid blur heavy effects on mobile gpus. 19. avoid continuous animation inside launcher cards. 20. keep launcher internal scrolling sovereign; body should not jump. 21. prevent focus from landing in collapsed groups. 22. escape closes the whole launcher from anywhere inside. 23. keep input/search sticky on mobile drawer. 24. show total catalog count in existing launcher heading. 25. keep direct homepage navigation unchanged. 26. derive games storefront counts from games.length where possible. 27. add a catalog completeness audit comparing real first level launchable directories with registry routes. 28. require http/load smoke proof before publishing missing candidate routes. 29. exclude folders whose only entry is tests/debug/internal or whose launch fails. 30. record every excluded route and reason in durable audit notes so future agents do not rediscover ambiguity. final implementation order 1. compute app/game filesystem versus catalog delta. 2. smoke check every missing route. 3. classify public candidates and exclusions. 4. add catalog records in the narrowest leaf modules only where proven. 5. create homepage constellation normalizer and grouped launcher model. 6. read current launcher renderer/filter/composition fully. 7. rewrite those files whole only if required; otherwise add new modules and adjust one composition root. 8. add grouped futuristic css as a separate module and load it without rewriting dirty root html if the existing css aggregator supports imports. 9. run catalog tests and completeness audit. 10. browser test homepage launcher desktop/mobile/search/collapse/keyboard. 11. browser smoke all newly exposed routes. 12. fix only actual issues found on those routes. 13. re read all touched files and compare git diff against the original plan. files expected to be touched new files are preferred: homepage constellation normalization, grouped launcher state, grouped css, completeness test, and audit ledger. existing catalog leaf modules may be rewritten completely for missing records. existing launcher modules may be rewritten only after full reads. the dirty root index.html should remain untouched unless there is no other legitimate load path for the new css/js.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-12-main-constella-cddf9e9dc4.json"
 	}
 ]

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Rich Social (geelooy/api/social/helper/richSocial/)\n\nRich post system: schema-driven rich posts with sections, attachments, creator metadata, provenance, and sanitization. Mounted via `_awtsmoos.richSocial.js`.\n\n## Files\n- `index.js`, `RichPostService.js` — module entry and service.\n- `RichPostSchema.js`, `RichPostOptions.js`, `SectionSchema.js` — post and section schemas.\n- `AttachmentSchema.js`, `AttachmentStorageSchema.js` — attachment schemas.\n- `CreatorMetadataSchema.js`, `CreatorSocialMetadataSchema.js`, `CreatorDistributionSchema.js` — creator metadata and distribution.\n- `DiscussionTargets.js` — discussion targeting.\n- `InternalCloneSourceSchema.js`, `SourceProvenanceSchema.js` — clone source and provenance.\n- `TextSanitizer.js` — text sanitization.\n- `test/` — attachment storage, clone source, routes, schema, and service tests.\n"
+}

@@ -1,0 +1,172 @@
+[
+	{
+		"id": "geelooy-api-tunnel-control-docs-github-virtual-os-md-e8138e03c4",
+		"title": "B\"H",
+		"sourcePath": "geelooy/api/tunnel/control/docs/GITHUB_VIRTUAL_OS.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Virtual OS — Public GitHub source import",
+				"anchor": "virtual-os-public-github-source-import"
+			},
+			{
+				"level": 2,
+				"text": "From the Virtual OS desktop",
+				"anchor": "from-the-virtual-os-desktop"
+			},
+			{
+				"level": 2,
+				"text": "Tool/API call",
+				"anchor": "tool-api-call"
+			},
+			{
+				"level": 2,
+				"text": "Fast source-snapshot status (read-only)",
+				"anchor": "fast-source-snapshot-status-read-only"
+			}
+		],
+		"excerpt": "B\"H Virtual OS — Public GitHub source import The hosted Virtual OS now has a bounded gitClone action for public GitHub source snapshots . This is a real source import into the authenticated user's persistent Virtual OS filesystem; it is not a full Git checkout. No .git history, private repository credentials, GitHub pu",
+		"searchText": "b\"h virtual os — public github source import the hosted virtual os now has a bounded gitclone action for public github source snapshots . this is a real source import into the authenticated user's persistent virtual os filesystem; it is not a full git checkout. no .git history, private repository credentials, github push, or unrestricted hetzner shell execution are available through this action. from the virtual os desktop open git control . enter a public repository url, branch, destination within an alias you own, and a scoped tunnel.write api key. the key is sent in an http header once, never embedded in a url or persisted by the git control window. click import github sources . example: repository: https://github.com/octocat/hello world branch: master destination: my owned alias/repos/hello world tool/api call responses identify source, ref, destination, filesimported, sourcesha256, partial, skippedbinary, fullgithistory:false, nativeshell:false, elapsed time, and per stage timing receipts. the vfs stores an .awtsmoos clone.json record after a successful import. a matching repeated call returns alreadyimported:true without rewriting files. security and performance: https public github.com urls only; only public codeload.github.com tarball requests, dns pinned to validated public ip addresses. the destination alias must belong to the authenticated account. a signed browser session or read only api key alone cannot import; a scoped oauth/api key credential with tunnel.write or tunnel.admin is required. existing nonempty destinations are not overwritten. symlinks, archive traversal, corrupt tar headers, oversized payloads, and unsupported tar entry types fail closed. maximum compressed archive: 4 mib; maximum expanded archive: 12 mib; maximum 150 files; 2 mib utf 8 text content, 300 kib per file. binary files are explicitly reported as skipped; the receipt marks partial:true. use a native authorized git client for full binary/history clones. imports write at most four independent files concurrently. one active import per account and at most three per controller process. validation and download complete before any vfs files are written. a write failure reports its stage and partially written paths instead of hiding a partial import. never blindly retry a failed mutable import. lightweight commands remain separate from repository imports. github downloads and vfs writes are bounded bulk work and are not advertised as completing under four seconds for arbitrarily sized repositories. this limited capability doesn't imply native git support on the browser's client only simulated virtual os, nor does it run git subprocesses on hetzner. fast source snapshot status (read only) use gitclonestatus to read an account owned imported snapshot receipt: a logged in account session or credential with tunnel.read may inspect its own snapshot receipt. this does not retry a mutable import or shell out to git. a successful response includes the original source, branch/ref, number of imported files, skipped binaries, sha 256 of the source archive, and import moment. the status describes the import receipt, not whether each source file remains unchanged today.",
+		"page": "pages/geelooy-api-tunnel-control-docs-github-virtual-os-md-e8138e03c4.json"
+	},
+	{
+		"id": "geelooy-api-tunnel-control-documentation-md-becfd8c936",
+		"title": "Tunnel Control API Documentation",
+		"sourcePath": "geelooy/api/tunnel/control/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Tunnel Control API Documentation",
+				"anchor": "tunnel-control-api-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Tunnel Control API Documentation The Awtsmoos gives remote control a trusted account bound plane across device, preview, mission, compute, and treasury; Awtsmoos.com maps its many route families beside auth and realtime admission so client owner fields never become authority. Read ../../",
+		"searchText": "b\"h boruch hashem blessed is he tunnel control api documentation the awtsmoos gives remote control a trusted account bound plane across device, preview, mission, compute, and treasury; awtsmoos.com maps its many route families beside auth and realtime admission so client owner fields never become authority. read ../../../../docs/api/tunnel control.md, ../../../../docs/api/authentication.md, and ../../../../docs/websockets/mission rooms.md.",
+		"page": "pages/geelooy-api-tunnel-control-documentation-md-becfd8c936.json"
+	},
+	{
+		"id": "geelooy-api-tunnel-control-mcp-transition-md-3dcdab3c5c",
+		"title": "Awtsmoos MCP transition",
+		"sourcePath": "geelooy/api/tunnel/control/mcp/TRANSITION.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos MCP transition",
+				"anchor": "awtsmoos-mcp-transition"
+			},
+			{
+				"level": 2,
+				"text": "Added tools",
+				"anchor": "added-tools"
+			},
+			{
+				"level": 2,
+				"text": "Authentication and permissions",
+				"anchor": "authentication-and-permissions"
+			},
+			{
+				"level": 2,
+				"text": "Request shape",
+				"anchor": "request-shape"
+			},
+			{
+				"level": 2,
+				"text": "Verification 2026-10-01",
+				"anchor": "verification-2026-10-01"
+			},
+			{
+				"level": 2,
+				"text": "Release handoff",
+				"anchor": "release-handoff"
+			}
+		],
+		"excerpt": "Awtsmoos MCP transition B\"H Added tools awtsmoos tunnel action: existing protected tunnel actions, with action and params. awtsmoos application catalog: current curated application operations. awtsmoos application call: existing application gateway; requires awtsmoos.api. The four previous MCP tools remain available. A",
+		"searchText": "awtsmoos mcp transition b\"h added tools awtsmoos tunnel action: existing protected tunnel actions, with action and params. awtsmoos application catalog: current curated application operations. awtsmoos application call: existing application gateway; requires awtsmoos.api. the four previous mcp tools remain available. authentication and permissions the existing mcp oauth resource url and bearer checks remain unchanged. mutation uses protectedfs and its existing action scope, ownership, scheduler and audit gates. read, write, command, browser, mission and room scopes remain distinct. application operations retain their own scope and alias ownership checks. resource metadata now advertises mission, room and application scopes. existing read only tokens do not gain write permissions; reconnect/consent for needed scopes. request shape awtsmoos tunnel action arguments: {\"routereference\":\" \",\"action\":\"read\",\"params\":{\"p\":\"/exact/path\"}} write uses action write and params p/content. commands use existing commandrun parameters. omitting routereference uses existing authorized automatic device selection. reserved credential/action/route carrier parameters cannot override the mcp envelope. child handler response metadata is isolated from the outer mcp response. do not automatically replay uncertain mutations. verification 2026 10 01 17 focused tests passed: generictools.test.mjs, appapigateway.test.cjs, protectedfsauthorization.test.cjs. actual protocol tool listing and actual application catalog succeeded locally. syntax and readback checks passed. no authenticated live write or production deployment claimed. rootmutationpolicy.test.cjs has a separate failing expectation: generated yaml contains rootselect. its policy/schema inputs were unchanged against head during this work. release handoff changes are isolated to geelooy/api/tunnel/control/mcp. other agents' database edits must not be staged or reset as part of this release. use the existing exact sha prepare/activation gates after coordinating a clean release tree. fix production proxy routing for /.well known/oauth protected resource and oauth authorization server: source routes already exist in geelooy/.well known/ awtsmoos.derech.js but live urls returned nginx 404. also verify outer router honors requested http 401/403/405 rather than forcing 200. after deployment, connect oauth in the existing plugin, discover device, then test a temporary write/readback/remove round trip and a harmless command with the appropriate scopes.",
+		"page": "pages/geelooy-api-tunnel-control-mcp-transition-md-3dcdab3c5c.json"
+	},
+	{
+		"id": "geelooy-api-tunnel-control-readme-md-dc38c90da9",
+		"title": "B\"H — Tunnel Control API (Yaakov 2026-10-15)",
+		"sourcePath": "geelooy/api/tunnel/control/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Tunnel Control API (Yaakov 2026-10-15)",
+				"anchor": "b-h-tunnel-control-api-yaakov-2026-10-15"
+			},
+			{
+				"level": 2,
+				"text": "Routes",
+				"anchor": "routes"
+			},
+			{
+				"level": 2,
+				"text": "Pairing Flow",
+				"anchor": "pairing-flow"
+			},
+			{
+				"level": 2,
+				"text": "Simple Tunnel Flow",
+				"anchor": "simple-tunnel-flow"
+			},
+			{
+				"level": 2,
+				"text": "Core Modules",
+				"anchor": "core-modules"
+			},
+			{
+				"level": 2,
+				"text": "Critical Bugs Fixed (2026-10-15)",
+				"anchor": "critical-bugs-fixed-2026-10-15"
+			}
+		],
+		"excerpt": "B\"H — Tunnel Control API (Yaakov 2026 10 15) Main API for tunnel pairing, command execution, and device management. Routes pairing/ — Device pairing (request, state, approve, status, page) simpleTunnel.js — Simple tunnel (cmd, poll, result, setup, request, approved) myDevice.js — List user's tunnels (requires auth) liv",
+		"searchText": "b\"h — tunnel control api (yaakov 2026 10 15) main api for tunnel pairing, command execution, and device management. routes pairing/ — device pairing (request, state, approve, status, page) simpletunnel.js — simple tunnel (cmd, poll, result, setup, request, approved) mydevice.js — list user's tunnels (requires auth) livecalls.js — real time call handling agentflow.js — agent lifecycle pairing flow 1. post /pairing/request — create pairing, returns pairingid + usercode + requestsecret save the requestsecret immediately! needed to consume the credential. 2. get /pairing/state?pairingid=... — check if approved (poll this) works with both get (query) and post (body) 3. user approves via browser at /pairing/page?pairingid=...&pairingcode=... 4. post /pairing/status — consume with pairingid + requestsecret, returns encrypted credential 5. agent decrypts credential and connects via websocket simple tunnel flow 1. post /simple/cmd — queue command (requires secret, optional agentid) 2. agent polls get /simple/poll?agentid=... 3. agent executes, posts to post /simple/result 4. client gets result via get /simple/result?id=... core modules core/tunnelsecurity/ — binding store, pairing store, authentication core/auth.js — request authentication core/request.js — body/query parsing helpers critical bugs fixed (2026 10 15) 1. pairingstate ignored get query params → now reads both body and query 2. manual approval searched wrong store → now uses dedicated pairing file 3. verifyregistration blocked empty tunnelid → now uses fallback 4. pairing file errors swallowed → now logged",
+		"page": "pages/geelooy-api-tunnel-control-readme-md-dc38c90da9.json"
+	},
+	{
+		"id": "geelooy-api-tunnel-control-routes-osfs-readme-md-678d7d8605",
+		"title": "osFs - Tunnel Virtual OS Filesystem Routes",
+		"sourcePath": "geelooy/api/tunnel/control/routes/osFs/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "osFs - Tunnel Virtual OS Filesystem Routes",
+				"anchor": "osfs-tunnel-virtual-os-filesystem-routes"
+			},
+			{
+				"level": 2,
+				"text": "Modules",
+				"anchor": "modules"
+			},
+			{
+				"level": 2,
+				"text": "The coding-law guard (lineLimitGuard.js)",
+				"anchor": "the-coding-law-guard-linelimitguard-js"
+			},
+			{
+				"level": 2,
+				"text": "AI safeguards",
+				"anchor": "ai-safeguards"
+			}
+		],
+		"excerpt": "B\"H osFs Tunnel Virtual OS Filesystem Routes Part of the awtsmoos.com tunnel control API (geelooy/api/tunnel/control/routes/osFs/). These routes let an authorized agent perform structured file operations inside a hosted virtual OS space: read, write, delete, folders, and hash guarded writes. Modules writeOps.js The wri",
+		"searchText": "b\"h osfs tunnel virtual os filesystem routes part of the awtsmoos.com tunnel control api (geelooy/api/tunnel/control/routes/osfs/). these routes let an authorized agent perform structured file operations inside a hosted virtual os space: read, write, delete, folders, and hash guarded writes. modules writeops.js the write choke point. writefile() is the single funnel for every structured write action (write, writeifhash, replacerange, applypatch). makefolder(), deletepath(), and writeifhash() live here too. linelimitguard.js the coding law guard (see below). path.js path cleaning and virtual to db path resolution. syntaxafterwrite.js post write syntax reporting. writeaccess.js write authorization checks. writehashguard.js expected hash inspection for guarded writes. writereceipts.js change broadcasts and write receipts. the coding law guard (linelimitguard.js) yaakov's law, enforced on every structured write by checkfilestandards(): 1. line count any file over 120 lines is blocked (file too long blocked). split it into modules of 120 lines or fewer. 2. b\"h header (.js only) the first three lines of every .js file must be exactly //b\"h, //blessed is he, //boruch hashem, or the write is blocked (bad header blocked). 3. tab indentation (.js only) a sustained space indentation pattern (more than 10 space indented code lines) is blocked (bad indent blocked). a few stray lines only produce a console warning. 4. no minification (.js only) a single line longer than 500 characters of dense code is blocked (minified blocked). expand it into readable, normally indented lines. binary (non string) payloads are exempt from every check. raw shell writes do not pass through this guard; only structured tunnel actions do. 5. no synchronous i/o in new geelooy/api code a write under geelooy/api/ whose content calls readfilesync, writefilesync, readdirsync, statsync, existssync, opensync/readsync/ writesync/closesync, appendfilesync, mkdirsync, lstatsync, realpathsync, or copyfilesync is blocked (sync io blocked). sync i/o freezes the single event loop for every request — the 2026 10 20 flap mechanism. use fs.promises instead. 167 files predate the ban; they are warn listed in sync io warnlist.md (same folder), not grandfathered for new writes. test files and the guard itself are exempt. ai safeguards do not weaken, bypass, or special case this guard without the user's explicit order. if a write is blocked, comply with the standard. when you split a file, keep each new module under 120 lines, give it the exact b\"h header, tab indentation, full jsdoc, and expanded comments. checklinelimit() remains exported for backwards compatibility; new callers should use checkfilestandards().",
+		"page": "pages/geelooy-api-tunnel-control-routes-osfs-readme-md-678d7d8605.json"
+	}
+]

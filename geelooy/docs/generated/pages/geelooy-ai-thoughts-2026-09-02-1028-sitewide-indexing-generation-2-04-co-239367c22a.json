@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-02-1028-sitewide-indexing-generation-2-04-co-239367c22a",
+	"title": "Generation 2 Code-First Delta",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-02-1028-sitewide-indexing-generation-2/04-code-first-delta.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Generation 2 Code-First Delta",
+			"anchor": "generation-2-code-first-delta"
+		},
+		{
+			"level": 2,
+			"text": "Planned versus actual",
+			"anchor": "planned-versus-actual"
+		},
+		{
+			"level": 2,
+			"text": "Runtime-discovered corrections",
+			"anchor": "runtime-discovered-corrections"
+		},
+		{
+			"level": 2,
+			"text": "Shadow work discovered",
+			"anchor": "shadow-work-discovered"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-02-1028-sitewide-indexing-generation-2-04-co-239367c22a-001.json"
+	]
+}

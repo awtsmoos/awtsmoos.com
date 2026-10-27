@@ -1,0 +1,24 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-apk-web-core-readme-md-e9b56313e6",
+	"title": "B\"H — APK Web Core (geelooy/api/apk-web/core/)",
+	"sourcePath": "geelooy/api/apk-web/core/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — APK Web Core (geelooy/api/apk-web/core/)",
+			"anchor": "b-h-apk-web-core-geelooy-api-apk-web-core"
+		},
+		{
+			"level": 2,
+			"text": "Files",
+			"anchor": "files"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-apk-web-core-readme-md-e9b56313e6-001.json"
+	]
+}

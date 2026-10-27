@@ -1,0 +1,167 @@
+[
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-492ec6ba8b",
+		"title": "Phase Three — Migration Plan",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/.ai-thoughts/20260902_0315-universal-procedural-api/07_MIGRATION_PLAN.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Three — Migration Plan",
+				"anchor": "phase-three-migration-plan"
+			},
+			{
+				"level": 2,
+				"text": "Additive path",
+				"anchor": "additive-path"
+			},
+			{
+				"level": 2,
+				"text": "Bridge policy",
+				"anchor": "bridge-policy"
+			},
+			{
+				"level": 2,
+				"text": "Compatibility proof",
+				"anchor": "compatibility-proof"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Three — Migration Plan Migration should be a bridge, not a flood; the Awtsmoos.com river keeps old vessels afloat while one clearer current carries new code. Additive path 1. Existing users of createUniversalAwtsmoosApi() continue unchanged. 2. Existing Creation Portal users contin",
+		"searchText": "b\"h boruch hashem blessed is he phase three — migration plan migration should be a bridge, not a flood; the awtsmoos.com river keeps old vessels afloat while one clearer current carries new code. additive path 1. existing users of createuniversalawtsmoosapi() continue unchanged. 2. existing creation portal users continue unchanged. 3. existing procedural portal users continue unchanged. 4. new users may adopt createawtsmoos() for the five verb lifecycle. 5. expert users obtain existing authorities through namespaces instead of importing a new parallel framework. bridge policy procedural language definition remains canonical per entity. awtsmoos.world.v1 remains canonical project/world serialization. modelingdocument, nature, reality, materials, proceduralobject and adapters continue lowering through existing bridges. no deprecation is declared unless an existing path is truly replaced and migration tests exist. no format version bump is made for a facade only convergence release. compatibility proof run current suites for universal semantic kernel, compiler chain, execution, creation portal, procedural portal federation, modelingdocument, nature, reality, materials, transactions/history, world serialization, and adapter capability reporting. new tests must additionally compare old direct apis with equivalent expert namespaces on the new facade.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-492ec6ba8b.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-51d702a0b7",
+		"title": "Phase Three — Testing Universe",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/.ai-thoughts/20260902_0315-universal-procedural-api/08_TESTING_UNIVERSE.md",
+		"category": "Testing",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Three — Testing Universe",
+				"anchor": "phase-three-testing-universe"
+			},
+			{
+				"level": 2,
+				"text": "Structural gates",
+				"anchor": "structural-gates"
+			},
+			{
+				"level": 2,
+				"text": "New facade tests",
+				"anchor": "new-facade-tests"
+			},
+			{
+				"level": 2,
+				"text": "Inherited Aug. 31 debt",
+				"anchor": "inherited-aug-31-debt"
+			},
+			{
+				"level": 2,
+				"text": "Regression universe",
+				"anchor": "regression-universe"
+			},
+			{
+				"level": 2,
+				"text": "Runtime gates",
+				"anchor": "runtime-gates"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Three — Testing Universe A test is a measured vessel for truth; the Awtsmoos renews each execution, and evidence—not confidence—proves the route. Structural gates Node parse/import of every touched module. B\"H / Boruch Hashem / Blessed is He headers on touched human authored source",
+		"searchText": "b\"h boruch hashem blessed is he phase three — testing universe a test is a measured vessel for truth; the awtsmoos renews each execution, and evidence—not confidence—proves the route. structural gates node parse/import of every touched module. b\"h / boruch hashem / blessed is he headers on touched human authored source. tabs for indentation; reject leading space indentation in touched source. no touched source over the modularity ceiling without explicit documented reason. no minified/cramped functions. new facade tests factory returns stable five methods and expert namespaces; define canonicalizes without mutation; malformed definitions fail validation with structured diagnostics; traits/relationships/constraints/behaviors survive serialization; plan is deterministic for same seed/request; compiler registration/discovery remains serializable; requested artifact channels drive plan selection; unsupported/deferred channels remain truthful; compiler versions/cost/lod/quality appear where existing planner supports them; compile returns provenance/hash/channel truth; world transactional namespace retains history/undo/redo/serialization; explanation does not execute compiler side effects; semantic hashes remain stable across read only operations. inherited aug. 31 debt run tests for quantity, provenance, identity receipts, fluent authoring, derivation, compile policy, namespace exports, then reread the authored semantics touched files and close their previous remaining work. regression universe procedurallanguageuniversalkernel procedurallanguageuniversalcompilerchain procedurallanguageuniversalexecution procedurallanguagecreationportal proceduralportalanythingfederation modelingdocument bridge suites nature bridge/smoke suites reality universal api/json suites material definition/texture cache suites transaction/history/batch suites world serialization/composition suites adapter support/capability suites runtime gates node example execution. browser import/execution through real served route. three/native behavior where browser is required. blender/deferred capability test where available; never claim native execution from descriptor only tests. fresh browser public production verification after deployment.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-51d702a0b7.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-db4d74bdda",
+		"title": "Phase Three — Deployment and Release Plan",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/.ai-thoughts/20260902_0315-universal-procedural-api/09_DEPLOYMENT_RELEASE_PLAN.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Three — Deployment and Release Plan",
+				"anchor": "phase-three-deployment-and-release-plan"
+			},
+			{
+				"level": 2,
+				"text": "Before commit",
+				"anchor": "before-commit"
+			},
+			{
+				"level": 2,
+				"text": "Concurrent-upstream safety",
+				"anchor": "concurrent-upstream-safety"
+			},
+			{
+				"level": 2,
+				"text": "Deployment discovery already observed",
+				"anchor": "deployment-discovery-already-observed"
+			},
+			{
+				"level": 2,
+				"text": "Publication gates",
+				"anchor": "publication-gates"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Three — Deployment and Release Plan A commit is only a seed; Awtsmoos.com publication is the fruit. The release closes only when GitHub and the living public route agree on truth. Before commit 1. Refresh branch, HEAD, status, and remote. 2. Confirm procedural core files changed by",
+		"searchText": "b\"h boruch hashem blessed is he phase three — deployment and release plan a commit is only a seed; awtsmoos.com publication is the fruit. the release closes only when github and the living public route agree on truth. before commit 1. refresh branch, head, status, and remote. 2. confirm procedural core files changed by this mission only. 3. reread every touched file. 4. run final critical structural/test/browser gates. 5. stage explicit related paths only; never git add .. 6. inspect complete staged diff and staged file list. 7. commit with focused message. concurrent upstream safety 1. fetch origin immediately after commit. 2. compare local commit base to origin/main. 3. if upstream moved and primary worktree has unrelated dirt, do not stash/rebase it. 4. use an isolated worktree/clone from fresh origin/main, cherry pick the verified mission commit, resolve only related conflicts, rerun critical gates. 5. push only the verified integrated commit chain. 6. verify github remote sha with git ls remote or equivalent. deployment discovery already observed repository contains scripts/bhrelease.mjs, immutable production deploy helpers, local snapshot publication, canonical server activation, nginx/production authority tooling, and deployment contract tests. this is not assumed to be github pages. publication gates inspect exact current release command/arguments; identify how commit/sha is embedded into the deploy artifact; run the repository supported release mechanism; verify deployment reports the intended sha/version; discover actual public route from configuration/output, not memory; http check it directly; open in a fresh browser session; exercise the universal demo/api and capture runtime/browser evidence.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-db4d74bdda.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-b8447b8233",
+		"title": "Phase Three — Thirty Final Improvements",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/.ai-thoughts/20260902_0315-universal-procedural-api/10_THIRTY_FINAL_IMPROVEMENTS.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Three — Thirty Final Improvements",
+				"anchor": "phase-three-thirty-final-improvements"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Three — Thirty Final Improvements The third review turns sparks into a constellation; under the Awtsmoos, every refinement protects one coherent revelation. 1. Keep the new facade additive to the existing /universal api export. 2. Export createAwtsmoos from the existing barrel so r",
+		"searchText": "b\"h boruch hashem blessed is he phase three — thirty final improvements the third review turns sparks into a constellation; under the awtsmoos, every refinement protects one coherent revelation. 1. keep the new facade additive to the existing /universal api export. 2. export createawtsmoos from the existing barrel so root exports inherit it automatically. 3. avoid package.json changes unless tests prove subpath discovery requires one. 4. keep all new source modules below 120 lines. 5. split authority construction from facade methods. 6. split pipeline metadata from execution code. 7. keep explanation pure and side effect free. 8. freeze public namespace objects where practical. 9. never expose private compiler executors through discovery. 10. preserve existing semantic support policy vocabulary. 11. preserve exact artifact channel ids already in the core. 12. derive defaults from existing factories rather than inventing parallel constants. 13. treat the facade seed as a default, not an override of explicit definition seed. 14. validate before planning/compiling unless existing portal already guarantees an equivalent gate. 15. return existing canonical diagnostic structures rather than inventing incompatible error schemas. 16. keep world transaction state independent from semantic artifact compilation unless explicitly bridged. 17. make expert namespace names semantically unambiguous. 18. add a discoverable pipeline descriptor rather than dozens of top level inspection methods. 19. include examples for arbitrary unknown future kinds to prove noun neutrality. 20. include a constrained architectural example to prove graph semantics. 21. include a deferred operation example to prove capability honesty. 22. test deterministic plan/hash behavior across repeated runs. 23. test compile channel subsets. 24. test no executor side effects during plan/explain. 25. test legacy direct factories remain callable with unchanged shapes. 26. close inherited authored semantics tests before claiming stability. 27. inspect current deployment scripts immediately before release because shared production tooling may move. 28. re fetch origin after all local verification and before push. 29. verify deployed content/version in a fresh browser, not only with curl. 30. leave final remaining work.md empty only after planned vs actual delta, github sha, deployment sha, and public route all prove closure.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-b8447b8233.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-f6f03da1d5",
+		"title": "Phase Three — Final Execution Plan",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/.ai-thoughts/20260902_0315-universal-procedural-api/11_FINAL_EXECUTION_PLAN.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Three — Final Execution Plan",
+				"anchor": "phase-three-final-execution-plan"
+			},
+			{
+				"level": 2,
+				"text": "Source pass one — code first",
+				"anchor": "source-pass-one-code-first"
+			},
+			{
+				"level": 2,
+				"text": "Verification pass one",
+				"anchor": "verification-pass-one"
+			},
+			{
+				"level": 2,
+				"text": "Documentation/runtime pass",
+				"anchor": "documentation-runtime-pass"
+			},
+			{
+				"level": 2,
+				"text": "Closure pass",
+				"anchor": "closure-pass"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Three — Final Execution Plan Meaning is the chochmah spark, planning gives binah form, and verified execution is daas joining intent to the world Awtsmoos.com makes warm. Source pass one — code first 1. Re read exact semantic kernel factory signatures and Portal input/request signa",
+		"searchText": "b\"h boruch hashem blessed is he phase three — final execution plan meaning is the chochmah spark, planning gives binah form, and verified execution is daas joining intent to the world awtsmoos.com makes warm. source pass one — code first 1. re read exact semantic kernel factory signatures and portal input/request signatures. 2. create the smallest set of new core/universalapi modules needed for createawtsmoos. 3. rewrite the complete universal api barrel to export them while retaining all legacy exports. 4. do not run tests until this first implementation draft is complete. verification pass one 1. run syntax/import/header/tab/line count gates. 2. add focused new tests as complete files. 3. run new tests. 4. run inherited authored semantics debt tests. 5. run core compatibility regression suites. 6. fix failures only by full file rewrites. documentation/runtime pass 1. create canonical api architecture/migration doc from verified behavior. 2. create a noun neutral example covering multiple semantic kinds and channel support states. 3. inspect current public demo routes and deployment serving topology. 4. create a small mobile first public demo only if no suitable route exists. 5. run browser/runtime verification. closure pass 1. reread every touched file. 2. compare this plan with actual implementation and write planned vs actual delta.md. 3. convert every important delta into work and resolve it. 4. refresh git reality and upstream. 5. explicitly stage only mission files; inspect staged diff. 6. commit, fetch, integrate concurrent upstream safely, rerun gates, push, verify remote sha. 7. deploy through the observed awtsmoos immutable release mechanism. 8. verify public route and deployed sha/version in a fresh browser. 9. empty remaining work.md only if all completion evidence exists.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-f6f03da1d5.json"
+	}
+]

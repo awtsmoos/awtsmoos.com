@@ -11,7 +11,8 @@
 	},
 	"title": "High-Res PDF to Image Converter",
 	"entries": [
-		"index.html"
+		"index.html",
+		"app.js"
 	],
 	"humanDocumentation": [
 		"docs/TUTORIALS/PROJECTS/APPS.md",
@@ -21,15 +22,34 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-pdf-to-img-9743af94.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 1,
+		"source": 17,
 		"tests": 0,
 		"assets": 0,
 		"generated": 0,
 		"docs": 0,
 		"other": 0
 	},
-	"totalFiles": 1,
-	"symbolSummary": null,
+	"totalFiles": 17,
+	"symbolSummary": {
+		"files": 10,
+		"classes": 0,
+		"functions": 32,
+		"exports": 13,
+		"samples": [
+			"mountPdfConverter",
+			"async",
+			"updateControls",
+			"createCard",
+			"info",
+			"metadata",
+			"startConversion",
+			"convertPage",
+			"canvasBlob",
+			"setWorking",
+			"revealProgress",
+			"revealDone"
+		]
+	},
 	"outgoingDependencies": [],
 	"incomingDependencies": [],
 	"externalDependencies": [],
@@ -39,10 +59,10 @@
 			"file": "geelooy/apps/pdf-to-img/index.html",
 			"title": "High-Res PDF to Image Converter",
 			"scripts": 1,
-			"styles": 1
+			"styles": 3
 		}
 	],
-	"requiresLocalDocumentation": false,
+	"requiresLocalDocumentation": true,
 	"documentationCovered": false,
 	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
 }

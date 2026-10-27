@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "<!-- B\"H -->\n<!-- Boruch Hashem -->\n<!-- Blessed be He -->\n\n# REMAINING_WORK\n\n- [ ] Fresh all-green current-tree release gate.\n- [ ] Production-faithful mobile/desktop Chrome proof for commerce + Radiance.\n- [ ] Measured full-server startup timing and bottleneck identification.\n- [ ] Full touched-file reread and planned-vs-actual reconciliation.\n- [ ] Git overlap/conflict audit.\n- [ ] Recents/favorites/resume discovery and implementation where missing.\n- [ ] Cross-product workflow handoff discovery and implementation where missing.\n- [ ] Wallet reconciliation/observability audit and implementation where missing.\n- [ ] Shared accessibility/performance audit and fixes.\n- [ ] Product-specific premium-value discovery and implementation where fulfillment is real.\n- [ ] Game monetization improvements without pay-to-win mechanics.\n- [ ] Creator/developer value layers with transparent server-authoritative costs.\n"
+}

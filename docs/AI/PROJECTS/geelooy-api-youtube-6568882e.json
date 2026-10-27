@@ -12,7 +12,9 @@
 	"title": "geelooy/api/youtube",
 	"entries": [
 		"_awtsmoos.derech.js",
-		"DOCUMENTATION.md"
+		"DOCUMENTATION.md",
+		"README.md",
+		"readme.md"
 	],
 	"humanDocumentation": [
 		"geelooy/api/youtube/DOCUMENTATION.md",
@@ -27,10 +29,10 @@
 		"tests": 1,
 		"assets": 0,
 		"generated": 0,
-		"docs": 2,
+		"docs": 7,
 		"other": 0
 	},
-	"totalFiles": 22,
+	"totalFiles": 27,
 	"symbolSummary": {
 		"files": 19,
 		"classes": 0,

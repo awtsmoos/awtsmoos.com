@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-27t2150-geelooy-movie-unification-01-discove-41e780882f",
+	"title": "Phase One — Discovery Breath",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-27T2150-geelooy-movie-unification/01-discovery-breath.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase One — Discovery Breath",
+			"anchor": "phase-one-discovery-breath"
+		},
+		{
+			"level": 2,
+			"text": "User outcome",
+			"anchor": "user-outcome"
+		},
+		{
+			"level": 2,
+			"text": "Observed evidence so far",
+			"anchor": "observed-evidence-so-far"
+		},
+		{
+			"level": 2,
+			"text": "Discovery graph",
+			"anchor": "discovery-graph"
+		},
+		{
+			"level": 2,
+			"text": "Required inspection before code",
+			"anchor": "required-inspection-before-code"
+		},
+		{
+			"level": 2,
+			"text": "Non-negotiable architecture principles",
+			"anchor": "non-negotiable-architecture-principles"
+		},
+		{
+			"level": 2,
+			"text": "First-pass risks",
+			"anchor": "first-pass-risks"
+		},
+		{
+			"level": 2,
+			"text": "Completion evidence required",
+			"anchor": "completion-evidence-required"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-27t2150-geelooy-movie-unification-01-discove-41e780882f-001.json"
+	]
+}

@@ -1,0 +1,349 @@
+[
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-animal-mesh-api-md-d399a3366a",
+		"title": "B\"H — Awtsmoos Animal Mesh API",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/ANIMAL_MESH_API.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Awtsmoos Animal Mesh API",
+				"anchor": "b-h-awtsmoos-animal-mesh-api"
+			},
+			{
+				"level": 2,
+				"text": "Core Decision",
+				"anchor": "core-decision"
+			},
+			{
+				"level": 2,
+				"text": "Public Imports",
+				"anchor": "public-imports"
+			},
+			{
+				"level": 2,
+				"text": "Recipe Lifecycle",
+				"anchor": "recipe-lifecycle"
+			},
+			{
+				"level": 2,
+				"text": "Implemented Geometry Operations",
+				"anchor": "implemented-geometry-operations"
+			},
+			{
+				"level": 2,
+				"text": "Rigging",
+				"anchor": "rigging"
+			},
+			{
+				"level": 2,
+				"text": "Patches",
+				"anchor": "patches"
+			},
+			{
+				"level": 2,
+				"text": "Validation Report",
+				"anchor": "validation-report"
+			},
+			{
+				"level": 2,
+				"text": "Production Boundary",
+				"anchor": "production-boundary"
+			}
+		],
+		"excerpt": "B\"H — Awtsmoos Animal Mesh API Core Decision A vision model returns a validated awtsmoos.animal mesh recipe JSON document. The procedural core compiles that intent deterministically. It never executes model generated JavaScript, Python, shell commands, file paths, or network URLs. Public Imports Three.js presentation h",
+		"searchText": "b\"h — awtsmoos animal mesh api core decision a vision model returns a validated awtsmoos.animal mesh recipe json document. the procedural core compiles that intent deterministically. it never executes model generated javascript, python, shell commands, file paths, or network urls. public imports three.js presentation helpers are available from @awtsmoos/procedural core/three. safe blender execution plans are available from @awtsmoos/procedural core/blender. json schemas are available from @awtsmoos/procedural core/schema. recipe lifecycle 1. normalize and label two to six reference images. 2. ask a vision model for recipe json only. 3. validate schema, coordinates, references, landmarks, guides, commands, materials, rig data, dependencies, limits, and unsafe content. 4. compile supported operations into deterministic render artifacts. 5. hand deferred trusted operations to a renderer specific executor. 6. build a three.js preview or a blender execution plan. 7. apply immutable recipe patches and regenerate only affected commands. implemented geometry operations the core directly implements elliptical and profile lofts, ellipsoids, tubes, capsule like profiles, mirroring, boundary bridges, mesh joins, welding, normal recalculation, scheduling, dependency resolution, and validation. the full recipe whitelist is accepted as a stable language contract. operations that require a renderer specific topology engine are reported as deferred; they are never silently approximated or executed as arbitrary code. rigging recipes may declare bones, parent relationships, heads, tails, and influence limits. the compiler builds an inspectable rig artifact and deterministic nearest bone weights constrained to the recipe's maximum influences. patches use createanimalmeshpatch() or animalmeshsession. patches use json pointer paths, old value guards, immutable contract fields, stable patch identities, and dependency aware regeneration. validation report compilation reports triangle and vertex counts, open boundaries, non manifold edges, degenerate faces, bounding dimensions, ground penetration, required parts, unweighted vertices, influence violations, deferred operations, and export status. production boundary this expansion supplies the safe anatomical language, deterministic core, incremental editor contract, and adapter boundaries. a production blender worker must still implement the deferred trusted operations, sandboxed process limits, glb export, uv tooling, retopology, texture generation, and final deformation quality review.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-animal-mesh-api-md-d399a3366a.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-docs-api-introspection-md-5ab53d98f0",
+		"title": "B\"H",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/API_INTROSPECTION.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 2,
+				"text": "Boruch Hashem",
+				"anchor": "boruch-hashem"
+			},
+			{
+				"level": 2,
+				"text": "Blessed is He",
+				"anchor": "blessed-is-he"
+			},
+			{
+				"level": 1,
+				"text": "API Introspection",
+				"anchor": "api-introspection"
+			},
+			{
+				"level": 2,
+				"text": "Methods",
+				"anchor": "methods"
+			},
+			{
+				"level": 2,
+				"text": "Definition fields",
+				"anchor": "definition-fields"
+			},
+			{
+				"level": 2,
+				"text": "Extension",
+				"anchor": "extension"
+			},
+			{
+				"level": 2,
+				"text": "UI parity",
+				"anchor": "ui-parity"
+			},
+			{
+				"level": 2,
+				"text": "Stability",
+				"anchor": "stability"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He The Awtsmoos renews every contract in ordered light; Awtsmoos.com keeps exact creation editable and right. API Introspection Methods api.describe, api.namespaces, api.methods, api.schema, api.capabilities, and api.examples are generated from MethodRegistry. Definition fields Each definit",
+		"searchText": "b\"h boruch hashem blessed is he the awtsmoos renews every contract in ordered light; awtsmoos.com keeps exact creation editable and right. api introspection methods api.describe, api.namespaces, api.methods, api.schema, api.capabilities, and api.examples are generated from methodregistry. definition fields each definition exposes identity, namespace, runtime name, label, description, stability, parameter/result schemas, permissions, transaction mode, undo support, side effects, cost, ui metadata, and examples. extension register a method definition when creating the api, or register it on methodregistry before runtime aliases are generated. duplicate ids fail deterministically. ui parity createapiexplorermodel(registry) uses the same public definitions. no second handwritten control contract exists. stability registry and introspection envelopes are stable; individual experimental method stability is reported explicitly.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-docs-api-introspection-md-5ab53d98f0.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-docs-command-protocol-md-4fabb3e7b1",
+		"title": "B\"H",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/COMMAND_PROTOCOL.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 2,
+				"text": "Boruch Hashem",
+				"anchor": "boruch-hashem"
+			},
+			{
+				"level": 2,
+				"text": "Blessed is He",
+				"anchor": "blessed-is-he"
+			},
+			{
+				"level": 1,
+				"text": "Command Protocol",
+				"anchor": "command-protocol"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "JSON",
+				"anchor": "json"
+			},
+			{
+				"level": 2,
+				"text": "Runtime parity",
+				"anchor": "runtime-parity"
+			},
+			{
+				"level": 2,
+				"text": "Result",
+				"anchor": "result"
+			},
+			{
+				"level": 2,
+				"text": "Side effects",
+				"anchor": "side-effects"
+			},
+			{
+				"level": 2,
+				"text": "UI",
+				"anchor": "ui"
+			},
+			{
+				"level": 2,
+				"text": "Stability",
+				"anchor": "stability"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He The Awtsmoos renews every contract in ordered light; Awtsmoos.com keeps exact creation editable and right. Command Protocol Purpose Every caller submits the same envelope: api, id, method, params, and optional options. There is no prompt endpoint and no model provider. JSON Runtime parit",
+		"searchText": "b\"h boruch hashem blessed is he the awtsmoos renews every contract in ordered light; awtsmoos.com keeps exact creation editable and right. command protocol purpose every caller submits the same envelope: api, id, method, params, and optional options. there is no prompt endpoint and no model provider. json runtime parity awtsmoos.houses.create(params, options) constructs that envelope and dispatches it through commandexecutor. result successful results expose revisions, transaction identity, created/updated/deleted resources, validation, warnings, undo availability, and method result. errors expose stable codes and details. side effects validation and document execution happen before runtime adapter commit. runtime failure preserves the prior document. ui schema forms and raw json both call api.execute(command). stability the awtsmoos.core.v1 envelope is stable.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-docs-command-protocol-md-4fabb3e7b1.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-docs-mitzvah-world-creator-bridges-3c8954db5b",
+		"title": "B\"H",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/MITZVAH_WORLD_CREATOR_BRIDGES.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 2,
+				"text": "Boruch Hashem",
+				"anchor": "boruch-hashem"
+			},
+			{
+				"level": 2,
+				"text": "Blessed is He",
+				"anchor": "blessed-is-he"
+			},
+			{
+				"level": 1,
+				"text": "MitzvahWorld Creator Bridges",
+				"anchor": "mitzvahworld-creator-bridges"
+			},
+			{
+				"level": 2,
+				"text": "Layering",
+				"anchor": "layering"
+			},
+			{
+				"level": 2,
+				"text": "Humans",
+				"anchor": "humans"
+			},
+			{
+				"level": 2,
+				"text": "Trees and houses",
+				"anchor": "trees-and-houses"
+			},
+			{
+				"level": 2,
+				"text": "Water",
+				"anchor": "water"
+			},
+			{
+				"level": 2,
+				"text": "Actions",
+				"anchor": "actions"
+			},
+			{
+				"level": 2,
+				"text": "Stability",
+				"anchor": "stability"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He The Awtsmoos renews every contract in ordered light; Awtsmoos.com keeps exact creation editable and right. MitzvahWorld Creator Bridges Layering Humans, trees, houses, water, textures, and actions are high level resource methods layered over the universal registry and transaction executo",
+		"searchText": "b\"h boruch hashem blessed is he the awtsmoos renews every contract in ordered light; awtsmoos.com keeps exact creation editable and right. mitzvahworld creator bridges layering humans, trees, houses, water, textures, and actions are high level resource methods layered over the universal registry and transaction executor. they do not bypass validation or history. humans humans.create({ id }) defaults to the observed /games/mitzvahworld/assets/models/player/chossid.glb. modelid explicitly overrides the default. trees and houses initial creators preserve exact parameters, stable identity, revisions, and runtime adapter changes. geometry compilation remains delegated to existing procedural core or mitzvahworld adapters. water water.create and water.createriver preserve geometry/material intent and report fallback provenance. actions actions.register stores structured action resources. stability the bridge contracts are experimental until concrete live scene adapters cover every resource family.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-docs-mitzvah-world-creator-bridges-3c8954db5b.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-docs-multi-document-composition-md-caf6f0343d",
+		"title": "B\"H",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/MULTI_DOCUMENT_COMPOSITION.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 2,
+				"text": "Boruch Hashem",
+				"anchor": "boruch-hashem"
+			},
+			{
+				"level": 2,
+				"text": "Blessed is He",
+				"anchor": "blessed-is-he"
+			},
+			{
+				"level": 1,
+				"text": "Multi-Document Composition",
+				"anchor": "multi-document-composition"
+			},
+			{
+				"level": 2,
+				"text": "Sources",
+				"anchor": "sources"
+			},
+			{
+				"level": 2,
+				"text": "Namespaces",
+				"anchor": "namespaces"
+			},
+			{
+				"level": 2,
+				"text": "Conflicts",
+				"anchor": "conflicts"
+			},
+			{
+				"level": 2,
+				"text": "Cycles and optional imports",
+				"anchor": "cycles-and-optional-imports"
+			},
+			{
+				"level": 2,
+				"text": "Undo",
+				"anchor": "undo"
+			},
+			{
+				"level": 2,
+				"text": "Stability",
+				"anchor": "stability"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He The Awtsmoos renews every contract in ordered light; Awtsmoos.com keeps exact creation editable and right. Multi Document Composition Sources Imports may embed a document directly or use an application provided resolveImport(source, entry) function for local, URL, or package resolution. ",
+		"searchText": "b\"h boruch hashem blessed is he the awtsmoos renews every contract in ordered light; awtsmoos.com keeps exact creation editable and right. multi document composition sources imports may embed a document directly or use an application provided resolveimport(source, entry) function for local, url, or package resolution. the core never performs unrestricted network or file access. namespaces an import namespace prefixes stable resource ids as : . conflicts supported deterministic policies are error, keep existing, replace, and shallow merge properties. arrays are replaced under merge properties; ambiguous recursive merging is deliberately absent. cycles and optional imports source ancestry is tracked and circular imports return import cycle. optional resolution failures are skipped; required failures are returned. undo documents.compose is one mutating transaction when invoked through the universal api. stability embedded composition and explicit conflict policies are stable. live watching, hashes, version constraints, and conditional expressions beyond boolean gates are deferred.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-docs-multi-document-composition-md-caf6f0343d.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-docs-native-material-blending-md-0036763f85",
+		"title": "Native Material Mixing and Blending",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/NATIVE_MATERIAL_BLENDING.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Native Material Mixing and Blending",
+				"anchor": "native-material-mixing-and-blending"
+			},
+			{
+				"level": 2,
+				"text": "Base and mix images",
+				"anchor": "base-and-mix-images"
+			},
+			{
+				"level": 2,
+				"text": "Ecological texture layers",
+				"anchor": "ecological-texture-layers"
+			},
+			{
+				"level": 2,
+				"text": "Recommended Har HaOhr terrain recipe",
+				"anchor": "recommended-har-haohr-terrain-recipe"
+			},
+			{
+				"level": 2,
+				"text": "Procedural structures",
+				"anchor": "procedural-structures"
+			},
+			{
+				"level": 2,
+				"text": "Failure policy",
+				"anchor": "failure-policy"
+			}
+		],
+		"excerpt": "B\"H Native Material Mixing and Blending The Awtsmoos joins many photographed surfaces without confusing one with another in sight; Awtsmoos.com lets slope, height, zone, and wetness become measured vessels for blended light. Base and mix images A native material may define mapImage plus mixImage. The native binder uplo",
+		"searchText": "b\"h native material mixing and blending the awtsmoos joins many photographed surfaces without confusing one with another in sight; awtsmoos.com lets slope, height, zone, and wetness become measured vessels for blended light. base and mix images a native material may define mapimage plus miximage. the native binder uploads both and honors independent repeats. mixstrength controls contribution; mixpatchscale and mixpatchsharpness break visible tiling into larger natural patches. ecological texture layers texturelayers is the richer terrain path. the renderer chooses a hardware safe number of layers (target six) and binds each layer with: image: decoded browser image source. repeat: [u, v] world/uv repeat. strength: overall contribution. angle: deterministic uv rotation. zones: four component ecological membership mask. slope: [minimum, maximum] accepted slope range. height: [minimum, maximum] accepted height range. wetness: preferred wetness value. recommended har haohr terrain recipe lush grass: low/medium slopes, moderate elevation. dry grass: sun exposed medium elevation. dark soil: worn passes and low vegetation confidence. weathered rock: steep slopes and high ridges. marsh grass: local low/wet zones near future water channels. cobblestone/worn earth: authored objective and traversal patches. use terrainmixing for global slope/elevation/wetness response, then use per layer ranges for readable ecological selection. normalize recipe strengths and keep every random phase seeded so deterministic terrain remains testable. procedural structures give a generated object a physically plausible base image and optional mix image. derive repeat from real dimensions with repeatforsurface. vary mix phase/strength narrowly per instance. geometry bevels, inset panels, support ribs, and seams should provide actual light catching form; textures should enrich geometry, not disguise a bare cube. failure policy remote texture failure must be visible in diagnostics but non fatal to simulation. keep a physically plausible fallback color/material and continue rendering while reporting the url and role that failed.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-docs-native-material-blending-md-0036763f85.json"
+	}
+]

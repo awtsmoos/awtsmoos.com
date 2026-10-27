@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# NEXT_ACTION — 2026-09-28-1725-total-ui-repair\n\n## Single next action\n\n**P0 boot repair (02 §0, 06 P0):** read `critical-boot.js`, `ikar-stable.js`,\nand `ikar-first.js` IN FULL, trace every consumer of their exports, then\nrewrite the complete files so `bootIkarFirst` is a callable function through\nthe chain and `semantic` is in the document before first-light paint.\n\nThen: restart `node index` on 8080 (no watcher — restart is mandatory) and\nverify `/heichelos/ikar` paints `#heichel-boot-title` and the discovery list\nfrom the semantic model, with the title rendered from the API payload\n(GET /api/social/heichelos/ikar → \"The Entire Torah\"), never a literal.\n\nNothing else starts until `/heichelos/ikar` renders. This is the mission gate.\nDo not deploy from the dirty shared worktree — all repair work happens in it,\nrelease happens later from a clean isolated worktree (06 P6).\n"
+}

@@ -12,7 +12,7 @@ Blessed is He
 
 ## Entry and documentation evidence
 
-- Entry files: `_awtsmoos.derech.js`
+- Entry files: `_awtsmoos.derech.js`, `README.md`, `readme.md`
 - Local documentation: No local `DOCUMENTATION.md` observed.
 - Local-doc requirement: no; covered: no
 - Symlink target: —
@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 6 | 2 | 0 | 0 | 0 | 0 | 8 |
+| 6 | 2 | 0 | 0 | 1 | 0 | 9 |
 
 ## Public entry points
 

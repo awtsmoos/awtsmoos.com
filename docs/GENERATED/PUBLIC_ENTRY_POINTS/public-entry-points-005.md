@@ -1,0 +1,35 @@
+B"H
+Boruch Hashem
+Blessed is He
+
+# Generated Public Entry Point Atlas 181–205
+
+Every discovered `index.html` beneath the Geelooy public root, with title and linked script/style evidence.
+
+| URL | Entry file | Title | Scripts | Script sample | Styles | Style sample |
+| --- | --- | --- | --- | --- | --- | --- |
+| /shliach-plugin/privacy | geelooy/shliach-plugin/privacy/index.html | Privacy Policy — Awtsmoos Shliach | 0 | — | 1 | /shliach-plugin/policy.css?v=faa94237ab |
+| /shliach-plugin/support | geelooy/shliach-plugin/support/index.html | Support — Awtsmoos Shliach | 0 | — | 1 | /shliach-plugin/policy.css?v=faa94237ab |
+| /shliach-plugin/terms | geelooy/shliach-plugin/terms/index.html | Terms of Use — Awtsmoos Shliach | 0 | — | 1 | /shliach-plugin/policy.css?v=faa94237ab |
+| /Shliach/gallery | geelooy/Shliach/gallery/index.html | Awtsmoos Shliach Gallery — Logo, Golden Bridge & Aleph Coder Art \| Awtsmoos | 1 | /scripts/shliach/index.js?v=65128b6989 | 2 | https://awtsmoos.com/Shliach/gallery/; /style/shliach/index.css?v=17d0cd712b |
+| /Shliach/poems | geelooy/Shliach/poems/index.html | Awtsmoos Shliach Poems — Agent, Aleph, Code & Creation \| Awtsmoos | 1 | /scripts/shliach/index.js?v=65128b6989 | 2 | https://awtsmoos.com/Shliach/poems/; /style/shliach/index.css?v=17d0cd712b |
+| /Shliach/prompts | geelooy/Shliach/prompts/index.html | Awtsmoos Shliach Prompts — Custom GPT Coding & Project Prompts \| Awtsmoos | 1 | /scripts/shliach/index.js?v=65128b6989 | 2 | https://awtsmoos.com/Shliach/prompts/; /style/shliach/index.css?v=17d0cd712b |
+| /showcase/unified-movie-180 | geelooy/showcase/unified-movie-180/index.html | Awtsmoos Unified Movie · 180 Second Proof | 1 | ./showcase.js?v=5200236d92 | 1 | ./showcase.css?v=999b521c97 |
+| /social | geelooy/social/index.html | Awtsmoos Social Observatory | 1 | /scripts/awtsmoos/social/hub/index.js?v=3002f2b9d7 | 10 | /style/social/hub/index.css?v=e58ca2330d; /style/social/live/presence.css?v=2a49ec535f; /scripts/awtsmoos/social/hub/render.js?v=61d8ea1fca; /scripts/awtsmoos/social/hub/requestPlan.js?v=6514d566b5 |
+| /social-composer | geelooy/social-composer/index.html | Create New Post — Geelooy | 2 | ./js/main.js?v=eea15c424a; ./js/civilizationEnhancements.js?v=45ff8c1db3 | 1 | ./style.css?v=66cd73d4d3 |
+| /social-composer/reel-studio | geelooy/social-composer/reel-studio/index.html | MitzvahWorld Movie Studio | 1 | ./boot.js?v=21e4be0306 | 1 | ./style.css?v=495023029b |
+| /social-hub | geelooy/social-hub/index.html | Social Hub — Geelooy | 2 | /scripts/awtsmoos/social/shell/boot.js?v=de5da830c1; ./js/main.js?v=3798434760 | 2 | ./style.css?v=d97e4e2936; /style/geelooy-app/index.css?v=27fe7b4829 |
+| /social-hub/heichelos | geelooy/social-hub/heichelos/index.html | Heichelos — Social Hub | 0 | — | 1 | https://awtsmoos.com/social-hub/#spaces |
+| /social/migrate | geelooy/social/migrate/index.html | Social Migration Studio · Awtsmoos | 1 | ./js/main.js?v=b13d55a9c4 | 2 | ../../style/future-system/index.css?v=bc327633a7; ./style.css?v=69343b34e6 |
+| /sod | geelooy/sod/index.html | Endpoint Interaction | 0 | — | 0 | — |
+| /tanya | geelooy/tanya/index.html | Tanya — Awtsmoos.com | 0 | — | 1 | /heichelos/ikar/series/tanyaLikkuteiAmarim |
+| /tests/glyph-engine | geelooy/tests/glyph-engine/index.html | Awtsmoos Glyph Lab · All-Letter Hebrew Font Experiments | 1 | ./app.js | 1 | ./style.css |
+| /translations | geelooy/translations/index.html | English Torah Translations \| Awtsmoos | 0 | — | 1 | https://awtsmoos.com/translations/ |
+| /tunnel/connect | geelooy/tunnel/connect/index.html | Connect an agent — Awtsmoos Tunnel | 0 | — | 0 | — |
+| /tunnel/device | geelooy/tunnel/device/index.html | Approve a device — Awtsmoos Tunnel | 0 | — | 0 | — |
+| /youtube | geelooy/youtube/index.html | Awtsmoos YouTube Manager | 1 | youtube.js?v=74f1192271 | 1 | youtube.css?v=4e93acf8ee |
+| /youtube/migrate | geelooy/youtube/migrate/index.html | YouTube Migration Studio · Awtsmoos | 1 | ./js/main.js?v=28ebed5eda | 2 | ../../style/future-system/index.css?v=bc327633a7; ./style.css?v=c39b9cea1f |
+| /zmanim | geelooy/zmanim/index.html | Halachic Zmanim · Awtsmoos | 1 | /zmanim/js/app.js?v=8a27f73647 | 40 | /zmanim/styles/tokens.css?v=70480d8a64; /zmanim/styles/presentation-theme-light.css?v=ed0f891f21; /zmanim/styles/presentation-theme-system.css?v=d7cf8167f0; /zmanim/styles/presentation-modes.css?v=a5e753f4c1 |
+| /אגרות-קודש | geelooy/אגרות-קודש/index.html | Igeres HaKodesh — Awtsmoos.com | 0 | — | 1 | /heichelos/ikar/series/igeresHaKodeshVolume1 |
+| /לקוטי-תורה | geelooy/לקוטי-תורה/index.html | Likkutei Torah — Awtsmoos.com | 0 | — | 1 | /heichelos/ikar/series/BH-likkuteiTorah-%D7%91%D7%9E%D7%93%D7%91%D7%A8 |
+| /תניא | geelooy/תניא/index.html | Tanya — Awtsmoos.com | 0 | — | 1 | /heichelos/ikar/series/tanyaLikkuteiAmarim |

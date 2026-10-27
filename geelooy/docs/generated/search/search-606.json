@@ -1,0 +1,170 @@
+[
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-01c7b3f6d1",
+		"title": "Kernel Hardening Delta Plan",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/.ai-thoughts/20260902_0315-universal-procedural-api/12_KERNEL_HARDENING_DELTA_PLAN.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Kernel Hardening Delta Plan",
+				"anchor": "kernel-hardening-delta-plan"
+			},
+			{
+				"level": 2,
+				"text": "New evidence since the first implementation plan",
+				"anchor": "new-evidence-since-the-first-implementation-plan"
+			},
+			{
+				"level": 2,
+				"text": "Exact hardening architecture",
+				"anchor": "exact-hardening-architecture"
+			},
+			{
+				"level": 3,
+				"text": "Compiler manifest",
+				"anchor": "compiler-manifest"
+			},
+			{
+				"level": 3,
+				"text": "Constraint federation",
+				"anchor": "constraint-federation"
+			},
+			{
+				"level": 3,
+				"text": "Cache convergence",
+				"anchor": "cache-convergence"
+			},
+			{
+				"level": 2,
+				"text": "Exact source files",
+				"anchor": "exact-source-files"
+			},
+			{
+				"level": 2,
+				"text": "Verification after complete code draft",
+				"anchor": "verification-after-complete-code-draft"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Kernel Hardening Delta Plan The Awtsmoos renews every compiler, constraint, hash, and cache before finite systems can divide; Awtsmoos.com now strengthens the inner covenant so the simple public gate has truthful depth inside. New evidence since the first implementation plan 1. The compi",
+		"searchText": "b\"h boruch hashem blessed is he kernel hardening delta plan the awtsmoos renews every compiler, constraint, hash, and cache before finite systems can divide; awtsmoos.com now strengthens the inner covenant so the simple public gate has truthful depth inside. new evidence since the first implementation plan 1. the compiler registry already carries kinds, semantic prerequisites/support policy, channels, execution mechanism, determinism, adapters, cost, lod, stability, description, and metadata. 2. it does not yet carry several explicitly requested plugin manifest dimensions: input schema, compiler dependencies, optional traits, execution tier, native/adapter/deferred/unsupported support state, quality policies, examples, and diagnostic code catalog. 3. generic constraint data exists only as a descriptor; no universal constraint vocabulary or solver federation exists. 4. deterministic semantic hashing, a bounded proceduralcompilationcache, compile cache keys, and action dependency graphs already exist and must be reused rather than replaced. 5. the public facade currently compiles successfully but does not yet reuse the existing compile cache or surface constraint resolution evidence. exact hardening architecture compiler manifest add one conditional extension normalizer. legacy capability records remain byte shape compatible when new fields are absent. new compilers may declare: inputschema; dependencies; optionaltraits; executiontier; supportstate; qualitypolicies; examples; diagnosticcodes. the capability remains json safe. executors remain private. constraint federation create a generic vocabulary for clearance, slope, contact, intersection, support load, volume, region, silhouette, biological proportion, structural, performance, and semantic exclusion constraints. create an isolated registry whose public capability records are serializable while solver functions remain private. it will: register solver capabilities; describe solver capabilities; plan each authored constraint as native, adapter, deferred, unsupported, or unknown/deferred; execute only registered native/adapter solvers; return receipts instead of mutating definitions; optionally reject unresolved constraints under explicit strict mode. no fake geometric solver will be invented. cache convergence reuse proceduralcompilationcache in each createawtsmoos() instance. the full universal plan—including definition hash relevant truth, artifact request, selected compiler manifests, and constraint plan—becomes cache identity. repeated identical compile calls reuse the immutable result. semantic changes naturally produce a new key. cache stats and explicit clearing remain expert operations. this is whole definition incremental reuse, not false subgraph incremental compilation. existing action dependency graphs remain the future route to subgraph invalidation. exact source files create: src/core/procedurallanguage/capability/compilercapabilityextensions.js src/core/procedurallanguage/constraint/universalconstraintvocabulary.js src/core/procedurallanguage/constraint/createconstraintsolvercapability.js src/core/procedurallanguage/constraint/createconstraintsolverplan.js src/core/procedurallanguage/constraint/universalconstraintsolverregistry.js rewrite fully: src/core/procedurallanguage/capability/createcompilercapability.js src/core/universalapi/createawtsmoosauthorities.js src/core/universalapi/awtsmoos.js src/core/universalapi/awtsmoosplan.js src/core/universalapi/awtsmooscompilation.js src/core/universalapi/awtsmooscompileresult.js universal api barrel only if direct exports are useful. verification after complete code draft only after the entire hardening source pass is written: add compiler manifest tests; add constraint vocabulary/solver tests; add cache reuse/semantic invalidation tests; rerun all 17 focused universal tests; rerun compiler federation/kernel suites; rerun inherited authored semantics suite; run broader package suite and compare only new failures against the proven baseline debt set.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-01c7b3f6d1.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-13832fb97a",
+		"title": "Default Compiler and Public Demo Plan",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/.ai-thoughts/20260902_0315-universal-procedural-api/13_DEFAULT_COMPILER_AND_PUBLIC_DEMO_PLAN.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Default Compiler and Public Demo Plan",
+				"anchor": "default-compiler-and-public-demo-plan"
+			},
+			{
+				"level": 2,
+				"text": "Evidence incorporated",
+				"anchor": "evidence-incorporated"
+			},
+			{
+				"level": 2,
+				"text": "Public proof architecture",
+				"anchor": "public-proof-architecture"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Default Compiler and Public Demo Plan The Awtsmoos renews hidden semantic depth and visible public proof in one light; Awtsmoos.com now lets the smallest doorway compile something real while every claim remains measured and right. Evidence incorporated geelooy is the real dynamic server ",
+		"searchText": "b\"h boruch hashem blessed is he default compiler and public demo plan the awtsmoos renews hidden semantic depth and visible public proof in one light; awtsmoos.com now lets the smallest doorway compile something real while every claim remains measured and right. evidence incorporated geelooy is the real dynamic server public root. a file tree at geelooy/apps/universal procedural/ therefore maps naturally to /apps/universal procedural/. high level createawtsmoos() now installs the established modelingdocument compiler bridge when it owns the semantic kernel. low level/caller owned semantic kernels remain isolated unless explicitly opted in. the default bridge and facade policy pass 26 integration/regression tests together. public proof architecture the demo will import the real universal api from /libs/awtsmoos procedural core/src/index.js and register one deterministic browser only visualization compiler plugin for multiple noun neutral kinds. it will not copy or mock the lifecycle engine. the visualization compiler produces a renderer neutral visual model. a separate svg renderer converts that artifact model into dom. five authored scenarios will exercise the same api: stone arch, layered building, mature olive tree, mechanical assembly, and river/terrain. plans and explanation panels will show compiler chain, channels, constraints, support states, quality/budget, cache, and provenance. files geelooy/apps/universal procedural/index.html geelooy/apps/universal procedural/styles.css geelooy/apps/universal procedural/app.js geelooy/apps/universal procedural/demodefinitions.js geelooy/apps/universal procedural/democompilercapability.js geelooy/apps/universal procedural/demovisualcompiler.js geelooy/apps/universal procedural/demosvgrenderer.js geelooy/apps/universal procedural/demopanelrenderer.js all js modules remain under 120 lines, tab indented, documented, and independently responsible.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-13832fb97a.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-04c734ceb6",
+		"title": "Full-Suite Baseline Classification",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/.ai-thoughts/20260902_0315-universal-procedural-api/14_FULL_SUITE_BASELINE_CLASSIFICATION.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Full-Suite Baseline Classification",
+				"anchor": "full-suite-baseline-classification"
+			},
+			{
+				"level": 2,
+				"text": "Current full-suite evidence",
+				"anchor": "current-full-suite-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Baseline method",
+				"anchor": "baseline-method"
+			},
+			{
+				"level": 2,
+				"text": "Lane A — cosmic feed",
+				"anchor": "lane-a-cosmic-feed"
+			},
+			{
+				"level": 2,
+				"text": "Lane B — botanical / creature / Nature capability registry",
+				"anchor": "lane-b-botanical-creature-nature-capability-registry"
+			},
+			{
+				"level": 2,
+				"text": "Lane C — particle / liquid / Blender / standard nodes / water",
+				"anchor": "lane-c-particle-liquid-blender-standard-nodes-water"
+			},
+			{
+				"level": 2,
+				"text": "Lane D — Procedural Portal / universal API",
+				"anchor": "lane-d-procedural-portal-universal-api"
+			},
+			{
+				"level": 2,
+				"text": "Classification conclusion",
+				"anchor": "classification-conclusion"
+			},
+			{
+				"level": 2,
+				"text": "Release implication",
+				"anchor": "release-implication"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Full Suite Baseline Classification The Awtsmoos renews every green proof and every old red scar in one present light; Awtsmoos.com distinguishes inherited debt from new regression so release truth stays bright. Current full suite evidence Command: node test test/ .test.mjs Total tests: 5",
+		"searchText": "b\"h boruch hashem blessed is he full suite baseline classification the awtsmoos renews every green proof and every old red scar in one present light; awtsmoos.com distinguishes inherited debt from new regression so release truth stays bright. current full suite evidence command: node test test/ .test.mjs total tests: 519 passed: 500 failed: 19 current workspace job: cmdjob mtk3xqu4 0ac10f25184c baseline method the exact original untouched repository commit e5e4909d1c055795c77740a2ad37ff3250dd42d8 was checked out into an isolated detached worktree at: /users/awtsmoos/.awtsmoos worktrees/universal baseline e5e every failing current test file existed at that baseline. the failing files were divided into four independent read only lanes and executed without copying current source into the baseline. lane a — cosmic feed baseline job: cmdjob mtk5urd0 5ac4d0cf737a result: 8 tests, 3 pass, 5 fail. the five failures reproduce the current red area: cosmicfeedscenecontract.test.mjs: missing cosmic feed context module at tested repository relative path. cosmicnebulashadercontract.test.mjs: missing nebula pass at tested repository relative path. cosmicparticleshadercontract.test.mjs: missing particle field module at tested repository relative path. cosmicreferencepalette.test.mjs: missing geelooy/style/social/home/feed/tokens.css. cosmicsceneframe.test.mjs: typeerror reading .update from undefined. lane b — botanical / creature / nature capability registry baseline job: cmdjob mtk5v2wp fe3051f19219 result: 6 tests, 3 pass, 3 fail. the three failures reproduce the current red area: botanicalgroundevolution.test.mjs: actual result includes placements beyond the expected key set. creaturecompositiongraph.test.mjs: expected attachment target path is absent and .targets is read from undefined. naturecapabilityregistry.test.mjs: surface filtering exposes additional generation capabilities beyond the older expected two item set. lane c — particle / liquid / blender / standard nodes / water baseline job: cmdjob mtk5vkx7 ab2a314555ac result: 14 tests, 7 pass, 7 fail. the seven failures reproduce the current red area: proceduralobjectadvancedparticledynamics.test.mjs: expected realtime realism export is absent. proceduralobjectopenblendergraphir.test.mjs: material graph node ordering differs from the test expectation. proceduralobjectpersistentliquidrealism.test.mjs: three subtests fail through secondaryparticlebounds.js reading index 0 from undefined bounds. proceduralobjectstandardnodes.test.mjs: expected standard node predicate is false. unifiedwatersources.test.mjs: continuous source path reaches the same undefined secondary particle bounds failure. lane d — procedural portal / universal api baseline job: cmdjob mtk5y5sc dbf42c16bf79 result: 7 tests, 3 pass, 4 fail. the four failures reproduce the current red area: proceduralportaluniversaloperations.test.mjs: current authority string is native specialist or federated while the older assertion expects native specialist. proceduralportaluniversalsession.test.mjs: two subtests expect count 2 while actual is 1. universalapicompositioncreators.test.mjs: creator query returns [] rather than the expected two ids. classification conclusion the four untouched baseline lanes account for exactly 5 + 3 + 7 + 4 = 19 failures, the same total as the current full suite run and the same failing areas/signatures. therefore the universal procedural api tranche introduced no newly discovered failing test in the 519 test package universe. these 19 reds remain real technical debt, but they are inherited project debt rather than a release regression for this tranche. they must remain documented and must not be silently rewritten merely to manufacture an all green package number. release implication the regression gate for this mission is considered satisfied when combined with the focused universal/default compiler/support state/constraint/cache/structural/demo engine green evidence. the release can advance to browser proof, final readback/delta, exact file git integration, clean worktree verification, push, activation, and public verification.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-04c734ceb6.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-3116502a70",
+		"title": "Massive Improvement Brainstorm",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/.ai-thoughts/20260902_0315-universal-procedural-api/15_MASSIVE_IMPROVEMENT_BRAINSTORM.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Massive Improvement Brainstorm",
+				"anchor": "massive-improvement-brainstorm"
+			},
+			{
+				"level": 2,
+				"text": "Possibility universe",
+				"anchor": "possibility-universe"
+			},
+			{
+				"level": 2,
+				"text": "North star",
+				"anchor": "north-star"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Massive Improvement Brainstorm The Awtsmoos renews the light before every vessel and every road before feet can roam; Awtsmoos.com asks how one semantic doorway can stay immense inside while remaining feather light at home. Possibility universe 1. Separate five verb lifecycle compilation",
+		"searchText": "b\"h boruch hashem blessed is he massive improvement brainstorm the awtsmoos renews the light before every vessel and every road before feet can roam; awtsmoos.com asks how one semantic doorway can stay immense inside while remaining feather light at home. possibility universe 1. separate five verb lifecycle compilation from eager world/portal composition. 2. keep createawtsmoos() fully compatible while adding a lightweight lifecycle factory in a separate import graph. 3. keep one semantic kernel, compiler federation, constraint truth, cache truth, and provenance path. 4. prevent lifecycle imports from reaching procedural portal or transactional world modules. 5. preserve default modeling compiler behavior and low level kernel isolation. 6. add recursive import graph regression coverage. 7. add an application ready browser contract instead of arbitrary sleeps. 8. show the ordered fifteen stage pipeline from explain(). 9. expose native, partial, delegated, and deferred support honestly. 10. show selected compiler channels, support state, tier, determinism, versions, dependencies, cost, and diagnostics. 11. surface unresolved constraints as explicit work rather than a generic count. 12. show cache hit/miss/bypass plus provenance hash and seed. 13. keep renderer neutral artifact → svg adaptation separate from semantic compilation. 14. add stable query string scenario links and keyboard navigation. 15. add focus visible and mobile overflow evidence. 16. split demo renderers before any module becomes monolithic. 17. add static route/import contracts so package barrel regressions are caught. 18. compare lightweight/full factory artifact essentials for equivalence. 19. measure browser resource count and bounded local timings as evidence, not universal guarantees. 20. preserve exact file release staging and two phase deployment. north star one language. one compiler federation. one constraint truth. two composition costs: a feather light five verb lifecycle when that is all a caller needs, and the full expert world/portal constellation only when requested.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-3116502a70.json"
+	}
+]

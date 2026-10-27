@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-28-1725-total-ui-repair-01-runtime-contract--4413baa5d1",
+	"title": "B\"H — 01 — Runtime Contract Map",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-28-1725-total-ui-repair/01-runtime-contract-map.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — 01 — Runtime Contract Map",
+			"anchor": "b-h-01-runtime-contract-map"
+		},
+		{
+			"level": 2,
+			"text": "Data identity contract (DB → API → semantic model → renderer → UI)",
+			"anchor": "data-identity-contract-db-api-semantic-model-renderer-ui"
+		},
+		{
+			"level": 2,
+			"text": "Boot chain contract (Phase 0)",
+			"anchor": "boot-chain-contract-phase-0"
+		},
+		{
+			"level": 2,
+			"text": "Auto-scroll contract (reader)",
+			"anchor": "auto-scroll-contract-reader"
+		},
+		{
+			"level": 2,
+			"text": "CSS contracts",
+			"anchor": "css-contracts"
+		},
+		{
+			"level": 2,
+			"text": "Navigation contract (gating check)",
+			"anchor": "navigation-contract-gating-check"
+		},
+		{
+			"level": 2,
+			"text": "Motion contract",
+			"anchor": "motion-contract"
+		},
+		{
+			"level": 2,
+			"text": "Server contract",
+			"anchor": "server-contract"
+		},
+		{
+			"level": 2,
+			"text": "Release contract",
+			"anchor": "release-contract"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-28-1725-total-ui-repair-01-runtime-contract--4413baa5d1-001.json"
+	]
+}

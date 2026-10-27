@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 426 | 57 | 0 | 0 | 2 | 5 | 490 |
+| 486 | 72 | 0 | 0 | 2 | 5 | 565 |
 
 ## Public entry points
 
@@ -31,7 +31,7 @@ Blessed is He
 
 ## Symbol evidence
 
-Source files: 335; classes: 11; functions: 1444; exports: 709; samples: TARGETS, regenerateDocument, regenerateTarget, renderScopeTail, run, async, detectLogin, me, device, myDevice, devices, activeDevice.
+Source files: 387; classes: 14; functions: 1639; exports: 829; samples: TARGETS, regenerateDocument, regenerateTarget, renderScopeTail, run, identity, async, readRoom, writeRoom, refresh, joinRoom, displayRoom.
 
 ## Depends on
 
@@ -48,4 +48,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **57**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **72**. Treat this as file evidence, not proof of behavioral coverage.

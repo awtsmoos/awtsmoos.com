@@ -1,0 +1,144 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-26t134731-portal-universal-ui-resource-platf-32ccb48dd8",
+	"title": "First Implementation Delta — Planned Versus Actual",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-26T134731-portal-universal-ui-resource-platform/08_FIRST_IMPLEMENTATION_DELTA.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "First Implementation Delta — Planned Versus Actual",
+			"anchor": "first-implementation-delta-planned-versus-actual"
+		},
+		{
+			"level": 2,
+			"text": "What Was Planned",
+			"anchor": "what-was-planned"
+		},
+		{
+			"level": 2,
+			"text": "What Was Actually Written",
+			"anchor": "what-was-actually-written"
+		},
+		{
+			"level": 3,
+			"text": "Server",
+			"anchor": "server"
+		},
+		{
+			"level": 3,
+			"text": "Client / UI",
+			"anchor": "client-ui"
+		},
+		{
+			"level": 3,
+			"text": "Production Repair",
+			"anchor": "production-repair"
+		},
+		{
+			"level": 2,
+			"text": "Delta 1 — Portal Application Responsibility Boundary",
+			"anchor": "delta-1-portal-application-responsibility-boundary"
+		},
+		{
+			"level": 3,
+			"text": "Required second pass",
+			"anchor": "required-second-pass"
+		},
+		{
+			"level": 2,
+			"text": "Delta 2 — Portal Component CSS Responsibility Boundary",
+			"anchor": "delta-2-portal-component-css-responsibility-boundary"
+		},
+		{
+			"level": 3,
+			"text": "Required second pass",
+			"anchor": "required-second-pass-2"
+		},
+		{
+			"level": 2,
+			"text": "Delta 3 — Real API-Family Shape Versus Built-In Schema",
+			"anchor": "delta-3-real-api-family-shape-versus-built-in-schema"
+		},
+		{
+			"level": 3,
+			"text": "Required second pass",
+			"anchor": "required-second-pass-3"
+		},
+		{
+			"level": 2,
+			"text": "Delta 4 — Resource-Type Collection Cards Are Too Heavy",
+			"anchor": "delta-4-resource-type-collection-cards-are-too-heavy"
+		},
+		{
+			"level": 3,
+			"text": "Required second pass",
+			"anchor": "required-second-pass-4"
+		},
+		{
+			"level": 2,
+			"text": "Delta 5 — Unknown Card Fallback Should Stay Compact",
+			"anchor": "delta-5-unknown-card-fallback-should-stay-compact"
+		},
+		{
+			"level": 3,
+			"text": "Required second pass",
+			"anchor": "required-second-pass-5"
+		},
+		{
+			"level": 2,
+			"text": "Delta 6 — Event Listener Cleanup",
+			"anchor": "delta-6-event-listener-cleanup"
+		},
+		{
+			"level": 3,
+			"text": "Required second pass",
+			"anchor": "required-second-pass-6"
+		},
+		{
+			"level": 2,
+			"text": "Delta 7 — Portal Field Registry Is Architectural Capability But Not Yet Consumed",
+			"anchor": "delta-7-portal-field-registry-is-architectural-capability-but-not-yet-consumed"
+		},
+		{
+			"level": 3,
+			"text": "Decision",
+			"anchor": "decision"
+		},
+		{
+			"level": 2,
+			"text": "Delta 8 — Additional Universal Contracts From The Brainstorm",
+			"anchor": "delta-8-additional-universal-contracts-from-the-brainstorm"
+		},
+		{
+			"level": 3,
+			"text": "Decision",
+			"anchor": "decision-2"
+		},
+		{
+			"level": 2,
+			"text": "Delta 9 — Runtime Audit Still Needs New UI Findings",
+			"anchor": "delta-9-runtime-audit-still-needs-new-ui-findings"
+		},
+		{
+			"level": 3,
+			"text": "Required after second-pass source readback",
+			"anchor": "required-after-second-pass-source-readback"
+		},
+		{
+			"level": 2,
+			"text": "Second-Pass Write Set",
+			"anchor": "second-pass-write-set"
+		},
+		{
+			"level": 2,
+			"text": "NEXTACTION",
+			"anchor": "nextaction"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-26t134731-portal-universal-ui-resource-platf-32ccb48dd8-001.json"
+	]
+}

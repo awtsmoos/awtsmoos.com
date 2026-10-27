@@ -2,7 +2,7 @@ B"H
 Boruch Hashem
 Blessed is He
 
-# Project Tutorial: The Rebbe's Runner
+# Project Tutorial: Rebbe Runner — Run Through Brooklyn
 
 **Path:** `geelooy/games/rebbe-runner` · **Type:** game · **Family:** Games and Worlds
 
@@ -12,24 +12,24 @@ Blessed is He
 
 ## Entry and documentation evidence
 
-- Entry files: `index.html`
+- Entry files: `index.html`, `package.json`
 - Local documentation: No local `DOCUMENTATION.md` observed.
-- Local-doc requirement: no; covered: no
+- Local-doc requirement: yes; covered: no
 - Symlink target: —
 
 ## File shape
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 4 | 0 | 0 | 0 | 0 | 0 | 4 |
+| 51 | 3 | 0 | 0 | 0 | 0 | 54 |
 
 ## Public entry points
 
-- `/games/rebbe-runner` → `geelooy/games/rebbe-runner/index.html` — The Rebbe's Runner
+- `/games/rebbe-runner` → `geelooy/games/rebbe-runner/index.html` — Rebbe Runner — Run Through Brooklyn
 
 ## Symbol evidence
 
-Source files: 2; classes: 3; functions: 9; exports: 0; samples: Player, Obstacle, Collectible, resizeCanvas, drawRoadLines, createBackground, init, drawBackground, animate, detectCollision, endGame, handleStart.
+Source files: 38; classes: 29; functions: 34; exports: 41; samples: NEFESH_VISUALS, KELIPOS, MITZVAH_VISUALS, SHEFA, MASLUL_SCENERY, OLAM, MASLULIM, CHESED_RUN_CATALOG, KelipahObstacle, MaslulState, MitzvahSpark, NefeshRunner.
 
 ## Depends on
 
@@ -45,4 +45,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **0**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **3**. Treat this as file evidence, not proof of behavioral coverage.

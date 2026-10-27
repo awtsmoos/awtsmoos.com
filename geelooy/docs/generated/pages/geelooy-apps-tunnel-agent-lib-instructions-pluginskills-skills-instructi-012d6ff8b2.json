@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-012d6ff8b2",
+	"title": "Action verification and recovery",
+	"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/ACTION_VERIFICATION.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 2,
+			"text": "Current tunnel integration takes precedence",
+			"anchor": "current-tunnel-integration-takes-precedence"
+		},
+		{
+			"level": 1,
+			"text": "Action verification and recovery",
+			"anchor": "action-verification-and-recovery"
+		},
+		{
+			"level": 2,
+			"text": "Receipt ladder",
+			"anchor": "receipt-ladder"
+		},
+		{
+			"level": 2,
+			"text": "Failure classification",
+			"anchor": "failure-classification"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-012d6ff8b2-001.json"
+	]
+}

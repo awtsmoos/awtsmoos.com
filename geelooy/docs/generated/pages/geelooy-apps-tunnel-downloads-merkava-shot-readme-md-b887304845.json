@@ -1,0 +1,124 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-downloads-merkava-shot-readme-md-b887304845",
+	"title": "Merkava — run page JS, get every error. No browser.",
+	"sourcePath": "geelooy/apps/tunnel/downloads/merkava-shot/README.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Merkava — run page JS, get every error. No browser.",
+			"anchor": "merkava-run-page-js-get-every-error-no-browser"
+		},
+		{
+			"level": 1,
+			"text": "One command, prints errors:",
+			"anchor": "one-command-prints-errors"
+		},
+		{
+			"level": 1,
+			"text": "ERROR [runtime] ReferenceError: foo is not defined @ <inline>:3",
+			"anchor": "error-runtime-referenceerror-foo-is-not-defined-inline-3"
+		},
+		{
+			"level": 1,
+			"text": "Or raw JS:",
+			"anchor": "or-raw-js"
+		},
+		{
+			"level": 1,
+			"text": "[log] hi",
+			"anchor": "log-hi"
+		},
+		{
+			"level": 1,
+			"text": "ERROR [runtime] ReferenceError: brokenFn is not defined @ <inline>:1",
+			"anchor": "error-runtime-referenceerror-brokenfn-is-not-defined-inline-1"
+		},
+		{
+			"level": 2,
+			"text": "Install (one line)",
+			"anchor": "install-one-line"
+		},
+		{
+			"level": 1,
+			"text": "then:",
+			"anchor": "then"
+		},
+		{
+			"level": 2,
+			"text": "run-js — the flagship (documented first)",
+			"anchor": "run-js-the-flagship-documented-first"
+		},
+		{
+			"level": 3,
+			"text": "CLI",
+			"anchor": "cli"
+		},
+		{
+			"level": 3,
+			"text": "Live API — POST /api/merkava/run-js",
+			"anchor": "live-api-post-api-merkava-run-js"
+		},
+		{
+			"level": 3,
+			"text": "Tunnel-local — POST /merkava/run-js",
+			"anchor": "tunnel-local-post-merkava-run-js"
+		},
+		{
+			"level": 3,
+			"text": "Screenshots now execute page JS",
+			"anchor": "screenshots-now-execute-page-js"
+		},
+		{
+			"level": 2,
+			"text": "For AI agents",
+			"anchor": "for-ai-agents"
+		},
+		{
+			"level": 3,
+			"text": "Option A — live API (zero install)",
+			"anchor": "option-a-live-api-zero-install"
+		},
+		{
+			"level": 1,
+			"text": "run-js:",
+			"anchor": "run-js"
+		},
+		{
+			"level": 1,
+			"text": "screenshot:",
+			"anchor": "screenshot"
+		},
+		{
+			"level": 3,
+			"text": "Option B — Python SDK (one command)",
+			"anchor": "option-b-python-sdk-one-command"
+		},
+		{
+			"level": 3,
+			"text": "Option C — Node SDK",
+			"anchor": "option-c-node-sdk"
+		},
+		{
+			"level": 2,
+			"text": "API reference (live + tunnel-local, same shape)",
+			"anchor": "api-reference-live-tunnel-local-same-shape"
+		},
+		{
+			"level": 2,
+			"text": "CLI usage",
+			"anchor": "cli-usage"
+		},
+		{
+			"level": 2,
+			"text": "Notes",
+			"anchor": "notes"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-downloads-merkava-shot-readme-md-b887304845-001.json"
+	]
+}

@@ -1,0 +1,69 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-apps-olam-h3-fae18c72",
+	"path": "geelooy/apps/olam-h3",
+	"type": "app",
+	"family": {
+		"id": "apps",
+		"title": "Applications"
+	},
+	"title": "Olam H3 Studio · Awtsmoos",
+	"entries": [
+		"index.html",
+		"README.md",
+		"readme.md"
+	],
+	"humanDocumentation": [
+		"docs/TUTORIALS/PROJECTS/APPS.md",
+		"docs/APPS/README.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-olam-h3-fae18c72.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 129,
+		"tests": 17,
+		"assets": 0,
+		"generated": 0,
+		"docs": 3,
+		"other": 0
+	},
+	"totalFiles": 149,
+	"symbolSummary": {
+		"files": 84,
+		"classes": 79,
+		"functions": 3,
+		"exports": 86,
+		"samples": [
+			"MinimaxProxyClient",
+			"H3_CAPABILITIES",
+			"ratiosForMode",
+			"MINIMAX_LINKS",
+			"PRICING",
+			"OlamDatabase",
+			"OlamRepositories",
+			"OLAM_DB",
+			"DEFAULT_PREFERENCES",
+			"AssetService",
+			"AssetValidation",
+			"BackupValidator"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/apps/olam-h3",
+			"file": "geelooy/apps/olam-h3/index.html",
+			"title": "Olam H3 Studio · Awtsmoos",
+			"scripts": 1,
+			"styles": 25
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": false,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

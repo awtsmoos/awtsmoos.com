@@ -1,194 +1,36 @@
 [
 	{
-		"id": "docs-generated-api-tutorial-index-routes-013-md-aad53b72e0",
-		"title": "API Tutorial Routes 541–585",
-		"sourcePath": "docs/GENERATED/API_TUTORIAL_INDEX/routes-013.md",
+		"id": "docs-generated-api-routes-api-routes-001-md-14c1e1016d",
+		"title": "Generated API Route Atlas 1–85",
+		"sourcePath": "docs/GENERATED/API_ROUTES/api-routes-001.md",
 		"category": "Routes",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "API Tutorial Routes 541–585",
-				"anchor": "api-tutorial-routes-541-585"
+				"text": "Generated API Route Atlas 1–85",
+				"anchor": "generated-api-route-atlas-1-85"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial Routes 541–585 Each row links one discovered API route to generated teaching. Method/contract fields remain evidence, not invented schemas. Route Family Method evidence Health Tutorial Source /api/tunnel/control/live calls Tunnel Control unknown OK tutorial geelooy/api/tunne",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial routes 541–585 each row links one discovered api route to generated teaching. method/contract fields remain evidence, not invented schemas. route family method evidence health tutorial source /api/tunnel/control/live calls tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/live calls/stream tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/marketplace tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/me tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/mission room/stream tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/my device tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/openapi tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/openapi key tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/organization tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/pairing/approve tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/pairing/request tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/pairing/status tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/preview/:tunnelname tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/preview/access/revoke tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/preview/create tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/preview/grant tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/preview/list tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/preview/revoke tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/preview/settings tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/preview/settings/set tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/preview/update tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/provider tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/receipt/certificate tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/refund tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/reputation tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/resource accounting tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/treasury tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/treasury test tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/treasury/advisor tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/treasury/agents tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/treasury/budgets tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/treasury/forecast tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/treasury/graph tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/treasury/home tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/treasury/marketplace tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/treasury/providers tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/treasury/reputation tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/tunnels/access tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/tunnels/devices/revoke tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/tunnels/grants/create tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/tunnels/grants/revoke tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/usage tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/view/:previewid tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/view/:previewid/proxy tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/view/:previewid/raw tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js",
-		"page": "pages/docs-generated-api-tutorial-index-routes-013-md-aad53b72e0.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated API Route Atlas 1–85 Source derived route rows. Dynamic parameters use :name; terminal catch alls use :name . URL pattern Source Discovery /api geelooy/api/ awtsmoos.derech.js static literal /api/admin/code geelooy/api/admin/ awtsmoos.derech.js static literal /api/apk web/asset",
+		"searchText": "b\"h boruch hashem blessed is he generated api route atlas 1–85 source derived route rows. dynamic parameters use :name; terminal catch alls use :name . url pattern source discovery /api geelooy/api/ awtsmoos.derech.js static literal /api/admin/code geelooy/api/admin/ awtsmoos.derech.js static literal /api/apk web/asset/:token/:path geelooy/api/apk web/ awtsmoos.derech.js static literal /api/asdfg geelooy/api/social legacy archive/old/ awtsmoos.posts.js static literal /api/catalog geelooy/api/ awtsmoos.derech.js static literal /api/client errors geelooy/api/client errors/ awtsmoos.derech.js static literal /api/client errors/recent geelooy/api/client errors/ awtsmoos.derech.js static literal /api/compiler/android/rebbe geelooy/api/compiler/ awtsmoos.derech.js static literal /api/compiler/backends geelooy/api/compiler/ awtsmoos.derech.js static literal /api/compiler/build geelooy/api/compiler/ awtsmoos.derech.js static literal /api/contact geelooy/api/contact/ awtsmoos.derech.js static literal /api/contact/status geelooy/api/contact/ awtsmoos.derech.js static literal /api/email geelooy/api/email/ awtsmoos.derech.js static literal /api/email/capabilities geelooy/api/email/ awtsmoos.derech.js static literal /api/email/settings/schema geelooy/api/email/ awtsmoos.derech.js static literal /api/even/:asd/more/:rt/k geelooy/api/core/legacyapidemoroutes.js static literal /api/fetch geelooy/api/fetch/ awtsmoos.derech.js static literal /api/gpt geelooy/api/gpt/ awtsmoos.derech.js static literal /api/gpt/capability geelooy/api/gpt/ awtsmoos.derech.js static literal /api/gpt/chat geelooy/api/gpt/ awtsmoos.derech.js static literal /api/gpt/health geelooy/api/gpt/ awtsmoos.derech.js static literal /api/gpt/reset geelooy/api/gpt/ awtsmoos.derech.js static literal /api/heichelos/:heichel/addcontenttoseries geelooy/api/social legacy archive/old/ awtsmoos.series.js static literal /api/heichelos/:heichel/addnewseries geelooy/api/social legacy archive/old/ awtsmoos.series.js static literal /api/heichelos/:heichel/aliases/:alias/commentsactions/addcommentindextoalias/comment/:comment geelooy/api/social legacy archive/old/ awtsmoos.comments old.js static literal /api/heichelos/:heichel/aliases/:alias/commentsactions/updateallcommentindexes geelooy/api/social legacy archive/old/ awtsmoos.comments old.js static literal /api/heichelos/:heichel/comment/:comment geelooy/api/social legacy archive/old/ awtsmoos.comments old.js static literal /api/heichelos/:heichel/comments geelooy/api/social legacy archive/old/ awtsmoos.comments old.js static literal /api/heichelos/:heichel/deletecontentfromseries geelooy/api/social legacy archive/old/ awtsmoos.series.js static literal /api/heichelos/:heichel/deleteseriesfromheichel/:seriesid geelooy/api/social legacy archive/old/ awtsmoos.series.js static literal /api/heichelos/:heichel/post/:post geelooy/api/social legacy archive/old/ awtsmoos.posts.js static literal /api/heichelos/:heichel/post/:post/comments geelooy/api/social legacy archive/old/ awtsmoos.comments old.js static literal /api/heichelos/:heichel/post/:post/comments/aliases geelooy/api/social legacy archive/old/ awtsmoos.comments old.js static literal /api/heichelos/:heichel/post/:post/comments/aliases/:alias geelooy/api/social legacy archive/old/ awtsmoos.comments old.js static literal /api/heichelos/:heichel/post/:post/delete geelooy/api/social legacy archive/old/ awtsmoos.posts.js static literal /api/heichelos/:heichel/posts geelooy/api/social legacy archive/old/ awtsmoos.posts.js static literal /api/heichelos/:heichel/posts/details geelooy/api/social legacy archive/old/ awtsmoos.posts.js static literal /api/heichelos/:heichel/series geelooy/api/social legacy archive/old/ awtsmoos.series.js static literal /api/heichelos/:heichel/series/:series geelooy/api/social legacy archive/old/ awtsmoos.series.js static literal /api/heichelos/:heichel/series/:series/breadcrumb geelooy/api/social legacy archive/old/ awtsmoos.series.js static literal /api/heichelos/:heichel/series/:series/changepostsinseries geelooy/api/social legacy archive/old/ awtsmoos.series.js static literal /api/heichelos/:heichel/series/:series/changesubseriesfromoneseriestoanother/:toseries geelooy/api/social legacy archive/old/ awtsmoos.series.js static literal /api/heichelos/:heichel/series/:series/changesubseriesinseries geelooy/api/social legacy archive/old/ awtsmoos.series.js static literal /api/heichelos/:heichel/series/:series/details geelooy/api/social legacy archive/old/ awtsmoos.series.js static literal /api/heichelos/:heichel/series/:series/editseriesdetails geelooy/api/social legacy archive/old/ awtsmoos.series.js static literal /api/heichelos/:heichel/series/:series/filterpostsby/:propkey/:propval geelooy/api/social legacy archive/old/ awtsmoos.series.js static literal /api/heichelos/:heichel/series/:series/filterseriesby/:propkey/:propval geelooy/api/social legacy archive/old/ awtsmoos.series.js static literal /api/heichelos/:heichel/series/:series/parent geelooy/api/social legacy archive/old/ awtsmoos.series.js static literal /api/heichelos/:heichel/series/:series/posts geelooy/api/social legacy archive/old/ awtsmoos.series.js static literal /api/heichelos/:heichel/series/:series/posts/details geelooy/api/social legacy archive/old/ awtsmoos.series.js static literal /api/heichelos/:heichel/series/:series/series geelooy/api/social legacy archive/old/ awtsmoos.series.js static literal /api/heichelos/:heichel/series/:series/subseries geelooy/api/social legacy archive/old/ awtsmoos.series.js static literal /api/heichelos/:heichel/series/:series/subseries/details geelooy/api/social legacy archive/old/ awtsmoos.series.js static literal /api/heichelos/:heichel/submittedcomments geelooy/api/social legacy archive/old/ awtsmoos.comments old.js static literal /api/heichelos/:heichel/submittedcomments/approve geelooy/api/social legacy archive/old/ awtsmoos.comments old.js static literal /api/heichelos/:heichel/submittedcomments/deny geelooy/api/social legacy archive/old/ awtsmoos.comments old.js static literal /api/merkava geelooy/api/merkava/ awtsmoos.derech.js static literal /api/merkava/devices geelooy/api/merkava/ awtsmoos.derech.js static literal /api/merkava/download bundle geelooy/api/merkava/ awtsmoos.derech.js static literal /api/merkava/download installer geelooy/api/merkava/ awtsmoos.derech.js static literal /api/merkava/run geelooy/api/merkava/ awtsmoos.derech.js static literal /api/merkava/run js geelooy/api/merkava/ awtsmoos.derech.js static literal /api/oauth/:route geelooy/api/oauth/ awtsmoos.derech.js static literal /api/oauth/getroutehandler geelooy/api/oauth/routes/table.js route table /api/oauth/getroutetable geelooy/api/oauth/routes/table.js route table /api/oauth/listroutenames geelooy/api/oauth/routes/table.js route table /api/ohr hagnuz/realtime ticket geelooy/api/ohr hagnuz/routes/table.js route table /api/olam h3 geelooy/api/olam h3/ awtsmoos.derech.js static literal /api/olam h3/create geelooy/api/olam h3/ awtsmoos.derech.js static literal /api/olam h3/status geelooy/api/olam h3/ awtsmoos.derech.js static literal /api/olam h3/task geelooy/api/olam h3/ awtsmoos.derech.js static literal /api/platform/manifest geelooy/api/platform/ awtsmoos.derech.js static literal /api/portal geelooy/api/portal/ awtsmoos.derech.js static literal /api/portal/api families geelooy/api/portal/ awtsmoos.derech.js static literal /api/portal/api family geelooy/api/portal/ awtsmoos.derech.js static literal /api/portal/type geelooy/api/portal/ awtsmoos.derech.js static literal /api/portal/types geelooy/api/portal/ awtsmoos.derech.js static literal /api/projecthosting geelooy/api/projecthosting/ awtsmoos.derech.js static literal /api/projecthosting/activity geelooy/api/projecthosting/runtimeroutes.js static literal /api/projecthosting/cleanup geelooy/api/projecthosting/runtimeroutes.js static literal /api/projecthosting/materialize geelooy/api/projecthosting/runtimeroutes.js static literal /api/projecthosting/restart geelooy/api/projecthosting/runtimeroutes.js static literal /api/projecthosting/start geelooy/api/projecthosting/runtimeroutes.js static literal /api/projecthosting/status geelooy/api/projecthosting/runtimeroutes.js static literal /api/projecthosting/stop geelooy/api/projecthosting/runtimeroutes.js static literal",
+		"page": "pages/docs-generated-api-routes-api-routes-001-md-14c1e1016d.json"
 	},
 	{
-		"id": "docs-generated-api-tutorial-index-routes-014-md-f869f84f9d",
-		"title": "API Tutorial Routes 586–630",
-		"sourcePath": "docs/GENERATED/API_TUTORIAL_INDEX/routes-014.md",
+		"id": "docs-generated-api-routes-api-routes-002-md-966fa90a37",
+		"title": "Generated API Route Atlas 86–170",
+		"sourcePath": "docs/GENERATED/API_ROUTES/api-routes-002.md",
 		"category": "Routes",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "API Tutorial Routes 586–630",
-				"anchor": "api-tutorial-routes-586-630"
+				"text": "Generated API Route Atlas 86–170",
+				"anchor": "generated-api-route-atlas-86-170"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial Routes 586–630 Each row links one discovered API route to generated teaching. Method/contract fields remain evidence, not invented schemas. Route Family Method evidence Health Tutorial Source /api/tunnel/control/view/:previewId/ws Tunnel Control unknown OK tutorial geelooy/a",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial routes 586–630 each row links one discovered api route to generated teaching. method/contract fields remain evidence, not invented schemas. route family method evidence health tutorial source /api/tunnel/control/view/:previewid/ws tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/fs/:tunnelname tunnel relay unknown ok tutorial geelooy/api/tunnel/ awtsmoos.derech.js /api/tunnel/request/:tunnelname tunnel relay unknown ok tutorial geelooy/api/tunnel/ awtsmoos.derech.js /api/wallet/balance wallet unknown ok tutorial geelooy/api/wallet/routes/table.js /api/wallet/buy/mock wallet unknown ok tutorial geelooy/api/wallet/routes/table.js /api/wallet/commerce/catalog wallet unknown ok tutorial geelooy/api/wallet/routes/table.js /api/wallet/commerce/entitlements wallet unknown ok tutorial geelooy/api/wallet/routes/table.js /api/wallet/commerce/purchase wallet unknown ok tutorial geelooy/api/wallet/routes/table.js /api/wallet/currency wallet unknown ok tutorial geelooy/api/wallet/routes/table.js /api/wallet/game rewards/claim wallet unknown ok tutorial geelooy/api/wallet/routes/table.js /api/wallet/me wallet unknown ok tutorial geelooy/api/wallet/routes/table.js /api/wallet/paypal/capture wallet unknown ok tutorial geelooy/api/wallet/routes/table.js /api/wallet/paypal/create wallet unknown ok tutorial geelooy/api/wallet/routes/table.js /api/wallet/transfer wallet unknown ok tutorial geelooy/api/wallet/routes/table.js /api/what/:are/you/:doing api root unknown ok tutorial geelooy/api/ awtsmoos.derech.js /api/wow/:asd/asd/:rt/k api root unknown ok tutorial geelooy/api/ awtsmoos.derech.js /api/youtube youtube unknown ok tutorial geelooy/api/youtube/routes/table.js /api/youtube/:a youtube unknown ok tutorial geelooy/api/youtube/ awtsmoos.derech.js /api/youtube/:a/:b youtube unknown ok tutorial geelooy/api/youtube/ awtsmoos.derech.js /api/youtube/:a/:b/:c youtube unknown ok tutorial geelooy/api/youtube/ awtsmoos.derech.js /api/youtube/auth/callback youtube unknown ok tutorial geelooy/api/youtube/routes/table.js /api/youtube/auth/logout youtube unknown ok tutorial geelooy/api/youtube/routes/table.js /api/youtube/auth/start youtube unknown ok tutorial geelooy/api/youtube/routes/table.js /api/youtube/auth/status youtube unknown ok tutorial geelooy/api/youtube/routes/table.js /api/youtube/channel youtube unknown ok tutorial geelooy/api/youtube/routes/table.js /api/youtube/channel/mine youtube unknown ok tutorial geelooy/api/youtube/routes/table.js /api/youtube/live youtube unknown ok tutorial geelooy/api/youtube/routes/table.js /api/youtube/live/create youtube unknown ok tutorial geelooy/api/youtube/routes/table.js /api/youtube/live/list youtube unknown ok tutorial geelooy/api/youtube/routes/table.js /api/youtube/live/transition youtube unknown ok tutorial geelooy/api/youtube/routes/table.js /api/youtube/oauth/callback youtube unknown ok tutorial geelooy/api/youtube/routes/table.js /api/youtube/oauth/logout youtube unknown ok tutorial geelooy/api/youtube/routes/table.js /api/youtube/oauth/start youtube unknown ok tutorial geelooy/api/youtube/routes/table.js /api/youtube/oauth/status youtube unknown ok tutorial geelooy/api/youtube/routes/table.js /api/youtube/uploads/start youtube unknown ok tutorial geelooy/api/youtube/routes/table.js /api/youtube/videos youtube unknown ok tutorial geelooy/api/youtube/routes/table.js /api/youtube/videos/list youtube unknown ok tutorial geelooy/api/youtube/routes/table.js /api/youtube/videos/update youtube unknown ok tutorial geelooy/api/youtube/routes/table.js /api/zmanim /api/zmanim unknown ok tutorial geelooy/api/zmanim/ awtsmoos.derech.js /api/zmanim/compare /api/zmanim unknown ok tutorial geelooy/api/zmanim/ awtsmoos.derech.js /api/zmanim/day /api/zmanim unknown ok tutorial geelooy/api/zmanim/ awtsmoos.derech.js /api/zmanim/embed /api/zmanim unknown ok tutorial geelooy/api/zmanim/ awtsmoos.derech.js /api/zmanim/health /api/zmanim unknown ok tutorial geelooy/api/zmanim/ awtsmoos.derech.js /api/zmanim/location /api/zmanim unknown ok tutorial geelooy/api/zmanim/ awtsmoos.derech.js /api/zmanim/methodology /api/zmanim unknown ok tutorial geelooy/api/zmanim/ awtsmoos.derech.js",
-		"page": "pages/docs-generated-api-tutorial-index-routes-014-md-f869f84f9d.json"
-	},
-	{
-		"id": "docs-generated-api-tutorial-index-routes-015-md-65b20a6fc4",
-		"title": "API Tutorial Routes 631–634",
-		"sourcePath": "docs/GENERATED/API_TUTORIAL_INDEX/routes-015.md",
-		"category": "Routes",
-		"provenance": "generated",
-		"headings": [
-			{
-				"level": 1,
-				"text": "API Tutorial Routes 631–634",
-				"anchor": "api-tutorial-routes-631-634"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial Routes 631–634 Each row links one discovered API route to generated teaching. Method/contract fields remain evidence, not invented schemas. Route Family Method evidence Health Tutorial Source /api/zmanim/opinions /api/zmanim unknown OK tutorial geelooy/api/zmanim/ awtsmoos.d",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial routes 631–634 each row links one discovered api route to generated teaching. method/contract fields remain evidence, not invented schemas. route family method evidence health tutorial source /api/zmanim/opinions /api/zmanim unknown ok tutorial geelooy/api/zmanim/ awtsmoos.derech.js /api/zmanim/options /api/zmanim unknown ok tutorial geelooy/api/zmanim/ awtsmoos.derech.js /api/zmanim/range /api/zmanim unknown ok tutorial geelooy/api/zmanim/ awtsmoos.derech.js /api/zmanim/usno /api/zmanim unknown ok tutorial geelooy/api/zmanim/ awtsmoos.derech.js",
-		"page": "pages/docs-generated-api-tutorial-index-routes-015-md-65b20a6fc4.json"
-	},
-	{
-		"id": "docs-generated-api-tutorials-routes-api-admin-code-932e02a2cc-md-b9fcb9faa4",
-		"title": "API Tutorial: /api/admin/code",
-		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-admin-code-932e02a2cc.md",
-		"category": "Routes",
-		"provenance": "generated",
-		"headings": [
-			{
-				"level": 1,
-				"text": "API Tutorial: /api/admin/code",
-				"anchor": "api-tutorial-api-admin-code"
-			},
-			{
-				"level": 2,
-				"text": "Contract evidence",
-				"anchor": "contract-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Path parameters",
-				"anchor": "path-parameters"
-			},
-			{
-				"level": 2,
-				"text": "Starter call",
-				"anchor": "starter-call"
-			},
-			{
-				"level": 2,
-				"text": "Observed callers",
-				"anchor": "observed-callers"
-			},
-			{
-				"level": 2,
-				"text": "Related tests",
-				"anchor": "related-tests"
-			},
-			{
-				"level": 2,
-				"text": "Related routes",
-				"anchor": "related-routes"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/admin/code Family: Admin · Mount: /api/admin · Derech health: OK Source: geelooy/api/admin/ awtsmoos.derech.js · Discovery: static literal · Confidence: unknown method Read the human Admin tutorial Generated evidence is a navigation and teaching aid, not an OpenAPI con",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/admin/code family: admin · mount: /api/admin · derech health: ok source: geelooy/api/admin/ awtsmoos.derech.js · discovery: static literal · confidence: unknown method read the human admin tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: $ post, identity observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/admin/code geelooy/control/app.js runtime related tests no package script heuristic match was found. related routes none generated.",
-		"page": "pages/docs-generated-api-tutorials-routes-api-admin-code-932e02a2cc-md-b9fcb9faa4.json"
-	},
-	{
-		"id": "docs-generated-api-tutorials-routes-api-compiler-android-rebbe-8d84cca1d-f8c9c05631",
-		"title": "API Tutorial: /api/compiler/android/rebbe",
-		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-compiler-android-rebbe-8d84cca1d6.md",
-		"category": "Routes",
-		"provenance": "generated",
-		"headings": [
-			{
-				"level": 1,
-				"text": "API Tutorial: /api/compiler/android/rebbe",
-				"anchor": "api-tutorial-api-compiler-android-rebbe"
-			},
-			{
-				"level": 2,
-				"text": "Contract evidence",
-				"anchor": "contract-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Path parameters",
-				"anchor": "path-parameters"
-			},
-			{
-				"level": 2,
-				"text": "Starter call",
-				"anchor": "starter-call"
-			},
-			{
-				"level": 2,
-				"text": "Observed callers",
-				"anchor": "observed-callers"
-			},
-			{
-				"level": 2,
-				"text": "Related tests",
-				"anchor": "related-tests"
-			},
-			{
-				"level": 2,
-				"text": "Related routes",
-				"anchor": "related-routes"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/compiler/android/rebbe Family: Compiler · Mount: /api/compiler · Derech health: OK Source: geelooy/api/compiler/ awtsmoos.derech.js · Discovery: static literal · Confidence: unknown method Read the human Compiler tutorial Generated evidence is a navigation and teaching",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/compiler/android/rebbe family: compiler · mount: /api/compiler · derech health: ok source: geelooy/api/compiler/ awtsmoos.derech.js · discovery: static literal · confidence: unknown method read the human compiler tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/compiler/android/rebbe geelooy/apps/code/js/android/rebbe apk client.js runtime related tests no package script heuristic match was found. related routes /api/compiler/backends /api/compiler/build",
-		"page": "pages/docs-generated-api-tutorials-routes-api-compiler-android-rebbe-8d84cca1d-f8c9c05631.json"
-	},
-	{
-		"id": "docs-generated-api-tutorials-routes-api-compiler-backends-8fe593f696-md-a3b0daa3f2",
-		"title": "API Tutorial: /api/compiler/backends",
-		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-compiler-backends-8fe593f696.md",
-		"category": "Routes",
-		"provenance": "generated",
-		"headings": [
-			{
-				"level": 1,
-				"text": "API Tutorial: /api/compiler/backends",
-				"anchor": "api-tutorial-api-compiler-backends"
-			},
-			{
-				"level": 2,
-				"text": "Contract evidence",
-				"anchor": "contract-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Path parameters",
-				"anchor": "path-parameters"
-			},
-			{
-				"level": 2,
-				"text": "Starter call",
-				"anchor": "starter-call"
-			},
-			{
-				"level": 2,
-				"text": "Observed callers",
-				"anchor": "observed-callers"
-			},
-			{
-				"level": 2,
-				"text": "Related tests",
-				"anchor": "related-tests"
-			},
-			{
-				"level": 2,
-				"text": "Related routes",
-				"anchor": "related-routes"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/compiler/backends Family: Compiler · Mount: /api/compiler · Derech health: OK Source: geelooy/api/compiler/ awtsmoos.derech.js · Discovery: static literal · Confidence: unknown method Read the human Compiler tutorial Generated evidence is a navigation and teaching aid,",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/compiler/backends family: compiler · mount: /api/compiler · derech health: ok source: geelooy/api/compiler/ awtsmoos.derech.js · discovery: static literal · confidence: unknown method read the human compiler tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/compiler/backends geelooy/apps/compiler/ui/nativebuildclient.js runtime related tests no package script heuristic match was found. related routes /api/compiler/android/rebbe /api/compiler/build",
-		"page": "pages/docs-generated-api-tutorials-routes-api-compiler-backends-8fe593f696-md-a3b0daa3f2.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated API Route Atlas 86–170 Source derived route rows. Dynamic parameters use :name; terminal catch alls use :name . URL pattern Source Discovery /api/public geelooy/api/public/ awtsmoos.derech.js static literal /api/release geelooy/api/release/ awtsmoos.derech.js static literal /ap",
+		"searchText": "b\"h boruch hashem blessed is he generated api route atlas 86–170 source derived route rows. dynamic parameters use :name; terminal catch alls use :name . url pattern source discovery /api/public geelooy/api/public/ awtsmoos.derech.js static literal /api/release geelooy/api/release/ awtsmoos.derech.js static literal /api/runtime/native/capabilities geelooy/api/runtime/ awtsmoos.derech.js static literal /api/runtime/native/launch geelooy/api/runtime/ awtsmoos.derech.js static literal /api/runtime/native/status geelooy/api/runtime/ awtsmoos.derech.js static literal /api/runtime/native/stop geelooy/api/runtime/ awtsmoos.derech.js static literal /api/sefarim geelooy/api/sefarim/ awtsmoos.derech.js static literal /api/sefarim/:sefer geelooy/api/sefarim/ awtsmoos.derech.js static literal /api/sefarim/:sefer/section/:section geelooy/api/sefarim/ awtsmoos.derech.js static literal /api/sefarim/:sefer/section/:section/sub/:sub geelooy/api/sefarim/ awtsmoos.derech.js static literal /api/sefarim/write/batch geelooy/api/sefarim/ awtsmoos.derech.js static literal /api/social geelooy/api/social/ awtsmoos.derech.js static literal /api/social/abuse/ratelimit/check geelooy/api/social/helper/platform/routes/platformlivediscoveryroutes.js static literal /api/social/alias/:alias/heichelos geelooy/api/social/ awtsmoos.heichel.js static literal /api/social/alias/:alias/heichelos/:heichel geelooy/api/social/ awtsmoos.heichel.js static literal /api/social/alias/:alias/heichelos/:heichel/ownership geelooy/api/social/ awtsmoos.heichel.js static literal /api/social/alias/:alias/heichelos/details geelooy/api/social/ awtsmoos.heichel.js static literal /api/social/aliases/:alias/commentsmade geelooy/api/social/helper/comments/routes/indexing.js static literal /api/social/aliases/:alias/commentsmade/heichel/:heichel geelooy/api/social/helper/comments/routes/indexing.js static literal /api/social/aliases/:alias/commentsmade/heichel/:heichel/series geelooy/api/social/helper/comments/routes/indexing.js static literal /api/social/aliases/:alias/commentsmade/heichel/:heichel/series/:series geelooy/api/social/helper/comments/routes/indexing.js static literal /api/social/aliases/:alias/commentsmade/heichel/:heichel/series/:series/post/:post geelooy/api/social/helper/comments/routes/indexing.js static literal /api/social/aliases/:alias/commentsmade/heichel/:heichel/series/:series/posts geelooy/api/social/helper/comments/routes/indexing.js static literal /api/social/aliases/:alias/commentsmade/heichelos geelooy/api/social/helper/comments/routes/indexing.js static literal /api/social/aliases/:alias/filesystem/copyentry geelooy/api/social/ awtsmoos.filesystem.js static literal /api/social/aliases/:alias/filesystem/delete geelooy/api/social/ awtsmoos.filesystem.js static literal /api/social/aliases/:alias/filesystem/makefile geelooy/api/social/ awtsmoos.filesystem.js static literal /api/social/aliases/:alias/filesystem/makefolder geelooy/api/social/ awtsmoos.filesystem.js static literal /api/social/aliases/:alias/filesystem/moveentry geelooy/api/social/ awtsmoos.filesystem.js static literal /api/social/aliases/:alias/filesystem/readfile geelooy/api/social/ awtsmoos.filesystem.js static literal /api/social/aliases/:alias/filesystem/readfolder geelooy/api/social/ awtsmoos.filesystem.js static literal /api/social/aliases/:alias/postsmade/heichel/:heichel/pathtoseries/:pathive geelooy/api/social/helper/routes/posts/aliasroutes.js static literal /api/social/aliases/:alias/postsmade/heichel/:heichel/series geelooy/api/social/helper/routes/posts/aliasroutes.js static literal /api/social/aliases/:alias/postsmade/heichelos geelooy/api/social/helper/routes/posts/aliasroutes.js static literal /api/social/aliases/:alias/postsmade/needswork geelooy/api/social/helper/routes/posts/needsworkroutes.js static literal /api/social/analytics/metric geelooy/api/social/helper/platform/routes/platformopsroutes.js static literal /api/social/cache/get geelooy/api/social/helper/platform/routes/platformruntimeroutes.js static literal /api/social/cache/invalidate geelooy/api/social/helper/platform/routes/platformruntimeroutes.js static literal /api/social/cache/set geelooy/api/social/helper/platform/routes/platformopsroutes.js static literal /api/social/civilization/entities/:type/:id/state geelooy/api/social/ awtsmoos.civilization.js static literal /api/social/civilization/events geelooy/api/social/ awtsmoos.civilization.js static literal /api/social/civilization/feed/:alias geelooy/api/social/ awtsmoos.civilization.js static literal /api/social/civilization/state geelooy/api/social/ awtsmoos.civilization.js static literal /api/social/civilization/subscriptions/:alias geelooy/api/social/ awtsmoos.civilization.js static literal /api/social/comments/thread/:post/ranked geelooy/api/social/helper/platform/routes/platformfeedthreadroutes.js static literal /api/social/comments/thread/append geelooy/api/social/helper/platform/routes/platformfeedthreadroutes.js static literal /api/social/comments/url/:comment geelooy/api/social/helper/comments/routes/rich.js static literal /api/social/communications/:alias/inbox geelooy/api/social/helper/communicationroutes/communicationinboxroutes.js static literal /api/social/communications/:alias/inbox/:item/read geelooy/api/social/helper/communicationroutes/communicationinboxroutes.js static literal /api/social/communications/:alias/inbox/unread geelooy/api/social/helper/communicationroutes/communicationnotificationroutes.js static literal /api/social/communications/:alias/live map geelooy/api/social/helper/communicationroutes/communicationoverviewroutes.js static literal /api/social/communications/:alias/notification digest geelooy/api/social/helper/communicationroutes/communicationnotificationroutes.js static literal /api/social/communications/:alias/overview geelooy/api/social/helper/communicationroutes/communicationoverviewroutes.js static literal /api/social/communications/:alias/threads/:thread geelooy/api/social/helper/communicationroutes/communicationthreadroutes.js static literal /api/social/communications/:alias/threads/:thread/read geelooy/api/social/helper/communicationroutes/communicationthreadroutes.js static literal /api/social/content/heichelos/:heichel/posts geelooy/api/social/ awtsmoos.content.js static literal /api/social/content/heichelos/:heichel/posts/:post/sections geelooy/api/social/ awtsmoos.content.js static literal /api/social/content/heichelos/:heichel/questions geelooy/api/social/ awtsmoos.content.js static literal /api/social/content/heichelos/:heichel/questions/:question/answers geelooy/api/social/ awtsmoos.content.js static literal /api/social/content/repost geelooy/api/social/ awtsmoos.content.js static literal /api/social/content/share geelooy/api/social/ awtsmoos.content.js static literal /api/social/counters geelooy/api/social/ awtsmoos.counter.js static literal /api/social/counters/:counter geelooy/api/social/ awtsmoos.counter.js static literal /api/social/counters/:counter/increasecount geelooy/api/social/ awtsmoos.counter.js static literal /api/social/drive/:aliasid/actions/bootstrap site project geelooy/api/social/helper/drive/routes/actionroutes.js static literal /api/social/drive/:aliasid/actions/copy geelooy/api/social/helper/drive/routes/actionroutes.js static literal /api/social/drive/:aliasid/actions/move geelooy/api/social/helper/drive/routes/actionroutes.js static literal /api/social/drive/:aliasid/actions/purge geelooy/api/social/helper/drive/routes/actionroutes.js static literal /api/social/drive/:aliasid/actions/restore geelooy/api/social/helper/drive/routes/actionroutes.js static literal /api/social/drive/:aliasid/actions/trash geelooy/api/social/helper/drive/routes/actionroutes.js static literal /api/social/drive/:aliasid/admin/quota geelooy/api/social/helper/drive/routes/quotaroutes.js static literal /api/social/drive/:aliasid/browser/fetch geelooy/api/social/helper/drive/routes/browserroutes.js static literal /api/social/drive/:aliasid/browser/jars geelooy/api/social/helper/drive/routes/browserroutes.js static literal /api/social/drive/:aliasid/browser/jars/:jarid geelooy/api/social/helper/drive/routes/browserroutes.js static literal /api/social/drive/:aliasid/browser/sessions geelooy/api/social/helper/drive/routes/interactivebrowserroutes.js static literal /api/social/drive/:aliasid/browser/sessions/:sessionid geelooy/api/social/helper/drive/routes/interactivebrowserroutes.js static literal /api/social/drive/:aliasid/browser/sessions/:sessionid/targets geelooy/api/social/helper/drive/routes/interactivebrowserroutes.js static literal /api/social/drive/:aliasid/browser/sessions/:sessionid/targets/:targetid geelooy/api/social/helper/drive/routes/interactivebrowserroutes.js static literal /api/social/drive/:aliasid/browser/sessions/:sessionid/targets/:targetid/cookies geelooy/api/social/helper/drive/routes/interactivebrowserroutes.js static literal /api/social/drive/:aliasid/browser/sessions/:sessionid/targets/:targetid/frame geelooy/api/social/helper/drive/routes/interactivebrowserroutes.js static literal /api/social/drive/:aliasid/browser/sessions/:sessionid/targets/:targetid/history geelooy/api/social/helper/drive/routes/interactivebrowserroutes.js static literal /api/social/drive/:aliasid/browser/sessions/:sessionid/targets/:targetid/input geelooy/api/social/helper/drive/routes/interactivebrowserroutes.js static literal /api/social/drive/:aliasid/browser/sessions/:sessionid/targets/:targetid/navigate geelooy/api/social/helper/drive/routes/interactivebrowserroutes.js static literal /api/social/drive/:aliasid/credentials geelooy/api/social/helper/drive/routes/credentialroutes.js static literal /api/social/drive/:aliasid/credentials/:credentialid geelooy/api/social/helper/drive/routes/credentialroutes.js static literal",
+		"page": "pages/docs-generated-api-routes-api-routes-002-md-966fa90a37.json"
 	}
 ]

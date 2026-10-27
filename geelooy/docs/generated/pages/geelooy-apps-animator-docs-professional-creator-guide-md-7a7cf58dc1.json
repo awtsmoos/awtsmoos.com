@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-animator-docs-professional-creator-guide-md-7a7cf58dc1",
+	"title": "Professional Creator Guide",
+	"sourcePath": "geelooy/apps/animator/docs/PROFESSIONAL_CREATOR_GUIDE.md",
+	"category": "Apps",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Professional Creator Guide",
+			"anchor": "professional-creator-guide"
+		},
+		{
+			"level": 2,
+			"text": "The Simple Path",
+			"anchor": "the-simple-path"
+		},
+		{
+			"level": 2,
+			"text": "Write Direction Like A Director",
+			"anchor": "write-direction-like-a-director"
+		},
+		{
+			"level": 2,
+			"text": "Acting And Motion",
+			"anchor": "acting-and-motion"
+		},
+		{
+			"level": 2,
+			"text": "Mobile And Narrow Screens",
+			"anchor": "mobile-and-narrow-screens"
+		},
+		{
+			"level": 2,
+			"text": "Keyboard And Focus",
+			"anchor": "keyboard-and-focus"
+		},
+		{
+			"level": 2,
+			"text": "Status And Safety",
+			"anchor": "status-and-safety"
+		},
+		{
+			"level": 2,
+			"text": "Human And Agent Workflows Match",
+			"anchor": "human-and-agent-workflows-match"
+		},
+		{
+			"level": 2,
+			"text": "Prompt Recipes",
+			"anchor": "prompt-recipes"
+		},
+		{
+			"level": 2,
+			"text": "Troubleshooting",
+			"anchor": "troubleshooting"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-animator-docs-professional-creator-guide-md-7a7cf58dc1-001.json"
+	]
+}

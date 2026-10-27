@@ -1,0 +1,202 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27t2314-do-all-unified-movie-system-00-remai-8e8b195d0e",
+		"title": "Remaining Work — Do All Unified Movie System",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27T2314-do-all-unified-movie-system/00_REMAINING_WORK.md",
+		"category": "Systems",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Remaining Work — Do All Unified Movie System",
+				"anchor": "remaining-work-do-all-unified-movie-system"
+			},
+			{
+				"level": 2,
+				"text": "Primary completion graph",
+				"anchor": "primary-completion-graph"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Remaining Work — Do All Unified Movie System The Awtsmoos renews each frame and every creative gate; Awtsmoos.com shall reveal one movie covenant whose many studios collaborate. Primary completion graph 1. Stabilize the canonical apps/shared/movie public API, protocol constants, validati",
+		"searchText": "b\"h boruch hashem blessed is he remaining work — do all unified movie system the awtsmoos renews each frame and every creative gate; awtsmoos.com shall reveal one movie covenant whose many studios collaborate. primary completion graph 1. stabilize the canonical apps/shared/movie public api, protocol constants, validation and migration path. 2. extend the movie vocabulary with media, audio, dialogue, captions, masks, adjustments, camera tracks and data semantics. 3. add reversible canonical patch operations for surgical ai and human revisions. 4. add provider aware ai planning/revision interfaces plus deterministic fallback generation. 5. add cast continuity, character action/pose/emotion/gaze/lipsync metadata and duration aware scene planning. 6. standardize all app adapters and retire duplicate authoritative paths without destroying compatibility. 7. build cross app fidelity reports and round trip safe canonical preservation. 8. replace the raw json only mobile dock with prompt/storyboard/timeline/canvas/export directing surfaces. 9. add shared timeline/undo command concepts that both humans and ai can invoke reversibly. 10. expand the deterministic canvas proof renderer for richer media semantics while preserving low end fallback. 11. define spatial renderer interfaces for true 3d engines without coupling the protocol to one implementation. 12. add asset registry/provenance/proxy/hash contracts. 13. add deterministic export manifests, quality profiles and render verification utilities. 14. add shared core unit, integration, adapter, ai, migration, patch and render tests. 15. build a real exactly 180 second acceptance movie using recurring characters, 2d/3d, charts, text, paths, particles, tutorials and multiple camera styles. 16. render actual media through an existing production capable path or the strongest deterministic fallback available. 17. verify duration, dimensions, nontrivial frame diversity and runtime/browser/mobile behavior. 18. re read every touched file, run indentation/minification/jsdoc/awtsmoos checks, compare planned versus actual and close every safe remaining item.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27t2314-do-all-unified-movie-system-00-remai-8e8b195d0e.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27t2314-do-all-unified-movie-system-01-phase-b1f4b9dbd7",
+		"title": "Phase One — Chesed Boundless Brainstorm",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27T2314-do-all-unified-movie-system/01_PHASE_ONE_CHESED_BRAINSTORM.md",
+		"category": "Systems",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase One — Chesed Boundless Brainstorm",
+				"anchor": "phase-one-chesed-boundless-brainstorm"
+			},
+			{
+				"level": 2,
+				"text": "Five competing architectures",
+				"anchor": "five-competing-architectures"
+			},
+			{
+				"level": 3,
+				"text": "A — Universal monolithic movie app",
+				"anchor": "a-universal-monolithic-movie-app"
+			},
+			{
+				"level": 3,
+				"text": "B — Shared renderer only",
+				"anchor": "b-shared-renderer-only"
+			},
+			{
+				"level": 3,
+				"text": "C — Shared protocol plus app adapters",
+				"anchor": "c-shared-protocol-plus-app-adapters"
+			},
+			{
+				"level": 3,
+				"text": "D — Event-sourced movie graph",
+				"anchor": "d-event-sourced-movie-graph"
+			},
+			{
+				"level": 3,
+				"text": "E — Shared protocol plus patch journal",
+				"anchor": "e-shared-protocol-plus-patch-journal"
+			},
+			{
+				"level": 2,
+				"text": "Ideal feature universe",
+				"anchor": "ideal-feature-universe"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase One — Chesed Boundless Brainstorm The Awtsmoos gives possibility without boundary or wall; Awtsmoos.com lets one semantic movie language become a vessel wide enough for all. Five competing architectures A — Universal monolithic movie app One app absorbs Animator, Nesher, Video Edit",
+		"searchText": "b\"h boruch hashem blessed is he phase one — chesed boundless brainstorm the awtsmoos gives possibility without boundary or wall; awtsmoos.com lets one semantic movie language become a vessel wide enough for all. five competing architectures a — universal monolithic movie app one app absorbs animator, nesher, video editor and mitzvah studio. rejected: destroys app personality, raises coupling and migration risk. b — shared renderer only apps keep unrelated project models but share export. rejected: ai still cannot reason over one movie language and cross app edits lose semantics. c — shared protocol plus app adapters canonical renderer neutral project, explicit capabilities, fidelity reports and app specific projections. strong candidate. d — event sourced movie graph every edit is a command/event and current movie state is a projection. powerful for collaboration/undo but heavy as the first persistence model. e — shared protocol plus patch journal canonical snapshot plus reversible patch operations and optional history. chosen: gives practical ai revision/undo now while leaving an event sourced future open. ideal feature universe arbitrary duration from a one second bumper to feature length work. 2d, 3d and hybrid scenes in one schema. real semantic media: image, video, audio, dialogue, narration, music, ambience, sfx and captions. masks, mattes, adjustment layers, groups, parenting, transforms and camera tracks. characters with stable cast ids, wardrobe, props, emotion, gaze, gesture, action, pose and lipsync cues. tutorial and infographic primitives with datasets, diagrams, callouts, code, steps and progress. ai plans movie acts scenes shots layers; revisions become narrow patches. adapters declare exact preserved, flattened, deferred and rejected semantics. mobile ux begins with directing intent, not json. renderer interfaces allow canvas proof, webgl/webgpu spatial preview and headless export to coexist. assets carry hashes, provenance, proxy/original relationships and generated seed metadata. every export carries a reproducible manifest. tests can fuzz malformed ai movies, migrate old movies, round trip adapters and sample golden frames.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27t2314-do-all-unified-movie-system-01-phase-b1f4b9dbd7.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27t2314-do-all-unified-movie-system-02-phase-633753a96c",
+		"title": "Phase One — Theoretical File Graph",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27T2314-do-all-unified-movie-system/02_PHASE_ONE_THEORETICAL_FILE_GRAPH.md",
+		"category": "Systems",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase One — Theoretical File Graph",
+				"anchor": "phase-one-theoretical-file-graph"
+			},
+			{
+				"level": 2,
+				"text": "Canonical domain",
+				"anchor": "canonical-domain"
+			},
+			{
+				"level": 2,
+				"text": "AI and revisions",
+				"anchor": "ai-and-revisions"
+			},
+			{
+				"level": 2,
+				"text": "Assets and characters",
+				"anchor": "assets-and-characters"
+			},
+			{
+				"level": 2,
+				"text": "Renderer/export contracts",
+				"anchor": "renderer-export-contracts"
+			},
+			{
+				"level": 2,
+				"text": "App bridge contract",
+				"anchor": "app-bridge-contract"
+			},
+			{
+				"level": 2,
+				"text": "UX",
+				"anchor": "ux"
+			},
+			{
+				"level": 2,
+				"text": "Tests",
+				"anchor": "tests"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase One — Theoretical File Graph The Awtsmoos is beyond every module while each module reveals one measured role; Awtsmoos.com will keep the architecture small enough that no file swallows the whole. Canonical domain apps/shared/movie/protocol/ProtocolConstants.js apps/shared/movie/pro",
+		"searchText": "b\"h boruch hashem blessed is he phase one — theoretical file graph the awtsmoos is beyond every module while each module reveals one measured role; awtsmoos.com will keep the architecture small enough that no file swallows the whole. canonical domain apps/shared/movie/protocol/protocolconstants.js apps/shared/movie/protocol/moviefactory.js apps/shared/movie/protocol/moviemigration.js apps/shared/movie/schema/moviesemantickinds.js apps/shared/movie/schema/movievalidationerror.js apps/shared/movie/schema/movievalidator.js compatibility exports through existing root files. ai and revisions apps/shared/movie/ai/movieaiprovider.js apps/shared/movie/ai/moviedirector.js apps/shared/movie/ai/movierevisionservice.js apps/shared/movie/patch/moviepatchkinds.js apps/shared/movie/patch/moviepatchapplier.js apps/shared/movie/patch/moviepatchhistory.js assets and characters apps/shared/movie/assets/movieassetregistry.js apps/shared/movie/characters/castcontinuity.js apps/shared/movie/characters/characterperformance.js renderer/export contracts apps/shared/movie/render/movierenderer.js apps/shared/movie/render/movierenderprofile.js apps/shared/movie/export/movierendermanifest.js app bridge contract apps/shared/movie/adapters/movieadapter.js apps/shared/movie/adapters/projectionreport.js full rewrites of four app adapters only after hash/call site inspection. ux split movie dock into moviedirectordock, moviepromptpanel, moviestoryboardpanel, movietimelinepanel, movieexportpanel plus focused css modules. tests apps/shared/movie/tests/publicapi.test.mjs protocol.test.mjs, validation.test.mjs, migration.test.mjs, patch.test.mjs, ai.test.mjs, adapters.test.mjs, threeminutemovie.test.mjs, render.test.mjs.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27t2314-do-all-unified-movie-system-02-phase-633753a96c.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27t2314-do-all-unified-movie-system-03-phase-10350c6052",
+		"title": "Phase Two — Gevurah: 24 Critiques",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27T2314-do-all-unified-movie-system/03_PHASE_TWO_GEVURAH_24_CRITIQUES.md",
+		"category": "Systems",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Two — Gevurah: 24 Critiques",
+				"anchor": "phase-two-gevurah-24-critiques"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Two — Gevurah: 24 Critiques The Awtsmoos gives light while Gevurah shapes the vessel true; Awtsmoos.com must reject seductive shortcuts that would fracture what we do. 1. Do not attempt true WebGPU, full NLE, collaboration server and cloud render farm before the canonical domain is",
+		"searchText": "b\"h boruch hashem blessed is he phase two — gevurah: 24 critiques the awtsmoos gives light while gevurah shapes the vessel true; awtsmoos.com must reject seductive shortcuts that would fracture what we do. 1. do not attempt true webgpu, full nle, collaboration server and cloud render farm before the canonical domain is stable. 2. do not create another movie core; all new contracts live under apps/shared/movie. 3. do not silently delete the older adapter paths while they are untracked and potentially consumed. 4. do not couple core movie objects to dom, canvas, three.js or app specific classes. 5. keep seconds as canonical time and translate native milliseconds at app boundaries. 6. require protocol/version on every canonical movie. 7. preserve unknown future fields through normalization/migration where possible. 8. make validation error codes stable enough for ui and ai repair loops. 9. never accept a layer whose local end exceeds its scene. 10. never accept a keyframe outside the layer local duration. 11. validate references to cast/assets/parents. 12. make patch operations target stable ids and reject stale/missing targets explicitly. 13. patches need inverse information or snapshots so undo is real. 14. ai provider abstraction must work with no provider and must not pretend fallback parsing is model reasoning. 15. adapters must share one result contract and never silently flatten. 16. mobile controls need practical touch targets and responsive layout, not merely @media cosmetic shrinking. 17. canvas proof renderer should remain deterministic and low dependency rather than pretending to be full 3d. 18. true 3d belongs behind an interface so animator can supply the spatial engine. 19. asset hashes/provenance must not require network access to validate ordinary projects. 20. tests should exercise observable contracts rather than implementation internals. 21. the 180 second proof must include visible timeline diversity rather than repeating one generated template. 22. runtime proof requires measured media or frame output, not metadata claims. 23. every touched existing file needs collision hash verification immediately before rewrite. 24. completion requires a final delta pass; success in one renderer does not close cross app obligations.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27t2314-do-all-unified-movie-system-03-phase-10350c6052.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27t2314-do-all-unified-movie-system-04-phase-bc93e02d30",
+		"title": "Phase Two — Tiferes Improved Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27T2314-do-all-unified-movie-system/04_PHASE_TWO_TIFERES_IMPROVED_PLAN.md",
+		"category": "Systems",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Two — Tiferes Improved Plan",
+				"anchor": "phase-two-tiferes-improved-plan"
+			},
+			{
+				"level": 2,
+				"text": "Selected architecture",
+				"anchor": "selected-architecture"
+			},
+			{
+				"level": 2,
+				"text": "Implementation waves",
+				"anchor": "implementation-waves"
+			},
+			{
+				"level": 3,
+				"text": "Wave 1 — Domain truth",
+				"anchor": "wave-1-domain-truth"
+			},
+			{
+				"level": 3,
+				"text": "Wave 2 — Surgical editing and AI",
+				"anchor": "wave-2-surgical-editing-and-ai"
+			},
+			{
+				"level": 3,
+				"text": "Wave 3 — App and asset boundaries",
+				"anchor": "wave-3-app-and-asset-boundaries"
+			},
+			{
+				"level": 3,
+				"text": "Wave 4 — Experience and render contracts",
+				"anchor": "wave-4-experience-and-render-contracts"
+			},
+			{
+				"level": 3,
+				"text": "Wave 5 — Tests and acceptance movie",
+				"anchor": "wave-5-tests-and-acceptance-movie"
+			},
+			{
+				"level": 2,
+				"text": "Safety against impossible scope",
+				"anchor": "safety-against-impossible-scope"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Two — Tiferes Improved Plan The Awtsmoos joins expansion with restraint in one harmonious line; Awtsmoos.com should reveal a stable domain first, then let richer renderers shine. Selected architecture Use apps/shared/movie as the single canonical semantic project. Keep snapshots as",
+		"searchText": "b\"h boruch hashem blessed is he phase two — tiferes improved plan the awtsmoos joins expansion with restraint in one harmonious line; awtsmoos.com should reveal a stable domain first, then let richer renderers shine. selected architecture use apps/shared/movie as the single canonical semantic project. keep snapshots as canonical state. add reversible patch journals for ai/human edits. app specific renderers and editors become adapters around this domain. existing proof canvas runtime remains a deterministic malchus fallback; animator may provide the strongest spatial renderer without contaminating the core with app imports. implementation waves wave 1 — domain truth protocol constants and factory richer semantic kinds version migration structured validation errors exhaustive validator public index cleanup wave 2 — surgical editing and ai patch kinds, patch applier, history provider interface director orchestration deterministic fallback planning continuity helpers wave 3 — app and asset boundaries standard adapter base/result contract asset registry animator/nesher/video editor/mitzvah adapter convergence duplicate animator adapter becomes compatibility re export rather than second truth wave 4 — experience and render contracts split mobile director dock renderer interface and quality profiles render manifest canvas runtime expansion where useful wave 5 — tests and acceptance movie shared tests first adapter tests exact 180 second film browser and measured media proof safety against impossible scope full production webgpu physics, a collaboration backend, cloud render farms and professional audio dsp are architectural extension points in this pass rather than fabricated toy implementations. the task is still fully honored by creating truthful contracts, real current engine functionality, app unification, ai revision, mobile ux and runtime proof now, while leaving advanced engines pluggable instead of faking completeness.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27t2314-do-all-unified-movie-system-04-phase-bc93e02d30.json"
+	}
+]

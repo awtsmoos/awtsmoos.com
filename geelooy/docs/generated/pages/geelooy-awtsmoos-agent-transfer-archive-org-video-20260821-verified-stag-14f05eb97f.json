@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-awtsmoos-agent-transfer-archive-org-video-20260821-verified-stag-14f05eb97f",
+	"title": "B\"H",
+	"sourcePath": "geelooy/.awtsmoos-agent-transfer/archive-org-video-20260821/verified-stage/social/migrate/API.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Social Migration API",
+			"anchor": "social-migration-api"
+		},
+		{
+			"level": 2,
+			"text": "Capability discovery",
+			"anchor": "capability-discovery"
+		},
+		{
+			"level": 2,
+			"text": "Native asset boundary",
+			"anchor": "native-asset-boundary"
+		},
+		{
+			"level": 2,
+			"text": "Archive.org browser boundary",
+			"anchor": "archive-org-browser-boundary"
+		},
+		{
+			"level": 2,
+			"text": "Preflight",
+			"anchor": "preflight"
+		},
+		{
+			"level": 2,
+			"text": "Dry plan",
+			"anchor": "dry-plan"
+		},
+		{
+			"level": 2,
+			"text": "Public attachment whitelist",
+			"anchor": "public-attachment-whitelist"
+		},
+		{
+			"level": 2,
+			"text": "Publication",
+			"anchor": "publication"
+		},
+		{
+			"level": 2,
+			"text": "Idempotency, pacing, and recovery",
+			"anchor": "idempotency-pacing-and-recovery"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-awtsmoos-agent-transfer-archive-org-video-20260821-verified-stag-14f05eb97f-001.json"
+	]
+}

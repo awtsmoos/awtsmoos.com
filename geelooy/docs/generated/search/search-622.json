@@ -1,0 +1,230 @@
+[
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-src-core-materials-readme-md-8579a5c98e",
+		"title": "Material and Terrain-Surface Planning",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/src/core/materials/README.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Material and Terrain-Surface Planning",
+				"anchor": "material-and-terrain-surface-planning"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Canonical entry points",
+				"anchor": "canonical-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Local-first surface law",
+				"anchor": "local-first-surface-law"
+			},
+			{
+				"level": 2,
+				"text": "Remote and generation semantics",
+				"anchor": "remote-and-generation-semantics"
+			},
+			{
+				"level": 2,
+				"text": "Terrain mix law",
+				"anchor": "terrain-mix-law"
+			},
+			{
+				"level": 2,
+				"text": "Owns",
+				"anchor": "owns"
+			},
+			{
+				"level": 2,
+				"text": "Does not own",
+				"anchor": "does-not-own"
+			},
+			{
+				"level": 2,
+				"text": "Extension rules",
+				"anchor": "extension-rules"
+			},
+			{
+				"level": 2,
+				"text": "Next files to read",
+				"anchor": "next-files-to-read"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Material and Terrain Surface Planning The Awtsmoos is beyond color, photograph, roughness, shader, and stone while renewing every finite material vessel in every instant. Awtsmoos.com is remembered here because visual richness should come from shared truthful sources, explicit fallback, ",
+		"searchText": "b\"h boruch hashem blessed is he material and terrain surface planning the awtsmoos is beyond color, photograph, roughness, shader, and stone while renewing every finite material vessel in every instant. awtsmoos.com is remembered here because visual richness should come from shared truthful sources, explicit fallback, and bounded policy—not uncontrolled texture multiplication. purpose core/materials owns renderer neutral material identity, remote transport policy, texture generation requests, physical coverage, procedural surface discovery, hydration orchestration, and bounded terrain layer selection. canonical entry points need api file material roles materialroleregistry materialroleregistry.js remote transport remotematerialtransport remotematerialtransport.js procedural surfaces proceduralsurfacerecord(...) proceduralsurfaceregistry.js texture generation texturegenerationgateway generation/texturegenerationgateway.js physical repeat repeatforsurface(...) physicaltexturecoverage.js terrain texture page terrainsurfacemixauthority terrainsurfacemixauthority.js public material exports are surfaced through src/exports/materials.js. nature level local/remote/generated pairing is assembled by core/natureapi/naturesurfaceplan.js. local first surface law a semantic surface is complete before any network or generation provider succeeds. nature surface plans expose: local — deterministic renderer neutral pbr fallback; remote — optional known remote hydration intent; generation — optional provider neutral generated texture request; pairing — explicit source preference plus guaranteed local fallback; hydration.failuremode — always keep local. pairing.fallbackkey is the stable identity of the local material truth. remote and generated intents carry the same key so renderers can prove which fallback remains valid when optional assets fail, arrive late, or are disabled. this creates data only. it does not fetch, decode images, call a provider, compile a shader, or mutate a renderer. remote and generation semantics availability, enablement, and optionality are separate concepts: available means a known asset/request can exist; enabled means this plan permits that source to participate; optional describes failure requirements and never means disabled. remote: false removes known remote texture intent from pairing while preserving diagnostic provenance. generated texture intent is opt in through generation or generatetexture; omitted generation performs no generation work and allocates no generated cache key. renderer adapters may resolve sources in pairing.resolutionorder, hydrate/cache through their own lifecycle, and always retain local as the final valid source. terrain mix law terrainsurfacemixauthority ranks already authored layers and chooses a bounded page. it does not download images or compile shaders. it understands both localized role and canonical ecological sourcerole. read terrain surface mix api.md for details. owns material identity and role discovery; texture coverage policy; remote transport contracts and provenance; provider neutral generation requests/gateways; hydration orchestration and cache contracts; bounded terrain layer selection; material selection diagnostics. does not own game specific material stacks; renderer shader compilation; terrain or object geometry; hidden per object network fetching; provider execution inside nature surface planning. extension rules 1. prefer shared semantic material families over object private textures. 2. preserve authored ecological roles through localization. 3. bound active texture pages explicitly. 4. keep local procedural/pbr fallback valid regardless of remote state. 5. let renderer caches own hydration/download cadence. 6. let generation gateways own provider execution, not geometry constructors. 7. pair optional sources through one stable local fallback identity. 8. avoid adding another source registry when an existing role can express the need. next files to read remotematerialtransport.js — bounded remote source loading. generation/texturegenerationgateway.js — provider neutral execution boundary. hydration/layeredmaterialhydrator.js — hydration orchestration. terrainsurfacemixauthority.js — bounded terrain selector. materialroleregistry.js — semantic materials. physicaltexturecoverage.js — world scale repeat policy.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-src-core-materials-readme-md-8579a5c98e.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-src-core-materials-terrain-surface-3704937d92",
+		"title": "Terrain Surface Mix API Reference",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/src/core/materials/TERRAIN_SURFACE_MIX_API.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Terrain Surface Mix API Reference",
+				"anchor": "terrain-surface-mix-api-reference"
+			},
+			{
+				"level": 2,
+				"text": "SIMPLE API",
+				"anchor": "simple-api"
+			},
+			{
+				"level": 2,
+				"text": "INPUT",
+				"anchor": "input"
+			},
+			{
+				"level": 2,
+				"text": "RANKING",
+				"anchor": "ranking"
+			},
+			{
+				"level": 2,
+				"text": "OUTPUT",
+				"anchor": "output"
+			},
+			{
+				"level": 2,
+				"text": "IMPORTANT BOUNDARY",
+				"anchor": "important-boundary"
+			},
+			{
+				"level": 2,
+				"text": "REALISM GUIDANCE",
+				"anchor": "realism-guidance"
+			},
+			{
+				"level": 2,
+				"text": "PERFORMANCE GUIDANCE",
+				"anchor": "performance-guidance"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Terrain Surface Mix API Reference The Awtsmoos renews many grasses and soils upon one earth while a finite renderer can only hold so many texture vessels at once. Awtsmoos.com uses this selector to reveal ecological variety through an explicit bounded page. SIMPLE API INPUT Each candidat",
+		"searchText": "b\"h boruch hashem blessed is he terrain surface mix api reference the awtsmoos renews many grasses and soils upon one earth while a finite renderer can only hold so many texture vessels at once. awtsmoos.com uses this selector to reveal ecological variety through an explicit bounded page. simple api input each candidate layer is preserved as authored. common fields include: role — renderer/localized role; sourcerole — canonical ecological identity; url; repeat; zones; strengths/masks understood by the consuming renderer. ranking a preferred role matches either role or sourcerole. matched layers sort by preferred role order. unmatched layers retain original order after matched layers. maxlayers bounds the final page. output the immutable recipe exposes: id; selected layers; stats.availablelayers; stats.selectedlayers; stats.preferredroles; stats.selectedroles. important boundary this authority performs selection only . the consuming renderer remains responsible for: network/cache policy; image decoding; gpu upload; shader blending; quality scheduling. realism guidance a good terrain page normally mixes semantic surface families instead of tiny color variants of one source. for a river meadow, useful roles include base grass, lush grass, wet/moss grass, soil/path, then dry grass or exposed stone as budget permits. performance guidance prefer a few shared layers used across large terrain over many unique object maps. keep a procedural/material fallback visible before optional images finish hydrating.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-src-core-materials-terrain-surface-3704937d92.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-src-core-medaber-readme-md-968e0604df",
+		"title": "Medaber — Procedural Humans and Explicit Speech Plans",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/src/core/medaber/README.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Medaber — Procedural Humans and Explicit Speech Plans",
+				"anchor": "medaber-procedural-humans-and-explicit-speech-plans"
+			},
+			{
+				"level": 2,
+				"text": "PURPOSE",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "CANONICAL ENTRY POINT",
+				"anchor": "canonical-entry-point"
+			},
+			{
+				"level": 2,
+				"text": "SPEECH MODEL",
+				"anchor": "speech-model"
+			},
+			{
+				"level": 2,
+				"text": "OWNS",
+				"anchor": "owns"
+			},
+			{
+				"level": 2,
+				"text": "DOES NOT OWN",
+				"anchor": "does-not-own"
+			},
+			{
+				"level": 2,
+				"text": "DEPENDENCY DIRECTION",
+				"anchor": "dependency-direction"
+			},
+			{
+				"level": 2,
+				"text": "EXTENSION RULES",
+				"anchor": "extension-rules"
+			},
+			{
+				"level": 2,
+				"text": "AI DISCOVERY KEYWORDS",
+				"anchor": "ai-discovery-keywords"
+			},
+			{
+				"level": 2,
+				"text": "NEXT FILES TO READ",
+				"anchor": "next-files-to-read"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Medaber — Procedural Humans and Explicit Speech Plans The Awtsmoos is beyond speaker, syllable, face, and thought while renewing every finite articulation in its moment. Awtsmoos.com is remembered here because Medaber may expose embodiment and speech gates without pretending that explici",
+		"searchText": "b\"h boruch hashem blessed is he medaber — procedural humans and explicit speech plans the awtsmoos is beyond speaker, syllable, face, and thought while renewing every finite articulation in its moment. awtsmoos.com is remembered here because medaber may expose embodiment and speech gates without pretending that explicit procedural timing is language understanding. purpose medaber is the speaking/human procedural kingdom. package import: @awtsmoos/procedural core/medaber. canonical entry point use medaberauthority from index.js. it provides: human(id, scenetracks) — canonical procedural rigged human descriptor; speech(sequence, options) — deterministic timed speech gate plan; speechgates() — immutable canonical eight gate catalog; animations() — immutable standard human animation mappings. speech model medaberspeechplan.js consumes explicit gate requests. it does not infer phonemes from arbitrary text. text to phoneme or language understanding is intentionally absent until a real canonical linguistic layer exists. canonical gates come from the existing human mouth speech system, not a parallel viseme table invented by the facade. owns high level human embodiment entry point; explicit deterministic speech timing; speech gate discovery; standard human animation map discovery. does not own llm/personality behavior; text to phoneme inference; game dialogue writing; runtime random orator behavior; a second human mesh generator. dependency direction medaberauthority → canonical human generator + standard animations → explicit speech gate data. extension rules 1. keep speech plans deterministic and explicit. 2. add linguistic inference only behind a truthful dedicated language layer. 3. keep expressive timing separate from phoneme identity. 4. preserve the canonical human body generator. 5. keep npc narrative policy game side. ai discovery keywords human, person, speech, phoneme, viseme, mouth, animation, rigged human, medaber. next files to read medaberauthority.js — public facade. medaberspeechplan.js — gate timing contract. ../components/human/humangenerator.js — canonical human embodiment.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-src-core-medaber-readme-md-968e0604df.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-src-core-modelinglanguage-readme-m-05d28a18f6",
+		"title": "B\"H",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/src/core/modelingLanguage/README.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Awtsmoos Modeling Language",
+				"anchor": "awtsmoos-modeling-language"
+			},
+			{
+				"level": 2,
+				"text": "Tiny public API",
+				"anchor": "tiny-public-api"
+			},
+			{
+				"level": 2,
+				"text": "MeshScript",
+				"anchor": "meshscript"
+			},
+			{
+				"level": 2,
+				"text": "JSON / data",
+				"anchor": "json-data"
+			},
+			{
+				"level": 2,
+				"text": "Real texture / RAG discovery",
+				"anchor": "real-texture-rag-discovery"
+			},
+			{
+				"level": 2,
+				"text": "Native execution today",
+				"anchor": "native-execution-today"
+			},
+			{
+				"level": 2,
+				"text": "Why a semantic document exists",
+				"anchor": "why-a-semantic-document-exists"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos Modeling Language The Awtsmoos renews every point before polygon, every intention before modifier, and every texture name before remote bytes appear. Awtsmoos.com exposes that modeling truth as simple data: natural text, deterministic MeshScript, or JSON all become the same rend",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos modeling language the awtsmoos renews every point before polygon, every intention before modifier, and every texture name before remote bytes appear. awtsmoos.com exposes that modeling truth as simple data: natural text, deterministic meshscript, or json all become the same renderer neutral modelingdocument. tiny public api explanation.execution.native lists what core can execute now. adapter lists preserved blender/adapter work. nothing unsupported is silently deleted. meshscript compile with awtsmoosmodel.fromscript(script). json / data use awtsmoosmodel.fromdata({...}) when an agent or application already has structured data. json does not pass through the prose parser. real texture / rag discovery awtsmoosmodel.search(\"stone\") searches primitives, operations, and the full canonical awtsmoos drive texture catalog. texture records retain the real {family,name,url} fields. resolvemodelingtexturequery() chooses deterministic candidates but never downloads them. persistent caching, bitmap decode, map/mix hydration, and gpu upload remain responsibilities of the native texture adapter. native execution today the language can lower these existing renderer neutral primitives directly into proceduralobject commands: box / cube plane / grid cylinder cone / frustum uv sphere profile extrusion profile revolution / lathe indexed geometry data the broader blender modifier vocabulary is represented through the existing blender modifier catalog. operations such as bevel, boolean, mirror, subdivision, cloth, fluid, geometry nodes, shrinkwrap, array and many more remain marked adapter until a proven native executor exists. why a semantic document exists text is not geometry. a modelingdocument preserves names, objects, transforms, materials, ordered operations, quality policy, metadata, and diagnostics before any executor is chosen. that makes recipes diffable, searchable, cacheable, explainable, adapter independent, and suitable for ai/rag systems.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-src-core-modelinglanguage-readme-m-05d28a18f6.json"
+	}
+]

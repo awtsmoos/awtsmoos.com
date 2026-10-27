@@ -1,0 +1,208 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-styles-directory-guide-md-2fe6082468",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/styles/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: styles",
+				"anchor": "directory-guide-styles"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: styles Role: Styles Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 15 files, 0 structural child directories Purpose CSS for loading, meadow HUD, menus, mobile controls, combat, game rails, and shell visibility. The Awtsmoos renews ",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: styles role: styles snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 15 files, 0 structural child directories purpose css for loading, meadow hud, menus, mobile controls, combat, game rails, and shell visibility. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: styles search terms: css, mitzvah, com, meadow, actions, combat, inventory, measured, menu, places, rail, retractable file mix: .css: 14 good first question: “does the behavior or asset i need belong to styles, or is this only a neighboring/test/reference layer?” semantic evidence b\"h the awtsmoos reveals many actions inside one narrow line. these direct dimensions replace scale transforms, preserve sharp text, and let awtsmoos.com keep the valley visible behind play. the awtsmoos measures charge and target truth; awtsmoos.com keeps combat safe, readable, and retractable. the awtsmoos places optional menus at the right boundary; awtsmoos.com makes every rail retractable. representative files mitzvah world actions.css — the awtsmoos reveals many actions inside one narrow line. these direct dimensions replace scale transforms, preserve sharp text, and let awtsmoos.com keep the valley visible behind play. mitzvah world combat.css — the awtsmoos measures charge and target truth; awtsmoos.com keeps combat safe, readable, and retractable. mitzvah world game rail.css — the awtsmoos places optional menus at the right boundary; awtsmoos.com makes every rail retractable. mitzvah world inventory.css — the awtsmoos places each carried object in a clear measured vessel. awtsmoos.com keeps the bag scrollable and compact so inventory never becomes a second blurry world above the first. mitzvah world loading.css — the awtsmoos gives measured progress a calm luminous vessel. awtsmoos.com shows completed work clearly while the already rendered meadow waits beneath. mitzvah world meadow hud.css — the awtsmoos keeps only one small desktop control receipt; awtsmoos.com leaves combat and menus separate. mitzvah world meadow menu.css — the awtsmoos gathers optional knowledge into one temporary chamber. awtsmoos.com lets menu, profile, map, torah, and quests share one light modal instead of five overlays. mitzvah world menu shell.css — the awtsmoos renews the first threshold and gives the webgl vessel its whole horizon. awtsmoos.com lets the meadow fill every finite pixel while menus and honest failures remain above it; no hidden default canvas size may conceal the world that is being created now. mitzvah world mobile.css — the awtsmoos receives touch without stealing target or cast sight; awtsmoos.com keeps mobile travel retractable. mitzvah world panels.css — dialogue is a finite chamber for an infinite meeting. the awtsmoos gives each word room while awtsmoos.com keeps the chamber bounded, readable, and free from permanent compositor blur. mitzvah world responsive.css — one world enters both broad glass and narrow glass. the awtsmoos reveals the same purpose in distinct measured layouts; awtsmoos.com keeps touch targets usable without covering the scene. mitzvah world shell.css — the awtsmoos recreates every visible frame without haze. this shell gives the world one exact canvas, calm page geometry, and direct css pixels instead of scaled or blurred vessels. awtsmoos.com is named here as the source whose interface should reveal rather than obscure. emergency meadow.css — a .css artifact in this directory. directory map parent: . children: none. related and overlapping systems combat domain, action bars, targeting, and hud — domain rules live under gameplay while browser widgets and target presentation live under ui and styles. boundaries and cautions css owns presentation and visibility, not gameplay state or domain rules. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-styles-directory-guide-md-2fe6082468.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-subwaysurfer-dev-playthrough-readme-md-2853f03600",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/subwaySurfer/dev/playthrough/README.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Peruta Run Full Playthrough Harness",
+				"anchor": "peruta-run-full-playthrough-harness"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "What it proves",
+				"anchor": "what-it-proves"
+			},
+			{
+				"level": 2,
+				"text": "Run",
+				"anchor": "run"
+			},
+			{
+				"level": 2,
+				"text": "Default profiles",
+				"anchor": "default-profiles"
+			},
+			{
+				"level": 3,
+				"text": "Mobile",
+				"anchor": "mobile"
+			},
+			{
+				"level": 3,
+				"text": "Desktop",
+				"anchor": "desktop"
+			},
+			{
+				"level": 2,
+				"text": "Artifact tree",
+				"anchor": "artifact-tree"
+			},
+			{
+				"level": 2,
+				"text": "Evidence law",
+				"anchor": "evidence-law"
+			},
+			{
+				"level": 2,
+				"text": "Extending scenarios",
+				"anchor": "extending-scenarios"
+			},
+			{
+				"level": 2,
+				"text": "Realism review",
+				"anchor": "realism-review"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Peruta Run Full Playthrough Harness The Awtsmoos renews player, browser, command, collision, texture, interface, and evidence before one automated run may call the game known; Awtsmoos.com lets the harness travel through public vessels only, so a green report means the same road availabl",
+		"searchText": "b\"h boruch hashem blessed is he peruta run full playthrough harness the awtsmoos renews player, browser, command, collision, texture, interface, and evidence before one automated run may call the game known; awtsmoos.com lets the harness travel through public vessels only, so a green report means the same road available to a real player was shown. purpose this developer harness cold boots peruta run in isolated chrome devtools targets and simulates the complete game lifecycle while preserving durable evidence. it is intentionally separate from gameplay runtime ownership. it does not mutate three scene nodes, world chunks, collision internals, mission state, or renderer objects. what it proves public api boot and capability discovery; lane movement through public commands; jump collision body elevation; duck collision body state; physical keyboard lane controls; advanced drawer visibility, pause ownership, focus loop, and focus return; mobile ui bounds, overlaps, horizontal overflow, and 48px target covenant; real photographic texture hydration and cache/queue state; obstacle aware survival through avoid/jump/duck laws; themed obstacle family exposure; moving obstacle evidence; intentional collision and game over ui; deterministic restart recovery; long run chunk recycling and renderer resource count stability; semantic public events versus actual progression state; requestanimationframe cadence; screenshots of initial play, advanced ui, survival, game over, and final recovery. run the default route is served from local port 8766 and chrome debugging port 9222. run both default profiles: environment overrides: peruta url peruta cdp port peruta output default profiles mobile 390×844 dpr 2 explicit quality=mobile deepest long run recycle window enforces 48px visible interactive targets desktop 1440×900 dpr 1 explicit quality=balanced repeats controls/modal/realism/game over path with a shorter recycle window artifact tree each profile writes: report.json — raw structured evidence; report.md — severity grouped human notes; initial.png — first playable world/ui; advanced.png — open advanced drawer; survival.png — active survived world; game over.png — terminal collision ui when game over is reached; final.png — post restart/long run final state. the suite root also writes suite.json. evidence law severity is intentionally conservative: blocker: cannot boot/control/game over/restart or uncaught runtime exception; major: api contract divergence, unfair/nonfunctional lifecycle, texture failure, viewport escape, sub 48px mobile target, suspicious resource growth; medium: weaker semantic coverage, overlap candidate, focus/polish issue; minor: pure polish opportunity. a finding is never hidden merely because the orchestration continues. the profile runner persists its report even when a scenario throws. extending scenarios prefer adding one focused scenario module rather than growing playthroughjourneyscenario into a monolith. new scenarios should: 1. act through public api or real dom/keyboard input; 2. observe through hodplaythroughevidence; 3. write raw checkpoints before interpreting them; 4. add findings through report/policy helpers; 5. remain renderer/runtime agnostic unless the feature specifically requires a new public diagnostic projection. realism review numeric evidence cannot judge every visual quality. always inspect the saved screenshots after a run for: camera framing; chossid scale/readability; obstacle silhouette clarity; photographic material presence; large flat color fields; tree realism; repeated geometry; fog/lighting contrast; ui visual hierarchy and clipping. if screenshots reveal a defect that diagnostics cannot express, record the note and add the smallest new evidence channel only when it will remain useful for future runs.",
+		"page": "pages/geelooy-games-mitzvahworld-subwaysurfer-dev-playthrough-readme-md-2853f03600.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-subwaysurfer-docs-api-md-d94cd8f858",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/subwaySurfer/docs/API.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Peruta Run Public API 2.3",
+				"anchor": "peruta-run-public-api-2-3"
+			},
+			{
+				"level": 2,
+				"text": "Public global",
+				"anchor": "public-global"
+			},
+			{
+				"level": 2,
+				"text": "Four canonical verbs",
+				"anchor": "four-canonical-verbs"
+			},
+			{
+				"level": 3,
+				"text": "state()",
+				"anchor": "state"
+			},
+			{
+				"level": 3,
+				"text": "command(name, payload?)",
+				"anchor": "command-name-payload"
+			},
+			{
+				"level": 3,
+				"text": "inspect(name = \"manifest\")",
+				"anchor": "inspect-name-manifest"
+			},
+			{
+				"level": 3,
+				"text": "on(eventName, listener)",
+				"anchor": "on-eventname-listener"
+			},
+			{
+				"level": 2,
+				"text": "Compatibility aliases",
+				"anchor": "compatibility-aliases"
+			},
+			{
+				"level": 2,
+				"text": "Capability discovery",
+				"anchor": "capability-discovery"
+			},
+			{
+				"level": 2,
+				"text": "Architecture map",
+				"anchor": "architecture-map"
+			},
+			{
+				"level": 2,
+				"text": "Extension law",
+				"anchor": "extension-law"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Peruta Run Public API 2.3 The Awtsmoos renews state, intention, evidence, event, and interface before an API may speak; Awtsmoos.com keeps four public verbs simple while immutable discovery makes the hidden foundation deep. Public global After successful browser boot: globalThis.Awtsmoos",
+		"searchText": "b\"h boruch hashem blessed is he peruta run public api 2.3 the awtsmoos renews state, intention, evidence, event, and interface before an api may speak; awtsmoos.com keeps four public verbs simple while immutable discovery makes the hidden foundation deep. public global after successful browser boot: globalthis.awtsmoosperutarun the facade is frozen and does not expose three.js objects, mutable runner state, world chunks, materials, controls, or the renderer. four canonical verbs state() returns a detached deeply immutable gameplay snapshot containing lifecycle status, lane, distance, speed, perutas, score, and best score. command(name, payload?) routes one manifest declared command through the lifecycle gate and canonical input intent buffer. current command ids: left right jump duck pause resume restart lifecycle guarded commands return false when the current state deliberately rejects them. unsupported commands fail through the shared public protocol rather than silently disappearing. inspect(name = \"manifest\") manifest returns the serializable public covenant. diagnostics returns detached live evidence including quality profile, fps, renderer cost, camera, body envelope, semantic obstacles, and photographic texture hydration. on(eventname, listener) subscribes to a guarded semantic event and returns an unsubscribe function. payloads are detached and deeply immutable. listener exceptions are logged but isolated from gameplay dispatch. events: ready peruta crash pause resume restart late ready subscribers receive asynchronous replay of the most recent readiness evidence. compatibility aliases the manifest generates convenience aliases such as moveleft(), moveright(), jump(), duck(), pause(), resume(), restart(), getstate(), and getdiagnostics(). these are not parallel implementations. they route back through the same canonical protocol. capability discovery awtsmoosperutarun.capabilities is immutable data describing: supported commands/events/protocol verbs; quality profiles and active profile; obstacle laws, families, and stable semantic variant ids; photographic registry surfaces; advanced procedural core olive trees; retractable advanced drawer; procedural world ownership; authored chossid model usage. architecture map perutarunapischema.js owns command/read/alias data. perutaruncapabilities.js projects rich immutable discovery data. perutarunapimanifest.js composes the shared procedural core manifest. kesserperutacommandgate.js owns lifecycle command acceptance. daasperutareadgate.js owns public read projection. perutaruneventbus.js owns semantic event distribution. perutarunapi.js owns only the frozen four verb facade. extension law prefer adding data to schemas/capabilities and small focused gates rather than adding another top level public method. add a new public verb only when it represents a genuinely new interaction category, not merely another feature.",
+		"page": "pages/geelooy-games-mitzvahworld-subwaysurfer-docs-api-md-d94cd8f858.json"
+	}
+]

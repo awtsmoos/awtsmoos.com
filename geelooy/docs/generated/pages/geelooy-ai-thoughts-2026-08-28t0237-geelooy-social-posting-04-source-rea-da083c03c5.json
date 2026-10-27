@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-28t0237-geelooy-social-posting-04-source-rea-da083c03c5",
+	"title": "Source Readback, Planned-vs-Actual, and Test Plan",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0237-geelooy-social-posting/04_SOURCE_READBACK_AND_TEST_PLAN.md",
+	"category": "Testing",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Source Readback, Planned-vs-Actual, and Test Plan",
+			"anchor": "source-readback-planned-vs-actual-and-test-plan"
+		},
+		{
+			"level": 2,
+			"text": "Original source plan",
+			"anchor": "original-source-plan"
+		},
+		{
+			"level": 2,
+			"text": "What the first source pass actually wrote",
+			"anchor": "what-the-first-source-pass-actually-wrote"
+		},
+		{
+			"level": 2,
+			"text": "Readback discovery",
+			"anchor": "readback-discovery"
+		},
+		{
+			"level": 2,
+			"text": "Second source pass",
+			"anchor": "second-source-pass"
+		},
+		{
+			"level": 2,
+			"text": "Current observed contract after full readback",
+			"anchor": "current-observed-contract-after-full-readback"
+		},
+		{
+			"level": 2,
+			"text": "Delta remaining before tests",
+			"anchor": "delta-remaining-before-tests"
+		},
+		{
+			"level": 2,
+			"text": "Test creation rule",
+			"anchor": "test-creation-rule"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-28t0237-geelooy-social-posting-04-source-rea-da083c03c5-001.json"
+	]
+}

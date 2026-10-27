@@ -1,0 +1,196 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-09-28-1954-heichelos-social-total-06-execution--0081eb102f",
+		"title": "B\"H Execution",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-28-1954-heichelos-social-total/06-execution-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H Execution",
+				"anchor": "b-h-execution"
+			}
+		],
+		"excerpt": "B\"H Execution 1 Inspect tunnel, port, API, HTML. Done. 2 Restore broken fallback/ikar first contracts. Done. 3 Hydrate identity from API when empty. Done. 4 Social motion ownership. Done. 5 Run heichelos quality / ikar contracts / syntax. Next. 6 Browser matrix and deploy isolated worktree remain remaining work.",
+		"searchText": "b\"h execution 1 inspect tunnel, port, api, html. done. 2 restore broken fallback/ikar first contracts. done. 3 hydrate identity from api when empty. done. 4 social motion ownership. done. 5 run heichelos quality / ikar contracts / syntax. next. 6 browser matrix and deploy isolated worktree remain remaining work.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-28-1954-heichelos-social-total-06-execution--0081eb102f.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-28-1954-heichelos-social-total-next-action-m-b5e952f040",
+		"title": "NEXTACTION",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-28-1954-heichelos-social-total/NEXT_ACTION.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "NEXT ACTION Run ikar contract tests and syntax checks. Then open local /heichelos/ikar after server reload and confirm H1 + two series names from API.",
+		"searchText": "next action run ikar contract tests and syntax checks. then open local /heichelos/ikar after server reload and confirm h1 + two series names from api.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-28-1954-heichelos-social-total-next-action-m-b5e952f040.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-28-1954-heichelos-social-total-remaining-wor-125c9ca392",
+		"title": "REMAININGWORK",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-28-1954-heichelos-social-total/REMAINING_WORK.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "REMAININGWORK",
+				"anchor": "remainingwork"
+			}
+		],
+		"excerpt": "REMAINING WORK Full Heichel nested series/post listing redesign beyond empty root hydration Reader Scribe default hierarchy browser proof at 390 and 430 Auto scroll interval measurement in a real post vessel Community composer de duplication proof Social hub route by route implementation (profiles, search, notification",
+		"searchText": "remaining work full heichel nested series/post listing redesign beyond empty root hydration reader scribe default hierarchy browser proof at 390 and 430 auto scroll interval measurement in a real post vessel community composer de duplication proof social hub route by route implementation (profiles, search, notifications) isolated clean release worktree + public sha verification rtl / reduced motion / keyboard matrix on production",
+		"page": "pages/geelooy-ai-thoughts-2026-09-28-1954-heichelos-social-total-remaining-wor-125c9ca392.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-20260827-2153-movie-unification-00-mission-and-repos-ca90cca37e",
+		"title": "Mission and Repository Facts",
+		"sourcePath": "geelooy/.ai-thoughts/20260827-2153-movie-unification/00_MISSION_AND_REPOSITORY_FACTS.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Mission and Repository Facts",
+				"anchor": "mission-and-repository-facts"
+			},
+			{
+				"level": 2,
+				"text": "Mission",
+				"anchor": "mission"
+			},
+			{
+				"level": 2,
+				"text": "Directly observed facts",
+				"anchor": "directly-observed-facts"
+			},
+			{
+				"level": 2,
+				"text": "Concurrency safety rule",
+				"anchor": "concurrency-safety-rule"
+			},
+			{
+				"level": 2,
+				"text": "Acceptance evidence required",
+				"anchor": "acceptance-evidence-required"
+			},
+			{
+				"level": 2,
+				"text": "Initial remaining work",
+				"anchor": "initial-remaining-work"
+			}
+		],
+		"excerpt": "B\"H Mission and Repository Facts Boruch Hashem. Blessed is He. The Awtsmoos gives the project no permission to pretend: reality on disk is the vessel, evidence is the light, and Awtsmoos.com must be improved by what is actually observed rather than imagined. Mission Unify the movie making capabilities under geelooy so ",
+		"searchText": "b\"h mission and repository facts boruch hashem. blessed is he. the awtsmoos gives the project no permission to pretend: reality on disk is the vessel, evidence is the light, and awtsmoos.com must be improved by what is actually observed rather than imagined. mission unify the movie making capabilities under geelooy so 2d and 3d authoring share a dependable declarative movie contract while each application keeps its own product personality. make ai able to author real timed scenes containing characters, cameras, text, shapes, animated paths, particles, infographic/tutorial choreography, 2d and 3d content, audio/captions, transitions, and exportable output. improve mobile first authoring. produce and verify a real 180 second demonstration movie. directly observed facts repository root inspected: /users/awtsmoos/work/awtsmoos.com. target root inspected: geelooy. app inventory includes animator, mitzvah studio, nesher studio, video editor, slides, and shared libraries. animator already contains ai command routing, camera planning, character systems, rendering pipelines, studio authoring, procedural generators, movie export, and verification tools. the working tree is heavily dirty before this mission begins. many animator files are already modified by concurrent work, including ai, rendering, character, camera, export, and mobile authoring files. mitzvah studio also has existing uncommitted ui changes. unrelated server, tunnel, game, piano, and site files are modified by other work. therefore no reset, cleanup, blind overwrite, or broad formatting pass is permitted. concurrency safety rule every source file considered for modification must be re read immediately before a whole file rewrite. existing modifications are treated as current project reality. new shared modules are preferred where they can reduce collision risk. if a currently modified app file is necessary, its live contents and direct callers/tests must be inspected first. acceptance evidence required 1. exact movie capable surfaces discovered from real imports, exports, docs, and runtime paths. 2. a shared movie contract with distinct application profiles/adapters. 3. ai facing commands/schema that can create and mutate meaningful movie timelines rather than returning placeholders. 4. 2d and 3d scene capabilities represented consistently. 5. mobile first authoring behavior verified at narrow viewport widths. 6. a 180 second demo plan using many scenes, characters, particles, shapes, paths, text, infographic/tutorial beats, and varied camera shots. 7. export or deterministic render artifact verified as a real movie output using the repository's available encoding path. 8. static, unit/integration, smoke, and browser checks pass for touched surfaces. 9. all touched source files re read after writing; imports, tabs, line counts, syntax, and runtime behavior checked. initial remaining work discover the complete movie capability graph. inspect shared 2d/3d libraries and app specific engines. compare existing ai protocols and timeline/export models. select the least collision shared architecture. implement in complete files only. build the 180 second feature dense movie. test, render, inspect, and close discovered deltas.",
+		"page": "pages/geelooy-ai-thoughts-20260827-2153-movie-unification-00-mission-and-repos-ca90cca37e.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-20260827-2153-movie-unification-01-architecture-pass-a8778c3f42",
+		"title": "Architecture Pass",
+		"sourcePath": "geelooy/.ai-thoughts/20260827-2153-movie-unification/01_ARCHITECTURE_PASS.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Architecture Pass",
+				"anchor": "architecture-pass"
+			},
+			{
+				"level": 2,
+				"text": "Chosen architecture",
+				"anchor": "chosen-architecture"
+			},
+			{
+				"level": 2,
+				"text": "Runtime proof seam",
+				"anchor": "runtime-proof-seam"
+			},
+			{
+				"level": 2,
+				"text": "File split",
+				"anchor": "file-split"
+			},
+			{
+				"level": 2,
+				"text": "Invariants",
+				"anchor": "invariants"
+			}
+		],
+		"excerpt": "B\"H Architecture Pass Boruch Hashem. Blessed is He. The Awtsmoos renews every frame; the architecture must let Awtsmoos.com share one movie language while every editor keeps its own face and flame. Chosen architecture Use apps/shared/movie as a canonical declarative movie protocol, never as a replacement editor. Animat",
+		"searchText": "b\"h architecture pass boruch hashem. blessed is he. the awtsmoos renews every frame; the architecture must let awtsmoos.com share one movie language while every editor keeps its own face and flame. chosen architecture use apps/shared/movie as a canonical declarative movie protocol, never as a replacement editor. animator remains character/camera/world authoring, mitzvah studio remains spatial 3d authoring, nesher remains nonlinear editing/export, and video editor remains media/timeline oriented. each app consumes or emits the same movie document through adapters. runtime proof seam add a collision safe runtime/ package beneath the shared movie package. it samples active scenes and keyframes, paints every canonical visual kind to a deterministic canvas compatible frame, and exposes a renderer independent of app specific dom. the deterministic painter is the verification renderer and offline export source; native app renderers remain preferred for product specific fidelity. file split runtime/moviescenesampler.js: active scene, local time, layer transform sampling. runtime/canvasworldpainter.js: world/model/light depth and camera angle visual grammar. runtime/canvasgraphicpainter.js: shapes, paths, charts, text, tutorial overlays. runtime/canvascharacterpainter.js: 2d/3d people and motion poses. runtime/canvasparticlepainter.js: deterministic seeded particles. runtime/canvasmovierenderer.js: orchestration only. runtime/index.js: runtime exports. tools/renderthreeminutemovie.mjs: offline encoded proof driver. invariants all source files remain under 120 lines, use tabs, stay unminified, and begin with b\\\"h / boruch hashem / blessed is he. existing dirty app files are not rewritten in this pass.",
+		"page": "pages/geelooy-ai-thoughts-20260827-2153-movie-unification-01-architecture-pass-a8778c3f42.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-20260827-2153-movie-unification-02-delta-and-risk-pa-7229b58126",
+		"title": "Delta and Risk Pass",
+		"sourcePath": "geelooy/.ai-thoughts/20260827-2153-movie-unification/02_DELTA_AND_RISK_PASS.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Delta and Risk Pass",
+				"anchor": "delta-and-risk-pass"
+			},
+			{
+				"level": 2,
+				"text": "Current delta",
+				"anchor": "current-delta"
+			},
+			{
+				"level": 2,
+				"text": "Main risks",
+				"anchor": "main-risks"
+			},
+			{
+				"level": 2,
+				"text": "Corrections",
+				"anchor": "corrections"
+			},
+			{
+				"level": 2,
+				"text": "Collision rule",
+				"anchor": "collision-rule"
+			}
+		],
+		"excerpt": "B\"H Delta and Risk Pass Boruch Hashem. Blessed is He. The Awtsmoos makes no promise through a filename alone; Awtsmoos.com must measure the light that truly reaches the rendered frame. Current delta The canonical document, AI contract, feature vocabulary, mobile dock, and 180 second semantic composition exist. The plan",
+		"searchText": "b\"h delta and risk pass boruch hashem. blessed is he. the awtsmoos makes no promise through a filename alone; awtsmoos.com must measure the light that truly reaches the rendered frame. current delta the canonical document, ai contract, feature vocabulary, mobile dock, and 180 second semantic composition exist. the planned renderer/showcase directories are absent at this checkpoint. therefore semantic coverage is proven but rendered coverage is not yet proven. main risks 1. a layer kind can exist in json while no renderer consumes it. 2. 3d labels can degrade into flat decoration instead of visible depth/camera behavior. 3. keyframes can normalize correctly but never affect pixels. 4. particles can vary nondeterministically and make verification flaky. 5. a 180 second declared duration can differ from encoded media duration. 6. mobile ui can fit visually while controls remain too small or inaccessible. 7. concurrent app changes can be overwritten by an integration pass. 8. native editors can diverge from the canonical vocabulary. 9. ai commands can construct schema valid but visually empty scenes. 10. export can succeed while producing frozen or repeated frames. corrections the proof renderer will consume every canonical visual kind, use deterministic seeded particles, visibly alter perspective for camera kinds, and sample canonical keyframes. verification will inspect representative frames from many timestamps, calculate frame hashes, confirm motion deltas, and probe encoded duration with ffprobe when available. app bridges will be tested as translations rather than source rewrites. collision rule new runtime and proof tool files are owned by this pass. existing dirty application entrypoints remain untouched unless a later read proves a safe merge is necessary.",
+		"page": "pages/geelooy-ai-thoughts-20260827-2153-movie-unification-02-delta-and-risk-pa-7229b58126.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-20260827-2153-movie-unification-03-execution-and-ver-7b3dce154e",
+		"title": "Execution and Verification Pass",
+		"sourcePath": "geelooy/.ai-thoughts/20260827-2153-movie-unification/03_EXECUTION_AND_VERIFICATION_PASS.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Execution and Verification Pass",
+				"anchor": "execution-and-verification-pass"
+			},
+			{
+				"level": 2,
+				"text": "Execution order",
+				"anchor": "execution-order"
+			},
+			{
+				"level": 2,
+				"text": "Completion gate",
+				"anchor": "completion-gate"
+			}
+		],
+		"excerpt": "B\"H Execution and Verification Pass Boruch Hashem. Blessed is He. From plan into pixel the Awtsmoos renews the road; Awtsmoos.com earns completion only when evidence carries the load. Execution order 1. Create the shared runtime directory and small painter modules. 2. Make scene sampling consume canonical keyframes and",
+		"searchText": "b\"h execution and verification pass boruch hashem. blessed is he. from plan into pixel the awtsmoos renews the road; awtsmoos.com earns completion only when evidence carries the load. execution order 1. create the shared runtime directory and small painter modules. 2. make scene sampling consume canonical keyframes and transforms. 3. make the renderer visibly represent all 2d/3d/character/particle/chart/text/overlay kinds. 4. add an offline proof tool that renders the exact 180 second movie at deterministic timestamps/frames. 5. prefer ffmpeg for fast offline encoding if installed; otherwise use the browser capture path. 6. inspect the concurrently landed app adapters and run translation checks for animator, mitzvah studio, nesher, and video editor. 7. run validator and feature coverage tests against the 18 scene proof. 8. encode the movie, measure duration with ffprobe, sample frames from multiple scenes, and compare hashes to prove motion/scene variation. 9. launch the browser showcase, verify desktop and narrow mobile layouts, interact with playback controls, and inspect console errors. 10. re read every file written by this pass, check line counts/tabs/syntax, compare planned versus actual, and record remaining work. completion gate completion requires a real encoded artifact close to exactly 180 seconds, many distinct non static frame samples, coverage of every requested feature family, functioning ai to document semantics, functioning app translation seams, mobile evidence, and no unresolved critical test failures.",
+		"page": "pages/geelooy-ai-thoughts-20260827-2153-movie-unification-03-execution-and-ver-7b3dce154e.json"
+	}
+]

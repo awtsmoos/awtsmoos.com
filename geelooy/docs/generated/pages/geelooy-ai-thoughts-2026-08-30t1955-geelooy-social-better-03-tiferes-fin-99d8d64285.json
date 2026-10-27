@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-30t1955-geelooy-social-better-03-tiferes-fin-99d8d64285",
+	"title": "Phase Three — Tiferes Final Execution Plan",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-30T1955-geelooy-social-better/03_TIFERES_FINAL_PLAN.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase Three — Tiferes Final Execution Plan",
+			"anchor": "phase-three-tiferes-final-execution-plan"
+		},
+		{
+			"level": 2,
+			"text": "Files expected to rewrite",
+			"anchor": "files-expected-to-rewrite"
+		},
+		{
+			"level": 2,
+			"text": "Files expected to create",
+			"anchor": "files-expected-to-create"
+		},
+		{
+			"level": 2,
+			"text": "Execution graph",
+			"anchor": "execution-graph"
+		},
+		{
+			"level": 2,
+			"text": "Completion evidence",
+			"anchor": "completion-evidence"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-30t1955-geelooy-social-better-03-tiferes-fin-99d8d64285-001.json"
+	]
+}

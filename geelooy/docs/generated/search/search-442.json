@@ -1,0 +1,237 @@
+[
+	{
+		"id": "geelooy-api-social-helper-assets-test-readme-md-5de59c9a2b",
+		"title": "B\"H — Assets Tests (geelooy/api/social/helper/assets/test/)",
+		"sourcePath": "geelooy/api/social/helper/assets/test/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Assets Tests (geelooy/api/social/helper/assets/test/)",
+				"anchor": "b-h-assets-tests-geelooy-api-social-helper-assets-test"
+			}
+		],
+		"excerpt": "B\"H — Assets Tests (geelooy/api/social/helper/assets/test/) Tests for the social asset pipeline. assetCopy.test.js / assetCopy.test.mjs — asset copy behavior across sources. assetCopySource.test.js — copy source resolution. AssetCopySourceTestVessel.js, AssetCopyTestVessel.js — test fixtures/vessels. assetBindingAndCom",
+		"searchText": "b\"h — assets tests (geelooy/api/social/helper/assets/test/) tests for the social asset pipeline. assetcopy.test.js / assetcopy.test.mjs — asset copy behavior across sources. assetcopysource.test.js — copy source resolution. assetcopysourcetestvessel.js, assetcopytestvessel.js — test fixtures/vessels. assetbindingandcommentsections.test.mjs — asset bindings to comment sections.",
+		"page": "pages/geelooy-api-social-helper-assets-test-readme-md-5de59c9a2b.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-awtsmoosdb-readme-md-d7606ed216",
+		"title": "B\"H — AwtsmoosDb Shard Engine (geelooy/api/social/helper/awtsmoosDb/)",
+		"sourcePath": "geelooy/api/social/helper/awtsmoosDb/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — AwtsmoosDb Shard Engine (geelooy/api/social/helper/awtsmoosDb/)",
+				"anchor": "b-h-awtsmoosdb-shard-engine-geelooy-api-social-helper-awtsmoosdb"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			},
+			{
+				"level": 2,
+				"text": "What it does",
+				"anchor": "what-it-does"
+			}
+		],
+		"excerpt": "B\"H — AwtsmoosDb Shard Engine (geelooy/api/social/helper/awtsmoosDb/) Storage engine for AwtsmoosDB shards, used by social data that lives in sharded files rather than a single database. Files shardEngine.js — core read/write engine over sharded data. shardRoot.js — resolves the shard root for a given key/dataset. shar",
+		"searchText": "b\"h — awtsmoosdb shard engine (geelooy/api/social/helper/awtsmoosdb/) storage engine for awtsmoosdb shards, used by social data that lives in sharded files rather than a single database. files shardengine.js — core read/write engine over sharded data. shardroot.js — resolves the shard root for a given key/dataset. shardstore.js — higher level store operations on top of the engine. test/ — engine/root/store tests. what it does partitions social data into shards (by key ranges/buckets), routes reads and writes to the right shard, and presents a store like interface over the underlying sharded files.",
+		"page": "pages/geelooy-api-social-helper-awtsmoosdb-readme-md-d7606ed216.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-awtsmoosdb-test-readme-md-ecd2f2a499",
+		"title": "B\"H — AwtsmoosDb Tests (geelooy/api/social/helper/awtsmoosDb/test/)",
+		"sourcePath": "geelooy/api/social/helper/awtsmoosDb/test/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — AwtsmoosDb Tests (geelooy/api/social/helper/awtsmoosDb/test/)",
+				"anchor": "b-h-awtsmoosdb-tests-geelooy-api-social-helper-awtsmoosdb-test"
+			}
+		],
+		"excerpt": "B\"H — AwtsmoosDb Tests (geelooy/api/social/helper/awtsmoosDb/test/) Tests for the AwtsmoosDb shard engine. shardRoot.test.js — shard root resolution. shardStore.test.js — store read/write over shards.",
+		"searchText": "b\"h — awtsmoosdb tests (geelooy/api/social/helper/awtsmoosdb/test/) tests for the awtsmoosdb shard engine. shardroot.test.js — shard root resolution. shardstore.test.js — store read/write over shards.",
+		"page": "pages/geelooy-api-social-helper-awtsmoosdb-test-readme-md-ecd2f2a499.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-books-readme-md-13dd3aab64",
+		"title": "B\"H — Books (geelooy/api/social/helper/books/)",
+		"sourcePath": "geelooy/api/social/helper/books/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Books (geelooy/api/social/helper/books/)",
+				"anchor": "b-h-books-geelooy-api-social-helper-books"
+			},
+			{
+				"level": 2,
+				"text": "Key files",
+				"anchor": "key-files"
+			},
+			{
+				"level": 2,
+				"text": "What it does",
+				"anchor": "what-it-does"
+			}
+		],
+		"excerpt": "B\"H — Books (geelooy/api/social/helper/books/) Print book builder: renders collections of posts (series trees, translations) into printable books and downloadable zips. Key files routeService.js — HTTP route service for book endpoints. bookBuilder.js, renderBook.js, renderChapter.js, renderFrontMatter.js, renderJobInde",
+		"searchText": "b\"h — books (geelooy/api/social/helper/books/) print book builder: renders collections of posts (series trees, translations) into printable books and downloadable zips. key files routeservice.js — http route service for book endpoints. bookbuilder.js, renderbook.js, renderchapter.js, renderfrontmatter.js, renderjobindex.js — build and render book parts. html.js, printcss.js — html/print styling of rendered books. seriestree.js, originaltext.js, translationtext.js, alignment.js — source content (tree, hebrew original, translations, alignment). sourcecommon.js, sourcehttp.js, sourceinternal.js — source adapters. joblauncher.js, jobstore.js, worker.js, workerlease.js — background job queue for book builds with worker leasing. download.js, zipwriter.js, paths.js, options.js — downloads and zip packaging. test/ — render, routes, resilience, zip, tree, and unicode download tests. what it does takes a series (or translation bundle), queues a build job, renders front matter + chapters with print css, and packages the result as a downloadable book zip.",
+		"page": "pages/geelooy-api-social-helper-books-readme-md-13dd3aab64.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-books-test-readme-md-b51d13a0e0",
+		"title": "B\"H — Books Tests (geelooy/api/social/helper/books/test/)",
+		"sourcePath": "geelooy/api/social/helper/books/test/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Books Tests (geelooy/api/social/helper/books/test/)",
+				"anchor": "b-h-books-tests-geelooy-api-social-helper-books-test"
+			}
+		],
+		"excerpt": "B\"H — Books Tests (geelooy/api/social/helper/books/test/) Tests for the print book builder. bookRender.test.js — book/chapter/front matter rendering. bookRoutes.test.js, bookDirectRoute.test.js — book HTTP routes. bookTree.test.js — series tree assembly. bookZip.test.js — zip packaging. bookResilience.test.js — job/wor",
+		"searchText": "b\"h — books tests (geelooy/api/social/helper/books/test/) tests for the print book builder. bookrender.test.js — book/chapter/front matter rendering. bookroutes.test.js, bookdirectroute.test.js — book http routes. booktree.test.js — series tree assembly. bookzip.test.js — zip packaging. bookresilience.test.js — job/worker resilience. bookunicodedownload.test.js — unicode filename/download handling. runall.js — runs the whole book suite.",
+		"page": "pages/geelooy-api-social-helper-books-test-readme-md-b51d13a0e0.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-civilization-readme-md-639eca8622",
+		"title": "B\"H — Civilization (geelooy/api/social/helper/civilization/)",
+		"sourcePath": "geelooy/api/social/helper/civilization/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Civilization (geelooy/api/social/helper/civilization/)",
+				"anchor": "b-h-civilization-geelooy-api-social-helper-civilization"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			},
+			{
+				"level": 2,
+				"text": "Routes",
+				"anchor": "routes"
+			},
+			{
+				"level": 2,
+				"text": "What it does",
+				"anchor": "what-it-does"
+			}
+		],
+		"excerpt": "B\"H — Civilization (geelooy/api/social/helper/civilization/) The \"civilization\" game/simulation domain of the social API: a persistent world state with events, subscriptions, dependencies, and projections. Files schema.js, state.js, store.js — civilization data schema, in memory/persistent state, and store. projections",
+		"searchText": "b\"h — civilization (geelooy/api/social/helper/civilization/) the \"civilization\" game/simulation domain of the social api: a persistent world state with events, subscriptions, dependencies, and projections. files schema.js, state.js, store.js — civilization data schema, in memory/persistent state, and store. projections.js — derived views over civilization state. index.js — module entry. sephirah named route builders (mounted via awtsmoos.civilization.js): binahcivilizationrequest.js — request decoding. chesedcivilizationeventroutes.js — event submission routes. netzachcivilizationreadroutes.js — read routes. yesodcivilizationsubscriptionroutes.js — subscription routes. tiferescivilizationroutehandlers.js, tiferescivilizationdependencies.js — handlers and dependency wiring. routes route manifest covered by root tests/ (civilizationroutemanifest, civilizationroutehandlers, civilizationsubscriptionroutes). example base: /social. what it does models a shared \"civilization\" world: clients read state, subscribe to updates, and submit events; the server validates dependencies and projects state into readable views.",
+		"page": "pages/geelooy-api-social-helper-civilization-readme-md-639eca8622.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-comments-aliasindex-readme-md-2a4e14e608",
+		"title": "B\"H — Comment Alias Index (geelooy/api/social/helper/comments/aliasIndex/)",
+		"sourcePath": "geelooy/api/social/helper/comments/aliasIndex/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Comment Alias Index (geelooy/api/social/helper/comments/aliasIndex/)",
+				"anchor": "b-h-comment-alias-index-geelooy-api-social-helper-comments-aliasindex"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			},
+			{
+				"level": 2,
+				"text": "What it does",
+				"anchor": "what-it-does"
+			}
+		],
+		"excerpt": "B\"H — Comment Alias Index (geelooy/api/social/helper/comments/aliasIndex/) Packed index mapping aliases to their comments, so \"comments made by alias X\" queries are fast. Files IndexCodec.js — encodes/decodes index records. IndexQueries.js — query interface over the index. PackedIndexStore.js — persistent packed storag",
+		"searchText": "b\"h — comment alias index (geelooy/api/social/helper/comments/aliasindex/) packed index mapping aliases to their comments, so \"comments made by alias x\" queries are fast. files indexcodec.js — encodes/decodes index records. indexqueries.js — query interface over the index. packedindexstore.js — persistent packed storage for the index. what it does maintains a compact, queryable index of which comments belong to which alias, backing the /aliases/:alias/commentsmade route family.",
+		"page": "pages/geelooy-api-social-helper-comments-aliasindex-readme-md-2a4e14e608.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-comments-creation-readme-md-c4db36f417",
+		"title": "B\"H — Comment Creation Pipeline (geelooy/api/social/helper/comments/creation/)",
+		"sourcePath": "geelooy/api/social/helper/comments/creation/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Comment Creation Pipeline (geelooy/api/social/helper/comments/creation/)",
+				"anchor": "b-h-comment-creation-pipeline-geelooy-api-social-helper-comments-creation"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "B\"H — Comment Creation Pipeline (geelooy/api/social/helper/comments/creation/) The comment creation pipeline, decomposed in the codebase's sephirah naming style. Each file owns one responsibility in turning a submission into a stored comment record. Files KeserCommentCreationCoordinator.js — orchestrates the whole crea",
+		"searchText": "b\"h — comment creation pipeline (geelooy/api/social/helper/comments/creation/) the comment creation pipeline, decomposed in the codebase's sephirah naming style. each file owns one responsibility in turning a submission into a stored comment record. files kesercommentcreationcoordinator.js — orchestrates the whole creation flow. binahcommentinput.js — decodes/validates incoming comment input. binahcommentsubmissionservice.js — submission handling. chesedbulkcommentservice.js — bulk comment creation. gevurahcommentauthority.js — permission/authority checks before writing. netzachcommentidentity.js — resolves the authoring identity. hodaliascommentindex.js — updates the alias comment index on creation. tiferescommentcreationservice.js — the core creation service. malchuscommentrecord.js — final comment record shape written to storage.",
+		"page": "pages/geelooy-api-social-helper-comments-creation-readme-md-c4db36f417.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-comments-imported-adapters-readme-md-138110da81",
+		"title": "B\"H — Imported Comment Adapters (geelooy/api/social/helper/comments/imported/adapters/)",
+		"sourcePath": "geelooy/api/social/helper/comments/imported/adapters/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Imported Comment Adapters (geelooy/api/social/helper/comments/imported/adapters/)",
+				"anchor": "b-h-imported-comment-adapters-geelooy-api-social-helper-comments-imported-adapters"
+			}
+		],
+		"excerpt": "B\"H — Imported Comment Adapters (geelooy/api/social/helper/comments/imported/adapters/) Source adapters that let the imported comment orchestrator read from different storage backends. bundleAdapter.js — reads imported comments from bundles. corpusAdapter.js — reads from raw corpus data (data/). legacyAdapter.js — read",
+		"searchText": "b\"h — imported comment adapters (geelooy/api/social/helper/comments/imported/adapters/) source adapters that let the imported comment orchestrator read from different storage backends. bundleadapter.js — reads imported comments from bundles. corpusadapter.js — reads from raw corpus data (data/). legacyadapter.js — reads legacy comment stores. shardadapter.js — reads sharded awtsmoosdb comment storage.",
+		"page": "pages/geelooy-api-social-helper-comments-imported-adapters-readme-md-138110da81.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-comments-imported-chassidus-publish-readme-md-03cee916b0",
+		"title": "Chassidus Publish — production procedure (read this before touching live data)",
+		"sourcePath": "geelooy/api/social/helper/comments/imported/CHASSIDUS_PUBLISH_README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Chassidus Publish — production procedure (read this before touching live data)",
+				"anchor": "chassidus-publish-production-procedure-read-this-before-touching-live-data"
+			},
+			{
+				"level": 2,
+				"text": "Where translations LIVE (two separate stores!)",
+				"anchor": "where-translations-live-two-separate-stores"
+			},
+			{
+				"level": 2,
+				"text": "Publish order (per series)",
+				"anchor": "publish-order-per-series"
+			},
+			{
+				"level": 2,
+				"text": "Rules",
+				"anchor": "rules"
+			}
+		],
+		"excerpt": "Chassidus Publish — production procedure (read this before touching live data) B\"H. This document describes how Chassidus phrase translations and summaries get onto the live site. Written 2026 09 23 after the first successful canary. Where translations LIVE (two separate stores!) The live site serves translations from ",
+		"searchText": "chassidus publish — production procedure (read this before touching live data) b\"h. this document describes how chassidus phrase translations and summaries get onto the live site. written 2026 09 23 after the first successful canary. where translations live (two separate stores!) the live site serves translations from two different stores. publishing to only one leaves the other empty: 1. packed rich comment store — dayuhchadash/socialpacked/social.richcomments.v1.fs.awtsdb (linux production path: /mnt/hc volume 102267213/dayuhchadash/...). one full comment per phrase: versesection = section index, subsectionid = phrase id. english in content, never truncated. aliases (see registry.js familyfor): likkutei translation en, sefer hasichos translation en, sichos kodesh translation en, meluket translation en, likkuteitorah translation en, torahohr translation en, ayinbeis translation en, derechmitzvosecha translation en. summaries use the same store with summary en aliases (likkutei summary en, …): 1 section summary per section + 1 post summary. served by: get /api/social/heichelos/ikar/comments/inseries/ /atpost/ ?aliasid= . writer: /workspace/chassidus rebuild/publish/import packed.js (translations) and import summaries.js (summaries). single exclusive writer — server must be stopped (systemctl stop awtsmoos) during writes. idempotent. 2. /translations v2 corpus archives — read by get /api/social/heichelos/ikar/series/ /post/ /translations. frozen files: social.heichel.ikar.comments.corpus.{likkuteisichos,seferhasichos}.alias. translation en.v2.fs.awtsdb. virtual path: /social/heichelos/ikar/comments/atseries/ /atpost/ / . payload: { \"0\": [row,...], \"1\": [row,...] } — section index → phrase rows, serialized with awtsmoosbinaryjson.serializejson. registry coverage is strict: only likkuteisichosvolume\\d+ and seferhasichos\\d+ map to corpora. all other series → unsupported. sichos kodesh / meluket /translations read static bundles: geelooy/api/social/helper/comments/imported/data/{sichoskodesh,meluket}/. writer: /workspace/chassidus rebuild/publish/pack corpus.js (run after ocr; postresolver.alignment drops out of bounds rows). publish order (per series) 1. dedupe payloads per postid (fullest payload wins — canonicalcommentid is random, duplicates would double publish). see payload manifest notes.md. 2. batch publish.js → grouped .awtsmoosjson alias files. 3. server stop → import translations → import summaries → server start. 4. verify via public comments api: exact expected counts per (series, post, alias); spot check coordinates, full english, summaries. 5. ocr pass for ls/shs/sk (staged repairs at /source/sections[n]/ocr/diff[]; exact byte before match, skip mismatches, q122 never). 6. pack corpus.js for ls/shs corpus families. 7. verify translated:true, meta.imported == expected count via /translations. 8. browser check (rendered page + reply/thread ui) — needs browser delegation. rules nothing is live until the public api returns it. nothing is a summary under a translation en alias (the reader strips them). never invent hebrew or footnote bodies. q122 (sichoskodesh5742 57421318) is quarantined — never import or requeue. the mac's dayuhchadash copy is not production (verified 2026 09 23: 242 byte richcomments file vs live canary data). production = linux hetzner host. full coordinator report: /workspace/chassidus rebuild/publish/live publish report.md (import runbook: import runbook.md, corpus trace: trace translations corpus.md).",
+		"page": "pages/geelooy-api-social-helper-comments-imported-chassidus-publish-readme-md-03cee916b0.json"
+	}
+]

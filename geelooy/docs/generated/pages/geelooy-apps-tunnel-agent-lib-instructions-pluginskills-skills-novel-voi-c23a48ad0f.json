@@ -1,0 +1,24 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-novel-voi-c23a48ad0f",
+	"title": "SKILL",
+	"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/novel-voice/SKILL.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 2,
+			"text": "Shared tunnel skill discovery and verified continuation",
+			"anchor": "shared-tunnel-skill-discovery-and-verified-continuation"
+		},
+		{
+			"level": 2,
+			"text": "CSS and actual screenshot review",
+			"anchor": "css-and-actual-screenshot-review"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-novel-voi-c23a48ad0f-001.json"
+	]
+}

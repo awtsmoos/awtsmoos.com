@@ -24,20 +24,23 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-brick-blast-e1d8b393.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 79,
+		"source": 88,
 		"tests": 0,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
 		"other": 0
 	},
-	"totalFiles": 80,
+	"totalFiles": 89,
 	"symbolSummary": {
-		"files": 75,
+		"files": 84,
 		"classes": 17,
-		"functions": 93,
-		"exports": 86,
+		"functions": 104,
+		"exports": 96,
 		"samples": [
+			"awakenBrickBlast",
+			"revealFailure",
+			"escapeText",
 			"PROVIDERS",
 			"async",
 			"fetchModels",
@@ -46,13 +49,16 @@
 			"initAudio",
 			"playNote",
 			"playNextNote",
-			"playVictoryFanfare",
-			"playStarPing",
-			"getFrequency",
-			"playFrequency"
+			"playVictoryFanfare"
 		]
 	},
-	"outgoingDependencies": [],
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/games/scripts",
+			"count": 1,
+			"examples": "geelooy/games/brick-blast/js/levels/brick.js"
+		}
+	],
 	"incomingDependencies": [],
 	"externalDependencies": [],
 	"publicEntries": [
@@ -60,8 +66,8 @@
 			"url": "/games/brick-blast",
 			"file": "geelooy/games/brick-blast/index.html",
 			"title": "Brick Blast",
-			"scripts": 1,
-			"styles": 4
+			"scripts": 3,
+			"styles": 2
 		}
 	],
 	"requiresLocalDocumentation": true,

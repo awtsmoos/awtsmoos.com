@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-workos-build-log-md-ba56c11244",
+	"title": "WorkOS — Build Log (v0.1)",
+	"sourcePath": "geelooy/apps/workos/BUILD_LOG.md",
+	"category": "Apps",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "WorkOS — Build Log (v0.1)",
+			"anchor": "workos-build-log-v0-1"
+		},
+		{
+			"level": 2,
+			"text": "What works today",
+			"anchor": "what-works-today"
+		},
+		{
+			"level": 2,
+			"text": "Tests & verification (all in the real repo, node on the Mac)",
+			"anchor": "tests-verification-all-in-the-real-repo-node-on-the-mac"
+		},
+		{
+			"level": 2,
+			"text": "Intentionally stubbed / future (not in v0.1)",
+			"anchor": "intentionally-stubbed-future-not-in-v0-1"
+		},
+		{
+			"level": 2,
+			"text": "Known limitations",
+			"anchor": "known-limitations"
+		},
+		{
+			"level": 2,
+			"text": "Files",
+			"anchor": "files"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-workos-build-log-md-ba56c11244-001.json"
+	]
+}

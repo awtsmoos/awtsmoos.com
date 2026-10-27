@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Social Kernel Relations (geelooy/api/social/helper/socialKernel/relations/)\n\nRelation layer of the social kernel.\n\n## Files\n- `SocialRelationCatalog.js` — catalog of relation types.\n- `SocialRelationReader.js` — reads relations between entities.\n"
+}

@@ -1,0 +1,243 @@
+[
+	{
+		"id": "geelooy-api-social-test-routecoverage-readme-md-39145ce353",
+		"title": "B\"H — Route Coverage (geelooy/api/social/test/routeCoverage/)",
+		"sourcePath": "geelooy/api/social/test/routeCoverage/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Route Coverage (geelooy/api/social/test/routeCoverage/)",
+				"anchor": "b-h-route-coverage-geelooy-api-social-test-routecoverage"
+			}
+		],
+		"excerpt": "B\"H — Route Coverage (geelooy/api/social/test/routeCoverage/) Required route coverage machinery for the social API. RequiredRoutes.js, RequiredRoutesCore.js, RequiredRoutesPlatform.js, RequiredRoutesSocial.js — required route lists. RouteSourceScanner.js — scans route sources to verify coverage. Used by ../routeCoverag",
+		"searchText": "b\"h — route coverage (geelooy/api/social/test/routecoverage/) required route coverage machinery for the social api. requiredroutes.js, requiredroutescore.js, requiredroutesplatform.js, requiredroutessocial.js — required route lists. routesourcescanner.js — scans route sources to verify coverage. used by ../routecoverage.test.js.",
+		"page": "pages/geelooy-api-social-test-routecoverage-readme-md-39145ce353.json"
+	},
+	{
+		"id": "geelooy-api-social-tests-readme-md-50bbcb20a2",
+		"title": "B\"H — Social API Tests (geelooy/api/social/tests/)",
+		"sourcePath": "geelooy/api/social/tests/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Social API Tests (geelooy/api/social/tests/)",
+				"anchor": "b-h-social-api-tests-geelooy-api-social-tests"
+			}
+		],
+		"excerpt": "B\"H — Social API Tests (geelooy/api/social/tests/) Additional top level test files for the social API (separate from test/). BinahCivilizationRequest.test.mjs, BinahRequestQuery.test.mjs — Binah request wrappers. CivilizationRouteHandlers.test.mjs, CivilizationRouteManifest.test.mjs, CivilizationSubscriptionRoutes.test",
+		"searchText": "b\"h — social api tests (geelooy/api/social/tests/) additional top level test files for the social api (separate from test/). binahcivilizationrequest.test.mjs, binahrequestquery.test.mjs — binah request wrappers. civilizationroutehandlers.test.mjs, civilizationroutemanifest.test.mjs, civilizationsubscriptionroutes.test.mjs — civilization routes. gevurahroutemethodpolicy.test.mjs — route method policy. malchusprofilegarments.test.mjs, malchusresponsegarments.test.mjs — response garments. socialkernelroutetoolscompatibility.test.mjs, socialkernelroutescompatibility.test.mjs — social kernel route compatibility.",
+		"page": "pages/geelooy-api-social-tests-readme-md-50bbcb20a2.json"
+	},
+	{
+		"id": "geelooy-api-ssh-documentation-md-3d9d9b7323",
+		"title": "SSH API Documentation",
+		"sourcePath": "geelooy/api/ssh/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "SSH API Documentation",
+				"anchor": "ssh-api-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He SSH API Documentation The Awtsmoos lets remote host, command, file, folder, stat, mode, and path enter a security sensitive gate; Awtsmoos.com maps this family so credentials, identity, method, and destructive actions are inspected before use, not after fate. Read ../../../docs/API/OTHER",
+		"searchText": "b\"h boruch hashem blessed is he ssh api documentation the awtsmoos lets remote host, command, file, folder, stat, mode, and path enter a security sensitive gate; awtsmoos.com maps this family so credentials, identity, method, and destructive actions are inspected before use, not after fate. read ../../../docs/api/other families.md, ../../../docs/api/authentication.md, and ../../../docs/api/calling cookbook.md.",
+		"page": "pages/geelooy-api-ssh-documentation-md-3d9d9b7323.json"
+	},
+	{
+		"id": "geelooy-api-ssh-lib-readme-md-4aa909f80b",
+		"title": "B\"H — SSH Lib (geelooy/api/ssh/lib/)",
+		"sourcePath": "geelooy/api/ssh/lib/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — SSH Lib (geelooy/api/ssh/lib/)",
+				"anchor": "b-h-ssh-lib-geelooy-api-ssh-lib"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "B\"H — SSH Lib (geelooy/api/ssh/lib/) Plain data composition root for the SSH route families (see ../README.md). Combines four independently built route maps into one declarative surface. Files routes.js — composition root: buildRoutes(requestVessel) merges the command, file, shell, and virtual route maps. routeSupport.",
+		"searchText": "b\"h — ssh lib (geelooy/api/ssh/lib/) plain data composition root for the ssh route families (see ../readme.md). combines four independently built route maps into one declarative surface. files routes.js — composition root: buildroutes(requestvessel) merges the command, file, shell, and virtual route maps. routesupport.js / request.js / responses.js — route context, request handling, response shaping. commandroutes.js / commands.js — remote command routes and implementations. fileroutes.js / filecontenttransport.js — file/folder/stat/mode/path routes. shellroutes.js / shellsessions.js / shellsessionregistry.js / shellsessionrecord.js — living shell sessions and their registry. virtualroutes.js — bridges the alias backed virtual world into the route map. sftpfiles.js / sftptransfer.js / sftpremove.js — sftp file operations. client.js / callbacks.js / posix.js — outbound ssh client and helpers.",
+		"page": "pages/geelooy-api-ssh-lib-readme-md-4aa909f80b.json"
+	},
+	{
+		"id": "geelooy-api-ssh-readme-md-f69339a370",
+		"title": "B\"H — SSH API (geelooy/api/ssh/)",
+		"sourcePath": "geelooy/api/ssh/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — SSH API (geelooy/api/ssh/)",
+				"anchor": "b-h-ssh-api-geelooy-api-ssh"
+			},
+			{
+				"level": 2,
+				"text": "Contents",
+				"anchor": "contents"
+			},
+			{
+				"level": 2,
+				"text": "Route families",
+				"anchor": "route-families"
+			}
+		],
+		"excerpt": "B\"H — SSH API (geelooy/api/ssh/) The complete Awtsmoos SSH API: outbound SSH hosts and an alias backed virtual OS, entered through one declarative route vessel. Security sensitive: credentials, identity, method, and destructive actions are inspected before use, not after. Contents awtsmoos.derech.js — tiny entrypoint: ",
+		"searchText": "b\"h — ssh api (geelooy/api/ssh/) the complete awtsmoos ssh api: outbound ssh hosts and an alias backed virtual os, entered through one declarative route vessel. security sensitive: credentials, identity, method, and destructive actions are inspected before use, not after. contents awtsmoos.derech.js — tiny entrypoint: installs buildroutes(...) into the request context. documentation.md — auth, calling cookbook, and family docs pointers. lib/ — route composition root + command, file, shell, and virtual route builders; sftp transfer/removal/file modules; client, callbacks, posix, and shell session machinery. virtual/ — the alias backed virtual world: backend, shell parser, alias store, tokens, permissions, boot lifecycle, service registry, sftp backend. route families command routes — run remote commands behind the security gate. file routes — file/folder/stat/mode/path operations. shell routes — living shell sessions (registry + per session records). virtual routes — the alias backed virtual os and its services. sftp routes — file transfer and removal over sftp. see lib/readme.md and virtual/readme.md.",
+		"page": "pages/geelooy-api-ssh-readme-md-f69339a370.json"
+	},
+	{
+		"id": "geelooy-api-ssh-virtual-readme-md-b7ea033daf",
+		"title": "B\"H — SSH Virtual World (geelooy/api/ssh/virtual/)",
+		"sourcePath": "geelooy/api/ssh/virtual/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — SSH Virtual World (geelooy/api/ssh/virtual/)",
+				"anchor": "b-h-ssh-virtual-world-geelooy-api-ssh-virtual"
+			},
+			{
+				"level": 2,
+				"text": "Contents",
+				"anchor": "contents"
+			}
+		],
+		"excerpt": "B\"H — SSH Virtual World (geelooy/api/ssh/virtual/) The alias backed virtual OS behind the SSH virtual routes (see ../README.md). Contents backend.js / backendAdmission.js / backendShell.js — virtual backend, admission control, and shell binding. shellParser.js — parses virtual shell input into commands. commands.js / r",
+		"searchText": "b\"h — ssh virtual world (geelooy/api/ssh/virtual/) the alias backed virtual os behind the ssh virtual routes (see ../readme.md). contents backend.js / backendadmission.js / backendshell.js — virtual backend, admission control, and shell binding. shellparser.js — parses virtual shell input into commands. commands.js / routehandlers.js / service.js / servicecomponents.js / serviceconfig.js / serviceenvironment.js / serviceidentity.js / serviceregistry.js / servicelifecycle.test.cjs — virtual services. aliasstore.js / aliasentry.js / aliaspath.js / aliasdirectoryentries.js / aliascontent.js / aliasmutations.js / aliasmutationguard.js / aliasfilebudget.js — the alias filesystem and its mutation guards. tokenstore.js / tokenrecord.js / tokensecret.js / tokenlimits.js / servicetokenconfig.js — token issuance, storage, and limits. permissions.js / databasecapability.js — capability checks. accessguard.js / accessgrant.js / accessgrant.test.cjs — access control. boot.js / bootlifecycle.js — boot sequence and lifecycle. sftpbackend.js — sftp operations against the virtual backend. test/ — boot lifecycle tests.",
+		"page": "pages/geelooy-api-ssh-virtual-readme-md-b7ea033daf.json"
+	},
+	{
+		"id": "geelooy-api-ssh-virtual-test-readme-md-6d348ca96c",
+		"title": "B\"H — SSH Virtual Tests (geelooy/api/ssh/virtual/test/)",
+		"sourcePath": "geelooy/api/ssh/virtual/test/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — SSH Virtual Tests (geelooy/api/ssh/virtual/test/)",
+				"anchor": "b-h-ssh-virtual-tests-geelooy-api-ssh-virtual-test"
+			}
+		],
+		"excerpt": "B\"H — SSH Virtual Tests (geelooy/api/ssh/virtual/test/) Node tests for the virtual world boot lifecycle (see ../README.md). bootLifecycle.test.cjs — verifies the virtual backend boots and shuts down cleanly through its lifecycle.",
+		"searchText": "b\"h — ssh virtual tests (geelooy/api/ssh/virtual/test/) node tests for the virtual world boot lifecycle (see ../readme.md). bootlifecycle.test.cjs — verifies the virtual backend boots and shuts down cleanly through its lifecycle.",
+		"page": "pages/geelooy-api-ssh-virtual-test-readme-md-6d348ca96c.json"
+	},
+	{
+		"id": "geelooy-api-streaming-connectors-awtsmoos-readme-md-18fc1f022a",
+		"title": "B\"H — Awtsmoos Streaming Connector (geelooy/api/streaming/connectors/awtsmoos/)",
+		"sourcePath": "geelooy/api/streaming/connectors/awtsmoos/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Awtsmoos Streaming Connector (geelooy/api/streaming/connectors/awtsmoos/)",
+				"anchor": "b-h-awtsmoos-streaming-connector-geelooy-api-streaming-connectors-awtsmoos"
+			}
+		],
+		"excerpt": "B\"H — Awtsmoos Streaming Connector (geelooy/api/streaming/connectors/awtsmoos/) Optional hosted relay/record/multicast path where video bytes intentionally pass through Awtsmoos, instead of going direct to platform from the browser. Single module: index.js. Activated via /api/streaming/awtsmoos/:action through the conn",
+		"searchText": "b\"h — awtsmoos streaming connector (geelooy/api/streaming/connectors/awtsmoos/) optional hosted relay/record/multicast path where video bytes intentionally pass through awtsmoos, instead of going direct to platform from the browser. single module: index.js. activated via /api/streaming/awtsmoos/:action through the connector dispatch in ../core/router.js.",
+		"page": "pages/geelooy-api-streaming-connectors-awtsmoos-readme-md-18fc1f022a.json"
+	},
+	{
+		"id": "geelooy-api-streaming-connectors-facebook-readme-md-7042997945",
+		"title": "B\"H — Facebook Streaming Connector (geelooy/api/streaming/connectors/facebook/)",
+		"sourcePath": "geelooy/api/streaming/connectors/facebook/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Facebook Streaming Connector (geelooy/api/streaming/connectors/facebook/)",
+				"anchor": "b-h-facebook-streaming-connector-geelooy-api-streaming-connectors-facebook"
+			}
+		],
+		"excerpt": "B\"H — Facebook Streaming Connector (geelooy/api/streaming/connectors/facebook/) Facebook streaming connector: manual stream URL first. Full Graph API setup can be added after app review decisions. Single module: index.js. Activated via /api/streaming/facebook/:action through the connector dispatch in ../core/router.js.",
+		"searchText": "b\"h — facebook streaming connector (geelooy/api/streaming/connectors/facebook/) facebook streaming connector: manual stream url first. full graph api setup can be added after app review decisions. single module: index.js. activated via /api/streaming/facebook/:action through the connector dispatch in ../core/router.js.",
+		"page": "pages/geelooy-api-streaming-connectors-facebook-readme-md-7042997945.json"
+	},
+	{
+		"id": "geelooy-api-streaming-connectors-readme-md-6b58aa8d7e",
+		"title": "B\"H — Streaming Connectors (geelooy/api/streaming/connectors/)",
+		"sourcePath": "geelooy/api/streaming/connectors/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Streaming Connectors (geelooy/api/streaming/connectors/)",
+				"anchor": "b-h-streaming-connectors-geelooy-api-streaming-connectors"
+			}
+		],
+		"excerpt": "B\"H — Streaming Connectors (geelooy/api/streaming/connectors/) Per provider streaming connectors, keyed by map.js (connectorMap). youtube/ — YouTube Live API: OAuth, broadcast/stream control, HLS/RTMPS ingest metadata twitch/ — manual stream key first; OAuth for chat/metadata can be added later facebook/ — manual strea",
+		"searchText": "b\"h — streaming connectors (geelooy/api/streaming/connectors/) per provider streaming connectors, keyed by map.js (connectormap). youtube/ — youtube live api: oauth, broadcast/stream control, hls/rtmps ingest metadata twitch/ — manual stream key first; oauth for chat/metadata can be added later facebook/ — manual stream url first; graph api setup after app review decisions awtsmoos/ — optional hosted relay/record/multicast path where video bytes intentionally pass through awtsmoos each connector implements the actions routed by ../core/router.js from :connector/:action.",
+		"page": "pages/geelooy-api-streaming-connectors-readme-md-6b58aa8d7e.json"
+	},
+	{
+		"id": "geelooy-api-streaming-connectors-twitch-readme-md-95bb78c950",
+		"title": "B\"H — Twitch Streaming Connector (geelooy/api/streaming/connectors/twitch/)",
+		"sourcePath": "geelooy/api/streaming/connectors/twitch/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Twitch Streaming Connector (geelooy/api/streaming/connectors/twitch/)",
+				"anchor": "b-h-twitch-streaming-connector-geelooy-api-streaming-connectors-twitch"
+			}
+		],
+		"excerpt": "B\"H — Twitch Streaming Connector (geelooy/api/streaming/connectors/twitch/) Twitch streaming connector: manual stream key first. OAuth for chat/metadata can be added later. Single module: index.js. Activated via /api/streaming/twitch/:action through the connector dispatch in ../core/router.js.",
+		"searchText": "b\"h — twitch streaming connector (geelooy/api/streaming/connectors/twitch/) twitch streaming connector: manual stream key first. oauth for chat/metadata can be added later. single module: index.js. activated via /api/streaming/twitch/:action through the connector dispatch in ../core/router.js.",
+		"page": "pages/geelooy-api-streaming-connectors-twitch-readme-md-95bb78c950.json"
+	},
+	{
+		"id": "geelooy-api-streaming-connectors-youtube-readme-md-bec42d3a3a",
+		"title": "B\"H — YouTube Streaming Connector (geelooy/api/streaming/connectors/youtube/)",
+		"sourcePath": "geelooy/api/streaming/connectors/youtube/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — YouTube Streaming Connector (geelooy/api/streaming/connectors/youtube/)",
+				"anchor": "b-h-youtube-streaming-connector-geelooy-api-streaming-connectors-youtube"
+			}
+		],
+		"excerpt": "B\"H — YouTube Streaming Connector (geelooy/api/streaming/connectors/youtube/) YouTube Live streaming connector: OAuth + YouTube Live API broadcast/stream control, with HLS/RTMPS ingest metadata. Files: index.js (connector entry), client.js, oauth.js, config.js, tokenStore.js. Activated via /api/streaming/youtube/:actio",
+		"searchText": "b\"h — youtube streaming connector (geelooy/api/streaming/connectors/youtube/) youtube live streaming connector: oauth + youtube live api broadcast/stream control, with hls/rtmps ingest metadata. files: index.js (connector entry), client.js, oauth.js, config.js, tokenstore.js. activated via /api/streaming/youtube/:action through the connector dispatch in ../core/router.js. (distinct from the separate /api/youtube/ family, which is account/video/upload management.)",
+		"page": "pages/geelooy-api-streaming-connectors-youtube-readme-md-bec42d3a3a.json"
+	},
+	{
+		"id": "geelooy-api-streaming-core-readme-md-1e5c27d7e4",
+		"title": "B\"H — Streaming Core (geelooy/api/streaming/core/)",
+		"sourcePath": "geelooy/api/streaming/core/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Streaming Core (geelooy/api/streaming/core/)",
+				"anchor": "b-h-streaming-core-geelooy-api-streaming-core"
+			}
+		],
+		"excerpt": "B\"H — Streaming Core (geelooy/api/streaming/core/) Shared control plane plumbing. router.js — dispatches :connector/:action to the right provider connector json.js — ok/fail response packets body.js — request body parsing Used by routes/table.js; keeps connector action calling and error shaping consistent across provid",
+		"searchText": "b\"h — streaming core (geelooy/api/streaming/core/) shared control plane plumbing. router.js — dispatches :connector/:action to the right provider connector json.js — ok/fail response packets body.js — request body parsing used by routes/table.js; keeps connector action calling and error shaping consistent across providers.",
+		"page": "pages/geelooy-api-streaming-core-readme-md-1e5c27d7e4.json"
+	}
+]

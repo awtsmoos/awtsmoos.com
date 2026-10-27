@@ -22,35 +22,41 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-youtube-c14506c7.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 9,
-		"tests": 0,
+		"source": 34,
+		"tests": 1,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
 		"other": 0
 	},
-	"totalFiles": 10,
+	"totalFiles": 36,
 	"symbolSummary": {
-		"files": 7,
-		"classes": 3,
-		"functions": 14,
-		"exports": 10,
+		"files": 16,
+		"classes": 9,
+		"functions": 44,
+		"exports": 17,
 		"samples": [
 			"HodCommandQuoter",
 			"YesodLocalSecretVault",
-			"ChesedYtDlpCommandBuilder",
-			"boot",
-			"loadChannel",
-			"loadVideos",
-			"uploadMetadata",
-			"updateChanges",
-			"showUpdateError",
-			"youtubeApi",
-			"request",
-			"uploadToGoogle"
+			"async",
+			"videoFile",
+			"sidecarFile",
+			"videoIdFromName",
+			"isoDate",
+			"fallbackItem",
+			"itemFromInfo",
+			"metadataById",
+			"readLocalYouTubeBundle",
+			"YouTubeArchiveCheckpoint"
 		]
 	},
-	"outgoingDependencies": [],
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/shared",
+			"count": 11,
+			"examples": "geelooy/youtube/migrate/js/LocalSecretVault.js; geelooy/youtube/migrate/js/LocalYouTubeBundle.js; geelooy/youtube/migrate/js/YouTubeArchiveCheckpoint.js"
+		}
+	],
 	"incomingDependencies": [],
 	"externalDependencies": [],
 	"publicEntries": [
@@ -60,6 +66,13 @@
 			"title": "Awtsmoos YouTube Manager",
 			"scripts": 1,
 			"styles": 1
+		},
+		{
+			"url": "/youtube/migrate",
+			"file": "geelooy/youtube/migrate/index.html",
+			"title": "YouTube Migration Studio · Awtsmoos",
+			"scripts": 1,
+			"styles": 2
 		}
 	],
 	"requiresLocalDocumentation": true,

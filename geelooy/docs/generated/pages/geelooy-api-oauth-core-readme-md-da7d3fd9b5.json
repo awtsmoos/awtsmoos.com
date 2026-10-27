@@ -1,0 +1,24 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-oauth-core-readme-md-da7d3fd9b5",
+	"title": "B\"H — OAuth core (/api/oauth/core/)",
+	"sourcePath": "geelooy/api/oauth/core/README.md",
+	"category": "Security",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — OAuth core (/api/oauth/core/)",
+			"anchor": "b-h-oauth-core-api-oauth-core"
+		},
+		{
+			"level": 2,
+			"text": "Key files",
+			"anchor": "key-files"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-oauth-core-readme-md-da7d3fd9b5-001.json"
+	]
+}

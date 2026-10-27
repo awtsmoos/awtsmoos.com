@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-01-0310-native-chitas-reader-03-final-implem-f0b35c50f8",
+	"title": "Final Implementation Plan",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-01-0310-native-chitas-reader/03-final-implementation-plan.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Final Implementation Plan",
+			"anchor": "final-implementation-plan"
+		},
+		{
+			"level": 2,
+			"text": "Before source mutation",
+			"anchor": "before-source-mutation"
+		},
+		{
+			"level": 2,
+			"text": "Generic reference system files",
+			"anchor": "generic-reference-system-files"
+		},
+		{
+			"level": 2,
+			"text": "Chitas files",
+			"anchor": "chitas-files"
+		},
+		{
+			"level": 2,
+			"text": "Existing reader/navigation integration",
+			"anchor": "existing-reader-navigation-integration"
+		},
+		{
+			"level": 2,
+			"text": "Week and language UX",
+			"anchor": "week-and-language-ux"
+		},
+		{
+			"level": 2,
+			"text": "Reader UX",
+			"anchor": "reader-ux"
+		},
+		{
+			"level": 2,
+			"text": "Tests to write/update",
+			"anchor": "tests-to-write-update"
+		},
+		{
+			"level": 2,
+			"text": "Verification / deployment",
+			"anchor": "verification-deployment"
+		},
+		{
+			"level": 2,
+			"text": "Completion invariant",
+			"anchor": "completion-invariant"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-01-0310-native-chitas-reader-03-final-implem-f0b35c50f8-001.json"
+	]
+}

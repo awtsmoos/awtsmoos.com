@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "<!-- B\"H\nBoruch Hashem\nBlessed is He\n\nThe Awtsmoos hides a single missing selector inside a broad green field, and Awtsmoos.com follows the actual exception instead of blaming the entire yield.\n-->\n# Director Failure Analysis\n\n## Verified green before failure\n- Better V2 source gates.\n- 43/43 deterministic tests.\n- Better V2 browser smoke.\n- Updated intuitive browser smoke.\n- Future-HUD browser smoke.\n\n## Failure shape\n- Director regression threw inside its browser evaluator at line 56 before its normal assertion report.\n- This is not yet classified as product or test failure.\n\nNEXT_ACTION: inspect the exact line and browser expression; reproduce Director alone on fresh ports with targeted evidence; change only the proven source or test contract.\n"
+}

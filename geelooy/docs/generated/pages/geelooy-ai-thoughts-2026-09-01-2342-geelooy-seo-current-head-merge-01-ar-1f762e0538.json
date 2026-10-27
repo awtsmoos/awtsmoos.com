@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-01-ar-1f762e0538",
+	"title": "Architecture Options",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-01-2342-geelooy-seo-current-head-merge/01-architecture-options.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Architecture Options",
+			"anchor": "architecture-options"
+		},
+		{
+			"level": 2,
+			"text": "Option A — Nested template include",
+			"anchor": "option-a-nested-template-include"
+		},
+		{
+			"level": 2,
+			"text": "Option B — Restore the old shell wholesale",
+			"anchor": "option-b-restore-the-old-shell-wholesale"
+		},
+		{
+			"level": 2,
+			"text": "Option C — Route-layer pre-rendered fragments",
+			"anchor": "option-c-route-layer-pre-rendered-fragments"
+		},
+		{
+			"level": 2,
+			"text": "Option D — Build HTML entirely in JavaScript",
+			"anchor": "option-d-build-html-entirely-in-javascript"
+		},
+		{
+			"level": 2,
+			"text": "Option E — Client prerender snapshot",
+			"anchor": "option-e-client-prerender-snapshot"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-01-ar-1f762e0538-001.json"
+	]
+}

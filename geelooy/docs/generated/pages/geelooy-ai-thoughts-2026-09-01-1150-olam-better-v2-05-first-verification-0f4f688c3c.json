@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-01-1150-olam-better-v2-05-first-verification-0f4f688c3c",
+	"title": "First Verification Delta",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-01-1150-olam-better-v2/05-first-verification-delta.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "First Verification Delta",
+			"anchor": "first-verification-delta"
+		},
+		{
+			"level": 2,
+			"text": "Planned",
+			"anchor": "planned"
+		},
+		{
+			"level": 2,
+			"text": "Actual",
+			"anchor": "actual"
+		},
+		{
+			"level": 2,
+			"text": "Delta",
+			"anchor": "delta"
+		},
+		{
+			"level": 2,
+			"text": "Resolution",
+			"anchor": "resolution"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-01-1150-olam-better-v2-05-first-verification-0f4f688c3c-001.json"
+	]
+}

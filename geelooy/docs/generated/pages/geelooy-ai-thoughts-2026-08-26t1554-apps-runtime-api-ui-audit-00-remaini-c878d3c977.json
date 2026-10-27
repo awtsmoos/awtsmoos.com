@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-26t1554-apps-runtime-api-ui-audit-00-remaini-c878d3c977",
+	"title": "REMAINING WORK — Geelooy Runtime, API, UI, and Deployment Audit",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-26T1554-apps-runtime-api-ui-audit/00_REMAINING_WORK.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "REMAINING WORK — Geelooy Runtime, API, UI, and Deployment Audit",
+			"anchor": "remaining-work-geelooy-runtime-api-ui-and-deployment-audit"
+		},
+		{
+			"level": 2,
+			"text": "Mission",
+			"anchor": "mission"
+		},
+		{
+			"level": 2,
+			"text": "Observed Evidence",
+			"anchor": "observed-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Known Work Graph",
+			"anchor": "known-work-graph"
+		},
+		{
+			"level": 2,
+			"text": "Risks To Track",
+			"anchor": "risks-to-track"
+		},
+		{
+			"level": 2,
+			"text": "NEXTACTION",
+			"anchor": "nextaction"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-26t1554-apps-runtime-api-ui-audit-00-remaini-c878d3c977-001.json"
+	]
+}

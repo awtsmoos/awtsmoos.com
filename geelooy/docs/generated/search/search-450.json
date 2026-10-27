@@ -1,0 +1,86 @@
+[
+	{
+		"id": "geelooy-api-social-helper-routes-packed-readme-post-import-modules-md-e13f68d411",
+		"title": "Post Import Module Map (postImportRoutes.js split, 2026-10-19)",
+		"sourcePath": "geelooy/api/social/helper/routes/packed/README-post-import-modules.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Post Import Module Map (postImportRoutes.js split, 2026-10-19)",
+				"anchor": "post-import-module-map-postimportroutes-js-split-2026-10-19"
+			},
+			{
+				"level": 2,
+				"text": "Composition",
+				"anchor": "composition"
+			},
+			{
+				"level": 2,
+				"text": "Standalone modules (no this)",
+				"anchor": "standalone-modules-no-this"
+			},
+			{
+				"level": 2,
+				"text": "Mixins (methods on the class prototype)",
+				"anchor": "mixins-methods-on-the-class-prototype"
+			},
+			{
+				"level": 2,
+				"text": "Job execution pipeline (runJob)",
+				"anchor": "job-execution-pipeline-runjob"
+			},
+			{
+				"level": 2,
+				"text": "AI safeguards — do not break these",
+				"anchor": "ai-safeguards-do-not-break-these"
+			}
+		],
+		"excerpt": "B\"H Post Import Module Map (postImportRoutes.js split, 2026 10 19) postImportRoutes.js used to be a single 1,832 line file. It is now a slim composition root (65 lines) plus focused modules, all in this directory. Every module is under 120 lines, starts with the exact B\"H header, uses tab indentation, and carries full ",
+		"searchText": "b\"h post import module map (postimportroutes.js split, 2026 10 19) postimportroutes.js used to be a single 1,832 line file. it is now a slim composition root (65 lines) plus focused modules, all in this directory. every module is under 120 lines, starts with the exact b\"h header, uses tab indentation, and carries full jsdoc. behavior is unchanged — the split was verified byte for byte equivalent in a local harness (same exports, same prototype methods, same db writes, same job results). composition postimportroutes.js defines the class shell (constructor + routes()) and mixes the route/job methods into the prototype via object.assign. exports stay exactly: { packedpostimportroutes, contenthash, normalizepost, canonicalbytes, derivealiasid }. standalone modules (no this) jobstore.js — in process job registry (map, ids, concurrency count). jobstate.js — on disk job state (save/load/list, view shaping, restart survival; disk says interrupted for dead running jobs). joblog.js — append only jsonl job audit log + staged upload root. serverhealth.js — event loop yields + heap guards; imports must never starve live traffic. importbounds.js — size/count caps (oom guards) + per series mutex. postvalidate.js — validation, pollution safe clone, normalization, canonical bytes, content hash, alias id derivation. the canonical form defines import idempotency. tarball.js — safe staged tarball extraction (flat .json only, no path traversal, tar error codes). jobfactory.js — buildjob(o): every job field is born here. startposts.js — resolves a start request's posts (staged or inline with caps); returns the route error object verbatim on failure. mixins (methods on the class prototype) authcoremixin.js — checkauth / isoauthoperator (fail closed). authsignmixin.js — ed25519 signature verification per operation. livehashmixin.js — live hash lookups for idempotency (targeted o(1) lookups only; full shard scans are forbidden). aliasmixin.js — commentator alias ids + alias record creation. nativewritemixin.js — the post writes: native db first, packed mirror second. a crash between them self heals via the skip check. backlinksmixin.js — deferred alias backlinks (queue + one parent merged background flush after the job). seriesaddsmixin.js — series index adds, flushed once at job end under the per series mutex. stagemixin.js — readspecpost / loadstagedposts. runjobmixin.js — runjob entry: watchdog (600 s), live hash cache, then delegates to runworkers with a ctx object. startmixin.js — post /posts/start route. statusmixin.js — status / jobs list routes. cancelmixin.js — cancel route (sets cancelrequested). removemixin.js — single post delete (owner confirm header required). verifymixin.js — verify job creation + verify status. runverifymixin.js — verify engine (read only hash comparison). ensurebacklinksmixin.js — backlink repair job creation. backlinksrepairmixin.js — backlink repair job body. backlinksstatusmixin.js — backlink status + sync flush routes. job execution pipeline (runjob) runjobworkers.js — worker pool drain, final flushes, terminal state, finalize block (kill timer clear, state persist, backlinks). processonepost.js — thin orchestrator: validate → write. processonevalidate.js — read spec entry, validate, normalize, alias, size cap, content hash (1% pre hash re verification). processonewrite.js — idempotency skips, native write, alias ensure, backlink queue, batched mirror, series add, counters. runjobbatch.js — flushpackedbatch(routes, $i, job): batched packed mirror flush with per post fallback on batch failure. ai safeguards — do not break these 1. 120 line law : every file here stays ≤120 lines. the tunnel guard (osfs/linelimitguard.js) blocks violations on structured writes. 2. headers : first three lines of every .js file are exactly //b\"h, //blessed is he, //boruch hashem. tabs only. no minified code or comments, ever. 3. idempotency : never change canonicalbytes/contenthash semantics; every past import's dedup depends on them. 4. write order : native awtsmoosdb record before the packed mirror. the reverse order caused permanent skips in production. 5. no full shard scans in the import path (3.9 gb shard — a scan stalled imports and starved the site). targeted lookups only. 6. event loop courtesy : workers yield (yieldtick) and respect the heap guard and the 600 s time budget. admin imports are never throttled by design (standing user order), but the budget exists. 7. backlinks are deferred : the hot loop only queues; the flush is one parent merged pass. per post backlink writes doubled import time. 8. series index : accumulate during the job, flush once at the end under the mutex. mid batch flushes lost updates. 9. exports : the five exports of postimportroutes.js are consumed across the codebase. do not rename or drop any. 10. backups : before any future refactor of these files, back up to /root/ with a timestamp (see /root/ backup split 20261020 .js).",
+		"page": "pages/geelooy-api-social-helper-routes-packed-readme-post-import-modules-md-e13f68d411.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-routes-packed-readme-safeguards-md-e6ebe5fe09",
+		"title": "Safeguards design notes — packed import/read path",
+		"sourcePath": "geelooy/api/social/helper/routes/packed/README-safeguards.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Safeguards design notes — packed import/read path",
+				"anchor": "safeguards-design-notes-packed-import-read-path"
+			},
+			{
+				"level": 2,
+				"text": "Cache discipline audit (Phase 2, 2026-10-20)",
+				"anchor": "cache-discipline-audit-phase-2-2026-10-20"
+			},
+			{
+				"level": 2,
+				"text": "Loop protection (Phase 3, 2026-10-20)",
+				"anchor": "loop-protection-phase-3-2026-10-20"
+			},
+			{
+				"level": 2,
+				"text": "Read shed gate (Phase 3, 2026-10-20)",
+				"anchor": "read-shed-gate-phase-3-2026-10-20"
+			},
+			{
+				"level": 2,
+				"text": "DESIGN ONLY — measuring watchdog (not implemented)",
+				"anchor": "design-only-measuring-watchdog-not-implemented"
+			},
+			{
+				"level": 2,
+				"text": "DESIGN ONLY — import-process separation (not implemented)",
+				"anchor": "design-only-import-process-separation-not-implemented"
+			}
+		],
+		"excerpt": "B\"H Safeguards design notes — packed import/read path Companion to geelooy/api/social/helper/safeguards/ (the code) and its README (the rules). This file records the cache audit, the loop/shed wiring, and two DESIGNS that are intentionally not implemented — they need the user's explicit go ahead. Cache discipline audit",
+		"searchText": "b\"h safeguards design notes — packed import/read path companion to geelooy/api/social/helper/safeguards/ (the code) and its readme (the rules). this file records the cache audit, the loop/shed wiring, and two designs that are intentionally not implemented — they need the user's explicit go ahead. cache discipline audit (phase 2, 2026 10 20) cache lives in invalidation discipline grouped posts map packed/allpostsindex.js stat validated (mtimems+size) on every read; append only growth tail merged in place; never cleared on writes (cleargroupedcache keeps entries since phase 2); one journaled rebuild only when the shard is replaced or shrinks grouped snapshot .grouped.json watermark checked, tail merged forward (flap fix); a stale snapshot degrades to a rebuild, never to wrong data listrecordscache packed/socialpacked.js same stat + tail merge discipline (flap fix); clearlistrecordscache has no production callers (tests/shutdown only) summaries cache routes/series/summariescache.js 30 s ttl check; never writer cleared; stale while revalidate under a read shed; concurrent cold callers share one recompute (in flight registry) poison quarantine safeguards/poisonquarantine.js per path error counts; 2+ errors quarantine the path — degraded reads instead of thrown reads (phase 1) the invariant: a write invalidates by making the next read re validate cheaply (stat), never by destroying shared state. cache destruction on the write path is what turned one import batch into a 197 mb rescan and a site flap. loop protection (phase 3, 2026 10 20) safeguards/yieldevery.js — time budget yield tick. applied: the backlink grouping pass in backlinksmixin.js (the one fully synchronous loop over a whole import queue). workers already yieldtick() per parent group there, and import workers shed pause on shednow() (crash guards). remaining known sync loops (grouped rebuild, tail merge) are chunked or incident journaled; converting the rebuild to an async chunked walk is future work, gated on the import process separation below (it removes the rebuild from the web loop's blast radius entirely). read shed gate (phase 3, 2026 10 20) safeguards/readshed.js reuses admissionhealthy's overload sensors (circuit breaker, heap headroom, os free ram) — never the import busy job check: reads must not 503 merely because an import runs. when a verdict opens, heavy reads fail fast before the heavy work: series children listings (readsubseriessummaries): stale data if any exists, else a 503 read shed overload envelope. post lists (/series/:series/posts + /posts/details in routes/posts/seriesroutes.js): 503 envelope immediately. import /start keeps the full admission gate (crash guards). known gap: the series details vessel in routes/series/readroutes.js (196 lines, pre split legacy file) gets its gate when that file is split under the standing ≤120 line program; its heavy half (packed merge) already degrades through saferecordread. design only — measuring watchdog (not implemented) problem: the current health watchdog restarts on probe failures, but during a synchronous block its sigterm cannot be processed (observed: sigkill after 15 s). it measures the wrong thing (an http probe through the very loop that is stuck) with no memory of near misses. design sketch: 1. three independent signals, none through the request path: in process loop lag p95 (eventloopmonitor ring, exported via the pulse endpoint), an out of process http probe, and os free ram/disk trend from the resource alarm log. 2. restart only on agreement: e.g. probe failed and lag p95 above threshold for 3 consecutive minutes, or the process heartbeat file is older than 90 s. one bad probe never fires. 3. every decision (fire / hold / why) appended as a line log — the watchdog explains itself after the fact. 4. the watchdog itself: tiny, no sync i/o on its hot path, its own heartbeat visible in the pulse payload. design only — import process separation (not implemented) problem: imports share the web process's single event loop and 1 gb heap, so any import pathology (fsync storm, giant parse) is a site outage. guards reduce this; separation removes it. design sketch: 1. a dedicated importer process owns the packed write path and the awtsmoosdb write handles; the web process only admits jobs, reports status, and reads. 2. narrow ipc: job specs in, progress/result lines out (the existing job store files are already the shared contract). 3. the importer gets its own heap cap and cpu nice level; its crash or oom restarts alone, mid job state resumes from the persisted job store (jobs are idempotent per postid). 4. rollout: shadow mode (importer dry runs alongside), then canary (one heichel), then default. rollback = flip the admission target back to in process. 5. open questions: read your write visibility timing across processes (today's closereadonlyhandles trick is in process), lock discipline on shared shard files, deploy ordering. neither design ships without the user's explicit word.",
+		"page": "pages/geelooy-api-social-helper-routes-packed-readme-safeguards-md-e6ebe5fe09.json"
+	}
+]

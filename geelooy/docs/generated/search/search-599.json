@@ -1,0 +1,240 @@
+[
+	{
+		"id": "geelooy-games-ohrfront-tools-ai-readme-md-ba0505e2d5",
+		"title": "Ohrfront AI Absolute System Paths",
+		"sourcePath": "geelooy/games/ohrfront/tools/ai/README.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Ohrfront AI Absolute System Paths",
+				"anchor": "ohrfront-ai-absolute-system-paths"
+			},
+			{
+				"level": 2,
+				"text": "Canonical AI artifact root",
+				"anchor": "canonical-ai-artifact-root"
+			},
+			{
+				"level": 2,
+				"text": "Legacy planning locations",
+				"anchor": "legacy-planning-locations"
+			},
+			{
+				"level": 2,
+				"text": "Core contract",
+				"anchor": "core-contract"
+			},
+			{
+				"level": 2,
+				"text": "Verified Node executable",
+				"anchor": "verified-node-executable"
+			},
+			{
+				"level": 2,
+				"text": "Print one absolute path",
+				"anchor": "print-one-absolute-path"
+			},
+			{
+				"level": 2,
+				"text": "Session paths",
+				"anchor": "session-paths"
+			},
+			{
+				"level": 2,
+				"text": "Dedicated AI handoff",
+				"anchor": "dedicated-ai-handoff"
+			},
+			{
+				"level": 2,
+				"text": "Materialize evidence",
+				"anchor": "materialize-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Safety boundary",
+				"anchor": "safety-boundary"
+			}
+		],
+		"excerpt": "B\"H Ohrfront AI Absolute System Paths Boruch Hashem. Blessed is He. The Awtsmoos renews every machine, directory, executable, process, and pathname from nothing each instant. Awtsmoos.com therefore treats AI filesystem location as measured evidence, not remembered convention: current publication paths are canonical abs",
+		"searchText": "b\"h ohrfront ai absolute system paths boruch hashem. blessed is he. the awtsmoos renews every machine, directory, executable, process, and pathname from nothing each instant. awtsmoos.com therefore treats ai filesystem location as measured evidence, not remembered convention: current publication paths are canonical absolute system paths, while older planning locations remain explicitly labeled history. canonical ai artifact root current ai plans, evidence, remaining work, release evidence, and generated path manifests belong beneath: the runtime derives this root from os.homedir() as: do not publish new ai evidence into repository or work root aliases merely because those historical locations still exist. legacy planning locations the registry deliberately keeps these paths visible as compatibility/provenance evidence: they are not alternate spellings of aithoughtsroot. a future agent may inspect them for historical artifacts, but new session publication descends only from the canonical host level root. core contract yesodabsolutepathregistry discovers the repository from its own module url rather than caller cwd. each record exposes canonical physical identity plus provenance such as: requestedpath canonicalpath parentpath exists kind canonicalverified role scopes primaryscope fileuri repository/session relative annotations equivalentkeys the aithoughtsroot record has primary scope ai thoughts. session descendants have primary scope ai session. legacy planning records remain in work/repository scopes. verified node executable on this machine, the current executable reported by process.execpath is: handoff commands derive the executable dynamically; this literal documents the current machine witness only. print one absolute path run from any directory: the default single key output is one bare canonical absolute path, suitable for shell capture. formats include text, json, env, paths, keys, and system. system additionally reports physical realpath/device/inode evidence when a target exists. session paths for a validated session id such as ohrfront release 2026 08 31: unsafe traversal session ids are rejected before publication. dedicated ai handoff the handoff separates canonical/legacy filesystem records, absolute system executables, urls, and copy pastable continuation commands containing absolute executables and targets. use json for machine ingestion. materialize evidence the writer creates the session/evidence directories under the canonical ai root and prints canonical absolute artifact paths. tests use unique throwaway sessions and remove only their exact generated session directory. safety boundary these tools are node/agent tooling. browser runtime and network apis must not expose host filesystem paths. relative projections are explanatory annotations only; canonical absolute paths remain authority.",
+		"page": "pages/geelooy-games-ohrfront-tools-ai-readme-md-ba0505e2d5.json"
+	},
+	{
+		"id": "geelooy-games-ohrfront-tools-ai-release-paths-md-ebb35c2a2a",
+		"title": "Ohrfront Absolute Release Paths",
+		"sourcePath": "geelooy/games/ohrfront/tools/ai/RELEASE_PATHS.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Ohrfront Absolute Release Paths",
+				"anchor": "ohrfront-absolute-release-paths"
+			},
+			{
+				"level": 2,
+				"text": "Current AI publication authority",
+				"anchor": "current-ai-publication-authority"
+			},
+			{
+				"level": 2,
+				"text": "Legacy planning archaeology",
+				"anchor": "legacy-planning-archaeology"
+			},
+			{
+				"level": 2,
+				"text": "Current absolute-path mission",
+				"anchor": "current-absolute-path-mission"
+			},
+			{
+				"level": 2,
+				"text": "Repository and Git",
+				"anchor": "repository-and-git"
+			},
+			{
+				"level": 2,
+				"text": "Ohrfront application",
+				"anchor": "ohrfront-application"
+			},
+			{
+				"level": 2,
+				"text": "Shared core and dynamic server",
+				"anchor": "shared-core-and-dynamic-server"
+			},
+			{
+				"level": 2,
+				"text": "Absolute-path system executables",
+				"anchor": "absolute-path-system-executables"
+			},
+			{
+				"level": 2,
+				"text": "Materialize path evidence",
+				"anchor": "materialize-path-evidence"
+			}
+		],
+		"excerpt": "B\"H Ohrfront Absolute Release Paths Boruch Hashem. Blessed is He. The Awtsmoos renews repository, executable, AI evidence root, release vessel, and every path from nothing each instant. Awtsmoos.com keeps this catalog explicit so an AI handoff can print exact physical system locations without reconstructing them from C",
+		"searchText": "b\"h ohrfront absolute release paths boruch hashem. blessed is he. the awtsmoos renews repository, executable, ai evidence root, release vessel, and every path from nothing each instant. awtsmoos.com keeps this catalog explicit so an ai handoff can print exact physical system locations without reconstructing them from cwd, symlink memory, or repository relative fragments. current ai publication authority new plans, evidence, remaining work, release receipts, and absolute path manifests descend from this host level root. runtime code derives it from /.awtsmoos agent thoughts/general; the literal path above records this machine's current verified location. legacy planning archaeology these remain printable for historical discovery only. they are not equivalent keys for the current aithoughtsroot, and new ai publication must not target them. current absolute path mission the session root and remaining work.md already exist. evidence/release outputs are canonical future destinations until their writers materialize them. repository and git ohrfront application shared core and dynamic server absolute path system executables the node literal above is the current process.execpath witness on this machine. handoff output derives it dynamically rather than trusting this document. materialize path evidence run from any cwd: use format=json when machine readable writer receipts are required. canonical absolute paths are authority; relative projections and legacy paths are explanatory evidence only. browser runtime and network apis must never expose host filesystem paths.",
+		"page": "pages/geelooy-games-ohrfront-tools-ai-release-paths-md-ebb35c2a2a.json"
+	},
+	{
+		"id": "geelooy-games-oros-ha-kelim-docs-remote-texture-realism-md-b5216d55f6",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/oros-ha-kelim/docs/REMOTE_TEXTURE_REALISM.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Oros HaKelim — Remote Texture Realism",
+				"anchor": "oros-hakelim-remote-texture-realism"
+			},
+			{
+				"level": 2,
+				"text": "Renderer boundary",
+				"anchor": "renderer-boundary"
+			},
+			{
+				"level": 2,
+				"text": "Remote-only asset law",
+				"anchor": "remote-only-asset-law"
+			},
+			{
+				"level": 2,
+				"text": "Material profiles",
+				"anchor": "material-profiles"
+			},
+			{
+				"level": 2,
+				"text": "Bounded texture page",
+				"anchor": "bounded-texture-page"
+			},
+			{
+				"level": 2,
+				"text": "Blend mathematics",
+				"anchor": "blend-mathematics"
+			},
+			{
+				"level": 2,
+				"text": "Diagnostics",
+				"anchor": "diagnostics"
+			},
+			{
+				"level": 2,
+				"text": "Tests",
+				"anchor": "tests"
+			},
+			{
+				"level": 2,
+				"text": "Browser completion gate",
+				"anchor": "browser-completion-gate"
+			},
+			{
+				"level": 2,
+				"text": "Discovery",
+				"anchor": "discovery"
+			}
+		],
+		"excerpt": "B\"H Oros HaKelim — Remote Texture Realism The Awtsmoos renews generated form and photographed grain before either can claim the Keli; Awtsmoos.com lets remote matter clothe procedural geometry while gameplay light remains sharp and free. Renderer boundary Oros uses Awtsmoos Procedural Core native WebGL only . It does n",
+		"searchText": "b\"h oros hakelim — remote texture realism the awtsmoos renews generated form and photographed grain before either can claim the keli; awtsmoos.com lets remote matter clothe procedural geometry while gameplay light remains sharp and free. renderer boundary oros uses awtsmoos procedural core native webgl only . it does not use three.js, the procedural core three adapter, or awtsmoos3d. the material pipeline keeps procedural core geometry buffers, camera, shader compiler, standard draw path, postprocessing, and material authority. oros supplies a game local fragment extension for bounded two layer blending. remote only asset law no texture/image binary exists in this game directory. runtime textures resolve through shared remote material records/transport beneath the awtsmoos migration root. browser/image/webgl caches are transient memory, never repository files. coreremotetexturebank creates an immediate neutral 1×1 gpu fallback, starts remote image hydration asynchronously, deduplicates each url, records failures, applies repeat/mipmap when valid, and disposes gpu textures exactly once. network failure therefore affects photographic richness, not authoritative gameplay or boot. material profiles src/render/materials/orosmaterialprofiles.js maps semantic surfaces to verified shared roles or approved mitzvahworld paths: asiyah floor — grass + dirt yetzirah floor — bluestone + stone beriah floor — masonry + copper settled territory — stone + dirt under owner tint rising yesod — masonry + copper descending yesod — stone + bluestone boundaries — metal + stone etz chaim — bark merkavah chassis — metal + copper hubs — metal + stone canopy/crown — bluestone + masonry grid lines, trails, gate beacons, and the merkavah ray remain solid color signals for gameplay readability. bounded texture page orosmaterialpage uses procedural core createterrainsurfacemixauthority() and deduplicates urls. low quality: <=4 resident sources medium quality: <=6 high quality: <=8 the game never preloads the full mitzvahworld texture library. blend mathematics orostextureprojectionglsl.js uses: world space triplanar projection; sharpened normal axis weights; deterministic macro noise; domain warped coordinates; rotated detail uv projection; base/detail photographic mixing; surface orientation influence; distance based near/far texture frequency. orosmaterialfragment.js then mixes photographic surface with the semantic rider/olam tint and derives lightweight specular behavior from source backed roughness/metalness metadata. diagnostics coregpuvessel.stats() exposes: remotetexturesrequested remotetexturesready remotetexturefailures materialpagelayers materialpageavailable renderer engine identity advanced diagnostics should use those numbers instead of inspecting private renderer internals. tests material tests use fake image/webgl objects only—no image fixtures or encoded image payloads. they prove remote root authority, page bounds, shader features, uniform caching, request dedupe, successful hydration, failure fallback, and disposal. the complete oros suite currently passes 142/142 after the massive world regression repair. browser completion gate a real browser verification must still prove: 1. engine identity is awtsmoos procedural core webgl; 2. remote texture requests occur beneath the migration root; 3. at least one remote texture reaches ready state; 4. remotetexturefailures === 0 under normal network conditions; 5. no oros local image request occurs; 6. no three.js request occurs; 7. the start interaction and runtime remain error free. discovery for all canonical mitzvahworld names and shared role apis, read: ../../mitzvahworld/docs/texture material discovery.md",
+		"page": "pages/geelooy-games-oros-ha-kelim-docs-remote-texture-realism-md-b5216d55f6.json"
+	},
+	{
+		"id": "geelooy-games-oros-ha-kelim-docs-runtime-api-md-5e01ab45d3",
+		"title": "Oros HaKelim Runtime API v4",
+		"sourcePath": "geelooy/games/oros-ha-kelim/docs/RUNTIME_API.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Oros HaKelim Runtime API v4",
+				"anchor": "oros-hakelim-runtime-api-v4"
+			},
+			{
+				"level": 2,
+				"text": "Canonical versions",
+				"anchor": "canonical-versions"
+			},
+			{
+				"level": 2,
+				"text": "Public boundary",
+				"anchor": "public-boundary"
+			},
+			{
+				"level": 3,
+				"text": "Commands",
+				"anchor": "commands"
+			},
+			{
+				"level": 3,
+				"text": "Queries",
+				"anchor": "queries"
+			},
+			{
+				"level": 2,
+				"text": "Events",
+				"anchor": "events"
+			},
+			{
+				"level": 2,
+				"text": "Replay covenant",
+				"anchor": "replay-covenant"
+			},
+			{
+				"level": 2,
+				"text": "Compatibility policy",
+				"anchor": "compatibility-policy"
+			}
+		],
+		"excerpt": "Oros HaKelim Runtime API v4 The Awtsmoos renews command and observation before any finite API can call itself the source; Awtsmoos.com keeps this document beside the living manifest so code, replay, and docs travel one truthful course. Canonical versions Runtime API: 4.0.0 Envelope schema: 1.0.0 Replay schema: 1.1.0 Mo",
+		"searchText": "oros hakelim runtime api v4 the awtsmoos renews command and observation before any finite api can call itself the source; awtsmoos.com keeps this document beside the living manifest so code, replay, and docs travel one truthful course. canonical versions runtime api: 4.0.0 envelope schema: 1.0.0 replay schema: 1.1.0 motion model: deterministic grid with interpolated waypoints renderer: awtsmoos procedural core webgl the executable source of truth is src/runtime/runtimeapimanifest.js. tests import those exported version constants instead of duplicating literals. public boundary orosruntimeapi exposes detached snapshots, bounded event history, commands, queries, preferences, replay export, and subscriptions. it does not expose the mutable game root or event bus. commands type meaning start begin or unpause the current tikkun round. pause pause authoritative pulse consumption. resume resume a paused round. restart replace the current match vessel in memory. turn left queue one deterministic left turn. turn right queue one deterministic right turn. boost set ohr boost intention from a boolean active field. step advance a paused runtime by a bounded pulse count. preferences apply persistent experience preferences. replay export export the deterministic input journal. queries type meaning snapshot clone authoritative match/runtime state. metrics clone performance, renderer, and service metrics. capabilities return the runtime api manifest. events return a bounded tail of authoritative events. preferences read current persisted preferences. replay clone the replay export payload. objectives read current tikkun objective progress when available. landmarks read strategic nekudot ohr records when available. events the manifest currently advertises move, energy, claim, gate, shatter, respawn, round end, runtime start, runtime pause, runtime resume, runtime reset, nekudah, and objective. replay covenant replayjournal records normalized authoritative player intent with a bounded history. every export contains: schemaversion from replay schema version configfingerprint covering grid, tick, round, energy, olam affinity, nekudot, and objectives entrycount detached entries a replay whose schema or balance fingerprint differs from the current runtime must be treated as incompatible rather than silently interpreted under new laws. compatibility policy legacy direct controls such as turnleft(), turnright(), setboost(), pause/resume, and in memory restart remain supported while generic command(...) and query surfaces provide the current extensible boundary. version changes belong in the manifest first; code, tests, and docs then consume that truth.",
+		"page": "pages/geelooy-games-oros-ha-kelim-docs-runtime-api-md-5e01ab45d3.json"
+	}
+]

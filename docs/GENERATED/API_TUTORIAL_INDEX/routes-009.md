@@ -8,16 +8,14 @@ Each row links one discovered API route to generated teaching. Method/contract f
 
 | Route | Family | Method evidence | Health | Tutorial | Source |
 | --- | --- | --- | --- | --- | --- |
-| `/api/social/media/register` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-media-register-7ee7d9fc87.md) | `geelooy/api/social/_awtsmoos.platform.js` |
-| `/api/social/meta` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-meta-a01d3a1bc0.md) | `geelooy/api/social/_awtsmoos.profile.js` |
 | `/api/social/migrations/posts/v2/dryRun` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-migrations-posts-v2-dryrun-ea39c7d8be.md) | `geelooy/api/social/_awtsmoos.migrations.js` |
 | `/api/social/migrations/posts/v2/run` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-migrations-posts-v2-run-a5dd4209a9.md) | `geelooy/api/social/_awtsmoos.migrations.js` |
 | `/api/social/migrations/youtube/meta` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-migrations-youtube-meta-257aae7543.md) | `geelooy/api/social/helper/migrations/youtube/YouTubeMigrationRoutes.js` |
 | `/api/social/migrations/youtube/plan` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-migrations-youtube-plan-8bc337c70a.md) | `geelooy/api/social/helper/migrations/youtube/YouTubeMigrationRoutes.js` |
-| `/api/social/mod/actions` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-mod-actions-d38fdee54b.md) | `geelooy/api/social/_awtsmoos.platform.js` |
-| `/api/social/mod/escalations` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-mod-escalations-7b2db175ae.md) | `geelooy/api/social/_awtsmoos.platform.js` |
-| `/api/social/mod/queues` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-mod-queues-4710115766.md) | `geelooy/api/social/_awtsmoos.platform.js` |
-| `/api/social/mod/reports` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-mod-reports-9ddc93aeb1.md) | `geelooy/api/social/_awtsmoos.platform.js` |
+| `/api/social/mod/actions` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-mod-actions-00c08532c8.md) | `geelooy/api/social/helper/platform/routes/PlatformOpsRoutes.js` |
+| `/api/social/mod/escalations` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-mod-escalations-af95524a5c.md) | `geelooy/api/social/helper/platform/routes/PlatformOpsRoutes.js` |
+| `/api/social/mod/queues` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-mod-queues-c59b88a15a.md) | `geelooy/api/social/helper/platform/routes/PlatformOpsRoutes.js` |
+| `/api/social/mod/reports` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-mod-reports-faa058ece5.md) | `geelooy/api/social/helper/platform/routes/PlatformOpsRoutes.js` |
 | `/api/social/node-os/migrations/dry-run` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-node-os-migrations-dry-run-cbffbfe6c0.md) | `geelooy/api/social/_awtsmoos.nodeOs.js` |
 | `/api/social/node-os/migrations/run` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-node-os-migrations-run-10d4715403.md) | `geelooy/api/social/_awtsmoos.nodeOs.js` |
 | `/api/social/node-os/mount/assets/:alias` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-node-os-mount-assets-alias-20e23fd9fb.md) | `geelooy/api/social/_awtsmoos.nodeOs.js` |
@@ -26,7 +24,7 @@ Each row links one discovered API route to generated teaching. Method/contract f
 | `/api/social/node-os/nodes/:node` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-node-os-nodes-node-9ccb8c7dc8.md) | `geelooy/api/social/_awtsmoos.nodeOs.js` |
 | `/api/social/node-os/nodes/:node/children` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-node-os-nodes-node-children-b06fd8228a.md) | `geelooy/api/social/_awtsmoos.nodeOs.js` |
 | `/api/social/node-os/path` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-node-os-path-40ed7f24e7.md) | `geelooy/api/social/_awtsmoos.nodeOs.js` |
-| `/api/social/nodeOs/status` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-nodeos-status-13b1377133.md) | `geelooy/api/social/_awtsmoos.derech.js` |
+| `/api/social/nodeOs/status` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-nodeos-status-fc474a05f6.md) | `geelooy/api/social/helper/socialRouterSupport.js` |
 | `/api/social/notifications/:alias` | Social | GET, POST, DELETE | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-notifications-alias-37a56843d5.md) | `geelooy/api/social/_awtsmoos.notifications.js` |
 | `/api/social/notifications/:alias/:notification` | Social | GET, POST, DELETE | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-notifications-alias-notification-f0b8efcf86.md) | `geelooy/api/social/_awtsmoos.notifications.js` |
 | `/api/social/notifications/:alias/:notification/archive` | Social | GET, POST, DELETE | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-notifications-alias-notification-archive-5f90899ff4.md) | `geelooy/api/social/_awtsmoos.notifications.js` |
@@ -35,7 +33,7 @@ Each row links one discovered API route to generated teaching. Method/contract f
 | `/api/social/notifications/:alias/preferences` | Social | GET, POST, DELETE | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-notifications-alias-preferences-69f9f455a3.md) | `geelooy/api/social/_awtsmoos.notifications.js` |
 | `/api/social/notifications/:alias/read/all` | Social | GET, POST, DELETE | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-notifications-alias-read-all-1ccdc57b1d.md) | `geelooy/api/social/_awtsmoos.notifications.js` |
 | `/api/social/notifications/:alias/unread/count` | Social | GET, POST, DELETE | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-notifications-alias-unread-count-14f606fea5.md) | `geelooy/api/social/_awtsmoos.notifications.js` |
-| `/api/social/notifications/digest/:alias` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-notifications-digest-alias-6392f75b3d.md) | `geelooy/api/social/_awtsmoos.platform.js` |
+| `/api/social/notifications/digest/:alias` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-notifications-digest-alias-5a4ce9a0f7.md) | `geelooy/api/social/helper/platform/routes/PlatformRuntimeRoutes.js` |
 | `/api/social/notifications/fanout` | Social | GET, POST, DELETE | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-notifications-fanout-f80a65e630.md) | `geelooy/api/social/_awtsmoos.notifications.js` |
 | `/api/social/objects` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-objects-f44e46e67f.md) | `geelooy/api/social/_awtsmoos.objects.js` |
 | `/api/social/objects/:type/:id` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-objects-type-id-535bf56fa3.md) | `geelooy/api/social/_awtsmoos.objects.js` |
@@ -46,10 +44,12 @@ Each row links one discovered API route to generated teaching. Method/contract f
 | `/api/social/objects/adapt/:adapter` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-objects-adapt-adapter-1b83331744.md) | `geelooy/api/social/_awtsmoos.objects.js` |
 | `/api/social/objects/search` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-objects-search-9a685e5dbc.md) | `geelooy/api/social/_awtsmoos.objects.js` |
 | `/api/social/objects/types` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-objects-types-5470c507a9.md) | `geelooy/api/social/_awtsmoos.objects.js` |
-| `/api/social/openapi.json` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-openapi-json-c7328e3f3e.md) | `geelooy/api/social/_awtsmoos.profile.js` |
-| `/api/social/packed/compact` | Social | GET, POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-packed-compact-971e06d4a7.md) | `geelooy/api/social/_awtsmoos.packed.js` |
-| `/api/social/packed/feed/materialize` | Social | GET, POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-packed-feed-materialize-c6cf7a3bb2.md) | `geelooy/api/social/_awtsmoos.packed.js` |
-| `/api/social/packed/integrity` | Social | GET, POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-packed-integrity-c1e7076746.md) | `geelooy/api/social/_awtsmoos.packed.js` |
-| `/api/social/packed/keys` | Social | GET, POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-packed-keys-90c032ec4a.md) | `geelooy/api/social/_awtsmoos.packed.js` |
-| `/api/social/packed/migrations/posts/v2/dryRun` | Social | GET, POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-packed-migrations-posts-v2-dryrun-966c2677d0.md) | `geelooy/api/social/_awtsmoos.packed.js` |
-| `/api/social/packed/migrations/posts/v2/run` | Social | GET, POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-packed-migrations-posts-v2-run-e4df1184d5.md) | `geelooy/api/social/_awtsmoos.packed.js` |
+| `/api/social/people` | Social | GET | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-people-e8a98e30b6.md) | `geelooy/api/social/_awtsmoos.publicDiscovery.js` |
+| `/api/social/permissions/compile` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-permissions-compile-617a0c203f.md) | `geelooy/api/social/helper/platform/routes/PlatformOpsRoutes.js` |
+| `/api/social/posts/needsWork` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-posts-needswork-f82fb8ecf3.md) | `geelooy/api/social/helper/routes/posts/needsWorkRoutes.js` |
+| `/api/social/qa/question` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-qa-question-9797a0e200.md) | `geelooy/api/social/helper/platform/routes/PlatformQaRoutes.js` |
+| `/api/social/qa/question/:question` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-qa-question-question-bc24a55249.md) | `geelooy/api/social/helper/platform/routes/PlatformQaRoutes.js` |
+| `/api/social/qa/question/:question/answer` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-qa-question-question-answer-cf270f2ab4.md) | `geelooy/api/social/helper/platform/routes/PlatformQaRoutes.js` |
+| `/api/social/qa/question/:question/answers` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-qa-question-question-answers-34ed321507.md) | `geelooy/api/social/helper/platform/routes/PlatformQaRoutes.js` |
+| `/api/social/qa/question/:question/best` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-qa-question-question-best-fc11d21477.md) | `geelooy/api/social/helper/platform/routes/PlatformQaRoutes.js` |
+| `/api/social/radiance/meta` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-radiance-meta-53e743354a.md) | `geelooy/api/social/_awtsmoos.radiance.js` |

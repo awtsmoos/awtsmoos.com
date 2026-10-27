@@ -1,0 +1,84 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-emergency-recovery-md-899cb2e26e",
+	"title": "Emergency Recovery Architecture",
+	"sourcePath": "geelooy/apps/tunnel/EMERGENCY_RECOVERY.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Emergency Recovery Architecture",
+			"anchor": "emergency-recovery-architecture"
+		},
+		{
+			"level": 2,
+			"text": "The failure this architecture prevents",
+			"anchor": "the-failure-this-architecture-prevents"
+		},
+		{
+			"level": 2,
+			"text": "Recovery lanes",
+			"anchor": "recovery-lanes"
+		},
+		{
+			"level": 3,
+			"text": "Lane 0 — diagnosis",
+			"anchor": "lane-0-diagnosis"
+		},
+		{
+			"level": 3,
+			"text": "Lane 1 — sealed Tier-0",
+			"anchor": "lane-1-sealed-tier-0"
+		},
+		{
+			"level": 3,
+			"text": "Lane 2 — guarded sealed takeover",
+			"anchor": "lane-2-guarded-sealed-takeover"
+		},
+		{
+			"level": 3,
+			"text": "Lane 3 — portable primary guardian",
+			"anchor": "lane-3-portable-primary-guardian"
+		},
+		{
+			"level": 3,
+			"text": "Lane 4 — known-good restore",
+			"anchor": "lane-4-known-good-restore"
+		},
+		{
+			"level": 3,
+			"text": "Lane 5 — continuity-preserving full repair",
+			"anchor": "lane-5-continuity-preserving-full-repair"
+		},
+		{
+			"level": 3,
+			"text": "Lane 6 — browser vessel",
+			"anchor": "lane-6-browser-vessel"
+		},
+		{
+			"level": 2,
+			"text": "Primary self-heal flow",
+			"anchor": "primary-self-heal-flow"
+		},
+		{
+			"level": 2,
+			"text": "Durable state",
+			"anchor": "durable-state"
+		},
+		{
+			"level": 2,
+			"text": "Incident-oriented commands",
+			"anchor": "incident-oriented-commands"
+		},
+		{
+			"level": 2,
+			"text": "Evidence for completion",
+			"anchor": "evidence-for-completion"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-emergency-recovery-md-899cb2e26e-001.json"
+	]
+}

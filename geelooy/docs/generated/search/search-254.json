@@ -1,250 +1,75 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--6c88afff93",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/assets/materials/local/world/awtsmoos-nature/chai-forest/textures/ground/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-generated-test-ownership-md-beeceaf32d",
+		"title": "Generated Test Ownership",
+		"sourcePath": "docs/GENERATED/TEST_OWNERSHIP.md",
+		"category": "Testing",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: assets/materials/local/world/awtsmoos-nature/chai-forest/textures/ground",
-				"anchor": "directory-guide-assets-materials-local-world-awtsmoos-nature-chai-forest-textures-ground"
-			},
-			{
-				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
-			},
-			{
-				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
-			},
-			{
-				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Generated Test Ownership",
+				"anchor": "generated-test-ownership"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/materials/local/world/awtsmoos nature/chai forest/textures/ground Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 3 files, 0 structural child directories Purpose Ground cover texture sources for forest terrain. T",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/materials/local/world/awtsmoos nature/chai forest/textures/ground role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 3 files, 0 structural child directories purpose ground cover texture sources for forest terrain. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: jpg, assets, awtsmoos nature, chai forest, color, dirt, grass, ground, guide, local, materials, textures file mix: .jpg: 2 · .md: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files dirt color.jpg — a .jpg artifact in this directory. grass.jpg — a .jpg artifact in this directory. directory map parent: assets/materials/local/world/awtsmoos nature/chai forest/textures children: none. related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. vegetation, trees, and forest systems — botany rules, tree generation, forest composition, grass, and source texture libraries overlap semantically but own different layers. boundaries and cautions this directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--6c88afff93.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Test Ownership Project Type Test files Local docs geelooy public root 7661 geelooy/DOCUMENTATION.md geelooy/apps public 2744 geelooy/apps/DOCUMENTATION.md geelooy/games public 2594 geelooy/games/DOCUMENTATION.md geelooy/games/mitzvahWorld game 1421 geelooy/games/mitzvahWorld/DO",
+		"searchText": "b\"h boruch hashem blessed is he generated test ownership project type test files local docs geelooy public root 7661 geelooy/documentation.md geelooy/apps public 2744 geelooy/apps/documentation.md geelooy/games public 2594 geelooy/games/documentation.md geelooy/games/mitzvahworld game 1421 geelooy/games/mitzvahworld/documentation.md geelooy/apps/tunnel app 1207 geelooy/apps/tunnel/documentation.md geelooy/apps/android emulator app 850 geelooy/apps/android emulator/documentation.md geelooy/api project 699 geelooy/api/documentation.md ayzarim runtime root 493 ayzarim/documentation.md geelooy/games/scribe journey game 486 geelooy/games/scribe journey/documentation.md geelooy/api/social api 411 geelooy/api/social/documentation.md ayzarim/awtsmoosdynamicserver runtime 306 ayzarim/awtsmoosdynamicserver/documentation.md geelooy/libs library 298 geelooy/libs/documentation.md geelooy/heichelos project 212 geelooy/heichelos/documentation.md geelooy/api/tunnel api 198 geelooy/api/tunnel/documentation.md geelooy/ai public 187 geelooy/ai/documentation.md geelooy/scripts library 179 geelooy/scripts/documentation.md ayzarim/dosdb data 178 ayzarim/dosdb/documentation.md geelooy/apps/nesher studio app 138 geelooy/apps/nesher studio/documentation.md geelooy/tests test 133 geelooy/tests/documentation.md geelooy/apps/exe emulator app 123 geelooy/apps/exe emulator/documentation.md scripts tooling 119 scripts/documentation.md ai thoughts alias 107 — geelooy/os public 107 geelooy/os/documentation.md tests test 105 tests/documentation.md geelooy/games/tests game 100 geelooy/games/tests/documentation.md geelooy/games/ohr hagnuz game 94 geelooy/games/ohr hagnuz/documentation.md geelooy/social hub public 91 geelooy/social hub/documentation.md geelooy/games/ohrfront game 81 — geelooy/drive public 76 geelooy/drive/documentation.md geelooy/apps/tunnel control app 72 geelooy/apps/tunnel control/documentation.md geelooy/games/seven mitzvos game 71 geelooy/games/seven mitzvos/documentation.md geelooy/style library 59 geelooy/style/documentation.md geelooy/apps/code app 54 geelooy/apps/code/documentation.md geelooy/api/wallet api 50 geelooy/api/wallet/documentation.md geelooy/shared library 50 geelooy/shared/documentation.md geelooy/games/oros ha kelim game 49 geelooy/games/oros ha kelim/documentation.md geelooy/games/chess game 48 geelooy/games/chess/documentation.md geelooy/apps/drive app 47 geelooy/apps/drive/documentation.md geelooy/games/nitzotz io game 44 geelooy/games/nitzotz io/documentation.md geelooy/games/sefira clash game 41 geelooy/games/sefira clash/documentation.md geelooy/games/merkava game 39 geelooy/games/merkava/documentation.md geelooy/apps/awtsmoos studio app 38 — geelooy/apps/universal chat app 38 geelooy/apps/universal chat/documentation.md geelooy/apps/piano app 34 geelooy/apps/piano/documentation.md geelooy/apps/rebbe app 33 geelooy/apps/rebbe/documentation.md geelooy/social composer public 33 geelooy/social composer/documentation.md tools tooling 30 tools/documentation.md geelooy/games/ohrbound game 27 — geelooy/sites project 27 geelooy/sites/documentation.md geelooy/.awtsmoos agent transfer project 26 geelooy/.awtsmoos agent transfer/documentation.md geelooy/games/cobyk game 24 — geelooy/games/shema strike game 23 geelooy/games/shema strike/documentation.md geelooy/mawgawl public 20 geelooy/mawgawl/documentation.md geelooy/platform project 19 geelooy/platform/documentation.md geelooy/games/city of light game 18 geelooy/games/city of light/documentation.md geelooy/apps/olam h3 app 17 — geelooy/zmanim public 17 geelooy/zmanim/documentation.md geelooy/api/oauth api 16 geelooy/api/oauth/documentation.md geelooy/apps/animator app 16 geelooy/apps/animator/documentation.md geelooy/apps/shared app 15 — geelooy/games/sulam ha sod game 15 geelooy/games/sulam ha sod/documentation.md geelooy/test project 15 — geelooy/apps/tests app 13 — geelooy/social public 13 geelooy/social/documentation.md geelooy/seo project 12 — geelooy/apps/slides app 10 geelooy/apps/slides/documentation.md geelooy/apps/editor app 8 geelooy/apps/editor/documentation.md geelooy/email public 8 geelooy/email/documentation.md geelooy/apps/mitzvah pushkuh app 7 geelooy/apps/mitzvah pushkuh/documentation.md geelooy/apps/scripts app 6 geelooy/apps/scripts/documentation.md geelooy/comment thread public 6 geelooy/comment thread/documentation.md geelooy/profile public 6 geelooy/profile/documentation.md geelooy/api/zmanim api 5 geelooy/api/zmanim/documentation.md geelooy/browser test project 5 — ayzarim/glyph engine infrastructure 4 — geelooy/api/portal api 4 — geelooy/apps/sheets app 4 geelooy/apps/sheets/documentation.md geelooy/cloud public 4 — geelooy/games/adventure game 4 — geelooy/heichel review public 4 geelooy/heichel review/documentation.md ayzarim/tools infrastructure 3 — geelooy/api/gpt api 3 geelooy/api/gpt/documentation.md geelooy/api/ssh api 3 geelooy/api/ssh/documentation.md geelooy/apps/merkava app 3 — geelooy/apps/wallet app 3 geelooy/apps/wallet/documentation.md geelooy/games/rambam game 3 — geelooy/games/rebbe runner game 3 — geelooy/games/soul jump game 3 — geelooy/geelooy project 3 — geelooy/notifications public 3 geelooy/notifications/documentation.md ayzarim/email infrastructure 2 — geelooy/api/ohrbound api 2 — geelooy/api/projecthosting api 2 — geelooy/apps/captions app 2 geelooy/apps/captions/documentation.md geelooy/apps/workos app 2 — geelooy/heichel editor public 2 geelooy/heichel editor/documentation.md geelooy/post editor public 2 geelooy/post editor/documentation.md geelooy/tools project 2 — geelooy/api/compiler api 1 geelooy/api/compiler/documentation.md geelooy/api/ohr hagnuz api 1 geelooy/api/ohr hagnuz/documentation.md geelooy/api/platform api 1 — geelooy/api/sefarim api 1 geelooy/api/sefarim/documentation.md geelooy/api/youtube api 1 geelooy/api/youtube/documentation.md geelooy/apps/bookcovermaker app 1 — geelooy/apps/broadcaster app 1 — geelooy/apps/compiler app 1 geelooy/apps/compiler/documentation.md geelooy/apps/transcribe app 1 — geelooy/db public 1 geelooy/db/documentation.md geelooy/login public 1 — geelooy/reeyuh public 1 — geelooy/social actions project 1 geelooy/social actions/documentation.md geelooy/youtube public 1 geelooy/youtube/documentation.md templates tooling 1 templates/documentation.md",
+		"page": "pages/docs-generated-test-ownership-md-beeceaf32d.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--b31f1bfb9b",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/assets/materials/local/world/awtsmoos-nature/chai-forest/textures/leaves/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-generated-test-script-index-md-412dcbafde",
+		"title": "Generated Test Script Index",
+		"sourcePath": "docs/GENERATED/TEST_SCRIPT_INDEX.md",
+		"category": "Testing",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: assets/materials/local/world/awtsmoos-nature/chai-forest/textures/leaves",
-				"anchor": "directory-guide-assets-materials-local-world-awtsmoos-nature-chai-forest-textures-leaves"
-			},
-			{
-				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
-			},
-			{
-				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
-			},
-			{
-				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Generated Test Script Index",
+				"anchor": "generated-test-script-index"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/materials/local/world/awtsmoos nature/chai forest/textures/leaves Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 5 files, 0 structural child directories Purpose Leaf texture sources for foliage rendering. The Aw",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/materials/local/world/awtsmoos nature/chai forest/textures/leaves role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 5 files, 0 structural child directories purpose leaf texture sources for foliage rendering. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: png, ash, aspen, assets, awtsmoos nature, chai forest, guide, leaves, local, materials, oak, pine file mix: .png: 4 · .md: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files ash.png — a .png artifact in this directory. aspen.png — a .png artifact in this directory. oak.png — a .png artifact in this directory. pine.png — a .png artifact in this directory. directory map parent: assets/materials/local/world/awtsmoos nature/chai forest/textures children: none. related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. vegetation, trees, and forest systems — botany rules, tree generation, forest composition, grass, and source texture libraries overlap semantically but own different layers. boundaries and cautions this directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--b31f1bfb9b.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Test Script Index Script Command emailTest node ayzarim/email/emailTest.js test npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported style ownership && npm run test:css quality && npm run test:heichelos quality && npm run test:heic",
+		"searchText": "b\"h boruch hashem blessed is he generated test script index script command emailtest node ayzarim/email/emailtest.js test npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported style ownership && npm run test:css quality && npm run test:heichelos quality && npm run test:heichel cache scale && npm run test:profile menu && npm run test:heichel governance && npm run test:post submissions && npm run test:comments && npm run test:api keys && npm run test:graph && npm run test:social content && npm run test:notifications && npm run test:social packed && npm run test:packed engine && npm run test:platform ops && npm run test:platform execution && npm run test:node client && npm run test:dayuh cutover test:ai node geelooy/ai/tests/harness/run.cjs all test:ai:stress awtsmoos ai test rounds=5 node geelooy/ai/tests/harness/run.cjs all test:api keys node geelooy/api/social/helper/test/apikeys.test.js test:code ai studio node geelooy/apps/code/test/ai studio isolated.test.mjs test:comments node geelooy/api/social/helper/comments/test/runallcommentstests.js test:concurrency failure node geelooy/api/social/test/concurrencyfailurestress.test.mjs test:css quality node geelooy/style/test/cssquality.test.js test:dayuh cutover node tools/dayuhchadashcutover/releasecheck.js test:dayuh release npm run test:routes && npm run test:comments && npm run test:social content && npm run test:social packed && npm run test:packed engine && node test tools/dayuhchadashmaintenance/test/ .test.js && npm run test:dayuh cutover test:graph node geelooy/api/social/helper/test/socialgraph.test.js test:heichel cache scale node test ayzarim/awtsmoosdynamicserver/static/heichelcachescale.test.js test:heichel governance node geelooy/heichelos/heichel/modules/test/editormanagement.test.mjs && node geelooy/api/social/helper/test/heichelroles.test.js test:heichelos quality node geelooy/heichelos/test/heichelosquality.test.js test:imported style ownership node geelooy/heichelos/post/styles/test/importedstyleownership.test.js test:live smoke node geelooy/heichelos/heichel/modules/test/sociallivesmoke.test.mjs test:mission continuity actions node geelooy/apps/tunnel/agent/tools/fs/actiongroups/test/missioncontinuityactions.test.mjs test:node client node check geelooy/scripts/awtsmoos/api/social/nodeclient.mjs test:notifications node geelooy/api/social/helper/test/notifications.test.js test:packed engine node geelooy/api/social/helper/test/packedengine.test.js test:platform execution node geelooy/api/social/helper/test/platformexecution.test.js test:platform ops node geelooy/api/social/helper/test/platformops.test.js test:platform ui node geelooy/heichelos/heichel/modules/test/platformpanelnodesimulation.test.mjs && node geelooy/heichelos/heichel/modules/test/notificationspanelnodesimulation.test.mjs && node geelooy/heichelos/heichel/modules/test/platformcoveragestatic.test.mjs && node geelooy/heichelos/heichel/modules/test/browserapisurfacestatic.test.mjs && node geelooy/heichelos/heichel/modules/test/browserapirequestshapes.test.mjs && node geelooy/heichelos/heichel/modules/test/platformopsapi.test.mjs && node geelooy/heichelos/heichel/modules/test/socialgraphfoundation.test.mjs && node geelooy/heichelos/heichel/modules/test/recursivesociallayer.test.mjs test:post submissions node geelooy/api/social/helper/post/test/postsubmissions.test.js test:profile menu node geelooy/scripts/awtsmoos/social/test/profilemenusimulation.test.mjs test:real server writes node geelooy/api/social/test/realserverwrites.test.mjs test:routes node geelooy/api/social/test/routecoverage.test.js test:social content node geelooy/api/social/helper/test/socialcontent.test.js test:social packed node geelooy/api/social/helper/test/socialpacked.test.js && node geelooy/api/social/helper/test/postmigration.test.js && node geelooy/api/social/helper/test/packedsnapshotrepair.test.js test:treasury node geelooy/api/tunnel/control/test/runtreasurytests.cjs test:treasury:full node geelooy/api/tunnel/control/test/treasury/runall.cjs test:tunnel release node test scripts/tunnel/testing/ .test.cjs scripts/repository hygiene/testing/ .test.cjs test:virtual os node geelooy/tests/virtual os/run smokes.cjs",
+		"page": "pages/docs-generated-test-script-index-md-412dcbafde.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--6ca1b50296",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/assets/materials/local/world/awtsmoos-nature/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-generated-websocket-applications-md-58413448ec",
+		"title": "Generated Realtime Application Inventory",
+		"sourcePath": "docs/GENERATED/WEBSOCKET_APPLICATIONS.md",
+		"category": "Realtime",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: assets/materials/local/world/awtsmoos-nature",
-				"anchor": "directory-guide-assets-materials-local-world-awtsmoos-nature"
+				"text": "Generated Realtime Application Inventory",
+				"anchor": "generated-realtime-application-inventory"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
-			},
-			{
-				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
-			},
-			{
-				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "WebSocket application directories",
+				"anchor": "websocket-application-directories"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/materials/local/world/awtsmoos nature Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 1 files, 2 structural child directories Purpose Nature oriented source assets, especially forest vegetation and tree libraries",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/materials/local/world/awtsmoos nature role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 1 files, 2 structural child directories purpose nature oriented source assets, especially forest vegetation and tree libraries. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: assets, awtsmoos nature, guide, local, materials file mix: .md: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files no immediate files. this directory is an organizational parent; follow the child guides below. directory map parent: assets/materials/local/world children: assets/materials/local/world/awtsmoos nature/chai forest assets/materials/local/world/awtsmoos nature/ilanos related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. vegetation, trees, and forest systems — botany rules, tree generation, forest composition, grass, and source texture libraries overlap semantically but own different layers. boundaries and cautions this directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--6ca1b50296.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Realtime Application Inventory Application id Versions Factory awtsmoos core 1 createAwtsmoosCoreApplication awtsmoos social 1 createAwtsmoosSocialApplication chess 1 createChessApplication forms 1 createFormsApplication geelooy code 1 createGeelooyCodeApplication geelooy docs ",
+		"searchText": "b\"h boruch hashem blessed is he generated realtime application inventory application id versions factory awtsmoos core 1 createawtsmooscoreapplication awtsmoos social 1 createawtsmoossocialapplication chess 1 createchessapplication forms 1 createformsapplication geelooy code 1 creategeelooycodeapplication geelooy docs 1 creategeelooydocsapplication sheets 1 createsheetsapplication universal chat 1 createuniversalchatapplication private messaging 1 createprivatemessagingapplication sefira clash 1 createsefiraclashapplication mitzvah world 1 createmitzvahworldapplication ohr hagnuz 1 createohrhagnuzapplication scribe journey 1, 2 createscribejourneyapplication tcp relay 1 createtcprelayapplication tunnel activity 1 createtunnelactivityapplication shema strike 1 createshemastrikeapplication websocket application directories directory files source chess 28 ayzarim/awtsmoosdynamicserver/websocket/apps/chess forms 30 ayzarim/awtsmoosdynamicserver/websocket/apps/forms geelooycode 19 ayzarim/awtsmoosdynamicserver/websocket/apps/geelooycode geelooydocs 41 ayzarim/awtsmoosdynamicserver/websocket/apps/geelooydocs missionrooms 11 ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms mitzvahworld 278 ayzarim/awtsmoosdynamicserver/websocket/apps/mitzvahworld ohrhagnuz 25 ayzarim/awtsmoosdynamicserver/websocket/apps/ohrhagnuz privatemessaging 59 ayzarim/awtsmoosdynamicserver/websocket/apps/privatemessaging scribejourney 38 ayzarim/awtsmoosdynamicserver/websocket/apps/scribejourney sefiraclash 91 ayzarim/awtsmoosdynamicserver/websocket/apps/sefiraclash sheets 36 ayzarim/awtsmoosdynamicserver/websocket/apps/sheets shemastrike 77 ayzarim/awtsmoosdynamicserver/websocket/apps/shemastrike tcprelay 16 ayzarim/awtsmoosdynamicserver/websocket/apps/tcprelay tunnelactivity 10 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelactivity tunnelrelay 125 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay universalchat 37 ayzarim/awtsmoosdynamicserver/websocket/apps/universalchat",
+		"page": "pages/docs-generated-websocket-applications-md-58413448ec.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--2979cc3952",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/assets/materials/local/world/awtsmoos-nature/ilanos/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-generated-websocket-event-index-md-530cf0fd87",
+		"title": "Generated WebSocket Event Evidence",
+		"sourcePath": "docs/GENERATED/WEBSOCKET_EVENT_INDEX.md",
+		"category": "Realtime",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: assets/materials/local/world/awtsmoos-nature/ilanos",
-				"anchor": "directory-guide-assets-materials-local-world-awtsmoos-nature-ilanos"
-			},
-			{
-				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
-			},
-			{
-				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
-			},
-			{
-				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Generated WebSocket Event Evidence",
+				"anchor": "generated-websocket-event-evidence"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/materials/local/world/awtsmoos nature/ilanos Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 1 files, 1 structural child directories Purpose Tree oriented source collection; “ilanos” groups arboreal assets. The A",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/materials/local/world/awtsmoos nature/ilanos role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 1 files, 1 structural child directories purpose tree oriented source collection; “ilanos” groups arboreal assets. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: assets, awtsmoos nature, guide, ilanos, local, materials file mix: .md: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files no immediate files. this directory is an organizational parent; follow the child guides below. directory map parent: assets/materials/local/world/awtsmoos nature children: assets/materials/local/world/awtsmoos nature/ilanos/trees related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. vegetation, trees, and forest systems — botany rules, tree generation, forest composition, grass, and source texture libraries overlap semantically but own different layers. boundaries and cautions this directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--2979cc3952.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated WebSocket Event Evidence Production source lexical event/message evidence; this is not a formal protocol schema. 152 rows. Chunk Rows Count websocket events 001.md 1–85 85 websocket events 002.md 86–152 67",
+		"searchText": "b\"h boruch hashem blessed is he generated websocket event evidence production source lexical event/message evidence; this is not a formal protocol schema. 152 rows. chunk rows count websocket events 001.md 1–85 85 websocket events 002.md 86–152 67",
+		"page": "pages/docs-generated-websocket-event-index-md-530cf0fd87.json"
 	}
 ]

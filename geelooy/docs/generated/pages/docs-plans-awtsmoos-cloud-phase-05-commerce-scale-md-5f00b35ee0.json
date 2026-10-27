@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-plans-awtsmoos-cloud-phase-05-commerce-scale-md-5f00b35ee0",
+	"title": "Phase 05 — Commerce, Security, Observability, and Scale",
+	"sourcePath": "docs/PLANS/AWTSMOOS_CLOUD/PHASE_05_COMMERCE_SCALE.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase 05 — Commerce, Security, Observability, and Scale",
+			"anchor": "phase-05-commerce-security-observability-and-scale"
+		},
+		{
+			"level": 2,
+			"text": "Economic model",
+			"anchor": "economic-model"
+		},
+		{
+			"level": 2,
+			"text": "Suggested commercial ladder",
+			"anchor": "suggested-commercial-ladder"
+		},
+		{
+			"level": 2,
+			"text": "Billing invariants",
+			"anchor": "billing-invariants"
+		},
+		{
+			"level": 2,
+			"text": "Security and abuse",
+			"anchor": "security-and-abuse"
+		},
+		{
+			"level": 2,
+			"text": "Observability",
+			"anchor": "observability"
+		},
+		{
+			"level": 2,
+			"text": "Scale transition",
+			"anchor": "scale-transition"
+		},
+		{
+			"level": 2,
+			"text": "Completion test",
+			"anchor": "completion-test"
+		}
+	],
+	"markdownParts": [
+		"content/docs-plans-awtsmoos-cloud-phase-05-commerce-scale-md-5f00b35ee0-001.json"
+	]
+}

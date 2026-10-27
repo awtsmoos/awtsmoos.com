@@ -64,6 +64,18 @@
 		{
 			"id": "api-tunnel-fs-tunnelname-48e2aaea39",
 			"route": "/api/tunnel/fs/:tunnelName"
+		},
+		{
+			"id": "api-tunnel-hetzner-exec-267e52e243",
+			"route": "/api/tunnel/hetzner/exec"
+		},
+		{
+			"id": "api-tunnel-hetzner-health-d92bb398ee",
+			"route": "/api/tunnel/hetzner/health"
+		},
+		{
+			"id": "api-tunnel-hetzner-readlog-d12187a4e3",
+			"route": "/api/tunnel/hetzner/readlog"
 		}
 	]
 }

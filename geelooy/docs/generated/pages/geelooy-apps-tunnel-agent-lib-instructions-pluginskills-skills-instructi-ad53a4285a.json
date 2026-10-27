@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-ad53a4285a",
+	"title": "Awtsmoos CSS, browser evidence, and external image review",
+	"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/CSS_AND_EXTERNAL_VISUAL_VERIFICATION.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Awtsmoos CSS, browser evidence, and external image review",
+			"anchor": "awtsmoos-css-browser-evidence-and-external-image-review"
+		},
+		{
+			"level": 2,
+			"text": "Find the actual styling owner before editing",
+			"anchor": "find-the-actual-styling-owner-before-editing"
+		},
+		{
+			"level": 2,
+			"text": "Prove behavior and source together",
+			"anchor": "prove-behavior-and-source-together"
+		},
+		{
+			"level": 2,
+			"text": "Capture, transfer, inspect: external agents",
+			"anchor": "capture-transfer-inspect-external-agents"
+		},
+		{
+			"level": 2,
+			"text": "Release and continuation",
+			"anchor": "release-and-continuation"
+		},
+		{
+			"level": 2,
+			"text": "Saved report image transport and review verdicts",
+			"anchor": "saved-report-image-transport-and-review-verdicts"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-ad53a4285a-001.json"
+	]
+}

@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-27-2150-geelooy-movie-unification-07-sol-imp-fee84dc7f7",
+	"title": "Sol Implementation File Plan",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-27-2150-geelooy-movie-unification/07-sol-implementation-file-plan.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Sol Implementation File Plan",
+			"anchor": "sol-implementation-file-plan"
+		},
+		{
+			"level": 2,
+			"text": "Collision-safe implementation boundary",
+			"anchor": "collision-safe-implementation-boundary"
+		},
+		{
+			"level": 2,
+			"text": "New shared movie files",
+			"anchor": "new-shared-movie-files"
+		},
+		{
+			"level": 2,
+			"text": "Three-minute proof",
+			"anchor": "three-minute-proof"
+		},
+		{
+			"level": 2,
+			"text": "Adapter pass after shared proof",
+			"anchor": "adapter-pass-after-shared-proof"
+		},
+		{
+			"level": 2,
+			"text": "Completion evidence",
+			"anchor": "completion-evidence"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-27-2150-geelooy-movie-unification-07-sol-imp-fee84dc7f7-001.json"
+	]
+}

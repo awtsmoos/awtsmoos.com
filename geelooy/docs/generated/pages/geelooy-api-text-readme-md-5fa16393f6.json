@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-text-readme-md-5fa16393f6",
+	"title": "B\"H — Text / Timestamp API (geelooy/api/text/)",
+	"sourcePath": "geelooy/api/text/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Text / Timestamp API (geelooy/api/text/)",
+			"anchor": "b-h-text-timestamp-api-geelooy-api-text"
+		},
+		{
+			"level": 2,
+			"text": "Contents",
+			"anchor": "contents"
+		},
+		{
+			"level": 2,
+			"text": "Endpoints",
+			"anchor": "endpoints"
+		},
+		{
+			"level": 2,
+			"text": "Caveat",
+			"anchor": "caveat"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-text-readme-md-5fa16393f6-001.json"
+	]
+}

@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-e8fc475706",
+	"title": "Binary screenshots, artifact transfer, and temporary public links",
+	"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/ARTIFACTS_AND_PUBLIC_LINKS.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Binary screenshots, artifact transfer, and temporary public links",
+			"anchor": "binary-screenshots-artifact-transfer-and-temporary-public-links"
+		},
+		{
+			"level": 2,
+			"text": "Quick path: publish exactly one reviewed file",
+			"anchor": "quick-path-publish-exactly-one-reviewed-file"
+		},
+		{
+			"level": 2,
+			"text": "First capture the exact intended Chrome target",
+			"anchor": "first-capture-the-exact-intended-chrome-target"
+		},
+		{
+			"level": 2,
+			"text": "Which public-link family?",
+			"anchor": "which-public-link-family"
+		},
+		{
+			"level": 2,
+			"text": "Never claim these without live proof",
+			"anchor": "never-claim-these-without-live-proof"
+		},
+		{
+			"level": 2,
+			"text": "Review acceptance gate",
+			"anchor": "review-acceptance-gate"
+		},
+		{
+			"level": 2,
+			"text": "Binary resource-link release contract (0.92.0)",
+			"anchor": "binary-resource-link-release-contract-0-92-0"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-e8fc475706-001.json"
+	]
+}

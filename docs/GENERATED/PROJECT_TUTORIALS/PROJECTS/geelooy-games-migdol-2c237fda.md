@@ -2,7 +2,7 @@ B"H
 Boruch Hashem
 Blessed is He
 
-# Project Tutorial: Migdol - Kabbalah Tower Defense
+# Project Tutorial: Migdol — Tower Defense
 
 **Path:** `geelooy/games/migdol` · **Type:** game · **Family:** Games and Worlds
 
@@ -21,15 +21,15 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 11 | 0 | 0 | 0 | 1 | 0 | 12 |
+| 28 | 0 | 0 | 0 | 1 | 0 | 29 |
 
 ## Public entry points
 
-- `/games/migdol` → `geelooy/games/migdol/index.html` — Migdol - Kabbalah Tower Defense
+- `/games/migdol` → `geelooy/games/migdol/index.html` — Migdol — Tower Defense
 
 ## Symbol evidence
 
-Source files: 9; classes: 7; functions: 9; exports: 12; samples: TILE_SIZE, MAPS, TOWER_TYPES, ENEMY_TYPES, GroundEffect, LetterParticle, Enemy, Projectile, Game, initializeMainMenu, startGame, returnToMainMenu.
+Source files: 21; classes: 13; functions: 41; exports: 36; samples: TILE_SIZE, MAPS, TOWER_TYPES, ENEMY_TYPES, GroundEffect, LetterParticle, Enemy, Projectile, placeTower, towerAt, upgradeTower, sellTower.
 
 ## Depends on
 

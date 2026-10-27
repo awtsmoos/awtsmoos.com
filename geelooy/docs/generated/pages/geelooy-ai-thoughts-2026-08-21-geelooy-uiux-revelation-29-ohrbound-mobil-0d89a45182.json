@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-29-ohrbound-mobil-0d89a45182",
+	"title": "Ohrbound — Mobile Touch and Surface Delta Plan",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-21-geelooy-uiux-revelation/29-ohrbound-mobile-delta-plan.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Ohrbound — Mobile Touch and Surface Delta Plan",
+			"anchor": "ohrbound-mobile-touch-and-surface-delta-plan"
+		},
+		{
+			"level": 2,
+			"text": "Proven containment",
+			"anchor": "proven-containment"
+		},
+		{
+			"level": 2,
+			"text": "Proven touch-size defects",
+			"anchor": "proven-touch-size-defects"
+		},
+		{
+			"level": 2,
+			"text": "Exact rewrite",
+			"anchor": "exact-rewrite"
+		},
+		{
+			"level": 2,
+			"text": "Verification",
+			"anchor": "verification"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-29-ohrbound-mobil-0d89a45182-001.json"
+	]
+}

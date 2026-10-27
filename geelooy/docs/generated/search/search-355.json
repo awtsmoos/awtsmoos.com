@@ -1,0 +1,194 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28-1309-every-page-better-continuation-02-ph-80f2d32040",
+		"title": "Phase Two — Critique",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28-1309-every-page-better-continuation/02_PHASE_TWO_CRITIQUE.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Two — Critique",
+				"anchor": "phase-two-critique"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Two — Critique The Awtsmoos gives restraint so green tests do not become a false goal; Awtsmoos.com needs contracts for user visible truth, not frozen implementation control. Improvements: Read the real owner module for each invariant. Assert disclosure insertion and current grid a",
+		"searchText": "b\"h boruch hashem blessed is he phase two — critique the awtsmoos gives restraint so green tests do not become a false goal; awtsmoos.com needs contracts for user visible truth, not frozen implementation control. improvements: read the real owner module for each invariant. assert disclosure insertion and current grid architecture explicitly. assert old four column architecture is not required. do not weaken mobile/context assertions that already protect the redesign. do not alter production code to satisfy stale test ownership. run browser verification after tests because source contracts cannot prove visual geometry. measure performance after browser correctness, then use those results to rank sitewide work.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28-1309-every-page-better-continuation-02-ph-80f2d32040.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28-1309-every-page-better-continuation-03-ph-bf1d650d67",
+		"title": "Phase Three — Final Execution",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28-1309-every-page-better-continuation/03_PHASE_THREE_FINAL.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Three — Final Execution",
+				"anchor": "phase-three-final-execution"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Three — Final Execution The Awtsmoos joins test, browser, speed, and deployment in one truthful chain; Awtsmoos.com is not complete while any public route still carries avoidable pain. Exact next files: Rewrite geelooy/mawgawl/sefarim/searchFoldContract.test.mjs completely. Write a",
+		"searchText": "b\"h boruch hashem blessed is he phase three — final execution the awtsmoos joins test, browser, speed, and deployment in one truthful chain; awtsmoos.com is not complete while any public route still carries avoidable pain. exact next files: rewrite geelooy/mawgawl/sefarim/searchfoldcontract.test.mjs completely. write a durable sefarim verification delta after tests/browser evidence. then: 1. focused contract test. 2. search mode test. 3. full sefarim suite. 4. browser layout/interactions/errors/performance. 5. full route matrix. 6. ranked rolling repairs across every public family. 7. compact server benchmark. 8. full safe github snapshot, deploy, production smoke. next action rewrite the contract now and verify it from disk before running tests.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28-1309-every-page-better-continuation-03-ph-bf1d650d67.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28-1309-every-page-better-continuation-04-se-a0aee7b1b6",
+		"title": "Search Mode Delta — Preserve Deliberate Intent",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28-1309-every-page-better-continuation/04_SEARCH_MODE_DELTA.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Search Mode Delta — Preserve Deliberate Intent",
+				"anchor": "search-mode-delta-preserve-deliberate-intent"
+			},
+			{
+				"level": 2,
+				"text": "Evidence",
+				"anchor": "evidence"
+			},
+			{
+				"level": 2,
+				"text": "Delta",
+				"anchor": "delta"
+			},
+			{
+				"level": 2,
+				"text": "Exact Rewrite",
+				"anchor": "exact-rewrite"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Search Mode Delta — Preserve Deliberate Intent The Awtsmoos gives Hebrew to the whole Torah sea, not to one automatic lane alone; Awtsmoos.com keeps Library as the unforced home while Tanach and Exact are deliberately known. Evidence searchMode.js exports LIBRARY MODE, TANACH MODE, EXACT",
+		"searchText": "b\"h boruch hashem blessed is he search mode delta — preserve deliberate intent the awtsmoos gives hebrew to the whole torah sea, not to one automatic lane alone; awtsmoos.com keeps library as the unforced home while tanach and exact are deliberately known. evidence searchmode.js exports library mode, tanach mode, exact mode, automaticmode, modefromurl, hasexplicitmode, and configuremode. it does not export or define containshebrew. automaticmode() intentionally returns library mode without inspecting query language. modefromurl(values) returns an explicit valid mode or otherwise library mode. the module's own current contract says hebrew language must not be confused with tanach intent. repository search finds containshebrew only in the stale test. delta searchmode.test.mjs still asserts the retired behavior that hebrew automatically selects tanach and imports a deleted containshebrew helper. exact rewrite rewrite only geelooy/mawgawl/sefarim/searchmode.test.mjs completely: assert automatic mode is library for hebrew and english queries; assert url hydration defaults to library when no explicit mode exists; assert explicit library, tanach, and exact modes remain respected; preserve the tanach api exact search and safe result link contract; keep the test <=120 lines. next action rewrite the stale test, reread it, run it directly, then run the complete sefarim suite fail fast.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28-1309-every-page-better-continuation-04-se-a0aee7b1b6.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28-1309-every-page-better-continuation-05-so-fcf5a75932",
+		"title": "Source Action Ownership Delta",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28-1309-every-page-better-continuation/05_SOURCE_ACTION_OWNERSHIP_DELTA.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Source Action Ownership Delta",
+				"anchor": "source-action-ownership-delta"
+			},
+			{
+				"level": 2,
+				"text": "Evidence",
+				"anchor": "evidence"
+			},
+			{
+				"level": 2,
+				"text": "Delta",
+				"anchor": "delta"
+			},
+			{
+				"level": 2,
+				"text": "Exact Rewrite",
+				"anchor": "exact-rewrite"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Source Action Ownership Delta The Awtsmoos gives one shared doorway many callers, so safety need not be copied from view to view; Awtsmoos.com keeps exact source actions in one vessel, with new tab protection remaining true. Evidence tanachView.js imports appendSourceActions from resultS",
+		"searchText": "b\"h boruch hashem blessed is he source action ownership delta the awtsmoos gives one shared doorway many callers, so safety need not be copied from view to view; awtsmoos.com keeps exact source actions in one vessel, with new tab protection remaining true. evidence tanachview.js imports appendsourceactions from resultsourceactions.js. tanach result cards delegate their result actions to that shared helper. resultsourceactions.js sets link.target = ' blank' only for the new tab action. the same shared helper sets link.rel = 'noopener noreferrer'. its current new tab visible text is new tab ↗; open exact verse is no longer the owning ui label. production files are both below 120 lines and are not currently modified by this pass. delta the mode test still searches tanachview.js itself for raw new tab attributes and an obsolete label. this is stale ownership coupling. exact rewrite rewrite only searchmode.test.mjs completely: keep deliberate library mode behavior assertions; keep url explicit mode assertions; keep tanach api exact: 'true' assertion; assert tanachview.js imports and invokes appendsourceactions; assert resultsourceactions.js owns blank, noopener noreferrer, and the current new tab action; keep the test below 120 lines. next action rewrite the test, reread it, run the direct mode test and then the complete sefarim suite fail fast.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28-1309-every-page-better-continuation-05-so-fcf5a75932.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28-1309-every-page-better-continuation-06-bo-7a997d5598",
+		"title": "Bounded Search Harness Delta",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28-1309-every-page-better-continuation/06_BOUNDED_SEARCH_HARNESS_DELTA.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Bounded Search Harness Delta",
+				"anchor": "bounded-search-harness-delta"
+			},
+			{
+				"level": 2,
+				"text": "Evidence",
+				"anchor": "evidence"
+			},
+			{
+				"level": 2,
+				"text": "Delta",
+				"anchor": "delta"
+			},
+			{
+				"level": 2,
+				"text": "Exact Rewrite",
+				"anchor": "exact-rewrite"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Bounded Search Harness Delta The Awtsmoos gives request shape, transport, and activity their separate vessels of light; Awtsmoos.com tests each owner where it lives instead of flattening browser modules into a data URL night. Evidence searchApi.js is a 47 line browser composition module.",
+		"searchText": "b\"h boruch hashem blessed is he bounded search harness delta the awtsmoos gives request shape, transport, and activity their separate vessels of light; awtsmoos.com tests each owner where it lives instead of flattening browser modules into a data url night. evidence searchapi.js is a 47 line browser composition module. it imports browser root /shared/meaningfulactivity.js, relative apitransport.js, and relative searchlibraryrequest.js. the old test base64 imports searchapi.js as a data: url; node cannot resolve browser root or relative module imports from that non hierarchical base. searchlibraryrequest.js owns the library query url and parameters: q, optional lane, default limit=20, autoinstall=false, strategy, and optional semantic requireindexed=true. it does not add a comments parameter. apitransport.js owns credentials: 'same origin', json parsing, timeout/abort behavior, and api/network errors. searchapi.js composes buildlibrarysearchrequest() then requestjson() and records successful search activity afterward. delta searchapiboundedcomments.test.mjs uses an obsolete data url module harness that cannot represent the current browser module graph. exact rewrite rewrite only searchapiboundedcomments.test.mjs completely: directly exercise buildlibrarysearchrequest() and verify bounded query parameters with no comments parameter; directly exercise requestjson() with a mocked fetch and verify credentials: 'same origin' plus json return; statically verify searchapi.js imports and composes the builder and transport; keep the test <=120 lines; do not remove activity telemetry or rewrite production just to satisfy a node only harness. next action rewrite the harness, reread it, run it directly, then rerun the complete sefarim suite fail fast.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28-1309-every-page-better-continuation-06-bo-7a997d5598.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28-1309-every-page-better-continuation-07-se-fc9600c067",
+		"title": "Sefarim Source/Test Verification",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28-1309-every-page-better-continuation/07_SEFARIM_SOURCE_TEST_VERIFICATION.md",
+		"category": "Testing",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Sefarim Source/Test Verification",
+				"anchor": "sefarim-source-test-verification"
+			},
+			{
+				"level": 2,
+				"text": "Planned",
+				"anchor": "planned"
+			},
+			{
+				"level": 2,
+				"text": "Actual",
+				"anchor": "actual"
+			},
+			{
+				"level": 2,
+				"text": "Remaining Performance Observation",
+				"anchor": "remaining-performance-observation"
+			},
+			{
+				"level": 2,
+				"text": "DELTA",
+				"anchor": "delta"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Sefarim Source/Test Verification The Awtsmoos lets every contract find its living owner and every owner return its truthful light; Awtsmoos.com now carries the reconstructed search vessel through a complete green source test night. Planned Close stale presentation, mode intent, shared so",
+		"searchText": "b\"h boruch hashem blessed is he sefarim source/test verification the awtsmoos lets every contract find its living owner and every owner return its truthful light; awtsmoos.com now carries the reconstructed search vessel through a complete green source test night. planned close stale presentation, mode intent, shared source action, and bounded search harness contracts without changing healthy production behavior merely to satisfy obsolete tests. actual searchfoldcontract.test.mjs follows searchapp, searchcontroldisclosure, form/disclosure css, active search css, and mobile context owners. it is 72 lines and passes 6/6 focused assertions. searchmode.test.mjs preserves deliberate library default for hebrew and english, explicit mode hydration, tanach api exact search, and shared safe source action delegation. it is 49 lines and passes 3/3 focused assertions. searchapiboundedcomments.test.mjs now exercises searchlibraryrequest.js and apitransport.js directly and verifies searchapi.js composition without a broken data url harness. it is 63 lines and passes 3/3 focused assertions. complete sefarim .test.mjs suite passes 15/15 with zero failures. production searchapi.js, searchapp.js, searchcontroldisclosure.js, resultsourceactions.js, request builder, transport, and telemetry modules were preserved when traces proved their current behavior correct. remaining performance observation node reports module typeless package json reparsing warnings for browser esm .js modules because the repository root package does not declare type: module. this incurs test runner parsing overhead. it is not changed here because root package semantics have a repository wide blast radius and require separate evidence. delta no remaining known sefarim source/test failure. browser geometry, interaction, runtime network, and performance verification remain open. next action open the real public sefarim route in chrome, test responsive/interactions/errors, collect timings/resources, then update the route ledger and advance to the sitewide matrix.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28-1309-every-page-better-continuation-07-se-fc9600c067.json"
+	}
+]

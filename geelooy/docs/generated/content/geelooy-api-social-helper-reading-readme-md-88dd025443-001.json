@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Reading (geelooy/api/social/helper/reading/)\n\nReading tracking store (heartbeats, privacy, recents, stats). Mounted via `_awtsmoos.reading.js`; routes in `helper/routes/reading/`.\n\n- `readingStore.js` — reading record storage.\n\n## Endpoints\n- `/reading/heartbeat` (POST), `/reading/privacy` (GET/POST)\n- `/reading/recent/:userId`, `/reading/stats/:userId`\n"
+}

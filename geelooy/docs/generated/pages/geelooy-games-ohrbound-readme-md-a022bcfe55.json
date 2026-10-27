@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-ohrbound-readme-md-a022bcfe55",
+	"title": "Ohrbound: Gates of Asiyah",
+	"sourcePath": "geelooy/games/ohrbound/README.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Ohrbound: Gates of Asiyah",
+			"anchor": "ohrbound-gates-of-asiyah"
+		},
+		{
+			"level": 2,
+			"text": "What it is",
+			"anchor": "what-it-is"
+		},
+		{
+			"level": 2,
+			"text": "Controls",
+			"anchor": "controls"
+		},
+		{
+			"level": 2,
+			"text": "Character vessels",
+			"anchor": "character-vessels"
+		},
+		{
+			"level": 2,
+			"text": "Identity and saves",
+			"anchor": "identity-and-saves"
+		},
+		{
+			"level": 2,
+			"text": "Creator",
+			"anchor": "creator"
+		},
+		{
+			"level": 2,
+			"text": "Architecture",
+			"anchor": "architecture"
+		},
+		{
+			"level": 2,
+			"text": "Verification",
+			"anchor": "verification"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-ohrbound-readme-md-a022bcfe55-001.json"
+	]
+}

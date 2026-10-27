@@ -9,7 +9,7 @@
 		"id": "apps",
 		"title": "Applications"
 	},
-	"title": "Ein Sof Engine [Quantum Core v2.5]",
+	"title": "Ein Sof Caption Engine",
 	"entries": [
 		"index.html",
 		"DOCUMENTATION.md"
@@ -23,44 +23,50 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-captions-cfdf900d.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 64,
-		"tests": 0,
+		"source": 110,
+		"tests": 2,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
 		"other": 3
 	},
-	"totalFiles": 68,
+	"totalFiles": 116,
 	"symbolSummary": {
-		"files": 53,
-		"classes": 1,
-		"functions": 117,
-		"exports": 56,
+		"files": 90,
+		"classes": 34,
+		"functions": 125,
+		"exports": 94,
 		"samples": [
-			"loadModule",
-			"reportInitialization",
-			"async",
-			"prepareBitmaps",
-			"getCaptionData",
-			"parseSimple",
-			"captionsFromFile",
-			"parseSrt",
-			"toSeconds",
-			"decodeAudio",
-			"configureSections",
-			"configurePreviewFocus"
+			"ChesedSettingsCodec",
+			"ChesedSettingsStore",
+			"EinSofControlRenderer",
+			"EinSofInputRenderer",
+			"EIN_SOF_PANEL_DEFINITIONS",
+			"EinSofPanelRenderer",
+			"GevurahStudioAccessibility",
+			"GevurahStudioDrawer",
+			"is",
+			"HodDownloadManager",
+			"KliEinSofDom",
+			"MalchusPreview"
 		]
 	},
-	"outgoingDependencies": [],
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/apps/shared",
+			"count": 2,
+			"examples": "geelooy/apps/captions/js/movie/installMovieAi.js; geelooy/apps/captions/video/modules/movie/CaptionMovieAdapter.js"
+		}
+	],
 	"incomingDependencies": [],
 	"externalDependencies": [],
 	"publicEntries": [
 		{
 			"url": "/apps/captions",
 			"file": "geelooy/apps/captions/index.html",
-			"title": "Ein Sof Engine [Quantum Core v2.5]",
-			"scripts": 0,
-			"styles": 0
+			"title": "Ein Sof Caption Engine",
+			"scripts": 1,
+			"styles": 9
 		},
 		{
 			"url": "/apps/captions/video",

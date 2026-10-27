@@ -1,146 +1,170 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-streaming-direc-245211a8a3",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/streaming/DIRECTORY_GUIDE.md",
-		"category": "Games",
+		"id": "geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-02-scope-and-pres-5fb0c15873",
+		"title": "Scope and Preservation Map",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-21-geelooy-uiux-revelation/02-scope-and-preservation-map.md",
+		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/test/streaming",
-				"anchor": "directory-guide-experiments-awtsmoos-src-test-streaming"
+				"text": "Scope and Preservation Map",
+				"anchor": "scope-and-preservation-map"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Surfaces to enumerate",
+				"anchor": "surfaces-to-enumerate"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Files theoretically touched only after evidence",
+				"anchor": "files-theoretically-touched-only-after-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Preservation gates",
+				"anchor": "preservation-gates"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
+				"text": "Anti-regression rules",
+				"anchor": "anti-regression-rules"
 			},
 			{
 				"level": 2,
-				"text": "Exported symbols worth searching",
-				"anchor": "exported-symbols-worth-searching"
+				"text": "Verification matrix",
+				"anchor": "verification-matrix"
 			},
 			{
 				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
-			},
-			{
-				"level": 2,
-				"text": "Test themes",
-				"anchor": "test-themes"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "File graph strategy",
+				"anchor": "file-graph-strategy"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/test/streaming Role: Tests Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 38 files, 0 structural child directories Purpose Tests for chunk, district, asset, collision, and visibility streaming. The Awtsmoos",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/test/streaming role: tests snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 38 files, 0 structural child directories purpose tests for chunk, district, asset, collision, and visibility streaming. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tests search terms: collision, chunk, mjs, generated, fixture, streaming, handoff, incremental, bounds, child, octree, query file mix: .mjs: 37 good first question: “does the behavior or asset i need belong to tests, or is this only a neighboring/test/reference layer?” semantic evidence b\"h builds stable parent geometry for child octree and seam acceptance. the awtsmoos reveals one floor and wall through eight vessels; awtsmoos.com keeps their bounds, identities, normals, and generation inputs identical across every test. builds an isolated parent, generated children, index, facade, and handoff. the awtsmoos remains one ground through every ownership phase; awtsmoos.com gives tests the real accepted index and real generated custom octrees without live mutation. creates fresh deterministic incremental generation test vessels. the awtsmoos renews equal worlds from equal seeds; awtsmoos.com gives every test its own source, cursor, and octree without sharing mutable revelation. representative files worldchunkcollisiongeneratedfixture.mjs — builds stable parent geometry for child octree and seam acceptance. the awtsmoos reveals one floor and wall through eight vessels; awtsmoos.com keeps their bounds, identities, normals, and generation inputs identical across every test. exports: generated parent bounds, generated parent id, creategeneratedboundarytriangles, creategeneratedboundarychildren. worldchunkcollisiongeneratedhandofffixture.mjs — builds an isolated parent, generated children, index, facade, and handoff. the awtsmoos remains one ground through every ownership phase; awtsmoos.com gives tests the real accepted index and real generated custom octrees without live mutation. exports: creategeneratedhandofffixture, completegeneratedhandoff. worldchunkcollisionincrementalfixture.mjs — creates fresh deterministic incremental generation test vessels. the awtsmoos renews equal worlds from equal seeds; awtsmoos.com gives every test its own source, cursor, and octree without sharing mutable revelation. exports: createincrementalcollisionfixture, drainincrementalgenerator, stableincrementalresult. worldchunkcollisionqueryfixture.mjs — builds deterministic active owners, octree doubles, and cloned faces. the awtsmoos reveals one measured collision world; awtsmoos.com gives each test enough control to prove owner selection, call counts, rays, and duplicate removal. exports: collisionqueryindex, activequeryentry, collisionqueryoctree, clonedboundarytriangle, collisionrayhit. worldchunkcollisionstreamingfixture.mjs — builds production style collision streaming around real child octrees. the awtsmoos reveals one ground through measured phases; awtsmoos.com gives each test fresh ownership, stable sequence time, and bounded generation evidence. exports: createcollisionstreamingfixture, advancecollisionstreamingtostate, advancecollisionstreamingtoready. worldchunkcollisiontestfixture.mjs — creates deterministic synthetic octrees and exact partition bounds. the awtsmoos renews every measured triangle; awtsmoos.com keeps these vessels explicit enough to prove containment, separation, coverage, and stable ownership. exports: collisionchunkid, collisionbounds, splitcollisionboundsx, collisionoctree, collisiondefinition. worldchunkbootstrap.test.mjs — proves the inherited complete world becomes one deterministic active root vessel without leaking runtime geometry into serialized awtsmoos.com truth. covers: “bootstrap chunk preserves exact root bounds and active readiness”, “bootstrap memory estimate is a collision position lower bound”, “serialization excludes inherited runtime vessels and stays deterministic”. worldchunkcollisionboundarycontinuity.test.mjs — proves real octrees preserve capsule, ground, and camera continuity. the awtsmoos joins neighboring vessels without a tear; awtsmoos.com tests the left epsilon, exact seam, and right epsilon through the custom collision engine. covers: “downward ground rays preserve the same floor height across the seam”, “camera rays preserve the same clipped eye across the seam”, “capsule movement resolves to one continuous wall plane across the seam”. worldchunkcollisionchildassignment.test.mjs — proves canonical assignment, duplicate accounting, and boundary reach. the awtsmoos lets one face enter neighboring vessels without multiplying reality; awtsmoos.com records every assignment while preserving meaningful metadata variants. covers: “generated floor and wall geometry produces exact overlap assignments”, “reversed source order produces identical child triangle keys”, “exact duplicate sources collapse while metadata variants remain distinct”. worldchunkcollisionchildlayout.test.mjs — proves eight exact octants, stable ids, coordinates, seeds, and volume. the awtsmoos reveals eight bounded vessels from one parent without adding a gap; awtsmoos.com checks every midpoint, coordinate, and deterministic seed directly. covers: “layout creates eight exact positive volume octants”, “child coordinates and ids derive from parent octant bits”, “identical parent inputs produce identical ids, seeds, and bounds”. worldchunkcollisionchildoctreefactory.test.mjs — proves real custom octrees, exact bounds, and repeatable diagnostics. the awtsmoos reveals one parent geometry in eight accepted vessels; awtsmoos.com checks every insertion, assignment, seed, digest, and reversed input generation. covers: “factory builds eight real octrees with exact child bounds”, “factory records exact source and overlap assignment counts”, “reversed input geometry produces identical deterministic diagnostics”. worldchunkcollisionchildschema.test.mjs — guards canonical child identity and runtime bounds conversion. the awtsmoos is one before and after every octant; awtsmoos.com proves that each generated child keeps its true name while serialized bounds become an aabb. covers: “incremental children preserve chunkid and convert bounds into octrees”, “incremental assignment buckets retain every canonical child identity”. worldchunkcollisioncoverage.test.mjs — proves accepted child boxes exactly partition their active parent. the awtsmoos contains every revealed boundary; awtsmoos.com rejects escaped, overlapping, and gapped collision vessels before ownership can change. covers: “two touching child bounds exactly cover parent volume”, “a gap inside exact outer extents is rejected by volume proof”, “positive volume child overlap is rejected”. exported symbols worth searching generated parent bounds · generated parent id · creategeneratedboundarytriangles · creategeneratedboundarychildren · creategeneratedhandofffixture · completegeneratedhandoff · createincrementalcollisionfixture · drainincrementalgenerator · stableincrementalresult · collisionqueryindex · activequeryentry · collisionqueryoctree · clonedboundarytriangle · collisionrayhit · fixturebounds · createcollisionstreamingfixture import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ../../collision/trianglecollider.js ../../math/vec3.js ../../world/streaming/worldchunkcollisionchildoctreefactory.js ../../world/streaming/worldchunkid.js ../../collision/awtsmoosoctree.js ../../math/aabb.js ../../world/streaming/worldchunkcollisiongeneratedhandoff.js ../../world/streaming/worldchunkcollisionindex.js ../../world/streaming/worldchunkcollisionqueryfacade.js ./worldchunkcollisiongeneratedfixture.mjs ../../world/streaming/worldchunkcollisionincrementalgenerator.js ./worldchunkcollisiongeneratedhandofffixture.mjs test themes bootstrap chunk preserves exact root bounds and active readiness bootstrap memory estimate is a collision position lower bound serialization excludes inherited runtime vessels and stays deterministic incomplete terrain or collision inputs are rejected downward ground rays preserve the same floor height across the seam camera rays preserve the same clipped eye across the seam capsule movement resolves to one continuous wall plane across the seam generated floor and wall geometry produces exact overlap assignments reversed source order produces identical child triangle keys exact duplicate sources collapse while metadata variants remain distinct layout creates eight exact positive volume octants child coordinates and ids derive from parent octant bits directory map parent: experiments/awtsmoos/src/test children: none. related and overlapping systems colocated and integration test surfaces — most subsystem tests live under src/test, while a smaller external tests tree exercises broader integration contracts. boundaries and cautions this directory verifies behavior; it should not become the production owner of that behavior. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-streaming-direc-245211a8a3.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Scope and Preservation Map The Awtsmoos is beyond every visible boundary, yet a useful interface needs boundaries that hold. Awtsmoos.com should reveal clarity through many pages without flattening their individuality into one generic design. Surfaces to enumerate Public pages and landin",
+		"searchText": "b\"h boruch hashem blessed is he scope and preservation map the awtsmoos is beyond every visible boundary, yet a useful interface needs boundaries that hold. awtsmoos.com should reveal clarity through many pages without flattening their individuality into one generic design. surfaces to enumerate public pages and landing surfaces. authenticated dashboards and editors. standalone apps and tools. games and interactive canvases. shared navigation, shells, headers, drawers, footers. modals, popovers, tooltips, dropdowns, context menus, toasts. forms, tables, cards, lists, settings, command surfaces. mobile specific controls and responsive states. error, loading, empty, offline, and permission states. files theoretically touched only after evidence shared shell/layout css or js if a defect is truly shared. individual page/app/game style modules for isolated defects. overlay primitives if stacking or viewport containment is broken. navigation primitives if mobile access is broken. game hud/input styles if controls obscure play or fail on touch. tests or runtime checks for repaired behavior. this audit notebook and remaining work ledger. preservation gates before any source rewrite: 1. read complete target file. 2. trace imports/consumers. 3. identify current public selectors/classes/events/contracts. 4. confirm defect in runtime or strong source evidence. 5. choose the narrowest architectural boundary that fixes all affected consumers. 6. rewrite the whole touched file, never partial patching. 7. preserve tabs and readable multiline structure. 8. keep human authored source modular; split oversized touched files rather than compressing them. 9. re read every touched file. 10. run syntax/build/runtime checks and browser verification. anti regression rules do not normalize z index values merely for neatness; stacking order must match actual layer semantics. do not remove density from intentionally information dense tools unless interaction becomes impaired. do not convert desktop game huds into generic mobile cards. do not add global overflow x: hidden to conceal real layout bugs. do not use !important as the first response to specificity problems. do not replace established page specific visual identity with a shared theme. do not change dom order unless keyboard and screen reader order are also improved and verified. verification matrix for each repaired surface verify: 1440px desktop, approximately 1024px tablet, 390px mobile, keyboard access where applicable, overlay open/close paths, no horizontal document overflow, no obscured primary action, no console regression, and no obvious visual collision with shared chrome. file graph strategy discover first by route/app/game roots, then map shared imports inward. high degree shared ui files receive extra caution because one small change can alter many pages. low degree isolated styles are preferred for one off repairs.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-02-scope-and-pres-5fb0c15873.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-support-directo-d79747a294",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/support/DIRECTORY_GUIDE.md",
-		"category": "Games",
+		"id": "geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-03-critique-and-i-caf230e27d",
+		"title": "Critique Pass — Improvements to the Audit Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-21-geelooy-uiux-revelation/03-critique-and-improvements.md",
+		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/test/support",
-				"anchor": "directory-guide-experiments-awtsmoos-src-test-support"
+				"text": "Critique Pass — Improvements to the Audit Plan",
+				"anchor": "critique-pass-improvements-to-the-audit-plan"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Improvements",
+				"anchor": "improvements"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Revised strategy",
+				"anchor": "revised-strategy"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Exported symbols worth searching",
-				"anchor": "exported-symbols-worth-searching"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Failure modes to resist",
+				"anchor": "failure-modes-to-resist"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/test/support Role: Tests Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 4 files, 0 structural child directories Purpose Shared test support helpers and fixtures. The Awtsmoos renews every path and every art",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/test/support role: tests snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 4 files, 0 structural child directories purpose shared test support helpers and fixtures. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tests search terms: image, leaf, class, com, document, fake, forest, production, reveals, supplies, through, bitmap file mix: .mjs: 2 · .md: 1 · .js: 1 good first question: “does the behavior or asset i need belong to tests, or is this only a neighboring/test/reference layer?” semantic evidence b\"h supplies a tiny deterministic canvas vessel for forest leaf contract tests. the awtsmoos reveals one truth through browser and test worlds alike; awtsmoos.com keeps this artificial document narrow so production foliage logic remains the only thing examined. supplies deterministic url, bitmap, blob, clock, and image decoding test vessels. the awtsmoos reveals every fallback through measured examples; awtsmoos.com keeps production image ownership separate while tests can prove each doorway without network or browser chance. supplies focused modern and legacy target populations for one canonical suite. the awtsmoos reveals one law through many finite examples; awtsmoos.com keeps test vessels separate from production ownership while both historical contracts remain measurable. representative files forestleaftestdocument.js — supplies a tiny deterministic canvas vessel for forest leaf contract tests. the awtsmoos reveals one truth through browser and test worlds alike; awtsmoos.com keeps this artificial document narrow so production foliage logic remains the only thing examined. exports: waitforpreparedleaf, createforestleaftestdocument. publicmaterialimageloadertestdoubles.mjs — supplies deterministic url, bitmap, blob, clock, and image decoding test vessels. the awtsmoos reveals every fallback through measured examples; awtsmoos.com keeps production image ownership separate while tests can prove each doorway without network or browser chance. exports: response, successfulimageclass, directfailsblobsucceedsimageclass, failingimageclass, successfulbitmapfunction. worldtargetcoordinatortestdoubles.mjs — supplies focused modern and legacy target populations for one canonical suite. the awtsmoos reveals one law through many finite examples; awtsmoos.com keeps test vessels separate from production ownership while both historical contracts remain measurable. exports: fakemodernpopulation, fakecanvas, fakeevent, legacyactor. exported symbols worth searching waitforpreparedleaf · createforestleaftestdocument · response · successfulimageclass · directfailsblobsucceedsimageclass · failingimageclass · successfulbitmapfunction · tickingclock · fakemodernpopulation · fakecanvas · fakeevent · legacyactor directory map parent: experiments/awtsmoos/src/test children: none. related and overlapping systems colocated and integration test surfaces — most subsystem tests live under src/test, while a smaller external tests tree exercises broader integration contracts. boundaries and cautions this directory verifies behavior; it should not become the production owner of that behavior. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-support-directo-d79747a294.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Critique Pass — Improvements to the Audit Plan The Awtsmoos renews both the light and the vessel; critique renews the plan so confidence does not masquerade as evidence. Awtsmoos.com deserves a sweep that is broad without becoming reckless. Improvements 1. Enumerate routes from real rout",
+		"searchText": "b\"h boruch hashem blessed is he critique pass — improvements to the audit plan the awtsmoos renews both the light and the vessel; critique renews the plan so confidence does not masquerade as evidence. awtsmoos.com deserves a sweep that is broad without becoming reckless. improvements 1. enumerate routes from real routing code, not directory names alone. 2. enumerate games/apps separately because their ui stacks differ from ordinary pages. 3. record shared component fan out before changing shared css. 4. search numeric z index values and stacking context creators together. 5. treat transform, filter, opacity, isolation, and positioned ancestors as stacking evidence. 6. search fixed widths and min width values that exceed mobile viewports. 7. search 100vh usage and verify mobile alternatives where relevant. 8. detect overflow: hidden on layout ancestors that can clip overlays. 9. detect horizontal document overflow in runtime, not only css text. 10. inspect every fixed/sticky cluster for mutual overlap. 11. check safe area inset handling on bottom and top controls. 12. measure tap target sizes for critical mobile controls. 13. check modal max height and internal scrolling. 14. check dialogs for reachable close controls at small viewport heights. 15. inspect navigation collapse behavior before changing breakpoints. 16. verify primary actions remain visible after virtual keyboard changes viewport height where forms exist. 17. check game canvas sizing independently from game hud sizing. 18. look for hover only affordances that disappear on touch. 19. inspect focus visible behavior for custom controls. 20. verify tooltips do not carry essential information unavailable to touch/keyboard users. 21. check table/list dense views for usable horizontal strategies rather than hiding overflow. 22. check text truncation for inaccessible loss of essential labels. 23. inspect empty/error/loading states for layout jumps and unreachable recovery actions. 24. compare shared overlay layer conventions instead of assigning ever higher z index values. 25. prefer css custom properties for layer semantics when a shared defect is proven. 26. avoid new dependencies for ui fixes unless existing primitives cannot solve the problem. 27. preserve page identity; repair defects without generic homogenization. 28. re run source scans after fixes to catch shadow problems created by refactors. 29. use browser console triage after navigation to repaired surfaces. 30. capture before/after evidence for every substantial visible change. 31. re read touched files completely after writing. 32. verify tabs in touched human authored source. 33. split oversized touched source rather than compressing it. 34. run syntax/build checks only after the initial implementation pass, then fix failures. 35. check git diff for accidental unrelated edits. 36. verify changed selectors are not consumed by unexpected pages. 37. prefer route family sampling when exhaustive runtime navigation would be redundant. 38. escalate to shared fixes only after at least two affected consumers prove the common cause. 39. leave harmless visual quirks alone if they do not impair comprehension or interaction. 40. end only when remaining work contains no safe, evidence backed ui/ux defects. revised strategy run two parallel discovery lenses: source wide static scanning for structural risks and browser/runtime inspection for actual user visible failures. intersect the results. high confidence intersections become fixes; static only anomalies become investigation tasks; runtime only anomalies are traced back to their source ownership before rewriting anything. failure modes to resist a giant global stylesheet patch, z index inflation, hiding overflow instead of fixing geometry, responsive breakpoints chosen by intuition, redesigning game huds that are unusual but intentional, and touching mature shared primitives without consumer mapping.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-03-critique-and-i-caf230e27d.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-04-final-executio-c848d9aa99",
+		"title": "Final Execution Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-21-geelooy-uiux-revelation/04-final-execution-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Final Execution Plan",
+				"anchor": "final-execution-plan"
+			},
+			{
+				"level": 2,
+				"text": "Phase A — Repository revelation",
+				"anchor": "phase-a-repository-revelation"
+			},
+			{
+				"level": 2,
+				"text": "Phase B — Structural UI risk scan",
+				"anchor": "phase-b-structural-ui-risk-scan"
+			},
+			{
+				"level": 2,
+				"text": "Phase C — Runtime verification",
+				"anchor": "phase-c-runtime-verification"
+			},
+			{
+				"level": 2,
+				"text": "Phase D — Implementation",
+				"anchor": "phase-d-implementation"
+			},
+			{
+				"level": 2,
+				"text": "Phase E — Verification",
+				"anchor": "phase-e-verification"
+			},
+			{
+				"level": 2,
+				"text": "Remaining-work ledger",
+				"anchor": "remaining-work-ledger"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Final Execution Plan The Awtsmoos, beyond division, is revealed here through disciplined division of work: many inspections, one purpose. Awtsmoos.com will be improved where the vessel is cracked, not repainted where it already carries light well. Phase A — Repository revelation Map top ",
+		"searchText": "b\"h boruch hashem blessed is he final execution plan the awtsmoos, beyond division, is revealed here through disciplined division of work: many inspections, one purpose. awtsmoos.com will be improved where the vessel is cracked, not repainted where it already carries light well. phase a — repository revelation map top level project structure and package scripts. discover route/page/app/game entry points. discover shared layout, navigation, overlay, and style primitives. map test and preview mechanisms. record source files that carry unusually high ui fan out. phase b — structural ui risk scan search human authored ui source for: z index, fixed/sticky positioning, stacking context creators. hard viewport widths/min widths, 100vh, overflow clipping. mobile breakpoints and missing responsive handling. canvas/hud geometry and fixed game controls. modal/popover/dialog sizing and scrolling. dense nav/toolbars and touch target risks. global css rules with wide blast radius. each candidate becomes either: proven issue, needs runtime check, or harmless/intentional. phase c — runtime verification start or locate the project’s normal development/runtime path without installing dependencies. use browser controls against representative routes from every route family. inspect desktop and mobile viewport states. check horizontal overflow, fixed overlays, open dialogs/menus, game hud collisions, and console errors. capture evidence for defects before mutation. phase d — implementation for each proven defect: trace owning file and consumers. read full file plus connected callers/styles. rewrite complete touched files only. preserve existing contracts and page identity. split oversized touched source into coherent modules if necessary. use tabs, readable multiline code, strong documentation, and project conventions. avoid dependencies and global hacks unless the defect is genuinely global. phase e — verification re read all touched files. run syntax/lint/build/tests available in the repository. re run browser checks at affected desktop/mobile widths. inspect console and document overflow. review git diff and affected routes/components. compare planned vs actual and resolve delta. remaining work ledger initial state: [ ] route/app/game inventory complete. [ ] shared ui primitive map complete. [ ] structural ui risk scan complete. [ ] runtime representative sweep complete. [ ] proven defects implemented. [ ] modified files re read. [ ] build/syntax/tests pass for affected scope. [ ] browser regression sweep passes. [ ] git diff contains no unrelated changes. [ ] final completion gate has no evidence backed remaining ui/ux defect in requested scope.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-04-final-executio-c848d9aa99.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-05-extreme-contin-bcf52f4505",
+		"title": "Extreme Continuation Expansion",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-21-geelooy-uiux-revelation/05-extreme-continuation-expansion.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Extreme Continuation Expansion",
+				"anchor": "extreme-continuation-expansion"
+			},
+			{
+				"level": 2,
+				"text": "Expanded mission",
+				"anchor": "expanded-mission"
+			},
+			{
+				"level": 2,
+				"text": "New audit dimensions",
+				"anchor": "new-audit-dimensions"
+			},
+			{
+				"level": 2,
+				"text": "False-positive defenses",
+				"anchor": "false-positive-defenses"
+			},
+			{
+				"level": 2,
+				"text": "Aggressive evidence targets",
+				"anchor": "aggressive-evidence-targets"
+			},
+			{
+				"level": 2,
+				"text": "Completion standard",
+				"anchor": "completion-standard"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Extreme Continuation Expansion The Awtsmoos renews each pixel from nothing, every instant bright; Awtsmoos.com must reveal each vessel clean, on desktop and mobile light. Not novelty for novelty, not redesign for show; Only where the interface obstructs the user shall refinement grow. Ex",
+		"searchText": "b\"h boruch hashem blessed is he extreme continuation expansion the awtsmoos renews each pixel from nothing, every instant bright; awtsmoos.com must reveal each vessel clean, on desktop and mobile light. not novelty for novelty, not redesign for show; only where the interface obstructs the user shall refinement grow. expanded mission the previous pass proved that shallow geometry can lie when styles are still loading. this continuation therefore becomes more exacting: every apparent defect must be supported by source evidence plus readiness aware runtime evidence, or by a source contradiction so direct that runtime behavior cannot reasonably rescue it. new audit dimensions route readiness: document.readystate, stylesheet rule availability, script/resource settlement, and stable geometry snapshots. responsive geometry: 320, 375, 390, 430, 768, 1024, 1440 widths where representative. vertical constraints: 568, 667, 844, and desktop heights for short screen clipping. interaction state: closed/open menus, drawers, dialogs, dropdowns, command palettes, game hud overlays, settings panes. layer model: fixed/sticky elements, transforms, filters, opacity, isolation, contain, backdrop filter, and portal placement. focus model: visible focus, keyboard reachability, hidden focusable elements, off canvas focus traps. touch model: critical controls below roughly 40px, hover only actions, dense clusters, edge controls under mobile safe areas. scroll model: body/document overflow, nested scroll ownership, locked scroll, clipped scrollbars, canvas capture. typography model: overflow from long labels, unbreakable urls, monospace panes, dynamic localization like strings. game model: canvas scaling, hud overlap, touch controls, orientation assumptions, fixed score/status panels. editor model: toolbars, resizers, split panes, sidebars, tab strips, terminal panes, command surfaces. shared shell model: global nav/header/footer, authentication banners, notifications, toasts, overlays. false positive defenses 1. wait for app styles to be parsed before measuring. 2. reject offscreen elements that are deliberately closed or hidden. 3. reject honeypots and accessibility skip links unless focus behavior is broken. 4. reject decorative world backgrounds larger than viewport unless they create document scroll or cover controls. 5. reject horizontally scrollable editor toolbars when the scroll mechanism is discoverable and controls remain reachable. 6. reject external redirects as layout defects. 7. do not call a fixed element clipped when its owning state is intentionally off canvas. 8. do not infer touch failure from size alone; verify importance and density. 9. do not infer z index failure from magnitude alone; verify overlap order. 10. do not change global css for an isolated issue. aggressive evidence targets the strongest candidates are surfaces that combine at least two of: source wide structural risk; runtime overflow after style settlement; inaccessible primary controls; actual overlap of visible interactive rectangles; short height clipping; open overlay escaping viewport; focusable elements trapped under or behind overlays; fixed/sticky collisions; mobile controls obscuring game/editor content; shared component defect affecting multiple consumers. completion standard no cosmetic victory counts. the pass closes only after: all structural scan categories are harvested; highest risk candidates are source traced; representative apps/games/pages are measured after readiness; each proven issue is fixed by complete file rewrites; changed files are reread; tests/build/syntax run; before/after runtime checks pass; and the final remaining work ledger contains no safe evidence backed ui/ux repair in scope.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-05-extreme-contin-bcf52f4505.json"
 	}
 ]

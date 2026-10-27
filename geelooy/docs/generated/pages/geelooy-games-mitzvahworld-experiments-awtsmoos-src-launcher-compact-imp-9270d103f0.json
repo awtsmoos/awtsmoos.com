@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-launcher-compact-imp-9270d103f0",
+	"title": "B\"H",
+	"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/launcher/COMPACT_IMPORTS.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Compact Local ESM Doors in MitzvahWorld",
+			"anchor": "compact-local-esm-doors-in-mitzvahworld"
+		},
+		{
+			"level": 2,
+			"text": "Default rule",
+			"anchor": "default-rule"
+		},
+		{
+			"level": 2,
+			"text": "Why entry doors matter",
+			"anchor": "why-entry-doors-matter"
+		},
+		{
+			"level": 2,
+			"text": "Preserve literal import visibility",
+			"anchor": "preserve-literal-import-visibility"
+		},
+		{
+			"level": 2,
+			"text": "Do not re-compact generated artifacts",
+			"anchor": "do-not-re-compact-generated-artifacts"
+		},
+		{
+			"level": 2,
+			"text": "Do not compact public vendor ESM",
+			"anchor": "do-not-compact-public-vendor-esm"
+		},
+		{
+			"level": 2,
+			"text": "Preserve startup architecture",
+			"anchor": "preserve-startup-architecture"
+		},
+		{
+			"level": 2,
+			"text": "Current compact-aware raw doors",
+			"anchor": "current-compact-aware-raw-doors"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-experiments-awtsmoos-src-launcher-compact-imp-9270d103f0-001.json"
+	]
+}

@@ -1,0 +1,104 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-faster-import-design-md-cd30f56bd5",
+	"title": "B\"H — Faster Future Import Path: Bottleneck Analysis + Design",
+	"sourcePath": "docs/FASTER_IMPORT_DESIGN.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Faster Future Import Path: Bottleneck Analysis + Design",
+			"anchor": "b-h-faster-future-import-path-bottleneck-analysis-design"
+		},
+		{
+			"level": 2,
+			"text": "1. Measured bottlenecks (production, 2026-10-11)",
+			"anchor": "1-measured-bottlenecks-production-2026-10-11"
+		},
+		{
+			"level": 3,
+			"text": "1.1 Baseline: serial import job — 7 records/sec",
+			"anchor": "1-1-baseline-serial-import-job-7-records-sec"
+		},
+		{
+			"level": 3,
+			"text": "1.2 Per-post cost breakdown (in order of cost)",
+			"anchor": "1-2-per-post-cost-breakdown-in-order-of-cost"
+		},
+		{
+			"level": 3,
+			"text": "1.3 One-time per-job costs",
+			"anchor": "1-3-one-time-per-job-costs"
+		},
+		{
+			"level": 3,
+			"text": "1.4 Structural limits found",
+			"anchor": "1-4-structural-limits-found"
+		},
+		{
+			"level": 2,
+			"text": "2. What was already done (2026-10-11, live in production)",
+			"anchor": "2-what-was-already-done-2026-10-11-live-in-production"
+		},
+		{
+			"level": 2,
+			"text": "3. Faster future design (for the NEXT rework)",
+			"anchor": "3-faster-future-design-for-the-next-rework"
+		},
+		{
+			"level": 3,
+			"text": "3.1 Kill the per-post round trips (biggest win)",
+			"anchor": "3-1-kill-the-per-post-round-trips-biggest-win"
+		},
+		{
+			"level": 3,
+			"text": "3.2 Cache the live-hash scan across jobs",
+			"anchor": "3-2-cache-the-live-hash-scan-across-jobs"
+		},
+		{
+			"level": 3,
+			"text": "3.3 Move hashing client-side",
+			"anchor": "3-3-move-hashing-client-side"
+		},
+		{
+			"level": 3,
+			"text": "3.4 Streaming ingest (replace stage→poll for large corpora)",
+			"anchor": "3-4-streaming-ingest-replace-stage-poll-for-large-corpora"
+		},
+		{
+			"level": 3,
+			"text": "3.5 Allow bounded concurrent jobs (with disjoint series)",
+			"anchor": "3-5-allow-bounded-concurrent-jobs-with-disjoint-series"
+		},
+		{
+			"level": 3,
+			"text": "3.6 Direct shard append for the packed mirror (if it stays)",
+			"anchor": "3-6-direct-shard-append-for-the-packed-mirror-if-it-stays"
+		},
+		{
+			"level": 3,
+			"text": "3.7 What NOT to do",
+			"anchor": "3-7-what-not-to-do"
+		},
+		{
+			"level": 2,
+			"text": "4. Throughput log",
+			"anchor": "4-throughput-log"
+		},
+		{
+			"level": 2,
+			"text": "6. Igros Kodesh import — final tally (2026-10-11 19:20 EDT)",
+			"anchor": "6-igros-kodesh-import-final-tally-2026-10-11-19-20-edt"
+		},
+		{
+			"level": 2,
+			"text": "5. Recommendation",
+			"anchor": "5-recommendation"
+		}
+	],
+	"markdownParts": [
+		"content/docs-faster-import-design-md-cd30f56bd5-001.json"
+	]
+}

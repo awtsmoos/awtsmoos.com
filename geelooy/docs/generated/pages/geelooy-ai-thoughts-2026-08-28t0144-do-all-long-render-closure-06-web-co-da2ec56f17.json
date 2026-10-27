@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-28t0144-do-all-long-render-closure-06-web-co-da2ec56f17",
+	"title": "WebCodecs Capability Evidence — Reported Support Is False",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0144-do-all-long-render-closure/06_WEB_CODECS_CAPABILITY_EVIDENCE.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "WebCodecs Capability Evidence — Reported Support Is False",
+			"anchor": "webcodecs-capability-evidence-reported-support-is-false"
+		},
+		{
+			"level": 2,
+			"text": "Direct runtime evidence",
+			"anchor": "direct-runtime-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Architectural consequence",
+			"anchor": "architectural-consequence"
+		},
+		{
+			"level": 2,
+			"text": "NEXTACTION",
+			"anchor": "nextaction"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-28t0144-do-all-long-render-closure-06-web-co-da2ec56f17-001.json"
+	]
+}

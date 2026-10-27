@@ -1,0 +1,57 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "ayzarim-glyph-engine-7919ad9a",
+	"path": "ayzarim/glyph-engine",
+	"type": "infrastructure",
+	"family": {
+		"id": "runtime",
+		"title": "Runtime and Infrastructure"
+	},
+	"title": "ayzarim/glyph-engine",
+	"entries": [],
+	"humanDocumentation": [
+		"docs/TUTORIALS/PROJECTS/RUNTIME_AND_INFRASTRUCTURE.md",
+		"docs/ARCHITECTURE.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/RUNTIME_AND_INFRASTRUCTURE.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-glyph-engine-7919ad9a.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 22,
+		"tests": 4,
+		"assets": 1,
+		"generated": 0,
+		"docs": 0,
+		"other": 1
+	},
+	"totalFiles": 28,
+	"symbolSummary": {
+		"files": 22,
+		"classes": 0,
+		"functions": 44,
+		"exports": 41,
+		"samples": [
+			"audit",
+			"benchmarks",
+			"browserProof",
+			"send",
+			"create",
+			"LETTERS",
+			"PUNCTUATION",
+			"PASSAGE",
+			"ALTERNATIVES",
+			"mappings",
+			"encode",
+			"shuffledCodes"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": false,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

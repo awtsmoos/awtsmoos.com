@@ -1,0 +1,308 @@
+[
+	{
+		"id": "geelooy-games-scribe-journey-tests-simulator-results-2026-09-16t20-27-18-5b0b9de4b7",
+		"title": "Scribe Journey Simulation Observatory",
+		"sourcePath": "geelooy/games/scribe-journey/tests/simulator-results/2026-09-16T20-27-18-680Z_complete_seed-736560674/summary.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Scribe Journey Simulation Observatory",
+				"anchor": "scribe-journey-simulation-observatory"
+			},
+			{
+				"level": 2,
+				"text": "Result",
+				"anchor": "result"
+			},
+			{
+				"level": 2,
+				"text": "Status Counts",
+				"anchor": "status-counts"
+			},
+			{
+				"level": 2,
+				"text": "Category Counts",
+				"anchor": "category-counts"
+			},
+			{
+				"level": 2,
+				"text": "Failures",
+				"anchor": "failures"
+			},
+			{
+				"level": 2,
+				"text": "Slowest Executions",
+				"anchor": "slowest-executions"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Scribe Journey Simulation Observatory Result Run: 2026 09 16T20 27 18 680Z complete seed 736560674 Profile: complete Seed: 736560674 Passed: 62 Failed: 0 Timed out: 0 Spawn errors: 0 Executed: 62/62 Unique scenarios: 62 Wall duration: 47122 ms Throughput: 1.316/s Overall: PASS Status Cou",
+		"searchText": "b\"h boruch hashem blessed is he scribe journey simulation observatory result run: 2026 09 16t20 27 18 680z complete seed 736560674 profile: complete seed: 736560674 passed: 62 failed: 0 timed out: 0 spawn errors: 0 executed: 62/62 unique scenarios: 62 wall duration: 47122 ms throughput: 1.316/s overall: pass status counts status count : passed 62 category counts category count : campaign 21 movement 6 combat 2 infrastructure 6 report 10 runtime 4 rendering 4 multiplayer 3 world 3 persistence 3 failures none. slowest executions malkuthfinaleruntimesimulation 1: 6978 ms (passed) movementencounterruntimesimulation 1: 5887 ms (passed) movementcadencesimulation 1: 5471 ms (passed) malkuthplayerverbsimulation 1: 5348 ms (passed) malkuthfinalesimulation 1: 5292 ms (passed) onboardingdoorruntimesimulation 1: 5243 ms (passed) orchardrecruitmentruntimesimulation 1: 5150 ms (passed) cisternrescueruntimesimulation 1: 5131 ms (passed) questdestinationruntimesimulation 1: 4893 ms (passed) combatquestsimulation 1: 4856 ms (passed)",
+		"page": "pages/geelooy-games-scribe-journey-tests-simulator-results-2026-09-16t20-27-18-5b0b9de4b7.json"
+	},
+	{
+		"id": "geelooy-games-scribe-journey-tests-simulator-results-2026-09-17t02-46-30-6deea4c93d",
+		"title": "Scribe Journey Simulation Observatory",
+		"sourcePath": "geelooy/games/scribe-journey/tests/simulator-results/2026-09-17T02-46-30-070Z_complete_seed-759312041/summary.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Scribe Journey Simulation Observatory",
+				"anchor": "scribe-journey-simulation-observatory"
+			},
+			{
+				"level": 2,
+				"text": "Result",
+				"anchor": "result"
+			},
+			{
+				"level": 2,
+				"text": "Status Counts",
+				"anchor": "status-counts"
+			},
+			{
+				"level": 2,
+				"text": "Category Counts",
+				"anchor": "category-counts"
+			},
+			{
+				"level": 2,
+				"text": "Failures",
+				"anchor": "failures"
+			},
+			{
+				"level": 2,
+				"text": "Slowest Executions",
+				"anchor": "slowest-executions"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Scribe Journey Simulation Observatory Result Run: 2026 09 17T02 46 30 070Z complete seed 759312041 Profile: complete Seed: 759312041 Passed: 62 Failed: 0 Timed out: 0 Spawn errors: 0 Executed: 62/62 Unique scenarios: 62 Wall duration: 42524 ms Throughput: 1.458/s Overall: PASS Status Cou",
+		"searchText": "b\"h boruch hashem blessed is he scribe journey simulation observatory result run: 2026 09 17t02 46 30 070z complete seed 759312041 profile: complete seed: 759312041 passed: 62 failed: 0 timed out: 0 spawn errors: 0 executed: 62/62 unique scenarios: 62 wall duration: 42524 ms throughput: 1.458/s overall: pass status counts status count : passed 62 category counts category count : campaign 21 movement 6 combat 2 infrastructure 6 report 10 runtime 4 rendering 4 multiplayer 3 world 3 persistence 3 failures none. slowest executions malkuthfinaleruntimesimulation 1: 5346 ms (passed) malkuthplayerverbsimulation 1: 4981 ms (passed) granaryrestorationruntimesimulation 1: 4733 ms (passed) malkuthfinalesimulation 1: 4653 ms (passed) movementencounterruntimesimulation 1: 4653 ms (passed) orchardrecruitmentruntimesimulation 1: 4638 ms (passed) questdestinationruntimesimulation 1: 4528 ms (passed) reedbankquestruntimesimulation 1: 4494 ms (passed) onboardingdoorruntimesimulation 1: 4485 ms (passed) footprintinvestigationruntimesimulation 1: 4398 ms (passed)",
+		"page": "pages/geelooy-games-scribe-journey-tests-simulator-results-2026-09-17t02-46-30-6deea4c93d.json"
+	},
+	{
+		"id": "geelooy-games-scripts-documentation-md-c1bcde5503",
+		"title": "Shared Game Scripts",
+		"sourcePath": "geelooy/games/scripts/DOCUMENTATION.md",
+		"category": "Games",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Shared Game Scripts",
+				"anchor": "shared-game-scripts"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Shared Game Scripts The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Shared game runtime/browser scripts used across multiple game projects; this is support infrastructure, not a standalone game",
+		"searchText": "b\"h boruch hashem blessed is he shared game scripts the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role shared game runtime/browser scripts used across multiple game projects; this is support infrastructure, not a standalone game. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes use generated cross project dependency evidence to identify every game that imports shared script code before making breaking changes.",
+		"page": "pages/geelooy-games-scripts-documentation-md-c1bcde5503.json"
+	},
+	{
+		"id": "geelooy-games-sefira-clash-documentation-md-c82ee9b752",
+		"title": "Sefira Clash · Open World, Expedition, Co-op, Adventure & VS",
+		"sourcePath": "geelooy/games/sefira-clash/DOCUMENTATION.md",
+		"category": "Games",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Sefira Clash · Open World, Expedition, Co-op, Adventure & VS",
+				"anchor": "sefira-clash-open-world-expedition-co-op-adventure-vs"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Sefira Clash · Open World, Expedition, Co op, Adventure & VS The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read d",
+		"searchText": "b\"h boruch hashem blessed is he sefira clash · open world, expedition, co op, adventure & vs the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “sefira clash · open world, expedition, co op, adventure & vs”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
+		"page": "pages/geelooy-games-sefira-clash-documentation-md-c82ee9b752.json"
+	},
+	{
+		"id": "geelooy-games-seven-mitzvos-documentation-md-1e46ac11f1",
+		"title": "Seven Mitzvos · Living Material Worlds",
+		"sourcePath": "geelooy/games/seven-mitzvos/DOCUMENTATION.md",
+		"category": "Games",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Seven Mitzvos · Living Material Worlds",
+				"anchor": "seven-mitzvos-living-material-worlds"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Seven Mitzvos · Living Material Worlds The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAMES PLA",
+		"searchText": "b\"h boruch hashem blessed is he seven mitzvos · living material worlds the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “seven mitzvos · living material worlds”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
+		"page": "pages/geelooy-games-seven-mitzvos-documentation-md-1e46ac11f1.json"
+	},
+	{
+		"id": "geelooy-games-shema-strike-documentation-md-60aed49aaf",
+		"title": "Shema Strike: Gates of Light",
+		"sourcePath": "geelooy/games/shema-strike/DOCUMENTATION.md",
+		"category": "Games",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Shema Strike: Gates of Light",
+				"anchor": "shema-strike-gates-of-light"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Shema Strike: Gates of Light The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAMES PLATFORM.md f",
+		"searchText": "b\"h boruch hashem blessed is he shema strike: gates of light the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “shema strike: gates of light”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
+		"page": "pages/geelooy-games-shema-strike-documentation-md-60aed49aaf.json"
+	},
+	{
+		"id": "geelooy-games-styles-documentation-md-40a8a9768b",
+		"title": "Shared Game Styles",
+		"sourcePath": "geelooy/games/styles/DOCUMENTATION.md",
+		"category": "Games",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Shared Game Styles",
+				"anchor": "shared-game-styles"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Shared Game Styles The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Shared visual/style infrastructure for game projects; this is not an independent game. Start here Read docs/PROJECTS/GAMES PLA",
+		"searchText": "b\"h boruch hashem blessed is he shared game styles the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role shared visual/style infrastructure for game projects; this is not an independent game. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes css/style changes can affect multiple games even when no javascript import edge exists, so validate representative public entries manually.",
+		"page": "pages/geelooy-games-styles-documentation-md-40a8a9768b.json"
+	},
+	{
+		"id": "geelooy-games-sulam-ha-sod-documentation-md-f49e7e918c",
+		"title": "Sulam HaSod",
+		"sourcePath": "geelooy/games/sulam-ha-sod/DOCUMENTATION.md",
+		"category": "Games",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Sulam HaSod",
+				"anchor": "sulam-hasod"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Sulam HaSod The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAMES PLATFORM.md for the central ex",
+		"searchText": "b\"h boruch hashem blessed is he sulam hasod the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “sulam hasod”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
+		"page": "pages/geelooy-games-sulam-ha-sod-documentation-md-f49e7e918c.json"
+	}
+]

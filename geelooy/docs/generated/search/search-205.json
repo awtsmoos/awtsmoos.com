@@ -1,401 +1,70 @@
 [
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-well-known-9a764220-md-4cf7b72b3e",
-		"title": "Project Tutorial: geelooy/.well-known",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-well-known-9a764220.md",
+		"id": "docs-generated-project-symbols-symbols-003-md-647ed32b88",
+		"title": "Generated Project Symbol Summary 111–165",
+		"sourcePath": "docs/GENERATED/PROJECT_SYMBOLS/symbols-003.md",
 		"category": "Projects",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: geelooy/.well-known",
-				"anchor": "project-tutorial-geelooy-well-known"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Generated Project Symbol Summary 111–165",
+				"anchor": "generated-project-symbol-summary-111-165"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/.well known Path: geelooy/.well known · Type: project · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/.well known path: geelooy/.well known · type: project · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: awtsmoos.derech.js local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 1 0 0 0 0 0 1 public entry points none observed. symbol evidence source files: 1; classes: 0; functions: 0; exports: 1; samples: dynamicroutes. depends on geelooy/api/oauth — 1 lexical reference; examples: geelooy/.well known/ awtsmoos.derech.js used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-well-known-9a764220-md-4cf7b72b3e.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Project Symbol Summary 111–165 Lexical JavaScript family symbol evidence grouped by project; sample names aid discovery without replacing source inspection. Project Source files Classes Named functions Exports Sample names geelooy/games/dove 13 2 41 41 DoveGame, DoveLoop, init,",
+		"searchText": "b\"h boruch hashem blessed is he generated project symbol summary 111–165 lexical javascript family symbol evidence grouped by project; sample names aid discovery without replacing source inspection. project source files classes named functions exports sample names geelooy/games/dove 13 2 41 41 dovegame, doveloop, init, update, draw, drawbackground, drawsky, drawcloud, blob, drawocean, drawoceanactors, drawfish geelooy/games/emojis 34 18 111 95 setupaudio, playsound, configuresound, configuresweep, rebuildstars, drawbackground, drawwebcambackground, loadcaptiondraft, preparecaptiondata, updatefilecount, revokecaptionurls, bindcaptiondragging geelooy/games/js 2 0 11 0 $, buildoverlay, showtip, rotatetips, setprogress, observeresources, done, probewebgl, commoncauses, showoverlay, ensure geelooy/games/kabbalah shooter 55 40 75 93 config, hebrew letters, colors, sprites, audiosynth, settings, weapons, sounds, scales, sefirot, traits, spells geelooy/games/kavanah 17 10 54 57 otiot, tzomeach, chai, and, entity, particle, hebrew letters, plant emojis, animal emojis, getpointerstate, setupcontrols, clearpointer geelooy/games/merkava 90 47 176 148 appdiagnostics, creatediagnosticcontrols, checkpoint, setlane, chargeability, advancelevel, setworld, setlevel, grantprutahs, defeatboss, completeworldrotation, clampindex geelooy/games/migdol 21 13 41 36 tile size, maps, tower types, enemy types, groundeffect, letterparticle, enemy, projectile, placetower, towerat, upgradetower, selltower geelooy/games/mitzvahworld 3587 941 10513 6675 async, sleep, connectmitzvahchrome, ready, probemitzvahworld, cdpclient, waitforwitness, holdcdpkey, keypayload, assertfivemilestones, measurehiddenframeprogress, calculatedisplacement geelooy/games/nachash 19 16 43 12 bindboost, nachashkeyboardinput, editable, nachashpointerinput, nachashaudio, nachashpausestate, loadnachashpreferences, savenachashpreferences, recordnachashscore, read, safenumber, nachashresultreporter geelooy/games/neshama quest 13 6 36 0 entity, neshama, klipah, revealneshamaai, updateklipah, choosedirection, availabledirections, nearesttoneshama, farthestfromtarget, revealneshamacollisions, checkcollisions, checkpoweruptimer geelooy/games/nitzotz io 230 0 708 448 selectshlichus, shlichustemplates, resolvetemplate, descriptionfor, template, hash, mix, adventuremetric, adventureprogress, settleadventurereward, emptysettlement, updateadventure geelooy/games/ohr hagnuz 685 198 203 1144 collisionmatrix, validates, encountervalidator, interactionvalidator, overworldlogic, portalvalidator, worldmapassembler, takes, encountergenerator, movementlogic, pathlogic, divinewill geelooy/games/ohrbound 130 107 27 158 communityservice, creatorflow, gameloop, ohrboundapp, ohrboundbrowserbindings, ohrboundidentityflow, ohrboundresultreporter, ohrboundruntimebridge, malchusbrowservessel, appearancerepository, characterappearance, carry geelooy/games/ohrfront 234 102 331 314 ohrfront absolute roots, listchochmahabsoluterootnames, resolvechochmahabsolutepath, createchochmahmissionpaths, parsechochmahabsolutepatharguments, createchochmahabsolutepathhelp, createhodabsolutepathentry, createhodabsolutepathmanifest, formathodabsolutepathtext, formathodabsolutepathjson, runmalchusabsolutepathprinter, ismalchusabsolutepathclientry geelooy/games/oros ha kelim 125 93 57 181 installdebugbridge, collectruntimeerrors, framecadence, frameconductor, creategameframeassembly, gameruntimecontrol, gameservices, matchsession, orosgame, rendercoordinator, grid size, cell size geelooy/games/party 10 1 29 27 startchallenge, reloadcurrentturn, recordcurrentturn, recordautomatedturn, activesession, recordturnvalue, begincurrentturn, finishchallenge, dom, setframegame, loadfreshturn, framegame geelooy/games/pong 13 0 51 0 createball, bindpongcontrols, movetopointer, clampedpaddley, createpongcourt, resize, buildstars, centeractors, scorepulse, tip, draw, drawarena geelooy/games/rambam 8 4 11 20 rendercurrent, publishstatus, animate, synchronizemotion, num slices, orbit radius, degrees per day, simulation divisor, camera fov, camera near, camera far, camera position geelooy/games/rebbe runner 38 29 34 41 nefesh visuals, kelipos, mitzvah visuals, shefa, maslul scenery, olam, maslulim, chesed run catalog, kelipahobstacle, maslulstate, mitzvahspark, nefeshrunner geelooy/games/scribe journey 370 12 558 543 awakenscribejourney, revealawakeningfailure, escapechronicletext, amalekbeasts, binahbeasts, campaignbeasts, campaignchesedbinahbeasts, campaignchokhmahketerbeasts, createcampaignmusag, createcampaignroster, campaignhodnetzachbeasts, campaignmalkuthfinalebeasts geelooy/games/scripts 183 161 3553 232 ui, stands, motion adventure games, mystic adventure games, adventure games, revealgamecapabilities, revealcatalogcapabilities, revealcapabilitytags, revealsolocovenant, multiplayercapability, native multiplayer game ids, visualcapability geelooy/games/sefira clash 1300 61 2799 1947 neutralinput, botreport, finitefighter, summarizespectacle, round, assert, snap, sumdamage, alivecount, summarize, length, checkcase geelooy/games/seven mitzvos 471 285 642 687 accessibilityprofileservice, accessiblestateprojector, population, describealert, inputbindingservice, setpersonaction, updatepersonaction, personactionname, createstate, applypose, required, approuteservices geelooy/games/shared 1 0 8 0 data, render, setprogress, rotatetip, finish, bump, watch, scan geelooy/games/shema strike 151 71 56 202 accessibilityprofile, copy, objectivecopy, kesercampaigngate, malchusbootfailure, yesodoptionalarena, checkpointmanager, entitystate, restoreentities, componentsnapshots, createcomponent, component kinds geelooy/games/soul jump 22 19 1 23 verticalcamera, soul config, soul glyphs, backgroundparticle, enemy, particle, platform, player, powerup, draginput, overlayrenderer, worldrenderer geelooy/games/sulam ha sod 145 28 161 243 camerarig, game, inputvessel, renderer, lightningrenderer, physicsworld, canvasviewport, hardencampaign, hardenlevel, choosecruelx, rotate, fakecoin geelooy/games/tetris 52 18 89 103 landingcandidate, evaluateboard, aiengine, cols, hidden rows, visible rows, logical rows, lock delay ms, max lock resets, colors, shapes, line scores geelooy/git 1 0 3 0 handlegit, querystringof, giterrorresponse geelooy/heichel editor 15 0 24 14 async, posteditorrequest, readeditorconfig, clean, el, field, formshell, submitform, inviteform, settingsfields, settingsform, advancedsettings geelooy/heichel review 19 10 37 18 governanceapi, renderinvitations, invitationcard, rendermembers, membercard, governancemutations, governancepanel, reviewactionpolicy, reviewactionnames, reviewapi, ensureconsequencesurface, setdecisionfieldvisibility geelooy/heichelos 873 183 3115 1669 revealheichelroutes, xmur3, mulberry32, makerand, buildatlas, compile, program, ambient, attrbuf, bindattr, stylecanvas, init geelooy/igeres hakodesh 1 0 0 0 — geelooy/js 5 3 21 4 awtsmoosaudioplayer, formattime, escapehtml, escapeattr, build, open, close, isopen, enhanceall, injectstyles, init, loadstyles geelooy/libs 3910 843 7426 5580 awtsmoosuiactions, awtsmoosuistore, ui, bind, when, each, element, buildelement, awtsmoosuielement, awtsmoosuirenderer, normalizeuinode, collectdomprops geelooy/likutei torah 1 0 0 0 — geelooy/mawgawl 42 8 148 92 from, showmessage, showdivinmodal, updatedivinmodal, closemodal, createcalendar, resetminutes, createcalendarwithmonth, addbooking, displayhours, minuteclickhandler, displayminutes geelooy/messages 1 0 11 1 async, cleanalias, json, ep, listfrom, esc, fmtdate, loadaliases, loadinbox, openthread, sendmessage, bootmessages geelooy/node os 1 0 16 0 el, json, pathparts, openpath, breadcrumbs, childcard, detail, preview, nodecard, sourcelabel, sidecard, hero geelooy/notifications 15 0 56 32 async, bootnotificationsocialos, createnotificationactions, markbutton, safeactionlink, actionlabel, secondaryreaddisclosure, revealbinahnotificationcontext, humanize, grouplabel, contextchips, entitykey geelooy/os 732 80 2426 1346 for, awtsmoosdb, awtsmoosos, programicon, programsbyextension, initialdefaultprograms, programs, program, defaultprograms, getdefaultprogram, object, civilizationosclient geelooy/oyvededom.js 1 0 0 0 — geelooy/parsers 2 1 5 2 buildarchivedocument, escapehtml, rendercontent, rendermessage, renderday, whatsappparser geelooy/platform 94 1 161 120 createandroidroundtripadapter, requirefunction, createbundleartifactadapter, createcharacterauthorityadapter, createmoviecompileradapter, tomoviesource, createradianceadapter, normalizetime, reasonstosignals, createrichsocialadapter, adapttunnelreceipt, createquarantineifneeded geelooy/portal 7 2 8 9 portalapp, bindportalinteractions, parseportalroute, portalroutehref, publishportalroute, listenportalnavigation, async, loadportalroute, portalstate, renderportalstate, revealportal geelooy/post editor 11 1 27 13 async, savepostdraft, publishpostdraft, request, errormessage, readposteditorconfig, clean, createelement, saveeditordraft, publisheditorpost, runeditoroperation, setstatus geelooy/profile 30 4 126 59 async, readaliasvalues, setaliasstudiostatus, setaliasstudiobusy, savealias, deletealias, createaliasbody, readapiresult, getaliasstudioconfig, getaliasstudiorefs, readbootstrap, bindaliasdeletion geelooy/profile comments 1 0 15 0 esc, alias, url, setstatus, showpager, crumb, getjson, serieslabel, renderseries, go, renderposts, commentcard geelooy/record 1 0 7 0 setstatus, stopstream, requestcamera, startcamera, stopstreamsilently, switchcamera, cameraerrormessage geelooy/recorder 4 0 18 9 async, beginrecording, stoprecording, stopstream, acquirecamerastream, acquiredesktopstream, selectmimetype, downloadrecording, createrecordercontroller, setstate, start, stop geelooy/reeyuh 5 4 8 9 tiferesreeyuhcontentrenderer, klireeyuhdom, gevurahreeyuhnavigator, normalizebookname, normalizenamedentries, findshulchanaruch, buildseferurl, buildsectionurl, reeyuhsefarimrepository, normalizeentry, loadportion, initialize geelooy/register.js 1 0 10 0 isdedicatedmessagingpage, mountuniversalchatfallback, schedulelegacyofflineretirement, retirelegacyofflinestate, unregisterlegacyworker, registrationuseslegacyworker, clearmetadatadatabases, deletedatabase, readstorage, writestorage geelooy/scripts 1889 619 7459 2976 awtsmoosapi, for, processtext, causallength, attend, applyropepair, rotatehead, softmaxinplace, convertggufbytes, convertgguffile, copytensors, finalmanifestbytes geelooy/seo 7 0 29 18 generatepubliccatalog, publiccatalogrecords, shardrecords, writeshard, sitemappaths, addpublicpath, normalizepath, rendersitemap, escapexml, generatesitemap, cleanplain, encodesegment geelooy/service worker.js 1 0 1 0 retirelegacyworker",
+		"page": "pages/docs-generated-project-symbols-symbols-003-md-647ed32b88.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-youtube-c14506c7-md-662d8c3ffa",
-		"title": "Project Tutorial: Awtsmoos YouTube Manager",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-youtube-c14506c7.md",
+		"id": "docs-generated-project-symbols-symbols-004-md-a76463f88b",
+		"title": "Generated Project Symbol Summary 166–185",
+		"sourcePath": "docs/GENERATED/PROJECT_SYMBOLS/symbols-004.md",
 		"category": "Projects",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: Awtsmoos YouTube Manager",
-				"anchor": "project-tutorial-awtsmoos-youtube-manager"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Generated Project Symbol Summary 166–185",
+				"anchor": "generated-project-symbol-summary-166-185"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Awtsmoos YouTube Manager Path: geelooy/youtube · Type: public · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: awtsmoos youtube manager path: geelooy/youtube · type: public · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, documentation.md local documentation: geelooy/youtube/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 9 0 0 0 1 0 10 public entry points /youtube → geelooy/youtube/index.html — awtsmoos youtube manager symbol evidence source files: 7; classes: 3; functions: 14; exports: 10; samples: hodcommandquoter, yesodlocalsecretvault, chesedytdlpcommandbuilder, boot, loadchannel, loadvideos, uploadmetadata, updatechanges, showupdateerror, youtubeapi, request, uploadtogoogle. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-youtube-c14506c7-md-662d8c3ffa.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Project Symbol Summary 166–185 Lexical JavaScript family symbol evidence grouped by project; sample names aid discovery without replacing source inspection. Project Source files Classes Named functions Exports Sample names geelooy/shared 208 69 651 447 ActivityBeacon, startActi",
+		"searchText": "b\"h boruch hashem blessed is he generated project symbol summary 166–185 lexical javascript family symbol evidence grouped by project; sample names aid discovery without replacing source inspection. project source files classes named functions exports sample names geelooy/shared 208 69 651 447 activitybeacon, startactivitybeacon, publicaliasfrommemory, queryalias, verifiedalias, eventpayload, recordsearchactivity, recordpostview, async, recordmeaningfulactivity, postkey, seenpost geelooy/showcase 5 3 7 4 showcasecontroller, formattime, showcaseevidence, readmode, rendershowcaseevidence, setstatus, settext, requireelement, showcaseplayback geelooy/sites 41 0 161 120 buildcustomdomainresponse, createcustomdomainhttpingress, drivecontext, rawrequestpath, writegatewayresponse, customdomainhttpingress, closeexternalhost, badpathresponse, builddeploymentresponse, fallbackresponse, entryresponse, reserved segments geelooy/social 44 26 51 59 migrationcontroller, migrationrecoverycontroller, migrationrendercoordinator, archivekind, archivemime, ismetadatapath, archivesource, safearchivepath, safearchivepathornull, zipcentraldirectory, zipentryreader, matchesmigrationfilters geelooy/social actions 7 1 15 13 buildownedcloneurl, put, createpostreferencebutton, mountpostreferenceaction, contextfromdataset, mountdatasetreferenceactions, normalizereferencecontext, validatereferencecontext, buildpostreferenceurl, safereturnpath, clean, yesodreactionapi geelooy/social composer 233 87 531 374 createcomposer, createworkflow, createcontroller, createcreatorassembly, createdestinationassembly, draftassembly, createdraftassembly, createeditorassembly, createreelassembly, createreviewassembly, installcomposeraccessibility, hasaccessiblename geelooy/social hub 230 150 239 283 createsocialhub, hubapp, activitycard, durationlabel, timestamp, activitymutationcoordinator, activitypanel, manifestmalchusactivity, activitytimelineview, activitytracker, privacyactions, prepared geelooy/style 1 0 5 7 auth style root, auth module names, auth manifest names, readauthsource, assertcontainsevery, assertnoglobalselectorleak, assertauthlinebudget, stripcsscomments geelooy/sw.js 1 0 3 0 hashashversion, isdriveurl, ishtmlrequest geelooy/tanya 1 0 0 0 — geelooy/tmp 1 0 3 0 send, capturebrowserevent, readpagestate geelooy/tools 19 3 23 25 scanperformancerisks, scanreferencecandidates, buildreferenceindex, isreferenced, scansourcequality, trackedfiles, trackedsourcefiles, isprotectedpath, classifyproductevidence, classifyauditerror, argumentvalue, default base url geelooy/tunnel 1 0 7 1 dynamicroutes, escapehtml, pageshell, machinejson, ownersection, guestsection, redeemsection, connectpage geelooy/view 1 0 0 1 dynamicroutes geelooy/webscrapers 5 0 30 0 processgemarajson, processchabadonetext, doall, getfilesindirectory, formatpage, getdafdata, getpage, getentirechabadlibrarybooksequential, processitemsequential, getentirechabadlibrarybook, downloadj, getdata geelooy/youtube 16 9 44 17 hodcommandquoter, yesodlocalsecretvault, async, videofile, sidecarfile, videoidfromname, isodate, fallbackitem, itemfrominfo, metadatabyid, readlocalyoutubebundle, youtubearchivecheckpoint geelooy/zmanim 67 35 116 121 zmanimapp, awtsmooszmanimcalendar, malchus calendar day styles, parseisodate, toisodate, shiftdays, shiftmonths, monthlabel, monthgrid, iscurrentmonth, binahcalendarrenderer, malchustodayisodate geelooy/אגרות קודש 1 0 0 0 — geelooy/לקוטי תורה 1 0 0 0 — geelooy/תניא 1 0 0 0 —",
+		"page": "pages/docs-generated-project-symbols-symbols-004-md-a76463f88b.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-zmanim-3ad5830d-md-9b3032a14e",
-		"title": "Project Tutorial: Halachic Zmanim · Awtsmoos",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-zmanim-3ad5830d.md",
+		"id": "docs-generated-project-tutorial-index-md-c4217c3e84",
+		"title": "Project Tutorial Index",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIAL_INDEX.md",
 		"category": "Projects",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: Halachic Zmanim · Awtsmoos",
-				"anchor": "project-tutorial-halachic-zmanim-awtsmoos"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Project Tutorial Index",
+				"anchor": "project-tutorial-index"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Halachic Zmanim · Awtsmoos Path: geelooy/zmanim · Type: public · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, no",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: halachic zmanim · awtsmoos path: geelooy/zmanim · type: public · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, package.json, documentation.md, readme.md, readme.md local documentation: geelooy/zmanim/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 109 16 1 0 2 0 128 public entry points /zmanim → geelooy/zmanim/index.html — halachic zmanim · awtsmoos symbol evidence source files: 65; classes: 35; functions: 108; exports: 115; samples: zmanimapp, awtsmooszmanimcalendar, malchus calendar day styles, parseisodate, toisodate, shiftdays, shiftmonths, monthlabel, monthgrid, iscurrentmonth, binahcalendarrenderer, malchustodayisodate. depends on geelooy/libs — 2 lexical references; examples: geelooy/zmanim/js/components/celestial webgl.js; geelooy/zmanim/js/domain/celestial zmanim.js used by none observed. external packages none observed. verification clue observed test classified files: 16 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-zmanim-3ad5830d-md-9b3032a14e.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial Index Generated project teaching for every current boundary. Chunk Rows Count projects 001.md 1–45 45 projects 002.md 46–90 45 projects 003.md 91–135 45 projects 004.md 136–180 45 projects 005.md 181–225 45 projects 006.md 226–238 13",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial index generated project teaching for every current boundary. chunk rows count projects 001.md 1–45 45 projects 002.md 46–90 45 projects 003.md 91–135 45 projects 004.md 136–180 45 projects 005.md 181–225 45 projects 006.md 226–238 13",
+		"page": "pages/docs-generated-project-tutorial-index-md-c4217c3e84.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-ops-a92c36e6-md-06df9c9f0f",
-		"title": "Project Tutorial: ops",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ops-a92c36e6.md",
+		"id": "docs-generated-project-tutorial-index-projects-001-md-0fa25b4558",
+		"title": "Project Tutorial Index 1–45",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIAL_INDEX/projects-001.md",
 		"category": "Projects",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: ops",
-				"anchor": "project-tutorial-ops"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Project Tutorial Index 1–45",
+				"anchor": "project-tutorial-index-1-45"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: ops Path: ops · Type: operations · Family: Runtime and Infrastructure Read the human Runtime and Infrastructure guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health gu",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: ops path: ops · type: operations · family: runtime and infrastructure read the human runtime and infrastructure guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: documentation.md local documentation: ops/documentation.md local doc requirement: no; covered: yes symlink target: — file shape source tests assets generated docs other total 0 0 0 0 1 4 5 public entry points none observed. symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-ops-a92c36e6-md-06df9c9f0f.json"
-	},
-	{
-		"id": "docs-generated-project-tutorials-projects-scripts-8c5967fd-md-7358aaef31",
-		"title": "Project Tutorial: scripts",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/scripts-8c5967fd.md",
-		"category": "Projects",
-		"provenance": "generated",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Project Tutorial: scripts",
-				"anchor": "project-tutorial-scripts"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: scripts Path: scripts · Type: tooling · Family: Libraries and Tooling Read the human Libraries and Tooling guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarant",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: scripts path: scripts · type: tooling · family: libraries and tooling read the human libraries and tooling guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: documentation.md local documentation: scripts/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 290 30 0 0 63 15 398 public entry points none observed. symbol evidence no lexical symbol summary observed. depends on none observed. used by geelooy/apps/code — 3 lexical references; examples: geelooy/apps/code/js/android/android source builder.js geelooy/apps/tunnel — 1 lexical reference; examples: geelooy/apps/tunnel/agent/rebuild manifest.cjs external packages none observed. verification clue observed test classified files: 30 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-scripts-8c5967fd-md-7358aaef31.json"
-	},
-	{
-		"id": "docs-generated-project-tutorials-projects-templates-9c6641c1-md-b048d9d340",
-		"title": "Project Tutorial: templates",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/templates-9c6641c1.md",
-		"category": "Projects",
-		"provenance": "generated",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Project Tutorial: templates",
-				"anchor": "project-tutorial-templates"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: templates Path: templates · Type: tooling · Family: Libraries and Tooling Read the human Libraries and Tooling guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health gua",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: templates path: templates · type: tooling · family: libraries and tooling read the human libraries and tooling guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: documentation.md local documentation: templates/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 15 1 0 0 1 0 17 public entry points none observed. symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 1 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-templates-9c6641c1-md-b048d9d340.json"
-	},
-	{
-		"id": "docs-generated-project-tutorials-projects-tests-59830ebc-md-cc4ad2563e",
-		"title": "Project Tutorial: tests",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/tests-59830ebc.md",
-		"category": "Testing",
-		"provenance": "generated",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Project Tutorial: tests",
-				"anchor": "project-tutorial-tests"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: tests Path: tests · Type: test · Family: Libraries and Tooling Read the human Libraries and Tooling guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. En",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: tests path: tests · type: test · family: libraries and tooling read the human libraries and tooling guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: documentation.md local documentation: tests/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 0 92 0 0 1 0 93 public entry points none observed. symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 92 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-tests-59830ebc-md-cc4ad2563e.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial Index 1–45 Every discovered project boundary linked to generated evidence teaching. Project Type Files Tests Public entries Tutorial ai thoughts evidence 575 0 0 tutorial ai thoughts alias 8974 107 0 tutorial awtsmoos.com project 24 0 0 tutorial ayzarim runtime root 2498",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial index 1–45 every discovered project boundary linked to generated evidence teaching. project type files tests public entries tutorial ai thoughts evidence 575 0 0 tutorial ai thoughts alias 8974 107 0 tutorial awtsmoos.com project 24 0 0 tutorial ayzarim runtime root 2498 493 0 tutorial ayzarim/dosdb data 1072 178 0 tutorial ayzarim/awtsmoosdynamicserver runtime 1305 306 0 tutorial ayzarim/email infrastructure 26 2 0 tutorial ayzarim/glyph engine infrastructure 28 4 0 tutorial ayzarim/maintence infrastructure 1 0 0 tutorial ayzarim/math infrastructure 1 0 0 tutorial ayzarim/ssh infrastructure 54 0 0 tutorial ayzarim/tools infrastructure 8 3 0 tutorial geelooy public root 57567 7661 1 tutorial geelooy/.ai thoughts project 1939 0 0 tutorial geelooy/.awtsmoos project 6 0 0 tutorial geelooy/.awtsmoos agent thoughts evidence 495 0 1 tutorial geelooy/.awtsmoos agent transfer project 244 26 2 tutorial geelooy/.awtsmoos smoke project 4 0 0 tutorial geelooy/.awtsmoos transfer project 8 0 0 tutorial geelooy/.data project 1 0 0 tutorial geelooy/.well known project 1 0 0 tutorial geelooy/@ project 10 0 0 tutorial geelooy/shliach public 4 0 4 tutorial geelooy/about public 7 0 1 tutorial geelooy/ai public 934 187 2 tutorial geelooy/ai thoughts project 57 0 0 tutorial geelooy/ai thoughts local project 4 0 0 tutorial geelooy/api project 3927 699 0 tutorial geelooy/api/admin api 3 0 0 tutorial geelooy/api/apk web api 7 0 0 tutorial geelooy/api/client errors api 2 0 0 tutorial geelooy/api/compiler api 12 1 0 tutorial geelooy/api/contact api 9 0 0 tutorial geelooy/api/core api 4 0 0 tutorial geelooy/api/email api 5 0 0 tutorial geelooy/api/fetch api 3 0 0 tutorial geelooy/api/gpt api 16 3 0 tutorial geelooy/api/merkava api 3 0 0 tutorial geelooy/api/nav api 2 0 0 tutorial geelooy/api/oauth api 83 16 0 tutorial geelooy/api/ohr hagnuz api 11 1 0 tutorial geelooy/api/ohrbound api 17 2 0 tutorial geelooy/api/olam h3 api 9 0 0 tutorial geelooy/api/perutas api 43 0 0 tutorial geelooy/api/platform api 5 1 0 tutorial",
+		"page": "pages/docs-generated-project-tutorial-index-projects-001-md-0fa25b4558.json"
 	}
 ]

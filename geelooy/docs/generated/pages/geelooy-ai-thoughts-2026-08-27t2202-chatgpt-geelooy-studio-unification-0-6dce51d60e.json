@@ -1,0 +1,84 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-27t2202-chatgpt-geelooy-studio-unification-0-6dce51d60e",
+	"title": "Evidence Ledger Before Source Writing",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-27T2202-chatgpt-geelooy-studio-unification/09_EVIDENCE_LEDGER.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Evidence Ledger Before Source Writing",
+			"anchor": "evidence-ledger-before-source-writing"
+		},
+		{
+			"level": 2,
+			"text": "Direct observations",
+			"anchor": "direct-observations"
+		},
+		{
+			"level": 3,
+			"text": "Repository and concurrency",
+			"anchor": "repository-and-concurrency"
+		},
+		{
+			"level": 3,
+			"text": "Existing movie-capable applications",
+			"anchor": "existing-movie-capable-applications"
+		},
+		{
+			"level": 3,
+			"text": "Canonical dependency direction",
+			"anchor": "canonical-dependency-direction"
+		},
+		{
+			"level": 3,
+			"text": "Canonical movie core observed behavior",
+			"anchor": "canonical-movie-core-observed-behavior"
+		},
+		{
+			"level": 3,
+			"text": "Procedural Core movie foundry",
+			"anchor": "procedural-core-movie-foundry"
+		},
+		{
+			"level": 3,
+			"text": "UI systems",
+			"anchor": "ui-systems"
+		},
+		{
+			"level": 3,
+			"text": "Flagship runtime gap",
+			"anchor": "flagship-runtime-gap"
+		},
+		{
+			"level": 3,
+			"text": "Proof movie fixture",
+			"anchor": "proof-movie-fixture"
+		},
+		{
+			"level": 3,
+			"text": "Export capability",
+			"anchor": "export-capability"
+		},
+		{
+			"level": 2,
+			"text": "Inferences kept separate from evidence",
+			"anchor": "inferences-kept-separate-from-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Known risks before writes",
+			"anchor": "known-risks-before-writes"
+		},
+		{
+			"level": 2,
+			"text": "Mutation policy for this pass",
+			"anchor": "mutation-policy-for-this-pass"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-27t2202-chatgpt-geelooy-studio-unification-0-6dce51d60e-001.json"
+	]
+}

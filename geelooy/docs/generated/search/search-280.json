@@ -1,213 +1,232 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-render-director-16afe7fd98",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/render/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-websockets-applications-md-a79ecc151d",
+		"title": "Realtime Applications and Events",
+		"sourcePath": "docs/WEBSOCKETS/APPLICATIONS.md",
+		"category": "Realtime",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/test/render",
-				"anchor": "directory-guide-experiments-awtsmoos-src-test-render"
+				"text": "Realtime Applications and Events",
+				"anchor": "realtime-applications-and-events"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Application registry model",
+				"anchor": "application-registry-model"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Built-in domains",
+				"anchor": "built-in-domains"
+			},
+			{
+				"level": 3,
+				"text": "awtsmoos-core",
+				"anchor": "awtsmoos-core"
+			},
+			{
+				"level": 3,
+				"text": "awtsmoos-social",
+				"anchor": "awtsmoos-social"
+			},
+			{
+				"level": 3,
+				"text": "Game/journey applications",
+				"anchor": "game-journey-applications"
+			},
+			{
+				"level": 3,
+				"text": "tunnel-activity",
+				"anchor": "tunnel-activity"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Protocol versions",
+				"anchor": "protocol-versions"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
-			},
-			{
-				"level": 2,
-				"text": "Test themes",
-				"anchor": "test-themes"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Event inventory limitation",
+				"anchor": "event-inventory-limitation"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/test/render Role: Tests Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 3 files, 0 structural child directories Purpose Tests for rendering helpers. The Awtsmoos renews every path and every artifact from not",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/test/render role: tests snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 3 files, 0 structural child directories purpose tests for rendering helpers. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tests search terms: materials, com, local, mjs, null, proves, realism, abort, absent, assets, audited, awtsmoos file mix: .mjs: 2 · .md: 1 good first question: “does the behavior or asset i need belong to tests, or is this only a neighboring/test/reference layer?” semantic evidence b\"h proves lightweight realism modes, local materials, and canonical people. the awtsmoos joins shader restraint with truthful assets; awtsmoos.com keeps every runtime pigment local and every human vessel bound to the audited chossid model. proves absent optional materials cannot abort the world frame loop. the awtsmoos renews light beyond one missing garment; awtsmoos.com skips null tiers idempotently while preserving the original controller for real materials. representative files realismruntimepolicies.test.mjs — proves lightweight realism modes, local materials, and canonical people. the awtsmoos joins shader restraint with truthful assets; awtsmoos.com keeps every runtime pigment local and every human vessel bound to the audited chossid model. covers: “renderer selects explicit lightweight realism modes”, “runtime roles use local generated sources without half resolution debt”, “all dynamic human systems bind the canonical chossid glb”. shadowbudgetnullguard.test.mjs — proves absent optional materials cannot abort the world frame loop. the awtsmoos renews light beyond one missing garment; awtsmoos.com skips null tiers idempotently while preserving the original controller for real materials. covers: “shadow budget null guard installs once and skips absent material arguments”. import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: node:assert/strict node:fs node:test ../../assets/runtimematerialmanifest.js ../../app/eretzconstants.js ../assets/localmaterialtestsupport.mjs ../../../../light three gltf/tiny fragment shader.js ../../../../light three gltf/tiny render webgl utils.js ../../render/shadowbudgetcontroller.js ../../render/installshadowbudgetnullguard.js test themes renderer selects explicit lightweight realism modes runtime roles use local generated sources without half resolution debt all dynamic human systems bind the canonical chossid glb shadow budget null guard installs once and skips absent material arguments directory map parent: experiments/awtsmoos/src/test children: none. related and overlapping systems colocated and integration test surfaces — most subsystem tests live under src/test, while a smaller external tests tree exercises broader integration contracts. boundaries and cautions this directory verifies behavior; it should not become the production owner of that behavior. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-render-director-16afe7fd98.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Realtime Applications and Events The Awtsmoos gives one realtime doorway many worlds, each application keeping version and domain apart; Awtsmoos.com preserves compatibility while new factories can enter the registry without rewriting transport at its heart. Application registry model ap",
+		"searchText": "b\"h boruch hashem blessed is he realtime applications and events the awtsmoos gives one realtime doorway many worlds, each application keeping version and domain apart; awtsmoos.com preserves compatibility while new factories can enter the registry without rewriting transport at its heart. application registry model applicationdefinitions.js returns built in factories. realtimeplatform registers them into applicationregistry; applicationrouter resolves legacy or versioned messages. future applications can be registered without editing the historic message router signature. built in domains awtsmoos core core realtime behavior and health/compatibility messages. awtsmoos social social live compatibility. inspected sociallive.js emits or handles source visible message types including social subscribed, social event, social presence, social presence ack, social pong, page entered, page left, and page presence. page presence state can describe alias, status, reading target, typing state, entry time, and update time. disconnect cleanup removes clients from remembered social/page channels. livepreview.js emits live preview only after checking the recipient alias's email setting viewtyping === true. game/journey applications versioned applications exist for sefira clash, mitzvah world, ohr hagnuz, scribe journey, and shema strike. their substantial source directories live under websocket/apps/; consult the generated application directory inventory before changing a game protocol. tunnel activity account bound activity/realtime events around tunnel state. socket opening itself publishes connection.opened when an account identity exists. protocol versions most currently inspected applications declare version 1. scribe journey declares versions 1 and 2. never send a guessed version; resolve the application's accepted versions from current source/generated inventory. event inventory limitation ../generated/websocket event index.md extracts lexical event/message literals from production websocket source. some strings are transport events and some domain events; dynamically constructed types can be absent. use it to locate source, not as a formal protocol guarantee.",
+		"page": "pages/docs-websockets-applications-md-a79ecc151d.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-renderer-direct-80be55e90d",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/renderer/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-websockets-mission-rooms-md-07b0b06bb8",
+		"title": "Mission Room WebSocket Admission",
+		"sourcePath": "docs/WEBSOCKETS/MISSION_ROOMS.md",
+		"category": "Realtime",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/test/renderer",
-				"anchor": "directory-guide-experiments-awtsmoos-src-test-renderer"
+				"text": "Mission Room WebSocket Admission",
+				"anchor": "mission-room-websocket-admission"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "WebSocket path",
+				"anchor": "websocket-path"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Admission sequence observed in source",
+				"anchor": "admission-sequence-observed-in-source"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "After successful handshake",
+				"anchor": "after-successful-handshake"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
+				"text": "Security implications",
+				"anchor": "security-implications"
 			},
 			{
 				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "HTTP relationship",
+				"anchor": "http-relationship"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/test/renderer Role: Tests Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 4 files, 0 structural child directories Purpose Tests for renderer implementations and frame behavior. The Awtsmoos renews every path",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/test/renderer role: tests snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 4 files, 0 structural child directories purpose tests for renderer implementations and frame behavior. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tests search terms: mjs, palette, proves, skin, before, frame, texture, uniform, actors, agree, alternating, awtsmoos file mix: .mjs: 3 · .md: 1 good first question: “does the behavior or asset i need belong to tests, or is this only a neighboring/test/reference layer?” semantic evidence b\"h proves palette reuse is confined to one frame and one exact transform, so speed never outruns geometric truth before the awtsmoos. proves alternating actors retain independent resident palettes, so texture order cannot multiply uploads within the world of awtsmoos. proves one joint uniform remains bound only while frame, program, skeleton, and palette revision agree as truthful vessels before awtsmoos. representative files skinpalettecache.test.mjs — proves palette reuse is confined to one frame and one exact transform, so speed never outruns geometric truth before the awtsmoos. skintextureresidency.test.mjs — proves alternating actors retain independent resident palettes, so texture order cannot multiply uploads within the world of awtsmoos. skinuniformbinding.test.mjs — proves one joint uniform remains bound only while frame, program, skeleton, and palette revision agree as truthful vessels before awtsmoos. import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: node:assert/strict ../../../../light three gltf/tiny math.js ../../../../light three gltf/tiny skin cache.js ../../../../light three gltf/tiny skin system.js ../../../../light three gltf/tiny render skin residency.js ../../../../light three gltf/tiny render skin binding.js directory map parent: experiments/awtsmoos/src/test children: none. related and overlapping systems colocated and integration test surfaces — most subsystem tests live under src/test, while a smaller external tests tree exercises broader integration contracts. boundaries and cautions this directory verifies behavior; it should not become the production owner of that behavior. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-renderer-direct-80be55e90d.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Mission Room WebSocket Admission The Awtsmoos renews ticket, account, origin, permission, protocol, and handshake in one gate; Awtsmoos.com consumes trust before the socket opens, so stale authority cannot simply ride remembered state. WebSocket path /api/tunnel/control/mission room/ws T",
+		"searchText": "b\"h boruch hashem blessed is he mission room websocket admission the awtsmoos renews ticket, account, origin, permission, protocol, and handshake in one gate; awtsmoos.com consumes trust before the socket opens, so stale authority cannot simply ride remembered state. websocket path /api/tunnel/control/mission room/ws this path is handled specially during websocket upgrade by ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/upgradepolicy.js. it is not an ordinary json endpoint even though it begins with /api/. admission sequence observed in source 1. parse the requested url. if it is not the mission room path, mission room policy does not own the upgrade. 2. require sec websocket key; otherwise deny with 400 missing websocket key. 3. require trusted socket identity with accountid; otherwise deny with 401 mission room authentication required. 4. canonicalize and require the request origin; otherwise deny with 403 missing websocket origin. 5. build claims from url, origin, and trusted identity. 6. consume the one time ticket from query parameter ticket. 7. re authorize the current account/tunnel against tunnel.mission. 8. require the consumed ticket's authority to match current authority. 9. require the claim protocol version to equal room protocol version; mismatch is denied with 409 mission room protocol version mismatch. 10. only then return an accepted ticket to the socket upgrade layer. after successful handshake socketupgrade.js attaches the client and starts the mission room channel when an accepted ticket exists. connection activity is published with channel mission room, mission id, and room id. security implications a url containing a ticket is not enough by itself. admission also binds to trusted account identity, current mission permission, canonical origin, and protocol version. the ticket is consumed rather than treated as a permanent bearer credential. http relationship tunnel control has http routes for mission room streams/control alongside the websocket path. use ../api/tunnel control.md for the http control plane; keep socket admission/protocol logic separate.",
+		"page": "pages/docs-websockets-mission-rooms-md-07b0b06bb8.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-shadows-directo-f73af1d3a5",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/shadows/DIRECTORY_GUIDE.md",
-		"category": "Games",
+		"id": "docs-websockets-readme-md-fed34d4d65",
+		"title": "WebSockets and Realtime",
+		"sourcePath": "docs/WEBSOCKETS/README.md",
+		"category": "Realtime",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "WebSockets and Realtime",
+				"anchor": "websockets-and-realtime"
+			},
+			{
+				"level": 2,
+				"text": "Interactive system map",
+				"anchor": "interactive-system-map"
+			},
+			{
+				"level": 2,
+				"text": "Human manuals",
+				"anchor": "human-manuals"
+			},
+			{
+				"level": 2,
+				"text": "Evidence rules",
+				"anchor": "evidence-rules"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He WebSockets and Realtime Awtsmoos.com realtime behavior has multiple layers: upgrade/session identity, platform application routing, specialized Mission Room admission, Tunnel Relay transport, and application/event handling. Interactive system map Open /docs/?view=systems&systemDistrict=r",
+		"searchText": "b\"h boruch hashem blessed is he websockets and realtime awtsmoos.com realtime behavior has multiple layers: upgrade/session identity, platform application routing, specialized mission room admission, tunnel relay transport, and application/event handling. interactive system map open /docs/?view=systems&systemdistrict=realtime for the curated realtime systems. human manuals applications mission rooms tunnel relay realtime security use trace realtime admission to follow upgrade identity → specialized admission/registry → app/version → message handling. evidence rules generated application rows reflect source registration, not deployment health. event/message strings are lexical search clues, not formal payload schemas. mission room tickets/origin/protocol/snapshot checks and tunnel relay registration/correlation are specialized trust/transport contracts and should not be collapsed into ordinary app routing.",
+		"page": "pages/docs-websockets-readme-md-fed34d4d65.json"
+	},
+	{
+		"id": "docs-websockets-tunnel-relay-md-0cfdbb9dce",
+		"title": "Tunnel Relay WebSocket System",
+		"sourcePath": "docs/WEBSOCKETS/TUNNEL_RELAY.md",
+		"category": "Realtime",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Tunnel Relay WebSocket System",
+				"anchor": "tunnel-relay-websocket-system"
+			},
+			{
+				"level": 2,
+				"text": "Source root",
+				"anchor": "source-root"
+			},
+			{
+				"level": 2,
+				"text": "Registration flow observed",
+				"anchor": "registration-flow-observed"
+			},
+			{
+				"level": 2,
+				"text": "TUNNELACK evidence",
+				"anchor": "tunnelack-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Replacement activity",
+				"anchor": "replacement-activity"
+			},
+			{
+				"level": 2,
+				"text": "Request lifecycle",
+				"anchor": "request-lifecycle"
+			},
+			{
+				"level": 2,
+				"text": "Relationship to HTTP Tunnel Control",
+				"anchor": "relationship-to-http-tunnel-control"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Tunnel Relay WebSocket System The Awtsmoos bridges distant vessel to server while account, generation, request, acknowledgement, and replacement remain known; Awtsmoos.com treats relay authority as a transport covenant, not a message field a contender may declare on its own. Source root ",
+		"searchText": "b\"h boruch hashem blessed is he tunnel relay websocket system the awtsmoos bridges distant vessel to server while account, generation, request, acknowledgement, and replacement remain known; awtsmoos.com treats relay authority as a transport covenant, not a message field a contender may declare on its own. source root ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/ the continuation inventory found more than fifty files in this subsystem. it contains registration authority, security bridging, request dispatch, acknowledgement tracking, transfer/replacement logic, durable paths, limits, heartbeat/progress behavior, and tests. registration flow observed register.js calls security.authorizeregistration(client, data). if identity fails, registration is rejected. a registration key is derived from trusted identity, then current server state is inspected for an incumbent connection. registration authority decides whether the contender is accepted, replaces an older connection, or is fenced. after successful registration, the server records tunnel/client state, sends an acknowledgement, recovers pending work, monitors accepted work, and publishes connection activity. tunnel ack evidence the acknowledgement emitted by inspected source includes: type: \"tunnel ack\"; ok: true; accountbound: true; tunnel id and tunnel name; whether an older connection was replaced; vessel type; protocol version; registration generation; server time. replacement activity the subsystem publishes connection.registered and can publish connection.replaced when a newer authorized contender replaces an existing connection. request lifecycle separate source files manage dispatch, response acknowledgement, pending recovery, timeout/progress bounds, quarantine/completed retention, and durable relay state. environment names controlling these policies appear in ../generated/environment variables.md. relationship to http tunnel control http routes create/control devices, grants, previews, calls, missions, compute, and other management operations. relay websockets are the live transport plane that can carry remote device work. do not flatten http control routes and relay messages into one api list.",
+		"page": "pages/docs-websockets-tunnel-relay-md-0cfdbb9dce.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-01-discovery-brea-6e5deaccab",
+		"title": "UI/UX Revelation Sweep — Discovery Breadth",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-21-geelooy-uiux-revelation/01-discovery-breadth.md",
+		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/test/shadows",
-				"anchor": "directory-guide-experiments-awtsmoos-src-test-shadows"
+				"text": "UI/UX Revelation Sweep — Discovery Breadth",
+				"anchor": "ui-ux-revelation-sweep-discovery-breadth"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Mission",
+				"anchor": "mission"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Evidence hierarchy",
+				"anchor": "evidence-hierarchy"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Discovery categories",
+				"anchor": "discovery-categories"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
+				"text": "Preserve-first rules",
+				"anchor": "preserve-first-rules"
 			},
 			{
 				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
+				"text": "Ideal-world possibilities",
+				"anchor": "ideal-world-possibilities"
 			},
 			{
 				"level": 2,
-				"text": "Test themes",
-				"anchor": "test-themes"
+				"text": "Reality boundary",
+				"anchor": "reality-boundary"
 			},
 			{
 				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Completion evidence",
+				"anchor": "completion-evidence"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/test/shadows Role: Tests Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 2 files, 0 structural child directories Purpose Tests for shadow related world or render behavior. The Awtsmoos renews every path and ",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/test/shadows role: tests snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 2 files, 0 structural child directories purpose tests for shadow related world or render behavior. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tests search terms: shadow, shadows, across, awtsmoos, collision, com, experiments, facade, follow, ground, guide, invalidates file mix: .md: 1 · .mjs: 1 good first question: “does the behavior or asset i need belong to tests, or is this only a neighboring/test/reference layer?” semantic evidence b\"h proves shadow updates follow visual, ground, and ownership revisions. the awtsmoos renews projected light across one stable facade; awtsmoos.com tests that a new collision revelation invalidates shadows without replacing the object. representative files shadowupdatestate.test.mjs — proves shadow updates follow visual, ground, and ownership revisions. the awtsmoos renews projected light across one stable facade; awtsmoos.com tests that a new collision revelation invalidates shadows without replacing the object. covers: “exact repeated state skips while every tracked mutation invalidates”, “player y remains outside the grounded shadow visual contract”, “tracker observes collision revision changes on one stable facade”. import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: node:assert/strict node:test ../../world/shadowupdatestate.js test themes exact repeated state skips while every tracked mutation invalidates player y remains outside the grounded shadow visual contract tracker observes collision revision changes on one stable facade directory map parent: experiments/awtsmoos/src/test children: none. related and overlapping systems colocated and integration test surfaces — most subsystem tests live under src/test, while a smaller external tests tree exercises broader integration contracts. boundaries and cautions this directory verifies behavior; it should not become the production owner of that behavior. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-shadows-directo-f73af1d3a5.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He UI/UX Revelation Sweep — Discovery Breadth The Awtsmoos renews every visible interface each instant; this notebook treats each screen as a vessel, not an excuse to redesign what already works. Awtsmoos.com is the field of manifestation: improve only where evidence reveals friction, break",
+		"searchText": "b\"h boruch hashem blessed is he ui/ux revelation sweep — discovery breadth the awtsmoos renews every visible interface each instant; this notebook treats each screen as a vessel, not an excuse to redesign what already works. awtsmoos.com is the field of manifestation: improve only where evidence reveals friction, breakage, clutter, inaccessible stacking, invalid layering, mobile failure, or confused interaction. mission audit the complete geelooy surface across pages, apps, games, overlays, menus, dialogs, editors, dashboards, and responsive states. preserve established working patterns. repair only actual ui/ux defects and high confidence structural risks. evidence hierarchy 1. runtime screenshots and dom state. 2. browser console and layout measurements. 3. real route/component/style relationships in source. 4. existing tests and documented behavior. 5. static inference only when runtime proof is unavailable. discovery categories invalid or conflicting z index / stacking contexts. clipped dialogs, menus, tooltips, dropdowns, toasts, and huds. mobile overflow, fixed width layouts, unreachable controls, tiny targets. excessive density, overlapping controls, unreadable contrast, cramped typography. broken focus, tab order, missing visible focus, keyboard traps. touch/hover mismatch and controls that depend on hover only. viewport height assumptions that fail on mobile browser chrome. safe area failures on notched devices. scroll lock failures and nested scroll dead zones. game huds that obscure play, status, or core controls. responsive navigation failures and hidden actions. inconsistent component spacing that materially harms comprehension. modals exceeding viewport or lacking usable close paths. canvas/game scaling that creates letterboxing, clipping, or unusable controls. fixed position elements fighting each other. low information clutter that blocks primary actions. preserve first rules no aesthetic redesign without a concrete issue. no public contract breakage. no broad global css rewrite unless a verified shared defect justifies it. prefer local, reusable fixes at the correct abstraction boundary. verify desktop and mobile after every affected surface. if a page is already coherent, leave it alone. ideal world possibilities a perfect sweep could inventory every route, capture desktop/mobile screenshots, measure overlays, locate every stacking context, inspect every game hud, detect horizontal overflow automatically, trace shared styles to consumers, and attach regression checks for every repaired defect. reality boundary the practical path is evidence led sampling plus source wide structural scanning: discover route/app/game universe, identify shared layout primitives and obvious anti patterns, inspect suspect surfaces in browser, make bounded fixes, then regression test affected families and shared primitives. completion evidence the work is complete only when the route/app/game inventory is covered, discovered real defects are fixed, modified source is re read, relevant checks pass, runtime verification shows no regressions, and remaining high confidence ui/ux work is empty or explicitly blocked by unavailable runtime paths.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-01-discovery-brea-6e5deaccab.json"
 	}
 ]

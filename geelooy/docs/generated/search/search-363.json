@@ -1,0 +1,167 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28t0144-do-all-long-render-closure-11-cinema-25bf5d9871",
+		"title": "Cinematic Vocabulary Runtime Discovery",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0144-do-all-long-render-closure/11_CINEMATIC_VOCABULARY_RUNTIME_DISCOVERY.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Cinematic Vocabulary Runtime Discovery",
+				"anchor": "cinematic-vocabulary-runtime-discovery"
+			},
+			{
+				"level": 2,
+				"text": "Direct runtime evidence",
+				"anchor": "direct-runtime-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Decision",
+				"anchor": "decision"
+			},
+			{
+				"level": 2,
+				"text": "Additional proof-truth repair",
+				"anchor": "additional-proof-truth-repair"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Cinematic Vocabulary Runtime Discovery The Awtsmoos gives cinema more than one named angle or one named dissolve; Awtsmoos.com keeps those names lawful so AI intent, canonical validation, adapter preservation, and renderer fallback can agree in one living tongue. Direct runtime evidence ",
+		"searchText": "b\"h boruch hashem blessed is he cinematic vocabulary runtime discovery the awtsmoos gives cinema more than one named angle or one named dissolve; awtsmoos.com keeps those names lawful so ai intent, canonical validation, adapter preservation, and renderer fallback can agree in one living tongue. direct runtime evidence the native ffmpeg proof page failed before session creation because the canonical compiler rejected authored two shot, light wipe, and particle dissolve values. the three minute intent intentionally authors these values in acttwoscenes.js and actthreescenes.js; they are not accidental strings injected by the proof page. movieintentnormalizer.normalizecamera() preserves a camera size as its canonical kind unless an angle creates a stronger normalization such as high angle, low angle, or overhead. therefore two shot with eye level intentionally survives into canonical camera semantics. movieintentnormalizer.normalizetransition() intentionally maps transition.type directly to canonical transition.kind, preserving light wipe and particle dissolve. canvasmovierenderer safely renders every transition kind through a generic edge treatment and specializes only flash; adding richer semantic kinds cannot break its basic fallback rendering. canvasworldpainter uses camera kind for horizon heuristics and safely falls back to the ordinary horizon ratio for un specialized framings such as two shot. decision promote two shot, light wipe, and particle dissolve into the canonical semantic vocabulary. do not flatten them to medium, wipe, or crossfade, because doing so would erase authored intent that adapters and future renderers can preserve even when the current canvas proof renderer degrades gracefully. additional proof truth repair the ffmpeg proof html promises 640×360 at 12fps, while the three minute intent defaults to 1280×720 at 24fps. the proof controller must explicitly pass width: 640, height: 360, and fps: 12 so runtime evidence matches its visible contract and the acceptance target remains 2,160 frames for 180 seconds. next action hash gate and rewrite moviesemantickinds.js plus the dedicated ffmpeg proof controller; add a new cinematic vocabulary regression test; run the complete test gate; cold reload the 30 second ffmpeg proof.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28t0144-do-all-long-render-closure-11-cinema-25bf5d9871.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28t0144-do-all-long-render-closure-12-dialog-042d657d4f",
+		"title": "Dialogue Voice Runtime Discovery",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0144-do-all-long-render-closure/12_DIALOGUE_VOICE_RUNTIME_DISCOVERY.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Dialogue Voice Runtime Discovery",
+				"anchor": "dialogue-voice-runtime-discovery"
+			},
+			{
+				"level": 2,
+				"text": "Direct runtime evidence",
+				"anchor": "direct-runtime-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Decision",
+				"anchor": "decision"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Dialogue Voice Runtime Discovery The Awtsmoos gives speech both meaning and sound; Awtsmoos.com must preserve the speaker through every adapter and prepare a truthful asset before the browser may sing it around. Direct runtime evidence The 30 second native ffmpeg proof now compiles and e",
+		"searchText": "b\"h boruch hashem blessed is he dialogue voice runtime discovery the awtsmoos gives speech both meaning and sound; awtsmoos.com must preserve the speaker through every adapter and prepare a truthful asset before the browser may sing it around. direct runtime evidence the 30 second native ffmpeg proof now compiles and enters animatorbrowserexportaudio.render(). it fails when animatorbrowservoicemixer requests /voices/01 undefined.aiff. the authored three minute film has two dialogue entities: miriam in act one and teacher in act three. those entities store speakername in canonical entity data. animatormovieplanparts.diburdialogue() currently projects only speakerid, text, timing, and displaymode; it drops speakername, voicestatus, silentmode, emotion, voice, speechstyle, and rate. animatorbrowservoiceassets deliberately builds filenames from the spoken line index plus speakername and deliberately refuses to invent files for lines explicitly marked silent. the acceptance voice directory currently contains no files. /usr/bin/say is available on the target macos host and exposes stable installed english voices including alex and fiona. decision 1. repair the animator adapter so dialogue speech metadata survives canonical projection. 2. do not weaken animatorbrowservoiceassets by silently skipping missing files. 3. add a deterministic acceptance voice generator that owns exactly the two authored lines and writes the expected 01 miriam.aiff and 02 teacher.aiff files. 4. use distinct installed english macos voices for the two speakers. 5. verify generated aiff files through the repo's own animatorbrowseraiffdecoder path in browser runtime rather than assuming say output is compatible. 6. keep the generated binaries as proof assets; preserve their generator source and provenance so a future developer can recreate them. next action hash gate and rewrite animatormovieplanparts.js, add the acceptance voice specification and generator modules, then add tests proving metadata preservation before generating the aiff binaries.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28t0144-do-all-long-render-closure-12-dialog-042d657d4f.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28t0144-do-all-long-render-closure-13-voice--a5515f2955",
+		"title": "Chesed Brainstorm — Every Honest Voice Path",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0144-do-all-long-render-closure/13_VOICE_CHESed_BRAINSTORM.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Chesed Brainstorm — Every Honest Voice Path",
+				"anchor": "chesed-brainstorm-every-honest-voice-path"
+			},
+			{
+				"level": 2,
+				"text": "Possibilities",
+				"anchor": "possibilities"
+			},
+			{
+				"level": 2,
+				"text": "Ideal world",
+				"anchor": "ideal-world"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Chesed Brainstorm — Every Honest Voice Path The Awtsmoos gives speech an ohr of meaning and a keli of waveform; Awtsmoos.com must not let either disappear when the movie crosses adapter, asset, decoder, mixer, and muxer shore. Possibilities 1. Preserve canonical speech metadata directly ",
+		"searchText": "b\"h boruch hashem blessed is he chesed brainstorm — every honest voice path the awtsmoos gives speech an ohr of meaning and a keli of waveform; awtsmoos.com must not let either disappear when the movie crosses adapter, asset, decoder, mixer, and muxer shore. possibilities 1. preserve canonical speech metadata directly in animatormovieplanparts.js. 2. extract dialogue projection into a dedicated module so speech semantics do not crowd the already large plan parts file. 3. silence all missing voices explicitly; rejected because the acceptance film intentionally authors spoken dialogue. 4. teach the mixer to synthesize speech dynamically; rejected for this proof because export should be deterministic and offline once assets exist. 5. generate acceptance aiff files with macos say; promising because the target host already exposes stable installed voices and the mixer expects aiff. 6. generate wav then convert to aiff with ffmpeg; possible fallback if say o produces an incompatible flavor. 7. generate speech at server render time; rejected because that would make ffmpeg bridge own semantic generation instead of encoding only witnessed assets. 8. keep a source controlled voice specification that maps each authored speaker to exact line text, voice name, rate, and expected filename. 9. keep generated binaries as reproducible proof assets and record source generator/provenance. 10. validate asset count and filenames against the projected dialogue before rendering. 11. decode generated aiffs through animatorbrowseraiffdecoder in browser runtime before accepting them. 12. measure aiff durations and ensure they fit line windows; if longer, choose rates deliberately instead of truncating silently. 13. preserve speakername, voicestatus, silentmode, emotion, voice, speechstyle, and rate across the adapter so future renderers can use them. 14. preserve speakerid and display mode for compatibility. 15. avoid making animatorbrowservoiceassets infer missing speakers; adapter truth belongs upstream. 16. add contract tests after the full source pass, not before. ideal world every authored dialogue entity reaches animator with its entire speech covenant intact. a reproducible generator materializes prepared voice assets from a declarative specification. browser decoding proves bytes are valid. the production soundtrack schedules those voices at canonical edit times. native ffmpeg then receives the already rendered soundtrack without ever deciding what a character should say.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28t0144-do-all-long-render-closure-13-voice--a5515f2955.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28t0144-do-all-long-render-closure-14-voice--ef23ebf273",
+		"title": "Gevurah Critique — What Could Make the Voice Repair False",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0144-do-all-long-render-closure/14_VOICE_GEVURAH_CRITIQUE.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Gevurah Critique — What Could Make the Voice Repair False",
+				"anchor": "gevurah-critique-what-could-make-the-voice-repair-false"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Gevurah Critique — What Could Make the Voice Repair False The Awtsmoos is beyond every voice name, while Awtsmoos.com places boundaries around generated sound so convenience cannot masquerade as cinematic truth. 1. Do not mutate the strict voice loader to hide absent assets. 2. Do not fa",
+		"searchText": "b\"h boruch hashem blessed is he gevurah critique — what could make the voice repair false the awtsmoos is beyond every voice name, while awtsmoos.com places boundaries around generated sound so convenience cannot masquerade as cinematic truth. 1. do not mutate the strict voice loader to hide absent assets. 2. do not fabricate speakername from speakerid when authored data already contains the real name. 3. do not add speech fields directly to a 103 line module if a truthful dialogue boundary can be extracted. 4. do not generate files before source describes how to reproduce them. 5. do not run say through an interpolated shell string; use node spawnsync/execfilesync argv or a fixed shell command only after inputs are hardcoded and audited. 6. do not accept arbitrary output paths or arbitrary voice names from browser input. 7. do not assume a macos voice exists; generator must verify the configured voice list before invoking synthesis. 8. do not assume say aiff is compatible; browser decoder verification is mandatory. 9. do not assume voice duration fits the scene; inspect generated durations against dialogue windows. 10. do not let generated binary files replace the source specification. 11. do not let the voice generator become a general tts service; it owns only acceptance proof assets. 12. do not alter unrelated dialogue scenes or legacy voice conventions. 13. keep every source file below 120 lines with tabs, b\"h, awtsmoos, awtsmoos.com, and complete documentation. 14. hash gate every existing source rewrite because concurrent agents are active. 15. after source, test adapter preservation and generator planning before generating binaries. 16. after binary generation, cold browser decode both assets and rerun the 30 second ffmpeg proof.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28t0144-do-all-long-render-closure-14-voice--ef23ebf273.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28t0144-do-all-long-render-closure-15-voice--085aa02a54",
+		"title": "Tiferes Final Plan — Speech Metadata to Verified AIFF",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0144-do-all-long-render-closure/15_VOICE_TIFERES_FINAL_PLAN.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Tiferes Final Plan — Speech Metadata to Verified AIFF",
+				"anchor": "tiferes-final-plan-speech-metadata-to-verified-aiff"
+			},
+			{
+				"level": 2,
+				"text": "Source files to create",
+				"anchor": "source-files-to-create"
+			},
+			{
+				"level": 2,
+				"text": "Existing source to rewrite",
+				"anchor": "existing-source-to-rewrite"
+			},
+			{
+				"level": 2,
+				"text": "Source-first verification before tests",
+				"anchor": "source-first-verification-before-tests"
+			},
+			{
+				"level": 2,
+				"text": "Test files after source",
+				"anchor": "test-files-after-source"
+			},
+			{
+				"level": 2,
+				"text": "Generated evidence after tests",
+				"anchor": "generated-evidence-after-tests"
+			},
+			{
+				"level": 2,
+				"text": "Runtime continuation",
+				"anchor": "runtime-continuation"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Tiferes Final Plan — Speech Metadata to Verified AIFF The Awtsmoos joins authored meaning and audible form; Awtsmoos.com lets the adapter carry the covenant, the generator prepare the vessel, and the browser prove the sound before ffmpeg gathers time. Source files to create apps/animator",
+		"searchText": "b\"h boruch hashem blessed is he tiferes final plan — speech metadata to verified aiff the awtsmoos joins authored meaning and audible form; awtsmoos.com lets the adapter carry the covenant, the generator prepare the vessel, and the browser prove the sound before ffmpeg gathers time. source files to create apps/animator/src/sharedmovie/animatordialogueprojection.js — focused canonical speech entity → animator dialogue entry conversion preserving all speech metadata. apps/animator/tools/browser export/voices/acceptancevoicespecification.js — exact two line acceptance voice manifest with filenames, speakers, texts, installed macos voices, and speaking rates. apps/animator/tools/browser export/voices/generateacceptancevoices.mjs — validates manifest/voice availability and invokes /usr/bin/say through argv safe child process apis. existing source to rewrite apps/animator/src/sharedmovie/animatormovieplanparts.js — import/delegate dialogue projection, preserving every other public helper unchanged and reducing responsibility. source first verification before tests syntax check all new/rewritten js. enforce <=120 lines. confirm tabs and mandatory prologue/poetry. test files after source adapter regression proving miriam and teacher preserve speakername and speech metadata. voice spec/generator planning regression proving exact filenames/order/text and no arbitrary path surface. generated evidence after tests run generator to create 01 miriam.aiff and 02 teacher.aiff. inspect sizes and aiff headers. browser decode both through animatorbrowseraiffdecoder and record duration/sample rate/channels. compare durations with dialogue windows. runtime continuation cold launch 30 second ffmpeg proof. require 360 uploaded frames, browser soundtrack, ffmpeg h.264/aac result, and ffprobe success. then cold launch full 180 second / 2,160 frame proof and continue the existing completion graph. next action read dialogue call sites/tests and current intent speech metadata, then perform the guarded source rewrite/new file pass.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28t0144-do-all-long-render-closure-15-voice--085aa02a54.json"
+	}
+]

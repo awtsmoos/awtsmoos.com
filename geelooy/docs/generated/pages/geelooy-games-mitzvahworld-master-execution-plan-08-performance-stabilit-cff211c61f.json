@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-master-execution-plan-08-performance-stabilit-cff211c61f",
+	"title": "08 — Performance, Streaming, Stability, 50M-Scale Readiness",
+	"sourcePath": "geelooy/games/mitzvahWorld/MASTER_EXECUTION_PLAN/08_PERFORMANCE_STABILITY_SCALE.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "08 — Performance, Streaming, Stability, 50M-Scale Readiness",
+			"anchor": "08-performance-streaming-stability-50m-scale-readiness"
+		},
+		{
+			"level": 2,
+			"text": "FPS law",
+			"anchor": "fps-law"
+		},
+		{
+			"level": 2,
+			"text": "Runtime budgets",
+			"anchor": "runtime-budgets"
+		},
+		{
+			"level": 2,
+			"text": "Streaming / scheduling",
+			"anchor": "streaming-scheduling"
+		},
+		{
+			"level": 2,
+			"text": "Metrics",
+			"anchor": "metrics"
+		},
+		{
+			"level": 2,
+			"text": "Stability / failure recovery",
+			"anchor": "stability-failure-recovery"
+		},
+		{
+			"level": 2,
+			"text": "50 million concurrent reality",
+			"anchor": "50-million-concurrent-reality"
+		},
+		{
+			"level": 2,
+			"text": "Capacity ladder",
+			"anchor": "capacity-ladder"
+		},
+		{
+			"level": 2,
+			"text": "Disaster readiness",
+			"anchor": "disaster-readiness"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-master-execution-plan-08-performance-stabilit-cff211c61f-001.json"
+	]
+}

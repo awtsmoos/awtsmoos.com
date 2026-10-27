@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-33229d473d",
+	"title": "Live tunnel contract",
+	"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/MODERN_TUNNEL_CONTRACT.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Live tunnel contract",
+			"anchor": "live-tunnel-contract"
+		},
+		{
+			"level": 2,
+			"text": "Native MCP",
+			"anchor": "native-mcp"
+		},
+		{
+			"level": 2,
+			"text": "Stable extensible bridge",
+			"anchor": "stable-extensible-bridge"
+		},
+		{
+			"level": 2,
+			"text": "Authentication and recovery",
+			"anchor": "authentication-and-recovery"
+		},
+		{
+			"level": 2,
+			"text": "Applications and alternative surfaces",
+			"anchor": "applications-and-alternative-surfaces"
+		},
+		{
+			"level": 2,
+			"text": "Report truth",
+			"anchor": "report-truth"
+		},
+		{
+			"level": 2,
+			"text": "Artifact tools and live proof",
+			"anchor": "artifact-tools-and-live-proof"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-33229d473d-001.json"
+	]
+}

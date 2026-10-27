@@ -1,0 +1,53 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-games-shared-f9bcc76f",
+	"path": "geelooy/games/shared",
+	"type": "game",
+	"family": {
+		"id": "games",
+		"title": "Games and Worlds"
+	},
+	"title": "geelooy/games/shared",
+	"entries": [],
+	"humanDocumentation": [
+		"docs/TUTORIALS/PROJECTS/GAMES.md",
+		"docs/APPS/GAMES_AND_SIMULATION.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-shared-f9bcc76f.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 1,
+		"tests": 0,
+		"assets": 0,
+		"generated": 0,
+		"docs": 0,
+		"other": 0
+	},
+	"totalFiles": 1,
+	"symbolSummary": {
+		"files": 1,
+		"classes": 0,
+		"functions": 8,
+		"exports": 0,
+		"samples": [
+			"data",
+			"render",
+			"setProgress",
+			"rotateTip",
+			"finish",
+			"bump",
+			"watch",
+			"scan"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [],
+	"requiresLocalDocumentation": false,
+	"documentationCovered": false,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

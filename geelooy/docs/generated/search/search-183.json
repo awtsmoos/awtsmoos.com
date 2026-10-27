@@ -1,344 +1,331 @@
 [
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-api-tunnel-df787c17-md-9a63d308b8",
-		"title": "Project Tutorial: geelooy/api/tunnel",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-tunnel-df787c17.md",
-		"category": "Tunnel",
+		"id": "docs-generated-api-tutorials-routes-api-wallet-commerce-actions-execute--2d77ee8530",
+		"title": "API Tutorial: /api/wallet/commerce/actions/execute",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-commerce-actions-execute-1b212726d5.md",
+		"category": "Routes",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: geelooy/api/tunnel",
-				"anchor": "project-tutorial-geelooy-api-tunnel"
+				"text": "API Tutorial: /api/wallet/commerce/actions/execute",
+				"anchor": "api-tutorial-api-wallet-commerce-actions-execute"
 			},
 			{
 				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
 			},
 			{
 				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
+				"text": "Path parameters",
+				"anchor": "path-parameters"
 			},
 			{
 				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
+				"text": "Starter call",
+				"anchor": "starter-call"
 			},
 			{
 				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
+				"text": "Observed callers",
+				"anchor": "observed-callers"
 			},
 			{
 				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
+				"text": "Related tests",
+				"anchor": "related-tests"
 			},
 			{
 				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Related routes",
+				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/api/tunnel Path: geelooy/api/tunnel · Type: api · Family: API Projects Read the human API Projects guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarant",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/api/tunnel path: geelooy/api/tunnel · type: api · family: api projects read the human api projects guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: awtsmoos.derech.js, documentation.md local documentation: geelooy/api/tunnel/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 260 106 0 0 15 0 381 public entry points none observed. symbol evidence source files: 260; classes: 5; functions: 1095; exports: 854; samples: dynamicroutes, response, ws, from64, jsonfrom64, geturl, sendjson, buildfspayload, authorizerelay, post, authorization, base price. depends on geelooy/api/perutas — 16 lexical references; examples: geelooy/api/tunnel/control/core/usagestore.js; geelooy/api/tunnel/control/routes/adminperutas.js; geelooy/api/tunnel/control/routes/adminvault.js geelooy/apps/tunnel — 8 lexical references; examples: geelooy/api/tunnel/control/routes/fsvessel/responsecontractidentity.js; geelooy/api/tunnel/control/routes/osfs/virtualaiagents.js; geelooy/api/tunnel/install/tools/zipsources.js geelooy/api/social — 4 lexical references; examples: geelooy/api/tunnel/control/routes/fsvessel/hostedvirtualos/sitepublicationdispatcher.js; geelooy/api/tunnel/control/routes/osfs/listread.js; geelooy/api/tunnel/control/routes/osfs/writeops.js ayzarim/awtsmoosdynamicserver — 1 lexical reference; examples: geelooy/api/tunnel/control/routes/fsvessel/tunnelclient.js geelooy/api/oauth — 1 lexical reference; examples: geelooy/api/tunnel/control/core/auth.js geelooy/sites — 1 lexical reference; examples: geelooy/api/tunnel/control/routes/fsvessel/hostedvirtualos/sitepublicationdispatcher.js used by ayzarim/awtsmoosdynamicserver — 11 lexical references; examples: ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/channel.js; ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/channelsnapshot.js; ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/missionroomupgradefakes.cjs geelooy/sites — 5 lexical references; examples: geelooy/sites/directsitereadiness.js; geelooy/sites/hostedfoldermanifest.js; geelooy/sites/sitefolderpublication.js geelooy/api/oauth — 2 lexical references; examples: geelooy/api/oauth/data/clients.js; geelooy/api/oauth/data/publicagentpolicy.js geelooy/api/ohr hagnuz — 2 lexical references; examples: geelooy/api/ohr hagnuz/routes/realtimeticket.js geelooy/api/social — 1 lexical reference; examples: geelooy/api/social/helper/repositories/gitcloneservice.js geelooy/apps/tunnel control — 1 lexical reference; examples: geelooy/apps/tunnel control/gpt/generate oauth scopes.cjs geelooy/scripts — 1 lexical reference; examples: geelooy/scripts/awtsmoos/minimax virtual os game/seed users.cjs geelooy/view — 1 lexical reference; examples: geelooy/view/ awtsmoos.derech.js external packages none observed. verification clue observed test classified files: 106 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-api-tunnel-df787c17-md-9a63d308b8.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/wallet/commerce/actions/execute Family: Wallet · Mount: /api/wallet · Derech health: OK Source: geelooy/api/wallet/routes/table.js · Discovery: route table · Confidence: unknown method Read the human Wallet tutorial Generated evidence is a navigation and teaching aid, ",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/wallet/commerce/actions/execute family: wallet · mount: /api/wallet · derech health: ok source: geelooy/api/wallet/routes/table.js · discovery: route table · confidence: unknown method read the human wallet tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/wallet/commerce/actions/execute geelooy/shared/commerce/radianceclient.js runtime related tests no package script heuristic match was found. related routes /api/wallet/balance /api/wallet/buy/mock /api/wallet/commerce/actions /api/wallet/commerce/catalog /api/wallet/commerce/credits/commit /api/wallet/commerce/credits/consume /api/wallet/commerce/credits/release /api/wallet/commerce/credits/reserve",
+		"page": "pages/docs-generated-api-tutorials-routes-api-wallet-commerce-actions-execute--2d77ee8530.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-api-wallet-ad658949-md-01e4bb0789",
-		"title": "Project Tutorial: geelooy/api/wallet",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-wallet-ad658949.md",
-		"category": "Projects",
+		"id": "docs-generated-api-tutorials-routes-api-wallet-commerce-catalog-f9d5b627-a4a95d773c",
+		"title": "API Tutorial: /api/wallet/commerce/catalog",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-commerce-catalog-f9d5b627eb.md",
+		"category": "Routes",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: geelooy/api/wallet",
-				"anchor": "project-tutorial-geelooy-api-wallet"
+				"text": "API Tutorial: /api/wallet/commerce/catalog",
+				"anchor": "api-tutorial-api-wallet-commerce-catalog"
 			},
 			{
 				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
 			},
 			{
 				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
+				"text": "Path parameters",
+				"anchor": "path-parameters"
 			},
 			{
 				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
+				"text": "Starter call",
+				"anchor": "starter-call"
 			},
 			{
 				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
+				"text": "Observed callers",
+				"anchor": "observed-callers"
 			},
 			{
 				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
+				"text": "Related tests",
+				"anchor": "related-tests"
 			},
 			{
 				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Related routes",
+				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/api/wallet Path: geelooy/api/wallet · Type: api · Family: API Projects Read the human API Projects guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarant",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/api/wallet path: geelooy/api/wallet · type: api · family: api projects read the human api projects guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: awtsmoos.derech.js, documentation.md local documentation: geelooy/api/wallet/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 65 19 0 0 1 0 85 public entry points none observed. symbol evidence source files: 65; classes: 0; functions: 122; exports: 157; samples: dynamicroutes, post, normalizeamount, normalizewalletbuckets, syncwalletbalance, creditwalletbucket, debitwalletbuckets, getcommerceaccount, app creator service skus, app service skus, app system service skus, app utility service skus. depends on geelooy/api/social — 1 lexical reference; examples: geelooy/api/wallet/core/transferidentity.js used by none observed. external packages none observed. verification clue observed test classified files: 19 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-api-wallet-ad658949-md-01e4bb0789.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/wallet/commerce/catalog Family: Wallet · Mount: /api/wallet · Derech health: OK Source: geelooy/api/wallet/routes/table.js · Discovery: route table · Confidence: unknown method Read the human Wallet tutorial Generated evidence is a navigation and teaching aid, not an O",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/wallet/commerce/catalog family: wallet · mount: /api/wallet · derech health: ok source: geelooy/api/wallet/routes/table.js · discovery: route table · confidence: unknown method read the human wallet tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/wallet/commerce/catalog geelooy/apps/wallet/scripts/commerce.js runtime /api/wallet/commerce/catalog geelooy/cloud/clouddata.js runtime /api/wallet/commerce/catalog geelooy/games/merkava/src/commerce/commandersigilclient.js runtime /api/wallet/commerce/catalog geelooy/games/sefira clash/js/commerce/arenathemeclient.js runtime /api/wallet/commerce/catalog geelooy/shared/commerce/catalogbadges.js runtime /api/wallet/commerce/catalog geelooy/shared/commerce/controller.js runtime related tests no package script heuristic match was found. related routes /api/wallet/balance /api/wallet/buy/mock /api/wallet/commerce/actions /api/wallet/commerce/actions/execute /api/wallet/commerce/credits/commit /api/wallet/commerce/credits/consume /api/wallet/commerce/credits/release /api/wallet/commerce/credits/reserve",
+		"page": "pages/docs-generated-api-tutorials-routes-api-wallet-commerce-catalog-f9d5b627-a4a95d773c.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-api-youtube-6568882e-m-79df78addc",
-		"title": "Project Tutorial: geelooy/api/youtube",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-youtube-6568882e.md",
-		"category": "Projects",
+		"id": "docs-generated-api-tutorials-routes-api-wallet-commerce-credits-commit-5-50cc40e1b4",
+		"title": "API Tutorial: /api/wallet/commerce/credits/commit",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-commerce-credits-commit-514993bf32.md",
+		"category": "Routes",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: geelooy/api/youtube",
-				"anchor": "project-tutorial-geelooy-api-youtube"
+				"text": "API Tutorial: /api/wallet/commerce/credits/commit",
+				"anchor": "api-tutorial-api-wallet-commerce-credits-commit"
 			},
 			{
 				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
 			},
 			{
 				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
+				"text": "Path parameters",
+				"anchor": "path-parameters"
 			},
 			{
 				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
+				"text": "Starter call",
+				"anchor": "starter-call"
 			},
 			{
 				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
+				"text": "Observed callers",
+				"anchor": "observed-callers"
 			},
 			{
 				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
+				"text": "Related tests",
+				"anchor": "related-tests"
 			},
 			{
 				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Related routes",
+				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/api/youtube Path: geelooy/api/youtube · Type: api · Family: API Projects Read the human API Projects guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guara",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/api/youtube path: geelooy/api/youtube · type: api · family: api projects read the human api projects guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: awtsmoos.derech.js, documentation.md local documentation: geelooy/api/youtube/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 19 1 0 0 2 0 22 public entry points none observed. symbol evidence source files: 19; classes: 0; functions: 80; exports: 56; samples: dynamicroutes, clean, call, options, body, accesstoken, apierror, authorizedfetch, youtube, safejson, config, missingconfig. depends on geelooy/api/oauth — 1 lexical reference; examples: geelooy/api/youtube/routes/auth.js used by none observed. external packages none observed. verification clue observed test classified files: 1 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-api-youtube-6568882e-m-79df78addc.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/wallet/commerce/credits/commit Family: Wallet · Mount: /api/wallet · Derech health: OK Source: geelooy/api/wallet/routes/table.js · Discovery: route table · Confidence: unknown method Read the human Wallet tutorial Generated evidence is a navigation and teaching aid, n",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/wallet/commerce/credits/commit family: wallet · mount: /api/wallet · derech health: ok source: geelooy/api/wallet/routes/table.js · discovery: route table · confidence: unknown method read the human wallet tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/wallet/commerce/credits/commit geelooy/shared/commerce/paidactionclient.js runtime related tests no package script heuristic match was found. related routes /api/wallet/balance /api/wallet/buy/mock /api/wallet/commerce/actions /api/wallet/commerce/actions/execute /api/wallet/commerce/catalog /api/wallet/commerce/credits/consume /api/wallet/commerce/credits/release /api/wallet/commerce/credits/reserve",
+		"page": "pages/docs-generated-api-tutorials-routes-api-wallet-commerce-credits-commit-5-50cc40e1b4.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-api-zmanim-f2a3ed22-md-13ca4eeb3a",
-		"title": "Project Tutorial: geelooy/api/zmanim",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-zmanim-f2a3ed22.md",
-		"category": "Projects",
+		"id": "docs-generated-api-tutorials-routes-api-wallet-commerce-credits-consume--689ab8a595",
+		"title": "API Tutorial: /api/wallet/commerce/credits/consume",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-commerce-credits-consume-6e724abb1d.md",
+		"category": "Routes",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: geelooy/api/zmanim",
-				"anchor": "project-tutorial-geelooy-api-zmanim"
+				"text": "API Tutorial: /api/wallet/commerce/credits/consume",
+				"anchor": "api-tutorial-api-wallet-commerce-credits-consume"
 			},
 			{
 				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
 			},
 			{
 				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
+				"text": "Path parameters",
+				"anchor": "path-parameters"
 			},
 			{
 				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
+				"text": "Starter call",
+				"anchor": "starter-call"
 			},
 			{
 				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
+				"text": "Observed callers",
+				"anchor": "observed-callers"
 			},
 			{
 				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
+				"text": "Related tests",
+				"anchor": "related-tests"
 			},
 			{
 				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Related routes",
+				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/api/zmanim Path: geelooy/api/zmanim · Type: api · Family: API Projects Read the human API Projects guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarant",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/api/zmanim path: geelooy/api/zmanim · type: api · family: api projects read the human api projects guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: awtsmoos.derech.js, documentation.md, readme.md, readme.md local documentation: geelooy/api/zmanim/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 22 5 0 0 2 1 30 public entry points none observed. symbol evidence source files: 22; classes: 0; functions: 58; exports: 36; samples: dynamicroutes, calculatecomparison, comparisonenvelope, comparisonquery, requestedopinions, calculateday, opinionids, loadcore, loadembedpresets, loadnetworkservices, loadpresentation, zmanimmodule. depends on none observed. used by geelooy/api/zmanimms — 1 lexical reference; examples: geelooy/api/zmanimms/ awtsmoos.derech.js external packages none observed. verification clue observed test classified files: 5 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-api-zmanim-f2a3ed22-md-13ca4eeb3a.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/wallet/commerce/credits/consume Family: Wallet · Mount: /api/wallet · Derech health: OK Source: geelooy/api/wallet/routes/table.js · Discovery: route table · Confidence: unknown method Read the human Wallet tutorial Generated evidence is a navigation and teaching aid, ",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/wallet/commerce/credits/consume family: wallet · mount: /api/wallet · derech health: ok source: geelooy/api/wallet/routes/table.js · discovery: route table · confidence: unknown method read the human wallet tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/wallet/balance /api/wallet/buy/mock /api/wallet/commerce/actions /api/wallet/commerce/actions/execute /api/wallet/commerce/catalog /api/wallet/commerce/credits/commit /api/wallet/commerce/credits/release /api/wallet/commerce/credits/reserve",
+		"page": "pages/docs-generated-api-tutorials-routes-api-wallet-commerce-credits-consume--689ab8a595.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-api-zmanimms-63cdc9af--085c395e09",
-		"title": "Project Tutorial: geelooy/api/zmanimms",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-zmanimms-63cdc9af.md",
-		"category": "Projects",
+		"id": "docs-generated-api-tutorials-routes-api-wallet-commerce-credits-release--afa856de88",
+		"title": "API Tutorial: /api/wallet/commerce/credits/release",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-commerce-credits-release-01fbab351a.md",
+		"category": "Routes",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: geelooy/api/zmanimms",
-				"anchor": "project-tutorial-geelooy-api-zmanimms"
+				"text": "API Tutorial: /api/wallet/commerce/credits/release",
+				"anchor": "api-tutorial-api-wallet-commerce-credits-release"
 			},
 			{
 				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
 			},
 			{
 				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
+				"text": "Path parameters",
+				"anchor": "path-parameters"
 			},
 			{
 				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
+				"text": "Starter call",
+				"anchor": "starter-call"
 			},
 			{
 				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
+				"text": "Observed callers",
+				"anchor": "observed-callers"
 			},
 			{
 				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
+				"text": "Related tests",
+				"anchor": "related-tests"
 			},
 			{
 				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Related routes",
+				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/api/zmanimms Path: geelooy/api/zmanimms · Type: api · Family: API Projects Read the human API Projects guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health gua",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/api/zmanimms path: geelooy/api/zmanimms · type: api · family: api projects read the human api projects guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: awtsmoos.derech.js local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 1 0 0 0 0 0 1 public entry points none observed. symbol evidence source files: 1; classes: 0; functions: 0; exports: 0; samples: —. depends on geelooy/api/zmanim — 1 lexical reference; examples: geelooy/api/zmanimms/ awtsmoos.derech.js used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-api-zmanimms-63cdc9af--085c395e09.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/wallet/commerce/credits/release Family: Wallet · Mount: /api/wallet · Derech health: OK Source: geelooy/api/wallet/routes/table.js · Discovery: route table · Confidence: unknown method Read the human Wallet tutorial Generated evidence is a navigation and teaching aid, ",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/wallet/commerce/credits/release family: wallet · mount: /api/wallet · derech health: ok source: geelooy/api/wallet/routes/table.js · discovery: route table · confidence: unknown method read the human wallet tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/wallet/commerce/credits/release geelooy/shared/commerce/paidactionclient.js runtime related tests no package script heuristic match was found. related routes /api/wallet/balance /api/wallet/buy/mock /api/wallet/commerce/actions /api/wallet/commerce/actions/execute /api/wallet/commerce/catalog /api/wallet/commerce/credits/commit /api/wallet/commerce/credits/consume /api/wallet/commerce/credits/reserve",
+		"page": "pages/docs-generated-api-tutorials-routes-api-wallet-commerce-credits-release--afa856de88.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-apps-54c97d9f-md-9e9915d38a",
-		"title": "Project Tutorial: Awtsmoos Apps — Every Browser Tool & Game",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-54c97d9f.md",
-		"category": "Projects",
+		"id": "docs-generated-api-tutorials-routes-api-wallet-commerce-credits-reserve--e0e53ef6b7",
+		"title": "API Tutorial: /api/wallet/commerce/credits/reserve",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-commerce-credits-reserve-5161959097.md",
+		"category": "Routes",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: Awtsmoos Apps — Every Browser Tool & Game",
-				"anchor": "project-tutorial-awtsmoos-apps-every-browser-tool-game"
+				"text": "API Tutorial: /api/wallet/commerce/credits/reserve",
+				"anchor": "api-tutorial-api-wallet-commerce-credits-reserve"
 			},
 			{
 				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
 			},
 			{
 				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
+				"text": "Path parameters",
+				"anchor": "path-parameters"
 			},
 			{
 				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
+				"text": "Starter call",
+				"anchor": "starter-call"
 			},
 			{
 				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
+				"text": "Observed callers",
+				"anchor": "observed-callers"
 			},
 			{
 				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
+				"text": "Related tests",
+				"anchor": "related-tests"
 			},
 			{
 				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Related routes",
+				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Awtsmoos Apps — Every Browser Tool & Game Path: geelooy/apps · Type: public · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical obs",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: awtsmoos apps — every browser tool & game path: geelooy/apps · type: public · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, app.js, documentation.md local documentation: geelooy/apps/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 8210 1790 0 19 232 74 10325 public entry points /apps → geelooy/apps/index.html — awtsmoos apps — every browser tool & game symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 1790 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-apps-54c97d9f-md-9e9915d38a.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/wallet/commerce/credits/reserve Family: Wallet · Mount: /api/wallet · Derech health: OK Source: geelooy/api/wallet/routes/table.js · Discovery: route table · Confidence: unknown method Read the human Wallet tutorial Generated evidence is a navigation and teaching aid, ",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/wallet/commerce/credits/reserve family: wallet · mount: /api/wallet · derech health: ok source: geelooy/api/wallet/routes/table.js · discovery: route table · confidence: unknown method read the human wallet tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/wallet/commerce/credits/reserve geelooy/shared/commerce/paidactionclient.js runtime related tests no package script heuristic match was found. related routes /api/wallet/balance /api/wallet/buy/mock /api/wallet/commerce/actions /api/wallet/commerce/actions/execute /api/wallet/commerce/catalog /api/wallet/commerce/credits/commit /api/wallet/commerce/credits/consume /api/wallet/commerce/credits/release",
+		"page": "pages/docs-generated-api-tutorials-routes-api-wallet-commerce-credits-reserve--e0e53ef6b7.json"
+	},
+	{
+		"id": "docs-generated-api-tutorials-routes-api-wallet-commerce-digital-good-4bc-341af00a30",
+		"title": "API Tutorial: /api/wallet/commerce/digital-good",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-commerce-digital-good-4bc77554c1.md",
+		"category": "Routes",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/wallet/commerce/digital-good",
+				"anchor": "api-tutorial-api-wallet-commerce-digital-good"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/wallet/commerce/digital good Family: Wallet · Mount: /api/wallet · Derech health: OK Source: geelooy/api/wallet/routes/table.js · Discovery: route table · Confidence: unknown method Read the human Wallet tutorial Generated evidence is a navigation and teaching aid, not",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/wallet/commerce/digital good family: wallet · mount: /api/wallet · derech health: ok source: geelooy/api/wallet/routes/table.js · discovery: route table · confidence: unknown method read the human wallet tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/wallet/commerce/digital good?${query} geelooy/drive/services/premiumstarterclient.js runtime related tests no package script heuristic match was found. related routes /api/wallet/balance /api/wallet/buy/mock /api/wallet/commerce/actions /api/wallet/commerce/actions/execute /api/wallet/commerce/catalog /api/wallet/commerce/credits/commit /api/wallet/commerce/credits/consume /api/wallet/commerce/credits/release",
+		"page": "pages/docs-generated-api-tutorials-routes-api-wallet-commerce-digital-good-4bc-341af00a30.json"
 	}
 ]

@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-25t2250-all-pages-continuation-04-final-exec-ef28dd556a",
+	"title": "Final Execution Plan",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-25T2250-all-pages-continuation/04_FINAL_EXECUTION_PLAN.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Final Execution Plan",
+			"anchor": "final-execution-plan"
+		},
+		{
+			"level": 2,
+			"text": "Wave A — Home closeout",
+			"anchor": "wave-a-home-closeout"
+		},
+		{
+			"level": 2,
+			"text": "Wave B — Docs",
+			"anchor": "wave-b-docs"
+		},
+		{
+			"level": 2,
+			"text": "Wave C — Drive",
+			"anchor": "wave-c-drive"
+		},
+		{
+			"level": 2,
+			"text": "Wave D — Continue families",
+			"anchor": "wave-d-continue-families"
+		},
+		{
+			"level": 2,
+			"text": "Completion gate for this continuation cycle",
+			"anchor": "completion-gate-for-this-continuation-cycle"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-25t2250-all-pages-continuation-04-final-exec-ef28dd556a-001.json"
+	]
+}

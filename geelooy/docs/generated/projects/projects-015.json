@@ -1,82 +1,81 @@
 [
 	{
-		"projectId": "geelooy-mawgawl-13489054",
-		"path": "geelooy/mawgawl",
-		"type": "public",
+		"projectId": "geelooy-games-chess-9ba46d03",
+		"path": "geelooy/games/chess",
+		"type": "game",
 		"family": {
-			"id": "public",
-			"title": "Public and Other Boundaries"
+			"id": "games",
+			"title": "Games and Worlds"
 		},
-		"title": "geelooy/mawgawl",
+		"title": "Ultimate Chess AI",
 		"entries": [
 			"index.html",
+			"main.js",
 			"DOCUMENTATION.md"
 		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-mawgawl-13489054.md",
+		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-chess-9ba46d03.md",
 		"documentation": [
 			{
-				"sourcePath": "geelooy/mawgawl/DOCUMENTATION.md",
-				"documentId": "geelooy-mawgawl-documentation-md-ebe3542b76"
+				"sourcePath": "geelooy/games/chess/DOCUMENTATION.md",
+				"documentId": "geelooy-games-chess-documentation-md-10b4da5210"
 			},
 			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
+				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
+			},
+			{
+				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
+				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
 			}
 		],
 		"symlinkTarget": null,
 		"counts": {
-			"source": 65,
-			"tests": 14,
+			"source": 233,
+			"tests": 48,
 			"assets": 0,
 			"generated": 0,
 			"docs": 1,
 			"other": 0
 		},
-		"totalFiles": 80,
+		"totalFiles": 282,
 		"symbolSummary": {
-			"files": 30,
-			"classes": 3,
-			"functions": 129,
-			"exports": 71,
+			"files": 211,
+			"classes": 50,
+			"functions": 597,
+			"exports": 290,
 			"samples": [
-				"from",
-				"showMessage",
-				"showDivInModal",
-				"updateDivInModal",
-				"closeModal",
-				"createCalendar",
-				"resetMinutes",
-				"createCalendarWithMonth",
-				"addBooking",
-				"displayHours",
-				"minuteClickHandler",
-				"displayMinutes"
+				"evaluate",
+				"orderMoves",
+				"quiesce",
+				"search",
+				"searchRoot",
+				"decodeMove",
+				"processRawBook",
+				"initializeEngine",
+				"forgeUniverseIndices",
+				"getLSBIndex",
+				"popBit",
+				"popcount"
 			]
 		},
-		"outgoing": [
-			{
-				"project": "geelooy/shared",
-				"count": 1,
-				"examples": "geelooy/mawgawl/sefarim/searchHistory.js"
-			}
-		],
+		"outgoing": [],
 		"incoming": [],
 		"externalDependencies": [],
 		"publicEntries": [
 			{
-				"url": "/mawgawl",
-				"file": "geelooy/mawgawl/index.html",
-				"title": "",
-				"scripts": 1,
-				"styles": 1
+				"url": "/games/chess",
+				"file": "geelooy/games/chess/index.html",
+				"title": "Ultimate Chess AI",
+				"scripts": 9,
+				"styles": 10
 			},
 			{
-				"url": "/mawgawl/sefarim",
-				"file": "geelooy/mawgawl/sefarim/index.html",
-				"title": "Search the Living Library — Geelooy",
-				"scripts": 2,
-				"styles": 18
+				"url": "/games/chess/debug",
+				"file": "geelooy/games/chess/debug/index.html",
+				"title": "Awtsmoos Engine - Debugging Harness",
+				"scripts": 1,
+				"styles": 0
 			}
 		],
 		"requiresLocalDoc": true,
@@ -84,24 +83,483 @@
 		"provenance": "generated-from-local-source"
 	},
 	{
-		"projectId": "geelooy-node-os-ffd4cd32",
-		"path": "geelooy/node-os",
-		"type": "public",
+		"projectId": "geelooy-games-city-of-light-78d65cbc",
+		"path": "geelooy/games/city-of-light",
+		"type": "game",
 		"family": {
-			"id": "public",
-			"title": "Public and Other Boundaries"
+			"id": "games",
+			"title": "Games and Worlds"
 		},
-		"title": "Awtsmoos Node OS",
+		"title": "City of Light · The Complete Pilgrimage",
 		"entries": [
 			"index.html",
-			"app.js"
+			"package.json",
+			"DOCUMENTATION.md",
+			"README.md",
+			"readme.md"
 		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-node-os-ffd4cd32.md",
+		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-city-of-light-78d65cbc.md",
 		"documentation": [
 			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+				"sourcePath": "geelooy/games/city-of-light/DOCUMENTATION.md",
+				"documentId": "geelooy-games-city-of-light-documentation-md-9350b949bc"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
+				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
+			},
+			{
+				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
+				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 68,
+			"tests": 18,
+			"assets": 0,
+			"generated": 0,
+			"docs": 2,
+			"other": 0
+		},
+		"totalFiles": 88,
+		"symbolSummary": {
+			"files": 55,
+			"classes": 29,
+			"functions": 76,
+			"exports": 97,
+			"samples": [
+				"ABILITIES",
+				"abilityById",
+				"abilityList",
+				"ability",
+				"CAMPAIGN_CHAPTERS",
+				"chapterByNumber",
+				"chapterById",
+				"chapterPresentation",
+				"chaptersUnlockedThrough",
+				"CampaignProgress",
+				"clampChapter",
+				"nonNegative"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/games/city-of-light",
+				"file": "geelooy/games/city-of-light/index.html",
+				"title": "City of Light · The Complete Pilgrimage",
+				"scripts": 6,
+				"styles": 5
+			}
+		],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-games-cobyk-a5fa32ec",
+		"path": "geelooy/games/cobyk",
+		"type": "game",
+		"family": {
+			"id": "games",
+			"title": "Games and Worlds"
+		},
+		"title": "CobyK · Awtsmoos",
+		"entries": [
+			"index.html",
+			"package.json"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-cobyk-a5fa32ec.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
+				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
+			},
+			{
+				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
+				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 124,
+			"tests": 24,
+			"assets": 15,
+			"generated": 0,
+			"docs": 1,
+			"other": 0
+		},
+		"totalFiles": 164,
+		"symbolSummary": {
+			"files": 111,
+			"classes": 91,
+			"functions": 540,
+			"exports": 123,
+			"samples": [
+				"t",
+				"extends",
+				"N",
+				"be",
+				"Qs",
+				"Dt",
+				"ei",
+				"oa",
+				"aa",
+				"ti",
+				"na",
+				"Mm"
+			]
+		},
+		"outgoing": [
+			{
+				"project": "geelooy/libs",
+				"count": 2,
+				"examples": "geelooy/games/cobyk/src/render/performance/HodFrameDiagnostics.js; geelooy/games/cobyk/src/render/performance/NetzachFramePerformanceVessel.js"
+			},
+			{
+				"project": "geelooy/games/mitzvahWorld",
+				"count": 1,
+				"examples": "geelooy/games/cobyk/src/main.js"
+			}
+		],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/games/cobyk",
+				"file": "geelooy/games/cobyk/index.html",
+				"title": "CobyK · Awtsmoos",
+				"scripts": 3,
+				"styles": 4
+			}
+		],
+		"requiresLocalDoc": true,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-games-connect4-f617ea51",
+		"path": "geelooy/games/connect4",
+		"type": "game",
+		"family": {
+			"id": "games",
+			"title": "Games and Worlds"
+		},
+		"title": "Connect 4 · Awtsmoos Games",
+		"entries": [
+			"index.html",
+			"main.js"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-connect4-f617ea51.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
+				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
+			},
+			{
+				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
+				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 29,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 29,
+		"symbolSummary": {
+			"files": 24,
+			"classes": 12,
+			"functions": 24,
+			"exports": 11,
+			"samples": [
+				"createColumnButton",
+				"requestColumn",
+				"maybeShowTutorial",
+				"dismissTutorial",
+				"setEnabled",
+				"getGolemMove",
+				"minimax",
+				"scorePosition",
+				"evaluateWindow",
+				"getValidLocations",
+				"ai_isTerminalNode",
+				"getNextOpenRow"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/games/connect4",
+				"file": "geelooy/games/connect4/index.html",
+				"title": "Connect 4 · Awtsmoos Games",
+				"scripts": 6,
+				"styles": 7
+			}
+		],
+		"requiresLocalDoc": true,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-games-css-eadf3f6d",
+		"path": "geelooy/games/css",
+		"type": "game",
+		"family": {
+			"id": "games",
+			"title": "Games and Worlds"
+		},
+		"title": "geelooy/games/css",
+		"entries": [],
+		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-css-eadf3f6d.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
+				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
+			},
+			{
+				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
+				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 3,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 3,
+		"symbolSummary": null,
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-games-docs-36ff7cf6",
+		"path": "geelooy/games/docs",
+		"type": "game",
+		"family": {
+			"id": "games",
+			"title": "Games and Worlds"
+		},
+		"title": "geelooy/games/docs",
+		"entries": [],
+		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-docs-36ff7cf6.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
+				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
+			},
+			{
+				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
+				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 0,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 3,
+			"other": 0
+		},
+		"totalFiles": 3,
+		"symbolSummary": null,
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-games-dove-c1bb7fb4",
+		"path": "geelooy/games/dove",
+		"type": "game",
+		"family": {
+			"id": "games",
+			"title": "Games and Worlds"
+		},
+		"title": "Noah's Dove · Quest for Shalom",
+		"entries": [
+			"index.html"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-dove-c1bb7fb4.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
+				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
+			},
+			{
+				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
+				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 15,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 15,
+		"symbolSummary": {
+			"files": 13,
+			"classes": 2,
+			"functions": 41,
+			"exports": 41,
+			"samples": [
+				"DoveGame",
+				"DoveLoop",
+				"init",
+				"update",
+				"draw",
+				"drawBackground",
+				"drawSky",
+				"drawCloud",
+				"blob",
+				"drawOcean",
+				"drawOceanActors",
+				"drawFish"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/games/dove",
+				"file": "geelooy/games/dove/index.html",
+				"title": "Noah's Dove · Quest for Shalom",
+				"scripts": 4,
+				"styles": 3
+			}
+		],
+		"requiresLocalDoc": true,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-games-emojis-a9a3155b",
+		"path": "geelooy/games/emojis",
+		"type": "game",
+		"family": {
+			"id": "games",
+			"title": "Games and Worlds"
+		},
+		"title": "Emoji War — Neon Caption Arcade",
+		"entries": [
+			"index.html",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-emojis-a9a3155b.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/games/emojis/DOCUMENTATION.md",
+				"documentId": "geelooy-games-emojis-documentation-md-3ea2d9114e"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
+				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
+			},
+			{
+				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
+				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 41,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 1,
+			"other": 0
+		},
+		"totalFiles": 42,
+		"symbolSummary": {
+			"files": 34,
+			"classes": 18,
+			"functions": 111,
+			"exports": 95,
+			"samples": [
+				"setupAudio",
+				"playSound",
+				"configureSound",
+				"configureSweep",
+				"rebuildStars",
+				"drawBackground",
+				"drawWebcamBackground",
+				"loadCaptionDraft",
+				"prepareCaptionData",
+				"updateFileCount",
+				"revokeCaptionUrls",
+				"bindCaptionDragging"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/games/emojis",
+				"file": "geelooy/games/emojis/index.html",
+				"title": "Emoji War — Neon Caption Arcade",
+				"scripts": 3,
+				"styles": 4
+			}
+		],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-games-js-d8fdb51f",
+		"path": "geelooy/games/js",
+		"type": "game",
+		"family": {
+			"id": "games",
+			"title": "Games and Worlds"
+		},
+		"title": "geelooy/games/js",
+		"entries": [],
+		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-js-d8fdb51f.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
+				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
+			},
+			{
+				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
+				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
 			}
 		],
 		"symlinkTarget": null,
@@ -115,437 +573,109 @@
 		},
 		"totalFiles": 2,
 		"symbolSummary": {
-			"files": 1,
+			"files": 2,
 			"classes": 0,
-			"functions": 16,
+			"functions": 11,
 			"exports": 0,
 			"samples": [
-				"el",
-				"json",
-				"pathParts",
-				"openPath",
-				"breadcrumbs",
-				"childCard",
-				"detail",
-				"preview",
-				"nodeCard",
-				"sourceLabel",
-				"sideCard",
-				"hero"
-			]
-		},
-		"outgoing": [],
-		"incoming": [],
-		"externalDependencies": [],
-		"publicEntries": [
-			{
-				"url": "/node-os",
-				"file": "geelooy/node-os/index.html",
-				"title": "Awtsmoos Node OS",
-				"scripts": 1,
-				"styles": 2
-			}
-		],
-		"requiresLocalDoc": false,
-		"documentationCovered": false,
-		"provenance": "generated-from-local-source"
-	},
-	{
-		"projectId": "geelooy-notifications-0435d468",
-		"path": "geelooy/notifications",
-		"type": "public",
-		"family": {
-			"id": "public",
-			"title": "Public and Other Boundaries"
-		},
-		"title": "Signals — Geelooy",
-		"entries": [
-			"index.html",
-			"app.js",
-			"DOCUMENTATION.md"
-		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-notifications-0435d468.md",
-		"documentation": [
-			{
-				"sourcePath": "geelooy/notifications/DOCUMENTATION.md",
-				"documentId": "geelooy-notifications-documentation-md-9006a3aef1"
-			},
-			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
-			}
-		],
-		"symlinkTarget": null,
-		"counts": {
-			"source": 31,
-			"tests": 2,
-			"assets": 0,
-			"generated": 0,
-			"docs": 1,
-			"other": 0
-		},
-		"totalFiles": 34,
-		"symbolSummary": {
-			"files": 15,
-			"classes": 0,
-			"functions": 53,
-			"exports": 27,
-			"samples": [
-				"createNotificationActions",
-				"markButton",
-				"safeActionLink",
-				"actionLabel",
-				"revealBinahNotificationContext",
-				"humanize",
-				"groupLabel",
-				"contextChips",
-				"entityKey",
-				"shorten",
-				"clean",
-				"findOrCreateNotificationGroup"
-			]
-		},
-		"outgoing": [],
-		"incoming": [],
-		"externalDependencies": [],
-		"publicEntries": [
-			{
-				"url": "/notifications",
-				"file": "geelooy/notifications/index.html",
-				"title": "Signals — Geelooy",
-				"scripts": 3,
-				"styles": 3
-			}
-		],
-		"requiresLocalDoc": true,
-		"documentationCovered": true,
-		"provenance": "generated-from-local-source"
-	},
-	{
-		"projectId": "geelooy-ocr-e81fa48a",
-		"path": "geelooy/ocr",
-		"type": "public",
-		"family": {
-			"id": "public",
-			"title": "Public and Other Boundaries"
-		},
-		"title": "OCR Studio — Awtsmoos",
-		"entries": [
-			"index.html"
-		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-ocr-e81fa48a.md",
-		"documentation": [
-			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
-			}
-		],
-		"symlinkTarget": null,
-		"counts": {
-			"source": 1,
-			"tests": 0,
-			"assets": 0,
-			"generated": 0,
-			"docs": 0,
-			"other": 0
-		},
-		"totalFiles": 1,
-		"symbolSummary": null,
-		"outgoing": [],
-		"incoming": [],
-		"externalDependencies": [],
-		"publicEntries": [
-			{
-				"url": "/ocr",
-				"file": "geelooy/ocr/index.html",
-				"title": "OCR Studio — Awtsmoos",
-				"scripts": 1,
-				"styles": 1
-			}
-		],
-		"requiresLocalDoc": false,
-		"documentationCovered": false,
-		"provenance": "generated-from-local-source"
-	},
-	{
-		"projectId": "geelooy-os-bd593d3b",
-		"path": "geelooy/os",
-		"type": "public",
-		"family": {
-			"id": "public",
-			"title": "Public and Other Boundaries"
-		},
-		"title": "Geelooy OS — Files, AwtsmoosDB, Runtime & Control",
-		"entries": [
-			"index.html",
-			"DOCUMENTATION.md"
-		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-os-bd593d3b.md",
-		"documentation": [
-			{
-				"sourcePath": "geelooy/os/DOCUMENTATION.md",
-				"documentId": "geelooy-os-documentation-md-324db72b91"
-			},
-			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
-			}
-		],
-		"symlinkTarget": null,
-		"counts": {
-			"source": 648,
-			"tests": 79,
-			"assets": 0,
-			"generated": 0,
-			"docs": 1,
-			"other": 1
-		},
-		"totalFiles": 729,
-		"symbolSummary": {
-			"files": 595,
-			"classes": 60,
-			"functions": 1887,
-			"exports": 1112,
-			"samples": [
-				"for",
-				"AwtsmoosDB",
-				"AwtsmoosOS",
-				"programIcon",
-				"programsByExtension",
-				"initialDefaultPrograms",
-				"programs",
-				"program",
-				"defaultPrograms",
-				"getDefaultProgram",
-				"Object",
-				"CivilizationOSClient"
-			]
-		},
-		"outgoing": [
-			{
-				"project": "geelooy/shared",
-				"count": 54,
-				"examples": "geelooy/os/programs/advanced-code-editor/compilerBridge.js; geelooy/os/programs/advanced-code-editor/embedConfiguration.js; geelooy/os/programs/advanced-code-editor/vfsBridge.js"
-			},
-			{
-				"project": "geelooy/apps/exe-emulator",
-				"count": 9,
-				"examples": "geelooy/os/programs/awtsmoos-executable/browserRuntime.js; geelooy/os/programs/awtsmoos-executable/index.js; geelooy/os/programs/awtsmoos-executable/nativeLifecycle.js"
-			},
-			{
-				"project": "geelooy/apps/tunnel-control",
-				"count": 3,
-				"examples": "geelooy/os/programs/connected-node-server/tunnelClient.js; geelooy/os/programs/peruta-usage/api.js"
-			},
-			{
-				"project": "geelooy/apps/android-emulator",
-				"count": 2,
-				"examples": "geelooy/os/programs/awtsmoos-executable/android-web/apkWebDocument.js; geelooy/os/programs/awtsmoos-executable/browserRuntime.js"
-			}
-		],
-		"incoming": [
-			{
-				"project": "geelooy/drive",
-				"count": 4,
-				"examples": "geelooy/drive/transport/credentialedFs.js; geelooy/drive/transport/tunnelDiscovery.js; geelooy/drive/transport/tunnelPublishing.js"
-			}
-		],
-		"externalDependencies": [],
-		"publicEntries": [
-			{
-				"url": "/os",
-				"file": "geelooy/os/index.html",
-				"title": "Geelooy OS — Files, AwtsmoosDB, Runtime & Control",
-				"scripts": 1,
-				"styles": 19
-			}
-		],
-		"requiresLocalDoc": true,
-		"documentationCovered": true,
-		"provenance": "generated-from-local-source"
-	},
-	{
-		"projectId": "geelooy-parsers-5c860271",
-		"path": "geelooy/parsers",
-		"type": "project",
-		"family": {
-			"id": "public",
-			"title": "Public and Other Boundaries"
-		},
-		"title": "geelooy/parsers",
-		"entries": [],
-		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-parsers-5c860271.md",
-		"documentation": [
-			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
-			}
-		],
-		"symlinkTarget": null,
-		"counts": {
-			"source": 1,
-			"tests": 0,
-			"assets": 0,
-			"generated": 0,
-			"docs": 0,
-			"other": 0
-		},
-		"totalFiles": 1,
-		"symbolSummary": null,
-		"outgoing": [],
-		"incoming": [],
-		"externalDependencies": [],
-		"publicEntries": [
-			{
-				"url": "/parsers/whatsapp",
-				"file": "geelooy/parsers/whatsapp/index.html",
-				"title": "WhatsApp Message Maker",
-				"scripts": 0,
-				"styles": 0
-			}
-		],
-		"requiresLocalDoc": false,
-		"documentationCovered": false,
-		"provenance": "generated-from-local-source"
-	},
-	{
-		"projectId": "geelooy-platform-37340101",
-		"path": "geelooy/platform",
-		"type": "project",
-		"family": {
-			"id": "public",
-			"title": "Public and Other Boundaries"
-		},
-		"title": "geelooy/platform",
-		"entries": [
-			"DOCUMENTATION.md"
-		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-platform-37340101.md",
-		"documentation": [
-			{
-				"sourcePath": "geelooy/platform/DOCUMENTATION.md",
-				"documentId": "geelooy-platform-documentation-md-1c9f3e35c3"
-			},
-			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
-			}
-		],
-		"symlinkTarget": null,
-		"counts": {
-			"source": 89,
-			"tests": 19,
-			"assets": 0,
-			"generated": 0,
-			"docs": 2,
-			"other": 0
-		},
-		"totalFiles": 110,
-		"symbolSummary": {
-			"files": 89,
-			"classes": 1,
-			"functions": 145,
-			"exports": 115,
-			"samples": [
-				"createAndroidRoundTripAdapter",
-				"requireFunction",
-				"createBundleArtifactAdapter",
-				"createCharacterAuthorityAdapter",
-				"createMovieCompilerAdapter",
-				"toMovieSource",
-				"createRadianceAdapter",
-				"normalizeTime",
-				"reasonsToSignals",
-				"createRichSocialAdapter",
-				"adaptTunnelReceipt",
-				"createQuarantineIfNeeded"
+				"$",
+				"buildOverlay",
+				"showTip",
+				"rotateTips",
+				"setProgress",
+				"observeResources",
+				"done",
+				"probeWebGL",
+				"commonCauses",
+				"showOverlay",
+				"ensure"
 			]
 		},
 		"outgoing": [],
 		"incoming": [],
 		"externalDependencies": [],
 		"publicEntries": [],
-		"requiresLocalDoc": true,
-		"documentationCovered": true,
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
 		"provenance": "generated-from-local-source"
 	},
 	{
-		"projectId": "geelooy-post-editor-1686f567",
-		"path": "geelooy/post-editor",
-		"type": "public",
+		"projectId": "geelooy-games-kabbalah-shooter-5fd11ab3",
+		"path": "geelooy/games/kabbalah-shooter",
+		"type": "game",
 		"family": {
-			"id": "public",
-			"title": "Public and Other Boundaries"
+			"id": "games",
+			"title": "Games and Worlds"
 		},
-		"title": "Post Editor — Geelooy",
+		"title": "Kabbalah Infinite — The Breaking of Vessels",
 		"entries": [
 			"index.html",
-			"app.js",
+			"main.js",
+			"package.json",
 			"DOCUMENTATION.md"
 		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-post-editor-1686f567.md",
+		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-kabbalah-shooter-5fd11ab3.md",
 		"documentation": [
 			{
-				"sourcePath": "geelooy/post-editor/DOCUMENTATION.md",
-				"documentId": "geelooy-post-editor-documentation-md-129e3730b0"
+				"sourcePath": "geelooy/games/kabbalah-shooter/DOCUMENTATION.md",
+				"documentId": "geelooy-games-kabbalah-shooter-documentation-md-5502ac94b7"
 			},
 			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
+				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
+			},
+			{
+				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
+				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
 			}
 		],
 		"symlinkTarget": null,
 		"counts": {
-			"source": 12,
-			"tests": 2,
+			"source": 61,
+			"tests": 0,
 			"assets": 0,
 			"generated": 0,
 			"docs": 1,
 			"other": 0
 		},
-		"totalFiles": 15,
+		"totalFiles": 62,
 		"symbolSummary": {
-			"files": 11,
-			"classes": 1,
-			"functions": 27,
-			"exports": 13,
+			"files": 55,
+			"classes": 40,
+			"functions": 75,
+			"exports": 93,
 			"samples": [
-				"async",
-				"savePostDraft",
-				"publishPostDraft",
-				"request",
-				"errorMessage",
-				"readPostEditorConfig",
-				"clean",
-				"createElement",
-				"saveEditorDraft",
-				"publishEditorPost",
-				"runEditorOperation",
-				"setStatus"
+				"CONFIG",
+				"HEBREW_LETTERS",
+				"COLORS",
+				"SPRITES",
+				"AudioSynth",
+				"SETTINGS",
+				"WEAPONS",
+				"SOUNDS",
+				"SCALES",
+				"SEFIROT",
+				"TRAITS",
+				"SPELLS"
 			]
 		},
 		"outgoing": [
 			{
-				"project": "geelooy/scripts",
-				"count": 1,
-				"examples": "geelooy/post-editor/app.js"
+				"project": "geelooy/libs",
+				"count": 7,
+				"examples": "geelooy/games/kabbalah-shooter/js/runtime/KabbalahNative3DRenderer.js; geelooy/games/kabbalah-shooter/js/runtime/kabbalah-native-3d-meshes.js; geelooy/games/kabbalah-shooter/js/runtime/kabbalah-native-3d-pool.js"
 			}
 		],
 		"incoming": [],
 		"externalDependencies": [],
 		"publicEntries": [
 			{
-				"url": "/post-editor",
-				"file": "geelooy/post-editor/index.html",
-				"title": "Post Editor — Geelooy",
-				"scripts": 2,
-				"styles": 2
+				"url": "/games/kabbalah-shooter",
+				"file": "geelooy/games/kabbalah-shooter/index.html",
+				"title": "Kabbalah Infinite — The Breaking of Vessels",
+				"scripts": 5,
+				"styles": 8
 			}
 		],
 		"requiresLocalDoc": true,
@@ -553,83 +683,74 @@
 		"provenance": "generated-from-local-source"
 	},
 	{
-		"projectId": "geelooy-profile-d6f75c23",
-		"path": "geelooy/profile",
-		"type": "public",
+		"projectId": "geelooy-games-migdol-2c237fda",
+		"path": "geelooy/games/migdol",
+		"type": "game",
 		"family": {
-			"id": "public",
-			"title": "Public and Other Boundaries"
+			"id": "games",
+			"title": "Games and Worlds"
 		},
-		"title": "Profile — Geelooy",
+		"title": "Migdol — Tower Defense",
 		"entries": [
 			"index.html",
 			"DOCUMENTATION.md"
 		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-profile-d6f75c23.md",
+		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-migdol-2c237fda.md",
 		"documentation": [
 			{
-				"sourcePath": "geelooy/profile/DOCUMENTATION.md",
-				"documentId": "geelooy-profile-documentation-md-dbdf0c5e14"
+				"sourcePath": "geelooy/games/migdol/DOCUMENTATION.md",
+				"documentId": "geelooy-games-migdol-documentation-md-3feffea982"
 			},
 			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
+				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
+			},
+			{
+				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
+				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
 			}
 		],
 		"symlinkTarget": null,
 		"counts": {
-			"source": 33,
-			"tests": 4,
+			"source": 28,
+			"tests": 0,
 			"assets": 0,
 			"generated": 0,
 			"docs": 1,
-			"other": 1
+			"other": 0
 		},
-		"totalFiles": 39,
+		"totalFiles": 29,
 		"symbolSummary": {
-			"files": 22,
-			"classes": 1,
-			"functions": 99,
-			"exports": 44,
+			"files": 21,
+			"classes": 13,
+			"functions": 41,
+			"exports": 36,
 			"samples": [
-				"async",
-				"readAliasValues",
-				"setAliasStudioStatus",
-				"setAliasStudioBusy",
-				"saveAlias",
-				"deleteAlias",
-				"createAliasBody",
-				"readApiResult",
-				"getAliasStudioConfig",
-				"getAliasStudioRefs",
-				"readBootstrap",
-				"bindAliasDeletion"
+				"TILE_SIZE",
+				"MAPS",
+				"TOWER_TYPES",
+				"ENEMY_TYPES",
+				"GroundEffect",
+				"LetterParticle",
+				"Enemy",
+				"Projectile",
+				"placeTower",
+				"towerAt",
+				"upgradeTower",
+				"sellTower"
 			]
 		},
-		"outgoing": [
-			{
-				"project": "geelooy/scripts",
-				"count": 1,
-				"examples": "geelooy/profile/auth.js"
-			}
-		],
+		"outgoing": [],
 		"incoming": [],
 		"externalDependencies": [],
 		"publicEntries": [
 			{
-				"url": "/profile",
-				"file": "geelooy/profile/index.html",
-				"title": "Profile — Geelooy",
-				"scripts": 2,
-				"styles": 6
-			},
-			{
-				"url": "/profile/alias-manage",
-				"file": "geelooy/profile/alias-manage/index.html",
-				"title": "",
-				"scripts": 1,
-				"styles": 2
+				"url": "/games/migdol",
+				"file": "geelooy/games/migdol/index.html",
+				"title": "Migdol — Tower Defense",
+				"scripts": 4,
+				"styles": 8
 			}
 		],
 		"requiresLocalDoc": true,

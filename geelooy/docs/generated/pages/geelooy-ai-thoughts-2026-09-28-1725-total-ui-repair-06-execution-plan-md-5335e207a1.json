@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-28-1725-total-ui-repair-06-execution-plan-md-5335e207a1",
+	"title": "B\"H — 06 — Execution Plan",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-28-1725-total-ui-repair/06-execution-plan.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — 06 — Execution Plan",
+			"anchor": "b-h-06-execution-plan"
+		},
+		{
+			"level": 2,
+			"text": "Phase order (strict — each phase gates the next)",
+			"anchor": "phase-order-strict-each-phase-gates-the-next"
+		},
+		{
+			"level": 3,
+			"text": "P0 — Boot repair (GATE: /heichelos/ikar renders)",
+			"anchor": "p0-boot-repair-gate-heichelos-ikar-renders"
+		},
+		{
+			"level": 3,
+			"text": "P1 — Heichel root + AMAZING listing layer (first-class track, 02)",
+			"anchor": "p1-heichel-root-amazing-listing-layer-first-class-track-02"
+		},
+		{
+			"level": 3,
+			"text": "P2 — Reader (03)",
+			"anchor": "p2-reader-03"
+		},
+		{
+			"level": 3,
+			"text": "P3 — Social (04)",
+			"anchor": "p3-social-04"
+		},
+		{
+			"level": 3,
+			"text": "P4 — Design-system sweep (05, breadth track)",
+			"anchor": "p4-design-system-sweep-05-breadth-track"
+		},
+		{
+			"level": 3,
+			"text": "P5 — Verification matrix (07)",
+			"anchor": "p5-verification-matrix-07"
+		},
+		{
+			"level": 3,
+			"text": "P6 — Clean release (gates, then ship)",
+			"anchor": "p6-clean-release-gates-then-ship"
+		},
+		{
+			"level": 2,
+			"text": "Standing rules for every worker, every phase",
+			"anchor": "standing-rules-for-every-worker-every-phase"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-28-1725-total-ui-repair-06-execution-plan-md-5335e207a1-001.json"
+	]
+}

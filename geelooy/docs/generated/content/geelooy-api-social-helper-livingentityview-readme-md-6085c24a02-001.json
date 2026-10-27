@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Living Entity View (geelooy/api/social/helper/livingEntityView/)\n\nRead-side view of a \"living entity\": identity, content, social graph, and comment trees for a single entity, cleaned and sanitized.\n\n## Files\n- `index.js` — module entry; `paths.js` — storage paths.\n- `identity.js`, `content.js`, `social.js`, `graph.js` — entity identity, content, social edges, graph.\n- `read.js`, `clean.js`, `sanitize.js` — read, clean, and sanitize the view.\n- `test.js` — module tests.\n\n## Routes (examples)\n- `/social/heichelos/h1/posts/p1`, `/heichelos/h1/series/root/p1`\n- `/social/heichelos/h1/posts/p1/commentTree/roots`, `.../commentTree/comments/c1/data`, `.../commentTree/comments/c1/children`\n"
+}

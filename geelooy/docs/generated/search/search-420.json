@@ -1,0 +1,173 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-09-16-2300-insane-seo-ui-ux-04-phase-two-file-p-388358ed75",
+		"title": "Phase Two — Concrete File Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-16-2300-insane-seo-ui-ux/04-phase-two-file-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Two — Concrete File Plan",
+				"anchor": "phase-two-concrete-file-plan"
+			},
+			{
+				"level": 2,
+				"text": "Planned new implementation files",
+				"anchor": "planned-new-implementation-files"
+			},
+			{
+				"level": 3,
+				"text": "ayzarim/awtsmoosDynamicServer/static/HtmlDocumentViewport.js",
+				"anchor": "ayzarim-awtsmoosdynamicserver-static-htmldocumentviewport-js"
+			},
+			{
+				"level": 3,
+				"text": "ayzarim/awtsmoosDynamicServer/static/HtmlSkipNavigation.js",
+				"anchor": "ayzarim-awtsmoosdynamicserver-static-htmlskipnavigation-js"
+			},
+			{
+				"level": 3,
+				"text": "ayzarim/awtsmoosDynamicServer/static/HtmlDocumentEssentials.js",
+				"anchor": "ayzarim-awtsmoosdynamicserver-static-htmldocumentessentials-js"
+			},
+			{
+				"level": 3,
+				"text": "ayzarim/awtsmoosDynamicServer/static/PublicHtmlStructuredDataEvidence.js",
+				"anchor": "ayzarim-awtsmoosdynamicserver-static-publichtmlstructureddataevidence-js"
+			},
+			{
+				"level": 3,
+				"text": "geelooy/style/universal-ui/accessibility.css",
+				"anchor": "geelooy-style-universal-ui-accessibility-css"
+			},
+			{
+				"level": 2,
+				"text": "Planned complete rewrites of existing implementation files",
+				"anchor": "planned-complete-rewrites-of-existing-implementation-files"
+			},
+			{
+				"level": 3,
+				"text": "ayzarim/awtsmoosDynamicServer/static/FileResponseContent.js",
+				"anchor": "ayzarim-awtsmoosdynamicserver-static-fileresponsecontent-js"
+			},
+			{
+				"level": 3,
+				"text": "ayzarim/awtsmoosDynamicServer/static/PublicHtmlSeoDocument.js",
+				"anchor": "ayzarim-awtsmoosdynamicserver-static-publichtmlseodocument-js"
+			},
+			{
+				"level": 3,
+				"text": "ayzarim/awtsmoosDynamicServer/static/PublicHtmlStructuredData.js",
+				"anchor": "ayzarim-awtsmoosdynamicserver-static-publichtmlstructureddata-js"
+			},
+			{
+				"level": 3,
+				"text": "geelooy/style/universal-ui.css",
+				"anchor": "geelooy-style-universal-ui-css"
+			},
+			{
+				"level": 2,
+				"text": "Planned tests after code is written",
+				"anchor": "planned-tests-after-code-is-written"
+			},
+			{
+				"level": 3,
+				"text": "New ayzarim/awtsmoosDynamicServer/static/HtmlDocumentEssentials.test.js",
+				"anchor": "new-ayzarim-awtsmoosdynamicserver-static-htmldocumentessentials-test-js"
+			},
+			{
+				"level": 3,
+				"text": "Rewrite ayzarim/awtsmoosDynamicServer/static/PublicHtmlSeo.test.js",
+				"anchor": "rewrite-ayzarim-awtsmoosdynamicserver-static-publichtmlseo-test-js"
+			},
+			{
+				"level": 2,
+				"text": "Verification after implementation",
+				"anchor": "verification-after-implementation"
+			},
+			{
+				"level": 2,
+				"text": "Files explicitly NOT planned for rewrite",
+				"anchor": "files-explicitly-not-planned-for-rewrite"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Two — Concrete File Plan The Awtsmoos hides infinite power beneath a finite ordered frame, Awtsmoos.com should gain broad search clarity without making every page the same. Each module receives one duty, each rewrite preserves what already lives, And the final surface stays quiet w",
+		"searchText": "b\"h boruch hashem blessed is he phase two — concrete file plan the awtsmoos hides infinite power beneath a finite ordered frame, awtsmoos.com should gain broad search clarity without making every page the same. each module receives one duty, each rewrite preserves what already lives, and the final surface stays quiet while the server underneath intelligently gives. planned new implementation files ayzarim/awtsmoosdynamicserver/static/htmldocumentviewport.js one responsibility: detect a complete head and add the standard mobile viewport only when absent. raw documents remain untouched. no language guessing, no theme guessing. ayzarim/awtsmoosdynamicserver/static/htmlskipnavigation.js one responsibility: when a complete non raw document has a but no authored skip navigation, ensure the first main has a stable fragment id and inject one accessible skip link directly after . ayzarim/awtsmoosdynamicserver/static/htmldocumentessentials.js small composition vessel that calls viewport then skip navigation transforms. it remains idempotent and does not know about seo metadata. ayzarim/awtsmoosdynamicserver/static/publichtmlstructureddataevidence.js one responsibility: recognize generated rdfa plus authored json ld, microdata, and schema.org rdfa evidence. the public seo layer can then fill structured data only when the document truly lacks it. geelooy/style/universal ui/accessibility.css low specificity universal ux rules for the generated skip link, focus visible fallback, forced colors/high contrast behavior, and stable fragment scroll spacing. no visual re theme of specialist classes. planned complete rewrites of existing implementation files ayzarim/awtsmoosdynamicserver/static/fileresponsecontent.js import and call revealhtmldocumentessentials in the complete html pipeline. preserve the current order of template rendering, universal ui, public catalog inventory, and public seo. ayzarim/awtsmoosdynamicserver/static/publichtmlseodocument.js delegate structured data evidence to the new specialist module while preserving existing title/meta/canonical helpers and escaping behavior. ayzarim/awtsmoosdynamicserver/static/publichtmlstructureddata.js keep existing page/app/game schema types and truthful type metadata. strengthen ispartof by pointing at a stable website subject and type that subject as website with name and url. geelooy/style/universal ui.css keep every existing import and add the new accessibility module. source remains modular; compact css transport folds it for production. planned tests after code is written new ayzarim/awtsmoosdynamicserver/static/htmldocumentessentials.test.js prove missing viewport is added, authored viewport preserved, skip link added only with main, authored skip link preserved, existing main id reused, generated target is idempotent, and raw documents pass through. rewrite ayzarim/awtsmoosdynamicserver/static/publichtmlseo.test.js preserve current canonical/social/rdfa/idempotence/unknown assertions. add authored json ld and authored schema markup cases proving no generated primary rdfa is duplicated. verification after implementation 1. syntax check every touched js file. 2. run the focused static server tests. 3. run the full seo static audit. 4. run generated artifact freshness/diff checks without accepting unrelated regeneration drift. 5. start or reuse a local server through repository supported scripts. 6. fetch raw html for root, apps, games, one legacy app, one game, about, docs, and one unknown/internal surface. 7. verify canonical/meta/schema/viewport/skip semantics in raw response html. 8. open representative pages in chrome and inspect desktop plus narrow mobile behavior, keyboard focus, existing authored navigation, and no layout obstruction. 9. re read every touched file and compare against this plan. files explicitly not planned for rewrite geelooy/index.html geelooy/apps/index.html geelooy/games/index.html their active shared styles/scripts dynamic heichel/torah templates sitemap/robots artifacts unless verification proves actual drift those surfaces already contain active user work or mature specialized architecture. central response improvements should reach them without destructive rewriting. next action attack this plan a third time with at least thirty additional improvements, then write the final implementation contract.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-16-2300-insane-seo-ui-ux-04-phase-two-file-p-388358ed75.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-16-2300-insane-seo-ui-ux-05-phase-three-tife-205e811571",
+		"title": "Phase Three — Tiferes Critique: Thirty-Two Final Refinements",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-16-2300-insane-seo-ui-ux/05-phase-three-tiferes-critique.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Three — Tiferes Critique: Thirty-Two Final Refinements",
+				"anchor": "phase-three-tiferes-critique-thirty-two-final-refinements"
+			},
+			{
+				"level": 2,
+				"text": "Thirty-two additional refinements",
+				"anchor": "thirty-two-additional-refinements"
+			},
+			{
+				"level": 2,
+				"text": "Final architecture decision",
+				"anchor": "final-architecture-decision"
+			},
+			{
+				"level": 2,
+				"text": "Why the plan changed from phase one",
+				"anchor": "why-the-plan-changed-from-phase-one"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Three — Tiferes Critique: Thirty Two Final Refinements The Awtsmoos joins expansion and restraint until a balanced vessel sings, Awtsmoos.com should gain invisible depth while the user's path grows light with fewer things. This third pass challenges even the careful second plan bef",
+		"searchText": "b\"h boruch hashem blessed is he phase three — tiferes critique: thirty two final refinements the awtsmoos joins expansion and restraint until a balanced vessel sings, awtsmoos.com should gain invisible depth while the user's path grows light with fewer things. this third pass challenges even the careful second plan before a single source file turns, because durable simplicity is what remains when every unnecessary flourish burns. thirty two additional refinements 1. apply html essentials only to complete documents with both closing head/body evidence; fragments must remain fragments. 2. honor data g ui raw in every new document transform, not only in css injection. 3. viewport detection must be case insensitive and tolerate attribute order. 4. viewport injection must happen before and be idempotent across repeated transforms. 5. do not rewrite an authored viewport's content even if it differs from the default. 6. skip navigation must never appear when no semantic exists. 7. existing main ids must be reused exactly rather than normalized or replaced. 8. generated main ids must avoid duplication if the fallback id already exists elsewhere in the document. 9. existing skip navigation detection should recognize semantic intent through class/id or href to main patterns without claiming every fragment link is a skip link. 10. generated skip link text should be plain, short, and localization neutral enough for the site's current english utility surfaces. 11. the generated skip link must be first meaningful body content so keyboard users encounter it immediately. 12. the skip link's hidden state must use transform/positioning rather than display:none, visibility:hidden, or zero size tricks that remove it from accessibility flows. 13. focus styling must use :focus visible, not permanent focus chrome that increases visual noise for pointer users. 14. focus fallback must not remove any authored outline; the universal layer should only add a readable default. 15. forced colors rules must use system colors instead of relying on custom palette variables. 16. high contrast media rules should strengthen borders/focus, not globally recolor branded surfaces. 17. fragment scroll spacing should target explicit ids without forcing page wide scroll behavior. 18. do not add javascript for any enhancement that html and css can deliver; less runtime machinery is better ux. 19. do not add a global menu/compass in this pass; representative full screen apps prove that fixed chrome would create layout and obstruction risk. 20. keep the universal stylesheet source readable and modular while relying on the proven server side css dependency folding for transport efficiency. 21. structured data evidence detection must be conservative: false positives are safer than silently duplicating authored schema on known public pages. 22. generated marker detection remains first class so idempotence stays cheap and exact. 23. json ld detection must accept whitespace and quote variations around type=\"application/ld+json\". 24. microdata detection should recognize schema.org itemtypes and plain itemscope evidence without trying to parse the full dom with regex. 25. rdfa detection should recognize schema.org vocabulary/prefix evidence; unrelated rdfa must not necessarily suppress generated schema. 26. strengthening the website graph must keep the page/application/game canonical subject unchanged. 27. use a stable https://awtsmoos.com/ website identity so all generated public pages refer to the same site entity. 28. keep website claims minimal: name and url only, because no unverified logo, publisher, search action, or social profiles should be invented. 29. do not add breadcrumblist in this pass unless a verified semantic parent graph exists for every included route family; apps/games alone do not justify a partial hierarchy engine yet. 30. test transformations as pure functions before runtime integration so regressions are attributable. 31. runtime verification must include at least one page with authored viewport/skip behavior and one legacy page missing them, proving both preservation and supplementation. 32. final completion requires git diff inspection against pre existing dirty work so only intended central modules and new planning/test files are attributed to this pass. final architecture decision use the existing shared response pipeline as the single amplification point. add only pure, idempotent, opt out aware transforms and one low specificity css module. preserve all page specific design systems and all existing seo generator/sitemap architecture. why the plan changed from phase one the first phase considered centralized navigation, breadcrumb generation, broad route taxonomies, and richer schema families. repository evidence showed that much of the crawl architecture already exists and that many public pages are specialist applications. the third plan therefore seeks greater effect through fewer interventions: response correctness, authored truth preservation, universal mobile/accessibility essentials, and a stronger site graph. next action write the final implementation contract with the exact files to create/rewrite, then implement complete files in one coding pass before tests.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-16-2300-insane-seo-ui-ux-05-phase-three-tife-205e811571.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-18-1624-shliach-homepage-campaign-00-remaini-e7917e3a96",
+		"title": "Remaining Work — Shliach Homepage Campaign",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-18_1624_shliach-homepage-campaign/00_REMAINING_WORK.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Remaining Work — Shliach Homepage Campaign",
+				"anchor": "remaining-work-shliach-homepage-campaign"
+			},
+			{
+				"level": 2,
+				"text": "Observed reality",
+				"anchor": "observed-reality"
+			},
+			{
+				"level": 2,
+				"text": "REMAININGWORK",
+				"anchor": "remainingwork"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Remaining Work — Shliach Homepage Campaign The Awtsmoos renews each pixel before the browser can know, Awtsmoos.com will make the Shliach doorway unmistakably glow. Observed reality Home already boots installShliachSpotlight(document) from the real ESM flow. ShliachSpotlightContent.js po",
+		"searchText": "b\"h boruch hashem blessed is he remaining work — shliach homepage campaign the awtsmoos renews each pixel before the browser can know, awtsmoos.com will make the shliach doorway unmistakably glow. observed reality home already boots installshliachspotlight(document) from the real esm flow. shliachspotlightcontent.js points first to a local cached logo; the requested public drive image is not wired there. the existing contract preserves the exact gpt id, authenticated api copy, safe external link law, and cached fallback asset. /shliach and /shliach do not exist, so the route family is new work rather than an overwrite. remaining work 1. complete three architecture passes and a final file map before source code grows. 2. rewrite the home shliach content module so the canonical public logo appears, with local cache fallback in tow. 3. create /shliach/ as the seo rich landing page with images, descriptions, poems, prompt portal, and direct gpt link. 4. create /shliach/prompts/, /shliach/poems/, and /shliach/gallery/ so distinct discovery intents can flow. 5. create shared css modules: small, readable, animated, responsive, accessible, and never cramped. 6. create shared browser js for encoded prompt launching and optional reveal motion with progressive enhancement. 7. preserve reduced motion support, keyboard focus, semantic headings, descriptive alt text, and safe new tab behavior. 8. add tests only after the source implementation is complete, according to repository law. 9. re read every touched file fully and record planned versus actual delta. 10. run static contracts, js syntax checks, line count checks, and browser/http verification before completion may glow. next action complete all three planning passes, then execute full file source writes in one controlled implementation pass; no partial patch may flow.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-18-1624-shliach-homepage-campaign-00-remaini-e7917e3a96.json"
+	}
+]

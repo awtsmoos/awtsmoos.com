@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 152 | 14 | 0 | 0 | 1 | 0 | 167 |
+| 161 | 15 | 0 | 0 | 1 | 0 | 177 |
 
 ## Public entry points
 
@@ -29,7 +29,7 @@ Blessed is He
 
 ## Symbol evidence
 
-Source files: 144; classes: 28; functions: 157; exports: 243; samples: CameraRig, Game, InputVessel, Renderer, LightningRenderer, PhysicsWorld, CanvasViewport, hardenCampaign, hardenLevel, chooseCruelX, rotate, fakeCoin.
+Source files: 145; classes: 28; functions: 161; exports: 243; samples: CameraRig, Game, InputVessel, Renderer, LightningRenderer, PhysicsWorld, CanvasViewport, hardenCampaign, hardenLevel, chooseCruelX, rotate, fakeCoin.
 
 ## Depends on
 
@@ -45,4 +45,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **14**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **15**. Treat this as file evidence, not proof of behavioral coverage.

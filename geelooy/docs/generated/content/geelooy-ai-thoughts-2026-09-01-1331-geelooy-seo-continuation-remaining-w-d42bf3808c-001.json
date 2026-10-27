@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\n\n# REMAINING_WORK — Continuation\n\nBoruch Hashem. Blessed is He.\n\n- [ ] Reconcile current HEAD and SEO commit history.\n- [ ] Re-probe Road/Heichel initial HTML on current runtime.\n- [ ] Verify direct/root post canonical behavior.\n- [ ] Verify public discovery response shape.\n- [ ] Implement any current source delta with whole-file writes only.\n- [ ] Add/repair robots discovery if absent.\n- [ ] Add/repair sitemap discovery if absent.\n- [ ] Run syntax/import/unit-style resolver checks.\n- [ ] Start an isolated fresh server from current checkout.\n- [ ] Verify Road HTML without JavaScript on fresh server.\n- [ ] Verify Heichel discovery links without JavaScript.\n- [ ] Verify robots and sitemap response headers/content.\n- [ ] Verify browser hydration/interactivity on fresh server.\n- [ ] Re-read every touched file.\n- [ ] Record planned-versus-actual delta.\n- [ ] Close all safe remaining work.\n"
+}

@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 36 | 0 | 0 | 0 | 1 | 0 | 37 |
+| 41 | 0 | 0 | 0 | 1 | 0 | 42 |
 
 ## Public entry points
 
@@ -29,7 +29,7 @@ Blessed is He
 
 ## Symbol evidence
 
-Source files: 30; classes: 16; functions: 103; exports: 88; samples: setupAudio, playSound, configureSound, configureSweep, rebuildStars, drawBackground, drawWebcamBackground, loadCaptionDraft, prepareCaptionData, updateFileCount, revokeCaptionUrls, bindCaptionDragging.
+Source files: 34; classes: 18; functions: 111; exports: 95; samples: setupAudio, playSound, configureSound, configureSweep, rebuildStars, drawBackground, drawWebcamBackground, loadCaptionDraft, prepareCaptionData, updateFileCount, revokeCaptionUrls, bindCaptionDragging.
 
 ## Depends on
 

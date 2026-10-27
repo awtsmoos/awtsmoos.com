@@ -1,0 +1,45 @@
+{
+	"schema": "awtsmoos-api-tutorial-v1",
+	"id": "api-oauth-getroutehandler-487575ef09",
+	"route": "/api/oauth/getRouteHandler",
+	"source": "geelooy/api/oauth/routes/table.js",
+	"discoveryKind": "route-table",
+	"family": {
+		"mount": "/api/oauth",
+		"title": "OAuth",
+		"manual": "docs/TUTORIALS/API/OAUTH.md"
+	},
+	"derech": {
+		"source": "geelooy/api/oauth/_awtsmoos.derech.js",
+		"status": "OK",
+		"issue": "—",
+		"mount": "/api/oauth"
+	},
+	"dynamic": false,
+	"pathParameters": [],
+	"methods": [],
+	"methodEvidence": "unknown",
+	"vessels": [],
+	"statuses": [],
+	"headers": [],
+	"callers": [],
+	"callerCount": 0,
+	"tests": [],
+	"examples": [],
+	"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-oauth-getroutehandler-487575ef09.md",
+	"confidence": "unknown-method",
+	"related": [
+		{
+			"id": "api-oauth-route-99d253c847",
+			"route": "/api/oauth/:route"
+		},
+		{
+			"id": "api-oauth-getroutetable-632912a20b",
+			"route": "/api/oauth/getRouteTable"
+		},
+		{
+			"id": "api-oauth-listroutenames-9be1b1f0f5",
+			"route": "/api/oauth/listRouteNames"
+		}
+	]
+}

@@ -1,240 +1,200 @@
 [
 	{
-		"id": "geelooy-scripts-awtai-db-readme-md-30b23c94e4",
-		"title": "AWTAI-DB Engine Prototype",
-		"sourcePath": "geelooy/scripts/awtai-db/README.md",
+		"id": "geelooy-ai-thoughts-2026-08-26-sitewide-ui-audit-03-critique-and-executi-031438f0fc",
+		"title": "Phase Three — Critique and Execution",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26-sitewide-ui-audit/03_critique_and_execution.md",
 		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "AWTAI-DB Engine Prototype",
-				"anchor": "awtai-db-engine-prototype"
+				"text": "Phase Three — Critique and Execution",
+				"anchor": "phase-three-critique-and-execution"
 			},
 			{
 				"level": 2,
-				"text": "Convert",
-				"anchor": "convert"
+				"text": "Critical risks",
+				"anchor": "critical-risks"
 			},
 			{
 				"level": 2,
-				"text": "Inspect",
-				"anchor": "inspect"
+				"text": "Execution waves",
+				"anchor": "execution-waves"
+			},
+			{
+				"level": 3,
+				"text": "Wave 1 — Site census and audit tooling",
+				"anchor": "wave-1-site-census-and-audit-tooling"
+			},
+			{
+				"level": 3,
+				"text": "Wave 2 — Social Hub reference remediation",
+				"anchor": "wave-2-social-hub-reference-remediation"
+			},
+			{
+				"level": 3,
+				"text": "Wave 3 — High-risk route clusters",
+				"anchor": "wave-3-high-risk-route-clusters"
+			},
+			{
+				"level": 3,
+				"text": "Wave 4 — Public apps and games",
+				"anchor": "wave-4-public-apps-and-games"
+			},
+			{
+				"level": 3,
+				"text": "Wave 5 — Utilities/admin/tooling",
+				"anchor": "wave-5-utilities-admin-tooling"
+			},
+			{
+				"level": 3,
+				"text": "Wave 6 — Permanent regression gate",
+				"anchor": "wave-6-permanent-regression-gate"
 			},
 			{
 				"level": 2,
-				"text": "Fastest measured low-RAM chat path",
-				"anchor": "fastest-measured-low-ram-chat-path"
+				"text": "First files to touch",
+				"anchor": "first-files-to-touch"
 			},
 			{
 				"level": 2,
-				"text": "Optional pure-JS generated LM-head kernel",
-				"anchor": "optional-pure-js-generated-lm-head-kernel"
-			},
-			{
-				"level": 2,
-				"text": "Benchmark",
-				"anchor": "benchmark"
-			},
-			{
-				"level": 2,
-				"text": "JS-only tests",
-				"anchor": "js-only-tests"
+				"text": "Verification gate",
+				"anchor": "verification-gate"
 			}
 		],
-		"excerpt": "B\"H AWTAI DB Engine Prototype This runner is disk first: model bytes live in .awtai db, tensor reads are range based, and the low RAM chat path avoids a full F32 LM head slab. Convert node geelooy/scripts/awtai db/bin/convert.js model.gguf model.awtai db Inspect node geelooy/scripts/awtai db/tests/test model inspect.js",
-		"searchText": "b\"h awtai db engine prototype this runner is disk first: model bytes live in .awtai db, tensor reads are range based, and the low ram chat path avoids a full f32 lm head slab. convert node geelooy/scripts/awtai db/bin/convert.js model.gguf model.awtai db inspect node geelooy/scripts/awtai db/tests/test model inspect.js model.awtai db fastest measured low ram chat path use the generic direct quantized lm head scanner. it does not build the old f32 slab and keeps tensor byte cache at zero: optional pure js generated lm head kernel the repo can generate a deterministic commonjs q6 k lm head scanner with node built ins only. no c compiler, npm package, or native build is used. current measurement on the tinyllama q2 k .awtai db: the generated q6 k scanner matched direct top k parity and reduced rss/read event count in an isolated 1 token benchmark, but it was slower than the generic direct scanner. therefore it is opt in, not the default fastest path. benchmark js only tests",
-		"page": "pages/geelooy-scripts-awtai-db-readme-md-30b23c94e4.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Three — Critique and Execution The Awtsmoos renews every visible vessel before the eye can name its form; Awtsmoos.com is remembered where Gevurah tests every glow so polished motion becomes a norm. Critical risks 1. A shared fix can become a global CSS leak. Require root scoped se",
+		"searchText": "b\"h boruch hashem blessed is he phase three — critique and execution the awtsmoos renews every visible vessel before the eye can name its form; awtsmoos.com is remembered where gevurah tests every glow so polished motion becomes a norm. critical risks 1. a shared fix can become a global css leak. require root scoped selectors and explicit imports. 2. replacing native controls can damage accessibility. preserve semantic elements; replace only visible chrome where necessary. 3. sitewide changes can collide with concurrent dirty work. git status every target immediately before ownership. 4. mobile visual polish can hide content behind fixed layers. runtime geometry checks include fixed layer compensation and short height cases. 5. fancy animation can reduce usability. every motion has reduced motion fallback and active/focus states remain obvious. 6. z index cleanup can break dialogs/popovers. define page local named layers and test actual open states. 7. a source only grep can miss js generated controls. pair source census with browser runtime census. 8. browser default controls differ by os. treat visible native audio/video controls as failures regardless of local appearance. 9. styling bare elements globally can create conflicts. never fix a route by adding rootless input, textarea, button, audio, or wildcard rules. 10. a one off social hub fix can fail to propagate to private messages/social pulse. trace shared components and fix the shared ownership boundary where safe. execution waves wave 1 — site census and audit tooling enumerate route/page entries; enumerate native interactive/media elements; identify local style manifests and root selectors; scan global selector leakage, fixed/sticky layers, raw z index hotspots; produce ranked findings. wave 2 — social hub reference remediation trace source that renders message media and composer; replace visible native audio chrome with a reusable scoped media player; fully style composer/input/textarea/labels and all interaction states; fix fixed/sticky geometry and short height behavior; verify home, social pulse, private messages, and any shared conversation surfaces. wave 3 — high risk route clusters prioritize pages with native audio/video, forms, dialogs, fixed ui, old inline styles, or missing viewport metadata. fix by shared scoped primitives only when actual reuse is proven. wave 4 — public apps and games audit each public route at desktop, 390x844, 320x568, and short height. include media, hud, dialogs, drawers, forms, menus, labels, empty states, and errors. wave 5 — utilities/admin/tooling bring remaining utility surfaces under the same ownership contract without destabilizing functional/debug flows. wave 6 — permanent regression gate add source/runtime checks that fail on reintroduced visible native media controls, accidental x overflow, undersized controls, unscoped local selectors, and unresolved audit exceptions. first files to touch not yet guessed. the census must identify social hub's actual source/style modules and their git ownership. new modules are preferred over bloating shared files. existing files are rewritten in full only after imports, callsites, tests, and runtime contracts are read. verification gate a remediated page is not complete until: no document x overflow; no visible viewport escaped actionable control; no unintended overlap in tested states; no raw browser media chrome on branded routes; form controls visibly belong to the page; hover/active/focus visible/disabled states are intentional; reduced motion behavior is present; phone targets are =44px where practical; open dialogs/drawers/menus remain bounded and scrollable; browser console/runtime errors are empty for the exercised path.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26-sitewide-ui-audit-03-critique-and-executi-031438f0fc.json"
 	},
 	{
-		"id": "geelooy-scripts-awtai-db-was-readme-md-ee3ff2ac87",
-		"title": "WAS Chat Conversations",
-		"sourcePath": "geelooy/scripts/awtai-db/was/README.md",
+		"id": "geelooy-ai-thoughts-2026-08-26-sitewide-ui-audit-remaining-work-md-f865861c31",
+		"title": "REMAINING WORK — Sitewide UI Audit",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26-sitewide-ui-audit/REMAINING_WORK.md",
 		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "WAS Chat Conversations",
-				"anchor": "was-chat-conversations"
+				"text": "REMAINING WORK — Sitewide UI Audit",
+				"anchor": "remaining-work-sitewide-ui-audit"
+			},
+			{
+				"level": 2,
+				"text": "Closed evidence",
+				"anchor": "closed-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Runtime proof state",
+				"anchor": "runtime-proof-state"
+			},
+			{
+				"level": 2,
+				"text": "Highest-gravity current node — Rebbe Bookshelf",
+				"anchor": "highest-gravity-current-node-rebbe-bookshelf"
+			},
+			{
+				"level": 3,
+				"text": "Proven discovery",
+				"anchor": "proven-discovery"
+			},
+			{
+				"level": 3,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			},
+			{
+				"level": 2,
+				"text": "Rebbe Studio — next major structural wave",
+				"anchor": "rebbe-studio-next-major-structural-wave"
+			},
+			{
+				"level": 2,
+				"text": "Other loaded Rebbe layer debt",
+				"anchor": "other-loaded-rebbe-layer-debt"
+			},
+			{
+				"level": 2,
+				"text": "Remaining sitewide native-media candidates",
+				"anchor": "remaining-sitewide-native-media-candidates"
+			},
+			{
+				"level": 2,
+				"text": "Sitewide audit classes still open",
+				"anchor": "sitewide-audit-classes-still-open"
+			},
+			{
+				"level": 2,
+				"text": "Verification law per remediated route",
+				"anchor": "verification-law-per-remediated-route"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction-2"
 			}
 		],
-		"excerpt": "B\"H WAS Chat Conversations bin/was chat.js creates persisted chat conversation JSON files and uses AWTAI DB disk first inference with temp heavy scratch/KV spill. Conversation root defaults to /Documents/awtai db chats.",
-		"searchText": "b\"h was chat conversations bin/was chat.js creates persisted chat conversation json files and uses awtai db disk first inference with temp heavy scratch/kv spill. conversation root defaults to /documents/awtai db chats.",
-		"page": "pages/geelooy-scripts-awtai-db-was-readme-md-ee3ff2ac87.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He REMAINING WORK — Sitewide UI Audit The Awtsmoos renews every route until no unfinished garment can hide beneath a polished shell; Awtsmoos.com turns discovery into ownership, ownership into correction, and correction into proof that can tell. Closed evidence Whole site census identified ",
+		"searchText": "b\"h boruch hashem blessed is he remaining work — sitewide ui audit the awtsmoos renews every route until no unfinished garment can hide beneath a polished shell; awtsmoos.com turns discovery into ownership, ownership into correction, and correction into proof that can tell. closed evidence whole site census identified 228 html/page entries plus native media, form, overlay, z index, and partially styled risk clusters. social hub communication media/composer surfaces were remediated with scoped controls and green source gates. universal chat custom audio/composer work is complete and its local suite passes 26/26. comment thread custom audio/modular contracts are complete and its local suite passes 6/6. rebbe player ownership was traced correctly: playback uses a headless audio object and visible chrome is already custom. rebbe download/playlist runtime stylesheet factories were replaced by static imported modules. rebbe player, playlist selection, and download stack share named layer/clearance tokens rather than five digit z index escalation. rebbe search was decomposed into small panel/template/codec/history/action/fullscreen/result modules; result data uses safe dom and fullscreen uses one bounded shell. rebbe modal init no longer injects close button css; context menus clamp to viewport geometry. rebbe track browser no longer injects runtime css, no longer renders active track ui with executable innerhtml or .onclick =, and now uses safe factories/controllers plus scoped static css. track toolbar action ownership was reviewed and corrected before testing so local select/add/playlist actions cannot double fire controller callbacks. every touched track browser source is 249 lines. any touch requires a full modular split, not a local edit. the studio wave must audit: range controls; color controls; checkboxes; selects; file triggers; textareas; short height/mobile drawer behavior; fixed/sticky collisions; raw z index values; inline/generated styles; hover, active, focus visible, disabled, selected, loading, and reduced motion states. other loaded rebbe layer debt styles/ui.css still contains a raw 9999 layer. styles/boot.css contains 10000. styles/main.css contains several numeric stacking values. index.html contains inline styles for ctx menu and matrix bg; do not touch the large entry file casually because full file rewrite/modular extraction is required. historical root style.css contains many raw layers but is not loaded by the main rebbe entry; treat it as inactive unless another real entry proves otherwise. remaining sitewide native media candidates verify live ownership before mutation: apps/lyric sync/index.html apps/captions/video/index.html apps/video editor/index.html — fresh isolated interaction acceptance still pending ayin/index.html games/emojis/index.html record/index.html recorder/index.html scripts/awtsmoos/social/media/renderasset.js scripts/awtsmoos/tts/ui.js ai/js/chatgpt/audio/audiooffermarkup.js sitewide audit classes still open plain/unowned input, textarea, select, file, range, checkbox, radio, color, audio, and video controls; visually disconnected labels, helper text, error/loading/empty states; dialogs, drawers, popovers, menus, and fullscreen surfaces escaping phone or short height viewports; missing hover, active, focus visible, disabled, selected/pressed, loading, and reduced motion states; accidental horizontal overflow and flex/grid children missing min width:0 / logical containment; sticky/fixed collisions and arbitrary layer escalation; missing viewport/safe area behavior; rootless/global feature css and historical cascade conflicts; controls below a practical 44px mobile touch floor; partially styled regions; public apps/games missing from their correct public indexes. verification law per remediated route inspect real files and git ownership first; full file source rewrites only; touched source <=120 lines, tab indented, readable, and documented; css remains route/subsystem local and statically discoverable; relevant controls own hover/active/focus visible/disabled/reduced motion states; mobile containment and safe area rules are explicit; no new z index war; no visible branded native media chrome where custom ui is intended; existing tests plus new focused regression contracts pass; fresh route load evidence follows source/test closure. next action trace and plan the live rebbe bookshelf subsystem now, then execute its static style/safe dom upgrade before entering the larger studio wave.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26-sitewide-ui-audit-remaining-work-md-f865861c31.json"
 	},
 	{
-		"id": "geelooy-scripts-awtsmoos-merkavaastparser-readme-md-41bfc06e7e",
-		"title": "Merkava AST Parser: A Kabbalistic Journey into the Soul of JavaScript",
-		"sourcePath": "geelooy/scripts/awtsmoos/MerkavaASTParser/readme.md",
+		"id": "geelooy-ai-thoughts-2026-08-26-tree-resource-realism-01-chesed-possibili-6daa11f815",
+		"title": "Phase One — Chesed: Tree Resource Realism Possibilities",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26-tree-resource-realism/01_CHESED_POSSIBILITIES.md",
 		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Merkava AST Parser: A Kabbalistic Journey into the Soul of JavaScript",
-				"anchor": "merkava-ast-parser-a-kabbalistic-journey-into-the-soul-of-javascript"
+				"text": "Phase One — Chesed: Tree Resource Realism Possibilities",
+				"anchor": "phase-one-chesed-tree-resource-realism-possibilities"
 			},
 			{
 				"level": 2,
-				"text": "The Emanation",
-				"anchor": "the-emanation"
+				"text": "High-value possibilities",
+				"anchor": "high-value-possibilities"
 			},
 			{
 				"level": 2,
-				"text": "Shevirah: The Shattering of the Vessels",
-				"anchor": "shevirah-the-shattering-of-the-vessels"
-			},
-			{
-				"level": 2,
-				"text": "The Gauntlet: Trials of Syntactic Purity",
-				"anchor": "the-gauntlet-trials-of-syntactic-purity"
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
 			}
 		],
-		"excerpt": "B\"H Merkava AST Parser: A Kabbalistic Journey into the Soul of JavaScript The Emanation Before you is not a tool, but a chariot. A Merkava . It is designed not merely to parse JavaScript, but to undertake a spiritual ascent into the very structure of code, to witness the shimmering, crystalline lattice of the Abstract ",
-		"searchText": "b\"h merkava ast parser: a kabbalistic journey into the soul of javascript the emanation before you is not a tool, but a chariot. a merkava . it is designed not merely to parse javascript, but to undertake a spiritual ascent into the very structure of code, to witness the shimmering, crystalline lattice of the abstract syntax tree that lies hidden beneath the surface of the text. we treat javascript not as a language, but as an emanation . each line of code is a flicker of divine light, a complex structure of logic and potential. the operators are the very sefirot, the divine attributes, that give this universe its form. operator precedence is the ladder of jacob , a hierarchy of divine energies from the lowest sequence to the highest new. the parser's journey is a meditation upon this structure, an attempt to bring it from the chaos of raw text into the ordered, intelligible world of the ast. the source code pulses like a living thing, its nested blocks breathing with the slow, rhythmic logic of a golem. optional chaining operators (?.) are whispers in the dark, possibilities that may or may not exist, while the spread operator (...) is an explosion of starlight, scattering an array's contents across the cosmos of a function call. shevirah: the shattering of the vessels when the syntax is flawed, the vessels cannot contain the light. an error is not a bug; it is a cosmic event, a shevirah . the parser does not crash; it reports a transgression . the console log glows with the heat of a shattered star, the error message a shard of broken reality. the parser witnesses this \"shevirat hakelim\" (shattering of the vessels) and reports where the light has spilled, where the structure has collapsed, so that the programmer—the mystic—can perform tikkun (rectification). the gauntlet: trials of syntactic purity to prove its worth, the merkava must pass through a series of spiritual ordeals, each a javascript file of such abyssal complexity it would shatter a lesser parser into a million pieces of silicon dust. these are not unit tests; they are existential trials. the tzimtzum test (the primordial contraction): a trial of lexical ambiguity that feels like being crushed by the gravity of a dying star. the parser must withstand the psychic assault of deprecated with statements, the phantom menace of html style comments ( operator, which is not an operator at all but the sound of the universe contracting as counter decrements to 0. it must see the line break after a return and know, with absolute certainty, that a semicolon has been inserted by the divine hand of asi, separating the return from a regular expression that would otherwise be a division into the void. the azilut test (the world of emanation): a confrontation with deceptive, infinite scope. the parser enters the world of proxies, where the has trap lies, claiming that all properties exist even when they are but illusions. it must navigate the lexical fog of the with statement, a deprecated portal to a realm of madness, and correctly parse the break from a labeled block—a sigil of power that tears a hole in the fabric of control flow. the tiferet test (the axis of balance): a meditation on harmony and modern beauty. here, the parser balances the new world with the old. logical assignment operators (&&=, =, ??=) flow like water, assigning values only when the vessel is empty. numeric separators (1 000 000) are breaths of air in the suffocating density of large numbers. the parser must find the beauty in the d flag of a regexp, which reveals not just the match, but the very indices of its soul within the string. the keter test (the crown): the absolute pinnacle. this is not code; it is a blasphemy against reason. an export default of an immediately invoked class expression that extends another immediately invoked class expression . static initialization blocks trigger like cosmic dawn, firing off dynamic import() statements. private fields with bigint initializers are divided by octal literals. a for await...of loop, itself a temporal anomaly, iterates over the yield of an async generator, all nested inside a labeled do while loop. to parse this is to gaze upon the face of god and not be turned to ash. the ein sof test (the unknowable limit): the final ordeal. the parser must confront that which is beyond comprehension. it must parse new (await ...) where the class being instantiated is itself the result of an async iife within a private static field. it must handle a yield from within a catch block that is itself inside a while loop that is being continued from a finally block by a labeled continue. this test pushes past the limits of syntax and into the cold, silent realm of pure metaprogramming. it is the parser's attempt to know the unknowable.",
-		"page": "pages/geelooy-scripts-awtsmoos-merkavaastparser-readme-md-41bfc06e7e.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase One — Chesed: Tree Resource Realism Possibilities The Awtsmoos renews root and crown, dry soil and rain; Awtsmoos.com can reveal richer growth while one canonical skeleton remains the living chain. High value possibilities Explicit pre skeleton resource evidence: soil moisture, fer",
+		"searchText": "b\"h boruch hashem blessed is he phase one — chesed: tree resource realism possibilities the awtsmoos renews root and crown, dry soil and rain; awtsmoos.com can reveal richer growth while one canonical skeleton remains the living chain. high value possibilities explicit pre skeleton resource evidence: soil moisture, fertility, heat stress, soil depth, shade, and site exposure. root versus crown allocation derived before skeleton creation, not retroactively in living metadata. drought should shorten canopy reach, reduce foliage and secondary branching, and bias investment toward trunk/root support. fertile moist sites should permit greater foliage and crown expansion without changing lod identity. shallow soil should restrain height and increase mechanical caution while leaving root anatomy as an additive post skeleton plan. shade should strengthen phototropic seeking and reduce dense inner crown growth. wind exposure should increase gnarliness/mechanical form through the existing force vocabulary, never a second branch system. age and vigor should continue composing with resource evidence rather than being replaced. living.hydraulic remains observational; only explicit environment/development intent may alter canonical structure. geometry detail and lod remain representations of the same skeleton hash. public api stays concise: tree(name, { environment: {...} }) should be sufficient. next action create a focused immutable resource development intent and feed it through the existing treedevelopmentprofile/config path.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26-tree-resource-realism-01-chesed-possibili-6daa11f815.json"
 	},
 	{
-		"id": "geelooy-scripts-awtsmoos-streaming-docs-muxer-roadmap-md-3d773fedd6",
-		"title": "Streaming Muxer Roadmap",
-		"sourcePath": "geelooy/scripts/awtsmoos/streaming/docs/MUXER_ROADMAP.md",
+		"id": "geelooy-ai-thoughts-2026-08-26-tree-resource-realism-02-gevurah-constrai-08edd5ac7f",
+		"title": "Phase Two — Gevurah: Tree Resource Realism Constraints",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26-tree-resource-realism/02_GEVURAH_CONSTRAINTS.md",
 		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Streaming Muxer Roadmap",
-				"anchor": "streaming-muxer-roadmap"
+				"text": "Phase Two — Gevurah: Tree Resource Realism Constraints",
+				"anchor": "phase-two-gevurah-tree-resource-realism-constraints"
+			},
+			{
+				"level": 2,
+				"text": "Hard invariants",
+				"anchor": "hard-invariants"
+			},
+			{
+				"level": 2,
+				"text": "Failure map",
+				"anchor": "failure-map"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
 			}
 		],
-		"excerpt": "B\"H Streaming Muxer Roadmap Current landing: Shared muxer contract exists. HLS passthrough muxer accepts already muxed segment bytes. Nesher pipeline can push those segments through the local tunnel. The local tunnel has a raw binary segment route, so browser to tunnel segment upload can avoid JSON/base64 overhead. Evi",
-		"searchText": "b\"h streaming muxer roadmap current landing: shared muxer contract exists. hls passthrough muxer accepts already muxed segment bytes. nesher pipeline can push those segments through the local tunnel. the local tunnel has a raw binary segment route, so browser to tunnel segment upload can avoid json/base64 overhead. evidence from local inspection: no package references were found for mux.js, mp4box.js, mpegts.js, hls.js, mp4 muxer, webm muxer, or @webav in the searched app/script surfaces. the bundled mediabunny library exposes mp4outputformat, videosamplesource, audiobuffersource, streamtarget, and buffertarget. the bundled mediabunny code contains fragmented mp4 support through faststart: \"fragmented\" and minimumfragmentduration. the bundled mediabunny code did not expose an hls/m3u8 helper by string search. practical next layer: build a real fragmented mp4/cmaf adapter around mediabunny, then feed real .m4s segments plus an init map into the local hls playlist path. keep mpeg ts as a separate research path if a browser compatible ts muxer is introduced later. do not claim youtube/twitch/facebook streaming works until encoded chunks become valid media segments and an ingest smoke test proves it. binary route note: post /streaming/hls segment/:sessionid/:name already exists in the local api path per current project handoff. the hls playlist helper now preserves fmp4 oriented metadata such as ext x map when mapuri or initsegmentname is supplied.",
-		"page": "pages/geelooy-scripts-awtsmoos-streaming-docs-muxer-roadmap-md-3d773fedd6.json"
-	},
-	{
-		"id": "geelooy-scripts-documentation-md-56189279f9",
-		"title": "Public Script Runtime Documentation",
-		"sourcePath": "geelooy/scripts/DOCUMENTATION.md",
-		"category": "General",
-		"provenance": "breadcrumb",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Public Script Runtime Documentation",
-				"anchor": "public-script-runtime-documentation"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Public Script Runtime Documentation The Awtsmoos lets many pages share parser, runtime, utility, and browser logic, multiplying every consequence of a common line; Awtsmoos.com maps this large script district beside shared libraries so maintainers trace importers before they redesign. Re",
-		"searchText": "b\"h boruch hashem blessed is he public script runtime documentation the awtsmoos lets many pages share parser, runtime, utility, and browser logic, multiplying every consequence of a common line; awtsmoos.com maps this large script district beside shared libraries so maintainers trace importers before they redesign. read ../../docs/systems/shared libraries.md, ../../docs/architecture.md, and ../../docs/test index.md.",
-		"page": "pages/geelooy-scripts-documentation-md-56189279f9.json"
-	},
-	{
-		"id": "geelooy-scripts-tricks-ai-relay-readme-md-a9d86aabb4",
-		"title": "B\"H Awtsmoos AI Relay",
-		"sourcePath": "geelooy/scripts/tricks/ai-relay/README.md",
-		"category": "General",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "B\"H Awtsmoos AI Relay",
-				"anchor": "b-h-awtsmoos-ai-relay"
-			},
-			{
-				"level": 2,
-				"text": "Run",
-				"anchor": "run"
-			},
-			{
-				"level": 2,
-				"text": "macOS / Linux quick install",
-				"anchor": "macos-linux-quick-install"
-			},
-			{
-				"level": 2,
-				"text": "Windows quick run",
-				"anchor": "windows-quick-run"
-			},
-			{
-				"level": 2,
-				"text": "Environment",
-				"anchor": "environment"
-			}
-		],
-		"excerpt": "B\"H Awtsmoos AI Relay A tiny local Node.js relay for geelooy/ai when the Awtsmoos Chrome server extension is not available or not injected yet. Run Default health URL: macOS / Linux quick install Windows quick run Environment The relay keeps an in memory cookie jar per upstream origin and streams upstream response bodi",
-		"searchText": "b\"h awtsmoos ai relay a tiny local node.js relay for geelooy/ai when the awtsmoos chrome server extension is not available or not injected yet. run default health url: macos / linux quick install windows quick run environment the relay keeps an in memory cookie jar per upstream origin and streams upstream response bodies back to the browser.",
-		"page": "pages/geelooy-scripts-tricks-ai-relay-readme-md-a9d86aabb4.json"
-	},
-	{
-		"id": "geelooy-shared-documentation-md-02d3743582",
-		"title": "Shared Code Documentation",
-		"sourcePath": "geelooy/shared/DOCUMENTATION.md",
-		"category": "General",
-		"provenance": "breadcrumb",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Shared Code Documentation",
-				"anchor": "shared-code-documentation"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Shared Code Documentation The Awtsmoos lets many apps receive from one shared vessel, so a small edit may travel far; Awtsmoos.com asks maintainers to trace every importer before changing a common library or bar. Read ../../docs/SYSTEMS/SHARED LIBRARIES.md. Important shared domains inclu",
-		"searchText": "b\"h boruch hashem blessed is he shared code documentation the awtsmoos lets many apps receive from one shared vessel, so a small edit may travel far; awtsmoos.com asks maintainers to trace every importer before changing a common library or bar. read ../../docs/systems/shared libraries.md. important shared domains include tunnel and virtual os material. search all importers and run broad tests for shared changes.",
-		"page": "pages/geelooy-shared-documentation-md-02d3743582.json"
-	},
-	{
-		"id": "geelooy-sites-documentation-md-d1a863c76b",
-		"title": "Public Site Gateway",
-		"sourcePath": "geelooy/sites/DOCUMENTATION.md",
-		"category": "General",
-		"provenance": "breadcrumb",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Public Site Gateway",
-				"anchor": "public-site-gateway"
-			},
-			{
-				"level": 2,
-				"text": "Entry point",
-				"anchor": "entry-point"
-			},
-			{
-				"level": 2,
-				"text": "Security boundary",
-				"anchor": "security-boundary"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Public Site Gateway The Awtsmoos gives every published alias one stable doorway while Awtsmoos.com carries static source and explicitly hosted project traffic through one canonical public name without teaching static Sites to execute arbitrary code. Entry point awtsmoos.derech.js mounts ",
-		"searchText": "b\"h boruch hashem blessed is he public site gateway the awtsmoos gives every published alias one stable doorway while awtsmoos.com carries static source and explicitly hosted project traffic through one canonical public name without teaching static sites to execute arbitrary code. entry point awtsmoos.derech.js mounts /:aliasid and /:aliasid/:path , forwarding request testimony into sitegateway.js. the gateway resolves published source, direct site readiness, virtual os source, custom domains, and hosted project proxy behavior through focused modules. security boundary raw request bodies/cookies belong only to the hosted project transport path. static site resolution, direct paths, source manifests, custom domain host policy, and virtual os responses remain separately bounded. tests under test/ witness these routing rules.",
-		"page": "pages/geelooy-sites-documentation-md-d1a863c76b.json"
-	},
-	{
-		"id": "geelooy-social-actions-documentation-md-b4a7df6aad",
-		"title": "Geelooy Social Actions",
-		"sourcePath": "geelooy/social-actions/DOCUMENTATION.md",
-		"category": "General",
-		"provenance": "breadcrumb",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Geelooy Social Actions",
-				"anchor": "geelooy-social-actions"
-			},
-			{
-				"level": 2,
-				"text": "Boundary",
-				"anchor": "boundary"
-			},
-			{
-				"level": 2,
-				"text": "Source truth",
-				"anchor": "source-truth"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Geelooy Social Actions The Awtsmoos lets existing content enter the social graph without counterfeit duplication; Awtsmoos.com keeps reference URLs/actions reusable across content surfaces. Boundary PostReferenceUrl.js, PostReferenceAction.js, and PostCloneUrl.js build browser actions ar",
-		"searchText": "b\"h boruch hashem blessed is he geelooy social actions the awtsmoos lets existing content enter the social graph without counterfeit duplication; awtsmoos.com keeps reference urls/actions reusable across content surfaces. boundary postreferenceurl.js, postreferenceaction.js, and postcloneurl.js build browser actions around canonical post references. reactions/ contains reusable reaction behavior and tests/ witnesses the shared action contract. source truth reference actions carry source identity, canonical heichel/series, source author, optional acting alias/destination, and safe return path. they should connect canonical content rather than silently copying it. readme.md contains usage examples.",
-		"page": "pages/geelooy-social-actions-documentation-md-b4a7df6aad.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Two — Gevurah: Tree Resource Realism Constraints The Awtsmoos renews sun and drought, root and sky; Awtsmoos.com gives each force a boundary so realism may deepen without letting one tree become many nearby. Hard invariants 1. One canonical skeleton remains the sole structural iden",
+		"searchText": "b\"h boruch hashem blessed is he phase two — gevurah: tree resource realism constraints the awtsmoos renews sun and drought, root and sky; awtsmoos.com gives each force a boundary so realism may deepen without letting one tree become many nearby. hard invariants 1. one canonical skeleton remains the sole structural identity. 2. lod/detail never generates a different biological tree. 3. living.hydraulic remains post skeleton observation and must not alter the skeleton. 4. only explicit pre skeleton development, environment, succession, or habitat intent may change growth. 5. no duplicate hydraulic or seasonal subsystem may be invented. 6. resource development must reuse moisture/fertility/heat vocabulary already used by living hydraulics. 7. default calls with no development/environment intent remain unchanged. 8. same seed + same environment remains deterministic. 9. moisture/fertility/heat/soil depth/shade signals are bounded and immutable. 10. resource support may scale crown, height, secondary branching, foliage, and trunk allocation only through existing config keys. 11. drought cannot silently alter renderer lod budgets. 12. shade can strengthen light seeking but must not mutate light direction itself. 13. wind continues through existing global force and gnarliness vocabulary. 14. caller provided age/vigor/competition remain authoritative inputs. 15. explicit development values override derived resource defaults where the same concept exists. 16. tree preset configuration is cloned before mutation. 17. touched source stays realism is cosmetic. living hydraulics reused as pre skeleton state current compatibility contract breaks. quality participates in development lod identity diverges. extra rng consumption same seed changes unpredictably even with equivalent inputs. monolithic development config future physiology becomes harder to extend. next action implement resource development as a pure deterministic input to treedevelopmentprofile, then keep treedevelopmentconfig as the only structural application boundary.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26-tree-resource-realism-02-gevurah-constrai-08edd5ac7f.json"
 	}
 ]

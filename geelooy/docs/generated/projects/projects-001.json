@@ -19,14 +19,14 @@
 		],
 		"symlinkTarget": null,
 		"counts": {
-			"source": 0,
+			"source": 6,
 			"tests": 0,
-			"assets": 0,
+			"assets": 6,
 			"generated": 0,
 			"docs": 0,
-			"other": 75
+			"other": 563
 		},
-		"totalFiles": 75,
+		"totalFiles": 575,
 		"symbolSummary": null,
 		"outgoing": [],
 		"incoming": [],
@@ -56,17 +56,23 @@
 		],
 		"symlinkTarget": "/Users/awtsmoos/work/Awtsmoos.com-artifacts/ai_thoughts",
 		"counts": {
-			"source": 5733,
-			"tests": 100,
-			"assets": 0,
+			"source": 5817,
+			"tests": 107,
+			"assets": 1,
 			"generated": 0,
 			"docs": 60,
-			"other": 2770
+			"other": 2989
 		},
-		"totalFiles": 8663,
+		"totalFiles": 8974,
 		"symbolSummary": null,
 		"outgoing": [],
-		"incoming": [],
+		"incoming": [
+			{
+				"project": "geelooy/apps/android-emulator",
+				"count": 54,
+				"examples": "geelooy/apps/android-emulator/ai_thoughts/2026-08-31_global_origin_merge_and_rebbe_runtime/103_fresh_authentic_checkpoint_writer.mjs; geelooy/apps/android-emulator/ai_thoughts/2026-08-31_global_origin_merge_and_rebbe_runtime/104_fresh_authentic_run.mjs; geelooy/apps/android-emulator/ai_thoughts/2026-08-31_global_origin_merge_and_rebbe_runtime/138_post_ucvtf_authentic_run.mjs"
+			}
+		],
 		"externalDependencies": [],
 		"publicEntries": [],
 		"requiresLocalDoc": false,
@@ -99,20 +105,20 @@
 		],
 		"symlinkTarget": null,
 		"counts": {
-			"source": 1,
+			"source": 4,
 			"tests": 0,
 			"assets": 0,
 			"generated": 0,
 			"docs": 1,
-			"other": 6
+			"other": 19
 		},
-		"totalFiles": 8,
+		"totalFiles": 24,
 		"symbolSummary": null,
 		"outgoing": [],
 		"incoming": [],
 		"externalDependencies": [],
 		"publicEntries": [],
-		"requiresLocalDoc": false,
+		"requiresLocalDoc": true,
 		"documentationCovered": true,
 		"provenance": "generated-from-local-source"
 	},
@@ -142,14 +148,14 @@
 		],
 		"symlinkTarget": null,
 		"counts": {
-			"source": 1712,
-			"tests": 367,
-			"assets": 0,
+			"source": 1971,
+			"tests": 493,
+			"assets": 1,
 			"generated": 0,
-			"docs": 24,
-			"other": 2
+			"docs": 26,
+			"other": 7
 		},
-		"totalFiles": 2105,
+		"totalFiles": 2498,
 		"symbolSummary": null,
 		"outgoing": [],
 		"incoming": [],
@@ -190,19 +196,19 @@
 		],
 		"symlinkTarget": null,
 		"counts": {
-			"source": 827,
-			"tests": 160,
+			"source": 870,
+			"tests": 178,
 			"assets": 0,
 			"generated": 0,
-			"docs": 21,
-			"other": 0
+			"docs": 23,
+			"other": 1
 		},
-		"totalFiles": 1008,
+		"totalFiles": 1072,
 		"symbolSummary": {
-			"files": 813,
-			"classes": 383,
-			"functions": 1117,
-			"exports": 731,
+			"files": 856,
+			"classes": 390,
+			"functions": 1290,
+			"exports": 883,
 			"samples": [
 				"AwtsmoosDbEmbedderConfig",
 				"defaultEmbeddingDimensions",
@@ -222,18 +228,18 @@
 		"incoming": [
 			{
 				"project": "geelooy/api/social",
-				"count": 33,
+				"count": 54,
 				"examples": "geelooy/api/social/helper/comments/aliasIndex/PackedIndexStore.js; geelooy/api/social/helper/comments/canonicalCommentSource.js; geelooy/api/social/helper/comments/commentAwtsmoosDbBridge.js"
+			},
+			{
+				"project": "ayzarim/awtsmoosDynamicServer",
+				"count": 8,
+				"examples": "ayzarim/awtsmoosDynamicServer/projectHosting/ProjectDatabaseBoundedKeys.js; ayzarim/awtsmoosDynamicServer/server/deps.js; ayzarim/awtsmoosDynamicServer/server/initDb.js"
 			},
 			{
 				"project": "ayzarim/maintence",
 				"count": 2,
 				"examples": "ayzarim/maintence/transferOldDBToAwtsmoosDB.js"
-			},
-			{
-				"project": "ayzarim/awtsmoosDynamicServer",
-				"count": 1,
-				"examples": "ayzarim/awtsmoosDynamicServer/server/deps.js"
 			},
 			{
 				"project": "geelooy/scripts",
@@ -243,9 +249,19 @@
 		],
 		"externalDependencies": [
 			{
+				"dependency": "awtsmoosDB",
+				"count": 1,
+				"examples": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/compat/redis/index.js"
+			},
+			{
 				"dependency": "entries",
 				"count": 1,
 				"examples": "ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON/operations/obj/makomChafshee_aiPrompt.js"
+			},
+			{
+				"dependency": "mongodb",
+				"count": 1,
+				"examples": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/compat/mongo/client.js"
 			}
 		],
 		"publicEntries": [],
@@ -284,19 +300,19 @@
 		],
 		"symlinkTarget": null,
 		"counts": {
-			"source": 826,
-			"tests": 207,
+			"source": 994,
+			"tests": 306,
 			"assets": 0,
 			"generated": 0,
 			"docs": 1,
-			"other": 1
+			"other": 4
 		},
-		"totalFiles": 1035,
+		"totalFiles": 1305,
 		"symbolSummary": {
-			"files": 826,
-			"classes": 227,
-			"functions": 2248,
-			"exports": 2002,
+			"files": 994,
+			"classes": 239,
+			"functions": 2768,
+			"exports": 2540,
 			"samples": [
 				"DependencyInjector",
 				"greet",
@@ -315,13 +331,23 @@
 		"outgoing": [
 			{
 				"project": "geelooy/api/tunnel",
-				"count": 11,
+				"count": 12,
 				"examples": "ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/channel.js; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/channelSnapshot.js; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomUpgradeFakes.cjs"
 			},
 			{
+				"project": "ayzarim/DosDB",
+				"count": 8,
+				"examples": "ayzarim/awtsmoosDynamicServer/projectHosting/ProjectDatabaseBoundedKeys.js; ayzarim/awtsmoosDynamicServer/server/deps.js; ayzarim/awtsmoosDynamicServer/server/initDb.js"
+			},
+			{
 				"project": "geelooy/api/social",
-				"count": 6,
-				"examples": "ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/integrationGateway.js; ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/meaningfulActivity.js; ayzarim/awtsmoosDynamicServer/websocket/apps/universalChat/activityAdapter.js"
+				"count": 7,
+				"examples": "ayzarim/awtsmoosDynamicServer/server/searchStartupWarmup.js; ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/integrationGateway.js; ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/meaningfulActivity.js"
+			},
+			{
+				"project": "ayzarim/email",
+				"count": 3,
+				"examples": "ayzarim/awtsmoosDynamicServer/server/deps.js; ayzarim/awtsmoosDynamicServer/websocket/apps/forms/emailNotifications.js"
 			},
 			{
 				"project": "ayzarim/tools",
@@ -329,9 +355,14 @@
 				"examples": "ayzarim/awtsmoosDynamicServer/server/deps.js"
 			},
 			{
-				"project": "ayzarim/email",
-				"count": 2,
-				"examples": "ayzarim/awtsmoosDynamicServer/server/deps.js"
+				"project": "geelooy/apps/tunnel",
+				"count": 3,
+				"examples": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/actionAliases.js; ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/instructionCatalog.js; ayzarim/awtsmoosDynamicServer/zipBundles/sourceResolver.js"
+			},
+			{
+				"project": "geelooy/seo",
+				"count": 3,
+				"examples": "ayzarim/awtsmoosDynamicServer/static/PublicCatalogInventoryRecords.js; ayzarim/awtsmoosDynamicServer/static/PublicCatalogSeoMetadata.js; ayzarim/awtsmoosDynamicServer/static/PublicHtmlSeo.js"
 			},
 			{
 				"project": "geelooy/api/ohr-hagnuz",
@@ -339,26 +370,31 @@
 				"examples": "ayzarim/awtsmoosDynamicServer/websocket/apps/ohrHagnuz/AuthenticatedWorldTestHarness.cjs; ayzarim/awtsmoosDynamicServer/websocket/apps/ohrHagnuz/auth/GameTicketConsumer.js"
 			},
 			{
-				"project": "geelooy/apps/tunnel",
-				"count": 2,
-				"examples": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/actionAliases.js; ayzarim/awtsmoosDynamicServer/zipBundles/sourceResolver.js"
-			},
-			{
 				"project": "ayzarim/awtsmoos.config.json",
 				"count": 1,
 				"examples": "ayzarim/awtsmoosDynamicServer/server/deps.js"
 			},
 			{
-				"project": "ayzarim/DosDB",
+				"project": "geelooy/api/platform",
 				"count": 1,
-				"examples": "ayzarim/awtsmoosDynamicServer/server/deps.js"
+				"examples": "ayzarim/awtsmoosDynamicServer/static/HtmlProductMetadata.js"
 			}
 		],
 		"incoming": [
 			{
+				"project": "geelooy/apps/android-emulator",
+				"count": 6,
+				"examples": "geelooy/apps/android-emulator/node/localTcpRelay/clientSession.cjs; geelooy/apps/android-emulator/node/localTcpRelay/frameHandling.cjs; geelooy/apps/android-emulator/node/localTcpRelay/server.cjs"
+			},
+			{
 				"project": "geelooy/api/social",
 				"count": 5,
 				"examples": "geelooy/api/social/helper/drive/projectDatabaseService.js; geelooy/api/social/helper/drive/projectRuntimeMaterializer.js; geelooy/api/social/helper/drive/routes/projectHostingRoutes.js"
+			},
+			{
+				"project": "geelooy/api/tunnel",
+				"count": 3,
+				"examples": "geelooy/api/tunnel/_awtsmoos.derech.js; geelooy/api/tunnel/control/core/respond.js; geelooy/api/tunnel/control/routes/fsVessel/tunnelClient.js"
 			},
 			{
 				"project": "geelooy/api/projectHosting",
@@ -366,9 +402,14 @@
 				"examples": "geelooy/api/projectHosting/planRoute.js; geelooy/api/projectHosting/runtimeRoutes.js"
 			},
 			{
-				"project": "geelooy/api/tunnel",
+				"project": "geelooy/heichelos",
 				"count": 1,
-				"examples": "geelooy/api/tunnel/control/routes/fsVessel/tunnelClient.js"
+				"examples": "geelooy/heichelos/routes/friendlyIds/friendlyDerech.js"
+			},
+			{
+				"project": "geelooy/platform",
+				"count": 1,
+				"examples": "geelooy/platform/products/readiness/ProductReadinessAudit.cjs"
 			},
 			{
 				"project": "geelooy/sites",
@@ -379,8 +420,8 @@
 		"externalDependencies": [
 			{
 				"dependency": "ws",
-				"count": 3,
-				"examples": "ayzarim/awtsmoosDynamicServer/websocket/apps/chess/realtimeTestClient.js; ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/socketIntegrationFixture.cjs; ayzarim/awtsmoosDynamicServer/websocket/apps/universalChat/realtimeTestClient.js"
+				"count": 2,
+				"examples": "ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/socketIntegrationFixture.cjs; ayzarim/awtsmoosDynamicServer/websocket/apps/universalChat/realtimeTestClient.js"
 			}
 		],
 		"publicEntries": [],
@@ -412,51 +453,116 @@
 		],
 		"symlinkTarget": null,
 		"counts": {
-			"source": 5,
-			"tests": 0,
+			"source": 24,
+			"tests": 2,
 			"assets": 0,
 			"generated": 0,
 			"docs": 0,
 			"other": 0
 		},
-		"totalFiles": 5,
+		"totalFiles": 26,
 		"symbolSummary": {
-			"files": 5,
-			"classes": 2,
-			"functions": 18,
-			"exports": 2,
+			"files": 24,
+			"classes": 18,
+			"functions": 20,
+			"exports": 34,
 			"samples": [
 				"AwtsmoosEmailClient",
 				"processCapsules",
-				"sendSystemReply",
-				"isAutoGenerated",
-				"parseMime",
-				"embedInlineImages",
-				"parseHeaders",
-				"parseFromHeader",
-				"decodeBody",
-				"decodeQuotedPrintable",
-				"decodeMimeHeader",
-				"escapeHtml"
+				"awtsmoosEmailIngress",
+				"processRules",
+				"processReplyVariables",
+				"FORWARDED_HTML_MARKER",
+				"prepareForwardingBody",
+				"ForwardingDelivery",
+				"MAX_FORWARD_DEPTH",
+				"MAX_FORWARD_TARGETS",
+				"canonicalAddress",
+				"extendTrail"
 			]
 		},
 		"outgoing": [
 			{
 				"project": "geelooy/api/social",
 				"count": 1,
-				"examples": "ayzarim/email/awtsmoosEmailIngress.js"
+				"examples": "ayzarim/email/ingress/pushWake.js"
 			}
 		],
 		"incoming": [
 			{
+				"project": "geelooy/api/social",
+				"count": 4,
+				"examples": "geelooy/api/social/helper/mail/globalForwardingSettings.js; geelooy/api/social/helper/mail/localDelivery.js; geelooy/api/social/helper/mail/settingsService.js"
+			},
+			{
 				"project": "ayzarim/awtsmoosDynamicServer",
-				"count": 2,
-				"examples": "ayzarim/awtsmoosDynamicServer/server/deps.js"
+				"count": 3,
+				"examples": "ayzarim/awtsmoosDynamicServer/server/deps.js; ayzarim/awtsmoosDynamicServer/websocket/apps/forms/emailNotifications.js"
 			}
 		],
 		"externalDependencies": [],
 		"publicEntries": [],
-		"requiresLocalDoc": false,
+		"requiresLocalDoc": true,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "ayzarim-glyph-engine-7919ad9a",
+		"path": "ayzarim/glyph-engine",
+		"type": "infrastructure",
+		"family": {
+			"id": "runtime",
+			"title": "Runtime and Infrastructure"
+		},
+		"title": "ayzarim/glyph-engine",
+		"entries": [],
+		"humanManual": "docs/TUTORIALS/PROJECTS/RUNTIME_AND_INFRASTRUCTURE.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-glyph-engine-7919ad9a.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/RUNTIME_AND_INFRASTRUCTURE.md",
+				"documentId": "docs-tutorials-projects-runtime-and-infrastructure-md-1e31989624"
+			},
+			{
+				"sourcePath": "docs/ARCHITECTURE.md",
+				"documentId": "docs-architecture-md-ff21b6b9a3"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 22,
+			"tests": 4,
+			"assets": 1,
+			"generated": 0,
+			"docs": 0,
+			"other": 1
+		},
+		"totalFiles": 28,
+		"symbolSummary": {
+			"files": 22,
+			"classes": 0,
+			"functions": 44,
+			"exports": 41,
+			"samples": [
+				"audit",
+				"benchmarks",
+				"browserProof",
+				"send",
+				"create",
+				"LETTERS",
+				"PUNCTUATION",
+				"PASSAGE",
+				"ALTERNATIVES",
+				"mappings",
+				"encode",
+				"shuffledCodes"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": true,
 		"documentationCovered": false,
 		"provenance": "generated-from-local-source"
 	},
@@ -513,133 +619,6 @@
 		"publicEntries": [],
 		"requiresLocalDoc": false,
 		"documentationCovered": false,
-		"provenance": "generated-from-local-source"
-	},
-	{
-		"projectId": "ayzarim-math-f7d5fed1",
-		"path": "ayzarim/math",
-		"type": "infrastructure",
-		"family": {
-			"id": "runtime",
-			"title": "Runtime and Infrastructure"
-		},
-		"title": "ayzarim/math",
-		"entries": [],
-		"humanManual": "docs/TUTORIALS/PROJECTS/RUNTIME_AND_INFRASTRUCTURE.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-math-f7d5fed1.md",
-		"documentation": [
-			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/RUNTIME_AND_INFRASTRUCTURE.md",
-				"documentId": "docs-tutorials-projects-runtime-and-infrastructure-md-1e31989624"
-			},
-			{
-				"sourcePath": "docs/ARCHITECTURE.md",
-				"documentId": "docs-architecture-md-ff21b6b9a3"
-			}
-		],
-		"symlinkTarget": null,
-		"counts": {
-			"source": 1,
-			"tests": 0,
-			"assets": 0,
-			"generated": 0,
-			"docs": 0,
-			"other": 0
-		},
-		"totalFiles": 1,
-		"symbolSummary": {
-			"files": 1,
-			"classes": 2,
-			"functions": 0,
-			"exports": 0,
-			"samples": [
-				"Node",
-				"BTree"
-			]
-		},
-		"outgoing": [],
-		"incoming": [],
-		"externalDependencies": [],
-		"publicEntries": [],
-		"requiresLocalDoc": false,
-		"documentationCovered": false,
-		"provenance": "generated-from-local-source"
-	},
-	{
-		"projectId": "ayzarim-ssh-099c712a",
-		"path": "ayzarim/ssh",
-		"type": "infrastructure",
-		"family": {
-			"id": "runtime",
-			"title": "Runtime and Infrastructure"
-		},
-		"title": "ayzarim/ssh",
-		"entries": [
-			"DOCUMENTATION.md"
-		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/RUNTIME_AND_INFRASTRUCTURE.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-ssh-099c712a.md",
-		"documentation": [
-			{
-				"sourcePath": "ayzarim/ssh/DOCUMENTATION.md",
-				"documentId": "ayzarim-ssh-documentation-md-7859ccc062"
-			},
-			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/RUNTIME_AND_INFRASTRUCTURE.md",
-				"documentId": "docs-tutorials-projects-runtime-and-infrastructure-md-1e31989624"
-			},
-			{
-				"sourcePath": "docs/ARCHITECTURE.md",
-				"documentId": "docs-architecture-md-ff21b6b9a3"
-			}
-		],
-		"symlinkTarget": null,
-		"counts": {
-			"source": 47,
-			"tests": 0,
-			"assets": 0,
-			"generated": 0,
-			"docs": 1,
-			"other": 0
-		},
-		"totalFiles": 48,
-		"symbolSummary": {
-			"files": 47,
-			"classes": 31,
-			"functions": 112,
-			"exports": 133,
-			"samples": [
-				"IGNORE",
-				"UNIMPLEMENTED",
-				"DEBUG",
-				"SERVICE_REQUEST",
-				"SERVICE_ACCEPT",
-				"KEXINIT",
-				"NEWKEYS",
-				"KEXDH_INIT",
-				"KEXDH_REPLY",
-				"USERAUTH_REQUEST",
-				"USERAUTH_FAILURE",
-				"USERAUTH_SUCCESS"
-			]
-		},
-		"outgoing": [],
-		"incoming": [
-			{
-				"project": "geelooy/api/ssh",
-				"count": 2,
-				"examples": "geelooy/api/ssh/lib/client.js; geelooy/api/ssh/virtual/service.js"
-			},
-			{
-				"project": "geelooy/apps/tunnel",
-				"count": 1,
-				"examples": "geelooy/apps/tunnel/agent/lib/fakeSsh/wireServer.js"
-			}
-		],
-		"externalDependencies": [],
-		"publicEntries": [],
-		"requiresLocalDoc": true,
-		"documentationCovered": true,
 		"provenance": "generated-from-local-source"
 	}
 ]

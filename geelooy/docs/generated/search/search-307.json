@@ -1,278 +1,201 @@
 [
 	{
-		"id": "geelooy-games-sefira-clash-documentation-md-c82ee9b752",
-		"title": "Sefira Clash · Open World, Expedition, Co-op, Adventure & VS",
-		"sourcePath": "geelooy/games/sefira-clash/DOCUMENTATION.md",
-		"category": "Games",
-		"provenance": "breadcrumb",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Sefira Clash · Open World, Expedition, Co-op, Adventure & VS",
-				"anchor": "sefira-clash-open-world-expedition-co-op-adventure-vs"
-			},
-			{
-				"level": 2,
-				"text": "Role",
-				"anchor": "role"
-			},
-			{
-				"level": 2,
-				"text": "Start here",
-				"anchor": "start-here"
-			},
-			{
-				"level": 2,
-				"text": "Change rule",
-				"anchor": "change-rule"
-			},
-			{
-				"level": 2,
-				"text": "Project-specific notes",
-				"anchor": "project-specific-notes"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Sefira Clash · Open World, Expedition, Co op, Adventure & VS The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read d",
-		"searchText": "b\"h boruch hashem blessed is he sefira clash · open world, expedition, co op, adventure & vs the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “sefira clash · open world, expedition, co op, adventure & vs”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
-		"page": "pages/geelooy-games-sefira-clash-documentation-md-c82ee9b752.json"
-	},
-	{
-		"id": "geelooy-games-seven-mitzvos-documentation-md-1e46ac11f1",
-		"title": "Seven Mitzvos · Living Material Worlds",
-		"sourcePath": "geelooy/games/seven-mitzvos/DOCUMENTATION.md",
-		"category": "Games",
-		"provenance": "breadcrumb",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Seven Mitzvos · Living Material Worlds",
-				"anchor": "seven-mitzvos-living-material-worlds"
-			},
-			{
-				"level": 2,
-				"text": "Role",
-				"anchor": "role"
-			},
-			{
-				"level": 2,
-				"text": "Start here",
-				"anchor": "start-here"
-			},
-			{
-				"level": 2,
-				"text": "Change rule",
-				"anchor": "change-rule"
-			},
-			{
-				"level": 2,
-				"text": "Project-specific notes",
-				"anchor": "project-specific-notes"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Seven Mitzvos · Living Material Worlds The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAMES PLA",
-		"searchText": "b\"h boruch hashem blessed is he seven mitzvos · living material worlds the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “seven mitzvos · living material worlds”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
-		"page": "pages/geelooy-games-seven-mitzvos-documentation-md-1e46ac11f1.json"
-	},
-	{
-		"id": "geelooy-games-shema-strike-documentation-md-60aed49aaf",
-		"title": "Shema Strike: Gates of Light",
-		"sourcePath": "geelooy/games/shema-strike/DOCUMENTATION.md",
-		"category": "Games",
-		"provenance": "breadcrumb",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Shema Strike: Gates of Light",
-				"anchor": "shema-strike-gates-of-light"
-			},
-			{
-				"level": 2,
-				"text": "Role",
-				"anchor": "role"
-			},
-			{
-				"level": 2,
-				"text": "Start here",
-				"anchor": "start-here"
-			},
-			{
-				"level": 2,
-				"text": "Change rule",
-				"anchor": "change-rule"
-			},
-			{
-				"level": 2,
-				"text": "Project-specific notes",
-				"anchor": "project-specific-notes"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Shema Strike: Gates of Light The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAMES PLATFORM.md f",
-		"searchText": "b\"h boruch hashem blessed is he shema strike: gates of light the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “shema strike: gates of light”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
-		"page": "pages/geelooy-games-shema-strike-documentation-md-60aed49aaf.json"
-	},
-	{
-		"id": "geelooy-games-styles-documentation-md-40a8a9768b",
-		"title": "Shared Game Styles",
-		"sourcePath": "geelooy/games/styles/DOCUMENTATION.md",
-		"category": "Games",
-		"provenance": "breadcrumb",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Shared Game Styles",
-				"anchor": "shared-game-styles"
-			},
-			{
-				"level": 2,
-				"text": "Role",
-				"anchor": "role"
-			},
-			{
-				"level": 2,
-				"text": "Start here",
-				"anchor": "start-here"
-			},
-			{
-				"level": 2,
-				"text": "Change rule",
-				"anchor": "change-rule"
-			},
-			{
-				"level": 2,
-				"text": "Project-specific notes",
-				"anchor": "project-specific-notes"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Shared Game Styles The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Shared visual/style infrastructure for game projects; this is not an independent game. Start here Read docs/PROJECTS/GAMES PLA",
-		"searchText": "b\"h boruch hashem blessed is he shared game styles the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role shared visual/style infrastructure for game projects; this is not an independent game. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes css/style changes can affect multiple games even when no javascript import edge exists, so validate representative public entries manually.",
-		"page": "pages/geelooy-games-styles-documentation-md-40a8a9768b.json"
-	},
-	{
-		"id": "geelooy-games-sulam-ha-sod-documentation-md-f49e7e918c",
-		"title": "Sulam HaSod",
-		"sourcePath": "geelooy/games/sulam-ha-sod/DOCUMENTATION.md",
-		"category": "Games",
-		"provenance": "breadcrumb",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Sulam HaSod",
-				"anchor": "sulam-hasod"
-			},
-			{
-				"level": 2,
-				"text": "Role",
-				"anchor": "role"
-			},
-			{
-				"level": 2,
-				"text": "Start here",
-				"anchor": "start-here"
-			},
-			{
-				"level": 2,
-				"text": "Change rule",
-				"anchor": "change-rule"
-			},
-			{
-				"level": 2,
-				"text": "Project-specific notes",
-				"anchor": "project-specific-notes"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Sulam HaSod The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAMES PLATFORM.md for the central ex",
-		"searchText": "b\"h boruch hashem blessed is he sulam hasod the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “sulam hasod”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
-		"page": "pages/geelooy-games-sulam-ha-sod-documentation-md-f49e7e918c.json"
-	},
-	{
-		"id": "geelooy-games-tests-documentation-md-91ade4943e",
-		"title": "Shared Game Tests",
-		"sourcePath": "geelooy/games/tests/DOCUMENTATION.md",
-		"category": "Games",
-		"provenance": "breadcrumb",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Shared Game Tests",
-				"anchor": "shared-game-tests"
-			},
-			{
-				"level": 2,
-				"text": "Role",
-				"anchor": "role"
-			},
-			{
-				"level": 2,
-				"text": "Start here",
-				"anchor": "start-here"
-			},
-			{
-				"level": 2,
-				"text": "Change rule",
-				"anchor": "change-rule"
-			},
-			{
-				"level": 2,
-				"text": "Project-specific notes",
-				"anchor": "project-specific-notes"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Shared Game Tests The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Cross game/shared game verification area; this is test infrastructure, not an independent game. Start here Read docs/PROJECTS/G",
-		"searchText": "b\"h boruch hashem blessed is he shared game tests the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role cross game/shared game verification area; this is test infrastructure, not an independent game. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes use together with docs/test index.md and generated test ownership.md.",
-		"page": "pages/geelooy-games-tests-documentation-md-91ade4943e.json"
-	},
-	{
-		"id": "geelooy-heichel-editor-documentation-md-b6d0acb02a",
-		"title": "Heichel Editor",
-		"sourcePath": "geelooy/heichel-editor/DOCUMENTATION.md",
+		"id": "geelooy-ai-thoughts-2026-08-26-0558-do-better-sitewide-01-phase-one-reve-86d940c58b",
+		"title": "Phase One — Revelation Before Motion",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26-0558-do-better-sitewide/01-phase-one-revelation.md",
 		"category": "General",
-		"provenance": "breadcrumb",
+		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Heichel Editor",
-				"anchor": "heichel-editor"
+				"text": "Phase One — Revelation Before Motion",
+				"anchor": "phase-one-revelation-before-motion"
 			},
 			{
 				"level": 2,
-				"text": "Role",
-				"anchor": "role"
+				"text": "Mission",
+				"anchor": "mission"
 			},
 			{
 				"level": 2,
-				"text": "Start here",
-				"anchor": "start-here"
+				"text": "Possibility field",
+				"anchor": "possibility-field"
 			},
 			{
 				"level": 2,
-				"text": "Change rule",
-				"anchor": "change-rule"
-			},
-			{
-				"level": 2,
-				"text": "Project-specific notes",
-				"anchor": "project-specific-notes"
+				"text": "Initial work graph",
+				"anchor": "initial-work-graph"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Heichel Editor The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Public Social/Heichel editing interface. Observed entry files include index.html and app.js; observed title: “Heichel Editor — Gee",
-		"searchText": "b\"h boruch hashem blessed is he heichel editor the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role public social/heichel editing interface. observed entry files include index.html and app.js; observed title: “heichel editor — geelooy”. start here read docs/projects/social platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes editor/governance changes should be checked against heichel roles, submissions/review and social api authorization.",
-		"page": "pages/geelooy-heichel-editor-documentation-md-b6d0acb02a.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase One — Revelation Before Motion The Awtsmoos renews each route before one stylesheet can harden into law; Awtsmoos.com is the palace, and every scattered control must return to one local awe. Mission Do better means no celebratory stopping after one clean component. The next wave cl",
+		"searchText": "b\"h boruch hashem blessed is he phase one — revelation before motion the awtsmoos renews each route before one stylesheet can harden into law; awtsmoos.com is the palace, and every scattered control must return to one local awe. mission do better means no celebratory stopping after one clean component. the next wave closes unfinished comment thread proof, then attacks rebbe as a layered ui system rather than a single audio defect. possibility field finish comment thread test proof from the current source/test state. verify no native media controls remain there. record comment thread closure in remaining work only after evidence. trace rebbe player creation and player bar rendering separately. trace css import graph to identify which of style.css and styles/ .css actually load. trace old/new duplicated selectors before editing anything. replace any visible native media chrome only after proving visibility/ownership. localize rebbe controls under a route root if one already exists; otherwise add a deliberate route root contract. replace inline style= geometry in entry html where ownership is obvious. replace generated monolithic strings with imported local css modules when safe. normalize z index into named layer tokens instead of arbitrary 500/9999/10050 escalation. bound search fullscreen results to viewport + safe area. ensure every modal has internal scroll rather than page escape. ensure context menus clamp to viewport. ensure fixed download stack cannot cover player or navigation. ensure selection bar and player bar have collision safe bottom offsets. style checkboxes/ranges/colors/selects consistently inside studio only, without global leakage. give file picker triggers explicit custom visual ownership while native input remains hidden. give search keyword/select controls complete focus/hover/disabled state. give playlist editor fields labeled, bounded mobile layouts. preserve existing behavior apis while extracting visual ownership into smaller modules. keep every touched file durable ledger rebbe import graph player ownership overlay/layer map form control ownership code first wave tests route load proof delta review next route.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26-0558-do-better-sitewide-01-phase-one-reve-86d940c58b.json"
 	},
 	{
-		"id": "geelooy-heichel-review-documentation-md-6b72949f89",
-		"title": "Heichel Review Documentation",
-		"sourcePath": "geelooy/heichel-review/DOCUMENTATION.md",
+		"id": "geelooy-ai-thoughts-2026-08-26-0558-do-better-sitewide-02-phase-two-crit-a311989919",
+		"title": "Phase Two — Gevurah Critique",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26-0558-do-better-sitewide/02-phase-two-critique.md",
 		"category": "General",
-		"provenance": "breadcrumb",
+		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Heichel Review Documentation",
-				"anchor": "heichel-review-documentation"
+				"text": "Phase Two — Gevurah Critique",
+				"anchor": "phase-two-gevurah-critique"
+			},
+			{
+				"level": 2,
+				"text": "Twenty improvements to Phase One",
+				"anchor": "twenty-improvements-to-phase-one"
+			},
+			{
+				"level": 2,
+				"text": "Risk graph",
+				"anchor": "risk-graph"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Heichel Review Documentation The Awtsmoos lets review, role, editor, and governance surround content without hiding who may act; Awtsmoos.com maps this UI beside the Social/Heichel system and governance tests so moderation remains a traceable contract. Read ../../docs/SYSTEMS/SOCIAL AND ",
-		"searchText": "b\"h boruch hashem blessed is he heichel review documentation the awtsmoos lets review, role, editor, and governance surround content without hiding who may act; awtsmoos.com maps this ui beside the social/heichel system and governance tests so moderation remains a traceable contract. read ../../docs/systems/social and heichel.md, ../../docs/api/social.md, and ../../docs/test index.md.",
-		"page": "pages/geelooy-heichel-review-documentation-md-6b72949f89.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Two — Gevurah Critique The Awtsmoos is not impressed by motion without measure; Awtsmoos.com becomes cleaner when each tempting shortcut is cut away like false treasure. Twenty improvements to Phase One 1. Do not assume modules/player/core.js creates visible controls; trace DOM own",
+		"searchText": "b\"h boruch hashem blessed is he phase two — gevurah critique the awtsmoos is not impressed by motion without measure; awtsmoos.com becomes cleaner when each tempting shortcut is cut away like false treasure. twenty improvements to phase one 1. do not assume modules/player/core.js creates visible controls; trace dom ownership first. 2. do not rewrite root style.css until the import/load graph proves it is authoritative. 3. treat generated style strings as code debt, but rewrite only their full owner files. 4. separate player/media work from studio/editor work so one wave remains reviewable. 5. establish a rebbe local layer scale before changing any numeric z index. 6. map every fixed element's anchor edge so bottom collisions are solved as a system. 7. preserve hidden native file inputs where semantically useful; style their trigger, not the hidden input. 8. treat range/color/checkbox controls as intentional studio primitives with route local classes. 9. avoid one universal control selector that accidentally restyles modal/search/player controls alike. 10. prefer :focus visible over generic focus chrome while retaining accessible keyboard evidence. 11. ensure fine pointer hover is gated so touch does not emulate hover incorrectly. 12. give active/pressed feedback to all primary buttons, including generated search/playlist actions. 13. add reduced motion handling to every newly animated interactive surface. 14. keep modal content scrolling inside bounded shells at short viewport heights. 15. replace 100vw/100vh overlays with logical inset + dvh/safe area where appropriate. 16. prevent sticky headers from stacking above truly modal surfaces via named tokens. 17. prevent download notifications from competing with bottom player controls. 18. check line length and line count before testing, not after broad test success. 19. modernize stale tests only when git clean and proven obsolete by current architecture. 20. update remaining work after each closure/discovery rather than waiting for a final report. risk graph duplicate css cascade conflict false visual fixes. inline generated css hidden specificity mobile regressions. raw z index overlay wars unreachable controls. fixed bottom ui player/download/selection collisions. native media branded visual rupture. studio controls inconsistent browser defaults. large legacy files unsafe rewrites require modular extraction.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26-0558-do-better-sitewide-02-phase-two-crit-a311989919.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-26-0558-do-better-sitewide-03-phase-three-fi-9dc6bcc707",
+		"title": "Phase Three — Final Brainstorm Before Execution",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26-0558-do-better-sitewide/03-phase-three-final-brainstorm.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Three — Final Brainstorm Before Execution",
+				"anchor": "phase-three-final-brainstorm-before-execution"
+			},
+			{
+				"level": 2,
+				"text": "Thirty additional refinements",
+				"anchor": "thirty-additional-refinements"
+			},
+			{
+				"level": 2,
+				"text": "Final architecture choice",
+				"anchor": "final-architecture-choice"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Three — Final Brainstorm Before Execution The Awtsmoos renews the map and the mapper in one indivisible stream; Awtsmoos.com must feel like one future made real, not many historical layers sharing a dream. Thirty additional refinements 1. Close Comment Thread before Rebbe mutation ",
+		"searchText": "b\"h boruch hashem blessed is he phase three — final brainstorm before execution the awtsmoos renews the map and the mapper in one indivisible stream; awtsmoos.com must feel like one future made real, not many historical layers sharing a dream. thirty additional refinements 1. close comment thread before rebbe mutation so unfinished proof does not accumulate. 2. read rebbe entry html, style manifest, player core, ui player, and audio state as one chain. 3. read only the css modules that actually own player/modals/search before any rewrite. 4. search for duplicate .modal, player bar, .cyber input, .result action definitions. 5. determine whether newer premium css intentionally overrides older root css. 6. preserve public apis and event ids when upgrading markup. 7. prefer data/state classes over inline style mutation for visible states. 8. introduce layer tokens only in a small dedicated module if the root already supports css variables. 9. keep negative background canvas layering separate from interactive layers. 10. clamp context menu x/y in js if css alone cannot guarantee viewport containment. 11. ensure search fullscreen exit remains reachable on 320px width and short heights. 12. ensure modal close buttons meet a 44px practical touch floor. 13. ensure generated track action grids collapse cleanly at phone widths. 14. ensure playlist selection fixed pill can wrap rather than overflow horizontally. 15. ensure download task close buttons are not 28px only touch targets after rewrite. 16. give range thumbs explicit focus/hover/active treatment. 17. give checkboxes a custom shell instead of relying only on accent color where visible. 18. give color inputs a bounded swatch shell rather than raw browser border/chrome. 19. keep textareas resize behavior deliberate inside studio panels. 20. ensure long playlist titles/descriptions wrap without widening dialogs. 21. ensure result cards and track titles use min width:0 where grid/flex truncation needs it. 22. replace !important only when ownership can be made structurally stronger; do not blindly strip it. 23. avoid animations on persistent background layers that cost battery on phones unless reduced motion and performance are proven. 24. prefer transform/opacity transitions over layout thrashing properties. 25. add empty/error/loading styling contracts for search and playlist sub surfaces if missing. 26. add tests for import graph and layer token usage after code first changes. 27. run git diff check, js syntax, line count, native media scan, global selector scan. 28. use the fresh 8911 server for route load proof if it remains healthy; otherwise start a new isolated port. 29. do not hijack browser tabs belonging to other active work. 30. after rebbe closure, continue immediately to the next native media candidate, not a report. final architecture choice use route local small modules. preserve existing ids/events. create a rebbe specific custom media/control layer only if existing player ui lacks one. normalize visible controls by subsystem, not globally. introduce named layer tokens only after tracing the actual fixed/sticky graph. rewrite complete source files only.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26-0558-do-better-sitewide-03-phase-three-fi-9dc6bcc707.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-26-0558-do-better-sitewide-04-final-executio-bbf50225fa",
+		"title": "Final Execution Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26-0558-do-better-sitewide/04-final-execution-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Final Execution Plan",
+				"anchor": "final-execution-plan"
+			},
+			{
+				"level": 2,
+				"text": "Files to read before Rebbe writes",
+				"anchor": "files-to-read-before-rebbe-writes"
+			},
+			{
+				"level": 2,
+				"text": "First execution sequence",
+				"anchor": "first-execution-sequence"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Final Execution Plan The Awtsmoos gives the final plan no independent existence, only service; Awtsmoos.com receives each small rewrite as a clearer vessel with less conflict at the surface. Files to read before Rebbe writes geelooy/apps/rebbe/index.html geelooy/apps/rebbe/style.css geel",
+		"searchText": "b\"h boruch hashem blessed is he final execution plan the awtsmoos gives the final plan no independent existence, only service; awtsmoos.com receives each small rewrite as a clearer vessel with less conflict at the surface. files to read before rebbe writes geelooy/apps/rebbe/index.html geelooy/apps/rebbe/style.css geelooy/apps/rebbe/styles/main.css geelooy/apps/rebbe/styles/ui.css geelooy/apps/rebbe/styles/rebbe premium.css geelooy/apps/rebbe/modules/player/core.js geelooy/apps/rebbe/modules/player/transport.js geelooy/apps/rebbe/ui/player.js geelooy/apps/rebbe/audio.js geelooy/apps/rebbe/ui/browser/search panel.js geelooy/apps/rebbe/ui/browser/search.js geelooy/apps/rebbe/ui/playlists/html.js geelooy/apps/rebbe/ui/playlists/styles.js geelooy/apps/rebbe/modules/download/tasks.js first execution sequence 1. rerun comment thread complete suite and source gates. 2. if green, update remaining work to close comment thread. 3. build rebbe import/ownership graph and current git ownership. 4. select the smallest proven rebbe defect cluster for the first code first wave. 5. rewrite whole files only; split new responsibilities below 120 lines. 6. complete code before running tests. 7. run structural gates, then focused tests, then broader tests. 8. perform route load/mobile proof through available browser/server surfaces. 9. re read all touched files and compare planned vs actual. 10. update remaining work and continue to the next unresolved route.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26-0558-do-better-sitewide-04-final-executio-bbf50225fa.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-26-0918-rebbe-search-proof-01-proof-delta-md-68f4336d0d",
+		"title": "Rebbe Search Proof Delta",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26-0918-rebbe-search-proof/01-proof-delta.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Rebbe Search Proof Delta",
+				"anchor": "rebbe-search-proof-delta"
+			},
+			{
+				"level": 2,
+				"text": "Observed green evidence",
+				"anchor": "observed-green-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Observed delta",
+				"anchor": "observed-delta"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Rebbe Search Proof Delta The Awtsmoos renews every proof before confidence can pretend to be sight; Awtsmoos.com keeps the search chamber honest by measuring each vessel in light. Observed green evidence All rewritten search JavaScript parses. Search result rendering no longer uses dynam",
+		"searchText": "b\"h boruch hashem blessed is he rebbe search proof delta the awtsmoos renews every proof before confidence can pretend to be sight; awtsmoos.com keeps the search chamber honest by measuring each vessel in light. observed green evidence all rewritten search javascript parses. search result rendering no longer uses dynamic result innerhtml. active search path no longer contains 9999 or 10001 layer values. search css is statically imported from the rebbe runtime manifest. git diff check is clean. observed delta search shell.css is 125 lines. search controls.css is 123 lines. search results.css is 149 lines. searchpanel.js still uses one trusted template innerhtml mount; keep under review but it is not archive data interpolation. a separate runtime stylesheet injector exists in ui/browser/tracks/styles.js; this becomes next wave work after search closure. next action split the three oversized search css owners by responsibility without compressing comments or rules. then create focused regression contracts and run the complete rebbe test set.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26-0918-rebbe-search-proof-01-proof-delta-md-68f4336d0d.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-26-0918-rebbe-search-proof-02-structure-impr-7101d465c2",
+		"title": "Search Structure Improvement",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26-0918-rebbe-search-proof/02-structure-improvement.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Search Structure Improvement",
+				"anchor": "search-structure-improvement"
+			},
+			{
+				"level": 2,
+				"text": "Split map",
+				"anchor": "split-map"
+			},
+			{
+				"level": 2,
+				"text": "Verification",
+				"anchor": "verification"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Search Structure Improvement The Awtsmoos is one while shell, controls, history, cards, and tracks appear apart; Awtsmoos.com reveals each concern as a smaller vessel so the cascade itself becomes readable art. Split map search shell.css shell/layout plus history/disclosure module. searc",
+		"searchText": "b\"h boruch hashem blessed is he search structure improvement the awtsmoos is one while shell, controls, history, cards, and tracks appear apart; awtsmoos.com reveals each concern as a smaller vessel so the cascade itself becomes readable art. split map search shell.css shell/layout plus history/disclosure module. search controls.css control foundations plus control interaction/responsive module. search results.css results shell/summary plus event card/detail module. keep search tracks.css and search fullscreen.css focused as already written. update only runtime ui.css as the manifest owner. verification every touched css/js/test file <=120 physical lines. all css imports resolve. search interaction states include hover, active, focus visible, disabled, reduced motion. fullscreen uses named layer token and safe area inset. no five digit search z index values. no runtime search style factory.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26-0918-rebbe-search-proof-02-structure-impr-7101d465c2.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-26-0918-rebbe-search-proof-03-final-proof-pl-477af59d15",
+		"title": "Final Search Proof Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26-0918-rebbe-search-proof/03-final-proof-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Final Search Proof Plan",
+				"anchor": "final-search-proof-plan"
+			},
+			{
+				"level": 2,
+				"text": "Contracts to add",
+				"anchor": "contracts-to-add"
+			},
+			{
+				"level": 2,
+				"text": "After tests",
+				"anchor": "after-tests"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Final Search Proof Plan The Awtsmoos gives the final gate no independent crown; Awtsmoos.com proves each promise through tests, route load, and a fresh search for what remains unfound. Contracts to add 1. Search architecture/import contract. 2. Search fullscreen/mobile interaction contra",
+		"searchText": "b\"h boruch hashem blessed is he final search proof plan the awtsmoos gives the final gate no independent crown; awtsmoos.com proves each promise through tests, route load, and a fresh search for what remains unfound. contracts to add 1. search architecture/import contract. 2. search fullscreen/mobile interaction contract. 3. search safe dom/callback vocabulary contract. 4. context menu viewport clamp contract. after tests re run all existing rebbe regression tests plus new search tests. re run syntax, line count, runtime style, layer, and diff gates. load /apps/rebbe/ from the fresh static server. attempt managed browser route interaction if the native adapter allows it. update remaining work with exact search proof and move to ui/browser/tracks/styles.js plus the next sitewide native/form cluster.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26-0918-rebbe-search-proof-03-final-proof-pl-477af59d15.json"
 	}
 ]

@@ -1,340 +1,344 @@
 [
 	{
-		"id": "docs-tutorials-api-tunnel-control-md-54216e7b5f",
-		"title": "Tunnel Control API Tutorial",
-		"sourcePath": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
-		"category": "API",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-games-ai-thoughts-ff57-d679f6b8e8",
+		"title": "Project Tutorial: geelooy/games/aithoughts",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-ai-thoughts-ff57b066.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Tunnel Control API Tutorial",
-				"anchor": "tunnel-control-api-tutorial"
+				"text": "Project Tutorial: geelooy/games/aithoughts",
+				"anchor": "project-tutorial-geelooy-games-aithoughts"
 			},
 			{
 				"level": 2,
-				"text": "What this family owns",
-				"anchor": "what-this-family-owns"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "How to explore it",
-				"anchor": "how-to-explore-it"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Safety / interpretation",
-				"anchor": "safety-interpretation"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "Evidence rule",
-				"anchor": "evidence-rule"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Next",
-				"anchor": "next"
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Tunnel Control API Tutorial What this family owns Mount: /api/tunnel/control Derech: geelooy/api/tunnel/control/ awtsmoos.derech.js Seventy nine extracted routes span bootstrap/identity, keys/pairing/grants, remote FS, previews/blobs/ephemeral results, missions/live calls, compute/accoun",
-		"searchText": "b\"h boruch hashem blessed is he tunnel control api tutorial what this family owns mount: /api/tunnel/control derech: geelooy/api/tunnel/control/ awtsmoos.derech.js seventy nine extracted routes span bootstrap/identity, keys/pairing/grants, remote fs, previews/blobs/ephemeral results, missions/live calls, compute/accounting, treasury/economy, and administration. how to explore it 1. open api family tutorials for current route counts/health. 2. filter api tutorial index to /api/tunnel/control. 3. open the generated route tutorial for source level method/vessel/status/header evidence. 4. read geelooy/api/tunnel/control/ awtsmoos.derech.js and the imported handler behind the route. 5. check identity/resource/provider/data side effects before making a write. 6. use caller/test evidence as navigation, not runtime proof. safety / interpretation use the generated route tutorials to drill down. core auth trusts oauth bearer, verified api key, or signed session—not browser owner fields. evidence rule generated tutorials are conservative: unknown method remains unknown; executable starter calls appear only when source level method evidence exists. derech health is shown beside every generated route. next return to learn awtsmoos.com or open the exact generated route tutorial before coding.",
-		"page": "pages/docs-tutorials-api-tunnel-control-md-54216e7b5f.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/games/ai thoughts Path: geelooy/games/ai thoughts · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime owne",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/games/ai thoughts path: geelooy/games/ai thoughts · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: — local documentation: no local documentation.md observed. local doc requirement: yes; covered: no symlink target: — file shape source tests assets generated docs other total 80 0 0 0 0 574 654 public entry points none observed. symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-ai-thoughts-ff57-d679f6b8e8.json"
 	},
 	{
-		"id": "docs-tutorials-api-tunnel-install-md-851ae40f00",
-		"title": "Tunnel Install API Tutorial",
-		"sourcePath": "docs/TUTORIALS/API/TUNNEL_INSTALL.md",
-		"category": "API",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-games-awtsmoos-bounce--e81837252c",
+		"title": "Project Tutorial: Awtsmoos Bounce: Orbit Run",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-awtsmoos-bounce-85bb3912.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Tunnel Install API Tutorial",
-				"anchor": "tunnel-install-api-tutorial"
+				"text": "Project Tutorial: Awtsmoos Bounce: Orbit Run",
+				"anchor": "project-tutorial-awtsmoos-bounce-orbit-run"
 			},
 			{
 				"level": 2,
-				"text": "What this family owns",
-				"anchor": "what-this-family-owns"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "How to explore it",
-				"anchor": "how-to-explore-it"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Safety / interpretation",
-				"anchor": "safety-interpretation"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "Evidence rule",
-				"anchor": "evidence-rule"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Next",
-				"anchor": "next"
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Tunnel Install API Tutorial What this family owns Mount: /api/tunnel/install Derech: geelooy/api/tunnel/install/ awtsmoos.derech.js The current literal route extractor reports zero child route rows for this mount even though installer artifacts are documented elsewhere. How to explore it",
-		"searchText": "b\"h boruch hashem blessed is he tunnel install api tutorial what this family owns mount: /api/tunnel/install derech: geelooy/api/tunnel/install/ awtsmoos.derech.js the current literal route extractor reports zero child route rows for this mount even though installer artifacts are documented elsewhere. how to explore it 1. open api family tutorials for current route counts/health. 2. filter api tutorial index to /api/tunnel/install. 3. open the generated route tutorial for source level method/vessel/status/header evidence. 4. read geelooy/api/tunnel/install/ awtsmoos.derech.js and the imported handler behind the route. 5. check identity/resource/provider/data side effects before making a write. 6. use caller/test evidence as navigation, not runtime proof. safety / interpretation follow the current derech/download implementation for exact artifact names instead of treating historical docs as live route proof. evidence rule generated tutorials are conservative: unknown method remains unknown; executable starter calls appear only when source level method evidence exists. derech health is shown beside every generated route. next return to learn awtsmoos.com or open the exact generated route tutorial before coding.",
-		"page": "pages/docs-tutorials-api-tunnel-install-md-851ae40f00.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Awtsmoos Bounce: Orbit Run Path: geelooy/games/awtsmoos bounce · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: awtsmoos bounce: orbit run path: geelooy/games/awtsmoos bounce · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, readme.md, readme.md local documentation: no local documentation.md observed. local doc requirement: yes; covered: no symlink target: — file shape source tests assets generated docs other total 86 0 0 0 1 0 87 public entry points /games/awtsmoos bounce → geelooy/games/awtsmoos bounce/index.html — awtsmoos bounce: orbit run symbol evidence source files: 67; classes: 44; functions: 37; exports: 82; samples: daasaccessibility, binahadvancedsheet, kesercampaign, goalsmet, nextgoaltext, missinggoaltext, challengeresult, gevurahchallenge, hodchallengeview, gevurahcollision, settings, palette. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-awtsmoos-bounce--e81837252c.json"
 	},
 	{
-		"id": "docs-tutorials-api-tunnel-md-8ddad49b2f",
-		"title": "Tunnel Relay API Tutorial",
-		"sourcePath": "docs/TUTORIALS/API/TUNNEL.md",
-		"category": "API",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-games-brick-blast-e1d8-540cccadab",
+		"title": "Project Tutorial: Brick Blast",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-brick-blast-e1d8b393.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Tunnel Relay API Tutorial",
-				"anchor": "tunnel-relay-api-tutorial"
+				"text": "Project Tutorial: Brick Blast",
+				"anchor": "project-tutorial-brick-blast"
 			},
 			{
 				"level": 2,
-				"text": "What this family owns",
-				"anchor": "what-this-family-owns"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "How to explore it",
-				"anchor": "how-to-explore-it"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Safety / interpretation",
-				"anchor": "safety-interpretation"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "Evidence rule",
-				"anchor": "evidence-rule"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Next",
-				"anchor": "next"
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Tunnel Relay API Tutorial What this family owns Mount: /api/tunnel Derech: geelooy/api/tunnel/ awtsmoos.derech.js Base extracted routes relay requests/filesystem actions to a named connected tunnel. How to explore it 1. Open API Family Tutorials for current route counts/health. 2. Filter",
-		"searchText": "b\"h boruch hashem blessed is he tunnel relay api tutorial what this family owns mount: /api/tunnel derech: geelooy/api/tunnel/ awtsmoos.derech.js base extracted routes relay requests/filesystem actions to a named connected tunnel. how to explore it 1. open api family tutorials for current route counts/health. 2. filter api tutorial index to /api/tunnel. 3. open the generated route tutorial for source level method/vessel/status/header evidence. 4. read geelooy/api/tunnel/ awtsmoos.derech.js and the imported handler behind the route. 5. check identity/resource/provider/data side effects before making a write. 6. use caller/test evidence as navigation, not runtime proof. safety / interpretation trusted account/tunnel identity and action specific filesystem permissions must be checked before forwarding. evidence rule generated tutorials are conservative: unknown method remains unknown; executable starter calls appear only when source level method evidence exists. derech health is shown beside every generated route. next return to learn awtsmoos.com or open the exact generated route tutorial before coding.",
-		"page": "pages/docs-tutorials-api-tunnel-md-8ddad49b2f.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Brick Blast Path: geelooy/games/brick blast · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or healt",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: brick blast path: geelooy/games/brick blast · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, index.js, documentation.md local documentation: geelooy/games/brick blast/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 88 0 0 0 1 0 89 public entry points /games/brick blast → geelooy/games/brick blast/index.html — brick blast symbol evidence source files: 84; classes: 17; functions: 104; exports: 96; samples: awakenbrickblast, revealfailure, escapetext, providers, async, fetchmodels, generatelevel, handlefetcherror, initaudio, playnote, playnextnote, playvictoryfanfare. depends on geelooy/games/scripts — 1 lexical reference; examples: geelooy/games/brick blast/js/levels/brick.js used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-brick-blast-e1d8-540cccadab.json"
 	},
 	{
-		"id": "docs-tutorials-api-wallet-md-4dfd493b82",
-		"title": "Wallet API Tutorial",
-		"sourcePath": "docs/TUTORIALS/API/WALLET.md",
-		"category": "API",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-games-cards-de32ecc3-m-2a7b467dea",
+		"title": "Project Tutorial: The Utterances — Blackjack on Awtsmoos",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-cards-de32ecc3.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Wallet API Tutorial",
-				"anchor": "wallet-api-tutorial"
+				"text": "Project Tutorial: The Utterances — Blackjack on Awtsmoos",
+				"anchor": "project-tutorial-the-utterances-blackjack-on-awtsmoos"
 			},
 			{
 				"level": 2,
-				"text": "What this family owns",
-				"anchor": "what-this-family-owns"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "How to explore it",
-				"anchor": "how-to-explore-it"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Safety / interpretation",
-				"anchor": "safety-interpretation"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "Evidence rule",
-				"anchor": "evidence-rule"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Next",
-				"anchor": "next"
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Wallet API Tutorial What this family owns Mount: /api/wallet Derech: geelooy/api/wallet/ awtsmoos.derech.js Balance/me, catalog, entitlements, purchase, mock buy, and PayPal create/capture form the current eight route family. How to explore it 1. Open API Family Tutorials for current rou",
-		"searchText": "b\"h boruch hashem blessed is he wallet api tutorial what this family owns mount: /api/wallet derech: geelooy/api/wallet/ awtsmoos.derech.js balance/me, catalog, entitlements, purchase, mock buy, and paypal create/capture form the current eight route family. how to explore it 1. open api family tutorials for current route counts/health. 2. filter api tutorial index to /api/wallet. 3. open the generated route tutorial for source level method/vessel/status/header evidence. 4. read geelooy/api/wallet/ awtsmoos.derech.js and the imported handler behind the route. 5. check identity/resource/provider/data side effects before making a write. 6. use caller/test evidence as navigation, not runtime proof. safety / interpretation never infer currency units, settlement/idempotency/refund guarantees, or production vs mock behavior from names; inspect handlers/provider config. evidence rule generated tutorials are conservative: unknown method remains unknown; executable starter calls appear only when source level method evidence exists. derech health is shown beside every generated route. next return to learn awtsmoos.com or open the exact generated route tutorial before coding.",
-		"page": "pages/docs-tutorials-api-wallet-md-4dfd493b82.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: The Utterances — Blackjack on Awtsmoos Path: geelooy/games/cards · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runti",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: the utterances — blackjack on awtsmoos path: geelooy/games/cards · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, documentation.md local documentation: geelooy/games/cards/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 19 0 0 0 1 0 20 public entry points /games/cards → geelooy/games/cards/index.html — the utterances — blackjack on awtsmoos symbol evidence source files: 13; classes: 8; functions: 16; exports: 16; samples: blackjackai, createdeck, shuffledeck, renderer, responsiverenderer, blackjack stakes, blackjackbankroll, normalizestake, blackjackhandvalue, isnaturalblackjack, evaluateblackjackoutcome, createblackjackplayers. depends on geelooy/games/scripts — 1 lexical reference; examples: geelooy/games/cards/js/engine/renderer.js used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-cards-de32ecc3-m-2a7b467dea.json"
 	},
 	{
-		"id": "docs-tutorials-api-youtube-md-cd6427dc8a",
-		"title": "YouTube API Tutorial",
-		"sourcePath": "docs/TUTORIALS/API/YOUTUBE.md",
-		"category": "API",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-games-chess-9ba46d03-m-a245021c40",
+		"title": "Project Tutorial: Ultimate Chess AI",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-chess-9ba46d03.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "YouTube API Tutorial",
-				"anchor": "youtube-api-tutorial"
+				"text": "Project Tutorial: Ultimate Chess AI",
+				"anchor": "project-tutorial-ultimate-chess-ai"
 			},
 			{
 				"level": 2,
-				"text": "What this family owns",
-				"anchor": "what-this-family-owns"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "How to explore it",
-				"anchor": "how-to-explore-it"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Safety / interpretation",
-				"anchor": "safety-interpretation"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "Evidence rule",
-				"anchor": "evidence-rule"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Next",
-				"anchor": "next"
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He YouTube API Tutorial What this family owns Mount: /api/youtube Derech: geelooy/api/youtube/ awtsmoos.derech.js Auth/oauth start/callback/status/logout, channel, videos, uploads, and live stream operations coexist with broad dynamic fallback patterns. How to explore it 1. Open API Family ",
-		"searchText": "b\"h boruch hashem blessed is he youtube api tutorial what this family owns mount: /api/youtube derech: geelooy/api/youtube/ awtsmoos.derech.js auth/oauth start/callback/status/logout, channel, videos, uploads, and live stream operations coexist with broad dynamic fallback patterns. how to explore it 1. open api family tutorials for current route counts/health. 2. filter api tutorial index to /api/youtube. 3. open the generated route tutorial for source level method/vessel/status/header evidence. 4. read geelooy/api/youtube/ awtsmoos.derech.js and the imported handler behind the route. 5. check identity/resource/provider/data side effects before making a write. 6. use caller/test evidence as navigation, not runtime proof. safety / interpretation prefer explicit named routes. provider oauth state, credentials, upload payloads, ownership, and live transitions are implementation sensitive. evidence rule generated tutorials are conservative: unknown method remains unknown; executable starter calls appear only when source level method evidence exists. derech health is shown beside every generated route. next return to learn awtsmoos.com or open the exact generated route tutorial before coding.",
-		"page": "pages/docs-tutorials-api-youtube-md-cd6427dc8a.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Ultimate Chess AI Path: geelooy/games/chess · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or healt",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: ultimate chess ai path: geelooy/games/chess · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, main.js, documentation.md local documentation: geelooy/games/chess/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 233 48 0 0 1 0 282 public entry points /games/chess → geelooy/games/chess/index.html — ultimate chess ai /games/chess/debug → geelooy/games/chess/debug/index.html — awtsmoos engine debugging harness symbol evidence source files: 211; classes: 50; functions: 597; exports: 290; samples: evaluate, ordermoves, quiesce, search, searchroot, decodemove, processrawbook, initializeengine, forgeuniverseindices, getlsbindex, popbit, popcount. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 48 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-chess-9ba46d03-m-a245021c40.json"
 	},
 	{
-		"id": "docs-tutorials-content-aliases-and-api-keys-md-176c87c552",
-		"title": "Aliases and API Keys",
-		"sourcePath": "docs/TUTORIALS/CONTENT/ALIASES_AND_API_KEYS.md",
-		"category": "General",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-games-city-of-light-78-27ff7f0456",
+		"title": "Project Tutorial: City of Light · The Complete Pilgrimage",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-city-of-light-78d65cbc.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Aliases and API Keys",
-				"anchor": "aliases-and-api-keys"
+				"text": "Project Tutorial: City of Light · The Complete Pilgrimage",
+				"anchor": "project-tutorial-city-of-light-the-complete-pilgrimage"
 			},
 			{
 				"level": 2,
-				"text": "Alias role",
-				"anchor": "alias-role"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "API keys",
-				"anchor": "api-keys"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Inputs",
-				"anchor": "inputs"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "Security rule",
-				"anchor": "security-rule"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Aliases and API Keys Alias role Aliases are Social facing identities owned through user/account state and reused across Heichel/content/profile/follow/drive/mail behavior. API keys Social keys can be created, listed, revoked, and verified. Raw key material is shown at creation; SHA 256 h",
-		"searchText": "b\"h boruch hashem blessed is he aliases and api keys alias role aliases are social facing identities owned through user/account state and reused across heichel/content/profile/follow/drive/mail behavior. api keys social keys can be created, listed, revoked, and verified. raw key material is shown at creation; sha 256 hash and metadata persist rather than plaintext secret storage. inputs supported key evidence includes named input/header/bearer forms. inspect helper/apikeys.js for current precedence and validation. security rule an alias name in a body/path is not proof the authenticated principal owns that alias. ownership checks remain required for privileged actions.",
-		"page": "pages/docs-tutorials-content-aliases-and-api-keys-md-176c87c552.json"
-	},
-	{
-		"id": "docs-tutorials-content-comments-md-2d9f464383",
-		"title": "Comments and Replies",
-		"sourcePath": "docs/TUTORIALS/CONTENT/COMMENTS.md",
-		"category": "General",
-		"provenance": "manual",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Comments and Replies",
-				"anchor": "comments-and-replies"
-			},
-			{
-				"level": 2,
-				"text": "Surfaces",
-				"anchor": "surfaces"
-			},
-			{
-				"level": 2,
-				"text": "Compatibility",
-				"anchor": "compatibility"
-			},
-			{
-				"level": 2,
-				"text": "Moderation",
-				"anchor": "moderation"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Comments and Replies Comments attach to posts and richer substructures; replies/reactions/comment trees form their own navigation domain. Surfaces post comment collections; aliases contributing comments; singular comment routes; nested replies; reactions; subsection/verse comments; submi",
-		"searchText": "b\"h boruch hashem blessed is he comments and replies comments attach to posts and richer substructures; replies/reactions/comment trees form their own navigation domain. surfaces post comment collections; aliases contributing comments; singular comment routes; nested replies; reactions; subsection/verse comments; submitted comment moderation; comment search/ranking/vector/rag evidence. compatibility some comment routes appear more than once in generated extraction because multiple route objects/factories expose compatible paths. use source ownership to distinguish implementations. moderation approval/denial/submitted comment flows are separate from ordinary comment read/write behavior.",
-		"page": "pages/docs-tutorials-content-comments-md-2d9f464383.json"
-	},
-	{
-		"id": "docs-tutorials-content-content-migrations-md-a5d67ef7d5",
-		"title": "Content Migrations",
-		"sourcePath": "docs/TUTORIALS/CONTENT/CONTENT_MIGRATIONS.md",
-		"category": "General",
-		"provenance": "manual",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Content Migrations",
-				"anchor": "content-migrations"
-			},
-			{
-				"level": 2,
-				"text": "Observed migration surfaces",
-				"anchor": "observed-migration-surfaces"
-			},
-			{
-				"level": 2,
-				"text": "Safe migration workflow",
-				"anchor": "safe-migration-workflow"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Content Migrations Social carries several storage/model generations, so migrations are first class operational behavior. Observed migration surfaces Post v2 dry run/run routes, packed content migrations/repair, node OS migrations, compatibility post/series paths, and newer rich/unified o",
-		"searchText": "b\"h boruch hashem blessed is he content migrations social carries several storage/model generations, so migrations are first class operational behavior. observed migration surfaces post v2 dry run/run routes, packed content migrations/repair, node os migrations, compatibility post/series paths, and newer rich/unified object models. safe migration workflow 1. identify source/target path contracts. 2. run dry run/read only reporting first. 3. snapshot/backup affected data. 4. verify idempotency/re run behavior in source/tests. 5. execute narrowly. 6. reconcile indexes/manifests/references. 7. validate old/new read paths as required by compatibility promises. generated route presence alone is never authorization to run a migration.",
-		"page": "pages/docs-tutorials-content-content-migrations-md-a5d67ef7d5.json"
-	},
-	{
-		"id": "docs-tutorials-content-heichelos-md-b073481c09",
-		"title": "Heichelos",
-		"sourcePath": "docs/TUTORIALS/CONTENT/HEICHELOS.md",
-		"category": "General",
-		"provenance": "manual",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Heichelos",
-				"anchor": "heichelos"
-			},
-			{
-				"level": 2,
-				"text": "Observed capabilities",
-				"anchor": "observed-capabilities"
-			},
-			{
-				"level": 2,
-				"text": "Authority",
-				"anchor": "authority"
-			},
-			{
-				"level": 2,
-				"text": "Investigation",
-				"anchor": "investigation"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Heichelos A Heichel is a governed Social content/community space, not merely a folder. Observed capabilities create/read/update/delete Heichel behavior; ownership checks; editor/member/role management; submission settings; invites/review/moderation; post/question/content organization; se",
-		"searchText": "b\"h boruch hashem blessed is he heichelos a heichel is a governed social content/community space, not merely a folder. observed capabilities create/read/update/delete heichel behavior; ownership checks; editor/member/role management; submission settings; invites/review/moderation; post/question/content organization; series/subseries relationships; community/full settings and discovery. authority login/api key identity does not automatically grant heichel mutation. read owner/editor/member/moderation checks in the exact handler. investigation start at /api/social/heichelos/:heichel, then follow its route factory imports and generated related route links.",
-		"page": "pages/docs-tutorials-content-heichelos-md-b073481c09.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: City of Light · The Complete Pilgrimage Path: geelooy/games/city of light · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, ",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: city of light · the complete pilgrimage path: geelooy/games/city of light · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, package.json, documentation.md, readme.md, readme.md local documentation: geelooy/games/city of light/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 68 18 0 0 2 0 88 public entry points /games/city of light → geelooy/games/city of light/index.html — city of light · the complete pilgrimage symbol evidence source files: 55; classes: 29; functions: 76; exports: 97; samples: abilities, abilitybyid, abilitylist, ability, campaign chapters, chapterbynumber, chapterbyid, chapterpresentation, chaptersunlockedthrough, campaignprogress, clampchapter, nonnegative. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 18 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-city-of-light-78-27ff7f0456.json"
 	}
 ]

@@ -1,0 +1,99 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-downloads-tunnel-api-reference-md-b020aa0268",
+	"title": "Awtsmoos Tunnel — API Reference (for AI agents)",
+	"sourcePath": "geelooy/apps/tunnel/downloads/TUNNEL_API_REFERENCE.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Awtsmoos Tunnel — API Reference (for AI agents)",
+			"anchor": "awtsmoos-tunnel-api-reference-for-ai-agents"
+		},
+		{
+			"level": 2,
+			"text": "Recipe A — install headless (fastest)",
+			"anchor": "recipe-a-install-headless-fastest"
+		},
+		{
+			"level": 2,
+			"text": "Recipe B — device login, programmatically (poll loop)",
+			"anchor": "recipe-b-device-login-programmatically-poll-loop"
+		},
+		{
+			"level": 1,
+			"text": "Device-login: mint code, poll until the owner approves. Needs python3.",
+			"anchor": "device-login-mint-code-poll-until-the-owner-approves-needs-python3"
+		},
+		{
+			"level": 1,
+			"text": "→ 201 {ok, userCode, deviceCode, verificationUrl, verificationUrlWithCode, expiresIn, interval}",
+			"anchor": "201-ok-usercode-devicecode-verificationurl-verificationurlwithcode-expiresin-interval"
+		},
+		{
+			"level": 2,
+			"text": "Recipe C — mint a connect link (owner only)",
+			"anchor": "recipe-c-mint-a-connect-link-owner-only"
+		},
+		{
+			"level": 1,
+			"text": "→ { \"url\": \"https://awtsmoos.com/tunnel/connect?code=XXXXXXXXXXXX\", ... }",
+			"anchor": "url-https-awtsmoos-com-tunnel-connect-code-xxxxxxxxxxxx"
+		},
+		{
+			"level": 2,
+			"text": "Recipe D — redeem an invite as a new agent",
+			"anchor": "recipe-d-redeem-an-invite-as-a-new-agent"
+		},
+		{
+			"level": 1,
+			"text": "1. (optional) confirm the invite is valid — exact response shape unverified",
+			"anchor": "1-optional-confirm-the-invite-is-valid-exact-response-shape-unverified"
+		},
+		{
+			"level": 1,
+			"text": "2. redeem as a named agent → scoped API key",
+			"anchor": "2-redeem-as-a-named-agent-scoped-api-key"
+		},
+		{
+			"level": 1,
+			"text": "→ 200 with your scoped API key. Store the key material from the response",
+			"anchor": "200-with-your-scoped-api-key-store-the-key-material-from-the-response"
+		},
+		{
+			"level": 1,
+			"text": "(exact field set unverified) — mode 600, never print it to logs.",
+			"anchor": "exact-field-set-unverified-mode-600-never-print-it-to-logs"
+		},
+		{
+			"level": 2,
+			"text": "Recipe E — authenticated API calls",
+			"anchor": "recipe-e-authenticated-api-calls"
+		},
+		{
+			"level": 2,
+			"text": "Endpoint table",
+			"anchor": "endpoint-table"
+		},
+		{
+			"level": 2,
+			"text": "Error codes — what each means and what to do",
+			"anchor": "error-codes-what-each-means-and-what-to-do"
+		},
+		{
+			"level": 2,
+			"text": "Polling & rate-limit etiquette",
+			"anchor": "polling-rate-limit-etiquette"
+		},
+		{
+			"level": 2,
+			"text": "Credential storage rules",
+			"anchor": "credential-storage-rules"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-downloads-tunnel-api-reference-md-b020aa0268-001.json"
+	]
+}

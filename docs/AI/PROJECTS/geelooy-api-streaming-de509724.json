@@ -12,7 +12,9 @@
 	"title": "geelooy/api/streaming",
 	"entries": [
 		"_awtsmoos.derech.js",
-		"DOCUMENTATION.md"
+		"DOCUMENTATION.md",
+		"README.md",
+		"readme.md"
 	],
 	"humanDocumentation": [
 		"geelooy/api/streaming/DOCUMENTATION.md",
@@ -27,10 +29,10 @@
 		"tests": 0,
 		"assets": 0,
 		"generated": 0,
-		"docs": 3,
+		"docs": 12,
 		"other": 0
 	},
-	"totalFiles": 17,
+	"totalFiles": 26,
 	"symbolSummary": {
 		"files": 14,
 		"classes": 0,

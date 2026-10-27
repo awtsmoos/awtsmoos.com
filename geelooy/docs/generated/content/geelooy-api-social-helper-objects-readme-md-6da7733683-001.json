@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Objects (geelooy/api/social/helper/objects/)\n\nObject registry for social objects: schema, store, search, relationships, timeline, cards, health, and metrics. Mounted via `_awtsmoos.objects.js`.\n\n## Files\n- `index.js` — module entry; `registry.js` — object registry.\n- `schema.js`, `store.js` — object schema and store.\n- `search.js`, `relationships.js`, `timeline.js` — search, relations, timeline views.\n- `cards.js`, `inspector.js` — card rendering and object inspection.\n- `health.js`, `metrics.js` — health checks and metrics.\n- `adapters.js` — storage/source adapters.\n"
+}

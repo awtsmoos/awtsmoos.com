@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 15 | 0 | 0 | 0 | 1 | 0 | 16 |
+| 27 | 6 | 0 | 0 | 1 | 0 | 34 |
 
 ## Public entry points
 
@@ -29,15 +29,18 @@ None observed.
 
 ## Symbol evidence
 
-Source files: 15; classes: 1; functions: 10; exports: 16; samples: categoryMatches, announceResults, applyFilters, defineApp, CREATION_APPS, DEVELOPER_APPS, GAME_APPS, Awtsmoos, gameAsApp, publicGameHref, PUBLIC_APPS, MEDIA_APPS.
+Source files: 27; classes: 9; functions: 19; exports: 35; samples: PRIMARY_APPS_RUNTIME_URL, createAppsRuntimeRecoveryUrl, async, importAppsFilterRuntime, defaultRecoveryNonce, appsFilterRuntimeReady, revealAppsFilterTiferes, startAppsBuildFreshness, defineApp, commerceLabelFor, AI_CREATION_APPS, CREATION_APPS.
 
 ## Depends on
 
+- `geelooy/scripts` — 6 lexical references; examples: geelooy/apps/scripts/apps-filter.v2.js; geelooy/apps/scripts/filter/AppsFilterMalchusView.js; geelooy/apps/scripts/filter/AppsFilterTiferesRuntime.js
 - `geelooy/games/scripts` — 1 lexical reference; examples: geelooy/apps/scripts/catalog/games.mjs
 
 ## Used by
 
-None observed.
+- `geelooy/scripts` — 4 lexical references; examples: geelooy/scripts/commerce/install-product-commerce.mjs; geelooy/scripts/home-simple/constellation-catalog.js; geelooy/scripts/seo/audit/run.mjs
+- `geelooy/os` — 1 lexical reference; examples: geelooy/os/shell/appCatalogPublicProducts.js
+- `geelooy/seo` — 1 lexical reference; examples: geelooy/seo/generatePublicCatalog.mjs
 
 ## External packages
 
@@ -45,4 +48,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **0**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **6**. Treat this as file evidence, not proof of behavioral coverage.

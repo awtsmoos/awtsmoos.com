@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-master-execution-plan-12-moonshots-backlog-md-34959f9a52",
+	"title": "12 — Moonshots / Beyond-Release Backlog",
+	"sourcePath": "geelooy/games/mitzvahWorld/MASTER_EXECUTION_PLAN/12_MOONSHOTS_BACKLOG.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "12 — Moonshots / Beyond-Release Backlog",
+			"anchor": "12-moonshots-beyond-release-backlog"
+		},
+		{
+			"level": 2,
+			"text": "Living world history",
+			"anchor": "living-world-history"
+		},
+		{
+			"level": 2,
+			"text": "Deep botany/ecology",
+			"anchor": "deep-botany-ecology"
+		},
+		{
+			"level": 2,
+			"text": "Deep environment",
+			"anchor": "deep-environment"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-master-execution-plan-12-moonshots-backlog-md-34959f9a52-001.json"
+	]
+}

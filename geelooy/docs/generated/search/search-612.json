@@ -1,0 +1,213 @@
+[
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-docs-nature-api-md-c208deebc3",
+		"title": "Nature API — One Door Into a Living World",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/NATURE_API.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Nature API — One Door Into a Living World",
+				"anchor": "nature-api-one-door-into-a-living-world"
+			},
+			{
+				"level": 2,
+				"text": "Install-time import surface",
+				"anchor": "install-time-import-surface"
+			},
+			{
+				"level": 2,
+				"text": "Create one immutable API",
+				"anchor": "create-one-immutable-api"
+			},
+			{
+				"level": 2,
+				"text": "The small direct surface",
+				"anchor": "the-small-direct-surface"
+			},
+			{
+				"level": 2,
+				"text": "Natural rocks versus morphology",
+				"anchor": "natural-rocks-versus-morphology"
+			},
+			{
+				"level": 2,
+				"text": "Local-first materials",
+				"anchor": "local-first-materials"
+			},
+			{
+				"level": 2,
+				"text": "Discover before calling",
+				"anchor": "discover-before-calling"
+			},
+			{
+				"level": 2,
+				"text": "Clone profiles without shared mutable state",
+				"anchor": "clone-profiles-without-shared-mutable-state"
+			},
+			{
+				"level": 2,
+				"text": "Progressive disclosure",
+				"anchor": "progressive-disclosure"
+			},
+			{
+				"level": 2,
+				"text": "Architecture covenant",
+				"anchor": "architecture-covenant"
+			}
+		],
+		"excerpt": "B\"H Nature API — One Door Into a Living World Boruch Hashem. Blessed is He. The Awtsmoos renews stone, leaf, creature, river, texture, and habitat every instant. Awtsmoos.com keeps the public doorway calm while deep specialist authorities remain available behind it. NatureApi is the recommended renderer neutral entranc",
+		"searchText": "b\"h nature api — one door into a living world boruch hashem. blessed is he. the awtsmoos renews stone, leaf, creature, river, texture, and habitat every instant. awtsmoos.com keeps the public doorway calm while deep specialist authorities remain available behind it. natureapi is the recommended renderer neutral entrance for procedural nature. it does not replace domem, tzomayach, chai, water, material, or ecosystem engines. it composes them through shared deterministic defaults and stable result contracts. install time import surface internal source imports still work inside the repository, but package consumers should prefer the dedicated ./nature export. create one immutable api most direct calls return the normal nature result envelope with shared profile evidence such as kind, seed, quality, realism, value, and diagnostics. the small direct surface aliases retained for compatibility: surface(role, options) → semantic material planning. generatesurface(role, options) → generated texture capability. world(options) and biome(options) both enter the coupled ecosystem planner. natural rocks versus morphology rock() is geology first. use geological intent for believable natural stone: current discoverable rock vocabulary includes the legacy morphology names plus geology native presets such as granite, basalt, sandstone, limestone, volcanic, talus, and glacial. for direct art direction of shape without geology orchestration: local first materials material planning does not fetch. it keeps a local physical fallback authoritative while exposing optional remote material metadata when available. generated texture work is explicitly asynchronous and capability injected: no generator installed? the api remains usable and the local material path remains valid. discover before calling describe() returns immutable operation metadata including operation kind, sync/async mode, input style, description, shared defaults, and whether generated texture capability is currently installed. catalog discovery is also generic: existing convenience calls remain: clone profiles without shared mutable state with() returns a separate immutable api while preserving optional provider and operation registry capabilities unless explicitly replaced. progressive disclosure use this page for direct creation and discovery. for declarative saved world workflows, batches, codecs, custom registries, and async orchestration, read nature recipes.md. for geology, vegetation, forests, grass, creatures, water realism, materials, and expert domain façades, read nature domains.md. architecture covenant domem owns editable matter and geological rock construction. tzomayach owns plants, flower clusters, grass, and canonical trees. chai owns creature morphology, biology, rigging, motion, and ecology facing creature contracts. water authorities own conserved fluid state and natural water regimes. ecosystem authorities own coupled habitat and population planning. material authorities own semantic physical material intent and optional generated texture capability boundaries. natureapibase owns mature domain façades. naturedirectapi owns immediate ergonomic verbs. natureapi owns declarative orchestration, batches, and capability discovery. renderers own realization. network transport never hides inside geometry creation. the outer api stays small because deeper systems remain separate—not because their power was removed.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-docs-nature-api-md-c208deebc3.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-docs-nature-domains-md-b31a2f56c0",
+		"title": "Nature Domains — Deep Systems Behind the Small Door",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/NATURE_DOMAINS.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Nature Domains — Deep Systems Behind the Small Door",
+				"anchor": "nature-domains-deep-systems-behind-the-small-door"
+			},
+			{
+				"level": 2,
+				"text": "Architecture at a glance",
+				"anchor": "architecture-at-a-glance"
+			},
+			{
+				"level": 2,
+				"text": "Domem — geology and rocks",
+				"anchor": "domem-geology-and-rocks"
+			},
+			{
+				"level": 2,
+				"text": "Materials and generated textures",
+				"anchor": "materials-and-generated-textures"
+			},
+			{
+				"level": 2,
+				"text": "Tzomayach — plants, flowers, grass, and trees",
+				"anchor": "tzomayach-plants-flowers-grass-and-trees"
+			},
+			{
+				"level": 3,
+				"text": "Canonical trees",
+				"anchor": "canonical-trees"
+			},
+			{
+				"level": 2,
+				"text": "Chai — creatures",
+				"anchor": "chai-creatures"
+			},
+			{
+				"level": 2,
+				"text": "Water — conserved state first, appearance second",
+				"anchor": "water-conserved-state-first-appearance-second"
+			},
+			{
+				"level": 2,
+				"text": "Ecosystems and biomes",
+				"anchor": "ecosystems-and-biomes"
+			},
+			{
+				"level": 2,
+				"text": "Catalog discovery",
+				"anchor": "catalog-discovery"
+			},
+			{
+				"level": 2,
+				"text": "Expert escape hatches",
+				"anchor": "expert-escape-hatches"
+			},
+			{
+				"level": 2,
+				"text": "Determinism and profiles",
+				"anchor": "determinism-and-profiles"
+			},
+			{
+				"level": 2,
+				"text": "Responsibility covenant",
+				"anchor": "responsibility-covenant"
+			}
+		],
+		"excerpt": "B\"H Nature Domains — Deep Systems Behind the Small Door Boruch Hashem. Blessed is He. The Awtsmoos renews every domain without blending their responsibilities into one confusion. Awtsmoos.com keeps Nature powerful by letting Domem, Tzomayach, Chai, water, materials, and ecology remain distinct specialists beneath one c",
+		"searchText": "b\"h nature domains — deep systems behind the small door boruch hashem. blessed is he. the awtsmoos renews every domain without blending their responsibilities into one confusion. awtsmoos.com keeps nature powerful by letting domem, tzomayach, chai, water, materials, and ecology remain distinct specialists beneath one calm public surface. this guide explains what the direct nature verbs actually delegate to and where advanced callers should go when the convenience layer is intentionally not enough. architecture at a glance the inheritance hierarchy is organizational rather than decorative. each layer adds one responsibility family without absorbing lower domain implementation. domem — geology and rocks use the natural doorway: natural rock creation is geology first. the geological recipe may influence rock morphology, weathering, strata/fracture behavior, material family, and other physical intent before the final editable mesh/value is assembled. discoverable vocabulary includes the legacy morphology presets and geology native names such as: fieldstone boulder riverstone shard granite basalt sandstone limestone volcanic talus glacial for art directed morphology without geology orchestration: for deterministic placement rather than eager mesh creation: expert callers may use nature.rocks or import the domem package surface directly. materials and generated textures local first material planning: compatibility vocabulary: these calls do not perform network i/o. they return semantic physical material intent and local fallback data. optional generated textures require an injected provider: then: texture generation requests are semantic and provider neutral. they carry deterministic cache identity, channels, physical scale, resolution, quality, realism, role, family, and seed. provider failure is nonfatal by default; strict mode can rethrow when a host explicitly wants failure to abort its workflow. tzomayach — plants, flowers, grass, and trees one plant: a botanical cluster: a mixed population: grass: the high level realism profile may influence patch clustering, competition, succession, age variance, edge falloff, and habitat response while explicit expert values remain authoritative. canonical trees tree generation keeps one canonical skeleton authoritative across full geometry and lower detail representations. lods are derived from the same structural source instead of regenerating unrelated distant trees. forest planning: the forest facade handles habitat aware deterministic placement and succession oriented planning while preserving access to the underlying tree authority. expert callers may use nature.vegetation and nature.forests directly. chai — creatures the high level call routes into the canonical chai pipeline rather than a separate simplified animal generator. the deeper creature architecture separates responsibilities such as: species catalog and phenotype compilation biological part compiler catalogs keratin preset data continuity and connected mesh evidence skin smoothing rigging and deformation motion fragments and phase layout animation layer blending secondary motion and soft tissue realism ecology facing creature population planning this separation is intentional: the nature api should expose a stable creature doorway without turning biological internals into root level methods. use nature.creatures for the mature creature facade or import the chai/animal mesh package surfaces for low level work. water — conserved state first, appearance second simple river: named water regimes are also available through nature.water: declarative recipes can route to the same operations using kinds such as pond, lake, wetland, runoff, ocean, fluid, and shallow. the realism hierarchy keeps authoritative simulation separate from derived appearance: visual effects therefore describe the water rather than becoming the source of truth for fluid conservation. expert callers may use nature.water or the dedicated @awtsmoos/procedural core/water export. ecosystems and biomes equivalent semantic doorway: the ecosystem layer coordinates habitat and population planning without taking ownership of rock geometry, tree skeletons, creature morphology, or water solvers. catalog discovery the nature catalog is registry backed: compatibility calls remain: discovery records expose normalized domain/id information while preserving the authoritative underlying catalog value. expert escape hatches the root nature facade intentionally does not mirror every specialist method. use the nested authorities when a workflow needs more depth: or import dedicated package surfaces: the point of the high level api is not to hide expert power. it is to make the common path obvious while leaving every lower authority reachable. determinism and profiles shared defaults: derived api: domain seeds are derived by operation identity so unrelated generators do not silently consume one global random stream in call order. explicit per call options remain authoritative over shared defaults. responsibility covenant the awtsmoos is one beyond every layer; awtsmoos.com keeps finite code maintainable by refusing false unity. nature coordinates. domem shapes matter. tzomayach grows. chai lives and moves. water conserves and flows. materials describe physical surface intent. ecosystems coordinate habitat. renderers realize visuals. optional providers cross external capability boundaries. that division is what lets the public api become simpler while the engine underneath becomes more realistic.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-docs-nature-domains-md-b31a2f56c0.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-docs-nature-recipes-md-e86ceab5ae",
+		"title": "Nature Recipes — Declarative Worlds Without a Second Engine",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/NATURE_RECIPES.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Nature Recipes — Declarative Worlds Without a Second Engine",
+				"anchor": "nature-recipes-declarative-worlds-without-a-second-engine"
+			},
+			{
+				"level": 2,
+				"text": "When to use recipes",
+				"anchor": "when-to-use-recipes"
+			},
+			{
+				"level": 2,
+				"text": "Recipe shape",
+				"anchor": "recipe-shape"
+			},
+			{
+				"level": 2,
+				"text": "Synchronous execution",
+				"anchor": "synchronous-execution"
+			},
+			{
+				"level": 2,
+				"text": "Asynchronous execution",
+				"anchor": "asynchronous-execution"
+			},
+			{
+				"level": 2,
+				"text": "Ordered batches",
+				"anchor": "ordered-batches"
+			},
+			{
+				"level": 2,
+				"text": "Operation discovery",
+				"anchor": "operation-discovery"
+			},
+			{
+				"level": 2,
+				"text": "Default operation families",
+				"anchor": "default-operation-families"
+			},
+			{
+				"level": 2,
+				"text": "Custom operation registries",
+				"anchor": "custom-operation-registries"
+			},
+			{
+				"level": 2,
+				"text": "Persistence-safe recipes",
+				"anchor": "persistence-safe-recipes"
+			},
+			{
+				"level": 2,
+				"text": "Direct and declarative APIs remain equivalent",
+				"anchor": "direct-and-declarative-apis-remain-equivalent"
+			},
+			{
+				"level": 2,
+				"text": "Design covenant",
+				"anchor": "design-covenant"
+			}
+		],
+		"excerpt": "B\"H Nature Recipes — Declarative Worlds Without a Second Engine Boruch Hashem. Blessed is He. The Awtsmoos renews direct call and stored recipe from one intent. Awtsmoos.com keeps declarative orchestration thin: recipes route into the same mature Nature methods rather than duplicating Domem, Tzomayach, Chai, water, or ",
+		"searchText": "b\"h nature recipes — declarative worlds without a second engine boruch hashem. blessed is he. the awtsmoos renews direct call and stored recipe from one intent. awtsmoos.com keeps declarative orchestration thin: recipes route into the same mature nature methods rather than duplicating domem, tzomayach, chai, water, or material law. when to use recipes use direct calls for ordinary code: use recipes when the request itself should be data: editors, saved worlds, remote tooling, deterministic scenario files, agent authored scenes, replayable pipelines, or batch generation. create() reaches the same public method as nature.rock(...); the recipe layer is orchestration, not a parallel generator. recipe shape a recipe may use these common fields: selector aliases such as preset, species, role, and body normalize into the recipe's primary value. shared seed, quality, and realism fields are promoted into options unless an explicit option already owns that key. recipes normalize through yesodnaturerecipe / createnaturerecipe() and remain immutable after construction. synchronous execution create() accepts synchronous operations only. if an operation is registered as asynchronous, the call fails immediately rather than returning an unexpected promise. this is intentional: asynchronous execution createasync() can execute both synchronous and asynchronous registered operations and resolves to the specialist result. generated texture operations still require an injected capability. the recipe system does not add hidden network access. ordered batches batches execute sequentially in stable input order. this keeps deterministic ordering and prevents the orchestration layer from inventing concurrency policy for specialist engines. by default, batches fail fast. to collect per item failures: the returned batch record includes ok, total, succeeded, failed, and ordered entries. failed entries expose stable name and message evidence instead of swallowing the exception. for mixed sync/async recipes: async batches remain sequential by design. operation discovery operation names normalize to lowercase kebab case, so surface generation resolves as surface generation. describe() exposes immutable operation records containing: kind description mode input requiresvalue it also reports shared nature defaults and whether generated texture capability is installed. default operation families the registry is split into focused data modules: land: rocks, materials, plants, flowers, flora, grass, trees, forests, creatures water: rivers, generic water, water bodies, ponds, lakes, wetlands, runoff, ocean, volumetric fluid, shallow water world: worlds, biomes, generated textures, generated surfaces the descriptors contain routing data only. domain behavior remains inside existing specialist façades. custom operation registries create a derived immutable registry: the default registry is never mutated. with() preserves the current registry unless explicitly replaced. custom operation paths resolve against the public nature api or one of its public nested façades. missing path segments and non function endpoints fail with explicit diagnostics. persistence safe recipes live javascript recipe options may contain runtime only values. persistence should therefore be explicit. the codec rejects values json would silently destroy or distort: functions cyclic graphs custom object prototypes non finite numbers this boundary lets runtime apis stay powerful without pretending arbitrary runtime objects are safe saved world data. direct and declarative apis remain equivalent these two calls route to the same public surface method: that equivalence is tested. recipes remove orchestration friction; they do not fork behavior. design covenant the recipe system owns normalization, routing, batch order, capability metadata, and persistence validation. it does not own geometry, biology, physics, ecology, materials, rendering, networking, or storage. the awtsmoos is one while the vessels remain distinct; awtsmoos.com keeps this layer powerful precisely because it refuses to become another world engine.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-docs-nature-recipes-md-e86ceab5ae.json"
+	}
+]

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Client Error Intake (geelooy/api/client-errors/)\n\nClient error intake for the Awtsmoos reader. Post pages report `window.onerror` /\n`unhandledrejection` payloads here so client-side failures can be read from the\nserver side (browser automation has no DevTools access).\n\n## Contents\n- `_awtsmoos.derech.js` — whole API: routes `/` and `/recent`.\n\n## Endpoints\n- `POST /` — append one error entry (message, file, line, col, stack, url,\n  userAgent, kind) as JSONL to `geelooy/.data/client-errors.log`. Per-IP rate\n  limit (60/min); log rotates at 5 MB; input fields truncated and sanitized.\n- `GET /recent` — newest entries, newest-first, `?limit=` (1–200, default 50).\n\n## Law\nNo single JS failure may blank the reader, and no failure may stay invisible.\n"
+}

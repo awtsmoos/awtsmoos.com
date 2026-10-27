@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-docs-textures-readme-md-a74cf95217",
+	"title": "Awtsmoos Remote Texture Discovery",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/textures/README.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Awtsmoos Remote Texture Discovery",
+			"anchor": "awtsmoos-remote-texture-discovery"
+		},
+		{
+			"level": 2,
+			"text": "Canonical production root",
+			"anchor": "canonical-production-root"
+		},
+		{
+			"level": 2,
+			"text": "Fastest AI entry point",
+			"anchor": "fastest-ai-entry-point"
+		},
+		{
+			"level": 2,
+			"text": "Human-readable family catalogs",
+			"anchor": "human-readable-family-catalogs"
+		},
+		{
+			"level": 2,
+			"text": "Semantic runtime roles",
+			"anchor": "semantic-runtime-roles"
+		},
+		{
+			"level": 2,
+			"text": "Native renderer texture fields",
+			"anchor": "native-renderer-texture-fields"
+		},
+		{
+			"level": 2,
+			"text": "Agent search recipe",
+			"anchor": "agent-search-recipe"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-docs-textures-readme-md-a74cf95217-001.json"
+	]
+}

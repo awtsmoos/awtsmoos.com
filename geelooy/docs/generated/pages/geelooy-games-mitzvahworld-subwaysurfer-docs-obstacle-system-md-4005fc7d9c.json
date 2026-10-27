@@ -1,0 +1,74 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-subwaysurfer-docs-obstacle-system-md-4005fc7d9c",
+	"title": "B\"H",
+	"sourcePath": "geelooy/games/mitzvahWorld/subwaySurfer/docs/OBSTACLE_SYSTEM.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Peruta Run — Jewish City Obstacle System",
+			"anchor": "peruta-run-jewish-city-obstacle-system"
+		},
+		{
+			"level": 2,
+			"text": "Purpose",
+			"anchor": "purpose"
+		},
+		{
+			"level": 2,
+			"text": "Gameplay laws",
+			"anchor": "gameplay-laws"
+		},
+		{
+			"level": 2,
+			"text": "Thematic families",
+			"anchor": "thematic-families"
+		},
+		{
+			"level": 2,
+			"text": "Eruv rule",
+			"anchor": "eruv-rule"
+		},
+		{
+			"level": 2,
+			"text": "Sacred-object exclusion",
+			"anchor": "sacred-object-exclusion"
+		},
+		{
+			"level": 2,
+			"text": "Descriptor contract",
+			"anchor": "descriptor-contract"
+		},
+		{
+			"level": 2,
+			"text": "Pattern fairness",
+			"anchor": "pattern-fairness"
+		},
+		{
+			"level": 2,
+			"text": "Adding a variant",
+			"anchor": "adding-a-variant"
+		},
+		{
+			"level": 2,
+			"text": "Performance covenant",
+			"anchor": "performance-covenant"
+		},
+		{
+			"level": 2,
+			"text": "Public discovery",
+			"anchor": "public-discovery"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-subwaysurfer-docs-obstacle-system-md-4005fc7d9c-001.json"
+	]
+}

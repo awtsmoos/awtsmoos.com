@@ -1,0 +1,189 @@
+[
+	{
+		"id": "geelooy-apps-nesher-studio-documentation-md-7f2998fccb",
+		"title": "Nesher Studio Documentation",
+		"sourcePath": "geelooy/apps/nesher-studio/DOCUMENTATION.md",
+		"category": "Apps",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Nesher Studio Documentation",
+				"anchor": "nesher-studio-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Nesher Studio Documentation The Awtsmoos lets a large studio project reveal creative structure through hundreds of files without being flattened into a generic editor name; Awtsmoos.com maps this app beside creative tools and asks maintainers to begin from its own entry/README before cha",
+		"searchText": "b\"h boruch hashem blessed is he nesher studio documentation the awtsmoos lets a large studio project reveal creative structure through hundreds of files without being flattened into a generic editor name; awtsmoos.com maps this app beside creative tools and asks maintainers to begin from its own entry/readme before changing the frame. read ../../../docs/apps/creative tools.md and ../../../docs/generated/app inventory.md.",
+		"page": "pages/geelooy-apps-nesher-studio-documentation-md-7f2998fccb.json"
+	},
+	{
+		"id": "geelooy-apps-nesher-studio-modules-streaming-local-tunnel-streaming-md-9eca256443",
+		"title": "Nesher Local Tunnel Streaming",
+		"sourcePath": "geelooy/apps/nesher-studio/modules/streaming/LOCAL_TUNNEL_STREAMING.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Nesher Local Tunnel Streaming",
+				"anchor": "nesher-local-tunnel-streaming"
+			}
+		],
+		"excerpt": "B\"H Nesher Local Tunnel Streaming localTunnelStreaming.js talks to the local tunnel API. hlsTunnelSession.js wraps start enqueue segment flush stop. segmentQueue.js prevents unbounded browser side memory growth while muxers emit media segments. Current implemented browser mux path: mediabunnyFmp4Stream.js imports Media",
+		"searchText": "b\"h nesher local tunnel streaming localtunnelstreaming.js talks to the local tunnel api. hlstunnelsession.js wraps start enqueue segment flush stop. segmentqueue.js prevents unbounded browser side memory growth while muxers emit media segments. current implemented browser mux path: mediabunnyfmp4stream.js imports mediabunny 1.46 from https://esm.sh/mediabunny@1.46.0?bundle. it uses mp4outputformat({ faststart:'fragmented' }) with onftyp, onmoov, onmoof, and onmdat callbacks. it captures the composed nesher canvas through canvassource and pushes init.mp4 plus real moof+mdat .m4s fragments into the local tunnel session. media path: nesher scene canvas mediabunny canvassource h.264 fragmented mp4 local tunnel platform ingest or relay. control path: /api/streaming creates or configures connector metadata. it does not receive video bytes unless the user chooses the awtsmoos hosted connector. activation warning: the repository contains the streaming local api route, but the currently running installed tunnel may be older. if /streaming/start returns a filesystem list response, restart/reinstall the awtsmoos tunnel agent so the installed local api exposes the streaming routes.",
+		"page": "pages/geelooy-apps-nesher-studio-modules-streaming-local-tunnel-streaming-md-9eca256443.json"
+	},
+	{
+		"id": "geelooy-apps-nesher-studio-modules-streaming-readme-md-a90377763f",
+		"title": "Nesher YouTube Streaming Modules",
+		"sourcePath": "geelooy/apps/nesher-studio/modules/streaming/README.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Nesher YouTube Streaming Modules",
+				"anchor": "nesher-youtube-streaming-modules"
+			}
+		],
+		"excerpt": "B\"H Nesher YouTube Streaming Modules youtubeControl.js talks to /api/youtube for OAuth/control metadata. hlsUploader.js is the direct to YouTube byte path. Still needed for actual live streaming: WebCodecs H.264/AAC encoder settings finalized. Browser JS muxer that emits YouTube compatible HLS media segments and playli",
+		"searchText": "b\"h nesher youtube streaming modules youtubecontrol.js talks to /api/youtube for oauth/control metadata. hlsuploader.js is the direct to youtube byte path. still needed for actual live streaming: webcodecs h.264/aac encoder settings finalized. browser js muxer that emits youtube compatible hls media segments and playlists. a segment scheduler that sends those bytes through hlsuploader. this intentionally avoids ffmpeg and avoids sending video bytes through awtsmoos.com.",
+		"page": "pages/geelooy-apps-nesher-studio-modules-streaming-readme-md-a90377763f.json"
+	},
+	{
+		"id": "geelooy-apps-olam-h3-docs-provider-readiness-verification-md-b78b0b914e",
+		"title": "Provider Readiness Verification",
+		"sourcePath": "geelooy/apps/olam-h3/docs/provider-readiness-verification.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Provider Readiness Verification",
+				"anchor": "provider-readiness-verification"
+			},
+			{
+				"level": 2,
+				"text": "Why this patch exists",
+				"anchor": "why-this-patch-exists"
+			},
+			{
+				"level": 2,
+				"text": "Implemented behavior",
+				"anchor": "implemented-behavior"
+			},
+			{
+				"level": 2,
+				"text": "Automated evidence",
+				"anchor": "automated-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Deterministic browser evidence",
+				"anchor": "deterministic-browser-evidence"
+			},
+			{
+				"level": 2,
+				"text": "External boundary",
+				"anchor": "external-boundary"
+			}
+		],
+		"excerpt": "Provider Readiness Verification This document records the verification for the provider readiness and prompt focus patch following the first Olam H3 production release. Why this patch exists The first release already fetched safe MiniMax connection state and displayed it in Settings. Create did not consume that state, ",
+		"searchText": "provider readiness verification this document records the verification for the provider readiness and prompt focus patch following the first olam h3 production release. why this patch exists the first release already fetched safe minimax connection state and displayed it in settings. create did not consume that state, so an otherwise valid draft could visually enable generate even when the server already knew that minimax api key was absent. the prompt input also refreshed the full create view on every keystroke, which could replace the textarea node and disturb focus/caret behavior. implemented behavior create combines creative draft readiness with safe provider readiness. missing server credential, offline state, and status check failure all disable generate before submission. a compact provider banner explains the condition and exposes retry and open settings actions. returning to create and browser online events refresh provider readiness. composeractions.generate() independently checks combined readiness, so dom manipulation cannot bypass the server readiness guard. continuous prompt typing mutates the draft without rebuilding the create room. character count and generate readiness update in place while the textarea node retains focus. remaining placeholder only guidance was replaced with persistent visible labels or helper text. automated evidence the settled node suite completed with 19 passed, 0 failed . the five added provider readiness cases verify: configured provider plus valid text draft is ready missing server credential blocks an otherwise valid draft offline state blocks generation provider status error blocks generation creative invalidity still blocks when the provider is ready reference mode becomes ready when its assigned asset exists deterministic browser evidence the browser smoke no longer depends on an already running developer server. it accepts olam base url, and its cdp client closes in finally even after assertion failure. a composite test command started the current working tree awtsmoos server on temporary port 8188, waited for route health, ran isolated chrome on cdp port 9457, and terminated the temporary server afterward. observed browser passes: missing key generation paused banner appears on create generate is disabled before submission typing preserves the exact textarea dom node typing preserves textarea focus live prompt character count updates without full rerender cost remains $0.40 for the default 5 second 768p draft forcibly removing the dom disabled state still creates no generation record because the controller guard rejects submission open settings navigates to settings settings reports the server key missing 360px, 768px, and 1440px widths have no horizontal overflow captured browser console errors: none captured failed http responses: none the composite command ended with composite browser smoke pass and exit code 0. external boundary this patch does not create, infer, or move a minimax credential. production previously proved configured: false; a real paid upstream generation remains blocked until an operator supplies minimax api key through the production service environment.",
+		"page": "pages/geelooy-apps-olam-h3-docs-provider-readiness-verification-md-b78b0b914e.json"
+	},
+	{
+		"id": "geelooy-apps-olam-h3-docs-release-verification-md-c673fa6599",
+		"title": "Olam H3 Release Verification",
+		"sourcePath": "geelooy/apps/olam-h3/docs/release-verification.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Olam H3 Release Verification",
+				"anchor": "olam-h3-release-verification"
+			},
+			{
+				"level": 2,
+				"text": "Automated contract tests",
+				"anchor": "automated-contract-tests"
+			},
+			{
+				"level": 2,
+				"text": "Browser smoke verification",
+				"anchor": "browser-smoke-verification"
+			},
+			{
+				"level": 2,
+				"text": "Security and source gates",
+				"anchor": "security-and-source-gates"
+			},
+			{
+				"level": 2,
+				"text": "Credential boundary",
+				"anchor": "credential-boundary"
+			}
+		],
+		"excerpt": "Olam H3 Release Verification This document records the local verification performed before the first Olam H3 production release. Automated contract tests The focused Node test suite completed with 14 passed, 0 failed . Covered behavior includes: 768P and 2K output pricing free image threshold and additional image prici",
+		"searchText": "olam h3 release verification this document records the local verification performed before the first olam h3 production release. automated contract tests the focused node test suite completed with 14 passed, 0 failed . covered behavior includes: 768p and 2k output pricing free image threshold and additional image pricing reference video input second pricing draft mode conflict handling frame/reference readiness backup json preflight validation minimax h3 v2 server validation and request mapping timed reference limits pre submit durable generation records successful task.content.url persistence usage persistence meaningful minimax failure detail browser smoke verification the browser smoke test ran against the real local awtsmoos.com server through an isolated chrome 150 profile. observed passes: /apps catalog discovery /apps/olam h3/ fresh boot 360×800 mobile layout without horizontal overflow prompt entry and live $0.40 default 5 second 768p estimate reference mode readiness disabling generate until media exists real missing key proxy failure persisted into creations indexeddb persistence across reload build from this restoring the prior prompt safe settings connection status and pricing display 768×1024 tablet layout without horizontal overflow 1440×900 desktop layout without horizontal overflow zero captured browser console/runtime errors security and source gates the release gate also confirmed: no embedded minimax credential pattern in app, proxy, or catalog files every olam source/test/style file is at or below 120 lines javascript and catalog module syntax passes node check required b\"h, awtsmoos, and awtsmoos.com file prologues/mentions are present source indentation uses tabs rather than leading spaces the isolated release tree contains only olam app, proxy, documentation, tests, and catalog registration credential boundary the local server reported configured: false for the minimax server key. therefore the local gate intentionally exercised the real missing key failure path rather than fabricating a paid generation success. a production release should inspect /api/olam h3/status after deployment. if it reports configured: true, the final production proof is one minimum cost real h3 generation followed by query/result playback verification.",
+		"page": "pages/geelooy-apps-olam-h3-docs-release-verification-md-c673fa6599.json"
+	},
+	{
+		"id": "geelooy-apps-olam-h3-readme-md-762da6a91c",
+		"title": "Olam H3 Studio",
+		"sourcePath": "geelooy/apps/olam-h3/README.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Olam H3 Studio",
+				"anchor": "olam-h3-studio"
+			},
+			{
+				"level": 2,
+				"text": "Security and server key",
+				"anchor": "security-and-server-key"
+			},
+			{
+				"level": 2,
+				"text": "MiniMax H3 V2 endpoints",
+				"anchor": "minimax-h3-v2-endpoints"
+			},
+			{
+				"level": 2,
+				"text": "Capability configuration",
+				"anchor": "capability-configuration"
+			},
+			{
+				"level": 2,
+				"text": "Pricing configuration",
+				"anchor": "pricing-configuration"
+			},
+			{
+				"level": 2,
+				"text": "IndexedDB schema",
+				"anchor": "indexeddb-schema"
+			},
+			{
+				"level": 2,
+				"text": "Persistence and recovery",
+				"anchor": "persistence-and-recovery"
+			},
+			{
+				"level": 2,
+				"text": "Reusable workspace flows",
+				"anchor": "reusable-workspace-flows"
+			},
+			{
+				"level": 2,
+				"text": "Verification and operations",
+				"anchor": "verification-and-operations"
+			}
+		],
+		"excerpt": "Olam H3 Studio Olam H3 Studio is the mobile first MiniMax H3 AI video workspace at /apps/olam h3/. Every prompt, reference, and completed generation remains reusable material for the next shot. Security and server key The browser never receives a MiniMax API key. The same Awtsmoos.com server exposes the narrow proxy un",
+		"searchText": "olam h3 studio olam h3 studio is the mobile first minimax h3 ai video workspace at /apps/olam h3/. every prompt, reference, and completed generation remains reusable material for the next shot. security and server key the browser never receives a minimax api key. the same awtsmoos.com server exposes the narrow proxy under /api/olam h3/ and reads minimax api key from the server process environment. settings exposes only configured: true false; it never returns the secret. create also consumes that safe status: missing credential, offline state, or status check failure disables generate before submission and explains the condition without exposing secret material. the local and production implementation environments used during verification reported configured: false, so no fake paid minimax success was substituted for a missing credential. minimax h3 v2 endpoints the proxy uses: post https://api.minimax.io/v2/video generation get https://api.minimax.io/v2/query/video generation/{task id} successful h3 v2 queries expose the result through task.content.url. olam persists that remote url immediately and can separately cache the completed video blob in indexeddb. capability configuration ./scripts/config/h3.js is the centralized provider capability source. the current h3 configuration includes: 768p and 2k output 4–15 second integer generation duration fixed 16:9, 9:16, 1:1, 21:9, 4:3, and 3:4 text ratios adaptive ratio for reference/frame workflows first frame, last frame, or both reference images, video, and audio up to 9 reference images, 3 reference videos, and 3 reference audio files timed reference clips constrained to 2–15 seconds frame control and reference mode are intentionally separated. the ui disables generation until both the selected creative mode and secure provider state are ready. pricing configuration ./scripts/config/pricing.js is the single pricing source. version 2026 08 30 h3 paygo records: 768p output: $0.08 / generated second 2k output: $0.13 / generated second first 5 input images: free each additional input image: $0.04 reference audio input: free reference video input: charged per input second at the selected output resolution rate usage is local accounting based only on generations recorded by this app; it is not a minimax billing statement. indexeddb schema database: olam h3 studio, version 1. stores: generations — request snapshot, settings, asset ids, task/status/result, cost snapshot, errors, favorites, tags assets — reusable metadata and one local blob where appropriate prompts — deduplicated reusable prompt history preferences — defaults and cache policy videocache — optional completed video blobs keyed by generation id generations reference asset ids, so large reusable assets are not duplicated for every creation. persistence and recovery a generation record is saved before submission. once minimax returns a task id, it is persisted immediately. reload restores unfinished task polling when a task id exists. if the browser closes before a task id is persisted, the interrupted record becomes an actionable failed creation instead of a ghost job. h3 v2 task queries stop after the documented seven day query window instead of polling forever. completed video cache preference supports never, ask, and automatic. a cached blob takes playback precedence over the remote result url. reusable workspace flows the studio includes searchable prompt memory, reusable asset categories/tags/favorites, generation search/history, build from this, reuse prompt, reuse references, edit & regenerate, duplicate, completed video as reference, and ordered reference media. metadata json export includes generations, prompts, preferences, pricing metadata, tags, and asset metadata. large local blobs/videos are deliberately excluded and marked instead of being embedded into huge json files. verification and operations first release evidence lives in docs/release verification.md. provider readiness, no rerender prompt typing, and deterministic browser evidence live in docs/provider readiness verification.md. use the repository's normal awtsmoos.com server process. no second backend exists for olam h3 studio. a typical local route is http://127.0.0.1:8080/apps/olam h3/; the development port may differ. the parent catalog entry is composed through geelooy/apps/scripts/catalog/creation.mjs and creation ai.mjs. for an isolated release in a shared worktree, never use blanket git add a. commit only the olam app/proxy/catalog paths, push the intended lineage to origin/main, and deploy the exact pushed sha through the repository's canonical production release scripts.",
+		"page": "pages/geelooy-apps-olam-h3-readme-md-762da6a91c.json"
+	}
+]

@@ -19,11 +19,19 @@
 	"pathParameters": [],
 	"methods": [],
 	"methodEvidence": "unknown",
-	"vessels": [],
+	"vessels": [
+		"identity"
+	],
 	"statuses": [],
 	"headers": [],
-	"callers": [],
-	"callerCount": 0,
+	"callers": [
+		{
+			"literal": "/api/email",
+			"source": "geelooy/email/ui/settings/mailSettingsApi.js",
+			"kind": "runtime"
+		}
+	],
+	"callerCount": 1,
 	"tests": [
 		{
 			"name": "emailTest",
@@ -35,8 +43,12 @@
 	"confidence": "unknown-method",
 	"related": [
 		{
-			"id": "api-email-email-21dde810a8",
-			"route": "/api/email/email"
+			"id": "api-email-capabilities-f24a8a356b",
+			"route": "/api/email/capabilities"
+		},
+		{
+			"id": "api-email-settings-schema-059e1193b6",
+			"route": "/api/email/settings/schema"
 		}
 	]
 }

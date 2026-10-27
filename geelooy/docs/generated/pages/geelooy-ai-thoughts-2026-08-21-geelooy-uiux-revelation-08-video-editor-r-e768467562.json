@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-08-video-editor-r-e768467562",
+	"title": "Video Editor Revelation Plan",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-21-geelooy-uiux-revelation/08-video-editor-revelation-plan.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Video Editor Revelation Plan",
+			"anchor": "video-editor-revelation-plan"
+		},
+		{
+			"level": 2,
+			"text": "Proven defects",
+			"anchor": "proven-defects"
+		},
+		{
+			"level": 2,
+			"text": "Files to create / fully rewrite",
+			"anchor": "files-to-create-fully-rewrite"
+		},
+		{
+			"level": 2,
+			"text": "Behavioral preservation contract",
+			"anchor": "behavioral-preservation-contract"
+		},
+		{
+			"level": 2,
+			"text": "UI improvement contract",
+			"anchor": "ui-improvement-contract"
+		},
+		{
+			"level": 2,
+			"text": "Verification after code pass",
+			"anchor": "verification-after-code-pass"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-08-video-editor-r-e768467562-001.json"
+	]
+}

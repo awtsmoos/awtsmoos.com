@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-25t2250-social-network-extreme-01-realistic--72d48bbfbb",
+	"title": "Phase Two — Realistic Architecture Pass",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-25T2250-social-network-extreme/01_REALISTIC_ARCHITECTURE_PASS.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase Two — Realistic Architecture Pass",
+			"anchor": "phase-two-realistic-architecture-pass"
+		},
+		{
+			"level": 2,
+			"text": "Observed architecture",
+			"anchor": "observed-architecture"
+		},
+		{
+			"level": 2,
+			"text": "First implementation wave",
+			"anchor": "first-implementation-wave"
+		},
+		{
+			"level": 3,
+			"text": "Assembly decomposition",
+			"anchor": "assembly-decomposition"
+		},
+		{
+			"level": 3,
+			"text": "Lifecycle decomposition",
+			"anchor": "lifecycle-decomposition"
+		},
+		{
+			"level": 3,
+			"text": "Cross-surface operation truth",
+			"anchor": "cross-surface-operation-truth"
+		},
+		{
+			"level": 2,
+			"text": "Second implementation wave",
+			"anchor": "second-implementation-wave"
+		},
+		{
+			"level": 2,
+			"text": "Non-goals",
+			"anchor": "non-goals"
+		},
+		{
+			"level": 2,
+			"text": "Verification",
+			"anchor": "verification"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-25t2250-social-network-extreme-01-realistic--72d48bbfbb-001.json"
+	]
+}

@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-scripts-awtsmoos-merkavaexecutor-merkava-service-readme-md-19abf6dfc7",
+	"title": "B\"H — Merkava Service (tunnel render path)",
+	"sourcePath": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-service/README.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Merkava Service (tunnel render path)",
+			"anchor": "b-h-merkava-service-tunnel-render-path"
+		},
+		{
+			"level": 2,
+			"text": "What the tunnel render path CAN do",
+			"anchor": "what-the-tunnel-render-path-can-do"
+		},
+		{
+			"level": 2,
+			"text": "What native Merkava CANNOT do (static render only)",
+			"anchor": "what-native-merkava-cannot-do-static-render-only"
+		},
+		{
+			"level": 2,
+			"text": "Chrome absent → honest fallback",
+			"anchor": "chrome-absent-honest-fallback"
+		},
+		{
+			"level": 2,
+			"text": "Tests",
+			"anchor": "tests"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-scripts-awtsmoos-merkavaexecutor-merkava-service-readme-md-19abf6dfc7-001.json"
+	]
+}

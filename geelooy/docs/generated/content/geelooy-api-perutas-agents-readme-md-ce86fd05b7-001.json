@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Perutas Agents (geelooy/api/perutas/agents/)\n\nSingle module: `agentProfitService.js`. Agent-economy accounting: tracking\nprofits earned by AI agents operating within the peruta economy (alongside\n`../agentEconomyService.js`). Aggregated as `agentProfit` in `../index.js`.\n"
+}

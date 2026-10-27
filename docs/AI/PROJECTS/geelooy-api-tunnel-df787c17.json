@@ -12,7 +12,9 @@
 	"title": "geelooy/api/tunnel",
 	"entries": [
 		"_awtsmoos.derech.js",
-		"DOCUMENTATION.md"
+		"DOCUMENTATION.md",
+		"README.md",
+		"readme.md"
 	],
 	"humanDocumentation": [
 		"geelooy/api/tunnel/DOCUMENTATION.md",
@@ -23,19 +25,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-tunnel-df787c17.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 260,
-		"tests": 106,
+		"source": 429,
+		"tests": 198,
 		"assets": 0,
 		"generated": 0,
-		"docs": 15,
-		"other": 0
+		"docs": 29,
+		"other": 5
 	},
-	"totalFiles": 381,
+	"totalFiles": 661,
 	"symbolSummary": {
-		"files": 260,
-		"classes": 5,
-		"functions": 1095,
-		"exports": 854,
+		"files": 428,
+		"classes": 6,
+		"functions": 1679,
+		"exports": 1380,
 		"samples": [
 			"dynamicRoutes",
 			"response",
@@ -46,9 +48,9 @@
 			"sendJson",
 			"buildFsPayload",
 			"authorizeRelay",
-			"POST",
-			"Authorization",
-			"BASE_PRICE"
+			"ok",
+			"mountRemainingGuardedRoutes",
+			"devices"
 		]
 	},
 	"outgoingDependencies": [
@@ -59,40 +61,45 @@
 		},
 		{
 			"project": "geelooy/apps/tunnel",
-			"count": 8,
-			"examples": "geelooy/api/tunnel/control/routes/fsVessel/responseContractIdentity.js; geelooy/api/tunnel/control/routes/osFs/virtualAiAgents.js; geelooy/api/tunnel/install/tools/zipSources.js"
+			"count": 14,
+			"examples": "geelooy/api/tunnel/control/routes/fileTransferGet.js; geelooy/api/tunnel/control/routes/fsVessel/publicActionResolver.js; geelooy/api/tunnel/control/routes/fsVessel/responseContractIdentity.js"
 		},
 		{
 			"project": "geelooy/api/social",
-			"count": 4,
-			"examples": "geelooy/api/tunnel/control/routes/fsVessel/hostedVirtualOs/sitePublicationDispatcher.js; geelooy/api/tunnel/control/routes/osFs/listRead.js; geelooy/api/tunnel/control/routes/osFs/writeOps.js"
-		},
-		{
-			"project": "ayzarim/awtsmoosDynamicServer",
-			"count": 1,
-			"examples": "geelooy/api/tunnel/control/routes/fsVessel/tunnelClient.js"
-		},
-		{
-			"project": "geelooy/api/oauth",
-			"count": 1,
-			"examples": "geelooy/api/tunnel/control/core/auth.js"
+			"count": 6,
+			"examples": "geelooy/api/tunnel/control/routes/fsVessel/hostedVirtualOs/sitePublicationDispatcher.js; geelooy/api/tunnel/control/routes/osFs/virtualDirectoryValues.js; geelooy/api/tunnel/control/routes/osFs/virtualReadText.js"
 		},
 		{
 			"project": "geelooy/sites",
-			"count": 1,
-			"examples": "geelooy/api/tunnel/control/routes/fsVessel/hostedVirtualOs/sitePublicationDispatcher.js"
+			"count": 4,
+			"examples": "geelooy/api/tunnel/control/routes/agentManifest.js; geelooy/api/tunnel/control/routes/fsVessel/hostedVirtualOs/sitePublicationDispatcher.js"
+		},
+		{
+			"project": "ayzarim/awtsmoosDynamicServer",
+			"count": 3,
+			"examples": "geelooy/api/tunnel/_awtsmoos.derech.js; geelooy/api/tunnel/control/core/respond.js; geelooy/api/tunnel/control/routes/fsVessel/tunnelClient.js"
+		},
+		{
+			"project": "geelooy/api/oauth",
+			"count": 2,
+			"examples": "geelooy/api/tunnel/control/core/auth.js; geelooy/api/tunnel/control/mcp/auth.js"
 		}
 	],
 	"incomingDependencies": [
 		{
 			"project": "ayzarim/awtsmoosDynamicServer",
-			"count": 11,
+			"count": 12,
 			"examples": "ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/channel.js; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/channelSnapshot.js; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomUpgradeFakes.cjs"
 		},
 		{
 			"project": "geelooy/sites",
-			"count": 5,
-			"examples": "geelooy/sites/directSiteReadiness.js; geelooy/sites/hostedFolderManifest.js; geelooy/sites/siteFolderPublication.js"
+			"count": 6,
+			"examples": "geelooy/sites/directSiteReadiness.js; geelooy/sites/hostedFolderManifest.js; geelooy/sites/publicRootPublication.js"
+		},
+		{
+			"project": "geelooy/.well-known",
+			"count": 2,
+			"examples": "geelooy/.well-known/_awtsmoos.derech.js"
 		},
 		{
 			"project": "geelooy/api/oauth",
@@ -103,6 +110,21 @@
 			"project": "geelooy/api/ohr-hagnuz",
 			"count": 2,
 			"examples": "geelooy/api/ohr-hagnuz/routes/realtimeTicket.js"
+		},
+		{
+			"project": "geelooy/tunnel",
+			"count": 2,
+			"examples": "geelooy/tunnel/connect/_awtsmoos.derech.js"
+		},
+		{
+			"project": "geelooy/api/release",
+			"count": 1,
+			"examples": "geelooy/api/release/_awtsmoos.derech.js"
+		},
+		{
+			"project": "geelooy/api/sefarim",
+			"count": 1,
+			"examples": "geelooy/api/sefarim/_awtsmoos.derech.js"
 		},
 		{
 			"project": "geelooy/api/social",

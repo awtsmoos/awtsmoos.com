@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-ohr-hagnuz-how-to-play-md-cb7beec9cc",
+	"title": "Ohr HaGnuz — How to Play",
+	"sourcePath": "geelooy/games/ohr-hagnuz/HOW_TO_PLAY.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Ohr HaGnuz — How to Play",
+			"anchor": "ohr-hagnuz-how-to-play"
+		},
+		{
+			"level": 2,
+			"text": "The 20-second version",
+			"anchor": "the-20-second-version"
+		},
+		{
+			"level": 3,
+			"text": "Desktop controls",
+			"anchor": "desktop-controls"
+		},
+		{
+			"level": 3,
+			"text": "Touch controls",
+			"anchor": "touch-controls"
+		},
+		{
+			"level": 2,
+			"text": "The basic game loop",
+			"anchor": "the-basic-game-loop"
+		},
+		{
+			"level": 2,
+			"text": "Deeper systems",
+			"anchor": "deeper-systems"
+		},
+		{
+			"level": 2,
+			"text": "One useful rule",
+			"anchor": "one-useful-rule"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-ohr-hagnuz-how-to-play-md-cb7beec9cc-001.json"
+	]
+}

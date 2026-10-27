@@ -1,0 +1,191 @@
+[
+	{
+		"id": "geelooy-scripts-awtsmoos-compiling-js-object-model-md-916a5421d2",
+		"title": "Merkava Native Tier v2 — Object Model Contract",
+		"sourcePath": "geelooy/scripts/awtsmoos/compiling/js/OBJECT_MODEL.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Merkava Native Tier v2 — Object Model Contract",
+				"anchor": "merkava-native-tier-v2-object-model-contract"
+			},
+			{
+				"level": 2,
+				"text": "CHANGELOG",
+				"anchor": "changelog"
+			},
+			{
+				"level": 2,
+				"text": "1. Goals and non-goals",
+				"anchor": "1-goals-and-non-goals"
+			},
+			{
+				"level": 2,
+				"text": "2. Tagged values (64 bits, low 3 bits = tag)",
+				"anchor": "2-tagged-values-64-bits-low-3-bits-tag"
+			},
+			{
+				"level": 2,
+				"text": "3. Fixnums — signed 61-bit",
+				"anchor": "3-fixnums-signed-61-bit"
+			},
+			{
+				"level": 2,
+				"text": "4. Immediates — tag 100, value (code << 3) | 4",
+				"anchor": "4-immediates-tag-100-value-code-3-4"
+			},
+			{
+				"level": 2,
+				"text": "5. Strings — UTF-16, with small-string optimization",
+				"anchor": "5-strings-utf-16-with-small-string-optimization"
+			},
+			{
+				"level": 3,
+				"text": "5a. Small strings (tag 011) — inline, no allocation",
+				"anchor": "5a-small-strings-tag-011-inline-no-allocation"
+			},
+			{
+				"level": 3,
+				"text": "5b. Heap strings (header type 1)",
+				"anchor": "5b-heap-strings-header-type-1"
+			},
+			{
+				"level": 2,
+				"text": "6. Heap references and alignment",
+				"anchor": "6-heap-references-and-alignment"
+			},
+			{
+				"level": 2,
+				"text": "7. Boxed doubles — tag 010 (header type 4)",
+				"anchor": "7-boxed-doubles-tag-010-header-type-4"
+			},
+			{
+				"level": 2,
+				"text": "8. Heap object header — 16 bytes, little-endian",
+				"anchor": "8-heap-object-header-16-bytes-little-endian"
+			},
+			{
+				"level": 3,
+				"text": "Flags (u32)",
+				"anchor": "flags-u32"
+			},
+			{
+				"level": 2,
+				"text": "9. Arrays",
+				"anchor": "9-arrays"
+			},
+			{
+				"level": 3,
+				"text": "Holes and sparseness (§10 is the policy; this is the mechanism)",
+				"anchor": "holes-and-sparseness-10-is-the-policy-this-is-the-mechanism"
+			},
+			{
+				"level": 2,
+				"text": "10. Array holes / sparseness policy (DECIDED)",
+				"anchor": "10-array-holes-sparseness-policy-decided"
+			},
+			{
+				"level": 2,
+				"text": "11. Objects and shapes (hidden classes) — transition strategy (DECIDED)",
+				"anchor": "11-objects-and-shapes-hidden-classes-transition-strategy-decided"
+			},
+			{
+				"level": 2,
+				"text": "12. Strict equality (===) protocol",
+				"anchor": "12-strict-equality-protocol"
+			},
+			{
+				"level": 2,
+				"text": "13. Truthiness",
+				"anchor": "13-truthiness"
+			},
+			{
+				"level": 2,
+				"text": "14. typeof mapping",
+				"anchor": "14-typeof-mapping"
+			},
+			{
+				"level": 2,
+				"text": "15. Allocation (runtime contract for codegen)",
+				"anchor": "15-allocation-runtime-contract-for-codegen"
+			},
+			{
+				"level": 2,
+				"text": "16. Interop with the interpreter (DefaultMerkavaHost.js)",
+				"anchor": "16-interop-with-the-interpreter-defaultmerkavahost-js"
+			},
+			{
+				"level": 2,
+				"text": "17. Codegen notes (for the asm.js stream)",
+				"anchor": "17-codegen-notes-for-the-asm-js-stream"
+			},
+			{
+				"level": 2,
+				"text": "18. Open questions / deferred",
+				"anchor": "18-open-questions-deferred"
+			},
+			{
+				"level": 2,
+				"text": "19. value-model.js API (summary)",
+				"anchor": "19-value-model-js-api-summary"
+			}
+		],
+		"excerpt": "// B\"H Merkava Native Tier v2 — Object Model Contract Status: authoritative. Every v2 stream (codegen, GC, runtime, harness, interop) conforms to this document. Disagreements are resolved by editing this file, not by forking behavior. Companion: value model.js (same directory) — tag constants, header layouts, and JS si",
+		"searchText": "// b\"h merkava native tier v2 — object model contract status: authoritative. every v2 stream (codegen, gc, runtime, harness, interop) conforms to this document. disagreements are resolved by editing this file, not by forking behavior. companion: value model.js (same directory) — tag constants, header layouts, and js side encode/decode helpers. import it; do not re derive the numbers by hand. scope: the 64 bit value representation and heap object layouts used by the js→x86 64 native tier (geelooy/scripts/awtsmoos/compiling/js/) and the marshal bridge to the defaultmerkavahost interpreter. changelog v2.0.1 — 2026 10 09 (fix up). two verified by differential bugs fixed: §12 rule 6 clarification: strictequal on cross tag fixnum vs boxed double compared only the zero sub case; all other integer valued boxed doubles returned false. rule 6 is exact: every fixnum is exactly representable as a double, so the protocol is number(fixnum) === the boxed double (fixnum(5) === double(5.0) → true; nan !== nan; fixnum(0) === double( 0) → true). implementations must use genuinely boxed doubles (via allocdouble) when testing this path — encodevalue of an integer valued number collapses to a fixnum and never exercises it. encoder boundary rule: the encodevalue number fast path used js = 1024 && i 4 length. rationale: filling a million holes to serve one store is a memory blowup; a sorted key/value vector keeps it o(entries). the thresholds are chosen so normal code (including new array(n) + fill loops, which stay dense) never converts. 3. sparse array payload: count triples of (u32 key, tagged value, u32 pad = 0), sorted by key, 12 bytes each. length = highest key + 1 (0 when empty). holes are simply absent keys. 4. conversion back (sparse → dense) happens when a length shrink or deletes bring the highest key below the threshold — collector's choice to implement eagerly or lazily, but observable behavior must match v8 either way. 11. objects and shapes (hidden classes) — transition strategy (decided) every object (type 3) points at a shape (type 8): an immutable, canonical record {propnames[n] (heapref strings), slots[n] (u32)}. meta = shape pointer; payload = n tagged values, value for propnames[i] at payload[slots[i]]. adding a property follows a transition: shape.add(name) returns the canonical child shape (child = parent props + name → new slot). transitions are cached in a runtime side hash map keyed (shape, name) — the shape heap object itself stays fixed layout (no inline transition table), keeping the gc walk trivial. objects constructed with the same property addition order share shapes, exactly like v8 hidden classes. deleting a property allocates a fresh shape without that property and compacts the values (no transition caching required). shape identity rule: two shapes are the same shape iff same ordered property name sequence. the runtime interns shapes; === on shapes is pointer equality. inline caches (stream: property access) key on the shape pointer in meta: obj.shape === cachedshape ? payload[slot] : slowpath. v2.0 objects are data only. getters/setters/prototypes/attributes slot into the shape later as per property flag words — the shape/slot indirection already isolates that change from every object payload. 12. strict equality (===) protocol codegen must implement exactly this (differential tested vs v8): 1. if both immediates and both nan → false (even though the bits match). 2. if a === b as u64 → true (fixnum, imm, smallstr, heapref identity). 3. if tags differ → false , except fixnum 0 vs boxed ±0: fixnum(0) === double(±0) → true (payload sign bits ignored iff both are zero). 4. same tag 010 (double): +0/ 0 payloads compare equal; any nan payload → false; otherwise bitwise equality. 5. same tag 001 (heapref): identity, except strings compare by content (length + units) — 'a' === 'a' is true for distinct heap strings. 6. cross tag number compare beyond rule 3 (e.g. fixnum(5) vs boxed 5.0): compare number(fixnum) with the double bits — every fixnum is exactly representable, so the numeric comparison is exact. nan → false. == (abstract equality) follows toprimitive/tonumber per spec — later stream; the value model only guarantees the primitives above. 13. truthiness value truthy? fixnum 0 false; all other fixnums true false, null, undefined, nan false; true true smallstr / heap string iff length 0 (\"\" is false) boxed double iff d !== 0 && !nan ( 0 is false) array / object / closure / buffer / sparse array true (even empty — [] and {} are truthy) hole unreachable (never leaks; internal typeerror if it does) 14. typeof mapping fixnum/double → \"number\"; strings → \"string\"; undefined → \"undefined\"; null → \"object\"; booleans → \"boolean\"; nan → \"number\"; closure → \"function\"; everything else heap → \"object\". 15. allocation (runtime contract for codegen) entry point the runtime provides: merkava alloc(size bytes) ptr (16 aligned). codegen calls it; it never returns misaligned memory. codegen writes the 16 byte header itself (type/flags/meta), then payload. bump allocator is the expected first implementation; the header contract does not care. stack allocation (v1's fixed shape objects) remains legal for provably local values, but any value that can escape to the heap or to the interpreter must use this model. 16. interop with the interpreter (defaultmerkavahost.js) the interpreter's values are js objects; the native tier's are u64. the marshal rules (implemented in value model.js as encodevalue/decodevalue): js number: integer in fixnum range → fixnum; 0, fractions, out of range, ±infinity → boxed double; nan → v nan. js string → smallstr (≤3 units) else heap string. surrogates preserved. boolean/null/undefined → immediates. js array → heap array, holes → hole immediates (holes survive the round trip as real holes). plain js object → heap object with a fresh shape (insertion order). native → js is the exact inverse. closures/buffers decode only where the host defines a mapping; otherwise the host throws (loud, not silent). the differential harness ( /workspace/js vs v8/) marshals v8 results through encodevalue and compares against native tier results with strictequal — bit level agreement, not string comparison. changelog 2026 10 09 — marshal reference identity. marshal calls preserve reference identity per top level call; cycles supported via two phase memoization. encodevalue threads a fresh map through each top level call: shared substructure encodes to one handle, and cyclic containers are allocated empty first, memoized, then filled, so self references resolve instead of recursing forever. decodevalue mirrors this in reverse (tagged → js) with its own per call memo. additionally, a per heap identity table (weakmap, scoped to the heap object, weakly keyed, holding only bigint handles) remembers every marshaled reference, so marshaling the same js reference across separate top level calls returns the identical handle — v8 requires a === a across a marshal boundary, which a per call memo alone cannot provide. primitives (fixnums, boxed doubles, sso strings, immediates) carry no identity and take no memo entries; heap strings compare by content (spec §12 rule 5). 17. codegen notes (for the asm.js stream) tag test: test reg,7 sets zf iff fixnum. and tmp,reg,7 + cmp for the rest. put the hot tags (fixnum, double) first in the dispatch chain. untag fixnum: sar reg,3. retag: lea reg,[reg 8] (or shl reg,3). heapref → payload: and ptr,reg, 8 then [ptr+16+...]. header type check: cmp dword [ptr], type . smallstr length: shr tmp,reg,3 / and tmp,3. unit i: shr/and 0xffff or movzx tmp, word [reg+i 2 ?] — note units start at bit 5, so shift first. string compare fast path: lengths differ → not equal; smallstr: single cmp; heap: memcmp over units. undefined/null checks: cmp reg, imm value — single compare, no mask. 18. open questions / deferred bigint/symbol tags (101): layout tbd when a stream needs them. array element kind specialization (packed fixnum/double): invisible optimization, must keep §9 observables. prototype chain, accessors, property attributes: shape flags, later. exact toprimitive/valueof/tostring dispatch order: later stream with differential tests. generational gc promotion policy: uses gen bits; policy tbd by gc stream. 19. value model.js api (summary) tags: tag fixnum/heapref/double/smallstr/imm, tag mask, tagof. fixnum: fixnum, isfixnum, fixnumvalue, fixnum max/min. immediates: imm, isimm, immcode, imm , v undefined/null/true/false/nan/hole. refs: heapref, heapptr, doubleref, isdouble. small strings: smallstring, issmallstring, smallstringlength, smallstringvalue. headers: header size, type , flag , writeheader, readheader. heap (test/harness): makeheap with alloc/allocstring/allocarray/allocdouble. marshal: encodevalue(heap, js), decodevalue(heap, tagged). semantics: istruthy, strictequal, typeof.",
+		"page": "pages/geelooy-scripts-awtsmoos-compiling-js-object-model-md-916a5421d2.json"
+	},
+	{
+		"id": "geelooy-scripts-awtsmoos-compiling-js-readme-md-69ce22fcb8",
+		"title": "Merkava JS → Native Tier (geelooy/scripts/awtsmoos/compiling/js/)",
+		"sourcePath": "geelooy/scripts/awtsmoos/compiling/js/README.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Merkava JS → Native Tier (geelooy/scripts/awtsmoos/compiling/js/)",
+				"anchor": "merkava-js-native-tier-geelooy-scripts-awtsmoos-compiling-js"
+			},
+			{
+				"level": 2,
+				"text": "Modules",
+				"anchor": "modules"
+			},
+			{
+				"level": 2,
+				"text": "Supported subset (asm.js v1)",
+				"anchor": "supported-subset-asm-js-v1"
+			},
+			{
+				"level": 2,
+				"text": "Optimizations",
+				"anchor": "optimizations"
+			},
+			{
+				"level": 2,
+				"text": "Correctness",
+				"anchor": "correctness"
+			},
+			{
+				"level": 2,
+				"text": "Benchmarks",
+				"anchor": "benchmarks"
+			},
+			{
+				"level": 2,
+				"text": "Entry points",
+				"anchor": "entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Roadmap",
+				"anchor": "roadmap"
+			}
+		],
+		"excerpt": "B\"H Merkava JS → Native Tier (geelooy/scripts/awtsmoos/compiling/js/) The Merkava JS VM (thread.js) is a bytecode interpreter written in JavaScript, running on top of V8. An interpreter layered on V8 can never beat V8. This directory implements the native tier : integer subset JavaScript compiled directly to portable x",
+		"searchText": "b\"h merkava js → native tier (geelooy/scripts/awtsmoos/compiling/js/) the merkava js vm (thread.js) is a bytecode interpreter written in javascript, running on top of v8. an interpreter layered on v8 can never beat v8. this directory implements the native tier : integer subset javascript compiled directly to portable x86 64 assembly, assembled and linked by the self hosted awtsmoos toolchain (compilenativeasm) into real machine code. modules asm.js — the fast tier. js integer subset → x86 64 assembly directly. register resident codegen, no c involved. transpile.js — js integer subset → c (via the self hosted c compiler). slower path, kept for completeness. native.js — c → x86 64 elf → run → parse integer result. supported subset (asm.js v1) integer arithmetic: + / % & ^ , unary ! comparisons fused into jumps; ternary ?:; &&/ with js value semantics var, functions + recursion, if/while/for/break/continue, return fixed shape objects: var o={x:1,y:2} → stack allocated, fields at fixed offsets (compile time hidden classes). o.x loads/stores, o.x++, o.x+=. calls: up to 6 integer args, direct calls only (no closures, no method calls) / is truncating; % matches js (incl. negatives); is touint32 no: strings, arrays, heap allocation, closures, exceptions, floats, objects with dynamic shape, new, method calls all values are signed 64 bit. literals must fit int64. optimizations register pinning : locals pinned to callee saved regs (rbx/r12–r15); no memory traffic for ≤5 locals. comparison fusion : if (a<b) → cmp+jl, no boolean materialization. void context dce : expression statements skip dead value copies. call args : evaluated straight into rdi/rsi/… (no push/pop) when call free. barrett reduction : n % constant → multiply based, no idiv ( 3x faster). branchless abs via sign mask. verified against v8 on 164 (n,d) pairs. lea peephole : (reg c)+k → single lea for c∈{3,5,9}. constant shifts folded; x%1 → 0. correctness every optimization is differentially tested against v8 (new function): /workspace/js vs v8/barrett test.mjs — 164 (n,d) modulo cases /workspace/js vs v8/obj test.mjs — object field cases /workspace/js vs v8/lea test.mjs — lea peephole cases benchmarks /workspace/js vs v8/native vs v8.mjs — native tier vs v8, best of n. the official suite ( /workspace/benchmarks/merkava js.mjs) measures the native tier automatically for compilable kernels (nativeresults), using in process repeat= to amortize process spawn overhead. entry points roadmap v2: fixed size arrays (stack), more object shapes v3: heap allocation (brk/mmap via awtsmoos syscall3) for dynamic arrays/strings in process jit (remove spawn overhead entirely) upstream peepholes (comparison fusion, barrett) into the c backend's x86 64 emitter",
+		"page": "pages/geelooy-scripts-awtsmoos-compiling-js-readme-md-69ce22fcb8.json"
+	}
+]

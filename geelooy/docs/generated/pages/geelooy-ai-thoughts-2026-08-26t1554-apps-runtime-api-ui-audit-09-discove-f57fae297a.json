@@ -1,0 +1,79 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-26t1554-apps-runtime-api-ui-audit-09-discove-f57fae297a",
+	"title": "Discovered Actual File Plan",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-26T1554-apps-runtime-api-ui-audit/09_DISCOVERED_ACTUAL_FILE_PLAN.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Discovered Actual File Plan",
+			"anchor": "discovered-actual-file-plan"
+		},
+		{
+			"level": 2,
+			"text": "Evidence That Determines This Plan",
+			"anchor": "evidence-that-determines-this-plan"
+		},
+		{
+			"level": 2,
+			"text": "New Source Files Approved For Complete Creation",
+			"anchor": "new-source-files-approved-for-complete-creation"
+		},
+		{
+			"level": 3,
+			"text": "scripts/runtimequality/routeDiscovery.mjs",
+			"anchor": "scripts-runtimequality-routediscovery-mjs"
+		},
+		{
+			"level": 3,
+			"text": "scripts/runtimequality/CdpTargetClient.mjs",
+			"anchor": "scripts-runtimequality-cdptargetclient-mjs"
+		},
+		{
+			"level": 3,
+			"text": "scripts/runtimequality/runtimeSignals.mjs",
+			"anchor": "scripts-runtimequality-runtimesignals-mjs"
+		},
+		{
+			"level": 3,
+			"text": "scripts/runtimequality/domMetrics.mjs",
+			"anchor": "scripts-runtimequality-dommetrics-mjs"
+		},
+		{
+			"level": 3,
+			"text": "scripts/runtimequality/pageRuntimeAudit.mjs",
+			"anchor": "scripts-runtimequality-pageruntimeaudit-mjs"
+		},
+		{
+			"level": 3,
+			"text": "scripts/runtimequality/geelooyRuntimeAudit.mjs",
+			"anchor": "scripts-runtimequality-geelooyruntimeaudit-mjs"
+		},
+		{
+			"level": 2,
+			"text": "Existing Source Files Approved Only For Read/Reuse",
+			"anchor": "existing-source-files-approved-only-for-read-reuse"
+		},
+		{
+			"level": 2,
+			"text": "Production Source Rewrite Gate",
+			"anchor": "production-source-rewrite-gate"
+		},
+		{
+			"level": 2,
+			"text": "Implementation Rules",
+			"anchor": "implementation-rules"
+		},
+		{
+			"level": 2,
+			"text": "NEXTACTION",
+			"anchor": "nextaction"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-26t1554-apps-runtime-api-ui-audit-09-discove-f57fae297a-001.json"
+	]
+}

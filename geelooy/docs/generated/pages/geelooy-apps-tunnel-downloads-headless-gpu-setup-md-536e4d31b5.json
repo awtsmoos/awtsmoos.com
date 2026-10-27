@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-downloads-headless-gpu-setup-md-536e4d31b5",
+	"title": "B\"H — Headless GPU box: install, log in, let other AI agents connect",
+	"sourcePath": "geelooy/apps/tunnel/downloads/HEADLESS_GPU_SETUP.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Headless GPU box: install, log in, let other AI agents connect",
+			"anchor": "b-h-headless-gpu-box-install-log-in-let-other-ai-agents-connect"
+		},
+		{
+			"level": 2,
+			"text": "1. Install on the rented GPU box",
+			"anchor": "1-install-on-the-rented-gpu-box"
+		},
+		{
+			"level": 2,
+			"text": "2. Log in with no browser (device flow)",
+			"anchor": "2-log-in-with-no-browser-device-flow"
+		},
+		{
+			"level": 2,
+			"text": "3. Let other AI agents connect to this box",
+			"anchor": "3-let-other-ai-agents-connect-to-this-box"
+		},
+		{
+			"level": 1,
+			"text": "on the GPU box, using the key from step 2",
+			"anchor": "on-the-gpu-box-using-the-key-from-step-2"
+		},
+		{
+			"level": 1,
+			"text": "→ { \"url\": \"https://awtsmoos.com/tunnel/connect?code=XXXXXXXXXXXX\", ... }",
+			"anchor": "url-https-awtsmoos-com-tunnel-connect-code-xxxxxxxxxxxx"
+		},
+		{
+			"level": 2,
+			"text": "The whole chain, conceptually",
+			"anchor": "the-whole-chain-conceptually"
+		},
+		{
+			"level": 2,
+			"text": "Troubleshooting",
+			"anchor": "troubleshooting"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-downloads-headless-gpu-setup-md-536e4d31b5-001.json"
+	]
+}

@@ -2,15 +2,30 @@
 	"BH": "B\"H / Boruch Hashem / Blessed is He",
 	"schema": "awtsmoos-doc-page-v2",
 	"id": "geelooy-api-tunnel-install-documentation-md-074970bfde",
-	"title": "Tunnel Installer API Documentation",
+	"title": "Tunnel Installer and Emergency API",
 	"sourcePath": "geelooy/api/tunnel/install/DOCUMENTATION.md",
 	"category": "API",
 	"provenance": "breadcrumb",
 	"headings": [
 		{
 			"level": 1,
-			"text": "Tunnel Installer API Documentation",
-			"anchor": "tunnel-installer-api-documentation"
+			"text": "Tunnel Installer and Emergency API",
+			"anchor": "tunnel-installer-and-emergency-api"
+		},
+		{
+			"level": 2,
+			"text": "Public Unix routes",
+			"anchor": "public-unix-routes"
+		},
+		{
+			"level": 2,
+			"text": "One-line examples",
+			"anchor": "one-line-examples"
+		},
+		{
+			"level": 2,
+			"text": "Other installer artifacts",
+			"anchor": "other-installer-artifacts"
 		}
 	],
 	"markdownParts": [

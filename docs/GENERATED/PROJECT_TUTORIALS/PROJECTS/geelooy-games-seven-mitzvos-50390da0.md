@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 530 | 66 | 0 | 0 | 1 | 0 | 597 |
+| 547 | 71 | 0 | 0 | 1 | 0 | 619 |
 
 ## Public entry points
 
@@ -29,12 +29,11 @@ Blessed is He
 
 ## Symbol evidence
 
-Source files: 454; classes: 281; functions: 597; exports: 659; samples: AccessibilityProfileService, AccessibleStateProjector, population, describeAlert, InputBindingService, setPersonAction, updatePersonAction, personActionName, createState, applyPose, required, appTemplate.
+Source files: 471; classes: 285; functions: 642; exports: 687; samples: AccessibilityProfileService, AccessibleStateProjector, population, describeAlert, InputBindingService, setPersonAction, updatePersonAction, personActionName, createState, applyPose, required, AppRouteServices.
 
 ## Depends on
 
-- `geelooy/games/scripts` — 16 lexical references; examples: geelooy/games/seven-mitzvos/js/assets/advanced-model-hydrator.js; geelooy/games/seven-mitzvos/js/assets/gltf-model-library.js; geelooy/games/seven-mitzvos/js/city/city-district-builder.js
-- `geelooy/libs` — 12 lexical references; examples: geelooy/games/seven-mitzvos/js/materials/firebase-material-manifest.js; geelooy/games/seven-mitzvos/js/materials/seven-material-runtime.js; geelooy/games/seven-mitzvos/js/materials/stage-material-runtime.js
+- `geelooy/libs` — 23 lexical references; examples: geelooy/games/seven-mitzvos/js/assets/gltf-model-library.js; geelooy/games/seven-mitzvos/js/city/city-district-builder.js; geelooy/games/seven-mitzvos/js/games3d/world-label.js
 
 ## Used by
 
@@ -46,4 +45,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **66**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **71**. Treat this as file evidence, not proof of behavioral coverage.

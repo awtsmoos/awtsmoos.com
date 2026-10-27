@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-47df64d17e",
+	"title": "Improvement Critique and Priorities",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/.ai-thoughts/20260902_0315-universal-procedural-api/19_IMPROVEMENT_CRITIQUE_AND_PRIORITIES.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Improvement Critique and Priorities",
+			"anchor": "improvement-critique-and-priorities"
+		},
+		{
+			"level": 2,
+			"text": "Highest-leverage accepted themes",
+			"anchor": "highest-leverage-accepted-themes"
+		},
+		{
+			"level": 2,
+			"text": "Ideas deferred deliberately",
+			"anchor": "ideas-deferred-deliberately"
+		},
+		{
+			"level": 2,
+			"text": "Thirty concrete improvements over the previous pass",
+			"anchor": "thirty-concrete-improvements-over-the-previous-pass"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-47df64d17e-001.json"
+	]
+}

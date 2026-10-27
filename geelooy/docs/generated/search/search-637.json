@@ -1,0 +1,178 @@
+[
+	{
+		"id": "scripts-tunnel-stability-next-edits-md-c84b57197c",
+		"title": "Awtsmoos tunnel: next edits",
+		"sourcePath": "scripts/tunnel/STABILITY_NEXT_EDITS.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos tunnel: next edits",
+				"anchor": "awtsmoos-tunnel-next-edits"
+			},
+			{
+				"level": 2,
+				"text": "Current inspected state",
+				"anchor": "current-inspected-state"
+			},
+			{
+				"level": 2,
+				"text": "First edit: durable continuation and truthful recovery",
+				"anchor": "first-edit-durable-continuation-and-truthful-recovery"
+			},
+			{
+				"level": 2,
+				"text": "Speed edit: reduce round trips before raising concurrency",
+				"anchor": "speed-edit-reduce-round-trips-before-raising-concurrency"
+			},
+			{
+				"level": 2,
+				"text": "Stability edit: reserve control capacity",
+				"anchor": "stability-edit-reserve-control-capacity"
+			},
+			{
+				"level": 2,
+				"text": "Better skills and mission workflow",
+				"anchor": "better-skills-and-mission-workflow"
+			},
+			{
+				"level": 2,
+				"text": "Longer unattended work",
+				"anchor": "longer-unattended-work"
+			},
+			{
+				"level": 2,
+				"text": "Owner files and order",
+				"anchor": "owner-files-and-order"
+			}
+		],
+		"excerpt": "Awtsmoos tunnel: next edits Recorded 2026 10 05. Planning only: none of the proposed runtime changes below are implemented by this document. The Awtsmoos accompanies the work; every claim of completion needs real evidence. Current inspected state Mac healthz returned ok with tunnel awt awtsmoos 2184 and root /Users/awt",
+		"searchText": "awtsmoos tunnel: next edits recorded 2026 10 05. planning only: none of the proposed runtime changes below are implemented by this document. the awtsmoos accompanies the work; every claim of completion needs real evidence. current inspected state mac healthz returned ok with tunnel awt awtsmoos 2184 and root /users/awtsmoos/work/awtsmoos.com. saved shliach plugin is 0.86.0. its streamable http mcp url is https://awtsmoos.com/api/tunnel/control/mcp. audience remains private. previous local live runs: 3,637 requests / 180.7 seconds and 1,398 requests / 60.6 seconds, zero failures on successful runs. these are local measurements, not chatgpt or internet latency. an earlier temporary fixture disappearance is retained in scripts/tunnel/evidence/20261005; its cause remains unproven. chatgptsessionauto performs at most three ticks per call. session defaults are 40 turns, capped at 400 by continuation/defaults.js. this does not establish unattended execution. an existing hourloop daemon uses in memory timers, setinterval and catch(() = null). it is not necessary to build a competing daemon. hourloop state writes directly to one state.json; failed reads become an empty state. its locks mutate a read snapshot rather than obtaining atomic cross process ownership. customgpt.js handles custom gpt urls. promote.js has an obsolete fallback project path. the exact live gpt conversation url and signed in browser access have not been verified in this inspection. first edit: durable continuation and truthful recovery [ ] replace overlapping interval ticks with completion driven scheduling and one active tick per conversation. [ ] persist worker definitions and lifecycle states; resume eligible workers after agent restart. [ ] acquire atomic cross process ownership with lease renewal and a fencing generation. reject stale owners before sending or mutating state. [ ] write state atomically, keep a validated previous snapshot and journal, and surface corruption instead of silently resetting work. [ ] record exceptions, retry reason, next wake time and bounded backoff with jitter. do not suppress failed ticks. [ ] make saved stop state authoritative on every tick; stop prevents new work and cancels owned queued work. [ ] enforce saved deadline, turn limit, command/output/resource budgets and authorized mission scope. checkpoint before budget exhaustion. [ ] read the saved failure counters and lease state when deciding to stop; verify that existing emergency guards are wired to actual state. [ ] replace stale handoff fallback paths with verified project root evidence. [ ] verify exact custom gpt conversation identity before every send; stop for logout, unexpected navigation or uncertain submission. [ ] reconcile uncertain browser sends with a durable send intent and actual conversation evidence. never blindly send the same continuation twice. pass gate: restart recovery; two competing workers cannot duplicate a prompt; injected corrupt state is reported and recovered; offline retry is bounded; stop works during slow work. use fixtures before an authorized real conversation. do not start a live auto prompt loop merely to test this plan. speed edit: reduce round trips before raising concurrency [ ] measure discovery, oauth, queue wait, relay, execution, serialization and output delivery separately with correlated request/receipt ids. [ ] prefer existing bulk reads and scoped command trees; inspect mixed read/write semantics before adding a new generic batch operation. [ ] cache route/schema/instruction metadata by account, scope, device incarnation and generation. invalidate on reconnect, release or permission change. [ ] return compact summaries and paged output references; load full specialist/legacy documents only when relevant. preserve original mission/debt archives. [ ] replace frequent status polling with event notifications where the transport supports them; keep bounded adaptive polling fallback. [ ] reuse proven relay connections; avoid spawning processes for operations already available in native filesystem handlers. [ ] profile current transfer encoding and copies. benchmark a scoped https binary upload/download path only if base64 costs materially dominate; retain hashes, resume and ownership. pass gate: real signed in host to mac benchmarks at concurrency 1/2/4/8, with p50/p95/p99 and cpu/ram. any new latency target is provisional until this baseline exists. stability edit: reserve control capacity [ ] reuse existing schedulers/admission controls. reserve health, reconnect, status and cancellation independently of ordinary work. [ ] apply fair per owner queues and separate read, mutation, command and browser budgets. serialize writes to one path and browser sends to one conversation. [ ] adapt concurrency to queue latency, event loop delay and memory; return an explicit retry time rather than accept unbounded work. [ ] track pending receipts across reconnect, sleep/wake and update; observe status before replaying any uncertain mutation. [ ] bound journals, job output, receipts, orphan processes and browser tabs by age and bytes. do not clean active job/transfer paths. [ ] add stable period restart budgets and circuit breakers; retain the last known good runtime and clear failure evidence. pass gate: overnight load, network outage, mac sleep/wake, server restart, rolling agent update, full output quota and slow command tests. measure control responsiveness throughout. never call a short soak proof of permanent stability. better skills and mission workflow [ ] add a small performance skill: discover once, fetch required instructions, batch independent reads, page output and preserve evidence. [ ] add a resume skill: reconcile route generation, worker lease, receipts and pending jobs before continuing the next saved checklist item. [ ] add a worker management skill: bounded start/status/pause/resume/stop using schemas of real implemented actions; do not invent action names. [ ] add a failure diagnosis skill: show the concrete blocker and retry deadline, keep doing independent authorized work, and avoid duplicate sends or writes. [ ] add an end to end connection skill: verify exact gpt/plugin, granted oauth scopes, immutable device route, temporary write/readback/remove, harmless command and real published preview url. [ ] keep novel voice and awtsmoos craft instructions, first paragraphs and mission/debt archives intact. keep machine schemas and factual receipts precise. longer unattended work a supervised worker can keep accepted commands, transfers and a finite mission running after a chat turn ends. a skill cannot lengthen chatgpt's own turn lifetime. browser continuation depends on a live authenticated session and is not guaranteed permanent. a separately authorized model provider worker is an optional architectural alternative, with explicit credentials and cost budgets; do not add it silently. initial rollout: finite 30 minute mission, then two hours, then overnight after restart and cancellation tests pass. begin with two heavy command workers and one browser sender as a proposed conservative setting, then measure rather than assume the older mac can run dozens of heavy agents. owner files and order 1. tools/chatgpt/hourloop/{daemon,state,locks,tick,emergency,promote,customgpt}.js under geelooy/apps/tunnel/agent: durable single worker continuation first. 2. tools/chatgpt/actions/sessions.js and continuation/defaults.js: reconcile existing session engine with hourloop rather than maintain competing semantics. 3. existing control scheduler, native command admission and mcp handlers: measured queues, cache and compact output second. 4. plugin overlays/awtsmoos shliach: skills only after their promised worker actions are implemented and tested. 5. signed in end to end host check, overnight recovery test, staged rollout and canonical deployment. do not stage other agents' edits. preserve account identity, oauth permissions, immutable root and plugin audience. planning completion does not authorize new providers, paid usage or unrelated external messages.",
+		"page": "pages/scripts-tunnel-stability-next-edits-md-c84b57197c.json"
+	},
+	{
+		"id": "scripts-tunnel-workverificationguide-md-dab4a91c9f",
+		"title": "Awtsmoos continuation and frontend verification",
+		"sourcePath": "scripts/tunnel/workVerificationGuide.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos continuation and frontend verification",
+				"anchor": "awtsmoos-continuation-and-frontend-verification"
+			}
+		],
+		"excerpt": "Awtsmoos continuation and frontend verification Native actions are available through the existing generic awtsmoos tunnel action MCP tool; this change does not require another action per API feature. Use actionSchemaTrace for their exact schemas. 1. Create or reuse a Tunnel plan with tunnelPlanCreate. Call tunnelWorkBe",
+		"searchText": "awtsmoos continuation and frontend verification native actions are available through the existing generic awtsmoos tunnel action mcp tool; this change does not require another action per api feature. use actionschematrace for their exact schemas. 1. create or reuse a tunnel plan with tunnelplancreate. call tunnelworkbegin with task, paths, optional planid/missionid, remainingwork and nextaction. frontend tasks additionally require frontend:true and all affected urls. 2. read the returned full instruction bodies; acknowledge the returned hash using tunnelworkcheckpoint with workid and exact revision. do not acknowledge unread bodies. if server instructions are unavailable, work begins blocked. 3. checkpoint completed, remainingwork, nextaction, failures and reportids after meaningful steps. get current revision after a conflict; never overwrite another worker's checkpoint. 4. resume with tunnelworkresume. it checks the actual repository and current instruction hashes/generation. inspect unrelated dirty changes; use isolated worktrees. refresh after a changed commit or scope with tunnelworkrefresh, then read and acknowledge instructions again. 5. commit tested source before release verification. call chromeverifyfrontend against a preview of that source, at widths 390, 768 and 1440. supply styleassertions such as selector/property/equals, and steps such as click followed by assertvisible. 6. source proof is mandatory for verification claims: the running service release endpoint (/api/release/) must name the tested commit, or assetcontracts must prove committed css/js/html bytes match the served assets. for static previews, provide {url,path} asset contracts. a healthy old production page cannot verify new local changes. 7. attach reportids. inspect every saved screenshot; call tunnelworkreview with actual reviewnotes and the returned screenshot hashes. automated geometry checks do not prove overlap, visual polish, or complete feature semantics. 8. clear completed work only when it really passed. keep failures and unfinished work explicit. tunnelworkgate may be used to evaluate work session evidence, but it is not a production deployment requirement. 9. after deployment, verify /api/release/, rerun real frontend behavior against production, and record results separately. preserve the previous known working sha and existing deployment rollback artifacts. do not claim a pre deploy preview is post deploy proof. existing backend activation rollback checks are retained. frontend work verification remains available for evidence and review, but production deployment does not require a work gate receipt. tunnelworkhealth separates process, registered relay, command execution, file integrity, authenticated client access and rendered frontend checks. unperformed checks remain unverified. run harmless owned commands, exact file readback and authenticated mcp client probes separately. screenshots and work records live in durable device state, outside replaceable runtime and source files. record sizes, arrays, screenshots per run, navigation waits and assertions are bounded. browser runs use private targets and close only those targets. existing chrome action queue serialization is preserved. this system supplies durable continuation and explicit next action; it does not keep a chatgpt turn alive indefinitely or silently execute arbitrary checkpoint text. existing mission continuation remains responsible for task scheduling. native code lives under /users/awtsmoos/work/awtsmoos.com/geelooy/apps/tunnel/agent. production source lives under /mnt/hc volume 102267213/git/awtsmoos.com.",
+		"page": "pages/scripts-tunnel-workverificationguide-md-dab4a91c9f.json"
+	},
+	{
+		"id": "scripts-vm-deploy-api-md-bd0d9c1a74",
+		"title": "B\"H — VM-Direct Deploy API",
+		"sourcePath": "scripts/VM_DEPLOY_API.md",
+		"category": "Operations",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — VM-Direct Deploy API",
+				"anchor": "b-h-vm-direct-deploy-api"
+			},
+			{
+				"level": 2,
+				"text": "How it works",
+				"anchor": "how-it-works"
+			},
+			{
+				"level": 2,
+				"text": "One-time setup",
+				"anchor": "one-time-setup"
+			},
+			{
+				"level": 3,
+				"text": "1. Production: set the deploy key",
+				"anchor": "1-production-set-the-deploy-key"
+			},
+			{
+				"level": 1,
+				"text": "On production as root:",
+				"anchor": "on-production-as-root"
+			},
+			{
+				"level": 1,
+				"text": "Generate a strong key:",
+				"anchor": "generate-a-strong-key"
+			},
+			{
+				"level": 3,
+				"text": "2. VM: store the deploy key",
+				"anchor": "2-vm-store-the-deploy-key"
+			},
+			{
+				"level": 1,
+				"text": "Paste the key when prompted. It is encrypted with the in-repo",
+				"anchor": "paste-the-key-when-prompted-it-is-encrypted-with-the-in-repo"
+			},
+			{
+				"level": 1,
+				"text": "PasswordBox and stored at /.awtsmoos/secure/deploy/ (chmod 600),",
+				"anchor": "passwordbox-and-stored-at-awtsmoos-secure-deploy-chmod-600"
+			},
+			{
+				"level": 1,
+				"text": "outside git. Never printed, never logged.",
+				"anchor": "outside-git-never-printed-never-logged"
+			},
+			{
+				"level": 3,
+				"text": "3. Deploy the API itself (first time only)",
+				"anchor": "3-deploy-the-api-itself-first-time-only"
+			},
+			{
+				"level": 2,
+				"text": "Usage",
+				"anchor": "usage"
+			},
+			{
+				"level": 1,
+				"text": "Deploy specific files:",
+				"anchor": "deploy-specific-files"
+			},
+			{
+				"level": 1,
+				"text": "Deploy all git-modified files:",
+				"anchor": "deploy-all-git-modified-files"
+			},
+			{
+				"level": 1,
+				"text": "Check the API:",
+				"anchor": "check-the-api"
+			},
+			{
+				"level": 1,
+				"text": "Rotate the key:",
+				"anchor": "rotate-the-key"
+			},
+			{
+				"level": 2,
+				"text": "Security",
+				"anchor": "security"
+			},
+			{
+				"level": 2,
+				"text": "What needs a restart",
+				"anchor": "what-needs-a-restart"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "B\"H — VM Direct Deploy API Deploy from the VM straight to Awtsmoos.com production over HTTPS. No Mac. No GitHub. No SSH. How it works One time setup 1. Production: set the deploy key SSH to production (via Mac, one last time) and create the systemd drop in: Verify: curl https://awtsmoos.com/api/social/packed/deploy/sta",
+		"searchText": "b\"h — vm direct deploy api deploy from the vm straight to awtsmoos.com production over https. no mac. no github. no ssh. how it works one time setup 1. production: set the deploy key ssh to production (via mac, one last time) and create the systemd drop in: verify: curl https://awtsmoos.com/api/social/packed/deploy/status should return {\"success\":true,\"configured\":true,...}. 2. vm: store the deploy key or use the env var (ci): export awtsmoos deploy key=... 3. deploy the api itself (first time only) the server side route (geelooy/api/social/helper/routes/packed/deployroutes.js) must reach production once via the old path (mac → github → ssh → activate). after that, all deploys go through this api. usage security fail closed auth : unset awtsmoos deploy key on the server = every push rejected. timing safe key comparison. path allowlist : only web code roots (geelooy/heichelos/, geelooy/api/, scripts/, etc.). .git/, node modules/, .env , secrets blocked. traversal blocked : .., absolute paths, null bytes rejected. size limits : 5 mb/file, 50 files/push. audit log : every push appended to /socialpacked/deploy api.log. key storage : encrypted at rest on vm (passwordbox, chmod 600, outside git). what needs a restart html templates, css, client js, static assets: live on next request , no restart. server side node.js (geelooy/api/... route logic): requires systemctl restart awtsmoos.service on production. the deploy api route itself: needs one restart after first deploy. files file role geelooy/api/social/helper/routes/packed/deployroutes.js server endpoint geelooy/api/social/ awtsmoos.packed.js route registration scripts/vmdeploy.mjs vm client scripts/lib/deploykeystore.mjs encrypted key storage",
+		"page": "pages/scripts-vm-deploy-api-md-bd0d9c1a74.json"
+	}
+]

@@ -1,0 +1,24 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-social-helper-entityuniverse-readme-md-07f0c52e46",
+	"title": "B\"H — Entity Universe (geelooy/api/social/helper/entityUniverse/)",
+	"sourcePath": "geelooy/api/social/helper/entityUniverse/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Entity Universe (geelooy/api/social/helper/entityUniverse/)",
+			"anchor": "b-h-entity-universe-geelooy-api-social-helper-entityuniverse"
+		},
+		{
+			"level": 2,
+			"text": "Files",
+			"anchor": "files"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-social-helper-entityuniverse-readme-md-07f0c52e46-001.json"
+	]
+}

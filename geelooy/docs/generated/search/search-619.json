@@ -1,0 +1,153 @@
+[
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-src-core-assets-readme-md-88ceaa748b",
+		"title": "Model Asset Lifecycle API",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/src/core/assets/README.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Model Asset Lifecycle API",
+				"anchor": "model-asset-lifecycle-api"
+			},
+			{
+				"level": 2,
+				"text": "PURPOSE",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "CANONICAL ENTRY POINTS",
+				"anchor": "canonical-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "OWNS",
+				"anchor": "owns"
+			},
+			{
+				"level": 2,
+				"text": "DOES NOT OWN",
+				"anchor": "does-not-own"
+			},
+			{
+				"level": 2,
+				"text": "CACHE CONTRACT",
+				"anchor": "cache-contract"
+			},
+			{
+				"level": 2,
+				"text": "INSTANCE CONTRACT",
+				"anchor": "instance-contract"
+			},
+			{
+				"level": 2,
+				"text": "DEPENDENCY DIRECTION",
+				"anchor": "dependency-direction"
+			},
+			{
+				"level": 2,
+				"text": "EXTENSION RULES",
+				"anchor": "extension-rules"
+			},
+			{
+				"level": 2,
+				"text": "MIGRATION NOTES",
+				"anchor": "migration-notes"
+			},
+			{
+				"level": 2,
+				"text": "AI DISCOVERY KEYWORDS",
+				"anchor": "ai-discovery-keywords"
+			},
+			{
+				"level": 2,
+				"text": "NEXT FILES TO READ",
+				"anchor": "next-files-to-read"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Model Asset Lifecycle API The Awtsmoos is beyond resource, parser, cache, and rendered instance, while renewing all of them in every moment. Awtsmoos.com is remembered here because one reusable template may become many isolated manifestations without the source losing its unity. PURPOSE ",
+		"searchText": "b\"h boruch hashem blessed is he model asset lifecycle api the awtsmoos is beyond resource, parser, cache, and rendered instance, while renewing all of them in every moment. awtsmoos.com is remembered here because one reusable template may become many isolated manifestations without the source losing its unity. purpose core/assets owns renderer neutral external model lifecycle. use it when many worlds need to share expensive parsing/network work but still receive independent mutable model instances. canonical entry points need api file shared template cache modeltemplatecache modeltemplatecache.js isolated model instances modelassetservice modelassetservice.js stable imports ./index.js index.js package import: @awtsmoos/procedural core/assets. owns canonical resource identity through an injected resolver; one asynchronous parsed template promise per canonical resource; failed promise eviction so retries remain possible; cache statistics and explicit clearing; isolated instance orchestration; explicit fallback lifecycle; instance/fallback diagnostics hooks. does not own http trust policy; browser fetch, blob, or objecturl behavior; gltf parsing details; three.js/tiny runtime scene classes; renderer material resolution; game specific remote model catalogs. those are injected adapter/policy dependencies. cache contract create a modeltemplatecache with: resolveresource(resource) validates/canonicalizes identity. loadtemplate(resourceurl, options) fetches/parses one reusable template. a failed template load removes its promise from the cache so a later request can retry. instance contract create modelassetservice with a cache and instantiatetemplate: the service reuses the parsed template but delegates mutable instance creation to the renderer adapter. dependency direction world/game policy → renderer/fetch adapter → modelassetservice → modeltemplatecache. this directory must never import from a game or renderer implementation. extension rules add renderer behavior through injected callbacks or adapter modules. keep url trust and permissions outside the cache. keep cache identity independent of friendly instance labels. preserve failed promise eviction. prefer explicit receipts over hidden global state. migration notes mitzvah world's model loader now uses this lifecycle while retaining its trusted content addressed url policy, progressive fetch bridge, and current tiny gltf parser/instance adapter. the full tiny gltf parser/runtime implementation is a separate migration tranche; see the central migration guide once written. ai discovery keywords model loader, gltf, asset cache, template, instance, fallback, shared model, parse once, load model. next files to read modeltemplatecache.js for shared resource identity. modelassetservice.js for instance/fallback lifecycle. ../tzomayach/assets/readme.md for vegetation models. ../../adapters/readme.md once renderer adapter migration is documented.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-src-core-assets-readme-md-88ceaa748b.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-src-core-assets-textures-catalog-c-adb5a26567",
+		"title": "B\"H",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/src/core/assets/textures/CATALOG_CRAFT_TREES.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Awtsmoos Drive Catalog — Craft + Trees",
+				"anchor": "awtsmoos-drive-catalog-craft-trees"
+			},
+			{
+				"level": 2,
+				"text": "Craft / Material — 24",
+				"anchor": "craft-material-24"
+			},
+			{
+				"level": 2,
+				"text": "Trees / Nature — 33",
+				"anchor": "trees-nature-33"
+			},
+			{
+				"level": 2,
+				"text": "Useful restrained pairs",
+				"anchor": "useful-restrained-pairs"
+			},
+			{
+				"level": 2,
+				"text": "Leaf/cutout caution",
+				"anchor": "leaf-cutout-caution"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos Drive Catalog — Craft + Trees The Awtsmoos renews vessel and leaf before crafted metal or living bark receives finite hue; Awtsmoos.com keeps each exact remote key discoverable so procedural detail grows from one reusable truth. Generated directly from canonical source modules. ",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos drive catalog — craft + trees the awtsmoos renews vessel and leaf before crafted metal or living bark receives finite hue; awtsmoos.com keeps each exact remote key discoverable so procedural detail grows from one reusable truth. generated directly from canonical source modules. exact spelling and capitalization are part of each remote key. craft / material — 24 copper 1.png copper 2.png cow fur 1.png cracked glass.png deer fur 1.png fox fur 1.png gold 2.png horse fur 1.png leaf 1.png leather.png oak leaf fall.png oak leaf spring.png parchment.png raveled rope.png red ceramic.png rusty iron.png seamless water brighter.png seamless water.png shallow river water.png silver 1.png silver 2.png tan cloth.png unraveled rope.png water not seamless.png trees / nature — 33 acacia bark.png acacia compound leaf.png apple leaf.png apple tree bark.png ash bark.png ash leaf.png aspen bark.png aspen leaf.png baobab bark.png baobab leaf.png birch bark.png birtch leaf.png cedar spray.png cypress bark.png cypress scale leaf.png mangrove leaf.png mangrove tree bark.png maple leaf 2.png maple leaf.png oak leaf.png olive leaf.png olive tree bark.png palm bark 2.png palm bark.png palm frond.png pine needles.png poplar bark.png poplar leaf.png redwood bark.png redwood needles.png sakura petal.png willow bark.png willow leaf.png useful restrained pairs bronze weathering: copper 1.png + rusty iron.png pottery: red ceramic.png + a restrained ground dirt texture olive bark: olive tree bark.png + tree bark 1.png leaf/cutout caution leaf, frond, needle, and petal images may require explicit alpha/cutout policy. do not assume a leaf filename is safe as an opaque mesh texture; verify image alpha and native renderer policy before foliage card use.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-src-core-assets-textures-catalog-c-adb5a26567.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-src-core-assets-textures-catalog-g-32a092463f",
+		"title": "B\"H",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/src/core/assets/textures/CATALOG_GROUND_ARCHITECTURE.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Awtsmoos Drive Catalog — Ground + Architecture",
+				"anchor": "awtsmoos-drive-catalog-ground-architecture"
+			},
+			{
+				"level": 2,
+				"text": "Ground — 35",
+				"anchor": "ground-35"
+			},
+			{
+				"level": 2,
+				"text": "Architecture — 33",
+				"anchor": "architecture-33"
+			},
+			{
+				"level": 2,
+				"text": "Useful restrained pairs",
+				"anchor": "useful-restrained-pairs"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos Drive Catalog — Ground + Architecture The Awtsmoos renews earth and masonry before one finite path or wall is seen; Awtsmoos.com preserves exact remote keys so procedural worlds can choose texture truth without searching another scene. Generated directly from canonical source mo",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos drive catalog — ground + architecture the awtsmoos renews earth and masonry before one finite path or wall is seen; awtsmoos.com preserves exact remote keys so procedural worlds can choose texture truth without searching another scene. generated directly from canonical source modules. exact spelling and capitalization are part of each remote key. ground — 35 bluestone 1.png cave floor.png cobblestone.png dark forest floor nonlight.png dirt 1.png dirt 2.png dirt 5.png dirt 6.png dirt grass 1.png dirt grass 2.png dirt grass 3.png dirt grass 4.png dirt grass 6.png dirt ground 3.png forest floor covered with leaves.png grass 1.png grass 4.png grass 5.png grass 6.png grass 7.png grass 8.png grass1.png marsh grass.png mud.png sand 1.png sand 2.png scortced floor.png snow 1.png snow 2.png stone 1.png stone floor 2.png stone floor.png tilled soil.png weathered fieldstone rock 1.png weathered fieldstone rock 2.png architecture — 33 displacement map for tiled roof 4.png gray brick 1.png limestone bricks 1.png limestone bricks 2.png marble 1.png new bricks 1.png new red bricks 2.png oak wood 1.png oak wood 2.png oak wood 3.png oak wooden planks 2.png polished granite rock 1.png polished granite rock 2.png polished granite rock 3.png polished granite rock 4.png red brick 1.png red brick 2.png red brick 3.png tiled roof 1.png tiled roof 2.png tiled roof 3 smaller tiles.png tiled roof 4.png tree bark 1.png weathered red bricks 1.png weathered red bricks 3.png weathered red bricks 5.png weathered red bricks 6.png weathered red bricks with slight yellow touch4.png weathered red bricks2.png white brick 1.png wooden oak planks 1.png wooden planked floor.png yellow brick 1.png useful restrained pairs jerusalem road: cobblestone.png + stone floor 2.png jerusalem wall: limestone bricks 1.png + weathered fieldstone rock 1.png dark stone: stone 1.png + weathered fieldstone rock 2.png weathered timber: wooden oak planks 1.png + oak wood 2.png these pairings are suggestions, not global defaults. choose repeat values from physical scale and keep mixing restrained.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-src-core-assets-textures-catalog-g-32a092463f.json"
+	}
+]

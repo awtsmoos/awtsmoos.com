@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-instruction-system-md-00e8510084",
+	"title": "Awtsmoos Tunnel Instruction Protocol",
+	"sourcePath": "geelooy/apps/tunnel/INSTRUCTION_SYSTEM.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Awtsmoos Tunnel Instruction Protocol",
+			"anchor": "awtsmoos-tunnel-instruction-protocol"
+		},
+		{
+			"level": 2,
+			"text": "Mandatory workflow before writing",
+			"anchor": "mandatory-workflow-before-writing"
+		},
+		{
+			"level": 2,
+			"text": "Actions",
+			"anchor": "actions"
+		},
+		{
+			"level": 3,
+			"text": "instructionCatalog",
+			"anchor": "instructioncatalog"
+		},
+		{
+			"level": 3,
+			"text": "instructionResolve",
+			"anchor": "instructionresolve"
+		},
+		{
+			"level": 3,
+			"text": "instructionGet",
+			"anchor": "instructionget"
+		},
+		{
+			"level": 2,
+			"text": "Compatibility for older clients",
+			"anchor": "compatibility-for-older-clients"
+		},
+		{
+			"level": 2,
+			"text": "Instruction IDs",
+			"anchor": "instruction-ids"
+		},
+		{
+			"level": 2,
+			"text": "Focused response modes",
+			"anchor": "focused-response-modes"
+		},
+		{
+			"level": 2,
+			"text": "Stability law",
+			"anchor": "stability-law"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-instruction-system-md-00e8510084-001.json"
+	]
+}

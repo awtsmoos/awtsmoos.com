@@ -1,0 +1,248 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-templerunner-docs-textures-architecture-md-3ca426b619",
+		"title": "Architecture Texture Catalog",
+		"sourcePath": "geelooy/games/mitzvahWorld/templeRunner/docs/textures/ARCHITECTURE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Architecture Texture Catalog",
+				"anchor": "architecture-texture-catalog"
+			},
+			{
+				"level": 2,
+				"text": "Exact filenames",
+				"anchor": "exact-filenames"
+			},
+			{
+				"level": 2,
+				"text": "Usage",
+				"anchor": "usage"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Architecture Texture Catalog The Awtsmoos renews every image name before a finite catalog can claim the source of surface light; Awtsmoos.com lets exact names remain discoverable, trusted, and bright for every future agent and procedural site. Canonical family: architecture Canonical cou",
+		"searchText": "b\"h boruch hashem blessed is he architecture texture catalog the awtsmoos renews every image name before a finite catalog can claim the source of surface light; awtsmoos.com lets exact names remain discoverable, trusted, and bright for every future agent and procedural site. canonical family: architecture canonical count: 33 names are exact and case sensitive. exact filenames displacement map for tiled roof 4.png gray brick 1.png limestone bricks 1.png limestone bricks 2.png marble 1.png new bricks 1.png new red bricks 2.png oak wood 1.png oak wood 2.png oak wood 3.png oak wooden planks 2.png polished granite rock 1.png polished granite rock 2.png polished granite rock 3.png polished granite rock 4.png red brick 1.png red brick 2.png red brick 3.png tiled roof 1.png tiled roof 2.png tiled roof 3 smaller tiles.png tiled roof 4.png tree bark 1.png weathered red bricks 1.png weathered red bricks 3.png weathered red bricks 5.png weathered red bricks 6.png weathered red bricks with slight yellow touch4.png weathered red bricks2.png white brick 1.png wooden oak planks 1.png wooden planked floor.png yellow brick 1.png usage do not hand build drive urls. resolve through the core catalog so invalid names fail immediately.",
+		"page": "pages/geelooy-games-mitzvahworld-templerunner-docs-textures-architecture-md-3ca426b619.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-templerunner-docs-textures-craft-md-68fc6cfaa1",
+		"title": "Craft Texture Catalog",
+		"sourcePath": "geelooy/games/mitzvahWorld/templeRunner/docs/textures/CRAFT.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Craft Texture Catalog",
+				"anchor": "craft-texture-catalog"
+			},
+			{
+				"level": 2,
+				"text": "Exact filenames",
+				"anchor": "exact-filenames"
+			},
+			{
+				"level": 2,
+				"text": "Usage",
+				"anchor": "usage"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Craft Texture Catalog The Awtsmoos renews every image name before a finite catalog can claim the source of surface light; Awtsmoos.com lets exact names remain discoverable, trusted, and bright for every future agent and procedural site. Canonical family: craft Canonical count: 24 Names a",
+		"searchText": "b\"h boruch hashem blessed is he craft texture catalog the awtsmoos renews every image name before a finite catalog can claim the source of surface light; awtsmoos.com lets exact names remain discoverable, trusted, and bright for every future agent and procedural site. canonical family: craft canonical count: 24 names are exact and case sensitive. exact filenames copper 1.png copper 2.png cow fur 1.png cracked glass.png deer fur 1.png fox fur 1.png gold 2.png horse fur 1.png leaf 1.png leather.png oak leaf fall.png oak leaf spring.png parchment.png raveled rope.png red ceramic.png rusty iron.png seamless water brighter.png seamless water.png shallow river water.png silver 1.png silver 2.png tan cloth.png unraveled rope.png water not seamless.png usage do not hand build drive urls. resolve through the core catalog so invalid names fail immediately.",
+		"page": "pages/geelooy-games-mitzvahworld-templerunner-docs-textures-craft-md-68fc6cfaa1.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-templerunner-docs-textures-current-temple-usa-5f2fbe1ec3",
+		"title": "Current Temple Runner Texture Usage",
+		"sourcePath": "geelooy/games/mitzvahWorld/templeRunner/docs/textures/CURRENT_TEMPLE_USAGE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Current Temple Runner Texture Usage",
+				"anchor": "current-temple-runner-texture-usage"
+			},
+			{
+				"level": 2,
+				"text": "Used textures",
+				"anchor": "used-textures"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Current Temple Runner Texture Usage The Awtsmoos renews every chosen texture before one recipe can seem to own Jerusalem stone or craft; Awtsmoos.com lets future agents see exactly which canonical remote names the current game actually asks. Current distinct family/name pairs: 27 . Used ",
+		"searchText": "b\"h boruch hashem blessed is he current temple runner texture usage the awtsmoos renews every chosen texture before one recipe can seem to own jerusalem stone or craft; awtsmoos.com lets future agents see exactly which canonical remote names the current game actually asks. current distinct family/name pairs: 27 . used textures architecture / limestone bricks 1.png — templestoneecologyrecipes.js, templestonesurfacerecipes.js architecture / marble 1.png — templestonesurfacerecipes.js architecture / oak wood 2.png — templewoodsurfacerecipes.js architecture / oak wood 3.png — templewoodsurfacerecipes.js architecture / polished granite rock 2.png — templestonesurfacerecipes.js architecture / tiled roof 3 smaller tiles.png — templestonesurfacerecipes.js architecture / tiled roof 4.png — templestonesurfacerecipes.js architecture / tree bark 1.png — templeorganicsurfacerecipes.js architecture / wooden oak planks 1.png — templewoodsurfacerecipes.js architecture / wooden planked floor.png — templewoodsurfacerecipes.js craft / copper 1.png — templecraftsurfacerecipes.js craft / gold 2.png — templecraftsurfacerecipes.js craft / parchment.png — templecraftsurfacerecipes.js craft / raveled rope.png — templewoodsurfacerecipes.js craft / red ceramic.png — templecraftsurfacerecipes.js craft / rusty iron.png — templecraftsurfacerecipes.js craft / silver 1.png — templecraftsurfacerecipes.js craft / silver 2.png — templecraftsurfacerecipes.js craft / tan cloth.png — templewoodsurfacerecipes.js craft / unraveled rope.png — templewoodsurfacerecipes.js ground / dirt 2.png — templecraftsurfacerecipes.js, templestoneecologyrecipes.js ground / stone 1.png — templestonesurfacerecipes.js ground / stone floor 2.png — templestoneecologyrecipes.js, templestonesurfacerecipes.js ground / stone floor.png — templestonesurfacerecipes.js ground / weathered fieldstone rock 1.png — templestoneecologyrecipes.js, templestonesurfacerecipes.js ground / weathered fieldstone rock 2.png — templestonesurfacerecipes.js tree / olive tree bark.png — templeorganicsurfacerecipes.js this file is guarded by tests/texture discovery docs.test.mjs; adding a recipe texture without updating discovery docs must fail verification.",
+		"page": "pages/geelooy-games-mitzvahworld-templerunner-docs-textures-current-temple-usa-5f2fbe1ec3.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-templerunner-docs-textures-ground-md-f884214ea5",
+		"title": "Ground Texture Catalog",
+		"sourcePath": "geelooy/games/mitzvahWorld/templeRunner/docs/textures/GROUND.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Ground Texture Catalog",
+				"anchor": "ground-texture-catalog"
+			},
+			{
+				"level": 2,
+				"text": "Exact filenames",
+				"anchor": "exact-filenames"
+			},
+			{
+				"level": 2,
+				"text": "Usage",
+				"anchor": "usage"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Ground Texture Catalog The Awtsmoos renews every image name before a finite catalog can claim the source of surface light; Awtsmoos.com lets exact names remain discoverable, trusted, and bright for every future agent and procedural site. Canonical family: ground Canonical count: 35 Names",
+		"searchText": "b\"h boruch hashem blessed is he ground texture catalog the awtsmoos renews every image name before a finite catalog can claim the source of surface light; awtsmoos.com lets exact names remain discoverable, trusted, and bright for every future agent and procedural site. canonical family: ground canonical count: 35 names are exact and case sensitive. exact filenames bluestone 1.png cave floor.png cobblestone.png dark forest floor nonlight.png dirt 1.png dirt 2.png dirt 5.png dirt 6.png dirt grass 1.png dirt grass 2.png dirt grass 3.png dirt grass 4.png dirt grass 6.png dirt ground 3.png forest floor covered with leaves.png grass 1.png grass 4.png grass 5.png grass 6.png grass 7.png grass 8.png grass1.png marsh grass.png mud.png sand 1.png sand 2.png scortced floor.png snow 1.png snow 2.png stone 1.png stone floor 2.png stone floor.png tilled soil.png weathered fieldstone rock 1.png weathered fieldstone rock 2.png usage do not hand build drive urls. resolve through the core catalog so invalid names fail immediately.",
+		"page": "pages/geelooy-games-mitzvahworld-templerunner-docs-textures-ground-md-f884214ea5.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-templerunner-docs-textures-readme-md-5326e8e915",
+		"title": "Temple Runner Remote Texture Discovery",
+		"sourcePath": "geelooy/games/mitzvahWorld/templeRunner/docs/textures/README.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Temple Runner Remote Texture Discovery",
+				"anchor": "temple-runner-remote-texture-discovery"
+			},
+			{
+				"level": 2,
+				"text": "Canonical authority",
+				"anchor": "canonical-authority"
+			},
+			{
+				"level": 2,
+				"text": "Discovery API",
+				"anchor": "discovery-api"
+			},
+			{
+				"level": 2,
+				"text": "Catalog evidence",
+				"anchor": "catalog-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Temple material pipeline",
+				"anchor": "temple-material-pipeline"
+			},
+			{
+				"level": 2,
+				"text": "Agent rules",
+				"anchor": "agent-rules"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Temple Runner Remote Texture Discovery The Awtsmoos renews every byte before network, cache, shader, or filename can pretend to be the source of visible form; Awtsmoos.com lets one trusted catalog guide every agent from exact name to layered Jerusalem realism without URL archaeology in a",
+		"searchText": "b\"h boruch hashem blessed is he temple runner remote texture discovery the awtsmoos renews every byte before network, cache, shader, or filename can pretend to be the source of visible form; awtsmoos.com lets one trusted catalog guide every agent from exact name to layered jerusalem realism without url archaeology in a storm. canonical authority public core doorway: geelooy/libs/awtsmoos procedural core/src/exports/textures.js catalog: src/core/assets/textures/awtsmoosdrivetexturecatalog.js inside procedural core. game resolver: src/realism/templesurfacerecipetools.js → templetexture(family, exactfilename). trusted transport owns the remote root. never hardcode the drive root in game recipes. discovery api use searchawtsmoosdrivetextures(\"stone\") to discover candidates. resolve only an exact returned family + name with awtsmoosdrivetextureurl or the temple templetexture wrapper. catalog evidence architecture: 33 craft: 24 ground: 35 tree: 33 total canonical textures: 125 family files: architecture.md, craft.md, ground.md, tree.md. current game usage: current temple usage.md. temple material pipeline 1. a procedural mesh renders immediately with a semantic fallback color. 2. nativelayeredmaterialhydrator progressively hydrates base mapurl and optional mixurl. 3. netzachtempleecologicalmaterialhydrator reuses the same trusted core loader/cache for ecological layer urls. 4. native texturelayers then react to slope, height, wetness, uv repeat/angle, and the four core ecology zones. 5. visual quality controls future decode size, queue concurrency, and atmosphere budgets without destructively re decoding cached textures. agent rules filenames are exact and case sensitive; preserve spaces and capitalization. never guess a filename. search the core catalog. never hand encode spaces or construct the remote root. prefer one physically meaningful base/mix pair; add ecological layers only when slope/place/weather genuinely improves realism. roads use core zone [0,1,0,0]; untagged geometry uses the core generic fallback [1,0,0,0]. keep hazard/lane/reward readability independent of remote texture success. remote failure must degrade to fallback/base material, never block gameplay.",
+		"page": "pages/geelooy-games-mitzvahworld-templerunner-docs-textures-readme-md-5326e8e915.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-templerunner-docs-textures-tree-md-061342595c",
+		"title": "Tree Texture Catalog",
+		"sourcePath": "geelooy/games/mitzvahWorld/templeRunner/docs/textures/TREE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Tree Texture Catalog",
+				"anchor": "tree-texture-catalog"
+			},
+			{
+				"level": 2,
+				"text": "Exact filenames",
+				"anchor": "exact-filenames"
+			},
+			{
+				"level": 2,
+				"text": "Usage",
+				"anchor": "usage"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Tree Texture Catalog The Awtsmoos renews every image name before a finite catalog can claim the source of surface light; Awtsmoos.com lets exact names remain discoverable, trusted, and bright for every future agent and procedural site. Canonical family: tree Canonical count: 33 Names are",
+		"searchText": "b\"h boruch hashem blessed is he tree texture catalog the awtsmoos renews every image name before a finite catalog can claim the source of surface light; awtsmoos.com lets exact names remain discoverable, trusted, and bright for every future agent and procedural site. canonical family: tree canonical count: 33 names are exact and case sensitive. exact filenames acacia bark.png acacia compound leaf.png apple leaf.png apple tree bark.png ash bark.png ash leaf.png aspen bark.png aspen leaf.png baobab bark.png baobab leaf.png birch bark.png birtch leaf.png cedar spray.png cypress bark.png cypress scale leaf.png mangrove leaf.png mangrove tree bark.png maple leaf 2.png maple leaf.png oak leaf.png olive leaf.png olive tree bark.png palm bark 2.png palm bark.png palm frond.png pine needles.png poplar bark.png poplar leaf.png redwood bark.png redwood needles.png sakura petal.png willow bark.png willow leaf.png usage do not hand build drive urls. resolve through the core catalog so invalid names fail immediately.",
+		"page": "pages/geelooy-games-mitzvahworld-templerunner-docs-textures-tree-md-061342595c.json"
+	},
+	{
+		"id": "geelooy-games-nitzotz-io-documentation-md-cffefeee32",
+		"title": "Nitzotz.io — Shlichus Adventure Metropolis",
+		"sourcePath": "geelooy/games/nitzotz-io/DOCUMENTATION.md",
+		"category": "Games",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Nitzotz.io — Shlichus Adventure Metropolis",
+				"anchor": "nitzotz-io-shlichus-adventure-metropolis"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Nitzotz.io — Shlichus Adventure Metropolis The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAMES",
+		"searchText": "b\"h boruch hashem blessed is he nitzotz.io — shlichus adventure metropolis the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “nitzotz.io — shlichus adventure metropolis”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
+		"page": "pages/geelooy-games-nitzotz-io-documentation-md-cffefeee32.json"
+	},
+	{
+		"id": "geelooy-games-ohr-hagnuz-documentation-md-8146254f6a",
+		"title": "B\"H — Ohr HaGnuz: The Concealed Frontier",
+		"sourcePath": "geelooy/games/ohr-hagnuz/DOCUMENTATION.md",
+		"category": "Games",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Ohr HaGnuz: The Concealed Frontier",
+				"anchor": "b-h-ohr-hagnuz-the-concealed-frontier"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He B\"H — Ohr HaGnuz: The Concealed Frontier The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAMES P",
+		"searchText": "b\"h boruch hashem blessed is he b\"h — ohr hagnuz: the concealed frontier the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “b\"h — ohr hagnuz: the concealed frontier”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
+		"page": "pages/geelooy-games-ohr-hagnuz-documentation-md-8146254f6a.json"
+	}
+]

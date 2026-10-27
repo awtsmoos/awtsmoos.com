@@ -1,0 +1,223 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-1854-geelooy-seo-continuation-01-three-pa-6cd79c67cb",
+		"title": "Three-Pass Review",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-1854-geelooy-seo-continuation/01-three-pass-review.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Three-Pass Review",
+				"anchor": "three-pass-review"
+			},
+			{
+				"level": 2,
+				"text": "Pass One — Chesed: everything search needs",
+				"anchor": "pass-one-chesed-everything-search-needs"
+			},
+			{
+				"level": 2,
+				"text": "Pass Two — Gevurah: smallest safe correction",
+				"anchor": "pass-two-gevurah-smallest-safe-correction"
+			},
+			{
+				"level": 2,
+				"text": "Pass Three — Tiferes: improved exact plan",
+				"anchor": "pass-three-tiferes-improved-exact-plan"
+			}
+		],
+		"excerpt": "B\"H Three Pass Review Boruch Hashem. Blessed is He. Pass One — Chesed: everything search needs The ideal public page gives Google and humans the same title, description, canonical URL, H1, Torah body, Heichel context, author context, internal links, status semantics, robots policy, and sitemap discovery. JavaScript may",
+		"searchText": "b\"h three pass review boruch hashem. blessed is he. pass one — chesed: everything search needs the ideal public page gives google and humans the same title, description, canonical url, h1, torah body, heichel context, author context, internal links, status semantics, robots policy, and sitemap discovery. javascript may enrich but never create the only meaningful version. pass two — gevurah: smallest safe correction the first correction should touch only clean files proven to own the failure: heichelos/post/ awtsmoos.post.html, heichelos/post/initial content.html, and heichelos/routes/heichel/readerdata.js. do not mix robots/sitemap work into the same proof cycle. do not touch active reader control modules or unrelated chitas work. pass three — tiferes: improved exact plan child template reads post, heichel, and alias as injected locals, guarded with typeof so missing content degrades safely. active parent emits postsemantichead when available, retaining a safe noindex fallback when semantic data is absent. active parent calls child with an explicit named object, never $$sd. direct post lookup uses series root, matching the newer reader coordinate contract and the actual api route surface. invalid/missing post data must remain non indexable through the semantic model. after rewrite, test templates through the dynamic server—not only static grep.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-1854-geelooy-seo-continuation-01-three-pa-6cd79c67cb.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-1854-geelooy-seo-continuation-02-risk-and-db6740e1e8",
+		"title": "Risk and Verification Gate",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-1854-geelooy-seo-continuation/02-risk-and-verification.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Risk and Verification Gate",
+				"anchor": "risk-and-verification-gate"
+			},
+			{
+				"level": 2,
+				"text": "Risks",
+				"anchor": "risks"
+			},
+			{
+				"level": 2,
+				"text": "Proof required before expansion",
+				"anchor": "proof-required-before-expansion"
+			}
+		],
+		"excerpt": "B\"H Risk and Verification Gate Boruch Hashem. Blessed is He. The Awtsmoos joins light to vessel; every search improvement is incomplete until the actual initial response carries the light without error. Risks Template locals may differ between parent and child scopes. Missing posts could accidentally receive index,foll",
+		"searchText": "b\"h risk and verification gate boruch hashem. blessed is he. the awtsmoos joins light to vessel; every search improvement is incomplete until the actual initial response carries the light without error. risks template locals may differ between parent and child scopes. missing posts could accidentally receive index,follow. numeric road pages could canonicalize to an invalid named url. rich dayuh content extraction could over collect metadata fields. a long lived node process could hide current source behind require cache. sitemap work could advertise private or unavailable entities. proof required before expansion 1. every changed source file re read in full. 2. javascript syntax/import checks pass. 3. a deterministic mock renderer proves child locals render without $$sd. 4. a fresh isolated server from the current checkout starts on an unused port. 5. road response contains בפ' נסכים and meaningful body text. 6. road response contains canonical, description, robots, and social metadata. 7. road response contains neither $$sd nor therewasanawtsmooserrorhere. 8. named post url serves the same content identity. 9. browser enhancement still initializes after server content exists. 10. only after these pass may robots/sitemap implementation begin.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-1854-geelooy-seo-continuation-02-risk-and-db6740e1e8.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-1854-geelooy-seo-continuation-remaining-w-811673d1ca",
+		"title": "REMAININGWORK",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-1854-geelooy-seo-continuation/REMAINING_WORK.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "REMAININGWORK",
+				"anchor": "remainingwork"
+			}
+		],
+		"excerpt": "B\"H REMAINING WORK Boruch Hashem. Blessed is He. [x] Recover healthy native tunnel custody. [x] Re read current active post template stack. [x] Prove the $$sd child scope failure. [x] Prove active sibling shell ignores semantic head. [x] Prove direct post loader still uses obsolete API. [ ] Rewrite active sibling post ",
+		"searchText": "b\"h remaining work boruch hashem. blessed is he. [x] recover healthy native tunnel custody. [x] re read current active post template stack. [x] prove the $$sd child scope failure. [x] prove active sibling shell ignores semantic head. [x] prove direct post loader still uses obsolete api. [ ] rewrite active sibling post shell completely. [ ] rewrite initial content child completely. [ ] rewrite direct/root loader contract completely. [ ] re read the three changed files. [ ] run syntax/template focused checks. [ ] identify unused isolated local port and current server startup contract. [ ] start fresh isolated server. [ ] verify road initial html without javascript. [ ] verify named post initial html. [ ] verify missing post noindex/error behavior. [ ] verify browser hydration/navigation. [ ] audit current heichel discovery links. [ ] implement root robots discovery. [ ] implement public sitemap discovery. [ ] verify robots/sitemap content types and public only urls. [ ] re read all touched files and final diff. [ ] record planned versus actual delta.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-1854-geelooy-seo-continuation-remaining-w-811673d1ca.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-00-cu-d56212d5bc",
+		"title": "Current Reality",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-2342-geelooy-seo-current-head-merge/00-current-reality.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Current Reality",
+				"anchor": "current-reality"
+			},
+			{
+				"level": 2,
+				"text": "Observed repository state",
+				"anchor": "observed-repository-state"
+			},
+			{
+				"level": 2,
+				"text": "Mission",
+				"anchor": "mission"
+			}
+		],
+		"excerpt": "B\"H Current Reality Boruch Hashem. Blessed is He. The Awtsmoos renews the repository every instant; therefore Awtsmoos.com must be read from current HEAD, not from yesterday's vessel or memory's light. Observed repository state Current HEAD is 1b5bf485f. The relevant reader files are clean before this pass. 846eb318e c",
+		"searchText": "b\"h current reality boruch hashem. blessed is he. the awtsmoos renews the repository every instant; therefore awtsmoos.com must be read from current head, not from yesterday's vessel or memory's light. observed repository state current head is 1b5bf485f. the relevant reader files are clean before this pass. 846eb318e consolidated the newer mobile/calm reader. that consolidation kept the mobile stylesheet and calm reader asset versions, but replaced the real server rendered torah fragment with a static loading placeholder. the active post shell currently hardcodes awtsmoos torah revelation. the active shell currently performs a nested $a(\"initial content.html\") include. earlier fresh server evidence showed nested child includes can resolve to empty output under this route context. postreader.js already resolves the public post and already renders semantic head.html at the route layer. readerdata.loaddirect() still calls the obsolete root level singular post api. port 8898 is currently refused, so no verifier is running there. mission merge the newer calm/mobile reader with truthful server visible post content and metadata, preserving interactive behavior while making raw html independently meaningful and indexable.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-00-cu-d56212d5bc.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-01-ar-1f762e0538",
+		"title": "Architecture Options",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-2342-geelooy-seo-current-head-merge/01-architecture-options.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Architecture Options",
+				"anchor": "architecture-options"
+			},
+			{
+				"level": 2,
+				"text": "Option A — Nested template include",
+				"anchor": "option-a-nested-template-include"
+			},
+			{
+				"level": 2,
+				"text": "Option B — Restore the old shell wholesale",
+				"anchor": "option-b-restore-the-old-shell-wholesale"
+			},
+			{
+				"level": 2,
+				"text": "Option C — Route-layer pre-rendered fragments",
+				"anchor": "option-c-route-layer-pre-rendered-fragments"
+			},
+			{
+				"level": 2,
+				"text": "Option D — Build HTML entirely in JavaScript",
+				"anchor": "option-d-build-html-entirely-in-javascript"
+			},
+			{
+				"level": 2,
+				"text": "Option E — Client prerender snapshot",
+				"anchor": "option-e-client-prerender-snapshot"
+			}
+		],
+		"excerpt": "B\"H Architecture Options Boruch Hashem. Blessed is He. The Awtsmoos reveals many possible vessels; the chosen vessel must preserve the newest reader while letting Awtsmoos.com speak clearly before JavaScript arrives. Option A — Nested template include Keep $a(\"initial content.html\") inside the shell. Rejected because f",
+		"searchText": "b\"h architecture options boruch hashem. blessed is he. the awtsmoos reveals many possible vessels; the chosen vessel must preserve the newest reader while letting awtsmoos.com speak clearly before javascript arrives. option a — nested template include keep $a(\"initial content.html\") inside the shell. rejected because fresh server evidence already showed empty nested output and path ownership is route relative. option b — restore the old shell wholesale rejected because it would discard the newer reader calm 001 mobile stylesheet and reader integration work. option c — route layer pre rendered fragments chosen. postreader.js already owns resolved post data and successfully renders semantic head.html. it will also render initial content.html and a modular reader settings.html, then pass finished strings to the current calm/mobile shell. option d — build html entirely in javascript rejected because it duplicates the shell, weakens template ownership, and would produce a larger route module. option e — client prerender snapshot rejected because the user explicitly wants google visible content even when javascript is not the source of truth.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-01-ar-1f762e0538.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-02-pa-1930ebbf70",
+		"title": "Pass One — Chesed",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-2342-geelooy-seo-current-head-merge/02-pass-one-chesed.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Pass One — Chesed",
+				"anchor": "pass-one-chesed"
+			},
+			{
+				"level": 2,
+				"text": "Ideal behavior",
+				"anchor": "ideal-behavior"
+			}
+		],
+		"excerpt": "B\"H Pass One — Chesed Boruch Hashem. Blessed is He. The Awtsmoos gives generously: every public Road should reveal title, canonical identity, description, H1, Torah text, Heichel context, and author context in the first response from Awtsmoos.com. Ideal behavior Numeric Road resolves ordered series index to stable post",
+		"searchText": "b\"h pass one — chesed boruch hashem. blessed is he. the awtsmoos gives generously: every public road should reveal title, canonical identity, description, h1, torah text, heichel context, and author context in the first response from awtsmoos.com. ideal behavior numeric road resolves ordered series index to stable post id server side. named series post route and numeric road render the same title/body identity. semantic metadata is generated from the same resolved data. initial html contains a semantic article without javascript. javascript enhances the article with commentary, controls, navigation, and client state. missing posts never look indexable. new calm/mobile reader css and controls remain intact.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-02-pa-1930ebbf70.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-03-pa-7e67866758",
+		"title": "Pass Two — Gevurah",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-2342-geelooy-seo-current-head-merge/03-pass-two-gevurah.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Pass Two — Gevurah",
+				"anchor": "pass-two-gevurah"
+			},
+			{
+				"level": 2,
+				"text": "First implementation boundary",
+				"anchor": "first-implementation-boundary"
+			},
+			{
+				"level": 2,
+				"text": "Preservation requirements",
+				"anchor": "preservation-requirements"
+			}
+		],
+		"excerpt": "B\"H Pass Two — Gevurah Boruch Hashem. Blessed is He. The Awtsmoos measures each vessel with restraint; Awtsmoos.com should change only the files proven to own this failure before broader crawl work begins. First implementation boundary Touch only: 1. heichelos/routes/heichel/postReader.js 2. heichelos/routes/heichel/re",
+		"searchText": "b\"h pass two — gevurah boruch hashem. blessed is he. the awtsmoos measures each vessel with restraint; awtsmoos.com should change only the files proven to own this failure before broader crawl work begins. first implementation boundary touch only: 1. heichelos/routes/heichel/postreader.js 2. heichelos/routes/heichel/readerdata.js 3. heichelos/post/ awtsmoos.post.html 4. heichelos/post/initial content.html 5. new heichelos/post/reader settings.html do not yet touch robots, sitemap, heichel discovery, client reader modules, chitas modules, or unrelated current work. preservation requirements preserve reader calm 001 asset versions. preserve mobile reading.css. preserve all current control ids/classes. preserve current postlogic.js?v=reader calm 001 client boot. do not modify existing client logic in this pass.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-03-pa-7e67866758.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-04-pa-8a14be2da4",
+		"title": "Pass Three — Tiferes",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-2342-geelooy-seo-current-head-merge/04-pass-three-tiferes.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Pass Three — Tiferes",
+				"anchor": "pass-three-tiferes"
+			},
+			{
+				"level": 2,
+				"text": "Exact implementation",
+				"anchor": "exact-implementation"
+			},
+			{
+				"level": 2,
+				"text": "Verification order",
+				"anchor": "verification-order"
+			}
+		],
+		"excerpt": "B\"H Pass Three — Tiferes Boruch Hashem. Blessed is He. The Awtsmoos joins the newest responsive vessel with the oldest truth of the page: content first, enhancement second, one balanced revelation on Awtsmoos.com. Exact implementation postReader.js renders semantic head.html, reader settings.html, and initial content.h",
+		"searchText": "b\"h pass three — tiferes boruch hashem. blessed is he. the awtsmoos joins the newest responsive vessel with the oldest truth of the page: content first, enhancement second, one balanced revelation on awtsmoos.com. exact implementation postreader.js renders semantic head.html, reader settings.html, and initial content.html at the route layer with resolved data. the shell receives only finished fragment strings and never performs seo critical nested includes. initial content.html uses named locals supplied by $ga, escapes untrusted content, extracts readable text from post.content and post.dayuh, and emits one semantic article. reader settings.html contains the current calm/mobile reader controls verbatim in modular non minified form. the shell preserves current calm/mobile assets and inserts postsemantichead, readersettingshtml, and initialcontenthtml. readerdata.loaddirect() uses the valid series/root/post/:post public route. verification order 1. re read all five files. 2. check line ceilings, tabs, js syntax/imports, and absence of $$sd. 3. confirm 8898 is still refused. 4. start one isolated verifier on 8898. 5. curl numeric road raw html. 6. require real title, canonical url, h1, body text, and no template error. 7. curl named post raw html and compare identity. 8. only after core ssr passes, continue to browser hydration and crawl discovery.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-04-pa-8a14be2da4.json"
+	}
+]

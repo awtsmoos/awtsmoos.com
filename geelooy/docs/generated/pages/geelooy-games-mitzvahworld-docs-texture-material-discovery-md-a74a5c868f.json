@@ -1,0 +1,69 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-docs-texture-material-discovery-md-a74a5c868f",
+	"title": "B\"H",
+	"sourcePath": "geelooy/games/mitzvahWorld/docs/TEXTURE_MATERIAL_DISCOVERY.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Texture + Material Discovery for AI Agents",
+			"anchor": "texture-material-discovery-for-ai-agents"
+		},
+		{
+			"level": 2,
+			"text": "Fast path",
+			"anchor": "fast-path"
+		},
+		{
+			"level": 2,
+			"text": "Canonical counts",
+			"anchor": "canonical-counts"
+		},
+		{
+			"level": 2,
+			"text": "Remote transport truth",
+			"anchor": "remote-transport-truth"
+		},
+		{
+			"level": 2,
+			"text": "Shared Procedural Core roles",
+			"anchor": "shared-procedural-core-roles"
+		},
+		{
+			"level": 2,
+			"text": "Public searchable catalog",
+			"anchor": "public-searchable-catalog"
+		},
+		{
+			"level": 2,
+			"text": "The 71-item generated inventory is different",
+			"anchor": "the-71-item-generated-inventory-is-different"
+		},
+		{
+			"level": 2,
+			"text": "Mixing + realism source map",
+			"anchor": "mixing-realism-source-map"
+		},
+		{
+			"level": 2,
+			"text": "Remote-only image policy",
+			"anchor": "remote-only-image-policy"
+		},
+		{
+			"level": 2,
+			"text": "Verification checklist",
+			"anchor": "verification-checklist"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-docs-texture-material-discovery-md-a74a5c868f-001.json"
+	]
+}

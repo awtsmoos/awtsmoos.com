@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-design-os-white-fire-readme-md-9d6f5b0b10",
+	"title": "White Fire — Design the Emptiness",
+	"sourcePath": "geelooy/apps/tunnel/design-os/white-fire/README.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "White Fire — Design the Emptiness",
+			"anchor": "white-fire-design-the-emptiness"
+		},
+		{
+			"level": 2,
+			"text": "The idea",
+			"anchor": "the-idea"
+		},
+		{
+			"level": 2,
+			"text": "Usage",
+			"anchor": "usage"
+		},
+		{
+			"level": 3,
+			"text": "Constraints",
+			"anchor": "constraints"
+		},
+		{
+			"level": 2,
+			"text": "Modules",
+			"anchor": "modules"
+		},
+		{
+			"level": 2,
+			"text": "Tests",
+			"anchor": "tests"
+		},
+		{
+			"level": 2,
+			"text": "Score",
+			"anchor": "score"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-design-os-white-fire-readme-md-9d6f5b0b10-001.json"
+	]
+}

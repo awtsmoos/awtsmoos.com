@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-02-1028-sitewide-indexing-generation-2-05-te-619b7e9c26",
+	"title": "Generation 2 Test and Runtime Evidence",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-02-1028-sitewide-indexing-generation-2/05-test-and-runtime-evidence.md",
+	"category": "Testing",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Generation 2 Test and Runtime Evidence",
+			"anchor": "generation-2-test-and-runtime-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Static evidence",
+			"anchor": "static-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Fresh real-data runtime evidence on port 8937",
+			"anchor": "fresh-real-data-runtime-evidence-on-port-8937"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-02-1028-sitewide-indexing-generation-2-05-te-619b7e9c26-001.json"
+	]
+}

@@ -1,0 +1,216 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-09-02-1028-sitewide-indexing-generation-2-00-di-88514d689b",
+		"title": "Site-wide Indexing Generation 2 — Discovery and Expansion",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-02-1028-sitewide-indexing-generation-2/00-discovery-and-expansion.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Site-wide Indexing Generation 2 — Discovery and Expansion",
+				"anchor": "site-wide-indexing-generation-2-discovery-and-expansion"
+			},
+			{
+				"level": 2,
+				"text": "Expanded mission",
+				"anchor": "expanded-mission"
+			},
+			{
+				"level": 2,
+				"text": "Work graph",
+				"anchor": "work-graph"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Site wide Indexing Generation 2 — Discovery and Expansion The Awtsmoos reveals one public road, then shows the roads still hidden from the crawler's eye; Awtsmoos.com should let every true public world speak semantic truth before JavaScript paints the sky. Expanded mission The first gene",
+		"searchText": "b\"h boruch hashem blessed is he site wide indexing generation 2 — discovery and expansion the awtsmoos reveals one public road, then shows the roads still hidden from the crawler's eye; awtsmoos.com should let every true public world speak semantic truth before javascript paints the sky. expanded mission the first generation made aliases, discussion, translations, apps, games, heichel roots, series, and torah posts discoverable. generation 2 must improve quality and coverage , not merely add url volume. work graph 1. release proof closure preserve exact deployed sha and public verifier evidence. 2. app/game detail seo audit existing html metadata coverage. prefer one central response enrichment mechanism over editing dozens of pages. preserve application/game runtime behavior exactly. 3. translation discovery quality locate authoritative title metadata for imported post ids. enrich catalogs only when title evidence is reliable. keep paths stable and generation deterministic. 4. alias contribution depth discover existing compact indexes for authored posts/heichels/other public activity. expose only public stable destinations. avoid n+1 full body reads. 5. public route coverage inventory stable public page families. distinguish public content from auth/action/admin/debug routes. add only intentional families to discovery. 6. native comment future proofing add deterministic fixtures/tests proving comment sitemap shards appear and contain canonical native comment urls when pointers exist. 7. seo correctness canonical, robots, title, description, semantic h1, ordinary links. missing/deleted/private entities noindex or absent. 8. performance sitemap endpoints bounded and cached. no per page deep crawl of the whole database. 9. release test locally, commit exact paths, push race safe, guarded production activation, raw public verification.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-02-1028-sitewide-indexing-generation-2-00-di-88514d689b.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-02-1028-sitewide-indexing-generation-2-01-ar-5b1ef228e1",
+		"title": "Architecture Options",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-02-1028-sitewide-indexing-generation-2/01-architecture-options.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Architecture Options",
+				"anchor": "architecture-options"
+			},
+			{
+				"level": 2,
+				"text": "Option A — edit every app/game HTML page",
+				"anchor": "option-a-edit-every-app-game-html-page"
+			},
+			{
+				"level": 2,
+				"text": "Option B — generated wrapper/detail pages",
+				"anchor": "option-b-generated-wrapper-detail-pages"
+			},
+			{
+				"level": 2,
+				"text": "Option C — central static-HTML response enrichment",
+				"anchor": "option-c-central-static-html-response-enrichment"
+			},
+			{
+				"level": 2,
+				"text": "Option D — service-worker/client metadata",
+				"anchor": "option-d-service-worker-client-metadata"
+			},
+			{
+				"level": 2,
+				"text": "Option E — sitemap/catalog only",
+				"anchor": "option-e-sitemap-catalog-only"
+			},
+			{
+				"level": 2,
+				"text": "Selected direction",
+				"anchor": "selected-direction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Architecture Options The Awtsmoos can reveal one light through many vessels; Awtsmoos.com must choose the vessel that stays truthful as the project grows. Option A — edit every app/game HTML page High fidelity but high churn. Rejected as the default because dozens of files would duplicat",
+		"searchText": "b\"h boruch hashem blessed is he architecture options the awtsmoos can reveal one light through many vessels; awtsmoos.com must choose the vessel that stays truthful as the project grows. option a — edit every app/game html page high fidelity but high churn. rejected as the default because dozens of files would duplicate metadata logic and drift from registries. option b — generated wrapper/detail pages safe and deterministic, but creates duplicate user facing urls and weakens canonical identity. useful only for pages that cannot accept central enrichment. option c — central static html response enrichment inject missing canonical/title/description/robots/h1 metadata from authoritative registries when serving known app/game entry documents. strongest default if the server exposes a narrow response hook without invasive global behavior. option d — service worker/client metadata rejected for search critical metadata because crawler visibility must not depend on hydration. option e — sitemap/catalog only already implemented; useful discovery, but insufficient when detail pages have weak or missing semantic metadata. selected direction prefer option c if a narrow, testable server hook exists. fall back to targeted whole file page rewrites only for a small number of exceptional entrypoints. translation and alias enrichment remain generator/index based rather than global middleware.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-02-1028-sitewide-indexing-generation-2-01-ar-5b1ef228e1.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-02-1028-sitewide-indexing-generation-2-02-ri-281b99252a",
+		"title": "Risk and Quality Gates",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-02-1028-sitewide-indexing-generation-2/02-risk-and-quality-gates.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Risk and Quality Gates",
+				"anchor": "risk-and-quality-gates"
+			},
+			{
+				"level": 2,
+				"text": "Critical risks",
+				"anchor": "critical-risks"
+			},
+			{
+				"level": 2,
+				"text": "Required gates",
+				"anchor": "required-gates"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Risk and Quality Gates The Awtsmoos gives expansion gevurah: every added ray needs a boundary so Awtsmoos.com remains fast, private, and true. Critical risks Accidentally indexing auth, admin, API, edit, submit, delete, staging, debug, or private pages. Duplicating app/game content under",
+		"searchText": "b\"h boruch hashem blessed is he risk and quality gates the awtsmoos gives expansion gevurah: every added ray needs a boundary so awtsmoos.com remains fast, private, and true. critical risks accidentally indexing auth, admin, api, edit, submit, delete, staging, debug, or private pages. duplicating app/game content under generated alternate urls. injecting metadata into json/assets or html fragments instead of full documents. creating canonical urls that disagree with registry hrefs. using imported attribution aliases as real public profiles. loading entire comment/post bodies merely to build sitemaps. translation title lookups depending on production only state, making builds nondeterministic. breaking csp, script order, or game/app loading through response mutation. growing generated artifacts beyond the 120 line project ceiling. required gates fresh origin/main race check before writes and before push. whole file writes only. new/touched code <=120 lines per file. syntax/import checks. existing heichel quality + route tests. focused seo tests for registries, response enrichment, aliases, translations, comments. real data local runtime acceptance. raw public http acceptance after guarded release.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-02-1028-sitewide-indexing-generation-2-02-ri-281b99252a.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-02-1028-sitewide-indexing-generation-2-03-fi-263e68311a",
+		"title": "Final Execution Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-02-1028-sitewide-indexing-generation-2/03-final-execution-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Final Execution Plan",
+				"anchor": "final-execution-plan"
+			},
+			{
+				"level": 2,
+				"text": "Phase A — archaeology",
+				"anchor": "phase-a-archaeology"
+			},
+			{
+				"level": 2,
+				"text": "Phase B — implementation",
+				"anchor": "phase-b-implementation"
+			},
+			{
+				"level": 2,
+				"text": "Phase C — verification",
+				"anchor": "phase-c-verification"
+			},
+			{
+				"level": 2,
+				"text": "Phase D — release",
+				"anchor": "phase-d-release"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Final Execution Plan The Awtsmoos turns discovery into ordered action; Awtsmoos.com will deepen search truth without weakening the living application. Phase A — archaeology Inspect static server response pipeline and MIME/full document detection. Inspect app/game registries and sample en",
+		"searchText": "b\"h boruch hashem blessed is he final execution plan the awtsmoos turns discovery into ordered action; awtsmoos.com will deepen search truth without weakening the living application. phase a — archaeology inspect static server response pipeline and mime/full document detection. inspect app/game registries and sample entry html metadata. inspect imported translation title sources. inspect alias authored content indexes/routes. inventory candidate public top level route families. phase b — implementation add modular app/game seo metadata resolver and narrow html response enricher if the server architecture supports it safely. add translation title resolver using repository authoritative metadata only. add bounded alias contribution discovery from compact indexes where available. add deliberate public family discovery additions supported by evidence. add deterministic comment sitemap fixture coverage. phase c — verification run focused unit/regression tests. run existing quality and route suites. start real data server and inspect representative pages/sitemaps. measure response sizes/latencies and confirm no template errors. phase d — release commit only generation 2 paths. push with exact remote race checks. guarded production activation. raw public verification and final evidence ledger.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-02-1028-sitewide-indexing-generation-2-03-fi-263e68311a.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-02-1028-sitewide-indexing-generation-2-04-co-239367c22a",
+		"title": "Generation 2 Code-First Delta",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-02-1028-sitewide-indexing-generation-2/04-code-first-delta.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Generation 2 Code-First Delta",
+				"anchor": "generation-2-code-first-delta"
+			},
+			{
+				"level": 2,
+				"text": "Planned versus actual",
+				"anchor": "planned-versus-actual"
+			},
+			{
+				"level": 2,
+				"text": "Runtime-discovered corrections",
+				"anchor": "runtime-discovered-corrections"
+			},
+			{
+				"level": 2,
+				"text": "Shadow work discovered",
+				"anchor": "shadow-work-discovered"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generation 2 Code First Delta The Awtsmoos gave the planned sitemap a deeper face; Awtsmoos.com now carries semantic truth into each registered static world before the browser begins its race. Planned versus actual Planned: central app/game metadata enrichment. Actual: 75 registry backed",
+		"searchText": "b\"h boruch hashem blessed is he generation 2 code first delta the awtsmoos gave the planned sitemap a deeper face; awtsmoos.com now carries semantic truth into each registered static world before the browser begins its race. planned versus actual planned: central app/game metadata enrichment. actual: 75 registry backed app/game documents plus four curated public information documents, 79 total generated metadata records. planned: enrich translation titles when authoritative metadata exists. actual: corpus manifests and bundle payloads contain stable coordinates but no trustworthy human title field, so no title invention was allowed. planned: richer alias discovery. actual: validated alias ssr now contains a bounded authored post section backed by existing authorship verifying profile machinery, limited to 12 posts. planned: deliberate public family coverage. actual: about, docs, social, and contact entered core discovery; donate and action/auth/control surfaces remain excluded for lack of semantic/public content evidence. planned: native comment future proofing. actual: comment sitemap logic gained an injected pure factory and deterministic tests for roots, replies, deleted/malformed pointers, and stale aliases. runtime discovered corrections extensionless app/game registry hrefs originally canonicalized to redirecting urls. directory canonicals now normalize to the final slash url. apostrophes inside authored meta descriptions exposed a quote fragile build parser. static metadata extraction is now quote aware and entity aware. a runtime verifier repeated the old apostrophe parsing mistake. quote aware verification proved the served docs description is complete. shadow work discovered opengraph title should prefer an authored document title when present rather than a shorter registry fallback. registry backed public pages can carry minimal json ld structured data without changing visible application ui. current real alias data contains zero authored post records among six public aliases; deterministic tests preserve future behavior until real data appears.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-02-1028-sitewide-indexing-generation-2-04-co-239367c22a.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-02-1028-sitewide-indexing-generation-2-05-te-619b7e9c26",
+		"title": "Generation 2 Test and Runtime Evidence",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-02-1028-sitewide-indexing-generation-2/05-test-and-runtime-evidence.md",
+		"category": "Testing",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Generation 2 Test and Runtime Evidence",
+				"anchor": "generation-2-test-and-runtime-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Static evidence",
+				"anchor": "static-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Fresh real-data runtime evidence on port 8937",
+				"anchor": "fresh-real-data-runtime-evidence-on-port-8937"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generation 2 Test and Runtime Evidence The Awtsmoos asks not for confidence but witness; Awtsmoos.com records the measured trail so another developer can distinguish proof from wish. Static evidence Focused regression tests pass: artifact freshness/privacy, public static metadata parsing",
+		"searchText": "b\"h boruch hashem blessed is he generation 2 test and runtime evidence the awtsmoos asks not for confidence but witness; awtsmoos.com records the measured trail so another developer can distinguish proof from wish. static evidence focused regression tests pass: artifact freshness/privacy, public static metadata parsing, html seo enrichment/preservation, comment sitemap fixtures, alias/comment/translation renderers. every touched/new generation 2 source and generated js artifact remains at or below 120 lines. generated artifact rebuild is byte for byte idempotent. git diff check passes. existing heichel quality suite passes across 1,269 files. existing route suite passes 135 required routes across 109 route files. fresh real data runtime evidence on port 8937 /apps/piano returns 301 to /apps/piano/. /apps/piano/ returns 200 with slash canonical, description, index/follow robots, and matching opengraph url. app sitemap contains https://awtsmoos.com/apps/piano/. about, docs, social, contact return 200 with canonical/description/indexable metadata. docs description is exactly: b'h — learn, search, explore every api, project boundary, and data/security/realtime system in awtsmoos.com. core sitemap includes about/contact/docs/social and excludes login/logout/control/donate. comment sitemap returns 200 in about 0.59 seconds. torah road returns 200 with the server rendered initial article intact. six currently valid aliases all return 200; maximum observed profile latency is about 0.288 seconds. current six aliases contain zero authored post records in real data, so no real authored teaching link was available to follow; deterministic authored post tests cover the future data contract.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-02-1028-sitewide-indexing-generation-2-05-te-619b7e9c26.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-02-1028-sitewide-indexing-generation-2-remai-ab0c1bce08",
+		"title": "REMAININGWORK-02",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-02-1028-sitewide-indexing-generation-2/REMAINING_WORK-02.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "REMAININGWORK-02",
+				"anchor": "remainingwork-02"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He REMAINING WORK 02 [x] Central registry backed app/game static metadata enrichment. [x] Curated About/Docs/Social/Contact metadata and core discovery. [x] Directory canonical normalization to final 200 URLs. [x] Quote/entity safe authored static metadata parsing. [x] Bounded alias authore",
+		"searchText": "b\"h boruch hashem blessed is he remaining work 02 [x] central registry backed app/game static metadata enrichment. [x] curated about/docs/social/contact metadata and core discovery. [x] directory canonical normalization to final 200 urls. [x] quote/entity safe authored static metadata parsing. [x] bounded alias authored post semantic section. [x] deterministic native comment sitemap fixture coverage. [x] focused generation 2 static/regression gates. [x] existing heichel quality and route compatibility gates. [x] fresh real data runtime and all alias performance verification. [ ] prefer authored document title for generated opengraph title when available. [ ] add minimal kind aware json ld to registered public static pages without visible ui mutation. [ ] re run focused/static and fresh runtime gates for semantic enhancement. [ ] fresh fetch origin/main and audit concurrent overlap. [ ] stage only generation 2 paths and audit staged universe. [ ] commit and push race safely. [ ] guarded production activation exits zero. [ ] raw public generation 2 acceptance passes. [ ] re read touched files, compare planned versus actual, and close remaining mission work. next action: improve publichtmlseo semantic consistency and structured data, then verify before release.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-02-1028-sitewide-indexing-generation-2-remai-ab0c1bce08.json"
+	}
+]

@@ -1,0 +1,24 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-compiler-core-readme-md-70aabef30f",
+	"title": "B\"H — Compiler Core (geelooy/api/compiler/core/)",
+	"sourcePath": "geelooy/api/compiler/core/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Compiler Core (geelooy/api/compiler/core/)",
+			"anchor": "b-h-compiler-core-geelooy-api-compiler-core"
+		},
+		{
+			"level": 2,
+			"text": "Files",
+			"anchor": "files"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-compiler-core-readme-md-70aabef30f-001.json"
+	]
+}

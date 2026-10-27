@@ -6,7 +6,7 @@ Blessed is He
 
 **Family:** Social · **Mount:** `/api/social` · **Derech health:** OK
 
-**Source:** `geelooy/api/social/_awtsmoos.civilization.js` · **Discovery:** static-literal · **Confidence:** source-lexical
+**Source:** `geelooy/api/social/_awtsmoos.civilization.js` · **Discovery:** static-literal · **Confidence:** unknown-method
 
 [Read the human Social tutorial](../../../TUTORIALS/API/SOCIAL.md)
 
@@ -14,8 +14,8 @@ Blessed is He
 
 ## Contract evidence
 
-- Methods: `GET`, `POST`
-- Request vessels: `$_GET`, `$_POST`, `route-vars`
+- Methods: **unknown**
+- Request vessels: —
 - Observed status literals: —
 - Observed headers: —
 
@@ -27,18 +27,7 @@ Blessed is He
 
 ## Starter call
 
-> Starter only: method evidence is lexical at the source-file level; inspect the handler before relying on payload or response shape.
-
-```sh
-curl -X GET 'https://awtsmoos.com/api/social/civilization/feed/{alias}'
-```
-
-```js
-const response = await fetch("/api/social/civilization/feed/{alias}", {
-	method: "GET"
-});
-const result = await response.json();
-```
+No executable starter is generated because method evidence is unknown. Inspect the source handler before choosing a method or payload.
 
 ## Observed callers
 
@@ -48,7 +37,7 @@ No matching literal caller evidence was found.
 
 Heuristic family matches:
 
-- `test` — `npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported-style-ownership && npm run test:css-quality && npm run test:heichelos-quality && npm run test:profile-menu && npm run test:heichel-governance && npm run test:post-submissions && npm run test:comments && npm run test:api-keys && npm run test:graph && npm run test:social-content && npm run test:notifications && npm run test:social-packed && npm run test:packed-engine && npm run test:platform-ops && npm run test:platform-execution && npm run test:node-client && npm run test:dayuh-cutover`
+- `test` — `npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported-style-ownership && npm run test:css-quality && npm run test:heichelos-quality && npm run test:heichel-cache-scale && npm run test:profile-menu && npm run test:heichel-governance && npm run test:post-submissions && npm run test:comments && npm run test:api-keys && npm run test:graph && npm run test:social-content && npm run test:notifications && npm run test:social-packed && npm run test:packed-engine && npm run test:platform-ops && npm run test:platform-execution && npm run test:node-client && npm run test:dayuh-cutover`
 - `test:api-keys` — `node geelooy/api/social/helper/test/apiKeys.test.js`
 - `test:comments` — `node geelooy/api/social/helper/comments/test/runAllCommentsTests.js`
 - `test:concurrency-failure` — `node geelooy/api/social/test/concurrencyFailureStress.test.mjs`
@@ -57,10 +46,10 @@ Heuristic family matches:
 ## Related routes
 
 - [`/api/social`](./api-social-9fa4891e88.md)
-- [`/api/social/abuse/rateLimit/check`](./api-social-abuse-ratelimit-check-0a30b621f8.md)
-- [`/api/social/alias/:alias`](./api-social-alias-alias-2cc6a9ba6e.md)
-- [`/api/social/alias/:alias/details`](./api-social-alias-alias-details-7e4136898b.md)
+- [`/api/social/abuse/rateLimit/check`](./api-social-abuse-ratelimit-check-5b49fb70cc.md)
 - [`/api/social/alias/:alias/heichelos`](./api-social-alias-alias-heichelos-34bfb8e313.md)
 - [`/api/social/alias/:alias/heichelos/:heichel`](./api-social-alias-alias-heichelos-heichel-4c7f5ddd08.md)
 - [`/api/social/alias/:alias/heichelos/:heichel/ownership`](./api-social-alias-alias-heichelos-heichel-ownership-c2e6e8e020.md)
 - [`/api/social/alias/:alias/heichelos/details`](./api-social-alias-alias-heichelos-details-75a049464f.md)
+- [`/api/social/aliases/:alias/commentsMade`](./api-social-aliases-alias-commentsmade-bff96a6bfa.md)
+- [`/api/social/aliases/:alias/commentsMade/heichel/:heichel`](./api-social-aliases-alias-commentsmade-heichel-heichel-1ed2696840.md)

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Legacy Post Comments (geelooy/api/social/helper/old/comments-old/post/)\n\nLegacy post-comment helper.\n\n- `index.js` — old post comment module.\n"
+}

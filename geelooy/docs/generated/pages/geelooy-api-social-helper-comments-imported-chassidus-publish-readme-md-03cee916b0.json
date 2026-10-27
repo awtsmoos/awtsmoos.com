@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-social-helper-comments-imported-chassidus-publish-readme-md-03cee916b0",
+	"title": "Chassidus Publish — production procedure (read this before touching live data)",
+	"sourcePath": "geelooy/api/social/helper/comments/imported/CHASSIDUS_PUBLISH_README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Chassidus Publish — production procedure (read this before touching live data)",
+			"anchor": "chassidus-publish-production-procedure-read-this-before-touching-live-data"
+		},
+		{
+			"level": 2,
+			"text": "Where translations LIVE (two separate stores!)",
+			"anchor": "where-translations-live-two-separate-stores"
+		},
+		{
+			"level": 2,
+			"text": "Publish order (per series)",
+			"anchor": "publish-order-per-series"
+		},
+		{
+			"level": 2,
+			"text": "Rules",
+			"anchor": "rules"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-social-helper-comments-imported-chassidus-publish-readme-md-03cee916b0-001.json"
+	]
+}

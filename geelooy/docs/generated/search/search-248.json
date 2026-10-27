@@ -1,249 +1,70 @@
 [
 	{
-		"id": "geelooy-games-documentation-md-91efed5ea4",
-		"title": "Games Documentation",
-		"sourcePath": "geelooy/games/DOCUMENTATION.md",
-		"category": "Games",
-		"provenance": "breadcrumb",
+		"id": "docs-generated-public-entry-points-public-entry-points-004-md-026ad01293",
+		"title": "Generated Public Entry Point Atlas 136–180",
+		"sourcePath": "docs/GENERATED/PUBLIC_ENTRY_POINTS/public-entry-points-004.md",
+		"category": "General",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Games Documentation",
-				"anchor": "games-documentation"
+				"text": "Generated Public Entry Point Atlas 136–180",
+				"anchor": "generated-public-entry-point-atlas-136-180"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Games Documentation The Awtsmoos gives each world rules, motion, players, reports, and story in time; Awtsmoos.com maps game files together with editors, emulators, direct handlers, and realtime lines. Read ../../docs/APPS/GAMES AND SIMULATION.md. Mitzvah World autoplay report endpoints ",
-		"searchText": "b\"h boruch hashem blessed is he games documentation the awtsmoos gives each world rules, motion, players, reports, and story in time; awtsmoos.com maps game files together with editors, emulators, direct handlers, and realtime lines. read ../../docs/apps/games and simulation.md. mitzvah world autoplay report endpoints are documented at ../../docs/api/direct root handlers.md. realtime behavior may continue under the server websocket apps.",
-		"page": "pages/geelooy-games-documentation-md-91efed5ea4.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Public Entry Point Atlas 136–180 Every discovered index.html beneath the Geelooy public root, with title and linked script/style evidence. URL Entry file Title Scripts Script sample Styles Style sample /legal/privacy geelooy/legal/privacy/index.html Awtsmoos.com Privacy Policy ",
+		"searchText": "b\"h boruch hashem blessed is he generated public entry point atlas 136–180 every discovered index.html beneath the geelooy public root, with title and linked script/style evidence. url entry file title scripts script sample styles style sample /legal/privacy geelooy/legal/privacy/index.html awtsmoos.com privacy policy 0 — 1 ../shared.css?v=b495ab5663 /legal/terms geelooy/legal/terms/index.html awtsmoos.com terms of use 0 — 1 ../shared.css?v=b495ab5663 /libs/awtsmoos procedural core/demo/selective artifact lineage/public geelooy/libs/awtsmoos procedural core/demo/selective artifact lineage/public/index.html awtsmoos selective artifact lineage 0 — 0 — /likutei torah geelooy/likutei torah/index.html likkutei torah — awtsmoos.com 0 — 1 /heichelos/ikar/series/bh likkuteitorah %d7%91%d7%9e%d7%93%d7%91%d7%a8 /login geelooy/login/index.html login with awtsmoos 0 — 2 /style/bh.css?v=79f4482754; /login/styles/index.css?v=70299b39e017 /logout geelooy/logout/index.html logged out · awtsmoos 0 — 1 ../css/awp polish.css?v=ba0dcce2ee /mav geelooy/mav/index.html search — awtsmoos 0 — 1 https://awtsmoos.com/mawgawl/sefarim/ /mawgawl geelooy/mawgawl/index.html mawgawl · booking calendar 1 ./script.js?v=607da1cb43 2 ./styles.css?v=4afcfeb265; ../css/awp polish.css?v=ba0dcce2ee /mawgawl/sefarim geelooy/mawgawl/sefarim/index.html search the living library — geelooy 3 /scripts/awtsmoos/social/shell/boot.js?v=de5da830c1; /scripts/awtsmoos/ui/foundation.js?v=a70bdc0d31; ./script.js?v=5e62d386e5 7 /style/civilization/core tokens.css?v=f731a87bdb; /style/geelooy app/index.css?v=27fe7b4829; /style/universal ui.css?v=4ae04360fe; /css/golden icons.css?v=7c62c1d746 /messages geelooy/messages/index.html messages \\ awtsmoos 0 — 2 /style/awtsmoos tokens.css?v=277746350e; /messages/css/messages.css?v=d451a57e08 /node os geelooy/node os/index.html awtsmoos node os 1 /node os/app.js?v=76038e2af8 2 /style/social system/node os/base.css?v=5cb8c87e5f; /style/social system/node os/cards.css?v=b9424b0271 /notifications geelooy/notifications/index.html signals — geelooy 3 /scripts/awtsmoos/social/shell/boot.js?v=de5da830c1; ./app.js?v=2836677f92; ./modules/categorytabs.js?v=cb3f43f52e 3 /style/geelooy app/index.css?v=27fe7b4829; /style/social system/index.css?v=b929f2bbcd; ./style.css?v=6b442f4cbf /ocr geelooy/ocr/index.html ocr studio — awtsmoos 1 /scripts/awtsmoos/ocr/index.js?v=dd87577e1b 1 /style/ocr/index.css?v=aef67fa641 /os geelooy/os/index.html geelooy os — awtsmoos workspace 1 ./script.js?v=05c8bdfbb5 26 https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo image archive/sha256/d9062b23884f1be201a89a4e9acab7042d4a354f31c8ca3d64ff1d3567ccec47/asset; ./styles.css?v=3ccd53bd90; ./civilization/styles.css?v=6b582b7ae6; ./native executable accessibility.css?v=701d9ef272 /pair geelooy/pair/index.html pair device awtsmoos.com 0 — 0 — /parsers/whatsapp geelooy/parsers/whatsapp/index.html whatsapp message maker 1 ./modules/parserapp.mjs?v=parser 001 1 ./styles/parser.css?v=73b1679f6d /portal geelooy/portal/index.html portal — awtsmoos 1 ./scripts/portal.js?v=77b174c0b2 4 ../favicon.ico; /style/universal ui.css?v=4ae04360fe; ./portal.css?v=a1183d2dd8; ../css/awp polish.css?v=ba0dcce2ee /post editor geelooy/post editor/index.html post editor — geelooy 2 /scripts/awtsmoos/social/shell/boot.js?v=de5da830c1; /post editor/app.js?v=55ddde7af8 2 /style/geelooy app/index.css?v=27fe7b4829; /style/social system/editor.css?v=0621af8f33 /profile geelooy/profile/index.html profile — awtsmoos 5 ./script.js?v=c9227e2f52; ./modules/readingstats.js?v=68ce244b4e; /scripts/awtsmoos/social/shell/boot.js?v=de5da830c1; /scripts/sw register.js?v=fd64f071cd 10 /style/geelooy app/index.css?v=27fe7b4829; /css/awp polish.css?v=ba0dcce2ee; /style/civilization/core tokens.css?v=f731a87bdb; /style/civilization/core base.css?v=632fba31fa /profile comments geelooy/profile comments/index.html alias comments — browse &amp; search 1 ./app.js?v=7339260f19 1 ./styles.css?v=b2d916a5ab /profile/alias geelooy/profile/alias/index.html alias profile — awtsmoos 0 — 4 /css/awtsmoos visual assets.css?v=7e62292b8d; /css/video loader.css?v=fccafca785; ../styles/profile dream.css?v=686e8c86cf; /css/golden icons.css?v=7c62c1d746 /profile/alias manage geelooy/profile/alias manage/index.html — 1 ./script.js?v=71f3f7f38f 2 https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo image mirror/geelooy/design refs/law8/account ref.webp; /style/geelooy app/index.css?v=27fe7b4829 /public/virtual os games/crystal 1780372754759 geelooy/public/virtual os games/crystal 1780372754759/index.html crystal critters 0 — 0 — /public/virtual os games/crystal 1780372758361 geelooy/public/virtual os games/crystal 1780372758361/index.html crystal critters 0 — 0 — /public/virtual os games/crystal 1780373501785 improved geelooy/public/virtual os games/crystal 1780373501785 improved/index.html crystal critters: awakened cave 0 — 0 — /public/virtual os games/crystal 1780373505136 improved geelooy/public/virtual os games/crystal 1780373505136 improved/index.html crystal critters: awakened cave 0 — 0 — /public/virtual os games/crystal 1780373765713 swarm v2 geelooy/public/virtual os games/crystal 1780373765713 swarm v2/index.html crystal critters: thumb safe swarm 0 — 0 — /public/virtual os games/crystal 1780373769185 swarm v2 geelooy/public/virtual os games/crystal 1780373769185 swarm v2/index.html crystal critters: thumb safe swarm 0 — 0 — /public/virtual os games/crystal 1780374109835 clean mobile geelooy/public/virtual os games/crystal 1780374109835 clean mobile/index.html crystal critters: clean mobile 0 — 0 — /public/virtual os games/crystal 1780374112967 clean mobile geelooy/public/virtual os games/crystal 1780374112967 clean mobile/index.html crystal critters: clean mobile 0 — 0 — /record geelooy/record/index.html camera preview — geelooy 1 script.js?v=7ff7469775 1 style.css?v=a4667028b5 /recorder geelooy/recorder/index.html local recorder — geelooy 1 recorder.js?v=dfc6e28616 1 style.css?v=3e5b0171d5 /reeyuh geelooy/reeyuh/index.html reeyuh · shulchan aruch reader 1 ./js/app.js?v=4414d8b779 2 ./style.css?v=53e1582a64; ../css/awp polish.css?v=ba0dcce2ee /register geelooy/register/index.html create awtsmoos account 2 /scripts/awtsmoos/social/shell/boot.js?v=de5da830c1; /scripts/awtsmoos/bh.js?v=16657eaba7 3 /style/bh.css?v=79f4482754; /style/forms.css?v=ab3b5dd9ed; /style/geelooy app/index.css?v=27fe7b4829 /scripts/awtsmoos/compiling/pe geelooy/scripts/awtsmoos/compiling/pe/index.html awtsmoos exe compiler 1 script.js?v=b5a03864ae 1 style.css?v=a1f3119001 /scripts/awtsmoos/merkavaastparser geelooy/scripts/awtsmoos/merkavaastparser/index.html kabbalistic es6 ast parser 1 parser core.js?v=6cac1f3efe 0 — /scripts/awtsmoos/merkavabeautifier geelooy/scripts/awtsmoos/merkavabeautifier/index.html merkava beautifier 1 main.js?v=ed42a22687 1 style.css?v=2304ae018e /scripts/awtsmoos/merkavaexecutor geelooy/scripts/awtsmoos/merkavaexecutor/index.html merkava executor — runtime id ast ect 7 /scripts/awtsmoos/merkavaexecutor/app/browser/state.js?v=1af8db27a5; /scripts/awtsmoos/merkavaexecutor/app/browser/examples.js?v=227e03616e; /scripts/awtsmoos/merkavaexecutor/app/browser/files.js?v=6d31de0d67; /scripts/awtsmoos/merkavaexecutor/app/browser/renderers.js?v=680d2c3c83 1 /scripts/awtsmoos/merkavaexecutor/app/styles.css?v=4d0610d9ff /scripts/awtsmoos/merkavaexecutor/.mode2 path app geelooy/scripts/awtsmoos/merkavaexecutor/.mode2 path app/index.html — 1 /js/main.js 1 /css/style.css /scripts/awtsmoos/tts geelooy/scripts/awtsmoos/tts/index.html kokoro forge b\"h 1 ./main.js?v=f7fcbd1928 2 https://fonts.googleapis.com/css2?family=orbitron:wght@400;700;900&family=rajdhani:wght@300;500;700&family=jetbrains+mono:wght@400;700&display=swap; ./index.css?v=ec8126f08f /scripts/awtsmoos/zip geelooy/scripts/awtsmoos/zip/index.html awtsmoos native zip 1 main.js?v=20246ba38a 1 style.css?v=a548110182 /scripts/tricks geelooy/scripts/tricks/index.html — 0 — 0 — /scripts/tricks/jem geelooy/scripts/tricks/jem/index.html awtsmoos jemizier 1 script.js?v=5b2e8b1abc 2 style.css?v=1ddd4d7e38; https://cdnjs.cloudflare.com/ajax/libs/font awesome/6.0.0/css/all.min.css /shliach geelooy/shliach/index.html awtsmoos shliach — connect ai agents \\ awtsmoos 1 /scripts/shliach/index.js?v=65128b6989 3 https://awtsmoos.com/shliach/; https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo image archive/sha256/d76de40fd95c728e535b9f2d0378a66f809be4bdf086d7c558435a14f684f3f5/asset; /style/shliach/bundle.css?v=94c35f4acc /shliach plugin geelooy/shliach plugin/index.html awtsmoos shliach — awtsmoos shliach 0 — 1 /shliach plugin/policy.css?v=faa94237ab",
+		"page": "pages/docs-generated-public-entry-points-public-entry-points-004-md-026ad01293.json"
 	},
 	{
-		"id": "geelooy-games-emojis-documentation-md-3ea2d9114e",
-		"title": "Emoji War — Neon Caption Arcade",
-		"sourcePath": "geelooy/games/emojis/DOCUMENTATION.md",
-		"category": "Games",
-		"provenance": "breadcrumb",
+		"id": "docs-generated-public-entry-points-public-entry-points-005-md-9944141dff",
+		"title": "Generated Public Entry Point Atlas 181–205",
+		"sourcePath": "docs/GENERATED/PUBLIC_ENTRY_POINTS/public-entry-points-005.md",
+		"category": "General",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Emoji War — Neon Caption Arcade",
-				"anchor": "emoji-war-neon-caption-arcade"
-			},
-			{
-				"level": 2,
-				"text": "Role",
-				"anchor": "role"
-			},
-			{
-				"level": 2,
-				"text": "Start here",
-				"anchor": "start-here"
-			},
-			{
-				"level": 2,
-				"text": "Change rule",
-				"anchor": "change-rule"
-			},
-			{
-				"level": 2,
-				"text": "Project-specific notes",
-				"anchor": "project-specific-notes"
+				"text": "Generated Public Entry Point Atlas 181–205",
+				"anchor": "generated-public-entry-point-atlas-181-205"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Emoji War — Neon Caption Arcade The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAMES PLATFORM.m",
-		"searchText": "b\"h boruch hashem blessed is he emoji war — neon caption arcade the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “emoji war — neon caption arcade”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
-		"page": "pages/geelooy-games-emojis-documentation-md-3ea2d9114e.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Public Entry Point Atlas 181–205 Every discovered index.html beneath the Geelooy public root, with title and linked script/style evidence. URL Entry file Title Scripts Script sample Styles Style sample /shliach plugin/privacy geelooy/shliach plugin/privacy/index.html Privacy Po",
+		"searchText": "b\"h boruch hashem blessed is he generated public entry point atlas 181–205 every discovered index.html beneath the geelooy public root, with title and linked script/style evidence. url entry file title scripts script sample styles style sample /shliach plugin/privacy geelooy/shliach plugin/privacy/index.html privacy policy — awtsmoos shliach 0 — 1 /shliach plugin/policy.css?v=faa94237ab /shliach plugin/support geelooy/shliach plugin/support/index.html support — awtsmoos shliach 0 — 1 /shliach plugin/policy.css?v=faa94237ab /shliach plugin/terms geelooy/shliach plugin/terms/index.html terms of use — awtsmoos shliach 0 — 1 /shliach plugin/policy.css?v=faa94237ab /shliach/gallery geelooy/shliach/gallery/index.html awtsmoos shliach gallery — logo, golden bridge & aleph coder art \\ awtsmoos 1 /scripts/shliach/index.js?v=65128b6989 2 https://awtsmoos.com/shliach/gallery/; /style/shliach/index.css?v=17d0cd712b /shliach/poems geelooy/shliach/poems/index.html awtsmoos shliach poems — agent, aleph, code & creation \\ awtsmoos 1 /scripts/shliach/index.js?v=65128b6989 2 https://awtsmoos.com/shliach/poems/; /style/shliach/index.css?v=17d0cd712b /shliach/prompts geelooy/shliach/prompts/index.html awtsmoos shliach prompts — custom gpt coding & project prompts \\ awtsmoos 1 /scripts/shliach/index.js?v=65128b6989 2 https://awtsmoos.com/shliach/prompts/; /style/shliach/index.css?v=17d0cd712b /showcase/unified movie 180 geelooy/showcase/unified movie 180/index.html awtsmoos unified movie · 180 second proof 1 ./showcase.js?v=5200236d92 1 ./showcase.css?v=999b521c97 /social geelooy/social/index.html awtsmoos social observatory 1 /scripts/awtsmoos/social/hub/index.js?v=3002f2b9d7 10 /style/social/hub/index.css?v=e58ca2330d; /style/social/live/presence.css?v=2a49ec535f; /scripts/awtsmoos/social/hub/render.js?v=61d8ea1fca; /scripts/awtsmoos/social/hub/requestplan.js?v=6514d566b5 /social composer geelooy/social composer/index.html create new post — geelooy 2 ./js/main.js?v=eea15c424a; ./js/civilizationenhancements.js?v=45ff8c1db3 1 ./style.css?v=66cd73d4d3 /social composer/reel studio geelooy/social composer/reel studio/index.html mitzvahworld movie studio 1 ./boot.js?v=21e4be0306 1 ./style.css?v=495023029b /social hub geelooy/social hub/index.html social hub — geelooy 2 /scripts/awtsmoos/social/shell/boot.js?v=de5da830c1; ./js/main.js?v=3798434760 2 ./style.css?v=d97e4e2936; /style/geelooy app/index.css?v=27fe7b4829 /social hub/heichelos geelooy/social hub/heichelos/index.html heichelos — social hub 0 — 1 https://awtsmoos.com/social hub/ spaces /social/migrate geelooy/social/migrate/index.html social migration studio · awtsmoos 1 ./js/main.js?v=b13d55a9c4 2 ../../style/future system/index.css?v=bc327633a7; ./style.css?v=69343b34e6 /sod geelooy/sod/index.html endpoint interaction 0 — 0 — /tanya geelooy/tanya/index.html tanya — awtsmoos.com 0 — 1 /heichelos/ikar/series/tanyalikkuteiamarim /tests/glyph engine geelooy/tests/glyph engine/index.html awtsmoos glyph lab · all letter hebrew font experiments 1 ./app.js 1 ./style.css /translations geelooy/translations/index.html english torah translations \\ awtsmoos 0 — 1 https://awtsmoos.com/translations/ /tunnel/connect geelooy/tunnel/connect/index.html connect an agent — awtsmoos tunnel 0 — 0 — /tunnel/device geelooy/tunnel/device/index.html approve a device — awtsmoos tunnel 0 — 0 — /youtube geelooy/youtube/index.html awtsmoos youtube manager 1 youtube.js?v=74f1192271 1 youtube.css?v=4e93acf8ee /youtube/migrate geelooy/youtube/migrate/index.html youtube migration studio · awtsmoos 1 ./js/main.js?v=28ebed5eda 2 ../../style/future system/index.css?v=bc327633a7; ./style.css?v=c39b9cea1f /zmanim geelooy/zmanim/index.html halachic zmanim · awtsmoos 1 /zmanim/js/app.js?v=8a27f73647 40 /zmanim/styles/tokens.css?v=70480d8a64; /zmanim/styles/presentation theme light.css?v=ed0f891f21; /zmanim/styles/presentation theme system.css?v=d7cf8167f0; /zmanim/styles/presentation modes.css?v=a5e753f4c1 /אגרות קודש geelooy/אגרות קודש/index.html igeres hakodesh — awtsmoos.com 0 — 1 /heichelos/ikar/series/igereshakodeshvolume1 /לקוטי תורה geelooy/לקוטי תורה/index.html likkutei torah — awtsmoos.com 0 — 1 /heichelos/ikar/series/bh likkuteitorah %d7%91%d7%9e%d7%93%d7%91%d7%a8 /תניא geelooy/תניא/index.html tanya — awtsmoos.com 0 — 1 /heichelos/ikar/series/tanyalikkuteiamarim",
+		"page": "pages/docs-generated-public-entry-points-public-entry-points-005-md-9944141dff.json"
 	},
 	{
-		"id": "geelooy-games-kabbalah-shooter-documentation-md-5502ac94b7",
-		"title": "Kabbalah Infinite — The Breaking of Vessels",
-		"sourcePath": "geelooy/games/kabbalah-shooter/DOCUMENTATION.md",
-		"category": "Games",
-		"provenance": "breadcrumb",
+		"id": "docs-generated-public-route-inventory-md-7a76f1c409",
+		"title": "Generated Public Directory Inventory",
+		"sourcePath": "docs/GENERATED/PUBLIC_ROUTE_INVENTORY.md",
+		"category": "Routes",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Kabbalah Infinite — The Breaking of Vessels",
-				"anchor": "kabbalah-infinite-the-breaking-of-vessels"
-			},
-			{
-				"level": 2,
-				"text": "Role",
-				"anchor": "role"
-			},
-			{
-				"level": 2,
-				"text": "Start here",
-				"anchor": "start-here"
-			},
-			{
-				"level": 2,
-				"text": "Change rule",
-				"anchor": "change-rule"
-			},
-			{
-				"level": 2,
-				"text": "Project-specific notes",
-				"anchor": "project-specific-notes"
+				"text": "Generated Public Directory Inventory",
+				"anchor": "generated-public-directory-inventory"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Kabbalah Infinite — The Breaking of Vessels The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAME",
-		"searchText": "b\"h boruch hashem blessed is he kabbalah infinite — the breaking of vessels the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “kabbalah infinite — the breaking of vessels”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
-		"page": "pages/geelooy-games-kabbalah-shooter-documentation-md-5502ac94b7.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Public Directory Inventory Directory Files HTML title Has index.html .ai thoughts 1939 no .awtsmoos 6 no .awtsmoos agent thoughts 495 no .awtsmoos agent transfer 244 no .awtsmoos smoke 4 no .awtsmoos transfer 8 no .data 1 no .well known 1 no @ 10 no about 7 About — Geelooy yes ",
+		"searchText": "b\"h boruch hashem blessed is he generated public directory inventory directory files html title has index.html .ai thoughts 1939 no .awtsmoos 6 no .awtsmoos agent thoughts 495 no .awtsmoos agent transfer 244 no .awtsmoos smoke 4 no .awtsmoos transfer 8 no .data 1 no .well known 1 no @ 10 no about 7 about — geelooy yes ai 934 awtsmoos ai yes ai thoughts 57 no ai thoughts local 4 no api 3927 no apps 17643 awtsmoos apps — every browser tool & game yes awtai db 9 awtai db model foundry yes ayin 1 real awtsmoos recorder yes browser test 23 no cloud 30 awtsmoos cloud · build with shliach yes comment thread 63 comment thread — geelooy yes comments 4 no contact 11 contact — awtsmoos yes control 3 code control panel yes css 14 no db 16 yes design refs 3 no developers 2 awtsmoos api documentation — torah library api for developers &amp; ai agents yes docs 3614 awtsmoos documentation yes donate 1 donate · awtsmoos yes drive 290 awtsmoos drive yes editor 1 yes email 189 awtsmoos quantum mail yes encyclopedia 180 awtsmoos encyclopedia — torah knowledge — awtsmoos encyclopedia yes entity view 2 entity universe yes feed 101 awtsmoos river — social feed yes fetch 1 yes films 2 films — hemshech תרס״ו · awtsmoos yes game 1 opening mitzvah world… yes games 13722 awtsmoos games — playable worlds yes geelooy 5 no git 1 no heichel 1 no heichel editor 19 heichel editor — geelooy yes heichel review 41 heichel review and governance center yes heichelos 1948 no igeres hakodesh 2 igeres hakodesh — awtsmoos.com yes js 6 no legal 8 no libs 4818 no likutei torah 2 likkutei torah — awtsmoos.com yes login 3 login with awtsmoos yes logout 1 logged out · awtsmoos yes mav 1 search — awtsmoos yes mawgawl 105 mawgawl · booking calendar yes messages 3 messages \\ awtsmoos yes node os 2 awtsmoos node os yes notifications 36 signals — geelooy yes ocr 1 ocr studio — awtsmoos yes os 929 geelooy os — awtsmoos workspace yes pair 1 pair device awtsmoos.com yes parsers 4 no platform 115 no portal 15 portal — awtsmoos yes post editor 15 post editor — geelooy yes profile 62 profile — awtsmoos yes profile comments 3 alias comments — browse &amp; search yes public 17 no record 7 camera preview — geelooy yes recorder 13 local recorder — geelooy yes reeyuh 12 reeyuh · shulchan aruch reader yes register 1 create awtsmoos account yes resources 3 no scripts 2222 no seo 49 no shared 279 no shliach 4 awtsmoos shliach — connect ai agents \\ awtsmoos yes shliach plugin 11 awtsmoos shliach — awtsmoos shliach yes showcase 10 no sitemaps 1 no sites 69 no social 75 awtsmoos social observatory yes social actions 11 no social composer 431 create new post — geelooy yes social hub 489 social hub — geelooy yes sod 1 endpoint interaction yes style 1387 no tanya 2 tanya — awtsmoos.com yes test 15 no tests 136 no tmp 9 no tools 21 no translations 382 english torah translations \\ awtsmoos yes tunnel 3 no view 1 no webscrapers 5 no youtube 36 awtsmoos youtube manager yes zmanim 134 halachic zmanim · awtsmoos yes אגרות קודש 2 igeres hakodesh — awtsmoos.com yes לקוטי תורה 2 likkutei torah — awtsmoos.com yes תניא 2 tanya — awtsmoos.com yes",
+		"page": "pages/docs-generated-public-route-inventory-md-7a76f1c409.json"
 	},
 	{
-		"id": "geelooy-games-kavanah-documentation-md-adf23132c3",
-		"title": "KAVANAH",
-		"sourcePath": "geelooy/games/KAVANAH/DOCUMENTATION.md",
-		"category": "Games",
-		"provenance": "breadcrumb",
+		"id": "docs-generated-symlinks-md-b93b9284a6",
+		"title": "Generated Symlink / Alias Inventory",
+		"sourcePath": "docs/GENERATED/SYMLINKS.md",
+		"category": "General",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "KAVANAH",
-				"anchor": "kavanah"
-			},
-			{
-				"level": 2,
-				"text": "Role",
-				"anchor": "role"
-			},
-			{
-				"level": 2,
-				"text": "Start here",
-				"anchor": "start-here"
-			},
-			{
-				"level": 2,
-				"text": "Change rule",
-				"anchor": "change-rule"
-			},
-			{
-				"level": 2,
-				"text": "Project-specific notes",
-				"anchor": "project-specific-notes"
+				"text": "Generated Symlink / Alias Inventory",
+				"anchor": "generated-symlink-alias-inventory"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He KAVANAH The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAMES PLATFORM.md for the central explan",
-		"searchText": "b\"h boruch hashem blessed is he kavanah the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “kavanah”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
-		"page": "pages/geelooy-games-kavanah-documentation-md-adf23132c3.json"
-	},
-	{
-		"id": "geelooy-games-merkava-documentation-md-04dac7a852",
-		"title": "Merkava — War of the Sparks",
-		"sourcePath": "geelooy/games/Merkava/DOCUMENTATION.md",
-		"category": "Games",
-		"provenance": "breadcrumb",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Merkava — War of the Sparks",
-				"anchor": "merkava-war-of-the-sparks"
-			},
-			{
-				"level": 2,
-				"text": "Role",
-				"anchor": "role"
-			},
-			{
-				"level": 2,
-				"text": "Start here",
-				"anchor": "start-here"
-			},
-			{
-				"level": 2,
-				"text": "Change rule",
-				"anchor": "change-rule"
-			},
-			{
-				"level": 2,
-				"text": "Project-specific notes",
-				"anchor": "project-specific-notes"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Merkava — War of the Sparks The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAMES PLATFORM.md fo",
-		"searchText": "b\"h boruch hashem blessed is he merkava — war of the sparks the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “merkava — war of the sparks”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
-		"page": "pages/geelooy-games-merkava-documentation-md-04dac7a852.json"
-	},
-	{
-		"id": "geelooy-games-merkava-readme-md-87ad762f65",
-		"title": "Merkava: War of the Sparks",
-		"sourcePath": "geelooy/games/Merkava/README.md",
-		"category": "Games",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Merkava: War of the Sparks",
-				"anchor": "merkava-war-of-the-sparks"
-			},
-			{
-				"level": 2,
-				"text": "Active runtime",
-				"anchor": "active-runtime"
-			},
-			{
-				"level": 2,
-				"text": "Controls",
-				"anchor": "controls"
-			},
-			{
-				"level": 2,
-				"text": "Run modes",
-				"anchor": "run-modes"
-			},
-			{
-				"level": 3,
-				"text": "Campaign",
-				"anchor": "campaign"
-			},
-			{
-				"level": 3,
-				"text": "Endless",
-				"anchor": "endless"
-			},
-			{
-				"level": 2,
-				"text": "Seeded route system",
-				"anchor": "seeded-route-system"
-			},
-			{
-				"level": 2,
-				"text": "Worlds",
-				"anchor": "worlds"
-			},
-			{
-				"level": 2,
-				"text": "Strategic systems",
-				"anchor": "strategic-systems"
-			},
-			{
-				"level": 2,
-				"text": "Enemies and bosses",
-				"anchor": "enemies-and-bosses"
-			},
-			{
-				"level": 2,
-				"text": "Persistence",
-				"anchor": "persistence"
-			},
-			{
-				"level": 2,
-				"text": "Architecture",
-				"anchor": "architecture"
-			},
-			{
-				"level": 2,
-				"text": "Verification",
-				"anchor": "verification"
-			},
-			{
-				"level": 2,
-				"text": "Diagnostics and future work",
-				"anchor": "diagnostics-and-future-work"
-			}
-		],
-		"excerpt": "Merkava: War of the Sparks A raw WebGL three lane army roguelite about gathering holy sparks, collecting Prutahs, choosing arithmetic gates and seeded routes, building Sefirah paths, crossing five worlds, and confronting multi phase bosses through Campaign or Endless play. Active runtime Entry: index.html → src/main.js",
-		"searchText": "merkava: war of the sparks a raw webgl three lane army roguelite about gathering holy sparks, collecting prutahs, choosing arithmetic gates and seeded routes, building sefirah paths, crossing five worlds, and confronting multi phase bosses through campaign or endless play. active runtime entry: index.html → src/main.js → src/app/merkavaapp.js renderer: local raw webgl only meshes: /geelooy/libs/awtsmoos procedural no three.js dependency, namespace, or remote runtime dependency save key: awtsmoos.merkava.save.v4; legacy saves migrate through validated defaults controls a / d or arrows: change lane tap or drag the canvas: mobile lane control space: activate the charged merkava command p or escape: pause hud command button: mobile ability activation run modes campaign campaign crosses five worlds and ends after sar ha hester falls. each world has five named levels: introduction, pressure, elite encounter, mixed combat, and a boss. ordinary level completion opens a deterministic three road choice and then a sefirah blessing. checkpoint shrines, boss blessings, and world transitions preserve the authored campaign spine. endless endless rotates through the same five mechanically distinct worlds without declaring a campaign victory. each completed rotation advances a deterministic cycle and increases bounded road speed, encounter cadence, enemy depth, boss endurance, attack cadence, and prutah rewards. continue restores the exact mode, cycle, route seed, and strategic build. seeded route system each run receives one persisted unsigned seed. at ordinary non checkpoint level boundaries, the route generator offers three unique roads: one guaranteed low risk guarded road and two seed ranked alternatives. roads expose risk and reward before selection and apply real, bounded effects to sparks, health, shields, command charge, prutahs, score, lasting damage, or future prutah value. offered choices are validated, selected history is capped, malformed save data is repaired, and reload recreates the same strategic route sequence from the seed. worlds 1. assiyah — formations, barricades, golems, prince of dust 2. yetzirah — curved shots, lightning lanes, ravens, wheel of the storm 3. beriah — shifting arithmetic, corrupters, mirrors, architect of mirrors 4. atzilus — faster beams, elites, white fire, serpent of white fire 5. great concealment — combined corruption and sar ha hester strategic systems holy sparks control formation size, firing density, and survival. prutahs appear in trails, risky lanes, drops, elite rewards, routes, and boss showers. consecutive collection increases combo value; golden prutahs are worth more. checkpoint prices rise after purchases and as worlds deepen. temporary upgrades alter sparks, damage, fire rate, side shots, piercing, shields, magnetism, prutah value, positive gates, and between level healing. blessings level chesed, gevurah, tiferet, netzach, hod, yesod, malchut, and keter. named cross sefirah synergies change combat and economy. the first checkpoint chooses light burst, gathering call, or shofar blast. elite shells grant run changing relics with implemented effects. enemies and bosses enemy behaviors include infantry, golems, ravens, archers, drainers, splitters, summoners, gate corrupters, thieves, elites, and breakable obstacles. bosses expose names, health, phases, warned unsafe lanes, summons, rage pressure, and rewards. endless scaling copies and bounds boss values without replacing mechanics or readable counterplay. persistence versioned validation repairs malformed values and migrates partial saves through defaults. the save stores permanent prutahs, upgrades, campaign and endless records, capped history, relic discoveries, settings, and one strategic checkpoint. continue restores mode, cycle, route seed and history, world, level, army, build, relics, command, and economy while rebuilding transient combat and visible route cards. architecture src/app/: composition, lifecycle, menus, strategic choices, diagnostics src/routes/: route catalog, seed mixing, pure generation, effects, facade src/modes/: mode catalog and pure bounded endless rules src/game/: state, progression, encounters, enemies, bosses, relics, collision src/render/: raw webgl resources, procedural meshes, focused passes src/ui/: hud, overlays, mode labels, events, arithmetic labels src/audio/: optional web audio with graceful failure src/persistence/: migration, records, history, routes, checkpoints src/config/: campaign, economy, limits, colors, quality caps test/: deterministic rules, structural audits, campaign and endless cdp flows all inspected source vessels remain at 120 lines or fewer and use tabs for code indentation. verification npm run verify runs deterministic tests, syntax checks, the three.js prohibition audit, and the file size/tab audit. verify:browser drives boot, mode selection, endless rollover, route choice, blessing, checkpoint reload, input, abilities, shops, bosses, hazards, records, and continuation. it writes json and screenshot evidence under ai thoughts. diagnostics and future work window. merkava diagnostics exposes mode, seed, route step, offers, route history, route modifier, cycle, pressure, world, level, lane, sparks, health, shield, prutahs, build, enemies, boss state, timing, errors, renderer identity, and mesh registration. optional future modes remain daily seed, boss rush, one spark, no shop, speed trial, and prutah challenge, followed by a richer visual node map presentation, seed sharing, expanded scenery, adaptive music, and broader accessibility presets. no decorative modes are exposed.",
-		"page": "pages/geelooy-games-merkava-readme-md-87ad762f65.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Symlink / Alias Inventory Path Target Type ai thoughts /Users/awtsmoos/work/Awtsmoos.com artifacts/ai thoughts alias",
+		"searchText": "b\"h boruch hashem blessed is he generated symlink / alias inventory path target type ai thoughts /users/awtsmoos/work/awtsmoos.com artifacts/ai thoughts alias",
+		"page": "pages/docs-generated-symlinks-md-b93b9284a6.json"
 	}
 ]

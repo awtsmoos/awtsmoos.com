@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-templerunner-docs-textures-craft-md-68fc6cfaa1",
+	"title": "Craft Texture Catalog",
+	"sourcePath": "geelooy/games/mitzvahWorld/templeRunner/docs/textures/CRAFT.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Craft Texture Catalog",
+			"anchor": "craft-texture-catalog"
+		},
+		{
+			"level": 2,
+			"text": "Exact filenames",
+			"anchor": "exact-filenames"
+		},
+		{
+			"level": 2,
+			"text": "Usage",
+			"anchor": "usage"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-templerunner-docs-textures-craft-md-68fc6cfaa1-001.json"
+	]
+}

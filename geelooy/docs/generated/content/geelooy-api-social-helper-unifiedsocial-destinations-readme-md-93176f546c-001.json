@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Unified Social Destinations (geelooy/api/social/helper/unifiedSocial/destinations/)\n\nDestinations for unified publishing: where content may be placed (Heichels, series), with evidence, policy, and management routes.\n\n## Files\n- `DestinationService.js`, `DestinationSchema.js`, `DestinationRouteHandlers.js` — service, schema, routes.\n- `HeichelEvidence.js` — Heichel evidence for destination policy.\n- `InlineCreationService.js` — inline Heichel/series creation.\n- `ManagementRoutes.js` — destination management routes.\n- `SeriesTree.js` — bounded nested-series traversal.\n"
+}

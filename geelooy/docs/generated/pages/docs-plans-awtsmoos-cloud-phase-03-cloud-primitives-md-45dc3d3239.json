@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-plans-awtsmoos-cloud-phase-03-cloud-primitives-md-45dc3d3239",
+	"title": "Phase 03 — Cloud Primitives",
+	"sourcePath": "docs/PLANS/AWTSMOOS_CLOUD/PHASE_03_CLOUD_PRIMITIVES.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase 03 — Cloud Primitives",
+			"anchor": "phase-03-cloud-primitives"
+		},
+		{
+			"level": 2,
+			"text": "Priority order",
+			"anchor": "priority-order"
+		},
+		{
+			"level": 2,
+			"text": "Common resource law",
+			"anchor": "common-resource-law"
+		},
+		{
+			"level": 2,
+			"text": "Isolation and cost law",
+			"anchor": "isolation-and-cost-law"
+		},
+		{
+			"level": 2,
+			"text": "AWS-style mapping",
+			"anchor": "aws-style-mapping"
+		},
+		{
+			"level": 2,
+			"text": "Completion test",
+			"anchor": "completion-test"
+		}
+	],
+	"markdownParts": [
+		"content/docs-plans-awtsmoos-cloud-phase-03-cloud-primitives-md-45dc3d3239-001.json"
+	]
+}

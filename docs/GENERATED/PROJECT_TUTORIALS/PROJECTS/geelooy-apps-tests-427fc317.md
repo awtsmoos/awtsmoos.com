@@ -14,14 +14,14 @@ Blessed is He
 
 - Entry files: —
 - Local documentation: No local `DOCUMENTATION.md` observed.
-- Local-doc requirement: no; covered: no
+- Local-doc requirement: yes; covered: no
 - Symlink target: —
 
 ## File shape
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 0 | 1 | 0 | 0 | 0 | 0 | 1 |
+| 0 | 13 | 0 | 0 | 0 | 0 | 13 |
 
 ## Public entry points
 
@@ -37,7 +37,7 @@ None observed.
 
 ## Used by
 
-None observed.
+- `geelooy/apps/tunnel` — 5 lexical references; examples: geelooy/apps/tunnel/css-guarantee/layer1/interactiveStates.mjs; geelooy/apps/tunnel/css-guarantee/layer1/ownershipContracts.mjs; geelooy/apps/tunnel/css-guarantee/layer1/selectorRegistry.mjs
 
 ## External packages
 
@@ -45,4 +45,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **1**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **13**. Treat this as file evidence, not proof of behavioral coverage.

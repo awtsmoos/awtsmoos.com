@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-02-2023-massive-indexing-generation-3-01-fiv-aef6a1a640",
+	"title": "Five Competing Architectures",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-02-2023-massive-indexing-generation-3/01-five-architectures.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Five Competing Architectures",
+			"anchor": "five-competing-architectures"
+		},
+		{
+			"level": 2,
+			"text": "A — Central public-content graph",
+			"anchor": "a-central-public-content-graph"
+		},
+		{
+			"level": 2,
+			"text": "B — Preserve family generators + add coverage auditor",
+			"anchor": "b-preserve-family-generators-add-coverage-auditor"
+		},
+		{
+			"level": 2,
+			"text": "C — Runtime crawler graph",
+			"anchor": "c-runtime-crawler-graph"
+		},
+		{
+			"level": 2,
+			"text": "D — Static pre-render of every public page",
+			"anchor": "d-static-pre-render-of-every-public-page"
+		},
+		{
+			"level": 2,
+			"text": "E — Search-specific parallel pages",
+			"anchor": "e-search-specific-parallel-pages"
+		},
+		{
+			"level": 2,
+			"text": "Decision",
+			"anchor": "decision"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-02-2023-massive-indexing-generation-3-01-fiv-aef6a1a640-001.json"
+	]
+}

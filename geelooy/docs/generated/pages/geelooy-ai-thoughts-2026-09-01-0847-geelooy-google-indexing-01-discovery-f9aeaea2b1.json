@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-01-0847-geelooy-google-indexing-01-discovery-f9aeaea2b1",
+	"title": "Phase One: Discovery and Competing Architectures",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-01-0847-geelooy-google-indexing/01-discovery-plan.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase One: Discovery and Competing Architectures",
+			"anchor": "phase-one-discovery-and-competing-architectures"
+		},
+		{
+			"level": 2,
+			"text": "Architecture candidates to test against the repository",
+			"anchor": "architecture-candidates-to-test-against-the-repository"
+		},
+		{
+			"level": 2,
+			"text": "Selection criteria",
+			"anchor": "selection-criteria"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-01-0847-geelooy-google-indexing-01-discovery-f9aeaea2b1-001.json"
+	]
+}

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Ohrbound Services (geelooy/api/ohrbound/services/)\n\nService layer behind the Ohrbound routes (see `../README.md`).\n\n## Files\n- `authorization.js` — who may read/mutate progress and publish levels.\n- `levelPolicy.js` — enforces the community level policy contract.\n- `objectGateway.js` — object-store access for progress docs and level objects.\n- `MalchusApiResponse.js` — canonical API response envelope builder.\n"
+}

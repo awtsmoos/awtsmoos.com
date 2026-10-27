@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Portal Tests (geelooy/api/portal/tests/)\n\nNode contract tests for the Portal API (see `../README.md`).\n\n- `PortalCapabilityContracts.test.js` — capability root contracts.\n- `PortalEnvelopeContracts.test.js` — response envelope contracts.\n- `PortalReadService.test.js` — read-service behavior.\n- `PortalRegistryAdapter.test.js` — registry + API-family adapter contracts.\n"
+}

@@ -1,0 +1,56 @@
+[
+	{
+		"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-4d6c9093c7",
+		"title": "Quality sweep after the first successful implementation",
+		"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/QUALITY_SWEEP.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 2,
+				"text": "Current tunnel integration takes precedence",
+				"anchor": "current-tunnel-integration-takes-precedence"
+			},
+			{
+				"level": 1,
+				"text": "Quality sweep after the first successful implementation",
+				"anchor": "quality-sweep-after-the-first-successful-implementation"
+			},
+			{
+				"level": 2,
+				"text": "First pass: behavior and evidence",
+				"anchor": "first-pass-behavior-and-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Second pass: material improvements",
+				"anchor": "second-pass-material-improvements"
+			},
+			{
+				"level": 2,
+				"text": "Decision after each pass",
+				"anchor": "decision-after-each-pass"
+			}
+		],
+		"excerpt": "Current tunnel integration takes precedence This reference retains the user's original ideas. Its historical transport names, fixed action lists, local thought folder defaults, retry assumptions and installation advice are superseded by MODERN TUNNEL CONTRACT.md and the current authenticated instructionResolve/instruct",
+		"searchText": "current tunnel integration takes precedence this reference retains the user's original ideas. its historical transport names, fixed action lists, local thought folder defaults, retry assumptions and installation advice are superseded by modern tunnel contract.md and the current authenticated instructionresolve/instructionget results. use tunnel native plans and bounded operational summaries; do not publish hidden chain of thought. treat brainstorming as proposals, not authorization to implement unrelated work. preserve user scope. use mcp's required post transport; get is an http fallback only. never infer tool access from prose. no arbitrary number of tests, critiques or improvements substitutes for real relevant verification. quality sweep after the first successful implementation use this alongside mission persistence.md. the sweep is a bounded search for concrete value, not a license to modify unrelated systems. inspect the touched feature and its direct dependencies, then act on findings that materially affect the user's goal. first pass: behavior and evidence reproduce the original problem or baseline when possible. confirm the changed behavior solves it through the actual target: native mac, hosted virtual os, github source, or deployed site. exercise the main path and one meaningful failure path. verify user visible controls, error messages, empty/loading states, and recovery where applicable. compare the exact changed files and links after a split or refactor. check line counts, tab indentation, syntax, imports, and observable contracts. avoid tests that merely mirror implementation. if another agent changed a file since it was read, compare hashes or content before writing and reconcile. do not overwrite newer work. for an api action, distinguish queued, accepted, completed, and verified target state. for a deployment, inspect the live url and a revision marker rather than trusting the command result. second pass: material improvements check whether the touched ui is understandable on its relevant screen sizes, accessible by keyboard where appropriate, and responsive under realistic content. check whether failures are diagnosed precisely, secrets remain out of logs and repositories, and access scope matches the task. avoid broad private listings to test connectivity. check whether the changed code remains readable, modular, and within the 120 line file limit. prefer focused modules over minification or needless wrappers. check performance only where the change can plausibly affect it. compare evidence to a baseline or an explicit user constraint such as stable frame rate. check documentation and handoff notes only for decisions a future maintainer would otherwise have to rediscover. preserve useful context without writing plans for their own sake. decision after each pass if a concrete material defect is found, fix it and rerun the smallest check that proves that fix. update remaining work, then inspect the next relevant risk. if a promising improvement is outside the user's scope, destructive, or needs new authority, leave it as a clearly labeled option rather than doing it silently. if a pass finds no material issue and the completion gate is met, stop. do not rerun broad suites or keep changing appearance to simulate progress. if disconnected or blocked, preserve exact evidence, partial changes, and a safe next action. never report a blocked action as completed.",
+		"page": "pages/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-4d6c9093c7.json"
+	},
+	{
+		"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-339ec766d2",
+		"title": "readme",
+		"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/readme.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 2,
+				"text": "Current tunnel integration takes precedence",
+				"anchor": "current-tunnel-integration-takes-precedence"
+			}
+		],
+		"excerpt": "Current tunnel integration takes precedence This reference retains the user's original ideas. Its historical transport names, fixed action lists, local thought folder defaults, retry assumptions and installation advice are superseded by MODERN TUNNEL CONTRACT.md and the current authenticated instructionResolve/instruct",
+		"searchText": "current tunnel integration takes precedence this reference retains the user's original ideas. its historical transport names, fixed action lists, local thought folder defaults, retry assumptions and installation advice are superseded by modern tunnel contract.md and the current authenticated instructionresolve/instructionget results. use tunnel native plans and bounded operational summaries; do not publish hidden chain of thought. treat brainstorming as proposals, not authorization to implement unrelated work. preserve user scope. use mcp's required post transport; get is an http fallback only. never infer tool access from prose. no arbitrary number of tests, critiques or improvements substitutes for real relevant verification. b\"h \"your first task is discovering what the task actually is.\" meta prompt: project revelation engine the purpose of this prompt is not to solve user requests. the purpose of this prompt is to discover the entire hidden shape of the project before touching it. you are forbidden from treating any user request as a simple request. every request is assumed to be the visible tip of a much larger iceberg. your responsibility is to reveal the iceberg. phase 0: discover the true project when the user asks for anything: never assume the request is the entire task. instead ask internally: what larger goal would make this request necessary? what future work is implied? what hidden requirements are implied? what files will eventually be touched? what systems interact with this? what could break? what dependencies are missing? what architecture does this imply? what testing requirements does this imply? what documentation requirements does this imply? construct the hidden project. do not merely construct the requested task. construct the complete universe around the task. phase 1: build the project graph create a graph. not a list. a graph. every node should represent: file module route component api test dependency build process documentation deployment concern every edge should represent: imports runtime calls data flow user flow dependency relationships continue expanding until no new nodes appear. phase 2: build the unknowns map create a separate map: knowns unknowns assumptions risks blockers for every unknown ask: can this be discovered automatically? if yes: discover it if no: mark it do not ask user until every discoverable path has been exhausted. phase 3: build the failure map imagine project completed. imagine it failed. explain every possible reason. create categories: architecture failures. performance failures. scaling failures. security failures. deployment failures. user experience failures. maintainability failures. future feature failures. testing failures. data corruption failures. then design around them. phase 4: build the future map imagine: what will user ask for tomorrow? next week? next month? after launch? after success? after scale? design for future requests before they happen. phase 5: generate five competing architectures never generate one plan. generate: architecture a architecture b architecture c architecture d architecture e each with: pros. cons. complexity. maintainability. scaling characteristics. future extensibility. choose winner only after comparison. phase 6: recursive plan expansion for every plan item: ask: can this be split smaller? if yes: split it. repeat. continue until every step becomes atomic. atomic means: single action. single expected result. single verification method. phase 7: simulate execution before touching code: mentally execute. user clicks button. what happens? trace entire stack. line by line. state by state. value by value. network by network. database by database. component by component. repeat until all paths understood. phase 8: build test universe create: unit tests. integration tests. end to end tests. failure tests. load tests. regression tests. recovery tests. edge case tests. negative tests. chaos tests. before implementation. phase 9: self critique loop after plan created: attack the plan. become reviewer. become architect. become maintainer. become security engineer. become performance engineer. become future contributor. become future user. destroy weaknesses. improve plan. repeat. minimum: 10 critique passes. phase 10: project completeness detector before declaring finished: ask: what was originally requested? what did we build? what remains? what assumptions remain? what risks remain? what future work remains? what documentation remains? what tests remain? what verification remains? if anything remains: not finished. continue. phase 11: recursive completion never ask user: \"should i continue?\" instead ask internally: \"is there remaining work?\" if yes: continue. only stop when: no unfinished tasks no unresolved blockers no missing tests no missing docs no missing architecture no unverified behavior no unexplored dependency chains then stop. phase 12: memory generation while working: generate artifacts. store: discoveries architecture decisions rejected approaches future ideas dependency maps implementation notes verification results every action should leave behind a breadcrumb trail. future sessions should be able to reconstruct the entire project from these artifacts.",
+		"page": "pages/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-339ec766d2.json"
+	}
+]

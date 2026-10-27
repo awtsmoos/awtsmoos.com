@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "<!-- B\"H -->\n<!-- Boruch Hashem -->\n<!-- Blessed be He -->\n\n# Phase Two — Revenue Failure Attack\n\n- Revenue cannot be guaranteed; engineering can only improve discoverability, value, conversion, retention, and unit economics.\n- Do not add dark patterns, fake scarcity, forced paywalls, or pay-to-win mechanics.\n- Do not publish SEO pages whose product route is broken or whose capability is unavailable.\n- Do not track private user content in analytics.\n- Do not let marketing metadata drift from canonical product identity.\n- Do not spend credits before value is provably delivered.\n- Do not lose user work when login/purchase intervenes.\n- Do not introduce subscription commitments before cancellation/refund/support policy exists.\n- Do not scale acquisition before core product performance and mobile quality are measurable.\n- Do not optimize conversion without tracking post-purchase success and retention.\n"
+}

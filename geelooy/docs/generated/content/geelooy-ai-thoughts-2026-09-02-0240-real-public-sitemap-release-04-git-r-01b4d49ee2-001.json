@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Git Reality Delta\n\nThe Awtsmoos lets the fetched horizon correct the map before release may rise;\nAwtsmoos.com follows the remote main that actually exists, not an earlier snapshot wearing yesterday's guise.\n\n## Correction\n\nThe first scan briefly showed local `main` and `origin/main` at different SHAs. A subsequent ancestry read proved the local branch had no unique commits and the remote had the newer lineage. During source review, other release activity continued and the origin-only log became empty, proving the shared main horizon was moving in real time.\n\nTherefore the release does not trust the earlier SHA. It performs a new `git fetch origin main` immediately before constructing its isolated worktree, uses that exact `origin/main` SHA as the base, and copies only the audited SEO working-tree files into the isolated vessel.\n"
+}

@@ -21,11 +21,11 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 0 | 107 | 0 | 0 | 2 | 0 | 109 |
+| 0 | 133 | 0 | 0 | 3 | 0 | 136 |
 
 ## Public entry points
 
-None observed.
+- `/tests/glyph-engine` → `geelooy/tests/glyph-engine/index.html` — Awtsmoos Glyph Lab · All-Letter Hebrew Font Experiments
 
 ## Symbol evidence
 
@@ -45,4 +45,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **107**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **133**. Treat this as file evidence, not proof of behavioral coverage.

@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-creator-ui-styles-re-58353446d4",
+	"title": "Creator Rail Style Architecture",
+	"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/creator/ui/styles/README.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Creator Rail Style Architecture",
+			"anchor": "creator-rail-style-architecture"
+		},
+		{
+			"level": 2,
+			"text": "Scope law",
+			"anchor": "scope-law"
+		},
+		{
+			"level": 2,
+			"text": "Layer law",
+			"anchor": "layer-law"
+		},
+		{
+			"level": 2,
+			"text": "Geometry law",
+			"anchor": "geometry-law"
+		},
+		{
+			"level": 2,
+			"text": "Interaction law",
+			"anchor": "interaction-law"
+		},
+		{
+			"level": 2,
+			"text": "Motion law",
+			"anchor": "motion-law"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-experiments-awtsmoos-src-creator-ui-styles-re-58353446d4-001.json"
+	]
+}

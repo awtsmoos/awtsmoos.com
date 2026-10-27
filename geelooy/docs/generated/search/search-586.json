@@ -1,0 +1,195 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-master-execution-plan-09-ux-visual-audio-acce-edd4963486",
+		"title": "09 — UX, Visual Art Direction, Audio, Accessibility",
+		"sourcePath": "geelooy/games/mitzvahWorld/MASTER_EXECUTION_PLAN/09_UX_VISUAL_AUDIO_ACCESSIBILITY.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "09 — UX, Visual Art Direction, Audio, Accessibility",
+				"anchor": "09-ux-visual-art-direction-audio-accessibility"
+			},
+			{
+				"level": 2,
+				"text": "Reference-image target",
+				"anchor": "reference-image-target"
+			},
+			{
+				"level": 2,
+				"text": "HUD / interaction",
+				"anchor": "hud-interaction"
+			},
+			{
+				"level": 2,
+				"text": "Visual quality",
+				"anchor": "visual-quality"
+			},
+			{
+				"level": 2,
+				"text": "Cinematic / shareable polish",
+				"anchor": "cinematic-shareable-polish"
+			},
+			{
+				"level": 2,
+				"text": "Audio",
+				"anchor": "audio"
+			},
+			{
+				"level": 2,
+				"text": "Accessibility / controls",
+				"anchor": "accessibility-controls"
+			},
+			{
+				"level": 2,
+				"text": "First 60 seconds",
+				"anchor": "first-60-seconds"
+			},
+			{
+				"level": 2,
+				"text": "Art/content review",
+				"anchor": "art-content-review"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed be He 09 — UX, Visual Art Direction, Audio, Accessibility Reference image target The desired feel is cinematic realism with restrained black/gold/contextual UI: mountain valleys, rivers/waterfalls, village streets, forests, Beis Midrash interiors, coast/desert/night, Creator placement, travers",
+		"searchText": "b\"h boruch hashem blessed be he 09 — ux, visual art direction, audio, accessibility reference image target the desired feel is cinematic realism with restrained black/gold/contextual ui: mountain valleys, rivers/waterfalls, village streets, forests, beis midrash interiors, coast/desert/night, creator placement, traversal challenges, community events. improve on the images by making every scene systemic and playable. hud / interaction [ ] contextual hud; do not permanently cover scenery with panels; [ ] quest panel collapses; map/bag/quest controls reveal contextually; [ ] semantic minimap from actual roads/rivers/elevation/landmarks/discovery; [ ] full map from generated geography, not a disconnected decorative image; [ ] landmark based navigation and real npc directions; [ ] quiet exploration mode with minimal ui; [ ] creator ui usable on phone, tablet, desktop; landscape/portrait layouts recompose rather than scale blindly; [ ] safe area handling and touch targets for modern phones. visual quality [ ] atmosphere depth: haze, layered mountains, cloud shadows, sunlight transmission, sunrise/golden hour exposure; [ ] water: reflection, foam, rapids, shallow/deep variation, waterfall spray and hydrologic continuity; [ ] terrain material transitions invisible at normal view distance; [ ] vegetation silhouettes varied; forest floor matches canopy ecology; [ ] temporal stability: no shimmering foliage/grass/terrain at distance; [ ] shadow budget by semantic importance; hero contact shadows only where affordable; [ ] dynamic exposure restrained—no brightness pumping or crushed player silhouette; [ ] night lighting from real local sources/moon/sky, not globally bright darkness. cinematic / shareable polish [ ] scenic composition scoring, vista preservation, landmark framing; [ ] photo mode with time/weather controls where appropriate; [ ] deterministic showcase camera points and automated reference screenshots; [ ] guided tours/highlights generated from real world locations/events, not fake footage. audio [ ] spatial ambience derives from actual environment/activity: forest, waterfall, village, study hall, coast, night, desert; [ ] rain material response differs on leaves, roofs, dirt, stone, water; [ ] thunder distance/occlusion/reverb, interior muffling, valley echoes; [ ] wind sound varies by vegetation species/canopy density; [ ] snow damps high frequency ambience; [ ] civilization ambience reflects real npc density/work/events rather than fixed loops; [ ] audio lod/culling/voice budgets prevent crowd/weather scenes from exhausting the device; [ ] music supports rather than continuously overwhelms natural sound. accessibility / controls [ ] text scaling, high contrast, subtitles/captions, readable quest/map typography; [ ] hebrew/rtl layout correctness and consistent terminology; [ ] reduce motion/camera shake; never require violent camera effects; [ ] reduced lightning flash/photophobia safe weather mode; [ ] remappable keyboard/gamepad; customizable touch layout; [ ] color/contrast remains usable under fog/night/storm/snow; [ ] important gameplay markers remain perceivable without destroying atmosphere; [ ] no mandatory sound only or color only critical information. first 60 seconds [ ] world visible quickly; [ ] movement obvious and responsive; [ ] no developer/debug garbage; [ ] stable frame pacing; [ ] nearby interesting affordance without overwhelming tutorial text; [ ] loading stages say meaningful things (preparing terrain, entering world, bringing nearby life online) rather than fake percentages; [ ] no unexplained long spinner. art/content review [ ] important jewish architecture/signage/objects receive human review; [ ] no accidental crosses/other religious motifs; [ ] hebrew text checked for correctness and direction; [ ] rambam menorah depiction uses straight branches when relevant; [ ] visual beauty never substitutes for functionality: doors open, bridges collide, water connects, npcs have real behavior.",
+		"page": "pages/geelooy-games-mitzvahworld-master-execution-plan-09-ux-visual-audio-acce-edd4963486.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-master-execution-plan-10-test-release-deploy--4f122c7aa6",
+		"title": "10 — Test Gates, Release, Reconciliation, Deployment",
+		"sourcePath": "geelooy/games/mitzvahWorld/MASTER_EXECUTION_PLAN/10_TEST_RELEASE_DEPLOY.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "10 — Test Gates, Release, Reconciliation, Deployment",
+				"anchor": "10-test-gates-release-reconciliation-deployment"
+			},
+			{
+				"level": 2,
+				"text": "Authored-source gate",
+				"anchor": "authored-source-gate"
+			},
+			{
+				"level": 2,
+				"text": "Core correctness tests",
+				"anchor": "core-correctness-tests"
+			},
+			{
+				"level": 2,
+				"text": "Runtime world tests",
+				"anchor": "runtime-world-tests"
+			},
+			{
+				"level": 2,
+				"text": "Visual/performance test matrix",
+				"anchor": "visual-performance-test-matrix"
+			},
+			{
+				"level": 2,
+				"text": "Git reconciliation",
+				"anchor": "git-reconciliation"
+			},
+			{
+				"level": 2,
+				"text": "Deployment",
+				"anchor": "deployment"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed be He 10 — Test Gates, Release, Reconciliation, Deployment Authored source gate [ ] every touched source starts with required B\"H header in language appropriate comment form; [ ] every touched authored JS file is strictly under 120 lines; [ ] tabs, extensive JSDoc, readable formatting; no mini",
+		"searchText": "b\"h boruch hashem blessed be he 10 — test gates, release, reconciliation, deployment authored source gate [ ] every touched source starts with required b\"h header in language appropriate comment form; [ ] every touched authored js file is strictly under 120 lines; [ ] tabs, extensive jsdoc, readable formatting; no minification/compressed statements; [ ] node check/parser checks on touched js/mjs; [ ] git diff check; [ ] generated compact bundles are regenerated by official tooling, never hand edited. core correctness tests [ ] deterministic same seed tests; [ ] no nan/infinity, valid bounds/indices/topology; [ ] fuzz random valid/invalid configs; [ ] huge count clamps prevent runaway recursion/allocations; [ ] renderer neutral imports in node/worker/no dom contexts; [ ] save/load and schema migration invariants; [ ] exact once transaction tests; [ ] asset/material fallback tests; [ ] weather/tree/world capability manifests remain truthful. runtime world tests [ ] every official card routes to its exact manifest; [ ] cold/warm/offline first control; [ ] actual player movement proof; [ ] zero uncaught runtime errors during boot and first minute; [ ] save/reload preserves meaningful state exactly once; [ ] missing optional assets/services degrade without boot failure; [ ] world switch cleanup and repeated re entry; [ ] mobile/background/resume/context loss recovery. visual/performance test matrix [ ] blank meadow baseline; [ ] living village inspectability; [ ] great valley streaming; [ ] deep forest/foliage overdraw; [ ] city/crowd benchmark once city exists; [ ] clear enormous vista; [ ] torrential rain/thunderstorm; [ ] blizzard/snow accumulation; [ ] fog/low visibility; [ ] creator heavy edit scene; [ ] old intel integrated gpu, pixel class android, average laptop, powerful desktop. record: boot timings, first control, frame time percentiles, ram, gpu resources, draw calls, loaded bytes, worker count, runtime errors, save/reload result. git reconciliation 1. [ ] fetch origin and inspect canonical status/head/origin/log/reflog/worktrees/stashes. 2. [ ] re run lane tests on current lane commit. 3. [ ] stage only owned files and create evidence based commit(s). 4. [ ] reconcile latest origin/main and canonical concurrent work without destructive reset/clean/stash. 5. [ ] resolve conflicts by understanding both implementations; never silently drop concurrent work. 6. [ ] run impacted + broad regressions after reconciliation. 7. [ ] bring final work into canonical /users/awtsmoos/work/awtsmoos.com main. 8. [ ] push and verify git rev parse head == git rev parse origin/main. deployment [ ] immutable assets first, mutable catalogs last; [ ] build provenance records exact git commit, catalog/schema versions; [ ] deploy canary before broad release where infrastructure supports it; [ ] run synthetic production boot/play after deploy; [ ] verify representative production urls/hashes/cors/mime/cache; [ ] watch error/latency/resource dashboards; [ ] rollback automatically/manually if release gates regress. never report live until public runtime/urls have been independently checked after deployment.",
+		"page": "pages/geelooy-games-mitzvahworld-master-execution-plan-10-test-release-deploy--4f122c7aa6.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-master-execution-plan-11-step-by-step-executi-258571c9f5",
+		"title": "11 — Step-by-Step Execution Order",
+		"sourcePath": "geelooy/games/mitzvahWorld/MASTER_EXECUTION_PLAN/11_STEP_BY_STEP_EXECUTION_ORDER.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "11 — Step-by-Step Execution Order",
+				"anchor": "11-step-by-step-execution-order"
+			},
+			{
+				"level": 2,
+				"text": "Phase A — Reconcile current lanes",
+				"anchor": "phase-a-reconcile-current-lanes"
+			},
+			{
+				"level": 2,
+				"text": "Phase B — Truthful official worlds",
+				"anchor": "phase-b-truthful-official-worlds"
+			},
+			{
+				"level": 2,
+				"text": "Phase C — Tree/vegetation completion",
+				"anchor": "phase-c-tree-vegetation-completion"
+			},
+			{
+				"level": 2,
+				"text": "Phase D — Weather/environment completion",
+				"anchor": "phase-d-weather-environment-completion"
+			},
+			{
+				"level": 2,
+				"text": "Phase E — Terrain/hydrology/settlement",
+				"anchor": "phase-e-terrain-hydrology-settlement"
+			},
+			{
+				"level": 2,
+				"text": "Phase F — Civilization / gameplay / Creator",
+				"anchor": "phase-f-civilization-gameplay-creator"
+			},
+			{
+				"level": 2,
+				"text": "Phase G — API discoverability",
+				"anchor": "phase-g-api-discoverability"
+			},
+			{
+				"level": 2,
+				"text": "Phase H — Production hardening",
+				"anchor": "phase-h-production-hardening"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed be He 11 — Step by Step Execution Order Follow this order unless a concurrent session already owns a phase. Multiple independent lanes may proceed in parallel, but do not skip exit gates. Phase A — Reconcile current lanes 1. [ ] Inspect canonical concurrency and all three known worktrees. 2. [",
+		"searchText": "b\"h boruch hashem blessed be he 11 — step by step execution order follow this order unless a concurrent session already owns a phase. multiple independent lanes may proceed in parallel, but do not skip exit gates. phase a — reconcile current lanes 1. [ ] inspect canonical concurrency and all three known worktrees. 2. [ ] tree lane: verify newest reproductive/wind/parity changes and run full tree suite. 3. [ ] weather lane: run original + advanced weather tests and syntax/source law audit. 4. [ ] world selector lane: rebase/merge latest needed base only after inspecting concurrent launcher changes. 5. [ ] document conflicts/overlaps rather than overwriting. exit: every lane has a known green/red test state and exact owned diff. phase b — truthful official worlds 1. [ ] implement immutable manifest/feature policy authority. 2. [ ] blank meadow disables combat/minimap/enrichment/trees/water/npcs/etc. as specified. 3. [ ] living village enables canonical village systems and proves real doors/npcs/river/bridge/trees. 4. [ ] great valley enables regional/district/highland streaming. 5. [ ] add boot/selection/policy tests. 6. [ ] run actual browser cold/warm/offline boots and movement checks. exit: three official worlds are truthful and controllable; city remains hidden until real. phase c — tree/vegetation completion 1. [ ] finish strict ez tree parity matrix/tests. 2. [ ] finish wind + flower/fruit/bud/cone primitives and morphology specific twigs/needles/sprays/fronds. 3. [ ] complete exact species material authority and tree species catalog. 4. [ ] publish/verify transparent foliage assets. 5. [ ] extract three adapters out of procedural core and migrate all consumers. 6. [ ] add no three/no dom/worker import tests. 7. [ ] make mitzvahworld use core as default tree authority. 8. [ ] run species gallery, fuzz, lod, memory, performance tests. exit: core is renderer neutral and a test proven ez tree superset; mitzvahworld consumes it. phase d — weather/environment completion 1. [ ] finish weather advanced tests. 2. [ ] add pressure/front continuity, microclimate/orographic refinements, coherent wind field. 3. [ ] connect weather to hydrology, materials, vegetation, movement, npcs, wildlife, audio. 4. [ ] add persistence/history and provider neutral realtime adapter outside core. 5. [ ] add renderer presentation tiers for clouds/rain/snow/fog/lightning. 6. [ ] add accessibility/performance limits and weather benchmarks. exit: storm state causally changes world systems and survives provider/network failure. phase e — terrain/hydrology/settlement 1. [ ] reconcile active canonical terrain/sky/water/worldbuilding work. 2. [ ] unify environmental fields and hydrology/catchments. 3. [ ] make bridge/roads/settlement/navigation contracts persistent and transactional. 4. [ ] complete village interiors/doors/occupancy and great valley region continuity. 5. [ ] build real city authority before exposing city card. exit: world geography, water, roads, buildings, ecology and navigation agree spatially. phase f — civilization / gameplay / creator 1. [ ] canonical npc identities, schedules, relationships, knowledge propagation, weather response. 2. [ ] economy/inventory conservation/supply chains and agriculture hooks. 3. [ ] wildlife habitat/behavior and crowd lod. 4. [ ] traversal/camera/ik/mobile/gamepad polish. 5. [ ] canonical quest store and exact once world change transactions. 6. [ ] creator layers, brushes, preview/commit, undo/redo, play↔create handoff. 7. [ ] torah/learning content authority, hebrew/rtl, art/content review. exit: village can be inspected deeply without facade behavior or duplicate state. phase g — api discoverability 1. [ ] publish top level awtsmoos domain api and three layer intent/domain/primitive design. 2. [ ] capability registry, semantic aliases, schemas, examples, generated docs. 3. [ ] creator command palette/api explorer/explain this object/show underlying api. 4. [ ] indexed semantic world queries, versioned events, transaction receipts. 5. [ ] ai recipe validation, budget estimation, semantic asset/api search, deterministic explanations. exit: a new session/user can find capabilities without searching dozens of internal folders. phase h — production hardening 1. [ ] worker/cancellation/global budget/streaming cleanup. 2. [ ] save migrations/recovery/context loss/background resume/outage behavior. 3. [ ] visual/audio/accessibility reference pass. 4. [ ] asset publication/cdn/cache reliability. 5. [ ] benchmarks, soak, fuzz, deterministic replay, synthetic clients. 6. [ ] canary, rollback, health, observability, backup/restore and regional failure drills. 7. [ ] reconcile to canonical main, push, deploy, independently live verify. exit: release evidence supports every claim made to users.",
+		"page": "pages/geelooy-games-mitzvahworld-master-execution-plan-11-step-by-step-executi-258571c9f5.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-master-execution-plan-12-moonshots-backlog-md-34959f9a52",
+		"title": "12 — Moonshots / Beyond-Release Backlog",
+		"sourcePath": "geelooy/games/mitzvahWorld/MASTER_EXECUTION_PLAN/12_MOONSHOTS_BACKLOG.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "12 — Moonshots / Beyond-Release Backlog",
+				"anchor": "12-moonshots-beyond-release-backlog"
+			},
+			{
+				"level": 2,
+				"text": "Living world history",
+				"anchor": "living-world-history"
+			},
+			{
+				"level": 2,
+				"text": "Deep botany/ecology",
+				"anchor": "deep-botany-ecology"
+			},
+			{
+				"level": 2,
+				"text": "Deep environment",
+				"anchor": "deep-environment"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed be He 12 — Moonshots / Beyond Release Backlog These are not reasons to delay core reliability, but architecture should not make them impossible. Living world history [ ] multi year/century coarse simulation of forests, settlements, roads, rivers, architecture, economy; [ ] historical age cohor",
+		"searchText": "b\"h boruch hashem blessed be he 12 — moonshots / beyond release backlog these are not reasons to delay core reliability, but architecture should not make them impossible. living world history [ ] multi year/century coarse simulation of forests, settlements, roads, rivers, architecture, economy; [ ] historical age cohorts after floods/fire/clearing; [ ] building aging, renovation and settlement expansion; [ ] tree developmental history, scars, storm/pruning memory, lineage; [ ] regional trade and demographic/family generations; [ ] climate/ecological migration and river channel change; [ ] world history timeline and optional inspection of earlier states. deep botany/ecology [ ] deterministic genotype/phenotype: genetics × environment × age × management; [ ] heritable bounded offspring/cultivars/mutation; [ ] hydraulic/resource allocation and source/sink approximation; [ ] bud bank, epicormic shoots, reaction wood, coppice/pollard/grafting; [ ] mycorrhizal/network abstractions, nurse logs/rocks, microhabitats; [ ] seed dispersal by wind/water/animal/gravity and clonal colonies; [ ] decomposition stages and habitat cavities/perches/nests. deep environment [ ] long term erosion/geomorphology and climate dependent terrain evolution; [ ] detailed snow drift/ice accumulation/snow shedding; [ ] wildfire weather/fuel ecology where appropriate; [ ] flood/landslide/avalanche/rockfall history shaping vegetation/roads; [ ] coast/tide/salinity systems and waterspouts where applicable.",
+		"page": "pages/geelooy-games-mitzvahworld-master-execution-plan-12-moonshots-backlog-md-34959f9a52.json"
+	}
+]

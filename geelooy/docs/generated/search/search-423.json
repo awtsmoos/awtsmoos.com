@@ -1,0 +1,116 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-09-28-0240-heichelos-social-glass-overhaul-01-p-ff3cfc04d2",
+		"title": "Phase Two — Gevurah Critique and Improvements",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-28-0240-heichelos-social-glass-overhaul/01-phase-two-critique-and-improvements.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Two — Gevurah Critique and Improvements",
+				"anchor": "phase-two-gevurah-critique-and-improvements"
+			},
+			{
+				"level": 2,
+				"text": "Evidence that changes the plan",
+				"anchor": "evidence-that-changes-the-plan"
+			},
+			{
+				"level": 2,
+				"text": "Twenty-five concrete improvements over phase one",
+				"anchor": "twenty-five-concrete-improvements-over-phase-one"
+			},
+			{
+				"level": 2,
+				"text": "Risk graph",
+				"anchor": "risk-graph"
+			},
+			{
+				"level": 2,
+				"text": "Revised file strategy",
+				"anchor": "revised-file-strategy"
+			},
+			{
+				"level": 2,
+				"text": "REMAININGWORK",
+				"anchor": "remainingwork"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Two — Gevurah Critique and Improvements The Awtsmoos makes every instant new; Awtsmoos.com must therefore remove old selector wars rather than gild them blue. This pass attacks the first brainstorm with evidence from the live route graph. Evidence that changes the plan The post rou",
+		"searchText": "b\"h boruch hashem blessed is he phase two — gevurah critique and improvements the awtsmoos makes every instant new; awtsmoos.com must therefore remove old selector wars rather than gild them blue. this pass attacks the first brainstorm with evidence from the live route graph. evidence that changes the plan the post route directly loads critical shell.css, live template.css, and mobile reading.css in addition to main.css. main.css imports several historical owner generations at once. scroll root.css, settings shell.css, settings groups.css, settings controls.css, and actions.css contain extensive !important use. critical shell.css and mobile reading.css both own floating control placement. auto scroll writes only to the document/window, while reader virtualization can resolve an inner .scroll view wrapper. auto scroll js also sets scroll behavior with priority important. community loading is intentionally fail closed through the /comment tree transport and must be runtime verified rather than visually concealed. the standalone social system is already root scoped and modular, making it a good style vocabulary rather than a subsystem to destroy. twenty five concrete improvements over phase one 1. give the reader exactly one scroll root contract shared by motion and measurement. 2. prefer a scrollable .scroll view wrapper only when it can actually move; otherwise use the document root. 3. remove js priority arguments entirely; smooth scroll suppression must use ordinary inline properties. 4. rewrite direct loaded critical shell.css as structural first paint css with no duplicated mobile placement rules. 5. rewrite scroll root.css without !important, relying on scoped ownership and source order. 6. stop loading two owners for the same floating control geometry. 7. split the oversized actions.css into small import children and leave the legacy path as an import vessel. 8. put floating rail geometry, state colors, and interaction states in separate css modules. 9. split settings presentation into glass shell, groups, controls, flow, and responsive ownership with no declaration escalation. 10. use :focus visible rather than removing outlines. 11. keep :hover enhancements behind hover capable media queries. 12. give :active a physically distinct press state on every actionable family. 13. add explicit disabled and aria disabled states. 14. add prefers reduced motion fallbacks without !important. 15. reserve safe area bottom space so the river orb cannot cover reading content. 16. make the scribe's lens a bounded glass sheet with internal scrolling and clear grouped hierarchy. 17. make the primary auto scroll action visually primary only when it is actionable; state color must distinguish start, pause, and stop. 18. keep wpm/pace copy synchronized from existing state rather than duplicating behavior in css. 19. convert community retry presentation into the same glass language without mutating its honest error semantics. 20. verify /comment tree transport independently before touching its url contract. 21. intensify social tokens with cyan/violet/gold depth while preserving contrast. 22. add ambient social light and scan motion that disables cleanly under reduced motion preference. 23. give social cards focus within and hover elevation instead of hover only beauty. 24. keep all social selectors beneath .awtsmoos social root so the enterprise layer cannot leak into the reader. 25. add automated checks for !important, js syntax, auto scroll inner root movement, and existing social contracts before browser verification. risk graph post html main.css historical imports selector collision mobile overlap. auto scroll toggle controller motion document helper wrong root visible state without movement. community tab fetching tree transport api failure honest retry state. social demo/app local root token/layout/feed modules safe candidate for visual intensification. revised file strategy do not append a giant override stylesheet. rewrite current owners or convert them into small import vessels. introduce only small focused modules. preserve public selectors and js contracts so behavior remains stable while ownership becomes singular. remaining work write final phase three execution map with exact source files. implement shared auto scroll root resolver and document adapter. rewrite active reader structural css owners without !important. split action rail into focused modules. rewrite settings owner modules without !important and improve hierarchy. intensify social tokens/base/layout/feed without leaking selectors. add targeted tests/quality checks. runtime verify community transport. browser verify post controls/settings/community and social demo at mobile + desktop widths. re read all touched files and resolve delta. next action freeze the exact touched file list and verification gates, then begin full file writes only.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-28-0240-heichelos-social-glass-overhaul-01-p-ff3cfc04d2.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-28-0240-heichelos-social-glass-overhaul-02-p-d393181eac",
+		"title": "Phase Three — Final Execution Covenant",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-28-0240-heichelos-social-glass-overhaul/02-phase-three-final-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Three — Final Execution Covenant",
+				"anchor": "phase-three-final-execution-covenant"
+			},
+			{
+				"level": 2,
+				"text": "Final architecture",
+				"anchor": "final-architecture"
+			},
+			{
+				"level": 2,
+				"text": "Thirty-five final safeguards and revelations",
+				"anchor": "thirty-five-final-safeguards-and-revelations"
+			},
+			{
+				"level": 2,
+				"text": "Exact implementation files",
+				"anchor": "exact-implementation-files"
+			},
+			{
+				"level": 3,
+				"text": "Auto-scroll behavior",
+				"anchor": "auto-scroll-behavior"
+			},
+			{
+				"level": 3,
+				"text": "Post reader CSS ownership",
+				"anchor": "post-reader-css-ownership"
+			},
+			{
+				"level": 3,
+				"text": "Social-system intensification",
+				"anchor": "social-system-intensification"
+			},
+			{
+				"level": 2,
+				"text": "Verification graph",
+				"anchor": "verification-graph"
+			},
+			{
+				"level": 2,
+				"text": "Browser acceptance criteria",
+				"anchor": "browser-acceptance-criteria"
+			},
+			{
+				"level": 2,
+				"text": "REMAININGWORK",
+				"anchor": "remainingwork"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Three — Final Execution Covenant The Awtsmoos recreates the river before a single pixel can flow; Awtsmoos.com must therefore grant each behavior and selector one vessel, one owner, one glow. Final architecture This pass chooses singular ownership over override warfare. Auto scroll",
+		"searchText": "b\"h boruch hashem blessed is he phase three — final execution covenant the awtsmoos recreates the river before a single pixel can flow; awtsmoos.com must therefore grant each behavior and selector one vessel, one owner, one glow. final architecture this pass chooses singular ownership over override warfare. auto scroll gets one shared scroll root resolver. the post reader keeps route contracts but replaces active high specificity css owners with scoped modules. the social app keeps its component/api graph but receives a stronger root scoped glass vocabulary. thirty five final safeguards and revelations 1. auto scroll root resolution must be a pure discoverable function, not duplicated inside motion code. 2. a candidate inner root counts only when its computed overflow and scroll extent prove it can move. 3. document fallback must continue working when the reader uses natural page scroll. 4. read and write methods must target the same resolved root during a session. 5. viewport height must come from the owning root, not always window.innerheight. 6. max scroll must use the same root used for movement. 7. smooth scroll suppression must restore the exact previous inline value. 8. no js call may pass css priority important. 9. the floating auto scroll control may have one geometry owner only. 10. the a/i floating controls may have one geometry owner only. 11. the settings sheet may have one fixed position owner only. 12. direct loaded critical css may establish visibility and containment, not theme duplication. 13. mobile reading css may own narrow screen reading density, not duplicate floating control placement. 14. scroll root css may own only scroll topology. 15. settings shell may own panel geometry and glass, not child controls. 16. settings groups may own grouping rhythm and hierarchy. 17. settings controls may own buttons, inputs, selects, toggles, focus, hover, active, and disabled states. 18. settings flow may own auto scroll status/readout/range presentation. 19. action rail must be split into rail geometry, control appearance, and runtime states. 20. every new css child module stays below 120 lines. 21. existing oversized action css becomes a small import vessel instead of remaining a monolith. 22. reader social shell must stop restating scroll topology that belongs to scroll root. 23. discussion css may own comment/community cards and retry surfaces only. 24. error ui must remain semantically honest; glass cannot turn transport failure into fake emptiness. 25. the community endpoint is changed only after direct runtime evidence proves route mismatch or server failure. 26. social tokens must expose depth, glow, motion, and state colors so child modules do not hard code competing palettes. 27. social base may own ambient layers and universal local interactions only. 28. social layout may own shell topology and responsive rail behavior only. 29. social feed may own post card composition and card local interaction only. 30. keyboard focus must remain at least as visible as pointer hover. 31. motion must disable or collapse under prefers reduced motion without selector escalation. 32. touch controls must remain at least 44px in the reader and social surfaces. 33. ios safe area insets must be consumed at floating and sheet edges. 34. active css import closure must be scanned after rewrites; any surviving !important in loaded owner files becomes new work. 35. completion requires browser observed movement, modal usability, social rendering, console cleanliness, and a final plan vs actual readback. exact implementation files auto scroll behavior new heichelos/post/actions/autoscroll/autoscrollroot.js rewrite heichelos/post/actions/autoscroll/autoscrolldocument.js new heichelos/post/actions/test/autoscrollroot.test.mjs post reader css ownership rewrite heichelos/post/styles/reader controls/critical shell.css rewrite heichelos/post/styles/reader controls/mobile reading.css rewrite heichelos/post/styles/ideal/reborn/scroll root.css rewrite heichelos/post/styles/ideal/reborn/settings shell.css rewrite heichelos/post/styles/ideal/reborn/settings groups.css rewrite heichelos/post/styles/ideal/reborn/settings controls.css rewrite heichelos/post/styles/ideal/reborn/settings flow.css rewrite heichelos/post/styles/ideal/reborn/settings responsive.css rewrite heichelos/post/styles/ideal/reborn/actions.css new heichelos/post/styles/ideal/reborn/actions/rail.css new heichelos/post/styles/ideal/reborn/actions/controls.css new heichelos/post/styles/ideal/reborn/actions/states.css rewrite heichelos/post/styles/social/reader shell.css rewrite heichelos/post/styles/social/discussion.css rewrite heichelos/post/styles/main.css only if import version or ownership cleanup is required by the active closure scan. social system intensification rewrite heichelos/social/styles/tokens.css rewrite heichelos/social/styles/base.css rewrite heichelos/social/styles/layout.css rewrite heichelos/social/styles/feed.css rewrite heichelos/social/styles/index.css verification graph implementation full readback syntax checks css active closure scan auto scroll unit tests existing social contract suite local server discovery mobile browser post auto scroll movement measurement scribe's lens interaction main menu interaction community endpoint fetch social demo mobile/desktop console/log review delta document. browser acceptance criteria at approximately 390px width, no floating control overlaps the primary settings sheet or menu action space. auto scroll toggle visibly changes state and the actual owning scroll root advances after start. pause/stop prevents continued movement. scribe's lens is internally scrollable, safe area aware, and every visible control remains reachable. main menu cards have coherent hover/focus/press behavior where the device supports it. community retry state is polished but still reports an actual transport failure honestly. social feed cards show glass depth, ambient motion, focus within clarity, and reduced motion safety. desktop retains readable maximum widths and does not inherit mobile fixed geometry. remaining work re read exact target files before overwriting to preserve public selectors. implement auto scroll root resolver and adapter. implement reader css ownership rewrite. implement social css intensification. scan active import closure for remaining !important and eliminate loaded conflicts. run static/unit/contract tests. discover/start runtime and verify community transport. browser verify post and social views. re read all changed files and write planned vs actual delta. resolve every discovered regression before final handoff. next action read the final target owners in compact groups, then execute full file writes beginning with auto scroll behavior.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-28-0240-heichelos-social-glass-overhaul-02-p-d393181eac.json"
+	}
+]

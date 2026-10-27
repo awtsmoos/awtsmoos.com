@@ -1,0 +1,215 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-09-10t1851-final-hardening-multiplex-06-planned-61ffe96535",
+		"title": "Planned Versus Actual",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-10T1851-final-hardening-multiplex/06-planned-vs-actual.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Planned Versus Actual",
+				"anchor": "planned-versus-actual"
+			},
+			{
+				"level": 2,
+				"text": "What this wave planned",
+				"anchor": "what-this-wave-planned"
+			},
+			{
+				"level": 2,
+				"text": "What was actually completed",
+				"anchor": "what-was-actually-completed"
+			},
+			{
+				"level": 3,
+				"text": "Commerce focus lifecycle",
+				"anchor": "commerce-focus-lifecycle"
+			},
+			{
+				"level": 3,
+				"text": "Mobile commerce geometry",
+				"anchor": "mobile-commerce-geometry"
+			},
+			{
+				"level": 3,
+				"text": "Product-aware Radiance positioning",
+				"anchor": "product-aware-radiance-positioning"
+			},
+			{
+				"level": 3,
+				"text": "Wallet settlement health",
+				"anchor": "wallet-settlement-health"
+			},
+			{
+				"level": 3,
+				"text": "Retention and catalog continuity",
+				"anchor": "retention-and-catalog-continuity"
+			},
+			{
+				"level": 3,
+				"text": "Startup performance",
+				"anchor": "startup-performance"
+			},
+			{
+				"level": 3,
+				"text": "Workspace/embed handoff",
+				"anchor": "workspace-embed-handoff"
+			},
+			{
+				"level": 3,
+				"text": "Deployment",
+				"anchor": "deployment"
+			},
+			{
+				"level": 2,
+				"text": "What remains honestly incomplete",
+				"anchor": "what-remains-honestly-incomplete"
+			}
+		],
+		"excerpt": "Planned Versus Actual What this wave planned The final hardening plan asked for five concrete outcomes: close the half landed commerce focus lifecycle; strengthen mobile containment and interaction geometry; improve truthful product specific monetization; extend existing workspace handoff only if real consumer evidence",
+		"searchText": "planned versus actual what this wave planned the final hardening plan asked for five concrete outcomes: close the half landed commerce focus lifecycle; strengthen mobile containment and interaction geometry; improve truthful product specific monetization; extend existing workspace handoff only if real consumer evidence justified it; and finish with release/deployment truth rather than a celebratory guess. what was actually completed commerce focus lifecycle completed. the original shared commerce surface was fully reread, then rewritten by responsibility rather than partially patched. the first organized rewrite reached 137 lines and was rejected. it was split into surface.js, surfaceshell.js, surfacesections.js, and dialogfocus.js. a dedicated lifecycle test proves native close returns focus, duplicate binding is idempotent, legacy focus apis fall back, and missing launchers fail safely. mobile commerce geometry completed. the old sheet had a 40px close control and a non wrapping footer that could collide with the full width mobile favorite control. the first full rewrite reached 140 lines and was rejected. it was split into sheet.css, sheetlayout.css, and sheetcontent.css, with a dedicated css contract test. the current layout enforces a 44px close target, 44px wallet/account links, safe area left/right/bottom treatment, horizontal containment, wrapping footer behavior, and narrow screen link layout. product aware radiance positioning completed without changing fulfillment. all 80 live radiance actions remain 25 credits, permanent durable entitlements, handler backed, and server owned. offer descriptions now name the actual product. games explicitly state cosmetic only and no gameplay advantage. apps explicitly state purely decorative and core functionality unchanged. wallet settlement health completed earlier in this hardening sequence and preserved through every subsequent regression. the authenticated current account health route is get only, text/plain, no store, read only under the wallet lock, identity free, and detects stale holds / contradictory execution topology while recognizing legitimate already owned deduplication. retention and catalog continuity completed earlier in this hardening sequence and preserved. product route only recent/favorite memory remains bounded, local, non content bearing, and browser proven. apps/games catalog ordering/decorations remain green. startup performance measured, not cosmetically hidden. the isolated server reached http readiness in roughly eight seconds while explicit lifecycle awaits consumed only milliseconds. module loading—not db/auth awaits—is the dominant cost. request time families were identified, but the remaining safe optimization boundary crosses legacy config/auth/dosdb infrastructure. no fake post bind readiness trick was introduced. workspace/embed handoff architecture confirmed, exhaustive consumer audit incomplete. existing workspace launch descriptors and versioned embed protocol already provide path confinement, origin/direction checks, and typed launch destinations. a duplicate weaker handoff protocol was deliberately not added. recursive consumer searches repeatedly stalled and remain an audit item. deployment the public awtsmoos.com deployment is live and independently verified. the local hardened checkout is not blindly pushed because the working tree contains 1,510 dirty paths and local committed head is 3 commits ahead / 26 behind origin/main. production is sha locked through github actions and a hetzner hard reset deployment, so promoting this tree wholesale would risk unrelated concurrent work. what remains honestly incomplete prove a coherent clean release candidate from current origin/main that includes all tracked and untracked dependencies used by the hardened local graph. run the production quality workflow against that isolated candidate before any main push. finish exhaustive workspace launch consumer mapping. design a coherent non json legacy config/auth/dosdb migration before aggressive startup lazy load work. the current green local product is materially stronger; the remaining work is release isolation and legacy migration, not a broken commerce or catalog core.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-10t1851-final-hardening-multiplex-06-planned-61ffe96535.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-10t1851-final-hardening-multiplex-07-final-v-048b9a74e3",
+		"title": "Final Verification",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-10T1851-final-hardening-multiplex/07-final-verification.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Final Verification",
+				"anchor": "final-verification"
+			},
+			{
+				"level": 2,
+				"text": "Newest current-tree authority",
+				"anchor": "newest-current-tree-authority"
+			},
+			{
+				"level": 3,
+				"text": "Structural/mobile preflight",
+				"anchor": "structural-mobile-preflight"
+			},
+			{
+				"level": 3,
+				"text": "Complete platform groups in that command",
+				"anchor": "complete-platform-groups-in-that-command"
+			},
+			{
+				"level": 2,
+				"text": "Derived public truth regenerated",
+				"anchor": "derived-public-truth-regenerated"
+			},
+			{
+				"level": 2,
+				"text": "Focus/mobile hardening",
+				"anchor": "focus-mobile-hardening"
+			},
+			{
+				"level": 2,
+				"text": "Monetization hardening",
+				"anchor": "monetization-hardening"
+			},
+			{
+				"level": 2,
+				"text": "Wallet/economic safety",
+				"anchor": "wallet-economic-safety"
+			},
+			{
+				"level": 2,
+				"text": "Performance truth",
+				"anchor": "performance-truth"
+			},
+			{
+				"level": 2,
+				"text": "Public availability",
+				"anchor": "public-availability"
+			}
+		],
+		"excerpt": "Final Verification Newest current tree authority The newest mobile sheet/full platform command completed with exit code 0 and marker FULL PLATFORM MOBILE SHEET GREEN. Structural/mobile preflight sheet.css: 10 lines. sheetLayout.css: 83 lines. sheetContent.css: 87 lines. CSS contract + focus lifecycle + product memory p",
+		"searchText": "final verification newest current tree authority the newest mobile sheet/full platform command completed with exit code 0 and marker full platform mobile sheet green. structural/mobile preflight sheet.css: 10 lines. sheetlayout.css: 83 lines. sheetcontent.css: 87 lines. css contract + focus lifecycle + product memory preflight: 13/13 passing. complete platform groups in that command apps/games/shared commerce group: 45/45 passing. wallet/reconciliation/radiance copy group: 52/52 passing. static/seo/startup group: 10/10 passing. the complete platform groups therefore total 107/107 passing in the newest authority. the 13 test preflight is additional and intentionally overlaps some already counted tests. derived public truth regenerated apps: 81. games: 33. public discovery records: 114. generated shards: 15. sitemap public routes: 99. focus/mobile hardening commerce focus lifecycle unit behavior is green. real mobile browser launcher click succeeded. real mobile close button click succeeded. exact active element browser introspection was not available through the current tunnel evaluator adapter; lifecycle tests therefore remain the precise focus return evidence. shared sheet now enforces 44px close and account/wallet targets, footer wrapping, safe area aware width, bottom safe area, horizontal containment, long text wrapping, and narrow screen coexistence with the full width favorite control. monetization hardening 80 discovered monetizable products. 80 live radiance capabilities. 240 product credit packs. radiance remains 25 credits, permanent, durable, server authoritative, and handler backed. game offer copy explicitly rejects gameplay advantage. app offer copy explicitly states that functionality is unchanged. dedicated radiance product copy / authority / settlement gate: 14/14 passing before inclusion in the full platform suite. wallet/economic safety reservation/commit/release state machine preserved. current account reconciliation health is authenticated get only, text/plain, no store, read only, and identity free. stale holds and impossible execution/reservation topology are detectable. legitimate already owned permanent unlock deduplication is not misclassified. performance truth isolated full server reached http readiness in roughly eight seconds. explicit startup lifecycle awaits together were only milliseconds. module composition/loading is the dominant measured delay. no readiness semantics were weakened to manufacture a smaller number. public availability awtsmoos.com, apps, games, and transcription studio are publicly reachable over https as of 2026 09 11. exact parity between every newest local hardening file and the production server has not been proven because production is a separate sha locked checkout and the current local tree is not a safe release source.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-10t1851-final-hardening-multiplex-07-final-v-048b9a74e3.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-10t1851-final-hardening-multiplex-08-deploym-b57f7ae011",
+		"title": "Deployment Status",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-10T1851-final-hardening-multiplex/08-deployment-status.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Deployment Status",
+				"anchor": "deployment-status"
+			},
+			{
+				"level": 2,
+				"text": "Public production exists and is live",
+				"anchor": "public-production-exists-and-is-live"
+			},
+			{
+				"level": 2,
+				"text": "Canonical production mechanism",
+				"anchor": "canonical-production-mechanism"
+			},
+			{
+				"level": 2,
+				"text": "Current local release safety",
+				"anchor": "current-local-release-safety"
+			},
+			{
+				"level": 2,
+				"text": "Hardened local graph versus origin/main",
+				"anchor": "hardened-local-graph-versus-origin-main"
+			},
+			{
+				"level": 2,
+				"text": "Deployment decision",
+				"anchor": "deployment-decision"
+			}
+		],
+		"excerpt": "Deployment Status Public production exists and is live Verified public HTTPS routes on 2026 09 11: https://awtsmoos.com/ https://awtsmoos.com/apps/ https://awtsmoos.com/games/ https://awtsmoos.com/apps/transcribe/ These routes return public content and are independently visible outside the local tunnel. Canonical produ",
+		"searchText": "deployment status public production exists and is live verified public https routes on 2026 09 11: https://awtsmoos.com/ https://awtsmoos.com/apps/ https://awtsmoos.com/games/ https://awtsmoos.com/apps/transcribe/ these routes return public content and are independently visible outside the local tunnel. canonical production mechanism the repository's github actions workflow deploys pushes to main to the hetzner production checkout at /mnt/hc volume 102267213/git/awtsmoos.com. production fetches origin/main, verifies the pushed sha, hard resets to that exact sha, cleans untracked files, activates the canonical server, and executes public release verification scripts. this means production is intentionally sha locked and should never be updated by copying random files from a dirty development checkout. current local release safety current local branch: main. remote: origin https://github.com/awtsmoos/awtsmoos.com.git. at the release audit: local committed head: 7969a3063f8f4520989c3fde5b46e3482c48b3d5 origin/main: 4c0667bc877e4d47d8f875397e4d7e1dab6ee962 local committed history: 3 commits ahead and 26 commits behind remote working tree: 1,510 dirty paths the dirty paths include large unrelated concurrent work across ai relay, social, server, emulator, apps, workflows, and other systems. a wholesale commit/push would therefore risk deploying unrelated unfinished changes. hardened local graph versus origin/main many audited hardening files are absent from origin/main, including shared commerce focus/surface modules, mobile sheet modules/tests, radiance copy/catalog tests, reconciliation health modules/route/tests, and route only product memory modules. several integration files are modified relative to remote. a tracked area comparison alone found 48 relevant tracked deltas, but that number is not a safe release manifest because many essential local modules are untracked/new and therefore absent from ordinary git diff name only output. deployment decision do not push the current checkout wholesale. the safe promotion path is: 1. create a fresh worktree from current origin/main; 2. build a complete dependency closed release manifest including new/untracked modules; 3. overlay only that coherent geelooy release graph; 4. run the same complete platform tests plus repository quality gates in that clean worktree; 5. review the resulting diff for unrelated regressions; 6. commit/push only that isolated release sha to main; 7. let the canonical github→hetzner workflow deploy and verify it. until that clean release candidate is proven, the public awtsmoos.com deployment is live, but exact parity with every newest local hardening file is intentionally not claimed.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-10t1851-final-hardening-multiplex-08-deploym-b57f7ae011.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-10t1851-final-hardening-multiplex-09-remaini-cd6e3e4dd3",
+		"title": "Remaining Work After Final Hardening",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-10T1851-final-hardening-multiplex/09-remaining-work.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Remaining Work After Final Hardening",
+				"anchor": "remaining-work-after-final-hardening"
+			},
+			{
+				"level": 2,
+				"text": "Release engineering",
+				"anchor": "release-engineering"
+			},
+			{
+				"level": 2,
+				"text": "Remaining product/architecture audits",
+				"anchor": "remaining-product-architecture-audits"
+			},
+			{
+				"level": 2,
+				"text": "Revenue reality",
+				"anchor": "revenue-reality"
+			},
+			{
+				"level": 2,
+				"text": "Next action",
+				"anchor": "next-action"
+			}
+		],
+		"excerpt": "Remaining Work After Final Hardening Release engineering Build a dependency closed clean release candidate from fresh origin/main rather than the 1,510 path dirty checkout. Include both tracked modifications and locally new/untracked modules required by commerce, retention, reconciliation, SEO, server injection, Apps/G",
+		"searchText": "remaining work after final hardening release engineering build a dependency closed clean release candidate from fresh origin/main rather than the 1,510 path dirty checkout. include both tracked modifications and locally new/untracked modules required by commerce, retention, reconciliation, seo, server injection, apps/games integration, and tests. reconcile the local branch being 3 commits ahead and 26 commits behind remote. run the complete platform suite and repository production quality gates inside that clean candidate. review the final diff for unrelated concurrent work before committing. push only a proven isolated sha to main, then let github actions hard reset hetzner production to the exact pushed sha and execute public verification. remaining product/architecture audits finish exhaustive consumer mapping for shared/workspace/launchdescriptor.js and the existing secure shared/embed protocol. do not create a second handoff protocol unless a concrete integration gap remains after that audit. design a coherent migration for legacy json backed config/auth/dosdb boundaries before aggressive startup lazy loading. current startup latency is measured module load debt, not a db/auth wait problem. revenue reality the current local platform has strong monetization mechanics: a unified wallet/peruta system, 80 monetizable products, 240 product credit packs, 80 durable live radiance entitlements, product specific truthful offer copy, reversible settlement, retention, seo/catalog discoverability, mobile checkout hardening, and authenticated reconciliation diagnostics. these systems can improve conversion, retention, trust, and revenue capacity. they cannot guarantee any specific revenue rate. actual revenue depends on traffic, product market fit, conversion, payment provider availability, pricing, marketing, competition, operating costs, legal/tax obligations, abuse/fraud, and uptime. next action do not touch production from the current dirty checkout. create and prove the clean release worktree first. if that release candidate is clean and all gates pass, then deploy the exact sha and verify the live site after github actions finishes.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-10t1851-final-hardening-multiplex-09-remaini-cd6e3e4dd3.json"
+	}
+]

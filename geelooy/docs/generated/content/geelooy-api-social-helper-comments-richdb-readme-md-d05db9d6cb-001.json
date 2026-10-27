@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Rich Comment Packed DB (geelooy/api/social/helper/comments/richDb/)\n\nPacked-file storage for rich comments.\n\n- `PackedStore.js` — reads/writes rich comments to packed shard files instead of the legacy folder layout.\n\nBacks the rich comment routes; see `../routes/rich.js`.\n"
+}

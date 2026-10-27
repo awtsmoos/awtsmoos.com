@@ -12,7 +12,7 @@ Blessed is He
 
 ## Entry and documentation evidence
 
-- Entry files: `_awtsmoos.derech.js`, `DOCUMENTATION.md`
+- Entry files: `_awtsmoos.derech.js`, `DOCUMENTATION.md`, `README.md`, `readme.md`
 - Local documentation: `geelooy/api/DOCUMENTATION.md`
 - Local-doc requirement: yes; covered: yes
 - Symlink target: —
@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 1797 | 399 | 0 | 0 | 43 | 3 | 2242 |
+| 2921 | 699 | 0 | 0 | 294 | 13 | 3927 |
 
 ## Public entry points
 
@@ -45,4 +45,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **399**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **699**. Treat this as file evidence, not proof of behavioral coverage.

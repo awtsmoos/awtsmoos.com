@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-11t1342-deployment-hardening-recovery-06-ver-ca81cd760f",
+	"title": "Deployment Hardening Verification",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-11T1342-deployment-hardening-recovery/06-verification.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Deployment Hardening Verification",
+			"anchor": "deployment-hardening-verification"
+		},
+		{
+			"level": 2,
+			"text": "Source law",
+			"anchor": "source-law"
+		},
+		{
+			"level": 2,
+			"text": "Workflow structure",
+			"anchor": "workflow-structure"
+		},
+		{
+			"level": 2,
+			"text": "Checkout-repair simulation",
+			"anchor": "checkout-repair-simulation"
+		},
+		{
+			"level": 2,
+			"text": "Security/diagnostic properties",
+			"anchor": "security-diagnostic-properties"
+		},
+		{
+			"level": 2,
+			"text": "Production-release behavior retained",
+			"anchor": "production-release-behavior-retained"
+		},
+		{
+			"level": 2,
+			"text": "Previous failure testimony",
+			"anchor": "previous-failure-testimony"
+		},
+		{
+			"level": 2,
+			"text": "Next gate",
+			"anchor": "next-gate"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-11t1342-deployment-hardening-recovery-06-ver-ca81cd760f-001.json"
+	]
+}

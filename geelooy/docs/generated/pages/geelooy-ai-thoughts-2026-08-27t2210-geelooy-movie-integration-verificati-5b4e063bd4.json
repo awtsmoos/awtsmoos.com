@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-27t2210-geelooy-movie-integration-verificati-5b4e063bd4",
+	"title": "Phase One File Graph — Theoretical Before Commitment",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-27T2210-geelooy-movie-integration-verification/02_PHASE_ONE_THEORETICAL_FILE_GRAPH.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase One File Graph — Theoretical Before Commitment",
+			"anchor": "phase-one-file-graph-theoretical-before-commitment"
+		},
+		{
+			"level": 2,
+			"text": "Canonical candidate",
+			"anchor": "canonical-candidate"
+		},
+		{
+			"level": 2,
+			"text": "Theoretical files that may be involved",
+			"anchor": "theoretical-files-that-may-be-involved"
+		},
+		{
+			"level": 2,
+			"text": "Dependency graph",
+			"anchor": "dependency-graph"
+		},
+		{
+			"level": 2,
+			"text": "Write discipline",
+			"anchor": "write-discipline"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-27t2210-geelooy-movie-integration-verificati-5b4e063bd4-001.json"
+	]
+}

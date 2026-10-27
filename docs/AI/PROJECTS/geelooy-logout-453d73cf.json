@@ -9,7 +9,7 @@
 		"id": "public",
 		"title": "Public and Other Boundaries"
 	},
-	"title": "geelooy/logout",
+	"title": "Logged Out · Awtsmoos",
 	"entries": [
 		"index.html"
 	],
@@ -36,9 +36,9 @@
 		{
 			"url": "/logout",
 			"file": "geelooy/logout/index.html",
-			"title": "",
+			"title": "Logged Out · Awtsmoos",
 			"scripts": 0,
-			"styles": 0
+			"styles": 1
 		}
 	],
 	"requiresLocalDocumentation": false,

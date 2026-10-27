@@ -1,0 +1,246 @@
+[
+	{
+		"id": "geelooy-api-social-helper-comments-imported-data-meluket-posts-readme-md-875f71c469",
+		"title": "B\"H — Meluket Posts JSON (geelooy/api/social/helper/comments/imported/data/meluket/posts/)",
+		"sourcePath": "geelooy/api/social/helper/comments/imported/data/meluket/posts/README.md",
+		"category": "Data",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Meluket Posts JSON (geelooy/api/social/helper/comments/imported/data/meluket/posts/)",
+				"anchor": "b-h-meluket-posts-json-geelooy-api-social-helper-comments-imported-data-meluket-posts"
+			}
+		],
+		"excerpt": "B\"H — Meluket Posts JSON (geelooy/api/social/helper/comments/imported/data/meluket/posts/) 218 imported Meluket post JSON files, one per post, hash named. These are raw corpus data — read by the imported comment adapters and post resolver; never edited by hand.",
+		"searchText": "b\"h — meluket posts json (geelooy/api/social/helper/comments/imported/data/meluket/posts/) 218 imported meluket post json files, one per post, hash named. these are raw corpus data — read by the imported comment adapters and post resolver; never edited by hand.",
+		"page": "pages/geelooy-api-social-helper-comments-imported-data-meluket-posts-readme-md-875f71c469.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-comments-imported-data-meluket-readme-md-a4b686f9b6",
+		"title": "B\"H — Meluket Imported Posts (geelooy/api/social/helper/comments/imported/data/meluket/)",
+		"sourcePath": "geelooy/api/social/helper/comments/imported/data/meluket/README.md",
+		"category": "Data",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Meluket Imported Posts (geelooy/api/social/helper/comments/imported/data/meluket/)",
+				"anchor": "b-h-meluket-imported-posts-geelooy-api-social-helper-comments-imported-data-meluket"
+			}
+		],
+		"excerpt": "B\"H — Meluket Imported Posts (geelooy/api/social/helper/comments/imported/data/meluket/) The Meluket imported corpus data. manifest.json — index of the corpus. posts/ — 218 JSON files, one per imported post (hash named). Consumed by ../adapters/corpusAdapter.js, ../postResolver.js, and ../meluketMap.js to serve importe",
+		"searchText": "b\"h — meluket imported posts (geelooy/api/social/helper/comments/imported/data/meluket/) the meluket imported corpus data. manifest.json — index of the corpus. posts/ — 218 json files, one per imported post (hash named). consumed by ../adapters/corpusadapter.js, ../postresolver.js, and ../meluketmap.js to serve imported comment trees through the normal comment routes.",
+		"page": "pages/geelooy-api-social-helper-comments-imported-data-meluket-readme-md-a4b686f9b6.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-comments-imported-data-readme-md-480829e9d9",
+		"title": "B\"H — Imported Comment Data (geelooy/api/social/helper/comments/imported/data/)",
+		"sourcePath": "geelooy/api/social/helper/comments/imported/data/README.md",
+		"category": "Data",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Imported Comment Data (geelooy/api/social/helper/comments/imported/data/)",
+				"anchor": "b-h-imported-comment-data-geelooy-api-social-helper-comments-imported-data"
+			},
+			{
+				"level": 2,
+				"text": "Contents",
+				"anchor": "contents"
+			}
+		],
+		"excerpt": "B\"H — Imported Comment Data (geelooy/api/social/helper/comments/imported/data/) Raw imported comment corpora, one directory per corpus. Contents meluket/ — Meluket corpus: manifest.json + posts/ (218 post JSON files, one per post). sichosKodesh/ — Sichos Kodesh corpus: manifest.json + posts/ (283 post JSON files, one p",
+		"searchText": "b\"h — imported comment data (geelooy/api/social/helper/comments/imported/data/) raw imported comment corpora, one directory per corpus. contents meluket/ — meluket corpus: manifest.json + posts/ (218 post json files, one per post). sichoskodesh/ — sichos kodesh corpus: manifest.json + posts/ (283 post json files, one per post). the manifests index the post files; ../meluketmap.js and ../postresolver.js map social posts to these corpus entries.",
+		"page": "pages/geelooy-api-social-helper-comments-imported-data-readme-md-480829e9d9.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-comments-imported-data-sichoskodesh-posts-read-47554a2838",
+		"title": "B\"H — Sichos Kodesh Posts JSON (geelooy/api/social/helper/comments/imported/data/sichosKodesh/posts/)",
+		"sourcePath": "geelooy/api/social/helper/comments/imported/data/sichosKodesh/posts/README.md",
+		"category": "Data",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Sichos Kodesh Posts JSON (geelooy/api/social/helper/comments/imported/data/sichosKodesh/posts/)",
+				"anchor": "b-h-sichos-kodesh-posts-json-geelooy-api-social-helper-comments-imported-data-sichoskodesh-posts"
+			}
+		],
+		"excerpt": "B\"H — Sichos Kodesh Posts JSON (geelooy/api/social/helper/comments/imported/data/sichosKodesh/posts/) 283 imported Sichos Kodesh post JSON files, one per post, hash named. These are raw corpus data — read by the imported comment adapters and post resolver; never edited by hand.",
+		"searchText": "b\"h — sichos kodesh posts json (geelooy/api/social/helper/comments/imported/data/sichoskodesh/posts/) 283 imported sichos kodesh post json files, one per post, hash named. these are raw corpus data — read by the imported comment adapters and post resolver; never edited by hand.",
+		"page": "pages/geelooy-api-social-helper-comments-imported-data-sichoskodesh-posts-read-47554a2838.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-comments-imported-data-sichoskodesh-readme-md-67de7ea1e1",
+		"title": "B\"H — Sichos Kodesh Imported Posts (geelooy/api/social/helper/comments/imported/data/sichosKodesh/)",
+		"sourcePath": "geelooy/api/social/helper/comments/imported/data/sichosKodesh/README.md",
+		"category": "Data",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Sichos Kodesh Imported Posts (geelooy/api/social/helper/comments/imported/data/sichosKodesh/)",
+				"anchor": "b-h-sichos-kodesh-imported-posts-geelooy-api-social-helper-comments-imported-data-sichoskodesh"
+			}
+		],
+		"excerpt": "B\"H — Sichos Kodesh Imported Posts (geelooy/api/social/helper/comments/imported/data/sichosKodesh/) The Sichos Kodesh imported corpus data. manifest.json — index of the corpus. posts/ — 283 JSON files, one per imported post (hash named). Consumed by the imported comment adapters and post resolver to serve imported comm",
+		"searchText": "b\"h — sichos kodesh imported posts (geelooy/api/social/helper/comments/imported/data/sichoskodesh/) the sichos kodesh imported corpus data. manifest.json — index of the corpus. posts/ — 283 json files, one per imported post (hash named). consumed by the imported comment adapters and post resolver to serve imported comment trees through the normal comment routes.",
+		"page": "pages/geelooy-api-social-helper-comments-imported-data-sichoskodesh-readme-md-67de7ea1e1.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-comments-imported-readme-md-c196f2c01a",
+		"title": "B\"H — Imported Comments (geelooy/api/social/helper/comments/imported/)",
+		"sourcePath": "geelooy/api/social/helper/comments/imported/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Imported Comments (geelooy/api/social/helper/comments/imported/)",
+				"anchor": "b-h-imported-comments-geelooy-api-social-helper-comments-imported"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			},
+			{
+				"level": 2,
+				"text": "What it does",
+				"anchor": "what-it-does"
+			}
+		],
+		"excerpt": "B\"H — Imported Comments (geelooy/api/social/helper/comments/imported/) Imported external comment corpora (Meluket, Sichos Kodesh) adapted into the social comment system. Files CHASSIDUS PUBLISH README.md — notes on the Chassidus publish flow for imported content. orchestrator.js, registry.js — orchestrate and register ",
+		"searchText": "b\"h — imported comments (geelooy/api/social/helper/comments/imported/) imported external comment corpora (meluket, sichos kodesh) adapted into the social comment system. files chassidus publish readme.md — notes on the chassidus publish flow for imported content. orchestrator.js, registry.js — orchestrate and register imported corpora. adapters/ — source adapters: bundleadapter, corpusadapter, legacyadapter, shardadapter. bundlestore.js, cache.js, dbpool.js — storage and caching for imported data. normalizer.js, text.js, meluketmap.js, postresolver.js — normalize text and resolve posts to corpus entries. data/ — the corpora themselves: meluket/ (manifest + 218 post jsons) and sichoskodesh/ (manifest + 283 post jsons), one json file per imported post. test/ — federationcore.test.js. what it does ingests third party comment corpora, normalizes and maps them to social posts, and serves them through the same comment tree reads as native comments.",
+		"page": "pages/geelooy-api-social-helper-comments-imported-readme-md-c196f2c01a.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-comments-imported-test-readme-md-522e38cf74",
+		"title": "B\"H — Imported Comments Tests (geelooy/api/social/helper/comments/imported/test/)",
+		"sourcePath": "geelooy/api/social/helper/comments/imported/test/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Imported Comments Tests (geelooy/api/social/helper/comments/imported/test/)",
+				"anchor": "b-h-imported-comments-tests-geelooy-api-social-helper-comments-imported-test"
+			}
+		],
+		"excerpt": "B\"H — Imported Comments Tests (geelooy/api/social/helper/comments/imported/test/) Tests for the imported comment subsystem. federationCore.test.js — imported corpus federation core behavior.",
+		"searchText": "b\"h — imported comments tests (geelooy/api/social/helper/comments/imported/test/) tests for the imported comment subsystem. federationcore.test.js — imported corpus federation core behavior.",
+		"page": "pages/geelooy-api-social-helper-comments-imported-test-readme-md-522e38cf74.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-comments-query-readme-md-c513513989",
+		"title": "B\"H — Comment Query (geelooy/api/social/helper/comments/query/)",
+		"sourcePath": "geelooy/api/social/helper/comments/query/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Comment Query (geelooy/api/social/helper/comments/query/)",
+				"anchor": "b-h-comment-query-geelooy-api-social-helper-comments-query"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "B\"H — Comment Query (geelooy/api/social/helper/comments/query/) The comment read/query service used by comment routes. Files TiferesCommentQueryService.js — central query service for reading comments (by post, alias, verse section, tree). BinahCommentReadContext.js — builds the immutable read context (heichel, series, ",
+		"searchText": "b\"h — comment query (geelooy/api/social/helper/comments/query/) the comment read/query service used by comment routes. files tiferescommentqueryservice.js — central query service for reading comments (by post, alias, verse section, tree). binahcommentreadcontext.js — builds the immutable read context (heichel, series, post, permissions) that queries execute under.",
+		"page": "pages/geelooy-api-social-helper-comments-query-readme-md-c513513989.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-comments-readme-md-420f441420",
+		"title": "B\"H — Comments (geelooy/api/social/helper/comments/)",
+		"sourcePath": "geelooy/api/social/helper/comments/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Comments (geelooy/api/social/helper/comments/)",
+				"anchor": "b-h-comments-geelooy-api-social-helper-comments"
+			},
+			{
+				"level": 2,
+				"text": "Subdirectories",
+				"anchor": "subdirectories"
+			},
+			{
+				"level": 2,
+				"text": "Key files",
+				"anchor": "key-files"
+			}
+		],
+		"excerpt": "B\"H — Comments (geelooy/api/social/helper/comments/) The complete comment subsystem: creation, retrieval, moderation, reactions, trees, aliases, translations, imported corpora, and storage bridges (legacy folders, AwtsmoosDB, packed shards). Subdirectories routes/ — HTTP route handlers (see its README for the full endp",
+		"searchText": "b\"h — comments (geelooy/api/social/helper/comments/) the complete comment subsystem: creation, retrieval, moderation, reactions, trees, aliases, translations, imported corpora, and storage bridges (legacy folders, awtsmoosdb, packed shards). subdirectories routes/ — http route handlers (see its readme for the full endpoint list). creation/ — sephirah named comment creation pipeline (input, authority, identity, bulk service, coordinator). query/ — read/query service (tiferescommentqueryservice, read context). aliasindex/ — alias→comment packed index. richdb/ — rich comment packed store. imported/ — imported corpora (meluket, sichos kodesh) with adapters, registry, orchestrator, and 500+ post jsons under data/. translations/ — comment translation catalog/coverage/reader/search. scripts/ — one off migrations (legacy → new system, old comments → awtsmoosdb). test/ — full comment test suite (creation, indexing, search, translation, migration, policy). key files index.js — public module surface (used by helper/index.js). commentcreation.js, commentdeletion.js, commentmoderation.js, commentmodification.js — mutation operations. commentretrieval.js, commentreadcore/report/sources/utils — read path. commentreactions.js, commentactivity.js — reactions and activity. richcomment .js (access/create/delete/mutation/ownership/paths) — rich comment store. commentshard .js (bridge/reader/rows/worker) — shard storage layer. commentawtsmoosdbbridge.js, commentmigration.js, commentmigrationdiscovery.js — awtsmoosdb migration. commentvectorsearch .js, commentvectorstore.js — vector search over comments. canonicalcommentsource.js, databasecommentsource.js, importedcommenttree.js, commentpaths.js.",
+		"page": "pages/geelooy-api-social-helper-comments-readme-md-420f441420.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-comments-richdb-readme-md-d05db9d6cb",
+		"title": "B\"H — Rich Comment Packed DB (geelooy/api/social/helper/comments/richDb/)",
+		"sourcePath": "geelooy/api/social/helper/comments/richDb/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Rich Comment Packed DB (geelooy/api/social/helper/comments/richDb/)",
+				"anchor": "b-h-rich-comment-packed-db-geelooy-api-social-helper-comments-richdb"
+			}
+		],
+		"excerpt": "B\"H — Rich Comment Packed DB (geelooy/api/social/helper/comments/richDb/) Packed file storage for rich comments. PackedStore.js — reads/writes rich comments to packed shard files instead of the legacy folder layout. Backs the rich comment routes; see ../routes/rich.js.",
+		"searchText": "b\"h — rich comment packed db (geelooy/api/social/helper/comments/richdb/) packed file storage for rich comments. packedstore.js — reads/writes rich comments to packed shard files instead of the legacy folder layout. backs the rich comment routes; see ../routes/rich.js.",
+		"page": "pages/geelooy-api-social-helper-comments-richdb-readme-md-d05db9d6cb.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-comments-routes-readme-md-fd34873963",
+		"title": "B\"H — Comment Routes (geelooy/api/social/helper/comments/routes/)",
+		"sourcePath": "geelooy/api/social/helper/comments/routes/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Comment Routes (geelooy/api/social/helper/comments/routes/)",
+				"anchor": "b-h-comment-routes-geelooy-api-social-helper-comments-routes"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			},
+			{
+				"level": 2,
+				"text": "Main endpoints",
+				"anchor": "main-endpoints"
+			}
+		],
+		"excerpt": "B\"H — Comment Routes (geelooy/api/social/helper/comments/routes/) HTTP route handlers for comments, mounted by awtsmoos.comments.js. Covers legacy compat, rich comments, post comments, translations, reactions, indexing, search, and moderation. Files index.js — assembles and exports all comment routes. comment.js — lega",
+		"searchText": "b\"h — comment routes (geelooy/api/social/helper/comments/routes/) http route handlers for comments, mounted by awtsmoos.comments.js. covers legacy compat, rich comments, post comments, translations, reactions, indexing, search, and moderation. files index.js — assembles and exports all comment routes. comment.js — legacy single comment/reply routes (get/post/put/delete), delegated to the rich store. post.js + postreadoperations.js + postmutationoperations.js — post level comment trees and mutations. rich.js — rich comment routes. moderated.js, submitted.js — moderation queue and user submissions. translations.js — comment translation bundle routes. reactions.js — comment reactions. search.js — comment search routes. indexing.js, indexingroutehandlers.js, legacyindexreader.js, legacyindexrebuilder.js — comment index maintenance. utils.js — route helpers (er, methodis). main endpoints /heichelos/:heichel/comments (post create root/reply) /heichelos/:heichel/comment/:comment (get/post/put/delete single) /heichelos/:heichel/post/:post/comments/ · /heichelos/:heichel/posts/:post/comments/:comment (+ /replies, /reactions, /sections/:section/replies) /heichelos/:heichel/posts/:post/comment tree · /heichelos/:heichel/posts/:post/imported comment tree /heichelos/:heichel/post/:post/comments/aliases[/:alias] — authors commenting /heichelos/:heichel/posts/:post/verses/:verse/comments · /heichelos/:heichel/posts/:post/subsections/:subsection/comments /heichelos/:heichel/series/:series/post/:post/comments/moderated · .../translations (/coverage, /search) /heichelos/:heichel/questions/:question/comment tree · /heichelos/:heichel/answers/:answer/comment tree /aliases/:alias/commentsmade[/heichel/:heichel/series/:series/post/:post] /entities/:heichel/:entity/comment tree /comments/url/:comment",
+		"page": "pages/geelooy-api-social-helper-comments-routes-readme-md-fd34873963.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-comments-scripts-readme-md-6eafad99c7",
+		"title": "B\"H — Comment Migration Scripts (geelooy/api/social/helper/comments/scripts/)",
+		"sourcePath": "geelooy/api/social/helper/comments/scripts/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Comment Migration Scripts (geelooy/api/social/helper/comments/scripts/)",
+				"anchor": "b-h-comment-migration-scripts-geelooy-api-social-helper-comments-scripts"
+			}
+		],
+		"excerpt": "B\"H — Comment Migration Scripts (geelooy/api/social/helper/comments/scripts/) One off migration scripts for the comment system (run manually, not part of request handling). copyLegacyCommentsToNewSystem.js — copies legacy comments into the new comment system. migrateOldCommentsToAwtsmoosDb.js — migrates old comments in",
+		"searchText": "b\"h — comment migration scripts (geelooy/api/social/helper/comments/scripts/) one off migration scripts for the comment system (run manually, not part of request handling). copylegacycommentstonewsystem.js — copies legacy comments into the new comment system. migrateoldcommentstoawtsmoosdb.js — migrates old comments into awtsmoosdb storage.",
+		"page": "pages/geelooy-api-social-helper-comments-scripts-readme-md-6eafad99c7.json"
+	}
+]

@@ -1,0 +1,188 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-subwaysurfer-docs-handoff-md-e83ab36b91",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/subwaySurfer/docs/HANDOFF.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Peruta Run / Subway Surfer — Short Handoff",
+				"anchor": "peruta-run-subway-surfer-short-handoff"
+			},
+			{
+				"level": 2,
+				"text": "Snapshot",
+				"anchor": "snapshot"
+			},
+			{
+				"level": 2,
+				"text": "Gameplay",
+				"anchor": "gameplay"
+			},
+			{
+				"level": 2,
+				"text": "World theme",
+				"anchor": "world-theme"
+			},
+			{
+				"level": 2,
+				"text": "Textures + realism",
+				"anchor": "textures-realism"
+			},
+			{
+				"level": 2,
+				"text": "Public API",
+				"anchor": "public-api"
+			},
+			{
+				"level": 2,
+				"text": "UI",
+				"anchor": "ui"
+			},
+			{
+				"level": 2,
+				"text": "Key files",
+				"anchor": "key-files"
+			},
+			{
+				"level": 2,
+				"text": "Next agent",
+				"anchor": "next-agent"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Peruta Run / Subway Surfer — Short Handoff The Awtsmoos renews runner, road, texture, obstacle, and input before another Shliach enters the street; Awtsmoos.com lets this note stay small, so takeover begins from living evidence instead of history beneath the feet. Snapshot Route: geelooy",
+		"searchText": "b\"h boruch hashem blessed is he peruta run / subway surfer — short handoff the awtsmoos renews runner, road, texture, obstacle, and input before another shliach enters the street; awtsmoos.com lets this note stay small, so takeover begins from living evidence instead of history beneath the feet. snapshot route: geelooy/games/mitzvahworld/subwaysurfer/ api: 2.3.0 boot token: release 20260901 1 browser api: globalthis.awtsmoosperutarun observed head when written: e5e4909d1 route was clean before this handoff was added; re check git because other agents work concurrently. gameplay three lane endless runner. collect perutas. controls: a/left = left, d/right = right, w/space = jump, s/down = duck, p = pause, r = restart. mobile uses swipe plus touch controls. collision laws stay only: avoid jump duck do not restore impossible jump→duck / duck→jump required sequences. current hard patterns use fair simultaneous center jump/duck decisions. world theme obstacle families: transport, market, maintenance, eruv, community. examples: supply wagons, produce carts, awnings, repair crates, scaffold braces, eruv maintenance equipment, folding chair racks, cable ramps. the eruv itself is respectful city context; ordinary maintenance equipment carries gameplay collision. never use torah scrolls, tefillin, mezuzos, sifrei kodesh, or sacred judaica as disposable hazards. textures + realism use semantic photographic roles from perutasurfacecatalog.js and procedural core. never duplicate raw remote texture urls in game code. materials are shared, hydration is non blocking/cached, and fallback colors remain playable while images load. texture evidence: awtsmoosperutarun.inspect(\"diagnostics\").surfaces public api keep the surface simple: state() command(name, payload?) inspect(name) on(eventname, listener) do not expose three.js nodes or mutable runtime state. main evidence call: awtsmoosperutarun.inspect(\"diagnostics\") it includes api/profile, fps, draw calls, triangles, camera/body state, textures, and semantic obstacles. ui hud stays minimal. advanced information belongs in the retractable advanced drawer. drawer behavior: owns its pause, traps focus, closes with escape/backdrop/button, restores focus, shows live evidence, and offers auto/mobile/balanced/cinematic reloads. keep css localized under .peruta run route; preserve 48px touch targets plus hover, active, focus visible, and reduced motion states. key files src/main.js src/runtime/perutarunapplication.js src/runtime/perutarunbootgraph.js src/runtime/perutarunruntimegraph.js src/api/perutarunapi.js src/world/chunkpatterncatalog.js src/world/obstaclefactory.js src/realism/perutaphotographicsurfacelibrary.js src/ui/advanceddrawercontroller.js deep docs: docs/api.md, docs/texture surfaces.md, docs/obstacle system.md. next agent 1. re check git head/status. 2. boot mobile + desktop. 3. confirm api 2.3 and exercise lane/jump/duck/pause/restart/drawer. 4. verify texture states progress toward ready. 5. record fps/calls/triangles and active obstacle diagnostics. 6. change code only from observed failures/new requirements. do not regress semantic obstacle ids, texture caching, pooled world geometry, localized css, public api immutability, full file rewrites, or the project's modular source size rules.",
+		"page": "pages/geelooy-games-mitzvahworld-subwaysurfer-docs-handoff-md-e83ab36b91.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-subwaysurfer-docs-obstacle-system-md-4005fc7d9c",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/subwaySurfer/docs/OBSTACLE_SYSTEM.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Peruta Run — Jewish City Obstacle System",
+				"anchor": "peruta-run-jewish-city-obstacle-system"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Gameplay laws",
+				"anchor": "gameplay-laws"
+			},
+			{
+				"level": 2,
+				"text": "Thematic families",
+				"anchor": "thematic-families"
+			},
+			{
+				"level": 2,
+				"text": "Eruv rule",
+				"anchor": "eruv-rule"
+			},
+			{
+				"level": 2,
+				"text": "Sacred-object exclusion",
+				"anchor": "sacred-object-exclusion"
+			},
+			{
+				"level": 2,
+				"text": "Descriptor contract",
+				"anchor": "descriptor-contract"
+			},
+			{
+				"level": 2,
+				"text": "Pattern fairness",
+				"anchor": "pattern-fairness"
+			},
+			{
+				"level": 2,
+				"text": "Adding a variant",
+				"anchor": "adding-a-variant"
+			},
+			{
+				"level": 2,
+				"text": "Performance covenant",
+				"anchor": "performance-covenant"
+			},
+			{
+				"level": 2,
+				"text": "Public discovery",
+				"anchor": "public-discovery"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Peruta Run — Jewish City Obstacle System The Awtsmoos renews lane, wire, wagon, canopy, maintenance tool, and empty passage before the runner can see; Awtsmoos.com lets many neighborhood forms reveal three simple laws while respectful theme, fairness, and performance agree. Purpose Perut",
+		"searchText": "b\"h boruch hashem blessed is he peruta run — jewish city obstacle system the awtsmoos renews lane, wire, wagon, canopy, maintenance tool, and empty passage before the runner can see; awtsmoos.com lets many neighborhood forms reveal three simple laws while respectful theme, fairness, and performance agree. purpose peruta run uses stable semantic obstacle ids instead of generic barriers or numeric variants. visual identity is separate from collision law. family factories build reusable templates; immutable descriptors carry renderer neutral collision truth. gameplay laws avoid: the obstacle owns the lane; jumping or ducking does not make it safe. jump: the runner's vertical base must clear collisionheight. duck: geometric bodytopy must fit below clearancey. collision consumes normalized slot metadata and never branches on market, eruv, community, maintenance, or transport identity. thematic families transport: market supply wagon, masonry utility carriage, water service carriage. market: produce handcart, pallet bundle, low cloth awning. maintenance: repair crates, timber lintel, scaffold brace. eruv: visible eruv infrastructure plus ordinary temporary maintenance equipment. community: folding chair rack, temporary canopy beam, cable protector ramp. eruv rule the eruv is city context, not a disposable game object. high poles/top line may be visible as neighborhood infrastructure. collision belongs to temporary maintenance equipment: lowered inspection arm, service cart, maintenance ladder, or similar ordinary tool. do not portray the halachic boundary itself as something the runner destroys, kicks, or breaks. sacred object exclusion do not create hazards from torah scrolls, tefillin, mezuzos, sifrei kodesh, ritual judaica, or other sacred/mitzvah objects. ordinary logistics may use architecture, carts, maintenance equipment, folding furniture, produce, timber, masonry, cloth, and neighborhood services. descriptor contract each binahobstaclevariantdescriptor owns stable id, family, law, cloneable visual template, collisiondepth, plus collisionheight for jump or clearancey for duck. instantiate() clones scene nodes while three retains shared geometry/material references. chunk recycling never rebuilds obstacle geometry. pattern fairness patterns use stable variantid, lane, and local z; they never depend on descriptor array order. the old same lane jump then duck and duck then jump rhythms were removed because their 8.4 unit spacing gave only about 0.38 seconds at maximum speed while jump/duck state lasted longer. current high pressure patterns instead use simultaneous readable choices: forced center jump: both outer lanes are blocked while center asks for one jump. forced center duck: both outer lanes are blocked while center asks for one duck. thus difficulty increases without requiring impossible state transitions. adding a variant 1. choose an existing thematic family or add one to obstaclevocabulary.js. 2. build visuals inside a small family module under src/world/obstacles/. 3. reuse semantic photographic surface roles; never copy remote image urls into game code. 4. keep normal mobile/balanced variants out of the shadow caster pass. 5. return truthful collision dimensions. 6. add a stable id to peruta obstacle ids. 7. add named placements to chunkpatterncatalog.js. 8. run descriptor, fairness, collision, browser, ui, texture, and performance gates. do not modify collisionsystem.js merely to add a new visual identity. performance covenant build descriptor templates once. pool bounded world slots. clone nodes with shared geometry/material references. allocate no obstacle geometry during chunk recycle. keep wheels/hardware low segment. reuse cached photographic materials. measure renderer calls and triangles after adding a family. public discovery api 2.3.0 advertises obstaclelaws, obstaclefamilies, and obstaclevariants. diagnostics expose bounded records with patternid, variantid, family, law, lane, and worldz, powering both developer tests and the retractable advanced drawer.",
+		"page": "pages/geelooy-games-mitzvahworld-subwaysurfer-docs-obstacle-system-md-4005fc7d9c.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-subwaysurfer-docs-texture-surfaces-md-e44ccd59ea",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/subwaySurfer/docs/TEXTURE_SURFACES.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Photographic Surface and Cache Discovery",
+				"anchor": "photographic-surface-and-cache-discovery"
+			},
+			{
+				"level": 2,
+				"text": "Canonical rule",
+				"anchor": "canonical-rule"
+			},
+			{
+				"level": 2,
+				"text": "Cache architecture",
+				"anchor": "cache-architecture"
+			},
+			{
+				"level": 2,
+				"text": "Timeout and concurrency",
+				"anchor": "timeout-and-concurrency"
+			},
+			{
+				"level": 2,
+				"text": "Diagnostics",
+				"anchor": "diagnostics"
+			},
+			{
+				"level": 2,
+				"text": "Adding a surface",
+				"anchor": "adding-a-surface"
+			},
+			{
+				"level": 2,
+				"text": "Leaf policy",
+				"anchor": "leaf-policy"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Photographic Surface and Cache Discovery The Awtsmoos renews stone, oak, cloth, bark, leaf, URL, decoded image, and GPU texture before one wall can appear; Awtsmoos.com lets future agents find the canonical source once, share its light, and keep network stampedes far from here. Canonical",
+		"searchText": "b\"h boruch hashem blessed is he photographic surface and cache discovery the awtsmoos renews stone, oak, cloth, bark, leaf, url, decoded image, and gpu texture before one wall can appear; awtsmoos.com lets future agents find the canonical source once, share its light, and keep network stampedes far from here. canonical rule game code never invents or copies remote texture urls. semantic roles resolve exact filenames through procedural core's awtsmoosdrivetexturecatalog. current peruta roles include: roadstone → stone floor 2.png cobblestone → cobblestone.png limestone → limestone bricks 1.png limestonewarm / facadewarm → limestone bricks 2.png facadecool → gray brick 1.png rooftile → tiled roof 2.png oakwood → oak wood 2.png oakplanks → oak wooden planks 2.png cloth → tan cloth.png olivebark → olive tree bark.png oliveleaves → olive leaf.png metal → local physically based fallback only see src/realism/perutasurfacecatalog.js for the authoritative role table and uv repeat policy. cache architecture 1. perutaphotographicsurfacelibrary owns one stable material identity per semantic role. 2. perutasurfacehydrationservice resolves registry urls and advances role state. 3. surfacehydrationqueue admits only two large hydration jobs simultaneously. 4. threeimagesourcerepository deduplicates each canonical url per repository. 5. procedural core remotetextureimagecache shares decoded/in flight image work globally. 6. perutasurfacematerialhydrator wraps the already decoded image in a route owned three texture and hydrates the existing material in place. the game remains playable on physically plausible fallback colors while remote photography arrives. hydration does not block chossid/world boot. timeout and concurrency peruta gives each canonical image request a 45 second transport allowance and hydrates at concurrency two. this exists because the canonical photographic pngs can be multi megabyte; starting all roles simultaneously previously caused mobile timeout stampedes. diagnostics awtsmoosperutarun.inspect(\"diagnostics\").surfaces exposes: exact role states; ready count; queued/loading count; failed/missing count; hydration queue counters; shared source repository counters. expected states include: queued loading ready fallback only missing registry entry load failed: unregistered fallback a solid fallback that never becomes photographic is therefore visible evidence, not a silent visual mystery. adding a surface 1. search the canonical awtsmoos drive texture catalog by exact filename. 2. add a semantic role in perutasurfacecatalog.js with color, roughness, repeat, and optional leaf policy. 3. request that role from procedural geometry; do not construct a new material per chunk. 4. do not add another downloader or bypass the shared cache. 5. verify role progression through diagnostics and a cache disabled browser profile. 6. measure renderer texture count after hydration to catch accidental duplicate gpu textures. leaf policy olive leaves use vertex colors, double sided transparent rendering, alpha test, and disabled depth writing. bark and leaves share one advanced procedural core tree template per quality profile; normal play uses the mature olive budget while ancient remains explicit cinematic luxury.",
+		"page": "pages/geelooy-games-mitzvahworld-subwaysurfer-docs-texture-surfaces-md-e44ccd59ea.json"
+	}
+]

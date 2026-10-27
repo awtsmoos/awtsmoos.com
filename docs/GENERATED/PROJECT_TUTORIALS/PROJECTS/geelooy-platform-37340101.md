@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 89 | 19 | 0 | 0 | 2 | 0 | 110 |
+| 94 | 19 | 0 | 0 | 2 | 0 | 115 |
 
 ## Public entry points
 
@@ -29,11 +29,12 @@ None observed.
 
 ## Symbol evidence
 
-Source files: 89; classes: 1; functions: 145; exports: 115; samples: createAndroidRoundTripAdapter, requireFunction, createBundleArtifactAdapter, createCharacterAuthorityAdapter, createMovieCompilerAdapter, toMovieSource, createRadianceAdapter, normalizeTime, reasonsToSignals, createRichSocialAdapter, adaptTunnelReceipt, createQuarantineIfNeeded.
+Source files: 94; classes: 1; functions: 161; exports: 120; samples: createAndroidRoundTripAdapter, requireFunction, createBundleArtifactAdapter, createCharacterAuthorityAdapter, createMovieCompilerAdapter, toMovieSource, createRadianceAdapter, normalizeTime, reasonsToSignals, createRichSocialAdapter, adaptTunnelReceipt, createQuarantineIfNeeded.
 
 ## Depends on
 
-None observed.
+- `geelooy/api/wallet` — 2 lexical references; examples: geelooy/platform/products/readiness/ProductReadinessAudit.cjs
+- `ayzarim/awtsmoosDynamicServer` — 1 lexical reference; examples: geelooy/platform/products/readiness/ProductReadinessAudit.cjs
 
 ## Used by
 

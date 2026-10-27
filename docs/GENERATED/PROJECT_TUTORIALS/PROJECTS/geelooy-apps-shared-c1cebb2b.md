@@ -1,0 +1,55 @@
+B"H
+Boruch Hashem
+Blessed is He
+
+# Project Tutorial: geelooy/apps/shared
+
+**Path:** `geelooy/apps/shared` · **Type:** app · **Family:** Applications
+
+[Read the human Applications guide](../../../TUTORIALS/PROJECTS/APPS.md)
+
+> Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees.
+
+## Entry and documentation evidence
+
+- Entry files: —
+- Local documentation: No local `DOCUMENTATION.md` observed.
+- Local-doc requirement: yes; covered: no
+- Symlink target: —
+
+## File shape
+
+| Source | Tests | Assets | Generated | Docs | Other | Total |
+| --- | --- | --- | --- | --- | --- | --- |
+| 100 | 15 | 0 | 0 | 0 | 0 | 115 |
+
+## Public entry points
+
+None observed.
+
+## Symbol evidence
+
+Source files: 92; classes: 13; functions: 217; exports: 151; samples: aiMovieContract, movieCapabilities, allMovieCapabilities, recommendMovieCapabilities, MovieCapabilities, profile, recommendMovieApps, movieRequirements, scoreProfile, sampleMovie, sceneAt, frameAt.
+
+## Depends on
+
+- `geelooy/libs` — 1 lexical reference; examples: geelooy/apps/shared/movie/compat/SharedToCoreMovie.js
+
+## Used by
+
+- `geelooy/apps/awtsmoos-studio` — 26 lexical references; examples: geelooy/apps/awtsmoos-studio/src/StudioSharedMovieContract.js; geelooy/apps/awtsmoos-studio/src/StudioShowcaseMovie.js; geelooy/apps/awtsmoos-studio/src/ai/StudioPromptContentPolicy.js
+- `geelooy/apps/animator` — 13 lexical references; examples: geelooy/apps/animator/src/movie/AnimatorMovieAdapter.js; geelooy/apps/animator/src/scenes/AwtsmoosThreeMinuteMovie.js; geelooy/apps/animator/src/scenes/awtsmoosThreeMinute/AwtsmoosThreeMinuteData.js
+- `geelooy/showcase` — 4 lexical references; examples: geelooy/showcase/unified-movie-180/ShowcaseController.js; geelooy/showcase/unified-movie-180/ShowcaseEvidence.js; geelooy/showcase/unified-movie-180/showcase.js
+- `geelooy/apps/captions` — 2 lexical references; examples: geelooy/apps/captions/js/movie/installMovieAi.js; geelooy/apps/captions/video/modules/movie/CaptionMovieAdapter.js
+- `geelooy/apps/mitzvah-studio` — 2 lexical references; examples: geelooy/apps/mitzvah-studio/modules/movie/MitzvahMovieAdapter.js; geelooy/apps/mitzvah-studio/modules/movie/installMovieAi.js
+- `geelooy/apps/nesher-studio` — 2 lexical references; examples: geelooy/apps/nesher-studio/modules/movie/NesherMovieAdapter.js; geelooy/apps/nesher-studio/modules/movie/installMovieAi.js
+- `geelooy/apps/video-editor` — 2 lexical references; examples: geelooy/apps/video-editor/js/movie/VideoEditorMovieAdapter.js; geelooy/apps/video-editor/js/movie/installMovieAi.js
+- `geelooy/apps/forms` — 1 lexical reference; examples: geelooy/apps/forms/js/main.js
+
+## External packages
+
+None observed.
+
+## Verification clue
+
+Observed test-classified files: **15**. Treat this as file evidence, not proof of behavioral coverage.

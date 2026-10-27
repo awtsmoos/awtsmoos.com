@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Social Kernel Activity (geelooy/api/social/helper/socialKernel/activity/)\n\n- `SocialActivityNormalizer.js` — normalizes social activity events into a uniform shape.\n"
+}

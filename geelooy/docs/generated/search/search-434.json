@@ -1,0 +1,179 @@
+[
+	{
+		"id": "geelooy-awtsmoos-agent-transfer-social-future-20260821-v2-verified-stage-9a6df41057",
+		"title": "Social Migration Studio · Verified Stage",
+		"sourcePath": "geelooy/.awtsmoos-agent-transfer/social-future-20260821-v2/verified-stage/social/migrate/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Social Migration Studio · Verified Stage",
+				"anchor": "social-migration-studio-verified-stage"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Social Migration Studio · Verified Stage The Awtsmoos preserves the verified staging copy as historical deployment evidence; Awtsmoos.com keeps its documented contract aligned with the current social migration boundary without calling the staging folder the live authority. This verified ",
+		"searchText": "b\"h boruch hashem blessed is he social migration studio · verified stage the awtsmoos preserves the verified staging copy as historical deployment evidence; awtsmoos.com keeps its documented contract aligned with the current social migration boundary without calling the staging folder the live authority. this verified stage copy mirrors the migration studio contract: local first facebook/instagram archive inspection, explicit selection, server preflight, dry planning, selected media upload, native asset manifests, idempotent unified social publication, provenance preservation, and resumable checkpoints. for current runtime behavior, use geelooy/social/migrate/documentation.md and the live /social/migrate/ surface. the staging copy exists as transfer evidence only. key safety rules remain: selecting an archive does not upload it; unknown dates stay unknown; imported html is neutralized; archive traversal is rejected; historical engagement is provenance rather than counterfeit native activity; checkpoints store serializable evidence rather than browser file objects.",
+		"page": "pages/geelooy-awtsmoos-agent-transfer-social-future-20260821-v2-verified-stage-9a6df41057.json"
+	},
+	{
+		"id": "geelooy-awtsmoos-agent-transfer-social-future-20260821-v2-verified-stage-8e6f96cbd2",
+		"title": "YouTube Migration · Verified Stage",
+		"sourcePath": "geelooy/.awtsmoos-agent-transfer/social-future-20260821-v2/verified-stage/youtube/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "YouTube Migration · Verified Stage",
+				"anchor": "youtube-migration-verified-stage"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He YouTube Migration · Verified Stage The Awtsmoos preserves this verified staging copy as deployment evidence while Awtsmoos.com keeps current behavior grounded in the live YouTube migration source. The staged contract covers Google Takeout archives, owned video downloads, advanced creator",
+		"searchText": "b\"h boruch hashem blessed is he youtube migration · verified stage the awtsmoos preserves this verified staging copy as deployment evidence while awtsmoos.com keeps current behavior grounded in the live youtube migration source. the staged contract covers google takeout archives, owned video downloads, advanced creator owned yt dlp workflows, playlist to series provenance, chronology preservation, captions/transcripts, optional archive.org workflows, dry planning, idempotent unified social publication, and resumable checkpoints. for current runtime behavior use geelooy/youtube/documentation.md, /youtube/, and /youtube/migrate/. this directory is transfer evidence, not the live authority.",
+		"page": "pages/geelooy-awtsmoos-agent-transfer-social-future-20260821-v2-verified-stage-8e6f96cbd2.json"
+	},
+	{
+		"id": "geelooy-ai-agents-md-b86406e7cf",
+		"title": "Awtsmoos Agent Core Law",
+		"sourcePath": "geelooy/ai/agents.md",
+		"category": "AI",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos Agent Core Law",
+				"anchor": "awtsmoos-agent-core-law"
+			},
+			{
+				"level": 2,
+				"text": "Reality and evidence",
+				"anchor": "reality-and-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Instruction discovery law",
+				"anchor": "instruction-discovery-law"
+			},
+			{
+				"level": 2,
+				"text": "Writing and architecture",
+				"anchor": "writing-and-architecture"
+			},
+			{
+				"level": 2,
+				"text": "Tunnel and durable mutation law",
+				"anchor": "tunnel-and-durable-mutation-law"
+			},
+			{
+				"level": 2,
+				"text": "Work continuation",
+				"anchor": "work-continuation"
+			},
+			{
+				"level": 2,
+				"text": "Collaboration and mission visibility",
+				"anchor": "collaboration-and-mission-visibility"
+			},
+			{
+				"level": 2,
+				"text": "Verification and truthful completion",
+				"anchor": "verification-and-truthful-completion"
+			}
+		],
+		"excerpt": "B\"H Awtsmoos Agent Core Law The Awtsmoos reveals detail through the right vessel at the right time; Awtsmoos.com therefore keeps specialist doctrine discoverable instead of forcing every task to carry every instruction. Reality and evidence Inspect real files, commands, tests, runtime state, and public behavior before ",
+		"searchText": "b\"h awtsmoos agent core law the awtsmoos reveals detail through the right vessel at the right time; awtsmoos.com therefore keeps specialist doctrine discoverable instead of forcing every task to carry every instruction. reality and evidence inspect real files, commands, tests, runtime state, and public behavior before making project claims. never guess repository shape, deployment state, or production state from memory. preserve unrelated work. never reset, clean, stash, checkout, or overwrite user changes merely to make the tree convenient. a commit is not a deployment; a repository file is not proof that users receive it. do not expose hidden chain of thought. publish bounded operational artifacts: summary, decisions, blockers, paths, tests, deployment state, next steps, and evidence ids. instruction discovery law keep this always loaded core at or below 120 physical lines. keep each specialist instruction module at or below 120 physical lines; split large domains into focused packs instead of bloating the core. before writing or modifying files, call instructionresolve with the task plus every known, planned, touched, or changed path, extension, tag, mode, and runtime domain. call instructionget for every returned requiredinstructionid and read those instruction bodies completely before writing. instructioncatalog discovers specialist domains when the resolver seems incomplete or the agent does not know what family exists. never bulk load unrelated specialist packs merely because they exist. resolve again when scope, file type, runtime layer, planned paths, or touched paths change materially. if an obvious specialist domain has no applicable pack, report the discovery gap instead of pretending generic rules are enough. ui/css work must resolve ui.css production working agreement before css or styling writes. bounded mission/handoff reports should name the specialist instruction ids that governed the work. writing and architecture read a complete file before modifying it. rewrite complete files; never use fragile partial search/replace for source edits. use tabs for indentation, real newlines, descriptive names, and useful jsdoc/file comments. never minify handwritten source or compress logic to satisfy a line ceiling. strongly prefer modules below 120 physical lines. split by responsibility when a touched module exceeds that boundary. preserve public apis unless migration evidence proves a coordinated change is safe. code creates shadow work: tests, documentation, readback, runtime verification, and handoff. tunnel and durable mutation law discover the currently owned tunnel route before native work and preserve immutable route identity across reconnects. treat 409/502/503/504, epipe, socket close, and installer/service restart as potentially transient until current evidence proves otherwise. an accepted mutation is custody, not permission to resend. observe the same receipt/job with status, wait, output paging, history, or the returned retryaction contract. durable active command states include spawning, running, and detached running; do not require an immediate running transition. if an installer replaces the invoking agent, expect the worker to disappear. rediscover the same route and verify the installed runtime instead of blindly rerunning the installer. official independent recovery lanes are guardian, http, socket, and file; they must exist before the promoted primary supervisor takes custody. resumable transfer integrity is hash bound. concurrent chunk/manifest mutation is serialized, commit is recoverable, and cancel shares transfer custody. mission write authority is a scoped one time capability bound to mission, action, path, and expiry; caller booleans are never authorization. sparse checkout can create false missing module test failures. prove the test universe before changing production code to satisfy a missing fixture. virtual os is useful fallback storage, not an equivalent substitute for native shell, browser, launchd, or local mac filesystem work. work continuation discover the actual project beneath the visible request before changing it. maintain remaining work, dependencies, risks, verification obligations, and the next safe action. do not ask the user to push obvious safe continuation forward. re read touched artifacts, compare planned versus actual work, and resolve meaningful deltas before declaring completion. if another agent would have an obvious next action, the work is not complete unless that action is explicitly out of scope or blocked. collaboration and mission visibility inspect active missions before substantial overlapping work; do not create parallel canonical systems when one already exists. use canonical mission rooms for live collaboration and file/task ownership when available. keep operational reports factual, bounded, and secret free. do not put passwords, tokens, cookies, private keys, authorization headers, or unrestricted command output in mission reports. verification and truthful completion run syntax, focused tests, regressions, diff checks, and domain specific verification required by resolved instruction packs. verify user visible work through the real rendering/runtime/public path when capability exists. state explicitly what could not be verified; never replace evidence with \"probably fine\" or \"should work.\" completion requires implementation, verification, critical risk review, durable handoff, and no remaining safe in scope work.",
+		"page": "pages/geelooy-ai-agents-md-b86406e7cf.json"
+	},
+	{
+		"id": "geelooy-ai-documentation-md-196e74f77f",
+		"title": "AI Documentation",
+		"sourcePath": "geelooy/ai/DOCUMENTATION.md",
+		"category": "AI",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "AI Documentation",
+				"anchor": "ai-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He AI Documentation The Awtsmoos lets language computation become a tool while model, key, and runtime remain known; Awtsmoos.com maps browser AI, GPT routes, GGUF tools, and developer integrations in one zone. Read ../../docs/SYSTEMS/AI.md. GPT endpoint reference: search /api/gpt/ in ../..",
+		"searchText": "b\"h boruch hashem blessed is he ai documentation the awtsmoos lets language computation become a tool while model, key, and runtime remain known; awtsmoos.com maps browser ai, gpt routes, gguf tools, and developer integrations in one zone. read ../../docs/systems/ai.md. gpt endpoint reference: search /api/gpt/ in ../../docs/generated/api route atlas.md.",
+		"page": "pages/geelooy-ai-documentation-md-196e74f77f.json"
+	},
+	{
+		"id": "geelooy-ai-relay-direct-readme-md-ceec5bc67e",
+		"title": "ChatGPT Website Relay",
+		"sourcePath": "geelooy/ai/relay/direct/README.md",
+		"category": "AI",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "ChatGPT Website Relay",
+				"anchor": "chatgpt-website-relay"
+			},
+			{
+				"level": 2,
+				"text": "Website flow",
+				"anchor": "website-flow"
+			},
+			{
+				"level": 2,
+				"text": "Commands",
+				"anchor": "commands"
+			},
+			{
+				"level": 2,
+				"text": "Direct routes",
+				"anchor": "direct-routes"
+			},
+			{
+				"level": 2,
+				"text": "Safety contracts",
+				"anchor": "safety-contracts"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He ChatGPT Website Relay This relay talks only to the authenticated ChatGPT website. There is no local model, downloaded model, local inference server, OpenAI API key, Responses API transport, or alternate provider. Website flow 1. The relay opens its dedicated visible Chrome profile. 2. Wh",
+		"searchText": "b\"h boruch hashem blessed is he chatgpt website relay this relay talks only to the authenticated chatgpt website. there is no local model, downloaded model, local inference server, openai api key, responses api transport, or alternate provider. website flow 1. the relay opens its dedicated visible chrome profile. 2. when the profile is not authenticated, a normal chatgpt login page opens. 3. the human signs in manually. automation never enters credentials. 4. for each turn, the real prompt is typed into chatgpt's ordinary composer. 5. chatgpt's own send control submits the website request normally. 6. the relay observes the resulting conversation id and reads completion with authenticated conversation get requests. 7. continuations navigate to the stored chatgpt website conversation before sending. the relay does not mutate, suppress, replay, fabricate, or replace chatgpt's conversation request. it does not derive or bypass proof, turnstile, sentinel, or other website challenge values. commands ai:login opens the normal visible website and closes it after authentication is detected. ai:web capability checks the saved website session without sending a message. ai:website stress sends sequential, globally paced website conversations. direct routes get /direct health get /direct capability post /direct chat post /direct reset post /direct chat defaults to: the returned conversationkey is an opaque local continuation key. upstream chatgpt conversation and message ids are not returned. safety contracts chatgpt website only. manual credential entry only. one ordinary website submission per turn. no request body mutation or challenge bypass. global turn start pacing is at least ten seconds during stress runs. completion polling uses authenticated get requests and never repeats the post. public errors contain no cookies, headers, account data, tokens, ids, or stacks. every direct relay source file is limited to 120 lines.",
+		"page": "pages/geelooy-ai-relay-direct-readme-md-ceec5bc67e.json"
+	},
+	{
+		"id": "geelooy-ai-relay-install-readme-md-23600cb9c5",
+		"title": "Awtsmoos Relay Install Guide",
+		"sourcePath": "geelooy/ai/relay/install/README.md",
+		"category": "AI",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos Relay Install Guide",
+				"anchor": "awtsmoos-relay-install-guide"
+			},
+			{
+				"level": 2,
+				"text": "Browser-extension install order",
+				"anchor": "browser-extension-install-order"
+			},
+			{
+				"level": 2,
+				"text": "Rebuild from repository source",
+				"anchor": "rebuild-from-repository-source"
+			},
+			{
+				"level": 2,
+				"text": "Production publication",
+				"anchor": "production-publication"
+			},
+			{
+				"level": 2,
+				"text": "Optional local-relay install order",
+				"anchor": "optional-local-relay-install-order"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos Relay Install Guide The Awtsmoos renews source and vessel in their proper place; Awtsmoos.com publishes the ZIP from exact Git light without storing the archive in Git's embrace. This folder is the public install surface for the Awtsmoos Server browser extension and optional loc",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos relay install guide the awtsmoos renews source and vessel in their proper place; awtsmoos.com publishes the zip from exact git light without storing the archive in git's embrace. this folder is the public install surface for the awtsmoos server browser extension and optional local relay. the extension archive is published outside git . repository hygiene intentionally ignores and forbids tracked .zip files. the durable source of truth is geelooy/scripts/tricks/extensions/server, and geelooy/ai/scripts/buildserverextensionzip.cjs generates the public archive from that source. canonical public url: https://awtsmoos.com/ai/relay/install/awtsmoos server extension.zip browser extension install order 1. download the zip from the canonical public url. 2. extract the zip into a permanent folder. 3. confirm the extracted folder directly contains manifest.json. 4. open your chromium compatible browser's extensions page. 5. enable developer mode if the browser requires it for unpacked extensions. 6. choose load unpacked and select the folder that directly contains manifest.json. 7. refresh chatgpt first so the awtsmoos server content scripts and background worker attach to a fresh page. 8. refresh the awtsmoos ai page after chatgpt is ready. if the browser reports a service worker registration error, install a freshly downloaded package rather than reusing an older extracted directory. the production release path rebuilds the zip from the exact deployed git revision so background.js and every importscripts(...) dependency ship together. rebuild from repository source from the repository root: the generated archive appears at: geelooy/ai/relay/install/awtsmoos server extension.zip that file is a generated publication artifact. do not force add it to git. the package test proves its entries and bytes match the canonical extension source and verifies the background worker's local dependency closure. production publication canonical production activation runs buildserverextensionzip.cjs after exact sha and clean repository checks, before restarting the service. this recreates the ignored public zip from the same source revision that production is about to serve. a release is not verified merely because github accepted a push. confirm the public url returns the generated package and that its contents match the deployed source. optional local relay install order 1. install the browser extension first. 2. start the local awtsmoos relay using the platform installer exposed by the ui. 3. confirm the relay reports healthy connectivity. 4. refresh chatgpt. 5. refresh the awtsmoos ai page. the browser extension can provide the transport directly; the local relay is an additional transport path rather than a substitute for a correctly packaged extension.",
+		"page": "pages/geelooy-ai-relay-install-readme-md-23600cb9c5.json"
+	}
+]

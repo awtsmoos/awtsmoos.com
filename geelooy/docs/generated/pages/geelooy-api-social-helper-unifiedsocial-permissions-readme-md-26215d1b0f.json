@@ -1,0 +1,24 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-social-helper-unifiedsocial-permissions-readme-md-26215d1b0f",
+	"title": "B\"H — Unified Social Permissions (geelooy/api/social/helper/unifiedSocial/permissions/)",
+	"sourcePath": "geelooy/api/social/helper/unifiedSocial/permissions/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Unified Social Permissions (geelooy/api/social/helper/unifiedSocial/permissions/)",
+			"anchor": "b-h-unified-social-permissions-geelooy-api-social-helper-unifiedsocial-permissions"
+		},
+		{
+			"level": 2,
+			"text": "Files",
+			"anchor": "files"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-social-helper-unifiedsocial-permissions-readme-md-26215d1b0f-001.json"
+	]
+}

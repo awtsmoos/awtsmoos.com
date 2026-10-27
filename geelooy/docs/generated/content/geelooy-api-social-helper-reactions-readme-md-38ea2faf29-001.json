@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Reactions (geelooy/api/social/helper/reactions/)\n\nEntity reactions (likes etc.) store. Mounted via `_awtsmoos.reactions.js`.\n\n## Files\n- `entityReactionStore.js` — reaction storage per entity (posts, comments).\n- `test/` — `entityReactionStore.test.js`, `ReactionTestVessel.js`.\n\nServes reaction routes such as `/heichelos/:heichel/posts/:post/comments/:comment/reactions`.\n"
+}

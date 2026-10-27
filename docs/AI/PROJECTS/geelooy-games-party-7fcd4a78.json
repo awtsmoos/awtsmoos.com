@@ -23,32 +23,32 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-party-7fcd4a78.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 15,
+		"source": 18,
 		"tests": 0,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
 		"other": 0
 	},
-	"totalFiles": 16,
+	"totalFiles": 19,
 	"symbolSummary": {
-		"files": 8,
+		"files": 10,
 		"classes": 1,
-		"functions": 22,
-		"exports": 21,
+		"functions": 29,
+		"exports": 27,
 		"samples": [
 			"startChallenge",
 			"reloadCurrentTurn",
 			"recordCurrentTurn",
+			"recordAutomatedTurn",
 			"activeSession",
+			"recordTurnValue",
 			"beginCurrentTurn",
 			"finishChallenge",
 			"dom",
 			"setFrameGame",
 			"loadFreshTurn",
-			"frameGame",
-			"partyGames",
-			"resolvePartyGame"
+			"frameGame"
 		]
 	},
 	"outgoingDependencies": [
@@ -65,8 +65,8 @@
 			"url": "/games/party",
 			"file": "geelooy/games/party/index.html",
 			"title": "Party Challenge — Awtsmoos Games",
-			"scripts": 1,
-			"styles": 1
+			"scripts": 3,
+			"styles": 2
 		}
 	],
 	"requiresLocalDocumentation": true,

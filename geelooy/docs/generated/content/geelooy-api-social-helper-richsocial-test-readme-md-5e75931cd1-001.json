@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Rich Social Tests (geelooy/api/social/helper/richSocial/test/)\n\nRich post system tests.\n\n- `schema.test.js` — post/attachment/section schemas.\n- `service.test.js` — rich post service.\n- `routes.test.js` — rich social routes.\n- `attachmentStorage.test.js` — attachment storage.\n- `cloneSource.test.js` — internal clone sources.\n"
+}

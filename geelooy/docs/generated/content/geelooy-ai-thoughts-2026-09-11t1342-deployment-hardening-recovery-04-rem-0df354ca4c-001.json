@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "<!-- B\"H -->\n<!-- Boruch Hashem -->\n<!-- Blessed be He -->\n\n# Remaining Work\n\n- [ ] Inspect canonical activation script and successful workflow history.\n- [ ] Identify brittle/opaque SSH assumptions.\n- [ ] Implement diagnostic/retry-safe deployment helper and workflow delegation.\n- [ ] Validate source law and shell/workflow syntax.\n- [ ] Re-read touched deployment files.\n- [ ] Commit separately from product release.\n- [ ] Push only on strict remote freshness.\n- [ ] Verify successful GitHub→Hetzner run.\n- [ ] Verify live reconciliation route is the new authenticated surface.\n- [ ] Verify `/`, `/apps/`, `/games/`, and `/apps/transcribe/` publicly.\n"
+}

@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-01-1150-olam-better-v2-06-regression-contrac-93f1ed160a",
+	"title": "Regression Contract Delta",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-01-1150-olam-better-v2/06-regression-contract-delta.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Regression Contract Delta",
+			"anchor": "regression-contract-delta"
+		},
+		{
+			"level": 2,
+			"text": "Observed",
+			"anchor": "observed"
+		},
+		{
+			"level": 2,
+			"text": "Decision rule",
+			"anchor": "decision-rule"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-01-1150-olam-better-v2-06-regression-contrac-93f1ed160a-001.json"
+	]
+}

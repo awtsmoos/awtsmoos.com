@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 5 | 0 | 0 | 0 | 0 | 0 | 5 |
+| 8 | 0 | 0 | 0 | 0 | 0 | 8 |
 
 ## Public entry points
 
@@ -29,7 +29,7 @@ Blessed is He
 
 ## Symbol evidence
 
-Source files: 3; classes: 1; functions: 12; exports: 3; samples: showToast, updateFilename, initDB, storeFileHandle, getStoredFileHandle, restoreSession, verifyPermission, openFile, loadData, saveFile, saveFileAs, downloadBlob.
+Source files: 4; classes: 2; functions: 13; exports: 5; samples: revealColumnLabel, MalchusGridCellFactory, showToast, updateFilename, initDB, storeFileHandle, getStoredFileHandle, restoreSession, verifyPermission, openFile, loadData, saveFile.
 
 ## Depends on
 
@@ -41,7 +41,7 @@ None observed.
 
 ## External packages
 
-- `change` — 1 lexical reference
+None observed.
 
 ## Verification clue
 

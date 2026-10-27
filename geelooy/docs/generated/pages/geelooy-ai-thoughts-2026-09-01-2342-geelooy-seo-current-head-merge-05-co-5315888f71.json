@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-05-co-5315888f71",
+	"title": "Core SSR Proof",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-01-2342-geelooy-seo-current-head-merge/05-core-ssr-proof.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Core SSR Proof",
+			"anchor": "core-ssr-proof"
+		},
+		{
+			"level": 2,
+			"text": "Numeric Road proof",
+			"anchor": "numeric-road-proof"
+		},
+		{
+			"level": 2,
+			"text": "Stable named-post identity proof",
+			"anchor": "stable-named-post-identity-proof"
+		},
+		{
+			"level": 2,
+			"text": "Missing-post safety proof",
+			"anchor": "missing-post-safety-proof"
+		},
+		{
+			"level": 2,
+			"text": "Parser defect discovered and resolved",
+			"anchor": "parser-defect-discovered-and-resolved"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-05-co-5315888f71-001.json"
+	]
+}

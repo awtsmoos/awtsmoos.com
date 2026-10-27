@@ -1,0 +1,101 @@
+[
+	{
+		"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-1f3bf48c99",
+		"title": "Connecting other plugins and agents to Awtsmoos",
+		"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/PLUGIN_LOGIN_PLAYBOOK.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 2,
+				"text": "Current tunnel integration takes precedence",
+				"anchor": "current-tunnel-integration-takes-precedence"
+			},
+			{
+				"level": 1,
+				"text": "Connecting other plugins and agents to Awtsmoos",
+				"anchor": "connecting-other-plugins-and-agents-to-awtsmoos"
+			},
+			{
+				"level": 2,
+				"text": "Choose a supported route",
+				"anchor": "choose-a-supported-route"
+			},
+			{
+				"level": 2,
+				"text": "Builder sequence for a new integration",
+				"anchor": "builder-sequence-for-a-new-integration"
+			},
+			{
+				"level": 2,
+				"text": "ChatGPT-specific distinction",
+				"anchor": "chatgpt-specific-distinction"
+			},
+			{
+				"level": 2,
+				"text": "Convenient first-run wording",
+				"anchor": "convenient-first-run-wording"
+			}
+		],
+		"excerpt": "Current tunnel integration takes precedence This reference retains the user's original ideas. Its historical transport names, fixed action lists, local thought folder defaults, retry assumptions and installation advice are superseded by MODERN TUNNEL CONTRACT.md and the current authenticated instructionResolve/instruct",
+		"searchText": "current tunnel integration takes precedence this reference retains the user's original ideas. its historical transport names, fixed action lists, local thought folder defaults, retry assumptions and installation advice are superseded by modern tunnel contract.md and the current authenticated instructionresolve/instructionget results. use tunnel native plans and bounded operational summaries; do not publish hidden chain of thought. treat brainstorming as proposals, not authorization to implement unrelated work. preserve user scope. use mcp's required post transport; get is an http fallback only. never infer tool access from prose. no arbitrary number of tests, critiques or improvements substitutes for real relevant verification. connecting other plugins and agents to awtsmoos this guide applies when a user asks to let another plugin, gpt, agent, or client log into awtsmoos. a skill file can describe authentication but cannot create a callable tool or transfer a token to another plugin. never imply that adding prose alone equips a plugin with mac access. identify the target product and its actual connection surface before giving instructions. choose a supported route 1. if the target already has an awtsmoos oauth action, inspect its live configuration and test its existing sign in. do not replace a working connection with a new one without reason. legacy gpt actions use an openapi schema; the awtsmoos endpoint is https://awtsmoos.com/api/tunnel/control/openapi, but verify its current response and compatibility before importing it. 2. if the target supports remote mcp, a deployed awtsmoos mcp server can expose selected tunnel operations through streamable http. register the mcp endpoint in that product, configure oauth 2.1 according to its requirements, scan tools, authorize the account, and test one narrow read. an openapi url is not automatically an mcp url. do not invent an mcp endpoint or claim one exists merely because the rest api exists. 3. if the target has a command or https client but no action connector, use awtsmoos's external agent public oauth client directly. follow direct awtsmoos access.md for device authorization or pkce s256. this worked from an execution workspace on september 24, 2026, without a chatgpt developer mode toggle; test connectivity again in each new environment. 4. if the target has only a browser, inspect whether it can complete oauth and make authenticated api calls through its supported browser tools. a visible login page or a connected tunnel screenshot is not an api credential. never harvest browser cookies, paste bearer tokens into web forms, or use page javascript to evade tool restrictions. 5. if the target has none of these capabilities, state the missing connector or network requirement. offer to build the needed server or adapter when authorized. do not ask users to install a mac tunnel if the requested work lives entirely in the virtual os. builder sequence for a new integration read the live agent manifest, oauth metadata, json docs, and the target product's official integration documentation. confirm its account tier and supported write actions before suggesting settings that may be absent. define a small tool surface: my device, specific file read/list, and only the write or command operations the task needs. give each tool a precise schema, scope, and read/write annotation. avoid importing hundreds of unrelated tunnel actions by default. use a first party awtsmoos oauth flow. with external agent, choose pkce s256 if callback handoff and secure token exchange are available; choose device authorization for a headless https client. a separately registered client may be needed for platforms with fixed redirect uris; verify live oauth metadata and registration support instead of guessing. request the least scopes necessary. use profile tunnel.read for initial discovery and reads. add tunnel.write, tunnel.command, tunnel.browser, tunnel.mission, or tunnel.room only for user requested capabilities. advertised mac capabilities do not enlarge the oauth token's scopes. store tokens in the target product's credential store. if it cannot store or refresh them securely, do not place them in plugin instructions, zip archives, git, ordinary chat, or a public site. use a supported secure connection instead. after oauth, call my device and choose an immutable routereference or tunnelid. handle multiple authorized, stale, and rescue routes; never silently choose a similarly named stale tunnel. confirm a narrow api action succeeds before declaring integration complete. test expired token refresh, denied authorization, offline mac, incorrect path, insufficient scopes, and a successful small read. record the observed result without logging credentials or dumping private files. explain to the user that authorizing one plugin does not authorize every other plugin. each target client needs its own supported connection and consent. do not copy tokens across plugins to make login appear automatic. chatgpt specific distinction the awtsmoos shliach plugin currently packages instructions and references; no awtsmoos mcp or old gpt action is attached solely by those files. a personal chatgpt account may not expose the developer mode and full write capable mcp setup shown in workspace guides. check the user's actual ui and current official docs; never send them repeatedly to a missing setting. an existing old gpt action may remain separately usable. plugin creator can update instructions, but an authenticated tool connection requires a supported app or mcp attachment, or direct https tools available in the current session. convenient first run wording tell the user the actual destination, requested scopes, and expected access: “open this awtsmoos verification page and approve this short code; this grants read access to inspect your selected tunnel. the code expires shortly.” do not present a device code as a password. after approval, verify my device and the exact requested read. avoid saying “logged in” if only the authorization request started.",
+		"page": "pages/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-1f3bf48c99.json"
+	},
+	{
+		"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-7b124443f2",
+		"title": "Awtsmoos Shliach — public plugin submission gate",
+		"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/PUBLIC_SUBMISSION_CHECKLIST.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos Shliach — public plugin submission gate",
+				"anchor": "awtsmoos-shliach-public-plugin-submission-gate"
+			},
+			{
+				"level": 2,
+				"text": "Package and developer identity",
+				"anchor": "package-and-developer-identity"
+			},
+			{
+				"level": 2,
+				"text": "Public identity and service",
+				"anchor": "public-identity-and-service"
+			},
+			{
+				"level": 2,
+				"text": "Security and task execution",
+				"anchor": "security-and-task-execution"
+			},
+			{
+				"level": 2,
+				"text": "Reproduction evidence",
+				"anchor": "reproduction-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Developer submission",
+				"anchor": "developer-submission"
+			},
+			{
+				"level": 2,
+				"text": "Release verification snapshot — 2026-10-18",
+				"anchor": "release-verification-snapshot-2026-10-18"
+			},
+			{
+				"level": 2,
+				"text": "How to submit",
+				"anchor": "how-to-submit"
+			},
+			{
+				"level": 2,
+				"text": "Any file as an artifact",
+				"anchor": "any-file-as-an-artifact"
+			}
+		],
+		"excerpt": "Awtsmoos Shliach — public plugin submission gate This is a shipping checklist , not a declaration of directory approval. Do not submit a private GPT draft name as a backend plugin ID, invent a review status badge, or claim a public listing from a passing unit suite. Package and developer identity [ ] The canonical pack",
+		"searchText": "awtsmoos shliach — public plugin submission gate this is a shipping checklist , not a declaration of directory approval. do not submit a private gpt draft name as a backend plugin id, invent a review status badge, or claim a public listing from a passing unit suite. package and developer identity [ ] the canonical package plugins/awtsmoos shliach/ is validated, the root plugin.json and .codex plugin/plugin.json versions match, every local skill/script/icon reference exists, and the archive has one root plugin without private runtime records. [ ] the package uses a unique version greater than the previous release, clear public capability descriptions, truthful no installation fee/external peruta credit disclosure, functioning icon, publisher name and support url. [ ] instructions link to the current dynamic action schemas, real oauth connection, safe user consent requirements and practical examples. [ ] the package embeds no bearer tokens, private api keys, pairing codes, machine identities, browser cookies, ssh secrets or local state. public identity and service [ ] https terms, privacy, support and website urls return the intended user visible content (not merely a generic 200/spa fallback). [ ] oauth protected resource metadata identifies the exact mcp audience. missing bearer gets http 401 and the correct www authenticate challenge. [ ] tools/list works with a real reviewer oauth token and shows the currently deployed tool names and request schemas. [ ] awtsmoos bootstrap and awtsmoos discover device return a real reviewer owned route; missing/offline/revoked permissions fail honestly. [ ] reviewer test data consists of an isolated, permissioned sample device, sample directory/readme and plan namespace. provide sign in/test setup by the supported secure review channel; never embed reviewer credentials. security and task execution [ ] read file and directory tools enforce account/device/path boundaries. [ ] arbitrary shell execution needs a separately granted command scope and device permission, not merely a plugin installation. [ ] every public artifact requires explicit named file consent and tunnel.admin. validate its sha 256, ttl and revoke; deny unowned paths and session only disclosure without elevated authority. [ ] capturing a screenshot uses the exact target and verified installed agent action; never assume an old agent exposes the new command. [ ] public file links are bearer capabilities; preview localhost links are a separate authenticated family, not anonymous file hosting. [ ] an accepted mutation with an ambiguous response must be observed by its existing id before retrying. [ ] rotate inherited embedded control secrets through an explicitly coordinated client migration. do not rotate without verifying all clients. reproduction evidence [ ] source level tests pass for mcp auth, tool schemas, artifact binary transport, private preview, screenshot and publication/revocation. [ ] the fully deployed sha matches github and the public installer, with clean production checkout and active service/socket. [ ] the mac candidate's verified current version, registration, source checksum and actual harmless command are recorded after promotion . [ ] a real outside host reviewer test captures an authorized image, transfers the exact bytes, publishes a short lived link, retrieves byte identical content without mac connectivity, and revokes it. [ ] at least one unauthorized user and missing scope test returns 401/403 on the public routes. unit mocks alone do not satisfy this gate. [ ] no important support, data retention, peruta, copyright or content claim conflicts with the published privacy/terms pages. [ ] all review positive and review negative prompts are evaluated on the actual connected plugin in a reviewer account, not only in mocks. developer submission the plugin package can be created/imported privately and tested before review. public listing/approval is a separate developer/administrator action , subject to whatever submission controls the account actually offers. use the plugin detail page or the current approved developer submission ui. no instruction or tunnel command can guarantee approval. for package tests use the repository's publication validator and node scripts/tunnel/syncplugininstructionmirror.cjs. for binary/link contracts see artifacts and public links.md and the repository's geelooy/apps/tunnel/downloads/artifact transport.md. release verification snapshot — 2026 10 18 package 0.93.0 uses exactly five positive and three negative mcp review cases and keeps the authenticated universal mcp endpoint. a broad source suite passed 54/54 for artifacts, mcp, protected lanes, screenshot transfers and queues. one installer batch passed 18/20; two outdated installer test expectations were identified and are being reconciled. do not claim a complete clean install pass. a live 281,151 byte screenshot derived jpeg was downloaded over https to a separate receiver, preserved its sha 256 and was inaccessible (http 404) after owner revocation. the mac native tunnel was running 1.0.681, not the latest source. production head was older than this release and the production checkout had numerous other agents' pending work. do not overwrite or discard it. the public mcp endpoint rejects unauthenticated tools/list with http 401. support, terms, privacy and installer endpoints returned http 200. full, authenticated reviewer oauth, new server head activation and direct chatgpt managed attachment import are not independently verified. how to submit 1. verify individual or business publishing identity in openai platform. ensure permissions api.apps.write and api.apps.read. 2. visit https://platform.openai.com/plugins and select upload new or existing plugin. select verified identity and upload the complete awtsmoos shliach 0.93.0.zip. keep all secrets outside the zip. 3. resolve metadata & skills automated findings. in mcps, connect https://awtsmoos.com/api/tunnel/control/mcp; complete domain and oauth setup, then scan tools. inspect tool schemas and security hints. 4. enter reviewer login/fixtures only through the secure dashboard form. test all exactly five positive and three negative cases with a real connected account and owned authorized device. 5. submit for review, then after approval choose publish plugin. no tunnel command can guarantee approval. 6. hosted mcp changes may undergo periodic post publication scanning and eligible updates can become available after automated checks; they are not instantaneous unrestricted tool injection. the stable generic awtsmoos tunnel action tool can dispatch new authorized registered actions without changing its existing json schema, but all operations still require server side scope, ownership and permission enforcement. 7. bundled skill, metadata, icon or package updates require a new zip version and the portal package update flow. official current docs: https://developers.openai.com/plugins/deploy/submission https://developers.openai.com/plugins/deploy/app review any file as an artifact the current artifact publication backend can preserve any one owner approved authorized file up to 128 mib, not only screenshots. examples include png/jpeg, pdf, zip, audio, video, glb and arbitrary binary data. unknown extensions are served as application/octet stream. publication requires exact file informed consent and tunnel.admin; it returns a temporary, revocable bearer url, an mcp resource link, exact bytes, mime and sha 256. http get sends real binary, with head/range support in the new release. but the mac to relay hop still uses bounded base64 chunks internally, and a resource link by itself is not a chatgpt managed file/attachment. the receiving ai host must actually save and verify the bytes in its own storage before presenting a sandbox link. merkava software captures and actual chrome browser screenshots must never be mislabeled as equivalent. for javascript/layout sensitive pages use the browser renderer, then verify the selected target, screenshot magic, pixel dimensions, transfer digest, final bytes and actual viewed result. cli fast path should leave a healthy same release guardian undisturbed. full installation must retain device identity unless the owner separately requests a reset; cold clean install, upgrade, rollback, offline repair and independent multi lane latency all require explicit real environment checks.",
+		"page": "pages/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-7b124443f2.json"
+	}
+]

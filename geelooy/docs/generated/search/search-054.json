@@ -1,237 +1,53 @@
 [
 	{
-		"id": "docs-generated-api-tutorials-routes-api-social-aliases-alias-commentsmad-1eaa5d6146",
-		"title": "API Tutorial: /api/social/aliases/:alias/commentsMade",
-		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-aliases-alias-commentsmade-bff96a6bfa.md",
+		"id": "docs-generated-api-tutorial-index-routes-001-md-6d76dd9ded",
+		"title": "API Tutorial Routes 1–45",
+		"sourcePath": "docs/GENERATED/API_TUTORIAL_INDEX/routes-001.md",
 		"category": "Routes",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "API Tutorial: /api/social/aliases/:alias/commentsMade",
-				"anchor": "api-tutorial-api-social-aliases-alias-commentsmade"
-			},
-			{
-				"level": 2,
-				"text": "Contract evidence",
-				"anchor": "contract-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Path parameters",
-				"anchor": "path-parameters"
-			},
-			{
-				"level": 2,
-				"text": "Starter call",
-				"anchor": "starter-call"
-			},
-			{
-				"level": 2,
-				"text": "Observed callers",
-				"anchor": "observed-callers"
-			},
-			{
-				"level": 2,
-				"text": "Related tests",
-				"anchor": "related-tests"
-			},
-			{
-				"level": 2,
-				"text": "Related routes",
-				"anchor": "related-routes"
+				"text": "API Tutorial Routes 1–45",
+				"anchor": "api-tutorial-routes-1-45"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/social/aliases/:alias/commentsMade Family: Social · Mount: /api/social · Derech health: OK Source: geelooy/api/social/helper/comments/routes/indexing.js · Discovery: static literal · Confidence: unknown method Read the human Social tutorial Generated evidence is a navi",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/social/aliases/:alias/commentsmade family: social · mount: /api/social · derech health: ok source: geelooy/api/social/helper/comments/routes/indexing.js · discovery: static literal · confidence: unknown method read the human social tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters name shape alias single segment starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test — npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported style ownership && npm run test:css quality && npm run test:heichelos quality && npm run test:profile menu && npm run test:heichel governance && npm run test:post submissions && npm run test:comments && npm run test:api keys && npm run test:graph && npm run test:social content && npm run test:notifications && npm run test:social packed && npm run test:packed engine && npm run test:platform ops && npm run test:platform execution && npm run test:node client && npm run test:dayuh cutover test:api keys — node geelooy/api/social/helper/test/apikeys.test.js test:comments — node geelooy/api/social/helper/comments/test/runallcommentstests.js test:concurrency failure — node geelooy/api/social/test/concurrencyfailurestress.test.mjs test:dayuh release — npm run test:routes && npm run test:comments && npm run test:social content && npm run test:social packed && npm run test:packed engine && node test tools/dayuhchadashmaintenance/test/ .test.js && npm run test:dayuh cutover related routes /api/social /api/social/abuse/ratelimit/check /api/social/alias/:alias /api/social/alias/:alias/details /api/social/alias/:alias/heichelos /api/social/alias/:alias/heichelos/:heichel /api/social/alias/:alias/heichelos/:heichel/ownership /api/social/alias/:alias/heichelos/details",
-		"page": "pages/docs-generated-api-tutorials-routes-api-social-aliases-alias-commentsmad-1eaa5d6146.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial Routes 1–45 Each row links one discovered API route to generated teaching. Method/contract fields remain evidence, not invented schemas. Route Family Method evidence Health Tutorial Source /api API Root unknown OK tutorial geelooy/api/ awtsmoos.derech.js /api/admin/code Admi",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial routes 1–45 each row links one discovered api route to generated teaching. method/contract fields remain evidence, not invented schemas. route family method evidence health tutorial source /api api root unknown ok tutorial geelooy/api/ awtsmoos.derech.js /api/admin/code admin unknown ok tutorial geelooy/api/admin/ awtsmoos.derech.js /api/apk web/asset/:token/:path /api/apk web unknown ok tutorial geelooy/api/apk web/ awtsmoos.derech.js /api/asdfg api root get, post ok tutorial geelooy/api/social legacy archive/old/ awtsmoos.posts.js /api/catalog api root unknown ok tutorial geelooy/api/ awtsmoos.derech.js /api/client errors /api/client errors post ok tutorial geelooy/api/client errors/ awtsmoos.derech.js /api/client errors/recent /api/client errors post ok tutorial geelooy/api/client errors/ awtsmoos.derech.js /api/compiler/android/rebbe compiler unknown ok tutorial geelooy/api/compiler/ awtsmoos.derech.js /api/compiler/backends compiler unknown ok tutorial geelooy/api/compiler/ awtsmoos.derech.js /api/compiler/build compiler unknown ok tutorial geelooy/api/compiler/ awtsmoos.derech.js /api/contact contact post ok tutorial geelooy/api/contact/ awtsmoos.derech.js /api/contact/status contact post ok tutorial geelooy/api/contact/ awtsmoos.derech.js /api/email email unknown ok tutorial geelooy/api/email/ awtsmoos.derech.js /api/email/capabilities email unknown ok tutorial geelooy/api/email/ awtsmoos.derech.js /api/email/settings/schema email unknown ok tutorial geelooy/api/email/ awtsmoos.derech.js /api/even/:asd/more/:rt/k api root unknown ok tutorial geelooy/api/core/legacyapidemoroutes.js /api/fetch fetch proxy unknown ok tutorial geelooy/api/fetch/ awtsmoos.derech.js /api/gpt gpt unknown ok tutorial geelooy/api/gpt/ awtsmoos.derech.js /api/gpt/capability gpt unknown ok tutorial geelooy/api/gpt/ awtsmoos.derech.js /api/gpt/chat gpt unknown ok tutorial geelooy/api/gpt/ awtsmoos.derech.js /api/gpt/health gpt unknown ok tutorial geelooy/api/gpt/ awtsmoos.derech.js /api/gpt/reset gpt unknown ok tutorial geelooy/api/gpt/ awtsmoos.derech.js /api/heichelos/:heichel/addcontenttoseries api root get, post ok tutorial geelooy/api/social legacy archive/old/ awtsmoos.series.js /api/heichelos/:heichel/addnewseries api root get, post ok tutorial geelooy/api/social legacy archive/old/ awtsmoos.series.js /api/heichelos/:heichel/aliases/:alias/commentsactions/addcommentindextoalias/comment/:comment api root get, post, put, delete ok tutorial geelooy/api/social legacy archive/old/ awtsmoos.comments old.js /api/heichelos/:heichel/aliases/:alias/commentsactions/updateallcommentindexes api root get, post, put, delete ok tutorial geelooy/api/social legacy archive/old/ awtsmoos.comments old.js /api/heichelos/:heichel/comment/:comment api root get, post, put, delete ok tutorial geelooy/api/social legacy archive/old/ awtsmoos.comments old.js /api/heichelos/:heichel/comments api root get, post, put, delete ok tutorial geelooy/api/social legacy archive/old/ awtsmoos.comments old.js /api/heichelos/:heichel/deletecontentfromseries api root get, post ok tutorial geelooy/api/social legacy archive/old/ awtsmoos.series.js /api/heichelos/:heichel/deleteseriesfromheichel/:seriesid api root get, post ok tutorial geelooy/api/social legacy archive/old/ awtsmoos.series.js /api/heichelos/:heichel/post/:post api root get, post ok tutorial geelooy/api/social legacy archive/old/ awtsmoos.posts.js /api/heichelos/:heichel/post/:post/comments api root get, post, put, delete ok tutorial geelooy/api/social legacy archive/old/ awtsmoos.comments old.js /api/heichelos/:heichel/post/:post/comments/aliases api root get, post, put, delete ok tutorial geelooy/api/social legacy archive/old/ awtsmoos.comments old.js /api/heichelos/:heichel/post/:post/comments/aliases/:alias api root get, post, put, delete ok tutorial geelooy/api/social legacy archive/old/ awtsmoos.comments old.js /api/heichelos/:heichel/post/:post/delete api root get, post ok tutorial geelooy/api/social legacy archive/old/ awtsmoos.posts.js /api/heichelos/:heichel/posts api root get, post ok tutorial geelooy/api/social legacy archive/old/ awtsmoos.posts.js /api/heichelos/:heichel/posts/details api root get, post ok tutorial geelooy/api/social legacy archive/old/ awtsmoos.posts.js /api/heichelos/:heichel/series api root get, post ok tutorial geelooy/api/social legacy archive/old/ awtsmoos.series.js /api/heichelos/:heichel/series/:series api root get, post ok tutorial geelooy/api/social legacy archive/old/ awtsmoos.series.js /api/heichelos/:heichel/series/:series/breadcrumb api root get, post ok tutorial geelooy/api/social legacy archive/old/ awtsmoos.series.js /api/heichelos/:heichel/series/:series/changepostsinseries api root get, post ok tutorial geelooy/api/social legacy archive/old/ awtsmoos.series.js /api/heichelos/:heichel/series/:series/changesubseriesfromoneseriestoanother/:toseries api root get, post ok tutorial geelooy/api/social legacy archive/old/ awtsmoos.series.js /api/heichelos/:heichel/series/:series/changesubseriesinseries api root get, post ok tutorial geelooy/api/social legacy archive/old/ awtsmoos.series.js /api/heichelos/:heichel/series/:series/details api root get, post ok tutorial geelooy/api/social legacy archive/old/ awtsmoos.series.js /api/heichelos/:heichel/series/:series/editseriesdetails api root get, post ok tutorial geelooy/api/social legacy archive/old/ awtsmoos.series.js",
+		"page": "pages/docs-generated-api-tutorial-index-routes-001-md-6d76dd9ded.json"
 	},
 	{
-		"id": "docs-generated-api-tutorials-routes-api-social-aliases-alias-commentsmad-4de957b863",
-		"title": "API Tutorial: /api/social/aliases/:alias/commentsMade/heichel/:heichel",
-		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-aliases-alias-commentsmade-heichel-heichel-1ed2696840.md",
+		"id": "docs-generated-api-tutorial-index-routes-002-md-983a775777",
+		"title": "API Tutorial Routes 46–90",
+		"sourcePath": "docs/GENERATED/API_TUTORIAL_INDEX/routes-002.md",
 		"category": "Routes",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "API Tutorial: /api/social/aliases/:alias/commentsMade/heichel/:heichel",
-				"anchor": "api-tutorial-api-social-aliases-alias-commentsmade-heichel-heichel"
-			},
-			{
-				"level": 2,
-				"text": "Contract evidence",
-				"anchor": "contract-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Path parameters",
-				"anchor": "path-parameters"
-			},
-			{
-				"level": 2,
-				"text": "Starter call",
-				"anchor": "starter-call"
-			},
-			{
-				"level": 2,
-				"text": "Observed callers",
-				"anchor": "observed-callers"
-			},
-			{
-				"level": 2,
-				"text": "Related tests",
-				"anchor": "related-tests"
-			},
-			{
-				"level": 2,
-				"text": "Related routes",
-				"anchor": "related-routes"
+				"text": "API Tutorial Routes 46–90",
+				"anchor": "api-tutorial-routes-46-90"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/social/aliases/:alias/commentsMade/heichel/:heichel Family: Social · Mount: /api/social · Derech health: OK Source: geelooy/api/social/helper/comments/routes/indexing.js · Discovery: static literal · Confidence: unknown method Read the human Social tutorial Generated e",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/social/aliases/:alias/commentsmade/heichel/:heichel family: social · mount: /api/social · derech health: ok source: geelooy/api/social/helper/comments/routes/indexing.js · discovery: static literal · confidence: unknown method read the human social tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters name shape alias single segment heichel single segment starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test — npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported style ownership && npm run test:css quality && npm run test:heichelos quality && npm run test:profile menu && npm run test:heichel governance && npm run test:post submissions && npm run test:comments && npm run test:api keys && npm run test:graph && npm run test:social content && npm run test:notifications && npm run test:social packed && npm run test:packed engine && npm run test:platform ops && npm run test:platform execution && npm run test:node client && npm run test:dayuh cutover test:api keys — node geelooy/api/social/helper/test/apikeys.test.js test:comments — node geelooy/api/social/helper/comments/test/runallcommentstests.js test:concurrency failure — node geelooy/api/social/test/concurrencyfailurestress.test.mjs test:dayuh release — npm run test:routes && npm run test:comments && npm run test:social content && npm run test:social packed && npm run test:packed engine && node test tools/dayuhchadashmaintenance/test/ .test.js && npm run test:dayuh cutover related routes /api/social /api/social/abuse/ratelimit/check /api/social/alias/:alias /api/social/alias/:alias/details /api/social/alias/:alias/heichelos /api/social/alias/:alias/heichelos/:heichel /api/social/alias/:alias/heichelos/:heichel/ownership /api/social/alias/:alias/heichelos/details",
-		"page": "pages/docs-generated-api-tutorials-routes-api-social-aliases-alias-commentsmad-4de957b863.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial Routes 46–90 Each row links one discovered API route to generated teaching. Method/contract fields remain evidence, not invented schemas. Route Family Method evidence Health Tutorial Source /api/heichelos/:heichel/series/:series/filterPostsBy/:propKey/:propVal API Root GET, ",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial routes 46–90 each row links one discovered api route to generated teaching. method/contract fields remain evidence, not invented schemas. route family method evidence health tutorial source /api/heichelos/:heichel/series/:series/filterpostsby/:propkey/:propval api root get, post ok tutorial geelooy/api/social legacy archive/old/ awtsmoos.series.js /api/heichelos/:heichel/series/:series/filterseriesby/:propkey/:propval api root get, post ok tutorial geelooy/api/social legacy archive/old/ awtsmoos.series.js /api/heichelos/:heichel/series/:series/parent api root get, post ok tutorial geelooy/api/social legacy archive/old/ awtsmoos.series.js /api/heichelos/:heichel/series/:series/posts api root get, post ok tutorial geelooy/api/social legacy archive/old/ awtsmoos.series.js /api/heichelos/:heichel/series/:series/posts/details api root get, post ok tutorial geelooy/api/social legacy archive/old/ awtsmoos.series.js /api/heichelos/:heichel/series/:series/series api root get, post ok tutorial geelooy/api/social legacy archive/old/ awtsmoos.series.js /api/heichelos/:heichel/series/:series/subseries api root get, post ok tutorial geelooy/api/social legacy archive/old/ awtsmoos.series.js /api/heichelos/:heichel/series/:series/subseries/details api root get, post ok tutorial geelooy/api/social legacy archive/old/ awtsmoos.series.js /api/heichelos/:heichel/submittedcomments api root get, post, put, delete ok tutorial geelooy/api/social legacy archive/old/ awtsmoos.comments old.js /api/heichelos/:heichel/submittedcomments/approve api root get, post, put, delete ok tutorial geelooy/api/social legacy archive/old/ awtsmoos.comments old.js /api/heichelos/:heichel/submittedcomments/deny api root get, post, put, delete ok tutorial geelooy/api/social legacy archive/old/ awtsmoos.comments old.js /api/merkava /api/merkava unknown ok tutorial geelooy/api/merkava/ awtsmoos.derech.js /api/merkava/devices /api/merkava unknown ok tutorial geelooy/api/merkava/ awtsmoos.derech.js /api/merkava/download bundle /api/merkava unknown ok tutorial geelooy/api/merkava/ awtsmoos.derech.js /api/merkava/download installer /api/merkava unknown ok tutorial geelooy/api/merkava/ awtsmoos.derech.js /api/merkava/run /api/merkava unknown ok tutorial geelooy/api/merkava/ awtsmoos.derech.js /api/merkava/run js /api/merkava unknown ok tutorial geelooy/api/merkava/ awtsmoos.derech.js /api/oauth/:route oauth unknown ok tutorial geelooy/api/oauth/ awtsmoos.derech.js /api/oauth/getroutehandler oauth unknown ok tutorial geelooy/api/oauth/routes/table.js /api/oauth/getroutetable oauth unknown ok tutorial geelooy/api/oauth/routes/table.js /api/oauth/listroutenames oauth unknown ok tutorial geelooy/api/oauth/routes/table.js /api/ohr hagnuz/realtime ticket ohr hagnuz unknown ok tutorial geelooy/api/ohr hagnuz/routes/table.js /api/olam h3 /api/olam h3 unknown ok tutorial geelooy/api/olam h3/ awtsmoos.derech.js /api/olam h3/create /api/olam h3 unknown ok tutorial geelooy/api/olam h3/ awtsmoos.derech.js /api/olam h3/status /api/olam h3 unknown ok tutorial geelooy/api/olam h3/ awtsmoos.derech.js /api/olam h3/task /api/olam h3 unknown ok tutorial geelooy/api/olam h3/ awtsmoos.derech.js /api/platform/manifest /api/platform unknown ok tutorial geelooy/api/platform/ awtsmoos.derech.js /api/portal /api/portal unknown ok tutorial geelooy/api/portal/ awtsmoos.derech.js /api/portal/api families /api/portal unknown ok tutorial geelooy/api/portal/ awtsmoos.derech.js /api/portal/api family /api/portal unknown ok tutorial geelooy/api/portal/ awtsmoos.derech.js /api/portal/type /api/portal unknown ok tutorial geelooy/api/portal/ awtsmoos.derech.js /api/portal/types /api/portal unknown ok tutorial geelooy/api/portal/ awtsmoos.derech.js /api/projecthosting /api/projecthosting unknown ok tutorial geelooy/api/projecthosting/ awtsmoos.derech.js /api/projecthosting/activity /api/projecthosting unknown ok tutorial geelooy/api/projecthosting/runtimeroutes.js /api/projecthosting/cleanup /api/projecthosting unknown ok tutorial geelooy/api/projecthosting/runtimeroutes.js /api/projecthosting/materialize /api/projecthosting unknown ok tutorial geelooy/api/projecthosting/runtimeroutes.js /api/projecthosting/restart /api/projecthosting unknown ok tutorial geelooy/api/projecthosting/runtimeroutes.js /api/projecthosting/start /api/projecthosting unknown ok tutorial geelooy/api/projecthosting/runtimeroutes.js /api/projecthosting/status /api/projecthosting unknown ok tutorial geelooy/api/projecthosting/runtimeroutes.js /api/projecthosting/stop /api/projecthosting unknown ok tutorial geelooy/api/projecthosting/runtimeroutes.js /api/public public unknown ok tutorial geelooy/api/public/ awtsmoos.derech.js /api/release /api/release unknown ok tutorial geelooy/api/release/ awtsmoos.derech.js /api/runtime/native/capabilities native runtime unknown ok tutorial geelooy/api/runtime/ awtsmoos.derech.js /api/runtime/native/launch native runtime unknown ok tutorial geelooy/api/runtime/ awtsmoos.derech.js /api/runtime/native/status native runtime unknown ok tutorial geelooy/api/runtime/ awtsmoos.derech.js",
+		"page": "pages/docs-generated-api-tutorial-index-routes-002-md-983a775777.json"
 	},
 	{
-		"id": "docs-generated-api-tutorials-routes-api-social-aliases-alias-commentsmad-4bbfb8a9e0",
-		"title": "API Tutorial: /api/social/aliases/:alias/commentsMade/heichel/:heichel/series",
-		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-aliases-alias-commentsmade-heichel-heichel-series-be605a1bb5.md",
+		"id": "docs-generated-api-tutorial-index-routes-003-md-63d06b87e9",
+		"title": "API Tutorial Routes 91–135",
+		"sourcePath": "docs/GENERATED/API_TUTORIAL_INDEX/routes-003.md",
 		"category": "Routes",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "API Tutorial: /api/social/aliases/:alias/commentsMade/heichel/:heichel/series",
-				"anchor": "api-tutorial-api-social-aliases-alias-commentsmade-heichel-heichel-series"
-			},
-			{
-				"level": 2,
-				"text": "Contract evidence",
-				"anchor": "contract-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Path parameters",
-				"anchor": "path-parameters"
-			},
-			{
-				"level": 2,
-				"text": "Starter call",
-				"anchor": "starter-call"
-			},
-			{
-				"level": 2,
-				"text": "Observed callers",
-				"anchor": "observed-callers"
-			},
-			{
-				"level": 2,
-				"text": "Related tests",
-				"anchor": "related-tests"
-			},
-			{
-				"level": 2,
-				"text": "Related routes",
-				"anchor": "related-routes"
+				"text": "API Tutorial Routes 91–135",
+				"anchor": "api-tutorial-routes-91-135"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/social/aliases/:alias/commentsMade/heichel/:heichel/series Family: Social · Mount: /api/social · Derech health: OK Source: geelooy/api/social/helper/comments/routes/indexing.js · Discovery: static literal · Confidence: unknown method Read the human Social tutorial Gene",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/social/aliases/:alias/commentsmade/heichel/:heichel/series family: social · mount: /api/social · derech health: ok source: geelooy/api/social/helper/comments/routes/indexing.js · discovery: static literal · confidence: unknown method read the human social tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters name shape alias single segment heichel single segment starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test — npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported style ownership && npm run test:css quality && npm run test:heichelos quality && npm run test:profile menu && npm run test:heichel governance && npm run test:post submissions && npm run test:comments && npm run test:api keys && npm run test:graph && npm run test:social content && npm run test:notifications && npm run test:social packed && npm run test:packed engine && npm run test:platform ops && npm run test:platform execution && npm run test:node client && npm run test:dayuh cutover test:api keys — node geelooy/api/social/helper/test/apikeys.test.js test:comments — node geelooy/api/social/helper/comments/test/runallcommentstests.js test:concurrency failure — node geelooy/api/social/test/concurrencyfailurestress.test.mjs test:dayuh release — npm run test:routes && npm run test:comments && npm run test:social content && npm run test:social packed && npm run test:packed engine && node test tools/dayuhchadashmaintenance/test/ .test.js && npm run test:dayuh cutover related routes /api/social /api/social/abuse/ratelimit/check /api/social/alias/:alias /api/social/alias/:alias/details /api/social/alias/:alias/heichelos /api/social/alias/:alias/heichelos/:heichel /api/social/alias/:alias/heichelos/:heichel/ownership /api/social/alias/:alias/heichelos/details",
-		"page": "pages/docs-generated-api-tutorials-routes-api-social-aliases-alias-commentsmad-4bbfb8a9e0.json"
-	},
-	{
-		"id": "docs-generated-api-tutorials-routes-api-social-aliases-alias-commentsmad-aaab6fd162",
-		"title": "API Tutorial: /api/social/aliases/:alias/commentsMade/heichel/:heichel/series/:series/post/:post",
-		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-aliases-alias-commentsmade-heichel-heichel-series-ser-17177c0def.md",
-		"category": "Routes",
-		"provenance": "generated",
-		"headings": [
-			{
-				"level": 1,
-				"text": "API Tutorial: /api/social/aliases/:alias/commentsMade/heichel/:heichel/series/:series/post/:post",
-				"anchor": "api-tutorial-api-social-aliases-alias-commentsmade-heichel-heichel-series-series-post-post"
-			},
-			{
-				"level": 2,
-				"text": "Contract evidence",
-				"anchor": "contract-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Path parameters",
-				"anchor": "path-parameters"
-			},
-			{
-				"level": 2,
-				"text": "Starter call",
-				"anchor": "starter-call"
-			},
-			{
-				"level": 2,
-				"text": "Observed callers",
-				"anchor": "observed-callers"
-			},
-			{
-				"level": 2,
-				"text": "Related tests",
-				"anchor": "related-tests"
-			},
-			{
-				"level": 2,
-				"text": "Related routes",
-				"anchor": "related-routes"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/social/aliases/:alias/commentsMade/heichel/:heichel/series/:series/post/:post Family: Social · Mount: /api/social · Derech health: OK Source: geelooy/api/social/helper/comments/routes/indexing.js · Discovery: static literal · Confidence: unknown method Read the human S",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/social/aliases/:alias/commentsmade/heichel/:heichel/series/:series/post/:post family: social · mount: /api/social · derech health: ok source: geelooy/api/social/helper/comments/routes/indexing.js · discovery: static literal · confidence: unknown method read the human social tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters name shape alias single segment heichel single segment series single segment post single segment starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test — npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported style ownership && npm run test:css quality && npm run test:heichelos quality && npm run test:profile menu && npm run test:heichel governance && npm run test:post submissions && npm run test:comments && npm run test:api keys && npm run test:graph && npm run test:social content && npm run test:notifications && npm run test:social packed && npm run test:packed engine && npm run test:platform ops && npm run test:platform execution && npm run test:node client && npm run test:dayuh cutover test:api keys — node geelooy/api/social/helper/test/apikeys.test.js test:comments — node geelooy/api/social/helper/comments/test/runallcommentstests.js test:concurrency failure — node geelooy/api/social/test/concurrencyfailurestress.test.mjs test:dayuh release — npm run test:routes && npm run test:comments && npm run test:social content && npm run test:social packed && npm run test:packed engine && node test tools/dayuhchadashmaintenance/test/ .test.js && npm run test:dayuh cutover related routes /api/social /api/social/abuse/ratelimit/check /api/social/alias/:alias /api/social/alias/:alias/details /api/social/alias/:alias/heichelos /api/social/alias/:alias/heichelos/:heichel /api/social/alias/:alias/heichelos/:heichel/ownership /api/social/alias/:alias/heichelos/details",
-		"page": "pages/docs-generated-api-tutorials-routes-api-social-aliases-alias-commentsmad-aaab6fd162.json"
-	},
-	{
-		"id": "docs-generated-api-tutorials-routes-api-social-aliases-alias-commentsmad-cfde76d0f0",
-		"title": "API Tutorial: /api/social/aliases/:alias/commentsMade/heichel/:heichel/series/:series",
-		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-aliases-alias-commentsmade-heichel-heichel-series-ser-41c4de8dfa.md",
-		"category": "Routes",
-		"provenance": "generated",
-		"headings": [
-			{
-				"level": 1,
-				"text": "API Tutorial: /api/social/aliases/:alias/commentsMade/heichel/:heichel/series/:series",
-				"anchor": "api-tutorial-api-social-aliases-alias-commentsmade-heichel-heichel-series-series"
-			},
-			{
-				"level": 2,
-				"text": "Contract evidence",
-				"anchor": "contract-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Path parameters",
-				"anchor": "path-parameters"
-			},
-			{
-				"level": 2,
-				"text": "Starter call",
-				"anchor": "starter-call"
-			},
-			{
-				"level": 2,
-				"text": "Observed callers",
-				"anchor": "observed-callers"
-			},
-			{
-				"level": 2,
-				"text": "Related tests",
-				"anchor": "related-tests"
-			},
-			{
-				"level": 2,
-				"text": "Related routes",
-				"anchor": "related-routes"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/social/aliases/:alias/commentsMade/heichel/:heichel/series/:series Family: Social · Mount: /api/social · Derech health: OK Source: geelooy/api/social/helper/comments/routes/indexing.js · Discovery: static literal · Confidence: unknown method Read the human Social tutor",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/social/aliases/:alias/commentsmade/heichel/:heichel/series/:series family: social · mount: /api/social · derech health: ok source: geelooy/api/social/helper/comments/routes/indexing.js · discovery: static literal · confidence: unknown method read the human social tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters name shape alias single segment heichel single segment series single segment starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test — npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported style ownership && npm run test:css quality && npm run test:heichelos quality && npm run test:profile menu && npm run test:heichel governance && npm run test:post submissions && npm run test:comments && npm run test:api keys && npm run test:graph && npm run test:social content && npm run test:notifications && npm run test:social packed && npm run test:packed engine && npm run test:platform ops && npm run test:platform execution && npm run test:node client && npm run test:dayuh cutover test:api keys — node geelooy/api/social/helper/test/apikeys.test.js test:comments — node geelooy/api/social/helper/comments/test/runallcommentstests.js test:concurrency failure — node geelooy/api/social/test/concurrencyfailurestress.test.mjs test:dayuh release — npm run test:routes && npm run test:comments && npm run test:social content && npm run test:social packed && npm run test:packed engine && node test tools/dayuhchadashmaintenance/test/ .test.js && npm run test:dayuh cutover related routes /api/social /api/social/abuse/ratelimit/check /api/social/alias/:alias /api/social/alias/:alias/details /api/social/alias/:alias/heichelos /api/social/alias/:alias/heichelos/:heichel /api/social/alias/:alias/heichelos/:heichel/ownership /api/social/alias/:alias/heichelos/details",
-		"page": "pages/docs-generated-api-tutorials-routes-api-social-aliases-alias-commentsmad-cfde76d0f0.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial Routes 91–135 Each row links one discovered API route to generated teaching. Method/contract fields remain evidence, not invented schemas. Route Family Method evidence Health Tutorial Source /api/runtime/native/stop Native Runtime unknown OK tutorial geelooy/api/runtime/ awt",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial routes 91–135 each row links one discovered api route to generated teaching. method/contract fields remain evidence, not invented schemas. route family method evidence health tutorial source /api/runtime/native/stop native runtime unknown ok tutorial geelooy/api/runtime/ awtsmoos.derech.js /api/sefarim sefarim unknown ok tutorial geelooy/api/sefarim/ awtsmoos.derech.js /api/sefarim/:sefer sefarim unknown ok tutorial geelooy/api/sefarim/ awtsmoos.derech.js /api/sefarim/:sefer/section/:section sefarim unknown ok tutorial geelooy/api/sefarim/ awtsmoos.derech.js /api/sefarim/:sefer/section/:section/sub/:sub sefarim unknown ok tutorial geelooy/api/sefarim/ awtsmoos.derech.js /api/sefarim/write/batch sefarim unknown ok tutorial geelooy/api/sefarim/ awtsmoos.derech.js /api/social social unknown ok tutorial geelooy/api/social/ awtsmoos.derech.js /api/social/abuse/ratelimit/check social unknown ok tutorial geelooy/api/social/helper/platform/routes/platformlivediscoveryroutes.js /api/social/alias/:alias/heichelos social unknown ok tutorial geelooy/api/social/ awtsmoos.heichel.js /api/social/alias/:alias/heichelos/:heichel social unknown ok tutorial geelooy/api/social/ awtsmoos.heichel.js /api/social/alias/:alias/heichelos/:heichel/ownership social unknown ok tutorial geelooy/api/social/ awtsmoos.heichel.js /api/social/alias/:alias/heichelos/details social unknown ok tutorial geelooy/api/social/ awtsmoos.heichel.js /api/social/aliases/:alias/commentsmade social unknown ok tutorial geelooy/api/social/helper/comments/routes/indexing.js /api/social/aliases/:alias/commentsmade/heichel/:heichel social unknown ok tutorial geelooy/api/social/helper/comments/routes/indexing.js /api/social/aliases/:alias/commentsmade/heichel/:heichel/series social unknown ok tutorial geelooy/api/social/helper/comments/routes/indexing.js /api/social/aliases/:alias/commentsmade/heichel/:heichel/series/:series social unknown ok tutorial geelooy/api/social/helper/comments/routes/indexing.js /api/social/aliases/:alias/commentsmade/heichel/:heichel/series/:series/post/:post social unknown ok tutorial geelooy/api/social/helper/comments/routes/indexing.js /api/social/aliases/:alias/commentsmade/heichel/:heichel/series/:series/posts social unknown ok tutorial geelooy/api/social/helper/comments/routes/indexing.js /api/social/aliases/:alias/commentsmade/heichelos social unknown ok tutorial geelooy/api/social/helper/comments/routes/indexing.js /api/social/aliases/:alias/filesystem/copyentry social unknown ok tutorial geelooy/api/social/ awtsmoos.filesystem.js /api/social/aliases/:alias/filesystem/delete social unknown ok tutorial geelooy/api/social/ awtsmoos.filesystem.js /api/social/aliases/:alias/filesystem/makefile social unknown ok tutorial geelooy/api/social/ awtsmoos.filesystem.js /api/social/aliases/:alias/filesystem/makefolder social unknown ok tutorial geelooy/api/social/ awtsmoos.filesystem.js /api/social/aliases/:alias/filesystem/moveentry social unknown ok tutorial geelooy/api/social/ awtsmoos.filesystem.js /api/social/aliases/:alias/filesystem/readfile social unknown ok tutorial geelooy/api/social/ awtsmoos.filesystem.js /api/social/aliases/:alias/filesystem/readfolder social unknown ok tutorial geelooy/api/social/ awtsmoos.filesystem.js /api/social/aliases/:alias/postsmade/heichel/:heichel/pathtoseries/:pathive social unknown ok tutorial geelooy/api/social/helper/routes/posts/aliasroutes.js /api/social/aliases/:alias/postsmade/heichel/:heichel/series social unknown ok tutorial geelooy/api/social/helper/routes/posts/aliasroutes.js /api/social/aliases/:alias/postsmade/heichelos social unknown ok tutorial geelooy/api/social/helper/routes/posts/aliasroutes.js /api/social/aliases/:alias/postsmade/needswork social unknown ok tutorial geelooy/api/social/helper/routes/posts/needsworkroutes.js /api/social/analytics/metric social unknown ok tutorial geelooy/api/social/helper/platform/routes/platformopsroutes.js /api/social/cache/get social unknown ok tutorial geelooy/api/social/helper/platform/routes/platformruntimeroutes.js /api/social/cache/invalidate social unknown ok tutorial geelooy/api/social/helper/platform/routes/platformruntimeroutes.js /api/social/cache/set social unknown ok tutorial geelooy/api/social/helper/platform/routes/platformopsroutes.js /api/social/civilization/entities/:type/:id/state social unknown ok tutorial geelooy/api/social/ awtsmoos.civilization.js /api/social/civilization/events social unknown ok tutorial geelooy/api/social/ awtsmoos.civilization.js /api/social/civilization/feed/:alias social unknown ok tutorial geelooy/api/social/ awtsmoos.civilization.js /api/social/civilization/state social unknown ok tutorial geelooy/api/social/ awtsmoos.civilization.js /api/social/civilization/subscriptions/:alias social unknown ok tutorial geelooy/api/social/ awtsmoos.civilization.js /api/social/comments/thread/:post/ranked social unknown ok tutorial geelooy/api/social/helper/platform/routes/platformfeedthreadroutes.js /api/social/comments/thread/append social unknown ok tutorial geelooy/api/social/helper/platform/routes/platformfeedthreadroutes.js /api/social/comments/url/:comment social unknown ok tutorial geelooy/api/social/helper/comments/routes/rich.js /api/social/communications/:alias/inbox social unknown ok tutorial geelooy/api/social/helper/communicationroutes/communicationinboxroutes.js /api/social/communications/:alias/inbox/:item/read social unknown ok tutorial geelooy/api/social/helper/communicationroutes/communicationinboxroutes.js /api/social/communications/:alias/inbox/unread social unknown ok tutorial geelooy/api/social/helper/communicationroutes/communicationnotificationroutes.js",
+		"page": "pages/docs-generated-api-tutorial-index-routes-003-md-63d06b87e9.json"
 	}
 ]

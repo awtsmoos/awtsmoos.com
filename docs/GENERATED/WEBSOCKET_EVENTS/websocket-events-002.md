@@ -2,12 +2,19 @@ B"H
 Boruch Hashem
 Blessed is He
 
-# Generated WebSocket Event Evidence 86–143
+# Generated WebSocket Event Evidence 86–152
 
 Production-source lexical event/message evidence; this is not a formal protocol schema.
 
 | Event/message literal | Source |
 | --- | --- |
+| PAGE_PRESENCE | ayzarim/awtsmoosDynamicServer/websocket/apps/socialLive.js |
+| playerDown | ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/CoopCombat.js |
+| playerHit | ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/CoopCombat.js |
+| private-message-request | ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/integrationGateway.js |
+| privateMessaging.block.accepted | ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/relationshipHandlers.js |
+| privateMessaging.conversation.listed | ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/conversationReadHandlers.js |
+| privateMessaging.conversations.listed | ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/conversationReadHandlers.js |
 | privateMessaging.group.created | ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/groupHandlers.js |
 | privateMessaging.group.invite.created | ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/groupInvitationHandlers.js |
 | privateMessaging.group.member.updated | ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/groupExitHandlers.js |
@@ -43,6 +50,8 @@ Production-source lexical event/message evidence; this is not a formal protocol 
 | TUNNEL_ACK | ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/registrationProbe.js |
 | TUNNEL_ACK | ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/registrationPublication.js |
 | TUNNEL_ACK | ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/registrationTransfer.js |
+| TUNNEL_INSTRUCTION_DETAILS | ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/instructionHandler.js |
+| TUNNEL_INSTRUCTION_RESOLVED | ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/instructionHandler.js |
 | TUNNEL_REPLACED | ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/registrationTransfer.js |
 | TUNNEL_REQUEST | ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestDispatch.js |
 | TUNNEL_RESPONSE | ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay.correlationFixtures.cjs |

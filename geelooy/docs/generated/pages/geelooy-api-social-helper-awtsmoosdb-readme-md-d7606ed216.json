@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-social-helper-awtsmoosdb-readme-md-d7606ed216",
+	"title": "B\"H — AwtsmoosDb Shard Engine (geelooy/api/social/helper/awtsmoosDb/)",
+	"sourcePath": "geelooy/api/social/helper/awtsmoosDb/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — AwtsmoosDb Shard Engine (geelooy/api/social/helper/awtsmoosDb/)",
+			"anchor": "b-h-awtsmoosdb-shard-engine-geelooy-api-social-helper-awtsmoosdb"
+		},
+		{
+			"level": 2,
+			"text": "Files",
+			"anchor": "files"
+		},
+		{
+			"level": 2,
+			"text": "What it does",
+			"anchor": "what-it-does"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-social-helper-awtsmoosdb-readme-md-d7606ed216-001.json"
+	]
+}

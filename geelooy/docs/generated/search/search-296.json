@@ -1,213 +1,175 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-tests-gameplay-directory-561340a4fb",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/tests/gameplay/DIRECTORY_GUIDE.md",
-		"category": "Games",
+		"id": "geelooy-ai-thoughts-2026-08-25-merkava-flagship-revelation-02-phase-two--691069da72",
+		"title": "Merkava Flagship Revelation — Phase Two",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25-merkava-flagship-revelation/02-phase-two.md",
+		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/tests/gameplay",
-				"anchor": "directory-guide-experiments-awtsmoos-tests-gameplay"
+				"text": "Merkava Flagship Revelation — Phase Two",
+				"anchor": "merkava-flagship-revelation-phase-two"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Twenty concrete improvements to the first plan",
+				"anchor": "twenty-concrete-improvements-to-the-first-plan"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "API constraints",
+				"anchor": "api-constraints"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Candidate new source vessels",
+				"anchor": "candidate-new-source-vessels"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
-			},
-			{
-				"level": 2,
-				"text": "Test themes",
-				"anchor": "test-themes"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Existing source candidates for complete rewrite",
+				"anchor": "existing-source-candidates-for-complete-rewrite"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/tests/gameplay Role: Tests Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 5 files, 0 structural child directories Purpose Integration tests focused on the gameplay area. The Awtsmoos renews every path and every",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/tests/gameplay role: tests snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 5 files, 0 structural child directories purpose integration tests focused on the gameplay area. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tests search terms: guards, torah, action, bar, gevurah, light, timeline, ability, charge, remembers, shlichus, tiferes file mix: .js: 4 · .md: 1 good first question: “does the behavior or asset i need belong to tests, or is this only a neighboring/test/reference layer?” semantic evidence guards the one action bar vessel from layout drift and duplicated activation. chesed fills the slot, gevurah keeps its border bright; yesod remembers every place, while malchus turns one edge to light. b\"h a focused witness that one shlichus survives reload and pays its reward once. the awtsmoos renews the world without duplicating yesterday's earned light; this test guards the persistence vessel that carries that truth in awtsmoos.com. guards the single torah cast river from start through interruption and completion. netzach bears the casting light, gevurah may close its gate; hod counts three channel beats, while tiferes joins their fate. representative files actionbarstore.test.js — guards the one action bar vessel from layout drift and duplicated activation. chesed fills the slot, gevurah keeps its border bright; yesod remembers every place, while malchus turns one edge to light. covers: “store and drag share one bounded layout owner”, “yesod persistence restores one compact two row layout”, “one fresh keyboard edge produces exactly one activation”. shlichusruntimecoordinator.test.js — a focused witness that one shlichus survives reload and pays its reward once. the awtsmoos renews the world without duplicating yesterday's earned light; this test guards the persistence vessel that carries that truth in awtsmoos.com. covers: “shlichus restores progress and never duplicates a completed reward”. torahabilitytimelinelifecycle.test.js — guards the single torah cast river from start through interruption and completion. netzach bears the casting light, gevurah may close its gate; hod counts three channel beats, while tiferes joins their fate. covers: “cast executes once only at its canonical completion deadline”, “interrupt clears the sole cast without executing it”, “channel commits once, emits three bounded ticks, and completes once”. torahabilitytimelinepreflight.test.js — guards the one torah timeline where target, focus, cooldown, and charge become one law. chochmah sees the foe, gevurah measures where shadows are; yesod remembers every charge, while tiferes keeps one action bar. covers: “preflight rejects missing target, range, and focus through one path”, “accepted instant ability creates global and personal cooldown”, “charged ability consumes two charges and lazily restores one”. import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: node:test node:assert/strict ../../src/gameplay/actionbar/actionbarbindingrules.js ../../src/gameplay/actionbar/actionbardragcontroller.js ../../src/gameplay/actionbar/actionbarpersistence.js ../../src/gameplay/actionbar/actionbarstore.js ../../src/gameplay/adventurestore.js ../../src/gameplay/shliachprofilestore.js ../../src/gameplay/shlichuspersistence.js ../../src/gameplay/shlichusruntimecoordinator.js ../../src/gameplay/combat/torahabilitycatalog.js ../../src/gameplay/combat/torahabilitytimeline.js test themes store and drag share one bounded layout owner yesod persistence restores one compact two row layout one fresh keyboard edge produces exactly one activation shlichus restores progress and never duplicates a completed reward cast executes once only at its canonical completion deadline interrupt clears the sole cast without executing it channel commits once, emits three bounded ticks, and completes once preflight rejects missing target, range, and focus through one path accepted instant ability creates global and personal cooldown charged ability consumes two charges and lazily restores one directory map parent: experiments/awtsmoos/tests children: none. related and overlapping systems colocated and integration test surfaces — most subsystem tests live under src/test, while a smaller external tests tree exercises broader integration contracts. boundaries and cautions this directory verifies behavior; it should not become the production owner of that behavior. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-tests-gameplay-directory-561340a4fb.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Merkava Flagship Revelation — Phase Two The Awtsmoos does not improve a flagship by multiplying decoration; Awtsmoos.com improves it by making every dependency, layer, gesture, and visible state tell the truth of its purpose. Twenty concrete improvements to the first plan 1. Scope every ",
+		"searchText": "b\"h boruch hashem blessed is he merkava flagship revelation — phase two the awtsmoos does not improve a flagship by multiplying decoration; awtsmoos.com improves it by making every dependency, layer, gesture, and visible state tell the truth of its purpose. twenty concrete improvements to the first plan 1. scope every merkava selector beneath gameshell so shared player shell controls cannot inherit battlefield styles. 2. remove bare universal styling; use gameshell, gameshell only where box sizing is needed. 3. eliminate html and body sizing dependencies by making gameshell the fixed viewport local root. 4. define named layer tokens on gameshell for canvas, labels, hud, overlays, notification, fatal state, and optional commerce. 5. replace every raw merkava z index with those tokens. 6. add a dedicated interactions.css so button/link/form state styling is not duplicated across feature sheets. 7. scope hover motion to (hover:hover) and (pointer:fine). 8. keep :active feedback universal for mouse, pen, and touch. 9. give every relevant action a visible :focus visible ring independent from hover color. 10. add a local reduced motion module instead of global animation overrides. 11. preserve overlay internal scrolling while preventing the page itself from gaining accidental scrollbars. 12. make all overlay/panel widths use bounded logical sizes and safe area aware padding. 13. keep mobile controls at a 44px interaction floor. 14. build an explicit input action adapter instead of handing mutable game state to the input controller. 15. give the input controller a connect() / disconnect() lifecycle with named bound handlers. 16. inject the keyboard target rather than hard coding window inside input logic. 17. introduce a small base input port class so gesture lifecycle and public contract can be extended without editing the concrete controller. 18. move runtime error ownership out of main.js into one journal class while preserving legacy diagnostic globals for browser tests. 19. move optional commerce boot into a focused service so optional commerce cannot clutter the battlefield bootstrap. 20. rewrite main.js as a tiny composition root with extensive per function jsdoc and one explicit bootstrap object. api constraints preserve window. merkava app , window. merkava diagnostics , and window. merkava runtime errors until the existing browser driver contract is migrated separately. preserve zero argument new merkavaapp() compatibility for diagnostic/tests, but allow an optional dependency vessel. preserve gamestate property names used throughout gameplay; improve names at new boundaries instead of renaming hundreds of stable internal references in one wave. no save schema change. no combat/economy/route rule change. candidate new source vessels styles/tokens.css styles/interactions.css styles/motion.css src/input/yesodinputport.js src/input/merkavainputactions.js src/app/ohrruntimejournal.js src/app/kessermerkavabootstrap.js src/app/optionalcommercegateway.js existing source candidates for complete rewrite styles/game.css styles/foundation.css styles/hud.css styles/mode.css styles/boss hud.css styles/overlays.css styles/feedback.css styles/commander sigil.css styles/responsive.css src/main.js src/input/inputcontroller.js src/app/merkavaapp.js index.html remains protected because it is already modified outside this wave.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25-merkava-flagship-revelation-02-phase-two--691069da72.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-tests-world-directory-gu-3d92e8882e",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/tests/world/DIRECTORY_GUIDE.md",
-		"category": "Games",
+		"id": "geelooy-ai-thoughts-2026-08-25-merkava-flagship-revelation-03-phase-thre-0e305c50aa",
+		"title": "Merkava Flagship Revelation — Phase Three Final Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25-merkava-flagship-revelation/03-phase-three.md",
+		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/tests/world",
-				"anchor": "directory-guide-experiments-awtsmoos-tests-world"
+				"text": "Merkava Flagship Revelation — Phase Three Final Plan",
+				"anchor": "merkava-flagship-revelation-phase-three-final-plan"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Thirty final refinements",
+				"anchor": "thirty-final-refinements"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Exact first-wave production files",
+				"anchor": "exact-first-wave-production-files"
+			},
+			{
+				"level": 3,
+				"text": "New CSS",
+				"anchor": "new-css"
+			},
+			{
+				"level": 3,
+				"text": "Existing CSS: complete rewrites",
+				"anchor": "existing-css-complete-rewrites"
+			},
+			{
+				"level": 3,
+				"text": "New JS",
+				"anchor": "new-js"
+			},
+			{
+				"level": 3,
+				"text": "Existing JS: complete rewrites",
+				"anchor": "existing-js-complete-rewrites"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Baseline-before-write gate",
+				"anchor": "baseline-before-write-gate"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
-			},
-			{
-				"level": 2,
-				"text": "Test themes",
-				"anchor": "test-themes"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Runtime acceptance after writing",
+				"anchor": "runtime-acceptance-after-writing"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/tests/world Role: Tests Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 6 files, 0 structural child directories Purpose Integration tests focused on the world area. The Awtsmoos renews every path and every artif",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/tests/world role: tests snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 6 files, 0 structural child directories purpose integration tests focused on the world area. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tests search terms: proves, village, collision, through, vessel, bounded, com, doorway, room, without, bright, chunk file mix: .js: 5 good first question: “does the behavior or asset i need belong to tests, or is this only a neighboring/test/reference layer?” semantic evidence b\"h proves the public primitive graph builds a translated doorway and remains import safe. the awtsmoos measures an opening through three bounded stones; awtsmoos.com verifies that geometry, transformation, and material assembly meet without a broken export. a focused witness that a village room remains stable while its use evolves. the awtsmoos renews existence each instant; this test proves the room vessel is deterministic, bounded, restorable, and silent while idle. proves one connected, local, and uniquely owned village water composition. the awtsmoos carries one current through every vessel without multiplying its source; awtsmoos.com guards the code graph so lake, river, waterfall, foam, and mist remain one story. representative files doorwayframegeometry.test.js — proves the public primitive graph builds a translated doorway and remains import safe. the awtsmoos measures an opening through three bounded stones; awtsmoos.com verifies that geometry, transformation, and material assembly meet without a broken export. covers: “doorway geometry resolves through the public primitive factory”, “primitive material factory imports after the doorway graph repair”. roomsystem.test.js — a focused witness that a village room remains stable while its use evolves. the awtsmoos renews existence each instant; this test proves the room vessel is deterministic, bounded, restorable, and silent while idle. covers: “roomsystem creates stable purposeful rooms and detached copies”, “roomsystem updates purpose, snapshots, restores, and emits safe events”, “roomsystem removes rooms, cleans listeners, and has no update loop”. villagewatersystem.test.js — proves one connected, local, and uniquely owned village water composition. the awtsmoos carries one current through every vessel without multiplying its source; awtsmoos.com guards the code graph so lake, river, waterfall, foam, and mist remain one story. covers: “village water composes one connected source to outlet definition set”, “all playable water textures use truthful same origin metadata”, “only villagewatersystem composes water bodies and waterfalls together”. worldchunkcollisionlayer.test.js — proves that later village stone enters one collision authority without replacing the ground. yesod holds the valley firm while richer walls descend in light; tiferes joins each active vessel through one query, bounded and bright. covers: “post movement collision layer joins the existing query facade”. worldchunkruntimecollisionlayer.test.js — proves the public world runtime reveals later collision through its one canonical vessel. yesod receives the village wall while malchus keeps the traveler's query bright; awtsmoos.com exposes one doorway inward, never private reach or parallel night. covers: “public runtime registers one post movement collision layer”. import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: node:test node:assert/strict ../../src/world/primitives/primitivegeometryfactory.js ../../src/world/primitives/primitivematerialfactory.js ./../../src/world/roomsystem.js node:fs node:url ../../src/assets/productionmaterialurlpolicy.js ../../src/world/village/villagewatersystem.js ../../src/collision/awtsmoosoctree.js ../../src/math/aabb.js ../../src/world/streaming/worldchunkbootstrap.js test themes doorway geometry resolves through the public primitive factory primitive material factory imports after the doorway graph repair roomsystem creates stable purposeful rooms and detached copies roomsystem updates purpose, snapshots, restores, and emits safe events roomsystem removes rooms, cleans listeners, and has no update loop village water composes one connected source to outlet definition set all playable water textures use truthful same origin metadata only villagewatersystem composes water bodies and waterfalls together water production files contain no stale firebase ownership flag post movement collision layer joins the existing query facade public runtime registers one post movement collision layer directory map parent: experiments/awtsmoos/tests children: none. related and overlapping systems colocated and integration test surfaces — most subsystem tests live under src/test, while a smaller external tests tree exercises broader integration contracts. boundaries and cautions this directory verifies behavior; it should not become the production owner of that behavior. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-tests-world-directory-gu-3d92e8882e.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Merkava Flagship Revelation — Phase Three Final Plan The Awtsmoos is not improved by ornament, yet every finite vessel may reveal more truth through order; Awtsmoos.com should make the flagship's code read like architecture and its battlefield feel like one intentional border. Thirty fin",
+		"searchText": "b\"h boruch hashem blessed is he merkava flagship revelation — phase three final plan the awtsmoos is not improved by ornament, yet every finite vessel may reveal more truth through order; awtsmoos.com should make the flagship's code read like architecture and its battlefield feel like one intentional border. thirty final refinements 1. keep the dirty index.html untouched. 2. use gameshell as the single merkava css boundary. 3. make gameshell fixed/inset instead of relying on global body sizing. 4. define all palette, radius, motion, and z layer custom properties on gameshell. 5. keep canvas styles scoped to gameshell gamecanvas. 6. prefix every hud selector with gameshell. 7. prefix every mode/boss/feedback/commerce selector with gameshell. 8. prefix every overlay/panel selector with gameshell. 9. replace overlay z index:10 with merkava layer overlay. 10. replace hud 4, labels 3, notification 12, fatal 30 with named layers. 11. give notification motion explicit opacity/transform properties rather than transition: 180ms ease. 12. keep animation transforms off touch hover by scoping hover media. 13. give all buttons active depression and focus visible ring. 14. give commander sigil wallet link the same hover/active/focus contract. 15. normalize form control sizing and focus states locally. 16. preserve internal panel overflow but cap panel inline/block dimensions to viewport safe logical units. 17. preserve short height hud compression without shrinking action hit targets. 18. add local reduced motion behavior only inside gameshell. 19. create yesodinputport as an abstract lifecycle/api base. 20. create merkavainputactions as the explicit adapter from mutable state + ability/pause commands to input api. 21. rewrite inputcontroller extends yesodinputport with injected keyboard target and disconnectable bound handlers. 22. add jsdoc to every constructor and public/private method in rewritten input files. 23. create ohrruntimejournal to own runtime error capture with connect/disconnect and immutable snapshots. 24. create optionalcommercegateway to own best effort dynamic commerce boot. 25. create kessermerkavabootstrap to assemble app, diagnostics, journal, and optional commerce while preserving legacy globals. 26. rewrite main.js to only instantiate and awaken the bootstrap. 27. rewrite merkavaapp with an optional explicit dependency vessel while keeping zero argument compatibility. 28. add jsdoc to every rewritten merkavaapp method and use domain specific local names at new composition seams. 29. target compile src/main.js through compactjs after all js changes; the protected html already requests compact mode. 30. run unit, syntax, renderer, style, browser, line count, long line, and git diff gates; then reread every touched file and write a post implementation delta. exact first wave production files new css games/merkava/styles/tokens.css games/merkava/styles/interactions.css games/merkava/styles/motion.css existing css: complete rewrites games/merkava/styles/game.css games/merkava/styles/foundation.css games/merkava/styles/hud.css games/merkava/styles/mode.css games/merkava/styles/boss hud.css games/merkava/styles/overlays.css games/merkava/styles/feedback.css games/merkava/styles/commander sigil.css games/merkava/styles/responsive.css new js games/merkava/src/input/yesodinputport.js games/merkava/src/input/merkavainputactions.js games/merkava/src/app/ohrruntimejournal.js games/merkava/src/app/optionalcommercegateway.js games/merkava/src/app/kessermerkavabootstrap.js existing js: complete rewrites games/merkava/src/input/inputcontroller.js games/merkava/src/app/merkavaapp.js games/merkava/src/main.js baseline before write gate run npm run verify in games/merkava before the first production rewrite. if it already fails, record the exact baseline. the input constructor mismatch should be tested directly rather than hidden by unrelated suites. runtime acceptance after writing desktop, 390×844, 320×568, and short height phone where practical: zero document side overflow; start/pause/choice/game over panels fully contained; hud readable and not crossing player shell controls; every visible interactive game control =44px on phone; no raw element leaves gameshell styling scope; no hardcoded merkava z index remains outside named tokens; keyboard, tap/drag lane, ability, and pause all work; runtime errors empty; campaign/endless diagnostics compatibility preserved.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25-merkava-flagship-revelation-03-phase-thre-0e305c50aa.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-tools-diagnostics-direct-bd366d7583",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/tools/diagnostics/DIRECTORY_GUIDE.md",
-		"category": "Games",
+		"id": "geelooy-ai-thoughts-2026-08-25-merkava-flagship-revelation-04-input-arch-62169bb746",
+		"title": "Merkava Input Architecture Delta",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25-merkava-flagship-revelation/04-input-architecture-delta.md",
+		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/tools/diagnostics",
-				"anchor": "directory-guide-experiments-awtsmoos-tools-diagnostics"
+				"text": "Merkava Input Architecture Delta",
+				"anchor": "merkava-input-architecture-delta"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "New revelation after direct failure reproduction",
+				"anchor": "new-revelation-after-direct-failure-reproduction"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Why the first final plan needs one refinement",
+				"anchor": "why-the-first-final-plan-needs-one-refinement"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Additional modules",
+				"anchor": "additional-modules"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
+				"text": "Input API names",
+				"anchor": "input-api-names"
 			},
 			{
 				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
+				"text": "Reversal behavior",
+				"anchor": "reversal-behavior"
 			},
 			{
 				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
+				"text": "App dependency vessel",
+				"anchor": "app-dependency-vessel"
 			},
 			{
 				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "No behavior changes beyond the bug repair",
+				"anchor": "no-behavior-changes-beyond-the-bug-repair"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/tools/diagnostics Role: Tools Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 2 files, 0 structural child directories Purpose Structural area named diagnostics. Its immediate files and children below are the evi",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/tools/diagnostics role: tools snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 2 files, 0 structural child directories purpose structural area named diagnostics. its immediate files and children below are the evidence for its current responsibilities. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tools search terms: diagnostics, through, village, alone, appearance, awtsmoos, browser, canonical, com, command, contracts, counts file mix: .md: 1 · .mjs: 1 good first question: “does the behavior or asset i need belong to tools, or is this only a neighboring/test/reference layer?” semantic evidence b\"h emits deterministic textual or jsonl evidence without opening a browser. the awtsmoos is revealed through truth rather than appearance; awtsmoos.com lets a shell command expose the village's contracts, failures, warnings, and counts through plain logs alone. representative files runcanonicalvillagediagnostics.mjs — emits deterministic textual or jsonl evidence without opening a browser. the awtsmoos is revealed through truth rather than appearance; awtsmoos.com lets a shell command expose the village's contracts, failures, warnings, and counts through plain logs alone. import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ../../src/diagnostics/logs/diagnostictextformatter.js ../../src/diagnostics/logs/villagediagnosticsrunner.js directory map parent: experiments/awtsmoos/tools children: none. related and overlapping systems diagnostics, logs, tools, and root audits — live diagnostics, captured logs, offline tools, and root audit reports describe different stages of observability. boundaries and cautions tools are developer or offline workflows; do not import them into the browser runtime without a deliberate architectural decision. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-tools-diagnostics-direct-bd366d7583.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Merkava Input Architecture Delta The Awtsmoos does not ask one class to become a crowded palace; Awtsmoos.com lets each covenant receive its own vessel so documentation may deepen while source remains spacious. New revelation after direct failure reproduction The baseline verification pa",
+		"searchText": "b\"h boruch hashem blessed is he merkava input architecture delta the awtsmoos does not ask one class to become a crowded palace; awtsmoos.com lets each covenant receive its own vessel so documentation may deepen while source remains spacious. new revelation after direct failure reproduction the baseline verification passes 99/99, yet the exact production constructor wiring fails on keyboard input with: typeerror this.actions.reversed is not a function the existing suite therefore lacks a direct input contract test. why the first final plan needs one refinement merkavaapp.js already sits at 117 lines. adding the method level jsdoc and explicit dependency boundaries required by the new code standard would force either compression or a line limit violation. neither is acceptable. therefore input/application composition should split further instead of reducing documentation. additional modules src/app/merkavainterfaceactions.js builds the hud facing action object from one merkavaapp; keeps interface callback construction out of the app class; each callback name remains explicit and testable. test/inputcontroller.test.mjs permanently reproduces the previously hidden constructor/api failure; verifies keyboard lane movement, bounded lanes, pointer lane selection, ability/pause commands, optional reversal predicate, and disconnect lifecycle. input api names the new adapter will use descriptive domain methods instead of ambiguous verbs: currentlane() chooselane(lane) controlsreversed() activateability() togglepause() the adapter owns mutable gamestate access. inputcontroller never receives gamestate directly again. reversal behavior current gameplay contains a boss attack string named reverse, but no implemented state flag or modifier that actually reverses controls. do not invent a new gameplay rule during an architecture repair. merkavainputactions therefore accepts an optional reversal predicate and defaults to false. future boss/modifier work can inject the predicate without editing inputcontroller. app dependency vessel merkavaapp preserves zero argument construction, but its constructor will accept an optional object with: document target; keyboard target; systems factory. all existing runtime and browser diagnostics continue to work, while tests and future surfaces can inject controlled vessels. no behavior changes beyond the bug repair campaign, save schema, combat, economy, route logic, renderer output, and boss rules remain untouched.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25-merkava-flagship-revelation-04-input-arch-62169bb746.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-25-social-system-native-revelation-01-chesed-dc29507790",
+		"title": "Chesed — Native Social Product Vision",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25-social-system-native-revelation/01_CHESED_PRODUCT_VISION.md",
+		"category": "Systems",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Chesed — Native Social Product Vision",
+				"anchor": "chesed-native-social-product-vision"
+			},
+			{
+				"level": 2,
+				"text": "Evidence now proven",
+				"anchor": "evidence-now-proven"
+			},
+			{
+				"level": 2,
+				"text": "Product direction",
+				"anchor": "product-direction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Chesed — Native Social Product Vision The Awtsmoos renews each social doorway before the old frame can remain; Awtsmoos.com should reveal enormous capability through calm, retractable terrain. Evidence now proven Social Hub already owns modular panels for activity, privacy, profile, netw",
+		"searchText": "b\"h boruch hashem blessed is he chesed — native social product vision the awtsmoos renews each social doorway before the old frame can remain; awtsmoos.com should reveal enormous capability through calm, retractable terrain. evidence now proven social hub already owns modular panels for activity, privacy, profile, network, people, spaces, inbox, chat, messages, creation, and interaction. style.css is already an import only manifest, which is the correct direction for local css ownership. shared social primitives already provide universal action rails, overflow, progressive disclosure, ambient installation, and mobile integrity. the current social hub html remains a large compressed template and should not receive more inline feature markup. real route ids are home, inbox, messages, spaces, people, profile, chat, interact, activity, network, references, and privacy. product direction strengthen shared primitives first. keep one primary action visible, fold secondary actions into native disclosure, preserve keyboard and touch behavior, localize every selector beneath an owned social root, and separate human summaries from exact api evidence. mount new capability discovery through javascript rather than expanding the monolithic html.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25-social-system-native-revelation-01-chesed-dc29507790.json"
 	}
 ]

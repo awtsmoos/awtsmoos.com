@@ -16,13 +16,13 @@ Curated system meaning joined to bounded current source evidence.
 | Persistence Path Contracts | data | 2 | 0 | 0 | 0 | [tutorial](../SYSTEM_TUTORIALS/SYSTEMS/persistence-path-contracts.md) |
 | Parallel AwtsmoosDB Bridge | data | 1 | 5 | 0 | 0 | [tutorial](../SYSTEM_TUTORIALS/SYSTEMS/parallel-awtsmoosdb.md) |
 | Session Authentication | security | 1 | 0 | 0 | 0 | [tutorial](../SYSTEM_TUTORIALS/SYSTEMS/session-authentication.md) |
-| OAuth Bearer Identity | security | 2 | 3 | 0 | 0 | [tutorial](../SYSTEM_TUTORIALS/SYSTEMS/oauth-bearer-identity.md) |
-| Tunnel Control Identity | security | 1 | 2 | 0 | 0 | [tutorial](../SYSTEM_TUTORIALS/SYSTEMS/tunnel-control-identity.md) |
+| OAuth Bearer Identity | security | 2 | 5 | 0 | 0 | [tutorial](../SYSTEM_TUTORIALS/SYSTEMS/oauth-bearer-identity.md) |
+| Tunnel Control Identity | security | 1 | 4 | 0 | 0 | [tutorial](../SYSTEM_TUTORIALS/SYSTEMS/tunnel-control-identity.md) |
 | Authorization and Resource Ownership | security | 2 | 2 | 0 | 0 | [tutorial](../SYSTEM_TUTORIALS/SYSTEMS/authorization-resource-ownership.md) |
 | Secrets and Runtime Configuration | security | 3 | 0 | 0 | 0 | [tutorial](../SYSTEM_TUTORIALS/SYSTEMS/secrets-runtime-config.md) |
-| Realtime Identity and Admission | security | 2 | 3 | 0 | 0 | [tutorial](../SYSTEM_TUTORIALS/SYSTEMS/realtime-identity-admission.md) |
-| WebSocket Upgrade and Session | realtime | 1 | 3 | 0 | 0 | [tutorial](../SYSTEM_TUTORIALS/SYSTEMS/websocket-upgrade-session.md) |
-| Realtime Application Routing | realtime | 1 | 13 | 14 | 0 | [tutorial](../SYSTEM_TUTORIALS/SYSTEMS/realtime-application-routing.md) |
+| Realtime Identity and Admission | security | 2 | 4 | 0 | 0 | [tutorial](../SYSTEM_TUTORIALS/SYSTEMS/realtime-identity-admission.md) |
+| WebSocket Upgrade and Session | realtime | 1 | 4 | 0 | 0 | [tutorial](../SYSTEM_TUTORIALS/SYSTEMS/websocket-upgrade-session.md) |
+| Realtime Application Routing | realtime | 1 | 19 | 16 | 0 | [tutorial](../SYSTEM_TUTORIALS/SYSTEMS/realtime-application-routing.md) |
 | Mission Room Admission | realtime | 2 | 1 | 0 | 0 | [tutorial](../SYSTEM_TUTORIALS/SYSTEMS/mission-room-admission.md) |
-| Tunnel Relay | realtime | 2 | 13 | 0 | 18 | [tutorial](../SYSTEM_TUTORIALS/SYSTEMS/tunnel-relay.md) |
-| Realtime Application and Event Evidence | realtime | 1 | 13 | 14 | 36 | [tutorial](../SYSTEM_TUTORIALS/SYSTEMS/realtime-application-events.md) |
+| Tunnel Relay | realtime | 2 | 19 | 0 | 21 | [tutorial](../SYSTEM_TUTORIALS/SYSTEMS/tunnel-relay.md) |
+| Realtime Application and Event Evidence | realtime | 1 | 19 | 16 | 36 | [tutorial](../SYSTEM_TUTORIALS/SYSTEMS/realtime-application-events.md) |

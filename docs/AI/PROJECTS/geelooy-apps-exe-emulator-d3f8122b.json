@@ -24,13 +24,13 @@
 	"symlinkTarget": null,
 	"counts": {
 		"source": 271,
-		"tests": 133,
+		"tests": 123,
 		"assets": 0,
 		"generated": 9,
 		"docs": 2,
 		"other": 1
 	},
-	"totalFiles": 416,
+	"totalFiles": 406,
 	"symbolSummary": {
 		"files": 258,
 		"classes": 9,

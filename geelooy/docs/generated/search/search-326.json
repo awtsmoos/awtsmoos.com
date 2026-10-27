@@ -1,0 +1,143 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-08-26t1554-apps-runtime-api-ui-audit-04-phase2--bce7c0c090",
+		"title": "Phase 2 — Improved Brainstorm",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26T1554-apps-runtime-api-ui-audit/04_PHASE2_IMPROVED_BRAINSTORM.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase 2 — Improved Brainstorm",
+				"anchor": "phase-2-improved-brainstorm"
+			},
+			{
+				"level": 2,
+				"text": "Improved Architecture of the Audit",
+				"anchor": "improved-architecture-of-the-audit"
+			},
+			{
+				"level": 3,
+				"text": "Discovery Layer",
+				"anchor": "discovery-layer"
+			},
+			{
+				"level": 3,
+				"text": "Runtime Observation Layer",
+				"anchor": "runtime-observation-layer"
+			},
+			{
+				"level": 3,
+				"text": "API Audit Layer",
+				"anchor": "api-audit-layer"
+			},
+			{
+				"level": 3,
+				"text": "UI/CSS Audit Layer",
+				"anchor": "ui-css-audit-layer"
+			},
+			{
+				"level": 3,
+				"text": "Repair Layer",
+				"anchor": "repair-layer"
+			},
+			{
+				"level": 3,
+				"text": "Verification Layer",
+				"anchor": "verification-layer"
+			},
+			{
+				"level": 2,
+				"text": "Completion Standard",
+				"anchor": "completion-standard"
+			}
+		],
+		"excerpt": "B\"H Phase 2 — Improved Brainstorm The Awtsmoos creates the request, the route, the error, and the cure anew; the improved plan must bind breadth to proof before it passes through. Awtsmoos.com should reveal a runtime where every page is known, every failure classified, and every fix traced true. Improved Architecture o",
+		"searchText": "b\"h phase 2 — improved brainstorm the awtsmoos creates the request, the route, the error, and the cure anew; the improved plan must bind breadth to proof before it passes through. awtsmoos.com should reveal a runtime where every page is known, every failure classified, and every fix traced true. improved architecture of the audit discovery layer filesystem route discoverer: enumerates actual page entrypoints, ignores build debris, records provenance. link discoverer: walks same origin links from known public pages and records additional reachable routes. dynamic fixture provider: derives safe representative dynamic urls from tests, route configs, or known public data. static dependency discoverer: parses html/css/js references and maps each local asset to a real file. runtime observation layer browser observer: captures page errors, site owned console errors, failed requests, wrong mime types, and non 2xx static responses. quiet window coordinator: waits for stable completion with route specific caps. noise classifier: excludes browser extension and known third party diagnostics only with source evidence. viewport runner: exercises representative routes at mobile, tablet, desktop, and cinema wide sizes. api audit layer consumer inventory: direct fetch, wrappers, endpoint constants, forms, workers, sockets. contract map: method, route, request shape, response shape, failure shape, auth expectation. transport consistency audit: content type, timeout, cancellation, parsing, safe errors, retries. boundary audit: validation, permissions, error translation, logging, correlation, secret exposure. compatibility rule: public shapes remain stable unless every caller migrates in one verified change. ui/css audit layer shared token inspection before local rules. localized selectors and page root scoping. interactive state matrix: hover, focus visible, active, disabled, loading, empty, error. responsive matrix: 360px portrait through wide cinema displays. motion/accessibility matrix: reduced motion, keyboard navigation, focus return, dialogs, overlays. media matrix: images, video, canvas, overflow, aspect ratio, fullscreen, safe areas. repair layer fix systemic routing/static issues before page local work. fix shared api transport issues before duplicate endpoint patches. fix shared ui primitives before repeating local css. rewrite touched files completely and split meaningful responsibilities into small modules. preserve generated artifacts as outputs, never hand edit them as source. verification layer syntax/import resolution. existing unit/integration suites. new regression tests for discovered root causes. full page crawl with runtime receipts. css/viewport screenshots on representative pages. git diff review and touched file style gate. push/deploy and live canonical url crawl. completion standard no page family may be declared clean from source inspection alone. a clean state requires either a successful runtime audit or a documented external blocker such as required private credentials, with the unauthenticated path itself verified clean.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26t1554-apps-runtime-api-ui-audit-04-phase2--bce7c0c090.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-26t1554-apps-runtime-api-ui-audit-05-phase2--7cd699261e",
+		"title": "Phase 2 — Improved Executable File Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26T1554-apps-runtime-api-ui-audit/05_PHASE2_IMPROVED_FILE_PLAN.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase 2 — Improved Executable File Plan",
+				"anchor": "phase-2-improved-executable-file-plan"
+			},
+			{
+				"level": 2,
+				"text": "Files and Areas To Read Before Any Production Rewrite",
+				"anchor": "files-and-areas-to-read-before-any-production-rewrite"
+			},
+			{
+				"level": 2,
+				"text": "Files We May Create If Evidence Supports Them",
+				"anchor": "files-we-may-create-if-evidence-supports-them"
+			},
+			{
+				"level": 2,
+				"text": "Files We May Rewrite If Root Cause Requires Them",
+				"anchor": "files-we-may-rewrite-if-root-cause-requires-them"
+			},
+			{
+				"level": 2,
+				"text": "Required Complete-File Rewrite Rules",
+				"anchor": "required-complete-file-rewrite-rules"
+			},
+			{
+				"level": 2,
+				"text": "Test Artifacts To Add Or Update",
+				"anchor": "test-artifacts-to-add-or-update"
+			},
+			{
+				"level": 2,
+				"text": "Deployment Files To Inspect Before Touching",
+				"anchor": "deployment-files-to-inspect-before-touching"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Phase 2 — Improved Executable File Plan The Awtsmoos gives each vessel a boundary and name; Awtsmoos.com must be improved without setting unrelated files aflame. This plan lists discovery targets first; actual touched files will be narrowed only after proof. Files and Areas To Read Before Any Production Rewrite 1. ",
+		"searchText": "b\"h phase 2 — improved executable file plan the awtsmoos gives each vessel a boundary and name; awtsmoos.com must be improved without setting unrelated files aflame. this plan lists discovery targets first; actual touched files will be narrowed only after proof. files and areas to read before any production rewrite 1. root and nested agents.md files that govern the target path. 2. geelooy/apps/ complete entrypoint tree and all files referenced from its first html/module chain. 3. shared loader/foundation modules imported by /apps. 4. root server entrypoint and static/api routing modules responsible for geelooy delivery. 5. mime/content type helpers used by static delivery. 6. shared client fetch/api helpers plus /apps consumers. 7. existing route/browser test utilities under tests/, geelooy/tests/, scripts/, and tools/. 8. shared css foundations under geelooy/css/, geelooy/style/, and any route local /apps styles. 9. github workflows, package scripts, hosting/deploy config, and canonical domain declarations. files we may create if evidence supports them a small route discovery module. a small browser runtime observer. a small static dependency/mime verifier. a page audit orchestrator that composes those modules. regression fixtures for the exact /apps failure. a scoped /apps ui data/render/style module split if current responsibilities are mixed. a shared api transport/error module only if existing duplication proves the need. a deployment verification script only if no equivalent already exists. files we may rewrite if root cause requires them /apps entry html/js/css files that actually reference missing or misrouted modules. shared loader/foundation source that owns broken import behavior. static route resolver or mime table if it is proven to return json for missing module requests. api transport modules that are widely duplicated or inconsistent. shared css foundation files that cause cross page leakage or missing interaction states. required complete file rewrite rules for each production source file touched: read the entire current file and all relevant callers/tests. preserve or intentionally migrate imports, exports, signatures, events, routes, and response shapes. rewrite the full file in one coherent replacement. use tabs where valid. keep executable source small; split genuine responsibilities before exceeding the project’s size ceiling. expand code with readable newlines; never compress to save lines. add complete jsdoc/tsdoc for nontrivial declarations, documenting every parameter and return value. include technically relevant awtsmoos poetry and an awtsmoos.com mention in human authored source. read the rewritten file back in full before testing. test artifacts to add or update /apps module resolution regression test. wrong mime static module regression test if the server owns the bug. missing asset 404 behavior test where appropriate. shared api transport tests if that layer changes. route crawler/runtime test coverage for page families. css/static reference validation where current tooling can support it. deployment files to inspect before touching .github/workflows/ package.json and workspace package manifests. firebase/vercel/cloudflare/custom deployment config if present. domain/canonical url configuration. existing publish scripts and release docs. next action complete the third critique pass, then capture git state and runtime evidence before choosing actual rewrite targets.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26t1554-apps-runtime-api-ui-audit-05-phase2--7cd699261e.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-26t1554-apps-runtime-api-ui-audit-06-phase3--2b459b8d97",
+		"title": "Phase 3 — Thirty Additional Improvements",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26T1554-apps-runtime-api-ui-audit/06_PHASE3_CRITIQUE_30_ADDITIONAL_IMPROVEMENTS.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase 3 — Thirty Additional Improvements",
+				"anchor": "phase-3-thirty-additional-improvements"
+			},
+			{
+				"level": 2,
+				"text": "Thirty New Improvements Beyond The Earlier Passes",
+				"anchor": "thirty-new-improvements-beyond-the-earlier-passes"
+			},
+			{
+				"level": 2,
+				"text": "Revelation From Earlier Plans",
+				"anchor": "revelation-from-earlier-plans"
+			},
+			{
+				"level": 2,
+				"text": "Final Planning Gate",
+				"anchor": "final-planning-gate"
+			}
+		],
+		"excerpt": "B\"H Phase 3 — Thirty Additional Improvements The Awtsmoos renews every byte before the browser can name it; the final critique must catch what earlier vision could not frame it. Awtsmoos.com is not improved by noise, but by proof that each vessel serves the whole without blame. Thirty New Improvements Beyond The Earlie",
+		"searchText": "b\"h phase 3 — thirty additional improvements the awtsmoos renews every byte before the browser can name it; the final critique must catch what earlier vision could not frame it. awtsmoos.com is not improved by noise, but by proof that each vessel serves the whole without blame. thirty new improvements beyond the earlier passes 1. record the exact server process, ports, working directory, and start command before reproducing browser behavior. 2. distinguish source routes from generated/copied public routes so fixes land in the authoritative source. 3. search git history for recent renames of foundation.js, apps filter.js, and /apps assets before assuming deletion was accidental. 4. trace every import from the /apps entry module recursively until the dependency graph closes. 5. record whether each import is relative, root relative, bare, dynamically constructed, or import map resolved. 6. inspect tags and url construction helpers because they can corrupt otherwise valid relative imports. 7. verify trailing slash and no trailing slash variants where the server treats them differently. 8. test direct requests for module files independently of page navigation to separate routing defects from browser execution defects. 9. check head and get behavior where static middleware or cdn paths differ. 10. inspect redirects on module requests; a redirect into an api/json route is still a mime failure even when final status is 200. 11. record cache control/etag behavior so a repaired module is not masked by stale browser or cdn cache. 12. force one cache disabled browser verification pass after fixes. 13. search for service workers that may intercept /apps or static requests and test with their influence understood. 14. inspect import maps and modulepreload links for stale paths. 15. verify stylesheet imports and font requests separately from javascript so a page can be visually complete as well as executable. 16. validate favicon and web manifest links from the root page family rather than fixing only the visible 404 symptom. 17. track all non 2xx responses by resource type to avoid treating intentional api 401/404 responses as static failures. 18. for apis, verify method semantics and idempotency before introducing retries or caching. 19. audit json parsing paths for empty body, non json, 204, malformed json, and structured error responses. 20. audit fetch cancellation on route changes or component disposal to prevent stale state mutations. 21. audit concurrent request races where late responses can overwrite newer ui state. 22. audit dom rendering for escaped text versus intentionally trusted html to avoid turning ui cleanup into injection risk. 23. audit event listener lifecycle and observer cleanup on spa like or repeatedly mounted pages. 24. audit resize/scroll/media listeners for throttling and cleanup where cinematic ui could otherwise leak work. 25. measure layout overflow at each viewport and detect horizontal scroll that is not intentionally owned by a component. 26. verify touch targets and hover only affordances so movie friendly desktop styling does not break mobile use. 27. verify high contrast/focus visibility against actual backgrounds, not merely presence of css properties. 28. before committing unrelated work, classify every changed path as user work, concurrent agent work, generated evidence, local only artifact, or secret risk. 29. after push, compare local head to remote branch head rather than assuming git push output alone proves synchronization. 30. after deployment, crawl the canonical live host separately from localhost because cdn, case sensitivity, headers, and path rewrites can differ from the mac. revelation from earlier plans phase 1 was imaginative; phase 2 made it contractual. this third pass adds provenance across process, cache, redirect, service worker, import map, concurrency, lifecycle, security, and live host differences. the central correction is that a browser error is rarely just one missing file: resolution crosses filesystem, routing, headers, cache, browser state, and deployment layers. final planning gate no production rewrite begins until the repository state, authoritative source path, /apps dependency graph, runtime server, and live browser failure are all observed directly.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26t1554-apps-runtime-api-ui-audit-06-phase3--2b459b8d97.json"
+	}
+]

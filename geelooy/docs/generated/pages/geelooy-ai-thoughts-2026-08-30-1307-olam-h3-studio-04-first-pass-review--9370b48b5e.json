@@ -1,0 +1,69 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-30-1307-olam-h3-studio-04-first-pass-review--9370b48b5e",
+	"title": "First-Pass Review and Second-Pass Split Plan",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-30-1307-olam-h3-studio/04-first-pass-review-and-split-plan.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "First-Pass Review and Second-Pass Split Plan",
+			"anchor": "first-pass-review-and-second-pass-split-plan"
+		},
+		{
+			"level": 2,
+			"text": "Evidence from reread and measurement",
+			"anchor": "evidence-from-reread-and-measurement"
+		},
+		{
+			"level": 2,
+			"text": "Second-pass exact structural changes",
+			"anchor": "second-pass-exact-structural-changes"
+		},
+		{
+			"level": 3,
+			"text": "Shell",
+			"anchor": "shell"
+		},
+		{
+			"level": 3,
+			"text": "Catalog",
+			"anchor": "catalog"
+		},
+		{
+			"level": 3,
+			"text": "CSS",
+			"anchor": "css"
+		},
+		{
+			"level": 3,
+			"text": "UI controllers/views",
+			"anchor": "ui-controllers-views"
+		},
+		{
+			"level": 3,
+			"text": "H3 domain/server",
+			"anchor": "h3-domain-server"
+		},
+		{
+			"level": 3,
+			"text": "Cache and import",
+			"anchor": "cache-and-import"
+		},
+		{
+			"level": 2,
+			"text": "Test gate after second-pass production rewrite",
+			"anchor": "test-gate-after-second-pass-production-rewrite"
+		},
+		{
+			"level": 2,
+			"text": "NEXTACTION",
+			"anchor": "nextaction"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-30-1307-olam-h3-studio-04-first-pass-review--9370b48b5e-001.json"
+	]
+}

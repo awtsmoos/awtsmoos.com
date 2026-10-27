@@ -1,0 +1,91 @@
+[
+	{
+		"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-eacd208a3d",
+		"title": "Release truth and plugin integration gates",
+		"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/RELEASE_AND_INTEGRATION_GATES.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 2,
+				"text": "Current tunnel integration takes precedence",
+				"anchor": "current-tunnel-integration-takes-precedence"
+			},
+			{
+				"level": 1,
+				"text": "Release truth and plugin integration gates",
+				"anchor": "release-truth-and-plugin-integration-gates"
+			},
+			{
+				"level": 2,
+				"text": "Deployment stages",
+				"anchor": "deployment-stages"
+			},
+			{
+				"level": 2,
+				"text": "Plugin quality",
+				"anchor": "plugin-quality"
+			},
+			{
+				"level": 2,
+				"text": "Stop or continue",
+				"anchor": "stop-or-continue"
+			},
+			{
+				"level": 2,
+				"text": "Native tunnel implementation checks",
+				"anchor": "native-tunnel-implementation-checks"
+			},
+			{
+				"level": 2,
+				"text": "Deeper execution and recovery rules",
+				"anchor": "deeper-execution-and-recovery-rules"
+			}
+		],
+		"excerpt": "Current tunnel integration takes precedence This reference retains the user's original ideas. Its historical transport names, fixed action lists, local thought folder defaults, retry assumptions and installation advice are superseded by MODERN TUNNEL CONTRACT.md and the current authenticated instructionResolve/instruct",
+		"searchText": "current tunnel integration takes precedence this reference retains the user's original ideas. its historical transport names, fixed action lists, local thought folder defaults, retry assumptions and installation advice are superseded by modern tunnel contract.md and the current authenticated instructionresolve/instructionget results. use tunnel native plans and bounded operational summaries; do not publish hidden chain of thought. treat brainstorming as proposals, not authorization to implement unrelated work. preserve user scope. use mcp's required post transport; get is an http fallback only. never infer tool access from prose. no arbitrary number of tests, critiques or improvements substitutes for real relevant verification. release truth and plugin integration gates use this when a code change is deployed or a plugin update is published. distinguish each stage and verify the user's actual target. deployment stages build success proves only that the build completed. upload success proves transfer. activation proves the host selected a release. a live fetch proves the public url responded. user visible behavior needs a relevant ui or api check. compare the live response with a unique marker, content hash, or revision from the intended build. do not infer deployment from a git push. if a cdn returns older bytes, report the observed response and deployment receipt separately; do not repeat a deployment blindly. verify a public url exposes only intended output, never a private source folder or credentials. check desktop and mobile behavior when the change affects both. use the smallest meaningful view and interaction checks. attach each completion claim to its evidence: readback, test result, request receipt, live response, or screenshot. state remaining untested paths plainly. plugin quality tool names and descriptions must distinguish read, write, command, and destructive effects. include required oauth scope and side effects in callable tool metadata, not only a reference document. use a read only preview for consequential writes if the actual server supports one. do not claim a preview exists without checking. give operations stable request ids when the server supports them, and use status lookup after a timeout before replay. in a plugin connection, a profile tool should identify the awtsmoos account without exposing a token. a status only health check should read no private files. confirm the current chatgpt plan and surface before instructing the user to find developer settings. keep old gpt actions, plugin skill instructions, mcp apps, and direct https clients conceptually separate. after publishing an instruction update, read back the release, then test behavior in a fresh plugin invocation when possible. a current conversation may retain an older skill snapshot. do not conflate “instructions published,” “tool attached,” “oauth granted,” “route discovered,” and “mac action verified.” each has its own evidence. stop or continue continue while a concrete, authorized, relevant next action can improve the mission. stop when verification is sufficient and another pass finds no material issue, or when a real blocker or explicit user stop applies. preserve a resumable ledger if disconnected. never claim the agent will continue running after the session ends without an actual scheduled or persistent worker. native tunnel implementation checks bind a write to the verified account, live route, native device identity, and observed generation. recheck that binding immediately before a consequential action; a healthy route alone does not prove that the intended mac or generation is serving it. native writeifhash and bulkwriteifhashes already exist. prefer their hashes and inspect rollback results. a multi file batch may roll back after a partial commit; only a final committed receipt proves all files changed. do not call the batch a filesystem wide atomic transaction. before retrying a timed out mutation, look up its task or transport receipt and reconcile target hashes. reuse an idempotency key only if the deployed endpoint explicitly supports deduplication; a request id by itself is correlation, not exactly once execution. for multi file activation, stage and verify the complete set, then use a single supported activation point. if the service has no such primitive, record each path's old hash, new hash, receipt, and rollback outcome, and report partial state precisely. report transport connection, account authorization, native generation readiness, command execution, target file verification, and plugin release visibility as distinct observations. a plugin update can teach these checks but cannot itself install callable oauth actions or a durable worker. verify an action's actual tool registration and scopes, and verify worker scheduling, ownership, cancellation, and persistence before claiming either capability. define a measurable done condition and a bounded improvement pass. stop when checks establish the requested behavior and no material defect remains; preserve the ledger for future work. deeper execution and recovery rules separate intent id from attempt id. bind approvals to account, device, native generation, path, previous hash, proposed hash, and expiry; changed bytes require a fresh approval. preserve a queryable terminal receipt with outcome, final hash, and retention period. a timed out submission with an expired or missing receipt needs target reconciliation before any replay. treat deduplication as scoped by account, action, key, and payload fingerprint. reject reuse of one explicit key with different content. in memory cache expiry or process restart is not a durable exactly once guarantee. before rollback, compare current bytes with the batch's own post write hash. if different, preserve the newer bytes and report rollback conflict. a compare immediately before rename reduces a race but does not eliminate it across uncoordinated processes; use a shared lock or atomic compare and swap where the service provides one. for an atomic multi file release, stage every file, verify content hashes, and change one version pointer. otherwise expose a partial write ledger and verify every rollback result. resolve real target identity and symlink policy before admitting a batch. treat case aliases and duplicate paths as one target where appropriate to the host filesystem. time stamp each health observation; check authorization, transport, intended device, active generation, command acceptance, terminal execution, file readback, and public deployment separately. a fresh challenge answered by the intended native process can establish recent process liveness, but not prove a later write succeeded. keep mission records limited to authorized scope, exact verified artifacts, evidence, next safe step, and explicit stop condition. reconcile stale records against live hashes and receipts on return. a real background worker requires durable queueing, ownership lease, heartbeat, expiration, cancellation, authorization boundary, and duplicate executor protection. do not claim background continuation merely because a mission ledger exists. the source repository may contain local unshipped fixes. check git revision on the actual device and live service before relying on these behaviors; plugin instructions cannot deploy source changes.",
+		"page": "pages/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-eacd208a3d.json"
+	},
+	{
+		"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-15675d5871",
+		"title": "Resume and verify the Awtsmoos tunnel",
+		"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/RESUMABLE_CLIENT_AND_CHANNEL_EVIDENCE.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Resume and verify the Awtsmoos tunnel",
+				"anchor": "resume-and-verify-the-awtsmoos-tunnel"
+			},
+			{
+				"level": 2,
+				"text": "Preserve one execution",
+				"anchor": "preserve-one-execution"
+			},
+			{
+				"level": 2,
+				"text": "Diagnose channel health separately",
+				"anchor": "diagnose-channel-health-separately"
+			},
+			{
+				"level": 2,
+				"text": "Keep bounded parallel work responsive",
+				"anchor": "keep-bounded-parallel-work-responsive"
+			},
+			{
+				"level": 2,
+				"text": "Preserve accepted work during upgrades",
+				"anchor": "preserve-accepted-work-during-upgrades"
+			},
+			{
+				"level": 2,
+				"text": "Checkpoint work and enforce frontend evidence",
+				"anchor": "checkpoint-work-and-enforce-frontend-evidence"
+			}
+		],
+		"excerpt": "Resume and verify the Awtsmoos tunnel Discover the current action schemas and instruction generation before using any operation below. Keep the immutable authorized device route, root, ownership and granted scopes bound to the work. The Awtsmoos narrative accompanies the evidence; never turn a waiting receipt into a cl",
+		"searchText": "resume and verify the awtsmoos tunnel discover the current action schemas and instruction generation before using any operation below. keep the immutable authorized device route, root, ownership and granted scopes bound to the work. the awtsmoos narrative accompanies the evidence; never turn a waiting receipt into a claim that execution succeeded. preserve one execution save the original controlrequestid, clientrequestid, nonce, traceid, owner and requested action before dispatch. save the complete observewith or retrypayload receipt before waiting. pending means observe the existing request using retryaction with its complete identity, including requestedaction. a pending commandwait is itself an observation receipt; reconcile it rather than issue replacement waits repeatedly. never pull job ids or output from a mismatched response's diagnostic body. a commandrun may finish inline with stdout, stderr and integer exitcode, including empty successful output. otherwise preserve jobid and ownership, observe terminal status, and read both streams through advancing output cursors. early stdout is not success. record nonzero exit status and partial/unavailable output honestly. use the repository's scripts/tunnel/reliablecommandclient.cjs for separately authorized node clients. set awtsmoos command checkpoint to a private per command path outside git; supply the same endpoint, command and cwd when resuming. the journal binds those inputs, admits one living owner, saves atomically and keeps bounded redacted trace events. a lost dispatch reply resumes by observing the saved identity, never submitting a replacement command. corrupt checkpoints block; they never silently reset. a completed checkpoint returns its recorded result. inspect the current script and guide before relying on platform specific behavior. tokens stay outside source, urls, trace logs and handoffs. diagnose channel health separately use tunnelconnectiondiagnostics for retained connection transitions and tunnelworkhealth for process, relay, repository and explicitly unverified checks. then perform only task relevant authorized probes: harmless owned command with exact expected stdout and exit code; temporary scoped file write/read/hash/cleanup; browser capture and real image inspection when ui work is involved. an installed mac localhost test is distinct from an authenticated external relay or mcp test. report each boundary and timestamps separately. carry one traceid through ingress, command receipt and follow up observations. capture request/control/job ids, requested action, receipt state, deviceaccepted, progressphase, timestamps and current generation when returned. never log credentials, unrestricted request bodies, private file contents or commands in shared diagnostics. compare client trace events with action history/stream and connection diagnostics discovered through their current schemas. missing acceptance evidence is not proof of command failure or permission to resend. keep bounded parallel work responsive use existing reserved lanes and per owner queues. begin with a small measured bound, leave health/status/cancellation capacity, serialize same path writes and same conversation browser sends, and reduce admission after overload. preserve retry timing and receipts instead of polling tightly. measure p50/p95 and failures at the actual authorized external route; local speed alone does not prove internet performance. do not create competing schedulers or watchdogs. preserve accepted work during upgrades use the canonical candidate/promote and deployment process, retaining immutable device identity and the last working runtime. prove candidate registration and actual command capability before promotion; retain owner fencing and recovery evidence. do not kill the live runtime for a test while other workers are using it. test process death, reconnect, duplicate delivery, cancellation and corrupted state in isolated fixtures first. a harness simulation is not a live restart. after activation separately verify running version, public release and an authenticated intended client operation. checkpoint work and enforce frontend evidence begin or resume the existing tunnelwork record and plan. record completed checks, remaining work, exact source/release, pending receipts, retry budget, blockers and next authorized action using the current revision. fetch and read injected instructions, then acknowledge only their exact hash. refresh after scope, generation or source changes. resolve revision conflicts before updating. for frontend work read css and external visual verification.md. fix the owning cascade, run real width/interaction/computed style checks, transfer every required screenshot with exact byte/hash verification, and inspect the images with the agent host's image tools. use explicit passed/failed/blocked reviewverdict. work/release gates must remain blocked for unresolved css, stale source, missing images or unverified review. instructions cannot guarantee an agent obeys; runtime gates enforce the checks they can actually verify. continue independent authorized work and give factual updates at least once per minute. save a handoff before stopping. durable jobs may survive a chat turn; these skills do not extend the host's turn lifetime or authorize new providers, unbounded costs, indefinite browser prompting or expanded account access.",
+		"page": "pages/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-15675d5871.json"
+	}
+]

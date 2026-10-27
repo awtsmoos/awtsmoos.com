@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-26-ui-api-total-sovereignty-00-remaining-wor-7de04f778e",
+	"title": "REMAINING WORK — UI/API Total Sovereignty",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-26-ui-api-total-sovereignty/00_REMAINING_WORK.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "REMAINING WORK — UI/API Total Sovereignty",
+			"anchor": "remaining-work-ui-api-total-sovereignty"
+		},
+		{
+			"level": 2,
+			"text": "Global UI work",
+			"anchor": "global-ui-work"
+		},
+		{
+			"level": 2,
+			"text": "Immediate family: authentication",
+			"anchor": "immediate-family-authentication"
+		},
+		{
+			"level": 2,
+			"text": "Shared JS/API work",
+			"anchor": "shared-js-api-work"
+		},
+		{
+			"level": 2,
+			"text": "Page-family migration order",
+			"anchor": "page-family-migration-order"
+		},
+		{
+			"level": 2,
+			"text": "Verification",
+			"anchor": "verification"
+		},
+		{
+			"level": 2,
+			"text": "NEXTACTION",
+			"anchor": "nextaction"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-26-ui-api-total-sovereignty-00-remaining-wor-7de04f778e-001.json"
+	]
+}

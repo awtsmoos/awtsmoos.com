@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-28-1423-data-only-movie-protocol-04-improved-a757043b8a",
+	"title": "Improved Plan",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-28-1423-data-only-movie-protocol/04-improved-plan.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Improved Plan",
+			"anchor": "improved-plan"
+		},
+		{
+			"level": 2,
+			"text": "Architecture",
+			"anchor": "architecture"
+		},
+		{
+			"level": 2,
+			"text": "Migration strategy",
+			"anchor": "migration-strategy"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-28-1423-data-only-movie-protocol-04-improved-a757043b8a-001.json"
+	]
+}

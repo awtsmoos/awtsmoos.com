@@ -1,0 +1,273 @@
+[
+	{
+		"id": "geelooy-api-social-helper-platform-jobs-readme-md-5a48254dda",
+		"title": "B\"H — Platform Jobs (geelooy/api/social/helper/platform/jobs/)",
+		"sourcePath": "geelooy/api/social/helper/platform/jobs/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Platform Jobs (geelooy/api/social/helper/platform/jobs/)",
+				"anchor": "b-h-platform-jobs-geelooy-api-social-helper-platform-jobs"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "B\"H — Platform Jobs (geelooy/api/social/helper/platform/jobs/) Background job system for the social platform: admission, queueing, leasing, workers, ownership, health, and settlement. Files jobQueue.js, jobAdmission.js, jobDrain.js — queue, admission, draining. jobWorker.js, jobWorkerPolicy.js — workers and their polic",
+		"searchText": "b\"h — platform jobs (geelooy/api/social/helper/platform/jobs/) background job system for the social platform: admission, queueing, leasing, workers, ownership, health, and settlement. files jobqueue.js, jobadmission.js, jobdrain.js — queue, admission, draining. jobworker.js, jobworkerpolicy.js — workers and their policy. joblease.js, joblock.js, jobownership.js, jobownerservice.js — leasing, locking, ownership. jobstore.js, jobactiveindex.js — storage and active job index. jobhealth.js, jobpolicy.js, jobsettlement.js — health, policy, settlement. .test.js — jobactiveindex, jobhealth, jobownerservice, jobqueue, jobworker tests.",
+		"page": "pages/geelooy-api-social-helper-platform-jobs-readme-md-5a48254dda.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-platform-readme-md-b6ffc3eb59",
+		"title": "B\"H — Platform (geelooy/api/social/helper/platform/)",
+		"sourcePath": "geelooy/api/social/helper/platform/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Platform (geelooy/api/social/helper/platform/)",
+				"anchor": "b-h-platform-geelooy-api-social-helper-platform"
+			},
+			{
+				"level": 2,
+				"text": "Key files",
+				"anchor": "key-files"
+			},
+			{
+				"level": 2,
+				"text": "Main route families",
+				"anchor": "main-route-families"
+			}
+		],
+		"excerpt": "B\"H — Platform (geelooy/api/social/helper/platform/) Platform wide social primitives shared by all surfaces: feeds, follows, live presence, jobs, search, graph transactions, Q&A, moderation, caching, and sync. Key files feedRoutes.js — feed logic; follow.js — follows/relationships. live.js — live presence/publish/subsc",
+		"searchText": "b\"h — platform (geelooy/api/social/helper/platform/) platform wide social primitives shared by all surfaces: feeds, follows, live presence, jobs, search, graph transactions, q&a, moderation, caching, and sync. key files feedroutes.js — feed logic; follow.js — follows/relationships. live.js — live presence/publish/subscribe; platformstore.js — platform store. jobrunner.js + jobs/ — background job system (queue, leases, workers, admission, health, settlement). search.js, commentthreads.js — platform search and ranked comment threads. graphtransactions.js — atomic graph writes. cachesync.js, ops.js, ratelimit.js — cache sync, ops, rate limiting. routes/ — platform http routes (see its readme for endpoints). main route families /feed/ (home, discover, trending, popular, latest, personalized, heichel), /live/ (presence, publish, subscribe, replay), /jobs/ (enqueue, run), /mod/ (actions, reports, queues, escalations), /sync/ (op, pull), /qa/ (questions, answers, best), /relationships/ , /cache/ , /media/ , /notifications/digest/:alias, /permissions/compile, /graph/transaction, /federation/import, /analytics/metric, /search/ , /abuse/ratelimit/check.",
+		"page": "pages/geelooy-api-social-helper-platform-readme-md-b6ffc3eb59.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-platform-routes-readme-md-269018504b",
+		"title": "B\"H — Platform Routes (geelooy/api/social/helper/platform/routes/)",
+		"sourcePath": "geelooy/api/social/helper/platform/routes/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Platform Routes (geelooy/api/social/helper/platform/routes/)",
+				"anchor": "b-h-platform-routes-geelooy-api-social-helper-platform-routes"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			},
+			{
+				"level": 2,
+				"text": "Endpoint families",
+				"anchor": "endpoint-families"
+			}
+		],
+		"excerpt": "B\"H — Platform Routes (geelooy/api/social/helper/platform/routes/) HTTP routes for platform primitives, mounted via awtsmoos.platform.js. Files PlatformFeedThreadRoutes.js — feed + comment thread routes. PlatformLiveDiscoveryRoutes.js — live presence and discovery routes. PlatformOpsRoutes.js — ops routes (cache, metri",
+		"searchText": "b\"h — platform routes (geelooy/api/social/helper/platform/routes/) http routes for platform primitives, mounted via awtsmoos.platform.js. files platformfeedthreadroutes.js — feed + comment thread routes. platformlivediscoveryroutes.js — live presence and discovery routes. platformopsroutes.js — ops routes (cache, metrics, jobs). platformqaroutes.js — q&a routes. platformruntimeroutes.js — runtime routes (sync, graph transactions, federation). platformroutetools.js — shared route tooling. endpoint families /feed/ , /live/ , /jobs/ , /mod/ , /sync/ , /qa/ , /relationships/ , /cache/ , /media/ , /notifications/digest/:alias, /permissions/compile, /graph/transaction, /federation/import, /analytics/metric, /search/ , /abuse/ratelimit/check. see ../readme.md for the full list.",
+		"page": "pages/geelooy-api-social-helper-platform-routes-readme-md-269018504b.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-post-readme-md-3aec745a4b",
+		"title": "B\"H — Post (geelooy/api/social/helper/post/)",
+		"sourcePath": "geelooy/api/social/helper/post/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Post (geelooy/api/social/helper/post/)",
+				"anchor": "b-h-post-geelooy-api-social-helper-post"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			},
+			{
+				"level": 2,
+				"text": "Routes (examples)",
+				"anchor": "routes-examples"
+			}
+		],
+		"excerpt": "B\"H — Post (geelooy/api/social/helper/post/) Post/series read and submission helpers for the social API. Files index.js — module entry. seriesRecordReader.js, seriesReadCache.js, seriesReadCompatibility.js — series record reads with caching and compatibility shims. meluketSeriesMap.js, seriesKeyCompleteness.js — Meluke",
+		"searchText": "b\"h — post (geelooy/api/social/helper/post/) post/series read and submission helpers for the social api. files index.js — module entry. seriesrecordreader.js, seriesreadcache.js, seriesreadcompatibility.js — series record reads with caching and compatibility shims. meluketseriesmap.js, serieskeycompleteness.js — meluket series mapping and series key completeness checks. submissions.js — post submissions (review workflow). test/ — submission fixture, submission review convergence, series key completeness, series read compatibility (incl. singular and single enumeration), postsubmissionfixture.js. routes (examples) /social/heichelos/h1/editors, /social/heichelos/h1/moderators, /social/heichelos/h1/settings/submissions /ownership",
+		"page": "pages/geelooy-api-social-helper-post-readme-md-3aec745a4b.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-post-test-readme-md-efd13df3b7",
+		"title": "B\"H — Post Tests (geelooy/api/social/helper/post/test/)",
+		"sourcePath": "geelooy/api/social/helper/post/test/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Post Tests (geelooy/api/social/helper/post/test/)",
+				"anchor": "b-h-post-tests-geelooy-api-social-helper-post-test"
+			}
+		],
+		"excerpt": "B\"H — Post Tests (geelooy/api/social/helper/post/test/) Tests for post submissions and series reads. postSubmissions.test.js, postSubmissionFixture.js — submission flows. postSubmissionReviewConvergence.test.js — review convergence. seriesKeyCompleteness.test.js — series key completeness. seriesReadCompatibility.test.j",
+		"searchText": "b\"h — post tests (geelooy/api/social/helper/post/test/) tests for post submissions and series reads. postsubmissions.test.js, postsubmissionfixture.js — submission flows. postsubmissionreviewconvergence.test.js — review convergence. serieskeycompleteness.test.js — series key completeness. seriesreadcompatibility.test.js, singularseriesreadcompatibility.test.js, seriesreadsingleenumeration.test.cjs — read compatibility.",
+		"page": "pages/geelooy-api-social-helper-post-test-readme-md-efd13df3b7.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-profile-pagination-readme-md-8fc1b78d9b",
+		"title": "B\"H — Profile Pagination (geelooy/api/social/helper/profile/pagination/)",
+		"sourcePath": "geelooy/api/social/helper/profile/pagination/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Profile Pagination (geelooy/api/social/helper/profile/pagination/)",
+				"anchor": "b-h-profile-pagination-geelooy-api-social-helper-profile-pagination"
+			}
+		],
+		"excerpt": "B\"H — Profile Pagination (geelooy/api/social/helper/profile/pagination/) Chronological pagination for profile feeds. ChronologicalPagination.js — cursor based chronological pagination. test/ — ChronologicalPagination.test.js.",
+		"searchText": "b\"h — profile pagination (geelooy/api/social/helper/profile/pagination/) chronological pagination for profile feeds. chronologicalpagination.js — cursor based chronological pagination. test/ — chronologicalpagination.test.js.",
+		"page": "pages/geelooy-api-social-helper-profile-pagination-readme-md-8fc1b78d9b.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-profile-pagination-test-readme-md-ab18cf7264",
+		"title": "B\"H — Profile Pagination Tests (geelooy/api/social/helper/profile/pagination/test/)",
+		"sourcePath": "geelooy/api/social/helper/profile/pagination/test/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Profile Pagination Tests (geelooy/api/social/helper/profile/pagination/test/)",
+				"anchor": "b-h-profile-pagination-tests-geelooy-api-social-helper-profile-pagination-test"
+			}
+		],
+		"excerpt": "B\"H — Profile Pagination Tests (geelooy/api/social/helper/profile/pagination/test/) Pagination tests. ChronologicalPagination.test.js — chronological pagination behavior.",
+		"searchText": "b\"h — profile pagination tests (geelooy/api/social/helper/profile/pagination/test/) pagination tests. chronologicalpagination.test.js — chronological pagination behavior.",
+		"page": "pages/geelooy-api-social-helper-profile-pagination-test-readme-md-ab18cf7264.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-profile-posts-readme-md-8918c4c1af",
+		"title": "B\"H — Profile Posts (geelooy/api/social/helper/profile/posts/)",
+		"sourcePath": "geelooy/api/social/helper/profile/posts/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Profile Posts (geelooy/api/social/helper/profile/posts/)",
+				"anchor": "b-h-profile-posts-geelooy-api-social-helper-profile-posts"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "B\"H — Profile Posts (geelooy/api/social/helper/profile/posts/) Post collection and projection for profiles: gather posts across series/Heichelos and project them into profile views. Files PostCollector.js — collects posts for an alias. PostCoordinates.js — locates posts (heichel/series/post coordinates). PostProjection",
+		"searchText": "b\"h — profile posts (geelooy/api/social/helper/profile/posts/) post collection and projection for profiles: gather posts across series/heichelos and project them into profile views. files postcollector.js — collects posts for an alias. postcoordinates.js — locates posts (heichel/series/post coordinates). postprojection.js — projects post records into profile view shape. postsbyalias.js — posts grouped by alias. test/ — postprojectiontruth.test.js.",
+		"page": "pages/geelooy-api-social-helper-profile-posts-readme-md-8918c4c1af.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-profile-posts-test-readme-md-b316869797",
+		"title": "B\"H — Profile Posts Tests (geelooy/api/social/helper/profile/posts/test/)",
+		"sourcePath": "geelooy/api/social/helper/profile/posts/test/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Profile Posts Tests (geelooy/api/social/helper/profile/posts/test/)",
+				"anchor": "b-h-profile-posts-tests-geelooy-api-social-helper-profile-posts-test"
+			}
+		],
+		"excerpt": "B\"H — Profile Posts Tests (geelooy/api/social/helper/profile/posts/test/) Profile post projection tests. PostProjectionTruth.test.js — post projection truth/grounding.",
+		"searchText": "b\"h — profile posts tests (geelooy/api/social/helper/profile/posts/test/) profile post projection tests. postprojectiontruth.test.js — post projection truth/grounding.",
+		"page": "pages/geelooy-api-social-helper-profile-posts-test-readme-md-b316869797.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-profile-readme-md-e11cef42c2",
+		"title": "B\"H — Profile (geelooy/api/social/helper/profile/)",
+		"sourcePath": "geelooy/api/social/helper/profile/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Profile (geelooy/api/social/helper/profile/)",
+				"anchor": "b-h-profile-geelooy-api-social-helper-profile"
+			},
+			{
+				"level": 2,
+				"text": "Key files",
+				"anchor": "key-files"
+			},
+			{
+				"level": 2,
+				"text": "Main endpoints (via helper/routes/profile/)",
+				"anchor": "main-endpoints-via-helper-routes-profile"
+			}
+		],
+		"excerpt": "B\"H — Profile (geelooy/api/social/helper/profile/) The profile domain: public profiles, feeds, discovery, follows, trending, posts, comments, activity, stats, and Heichel discovery. Mounted via awtsmoos.profile.js and helper/routes/profile/. Key files readProfile.js, writeProfile.js, sanitize.js, paths.js, apiTools.js ",
+		"searchText": "b\"h — profile (geelooy/api/social/helper/profile/) the profile domain: public profiles, feeds, discovery, follows, trending, posts, comments, activity, stats, and heichel discovery. mounted via awtsmoos.profile.js and helper/routes/profile/. key files readprofile.js, writeprofile.js, sanitize.js, paths.js, apitools.js — profile crud and helpers. activity.js, history.js, stats.js, tree.js — activity, history, stats, alias tree. follows.js — follow relationships. discovery .js (discovery, discoveryfeed, discoveryinsights, discoveryoperations, discoverysearch) — discovery surfaces. heicheldiscovery.js, heicheldiscoveryids.js, heichelos.js — heichel discovery. feedfairness.js — fair feed ranking. livingcard.js, templates.js — living cards and profile templates. comments.js, commentbrowse.js, posts.js — profile comments and posts. publicaliases.js, publicaliasranking.js, publicsites.js — public alias directory. openapi.js — openapi spec; heichelpublicationpolicy.js — publication policy. subdirs: pagination/ (chronologicalpagination), posts/ (postcollector/projection/coordinates/postsbyalias), trending/ (trendingranker/score), test/. main endpoints (via helper/routes/profile/) /profile/:alias, /profiles/:alias (+ /activity, /comments, /posts, /heichelos, /series tree, /tree, /analytics, /graph, /history, /living card, /comment series), /profile/feed, /profile/batch, /trending, /feed, /search, /heichelos/discover, /recommendations/:alias, /alias/:alias/history profile, /follows/:alias, /followers/:type/:id, /bulk, /events, /meta, /openapi.json, /profile/templates.",
+		"page": "pages/geelooy-api-social-helper-profile-readme-md-e11cef42c2.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-profile-test-readme-md-260fe93b02",
+		"title": "B\"H — Profile Tests (geelooy/api/social/helper/profile/test/)",
+		"sourcePath": "geelooy/api/social/helper/profile/test/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Profile Tests (geelooy/api/social/helper/profile/test/)",
+				"anchor": "b-h-profile-tests-geelooy-api-social-helper-profile-test"
+			}
+		],
+		"excerpt": "B\"H — Profile Tests (geelooy/api/social/helper/profile/test/) Profile domain tests. DiscoveryContentKind.test.js — discovery content kinds. HeichelDiscoveryPrivacy.test.js — Heichel discovery privacy rules. HeichelPublicationPolicy.test.js — publication policy. PublicSites.test.js — public sites behavior.",
+		"searchText": "b\"h — profile tests (geelooy/api/social/helper/profile/test/) profile domain tests. discoverycontentkind.test.js — discovery content kinds. heicheldiscoveryprivacy.test.js — heichel discovery privacy rules. heichelpublicationpolicy.test.js — publication policy. publicsites.test.js — public sites behavior.",
+		"page": "pages/geelooy-api-social-helper-profile-test-readme-md-260fe93b02.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-profile-trending-readme-md-0caea851a4",
+		"title": "B\"H — Profile Trending (geelooy/api/social/helper/profile/trending/)",
+		"sourcePath": "geelooy/api/social/helper/profile/trending/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Profile Trending (geelooy/api/social/helper/profile/trending/)",
+				"anchor": "b-h-profile-trending-geelooy-api-social-helper-profile-trending"
+			}
+		],
+		"excerpt": "B\"H — Profile Trending (geelooy/api/social/helper/profile/trending/) Trending ranking for profiles/discovery. TrendingRanker.js — ranks trending aliases/posts. TrendingScore.js — computes trending scores. test/ — TrendingRanker.test.js, TrendingScore.test.js.",
+		"searchText": "b\"h — profile trending (geelooy/api/social/helper/profile/trending/) trending ranking for profiles/discovery. trendingranker.js — ranks trending aliases/posts. trendingscore.js — computes trending scores. test/ — trendingranker.test.js, trendingscore.test.js.",
+		"page": "pages/geelooy-api-social-helper-profile-trending-readme-md-0caea851a4.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-profile-trending-test-readme-md-76df489f8f",
+		"title": "B\"H — Profile Trending Tests (geelooy/api/social/helper/profile/trending/test/)",
+		"sourcePath": "geelooy/api/social/helper/profile/trending/test/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Profile Trending Tests (geelooy/api/social/helper/profile/trending/test/)",
+				"anchor": "b-h-profile-trending-tests-geelooy-api-social-helper-profile-trending-test"
+			}
+		],
+		"excerpt": "B\"H — Profile Trending Tests (geelooy/api/social/helper/profile/trending/test/) Trending tests. TrendingRanker.test.js — trending ranker behavior. TrendingScore.test.js — trending score computation.",
+		"searchText": "b\"h — profile trending tests (geelooy/api/social/helper/profile/trending/test/) trending tests. trendingranker.test.js — trending ranker behavior. trendingscore.test.js — trending score computation.",
+		"page": "pages/geelooy-api-social-helper-profile-trending-test-readme-md-76df489f8f.json"
+	}
+]

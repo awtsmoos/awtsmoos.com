@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Ohr HaGnuz API (geelooy/api/ohr-hagnuz/)\n\nPrivate Ohr HaGnuz authenticated HTTP surface: HTTP game tickets plus the\nrealtime world, isolated from tunnel-control and every other dynamic\napplication. All credential responses are marked no-store.\n\n## Contents\n- `_awtsmoos.derech.js` — mounts the immutable `routes/table.js` route table;\n  sets `Cache-Control: no-store`, `Vary: Cookie, Authorization`.\n- `DOCUMENTATION.md` — full docs; ticket route sits beside the registered\n  WebSocket application.\n- `auth/` — game ticket auth: issuer, claims, store (+ test).\n- `routes/` — route table: `realtime-ticket`.\n\n## Endpoints\n- `realtime-ticket` — issues a one-use online-journey ticket, only for an\n  authenticated account and only when identity, origin, slot, and protocol agree.\n\n## Security\nGame credentials never mix with other apps; tickets are minted per account and\nspent once. See `auth/README.md` and `routes/README.md`.\n"
+}

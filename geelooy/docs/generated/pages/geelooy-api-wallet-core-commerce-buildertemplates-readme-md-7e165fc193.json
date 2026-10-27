@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-wallet-core-commerce-buildertemplates-readme-md-7e165fc193",
+	"title": "B\"H — Builder Templates (geelooy/api/wallet/core/commerce/builderTemplates/)",
+	"sourcePath": "geelooy/api/wallet/core/commerce/builderTemplates/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Builder Templates (geelooy/api/wallet/core/commerce/builderTemplates/)",
+			"anchor": "b-h-builder-templates-geelooy-api-wallet-core-commerce-buildertemplates"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-wallet-core-commerce-buildertemplates-readme-md-7e165fc193-001.json"
+	]
+}

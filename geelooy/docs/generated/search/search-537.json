@@ -1,0 +1,190 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-docs-production-roadmap-02-world-simulation-m-2c511a0a65",
+		"title": "World and Simulation",
+		"sourcePath": "geelooy/games/mitzvahWorld/docs/production-roadmap/02-world-simulation.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "World and Simulation",
+				"anchor": "world-and-simulation"
+			},
+			{
+				"level": 2,
+				"text": "Terrain and geology",
+				"anchor": "terrain-and-geology"
+			},
+			{
+				"level": 2,
+				"text": "Hydrology",
+				"anchor": "hydrology"
+			},
+			{
+				"level": 2,
+				"text": "Connected geography and streaming",
+				"anchor": "connected-geography-and-streaming"
+			},
+			{
+				"level": 2,
+				"text": "Architecture",
+				"anchor": "architecture"
+			},
+			{
+				"level": 2,
+				"text": "Interiors",
+				"anchor": "interiors"
+			},
+			{
+				"level": 2,
+				"text": "Ecology and biomes",
+				"anchor": "ecology-and-biomes"
+			},
+			{
+				"level": 2,
+				"text": "Atmosphere and weather",
+				"anchor": "atmosphere-and-weather"
+			}
+		],
+		"excerpt": "B\"H World and Simulation Terrain and geology Build valleys, ridges, ravines, cliffs, terraces, erosion channels, scree, talus, soil depth, exposed bedrock, and coherent strata. Make material choice respond to slope, elevation, geology, moisture, exposure, traffic, and vegetation. Compose memorable silhouettes and vista",
+		"searchText": "b\"h world and simulation terrain and geology build valleys, ridges, ravines, cliffs, terraces, erosion channels, scree, talus, soil depth, exposed bedrock, and coherent strata. make material choice respond to slope, elevation, geology, moisture, exposure, traffic, and vegetation. compose memorable silhouettes and vistas rather than uniform procedural noise. keep roads, trails, terraces, retaining walls, foundations, and bridge approaches grade correct. hydrology model source to stream to tributary to waterfall to river to lake/coast as one connected graph. carve riverbeds and banks into terrain rather than floating water over land. track width, depth, slope, velocity, direction, pools, bends, shallow zones, and waterfall drops. add flow aware animation, foam, impact turbulence, mist, refraction, depth coloration, shoreline wetness, reflections, and spatial audio. define swimming, wading, current force, collision, drowning/fall recovery, and npc navigation around water. connected geography and streaming every distant visible destination should correspond to reachable coordinates. stream hierarchical region proxies, village clusters, buildings, interiors, vegetation, npcs, animals, and audio. add floating origin or equivalent precision strategy before map scale requires it. cross fade or otherwise conceal lod transitions and avoid pop storms. architecture expand village grammar into districts, parcels, streets, alleys, courtyards, stairs, terraces, gardens, stalls, porches, balconies, fences, drainage, lamps, signs, wells, and market infrastructure. build archetypes for homes, workshops, storage, farms, markets, beis midrash, shul, and communal structures. give buildings foundations, wall assemblies, beams, roofs, eaves, ridges, doors, windows, thresholds, stairs, and believable material scale. move reusable assembly logic toward procedural core. keep jewish architectural/content review separate from generic fantasy grammar. interiors generate connected room layouts, doors, furniture, lighting, collision, navigation, audio zones, and streaming. make beis midrash spaces genuinely usable with seforim, tables, benches, learning npcs, and torah interactions. prevent empty doorway flashes while interiors hydrate. ecology and biomes model meadow, forest, riparian, alpine, cultivated valley, highland, arid/desert, lake/coast, and garden zones. place vegetation from moisture, elevation, slope, sunlight, disturbance, roads, buildings, and hydrology. use instanced grass, flowers, shrubs, reeds, ground litter, crops, trees, and biome correct species structure. keep grass non pixelated and quality scalable. add wildlife habitat, herd/flock behavior, feeding, flee, sleep, and distant simulation tiers. atmosphere and weather complete day/night, golden hour, stars, moon, local lights, aerial perspective, fog, clouds, and exposure transitions. add rain, overcast, valley fog, and altitude appropriate snow where useful. weather must affect materials, water, npcs, wildlife, audio, visibility, and schedules while remaining performance bounded.",
+		"page": "pages/geelooy-games-mitzvahworld-docs-production-roadmap-02-world-simulation-m-2c511a0a65.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-docs-production-roadmap-03-gameplay-content-m-65c1464bd0",
+		"title": "Gameplay, Quests, Creator, and Persistence",
+		"sourcePath": "geelooy/games/mitzvahWorld/docs/production-roadmap/03-gameplay-content.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Gameplay, Quests, Creator, and Persistence",
+				"anchor": "gameplay-quests-creator-and-persistence"
+			},
+			{
+				"level": 2,
+				"text": "Bridge vertical slice",
+				"anchor": "bridge-vertical-slice"
+			},
+			{
+				"level": 2,
+				"text": "Quest architecture",
+				"anchor": "quest-architecture"
+			},
+			{
+				"level": 2,
+				"text": "Content loops",
+				"anchor": "content-loops"
+			},
+			{
+				"level": 2,
+				"text": "Torah and mitzvah systems",
+				"anchor": "torah-and-mitzvah-systems"
+			},
+			{
+				"level": 2,
+				"text": "Creator",
+				"anchor": "creator"
+			},
+			{
+				"level": 2,
+				"text": "Persistence",
+				"anchor": "persistence"
+			}
+		],
+		"excerpt": "B\"H Gameplay, Quests, Creator, and Persistence Bridge vertical slice Reuse one canonical AdventureStore across gameplay UI, rich quest presentation, rewards, persistence, map, and obstacle events. Add the Village Bridge Trial adventure with the existing activity / village bridge trial event. Mount the existing obstacle",
+		"searchText": "b\"h gameplay, quests, creator, and persistence bridge vertical slice reuse one canonical adventurestore across gameplay ui, rich quest presentation, rewards, persistence, map, and obstacle events. add the village bridge trial adventure with the existing activity / village bridge trial event. mount the existing obstacle runtime into the authoritative world loop. auto offer/activate the trial at the canonical start without breaking normal quest ui. grant exactly one canonical stone block through shlichusrewardservice. introduce a real damaged bridge01 deck gap rather than overlaying duplicate geometry. add a bridge restoration objective that remains impossible to complete without the material. expose contextual build near the gap through the generic direct action provider system. lazy load creator transaction machinery only when the build becomes relevant. commit world document, visible geometry, exact octree collision, inventory consumption, persistence, and quest completion transactionally. roll every completed step back if a later step fails. restore the repaired geometry and collision from persisted universal world data after reload without duplicate rewards. test course replay, double click races, failed collision insertion, failed persistence, reload, and repeated completion. quest architecture keep semantic event schemas stable for combat, travel, activity, build, learn, collect, care, dialogue, and discovery. add prerequisite/locked quest support rather than exposing future quests too early. add quest chains and data validation for giver, target, marker, reward, prerequisite, and world effect ids. ensure every objective can become impossible only through an explicit recoverable design. content loops implement gather the lost sparks as real world collection and consequence. implement journey to the hidden spring as exploration/traversal/hydrology gameplay. implement build the learning garden with resources, placement, persistence, growth, and community effect. implement trial of ascent with mountain traversal, checkpoints, timing, recovery, and mobile friendly controls. add village helping, learning, repairs, deliveries, garden care, market work, exploration, and emergent world events. add farbrengen scenes and gatherings with respectful spatial, npc, lighting, and audio treatment. torah and mitzvah systems make torah learning discovery, memory, dialogue, understanding, and world consequence rather than generic ammunition. make mitzvos visibly improve infrastructure, gardens, safety, npc state, and civilization. balance progression around capability, understanding, relationship, and world improvement rather than grind. creator finish semantic prefab categories, search, ghost validation, rotate/elevate/distance controls, snapping, collision checks, terrain conformity, costs, undo/redo, saves, remix/export, streaming, and mobile ux. route creator materials through procedural core material intent. add walls, stairs, fences, paths, planters, benches, garden beds, structural pieces, and meaningful architectural assemblies. persistence assign explicit ownership for player position, inventory, quests, exact once reward ids, creator world, world effects, discovery, settings, npc relationships, and important simulation state. add schema migration, corrupt save recovery, last known good backup, offline behavior, cloud conflict rules if accounts use cloud saves, and compact delta persistence. test repeated save/reload cycles and abrupt tab close/network loss.",
+		"page": "pages/geelooy-games-mitzvahworld-docs-production-roadmap-03-gameplay-content-m-65c1464bd0.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-docs-production-roadmap-04-character-npcs-ui--54de87f225",
+		"title": "Player, NPC Civilization, Camera, UI, and Accessibility",
+		"sourcePath": "geelooy/games/mitzvahWorld/docs/production-roadmap/04-character-npcs-ui.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Player, NPC Civilization, Camera, UI, and Accessibility",
+				"anchor": "player-npc-civilization-camera-ui-and-accessibility"
+			},
+			{
+				"level": 2,
+				"text": "Player and traversal",
+				"anchor": "player-and-traversal"
+			},
+			{
+				"level": 2,
+				"text": "Camera and controls",
+				"anchor": "camera-and-controls"
+			},
+			{
+				"level": 2,
+				"text": "NPC civilization",
+				"anchor": "npc-civilization"
+			},
+			{
+				"level": 2,
+				"text": "HUD and menus",
+				"anchor": "hud-and-menus"
+			},
+			{
+				"level": 2,
+				"text": "Accessibility and localization",
+				"anchor": "accessibility-and-localization"
+			}
+		],
+		"excerpt": "B\"H Player, NPC Civilization, Camera, UI, and Accessibility Player and traversal Raise the Chossid model, proportions, clothing, hat, coat, skin/head, and materials to cinematic third person quality with scalable detail. Complete walk, run, sprint, acceleration, turns, starts/stops, strafe, jump, landing, slope respons",
+		"searchText": "b\"h player, npc civilization, camera, ui, and accessibility player and traversal raise the chossid model, proportions, clothing, hat, coat, skin/head, and materials to cinematic third person quality with scalable detail. complete walk, run, sprint, acceleration, turns, starts/stops, strafe, jump, landing, slope response, foot ik, interaction ik, and animation blending. add mantle/climb only when it can be polished; avoid half working parkour. build balance beams, suspended/moving obstacles, step handling, fall recovery, and safe checkpoint recovery. camera and controls add camera collision, obstruction avoidance, interior distances, cinematic vista framing, completion framing, and stable sensitivity. support keyboard/mouse, controller, and mobile with equivalent gameplay capability. mobile requires independent pointer ids for left movement and right camera, pointer capture/cancel, finger swapping, rotation/resizing, landscape mode, and no stuck state. add sensitivity, invert options, remapping where feasible, and subtle haptics. npc civilization add schedules, jobs, destinations, learning, market work, prayer/study/farbrengen contexts, weather/time reactions, dialogue state, relationships, memory, and important persistent consequences. add groups, crowds, avoidance, dynamic navigation, doors, stairs, interiors, bridge state, and region travel. use near/full, mid/simplified, and far/statistical simulation tiers so population can become dense without cpu collapse. add wildlife and domestic animal behavior through the same tiered simulation principle. hud and menus keep persistent hud minimal: player health/state, compact objective, map cue, and only relevant contextual action. finish quest log, inventory, profile/progression, torah, map, creator, vendor, settings, and dialogue as responsive sheets/panels. keep the world visible rather than covering the screen with rpg chrome. add real minimap/world map from canonical geography, discovery, roads, landmarks, npc/quest targets, and optional fog of war. accessibility and localization keyboard navigate menus with correct focus management and aria state. maintain contrast and never encode critical state only by color. support reduced motion, independent audio sliders, captions/subtitles, camera sensitivity, and readable text scaling. test browser zoom and large text. architect strings for localization and support hebrew rtl, mixed hebrew/english punctuation, and torah typography correctly. test at 390x844, 412x892, tablets, small laptops, ultrawide, portrait, and landscape.",
+		"page": "pages/geelooy-games-mitzvahworld-docs-production-roadmap-04-character-npcs-ui--54de87f225.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-docs-production-roadmap-05-performance-platfo-34a122cb3e",
+		"title": "Performance, Streaming, Platform, and Scale",
+		"sourcePath": "geelooy/games/mitzvahWorld/docs/production-roadmap/05-performance-platform.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Performance, Streaming, Platform, and Scale",
+				"anchor": "performance-streaming-platform-and-scale"
+			},
+			{
+				"level": 2,
+				"text": "Boot",
+				"anchor": "boot"
+			},
+			{
+				"level": 2,
+				"text": "Runtime budgets",
+				"anchor": "runtime-budgets"
+			},
+			{
+				"level": 2,
+				"text": "Adaptive quality",
+				"anchor": "adaptive-quality"
+			},
+			{
+				"level": 2,
+				"text": "Streaming and LOD",
+				"anchor": "streaming-and-lod"
+			},
+			{
+				"level": 2,
+				"text": "Browser/device resilience",
+				"anchor": "browser-device-resilience"
+			},
+			{
+				"level": 2,
+				"text": "Multiplayer boundary",
+				"anchor": "multiplayer-boundary"
+			}
+		],
+		"excerpt": "B\"H Performance, Streaming, Platform, and Scale Boot Measure and budget first visible world, first movement, and first control. Keep complete catalogs, Creator, multiplayer, large NPC content, distant regions, and editor systems behind post control lazy boundaries. Preload only likely next assets and cancel obsolete re",
+		"searchText": "b\"h performance, streaming, platform, and scale boot measure and budget first visible world, first movement, and first control. keep complete catalogs, creator, multiplayer, large npc content, distant regions, and editor systems behind post control lazy boundaries. preload only likely next assets and cancel obsolete requests when the player changes direction/region. runtime budgets define cpu budgets for player, animation, npcs, quests, ecology, streaming, ui, and background work. define gpu budgets for triangles, draw calls, shadows, transparency, particles, texture memory, and shader variants. define memory and network budgets by device tier. add long frame, dropped frame, allocation, gc, shader compile, resource count, and bandwidth diagnostics. avoid per frame allocation in hot loops. adaptive quality extend adaptive quality across vegetation density, shadow range, water/reflections, atmospheric effects, texture resolution, npc density, distant geometry, and particles. prevent quality oscillation with hysteresis/cooldowns. validate intel hd 6000, pixel 6 pro, and modern desktop tiers separately. streaming and lod use frustum, distance, hierarchical, and where useful occlusion culling. instance repeated nature/architecture assets. merge static geometry only when it improves draw calls without destroying spatial culling. throttle distant animation, ai, ecology, and ui updates. stream creator content and dynamic collision by nearby cells. browser/device resilience handle webgl context loss/restoration, missing extensions, shader failure, tab background/foreground, sleep/wake, memory pressure, orientation changes, and thermal throttling. pause/reduce rendering when hidden and consider battery/fps caps on mobile. add graceful asset/network retry and fallbacks rather than boot failure. test current chrome, edge, firefox, and safari where feasible. multiplayer boundary keep solo playable when multiplayer services fail. if multiplayer ships, define server authority, replication, interpolation, reconnect reconciliation, shared quests, construction ownership/conflicts, abuse limits, rate limits, anti cheat, and protocol versioning. production gameplay must never depend on the developer tunnel or laptop.",
+		"page": "pages/geelooy-games-mitzvahworld-docs-production-roadmap-05-performance-platfo-34a122cb3e.json"
+	}
+]

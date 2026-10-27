@@ -1,0 +1,89 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-26t134731-portal-universal-ui-resource-platf-71ed576b8c",
+	"title": "Phase 2 — Improved Compatibility-First Architecture",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-26T134731-portal-universal-ui-resource-platform/04_PHASE2_IMPROVED_ARCHITECTURE.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase 2 — Improved Compatibility-First Architecture",
+			"anchor": "phase-2-improved-compatibility-first-architecture"
+		},
+		{
+			"level": 2,
+			"text": "Stable Core Contract",
+			"anchor": "stable-core-contract"
+		},
+		{
+			"level": 2,
+			"text": "Type Definitions",
+			"anchor": "type-definitions"
+		},
+		{
+			"level": 2,
+			"text": "Schema Layer",
+			"anchor": "schema-layer"
+		},
+		{
+			"level": 2,
+			"text": "Action Layer",
+			"anchor": "action-layer"
+		},
+		{
+			"level": 2,
+			"text": "Query + Collection Layer",
+			"anchor": "query-collection-layer"
+		},
+		{
+			"level": 2,
+			"text": "Relationship Layer",
+			"anchor": "relationship-layer"
+		},
+		{
+			"level": 2,
+			"text": "Provenance + History Layer",
+			"anchor": "provenance-history-layer"
+		},
+		{
+			"level": 2,
+			"text": "Job + Stream Layer",
+			"anchor": "job-stream-layer"
+		},
+		{
+			"level": 2,
+			"text": "Transformation Layer",
+			"anchor": "transformation-layer"
+		},
+		{
+			"level": 2,
+			"text": "UI Layer",
+			"anchor": "ui-layer"
+		},
+		{
+			"level": 2,
+			"text": "Stable Visual Foundation",
+			"anchor": "stable-visual-foundation"
+		},
+		{
+			"level": 2,
+			"text": "Migration Strategy",
+			"anchor": "migration-strategy"
+		},
+		{
+			"level": 2,
+			"text": "Verification Strategy",
+			"anchor": "verification-strategy"
+		},
+		{
+			"level": 2,
+			"text": "NEXTACTION",
+			"anchor": "nextaction"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-26t134731-portal-universal-ui-resource-platf-71ed576b8c-001.json"
+	]
+}

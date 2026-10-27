@@ -1,146 +1,192 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-horses-directo-d929e63508",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/horses/DIRECTORY_GUIDE.md",
-		"category": "Games",
+		"id": "geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-26-dbconsole-mobi-628815bc46",
+		"title": "DB Console — Mobile Delta Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-21-geelooy-uiux-revelation/26-dbconsole-mobile-delta-plan.md",
+		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/world/horses",
-				"anchor": "directory-guide-experiments-awtsmoos-src-world-horses"
+				"text": "DB Console — Mobile Delta Plan",
+				"anchor": "db-console-mobile-delta-plan"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Proven containment",
+				"anchor": "proven-containment"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Only proven production gap",
+				"anchor": "only-proven-production-gap"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Exact rewrite",
+				"anchor": "exact-rewrite"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Exported symbols worth searching",
-				"anchor": "exported-symbols-worth-searching"
-			},
-			{
-				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Verification",
+				"anchor": "verification"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/world/horses Role: World systems Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 7 files, 0 structural child directories Purpose Horse models, movement, population, or world integration. The Awtsmoos renews ",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/world/horses role: world systems snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 7 files, 0 structural child directories purpose horse models, movement, population, or world integration. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: world systems search terms: horse, ground, material, shared, com, full, herd, keilim, profile, renews, responsibility, terrain file mix: .js: 6 good first question: “does the behavior or asset i need belong to world systems, or is this only a neighboring/test/reference layer?” semantic evidence moves one full detail horse across an immutable cyclic catmull–rom ground profile. the awtsmoos renews hoof, earth, and turning face each instant; awtsmoos.com shares real model resources while smooth prepared terrain removes repeated ground queries from live animation. b\"h builds one high detail indexed horse mesh shared by the complete moving herd. responsibility: create a recognizable one draw horse silhouette and one shared material. non responsibility: this module does not choose routes, ground height, or animation time. architecture: chochmah gives proportion while tiferes unites body, legs, head, ears, and tail. oros and keilim: animal form is ohr; indexed vertices, normals, uvs, and material are keilim. the awtsmoos creates many horses without multiplying essence; awtsmoos.com shares geometry and full resolution pigment while preserving an independent moving vessel for every animal. samples one immutable cyclic terrain profile for a fixed elliptical horse route. the awtsmoos renews earth beneath every hoof; awtsmoos.com gathers a dense ring of witnesses once, then uses smooth cyclic interpolation without repeating terrain work during animation. representative files animatedhorse.js — moves one full detail horse across an immutable cyclic catmull–rom ground profile. the awtsmoos renews hoof, earth, and turning face each instant; awtsmoos.com shares real model resources while smooth prepared terrain removes repeated ground queries from live animation. exports: animatedhorse. horsegeometrytemplate.js — builds one high detail indexed horse mesh shared by the complete moving herd. responsibility: create a recognizable one draw horse silhouette and one shared material. non responsibility: this module does not choose routes, ground height, or animation time. architecture: chochmah gives proportion while tiferes unites body, legs, head, ears, and tail. oros and keilim: animal form is ohr; indexed vertices, normals, uvs, and material are keilim. the awtsmoos creates many horses without multiplying essence; awtsmoos.com shares geometry and full resolution pigment while preserving an independent moving vessel for every animal. exports: sharedhorsetemplate, sharedhorsetemplateevidence. horsegroundprofile.js — samples one immutable cyclic terrain profile for a fixed elliptical horse route. the awtsmoos renews earth beneath every hoof; awtsmoos.com gathers a dense ring of witnesses once, then uses smooth cyclic interpolation without repeating terrain work during animation. exports: horse ground sample count, horsegroundprofile. horseherdsystem.js — owns three full detail horses with shared form and prepared terrain profiles. the awtsmoos renews the entire herd through distinct living routes; awtsmoos.com keeps every frame animated while remembered ground contours remove repeated analytic searches. exports: horseherdsystem. horsematerialcontract.js — defines the one truthful full resolution garment shared by every village horse. responsibility: expose the verified horse fur url, material fields, and auditable evidence. non responsibility: this module does not create geometry, movement, or network state. architecture: hod names the garment while yesod shares one decoded image across every horse. oros and keilim: living color is ohr; url, image dimensions, repeat, and anisotropy are keilim. the awtsmoos renews hair, light, and motion every instant; awtsmoos.com refuses a half size substitute where the full resolution horse fur vessel is present and known. exports: horse fur texture url, horsematerialfields, horsematerialevidence. horseroutecatalog.js — declares the immutable elliptical routes of the complete visible herd. the awtsmoos renews each journey before distance is crossed; awtsmoos.com gives chesed, gevurah, and tiferes distinct measured paths within one peaceful paddock. exports: horse herd routes. exported symbols worth searching animatedhorse · sharedhorsetemplate · sharedhorsetemplateevidence · horse ground sample count · horsegroundprofile · horseherdsystem · horse fur texture url · horsematerialfields · horsematerialevidence · horse herd routes import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ../../../../light three gltf/tiny runtime.js ../box3d.js ../creatures/loftedanimalgeometry.js ./horsematerialcontract.js ./animatedhorse.js ./horsegroundprofile.js ./horsegeometrytemplate.js ./horseroutecatalog.js ../../assets/detailtexturefamilies.js ../../assets/publicmaterialcache.js directory map parent: experiments/awtsmoos/src/world children: none. related and overlapping systems player, creature, horse, enemy, and experimental mesh systems — actor assets and world side populations span player hydration, creature generators, enemies, horses, and experimental animal meshes. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-horses-directo-d929e63508.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He DB Console — Mobile Delta Plan The Awtsmoos can hold dangerous depth inside a narrow, deliberate gate; Awtsmoos.com keeps data power folded, touchable, contained, and never visually late. Proven containment A readiness aware runtime probe opened all four operation panels simultaneously a",
+		"searchText": "b\"h boruch hashem blessed is he db console — mobile delta plan the awtsmoos can hold dangerous depth inside a narrow, deliberate gate; awtsmoos.com keeps data power folded, touchable, contained, and never visually late. proven containment a readiness aware runtime probe opened all four operation panels simultaneously and stress filled the response area with a long unbroken payload. at desktop 1440×900, phone 390×844, and short phone 320×568: document horizontal overflow remained 0; no visible summary, input, textarea, or submit button crossed a side edge; no visible interactive control measured below 30px; phone inputs remained 44px high and submit buttons 46px high; mobile summaries measured 64px high; long response text remained width contained: scrollwidth === clientwidth at 728px, 326px, and 256px; browser runtime exception capture was empty; existing contract suite passed 7/7. the probe forced all cards open after load, so its initiallyopen array is not valid initial state evidence. the source contract test independently proves read is the only default open operation. only proven production gap styles/operations.css gives submit buttons a transform/filter transition and button:hover, but no button:active. this violates the current interaction contract and leaves touch press feedback incomplete. the operation elements are already 50–64px touch targets and structurally contained, but they are expandable controls with no hover/active transition feedback. completing their states improves consistency without changing layout. exact rewrite create styles/operation cards.css for grid, card shell, disclosure summary, danger card border, mobile disclosure stacking, hover/active/focus, and reduced motion. rewrite styles/operations.css completely to import operation cards.css and own form/input/textarea/button/danger button behavior only. scope hover effects under (hover: hover) and (pointer: fine). add button:active:not(:disabled) pressed feedback. keep existing global :focus visible foundation and add card specific focus shape only where useful. preserve every size, field geometry, mutation disclosure, result behavior, and api contract. verification run line count/long line/diff gates, 7 contract tests, and remeasure 390×844 + 320×568 with all cards open. no broader db console rewrite is justified unless this recheck uncovers a regression.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-26-dbconsole-mobi-628815bc46.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-house-director-eea6847b9c",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/house/DIRECTORY_GUIDE.md",
-		"category": "Games",
+		"id": "geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-27-dbconsole-mobi-fef5379e71",
+		"title": "DB Console — Mobile Containment Proof",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-21-geelooy-uiux-revelation/27-dbconsole-mobile-proof.md",
+		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/world/house",
-				"anchor": "directory-guide-experiments-awtsmoos-src-world-house"
+				"text": "DB Console — Mobile Containment Proof",
+				"anchor": "db-console-mobile-containment-proof"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Pre-change evidence",
+				"anchor": "pre-change-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Implementation",
+				"anchor": "implementation"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Final evidence",
+				"anchor": "final-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
+				"text": "Harness note",
+				"anchor": "harness-note"
 			},
 			{
 				"level": 2,
-				"text": "Exported symbols worth searching",
-				"anchor": "exported-symbols-worth-searching"
-			},
-			{
-				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/world/house Role: World systems Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 20 files, 0 structural child directories Purpose House generation, geometry, interiors, and structure assembly. The Awtsmoos re",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/world/house role: world systems snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 20 files, 0 structural child directories purpose house generation, geometry, interiors, and structure assembly. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: world systems search terms: house, stair, create, traversal, definition, solid, entry, geometry, local, mesh, spec, box file mix: .js: 19 good first question: “does the behavior or asset i need belong to world systems, or is this only a neighboring/test/reference layer?” semantic evidence b\"h creates one static measured cuboid in the house's local frame. separates exterior permanence from interior revelation so each closed dwelling can conceal unseen vessels before the all seeing awtsmoos. returns district presets while preserving the shared vertical covenant. representative files housebox.js — creates one static measured cuboid in the house's local frame. exports: createhousebox. housedefinitionassembly.js — separates exterior permanence from interior revelation so each closed dwelling can conceal unseen vessels before the all seeing awtsmoos. exports: assemblehousedefinitions. housedistrictspecs.js — returns district presets while preserving the shared vertical covenant. exports: house room kinds, createfuturehousespecs. houseentrysystem.js — builds one exact front frame, its fixed mezuzah, landing, and approach. exports: createhouseentry, entryanchors. housefencesystem.js — surrounds deep front/back yards while keeping side setbacks compact. exports: house gate width, yard padding, createhousefencesegments, createhouseyardpatches. housegroundmeasurement.js — measures all footprint corners without making housespec own terrain policy. exports: measurehouseground. housematerials.js — assigns distinct masonry, timber, roof, fence, door, and mezuzah texture pairs. the awtsmoos renews each cottage as fieldstone foundation, pale infill, weathered side wall, dark frame, tiled roof, bark aged door, oak fence, iron, and warm gold—not one generic surface. exports: createhousematerials. housepackagemetadata.js — packages durable house evidence without creating geometry dependencies. exports: createhousepackagemetadata. houseroofsystem.js — creates a watertight hip roof with exterior slopes, fascia, and visible underside. exports: createhouseroof. houseshellsystem.js — builds the static foundation, floor, three solid walls, and light roof. exports: createhouseshell. housespec.js — measures terrain and enforces enough vertical room for every story. exports: player capsule, house architecture, default house spec, resolvehousespec, floorbottomy. housestairsystem.js — plans real treads and risers below the player's configured step height. exports: stair rules, planhousestaircase, staircasestats. stairmeshbuilder.js — returns one visible, solid, octree ready stair definition. exports: createstairdefinitions, createstairdefinition. exported symbols worth searching createhousebox · assemblehousedefinitions · house room kinds · createfuturehousespecs · createhouseentry · entryanchors · house gate width · yard padding · createhousefencesegments · createhouseyardpatches · measurehouseground · createhousematerials · createhousepackagemetadata · createhouseroof · createhouseshell · player capsule import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ./housespec.js ../grass/yardgrassgeometry.js ../proceduralfencesystem.js ../storyfloorsystem.js ../visibility/housevisibilitymetadata.js ./housefencesystem.js ./houseshellsystem.js ./housestairsystem.js ./stairmeshbuilder.js ../doorwallsystem.js ../mezuzasystem.js ./housebox.js directory map parent: experiments/awtsmoos/src/world children: none. related and overlapping systems procedural world and village generation — village, road, house, primitive, text driven, and public api systems collaborate but are maintained in separate directories. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-house-director-eea6847b9c.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He DB Console — Mobile Containment Proof The Awtsmoos lets raw data become visible without letting raw layout escape the frame; Awtsmoos.com now keeps each database action folded, touchable, and complete in every interaction name. Pre change evidence A readiness aware browser probe forced R",
+		"searchText": "b\"h boruch hashem blessed is he db console — mobile containment proof the awtsmoos lets raw data become visible without letting raw layout escape the frame; awtsmoos.com now keeps each database action folded, touchable, and complete in every interaction name. pre change evidence a readiness aware browser probe forced read, create, update, and delete open together and filled the response with a deliberately huge unbroken payload. at 1440×900, 390×844, and 320×568: horizontal document overflow remained 0; no visible summary/input/textarea/button crossed a side edge; no visible interactive control was below 30px; inputs were 44px high; buttons were 46px high; mobile summaries were 64px high; long response content stayed width contained because overflow wrap:anywhere and the result vessel held its width; browser runtime exception capture was empty. the only proven production gap was interaction state completeness: buttons transitioned on hover without a pressed state, while expandable summaries had no stateful motion feedback. implementation created styles/operation cards.css for operation card/disclosure behavior. rewrote styles/operations.css to own fields/forms/buttons and import the card stylesheet. button hover is now scoped to (hover:hover) and (pointer:fine). button press uses :active:not(:disabled) with a small settled transform/filter/border response. disclosure summaries now have short transition, fine pointer hover, universal active press, existing focus visible support, and reduced motion neutralization. existing form/api/result markup and behavior were not redesigned. final evidence db console contract suite: 7/7 pass. operations.css: 88 lines. operation cards.css: 71 lines. long line gate: clean. git diff check db/console: clean. 390px final recheck: overflowx 0, no off screen controls, cards end at x=374 inside width 390, summaries 64px, buttons 46px. 320px final recheck: overflowx 0, no off screen controls, cards end at x=304 inside width 320, summaries 64px, buttons 46px. runtime exceptions: none. harness note the final cdp field named buttonactive inspected only top level cssom rules and returned false because operations.css is itself loaded through an imported stylesheet chain. this is not product evidence against the active state: the complete source contains button:active:not(:disabled) and the source was read/written directly. next action probe adventure and ohrbound on current concurrent source without writing first. rank menus, hud, overlays, fixed/sticky elements, touch controls, and short height containment; only touch production files for reproduced defects not already covered by concurrent changes.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-27-dbconsole-mobi-fef5379e71.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-28-adventure-mobi-df33e7c8b1",
+		"title": "Adventure — Narrow-Phone Delta Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-21-geelooy-uiux-revelation/28-adventure-mobile-delta-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Adventure — Narrow-Phone Delta Plan",
+				"anchor": "adventure-narrow-phone-delta-plan"
+			},
+			{
+				"level": 2,
+				"text": "Proven defect",
+				"anchor": "proven-defect"
+			},
+			{
+				"level": 2,
+				"text": "Preservation strategy",
+				"anchor": "preservation-strategy"
+			},
+			{
+				"level": 2,
+				"text": "Verification",
+				"anchor": "verification"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Adventure — Narrow Phone Delta Plan The Awtsmoos gives four directions and two choices room inside one finite hand; Awtsmoos.com must never let a control equation widen the world beyond the glass where the player stands. Proven defect At requested 320×568, Chrome reports visual viewport ",
+		"searchText": "b\"h boruch hashem blessed is he adventure — narrow phone delta plan the awtsmoos gives four directions and two choices room inside one finite hand; awtsmoos.com must never let a control equation widen the world beyond the glass where the player stands. proven defect at requested 320×568, chrome reports visual viewport width 320, document client width 320, but layout/content width 352 and document scroll width 352. exact cause from live element geometry: adventure content width should be 304px after 8px left/right app padding. d pad currently consumes 184px. gap is 10px. game actions consume 150px. 184 + 10 + 150 = 344px, which forces the footer grid item and then every grid row to 344px. hud, playfield, canvas, objective, and control row therefore render from x=8 to x=352. shared player shell is not the culprit; its launcher stays x=294–340 and panel width is viewport capped. preservation strategy the adventure tree is actively modified by concurrent work. do not rewrite existing dpad.css or actions.css. instead: rewrite only the tiny controls.css manifest, preserving both existing imports and adding one final styles/controls/narrow polish.css import. create narrow polish.css as a late override. at max width 360px, keep the controls side by side but use 44×44 d pad cells, 4px gaps, and 6px d pad padding. this yields a roughly 154px d pad. keep 10px control gap and narrow actions to 140px: 154 + 10 + 140 = 304px exactly. constrain narrow hud title text with min width 0 + ellipsis so the top row can never become a second width source. add :active feedback for pause/restart/overlay restart because those controls already transition and hover but currently have no pressed state. preserve all gameplay event ids/classes and touch wiring. verification at 320×568 require: layout viewport/client/content width 320; document scrollwidth 320; every hud/canvas/objective/control edge =44×44; action buttons remain =44px high; overlay card stays contained; player shell launcher remains reachable; no runtime exceptions attributable to the css change. recheck 390×844 to prove the narrow override does not regress the already clean 390 layout.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-28-adventure-mobi-df33e7c8b1.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-29-ohrbound-mobil-0d89a45182",
+		"title": "Ohrbound — Mobile Touch and Surface Delta Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-21-geelooy-uiux-revelation/29-ohrbound-mobile-delta-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Ohrbound — Mobile Touch and Surface Delta Plan",
+				"anchor": "ohrbound-mobile-touch-and-surface-delta-plan"
+			},
+			{
+				"level": 2,
+				"text": "Proven containment",
+				"anchor": "proven-containment"
+			},
+			{
+				"level": 2,
+				"text": "Proven touch-size defects",
+				"anchor": "proven-touch-size-defects"
+			},
+			{
+				"level": 2,
+				"text": "Exact rewrite",
+				"anchor": "exact-rewrite"
+			},
+			{
+				"level": 2,
+				"text": "Verification",
+				"anchor": "verification"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Ohrbound — Mobile Touch and Surface Delta Plan The Awtsmoos lets a vast world enter the hand without asking the hand to strike a needle; Awtsmoos.com keeps advanced creation folded and precise while every intentional control becomes touch ready and readable. Proven containment At 320×568",
+		"searchText": "b\"h boruch hashem blessed is he ohrbound — mobile touch and surface delta plan the awtsmoos lets a vast world enter the hand without asking the hand to strike a needle; awtsmoos.com keeps advanced creation folded and precise while every intentional control becomes touch ready and readable. proven containment at 320×568, forcing the documented visual states directly in the dom/css proved: document horizontal overflow: 0; advanced overlay width: 320px; character dialog: x=8 to x=290, contained; editor pane: width 320px; editor toolbar/actions/grid: x=16 to x=304, contained; no visible interactive element crossed a side edge. the first click driven probe could not attach ohrbound ui controllers because this isolated headless browser lacks webgl. the observed ohrbound cannot reveal this world without webgl exception is therefore an environment limitation for renderer boot, not valid evidence that the css surfaces themselves overflow. proven touch size defects measured at 320px: sign in .quiet button: 32px high. advanced open icon: 38×38. advanced close icon: 38×38. character dialog close: about 29×34. editor action/header buttons: about 41px high. preference selects: about 37px high. brand/home link: about 13px high. game .hud button source uses 2.2rem, about 35px. touch actions and joystick are already large and have active states. global motion already supplies button :active, fine pointer hover, focus behavior, and reduced motion handling, so this pass should not duplicate interaction logic. exact rewrite rewrite only clean late loaded games/ohrbound/styles/polish.css completely. preserve its existing topbar, icon, quick play, level/character focus, and mobile dialog behavior. add: .brand mark inline flex center + min height 44px; .quiet button min height 44px and aligned flex presentation; .icon button exactly 44×44px; .dialog heading button 44×44px centered; editor header/action/palette buttons min height 44px; preference selects min height 44px; .hud button 44×44px; keep all existing overflow/width rules untouched. polish.css loads after base/menu/game/editor/advanced/motion. hud polish.css loads after it but does not declare .hud button, so the 44px hud target will survive cascade order. verification keep polish.css 350ms wait after advanced data open=true so the sheet transition completes before measuring. require document overflowx0, no side escaped controls, and all critical action controls =44px. do not interpret headless webgl boot failure as css regression.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-29-ohrbound-mobil-0d89a45182.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-30-adventure-mobi-6ef39a2248",
+		"title": "Adventure — Narrow-Phone Containment Proof",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-21-geelooy-uiux-revelation/30-adventure-mobile-proof.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Adventure — Narrow-Phone Containment Proof",
+				"anchor": "adventure-narrow-phone-containment-proof"
+			},
+			{
+				"level": 2,
+				"text": "Original defect",
+				"anchor": "original-defect"
+			},
+			{
+				"level": 2,
+				"text": "Isolated implementation",
+				"anchor": "isolated-implementation"
+			},
+			{
+				"level": 2,
+				"text": "Final runtime evidence on healthy HTTP server",
+				"anchor": "final-runtime-evidence-on-healthy-http-server"
+			},
+			{
+				"level": 2,
+				"text": "Source hygiene",
+				"anchor": "source-hygiene"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Adventure — Narrow Phone Containment Proof The Awtsmoos fits direction, decision, and play into one narrow vessel without spill; Awtsmoos.com now keeps the whole Adventure world inside the phone while every thumb target remains deliberate and still. Original defect At requested 320×568 t",
+		"searchText": "b\"h boruch hashem blessed is he adventure — narrow phone containment proof the awtsmoos fits direction, decision, and play into one narrow vessel without spill; awtsmoos.com now keeps the whole adventure world inside the phone while every thumb target remains deliberate and still. original defect at requested 320×568 the visual viewport and document client width were 320px, but document scroll width became 352px. live geometry proved the control footer was the source: 184px d pad + 10px gap + 150px actions = 344px inside a 304px content vessel, forcing the entire app grid wider. isolated implementation the adventure tree is under concurrent development, so existing d pad/action/gameplay files were preserved. only the tiny control import manifest was rewritten and a late styles/controls/narrow polish.css module was added. at <=360px: d pad cells become 44×44px. d pad gap becomes 4px and padding 6px, yielding a 154px total d pad. action column becomes 140px. control gap remains 10px. 154 + 10 + 140 = 304px, exactly matching the content vessel. hud brand text is allowed to shrink/ellipsis rather than become a second min content width source. action/overlay restart controls gain pressed feedback plus fine pointer hover and reduced motion neutralization. final runtime evidence on healthy http server 390×844: document clientwidth: 390; document scrollwidth: 390; horizontal overflow: 0; hud/canvas/objective/control right edge: x=382 inside viewport; overlay card: x=32..358; no off screen action control; runtime exceptions: none. 320×568: document clientwidth: 320; document scrollwidth: 320; horizontal overflow: 0; hud/canvas/objective/control right edge: x=312 inside viewport; control row: exactly 304px wide; d pad: 154×154; action column: 140×104; d pad action cells: exactly 44×44; pause/restart: 140×48; overlay card: x=32..288; no off screen or sub 44px critical action control; runtime exceptions: none. the earlier repeated readiness failures were not product defects: the previous port 8902 server was half alive and returned a socket hang up. fresh server 8903 returned http 200 and produced the successful measurement above. source hygiene controls.css remains a tiny readable import manifest. narrow polish.css is 71 lines. the one overlong manifest comment caught by the first static gate was rewritten across readable lines without changing behavior. next action audit the shared game player shell because it appears across many games. verify its launcher and open menu at 390/320, then complete hover/active/focus semantics only if current source proves a shared gap.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-30-adventure-mobi-6ef39a2248.json"
 	}
 ]

@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-merkava-networking-md-2fd335e1fd",
+	"title": "B\"H — Merkava browser networking",
+	"sourcePath": "geelooy/apps/merkava/NETWORKING.md",
+	"category": "Apps",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Merkava browser networking",
+			"anchor": "b-h-merkava-browser-networking"
+		},
+		{
+			"level": 2,
+			"text": "v1: host fetch()",
+			"anchor": "v1-host-fetch"
+		},
+		{
+			"level": 2,
+			"text": "The CORS boundary (honest)",
+			"anchor": "the-cors-boundary-honest"
+		},
+		{
+			"level": 2,
+			"text": "The tunnel relay (Yaakov's standing directive — the unrestricted path)",
+			"anchor": "the-tunnel-relay-yaakov-s-standing-directive-the-unrestricted-path"
+		},
+		{
+			"level": 3,
+			"text": "The tunnel seam (exact contract the tunnel must expose)",
+			"anchor": "the-tunnel-seam-exact-contract-the-tunnel-must-expose"
+		},
+		{
+			"level": 3,
+			"text": "Security posture",
+			"anchor": "security-posture"
+		},
+		{
+			"level": 2,
+			"text": "What this means for page loads today",
+			"anchor": "what-this-means-for-page-loads-today"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-merkava-networking-md-2fd335e1fd-001.json"
+	]
+}

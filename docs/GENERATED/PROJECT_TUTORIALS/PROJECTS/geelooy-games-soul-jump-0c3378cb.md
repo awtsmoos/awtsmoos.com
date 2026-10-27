@@ -2,7 +2,7 @@ B"H
 Boruch Hashem
 Blessed is He
 
-# Project Tutorial: Ein Sof Ascent
+# Project Tutorial: Ein Sof Ascent · Soul Jump
 
 **Path:** `geelooy/games/soul-jump` · **Type:** game · **Family:** Games and Worlds
 
@@ -12,24 +12,24 @@ Blessed is He
 
 ## Entry and documentation evidence
 
-- Entry files: `index.html`, `main.js`
+- Entry files: `index.html`, `main.js`, `package.json`
 - Local documentation: No local `DOCUMENTATION.md` observed.
-- Local-doc requirement: no; covered: no
+- Local-doc requirement: yes; covered: no
 - Symlink target: —
 
 ## File shape
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 2 | 0 | 0 | 0 | 0 | 0 | 2 |
+| 30 | 3 | 0 | 0 | 0 | 0 | 33 |
 
 ## Public entry points
 
-- `/games/soul-jump` → `geelooy/games/soul-jump/index.html` — Ein Sof Ascent
+- `/games/soul-jump` → `geelooy/games/soul-jump/index.html` — Ein Sof Ascent · Soul Jump
 
 ## Symbol evidence
 
-Source files: 1; classes: 6; functions: 11; exports: 0; samples: Player, BackgroundParticle, Platform, Enemy, Powerup, Particle, getEventX, startDrag, onDrag, endDrag, startGame, generatePlatforms.
+Source files: 22; classes: 19; functions: 1; exports: 23; samples: VerticalCamera, SOUL_CONFIG, SOUL_GLYPHS, BackgroundParticle, Enemy, Particle, Platform, Player, Powerup, DragInput, OverlayRenderer, WorldRenderer.
 
 ## Depends on
 
@@ -45,4 +45,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **0**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **3**. Treat this as file evidence, not proof of behavioral coverage.

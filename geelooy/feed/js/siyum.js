@@ -13,7 +13,7 @@
 import { icon, escapeHtml, escapeAttr } from './icons.js';
 
 const STORE_KEY = 'awtsmoos-feed-siyum-tracks';
-const EMOJI_BASE = '/feed/assets/emojis';
+const EMOJI_BASE = 'https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo-image-mirror/geelooy/feed/assets/emojis';
 const CELEBRATION_EMOJIS = ['guy-cheering', 'tada', 'clapping', 'fire', 'crown', 'partying-face', 'star-eyes', 'bulb'];
 
 function uid() {

@@ -1,0 +1,24 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-docs-textures-craft-md-ab5afa0f85",
+	"title": "Craft Remote Texture Catalog",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/textures/CRAFT.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Craft Remote Texture Catalog",
+			"anchor": "craft-remote-texture-catalog"
+		},
+		{
+			"level": 2,
+			"text": "Exact filenames",
+			"anchor": "exact-filenames"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-docs-textures-craft-md-ab5afa0f85-001.json"
+	]
+}

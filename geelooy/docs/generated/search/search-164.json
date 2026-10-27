@@ -1,15 +1,15 @@
 [
 	{
-		"id": "docs-generated-api-tutorials-routes-api-youtube-videos-list-0c5f0e2ea2-m-2fc9fa04d5",
-		"title": "API Tutorial: /api/youtube/videos/list",
-		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-videos-list-0c5f0e2ea2.md",
-		"category": "Routes",
+		"id": "docs-generated-api-tutorials-routes-api-tunnel-control-compute-receipt-b-116259ef63",
+		"title": "API Tutorial: /api/tunnel/control/compute/receipt",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-compute-receipt-b79a0536ed.md",
+		"category": "Tunnel",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "API Tutorial: /api/youtube/videos/list",
-				"anchor": "api-tutorial-api-youtube-videos-list"
+				"text": "API Tutorial: /api/tunnel/control/compute/receipt",
+				"anchor": "api-tutorial-api-tunnel-control-compute-receipt"
 			},
 			{
 				"level": 2,
@@ -42,21 +42,21 @@
 				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/youtube/videos/list Family: YouTube · Mount: /api/youtube · Derech health: OK Source: geelooy/api/youtube/routes/table.js · Discovery: route table · Confidence: unknown method Read the human YouTube tutorial Generated evidence is a navigation and teaching aid, not an O",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/youtube/videos/list family: youtube · mount: /api/youtube · derech health: ok source: geelooy/api/youtube/routes/table.js · discovery: route table · confidence: unknown method read the human youtube tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/youtube /api/youtube/:a /api/youtube/:a/:b /api/youtube/:a/:b/:c /api/youtube/auth/callback /api/youtube/auth/logout /api/youtube/auth/start /api/youtube/auth/status",
-		"page": "pages/docs-generated-api-tutorials-routes-api-youtube-videos-list-0c5f0e2ea2-m-2fc9fa04d5.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/tunnel/control/compute/receipt Family: Tunnel Control · Mount: /api/tunnel/control · Derech health: OK Source: geelooy/api/tunnel/control/routes/table.js · Discovery: route table · Confidence: unknown method Read the human Tunnel Control tutorial Generated evidence is ",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/tunnel/control/compute/receipt family: tunnel control · mount: /api/tunnel/control · derech health: ok source: geelooy/api/tunnel/control/routes/table.js · discovery: route table · confidence: unknown method read the human tunnel control tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test:mission continuity actions — node geelooy/apps/tunnel/agent/tools/fs/actiongroups/test/missioncontinuityactions.test.mjs test:treasury — node geelooy/api/tunnel/control/test/runtreasurytests.cjs test:treasury:full — node geelooy/api/tunnel/control/test/treasury/runall.cjs test:tunnel release — node test scripts/tunnel/testing/ .test.cjs scripts/repository hygiene/testing/ .test.cjs related routes /api/tunnel/control/admin vault /api/tunnel/control/admin/perutas /api/tunnel/control/agent economy /api/tunnel/control/agent lobby /api/tunnel/control/agent lobby/join /api/tunnel/control/agent lobby/post /api/tunnel/control/agent manifest /api/tunnel/control/agent room",
+		"page": "pages/docs-generated-api-tutorials-routes-api-tunnel-control-compute-receipt-b-116259ef63.json"
 	},
 	{
-		"id": "docs-generated-api-tutorials-routes-api-youtube-videos-update-d8820be806-e0ae811085",
-		"title": "API Tutorial: /api/youtube/videos/update",
-		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-videos-update-d8820be806.md",
-		"category": "Routes",
+		"id": "docs-generated-api-tutorials-routes-api-tunnel-control-compute-subscript-7bdff55f7c",
+		"title": "API Tutorial: /api/tunnel/control/compute/subscription",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-compute-subscription-5df10b0ad3.md",
+		"category": "Tunnel",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "API Tutorial: /api/youtube/videos/update",
-				"anchor": "api-tutorial-api-youtube-videos-update"
+				"text": "API Tutorial: /api/tunnel/control/compute/subscription",
+				"anchor": "api-tutorial-api-tunnel-control-compute-subscription"
 			},
 			{
 				"level": 2,
@@ -89,21 +89,21 @@
 				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/youtube/videos/update Family: YouTube · Mount: /api/youtube · Derech health: OK Source: geelooy/api/youtube/routes/table.js · Discovery: route table · Confidence: unknown method Read the human YouTube tutorial Generated evidence is a navigation and teaching aid, not an",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/youtube/videos/update family: youtube · mount: /api/youtube · derech health: ok source: geelooy/api/youtube/routes/table.js · discovery: route table · confidence: unknown method read the human youtube tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/youtube /api/youtube/:a /api/youtube/:a/:b /api/youtube/:a/:b/:c /api/youtube/auth/callback /api/youtube/auth/logout /api/youtube/auth/start /api/youtube/auth/status",
-		"page": "pages/docs-generated-api-tutorials-routes-api-youtube-videos-update-d8820be806-e0ae811085.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/tunnel/control/compute/subscription Family: Tunnel Control · Mount: /api/tunnel/control · Derech health: OK Source: geelooy/api/tunnel/control/routes/table.js · Discovery: route table · Confidence: unknown method Read the human Tunnel Control tutorial Generated evidenc",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/tunnel/control/compute/subscription family: tunnel control · mount: /api/tunnel/control · derech health: ok source: geelooy/api/tunnel/control/routes/table.js · discovery: route table · confidence: unknown method read the human tunnel control tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test:mission continuity actions — node geelooy/apps/tunnel/agent/tools/fs/actiongroups/test/missioncontinuityactions.test.mjs test:treasury — node geelooy/api/tunnel/control/test/runtreasurytests.cjs test:treasury:full — node geelooy/api/tunnel/control/test/treasury/runall.cjs test:tunnel release — node test scripts/tunnel/testing/ .test.cjs scripts/repository hygiene/testing/ .test.cjs related routes /api/tunnel/control/admin vault /api/tunnel/control/admin/perutas /api/tunnel/control/agent economy /api/tunnel/control/agent lobby /api/tunnel/control/agent lobby/join /api/tunnel/control/agent lobby/post /api/tunnel/control/agent manifest /api/tunnel/control/agent room",
+		"page": "pages/docs-generated-api-tutorials-routes-api-tunnel-control-compute-subscript-7bdff55f7c.json"
 	},
 	{
-		"id": "docs-generated-api-tutorials-routes-api-zmanim-86d9bd4874-md-cc13610ff6",
-		"title": "API Tutorial: /api/zmanim",
-		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-zmanim-86d9bd4874.md",
-		"category": "Routes",
+		"id": "docs-generated-api-tutorials-routes-api-tunnel-control-conversations-get-c1fe2930a7",
+		"title": "API Tutorial: /api/tunnel/control/conversations/get",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-conversations-get-de3f1a2bcc.md",
+		"category": "Tunnel",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "API Tutorial: /api/zmanim",
-				"anchor": "api-tutorial-api-zmanim"
+				"text": "API Tutorial: /api/tunnel/control/conversations/get",
+				"anchor": "api-tutorial-api-tunnel-control-conversations-get"
 			},
 			{
 				"level": 2,
@@ -136,21 +136,21 @@
 				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/zmanim Family: /api/zmanim · Mount: /api/zmanim · Derech health: OK Source: geelooy/api/zmanim/ awtsmoos.derech.js · Discovery: static literal · Confidence: unknown method Read the human /api/zmanim tutorial Generated evidence is a navigation and teaching aid, not an O",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/zmanim family: /api/zmanim · mount: /api/zmanim · derech health: ok source: geelooy/api/zmanim/ awtsmoos.derech.js · discovery: static literal · confidence: unknown method read the human /api/zmanim tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/zmanim/compare /api/zmanim/day /api/zmanim/embed /api/zmanim/health /api/zmanim/location /api/zmanim/methodology /api/zmanim/opinions /api/zmanim/options",
-		"page": "pages/docs-generated-api-tutorials-routes-api-zmanim-86d9bd4874-md-cc13610ff6.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/tunnel/control/conversations/get Family: Tunnel Control · Mount: /api/tunnel/control · Derech health: OK Source: geelooy/api/tunnel/control/routes/table.js · Discovery: route table · Confidence: unknown method Read the human Tunnel Control tutorial Generated evidence i",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/tunnel/control/conversations/get family: tunnel control · mount: /api/tunnel/control · derech health: ok source: geelooy/api/tunnel/control/routes/table.js · discovery: route table · confidence: unknown method read the human tunnel control tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test:mission continuity actions — node geelooy/apps/tunnel/agent/tools/fs/actiongroups/test/missioncontinuityactions.test.mjs test:treasury — node geelooy/api/tunnel/control/test/runtreasurytests.cjs test:treasury:full — node geelooy/api/tunnel/control/test/treasury/runall.cjs test:tunnel release — node test scripts/tunnel/testing/ .test.cjs scripts/repository hygiene/testing/ .test.cjs related routes /api/tunnel/control/admin vault /api/tunnel/control/admin/perutas /api/tunnel/control/agent economy /api/tunnel/control/agent lobby /api/tunnel/control/agent lobby/join /api/tunnel/control/agent lobby/post /api/tunnel/control/agent manifest /api/tunnel/control/agent room",
+		"page": "pages/docs-generated-api-tutorials-routes-api-tunnel-control-conversations-get-c1fe2930a7.json"
 	},
 	{
-		"id": "docs-generated-api-tutorials-routes-api-zmanim-compare-c5bb565fcb-md-879882e5c4",
-		"title": "API Tutorial: /api/zmanim/compare",
-		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-zmanim-compare-c5bb565fcb.md",
-		"category": "Routes",
+		"id": "docs-generated-api-tutorials-routes-api-tunnel-control-conversations-lis-f702ff3a9a",
+		"title": "API Tutorial: /api/tunnel/control/conversations/list",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-conversations-list-402556b6ec.md",
+		"category": "Tunnel",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "API Tutorial: /api/zmanim/compare",
-				"anchor": "api-tutorial-api-zmanim-compare"
+				"text": "API Tutorial: /api/tunnel/control/conversations/list",
+				"anchor": "api-tutorial-api-tunnel-control-conversations-list"
 			},
 			{
 				"level": 2,
@@ -183,21 +183,21 @@
 				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/zmanim/compare Family: /api/zmanim · Mount: /api/zmanim · Derech health: OK Source: geelooy/api/zmanim/ awtsmoos.derech.js · Discovery: static literal · Confidence: unknown method Read the human /api/zmanim tutorial Generated evidence is a navigation and teaching aid, ",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/zmanim/compare family: /api/zmanim · mount: /api/zmanim · derech health: ok source: geelooy/api/zmanim/ awtsmoos.derech.js · discovery: static literal · confidence: unknown method read the human /api/zmanim tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/zmanim/compare geelooy/zmanim/js/domain/server embed url.js runtime /api/zmanim/compare geelooy/zmanim/tests/embed comparison links.test.mjs test related tests no package script heuristic match was found. related routes /api/zmanim /api/zmanim/day /api/zmanim/embed /api/zmanim/health /api/zmanim/location /api/zmanim/methodology /api/zmanim/opinions /api/zmanim/options",
-		"page": "pages/docs-generated-api-tutorials-routes-api-zmanim-compare-c5bb565fcb-md-879882e5c4.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/tunnel/control/conversations/list Family: Tunnel Control · Mount: /api/tunnel/control · Derech health: OK Source: geelooy/api/tunnel/control/routes/table.js · Discovery: route table · Confidence: unknown method Read the human Tunnel Control tutorial Generated evidence ",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/tunnel/control/conversations/list family: tunnel control · mount: /api/tunnel/control · derech health: ok source: geelooy/api/tunnel/control/routes/table.js · discovery: route table · confidence: unknown method read the human tunnel control tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/tunnel/control/conversations/list geelooy/apps/tunnel control/js/features/previewgateway.js runtime related tests heuristic family matches: test:mission continuity actions — node geelooy/apps/tunnel/agent/tools/fs/actiongroups/test/missioncontinuityactions.test.mjs test:treasury — node geelooy/api/tunnel/control/test/runtreasurytests.cjs test:treasury:full — node geelooy/api/tunnel/control/test/treasury/runall.cjs test:tunnel release — node test scripts/tunnel/testing/ .test.cjs scripts/repository hygiene/testing/ .test.cjs related routes /api/tunnel/control/admin vault /api/tunnel/control/admin/perutas /api/tunnel/control/agent economy /api/tunnel/control/agent lobby /api/tunnel/control/agent lobby/join /api/tunnel/control/agent lobby/post /api/tunnel/control/agent manifest /api/tunnel/control/agent room",
+		"page": "pages/docs-generated-api-tutorials-routes-api-tunnel-control-conversations-lis-f702ff3a9a.json"
 	},
 	{
-		"id": "docs-generated-api-tutorials-routes-api-zmanim-day-6b37237ce4-md-02a44175af",
-		"title": "API Tutorial: /api/zmanim/day",
-		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-zmanim-day-6b37237ce4.md",
-		"category": "Routes",
+		"id": "docs-generated-api-tutorials-routes-api-tunnel-control-conversations-reg-f91f46325f",
+		"title": "API Tutorial: /api/tunnel/control/conversations/register",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-conversations-register-447a75de56.md",
+		"category": "Tunnel",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "API Tutorial: /api/zmanim/day",
-				"anchor": "api-tutorial-api-zmanim-day"
+				"text": "API Tutorial: /api/tunnel/control/conversations/register",
+				"anchor": "api-tutorial-api-tunnel-control-conversations-register"
 			},
 			{
 				"level": 2,
@@ -230,21 +230,21 @@
 				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/zmanim/day Family: /api/zmanim · Mount: /api/zmanim · Derech health: OK Source: geelooy/api/zmanim/ awtsmoos.derech.js · Discovery: static literal · Confidence: unknown method Read the human /api/zmanim tutorial Generated evidence is a navigation and teaching aid, not ",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/zmanim/day family: /api/zmanim · mount: /api/zmanim · derech health: ok source: geelooy/api/zmanim/ awtsmoos.derech.js · discovery: static literal · confidence: unknown method read the human /api/zmanim tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/zmanim/day geelooy/zmanim/index.html runtime /api/zmanim/day geelooy/zmanim/js/domain/server embed url.js runtime /api/zmanim/day geelooy/zmanim/tests/embed comparison links.test.mjs test /api/zmanim/day geelooy/zmanim/tests/embed links.test.mjs test related tests no package script heuristic match was found. related routes /api/zmanim /api/zmanim/compare /api/zmanim/embed /api/zmanim/health /api/zmanim/location /api/zmanim/methodology /api/zmanim/opinions /api/zmanim/options",
-		"page": "pages/docs-generated-api-tutorials-routes-api-zmanim-day-6b37237ce4-md-02a44175af.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/tunnel/control/conversations/register Family: Tunnel Control · Mount: /api/tunnel/control · Derech health: OK Source: geelooy/api/tunnel/control/routes/table.js · Discovery: route table · Confidence: unknown method Read the human Tunnel Control tutorial Generated evide",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/tunnel/control/conversations/register family: tunnel control · mount: /api/tunnel/control · derech health: ok source: geelooy/api/tunnel/control/routes/table.js · discovery: route table · confidence: unknown method read the human tunnel control tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/tunnel/control/conversations/register?${qs} geelooy/apps/tunnel control/js/features/previewgateway.js runtime related tests heuristic family matches: test:mission continuity actions — node geelooy/apps/tunnel/agent/tools/fs/actiongroups/test/missioncontinuityactions.test.mjs test:treasury — node geelooy/api/tunnel/control/test/runtreasurytests.cjs test:treasury:full — node geelooy/api/tunnel/control/test/treasury/runall.cjs test:tunnel release — node test scripts/tunnel/testing/ .test.cjs scripts/repository hygiene/testing/ .test.cjs related routes /api/tunnel/control/admin vault /api/tunnel/control/admin/perutas /api/tunnel/control/agent economy /api/tunnel/control/agent lobby /api/tunnel/control/agent lobby/join /api/tunnel/control/agent lobby/post /api/tunnel/control/agent manifest /api/tunnel/control/agent room",
+		"page": "pages/docs-generated-api-tutorials-routes-api-tunnel-control-conversations-reg-f91f46325f.json"
 	},
 	{
-		"id": "docs-generated-api-tutorials-routes-api-zmanim-embed-7a9e392500-md-d54a3463c3",
-		"title": "API Tutorial: /api/zmanim/embed",
-		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-zmanim-embed-7a9e392500.md",
-		"category": "Routes",
+		"id": "docs-generated-api-tutorials-routes-api-tunnel-control-device-2da02fee01-25d1426102",
+		"title": "API Tutorial: /api/tunnel/control/device",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-device-2da02fee01.md",
+		"category": "Tunnel",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "API Tutorial: /api/zmanim/embed",
-				"anchor": "api-tutorial-api-zmanim-embed"
+				"text": "API Tutorial: /api/tunnel/control/device",
+				"anchor": "api-tutorial-api-tunnel-control-device"
 			},
 			{
 				"level": 2,
@@ -277,55 +277,8 @@
 				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/zmanim/embed Family: /api/zmanim · Mount: /api/zmanim · Derech health: OK Source: geelooy/api/zmanim/ awtsmoos.derech.js · Discovery: static literal · Confidence: unknown method Read the human /api/zmanim tutorial Generated evidence is a navigation and teaching aid, no",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/zmanim/embed family: /api/zmanim · mount: /api/zmanim · derech health: ok source: geelooy/api/zmanim/ awtsmoos.derech.js · discovery: static literal · confidence: unknown method read the human /api/zmanim tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/zmanim/embed geelooy/zmanim/js/domain/server embed url.js runtime /api/zmanim/embed geelooy/zmanim/tests/embed comparison links.test.mjs test /api/zmanim/embed geelooy/zmanim/tests/embed links.test.mjs test related tests no package script heuristic match was found. related routes /api/zmanim /api/zmanim/compare /api/zmanim/day /api/zmanim/health /api/zmanim/location /api/zmanim/methodology /api/zmanim/opinions /api/zmanim/options",
-		"page": "pages/docs-generated-api-tutorials-routes-api-zmanim-embed-7a9e392500-md-d54a3463c3.json"
-	},
-	{
-		"id": "docs-generated-api-tutorials-routes-api-zmanim-health-3637c50b08-md-0d0cbba2b9",
-		"title": "API Tutorial: /api/zmanim/health",
-		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-zmanim-health-3637c50b08.md",
-		"category": "Routes",
-		"provenance": "generated",
-		"headings": [
-			{
-				"level": 1,
-				"text": "API Tutorial: /api/zmanim/health",
-				"anchor": "api-tutorial-api-zmanim-health"
-			},
-			{
-				"level": 2,
-				"text": "Contract evidence",
-				"anchor": "contract-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Path parameters",
-				"anchor": "path-parameters"
-			},
-			{
-				"level": 2,
-				"text": "Starter call",
-				"anchor": "starter-call"
-			},
-			{
-				"level": 2,
-				"text": "Observed callers",
-				"anchor": "observed-callers"
-			},
-			{
-				"level": 2,
-				"text": "Related tests",
-				"anchor": "related-tests"
-			},
-			{
-				"level": 2,
-				"text": "Related routes",
-				"anchor": "related-routes"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/zmanim/health Family: /api/zmanim · Mount: /api/zmanim · Derech health: OK Source: geelooy/api/zmanim/ awtsmoos.derech.js · Discovery: static literal · Confidence: unknown method Read the human /api/zmanim tutorial Generated evidence is a navigation and teaching aid, n",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/zmanim/health family: /api/zmanim · mount: /api/zmanim · derech health: ok source: geelooy/api/zmanim/ awtsmoos.derech.js · discovery: static literal · confidence: unknown method read the human /api/zmanim tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/zmanim /api/zmanim/compare /api/zmanim/day /api/zmanim/embed /api/zmanim/location /api/zmanim/methodology /api/zmanim/opinions /api/zmanim/options",
-		"page": "pages/docs-generated-api-tutorials-routes-api-zmanim-health-3637c50b08-md-0d0cbba2b9.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/tunnel/control/device Family: Tunnel Control · Mount: /api/tunnel/control · Derech health: OK Source: geelooy/api/tunnel/control/routes/table.js · Discovery: route table · Confidence: unknown method Read the human Tunnel Control tutorial Generated evidence is a navigat",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/tunnel/control/device family: tunnel control · mount: /api/tunnel/control · derech health: ok source: geelooy/api/tunnel/control/routes/table.js · discovery: route table · confidence: unknown method read the human tunnel control tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test:mission continuity actions — node geelooy/apps/tunnel/agent/tools/fs/actiongroups/test/missioncontinuityactions.test.mjs test:treasury — node geelooy/api/tunnel/control/test/runtreasurytests.cjs test:treasury:full — node geelooy/api/tunnel/control/test/treasury/runall.cjs test:tunnel release — node test scripts/tunnel/testing/ .test.cjs scripts/repository hygiene/testing/ .test.cjs related routes /api/tunnel/control/admin vault /api/tunnel/control/admin/perutas /api/tunnel/control/agent economy /api/tunnel/control/agent lobby /api/tunnel/control/agent lobby/join /api/tunnel/control/agent lobby/post /api/tunnel/control/agent manifest /api/tunnel/control/agent room",
+		"page": "pages/docs-generated-api-tutorials-routes-api-tunnel-control-device-2da02fee01-25d1426102.json"
 	}
 ]

@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-02-0240-real-public-sitemap-release-05-produ-1d2c22a5ce",
+	"title": "Production Live Evidence",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-02-0240-real-public-sitemap-release/05-production-live-evidence.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Production Live Evidence",
+			"anchor": "production-live-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Public crawler doors",
+			"anchor": "public-crawler-doors"
+		},
+		{
+			"level": 2,
+			"text": "Public crawl graph",
+			"anchor": "public-crawl-graph"
+		},
+		{
+			"level": 2,
+			"text": "Public Road SSR",
+			"anchor": "public-road-ssr"
+		},
+		{
+			"level": 2,
+			"text": "Release infrastructure",
+			"anchor": "release-infrastructure"
+		},
+		{
+			"level": 2,
+			"text": "Main branch reconciliation",
+			"anchor": "main-branch-reconciliation"
+		},
+		{
+			"level": 2,
+			"text": "External cache note",
+			"anchor": "external-cache-note"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-02-0240-real-public-sitemap-release-05-produ-1d2c22a5ce-001.json"
+	]
+}

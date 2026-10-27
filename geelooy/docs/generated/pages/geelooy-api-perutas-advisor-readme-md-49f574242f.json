@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-perutas-advisor-readme-md-49f574242f",
+	"title": "B\"H — Perutas Advisor (geelooy/api/perutas/advisor/)",
+	"sourcePath": "geelooy/api/perutas/advisor/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Perutas Advisor (geelooy/api/perutas/advisor/)",
+			"anchor": "b-h-perutas-advisor-geelooy-api-perutas-advisor"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-perutas-advisor-readme-md-49f574242f-001.json"
+	]
+}

@@ -1,0 +1,74 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-10t1851-final-hardening-multiplex-06-planned-61ffe96535",
+	"title": "Planned Versus Actual",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-10T1851-final-hardening-multiplex/06-planned-vs-actual.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Planned Versus Actual",
+			"anchor": "planned-versus-actual"
+		},
+		{
+			"level": 2,
+			"text": "What this wave planned",
+			"anchor": "what-this-wave-planned"
+		},
+		{
+			"level": 2,
+			"text": "What was actually completed",
+			"anchor": "what-was-actually-completed"
+		},
+		{
+			"level": 3,
+			"text": "Commerce focus lifecycle",
+			"anchor": "commerce-focus-lifecycle"
+		},
+		{
+			"level": 3,
+			"text": "Mobile commerce geometry",
+			"anchor": "mobile-commerce-geometry"
+		},
+		{
+			"level": 3,
+			"text": "Product-aware Radiance positioning",
+			"anchor": "product-aware-radiance-positioning"
+		},
+		{
+			"level": 3,
+			"text": "Wallet settlement health",
+			"anchor": "wallet-settlement-health"
+		},
+		{
+			"level": 3,
+			"text": "Retention and catalog continuity",
+			"anchor": "retention-and-catalog-continuity"
+		},
+		{
+			"level": 3,
+			"text": "Startup performance",
+			"anchor": "startup-performance"
+		},
+		{
+			"level": 3,
+			"text": "Workspace/embed handoff",
+			"anchor": "workspace-embed-handoff"
+		},
+		{
+			"level": 3,
+			"text": "Deployment",
+			"anchor": "deployment"
+		},
+		{
+			"level": 2,
+			"text": "What remains honestly incomplete",
+			"anchor": "what-remains-honestly-incomplete"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-10t1851-final-hardening-multiplex-06-planned-61ffe96535-001.json"
+	]
+}

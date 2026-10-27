@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-09-video-editor-f-6b55d7b73f",
+	"title": "Video Editor First-Pass Delta",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-21-geelooy-uiux-revelation/09-video-editor-first-pass-delta.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Video Editor First-Pass Delta",
+			"anchor": "video-editor-first-pass-delta"
+		},
+		{
+			"level": 2,
+			"text": "Planned",
+			"anchor": "planned"
+		},
+		{
+			"level": 2,
+			"text": "Actual first pass",
+			"anchor": "actual-first-pass"
+		},
+		{
+			"level": 2,
+			"text": "Delta obligations",
+			"anchor": "delta-obligations"
+		},
+		{
+			"level": 2,
+			"text": "Revelation",
+			"anchor": "revelation"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-09-video-editor-f-6b55d7b73f-001.json"
+	]
+}

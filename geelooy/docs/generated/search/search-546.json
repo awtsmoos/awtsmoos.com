@@ -1,0 +1,136 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-directory-guide-md-8e008f33f8",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/src",
+				"anchor": "directory-guide-experiments-awtsmoos-src"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src Role: Experiments Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 1 files, 19 structural child directories Purpose Subsystem root for the modular game runtime. The Awtsmoos renews every path and every artifa",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src role: experiments snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 1 files, 19 structural child directories purpose subsystem root for the modular game runtime. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: experiments search terms: awtsmoos, experiments, guide, src file mix: .md: 1 good first question: “does the behavior or asset i need belong to experiments, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files no immediate files. this directory is an organizational parent; follow the child guides below. directory map parent: experiments/awtsmoos children: experiments/awtsmoos/src/app experiments/awtsmoos/src/assets experiments/awtsmoos/src/bundles experiments/awtsmoos/src/camera experiments/awtsmoos/src/collision experiments/awtsmoos/src/diagnostics experiments/awtsmoos/src/gameplay experiments/awtsmoos/src/input experiments/awtsmoos/src/launcher experiments/awtsmoos/src/lod experiments/awtsmoos/src/math experiments/awtsmoos/src/motion experiments/awtsmoos/src/movie experiments/awtsmoos/src/network experiments/awtsmoos/src/performance experiments/awtsmoos/src/render experiments/awtsmoos/src/test experiments/awtsmoos/src/ui experiments/awtsmoos/src/world related and overlapping systems meadow and fallback runtimes — the former basic and emergency meadow systems were consolidated into the live app stack. the app runtime and launcher now form the single meadow ownership path. rendering stacks — the project contains a lightweight scene/gltf library, the canonical app level progressive renderer, and focused render helpers. emergency fallback visuals were absorbed into the app renderer. terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. procedural world and village generation — village, road, house, primitive, text driven, and public api systems collaborate but are maintained in separate directories. vegetation, trees, and forest systems — botany rules, tree generation, forest composition, grass, and source texture libraries overlap semantically but own different layers. combat domain, action bars, targeting, and hud — domain rules live under gameplay while browser widgets and target presentation live under ui and styles. colocated and integration test surfaces — most subsystem tests live under src/test, while a smaller external tests tree exercises broader integration contracts. movie runtime, projects, tools, and evidence — runtime movie logic is separated from authored projects, exact generation tools, and captured evidence. diagnostics, logs, tools, and root audits — live diagnostics, captured logs, offline tools, and root audit reports describe different stages of observability. player, creature, horse, enemy, and experimental mesh systems — actor assets and world side populations span player hydration, creature generators, enemies, horses, and experimental animal meshes. streaming, lod, visibility, and performance policy — large world loading and frame budget concerns are separated into streaming, lod, visibility, and performance modules. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-directory-guide-md-8e008f33f8.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-gameplay-actionbar-d-399343a7ae",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/actionbar/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/src/gameplay/actionbar",
+				"anchor": "directory-guide-experiments-awtsmoos-src-gameplay-actionbar"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Exported symbols worth searching",
+				"anchor": "exported-symbols-worth-searching"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/gameplay/actionbar Role: Gameplay Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 10 files, 0 structural child directories Purpose Action bar slot models, commands, activation rules, and presentation neutral",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/gameplay/actionbar role: gameplay snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 10 files, 0 structural child directories purpose action bar slot models, commands, activation rules, and presentation neutral action selection. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: gameplay search terms: action, bar, slot, store, com, combat, default, layout, physical, through, controller, coordinator file mix: .js: 9 good first question: “does the behavior or asset i need belong to gameplay, or is this only a neighboring/test/reference layer?” semantic evidence unifies torah abilities and physical actions beneath one authoritative hotbar identity. the awtsmoos is one beyond division, yet each revealed action bears its measured name; awtsmoos.com binds sefer light and staff strike in one bar, one store, one cooldown truth. pure keyboard and gamepad mappings for twelve readable action slots per row. joins physical and torah execution without creating a second combat authority. the awtsmoos shines through distinct vessels yet remains indivisibly one; staff and sefer rhyme, while awtsmoos.com routes both through the same target, turn, stores, events, and measured time. resolves library, slot, and removal drags through deterministic store transitions. representative files actionbaractioncatalog.js — unifies torah abilities and physical actions beneath one authoritative hotbar identity. the awtsmoos is one beyond division, yet each revealed action bears its measured name; awtsmoos.com binds sefer light and staff strike in one bar, one store, one cooldown truth. exports: default melee action id, actionbaractiondefinition, isphysicalaction, integrateddefaultactionbarlayout. actionbarbindingrules.js — pure keyboard and gamepad mappings for twelve readable action slots per row. exports: default action bar bindings, keyboardactionslot, gamepadactionslot, actionbarkeylabel. actionbarcombatgateway.js — joins physical and torah execution without creating a second combat authority. the awtsmoos shines through distinct vessels yet remains indivisibly one; staff and sefer rhyme, while awtsmoos.com routes both through the same target, turn, stores, events, and measured time. exports: actionbarcombatgateway. actionbardragcontroller.js — resolves library, slot, and removal drags through deterministic store transitions. exports: actionbardragcontroller. actionbarlayoutrules.js — reveals small deterministic laws for the one canonical hotbar layout. the awtsmoos grants each deed a waiting vessel, neither crowded nor astray; awtsmoos.com finds the first open chamber without searching the world each frame or day. exports: firstavailableactionslot. actionbarpersistence.js — restores and writes compact action bar layouts only on state transitions. exports: actionbarpersistence. actionbarruntimeassembly.js — assembles the one canonical hotbar runtime from focused existing authorities. the awtsmoos pours one intent through many faithful vessels, each bounded, named, and clear; awtsmoos.com joins store, timeline, status, drag, and persistence without a rival sphere. exports: assembleactionbarruntime. actionbarruntimecoordinator.js — governs one persistent two row bar after focused collaborators are assembled. the awtsmoos unites the deed without confusing its vessels; chesed heals and gevurah may strike, while awtsmoos.com keeps one public covenant for layout, cooldown, target, and input alike. exports: actionbarruntimecoordinator. actionbarstore.js — owns a bounded, persistent ready torah ability layout without frame work or dom state. exports: actionbarstore, action bar limits. exported symbols worth searching default melee action id · actionbaractiondefinition · isphysicalaction · integrateddefaultactionbarlayout · default action bar bindings · keyboardactionslot · gamepadactionslot · actionbarkeylabel · actionbarcombatgateway · actionbardragcontroller · firstavailableactionslot · actionbarpersistence · assembleactionbarruntime · actionbarruntimecoordinator · actionbarstore · action bar limits import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ../combat/torahabilitycatalog.js ./actionbaractioncatalog.js ../combat/torahabilitystatusgateway.js ../combat/torahabilitytimeline.js ../combat/torahstatuseffectstore.js ./actionbarcombatgateway.js ./actionbardragcontroller.js ./actionbarpersistence.js ./actionbarstore.js ./actionbarlayoutrules.js ./actionbarruntimeassembly.js directory map parent: experiments/awtsmoos/src/gameplay children: none. related and overlapping systems combat domain, action bars, targeting, and hud — domain rules live under gameplay while browser widgets and target presentation live under ui and styles. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-gameplay-actionbar-d-399343a7ae.json"
+	}
+]

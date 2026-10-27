@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-570d676833",
+	"title": "Durable verified Awtsmoos work and connection recovery",
+	"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/DURABLE_WORK_AND_CONNECTION_RECOVERY.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Durable verified Awtsmoos work and connection recovery",
+			"anchor": "durable-verified-awtsmoos-work-and-connection-recovery"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-570d676833-001.json"
+	]
+}

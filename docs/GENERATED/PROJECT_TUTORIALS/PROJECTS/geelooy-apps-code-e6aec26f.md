@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 1078 | 44 | 0 | 0 | 2 | 1 | 1125 |
+| 1139 | 54 | 0 | 0 | 2 | 1 | 1196 |
 
 ## Public entry points
 
@@ -29,12 +29,12 @@ Blessed is He
 
 ## Symbol evidence
 
-Source files: 976; classes: 133; functions: 1048; exports: 1195; samples: htmlContentSecurityPolicy, serveVirtualAsset, parseVirtualPath, loadRecord, openDatabase, getElementPath, resolvePath, safeSerialize, announceExistence, isLocal, logNetwork, fetchFromParent.
+Source files: 1018; classes: 134; functions: 1246; exports: 1274; samples: htmlContentSecurityPolicy, serveVirtualAsset, parseVirtualPath, loadRecord, openDatabase, getElementPath, resolvePath, safeSerialize, announceExistence, isLocal, logNetwork, fetchFromParent.
 
 ## Depends on
 
 - `geelooy/shared` — 19 lexical references; examples: geelooy/apps/code/js/actions/commands/compileProjectManifest.js; geelooy/apps/code/js/ai-studio/oracle.js; geelooy/apps/code/js/ai-studio/panel.js
-- `geelooy/apps/android-emulator` — 4 lexical references; examples: geelooy/apps/code/js/actions/commands/build-android-apk.js; geelooy/apps/code/js/actions/commands/build-rebbe-apk.js
+- `geelooy/apps/android-emulator` — 6 lexical references; examples: geelooy/apps/code/js/actions/commands/build-android-apk.js; geelooy/apps/code/js/android/run-imported-apk.js
 - `geelooy/ai` — 3 lexical references; examples: geelooy/apps/code/js/code-chat/oracle.js; geelooy/apps/code/js/vibe/api/multimodal-adapter.js
 - `scripts` — 3 lexical references; examples: geelooy/apps/code/js/android/android-source-builder.js
 - `geelooy/apps/compiler` — 2 lexical references; examples: geelooy/apps/code/js/actions/commands/build-native-project.js
@@ -49,4 +49,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **44**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **54**. Treat this as file evidence, not proof of behavioral coverage.

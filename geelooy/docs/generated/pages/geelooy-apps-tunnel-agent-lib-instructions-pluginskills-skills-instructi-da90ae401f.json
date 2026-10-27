@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-da90ae401f",
+	"title": "Verification and release contract",
+	"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/VERIFICATION_AND_RELEASE_CONTRACT.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 2,
+			"text": "Current tunnel integration takes precedence",
+			"anchor": "current-tunnel-integration-takes-precedence"
+		},
+		{
+			"level": 1,
+			"text": "Verification and release contract",
+			"anchor": "verification-and-release-contract"
+		},
+		{
+			"level": 2,
+			"text": "Verification ladder",
+			"anchor": "verification-ladder"
+		},
+		{
+			"level": 2,
+			"text": "Evidence discipline",
+			"anchor": "evidence-discipline"
+		},
+		{
+			"level": 2,
+			"text": "Deployment",
+			"anchor": "deployment"
+		},
+		{
+			"level": 2,
+			"text": "Plugin publication",
+			"anchor": "plugin-publication"
+		},
+		{
+			"level": 2,
+			"text": "Final improvement pass",
+			"anchor": "final-improvement-pass"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-da90ae401f-001.json"
+	]
+}

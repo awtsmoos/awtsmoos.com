@@ -1,0 +1,79 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-25-1237-geelooy-massive-revelation-02-phase--15c8a484dc",
+	"title": "Phase Two — Architecture and Evidence Map",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-25-1237-geelooy-massive-revelation/02-phase-two-architecture-and-file-map.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase Two — Architecture and Evidence Map",
+			"anchor": "phase-two-architecture-and-evidence-map"
+		},
+		{
+			"level": 2,
+			"text": "Observed project regions",
+			"anchor": "observed-project-regions"
+		},
+		{
+			"level": 2,
+			"text": "Candidate architectural layers to inspect before source writes",
+			"anchor": "candidate-architectural-layers-to-inspect-before-source-writes"
+		},
+		{
+			"level": 3,
+			"text": "Public discovery layer",
+			"anchor": "public-discovery-layer"
+		},
+		{
+			"level": 3,
+			"text": "Shared UI layer",
+			"anchor": "shared-ui-layer"
+		},
+		{
+			"level": 3,
+			"text": "Agent/API layer",
+			"anchor": "agent-api-layer"
+		},
+		{
+			"level": 3,
+			"text": "2D/scene layer",
+			"anchor": "2d-scene-layer"
+		},
+		{
+			"level": 3,
+			"text": "High-risk UI families from previous mission",
+			"anchor": "high-risk-ui-families-from-previous-mission"
+		},
+		{
+			"level": 2,
+			"text": "Candidate inheritance/data model",
+			"anchor": "candidate-inheritance-data-model"
+		},
+		{
+			"level": 2,
+			"text": "CSS localization contract",
+			"anchor": "css-localization-contract"
+		},
+		{
+			"level": 2,
+			"text": "JavaScript contract",
+			"anchor": "javascript-contract"
+		},
+		{
+			"level": 2,
+			"text": "Verification graph",
+			"anchor": "verification-graph"
+		},
+		{
+			"level": 2,
+			"text": "Current unknowns to resolve before final implementation plan",
+			"anchor": "current-unknowns-to-resolve-before-final-implementation-plan"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-25-1237-geelooy-massive-revelation-02-phase--15c8a484dc-001.json"
+	]
+}

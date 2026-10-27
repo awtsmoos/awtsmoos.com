@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Unified Social Publishing (geelooy/api/social/helper/unifiedSocial/publishing/)\n\nPublication pipeline for unified social: plan, execute, and place content with one canonical origin, deterministic secondary placements, and idempotency.\n\n## Files\n- `PublicationPlanner.js`, `PublicationPlanSchema.js`, `PlanningActions.js` — planning.\n- `PublicationExecutor.js`, `ContentPublisher.js`, `SubmissionFactory.js` — execution and publishing.\n- `CanonicalLocator.js` — one canonical origin per piece of content.\n- `PlacementStore.js`, `PlacementIndexes.js` — placements.\n- `IdempotencyLedger.js` — prevents retry duplication.\n- `PublicationRouteHandlers.js` — HTTP routes.\n"
+}

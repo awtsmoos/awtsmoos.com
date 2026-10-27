@@ -20,31 +20,50 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-819b4c5b.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 3,
+		"source": 10,
 		"tests": 0,
 		"assets": 0,
 		"generated": 0,
 		"docs": 0,
 		"other": 0
 	},
-	"totalFiles": 3,
+	"totalFiles": 10,
 	"symbolSummary": {
-		"files": 1,
+		"files": 8,
 		"classes": 0,
-		"functions": 2,
-		"exports": 2,
+		"functions": 29,
+		"exports": 21,
 		"samples": [
 			"dynamicRoutes",
-			"response",
-			"safeAlias",
-			"makeAliasShell"
+			"registerRoutes",
+			"renderAliasSitemap",
+			"renderAliasSitemapShard",
+			"renderAliasComments",
+			"renderAlias",
+			"PAGE_SIZE",
+			"renderAliasCommentsPage",
+			"pageNumber",
+			"navigation",
+			"AUTHORED_POST_LIMIT",
+			"commentUrl"
 		]
 	},
-	"outgoingDependencies": [],
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/seo",
+			"count": 8,
+			"examples": "geelooy/@/seo/aliasCommentsPage.js; geelooy/@/seo/aliasData.js; geelooy/@/seo/aliasPage.js"
+		},
+		{
+			"project": "geelooy/api/social",
+			"count": 6,
+			"examples": "geelooy/@/seo/aliasData.js; geelooy/@/seo/aliasSitemap.js; geelooy/@/seo/aliasSites.js"
+		}
+	],
 	"incomingDependencies": [],
 	"externalDependencies": [],
 	"publicEntries": [],
-	"requiresLocalDocumentation": false,
+	"requiresLocalDocumentation": true,
 	"documentationCovered": false,
 	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
 }

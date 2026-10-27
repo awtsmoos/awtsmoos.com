@@ -1,0 +1,193 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-09-14-main-only-convergence-02-twenty-safety-im-5fbafbf9d6",
+		"title": "Phase Two — Twenty Safety Improvements",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-14-main-only-convergence/02-twenty-safety-improvements.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Two — Twenty Safety Improvements",
+				"anchor": "phase-two-twenty-safety-improvements"
+			}
+		],
+		"excerpt": "Phase Two — Twenty Safety Improvements 1. Compare every branch against origin/main, not stale local main. 2. Count unique commits in both directions for every branch. 3. List exact unique commit subjects before merging. 4. Measure dirty state of every existing worktree separately. 5. Treat missing/prunable worktrees di",
+		"searchText": "phase two — twenty safety improvements 1. compare every branch against origin/main, not stale local main. 2. count unique commits in both directions for every branch. 3. list exact unique commit subjects before merging. 4. measure dirty state of every existing worktree separately. 5. treat missing/prunable worktrees differently from live dirty worktrees. 6. categorize canonical dirt by status code and top level path. 7. scan untracked candidates for secret like filenames before staging. 8. scan large untracked files before staging. 9. do not stage .env, credentials, key material, node modules, caches, logs, build archives, or tunnel state. 10. make canonical local work durable on main before integrating remote history. 11. avoid squash if history contains meaningful independent release commits unless conflict pressure demands it. 12. prefer a normal merge of origin/main into canonical main so both histories survive. 13. for side branches already merged upstream, delete references without replaying commits. 14. for side branches with unique commits, inspect patch id/content overlap before replay. 15. harvest uncommitted worktree diffs before deleting worktrees. 16. re run git branch no merged main after every convergence wave. 17. re run worktree dirty checks before removals. 18. push only after final branch/worktree uniqueness reaches zero or remaining items are explicitly proven junk. 19. keep release/ui/workspace tests grouped so failures identify the contributing merge wave. 20. record planned vs actual convergence evidence in this folder.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-14-main-only-convergence-02-twenty-safety-im-5fbafbf9d6.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-14-main-only-convergence-03-thirty-final-ref-b5df604722",
+		"title": "Phase Three — Thirty Final Refinements",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-14-main-only-convergence/03-thirty-final-refinements.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Three — Thirty Final Refinements",
+				"anchor": "phase-three-thirty-final-refinements"
+			}
+		],
+		"excerpt": "Phase Three — Thirty Final Refinements 1. Keep main checked out throughout canonical mutations. 2. Never create a temporary branch. 3. Never use git reset hard on canonical dirty state before it is durable. 4. Never use git clean on canonical dirty state during convergence. 5. Never force delete a live worktree with un",
+		"searchText": "phase three — thirty final refinements 1. keep main checked out throughout canonical mutations. 2. never create a temporary branch. 3. never use git reset hard on canonical dirty state before it is durable. 4. never use git clean on canonical dirty state during convergence. 5. never force delete a live worktree with uncommitted changes. 6. never force delete a branch with unique commits until represented in final main. 7. snapshot exact branch tips in the convergence ledger. 8. snapshot exact worktree paths and dirty counts. 9. treat remote only geelooy release candidate as a source branch to audit, not automatically merge. 10. detect duplicate commits using git cherry/patch identity where helpful. 11. prefer content equivalent current remote implementations over older duplicate branch changes. 12. preserve newer current main fixes when resolving old release branch conflicts. 13. keep the live deployment workflow intact unless a convergence commit directly supersedes it. 14. preserve user files in ignored persistence directories. 15. separate generated seo/catalog files from hand authored product code during review. 16. verify source headers/line ceilings only for files actually touched by our new implementation wave. 17. do not retroactively reformat thousands of unrelated legacy files during convergence. 18. use whole file rewrites for any conflict resolution that changes source. 19. do not use patch style source mutation commands. 20. maintain tabs/jsdoc/source law for newly rewritten js. 21. after branch convergence, remove obsolete worktree metadata with git worktree prune. 22. remove obsolete local branches only after main contains them. 23. consider remote branch deletion only after final verification and only for obsolete release candidate refs. 24. keep origin/main tracking configured on local main. 25. end with main...origin/main divergence understood and intentional. 26. end with no extra live worktrees containing unique or dirty work. 27. end with no local branches containing unique commits. 28. continue drive workspace launch directly in canonical folder after convergence. 29. test drive/os integration before publishing it. 30. publish only from canonical main, never from a side worktree or branch.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-14-main-only-convergence-03-thirty-final-ref-b5df604722.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-14-main-only-convergence-04-final-execution--e81dec65a8",
+		"title": "Final Execution Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-14-main-only-convergence/04-final-execution-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Final Execution Plan",
+				"anchor": "final-execution-plan"
+			},
+			{
+				"level": 2,
+				"text": "Wave A — Evidence",
+				"anchor": "wave-a-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Wave B — Canonical durability",
+				"anchor": "wave-b-canonical-durability"
+			},
+			{
+				"level": 2,
+				"text": "Wave C — Remote integration",
+				"anchor": "wave-c-remote-integration"
+			},
+			{
+				"level": 2,
+				"text": "Wave D — Side branch/worktree harvest",
+				"anchor": "wave-d-side-branch-worktree-harvest"
+			},
+			{
+				"level": 2,
+				"text": "Wave E — Main-only product work",
+				"anchor": "wave-e-main-only-product-work"
+			},
+			{
+				"level": 2,
+				"text": "Completion gates",
+				"anchor": "completion-gates"
+			}
+		],
+		"excerpt": "Final Execution Plan Wave A — Evidence Audit canonical dirty files, branch uniqueness vs origin/main, worktree dirt, large/untracked/secret risk files, and patch overlap. Wave B — Canonical durability Make the existing canonical local work durable on main without accidentally adding machine local junk or secrets. Prese",
+		"searchText": "final execution plan wave a — evidence audit canonical dirty files, branch uniqueness vs origin/main, worktree dirt, large/untracked/secret risk files, and patch overlap. wave b — canonical durability make the existing canonical local work durable on main without accidentally adding machine local junk or secrets. preserve the existing four unique main commits. wave c — remote integration merge current origin/main into canonical main; resolve conflicts with current production truth, full file source rewrites only, then test affected areas. wave d — side branch/worktree harvest for each side branch/worktree: if already contained, remove it; if unique, bring its real work into canonical main, test, then remove the branch/worktree. prune missing worktree metadata. wave e — main only product work continue the already designed secure drive private content → existing os opener integration directly in canonical main, with no new branches/worktrees. completion gates canonical folder only branch main no valuable unique side branch commits no valuable dirty side worktree state no accidental secret/junk commits tests green for merged surfaces final push is a normal non force update from canonical main",
+		"page": "pages/geelooy-ai-thoughts-2026-09-14-main-only-convergence-04-final-execution--e81dec65a8.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-14-world-selector-convergence-01-boundless-m-8403eedfc4",
+		"title": "Phase One — World Selector Convergence",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-14-world-selector-convergence/01-boundless.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase One — World Selector Convergence",
+				"anchor": "phase-one-world-selector-convergence"
+			}
+		],
+		"excerpt": "Phase One — World Selector Convergence Preserve every useful world tree registry improvement from the stranded selector worktree while keeping current canonical main as production truth. Compare current, side HEAD base, and side working copy; merge whole files only; retain generated asset coverage; keep runtime/generat",
+		"searchText": "phase one — world selector convergence preserve every useful world tree registry improvement from the stranded selector worktree while keeping current canonical main as production truth. compare current, side head base, and side working copy; merge whole files only; retain generated asset coverage; keep runtime/generated artifacts out unless regenerated by canonical source tooling; test registry determinism and asset coverage before commit.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-14-world-selector-convergence-01-boundless-m-8403eedfc4.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-14-world-selector-convergence-02-twenty-impr-dce57bceac",
+		"title": "Phase Two — Twenty Improvements",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-14-world-selector-convergence/02-twenty-improvements.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Two — Twenty Improvements",
+				"anchor": "phase-two-twenty-improvements"
+			}
+		],
+		"excerpt": "Phase Two — Twenty Improvements 1. Work only on canonical main. 2. Never create a branch. 3. Treat side worktree as read only. 4. Inspect side HEAD ancestry. 5. Compare current/base/feature. 6. Whole file merge only. 7. Exact blessing headers. 8. Tabs only in JS. 9. Keep touched JS below 120 lines. 10. Preserve current",
+		"searchText": "phase two — twenty improvements 1. work only on canonical main. 2. never create a branch. 3. treat side worktree as read only. 4. inspect side head ancestry. 5. compare current/base/feature. 6. whole file merge only. 7. exact blessing headers. 8. tabs only in js. 9. keep touched js below 120 lines. 10. preserve current generated world contracts. 11. preserve newer main apis. 12. do not hand edit generated json. 13. prefer generator source when available. 14. run focused registry test. 15. run syntax checks. 16. run diff hygiene. 17. re read merged files. 18. commit only selector paths. 19. make old branch an ancestor before deletion. 20. remove worktree only after content and history are represented on main.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-14-world-selector-convergence-02-twenty-impr-dce57bceac.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-14-world-selector-convergence-03-thirty-refi-6feaac0c31",
+		"title": "Phase Three — Thirty Final Refinements",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-14-world-selector-convergence/03-thirty-refinements.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Three — Thirty Final Refinements",
+				"anchor": "phase-three-thirty-final-refinements"
+			}
+		],
+		"excerpt": "Phase Three — Thirty Final Refinements 1. Refresh canonical HEAD. 2. Record side tip. 3. Record side dirt. 4. Inspect exact two selector files. 5. Inspect side commit patch. 6. Detect already integrated content. 7. Avoid duplicate generated assets. 8. Merge registry semantics not stale formatting. 9. Keep selector IDs ",
+		"searchText": "phase three — thirty final refinements 1. refresh canonical head. 2. record side tip. 3. record side dirt. 4. inspect exact two selector files. 5. inspect side commit patch. 6. detect already integrated content. 7. avoid duplicate generated assets. 8. merge registry semantics not stale formatting. 9. keep selector ids stable. 10. keep coverage deterministic. 11. preserve current world asset naming. 12. preserve existing public exports. 13. reject stale paths. 14. validate no secrets. 15. validate no json hand edits. 16. validate headers. 17. validate tabs. 18. validate line ceilings. 19. validate jsdoc on exports. 20. run node check. 21. run registry test. 22. run adjacent generator test if present. 23. re read files. 24. stage only selector scope. 25. commit on main. 26. recheck side ancestry. 27. record merge if history still unique. 28. remove worktree. 29. delete local branch. 30. continue immediately to generated selector integration wave.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-14-world-selector-convergence-03-thirty-refi-6feaac0c31.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-14-world-selector-convergence-04-final-plan--beeb061e6c",
+		"title": "Final Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-14-world-selector-convergence/04-final-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Final Plan",
+				"anchor": "final-plan"
+			}
+		],
+		"excerpt": "Final Plan Touch only .ai/domain/olamTree.registry.js and .ai/domain/olamTree.registry.test.mjs if evidence proves side deltas are not already superseded. Use a whole file three way merge from side HEAD canonical current + side working copy. Test, commit on main, then retire the side worktree/branch only after ancestry",
+		"searchText": "final plan touch only .ai/domain/olamtree.registry.js and .ai/domain/olamtree.registry.test.mjs if evidence proves side deltas are not already superseded. use a whole file three way merge from side head canonical current + side working copy. test, commit on main, then retire the side worktree/branch only after ancestry and content gates pass.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-14-world-selector-convergence-04-final-plan--beeb061e6c.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-16-2300-insane-seo-ui-ux-00-mission-evidence-73789b36a1",
+		"title": "Mission and Evidence Ledger",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-16-2300-insane-seo-ui-ux/00-mission-evidence.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Mission and Evidence Ledger",
+				"anchor": "mission-and-evidence-ledger"
+			},
+			{
+				"level": 2,
+				"text": "User mission",
+				"anchor": "user-mission"
+			},
+			{
+				"level": 2,
+				"text": "Observed evidence",
+				"anchor": "observed-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Risks",
+				"anchor": "risks"
+			},
+			{
+				"level": 2,
+				"text": "REMAININGWORK",
+				"anchor": "remainingwork"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Mission and Evidence Ledger From nothing the Awtsmoos renews every doorway and every ray, So Awtsmoos.com must make each public page clear to human and crawler today. Simplicity shall dwell on the surface, while deep machinery stays below, And every claim shall rest on inspected evidence",
+		"searchText": "b\"h boruch hashem blessed is he mission and evidence ledger from nothing the awtsmoos renews every doorway and every ray, so awtsmoos.com must make each public page clear to human and crawler today. simplicity shall dwell on the surface, while deep machinery stays below, and every claim shall rest on inspected evidence, not on a guessed seo glow. user mission strengthen seo across every public page and massively improve ui/ux, with the visible experience becoming simpler while reusable complexity lives underneath. observed evidence repository root: /users/awtsmoos/work/awtsmoos.com. root agents.md requires inspection, complete file rewrites, small modules, and real verification. the root package is a custom node application, not a conventional next/vite monolith. root, apps, games, heichel, and translation sitemap surfaces already exist under geelooy/. existing seo audit/runtime scripts already inspect sitemap coverage. a prior seo workstream designed privacy safe heichel sitemap discovery and canonical public seeding. the working tree contains many active modifications, including geelooy/index.html and shared ui files; they must be preserved, not reset. risks shared file rewrites could destroy unrelated active work unless full current contents are incorporated. \"every page\" cannot be claimed until route/template ownership is mapped. client only metadata is weaker than initial server/static head output. structured data must reflect visible page meaning, never invented entities. simpler ui must preserve semantic navigation, accessibility, and crawl discovery. sitemap breadth without canonical discipline can create crawl waste. remaining work 1. map public route families and ownership. 2. map head/meta/json ld/canonical implementation. 3. map shared navigation and page template ui ownership. 4. inspect existing seo tests and route audits. 5. inspect current home and key public surfaces while preserving active edits. 6. compare five viable seo/ui architectures. 7. critique with at least twenty concrete improvements. 8. produce a second file plan grounded in evidence. 9. critique again with at least thirty additional improvements. 10. produce the final file level implementation plan. 11. rewrite complete implementation files only after planning closes. 12. run static, runtime html, browser ux, and seo verification. 13. re read touched files and compare planned versus actual. 14. resolve deltas and shadow work until completion evidence is strong. next action inspect route ownership, seo/head symbols, shared templates, and existing seo tests.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-16-2300-insane-seo-ui-ux-00-mission-evidence-73789b36a1.json"
+	}
+]

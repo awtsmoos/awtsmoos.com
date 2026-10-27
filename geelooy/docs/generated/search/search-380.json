@@ -1,0 +1,179 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-08-30t1955-geelooy-social-better-02-gevurah-cri-96497c28da",
+		"title": "Phase Two — Gevurah Critique and Risk Boundaries",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-30T1955-geelooy-social-better/02_GEVURAH_CRITIQUE.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Two — Gevurah Critique and Risk Boundaries",
+				"anchor": "phase-two-gevurah-critique-and-risk-boundaries"
+			},
+			{
+				"level": 2,
+				"text": "Risks to constrain",
+				"anchor": "risks-to-constrain"
+			},
+			{
+				"level": 2,
+				"text": "Stronger design choice",
+				"anchor": "stronger-design-choice"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Two — Gevurah Critique and Risk Boundaries The Awtsmoos gives expansion through Chesed and boundary through Gevurah; Awtsmoos.com should improve the Social Hub without converting a focused UI mission into unrelated infrastructure churn. Risks to constrain 1. Do not duplicate the sa",
+		"searchText": "b\"h boruch hashem blessed is he phase two — gevurah critique and risk boundaries the awtsmoos gives expansion through chesed and boundary through gevurah; awtsmoos.com should improve the social hub without converting a focused ui mission into unrelated infrastructure churn. risks to constrain 1. do not duplicate the same 12 route traversal inside two giant browser files. 2. do not weaken route quality assertions just to get green output. 3. do not create a route local override for shared universal chat behavior. 4. do not edit generated assets. 5. do not exceed 120 lines in touched human authored source/test files. 6. do not partially patch existing files; rewrite complete touched files. 7. do not introduce external social provider integration. 8. do not publish real posts or mutate real user data. 9. do not change source control staging/commit state. 10. do not rely on a green heartbeat as proof that a command ran. 11. do not claim a combined suite passed unless the exact final tree command completes. 12. do not let stale remaining work contradict disk reality. 13. do not force every inline text link to 44px when its semantic context is intentionally prose. 14. do require primary/standalone controls to maintain practical touch geometry. 15. do not treat browser infrastructure failure as an application failure. 16. do not hide a browser infrastructure failure as an application success either. 17. do not overbuild future provider linking abstractions while they are excluded. 18. do not add meaningless mystical wrappers; kabbalistic naming must describe real responsibility. 19. do not create a monolithic mega test; keep inspector, journey, runner, and smoke roles distinct. 20. do not silently leave the standalone audit outside ci/default developer commands. 21. do not change shared chat styling without checking its public app consumer. 22. do not shorten comments to make line budgets fit; split responsibilities instead. 23. do not use space indentation in touched js/css where tabs are valid. 24. do not stop after package wiring; rerun both focused and full verification. 25. do not close until the final ledger matches actual completed/pending work. stronger design choice keep browsersmoke.test.mjs focused on one integrated user journey. keep browsersurfacequality.test.mjs focused on exhaustive 12 route rendered surface invariants. wire both under test:browser so default browser verification runs the complementary witnesses without duplicating their internals. the boundary is mercy: the awtsmoos reveals more by refusing false excess, and awtsmoos.com becomes stronger when each test keeps one covenant and every covenant joins the whole.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-30t1955-geelooy-social-better-02-gevurah-cri-96497c28da.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-30t1955-geelooy-social-better-03-tiferes-fin-99d8d64285",
+		"title": "Phase Three — Tiferes Final Execution Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-30T1955-geelooy-social-better/03_TIFERES_FINAL_PLAN.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Three — Tiferes Final Execution Plan",
+				"anchor": "phase-three-tiferes-final-execution-plan"
+			},
+			{
+				"level": 2,
+				"text": "Files expected to rewrite",
+				"anchor": "files-expected-to-rewrite"
+			},
+			{
+				"level": 2,
+				"text": "Files expected to create",
+				"anchor": "files-expected-to-create"
+			},
+			{
+				"level": 2,
+				"text": "Execution graph",
+				"anchor": "execution-graph"
+			},
+			{
+				"level": 2,
+				"text": "Completion evidence",
+				"anchor": "completion-evidence"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Three — Tiferes Final Execution Plan The Awtsmoos joins rigor and usability in Tiferes; Awtsmoos.com should finish this pass with permanent regression evidence and one additional narrow mobile challenge. Files expected to rewrite social hub/package.json — add a named test:browser:r",
+		"searchText": "b\"h boruch hashem blessed is he phase three — tiferes final execution plan the awtsmoos joins rigor and usability in tiferes; awtsmoos.com should finish this pass with permanent regression evidence and one additional narrow mobile challenge. files expected to rewrite social hub/package.json — add a named test:browser:routes script and make test:browser run smoke plus route quality. .ai thoughts/2026 08 28t0310 geelooy social mobile/00 remaining work.md — full rewrite after verification so it reflects truth. files expected to create social hub/tests/browsernarrowquality.test.mjs only if the existing harness cannot express the 320px stress pass without bloating another test. one final verification/handoff markdown artifact in this pass folder. execution graph 1. read complete browser smoke, route quality runner, mobile helper, package manifest, and chat link stylesheet. 2. confirm current imports, line budgets, indentation, and b\"h/awtsmoos headers. 3. rewrite package.json whole with route quality wired into browser verification. 4. read back package manifest and validate json. 5. run npm test. 6. ensure isolated cdp chrome endpoint exists on 9222 without touching user chrome. 7. run npm run test:browser so smoke and all route quality execute through the default covenant. 8. add/run a 320px stress audit if existing tests do not cover that width. 9. if 320px exposes defects, trace exact owners and repair production through full file rewrites. 10. rerun focused browser tests after every production repair. 11. run npm run test:all on the true final tree. 12. run syntax/line/indentation/header/todo/provider exclusion/git diff checks. 13. re read every file touched this pass. 14. write final verification and update remaining work to actual zero or precise blockers. completion evidence completion requires unit contracts green, browser smoke green, all 12 routes green through the default browser command, extra narrow mobile quality measured, scoped hygiene clean, and the remaining work ledger matching reality. the awtsmoos is renewed before every click can arise; awtsmoos.com will therefore leave not only a beautiful path but a witness beside the path, so tomorrow's hand cannot unknowingly narrow what today's hand made right.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-30t1955-geelooy-social-better-03-tiferes-fin-99d8d64285.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-31t0006-social-hub-simple-retractable-00-rem-57b03b418b",
+		"title": "REMAINING WORK — Release Mechanics Only",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-31T0006-social-hub-simple-retractable/00_REMAINING_WORK.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "REMAINING WORK — Release Mechanics Only",
+				"anchor": "remaining-work-release-mechanics-only"
+			},
+			{
+				"level": 2,
+				"text": "Completed product work",
+				"anchor": "completed-product-work"
+			},
+			{
+				"level": 2,
+				"text": "Remaining",
+				"anchor": "remaining"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He REMAINING WORK — Release Mechanics Only Completed product work [x] Compact retractable top context. [x] One Home Create action without duplicate floating Create. [x] Retractable pulse and secondary actions. [x] Retractable profile lookup and advanced capability center. [x] Compact dock a",
+		"searchText": "b\"h boruch hashem blessed is he remaining work — release mechanics only completed product work [x] compact retractable top context. [x] one home create action without duplicate floating create. [x] retractable pulse and secondary actions. [x] retractable profile lookup and advanced capability center. [x] compact dock and non home persistent creator. [x] glass css motion with static blur and compositor only sheen. [x] reduced motion, reduced transparency, and forced colors fallbacks. [x] 390px geometry proof. [x] isolated 320px geometry proof with zero harness errors. [x] full npm run test:all green on the finished tree. remaining [ ] stage only the social hub release paths. [ ] commit without disturbing unrelated repository work. [ ] reconcile safely with current origin/main. [ ] push the release. [ ] verify hub local 023 and simplified source signatures on production. [ ] close this ledger after live verification. next action perform scoped commit/push and verify the live awtsmoos.com social hub assets.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-31t0006-social-hub-simple-retractable-00-rem-57b03b418b.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-31t0006-social-hub-simple-retractable-01-bra-baa4b29e0f",
+		"title": "Phase One — Simpler, Retractable, Better",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-31T0006-social-hub-simple-retractable/01_BRAINSTORM.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase One — Simpler, Retractable, Better",
+				"anchor": "phase-one-simpler-retractable-better"
+			},
+			{
+				"level": 2,
+				"text": "Observed screenshot failures",
+				"anchor": "observed-screenshot-failures"
+			},
+			{
+				"level": 2,
+				"text": "Better possibilities",
+				"anchor": "better-possibilities"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase One — Simpler, Retractable, Better The screenshots reveal a true UX problem: too many truthful vessels are open at once. The Awtsmoos is one before all multiplicity, and Awtsmoos.com should let the mobile surface begin with one clear deed, one compact context, and content—not a wal",
+		"searchText": "b\"h boruch hashem blessed is he phase one — simpler, retractable, better the screenshots reveal a true ux problem: too many truthful vessels are open at once. the awtsmoos is one before all multiplicity, and awtsmoos.com should let the mobile surface begin with one clear deed, one compact context, and content—not a wall of persistent chrome. observed screenshot failures 1. identity/context consumes several rows before content begins. 2. four zero value metrics each become giant empty cards. 3. the constellation hero is visually large but low value for the first task. 4. four secondary actions occupy nearly an entire viewport. 5. “everything social” is a large permanent card although it is secondary navigation. 6. floating create overlaps the visual hierarchy and competes with the bottom dock. 7. home can show both an inline create and a floating create, duplicating the same deed. 8. the fallback/loading shell looks like a different unfinished product. 9. the user cannot easily understand what should be tapped first. 10. the mobile information density is inverted: meta dominates content. better possibilities one compact top bar: current alias + route title + disclosure chevron. put destination/privacy inside a native context drawer, closed by default. keep alias selector inside that drawer rather than permanently expanded. home starts with one clear create post row. replace constellation hero with a compact one line pulse summary. replace six stat cards with one horizontal compact stat strip. secondary actions become one retractable “more actions” disclosure. capability center becomes collapsed by default on mobile. mobile floating create hides on home because home already owns the primary create action. on non home routes, floating create becomes a compact circular/small pill above the dock. make the dock visually flatter and shorter while preserving 44px targets. ensure loading shell uses the same compact skeleton language. the awtsmoos gives hidden depth without demanding visible clutter; awtsmoos.com should reveal complexity only when the user asks for it.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-31t0006-social-hub-simple-retractable-01-bra-baa4b29e0f.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-31t0006-social-hub-simple-retractable-02-cri-b771c96bf1",
+		"title": "Phase Two — Critique",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-31T0006-social-hub-simple-retractable/02_CRITIQUE.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Two — Critique",
+				"anchor": "phase-two-critique"
+			},
+			{
+				"level": 2,
+				"text": "Risks and constraints",
+				"anchor": "risks-and-constraints"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Two — Critique The Awtsmoos does not confuse simplicity with deletion. We preserve every controller ID and every reachable capability while changing only when it is revealed. Risks and constraints 1. Preserve all existing IDs used by presenters/controllers. 2. Preserve all twelve r",
+		"searchText": "b\"h boruch hashem blessed is he phase two — critique the awtsmoos does not confuse simplicity with deletion. we preserve every controller id and every reachable capability while changing only when it is revealed. risks and constraints 1. preserve all existing ids used by presenters/controllers. 2. preserve all twelve routes. 3. do not remove capability access; collapse it. 4. do not break desktop layout while simplifying mobile. 5. do not duplicate create on home. 6. keep touch targets at least 44px for standalone controls. 7. use semantic / for disclosure when possible. 8. avoid custom js state if native disclosure can own it. 9. preserve alias/destination/privacy text for context presenters. 10. keep home stats in dom so homepulse continues to update them. 11. keep quick action ids in dom so quickactions remains functional. 12. keep pulseorb/pulsetarget ids if controller code expects them, but mobile may visually compress the hero. 13. keep persistent creator route contract, but alter presentation by route/mobile css. 14. avoid a new monolithic stylesheet; split mobile simple rules into focused modules. 15. keep every touched source <=120 lines. 16. full file rewrites only. 17. tabs in js/css. 18. required b\"h/awtsmoos/awtsmoos.com comments remain. 19. verify actual browser screenshots at mobile width after implementation. 20. run existing route quality and creator contracts so simplification cannot silently break behavior. simplicity is gevurah: the awtsmoos hides infinite depth behind the exact boundary the user needs now.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-31t0006-social-hub-simple-retractable-02-cri-b771c96bf1.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-31t0006-social-hub-simple-retractable-03-fin-f3b344c9c9",
+		"title": "Phase Three — Final Execution Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-31T0006-social-hub-simple-retractable/03_FINAL_PLAN.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Three — Final Execution Plan",
+				"anchor": "phase-three-final-execution-plan"
+			},
+			{
+				"level": 2,
+				"text": "Expected touched files",
+				"anchor": "expected-touched-files"
+			},
+			{
+				"level": 2,
+				"text": "Execution",
+				"anchor": "execution"
+			},
+			{
+				"level": 2,
+				"text": "Visual completion gate",
+				"anchor": "visual-completion-gate"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Three — Final Execution Plan The Awtsmoos joins clarity and capability in Tiferes; Awtsmoos.com will become simpler without becoming weaker. Expected touched files social hub/js/ui/shell/SocialHubChromeTemplate.js — semantic retractable context drawer while preserving IDs. social h",
+		"searchText": "b\"h boruch hashem blessed is he phase three — final execution plan the awtsmoos joins clarity and capability in tiferes; awtsmoos.com will become simpler without becoming weaker. expected touched files social hub/js/ui/shell/socialhubchrometemplate.js — semantic retractable context drawer while preserving ids. social hub/js/ui/shell/homepaneltemplate.js — compact pulse, compact stats, retractable secondary actions. focused mobile css owners discovered from disk — compact drawer, stats, actions, persistent create/dock behavior. social hub/style.css only if a new focused css module must be imported. existing tests only if current contracts encode the old always expanded presentation. execution 1. read all current css owners and relevant controllers/tests. 2. rewrite templates in full with semantic disclosure structures and stable ids. 3. rewrite/split css owners in full for compact mobile hierarchy. 4. read back every touched file and check line limits. 5. run node syntax and existing unit/contracts. 6. run real mobile browser smoke and twelve route quality. 7. inspect screenshot/dom geometry for top chrome height, create duplication, dock overlap, and home first screen density. 8. repair any observed defect through full file rewrites. 9. run final npm run test:all. 10. update durable remaining work ledger only after the browser proves the new design. visual completion gate at 390px: the first screen should show a compact header, one primary create action or meaningful feed content, and the dock—without giant empty stat cards or permanent secondary action walls. context and advanced tools must be one tap away but closed by default. the awtsmoos remains infinite when the vessel becomes small; awtsmoos.com should feel powerful because the interface knows what not to show yet.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-31t0006-social-hub-simple-retractable-03-fin-f3b344c9c9.json"
+	}
+]

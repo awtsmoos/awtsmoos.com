@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Social Kernel Capabilities (geelooy/api/social/helper/socialKernel/capabilities/)\n\nCapability system for the social kernel: what an actor may do, compiled into a catalog and enforced by policy.\n\n## Files\n- `SocialCapabilityCatalog.js` — catalog of capabilities.\n- `SocialCapabilityPolicy.js` — policy deciding which capabilities apply.\n- `SocialAnswerCapability.js`, `SocialAuthorityCapability.js`, `SocialFollowCapability.js` — answer/authority/follow capabilities.\n"
+}

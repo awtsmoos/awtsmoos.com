@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 0 | 16 | 0 | 0 | 1 | 0 | 17 |
+| 0 | 100 | 0 | 0 | 1 | 0 | 101 |
 
 ## Public entry points
 
@@ -40,7 +40,7 @@ None observed.
 
 ## Used by
 
-None observed.
+- `geelooy/browser-test` — 2 lexical references; examples: geelooy/browser-test/mobile-ui/RouteAudit.mjs
 
 ## External packages
 
@@ -48,4 +48,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **16**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **100**. Treat this as file evidence, not proof of behavioral coverage.

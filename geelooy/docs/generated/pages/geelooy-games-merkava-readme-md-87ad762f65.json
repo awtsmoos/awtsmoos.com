@@ -14,13 +14,8 @@
 		},
 		{
 			"level": 2,
-			"text": "Active runtime",
-			"anchor": "active-runtime"
-		},
-		{
-			"level": 2,
-			"text": "Controls",
-			"anchor": "controls"
+			"text": "Quick controls",
+			"anchor": "quick-controls"
 		},
 		{
 			"level": 2,
@@ -28,39 +23,9 @@
 			"anchor": "run-modes"
 		},
 		{
-			"level": 3,
-			"text": "Campaign",
-			"anchor": "campaign"
-		},
-		{
-			"level": 3,
-			"text": "Endless",
-			"anchor": "endless"
-		},
-		{
 			"level": 2,
-			"text": "Seeded route system",
-			"anchor": "seeded-route-system"
-		},
-		{
-			"level": 2,
-			"text": "Worlds",
-			"anchor": "worlds"
-		},
-		{
-			"level": 2,
-			"text": "Strategic systems",
-			"anchor": "strategic-systems"
-		},
-		{
-			"level": 2,
-			"text": "Enemies and bosses",
-			"anchor": "enemies-and-bosses"
-		},
-		{
-			"level": 2,
-			"text": "Persistence",
-			"anchor": "persistence"
+			"text": "Runtime",
+			"anchor": "runtime"
 		},
 		{
 			"level": 2,
@@ -69,13 +34,23 @@
 		},
 		{
 			"level": 2,
-			"text": "Verification",
-			"anchor": "verification"
+			"text": "Styling covenant",
+			"anchor": "styling-covenant"
 		},
 		{
 			"level": 2,
-			"text": "Diagnostics and future work",
-			"anchor": "diagnostics-and-future-work"
+			"text": "Input covenant",
+			"anchor": "input-covenant"
+		},
+		{
+			"level": 2,
+			"text": "Diagnostics",
+			"anchor": "diagnostics"
+		},
+		{
+			"level": 2,
+			"text": "Verification",
+			"anchor": "verification"
 		}
 	],
 	"markdownParts": [

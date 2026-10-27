@@ -1,0 +1,154 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-tunnel-lanes-how-to-run-commands-md-4fee402c96",
+	"title": "B\"H — How to Run Commands From Each Tunnel Lane (Yaakov 2026-10-15)",
+	"sourcePath": "geelooy/api/tunnel/lanes/HOW_TO_RUN_COMMANDS.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — How to Run Commands From Each Tunnel Lane (Yaakov 2026-10-15)",
+			"anchor": "b-h-how-to-run-commands-from-each-tunnel-lane-yaakov-2026-10-15"
+		},
+		{
+			"level": 2,
+			"text": "Lane 1: Simple Tunnel — Poll (BASELINE, permanent)",
+			"anchor": "lane-1-simple-tunnel-poll-baseline-permanent"
+		},
+		{
+			"level": 1,
+			"text": "1. Queue a command (from anywhere):",
+			"anchor": "1-queue-a-command-from-anywhere"
+		},
+		{
+			"level": 1,
+			"text": "Returns: {\"ok\":true,\"id\":\"cmd123...\"}",
+			"anchor": "returns-ok-true-id-cmd123"
+		},
+		{
+			"level": 1,
+			"text": "2. Get the result (after 5 seconds):",
+			"anchor": "2-get-the-result-after-5-seconds"
+		},
+		{
+			"level": 1,
+			"text": "Returns: {\"ok\":true,\"done\":true,\"output\":\"...\"}",
+			"anchor": "returns-ok-true-done-true-output"
+		},
+		{
+			"level": 1,
+			"text": "Target a command to a specific agent (by TUNNELAGENTID):",
+			"anchor": "target-a-command-to-a-specific-agent-by-tunnelagentid"
+		},
+		{
+			"level": 1,
+			"text": "Only the agent with TUNNELAGENTID=my-macbook will pick it up.",
+			"anchor": "only-the-agent-with-tunnelagentid-my-macbook-will-pick-it-up"
+		},
+		{
+			"level": 1,
+			"text": "If agentId is omitted, any agent can pick it up.",
+			"anchor": "if-agentid-is-omitted-any-agent-can-pick-it-up"
+		},
+		{
+			"level": 1,
+			"text": "The agent identifies itself with TUNNELAGENTID (defaults to hostname):",
+			"anchor": "the-agent-identifies-itself-with-tunnelagentid-defaults-to-hostname"
+		},
+		{
+			"level": 1,
+			"text": "Env vars: TUNNELSERVER, TUNNELSECRET, TUNNELAGENTID, TUNNELQUEUEFILE, TUNNELPOLLMS",
+			"anchor": "env-vars-tunnelserver-tunnelsecret-tunnelagentid-tunnelqueuefile-tunnelpollms"
+		},
+		{
+			"level": 2,
+			"text": "Lane 2: Simple Tunnel — Approval",
+			"anchor": "lane-2-simple-tunnel-approval"
+		},
+		{
+			"level": 1,
+			"text": "1. Agent requests approval (on target machine):",
+			"anchor": "1-agent-requests-approval-on-target-machine"
+		},
+		{
+			"level": 1,
+			"text": "Output: \"Waiting for approval...\"",
+			"anchor": "output-waiting-for-approval"
+		},
+		{
+			"level": 1,
+			"text": "2. Approve (on server, via any command lane):",
+			"anchor": "2-approve-on-server-via-any-command-lane"
+		},
+		{
+			"level": 1,
+			"text": "3. Agent starts polling. Then use Lane 1 commands.",
+			"anchor": "3-agent-starts-polling-then-use-lane-1-commands"
+		},
+		{
+			"level": 2,
+			"text": "Lane 3: Simple Tunnel — WebSocket",
+			"anchor": "lane-3-simple-tunnel-websocket"
+		},
+		{
+			"level": 1,
+			"text": "Tries WebSocket first, falls back to HTTP polling automatically.",
+			"anchor": "tries-websocket-first-falls-back-to-http-polling-automatically"
+		},
+		{
+			"level": 2,
+			"text": "Lane 4: Simple Tunnel — Pure File (zero HTTP)",
+			"anchor": "lane-4-simple-tunnel-pure-file-zero-http"
+		},
+		{
+			"level": 1,
+			"text": "1. Write command file (on target machine, or via another lane):",
+			"anchor": "1-write-command-file-on-target-machine-or-via-another-lane"
+		},
+		{
+			"level": 1,
+			"text": "2. Agent picks it up and writes result to:",
+			"anchor": "2-agent-picks-it-up-and-writes-result-to"
+		},
+		{
+			"level": 1,
+			"text": "/tmp/simple-tunnel-results/myserver/cmd1.json",
+			"anchor": "tmp-simple-tunnel-results-myserver-cmd1-json"
+		},
+		{
+			"level": 1,
+			"text": "3. Read the result:",
+			"anchor": "3-read-the-result"
+		},
+		{
+			"level": 2,
+			"text": "Lane 5: Full Tunnel (pairing/RSA)",
+			"anchor": "lane-5-full-tunnel-pairing-rsa"
+		},
+		{
+			"level": 1,
+			"text": "Create pairing:",
+			"anchor": "create-pairing"
+		},
+		{
+			"level": 1,
+			"text": "Check state (now works with GET):",
+			"anchor": "check-state-now-works-with-get"
+		},
+		{
+			"level": 2,
+			"text": "Lane 6-13: Recovery Lanes (emergency infrastructure)",
+			"anchor": "lane-6-13-recovery-lanes-emergency-infrastructure"
+		},
+		{
+			"level": 2,
+			"text": "Quick Reference",
+			"anchor": "quick-reference"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-tunnel-lanes-how-to-run-commands-md-4fee402c96-001.json"
+	]
+}

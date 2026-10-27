@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-27t2210-geelooy-movie-integration-verificati-b652f99dcd",
+	"title": "Evidence Ledger",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-27T2210-geelooy-movie-integration-verification/09_EVIDENCE_LEDGER.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Evidence Ledger",
+			"anchor": "evidence-ledger"
+		},
+		{
+			"level": 2,
+			"text": "Observed before source writes",
+			"anchor": "observed-before-source-writes"
+		},
+		{
+			"level": 2,
+			"text": "Evidence still required",
+			"anchor": "evidence-still-required"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-27t2210-geelooy-movie-integration-verificati-b652f99dcd-001.json"
+	]
+}

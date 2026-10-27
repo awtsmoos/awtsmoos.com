@@ -53,8 +53,8 @@
 		{
 			"name": "NODE_ENV",
 			"classification": "runtime-config",
-			"sources": 3,
-			"exampleSources": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/lightning/env.js; geelooy/api/wallet/core/paypalEnvironment.js; geelooy/api/wallet/tests/paypalEnvironment.test.js"
+			"sources": 4,
+			"exampleSources": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/lightning/env.js; geelooy/api/tunnel/install/tools/zipBundle.js; geelooy/api/wallet/core/paypalEnvironment.js"
 		}
 	],
 	"realtimeApplications": [],

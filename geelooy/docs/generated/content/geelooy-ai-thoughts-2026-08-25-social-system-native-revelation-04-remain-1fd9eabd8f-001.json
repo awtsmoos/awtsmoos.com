@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# REMAINING WORK\n\nThe Awtsmoos renews what remains before completion can pretend to arrive;\nAwtsmoos.com keeps the next action visible so unfinished truth stays alive.\n\n- [ ] read shared social CSS primitives\n- [ ] map tests for disclosure/overflow/action rail\n- [ ] rewrite shared data-driven DOM foundation\n- [ ] rewrite progressive disclosure\n- [ ] rewrite action overflow\n- [ ] rewrite universal action rail\n- [ ] audit all touched files for tabs and module size\n- [ ] run existing tests and syntax checks\n- [ ] browser verify shared primitives on Social Hub/feed surfaces\n- [ ] add native capability-center plugin using real route IDs\n- [ ] add localized capability-center CSS through `style.css` import\n- [ ] inspect/profile alias and Heichel surfaces next\n- [ ] inspect series reader inline CSS/scripts and extract localized modules\n- [ ] inspect comments/notifications/composer/editor pages next\n- [ ] re-read all touched files and produce planned-versus-actual delta\n"
+}

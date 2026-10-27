@@ -1,5 +1,538 @@
 [
 	{
+		"id": "api-tunnel-control-view-previewid-ws-4eda571118",
+		"route": "/api/tunnel/control/view/:previewId/ws",
+		"source": "geelooy/api/tunnel/control/routes/table.js",
+		"discoveryKind": "route-table",
+		"family": {
+			"mount": "/api/tunnel/control",
+			"title": "Tunnel Control",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md"
+		},
+		"derech": {
+			"source": "geelooy/api/tunnel/control/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/tunnel/control"
+		},
+		"dynamic": true,
+		"pathParameters": [
+			{
+				"name": "previewId",
+				"catchAll": false
+			}
+		],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [],
+		"statuses": [],
+		"headers": [],
+		"callers": [],
+		"callerCount": 0,
+		"tests": [
+			{
+				"name": "test:mission-continuity-actions",
+				"command": "node geelooy/apps/tunnel/agent/tools/fs/actionGroups/test/missionContinuityActions.test.mjs"
+			},
+			{
+				"name": "test:treasury",
+				"command": "node geelooy/api/tunnel/control/test/runTreasuryTests.cjs"
+			},
+			{
+				"name": "test:treasury:full",
+				"command": "node geelooy/api/tunnel/control/test/treasury/runAll.cjs"
+			},
+			{
+				"name": "test:tunnel-release",
+				"command": "node --test scripts/tunnel/testing/*.test.cjs scripts/repository-hygiene/testing/*.test.cjs"
+			}
+		],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-view-previewid-ws-4eda571118.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-tunnel-control-admin-vault-0c79867071",
+				"route": "/api/tunnel/control/admin-vault"
+			},
+			{
+				"id": "api-tunnel-control-admin-perutas-5d22edeedf",
+				"route": "/api/tunnel/control/admin/perutas"
+			},
+			{
+				"id": "api-tunnel-control-agent-economy-55b9aaa475",
+				"route": "/api/tunnel/control/agent-economy"
+			},
+			{
+				"id": "api-tunnel-control-agent-lobby-01f88f681b",
+				"route": "/api/tunnel/control/agent-lobby"
+			},
+			{
+				"id": "api-tunnel-control-agent-lobby-join-6e29b3e243",
+				"route": "/api/tunnel/control/agent-lobby/join"
+			},
+			{
+				"id": "api-tunnel-control-agent-lobby-post-397d4d9166",
+				"route": "/api/tunnel/control/agent-lobby/post"
+			},
+			{
+				"id": "api-tunnel-control-agent-manifest-3d95678bf3",
+				"route": "/api/tunnel/control/agent-manifest"
+			},
+			{
+				"id": "api-tunnel-control-agent-room-1f9266b1f2",
+				"route": "/api/tunnel/control/agent-room"
+			}
+		]
+	},
+	{
+		"id": "api-tunnel-control-write-large-tunnelname-3b260caf81",
+		"route": "/api/tunnel/control/write-large/:tunnelName",
+		"source": "geelooy/api/tunnel/control/routes/table.js",
+		"discoveryKind": "route-table",
+		"family": {
+			"mount": "/api/tunnel/control",
+			"title": "Tunnel Control",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md"
+		},
+		"derech": {
+			"source": "geelooy/api/tunnel/control/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/tunnel/control"
+		},
+		"dynamic": true,
+		"pathParameters": [
+			{
+				"name": "tunnelName",
+				"catchAll": false
+			}
+		],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [],
+		"statuses": [],
+		"headers": [],
+		"callers": [],
+		"callerCount": 0,
+		"tests": [
+			{
+				"name": "test:mission-continuity-actions",
+				"command": "node geelooy/apps/tunnel/agent/tools/fs/actionGroups/test/missionContinuityActions.test.mjs"
+			},
+			{
+				"name": "test:treasury",
+				"command": "node geelooy/api/tunnel/control/test/runTreasuryTests.cjs"
+			},
+			{
+				"name": "test:treasury:full",
+				"command": "node geelooy/api/tunnel/control/test/treasury/runAll.cjs"
+			},
+			{
+				"name": "test:tunnel-release",
+				"command": "node --test scripts/tunnel/testing/*.test.cjs scripts/repository-hygiene/testing/*.test.cjs"
+			}
+		],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-write-large-tunnelname-3b260caf81.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-tunnel-control-admin-vault-0c79867071",
+				"route": "/api/tunnel/control/admin-vault"
+			},
+			{
+				"id": "api-tunnel-control-admin-perutas-5d22edeedf",
+				"route": "/api/tunnel/control/admin/perutas"
+			},
+			{
+				"id": "api-tunnel-control-agent-economy-55b9aaa475",
+				"route": "/api/tunnel/control/agent-economy"
+			},
+			{
+				"id": "api-tunnel-control-agent-lobby-01f88f681b",
+				"route": "/api/tunnel/control/agent-lobby"
+			},
+			{
+				"id": "api-tunnel-control-agent-lobby-join-6e29b3e243",
+				"route": "/api/tunnel/control/agent-lobby/join"
+			},
+			{
+				"id": "api-tunnel-control-agent-lobby-post-397d4d9166",
+				"route": "/api/tunnel/control/agent-lobby/post"
+			},
+			{
+				"id": "api-tunnel-control-agent-manifest-3d95678bf3",
+				"route": "/api/tunnel/control/agent-manifest"
+			},
+			{
+				"id": "api-tunnel-control-agent-room-1f9266b1f2",
+				"route": "/api/tunnel/control/agent-room"
+			}
+		]
+	},
+	{
+		"id": "api-tunnel-fs-tunnelname-48e2aaea39",
+		"route": "/api/tunnel/fs/:tunnelName",
+		"source": "geelooy/api/tunnel/_awtsmoos.derech.js",
+		"discoveryKind": "static-literal",
+		"family": {
+			"mount": "/api/tunnel",
+			"title": "Tunnel Relay",
+			"manual": "docs/TUTORIALS/API/TUNNEL.md"
+		},
+		"derech": {
+			"source": "geelooy/api/tunnel/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/tunnel"
+		},
+		"dynamic": true,
+		"pathParameters": [
+			{
+				"name": "tunnelName",
+				"catchAll": false
+			}
+		],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [
+			"route-vars",
+			"headers",
+			"identity"
+		],
+		"statuses": [
+			"401",
+			"404"
+		],
+		"headers": [
+			"Access-Control-Allow-Origin",
+			"Content-Type"
+		],
+		"callers": [],
+		"callerCount": 0,
+		"tests": [
+			{
+				"name": "test:mission-continuity-actions",
+				"command": "node geelooy/apps/tunnel/agent/tools/fs/actionGroups/test/missionContinuityActions.test.mjs"
+			},
+			{
+				"name": "test:treasury",
+				"command": "node geelooy/api/tunnel/control/test/runTreasuryTests.cjs"
+			},
+			{
+				"name": "test:treasury:full",
+				"command": "node geelooy/api/tunnel/control/test/treasury/runAll.cjs"
+			},
+			{
+				"name": "test:tunnel-release",
+				"command": "node --test scripts/tunnel/testing/*.test.cjs scripts/repository-hygiene/testing/*.test.cjs"
+			}
+		],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-fs-tunnelname-48e2aaea39.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-tunnel-hetzner-exec-267e52e243",
+				"route": "/api/tunnel/hetzner/exec"
+			},
+			{
+				"id": "api-tunnel-hetzner-health-d92bb398ee",
+				"route": "/api/tunnel/hetzner/health"
+			},
+			{
+				"id": "api-tunnel-hetzner-readlog-d12187a4e3",
+				"route": "/api/tunnel/hetzner/readlog"
+			},
+			{
+				"id": "api-tunnel-request-tunnelname-4e57b0d0cc",
+				"route": "/api/tunnel/request/:tunnelName"
+			}
+		]
+	},
+	{
+		"id": "api-tunnel-hetzner-exec-267e52e243",
+		"route": "/api/tunnel/hetzner/exec",
+		"source": "geelooy/api/tunnel/hetzner/opsRoutes.js",
+		"discoveryKind": "static-literal",
+		"family": {
+			"mount": "/api/tunnel",
+			"title": "Tunnel Relay",
+			"manual": "docs/TUTORIALS/API/TUNNEL.md"
+		},
+		"derech": {
+			"source": "geelooy/api/tunnel/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/tunnel"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [
+			"$_POST"
+		],
+		"statuses": [],
+		"headers": [],
+		"callers": [],
+		"callerCount": 0,
+		"tests": [
+			{
+				"name": "test:mission-continuity-actions",
+				"command": "node geelooy/apps/tunnel/agent/tools/fs/actionGroups/test/missionContinuityActions.test.mjs"
+			},
+			{
+				"name": "test:treasury",
+				"command": "node geelooy/api/tunnel/control/test/runTreasuryTests.cjs"
+			},
+			{
+				"name": "test:treasury:full",
+				"command": "node geelooy/api/tunnel/control/test/treasury/runAll.cjs"
+			},
+			{
+				"name": "test:tunnel-release",
+				"command": "node --test scripts/tunnel/testing/*.test.cjs scripts/repository-hygiene/testing/*.test.cjs"
+			}
+		],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-hetzner-exec-267e52e243.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-tunnel-fs-tunnelname-48e2aaea39",
+				"route": "/api/tunnel/fs/:tunnelName"
+			},
+			{
+				"id": "api-tunnel-hetzner-health-d92bb398ee",
+				"route": "/api/tunnel/hetzner/health"
+			},
+			{
+				"id": "api-tunnel-hetzner-readlog-d12187a4e3",
+				"route": "/api/tunnel/hetzner/readlog"
+			},
+			{
+				"id": "api-tunnel-request-tunnelname-4e57b0d0cc",
+				"route": "/api/tunnel/request/:tunnelName"
+			}
+		]
+	},
+	{
+		"id": "api-tunnel-hetzner-health-d92bb398ee",
+		"route": "/api/tunnel/hetzner/health",
+		"source": "geelooy/api/tunnel/hetzner/opsRoutes.js",
+		"discoveryKind": "static-literal",
+		"family": {
+			"mount": "/api/tunnel",
+			"title": "Tunnel Relay",
+			"manual": "docs/TUTORIALS/API/TUNNEL.md"
+		},
+		"derech": {
+			"source": "geelooy/api/tunnel/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/tunnel"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [
+			"$_POST"
+		],
+		"statuses": [],
+		"headers": [],
+		"callers": [],
+		"callerCount": 0,
+		"tests": [
+			{
+				"name": "test:mission-continuity-actions",
+				"command": "node geelooy/apps/tunnel/agent/tools/fs/actionGroups/test/missionContinuityActions.test.mjs"
+			},
+			{
+				"name": "test:treasury",
+				"command": "node geelooy/api/tunnel/control/test/runTreasuryTests.cjs"
+			},
+			{
+				"name": "test:treasury:full",
+				"command": "node geelooy/api/tunnel/control/test/treasury/runAll.cjs"
+			},
+			{
+				"name": "test:tunnel-release",
+				"command": "node --test scripts/tunnel/testing/*.test.cjs scripts/repository-hygiene/testing/*.test.cjs"
+			}
+		],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-hetzner-health-d92bb398ee.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-tunnel-fs-tunnelname-48e2aaea39",
+				"route": "/api/tunnel/fs/:tunnelName"
+			},
+			{
+				"id": "api-tunnel-hetzner-exec-267e52e243",
+				"route": "/api/tunnel/hetzner/exec"
+			},
+			{
+				"id": "api-tunnel-hetzner-readlog-d12187a4e3",
+				"route": "/api/tunnel/hetzner/readlog"
+			},
+			{
+				"id": "api-tunnel-request-tunnelname-4e57b0d0cc",
+				"route": "/api/tunnel/request/:tunnelName"
+			}
+		]
+	},
+	{
+		"id": "api-tunnel-hetzner-readlog-d12187a4e3",
+		"route": "/api/tunnel/hetzner/readlog",
+		"source": "geelooy/api/tunnel/hetzner/opsRoutes.js",
+		"discoveryKind": "static-literal",
+		"family": {
+			"mount": "/api/tunnel",
+			"title": "Tunnel Relay",
+			"manual": "docs/TUTORIALS/API/TUNNEL.md"
+		},
+		"derech": {
+			"source": "geelooy/api/tunnel/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/tunnel"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [
+			"$_POST"
+		],
+		"statuses": [],
+		"headers": [],
+		"callers": [],
+		"callerCount": 0,
+		"tests": [
+			{
+				"name": "test:mission-continuity-actions",
+				"command": "node geelooy/apps/tunnel/agent/tools/fs/actionGroups/test/missionContinuityActions.test.mjs"
+			},
+			{
+				"name": "test:treasury",
+				"command": "node geelooy/api/tunnel/control/test/runTreasuryTests.cjs"
+			},
+			{
+				"name": "test:treasury:full",
+				"command": "node geelooy/api/tunnel/control/test/treasury/runAll.cjs"
+			},
+			{
+				"name": "test:tunnel-release",
+				"command": "node --test scripts/tunnel/testing/*.test.cjs scripts/repository-hygiene/testing/*.test.cjs"
+			}
+		],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-hetzner-readlog-d12187a4e3.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-tunnel-fs-tunnelname-48e2aaea39",
+				"route": "/api/tunnel/fs/:tunnelName"
+			},
+			{
+				"id": "api-tunnel-hetzner-exec-267e52e243",
+				"route": "/api/tunnel/hetzner/exec"
+			},
+			{
+				"id": "api-tunnel-hetzner-health-d92bb398ee",
+				"route": "/api/tunnel/hetzner/health"
+			},
+			{
+				"id": "api-tunnel-request-tunnelname-4e57b0d0cc",
+				"route": "/api/tunnel/request/:tunnelName"
+			}
+		]
+	},
+	{
+		"id": "api-tunnel-request-tunnelname-4e57b0d0cc",
+		"route": "/api/tunnel/request/:tunnelName",
+		"source": "geelooy/api/tunnel/_awtsmoos.derech.js",
+		"discoveryKind": "static-literal",
+		"family": {
+			"mount": "/api/tunnel",
+			"title": "Tunnel Relay",
+			"manual": "docs/TUTORIALS/API/TUNNEL.md"
+		},
+		"derech": {
+			"source": "geelooy/api/tunnel/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/tunnel"
+		},
+		"dynamic": true,
+		"pathParameters": [
+			{
+				"name": "tunnelName",
+				"catchAll": false
+			}
+		],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [
+			"route-vars",
+			"headers",
+			"identity"
+		],
+		"statuses": [
+			"401",
+			"404"
+		],
+		"headers": [
+			"Access-Control-Allow-Origin",
+			"Content-Type"
+		],
+		"callers": [],
+		"callerCount": 0,
+		"tests": [
+			{
+				"name": "test:mission-continuity-actions",
+				"command": "node geelooy/apps/tunnel/agent/tools/fs/actionGroups/test/missionContinuityActions.test.mjs"
+			},
+			{
+				"name": "test:treasury",
+				"command": "node geelooy/api/tunnel/control/test/runTreasuryTests.cjs"
+			},
+			{
+				"name": "test:treasury:full",
+				"command": "node geelooy/api/tunnel/control/test/treasury/runAll.cjs"
+			},
+			{
+				"name": "test:tunnel-release",
+				"command": "node --test scripts/tunnel/testing/*.test.cjs scripts/repository-hygiene/testing/*.test.cjs"
+			}
+		],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-request-tunnelname-4e57b0d0cc.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-tunnel-fs-tunnelname-48e2aaea39",
+				"route": "/api/tunnel/fs/:tunnelName"
+			},
+			{
+				"id": "api-tunnel-hetzner-exec-267e52e243",
+				"route": "/api/tunnel/hetzner/exec"
+			},
+			{
+				"id": "api-tunnel-hetzner-health-d92bb398ee",
+				"route": "/api/tunnel/hetzner/health"
+			},
+			{
+				"id": "api-tunnel-hetzner-readlog-d12187a4e3",
+				"route": "/api/tunnel/hetzner/readlog"
+			}
+		]
+	},
+	{
 		"id": "api-wallet-balance-59097f364b",
 		"route": "/api/wallet/balance",
 		"source": "geelooy/api/wallet/routes/table.js",
@@ -30,11 +563,26 @@
 			},
 			{
 				"literal": "/api/wallet/balance",
+				"source": "geelooy/cloud/agency/data.js",
+				"kind": "runtime"
+			},
+			{
+				"literal": "/api/wallet/balance",
+				"source": "geelooy/cloud/cloudData.js",
+				"kind": "runtime"
+			},
+			{
+				"literal": "/api/wallet/balance",
 				"source": "geelooy/os/programs/wallet-portal/controller.js",
+				"kind": "runtime"
+			},
+			{
+				"literal": "/api/wallet/balance",
+				"source": "geelooy/shared/commerce/controller.js",
 				"kind": "runtime"
 			}
 		],
-		"callerCount": 2,
+		"callerCount": 5,
 		"tests": [],
 		"examples": [],
 		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-balance-59097f364b.md",
@@ -45,615 +593,32 @@
 				"route": "/api/wallet/buy/mock"
 			},
 			{
-				"id": "api-wallet-commerce-catalog-f9d5b627eb",
-				"route": "/api/wallet/commerce/catalog"
+				"id": "api-wallet-commerce-actions-8e2f72034a",
+				"route": "/api/wallet/commerce/actions"
 			},
 			{
-				"id": "api-wallet-commerce-entitlements-31c234acf1",
-				"route": "/api/wallet/commerce/entitlements"
-			},
-			{
-				"id": "api-wallet-commerce-purchase-762f54f3a2",
-				"route": "/api/wallet/commerce/purchase"
-			},
-			{
-				"id": "api-wallet-currency-8de1c94e4f",
-				"route": "/api/wallet/currency"
-			},
-			{
-				"id": "api-wallet-game-rewards-claim-abc370c4e1",
-				"route": "/api/wallet/game-rewards/claim"
-			},
-			{
-				"id": "api-wallet-me-c462e10539",
-				"route": "/api/wallet/me"
-			},
-			{
-				"id": "api-wallet-paypal-capture-df2c3232c6",
-				"route": "/api/wallet/paypal/capture"
-			}
-		]
-	},
-	{
-		"id": "api-wallet-buy-mock-45ef52f2b5",
-		"route": "/api/wallet/buy/mock",
-		"source": "geelooy/api/wallet/routes/table.js",
-		"discoveryKind": "route-table",
-		"family": {
-			"mount": "/api/wallet",
-			"title": "Wallet",
-			"manual": "docs/TUTORIALS/API/WALLET.md"
-		},
-		"derech": {
-			"source": "geelooy/api/wallet/_awtsmoos.derech.js",
-			"status": "OK",
-			"issue": "—",
-			"mount": "/api/wallet"
-		},
-		"dynamic": false,
-		"pathParameters": [],
-		"methods": [],
-		"methodEvidence": "unknown",
-		"vessels": [],
-		"statuses": [],
-		"headers": [],
-		"callers": [],
-		"callerCount": 0,
-		"tests": [],
-		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-buy-mock-45ef52f2b5.md",
-		"confidence": "unknown-method",
-		"related": [
-			{
-				"id": "api-wallet-balance-59097f364b",
-				"route": "/api/wallet/balance"
+				"id": "api-wallet-commerce-actions-execute-1b212726d5",
+				"route": "/api/wallet/commerce/actions/execute"
 			},
 			{
 				"id": "api-wallet-commerce-catalog-f9d5b627eb",
 				"route": "/api/wallet/commerce/catalog"
 			},
 			{
-				"id": "api-wallet-commerce-entitlements-31c234acf1",
-				"route": "/api/wallet/commerce/entitlements"
+				"id": "api-wallet-commerce-credits-commit-514993bf32",
+				"route": "/api/wallet/commerce/credits/commit"
 			},
 			{
-				"id": "api-wallet-commerce-purchase-762f54f3a2",
-				"route": "/api/wallet/commerce/purchase"
+				"id": "api-wallet-commerce-credits-consume-6e724abb1d",
+				"route": "/api/wallet/commerce/credits/consume"
 			},
 			{
-				"id": "api-wallet-currency-8de1c94e4f",
-				"route": "/api/wallet/currency"
+				"id": "api-wallet-commerce-credits-release-01fbab351a",
+				"route": "/api/wallet/commerce/credits/release"
 			},
 			{
-				"id": "api-wallet-game-rewards-claim-abc370c4e1",
-				"route": "/api/wallet/game-rewards/claim"
-			},
-			{
-				"id": "api-wallet-me-c462e10539",
-				"route": "/api/wallet/me"
-			},
-			{
-				"id": "api-wallet-paypal-capture-df2c3232c6",
-				"route": "/api/wallet/paypal/capture"
-			}
-		]
-	},
-	{
-		"id": "api-wallet-commerce-catalog-f9d5b627eb",
-		"route": "/api/wallet/commerce/catalog",
-		"source": "geelooy/api/wallet/routes/table.js",
-		"discoveryKind": "route-table",
-		"family": {
-			"mount": "/api/wallet",
-			"title": "Wallet",
-			"manual": "docs/TUTORIALS/API/WALLET.md"
-		},
-		"derech": {
-			"source": "geelooy/api/wallet/_awtsmoos.derech.js",
-			"status": "OK",
-			"issue": "—",
-			"mount": "/api/wallet"
-		},
-		"dynamic": false,
-		"pathParameters": [],
-		"methods": [],
-		"methodEvidence": "unknown",
-		"vessels": [],
-		"statuses": [],
-		"headers": [],
-		"callers": [
-			{
-				"literal": "/api/wallet/commerce/catalog",
-				"source": "geelooy/apps/wallet/scripts/commerce.js",
-				"kind": "runtime"
-			},
-			{
-				"literal": "/api/wallet/commerce/catalog",
-				"source": "geelooy/games/Merkava/src/commerce/CommanderSigilClient.js",
-				"kind": "runtime"
-			},
-			{
-				"literal": "/api/wallet/commerce/catalog",
-				"source": "geelooy/games/sefira-clash/js/commerce/ArenaThemeClient.js",
-				"kind": "runtime"
-			}
-		],
-		"callerCount": 3,
-		"tests": [],
-		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-commerce-catalog-f9d5b627eb.md",
-		"confidence": "unknown-method",
-		"related": [
-			{
-				"id": "api-wallet-balance-59097f364b",
-				"route": "/api/wallet/balance"
-			},
-			{
-				"id": "api-wallet-buy-mock-45ef52f2b5",
-				"route": "/api/wallet/buy/mock"
-			},
-			{
-				"id": "api-wallet-commerce-entitlements-31c234acf1",
-				"route": "/api/wallet/commerce/entitlements"
-			},
-			{
-				"id": "api-wallet-commerce-purchase-762f54f3a2",
-				"route": "/api/wallet/commerce/purchase"
-			},
-			{
-				"id": "api-wallet-currency-8de1c94e4f",
-				"route": "/api/wallet/currency"
-			},
-			{
-				"id": "api-wallet-game-rewards-claim-abc370c4e1",
-				"route": "/api/wallet/game-rewards/claim"
-			},
-			{
-				"id": "api-wallet-me-c462e10539",
-				"route": "/api/wallet/me"
-			},
-			{
-				"id": "api-wallet-paypal-capture-df2c3232c6",
-				"route": "/api/wallet/paypal/capture"
-			}
-		]
-	},
-	{
-		"id": "api-wallet-commerce-entitlements-31c234acf1",
-		"route": "/api/wallet/commerce/entitlements",
-		"source": "geelooy/api/wallet/routes/table.js",
-		"discoveryKind": "route-table",
-		"family": {
-			"mount": "/api/wallet",
-			"title": "Wallet",
-			"manual": "docs/TUTORIALS/API/WALLET.md"
-		},
-		"derech": {
-			"source": "geelooy/api/wallet/_awtsmoos.derech.js",
-			"status": "OK",
-			"issue": "—",
-			"mount": "/api/wallet"
-		},
-		"dynamic": false,
-		"pathParameters": [],
-		"methods": [],
-		"methodEvidence": "unknown",
-		"vessels": [],
-		"statuses": [],
-		"headers": [],
-		"callers": [
-			{
-				"literal": "/api/wallet/commerce/entitlements",
-				"source": "geelooy/apps/wallet/scripts/commerce.js",
-				"kind": "runtime"
-			},
-			{
-				"literal": "/api/wallet/commerce/entitlements",
-				"source": "geelooy/games/Merkava/src/commerce/CommanderSigilClient.js",
-				"kind": "runtime"
-			},
-			{
-				"literal": "/api/wallet/commerce/entitlements",
-				"source": "geelooy/games/sefira-clash/js/commerce/ArenaThemeClient.js",
-				"kind": "runtime"
-			}
-		],
-		"callerCount": 3,
-		"tests": [],
-		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-commerce-entitlements-31c234acf1.md",
-		"confidence": "unknown-method",
-		"related": [
-			{
-				"id": "api-wallet-balance-59097f364b",
-				"route": "/api/wallet/balance"
-			},
-			{
-				"id": "api-wallet-buy-mock-45ef52f2b5",
-				"route": "/api/wallet/buy/mock"
-			},
-			{
-				"id": "api-wallet-commerce-catalog-f9d5b627eb",
-				"route": "/api/wallet/commerce/catalog"
-			},
-			{
-				"id": "api-wallet-commerce-purchase-762f54f3a2",
-				"route": "/api/wallet/commerce/purchase"
-			},
-			{
-				"id": "api-wallet-currency-8de1c94e4f",
-				"route": "/api/wallet/currency"
-			},
-			{
-				"id": "api-wallet-game-rewards-claim-abc370c4e1",
-				"route": "/api/wallet/game-rewards/claim"
-			},
-			{
-				"id": "api-wallet-me-c462e10539",
-				"route": "/api/wallet/me"
-			},
-			{
-				"id": "api-wallet-paypal-capture-df2c3232c6",
-				"route": "/api/wallet/paypal/capture"
-			}
-		]
-	},
-	{
-		"id": "api-wallet-commerce-purchase-762f54f3a2",
-		"route": "/api/wallet/commerce/purchase",
-		"source": "geelooy/api/wallet/routes/table.js",
-		"discoveryKind": "route-table",
-		"family": {
-			"mount": "/api/wallet",
-			"title": "Wallet",
-			"manual": "docs/TUTORIALS/API/WALLET.md"
-		},
-		"derech": {
-			"source": "geelooy/api/wallet/_awtsmoos.derech.js",
-			"status": "OK",
-			"issue": "—",
-			"mount": "/api/wallet"
-		},
-		"dynamic": false,
-		"pathParameters": [],
-		"methods": [],
-		"methodEvidence": "unknown",
-		"vessels": [],
-		"statuses": [],
-		"headers": [],
-		"callers": [
-			{
-				"literal": "/api/wallet/commerce/purchase",
-				"source": "geelooy/apps/wallet/scripts/commercePurchase.js",
-				"kind": "runtime"
-			},
-			{
-				"literal": "/api/wallet/commerce/purchase",
-				"source": "geelooy/games/Merkava/src/commerce/CommanderSigilClient.js",
-				"kind": "runtime"
-			},
-			{
-				"literal": "/api/wallet/commerce/purchase",
-				"source": "geelooy/games/sefira-clash/js/commerce/ArenaThemeClient.js",
-				"kind": "runtime"
-			}
-		],
-		"callerCount": 3,
-		"tests": [],
-		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-commerce-purchase-762f54f3a2.md",
-		"confidence": "unknown-method",
-		"related": [
-			{
-				"id": "api-wallet-balance-59097f364b",
-				"route": "/api/wallet/balance"
-			},
-			{
-				"id": "api-wallet-buy-mock-45ef52f2b5",
-				"route": "/api/wallet/buy/mock"
-			},
-			{
-				"id": "api-wallet-commerce-catalog-f9d5b627eb",
-				"route": "/api/wallet/commerce/catalog"
-			},
-			{
-				"id": "api-wallet-commerce-entitlements-31c234acf1",
-				"route": "/api/wallet/commerce/entitlements"
-			},
-			{
-				"id": "api-wallet-currency-8de1c94e4f",
-				"route": "/api/wallet/currency"
-			},
-			{
-				"id": "api-wallet-game-rewards-claim-abc370c4e1",
-				"route": "/api/wallet/game-rewards/claim"
-			},
-			{
-				"id": "api-wallet-me-c462e10539",
-				"route": "/api/wallet/me"
-			},
-			{
-				"id": "api-wallet-paypal-capture-df2c3232c6",
-				"route": "/api/wallet/paypal/capture"
-			}
-		]
-	},
-	{
-		"id": "api-wallet-currency-8de1c94e4f",
-		"route": "/api/wallet/currency",
-		"source": "geelooy/api/wallet/routes/table.js",
-		"discoveryKind": "route-table",
-		"family": {
-			"mount": "/api/wallet",
-			"title": "Wallet",
-			"manual": "docs/TUTORIALS/API/WALLET.md"
-		},
-		"derech": {
-			"source": "geelooy/api/wallet/_awtsmoos.derech.js",
-			"status": "OK",
-			"issue": "—",
-			"mount": "/api/wallet"
-		},
-		"dynamic": false,
-		"pathParameters": [],
-		"methods": [],
-		"methodEvidence": "unknown",
-		"vessels": [],
-		"statuses": [],
-		"headers": [],
-		"callers": [
-			{
-				"literal": "/api/wallet/currency",
-				"source": "geelooy/apps/wallet/scripts/pricingPreview.js",
-				"kind": "runtime"
-			}
-		],
-		"callerCount": 1,
-		"tests": [],
-		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-currency-8de1c94e4f.md",
-		"confidence": "unknown-method",
-		"related": [
-			{
-				"id": "api-wallet-balance-59097f364b",
-				"route": "/api/wallet/balance"
-			},
-			{
-				"id": "api-wallet-buy-mock-45ef52f2b5",
-				"route": "/api/wallet/buy/mock"
-			},
-			{
-				"id": "api-wallet-commerce-catalog-f9d5b627eb",
-				"route": "/api/wallet/commerce/catalog"
-			},
-			{
-				"id": "api-wallet-commerce-entitlements-31c234acf1",
-				"route": "/api/wallet/commerce/entitlements"
-			},
-			{
-				"id": "api-wallet-commerce-purchase-762f54f3a2",
-				"route": "/api/wallet/commerce/purchase"
-			},
-			{
-				"id": "api-wallet-game-rewards-claim-abc370c4e1",
-				"route": "/api/wallet/game-rewards/claim"
-			},
-			{
-				"id": "api-wallet-me-c462e10539",
-				"route": "/api/wallet/me"
-			},
-			{
-				"id": "api-wallet-paypal-capture-df2c3232c6",
-				"route": "/api/wallet/paypal/capture"
-			}
-		]
-	},
-	{
-		"id": "api-wallet-game-rewards-claim-abc370c4e1",
-		"route": "/api/wallet/game-rewards/claim",
-		"source": "geelooy/api/wallet/routes/table.js",
-		"discoveryKind": "route-table",
-		"family": {
-			"mount": "/api/wallet",
-			"title": "Wallet",
-			"manual": "docs/TUTORIALS/API/WALLET.md"
-		},
-		"derech": {
-			"source": "geelooy/api/wallet/_awtsmoos.derech.js",
-			"status": "OK",
-			"issue": "—",
-			"mount": "/api/wallet"
-		},
-		"dynamic": false,
-		"pathParameters": [],
-		"methods": [],
-		"methodEvidence": "unknown",
-		"vessels": [],
-		"statuses": [],
-		"headers": [],
-		"callers": [
-			{
-				"literal": "/api/wallet/game-rewards/claim",
-				"source": "geelooy/games/scripts/wallet-rewards/client.mjs",
-				"kind": "runtime"
-			},
-			{
-				"literal": "/api/wallet/game-rewards/claim",
-				"source": "geelooy/games/tests/wallet-rewards.test.mjs",
-				"kind": "test"
-			}
-		],
-		"callerCount": 2,
-		"tests": [],
-		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-game-rewards-claim-abc370c4e1.md",
-		"confidence": "unknown-method",
-		"related": [
-			{
-				"id": "api-wallet-balance-59097f364b",
-				"route": "/api/wallet/balance"
-			},
-			{
-				"id": "api-wallet-buy-mock-45ef52f2b5",
-				"route": "/api/wallet/buy/mock"
-			},
-			{
-				"id": "api-wallet-commerce-catalog-f9d5b627eb",
-				"route": "/api/wallet/commerce/catalog"
-			},
-			{
-				"id": "api-wallet-commerce-entitlements-31c234acf1",
-				"route": "/api/wallet/commerce/entitlements"
-			},
-			{
-				"id": "api-wallet-commerce-purchase-762f54f3a2",
-				"route": "/api/wallet/commerce/purchase"
-			},
-			{
-				"id": "api-wallet-currency-8de1c94e4f",
-				"route": "/api/wallet/currency"
-			},
-			{
-				"id": "api-wallet-me-c462e10539",
-				"route": "/api/wallet/me"
-			},
-			{
-				"id": "api-wallet-paypal-capture-df2c3232c6",
-				"route": "/api/wallet/paypal/capture"
-			}
-		]
-	},
-	{
-		"id": "api-wallet-me-c462e10539",
-		"route": "/api/wallet/me",
-		"source": "geelooy/api/wallet/routes/table.js",
-		"discoveryKind": "route-table",
-		"family": {
-			"mount": "/api/wallet",
-			"title": "Wallet",
-			"manual": "docs/TUTORIALS/API/WALLET.md"
-		},
-		"derech": {
-			"source": "geelooy/api/wallet/_awtsmoos.derech.js",
-			"status": "OK",
-			"issue": "—",
-			"mount": "/api/wallet"
-		},
-		"dynamic": false,
-		"pathParameters": [],
-		"methods": [],
-		"methodEvidence": "unknown",
-		"vessels": [],
-		"statuses": [],
-		"headers": [],
-		"callers": [],
-		"callerCount": 0,
-		"tests": [],
-		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-me-c462e10539.md",
-		"confidence": "unknown-method",
-		"related": [
-			{
-				"id": "api-wallet-balance-59097f364b",
-				"route": "/api/wallet/balance"
-			},
-			{
-				"id": "api-wallet-buy-mock-45ef52f2b5",
-				"route": "/api/wallet/buy/mock"
-			},
-			{
-				"id": "api-wallet-commerce-catalog-f9d5b627eb",
-				"route": "/api/wallet/commerce/catalog"
-			},
-			{
-				"id": "api-wallet-commerce-entitlements-31c234acf1",
-				"route": "/api/wallet/commerce/entitlements"
-			},
-			{
-				"id": "api-wallet-commerce-purchase-762f54f3a2",
-				"route": "/api/wallet/commerce/purchase"
-			},
-			{
-				"id": "api-wallet-currency-8de1c94e4f",
-				"route": "/api/wallet/currency"
-			},
-			{
-				"id": "api-wallet-game-rewards-claim-abc370c4e1",
-				"route": "/api/wallet/game-rewards/claim"
-			},
-			{
-				"id": "api-wallet-paypal-capture-df2c3232c6",
-				"route": "/api/wallet/paypal/capture"
-			}
-		]
-	},
-	{
-		"id": "api-wallet-paypal-capture-df2c3232c6",
-		"route": "/api/wallet/paypal/capture",
-		"source": "geelooy/api/wallet/routes/table.js",
-		"discoveryKind": "route-table",
-		"family": {
-			"mount": "/api/wallet",
-			"title": "Wallet",
-			"manual": "docs/TUTORIALS/API/WALLET.md"
-		},
-		"derech": {
-			"source": "geelooy/api/wallet/_awtsmoos.derech.js",
-			"status": "OK",
-			"issue": "—",
-			"mount": "/api/wallet"
-		},
-		"dynamic": false,
-		"pathParameters": [],
-		"methods": [],
-		"methodEvidence": "unknown",
-		"vessels": [],
-		"statuses": [],
-		"headers": [],
-		"callers": [
-			{
-				"literal": "/api/wallet/paypal/capture",
-				"source": "geelooy/apps/wallet/scripts/checkout.js",
-				"kind": "runtime"
-			}
-		],
-		"callerCount": 1,
-		"tests": [],
-		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-paypal-capture-df2c3232c6.md",
-		"confidence": "unknown-method",
-		"related": [
-			{
-				"id": "api-wallet-balance-59097f364b",
-				"route": "/api/wallet/balance"
-			},
-			{
-				"id": "api-wallet-buy-mock-45ef52f2b5",
-				"route": "/api/wallet/buy/mock"
-			},
-			{
-				"id": "api-wallet-commerce-catalog-f9d5b627eb",
-				"route": "/api/wallet/commerce/catalog"
-			},
-			{
-				"id": "api-wallet-commerce-entitlements-31c234acf1",
-				"route": "/api/wallet/commerce/entitlements"
-			},
-			{
-				"id": "api-wallet-commerce-purchase-762f54f3a2",
-				"route": "/api/wallet/commerce/purchase"
-			},
-			{
-				"id": "api-wallet-currency-8de1c94e4f",
-				"route": "/api/wallet/currency"
-			},
-			{
-				"id": "api-wallet-game-rewards-claim-abc370c4e1",
-				"route": "/api/wallet/game-rewards/claim"
-			},
-			{
-				"id": "api-wallet-me-c462e10539",
-				"route": "/api/wallet/me"
+				"id": "api-wallet-commerce-credits-reserve-5161959097",
+				"route": "/api/wallet/commerce/credits/reserve"
 			}
 		]
 	}

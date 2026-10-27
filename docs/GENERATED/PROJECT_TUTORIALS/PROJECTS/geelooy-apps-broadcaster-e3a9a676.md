@@ -2,7 +2,7 @@ B"H
 Boruch Hashem
 Blessed is He
 
-# Project Tutorial: geelooy/apps/broadcaster
+# Project Tutorial: Awtsmoos Broadcaster
 
 **Path:** `geelooy/apps/broadcaster` · **Type:** app · **Family:** Applications
 
@@ -14,22 +14,22 @@ Blessed is He
 
 - Entry files: `index.html`
 - Local documentation: No local `DOCUMENTATION.md` observed.
-- Local-doc requirement: no; covered: no
+- Local-doc requirement: yes; covered: no
 - Symlink target: —
 
 ## File shape
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 3 | 0 | 0 | 0 | 0 | 0 | 3 |
+| 15 | 1 | 0 | 0 | 0 | 0 | 16 |
 
 ## Public entry points
 
-- `/apps/broadcaster` → `geelooy/apps/broadcaster/index.html`
+- `/apps/broadcaster` → `geelooy/apps/broadcaster/index.html` — Awtsmoos Broadcaster
 
 ## Symbol evidence
 
-Source files: 2; classes: 3; functions: 2; exports: 0; samples: SefirotParticle, AwtsmoosLayeredRiver, initializeAwtsmoosLayeredRiver, AwtsmoosBroadcaster, createBroadcastControls.
+Source files: 8; classes: 8; functions: 2; exports: 6; samples: initializeAwtsmoosLayeredRiver, name, AwtsmoosBroadcaster, createBroadcastControls, BroadcasterController, StageDragController, AwtsmoosLayeredRiver, SefirotParticle, BroadcastSession, BroadcastStage.
 
 ## Depends on
 
@@ -45,4 +45,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **0**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **1**. Treat this as file evidence, not proof of behavioral coverage.

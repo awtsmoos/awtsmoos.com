@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Facebook Streaming Connector (geelooy/api/streaming/connectors/facebook/)\n\nFacebook streaming connector: manual stream-URL first. Full Graph API setup\ncan be added after app review decisions.\n\nSingle module: `index.js`. Activated via `/api/streaming/facebook/:action`\nthrough the connector dispatch in `../core/router.js`.\n"
+}

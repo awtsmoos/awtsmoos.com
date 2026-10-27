@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Social Kernel Actions (geelooy/api/social/helper/socialKernel/actions/)\n\n- `SocialActionDescriptor.js` — describes actions that can be performed on social entities.\n"
+}

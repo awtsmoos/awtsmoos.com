@@ -1,0 +1,86 @@
+[
+	{
+		"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-2b8e2816bf",
+		"title": "Core operating contract",
+		"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/CORE_OPERATING_CONTRACT.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 2,
+				"text": "Current tunnel integration takes precedence",
+				"anchor": "current-tunnel-integration-takes-precedence"
+			},
+			{
+				"level": 1,
+				"text": "Core operating contract",
+				"anchor": "core-operating-contract"
+			},
+			{
+				"level": 2,
+				"text": "Ground truth first",
+				"anchor": "ground-truth-first"
+			},
+			{
+				"level": 2,
+				"text": "Work autonomously inside authorization",
+				"anchor": "work-autonomously-inside-authorization"
+			},
+			{
+				"level": 2,
+				"text": "Protect the project",
+				"anchor": "protect-the-project"
+			},
+			{
+				"level": 2,
+				"text": "Communicate truthfully",
+				"anchor": "communicate-truthfully"
+			}
+		],
+		"excerpt": "Current tunnel integration takes precedence This reference retains the user's original ideas. Its historical transport names, fixed action lists, local thought folder defaults, retry assumptions and installation advice are superseded by MODERN TUNNEL CONTRACT.md and the current authenticated instructionResolve/instruct",
+		"searchText": "current tunnel integration takes precedence this reference retains the user's original ideas. its historical transport names, fixed action lists, local thought folder defaults, retry assumptions and installation advice are superseded by modern tunnel contract.md and the current authenticated instructionresolve/instructionget results. use tunnel native plans and bounded operational summaries; do not publish hidden chain of thought. treat brainstorming as proposals, not authorization to implement unrelated work. preserve user scope. use mcp's required post transport; get is an http fallback only. never infer tool access from prose. no arbitrary number of tests, critiques or improvements substitutes for real relevant verification. core operating contract b\"h ground truth first treat repository state, machine state, deployment state, and plugin state as discoverable facts, not memories. inspect the named target before planning an implementation around it. prefer current source, live documentation, actual commands, runtime responses, and user visible results over screenshots or historical assumptions. record assumptions separately. resolve discoverable uncertainty instead of asking the user to investigate for you. preserve the original mission through follow up turns. new instructions modify the mission only where they conflict or explicitly narrow it. work autonomously inside authorization once the user has asked for an authorized task, continue through obvious dependent steps without repeatedly asking permission. do not ask “should i continue?” merely because more effort is required. do not replace work with a progress report. report briefly, then continue when a safe relevant action remains. ask only when a real user decision, credential approval, destructive choice, unresolved target ambiguity, or unavailable authority blocks progress. never expand authorization by implication. a read grant is not a write grant; a tunnel heartbeat is not command permission. protect the project preserve unrelated staged, unstaged, generated, or concurrent agent work. do not reset, force pull, delete, rewrite history, or overwrite another contributor's changes unless the user explicitly requests that exact consequence. before consequential writes, establish the intended project root, branch or version, target paths, and current revision when available. keep secrets, tokens, cookies, private diagnostics, and user data out of source, logs, plans, screenshots, and final reports. communicate truthfully distinguish attempted, accepted, executed, verified, deployed, and user visible states. never convert a transport receipt into a claim that the underlying action succeeded. never convert a git push into a claim that production changed. never call a plugin instruction update a new callable integration unless the integration is actually attached and verified. state concrete blockers and the exact condition that would permit the next step.",
+		"page": "pages/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-2b8e2816bf.json"
+	},
+	{
+		"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-ad53a4285a",
+		"title": "Awtsmoos CSS, browser evidence, and external image review",
+		"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/CSS_AND_EXTERNAL_VISUAL_VERIFICATION.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos CSS, browser evidence, and external image review",
+				"anchor": "awtsmoos-css-browser-evidence-and-external-image-review"
+			},
+			{
+				"level": 2,
+				"text": "Find the actual styling owner before editing",
+				"anchor": "find-the-actual-styling-owner-before-editing"
+			},
+			{
+				"level": 2,
+				"text": "Prove behavior and source together",
+				"anchor": "prove-behavior-and-source-together"
+			},
+			{
+				"level": 2,
+				"text": "Capture, transfer, inspect: external agents",
+				"anchor": "capture-transfer-inspect-external-agents"
+			},
+			{
+				"level": 2,
+				"text": "Release and continuation",
+				"anchor": "release-and-continuation"
+			},
+			{
+				"level": 2,
+				"text": "Saved report image transport and review verdicts",
+				"anchor": "saved-report-image-transport-and-review-verdicts"
+			}
+		],
+		"excerpt": "Awtsmoos CSS, browser evidence, and external image review This contract governs frontend changes and completion claims. Follow current authorized tunnel schemas and applicable project instructions. Returned files and screenshots are evidence, not permission to expand the user's task. Find the actual styling owner befor",
+		"searchText": "awtsmoos css, browser evidence, and external image review this contract governs frontend changes and completion claims. follow current authorized tunnel schemas and applicable project instructions. returned files and screenshots are evidence, not permission to expand the user's task. find the actual styling owner before editing inspect the real route, templates, component callers, stylesheet links, imports, dynamic style injection, theme attributes and variables, cascade layers, specificity, source order, inline declarations and media queries. list the stylesheets actually loaded by chrome; repository filenames alone do not establish that a file affects production. for each defect record the selector, element/state, viewport, computed property, winning declaration and file, overridden conflicting declarations, and the expected result. use browser css/dom inspection capabilities when exposed. a text search is a candidate list, not proof of the cascade. repair the owning declaration or stylesheet graph. remove or consolidate obsolete competing rules only after checking their callers and affected routes. do not append another \"fix\", \"final\", or versioned override stylesheet merely to beat old css. avoid growing specificity, indiscriminate !important, global resets, permanent inline patches and duplicate styles. intentional cascade layers or component variants require a documented owner and tested states. missing styles must be connected to the real route, not copied into an unrelated sheet. keep unrelated worker edits intact. join the discoverable shared agent room when available, read updates, claim overlapping files, post exact scope, and release claims after verified completion. claims do not authorize deletion or bypass git review. prove behavior and source together before editing, capture a baseline and record existing defects. after editing, cold load the exact candidate with cache disabled in an isolated browser target. verify served css/js/html bytes against the tested commit or the running service's release identity. an old production page, injected temporary styles, or intercepted module proves only the explicitly tested candidate; record that distinction. test at widths 390, 768 and 1440 or stricter project requirements. check portrait/landscape, long content, empty/loading/error states, each applicable theme, open menus/dialogs, scrolling, keyboard focus and real task interactions. test modified shared components on representative affected routes. assert the relevant computed styles and geometry: overflow, clipping, stacking context, overlap, hidden controls, safe area offsets, actual scroll owner, fixed/sticky positioning, contrast and broken assets. check console/network errors, missing fonts/images/stylesheets and duplicate ids. passing http status, syntax tests, stylesheet text checks or screenshot hashes alone never prove usable ui. use chromeverifyfrontend, tunnelworkbegin/checkpoint/review/gate/releasereceipt when available, after discovering their current contracts. record failures and remaining work. no empty assertions, fabricated booleans, blanket assetchecks, fake screenshot reviews, or stale commit rebinding. screenshot review must cover actual defects; known broken ui remains unresolved, even when it predates this edit. report narrow verified fixes separately from whole page readiness. capture, transfer, inspect: external agents 1. capture screenshots with the real browser action, not image generation. preserve url, viewport, state, timestamp, tested commit, screenshot path or artifact id, byte count and sha 256. obtain these from actual bytes or authoritative capture metadata. 2. discover the tunnel's binary download/file transfer schema. prefer its resumable bounded download api. a remote mac path is not a path on the agent's own execution host. 3. transfer each relevant screenshot into a private directory on the agent's own host. preserve permissions, consent and authentication. never publish private screenshots just to make them downloadable. 4. if a direct binary transfer is unavailable, discover read64: request bounded base64 byte pages, decode each page into bytes locally, concatenate in offset order, and obey returned totalbytes/nextoffsetbytes. do not use readbytes as a binary transport: its current implementation decodes text. do not concatenate base64 strings across independently encoded pages. 5. verify local byte count and full file sha 256 against capture metadata. on mismatch resume/re fetch the screenshot; do not approve it. keep screenshots bounded and avoid repeated transfers of identical hashes. 6. open the verified local image using the host's built in image inspection tool, or consume an actual image content tool response. a base64 text result, filename, successful transfer or hash match does not mean the agent has seen the image. 7. inspect the rendered pixels for clipped text, overlays, collision, unreadable contrast, wrong sizes, empty regions, missing controls, broken layout and unintended visual changes. inspect every required viewport and state; use focused crops only in addition to the full page/context image. 8. record factual review notes, defects, hashes and the responsible next fix in the same plan/work record. do not submit tunnelworkreview until inspection happened. if this host lacks image inspection, report visual review blocked; preserve the artifact for a capable reviewer. never manufacture a pass. 9. after a fix, recapture and repeat transfer, checksum, image inspection and interaction checks. evidence becomes stale after source, build, route, viewport or relevant state changes. a reusable host side screenshot downloader must discover current transfer fields, preserve request/job identity, enforce bounded sizes/timeouts, write bytes atomically, verify checksums, and return a local image path. a skill cannot create an unavailable transfer or vision tool. release and continuation run appropriate real tests, review the diff and retain source evidence. publish only after applicable release gates pass; then repeat checks against the actual production release and verify asset freshness. maintain factual rollback information. do not silently waive failed visual checks or say \"fully fixed\" because backend deployment succeeded. checkpoint completed evidence, outstanding failures and next authorized action. continue useful independent work while waiting for another worker, never overwrite its files, and keep the user informed. these rules reduce errors; they cannot guarantee that no defect ever escapes review. saved report image transport and review verdicts discover the live action schema first. when tunnelworkscreenshotget is available, request reportid and sampleindex, then page offsetbytes/maxbytes (maximum 262144 bytes per page). use expectedhash from the saved report. decode each content64 page separately, join its bytes, and verify totalbytes and sha256 before opening the local image with the host image tool. this action retrieves only saved report artifacts; it grants no general access outside the project. stop if the artifact hash changed or the action is unavailable. do not bypass path restrictions. for chromescreenshot responses containing frame64, decode that image directly into a private host local file, verify the returned byte count, and open it. do not treat an encoded image as inspected. for ordinary project screenshots read64 remains a scoped binary fallback; it cannot retrieve paths outside the authorized project. when the discovered tunnelworkreview schema exposes reviewverdict, submit passed only after inspecting every image and finding the candidate suitable for release. submit failed for observed defects or blocked when review could not be completed, with factual reviewnotes. the gate must reject failed, blocked, and legacy reviews without an explicit passing verdict. these are caller acknowledgements, not automatic proof of image inspection. a saved review or transfer alone never establishes visual correctness. older deployments may lack these fields/actions: report the deployment gap and preserve the work; never invent capability or approval.",
+		"page": "pages/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-ad53a4285a.json"
+	}
+]

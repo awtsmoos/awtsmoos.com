@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Streaming Core (geelooy/api/streaming/core/)\n\nShared control-plane plumbing.\n\n- `router.js` — dispatches `:connector/:action` to the right provider connector\n- `json.js` — ok/fail response packets\n- `body.js` — request body parsing\n\nUsed by `routes/table.js`; keeps connector action calling and error shaping\nconsistent across providers.\n"
+}

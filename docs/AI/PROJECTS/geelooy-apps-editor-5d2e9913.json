@@ -9,7 +9,7 @@
 		"id": "apps",
 		"title": "Applications"
 	},
-	"title": "Mitzvah World Animator",
+	"title": "Mitzvah World Animator · Awtsmoos",
 	"entries": [
 		"index.html",
 		"DOCUMENTATION.md"
@@ -23,19 +23,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-editor-5d2e9913.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 39,
-		"tests": 0,
+		"source": 92,
+		"tests": 8,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
 		"other": 0
 	},
-	"totalFiles": 40,
+	"totalFiles": 101,
 	"symbolSummary": {
-		"files": 35,
-		"classes": 39,
-		"functions": 31,
-		"exports": 33,
+		"files": 73,
+		"classes": 70,
+		"functions": 55,
+		"exports": 88,
 		"samples": [
 			"HeightMapGenerator",
 			"ObjectTreeManager",
@@ -64,7 +64,7 @@
 		{
 			"url": "/apps/editor",
 			"file": "geelooy/apps/editor/index.html",
-			"title": "Mitzvah World Animator",
+			"title": "Mitzvah World Animator · Awtsmoos",
 			"scripts": 1,
 			"styles": 1
 		},

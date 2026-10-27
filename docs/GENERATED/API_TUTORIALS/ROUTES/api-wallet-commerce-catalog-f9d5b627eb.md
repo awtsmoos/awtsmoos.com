@@ -34,8 +34,11 @@ Pattern-compatible evidence only; it does not prove runtime dispatch.
 | Literal | Source | Kind |
 | --- | --- | --- |
 | `/api/wallet/commerce/catalog` | `geelooy/apps/wallet/scripts/commerce.js` | runtime |
+| `/api/wallet/commerce/catalog` | `geelooy/cloud/cloudData.js` | runtime |
 | `/api/wallet/commerce/catalog` | `geelooy/games/Merkava/src/commerce/CommanderSigilClient.js` | runtime |
 | `/api/wallet/commerce/catalog` | `geelooy/games/sefira-clash/js/commerce/ArenaThemeClient.js` | runtime |
+| `/api/wallet/commerce/catalog` | `geelooy/shared/commerce/catalogBadges.js` | runtime |
+| `/api/wallet/commerce/catalog` | `geelooy/shared/commerce/controller.js` | runtime |
 
 ## Related tests
 
@@ -45,9 +48,9 @@ No package-script heuristic match was found.
 
 - [`/api/wallet/balance`](./api-wallet-balance-59097f364b.md)
 - [`/api/wallet/buy/mock`](./api-wallet-buy-mock-45ef52f2b5.md)
-- [`/api/wallet/commerce/entitlements`](./api-wallet-commerce-entitlements-31c234acf1.md)
-- [`/api/wallet/commerce/purchase`](./api-wallet-commerce-purchase-762f54f3a2.md)
-- [`/api/wallet/currency`](./api-wallet-currency-8de1c94e4f.md)
-- [`/api/wallet/game-rewards/claim`](./api-wallet-game-rewards-claim-abc370c4e1.md)
-- [`/api/wallet/me`](./api-wallet-me-c462e10539.md)
-- [`/api/wallet/paypal/capture`](./api-wallet-paypal-capture-df2c3232c6.md)
+- [`/api/wallet/commerce/actions`](./api-wallet-commerce-actions-8e2f72034a.md)
+- [`/api/wallet/commerce/actions/execute`](./api-wallet-commerce-actions-execute-1b212726d5.md)
+- [`/api/wallet/commerce/credits/commit`](./api-wallet-commerce-credits-commit-514993bf32.md)
+- [`/api/wallet/commerce/credits/consume`](./api-wallet-commerce-credits-consume-6e724abb1d.md)
+- [`/api/wallet/commerce/credits/release`](./api-wallet-commerce-credits-release-01fbab351a.md)
+- [`/api/wallet/commerce/credits/reserve`](./api-wallet-commerce-credits-reserve-5161959097.md)

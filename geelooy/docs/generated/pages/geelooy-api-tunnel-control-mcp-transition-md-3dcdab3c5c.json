@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-tunnel-control-mcp-transition-md-3dcdab3c5c",
+	"title": "Awtsmoos MCP transition",
+	"sourcePath": "geelooy/api/tunnel/control/mcp/TRANSITION.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Awtsmoos MCP transition",
+			"anchor": "awtsmoos-mcp-transition"
+		},
+		{
+			"level": 2,
+			"text": "Added tools",
+			"anchor": "added-tools"
+		},
+		{
+			"level": 2,
+			"text": "Authentication and permissions",
+			"anchor": "authentication-and-permissions"
+		},
+		{
+			"level": 2,
+			"text": "Request shape",
+			"anchor": "request-shape"
+		},
+		{
+			"level": 2,
+			"text": "Verification 2026-10-01",
+			"anchor": "verification-2026-10-01"
+		},
+		{
+			"level": 2,
+			"text": "Release handoff",
+			"anchor": "release-handoff"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-tunnel-control-mcp-transition-md-3dcdab3c5c-001.json"
+	]
+}

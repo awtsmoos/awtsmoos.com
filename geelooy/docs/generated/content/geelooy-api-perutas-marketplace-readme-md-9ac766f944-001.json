@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Perutas Marketplace (geelooy/api/perutas/marketplace/)\n\nSingle module: `commissionService.js`. Marketplace commission accounting for\nthe peruta economy — computing and tracking commissions on marketplace\ntransactions (alongside `../marketplaceService.js`). Aggregated as\n`commissions` in `../index.js`.\n"
+}

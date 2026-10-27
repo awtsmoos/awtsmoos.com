@@ -1,244 +1,105 @@
 [
 	{
-		"id": "api-social-unified-social-heichelos-heichel-invitations-24b6789962",
-		"route": "/api/social/unified-social/heichelos/:heichel/invitations",
-		"source": "geelooy/api/social/_awtsmoos.memberGovernance.js",
-		"discoveryKind": "static-literal",
+		"id": "api-tunnel-control-artifact-binary-cancel-9023f646cb",
+		"route": "/api/tunnel/control/artifact/binary/cancel",
+		"source": "geelooy/api/tunnel/control/routes/table.js",
+		"discoveryKind": "route-table",
 		"family": {
-			"mount": "/api/social",
-			"title": "Social",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md"
+			"mount": "/api/tunnel/control",
+			"title": "Tunnel Control",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md"
 		},
 		"derech": {
-			"source": "geelooy/api/social/_awtsmoos.derech.js",
+			"source": "geelooy/api/tunnel/control/_awtsmoos.derech.js",
 			"status": "OK",
 			"issue": "—",
-			"mount": "/api/social"
+			"mount": "/api/tunnel/control"
 		},
-		"dynamic": true,
-		"pathParameters": [
-			{
-				"name": "heichel",
-				"catchAll": false
-			}
-		],
+		"dynamic": false,
+		"pathParameters": [],
 		"methods": [],
 		"methodEvidence": "unknown",
 		"vessels": [],
 		"statuses": [],
 		"headers": [],
-		"callers": [
-			{
-				"literal": "/api/social/unified-social/heichelos/beit/invitations",
-				"source": "geelooy/social-hub/js/api/GovernanceApi.test.mjs",
-				"kind": "test"
-			}
-		],
-		"callerCount": 1,
+		"callers": [],
+		"callerCount": 0,
 		"tests": [
 			{
-				"name": "test",
-				"command": "npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported-style-ownership && npm run test:css-quality && npm run test:heichelos-quality && npm run test:profile-menu && npm run test:heichel-governance && npm run test:post-submissions && npm run test:comments && npm run test:api-keys && npm run test:graph && npm run test:social-content && npm run test:notifications && npm run test:social-packed && npm run test:packed-engine && npm run test:platform-ops && npm run test:platform-execution && npm run test:node-client && npm run test:dayuh-cutover"
+				"name": "test:mission-continuity-actions",
+				"command": "node geelooy/apps/tunnel/agent/tools/fs/actionGroups/test/missionContinuityActions.test.mjs"
 			},
 			{
-				"name": "test:api-keys",
-				"command": "node geelooy/api/social/helper/test/apiKeys.test.js"
+				"name": "test:treasury",
+				"command": "node geelooy/api/tunnel/control/test/runTreasuryTests.cjs"
 			},
 			{
-				"name": "test:comments",
-				"command": "node geelooy/api/social/helper/comments/test/runAllCommentsTests.js"
+				"name": "test:treasury:full",
+				"command": "node geelooy/api/tunnel/control/test/treasury/runAll.cjs"
 			},
 			{
-				"name": "test:concurrency-failure",
-				"command": "node geelooy/api/social/test/concurrencyFailureStress.test.mjs"
-			},
-			{
-				"name": "test:dayuh-release",
-				"command": "npm run test:routes && npm run test:comments && npm run test:social-content && npm run test:social-packed && npm run test:packed-engine && node --test tools/dayuhChadashMaintenance/test/*.test.js && npm run test:dayuh-cutover"
-			},
-			{
-				"name": "test:graph",
-				"command": "node geelooy/api/social/helper/test/socialGraph.test.js"
-			},
-			{
-				"name": "test:heichel-governance",
-				"command": "node geelooy/heichelos/heichel/modules/test/editorManagement.test.mjs && node geelooy/api/social/helper/test/heichelRoles.test.js"
-			},
-			{
-				"name": "test:live-smoke",
-				"command": "node geelooy/heichelos/heichel/modules/test/socialLiveSmoke.test.mjs"
+				"name": "test:tunnel-release",
+				"command": "node --test scripts/tunnel/testing/*.test.cjs scripts/repository-hygiene/testing/*.test.cjs"
 			}
 		],
 		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-unified-social-heichelos-heichel-invitations-24b6789962.md",
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-artifact-binary-cancel-9023f646cb.md",
 		"confidence": "unknown-method",
 		"related": [
 			{
-				"id": "api-social-9fa4891e88",
-				"route": "/api/social"
+				"id": "api-tunnel-control-admin-vault-0c79867071",
+				"route": "/api/tunnel/control/admin-vault"
 			},
 			{
-				"id": "api-social-abuse-ratelimit-check-0a30b621f8",
-				"route": "/api/social/abuse/rateLimit/check"
+				"id": "api-tunnel-control-admin-perutas-5d22edeedf",
+				"route": "/api/tunnel/control/admin/perutas"
 			},
 			{
-				"id": "api-social-alias-alias-2cc6a9ba6e",
-				"route": "/api/social/alias/:alias"
+				"id": "api-tunnel-control-agent-economy-55b9aaa475",
+				"route": "/api/tunnel/control/agent-economy"
 			},
 			{
-				"id": "api-social-alias-alias-details-7e4136898b",
-				"route": "/api/social/alias/:alias/details"
+				"id": "api-tunnel-control-agent-lobby-01f88f681b",
+				"route": "/api/tunnel/control/agent-lobby"
 			},
 			{
-				"id": "api-social-alias-alias-heichelos-34bfb8e313",
-				"route": "/api/social/alias/:alias/heichelos"
+				"id": "api-tunnel-control-agent-lobby-join-6e29b3e243",
+				"route": "/api/tunnel/control/agent-lobby/join"
 			},
 			{
-				"id": "api-social-alias-alias-heichelos-heichel-4c7f5ddd08",
-				"route": "/api/social/alias/:alias/heichelos/:heichel"
+				"id": "api-tunnel-control-agent-lobby-post-397d4d9166",
+				"route": "/api/tunnel/control/agent-lobby/post"
 			},
 			{
-				"id": "api-social-alias-alias-heichelos-heichel-ownership-c2e6e8e020",
-				"route": "/api/social/alias/:alias/heichelos/:heichel/ownership"
+				"id": "api-tunnel-control-agent-manifest-3d95678bf3",
+				"route": "/api/tunnel/control/agent-manifest"
 			},
 			{
-				"id": "api-social-alias-alias-heichelos-details-75a049464f",
-				"route": "/api/social/alias/:alias/heichelos/details"
+				"id": "api-tunnel-control-agent-room-1f9266b1f2",
+				"route": "/api/tunnel/control/agent-room"
 			}
 		]
 	},
 	{
-		"id": "api-social-unified-social-heichelos-heichel-invitations-invitati-b03dc3e0d8",
-		"route": "/api/social/unified-social/heichelos/:heichel/invitations/:invitation/respond",
-		"source": "geelooy/api/social/_awtsmoos.memberGovernance.js",
-		"discoveryKind": "static-literal",
+		"id": "api-tunnel-control-artifact-binary-chunk-id-2cff14f5ab",
+		"route": "/api/tunnel/control/artifact/binary/chunk/:id",
+		"source": "geelooy/api/tunnel/control/routes/table.js",
+		"discoveryKind": "route-table",
 		"family": {
-			"mount": "/api/social",
-			"title": "Social",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md"
+			"mount": "/api/tunnel/control",
+			"title": "Tunnel Control",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md"
 		},
 		"derech": {
-			"source": "geelooy/api/social/_awtsmoos.derech.js",
+			"source": "geelooy/api/tunnel/control/_awtsmoos.derech.js",
 			"status": "OK",
 			"issue": "—",
-			"mount": "/api/social"
+			"mount": "/api/tunnel/control"
 		},
 		"dynamic": true,
 		"pathParameters": [
 			{
-				"name": "heichel",
-				"catchAll": false
-			},
-			{
-				"name": "invitation",
-				"catchAll": false
-			}
-		],
-		"methods": [],
-		"methodEvidence": "unknown",
-		"vessels": [],
-		"statuses": [],
-		"headers": [],
-		"callers": [
-			{
-				"literal": "/api/social/unified-social/heichelos/beit/invitations/invite%20one/respond",
-				"source": "geelooy/social-hub/js/api/GovernanceApi.test.mjs",
-				"kind": "test"
-			}
-		],
-		"callerCount": 1,
-		"tests": [
-			{
-				"name": "test",
-				"command": "npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported-style-ownership && npm run test:css-quality && npm run test:heichelos-quality && npm run test:profile-menu && npm run test:heichel-governance && npm run test:post-submissions && npm run test:comments && npm run test:api-keys && npm run test:graph && npm run test:social-content && npm run test:notifications && npm run test:social-packed && npm run test:packed-engine && npm run test:platform-ops && npm run test:platform-execution && npm run test:node-client && npm run test:dayuh-cutover"
-			},
-			{
-				"name": "test:api-keys",
-				"command": "node geelooy/api/social/helper/test/apiKeys.test.js"
-			},
-			{
-				"name": "test:comments",
-				"command": "node geelooy/api/social/helper/comments/test/runAllCommentsTests.js"
-			},
-			{
-				"name": "test:concurrency-failure",
-				"command": "node geelooy/api/social/test/concurrencyFailureStress.test.mjs"
-			},
-			{
-				"name": "test:dayuh-release",
-				"command": "npm run test:routes && npm run test:comments && npm run test:social-content && npm run test:social-packed && npm run test:packed-engine && node --test tools/dayuhChadashMaintenance/test/*.test.js && npm run test:dayuh-cutover"
-			},
-			{
-				"name": "test:graph",
-				"command": "node geelooy/api/social/helper/test/socialGraph.test.js"
-			},
-			{
-				"name": "test:heichel-governance",
-				"command": "node geelooy/heichelos/heichel/modules/test/editorManagement.test.mjs && node geelooy/api/social/helper/test/heichelRoles.test.js"
-			},
-			{
-				"name": "test:live-smoke",
-				"command": "node geelooy/heichelos/heichel/modules/test/socialLiveSmoke.test.mjs"
-			}
-		],
-		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-unified-social-heichelos-heichel-invitations-invitati-b03dc3e0d8.md",
-		"confidence": "unknown-method",
-		"related": [
-			{
-				"id": "api-social-9fa4891e88",
-				"route": "/api/social"
-			},
-			{
-				"id": "api-social-abuse-ratelimit-check-0a30b621f8",
-				"route": "/api/social/abuse/rateLimit/check"
-			},
-			{
-				"id": "api-social-alias-alias-2cc6a9ba6e",
-				"route": "/api/social/alias/:alias"
-			},
-			{
-				"id": "api-social-alias-alias-details-7e4136898b",
-				"route": "/api/social/alias/:alias/details"
-			},
-			{
-				"id": "api-social-alias-alias-heichelos-34bfb8e313",
-				"route": "/api/social/alias/:alias/heichelos"
-			},
-			{
-				"id": "api-social-alias-alias-heichelos-heichel-4c7f5ddd08",
-				"route": "/api/social/alias/:alias/heichelos/:heichel"
-			},
-			{
-				"id": "api-social-alias-alias-heichelos-heichel-ownership-c2e6e8e020",
-				"route": "/api/social/alias/:alias/heichelos/:heichel/ownership"
-			},
-			{
-				"id": "api-social-alias-alias-heichelos-details-75a049464f",
-				"route": "/api/social/alias/:alias/heichelos/details"
-			}
-		]
-	},
-	{
-		"id": "api-social-unified-social-heichelos-heichel-members-814fd2a5d6",
-		"route": "/api/social/unified-social/heichelos/:heichel/members",
-		"source": "geelooy/api/social/_awtsmoos.destinations.js",
-		"discoveryKind": "static-literal",
-		"family": {
-			"mount": "/api/social",
-			"title": "Social",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md"
-		},
-		"derech": {
-			"source": "geelooy/api/social/_awtsmoos.derech.js",
-			"status": "OK",
-			"issue": "—",
-			"mount": "/api/social"
-		},
-		"dynamic": true,
-		"pathParameters": [
-			{
-				"name": "heichel",
+				"name": "id",
 				"catchAll": false
 			}
 		],
@@ -251,100 +112,247 @@
 		"callerCount": 0,
 		"tests": [
 			{
-				"name": "test",
-				"command": "npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported-style-ownership && npm run test:css-quality && npm run test:heichelos-quality && npm run test:profile-menu && npm run test:heichel-governance && npm run test:post-submissions && npm run test:comments && npm run test:api-keys && npm run test:graph && npm run test:social-content && npm run test:notifications && npm run test:social-packed && npm run test:packed-engine && npm run test:platform-ops && npm run test:platform-execution && npm run test:node-client && npm run test:dayuh-cutover"
+				"name": "test:mission-continuity-actions",
+				"command": "node geelooy/apps/tunnel/agent/tools/fs/actionGroups/test/missionContinuityActions.test.mjs"
 			},
 			{
-				"name": "test:api-keys",
-				"command": "node geelooy/api/social/helper/test/apiKeys.test.js"
+				"name": "test:treasury",
+				"command": "node geelooy/api/tunnel/control/test/runTreasuryTests.cjs"
 			},
 			{
-				"name": "test:comments",
-				"command": "node geelooy/api/social/helper/comments/test/runAllCommentsTests.js"
+				"name": "test:treasury:full",
+				"command": "node geelooy/api/tunnel/control/test/treasury/runAll.cjs"
 			},
 			{
-				"name": "test:concurrency-failure",
-				"command": "node geelooy/api/social/test/concurrencyFailureStress.test.mjs"
-			},
-			{
-				"name": "test:dayuh-release",
-				"command": "npm run test:routes && npm run test:comments && npm run test:social-content && npm run test:social-packed && npm run test:packed-engine && node --test tools/dayuhChadashMaintenance/test/*.test.js && npm run test:dayuh-cutover"
-			},
-			{
-				"name": "test:graph",
-				"command": "node geelooy/api/social/helper/test/socialGraph.test.js"
-			},
-			{
-				"name": "test:heichel-governance",
-				"command": "node geelooy/heichelos/heichel/modules/test/editorManagement.test.mjs && node geelooy/api/social/helper/test/heichelRoles.test.js"
-			},
-			{
-				"name": "test:live-smoke",
-				"command": "node geelooy/heichelos/heichel/modules/test/socialLiveSmoke.test.mjs"
+				"name": "test:tunnel-release",
+				"command": "node --test scripts/tunnel/testing/*.test.cjs scripts/repository-hygiene/testing/*.test.cjs"
 			}
 		],
 		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-unified-social-heichelos-heichel-members-814fd2a5d6.md",
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-artifact-binary-chunk-id-2cff14f5ab.md",
 		"confidence": "unknown-method",
 		"related": [
 			{
-				"id": "api-social-9fa4891e88",
-				"route": "/api/social"
+				"id": "api-tunnel-control-admin-vault-0c79867071",
+				"route": "/api/tunnel/control/admin-vault"
 			},
 			{
-				"id": "api-social-abuse-ratelimit-check-0a30b621f8",
-				"route": "/api/social/abuse/rateLimit/check"
+				"id": "api-tunnel-control-admin-perutas-5d22edeedf",
+				"route": "/api/tunnel/control/admin/perutas"
 			},
 			{
-				"id": "api-social-alias-alias-2cc6a9ba6e",
-				"route": "/api/social/alias/:alias"
+				"id": "api-tunnel-control-agent-economy-55b9aaa475",
+				"route": "/api/tunnel/control/agent-economy"
 			},
 			{
-				"id": "api-social-alias-alias-details-7e4136898b",
-				"route": "/api/social/alias/:alias/details"
+				"id": "api-tunnel-control-agent-lobby-01f88f681b",
+				"route": "/api/tunnel/control/agent-lobby"
 			},
 			{
-				"id": "api-social-alias-alias-heichelos-34bfb8e313",
-				"route": "/api/social/alias/:alias/heichelos"
+				"id": "api-tunnel-control-agent-lobby-join-6e29b3e243",
+				"route": "/api/tunnel/control/agent-lobby/join"
 			},
 			{
-				"id": "api-social-alias-alias-heichelos-heichel-4c7f5ddd08",
-				"route": "/api/social/alias/:alias/heichelos/:heichel"
+				"id": "api-tunnel-control-agent-lobby-post-397d4d9166",
+				"route": "/api/tunnel/control/agent-lobby/post"
 			},
 			{
-				"id": "api-social-alias-alias-heichelos-heichel-ownership-c2e6e8e020",
-				"route": "/api/social/alias/:alias/heichelos/:heichel/ownership"
+				"id": "api-tunnel-control-agent-manifest-3d95678bf3",
+				"route": "/api/tunnel/control/agent-manifest"
 			},
 			{
-				"id": "api-social-alias-alias-heichelos-details-75a049464f",
-				"route": "/api/social/alias/:alias/heichelos/details"
+				"id": "api-tunnel-control-agent-room-1f9266b1f2",
+				"route": "/api/tunnel/control/agent-room"
 			}
 		]
 	},
 	{
-		"id": "api-social-unified-social-heichelos-heichel-members-member-3ca4c024de",
-		"route": "/api/social/unified-social/heichelos/:heichel/members/:member",
-		"source": "geelooy/api/social/_awtsmoos.memberGovernance.js",
-		"discoveryKind": "static-literal",
+		"id": "api-tunnel-control-artifact-binary-finish-b842029a28",
+		"route": "/api/tunnel/control/artifact/binary/finish",
+		"source": "geelooy/api/tunnel/control/routes/table.js",
+		"discoveryKind": "route-table",
 		"family": {
-			"mount": "/api/social",
-			"title": "Social",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md"
+			"mount": "/api/tunnel/control",
+			"title": "Tunnel Control",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md"
 		},
 		"derech": {
-			"source": "geelooy/api/social/_awtsmoos.derech.js",
+			"source": "geelooy/api/tunnel/control/_awtsmoos.derech.js",
 			"status": "OK",
 			"issue": "—",
-			"mount": "/api/social"
+			"mount": "/api/tunnel/control"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [],
+		"statuses": [],
+		"headers": [],
+		"callers": [],
+		"callerCount": 0,
+		"tests": [
+			{
+				"name": "test:mission-continuity-actions",
+				"command": "node geelooy/apps/tunnel/agent/tools/fs/actionGroups/test/missionContinuityActions.test.mjs"
+			},
+			{
+				"name": "test:treasury",
+				"command": "node geelooy/api/tunnel/control/test/runTreasuryTests.cjs"
+			},
+			{
+				"name": "test:treasury:full",
+				"command": "node geelooy/api/tunnel/control/test/treasury/runAll.cjs"
+			},
+			{
+				"name": "test:tunnel-release",
+				"command": "node --test scripts/tunnel/testing/*.test.cjs scripts/repository-hygiene/testing/*.test.cjs"
+			}
+		],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-artifact-binary-finish-b842029a28.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-tunnel-control-admin-vault-0c79867071",
+				"route": "/api/tunnel/control/admin-vault"
+			},
+			{
+				"id": "api-tunnel-control-admin-perutas-5d22edeedf",
+				"route": "/api/tunnel/control/admin/perutas"
+			},
+			{
+				"id": "api-tunnel-control-agent-economy-55b9aaa475",
+				"route": "/api/tunnel/control/agent-economy"
+			},
+			{
+				"id": "api-tunnel-control-agent-lobby-01f88f681b",
+				"route": "/api/tunnel/control/agent-lobby"
+			},
+			{
+				"id": "api-tunnel-control-agent-lobby-join-6e29b3e243",
+				"route": "/api/tunnel/control/agent-lobby/join"
+			},
+			{
+				"id": "api-tunnel-control-agent-lobby-post-397d4d9166",
+				"route": "/api/tunnel/control/agent-lobby/post"
+			},
+			{
+				"id": "api-tunnel-control-agent-manifest-3d95678bf3",
+				"route": "/api/tunnel/control/agent-manifest"
+			},
+			{
+				"id": "api-tunnel-control-agent-room-1f9266b1f2",
+				"route": "/api/tunnel/control/agent-room"
+			}
+		]
+	},
+	{
+		"id": "api-tunnel-control-artifact-binary-offset-id-2c7598d9fe",
+		"route": "/api/tunnel/control/artifact/binary/offset/:id",
+		"source": "geelooy/api/tunnel/control/routes/table.js",
+		"discoveryKind": "route-table",
+		"family": {
+			"mount": "/api/tunnel/control",
+			"title": "Tunnel Control",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md"
+		},
+		"derech": {
+			"source": "geelooy/api/tunnel/control/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/tunnel/control"
 		},
 		"dynamic": true,
 		"pathParameters": [
 			{
-				"name": "heichel",
+				"name": "id",
 				"catchAll": false
+			}
+		],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [],
+		"statuses": [],
+		"headers": [],
+		"callers": [],
+		"callerCount": 0,
+		"tests": [
+			{
+				"name": "test:mission-continuity-actions",
+				"command": "node geelooy/apps/tunnel/agent/tools/fs/actionGroups/test/missionContinuityActions.test.mjs"
 			},
 			{
-				"name": "member",
+				"name": "test:treasury",
+				"command": "node geelooy/api/tunnel/control/test/runTreasuryTests.cjs"
+			},
+			{
+				"name": "test:treasury:full",
+				"command": "node geelooy/api/tunnel/control/test/treasury/runAll.cjs"
+			},
+			{
+				"name": "test:tunnel-release",
+				"command": "node --test scripts/tunnel/testing/*.test.cjs scripts/repository-hygiene/testing/*.test.cjs"
+			}
+		],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-artifact-binary-offset-id-2c7598d9fe.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-tunnel-control-admin-vault-0c79867071",
+				"route": "/api/tunnel/control/admin-vault"
+			},
+			{
+				"id": "api-tunnel-control-admin-perutas-5d22edeedf",
+				"route": "/api/tunnel/control/admin/perutas"
+			},
+			{
+				"id": "api-tunnel-control-agent-economy-55b9aaa475",
+				"route": "/api/tunnel/control/agent-economy"
+			},
+			{
+				"id": "api-tunnel-control-agent-lobby-01f88f681b",
+				"route": "/api/tunnel/control/agent-lobby"
+			},
+			{
+				"id": "api-tunnel-control-agent-lobby-join-6e29b3e243",
+				"route": "/api/tunnel/control/agent-lobby/join"
+			},
+			{
+				"id": "api-tunnel-control-agent-lobby-post-397d4d9166",
+				"route": "/api/tunnel/control/agent-lobby/post"
+			},
+			{
+				"id": "api-tunnel-control-agent-manifest-3d95678bf3",
+				"route": "/api/tunnel/control/agent-manifest"
+			},
+			{
+				"id": "api-tunnel-control-agent-room-1f9266b1f2",
+				"route": "/api/tunnel/control/agent-room"
+			}
+		]
+	},
+	{
+		"id": "api-tunnel-control-artifact-binary-private-range-id-2a282d64ed",
+		"route": "/api/tunnel/control/artifact/binary/private-range/:id",
+		"source": "geelooy/api/tunnel/control/routes/table.js",
+		"discoveryKind": "route-table",
+		"family": {
+			"mount": "/api/tunnel/control",
+			"title": "Tunnel Control",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md"
+		},
+		"derech": {
+			"source": "geelooy/api/tunnel/control/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/tunnel/control"
+		},
+		"dynamic": true,
+		"pathParameters": [
+			{
+				"name": "id",
 				"catchAll": false
 			}
 		],
@@ -355,81 +363,227 @@
 		"headers": [],
 		"callers": [
 			{
-				"literal": "/api/social/unified-social/heichelos/beit/members/moshe%20levi",
-				"source": "geelooy/social-hub/js/api/GovernanceApi.test.mjs",
-				"kind": "test"
+				"literal": "/api/tunnel/control/artifact/binary/private-range/${id}",
+				"source": "geelooy/apps/tunnel/agent/tools/fs/binaryArtifactRangeHttpClient.js",
+				"kind": "runtime"
 			}
 		],
 		"callerCount": 1,
 		"tests": [
 			{
-				"name": "test",
-				"command": "npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported-style-ownership && npm run test:css-quality && npm run test:heichelos-quality && npm run test:profile-menu && npm run test:heichel-governance && npm run test:post-submissions && npm run test:comments && npm run test:api-keys && npm run test:graph && npm run test:social-content && npm run test:notifications && npm run test:social-packed && npm run test:packed-engine && npm run test:platform-ops && npm run test:platform-execution && npm run test:node-client && npm run test:dayuh-cutover"
+				"name": "test:mission-continuity-actions",
+				"command": "node geelooy/apps/tunnel/agent/tools/fs/actionGroups/test/missionContinuityActions.test.mjs"
 			},
 			{
-				"name": "test:api-keys",
-				"command": "node geelooy/api/social/helper/test/apiKeys.test.js"
+				"name": "test:treasury",
+				"command": "node geelooy/api/tunnel/control/test/runTreasuryTests.cjs"
 			},
 			{
-				"name": "test:comments",
-				"command": "node geelooy/api/social/helper/comments/test/runAllCommentsTests.js"
+				"name": "test:treasury:full",
+				"command": "node geelooy/api/tunnel/control/test/treasury/runAll.cjs"
 			},
 			{
-				"name": "test:concurrency-failure",
-				"command": "node geelooy/api/social/test/concurrencyFailureStress.test.mjs"
-			},
-			{
-				"name": "test:dayuh-release",
-				"command": "npm run test:routes && npm run test:comments && npm run test:social-content && npm run test:social-packed && npm run test:packed-engine && node --test tools/dayuhChadashMaintenance/test/*.test.js && npm run test:dayuh-cutover"
-			},
-			{
-				"name": "test:graph",
-				"command": "node geelooy/api/social/helper/test/socialGraph.test.js"
-			},
-			{
-				"name": "test:heichel-governance",
-				"command": "node geelooy/heichelos/heichel/modules/test/editorManagement.test.mjs && node geelooy/api/social/helper/test/heichelRoles.test.js"
-			},
-			{
-				"name": "test:live-smoke",
-				"command": "node geelooy/heichelos/heichel/modules/test/socialLiveSmoke.test.mjs"
+				"name": "test:tunnel-release",
+				"command": "node --test scripts/tunnel/testing/*.test.cjs scripts/repository-hygiene/testing/*.test.cjs"
 			}
 		],
 		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-unified-social-heichelos-heichel-members-member-3ca4c024de.md",
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-artifact-binary-private-range-id-2a282d64ed.md",
 		"confidence": "unknown-method",
 		"related": [
 			{
-				"id": "api-social-9fa4891e88",
-				"route": "/api/social"
+				"id": "api-tunnel-control-admin-vault-0c79867071",
+				"route": "/api/tunnel/control/admin-vault"
 			},
 			{
-				"id": "api-social-abuse-ratelimit-check-0a30b621f8",
-				"route": "/api/social/abuse/rateLimit/check"
+				"id": "api-tunnel-control-admin-perutas-5d22edeedf",
+				"route": "/api/tunnel/control/admin/perutas"
 			},
 			{
-				"id": "api-social-alias-alias-2cc6a9ba6e",
-				"route": "/api/social/alias/:alias"
+				"id": "api-tunnel-control-agent-economy-55b9aaa475",
+				"route": "/api/tunnel/control/agent-economy"
 			},
 			{
-				"id": "api-social-alias-alias-details-7e4136898b",
-				"route": "/api/social/alias/:alias/details"
+				"id": "api-tunnel-control-agent-lobby-01f88f681b",
+				"route": "/api/tunnel/control/agent-lobby"
 			},
 			{
-				"id": "api-social-alias-alias-heichelos-34bfb8e313",
-				"route": "/api/social/alias/:alias/heichelos"
+				"id": "api-tunnel-control-agent-lobby-join-6e29b3e243",
+				"route": "/api/tunnel/control/agent-lobby/join"
 			},
 			{
-				"id": "api-social-alias-alias-heichelos-heichel-4c7f5ddd08",
-				"route": "/api/social/alias/:alias/heichelos/:heichel"
+				"id": "api-tunnel-control-agent-lobby-post-397d4d9166",
+				"route": "/api/tunnel/control/agent-lobby/post"
 			},
 			{
-				"id": "api-social-alias-alias-heichelos-heichel-ownership-c2e6e8e020",
-				"route": "/api/social/alias/:alias/heichelos/:heichel/ownership"
+				"id": "api-tunnel-control-agent-manifest-3d95678bf3",
+				"route": "/api/tunnel/control/agent-manifest"
 			},
 			{
-				"id": "api-social-alias-alias-heichelos-details-75a049464f",
-				"route": "/api/social/alias/:alias/heichelos/details"
+				"id": "api-tunnel-control-agent-room-1f9266b1f2",
+				"route": "/api/tunnel/control/agent-room"
+			}
+		]
+	},
+	{
+		"id": "api-tunnel-control-artifact-binary-publish-a51377f188",
+		"route": "/api/tunnel/control/artifact/binary/publish",
+		"source": "geelooy/api/tunnel/control/routes/table.js",
+		"discoveryKind": "route-table",
+		"family": {
+			"mount": "/api/tunnel/control",
+			"title": "Tunnel Control",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md"
+		},
+		"derech": {
+			"source": "geelooy/api/tunnel/control/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/tunnel/control"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [],
+		"statuses": [],
+		"headers": [],
+		"callers": [],
+		"callerCount": 0,
+		"tests": [
+			{
+				"name": "test:mission-continuity-actions",
+				"command": "node geelooy/apps/tunnel/agent/tools/fs/actionGroups/test/missionContinuityActions.test.mjs"
+			},
+			{
+				"name": "test:treasury",
+				"command": "node geelooy/api/tunnel/control/test/runTreasuryTests.cjs"
+			},
+			{
+				"name": "test:treasury:full",
+				"command": "node geelooy/api/tunnel/control/test/treasury/runAll.cjs"
+			},
+			{
+				"name": "test:tunnel-release",
+				"command": "node --test scripts/tunnel/testing/*.test.cjs scripts/repository-hygiene/testing/*.test.cjs"
+			}
+		],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-artifact-binary-publish-a51377f188.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-tunnel-control-admin-vault-0c79867071",
+				"route": "/api/tunnel/control/admin-vault"
+			},
+			{
+				"id": "api-tunnel-control-admin-perutas-5d22edeedf",
+				"route": "/api/tunnel/control/admin/perutas"
+			},
+			{
+				"id": "api-tunnel-control-agent-economy-55b9aaa475",
+				"route": "/api/tunnel/control/agent-economy"
+			},
+			{
+				"id": "api-tunnel-control-agent-lobby-01f88f681b",
+				"route": "/api/tunnel/control/agent-lobby"
+			},
+			{
+				"id": "api-tunnel-control-agent-lobby-join-6e29b3e243",
+				"route": "/api/tunnel/control/agent-lobby/join"
+			},
+			{
+				"id": "api-tunnel-control-agent-lobby-post-397d4d9166",
+				"route": "/api/tunnel/control/agent-lobby/post"
+			},
+			{
+				"id": "api-tunnel-control-agent-manifest-3d95678bf3",
+				"route": "/api/tunnel/control/agent-manifest"
+			},
+			{
+				"id": "api-tunnel-control-agent-room-1f9266b1f2",
+				"route": "/api/tunnel/control/agent-room"
+			}
+		]
+	},
+	{
+		"id": "api-tunnel-control-artifact-binary-start-31c618ada7",
+		"route": "/api/tunnel/control/artifact/binary/start",
+		"source": "geelooy/api/tunnel/control/routes/table.js",
+		"discoveryKind": "route-table",
+		"family": {
+			"mount": "/api/tunnel/control",
+			"title": "Tunnel Control",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md"
+		},
+		"derech": {
+			"source": "geelooy/api/tunnel/control/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/tunnel/control"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [],
+		"statuses": [],
+		"headers": [],
+		"callers": [],
+		"callerCount": 0,
+		"tests": [
+			{
+				"name": "test:mission-continuity-actions",
+				"command": "node geelooy/apps/tunnel/agent/tools/fs/actionGroups/test/missionContinuityActions.test.mjs"
+			},
+			{
+				"name": "test:treasury",
+				"command": "node geelooy/api/tunnel/control/test/runTreasuryTests.cjs"
+			},
+			{
+				"name": "test:treasury:full",
+				"command": "node geelooy/api/tunnel/control/test/treasury/runAll.cjs"
+			},
+			{
+				"name": "test:tunnel-release",
+				"command": "node --test scripts/tunnel/testing/*.test.cjs scripts/repository-hygiene/testing/*.test.cjs"
+			}
+		],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-artifact-binary-start-31c618ada7.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-tunnel-control-admin-vault-0c79867071",
+				"route": "/api/tunnel/control/admin-vault"
+			},
+			{
+				"id": "api-tunnel-control-admin-perutas-5d22edeedf",
+				"route": "/api/tunnel/control/admin/perutas"
+			},
+			{
+				"id": "api-tunnel-control-agent-economy-55b9aaa475",
+				"route": "/api/tunnel/control/agent-economy"
+			},
+			{
+				"id": "api-tunnel-control-agent-lobby-01f88f681b",
+				"route": "/api/tunnel/control/agent-lobby"
+			},
+			{
+				"id": "api-tunnel-control-agent-lobby-join-6e29b3e243",
+				"route": "/api/tunnel/control/agent-lobby/join"
+			},
+			{
+				"id": "api-tunnel-control-agent-lobby-post-397d4d9166",
+				"route": "/api/tunnel/control/agent-lobby/post"
+			},
+			{
+				"id": "api-tunnel-control-agent-manifest-3d95678bf3",
+				"route": "/api/tunnel/control/agent-manifest"
+			},
+			{
+				"id": "api-tunnel-control-agent-room-1f9266b1f2",
+				"route": "/api/tunnel/control/agent-room"
 			}
 		]
 	}

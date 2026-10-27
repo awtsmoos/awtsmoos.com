@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-26-ui-api-total-sovereignty-03-tiferes-execu-59e8cd8928",
+	"title": "Phase Three — Tiferes: Exact Execution Plan",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-26-ui-api-total-sovereignty/03_TIFERES_EXECUTION_PLAN.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase Three — Tiferes: Exact Execution Plan",
+			"anchor": "phase-three-tiferes-exact-execution-plan"
+		},
+		{
+			"level": 2,
+			"text": "Auth reference implementation",
+			"anchor": "auth-reference-implementation"
+		},
+		{
+			"level": 3,
+			"text": "Files to rewrite completely",
+			"anchor": "files-to-rewrite-completely"
+		},
+		{
+			"level": 3,
+			"text": "Files to retain unless evidence requires change",
+			"anchor": "files-to-retain-unless-evidence-requires-change"
+		},
+		{
+			"level": 2,
+			"text": "Shared future-system follow-up",
+			"anchor": "shared-future-system-follow-up"
+		},
+		{
+			"level": 2,
+			"text": "JS/API follow-up",
+			"anchor": "js-api-follow-up"
+		},
+		{
+			"level": 2,
+			"text": "Verification order",
+			"anchor": "verification-order"
+		},
+		{
+			"level": 2,
+			"text": "NEXTACTION",
+			"anchor": "nextaction"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-26-ui-api-total-sovereignty-03-tiferes-execu-59e8cd8928-001.json"
+	]
+}

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Mail (geelooy/api/social/helper/mail/)\n\nFull mail domain: domains, mailboxes, sending (SMTP/local/system), rules, threads, and notifications. Mounted via `_awtsmoos.mail.js`.\n\n## Files\n- `MailDomainService.js`, `mailUniverse.js` — domain and universe management.\n- `mailboxService.js`, `mailboxMutations.js` — mailbox read/mutations.\n- `sendService.js`, `smtpDelivery.js`, `localDelivery.js`, `systemDelivery.js` — sending and delivery paths.\n- `messageCodec.js`, `messageRecords.js` — message encoding and records.\n- `threadReader.js` — thread reads.\n- `addressResolver.js`, `rulesRunner.js` — address resolution and mail rules.\n- `notificationService.js` — mail notifications.\n- `settingsService.js` (+ `settingsService.test.js`), `globalForwardingSettings.js` — settings.\n- `test/` — `mailUniverse.test.mjs`.\n"
+}

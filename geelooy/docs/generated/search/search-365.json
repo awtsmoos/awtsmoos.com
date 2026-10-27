@@ -1,0 +1,123 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28t0144-do-all-long-render-closure-21-hygien-86977841cb",
+		"title": "Hygiene and Shadow-Work Discovery During Full Render",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0144-do-all-long-render-closure/21_HYGIENE_AND_SHADOW_WORK_DISCOVERY.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Hygiene and Shadow-Work Discovery During Full Render",
+				"anchor": "hygiene-and-shadow-work-discovery-during-full-render"
+			},
+			{
+				"level": 2,
+				"text": "Read-only scan evidence",
+				"anchor": "read-only-scan-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Current visible modified movie surface",
+				"anchor": "current-visible-modified-movie-surface"
+			},
+			{
+				"level": 2,
+				"text": "Interpretation",
+				"anchor": "interpretation"
+			},
+			{
+				"level": 2,
+				"text": "REMAININGWORK additions",
+				"anchor": "remainingwork-additions"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Hygiene and Shadow Work Discovery During Full Render The Awtsmoos lets one proof run while another light searches the edges; Awtsmoos.com records every structural debt so final success cannot hide a file that still exceeds the covenant. Read only scan evidence The active full proof is us",
+		"searchText": "b\"h boruch hashem blessed is he hygiene and shadow work discovery during full render the awtsmoos lets one proof run while another light searches the edges; awtsmoos.com records every structural debt so final success cannot hide a file that still exceeds the covenant. read only scan evidence the active full proof is using loaded canonical compiler/render/export modules; those files are frozen from mutation until the browser reaches terminal state. apps/shared/movie/ai/movieintentnormalizer.js is currently 131 lines and therefore violates the project's 120 line ceiling. apps/animator/tools/browser export/realmoviebrowserexportpage.js is currently 121 lines and also violates the ceiling. both require full reads, planning, and whole file modular rewrites after the 180 second proof is safely terminal. the movie workspace contains concurrent modifications and untracked modules from multiple movie system passes; final hygiene must distinguish files authored by this mission from concurrent agent work before any rewrite. current visible modified movie surface observed modified files include the three minute intent, animator plan parts, canonical browser export/frame source/export plan, the canonical proof pages, shared capabilities/compiler/compatibility bridge/semantic kinds, and frame backpressure test. new files include dialogue projection, ffmpeg regressions, cinematic vocabulary test, voice assets/specification/generator, capability recommender, intent adapter/normalizer, and compatibility envelope work. interpretation modified/untracked status is evidence of a shared workspace, not permission to reset it. some listed files are concurrent agent changes and must be fresh read/fresh hashed before any later mutation. the oversized normalizer is especially sensitive because it participates in canonical intent compilation. it must not be rewritten while the active full render depends on its loaded semantics. remaining work additions 1. split movieintentnormalizer.js below 120 lines without reducing comments or minifying logic. 2. split realmoviebrowserexportpage.js below 120 lines without changing legacy proof behavior. 3. re scan every human authored movie source for 120 lines after all repairs. 4. check tabs on actual code indentation while excluding jsdoc lines from false positive leading space scans. 5. re check mandatory b\"h/boruch hashem/blessed is he prologues and awtsmoos/awtsmoos.com mentions on touched source. 6. syntax check every touched js/mjs and py compile every touched python source after final rewrites. 7. reread every source file touched by this mission after the final write pass. 8. preserve concurrent agent modifications; never reset or overwrite without fresh evidence. next action keep the full render target untouched. continue read only/documentation shadow work until the 360 frame milestone watcher returns.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28t0144-do-all-long-render-closure-21-hygien-86977841cb.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28t0237-geelooy-social-posting-00-remaining--8569a75100",
+		"title": "REMAINING WORK — Geelooy Social Posting",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0237-geelooy-social-posting/00_REMAINING_WORK.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "REMAINING WORK — Geelooy Social Posting",
+				"anchor": "remaining-work-geelooy-social-posting"
+			},
+			{
+				"level": 2,
+				"text": "Current completion gate",
+				"anchor": "current-completion-gate"
+			},
+			{
+				"level": 2,
+				"text": "Known work",
+				"anchor": "known-work"
+			},
+			{
+				"level": 2,
+				"text": "Deferred user-requested next mission",
+				"anchor": "deferred-user-requested-next-mission"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He REMAINING WORK — Geelooy Social Posting Current completion gate Finish and verify durable Internet facing media evidence through the canonical Awtsmoos post flow before beginning the mobile first Social Hub redesign or external network auto posting. Known work [x] Inspect social/composer",
+		"searchText": "b\"h boruch hashem blessed is he remaining work — geelooy social posting current completion gate finish and verify durable internet facing media evidence through the canonical awtsmoos post flow before beginning the mobile first social hub redesign or external network auto posting. known work [x] inspect social/composer/hub/editor surfaces. [x] trace composer → unified publish api → publication executor → rich post → native post. [x] verify client success garment unwrap. [x] verify seriesid propagation. [x] inspect archive.org upload path, retries, receipt ledger, verification, and returned asset. [x] identify concrete gap: archive storage evidence and byte size are dropped by client/server attachment normalization. [x] compare architectures and choose generic per attachment storage provenance. [ ] create client attachmentstorage.js. [ ] rewrite client postpayloadparts.js in full to include optional storage and archive bytes → size. [ ] create server attachmentstorageschema.js. [ ] rewrite server attachmentschema.js in full to preserve only bounded optional storage. [ ] create focused client storage contract test. [ ] create focused server storage contract test. [ ] read back every touched source/test file in full. [ ] run syntax checks. [ ] run new client/server contract tests. [ ] run existing rich social schema/service tests. [ ] run composer publication truth tests. [ ] execute an in process representative archive attachment round trip through client payload and server normalization. [ ] inspect live/runtime composer route after code tests. [ ] write planned vs actual delta and resolve any discovered work. [ ] prove this completion gate closed with evidence. deferred user requested next mission only after the gate above closes: [ ] audit social hub on phone widths first. [ ] make post creation the dominant easy mobile action. [ ] remove loose labels/text by giving every visible element an intentional styled container/state. [ ] make all components responsive, touch friendly, keyboard safe, and overflow safe. [ ] design account linking for youtube community, facebook, and instagram. [ ] verify current provider api/oauth/publishing constraints from official sources before implementation. [ ] plug external providers into the existing canonical first secondary placement architecture. [ ] provide per network result, retry, idempotency, and partial failure ux. next action create the two storage mapper/schema modules, then rewrite their two parent attachment modules in full. the awtsmoos renews the world in every instant; this ledger renews the mission in every pass. awtsmoos.com should not call a path complete while public evidence falls through the cracks.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28t0237-geelooy-social-posting-00-remaining--8569a75100.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28t0237-geelooy-social-posting-01-discovery--737333e07c",
+		"title": "Geelooy Social Network — Discovery Brainstorm",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0237-geelooy-social-posting/01_DISCOVERY_BRAINSTORM.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Geelooy Social Network — Discovery Brainstorm",
+				"anchor": "geelooy-social-network-discovery-brainstorm"
+			},
+			{
+				"level": 2,
+				"text": "Mission",
+				"anchor": "mission"
+			},
+			{
+				"level": 2,
+				"text": "Evidence already observed",
+				"anchor": "evidence-already-observed"
+			},
+			{
+				"level": 2,
+				"text": "Possibility map",
+				"anchor": "possibility-map"
+			},
+			{
+				"level": 2,
+				"text": "Immediate discovery targets",
+				"anchor": "immediate-discovery-targets"
+			},
+			{
+				"level": 2,
+				"text": "Verification target",
+				"anchor": "verification-target"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Geelooy Social Network — Discovery Brainstorm Mission Finish and verify the existing Awtsmoos “post to the Internet” path before redesigning the social network. After that foundation is proven, improve the social experience mobile first so creating a post is immediate, every visible elem",
+		"searchText": "b\"h boruch hashem blessed is he geelooy social network — discovery brainstorm mission finish and verify the existing awtsmoos “post to the internet” path before redesigning the social network. after that foundation is proven, improve the social experience mobile first so creating a post is immediate, every visible element is deliberately styled, no text or labels float without a visual container, and future distribution to youtube community, facebook, and instagram has a clear integration path. evidence already observed repository root: work/awtsmoos.com/geelooy. existing surfaces include social/, social actions/, social composer/, social hub/, post editor/, api/, platform/, and shared/. no application file has been changed yet. possibility map 1. the current internet posting feature may already have an adapter or queue that only needs completion. 2. social distribution may be browser/client driven, server driven, or split between both. 3. post creation should become one dominant mobile action with progressive disclosure for advanced options. 4. cross post destinations should be modeled as providers behind one publishing contract, not hard coded branches in the composer. 5. provider credentials and oauth must remain server side or in an existing secure account linking boundary. 6. a publish result should represent per provider success/failure so one network cannot erase a successful post elsewhere. 7. retry and idempotency must be explicit before automatic external posting is enabled. 8. ui should use cards, chips, fields, grouped actions, loading states, empty states, error states, and confirmation states—never loose labels. 9. mobile layout should be primary; larger screens should enhance rather than define the structure. 10. existing public contracts must be preserved unless real callers prove a coordinated migration is safe. immediate discovery targets inventory files in the social surfaces. search for terms related to internet posting, publishing, share/cross post, youtube, facebook, instagram, oauth, provider, queue, and retry. trace one current posting request from ui event through api/server boundary to observable result. identify the smallest set of files whose rewrite can finish that flow without speculative provider work. verification target the first completion gate is not “new ui exists.” it is evidence that the existing awtsmoos internet posting flow can be executed successfully or that the exact blocking defect has been isolated with reproducible evidence. the awtsmoos creates each instant anew; the many modules are vessels, yet the purpose must flow as one. in awtsmoos.com the post should cross its boundary with clarity and light, not vanish in a hidden night.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28t0237-geelooy-social-posting-01-discovery--737333e07c.json"
+	}
+]

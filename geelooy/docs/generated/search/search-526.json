@@ -1,0 +1,247 @@
+[
+	{
+		"id": "geelooy-games-merkava-docs-verification-md-30b5517aa5",
+		"title": "Merkava Verification Contract",
+		"sourcePath": "geelooy/games/Merkava/docs/verification.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Merkava Verification Contract",
+				"anchor": "merkava-verification-contract"
+			},
+			{
+				"level": 2,
+				"text": "Primary commands",
+				"anchor": "primary-commands"
+			},
+			{
+				"level": 2,
+				"text": "Structural witnesses",
+				"anchor": "structural-witnesses"
+			},
+			{
+				"level": 2,
+				"text": "Source gates",
+				"anchor": "source-gates"
+			},
+			{
+				"level": 2,
+				"text": "Style gates",
+				"anchor": "style-gates"
+			},
+			{
+				"level": 2,
+				"text": "Runtime mobile matrix",
+				"anchor": "runtime-mobile-matrix"
+			},
+			{
+				"level": 2,
+				"text": "Interaction acceptance",
+				"anchor": "interaction-acceptance"
+			},
+			{
+				"level": 2,
+				"text": "CompactJS gate",
+				"anchor": "compactjs-gate"
+			}
+		],
+		"excerpt": "Merkava Verification Contract Primary commands npm run verify is the non browser completion gate. It runs deterministic tests, syntax checks, the raw WebGL renderer audit, and the source/style audit. npm run verify:browser drives the real browser through Campaign and Endless state transitions and stores runtime evidenc",
+		"searchText": "merkava verification contract primary commands npm run verify is the non browser completion gate. it runs deterministic tests, syntax checks, the raw webgl renderer audit, and the source/style audit. npm run verify:browser drives the real browser through campaign and endless state transitions and stores runtime evidence under the project evidence area. structural witnesses the test universe includes focused contracts for: gameplay systems, routes, modes, saves, bosses, upgrades and economy; raw webgl renderer and procedural mesh ownership; input adapter and lifecycle behavior; css localization, named layers, interaction states and manifest order; runtime journal, kesser publication, fatal boot and optional commerce; documentation links, headers and modular size. the suite must stay green after every architectural rewrite. source gates human authored merkava source should remain at 120 lines or fewer. if responsibility grows, split modules instead of shrinking comments or compressing logic. touched source must preserve: tab indentation where indentation exists; readable multiline logic; b\"h / boruch hashem / blessed is he headers; meaningful awtsmoos and awtsmoos.com documentation; jsdoc on substantial javascript classes, constructors and methods; resolved relative imports; no generated bundle edits. run git diff check games/merkava before closing a wave. style gates test/cssscope.test.mjs enforces: every normal selector starts under gameshell; no global root/body leakage; every z index uses a named merkava layer token; hover, active and focus visible remain present; reduced motion remains local; manifest ordering stays deliberate. runtime mobile matrix browser acceptance should include at minimum: desktop viewport; 390×844 phone; 320×568 phone; one short height phone case. for each meaningful state verify: document horizontal overflow is zero; overlays and panels remain bounded; internal panel scrolling is intentional and usable; visible action controls remain at least 44px high on phone; no action is accidentally outside the viewport; hud does not collide with overlays or shared player shell controls; shared shell controls retain their own computed styles; named z layers compute in the expected order; runtime error arrays and captured browser exceptions remain empty. interaction acceptance exercise real apis or real user events whenever possible. do not manufacture classes when a real application path can reach the state. verify keyboard lane movement, pointer/touch lane movement, charged ability, pause/resume, mode selection, route choice, blessing/shop decisions, game over and continuation. compactjs gate the browser entry already requests ?compact=true. after changing the module graph, compile src/main.js through the real awtsmoos dynamic server compactjs compiler and syntax check the generated module. never infer compactjs compatibility from ordinary static server loading alone. a static server ignores the query semantics.",
+		"page": "pages/geelooy-games-merkava-docs-verification-md-30b5517aa5.json"
+	},
+	{
+		"id": "geelooy-games-merkava-documentation-md-04dac7a852",
+		"title": "Merkava — War of the Sparks",
+		"sourcePath": "geelooy/games/Merkava/DOCUMENTATION.md",
+		"category": "Games",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Merkava — War of the Sparks",
+				"anchor": "merkava-war-of-the-sparks"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Merkava — War of the Sparks The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAMES PLATFORM.md fo",
+		"searchText": "b\"h boruch hashem blessed is he merkava — war of the sparks the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “merkava — war of the sparks”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
+		"page": "pages/geelooy-games-merkava-documentation-md-04dac7a852.json"
+	},
+	{
+		"id": "geelooy-games-merkava-readme-md-87ad762f65",
+		"title": "Merkava: War of the Sparks",
+		"sourcePath": "geelooy/games/Merkava/README.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Merkava: War of the Sparks",
+				"anchor": "merkava-war-of-the-sparks"
+			},
+			{
+				"level": 2,
+				"text": "Quick controls",
+				"anchor": "quick-controls"
+			},
+			{
+				"level": 2,
+				"text": "Run modes",
+				"anchor": "run-modes"
+			},
+			{
+				"level": 2,
+				"text": "Runtime",
+				"anchor": "runtime"
+			},
+			{
+				"level": 2,
+				"text": "Architecture",
+				"anchor": "architecture"
+			},
+			{
+				"level": 2,
+				"text": "Styling covenant",
+				"anchor": "styling-covenant"
+			},
+			{
+				"level": 2,
+				"text": "Input covenant",
+				"anchor": "input-covenant"
+			},
+			{
+				"level": 2,
+				"text": "Diagnostics",
+				"anchor": "diagnostics"
+			},
+			{
+				"level": 2,
+				"text": "Verification",
+				"anchor": "verification"
+			}
+		],
+		"excerpt": "Merkava: War of the Sparks Merkava is the flagship Awtsmoos Original: a raw WebGL three lane army roguelite about gathering holy sparks, collecting Prutahs, choosing deterministic roads, building Sefirah paths, and confronting multi phase bosses. Quick controls A / D or arrows — move between three lanes. Tap or drag th",
+		"searchText": "merkava: war of the sparks merkava is the flagship awtsmoos original: a raw webgl three lane army roguelite about gathering holy sparks, collecting prutahs, choosing deterministic roads, building sefirah paths, and confronting multi phase bosses. quick controls a / d or arrows — move between three lanes. tap or drag the canvas — direct mobile lane control. space — activate the charged merkava command. p or escape — toggle pause. hud command button — mobile ability activation. run modes campaign crosses five authored worlds and ends after sar ha hester falls. ordinary boundaries combine road choice, blessings, checkpoint shops and bosses. endless renews those worlds through bounded cycles of rising pressure and rewards without replacing readable mechanics or saved strategic identity. for the full gameplay covenant, read docs/gameplay.md. runtime browser entry: index.html → src/main.js?compact=true. composition: kessermerkavabootstrap → merkavaapp → focused systems. renderer: raw webgl with /geelooy/libs/awtsmoos procedural meshes. no three.js runtime dependency or namespace. save key: awtsmoos.merkava.save.v4. optional commander sigil commerce never controls gameplay boot. architecture merkava is split by responsibility instead of accumulating central managers. application composition, input, gameplay, routes, modes, rendering, ui, persistence, audio, commerce and configuration live in separate domains. start with docs/architecture.md. deep contracts: docs/input api.md — gesture lifecycle and command adapter. docs/style contract.md — localization and z layers. docs/runtime bootstrap.md — kesser boot and evidence. docs/verification.md — source, compactjs and browser gates. styling covenant every normal merkava selector stays below gameshell. the game owns an isolated stacking context and cannot globally restyle siblings. named layers replace arbitrary z index values. mobile actions keep a 44px interaction floor. relevant controls provide fine pointer hover, universal active feedback, visible focus, and local reduced motion behavior. no global body, button, , .overlay, .hud, or similar battlefield selector is allowed back into the style graph. input covenant inputcontroller does not receive mutable gamestate. merkavainputactions exposes only lane, ability, pause and reversal contracts. yesodinputport supplies detachable keyboard/pointer lifecycle and enables clean testing or future host integration. diagnostics existing browser tooling remains supported through: window. merkava app window. merkava diagnostics window. merkava runtime errors these are compatibility surfaces for diagnostics and acceptance tools. new game modules should depend on imported apis rather than hidden globals. verification npm run verify covers game rules, input, css localization, runtime bootstrap, syntax, raw webgl ownership and source/style constraints. npm run verify:browser exercises real campaign/endless paths and browser evidence. the project favors many small, documented modules over dense files. when a source vessel approaches 120 lines, split responsibility instead of reducing documentation or compressing code.",
+		"page": "pages/geelooy-games-merkava-readme-md-87ad762f65.json"
+	},
+	{
+		"id": "geelooy-games-migdol-documentation-md-3feffea982",
+		"title": "Migdol - Kabbalah Tower Defense",
+		"sourcePath": "geelooy/games/migdol/DOCUMENTATION.md",
+		"category": "Games",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Migdol - Kabbalah Tower Defense",
+				"anchor": "migdol-kabbalah-tower-defense"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Migdol Kabbalah Tower Defense The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAMES PLATFORM.md ",
+		"searchText": "b\"h boruch hashem blessed is he migdol kabbalah tower defense the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “migdol kabbalah tower defense”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
+		"page": "pages/geelooy-games-migdol-documentation-md-3feffea982.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-assets-directory-guide-md-67aadb8dcf",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/assets/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: assets",
+				"anchor": "directory-guide-assets"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 1 files, 3 structural child directories Purpose Runtime consumable models, textures, and material libraries. The Awtsmoos renews every path and every artifact from ",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: assets role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 1 files, 3 structural child directories purpose runtime consumable models, textures, and material libraries. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: assets, guide file mix: .md: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files no immediate files. this directory is an organizational parent; follow the child guides below. directory map parent: . children: assets/materials assets/models assets/textures related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. vegetation, trees, and forest systems — botany rules, tree generation, forest composition, grass, and source texture libraries overlap semantically but own different layers. player, creature, horse, enemy, and experimental mesh systems — actor assets and world side populations span player hydration, creature generators, enemies, horses, and experimental animal meshes. boundaries and cautions this directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-assets-directory-guide-md-67aadb8dcf.json"
+	}
+]

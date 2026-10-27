@@ -14,8 +14,8 @@
 		},
 		{
 			"level": 1,
-			"text": "Directory Guide: experiments/animalMesh",
-			"anchor": "directory-guide-experiments-animalmesh"
+			"text": "Animal Mesh Experiment",
+			"anchor": "animal-mesh-experiment"
 		},
 		{
 			"level": 2,
@@ -24,23 +24,13 @@
 		},
 		{
 			"level": 2,
-			"text": "Find things here",
-			"anchor": "find-things-here"
+			"text": "Runtime flow",
+			"anchor": "runtime-flow"
 		},
 		{
 			"level": 2,
-			"text": "Semantic evidence",
-			"anchor": "semantic-evidence"
-		},
-		{
-			"level": 2,
-			"text": "Representative files",
-			"anchor": "representative-files"
-		},
-		{
-			"level": 2,
-			"text": "Exported symbols worth searching",
-			"anchor": "exported-symbols-worth-searching"
+			"text": "Files",
+			"anchor": "files"
 		},
 		{
 			"level": 2,
@@ -49,23 +39,13 @@
 		},
 		{
 			"level": 2,
-			"text": "Directory map",
-			"anchor": "directory-map"
+			"text": "Boundaries",
+			"anchor": "boundaries"
 		},
 		{
 			"level": 2,
-			"text": "Related and overlapping systems",
-			"anchor": "related-and-overlapping-systems"
-		},
-		{
-			"level": 2,
-			"text": "Boundaries and cautions",
-			"anchor": "boundaries-and-cautions"
-		},
-		{
-			"level": 2,
-			"text": "Navigation",
-			"anchor": "navigation"
+			"text": "Verification",
+			"anchor": "verification"
 		}
 	],
 	"markdownParts": [

@@ -1,0 +1,76 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-games-ohrbound-a0d12378",
+	"path": "geelooy/games/ohrbound",
+	"type": "game",
+	"family": {
+		"id": "games",
+		"title": "Games and Worlds"
+	},
+	"title": "Ohrbound: Gates of Asiyah",
+	"entries": [
+		"index.html",
+		"package.json",
+		"README.md",
+		"readme.md"
+	],
+	"humanDocumentation": [
+		"docs/TUTORIALS/PROJECTS/GAMES.md",
+		"docs/APPS/GAMES_AND_SIMULATION.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-ohrbound-a0d12378.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 149,
+		"tests": 27,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 0
+	},
+	"totalFiles": 177,
+	"symbolSummary": {
+		"files": 130,
+		"classes": 107,
+		"functions": 27,
+		"exports": 158,
+		"samples": [
+			"CommunityService",
+			"CreatorFlow",
+			"GameLoop",
+			"OhrboundApp",
+			"OhrboundBrowserBindings",
+			"OhrboundIdentityFlow",
+			"OhrboundResultReporter",
+			"OhrboundRuntimeBridge",
+			"MalchusBrowserVessel",
+			"AppearanceRepository",
+			"CharacterAppearance",
+			"carry"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/libs",
+			"count": 13,
+			"examples": "geelooy/games/ohrbound/src/nature/OhrboundNatureDirector.js; geelooy/games/ohrbound/src/render/AmbientParticleField.js; geelooy/games/ohrbound/src/render/CoreBufferAtlas.js"
+		}
+	],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/games/ohrbound",
+			"file": "geelooy/games/ohrbound/index.html",
+			"title": "Ohrbound: Gates of Asiyah",
+			"scripts": 4,
+			"styles": 4
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": false,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

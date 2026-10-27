@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-docs-production-roadmap-08-long-horizon-md-911aa86268",
+	"title": "Long-Horizon Platform and Content Evolution",
+	"sourcePath": "geelooy/games/mitzvahWorld/docs/production-roadmap/08-long-horizon.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Long-Horizon Platform and Content Evolution",
+			"anchor": "long-horizon-platform-and-content-evolution"
+		},
+		{
+			"level": 2,
+			"text": "Data-driven world growth",
+			"anchor": "data-driven-world-growth"
+		},
+		{
+			"level": 2,
+			"text": "Developer tooling",
+			"anchor": "developer-tooling"
+		},
+		{
+			"level": 2,
+			"text": "Documentation",
+			"anchor": "documentation"
+		},
+		{
+			"level": 2,
+			"text": "Catalog growth",
+			"anchor": "catalog-growth"
+		},
+		{
+			"level": 2,
+			"text": "Content operations",
+			"anchor": "content-operations"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-docs-production-roadmap-08-long-horizon-md-911aa86268-001.json"
+	]
+}

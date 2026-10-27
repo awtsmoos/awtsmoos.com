@@ -22,32 +22,32 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-nachash-85ff920d.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 5,
+		"source": 24,
 		"tests": 0,
 		"assets": 0,
 		"generated": 0,
 		"docs": 0,
 		"other": 0
 	},
-	"totalFiles": 5,
+	"totalFiles": 24,
 	"symbolSummary": {
-		"files": 3,
-		"classes": 8,
-		"functions": 31,
-		"exports": 0,
+		"files": 19,
+		"classes": 16,
+		"functions": 43,
+		"exports": 12,
 		"samples": [
-			"onPointerDown",
-			"onPointerMove",
-			"onPointerUp",
-			"updateKeyboardDirection",
-			"handleKeyDown",
-			"handleKeyUp",
-			"handleResize",
-			"startGame",
-			"endGame",
-			"createAndShowGameOverScreen",
-			"handleWorkerMessage",
-			"init"
+			"bindBoost",
+			"NachashKeyboardInput",
+			"editable",
+			"NachashPointerInput",
+			"NachashAudio",
+			"NachashPauseState",
+			"loadNachashPreferences",
+			"saveNachashPreferences",
+			"recordNachashScore",
+			"read",
+			"safeNumber",
+			"NachashResultReporter"
 		]
 	},
 	"outgoingDependencies": [],
@@ -58,11 +58,11 @@
 			"url": "/games/Nachash",
 			"file": "geelooy/games/Nachash/index.html",
 			"title": "Tikkun HaNachash",
-			"scripts": 2,
-			"styles": 2
+			"scripts": 3,
+			"styles": 6
 		}
 	],
-	"requiresLocalDocumentation": false,
+	"requiresLocalDocumentation": true,
 	"documentationCovered": false,
 	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
 }

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Views (geelooy/api/social/helper/views/)\n\nView-count store. Mounted via `_awtsmoos.views.js`; routes in `helper/routes/views/`.\n\n- `viewStore.js` — view count storage.\n\n## Endpoints\n- `/views/record` (POST), `/views/batch`, `/views/:postId`\n"
+}

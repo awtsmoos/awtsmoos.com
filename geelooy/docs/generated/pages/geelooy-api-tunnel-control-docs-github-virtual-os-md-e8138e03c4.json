@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-tunnel-control-docs-github-virtual-os-md-e8138e03c4",
+	"title": "B\"H",
+	"sourcePath": "geelooy/api/tunnel/control/docs/GITHUB_VIRTUAL_OS.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Virtual OS — Public GitHub source import",
+			"anchor": "virtual-os-public-github-source-import"
+		},
+		{
+			"level": 2,
+			"text": "From the Virtual OS desktop",
+			"anchor": "from-the-virtual-os-desktop"
+		},
+		{
+			"level": 2,
+			"text": "Tool/API call",
+			"anchor": "tool-api-call"
+		},
+		{
+			"level": 2,
+			"text": "Fast source-snapshot status (read-only)",
+			"anchor": "fast-source-snapshot-status-read-only"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-tunnel-control-docs-github-virtual-os-md-e8138e03c4-001.json"
+	]
+}

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Pass One — Theoretical File Map\n\nThe Awtsmoos conceals the path until the vessels are revealed;\nNo guessed filename shall be changed before the tree itself is unsealed.\n\n## Likely responsibilities, not yet asserted paths\n- Shared movie schema/types/defaults.\n- Shared timeline evaluator.\n- Shared easing/interpolation.\n- Shared action/keyframe normalizer.\n- Shared feature/capability registry.\n- Shared sample movie data.\n- 2D renderer adapter and 2D primitive factories.\n- 3D renderer adapter and 3D primitive factories.\n- Mobile-first transport/editor controls.\n- App-specific entry modules that preserve route identity.\n- Validation/tests for schema, timing, renderer interpretation, mobile layout.\n- Showcase movie data split by acts/scenes to keep files small.\n\n## Rule\nThis is a responsibility map only. Actual file paths will be selected only after repository inspection, import tracing, route tracing, and runtime evidence.\n"
+}

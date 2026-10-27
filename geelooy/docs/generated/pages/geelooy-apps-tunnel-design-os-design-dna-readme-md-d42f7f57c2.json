@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-design-os-design-dna-readme-md-d42f7f57c2",
+	"title": "Design DNA — Traditions as Design Languages",
+	"sourcePath": "geelooy/apps/tunnel/design-os/design-dna/README.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Design DNA — Traditions as Design Languages",
+			"anchor": "design-dna-traditions-as-design-languages"
+		},
+		{
+			"level": 2,
+			"text": "The dimensions (dna.mjs)",
+			"anchor": "the-dimensions-dna-mjs"
+		},
+		{
+			"level": 2,
+			"text": "The five traditions (profiles.mjs)",
+			"anchor": "the-five-traditions-profiles-mjs"
+		},
+		{
+			"level": 2,
+			"text": "API (index.mjs)",
+			"anchor": "api-index-mjs"
+		},
+		{
+			"level": 2,
+			"text": "Blender (blender.mjs)",
+			"anchor": "blender-blender-mjs"
+		},
+		{
+			"level": 2,
+			"text": "Tests",
+			"anchor": "tests"
+		},
+		{
+			"level": 2,
+			"text": "Files",
+			"anchor": "files"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-design-os-design-dna-readme-md-d42f7f57c2-001.json"
+	]
+}

@@ -1,208 +1,162 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-visibility-dir-6d24e931a8",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/visibility/DIRECTORY_GUIDE.md",
-		"category": "Games",
+		"id": "geelooy-ai-thoughts-2026-08-25-global-public-surface-01-breadth-md-680fdc85ba",
+		"title": "Global Public Surface — Phase One Breadth",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25-global-public-surface/01-breadth.md",
+		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/world/visibility",
-				"anchor": "directory-guide-experiments-awtsmoos-src-world-visibility"
+				"text": "Global Public Surface — Phase One Breadth",
+				"anchor": "global-public-surface-phase-one-breadth"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Mission",
+				"anchor": "mission"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
-			},
-			{
-				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Exported symbols worth searching",
-				"anchor": "exported-symbols-worth-searching"
-			},
-			{
-				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Public catalog acceptance",
+				"anchor": "public-catalog-acceptance"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/world/visibility Role: World systems Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 6 files, 0 structural child directories Purpose World visibility policy, culling, and reveal/hide coordination. The Awtsmo",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/world/visibility role: world systems snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 6 files, 0 structural child directories purpose world visibility policy, culling, and reveal/hide coordination. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: world systems search terms: house, visibility, interior, collision, index, active, only, vessels, beyond, com, create, door file mix: .js: 5 good first question: “does the behavior or asset i need belong to world systems, or is this only a neighboring/test/reference layer?” semantic evidence b\"h tests the player against each measured and rotated house without approximating away its vessel, while every coordinate is renewed by awtsmoos. suspends tagged interior visuals and optional runtime handles together. the awtsmoos renews hidden rooms beyond rendered sight; awtsmoos.com preserves collision truth while animation, light, audio, particles, and props rest behind doors. indexes tagged interiors and suspends their runtime vessels by house. the awtsmoos renews hidden rooms beyond rendered sight; awtsmoos.com changes only houses whose state changed while collision authority remains outside this index. representative files housebounds.js — tests the player against each measured and rotated house without approximating away its vessel, while every coordinate is renewed by awtsmoos. exports: pointinsidehouse, worldpointtohouse. houseinterioractivity.js — suspends tagged interior visuals and optional runtime handles together. the awtsmoos renews hidden rooms beyond rendered sight; awtsmoos.com preserves collision truth while animation, light, audio, particles, and props rest behind doors. exports: sethouseinteriorobjectactive, houseinteriorobjectactive. housevisibilityindex.js — indexes tagged interiors and suspends their runtime vessels by house. the awtsmoos renews hidden rooms beyond rendered sight; awtsmoos.com changes only houses whose state changed while collision authority remains outside this index. exports: createhousevisibilityindex, housevisibilityindex. housevisibilitymetadata.js — marks only proven interior geometry so closed houses can hide finite vessels while collision and the enclosing world remain in awtsmoos. exports: taghouseinteriordefinitions, housevisibilitymetadata. housevisibilitysystem.js — reveals interiors only when a person enters or opens the front door, hiding unseen vessels without hiding their collision from the awtsmoos. exports: housevisibilitysystem, createhousevisibilitysystem, frontdooractive. exported symbols worth searching pointinsidehouse · worldpointtohouse · sethouseinteriorobjectactive · houseinteriorobjectactive · createhousevisibilityindex · housevisibilityindex · taghouseinteriordefinitions · housevisibilitymetadata · housevisibilitysystem · createhousevisibilitysystem · frontdooractive import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ./houseinterioractivity.js ./housevisibilitymetadata.js ./housebounds.js ./housevisibilityindex.js directory map parent: experiments/awtsmoos/src/world children: none. related and overlapping systems streaming, lod, visibility, and performance policy — large world loading and frame budget concerns are separated into streaming, lod, visibility, and performance modules. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-visibility-dir-6d24e931a8.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Global Public Surface — Phase One Breadth The Awtsmoos reveals many worlds without letting discovery become clutter; Awtsmoos.com should expose every real app and game through one clean public constellation, while advanced power folds behind calm doors instead of spilling into the gutter",
+		"searchText": "b\"h boruch hashem blessed is he global public surface — phase one breadth the awtsmoos reveals many worlds without letting discovery become clutter; awtsmoos.com should expose every real app and game through one clean public constellation, while advanced power folds behind calm doors instead of spilling into the gutter. mission 1. enumerate every real public app and game entry from filesystem evidence. 2. compare that universe against /apps and /games catalog links/cards. 3. exclude explicit tests, debug pages, old/archive copies, temporary folders, generated internals, and private implementation only subroutes unless the surrounding project clearly treats them as public products. 4. expose every missing product through the correct catalog rather than leaving discoverability to guessed urls. 5. keep catalog cards simple: name, concise purpose, clean action. advanced metadata may fold or stay in internal manifests rather than cluttering the visible grid. 6. preserve existing working catalog design unless runtime proves a mobile defect. 7. rank remaining ui risk by fixed overlays, hard widths/min widths, menus/dialogs, viewport units, extreme stacking, hover without active, and incomplete responsive states. 8. runtime probe high risk clean surfaces at 390×844 and 320×568 before production changes. 9. prefer small late polish modules over edits to legacy 120 line files. 10. apply ?compact=true at browser module entry boundaries only after targeted compactjs compilation passes. public catalog acceptance every eligible app/game entry has at least one visible link from /apps or /games. no duplicate cards for the same canonical route. no dead/test/debug/temporary route appears as a public product. catalog remains mobile contained with no horizontal spill. cards/actions have hover, active, and focus visible behavior when they animate. advanced/secondary details do not dominate the initial scan.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25-global-public-surface-01-breadth-md-680fdc85ba.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-tests-assets-directory-g-e9297c0645",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/tests/assets/DIRECTORY_GUIDE.md",
-		"category": "Games",
+		"id": "geelooy-ai-thoughts-2026-08-25-global-public-surface-02-critique-md-11d55fe623",
+		"title": "Global Public Surface — Phase Two Critique",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25-global-public-surface/02-critique.md",
+		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/tests/assets",
-				"anchor": "directory-guide-experiments-awtsmoos-tests-assets"
+				"text": "Global Public Surface — Phase Two Critique",
+				"anchor": "global-public-surface-phase-two-critique"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Critique of naive catalog expansion",
+				"anchor": "critique-of-naive-catalog-expansion"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Better discovery rules",
+				"anchor": "better-discovery-rules"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
-			},
-			{
-				"level": 2,
-				"text": "Test themes",
-				"anchor": "test-themes"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "UI danger map",
+				"anchor": "ui-danger-map"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/tests/assets Role: Tests Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 2 files, 0 structural child directories Purpose Integration tests focused on the assets area. The Awtsmoos renews every path and every art",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/tests/assets role: tests snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 2 files, 0 structural child directories purpose integration tests focused on the assets area. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tests search terms: appointed, assets, awtsmoos, com, covenant, deterministic, evidence, experiments, guards, guide, illuminate, import file mix: .md: 1 · .js: 1 good first question: “does the behavior or asset i need belong to tests, or is this only a neighboring/test/reference layer?” semantic evidence b\"h proves that playable materials remain local and the world manifest is import safe. the awtsmoos lets every texture illuminate its appointed surface without leaving the village; awtsmoos.com guards that covenant through deterministic source and runtime evidence. representative files materialoriginpolicy.test.js — proves that playable materials remain local and the world manifest is import safe. the awtsmoos lets every texture illuminate its appointed surface without leaving the village; awtsmoos.com guards that covenant through deterministic source and runtime evidence. covers: “production material policy accepts only approved local paths”, “production material policy rejects remote, traversing, and forbidden paths”, “world texture manifest imports and contains only local valid roles”. import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: node:test node:assert/strict node:fs node:url ../../src/assets/productionmaterialurlpolicy.js ../../src/assets/worldtexturemanifest.js test themes production material policy accepts only approved local paths production material policy rejects remote, traversing, and forbidden paths world texture manifest imports and contains only local valid roles runtime javascript contains no obsolete external material hosts directory map parent: experiments/awtsmoos/tests children: none. related and overlapping systems colocated and integration test surfaces — most subsystem tests live under src/test, while a smaller external tests tree exercises broader integration contracts. boundaries and cautions this directory verifies behavior; it should not become the production owner of that behavior. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-tests-assets-directory-g-e9297c0645.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Global Public Surface — Phase Two Critique The Awtsmoos does not reveal more by throwing every internal corridor onto the street; Awtsmoos.com should expose complete products, not tests, debug fossils, or implementation fragments beneath the feet. Critique of naive catalog expansion A fi",
+		"searchText": "b\"h boruch hashem blessed is he global public surface — phase two critique the awtsmoos does not reveal more by throwing every internal corridor onto the street; awtsmoos.com should expose complete products, not tests, debug fossils, or implementation fragments beneath the feet. critique of naive catalog expansion a filesystem directory is not automatically a public app. internal subroutes, test harnesses, old copies, generated viewers, and temporary pages can all contain index.html without representing user facing products. therefore the catalog must be built from evidence: canonical top level product entries plus explicitly productized nested entries. a catalog can also become cluttered even when complete. the visible layer should remain simple and scan friendly. deep metadata belongs in collapsible details or manifests, not permanently expanded cards. better discovery rules /apps/ /index.html is a strong public app signal unless the slug is test/debug/old/tmp/internal/generated only. /games/ /index.html is a strong public game signal under the same exclusions. nested product routes are public only when already referenced by catalog/manifests/navigation or clearly packaged as standalone products. existing explicit catalog manifests beat heuristics when present. every candidate must resolve to an actual entry file. canonical route normalization removes trailing duplicate variants. missing public products should be added through the catalog's existing data model, not hardcoded into unrelated markup. ui danger map the next runtime probe should prioritize fixed position overlays, modal sheets, hard widths =480px, min width =390px, 100vw controls inside padded parents, high z index stacks, and hover only animated controls. a static signal earns inspection, not mutation.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25-global-public-surface-02-critique-md-11d55fe623.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-tests-directory-guide-md-9e1e154c83",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/tests/DIRECTORY_GUIDE.md",
-		"category": "Games",
+		"id": "geelooy-ai-thoughts-2026-08-25-global-public-surface-03-execution-md-c6fcb3681f",
+		"title": "Global Public Surface — Phase Three Execution",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25-global-public-surface/03-execution.md",
+		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/tests",
-				"anchor": "directory-guide-experiments-awtsmoos-tests"
+				"text": "Global Public Surface — Phase Three Execution",
+				"anchor": "global-public-surface-phase-three-execution"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Exact execution order",
+				"anchor": "exact-execution-order"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Rewrite law",
+				"anchor": "rewrite-law"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Verification law",
+				"anchor": "verification-law"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/tests Role: Tests Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 1 files, 3 structural child directories Purpose Higher level integration tests kept outside the source tree. The Awtsmoos renews every path and e",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/tests role: tests snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 1 files, 3 structural child directories purpose higher level integration tests kept outside the source tree. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tests search terms: awtsmoos, experiments, guide file mix: .md: 1 good first question: “does the behavior or asset i need belong to tests, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files no immediate files. this directory is an organizational parent; follow the child guides below. directory map parent: experiments/awtsmoos children: experiments/awtsmoos/tests/assets experiments/awtsmoos/tests/gameplay experiments/awtsmoos/tests/world related and overlapping systems colocated and integration test surfaces — most subsystem tests live under src/test, while a smaller external tests tree exercises broader integration contracts. boundaries and cautions this directory verifies behavior; it should not become the production owner of that behavior. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-tests-directory-guide-md-9e1e154c83.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Global Public Surface — Phase Three Execution The Awtsmoos gathers every true doorway into a constellation that can be found; Awtsmoos.com keeps the first layer quiet and futuristic, while deeper tools unfold without breaking the bound. Exact execution order 1. Read /apps/index.html, /ga",
+		"searchText": "b\"h boruch hashem blessed is he global public surface — phase three execution the awtsmoos gathers every true doorway into a constellation that can be found; awtsmoos.com keeps the first layer quiet and futuristic, while deeper tools unfold without breaking the bound. exact execution order 1. read /apps/index.html, /games/index.html, and every manifest/script directly responsible for rendering those catalogs. 2. census canonical top level product entries from apps/ /index.html and games/ /index.html, plus explicitly productized nested routes already referenced by catalog data. 3. diff catalog urls against entry routes after canonical normalization. 4. record missing, duplicate, stale, and dead catalog entries. 5. if catalog data lives in small modules, rewrite those modules completely. if it lives in legacy large markup, add a small data/polish module rather than extending a monolith. 6. verify every added route exists and appears in rendered catalog dom. 7. verify /apps and /games at desktop, 390×844, and 320×568: no horizontal overflow, no clipped cards/actions, no raw tail, no menu escape. 8. runtime probe rebbe overlays next because it is the highest clean handwritten ui risk family from the last scan. 9. continue through the risk list: universal chat, db explorer, code menus, drive site builder dock, csv, lyric sync, archive uploader, then remaining game hud/control families. 10. apply compact mode only to module browser entries that pass targeted compactjs compilation and generated syntax checking. rewrite law every touched source file is read fully first and rewritten fully. legacy files above the modular ceiling are not grown. new responsibility belongs in a small module loaded at the appropriate late layer. verification law a route is not improved because css changed. it is improved only when the failing viewport/state is measured after the rewrite and the defect disappears without a regression in existing working states.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25-global-public-surface-03-execution-md-c6fcb3681f.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-25-global-public-surface-04-party-catalog-de-d9e3b3daf4",
+		"title": "Party Challenge Catalog Delta",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25-global-public-surface/04-party-catalog-delta.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Party Challenge Catalog Delta",
+				"anchor": "party-challenge-catalog-delta"
+			},
+			{
+				"level": 2,
+				"text": "Evidence",
+				"anchor": "evidence"
+			},
+			{
+				"level": 2,
+				"text": "Exact change",
+				"anchor": "exact-change"
+			},
+			{
+				"level": 2,
+				"text": "Acceptance",
+				"anchor": "acceptance"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Party Challenge Catalog Delta The Awtsmoos reveals every true doorway without forcing one doorway to pretend it is another; Awtsmoos.com can expose Party Challenge as a complete product while keeping Solo games, party actions, and capability truth distinct from one another. Evidence All ",
+		"searchText": "b\"h boruch hashem blessed is he party challenge catalog delta the awtsmoos reveals every true doorway without forcing one doorway to pretend it is another; awtsmoos.com can expose party challenge as a complete product while keeping solo games, party actions, and capability truth distinct from one another. evidence all 33 top level app routes are already represented by /apps source registries. all top level game routes are represented except /games/party/. party challenge is a standalone product with setup, 2–4 player selection, rounds, score mode, arena iframe, scoreboard, and its own compact module entry. /games already promotes party in hero/quick launch, but the searchable catalog omits it. /apps adapts games, so adding party to canonical games exposes it automatically in both public catalogs. existing game enrichment assumes every entry is a solo playable world and always creates a party secondary link. party challenge itself must not inherit those assumptions. exact change 1. create games/scripts/catalog/party.mjs with one explicit partyhub: true record. 2. rewrite quick play.mjs to include party ahead of quick play classics. 3. rewrite capabilities/index.mjs so partyhub receives truthful hub metadata, partyhref: \"\", and primary label start party, while every existing game preserves current enrichment. 4. rewrite markup.mjs so primary action text comes from metadata and the party secondary action renders only when partyhref exists. 5. preserve existing game card shape, collection layout, native capability markup, and commerce markup. acceptance canonical top level app missing list stays empty. canonical top level game missing list becomes empty. party appears exactly once in games and once in adapted /apps game records. party card links to ./party/, primary label says start party, and contains no self referential party secondary cta. existing non party game cards still say play solo and still include their party secondary cta. all touched files remain <=120 lines with tab indentation and clean diff checks.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25-global-public-surface-04-party-catalog-de-d9e3b3daf4.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-25-merkava-flagship-revelation-01-phase-one--73e5b0cba2",
+		"title": "Merkava Flagship Revelation — Phase One",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25-merkava-flagship-revelation/01-phase-one.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Merkava Flagship Revelation — Phase One",
+				"anchor": "merkava-flagship-revelation-phase-one"
+			},
+			{
+				"level": 2,
+				"text": "Evidence",
+				"anchor": "evidence"
+			},
+			{
+				"level": 2,
+				"text": "Proven structural debts",
+				"anchor": "proven-structural-debts"
+			},
+			{
+				"level": 2,
+				"text": "Protected work",
+				"anchor": "protected-work"
+			},
+			{
+				"level": 2,
+				"text": "First-wave purpose",
+				"anchor": "first-wave-purpose"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Merkava Flagship Revelation — Phase One The Awtsmoos gives a battlefield form without surrendering unity to the form; Awtsmoos.com should make the flagship readable outside and inside, where every finite class receives one clear responsibility. Evidence Merkava is the only Awtsmoos Origi",
+		"searchText": "b\"h boruch hashem blessed is he merkava flagship revelation — phase one the awtsmoos gives a battlefield form without surrendering unity to the form; awtsmoos.com should make the flagship readable outside and inside, where every finite class receives one clear responsibility. evidence merkava is the only awtsmoos original explicitly badged flagship in the canonical originals catalog. it is therefore the first deep product target. the codebase already has a strong modular foundation: app, game, render, input, persistence, routes, ui, audio, commerce, and configuration modules are almost entirely below 120 lines. the first wave must preserve that strength. proven structural debts 1. css is not localized. foundation.css, hud.css, mode.css, boss hud.css, overlays.css, feedback.css, commander sigil.css, and responsive.css use bare selectors such as :root, , body, button, .hud, .panel, .overlay, and .notification. merkava shares the page with the global player shell, so these selectors can leak across surfaces. 2. layering uses raw integers (3, 4, 10, 12, 30) instead of a named merkava layer contract. 3. button styling has no complete hover/active/focus visible/reduced motion system in the game local css. 4. merkavaapp passes this.systems.state as the second argument to inputcontroller, then passes ability/pause callbacks as ignored extra constructor arguments. current inputcontroller(canvas, actions) expects actions.ability(), actions.pause(), actions.reversed(), actions.getlane(), and actions.setlane(). gamestate does not provide that api. 5. inputcontroller captures global window directly and cannot detach listeners because anonymous closures are registered. 6. main.js owns runtime errors, boot, diagnostics globals, optional commerce, and fatal ui directly; its helper functions have only file level documentation. 7. merkavaapp constructs nearly every dependency internally and queries the dom directly, limiting testability and explicit api composition. 8. many public methods lack method level jsdoc even though the file architecture is already modular. protected work games/merkava/index.html is already modified by another change stream. do not rewrite it in this wave. its module entry already contains compact=true, so no html edit is required for compactjs. first wave purpose make the flagship's boundaries explicit without altering campaign rules, save format, combat math, renderer behavior, or current diagnostic compatibility. the first wave should localize css, formalize layers/interactions, repair input composition, create explicit runtime/bootstrap apis, and add detailed per method documentation to every rewritten js file.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25-merkava-flagship-revelation-01-phase-one--73e5b0cba2.json"
 	}
 ]

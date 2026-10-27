@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-social-helper-search-tanach-readme-md-69ea194fa4",
+	"title": "B\"H — Tanach Search (geelooy/api/social/helper/search/tanach/)",
+	"sourcePath": "geelooy/api/social/helper/search/tanach/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Tanach Search (geelooy/api/social/helper/search/tanach/)",
+			"anchor": "b-h-tanach-search-geelooy-api-social-helper-search-tanach"
+		},
+		{
+			"level": 2,
+			"text": "Files",
+			"anchor": "files"
+		},
+		{
+			"level": 2,
+			"text": "Routes",
+			"anchor": "routes"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-social-helper-search-tanach-readme-md-69ea194fa4-001.json"
+	]
+}

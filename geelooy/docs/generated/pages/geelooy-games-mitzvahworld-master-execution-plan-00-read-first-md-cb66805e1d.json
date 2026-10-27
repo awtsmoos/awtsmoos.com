@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-master-execution-plan-00-read-first-md-cb66805e1d",
+	"title": "MitzvahWorld Master Execution Handbook",
+	"sourcePath": "geelooy/games/mitzvahWorld/MASTER_EXECUTION_PLAN/00_READ_FIRST.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "MitzvahWorld Master Execution Handbook",
+			"anchor": "mitzvahworld-master-execution-handbook"
+		},
+		{
+			"level": 2,
+			"text": "Mission",
+			"anchor": "mission"
+		},
+		{
+			"level": 2,
+			"text": "Non-negotiable boot law",
+			"anchor": "non-negotiable-boot-law"
+		},
+		{
+			"level": 2,
+			"text": "Source law for every touched authored source file",
+			"anchor": "source-law-for-every-touched-authored-source-file"
+		},
+		{
+			"level": 2,
+			"text": "Concurrency / Git law",
+			"anchor": "concurrency-git-law"
+		},
+		{
+			"level": 2,
+			"text": "Existing isolated lanes to inspect before duplicating work",
+			"anchor": "existing-isolated-lanes-to-inspect-before-duplicating-work"
+		},
+		{
+			"level": 2,
+			"text": "Definition of done",
+			"anchor": "definition-of-done"
+		},
+		{
+			"level": 2,
+			"text": "North-star quality",
+			"anchor": "north-star-quality"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-master-execution-plan-00-read-first-md-cb66805e1d-001.json"
+	]
+}

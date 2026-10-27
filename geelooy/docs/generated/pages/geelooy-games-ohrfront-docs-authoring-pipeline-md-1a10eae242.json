@@ -1,0 +1,69 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-ohrfront-docs-authoring-pipeline-md-1a10eae242",
+	"title": "Authoring Pipeline",
+	"sourcePath": "geelooy/games/ohrfront/docs/AUTHORING_PIPELINE.md",
+	"category": "Security",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Authoring Pipeline",
+			"anchor": "authoring-pipeline"
+		},
+		{
+			"level": 2,
+			"text": "Goal",
+			"anchor": "goal"
+		},
+		{
+			"level": 2,
+			"text": "Authoring-only boundary",
+			"anchor": "authoring-only-boundary"
+		},
+		{
+			"level": 2,
+			"text": "Modeling-language flow",
+			"anchor": "modeling-language-flow"
+		},
+		{
+			"level": 2,
+			"text": "MeshText flow",
+			"anchor": "meshtext-flow"
+		},
+		{
+			"level": 2,
+			"text": "Stable recipes",
+			"anchor": "stable-recipes"
+		},
+		{
+			"level": 2,
+			"text": "Geometry operations",
+			"anchor": "geometry-operations"
+		},
+		{
+			"level": 2,
+			"text": "Native node graph",
+			"anchor": "native-node-graph"
+		},
+		{
+			"level": 2,
+			"text": "Blender parity",
+			"anchor": "blender-parity"
+		},
+		{
+			"level": 2,
+			"text": "Tool file plan",
+			"anchor": "tool-file-plan"
+		},
+		{
+			"level": 2,
+			"text": "Verification",
+			"anchor": "verification"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-ohrfront-docs-authoring-pipeline-md-1a10eae242-001.json"
+	]
+}

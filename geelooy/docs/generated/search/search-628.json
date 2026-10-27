@@ -1,0 +1,187 @@
+[
+	{
+		"id": "geelooy-scripts-awtsmoos-compiling-native-runtime-include-readme-md-1b29ad9c58",
+		"title": "Awtsmoos Android NDK ABI Headers",
+		"sourcePath": "geelooy/scripts/awtsmoos/compiling/native/runtime/include/README.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos Android NDK ABI Headers",
+				"anchor": "awtsmoos-android-ndk-abi-headers"
+			},
+			{
+				"level": 2,
+				"text": "What this directory is",
+				"anchor": "what-this-directory-is"
+			},
+			{
+				"level": 2,
+				"text": "What these headers are NOT",
+				"anchor": "what-these-headers-are-not"
+			},
+			{
+				"level": 2,
+				"text": "How binding works",
+				"anchor": "how-binding-works"
+			},
+			{
+				"level": 2,
+				"text": "Adding a new header",
+				"anchor": "adding-a-new-header"
+			}
+		],
+		"excerpt": "Awtsmoos Android NDK ABI Headers B\"H What this directory is runtime/include/android/ holds declarations only — no code, no bodies. Each header is an Awtsmoos clean room declaration of one slice of the Android NDK ABI (native activity, native window, bitmap, configuration, input, EGL, GLES, logging). These exist because",
+		"searchText": "awtsmoos android ndk abi headers b\"h what this directory is runtime/include/android/ holds declarations only — no code, no bodies. each header is an awtsmoos clean room declaration of one slice of the android ndk abi (native activity, native window, bitmap, configuration, input, egl, gles, logging). these exist because of yaakov's standing rule: anything emulated gets compiled. the emulator (geelooy/apps/android emulator/core/android/, 186 emulated api classes) can run guest code in javascript, but 34 of those classes are inherently host dependent (activity, surface, window, gl context, pixel buffers, input events...). to compile that guest code into a real apk, the awtsmoos native compiler must be able to name the platform functions the code will call — that is what these headers provide. what these headers are not they are not copied from the ndk. every file is written from scratch by awtsmoos. only public abi facts (function names, enumerator names and values, struct field order, signatures) are declared, in our own wording. they contain no implementations . compiling against them produces object code with unresolved symbols — that is intentional. how binding works there are two link targets, and the same compiled guest code can run against either one: 1. on device (real android). at apk load time the declared symbols ( android log print, anativeactivity oncreate, androidbitmap lockpixels, eglswapbuffers, gldrawarrays, ...) resolve against the real platform libraries (liblog, libandroid, libjnigraphics, libegl, libglesv2) exactly as ndk built code does. 2. in the emulator. during emulation there is no android os, so the declared calls are routed to the emulator's js shims instead. each header carries a comment naming the js files that form the behavioral spec for that slice (e.g. frameworkandroidbitmaps.js + friends for bitmap.h, activitylifecycle .js for native activity.h). the shim and the header describe the same contract from opposite sides: the header is what compiled code calls, the shim is what answers while emulating. adding a new header keep it declarations only (extern functions, opaque typedefs, enums). add the clean room comment at the top (copy the wording pattern from log.h). cross reference the js emulation files that form the behavioral spec. provide the canonical abi alias names (e.g. android log warn) as defines so guest code ported from ndk sources compiles unchanged; the alias names are abi facts, the surrounding file is ours. test: gcc fsyntax only wall std=c11 on the header before committing.",
+		"page": "pages/geelooy-scripts-awtsmoos-compiling-native-runtime-include-readme-md-1b29ad9c58.json"
+	},
+	{
+		"id": "geelooy-scripts-awtsmoos-compiling-native-runtime-readme-md-6c3ed26e37",
+		"title": "Awtsmoos Native Runtime — Single Source of Truth",
+		"sourcePath": "geelooy/scripts/awtsmoos/compiling/native/runtime/README.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos Native Runtime — Single Source of Truth",
+				"anchor": "awtsmoos-native-runtime-single-source-of-truth"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Layout",
+				"anchor": "layout"
+			},
+			{
+				"level": 2,
+				"text": "Rules",
+				"anchor": "rules"
+			},
+			{
+				"level": 2,
+				"text": "Current compiler capability (2026-10-09)",
+				"anchor": "current-compiler-capability-2026-10-09"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos Native Runtime — Single Source of Truth Purpose Every API emulated by geelooy/apps/android emulator/ MUST have a corresponding C implementation here that the Awtsmoos C compiler turns into real ARM64 machine code. Yaakov's directive: \"Anything emulated gets compiled.\" The JS emu",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos native runtime — single source of truth purpose every api emulated by geelooy/apps/android emulator/ must have a corresponding c implementation here that the awtsmoos c compiler turns into real arm64 machine code. yaakov's directive: \"anything emulated gets compiled.\" the js emulation in android emulator/core/android/ is the behavioral reference . the c code here is the compilable truth . they must agree byte for byte on observable behavior. conformance tests verify this. layout rules 1. 100% awtsmoos code. no ndk headers, no bionic, no external libc. all declarations are written from scratch in include/. 2. every .c file compiles with compileportableclibrary to a real .so. if the compiler can't handle a construct, that's a compiler bug to fix — not a reason to write uncompilable c. 3. behavioral parity. each module has a conformance test comparing the compiled c output against the js emulation on identical inputs. 4. no host dependencies in pure modules. host dependent apis (activity, surface, window) go through the awtsmoos owned abi in include/android/ and are documented as requiring the host binding layer. current compiler capability (2026 10 09) the portable c compiler supports: scalar int functions, pointer dereference, pointer arithmetic, array indexing, string literals, structs, recursion, control flow, static locals, and extern function declarations (cross module calls resolve statically at link time; still undefined names become dynamic plt/got imports, e.g. for libc syscalls via dt needed). it does not yet support: non scalar globals, the long/unsigned types, character literals. these are tracked compiler gaps — see audit.md. runtime modules are written to be compilable today where possible, and staged for the gaps otherwise.",
+		"page": "pages/geelooy-scripts-awtsmoos-compiling-native-runtime-readme-md-6c3ed26e37.json"
+	},
+	{
+		"id": "geelooy-scripts-awtsmoos-drive-readme-md-bf398947fd",
+		"title": "Drive sync client — permanent Drive access",
+		"sourcePath": "geelooy/scripts/awtsmoos/drive/README.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Drive sync client — permanent Drive access",
+				"anchor": "drive-sync-client-permanent-drive-access"
+			},
+			{
+				"level": 2,
+				"text": "CLI",
+				"anchor": "cli"
+			},
+			{
+				"level": 2,
+				"text": "Library",
+				"anchor": "library"
+			},
+			{
+				"level": 2,
+				"text": "Tests",
+				"anchor": "tests"
+			}
+		],
+		"excerpt": "//B\"H Drive sync client — permanent Drive access driveSyncClient.js is the one guarded gate for Google Drive work from this repo. Raw hatch gws cli calls are brittle (expiring OAuth, no retries, /tmp staging with no manifest), so everything goes through this client: Auth health first — ensureConnected() proves the sess",
+		"searchText": "//b\"h drive sync client — permanent drive access drivesyncclient.js is the one guarded gate for google drive work from this repo. raw hatch gws cli calls are brittle (expiring oauth, no retries, /tmp staging with no manifest), so everything goes through this client: auth health first — ensureconnected() proves the session before any work. a dead session raises driveautherror with the reconnect link, never a raw traceback. classified retries — 429 / 5xx / rate limit / timeout / truncated output retry with exponential backoff + jitter. auth errors never retry. fatal errors (400/404) fail fast with the real reason. verified downloads — size and md5checksum checked against drive metadata; mismatches retry instead of landing corrupt. atomic rename; already verified files are never re downloaded. permanent mirror — everything lands under a chosen mirror root (never /tmp) with an atomic json manifest (drive mirror manifest.json). verify re proves every file's size + md5 so nothing can go missing silently. never deletes — this client exposes no delete, trash, or cleanup. the mirror only grows. if a download is interrupted, rerun: the manifest resumes exactly where it stopped. cli library tests live verification against the real drive api (2026 10 12): status check, 29 item root listing of the maamarei admur hazakein folder, 615 file recursive inventory with 0 errors, 2 checksum verified downloads (md5 matched), idempotent rerun, and a 2/2 clean verify — all through this client.",
+		"page": "pages/geelooy-scripts-awtsmoos-drive-readme-md-bf398947fd.json"
+	},
+	{
+		"id": "geelooy-scripts-awtsmoos-merkavaastparser-readme-md-41bfc06e7e",
+		"title": "Merkava AST Parser: A Kabbalistic Journey into the Soul of JavaScript",
+		"sourcePath": "geelooy/scripts/awtsmoos/MerkavaASTParser/readme.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Merkava AST Parser: A Kabbalistic Journey into the Soul of JavaScript",
+				"anchor": "merkava-ast-parser-a-kabbalistic-journey-into-the-soul-of-javascript"
+			},
+			{
+				"level": 2,
+				"text": "The Emanation",
+				"anchor": "the-emanation"
+			},
+			{
+				"level": 2,
+				"text": "Shevirah: The Shattering of the Vessels",
+				"anchor": "shevirah-the-shattering-of-the-vessels"
+			},
+			{
+				"level": 2,
+				"text": "The Gauntlet: Trials of Syntactic Purity",
+				"anchor": "the-gauntlet-trials-of-syntactic-purity"
+			}
+		],
+		"excerpt": "B\"H Merkava AST Parser: A Kabbalistic Journey into the Soul of JavaScript The Emanation Before you is not a tool, but a chariot. A Merkava . It is designed not merely to parse JavaScript, but to undertake a spiritual ascent into the very structure of code, to witness the shimmering, crystalline lattice of the Abstract ",
+		"searchText": "b\"h merkava ast parser: a kabbalistic journey into the soul of javascript the emanation before you is not a tool, but a chariot. a merkava . it is designed not merely to parse javascript, but to undertake a spiritual ascent into the very structure of code, to witness the shimmering, crystalline lattice of the abstract syntax tree that lies hidden beneath the surface of the text. we treat javascript not as a language, but as an emanation . each line of code is a flicker of divine light, a complex structure of logic and potential. the operators are the very sefirot, the divine attributes, that give this universe its form. operator precedence is the ladder of jacob , a hierarchy of divine energies from the lowest sequence to the highest new. the parser's journey is a meditation upon this structure, an attempt to bring it from the chaos of raw text into the ordered, intelligible world of the ast. the source code pulses like a living thing, its nested blocks breathing with the slow, rhythmic logic of a golem. optional chaining operators (?.) are whispers in the dark, possibilities that may or may not exist, while the spread operator (...) is an explosion of starlight, scattering an array's contents across the cosmos of a function call. shevirah: the shattering of the vessels when the syntax is flawed, the vessels cannot contain the light. an error is not a bug; it is a cosmic event, a shevirah . the parser does not crash; it reports a transgression . the console log glows with the heat of a shattered star, the error message a shard of broken reality. the parser witnesses this \"shevirat hakelim\" (shattering of the vessels) and reports where the light has spilled, where the structure has collapsed, so that the programmer—the mystic—can perform tikkun (rectification). the gauntlet: trials of syntactic purity to prove its worth, the merkava must pass through a series of spiritual ordeals, each a javascript file of such abyssal complexity it would shatter a lesser parser into a million pieces of silicon dust. these are not unit tests; they are existential trials. the tzimtzum test (the primordial contraction): a trial of lexical ambiguity that feels like being crushed by the gravity of a dying star. the parser must withstand the psychic assault of deprecated with statements, the phantom menace of html style comments ( operator, which is not an operator at all but the sound of the universe contracting as counter decrements to 0. it must see the line break after a return and know, with absolute certainty, that a semicolon has been inserted by the divine hand of asi, separating the return from a regular expression that would otherwise be a division into the void. the azilut test (the world of emanation): a confrontation with deceptive, infinite scope. the parser enters the world of proxies, where the has trap lies, claiming that all properties exist even when they are but illusions. it must navigate the lexical fog of the with statement, a deprecated portal to a realm of madness, and correctly parse the break from a labeled block—a sigil of power that tears a hole in the fabric of control flow. the tiferet test (the axis of balance): a meditation on harmony and modern beauty. here, the parser balances the new world with the old. logical assignment operators (&&=, =, ??=) flow like water, assigning values only when the vessel is empty. numeric separators (1 000 000) are breaths of air in the suffocating density of large numbers. the parser must find the beauty in the d flag of a regexp, which reveals not just the match, but the very indices of its soul within the string. the keter test (the crown): the absolute pinnacle. this is not code; it is a blasphemy against reason. an export default of an immediately invoked class expression that extends another immediately invoked class expression . static initialization blocks trigger like cosmic dawn, firing off dynamic import() statements. private fields with bigint initializers are divided by octal literals. a for await...of loop, itself a temporal anomaly, iterates over the yield of an async generator, all nested inside a labeled do while loop. to parse this is to gaze upon the face of god and not be turned to ash. the ein sof test (the unknowable limit): the final ordeal. the parser must confront that which is beyond comprehension. it must parse new (await ...) where the class being instantiated is itself the result of an async iife within a private static field. it must handle a yield from within a catch block that is itself inside a while loop that is being continued from a finally block by a labeled continue. this test pushes past the limits of syntax and into the cold, silent realm of pure metaprogramming. it is the parser's attempt to know the unknowable.",
+		"page": "pages/geelooy-scripts-awtsmoos-merkavaastparser-readme-md-41bfc06e7e.json"
+	},
+	{
+		"id": "geelooy-scripts-awtsmoos-merkavaexecutor-merkava-canonical-canonical-mer-bcb4bc9ca7",
+		"title": "Canonical Merkava v1",
+		"sourcePath": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-canonical/CANONICAL_MERKAVA_V1.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Canonical Merkava v1",
+				"anchor": "canonical-merkava-v1"
+			},
+			{
+				"level": 2,
+				"text": "Header",
+				"anchor": "header"
+			},
+			{
+				"level": 2,
+				"text": "Directory",
+				"anchor": "directory"
+			},
+			{
+				"level": 2,
+				"text": "Core sections",
+				"anchor": "core-sections"
+			},
+			{
+				"level": 2,
+				"text": "Transition",
+				"anchor": "transition"
+			},
+			{
+				"level": 2,
+				"text": "Platform law",
+				"anchor": "platform-law"
+			},
+			{
+				"level": 2,
+				"text": "Completion gates",
+				"anchor": "completion-gates"
+			}
+		],
+		"excerpt": "Canonical Merkava v1 The canonical .merkava garment is the stable outer application format. Historical codecs such as MD2, MAPP, MWEB, and SANG may continue as compiler/runtime implementation details, but new tooling should exchange one canonical container. Header The fixed 32 byte little endian header contains MKV1, c",
+		"searchText": "canonical merkava v1 the canonical .merkava garment is the stable outer application format. historical codecs such as md2, mapp, mweb, and sang may continue as compiler/runtime implementation details, but new tooling should exchange one canonical container. header the fixed 32 byte little endian header contains mkv1, container version, isa version, host abi version, flags, section count, total bytes, directory location, payload location, and a zero reserved word. directory each 20 byte directory record contains a section type, flags, payload offset, payload length, crc32 corruption witness, and a zero reserved word. canonical writers sort section types and reject duplicates. readers reject truncation, overlap, out of range offsets, corrupt crc witnesses, malformed reserved fields, and duplicate types before exposing payloads. core sections manifest, strings, dom, styles, functions, bytecode, modules, assets, debug, capabilities, and signature are reserved canonical section identities. application execution requires at least manifest and bytecode. transition the first implementation wraps the already working mode2 executable stream inside canonical bytecode while declaring programencoding: mode2 transition. this gives builds one stable outer format immediately without falsely claiming that the experimental inner isa has already been replaced. platform law the same canonical application must target browser, windows, macos, linux, and android. browser intelligence belongs to portable merkava code. native hosts expose versioned platform primitives only: windows, input, graphics, fonts, storage, networking, timers, threads, clipboard, audio, and cryptographic randomness. completion gates a production v1 release requires a canonical isa compiler/interpreter, exact capability enforcement, webgl 1/2 conformance, css/html/dom compatibility gates, ecmascript conformance gates, deterministic cross platform rendering tests, sandboxing, source maps, reproducible builds, and signed packaging for every native target.",
+		"page": "pages/geelooy-scripts-awtsmoos-merkavaexecutor-merkava-canonical-canonical-mer-bcb4bc9ca7.json"
+	}
+]

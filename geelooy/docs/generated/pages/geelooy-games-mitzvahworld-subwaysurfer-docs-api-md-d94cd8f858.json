@@ -1,0 +1,74 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-subwaysurfer-docs-api-md-d94cd8f858",
+	"title": "B\"H",
+	"sourcePath": "geelooy/games/mitzvahWorld/subwaySurfer/docs/API.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Peruta Run Public API 2.3",
+			"anchor": "peruta-run-public-api-2-3"
+		},
+		{
+			"level": 2,
+			"text": "Public global",
+			"anchor": "public-global"
+		},
+		{
+			"level": 2,
+			"text": "Four canonical verbs",
+			"anchor": "four-canonical-verbs"
+		},
+		{
+			"level": 3,
+			"text": "state()",
+			"anchor": "state"
+		},
+		{
+			"level": 3,
+			"text": "command(name, payload?)",
+			"anchor": "command-name-payload"
+		},
+		{
+			"level": 3,
+			"text": "inspect(name = \"manifest\")",
+			"anchor": "inspect-name-manifest"
+		},
+		{
+			"level": 3,
+			"text": "on(eventName, listener)",
+			"anchor": "on-eventname-listener"
+		},
+		{
+			"level": 2,
+			"text": "Compatibility aliases",
+			"anchor": "compatibility-aliases"
+		},
+		{
+			"level": 2,
+			"text": "Capability discovery",
+			"anchor": "capability-discovery"
+		},
+		{
+			"level": 2,
+			"text": "Architecture map",
+			"anchor": "architecture-map"
+		},
+		{
+			"level": 2,
+			"text": "Extension law",
+			"anchor": "extension-law"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-subwaysurfer-docs-api-md-d94cd8f858-001.json"
+	]
+}

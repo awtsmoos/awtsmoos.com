@@ -1,0 +1,136 @@
+[
+	{
+		"id": "geelooy-api-social-helper-routes-packed-readme-md-1a0fb71e1b",
+		"title": "Bulk Import API — Agent Handoff",
+		"sourcePath": "geelooy/api/social/helper/routes/packed/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Bulk Import API — Agent Handoff",
+				"anchor": "bulk-import-api-agent-handoff"
+			},
+			{
+				"level": 2,
+				"text": "1. Endpoints",
+				"anchor": "1-endpoints"
+			},
+			{
+				"level": 3,
+				"text": "Posts lane — postImportRoutes.js",
+				"anchor": "posts-lane-postimportroutes-js"
+			},
+			{
+				"level": 3,
+				"text": "Bulk (comments) lane — bulkImportRoutes.js",
+				"anchor": "bulk-comments-lane-bulkimportroutes-js"
+			},
+			{
+				"level": 3,
+				"text": "Stage upload — bulkPublishAllRoutes.js",
+				"anchor": "stage-upload-bulkpublishallroutes-js"
+			},
+			{
+				"level": 2,
+				"text": "2. Auth — Ed25519 signing (importSign.js)",
+				"anchor": "2-auth-ed25519-signing-importsign-js"
+			},
+			{
+				"level": 2,
+				"text": "3. The standard import flow (scripts/vmImportStaged.mjs)",
+				"anchor": "3-the-standard-import-flow-scripts-vmimportstaged-mjs"
+			},
+			{
+				"level": 1,
+				"text": "Full run: stage → upload → import → verify",
+				"anchor": "full-run-stage-upload-import-verify"
+			},
+			{
+				"level": 1,
+				"text": "Resume an interrupted run (state file is resumable):",
+				"anchor": "resume-an-interrupted-run-state-file-is-resumable"
+			},
+			{
+				"level": 1,
+				"text": "Verify only, no writes:",
+				"anchor": "verify-only-no-writes"
+			},
+			{
+				"level": 1,
+				"text": "Dry run (hashes live records, reports what would change):",
+				"anchor": "dry-run-hashes-live-records-reports-what-would-change"
+			},
+			{
+				"level": 2,
+				"text": "4. Concurrency, budgets, guards",
+				"anchor": "4-concurrency-budgets-guards"
+			},
+			{
+				"level": 2,
+				"text": "5. Verify semantics (byte-exact, not \"HTTP 200\")",
+				"anchor": "5-verify-semantics-byte-exact-not-http-200"
+			},
+			{
+				"level": 2,
+				"text": "6. The alias model",
+				"anchor": "6-the-alias-model"
+			},
+			{
+				"level": 2,
+				"text": "7. ⚠️ CRITICAL — --heichel must equal the posts' heichelId",
+				"anchor": "7-critical-heichel-must-equal-the-posts-heichelid"
+			},
+			{
+				"level": 2,
+				"text": "8. Common errors",
+				"anchor": "8-common-errors"
+			},
+			{
+				"level": 2,
+				"text": "Files map",
+				"anchor": "files-map"
+			},
+			{
+				"level": 2,
+				"text": "Crash guards (2026-10-20)",
+				"anchor": "crash-guards-2026-10-20"
+			}
+		],
+		"excerpt": "B\"H Bulk Import API — Agent Handoff Import translated corpora (Tanach, Bavli, Mishnah, Yerushalmi, Rambam, Midrash, Torah Ohr…) as first class native AwtsmoosDB posts, then verify them byte exact. All routes are mounted under /api/social, so full paths are /api/social/packed/import/.... The one command that does almost",
+		"searchText": "b\"h bulk import api — agent handoff import translated corpora (tanach, bavli, mishnah, yerushalmi, rambam, midrash, torah ohr…) as first class native awtsmoosdb posts, then verify them byte exact. all routes are mounted under /api/social, so full paths are /api/social/packed/import/.... the one command that does almost everything: it stages, uploads, starts the job, polls, and verifies. read on for what happens underneath and how to recover when it breaks. 1. endpoints posts lane — postimportroutes.js method path params what it does post /packed/import/posts/start {uploadid} (+ optional heichelid, aliasid, aliasname, dryrun, timebudgetms) or inline {posts: [...]} creates job postimport , runs it fire and forget. inline ≤100 posts / 2mb; larger corpora use a staged uploadid (see §3). returns {jobid, status:'queued', totalposts, source} get /packed/import/posts/status ?job= {id, status, live, heichelid, totalposts, postsdone, wrote, updated, skipped, failed, errors(last 10), donepostids, durationms}. falls back to disk state when the in memory job is gone (live:false) get /packed/import/posts/jobs — merged in memory + disk list (max 50, newest first) post /packed/import/posts/cancel {job} sets cancelrequested on a live job only (disk only job → job not running) post /packed/import/posts/verify {uploadid, aliasid?, aliasname?} starts background job verify that re hashes every staged post against the live records. returns {verifyid, total} get /packed/import/posts/verify status ?verify= {status, checked, total, ok, mismatches(first 50), mismatchcount, durationms} post /packed/import/posts/ensure backlinks {uploadid} job backlinks that writes only missing alias backlinks — never touches post bodies. idempotent get /packed/import/posts/backlinks status ?backlinks= {status, checked, total, written, skipped, errors}. note: this endpoint has no signed op case — use operator key auth (no sig fields) post /packed/import/posts/remove {heichelid, postid, strayaliasid?} deletes one wrongly placed post: native record → alias backlink → series index entry → packed core tombstone (op:'del'). optional strayaliasid also removes that alias's stray backlink + alias info. returns {removed:[...], existed} bulk (comments) lane — bulkimportroutes.js a separate one job lane for per post comment files (not post documents): method path params post /packed/import/bulk/start {kind:'perpost' 'perpostindex', seriesid?, postid?, aliasid?, heichelid?, dryrun?, items?\\ payloadfile?, maxcomments?, timebudgetms?} get /packed/import/bulk/status ?job= (in memory only, no disk fallback) get /packed/import/bulk/jobs — post /packed/import/bulk/cancel {job} stage upload — bulkpublishallroutes.js method path params post /packed/import/bulk/stage signed {uploadid, chunkindex, totalchunks, data(base64)} — stores chunk .bin under /socialpacked/bulk stage/ /; idempotent, out of order safe; when all chunks land it assembles upload.tar.gz. caps: chunk ≤4mb raw, assembled ≤2gb, totalchunks ≤100000 2. auth — ed25519 signing (importsign.js) private key: /.awtsmoos/secure/import signing key (chmod 600, vm only — never in git/chat). override with awtsmoos import key file. this is a different keypair from the deploy signer. public key: baked into importsign.js (auditable in git, survives restarts). wire format: json body carries {ts, sig, op, heichelid, payloadhash, ...fields}. the signature covers canonical bytes = sorted key json of {v:1, ts:number, op:string, heichelid:string, payloadhash:string}. freshness ±300s; in memory replay map rejects reused signatures. if no sig is present, the server falls back to awtsmoos import key (timing safe compare) — a bad signature fails closed with no fallback. exact payloadhash per op (pass to importsign.sha256hex): minimal signed call (node): 3. the standard import flow (scripts/vmimportstaged.mjs) flags: heichel (default 'ikar' — override it; see §7 ), posts dir (required for new imports), upload id, dry run, verify only, time budget ms (default 20min, cap 60min). env: awtsmoos import key file, awtsmoos import api (default https://awtsmoos.com/api/social), awtsmoos import workdir (default /workspace/bulk import fix/staging/work). what it does: 1. stage→tarball: every .json in posts dir → stagedir/post nnnnn.json; writes manifest.json = {files:[{file, postid, heichelid: doc.heichelid }], postcount}; tar czf. 2. chunked upload: 1mb chunks, each a signed post to /packed/import/bulk/stage; resume skips acked chunks (state in import state .json). 3. start: signed post /packed/import/posts/start {uploadid, dryrun, timebudgetms} → {jobid}. 4. poll: signed get /status every 15s. on job not found/interrupted/paused it starts a new job — safe because the import skips already imported posts by content hash. max 50 restarts, 12h overall. 5. verify: signed post /packed/import/posts/verify + poll verify status; mismatches saved to verify mismatches .json, exit 1 on any mismatch. canary pattern for a new corpus: import a small subset first ( posts dir with a few files), confirm verify passes, then run the full set. 4. concurrency, budgets, guards one job at a time per lane. start returns job already running if any job in the registry is running. posts lane and bulk comments lane have separate registries. caveat: verify /backlinks jobs share the posts registry, so a running verify blocks a new import start. resume is idempotent: re running with the same uploadid skips posts whose content hash already matches (skipped++). after a server restart, live jobs are honestly reported as interrupted and the client starts a fresh job. time budget: default 20min, cap 60min; expiry → paused, client resumes with a new job. heap guards: new jobs refused above 1.2gb; mid run breach → paused memory + paused. import lock: /socialpacked/import in progress.lock — the deploy route refuses restarts while it's fresh. never deploy/restart mid finalize. bounds: inline ≤100 posts / 2mb; per post 5mb; uploadid must match /^[a za z0 9 ]{8,64}$/. 5. verify semantics (byte exact, not \"http 200\") for each manifest entry the server recomputes expectedhash = contenthash(normalizepost(raw) + aliasid) exactly as the import did, then checks three things in order: 1. packed: one streaming pass over the core jsonl builds {postid → livehash}; must equal expected. 2. native: /social/heichelos/ /posts/ must exist and hash equal expected. 3. alias link: /social/aliases/ /postssubmitted/inheichel/ /inseries/ / must exist. the hash is sha256 over stable key order json excluding only importedat and updatedat . everything else — heichelid, aliasid, seriesid, all content — is hashed. problem meaning fix packed hash mismatch record exists, hash differs. most common cause: heichel ≠ posts' heichelid (see §7) post /packed/import/posts/remove the misplaced posts, re import with matching heichel. if content genuinely changed, re import overwrites (updated++) packed not found / native not found import incomplete re run (idempotent resume skips done posts) native hash mismatch native record differs from staged doc re run import alias link missing bodies fine, backlink absent post /packed/import/posts/ensure backlinks {uploadid} — writes only missing links 6. the alias model one alias per commentator: derivealiasid = bare — alias naming law (2026 10 21): an aliasid never contains the heichel name; the rebbe maps to the canonical therebbe (slug = lowercase, [^a z0 9]+ → ). no commentator → job level fallback alias. ensurealias creates /social/aliases/ /info ({aliasid, name, kind:'commentator', createdat, createdby}), /profile, and the alias→heichel link /social/aliases/ /heicheloscontributedto/ as an object {aliasid, heichelid, linkedat, by} — never boolean true (booleans don't roundtrip through $i.db.get, which caused alias link missing). writenativepost writes the first class records: /social/heichelos/ /posts/ = the post /social/aliases/ /postssubmitted/inheichel/ /inseries/ / = {postid, aliasid, heichelid, seriesid, linkedat, by} series index /social/heichelos/ /series/ /posts accumulates in memory and flushes in bulk. the packed jsonl mirror (core/allposts/manifest/search) is what readers serve; native records are the system of record . 7. ⚠️ critical — heichel must equal the posts' heichelid failure mode: posts carry heichelid:'tanach' but you run heichel ikar (the client default!). the import stores heichelid='tanach' (raw wins) but aliasid='ikar ' (job heichelid). the verifier recomputes aliasid='tanach ' → hash differs → every post fails packed hash mismatch , with backlinks landing under the wrong alias. rule: cli heichel must equal the posts' heichelid. if they disagree: post /packed/import/posts/remove each misplaced post (with strayaliasid to clean the wrong alias), then re import with the correct heichel. 8. common errors error fix sig bad timestamp / sig stale timestamp vm clock skew — must be within ±300s of server time sig replayed signature re sign with a fresh ts; signatures are one use sig payload mismatch payloadhash doesn't match the received payload — sign exactly what the framework parses sig bad op unknown op (note: backlinks status has no signed op case — use operator key auth there) job already running poll the live jobid via /status, or /cancel it inline too large use staged upload (/packed/import/bulk/stage + uploadid) post too large post 5mb — split the document post no heichel pass heichel bad upload id must match /^[a za z0 9 ]{8,64}$/ tar / manifest / staged file missing tarball must extract to flat .json files + manifest.json (no /, \\, .. in entry names) server memory high / paused memory heap 1.2gb — wait, retry/resume job not found / verify not found server restarted or state pruned ( 7d) — start fresh; resume is idempotent 502/503/504 server restarting — client retries with backoff files map postimportroutes.js — posts lane (start/status/jobs/cancel/verify/verify status/ensure backlinks/backlinks status/remove) bulkimportroutes.js — bulk comments lane bulkpublishallroutes.js — chunked stage upload importsign.js — ed25519 signing/verification (shared by client + server) requestvalues.js — param helpers ../../packed/socialpacked.js — packed mirror writers ../../packed/shardpaths.js — logicalkey, shard layout scripts/vmimportstaged.mjs — the standard client /workspace/bulk import fix/vmverifysigned.mjs, vmverifyfull.mjs, vmdryrunverify.mjs, polljob.mjs, retrystart.mjs — independent verify tooling crash guards (2026 10 20) the box is 2 gb. the 2026 10 20 hangs were event loop starvation (no oom kills — node was alive but wedged by sync disk flush + deflate across up to 4 concurrent jobs x 4 workers), plus one bad shard swap. eventloopmonitor.js — 1s loop lag probe; p95/mean thresholds feed shednow()/circuitopen(). started from postimportroutes.js. serverhealth.js — admissionhealthy(): fail fast /start gate (one job, heap 200 mb, circuit closed). refusals return instantly with error code + retryafterms — never a hang. new error codes: import busy, import memory high, import circuit open. importbounds.js — max concurrent per heichel = 1 (was 4). runjobworkers.js — workers pause 2s while shednow() (circuit breaker); a job's shedpauses counter records how often. health watchdog (systemd drop in): restarts after 6 consecutive failed probes ( 6 min), was 40 ( 40 min). shardswapsafety/ — a shard file may only be replaced after its candidate copy passes canarycheck.js (opens with production options, lists the root, reads a probe record). see its readme.",
+		"page": "pages/geelooy-api-social-helper-routes-packed-readme-md-1a0fb71e1b.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-routes-packed-shardswapsafety-readme-md-bc98f3092c",
+		"title": "Shard Swap Safety",
+		"sourcePath": "geelooy/api/social/helper/routes/packed/shardSwapSafety/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Shard Swap Safety",
+				"anchor": "shard-swap-safety"
+			},
+			{
+				"level": 2,
+				"text": "Why this directory exists",
+				"anchor": "why-this-directory-exists"
+			},
+			{
+				"level": 2,
+				"text": "The protocol (every step, in order)",
+				"anchor": "the-protocol-every-step-in-order"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "B\"H Shard Swap Safety Why this directory exists On 2026 10 20 a garbage collected copy of social.heichel.ikar.series.fs.awtsdb (rebuilt free list) was swapped into the live directory and the service was restarted to activate it. The service started — but the series API hung forever, because the gc'd shard wedged the re",
+		"searchText": "b\"h shard swap safety why this directory exists on 2026 10 20 a garbage collected copy of social.heichel.ikar.series.fs.awtsdb (rebuilt free list) was swapped into the live directory and the service was restarted to activate it. the service started — but the series api hung forever, because the gc'd shard wedged the read path. the site was down until the pre swap backup was restored by hand. rule: no shard file is ever replaced until a candidate copy has passed the canary check in this directory. a shard that \"opens cleanly\" is not enough — it must serve reads . the protocol (every step, in order) 1. backup the live shard into /root/shard backups/ with a timestamped name (e.g. social.heichel.ikar.series.fs.awtsdb.pre swap yyyymmdd hhmm). 2. produce the candidate as a new file next to the live one — never modify the live file in place. 3. canary the candidate: it must print canary pass. a timeout or canary fail = the candidate is rejected, full stop. do not debug it into production. 4. swap: stop the service, move the candidate over the live path, start the service. 5. verify live reads: curl m 10 http://127.0.0.1:8080/api/social/heichelos/ikar/series must return json in seconds, and the public api must answer 200. 6. rollback is one command if step 5 fails: stop the service, restore the step 1 backup over the live path, start the service. files canarycheck.js — copies the candidate to a scratch file, opens it with the exact production options (openheichelfsdb options), lists the virtual fs root, and cats a probe record. prints progress markers to stderr so a hang (the exact 2026 10 20 failure mode) is localized instead of silent.",
+		"page": "pages/geelooy-api-social-helper-routes-packed-shardswapsafety-readme-md-bc98f3092c.json"
+	}
+]

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Perutas Forecasting (geelooy/api/perutas/forecasting/)\n\nSingle module: `forecastService.js`. Forecasting over peruta economy data —\nprojected flows/balances from ledger and usage history. Aggregated as\n`forecasting` in `../index.js`.\n"
+}

@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 5733 | 100 | 0 | 0 | 60 | 2770 | 8663 |
+| 5817 | 107 | 1 | 0 | 60 | 2989 | 8974 |
 
 ## Public entry points
 
@@ -37,7 +37,7 @@ None observed.
 
 ## Used by
 
-None observed.
+- `geelooy/apps/android-emulator` — 54 lexical references; examples: geelooy/apps/android-emulator/ai_thoughts/2026-08-31_global_origin_merge_and_rebbe_runtime/103_fresh_authentic_checkpoint_writer.mjs; geelooy/apps/android-emulator/ai_thoughts/2026-08-31_global_origin_merge_and_rebbe_runtime/104_fresh_authentic_run.mjs; geelooy/apps/android-emulator/ai_thoughts/2026-08-31_global_origin_merge_and_rebbe_runtime/138_post_ucvtf_authentic_run.mjs
 
 ## External packages
 
@@ -45,4 +45,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **100**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **107**. Treat this as file evidence, not proof of behavioral coverage.

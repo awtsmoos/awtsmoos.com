@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-ohrfront-docs-ai-absolute-handoff-md-5d08e71faa",
+	"title": "AI Absolute-System Handoff",
+	"sourcePath": "geelooy/games/ohrfront/docs/AI_ABSOLUTE_HANDOFF.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "AI Absolute-System Handoff",
+			"anchor": "ai-absolute-system-handoff"
+		},
+		{
+			"level": 2,
+			"text": "Purpose",
+			"anchor": "purpose"
+		},
+		{
+			"level": 2,
+			"text": "Required session",
+			"anchor": "required-session"
+		},
+		{
+			"level": 2,
+			"text": "Human handoff",
+			"anchor": "human-handoff"
+		},
+		{
+			"level": 2,
+			"text": "JSON handoff",
+			"anchor": "json-handoff"
+		},
+		{
+			"level": 2,
+			"text": "Physical AI thoughts versus human alias",
+			"anchor": "physical-ai-thoughts-versus-human-alias"
+		},
+		{
+			"level": 2,
+			"text": "Current session evidence",
+			"anchor": "current-session-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Safety boundary",
+			"anchor": "safety-boundary"
+		},
+		{
+			"level": 2,
+			"text": "Verification",
+			"anchor": "verification"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-ohrfront-docs-ai-absolute-handoff-md-5d08e71faa-001.json"
+	]
+}

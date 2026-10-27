@@ -1,0 +1,79 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-games-cobyk-a5fa32ec",
+	"path": "geelooy/games/cobyk",
+	"type": "game",
+	"family": {
+		"id": "games",
+		"title": "Games and Worlds"
+	},
+	"title": "CobyK · Awtsmoos",
+	"entries": [
+		"index.html",
+		"package.json"
+	],
+	"humanDocumentation": [
+		"docs/TUTORIALS/PROJECTS/GAMES.md",
+		"docs/APPS/GAMES_AND_SIMULATION.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-cobyk-a5fa32ec.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 124,
+		"tests": 24,
+		"assets": 15,
+		"generated": 0,
+		"docs": 1,
+		"other": 0
+	},
+	"totalFiles": 164,
+	"symbolSummary": {
+		"files": 111,
+		"classes": 91,
+		"functions": 540,
+		"exports": 123,
+		"samples": [
+			"t",
+			"extends",
+			"N",
+			"be",
+			"Qs",
+			"Dt",
+			"ei",
+			"oa",
+			"aa",
+			"ti",
+			"na",
+			"Mm"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/libs",
+			"count": 2,
+			"examples": "geelooy/games/cobyk/src/render/performance/HodFrameDiagnostics.js; geelooy/games/cobyk/src/render/performance/NetzachFramePerformanceVessel.js"
+		},
+		{
+			"project": "geelooy/games/mitzvahWorld",
+			"count": 1,
+			"examples": "geelooy/games/cobyk/src/main.js"
+		}
+	],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/games/cobyk",
+			"file": "geelooy/games/cobyk/index.html",
+			"title": "CobyK · Awtsmoos",
+			"scripts": 3,
+			"styles": 4
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": false,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

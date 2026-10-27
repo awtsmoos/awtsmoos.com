@@ -8,29 +8,6 @@ Every discovered path joined to its source-file contract evidence; unknown remai
 
 | URL pattern | Source | Methods | Vessels | Statuses | Headers |
 | --- | --- | --- | --- | --- | --- |
-| /api/social/search/query | geelooy/api/social/_awtsmoos.platform.js | unknown | $_GET, $_POST, route-vars | — | — |
-| /api/social/search/rag/comments/:comment | geelooy/api/social/helper/search/routes/comments.js | unknown | — | — | — |
-| /api/social/search/rag/llama/status | geelooy/api/social/helper/search/routes/library.js | unknown | — | — | — |
-| /api/social/search/rag/post-comments | geelooy/api/social/helper/search/routes/comments.js | unknown | — | — | — |
-| /api/social/search/readiness | geelooy/api/social/_awtsmoos.search.js | unknown | — | — | — |
-| /api/social/search/readiness/refresh | geelooy/api/social/_awtsmoos.search.js | unknown | — | — | — |
-| /api/social/search/tanach/hebrew | geelooy/api/social/helper/search/routes/tanach.js | unknown | — | — | — |
-| /api/social/social-summary | geelooy/api/social/_awtsmoos.socialSummary.js | POST | $_GET, $_POST | — | — |
-| /api/social/social-summary/batch | geelooy/api/social/_awtsmoos.socialSummary.js | POST | $_GET, $_POST | — | — |
-| /api/social/sync/op | geelooy/api/social/_awtsmoos.platform.js | unknown | $_GET, $_POST, route-vars | — | — |
-| /api/social/sync/pull/:alias | geelooy/api/social/_awtsmoos.platform.js | unknown | $_GET, $_POST, route-vars | — | — |
-| /api/social/thoughts/:entityType/:entityId | geelooy/api/social/_awtsmoos.thoughts.js | GET, POST, PUT, DELETE | $_GET, $_POST, route-vars | — | — |
-| /api/social/thoughts/:entityType/:entityId/stats | geelooy/api/social/_awtsmoos.thoughts.js | GET, POST, PUT, DELETE | $_GET, $_POST, route-vars | — | — |
-| /api/social/thoughts/:thoughtId | geelooy/api/social/_awtsmoos.thoughts.js | GET, POST, PUT, DELETE | $_GET, $_POST, route-vars | — | — |
-| /api/social/thoughts/:thoughtId/reactions | geelooy/api/social/_awtsmoos.thoughts.js | GET, POST, PUT, DELETE | $_GET, $_POST, route-vars | — | — |
-| /api/social/thoughts/:thoughtId/replies | geelooy/api/social/_awtsmoos.thoughts.js | GET, POST, PUT, DELETE | $_GET, $_POST, route-vars | — | — |
-| /api/social/thoughts/feed | geelooy/api/social/_awtsmoos.thoughts.js | GET, POST, PUT, DELETE | $_GET, $_POST, route-vars | — | — |
-| /api/social/thoughts/thread/:thoughtId | geelooy/api/social/_awtsmoos.thoughts.js | GET, POST, PUT, DELETE | $_GET, $_POST, route-vars | — | — |
-| /api/social/trending | geelooy/api/social/_awtsmoos.profile.js | unknown | $_POST, route-vars | — | — |
-| /api/social/trending | geelooy/api/social/_awtsmoos.publicDiscovery.js | GET | — | — | — |
-| /api/social/unified-social/activity/:alias | geelooy/api/social/_awtsmoos.activityLedger.js | GET, POST | — | — | — |
-| /api/social/unified-social/activity/:alias/events/:event | geelooy/api/social/_awtsmoos.activityLedger.js | GET, POST | — | — | — |
-| /api/social/unified-social/activity/:alias/export | geelooy/api/social/_awtsmoos.activityLedger.js | GET, POST | — | — | — |
 | /api/social/unified-social/activity/:alias/preferences | geelooy/api/social/_awtsmoos.activityLedger.js | GET, POST | — | — | — |
 | /api/social/unified-social/activity/:alias/shared | geelooy/api/social/_awtsmoos.activityLedger.js | GET, POST | — | — | — |
 | /api/social/unified-social/activity/meta | geelooy/api/social/_awtsmoos.activityLedger.js | GET, POST | — | — | — |
@@ -63,3 +40,26 @@ Every discovered path joined to its source-file contract evidence; unknown remai
 | /api/social/unified-social/publish | geelooy/api/social/_awtsmoos.publishFlow.js | unknown | — | — | — |
 | /api/social/unified-social/publish/meta | geelooy/api/social/_awtsmoos.publishFlow.js | unknown | — | — | — |
 | /api/social/unified-social/publish/preview | geelooy/api/social/_awtsmoos.publishFlow.js | unknown | — | — | — |
+| /api/social/unified-social/review/meta | geelooy/api/social/_awtsmoos.reviewCenter.js | GET | — | — | — |
+| /api/streaming | geelooy/api/streaming/routes/table.js | unknown | — | — | — |
+| /api/streaming/:connector | geelooy/api/streaming/_awtsmoos.derech.js | unknown | route-vars | — | Access-Control-Allow-Headers, Access-Control-Allow-Methods, Access-Control-Allow-Origin, Cache-Control |
+| /api/streaming/:connector/:action | geelooy/api/streaming/_awtsmoos.derech.js | unknown | route-vars | — | Access-Control-Allow-Headers, Access-Control-Allow-Methods, Access-Control-Allow-Origin, Cache-Control |
+| /api/streaming/connector | geelooy/api/streaming/routes/table.js | unknown | — | — | — |
+| /api/text/timestamp/:jobId | geelooy/api/text/_awtsmoos.derech.js | unknown | $_POST | — | — |
+| /api/text/timestamp/:jobId/result | geelooy/api/text/_awtsmoos.derech.js | unknown | $_POST | — | — |
+| /api/tunnel/control/admin-vault | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
+| /api/tunnel/control/admin/perutas | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
+| /api/tunnel/control/agent-economy | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
+| /api/tunnel/control/agent-lobby | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
+| /api/tunnel/control/agent-lobby/join | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
+| /api/tunnel/control/agent-lobby/post | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
+| /api/tunnel/control/agent-manifest | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
+| /api/tunnel/control/agent-room | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
+| /api/tunnel/control/agent-room/join | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
+| /api/tunnel/control/agent-room/message | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
+| /api/tunnel/control/api-keys | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
+| /api/tunnel/control/api-keys/create | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
+| /api/tunnel/control/api-keys/revoke | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
+| /api/tunnel/control/app-api/call | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
+| /api/tunnel/control/app-api/catalog | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
+| /api/tunnel/control/artifact/:token/:filename | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |

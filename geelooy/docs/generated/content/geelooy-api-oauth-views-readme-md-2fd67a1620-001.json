@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — OAuth views (`/api/oauth/views/`)\n\nServer-rendered HTML for the OAuth flows.\n\n- `approvalPage.js` — Consent/approval page (grant or deny scopes).\n- `loginPage.js` — Login page shown before authorization.\n"
+}

@@ -9,10 +9,11 @@
 		"id": "games",
 		"title": "Games and Worlds"
 	},
-	"title": "Ein Sof Ascent",
+	"title": "Ein Sof Ascent · Soul Jump",
 	"entries": [
 		"index.html",
-		"main.js"
+		"main.js",
+		"package.json"
 	],
 	"humanDocumentation": [
 		"docs/TUTORIALS/PROJECTS/GAMES.md",
@@ -22,32 +23,32 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-soul-jump-0c3378cb.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 2,
-		"tests": 0,
+		"source": 30,
+		"tests": 3,
 		"assets": 0,
 		"generated": 0,
 		"docs": 0,
 		"other": 0
 	},
-	"totalFiles": 2,
+	"totalFiles": 33,
 	"symbolSummary": {
-		"files": 1,
-		"classes": 6,
-		"functions": 11,
-		"exports": 0,
+		"files": 22,
+		"classes": 19,
+		"functions": 1,
+		"exports": 23,
 		"samples": [
-			"Player",
+			"VerticalCamera",
+			"SOUL_CONFIG",
+			"SOUL_GLYPHS",
 			"BackgroundParticle",
-			"Platform",
 			"Enemy",
-			"Powerup",
 			"Particle",
-			"getEventX",
-			"startDrag",
-			"onDrag",
-			"endDrag",
-			"startGame",
-			"generatePlatforms"
+			"Platform",
+			"Player",
+			"Powerup",
+			"DragInput",
+			"OverlayRenderer",
+			"WorldRenderer"
 		]
 	},
 	"outgoingDependencies": [],
@@ -57,12 +58,12 @@
 		{
 			"url": "/games/soul-jump",
 			"file": "geelooy/games/soul-jump/index.html",
-			"title": "Ein Sof Ascent",
-			"scripts": 1,
-			"styles": 0
+			"title": "Ein Sof Ascent · Soul Jump",
+			"scripts": 4,
+			"styles": 3
 		}
 	],
-	"requiresLocalDocumentation": false,
+	"requiresLocalDocumentation": true,
 	"documentationCovered": false,
 	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
 }

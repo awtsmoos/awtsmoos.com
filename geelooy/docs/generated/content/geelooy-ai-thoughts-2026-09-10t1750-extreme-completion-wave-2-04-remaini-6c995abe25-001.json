@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "<!-- B\"H -->\n<!-- Boruch Hashem -->\n<!-- Blessed be He -->\n\n# Remaining Work\n\n- [ ] Fresh reconciliation source/behavior gate.\n- [ ] Safe authenticated current-account reconciliation health surface.\n- [ ] Measured startup module-load optimization.\n- [ ] Re-profile isolated startup after optimization.\n- [ ] Cross-product handoff primitive and integration where absent.\n- [ ] Shared accessibility/performance audit and fixes.\n- [ ] Game monetization quality audit and fulfillment-backed improvements.\n- [ ] Creator/developer premium-value audit and fulfillment-backed improvements.\n- [ ] Full release regression after all shared writes.\n- [ ] Full touched-file readback and planned-vs-actual audit.\n"
+}

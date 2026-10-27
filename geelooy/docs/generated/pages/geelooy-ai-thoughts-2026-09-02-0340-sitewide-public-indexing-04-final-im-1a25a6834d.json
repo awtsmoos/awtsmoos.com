@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-02-0340-sitewide-public-indexing-04-final-im-1a25a6834d",
+	"title": "Final Implementation Architecture",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-02-0340-sitewide-public-indexing/04-final-implementation-architecture.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Final Implementation Architecture",
+			"anchor": "final-implementation-architecture"
+		},
+		{
+			"level": 2,
+			"text": "Discovery topology",
+			"anchor": "discovery-topology"
+		},
+		{
+			"level": 2,
+			"text": "Alias family",
+			"anchor": "alias-family"
+		},
+		{
+			"level": 2,
+			"text": "Comment family",
+			"anchor": "comment-family"
+		},
+		{
+			"level": 2,
+			"text": "Translation family",
+			"anchor": "translation-family"
+		},
+		{
+			"level": 2,
+			"text": "App and game families",
+			"anchor": "app-and-game-families"
+		},
+		{
+			"level": 2,
+			"text": "Root sitemap",
+			"anchor": "root-sitemap"
+		},
+		{
+			"level": 2,
+			"text": "Existing files to rewrite completely",
+			"anchor": "existing-files-to-rewrite-completely"
+		},
+		{
+			"level": 2,
+			"text": "Generated outputs / new files",
+			"anchor": "generated-outputs-new-files"
+		},
+		{
+			"level": 2,
+			"text": "Safety and performance",
+			"anchor": "safety-and-performance"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-02-0340-sitewide-public-indexing-04-final-im-1a25a6834d-001.json"
+	]
+}

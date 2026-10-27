@@ -4,7 +4,7 @@ Blessed is He
 
 # Generated API Route Contract Atlas
 
-Every discovered path joined to its source-file contract evidence; unknown remains unknown. **634 rows.**
+Every discovered path joined to its source-file contract evidence; unknown remains unknown. **687 rows.**
 
 | Chunk | Rows | Count |
 | --- | --- | --- |
@@ -19,4 +19,5 @@ Every discovered path joined to its source-file contract evidence; unknown remai
 | [api-route-contracts-009.md](API_ROUTE_CONTRACTS/api-route-contracts-009.md) | 441–495 | 55 |
 | [api-route-contracts-010.md](API_ROUTE_CONTRACTS/api-route-contracts-010.md) | 496–550 | 55 |
 | [api-route-contracts-011.md](API_ROUTE_CONTRACTS/api-route-contracts-011.md) | 551–605 | 55 |
-| [api-route-contracts-012.md](API_ROUTE_CONTRACTS/api-route-contracts-012.md) | 606–634 | 29 |
+| [api-route-contracts-012.md](API_ROUTE_CONTRACTS/api-route-contracts-012.md) | 606–660 | 55 |
+| [api-route-contracts-013.md](API_ROUTE_CONTRACTS/api-route-contracts-013.md) | 661–687 | 27 |

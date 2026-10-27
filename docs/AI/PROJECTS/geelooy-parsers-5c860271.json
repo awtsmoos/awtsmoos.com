@@ -18,15 +18,28 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-parsers-5c860271.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 1,
+		"source": 4,
 		"tests": 0,
 		"assets": 0,
 		"generated": 0,
 		"docs": 0,
 		"other": 0
 	},
-	"totalFiles": 1,
-	"symbolSummary": null,
+	"totalFiles": 4,
+	"symbolSummary": {
+		"files": 2,
+		"classes": 1,
+		"functions": 5,
+		"exports": 2,
+		"samples": [
+			"buildArchiveDocument",
+			"escapeHtml",
+			"renderContent",
+			"renderMessage",
+			"renderDay",
+			"WhatsAppParser"
+		]
+	},
 	"outgoingDependencies": [],
 	"incomingDependencies": [],
 	"externalDependencies": [],
@@ -35,8 +48,8 @@
 			"url": "/parsers/whatsapp",
 			"file": "geelooy/parsers/whatsapp/index.html",
 			"title": "WhatsApp Message Maker",
-			"scripts": 0,
-			"styles": 0
+			"scripts": 1,
+			"styles": 1
 		}
 	],
 	"requiresLocalDocumentation": false,

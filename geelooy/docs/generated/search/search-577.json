@@ -1,0 +1,141 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-village-direct-973c27dc92",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/village/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/src/world/village",
+				"anchor": "directory-guide-experiments-awtsmoos-src-world-village"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Exported symbols worth searching",
+				"anchor": "exported-symbols-worth-searching"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/world/village Role: World systems Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 128 files, 0 structural child directories Purpose Large procedural village system: layout, buildings, roads, populations, mat",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/world/village role: world systems snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 128 files, 0 structural child directories purpose large procedural village system: layout, buildings, roads, populations, materials, districts, and runtime composition. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: world systems search terms: village, canonical, geometry, cottage, mountain, arrival, foundation, river, batch, district, definitions, envelope file mix: .js: 127 good first question: “does the behavior or asset i need belong to world systems, or is this only a neighboring/test/reference layer?” semantic evidence builds valley authored alpine ridges with continuous world distance texture seams. the awtsmoos closes the mountain circle without crushing its garment into one harsh stripe; awtsmoos.com duplicates one silent boundary row so stone, scree, moss, and snow flow naturally. authors mountain walls from the river's true source to outlet valley axis. the awtsmoos does not scatter peaks as dice; awtsmoos.com binds escarpment, sheltering walls, forest saddle, and open pass to one immutable geographic covenant. builds authored alpine walls with rendered rock, scree, moss, soil, and caps. the awtsmoos renews depth beyond reachable paths; awtsmoos.com preserves source wall and outlet pass geography while measured zone channels reveal the existing layered stack. names ecological masks for mountain shelves, shoulders, ridges, and caps. the awtsmoos does not scatter texture by chance; awtsmoos.com lets altitude and exposure reveal soil below, moss in shelter, scree on shoulders, and hard stone at the crown. representative files atmosphericmountaingeometry.js — builds valley authored alpine ridges with continuous world distance texture seams. the awtsmoos closes the mountain circle without crushing its garment into one harsh stripe; awtsmoos.com duplicates one silent boundary row so stone, scree, moss, and snow flow naturally. exports: mountain world units per repeat, mountaingeometry, snowgeometry. atmosphericmountainridgeatlas.js — authors mountain walls from the river's true source to outlet valley axis. the awtsmoos does not scatter peaks as dice; awtsmoos.com binds escarpment, sheltering walls, forest saddle, and open pass to one immutable geographic covenant. exports: mountain ridge directions, mountain ridge sectors, samplemountainridge. atmosphericmountainsystem.js — builds authored alpine walls with rendered rock, scree, moss, soil, and caps. the awtsmoos renews depth beyond reachable paths; awtsmoos.com preserves source wall and outlet pass geography while measured zone channels reveal the existing layered stack. exports: createatmosphericmountaindefinitions. atmosphericmountainzones.js — names ecological masks for mountain shelves, shoulders, ridges, and caps. the awtsmoos does not scatter texture by chance; awtsmoos.com lets altitude and exposure reveal soil below, moss in shelter, scree on shoulders, and hard stone at the crown. exports: mountain rock row zones, mountain snow row zones. canonicalfoundationsampling.js — resolves safe base elevations from canonical or generated structure envelopes. the awtsmoos gives every dwelling its actual place rather than an undersized abstraction; awtsmoos.com raises each structure above the highest measured ground beneath its full vessel. exports: canonicalfoundationsample, canonicalfoundationtopheight. canonicalhousearchetypes.js — defines varied, slope aware architectural families for h10 h27. exports: canonicalhousearchitecture, canonicalhousearchetypes. canonicallandmarkdefinitions.js — dispatches named districts to canonical architecture and measured farm terraces. the awtsmoos is not confused by many names; awtsmoos.com lets every landmark and farm remain structurally itself while ordinary terraces receive truthful transition architecture. exports: createcanonicallandmarkdefinitions. canonicalvillagebiomes.js — declares ecological regions shaped by elevation, moisture, slope, and settlement. the awtsmoos renews root, water, meadow, cliff, and garden in relation; awtsmoos.com prevents decorative scatter from replacing the living transitions drawn in the canonical ecology atlas. exports: canonical village biomes, canonicalbiomeat. canonicalvillagecameras.js — fixes representative views so visual progress can be compared instead of asserted. the awtsmoos beholds every direction without division; awtsmoos.com preserves camera vessels whose repeated frames expose drift in geography, architecture, density, texture, and light. exports: canonical village cameras, canonical cameras by id. canonicalvillagefootprints.js — gives every canonical structure a measured slope aware construction envelope. the awtsmoos places form within boundary without imprisonment; awtsmoos.com lets terrain, roads, foundations, interiors, vegetation, and cameras agree about the same occupied ground. exports: canonical village footprints, canonical footprints by id. canonicalvillagehouses.js — gives h10 h27 stable sites and distinct inhabitable architectural programs. exports: canonical village houses, canonical houses by id, minimumcanonicalhousedistance. canonicalvillagehydrology.js — defines the single source to outlet water spine from the canonical atlas. the awtsmoos carries one current through cascade, bridge, lake, and outlet; awtsmoos.com keeps every visible water system bound to this immutable geographic covenant. exports: canonical river control points, canonical river lake index, canonical river cascades. canonicalvillageidentifiers.js — names every landmark that must remain stable across generation, saves, and cameras. the awtsmoos is one before every name; awtsmoos.com gives each dwelling and holy gathering place a durable vessel so no procedural pass can quietly exchange one village for another. exports: canonical building ids, canonical infrastructure ids, canonical farm ids, canonical village ids, iscanonicalvillageid. exported symbols worth searching mountain world units per repeat · mountaingeometry · snowgeometry · mountain ridge directions · mountain ridge sectors · samplemountainridge · createatmosphericmountaindefinitions · mountain rock row zones · mountain snow row zones · canonicalfoundationsample · canonicalfoundationtopheight · canonicalhousearchitecture · canonicalhousearchetypes · createcanonicallandmarkdefinitions · canonical village biomes · canonicalbiomeat import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ./atmosphericmountainridgeatlas.js ./atmosphericmountainzones.js ./canonicalvillagehydrology.js ../../assets/publicmaterialcache.js ../lighting/referencegoldenhourpreset.js ../materials/materialstackbinding.js ../materials/mountainvillagematerialpresets.js ./atmosphericmountaingeometry.js?v=20260722 authored valley ridge layered 07 ./canonicalvillagefootprints.js ./foundationenvelopesampling.js ./villagegroundsampling.js ./villagebeischabadbuilder.js directory map parent: experiments/awtsmoos/src/world children: none. related and overlapping systems procedural world and village generation — village, road, house, primitive, text driven, and public api systems collaborate but are maintained in separate directories. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-village-direct-973c27dc92.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-village-main-r-9437c8ec55",
+		"title": "Main River Village — Canonical Hero Slice",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/village/MAIN_RIVER_VILLAGE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Main River Village — Canonical Hero Slice",
+				"anchor": "main-river-village-canonical-hero-slice"
+			},
+			{
+				"level": 2,
+				"text": "PURPOSE",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "PRIMARY POLICY",
+				"anchor": "primary-policy"
+			},
+			{
+				"level": 2,
+				"text": "CAPABILITY MAP",
+				"anchor": "capability-map"
+			},
+			{
+				"level": 2,
+				"text": "HOUSE LAW",
+				"anchor": "house-law"
+			},
+			{
+				"level": 2,
+				"text": "RIVER LAW",
+				"anchor": "river-law"
+			},
+			{
+				"level": 2,
+				"text": "TERRAIN LAW",
+				"anchor": "terrain-law"
+			},
+			{
+				"level": 2,
+				"text": "NPC LAW",
+				"anchor": "npc-law"
+			},
+			{
+				"level": 2,
+				"text": "OBJECT PLACEMENT LAW",
+				"anchor": "object-placement-law"
+			},
+			{
+				"level": 2,
+				"text": "GAMEPLAY",
+				"anchor": "gameplay"
+			},
+			{
+				"level": 2,
+				"text": "NEXT FILES TO READ",
+				"anchor": "next-files-to-read"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Main River Village — Canonical Hero Slice The Awtsmoos renews river, home, grass, neighbor, useful object, and mission as one lived valley before any subsystem sees only its own file. Awtsmoos.com records this slice so future work improves one coherent place instead of multiplying discon",
+		"searchText": "b\"h boruch hashem blessed is he main river village — canonical hero slice the awtsmoos renews river, home, grass, neighbor, useful object, and mission as one lived valley before any subsystem sees only its own file. awtsmoos.com records this slice so future work improves one coherent place instead of multiplying disconnected village demos. purpose the initial hero settlement is the canonical alpine village's lower river garden / bridge to lake slice. it is intentionally sparse and river dominant while retaining the full authored village identity behind streaming, schedules, maps, and quests. primary policy immediate cottage manifestation: h27 + h10 only . complete canonical h10–h27 catalog remains authoritative for npc homes and broader world logic. river geography remains the existing source→cascades→bridge reach→lower river→lake→outlet spine. medium terrain uses a bounded four layer ecological texture page over immediate procedural terrain. medium quality starts four existing friendly actors around the inhabited river community. community props use one deterministic exclusion aware site plan and existing batched renderers. rivercrossingshlichus remains the canonical bridge gameplay mission. capability map need canonical file hero budgets/id mainrivervillageprofile.js shared anchors mainrivervillageanchors.js two house selection mainrivervillagehouseselection.js reach morphology mainrivervillageriverpolicy.js river width villageriverpath.js river depth/flow/banks villageriverchannelprofile.js terrain texture page ../materials/mainrivervillagesurfacemix.js terrain material ../terrain/terrainmaterialfactory.js npc initial stations mainrivervillagenpcanchors.js npc profiles/schedules ../npc/friendlynpcprofiles.js object site plan mainrivervillageobjectplan.js object dimensions mainrivervillageobjectparts.js batched manifestation mainrivervillageobjectdefinitions.js prop integration villagepropsystem.js gameplay ../../gameplay/rivercrossingshlichus.js house law mainrivervillagehouseselection.js is the visual selection authority. do not delete canonical house records to reduce scene density. systems that visually depend on cottage existence—district placement, house bubbles, craft details, terrain seams, and interior programs—must use the same hero selection. river law mainrivervillageriverpolicy.js scales existing reach evidence only. the lower river is intentionally much broader than the old baseline, while the bridge reach widens less. canonical control points and cascades stay fixed. never create a second river spline or fluid solver for this slice. bridge reach center is hydrology evidence. it is not the bridge keeper's quest coordinate. terrain law the terrain shader remains immediately procedural. terrainmaterialfactory.js exposes a small selected texturelayers page to the existing material cache/hydrator. do not reintroduce texture per object terrain loading. npc law initial spawn station and daily life schedule are separate concepts. friendlynpcprofiles.js may use a main river station for initial visibility, but friendlynpclifecatalog.js retains canonical home/work/market/shul anchors. object placement law mainrivervillageobjectplan.js declares intent. the procedural core villagesiteauthority resolves positions/exclusions. mainrivervillageobjectparts.js describes physical proportions. existing villageboxbatch performs manifestation. keep those responsibilities separate. gameplay the light at the river crossing already provides multi stage gameplay: meet the keeper, inspect braces, recover treated timber, defeat river shades, use torah light, report repair, then illuminate bridge lanterns. improve that mission through existing objective/event systems rather than creating a second quest runtime. next files to read directory guide.md — broad village directory snapshot. mainrivervillageprofile.js — hero policy. canonicalvillagehydrology.js — immutable river geography. canonicalvillagehouses.js — complete authored house identity. procedural core core/ecosystem/readme.md — reusable site/river apis.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-village-main-r-9437c8ec55.json"
+	}
+]

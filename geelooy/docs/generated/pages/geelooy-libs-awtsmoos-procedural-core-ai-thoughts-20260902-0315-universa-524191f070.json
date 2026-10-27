@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-524191f070",
+	"title": "Phase One — Current Architecture Map",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/.ai-thoughts/20260902_0315-universal-procedural-api/01_CURRENT_ARCHITECTURE_MAP.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase One — Current Architecture Map",
+			"anchor": "phase-one-current-architecture-map"
+		},
+		{
+			"level": 2,
+			"text": "Observed authorities",
+			"anchor": "observed-authorities"
+		},
+		{
+			"level": 2,
+			"text": "Dependency observations",
+			"anchor": "dependency-observations"
+		},
+		{
+			"level": 2,
+			"text": "Existing semantic Definition Graph",
+			"anchor": "existing-semantic-definition-graph"
+		},
+		{
+			"level": 2,
+			"text": "Existing compiler capability truth",
+			"anchor": "existing-compiler-capability-truth"
+		},
+		{
+			"level": 2,
+			"text": "Missing product seam",
+			"anchor": "missing-product-seam"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-524191f070-001.json"
+	]
+}

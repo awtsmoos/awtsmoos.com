@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "<!-- B\"H\nBoruch Hashem\nBlessed is He\n\nThe Awtsmoos lets yesterday's guard become today's wiser guard; Awtsmoos.com now proves order by the document and fusion by a bounded seam, preserving truth while the surface becomes more whole in the dream.\n-->\n# Regression Contract Resolution\n\nThe old intuitive regression used geometric non-overlap as a proxy for semantic order. Better V2 intentionally creates a subpixel overlap to fuse Prompt and Mode into one deck.\n\nThe rewritten test now proves both independent truths:\n- Prompt precedes Mode in DOM order via `compareDocumentPosition`.\n- The visual seam magnitude is bounded to at most 2px.\n\nAll other intuitive smoke coverage remains: viewport placement, collapsed optional intelligence, starter count, no overflow, 13px glass, active-nav dominance, template focus/node identity, reduced motion, and zero browser/network errors.\n\nNEXT_ACTION: run the rewritten intuitive smoke alone, then rerun the complete Better V2 regression graph.\n"
+}

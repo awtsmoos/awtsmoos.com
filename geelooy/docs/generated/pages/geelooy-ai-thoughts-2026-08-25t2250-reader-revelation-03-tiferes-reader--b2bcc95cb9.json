@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-25t2250-reader-revelation-03-tiferes-reader--b2bcc95cb9",
+	"title": "Tiferes — Reader Critique Before Implementation",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-25T2250-reader-revelation/03_TIFERES_READER_CRITIQUE.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Tiferes — Reader Critique Before Implementation",
+			"anchor": "tiferes-reader-critique-before-implementation"
+		},
+		{
+			"level": 2,
+			"text": "Thirty safeguards",
+			"anchor": "thirty-safeguards"
+		},
+		{
+			"level": 2,
+			"text": "Expected failure modes to hunt",
+			"anchor": "expected-failure-modes-to-hunt"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-25t2250-reader-revelation-03-tiferes-reader--b2bcc95cb9-001.json"
+	]
+}

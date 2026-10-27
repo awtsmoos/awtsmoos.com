@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-social-helper-search-lexicon-readme-md-68df651d1a",
+	"title": "B\"H — Search Lexicon (geelooy/api/social/helper/search/lexicon/)",
+	"sourcePath": "geelooy/api/social/helper/search/lexicon/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Search Lexicon (geelooy/api/social/helper/search/lexicon/)",
+			"anchor": "b-h-search-lexicon-geelooy-api-social-helper-search-lexicon"
+		},
+		{
+			"level": 2,
+			"text": "Files",
+			"anchor": "files"
+		},
+		{
+			"level": 2,
+			"text": "Routes",
+			"anchor": "routes"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-social-helper-search-lexicon-readme-md-68df651d1a-001.json"
+	]
+}

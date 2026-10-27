@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-docs-native-material-blending-md-0036763f85",
+	"title": "Native Material Mixing and Blending",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/NATIVE_MATERIAL_BLENDING.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Native Material Mixing and Blending",
+			"anchor": "native-material-mixing-and-blending"
+		},
+		{
+			"level": 2,
+			"text": "Base and mix images",
+			"anchor": "base-and-mix-images"
+		},
+		{
+			"level": 2,
+			"text": "Ecological texture layers",
+			"anchor": "ecological-texture-layers"
+		},
+		{
+			"level": 2,
+			"text": "Recommended Har HaOhr terrain recipe",
+			"anchor": "recommended-har-haohr-terrain-recipe"
+		},
+		{
+			"level": 2,
+			"text": "Procedural structures",
+			"anchor": "procedural-structures"
+		},
+		{
+			"level": 2,
+			"text": "Failure policy",
+			"anchor": "failure-policy"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-docs-native-material-blending-md-0036763f85-001.json"
+	]
+}

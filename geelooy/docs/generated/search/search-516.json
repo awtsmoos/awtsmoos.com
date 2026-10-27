@@ -1,0 +1,215 @@
+[
+	{
+		"id": "geelooy-apps-tunnel-design-os-design-dna-readme-md-d42f7f57c2",
+		"title": "Design DNA — Traditions as Design Languages",
+		"sourcePath": "geelooy/apps/tunnel/design-os/design-dna/README.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Design DNA — Traditions as Design Languages",
+				"anchor": "design-dna-traditions-as-design-languages"
+			},
+			{
+				"level": 2,
+				"text": "The dimensions (dna.mjs)",
+				"anchor": "the-dimensions-dna-mjs"
+			},
+			{
+				"level": 2,
+				"text": "The five traditions (profiles.mjs)",
+				"anchor": "the-five-traditions-profiles-mjs"
+			},
+			{
+				"level": 2,
+				"text": "API (index.mjs)",
+				"anchor": "api-index-mjs"
+			},
+			{
+				"level": 2,
+				"text": "Blender (blender.mjs)",
+				"anchor": "blender-blender-mjs"
+			},
+			{
+				"level": 2,
+				"text": "Tests",
+				"anchor": "tests"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "Design DNA — Traditions as Design Languages B\"H Every Torah design tradition is a point in a shared dimensional space . This module defines the space, plants five traditions in it (grounded in real printed exemplars, not stereotypes), and lets you render any design in any tradition — or blend traditions into new ones. ",
+		"searchText": "design dna — traditions as design languages b\"h every torah design tradition is a point in a shared dimensional space . this module defines the space, plants five traditions in it (grounded in real printed exemplars, not stereotypes), and lets you render any design in any tradition — or blend traditions into new ones. the dimensions (dna.mjs) dimension meaning typography.scale title to body size ratio (4.0 = sefer 4x) typography.bodysize base body font size, px typography.lineheight body line height as multiple of body font size spacing.density 0..1 — 0 airy/minimal, 1 dense/maximal color.warmth 0..1 — 0 cool/neutral, 1 warm (cream, gold, amber) color.contrastfloor minimum wcag contrast ratio for body text ornament.level none \\ minimal \\ moderate \\ rich formality.level formal \\ balanced \\ warm the five traditions (profiles.mjs) tradition look basis chabad clean, clear, warm. dark ink on cream, 4x titles, kehot blue accent kehot tanya & likkutei sichos, chabad.org litvish dense, serious, black on white. small type, text is king vilna shas page, classic yeshiva seforim sephardic ornate, warm, dignified. parchment, gold, deep red classic sephardic title pages & siddurim chassidic warm, story like, inviting. large airy type, amber warmth chassidic story collections modern minimal, digital first, accessible. 18px body, aaa contrast contemporary accessible web typography each profile is a constraint dsl bundle — the same language as the shared constraint library — so a tradition is a set of verified mathematical guarantees , not a theme name. profiles avoid every path set by the hebrew first structural bundles, so they compose cleanly. api (index.mjs) every call runs the real constraint pipeline (parse → validate → solve). structural hebrew bundles (hf rtl default, hf nikkud guard) are included automatically: rtl default plus nikkud clarity guarantees. blender (blender.mjs) blendstyles(namea, nameb, weighta) interpolates numeric dna dimensions, resolves categorical dimensions by weighted vote, and mixes palettes channel wise with the solver's own color math. the generated dsl is verified by actually solving it. tests files dna.mjs — dimension definitions, validation, distance, description profiles.mjs — the five tradition profiles blender.mjs — tradition blending index.mjs — public api tests/run.mjs — 24 tests",
+		"page": "pages/geelooy-apps-tunnel-design-os-design-dna-readme-md-d42f7f57c2.json"
+	},
+	{
+		"id": "geelooy-apps-tunnel-design-os-hebrew-first-readme-md-9e2a13403c",
+		"title": "Hebrew-First Design System",
+		"sourcePath": "geelooy/apps/tunnel/design-os/hebrew-first/README.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Hebrew-First Design System",
+				"anchor": "hebrew-first-design-system"
+			},
+			{
+				"level": 2,
+				"text": "Quick start",
+				"anchor": "quick-start"
+			},
+			{
+				"level": 2,
+				"text": "The contract",
+				"anchor": "the-contract"
+			},
+			{
+				"level": 2,
+				"text": "Modules",
+				"anchor": "modules"
+			},
+			{
+				"level": 2,
+				"text": "Constraint bundles",
+				"anchor": "constraint-bundles"
+			},
+			{
+				"level": 2,
+				"text": "Markup contract",
+				"anchor": "markup-contract"
+			},
+			{
+				"level": 2,
+				"text": "Tests",
+				"anchor": "tests"
+			},
+			{
+				"level": 2,
+				"text": "Browser rendering",
+				"anchor": "browser-rendering"
+			}
+		],
+		"excerpt": "//B\"H Hebrew First Design System The web is Latin first. RTL is an afterthought. This is the inversion: RTL is the default, LTR is the opt in mode. Every component assumes right to left; Latin content declares itself with .latin mode, [dir=\"ltr\"], or .latin. Part of the Awtsmoos Design OS (geelooy/apps/tunnel/design os",
+		"searchText": "//b\"h hebrew first design system the web is latin first. rtl is an afterthought. this is the inversion: rtl is the default, ltr is the opt in mode. every component assumes right to left; latin content declares itself with .latin mode, [dir=\"ltr\"], or .latin. part of the awtsmoos design os (geelooy/apps/tunnel/design os/). it plugs into the constraint language in ../constraints/ — designers declare intent as mathematical constraints, the solver finds values, this module generates css. quick start the contract 1. rtl default. :root { direction: rtl; }. every component inherits it. ltr subtrees opt in: .latin mode, [dir=\"ltr\"]. 2. logical properties only. generated css uses margin inline start, padding block, etc. inline start means right in the default context. no physical margin left/margin right is ever emitted. 3. bidi isolation. latin runs and digits inside hebrew get unicode bidi: isolate (.latin, ), so mixed text never reorders. 4. mark safe typography. line height follows the marks: plain hebrew → 1.5 nikkud → 1.7 taamim → 1.9, plus vertical padding and overflow: visible — stacked cantillation marks are never clipped. 5. sacred text guards. hebrew is never transformed (text transform: none) and never hyphenated (hyphens: none). 6. no break rules. acronyms with gershayim (ד״ה) and maqaf joined words (מֵהֹדּוּ־וְעַד־כּוּשׁ) get white space: nowrap via .he acronym / .he maqaf. 7. font stacks by shaping quality. frank ruehl clm and david libre position nikkud/taamim best; noto serif hebrew is the cross platform fallback; ezra sil covers rare taamim. modules file purpose typography.mjs unicode ranges (nikkud, taamim, sofit, gershayim, maqaf), font stacks, line height policy analyzer.mjs analyzehebrew(text) — detects marks, recommends bundles + line height rtl.mjs direction system: default direction = \"rtl\", logical property helpers, the direction contract constraints.mjs 9 hebrew first constraint dsl bundles (same shape as the shared library) css.mjs structuralcss() + generatehebrewcss(values) — the css emitter index.mjs hebrewfirst(text, options) pipeline + planfor(text) test.mjs 56 tests on real torah text (genesis 1:1 with taamim) constraint bundles hf rtl default — rtl everywhere; latin opts into ltr hf nikkud guard — declared guarantees: hebrew.nikkud.clear = true, hebrew.lineheight.accommodatesnikkud = true hf nikkud type — nikkud typography rules hf taamim type — taamim typography rules hf font stack — hebrew/latin font stacks hf bidi — bidi isolation hf sofit gershayim — no break for acronyms and maqaf words hf sefer rtl — full sefer page (warm paper, 4× hebrew, english below) hf latin mode — the ltr opt in markup contract tests tested against genesis 1:1 (6 taamim, 25 nikkud marks, sofit ץ, sof pasuq ׃) from the local tanakh sources, plus gershayim, maqaf, and mixed hebrew/latin edge cases. browser rendering automated tests verify analysis, constraint solving, and css validity. pixel verification of taamim rendering (no clipped marks at 375px–1920px, both themes) needs a live browser pass and is tracked as follow up work.",
+		"page": "pages/geelooy-apps-tunnel-design-os-hebrew-first-readme-md-9e2a13403c.json"
+	},
+	{
+		"id": "geelooy-apps-tunnel-design-os-mikdash-ia-readme-md-202238235e",
+		"title": "Mikdash IA — Beis Hamikdash Information Architecture",
+		"sourcePath": "geelooy/apps/tunnel/design-os/mikdash-ia/README.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Mikdash IA — Beis Hamikdash Information Architecture",
+				"anchor": "mikdash-ia-beis-hamikdash-information-architecture"
+			},
+			{
+				"level": 2,
+				"text": "Quick start",
+				"anchor": "quick-start"
+			},
+			{
+				"level": 2,
+				"text": "Modules",
+				"anchor": "modules"
+			},
+			{
+				"level": 2,
+				"text": "The kavanah gate",
+				"anchor": "the-kavanah-gate"
+			},
+			{
+				"level": 2,
+				"text": "Curating the Kodesh HaKodashim",
+				"anchor": "curating-the-kodesh-hakodashim"
+			},
+			{
+				"level": 2,
+				"text": "Themes + the constraint solver",
+				"anchor": "themes-the-constraint-solver"
+			},
+			{
+				"level": 2,
+				"text": "Tests",
+				"anchor": "tests"
+			},
+			{
+				"level": 2,
+				"text": "Design notes",
+				"anchor": "design-notes"
+			}
+		],
+		"excerpt": "//B\"H Mikdash IA — Beis Hamikdash Information Architecture The site as an ascent: Shaar → Azarah → Heichal → Kodesh HaKodashim . Going deeper = going holier = less chrome, more focus. Quick start Modules File Purpose levels.mjs The 4 levels: contracts, visual language, chrome budgets, isAscent kodeshRegistry.mjs Curate",
+		"searchText": "//b\"h mikdash ia — beis hamikdash information architecture the site as an ascent: shaar → azarah → heichal → kodesh hakodashim . going deeper = going holier = less chrome, more focus. quick start modules file purpose levels.mjs the 4 levels: contracts, visual language, chrome budgets, isascent kodeshregistry.mjs curated registry: which series/posts dwell in the kodesh hakodashim mapper.mjs classify(url) → level id; depthof, topath, isascenturl navigator.mjs ascentpath, renderbreadcrumbs, levelhomeurl, kodeshreturnpath themes.mjs per level constraint dsl bundles + token tables + themecssvars kavanah.mjs kavanah gate: requireskavanah, renderkavanahgate, session pass index.mjs mikdash(url) — the whole context in one call the kavanah gate kodesh hakodashim urls require intention to enter: one breath, one tap, once per teaching per session. never a paywall, never a nag. curating the kodesh hakodashim edit kodeshregistry.mjs: seed: hemshech 5666, tanya. never remove without yaakov's word. themes + the constraint solver each level's visual contract is a constraint dsl bundle the design os can solve: or use tokens directly for server rendering: tests design notes unknown urls default to azarah — public courtyard, never wrongly promoted into the heichal. the kodesh registry outranks all other classification. chrome budgets shrink with sanctity: 10 → 8 → 3 → 1. all theme bundles enforce wcag contrast (aa min, aaa for deep levels).",
+		"page": "pages/geelooy-apps-tunnel-design-os-mikdash-ia-readme-md-202238235e.json"
+	},
+	{
+		"id": "geelooy-apps-tunnel-design-os-mikdash-ia-spec-md-046d742725",
+		"title": "Beis Hamikdash Information Architecture — SPEC",
+		"sourcePath": "geelooy/apps/tunnel/design-os/mikdash-ia/SPEC.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Beis Hamikdash Information Architecture — SPEC",
+				"anchor": "beis-hamikdash-information-architecture-spec"
+			},
+			{
+				"level": 2,
+				"text": "The vision",
+				"anchor": "the-vision"
+			},
+			{
+				"level": 2,
+				"text": "The four levels",
+				"anchor": "the-four-levels"
+			},
+			{
+				"level": 3,
+				"text": "Level contracts",
+				"anchor": "level-contracts"
+			},
+			{
+				"level": 2,
+				"text": "Classification",
+				"anchor": "classification"
+			},
+			{
+				"level": 2,
+				"text": "Ascent navigation",
+				"anchor": "ascent-navigation"
+			},
+			{
+				"level": 2,
+				"text": "Themes",
+				"anchor": "themes"
+			},
+			{
+				"level": 2,
+				"text": "Kavanah gate",
+				"anchor": "kavanah-gate"
+			},
+			{
+				"level": 2,
+				"text": "Integration",
+				"anchor": "integration"
+			},
+			{
+				"level": 2,
+				"text": "Curation",
+				"anchor": "curation"
+			}
+		],
+		"excerpt": "//B\"H Beis Hamikdash Information Architecture — SPEC The vision Hashem gave the proportions: Shaar (gateway), Azarah (courtyard), Heichal (sanctuary), Kodesh HaKodashim (holy of holies). That is information architecture. awtsmoos.com is restructured as an ascent. Going deeper into the site means going holier: chrome fa",
+		"searchText": "//b\"h beis hamikdash information architecture — spec the vision hashem gave the proportions: shaar (gateway), azarah (courtyard), heichal (sanctuary), kodesh hakodashim (holy of holies). that is information architecture. awtsmoos.com is restructured as an ascent. going deeper into the site means going holier: chrome falls away, focus deepens, warmth deepens. the visitor never gets lost — every page knows its level, shows the way in, and honors the way back out. the four levels level hebrew site equivalent chrome budget 1 shaar שער homepage, about, contact — orientation only 10 2 azarah עזרה browse: series indexes, discover, search, categories 8 3 heichal היכל the teaching itself: posts, articles, translations 3 4 kodesh hakodashim קודש הקודשים the deepest teachings (curated registry) 1 level contracts shaar (1). welcoming, bright, generous. every page offers at least one clear path inward. no deep content lives here — only orientation. azarah (2). open, public, scannable. many doors visible at once. filtering and search visible, never hidden. two taps max to any teaching. heichal (3). one teaching per page. the sefer reader rules apply: 4x body text, english below hebrew (never side by side), phrase rule, warm paper ( f7f1e3), dark ink ( 2b2118). no autoplay, no popups, ever. kodesh hakodashim (4). the deepest teachings — hemshech 5666, tanya, and yaakov's curated additions. entry requires kavanah : a quiet interstitial (one breath, one tap), passed once per teaching per session. inside: no comments, no likes, no share buttons, no related posts, no navigation chrome except a single quiet return path. nothing may demand attention except the text. larger type than heichal (4.5x), narrower measure (30em), candle warmth. classification mapper.mjs → classify(url): 1. kodesh registry first. kodeshregistry.mjs names series slugs, post ids, and path patterns that dwell in the fourth level. the registry outranks everything — curation is deliberate. 2. a /post/ page is heichal . 3. a /series/ index is azarah (browse). 4. known browse prefixes (/heichelos, /discover, /search, …) are azarah . 5. /, /about, /contact are shaar . 6. unknown paths default to azarah — never wrongly promote into the heichal. ascent navigation navigator.mjs: ascentpath(url) → shaar → … → current, each crumb carrying hebrew and english names plus its level's home url. renderbreadcrumbs(url) → accessible with aria current. levelhomeurl(level, path) → azarah prefers the enclosing series index when inside one. kodeshreturnpath(url, camefrom) → the single quiet way back out. themes themes.mjs: each level has a constraint dsl bundle (parseable by design os/constraints) and a token table (colors, chrome list). sanctity gradient (solved values): shaar: body 18px, title 3x, measure 42em, bright fdfbf5 azarah: body 16px, card titles 1.3x, measure 64em (grid), faf6ec heichal: body 16px, title 4x , measure 34em, warm paper f7f1e3 kodesh: body 18px, title 4.5x , measure 30em , f3ecd9, chrome.count = 0 all levels enforce wcag contrast (aa minimum, aaa for kodesh/heichal body text — the kavanah of readability). themecssvars(level) emits :root[data mikdash level] custom properties for direct use. kavanah gate kavanah.mjs: requireskavanah(url) — true only for kodesh hakodashim. renderkavanahgate({title, continueurl, returnurl}) — still, warm, minimal interstitial html. title is escaped. enter control is a 44px touch target. passedkavanah(url, storage) / kavanah client js — sessionstorage records the pass; the gate shows once per teaching per session. integration the theme dsl bundles feed the design os design() pipeline (parse → validate → solve); the tokens feed server side rendering. curation kodesh series, kodesh posts, kodesh patterns in kodeshregistry.mjs are curated by yaakov. seed entries: hemshech 5666 series, tanya. add entries freely; never remove without his word.",
+		"page": "pages/geelooy-apps-tunnel-design-os-mikdash-ia-spec-md-046d742725.json"
+	}
+]

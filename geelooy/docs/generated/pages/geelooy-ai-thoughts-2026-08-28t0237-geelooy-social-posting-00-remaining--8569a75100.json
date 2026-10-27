@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-28t0237-geelooy-social-posting-00-remaining--8569a75100",
+	"title": "REMAINING WORK — Geelooy Social Posting",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0237-geelooy-social-posting/00_REMAINING_WORK.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "REMAINING WORK — Geelooy Social Posting",
+			"anchor": "remaining-work-geelooy-social-posting"
+		},
+		{
+			"level": 2,
+			"text": "Current completion gate",
+			"anchor": "current-completion-gate"
+		},
+		{
+			"level": 2,
+			"text": "Known work",
+			"anchor": "known-work"
+		},
+		{
+			"level": 2,
+			"text": "Deferred user-requested next mission",
+			"anchor": "deferred-user-requested-next-mission"
+		},
+		{
+			"level": 2,
+			"text": "NEXTACTION",
+			"anchor": "nextaction"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-28t0237-geelooy-social-posting-00-remaining--8569a75100-001.json"
+	]
+}

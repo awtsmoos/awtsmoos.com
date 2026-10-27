@@ -1,0 +1,192 @@
+[
+	{
+		"id": "geelooy-apps-tunnel-design-os-reverse-design-readme-md-104159608d",
+		"title": "Reverse Design — emotion as input",
+		"sourcePath": "geelooy/apps/tunnel/design-os/reverse-design/README.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Reverse Design — emotion as input",
+				"anchor": "reverse-design-emotion-as-input"
+			},
+			{
+				"level": 2,
+				"text": "The 20 emotions",
+				"anchor": "the-20-emotions"
+			},
+			{
+				"level": 2,
+				"text": "How it works",
+				"anchor": "how-it-works"
+			},
+			{
+				"level": 2,
+				"text": "API",
+				"anchor": "api"
+			},
+			{
+				"level": 2,
+				"text": "Tests",
+				"anchor": "tests"
+			}
+		],
+		"excerpt": "//B\"H Reverse Design — emotion as input Start with a feeling. Work backward to the design that creates it. The 20 emotions Emotion Feeling it creates awe Vast, overwhelming, small before great warmth Embrace like, warm paper, held clarity Nothing hidden, razor hierarchy joy Bright, alive, dancing solemnity Heavy with m",
+		"searchText": "//b\"h reverse design — emotion as input start with a feeling. work backward to the design that creates it. the 20 emotions emotion feeling it creates awe vast, overwhelming, small before great warmth embrace like, warm paper, held clarity nothing hidden, razor hierarchy joy bright, alive, dancing solemnity heavy with meaning, dark and deliberate intimacy close, personal, whispered reverence awe made quiet, standing before wonder grand scale lit by bright gold calm still water, nothing demands urgency now — tight, bold, forward leaning trust solid ground, keeps its promises mystery depths below depths, half revealed gratitude thanksgiving, the table is full longing distance and desire, cool and vast devotion single hearted, davening at midnight celebration exuberant, simchas torah contemplation quiet study, beis midrash at dawn strength grounded, immovable, the rock tenderness gentle hands, holding something fragile majesty royal — the king in his palace how it works 1. emotions are bundles. each emotion is an intensity parameterized constraint dsl bundle (emotions.mjs). nothing is hand waved: awe's \"monumental scale\" is title.fontsize = (3 + 3t) body.fontsize. 2. palettes are honest. every palette is verified by the test suite using the solver's own wcag contrastratio — each emotion declares a contrastfloor and the tests assert it at three intensities. 3. combining merges. combinesources (combine.mjs) merges bundles in priority order: the first = on a path wins (later ones are skipped with a note — never silently), while inequalities compose naturally (the solver keeps the strictest bound). contradictory emotions (urgency + calm) fail honestly with the solver's own error. 4. priority order: per emotion dsl → extra → content → default base tokens → emotion library bundles (pure fallbacks). api designforemotion(content, emotions, opts) → {ok, values, errors, notes, applied, source} emotions: \"awe\" [\"warmth\",\"clarity\"] [{name:\"awe\", intensity:0.9}] opts: {intensity: 0.6, extra: \"…\"} (extra = designer overrides, highest priority) listemotions(), describeemotions(), getemotion(name), clampintensity(t) emotionsources(name, intensity) → prioritized source list combinesources([{label, source}]) → {source, notes} tests node test tests/reverse design.test.mjs — 16 tests, all passing.",
+		"page": "pages/geelooy-apps-tunnel-design-os-reverse-design-readme-md-104159608d.json"
+	},
+	{
+		"id": "geelooy-apps-tunnel-design-os-shabbos-mode-readme-md-692c944389",
+		"title": "Shabbos Mode",
+		"sourcePath": "geelooy/apps/tunnel/design-os/shabbos-mode/README.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Shabbos Mode",
+				"anchor": "shabbos-mode"
+			},
+			{
+				"level": 2,
+				"text": "What it does",
+				"anchor": "what-it-does"
+			},
+			{
+				"level": 2,
+				"text": "Usage",
+				"anchor": "usage"
+			},
+			{
+				"level": 2,
+				"text": "Modules",
+				"anchor": "modules"
+			},
+			{
+				"level": 2,
+				"text": "Tests",
+				"anchor": "tests"
+			},
+			{
+				"level": 2,
+				"text": "Design principles",
+				"anchor": "design-principles"
+			}
+		],
+		"excerpt": "//B\"H Shabbos Mode Designs that respect Shabbos: no animations, no interactive elements, static beautiful pages. Fully usable without JavaScript. Shabbos mode is not a degraded page — it is a holier one: still, warm, focused, peaceful. Like an open sefer. What it does 1. Shabbos flag — one class (.shabbos mode) on : al",
+		"searchText": "//b\"h shabbos mode designs that respect shabbos: no animations, no interactive elements, static beautiful pages. fully usable without javascript. shabbos mode is not a degraded page — it is a holier one: still, warm, focused, peaceful. like an open sefer. what it does 1. shabbos flag — one class (.shabbos mode) on : all animations die, transitions die, smooth scroll dies; interactive chrome (nav menus, forms, comments, carousels, modals, share buttons, video/audio) hides; collapsed content (accordions, tabs, ) expands so nothing is hidden behind a click. 2. auto detect — pure solar math (noaa algorithm, no external api) computes friday sunset for any lat/lon; candle lighting defaults to 18 min before, havdalah 50 min after saturday sunset. the client script offers \"enter shabbos mode\" 90 min before, and auto enters during shabbos. 3. beautiful static — warm paper ( faf5ea), sefer serif stack with hebrew support, generous 1.9 line height, centered 42em reading column, candle notice banner (🕯️🕯️ שבת שלום). 4. print ready — @media print rules: clean margins, no break orphans, link urls printed, footnotes intact. people print for shabbos. usage server side (works with js disabled — the real shabbos guarantee): client side (progressive enhancement — page already works without it): or let the inline script from rendershabbospage handle it — it reads baked config, offers the banner before shabbos, auto enters during shabbos, remembers manual toggles in localstorage, and wires any .shabbos toggle button. modules file purpose spec.mjs interface shapes, defaults, constants times.mjs sunsetutcms, getshabboswindow — pure, embeddable in the client css.mjs shabboscss(opts), printcss(opts) — the still, warm stylesheet html.mjs applyshabboshtml — server transform: class, css, details, notice, scripts script.mjs shabbosclientscript(opts) — browser js (embeds time fns verbatim) index.mjs facade: rendershabbospage tests 24 tests, all passing. design principles stillness as design. motion is weekday energy. on shabbos the page rests. nothing hidden behind a click. if it needed javascript to reveal, it is revealed. the white fire. generous space is not empty — it is holy. print is eternal. the web flickers; the printed page sits on the table all shabbos.",
+		"page": "pages/geelooy-apps-tunnel-design-os-shabbos-mode-readme-md-692c944389.json"
+	},
+	{
+		"id": "geelooy-apps-tunnel-design-os-white-fire-readme-md-9d6f5b0b10",
+		"title": "White Fire — Design the Emptiness",
+		"sourcePath": "geelooy/apps/tunnel/design-os/white-fire/README.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "White Fire — Design the Emptiness",
+				"anchor": "white-fire-design-the-emptiness"
+			},
+			{
+				"level": 2,
+				"text": "The idea",
+				"anchor": "the-idea"
+			},
+			{
+				"level": 2,
+				"text": "Usage",
+				"anchor": "usage"
+			},
+			{
+				"level": 3,
+				"text": "Constraints",
+				"anchor": "constraints"
+			},
+			{
+				"level": 2,
+				"text": "Modules",
+				"anchor": "modules"
+			},
+			{
+				"level": 2,
+				"text": "Tests",
+				"anchor": "tests"
+			},
+			{
+				"level": 2,
+				"text": "Score",
+				"anchor": "score"
+			}
+		],
+		"excerpt": "White Fire — Design the Emptiness B\"H In Torah, the white fire around the letters is as holy as the black fire of the letters themselves. White Fire measures, classifies, and constrains whitespace: the void must be designed , not accidental; the pauses must have rhythm , like the pauses in Torah reading. The idea Every",
+		"searchText": "white fire — design the emptiness b\"h in torah, the white fire around the letters is as holy as the black fire of the letters themselves. white fire measures, classifies, and constrains whitespace: the void must be designed , not accidental; the pauses must have rhythm , like the pauses in torah reading. the idea every gap between elements is a pause — a musical rest measured in multiples of a base rhythm unit: rest multiple use eighth rest 0.5× between footnotes, tight kinship quarter rest 1× between related paragraphs half rest 2× between sections whole rest 4× title → body, major transitions breve rest 8× between chapters, the great pause not all emptiness is white fire. the detector tells intentional breathing room apart from accidental gaps: 1. mystery gap — space nobody declared (no margin/padding/gap accounts for it) 2. declaration mismatch — declared spacing ≠ rendered gap 3. orphan gap — a chasm after a tiny element 4. dead space — empty viewport at the page end with no declared spacing usage constraints presets: whitefire presets.sefer (yaakov's warm paper defaults), whitefire presets.strict. modules file purpose layout.mjs layout model: validation, normalization, box union geometry measure.mjs whitespace ratio, vertical gaps, trailing space, horizontal balance detector.mjs intentional vs accidental classification (4 rules) rhythm.mjs rests, rhythm scoring (cv), role based rest recommendations constraints.mjs white fire dsl checked against an analysis (reuses the shared parser) report.mjs 0–100 score + markdown audit report index.mjs analyze() / analyzesefer() / demo() pipeline tests 33 tests, all hand computed, no mocks: score whitespace ratio 30 — ideal 0.40–0.60 intentionality 30 — share of designed vs accidental space rhythm 25 — gaps share a pulse rests 15 — gaps already at their recommended rest grades: radiant (90+) · breathing (75+) · crowded (55+) · suffocated (<55)",
+		"page": "pages/geelooy-apps-tunnel-design-os-white-fire-readme-md-9d6f5b0b10.json"
+	},
+	{
+		"id": "geelooy-apps-tunnel-design-os-yom-tov-modes-readme-md-283ad8f8b8",
+		"title": "Yom Tov Modes",
+		"sourcePath": "geelooy/apps/tunnel/design-os/yom-tov-modes/README.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Yom Tov Modes",
+				"anchor": "yom-tov-modes"
+			},
+			{
+				"level": 2,
+				"text": "The modes",
+				"anchor": "the-modes"
+			},
+			{
+				"level": 2,
+				"text": "The calendar",
+				"anchor": "the-calendar"
+			},
+			{
+				"level": 2,
+				"text": "Usage",
+				"anchor": "usage"
+			},
+			{
+				"level": 2,
+				"text": "Design principle",
+				"anchor": "design-principle"
+			}
+		],
+		"excerpt": "//B\"H Yom Tov Modes Every festival gets its own soul. Shabbos Mode was the start — stillness as design. Yom Tov Modes extends it: each Yom Tov brings its own palette, mood, and voice, computed from a real Hebrew calendar (no APIs, no network). The modes Mode Festival Freeze? Soul pesach Pesach yes Stark, clean, unleave",
+		"searchText": "//b\"h yom tov modes every festival gets its own soul. shabbos mode was the start — stillness as design. yom tov modes extends it: each yom tov brings its own palette, mood, and voice, computed from a real hebrew calendar (no apis, no network). the modes mode festival freeze? soul pesach pesach yes stark, clean, unleavened — matzah white, no clutter sukkos sukkot, shemini atzeret, simchat torah yes airy, joyful, open sky — lulav green shavuos shavuot yes lush, harvest — floral green, wheat gold yamim noraim rosh hashanah, yom kippur, tzom gedaliah yes solemn, deep, quiet — tekhelet dark chanukah chanukah (8 days) no luminous dark — menorah gold on night blue purim purim, shushan purim no joyful — wine and gold, tasteful solemn fast days (10 tevet, 17 tammuz, 9 av, taanit esther) no subdued grey quiet minor tu b'shevat, tu b'av, lag baomer no gentle gladness freeze days also carry .shabbos mode, so the sibling stillness stylesheet applies (no motion, no interactive chrome, everything expanded). the yom tov theme then re tints the palette variables and adds the holiday's mood. theme only days get a standalone beautiful surface — fully interactive. chol hamoed gets the festival's theme with no freeze. erev yom tov gets an offer banner (\"the festival approaches\"). the calendar calendar.mjs implements the hebrew calendar from first principles — molad plus the four dechiyot (molad zaken, lo adu rosh, gatarad, betutkafot) — and rata die conversions for gregorian dates. verified: 6/6 rosh hashanah anchors (5783–5788) match known dates exactly 400 year sweep (5600–6000): every year length valid (353/354/355/383/384/385), rosh hashanah never on sun/wed/fri pesach 5785, yom kippur 5786, chanukah 5786, purim 5786, shavuot 5786 all match holidays.mjs enumerates every yom tov/fast/minor day per hebrew year, with correct diaspora/israel variants (default: diaspora), nidche/mukdam fast postponements, and erev detection. usage client: yomtovclientscript(opts) embeds the calendar verbatim via tostring() — server and browser can never drift. reads config from window.awt yomtov or . design principle a yom tov page is not a degraded page. each festival is designed, not decorated: pesach is stark because freedom is stark; chanukah glows because a little light pushes away darkness. the medium carries the meaning.",
+		"page": "pages/geelooy-apps-tunnel-design-os-yom-tov-modes-readme-md-283ad8f8b8.json"
+	},
+	{
+		"id": "geelooy-apps-tunnel-documentation-md-5c553ce64b",
+		"title": "Tunnel App Documentation",
+		"sourcePath": "geelooy/apps/tunnel/DOCUMENTATION.md",
+		"category": "Tunnel",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Tunnel App Documentation",
+				"anchor": "tunnel-app-documentation"
+			},
+			{
+				"level": 2,
+				"text": "Read this first during an outage",
+				"anchor": "read-this-first-during-an-outage"
+			},
+			{
+				"level": 2,
+				"text": "Wider architecture",
+				"anchor": "wider-architecture"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Tunnel App Documentation The Awtsmoos bridges machines through ordinary guardians and independent rescue flame; Awtsmoos.com keeps repair discoverable so another AI can restore custody before chasing blame. Read this first during an outage Human/operator entry point: README.md Full emerg",
+		"searchText": "b\"h boruch hashem blessed is he tunnel app documentation the awtsmoos bridges machines through ordinary guardians and independent rescue flame; awtsmoos.com keeps repair discoverable so another ai can restore custody before chasing blame. read this first during an outage human/operator entry point: readme.md full emergency decision tree: emergency recovery.md remote rescue endpoint contract: ../../api/tunnel/install/documentation.md fastest non destructive diagnosis: fastest independent authenticated rescue: do not repeatedly reinstall an unreachable native runtime before establishing an emergency channel. wider architecture read ../../../docs/systems/tunnel.md and ../../../docs/apps/tunnel and runtime.md. specialist historical material also lives in ../../../docs/tunnel/.",
+		"page": "pages/geelooy-apps-tunnel-documentation-md-5c553ce64b.json"
+	}
+]

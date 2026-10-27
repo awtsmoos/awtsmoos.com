@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Community Tests (geelooy/api/social/helper/community/test/)\n\nTests for community governance.\n\n- `communityPublishing.test.js` — community publishing flow.\n- `communityRoutes.test.js` — community HTTP routes.\n- `communityStress.test.js` — stress tests.\n- `multiAccountApiJourney.test.js` — multi-account end-to-end journey.\n"
+}

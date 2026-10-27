@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-geelooy-accessibility-and-mobile-md-b5cb004799",
+	"title": "Accessibility and Mobile Law",
+	"sourcePath": "docs/geelooy/ACCESSIBILITY_AND_MOBILE.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Accessibility and Mobile Law",
+			"anchor": "accessibility-and-mobile-law"
+		},
+		{
+			"level": 2,
+			"text": "Structural requirements",
+			"anchor": "structural-requirements"
+		},
+		{
+			"level": 2,
+			"text": "Mobile requirements",
+			"anchor": "mobile-requirements"
+		},
+		{
+			"level": 2,
+			"text": "Motion",
+			"anchor": "motion"
+		},
+		{
+			"level": 2,
+			"text": "Current executable witnesses",
+			"anchor": "current-executable-witnesses"
+		}
+	],
+	"markdownParts": [
+		"content/docs-geelooy-accessibility-and-mobile-md-b5cb004799-001.json"
+	]
+}

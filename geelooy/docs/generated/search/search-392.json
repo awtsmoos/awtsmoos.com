@@ -1,0 +1,201 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-11-si-fe829d776d",
+		"title": "Sitemap Performance Delta",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-2342-geelooy-seo-current-head-merge/11-sitemap-performance-delta.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Sitemap Performance Delta",
+				"anchor": "sitemap-performance-delta"
+			},
+			{
+				"level": 2,
+				"text": "Measured failure",
+				"anchor": "measured-failure"
+			},
+			{
+				"level": 2,
+				"text": "Interpretation",
+				"anchor": "interpretation"
+			},
+			{
+				"level": 2,
+				"text": "Next architecture search",
+				"anchor": "next-architecture-search"
+			}
+		],
+		"excerpt": "B\"H Sitemap Performance Delta Boruch Hashem. Blessed is He. The Awtsmoos revealed that a truthful map must also arrive in measured time; Awtsmoos.com cannot make a crawler wait through one serial HTTP doorway for every branch and call that architecture sublime. Measured failure The isolated verifier on port 8899 served",
+		"searchText": "b\"h sitemap performance delta boruch hashem. blessed is he. the awtsmoos revealed that a truthful map must also arrive in measured time; awtsmoos.com cannot make a crawler wait through one serial http doorway for every branch and call that architecture sublime. measured failure the isolated verifier on port 8899 served /heichelos/sitemap.xml quickly and correctly, proving public heichel enumeration and xml response composition. the first request to /heichelos/ikar/sitemap.xml traversed the ikar series tree using sequential $i.fetchawtsmoos() calls. it remained alive with fresh worker heartbeats but did not produce a response before the test client's explicit 120 second ceiling. measured result: wall time: 120.231 seconds; curl exit code: 28; no response body available to validate; tunnel and verifier process remained alive. interpretation this is an implementation performance defect, not a transport failure and not evidence that the sitemap url policy is wrong. the serial public http traversal is rejected for production sitemap generation. next architecture search before rewriting heichelgraph.js, inspect the canonical in process series helpers and database layout for one of these better vessels: 1. direct series detail helper calls without http re entry; 2. one recursive/tree helper already used by the api; 3. bounded parallel level order reads if only individual series helpers exist; 4. cached sitemap graph only if direct traversal still cannot meet a reasonable response budget. do not increase timeout as the primary fix. do not weaken publication policy. do not emit numeric road aliases.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-11-si-fe829d776d.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-12-si-988cce3003",
+		"title": "Sitemap Performance Fix Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-2342-geelooy-seo-current-head-merge/12-sitemap-performance-fix-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Sitemap Performance Fix Plan",
+				"anchor": "sitemap-performance-fix-plan"
+			},
+			{
+				"level": 2,
+				"text": "Proven direct contract",
+				"anchor": "proven-direct-contract"
+			},
+			{
+				"level": 2,
+				"text": "Rewrite boundary",
+				"anchor": "rewrite-boundary"
+			},
+			{
+				"level": 2,
+				"text": "Improved traversal",
+				"anchor": "improved-traversal"
+			},
+			{
+				"level": 2,
+				"text": "Verification",
+				"anchor": "verification"
+			}
+		],
+		"excerpt": "B\"H Sitemap Performance Fix Plan Boruch Hashem. Blessed is He. The Awtsmoos has revealed the shorter path beneath the public doorway; Awtsmoos.com can read the same canonical series truth in process, without making its own HTTP river circle back through every foyer. Proven direct contract api/social/helper/series.js ex",
+		"searchText": "b\"h sitemap performance fix plan boruch hashem. blessed is he. the awtsmoos has revealed the shorter path beneath the public doorway; awtsmoos.com can read the same canonical series truth in process, without making its own http river circle back through every foyer. proven direct contract api/social/helper/series.js exports getseries(). the public /series/:series/details api route simply calls: getseries({ $i, heichelid, seriesid, withdetails: true }) the helper reads directly from $i.db and returns: prateem; subseries ids; posts object keys/data; id. therefore the sitemap does not need $i.fetchawtsmoos() for series traversal. rewrite boundary rewrite only: heichelos/routes/heichel/sitemap/heichelgraph.js no route shape, xml format, publication policy, or static file changes are part of this performance fix. improved traversal import canonical getseries() directly. traverse breadth first so branch depth stays bounded and understandable. read each current breadth layer in batches with a small concurrency ceiling. keep the visited series set and 49,000 url output ceiling. preserve canonical path rules: heichel root, named series, named posts, never numeric road aliases. treat errored/missing series as empty branches rather than poisoning the whole sitemap. verification 1. whole file readback. 2. node syntax/import and existing helper shape tests. 3. restart only the isolated 8899 verifier because required js modules are cached. 4. measure /heichelos/ikar/sitemap.xml wall time with a 30 second ceiling. 5. require the same canonical/privacy assertions plus xml parse. 6. if still over 30 seconds, inspect db traversal cost before considering any cache.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-12-si-988cce3003.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-13-si-e414ea81b2",
+		"title": "Sitemap Seed-Map Delta",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-2342-geelooy-seo-current-head-merge/13-sitemap-seed-map-delta.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Sitemap Seed-Map Delta",
+				"anchor": "sitemap-seed-map-delta"
+			},
+			{
+				"level": 2,
+				"text": "Measured rejection of deep sitemap traversal",
+				"anchor": "measured-rejection-of-deep-sitemap-traversal"
+			},
+			{
+				"level": 2,
+				"text": "Replacement architecture",
+				"anchor": "replacement-architecture"
+			},
+			{
+				"level": 2,
+				"text": "MIME repair",
+				"anchor": "mime-repair"
+			}
+		],
+		"excerpt": "B\"H Sitemap Seed Map Delta Boruch Hashem. Blessed is He. The Awtsmoos revealed that a sitemap should open the gate, not rebuild the palace at request time; Awtsmoos.com already speaks ordinary server links from chamber to chamber, so the map may stay swift while the crawl remains sublime. Measured rejection of deep sit",
+		"searchText": "b\"h sitemap seed map delta boruch hashem. blessed is he. the awtsmoos revealed that a sitemap should open the gate, not rebuild the palace at request time; awtsmoos.com already speaks ordinary server links from chamber to chamber, so the map may stay swift while the crawl remains sublime. measured rejection of deep sitemap traversal both public api recursion and canonical direct db recursion failed response budgets for ikar. the optimized direct helper still produced zero bytes before a 30 second client timeout. after that request, the same verifier was busy enough that even /heichelos/ikar timed out at 12 seconds. therefore synchronous deep sitemap traversal is rejected as operationally unsafe. replacement architecture /heichelos/sitemap.xml becomes a url set containing every public/discoverable heichel root only. this is not a loss of crawlability because the raw heichel html has already been proven to expose ordinary series links, and raw series html has already been proven to expose ordinary child series and stable named post links. the sitemap seeds the public graph; the html graph carries crawlers through it. remove the advertised and routable per heichel recursive sitemap endpoint. remove its graph module rather than leave dead expensive code. mime repair static robots.txt and root sitemap.xml bodies are correct but are served as application/octet stream because the dynamic server's extension map lacks .txt and .xml entries. repair mime typing at the canonical static file map rather than wrapping root files in a new router.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-13-si-e414ea81b2.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-14-fi-e14823bc08",
+		"title": "Final Seed Sitemap Write Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-2342-geelooy-seo-current-head-merge/14-final-seed-sitemap-write-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Final Seed Sitemap Write Plan",
+				"anchor": "final-seed-sitemap-write-plan"
+			},
+			{
+				"level": 2,
+				"text": "Final implementation boundary",
+				"anchor": "final-implementation-boundary"
+			},
+			{
+				"level": 2,
+				"text": "Behavioral result",
+				"anchor": "behavioral-result"
+			},
+			{
+				"level": 2,
+				"text": "Verification before exposure",
+				"anchor": "verification-before-exposure"
+			}
+		],
+		"excerpt": "B\"H Final Seed Sitemap Write Plan Boruch Hashem. Blessed is He. The Awtsmoos reveals the public gate in a swift and truthful stream; Awtsmoos.com lets HTML links carry depth, while sitemaps seed the crawler's dream. Final implementation boundary Rewrite completely: geelooy/heichelos/routes/heichel/sitemap/routes.js gee",
+		"searchText": "b\"h final seed sitemap write plan boruch hashem. blessed is he. the awtsmoos reveals the public gate in a swift and truthful stream; awtsmoos.com lets html links carry depth, while sitemaps seed the crawler's dream. final implementation boundary rewrite completely: geelooy/heichelos/routes/heichel/sitemap/routes.js geelooy/heichelos/routes/heichel/sitemap/publicheichels.js geelooy/heichelos/routes/heichel/sitemap/xml.js geelooy/heichelos/routes/heichel/createroutes.js ayzarim/awtsmoosdynamicserver/mimes.js delete completely: geelooy/heichelos/routes/heichel/sitemap/heichelgraph.js keep unchanged: geelooy/robots.txt geelooy/sitemap.xml all proven road ssr files; all proven heichel semantic discovery files. behavioral result /heichelos/sitemap.xml returns an xml url set of every canonical public/discoverable heichel root. no /:heichel/sitemap.xml route remains. no recursive graph code remains capable of monopolizing the server. robots.txt continues advertising the core root sitemap and the heichel seed sitemap. .txt files serve as utf 8 text/plain. .xml files serve as utf 8 application/xml. verification before exposure fresh process only. require fast root/heichel sitemap responses, correct mime, road ssr, heichel hierarchy links, and no route regression. only then expose that verified process through a real public preview url and verify the public url from outside the localhost boundary.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-14-fi-e14823bc08.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-15-pr-b40a0ea8e0",
+		"title": "Production Release Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-2342-geelooy-seo-current-head-merge/15-production-release-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Production Release Plan",
+				"anchor": "production-release-plan"
+			},
+			{
+				"level": 2,
+				"text": "Release authority",
+				"anchor": "release-authority"
+			},
+			{
+				"level": 2,
+				"text": "Isolated release vessel",
+				"anchor": "isolated-release-vessel"
+			},
+			{
+				"level": 2,
+				"text": "Release gates",
+				"anchor": "release-gates"
+			}
+		],
+		"excerpt": "B\"H Production Release Plan Boruch Hashem. Blessed is He. The Awtsmoos has carried the Road from hidden JavaScript toward server visible Torah light; Awtsmoos.com must now receive only the proven SEO vessels, never the shared worktree's unrelated flight. Release authority The repository documents canonical Git producti",
+		"searchText": "b\"h production release plan boruch hashem. blessed is he. the awtsmoos has carried the road from hidden javascript toward server visible torah light; awtsmoos.com must now receive only the proven seo vessels, never the shared worktree's unrelated flight. release authority the repository documents canonical git production. production activation requires an exact sha on origin/main, a clean canonical production repository, fast forward only update, canonical server activation, and independent public verification. the shared local worktree contains concurrent work from other agents and must not be staged wholesale. npm run ship is forbidden here because it stages all changes. isolated release vessel create a temporary git worktree from freshly fetched origin/main. copy only these proven seo source files from the shared working tree into the isolated worktree as whole files: 1. ayzarim/awtsmoosdynamicserver/mimes.js 2. geelooy/heichelos/heichel/ awtsmoos.heichel.html 3. geelooy/heichelos/post/ awtsmoos.post.html 4. geelooy/heichelos/post/initial content.html 5. geelooy/heichelos/post/reader settings.html 6. geelooy/heichelos/routes/heichel/createroutes.js 7. geelooy/heichelos/routes/heichel/postreader.js 8. geelooy/heichelos/routes/heichel/readerdata.js 9. geelooy/heichelos/routes/heichel/sitemap/publicheichels.js 10. geelooy/heichelos/routes/heichel/sitemap/routes.js 11. geelooy/heichelos/routes/heichel/sitemap/xml.js 12. geelooy/robots.txt 13. geelooy/sitemap.xml do not copy .ai thoughts or unrelated modified/untracked paths. release gates exact isolated git status may contain only those 13 paths. full isolated diff must be reviewed. js syntax, route import, xml parse, repository hygiene, and relevant heichel tests must pass. start an isolated server from the release worktree and rerun robots/sitemap/heichel/road acceptance. fetch origin/main immediately before publication. if upstream moved, rebuild or rebase the isolated release and rerun gates. commit only the exact audited files. push exact commit fast forward to origin/main. activate that exact sha with the canonical bhrelease production path. verify https://awtsmoos.com/robots.txt, /sitemap.xml, /heichelos/sitemap.xml, /heichelos/ikar, and the target road from outside production. keep rollback evidence until public verification is green.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-15-pr-b40a0ea8e0.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-remai-7c37f9f365",
+		"title": "REMAININGWORK — After Core SSR Proof",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-2342-geelooy-seo-current-head-merge/REMAINING_WORK-02.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "REMAININGWORK — After Core SSR Proof",
+				"anchor": "remainingwork-after-core-ssr-proof"
+			}
+		],
+		"excerpt": "B\"H REMAINING WORK — After Core SSR Proof Boruch Hashem. Blessed is He. [x] Merge current calm/mobile reader with route level server rendering. [x] Repair obsolete direct/root post API path. [x] Remove SEO critical nested template includes. [x] Eliminate embedded template terminator bug. [x] Re read all core touched fi",
+		"searchText": "b\"h remaining work — after core ssr proof boruch hashem. blessed is he. [x] merge current calm/mobile reader with route level server rendering. [x] repair obsolete direct/root post api path. [x] remove seo critical nested template includes. [x] eliminate embedded template terminator bug. [x] re read all core touched files. [x] pass js syntax/import/style invariants. [x] prove numeric ikar road raw html contains the full teaching. [x] prove numeric road and named post url have identical normalized body identity. [x] prove missing named post is non indexable and error free. [ ] verify browser hydration preserves server content and calm/mobile controls. [ ] check browser console for reader regressions on the isolated verifier. [ ] fresh read current heichel/series discovery implementation. [ ] prove crawlable heichel/series links in raw html. [ ] fresh audit robots and sitemap routes/files on current head. [ ] implement missing robots discovery if still absent. [ ] implement public sitemap discovery if still absent. [ ] verify sitemap exposes only public crawlable urls and correct content type. [ ] re run final static verification after all seo changes. [ ] re read every touched source file and final diff. [ ] record final planned versus actual delta. [ ] stop only our isolated 8898 verifier after all runtime/browser checks finish.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-remai-7c37f9f365.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-remai-63e621ddf3",
+		"title": "REMAININGWORK — Crawl Map Phase",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-2342-geelooy-seo-current-head-merge/REMAINING_WORK-03.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "REMAININGWORK — Crawl Map Phase",
+				"anchor": "remainingwork-crawl-map-phase"
+			}
+		],
+		"excerpt": "B\"H REMAINING WORK — Crawl Map Phase Boruch Hashem. Blessed is He. [x] Prove Road raw SSR and stable named post identity. [x] Prove missing post noindex safety. [x] Prove isolated browser hydration without fatal JS errors. [x] Repair Heichel semantic fallback insertion. [x] Prove hierarchical root series/post crawl lin",
+		"searchText": "b\"h remaining work — crawl map phase boruch hashem. blessed is he. [x] prove road raw ssr and stable named post identity. [x] prove missing post noindex safety. [x] prove isolated browser hydration without fatal js errors. [x] repair heichel semantic fallback insertion. [x] prove hierarchical root series/post crawl links. [x] audit robots/sitemap absence on current source. [x] prove public heichel discovery privacy filtering. [x] prove discovery cursor pagination contract. [x] prove series details expose subseries and posts. [x] choose distributed sitemap architecture. [ ] concurrency guard current createroutes.js and static root targets. [ ] create sitemap xml/data/traversal modules with whole file writes. [ ] rewrite createroutes.js completely to wire sitemap routes. [ ] create static robots.txt and root sitemap.xml. [ ] re read all sitemap source/static files. [ ] run syntax/import/diff/line ceiling checks. [ ] start one new isolated verifier on a freshly proven free port. [ ] verify robots and all sitemap xml endpoints/content types. [ ] verify sitemap privacy and canonical only url policy. [ ] re run road ssr and heichel hierarchy smoke tests. [ ] investigate client side title consistency delta after hydration. [ ] reconcile current head and all modified seo files against concurrent commits. [ ] run final test universe available for touched routes/modules. [ ] re read final touched files and generate planned vs actual delta. [ ] stop isolated verifier and close remaining safe work.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-remai-63e621ddf3.json"
+	}
+]

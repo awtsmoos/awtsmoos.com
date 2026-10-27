@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-scribe-journey-tests-simulator-results-2026-09-16t20-27-18-5b0b9de4b7",
+	"title": "Scribe Journey Simulation Observatory",
+	"sourcePath": "geelooy/games/scribe-journey/tests/simulator-results/2026-09-16T20-27-18-680Z_complete_seed-736560674/summary.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Scribe Journey Simulation Observatory",
+			"anchor": "scribe-journey-simulation-observatory"
+		},
+		{
+			"level": 2,
+			"text": "Result",
+			"anchor": "result"
+		},
+		{
+			"level": 2,
+			"text": "Status Counts",
+			"anchor": "status-counts"
+		},
+		{
+			"level": 2,
+			"text": "Category Counts",
+			"anchor": "category-counts"
+		},
+		{
+			"level": 2,
+			"text": "Failures",
+			"anchor": "failures"
+		},
+		{
+			"level": 2,
+			"text": "Slowest Executions",
+			"anchor": "slowest-executions"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-scribe-journey-tests-simulator-results-2026-09-16t20-27-18-5b0b9de4b7-001.json"
+	]
+}

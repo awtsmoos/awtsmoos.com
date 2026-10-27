@@ -24,6 +24,16 @@
 		},
 		{
 			"level": 2,
+			"text": "Native asset boundary",
+			"anchor": "native-asset-boundary"
+		},
+		{
+			"level": 2,
+			"text": "Archive.org browser boundary",
+			"anchor": "archive-org-browser-boundary"
+		},
+		{
+			"level": 2,
 			"text": "Preflight",
 			"anchor": "preflight"
 		},
@@ -34,8 +44,8 @@
 		},
 		{
 			"level": 2,
-			"text": "Native asset shape",
-			"anchor": "native-asset-shape"
+			"text": "Public attachment whitelist",
+			"anchor": "public-attachment-whitelist"
 		},
 		{
 			"level": 2,
@@ -44,13 +54,8 @@
 		},
 		{
 			"level": 2,
-			"text": "Idempotency and retries",
-			"anchor": "idempotency-and-retries"
-		},
-		{
-			"level": 2,
-			"text": "Rate pacing",
-			"anchor": "rate-pacing"
+			"text": "Idempotency, pacing, and recovery",
+			"anchor": "idempotency-pacing-and-recovery"
 		}
 	],
 	"markdownParts": [

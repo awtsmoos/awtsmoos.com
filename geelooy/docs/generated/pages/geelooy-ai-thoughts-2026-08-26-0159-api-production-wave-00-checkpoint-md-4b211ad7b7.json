@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-26-0159-api-production-wave-00-checkpoint-md-4b211ad7b7",
+	"title": "API Production Wave Checkpoint",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-26-0159-api-production-wave/00_CHECKPOINT.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "API Production Wave Checkpoint",
+			"anchor": "api-production-wave-checkpoint"
+		},
+		{
+			"level": 2,
+			"text": "Verified before local merge",
+			"anchor": "verified-before-local-merge"
+		},
+		{
+			"level": 2,
+			"text": "NEXTACTION",
+			"anchor": "nextaction"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-26-0159-api-production-wave-00-checkpoint-md-4b211ad7b7-001.json"
+	]
+}

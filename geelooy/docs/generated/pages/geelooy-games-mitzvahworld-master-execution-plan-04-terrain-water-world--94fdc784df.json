@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-master-execution-plan-04-terrain-water-world--94fdc784df",
+	"title": "04 — Terrain, Geology, Hydrology, Roads, Architecture, World Building",
+	"sourcePath": "geelooy/games/mitzvahWorld/MASTER_EXECUTION_PLAN/04_TERRAIN_WATER_WORLD.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "04 — Terrain, Geology, Hydrology, Roads, Architecture, World Building",
+			"anchor": "04-terrain-geology-hydrology-roads-architecture-world-building"
+		},
+		{
+			"level": 2,
+			"text": "One environmental field",
+			"anchor": "one-environmental-field"
+		},
+		{
+			"level": 2,
+			"text": "Terrain / geology",
+			"anchor": "terrain-geology"
+		},
+		{
+			"level": 2,
+			"text": "Hydrology",
+			"anchor": "hydrology"
+		},
+		{
+			"level": 2,
+			"text": "Roads / infrastructure",
+			"anchor": "roads-infrastructure"
+		},
+		{
+			"level": 2,
+			"text": "Settlements / architecture",
+			"anchor": "settlements-architecture"
+		},
+		{
+			"level": 2,
+			"text": "City authority before official release",
+			"anchor": "city-authority-before-official-release"
+		},
+		{
+			"level": 2,
+			"text": "World-building quality",
+			"anchor": "world-building-quality"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-master-execution-plan-04-terrain-water-world--94fdc784df-001.json"
+	]
+}

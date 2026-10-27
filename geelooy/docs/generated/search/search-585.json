@@ -1,0 +1,168 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-master-execution-plan-06-creator-api-discover-053f495cd7",
+		"title": "06 — Creator, Public API, Discoverability, AI Authoring",
+		"sourcePath": "geelooy/games/mitzvahWorld/MASTER_EXECUTION_PLAN/06_CREATOR_API_DISCOVERABILITY.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "06 — Creator, Public API, Discoverability, AI Authoring",
+				"anchor": "06-creator-public-api-discoverability-ai-authoring"
+			},
+			{
+				"level": 2,
+				"text": "Public API north star",
+				"anchor": "public-api-north-star"
+			},
+			{
+				"level": 2,
+				"text": "Three API layers",
+				"anchor": "three-api-layers"
+			},
+			{
+				"level": 2,
+				"text": "Discoverability",
+				"anchor": "discoverability"
+			},
+			{
+				"level": 2,
+				"text": "Creator UX",
+				"anchor": "creator-ux"
+			},
+			{
+				"level": 2,
+				"text": "Query / events / transactions",
+				"anchor": "query-events-transactions"
+			},
+			{
+				"level": 2,
+				"text": "AI authoring",
+				"anchor": "ai-authoring"
+			},
+			{
+				"level": 2,
+				"text": "API stability",
+				"anchor": "api-stability"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed be He 06 — Creator, Public API, Discoverability, AI Authoring Public API north star A developer should type Awtsmoos. and immediately discover coherent domains: world, terrain, weather, water, vegetation, civilization, creator, assets, quests, audio, physics, query, events, save, performance, ",
+		"searchText": "b\"h boruch hashem blessed be he 06 — creator, public api, discoverability, ai authoring public api north star a developer should type awtsmoos. and immediately discover coherent domains: world, terrain, weather, water, vegetation, civilization, creator, assets, quests, audio, physics, query, events, save, performance, debug. three api layers [ ] intent layer: high level operations like create village, grow forest, add river, make thunderstorm. [ ] domain layer: explicit terrain/weather/tree/city configurations. [ ] primitive layer: geometry, fields, sampling, transactions, typed arrays, low level portable data. [ ] convenience apis must wrap canonical authority, never duplicate it. discoverability [ ] searchable capability registry with synonyms/aliases (river, stream, hydrology, waterway); [ ] awtsmoos.capabilities() exposes what this exact build supports; [ ] source generated docs from real contracts/jsdoc/schema metadata; [ ] every public api has tiny, real world, and advanced examples; [ ] api breadcrumbs/relationship graph, e.g. awtsmoos → world → vegetation → trees → species → materials; [ ] dependency/performance/quality metadata for each capability; [ ] command palette searches capabilities by user intent, not file names; [ ] interactive api explorer in creator with safe execution against current world; [ ] explain this object shows stable id, api/generator, seed, inputs, provenance, lod, persistence, material fallback; [ ] show underlying api for every creator operation. creator ux [ ] layers for terrain, water, roads, structures, vegetation, npcs, weather, quests, decoration; [ ] multi select, duplicate, transform, snapping, collision warnings, terrain conformity, rotation/elevation; [ ] full transactional undo/redo; preview before commit; failed procedural operations roll back cleanly; [ ] procedural brushes: olive orchard, riparian willow grove, forest edge, weather region, road/path, river, settlement district; [ ] paint fields/intent rather than thousands of objects when possible; [ ] pin/author landmark objects while surrounding systems stay procedural; [ ] creator edits become sparse overrides/deltas over procedural baseline; [ ] phone width usability and contextual panels; no desktop only control assumptions; [ ] creator can switch to play without rebuilding the entire world. query / events / transactions [ ] one indexed semantic world query api: nearest fruiting olive, buildings near water, residents of district, waterfalls in radius; [ ] one versioned event vocabulary with schemas; [ ] one transaction authority for builds, inventory, quests, world edits, ownership; [ ] every meaningful transaction has stable id/idempotency key and exact once semantics; [ ] apis return explanation receipts: selected assets, rules, fallbacks, costs, changed ids. ai authoring [ ] ai requests semantic intent/schema data, not arbitrary executable source; [ ] validate every ai authored recipe and clamp resource budgets; [ ] ai searches existing assets/materials before requesting generation; [ ] ai can ask make this valley greener but preserve village/river and receive a deterministic edit plan; [ ] ai reports estimated cost/performance before applying expensive changes; [ ] ai can explain why an asset/species/api was selected and fallback confidence; [ ] recipes can be saved/reused/shared; record a creator operation and export equivalent api recipe. api stability [ ] version public schemas/contracts; [ ] deprecation period + migration helpers; [ ] contract tests for deterministic result shape, validation, compatibility, no unbounded allocation; [ ] human readable errors; no raw stack trace ux for normal validation failures.",
+		"page": "pages/geelooy-games-mitzvahworld-master-execution-plan-06-creator-api-discover-053f495cd7.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-master-execution-plan-07-assets-materials-pub-6857fb5750",
+		"title": "07 — Assets, Materials, Semantic Catalog, Publication",
+		"sourcePath": "geelooy/games/mitzvahWorld/MASTER_EXECUTION_PLAN/07_ASSETS_MATERIALS_PUBLICATION.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "07 — Assets, Materials, Semantic Catalog, Publication",
+				"anchor": "07-assets-materials-semantic-catalog-publication"
+			},
+			{
+				"level": 2,
+				"text": "Current local asset context to verify",
+				"anchor": "current-local-asset-context-to-verify"
+			},
+			{
+				"level": 2,
+				"text": "Asset authority",
+				"anchor": "asset-authority"
+			},
+			{
+				"level": 2,
+				"text": "Semantic discovery",
+				"anchor": "semantic-discovery"
+			},
+			{
+				"level": 2,
+				"text": "Material synthesis over duplication",
+				"anchor": "material-synthesis-over-duplication"
+			},
+			{
+				"level": 2,
+				"text": "Tree/botany asset specifics",
+				"anchor": "tree-botany-asset-specifics"
+			},
+			{
+				"level": 2,
+				"text": "Publication workflow",
+				"anchor": "publication-workflow"
+			},
+			{
+				"level": 2,
+				"text": "CDN / reliability",
+				"anchor": "cdn-reliability"
+			},
+			{
+				"level": 2,
+				"text": "Security / licensing",
+				"anchor": "security-licensing"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed be He 07 — Assets, Materials, Semantic Catalog, Publication Current local asset context to verify Previous local catalog had expanded beyond the live production catalog; never assume local counts are live. A newer 50 texture batch was imported locally and semantically renamed with provenance. ",
+		"searchText": "b\"h boruch hashem blessed be he 07 — assets, materials, semantic catalog, publication current local asset context to verify previous local catalog had expanded beyond the live production catalog; never assume local counts are live. a newer 50 texture batch was imported locally and semantically renamed with provenance. transparent tree foliage sources/lods were recovered/generated locally; live publication still requires explicit verification. re check all counts/hashes before reporting. asset authority [ ] one universal importer for textures, pbr families, models, hdr/environment assets, audio, and future formats; [ ] provenance: original source, license, hash, dimensions, transforms, derivatives, import time, semantic identity; [ ] immutable physical bytes addressed by content hash where practical; [ ] mutable semantic catalogs published only after immutable bytes exist; [ ] exact asset role: canonical source, derivative, fallback, legacy alias; [ ] dedupe physical bytes without destroying semantic aliases. semantic discovery [ ] categories, overlapping subcategories, traits, labels, scientific/common synonyms, use intent labels; [ ] phrase/word matching avoids substring bugs (tin in keratin, ice in pumice, fur in sulfur); [ ] explainable ranking for ai/humans; return why a material matched; [ ] morphology/use queries such as wet rock, alpine bark, short pile carpet, mineral fiber, riparian plant; [ ] quality/resolution/alpha/pbr channel facets; [ ] compatibility aliases preserved when taxonomy evolves. material synthesis over duplication [ ] prefer procedural recolor, wetness, roughness, moss, lichen, dirt, age, burn, snow, frost, stains, edge wear, decals over thousands of near duplicate textures; [ ] recipes are reproducible source asset + masks/transforms + runtime state; [ ] material provenance chain remains inspectable through composition; [ ] cache identical composites and avoid permanent colorized duplicates. tree/botany asset specifics [ ] exact per species leaf/bark registry, high res transparent source + standardized 1024/512/256 derivatives; [ ] chai/ez aggregate foliage retained as lower lod optimization/fallback, not hero species authority; [ ] alpha qa: border removal, halo/fringe, fine stems, alpha coverage, crop bounds, color contamination; [ ] alpha safe mipmaps/edge color dilation/premultiplication policy; [ ] tree species.json public/versioned with species aliases, morphology, lod assets, pbr family, fallback confidence, provenance; [ ] remove obsolete firebase host references after self hosted awtsmoos publication is proven. publication workflow 1. [ ] inspect existing migration/dayuh importer and current public topology. 2. [ ] dry run exact local public tree/catalog mutations. 3. [ ] verify no unrelated dayuh data is included. 4. [ ] publish/add immutable bytes first; never destructive delete by default. 5. [ ] publish generated derivatives. 6. [ ] publish mutable catalogs/index/taxonomy last. 7. [ ] verify live get status, mime, cors, cache headers, byte size, dimensions, representative sha 256. 8. [ ] compare live catalog counts/index counts against local expected counts. 9. [ ] test representative semantic queries against live data. 10. [ ] record publication receipt/version/build provenance. cdn / reliability [ ] immutable cacheable asset urls and versioned catalog invalidation; [ ] request dedupe/coalescing; prioritize visible/high value assets; [ ] memory aware texture residency and progressive resolution promotion/downshift; [ ] missing asset fallback must look deliberate and never crash generation; [ ] asset server outage test: structural world generation remains functional. security / licensing [ ] never publish secrets/tokens in manifests/logs; [ ] maintain license/attribution/commercial use evidence where applicable; [ ] validate untrusted asset metadata and file bounds before ingestion.",
+		"page": "pages/geelooy-games-mitzvahworld-master-execution-plan-07-assets-materials-pub-6857fb5750.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-master-execution-plan-08-performance-stabilit-cff211c61f",
+		"title": "08 — Performance, Streaming, Stability, 50M-Scale Readiness",
+		"sourcePath": "geelooy/games/mitzvahWorld/MASTER_EXECUTION_PLAN/08_PERFORMANCE_STABILITY_SCALE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "08 — Performance, Streaming, Stability, 50M-Scale Readiness",
+				"anchor": "08-performance-streaming-stability-50m-scale-readiness"
+			},
+			{
+				"level": 2,
+				"text": "FPS law",
+				"anchor": "fps-law"
+			},
+			{
+				"level": 2,
+				"text": "Runtime budgets",
+				"anchor": "runtime-budgets"
+			},
+			{
+				"level": 2,
+				"text": "Streaming / scheduling",
+				"anchor": "streaming-scheduling"
+			},
+			{
+				"level": 2,
+				"text": "Metrics",
+				"anchor": "metrics"
+			},
+			{
+				"level": 2,
+				"text": "Stability / failure recovery",
+				"anchor": "stability-failure-recovery"
+			},
+			{
+				"level": 2,
+				"text": "50 million concurrent reality",
+				"anchor": "50-million-concurrent-reality"
+			},
+			{
+				"level": 2,
+				"text": "Capacity ladder",
+				"anchor": "capacity-ladder"
+			},
+			{
+				"level": 2,
+				"text": "Disaster readiness",
+				"anchor": "disaster-readiness"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed be He 08 — Performance, Streaming, Stability, 50M Scale Readiness FPS law Gameplay responsiveness wins over enrichment. No subsystem owns the frame budget independently. Runtime budgets [ ] one global frame budget authority coordinating terrain, vegetation, NPCs, physics, weather, audio, UI, s",
+		"searchText": "b\"h boruch hashem blessed be he 08 — performance, streaming, stability, 50m scale readiness fps law gameplay responsiveness wins over enrichment. no subsystem owns the frame budget independently. runtime budgets [ ] one global frame budget authority coordinating terrain, vegetation, npcs, physics, weather, audio, ui, streaming; [ ] explicit cpu ms, gpu work, draw calls, triangles, transparency/overdraw, texture memory, simulation entities, worker memory; [ ] device class initial profiles plus live adaptive controller; [ ] graceful degradation order preserves silhouette/gameplay truth before visual microdetail; [ ] gradual quality recovery when headroom returns; [ ] never let graphics quality alter quest/world truth. streaming / scheduling [ ] worker first heavy terrain/vegetation/nav/geometry generation; [ ] transfer typed arrays where beneficial; no unnecessary copies; [ ] cancellation tokens for generation/asset/network tasks when player leaves region; [ ] priority queue based on camera distance, visibility, gameplay importance, required before optional; [ ] deterministic cell seeds and border consistency; [ ] hierarchical simulation: near individuals, mid cohorts, far statistics; [ ] visibility aware streaming, occlusion/portal hints, interior cells, distant impostors; [ ] world switching explicitly disposes gpu, workers, audio, timers, physics, nav, subscriptions. metrics [ ] time to first meaningful frame; [ ] time to first control (input actually changes player); [ ] p50/p95/p99 frame time and fps, not average only; [ ] peak/steady ram, gpu resource count, loaded bytes, worker count; [ ] js/runtime error rate, context loss, save errors, transaction failures; [ ] performance receipts per generated tree/terrain/city chunk in debug mode. stability / failure recovery [ ] no optional service blocks boot; every optional dependency has timeout, cancellation, retry/backoff, and degradation receipt; [ ] gpu/context loss recovery; [ ] android/browser background/suspend/resume recovery; [ ] corrupt cache detection/rebuild; low storage behavior; memory pressure response; [ ] save transaction journaling/recovery; crash breadcrumbs; [ ] long running world traversal soak test and teleport stress test; [ ] world a→b→c→a cleanup soak; memory must plateau; [ ] fuzz invalid/nan/extreme ai configs; clamp recursion/counts/allocations; [ ] deterministic replay package records seed, position, world time, generator versions, config, state deltas. 50 million concurrent reality the project is not 50m concurrent ready until measured load proves it. single player static delivery can scale through cdn independently; shared realtime state is a different system. [ ] multi region cdn/object storage for immutable assets; [ ] stateless scalable gateways, regional service isolation, backpressure and load shedding; [ ] sharded/partitioned persistent data and presence; [ ] interest management: never broadcast every player/npc/world event to everybody; [ ] spatial partitions for multiplayer worlds and regional presence summaries; [ ] server authoritative meaningful shared transactions; client reconstructs deterministic procedural baseline; [ ] queues for non interactive work; hot key/hot world protection; cache stampede/thundering herd control; [ ] global/regional rate limits with graceful user facing degradation; [ ] feature kill switches for expensive optional systems; [ ] abuse/anti cheat boundaries where shared state matters. capacity ladder [ ] 1 user multi hour crash free play; [ ] all official worlds cold/warm/offline boot reliably; [ ] hundreds of automated clients; [ ] 10k concurrent synthetic sessions; [ ] 100k regional load; [ ] 1m+ multi region load with failover; [ ] only raise targets after measured headroom, cost, latency, error rate, and recovery evidence. disaster readiness [ ] canary deploys, automated rollback, feature flags, health endpoints; [ ] regional failover drills; [ ] database/asset backup and actual restore drills; [ ] provider/cdn/network outage exercises; [ ] production dashboards and alerts exist before viral traffic.",
+		"page": "pages/geelooy-games-mitzvahworld-master-execution-plan-08-performance-stabilit-cff211c61f.json"
+	}
+]

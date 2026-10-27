@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-03-2141-olam-api-finalization-04-image-lifec-1c08d347f4",
+	"title": "Image Lifecycle Gap and Implementation",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-03-2141-olam-api-finalization/04-image-lifecycle-gap-and-write.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Image Lifecycle Gap and Implementation",
+			"anchor": "image-lifecycle-gap-and-implementation"
+		},
+		{
+			"level": 2,
+			"text": "Discovered gap",
+			"anchor": "discovered-gap"
+		},
+		{
+			"level": 2,
+			"text": "Added witness",
+			"anchor": "added-witness"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-03-2141-olam-api-finalization-04-image-lifec-1c08d347f4-001.json"
+	]
+}

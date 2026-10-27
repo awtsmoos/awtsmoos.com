@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-09t0833-lightning-full-platform-continuation-f3b8d2743f",
+	"title": "Phase Three — Tiferes Exact File Strategy",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-09T0833-lightning-full-platform-continuation/02-phase-three-exact-files.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase Three — Tiferes Exact File Strategy",
+			"anchor": "phase-three-tiferes-exact-file-strategy"
+		},
+		{
+			"level": 2,
+			"text": "Read Before Any Rewrite",
+			"anchor": "read-before-any-rewrite"
+		},
+		{
+			"level": 2,
+			"text": "Prefer New Small Modules",
+			"anchor": "prefer-new-small-modules"
+		},
+		{
+			"level": 2,
+			"text": "Existing Files Rewrite Only When Required",
+			"anchor": "existing-files-rewrite-only-when-required"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-09t0833-lightning-full-platform-continuation-f3b8d2743f-001.json"
+	]
+}

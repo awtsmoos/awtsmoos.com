@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-28-1309-every-page-better-continuation-07-se-fc9600c067",
+	"title": "Sefarim Source/Test Verification",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-28-1309-every-page-better-continuation/07_SEFARIM_SOURCE_TEST_VERIFICATION.md",
+	"category": "Testing",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Sefarim Source/Test Verification",
+			"anchor": "sefarim-source-test-verification"
+		},
+		{
+			"level": 2,
+			"text": "Planned",
+			"anchor": "planned"
+		},
+		{
+			"level": 2,
+			"text": "Actual",
+			"anchor": "actual"
+		},
+		{
+			"level": 2,
+			"text": "Remaining Performance Observation",
+			"anchor": "remaining-performance-observation"
+		},
+		{
+			"level": 2,
+			"text": "DELTA",
+			"anchor": "delta"
+		},
+		{
+			"level": 2,
+			"text": "NEXTACTION",
+			"anchor": "nextaction"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-28-1309-every-page-better-continuation-07-se-fc9600c067-001.json"
+	]
+}

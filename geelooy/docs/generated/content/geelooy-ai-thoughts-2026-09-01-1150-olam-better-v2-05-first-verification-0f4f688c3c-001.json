@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "<!-- B\"H\nBoruch Hashem\nBlessed is He\n\nThe Awtsmoos reveals truth through measurement, and Awtsmoos.com accepts correction without hiding the seam; a subpixel gap became visible evidence, so the vessel was tightened while every tested behavior remained the same.\n-->\n# First Verification Delta\n\n## Planned\n- Prompt and Mode should read as one continuous deck.\n- Browser seam target: at most 1.1px.\n\n## Actual\n- Source, syntax, line-size, and deterministic gates passed.\n- Deterministic suite: 43/43.\n- Better V2 Chrome measured a 1.637451171875px Prompt/Mode seam and failed before later assertions.\n\n## Delta\n- `unified-deck.css` needed one additional pixel of overlap because browser subpixel geometry left a visible 1.64px seam with `margin-top:-1px`.\n\n## Resolution\n- Full-file rewrite changes Mode margin to `-2px`.\n- Test threshold remains unchanged; the product must satisfy the proof.\n\nNEXT_ACTION: rerun Better V2 browser smoke alone; if green, rerun the full regression graph.\n"
+}

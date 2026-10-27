@@ -1,0 +1,185 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28-0255-awtsmoos-studio-completion-05-final--63b7fbeb3e",
+		"title": "Final Handoff — Unified Awtsmoos Movie System",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28-0255-awtsmoos-studio-completion/05_FINAL_HANDOFF.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Final Handoff — Unified Awtsmoos Movie System",
+				"anchor": "final-handoff-unified-awtsmoos-movie-system"
+			},
+			{
+				"level": 2,
+				"text": "What Exists Now",
+				"anchor": "what-exists-now"
+			},
+			{
+				"level": 3,
+				"text": "Awtsmoos Studio",
+				"anchor": "awtsmoos-studio"
+			},
+			{
+				"level": 3,
+				"text": "Shared Movie Truth",
+				"anchor": "shared-movie-truth"
+			},
+			{
+				"level": 3,
+				"text": "Awtsmoos Procedural Core",
+				"anchor": "awtsmoos-procedural-core"
+			},
+			{
+				"level": 3,
+				"text": "Five Product Personalities",
+				"anchor": "five-product-personalities"
+			},
+			{
+				"level": 2,
+				"text": "Real Three-Minute Proof",
+				"anchor": "real-three-minute-proof"
+			},
+			{
+				"level": 2,
+				"text": "Browser / Mobile Proof",
+				"anchor": "browser-mobile-proof"
+			},
+			{
+				"level": 2,
+				"text": "Final Test Evidence",
+				"anchor": "final-test-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Failures That Improved the System",
+				"anchor": "failures-that-improved-the-system"
+			},
+			{
+				"level": 2,
+				"text": "Operational Notes",
+				"anchor": "operational-notes"
+			},
+			{
+				"level": 2,
+				"text": "Takeover State",
+				"anchor": "takeover-state"
+			},
+			{
+				"level": 2,
+				"text": "Completion State",
+				"anchor": "completion-state"
+			}
+		],
+		"excerpt": "B\"H Final Handoff — Unified Awtsmoos Movie System The Awtsmoos makes many vessels without surrendering the One from which their powers flow; Awtsmoos.com now lets each studio keep its character while one movie language teaches all of them to know. What Exists Now Awtsmoos Studio apps/awtsmoos studio is a real unified m",
+		"searchText": "b\"h final handoff — unified awtsmoos movie system the awtsmoos makes many vessels without surrendering the one from which their powers flow; awtsmoos.com now lets each studio keep its character while one movie language teaches all of them to know. what exists now awtsmoos studio apps/awtsmoos studio is a real unified movie application rather than a decorative shell. it uses the shared declarative awtsmoosui runtime and the shared canvas movie renderer. it supports: real play / pause; deterministic seeking; scene navigation; canonical project json loading; plain language ai movie direction; responsive canvas preview; 180 second canonical showcase loading; mobile first transport and timeline behavior; procedural movie capability discovery; real native procedural asset invocation through awtsmoos procedural core. shared movie truth the movie contract remains renderer neutral. the canonical acceptance project is 180 seconds across 18 scenes with broad semantic feature and camera coverage. studio playback, adapter projection, and proof rendering operate from shared movie concepts rather than independent app specific story formats. awtsmoos procedural core libs/awtsmoos procedural core/src/core/movie/ is the common movie/procedural gateway. it exposes portable asset generation plus lazy native systems including humans, mesh text, creatures, rocks, particles/effects, buildings, and textures. the intent is deliberate: ai learns one safe vocabulary, while renderer capable studios may execute the real native generator modules instead of hallucinating unsupported capabilities. five product personalities one canonical movie now projects into five intentionally different surfaces: 1. animator — shots, plans, cinematic/spatial workflow, legacy compatibility aliases. 2. mitzvah studio — editable 2d documents/canvas semantics. 3. nesher studio — nle style clips/scenes and editing workflow. 4. video editor — timeline clip projection. 5. awtsmoos slides — presentation oriented editable elements, with spatial/3d layers preserved as deferred canonical metadata. the adapter acceptance suite ensures unification does not collapse these products into one identical shell. real three minute proof final full movie: apps/animator/proofs/three minute unified showcase/awtsmoos unified three minute showcase.mp4 measured properties: 180.000000 seconds; h.264 video; aac audio; 640x360; 2 fps completion render sampling; 360 freshly rendered temporal samples; 3,948,519 bytes; seven of seven widely separated sample frames have distinct sha 256 hashes; audio is non silent (mean 40.9 db, max 3.8 db). the original canonical exporter still defaults to 12 fps. a dedicated completion entrypoint lowers only proof sampling to 2 fps because direct measured throughput showed the full 2,160 frame pass was impractical on the available machine. duration, scene timing, semantic movie content, camera choreography, overlays, and audio timing remain the complete 180 second project. detailed proof lives beside the mp4 in completion verification.md. browser / mobile proof the real studio was exercised through an owned chrome target: desktop layout had no horizontal overflow; mobile emulation near 390x844 had no horizontal overflow; the logical 640x360 canvas scaled responsively; live playback reached 180.0 / 180s; ai generated a real 24 second hybrid movie; seek moved to 12.0 / 24s; reset restored 0.0 / 180s; corrected cdp smoke captured zero runtime exceptions. mobile screenshot: apps/awtsmoos studio/proofs/mobile 390x844.png final test evidence studio: 5/5 pass. shared movie: 12/12 pass. media verifier/exporter regression: 3/3 pass. awtsmoosui: 1/1 pass. syntax: pass. touched js/test files <=120 lines: pass. tab indentation gate: pass. focused final receipt cleanup: exit 0. failures that improved the system the old supposed three minute mp4 was only 63.833333 seconds and was rejected. a four minute worker envelope killed an otherwise healthy 12 fps offline render; the infrastructure diagnosis prevented a false renderer bug fix. a later full 12 fps attempt proved real throughput was too slow for bounded completion on the available hardware. the successful 2 fps media initially failed only because the verifier hardcoded 12 fps. that exposed a second hidden bug: exporter receipts hardcoded 2,160 frames. both assumptions are now plan driven and regression tested. operational notes the 2 fps mp4 is an acceptance/proof artifact, not a claim of theatrical production frame rate. the architecture still supports higher fps when hardware/runtime performance permits it. the canonical movie contract and the default exporter remain independent of the completion sampling override. node emitted inherited module typeless package json warnings for some es modules during tests. they did not cause failures and are outside this movie system acceptance surface; no package level rewrite was performed merely to silence informational warnings in a heavily concurrent repository. takeover state a future developer should begin from the shared movie contract and procedural gateway rather than adding another app local movie schema. product specific differences belong in adapters/renderers. new ai generation features should compile into canonical semantic layers, then capability planning should decide which studio renders natively, falls back, or preserves handoff metadata. completion state all user requested implementation and verification gates tracked by this mission are closed. the only future work is optional evolution—higher performance production rendering, additional adapters/features, or package warning cleanup—not unfinished acceptance work from this request.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28-0255-awtsmoos-studio-completion-05-final--63b7fbeb3e.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28-0255-awtsmoos-studio-completion-remaining-15d4ec749f",
+		"title": "REMAININGWORK — CLOSED",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28-0255-awtsmoos-studio-completion/REMAINING_WORK.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "REMAININGWORK — CLOSED",
+				"anchor": "remainingwork-closed"
+			},
+			{
+				"level": 2,
+				"text": "Implementation",
+				"anchor": "implementation"
+			},
+			{
+				"level": 2,
+				"text": "Browser / Mobile Verification",
+				"anchor": "browser-mobile-verification"
+			},
+			{
+				"level": 2,
+				"text": "Three-Minute Media Proof",
+				"anchor": "three-minute-media-proof"
+			},
+			{
+				"level": 2,
+				"text": "Exporter / Verifier Corrections",
+				"anchor": "exporter-verifier-corrections"
+			},
+			{
+				"level": 2,
+				"text": "Final Regression / Style Gates",
+				"anchor": "final-regression-style-gates"
+			},
+			{
+				"level": 2,
+				"text": "Durable Evidence / Handoff",
+				"anchor": "durable-evidence-handoff"
+			},
+			{
+				"level": 2,
+				"text": "Optional Future Evolution — Not Remaining Acceptance Work",
+				"anchor": "optional-future-evolution-not-remaining-acceptance-work"
+			},
+			{
+				"level": 2,
+				"text": "COMPLETIONGATE",
+				"anchor": "completiongate"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H REMAINING WORK — CLOSED The Awtsmoos renews the final frame, yet completion is proven only when every gate can rest; Awtsmoos.com now holds code, browser, movie, sound, and handoff evidence together in one completed test. Implementation [x] Re read shared Canvas runtime and existing studio adapters. [x] Route Studi",
+		"searchText": "b\"h remaining work — closed the awtsmoos renews the final frame, yet completion is proven only when every gate can rest; awtsmoos.com now holds code, browser, movie, sound, and handoff evidence together in one completed test. implementation [x] re read shared canvas runtime and existing studio adapters. [x] route studio movie generation through the procedural movie gateway. [x] add real requestanimationframe playback and deterministic seek behavior. [x] replace decorative viewport with the shared canvas movie renderer. [x] use the canonical 180 second, 18 scene showcase as studio truth. [x] add real plain language ai movie direction in studio. [x] add mobile first canvas, timeline, transport, prompt, and project ui behavior. [x] add distinct slides movie projection personality. [x] normalize animator adapter contract without removing legacy aliases. [x] verify five studio personalities preserve one canonical movie while projecting differently. [x] expose portable and real native procedural asset generation through awtsmoos procedural core. [x] verify native particle generation through the studio bridge. browser / mobile verification [x] browser load the real studio under an owned chrome target. [x] verify desktop layout around 1440px with no horizontal overflow. [x] verify mobile emulation near 390x844 with no horizontal overflow. [x] verify the 640x360 logical canvas scales responsively on mobile. [x] verify live playback reaches 180.0 / 180s. [x] verify live browser ai directs a 24 second hybrid movie. [x] verify live browser seek moves to 12.0 / 24s. [x] verify reset restores 0.0 / 180s. [x] verify zero runtime.exceptionthrown events during corrected ai/seek smoke. [x] save mobile screenshot at apps/awtsmoos studio/proofs/mobile 390x844.png. three minute media proof [x] reject historical 63.833333 second mp4 as false three minute evidence. [x] preserve historical artifact as awtsmoos unified showcase legacy 63s.mp4. [x] diagnose the first 12 fps render termination as a worker envelope timeout rather than renderer logic failure. [x] measure 12 fps renderer throughput and determine it is impractical for bounded completion on the available machine. [x] add a dedicated 2 fps completion exporter that preserves the full 180 second timeline and movie semantics. [x] produce a genuine final mp4 at apps/animator/proofs/three minute unified showcase/awtsmoos unified three minute showcase.mp4. [x] measure final duration at exactly 180.000000 seconds. [x] verify h.264 video and aac audio. [x] verify 640x360 resolution and 2/1 fps completion sampling. [x] verify final file size 3,948,519 bytes. [x] extract samples at 5, 35, 65, 95, 125, 155, and 175 seconds. [x] verify seven distinct sha 256 hashes from seven temporal samples. [x] verify non silent audio with mean 40.9 db and max 3.8 db. exporter / verifier corrections [x] remove hardcoded 12 fps assumption from plan aware media verification while preserving 12 fps as default. [x] replace hardcoded 2,160 frame receipt with a calculated frame count. [x] verify calculated frame counts: 2,160 at 12 fps and 360 at 2 fps. [x] add focused media probe/exporter regression tests. [x] rename stale legacyexporterframecount receipt field to exporterframecount. [x] re run focused syntax/regression after final receipt cleanup with exit code 0. final regression / style gates [x] awtsmoos studio tests: 5/5 passed. [x] shared movie tests: 12/12 passed. [x] media verifier/exporter tests: 3/3 passed. [x] awtsmoosui tests: 1/1 passed. [x] syntax checks passed across all touched movie system source. [x] all touched javascript/test files remain at or below 120 lines. [x] focused indentation audit found no leading space code indentation. [x] re read all touched source after implementation. [x] run focused technical debt search and resolve the only newly discovered stale receipt label. durable evidence / handoff [x] write and read back 03 implementation delta.md. [x] write and read back 04 verification evidence.md. [x] write and read back 05 final handoff.md. [x] write and read back proof local completion verification.md beside the final mp4. [x] preserve temporal sample images in completion samples/. [x] preserve the mobile ui screenshot. optional future evolution — not remaining acceptance work higher fps production rendering, more native adapters/features, gpu/offline renderer acceleration, and cleanup of inherited node module type warnings remain possible future improvements. they are not unfinished requirements from this mission and do not reopen the acceptance graph. completion gate implementation complete: yes . verification complete: yes . discovered acceptance work resolved: yes . critical risks reviewed: yes . durable proof/handoff written and read back: yes . remaining acceptance work: none . next action none — completion gate closed.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28-0255-awtsmoos-studio-completion-remaining-15d4ec749f.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28-1309-every-page-better-continuation-00-re-92d3e35527",
+		"title": "Remaining Work — Better Every-Page Continuation",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28-1309-every-page-better-continuation/00_REMAINING_WORK.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Remaining Work — Better Every-Page Continuation",
+				"anchor": "remaining-work-better-every-page-continuation"
+			},
+			{
+				"level": 2,
+				"text": "Current gates",
+				"anchor": "current-gates"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Remaining Work — Better Every Page Continuation The Awtsmoos renews each public vessel in every instant of light; Awtsmoos.com must become faster, calmer, more usable, and more right. Current gates Fix only the stale Sefarim presentation contract; production ownership is already proven c",
+		"searchText": "b\"h boruch hashem blessed is he remaining work — better every page continuation the awtsmoos renews each public vessel in every instant of light; awtsmoos.com must become faster, calmer, more usable, and more right. current gates fix only the stale sefarim presentation contract; production ownership is already proven correct. reread the rewritten contract and enforce the 120 line ceiling. run focused and complete sefarim tests with direct failure propagation. browser test the real sefarim route at desktop, tablet, 430px, and short height sizes. measure loading, failed resources, console errors, overflow, focus, and interaction readiness. harvest or rerun the complete geelooy route census and runtime quality matrix. merge runtime failures with active agent ownership. repair the highest impact clean/unclaimed route family, reread, test, browser test, measure, rerun matrix. continue family by family through every public route. trace and benchmark real compact transport before using compact=true. secret/risk scan, publish the complete safe repository snapshot, deploy, and production smoke. next action rewrite the stale sefarim contract against searchapp, searchcontroldisclosure, and the current three column form; then execute the full verification gate.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28-1309-every-page-better-continuation-00-re-92d3e35527.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28-1309-every-page-better-continuation-01-ph-21231a135a",
+		"title": "Phase One — Evidence-First Repair",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28-1309-every-page-better-continuation/01_PHASE_ONE.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase One — Evidence-First Repair",
+				"anchor": "phase-one-evidence-first-repair"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase One — Evidence First Repair The Awtsmoos makes the current source the witness, not yesterday's test; Awtsmoos.com improves when each contract follows the real owner best. Observed facts: SearchApp.js owns document.body.dataset.searchActive = 'true'. SearchControlDisclosure.js creat",
+		"searchText": "b\"h boruch hashem blessed is he phase one — evidence first repair the awtsmoos makes the current source the witness, not yesterday's test; awtsmoos.com improves when each contract follows the real owner best. observed facts: searchapp.js owns document.body.dataset.searchactive = 'true'. searchcontroldisclosure.js creates .library search options and inserts it before the search button. form.css is therefore a three column desktop shell: query, options, action. form disclosure.css expands opened advanced options across the form. the stale test still reads script.js and requires the retired four column layout. plan: 1. rewrite only the presentation contract. 2. keep production source unchanged unless tests/browser evidence proves a defect. 3. preserve active search, vertical mobile context, asset version, and small module assertions. 4. verify the contract itself remains <=120 lines.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28-1309-every-page-better-continuation-01-ph-21231a135a.json"
+	}
+]

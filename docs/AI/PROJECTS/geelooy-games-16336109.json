@@ -9,7 +9,7 @@
 		"id": "public",
 		"title": "Public and Other Boundaries"
 	},
-	"title": "Awtsmoos Games — 25 Playable Worlds",
+	"title": "Awtsmoos Games — Playable Worlds",
 	"entries": [
 		"index.html",
 		"DOCUMENTATION.md"
@@ -22,14 +22,14 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-16336109.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 6819,
-		"tests": 1469,
-		"assets": 0,
-		"generated": 58,
-		"docs": 36,
-		"other": 137
+		"source": 9576,
+		"tests": 2594,
+		"assets": 51,
+		"generated": 101,
+		"docs": 92,
+		"other": 1305
 	},
-	"totalFiles": 8519,
+	"totalFiles": 13719,
 	"symbolSummary": null,
 	"outgoingDependencies": [],
 	"incomingDependencies": [],
@@ -38,9 +38,9 @@
 		{
 			"url": "/games",
 			"file": "geelooy/games/index.html",
-			"title": "Awtsmoos Games — 25 Playable Worlds",
-			"scripts": 3,
-			"styles": 2
+			"title": "Awtsmoos Games — Playable Worlds",
+			"scripts": 5,
+			"styles": 10
 		}
 	],
 	"requiresLocalDocumentation": true,

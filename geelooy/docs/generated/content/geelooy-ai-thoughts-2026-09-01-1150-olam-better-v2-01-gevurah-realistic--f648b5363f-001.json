@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "<!-- B\"H\nBoruch Hashem\nBlessed is He\n\nGevurah narrows the limitless light into usable form; the Awtsmoos remains infinite while Awtsmoos.com becomes clearer by letting only proven improvements cross the storm.\n-->\n# Gevurah Pass — Realistic Scope\n\nKeep this pass presentation-focused. No MiniMax contract or persistence changes unless runtime inspection proves a dependency.\n\nLikely targets after inspection:\n- one or two existing Create view modules only if structural markup needs a small full-file rewrite;\n- new small CSS modules loaded last through `DirectorStyles.js`;\n- one focused browser smoke regression measuring reduced visual fragmentation and first-screen geometry.\n\nAvoid:\n- new dependencies;\n- canvas/WebGL;\n- continuous JS animation loops;\n- pointer-tracking effects;\n- layout animation;\n- extra always-visible education;\n- hidden essential controls.\n\nPerformance budget:\n- transforms/opacity/background-position only for ambient motion;\n- no animated blur;\n- no giant box-shadow pulses;\n- no additional network assets.\n"
+}

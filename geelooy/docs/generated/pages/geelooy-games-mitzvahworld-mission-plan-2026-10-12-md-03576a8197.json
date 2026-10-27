@@ -1,0 +1,69 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-mission-plan-2026-10-12-md-03576a8197",
+	"title": "B\"H — MitzvahWorld / Reality Engine Mission Plan",
+	"sourcePath": "geelooy/games/mitzvahWorld/MISSION_PLAN_2026-10-12.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — MitzvahWorld / Reality Engine Mission Plan",
+			"anchor": "b-h-mitzvahworld-reality-engine-mission-plan"
+		},
+		{
+			"level": 2,
+			"text": "Non-negotiable constraints",
+			"anchor": "non-negotiable-constraints"
+		},
+		{
+			"level": 2,
+			"text": "Phase order",
+			"anchor": "phase-order"
+		},
+		{
+			"level": 3,
+			"text": "Phase 1 — Reality Engine realism upgrade (photoreal/, meadow slice)",
+			"anchor": "phase-1-reality-engine-realism-upgrade-photoreal-meadow-slice"
+		},
+		{
+			"level": 3,
+			"text": "Phase 2 — Coin collection + movement polish (experiments/Awtsmoos)",
+			"anchor": "phase-2-coin-collection-movement-polish-experiments-awtsmoos"
+		},
+		{
+			"level": 3,
+			"text": "Phase 3 — Built-in obstacle courses (new: experiments/Awtsmoos/src/courses/)",
+			"anchor": "phase-3-built-in-obstacle-courses-new-experiments-awtsmoos-src-courses"
+		},
+		{
+			"level": 3,
+			"text": "Phase 4 — Player-built courses + front page",
+			"anchor": "phase-4-player-built-courses-front-page"
+		},
+		{
+			"level": 3,
+			"text": "Phase 5 — MMORPG multiplayer networking",
+			"anchor": "phase-5-mmorpg-multiplayer-networking"
+		},
+		{
+			"level": 3,
+			"text": "Phase 6 — Integration + publish",
+			"anchor": "phase-6-integration-publish"
+		},
+		{
+			"level": 2,
+			"text": "Dependencies",
+			"anchor": "dependencies"
+		},
+		{
+			"level": 2,
+			"text": "Current state (2026-10-12 03:45 EDT)",
+			"anchor": "current-state-2026-10-12-03-45-edt"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-mission-plan-2026-10-12-md-03576a8197-001.json"
+	]
+}

@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-27-2150-unified-movie-revelation-remaining-w-a73158a767",
+	"title": "REMAININGWORK",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-27-2150-unified-movie-revelation/REMAINING_WORK.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "REMAININGWORK",
+			"anchor": "remainingwork"
+		},
+		{
+			"level": 2,
+			"text": "Discovery",
+			"anchor": "discovery"
+		},
+		{
+			"level": 2,
+			"text": "Architecture",
+			"anchor": "architecture"
+		},
+		{
+			"level": 2,
+			"text": "Implementation",
+			"anchor": "implementation"
+		},
+		{
+			"level": 2,
+			"text": "Verification",
+			"anchor": "verification"
+		},
+		{
+			"level": 2,
+			"text": "Closure",
+			"anchor": "closure"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-27-2150-unified-movie-revelation-remaining-w-a73158a767-001.json"
+	]
+}

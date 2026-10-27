@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-1cb6a962c7",
+	"title": "Awtsmoos connection runbook",
+	"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/CONNECTION_RUNBOOK.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 2,
+			"text": "Current tunnel integration takes precedence",
+			"anchor": "current-tunnel-integration-takes-precedence"
+		},
+		{
+			"level": 1,
+			"text": "Awtsmoos connection runbook",
+			"anchor": "awtsmoos-connection-runbook"
+		},
+		{
+			"level": 2,
+			"text": "First contact: choose the available path",
+			"anchor": "first-contact-choose-the-available-path"
+		},
+		{
+			"level": 2,
+			"text": "Returning user: reduce friction",
+			"anchor": "returning-user-reduce-friction"
+		},
+		{
+			"level": 2,
+			"text": "Clear outcomes and recovery",
+			"anchor": "clear-outcomes-and-recovery"
+		},
+		{
+			"level": 2,
+			"text": "Coding and plugin quality gate",
+			"anchor": "coding-and-plugin-quality-gate"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-1cb6a962c7-001.json"
+	]
+}

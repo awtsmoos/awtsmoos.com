@@ -1,0 +1,143 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-09-28-1725-total-ui-repair-02-heichel-repair-pl-ca726961c3",
+		"title": "B\"H — 02 — Heichel Repair Plan (incl. listing layer + palace metaphor)",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-28-1725-total-ui-repair/02-heichel-repair-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — 02 — Heichel Repair Plan (incl. listing layer + palace metaphor)",
+				"anchor": "b-h-02-heichel-repair-plan-incl-listing-layer-palace-metaphor"
+			},
+			{
+				"level": 2,
+				"text": "0. Phase 0 first: fix the boot chain (gating)",
+				"anchor": "0-phase-0-first-fix-the-boot-chain-gating"
+			},
+			{
+				"level": 2,
+				"text": "1. Root hydration (grand hall)",
+				"anchor": "1-root-hydration-grand-hall"
+			},
+			{
+				"level": 2,
+				"text": "2. The palace metaphor — FIRST-CLASS design principle for Heichel",
+				"anchor": "2-the-palace-metaphor-first-class-design-principle-for-heichel"
+			},
+			{
+				"level": 2,
+				"text": "3. Listing + navigation layer — AMAZING, not basic (first-class track)",
+				"anchor": "3-listing-navigation-layer-amazing-not-basic-first-class-track"
+			},
+			{
+				"level": 2,
+				"text": "4. File plan (source law)",
+				"anchor": "4-file-plan-source-law"
+			},
+			{
+				"level": 2,
+				"text": "5. Verification (see 07 for the full matrix)",
+				"anchor": "5-verification-see-07-for-the-full-matrix"
+			}
+		],
+		"excerpt": "B\"H — 02 — Heichel Repair Plan (incl. listing layer + palace metaphor) 0. Phase 0 first: fix the boot chain (gating) 1. READ critical boot.js, ikar stable.js, ikar first.js in full before touching anything. Trace every consumer of their exports. 2. Restore the contract: bootIkarFirst is a function, reachable through th",
+		"searchText": "b\"h — 02 — heichel repair plan (incl. listing layer + palace metaphor) 0. phase 0 first: fix the boot chain (gating) 1. read critical boot.js, ikar stable.js, ikar first.js in full before touching anything. trace every consumer of their exports. 2. restore the contract: bootikarfirst is a function, reachable through the chain, semantic present in the document before first light paint. 3. rewrite complete files (no surgical patches that leave the chain inconsistent), tabs, no minify, 120 line modules, read after write. 4. restart node index (no watcher) and verify /heichelos/ikar paints heichel boot title + discovery list from the semantic model. 5. nothing in sections below starts until the root renders. this is the gate. 1. root hydration (grand hall) heichel root renders exclusively from get /api/social/heichelos/ikar. title \"the entire torah\" comes from the payload — never a literal. no description field exists → the root shows an elegant quiet where a description would sit, or real data (counts, recency) if the api provides it. never fabricated copy. 2. the palace metaphor — first class design principle for heichel \"heichelos\" literally means palaces. the ui must feel like walking through one — but better. arrival: entering a heichel feels like stepping through grand doors. the identity hero lands with weight (db backed title, presence, scale) and then opens into the space. never a dashboard that just appears. architecture: halls → chambers → scrolls. grand hall = heichel root. chambers = series / sub series. scrolls = posts. information hierarchy reads as palace architecture; route transitions feel like moving through rooms — forward motion into spaces, graceful return, route continuity preserved. depth and light: the futuristic material language (deep midnight, cyan intelligence, gold warmth, glass) creates palatial depth — layered surfaces, light suggesting vastness, parallax conveying architecture. grandeur through space and light, never ornament spam. \"but better\": a living palace, not a museum. alive with recent learning, community presence, continuing paths. every chamber shows signs of life (recently updated, continue reading, activity) — or a truthful, elegant quiet when empty. procession: the core journey heichel → series → post → lens → community feels like a guided procession — one obvious next step, momentum, no getting lost. breadcrumbs are the thread back through the rooms. metaphor test (added to the embarrassment walk, 07): does this feel like processing through a palace, or clicking through an admin panel? if the latter — redesign, no matter how \"correct\" the code is. 3. listing + navigation layer — amazing, not basic (first class track) bar: if a listing looks like a default file browser or a generic card grid, it fails the embarrassment test. browsing the library must feel like exploring a living torah universe. same intensity as the reader track. series listing (rich discovery): real cards with db backed titles; descriptions only where the data has them (ikar has none — elegant quiet, never invented text); content counts; recently updated signals; progress where data exists; featured paths. no bland grids of identical boxes. sub series navigation: clear hierarchy parent → sub series → posts; breadcrumbs at every depth; contextual movement between levels (siblings, up, across); deep nesting stays navigable and beautiful on mobile (390/430). post listings within a series: meaningful ordering; metadata hierarchy (title → excerpt if the data has it → length/reading time if computable → recency); continue reading and recently visited signals where state exists. search/filter at listing level wherever the corpus makes it useful. every level ships truthful loading / empty / error states, plus the shared motion language: staggered card entrances, tactile press, route continuity. never fabricate data to fill cards. truthful elegant empty states where data is absent — that is the luxury. 4. file plan (source law) read before writing; rewrite complete files; tabs; no minify; 120 line modules; read after write; preserve public contracts or trace every consumer. boot trio, heichel root renderer, series/sub series/post listing renderers, breadcrumb component, search/filter module — each its own module. 5. verification (see 07 for the full matrix) embarrassment walk on every heichel route + the metaphor test. takeover tests run continuously by every worker. one tap home from every heichel route (gating). 390/430 widths for nested navigation; reduced motion counterparts for every entrance/transition.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-28-1725-total-ui-repair-02-heichel-repair-pl-ca726961c3.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-28-1725-total-ui-repair-03-reader-repair-pla-3f1c897ce6",
+		"title": "B\"H — 03 — Reader Repair Plan (incl. palace metaphor)",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-28-1725-total-ui-repair/03-reader-repair-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — 03 — Reader Repair Plan (incl. palace metaphor)",
+				"anchor": "b-h-03-reader-repair-plan-incl-palace-metaphor"
+			},
+			{
+				"level": 2,
+				"text": "1. Auto-scroll — the contract is law",
+				"anchor": "1-auto-scroll-the-contract-is-law"
+			},
+			{
+				"level": 2,
+				"text": "2. Scribe's Lens — the study desk beside the scroll",
+				"anchor": "2-scribe-s-lens-the-study-desk-beside-the-scroll"
+			},
+			{
+				"level": 2,
+				"text": "3. Palace metaphor in the reader (first-class)",
+				"anchor": "3-palace-metaphor-in-the-reader-first-class"
+			},
+			{
+				"level": 2,
+				"text": "4. Metadata and signals (truthful only)",
+				"anchor": "4-metadata-and-signals-truthful-only"
+			},
+			{
+				"level": 2,
+				"text": "5. File plan (source law)",
+				"anchor": "5-file-plan-source-law"
+			},
+			{
+				"level": 2,
+				"text": "6. Verification",
+				"anchor": "6-verification"
+			}
+		],
+		"excerpt": "B\"H — 03 — Reader Repair Plan (incl. palace metaphor) The reader is the innermost chamber of the palace: the scroll room. The procession (Heichel → series → post) ENDS here — arrival must feel like being led to the scroll, sitting with it, and having a study desk beside it. 1. Auto scroll — the contract is law Start = ",
+		"searchText": "b\"h — 03 — reader repair plan (incl. palace metaphor) the reader is the innermost chamber of the palace: the scroll room. the procession (heichel → series → post) ends here — arrival must feel like being led to the scroll, sitting with it, and having a study desk beside it. 1. auto scroll — the contract is law start = immediate continuous motion. no countdown, no ramp up ceremony. stop = stop and stay stopped. no phantom restarts, no drift after stop. measure the real scroll vessel: the element that actually scrolls inside a real post. never a window proxy, never a guessed container. current state (from prior continuation): session implements start=river, stop=still, countdown 0. still missing: interval measurement proven in a real post vessel, in a real browser. regression tests: no auto scroll test script exists in package.json. new test files are required (headless node suites for the logic; browser proof for the vessel measurement). run the full test: list — never a subset. 2. scribe's lens — the study desk beside the scroll reader settings html already simplified toward scribe's lens (prior work). lens is the default hierarchy browser in the reader — commentary layers (rashi and others) browsable without leaving the scroll. proof required at 390 and 430 widths: hierarchy must stay navigable and beautiful on small phones. this was explicitly outstanding. reduced motion counterpart: auto motion off; calm manual paging instead. stillness, not a degraded animation. 3. palace metaphor in the reader (first class) the post page is a scroll in a chamber — typography with gravity, generous measure, light that suggests the room around the text. never an article template that could be anywhere. auto scroll = the scroll unrolling before you — continuous, stately, alive. a phantom stop or a countdown breaks the spell; that is why the contract is strict. the lens = the study desk beside the scroll: commentaries laid out like open seforim, reachable in one motion, never a modal maze. return: the breadcrumb thread (heichel → series → post) stays visible — graceful return to the chamber, no getting lost. metaphor test applies here too: does reading feel like sitting with a scroll in a living palace, or scrolling a blog template? blog template = redesign. 4. metadata and signals (truthful only) reading time if computable from post length; recency from real timestamps. continue reading signal persisted per reader; recently visited within series. excerpts only where the data has them. absent = elegant quiet, never filler. 5. file plan (source law) read before writing; rewrite complete files; tabs; no minify; 120 line modules; read after write. auto scroll engine, vessel resolver, scribe's lens hierarchy browser, reader settings — separate modules. preserve the start=river / stop=still / countdown 0 behavior already proven in session. 6. verification real post vessel interval measurement in a real browser (07). 390/430 scribe hierarchy proof; rtl; reduced motion; keyboard only. embarrassment walk + metaphor test on the reader route.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-28-1725-total-ui-repair-03-reader-repair-pla-3f1c897ce6.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-28-1725-total-ui-repair-04-social-repair-pla-dc259ccfa2",
+		"title": "B\"H — 04 — Social Repair Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-28-1725-total-ui-repair/04-social-repair-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — 04 — Social Repair Plan",
+				"anchor": "b-h-04-social-repair-plan"
+			},
+			{
+				"level": 2,
+				"text": "1. Design tokens (already in place — protect them)",
+				"anchor": "1-design-tokens-already-in-place-protect-them"
+			},
+			{
+				"level": 2,
+				"text": "2. Community composer — de-duplication proof (outstanding)",
+				"anchor": "2-community-composer-de-duplication-proof-outstanding"
+			},
+			{
+				"level": 2,
+				"text": "3. Social hub — route-by-route implementation (outstanding)",
+				"anchor": "3-social-hub-route-by-route-implementation-outstanding"
+			},
+			{
+				"level": 2,
+				"text": "4. Signs of life (the \"but better\" mandate)",
+				"anchor": "4-signs-of-life-the-but-better-mandate"
+			},
+			{
+				"level": 2,
+				"text": "5. File plan (source law)",
+				"anchor": "5-file-plan-source-law"
+			},
+			{
+				"level": 2,
+				"text": "6. Verification",
+				"anchor": "6-verification"
+			}
+		],
+		"excerpt": "B\"H — 04 — Social Repair Plan Social is the palace's living quarters — community presence is what makes the palace LIVING rather than a museum. Every social surface must show signs of life, or a truthful elegant quiet. 1. Design tokens (already in place — protect them) Midnight / cyan / violet / gold tokens exist under",
+		"searchText": "b\"h — 04 — social repair plan social is the palace's living quarters — community presence is what makes the palace living rather than a museum. every social surface must show signs of life, or a truthful elegant quiet. 1. design tokens (already in place — protect them) midnight / cyan / violet / gold tokens exist under .awtsmoos social root. scoping law: social styles live only under that root. leaks are defects. classify every social stylesheet: active / compatibility / dormant / legacy / dead. no !important wars — resolve specificity by scoping, never escalation. site chrome (nav, shells) renders from the shared tokens (05), so social feels like rooms of the same palace, not a different building. 2. community composer — de duplication proof (outstanding) the composer must provably not double post (double tap, retry storms, reconnect replays). prior continuation flagged this as unproven. plan: idempotency key per draft, single flight submit, disabled while flying state with truthful feedback. regression test as a new headless node file for the state machine + a real browser double tap proof. 3. social hub — route by route implementation (outstanding) prior remaining work named profiles, search, notifications. each route gets: profiles: identity hero with presence (arrival language, 05), real counts, activity signals, truthful empty states. search: useful at listing level; debounced; empty/error states that teach. notifications: real data, recency hierarchy, mark read that stays read. every route: one tap home (gating), breadcrumbs where depth exists, the shared motion language (staggered entrances, tactile press), reduced motion counterparts. 4. signs of life (the \"but better\" mandate) recent learning, community presence, continuing paths — surfaced wherever the data exists: activity signals, counts, progress. where data is absent: elegant quiet. never fabricated members, never fake activity. truthful empty states are the luxury finish. 5. file plan (source law) read before writing; rewrite complete files; tabs; no minify; 120 line modules; read after write; preserve public contracts or trace consumers. composer, profile renderer, search module, notifications renderer — separate. 6. verification route by route embarrassment walk; one tap home on every social route; 390/430; rtl; reduced motion; keyboard. takeover tests continuous.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-28-1725-total-ui-repair-04-social-repair-pla-dc259ccfa2.json"
+	}
+]

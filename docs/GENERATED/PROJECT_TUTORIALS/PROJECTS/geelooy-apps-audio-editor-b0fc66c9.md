@@ -2,7 +2,7 @@ B"H
 Boruch Hashem
 Blessed is He
 
-# Project Tutorial: Pro Audio Editor
+# Project Tutorial: Awtsmoos Pro Audio Editor
 
 **Path:** `geelooy/apps/audio-editor` · **Type:** app · **Family:** Applications
 
@@ -21,15 +21,15 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 4 | 0 | 0 | 0 | 0 | 0 | 4 |
+| 6 | 0 | 0 | 0 | 0 | 0 | 6 |
 
 ## Public entry points
 
-- `/apps/audio-editor` → `geelooy/apps/audio-editor/index.html` — Pro Audio Editor
+- `/apps/audio-editor` → `geelooy/apps/audio-editor/index.html` — Awtsmoos Pro Audio Editor
 
 ## Symbol evidence
 
-Source files: 2; classes: 0; functions: 26; exports: 0; samples: initAudioContext, setupCanvas, resizeCanvas, loop, updatePlayhead, render, drawRuler, drawClipWaveform, drawRoundedRect, setupEventListeners, handlePointerDown, handlePointerMove.
+Source files: 3; classes: 0; functions: 28; exports: 0; samples: initAudioContext, setupCanvas, resizeCanvas, loop, updatePlayhead, render, drawRuler, drawClipWaveform, drawRoundedRect, setupEventListeners, handlePointerDown, handlePointerMove.
 
 ## Depends on
 

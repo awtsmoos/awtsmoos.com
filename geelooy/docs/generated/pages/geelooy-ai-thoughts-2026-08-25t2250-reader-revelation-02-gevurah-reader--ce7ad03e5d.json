@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-25t2250-reader-revelation-02-gevurah-reader--ce7ad03e5d",
+	"title": "Gevurah — Reader Architecture Boundaries",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-25T2250-reader-revelation/02_GEVURAH_READER_ARCHITECTURE.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Gevurah — Reader Architecture Boundaries",
+			"anchor": "gevurah-reader-architecture-boundaries"
+		},
+		{
+			"level": 2,
+			"text": "Candidate architectures",
+			"anchor": "candidate-architectures"
+		},
+		{
+			"level": 3,
+			"text": "A — keep shell CSS and patch selectors",
+			"anchor": "a-keep-shell-css-and-patch-selectors"
+		},
+		{
+			"level": 3,
+			"text": "B — replace reader controls with a new framework",
+			"anchor": "b-replace-reader-controls-with-a-new-framework"
+		},
+		{
+			"level": 3,
+			"text": "C — strengthen the existing reader-control architecture",
+			"anchor": "c-strengthen-the-existing-reader-control-architecture"
+		},
+		{
+			"level": 3,
+			"text": "D — Shadow DOM reader shell",
+			"anchor": "d-shadow-dom-reader-shell"
+		},
+		{
+			"level": 3,
+			"text": "E — inline per-control styles",
+			"anchor": "e-inline-per-control-styles"
+		},
+		{
+			"level": 2,
+			"text": "Boundaries for the chosen architecture",
+			"anchor": "boundaries-for-the-chosen-architecture"
+		},
+		{
+			"level": 2,
+			"text": "Files to inspect before final write set",
+			"anchor": "files-to-inspect-before-final-write-set"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-25t2250-reader-revelation-02-gevurah-reader--ce7ad03e5d-001.json"
+	]
+}

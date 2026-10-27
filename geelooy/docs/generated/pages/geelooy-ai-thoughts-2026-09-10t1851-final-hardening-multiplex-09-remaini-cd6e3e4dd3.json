@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-10t1851-final-hardening-multiplex-09-remaini-cd6e3e4dd3",
+	"title": "Remaining Work After Final Hardening",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-10T1851-final-hardening-multiplex/09-remaining-work.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Remaining Work After Final Hardening",
+			"anchor": "remaining-work-after-final-hardening"
+		},
+		{
+			"level": 2,
+			"text": "Release engineering",
+			"anchor": "release-engineering"
+		},
+		{
+			"level": 2,
+			"text": "Remaining product/architecture audits",
+			"anchor": "remaining-product-architecture-audits"
+		},
+		{
+			"level": 2,
+			"text": "Revenue reality",
+			"anchor": "revenue-reality"
+		},
+		{
+			"level": 2,
+			"text": "Next action",
+			"anchor": "next-action"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-10t1851-final-hardening-multiplex-09-remaini-cd6e3e4dd3-001.json"
+	]
+}

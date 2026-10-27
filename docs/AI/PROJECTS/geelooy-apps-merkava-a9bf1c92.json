@@ -1,0 +1,79 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-apps-merkava-a9bf1c92",
+	"path": "geelooy/apps/merkava",
+	"type": "app",
+	"family": {
+		"id": "apps",
+		"title": "Applications"
+	},
+	"title": "Merkava",
+	"entries": [
+		"index.html"
+	],
+	"humanDocumentation": [
+		"docs/TUTORIALS/PROJECTS/APPS.md",
+		"docs/APPS/README.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-merkava-a9bf1c92.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 74,
+		"tests": 3,
+		"assets": 0,
+		"generated": 0,
+		"docs": 0,
+		"other": 2
+	},
+	"totalFiles": 79,
+	"symbolSummary": {
+		"files": 72,
+		"classes": 66,
+		"functions": 973,
+		"exports": 297,
+		"samples": [
+			"GUEST_DOM_BACKEND",
+			"extractScripts",
+			"async",
+			"GuestElement",
+			"GuestDocument",
+			"GuestWindow",
+			"GuestFramebuffer",
+			"InteractivePage",
+			"extractCssText",
+			"makeTextNode",
+			"makeElementNode",
+			"textOf"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/apps/MerkavaASTParser",
+			"count": 1,
+			"examples": "geelooy/apps/merkava/engine/merkava-js-pipeline.js"
+		}
+	],
+	"incomingDependencies": [],
+	"externalDependencies": [
+		{
+			"dependency": "react",
+			"count": 1,
+			"examples": "geelooy/apps/merkava/engine/merkava-js-pipeline.js"
+		}
+	],
+	"publicEntries": [
+		{
+			"url": "/apps/merkava",
+			"file": "geelooy/apps/merkava/index.html",
+			"title": "Merkava",
+			"scripts": 23,
+			"styles": 1
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": false,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

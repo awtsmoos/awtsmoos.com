@@ -1,0 +1,121 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27-2156-awtsmoos-studio-unification-02-phase-d2d94fa8fa",
+		"title": "Phase Two — Architecture and File Map",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27-2156-awtsmoos-studio-unification/02_PHASE_TWO_ARCHITECTURE_AND_FILE_MAP.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Two — Architecture and File Map",
+				"anchor": "phase-two-architecture-and-file-map"
+			},
+			{
+				"level": 2,
+				"text": "Competing Architectures Considered",
+				"anchor": "competing-architectures-considered"
+			},
+			{
+				"level": 3,
+				"text": "A — Animator Becomes the Universal Engine",
+				"anchor": "a-animator-becomes-the-universal-engine"
+			},
+			{
+				"level": 3,
+				"text": "B — Nesher Studio Becomes the Universal Engine",
+				"anchor": "b-nesher-studio-becomes-the-universal-engine"
+			},
+			{
+				"level": 3,
+				"text": "C — New Standalone Movie Library Outside Procedural Core",
+				"anchor": "c-new-standalone-movie-library-outside-procedural-core"
+			},
+			{
+				"level": 3,
+				"text": "D — Canonical Movie Domain Inside Procedural Core + Shared UI Library + App Adapters",
+				"anchor": "d-canonical-movie-domain-inside-procedural-core-shared-ui-library-app-adapters"
+			},
+			{
+				"level": 3,
+				"text": "E — One Monolithic New Studio Copying Every App",
+				"anchor": "e-one-monolithic-new-studio-copying-every-app"
+			},
+			{
+				"level": 2,
+				"text": "Selected Layer Graph",
+				"anchor": "selected-layer-graph"
+			},
+			{
+				"level": 2,
+				"text": "New Collision-Free Core Files",
+				"anchor": "new-collision-free-core-files"
+			},
+			{
+				"level": 3,
+				"text": "libs/awtsmoos-procedural-core/src/core/movie/",
+				"anchor": "libs-awtsmoos-procedural-core-src-core-movie"
+			},
+			{
+				"level": 3,
+				"text": "libs/awtsmoos-ui/",
+				"anchor": "libs-awtsmoos-ui"
+			},
+			{
+				"level": 3,
+				"text": "apps/awtsmoos-studio/",
+				"anchor": "apps-awtsmoos-studio"
+			},
+			{
+				"level": 2,
+				"text": "App Adapter Targets",
+				"anchor": "app-adapter-targets"
+			},
+			{
+				"level": 2,
+				"text": "Asset Migration Strategy",
+				"anchor": "asset-migration-strategy"
+			},
+			{
+				"level": 2,
+				"text": "Verification Graph",
+				"anchor": "verification-graph"
+			},
+			{
+				"level": 2,
+				"text": "Conflict Policy",
+				"anchor": "conflict-policy"
+			}
+		],
+		"excerpt": "B\"H Phase Two — Architecture and File Map Chesed dreams of every scene, Gevurah gives the timeline law; Tiferes joins the many studios so one clear movie truth they draw. The Awtsmoos is not divided by a canvas, mesh, or ray; Awtsmoos.com can give each vessel form while shared contracts guide the way. Competing Archite",
+		"searchText": "b\"h phase two — architecture and file map chesed dreams of every scene, gevurah gives the timeline law; tiferes joins the many studios so one clear movie truth they draw. the awtsmoos is not divided by a canvas, mesh, or ray; awtsmoos.com can give each vessel form while shared contracts guide the way. competing architectures considered a — animator becomes the universal engine strong existing ai/camera/character stack, but too coupled to one app personality and too collision prone in the current dirty tree. b — nesher studio becomes the universal engine strong nle/export stack, but would make procedural 3d and ai movie semantics secondary rather than foundational. c — new standalone movie library outside procedural core clean separation, but contradicts the goal of consolidating asset generation into awtsmoos procedural core and creates another root library to maintain. d — canonical movie domain inside procedural core + shared ui library + app adapters best fit. procedural core owns domain truth and reusable asset intent; awtsmoos ui owns declarative interface composition; each app owns rendering/editing personality through adapters. this is the selected architecture. e — one monolithic new studio copying every app fast demo, poor maintainability, duplicated export/render/ui logic, and directly opposed to code reduction goals. selected layer graph ai prompt / human edits → movie intent compiler → canonical moviedocument → validation + capability planning → procedural asset intents → studio adapter / renderer personality → preview + export ui runs beside this graph: awtsmoosuirecipe → safe json compiler → dom nodes + bindings + accessible controls → studio specific recipe/profile new collision free core files libs/awtsmoos procedural core/src/core/movie/ moviedocument.js — normalize canonical movie metadata and scene list. moviescene.js — scene timing and typed layer normalization. movielayer.js — common timed layer fields and supported layer kinds. moviekeyframe.js — normalized keyframes/easing. movietimelineevaluator.js — deterministic evaluation at arbitrary seconds. moviefeaturecatalog.js — stable feature vocabulary ai can inspect. moviecapabilityplanner.js — match requested features to renderer capabilities/fallbacks. movievalidation.js — structural/timing/coverage validation. movieassetintent.js — portable requests for procedural assets. movieassetcatalog.js — discover 2d/3d/hybrid procedural capabilities already present in core. movieaicompiler.js — compile a compact high level intent object into a canonical document. index.js — local movie exports only; do not touch dirty root src/index.js until safe integration is proven. libs/awtsmoos ui/ package.json src/core/awtsmoosuicompiler.js — recipe to dom compiler. src/core/awtsmoosuinode.js — normalized recipe nodes. src/core/awtsmoosuisafety.js — safe tags/attrs/style/event rules. src/core/awtsmoosuibindings.js — value and action binding resolution. src/tokens/awtsmoosuitokens.js — mobile first spacing/type/layout tokens. src/presets/awtsmoosstudiorecipe.js — reusable studio shell recipe. src/index.js test/awtsmoosuicompiler.test.mjs apps/awtsmoos studio/ index.html src/main.js src/app/awtsmoosstudioapp.js src/app/awtsmoosstudiostate.js src/movie/awtsmoosstudiomovie.js src/movie/awtsmoosstudioplayback.js src/render/canvasmovierenderer.js src/render/canvaslayerrenderer.js src/render/canvasparticlerenderer.js src/render/canvascharacterrenderer.js src/render/hybridrendererprofile.js src/ui/awtsmoosstudiouirecipe.js src/demo/createthreeminutemovie.js src/styles/studio.css test/threeminutemovie.test.mjs app adapter targets prefer new adapter files first: animator: apps/animator/src/shared/awtsmoosmovieadapter.js nesher: apps/nesher studio/modules/shared/awtsmoosmovieadapter.js mitzvah: apps/mitzvah studio/modules/shared/awtsmoosmovieadapter.js video editor: apps/video editor/js/awtsmoosmovieadapter.js slides: apps/slides/src/shared/awtsmoosmovieadapter.js each adapter should translate its native concept into or out of moviedocument while declaring a renderer personality/capability profile. existing entrypoints will only be rewritten after fresh read + clean collision check. asset migration strategy do not physically drag dirty animator generators while agents are editing them. first create a core movie asset facade that directly exposes existing procedural core primitives, human/creature systems, text, particle presets, plants, world objects, and materials. then migrate clean duplicated app side asset recipes into new procedural core modules in later slices, replacing app generators with adapters. this immediately gives ai one asset vocabulary without destabilizing current work. verification graph 1. syntax/import checks for every new js module. 2. unit tests for movie normalization, timeline evaluation, validation, capability fallback, ai compilation, and ui compilation. 3. 180 second fixture test proving exact duration and broad feature/camera coverage. 4. browser smoke of awtsmoos studio desktop and mobile viewport. 5. interaction smoke: play/pause/scrub/scene selection and prompt generated project load. 6. visual/runtime console check. 7. export path test using fastest proven existing infrastructure or deterministic browser capture; validate output duration with media probe if produced. 8. full line count/tab/source header audit. 9. re read all touched files and compare planned vs actual. conflict policy before every integration rewrite, refresh git status and read the exact file. if another session has modified a target since inspection, move integration into a new adapter/bootstrap file or defer only that collision bound rewrite while continuing all independent work.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27-2156-awtsmoos-studio-unification-02-phase-d2d94fa8fa.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27-2156-awtsmoos-studio-unification-03-phase-caaf8298e2",
+		"title": "Phase Two Critique — Twenty-Four Concrete Improvements",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27-2156-awtsmoos-studio-unification/03_PHASE_TWO_CRITIQUE_20_PLUS.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Two Critique — Twenty-Four Concrete Improvements",
+				"anchor": "phase-two-critique-twenty-four-concrete-improvements"
+			},
+			{
+				"level": 2,
+				"text": "Revised Risk Graph",
+				"anchor": "revised-risk-graph"
+			},
+			{
+				"level": 2,
+				"text": "Revised Implementation Principle",
+				"anchor": "revised-implementation-principle"
+			}
+		],
+		"excerpt": "B\"H Phase Two Critique — Twenty Four Concrete Improvements A vessel praised too early can hide a silent crack; the Awtsmoos gives us courage to inspect the front and back. On Awtsmoos.com truth is kinder than a demo made of show; verification is the lamp by which the hidden failures glow. The selected architecture is s",
+		"searchText": "b\"h phase two critique — twenty four concrete improvements a vessel praised too early can hide a silent crack; the awtsmoos gives us courage to inspect the front and back. on awtsmoos.com truth is kinder than a demo made of show; verification is the lamp by which the hidden failures glow. the selected architecture is strong, but it needs these improvements before source implementation. 1. version the movie contract. add schemaversion so future studios can migrate documents instead of guessing shapes. 2. make time units explicit. canonical storage should use seconds with finite number validation; renderers may derive frames. 3. separate scene time from movie time. layers use scene local ranges while helpers expose absolute movie time. 4. reject overlapping scene ranges by default. allow explicit montage/parallel groups rather than accidental overlap. 5. normalize ids deterministically. ai generated projects need stable ids for bindings, tutorial targets, and editor selection. 6. define a strict layer kind vocabulary. ai should not invent unrenderable kind values silently. 7. add a capability planner. every renderer must advertise support and fallback strategy before playback/export. 8. distinguish fatal vs warning validation. missing duration is fatal; unsupported optional glow can become a fallback warning. 9. keep the core dom free. movie domain tests must run under node and not require a browser. 10. keep the ui library movie agnostic. awtsmoos ui should render any recipe, not become another studio specific framework. 11. avoid dangerous html injection. recipes should create dom nodes and textcontent; raw html requires an explicit safe extension later. 12. constrain inline style keys. prevent recipe data from becoming an arbitrary injection surface while preserving ergonomic layout tokens. 13. separate ui actions from functions in json. recipes refer to named actions; runtime bindings resolve them. 14. make mobile composition structural. panels should be slots/drawers/sheets, not desktop columns merely shrunk with css. 15. treat 3d as a capability, not a dependency. the base studio should still function when three/webgpu are absent. 16. use a canvas 2d proof renderer first. it can prove timeline, ai authoring, characters, particles, text, shapes, diagrams, and camera like transforms with low dependency risk. 17. add a hybrid profile. 3d adapters can join without forcing the proof renderer to own full three lifecycle immediately. 18. create deterministic particles. seeded pseudo randomness makes movie tests and exported frames repeatable. 19. test reading time. tutorial/infographic scenes should have enough duration for text; validator can warn on impossible density. 20. preserve existing app identity. adapter profiles should declare personality names, preferred dimensions, feature support, and native document bridges. 21. do not rewrite dirty roots for convenience. local movie/index.js can be imported by relative path until the shared root index is safe. 22. make the three minute proof data driven. feature breadth should live in a fixture/creator, not hard coded across renderer methods. 23. verify exact duration mathematically and through media probe. project duration and exported container duration are separate proofs. 24. add line count/style gates before runtime claims. new code that violates the repo's modularity rules is not complete even if it renders. revised risk graph contract drift → schema version + normalizers + validators. ai overclaim → stable feature catalog + renderer capability planner. browser dependency → pure domain core + separate dom/ui/render layers. mobile clutter → recipe slots + drawer/sheet pattern + touch targets. nondeterministic tests → seeded particle and deterministic timeline evaluation. concurrent edits → new namespaces, fresh collision checks, adapter first integration. export mismatch → offline timeline evaluation + actual container probe. feature demo theater → tests count kinds/cameras/scenes/particle/text/character/tutorial/infographic coverage. monolithic new app → split app/state/playback/renderers/ui/demo into small modules. future 3d expansion debt → canonical layer and asset intents remain renderer neutral. revised implementation principle the first complete slice must be useful without touching one dirty legacy file: canonical movie core, shared ui compiler, new studio, 180 second fixture, deterministic 2d renderer, and tests. after that, adapters can unify legacy studios through narrow new files and only then use fresh, proven safe entrypoint rewrites where necessary.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27-2156-awtsmoos-studio-unification-03-phase-caaf8298e2.json"
+	}
+]

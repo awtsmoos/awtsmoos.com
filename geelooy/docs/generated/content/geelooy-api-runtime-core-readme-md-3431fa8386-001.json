@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Runtime Core (geelooy/api/runtime/core/)\n\nInternals behind the native runtime API (see `../README.md`).\n\n## Files\n- `handlers.js` — joins authenticated capability, launch, status, and stop\n  routes into one service boundary.\n- `auth.js` — authorizes each runtime request.\n- `body.js` — request body parsing.\n- `serviceLoader.js` — loads the runtime service / native adapter.\n"
+}

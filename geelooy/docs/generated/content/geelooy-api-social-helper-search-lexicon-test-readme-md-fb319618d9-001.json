@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Lexicon Tests (geelooy/api/social/helper/search/lexicon/test/)\n\nLexicon/dictionary tests.\n\n- `binaryRecord.test.js` — binary record read/write.\n- `browse.test.js`, `builder.test.js` — dictionary browse and building.\n- `normalize.test.js`, `paths.test.js`, `search.test.js` — normalization, paths, search.\n- `boundedStorage.test.js` — bounded storage behavior.\n- `fixtureDatabase.js` — shared fixture database.\n"
+}

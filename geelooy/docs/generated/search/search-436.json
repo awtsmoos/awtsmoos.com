@@ -1,0 +1,207 @@
+[
+	{
+		"id": "geelooy-api-contact-documentation-md-c303dc04a4",
+		"title": "Contact API",
+		"sourcePath": "geelooy/api/contact/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Contact API",
+				"anchor": "contact-api"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Routes",
+				"anchor": "routes"
+			},
+			{
+				"level": 2,
+				"text": "POST payload",
+				"anchor": "post-payload"
+			},
+			{
+				"level": 2,
+				"text": "Responses",
+				"anchor": "responses"
+			},
+			{
+				"level": 2,
+				"text": "Rate and anti-automation behavior",
+				"anchor": "rate-and-anti-automation-behavior"
+			},
+			{
+				"level": 2,
+				"text": "Server architecture",
+				"anchor": "server-architecture"
+			},
+			{
+				"level": 2,
+				"text": "Browser architecture",
+				"anchor": "browser-architecture"
+			},
+			{
+				"level": 2,
+				"text": "Persistence",
+				"anchor": "persistence"
+			},
+			{
+				"level": 2,
+				"text": "UI contract",
+				"anchor": "ui-contract"
+			},
+			{
+				"level": 2,
+				"text": "Extension rules",
+				"anchor": "extension-rules"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Contact API The Awtsmoos lets a private signal cross a narrow bridge while each responsibility remains visible in its own light; Awtsmoos.com keeps the public contract simple, the implementation modular, and the maintainer's path direct and bright. Purpose /api/contact/ receives public i",
+		"searchText": "b\"h boruch hashem blessed is he contact api the awtsmoos lets a private signal cross a narrow bridge while each responsibility remains visible in its own light; awtsmoos.com keeps the public contract simple, the implementation modular, and the maintainer's path direct and bright. purpose /api/contact/ receives public issue reports, ideas, account questions, and other contact signals. the route validates input, applies a short per client rate gate, sends the accepted signal through the configured mail transport, optionally persists it, and returns a human readable reference. routes method path purpose get /api/contact/ service health and discovery. get /api/contact/status explicit service health endpoint. post /api/contact/ validate and deliver one contact signal. health responses retain the stable shape: post payload field requirement maximum : name required 80 email required, email shaped 160 kind issue, idea, account, or other 30 subject required 140 message required, at least 12 characters 5000 company honeypot; must remain empty 120 startedat browser start timestamp; submission must not be immediate — text is stripped of control characters, trimmed, and bounded before validation or delivery. responses accepted signals return http 200: validation and rate gate failures retain http 400 with a user correctable message: transport failures are not converted into false success. a reference is only returned after mail delivery and optional persistence complete. rate and anti automation behavior the hidden company field rejects automated honeypot fills. startedat must represent at least a brief review interval before submission. successful submissions are remembered per bounded client hint for sixty seconds in the running process. the rate gate is intentionally process local, matching the previous route behavior. server architecture awtsmoos.derech.js is only the route facade. it composes focused services: gevurahinputpolicy — generic raw body parsing and bounded text cleansing. contactsignalpolicy extends gevurahinputpolicy — contact normalization and domain validation. yesodsignalgate — the one minute successful submission gate. tiferescontactdelivery — reference creation, outbound mail, and optional persistence. malchuscontactservice — transaction orchestration and canonical http response shaping. this split keeps validation independent from transport side effects and keeps the public route easy to trace. browser architecture the contact page uses the same boundary discipline: yesodjsonclient — same origin json transport foundation. contactsignalclient extends yesodjsonclient — contact endpoint semantics. contactsignalcontroller — form lifecycle, native validation, busy state, and accessible status messages. contact.js — tiny boot vessel that connects the dom to the controller. persistence when $i.db.write is available, accepted records are stored beneath: the record preserves the normalized signal, generated reference, creation timestamp, and bounded client hint used by the rate gate. ui contract the public form is rooted beneath .contact page. its stylesheet imports page owned modules only; there are no broad :root, body, bare control, or cross page rules. advanced explanatory copy lives in a native retractable region so the mobile surface stays calm. extension rules when adding a new contact kind, update the html option and contactsignalpolicy allowlist together. keep new validation inside policy modules, new side effects inside delivery services, and the route facade free of domain logic. for wider api conventions, also read ../../../docs/api/other families.md and ../../../docs/api/response patterns.md.",
+		"page": "pages/geelooy-api-contact-documentation-md-c303dc04a4.json"
+	},
+	{
+		"id": "geelooy-api-contact-readme-md-0c8bdfa218",
+		"title": "B\"H — Contact API (/api/contact/)",
+		"sourcePath": "geelooy/api/contact/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Contact API (/api/contact/)",
+				"anchor": "b-h-contact-api-api-contact"
+			},
+			{
+				"level": 2,
+				"text": "Subdirectories",
+				"anchor": "subdirectories"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			},
+			{
+				"level": 2,
+				"text": "Routes",
+				"anchor": "routes"
+			},
+			{
+				"level": 2,
+				"text": "POST payload",
+				"anchor": "post-payload"
+			}
+		],
+		"excerpt": "B\"H — Contact API (/api/contact/) Public contact signal intake: issue reports, ideas, account questions. Validates input, rate gates per client, delivers via mail transport. Subdirectories services/ — Validation, delivery, and rate gate policy modules. Files awtsmoos.derech.js — Route registration. DOCUMENTATION.md — F",
+		"searchText": "b\"h — contact api (/api/contact/) public contact signal intake: issue reports, ideas, account questions. validates input, rate gates per client, delivers via mail transport. subdirectories services/ — validation, delivery, and rate gate policy modules. files awtsmoos.derech.js — route registration. documentation.md — full payload spec and route table. routes method path purpose get /api/contact/ health and discovery. get /api/contact/status explicit health endpoint. post /api/contact/ validate and deliver one contact signal. post payload required: name (≤80), email (email shaped, ≤160), subject (≤140), message (≥12 chars, ≤5000). kind is one of issue, idea, account, other. company is a honeypot (must stay empty); startedat guards against instant bot submissions.",
+		"page": "pages/geelooy-api-contact-readme-md-0c8bdfa218.json"
+	},
+	{
+		"id": "geelooy-api-contact-services-readme-md-78e822996b",
+		"title": "B\"H — Contact services (/api/contact/services/)",
+		"sourcePath": "geelooy/api/contact/services/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Contact services (/api/contact/services/)",
+				"anchor": "b-h-contact-services-api-contact-services"
+			}
+		],
+		"excerpt": "B\"H — Contact services (/api/contact/services/) Validation, delivery, and rate gating for contact signals. MalchusContactService.js — Main orchestration: validate → gate → deliver. TiferesContactDelivery.js — Mail transport delivery. YesodSignalGate.js — Per client rate limiting. GevurahInputPolicy.js — Input validatio",
+		"searchText": "b\"h — contact services (/api/contact/services/) validation, delivery, and rate gating for contact signals. malchuscontactservice.js — main orchestration: validate → gate → deliver. tiferescontactdelivery.js — mail transport delivery. yesodsignalgate.js — per client rate limiting. gevurahinputpolicy.js — input validation policy. contactsignalpolicy.js — signal policy (kinds, limits).",
+		"page": "pages/geelooy-api-contact-services-readme-md-78e822996b.json"
+	},
+	{
+		"id": "geelooy-api-core-readme-md-90154ea73c",
+		"title": "B\"H — API Core Catalog (geelooy/api/core/)",
+		"sourcePath": "geelooy/api/core/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — API Core Catalog (geelooy/api/core/)",
+				"anchor": "b-h-api-core-catalog-geelooy-api-core"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "B\"H — API Core Catalog (geelooy/api/core/) Shared catalog data used for API discovery. Not an HTTP route family itself. Files ApiFamilyCatalog.js — transforms the stable top level family tuples into a discoverable API catalog response (read only: never mounts, calls, or owns a family). ApiFamilyCatalogData.js — the und",
+		"searchText": "b\"h — api core catalog (geelooy/api/core/) shared catalog data used for api discovery. not an http route family itself. files apifamilycatalog.js — transforms the stable top level family tuples into a discoverable api catalog response (read only: never mounts, calls, or owns a family). apifamilycatalogdata.js — the underlying family data (chochmah api families). legacyapidemoroutes.js — legacy/demo route shapes for reference.",
+		"page": "pages/geelooy-api-core-readme-md-90154ea73c.json"
+	},
+	{
+		"id": "geelooy-api-documentation-md-c96dc4d930",
+		"title": "Awtsmoos API",
+		"sourcePath": "geelooy/api/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos API",
+				"anchor": "awtsmoos-api"
+			},
+			{
+				"level": 2,
+				"text": "The root is discovery, not a monolith",
+				"anchor": "the-root-is-discovery-not-a-monolith"
+			},
+			{
+				"level": 2,
+				"text": "Federated families",
+				"anchor": "federated-families"
+			},
+			{
+				"level": 2,
+				"text": "Social API architecture",
+				"anchor": "social-api-architecture"
+			},
+			{
+				"level": 3,
+				"text": "Communications",
+				"anchor": "communications"
+			},
+			{
+				"level": 2,
+				"text": "Email",
+				"anchor": "email"
+			},
+			{
+				"level": 2,
+				"text": "Response compatibility",
+				"anchor": "response-compatibility"
+			},
+			{
+				"level": 2,
+				"text": "Legacy root compatibility",
+				"anchor": "legacy-root-compatibility"
+			},
+			{
+				"level": 2,
+				"text": "Extension rules",
+				"anchor": "extension-rules"
+			},
+			{
+				"level": 2,
+				"text": "Canonical documentation",
+				"anchor": "canonical-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos API The Awtsmoos renews every domain as its own vessel while one clear doorway lets the whole federation be seen in light; Awtsmoos.com keeps discovery simple, contracts explicit, and migrations deliberate so deeper power never requires architectural night. The root is discovery",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos api the awtsmoos renews every domain as its own vessel while one clear doorway lets the whole federation be seen in light; awtsmoos.com keeps discovery simple, contracts explicit, and migrations deliberate so deeper power never requires architectural night. the root is discovery, not a monolith /api/ is the public discovery boundary for geelooy's api federation. it does not centralize authorization, persistence, validation, or family specific response semantics. the root now exposes: get /api/ — top level family catalog. get /api/catalog — the same explicit catalog for tooling and discovery. the catalog is backed by core/apifamilycatalogdata.js; request time filesystem scanning is intentionally avoided so discovery remains deterministic and testable. federated families the catalog currently names the observed top level families: admin, compiler, contact, email, fetch, gpt, nav, oauth, ohr hagnuz, ohrbound, perutas, projecthosting, public, runtime, sefarim, social, ssh, streaming, text, tunnel, wallet, youtube, zmanim, and zmanimms. each family owns its actual route contract. do not assume all families use the same authentication, authorization, pagination, mutation, or response envelope model. social api architecture /api/social is itself a federation of focused route families including aliases, heichelos, communities, communications, mail, notifications, governance, reactions, search, profiles, publishing, and supporting social kernel capabilities. authentication and alias authorization are separate concerns. being logged in does not imply authority to act as every alias, moderate every heichel, or mutate every social resource. communications the communications facade keeps its existing public paths while its internals are now divided into focused route vessels: communicationroutevessel — shared request context, http method policy, body selection, and compatible query limit behavior. communicationoverviewroutes — overview, live map, notification digest, and unread count. communicationinboxroutes — inbox listing/recording, item read state, thread history, and thread read state. awtsmoos.communications.js — tiny route map composer only. the shared gevurahroutemethodpolicy remains the canonical method guard. binahrequestbody now centralizes the historic post/put/patch body precedence without performing domain validation. no communications path was renamed by this refactor. email /api/email is intentionally a compact compatibility gateway over the proven social mail engine. it should not grow a parallel mail implementation merely for naming symmetry. its discovery response exposes capabilities and the shared request policy settings route. chat, group invitation, and mail consent are therefore able to use one private contact policy model rather than unrelated preference systems. response compatibility there is no forced universal response envelope across every existing family. that kind of bulk normalization would silently break callers and erase useful domain meaning. new code should prefer clear success/error contracts and documented payloads, while existing families migrate only with explicit evidence, tests, and compatibility planning. legacy root compatibility the previous root contained four public demo behaviors: wow/:asd/asd/:rt/k even/:asd/more/:rt/k what/:are/you/:doing /newendpoint/hi they are now isolated in core/legacyapidemoroutes.js with their observed response shapes preserved exactly. they were not deleted because no complete caller analysis has yet proved removal safe. the historic access control allow origin: root header is also preserved for compatibility. narrowing cors belongs in a dedicated migration with caller evidence and cross origin tests, not inside an organizational refactor. extension rules when adding or improving an api family: 1. keep the public route facade small. 2. put domain policy, orchestration, persistence, and adapters in focused modules. 3. reuse shared helpers only when behavior is genuinely shared. 4. keep authorization close to domain truth; never infer it from ui state. 5. preserve existing external contracts unless a tested migration explicitly changes them. 6. add the family to the root catalog only when the top level path truly exists. 7. update family specific documentation and tests alongside behavior. canonical documentation the maintained api documentation entry point is: docs/api/readme.md that documentation points to the generated route atlas, endpoint index, response patterns, and family specific guides. generated documentation should be regenerated from source rather than hand edited as if it were authoritative source code.",
+		"page": "pages/geelooy-api-documentation-md-c96dc4d930.json"
+	}
+]

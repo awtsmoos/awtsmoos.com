@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-27-2150-geelooy-movie-unification-07-post-im-995adc10f6",
+	"title": "Post-Implementation Delta — Planned vs Actual",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-27-2150-geelooy-movie-unification/07-post-implementation-delta.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Post-Implementation Delta — Planned vs Actual",
+			"anchor": "post-implementation-delta-planned-vs-actual"
+		},
+		{
+			"level": 2,
+			"text": "Original plan",
+			"anchor": "original-plan"
+		},
+		{
+			"level": 2,
+			"text": "Actual implementation discovered and completed",
+			"anchor": "actual-implementation-discovered-and-completed"
+		},
+		{
+			"level": 2,
+			"text": "Required-scope delta remaining",
+			"anchor": "required-scope-delta-remaining"
+		},
+		{
+			"level": 2,
+			"text": "Shadow work resolved",
+			"anchor": "shadow-work-resolved"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-27-2150-geelooy-movie-unification-07-post-im-995adc10f6-001.json"
+	]
+}

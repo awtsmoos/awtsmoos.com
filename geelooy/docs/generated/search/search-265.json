@@ -1,141 +1,202 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-input-directory-guid-df88d2bf65",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/input/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-projects-tunnel-platform-md-ee86c191df",
+		"title": "Tunnel Platform",
+		"sourcePath": "docs/PROJECTS/TUNNEL_PLATFORM.md",
+		"category": "Tunnel",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/input",
-				"anchor": "directory-guide-experiments-awtsmoos-src-input"
+				"text": "Tunnel Platform",
+				"anchor": "tunnel-platform"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Primary source areas",
+				"anchor": "primary-source-areas"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Separate planes",
+				"anchor": "separate-planes"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Trust boundary",
+				"anchor": "trust-boundary"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
+				"text": "Human manuals",
+				"anchor": "human-manuals"
 			},
 			{
 				"level": 2,
-				"text": "Exported symbols worth searching",
-				"anchor": "exported-symbols-worth-searching"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Change strategy",
+				"anchor": "change-strategy"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/input Role: Runtime subsystem Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 4 files, 0 structural child directories Purpose Keyboard, joystick, jump, and UI input adapters. The Awtsmoos renews every path a",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/input role: runtime subsystem snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 4 files, 0 structural child directories purpose keyboard, joystick, jump, and ui input adapters. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: runtime subsystem search terms: com, joystick, jump, mobile, pointer, touch, turn, button, converts, direction, event, finite file mix: .js: 3 · .md: 1 good first question: “does the behavior or asset i need belong to runtime subsystem, or is this only a neighboring/test/reference layer?” semantic evidence b\"h converts pointer and space input into one finite queued jump intention. the awtsmoos lifts the traveler through a single upward desire; awtsmoos.com preserves edge triggered truth so holding a key cannot create an endless ladder of accidental jumps. restores a touch joystick with bounded vector, pointer capture, and reset. the awtsmoos turns one finite touch into direction; awtsmoos.com keeps mobile travel independent from camera gestures, combat actions, and the retractable right side menus. converts keyboard and pointer intent into turn, strafe, and forward axes. the awtsmoos renews direction before distance; awtsmoos.com now gives a the positive turn and d the negative turn, while arrows, q/e, w/s, mouse, and touch retain their established vessels. representative files jumpbutton.js — converts pointer and space input into one finite queued jump intention. the awtsmoos lifts the traveler through a single upward desire; awtsmoos.com preserves edge triggered truth so holding a key cannot create an endless ladder of accidental jumps. exports: jumpbutton. mobilejoystick.js — restores a touch joystick with bounded vector, pointer capture, and reset. the awtsmoos turns one finite touch into direction; awtsmoos.com keeps mobile travel independent from camera gestures, combat actions, and the retractable right side menus. exports: mobilejoystick. uieventsystem.js — converts keyboard and pointer intent into turn, strafe, and forward axes. the awtsmoos renews direction before distance; awtsmoos.com now gives a the positive turn and d the negative turn, while arrows, q/e, w/s, mouse, and touch retain their established vessels. exports: uieventsystem. exported symbols worth searching jumpbutton · mobilejoystick · uieventsystem directory map parent: experiments/awtsmoos/src children: none. related and overlapping systems see the system overlap map before creating a similarly named subsystem elsewhere. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-input-directory-guid-df88d2bf65.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Tunnel Platform The Awtsmoos lets Awtsmoos.com reach a trusted remote vessel while the platform separates installers, agent identity, HTTP control, relay transport, previews, missions, realtime rooms, compute and economic/accounting layers. Primary source areas geelooy/api/tunnel/ — base",
+		"searchText": "b\"h boruch hashem blessed is he tunnel platform the awtsmoos lets awtsmoos.com reach a trusted remote vessel while the platform separates installers, agent identity, http control, relay transport, previews, missions, realtime rooms, compute and economic/accounting layers. primary source areas geelooy/api/tunnel/ — base tunnel http family. geelooy/api/tunnel/control/ — large account bound control plane. geelooy/api/tunnel/install/ — installer/bundle artifacts. geelooy/apps/tunnel/ and geelooy/apps/tunnel control/ — browser interfaces. dynamic server websocket/apps/tunnelrelay/ — live agent transport. mission room upgrade/application source — realtime collaboration/admission. separate planes installer download, http control apis, websocket relay transport and mission room realtime admission are related but not interchangeable contracts. a route that creates work is not the same thing as the relay message that executes it on an agent. trust boundary tunnel control derives current identity from trusted session, oauth or verified tunnel api key evidence. device/tunnel/grant/scope checks sit above that identity. mission room sockets additionally bind trusted account identity, canonical origin, one time ticket, current tunnel.mission authority and protocol version before handshake. human manuals docs/api/tunnel control.md docs/systems/tunnel.md docs/websockets/tunnel relay.md docs/websockets/mission rooms.md docs/security/realtime security.md change strategy for control routes trace auth/scope, remote action alias, relay dispatch and agent compatibility. for relay changes test registration/replacement/acknowledgement/pending recovery. for mission rooms test wrong identity, stale ticket, wrong origin, revoked authority and wrong protocol version in addition to success.",
+		"page": "pages/docs-projects-tunnel-platform-md-ee86c191df.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-launcher-directory-g-bf39929322",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/launcher/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-readme-md-0b5ca119d2",
+		"title": "Awtsmoos.com Documentation",
+		"sourcePath": "docs/README.md",
+		"category": "General",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/launcher",
-				"anchor": "directory-guide-experiments-awtsmoos-src-launcher"
+				"text": "Awtsmoos.com Documentation",
+				"anchor": "awtsmoos-com-documentation"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Fastest doorway — /docs/",
+				"anchor": "fastest-doorway-docs"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Human learning",
+				"anchor": "human-learning"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Generated teaching",
+				"anchor": "generated-teaching"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
+				"text": "Enter by task",
+				"anchor": "enter-by-task"
 			},
 			{
 				"level": 2,
-				"text": "Exported symbols worth searching",
-				"anchor": "exported-symbols-worth-searching"
-			},
-			{
-				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Authority order",
+				"anchor": "authority-order"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/launcher Role: Runtime subsystem Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 22 files, 0 structural child directories Purpose Page boot, route selection, menu loading, mode dispatch, and the direct share",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/launcher role: runtime subsystem snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 22 files, 0 structural child directories purpose page boot, route selection, menu loading, mode dispatch, and the direct shared meadow entry. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: runtime subsystem search terms: menu, mitzvah, main, launch, mode, create, meadow, transition, browser, page, without, com file mix: .js: 21 good first question: “does the behavior or asset i need belong to runtime subsystem, or is this only a neighboring/test/reference layer?” semantic evidence b\"h installs the compact world entry vessel without enlarging the initial page stylesheet. replaces a disabled menu with visible, cancellable world entry progress. the awtsmoos never hides the doorway behind silence; awtsmoos.com displays each phase, makes failure readable, and gives the traveler a path back without refreshing the page. orchestrates a small world browser and one cancellable launch transaction. the awtsmoos turns selection into passage without silence; awtsmoos.com separates shell, census, transition, and bounded launch so each threshold remains observable and reversible. representative files minimalsharedmeadowpage.js — boots the corrected high detail combat meadow with measured loading progress. the awtsmoos opens local sight before distant connection; awtsmoos.com binds every percentage to terrain, atmosphere, creature anatomy, combat effects, ui, model, and renderer. exports: bootminimalsharedmeadow. mitzvahworldlauncher.js — routes direct worlds without importing the menu and population graph. the awtsmoos renews only the chosen doorway; awtsmoos.com imports menu modules solely when no direct mode exists, preserving identity, progress, visibility, and background realtime. exports: launchmitzvahworld, setgamehostsvisible, inferrealtimeurl. mitzvahworldmodeloaders.js — loads direct visible worlds without menu presentation or heavy hud families. the awtsmoos opens control before ornament; awtsmoos.com keeps cinema, rich panels, authored districts, and creative presentation beyond their chosen doorways. exports: createmitzvahworldmodeloaders, hasmovierequest. mitzvahworldroutehandlers.js — builds private, shared, platform, and cinema handlers around selected modes. the awtsmoos gives each route one bounded intention; awtsmoos.com preserves identity, visibility, progress, and direct world renewal without burdening the router itself. exports: createmitzvahworldroutehandlers. mainmenu.js — orchestrates a small world browser and one cancellable launch transaction. the awtsmoos turns selection into passage without silence; awtsmoos.com separates shell, census, transition, and bounded launch so each threshold remains observable and reversible. exports: setgamehostsvisible, showmainmenu. launchtransitionstyle.js — installs the compact world entry vessel without enlarging the initial page stylesheet. exports: installlaunchtransitionstyle. launchtransitionview.js — replaces a disabled menu with visible, cancellable world entry progress. the awtsmoos never hides the doorway behind silence; awtsmoos.com displays each phase, makes failure readable, and gives the traveler a path back without refreshing the page. exports: createlaunchtransition. mainmenulaunchtask.js — paints one visible transition task before invoking a bounded world launcher. the awtsmoos opens the doorway without depending on animation frames; awtsmoos.com yields one macrotask for paint, then advances even when the tab is hidden or rendering is throttled. exports: runmainmenulaunch, createlaunchpainttask. mainmenupopulation.js — streams authoritative population into an already interactive menu shell. the awtsmoos reveals shared presence without blocking private study; awtsmoos.com updates census evidence only while the menu remains connected and no world launch has begun. exports: loadmainmenupopulation. mainmenusectionview.js — renders cinema and diagnostic routes beneath the hamburger navigation. the awtsmoos renews world, image, and tool beneath one threshold; awtsmoos.com gives every production surface a named doorway without crowding the world browser. exports: renderactionsection. mainmenushell.js — creates and binds the small navigational vessel around the world browser. the awtsmoos gives each doorway a distinct name; awtsmoos.com keeps shell construction separate from launch orchestration so a clicked world cannot recurse through menu rendering. exports: createmainmenushell, bindmainmenunavigation. mainmenustyle.js — installs the cinematic, high performance entrance to mitzvah world. the awtsmoos renews the doorway before the traveler enters; awtsmoos.com lets gold, mountain mist, glass, and readable motion reveal one finite portal without heavy effects. exports: installmainmenustyle. meadowloadingscreen.js — presents measured world milestones and actual character bytes. the awtsmoos reveals truth without invented motion; awtsmoos.com shows only completed stages and bytes that the browser has truly received. exports: meadowloadingscreen. exported symbols worth searching installlaunchtransitionstyle · createlaunchtransition · setgamehostsvisible · showmainmenu · runmainmenulaunch · createlaunchpainttask · loadmainmenupopulation · renderactionsection · createmainmenushell · bindmainmenunavigation · installmainmenustyle · meadowloadingscreen · awaitminimalmeadowreadiness · bootminimalsharedmeadow · openmaterialsmode · openplatformmode import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ./launchtransitionstyle.js ./launchtransitionview.js ./mainmenulaunchtask.js?v=20260722 launch task 01 ./mainmenupopulation.js ./mainmenusectionview.js ./mainmenushell.js ./mainmenustyle.js ./worldbrowsermodel.js ./worldbrowserview.js ../network/worldpopulationclient.js ../app/minimalmeadowanimationstate.js?v=20260723 meadow 09 ../app/minimalmeadowloop.js?v=20260723 meadow 11 directory map parent: experiments/awtsmoos/src children: none. related and overlapping systems meadow and fallback runtimes — the former basic and emergency meadow systems were consolidated into the live app stack. the app runtime and launcher now form the single meadow ownership path. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-launcher-directory-g-bf39929322.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos.com Documentation The Awtsmoos lets one repository be understood through human meaning, exhaustive route/project evidence, stable system contracts, current source, and verification. Fastest doorway — /docs/ The public documentation application has five primary modes: Learn — fiv",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos.com documentation the awtsmoos lets one repository be understood through human meaning, exhaustive route/project evidence, stable system contracts, current source, and verification. fastest doorway — /docs/ the public documentation application has five primary modes: learn — five source backed curricula with browser local progress. api explorer — every discovered api route with method/source/caller/test evidence. project explorer — every current project boundary with entries, dependencies, symbols, tests, docs, and public surfaces. systems explorer — curated data, security, and realtime contracts joined to bounded project/source/environment/application/event evidence. documents — global search, safe markdown reading, provenance, favorites/recents, deep links, and retrieval first ask. open /docs/?view=learn, /docs/?view=api, /docs/?view=projects, or /docs/?view=systems directly. human learning start at learn/readme.md. deeper tutorials live under tutorials/readme.md, including api families, projects, content, and data/security/realtime system workflows. generated teaching api tutorial index — one generated tutorial per current route. project tutorial index — one generated tutorial per current project boundary. system tutorial index — one generated tutorial per curated stable system concept. system district summary — current data/security/realtime evidence summary. generated evidence stays conservative. unknown http methods stay unknown. project imports/events are lexical clues, environment evidence contains names only , and system packets are not security audits or persistence/protocol guarantees. enter by task url/api → api/readme.md → route tutorial → source/tests/runtime. directory/project → projects/readme.md → project tutorial → dependencies/entries → source. persistence/trust/realtime contract → tutorials/systems/readme.md → system tutorial → source/project/tests/runtime. data → data/readme.md. security → security/readme.md. websockets → websockets/readme.md. ai discovery → ai/readme.md, ai/manifest.json, ai/systems/manifest.json, and root llms.txt. authority order human manuals explain meaning and risk. generated route/project/system packets enumerate changing evidence. ai packets provide bounded machine navigation. public publication mirrors intentional documentation safely. current source/tests/runtime remain final authority.",
+		"page": "pages/docs-readme-md-0b5ca119d2.json"
+	},
+	{
+		"id": "docs-remote-asset-policy-md-c7a9b2af05",
+		"title": "Remote Asset Policy — Images Never Live in Git",
+		"sourcePath": "docs/REMOTE_ASSET_POLICY.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Remote Asset Policy — Images Never Live in Git",
+				"anchor": "remote-asset-policy-images-never-live-in-git"
+			},
+			{
+				"level": 2,
+				"text": "Absolute image rule",
+				"anchor": "absolute-image-rule"
+			},
+			{
+				"level": 2,
+				"text": "Canonical storage",
+				"anchor": "canonical-storage"
+			},
+			{
+				"level": 2,
+				"text": "Runtime image use",
+				"anchor": "runtime-image-use"
+			},
+			{
+				"level": 2,
+				"text": "Evidence and screenshots",
+				"anchor": "evidence-and-screenshots"
+			},
+			{
+				"level": 2,
+				"text": "Enforcement",
+				"anchor": "enforcement"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Remote Asset Policy — Images Never Live in Git The Awtsmoos renews every visible form while the repository carries code and discoverable law. Awtsmoos.com stores image bodies remotely through the Drive/dayuhChadash asset system; Git stores only references and metadata. Absolute image rul",
+		"searchText": "b\"h boruch hashem blessed is he remote asset policy — images never live in git the awtsmoos renews every visible form while the repository carries code and discoverable law. awtsmoos.com stores image bodies remotely through the drive/dayuhchadash asset system; git stores only references and metadata. absolute image rule no image payload belongs in this repository. this includes png, jpeg, webp, avif, gif, bmp, tiff, svg, ico, heic/heif, hdr/exr, ktx/ktx2, dds, screenshots, thumbnails, texture copies, generated previews, and cached downloads. git may contain: remote asset ids; https urls; canonical filenames/paths; hashes and dimensions; semantic material roles; manifests and metadata; loader/shader code; documentation describing remote assets. git must not contain a local image fallback. browser memory/cache and webgl textures created from remote bytes are transient runtime state, not repository assets. canonical storage the source tree does not expose a literal xldrive api symbol. the implemented storage surfaces are the native drive and dayuhchadash modules under geelooy/api/social/helper/drive/ and geelooy/api/social/helper/assets/. alias assets live beneath dayuhchadash socialassets/aliases/ /.... drive objects are sha 256 content addressed, while valid synced files also require alias/logical drive entry or manifest metadata. do not write raw content objects and call that a migration. runtime image use 1. resolve a remote record/role/url. 2. fetch remotely at runtime. 3. decode in browser/server memory. 4. upload to gpu/runtime cache if needed. 5. dispose runtime resources normally. 6. never write the downloaded bytes into the repository. mitzvahworld and oros hakelim material systems should prefer shared procedural core remote material records and transport rather than hardcoding storage roots. evidence and screenshots browser screenshots and visual evidence must be published/synced remotely when persistence is needed. local ignored evidence is temporary and must never be added to git. a correct migration needs a real remote alias/logical path; do not create orphan objects solely to delete local evidence. enforcement scripts/repository hygiene/policy.cjs treats every known standalone image extension as remote image only before any approved file or approved prefix logic. image paths therefore cannot be allowlisted back into git. the next hygiene layer also audits embedded image payloads such as substantial data:image/... bodies. parser support and tiny fake test sentinels are code, but actual embedded image bytes must migrate to remote storage or non image procedural representations.",
+		"page": "pages/docs-remote-asset-policy-md-c7a9b2af05.json"
+	},
+	{
+		"id": "docs-routes-dynamic-paths-md-dbebabb93e",
+		"title": "Dynamic Paths and Dollar Variables",
+		"sourcePath": "docs/ROUTES/DYNAMIC_PATHS.md",
+		"category": "Routes",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Dynamic Paths and Dollar Variables",
+				"anchor": "dynamic-paths-and-dollar-variables"
+			},
+			{
+				"level": 2,
+				"text": "The actual URL parameter grammar",
+				"anchor": "the-actual-url-parameter-grammar"
+			},
+			{
+				"level": 3,
+				"text": "Single segment",
+				"anchor": "single-segment"
+			},
+			{
+				"level": 3,
+				"text": "Catch-all",
+				"anchor": "catch-all"
+			},
+			{
+				"level": 2,
+				"text": "The dollar-sign question",
+				"anchor": "the-dollar-sign-question"
+			},
+			{
+				"level": 2,
+				"text": "Leading and trailing slashes",
+				"anchor": "leading-and-trailing-slashes"
+			},
+			{
+				"level": 2,
+				"text": "Derech mounting",
+				"anchor": "derech-mounting"
+			},
+			{
+				"level": 2,
+				"text": "Generated parameter list",
+				"anchor": "generated-parameter-list"
+			},
+			{
+				"level": 2,
+				"text": "Caveat",
+				"anchor": "caveat"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Dynamic Paths and Dollar Variables The Awtsmoos separates the path from the vessel so symbols do not deceive the eye; Awtsmoos.com uses colons for the road, while dollar names carry request data nearby. The actual URL parameter grammar ayzarim/awtsmoosDynamicServer/routing/dynamicRouteMa",
+		"searchText": "b\"h boruch hashem blessed is he dynamic paths and dollar variables the awtsmoos separates the path from the vessel so symbols do not deceive the eye; awtsmoos.com uses colons for the road, while dollar names carry request data nearby. the actual url parameter grammar ayzarim/awtsmoosdynamicserver/routing/dynamicroutematcher.js defines the route grammar observed in this checkout. single segment a route part beginning with : captures one url segment. examples from the api surface: /api/sefarim/:sefer /api/tunnel/control/blob/:blobid /api/ssh/connect/:username/:host social routes containing :alias, :heichelid, :postid, :seriesid, or :commentid the captured values are published as route variables. catch all a terminal part of the form :name captures the remaining path. the matcher requires a catch all to be last. the dollar sign question a filesystem search found no route files whose names require a $ path convention. in the inspected derech code, dollar prefixed names serve a different purpose: $i — request/server context vessel. $ get — parsed query/input data. $ post — parsed submitted body data. $ delete — parsed delete oriented input where used. $u — commonly a user/identity object in some modules. therefore do not translate a route like :alias into $alias . they are different layers. leading and trailing slashes routing/routeforms.js normalizes route aliases with common leading/trailing slash forms. this is why route tables may store keys such as balance while the mounted public route is documented as /api/wallet/balance. derech mounting the derech file is not itself a visible url filename. its directory determines the mount context. for example: geelooy/api/gpt/ awtsmoos.derech.js → /api/gpt/... geelooy/api/tunnel/control/ awtsmoos.derech.js → /api/tunnel/control/... generated parameter list see ../generated/dynamic parameter inventory.md for every parameterized route row discovered by the current generator. caveat a textually discoverable route is not necessarily healthy. geelooy/api/text/ awtsmoos.derech.js currently has a syntax error, so its patterns must be treated as source evidence, not verified runtime availability.",
+		"page": "pages/docs-routes-dynamic-paths-md-dbebabb93e.json"
+	},
+	{
+		"id": "docs-routes-public-routes-md-cad4e6c9b9",
+		"title": "Major Public Routes",
+		"sourcePath": "docs/ROUTES/PUBLIC_ROUTES.md",
+		"category": "Routes",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Major Public Routes",
+				"anchor": "major-public-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Major Public Routes The Awtsmoos clothes one light in many pages, each doorway shaped for a different need; Awtsmoos.com gives a human the route first, then the source where that doorway is made to lead. Because geelooy is the default public root, these directory to URL mappings are the ",
+		"searchText": "b\"h boruch hashem blessed is he major public routes the awtsmoos clothes one light in many pages, each doorway shaped for a different need; awtsmoos.com gives a human the route first, then the source where that doorway is made to lead. because geelooy is the default public root, these directory to url mappings are the natural first lookup. dynamic behavior may still modify a request. url family source human purpose / geelooy/index.html main public entry /about geelooy/about/ about geelooy /contact geelooy/contact/ contact ui /login geelooy/login/ login /logout geelooy/logout/ logout /register geelooy/register/ account creation /profile geelooy/profile/ profile /social geelooy/social/ social hub launcher/surface /social hub geelooy/social hub/ rich social hub /social composer geelooy/social composer/ post creation /comment thread geelooy/comment thread/ comment thread ui /notifications geelooy/notifications/ signals/notifications /heichelos geelooy/heichelos/ heichel browsing/apps /heichel editor geelooy/heichel editor/ heichel editor /heichel review geelooy/heichel review/ review/governance center /post editor geelooy/post editor/ post editor /os geelooy/os/ geelooy os /node os geelooy/node os/ awtsmoos node os /apps geelooy/apps/ application catalog /games geelooy/games/ game/world catalog /game geelooy/game/ game launch/redirect surface /ai geelooy/ai/ awtsmoos ai /youtube geelooy/youtube/ youtube manager /record geelooy/record/ camera preview/recording /recorder geelooy/recorder/ local recorder /ayin geelooy/ayin/ real awtsmoos recorder /email geelooy/email/ mail ui /db geelooy/db/ db console/explorer /editor geelooy/editor/ editor surface /control geelooy/control/ code control panel /ocr geelooy/ocr/ ocr related ui /reeyuh geelooy/reeyuh/ shulchan aruch viewer /mawgawl geelooy/mawgawl/ sefarim oriented surface /legal geelooy/legal/ legal/privacy/terms /donate geelooy/donate/ donation surface for every immediate directory, file count, title, and index.html presence, use ../generated/public route inventory.md.",
+		"page": "pages/docs-routes-public-routes-md-cad4e6c9b9.json"
 	}
 ]

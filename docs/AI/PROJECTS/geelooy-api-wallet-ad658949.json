@@ -12,7 +12,9 @@
 	"title": "geelooy/api/wallet",
 	"entries": [
 		"_awtsmoos.derech.js",
-		"DOCUMENTATION.md"
+		"DOCUMENTATION.md",
+		"README.md",
+		"readme.md"
 	],
 	"humanDocumentation": [
 		"geelooy/api/wallet/DOCUMENTATION.md",
@@ -23,19 +25,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-wallet-ad658949.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 65,
-		"tests": 19,
+		"source": 153,
+		"tests": 50,
 		"assets": 0,
 		"generated": 0,
-		"docs": 1,
+		"docs": 13,
 		"other": 0
 	},
-	"totalFiles": 85,
+	"totalFiles": 216,
 	"symbolSummary": {
-		"files": 65,
+		"files": 153,
 		"classes": 0,
-		"functions": 122,
-		"exports": 157,
+		"functions": 348,
+		"exports": 343,
 		"samples": [
 			"dynamicRoutes",
 			"POST",
@@ -58,7 +60,23 @@
 			"examples": "geelooy/api/wallet/core/transferIdentity.js"
 		}
 	],
-	"incomingDependencies": [],
+	"incomingDependencies": [
+		{
+			"project": "geelooy/scripts",
+			"count": 5,
+			"examples": "geelooy/scripts/production-covenant/productLaunchPaths.cjs; geelooy/scripts/production-covenant/productRules.cjs"
+		},
+		{
+			"project": "geelooy/platform",
+			"count": 2,
+			"examples": "geelooy/platform/products/readiness/ProductReadinessAudit.cjs"
+		},
+		{
+			"project": "geelooy/api/platform",
+			"count": 1,
+			"examples": "geelooy/api/platform/installableProductDirectory.js"
+		}
+	],
 	"externalDependencies": [],
 	"publicEntries": [],
 	"requiresLocalDocumentation": true,

@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-25-1411-social-network-revelation-05-api-arc-86e7ee6d37",
+	"title": "API Architecture Plan",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-25-1411-social-network-revelation/05_API_ARCHITECTURE_PLAN.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "API Architecture Plan",
+			"anchor": "api-architecture-plan"
+		},
+		{
+			"level": 2,
+			"text": "Evidence",
+			"anchor": "evidence"
+		},
+		{
+			"level": 2,
+			"text": "Winning architecture",
+			"anchor": "winning-architecture"
+		},
+		{
+			"level": 2,
+			"text": "Safety and compatibility",
+			"anchor": "safety-and-compatibility"
+		},
+		{
+			"level": 2,
+			"text": "Verification",
+			"anchor": "verification"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-25-1411-social-network-revelation-05-api-arc-86e7ee6d37-001.json"
+	]
+}

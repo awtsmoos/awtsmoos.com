@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "- `runJobWorkers.js` — workers pause 2s while `shedNow()` (circuit\n  breaker); a job's `shedPauses` counter records how often.\n- Health watchdog (systemd drop-in): restarts after 6 consecutive\n  failed probes (~6 min), was 40 (~40 min).\n- `shardSwapSafety/` — a shard file may only be replaced after its\n  candidate copy passes `canaryCheck.js` (opens with production\n  options, lists the root, reads a probe record). See its README.\n"
+}

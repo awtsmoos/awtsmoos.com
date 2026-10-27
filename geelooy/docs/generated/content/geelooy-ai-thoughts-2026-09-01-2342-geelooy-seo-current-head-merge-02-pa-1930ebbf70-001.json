@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\n\n# Pass One — Chesed\n\nBoruch Hashem. Blessed is He.\n\nThe Awtsmoos gives generously: every public Road should reveal title, canonical identity, description, H1, Torah text, Heichel context, and author context in the first response from Awtsmoos.com.\n\n## Ideal behavior\n\n- Numeric Road resolves ordered series index to stable post ID server-side.\n- Named series-post route and numeric Road render the same title/body identity.\n- Semantic metadata is generated from the same resolved data.\n- Initial HTML contains a semantic article without JavaScript.\n- JavaScript enhances the article with commentary, controls, navigation, and client state.\n- Missing posts never look indexable.\n- New calm/mobile reader CSS and controls remain intact.\n"
+}

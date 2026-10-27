@@ -11,7 +11,8 @@
 	},
 	"title": "Awtsmoos Pulse Garden",
 	"entries": [
-		"index.html"
+		"index.html",
+		"app.js"
 	],
 	"humanDocumentation": [
 		"docs/TUTORIALS/PROJECTS/APPS.md",
@@ -21,15 +22,24 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-gpt-api-pulse-garden-4c75a3cc.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 1,
+		"source": 3,
 		"tests": 0,
 		"assets": 0,
 		"generated": 0,
 		"docs": 0,
 		"other": 0
 	},
-	"totalFiles": 1,
-	"symbolSummary": null,
+	"totalFiles": 3,
+	"symbolSummary": {
+		"files": 1,
+		"classes": 0,
+		"functions": 2,
+		"exports": 0,
+		"samples": [
+			"growPulse",
+			"resetGarden"
+		]
+	},
 	"outgoingDependencies": [],
 	"incomingDependencies": [],
 	"externalDependencies": [],
@@ -38,8 +48,8 @@
 			"url": "/apps/gpt-api-pulse-garden",
 			"file": "geelooy/apps/gpt-api-pulse-garden/index.html",
 			"title": "Awtsmoos Pulse Garden",
-			"scripts": 0,
-			"styles": 0
+			"scripts": 1,
+			"styles": 1
 		}
 	],
 	"requiresLocalDocumentation": false,

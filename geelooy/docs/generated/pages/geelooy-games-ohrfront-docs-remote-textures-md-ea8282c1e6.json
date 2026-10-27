@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-ohrfront-docs-remote-textures-md-ea8282c1e6",
+	"title": "Ohrfront Remote Texture and Blending Map",
+	"sourcePath": "geelooy/games/ohrfront/docs/REMOTE_TEXTURES.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Ohrfront Remote Texture and Blending Map",
+			"anchor": "ohrfront-remote-texture-and-blending-map"
+		},
+		{
+			"level": 2,
+			"text": "Shared source of truth",
+			"anchor": "shared-source-of-truth"
+		},
+		{
+			"level": 2,
+			"text": "Ohrfront terrain recipe",
+			"anchor": "ohrfront-terrain-recipe"
+		},
+		{
+			"level": 2,
+			"text": "Procedural realism recipe",
+			"anchor": "procedural-realism-recipe"
+		},
+		{
+			"level": 2,
+			"text": "Agent discovery rule",
+			"anchor": "agent-discovery-rule"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-ohrfront-docs-remote-textures-md-ea8282c1e6-001.json"
+	]
+}

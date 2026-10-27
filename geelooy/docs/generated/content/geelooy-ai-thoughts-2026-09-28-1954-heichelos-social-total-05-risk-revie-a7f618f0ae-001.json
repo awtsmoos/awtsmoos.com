@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H Risks\n\nDirty shared worktree — no production deploy this pass.\nikar-first.js 126 lines — slightly over 120; hydrate is isolated.\nSeries URL contract could differ on nested series; only root series painted when list empty.\nDo not invent Ikar description; API record has none.\n"
+}

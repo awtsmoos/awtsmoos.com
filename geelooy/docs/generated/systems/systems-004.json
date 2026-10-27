@@ -1,12 +1,12 @@
 [
 	{
-		"systemId": "realtime-application-events",
+		"systemId": "tunnel-relay",
 		"district": "realtime",
-		"title": "Realtime Application and Event Evidence",
-		"summary": "Registered built-in application IDs/versions plus searchable lexical event/message strings from production WebSocket source.",
+		"title": "Tunnel Relay",
+		"summary": "Account-bound agent/device transport, durable request correlation, registration authority, and relay lifecycle.",
 		"manuals": [
-			"docs/WEBSOCKETS/APPLICATIONS.md",
-			"docs/WEBSOCKETS/README.md"
+			"docs/WEBSOCKETS/TUNNEL_RELAY.md",
+			"docs/TUTORIALS/API/TUNNEL_CONTROL.md"
 		],
 		"projects": [
 			{
@@ -15,24 +15,32 @@
 				"type": "runtime",
 				"title": "ayzarim/awtsmoosDynamicServer",
 				"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-awtsmoosdynamicserver-e406758e.md"
+			},
+			{
+				"projectId": "geelooy-api-tunnel-df787c17",
+				"path": "geelooy/api/tunnel",
+				"type": "api",
+				"title": "geelooy/api/tunnel",
+				"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-tunnel-df787c17.md"
 			}
 		],
 		"sources": [
-			"ayzarim/awtsmoosDynamicServer/websocket/apps/applicationDefinitions.js",
-			"ayzarim/awtsmoosDynamicServer/websocket/apps/messageRouter.js"
+			"ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay.js",
+			"ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/securityBridge.js",
+			"ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/registrationAuthority.js"
 		],
 		"generatedEvidence": [
-			"docs/GENERATED/WEBSOCKET_APPLICATIONS.md",
 			"docs/GENERATED/WEBSOCKET_EVENT_INDEX.md"
 		],
 		"tags": [
 			"websocket",
-			"application",
-			"event",
-			"evidence"
+			"tunnel",
+			"relay",
+			"authorization",
+			"correlation"
 		],
-		"claimsBoundary": "Event/message literals are search clues only and never constitute a formal payload or protocol schema.",
-		"changeRisk": "Changing application IDs/versions or event semantics can break clients even when lexical strings still exist.",
+		"claimsBoundary": "Tunnel Relay is a specialized account-bound transport, not one of the ordinary versioned application factories.",
+		"changeRisk": "Registration authority, routing identity, correlation, retry, or durable-state changes can cross account/transport boundaries.",
 		"environmentEvidence": [
 			{
 				"name": "AWTSMOOS_REGISTRATION_STRESS_COUNT",
@@ -53,6 +61,30 @@
 				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/ExpeditionProfileRepository.js"
 			},
 			{
+				"name": "AWTSMOOS_TUNNEL_ACCEPTANCE_RECOVERY_FAILURES",
+				"classification": "runtime-config",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestAcceptanceRecoveryValues.js"
+			},
+			{
+				"name": "AWTSMOOS_TUNNEL_ACCEPTANCE_RECOVERY_SUSTAIN_MS",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestAcceptanceRecoveryValues.js"
+			},
+			{
+				"name": "AWTSMOOS_TUNNEL_ACCEPTANCE_RETRANSMIT_ATTEMPTS",
+				"classification": "runtime-config",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestAcceptanceRetransmit.js"
+			},
+			{
+				"name": "AWTSMOOS_TUNNEL_ACCEPTANCE_RETRANSMIT_MS",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestAcceptanceRetransmit.js"
+			},
+			{
 				"name": "AWTSMOOS_TUNNEL_COMPLETED_LIMIT",
 				"classification": "tuning",
 				"sources": 1,
@@ -67,14 +99,26 @@
 			{
 				"name": "AWTSMOOS_TUNNEL_CONTROL_STORE",
 				"classification": "path/storage",
-				"sources": 9,
+				"sources": 11,
 				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomSocketIntegration.test.cjs; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomUpgrade.test.cjs; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/upgradePolicy.test.cjs"
+			},
+			{
+				"name": "AWTSMOOS_TUNNEL_INSTRUCTION_FILE",
+				"classification": "path/storage",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/instructionDynamicFile.js"
 			},
 			{
 				"name": "AWTSMOOS_TUNNEL_PENDING_TTL_MS",
 				"classification": "tuning",
 				"sources": 1,
 				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js"
+			},
+			{
+				"name": "AWTSMOOS_TUNNEL_PRE_ACCEPTANCE_RECOVERY_MS",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestDispatchWatchdog.js"
 			},
 			{
 				"name": "AWTSMOOS_TUNNEL_QUARANTINE_LIMIT",
@@ -113,225 +157,94 @@
 				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/sessionLoadProbe.cjs"
 			}
 		],
-		"realtimeApplications": [
-			{
-				"id": "awtsmoos-core",
-				"versions": "1",
-				"factory": "createAwtsmoosCoreApplication"
-			},
-			{
-				"id": "awtsmoos-social",
-				"versions": "1",
-				"factory": "createAwtsmoosSocialApplication"
-			},
-			{
-				"id": "chess",
-				"versions": "1",
-				"factory": "createChessApplication"
-			},
-			{
-				"id": "geelooy-code",
-				"versions": "1",
-				"factory": "createGeelooyCodeApplication"
-			},
-			{
-				"id": "geelooy-docs",
-				"versions": "1",
-				"factory": "createGeelooyDocsApplication"
-			},
-			{
-				"id": "sheets",
-				"versions": "1",
-				"factory": "createSheetsApplication"
-			},
-			{
-				"id": "universal-chat",
-				"versions": "1",
-				"factory": "createUniversalChatApplication"
-			},
-			{
-				"id": "private-messaging",
-				"versions": "1",
-				"factory": "createPrivateMessagingApplication"
-			},
-			{
-				"id": "sefira-clash",
-				"versions": "1",
-				"factory": "createSefiraClashApplication"
-			},
-			{
-				"id": "mitzvah-world",
-				"versions": "1",
-				"factory": "createMitzvahWorldApplication"
-			},
-			{
-				"id": "ohr-hagnuz",
-				"versions": "1",
-				"factory": "createOhrHagnuzApplication"
-			},
-			{
-				"id": "scribe-journey",
-				"versions": "1, 2",
-				"factory": "createScribeJourneyApplication"
-			},
-			{
-				"id": "tunnel-activity",
-				"versions": "1",
-				"factory": "createTunnelActivityApplication"
-			},
-			{
-				"id": "shema-strike",
-				"versions": "1",
-				"factory": "createShemaStrikeApplication"
-			}
-		],
+		"realtimeApplications": [],
 		"eventEvidence": [
-			{
-				"event": "ACK",
-				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/aliasRouting.js"
-			},
-			{
-				"event": "audio",
-				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/messageAttachmentPolicy.js"
-			},
 			{
 				"event": "awtsmoosMyDevice",
 				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/envelopeErrors.js"
 			},
 			{
-				"event": "bossTelegraph",
-				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/CoopCombat.js"
+				"event": "durable_relay_record_verification_failed",
+				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/durableVerification.js"
 			},
 			{
-				"event": "bridge:lanterns",
-				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/RiverCrossingService.js"
+				"event": "retryAction",
+				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/canonicalEnvelopes.js"
 			},
 			{
-				"event": "care",
-				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/CombatActionRequest.js"
+				"event": "retryAction",
+				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/envelopeIdentity.js"
 			},
 			{
-				"event": "chat",
-				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/integrationGateway.js"
+				"event": "TUNNEL_ACK",
+				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/registrationProbe.js"
 			},
 			{
-				"event": "chat-accepted",
-				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/meaningfulActivity.js"
+				"event": "TUNNEL_ACK",
+				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/registrationPublication.js"
 			},
 			{
-				"event": "chess.chat.sent",
-				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/chess/socialHandlers.js"
+				"event": "TUNNEL_ACK",
+				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/registrationTransfer.js"
 			},
 			{
-				"event": "chess.click.accepted",
-				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/chess/onlineGameHandlers.js"
+				"event": "TUNNEL_INSTRUCTION_DETAILS",
+				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/instructionHandler.js"
 			},
 			{
-				"event": "chess.event.accepted",
-				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/chess/broadcastGameHandlers.js"
+				"event": "TUNNEL_INSTRUCTION_RESOLVED",
+				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/instructionHandler.js"
 			},
 			{
-				"event": "chess.game.finished.accepted",
-				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/chess/onlineGameHandlers.js"
+				"event": "TUNNEL_REPLACED",
+				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/registrationTransfer.js"
 			},
 			{
-				"event": "chess.history.activity.accepted",
-				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/chess/historyHandlers.js"
+				"event": "TUNNEL_REQUEST",
+				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestDispatch.js"
 			},
 			{
-				"event": "chess.history.listed",
-				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/chess/historyHandlers.js"
+				"event": "TUNNEL_RESPONSE_ACK",
+				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/responseProtocol.js"
 			},
 			{
-				"event": "chess.history.started",
-				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/chess/historyHandlers.js"
+				"event": "tunnelRequestAcceptanceTimedOut",
+				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/envelopeStalls.js"
 			},
 			{
-				"event": "chess.media.signal.accepted",
-				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/chess/socialHandlers.js"
+				"event": "tunnelRequestConflict",
+				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/envelopeErrors.js"
 			},
 			{
-				"event": "chess.media.state.accepted",
-				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/chess/socialHandlers.js"
+				"event": "tunnelRequestConsumerStalled",
+				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/envelopeStalls.js"
 			},
 			{
-				"event": "chess.room.created",
-				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/chess/roomHandlers.js"
+				"event": "tunnelRequestPending",
+				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/envelopePending.js"
 			},
 			{
-				"event": "chess.room.joined",
-				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/chess/roomHandlers.js"
+				"event": "tunnelRequestPersistenceFailed",
+				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/canonicalEnvelopes.js"
 			},
 			{
-				"event": "chess.room.listed",
-				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/chess/roomHandlers.js"
+				"event": "tunnelRequestSendFailed",
+				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/envelopeErrors.js"
 			},
 			{
-				"event": "chess.room.watched",
-				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/chess/roomHandlers.js"
+				"event": "tunnelRequestStateUnknown",
+				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/envelopeErrors.js"
 			},
 			{
-				"event": "code.access.invited",
-				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/geelooyCode/accessHandlers.js"
+				"event": "tunnelRequestTransportStalled",
+				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/envelopeStalls.js"
 			},
 			{
-				"event": "code.access.updated",
-				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/geelooyCode/accessHandlers.js"
-			},
-			{
-				"event": "code.file.patched",
-				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/geelooyCode/editHandlers.js"
-			},
-			{
-				"event": "code.file.synced",
-				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/geelooyCode/editHandlers.js"
-			},
-			{
-				"event": "code.presence.updated",
-				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/geelooyCode/presenceHandlers.js"
-			},
-			{
-				"event": "code.project.created",
-				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/geelooyCode/lifecycleHandlers.js"
-			},
-			{
-				"event": "code.project.joined",
-				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/geelooyCode/lifecycleHandlers.js"
-			},
-			{
-				"event": "code.project.left",
-				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/geelooyCode/lifecycleHandlers.js"
-			},
-			{
-				"event": "code.project.structured",
-				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/geelooyCode/structureEvents.js"
-			},
-			{
-				"event": "contact-blocked",
-				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/meaningfulActivity.js"
-			},
-			{
-				"event": "data",
-				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/scribeJourney/rawWebSocketTestClient.cjs"
-			},
-			{
-				"event": "defeat",
-				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/CombatDefeatRewards.js"
-			},
-			{
-				"event": "docs.access.invited",
-				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/geelooyDocs/accessHandlers.js"
-			},
-			{
-				"event": "docs.access.updated",
-				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/geelooyDocs/accessHandlers.js"
-			},
-			{
-				"event": "docs.capabilities",
-				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/geelooyDocs/capabilityHandlers.js"
+				"event": "tunnelUnavailable",
+				"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/envelopeErrors.js"
 			}
 		],
-		"tutorialFile": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/realtime-application-events.md",
+		"tutorialFile": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/tunnel-relay.md",
 		"provenance": "curated-system-semantics-plus-generated-local-source-evidence"
 	}
 ]

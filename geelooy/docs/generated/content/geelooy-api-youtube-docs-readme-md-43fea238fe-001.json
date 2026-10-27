@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — YouTube Docs (geelooy/api/youtube/docs/)\n\nSingle guide: `SETUP.md` — Awtsmoos YouTube integration setup. Covers the\npublic manager at `/youtube/`, Google Cloud configuration (enable YouTube\nData API v3, create a Web OAuth client with redirect URI\n`https://awtsmoos.com/api/youtube/oauth/callback`), the incremental OAuth\npermission modes (read / upload / manage), and how to install the OAuth JSON\nsecret without it ever entering Git.\n"
+}

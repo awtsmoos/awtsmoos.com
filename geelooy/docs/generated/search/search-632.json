@@ -1,0 +1,192 @@
+[
+	{
+		"id": "geelooy-social-documentation-md-bec3bd9b5d",
+		"title": "Awtsmoos Social Observatory",
+		"sourcePath": "geelooy/social/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos Social Observatory",
+				"anchor": "awtsmoos-social-observatory"
+			},
+			{
+				"level": 2,
+				"text": "Entry point",
+				"anchor": "entry-point"
+			},
+			{
+				"level": 2,
+				"text": "Mutation boundary",
+				"anchor": "mutation-boundary"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos Social Observatory The Awtsmoos creates the social river before any script names it; Awtsmoos.com exposes an observatory where reading current state and performing mutations remain visibly separate. Entry point index.html is the public social hub shell. It preloads shared social",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos social observatory the awtsmoos creates the social river before any script names it; awtsmoos.com exposes an observatory where reading current state and performing mutations remain visibly separate. entry point index.html is the public social hub shell. it preloads shared social hub request/render modules and presents exploration, profiles, graph, discovery, live replay, signals, and governance before the runtime client awakens. mutation boundary following, notification creation, live presence, subscriptions, publishing, and migration are explicit actions rather than side effects of browsing. migrate/ owns the local first archive migration studio and has its own api/provenance documentation.",
+		"page": "pages/geelooy-social-documentation-md-bec3bd9b5d.json"
+	},
+	{
+		"id": "geelooy-social-migrate-api-md-83c5cddb74",
+		"title": "B\"H",
+		"sourcePath": "geelooy/social/migrate/API.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Social Migration API",
+				"anchor": "social-migration-api"
+			},
+			{
+				"level": 2,
+				"text": "Capability discovery",
+				"anchor": "capability-discovery"
+			},
+			{
+				"level": 2,
+				"text": "Native asset boundary",
+				"anchor": "native-asset-boundary"
+			},
+			{
+				"level": 2,
+				"text": "Archive.org browser boundary",
+				"anchor": "archive-org-browser-boundary"
+			},
+			{
+				"level": 2,
+				"text": "Preflight",
+				"anchor": "preflight"
+			},
+			{
+				"level": 2,
+				"text": "Dry plan",
+				"anchor": "dry-plan"
+			},
+			{
+				"level": 2,
+				"text": "Public attachment whitelist",
+				"anchor": "public-attachment-whitelist"
+			},
+			{
+				"level": 2,
+				"text": "Publication",
+				"anchor": "publication"
+			},
+			{
+				"level": 2,
+				"text": "Idempotency, pacing, and recovery",
+				"anchor": "idempotency-pacing-and-recovery"
+			}
+		],
+		"excerpt": "B\"H Social Migration API Boruch Hashem. Blessed is He. The Awtsmoos lets one migration intention pass through measured gates; Awtsmoos.com keeps local inspection, external video custody, server validation, and publication visibly distinct. Capability discovery GET /api/social/migrations/meta/metadata API v3 returns: su",
+		"searchText": "b\"h social migration api boruch hashem. blessed is he. the awtsmoos lets one migration intention pass through measured gates; awtsmoos.com keeps local inspection, external video custody, server validation, and publication visibly distinct. capability discovery get /api/social/migrations/meta/metadata api v3 returns: supported providers/archive formats plan.maxitems native image/audio upload limits and mime lists upload.video.nativeupload = false upload.video.provider = \"archive.org\" upload.video.mode = \"browser direct\" upload.video.credentials = \"local only\" upload.video.serverreceivescredentials = false canonical archive.org public url prefix publication/checkpoint contracts native limits derive from the same assetpolicy used by the upload server. native asset boundary post /api/social/assets/:alias/upload the native vault accepts bounded image/audio files. known video/ mime types return: video external storage required video bytes are intentionally refused before any filesystem write. the server never asks for archive.org ia s3 credentials. archive.org browser boundary the browser may use local ia s3 credentials only for direct requests to: https://s3.us.archive.org internet archive documents https put, authorization: low access:secret, new item headers, metadata headers, size hints, derive behavior, slowdown responses, and overload preflight: https://archive.org/developers/ias3.html credential creation: https://archive.org/account/s3.php after direct upload, migration state may contain only public attachment evidence such as: the migration server accepts remote video only when the url is canonical https archive.org/download/ / with no credentials, port, query, fragment, traversal, or alternate host. preflight post /api/social/migrations/meta/preflight preflight never publishes. it returns validity, deterministic plan fingerprint, provider/date/media statistics, warnings, and structured issues. secret shaped fields such as access keys, secret keys, authorization, tokens, or passwords are rejected recursively. dry plan post /api/social/migrations/meta/plan planning never publishes. api v3 plan envelopes contain destination, statistics, warnings, chronology distribution, and entries. each entry contains deterministic hashed idempotency, native unified social publication intent, provenance, and native shaped rootassets. unknown dates remain unknown. public attachment whitelist browser planning code does not spread provider objects into requests. it whitelists public attachment fields such as: id type mime size publicpath alt/caption/role dimensions/duration where present private provider fields cannot hitchhike into a migration manifest. publication actual mutation occurs only through: post /api/social/unified social/publish archive.org upload success is not publication . the client checkpoints the public url, regenerates the dry plan, presents it for review, and publishes only after explicit user action. idempotency, pacing, and recovery meta idempotency hashes provider, source id, alias, heichel, and series. native image/audio upload pacing uses the server returned remaining and resetat. archive.org video pacing uses archive.org's own overload preflight and bounded transient retries. authentication errors are not blindly retried. checkpoints exclude credentials and local file objects.",
+		"page": "pages/geelooy-social-migrate-api-md-83c5cddb74.json"
+	},
+	{
+		"id": "geelooy-social-migrate-documentation-md-893a3cc013",
+		"title": "B\"H",
+		"sourcePath": "geelooy/social/migrate/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Social Migration Studio",
+				"anchor": "social-migration-studio"
+			},
+			{
+				"level": 2,
+				"text": "What this studio does",
+				"anchor": "what-this-studio-does"
+			},
+			{
+				"level": 2,
+				"text": "Facebook export tutorial",
+				"anchor": "facebook-export-tutorial"
+			},
+			{
+				"level": 2,
+				"text": "Instagram export tutorial",
+				"anchor": "instagram-export-tutorial"
+			},
+			{
+				"level": 2,
+				"text": "YouTube export tutorial",
+				"anchor": "youtube-export-tutorial"
+			},
+			{
+				"level": 2,
+				"text": "Video storage: Archive.org direct",
+				"anchor": "video-storage-archive-org-direct"
+			},
+			{
+				"level": 2,
+				"text": "Resilient public upload receipts",
+				"anchor": "resilient-public-upload-receipts"
+			},
+			{
+				"level": 2,
+				"text": "Local-first archive safety",
+				"anchor": "local-first-archive-safety"
+			},
+			{
+				"level": 2,
+				"text": "Review and import flow",
+				"anchor": "review-and-import-flow"
+			},
+			{
+				"level": 2,
+				"text": "Provenance and recovery",
+				"anchor": "provenance-and-recovery"
+			}
+		],
+		"excerpt": "B\"H Social Migration Studio Boruch Hashem. Blessed is He. The Awtsmoos renews remembered social vessels without pretending their history was born here; Awtsmoos.com opens archives locally, sends creator video straight to Archive.org, and reuses public proof when recovery draws near. What this studio does /social/migrat",
+		"searchText": "b\"h social migration studio boruch hashem. blessed is he. the awtsmoos renews remembered social vessels without pretending their history was born here; awtsmoos.com opens archives locally, sends creator video straight to archive.org, and reuses public proof when recovery draws near. what this studio does /social/migrate/ imports authored facebook and instagram history and links to advanced youtube migration. choosing a zip, folder, json file, or html file does not upload it. metadata is inspected locally. only media for explicitly selected memories is considered after import begins. facebook export tutorial 1. open accounts center → your information and permissions → export your information . 2. choose create export , then the facebook profile whose history you want. 3. choose export to device , content, date range, format, and media quality. 4. prefer all time and json for the fullest structured migration. 5. download the zip and open it, its extracted folder, json, or older html export in /social/migrate/. official facebook export help: https://www.facebook.com/help/212802592074644 instagram export tutorial 1. open accounts center → your information and permissions → export your information . 2. choose create export , then the instagram profile whose history you want. 3. choose export to device , content, date range, format, and media quality. 4. prefer all time and json . 5. download the zip and open /social/migrate/. official instagram export help: https://www.facebook.com/help/181231772500920 youtube export tutorial for a whole archive, use google takeout and select youtube and youtube music . google takeout help: https://support.google.com/accounts/answer/3024190?hl=en google takeout: https://takeout.google.com/ for one owned video, use youtube studio → content → video menu → download. youtube studio download help: https://support.google.com/youtube/answer/56100?hl=en youtube studio: https://studio.youtube.com/ advanced awtsmoos migration: /youtube/migrate/ video storage: archive.org direct video is never uploaded into the awtsmoos native asset vault. 1. get internet archive ia s3 keys at https://archive.org/account/s3.php. 2. save them in the local credential panel; session only is the default. 3. choose remember on this device only on a trusted device. 4. selected video bytes travel directly from this browser to https://s3.us.archive.org. 5. awtsmoos receives only canonical https://archive.org/download/... public attachment evidence. 6. use forget credentials to clear both session and device credential storage. internet archive ias3 documentation: https://archive.org/developers/ias3.html images and audio continue through the bounded native awtsmoos asset endpoint. a huge video trapped inside a zip may need extraction first so the browser does not inflate gigabytes into memory. resilient public upload receipts after a successful direct video put, the browser writes a bounded local receipt containing public evidence only : sampled file fingerprint, archive identifier/filename/public url, size, etag when available, state, and timestamps. the receipt contains no access key, secret key, authorization header, file, or blob. receipts are bounded to 96 recent entries and expire after 180 days. the fingerprint algorithm is sample sha256 v1: sha 256 over bounded beginning/middle/end slices plus file size and mime type. it avoids loading a multi gigabyte video wholly into memory and is explicitly not described as a full file sha 256. new archive filenames include a short fingerprint suffix so changed content cannot silently overwrite a previous same name target. on retry or reload, reselect the same local video. the shared archive.org service fingerprints it before asking for ia s3 credentials. if matching public evidence exists, no second video put and no credential prompt are required. two simultaneous attempts for the same fingerprint/archive target share one in memory upload operation. a successful put is saved as uploaded before downstream planning. the browser then checks the public archive.org metadata api for the exact filename without upload credentials. if observed, the receipt becomes verified. if public propagation is delayed, the receipt remains uploaded; retrying verification does not retransmit the video. local first archive safety zip opening reads the central directory first instead of inflating every media file. html is neutralized before detached parsing: scripts/executable containers disappear and fetch capable attributes become inert. archive paths reject traversal, absolute paths, uri schemes, windows drive escapes, and nul bytes. unknown source dates remain unknown and never become january 1, 1970. review and import flow 1. open the archive locally; inspect, filter, and select memories. 2. choose alias, heichel, and series. 3. run server preflight and generate the dry plan. 4. explicitly choose begin import . 5. upload selected image/audio to awtsmoos and resolve selected video through direct archive.org receipts/upload. 6. checkpoint only public attachment evidence after each resolved asset. 7. re run the dry plan with real public paths. 8. publish through /api/social/unified social/publish. 9. retry failures without duplicating completed idempotency keys or already archived video bytes. provenance and recovery historical reactions/comments/shares remain provenance and never become fake native comments. the feature checkpoint stores serializable public evidence only: selections, destination, public attachments, completed publication evidence, failures, and timestamps. it never stores file, object url, ia s3 access/secret keys, or authorization headers. pre v2 no fingerprint checkpoints remain backward compatible; new fingerprinted video can repopulate the shared receipt ledger after a reload. reopen/reselect local files because browser file handles are not silently persisted. see api.md for exact server boundaries and capability negotiation.",
+		"page": "pages/geelooy-social-migrate-documentation-md-893a3cc013.json"
+	},
+	{
+		"id": "geelooy-style-documentation-md-b19d9ac553",
+		"title": "Shared Style Documentation",
+		"sourcePath": "geelooy/style/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Shared Style Documentation",
+				"anchor": "shared-style-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Shared Style Documentation The Awtsmoos lets many pages receive form from a common visual vessel, so CSS inheritance can cross project walls unseen; Awtsmoos.com maps this large style tree as shared infrastructure and points maintainers toward broad quality checks before changing the sce",
+		"searchText": "b\"h boruch hashem blessed is he shared style documentation the awtsmoos lets many pages receive form from a common visual vessel, so css inheritance can cross project walls unseen; awtsmoos.com maps this large style tree as shared infrastructure and points maintainers toward broad quality checks before changing the scene. read ../../docs/systems/shared libraries.md and ../../docs/test index.md. relevant package scripts include css quality and imported style ownership checks.",
+		"page": "pages/geelooy-style-documentation-md-b19d9ac553.json"
+	},
+	{
+		"id": "geelooy-tests-documentation-md-4ae0affefc",
+		"title": "Geelooy Test Documentation",
+		"sourcePath": "geelooy/tests/DOCUMENTATION.md",
+		"category": "Testing",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Geelooy Test Documentation",
+				"anchor": "geelooy-test-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Geelooy Test Documentation The Awtsmoos asks behavior to prove itself through tests rather than confidence alone; Awtsmoos.com maps this public layer test tree beside package scripts and system specific suites so verification can be chosen from the known. Read ../../docs/TEST INDEX.md an",
+		"searchText": "b\"h boruch hashem blessed is he geelooy test documentation the awtsmoos asks behavior to prove itself through tests rather than confidence alone; awtsmoos.com maps this public layer test tree beside package scripts and system specific suites so verification can be chosen from the known. read ../../docs/test index.md and ../../docs/systems/testing.md.",
+		"page": "pages/geelooy-tests-documentation-md-4ae0affefc.json"
+	}
+]

@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-plans-awtsmoos-cloud-business-and-aws-replacement-md-f416cf5f2d",
+	"title": "Business and AWS-Replacement Strategy",
+	"sourcePath": "docs/PLANS/AWTSMOOS_CLOUD/BUSINESS_AND_AWS_REPLACEMENT.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Business and AWS-Replacement Strategy",
+			"anchor": "business-and-aws-replacement-strategy"
+		},
+		{
+			"level": 2,
+			"text": "Positioning",
+			"anchor": "positioning"
+		},
+		{
+			"level": 2,
+			"text": "Initial commercial wedge",
+			"anchor": "initial-commercial-wedge"
+		},
+		{
+			"level": 2,
+			"text": "Revenue layers",
+			"anchor": "revenue-layers"
+		},
+		{
+			"level": 2,
+			"text": "Simple plan ladder",
+			"anchor": "simple-plan-ladder"
+		},
+		{
+			"level": 2,
+			"text": "Million-dollar focus",
+			"anchor": "million-dollar-focus"
+		},
+		{
+			"level": 2,
+			"text": "Margin law",
+			"anchor": "margin-law"
+		},
+		{
+			"level": 2,
+			"text": "Control-plane advantage",
+			"anchor": "control-plane-advantage"
+		},
+		{
+			"level": 2,
+			"text": "Product principle",
+			"anchor": "product-principle"
+		}
+	],
+	"markdownParts": [
+		"content/docs-plans-awtsmoos-cloud-business-and-aws-replacement-md-f416cf5f2d-001.json"
+	]
+}

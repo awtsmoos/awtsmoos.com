@@ -1,222 +1,213 @@
 [
 	{
-		"id": "geelooy-public-documentation-md-33b4dbc3a5",
-		"title": "Public Shared Project",
-		"sourcePath": "geelooy/public/DOCUMENTATION.md",
-		"category": "General",
-		"provenance": "breadcrumb",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Public Shared Project",
-				"anchor": "public-shared-project"
-			},
-			{
-				"level": 2,
-				"text": "Role",
-				"anchor": "role"
-			},
-			{
-				"level": 2,
-				"text": "Start here",
-				"anchor": "start-here"
-			},
-			{
-				"level": 2,
-				"text": "Change rule",
-				"anchor": "change-rule"
-			},
-			{
-				"level": 2,
-				"text": "Project-specific notes",
-				"anchor": "project-specific-notes"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Public Shared Project The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Shared public facing source area discovered as a distinct project boundary without its own HTML title. Start here Read docs",
-		"searchText": "b\"h boruch hashem blessed is he public shared project the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role shared public facing source area discovered as a distinct project boundary without its own html title. start here read docs/routes/public routes.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes inspect import/caller evidence before assuming this directory is one standalone application.",
-		"page": "pages/geelooy-public-documentation-md-33b4dbc3a5.json"
-	},
-	{
-		"id": "geelooy-public-virtual-os-games-crystal-1780372754759-readme-md-2431e9069f",
-		"title": "Crystal Critters",
-		"sourcePath": "geelooy/public/virtual-os-games/crystal-1780372754759/README.md",
+		"id": "geelooy-ai-thoughts-2026-08-26-2241-geelooy-revival-10-second-pass-revie-07ac61120f",
+		"title": "Second Pass Review and Third Source Pass Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26-2241-geelooy-revival/10_SECOND_PASS_REVIEW_AND_THIRD_PASS_PLAN.md",
 		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Crystal Critters",
-				"anchor": "crystal-critters"
+				"text": "Second Pass Review and Third Source Pass Plan",
+				"anchor": "second-pass-review-and-third-source-pass-plan"
 			},
 			{
 				"level": 2,
-				"text": "Agent Results",
-				"anchor": "agent-results"
-			}
-		],
-		"excerpt": "B'H Crystal Critters Public URL: https://awtsmoos.com/public/virtual os games/crystal 1780372754759/ Agent Results engine: ok via deterministic fallback renderer: ok via deterministic fallback levels: ok via deterministic fallback polish: ok via deterministic fallback",
-		"searchText": "b'h crystal critters public url: https://awtsmoos.com/public/virtual os games/crystal 1780372754759/ agent results engine: ok via deterministic fallback renderer: ok via deterministic fallback levels: ok via deterministic fallback polish: ok via deterministic fallback",
-		"page": "pages/geelooy-public-virtual-os-games-crystal-1780372754759-readme-md-2431e9069f.json"
-	},
-	{
-		"id": "geelooy-public-virtual-os-games-crystal-1780372758361-readme-md-3f6714f8d8",
-		"title": "Crystal Critters",
-		"sourcePath": "geelooy/public/virtual-os-games/crystal-1780372758361/README.md",
-		"category": "General",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Crystal Critters",
-				"anchor": "crystal-critters"
+				"text": "Original Plan Recalled",
+				"anchor": "original-plan-recalled"
 			},
 			{
 				"level": 2,
-				"text": "Agent Results",
-				"anchor": "agent-results"
-			}
-		],
-		"excerpt": "B'H Crystal Critters Public URL: https://awtsmoos.com/public/virtual os games/crystal 1780372758361/ Agent Results engine: ok via deterministic fallback renderer: ok via deterministic fallback levels: ok via deterministic fallback polish: ok via deterministic fallback",
-		"searchText": "b'h crystal critters public url: https://awtsmoos.com/public/virtual os games/crystal 1780372758361/ agent results engine: ok via deterministic fallback renderer: ok via deterministic fallback levels: ok via deterministic fallback polish: ok via deterministic fallback",
-		"page": "pages/geelooy-public-virtual-os-games-crystal-1780372758361-readme-md-3f6714f8d8.json"
-	},
-	{
-		"id": "geelooy-public-virtual-os-games-crystal-1780373501785-improved-readme-md-463510bd02",
-		"title": "Crystal Critters: Awakened Cave",
-		"sourcePath": "geelooy/public/virtual-os-games/crystal-1780373501785-improved/README.md",
-		"category": "General",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Crystal Critters: Awakened Cave",
-				"anchor": "crystal-critters-awakened-cave"
-			}
-		],
-		"excerpt": "B'H Crystal Critters: Awakened Cave Public URL: https://awtsmoos.com/public/virtual os games/crystal 1780373501785 improved/ Recursive agent loop: 8 rounds per lead, 2 spawned children per round. engine: 8 rounds, 0 MiniMax calls used renderer: 8 rounds, 0 MiniMax calls used levels: 8 rounds, 0 MiniMax calls used polis",
-		"searchText": "b'h crystal critters: awakened cave public url: https://awtsmoos.com/public/virtual os games/crystal 1780373501785 improved/ recursive agent loop: 8 rounds per lead, 2 spawned children per round. engine: 8 rounds, 0 minimax calls used renderer: 8 rounds, 0 minimax calls used levels: 8 rounds, 0 minimax calls used polish: 8 rounds, 0 minimax calls used",
-		"page": "pages/geelooy-public-virtual-os-games-crystal-1780373501785-improved-readme-md-463510bd02.json"
-	},
-	{
-		"id": "geelooy-public-virtual-os-games-crystal-1780373505136-improved-readme-md-05af0f7168",
-		"title": "Crystal Critters: Awakened Cave",
-		"sourcePath": "geelooy/public/virtual-os-games/crystal-1780373505136-improved/README.md",
-		"category": "General",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Crystal Critters: Awakened Cave",
-				"anchor": "crystal-critters-awakened-cave"
-			}
-		],
-		"excerpt": "B'H Crystal Critters: Awakened Cave Public URL: https://awtsmoos.com/public/virtual os games/crystal 1780373505136 improved/ Recursive agent loop: 8 rounds per lead, 2 spawned children per round. engine: 8 rounds, 0 MiniMax calls used renderer: 8 rounds, 0 MiniMax calls used levels: 8 rounds, 0 MiniMax calls used polis",
-		"searchText": "b'h crystal critters: awakened cave public url: https://awtsmoos.com/public/virtual os games/crystal 1780373505136 improved/ recursive agent loop: 8 rounds per lead, 2 spawned children per round. engine: 8 rounds, 0 minimax calls used renderer: 8 rounds, 0 minimax calls used levels: 8 rounds, 0 minimax calls used polish: 8 rounds, 0 minimax calls used",
-		"page": "pages/geelooy-public-virtual-os-games-crystal-1780373505136-improved-readme-md-05af0f7168.json"
-	},
-	{
-		"id": "geelooy-public-virtual-os-games-crystal-1780373765713-swarm-v2-readme-md-55b43c5a6d",
-		"title": "Crystal Critters Thumb-Safe Swarm V2",
-		"sourcePath": "geelooy/public/virtual-os-games/crystal-1780373765713-swarm-v2/README.md",
-		"category": "General",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Crystal Critters Thumb-Safe Swarm V2",
-				"anchor": "crystal-critters-thumb-safe-swarm-v2"
-			}
-		],
-		"excerpt": "B'H Crystal Critters Thumb Safe Swarm V2 Public URL: https://awtsmoos.com/public/virtual os games/crystal 1780373765713 swarm v2/ Fixes: fixed D pad above mobile browser chrome canvas tap zones and swipe controls pop up instructions collapsible notes ten levels walking animation and particles swarm notes with 8 rounds ",
-		"searchText": "b'h crystal critters thumb safe swarm v2 public url: https://awtsmoos.com/public/virtual os games/crystal 1780373765713 swarm v2/ fixes: fixed d pad above mobile browser chrome canvas tap zones and swipe controls pop up instructions collapsible notes ten levels walking animation and particles swarm notes with 8 rounds per branch",
-		"page": "pages/geelooy-public-virtual-os-games-crystal-1780373765713-swarm-v2-readme-md-55b43c5a6d.json"
-	},
-	{
-		"id": "geelooy-public-virtual-os-games-crystal-1780373769185-swarm-v2-readme-md-189db2c874",
-		"title": "Crystal Critters Thumb-Safe Swarm V2",
-		"sourcePath": "geelooy/public/virtual-os-games/crystal-1780373769185-swarm-v2/README.md",
-		"category": "General",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Crystal Critters Thumb-Safe Swarm V2",
-				"anchor": "crystal-critters-thumb-safe-swarm-v2"
-			}
-		],
-		"excerpt": "B'H Crystal Critters Thumb Safe Swarm V2 Public URL: https://awtsmoos.com/public/virtual os games/crystal 1780373769185 swarm v2/ Fixes: fixed D pad above mobile browser chrome canvas tap zones and swipe controls pop up instructions collapsible notes ten levels walking animation and particles swarm notes with 8 rounds ",
-		"searchText": "b'h crystal critters thumb safe swarm v2 public url: https://awtsmoos.com/public/virtual os games/crystal 1780373769185 swarm v2/ fixes: fixed d pad above mobile browser chrome canvas tap zones and swipe controls pop up instructions collapsible notes ten levels walking animation and particles swarm notes with 8 rounds per branch",
-		"page": "pages/geelooy-public-virtual-os-games-crystal-1780373769185-swarm-v2-readme-md-189db2c874.json"
-	},
-	{
-		"id": "geelooy-public-virtual-os-games-crystal-1780374109835-clean-mobile-readm-999658f1f0",
-		"title": "Crystal Critters Clean Mobile",
-		"sourcePath": "geelooy/public/virtual-os-games/crystal-1780374109835-clean-mobile/README.md",
-		"category": "General",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Crystal Critters Clean Mobile",
-				"anchor": "crystal-critters-clean-mobile"
-			}
-		],
-		"excerpt": "B'H Crystal Critters Clean Mobile Local: http://localhost:8080/public/virtual os games/crystal 1780374109835 clean mobile/ Public: https://awtsmoos.com/public/virtual os games/crystal 1780374109835 clean mobile/ Agent: gameAgent 1780374067939 oe41vx ui: done round 8 ui round 4: Shrink controls, restore readable cave, u",
-		"searchText": "b'h crystal critters clean mobile local: http://localhost:8080/public/virtual os games/crystal 1780374109835 clean mobile/ public: https://awtsmoos.com/public/virtual os games/crystal 1780374109835 clean mobile/ agent: gameagent 1780374067939 oe41vx ui: done round 8 ui round 4: shrink controls, restore readable cave, use compact floating controls, keep browser chrome clear. ui round 5: shrink controls, restore readable cave, use compact floating controls, keep browser chrome clear. ui round 7: shrink controls, restore readable cave, use compact floating controls, keep browser chrome clear. ui round 8: shrink controls, restore readable cave, use compact floating controls, keep browser chrome clear. controls: failed round 7 controls round 4: prefer swipe/tap canvas first, make buttons small backup only, no huge dock covering playfield. controls round 5: prefer swipe/tap canvas first, make buttons small backup only, no huge dock covering playfield. controls round 6: prefer swipe/tap canvas first, make buttons small backup only, no huge dock covering playfield. controls round 7: prefer swipe/tap canvas first, make buttons small backup only, no huge dock covering playfield. levels: done round 8 levels round 5: add lots of varied levels while keeping early levels readable on mobile. levels round 6: add lots of varied levels while keeping early levels readable on mobile. levels round 7: add lots of varied levels while keeping early levels readable on mobile. levels round 8: add lots of varied levels while keeping early levels readable on mobile. animation: done round 8 animation round 5: add walking frames, easing, hit flash, crystal pickup bursts, and critter idle pulses. animation round 6: add walking frames, easing, hit flash, crystal pickup bursts, and critter idle pulses. animation round 7: add walking frames, easing, hit flash, crystal pickup bursts, and critter idle pulses. animation round 8: add walking frames, easing, hit flash, crystal pickup bursts, and critter idle pulses. help: done round 8 help round 5: move instructions into a compact pop up and keep notes collapsed by default. help round 6: move instructions into a compact pop up and keep notes collapsed by default. help round 7: move instructions into a compact pop up and keep notes collapsed by default. help round 8: move instructions into a compact pop up and keep notes collapsed by default. api: done round 8 api round 5: design spawn/status/watch commands: spawn returns agentid immediately; parent polls until done. api round 6: design spawn/status/watch commands: spawn returns agentid immediately; parent polls until done. api round 7: design spawn/status/watch commands: spawn returns agentid immediately; parent polls until done. api round 8: design spawn/status/watch commands: spawn returns agentid immediately; parent polls until done.",
-		"page": "pages/geelooy-public-virtual-os-games-crystal-1780374109835-clean-mobile-readm-999658f1f0.json"
-	},
-	{
-		"id": "geelooy-public-virtual-os-games-crystal-1780374112967-clean-mobile-readm-347a74946a",
-		"title": "Crystal Critters Clean Mobile",
-		"sourcePath": "geelooy/public/virtual-os-games/crystal-1780374112967-clean-mobile/README.md",
-		"category": "General",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Crystal Critters Clean Mobile",
-				"anchor": "crystal-critters-clean-mobile"
-			}
-		],
-		"excerpt": "B'H Crystal Critters Clean Mobile Local: http://localhost:8080/public/virtual os games/crystal 1780374112967 clean mobile/ Public: https://awtsmoos.com/public/virtual os games/crystal 1780374112967 clean mobile/ Agent: gameAgent 1780374067939 oe41vx ui: done round 8 ui round 4: Shrink controls, restore readable cave, u",
-		"searchText": "b'h crystal critters clean mobile local: http://localhost:8080/public/virtual os games/crystal 1780374112967 clean mobile/ public: https://awtsmoos.com/public/virtual os games/crystal 1780374112967 clean mobile/ agent: gameagent 1780374067939 oe41vx ui: done round 8 ui round 4: shrink controls, restore readable cave, use compact floating controls, keep browser chrome clear. ui round 5: shrink controls, restore readable cave, use compact floating controls, keep browser chrome clear. ui round 7: shrink controls, restore readable cave, use compact floating controls, keep browser chrome clear. ui round 8: shrink controls, restore readable cave, use compact floating controls, keep browser chrome clear. controls: failed round 7 controls round 4: prefer swipe/tap canvas first, make buttons small backup only, no huge dock covering playfield. controls round 5: prefer swipe/tap canvas first, make buttons small backup only, no huge dock covering playfield. controls round 6: prefer swipe/tap canvas first, make buttons small backup only, no huge dock covering playfield. controls round 7: prefer swipe/tap canvas first, make buttons small backup only, no huge dock covering playfield. levels: done round 8 levels round 5: add lots of varied levels while keeping early levels readable on mobile. levels round 6: add lots of varied levels while keeping early levels readable on mobile. levels round 7: add lots of varied levels while keeping early levels readable on mobile. levels round 8: add lots of varied levels while keeping early levels readable on mobile. animation: done round 8 animation round 5: add walking frames, easing, hit flash, crystal pickup bursts, and critter idle pulses. animation round 6: add walking frames, easing, hit flash, crystal pickup bursts, and critter idle pulses. animation round 7: add walking frames, easing, hit flash, crystal pickup bursts, and critter idle pulses. animation round 8: add walking frames, easing, hit flash, crystal pickup bursts, and critter idle pulses. help: done round 8 help round 5: move instructions into a compact pop up and keep notes collapsed by default. help round 6: move instructions into a compact pop up and keep notes collapsed by default. help round 7: move instructions into a compact pop up and keep notes collapsed by default. help round 8: move instructions into a compact pop up and keep notes collapsed by default. api: done round 8 api round 5: design spawn/status/watch commands: spawn returns agentid immediately; parent polls until done. api round 6: design spawn/status/watch commands: spawn returns agentid immediately; parent polls until done. api round 7: design spawn/status/watch commands: spawn returns agentid immediately; parent polls until done. api round 8: design spawn/status/watch commands: spawn returns agentid immediately; parent polls until done.",
-		"page": "pages/geelooy-public-virtual-os-games-crystal-1780374112967-clean-mobile-readm-347a74946a.json"
-	},
-	{
-		"id": "geelooy-recorder-documentation-md-f7f6cc416c",
-		"title": "Local Recorder",
-		"sourcePath": "geelooy/recorder/DOCUMENTATION.md",
-		"category": "General",
-		"provenance": "breadcrumb",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Local Recorder",
-				"anchor": "local-recorder"
+				"text": "First Pass Actual",
+				"anchor": "first-pass-actual"
 			},
 			{
 				"level": 2,
-				"text": "Role",
-				"anchor": "role"
+				"text": "Second Pass Actual",
+				"anchor": "second-pass-actual"
 			},
 			{
 				"level": 2,
-				"text": "Start here",
-				"anchor": "start-here"
+				"text": "Hard Census Evidence",
+				"anchor": "hard-census-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Change rule",
-				"anchor": "change-rule"
+				"text": "Why The Earlier Thought Changed",
+				"anchor": "why-the-earlier-thought-changed"
 			},
 			{
 				"level": 2,
-				"text": "Project-specific notes",
-				"anchor": "project-specific-notes"
+				"text": "Third Source Pass — Exact Write Set",
+				"anchor": "third-source-pass-exact-write-set"
+			},
+			{
+				"level": 3,
+				"text": "1. New geelooy/mawgawl/sefarim/styles/discovery-actions.css",
+				"anchor": "1-new-geelooy-mawgawl-sefarim-styles-discovery-actions-css"
+			},
+			{
+				"level": 3,
+				"text": "2. Rewrite geelooy/mawgawl/sefarim/styles/discovery.css",
+				"anchor": "2-rewrite-geelooy-mawgawl-sefarim-styles-discovery-css"
+			},
+			{
+				"level": 3,
+				"text": "3. Rewrite geelooy/mawgawl/sefarim/index.html",
+				"anchor": "3-rewrite-geelooy-mawgawl-sefarim-index-html"
+			},
+			{
+				"level": 2,
+				"text": "Third-Pass Readback Gate",
+				"anchor": "third-pass-readback-gate"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Local Recorder The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Public media utility. Observed entry: index.html; observed title: “Local Recorder — Geelooy”. Start here Read docs/APPS/MEDIA TOOL",
-		"searchText": "b\"h boruch hashem blessed is he local recorder the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role public media utility. observed entry: index.html; observed title: “local recorder — geelooy”. start here read docs/apps/media tools.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes recorder changes can involve browser media permissions, local blobs/files and shared media utilities; verify the actual source surface involved.",
-		"page": "pages/geelooy-recorder-documentation-md-f7f6cc416c.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Second Pass Review and Third Source Pass Plan The Awtsmoos exposes the final excess not to shame the vessel, but to reveal the hidden module inside; Awtsmoos.com grows clearer when interaction leaves structure, and each responsibility receives its proper side. Original Plan Recalled The ",
+		"searchText": "b\"h boruch hashem blessed is he second pass review and third source pass plan the awtsmoos exposes the final excess not to shame the vessel, but to reveal the hidden module inside; awtsmoos.com grows clearer when interaction leaves structure, and each responsibility receives its proper side. original plan recalled the first approved wave promised a compact identity masthead, unchanged search controllers and provenance, result first reading order, native context disclosure, no permanent right rail, no mobile 86vw context carousel, safe short height behavior, full file rewrites, and every touched source file beneath 120 lines. first pass actual the first pass rewrote six files: entry html plus hero, layout, discovery, responsive, and mobile context css. it established the new hierarchy and preserved the runtime ids/js behavior. readback then found four deltas: cramped entry markup, implicit focus treatment, stale child import cache risk, and dead mobile selectors. second pass actual the second pass fully rewrote: index.html — improved readability, cache versioned changed css, preserved ids and native form behavior. hero.css — explicit keyboard focus visible treatment for scope links. discovery.css — explicit summary/button focus visible treatment and 44px context card button height. mobile.css — versioned mobile context.css, removed now dead hero/truth selectors, preserved safe area and one column result behavior. all seven production owners across both passes were reread in full before testing. hard census evidence index.html: 99 lines hero.css: 90 lines layout.css: 113 lines discovery.css: 123 lines responsive.css: 48 lines mobile context.css: 30 lines mobile.css: 91 lines the second pass therefore cannot be accepted as source complete. discovery.css exceeds the 120 line ceiling by three lines. why the earlier thought changed earlier i believed discovery.css could own both context structure and rail card interactions because its first draft remained at 112 lines. explicit focus visible states and a proper 44px action target revealed that interaction behavior is a distinct responsibility. removing whitespace or shortening the awtsmoos poem would conceal that architectural truth. the correct revelation is a module split. third source pass — exact write set 1. new geelooy/mawgawl/sefarim/styles/discovery actions.css create a small full module that owns only context card button base, hover, focus visible, and disabled states. begin with b\"h / boruch hashem / blessed is he and an original rhyming awtsmoos/awtsmoos.com comment. 2. rewrite geelooy/mawgawl/sefarim/styles/discovery.css rewrite the complete file. keep context details/summary structure, opened rail grid, card surface/header/title/count styling. remove button interaction rules now owned by discovery actions.css. keep explicit summary focus visible treatment. target comfortably below 120 lines without compressed rules. 3. rewrite geelooy/mawgawl/sefarim/index.html rewrite the complete entry again because partial insertion is forbidden. add discovery actions.css immediately after discovery.css in the stylesheet graph and bump the discovery version. preserve all current semantic/runtime content and every required id. do not change search logic. third pass readback gate after those writes, reread the complete current contents of: index.html hero.css layout.css discovery.css discovery actions.css responsive.css mobile context.css mobile.css then run a line census and scoped git status. if every source is <=120 and the readback shows no new source delta, write a final source review artifact and only then begin tests. next action perform the three complete file third pass writes, then reread all eight final production owners before running any test.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26-2241-geelooy-revival-10-second-pass-revie-07ac61120f.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-26-sitewide-ui-audit-01-revelation-md-86dd5ece6f",
+		"title": "Phase One — Sitewide UI Revelation",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26-sitewide-ui-audit/01_revelation.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase One — Sitewide UI Revelation",
+				"anchor": "phase-one-sitewide-ui-revelation"
+			},
+			{
+				"level": 2,
+				"text": "Mission",
+				"anchor": "mission"
+			},
+			{
+				"level": 2,
+				"text": "Evidence from the supplied screenshots",
+				"anchor": "evidence-from-the-supplied-screenshots"
+			},
+			{
+				"level": 2,
+				"text": "Sitewide failure contract",
+				"anchor": "sitewide-failure-contract"
+			},
+			{
+				"level": 2,
+				"text": "Audit dimensions",
+				"anchor": "audit-dimensions"
+			},
+			{
+				"level": 2,
+				"text": "Immediate priority order",
+				"anchor": "immediate-priority-order"
+			},
+			{
+				"level": 2,
+				"text": "Preservation law",
+				"anchor": "preservation-law"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase One — Sitewide UI Revelation The Awtsmoos renews every pixel and pathway from nothing in each instant; Awtsmoos.com is remembered while every unfinished control receives one coherent garment. Mission Audit the entire Geelooy website and eliminate visually unowned native controls, i",
+		"searchText": "b\"h boruch hashem blessed is he phase one — sitewide ui revelation the awtsmoos renews every pixel and pathway from nothing in each instant; awtsmoos.com is remembered while every unfinished control receives one coherent garment. mission audit the entire geelooy website and eliminate visually unowned native controls, incomplete styling, viewport escape, accidental overlap, z index mistakes, and inconsistent interaction states. evidence from the supplied screenshots social hub renders native browser chrome inside otherwise custom message cards. the message composer textarea/input zone is visually only partially integrated into the surrounding glass/futuristic language. fixed bottom composition and the browser height viewport create a risk of content being hidden behind the composer/dock. the home surface has large zones where layout hierarchy is weak compared with the otherwise strong constellation ui. chips and status controls are visually stronger than adjacent plain/form regions, producing a mixed design system effect. sitewide failure contract a route fails the audit when any of these are observed: browser native audio/video/form controls visibly escape the page design; input, textarea, select, label, progress, meter or file controls lack intentional styling; interactive elements lack :hover, :active, :focus visible, disabled, or reduced motion behavior where relevant; controls or menus overflow the viewport or depend on document horizontal scrolling; fixed/sticky overlays collide with one another or hide actionable content; raw z index values form an unstructured stacking war; a page mixes unrelated visual systems because shared selectors leak globally; half styled regions or accidental default typography remain; mobile targets are too small or visually clipped; short height viewports lose access to primary actions; dialogs/drawers/menus lack internal scrolling and viewport bounds; native media surfaces are not wrapped by a custom accessible control layer. audit dimensions 1. route census: every html/page entry under root, apps, games, social, admin/tool surfaces. 2. native element census: audio, video, input, textarea, select, button, label, progress, meter, details, dialog, file controls. 3. css ownership census: unscoped selectors, bare element selectors, wildcard selectors, z indexes, fixed/sticky layers. 4. runtime geometry: horizontal overflow, viewport escape, clipped controls, overlap, fixed layer collisions. 5. interaction states: hover, active, focus visible, disabled, reduced motion. 6. visual completeness: typography, fields, cards, media, empty states, loading/error states. 7. mobile first acceptance: 390x844, 320x568, and short height cases. immediate priority order 1. social hub / private messages because the supplied evidence proves active visible defects. 2. shared social components if those defects are reused across multiple social routes. 3. high traffic apps/games with native controls. 4. remaining public apps and games. 5. tool/admin/utility pages. 6. whole site regression gate so plain elements cannot silently return. preservation law do not create a global stylesheet that reaches into unrelated pages. every remediation must be scoped beneath the owning page/application root or implemented through an explicitly imported reusable component module whose selectors remain namespaced.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26-sitewide-ui-audit-01-revelation-md-86dd5ece6f.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-26-sitewide-ui-audit-02-architecture-md-e08ac676f1",
+		"title": "Phase Two — Sitewide UI Architecture",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26-sitewide-ui-audit/02_architecture.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Two — Sitewide UI Architecture",
+				"anchor": "phase-two-sitewide-ui-architecture"
+			},
+			{
+				"level": 2,
+				"text": "Competing strategies",
+				"anchor": "competing-strategies"
+			},
+			{
+				"level": 3,
+				"text": "A — One giant global stylesheet",
+				"anchor": "a-one-giant-global-stylesheet"
+			},
+			{
+				"level": 3,
+				"text": "B — Fix only pages users report",
+				"anchor": "b-fix-only-pages-users-report"
+			},
+			{
+				"level": 3,
+				"text": "C — Scoped page roots plus reusable namespaced primitives",
+				"anchor": "c-scoped-page-roots-plus-reusable-namespaced-primitives"
+			},
+			{
+				"level": 3,
+				"text": "D — Replace every native control with JavaScript widgets",
+				"anchor": "d-replace-every-native-control-with-javascript-widgets"
+			},
+			{
+				"level": 3,
+				"text": "E — Runtime auto-styler that mutates arbitrary DOM",
+				"anchor": "e-runtime-auto-styler-that-mutates-arbitrary-dom"
+			},
+			{
+				"level": 2,
+				"text": "Chosen visual architecture",
+				"anchor": "chosen-visual-architecture"
+			},
+			{
+				"level": 3,
+				"text": "Page ownership",
+				"anchor": "page-ownership"
+			},
+			{
+				"level": 3,
+				"text": "Interactive primitive contract",
+				"anchor": "interactive-primitive-contract"
+			},
+			{
+				"level": 3,
+				"text": "Media contract",
+				"anchor": "media-contract"
+			},
+			{
+				"level": 3,
+				"text": "Geometry contract",
+				"anchor": "geometry-contract"
+			},
+			{
+				"level": 3,
+				"text": "Stacking contract",
+				"anchor": "stacking-contract"
+			},
+			{
+				"level": 3,
+				"text": "Animation contract",
+				"anchor": "animation-contract"
+			},
+			{
+				"level": 2,
+				"text": "Audit engine architecture",
+				"anchor": "audit-engine-architecture"
+			},
+			{
+				"level": 2,
+				"text": "First remediation reference",
+				"anchor": "first-remediation-reference"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Two — Sitewide UI Architecture The Awtsmoos renews every interface while no selector owns itself or any neighboring page; Awtsmoos.com is remembered as each visual vessel receives one bounded root and one coherent stage. Competing strategies A — One giant global stylesheet Rejected",
+		"searchText": "b\"h boruch hashem blessed is he phase two — sitewide ui architecture the awtsmoos renews every interface while no selector owns itself or any neighboring page; awtsmoos.com is remembered as each visual vessel receives one bounded root and one coherent stage. competing strategies a — one giant global stylesheet rejected. it would make every page look superficially consistent while reintroducing global selector conflicts, accidental inheritance, z index wars, and fragile regressions. b — fix only pages users report rejected. the screenshots prove the defect class is systemic: native controls and incomplete component ownership can hide across routes until manually discovered. c — scoped page roots plus reusable namespaced primitives chosen. each page owns a root namespace. shared visual primitives may be imported, but their selectors remain namespaced and their dom contracts explicit. d — replace every native control with javascript widgets rejected as a blanket rule. native semantics remain valuable. text fields/selects/buttons can be fully css owned while preserving semantics. audio/video require a custom visible controller layered over an accessible media element. e — runtime auto styler that mutates arbitrary dom rejected as primary architecture. it hides incomplete source ownership and creates mutation order conflicts. runtime audit instrumentation may detect defects, but source modules must own presentation. chosen visual architecture page ownership every audited page must expose a stable application/page root. local css selectors begin beneath that root. shared modules expose explicit class contracts and remain scoped. interactive primitive contract every relevant interactive surface must define: resting appearance; fine pointer hover; active/pressed feedback; focus visible outline/ring; disabled state; invalid state when applicable; reduced motion fallback; touch target floor; text wrapping/overflow behavior. media contract visible native / are audit failures on branded surfaces. media remains semantic underneath while a custom controller owns play/pause, timeline, time, volume/mute, buffering/error, keyboard focus, and compact/mobile layout. geometry contract max inline size: 100% where content may grow. fixed/sticky layers must reserve or explicitly compensate content space. drawers/dialogs/menus must use viewport bounded sizing and internal overflow. safe area insets participate in phone fixed layers. no accidental document horizontal overflow. no half visible controls at initial fold boundaries. stacking contract each page defines a small named stacking vocabulary: base/content/sticky/popover/dialog/toast or equivalent. raw arbitrary four digit z index escalation is rejected. animation contract motion communicates state or hierarchy. avoid infinite distraction. hover transformations remain fine pointer only. active feedback remains universal. reduced motion removes nonessential displacement while keeping state contrast. audit engine architecture create a source/runtime audit that can report route level findings without auto mutating pages. candidate checks: html pages containing branded native audio/video controls; form elements not matched by owning page/style selectors; bare/global css selectors in local style bundles; hard coded z index hotspots; fixed/sticky declarations; missing viewport metadata; browser runtime x overflow; visible elements outside viewport; undersized interactive targets; default computed appearance signatures for form/media controls. first remediation reference social hub becomes the reference page because the user supplied live screenshots proving: native audio chrome inside messages; incomplete composer integration; fixed bottom geometry risk; mixed visual ownership. fix shared social hub components first so private messages and social pulse benefit together when they consume the same primitives.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26-sitewide-ui-audit-02-architecture-md-e08ac676f1.json"
 	}
 ]

@@ -25,19 +25,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-tunnel-6deaa3a1.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 1449,
-		"tests": 820,
+		"source": 2228,
+		"tests": 1207,
 		"assets": 0,
 		"generated": 0,
-		"docs": 10,
-		"other": 16
+		"docs": 24,
+		"other": 215
 	},
-	"totalFiles": 2295,
+	"totalFiles": 3674,
 	"symbolSummary": {
-		"files": 1371,
-		"classes": 33,
-		"functions": 6299,
-		"exports": 4910,
+		"files": 2115,
+		"classes": 182,
+		"functions": 11073,
+		"exports": 7535,
 		"samples": [
 			"buildIdentity",
 			"canonicalString",
@@ -55,19 +55,19 @@
 	},
 	"outgoingDependencies": [
 		{
-			"project": "ayzarim/ssh",
-			"count": 1,
-			"examples": "geelooy/apps/tunnel/agent/lib/fakeSsh/wireServer.js"
+			"project": "geelooy/apps/tests",
+			"count": 5,
+			"examples": "geelooy/apps/tunnel/css-guarantee/layer1/interactiveStates.mjs; geelooy/apps/tunnel/css-guarantee/layer1/ownershipContracts.mjs; geelooy/apps/tunnel/css-guarantee/layer1/selectorRegistry.mjs"
 		},
 		{
-			"project": "geelooy/scripts",
+			"project": "geelooy/os",
 			"count": 1,
-			"examples": "geelooy/apps/tunnel/agent/tools/fs/jsWriteVerifier.js"
+			"examples": "geelooy/apps/tunnel/js/account/AccountProducts.js"
 		},
 		{
 			"project": "geelooy/shared",
 			"count": 1,
-			"examples": "geelooy/apps/tunnel/js/browserPageTunnel.js"
+			"examples": "geelooy/apps/tunnel/js/browserPageTunnelDispatch.js"
 		},
 		{
 			"project": "scripts",
@@ -78,8 +78,8 @@
 	"incomingDependencies": [
 		{
 			"project": "geelooy/api/tunnel",
-			"count": 8,
-			"examples": "geelooy/api/tunnel/control/routes/fsVessel/responseContractIdentity.js; geelooy/api/tunnel/control/routes/osFs/virtualAiAgents.js; geelooy/api/tunnel/install/tools/zipSources.js"
+			"count": 14,
+			"examples": "geelooy/api/tunnel/control/routes/fileTransferGet.js; geelooy/api/tunnel/control/routes/fsVessel/publicActionResolver.js; geelooy/api/tunnel/control/routes/fsVessel/responseContractIdentity.js"
 		},
 		{
 			"project": "geelooy/scripts",
@@ -88,8 +88,8 @@
 		},
 		{
 			"project": "ayzarim/awtsmoosDynamicServer",
-			"count": 2,
-			"examples": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/actionAliases.js; ayzarim/awtsmoosDynamicServer/zipBundles/sourceResolver.js"
+			"count": 3,
+			"examples": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/actionAliases.js; ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/instructionCatalog.js; ayzarim/awtsmoosDynamicServer/zipBundles/sourceResolver.js"
 		}
 	],
 	"externalDependencies": [
@@ -97,6 +97,11 @@
 			"dependency": "yaml",
 			"count": 2,
 			"examples": "geelooy/apps/tunnel/agent/tools/fs/projectValidation.js"
+		},
+		{
+			"dependency": "react",
+			"count": 1,
+			"examples": "geelooy/apps/tunnel/downloads/merkava-shot/parser-declarations.js"
 		}
 	],
 	"publicEntries": [
@@ -105,7 +110,7 @@
 			"file": "geelooy/apps/tunnel/index.html",
 			"title": "Awtsmoos Tunnel Console",
 			"scripts": 1,
-			"styles": 1
+			"styles": 2
 		},
 		{
 			"url": "/apps/tunnel/agent/tools/fs/testing/.tmp-all-actions-source-stress",

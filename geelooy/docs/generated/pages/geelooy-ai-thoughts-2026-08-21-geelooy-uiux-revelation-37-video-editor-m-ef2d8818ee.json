@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-37-video-editor-m-ef2d8818ee",
+	"title": "Video Editor — Mobile and Compact Entry Proof",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-21-geelooy-uiux-revelation/37-video-editor-mobile-proof.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Video Editor — Mobile and Compact Entry Proof",
+			"anchor": "video-editor-mobile-and-compact-entry-proof"
+		},
+		{
+			"level": 2,
+			"text": "Original measured defect",
+			"anchor": "original-measured-defect"
+		},
+		{
+			"level": 2,
+			"text": "Preserved working architecture",
+			"anchor": "preserved-working-architecture"
+		},
+		{
+			"level": 2,
+			"text": "UI correction",
+			"anchor": "ui-correction"
+		},
+		{
+			"level": 2,
+			"text": "Final mobile measurements",
+			"anchor": "final-mobile-measurements"
+		},
+		{
+			"level": 2,
+			"text": "CompactJS proof",
+			"anchor": "compactjs-proof"
+		},
+		{
+			"level": 2,
+			"text": "Source gates",
+			"anchor": "source-gates"
+		},
+		{
+			"level": 2,
+			"text": "NEXTACTION",
+			"anchor": "nextaction"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-37-video-editor-m-ef2d8818ee-001.json"
+	]
+}

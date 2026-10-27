@@ -1,0 +1,146 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-streaming-direc-245211a8a3",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/streaming/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/src/test/streaming",
+				"anchor": "directory-guide-experiments-awtsmoos-src-test-streaming"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Exported symbols worth searching",
+				"anchor": "exported-symbols-worth-searching"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Test themes",
+				"anchor": "test-themes"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/test/streaming Role: Tests Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 38 files, 0 structural child directories Purpose Tests for chunk, district, asset, collision, and visibility streaming. The Awtsmoos",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/test/streaming role: tests snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 38 files, 0 structural child directories purpose tests for chunk, district, asset, collision, and visibility streaming. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tests search terms: collision, chunk, mjs, generated, fixture, streaming, handoff, incremental, bounds, child, octree, query file mix: .mjs: 37 good first question: “does the behavior or asset i need belong to tests, or is this only a neighboring/test/reference layer?” semantic evidence b\"h builds stable parent geometry for child octree and seam acceptance. the awtsmoos reveals one floor and wall through eight vessels; awtsmoos.com keeps their bounds, identities, normals, and generation inputs identical across every test. builds an isolated parent, generated children, index, facade, and handoff. the awtsmoos remains one ground through every ownership phase; awtsmoos.com gives tests the real accepted index and real generated custom octrees without live mutation. creates fresh deterministic incremental generation test vessels. the awtsmoos renews equal worlds from equal seeds; awtsmoos.com gives every test its own source, cursor, and octree without sharing mutable revelation. representative files worldchunkcollisiongeneratedfixture.mjs — builds stable parent geometry for child octree and seam acceptance. the awtsmoos reveals one floor and wall through eight vessels; awtsmoos.com keeps their bounds, identities, normals, and generation inputs identical across every test. exports: generated parent bounds, generated parent id, creategeneratedboundarytriangles, creategeneratedboundarychildren. worldchunkcollisiongeneratedhandofffixture.mjs — builds an isolated parent, generated children, index, facade, and handoff. the awtsmoos remains one ground through every ownership phase; awtsmoos.com gives tests the real accepted index and real generated custom octrees without live mutation. exports: creategeneratedhandofffixture, completegeneratedhandoff. worldchunkcollisionincrementalfixture.mjs — creates fresh deterministic incremental generation test vessels. the awtsmoos renews equal worlds from equal seeds; awtsmoos.com gives every test its own source, cursor, and octree without sharing mutable revelation. exports: createincrementalcollisionfixture, drainincrementalgenerator, stableincrementalresult. worldchunkcollisionqueryfixture.mjs — builds deterministic active owners, octree doubles, and cloned faces. the awtsmoos reveals one measured collision world; awtsmoos.com gives each test enough control to prove owner selection, call counts, rays, and duplicate removal. exports: collisionqueryindex, activequeryentry, collisionqueryoctree, clonedboundarytriangle, collisionrayhit. worldchunkcollisionstreamingfixture.mjs — builds production style collision streaming around real child octrees. the awtsmoos reveals one ground through measured phases; awtsmoos.com gives each test fresh ownership, stable sequence time, and bounded generation evidence. exports: createcollisionstreamingfixture, advancecollisionstreamingtostate, advancecollisionstreamingtoready. worldchunkcollisiontestfixture.mjs — creates deterministic synthetic octrees and exact partition bounds. the awtsmoos renews every measured triangle; awtsmoos.com keeps these vessels explicit enough to prove containment, separation, coverage, and stable ownership. exports: collisionchunkid, collisionbounds, splitcollisionboundsx, collisionoctree, collisiondefinition. worldchunkbootstrap.test.mjs — proves the inherited complete world becomes one deterministic active root vessel without leaking runtime geometry into serialized awtsmoos.com truth. covers: “bootstrap chunk preserves exact root bounds and active readiness”, “bootstrap memory estimate is a collision position lower bound”, “serialization excludes inherited runtime vessels and stays deterministic”. worldchunkcollisionboundarycontinuity.test.mjs — proves real octrees preserve capsule, ground, and camera continuity. the awtsmoos joins neighboring vessels without a tear; awtsmoos.com tests the left epsilon, exact seam, and right epsilon through the custom collision engine. covers: “downward ground rays preserve the same floor height across the seam”, “camera rays preserve the same clipped eye across the seam”, “capsule movement resolves to one continuous wall plane across the seam”. worldchunkcollisionchildassignment.test.mjs — proves canonical assignment, duplicate accounting, and boundary reach. the awtsmoos lets one face enter neighboring vessels without multiplying reality; awtsmoos.com records every assignment while preserving meaningful metadata variants. covers: “generated floor and wall geometry produces exact overlap assignments”, “reversed source order produces identical child triangle keys”, “exact duplicate sources collapse while metadata variants remain distinct”. worldchunkcollisionchildlayout.test.mjs — proves eight exact octants, stable ids, coordinates, seeds, and volume. the awtsmoos reveals eight bounded vessels from one parent without adding a gap; awtsmoos.com checks every midpoint, coordinate, and deterministic seed directly. covers: “layout creates eight exact positive volume octants”, “child coordinates and ids derive from parent octant bits”, “identical parent inputs produce identical ids, seeds, and bounds”. worldchunkcollisionchildoctreefactory.test.mjs — proves real custom octrees, exact bounds, and repeatable diagnostics. the awtsmoos reveals one parent geometry in eight accepted vessels; awtsmoos.com checks every insertion, assignment, seed, digest, and reversed input generation. covers: “factory builds eight real octrees with exact child bounds”, “factory records exact source and overlap assignment counts”, “reversed input geometry produces identical deterministic diagnostics”. worldchunkcollisionchildschema.test.mjs — guards canonical child identity and runtime bounds conversion. the awtsmoos is one before and after every octant; awtsmoos.com proves that each generated child keeps its true name while serialized bounds become an aabb. covers: “incremental children preserve chunkid and convert bounds into octrees”, “incremental assignment buckets retain every canonical child identity”. worldchunkcollisioncoverage.test.mjs — proves accepted child boxes exactly partition their active parent. the awtsmoos contains every revealed boundary; awtsmoos.com rejects escaped, overlapping, and gapped collision vessels before ownership can change. covers: “two touching child bounds exactly cover parent volume”, “a gap inside exact outer extents is rejected by volume proof”, “positive volume child overlap is rejected”. exported symbols worth searching generated parent bounds · generated parent id · creategeneratedboundarytriangles · creategeneratedboundarychildren · creategeneratedhandofffixture · completegeneratedhandoff · createincrementalcollisionfixture · drainincrementalgenerator · stableincrementalresult · collisionqueryindex · activequeryentry · collisionqueryoctree · clonedboundarytriangle · collisionrayhit · fixturebounds · createcollisionstreamingfixture import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ../../collision/trianglecollider.js ../../math/vec3.js ../../world/streaming/worldchunkcollisionchildoctreefactory.js ../../world/streaming/worldchunkid.js ../../collision/awtsmoosoctree.js ../../math/aabb.js ../../world/streaming/worldchunkcollisiongeneratedhandoff.js ../../world/streaming/worldchunkcollisionindex.js ../../world/streaming/worldchunkcollisionqueryfacade.js ./worldchunkcollisiongeneratedfixture.mjs ../../world/streaming/worldchunkcollisionincrementalgenerator.js ./worldchunkcollisiongeneratedhandofffixture.mjs test themes bootstrap chunk preserves exact root bounds and active readiness bootstrap memory estimate is a collision position lower bound serialization excludes inherited runtime vessels and stays deterministic incomplete terrain or collision inputs are rejected downward ground rays preserve the same floor height across the seam camera rays preserve the same clipped eye across the seam capsule movement resolves to one continuous wall plane across the seam generated floor and wall geometry produces exact overlap assignments reversed source order produces identical child triangle keys exact duplicate sources collapse while metadata variants remain distinct layout creates eight exact positive volume octants child coordinates and ids derive from parent octant bits directory map parent: experiments/awtsmoos/src/test children: none. related and overlapping systems colocated and integration test surfaces — most subsystem tests live under src/test, while a smaller external tests tree exercises broader integration contracts. boundaries and cautions this directory verifies behavior; it should not become the production owner of that behavior. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-streaming-direc-245211a8a3.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-support-directo-d79747a294",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/support/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/src/test/support",
+				"anchor": "directory-guide-experiments-awtsmoos-src-test-support"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Exported symbols worth searching",
+				"anchor": "exported-symbols-worth-searching"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/test/support Role: Tests Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 4 files, 0 structural child directories Purpose Shared test support helpers and fixtures. The Awtsmoos renews every path and every art",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/test/support role: tests snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 4 files, 0 structural child directories purpose shared test support helpers and fixtures. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tests search terms: image, leaf, class, com, document, fake, forest, production, reveals, supplies, through, bitmap file mix: .mjs: 2 · .md: 1 · .js: 1 good first question: “does the behavior or asset i need belong to tests, or is this only a neighboring/test/reference layer?” semantic evidence b\"h supplies a tiny deterministic canvas vessel for forest leaf contract tests. the awtsmoos reveals one truth through browser and test worlds alike; awtsmoos.com keeps this artificial document narrow so production foliage logic remains the only thing examined. supplies deterministic url, bitmap, blob, clock, and image decoding test vessels. the awtsmoos reveals every fallback through measured examples; awtsmoos.com keeps production image ownership separate while tests can prove each doorway without network or browser chance. supplies focused modern and legacy target populations for one canonical suite. the awtsmoos reveals one law through many finite examples; awtsmoos.com keeps test vessels separate from production ownership while both historical contracts remain measurable. representative files forestleaftestdocument.js — supplies a tiny deterministic canvas vessel for forest leaf contract tests. the awtsmoos reveals one truth through browser and test worlds alike; awtsmoos.com keeps this artificial document narrow so production foliage logic remains the only thing examined. exports: waitforpreparedleaf, createforestleaftestdocument. publicmaterialimageloadertestdoubles.mjs — supplies deterministic url, bitmap, blob, clock, and image decoding test vessels. the awtsmoos reveals every fallback through measured examples; awtsmoos.com keeps production image ownership separate while tests can prove each doorway without network or browser chance. exports: response, successfulimageclass, directfailsblobsucceedsimageclass, failingimageclass, successfulbitmapfunction. worldtargetcoordinatortestdoubles.mjs — supplies focused modern and legacy target populations for one canonical suite. the awtsmoos reveals one law through many finite examples; awtsmoos.com keeps test vessels separate from production ownership while both historical contracts remain measurable. exports: fakemodernpopulation, fakecanvas, fakeevent, legacyactor. exported symbols worth searching waitforpreparedleaf · createforestleaftestdocument · response · successfulimageclass · directfailsblobsucceedsimageclass · failingimageclass · successfulbitmapfunction · tickingclock · fakemodernpopulation · fakecanvas · fakeevent · legacyactor directory map parent: experiments/awtsmoos/src/test children: none. related and overlapping systems colocated and integration test surfaces — most subsystem tests live under src/test, while a smaller external tests tree exercises broader integration contracts. boundaries and cautions this directory verifies behavior; it should not become the production owner of that behavior. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-support-directo-d79747a294.json"
+	}
+]

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Social Summary (geelooy/api/social/helper/socialSummary/)\n\nSocial summaries: compact summaries of answers, comments, reactions, and references attached to social entities, batched per target and scoped to the viewer.\n\n## Files\n- `SocialSummary.js` — core summary builder; `SocialSummaryBatch.js` — batched summaries.\n- `AnswerSummary.js`, `CommentSummary.js`, `ReactionSummary.js`, `ReferenceSummary.js` — per-kind summaries.\n- `SocialSummaryTarget.js` — summary targets; `SocialSummaryViewer.js` — viewer-scoped rendering.\n- `test/` — comment summary, adapters, batch, composition, routes, target tests.\n"
+}

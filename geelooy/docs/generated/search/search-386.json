@@ -1,0 +1,190 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-0310-native-chitas-reader-05-shared-reade-06c63317a4",
+		"title": "Shared Native Reader Shell Defect",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-0310-native-chitas-reader/05-shared-reader-shell-defect.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Shared Native Reader Shell Defect",
+				"anchor": "shared-native-reader-shell-defect"
+			},
+			{
+				"level": 2,
+				"text": "Direct browser and HTTP evidence",
+				"anchor": "direct-browser-and-http-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Repair law",
+				"anchor": "repair-law"
+			},
+			{
+				"level": 2,
+				"text": "Verification obligations",
+				"anchor": "verification-obligations"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Shared Native Reader Shell Defect The Awtsmoos revealed beneath Chitas a wound shared by every Torah post reader road; Awtsmoos.com must heal the common vessel once, so ordinary chapters and dynamic ranges carry the same load. Direct browser and HTTP evidence A private 390px Chrome targe",
+		"searchText": "b\"h boruch hashem blessed is he shared native reader shell defect the awtsmoos revealed beneath chitas a wound shared by every torah post reader road; awtsmoos.com must heal the common vessel once, so ordinary chapters and dynamic ranges carry the same load. direct browser and http evidence a private 390px chrome target reached the standard native post shell but no chitas masthead or torah body. the rendered page contained a server template exception before postlogic.js could manifest the post. an ordinary devarim chapter url produced the identical exception. the owner is geelooy/heichelos/post/ awtsmoos.post.html, which invokes initial content.html with $$sd directly. on normal dynamic routes $$sd is not guaranteed to exist in that parent template scope. the server therefore throws referenceerror: $$sd is not defined before the child template can apply its own safe default. repair law rewrite the complete 108 line parent template. preserve its reader shell and imports. before invoking the initial content partial, derive an object with typeof $$sd !== \"undefined\" && $$sd ? $$sd : {}. pass that safe vessel into $a. do not patch a line in place. verification obligations 1. ordinary devarim chapter http body contains no therewasanawtsmooserrorhere or $$sd is not defined. 2. dynamic chitas http body has the same clean shell. 3. private chrome renders ordinary devarim through realpost. 4. private chrome renders native chitas masthead and canonical hebrew pesukim through the same reader. 5. no new runtime exceptions appear from the repaired template boundary.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-0310-native-chitas-reader-05-shared-reade-06c63317a4.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-0310-native-chitas-reader-06-compactjs-st-d8526b69c5",
+		"title": "CompactJS Static-Link Boundary Corruption",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-0310-native-chitas-reader/06-compactjs-static-link-boundary-corruption.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "CompactJS Static-Link Boundary Corruption",
+				"anchor": "compactjs-static-link-boundary-corruption"
+			},
+			{
+				"level": 2,
+				"text": "Direct evidence",
+				"anchor": "direct-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Repair law",
+				"anchor": "repair-law"
+			},
+			{
+				"level": 2,
+				"text": "Verification universe",
+				"anchor": "verification-universe"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He CompactJS Static Link Boundary Corruption The Awtsmoos revealed a reader failure beneath every post, where correct parser truth was widened by a later guess; Awtsmoos.com must let a finite import keep its measured shore, so one module cannot consume the next. Direct evidence The private ",
+		"searchText": "b\"h boruch hashem blessed is he compactjs static link boundary corruption the awtsmoos revealed a reader failure beneath every post, where correct parser truth was widened by a later guess; awtsmoos.com must let a finite import keep its measured shore, so one module cannot consume the next. direct evidence the private browser failed identically for ordinary devarim and dynamic chitas with referenceerror: tsmoosprompt is not defined. the exact served postlogic.js?compact=true bundle contained const aiify = ...default;tsmoosprompt; and const parsehebrew = ...default;ult;, while checked in source contains valid awtsmoosprompt and aiservicehandler imports. the merkava parser was interrogated against the real scripts/awtsmoos/api/utils.js. its importdeclaration.start/end ranges are exact. the semicolonless aiify import ends at offset 81, immediately before the next newline; the parsehebrew import ends at 181. modulenodetransform.js then discards those exact ends and calls generic findstatementend(source, node.start). on the same real source, that scanner extends the aiify import from 81 to 127, swallowing the complete following awtsmoosprompt import, and extends parsehebrew from 181 to 231, swallowing aiservicehandler. overlapping replacement descriptors then leave corrupt identifier tails in the generated bundle. repair law static esm link declarations already possess authoritative parser boundaries. importdeclaration, exportalldeclaration, and source/list only exportnameddeclaration must use a validated parser node.end. they must never scan forward for the next semicolon. named exports containing an actual declaration may retain the specialized declaration boundary path, and default exports retain their existing expression/declaration logic. if a static module link node lacks a finite end greater than or equal to its start, compactjs should fail explicitly with a boundary error rather than silently consuming neighboring source. verification universe 1. add a focused parser graph fixture with consecutive semicolonless default imports and a semicolon terminated named import. 2. assert the compiled module executes and all imported bindings retain their values. 3. run the complete focused compactjs suite. 4. fetch the real served post reader compact bundle and assert it contains the full awtsmoosprompt and aiservicehandler bindings with no stray tsmoosprompt or ;ult;. 5. re run private chrome ordinary devarim and chitas at 390px. 6. only after ordinary reader boot is clean should chitas specific ui/runtime refinement resume.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-0310-native-chitas-reader-06-compactjs-st-d8526b69c5.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-0310-native-chitas-reader-06-final-plan-v-bcb45d5d02",
+		"title": "Final Plan Versus Actual Audit",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-0310-native-chitas-reader/06-final-plan-vs-actual-audit.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Final Plan Versus Actual Audit",
+				"anchor": "final-plan-versus-actual-audit"
+			},
+			{
+				"level": 2,
+				"text": "The original requested experience",
+				"anchor": "the-original-requested-experience"
+			},
+			{
+				"level": 2,
+				"text": "What actually exists after two implementation passes",
+				"anchor": "what-actually-exists-after-two-implementation-passes"
+			},
+			{
+				"level": 3,
+				"text": "Native dynamic-range layer",
+				"anchor": "native-dynamic-range-layer"
+			},
+			{
+				"level": 3,
+				"text": "Native Tanach adapter",
+				"anchor": "native-tanach-adapter"
+			},
+			{
+				"level": 3,
+				"text": "Chitas schedule",
+				"anchor": "chitas-schedule"
+			},
+			{
+				"level": 3,
+				"text": "Native reader",
+				"anchor": "native-reader"
+			},
+			{
+				"level": 3,
+				"text": "Comments and social behavior",
+				"anchor": "comments-and-social-behavior"
+			},
+			{
+				"level": 3,
+				"text": "Mobile-first week/list UX",
+				"anchor": "mobile-first-week-list-ux"
+			},
+			{
+				"level": 3,
+				"text": "Language truth",
+				"anchor": "language-truth"
+			},
+			{
+				"level": 2,
+				"text": "What readback found and corrected",
+				"anchor": "what-readback-found-and-corrected"
+			},
+			{
+				"level": 2,
+				"text": "Evidence after the second pass",
+				"anchor": "evidence-after-the-second-pass"
+			},
+			{
+				"level": 2,
+				"text": "Second readback result",
+				"anchor": "second-readback-result"
+			},
+			{
+				"level": 2,
+				"text": "Frozen Chitas release surface",
+				"anchor": "frozen-chitas-release-surface"
+			},
+			{
+				"level": 2,
+				"text": "Remaining work is release work, not known Chitas source work",
+				"anchor": "remaining-work-is-release-work-not-known-chitas-source-work"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Final Plan Versus Actual Audit The Awtsmoos lets a plan return after implementation and ask the files what truly came to be; Awtsmoos.com closes no source covenant by confidence alone, but by readback, runtime, and evidence we can see. The original requested experience Daily Chitas belon",
+		"searchText": "b\"h boruch hashem blessed is he final plan versus actual audit the awtsmoos lets a plan return after implementation and ask the files what truly came to be; awtsmoos.com closes no source covenant by confidence alone, but by readback, runtime, and evidence we can see. the original requested experience daily chitas belongs inside heichel ikar as a special grouping. any week may be selected. sunday through shabbos follows the seven aliyos of the correct weekly sidra under chabad chitas scheduling rules. opening a day must remain on awtsmoos.com, use the native tanach/post reader, preserve ordinary comments/social behavior, and support hebrew/english oriented controls with clean mobile first formatting. the larger architectural request was a reusable dynamic post that can reveal a range of other canonical posts/verses without copying them. what actually exists after two implementation passes native dynamic range layer post/logic/reference posts/rangereference.js defines a source heichel/series plus start/end post and section coordinates. post/logic/reference posts/rangeresolver.js loads only required canonical source posts, slices only required sections, and returns source provenance including versesection. the canonical source remains ordinary ikar tanach chapter posts; no torah text is copied into a chitas database. native tanach adapter chitas/books.js maps calendar english book names to canonical ikar chumash series. chitas/rangeparser.js maps references such as deuteronomy 31:20 31:30 to chapter post and pasuk section coordinates. runtime evidence proved devarim chapter 31 post bh post 1749198310176 awtsmoos 216 yields exactly eleven canonical sections for 31:20–30. chitas schedule seven cards are produced sunday through shabbos. ordinary readings use hebcal only for calendar/parsha/aliyah metadata; torah body always comes from ikar. festival deferral selects the forthcoming weekly sidra. simchas torah and the following day receive structured native references, with diaspora and israel coverage tested. calendar fetch begins at the prior shabbos so the annual cycle transition is visible from isru chag. native reader coordinates.js intercepts daily chitas/chitas yyyy mm dd before persisted post lookup. dynamicpost.js synthesizes an ordinary reader shaped post containing canonical ikar sections and source provenance. postmanifest.js keeps the normal reader and adds only the chitas masthead before the ordinary section renderer and nav bars. existing reader navigation is already chitas aware and generates canonical day post links; no rewrite was needed after readback proved it. comments and social behavior living path cards use the ordinary internal post route and normal primarysocialactionrail. the prior chabad host allowlist, externalhref, and virtualstudy social suppression are removed from the active chitas path. synthetic posts expose post.heichel.id, postid, and series identity expected by the normal discussion system. the actual endpoint /api/social/heichelos/ikar/posts/chitas 2026 09 05/comment tree returns http 200 with the normal thread envelope. mobile first week/list ux chitas no longer renders inside generic today timeline buckets. chitas week.js owns a sunday through shabbos panel with previous week, today, date picker, next week, hebrew, and english ui controls. chitas list cards keep native post/social behavior but hide generic oversized media/kicker/meta decoration. controls have a 48px minimum height and responsive one/two/three column layout. selected study date is visibly distinct. language truth the canonical ikar tanach corpus currently materialized in chapter posts is hebrew. the existing native translation client supports translation series families such as sichos/meluket and does not provide tanach series translation rows. therefore the ui says english ui, never falsely claims english torah text, and marks translationstatus: canonical hebrew only. this architecture is ready for real english tanach sections later without changing chitas identity or schedule logic. what readback found and corrected the first readback caught stale browser generation edges that local node tests could not expose. the second pass rewrote changed chitas owners to one native chitas 002 graph and strengthened chitaslivingpathcontract.test.mjs to reject v001 drift. readback also disproved two feared bugs: global heichel cache version churn was unnecessary because module responses revalidate, and native previous/next navigation was already chitas aware. those files were intentionally left alone. evidence after the second pass the combined gate passes: syntax for every touched js/mjs file; every touched source/test <=120 lines; b\"h prologues; no chabad.org, externalhref, or virtualstudy in the production chitas path; no native chitas 001 in browser facing chitas owners; daily chitas schedule contract; native living path generation contract; native range test returning eleven canonical ikar pesukim; live local ikar devarim range resolution; dynamic discussion endpoint; hard dynamic deep link http 200 containing the native post shell; git diff check. second readback result every file rewritten for generation coherence was read fully again after the green gate. the intended v002 edges are present, stable reference post generation remains independent, and no new source code delta was discovered. frozen chitas release surface release integration must carry the tested versions of: geelooy/heichelos/heichel/modules/chitas/ geelooy/heichelos/heichel/modules/navigator/loader.js geelooy/heichelos/heichel/modules/ui/render/living path/cards.js .../living path/timeline.js .../living path/chitas week.js .../living path/chitas week.css geelooy/heichelos/post/logic/reference posts/ geelooy/heichelos/post/logic/chitas/ geelooy/heichelos/post/logic/initialization/coordinates.js .../initialization/postmanifest.js the three tests/geelooy/chitas .test.mjs contracts. remaining work is release work, not known chitas source work 1. freeze exact hashes and compare against any older chitas browser session activity. 2. inspect active worktrees, latest origin/main, and concurrent agents before integration. 3. build or identify a clean latest main integration vessel. 4. copy only the tested chitas release surface, then reconcile any overlaps with newly settled canonical work. 5. because the user explicitly requested unrelated changes also be current, inspect other dirty workstreams and absorb only work that is settled or committed; never steal files from active writers. 6. run chitas gates inside integration, then broader affected/unified tests. 7. commit and push the exact integrated sha without force. 8. use the repository's real production release mechanism after inspecting its current contract. 9. verify public module bytes, public dynamic chitas route, comments, week selection, and mobile ui. 10. only after public verification may the live link be reported as complete. the awtsmoos has made the source vessel coherent; now release gravity becomes the road; awtsmoos.com is not finished until the tested bytes reach production and the public page bears the load.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-0310-native-chitas-reader-06-final-plan-v-bcb45d5d02.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-0310-native-chitas-reader-07-native-reade-d78476c5ff",
+		"title": "Native Chitas Reader UX Delta",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-0310-native-chitas-reader/07-native-reader-chitas-ux-delta.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Native Chitas Reader UX Delta",
+				"anchor": "native-chitas-reader-ux-delta"
+			},
+			{
+				"level": 2,
+				"text": "Browser evidence after shared-reader repairs",
+				"anchor": "browser-evidence-after-shared-reader-repairs"
+			},
+			{
+				"level": 2,
+				"text": "Remaining product defects",
+				"anchor": "remaining-product-defects"
+			},
+			{
+				"level": 2,
+				"text": "Repair architecture",
+				"anchor": "repair-architecture"
+			},
+			{
+				"level": 2,
+				"text": "Verification",
+				"anchor": "verification"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Native Chitas Reader UX Delta The Awtsmoos has brought the Torah body safely home, and now the vessel must speak the day it reveals; Awtsmoos.com must not call Shabbos a chapter when seven Chitas gates are the rhythm the learner feels. Browser evidence after shared reader repairs Private",
+		"searchText": "b\"h boruch hashem blessed is he native chitas reader ux delta the awtsmoos has brought the torah body safely home, and now the vessel must speak the day it reveals; awtsmoos.com must not call shabbos a chapter when seven chitas gates are the rhythm the learner feels. browser evidence after shared reader repairs private 390×844 chrome now proves ordinary devarim and dynamic chitas both boot with zero runtime errors and zero horizontal overflow. ordinary devarim renders 30 native verse gates. chitas sep 5 renders exactly 11 native devarim 31:20–30 pesukim, stays on awtsmoos, and retains the community/sidebar surface. remaining product defects 1. renderchitasmasthead() runs before the structured scribe. scribescaffold.construct() then executes parent.innerhtml = \"\", erasing the masthead before the user can see it. 2. the ordinary navigation footer correctly uses canonical post ids but hardcodes chapter, previous, and next. a seven post chitas week therefore appears as chapter 7 / 7, which is semantically false. 3. chitas previous/next links preserve the old chitasdate query value even while changing the target chitas yyyy mm dd post id. the body resolves correctly from the post id, but url state disagrees with the selected day. repair architecture leave scribescaffold untouched; it owns structured reader reset and already works for ordinary tanach. render structured torah first, then call the chitas masthead renderer. the renderer will remove any stale copy and prepend() the new masthead above the scribe title crown. add a tiny chitasnav.js semantic adapter beside the generic nav owner. it supplies weekday/portion labels and target dates only when the series is daily chitas. rewrite nav.js completely so generic chapters retain their old vocabulary, while chitas gets chitas day, sunday–shabbos/aliyah labels, bilingual ui labels, and target date query synchronization. preserve canonical post id links for both modes. verification private chrome must show a visible masthead, six controls with minimum 48px height, no overflow at 320/390px, no chapter language inside the chitas nav, a correct target chitasdate on previous/next links, and no behavior change to ordinary devarim navigation.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-0310-native-chitas-reader-07-native-reade-d78476c5ff.json"
+	}
+]

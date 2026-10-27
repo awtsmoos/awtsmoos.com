@@ -1,0 +1,215 @@
+[
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-procedural-language-api-md-55a9830972",
+		"title": "B\"H",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/PROCEDURAL_LANGUAGE_API.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Awtsmoos Procedural Language — Public Creation Portal",
+				"anchor": "awtsmoos-procedural-language-public-creation-portal"
+			},
+			{
+				"level": 2,
+				"text": "Supported import",
+				"anchor": "supported-import"
+			},
+			{
+				"level": 2,
+				"text": "Simple surface",
+				"anchor": "simple-surface"
+			},
+			{
+				"level": 2,
+				"text": "Anything/everything principle",
+				"anchor": "anything-everything-principle"
+			},
+			{
+				"level": 2,
+				"text": "Advanced public symbols",
+				"anchor": "advanced-public-symbols"
+			},
+			{
+				"level": 2,
+				"text": "Stability law",
+				"anchor": "stability-law"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos Procedural Language — Public Creation Portal The Awtsmoos renews definition, world, compiler, artifact, and future kind before a finite API can name the way; Awtsmoos.com exposes one stable package doorway so new domains may deepen the language without forcing callers through pr",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos procedural language — public creation portal the awtsmoos renews definition, world, compiler, artifact, and future kind before a finite api can name the way; awtsmoos.com exposes one stable package doorway so new domains may deepen the language without forcing callers through private source paths every day. supported import this is the supported public subpath for the modern semantic procedural language. it is additive. historical package entry points such as procedural object, universal api, reality, and the package root remain unchanged. simple surface the creation portal intentionally exposes six verbs: define(input) — normalize definition compatible semantic data. generate(kind, options) — invoke registered data driven authoring generators. request(input) — normalize renderer neutral artifact requirements. plan(definition, request) — explain compiler chain coverage without executing compilers. compile(definition, request, options) — produce requested artifacts through the private compiler graph and cache. inspect() — return json safe schemas, channels, capabilities, and registry evidence. the portal is frozen. its advanced authority remains private behind the facade. anything/everything principle the public api does not need one method for every noun in creation. a future semantic definition may use a kind such as: domain plugins and compiler capabilities determine whether requested artifact channels can be planned and compiled. new nouns therefore expand registries and data contracts rather than expanding the top level api indefinitely. advanced public symbols the same subpath also exposes: awtsmooscreationportal and createawtsmooscreationportal; awtsmoosprocedural and createawtsmoosprocedural; universalsemantickernel and createuniversalsemantickernel; procedural definition helpers and patch transactions; artifact requests and artifact channel discovery; capability and schema discovery; versioned language contract constants. use the simple creation portal by default. reach for the advanced facade or isolated kernel only when authoring tools, compiler plugins, or diagnostics genuinely need deeper ownership. stability law keep renderer objects, executable compiler functions, and domain implementation details behind the package boundary. public values should remain serializable or intentionally class/factory entry points. add new semantic power through definitions, traits, relationships, constraints, generators, compiler registrations, and artifact channels before inventing another public verb.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-procedural-language-api-md-55a9830972.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-procedural-object-api-md-c2017ed50f",
+		"title": "B\"H — Awtsmoos Procedural Object API",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/PROCEDURAL_OBJECT_API.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Awtsmoos Procedural Object API",
+				"anchor": "b-h-awtsmoos-procedural-object-api"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Recipe Envelope",
+				"anchor": "recipe-envelope"
+			},
+			{
+				"level": 2,
+				"text": "Universal Geometry Artifact",
+				"anchor": "universal-geometry-artifact"
+			},
+			{
+				"level": 2,
+				"text": "Core Operations",
+				"anchor": "core-operations"
+			},
+			{
+				"level": 2,
+				"text": "Trusted Adapter Operations",
+				"anchor": "trusted-adapter-operations"
+			},
+			{
+				"level": 2,
+				"text": "Domain Profiles",
+				"anchor": "domain-profiles"
+			},
+			{
+				"level": 2,
+				"text": "Incremental Editing",
+				"anchor": "incremental-editing"
+			},
+			{
+				"level": 2,
+				"text": "Adapters",
+				"anchor": "adapters"
+			}
+		],
+		"excerpt": "B\"H — Awtsmoos Procedural Object API Purpose The procedural object API is a renderer neutral, deterministic modeling language. It describes geometry, scene structure, materials, rigs, animation, simulation intent, and exports without executing model generated code. Recipe Envelope A recipe uses awtsmoos.procedural obje",
+		"searchText": "b\"h — awtsmoos procedural object api purpose the procedural object api is a renderer neutral, deterministic modeling language. it describes geometry, scene structure, materials, rigs, animation, simulation intent, and exports without executing model generated code. recipe envelope a recipe uses awtsmoos.procedural object recipe version 1.0.0 and contains: stable asset and recipe identity. coordinate system declarations. reusable definitions. materials and initial objects. dependency ordered whitelisted commands. output declarations, validation rules, metadata, and uncertainties. universal geometry artifact every geometry is the full portable equivalent of a buffer style geometry: arbitrary named attributes. explicit component type and item size. indexed or non indexed topology. triangles, strips, fans, lines, loops, and points. groups, draw ranges, and material slots. multiple morph targets. bounds and semantic metadata. skin indices, skin weights, colors, tangents, custom scientific fields, or any other bounded numeric attribute. the core stores json safe arrays. @awtsmoos/procedural core/awtsmoos can materialize them as typed arrays without importing a rendering engine. core operations the deterministic core creates primitives, raw indexed geometry, extrusions, revolutions, transforms, mirrors, merges, arbitrary attributes, indices, groups, morph targets, object hierarchies, instances, materials, cameras, lights, collections, sockets, constraints, custom properties, armatures, animations, drivers, lod metadata, and scene metadata. trusted adapter operations operations requiring a specialized engine are preserved as structured deferred commands. the catalog covers curves, nurbs, surfaces, text, volumes, booleans, mesh editing, modifiers, geometry nodes, uv work, shaders, baking, cloth, fluids, smoke, fire, rigid bodies, particles, hair, fur, oceans, rendering, compositing, and export. a blender worker may implement these commands through maintained bpy code. the recipe itself never contains python, javascript, shell commands, urls, filesystem paths, or arbitrary source. domain profiles animal anatomy is one profile over the universal language. built in profiles also cover generic objects, architecture, terrain, products, and effects. applications may register additional semantic profiles and trusted namespaced operations such as ext:studio/custom operation. incremental editing use proceduralobjectpatchbuilder and proceduralobjectsession to apply immutable json pointer patches. only directly affected commands and their dependants are regenerated. adapters ./awtsmoos: primary renderer neutral typed array runtime. ./blender: safe structured execution plans. ./three: optional legacy compatibility adapter. ./animal mesh: anatomical recipe specialization. ./procedural object: universal public api.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-procedural-object-api-md-c2017ed50f.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-procedural-object-verification-md-0a6c890e8e",
+		"title": "B\"H — Generic Procedural Object Verification",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/PROCEDURAL_OBJECT_VERIFICATION.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Generic Procedural Object Verification",
+				"anchor": "b-h-generic-procedural-object-verification"
+			},
+			{
+				"level": 2,
+				"text": "Implemented",
+				"anchor": "implemented"
+			},
+			{
+				"level": 2,
+				"text": "Local Evidence",
+				"anchor": "local-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Production Boundary",
+				"anchor": "production-boundary"
+			}
+		],
+		"excerpt": "B\"H — Generic Procedural Object Verification Implemented Renderer neutral procedural object recipe and artifact schemas. Full indexed and non indexed geometry artifacts with arbitrary named typed attributes, topology modes, groups, draw ranges, morph targets, material slots, bounds, instancing metadata, and custom meta",
+		"searchText": "b\"h — generic procedural object verification implemented renderer neutral procedural object recipe and artifact schemas. full indexed and non indexed geometry artifacts with arbitrary named typed attributes, topology modes, groups, draw ranges, morph targets, material slots, bounds, instancing metadata, and custom metadata. deterministic primitives, extrusion, revolution, transforms, mirrors, merges, arbitrary attributes, indices, groups, morph targets, and scene assembly. generic data blocks, node graphs, links, materials, collections, cameras, lights, sockets, constraints, drivers, armatures, animations, and lod data. trusted deferred operation families for advanced modeling, shading, baking, simulations, geometry nodes, rendering, compositing, and export. primary awtsmoos typed array runtime with no renderer dependency. optional three.js compatibility converter. safe structured blender worker plans with no generated source execution. automatic universal artifacts beside legacy animal artifacts. immutable json pointer patch sessions and dependency regeneration. local evidence npm run test:procedural object: passed. npm run test:animal mesh: passed. all modified javascript and mjs modules pass node check. all new and rewritten javascript modules are at most 120 lines. all source modules begin with b\"h, boruch hashem, and blessed is he. code indentation uses tabs; no renderer class leaks into core contracts. production boundary the core represents any safe procedural intent, but engine specific algorithms remain trusted adapter responsibilities. blender workers must implement bpy operations, geometry nodes, booleans, remeshing, baking, simulations, and exports from structured commands. recipes never contain executable python, javascript, shell commands, network addresses, or filesystem paths.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-procedural-object-verification-md-0a6c890e8e.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-readme-md-a88dd64efc",
+		"title": "B\"H — Awtsmoos Procedural Core",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/README.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Awtsmoos Procedural Core",
+				"anchor": "b-h-awtsmoos-procedural-core"
+			},
+			{
+				"level": 2,
+				"text": "Nature — recommended doorway",
+				"anchor": "nature-recommended-doorway"
+			},
+			{
+				"level": 2,
+				"text": "Geology-first natural stone",
+				"anchor": "geology-first-natural-stone"
+			},
+			{
+				"level": 2,
+				"text": "Materials and optional generated textures",
+				"anchor": "materials-and-optional-generated-textures"
+			},
+			{
+				"level": 2,
+				"text": "Declarative recipes",
+				"anchor": "declarative-recipes"
+			},
+			{
+				"level": 2,
+				"text": "Discover capabilities instead of probing by failure",
+				"anchor": "discover-capabilities-instead-of-probing-by-failure"
+			},
+			{
+				"level": 2,
+				"text": "Specialist domains",
+				"anchor": "specialist-domains"
+			},
+			{
+				"level": 2,
+				"text": "Documentation path",
+				"anchor": "documentation-path"
+			},
+			{
+				"level": 2,
+				"text": "Low-level package surfaces",
+				"anchor": "low-level-package-surfaces"
+			},
+			{
+				"level": 2,
+				"text": "Low-level procedural geometry",
+				"anchor": "low-level-procedural-geometry"
+			},
+			{
+				"level": 2,
+				"text": "Host adapters",
+				"anchor": "host-adapters"
+			},
+			{
+				"level": 2,
+				"text": "Test lanes",
+				"anchor": "test-lanes"
+			},
+			{
+				"level": 2,
+				"text": "Architecture covenant",
+				"anchor": "architecture-covenant"
+			}
+		],
+		"excerpt": "B\"H — Awtsmoos Procedural Core Boruch Hashem. Blessed is He. The Awtsmoos renews stone, tree, creature, river, texture, recipe, and world from one source of being. Awtsmoos.com keeps the first doorway simple while deeper specialist vessels remain available for precise seeing. A renderer neutral procedural world library",
+		"searchText": "b\"h — awtsmoos procedural core boruch hashem. blessed is he. the awtsmoos renews stone, tree, creature, river, texture, recipe, and world from one source of being. awtsmoos.com keeps the first doorway simple while deeper specialist vessels remain available for precise seeing. a renderer neutral procedural world library for deterministic natural matter, geometry, materials, creatures, ecosystems, water, simulation, and host adapters. application code should normally begin with the high level nature api, then descend into specialist exports only when it needs expert control. nature — recommended doorway the common path stays small: every common operation is seedable and deterministic. core results are renderer neutral data/runtime vessels; adapters decide how they become webgl, three.js, native, or other host objects. geology first natural stone nature.rock() uses geological authority by default so rock family, erosion, fracture, strata, geometry, and material intent can arise from one physical recipe. the catalog preserves legacy morphology names while also exposing geology native intent such as granite, basalt, sandstone, limestone, volcanic, talus, and glacial. for explicit art direction through morphology rather than geology: materials and optional generated textures local semantic material planning never requires network access: compatibility alias: a host may inject any compatible generated texture provider: generation is local first. failure, cancellation, and unavailable providers are explicit; geometry never depends on hidden remote success. declarative recipes direct calls remain the easiest choice for normal code. when the request itself should be data, use the same engines through recipes: ordered batches are also available: async capability work is explicit: recipes can be serialized through the dedicated codec when they contain persistence safe data. runtime only functions, cyclic graphs, custom prototypes, and non finite numbers are rejected instead of silently corrupted. discover capabilities instead of probing by failure describe() exposes immutable operation metadata, descriptions, sync/async mode, shared defaults, and optional generated texture availability. catalog discovery is registry backed: the older convenience catalog methods remain available. specialist domains for deeper work, the same facade exposes focused authorities: nature.rocks — geological rocks, fields, and explicit morphology nature.materials / nature.surfaces — local material intent and generated textures nature.vegetation — plants, grass, botanical populations, flower clusters nature.forests — canonical trees and forest composition nature.creatures — chai creature creation and population facing contracts nature.ecosystems — coupled habitat planning nature.water — rivers and natural water regimes nature.catalog — generic cross domain discovery use specialist façades when the simple verb is not expressive enough; do not reach into random private files merely to bypass an existing authority. documentation path start small, then expand only as needed: docs/nature api.md — direct api and discovery quick start docs/nature recipes.md — recipes, batches, codecs, registries, capabilities docs/nature domains.md — geology, vegetation, forests, creatures, water, materials, expert escape hatches docs/texture registry.md — trusted remote material registry and hydration boundary low level package surfaces dedicated exports preserve clean expert boundaries: the broader procedural object, animal mesh, webgpu, blender, architecture, asset, and adapter surfaces remain available through their own package exports. low level procedural geometry the original renderer neutral geometry pipeline remains available from the root package: host adapters adapters turn renderer neutral core truth into host/runtime objects. the core does not require three.js, webgl, browser dom state, remote fetch, or persistent storage in order to generate procedural intent. keep adapter specific objects at adapter boundaries; do not move them into domem, tzomayach, chai, water, or nature core contracts. test lanes new public behavior should receive contract tests for determinism, failure semantics, compatibility, bounded resources, and discoverability—not merely an existence assertion. architecture covenant src/core owns deterministic renderer neutral procedural truth. src/core/natureapi owns high level natural world coordination and orchestration. natureapibase owns mature specialist domain façades. naturedirectapi owns immediate ergonomic verbs. natureapi owns recipes, ordered batches, and capability discovery. src/adapters converts core data into host/runtime objects. remote providers are explicit injected capabilities, never hidden dependencies of geometry creation. public entry points preserve stable contracts while deeper modules may evolve behind them. the awtsmoos is one beyond every layer; awtsmoos.com keeps the library expandable by letting each finite vessel remain clear, focused, testable, and replaceable.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-readme-md-a88dd64efc.json"
+	}
+]

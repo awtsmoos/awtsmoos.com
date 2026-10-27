@@ -56,6 +56,10 @@
 		{
 			"id": "api-sefarim-sefer-section-section-b464ddf1a3",
 			"route": "/api/sefarim/:sefer/section/:section"
+		},
+		{
+			"id": "api-sefarim-write-batch-1891bada35",
+			"route": "/api/sefarim/write/batch"
 		}
 	]
 }

@@ -1,0 +1,155 @@
+[
+	{
+		"id": "geelooy-apps-merkava-native-browser-build-pipeline-md-fff88caca6",
+		"title": "Merkava Android Browser — Build Pipeline",
+		"sourcePath": "geelooy/apps/merkava-native-browser/BUILD_PIPELINE.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Merkava Android Browser — Build Pipeline",
+				"anchor": "merkava-android-browser-build-pipeline"
+			},
+			{
+				"level": 2,
+				"text": "1. NDK / SDK location",
+				"anchor": "1-ndk-sdk-location"
+			},
+			{
+				"level": 2,
+				"text": "2. APK packager",
+				"anchor": "2-apk-packager"
+			},
+			{
+				"level": 1,
+				"text": "example:",
+				"anchor": "example"
+			},
+			{
+				"level": 2,
+				"text": "3. Manifest",
+				"anchor": "3-manifest"
+			},
+			{
+				"level": 2,
+				"text": "4. Native source",
+				"anchor": "4-native-source"
+			},
+			{
+				"level": 3,
+				"text": "Compiling the browser .so (the exact command the v2 builder used)",
+				"anchor": "compiling-the-browser-so-the-exact-command-the-v2-builder-used"
+			},
+			{
+				"level": 2,
+				"text": "5. Verification commands",
+				"anchor": "5-verification-commands"
+			},
+			{
+				"level": 2,
+				"text": "6. APKs built (2026-10-09)",
+				"anchor": "6-apks-built-2026-10-09"
+			},
+			{
+				"level": 2,
+				"text": "7. Commits",
+				"anchor": "7-commits"
+			}
+		],
+		"excerpt": "Merkava Android Browser — Build Pipeline B\"H Handoff document. Yaakov ordered all APK work dropped on 2026 10 09; this file exists so another agent can rebuild the APKs later from the same pipeline. 1. NDK / SDK location /workspace/.android sdk/ — verified on disk 2026 10 09: NDK: ndk/27.2.12479018 Build tools: build t",
+		"searchText": "merkava android browser — build pipeline b\"h handoff document. yaakov ordered all apk work dropped on 2026 10 09; this file exists so another agent can rebuild the apks later from the same pipeline. 1. ndk / sdk location /workspace/.android sdk/ — verified on disk 2026 10 09: ndk: ndk/27.2.12479018 build tools: build tools/35.0.0 (aapt2, apksigner, zipalign) platform: platforms/android 35 (android.jar) java: java/jdk 17.0.11+9 jre (required on path for apksigner/aapt2) compiler used: ndk/27.2.12479018/toolchains/llvm/prebuilt/linux x86 64/bin/aarch64 linux android26 clang this directory lives outside git. never commit it, never put it in the repo, never put it in any build path of awtsmoos code. it is the authorized interim path only; the self hosted awtsmoos compiler remains the long term project. 2. apk packager /workspace/apk browser/build apk.sh (outside git, workspace scratch). usage: what it does, in order: 1. aapt2 compile dir /workspace/apk build2/res o compiled res.zip 2. aapt2 link o base.apk i manifest /workspace/apk build2/androidmanifest.xml min sdk version 26 target sdk version 34 a /workspace/apk build2/assets compiled res.zip 3. unpacks base.apk, copies the given .so to lib/arm64 v8a/libmerkava.so, ensures assets/app.merkava is present. 4. re zips (zip 0 x, sorted file order), then zipalign f p 4. 5. apksigner sign ks /workspace/apk build/debug.keystore ks pass pass:android out aligned.apk keystore: /workspace/apk build/debug.keystore (outside git), password android, cert dn cn=merkava, o=awtsmoos, c=us. 6. prints apksigner verify print certs (first 2 lines) and the aapt dump badging package: line for the finished apk. the manifest, resources (res/mipmap launcher icons), and assets (assets/app.merkava, the demo fallback page) all come from /workspace/apk build2/. 3. manifest /workspace/apk build2/androidmanifest.xml (outside git): package: com.awtsmoos.merkava versioncode history: 2 = hello shell, 3 = browser v1, 4 = browser v2 (versionname 1.0 for code 2–3, 2.0 for code 4) android.app.nativeactivity, exported, android.app.lib name = \"merkava\", main/launcher intent filter, label merkava minsdk 26, targetsdk 34, uses feature android:glesversion 0x00030000 permissions: android.permission.internet and android.permission.access network state (added for the browser builds; the hello shell had none) 4. native source repo path: geelooy/apps/merkava native browser/native/ android platform code (native/platform/android/): merkava android main.c — anativeactivity oncreate, main loop, lifecycle merkava android egl.c — egl/glesv3 context merkava android text.c, merkava android ttf.c — text renderer, device fonts merkava android vm.c — demo vm fallback page merkava android asset.c — asset loading merkava android net.c — page fetch via jni → java/net/httpurlconnection (runs on a background pthread in v2; attach/detach guarded with getenv) merkava browser.c — browser: tabs (new/close/switch), address bar, url normalization, touch/scroll, link navigation shared code (native/platform/common/): merkava html.c (html parser), merkava css.c (css parser). also native/canonical/, native/render/, native/vm/ for the wider native runtime. compiling the browser .so (the exact command the v2 builder used) then feed the resulting libmerkava.so to build apk.sh. a simpler canonical only variant exists at native/platform/android/build android native.sh (compiles a smaller file list; not what the browser apks used). host side testing (how v2's logic was verified without a device): compile the platform/common + merkava browser.c sources with host gcc against stub gl/jni shims and run navigate/parse/render/css checks. the builder's harness lived in /tmp/btest (ephemeral); the real example.com html was fetched with curl and fed through awts html parse + awts css parse with no crash. 5. verification commands good output looks like (v2, verified 2026 10 09): apksigner verify exiting 0 with the cn=merkava, o=awtsmoos, c=us signer = signed correctly. static verification is not an install test; yaakov's rule was that no apk reaches him before installing in real android, but on 2026 10 09 he explicitly superseded that gate and ordered the apks sent directly (the uml android install oracle was shut down before completing). 6. apks built (2026 10 09) apk location versioncode result on real device hello shell /workspace/apk build2/merkava signed.apk (168,823 bytes; libmerkava.so 70,488 bytes) 2 installed and launched ok on pixel 6 pro. blue screen: \"hello from merkava / native c renderer. no webview.\" + merkava vm: 3 nodes, 0 events. browser v1 /workspace/apk browser/merkavabrowser v1.apk (193,399 bytes; libmerkava.so 92,888 bytes) 3 crashed on launch (\"merkava keeps stopping\"). native browser shell: background thread fetch was missing; jni layer detached threads unconditionally and never null checked findclass results. browser v2 /workspace/apk browser/merkavabrowser v2.apk (213,879 bytes; libmerkava.so 115,192 bytes) 4 crashed on launch. contains the diagnosed v1 fixes (getenv guarded attach/detach, findclass null checks, fetch on background pthread) plus tabs (new/close/switch) and address bar — but the fix is unproven on device. all three are com.awtsmoos.merkava, arm64 only (lib/arm64 v8a/libmerkava.so), signed with the debug keystore above. historical note: the very first attempt, /workspace/apk build/merkavandk.apk (160,631 bytes, package com.merkava.helloapk), failed with \"app not installed\" on the phone — likely a signature/package collision with an older apk of the same package name. the rebuild under the fresh com.awtsmoos.merkava identity installed fine. do not reuse the com.merkava.helloapk package name. 7. commits browser v2 source is committed on main as 27284e855 (\"b\\\"h merkava browser v2: crash fix + tabs + address bar\"). this doc is committed alongside it. the apk files themselves, the ndk/sdk, the keystore, and the /workspace/apk build dirs are outside git by design.",
+		"page": "pages/geelooy-apps-merkava-native-browser-build-pipeline-md-fff88caca6.json"
+	},
+	{
+		"id": "geelooy-apps-merkava-native-browser-continuation-md-9d7c5fb483",
+		"title": "Merkava Android Browser — Continuation Handoff",
+		"sourcePath": "geelooy/apps/merkava-native-browser/CONTINUATION.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Merkava Android Browser — Continuation Handoff",
+				"anchor": "merkava-android-browser-continuation-handoff"
+			},
+			{
+				"level": 2,
+				"text": "1. What was built",
+				"anchor": "1-what-was-built"
+			},
+			{
+				"level": 2,
+				"text": "2. Test results (on-device, real Pixel 6 Pro, 2026-10-09)",
+				"anchor": "2-test-results-on-device-real-pixel-6-pro-2026-10-09"
+			},
+			{
+				"level": 2,
+				"text": "3. Crash diagnosis — HONEST",
+				"anchor": "3-crash-diagnosis-honest"
+			},
+			{
+				"level": 2,
+				"text": "4. How to continue",
+				"anchor": "4-how-to-continue"
+			},
+			{
+				"level": 2,
+				"text": "5. Commits touching geelooy/apps/merkava-native-browser/",
+				"anchor": "5-commits-touching-geelooy-apps-merkava-native-browser"
+			},
+			{
+				"level": 2,
+				"text": "6. APK artifacts",
+				"anchor": "6-apk-artifacts"
+			}
+		],
+		"excerpt": "Merkava Android Browser — Continuation Handoff Status as of 2026 10 09 17:06 EDT: ALL APK work dropped per Yaakov's order. v2 still crashed on his Pixel 6 Pro; true cause unknown. This doc is everything the next agent needs to pick up. 1. What was built A native browser shell for Android — no WebView, no Chrome inside:",
+		"searchText": "merkava android browser — continuation handoff status as of 2026 10 09 17:06 edt: all apk work dropped per yaakov's order. v2 still crashed on his pixel 6 pro; true cause unknown. this doc is everything the next agent needs to pick up. 1. what was built a native browser shell for android — no webview, no chrome inside: entry: native/platform/android/merkava android main.c — anativeactivity oncreate, main loop, lifecycle. rendering: own gles renderer (merkava android egl.c, merkava android text.c, merkava android ttf.c). networking: fetches pages over http(s) on a background pthread worker via jni → java/net/httpurlconnection (native/platform/android/merkava android net.c, worker fetch worker in merkava browser.c:307). engine: own html parser + css parser + layout + paint in native/platform/common/ (merkava html.c, merkava css.c). the parser skips / contents (skipdepth) — no page javascript yet. that's the v3 milestone. browser chrome: tabs (new/close/switch, awts browser new tab), address bar with on screen keyboard (keyboardopen), url normalization (awts browser normalize url), link tap navigation, drag scroll — all in native/platform/android/merkava browser.c. permissions: internet, access network state. package com.awtsmoos.merkava. 2. test results (on device, real pixel 6 pro, 2026 10 09) build result hello shell apk (merkava signed.apk, same package lineage) installed and launched fine. blue screen, \"hello from merkava\", native renderer proven on device. v1 (merkavabrowser v1.apk, versioncode 3) crashed on launch — \"merkava keeps stopping\". v2 (merkavabrowser v2.apk, versioncode 4) crashed on launch too — same symptom. static verification passed for both (apksigner sig ok, aapt badging clean). neither was ever install tested in an emulator — the uml android oracle was shut down before it completed. 3. crash diagnosis — honest v1's suspected cause was the jni network layer in native/platform/android/merkava android net.c: 1. unconditional detachcurrentthread at the done: label — detached the app thread even when it was already attached before the call. 2. findclass results never null checked before getmethodid — a failed lookup would segfault immediately. 3. network fetch ran on the main (android main) thread. v2 fixed all three (verified in source): getenv first; only attach if detached, only detach if this call attached (attachedhere, lines 42–50, 199–200). if (!urlcls !conncls !streamcls !baoscls) guard (line 64). fetch moved to a background pthread worker (fetch worker, merkava browser.c:307). v2 still crashed. so the true cause is not yet found. stated plainly: the jni theory did not survive contact with the device. suspects not yet ruled out — anything in the startup path that only runs on device: real egl init on his gpu (host tests stub all gl). real font loading (merkava android ttf.c, merkava android text.c — device font paths). real jni class resolution from the attached worker thread (findclass behavior with no java frames on the stack). anything in boot vm / first frame render that the stubs mask. 4. how to continue host test pattern (works, keep using it): /tmp/btest/ compiles the real merkava browser.c + merkava html.c + merkava css.c for x86 64 with stubbed gl/jni (stubs.c, fakeinc/). all 39 checks pass; real https://example.com/ html (577 bytes, fetched 2026 10 09) parses clean with no crash. rebuild it with: the untested on host code is only: the jni network layer (merkava android net.c) and the real gl / real font paths. everything else is proven on the vm. single most valuable next step: get an on device logcat crash stack (or a working emulator). without the actual stack trace, further fixes are guessing. do not ship another \"fix\" apk without it. build pipeline: ndk 27 at /workspace/.android sdk, packager /workspace/apk browser/build apk.sh , debug keystore /workspace/apk build/debug.keystore (pass: android). 5. commits touching geelooy/apps/merkava native browser/ (get the full list with git log oneline geelooy/apps/merkava native browser/.) 6. apk artifacts /workspace/apk browser/merkavabrowser v1.apk — v1, versioncode 3, crashes on launch. /workspace/apk browser/merkavabrowser v2.apk — v2, versioncode 4, crash fix + tabs + address bar, still crashes on launch. cause unknown. /workspace/apk browser/build apk.sh — packager (reuses proven ndk pipeline). /workspace/apk build2/merkava signed.apk — hello shell, versioncode 2, installs and launches fine (the last known good). /workspace/apk build2/ — manifest, res, assets, pipeline pieces. package for all: com.awtsmoos.merkava.",
+		"page": "pages/geelooy-apps-merkava-native-browser-continuation-md-9d7c5fb483.json"
+	},
+	{
+		"id": "geelooy-apps-merkava-native-browser-css-support-audit-md-e95e19a7ad",
+		"title": "Merkava Executor CSS Support Audit",
+		"sourcePath": "geelooy/apps/merkava-native-browser/CSS_SUPPORT_AUDIT.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Merkava Executor CSS Support Audit",
+				"anchor": "merkava-executor-css-support-audit"
+			},
+			{
+				"level": 2,
+				"text": "Implemented / Started",
+				"anchor": "implemented-started"
+			},
+			{
+				"level": 2,
+				"text": "Missing CSS Rules / Features",
+				"anchor": "missing-css-rules-features"
+			}
+		],
+		"excerpt": "B\"H Merkava Executor CSS Support Audit This is the working checklist. The native C host must not implement these as browser logic; each item belongs in MerkavaExecutor and should emit render ops that C maps to OpenGL. Implemented / Started Basic selectors: type, id, class, attributes, descendant, child, adjacent siblin",
+		"searchText": "b\"h merkava executor css support audit this is the working checklist. the native c host must not implement these as browser logic; each item belongs in merkavaexecutor and should emit render ops that c maps to opengl. implemented / started basic selectors: type, id, class, attributes, descendant, child, adjacent sibling. basic pseudo selectors: focus, checked, disabled, enabled, first child. inline style cascade over stylesheet rules. basic box paint ops: background color, text color, width, height, min height, padding, margin, border width. basic block and inline ish flow. linked and inline css collection for fetched network html. linked and inline script collection for fetched network html. color normalization to opengl safe hex for named, short hex, long hex, rgb(), rgba(). first flexbox pass: display flex/inline flex, row/column, gap, justify content, align items. browser like ua defaults instead of fake per element white boxes. per side margin, padding, border width, border color expansion. background and border shorthand normalization. viewport units: vw, vh, vmin, vmax. calc() arithmetic for px, %, em/rem, and viewport units. fixed, absolute, and relative positioning basics. transform translatex()/translatey() basics, including offscreen sidebar patterns. flex grow and margin auto footer style flows. inherited typography basics: font size, font family, line height, text align, white space. text wrapping and center/right alignment. replaced element sizing for img/canvas. pseudo element rules are ignored instead of being applied to real elements. native stream now distinguishes border from filled box ops. missing css rules / features full cascade origins, inherited properties, !important ordering, media queries, @supports, @layer, @scope. full selector grammar: general sibling, :not, :is, :where, :has, nth child family, pseudo elements. css variables and calc()/min()/max()/clamp(). complete units: vw, vh, vmin, vmax, ch, ex, lh, percentages per property, font relative metrics. box model: per side margin/padding/border, box sizing, border styles, border radius. full colors: hsl(), hsla(), lab(), lch(), color mix(), currentcolor, transparent alpha compositing. typography: font family fallback, font size, weight, style, line height, letter spacing, wrapping, white space. layout: full flexbox algorithm, grid, absolute/fixed/sticky positioning, floats, z index/stacking contexts. overflow: scroll containers, clipping, hidden/auto/scroll, scrollbars. backgrounds: images, gradients, repeat, size, position, attachment, multiple layers. transforms: translate, scale, rotate, matrix, transform origin, 3d transforms. effects: opacity, box shadow, text shadow, filters, backdrop filter, mix blend mode. transitions/animations/keyframes. forms and replaced elements: image sizing, canvas intrinsic sizing, video/audio/object/embed. tables, lists, columns, writing modes, directionality. responsive viewport behavior and container queries. svg styling integration.",
+		"page": "pages/geelooy-apps-merkava-native-browser-css-support-audit-md-e95e19a7ad.json"
+	},
+	{
+		"id": "geelooy-apps-merkava-native-browser-documentation-md-f75934aa08",
+		"title": "Merkava Native Browser Documentation",
+		"sourcePath": "geelooy/apps/merkava-native-browser/DOCUMENTATION.md",
+		"category": "Apps",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Merkava Native Browser Documentation",
+				"anchor": "merkava-native-browser-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Merkava Native Browser Documentation The Awtsmoos lets browser and native capability meet through a developer runtime vessel whose boundaries must remain known; Awtsmoos.com maps this project beside native runtime, Code, Compiler, and OS documentation before changing how execution is sho",
+		"searchText": "b\"h boruch hashem blessed is he merkava native browser documentation the awtsmoos lets browser and native capability meet through a developer runtime vessel whose boundaries must remain known; awtsmoos.com maps this project beside native runtime, code, compiler, and os documentation before changing how execution is shown. read ../../../docs/apps/developer tools.md and ../../../docs/systems/geelooy os.md.",
+		"page": "pages/geelooy-apps-merkava-native-browser-documentation-md-f75934aa08.json"
+	}
+]

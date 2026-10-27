@@ -1,0 +1,108 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-08-26t1554-apps-runtime-api-ui-audit-01-phase1--6ee20923f1",
+		"title": "Phase 1 — Boundless Brainstorm",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26T1554-apps-runtime-api-ui-audit/01_PHASE1_BOUNDLESS_BRAINSTORM.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase 1 — Boundless Brainstorm",
+				"anchor": "phase-1-boundless-brainstorm"
+			},
+			{
+				"level": 2,
+				"text": "Every Useful Possibility Worth Considering",
+				"anchor": "every-useful-possibility-worth-considering"
+			},
+			{
+				"level": 2,
+				"text": "Phase 1 Principle",
+				"anchor": "phase-1-principle"
+			}
+		],
+		"excerpt": "B\"H Phase 1 — Boundless Brainstorm The Awtsmoos creates the page and request anew; let every hidden failure come into view. Awtsmoos.com should feel cinematic, coherent, resilient, fast, and true. Every Useful Possibility Worth Considering 1. Build a route manifest from real geelooy entrypoints instead of hand maintain",
+		"searchText": "b\"h phase 1 — boundless brainstorm the awtsmoos creates the page and request anew; let every hidden failure come into view. awtsmoos.com should feel cinematic, coherent, resilient, fast, and true. every useful possibility worth considering 1. build a route manifest from real geelooy entrypoints instead of hand maintained guesses. 2. crawl static pages and follow same origin links to discover hidden page families. 3. capture pageerror, console error/warn, failed requests, http 4xx/5xx, mime mismatches, and rejected module imports. 4. classify browser extension noise separately from site owned failures. 5. add a reusable static module resolver test that verifies every script[type=module] import returns javascript mime. 6. add a local asset reference scanner for html, css url(...), js imports, favicon, images, fonts, workers, and manifests. 7. add a server fallback guard so missing static modules never masquerade as json api responses. 8. normalize route/static precedence where api routing can swallow asset paths. 9. centralize client fetch semantics: timeout, cancellation, content type, json parsing, structured errors, and diagnostics. 10. introduce a shared api result/error contract only if current endpoints already reveal incompatible shapes. 11. add per api validation at boundaries rather than trusting untyped body/query values. 12. separate transport adapters from domain behavior so browser and server logic remain testable. 13. add request ids to user facing api failures where server infrastructure already supports correlation. 14. remove silent catch blocks and surface useful, safe error messages. 15. detect duplicate api wrappers and converge them behind focused modules while preserving external signatures. 16. create route local css layers only when a page truly needs them; shared tokens should live in shared foundations. 17. establish a cinematic spacing/type/elevation/motion token vocabulary without forcing all pages into one visual theme. 18. ensure every interactive element has hover, focus visible, active, disabled, and loading states where applicable. 19. keep responsive layouts usable at narrow mobile widths, landscape phones, tablets, desktops, and wide cinema displays. 20. add prefers reduced motion behavior for transitions and animated backgrounds. 21. make large screen ui movie friendly: measured content width, readable subtitles/captions, controlled contrast, and stable overlays. 22. audit safe area insets and fixed controls on mobile browsers. 23. audit high dpi imagery and object fit/crop behavior. 24. audit dark/light/system color behavior if the app supports themes. 25. add skeletons or explicit loading surfaces only where real latency exists. 26. ensure empty states and failure states are fully styled, not browser default fragments. 27. eliminate global selectors that accidentally restyle unrelated pages. 28. prefer scoped route classes/data attributes or css modules already natural to the project. 29. audit z index layers so menus, dialogs, tooltips, video/canvas surfaces, and devtools never fight. 30. audit keyboard traversal and escape/close behavior for overlays. 31. audit form labels, autocomplete, validation messages, and submit state realism. 32. audit fetch retries: retry only safe/idempotent operations and cap attempts. 33. audit caching headers and client cache assumptions for static modules and api json. 34. add smoke fixtures for auth gated pages so unauthenticated behavior is intentional rather than errorful. 35. if dynamic routes exist, derive representative fixture urls from code/tests instead of inventing ids. 36. validate every public module import graph with syntax/import checks. 37. search for case sensitive path bugs that work on macos but fail on linux hosting. 38. search for absolute filesystem paths accidentally embedded in browser code. 39. search for stale references to renamed files, legacy app paths, and duplicated foundation.js variants. 40. check favicon/manifest/social metadata so recurring 404 noise disappears. 41. check service worker/worker/module paths if present. 42. check csp/cors policies if module or api failures reveal them. 43. check static server mime table for .js, .mjs, .css, .json, .wasm, fonts, and media. 44. add route audit output as json and human readable markdown receipts. 45. add a regression gate that fails when site owned console errors or failed requests are found. 46. run visual screenshots at representative widths for repaired pages. 47. compare runtime before/after on /apps and representative route clusters. 48. inspect build/deploy scripts for source vs generated asset ownership; never edit bundles by hand. 49. inspect github workflows and hosting config before deployment. 50. verify the final canonical url directly after push/deploy. phase 1 principle possibility is chesed; boundaries are gevurah; the verified implementation must be tiferes. nothing above becomes code merely because it sounds grand. each item must earn its place through real project evidence.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26t1554-apps-runtime-api-ui-audit-01-phase1--6ee20923f1.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-26t1554-apps-runtime-api-ui-audit-02-phase1--dd1f8c4995",
+		"title": "Phase 1 — Theoretical File and Surface Map",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26T1554-apps-runtime-api-ui-audit/02_PHASE1_THEORETICAL_FILE_MAP.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase 1 — Theoretical File and Surface Map",
+				"anchor": "phase-1-theoretical-file-and-surface-map"
+			},
+			{
+				"level": 2,
+				"text": "Candidate Surfaces To Inspect",
+				"anchor": "candidate-surfaces-to-inspect"
+			},
+			{
+				"level": 2,
+				"text": "Candidate Supporting Files To Discover From Evidence",
+				"anchor": "candidate-supporting-files-to-discover-from-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Theoretical Rewrite Boundaries",
+				"anchor": "theoretical-rewrite-boundaries"
+			},
+			{
+				"level": 2,
+				"text": "Files Never To Touch Blindly",
+				"anchor": "files-never-to-touch-blindly"
+			},
+			{
+				"level": 2,
+				"text": "Evidence Gate",
+				"anchor": "evidence-gate"
+			}
+		],
+		"excerpt": "B\"H Phase 1 — Theoretical File and Surface Map The Awtsmoos gives every route its instant and breath; the map below names where evidence must be sought before any rewrite is wrought. Awtsmoos.com is not assumed from names alone; every candidate must be read and traced. Candidate Surfaces To Inspect geelooy/apps/: immed",
+		"searchText": "b\"h phase 1 — theoretical file and surface map the awtsmoos gives every route its instant and breath; the map below names where evidence must be sought before any rewrite is wrought. awtsmoos.com is not assumed from names alone; every candidate must be read and traced. candidate surfaces to inspect geelooy/apps/: immediate failure reproduction, entry html, js modules, css, app catalog data, static references. geelooy/api/: browser facing api documentation or client surfaces, if present. geelooy/libs/: shared browser libraries, loaders, fetch wrappers, dom/ui generators, routing helpers. geelooy/css/ and geelooy/style/: shared foundations, reset/tokens, global leakage, responsive behavior. geelooy/shared/: cross route components, layout, error surfaces, loading states. geelooy/public/ and geelooy/resources/: static assets, icons, images, fonts, manifests, favicons. geelooy/login/, register/, logout/, profile/: auth flows and unauthenticated runtime behavior. geelooy/social /, heichel /, post editor/, comment thread/: network heavy interactive routes and shared api consumers. geelooy/editor/, drive/, git/, os/, node os/: complex application shells where module and css regressions are likely. geelooy/game/, games/, reeyuh/, record/, recorder/: canvas/media/input heavy surfaces needing cinematic css and runtime resilience. geelooy/docs/, about/, contact/, donate/, legal/: simpler pages useful as baseline smoke controls. root server/static routing outside geelooy only if runtime evidence shows it governs these pages. candidate supporting files to discover from evidence server entrypoint and static file dispatcher. route registration order and api fallback logic. mime/content type table. html/template generator and page loader. shared fetch/api adapter. shared error normalization. shared css variables/tokens and base layout. existing browser smoke/crawl scripts. existing tests that assert route availability. github workflow, deployment scripts, hosting config, and domain/canonical url declarations. theoretical rewrite boundaries nothing is approved for modification yet. if evidence proves responsibility, likely safe boundaries are: 1. a focused static resolution or mime guard module rather than broad server surgery. 2. a focused route audit utility plus small route discovery and browser observation modules. 3. a focused client api transport layer plus endpoint adapters only where duplicate behavior exists. 4. a shared css token/foundation layer plus route local styles; no giant global stylesheet. 5. small repaired /apps modules split by data, rendering, navigation, and diagnostics if the current page is monolithic. 6. tests adjacent to the contracts they witness. files never to touch blindly generated bundles. vendor/minified third party files. lockfiles unless dependency changes actually require them. secrets or local credential files. unrelated assets whose ownership is uncertain. api schemas or response formats without tracing all consumers. evidence gate a candidate becomes a touched file only after: full read, import/export tracing, caller tracing, test inspection, runtime relevance proof, and a documented complete file replacement plan.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26t1554-apps-runtime-api-ui-audit-02-phase1--dd1f8c4995.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-26t1554-apps-runtime-api-ui-audit-03-phase2--29dfbb5682",
+		"title": "Phase 2 — Critique of Phase 1 and Twenty Improvements",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26T1554-apps-runtime-api-ui-audit/03_PHASE2_CRITIQUE_20_IMPROVEMENTS.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase 2 — Critique of Phase 1 and Twenty Improvements",
+				"anchor": "phase-2-critique-of-phase-1-and-twenty-improvements"
+			},
+			{
+				"level": 2,
+				"text": "Twenty Improvements To The First Plan",
+				"anchor": "twenty-improvements-to-the-first-plan"
+			},
+			{
+				"level": 2,
+				"text": "Why The First Pass Was Not Enough",
+				"anchor": "why-the-first-pass-was-not-enough"
+			},
+			{
+				"level": 2,
+				"text": "Revised Risk Graph",
+				"anchor": "revised-risk-graph"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Phase 2 — Critique of Phase 1 and Twenty Improvements The Awtsmoos renews the critic with the plan; what looked complete becomes a narrower span. Awtsmoos.com deserves evidence stronger than enthusiasm can. Twenty Improvements To The First Plan 1. Separate route discovery from route execution so a bad page cannot p",
+		"searchText": "b\"h phase 2 — critique of phase 1 and twenty improvements the awtsmoos renews the critic with the plan; what looked complete becomes a narrower span. awtsmoos.com deserves evidence stronger than enthusiasm can. twenty improvements to the first plan 1. separate route discovery from route execution so a bad page cannot prevent the inventory from completing. 2. record route provenance: filesystem entrypoint, discovered link, test fixture, or dynamic route generator. 3. create explicit allowlists for external/extension console noise so only site owned errors fail the audit. 4. capture response content type for every module request, not merely status codes. 5. treat 200 with wrong mime as a first class failure because /apps already demonstrates that class. 6. detect html/json fallback bodies returned for missing static assets by inspecting both headers and leading payload shape. 7. add case sensitivity validation against actual filenames to prevent macos only success. 8. detect imports that omit extensions only where the server/runtime requires explicit extensions. 9. make route smoke tests wait for a stable quiet window after initial load rather than sampling too early. 10. add per page timeout budgets so one hung application does not stall the entire audit. 11. audit authenticated and unauthenticated states separately where fixtures or safe session state exist. 12. build api consumer mapping before changing any response contract, including fetch wrappers and direct fetch() calls. 13. preserve endpoint aliases during api reorganization unless every consumer is proven migrated. 14. add structured client side error objects that retain http status, endpoint, method, content type, and safe body excerpt. 15. split css findings into global foundation issues versus page local issues; never solve local defects with wider global selectors. 16. add viewport matrix receipts for mobile portrait, mobile landscape, tablet, desktop, and cinema wide widths on representative interactive routes. 17. include reduced motion and keyboard only verification in ui acceptance criteria. 18. inspect deployment workflows before creating new scripts, so the canonical production path is strengthened rather than duplicated. 19. create a pre push secret/artifact review because the user explicitly requested committing unrelated changes too. 20. require live post deploy verification against the actual canonical url and commit sha before completion. why the first pass was not enough the first pass was expansive but could still confuse breadth with proof. it needed stronger provenance, mime level evidence, dynamic route discipline, state separation, and a deployment/secret gate. the second pass turns broad intent into observable contracts. revised risk graph static routing mime correctness module execution page boot. page boot api transport endpoint contract ui state. ui state css scope responsive layout accessibility and cinematic presentation. source rewrite tests build git review push deployment live verification. unrelated changes provenance secret/artifact review safe inclusion in commit. next action write the improved brainstorm and executable file plan using these twenty upgrades, then run git/runtime discovery.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26t1554-apps-runtime-api-ui-audit-03-phase2--29dfbb5682.json"
+	}
+]

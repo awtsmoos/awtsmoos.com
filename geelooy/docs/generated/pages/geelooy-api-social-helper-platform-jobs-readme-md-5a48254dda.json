@@ -1,0 +1,24 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-social-helper-platform-jobs-readme-md-5a48254dda",
+	"title": "B\"H — Platform Jobs (geelooy/api/social/helper/platform/jobs/)",
+	"sourcePath": "geelooy/api/social/helper/platform/jobs/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Platform Jobs (geelooy/api/social/helper/platform/jobs/)",
+			"anchor": "b-h-platform-jobs-geelooy-api-social-helper-platform-jobs"
+		},
+		{
+			"level": 2,
+			"text": "Files",
+			"anchor": "files"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-social-helper-platform-jobs-readme-md-5a48254dda-001.json"
+	]
+}

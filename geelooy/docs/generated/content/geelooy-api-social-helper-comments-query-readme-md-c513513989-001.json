@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Comment Query (geelooy/api/social/helper/comments/query/)\n\nThe comment read/query service used by comment routes.\n\n## Files\n- `TiferesCommentQueryService.js` — central query service for reading comments (by post, alias, verse section, tree).\n- `BinahCommentReadContext.js` — builds the immutable read context (heichel, series, post, permissions) that queries execute under.\n"
+}

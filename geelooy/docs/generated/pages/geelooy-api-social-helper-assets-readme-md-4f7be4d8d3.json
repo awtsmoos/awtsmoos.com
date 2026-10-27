@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-social-helper-assets-readme-md-4f7be4d8d3",
+	"title": "B\"H — Assets (geelooy/api/social/helper/assets/)",
+	"sourcePath": "geelooy/api/social/helper/assets/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Assets (geelooy/api/social/helper/assets/)",
+			"anchor": "b-h-assets-geelooy-api-social-helper-assets"
+		},
+		{
+			"level": 2,
+			"text": "Key files",
+			"anchor": "key-files"
+		},
+		{
+			"level": 2,
+			"text": "What it does",
+			"anchor": "what-it-does"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-social-helper-assets-readme-md-4f7be4d8d3-001.json"
+	]
+}

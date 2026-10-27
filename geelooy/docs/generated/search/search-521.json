@@ -1,0 +1,205 @@
+[
+	{
+		"id": "geelooy-apps-tunnel-voice-to-css-readme-md-fc2561fa64",
+		"title": "Voice-to-CSS Tool",
+		"sourcePath": "geelooy/apps/tunnel/voice-to-css/README.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Voice-to-CSS Tool",
+				"anchor": "voice-to-css-tool"
+			},
+			{
+				"level": 2,
+				"text": "The loop",
+				"anchor": "the-loop"
+			},
+			{
+				"level": 2,
+				"text": "Modules",
+				"anchor": "modules"
+			},
+			{
+				"level": 2,
+				"text": "Demo",
+				"anchor": "demo"
+			},
+			{
+				"level": 1,
+				"text": "→ parses, generates CSS, renders preview page to /tmp/voice-css-preview.html",
+				"anchor": "parses-generates-css-renders-preview-page-to-tmp-voice-css-preview-html"
+			},
+			{
+				"level": 1,
+				"text": "→ prints the approver chat text",
+				"anchor": "prints-the-approver-chat-text"
+			},
+			{
+				"level": 2,
+				"text": "Wiring to deploy",
+				"anchor": "wiring-to-deploy"
+			},
+			{
+				"level": 2,
+				"text": "Tests",
+				"anchor": "tests"
+			}
+		],
+		"excerpt": "//B\"H Voice to CSS Tool Yaakov speaks → system changes the site. No CSS written by hand. The loop Modules File Purpose SPEC.mjs Shared interface shapes (intent, diff, preview, approver) commands.mjs 20 pre built voice commands + TARGET SELECTORS map parser.mjs parseIntent(text) — command fast path, then keyword NLP fal",
+		"searchText": "//b\"h voice to css tool yaakov speaks → system changes the site. no css written by hand. the loop modules file purpose spec.mjs shared interface shapes (intent, diff, preview, approver) commands.mjs 20 pre built voice commands + target selectors map parser.mjs parseintent(text) — command fast path, then keyword nlp fallback generator.mjs generatecss(intent) — intent → {selector, declarations, css, summary} preview.mjs applydifftohtml(html, diff) — inject preview ; renderpreviewpage() approver.mjs propose/approve/reject/get/listpending/formatforchat — in memory demo.mjs cli end to end: node demo.mjs \"make the title bigger\" demo wiring to deploy approve(id).deployplan = { cssfile, csstext, selector, summary }. the tunnel deploy step appends csstext to the target css file (scoped commit), then runs the css guarantee pipeline in its current mode (fail open now, fail closed when the triage lands). the voice tool never deploys directly — it produces a plan the pipeline consumes. tests /workspace/voice css tests/ .test.mjs — run each with node. target: 80+ tests, all passing.",
+		"page": "pages/geelooy-apps-tunnel-voice-to-css-readme-md-fc2561fa64.json"
+	},
+	{
+		"id": "geelooy-apps-universal-chat-documentation-md-f5f2ddd769",
+		"title": "Messages & Torah Chat",
+		"sourcePath": "geelooy/apps/universal-chat/DOCUMENTATION.md",
+		"category": "Apps",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Messages & Torah Chat",
+				"anchor": "messages-torah-chat"
+			},
+			{
+				"level": 2,
+				"text": "Entry point",
+				"anchor": "entry-point"
+			},
+			{
+				"level": 2,
+				"text": "Module boundary",
+				"anchor": "module-boundary"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Messages & Torah Chat The Awtsmoos renews public Torah conversation and private consent messaging through one identity while Awtsmoos.com keeps discovery, private transport, presentation, and conversation state in focused modules. Entry point index.html mounts messagingAppRoot and loads ",
+		"searchText": "b\"h boruch hashem blessed is he messages & torah chat the awtsmoos renews public torah conversation and private consent messaging through one identity while awtsmoos.com keeps discovery, private transport, presentation, and conversation state in focused modules. entry point index.html mounts messagingapproot and loads app.js. the bootstrap mounts the shared private messaging bridge and universal chat client, then messagingappcontroller coordinates the messagingappshell. module boundary the many messaging modules divide discovery, conversation actions, composer behavior, disclosure, details, presence/status, assets, ranking, and presentation. shared realtime/public/private clients under /scripts/awtsmoos/social/ remain protocol authority.",
+		"page": "pages/geelooy-apps-universal-chat-documentation-md-f5f2ddd769.json"
+	},
+	{
+		"id": "geelooy-apps-wallet-documentation-md-b9615d5703",
+		"title": "Wallet App Documentation",
+		"sourcePath": "geelooy/apps/wallet/DOCUMENTATION.md",
+		"category": "Apps",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Wallet App Documentation",
+				"anchor": "wallet-app-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Wallet App Documentation The Awtsmoos gives value a vessel while every accounting promise must remain tied to code; Awtsmoos.com maps this UI to Wallet, commerce, PayPal, Perutas, and adjacent treasury roads. Read ../../../docs/APPS/COMMERCE AND WALLET.md and ../../../docs/API/WALLET.md.",
+		"searchText": "b\"h boruch hashem blessed is he wallet app documentation the awtsmoos gives value a vessel while every accounting promise must remain tied to code; awtsmoos.com maps this ui to wallet, commerce, paypal, perutas, and adjacent treasury roads. read ../../../docs/apps/commerce and wallet.md and ../../../docs/api/wallet.md.",
+		"page": "pages/geelooy-apps-wallet-documentation-md-b9615d5703.json"
+	},
+	{
+		"id": "geelooy-apps-workos-architecture-md-f544dc3270",
+		"title": "WorkOS — Architecture Blueprint",
+		"sourcePath": "geelooy/apps/workos/ARCHITECTURE.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "WorkOS — Architecture Blueprint",
+				"anchor": "workos-architecture-blueprint"
+			},
+			{
+				"level": 2,
+				"text": "1. The one idea",
+				"anchor": "1-the-one-idea"
+			},
+			{
+				"level": 2,
+				"text": "2. Layer map",
+				"anchor": "2-layer-map"
+			},
+			{
+				"level": 2,
+				"text": "3. Identity: everything gets a permanent URI",
+				"anchor": "3-identity-everything-gets-a-permanent-uri"
+			},
+			{
+				"level": 2,
+				"text": "4. The event fabric (deepest primitive)",
+				"anchor": "4-the-event-fabric-deepest-primitive"
+			},
+			{
+				"level": 3,
+				"text": "Event taxonomy (v0.1)",
+				"anchor": "event-taxonomy-v0-1"
+			},
+			{
+				"level": 3,
+				"text": "Facts ≠ claims ≠ decisions",
+				"anchor": "facts-claims-decisions"
+			},
+			{
+				"level": 3,
+				"text": "Decision lifecycle",
+				"anchor": "decision-lifecycle"
+			},
+			{
+				"level": 2,
+				"text": "5. Work graph schema",
+				"anchor": "5-work-graph-schema"
+			},
+			{
+				"level": 2,
+				"text": "6. Mission rooms (the live operating room)",
+				"anchor": "6-mission-rooms-the-live-operating-room"
+			},
+			{
+				"level": 2,
+				"text": "7. Provenance (automatic, at the tool boundary)",
+				"anchor": "7-provenance-automatic-at-the-tool-boundary"
+			},
+			{
+				"level": 2,
+				"text": "8. Context compiler (context capsules)",
+				"anchor": "8-context-compiler-context-capsules"
+			},
+			{
+				"level": 2,
+				"text": "9. Capabilities & trust",
+				"anchor": "9-capabilities-trust"
+			},
+			{
+				"level": 2,
+				"text": "10. Sharing / forking / contributions",
+				"anchor": "10-sharing-forking-contributions"
+			},
+			{
+				"level": 2,
+				"text": "11. UI map (v0.1 → forward)",
+				"anchor": "11-ui-map-v0-1-forward"
+			},
+			{
+				"level": 2,
+				"text": "12. Storage & sync path",
+				"anchor": "12-storage-sync-path"
+			},
+			{
+				"level": 2,
+				"text": "13. API surface",
+				"anchor": "13-api-surface"
+			},
+			{
+				"level": 2,
+				"text": "14. Phased rollout",
+				"anchor": "14-phased-rollout"
+			},
+			{
+				"level": 2,
+				"text": "15. Open decisions for Yaakov",
+				"anchor": "15-open-decisions-for-yaakov"
+			}
+		],
+		"excerpt": "WorkOS — Architecture Blueprint Status: north star design document · v0.1 implements the local first slice Location: geelooy/apps/workos/ (additive; never modifies existing tunnel/site behavior) Awtsmoos becomes a persistent collaborative operating system for AI work — GitHub redesigned from the ground up for humans an",
+		"searchText": "workos — architecture blueprint status: north star design document · v0.1 implements the local first slice location: geelooy/apps/workos/ (additive; never modifies existing tunnel/site behavior) awtsmoos becomes a persistent collaborative operating system for ai work — github redesigned from the ground up for humans and ai agents, where what is preserved is not merely code, but the entire history of work: files, agents, missions, decisions, evidence, conversations, context, and deployments. 1. the one idea the system remembers work; agents don't have to remember chats. agents and sessions are temporary processes. what survives is what actually happened: work items, file mutations, tests, decisions, discoveries, failures, deployments, artifacts, evidence, handoffs. six months later, a new agent can ask \"why does this code exist?\" and walk backward through real causal history instead of hoping semantic search guesses correctly. 2. layer map the filesystem/desktop the human sees is one projection of the graph — like linux /proc: beautiful, familiar, but not the underlying reality. 3. identity: everything gets a permanent uri a file is awts://entity/file/9f3k…, not /src/auth.js. rename it, move it ten times — same entity. pathaliases[] records every address it ever had. same for agents, missions, work items, decisions, rooms, artifacts, deployments, sessions. paths are addresses, not identity. v0.1 ids: ; v0.2: ulids (lexicographically sortable). 4. the event fabric (deepest primitive) append only. every important action becomes an event: causes[] makes causality explicit — the chain user request → mission → work item → delegation → agent → discovery → decision → file mutation → test → release → deployment is stored, not inferred. event taxonomy (v0.1) family types facts (observed) fact.file mutated, fact.test passed/failed, fact.command exited, fact.http status, fact.deployed, fact.agent read files claims (interpretation) claim.made {text, confidence} decisions decision.proposed/accepted/implemented/superseded/reversed/deprecated work work.created/status changed/blocked/unblocked/delegated/completed/linked mission mission.created/status changed room room.created/message/presence agent agent.registered/heartbeat file file.created/renamed/edited provenance provenance.recorded facts ≠ claims ≠ decisions fact: file hash changed, command exited 1, http 500, test passed. claim: \"i think the 500 is stale auth.\" (confidence scored, attributable) decision: \"we will hydrate auth before dispatch.\" (lifecycle below) future agents must never mistake an old guess for established reality. decision lifecycle proposed → accepted → implemented → (canonical); later: superseded reversed deprecated — always as new events , never edits. \"canonical\" is a historical assertion, supersedable like any other. 5. work graph schema mission {id, title, objective, acceptance[], status, ownerids[]} contains work items {id, missionid, parentid?, title, status, owner?, acceptance?, links:[{rel, other, ts}], evidence[]}. status: todo → doing → review → done; blocked anytime with a reason. relations: blocks, depends on, supersedes, part of (subdivision). agents claim work , not files; file reservations derive from work claims — conflict prevention happens before edits (same work twice, overlapping scopes, symbol collisions, contradictory decisions), not at merge time. completion requires evidence (receipts): tests, hashes, screenshots, build outputs, deployment ids — linked from the work item. 6. mission rooms (the live operating room) every mission has a persistent room. rooms survive disconnects; agents rejoin with full history. presence: online away offline + heartbeat. semantic message kinds (not just chat): message, announcement, request, response, obligation, delegation, discovery, blocker, review request, handoff. the orchestrator can see agent 7 is waiting on agent 4 — structured, not two text bubbles. room talk is coordination, not truth : important findings get promoted to durable objects (discovery, decision, invariant, failure, handoff). handoffs are executable: current state, verified evidence, unfinished work, blockers, and the next exact safe action — mostly by transferring the work item itself, not prose. 7. provenance (automatic, at the tool boundary) when an agent touches a file or runs a significant action, the tool wrapper records the objective part automatically: the agent then adds the semantic part: intent, decision refs, outcome notes. history never depends on an agent remembering to journal. per file \"who/why\" timelines are projections of this record. 8. context compiler (context capsules) on task start the system compiles a capsule — layered, token budgeted: 1. laws (mandatory — never summarized away, never dropped) 2. objective 3. canonical decisions 4. active work 5. blockers 6. peer obligations 7. recent discoveries 8. known failures budget algorithm: fill in priority order; truncate/drop lowest priority non mandatory layers first to fit budgettokens. project context.md is a compiled artifact of this process — regenerable, never the source of truth. canonicality attaches to individual decisions/outcomes, never whole sessions. 9. capabilities & trust sharing is capability based , not all or nothing: read project, write under path, create work, join room, run tests, request deploy, propose contribution — each grantable separately. history itself is append only (no capability deletes the past). contributors are humans and agents, attributed in history. federated agents join missions under narrow capabilities: assignment + capsule in, evidence/artifacts out, room scoped communication. 10. sharing / forking / contributions publish a workspace (private → invite → org → link → public), optionally with history/decisions/context — not just files. others fork the working intelligence environment : files + architecture + decisions + context + runnable artifacts. improvements return as contributions (ai pull requests) with full evidence; owners accept/reject piece by piece. public folders with index.html get preview/publish (pages equivalent). 11. ui map (v0.1 → forward) / — home: clean grid (missions, agents, files, shared, recent) + universal search palette. /mission/ — tabs: overview (objective, acceptance, progress, blockers, next action, agents, evidence) · work (issues like cards, filters, deps) · agents (roster: specialty, assignment, health, history) · room (semantic stream + presence + composer) · files (who/why timelines) · decisions (lifecycle + supersede chains) · activity (causal event feed) → later: evidence, tests, releases, deployments, knowledge, graph. later: causal graph visualization, time machine scrubber, smart folders (saved queries like /smart/all mitzvah world terrain work/), old session reconstruction (\"find all mitzvah world work, make a project\"). 12. storage & sync path v0.1 (now): local first. event log + entity store in the browser (localstorage key awtsmoos.workos.v1). zero server changes, zero tunnel impact. single user, but the model is already the real one. v0.2: server event log (append endpoint + seq assignment), multi device sync, room realtime over the existing tunnel transport (transport ≠ identity; the tunnel work happening in parallel must not be disturbed). v0.3: federation — cross user rooms, fork/contribute protocol, capability tokens. 13. api surface v0.1: the workos js namespace (core/store.js) — see contract.md. v0.2 (sketch): post /workos/events:append, get /workos/events?since=, get /workos/entities/:id, ws room.subscribe(roomid) with resume from seq. server assigns authoritative seq; clients keep causal causes[]. 14. phased rollout 1. ✅ v0.1 — local core (events/entities/work/missions/rooms/provenance/ capsule) + ui shell + seed demo. (this build) 2. v0.2 — server event log + sync + realtime rooms; agent roster + heartbeat service. 3. v0.3 — context compiler v2 (embeddings assisted retrieval, still graph first), smart folders, universal search. 4. v0.4 — sharing/fork/contribute, capabilities, public pages. 5. v0.5 — federation, reliability scoring from evidence, self improving teams. 15. open decisions for yaakov 1. name: \"workos\" is the working title — keep it? 2. server home: should v0.2's event log live inside the existing geelooy api server, or as its own service? 3. public by default? new missions: private first (current assumption) vs. shareable first. 4. agent identity across sessions: one persistent agent identity per \"role\" (e.g. \"sela the builder\") vs. fresh identity per session? 5. history retention: truly infinite append only, or compaction rules for ancient low value events (with tombstone receipts)? the deepest primitive is durable work history. everything else is a projection.",
+		"page": "pages/geelooy-apps-workos-architecture-md-f544dc3270.json"
+	}
+]

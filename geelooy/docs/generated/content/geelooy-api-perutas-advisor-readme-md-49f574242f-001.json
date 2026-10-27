@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Perutas Advisor (geelooy/api/perutas/advisor/)\n\nSingle module: `advisorService.js`. Advisory logic over the peruta economy —\nspending guidance built on account/ledger state. Aggregated as `advisor` in\n`../index.js`.\n"
+}

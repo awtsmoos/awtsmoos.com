@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Social Summary Tests (geelooy/api/social/helper/socialSummary/test/)\n\nSocial summary tests.\n\n- `SocialSummaryRoutes.test.js`, `SocialSummaryComposition.test.js` — routes and composition.\n- `SocialSummaryBatch.test.js`, `SocialSummaryTarget.test.js` — batch and targets.\n- `CommentSummary.test.js`, `SocialSummaryAdapters.test.js` — comment summaries and adapters.\n- `TestModuleVessel.js` — test fixture vessel.\n"
+}

@@ -1,0 +1,94 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-26-sitewide-ui-audit-02-architecture-md-e08ac676f1",
+	"title": "Phase Two — Sitewide UI Architecture",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-26-sitewide-ui-audit/02_architecture.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase Two — Sitewide UI Architecture",
+			"anchor": "phase-two-sitewide-ui-architecture"
+		},
+		{
+			"level": 2,
+			"text": "Competing strategies",
+			"anchor": "competing-strategies"
+		},
+		{
+			"level": 3,
+			"text": "A — One giant global stylesheet",
+			"anchor": "a-one-giant-global-stylesheet"
+		},
+		{
+			"level": 3,
+			"text": "B — Fix only pages users report",
+			"anchor": "b-fix-only-pages-users-report"
+		},
+		{
+			"level": 3,
+			"text": "C — Scoped page roots plus reusable namespaced primitives",
+			"anchor": "c-scoped-page-roots-plus-reusable-namespaced-primitives"
+		},
+		{
+			"level": 3,
+			"text": "D — Replace every native control with JavaScript widgets",
+			"anchor": "d-replace-every-native-control-with-javascript-widgets"
+		},
+		{
+			"level": 3,
+			"text": "E — Runtime auto-styler that mutates arbitrary DOM",
+			"anchor": "e-runtime-auto-styler-that-mutates-arbitrary-dom"
+		},
+		{
+			"level": 2,
+			"text": "Chosen visual architecture",
+			"anchor": "chosen-visual-architecture"
+		},
+		{
+			"level": 3,
+			"text": "Page ownership",
+			"anchor": "page-ownership"
+		},
+		{
+			"level": 3,
+			"text": "Interactive primitive contract",
+			"anchor": "interactive-primitive-contract"
+		},
+		{
+			"level": 3,
+			"text": "Media contract",
+			"anchor": "media-contract"
+		},
+		{
+			"level": 3,
+			"text": "Geometry contract",
+			"anchor": "geometry-contract"
+		},
+		{
+			"level": 3,
+			"text": "Stacking contract",
+			"anchor": "stacking-contract"
+		},
+		{
+			"level": 3,
+			"text": "Animation contract",
+			"anchor": "animation-contract"
+		},
+		{
+			"level": 2,
+			"text": "Audit engine architecture",
+			"anchor": "audit-engine-architecture"
+		},
+		{
+			"level": 2,
+			"text": "First remediation reference",
+			"anchor": "first-remediation-reference"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-26-sitewide-ui-audit-02-architecture-md-e08ac676f1-001.json"
+	]
+}

@@ -8,58 +8,58 @@ Every discovered path joined to its source-file contract evidence; unknown remai
 
 | URL pattern | Source | Methods | Vessels | Statuses | Headers |
 | --- | --- | --- | --- | --- | --- |
+| /api/social/drive/:aliasId/browser/sessions/:sessionId/targets/:targetId/history | geelooy/api/social/helper/drive/routes/interactiveBrowserRoutes.js | DELETE | $_GET, cookies | — | — |
+| /api/social/drive/:aliasId/browser/sessions/:sessionId/targets/:targetId/input | geelooy/api/social/helper/drive/routes/interactiveBrowserRoutes.js | DELETE | $_GET, cookies | — | — |
+| /api/social/drive/:aliasId/browser/sessions/:sessionId/targets/:targetId/navigate | geelooy/api/social/helper/drive/routes/interactiveBrowserRoutes.js | DELETE | $_GET, cookies | — | — |
+| /api/social/drive/:aliasId/credentials | geelooy/api/social/helper/drive/routes/credentialRoutes.js | GET | headers | — | — |
+| /api/social/drive/:aliasId/credentials/:credentialId | geelooy/api/social/helper/drive/routes/credentialRoutes.js | GET | headers | — | — |
+| /api/social/drive/:aliasId/domains | geelooy/api/social/helper/drive/routes/domainRoutes.js | GET, DELETE | — | — | — |
+| /api/social/drive/:aliasId/domains/:hostname | geelooy/api/social/helper/drive/routes/domainRoutes.js | GET, DELETE | — | — | — |
+| /api/social/drive/:aliasId/domains/:hostname/activate | geelooy/api/social/helper/drive/routes/domainRoutes.js | GET, DELETE | — | — | — |
+| /api/social/drive/:aliasId/domains/:hostname/deactivate | geelooy/api/social/helper/drive/routes/domainRoutes.js | GET, DELETE | — | — | — |
+| /api/social/drive/:aliasId/domains/:hostname/hosting-plan | geelooy/api/social/helper/drive/routes/domainPlanRoutes.js | unknown | headers | — | x-request-id |
+| /api/social/drive/:aliasId/domains/:hostname/verify | geelooy/api/social/helper/drive/routes/domainRoutes.js | GET, DELETE | — | — | — |
+| /api/social/drive/:aliasId/hosting/infrastructure | geelooy/api/social/helper/drive/routes/domainRoutes.js | GET, DELETE | — | — | — |
+| /api/social/drive/:aliasId/jobs | geelooy/api/social/helper/drive/routes/jobRoutes.js | unknown | $_GET | — | — |
+| /api/social/drive/:aliasId/jobs/:jobId | geelooy/api/social/helper/drive/routes/jobRoutes.js | unknown | $_GET | — | — |
+| /api/social/drive/:aliasId/jobs/:jobId/cancel | geelooy/api/social/helper/drive/routes/jobRoutes.js | unknown | $_GET | — | — |
+| /api/social/drive/:aliasId/jobs/:jobId/retry | geelooy/api/social/helper/drive/routes/jobRoutes.js | unknown | $_GET | — | — |
+| /api/social/drive/:aliasId/jobs/health | geelooy/api/social/helper/drive/routes/jobRoutes.js | unknown | $_GET | — | — |
+| /api/social/drive/:aliasId/project | geelooy/api/social/helper/drive/routes/projectPlanRoutes.js | unknown | $_GET | — | x-request-id |
+| /api/social/drive/:aliasId/projects | geelooy/api/social/helper/drive/routes/projectRegistryRoutes.js | GET, PUT | — | — | x-request-id |
+| /api/social/drive/:aliasId/projects/:projectId | geelooy/api/social/helper/drive/routes/projectRegistryRoutes.js | GET, PUT | — | — | x-request-id |
+| /api/social/drive/:aliasId/projects/:projectId/database | geelooy/api/social/helper/drive/routes/projectHostingRoutes.js | GET, POST | $_GET | — | x-request-id |
+| /api/social/drive/:aliasId/projects/:projectId/hosting | geelooy/api/social/helper/drive/routes/projectHostingRoutes.js | GET, POST | $_GET | — | x-request-id |
+| /api/social/drive/:aliasId/reconciliation | geelooy/api/social/helper/drive/routes/reconciliationRoutes.js | GET | $_GET, headers | — | — |
+| /api/social/drive/:aliasId/site | geelooy/api/social/helper/drive/routes/siteRoutes.js | unknown | — | — | x-request-id |
+| /api/social/drive/:aliasId/sites | geelooy/api/social/helper/drive/routes/siteRoutes.js | unknown | — | — | x-request-id |
+| /api/social/drive/:aliasId/sites/:siteId | geelooy/api/social/helper/drive/routes/siteRoutes.js | unknown | — | — | x-request-id |
+| /api/social/drive/:aliasId/sites/:siteId/deployments | geelooy/api/social/helper/drive/routes/deploymentRoutes.js | GET | — | — | — |
+| /api/social/drive/:aliasId/sites/:siteId/deployments/:deploymentId | geelooy/api/social/helper/drive/routes/deploymentRoutes.js | GET | — | — | — |
+| /api/social/drive/:aliasId/sites/:siteId/deployments/:deploymentId/rollback | geelooy/api/social/helper/drive/routes/deploymentRoutes.js | GET | — | — | — |
+| /api/social/drive/:aliasId/sites/:siteId/domains/:hostname | geelooy/api/social/helper/drive/routes/domainRoutes.js | GET, DELETE | — | — | — |
+| /api/social/drive/:aliasId/sites/:siteId/previews | geelooy/api/social/helper/drive/routes/deploymentPreviewRoutes.js | GET | — | — | — |
+| /api/social/drive/:aliasId/sites/:siteId/previews/:deploymentId | geelooy/api/social/helper/drive/routes/deploymentPreviewRoutes.js | GET | — | — | — |
+| /api/social/drive/:aliasId/sites/:siteId/previews/:deploymentId/content | geelooy/api/social/helper/drive/routes/deploymentPreviewRoutes.js | GET | — | — | — |
+| /api/social/drive/:aliasId/sites/:siteId/previews/:deploymentId/content/:path* | geelooy/api/social/helper/drive/routes/deploymentPreviewRoutes.js | GET | — | — | — |
+| /api/social/drive/:aliasId/sites/:siteId/runtime | geelooy/api/social/helper/drive/routes/siteRuntimeRoutes.js | GET, DELETE | — | — | x-request-id |
+| /api/social/drive/admin/service-aliases | geelooy/api/social/helper/drive/routes/serviceAliasRoutes.js | unknown | headers | — | — |
+| /api/social/drive/admin/service-aliases/:aliasId | geelooy/api/social/helper/drive/routes/serviceProvisioningRoutes.js | unknown | headers | — | — |
+| /api/social/drive/immutable/:aliasId/:hash | geelooy/api/social/helper/drive/routes/publicRoutes.js | OPTIONS | headers | 204 | — |
+| /api/social/drive/manager | geelooy/api/social/helper/drive/routes/managerRoutes.js | HEAD | — | 200, 302, 404 | — |
+| /api/social/drive/manager/:assetPath* | geelooy/api/social/helper/drive/routes/managerRoutes.js | HEAD | — | 200, 302, 404 | — |
+| /api/social/drive/public/:aliasId/:path* | geelooy/api/social/helper/drive/routes/publicRoutes.js | OPTIONS | headers | 204 | — |
+| /api/social/editor/heichelos/:heichel/posts/:post/subsections/:subsection | geelooy/api/social/_awtsmoos.editor.js | unknown | route-vars | — | — |
+| /api/social/editor/heichelos/:heichel/posts/:post/subsections/:subsection/delete-preview | geelooy/api/social/_awtsmoos.editor.js | unknown | route-vars | — | — |
+| /api/social/editor/heichelos/:heichel/posts/:post/verses/:verse | geelooy/api/social/_awtsmoos.editor.js | unknown | route-vars | — | — |
+| /api/social/editor/heichelos/:heichel/posts/:post/verses/:verse/delete-preview | geelooy/api/social/_awtsmoos.editor.js | unknown | route-vars | — | — |
+| /api/social/editor/posts/drafts | geelooy/api/social/_awtsmoos.editor.js | unknown | route-vars | — | — |
+| /api/social/editor/posts/drafts/:alias/:draft | geelooy/api/social/_awtsmoos.editor.js | unknown | route-vars | — | — |
+| /api/social/editor/posts/drafts/publish | geelooy/api/social/_awtsmoos.editor.js | unknown | route-vars | — | — |
+| /api/social/entities/:heichel/:entity/comment-tree | geelooy/api/social/helper/comments/routes/rich.js | unknown | $_GET, $_POST, $_DELETE | — | — |
 | /api/social/entities/:heichel/:entity/comments/:comment/replies | geelooy/api/social/helper/comments/routes/rich.js | unknown | $_GET, $_POST, $_DELETE | — | — |
 | /api/social/entities/:heichel/:entity/comments/:comment/sections/:section/replies | geelooy/api/social/helper/comments/routes/rich.js | unknown | $_GET, $_POST, $_DELETE | — | — |
-| /api/social/entities/batch | geelooy/api/social/_awtsmoos.socialKernel.js | unknown | $_GET, $_POST | — | — |
 | /api/social/entities/universe | geelooy/api/social/_awtsmoos.entities.js | GET, POST | $_GET, $_POST, route-vars | — | — |
 | /api/social/entities/universe/:type/:id | geelooy/api/social/_awtsmoos.entities.js | GET, POST | $_GET, $_POST, route-vars | — | — |
 | /api/social/entities/universe/:type/:id/children | geelooy/api/social/_awtsmoos.entities.js | GET, POST | $_GET, $_POST, route-vars | — | — |
 | /api/social/entities/universe/:type/:id/dna | geelooy/api/social/_awtsmoos.entities.js | GET, POST | $_GET, $_POST, route-vars | — | — |
-| /api/social/entities/universe/:type/:id/edges | geelooy/api/social/_awtsmoos.entities.js | GET, POST | $_GET, $_POST, route-vars | — | — |
-| /api/social/entities/universe/:type/:id/fork | geelooy/api/social/_awtsmoos.entities.js | GET, POST | $_GET, $_POST, route-vars | — | — |
-| /api/social/entities/universe/:type/:id/range-reference/attach | geelooy/api/social/_awtsmoos.entities.js | GET, POST | $_GET, $_POST, route-vars | — | — |
-| /api/social/entities/universe/:type/:id/range-reference/preview | geelooy/api/social/_awtsmoos.entities.js | GET, POST | $_GET, $_POST, route-vars | — | — |
-| /api/social/entities/universe/:type/:id/snapshot | geelooy/api/social/_awtsmoos.entities.js | GET, POST | $_GET, $_POST, route-vars | — | — |
-| /api/social/entity | geelooy/api/social/_awtsmoos.socialKernel.js | unknown | $_GET, $_POST | — | — |
-| /api/social/entity/action/preview | geelooy/api/social/_awtsmoos.socialKernel.js | unknown | $_GET, $_POST | — | — |
-| /api/social/entity/activity/normalize | geelooy/api/social/_awtsmoos.socialKernel.js | unknown | $_GET, $_POST | — | — |
-| /api/social/entity/capabilities | geelooy/api/social/_awtsmoos.socialKernel.js | unknown | $_GET, $_POST | — | — |
-| /api/social/entity/relations | geelooy/api/social/_awtsmoos.socialKernel.js | unknown | $_GET, $_POST | — | — |
-| /api/social/events | geelooy/api/social/_awtsmoos.profile.js | unknown | $_POST, route-vars | — | — |
-| /api/social/federation/import | geelooy/api/social/_awtsmoos.platform.js | unknown | $_GET, $_POST, route-vars | — | — |
-| /api/social/feed | geelooy/api/social/_awtsmoos.profile.js | unknown | $_POST, route-vars | — | — |
-| /api/social/feed | geelooy/api/social/_awtsmoos.publicDiscovery.js | GET | — | — | — |
-| /api/social/feed/discover | geelooy/api/social/_awtsmoos.platform.js | unknown | $_GET, $_POST, route-vars | — | — |
-| /api/social/feed/heichel/:heichel | geelooy/api/social/_awtsmoos.platform.js | unknown | $_GET, $_POST, route-vars | — | — |
-| /api/social/feed/home | geelooy/api/social/_awtsmoos.platform.js | unknown | $_GET, $_POST, route-vars | — | — |
-| /api/social/feed/trending | geelooy/api/social/_awtsmoos.platform.js | unknown | $_GET, $_POST, route-vars | — | — |
-| /api/social/fetch/:url | geelooy/api/social/_awtsmoos.derech.js | unknown | identity | — | — |
-| /api/social/followers/:type/:id | geelooy/api/social/_awtsmoos.profile.js | unknown | $_POST, route-vars | — | — |
-| /api/social/follows/:alias | geelooy/api/social/_awtsmoos.profile.js | unknown | $_POST, route-vars | — | — |
-| /api/social/graph/entity/resolve | geelooy/api/social/_awtsmoos.graph.js | GET, POST | $_GET, $_POST | — | — |
-| /api/social/graph/references | geelooy/api/social/_awtsmoos.graph.js | GET, POST | $_GET, $_POST | — | — |
-| /api/social/graph/reposts | geelooy/api/social/_awtsmoos.graph.js | GET, POST | $_GET, $_POST | — | — |
-| /api/social/graph/transaction | geelooy/api/social/_awtsmoos.platform.js | unknown | $_GET, $_POST, route-vars | — | — |
-| /api/social/heichelActions/generateHeichelId | geelooy/api/social/_awtsmoos.heichel.js | unknown | $_GET, $_POST, $_DELETE, route-vars | — | — |
-| /api/social/heichelos/:heichel | geelooy/api/social/_awtsmoos.heichel.js | unknown | $_GET, $_POST, $_DELETE, route-vars | — | — |
-| /api/social/heichelos/:heichel/addContentToSeries | geelooy/api/social/_awtsmoos.series.js | GET | $_GET, $_POST, $_DELETE, route-vars | — | — |
-| /api/social/heichelos/:heichel/addContentToSeries | geelooy/api/social/old/_awtsmoos.series.js | GET, POST | $_GET, $_POST | — | — |
-| /api/social/heichelos/:heichel/addNewSeries | geelooy/api/social/_awtsmoos.series.base.js | GET | $_GET, $_POST, $_DELETE | — | — |
-| /api/social/heichelos/:heichel/addNewSeries | geelooy/api/social/old/_awtsmoos.series.js | GET, POST | $_GET, $_POST | — | — |
-| /api/social/heichelos/:heichel/aliases/:alias/commentsActions/addCommentIndexToAlias/comment/:comment | geelooy/api/social/helper/comments/routes/indexing.js | unknown | — | — | — |
-| /api/social/heichelos/:heichel/aliases/:alias/commentsActions/addCommentIndexToAlias/comment/:comment | geelooy/api/social/old/_awtsmoos.comments-old.js | GET, POST, PUT, DELETE | $_GET, $_POST, route-vars, identity | — | — |
-| /api/social/heichelos/:heichel/aliases/:alias/commentsActions/updateAllCommentIndexes | geelooy/api/social/helper/comments/routes/indexing.js | unknown | — | — | — |
-| /api/social/heichelos/:heichel/aliases/:alias/commentsActions/updateAllCommentIndexes | geelooy/api/social/old/_awtsmoos.comments-old.js | GET, POST, PUT, DELETE | $_GET, $_POST, route-vars, identity | — | — |
-| /api/social/heichelos/:heichel/answers/:answer/comment-tree | geelooy/api/social/helper/comments/routes/rich.js | unknown | $_GET, $_POST, $_DELETE | — | — |
-| /api/social/heichelos/:heichel/comment/:comment | geelooy/api/social/helper/comments/routes/comment.js | unknown | $_GET | — | — |
-| /api/social/heichelos/:heichel/comment/:comment | geelooy/api/social/old/_awtsmoos.comments-old.js | GET, POST, PUT, DELETE | $_GET, $_POST, route-vars, identity | — | — |
-| /api/social/heichelos/:heichel/comments | geelooy/api/social/helper/comments/routes/comment.js | unknown | $_GET | — | — |
-| /api/social/heichelos/:heichel/comments | geelooy/api/social/old/_awtsmoos.comments-old.js | GET, POST, PUT, DELETE | $_GET, $_POST, route-vars, identity | — | — |
-| /api/social/heichelos/:heichel/comments/inSeries/:series/atPost/:post/atComment/:comment/aliases | geelooy/api/social/helper/comments/routes/comment.js | unknown | $_GET | — | — |
-| /api/social/heichelos/:heichel/comments/inSeries/:series/atPost/:post/atComment/:comment/atAlias/:alias/atVerseSection/:verseSection | geelooy/api/social/helper/comments/routes/comment.js | unknown | $_GET | — | — |
-| /api/social/heichelos/:heichel/comments/search | geelooy/api/social/helper/comments/routes/search.js | unknown | $_GET, $_POST, route-vars | — | — |
-| /api/social/heichelos/:heichel/comments/search/lexical | geelooy/api/social/helper/comments/routes/search.js | unknown | $_GET, $_POST, route-vars | — | — |
-| /api/social/heichelos/:heichel/comments/search/stats | geelooy/api/social/helper/comments/routes/search.js | unknown | $_GET, $_POST, route-vars | — | — |
-| /api/social/heichelos/:heichel/comments/search/stress | geelooy/api/social/helper/comments/routes/search.js | unknown | $_GET, $_POST, route-vars | — | — |
-| /api/social/heichelos/:heichel/comments/search/vector | geelooy/api/social/helper/comments/routes/search.js | unknown | $_GET, $_POST, route-vars | — | — |
-| /api/social/heichelos/:heichel/deleteContentFromSeries | geelooy/api/social/_awtsmoos.series.js | GET | $_GET, $_POST, $_DELETE, route-vars | — | — |

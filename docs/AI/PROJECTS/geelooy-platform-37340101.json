@@ -21,19 +21,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-platform-37340101.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 89,
+		"source": 94,
 		"tests": 19,
 		"assets": 0,
 		"generated": 0,
 		"docs": 2,
 		"other": 0
 	},
-	"totalFiles": 110,
+	"totalFiles": 115,
 	"symbolSummary": {
-		"files": 89,
+		"files": 94,
 		"classes": 1,
-		"functions": 145,
-		"exports": 115,
+		"functions": 161,
+		"exports": 120,
 		"samples": [
 			"createAndroidRoundTripAdapter",
 			"requireFunction",
@@ -49,7 +49,18 @@
 			"createQuarantineIfNeeded"
 		]
 	},
-	"outgoingDependencies": [],
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/api/wallet",
+			"count": 2,
+			"examples": "geelooy/platform/products/readiness/ProductReadinessAudit.cjs"
+		},
+		{
+			"project": "ayzarim/awtsmoosDynamicServer",
+			"count": 1,
+			"examples": "geelooy/platform/products/readiness/ProductReadinessAudit.cjs"
+		}
+	],
 	"incomingDependencies": [],
 	"externalDependencies": [],
 	"publicEntries": [],

@@ -1,0 +1,347 @@
+[
+	{
+		"id": "geelooy-api-email-documentation-md-638f6e649b",
+		"title": "Awtsmoos Email API",
+		"sourcePath": "geelooy/api/email/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos Email API",
+				"anchor": "awtsmoos-email-api"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Discovery",
+				"anchor": "discovery"
+			},
+			{
+				"level": 2,
+				"text": "Live message operations",
+				"anchor": "live-message-operations"
+			},
+			{
+				"level": 2,
+				"text": "Advanced settings",
+				"anchor": "advanced-settings"
+			},
+			{
+				"level": 2,
+				"text": "Settings storage",
+				"anchor": "settings-storage"
+			},
+			{
+				"level": 2,
+				"text": "Compatibility",
+				"anchor": "compatibility"
+			},
+			{
+				"level": 2,
+				"text": "Related documentation",
+				"anchor": "related-documentation"
+			},
+			{
+				"level": 2,
+				"text": "Extension rule",
+				"anchor": "extension-rule"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos Email API The Awtsmoos renews each message and route in one unbroken light; Awtsmoos.com keeps the public surface simple, while deeper capability vessels open only when they are truly right. Purpose /api/email is the compact public gateway for the existing social mail engine. It",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos email api the awtsmoos renews each message and route in one unbroken light; awtsmoos.com keeps the public surface simple, while deeper capability vessels open only when they are truly right. purpose /api/email is the compact public gateway for the existing social mail engine. it preserves canonical /mail/... routes, exposes shorter aliases, and adds machine readable discovery without duplicating delivery logic. discovery get /api/email/ — legacy compatibility response: b\"h awtsmoos mail system active. get /api/email/email — versioned service discovery with links and concise route names. get /api/email/capabilities — runtime aware capability manifest. get /api/email/settings/schema — progressive advanced settings schema. capability states are deliberate: live means the current backend executes the behavior. foundation means a stable settings/api contract exists, but the operational behavior is not yet fully wired. planned means clients should not expose the feature as working. live message operations the gateway keeps the proven social mail endpoints and matching short aliases for: listing inbox/sent/thread views reading a message and marking it read deleting messages and threads sending to local aliases or external smtp recipients when smtp is configured unread counts and push subscription/latest notification lookup gatekeeper approval and settings stored rules and local inbound rule processing universe mirror/link operations for example, canonical /api/email/mail/get and concise /api/email/get resolve to the same handler. advanced settings get /api/email/settings/schema describes collapsible settings sections so clients can render a clean default interface with advanced controls on demand. existing live settings include gatekeeper state, approved senders, and rules. forwarding, identities, signatures, templates, and vacation responder currently have foundation status. their schema is intentionally available for compatible clients and future migration, but this documentation does not claim that delivery forwarding or signature/template application is live yet. settings storage get /api/email/settings/get?aliasid= reads the current alias settings. post /api/email/settings/save uses the existing mail settings handler. the request body includes aliasid and settings. callers must check /api/email/capabilities before presenting provider dependent behavior as available. compatibility the gateway still registers every canonical route returned by geelooy/api/social/ awtsmoos.mail.js. existing clients using /api/email/mail/... therefore continue through the same helper engine. the shorter aliases are convenience routes, not a separate implementation. related documentation other api families configuration social and heichel systems extension rule when adding a new email capability, update the underlying mail engine first, then its capability state, then the settings schema if relevant, and finally this documentation. never move a feature from foundation to live without runtime evidence.",
+		"page": "pages/geelooy-api-email-documentation-md-638f6e649b.json"
+	},
+	{
+		"id": "geelooy-api-email-readme-md-e423390838",
+		"title": "B\"H — Email API (/api/email/)",
+		"sourcePath": "geelooy/api/email/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Email API (/api/email/)",
+				"anchor": "b-h-email-api-api-email"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			},
+			{
+				"level": 2,
+				"text": "Discovery",
+				"anchor": "discovery"
+			},
+			{
+				"level": 2,
+				"text": "Operations",
+				"anchor": "operations"
+			}
+		],
+		"excerpt": "B\"H — Email API (/api/email/) Compact public gateway for the social mail engine. Preserves canonical /mail/... routes, adds short aliases and machine readable discovery. Files awtsmoos.derech.js — Route registration. DOCUMENTATION.md — Full capability and route documentation. capabilities.js — Runtime capability manife",
+		"searchText": "b\"h — email api (/api/email/) compact public gateway for the social mail engine. preserves canonical /mail/... routes, adds short aliases and machine readable discovery. files awtsmoos.derech.js — route registration. documentation.md — full capability and route documentation. capabilities.js — runtime capability manifest (live / foundation / planned). settingsschema.js — progressive advanced settings schema. discovery get /api/email/ — legacy: b\"h awtsmoos mail system active. get /api/email/email — versioned service discovery with links. get /api/email/capabilities — capability manifest. get /api/email/settings/schema — settings schema. operations inbox/sent/thread views, read + mark read, delete, send (local aliases or external smtp when configured), unread counts, push subscriptions, gatekeeper approval, stored rules, and universe mirror/link ops. canonical /api/email/mail/get and short /api/email/get resolve to the same handler.",
+		"page": "pages/geelooy-api-email-readme-md-e423390838.json"
+	},
+	{
+		"id": "geelooy-api-fetch-documentation-md-e23bac59b3",
+		"title": "Fetch API Documentation",
+		"sourcePath": "geelooy/api/fetch/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Fetch API Documentation",
+				"anchor": "fetch-api-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Fetch API Documentation The Awtsmoos lets remote bytes pass through a guarded server vessel rather than an unbounded proxy sea; Awtsmoos.com maps auth, origin, limits, binary handling, and caller evidence so this surface stays deliberate and free. Read ../../../docs/API/OTHER FAMILIES.md",
+		"searchText": "b\"h boruch hashem blessed is he fetch api documentation the awtsmoos lets remote bytes pass through a guarded server vessel rather than an unbounded proxy sea; awtsmoos.com maps auth, origin, limits, binary handling, and caller evidence so this surface stays deliberate and free. read ../../../docs/api/other families.md, ../../../docs/api/authentication.md, and ../../../docs/api/response patterns.md.",
+		"page": "pages/geelooy-api-fetch-documentation-md-e23bac59b3.json"
+	},
+	{
+		"id": "geelooy-api-fetch-readme-md-7275cfeb9a",
+		"title": "B\"H — Guarded Fetch Proxy (geelooy/api/fetch/)",
+		"sourcePath": "geelooy/api/fetch/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Guarded Fetch Proxy (geelooy/api/fetch/)",
+				"anchor": "b-h-guarded-fetch-proxy-geelooy-api-fetch"
+			},
+			{
+				"level": 2,
+				"text": "Contents",
+				"anchor": "contents"
+			},
+			{
+				"level": 2,
+				"text": "Endpoint",
+				"anchor": "endpoint"
+			},
+			{
+				"level": 2,
+				"text": "Guards",
+				"anchor": "guards"
+			}
+		],
+		"excerpt": "B\"H — Guarded Fetch Proxy (geelooy/api/fetch/) Lets remote bytes pass through a guarded server vessel instead of an unbounded proxy: authenticated, origin checked, size and rate limited remote fetching for text or binary data. Contents awtsmoos.derech.js — whole API: route /. DOCUMENTATION.md — auth, origin, limits, bi",
+		"searchText": "b\"h — guarded fetch proxy (geelooy/api/fetch/) lets remote bytes pass through a guarded server vessel instead of an unbounded proxy: authenticated, origin checked, size and rate limited remote fetching for text or binary data. contents awtsmoos.derech.js — whole api: route /. documentation.md — auth, origin, limits, binary handling, caller evidence. endpoint / — fetch a remote url server side. requires login (401 otherwise) and an origin/referer on awtsmoos.com (403 otherwise). limits: 30 requests/min and 50 mb/min per user. guards origin allow listing plus per user request and byte budgets keep the proxy deliberate; see documentation.md for the auth/limits contract.",
+		"page": "pages/geelooy-api-fetch-readme-md-7275cfeb9a.json"
+	},
+	{
+		"id": "geelooy-api-gpt-core-readme-md-81d6f32c3a",
+		"title": "B\"H — GPT core (/api/gpt/core/)",
+		"sourcePath": "geelooy/api/gpt/core/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — GPT core (/api/gpt/core/)",
+				"anchor": "b-h-gpt-core-api-gpt-core"
+			}
+		],
+		"excerpt": "B\"H — GPT core (/api/gpt/core/) Chat pipeline internals. handlers.js — Route handlers (health, capability, chat, reset). auth.js — Request authentication. body.js — Request body parsing/validation. methodPolicy.js — Allowed methods per route. conversationMode.js — Conversation mode handling. transportStrategy.js, brows",
+		"searchText": "b\"h — gpt core (/api/gpt/core/) chat pipeline internals. handlers.js — route handlers (health, capability, chat, reset). auth.js — request authentication. body.js — request body parsing/validation. methodpolicy.js — allowed methods per route. conversationmode.js — conversation mode handling. transportstrategy.js, browsertransport.js, relayclient.js, relaypolicy.js — model transports and relay.",
+		"page": "pages/geelooy-api-gpt-core-readme-md-81d6f32c3a.json"
+	},
+	{
+		"id": "geelooy-api-gpt-documentation-md-c61289d41a",
+		"title": "GPT API Documentation",
+		"sourcePath": "geelooy/api/gpt/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "GPT API Documentation",
+				"anchor": "gpt-api-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He GPT API Documentation The Awtsmoos lets language computation answer through health, capability, chat, and reset gates; Awtsmoos.com maps this API to browser AI and developer clients without hiding model/configuration states. Read ../../../docs/SYSTEMS/AI.md, ../../../docs/API/OTHER FAMIL",
+		"searchText": "b\"h boruch hashem blessed is he gpt api documentation the awtsmoos lets language computation answer through health, capability, chat, and reset gates; awtsmoos.com maps this api to browser ai and developer clients without hiding model/configuration states. read ../../../docs/systems/ai.md, ../../../docs/api/other families.md, and ../../../docs/configuration.md.",
+		"page": "pages/geelooy-api-gpt-documentation-md-c61289d41a.json"
+	},
+	{
+		"id": "geelooy-api-gpt-readme-md-cdb0d480dc",
+		"title": "B\"H — GPT API (/api/gpt/)",
+		"sourcePath": "geelooy/api/gpt/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — GPT API (/api/gpt/)",
+				"anchor": "b-h-gpt-api-api-gpt"
+			},
+			{
+				"level": 2,
+				"text": "Subdirectories",
+				"anchor": "subdirectories"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			},
+			{
+				"level": 2,
+				"text": "Routes",
+				"anchor": "routes"
+			},
+			{
+				"level": 2,
+				"text": "See also",
+				"anchor": "see-also"
+			}
+		],
+		"excerpt": "B\"H — GPT API (/api/gpt/) Language model gateway: health, capability, chat, and reset gates. Maps to browser AI and developer clients without hiding model state. Subdirectories core/ — Auth, request bodies, transports, relay client, method policy. test/ — Tests. Files awtsmoos.derech.js — Route registration. DOCUMENTAT",
+		"searchText": "b\"h — gpt api (/api/gpt/) language model gateway: health, capability, chat, and reset gates. maps to browser ai and developer clients without hiding model state. subdirectories core/ — auth, request bodies, transports, relay client, method policy. test/ — tests. files awtsmoos.derech.js — route registration. documentation.md — full gpt api documentation. routes method path purpose get /api/gpt/ legacy handler. get /api/gpt/health model/service health. get /api/gpt/capability declared capabilities. post /api/gpt/chat chat completion. post /api/gpt/reset reset conversation state. see also ../../../docs/systems/ai.md ../../../docs/api/other families.md ../../../docs/configuration.md",
+		"page": "pages/geelooy-api-gpt-readme-md-cdb0d480dc.json"
+	},
+	{
+		"id": "geelooy-api-merkava-agent-sdk-md-c9ef4f7117",
+		"title": "B\"H — Merkava Agent SDK",
+		"sourcePath": "geelooy/api/merkava/AGENT_SDK.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Merkava Agent SDK",
+				"anchor": "b-h-merkava-agent-sdk"
+			},
+			{
+				"level": 2,
+				"text": "One-command install",
+				"anchor": "one-command-install"
+			},
+			{
+				"level": 1,
+				"text": "installs merkava to /.local/bin (override with MERKAVADEST)",
+				"anchor": "installs-merkava-to-local-bin-override-with-merkavadest"
+			},
+			{
+				"level": 2,
+				"text": "CLI",
+				"anchor": "cli"
+			},
+			{
+				"level": 1,
+				"text": "FLAGSHIP: run a page's JS, print every runtime error with file:line",
+				"anchor": "flagship-run-a-page-s-js-print-every-runtime-error-with-file-line"
+			},
+			{
+				"level": 1,
+				"text": "Raw JS snippet",
+				"anchor": "raw-js-snippet"
+			},
+			{
+				"level": 1,
+				"text": "HTML string or file",
+				"anchor": "html-string-or-file"
+			},
+			{
+				"level": 1,
+				"text": "Screenshot (JS executes first, so JS apps render)",
+				"anchor": "screenshot-js-executes-first-so-js-apps-render"
+			},
+			{
+				"level": 2,
+				"text": "Live API (no install)",
+				"anchor": "live-api-no-install"
+			},
+			{
+				"level": 1,
+				"text": "run-js: POST {url|html|js} -> {consolelogs, jserrors[]}",
+				"anchor": "run-js-post-url-html-js-consolelogs-jserrors"
+			},
+			{
+				"level": 1,
+				"text": "run: POST {url|html, viewport|device, actions} -> {screenshotpng (base64), jserrors, ...}",
+				"anchor": "run-post-url-html-viewport-device-actions-screenshotpng-base64-jserrors"
+			},
+			{
+				"level": 2,
+				"text": "Node SDK (local, no install beyond the bundle)",
+				"anchor": "node-sdk-local-no-install-beyond-the-bundle"
+			},
+			{
+				"level": 2,
+				"text": "Python SDK",
+				"anchor": "python-sdk"
+			},
+			{
+				"level": 1,
+				"text": "copy-paste:",
+				"anchor": "copy-paste"
+			},
+			{
+				"level": 2,
+				"text": "Notes",
+				"anchor": "notes"
+			}
+		],
+		"excerpt": "B\"H — Merkava Agent SDK Run any page's JavaScript through the real Merkava browser engine and get every runtime error instantly. No browser, no repo needed. One command install CLI Exit code is 1 when JS errors are found, 0 when clean. Live API (no install) js errors[] entries: {kind, name, message, file, line, stack}.",
+		"searchText": "b\"h — merkava agent sdk run any page's javascript through the real merkava browser engine and get every runtime error instantly. no browser, no repo needed. one command install cli exit code is 1 when js errors are found, 0 when clean. live api (no install) js errors[] entries: {kind, name, message, file, line, stack}. node sdk (local, no install beyond the bundle) python sdk notes pages execute in merkava's synthetic browser: virtual dom, real fetch, timers, console capture. external files are fetched automatically (same origin and absolute urls). es module scripts (type=\"module\") execute; bare import specifiers resolve against the page origin. hebrew and other non latin scripts render as ? in the bitmap painter (font limitation) — dom text is unaffected; check finalhtml. rate limit: 20 req/min per ip on the live api.",
+		"page": "pages/geelooy-api-merkava-agent-sdk-md-c9ef4f7117.json"
+	},
+	{
+		"id": "geelooy-api-merkava-readme-md-95aa4d0848",
+		"title": "B\"H — Merkava Page-Run API (geelooy/api/merkava/)",
+		"sourcePath": "geelooy/api/merkava/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Merkava Page-Run API (geelooy/api/merkava/)",
+				"anchor": "b-h-merkava-page-run-api-geelooy-api-merkava"
+			},
+			{
+				"level": 2,
+				"text": "Contents",
+				"anchor": "contents"
+			},
+			{
+				"level": 2,
+				"text": "Endpoints",
+				"anchor": "endpoints"
+			}
+		],
+		"excerpt": "B\"H — Merkava Page Run API (geelooy/api/merkava/) Runs any page's JavaScript through the real Merkava browser engine (virtual DOM + fetch) and returns genuine runtime results: base64 screenshot, console logs, JS errors, final DOM state, assertions, and timings. Contents awtsmoos.derech.js — routes /, /devices, /downloa",
+		"searchText": "b\"h — merkava page run api (geelooy/api/merkava/) runs any page's javascript through the real merkava browser engine (virtual dom + fetch) and returns genuine runtime results: base64 screenshot, console logs, js errors, final dom state, assertions, and timings. contents awtsmoos.derech.js — routes /, /devices, /download bundle, /download installer, /run js, /run agent sdk.md — one command agent sdk usage (merkava run js ) dist/ — install.sh + merkava.mjs standalone installable bundle endpoints /run — post {html url, css, js, viewport device, actions} → screenshot, console logs, errors, dom state, timings. rate limited per ip, bounded input sizes and renderer timeout. /run js — run a js snippet/html string/file, print every runtime error. /download bundle / /download installer — fetch the standalone agent bundle. /devices — available device/viewport presets.",
+		"page": "pages/geelooy-api-merkava-readme-md-95aa4d0848.json"
+	},
+	{
+		"id": "geelooy-api-nav-readme-md-5bd45793b8",
+		"title": "B\"H — Nav Utilities (geelooy/api/nav/)",
+		"sourcePath": "geelooy/api/nav/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Nav Utilities (geelooy/api/nav/)",
+				"anchor": "b-h-nav-utilities-geelooy-api-nav"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "B\"H — Nav Utilities (geelooy/api/nav/) Client side navigation helper, not an HTTP route family (no awtsmoos.derech.js). Files highlighter.js — ParagraphHighlighter: highlights the currently in view paragraph inside a container, with highlight/deselect callbacks and an option to disable deselection. Used by reader style",
+		"searchText": "b\"h — nav utilities (geelooy/api/nav/) client side navigation helper, not an http route family (no awtsmoos.derech.js). files highlighter.js — paragraphhighlighter: highlights the currently in view paragraph inside a container, with highlight/deselect callbacks and an option to disable deselection. used by reader style navigation ui.",
+		"page": "pages/geelooy-api-nav-readme-md-5bd45793b8.json"
+	}
+]

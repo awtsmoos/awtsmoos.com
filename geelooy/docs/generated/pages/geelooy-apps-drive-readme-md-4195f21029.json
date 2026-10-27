@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-drive-readme-md-4195f21029",
+	"title": "Drive API — Agent Handoff",
+	"sourcePath": "geelooy/apps/drive/README.md",
+	"category": "Apps",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Drive API — Agent Handoff",
+			"anchor": "drive-api-agent-handoff"
+		},
+		{
+			"level": 2,
+			"text": "Facade (front-end, js/api.js)",
+			"anchor": "facade-front-end-js-api-js"
+		},
+		{
+			"level": 2,
+			"text": "Upload a binary file (images, etc.)",
+			"anchor": "upload-a-binary-file-images-etc"
+		},
+		{
+			"level": 2,
+			"text": "Upload small text (JSON/metadata)",
+			"anchor": "upload-small-text-json-metadata"
+		},
+		{
+			"level": 2,
+			"text": "Make an existing file public",
+			"anchor": "make-an-existing-file-public"
+		},
+		{
+			"level": 2,
+			"text": "Get the public URL",
+			"anchor": "get-the-public-url"
+		},
+		{
+			"level": 2,
+			"text": "LAW 8 reference-image flow (the agent pattern)",
+			"anchor": "law-8-reference-image-flow-the-agent-pattern"
+		},
+		{
+			"level": 2,
+			"text": "Common errors",
+			"anchor": "common-errors"
+		},
+		{
+			"level": 2,
+			"text": "Files map",
+			"anchor": "files-map"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-drive-readme-md-4195f21029-001.json"
+	]
+}

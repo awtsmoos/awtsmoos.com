@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-docs-procedural-portal-md-2fa1c36d04",
+	"title": "Procedural Portal — One Small Doorway Into the Anything Kernel",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/PROCEDURAL_PORTAL.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Procedural Portal — One Small Doorway Into the Anything Kernel",
+			"anchor": "procedural-portal-one-small-doorway-into-the-anything-kernel"
+		},
+		{
+			"level": 2,
+			"text": "Start simple",
+			"anchor": "start-simple"
+		},
+		{
+			"level": 2,
+			"text": "One canonical definition model",
+			"anchor": "one-canonical-definition-model"
+		},
+		{
+			"level": 2,
+			"text": "Universal artifact desire",
+			"anchor": "universal-artifact-desire"
+		},
+		{
+			"level": 2,
+			"text": "Deterministic identity and planning",
+			"anchor": "deterministic-identity-and-planning"
+		},
+		{
+			"level": 2,
+			"text": "Compilation and persistence",
+			"anchor": "compilation-and-persistence"
+		},
+		{
+			"level": 2,
+			"text": "Open-ended domain federation",
+			"anchor": "open-ended-domain-federation"
+		},
+		{
+			"level": 2,
+			"text": "Extension and trust",
+			"anchor": "extension-and-trust"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-docs-procedural-portal-md-2fa1c36d04-001.json"
+	]
+}

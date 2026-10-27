@@ -23,19 +23,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-sheets-95681150.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 127,
-		"tests": 2,
+		"source": 165,
+		"tests": 4,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
 		"other": 0
 	},
-	"totalFiles": 130,
+	"totalFiles": 170,
 	"symbolSummary": {
-		"files": 112,
-		"classes": 42,
-		"functions": 303,
-		"exports": 214,
+		"files": 131,
+		"classes": 52,
+		"functions": 334,
+		"exports": 242,
 		"samples": [
 			"GevurahWorkbookActions",
 			"applyDocumentOperation",
@@ -51,7 +51,13 @@
 			"matrixPatches"
 		]
 	},
-	"outgoingDependencies": [],
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/apps/shared",
+			"count": 1,
+			"examples": "geelooy/apps/sheets/js/app/powerUiComposition.js"
+		}
+	],
 	"incomingDependencies": [],
 	"externalDependencies": [],
 	"publicEntries": [
@@ -60,7 +66,7 @@
 			"file": "geelooy/apps/sheets/index.html",
 			"title": "Awtsmoos Sheets",
 			"scripts": 1,
-			"styles": 13
+			"styles": 3
 		}
 	],
 	"requiresLocalDocumentation": true,

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Social API Tests (geelooy/api/social/tests/)\n\nAdditional top-level test files for the social API (separate from `test/`).\n\n- `BinahCivilizationRequest.test.mjs`, `BinahRequestQuery.test.mjs` — Binah request wrappers.\n- `CivilizationRouteHandlers.test.mjs`, `CivilizationRouteManifest.test.mjs`, `CivilizationSubscriptionRoutes.test.mjs` — civilization routes.\n- `GevurahRouteMethodPolicy.test.mjs` — route method policy.\n- `MalchusProfileGarments.test.mjs`, `MalchusResponseGarments.test.mjs` — response garments.\n- `SocialKernelRouteToolsCompatibility.test.mjs`, `SocialKernelRoutesCompatibility.test.mjs` — social kernel route compatibility.\n"
+}

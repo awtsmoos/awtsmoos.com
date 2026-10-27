@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-75361a9b8b",
+	"title": "File editing contract",
+	"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/FILE_EDITING_CONTRACT.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 2,
+			"text": "Current tunnel integration takes precedence",
+			"anchor": "current-tunnel-integration-takes-precedence"
+		},
+		{
+			"level": 1,
+			"text": "File editing contract",
+			"anchor": "file-editing-contract"
+		},
+		{
+			"level": 2,
+			"text": "Before writing",
+			"anchor": "before-writing"
+		},
+		{
+			"level": 2,
+			"text": "Write rules",
+			"anchor": "write-rules"
+		},
+		{
+			"level": 2,
+			"text": "After writing",
+			"anchor": "after-writing"
+		},
+		{
+			"level": 2,
+			"text": "Concurrent work",
+			"anchor": "concurrent-work"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-75361a9b8b-001.json"
+	]
+}

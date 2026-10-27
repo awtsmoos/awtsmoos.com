@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-26-0159-api-production-wave-01-ui-chesed-pla-83fc2df6e1",
+	"title": "UI Chesed — Clean Futuristic Observatory",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-26-0159-api-production-wave/01_UI_CHESED_PLAN.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "UI Chesed — Clean Futuristic Observatory",
+			"anchor": "ui-chesed-clean-futuristic-observatory"
+		},
+		{
+			"level": 2,
+			"text": "Product intent",
+			"anchor": "product-intent"
+		},
+		{
+			"level": 2,
+			"text": "Visual obligations",
+			"anchor": "visual-obligations"
+		},
+		{
+			"level": 2,
+			"text": "UX obligations",
+			"anchor": "ux-obligations"
+		},
+		{
+			"level": 2,
+			"text": "NEXTACTION",
+			"anchor": "nextaction"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-26-0159-api-production-wave-01-ui-chesed-pla-83fc2df6e1-001.json"
+	]
+}

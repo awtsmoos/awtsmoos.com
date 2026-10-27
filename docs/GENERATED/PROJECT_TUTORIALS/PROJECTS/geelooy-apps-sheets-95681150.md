@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 127 | 2 | 0 | 0 | 1 | 0 | 130 |
+| 165 | 4 | 0 | 0 | 1 | 0 | 170 |
 
 ## Public entry points
 
@@ -29,11 +29,11 @@ Blessed is He
 
 ## Symbol evidence
 
-Source files: 112; classes: 42; functions: 303; exports: 214; samples: GevurahWorkbookActions, applyDocumentOperation, applyShareState, applyValuePatches, applyStylePatches, applyExtensionSave, applyExtensionRemove, async, MalchusChromeState, selectedTsv, parseClipboardMatrix, matrixPatches.
+Source files: 131; classes: 52; functions: 334; exports: 242; samples: GevurahWorkbookActions, applyDocumentOperation, applyShareState, applyValuePatches, applyStylePatches, applyExtensionSave, applyExtensionRemove, async, MalchusChromeState, selectedTsv, parseClipboardMatrix, matrixPatches.
 
 ## Depends on
 
-None observed.
+- `geelooy/apps/shared` — 1 lexical reference; examples: geelooy/apps/sheets/js/app/powerUiComposition.js
 
 ## Used by
 
@@ -45,4 +45,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **2**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **4**. Treat this as file evidence, not proof of behavioral coverage.

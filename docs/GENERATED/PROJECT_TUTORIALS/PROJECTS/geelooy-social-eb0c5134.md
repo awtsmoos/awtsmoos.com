@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 52 | 7 | 0 | 0 | 2 | 1 | 62 |
+| 59 | 13 | 0 | 0 | 2 | 1 | 75 |
 
 ## Public entry points
 
@@ -30,11 +30,11 @@ Blessed is He
 
 ## Symbol evidence
 
-Source files: 41; classes: 23; functions: 50; exports: 56; samples: MigrationController, MigrationRecoveryController, MigrationRenderCoordinator, archiveKind, archiveMime, isMetadataPath, ArchiveSource, safeArchivePath, safeArchivePathOrNull, ZipCentralDirectory, ZipEntryReader, matchesMigrationFilters.
+Source files: 44; classes: 26; functions: 51; exports: 59; samples: MigrationController, MigrationRecoveryController, MigrationRenderCoordinator, archiveKind, archiveMime, isMetadataPath, ArchiveSource, safeArchivePath, safeArchivePathOrNull, ZipCentralDirectory, ZipEntryReader, matchesMigrationFilters.
 
 ## Depends on
 
-None observed.
+- `geelooy/shared` — 4 lexical references; examples: geelooy/social/migrate/js/main.js; geelooy/social/migrate/js/publish/ManifestBuilder.js; geelooy/social/migrate/js/upload/ArchiveOrgVideoUploader.js
 
 ## Used by
 
@@ -46,4 +46,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **7**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **13**. Treat this as file evidence, not proof of behavioral coverage.

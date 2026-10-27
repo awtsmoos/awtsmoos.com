@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-design-os-reverse-design-readme-md-104159608d",
+	"title": "Reverse Design — emotion as input",
+	"sourcePath": "geelooy/apps/tunnel/design-os/reverse-design/README.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Reverse Design — emotion as input",
+			"anchor": "reverse-design-emotion-as-input"
+		},
+		{
+			"level": 2,
+			"text": "The 20 emotions",
+			"anchor": "the-20-emotions"
+		},
+		{
+			"level": 2,
+			"text": "How it works",
+			"anchor": "how-it-works"
+		},
+		{
+			"level": 2,
+			"text": "API",
+			"anchor": "api"
+		},
+		{
+			"level": 2,
+			"text": "Tests",
+			"anchor": "tests"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-design-os-reverse-design-readme-md-104159608d-001.json"
+	]
+}

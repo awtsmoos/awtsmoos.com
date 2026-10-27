@@ -1,0 +1,297 @@
+[
+	{
+		"id": "geelooy-api-social-helper-drive-test-migration-readme-md-274b55abb0",
+		"title": "B\"H — Drive Migration Tests (geelooy/api/social/helper/drive/test/migration/)",
+		"sourcePath": "geelooy/api/social/helper/drive/test/migration/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Drive Migration Tests (geelooy/api/social/helper/drive/test/migration/)",
+				"anchor": "b-h-drive-migration-tests-geelooy-api-social-helper-drive-test-migration"
+			}
+		],
+		"excerpt": "B\"H — Drive Migration Tests (geelooy/api/social/helper/drive/test/migration/) Tests for the Drive migration pipeline. migrationAccounting.test.js, migrationImporter.test.js, migrationManifest.test.js. migrationRateController.test.js, migrationRateRecovery.test.js. migrationReceiptRepository.test.js, migrationRollback.t",
+		"searchText": "b\"h — drive migration tests (geelooy/api/social/helper/drive/test/migration/) tests for the drive migration pipeline. migrationaccounting.test.js, migrationimporter.test.js, migrationmanifest.test.js. migrationratecontroller.test.js, migrationraterecovery.test.js. migrationreceiptrepository.test.js, migrationrollback.test.js. sourcefilehasher.test.js, sourcepathpolicy.test.js, sourcetreescanner.test.js. testhelpers.js — shared fixtures.",
+		"page": "pages/geelooy-api-social-helper-drive-test-migration-readme-md-274b55abb0.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-drive-test-readme-md-6469f6e402",
+		"title": "B\"H — Drive Tests (geelooy/api/social/helper/drive/test/)",
+		"sourcePath": "geelooy/api/social/helper/drive/test/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Drive Tests (geelooy/api/social/helper/drive/test/)",
+				"anchor": "b-h-drive-tests-geelooy-api-social-helper-drive-test"
+			}
+		],
+		"excerpt": "B\"H — Drive Tests (geelooy/api/social/helper/drive/test/) The Drive test suite: credentials, deployments, domains, jobs, CRUD, HTTP, and the migration sub suite. Credential core/routes; deployment concurrency, idempotency, policy, preview, publish/rollback race, route registration, service. Domain challenge/claims/poli",
+		"searchText": "b\"h — drive tests (geelooy/api/social/helper/drive/test/) the drive test suite: credentials, deployments, domains, jobs, crud, http, and the migration sub suite. credential core/routes; deployment concurrency, idempotency, policy, preview, publish/rollback race, route registration, service. domain challenge/claims/policy/routes/verification/host resolver/hosting plan/ingress/routing (domaintestharness.js). drivecrud.test.js, drivehttp.test.js, pathandrouter.test.js. jobroutes.test.js, managerroutes.test.js, managerclientcontract.test.js, nativealiasgateway.test.js. project: attachment evidence, automation policy, database batch/capabilities/documents/query/service, dns policy, domain evidence. migration/ — migration accounting, importer, manifest, rate controller/recovery, receipt repository, rollback, hasher, path policy, tree scanner (testhelpers.js).",
+		"page": "pages/geelooy-api-social-helper-drive-test-readme-md-6469f6e402.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-editor-readme-md-9602ea709e",
+		"title": "B\"H — Editor (geelooy/api/social/helper/editor/)",
+		"sourcePath": "geelooy/api/social/helper/editor/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Editor (geelooy/api/social/helper/editor/)",
+				"anchor": "b-h-editor-geelooy-api-social-helper-editor"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "B\"H — Editor (geelooy/api/social/helper/editor/) Post editor support: drafts, schema validation, and structural deletion. Files postDrafts.js — draft create/read/update for posts. postSchema.js — post schema validation. postStructureDeletion.js — deletion of post structures (sections/sub posts).",
+		"searchText": "b\"h — editor (geelooy/api/social/helper/editor/) post editor support: drafts, schema validation, and structural deletion. files postdrafts.js — draft create/read/update for posts. postschema.js — post schema validation. poststructuredeletion.js — deletion of post structures (sections/sub posts).",
+		"page": "pages/geelooy-api-social-helper-editor-readme-md-9602ea709e.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-entities-readme-md-b3701dc4e3",
+		"title": "B\"H — Entities (geelooy/api/social/helper/entities/)",
+		"sourcePath": "geelooy/api/social/helper/entities/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Entities (geelooy/api/social/helper/entities/)",
+				"anchor": "b-h-entities-geelooy-api-social-helper-entities"
+			}
+		],
+		"excerpt": "B\"H — Entities (geelooy/api/social/helper/entities/) Entity schema for social entities. entitySchema.js — schema definition for entities (posts, questions, answers, etc.). test/ — entityContentAndComments.test.mjs.",
+		"searchText": "b\"h — entities (geelooy/api/social/helper/entities/) entity schema for social entities. entityschema.js — schema definition for entities (posts, questions, answers, etc.). test/ — entitycontentandcomments.test.mjs.",
+		"page": "pages/geelooy-api-social-helper-entities-readme-md-b3701dc4e3.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-entities-test-readme-md-661504dce0",
+		"title": "B\"H — Entities Tests (geelooy/api/social/helper/entities/test/)",
+		"sourcePath": "geelooy/api/social/helper/entities/test/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Entities Tests (geelooy/api/social/helper/entities/test/)",
+				"anchor": "b-h-entities-tests-geelooy-api-social-helper-entities-test"
+			}
+		],
+		"excerpt": "B\"H — Entities Tests (geelooy/api/social/helper/entities/test/) Entity schema tests. entityContentAndComments.test.mjs — entity content and comment attachment behavior.",
+		"searchText": "b\"h — entities tests (geelooy/api/social/helper/entities/test/) entity schema tests. entitycontentandcomments.test.mjs — entity content and comment attachment behavior.",
+		"page": "pages/geelooy-api-social-helper-entities-test-readme-md-661504dce0.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-entityuniverse-readme-md-07f0c52e46",
+		"title": "B\"H — Entity Universe (geelooy/api/social/helper/entityUniverse/)",
+		"sourcePath": "geelooy/api/social/helper/entityUniverse/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Entity Universe (geelooy/api/social/helper/entityUniverse/)",
+				"anchor": "b-h-entity-universe-geelooy-api-social-helper-entityuniverse"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "B\"H — Entity Universe (geelooy/api/social/helper/entityUniverse/) The \"universe\" store for entities: schema, DNA, paths, and persistence for the entity universe graph. Files universeSchema.js, universeDna.js — universe schema and entity DNA definitions. universePaths.js — storage paths. universeStore.js — read/write st",
+		"searchText": "b\"h — entity universe (geelooy/api/social/helper/entityuniverse/) the \"universe\" store for entities: schema, dna, paths, and persistence for the entity universe graph. files universeschema.js, universedna.js — universe schema and entity dna definitions. universepaths.js — storage paths. universestore.js — read/write store. rangereferences.js — range based references between entities. test/ — store and stress network tests (universestore.test.mjs, universestressnetwork.test.mjs).",
+		"page": "pages/geelooy-api-social-helper-entityuniverse-readme-md-07f0c52e46.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-entityuniverse-test-readme-md-ca9c2b71cb",
+		"title": "B\"H — Entity Universe Tests (geelooy/api/social/helper/entityUniverse/test/)",
+		"sourcePath": "geelooy/api/social/helper/entityUniverse/test/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Entity Universe Tests (geelooy/api/social/helper/entityUniverse/test/)",
+				"anchor": "b-h-entity-universe-tests-geelooy-api-social-helper-entityuniverse-test"
+			}
+		],
+		"excerpt": "B\"H — Entity Universe Tests (geelooy/api/social/helper/entityUniverse/test/) Tests for the entity universe store. universeStore.test.mjs — universe store read/write. universeStressNetwork.test.mjs — stress tests over a network of universes.",
+		"searchText": "b\"h — entity universe tests (geelooy/api/social/helper/entityuniverse/test/) tests for the entity universe store. universestore.test.mjs — universe store read/write. universestressnetwork.test.mjs — stress tests over a network of universes.",
+		"page": "pages/geelooy-api-social-helper-entityuniverse-test-readme-md-ca9c2b71cb.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-governance-readme-md-28dd6a073d",
+		"title": "B\"H — Governance (geelooy/api/social/helper/governance/)",
+		"sourcePath": "geelooy/api/social/helper/governance/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Governance (geelooy/api/social/helper/governance/)",
+				"anchor": "b-h-governance-geelooy-api-social-helper-governance"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "B\"H — Governance (geelooy/api/social/helper/governance/) Legacy governance helpers: Heichel settings, roles, invites, and submissions. Files heichelSettings.js — Heichel governance settings. roles.js — role definitions (owner, editor, moderator, contributor). invites.js — invitation handling. submissions.js — governanc",
+		"searchText": "b\"h — governance (geelooy/api/social/helper/governance/) legacy governance helpers: heichel settings, roles, invites, and submissions. files heichelsettings.js — heichel governance settings. roles.js — role definitions (owner, editor, moderator, contributor). invites.js — invitation handling. submissions.js — governance submissions. the newer, unified implementation lives in unifiedsocial/ (permissions, review); these are the legacy counterparts still in use.",
+		"page": "pages/geelooy-api-social-helper-governance-readme-md-28dd6a073d.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-heichelroutes-readme-md-f808ef9874",
+		"title": "B\"H — Heichel Routes (geelooy/api/social/helper/heichelRoutes/)",
+		"sourcePath": "geelooy/api/social/helper/heichelRoutes/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Heichel Routes (geelooy/api/social/helper/heichelRoutes/)",
+				"anchor": "b-h-heichel-routes-geelooy-api-social-helper-heichelroutes"
+			}
+		],
+		"excerpt": "B\"H — Heichel Routes (geelooy/api/social/helper/heichelRoutes/) Route tooling for Heichel routes. routeTools.js — shared helpers used to build Heichel scoped route handlers (mounted via awtsmoos.heichel.js).",
+		"searchText": "b\"h — heichel routes (geelooy/api/social/helper/heichelroutes/) route tooling for heichel routes. routetools.js — shared helpers used to build heichel scoped route handlers (mounted via awtsmoos.heichel.js).",
+		"page": "pages/geelooy-api-social-helper-heichelroutes-readme-md-f808ef9874.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-imports-ayinbeis-readme-md-969b54a330",
+		"title": "B\"H — Ayin Beis Importer (geelooy/api/social/helper/imports/ayinBeis/)",
+		"sourcePath": "geelooy/api/social/helper/imports/ayinBeis/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Ayin Beis Importer (geelooy/api/social/helper/imports/ayinBeis/)",
+				"anchor": "b-h-ayin-beis-importer-geelooy-api-social-helper-imports-ayinbeis"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "B\"H — Ayin Beis Importer (geelooy/api/social/helper/imports/ayinBeis/) Bulk import pipeline for the Ayin Beis corpus. Files index.js — module entry. importPlanner.js — plans what to import and where it lands. importWriter.js — writes imported content into the social store. authorizedBundle.js — authorized import bundle",
+		"searchText": "b\"h — ayin beis importer (geelooy/api/social/helper/imports/ayinbeis/) bulk import pipeline for the ayin beis corpus. files index.js — module entry. importplanner.js — plans what to import and where it lands. importwriter.js — writes imported content into the social store. authorizedbundle.js — authorized import bundle handling. test/ — authorizedbundle.test.js, importplanner.test.js, importwriter.test.js.",
+		"page": "pages/geelooy-api-social-helper-imports-ayinbeis-readme-md-969b54a330.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-imports-ayinbeis-test-readme-md-7e15182f8a",
+		"title": "B\"H — Ayin Beis Importer Tests (geelooy/api/social/helper/imports/ayinBeis/test/)",
+		"sourcePath": "geelooy/api/social/helper/imports/ayinBeis/test/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Ayin Beis Importer Tests (geelooy/api/social/helper/imports/ayinBeis/test/)",
+				"anchor": "b-h-ayin-beis-importer-tests-geelooy-api-social-helper-imports-ayinbeis-test"
+			}
+		],
+		"excerpt": "B\"H — Ayin Beis Importer Tests (geelooy/api/social/helper/imports/ayinBeis/test/) Tests for the Ayin Beis import pipeline. authorizedBundle.test.js — authorized bundle handling. importPlanner.test.js — import planning. importWriter.test.js — import writing.",
+		"searchText": "b\"h — ayin beis importer tests (geelooy/api/social/helper/imports/ayinbeis/test/) tests for the ayin beis import pipeline. authorizedbundle.test.js — authorized bundle handling. importplanner.test.js — import planning. importwriter.test.js — import writing.",
+		"page": "pages/geelooy-api-social-helper-imports-ayinbeis-test-readme-md-7e15182f8a.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-imports-readme-md-fa3d628eb3",
+		"title": "B\"H — Imports (geelooy/api/social/helper/imports/)",
+		"sourcePath": "geelooy/api/social/helper/imports/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Imports (geelooy/api/social/helper/imports/)",
+				"anchor": "b-h-imports-geelooy-api-social-helper-imports"
+			},
+			{
+				"level": 2,
+				"text": "Contents",
+				"anchor": "contents"
+			}
+		],
+		"excerpt": "B\"H — Imports (geelooy/api/social/helper/imports/) Import pipelines for bulk content ingestion. Contents ayinBeis/ — the Ayin Beis importer: index.js, importPlanner.js (plans the import), importWriter.js (writes imported content), authorizedBundle.js (authorized import bundles), plus test/.",
+		"searchText": "b\"h — imports (geelooy/api/social/helper/imports/) import pipelines for bulk content ingestion. contents ayinbeis/ — the ayin beis importer: index.js, importplanner.js (plans the import), importwriter.js (writes imported content), authorizedbundle.js (authorized import bundles), plus test/.",
+		"page": "pages/geelooy-api-social-helper-imports-readme-md-fa3d628eb3.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-livingentityview-readme-md-6085c24a02",
+		"title": "B\"H — Living Entity View (geelooy/api/social/helper/livingEntityView/)",
+		"sourcePath": "geelooy/api/social/helper/livingEntityView/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Living Entity View (geelooy/api/social/helper/livingEntityView/)",
+				"anchor": "b-h-living-entity-view-geelooy-api-social-helper-livingentityview"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			},
+			{
+				"level": 2,
+				"text": "Routes (examples)",
+				"anchor": "routes-examples"
+			}
+		],
+		"excerpt": "B\"H — Living Entity View (geelooy/api/social/helper/livingEntityView/) Read side view of a \"living entity\": identity, content, social graph, and comment trees for a single entity, cleaned and sanitized. Files index.js — module entry; paths.js — storage paths. identity.js, content.js, social.js, graph.js — entity identi",
+		"searchText": "b\"h — living entity view (geelooy/api/social/helper/livingentityview/) read side view of a \"living entity\": identity, content, social graph, and comment trees for a single entity, cleaned and sanitized. files index.js — module entry; paths.js — storage paths. identity.js, content.js, social.js, graph.js — entity identity, content, social edges, graph. read.js, clean.js, sanitize.js — read, clean, and sanitize the view. test.js — module tests. routes (examples) /social/heichelos/h1/posts/p1, /heichelos/h1/series/root/p1 /social/heichelos/h1/posts/p1/commenttree/roots, .../commenttree/comments/c1/data, .../commenttree/comments/c1/children",
+		"page": "pages/geelooy-api-social-helper-livingentityview-readme-md-6085c24a02.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-mail-readme-md-9cdec3e5e6",
+		"title": "B\"H — Mail (geelooy/api/social/helper/mail/)",
+		"sourcePath": "geelooy/api/social/helper/mail/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Mail (geelooy/api/social/helper/mail/)",
+				"anchor": "b-h-mail-geelooy-api-social-helper-mail"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "B\"H — Mail (geelooy/api/social/helper/mail/) Full mail domain: domains, mailboxes, sending (SMTP/local/system), rules, threads, and notifications. Mounted via awtsmoos.mail.js. Files MailDomainService.js, mailUniverse.js — domain and universe management. mailboxService.js, mailboxMutations.js — mailbox read/mutations. ",
+		"searchText": "b\"h — mail (geelooy/api/social/helper/mail/) full mail domain: domains, mailboxes, sending (smtp/local/system), rules, threads, and notifications. mounted via awtsmoos.mail.js. files maildomainservice.js, mailuniverse.js — domain and universe management. mailboxservice.js, mailboxmutations.js — mailbox read/mutations. sendservice.js, smtpdelivery.js, localdelivery.js, systemdelivery.js — sending and delivery paths. messagecodec.js, messagerecords.js — message encoding and records. threadreader.js — thread reads. addressresolver.js, rulesrunner.js — address resolution and mail rules. notificationservice.js — mail notifications. settingsservice.js (+ settingsservice.test.js), globalforwardingsettings.js — settings. test/ — mailuniverse.test.mjs.",
+		"page": "pages/geelooy-api-social-helper-mail-readme-md-9cdec3e5e6.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-mail-test-readme-md-cda655fd95",
+		"title": "B\"H — Mail Tests (geelooy/api/social/helper/mail/test/)",
+		"sourcePath": "geelooy/api/social/helper/mail/test/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Mail Tests (geelooy/api/social/helper/mail/test/)",
+				"anchor": "b-h-mail-tests-geelooy-api-social-helper-mail-test"
+			}
+		],
+		"excerpt": "B\"H — Mail Tests (geelooy/api/social/helper/mail/test/) Mail domain tests. mailUniverse.test.mjs — mail universe behavior.",
+		"searchText": "b\"h — mail tests (geelooy/api/social/helper/mail/test/) mail domain tests. mailuniverse.test.mjs — mail universe behavior.",
+		"page": "pages/geelooy-api-social-helper-mail-test-readme-md-cda655fd95.json"
+	}
+]

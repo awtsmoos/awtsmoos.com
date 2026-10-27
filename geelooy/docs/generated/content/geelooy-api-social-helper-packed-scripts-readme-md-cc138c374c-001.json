@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Packed Migration Scripts (geelooy/api/social/helper/packed/scripts/)\n\nOne-off migration scripts that move packed social data into real AwtsmoosDB (run manually).\n\n- `migrateConnectedPostsToAwtsdb.js` — connected posts → AwtsmoosDB.\n- `migrateHeichelFamiliesToRealAwtsmoosDbFs.js` — Heichel families → AwtsmoosDB FS.\n- `migrateHeichelToRealAwtsmoosDbFs.js` — Heichel data → AwtsmoosDB FS.\n- `migrateIkarAllSeriesToAllPosts.js` — all Ikar series → all-posts index.\n- `migrateIkarPostsToRealAwtsmoosDb.js` — Ikar posts → AwtsmoosDB.\n"
+}

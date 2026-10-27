@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-ohrfront-docs-procedural-core-integration-md-e7c315c0b6",
+	"title": "Ohrfront Procedural Core Integration",
+	"sourcePath": "geelooy/games/ohrfront/docs/PROCEDURAL_CORE_INTEGRATION.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Ohrfront Procedural Core Integration",
+			"anchor": "ohrfront-procedural-core-integration"
+		},
+		{
+			"level": 2,
+			"text": "Purpose",
+			"anchor": "purpose"
+		},
+		{
+			"level": 2,
+			"text": "Integration law",
+			"anchor": "integration-law"
+		},
+		{
+			"level": 2,
+			"text": "Feature-family matrix",
+			"anchor": "feature-family-matrix"
+		},
+		{
+			"level": 2,
+			"text": "Runtime dependency order",
+			"anchor": "runtime-dependency-order"
+		},
+		{
+			"level": 2,
+			"text": "Public API philosophy",
+			"anchor": "public-api-philosophy"
+		},
+		{
+			"level": 2,
+			"text": "Diagnostics philosophy",
+			"anchor": "diagnostics-philosophy"
+		},
+		{
+			"level": 2,
+			"text": "Compatibility",
+			"anchor": "compatibility"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-ohrfront-docs-procedural-core-integration-md-e7c315c0b6-001.json"
+	]
+}

@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-02-1028-sitewide-indexing-generation-2-03-fi-263e68311a",
+	"title": "Final Execution Plan",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-02-1028-sitewide-indexing-generation-2/03-final-execution-plan.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Final Execution Plan",
+			"anchor": "final-execution-plan"
+		},
+		{
+			"level": 2,
+			"text": "Phase A — archaeology",
+			"anchor": "phase-a-archaeology"
+		},
+		{
+			"level": 2,
+			"text": "Phase B — implementation",
+			"anchor": "phase-b-implementation"
+		},
+		{
+			"level": 2,
+			"text": "Phase C — verification",
+			"anchor": "phase-c-verification"
+		},
+		{
+			"level": 2,
+			"text": "Phase D — release",
+			"anchor": "phase-d-release"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-02-1028-sitewide-indexing-generation-2-03-fi-263e68311a-001.json"
+	]
+}

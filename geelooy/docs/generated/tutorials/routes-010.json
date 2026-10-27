@@ -1,425 +1,763 @@
 [
 	{
-		"id": "api-social-aliases-alias-filesystem-copyentry-d4fa3c35ec",
-		"route": "/api/social/aliases/:alias/fileSystem/copyEntry",
-		"source": "geelooy/api/social/_awtsmoos.fileSystem.js",
+		"id": "api-merkava-68df970464",
+		"route": "/api/merkava",
+		"source": "geelooy/api/merkava/_awtsmoos.derech.js",
 		"discoveryKind": "static-literal",
 		"family": {
-			"mount": "/api/social",
-			"title": "Social",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md"
+			"mount": "/api/merkava",
+			"title": "/api/merkava",
+			"manual": "docs/API/README.md"
 		},
 		"derech": {
-			"source": "geelooy/api/social/_awtsmoos.derech.js",
+			"source": "geelooy/api/merkava/_awtsmoos.derech.js",
 			"status": "OK",
 			"issue": "—",
-			"mount": "/api/social"
+			"mount": "/api/merkava"
 		},
-		"dynamic": true,
-		"pathParameters": [
-			{
-				"name": "alias",
-				"catchAll": false
-			}
-		],
+		"dynamic": false,
+		"pathParameters": [],
 		"methods": [],
 		"methodEvidence": "unknown",
 		"vessels": [
 			"$_POST",
-			"$_DELETE",
-			"route-vars"
+			"headers"
 		],
-		"statuses": [],
-		"headers": [],
+		"statuses": [
+			"400",
+			"404",
+			"405",
+			"429",
+			"500"
+		],
+		"headers": [
+			"Content-Disposition",
+			"Content-Type"
+		],
 		"callers": [],
 		"callerCount": 0,
-		"tests": [
-			{
-				"name": "test",
-				"command": "npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported-style-ownership && npm run test:css-quality && npm run test:heichelos-quality && npm run test:profile-menu && npm run test:heichel-governance && npm run test:post-submissions && npm run test:comments && npm run test:api-keys && npm run test:graph && npm run test:social-content && npm run test:notifications && npm run test:social-packed && npm run test:packed-engine && npm run test:platform-ops && npm run test:platform-execution && npm run test:node-client && npm run test:dayuh-cutover"
-			},
-			{
-				"name": "test:api-keys",
-				"command": "node geelooy/api/social/helper/test/apiKeys.test.js"
-			},
-			{
-				"name": "test:comments",
-				"command": "node geelooy/api/social/helper/comments/test/runAllCommentsTests.js"
-			},
-			{
-				"name": "test:concurrency-failure",
-				"command": "node geelooy/api/social/test/concurrencyFailureStress.test.mjs"
-			},
-			{
-				"name": "test:dayuh-release",
-				"command": "npm run test:routes && npm run test:comments && npm run test:social-content && npm run test:social-packed && npm run test:packed-engine && node --test tools/dayuhChadashMaintenance/test/*.test.js && npm run test:dayuh-cutover"
-			},
-			{
-				"name": "test:graph",
-				"command": "node geelooy/api/social/helper/test/socialGraph.test.js"
-			},
-			{
-				"name": "test:heichel-governance",
-				"command": "node geelooy/heichelos/heichel/modules/test/editorManagement.test.mjs && node geelooy/api/social/helper/test/heichelRoles.test.js"
-			},
-			{
-				"name": "test:live-smoke",
-				"command": "node geelooy/heichelos/heichel/modules/test/socialLiveSmoke.test.mjs"
-			}
-		],
+		"tests": [],
 		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-aliases-alias-filesystem-copyentry-d4fa3c35ec.md",
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-merkava-68df970464.md",
 		"confidence": "unknown-method",
 		"related": [
 			{
-				"id": "api-social-9fa4891e88",
-				"route": "/api/social"
+				"id": "api-merkava-devices-9b2399e2c0",
+				"route": "/api/merkava/devices"
 			},
 			{
-				"id": "api-social-abuse-ratelimit-check-0a30b621f8",
-				"route": "/api/social/abuse/rateLimit/check"
+				"id": "api-merkava-download-bundle-c98f28d7b5",
+				"route": "/api/merkava/download-bundle"
 			},
 			{
-				"id": "api-social-alias-alias-2cc6a9ba6e",
-				"route": "/api/social/alias/:alias"
+				"id": "api-merkava-download-installer-28c990a8c4",
+				"route": "/api/merkava/download-installer"
 			},
 			{
-				"id": "api-social-alias-alias-details-7e4136898b",
-				"route": "/api/social/alias/:alias/details"
+				"id": "api-merkava-run-8c99141d56",
+				"route": "/api/merkava/run"
 			},
 			{
-				"id": "api-social-alias-alias-heichelos-34bfb8e313",
-				"route": "/api/social/alias/:alias/heichelos"
-			},
-			{
-				"id": "api-social-alias-alias-heichelos-heichel-4c7f5ddd08",
-				"route": "/api/social/alias/:alias/heichelos/:heichel"
-			},
-			{
-				"id": "api-social-alias-alias-heichelos-heichel-ownership-c2e6e8e020",
-				"route": "/api/social/alias/:alias/heichelos/:heichel/ownership"
-			},
-			{
-				"id": "api-social-alias-alias-heichelos-details-75a049464f",
-				"route": "/api/social/alias/:alias/heichelos/details"
+				"id": "api-merkava-run-js-8a969517a7",
+				"route": "/api/merkava/run-js"
 			}
 		]
 	},
 	{
-		"id": "api-social-aliases-alias-filesystem-delete-614b4f6352",
-		"route": "/api/social/aliases/:alias/fileSystem/delete",
-		"source": "geelooy/api/social/_awtsmoos.fileSystem.js",
+		"id": "api-merkava-devices-9b2399e2c0",
+		"route": "/api/merkava/devices",
+		"source": "geelooy/api/merkava/_awtsmoos.derech.js",
 		"discoveryKind": "static-literal",
 		"family": {
-			"mount": "/api/social",
-			"title": "Social",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md"
+			"mount": "/api/merkava",
+			"title": "/api/merkava",
+			"manual": "docs/API/README.md"
 		},
 		"derech": {
-			"source": "geelooy/api/social/_awtsmoos.derech.js",
+			"source": "geelooy/api/merkava/_awtsmoos.derech.js",
 			"status": "OK",
 			"issue": "—",
-			"mount": "/api/social"
+			"mount": "/api/merkava"
 		},
-		"dynamic": true,
-		"pathParameters": [
-			{
-				"name": "alias",
-				"catchAll": false
-			}
-		],
+		"dynamic": false,
+		"pathParameters": [],
 		"methods": [],
 		"methodEvidence": "unknown",
 		"vessels": [
 			"$_POST",
-			"$_DELETE",
-			"route-vars"
+			"headers"
 		],
-		"statuses": [],
-		"headers": [],
+		"statuses": [
+			"400",
+			"404",
+			"405",
+			"429",
+			"500"
+		],
+		"headers": [
+			"Content-Disposition",
+			"Content-Type"
+		],
 		"callers": [],
 		"callerCount": 0,
-		"tests": [
-			{
-				"name": "test",
-				"command": "npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported-style-ownership && npm run test:css-quality && npm run test:heichelos-quality && npm run test:profile-menu && npm run test:heichel-governance && npm run test:post-submissions && npm run test:comments && npm run test:api-keys && npm run test:graph && npm run test:social-content && npm run test:notifications && npm run test:social-packed && npm run test:packed-engine && npm run test:platform-ops && npm run test:platform-execution && npm run test:node-client && npm run test:dayuh-cutover"
-			},
-			{
-				"name": "test:api-keys",
-				"command": "node geelooy/api/social/helper/test/apiKeys.test.js"
-			},
-			{
-				"name": "test:comments",
-				"command": "node geelooy/api/social/helper/comments/test/runAllCommentsTests.js"
-			},
-			{
-				"name": "test:concurrency-failure",
-				"command": "node geelooy/api/social/test/concurrencyFailureStress.test.mjs"
-			},
-			{
-				"name": "test:dayuh-release",
-				"command": "npm run test:routes && npm run test:comments && npm run test:social-content && npm run test:social-packed && npm run test:packed-engine && node --test tools/dayuhChadashMaintenance/test/*.test.js && npm run test:dayuh-cutover"
-			},
-			{
-				"name": "test:graph",
-				"command": "node geelooy/api/social/helper/test/socialGraph.test.js"
-			},
-			{
-				"name": "test:heichel-governance",
-				"command": "node geelooy/heichelos/heichel/modules/test/editorManagement.test.mjs && node geelooy/api/social/helper/test/heichelRoles.test.js"
-			},
-			{
-				"name": "test:live-smoke",
-				"command": "node geelooy/heichelos/heichel/modules/test/socialLiveSmoke.test.mjs"
-			}
-		],
+		"tests": [],
 		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-aliases-alias-filesystem-delete-614b4f6352.md",
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-merkava-devices-9b2399e2c0.md",
 		"confidence": "unknown-method",
 		"related": [
 			{
-				"id": "api-social-9fa4891e88",
-				"route": "/api/social"
+				"id": "api-merkava-68df970464",
+				"route": "/api/merkava"
 			},
 			{
-				"id": "api-social-abuse-ratelimit-check-0a30b621f8",
-				"route": "/api/social/abuse/rateLimit/check"
+				"id": "api-merkava-download-bundle-c98f28d7b5",
+				"route": "/api/merkava/download-bundle"
 			},
 			{
-				"id": "api-social-alias-alias-2cc6a9ba6e",
-				"route": "/api/social/alias/:alias"
+				"id": "api-merkava-download-installer-28c990a8c4",
+				"route": "/api/merkava/download-installer"
 			},
 			{
-				"id": "api-social-alias-alias-details-7e4136898b",
-				"route": "/api/social/alias/:alias/details"
+				"id": "api-merkava-run-8c99141d56",
+				"route": "/api/merkava/run"
 			},
 			{
-				"id": "api-social-alias-alias-heichelos-34bfb8e313",
-				"route": "/api/social/alias/:alias/heichelos"
-			},
-			{
-				"id": "api-social-alias-alias-heichelos-heichel-4c7f5ddd08",
-				"route": "/api/social/alias/:alias/heichelos/:heichel"
-			},
-			{
-				"id": "api-social-alias-alias-heichelos-heichel-ownership-c2e6e8e020",
-				"route": "/api/social/alias/:alias/heichelos/:heichel/ownership"
-			},
-			{
-				"id": "api-social-alias-alias-heichelos-details-75a049464f",
-				"route": "/api/social/alias/:alias/heichelos/details"
+				"id": "api-merkava-run-js-8a969517a7",
+				"route": "/api/merkava/run-js"
 			}
 		]
 	},
 	{
-		"id": "api-social-aliases-alias-filesystem-makefile-a4721c6df2",
-		"route": "/api/social/aliases/:alias/fileSystem/makeFile",
-		"source": "geelooy/api/social/_awtsmoos.fileSystem.js",
+		"id": "api-merkava-download-bundle-c98f28d7b5",
+		"route": "/api/merkava/download-bundle",
+		"source": "geelooy/api/merkava/_awtsmoos.derech.js",
 		"discoveryKind": "static-literal",
 		"family": {
-			"mount": "/api/social",
-			"title": "Social",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md"
+			"mount": "/api/merkava",
+			"title": "/api/merkava",
+			"manual": "docs/API/README.md"
 		},
 		"derech": {
-			"source": "geelooy/api/social/_awtsmoos.derech.js",
+			"source": "geelooy/api/merkava/_awtsmoos.derech.js",
 			"status": "OK",
 			"issue": "—",
-			"mount": "/api/social"
+			"mount": "/api/merkava"
 		},
-		"dynamic": true,
-		"pathParameters": [
-			{
-				"name": "alias",
-				"catchAll": false
-			}
-		],
+		"dynamic": false,
+		"pathParameters": [],
 		"methods": [],
 		"methodEvidence": "unknown",
 		"vessels": [
 			"$_POST",
-			"$_DELETE",
-			"route-vars"
+			"headers"
 		],
-		"statuses": [],
-		"headers": [],
+		"statuses": [
+			"400",
+			"404",
+			"405",
+			"429",
+			"500"
+		],
+		"headers": [
+			"Content-Disposition",
+			"Content-Type"
+		],
 		"callers": [],
 		"callerCount": 0,
-		"tests": [
-			{
-				"name": "test",
-				"command": "npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported-style-ownership && npm run test:css-quality && npm run test:heichelos-quality && npm run test:profile-menu && npm run test:heichel-governance && npm run test:post-submissions && npm run test:comments && npm run test:api-keys && npm run test:graph && npm run test:social-content && npm run test:notifications && npm run test:social-packed && npm run test:packed-engine && npm run test:platform-ops && npm run test:platform-execution && npm run test:node-client && npm run test:dayuh-cutover"
-			},
-			{
-				"name": "test:api-keys",
-				"command": "node geelooy/api/social/helper/test/apiKeys.test.js"
-			},
-			{
-				"name": "test:comments",
-				"command": "node geelooy/api/social/helper/comments/test/runAllCommentsTests.js"
-			},
-			{
-				"name": "test:concurrency-failure",
-				"command": "node geelooy/api/social/test/concurrencyFailureStress.test.mjs"
-			},
-			{
-				"name": "test:dayuh-release",
-				"command": "npm run test:routes && npm run test:comments && npm run test:social-content && npm run test:social-packed && npm run test:packed-engine && node --test tools/dayuhChadashMaintenance/test/*.test.js && npm run test:dayuh-cutover"
-			},
-			{
-				"name": "test:graph",
-				"command": "node geelooy/api/social/helper/test/socialGraph.test.js"
-			},
-			{
-				"name": "test:heichel-governance",
-				"command": "node geelooy/heichelos/heichel/modules/test/editorManagement.test.mjs && node geelooy/api/social/helper/test/heichelRoles.test.js"
-			},
-			{
-				"name": "test:live-smoke",
-				"command": "node geelooy/heichelos/heichel/modules/test/socialLiveSmoke.test.mjs"
-			}
-		],
+		"tests": [],
 		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-aliases-alias-filesystem-makefile-a4721c6df2.md",
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-merkava-download-bundle-c98f28d7b5.md",
 		"confidence": "unknown-method",
 		"related": [
 			{
-				"id": "api-social-9fa4891e88",
-				"route": "/api/social"
+				"id": "api-merkava-68df970464",
+				"route": "/api/merkava"
 			},
 			{
-				"id": "api-social-abuse-ratelimit-check-0a30b621f8",
-				"route": "/api/social/abuse/rateLimit/check"
+				"id": "api-merkava-devices-9b2399e2c0",
+				"route": "/api/merkava/devices"
 			},
 			{
-				"id": "api-social-alias-alias-2cc6a9ba6e",
-				"route": "/api/social/alias/:alias"
+				"id": "api-merkava-download-installer-28c990a8c4",
+				"route": "/api/merkava/download-installer"
 			},
 			{
-				"id": "api-social-alias-alias-details-7e4136898b",
-				"route": "/api/social/alias/:alias/details"
+				"id": "api-merkava-run-8c99141d56",
+				"route": "/api/merkava/run"
 			},
 			{
-				"id": "api-social-alias-alias-heichelos-34bfb8e313",
-				"route": "/api/social/alias/:alias/heichelos"
-			},
-			{
-				"id": "api-social-alias-alias-heichelos-heichel-4c7f5ddd08",
-				"route": "/api/social/alias/:alias/heichelos/:heichel"
-			},
-			{
-				"id": "api-social-alias-alias-heichelos-heichel-ownership-c2e6e8e020",
-				"route": "/api/social/alias/:alias/heichelos/:heichel/ownership"
-			},
-			{
-				"id": "api-social-alias-alias-heichelos-details-75a049464f",
-				"route": "/api/social/alias/:alias/heichelos/details"
+				"id": "api-merkava-run-js-8a969517a7",
+				"route": "/api/merkava/run-js"
 			}
 		]
 	},
 	{
-		"id": "api-social-aliases-alias-filesystem-makefolder-1df0d95420",
-		"route": "/api/social/aliases/:alias/fileSystem/makeFolder",
-		"source": "geelooy/api/social/_awtsmoos.fileSystem.js",
+		"id": "api-merkava-download-installer-28c990a8c4",
+		"route": "/api/merkava/download-installer",
+		"source": "geelooy/api/merkava/_awtsmoos.derech.js",
 		"discoveryKind": "static-literal",
 		"family": {
-			"mount": "/api/social",
-			"title": "Social",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md"
+			"mount": "/api/merkava",
+			"title": "/api/merkava",
+			"manual": "docs/API/README.md"
 		},
 		"derech": {
-			"source": "geelooy/api/social/_awtsmoos.derech.js",
+			"source": "geelooy/api/merkava/_awtsmoos.derech.js",
 			"status": "OK",
 			"issue": "—",
-			"mount": "/api/social"
+			"mount": "/api/merkava"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [
+			"$_POST",
+			"headers"
+		],
+		"statuses": [
+			"400",
+			"404",
+			"405",
+			"429",
+			"500"
+		],
+		"headers": [
+			"Content-Disposition",
+			"Content-Type"
+		],
+		"callers": [],
+		"callerCount": 0,
+		"tests": [],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-merkava-download-installer-28c990a8c4.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-merkava-68df970464",
+				"route": "/api/merkava"
+			},
+			{
+				"id": "api-merkava-devices-9b2399e2c0",
+				"route": "/api/merkava/devices"
+			},
+			{
+				"id": "api-merkava-download-bundle-c98f28d7b5",
+				"route": "/api/merkava/download-bundle"
+			},
+			{
+				"id": "api-merkava-run-8c99141d56",
+				"route": "/api/merkava/run"
+			},
+			{
+				"id": "api-merkava-run-js-8a969517a7",
+				"route": "/api/merkava/run-js"
+			}
+		]
+	},
+	{
+		"id": "api-merkava-run-8c99141d56",
+		"route": "/api/merkava/run",
+		"source": "geelooy/api/merkava/_awtsmoos.derech.js",
+		"discoveryKind": "static-literal",
+		"family": {
+			"mount": "/api/merkava",
+			"title": "/api/merkava",
+			"manual": "docs/API/README.md"
+		},
+		"derech": {
+			"source": "geelooy/api/merkava/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/merkava"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [
+			"$_POST",
+			"headers"
+		],
+		"statuses": [
+			"400",
+			"404",
+			"405",
+			"429",
+			"500"
+		],
+		"headers": [
+			"Content-Disposition",
+			"Content-Type"
+		],
+		"callers": [],
+		"callerCount": 0,
+		"tests": [],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-merkava-run-8c99141d56.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-merkava-68df970464",
+				"route": "/api/merkava"
+			},
+			{
+				"id": "api-merkava-devices-9b2399e2c0",
+				"route": "/api/merkava/devices"
+			},
+			{
+				"id": "api-merkava-download-bundle-c98f28d7b5",
+				"route": "/api/merkava/download-bundle"
+			},
+			{
+				"id": "api-merkava-download-installer-28c990a8c4",
+				"route": "/api/merkava/download-installer"
+			},
+			{
+				"id": "api-merkava-run-js-8a969517a7",
+				"route": "/api/merkava/run-js"
+			}
+		]
+	},
+	{
+		"id": "api-merkava-run-js-8a969517a7",
+		"route": "/api/merkava/run-js",
+		"source": "geelooy/api/merkava/_awtsmoos.derech.js",
+		"discoveryKind": "static-literal",
+		"family": {
+			"mount": "/api/merkava",
+			"title": "/api/merkava",
+			"manual": "docs/API/README.md"
+		},
+		"derech": {
+			"source": "geelooy/api/merkava/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/merkava"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [
+			"$_POST",
+			"headers"
+		],
+		"statuses": [
+			"400",
+			"404",
+			"405",
+			"429",
+			"500"
+		],
+		"headers": [
+			"Content-Disposition",
+			"Content-Type"
+		],
+		"callers": [],
+		"callerCount": 0,
+		"tests": [],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-merkava-run-js-8a969517a7.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-merkava-68df970464",
+				"route": "/api/merkava"
+			},
+			{
+				"id": "api-merkava-devices-9b2399e2c0",
+				"route": "/api/merkava/devices"
+			},
+			{
+				"id": "api-merkava-download-bundle-c98f28d7b5",
+				"route": "/api/merkava/download-bundle"
+			},
+			{
+				"id": "api-merkava-download-installer-28c990a8c4",
+				"route": "/api/merkava/download-installer"
+			},
+			{
+				"id": "api-merkava-run-8c99141d56",
+				"route": "/api/merkava/run"
+			}
+		]
+	},
+	{
+		"id": "api-oauth-route-99d253c847",
+		"route": "/api/oauth/:route",
+		"source": "geelooy/api/oauth/_awtsmoos.derech.js",
+		"discoveryKind": "static-literal",
+		"family": {
+			"mount": "/api/oauth",
+			"title": "OAuth",
+			"manual": "docs/TUTORIALS/API/OAUTH.md"
+		},
+		"derech": {
+			"source": "geelooy/api/oauth/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/oauth"
 		},
 		"dynamic": true,
 		"pathParameters": [
 			{
-				"name": "alias",
+				"name": "route",
 				"catchAll": false
 			}
 		],
 		"methods": [],
 		"methodEvidence": "unknown",
 		"vessels": [
-			"$_POST",
-			"$_DELETE",
 			"route-vars"
 		],
+		"statuses": [
+			"404"
+		],
+		"headers": [
+			"Access-Control-Allow-Headers",
+			"Access-Control-Allow-Methods",
+			"Access-Control-Allow-Origin",
+			"Cache-Control"
+		],
+		"callers": [
+			{
+				"literal": "/api/oauth/authorize?client=social-hub",
+				"source": "geelooy/social-hub/tests/legalEntry.test.mjs",
+				"kind": "test"
+			},
+			{
+				"literal": "/api/oauth/device",
+				"source": "geelooy/apps/tunnel-control/index.html",
+				"kind": "runtime"
+			},
+			{
+				"literal": "/api/oauth/device",
+				"source": "geelooy/apps/tunnel-control/js/shell/agentLinks.js",
+				"kind": "runtime"
+			},
+			{
+				"literal": "/api/oauth/device-authorization",
+				"source": "geelooy/apps/tunnel/test/externalAiInstructions.test.cjs",
+				"kind": "test"
+			},
+			{
+				"literal": "/api/oauth/metadata",
+				"source": "geelooy/scripts/shliach/ConnectionMetadata.js",
+				"kind": "runtime"
+			},
+			{
+				"literal": "/api/oauth/start?client_id=chatgpt",
+				"source": "geelooy/apps/tunnel-control/js/api/auth.js",
+				"kind": "runtime"
+			},
+			{
+				"literal": "/api/oauth/start?next=${next}",
+				"source": "geelooy/apps/code/js/session/inline-login.js",
+				"kind": "runtime"
+			},
+			{
+				"literal": "/api/oauth/token",
+				"source": "geelooy/apps/tunnel/test/externalAiInstructions.test.cjs",
+				"kind": "test"
+			}
+		],
+		"callerCount": 8,
+		"tests": [],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-oauth-route-99d253c847.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-oauth-getroutehandler-487575ef09",
+				"route": "/api/oauth/getRouteHandler"
+			},
+			{
+				"id": "api-oauth-getroutetable-632912a20b",
+				"route": "/api/oauth/getRouteTable"
+			},
+			{
+				"id": "api-oauth-listroutenames-9be1b1f0f5",
+				"route": "/api/oauth/listRouteNames"
+			}
+		]
+	},
+	{
+		"id": "api-oauth-getroutehandler-487575ef09",
+		"route": "/api/oauth/getRouteHandler",
+		"source": "geelooy/api/oauth/routes/table.js",
+		"discoveryKind": "route-table",
+		"family": {
+			"mount": "/api/oauth",
+			"title": "OAuth",
+			"manual": "docs/TUTORIALS/API/OAUTH.md"
+		},
+		"derech": {
+			"source": "geelooy/api/oauth/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/oauth"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [],
 		"statuses": [],
 		"headers": [],
 		"callers": [],
 		"callerCount": 0,
-		"tests": [
-			{
-				"name": "test",
-				"command": "npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported-style-ownership && npm run test:css-quality && npm run test:heichelos-quality && npm run test:profile-menu && npm run test:heichel-governance && npm run test:post-submissions && npm run test:comments && npm run test:api-keys && npm run test:graph && npm run test:social-content && npm run test:notifications && npm run test:social-packed && npm run test:packed-engine && npm run test:platform-ops && npm run test:platform-execution && npm run test:node-client && npm run test:dayuh-cutover"
-			},
-			{
-				"name": "test:api-keys",
-				"command": "node geelooy/api/social/helper/test/apiKeys.test.js"
-			},
-			{
-				"name": "test:comments",
-				"command": "node geelooy/api/social/helper/comments/test/runAllCommentsTests.js"
-			},
-			{
-				"name": "test:concurrency-failure",
-				"command": "node geelooy/api/social/test/concurrencyFailureStress.test.mjs"
-			},
-			{
-				"name": "test:dayuh-release",
-				"command": "npm run test:routes && npm run test:comments && npm run test:social-content && npm run test:social-packed && npm run test:packed-engine && node --test tools/dayuhChadashMaintenance/test/*.test.js && npm run test:dayuh-cutover"
-			},
-			{
-				"name": "test:graph",
-				"command": "node geelooy/api/social/helper/test/socialGraph.test.js"
-			},
-			{
-				"name": "test:heichel-governance",
-				"command": "node geelooy/heichelos/heichel/modules/test/editorManagement.test.mjs && node geelooy/api/social/helper/test/heichelRoles.test.js"
-			},
-			{
-				"name": "test:live-smoke",
-				"command": "node geelooy/heichelos/heichel/modules/test/socialLiveSmoke.test.mjs"
-			}
-		],
+		"tests": [],
 		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-aliases-alias-filesystem-makefolder-1df0d95420.md",
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-oauth-getroutehandler-487575ef09.md",
 		"confidence": "unknown-method",
 		"related": [
 			{
-				"id": "api-social-9fa4891e88",
-				"route": "/api/social"
+				"id": "api-oauth-route-99d253c847",
+				"route": "/api/oauth/:route"
 			},
 			{
-				"id": "api-social-abuse-ratelimit-check-0a30b621f8",
-				"route": "/api/social/abuse/rateLimit/check"
+				"id": "api-oauth-getroutetable-632912a20b",
+				"route": "/api/oauth/getRouteTable"
 			},
 			{
-				"id": "api-social-alias-alias-2cc6a9ba6e",
-				"route": "/api/social/alias/:alias"
+				"id": "api-oauth-listroutenames-9be1b1f0f5",
+				"route": "/api/oauth/listRouteNames"
+			}
+		]
+	},
+	{
+		"id": "api-oauth-getroutetable-632912a20b",
+		"route": "/api/oauth/getRouteTable",
+		"source": "geelooy/api/oauth/routes/table.js",
+		"discoveryKind": "route-table",
+		"family": {
+			"mount": "/api/oauth",
+			"title": "OAuth",
+			"manual": "docs/TUTORIALS/API/OAUTH.md"
+		},
+		"derech": {
+			"source": "geelooy/api/oauth/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/oauth"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [],
+		"statuses": [],
+		"headers": [],
+		"callers": [],
+		"callerCount": 0,
+		"tests": [],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-oauth-getroutetable-632912a20b.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-oauth-route-99d253c847",
+				"route": "/api/oauth/:route"
 			},
 			{
-				"id": "api-social-alias-alias-details-7e4136898b",
-				"route": "/api/social/alias/:alias/details"
+				"id": "api-oauth-getroutehandler-487575ef09",
+				"route": "/api/oauth/getRouteHandler"
 			},
 			{
-				"id": "api-social-alias-alias-heichelos-34bfb8e313",
-				"route": "/api/social/alias/:alias/heichelos"
+				"id": "api-oauth-listroutenames-9be1b1f0f5",
+				"route": "/api/oauth/listRouteNames"
+			}
+		]
+	},
+	{
+		"id": "api-oauth-listroutenames-9be1b1f0f5",
+		"route": "/api/oauth/listRouteNames",
+		"source": "geelooy/api/oauth/routes/table.js",
+		"discoveryKind": "route-table",
+		"family": {
+			"mount": "/api/oauth",
+			"title": "OAuth",
+			"manual": "docs/TUTORIALS/API/OAUTH.md"
+		},
+		"derech": {
+			"source": "geelooy/api/oauth/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/oauth"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [],
+		"statuses": [],
+		"headers": [],
+		"callers": [],
+		"callerCount": 0,
+		"tests": [],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-oauth-listroutenames-9be1b1f0f5.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-oauth-route-99d253c847",
+				"route": "/api/oauth/:route"
 			},
 			{
-				"id": "api-social-alias-alias-heichelos-heichel-4c7f5ddd08",
-				"route": "/api/social/alias/:alias/heichelos/:heichel"
+				"id": "api-oauth-getroutehandler-487575ef09",
+				"route": "/api/oauth/getRouteHandler"
 			},
 			{
-				"id": "api-social-alias-alias-heichelos-heichel-ownership-c2e6e8e020",
-				"route": "/api/social/alias/:alias/heichelos/:heichel/ownership"
+				"id": "api-oauth-getroutetable-632912a20b",
+				"route": "/api/oauth/getRouteTable"
+			}
+		]
+	},
+	{
+		"id": "api-ohr-hagnuz-realtime-ticket-b6af2537a2",
+		"route": "/api/ohr-hagnuz/realtime-ticket",
+		"source": "geelooy/api/ohr-hagnuz/routes/table.js",
+		"discoveryKind": "route-table",
+		"family": {
+			"mount": "/api/ohr-hagnuz",
+			"title": "Ohr HaGnuz",
+			"manual": "docs/TUTORIALS/API/OHR_HAGNUZ.md"
+		},
+		"derech": {
+			"source": "geelooy/api/ohr-hagnuz/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/ohr-hagnuz"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [],
+		"statuses": [],
+		"headers": [],
+		"callers": [
+			{
+				"literal": "/api/ohr-hagnuz/realtime-ticket",
+				"source": "geelooy/games/ohr-hagnuz/tests/browser/SharedJourneyTestServer.mjs",
+				"kind": "test"
 			},
 			{
-				"id": "api-social-alias-alias-heichelos-details-75a049464f",
-				"route": "/api/social/alias/:alias/heichelos/details"
+				"literal": "/api/ohr-hagnuz/realtime-ticket?${o}",
+				"source": "geelooy/games/ohr-hagnuz/src/bundle/ohr-gate.bundle.js",
+				"kind": "runtime"
+			},
+			{
+				"literal": "/api/ohr-hagnuz/realtime-ticket?${parameters}",
+				"source": "geelooy/games/ohr-hagnuz/src/multiplayer/auth/SharedJourneyTicketClient.js",
+				"kind": "runtime"
+			}
+		],
+		"callerCount": 3,
+		"tests": [],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-ohr-hagnuz-realtime-ticket-b6af2537a2.md",
+		"confidence": "unknown-method",
+		"related": []
+	},
+	{
+		"id": "api-olam-h3-4e998afd7f",
+		"route": "/api/olam-h3",
+		"source": "geelooy/api/olam-h3/_awtsmoos.derech.js",
+		"discoveryKind": "static-literal",
+		"family": {
+			"mount": "/api/olam-h3",
+			"title": "/api/olam-h3",
+			"manual": "docs/API/README.md"
+		},
+		"derech": {
+			"source": "geelooy/api/olam-h3/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/olam-h3"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [],
+		"statuses": [],
+		"headers": [],
+		"callers": [
+			{
+				"literal": "/api/olam-h3",
+				"source": "geelooy/apps/olam-h3/scripts/api/MinimaxProxyClient.js",
+				"kind": "runtime"
+			}
+		],
+		"callerCount": 1,
+		"tests": [],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-olam-h3-4e998afd7f.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-olam-h3-create-cb86a5dbff",
+				"route": "/api/olam-h3/create"
+			},
+			{
+				"id": "api-olam-h3-status-cac8d0a010",
+				"route": "/api/olam-h3/status"
+			},
+			{
+				"id": "api-olam-h3-task-17b79454b5",
+				"route": "/api/olam-h3/task"
+			}
+		]
+	},
+	{
+		"id": "api-olam-h3-create-cb86a5dbff",
+		"route": "/api/olam-h3/create",
+		"source": "geelooy/api/olam-h3/_awtsmoos.derech.js",
+		"discoveryKind": "static-literal",
+		"family": {
+			"mount": "/api/olam-h3",
+			"title": "/api/olam-h3",
+			"manual": "docs/API/README.md"
+		},
+		"derech": {
+			"source": "geelooy/api/olam-h3/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/olam-h3"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [],
+		"statuses": [],
+		"headers": [],
+		"callers": [
+			{
+				"literal": "/api/olam-h3/create",
+				"source": "geelooy/apps/olam-h3/tests/proxy-browser-client.test.mjs",
+				"kind": "test"
+			}
+		],
+		"callerCount": 1,
+		"tests": [],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-olam-h3-create-cb86a5dbff.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-olam-h3-4e998afd7f",
+				"route": "/api/olam-h3"
+			},
+			{
+				"id": "api-olam-h3-status-cac8d0a010",
+				"route": "/api/olam-h3/status"
+			},
+			{
+				"id": "api-olam-h3-task-17b79454b5",
+				"route": "/api/olam-h3/task"
 			}
 		]
 	}

@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-design-os-mikdash-ia-spec-md-046d742725",
+	"title": "Beis Hamikdash Information Architecture — SPEC",
+	"sourcePath": "geelooy/apps/tunnel/design-os/mikdash-ia/SPEC.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Beis Hamikdash Information Architecture — SPEC",
+			"anchor": "beis-hamikdash-information-architecture-spec"
+		},
+		{
+			"level": 2,
+			"text": "The vision",
+			"anchor": "the-vision"
+		},
+		{
+			"level": 2,
+			"text": "The four levels",
+			"anchor": "the-four-levels"
+		},
+		{
+			"level": 3,
+			"text": "Level contracts",
+			"anchor": "level-contracts"
+		},
+		{
+			"level": 2,
+			"text": "Classification",
+			"anchor": "classification"
+		},
+		{
+			"level": 2,
+			"text": "Ascent navigation",
+			"anchor": "ascent-navigation"
+		},
+		{
+			"level": 2,
+			"text": "Themes",
+			"anchor": "themes"
+		},
+		{
+			"level": 2,
+			"text": "Kavanah gate",
+			"anchor": "kavanah-gate"
+		},
+		{
+			"level": 2,
+			"text": "Integration",
+			"anchor": "integration"
+		},
+		{
+			"level": 2,
+			"text": "Curation",
+			"anchor": "curation"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-design-os-mikdash-ia-spec-md-046d742725-001.json"
+	]
+}

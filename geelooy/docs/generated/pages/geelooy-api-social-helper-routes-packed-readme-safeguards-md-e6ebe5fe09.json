@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-social-helper-routes-packed-readme-safeguards-md-e6ebe5fe09",
+	"title": "Safeguards design notes — packed import/read path",
+	"sourcePath": "geelooy/api/social/helper/routes/packed/README-safeguards.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Safeguards design notes — packed import/read path",
+			"anchor": "safeguards-design-notes-packed-import-read-path"
+		},
+		{
+			"level": 2,
+			"text": "Cache discipline audit (Phase 2, 2026-10-20)",
+			"anchor": "cache-discipline-audit-phase-2-2026-10-20"
+		},
+		{
+			"level": 2,
+			"text": "Loop protection (Phase 3, 2026-10-20)",
+			"anchor": "loop-protection-phase-3-2026-10-20"
+		},
+		{
+			"level": 2,
+			"text": "Read shed gate (Phase 3, 2026-10-20)",
+			"anchor": "read-shed-gate-phase-3-2026-10-20"
+		},
+		{
+			"level": 2,
+			"text": "DESIGN ONLY — measuring watchdog (not implemented)",
+			"anchor": "design-only-measuring-watchdog-not-implemented"
+		},
+		{
+			"level": 2,
+			"text": "DESIGN ONLY — import-process separation (not implemented)",
+			"anchor": "design-only-import-process-separation-not-implemented"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-social-helper-routes-packed-readme-safeguards-md-e6ebe5fe09-001.json"
+	]
+}

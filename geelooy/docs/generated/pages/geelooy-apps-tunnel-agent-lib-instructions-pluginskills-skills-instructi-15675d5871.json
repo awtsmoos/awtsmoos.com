@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-15675d5871",
+	"title": "Resume and verify the Awtsmoos tunnel",
+	"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/RESUMABLE_CLIENT_AND_CHANNEL_EVIDENCE.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Resume and verify the Awtsmoos tunnel",
+			"anchor": "resume-and-verify-the-awtsmoos-tunnel"
+		},
+		{
+			"level": 2,
+			"text": "Preserve one execution",
+			"anchor": "preserve-one-execution"
+		},
+		{
+			"level": 2,
+			"text": "Diagnose channel health separately",
+			"anchor": "diagnose-channel-health-separately"
+		},
+		{
+			"level": 2,
+			"text": "Keep bounded parallel work responsive",
+			"anchor": "keep-bounded-parallel-work-responsive"
+		},
+		{
+			"level": 2,
+			"text": "Preserve accepted work during upgrades",
+			"anchor": "preserve-accepted-work-during-upgrades"
+		},
+		{
+			"level": 2,
+			"text": "Checkpoint work and enforce frontend evidence",
+			"anchor": "checkpoint-work-and-enforce-frontend-evidence"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-15675d5871-001.json"
+	]
+}

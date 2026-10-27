@@ -25,44 +25,49 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-social-hub-6c189d12.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 217,
-		"tests": 46,
+		"source": 395,
+		"tests": 91,
 		"assets": 0,
 		"generated": 0,
 		"docs": 2,
-		"other": 0
+		"other": 1
 	},
-	"totalFiles": 265,
+	"totalFiles": 489,
 	"symbolSummary": {
-		"files": 128,
-		"classes": 77,
-		"functions": 166,
-		"exports": 159,
+		"files": 230,
+		"classes": 150,
+		"functions": 239,
+		"exports": 283,
 		"samples": [
 			"createSocialHub",
 			"HubApp",
 			"activityCard",
 			"durationLabel",
 			"timestamp",
+			"ActivityMutationCoordinator",
 			"ActivityPanel",
+			"manifestMalchusActivity",
+			"ActivityTimelineView",
 			"ActivityTracker",
 			"PrivacyActions",
-			"prepared",
-			"PrivacyPanel",
-			"CATEGORIES",
-			"preferencesFromFields"
+			"prepared"
 		]
 	},
 	"outgoingDependencies": [
 		{
 			"project": "geelooy/shared",
-			"count": 5,
-			"examples": "geelooy/social-hub/js/interactions/CreatorLaunchModel.js; geelooy/social-hub/js/ui/feed/FeedPostModel.js; geelooy/social-hub/js/ui/feed/FeedUniversalActions.js"
+			"count": 13,
+			"examples": "geelooy/social-hub/js/api/InteractionApi.js; geelooy/social-hub/js/interactions/CreatorLaunchModel.js; geelooy/social-hub/js/ui/PublicDiscovery.js"
 		},
 		{
 			"project": "geelooy/social-actions",
 			"count": 4,
 			"examples": "geelooy/social-hub/js/ui/feed/FeedReaction.js; geelooy/social-hub/js/ui/feed/SocialActionRail.js"
+		},
+		{
+			"project": "geelooy/apps/universal-chat",
+			"count": 3,
+			"examples": "geelooy/social-hub/js/messages/ConversationVoiceComposer.js; geelooy/social-hub/js/messages/ConversationVoiceView.js"
 		}
 	],
 	"incomingDependencies": [],
@@ -73,7 +78,14 @@
 			"file": "geelooy/social-hub/index.html",
 			"title": "Social Hub — Geelooy",
 			"scripts": 2,
-			"styles": 3
+			"styles": 2
+		},
+		{
+			"url": "/social-hub/heichelos",
+			"file": "geelooy/social-hub/heichelos/index.html",
+			"title": "Heichelos — Social Hub",
+			"scripts": 0,
+			"styles": 1
 		}
 	],
 	"requiresLocalDocumentation": true,

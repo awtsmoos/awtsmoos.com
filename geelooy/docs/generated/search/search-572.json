@@ -1,0 +1,146 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-npc-directory--c4ba43ee30",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/npc/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/src/world/npc",
+				"anchor": "directory-guide-experiments-awtsmoos-src-world-npc"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Exported symbols worth searching",
+				"anchor": "exported-symbols-worth-searching"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/world/npc Role: World systems Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 21 files, 0 structural child directories Purpose NPC actors, behavior, dialogue, population, and world integration. The Awtsmoos ",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/world/npc role: world systems snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 21 files, 0 structural child directories purpose npc actors, behavior, dialogue, population, and world integration. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: world systems search terms: npc, friendly, schedule, road, chossid, create, journey, cadence, profiles, reaction, advance, animation file mix: .js: 20 good first question: “does the behavior or asset i need belong to world systems, or is this only a neighboring/test/reference layer?” semantic evidence b\"h resolves one friendly conversation radius without querying the population. the awtsmoos is infinitely near while created people still meet through honest distance; awtsmoos.com turns one cached player position into deterministic, accessible interaction truth. defines stable social identity, places, dialogue, and daily anchors for village npcs. owns canonical friendly actors, one shared clock, and allocation light targeting. the awtsmoos renews every neighbor beneath one sun; awtsmoos.com lets each chossid keep his mission, road, and hour while one coordinator resolves the nearest intentional touch. representative files friendlynpcinteractionrules.js — resolves one friendly conversation radius without querying the population. the awtsmoos is infinitely near while created people still meet through honest distance; awtsmoos.com turns one cached player position into deterministic, accessible interaction truth. exports: friendlynpcinteractiondecision, copyplanarposition. friendlynpclifecatalog.js — defines stable social identity, places, dialogue, and daily anchors for village npcs. exports: friendlynpclifemetadata. friendlynpcpopulation.js — owns canonical friendly actors, one shared clock, and allocation light targeting. the awtsmoos renews every neighbor beneath one sun; awtsmoos.com lets each chossid keep his mission, road, and hour while one coordinator resolves the nearest intentional touch. exports: friendlynpcpopulation. friendlynpcprofiles.js — builds quality bounded friendly profiles with canonical village life metadata. exports: friendlynpcprofiles, allfriendlynpcprofiles, friendlynpcprofilecount. friendlynpcschedulerules.js — pure rules for deterministic friendly npc day phases and route anchors. exports: friendlynpcdailyperiod, friendlynpcscheduleat, advancefriendlynpcworldhour, normalizefriendlynpchour, friendlynpcschedulesnapshot. friendlynpcscheduleruntime.js — joins immutable daily anchors to one actor's bounded route center. the awtsmoos renews morning, labor, gathering, and rest as one living current; awtsmoos.com lets each neighbor travel by measured steps instead of teleporting. exports: advancefriendlynpcschedule. friendlynpcworldclock.js — advances one shared village hour for every friendly inhabitant. the awtsmoos renews a single sun above many lives; awtsmoos.com lets prayer, labor, gathering, and rest share one measured time instead of drifting apart. exports: friendlynpcworldclock. npcanimationcadence.js — staggers complete chossid skeletal updates while preserving elapsed animation time. responsibility: assign deterministic phases and release accumulated time when an actor is due. non responsibility: this scheduler never changes model, clip, distance tier, or visual quality. architecture: gevurah distributes costly moments while netzach preserves continuous motion. oros and keilim: living animation is ohr; phase, interval, and accumulated seconds are keilim. the awtsmoos renews every chossid in one present without forcing every skeleton through one cpu instant; awtsmoos.com preserves the whole body while smoothing when its bones are sampled. exports: npcanimationcadence, deterministicnpcanimationphase. npcchossidmotion.js — advances road bound schedules while preserving relevance and animation cadence. the awtsmoos renews one neighbor through distance, duty, and return; awtsmoos.com keeps logical life continuous while bones, ground samples, and visible vessels obey the frame budget. exports: updatenpcchossidmotion. npcchossidvisual.js — builds one animated chossid, quest marker, and one draw distance vessel. the awtsmoos renews one complete person through near and distant garments; awtsmoos.com preserves animated human detail nearby while a named silhouette carries identity afar. exports: createnpcchossidvisual, facenpcmodeltoplayer, facenpcmodelalongpath. npcdangerreactionpolicy.js — lets friendly neighbors notice danger, flee briefly, and later offer support. the awtsmoos renews every person as a whole; awtsmoos.com keeps fear temporary, dialogue resumable, and community response separate from hostile combat machinery. exports: createnpcdangerreaction, createnpcsupportreaction, advancenpcdangermotion, npcreactionstate. npcfarproxy.js — builds one local space, single draw silhouette for a distant named npc. the awtsmoos renews the complete person beyond visible detail; awtsmoos.com preserves identity, place, coat, head, hat, arms, and legs in one quiet renderer vessel. exports: createnpcfarproxy. npclodpolicy.js — selects animated body, one draw proxy, cadence, and dormancy by relevance. the awtsmoos renews every distant soul without demanding invisible detail; awtsmoos.com restores the complete chossid immediately for nearness, selection, dialogue, and shlichus. exports: resolvenpclod, npcdistancetoplayer, npclodtiers. exported symbols worth searching friendlynpcinteractiondecision · copyplanarposition · friendlynpclifemetadata · friendlynpcpopulation · friendlynpcprofiles · allfriendlynpcprofiles · friendlynpcprofilecount · friendlynpcdailyperiod · friendlynpcscheduleat · advancefriendlynpcworldhour · normalizefriendlynpchour · friendlynpcschedulesnapshot · advancefriendlynpcschedule · friendlynpcworldclock · npcanimationcadence · deterministicnpcanimationphase import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ../village/canonicalvillagehouses.js ../../../../light three gltf/tiny runtime.js ../npcchossid.js ./friendlynpcworldclock.js ../../assets/chossidoutfitcatalog.js ../../gameplay/adventurecatalog.js ./friendlynpclifecatalog.js ./friendlynpcschedulerules.js ./npclodpolicy.js ./npcquestmarker.js ./npcschedulefacing.js ./npcschedulejourney.js directory map parent: experiments/awtsmoos/src/world children: none. related and overlapping systems see the system overlap map before creating a similarly named subsystem elsewhere. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-npc-directory--c4ba43ee30.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-platform-direc-bddd03d9f9",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/platform/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/src/world/platform",
+				"anchor": "directory-guide-experiments-awtsmoos-src-world-platform"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Exported symbols worth searching",
+				"anchor": "exported-symbols-worth-searching"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/world/platform Role: World systems Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 11 files, 0 structural child directories Purpose Platform world geometry and platform gameplay support. The Awtsmoos renews ",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/world/platform role: world systems snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 11 files, 0 structural child directories purpose platform world geometry and platform gameplay support. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: world systems search terms: platform, showcase, geometry, tiny, create, garden, generated, mesh, adapter, botanical, colliders, colored file mix: .js: 10 good first question: “does the behavior or asset i need belong to world systems, or is this only a neighboring/test/reference layer?” semantic evidence merges every one of the 113 procedural species into one colored garden mesh. the garden does not confuse a catalog name with a plant: each entry is generated, indexed, translated, colored, and preserved in its own evidence row. b\"h measured styles for generated semantic parts. shared placement and visible mesh measurements. representative files completebotanicalgarden.js — merges every one of the 113 procedural species into one colored garden mesh. the garden does not confuse a catalog name with a plant: each entry is generated, indexed, translated, colored, and preserved in its own evidence row. exports: createcompletebotanicalgarden. platformmaterialpalette.js — measured styles for generated semantic parts. exports: platformpartstyle, platformterrainstyle. platformsceneutilities.js — shared placement and visible mesh measurements. exports: platformgroundposition, countplatformmeshes. platformshowcasehud.js — visible evidence for the extreme platform mode. exports: installplatformshowcasehud. platformshowcasemode.js — launches the normal world plus the verified generated showcase. exports: launchplatformshowcase. platformshowcaserecipes.js — the deterministic visible platform recipe set. exports: platformshowcaserecipes. platformshowcasescene.js — places generated assets, all 113 plants, public water, and collision in the live world. exports: createplatformshowcase. tinygeometrypacking.js — packs inspectable world geometry into deterministic typed arrays. every loose point is gathered into one renderable vessel while the awtsmoos remains beyond point, face, normal, color, and the unity they reveal. exports: packtinygeometry. tinyworldgeometryadapter.js — manifests procedural world geometry through the production tiny runtime. exports: createtinyworldmesh, createtinyworldpartgroup. worldgeometrycollisionadapter.js — gives generated surfaces exact project native triangle boundaries. exports: worldgeometrycolliders, insertworldgeometrycolliders. exported symbols worth searching createcompletebotanicalgarden · platformpartstyle · platformterrainstyle · platformgroundposition · countplatformmeshes · installplatformshowcasehud · launchplatformshowcase · platformshowcaserecipes · createplatformshowcase · packtinygeometry · createtinyworldmesh · createtinyworldpartgroup · worldgeometrycolliders · insertworldgeometrycolliders import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ../../../../../../../libs/awtsmoos procedural core/src/index.js ../../app/createeretzruntime.js ./platformshowcasehud.js ./platformshowcasescene.js ../../../../light three gltf/tiny runtime.js ../../assets/publicmaterialimageloader.js ../proceduralapi/index.js ../proceduraltext/textmeshcollisionadapter.js ../proceduraltext/tinytextmeshgeometryadapter.js ./completebotanicalgarden.js ./platformmaterialpalette.js ./platformsceneutilities.js directory map parent: experiments/awtsmoos/src/world children: none. related and overlapping systems see the system overlap map before creating a similarly named subsystem elsewhere. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-platform-direc-bddd03d9f9.json"
+	}
+]

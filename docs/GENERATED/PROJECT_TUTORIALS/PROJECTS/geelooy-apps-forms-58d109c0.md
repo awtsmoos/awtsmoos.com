@@ -2,7 +2,7 @@ B"H
 Boruch Hashem
 Blessed is He
 
-# Project Tutorial: geelooy/apps/forms
+# Project Tutorial: Awtsmoos Forms
 
 **Path:** `geelooy/apps/forms` · **Type:** app · **Family:** Applications
 
@@ -12,28 +12,28 @@ Blessed is He
 
 ## Entry and documentation evidence
 
-- Entry files: —
+- Entry files: `index.html`
 - Local documentation: No local `DOCUMENTATION.md` observed.
-- Local-doc requirement: no; covered: no
+- Local-doc requirement: yes; covered: no
 - Symlink target: —
 
 ## File shape
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| 43 | 0 | 0 | 0 | 0 | 0 | 43 |
 
 ## Public entry points
 
-None observed.
+- `/apps/forms` → `geelooy/apps/forms/index.html` — Awtsmoos Forms
 
 ## Symbol evidence
 
-No lexical symbol summary observed.
+Source files: 23; classes: 8; functions: 57; exports: 40; samples: waitForFormsConnection, statusChanged, TiferesFormEditor, editorToolbar, fieldSectionHeader, button, NetzachFormEditorLifecycle, editorLifecycleActions, secondaryActions, patchField, changeFieldType, moveField.
 
 ## Depends on
 
-None observed.
+- `geelooy/apps/shared` — 1 lexical reference; examples: geelooy/apps/forms/js/main.js
 
 ## Used by
 

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Series (geelooy/api/social/helper/series/)\n\nSeries store: direct and virtual series, post membership, and prateem (details) recovery.\n\n## Files\n- `directSeriesStore.js` — direct series storage.\n- `directSeriesPrateem.js` — series detail (prateem) records.\n- `virtualSeries.js`, `virtualSeriesMeta.js`, `virtualSeriesPosts.js` — virtual series views (meta and posts).\n- `seriesPrateemRecovery.js` — recovery of series details after corruption/migration.\n- `test/` — `directSeriesPrateem.test.js`, `seriesPrateemRecovery.test.js`.\n"
+}

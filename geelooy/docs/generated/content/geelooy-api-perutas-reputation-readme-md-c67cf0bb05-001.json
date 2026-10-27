@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Perutas Reputation (geelooy/api/perutas/reputation/)\n\nSingle module: `reputationService.js`. Reputation scoring within the peruta\neconomy — standing derived from account/transaction history (fraud signals,\nledgers, receipts). Aggregated as `reputation` in `../index.js`.\n"
+}

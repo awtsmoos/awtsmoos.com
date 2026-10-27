@@ -1,0 +1,63 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-api-core-a7a77353",
+	"path": "geelooy/api/core",
+	"type": "api",
+	"family": {
+		"id": "apis",
+		"title": "API Projects"
+	},
+	"title": "geelooy/api/core",
+	"entries": [
+		"README.md",
+		"readme.md"
+	],
+	"humanDocumentation": [
+		"docs/TUTORIALS/PROJECTS/APIS.md",
+		"docs/API/README.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/APIS.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-core-a7a77353.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 3,
+		"tests": 0,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 0
+	},
+	"totalFiles": 4,
+	"symbolSummary": {
+		"files": 3,
+		"classes": 3,
+		"functions": 0,
+		"exports": 3,
+		"samples": [
+			"ApiFamilyCatalog",
+			"does",
+			"CHOCHMAH_API_FAMILIES",
+			"LegacyApiDemoRoutes"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [
+		{
+			"project": "geelooy/api/_awtsmoos.derech.js",
+			"count": 2,
+			"examples": "geelooy/api/_awtsmoos.derech.js"
+		},
+		{
+			"project": "geelooy/api/portal",
+			"count": 1,
+			"examples": "geelooy/api/portal/adapters/ApiFamilyResourceAdapter.js"
+		}
+	],
+	"externalDependencies": [],
+	"publicEntries": [],
+	"requiresLocalDocumentation": false,
+	"documentationCovered": false,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

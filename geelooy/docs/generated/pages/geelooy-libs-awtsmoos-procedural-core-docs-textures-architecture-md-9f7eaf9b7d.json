@@ -1,0 +1,24 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-docs-textures-architecture-md-9f7eaf9b7d",
+	"title": "Architecture Remote Texture Catalog",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/textures/ARCHITECTURE.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Architecture Remote Texture Catalog",
+			"anchor": "architecture-remote-texture-catalog"
+		},
+		{
+			"level": 2,
+			"text": "Exact filenames",
+			"anchor": "exact-filenames"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-docs-textures-architecture-md-9f7eaf9b7d-001.json"
+	]
+}

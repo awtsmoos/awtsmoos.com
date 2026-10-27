@@ -1,0 +1,204 @@
+[
+	{
+		"id": "geelooy-apps-tunnel-control-agents-md-f12beaa35d",
+		"title": "Awtsmoos Tunnel Control — Universal AI Agent Instructions",
+		"sourcePath": "geelooy/apps/tunnel-control/agents.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos Tunnel Control — Universal AI Agent Instructions",
+				"anchor": "awtsmoos-tunnel-control-universal-ai-agent-instructions"
+			},
+			{
+				"level": 2,
+				"text": "Canonical discovery",
+				"anchor": "canonical-discovery"
+			},
+			{
+				"level": 2,
+				"text": "Mode A — PKCE callback authorization",
+				"anchor": "mode-a-pkce-callback-authorization"
+			},
+			{
+				"level": 2,
+				"text": "Mode B — Headless Device Authorization",
+				"anchor": "mode-b-headless-device-authorization"
+			},
+			{
+				"level": 2,
+				"text": "Compatibility clients",
+				"anchor": "compatibility-clients"
+			},
+			{
+				"level": 2,
+				"text": "After either OAuth mode",
+				"anchor": "after-either-oauth-mode"
+			},
+			{
+				"level": 2,
+				"text": "Start or refresh the local tunnel",
+				"anchor": "start-or-refresh-the-local-tunnel"
+			},
+			{
+				"level": 2,
+				"text": "Action discipline",
+				"anchor": "action-discipline"
+			},
+			{
+				"level": 2,
+				"text": "Security boundary",
+				"anchor": "security-boundary"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos Tunnel Control — Universal AI Agent Instructions The Awtsmoos renews visible browsers and silent daemons alike; Awtsmoos.com therefore teaches two consent paths, one token authority, and one immutable tunnel route, so no model confuses headless convenience with permission. These",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos tunnel control — universal ai agent instructions the awtsmoos renews visible browsers and silent daemons alike; awtsmoos.com therefore teaches two consent paths, one token authority, and one immutable tunnel route, so no model confuses headless convenience with permission. these instructions govern any external ai client using tunnel control, oauth, the action api, or openapi. new clients should use client id=external agent. canonical discovery oauth metadata: agent manifest: device authorization endpoint: human device verification: agent bootstrap: human docs: openapi: device discovery: read live metadata, manifest, or openapi whenever payload shape is uncertain. do not infer unsupported fields from memory. mode a — pkce callback authorization prefer this when the ai can retain pkce/state and receive or relay the browser callback code. 1. generate and retain high entropy code verifier and state. 2. derive the s256 code challenge. 3. open /api/oauth/authorize with client id=external agent, the fixed callback, scope, state, challenge, and code challenge method=s256. 4. the first party callback displays only authorization code and state. 5. reject the flow unless returned state exactly matches retained state. 6. exchange at /api/oauth/token with the original verifier and fixed callback. 7. store access/refresh tokens only in the ai client's secure credential store. mode b — headless device authorization use this when the ai cannot receive or relay the callback code. 1. post client id=external agent and optional scope to /api/oauth/device authorization. 2. retain device code, expires in, and interval. show the human verification uri + user code, or verification uri complete. 3. poll /api/oauth/token with: grant type=urn:ietf:params:oauth:grant type:device code the returned device code explicit client id=external agent 4. never poll faster than the current permitted interval. 5. on authorization pending, wait the interval and continue. 6. on slow down, honor the larger server delay before every subsequent poll. 7. on access denied, expired token, invalid grant, or another terminal oauth error, stop polling. 8. on success, store the returned access/refresh tokens securely and discard the device code. the human verification page requires awtsmoos login, displays the short user code, client name, and scopes, and requires explicit approve/deny. it never receives or renders the machine device code, access token, or refresh token. compatibility clients grok remains a public agent compatibility client with pkce callback and device authorization capability. chatgpt retains its registered callback patterns and legacy behavior; device authorization is not silently enabled for it. named clients are compatibility garments, not requirements for new integrations. after either oauth mode 1. call /api/tunnel/control/my device with authorization: bearer . 2. use routereference; if absent, use tunnelid. 3. pass that immutable value in the action schema field named tunnelname. 4. treat friendly tunnelname as display metadata only. 5. if no tunnel is connected, ask the user to start/refresh the local agent and retry. 6. if multiple tunnels are live, present immutable ids plus labels and ask which one to use. 7. never fabricate a route, project root, worker, receipt, job, or action result. start or refresh the local tunnel running the same installer again refreshes and starts an existing agent while preserving saved identity. action discipline after discovery, call list p=., then tree p=. depth=2 limit=150, then read real files before mutation. verify immutable route and project root before writes or commands. grant/use only required oauth scopes. treat filesystem, shell, browser automation, and local proxy access as access to the connected user's machine. a durable command with pending: true is still alive: preserve its receipt and continue it instead of resubmitting the original command. verify results from actual files, commands, browser state, and tunnel responses. security boundary universal support never means arbitrary redirect uris or invisible device approval. callback mode is bound by state + pkce; headless mode is bound by short lived device state, human login/consent, server poll cadence, expiry, denial, and one time redemption. both modes end at the same scoped oauth token authority.",
+		"page": "pages/geelooy-apps-tunnel-control-agents-md-f12beaa35d.json"
+	},
+	{
+		"id": "geelooy-apps-tunnel-control-documentation-md-ffc8df0163",
+		"title": "Tunnel Control App Documentation",
+		"sourcePath": "geelooy/apps/tunnel-control/DOCUMENTATION.md",
+		"category": "Tunnel",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Tunnel Control App Documentation",
+				"anchor": "tunnel-control-app-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Tunnel Control App Documentation The Awtsmoos gives remote action a control vessel where identity, grant, preview, compute, and mission align; Awtsmoos.com maps this UI to the 79 key control API so browser behavior and backend authority remain combined. Read ../../../docs/API/TUNNEL CONT",
+		"searchText": "b\"h boruch hashem blessed is he tunnel control app documentation the awtsmoos gives remote action a control vessel where identity, grant, preview, compute, and mission align; awtsmoos.com maps this ui to the 79 key control api so browser behavior and backend authority remain combined. read ../../../docs/api/tunnel control.md and ../../../docs/systems/tunnel.md.",
+		"page": "pages/geelooy-apps-tunnel-control-documentation-md-ffc8df0163.json"
+	},
+	{
+		"id": "geelooy-apps-tunnel-control-readme-md-36047e4064",
+		"title": "Awtsmoos Tunnel Control",
+		"sourcePath": "geelooy/apps/tunnel-control/README.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos Tunnel Control",
+				"anchor": "awtsmoos-tunnel-control"
+			},
+			{
+				"level": 2,
+				"text": "Protocol law",
+				"anchor": "protocol-law"
+			},
+			{
+				"level": 2,
+				"text": "Recommended authorization flow",
+				"anchor": "recommended-authorization-flow"
+			},
+			{
+				"level": 2,
+				"text": "Headless authorization",
+				"anchor": "headless-authorization"
+			},
+			{
+				"level": 2,
+				"text": "Huge files and videos",
+				"anchor": "huge-files-and-videos"
+			},
+			{
+				"level": 3,
+				"text": "GET-only fallback",
+				"anchor": "get-only-fallback"
+			},
+			{
+				"level": 3,
+				"text": "Device-to-device",
+				"anchor": "device-to-device"
+			},
+			{
+				"level": 2,
+				"text": "Discovery",
+				"anchor": "discovery"
+			},
+			{
+				"level": 2,
+				"text": "Routing and recovery",
+				"anchor": "routing-and-recovery"
+			},
+			{
+				"level": 2,
+				"text": "Installation",
+				"anchor": "installation"
+			}
+		],
+		"excerpt": "B\"H Awtsmoos Tunnel Control Awtsmoos Tunnel Control connects external AI clients to owned devices through explicit OAuth scopes, immutable route references, compact capability discovery, and resumable transfer receipts. Protocol law The canonical external agent protocol uses HTTPS GET for OAuth and control . Never swit",
+		"searchText": "b\"h awtsmoos tunnel control awtsmoos tunnel control connects external ai clients to owned devices through explicit oauth scopes, immutable route references, compact capability discovery, and resumable transfer receipts. protocol law the canonical external agent protocol uses https get for oauth and control . never switch it to post. for file data, websocket is preferred but not required . agents without websocket support can transfer entire files through resumable https get fragments. both transports share the same transferid and destination manifest, so transport can change mid transfer. recommended authorization flow 1. generate a pkce verifier and s256 challenge. 2. get /api/oauth/agent handoff?action=start&code challenge=...&code challenge method=s256. 3. keep the returned private handoff proof, verifier, authorization url, and status url. 4. open the authorization url for the human. the callback deposits the result into the matching handoff. 5. poll the returned status url at the advertised cadence. when automatic delivery succeeds, do not ask the human to copy code/state. 6. get /api/oauth/token with the one time authorization code and original verifier. 7. acknowledge the handoff, store credentials securely, then get /api/tunnel/control/my device and use its selected routereference. manual callback copy exists only when no waiting automatic handoff can be matched. headless authorization get /api/oauth/device authorization?client id=external agent, show the verification url to the human, then poll the get token endpoint with the standard device code grant. honor the returned interval, slow down, expiry, denial, and terminal errors. huge files and videos the durable transfer operations are: filetransfersourceinfo filetransfersourceproof filetransferreadchunk filetransfercreate filetransferstatus filetransferwritechunk filetransfercommit filetransfercancel websocket transfer uses 1 mib chunks by default and supports up to 2 mib per chunk. get only fallback agents without websockets use: get /api/tunnel/control/transfer/get/ supported action values are source info, source proof, read, create, status, write, commit, and cancel. get upload fragments carry at most 4096 decoded bytes in content64. get reads default to 65536 bytes . every write fragment carries sha 256, final commit verifies the whole file sha 256, and the destination is atomically published only after complete coverage and hash verification. a transfer can begin through get, continue through websocket, then return to get without restarting because all roads use the same transfer id and manifest. after uncertain mutation delivery, query status and resume from nextoffset instead of blindly replaying a chunk. device to device get /api/tunnel/control/transfer/device with source route/path and destination route/path. the bridge moves only a bounded batch per request and carries one verified chunk in server memory at a time. repeat using the returned transferid until done=true. discovery machine readable entry points: /api/tunnel/control/bootstrap /api/tunnel/control/agent manifest /api/tunnel/control/docs.json /api/tunnel/control/openapi /api/tunnel/control/my device the stable public filesystem capability is action=files; pass the exact inward deed in operation. routing and recovery always call my device after authentication. when humanchoicerequired=false, follow its selected route automatically and do not ask the human to choose primary versus recovery. after route failure, call my device again rather than remembering an old tunnel name. if a mutating action has already been accepted, observe its receipt/job before replay. replay only when the returned receipt explicitly proves it is safe. installation macos/linux: windows powershell: running the same installer again is the supported refresh/restart path. it preserves saved tunnel identity and recovery state.",
+		"page": "pages/geelooy-apps-tunnel-control-readme-md-36047e4064.json"
+	},
+	{
+		"id": "geelooy-apps-tunnel-agent-docs-helper-skeletons-android-readme-md-bf6b7c670c",
+		"title": "Android Remote Helper Skeleton",
+		"sourcePath": "geelooy/apps/tunnel/agent/docs/helper-skeletons/android/README.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Android Remote Helper Skeleton",
+				"anchor": "android-remote-helper-skeleton"
+			}
+		],
+		"excerpt": "B\"H Android Remote Helper Skeleton Visible consent MediaProjection helper skeleton. It must never start hidden. Files planned: ConsentActivity.kt: asks Android MediaProjection permission. CaptureService.kt: foreground service with persistent stop notification. FrameEncoder.kt: encodes frames for tunnel delivery. Tunnel",
+		"searchText": "b\"h android remote helper skeleton visible consent mediaprojection helper skeleton. it must never start hidden. files planned: consentactivity.kt: asks android mediaprojection permission. captureservice.kt: foreground service with persistent stop notification. frameencoder.kt: encodes frames for tunnel delivery. tunnelbridge.kt: binds frames to a short lived session token. panicstopreceiver.kt: immediate revoke/stop path. blocked by default: clipboard, files, raw shell, credential reveal, invisible capture.",
+		"page": "pages/geelooy-apps-tunnel-agent-docs-helper-skeletons-android-readme-md-bf6b7c670c.json"
+	},
+	{
+		"id": "geelooy-apps-tunnel-agent-docs-helper-skeletons-desktop-readme-md-38b509148d",
+		"title": "Desktop Remote Helper Skeleton",
+		"sourcePath": "geelooy/apps/tunnel/agent/docs/helper-skeletons/desktop/README.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Desktop Remote Helper Skeleton",
+				"anchor": "desktop-remote-helper-skeleton"
+			}
+		],
+		"excerpt": "B\"H Desktop Remote Helper Skeleton Visible screen capture and optional input helper. It must show a persistent indicator and panic stop. Platform seams: macOS: ScreenCaptureKit + Screen Recording permission. Windows: Windows Graphics Capture. Linux: PipeWire portal. Input relay remains separate from capture and require",
+		"searchText": "b\"h desktop remote helper skeleton visible screen capture and optional input helper. it must show a persistent indicator and panic stop. platform seams: macos: screencapturekit + screen recording permission. windows: windows graphics capture. linux: pipewire portal. input relay remains separate from capture and requires explicit mouse/keyboard grants.",
+		"page": "pages/geelooy-apps-tunnel-agent-docs-helper-skeletons-desktop-readme-md-38b509148d.json"
+	},
+	{
+		"id": "geelooy-apps-tunnel-agent-docs-remote-desktop-tunnel-md-395815d3dd",
+		"title": "Remote Desktop Tunnel: Large Next Layer",
+		"sourcePath": "geelooy/apps/tunnel/agent/docs/REMOTE_DESKTOP_TUNNEL.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Remote Desktop Tunnel: Large Next Layer",
+				"anchor": "remote-desktop-tunnel-large-next-layer"
+			},
+			{
+				"level": 2,
+				"text": "New in this layer",
+				"anchor": "new-in-this-layer"
+			},
+			{
+				"level": 2,
+				"text": "Helper skeletons created",
+				"anchor": "helper-skeletons-created"
+			},
+			{
+				"level": 2,
+				"text": "Current active guarantees",
+				"anchor": "current-active-guarantees"
+			}
+		],
+		"excerpt": "B\"H Remote Desktop Tunnel: Large Next Layer New in this layer remoteDesktopPermissionContract returns a hash sealed permission contract with copyable text. remoteDesktopSessionSummary returns human readable lifecycle, grants, countdown, and audit trail. remoteDesktopSignalSummary returns peer signaling and heartbeat su",
+		"searchText": "b\"h remote desktop tunnel: large next layer new in this layer remotedesktoppermissioncontract returns a hash sealed permission contract with copyable text. remotedesktopsessionsummary returns human readable lifecycle, grants, countdown, and audit trail. remotedesktopsignalsummary returns peer signaling and heartbeat summary. android helper skeleton files now exist under agent/docs/helper skeletons/android. desktop helper skeleton files now exist under agent/docs/helper skeletons/desktop. tunnel control now has contract, summary, and signals buttons. helper skeletons created android: readme.md consentactivity.kt captureservice.kt desktop: readme.md main.ts these are not installed services; they are concrete source skeletons and consent contracts for the native helper implementation. current active guarantees permission contract hash is deterministic for the current consent body. session summaries expose countdown and grant state. signal summaries expose fingerprints and heartbeats. pause/revoke still block frame/signaling/input flows. mouse and keyboard grants remain separate.",
+		"page": "pages/geelooy-apps-tunnel-agent-docs-remote-desktop-tunnel-md-395815d3dd.json"
+	}
+]

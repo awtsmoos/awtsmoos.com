@@ -12,7 +12,9 @@
 	"title": "geelooy/api/runtime",
 	"entries": [
 		"_awtsmoos.derech.js",
-		"DOCUMENTATION.md"
+		"DOCUMENTATION.md",
+		"README.md",
+		"readme.md"
 	],
 	"humanDocumentation": [
 		"geelooy/api/runtime/DOCUMENTATION.md",
@@ -27,10 +29,10 @@
 		"tests": 0,
 		"assets": 0,
 		"generated": 0,
-		"docs": 1,
+		"docs": 3,
 		"other": 0
 	},
-	"totalFiles": 6,
+	"totalFiles": 8,
 	"symbolSummary": {
 		"files": 5,
 		"classes": 0,

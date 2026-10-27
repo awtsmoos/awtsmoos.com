@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-assets-textures-remote-texture-mixing-guide-m-72d9b24602",
+	"title": "Remote Texture Mixing Guide",
+	"sourcePath": "geelooy/games/mitzvahWorld/assets/textures/REMOTE_TEXTURE_MIXING_GUIDE.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Remote Texture Mixing Guide",
+			"anchor": "remote-texture-mixing-guide"
+		},
+		{
+			"level": 2,
+			"text": "Native two-map authority",
+			"anchor": "native-two-map-authority"
+		},
+		{
+			"level": 2,
+			"text": "Author a material story",
+			"anchor": "author-a-material-story"
+		},
+		{
+			"level": 2,
+			"text": "UV density law",
+			"anchor": "uv-density-law"
+		},
+		{
+			"level": 2,
+			"text": "Patch controls",
+			"anchor": "patch-controls"
+		},
+		{
+			"level": 2,
+			"text": "Fallback-first law",
+			"anchor": "fallback-first-law"
+		},
+		{
+			"level": 2,
+			"text": "Shared-material law",
+			"anchor": "shared-material-law"
+		},
+		{
+			"level": 2,
+			"text": "Readability law",
+			"anchor": "readability-law"
+		},
+		{
+			"level": 2,
+			"text": "Renderer boundaries",
+			"anchor": "renderer-boundaries"
+		},
+		{
+			"level": 2,
+			"text": "Real recipe example",
+			"anchor": "real-recipe-example"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-assets-textures-remote-texture-mixing-guide-m-72d9b24602-001.json"
+	]
+}

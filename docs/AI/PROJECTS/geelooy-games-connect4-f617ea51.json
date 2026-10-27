@@ -9,7 +9,7 @@
 		"id": "games",
 		"title": "Games and Worlds"
 	},
-	"title": "Connect 4",
+	"title": "Connect 4 · Awtsmoos Games",
 	"entries": [
 		"index.html",
 		"main.js"
@@ -22,32 +22,32 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-connect4-f617ea51.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 6,
+		"source": 29,
 		"tests": 0,
 		"assets": 0,
 		"generated": 0,
 		"docs": 0,
 		"other": 0
 	},
-	"totalFiles": 6,
+	"totalFiles": 29,
 	"symbolSummary": {
-		"files": 4,
-		"classes": 5,
-		"functions": 28,
-		"exports": 0,
+		"files": 24,
+		"classes": 12,
+		"functions": 24,
+		"exports": 11,
 		"samples": [
+			"createColumnButton",
+			"requestColumn",
+			"maybeShowTutorial",
+			"dismissTutorial",
+			"setEnabled",
 			"getGolemMove",
 			"minimax",
 			"scorePosition",
 			"evaluateWindow",
 			"getValidLocations",
 			"ai_isTerminalNode",
-			"getNextOpenRow",
-			"ai_dropPiece",
-			"ai_checkWin",
-			"resize",
-			"init",
-			"resetGame"
+			"getNextOpenRow"
 		]
 	},
 	"outgoingDependencies": [],
@@ -57,12 +57,12 @@
 		{
 			"url": "/games/connect4",
 			"file": "geelooy/games/connect4/index.html",
-			"title": "Connect 4",
-			"scripts": 2,
-			"styles": 1
+			"title": "Connect 4 · Awtsmoos Games",
+			"scripts": 6,
+			"styles": 7
 		}
 	],
-	"requiresLocalDocumentation": false,
+	"requiresLocalDocumentation": true,
 	"documentationCovered": false,
 	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
 }

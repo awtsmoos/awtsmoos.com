@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Search Lexicon (geelooy/api/social/helper/search/lexicon/)\n\nLexicon/dictionary search: browseable dictionary over a binary record format with cursor pagination.\n\n## Files\n- `browse.js`, `browseCatalog.js`, `browseCore.js`, `browsePage.js`, `browseReader.js` — dictionary browsing.\n- `search.js`, `indexReader.js`, `keySpace.js`, `cursor.js` — search and index reading.\n- `normalize.js`, `paths.js`, `publicSourceIdentity.js` — normalization, paths, source identity.\n- `binary/` — binary record format (`recordCursor`, `recordReader`, `recordSchema`, `recordWriter`).\n- `test/` — binary record, bounded storage, browse, builder, normalize, paths, search tests.\n\n## Routes\n`/search/library/dictionary[/alphabet|ranges|browse]`, `/search/library/dictionaries`, `/dictionary/alphabet|ranges|browse`.\n"
+}

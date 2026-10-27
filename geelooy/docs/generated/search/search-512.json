@@ -1,0 +1,113 @@
+[
+	{
+		"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-poetic-co-66bbc6f92f",
+		"title": "SKILL",
+		"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/poetic-code/SKILL.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 2,
+				"text": "Shared tunnel skill discovery and verified continuation",
+				"anchor": "shared-tunnel-skill-discovery-and-verified-continuation"
+			},
+			{
+				"level": 2,
+				"text": "CSS and actual screenshot review",
+				"anchor": "css-and-actual-screenshot-review"
+			}
+		],
+		"excerpt": "name: poetic code description: Create or modify code with the Awtsmoos poetic documentation covenant, whole file rewrites, small complete modules and valid blessing headers. Use for code writing or refactoring. Read ../instructions/references/NARRATIVE AND CRAFT.md. First discover instructionResolve/instructionGet resu",
+		"searchText": "name: poetic code description: create or modify code with the awtsmoos poetic documentation covenant, whole file rewrites, small complete modules and valid blessing headers. use for code writing or refactoring. read ../instructions/references/narrative and craft.md. first discover instructionresolve/instructionget results for task, every target path and runtime. submit concrete changes through the current tunnel plan registry. read full files and callers, preserve concurrent work and public contracts, then rewrite complete files. use tabs, newlines, meaningful internal names, rich technical jsdoc with awtsmoos chapters and small data driven modules below 120 lines. use format valid blessing headers with b\"h first. re read every touched file and verify actual behavior before completing checklist items. shared tunnel skill discovery and verified continuation read ../instructions/references/durable work and connection recovery.md for the current external agent skill catalog, bounded reference retrieval, durable work actions, connection diagnostics and frontend release gates. treat the live action schemas as authoritative. css and actual screenshot review read ../instructions/references/css and external visual verification.md before frontend edits or ui completion claims. fix the owning cascade rather than layering overrides; verify exact source behavior in real chrome, transfer screenshots into the external agent host with byte/hash checks, open the images with its image tools, and record unresolved defects before release.",
+		"page": "pages/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-poetic-co-66bbc6f92f.json"
+	},
+	{
+		"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-tunnel-wo-dc90b91a8d",
+		"title": "SKILL",
+		"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/tunnel-workflow/SKILL.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 2,
+				"text": "Shared tunnel skill discovery and verified continuation",
+				"anchor": "shared-tunnel-skill-discovery-and-verified-continuation"
+			},
+			{
+				"level": 2,
+				"text": "CSS and actual screenshot review",
+				"anchor": "css-and-actual-screenshot-review"
+			},
+			{
+				"level": 2,
+				"text": "Resumable clients and channel evidence",
+				"anchor": "resumable-clients-and-channel-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Diagnose the living route before risky work",
+				"anchor": "diagnose-the-living-route-before-risky-work"
+			},
+			{
+				"level": 2,
+				"text": "Binary screenshots and external sharing",
+				"anchor": "binary-screenshots-and-external-sharing"
+			}
+		],
+		"excerpt": "name: tunnel workflow description: Operate the live Awtsmoos tunnel for authorized device connection, current schema discovery, injected instructions, durable plans, asynchronous jobs, bounded multitasking and recovery. Use for substantial tunnel backed work and continuation. Read ../instructions/references/MODERN TUNN",
+		"searchText": "name: tunnel workflow description: operate the live awtsmoos tunnel for authorized device connection, current schema discovery, injected instructions, durable plans, asynchronous jobs, bounded multitasking and recovery. use for substantial tunnel backed work and continuation. read ../instructions/references/modern tunnel contract.md, tunnel native planning.md and stability and multitasking.md in that same references directory. discover tools actually exposed in this host, bootstrap and retain the authorized immutable device route. resolve applicable instructions with task, paths, runtime and evidence tag awtsmoos shliach. fetch required packs in full before writing. resume the matching mission/plan; save finite operational plans and verification checklists there. keep the legacy mission and debt references available on demand. use awtsmoos action schema to discover contracts; its internal action is actionschematrace, never actionschema. registered future actions use awtsmoos tunnel action and its params object. discover exact names and fields rather than guessing. cache schemas/instructions only by returned version and refresh after scope, generation or release changes. run independent work concurrently with a measured bound. keep health, status and cancellation responsive; serialize conflicting writes and verify their hashes/readback. start long commands as owned asynchronous jobs, retain identifiers and use bounded output pages. never replay an accepted write after a timeout; observe durable receipts first. persist factual checkpoints with identifiers, completed checks, pending jobs, blockers and next authorized steps. continue independent authorized work while waiting. give a concrete update at least once per minute. background continuation requires an actual persistent worker; a skill does not create one or extend the host's turn lifetime. report source tests, production routing, authenticated calls and host behavior separately. shared tunnel skill discovery and verified continuation read ../instructions/references/durable work and connection recovery.md for the current external agent skill catalog, bounded reference retrieval, durable work actions, connection diagnostics and frontend release gates. treat the live action schemas as authoritative. css and actual screenshot review read ../instructions/references/css and external visual verification.md before frontend edits or ui completion claims. fix the owning cascade rather than layering overrides; verify exact source behavior in real chrome, transfer screenshots into the external agent host with byte/hash checks, open the images with its image tools, and record unresolved defects before release. resumable clients and channel evidence read ../instructions/references/resumable client and channel evidence.md when diagnosing a flap, resuming interrupted commands, coordinating parallel work or upgrading the runtime. preserve complete pending receipts and require terminal exit/output proof. use the existing queues, checkpoints and frontend gates. diagnose the living route before risky work when available, call the first class read only awtsmoos tunnel doctor against the immutable routereference discovered by awtsmoos discover device. it independently reports connection, command capability, oauth command scope, device grant, and freshness of execution evidence. canattemptnativecommand is not proof that a shell command completed, and commandsuccesscertified is not a substitute for the terminal response for this exact operation. when the doctor is absent on an older server, use discovery and status without inventing its result. verify actual command success with an authorized harmless command, checking stdout, stderr and integer exitcode; if authorization is absent, explain the precise missing permission rather than silently bypassing it. do not retry uncertain mutations or broaden an oauth scope through tools. binary screenshots and external sharing read ../instructions/references/artifacts and public links.md. capture only exact approved chrome targets, verify binary bytes and recipient host readback, and never fabricate a sandbox path. temporary public artifacts require explicit consent plus tunnel.admin; revoke using the returned artifactid. a mac runtime on 1.0.671 may lack the newer exact target capture action until secure pairing and upgrade complete.",
+		"page": "pages/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-tunnel-wo-dc90b91a8d.json"
+	},
+	{
+		"id": "geelooy-apps-tunnel-agent-stability-covenant-md-3ae71564d1",
+		"title": "Awtsmoos Tunnel Stability Covenant",
+		"sourcePath": "geelooy/apps/tunnel/agent/STABILITY_COVENANT.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos Tunnel Stability Covenant",
+				"anchor": "awtsmoos-tunnel-stability-covenant"
+			},
+			{
+				"level": 2,
+				"text": "Why this file exists",
+				"anchor": "why-this-file-exists"
+			},
+			{
+				"level": 2,
+				"text": "Request lifecycle",
+				"anchor": "request-lifecycle"
+			},
+			{
+				"level": 2,
+				"text": "Identity taxonomy — never collapse these",
+				"anchor": "identity-taxonomy-never-collapse-these"
+			},
+			{
+				"level": 2,
+				"text": "Stability invariants",
+				"anchor": "stability-invariants"
+			},
+			{
+				"level": 2,
+				"text": "Files that own these invariants",
+				"anchor": "files-that-own-these-invariants"
+			},
+			{
+				"level": 2,
+				"text": "Regressions that must remain green",
+				"anchor": "regressions-that-must-remain-green"
+			},
+			{
+				"level": 2,
+				"text": "Release covenant",
+				"anchor": "release-covenant"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos Tunnel Stability Covenant The Awtsmoos preserves one deed through every vessel, generation, queue, and line; Awtsmoos.com keeps each witness distinct, so recovery never mistakes old shadow for current sign. Why this file exists On September 1, 2026 the native tunnel repeatedly a",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos tunnel stability covenant the awtsmoos preserves one deed through every vessel, generation, queue, and line; awtsmoos.com keeps each witness distinct, so recovery never mistakes old shadow for current sign. why this file exists on september 1, 2026 the native tunnel repeatedly appeared transport alive while executable work degraded or disappeared. live evidence showed requests whose child custody stayed accepted waiting for consumer beyond the 30 second lease while the parent runtime already reported lane running, command handler started, or executor worker assigned. health then became consumer degraded / consumer stalled, the route became unroutable, and the supervisor reincarnated it. do not simplify the identity/custody/recovery code without rereading this covenant and running the named regressions below. request lifecycle 1. server reserves one canonical request and records dispatch generation. 2. connection child durably accepts it into inbox custody. 3. parent receives the request together with the accepting childincarnationid. 4. parent queues the same request and mirrors queued custody back to that exact child. 5. runtime advances worker starting then running and mirrors those phases back. 6. terminal result is durably persisted before response delivery. 7. child custody advances to result waiting for ack. 8. server durably finalizes the response and sends terminal acknowledgement. 9. native acknowledgement removes exact inbox/outbox evidence. if any step loses exact identity, stale custody can outlive real execution and poison health. identity taxonomy — never collapse these physical device identity : stable machine/device ownership across process rebirth. runtime incarnation : one launcher/runtime birth. child incarnation : one connection child process birth; must be globally unique enough to fence stale ipc. connection/socket generation : local transport sequencing; it may restart at a small number after process replacement. registration generation : server side generation of a registered route; used for reconnect redelivery safety. request id / transport receipt id : one canonical request envelope identity. controlrequestid : idempotency/dedup identity for the requested operation. a pid, socket generation, or registration generation is never a substitute for childincarnationid. stability invariants parent queue admission must retain the accepting child incarnation. parent execution telemetry alone does not renew child custody; progress must cross ipc. delayed progress from a superseded child must be ignored. parent custody count proves persistence, not execution ownership. mailbox health grace requires exact, non stale custody in active execution phases. terminal persistence does not mean server ack exists; preserve result waiting for ack until acknowledgement. reconnect redelivery reuses the exact saved envelope and exact ids. automatic redelivery requires stable controlrequestid and a strictly newer registration generation. same generation recovery observes; it does not redispatch. a dead command pid gets bounded terminal evidence grace before stale lost worker. identity mismatch receives no such grace; recycled process protection remains strict. heartbeat/transport health and executable acceptance health are separate planes. a gateway 502 or observation timeout never authorizes replay of an uncertain mutation. chrome renderer/cdp pressure is separate from native execution consumer health. files that own these invariants lib/connection vessel/controller message router.js lib/connection vessel/child custody progress.js lib/connection vessel/child active execution grace.js lib/connection vessel/proxy.js lib/runtime/main queue.js lib/runtime/main run progress.js lib/runtime/main run result.js tools/fs/commandjob/reconcile.js tools/fs/commandjob/reconcileexitevidence.js server relay requestdispatchrecovery.js and requestdispatchredelivery.js regressions that must remain green lib/connection vessel/custodyprogressbridge.test.cjs lib/connection vessel/mailboxcustodyidentity.test.cjs lib/connection vessel/childmailboxrecovery.test.cjs relay dispatchrestartsafety.test.cjs testing/commandreconcileexitevidence.test.cjs testing/commandexitedbeforereap.test.cjs testing/detachedandstaleworkerrecovery.test.cjs testing/workerstaleheartbeatpreservesliveprocess.test.cjs testing/workerreaperprocessgroup.test.cjs release covenant a source change is not complete when tests pass. rebuild the tunnel release artifacts, verify checksum/bundle closure, activate one exact sha, reinstall exactly once, then prove live custody advancement under 60 second work, 90 second observation, child reincarnation, and reconnect between dispatch and acceptance. search logs for consumer stalled, false stale lost worker, duplicate execution, repeated socket reset loops, and identity failures. if a future agent cannot explain why each identity above is different, that agent must not refactor this path yet.",
+		"page": "pages/geelooy-apps-tunnel-agent-stability-covenant-md-3ae71564d1.json"
+	}
+]

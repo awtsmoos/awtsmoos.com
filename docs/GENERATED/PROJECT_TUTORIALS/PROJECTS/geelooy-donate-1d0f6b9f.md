@@ -2,7 +2,7 @@ B"H
 Boruch Hashem
 Blessed is He
 
-# Project Tutorial: geelooy/donate
+# Project Tutorial: Donate · Awtsmoos
 
 **Path:** `geelooy/donate` · **Type:** public · **Family:** Public and Other Boundaries
 
@@ -25,7 +25,7 @@ Blessed is He
 
 ## Public entry points
 
-- `/donate` → `geelooy/donate/index.html`
+- `/donate` → `geelooy/donate/index.html` — Donate · Awtsmoos
 
 ## Symbol evidence
 

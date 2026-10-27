@@ -1,0 +1,74 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-subwaysurfer-dev-playthrough-readme-md-2853f03600",
+	"title": "B\"H",
+	"sourcePath": "geelooy/games/mitzvahWorld/subwaySurfer/dev/playthrough/README.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Peruta Run Full Playthrough Harness",
+			"anchor": "peruta-run-full-playthrough-harness"
+		},
+		{
+			"level": 2,
+			"text": "Purpose",
+			"anchor": "purpose"
+		},
+		{
+			"level": 2,
+			"text": "What it proves",
+			"anchor": "what-it-proves"
+		},
+		{
+			"level": 2,
+			"text": "Run",
+			"anchor": "run"
+		},
+		{
+			"level": 2,
+			"text": "Default profiles",
+			"anchor": "default-profiles"
+		},
+		{
+			"level": 3,
+			"text": "Mobile",
+			"anchor": "mobile"
+		},
+		{
+			"level": 3,
+			"text": "Desktop",
+			"anchor": "desktop"
+		},
+		{
+			"level": 2,
+			"text": "Artifact tree",
+			"anchor": "artifact-tree"
+		},
+		{
+			"level": 2,
+			"text": "Evidence law",
+			"anchor": "evidence-law"
+		},
+		{
+			"level": 2,
+			"text": "Extending scenarios",
+			"anchor": "extending-scenarios"
+		},
+		{
+			"level": 2,
+			"text": "Realism review",
+			"anchor": "realism-review"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-subwaysurfer-dev-playthrough-readme-md-2853f03600-001.json"
+	]
+}

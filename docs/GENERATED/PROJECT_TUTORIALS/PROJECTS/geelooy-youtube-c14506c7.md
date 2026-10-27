@@ -21,19 +21,20 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 9 | 0 | 0 | 0 | 1 | 0 | 10 |
+| 34 | 1 | 0 | 0 | 1 | 0 | 36 |
 
 ## Public entry points
 
 - `/youtube` → `geelooy/youtube/index.html` — Awtsmoos YouTube Manager
+- `/youtube/migrate` → `geelooy/youtube/migrate/index.html` — YouTube Migration Studio · Awtsmoos
 
 ## Symbol evidence
 
-Source files: 7; classes: 3; functions: 14; exports: 10; samples: HodCommandQuoter, YesodLocalSecretVault, ChesedYtDlpCommandBuilder, boot, loadChannel, loadVideos, uploadMetadata, updateChanges, showUpdateError, youtubeApi, request, uploadToGoogle.
+Source files: 16; classes: 9; functions: 44; exports: 17; samples: HodCommandQuoter, YesodLocalSecretVault, async, videoFile, sidecarFile, videoIdFromName, isoDate, fallbackItem, itemFromInfo, metadataById, readLocalYouTubeBundle, YouTubeArchiveCheckpoint.
 
 ## Depends on
 
-None observed.
+- `geelooy/shared` — 11 lexical references; examples: geelooy/youtube/migrate/js/LocalSecretVault.js; geelooy/youtube/migrate/js/LocalYouTubeBundle.js; geelooy/youtube/migrate/js/YouTubeArchiveCheckpoint.js
 
 ## Used by
 
@@ -45,4 +46,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **0**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **1**. Treat this as file evidence, not proof of behavioral coverage.

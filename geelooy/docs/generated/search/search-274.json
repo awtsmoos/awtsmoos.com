@@ -1,151 +1,347 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-directory-guide-2e199ea299",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-tutorials-api-youtube-md-cd6427dc8a",
+		"title": "YouTube API Tutorial",
+		"sourcePath": "docs/TUTORIALS/API/YOUTUBE.md",
+		"category": "API",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/test",
-				"anchor": "directory-guide-experiments-awtsmoos-src-test"
+				"text": "YouTube API Tutorial",
+				"anchor": "youtube-api-tutorial"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "What this family owns",
+				"anchor": "what-this-family-owns"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "How to explore it",
+				"anchor": "how-to-explore-it"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Safety / interpretation",
+				"anchor": "safety-interpretation"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
+				"text": "Evidence rule",
+				"anchor": "evidence-rule"
 			},
 			{
 				"level": 2,
-				"text": "Exported symbols worth searching",
-				"anchor": "exported-symbols-worth-searching"
-			},
-			{
-				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
-			},
-			{
-				"level": 2,
-				"text": "Test themes",
-				"anchor": "test-themes"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Next",
+				"anchor": "next"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/test Role: Tests Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 21 files, 24 structural child directories Purpose Colocated subsystem tests and test harnesses for the source tree. The Awtsmoos renews every ",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/test role: tests snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 21 files, 24 structural child directories purpose colocated subsystem tests and test harnesses for the source tree. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tests search terms: mjs, mitzvah, browser, client, bridge, com, local, renews, through, api, authoritative, community file mix: .mjs: 20 good first question: “does the behavior or asset i need belong to tests, or is this only a neighboring/test/reference layer?” semantic evidence b\"h browser independent integration proof using node's real broadcastchannel implementation. proves browser census, addressed chat apis, and private subscriptions. the awtsmoos renews menu presence and private words through distinct vessels; awtsmoos.com verifies global player addresses through the real browser transport. connects browser client tests to the real server router from any working directory. the awtsmoos renews both sides of the wire; this awtsmoos.com fixture resolves its server modules from its own checked in location rather than pretending the caller started at repo root. representative files authoritativemultiplayerbridge.test.mjs — covers: “local authority receives exact runtime x/y/z/facing/moving state”, “websocket authority retains normalized input commands”, “multiplayer launcher helper attaches its live controller and reports peers”. localtabrealtimeclient.test.mjs — covers: “two localhost tabs exchange exact world transforms and explicit leave”, “heartbeat refreshes presence and stale tabs are pruned without a leave event”, “a stopped tab can rejoin from the same client with a fresh ordered connection”. localtabtwotab.integration.test.mjs — browser independent integration proof using node's real broadcastchannel implementation. covers: “two independent tab contexts discover and replicate exact state over broadcastchannel”. mitzvahworldchatcensus.test.mjs — proves browser census, addressed chat apis, and private subscriptions. the awtsmoos renews menu presence and private words through distinct vessels; awtsmoos.com verifies global player addresses through the real browser transport. covers: “browser clients read census and receive globally addressed private chat”. mitzvahworldclientbridge.mjs — connects browser client tests to the real server router from any working directory. the awtsmoos renews both sides of the wire; this awtsmoos.com fixture resolves its server modules from its own checked in location rather than pretending the caller started at repo root. exports: createbridgeharness, clientserverbridgesocket. mitzvahworldeconomycommunity.test.mjs — proves nested browser economy and community facades through routing. the awtsmoos renews value, words, and community beneath one client vessel; awtsmoos.com verifies readable browser methods reach authoritative private state. covers: “browser economy and community facades execute private persistent commands”. mitzvahworldlocalrpgsession.test.mjs — proves offline combat rules and parity with the authoritative catalogs. the awtsmoos renews one law through local and multiplayer vessels; awtsmoos.com verifies matching weapons, creatures, missions, damage, cooldown, and spark rewards. covers: “offline rpg catalogs and attack outcomes remain aligned with multiplayer”. mitzvahworldmanagedconnection.test.mjs — proves automatic reconnect through a fresh browser socket and backoff. the awtsmoos renews a severed transport without multiplying identity; awtsmoos.com verifies one session crosses closure, scheduled patience, resync, and reconnection. covers: “managed connection automatically reopens and preserves one session”. mitzvahworldmmorpgapi.test.mjs — proves the browser mmorpg facade against the real server application. the awtsmoos renews interface and authority together; this awtsmoos.com evidence follows social, equipment, combat ready inventory, bots, parties, and instances. covers: “browser facade drives player social item bot party instance and presence commands”. mitzvahworldrealtimeclient.test.mjs — covers: “correlates requests and publishes monotonic world snapshots”. mitzvahworldrealtimereconnect.test.mjs — proves browser recovery through the real versioned server router. the awtsmoos renews transport without erasing the player; this awtsmoos.com test witnesses one identity, one world, and a fresh socket joined by resync. covers: “browser client preserves its session and resyncs through a new socket”. mitzvahworldrpgapi.test.mjs — proves browser rpg methods against the real authoritative server router. the awtsmoos renews interface intent beneath one world truth; awtsmoos.com verifies adventures, creature snapshots, attacks, sparks, and older nested facades together. covers: “browser rpg facade attacks a dybbuk and retains economy and community apis”. mitzvahworldsessioncredentials.test.mjs — proves browser credential rotation and revocation through real routing. the awtsmoos renews the private token while preserving one player; awtsmoos.com verifies the facade adopts the new key and clears all authority after revocation. covers: “browser facade rotates credentials and clears revoked state”. exported symbols worth searching createbridgeharness · clientserverbridgesocket import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: node:assert/strict node:test ../network/authoritativemultiplayerbridge.js ../network/multiplayereretzruntime.js ../network/localtabrealtimeclient.js ../network/multiplayerconnectionfactory.js ../network/mitzvahworldrealtimeclient.js ./mitzvahworldclientbridge.mjs node:module node:path node:url ../network/localrpgcatalog.js test themes local authority receives exact runtime x/y/z/facing/moving state websocket authority retains normalized input commands multiplayer launcher helper attaches its live controller and reports peers two localhost tabs exchange exact world transforms and explicit leave heartbeat refreshes presence and stale tabs are pruned without a leave event a stopped tab can rejoin from the same client with a fresh ordered connection localhost chooses local tab authority unless server transport is explicit two independent tab contexts discover and replicate exact state over broadcastchannel browser clients read census and receive globally addressed private chat browser economy and community facades execute private persistent commands offline rpg catalogs and attack outcomes remain aligned with multiplayer managed connection automatically reopens and preserves one session directory map parent: experiments/awtsmoos/src children: experiments/awtsmoos/src/test/app experiments/awtsmoos/src/test/assets experiments/awtsmoos/src/test/botany experiments/awtsmoos/src/test/camera experiments/awtsmoos/src/test/collision experiments/awtsmoos/src/test/diagnostics experiments/awtsmoos/src/test/gameplay experiments/awtsmoos/src/test/geometry experiments/awtsmoos/src/test/ground experiments/awtsmoos/src/test/input experiments/awtsmoos/src/test/launcher experiments/awtsmoos/src/test/lod experiments/awtsmoos/src/test/movie experiments/awtsmoos/src/test/network experiments/awtsmoos/src/test/performance experiments/awtsmoos/src/test/platform experiments/awtsmoos/src/test/render experiments/awtsmoos/src/test/renderer experiments/awtsmoos/src/test/shadows experiments/awtsmoos/src/test/streaming experiments/awtsmoos/src/test/support experiments/awtsmoos/src/test/ui experiments/awtsmoos/src/test/visibility experiments/awtsmoos/src/test/world related and overlapping systems colocated and integration test surfaces — most subsystem tests live under src/test, while a smaller external tests tree exercises broader integration contracts. boundaries and cautions this directory verifies behavior; it should not become the production owner of that behavior. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-directory-guide-2e199ea299.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He YouTube API Tutorial What this family owns Mount: /api/youtube Derech: geelooy/api/youtube/ awtsmoos.derech.js Auth/oauth start/callback/status/logout, channel, videos, uploads, and live stream operations coexist with broad dynamic fallback patterns. How to explore it 1. Open API Family ",
+		"searchText": "b\"h boruch hashem blessed is he youtube api tutorial what this family owns mount: /api/youtube derech: geelooy/api/youtube/ awtsmoos.derech.js auth/oauth start/callback/status/logout, channel, videos, uploads, and live stream operations coexist with broad dynamic fallback patterns. how to explore it 1. open api family tutorials for current route counts/health. 2. filter api tutorial index to /api/youtube. 3. open the generated route tutorial for source level method/vessel/status/header evidence. 4. read geelooy/api/youtube/ awtsmoos.derech.js and the imported handler behind the route. 5. check identity/resource/provider/data side effects before making a write. 6. use caller/test evidence as navigation, not runtime proof. safety / interpretation prefer explicit named routes. provider oauth state, credentials, upload payloads, ownership, and live transitions are implementation sensitive. evidence rule generated tutorials are conservative: unknown method remains unknown; executable starter calls appear only when source level method evidence exists. derech health is shown beside every generated route. next return to learn awtsmoos.com or open the exact generated route tutorial before coding.",
+		"page": "pages/docs-tutorials-api-youtube-md-cd6427dc8a.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-gameplay-combat-24e90a9565",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/gameplay/combat/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-tutorials-content-aliases-and-api-keys-md-176c87c552",
+		"title": "Aliases and API Keys",
+		"sourcePath": "docs/TUTORIALS/CONTENT/ALIASES_AND_API_KEYS.md",
+		"category": "General",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/test/gameplay/combat",
-				"anchor": "directory-guide-experiments-awtsmoos-src-test-gameplay-combat"
+				"text": "Aliases and API Keys",
+				"anchor": "aliases-and-api-keys"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Alias role",
+				"anchor": "alias-role"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "API keys",
+				"anchor": "api-keys"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Inputs",
+				"anchor": "inputs"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
-			},
-			{
-				"level": 2,
-				"text": "Test themes",
-				"anchor": "test-themes"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Security rule",
+				"anchor": "security-rule"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/test/gameplay/combat Role: Tests Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 3 files, 0 structural child directories Purpose Structural area named combat. Its immediate files and children below are the e",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/test/gameplay/combat role: tests snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 3 files, 0 structural child directories purpose structural area named combat. its immediate files and children below are the evidence for its current responsibilities. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tests search terms: melee, mjs, proves, action, against, armor, awtsmoos, bounded, canonical, choice, com, combat file mix: .mjs: 2 · .md: 1 good first question: “does the behavior or asset i need belong to tests, or is this only a neighboring/test/reference layer?” semantic evidence b\"h proves one physical action remains bounded while canonical stats deepen its force. the awtsmoos renews intention once per choice; equipment and level may strengthen the ray, while awtsmoos.com guards against key storms, duplicate hits, and hidden work each day. proves selected target range, armor, and damage evidence. representative files playermeleecontroller.test.mjs — proves one physical action remains bounded while canonical stats deepen its force. the awtsmoos renews intention once per choice; equipment and level may strengthen the ray, while awtsmoos.com guards against key storms, duplicate hits, and hidden work each day. covers: “one key edge emits one bounded fallback melee request”, “level, gevurah, equipment, and recovery resolve once per strike”, “a rejected strike publishes the remaining cooldown without world polling”. shadowdemonmelee.test.mjs — proves selected target range, armor, and damage evidence. covers: “melee damages one nearby unarmored actor and emits evidence”, “enemy armor mitigates physical damage without producing zero hits”, “melee rejects a distant actor without mutation”. import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: node:assert/strict node:test ../../../gameplay/combat/playermeleecontroller.js ../../../ui/awtsmooseventbus.js ../../../world/enemy/shadowdemonmelee.js ../../../world/enemy/enemystates.js test themes one key edge emits one bounded fallback melee request level, gevurah, equipment, and recovery resolve once per strike a rejected strike publishes the remaining cooldown without world polling melee damages one nearby unarmored actor and emits evidence enemy armor mitigates physical damage without producing zero hits melee rejects a distant actor without mutation directory map parent: experiments/awtsmoos/src/test/gameplay children: none. related and overlapping systems colocated and integration test surfaces — most subsystem tests live under src/test, while a smaller external tests tree exercises broader integration contracts. boundaries and cautions this directory verifies behavior; it should not become the production owner of that behavior. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-gameplay-combat-24e90a9565.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Aliases and API Keys Alias role Aliases are Social facing identities owned through user/account state and reused across Heichel/content/profile/follow/drive/mail behavior. API keys Social keys can be created, listed, revoked, and verified. Raw key material is shown at creation; SHA 256 h",
+		"searchText": "b\"h boruch hashem blessed is he aliases and api keys alias role aliases are social facing identities owned through user/account state and reused across heichel/content/profile/follow/drive/mail behavior. api keys social keys can be created, listed, revoked, and verified. raw key material is shown at creation; sha 256 hash and metadata persist rather than plaintext secret storage. inputs supported key evidence includes named input/header/bearer forms. inspect helper/apikeys.js for current precedence and validation. security rule an alias name in a body/path is not proof the authenticated principal owns that alias. ownership checks remain required for privileged actions.",
+		"page": "pages/docs-tutorials-content-aliases-and-api-keys-md-176c87c552.json"
+	},
+	{
+		"id": "docs-tutorials-content-comments-md-2d9f464383",
+		"title": "Comments and Replies",
+		"sourcePath": "docs/TUTORIALS/CONTENT/COMMENTS.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Comments and Replies",
+				"anchor": "comments-and-replies"
+			},
+			{
+				"level": 2,
+				"text": "Surfaces",
+				"anchor": "surfaces"
+			},
+			{
+				"level": 2,
+				"text": "Compatibility",
+				"anchor": "compatibility"
+			},
+			{
+				"level": 2,
+				"text": "Moderation",
+				"anchor": "moderation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Comments and Replies Comments attach to posts and richer substructures; replies/reactions/comment trees form their own navigation domain. Surfaces post comment collections; aliases contributing comments; singular comment routes; nested replies; reactions; subsection/verse comments; submi",
+		"searchText": "b\"h boruch hashem blessed is he comments and replies comments attach to posts and richer substructures; replies/reactions/comment trees form their own navigation domain. surfaces post comment collections; aliases contributing comments; singular comment routes; nested replies; reactions; subsection/verse comments; submitted comment moderation; comment search/ranking/vector/rag evidence. compatibility some comment routes appear more than once in generated extraction because multiple route objects/factories expose compatible paths. use source ownership to distinguish implementations. moderation approval/denial/submitted comment flows are separate from ordinary comment read/write behavior.",
+		"page": "pages/docs-tutorials-content-comments-md-2d9f464383.json"
+	},
+	{
+		"id": "docs-tutorials-content-content-migrations-md-a5d67ef7d5",
+		"title": "Content Migrations",
+		"sourcePath": "docs/TUTORIALS/CONTENT/CONTENT_MIGRATIONS.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Content Migrations",
+				"anchor": "content-migrations"
+			},
+			{
+				"level": 2,
+				"text": "Observed migration surfaces",
+				"anchor": "observed-migration-surfaces"
+			},
+			{
+				"level": 2,
+				"text": "Safe migration workflow",
+				"anchor": "safe-migration-workflow"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Content Migrations Social carries several storage/model generations, so migrations are first class operational behavior. Observed migration surfaces Post v2 dry run/run routes, packed content migrations/repair, node OS migrations, compatibility post/series paths, and newer rich/unified o",
+		"searchText": "b\"h boruch hashem blessed is he content migrations social carries several storage/model generations, so migrations are first class operational behavior. observed migration surfaces post v2 dry run/run routes, packed content migrations/repair, node os migrations, compatibility post/series paths, and newer rich/unified object models. safe migration workflow 1. identify source/target path contracts. 2. run dry run/read only reporting first. 3. snapshot/backup affected data. 4. verify idempotency/re run behavior in source/tests. 5. execute narrowly. 6. reconcile indexes/manifests/references. 7. validate old/new read paths as required by compatibility promises. generated route presence alone is never authorization to run a migration.",
+		"page": "pages/docs-tutorials-content-content-migrations-md-a5d67ef7d5.json"
+	},
+	{
+		"id": "docs-tutorials-content-heichelos-md-b073481c09",
+		"title": "Heichelos",
+		"sourcePath": "docs/TUTORIALS/CONTENT/HEICHELOS.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Heichelos",
+				"anchor": "heichelos"
+			},
+			{
+				"level": 2,
+				"text": "Observed capabilities",
+				"anchor": "observed-capabilities"
+			},
+			{
+				"level": 2,
+				"text": "Authority",
+				"anchor": "authority"
+			},
+			{
+				"level": 2,
+				"text": "Investigation",
+				"anchor": "investigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Heichelos A Heichel is a governed Social content/community space, not merely a folder. Observed capabilities create/read/update/delete Heichel behavior; ownership checks; editor/member/role management; submission settings; invites/review/moderation; post/question/content organization; se",
+		"searchText": "b\"h boruch hashem blessed is he heichelos a heichel is a governed social content/community space, not merely a folder. observed capabilities create/read/update/delete heichel behavior; ownership checks; editor/member/role management; submission settings; invites/review/moderation; post/question/content organization; series/subseries relationships; community/full settings and discovery. authority login/api key identity does not automatically grant heichel mutation. read owner/editor/member/moderation checks in the exact handler. investigation start at /api/social/heichelos/:heichel, then follow its route factory imports and generated related route links.",
+		"page": "pages/docs-tutorials-content-heichelos-md-b073481c09.json"
+	},
+	{
+		"id": "docs-tutorials-content-mail-notifications-drive-md-a8eca2bd73",
+		"title": "Mail, Notifications, and Drive",
+		"sourcePath": "docs/TUTORIALS/CONTENT/MAIL_NOTIFICATIONS_DRIVE.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Mail, Notifications, and Drive",
+				"anchor": "mail-notifications-and-drive"
+			},
+			{
+				"level": 2,
+				"text": "Mail",
+				"anchor": "mail"
+			},
+			{
+				"level": 2,
+				"text": "Notifications",
+				"anchor": "notifications"
+			},
+			{
+				"level": 2,
+				"text": "Drive",
+				"anchor": "drive"
+			},
+			{
+				"level": 2,
+				"text": "Security",
+				"anchor": "security"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Mail, Notifications, and Drive Social includes user facing communication and storage subsystems that share identity but have distinct persistence/permission rules. Mail Mail routes cover get/read/send/delete/thread/settings/approval/unread/notify/universe mirror concepts. /api/email is a",
+		"searchText": "b\"h boruch hashem blessed is he mail, notifications, and drive social includes user facing communication and storage subsystems that share identity but have distinct persistence/permission rules. mail mail routes cover get/read/send/delete/thread/settings/approval/unread/notify/universe mirror concepts. /api/email is a smaller façade over mail oriented behavior. notifications alias notifications support read/archive/poll/preferences/unread/digest/fanout patterns. drive alias drive supports entries, stream/public/immutable paths, copy/move/trash/restore/purge, credentials, usage/quota/reconciliation, site and manager/admin surfaces. security identity alone does not grant arbitrary drive path mutation or mail impersonation. follow alias/service/credential/ownership checks in each handler.",
+		"page": "pages/docs-tutorials-content-mail-notifications-drive-md-a8eca2bd73.json"
+	},
+	{
+		"id": "docs-tutorials-content-moderation-and-governance-md-88cfd3f08e",
+		"title": "Moderation and Governance",
+		"sourcePath": "docs/TUTORIALS/CONTENT/MODERATION_AND_GOVERNANCE.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Moderation and Governance",
+				"anchor": "moderation-and-governance"
+			},
+			{
+				"level": 2,
+				"text": "Observed systems",
+				"anchor": "observed-systems"
+			},
+			{
+				"level": 2,
+				"text": "Teaching rule",
+				"anchor": "teaching-rule"
+			},
+			{
+				"level": 2,
+				"text": "Authority",
+				"anchor": "authority"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Moderation and Governance Social write workflows can move through submission/review/moderation rather than immediate publication. Observed systems Heichel roles/editors/members, invites, submission settings, submitted posts/comments, review approval/rejection, moderation queues/actions/e",
+		"searchText": "b\"h boruch hashem blessed is he moderation and governance social write workflows can move through submission/review/moderation rather than immediate publication. observed systems heichel roles/editors/members, invites, submission settings, submitted posts/comments, review approval/rejection, moderation queues/actions/escalations/reports, and unified social governance/review routes. teaching rule do not treat post as synonymous with “published now.” follow the exact handler to see whether it creates canonical content, a pending submission, review record, moderation event, or another staged artifact. authority review/approval actions need stronger resource authority than ordinary authenticated reads.",
+		"page": "pages/docs-tutorials-content-moderation-and-governance-md-88cfd3f08e.json"
+	},
+	{
+		"id": "docs-tutorials-content-posts-and-series-md-c57a796024",
+		"title": "Posts and Series",
+		"sourcePath": "docs/TUTORIALS/CONTENT/POSTS_AND_SERIES.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Posts and Series",
+				"anchor": "posts-and-series"
+			},
+			{
+				"level": 2,
+				"text": "Post flows",
+				"anchor": "post-flows"
+			},
+			{
+				"level": 2,
+				"text": "Series flows",
+				"anchor": "series-flows"
+			},
+			{
+				"level": 2,
+				"text": "Canonical evolution",
+				"anchor": "canonical-evolution"
+			},
+			{
+				"level": 2,
+				"text": "Safe mutation",
+				"anchor": "safe-mutation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Posts and Series Posts are content records; series provide organization and compatibility sensitive hierarchy around them. Post flows Heichel post routes support reading/creation, details, singular post behavior, submitted post queues, approval/denial, sections/subsections/verses, transl",
+		"searchText": "b\"h boruch hashem blessed is he posts and series posts are content records; series provide organization and compatibility sensitive hierarchy around them. post flows heichel post routes support reading/creation, details, singular post behavior, submitted post queues, approval/denial, sections/subsections/verses, translations, rich post views, and comment trees. series flows series support root/subseries trees, details/breadcrumbs, moving subseries, post membership/order changes, filters, translations, alternate groups, and compatibility aliases. canonical evolution new content apis exist beside older series/post paths. generated duplicates can be real compatibility entries, not extractor bugs. safe mutation inspect both parent and target series rules plus ownership/editor authority before moving/deleting content.",
+		"page": "pages/docs-tutorials-content-posts-and-series-md-c57a796024.json"
+	},
+	{
+		"id": "docs-tutorials-content-search-graph-and-discovery-md-965733597c",
+		"title": "Search, Graph, and Discovery",
+		"sourcePath": "docs/TUTORIALS/CONTENT/SEARCH_GRAPH_AND_DISCOVERY.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Search, Graph, and Discovery",
+				"anchor": "search-graph-and-discovery"
+			},
+			{
+				"level": 2,
+				"text": "Search families",
+				"anchor": "search-families"
+			},
+			{
+				"level": 2,
+				"text": "Evidence discipline",
+				"anchor": "evidence-discipline"
+			},
+			{
+				"level": 2,
+				"text": "Graph/object layer",
+				"anchor": "graph-object-layer"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Search, Graph, and Discovery Social discovery spans more than one search endpoint. Search families General search/query/index/readiness, Hebrew exact/Tanach search, comment lexical/vector/stress/stats, RAG status/context routes, feeds/trending/recommendations, and object/graph/reference/",
+		"searchText": "b\"h boruch hashem blessed is he search, graph, and discovery social discovery spans more than one search endpoint. search families general search/query/index/readiness, hebrew exact/tanach search, comment lexical/vector/stress/stats, rag status/context routes, feeds/trending/recommendations, and object/graph/reference/repost relationships. evidence discipline generated routes reveal entry points, not ranking semantics, embedding models, index freshness, or relevance guarantees. follow owning search/rag source and configuration names. graph/object layer entity/object/universe/relationship routes expose identity, edges, timeline, children, dna/snapshot/fork/reference concepts. treat them as explicit models, not synonyms for raw database paths.",
+		"page": "pages/docs-tutorials-content-search-graph-and-discovery-md-965733597c.json"
+	},
+	{
+		"id": "docs-tutorials-content-social-content-model-md-cddb010acd",
+		"title": "Social Content Model",
+		"sourcePath": "docs/TUTORIALS/CONTENT/SOCIAL_CONTENT_MODEL.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Social Content Model",
+				"anchor": "social-content-model"
+			},
+			{
+				"level": 2,
+				"text": "Core entities",
+				"anchor": "core-entities"
+			},
+			{
+				"level": 2,
+				"text": "Adjacent systems",
+				"anchor": "adjacent-systems"
+			},
+			{
+				"level": 2,
+				"text": "Canonical + compatibility",
+				"anchor": "canonical-compatibility"
+			},
+			{
+				"level": 2,
+				"text": "Trust",
+				"anchor": "trust"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Social Content Model The Social API is not a single CRUD table. It composes identity, governed spaces, structured content, relationships, discovery, communications, and storage. Core entities User → aliases → Heichel spaces → content (posts/questions/answers) → series organization → comm",
+		"searchText": "b\"h boruch hashem blessed is he social content model the social api is not a single crud table. it composes identity, governed spaces, structured content, relationships, discovery, communications, and storage. core entities user → aliases → heichel spaces → content (posts/questions/answers) → series organization → comments/replies/reactions. adjacent systems profiles, follows, feeds, graph/object apis, search/rag, drive, mail, notifications, media, moderation, jobs, migrations, unified social adapters, live/presence, and civilization/universe models all live under the social family. canonical + compatibility new /content/... routes coexist with extensive /heichelos/... compatibility paths. do not delete duplicate looking routes until the compatibility role is proven. trust session/api key identity is established first; each resource operation can impose ownership/editor/member/moderation checks. use social api tutorial plus the generated route tutorial index.",
+		"page": "pages/docs-tutorials-content-social-content-model-md-cddb010acd.json"
 	}
 ]

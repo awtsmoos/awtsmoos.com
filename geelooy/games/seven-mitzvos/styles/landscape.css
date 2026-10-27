@@ -45,7 +45,7 @@
 
 .grainVeil {
 	opacity: 0.07;
-	background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.8' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+	background-image: url("https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo-image-archive/sha256/683dbc0e236f424ea0ec9a3cca367dadfa6e7a91eceb066c46d805d997b40a24/asset");
 	mix-blend-mode: soft-light;
 }
 

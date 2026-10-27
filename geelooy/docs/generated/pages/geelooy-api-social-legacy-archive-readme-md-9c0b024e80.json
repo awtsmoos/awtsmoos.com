@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-social-legacy-archive-readme-md-9c0b024e80",
+	"title": "B\"H",
+	"sourcePath": "geelooy/api/social-legacy-archive/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Blessed is He",
+			"anchor": "blessed-is-he"
+		},
+		{
+			"level": 1,
+			"text": "Boruch Hashem",
+			"anchor": "boruch-hashem"
+		},
+		{
+			"level": 1,
+			"text": "social-legacy-archive",
+			"anchor": "social-legacy-archive"
+		},
+		{
+			"level": 2,
+			"text": "Why archived instead of split",
+			"anchor": "why-archived-instead-of-split"
+		},
+		{
+			"level": 2,
+			"text": "Restore",
+			"anchor": "restore"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-social-legacy-archive-readme-md-9c0b024e80-001.json"
+	]
+}

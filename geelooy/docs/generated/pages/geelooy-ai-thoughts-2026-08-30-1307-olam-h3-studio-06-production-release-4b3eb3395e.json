@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-30-1307-olam-h3-studio-06-production-release-4b3eb3395e",
+	"title": "Production Release Evidence",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-30-1307-olam-h3-studio/06-production-release-evidence.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Production Release Evidence",
+			"anchor": "production-release-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Release identity",
+			"anchor": "release-identity"
+		},
+		{
+			"level": 2,
+			"text": "Shared-worktree safety",
+			"anchor": "shared-worktree-safety"
+		},
+		{
+			"level": 2,
+			"text": "Pre-release verification",
+			"anchor": "pre-release-verification"
+		},
+		{
+			"level": 2,
+			"text": "Canonical production deployment",
+			"anchor": "canonical-production-deployment"
+		},
+		{
+			"level": 2,
+			"text": "Public route evidence",
+			"anchor": "public-route-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Public browser regression",
+			"anchor": "public-browser-regression"
+		},
+		{
+			"level": 2,
+			"text": "Hard external blocker",
+			"anchor": "hard-external-blocker"
+		},
+		{
+			"level": 2,
+			"text": "NEXTACTION once the external credential exists",
+			"anchor": "nextaction-once-the-external-credential-exists"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-30-1307-olam-h3-studio-06-production-release-4b3eb3395e-001.json"
+	]
+}

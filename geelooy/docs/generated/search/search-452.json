@@ -1,0 +1,235 @@
+[
+	{
+		"id": "geelooy-api-social-helper-routes-posts-readme-md-3b8030afd9",
+		"title": "Post / Reader APIs — Agent Handoff",
+		"sourcePath": "geelooy/api/social/helper/routes/posts/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Post / Reader APIs — Agent Handoff",
+				"anchor": "post-reader-apis-agent-handoff"
+			},
+			{
+				"level": 2,
+				"text": "Post routes (routes/posts/seriesRoutes.js, readers.js)",
+				"anchor": "post-routes-routes-posts-seriesroutes-js-readers-js"
+			},
+			{
+				"level": 2,
+				"text": "Raw packed reads (routes/packed/readRoutes.js, all GET)",
+				"anchor": "raw-packed-reads-routes-packed-readroutes-js-all-get"
+			},
+			{
+				"level": 2,
+				"text": "Signed import/remove endpoints (summary)",
+				"anchor": "signed-import-remove-endpoints-summary"
+			},
+			{
+				"level": 2,
+				"text": "Files map",
+				"anchor": "files-map"
+			}
+		],
+		"excerpt": "B\"H Post / Reader APIs — Agent Handoff How the site serves imported posts. All paths relative to /api/social. Reading flows: route → readPostRoute({heichelId, seriesId, postId}) → readPostCompatible → readSeriesPost against the native db path /social/heichelos/ /series/ /posts (not the packed shard), with Meluket mappe",
+		"searchText": "b\"h post / reader apis — agent handoff how the site serves imported posts. all paths relative to /api/social. reading flows: route → readpostroute({heichelid, seriesid, postid}) → readpostcompatible → readseriespost against the native db path /social/heichelos/ /series/ /posts (not the packed shard), with meluket mapped series handling underneath. post routes (routes/posts/seriesroutes.js, readers.js) route method purpose /heichelos/:heichel/series/:series/posts get post list (?limit/offset/details/properties) /heichelos/:heichel/series/:series/posts/details get list with details /heichelos/:heichel/series/:series/post/:post get one post by heichel+series+postid — the front end reader primitive /heichelos/:heichel/series/:series/post/:post put/delete edit / delete (delete needs aliasid) /heichelos/:heichel/series/:series/posts/bulk post bulk publish /heichelos/:heichel/series/:series/filterpostsby/:propkey/:propval get property filter /aliases/:alias/postsmade/heichel/:heichel/pathtoseries/:pathive get alias's posts in a series /aliases/:alias/postsmade/heichelos, /aliases/:alias/postsmade/heichel/:heichel/series get authorship navigation raw packed reads (routes/packed/readroutes.js, all get) route purpose /packed/read?shard=core&key=/posts/ / single record; 404 → {error:{code:'not found'}}; missing key → missing key /packed/keys?shard=core&prefix=/posts/ /&limit=200 bounded key listing (limit capped 200–2000) /packed/stats, /packed/snapshot, /packed/integrity shard stats / export / scan (no repair) ⚠️ never loop /packed/read over many keys — it parses the entire core shard file per request and will 500/dos production at bulk scale. use /packed/keys + one server side job (/packed/import/posts/verify) instead. signed import/remove endpoints (summary) full docs in ../packed/readme.md. quick reference: method path purpose post /packed/import/posts/start start an import job ({uploadid}) get /packed/import/posts/status?job= poll job post /packed/import/posts/verify byte exact verify job get /packed/import/posts/verify status?verify= poll verify post /packed/import/posts/ensure backlinks repair missing alias backlinks only post /packed/import/posts/remove delete a misplaced post (+ optional strayaliasid cleanup) files map geelooy/api/social/helper/routes/posts/{seriesroutes.js,readers.js,aliasroutes.js,bulkpublish.js,submissionroutes.js} geelooy/api/social/helper/routes/packed/{postimportroutes.js,readroutes.js} geelooy/api/social/helper/packed/{socialpacked.js,packedreader.js}",
+		"page": "pages/geelooy-api-social-helper-routes-posts-readme-md-3b8030afd9.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-routes-profile-readme-md-05600c3c3e",
+		"title": "B\"H — Profile Routes (geelooy/api/social/helper/routes/profile/)",
+		"sourcePath": "geelooy/api/social/helper/routes/profile/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Profile Routes (geelooy/api/social/helper/routes/profile/)",
+				"anchor": "b-h-profile-routes-geelooy-api-social-helper-routes-profile"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			},
+			{
+				"level": 2,
+				"text": "Endpoints",
+				"anchor": "endpoints"
+			}
+		],
+		"excerpt": "B\"H — Profile Routes (geelooy/api/social/helper/routes/profile/) Profile HTTP routes: profiles, feeds, discovery, follows, trending, activity, and analytics. Files socialRoutes.js — core social profile routes. discoveryRoutes.js, discoveryCatalogRoutes.js, discoveryFlowRoutes.js, discoveryRecommendationRoutes.js — disc",
+		"searchText": "b\"h — profile routes (geelooy/api/social/helper/routes/profile/) profile http routes: profiles, feeds, discovery, follows, trending, activity, and analytics. files socialroutes.js — core social profile routes. discoveryroutes.js, discoverycatalogroutes.js, discoveryflowroutes.js, discoveryrecommendationroutes.js — discovery surfaces. commentbrowseroutes.js — profile comment browsing. resourceroutes.js, resourcecoreroutes.js, resourceinsightroutes.js — resource routes. operations.js, values.js — operations and value helpers. legacyauthoredroutes.js, legacycatalogroutes.js, legacyreadroutes.js, legacystructureroutes.js, legacywriteroutes.js — legacy compat routes. endpoints /profile/:alias, /profiles/:alias (+ /activity, /comments, /posts, /heichelos, /series tree, /tree, /analytics, /graph, /history, /living card, /comment series[/:seriesid[/posts[/:postid/comments]]], /comments/search) /profile/feed, /profile/batch, /profiles/batch, /profile/meta, /profile/templates /alias/:alias/profile[/template], /alias/:alias/history /follows/:alias, /followers/:type/:id /feed, /trending, /search, /heichelos/discover, /recommendations/:alias /bulk, /events, /meta, /openapi.json",
+		"page": "pages/geelooy-api-social-helper-routes-profile-readme-md-05600c3c3e.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-routes-reading-readme-md-b512d9ec14",
+		"title": "B\"H — Reading Routes (geelooy/api/social/helper/routes/reading/)",
+		"sourcePath": "geelooy/api/social/helper/routes/reading/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Reading Routes (geelooy/api/social/helper/routes/reading/)",
+				"anchor": "b-h-reading-routes-geelooy-api-social-helper-routes-reading"
+			},
+			{
+				"level": 2,
+				"text": "Endpoints",
+				"anchor": "endpoints"
+			}
+		],
+		"excerpt": "B\"H — Reading Routes (geelooy/api/social/helper/routes/reading/) Reading tracking HTTP routes, backed by helper/reading/readingStore.js. readingRoutes.js — route definitions. Endpoints /reading/heartbeat — record a reading heartbeat (POST). /reading/privacy — reading privacy settings. /reading/recent/:userId — recent r",
+		"searchText": "b\"h — reading routes (geelooy/api/social/helper/routes/reading/) reading tracking http routes, backed by helper/reading/readingstore.js. readingroutes.js — route definitions. endpoints /reading/heartbeat — record a reading heartbeat (post). /reading/privacy — reading privacy settings. /reading/recent/:userid — recent reads. /reading/stats/:userid — reading stats.",
+		"page": "pages/geelooy-api-social-helper-routes-reading-readme-md-b512d9ec14.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-routes-readme-md-f33bcbbf0e",
+		"title": "B\"H — Routes (geelooy/api/social/helper/routes/)",
+		"sourcePath": "geelooy/api/social/helper/routes/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Routes (geelooy/api/social/helper/routes/)",
+				"anchor": "b-h-routes-geelooy-api-social-helper-routes"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			},
+			{
+				"level": 2,
+				"text": "Subdirectories",
+				"anchor": "subdirectories"
+			}
+		],
+		"excerpt": "B\"H — Routes (geelooy/api/social/helper/routes/) Master HTTP route assembly for the social API: mounts domain route groups (agent, alias, packed, posts, profile, reading, series, views) into one derech surface. Files apiHttp.js — HTTP plumbing for routes. requestValues.js — request value decoding. Subdirectories agent/",
+		"searchText": "b\"h — routes (geelooy/api/social/helper/routes/) master http route assembly for the social api: mounts domain route groups (agent, alias, packed, posts, profile, reading, series, views) into one derech surface. files apihttp.js — http plumbing for routes. requestvalues.js — request value decoding. subdirectories agent/ — ai agent api (/agent/ ). alias/ — alias/user routes (/alias/ , /aliases/ , /user/:user/aliases ). packed/ — packed data routes (has its own readme). posts/ — post routes (has its own readme). profile/ — profile routes (/profile/ , /profiles/ , /feed, /trending, /search, /openapi.json). reading/ — reading routes (/reading/heartbeat privacy recent stats). series/ — series routes (/heichelos/:heichel/series/ ). views/ — view counts (/views/ , /comments/by anchor, /comments/verse counts). test/ — route composition contracts (alias, packed, profile, route, series compatibility).",
+		"page": "pages/geelooy-api-social-helper-routes-readme-md-f33bcbbf0e.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-routes-series-readme-md-fecbf323d3",
+		"title": "B\"H — Series Routes (geelooy/api/social/helper/routes/series/)",
+		"sourcePath": "geelooy/api/social/helper/routes/series/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Series Routes (geelooy/api/social/helper/routes/series/)",
+				"anchor": "b-h-series-routes-geelooy-api-social-helper-routes-series"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			},
+			{
+				"level": 2,
+				"text": "Main endpoints",
+				"anchor": "main-endpoints"
+			}
+		],
+		"excerpt": "B\"H — Series Routes (geelooy/api/social/helper/routes/series/) Series HTTP routes: series CRUD, sub series, breadcrumbs, details, content mutations, post merging, and backward compat shims. Mounted under /heichelos/:heichel/series/ . Files readRoutes.js, navigationRoutes.js, breadcrumb.js, subSeriesSummaries.js — reads",
+		"searchText": "b\"h — series routes (geelooy/api/social/helper/routes/series/) series http routes: series crud, sub series, breadcrumbs, details, content mutations, post merging, and backward compat shims. mounted under /heichelos/:heichel/series/ . files readroutes.js, navigationroutes.js, breadcrumb.js, subseriessummaries.js — reads and navigation. mutationroutes.js, compatmutationroutes.js, compatmutations.js, compatcontentmutations.js — mutations. compatreadroutes.js, compatrootreadroutes.js, compatnamedreadroutes.js, compatreaders.js, compatstructureroutes.js, compatcontentroutes.js, compatvalues.js — legacy compat route shims. seriespostmerge.js — series/post merge logic. test/ — read route status, post merge, and sub series summary tests. main endpoints /heichelos/:heichel/series/ (list), /heichelos/:heichel/series/:series (get), /heichelos/:heichel/series/details /heichelos/:heichel/addnewseries, /heichelos/:heichel/addcontenttoseries, /heichelos/:heichel/deletecontentfromseries, /heichelos/:heichel/deleteseries/:seriesid, /heichelos/:heichel/deleteseriesfromheichel/:seriesid /heichelos/:heichel/series/:series/subseries[/details], .../subseriesdetails, .../breadcrumb, .../parent, .../details, .../editseriesdetails /heichelos/:heichel/series/:series/changepostsinseries, .../changesubseriesinseries /heichelos/:heichel/series/:parentseriesid/clearsubseries/:seriesid deletesubseries/:seriesid, .../seriesfrom/movesubseriesto/:seriesto /heichelos/:heichel/series/:series/filterseriesby/:propkey/:propval, .../alternategroups[/details] /heichelos/:heichel/series/root[/breadcrumb details subseries[/details]]",
+		"page": "pages/geelooy-api-social-helper-routes-series-readme-md-fecbf323d3.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-routes-series-test-readme-md-f1f7dd2b64",
+		"title": "B\"H — Series Routes Tests (geelooy/api/social/helper/routes/series/test/)",
+		"sourcePath": "geelooy/api/social/helper/routes/series/test/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Series Routes Tests (geelooy/api/social/helper/routes/series/test/)",
+				"anchor": "b-h-series-routes-tests-geelooy-api-social-helper-routes-series-test"
+			}
+		],
+		"excerpt": "B\"H — Series Routes Tests (geelooy/api/social/helper/routes/series/test/) Series route tests. readRoutesStatus.test.js — read route statuses. seriesPostMerge.test.js — series/post merge logic. subSeriesSummaries.test.js — sub series summaries.",
+		"searchText": "b\"h — series routes tests (geelooy/api/social/helper/routes/series/test/) series route tests. readroutesstatus.test.js — read route statuses. seriespostmerge.test.js — series/post merge logic. subseriessummaries.test.js — sub series summaries.",
+		"page": "pages/geelooy-api-social-helper-routes-series-test-readme-md-f1f7dd2b64.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-routes-test-readme-md-6c20edc009",
+		"title": "B\"H — Route Composition Tests (geelooy/api/social/helper/routes/test/)",
+		"sourcePath": "geelooy/api/social/helper/routes/test/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Route Composition Tests (geelooy/api/social/helper/routes/test/)",
+				"anchor": "b-h-route-composition-tests-geelooy-api-social-helper-routes-test"
+			}
+		],
+		"excerpt": "B\"H — Route Composition Tests (geelooy/api/social/helper/routes/test/) Contract tests proving the route groups compose into one coherent derech surface. routeComposition.contract.js — overall route composition. aliasComposition.contract.js — alias route composition. packedComposition.contract.js — packed route composit",
+		"searchText": "b\"h — route composition tests (geelooy/api/social/helper/routes/test/) contract tests proving the route groups compose into one coherent derech surface. routecomposition.contract.js — overall route composition. aliascomposition.contract.js — alias route composition. packedcomposition.contract.js — packed route composition. profilecomposition.contract.js — profile route composition. seriescompatibility.contract.js — series route compatibility. apihttp.test.js — apihttp plumbing.",
+		"page": "pages/geelooy-api-social-helper-routes-test-readme-md-6c20edc009.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-routes-views-readme-md-fc4ecea564",
+		"title": "B\"H — View Routes (geelooy/api/social/helper/routes/views/)",
+		"sourcePath": "geelooy/api/social/helper/routes/views/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — View Routes (geelooy/api/social/helper/routes/views/)",
+				"anchor": "b-h-view-routes-geelooy-api-social-helper-routes-views"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			},
+			{
+				"level": 2,
+				"text": "Endpoints",
+				"anchor": "endpoints"
+			}
+		],
+		"excerpt": "B\"H — View Routes (geelooy/api/social/helper/routes/views/) View count and verse comment count routes. Files viewRoutes.js — view recording/batch routes. verseCommentRoutes.js — verse comment count routes. Endpoints /views/record (POST), /views/batch, /views/:postId /comments/by anchor, /comments/verse counts",
+		"searchText": "b\"h — view routes (geelooy/api/social/helper/routes/views/) view count and verse comment count routes. files viewroutes.js — view recording/batch routes. versecommentroutes.js — verse comment count routes. endpoints /views/record (post), /views/batch, /views/:postid /comments/by anchor, /comments/verse counts",
+		"page": "pages/geelooy-api-social-helper-routes-views-readme-md-fc4ecea564.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-safeguards-readme-md-323fe8be7b",
+		"title": "B\"H — safeguards/",
+		"sourcePath": "geelooy/api/social/helper/safeguards/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — safeguards/",
+				"anchor": "b-h-safeguards"
+			},
+			{
+				"level": 2,
+				"text": "Modules",
+				"anchor": "modules"
+			},
+			{
+				"level": 2,
+				"text": "State dir",
+				"anchor": "state-dir"
+			},
+			{
+				"level": 2,
+				"text": "AI safeguard rules for this directory",
+				"anchor": "ai-safeguard-rules-for-this-directory"
+			}
+		],
+		"excerpt": "B\"H — safeguards/ Server safeguards program (user order 2026 10 20: \"do it all\"). Born from the 2026 10 20 flap: one directory sitting where a file was expected threw EISDIR, busted the grouped cache, forced a 197 MB rescan, and flapped the whole site every 2 minutes. Prime directive for everything in this directory: O",
+		"searchText": "b\"h — safeguards/ server safeguards program (user order 2026 10 20: \"do it all\"). born from the 2026 10 20 flap: one directory sitting where a file was expected threw eisdir, busted the grouped cache, forced a 197 mb rescan, and flapped the whole site every 2 minutes. prime directive for everything in this directory: one bad record degrades one read. it never throws, never rescans, never takes the site with it. modules file role safeguardstate.js state dir + append only line log primitives. no json state files (user law); writes never throw. poisonquarantine.js per path error counts; a path with 2+ errors is quarantined and skipped without being read. persists as line logs in the state dir. saferecordread.js the poison proof read helper. wrap any stored record read: fallback on error, shape validation, quarantine aware. fullscanwatch.js full scan incident counter. every whole shard scan logs [fullscan incident] + one line in state/fullscan incidents.log; serves fullscanslasthour() to the pulse endpoint. shapeaudit.js standalone audit (nice n 19 node shapeaudit.js): finds entries whose file vs dir shape mismatches reader expectations before a reader trips on them. report in state/shape audit.log. yieldevery.js cooperative time budget yield helper for long loops (phase 3). first applied site: the backlink grouping pass. readshed.js read side shed verdict (phase 3): circuit/heap/os ram sensors only — never the import busy check. heavy reads fail fast with 503 before heavy work; see routes/packed/readme safeguards.md. pulseroute.js payload for get /api/social/health/pulse (phase 4, mounted by awtsmoos.health.js): loop lag p95, heap mb, os free mb, disk free gb, scans/hour, uptime. resourcealarm.js 5 minute disk/ram tripwire (phase 4): disk \\t \\t \\t poison quarantine.log — \\t fullscan incidents.log — \\t \\t shape audit.log — audit report sections alarms.log — (phase 4) disk/ram alarm lines ai safeguard rules for this directory 1. nothing here may throw into a request path. catch, log, degrade. 2. no synchronous i/o in request path modules (scripts excepted). 3. no json state files, ever. append only text lines only. 4. every module stays ≤120 lines with the 3 line b\"h header, tab indentation, and jsdoc — the tunnel guard enforces it on write. 5. a full scan of any shard is an incident by definition. if you add one, wire fullscanwatch.notefullscan() at its entry.",
+		"page": "pages/geelooy-api-social-helper-safeguards-readme-md-323fe8be7b.json"
+	}
+]

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Improved Release Plan\n\nClassify local and branch work, determine exact release set, complete any unfinished data-only compatibility fix, test it, integrate necessary branch-only commits only if they are not already represented, stage explicit paths, commit on main, fetch and merge remote main if it advanced, push main, inspect GitHub workflow/deploy state, then verify public routes.\n"
+}

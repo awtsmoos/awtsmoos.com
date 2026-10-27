@@ -1,226 +1,344 @@
 [
 	{
-		"id": "docs-tutorials-systems-request-pipeline-md-20b718402d",
-		"title": "Tutorial: HTTP Request Pipeline",
-		"sourcePath": "docs/TUTORIALS/SYSTEMS/REQUEST_PIPELINE.md",
-		"category": "Systems",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-games-neshama-quest-3f-b903a11a63",
+		"title": "Project Tutorial: Neshama Quest · Awtsmoos Games",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-neshama-quest-3f0cdf7b.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Tutorial: HTTP Request Pipeline",
-				"anchor": "tutorial-http-request-pipeline"
+				"text": "Project Tutorial: Neshama Quest · Awtsmoos Games",
+				"anchor": "project-tutorial-neshama-quest-awtsmoos-games"
 			},
 			{
 				"level": 2,
-				"text": "Pipeline",
-				"anchor": "pipeline"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Debugging",
-				"anchor": "debugging"
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Tutorial: HTTP Request Pipeline A normal request becomes useful context in stages rather than arriving as a single global object. Pipeline 1. Base response/CORS behavior is established. 2. Unsafe traversal/path forms are rejected. 3. URL/query/cookies are parsed; OPTIONS can short circui",
-		"searchText": "b\"h boruch hashem blessed is he tutorial: http request pipeline a normal request becomes useful context in stages rather than arriving as a single global object. pipeline 1. base response/cors behavior is established. 2. unsafe traversal/path forms are rejected. 3. url/query/cookies are parsed; options can short circuit. 4. static server path state is constructed beneath the public root. 5. body readers and authentication helpers are attached. 6. dynamic derech routing is attempted. 7. if not handled dynamically, static resolution continues. debugging when a handler sees unexpected input, identify which stage owns the value: path variable, $ get, parsed body/$ post, headers/cookies, trusted auth state, or shared db. source: requesthandler.js, server/awtsmoosstaticserver.js, server/requestbootstrap.js, auth/path/body helpers.",
-		"page": "pages/docs-tutorials-systems-request-pipeline-md-20b718402d.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Neshama Quest · Awtsmoos Games Path: geelooy/games/neshama quest · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runti",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: neshama quest · awtsmoos games path: geelooy/games/neshama quest · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html local documentation: no local documentation.md observed. local doc requirement: yes; covered: no symlink target: — file shape source tests assets generated docs other total 16 0 0 0 0 0 16 public entry points /games/neshama quest → geelooy/games/neshama quest/index.html — neshama quest · awtsmoos games symbol evidence source files: 13; classes: 6; functions: 36; exports: 0; samples: entity, neshama, klipah, revealneshamaai, updateklipah, choosedirection, availabledirections, nearesttoneshama, farthestfromtarget, revealneshamacollisions, checkcollisions, checkpoweruptimer. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-neshama-quest-3f-b903a11a63.json"
 	},
 	{
-		"id": "docs-tutorials-systems-server-boot-md-14375e29a4",
-		"title": "Tutorial: Server Boot",
-		"sourcePath": "docs/TUTORIALS/SYSTEMS/SERVER_BOOT.md",
-		"category": "Systems",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-games-nitzotz-io-7c8b9-e9591eb07d",
+		"title": "Project Tutorial: Nitzotz.io — Gather. Grow. Reveal.",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-nitzotz-io-7c8b94b0.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Tutorial: Server Boot",
-				"anchor": "tutorial-server-boot"
+				"text": "Project Tutorial: Nitzotz.io — Gather. Grow. Reveal.",
+				"anchor": "project-tutorial-nitzotz-io-gather-grow-reveal"
 			},
 			{
 				"level": 2,
-				"text": "Follow the boot",
-				"anchor": "follow-the-boot"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Boundaries",
-				"anchor": "boundaries"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Evidence",
-				"anchor": "evidence"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Tutorial: Server Boot Root index.js is the orchestration point. It initializes the dynamic server, routes ordinary HTTP, owns direct Mitzvah World report paths, delegates WebSocket upgrades, and can start SMTP. Follow the boot 1. Read index.js imports for AwtsMail/AwtsServer/AwtsSocket. ",
-		"searchText": "b\"h boruch hashem blessed is he tutorial: server boot root index.js is the orchestration point. it initializes the dynamic server, routes ordinary http, owns direct mitzvah world report paths, delegates websocket upgrades, and can start smtp. follow the boot 1. read index.js imports for awtsmail/awtsserver/awtssocket. 2. follow dynamic server initialization. 3. inspect server/initdb.js for shared dosdb setup. 4. inspect request bootstrap/auth setup. 5. inspect websocket registry/application definitions separately. 6. inspect mail disable configuration before assuming smtp is live. boundaries root direct handlers are exceptions, not the normal api convention. most dynamic http behavior belongs to derech discovery. websocket admission is separate from http routing. evidence read docs/learn/server lifecycle 101.md, docs/architecture.md, and generated public/route inventories.",
-		"page": "pages/docs-tutorials-systems-server-boot-md-14375e29a4.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Nitzotz.io — Gather. Grow. Reveal. Path: geelooy/games/nitzotz io · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runt",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: nitzotz.io — gather. grow. reveal. path: geelooy/games/nitzotz io · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, package.json, documentation.md local documentation: geelooy/games/nitzotz io/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 285 44 0 0 1 0 330 public entry points /games/nitzotz io → geelooy/games/nitzotz io/index.html — nitzotz.io — gather. grow. reveal. symbol evidence source files: 230; classes: 0; functions: 708; exports: 448; samples: selectshlichus, shlichustemplates, resolvetemplate, descriptionfor, template, hash, mix, adventuremetric, adventureprogress, settleadventurereward, emptysettlement, updateadventure. depends on geelooy/libs — 11 lexical references; examples: geelooy/games/nitzotz io/js/procedural/cityroad.js; geelooy/games/nitzotz io/js/procedural/localmeshes.js; geelooy/games/nitzotz io/js/procedural/realityhouses.js used by none observed. external packages none observed. verification clue observed test classified files: 44 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-nitzotz-io-7c8b9-e9591eb07d.json"
 	},
 	{
-		"id": "docs-tutorials-systems-trace-database-change-md-26d5e54fca",
-		"title": "Trace a Database Change Safely",
-		"sourcePath": "docs/TUTORIALS/SYSTEMS/TRACE_DATABASE_CHANGE.md",
-		"category": "Systems",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-games-ohr-hagnuz-e946b-5315f7a5b6",
+		"title": "Project Tutorial: B&quot;H — Ohr HaGnuz: The Concealed Frontier",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-ohr-hagnuz-e946b787.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Trace a Database Change Safely",
-				"anchor": "trace-a-database-change-safely"
+				"text": "Project Tutorial: B&quot;H — Ohr HaGnuz: The Concealed Frontier",
+				"anchor": "project-tutorial-b-quot-h-ohr-hagnuz-the-concealed-frontier"
 			},
 			{
 				"level": 2,
-				"text": "Investigation path",
-				"anchor": "investigation-path"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Questions that must be answered",
-				"anchor": "questions-that-must-be-answered"
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Trace a Database Change Safely Persistence changes should be treated as compatibility work, not ordinary refactors. Investigation path 1. Open /docs/?view=systems&systemDistrict=data and select the closest persistence system. 2. Read its human manuals before generated evidence. 3. Identi",
-		"searchText": "b\"h boruch hashem blessed is he trace a database change safely persistence changes should be treated as compatibility work, not ordinary refactors. investigation path 1. open /docs/?view=systems&systemdistrict=data and select the closest persistence system. 2. read its human manuals before generated evidence. 3. identify the runtime database root and whether the caller uses legacy dosdb, awtsmoosbinaryjson, awtsmoosdb/virtualfs, social packed storage, or a bridge/fallback. 4. trace logical persisted paths separately from physical serialization/filesystem layout. 5. find existing migration/repair scripts and relevant tests. 6. determine how existing persisted data is discovered after the proposed change. 7. only then change code and add migration/backward compatibility behavior when required. questions that must be answered can old data still be read? does the same logical path resolve to the same data? does the database root precedence change? are cache/index/shard manifests compatible? is rollback possible without data loss? are partially migrated states supported or explicitly rejected? generated file/path evidence helps locate the implementation but does not prove these guarantees.",
-		"page": "pages/docs-tutorials-systems-trace-database-change-md-26d5e54fca.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: B&quot;H — Ohr HaGnuz: The Concealed Frontier Path: geelooy/games/ohr hagnuz · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observation",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: b&quot;h — ohr hagnuz: the concealed frontier path: geelooy/games/ohr hagnuz · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, package.json, documentation.md local documentation: geelooy/games/ohr hagnuz/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 715 94 0 2 1 4 816 public entry points /games/ohr hagnuz → geelooy/games/ohr hagnuz/index.html — b&quot;h — ohr hagnuz: the concealed frontier symbol evidence source files: 685; classes: 198; functions: 203; exports: 1144; samples: collisionmatrix, validates, encountervalidator, interactionvalidator, overworldlogic, portalvalidator, worldmapassembler, takes, encountergenerator, movementlogic, pathlogic, divinewill. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 94 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-ohr-hagnuz-e946b-5315f7a5b6.json"
 	},
 	{
-		"id": "docs-tutorials-systems-trace-realtime-admission-md-694296b682",
-		"title": "Trace Realtime Admission",
-		"sourcePath": "docs/TUTORIALS/SYSTEMS/TRACE_REALTIME_ADMISSION.md",
-		"category": "Realtime",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-games-ohrbound-a0d1237-837eef363a",
+		"title": "Project Tutorial: Ohrbound: Gates of Asiyah",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-ohrbound-a0d12378.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Trace Realtime Admission",
-				"anchor": "trace-realtime-admission"
+				"text": "Project Tutorial: Ohrbound: Gates of Asiyah",
+				"anchor": "project-tutorial-ohrbound-gates-of-asiyah"
 			},
 			{
 				"level": 2,
-				"text": "Investigation path",
-				"anchor": "investigation-path"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Trust rule",
-				"anchor": "trust-rule"
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Trace Realtime Admission Realtime admission begins before ordinary message routing. A socket that reaches application code has already crossed upgrade, identity, and sometimes specialized admission boundaries. Investigation path 1. Begin at websocket/core/socketUpgrade.js and identify tr",
-		"searchText": "b\"h boruch hashem blessed is he trace realtime admission realtime admission begins before ordinary message routing. a socket that reaches application code has already crossed upgrade, identity, and sometimes specialized admission boundaries. investigation path 1. begin at websocket/core/socketupgrade.js and identify trusted upgrade identity. 2. determine whether the connection is an ordinary platform application, mission room, or tunnel relay flow. 3. for mission rooms, trace ticket issuance, canonical tunnel authority, origin, protocol version, initial snapshot proof, and upgrade policy. 4. for ordinary versioned apps, trace registry/application id/version selection through the message router. 5. for tunnel relay, trace account bound registration/authority and correlation/lifecycle separately from built in app routing. 6. treat generated event strings only as search hints; inspect handlers before claiming payload semantics. 7. verify rejection cases for missing/expired/foreign credentials and incompatible protocol versions. trust rule client message payloads must not replace server attached trusted socket identity. admission and application level authorization remain explicit contracts.",
-		"page": "pages/docs-tutorials-systems-trace-realtime-admission-md-694296b682.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Ohrbound: Gates of Asiyah Path: geelooy/games/ohrbound · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownersh",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: ohrbound: gates of asiyah path: geelooy/games/ohrbound · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, package.json, readme.md, readme.md local documentation: no local documentation.md observed. local doc requirement: yes; covered: no symlink target: — file shape source tests assets generated docs other total 149 27 0 0 1 0 177 public entry points /games/ohrbound → geelooy/games/ohrbound/index.html — ohrbound: gates of asiyah symbol evidence source files: 130; classes: 107; functions: 27; exports: 158; samples: communityservice, creatorflow, gameloop, ohrboundapp, ohrboundbrowserbindings, ohrboundidentityflow, ohrboundresultreporter, ohrboundruntimebridge, malchusbrowservessel, appearancerepository, characterappearance, carry. depends on geelooy/libs — 13 lexical references; examples: geelooy/games/ohrbound/src/nature/ohrboundnaturedirector.js; geelooy/games/ohrbound/src/render/ambientparticlefield.js; geelooy/games/ohrbound/src/render/corebufferatlas.js used by none observed. external packages none observed. verification clue observed test classified files: 27 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-ohrbound-a0d1237-837eef363a.json"
 	},
 	{
-		"id": "docs-tutorials-systems-trace-trusted-identity-md-1372f4498d",
-		"title": "Trace Trusted Identity",
-		"sourcePath": "docs/TUTORIALS/SYSTEMS/TRACE_TRUSTED_IDENTITY.md",
-		"category": "Systems",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-games-ohrfront-6590d6d-0402222ba0",
+		"title": "Project Tutorial: Ohrfront: Aleph Vanguard",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-ohrfront-6590d6d2.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Trace Trusted Identity",
-				"anchor": "trace-trusted-identity"
+				"text": "Project Tutorial: Ohrfront: Aleph Vanguard",
+				"anchor": "project-tutorial-ohrfront-aleph-vanguard"
 			},
 			{
 				"level": 2,
-				"text": "Investigation path",
-				"anchor": "investigation-path"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Separation rule",
-				"anchor": "separation-rule"
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Trace Trusted Identity Identity shaped input is not the same thing as authenticated authority. Investigation path 1. Identify the transport: signed browser session, OAuth bearer, Social/Tunnel API key, or server attached WebSocket identity. 2. Find the server side verifier that turns cre",
-		"searchText": "b\"h boruch hashem blessed is he trace trusted identity identity shaped input is not the same thing as authenticated authority. investigation path 1. identify the transport: signed browser session, oauth bearer, social/tunnel api key, or server attached websocket identity. 2. find the server side verifier that turns credentials into an identity record. 3. record which account/user/issuer/subject/scope fields come from that verified record. 4. ignore request payload/query owner fields unless source explicitly verifies them. 5. continue upward into authorization: ownership, roles, grants, scopes, permissions, origin, or room authority. 6. check error behavior for cross account enumeration leaks. 7. use tests/runtime checks to prove negative cases, not only successful authentication. separation rule authentication answers who/what credential was verified . authorization answers whether that identity may perform this operation on this resource . resource ownership, heichel roles, tunnel grants, and mission room admission remain separate layers.",
-		"page": "pages/docs-tutorials-systems-trace-trusted-identity-md-1372f4498d.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Ohrfront: Aleph Vanguard Path: geelooy/games/ohrfront · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownershi",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: ohrfront: aleph vanguard path: geelooy/games/ohrfront · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html local documentation: no local documentation.md observed. local doc requirement: yes; covered: no symlink target: — file shape source tests assets generated docs other total 265 81 0 0 8 1 355 public entry points /games/ohrfront → geelooy/games/ohrfront/index.html — ohrfront: aleph vanguard symbol evidence source files: 234; classes: 102; functions: 331; exports: 314; samples: ohrfront absolute roots, listchochmahabsoluterootnames, resolvechochmahabsolutepath, createchochmahmissionpaths, parsechochmahabsolutepatharguments, createchochmahabsolutepathhelp, createhodabsolutepathentry, createhodabsolutepathmanifest, formathodabsolutepathtext, formathodabsolutepathjson, runmalchusabsolutepathprinter, ismalchusabsolutepathclientry. depends on geelooy/libs — 11 lexical references; examples: geelooy/games/ohrfront/src/core/awtsmoosnativeapi.js; geelooy/games/ohrfront/src/core/api/awtsmoosmaterialapi.js; geelooy/games/ohrfront/src/core/api/awtsmoosperformanceapi.js used by none observed. external packages none observed. verification clue observed test classified files: 81 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-ohrfront-6590d6d-0402222ba0.json"
 	},
 	{
-		"id": "docs-websites-custom-domains-md-500d8b877f",
-		"title": "Connect a Custom Domain to an Awtsmoos Website",
-		"sourcePath": "docs/WEBSITES/CUSTOM_DOMAINS.md",
-		"category": "General",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-games-oros-ha-kelim-07-e00926e4e0",
+		"title": "Project Tutorial: Oros HaKelim · Awtsmoos.com",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-oros-ha-kelim-070ea630.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Connect a Custom Domain to an Awtsmoos Website",
-				"anchor": "connect-a-custom-domain-to-an-awtsmoos-website"
+				"text": "Project Tutorial: Oros HaKelim · Awtsmoos.com",
+				"anchor": "project-tutorial-oros-hakelim-awtsmoos-com"
 			},
 			{
 				"level": 2,
-				"text": "Before the domain",
-				"anchor": "before-the-domain"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Claim and verify",
-				"anchor": "claim-and-verify"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Route the website",
-				"anchor": "route-the-website"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "TLS and activation",
-				"anchor": "tls-and-activation"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Nameservers",
-				"anchor": "nameservers"
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Connect a Custom Domain to an Awtsmoos Website The Awtsmoos gives each public name a meaning while Awtsmoos.com refuses to collapse ownership, DNS, routing, and TLS into one misleading green switch. Before the domain Publish the folder first and open its canonical Awtsmoos URL. A custom ",
-		"searchText": "b\"h boruch hashem blessed is he connect a custom domain to an awtsmoos website the awtsmoos gives each public name a meaning while awtsmoos.com refuses to collapse ownership, dns, routing, and tls into one misleading green switch. before the domain publish the folder first and open its canonical awtsmoos url. a custom domain should never be used to debug a site that has not yet proven it can render canonically. claim and verify 1. open drive → your project → custom domains. 2. select the real published site mapping. 3. enter the hostname you own. 4. choose keep dns at current provider unless you operate another nameserver service. 5. save the claim. 6. copy the ownership txt name and value shown by drive into your dns provider. 7. run verify after the record is publicly resolvable. route the website after ownership is verified, read the hosting plan. it may present direct a/aaaa targets or a cname option depending on deployed ingress. add the record exactly as attested. do not guess ip addresses from old deployments. tls and activation route activation and tls are separate readiness stages. only call the custom domain live after routing is active, https succeeds, and the returned site is the expected publication. nameservers the current native plan reports awtsmoos nameserver availability. if it reports unavailable, keep dns at your current provider. do not point registrar nameservers at undocumented hosts. for a full provider migration, read move dns safely and preserve email dns before changing anything at the registrar.",
-		"page": "pages/docs-websites-custom-domains-md-500d8b877f.json"
-	},
-	{
-		"id": "docs-websites-dns-cutover-checklist-md-5d726e74ce",
-		"title": "DNS Cutover Checklist",
-		"sourcePath": "docs/WEBSITES/DNS_CUTOVER_CHECKLIST.md",
-		"category": "General",
-		"provenance": "manual",
-		"headings": [
-			{
-				"level": 1,
-				"text": "DNS Cutover Checklist",
-				"anchor": "dns-cutover-checklist"
-			},
-			{
-				"level": 2,
-				"text": "Before changing web records",
-				"anchor": "before-changing-web-records"
-			},
-			{
-				"level": 2,
-				"text": "Website-only cutover at the existing DNS provider",
-				"anchor": "website-only-cutover-at-the-existing-dns-provider"
-			},
-			{
-				"level": 2,
-				"text": "Full authoritative nameserver cutover",
-				"anchor": "full-authoritative-nameserver-cutover"
-			},
-			{
-				"level": 2,
-				"text": "Rollback triggers",
-				"anchor": "rollback-triggers"
-			},
-			{
-				"level": 2,
-				"text": "Awtsmoos truth rule",
-				"anchor": "awtsmoos-truth-rule"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He DNS Cutover Checklist The Awtsmoos renews the domain every instant, while a registrar and DNS provider expose only finite records and caches; Awtsmoos.com makes the cutover reversible by refusing to destroy old testimony before the new authoritative answer is proven. Before changing web ",
-		"searchText": "b\"h boruch hashem blessed is he dns cutover checklist the awtsmoos renews the domain every instant, while a registrar and dns provider expose only finite records and caches; awtsmoos.com makes the cutover reversible by refusing to destroy old testimony before the new authoritative answer is proven. before changing web records [ ] canonical awtsmoos website url loads correctly. [ ] index.html and required assets are ready. [ ] existing dns zone is exported, copied or screenshotted. [ ] a, aaaa, cname, txt, mx, caa, srv, ns and important subdomains are inventoried. [ ] mx priorities and hosts are preserved. [ ] spf txt is preserved completely. [ ] every dkim selector and public key is preserved. [ ] dmarc policy/reporting addresses are preserved. [ ] vendor verification and email autoconfiguration records are preserved. [ ] custom domain claim points at the intended awtsmoos site. [ ] ownership txt record is published. [ ] ownership verification is successful. website only cutover at the existing dns provider [ ] do not change registrar nameservers. [ ] copy the server attested awtsmoos a/aaaa/cname target exactly. [ ] change only the intended website hostname records. [ ] leave mx and unrelated txt/cname/srv/ns records unchanged. [ ] confirm public dns returns the new web route. [ ] activate the awtsmoos route only when eligible. [ ] confirm https/tls state. [ ] open the custom domain from a real browser. [ ] confirm expected page and assets. [ ] send and receive a real email through the existing mail service. full authoritative nameserver cutover [ ] destination authoritative dns service actually exists. [ ] destination zone contains every required old zone record. [ ] destination zone answers correctly before registrar change. [ ] new authoritative nameservers are copied exactly. [ ] registrar nameservers are changed only after the zone is complete. [ ] old dns service remains active during propagation and verification. [ ] website resolves through new nameservers. [ ] email send/receive is verified. [ ] critical subdomains and services are verified. [ ] tls/caa behavior is verified. [ ] only after all checks pass may the previous zone be retired. rollback triggers rollback or restore records when any of these occur: website becomes unreachable through the intended hostname. mx resolution differs unexpectedly. mail delivery fails after the cutover. required dkim/dmarc/spf records disappear. important subdomains stop resolving. the new nameservers are not authoritative or return an incomplete zone. awtsmoos truth rule a saved dns worksheet is not live dns. an ownership claim is not routing. routing is not tls. tls is not browser health. a nameserver plan is not an authoritative nameserver deployment. each gate must be observed independently before the project can call the custom domain ready.",
-		"page": "pages/docs-websites-dns-cutover-checklist-md-5d726e74ce.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Oros HaKelim · Awtsmoos.com Path: geelooy/games/oros ha kelim · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: oros hakelim · awtsmoos.com path: geelooy/games/oros ha kelim · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, package.json, documentation.md, readme.md, readme.md local documentation: geelooy/games/oros ha kelim/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 142 49 0 0 4 0 195 public entry points /games/oros ha kelim → geelooy/games/oros ha kelim/index.html — oros hakelim · awtsmoos.com symbol evidence source files: 125; classes: 93; functions: 57; exports: 181; samples: installdebugbridge, collectruntimeerrors, framecadence, frameconductor, creategameframeassembly, gameruntimecontrol, gameservices, matchsession, orosgame, rendercoordinator, grid size, cell size. depends on geelooy/libs — 14 lexical references; examples: geelooy/games/oros ha kelim/src/render/core/coregeometryfactory.js; geelooy/games/oros ha kelim/src/render/core/coregpugeometrypool.js; geelooy/games/oros ha kelim/src/render/core/coregpuvessel.js used by none observed. external packages none observed. verification clue observed test classified files: 49 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-oros-ha-kelim-07-e00926e4e0.json"
 	}
 ]

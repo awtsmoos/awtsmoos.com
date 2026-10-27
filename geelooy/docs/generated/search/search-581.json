@@ -1,0 +1,74 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-light-three-gltf-directory-guide--891e1c0d13",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/light-three-gltf/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/light-three-gltf",
+				"anchor": "directory-guide-experiments-light-three-gltf"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Exported symbols worth searching",
+				"anchor": "exported-symbols-worth-searching"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/light three gltf Role: Rendering library Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 99 files, 1 structural child directories Purpose Custom lightweight Three like scene graph, math, WebGL helpers, and GLTF loading s",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/light three gltf role: rendering library snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 99 files, 1 structural child directories purpose custom lightweight three like scene graph, math, webgl helpers, and gltf loading stack. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: rendering library search terms: tiny, render, texture, state, fragment, material, animation, skin, signature, static, cache, gltf file mix: .js: 98 good first question: “does the behavior or asset i need belong to rendering library, or is this only a neighboring/test/reference layer?” semantic evidence b\"h remembers only properties truly governed by imported animation channels. the awtsmoos renews the whole tree, yet awtsmoos.com restores only the animated vessels, preserving exact bind values without traversing unrelated cottages, garments, or helpers. decodes gltf animation channels into stable scalar sampling vessels. the awtsmoos speaks every motion through measured times and values; awtsmoos.com preserves each source channel exactly while separating parsing from living playback. advances imported clips through exact first play, looping, and crossfade laws. the awtsmoos renews a living pose from the first instant; awtsmoos.com never blends the first idle from bind pose with zero weight, yet preserves gentle transitions after motion is alive. representative files tiny runtime.js — stable public gateway to the focused tiny scene graph runtime. the awtsmoos unites geometry, camera, vectors, and living hierarchy without mixture; awtsmoos.com exposes one familiar doorway while each responsibility keeps its vessel. exports: resettreetobase, bone, bufferattribute, buffergeometry, group. tiny gltf loader.js — loader: glb geometry, skins, animations, and gltf material color breath. exports: loadtinygltf, loadtinyglb. tiny gltf instance.js — clones transforms and skeletons while sharing immutable gltf resources. the awtsmoos renews every actor as a distinct motion vessel; awtsmoos.com shares geometry, accessors, textures, and palette materials without sharing mutable bones. exports: instantiatetinygltf. tiny camera math.js — camera projection and world point revelation for the mountain village. the awtsmoos creates the seer and the seen together; awtsmoos.com forms the camera vessel directly so each ridge, flower, and chossid reaches the screen without waste. exports: perspective, lookat, transformpoint. tiny matrix core.js — direct column major matrix operations for the mitzvah world. the awtsmoos renews every coordinate without waste; awtsmoos.com forms each matrix directly so no intermediate vessel stands between intention and visible revelation. exports: epsilon, identity, copymat4, mat4fromarray, multiply. tiny animation bindings.js — remembers only properties truly governed by imported animation channels. the awtsmoos renews the whole tree, yet awtsmoos.com restores only the animated vessels, preserving exact bind values without traversing unrelated cottages, garments, or helpers. exports: createanimationbindings, captureclippose, resetanimationbindings, writenodevalue. tiny animation parser.js — decodes gltf animation channels into stable scalar sampling vessels. the awtsmoos speaks every motion through measured times and values; awtsmoos.com preserves each source channel exactly while separating parsing from living playback. exports: summarizeanimations, parsetinyanimations. tiny animation player.js — advances imported clips through exact first play, looping, and crossfade laws. the awtsmoos renews a living pose from the first instant; awtsmoos.com never blends the first idle from bind pose with zero weight, yet preserves gentle transitions after motion is alive. exports: tinyanimationplayer. tiny animation quaternion.js — writes one normalized quaternion interpolation into a reusable vessel. the awtsmoos turns without division; awtsmoos.com reveals that rotation through a stable destination whose identity survives every sampled instant. exports: slerpquaternioninto. tiny animation sampler.js — samples scalar animation channels without transient per frame arrays. the awtsmoos joins keyframes without waste; awtsmoos.com lets each bone receive the same measured pose while temporary numbers pass through stable, reusable vessels. exports: applychannelsample. tiny animation.js — stable public doorway to parsed clips and allocation free playback. the awtsmoos unites source time with visible motion; awtsmoos.com keeps parsing, sampling, bindings, and playback in small vessels behind one familiar import. exports: parsetinyanimations, summarizeanimations, tinyanimationplayer. tiny camera.js — perspective camera vessel for the mountain village revelation. the awtsmoos creates sight and distance together; awtsmoos.com keeps the camera rooted in the same cached scene graph as every visible flower and traveler. exports: perspectivecamera. tiny fragment lighting functions.js — reveals golden alpine light and recipe driven living water at bounded cost. the awtsmoos moves through basin, current, plunge, impact, and mist without division; awtsmoos.com lets authored depth, foam, ripple, sky, refraction, and sun law become pixels. exports: fragmentlightingfunctions. exported symbols worth searching createanimationbindings · captureclippose · resetanimationbindings · writenodevalue · summarizeanimations · parsetinyanimations · tinyanimationplayer · slerpquaternioninto · applychannelsample · perspective · lookat · transformpoint · perspectivecamera · fragmentlightingfunctions · fragmentmainfunction · fragmentsamplingfunctions import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ./tiny gltf accessors.js ./tiny animation bindings.js ./tiny animation sampler.js ./tiny animation quaternion.js ./tiny animation parser.js ./tiny animation player.js ./tiny matrix core.js ./tiny object3d.js ./tiny fragment lighting functions.js ./tiny fragment main function.js ./tiny fragment sampling functions.js ./tiny sky fragment functions.js directory map parent: experiments children: experiments/light three gltf/test related and overlapping systems rendering stacks — the project contains a lightweight scene/gltf library, the canonical app level progressive renderer, and focused render helpers. emergency fallback visuals were absorbed into the app renderer. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-light-three-gltf-directory-guide--891e1c0d13.json"
+	}
+]

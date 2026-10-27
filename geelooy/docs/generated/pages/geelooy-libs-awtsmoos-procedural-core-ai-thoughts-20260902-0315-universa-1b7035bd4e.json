@@ -1,0 +1,69 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-1b7035bd4e",
+	"title": "REMAINING WORK",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/.ai-thoughts/20260902_0315-universal-procedural-api/REMAINING_WORK.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "REMAINING WORK",
+			"anchor": "remaining-work"
+		},
+		{
+			"level": 2,
+			"text": "Massive-improvement planning",
+			"anchor": "massive-improvement-planning"
+		},
+		{
+			"level": 2,
+			"text": "Verified architecture already complete",
+			"anchor": "verified-architecture-already-complete"
+		},
+		{
+			"level": 2,
+			"text": "Current source wave — implemented, verification pending",
+			"anchor": "current-source-wave-implemented-verification-pending"
+		},
+		{
+			"level": 2,
+			"text": "Lifecycle/core regression work",
+			"anchor": "lifecycle-core-regression-work"
+		},
+		{
+			"level": 2,
+			"text": "Compiler / constraint / cache hardening",
+			"anchor": "compiler-constraint-cache-hardening"
+		},
+		{
+			"level": 2,
+			"text": "Demo/browser/accessibility/security verification",
+			"anchor": "demo-browser-accessibility-security-verification"
+		},
+		{
+			"level": 2,
+			"text": "Documentation / handoff",
+			"anchor": "documentation-handoff"
+		},
+		{
+			"level": 2,
+			"text": "Security findings",
+			"anchor": "security-findings"
+		},
+		{
+			"level": 2,
+			"text": "Git/release ownership",
+			"anchor": "git-release-ownership"
+		},
+		{
+			"level": 2,
+			"text": "Production / public proof",
+			"anchor": "production-public-proof"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-1b7035bd4e-001.json"
+	]
+}

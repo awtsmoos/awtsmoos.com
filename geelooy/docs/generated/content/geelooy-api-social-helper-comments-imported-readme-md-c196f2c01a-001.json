@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Imported Comments (geelooy/api/social/helper/comments/imported/)\n\nImported external comment corpora (Meluket, Sichos Kodesh) adapted into the social comment system.\n\n## Files\n- `CHASSIDUS_PUBLISH_README.md` — notes on the Chassidus publish flow for imported content.\n- `orchestrator.js`, `registry.js` — orchestrate and register imported corpora.\n- `adapters/` — source adapters: `bundleAdapter`, `corpusAdapter`, `legacyAdapter`, `shardAdapter`.\n- `bundleStore.js`, `cache.js`, `dbPool.js` — storage and caching for imported data.\n- `normalizer.js`, `text.js`, `meluketMap.js`, `postResolver.js` — normalize text and resolve posts to corpus entries.\n- `data/` — the corpora themselves: `meluket/` (manifest + 218 post JSONs) and `sichosKodesh/` (manifest + 283 post JSONs), one JSON file per imported post.\n- `test/` — `federationCore.test.js`.\n\n## What it does\nIngests third-party comment corpora, normalizes and maps them to social posts, and serves them through the same comment-tree reads as native comments.\n"
+}

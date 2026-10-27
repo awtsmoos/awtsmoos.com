@@ -1,0 +1,221 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-08-30-1632-olam-mobile-ux-00-mobile-ux-brainsto-931a031d15",
+		"title": "Mobile UX Brainstorm",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-30-1632-olam-mobile-ux/00-mobile-ux-brainstorm.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Mobile UX Brainstorm",
+				"anchor": "mobile-ux-brainstorm"
+			},
+			{
+				"level": 2,
+				"text": "Observed problems",
+				"anchor": "observed-problems"
+			},
+			{
+				"level": 2,
+				"text": "Candidate improvements",
+				"anchor": "candidate-improvements"
+			}
+		],
+		"excerpt": "Mobile UX Brainstorm Observed problems The fixed Generate overlay collides with the normal flow Estimated Cost card on phone screens. Prompt entry has useful controls but no immediately tappable starter examples. Reference controls state limits but do not teach what each media type contributes to H3. Text mode shows an",
+		"searchText": "mobile ux brainstorm observed problems the fixed generate overlay collides with the normal flow estimated cost card on phone screens. prompt entry has useful controls but no immediately tappable starter examples. reference controls state limits but do not teach what each media type contributes to h3. text mode shows an empty reference tray that consumes a large card without enough instructional value. mobile hierarchy needs stronger separation between composing, guiding, configuring, and submitting. candidate improvements replace fixed generate overlay with one unified submission panel containing readiness, cost, details, and generate. add compact prompt templates for cinematic movement, product shot, character performance, and atmospheric scene. keep paste prominent beside templates and prompt library. add mode aware reference instructions: frame anchors, image identity/style, video motion/camera, audio sound/voice. make text mode reference section compact and instructional instead of showing a large empty tray. preserve reusable library access and current file/url workflows. test 360px and screenshot equivalent phone dimensions for overlap and horizontal overflow.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-30-1632-olam-mobile-ux-00-mobile-ux-brainsto-931a031d15.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-30-1632-olam-mobile-ux-01-mobile-ux-file-pla-ef10fd88ba",
+		"title": "Mobile UX File Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-30-1632-olam-mobile-ux/01-mobile-ux-file-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Mobile UX File Plan",
+				"anchor": "mobile-ux-file-plan"
+			},
+			{
+				"level": 2,
+				"text": "Files to rewrite or add",
+				"anchor": "files-to-rewrite-or-add"
+			},
+			{
+				"level": 2,
+				"text": "Constraints",
+				"anchor": "constraints"
+			}
+		],
+		"excerpt": "Mobile UX File Plan Files to rewrite or add scripts/ui/CreateView.js — compose prompt, references, settings, and unified submission panel without fixed overlay. scripts/ui/CreatePromptView.js — retain prompt field/modes while exposing template entry point. scripts/ui/CreatePromptTemplates.js — new isolated template dat",
+		"searchText": "mobile ux file plan files to rewrite or add scripts/ui/createview.js — compose prompt, references, settings, and unified submission panel without fixed overlay. scripts/ui/createpromptview.js — retain prompt field/modes while exposing template entry point. scripts/ui/createprompttemplates.js — new isolated template data/rendering module. scripts/ui/createassettrayview.js — mode aware reference instructions and compact text mode state. scripts/ui/createreferenceguide.js — new concise teaching module for frames/reference media. styles/sticky.css — convert generate from fixed overlay to normal flow action panel behavior. styles/metrics.css — style unified cost/submission hierarchy. styles/guidance.css — new templates/reference guide styling. index.html — link the new guidance stylesheet. browser smoke test — assert no cost/generate overlap on mobile and template/reference guide behavior. constraints full file rewrites only. tabs only. every file <=120 lines. existing provider readiness and controller submission guard must remain unchanged.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-30-1632-olam-mobile-ux-01-mobile-ux-file-pla-ef10fd88ba.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-30-1632-olam-mobile-ux-02-mobile-ux-final-pl-d8a290b856",
+		"title": "Final Mobile UX Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-30-1632-olam-mobile-ux/02-mobile-ux-final-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Final Mobile UX Plan",
+				"anchor": "final-mobile-ux-plan"
+			},
+			{
+				"level": 2,
+				"text": "Implementation order",
+				"anchor": "implementation-order"
+			},
+			{
+				"level": 2,
+				"text": "Acceptance",
+				"anchor": "acceptance"
+			}
+		],
+		"excerpt": "Final Mobile UX Plan Implementation order 1. Build prompt template module with four copy ready H3 examples and direct Apply buttons. 2. Make template Apply update the existing textarea/draft in place so focus/readiness logic remains stable. 3. Build reference guide module with explicit frame/image/video/audio instructi",
+		"searchText": "final mobile ux plan implementation order 1. build prompt template module with four copy ready h3 examples and direct apply buttons. 2. make template apply update the existing textarea/draft in place so focus/readiness logic remains stable. 3. build reference guide module with explicit frame/image/video/audio instructions. 4. compact text mode reference rendering; expand frame/reference modes only when media is relevant. 5. replace fixed generate dock with a normal flow submission panel combining cost, readiness, details, and generate. 6. add dedicated guidance styles and link them. 7. extend browser smoke to assert submission panel and cost card do not intersect at 360px, templates populate prompt, and reference mode guide text appears. 8. run line/syntax/19 test/browser gates. 9. release through an isolated worktree from current origin/main, fast forward push, exact sha canonical deploy, and public 360px regression. acceptance zero overlap between estimated cost, generate, or bottom nav at 360px. prompt templates usable with one tap and paste remains available. reference instructions explain what media to upload and why. no console/network regressions. original unrelated staged work remains untouched.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-30-1632-olam-mobile-ux-02-mobile-ux-final-pl-d8a290b856.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-30-1632-olam-mobile-ux-03-mobile-ux-verifica-85bd8c9946",
+		"title": "Mobile UX Verification",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-30-1632-olam-mobile-ux/03-mobile-ux-verification.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Mobile UX Verification",
+				"anchor": "mobile-ux-verification"
+			},
+			{
+				"level": 2,
+				"text": "Release",
+				"anchor": "release"
+			},
+			{
+				"level": 2,
+				"text": "Screenshot defect repaired",
+				"anchor": "screenshot-defect-repaired"
+			},
+			{
+				"level": 2,
+				"text": "Added creation guidance",
+				"anchor": "added-creation-guidance"
+			},
+			{
+				"level": 2,
+				"text": "Defects found during verification",
+				"anchor": "defects-found-during-verification"
+			},
+			{
+				"level": 2,
+				"text": "Automated evidence",
+				"anchor": "automated-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Local browser geometry evidence",
+				"anchor": "local-browser-geometry-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Production browser evidence",
+				"anchor": "production-browser-evidence"
+			},
+			{
+				"level": 2,
+				"text": "External boundary",
+				"anchor": "external-boundary"
+			}
+		],
+		"excerpt": "Mobile UX Verification Release Commit: 2fcf49b3cc2d47ae6bcd30ad5acd66da07424ecf. Parent: 3e544cc749ead3093279660cb253c61bd1643f10. Push: normal fast forward to origin/main; no force push. Canonical deployment emitted both CANONICAL SERVER ACTIVE and CANONICAL DEPLOY OK for the mobile UX SHA. Screenshot defect repaired ",
+		"searchText": "mobile ux verification release commit: 2fcf49b3cc2d47ae6bcd30ad5acd66da07424ecf. parent: 3e544cc749ead3093279660cb253c61bd1643f10. push: normal fast forward to origin/main; no force push. canonical deployment emitted both canonical server active and canonical deploy ok for the mobile ux sha. screenshot defect repaired the previous design placed generate in a fixed overlay while estimated cost lived in normal page flow. phone scroll positions could therefore place the action directly over cost/readiness copy. the release replaces that relationship with one normal flow submission panel containing estimated cost, price details, readiness copy, and generate. the panel also has bottom nav scroll clearance using the configured navigation height plus safe area inset. added creation guidance prominent paste prompt action. four one tap prompt starters: cinematic shot, product reveal, character moment, and world building. template application preserves the existing textarea node, focus, and live readiness state. text mode now uses a compact instructional reference section instead of a large empty media tray. frame mode explains first frame, last frame, and coherence guidance. reference mode explains image, video, and audio roles plus a character consistency tip. media add controls remain available only in modes where they are meaningful. defects found during verification 1. compact text mode initially exposed an old binder assumption that a hidden file input always existed. createassetevents was rewritten to bind optional controls only when rendered. 2. cost and generate no longer overlapped, but the full submission panel could still scroll under the fixed bottom nav. explicit scroll margin was added for nav height + safe area. 3. initial guidance css exceeded the 120 line rule and was split into prompt guidance and reference guidance stylesheets instead of compressed. automated evidence every olam file: <=120 lines. javascript syntax: pass. generate fixed position check: pass; generate is not fixed. node suite: 19 passed, 0 failed. local browser geometry evidence at 360x800 the deterministic browser test proved: cinematic template fills the prompt textarea identity and focus are preserved reference guide visibly contains images, video, audio, and character consistency guidance estimated cost bottom is above generate top submission panel bottom is above bottom nav top after scroll no horizontal overflow 768px and 1440px widths also have no horizontal overflow no captured console or failed network errors production browser evidence after canonical deployment, a fresh chrome profile against https://awtsmoos.com printed: pass browser smoke: templates, references guide, no submission overlap, provider gate, responsive followed by: public mobile ux browser pass the public test also fetched the new createprompttemplates.js asset successfully before running. external boundary the separate minimax production credential remains absent. that does not affect this ui repair; the provider ready guard continues to truthfully prevent paid submission until minimax api key exists.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-30-1632-olam-mobile-ux-03-mobile-ux-verifica-85bd8c9946.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-30-1651-olam-premium-polish-00-polish-possib-745a0984d9",
+		"title": "Premium Polish Possibilities",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-30-1651-olam-premium-polish/00-polish-possibilities.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Premium Polish Possibilities",
+				"anchor": "premium-polish-possibilities"
+			},
+			{
+				"level": 2,
+				"text": "Visual opportunities",
+				"anchor": "visual-opportunities"
+			},
+			{
+				"level": 2,
+				"text": "Instruction opportunities",
+				"anchor": "instruction-opportunities"
+			}
+		],
+		"excerpt": "Premium Polish Possibilities Visual opportunities Animated ambient gradient orbs behind the application shell. Glass surfaces with blur, saturation, translucent borders, and layered shadows. Gradient headline treatment and a more luminous brand orb. Subtle lift/glow on interactive cards and templates. Generate button l",
+		"searchText": "premium polish possibilities visual opportunities animated ambient gradient orbs behind the application shell. glass surfaces with blur, saturation, translucent borders, and layered shadows. gradient headline treatment and a more luminous brand orb. subtle lift/glow on interactive cards and templates. generate button light sweep that remains disabled when generation is blocked. richer selected mode and selected nav states. small staggered page/card entrance motion. respect prefers reduced motion for accessibility. instruction opportunities a compact three step create workflow: describe, guide, review/generate. prompt formula showing subject + action + camera + light + atmosphere + audio. minimax setup card with official api key, h3 docs, and balance links. explicit warning that api keys never belong in browser/client code. clear server environment variable name: minimax api key. missing key banner should offer both official key creation and local settings guidance.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-30-1651-olam-premium-polish-00-polish-possib-745a0984d9.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-30-1651-olam-premium-polish-01-polish-files--d6c7f4fa05",
+		"title": "Premium Polish File Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-30-1651-olam-premium-polish/01-polish-files-and-constraints.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Premium Polish File Plan",
+				"anchor": "premium-polish-file-plan"
+			},
+			{
+				"level": 2,
+				"text": "New modules",
+				"anchor": "new-modules"
+			},
+			{
+				"level": 2,
+				"text": "Full-file rewrites",
+				"anchor": "full-file-rewrites"
+			},
+			{
+				"level": 2,
+				"text": "Constraints",
+				"anchor": "constraints"
+			}
+		],
+		"excerpt": "Premium Polish File Plan New modules scripts/config/minimaxLinks.js — official MiniMax account/docs/billing URLs. scripts/ui/CreateQuickGuide.js — three step workflow and prompt formula. styles/glass.css — translucent surfaces, borders, depth, ambient background. styles/motion.css — motion, shimmer, hover/press interac",
+		"searchText": "premium polish file plan new modules scripts/config/minimaxlinks.js — official minimax account/docs/billing urls. scripts/ui/createquickguide.js — three step workflow and prompt formula. styles/glass.css — translucent surfaces, borders, depth, ambient background. styles/motion.css — motion, shimmer, hover/press interaction, reduced motion override. styles/onboarding.css — setup steps, external link buttons, quick guide layout. full file rewrites createpromptview.js — insert quick guide while preserving templates/paste. createconnectionview.js — missing provider cta to official api keys and settings. settingssections.js — complete api setup instructions and official links. index.html — link glass/motion/onboarding styles. browser smoke.cjs — verify links/instructions and that visual effects do not reintroduce overflow/overlap. constraints every file <=120 lines. tabs for indentation. full file writes only. no browser field for an api key. existing provider guard, templates, reference guidance, and mobile geometry remain intact.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-30-1651-olam-premium-polish-01-polish-files--d6c7f4fa05.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-30-1651-olam-premium-polish-02-final-polish--52198e158c",
+		"title": "Final Premium Polish Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-30-1651-olam-premium-polish/02-final-polish-release-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Final Premium Polish Plan",
+				"anchor": "final-premium-polish-plan"
+			},
+			{
+				"level": 2,
+				"text": "Acceptance",
+				"anchor": "acceptance"
+			}
+		],
+		"excerpt": "Final Premium Polish Plan 1. Centralize verified MiniMax links for API Keys, H3 video docs, and billing balance. 2. Add a three step Create guide and prompt formula before the prompt editor. 3. Expand missing key UI with official key link plus Settings setup path. 4. Expand Settings MiniMax card into explicit server se",
+		"searchText": "final premium polish plan 1. centralize verified minimax links for api keys, h3 video docs, and billing balance. 2. add a three step create guide and prompt formula before the prompt editor. 3. expand missing key ui with official key link plus settings setup path. 4. expand settings minimax card into explicit server setup steps and security warning. 5. add ambient animated background, glass cards, gradient text, active glow, and button shimmer. 6. add hover/tap micro interactions and staggered page entrances. 7. disable nonessential motion under prefers reduced motion. 8. re run <=120 line, syntax, and 19 test gates. 9. run fresh 360x800 browser smoke: links, quick guide, provider setup, no overflow, no cost/nav overlap, no console/network errors. 10. release from a clean worktree based on current origin/main; fast forward push only, exact sha canonical deploy, then public browser verification. acceptance studio visibly feels more dimensional and animated without harming readability. official minimax api keys link is discoverable in both create missing key state and settings. settings explains server only key configuration in three concrete steps. browser never accepts, stores, or renders a secret key input. existing mobile geometry and provider safety remain green.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-30-1651-olam-premium-polish-02-final-polish--52198e158c.json"
+	}
+]

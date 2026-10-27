@@ -39,6 +39,11 @@
 	},
 	"outgoingDependencies": [
 		{
+			"project": "geelooy/api/tunnel",
+			"count": 2,
+			"examples": "geelooy/.well-known/_awtsmoos.derech.js"
+		},
+		{
 			"project": "geelooy/api/oauth",
 			"count": 1,
 			"examples": "geelooy/.well-known/_awtsmoos.derech.js"

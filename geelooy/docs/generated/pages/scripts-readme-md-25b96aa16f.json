@@ -1,0 +1,84 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "scripts-readme-md-25b96aa16f",
+	"title": "Scripts — Deploy & Import Clients (Agent Handoff)",
+	"sourcePath": "scripts/README.md",
+	"category": "Operations",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Scripts — Deploy & Import Clients (Agent Handoff)",
+			"anchor": "scripts-deploy-import-clients-agent-handoff"
+		},
+		{
+			"level": 2,
+			"text": "1. Deploy — vmDeploySigned.mjs",
+			"anchor": "1-deploy-vmdeploysigned-mjs"
+		},
+		{
+			"level": 1,
+			"text": "Health / config (unauthenticated):",
+			"anchor": "health-config-unauthenticated"
+		},
+		{
+			"level": 1,
+			"text": "Single file:",
+			"anchor": "single-file"
+		},
+		{
+			"level": 1,
+			"text": "Multiple files:",
+			"anchor": "multiple-files"
+		},
+		{
+			"level": 1,
+			"text": "Everything git shows as changed:",
+			"anchor": "everything-git-shows-as-changed"
+		},
+		{
+			"level": 1,
+			"text": ">50 files: split into ≤50-file chunks:",
+			"anchor": "50-files-split-into-50-file-chunks"
+		},
+		{
+			"level": 1,
+			"text": "Signed service restart (needed after server-side Node changes):",
+			"anchor": "signed-service-restart-needed-after-server-side-node-changes"
+		},
+		{
+			"level": 2,
+			"text": "2. Import — vmImportStaged.mjs",
+			"anchor": "2-import-vmimportstaged-mjs"
+		},
+		{
+			"level": 1,
+			"text": "Full run: stage → chunked upload → import job → poll → byte-exact verify",
+			"anchor": "full-run-stage-chunked-upload-import-job-poll-byte-exact-verify"
+		},
+		{
+			"level": 1,
+			"text": "Resume / verify-only / dry-run",
+			"anchor": "resume-verify-only-dry-run"
+		},
+		{
+			"level": 2,
+			"text": "3. Production shell — hetznerTunnel.mjs",
+			"anchor": "3-production-shell-hetznertunnel-mjs"
+		},
+		{
+			"level": 2,
+			"text": "4. Verify tooling (/workspace/bulk-import-fix/, outside the repo)",
+			"anchor": "4-verify-tooling-workspace-bulk-import-fix-outside-the-repo"
+		},
+		{
+			"level": 2,
+			"text": "5. Common errors",
+			"anchor": "5-common-errors"
+		}
+	],
+	"markdownParts": [
+		"content/scripts-readme-md-25b96aa16f-001.json"
+	]
+}

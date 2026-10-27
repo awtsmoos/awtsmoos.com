@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-social-helper-search-readme-md-08f48e0449",
+	"title": "B\"H — Search (geelooy/api/social/helper/search/)",
+	"sourcePath": "geelooy/api/social/helper/search/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Search (geelooy/api/social/helper/search/)",
+			"anchor": "b-h-search-geelooy-api-social-helper-search"
+		},
+		{
+			"level": 2,
+			"text": "Key files",
+			"anchor": "key-files"
+		},
+		{
+			"level": 2,
+			"text": "Main endpoints (via routes/)",
+			"anchor": "main-endpoints-via-routes"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-social-helper-search-readme-md-08f48e0449-001.json"
+	]
+}

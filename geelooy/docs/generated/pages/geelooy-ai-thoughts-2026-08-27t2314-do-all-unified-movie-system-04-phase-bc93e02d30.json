@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-27t2314-do-all-unified-movie-system-04-phase-bc93e02d30",
+	"title": "Phase Two — Tiferes Improved Plan",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-27T2314-do-all-unified-movie-system/04_PHASE_TWO_TIFERES_IMPROVED_PLAN.md",
+	"category": "Systems",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase Two — Tiferes Improved Plan",
+			"anchor": "phase-two-tiferes-improved-plan"
+		},
+		{
+			"level": 2,
+			"text": "Selected architecture",
+			"anchor": "selected-architecture"
+		},
+		{
+			"level": 2,
+			"text": "Implementation waves",
+			"anchor": "implementation-waves"
+		},
+		{
+			"level": 3,
+			"text": "Wave 1 — Domain truth",
+			"anchor": "wave-1-domain-truth"
+		},
+		{
+			"level": 3,
+			"text": "Wave 2 — Surgical editing and AI",
+			"anchor": "wave-2-surgical-editing-and-ai"
+		},
+		{
+			"level": 3,
+			"text": "Wave 3 — App and asset boundaries",
+			"anchor": "wave-3-app-and-asset-boundaries"
+		},
+		{
+			"level": 3,
+			"text": "Wave 4 — Experience and render contracts",
+			"anchor": "wave-4-experience-and-render-contracts"
+		},
+		{
+			"level": 3,
+			"text": "Wave 5 — Tests and acceptance movie",
+			"anchor": "wave-5-tests-and-acceptance-movie"
+		},
+		{
+			"level": 2,
+			"text": "Safety against impossible scope",
+			"anchor": "safety-against-impossible-scope"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-27t2314-do-all-unified-movie-system-04-phase-bc93e02d30-001.json"
+	]
+}

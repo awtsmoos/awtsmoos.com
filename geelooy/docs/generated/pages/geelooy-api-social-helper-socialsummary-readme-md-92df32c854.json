@@ -1,0 +1,24 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-social-helper-socialsummary-readme-md-92df32c854",
+	"title": "B\"H — Social Summary (geelooy/api/social/helper/socialSummary/)",
+	"sourcePath": "geelooy/api/social/helper/socialSummary/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Social Summary (geelooy/api/social/helper/socialSummary/)",
+			"anchor": "b-h-social-summary-geelooy-api-social-helper-socialsummary"
+		},
+		{
+			"level": 2,
+			"text": "Files",
+			"anchor": "files"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-social-helper-socialsummary-readme-md-92df32c854-001.json"
+	]
+}

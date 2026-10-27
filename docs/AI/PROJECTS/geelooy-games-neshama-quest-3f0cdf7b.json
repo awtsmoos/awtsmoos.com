@@ -9,7 +9,7 @@
 		"id": "games",
 		"title": "Games and Worlds"
 	},
-	"title": "Neshama Quest",
+	"title": "Neshama Quest · Awtsmoos Games",
 	"entries": [
 		"index.html"
 	],
@@ -21,29 +21,32 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-neshama-quest-3f0cdf7b.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 7,
+		"source": 16,
 		"tests": 0,
 		"assets": 0,
 		"generated": 0,
 		"docs": 0,
 		"other": 0
 	},
-	"totalFiles": 7,
+	"totalFiles": 16,
 	"symbolSummary": {
-		"files": 5,
-		"classes": 5,
-		"functions": 4,
+		"files": 13,
+		"classes": 6,
+		"functions": 36,
 		"exports": 0,
 		"samples": [
 			"Entity",
 			"Neshama",
 			"Klipah",
-			"Game",
-			"InputHandler",
-			"generateFullMaze",
-			"createPerfectMaze",
-			"addLoopsToMaze",
-			"addSideTunnels"
+			"revealNeshamaAi",
+			"updateKlipah",
+			"chooseDirection",
+			"availableDirections",
+			"nearestToNeshama",
+			"farthestFromTarget",
+			"revealNeshamaCollisions",
+			"checkCollisions",
+			"checkPowerUpTimer"
 		]
 	},
 	"outgoingDependencies": [],
@@ -53,12 +56,12 @@
 		{
 			"url": "/games/neshama-quest",
 			"file": "geelooy/games/neshama-quest/index.html",
-			"title": "Neshama Quest",
-			"scripts": 5,
-			"styles": 1
+			"title": "Neshama Quest · Awtsmoos Games",
+			"scripts": 16,
+			"styles": 4
 		}
 	],
-	"requiresLocalDocumentation": false,
+	"requiresLocalDocumentation": true,
 	"documentationCovered": false,
 	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
 }

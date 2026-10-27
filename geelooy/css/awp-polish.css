@@ -42,7 +42,7 @@
 	z-index: 2147483000;
 	pointer-events: none;
 	opacity: .05;
-	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+	background-image: url("https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo-image-archive/sha256/cf1b236430b90d41046a8c2f07e57f5e08fdc06d749ed4adb6913a82517e3af4/asset");
 }
 .awp-page::before {
 	content: "";

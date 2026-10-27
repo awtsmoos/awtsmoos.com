@@ -1,0 +1,181 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27t2202-chatgpt-geelooy-studio-unification-0-20cd0e67b5",
+		"title": "Phase Three — Final Exact-File Execution Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27T2202-chatgpt-geelooy-studio-unification/08_PHASE_THREE_FINAL_PLAN.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Three — Final Exact-File Execution Plan",
+				"anchor": "phase-three-final-exact-file-execution-plan"
+			},
+			{
+				"level": 2,
+				"text": "Evidence-driven canonical choices",
+				"anchor": "evidence-driven-canonical-choices"
+			},
+			{
+				"level": 3,
+				"text": "Canonical movie engine",
+				"anchor": "canonical-movie-engine"
+			},
+			{
+				"level": 3,
+				"text": "Canonical procedural movie foundry",
+				"anchor": "canonical-procedural-movie-foundry"
+			},
+			{
+				"level": 3,
+				"text": "Canonical UI target",
+				"anchor": "canonical-ui-target"
+			},
+			{
+				"level": 3,
+				"text": "Flagship",
+				"anchor": "flagship"
+			},
+			{
+				"level": 2,
+				"text": "Exact first-pass files to CREATE",
+				"anchor": "exact-first-pass-files-to-create"
+			},
+			{
+				"level": 3,
+				"text": "Shared safe reactive UI",
+				"anchor": "shared-safe-reactive-ui"
+			},
+			{
+				"level": 3,
+				"text": "Movie/procedural convergence",
+				"anchor": "movie-procedural-convergence"
+			},
+			{
+				"level": 3,
+				"text": "Flagship movie execution",
+				"anchor": "flagship-movie-execution"
+			},
+			{
+				"level": 2,
+				"text": "Exact first-pass files to FULL-REWRITE only after immediate reread + hash capture",
+				"anchor": "exact-first-pass-files-to-full-rewrite-only-after-immediate-reread-hash-capture"
+			},
+			{
+				"level": 2,
+				"text": "True 3D plan before claiming completion",
+				"anchor": "true-3d-plan-before-claiming-completion"
+			},
+			{
+				"level": 2,
+				"text": "Real three-minute proof plan",
+				"anchor": "real-three-minute-proof-plan"
+			},
+			{
+				"level": 2,
+				"text": "Export plan",
+				"anchor": "export-plan"
+			},
+			{
+				"level": 2,
+				"text": "First source-pass ordering",
+				"anchor": "first-source-pass-ordering"
+			},
+			{
+				"level": 2,
+				"text": "Verification pass after source writing",
+				"anchor": "verification-pass-after-source-writing"
+			},
+			{
+				"level": 2,
+				"text": "Completion law",
+				"anchor": "completion-law"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Three — Final Exact File Execution Plan The Awtsmoos renews each frame from nothing, yet truth must cross every seam; Awtsmoos.com now has enough vessels — this final pass connects them into one working cinematic stream. Evidence driven canonical choices Canonical movie engine Use ",
+		"searchText": "b\"h boruch hashem blessed is he phase three — final exact file execution plan the awtsmoos renews each frame from nothing, yet truth must cross every seam; awtsmoos.com now has enough vessels — this final pass connects them into one working cinematic stream. evidence driven canonical choices canonical movie engine use libs/awtsmoos movie core as the canonical semantic/timeline/render contract because current real app adapters already import its public api. do not create a third movie schema. preserve apps/shared/movie as a compatibility/ai/example surface until every consumer is intentionally migrated. canonical procedural movie foundry use libs/awtsmoos procedural core/src/core/movieassets/ as the shared movie asset intent/provenance layer. do not duplicate its seeded recipes. canonical ui target use lowercase libs/awtsmoos ui as the long term safe json/dom ui library because it already has tag, url, style, command, component, and responsive policies. bring the useful reactive state behavior from capitalized libs/awtsmoosui into new lowercase modules rather than weakening the safe renderer. keep capitalized library as compatibility until consumers migrate. flagship keep apps/awtsmoos studio as the flagship. its current layout is mobile oriented but its stage is fake css geometry and its play button has no clock. build execution beneath it with new runtime modules so concurrent panel work is not erased. exact first pass files to create shared safe reactive ui 1. libs/awtsmoos ui/src/state/awtsmoosuistore.js immutable ish cloned state get, set, update, replace, subscribe small and framework neutral 2. libs/awtsmoos ui/src/state/awtsmoosuistatevalue.js explicit read only state descriptors for json ui recipes path resolution without executable source strings 3. libs/awtsmoos ui/src/core/awtsmoosuireactiverenderer.js wraps safe awtsmoosuidomrenderer re renders after store notifications supports recipe factories receiving state but does not expose raw dom events to arbitrary json movie/procedural convergence 4. libs/awtsmoos movie core/assets/proceduralmovieassetprovider.js imports the procedural core movieassets public layer normalizes canonical movie asset intents into seeded generated descriptors/receipts caches by deterministic recipe key never duplicates generator logic 5. libs/awtsmoos movie core/compat/sharedmoviev1adapter.js converts the apps/shared/movie protocol into awtsmoos movie core canonical documents preserves unsupported/shared metadata in extensions lets old ai/runtime consumers feed the canonical engine without destructive deletion flagship movie execution 6. apps/awtsmoos studio/src/runtime/studioplaybackclock.js requestanimationframe clock canonical play/pause/seek clamps at exact movie duration stops/reset semantics 7. apps/awtsmoos studio/src/runtime/studiocanvaspreview.js finds current .studio stage creates/recreates a real canvas after reactive ui replacement binds canvasmovierenderer renders exact store playhead no fake css people/orbs required for correctness 8. apps/awtsmoos studio/src/runtime/studiomovieruntime.js owns clock + preview + validator/provider bridges subscribes after ui renderer so stage repaint follows every dom rerender swaps movies safely exposes deterministic renderat 9. apps/awtsmoos studio/src/runtime/studioexportprovider.js capability based provider boundary first preference: verified existing animator browser/webcodecs export path when its contract can accept a canonical frame source fallback: explicit unsupported result, never fake json export 10. apps/awtsmoos studio/src/runtime/studiofeaturereport.js inventories required proof features from canonical movie data duration/scenes/modes/entity families/cameras/particles/people/infographics/tutorials used by status and tests exact first pass files to full rewrite only after immediate reread + hash capture 11. libs/awtsmoos ui/src/index.js export new store/state/reactive renderer modules retain every current export 12. libs/awtsmoos movie core/index.js export procedural provider + shared v1 compatibility adapter retain every current export 13. apps/awtsmoos studio/src/studiomoviebridge.js load canonical core through public index, not one private defaults file validate/normalize movie expose renderer/procedural/export capabilities 14. apps/awtsmoos studio/src/studiostate.js canonical status/capability/feature report fields keep json draft and 180 second default 15. apps/awtsmoos studio/src/studioactions.js actions delegate playback/seek/movie replacement to runtime json load validates before swap reset swaps canonical proof movie 16. apps/awtsmoos studio/src/awtsmoosstudioapp.js instantiate ui/store/actions/runtime in correct order runtime begins after mount capability refresh + initial real frame render no layout file is planned for first pass modification because parallel agents are actively splitting/testing those exact files. runtime will attach to the existing .studio stage hook. true 3d plan before claiming completion the existing canvas renderer's mesh path is pseudo depth and therefore cannot satisfy true 3d by itself. before implementation completion: inspect animator's current showcase renderer and procedural core public three/webgl exports; choose the smallest existing true 3d render host that can render canonical/procedural assets; add it as a new adapter/runtime module , not a new engine; composite 2d canvas overlays over the true 3d surface; if another live agent has already landed the adapter, consume it instead. candidate exact path only after readback, not yet authorized for source write: apps/awtsmoos studio/src/runtime/studiothreepreview.js real three minute proof plan prefer the most advanced existing 180 second fixture after re read. current flagship fixture is 12×15s = exactly 180s but has placeholder style scene entities. if animator's concurrent unifiedshowcasecanonicalmovie is richer and canonical, make that the flagship proof through a new import/fixture adapter instead of duplicating twelve more scene files. proof must visibly exercise: true 3d scene(s) 2d shapes/text/tutorial overlays reusable people/characters particles charts/infographics camera changes/angles keyframed animation/easing transitions/cuts patches/panels/arrows multiple scene compositions exact 180 second timeline export plan do not write an encoder from scratch. read and bind the simplest proven animator export route. existing evidence shows webcodecs exporters, muxers, browser frame source infrastructure, and prior real export result artifacts. build a canonical frame source adapter only if required. a successful export claim requires: produced video file exists non zero size container/codec probe or ffprobe where available duration approximately 180 seconds within mux/clock tolerance representative frames verified from beginning/middle/end first source pass ordering 1. safe lowercase ui reactive modules. 2. movie core compatibility/procedural bridges. 3. flagship runtime clock/canvas/render integration. 4. immediate live re scan for true 3d adapter landed by peers. 5. true 3d adapter if still missing. 6. export frame source/provider adapter. 7. proof movie binding. 8. only then begin tests. verification pass after source writing full reread of every touched file source line counts and tab indentation audit node check / module import smoke shared ui tests movie core validation/timeline tests flagship exact 180s feature inventory browser load on desktop and narrow mobile viewport play/pause/seek and scene boundary checks confirm .studio stage contains a real canvas whose pixels change across timestamps confirm true 3d host exists and renders geometry/camera changes console error triage real export attempt + artifact inspection existing app adapter smoke tests for animator/nesher/video editor/mitzvah completion law if real 3d or encoded export is still only a placeholder, this mission remains incomplete. the final report may name a hard platform capability boundary only after the existing verified exporter paths have actually been attempted.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27t2202-chatgpt-geelooy-studio-unification-0-20cd0e67b5.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27t2202-chatgpt-geelooy-studio-unification-0-6dce51d60e",
+		"title": "Evidence Ledger Before Source Writing",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27T2202-chatgpt-geelooy-studio-unification/09_EVIDENCE_LEDGER.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Evidence Ledger Before Source Writing",
+				"anchor": "evidence-ledger-before-source-writing"
+			},
+			{
+				"level": 2,
+				"text": "Direct observations",
+				"anchor": "direct-observations"
+			},
+			{
+				"level": 3,
+				"text": "Repository and concurrency",
+				"anchor": "repository-and-concurrency"
+			},
+			{
+				"level": 3,
+				"text": "Existing movie-capable applications",
+				"anchor": "existing-movie-capable-applications"
+			},
+			{
+				"level": 3,
+				"text": "Canonical dependency direction",
+				"anchor": "canonical-dependency-direction"
+			},
+			{
+				"level": 3,
+				"text": "Canonical movie core observed behavior",
+				"anchor": "canonical-movie-core-observed-behavior"
+			},
+			{
+				"level": 3,
+				"text": "Procedural Core movie foundry",
+				"anchor": "procedural-core-movie-foundry"
+			},
+			{
+				"level": 3,
+				"text": "UI systems",
+				"anchor": "ui-systems"
+			},
+			{
+				"level": 3,
+				"text": "Flagship runtime gap",
+				"anchor": "flagship-runtime-gap"
+			},
+			{
+				"level": 3,
+				"text": "Proof movie fixture",
+				"anchor": "proof-movie-fixture"
+			},
+			{
+				"level": 3,
+				"text": "Export capability",
+				"anchor": "export-capability"
+			},
+			{
+				"level": 2,
+				"text": "Inferences kept separate from evidence",
+				"anchor": "inferences-kept-separate-from-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Known risks before writes",
+				"anchor": "known-risks-before-writes"
+			},
+			{
+				"level": 2,
+				"text": "Mutation policy for this pass",
+				"anchor": "mutation-policy-for-this-pass"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Evidence Ledger Before Source Writing The Awtsmoos renews every fact, so memory must bow before what disk and runtime show; Awtsmoos.com moves by witnessed paths and working receipts, not by confidence alone. Direct observations Repository and concurrency Repository inspected through the",
+		"searchText": "b\"h boruch hashem blessed is he evidence ledger before source writing the awtsmoos renews every fact, so memory must bow before what disk and runtime show; awtsmoos.com moves by witnessed paths and working receipts, not by confidence alone. direct observations repository and concurrency repository inspected through the live native mac tunnel at work/awtsmoos.com/geelooy. git working tree contains extensive unrelated and parallel uncommitted work. multiple live agents are modifying movie/studio/core paths; destructive reset/stash/revert is forbidden. apps/awtsmoos studio was absent at first inspection and appeared during this session from a parallel agent. libs/awtsmoos ui, libs/awtsmoos movie core, apps/shared/movie, and procedural core movieassets also landed/evolved during this session. existing movie capable applications observed distinct specialist apps include: apps/animator apps/nesher studio apps/video editor apps/mitzvah studio apps/captions/video apps/awtsmoos studio canonical dependency direction observed current adapter imports prove libs/awtsmoos movie core is already consumed by: nesher movie adapter video editor movie adapter animator unified movie adapter flagship bridge/proof code in several paths other current adapters still consume apps/shared/movie; therefore it cannot be removed safely in this pass. canonical movie core observed behavior libs/awtsmoos movie core currently provides: canonical movie defaults/version/modes feature catalog validation easing/interpolation/keyframe evaluation active scene and exact time evaluation ai intent normalization/compilation personality registry canvas movie/entity/particle rendering movietimelineevaluator uses half open scene intervals and returns the final scene at the exact movie duration. canvasmovierenderer genuinely paints canonical evaluated frames into a canvas and uses the same timeline evaluator for seek/play/export oriented frame evaluation. canvasentityrenderer.js is currently 145 lines, above the user's desired source file ceiling. it also draws mesh as pseudo depth and character as a stick like 2d figure; these cannot be described as true 3d or rich procedural people. procedural core movie foundry libs/awtsmoos procedural core/src/core/movieassets/ currently provides: renderer neutral recipes deterministic semantic seed/random particle generation character rig descriptors infographic marks tutorial steps geometry/mesh descriptors generation provenance receipts the broader procedural core already contains much richer geometry, human, animation, material, camera, vegetation, building, particle, physics, and webgl/webgpu systems. the movie foundry should bridge into those public capabilities over time rather than reimplement them. ui systems capitalized libs/awtsmoosui currently provides: reactive cloned store named action registry json like node factory conditions/repeaters/state reads dom renderer lowercase libs/awtsmoos ui currently provides stronger safety and reusable studio primitives: safe tag validation url/attribute/style policies safe dom and html renderers command registry component registry studio shell/toolbar/panel/tabs/card primitives mobile first responsive tokens current flagship imports only the capitalized ui. therefore the repo currently has duplicated ui responsibilities. flagship runtime gap observed apps/awtsmoos studio currently has: mobile oriented panels and timeline strip json editor 12 scene / 180 second showcase data play/pause/seek controls capability bridge but current play toggles state without an actual playback clock, and current stage contains css orb/person placeholders rather than a bound movie renderer. proof movie fixture current flagship showcase test verifies: exact 180 second duration 12 scenes 2d/3d/hybrid mode labels required entity/layer categories cameras particles two characters this is contract evidence only, not proof of actual true 3d pixels or encoded video. export capability observed existing real export infrastructure includes: animator webcodecsmovieexporter, animatormovieexportengine, ebml/webm muxer, browser worker/export controller, production frame sources, headless webcodecs render runners, ffmpeg packaging tools, prior export result artifacts. nesher studio webcodecs renderer, h264/aac, mp4/webm container support, export pipeline/queue/presets, browser export plans. therefore writing another encoder would be unjustified. the missing work is a canonical frame source/provider bridge plus actual invocation/verification. inferences kept separate from evidence libs/awtsmoos movie core should become the canonical movie contract because current import direction already points there. this is architectural inference supported by observed consumers, not a formal repository policy document. lowercase libs/awtsmoos ui should become canonical because its safety and studio primitives are stronger; current capitalized ui remains necessary for compatibility until migrated. a true 3d flagship adapter should reuse animator/procedural core rather than canvas pseudo mesh. exact host remains to be selected from fresh source inspection after the first safe runtime modules land. known risks before writes parallel agent may modify any contested flagship/layout/shared entry file between read and write. existing duplicate animator movie adapters could diverge further. existing shared/movie and library core protocols have different document shapes. capital/lowercase ui naming can cause case sensitive deployment bugs. canvasentityrenderer.js violates current line count policy and needs splitting if touched. real export may depend on browser webcodecs availability and/or local ffmpeg; capability must be probed, not assumed. mutation policy for this pass prefer entirely new files first. immediately reread and hash every existing file immediately before a full rewrite. never partial patch source. never rewrite another agent's dirty layout file merely for convenience. after first source pass, reread all touched files and write a new delta artifact before fixes/tests.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27t2202-chatgpt-geelooy-studio-unification-0-6dce51d60e.json"
+	}
+]

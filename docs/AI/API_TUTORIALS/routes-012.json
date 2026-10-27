@@ -2,6 +2,474 @@
 	"BH": "B\"H",
 	"routes": [
 		{
+			"id": "api-tunnel-control-treasury-forecast-22667450d7",
+			"route": "/api/tunnel/control/treasury/forecast",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-treasury-forecast-22667450d7.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-treasury-forecast-22667450d7.md"
+		},
+		{
+			"id": "api-tunnel-control-treasury-graph-9b57e2028a",
+			"route": "/api/tunnel/control/treasury/graph",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-treasury-graph-9b57e2028a.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-treasury-graph-9b57e2028a.md"
+		},
+		{
+			"id": "api-tunnel-control-treasury-home-8289714128",
+			"route": "/api/tunnel/control/treasury/home",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-treasury-home-8289714128.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-treasury-home-8289714128.md"
+		},
+		{
+			"id": "api-tunnel-control-treasury-marketplace-84bf5bf122",
+			"route": "/api/tunnel/control/treasury/marketplace",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-treasury-marketplace-84bf5bf122.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-treasury-marketplace-84bf5bf122.md"
+		},
+		{
+			"id": "api-tunnel-control-treasury-providers-fb2bc159cf",
+			"route": "/api/tunnel/control/treasury/providers",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-treasury-providers-fb2bc159cf.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-treasury-providers-fb2bc159cf.md"
+		},
+		{
+			"id": "api-tunnel-control-treasury-reputation-9e3b6cdcac",
+			"route": "/api/tunnel/control/treasury/reputation",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-treasury-reputation-9e3b6cdcac.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-treasury-reputation-9e3b6cdcac.md"
+		},
+		{
+			"id": "api-tunnel-control-tunnels-access-2083ce96ea",
+			"route": "/api/tunnel/control/tunnels/access",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-tunnels-access-2083ce96ea.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-tunnels-access-2083ce96ea.md"
+		},
+		{
+			"id": "api-tunnel-control-tunnels-devices-revoke-e59afd1834",
+			"route": "/api/tunnel/control/tunnels/devices/revoke",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-tunnels-devices-revoke-e59afd1834.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-tunnels-devices-revoke-e59afd1834.md"
+		},
+		{
+			"id": "api-tunnel-control-tunnels-grants-create-717555beac",
+			"route": "/api/tunnel/control/tunnels/grants/create",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-tunnels-grants-create-717555beac.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-tunnels-grants-create-717555beac.md"
+		},
+		{
+			"id": "api-tunnel-control-tunnels-grants-revoke-3e2b676743",
+			"route": "/api/tunnel/control/tunnels/grants/revoke",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-tunnels-grants-revoke-3e2b676743.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-tunnels-grants-revoke-3e2b676743.md"
+		},
+		{
+			"id": "api-tunnel-control-usage-c5ce956ee8",
+			"route": "/api/tunnel/control/usage",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-usage-c5ce956ee8.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-usage-c5ce956ee8.md"
+		},
+		{
+			"id": "api-tunnel-control-view-previewid-1b7633d943",
+			"route": "/api/tunnel/control/view/:previewId",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-view-previewid-1b7633d943.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-view-previewid-1b7633d943.md"
+		},
+		{
+			"id": "api-tunnel-control-view-previewid-proxy-995aea3db1",
+			"route": "/api/tunnel/control/view/:previewId/proxy",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-view-previewid-proxy-995aea3db1.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-view-previewid-proxy-995aea3db1.md"
+		},
+		{
+			"id": "api-tunnel-control-view-previewid-raw-0e6f4f3539",
+			"route": "/api/tunnel/control/view/:previewId/raw",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-view-previewid-raw-0e6f4f3539.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-view-previewid-raw-0e6f4f3539.md"
+		},
+		{
+			"id": "api-tunnel-control-view-previewid-ws-4eda571118",
+			"route": "/api/tunnel/control/view/:previewId/ws",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-view-previewid-ws-4eda571118.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-view-previewid-ws-4eda571118.md"
+		},
+		{
+			"id": "api-tunnel-control-write-large-tunnelname-3b260caf81",
+			"route": "/api/tunnel/control/write-large/:tunnelName",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-write-large-tunnelname-3b260caf81.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-write-large-tunnelname-3b260caf81.md"
+		},
+		{
+			"id": "api-tunnel-fs-tunnelname-48e2aaea39",
+			"route": "/api/tunnel/fs/:tunnelName",
+			"family": "/api/tunnel",
+			"source": "geelooy/api/tunnel/_awtsmoos.derech.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL.md",
+			"record": "ROUTES/api-tunnel-fs-tunnelname-48e2aaea39.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-fs-tunnelname-48e2aaea39.md"
+		},
+		{
+			"id": "api-tunnel-hetzner-exec-267e52e243",
+			"route": "/api/tunnel/hetzner/exec",
+			"family": "/api/tunnel",
+			"source": "geelooy/api/tunnel/hetzner/opsRoutes.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL.md",
+			"record": "ROUTES/api-tunnel-hetzner-exec-267e52e243.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-hetzner-exec-267e52e243.md"
+		},
+		{
+			"id": "api-tunnel-hetzner-health-d92bb398ee",
+			"route": "/api/tunnel/hetzner/health",
+			"family": "/api/tunnel",
+			"source": "geelooy/api/tunnel/hetzner/opsRoutes.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL.md",
+			"record": "ROUTES/api-tunnel-hetzner-health-d92bb398ee.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-hetzner-health-d92bb398ee.md"
+		},
+		{
+			"id": "api-tunnel-hetzner-readlog-d12187a4e3",
+			"route": "/api/tunnel/hetzner/readlog",
+			"family": "/api/tunnel",
+			"source": "geelooy/api/tunnel/hetzner/opsRoutes.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL.md",
+			"record": "ROUTES/api-tunnel-hetzner-readlog-d12187a4e3.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-hetzner-readlog-d12187a4e3.md"
+		},
+		{
+			"id": "api-tunnel-request-tunnelname-4e57b0d0cc",
+			"route": "/api/tunnel/request/:tunnelName",
+			"family": "/api/tunnel",
+			"source": "geelooy/api/tunnel/_awtsmoos.derech.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL.md",
+			"record": "ROUTES/api-tunnel-request-tunnelname-4e57b0d0cc.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-request-tunnelname-4e57b0d0cc.md"
+		},
+		{
+			"id": "api-wallet-balance-59097f364b",
+			"route": "/api/wallet/balance",
+			"family": "/api/wallet",
+			"source": "geelooy/api/wallet/routes/table.js",
+			"manual": "docs/TUTORIALS/API/WALLET.md",
+			"record": "ROUTES/api-wallet-balance-59097f364b.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-balance-59097f364b.md"
+		},
+		{
+			"id": "api-wallet-buy-mock-45ef52f2b5",
+			"route": "/api/wallet/buy/mock",
+			"family": "/api/wallet",
+			"source": "geelooy/api/wallet/routes/table.js",
+			"manual": "docs/TUTORIALS/API/WALLET.md",
+			"record": "ROUTES/api-wallet-buy-mock-45ef52f2b5.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-buy-mock-45ef52f2b5.md"
+		},
+		{
+			"id": "api-wallet-commerce-actions-8e2f72034a",
+			"route": "/api/wallet/commerce/actions",
+			"family": "/api/wallet",
+			"source": "geelooy/api/wallet/routes/table.js",
+			"manual": "docs/TUTORIALS/API/WALLET.md",
+			"record": "ROUTES/api-wallet-commerce-actions-8e2f72034a.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-commerce-actions-8e2f72034a.md"
+		},
+		{
+			"id": "api-wallet-commerce-actions-execute-1b212726d5",
+			"route": "/api/wallet/commerce/actions/execute",
+			"family": "/api/wallet",
+			"source": "geelooy/api/wallet/routes/table.js",
+			"manual": "docs/TUTORIALS/API/WALLET.md",
+			"record": "ROUTES/api-wallet-commerce-actions-execute-1b212726d5.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-commerce-actions-execute-1b212726d5.md"
+		},
+		{
+			"id": "api-wallet-commerce-catalog-f9d5b627eb",
+			"route": "/api/wallet/commerce/catalog",
+			"family": "/api/wallet",
+			"source": "geelooy/api/wallet/routes/table.js",
+			"manual": "docs/TUTORIALS/API/WALLET.md",
+			"record": "ROUTES/api-wallet-commerce-catalog-f9d5b627eb.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-commerce-catalog-f9d5b627eb.md"
+		},
+		{
+			"id": "api-wallet-commerce-credits-commit-514993bf32",
+			"route": "/api/wallet/commerce/credits/commit",
+			"family": "/api/wallet",
+			"source": "geelooy/api/wallet/routes/table.js",
+			"manual": "docs/TUTORIALS/API/WALLET.md",
+			"record": "ROUTES/api-wallet-commerce-credits-commit-514993bf32.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-commerce-credits-commit-514993bf32.md"
+		},
+		{
+			"id": "api-wallet-commerce-credits-consume-6e724abb1d",
+			"route": "/api/wallet/commerce/credits/consume",
+			"family": "/api/wallet",
+			"source": "geelooy/api/wallet/routes/table.js",
+			"manual": "docs/TUTORIALS/API/WALLET.md",
+			"record": "ROUTES/api-wallet-commerce-credits-consume-6e724abb1d.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-commerce-credits-consume-6e724abb1d.md"
+		},
+		{
+			"id": "api-wallet-commerce-credits-release-01fbab351a",
+			"route": "/api/wallet/commerce/credits/release",
+			"family": "/api/wallet",
+			"source": "geelooy/api/wallet/routes/table.js",
+			"manual": "docs/TUTORIALS/API/WALLET.md",
+			"record": "ROUTES/api-wallet-commerce-credits-release-01fbab351a.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-commerce-credits-release-01fbab351a.md"
+		},
+		{
+			"id": "api-wallet-commerce-credits-reserve-5161959097",
+			"route": "/api/wallet/commerce/credits/reserve",
+			"family": "/api/wallet",
+			"source": "geelooy/api/wallet/routes/table.js",
+			"manual": "docs/TUTORIALS/API/WALLET.md",
+			"record": "ROUTES/api-wallet-commerce-credits-reserve-5161959097.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-commerce-credits-reserve-5161959097.md"
+		},
+		{
+			"id": "api-wallet-commerce-digital-good-4bc77554c1",
+			"route": "/api/wallet/commerce/digital-good",
+			"family": "/api/wallet",
+			"source": "geelooy/api/wallet/routes/table.js",
+			"manual": "docs/TUTORIALS/API/WALLET.md",
+			"record": "ROUTES/api-wallet-commerce-digital-good-4bc77554c1.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-commerce-digital-good-4bc77554c1.md"
+		},
+		{
+			"id": "api-wallet-commerce-entitlements-31c234acf1",
+			"route": "/api/wallet/commerce/entitlements",
+			"family": "/api/wallet",
+			"source": "geelooy/api/wallet/routes/table.js",
+			"manual": "docs/TUTORIALS/API/WALLET.md",
+			"record": "ROUTES/api-wallet-commerce-entitlements-31c234acf1.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-commerce-entitlements-31c234acf1.md"
+		},
+		{
+			"id": "api-wallet-commerce-products-b037f2b7a5",
+			"route": "/api/wallet/commerce/products",
+			"family": "/api/wallet",
+			"source": "geelooy/api/wallet/routes/table.js",
+			"manual": "docs/TUTORIALS/API/WALLET.md",
+			"record": "ROUTES/api-wallet-commerce-products-b037f2b7a5.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-commerce-products-b037f2b7a5.md"
+		},
+		{
+			"id": "api-wallet-commerce-purchase-762f54f3a2",
+			"route": "/api/wallet/commerce/purchase",
+			"family": "/api/wallet",
+			"source": "geelooy/api/wallet/routes/table.js",
+			"manual": "docs/TUTORIALS/API/WALLET.md",
+			"record": "ROUTES/api-wallet-commerce-purchase-762f54f3a2.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-commerce-purchase-762f54f3a2.md"
+		},
+		{
+			"id": "api-wallet-commerce-reconciliation-health-501ef1b5b9",
+			"route": "/api/wallet/commerce/reconciliation/health",
+			"family": "/api/wallet",
+			"source": "geelooy/api/wallet/routes/table.js",
+			"manual": "docs/TUTORIALS/API/WALLET.md",
+			"record": "ROUTES/api-wallet-commerce-reconciliation-health-501ef1b5b9.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-commerce-reconciliation-health-501ef1b5b9.md"
+		},
+		{
+			"id": "api-wallet-currency-8de1c94e4f",
+			"route": "/api/wallet/currency",
+			"family": "/api/wallet",
+			"source": "geelooy/api/wallet/routes/table.js",
+			"manual": "docs/TUTORIALS/API/WALLET.md",
+			"record": "ROUTES/api-wallet-currency-8de1c94e4f.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-currency-8de1c94e4f.md"
+		},
+		{
+			"id": "api-wallet-game-rewards-claim-abc370c4e1",
+			"route": "/api/wallet/game-rewards/claim",
+			"family": "/api/wallet",
+			"source": "geelooy/api/wallet/routes/table.js",
+			"manual": "docs/TUTORIALS/API/WALLET.md",
+			"record": "ROUTES/api-wallet-game-rewards-claim-abc370c4e1.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-game-rewards-claim-abc370c4e1.md"
+		},
+		{
+			"id": "api-wallet-marketplace-36e8a8a8dc",
+			"route": "/api/wallet/marketplace",
+			"family": "/api/wallet",
+			"source": "geelooy/api/wallet/routes/table.js",
+			"manual": "docs/TUTORIALS/API/WALLET.md",
+			"record": "ROUTES/api-wallet-marketplace-36e8a8a8dc.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-marketplace-36e8a8a8dc.md"
+		},
+		{
+			"id": "api-wallet-marketplace-action-92bf1736c6",
+			"route": "/api/wallet/marketplace/action",
+			"family": "/api/wallet",
+			"source": "geelooy/api/wallet/routes/table.js",
+			"manual": "docs/TUTORIALS/API/WALLET.md",
+			"record": "ROUTES/api-wallet-marketplace-action-92bf1736c6.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-marketplace-action-92bf1736c6.md"
+		},
+		{
+			"id": "api-wallet-me-c462e10539",
+			"route": "/api/wallet/me",
+			"family": "/api/wallet",
+			"source": "geelooy/api/wallet/routes/table.js",
+			"manual": "docs/TUTORIALS/API/WALLET.md",
+			"record": "ROUTES/api-wallet-me-c462e10539.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-me-c462e10539.md"
+		},
+		{
+			"id": "api-wallet-organizations-5d3968176e",
+			"route": "/api/wallet/organizations",
+			"family": "/api/wallet",
+			"source": "geelooy/api/wallet/routes/table.js",
+			"manual": "docs/TUTORIALS/API/WALLET.md",
+			"record": "ROUTES/api-wallet-organizations-5d3968176e.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-organizations-5d3968176e.md"
+		},
+		{
+			"id": "api-wallet-organizations-action-61e9565e7b",
+			"route": "/api/wallet/organizations/action",
+			"family": "/api/wallet",
+			"source": "geelooy/api/wallet/routes/table.js",
+			"manual": "docs/TUTORIALS/API/WALLET.md",
+			"record": "ROUTES/api-wallet-organizations-action-61e9565e7b.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-organizations-action-61e9565e7b.md"
+		},
+		{
+			"id": "api-wallet-paypal-capture-df2c3232c6",
+			"route": "/api/wallet/paypal/capture",
+			"family": "/api/wallet",
+			"source": "geelooy/api/wallet/routes/table.js",
+			"manual": "docs/TUTORIALS/API/WALLET.md",
+			"record": "ROUTES/api-wallet-paypal-capture-df2c3232c6.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-paypal-capture-df2c3232c6.md"
+		},
+		{
+			"id": "api-wallet-paypal-create-b8a88e1af7",
+			"route": "/api/wallet/paypal/create",
+			"family": "/api/wallet",
+			"source": "geelooy/api/wallet/routes/table.js",
+			"manual": "docs/TUTORIALS/API/WALLET.md",
+			"record": "ROUTES/api-wallet-paypal-create-b8a88e1af7.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-paypal-create-b8a88e1af7.md"
+		},
+		{
+			"id": "api-wallet-resource-quote-a5128cd438",
+			"route": "/api/wallet/resource/quote",
+			"family": "/api/wallet",
+			"source": "geelooy/api/wallet/routes/table.js",
+			"manual": "docs/TUTORIALS/API/WALLET.md",
+			"record": "ROUTES/api-wallet-resource-quote-a5128cd438.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-resource-quote-a5128cd438.md"
+		},
+		{
+			"id": "api-wallet-transfer-79a871c4e0",
+			"route": "/api/wallet/transfer",
+			"family": "/api/wallet",
+			"source": "geelooy/api/wallet/routes/table.js",
+			"manual": "docs/TUTORIALS/API/WALLET.md",
+			"record": "ROUTES/api-wallet-transfer-79a871c4e0.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-transfer-79a871c4e0.md"
+		},
+		{
+			"id": "api-what-are-you-doing-69dd47f2a2",
+			"route": "/api/what/:are/you/:doing",
+			"family": "/api",
+			"source": "geelooy/api/core/LegacyApiDemoRoutes.js",
+			"manual": "docs/TUTORIALS/API/ROOT_API.md",
+			"record": "ROUTES/api-what-are-you-doing-69dd47f2a2.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-what-are-you-doing-69dd47f2a2.md"
+		},
+		{
+			"id": "api-wow-asd-asd-rt-k-3f3c814eb3",
+			"route": "/api/wow/:asd/asd/:rt/k",
+			"family": "/api",
+			"source": "geelooy/api/core/LegacyApiDemoRoutes.js",
+			"manual": "docs/TUTORIALS/API/ROOT_API.md",
+			"record": "ROUTES/api-wow-asd-asd-rt-k-3f3c814eb3.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wow-asd-asd-rt-k-3f3c814eb3.md"
+		},
+		{
+			"id": "api-youtube-44e720e9a3",
+			"route": "/api/youtube",
+			"family": "/api/youtube",
+			"source": "geelooy/api/youtube/routes/table.js",
+			"manual": "docs/TUTORIALS/API/YOUTUBE.md",
+			"record": "ROUTES/api-youtube-44e720e9a3.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-44e720e9a3.md"
+		},
+		{
+			"id": "api-youtube-a-8c1cdc043d",
+			"route": "/api/youtube/:a",
+			"family": "/api/youtube",
+			"source": "geelooy/api/youtube/_awtsmoos.derech.js",
+			"manual": "docs/TUTORIALS/API/YOUTUBE.md",
+			"record": "ROUTES/api-youtube-a-8c1cdc043d.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-a-8c1cdc043d.md"
+		},
+		{
+			"id": "api-youtube-a-b-0f1bfdc710",
+			"route": "/api/youtube/:a/:b",
+			"family": "/api/youtube",
+			"source": "geelooy/api/youtube/_awtsmoos.derech.js",
+			"manual": "docs/TUTORIALS/API/YOUTUBE.md",
+			"record": "ROUTES/api-youtube-a-b-0f1bfdc710.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-a-b-0f1bfdc710.md"
+		},
+		{
+			"id": "api-youtube-a-b-c-02c6f58285",
+			"route": "/api/youtube/:a/:b/:c",
+			"family": "/api/youtube",
+			"source": "geelooy/api/youtube/_awtsmoos.derech.js",
+			"manual": "docs/TUTORIALS/API/YOUTUBE.md",
+			"record": "ROUTES/api-youtube-a-b-c-02c6f58285.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-a-b-c-02c6f58285.md"
+		},
+		{
 			"id": "api-youtube-auth-callback-9c2556106d",
 			"route": "/api/youtube/auth/callback",
 			"family": "/api/youtube",
@@ -27,240 +495,6 @@
 			"manual": "docs/TUTORIALS/API/YOUTUBE.md",
 			"record": "ROUTES/api-youtube-auth-start-c2f5a58fbd.json",
 			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-auth-start-c2f5a58fbd.md"
-		},
-		{
-			"id": "api-youtube-auth-status-10475f963f",
-			"route": "/api/youtube/auth/status",
-			"family": "/api/youtube",
-			"source": "geelooy/api/youtube/routes/table.js",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md",
-			"record": "ROUTES/api-youtube-auth-status-10475f963f.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-auth-status-10475f963f.md"
-		},
-		{
-			"id": "api-youtube-channel-8bfe604f4c",
-			"route": "/api/youtube/channel",
-			"family": "/api/youtube",
-			"source": "geelooy/api/youtube/routes/table.js",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md",
-			"record": "ROUTES/api-youtube-channel-8bfe604f4c.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-channel-8bfe604f4c.md"
-		},
-		{
-			"id": "api-youtube-channel-mine-662381827e",
-			"route": "/api/youtube/channel/mine",
-			"family": "/api/youtube",
-			"source": "geelooy/api/youtube/routes/table.js",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md",
-			"record": "ROUTES/api-youtube-channel-mine-662381827e.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-channel-mine-662381827e.md"
-		},
-		{
-			"id": "api-youtube-live-3810f27141",
-			"route": "/api/youtube/live",
-			"family": "/api/youtube",
-			"source": "geelooy/api/youtube/routes/table.js",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md",
-			"record": "ROUTES/api-youtube-live-3810f27141.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-live-3810f27141.md"
-		},
-		{
-			"id": "api-youtube-live-create-ed8850fb7e",
-			"route": "/api/youtube/live/create",
-			"family": "/api/youtube",
-			"source": "geelooy/api/youtube/routes/table.js",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md",
-			"record": "ROUTES/api-youtube-live-create-ed8850fb7e.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-live-create-ed8850fb7e.md"
-		},
-		{
-			"id": "api-youtube-live-list-ead6bdc367",
-			"route": "/api/youtube/live/list",
-			"family": "/api/youtube",
-			"source": "geelooy/api/youtube/routes/table.js",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md",
-			"record": "ROUTES/api-youtube-live-list-ead6bdc367.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-live-list-ead6bdc367.md"
-		},
-		{
-			"id": "api-youtube-live-transition-ae1a4cbf7f",
-			"route": "/api/youtube/live/transition",
-			"family": "/api/youtube",
-			"source": "geelooy/api/youtube/routes/table.js",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md",
-			"record": "ROUTES/api-youtube-live-transition-ae1a4cbf7f.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-live-transition-ae1a4cbf7f.md"
-		},
-		{
-			"id": "api-youtube-oauth-callback-77ef36bff2",
-			"route": "/api/youtube/oauth/callback",
-			"family": "/api/youtube",
-			"source": "geelooy/api/youtube/routes/table.js",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md",
-			"record": "ROUTES/api-youtube-oauth-callback-77ef36bff2.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-oauth-callback-77ef36bff2.md"
-		},
-		{
-			"id": "api-youtube-oauth-logout-b12d002f1f",
-			"route": "/api/youtube/oauth/logout",
-			"family": "/api/youtube",
-			"source": "geelooy/api/youtube/routes/table.js",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md",
-			"record": "ROUTES/api-youtube-oauth-logout-b12d002f1f.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-oauth-logout-b12d002f1f.md"
-		},
-		{
-			"id": "api-youtube-oauth-start-0855498762",
-			"route": "/api/youtube/oauth/start",
-			"family": "/api/youtube",
-			"source": "geelooy/api/youtube/routes/table.js",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md",
-			"record": "ROUTES/api-youtube-oauth-start-0855498762.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-oauth-start-0855498762.md"
-		},
-		{
-			"id": "api-youtube-oauth-status-529fa78f69",
-			"route": "/api/youtube/oauth/status",
-			"family": "/api/youtube",
-			"source": "geelooy/api/youtube/routes/table.js",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md",
-			"record": "ROUTES/api-youtube-oauth-status-529fa78f69.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-oauth-status-529fa78f69.md"
-		},
-		{
-			"id": "api-youtube-uploads-start-9d5f4138cd",
-			"route": "/api/youtube/uploads/start",
-			"family": "/api/youtube",
-			"source": "geelooy/api/youtube/routes/table.js",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md",
-			"record": "ROUTES/api-youtube-uploads-start-9d5f4138cd.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-uploads-start-9d5f4138cd.md"
-		},
-		{
-			"id": "api-youtube-videos-53702b8520",
-			"route": "/api/youtube/videos",
-			"family": "/api/youtube",
-			"source": "geelooy/api/youtube/routes/table.js",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md",
-			"record": "ROUTES/api-youtube-videos-53702b8520.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-videos-53702b8520.md"
-		},
-		{
-			"id": "api-youtube-videos-list-0c5f0e2ea2",
-			"route": "/api/youtube/videos/list",
-			"family": "/api/youtube",
-			"source": "geelooy/api/youtube/routes/table.js",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md",
-			"record": "ROUTES/api-youtube-videos-list-0c5f0e2ea2.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-videos-list-0c5f0e2ea2.md"
-		},
-		{
-			"id": "api-youtube-videos-update-d8820be806",
-			"route": "/api/youtube/videos/update",
-			"family": "/api/youtube",
-			"source": "geelooy/api/youtube/routes/table.js",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md",
-			"record": "ROUTES/api-youtube-videos-update-d8820be806.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-videos-update-d8820be806.md"
-		},
-		{
-			"id": "api-zmanim-86d9bd4874",
-			"route": "/api/zmanim",
-			"family": "/api/zmanim",
-			"source": "geelooy/api/zmanim/_awtsmoos.derech.js",
-			"manual": "docs/API/README.md",
-			"record": "ROUTES/api-zmanim-86d9bd4874.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-zmanim-86d9bd4874.md"
-		},
-		{
-			"id": "api-zmanim-compare-c5bb565fcb",
-			"route": "/api/zmanim/compare",
-			"family": "/api/zmanim",
-			"source": "geelooy/api/zmanim/_awtsmoos.derech.js",
-			"manual": "docs/API/README.md",
-			"record": "ROUTES/api-zmanim-compare-c5bb565fcb.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-zmanim-compare-c5bb565fcb.md"
-		},
-		{
-			"id": "api-zmanim-day-6b37237ce4",
-			"route": "/api/zmanim/day",
-			"family": "/api/zmanim",
-			"source": "geelooy/api/zmanim/_awtsmoos.derech.js",
-			"manual": "docs/API/README.md",
-			"record": "ROUTES/api-zmanim-day-6b37237ce4.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-zmanim-day-6b37237ce4.md"
-		},
-		{
-			"id": "api-zmanim-embed-7a9e392500",
-			"route": "/api/zmanim/embed",
-			"family": "/api/zmanim",
-			"source": "geelooy/api/zmanim/_awtsmoos.derech.js",
-			"manual": "docs/API/README.md",
-			"record": "ROUTES/api-zmanim-embed-7a9e392500.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-zmanim-embed-7a9e392500.md"
-		},
-		{
-			"id": "api-zmanim-health-3637c50b08",
-			"route": "/api/zmanim/health",
-			"family": "/api/zmanim",
-			"source": "geelooy/api/zmanim/_awtsmoos.derech.js",
-			"manual": "docs/API/README.md",
-			"record": "ROUTES/api-zmanim-health-3637c50b08.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-zmanim-health-3637c50b08.md"
-		},
-		{
-			"id": "api-zmanim-location-d9b647041e",
-			"route": "/api/zmanim/location",
-			"family": "/api/zmanim",
-			"source": "geelooy/api/zmanim/_awtsmoos.derech.js",
-			"manual": "docs/API/README.md",
-			"record": "ROUTES/api-zmanim-location-d9b647041e.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-zmanim-location-d9b647041e.md"
-		},
-		{
-			"id": "api-zmanim-methodology-2cd7bce9af",
-			"route": "/api/zmanim/methodology",
-			"family": "/api/zmanim",
-			"source": "geelooy/api/zmanim/_awtsmoos.derech.js",
-			"manual": "docs/API/README.md",
-			"record": "ROUTES/api-zmanim-methodology-2cd7bce9af.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-zmanim-methodology-2cd7bce9af.md"
-		},
-		{
-			"id": "api-zmanim-opinions-c99cc9fdf7",
-			"route": "/api/zmanim/opinions",
-			"family": "/api/zmanim",
-			"source": "geelooy/api/zmanim/_awtsmoos.derech.js",
-			"manual": "docs/API/README.md",
-			"record": "ROUTES/api-zmanim-opinions-c99cc9fdf7.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-zmanim-opinions-c99cc9fdf7.md"
-		},
-		{
-			"id": "api-zmanim-options-4bf5e888df",
-			"route": "/api/zmanim/options",
-			"family": "/api/zmanim",
-			"source": "geelooy/api/zmanim/_awtsmoos.derech.js",
-			"manual": "docs/API/README.md",
-			"record": "ROUTES/api-zmanim-options-4bf5e888df.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-zmanim-options-4bf5e888df.md"
-		},
-		{
-			"id": "api-zmanim-range-d21fa63b21",
-			"route": "/api/zmanim/range",
-			"family": "/api/zmanim",
-			"source": "geelooy/api/zmanim/_awtsmoos.derech.js",
-			"manual": "docs/API/README.md",
-			"record": "ROUTES/api-zmanim-range-d21fa63b21.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-zmanim-range-d21fa63b21.md"
-		},
-		{
-			"id": "api-zmanim-usno-1a12361c10",
-			"route": "/api/zmanim/usno",
-			"family": "/api/zmanim",
-			"source": "geelooy/api/zmanim/_awtsmoos.derech.js",
-			"manual": "docs/API/README.md",
-			"record": "ROUTES/api-zmanim-usno-1a12361c10.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-zmanim-usno-1a12361c10.md"
 		}
 	]
 }

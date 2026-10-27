@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-master-execution-plan-07-assets-materials-pub-6857fb5750",
+	"title": "07 — Assets, Materials, Semantic Catalog, Publication",
+	"sourcePath": "geelooy/games/mitzvahWorld/MASTER_EXECUTION_PLAN/07_ASSETS_MATERIALS_PUBLICATION.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "07 — Assets, Materials, Semantic Catalog, Publication",
+			"anchor": "07-assets-materials-semantic-catalog-publication"
+		},
+		{
+			"level": 2,
+			"text": "Current local asset context to verify",
+			"anchor": "current-local-asset-context-to-verify"
+		},
+		{
+			"level": 2,
+			"text": "Asset authority",
+			"anchor": "asset-authority"
+		},
+		{
+			"level": 2,
+			"text": "Semantic discovery",
+			"anchor": "semantic-discovery"
+		},
+		{
+			"level": 2,
+			"text": "Material synthesis over duplication",
+			"anchor": "material-synthesis-over-duplication"
+		},
+		{
+			"level": 2,
+			"text": "Tree/botany asset specifics",
+			"anchor": "tree-botany-asset-specifics"
+		},
+		{
+			"level": 2,
+			"text": "Publication workflow",
+			"anchor": "publication-workflow"
+		},
+		{
+			"level": 2,
+			"text": "CDN / reliability",
+			"anchor": "cdn-reliability"
+		},
+		{
+			"level": 2,
+			"text": "Security / licensing",
+			"anchor": "security-licensing"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-master-execution-plan-07-assets-materials-pub-6857fb5750-001.json"
+	]
+}

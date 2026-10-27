@@ -55,7 +55,9 @@
   "afterHumanMs": 0,
   "afterHuman": {
     "message": "\n\nYou are White. White to move.",
-    "canvasData": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAXIAAAFyCAYAAADoJFEJAAAQAElEQVR4Ae"
+    "canvasCaptured": true,
+    "canvasCaptureMime": "image/png",
+    "canvasCaptureWasTruncated": true
   },
   "aiWaitMs": 247.40656000000013,
   "afterAi": {

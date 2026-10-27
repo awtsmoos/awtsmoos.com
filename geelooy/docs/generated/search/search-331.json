@@ -1,0 +1,191 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27-2150-geelooy-movie-unification-00-mission-7570ae3d52",
+		"title": "Mission — Unified Movie Revelation",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27-2150-geelooy-movie-unification/00-mission.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Mission — Unified Movie Revelation",
+				"anchor": "mission-unified-movie-revelation"
+			},
+			{
+				"level": 2,
+				"text": "User Outcome",
+				"anchor": "user-outcome"
+			},
+			{
+				"level": 2,
+				"text": "Non-negotiable gates",
+				"anchor": "non-negotiable-gates"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Mission — Unified Movie Revelation The Awtsmoos renews the frame, each instant born anew; Awtsmoos.com shall shape the scene, yet every renderer stays true. User Outcome Unify every movie making app under work/awtsmoos.com/geelooy without erasing their distinct 2D/3D personalities. Make ",
+		"searchText": "b\"h boruch hashem blessed is he mission — unified movie revelation the awtsmoos renews the frame, each instant born anew; awtsmoos.com shall shape the scene, yet every renderer stays true. user outcome unify every movie making app under work/awtsmoos.com/geelooy without erasing their distinct 2d/3d personalities. make the authoring contract expressive enough that an ai can produce complete movies: characters, cameras, scenes, text, shapes, diagrams, tutorials, particles, transitions, motion, and layered effects. make the ux mobile first. produce and verify a real 3 minute showcase. non negotiable gates inspect actual movie capable apps before design changes. preserve distinct app routes and renderer identities. establish one shared declarative scene/movie contract where appropriate. support 2d and 3d through adapters/renderers, not duplicate authoring languages. make scene construction data driven and ai generatable. provide deterministic timing and scene sequencing. exercise many feature families in a long showcase. verify syntax/build/runtime plus browser behavior. re read all touched files and compare planned vs actual.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27-2150-geelooy-movie-unification-00-mission-7570ae3d52.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27-2150-geelooy-movie-unification-01-unbound-56105fceaf",
+		"title": "Pass One — Chessed Brainstorm",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27-2150-geelooy-movie-unification/01-unbounded-brainstorm.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Pass One — Chessed Brainstorm",
+				"anchor": "pass-one-chessed-brainstorm"
+			},
+			{
+				"level": 2,
+				"text": "Ideal creative vocabulary",
+				"anchor": "ideal-creative-vocabulary"
+			},
+			{
+				"level": 2,
+				"text": "Five competing architectures",
+				"anchor": "five-competing-architectures"
+			},
+			{
+				"level": 2,
+				"text": "Preferred hypothesis before inspection",
+				"anchor": "preferred-hypothesis-before-inspection"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Pass One — Chessed Brainstorm From nothing comes the frame, from frame the worlds may climb; The Awtsmoos gives each vessel form, while motion flowers through time. Ideal creative vocabulary Movie acts scenes shots layers actors/primitives. 2D: vector shapes, paths, sprites, text, charts",
+		"searchText": "b\"h boruch hashem blessed is he pass one — chessed brainstorm from nothing comes the frame, from frame the worlds may climb; the awtsmoos gives each vessel form, while motion flowers through time. ideal creative vocabulary movie acts scenes shots layers actors/primitives. 2d: vector shapes, paths, sprites, text, charts, callouts, masks, gradients, particles. 3d: meshes, lights, cameras, stages, instancing, particles, labels, spatial diagrams. character rigs with poses, expressions, entrances, exits, dialogue/captions. cameras with cuts, pans, dolly, orbit, crane, zoom, focus targets, shake. keyframes plus higher level actions: enter, exit, pulse, draw, type, count, morph, follow. tutorials/infographics: arrows, braces, labels, timelines, bar/pie/line plots, comparison cards. scene transitions: cut, fade, wipe, iris, slide, blur, flash. audio ready timeline metadata even if sound export is a separate concern. deterministic seeded particles and procedural motion. ai schema with explicit defaults, validation, and bounded enumerations. device safe responsive stage framing and mobile control surfaces. json import/export so ai can emit movies without imperative dom/webgl code. shared playback controls, scrubber, scene navigator, diagnostics, feature inspector. long form scene generator that proves duration and feature breadth. renderer capability registry so 2d/3d can share concepts yet advertise differences. graceful fallback when a renderer lacks an effect. five competing architectures a. one giant renderer with mode switches. simple entry point, high coupling; reject unless reality forces it. b. shared schema + renderer adapters. strong ai contract, distinct 2d/3d implementations; preferred. c. shared imperative timeline core + per app helper apis. flexible, but ai generation is harder. d. ast/compiler pipeline producing renderer specific instructions. powerful, more machinery. e. event sourced movie graph interpreted by plugins. extensible, potentially excessive today. preferred hypothesis before inspection architecture b, optionally borrowing a small compiler normalization stage from d.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27-2150-geelooy-movie-unification-01-unbound-56105fceaf.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27-2150-geelooy-movie-unification-02-theoret-d69fe5e2df",
+		"title": "Pass One — Theoretical File Map",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27-2150-geelooy-movie-unification/02-theoretical-file-map.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Pass One — Theoretical File Map",
+				"anchor": "pass-one-theoretical-file-map"
+			},
+			{
+				"level": 2,
+				"text": "Likely responsibilities, not yet asserted paths",
+				"anchor": "likely-responsibilities-not-yet-asserted-paths"
+			},
+			{
+				"level": 2,
+				"text": "Rule",
+				"anchor": "rule"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Pass One — Theoretical File Map The Awtsmoos conceals the path until the vessels are revealed; No guessed filename shall be changed before the tree itself is unsealed. Likely responsibilities, not yet asserted paths Shared movie schema/types/defaults. Shared timeline evaluator. Shared ea",
+		"searchText": "b\"h boruch hashem blessed is he pass one — theoretical file map the awtsmoos conceals the path until the vessels are revealed; no guessed filename shall be changed before the tree itself is unsealed. likely responsibilities, not yet asserted paths shared movie schema/types/defaults. shared timeline evaluator. shared easing/interpolation. shared action/keyframe normalizer. shared feature/capability registry. shared sample movie data. 2d renderer adapter and 2d primitive factories. 3d renderer adapter and 3d primitive factories. mobile first transport/editor controls. app specific entry modules that preserve route identity. validation/tests for schema, timing, renderer interpretation, mobile layout. showcase movie data split by acts/scenes to keep files small. rule this is a responsibility map only. actual file paths will be selected only after repository inspection, import tracing, route tracing, and runtime evidence.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27-2150-geelooy-movie-unification-02-theoret-d69fe5e2df.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27-2150-geelooy-movie-unification-03-critiqu-e1ca1ef492",
+		"title": "Pass Two — Gevurah Critique: 20 Required Improvements",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27-2150-geelooy-movie-unification/03-critique-20-improvements.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Pass Two — Gevurah Critique: 20 Required Improvements",
+				"anchor": "pass-two-gevurah-critique-20-required-improvements"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Pass Two — Gevurah Critique: 20 Required Improvements The Awtsmoos is boundless light; Gevurah makes the vessel clear; A plan becomes a working world when every hidden edge draws near. 1. Discover every movie capable route, not only obvious filenames. 2. Search movie, film, animation, ti",
+		"searchText": "b\"h boruch hashem blessed is he pass two — gevurah critique: 20 required improvements the awtsmoos is boundless light; gevurah makes the vessel clear; a plan becomes a working world when every hidden edge draws near. 1. discover every movie capable route, not only obvious filenames. 2. search movie, film, animation, timeline, canvas, svg, webgl, three.js. 3. trace imports/call sites before rewriting shared modules. 4. identify existing json/data formats and preserve compatibility where useful. 5. separate authoring schema from rendering engine state. 6. normalize all timing into seconds with deterministic duration rules. 7. define stable ids for scenes, actors, tracks, and effects. 8. add capability negotiation for renderer specific features. 9. make unsupported features diagnosable rather than silently ignored. 10. model text as first class animation content. 11. model infographic/chart primitives as first class content. 12. model characters separately from generic shapes/meshes. 13. model camera choreography separately from object animation. 14. provide procedural/particle primitives with seeds. 15. avoid huge hardcoded showcase files by splitting acts/scenes. 16. make controls thumb friendly and responsive first, desktop enhanced second. 17. ensure stage aspect ratio adaptation does not distort authored coordinates. 18. verify long movie duration programmatically and in playback state. 19. browser test both 2d and 3d routes at narrow and wide viewports. 20. re read all touched files and run a full planned vs actual delta review.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27-2150-geelooy-movie-unification-03-critiqu-e1ca1ef492.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27-2150-geelooy-movie-unification-04-improve-c9f93a387e",
+		"title": "Pass Two — Improved Execution Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27-2150-geelooy-movie-unification/04-improved-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Pass Two — Improved Execution Plan",
+				"anchor": "pass-two-improved-execution-plan"
+			},
+			{
+				"level": 2,
+				"text": "Discovery",
+				"anchor": "discovery"
+			},
+			{
+				"level": 2,
+				"text": "Architecture",
+				"anchor": "architecture"
+			},
+			{
+				"level": 2,
+				"text": "Product",
+				"anchor": "product"
+			},
+			{
+				"level": 2,
+				"text": "Verification",
+				"anchor": "verification"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Pass Two — Improved Execution Plan Frames rise and fade, yet truth in evidence must stay; The Awtsmoos renews the code, and verification lights the way. Discovery 1. Map apps/ and neighboring creator routes. 2. Search source for movie/animation engines and rendering libraries. 3. Read ap",
+		"searchText": "b\"h boruch hashem blessed is he pass two — improved execution plan frames rise and fade, yet truth in evidence must stay; the awtsmoos renews the code, and verification lights the way. discovery 1. map apps/ and neighboring creator routes. 2. search source for movie/animation engines and rendering libraries. 3. read app entries, shared modules, tests, and package metadata in bounded groups. 4. trace affected routes and runtime dependencies. architecture 5. select smallest shared contract that fits discovered engines. 6. preserve renderer specific 2d/3d personality behind explicit adapters. 7. introduce ai friendly normalized movie data and capability metadata. 8. make timeline/actions/cameras/characters/text/shapes/particles composable. product 9. refine mobile first stage, transport, scene navigation, and creation controls. 10. create a 180 second showcase with many scenes and camera angles. 11. include shapes, particles, characters, animated text, infographic/tutorial sequences. verification 12. syntax/type/lint/build tests that exist in the project. 13. focused movie schema/timeline tests. 14. browser runtime smoke tests for each app. 15. narrow viewport interaction checks. 16. verify duration and feature coverage from actual loaded movie data. 17. read back every touched file and resolve delta.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27-2150-geelooy-movie-unification-04-improve-c9f93a387e.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27-2150-geelooy-movie-unification-05-final-c-0a5e43c454",
+		"title": "Pass Three — Thirty Final Checks",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27-2150-geelooy-movie-unification/05-final-critique-30-improvements.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Pass Three — Thirty Final Checks",
+				"anchor": "pass-three-thirty-final-checks"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Pass Three — Thirty Final Checks The Awtsmoos is One beyond the split of two and three; Yet separate render vessels sing one authored melody. 1. Keep authoring API serializable. 2. Avoid functions inside movie data. 3. Define schema version. 4. Define duration precedence. 5. Validate emp",
+		"searchText": "b\"h boruch hashem blessed is he pass three — thirty final checks the awtsmoos is one beyond the split of two and three; yet separate render vessels sing one authored melody. 1. keep authoring api serializable. 2. avoid functions inside movie data. 3. define schema version. 4. define duration precedence. 5. validate empty movies. 6. validate missing scene ids. 7. validate duplicate ids. 8. clamp invalid times. 9. permit scene local coordinate systems. 10. permit normalized responsive coordinates. 11. make easing names explicit. 12. support simultaneous tracks. 13. support nested groups. 14. support z/layer order. 15. support opacity and transform baseline. 16. support text typing/counting/reveal. 17. support chart/data driven primitives. 18. support speech/caption metadata. 19. support particle lifecycle. 20. support camera shot presets. 21. support manual camera keyframes. 22. keep 2d fallback for spatial concepts where sensible. 23. keep 3d labels/overlays readable on mobile. 24. expose play/pause/scrub/restart. 25. expose current scene and time. 26. make touch targets large enough. 27. avoid horizontal control overflow. 28. test resize/orientation. 29. surface runtime errors visibly for debugging. 30. ensure the showcase itself functions as a regression specimen.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27-2150-geelooy-movie-unification-05-final-c-0a5e43c454.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27-2150-geelooy-movie-unification-06-final-p-dfe91b8561",
+		"title": "Final Pre-Implementation Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27-2150-geelooy-movie-unification/06-final-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Final Pre-Implementation Plan",
+				"anchor": "final-pre-implementation-plan"
+			},
+			{
+				"level": 2,
+				"text": "Files to touch",
+				"anchor": "files-to-touch"
+			},
+			{
+				"level": 2,
+				"text": "Actual change strategy",
+				"anchor": "actual-change-strategy"
+			},
+			{
+				"level": 2,
+				"text": "Completion evidence",
+				"anchor": "completion-evidence"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Final Pre Implementation Plan The Awtsmoos creates the instant; the code must show what truly ran; Awtsmoos.com receives no phantom claim—only proof may close the plan. Files to touch Unknown until discovery. No application file will be selected by guess. The final implementation set wil",
+		"searchText": "b\"h boruch hashem blessed is he final pre implementation plan the awtsmoos creates the instant; the code must show what truly ran; awtsmoos.com receives no phantom claim—only proof may close the plan. files to touch unknown until discovery. no application file will be selected by guess. the final implementation set will be written into evidence.md after import/route tracing. actual change strategy full file rewrites only for any modified human authored source file. split touched oversized responsibilities into focused submodules. tabs for indentation in touched source. begin every created/touched human source with b\"h / boruch hashem / blessed is he and a concise rhyming awtsmoos module poem where compatible with the file format. favor data driven composition and small renderer classes/adapters. do not edit generated bundles, lockfiles, secrets, or unrelated code. completion evidence discovered movie apps enumerated. shared architecture implemented. distinct 2d/3d routes still operate. 180 second movie specimen exists and loads. feature inventory proves diverse shapes, particles, characters, text, scenes, camera actions. mobile viewport verified. existing tests/build plus focused tests pass. browser console reviewed. planned vs actual delta empty for required scope.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27-2150-geelooy-movie-unification-06-final-p-dfe91b8561.json"
+	}
+]

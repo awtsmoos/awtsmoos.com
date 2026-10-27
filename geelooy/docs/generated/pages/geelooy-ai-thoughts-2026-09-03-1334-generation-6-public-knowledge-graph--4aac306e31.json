@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-03-1334-generation-6-public-knowledge-graph--4aac306e31",
+	"title": "Generation 6 — Runtime DB Root Discovery",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-03-1334-generation-6-public-knowledge-graph/03-runtime-db-root-discovery.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Generation 6 — Runtime DB Root Discovery",
+			"anchor": "generation-6-runtime-db-root-discovery"
+		},
+		{
+			"level": 2,
+			"text": "Discovery",
+			"anchor": "discovery"
+		},
+		{
+			"level": 2,
+			"text": "Proof",
+			"anchor": "proof"
+		},
+		{
+			"level": 2,
+			"text": "Architectural lesson",
+			"anchor": "architectural-lesson"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-03-1334-generation-6-public-knowledge-graph--4aac306e31-001.json"
+	]
+}

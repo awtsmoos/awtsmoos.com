@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Imported Comment Data (geelooy/api/social/helper/comments/imported/data/)\n\nRaw imported comment corpora, one directory per corpus.\n\n## Contents\n- `meluket/` — Meluket corpus: `manifest.json` + `posts/` (218 post JSON files, one per post).\n- `sichosKodesh/` — Sichos Kodesh corpus: `manifest.json` + `posts/` (283 post JSON files, one per post).\n\nThe manifests index the post files; `../meluketMap.js` and `../postResolver.js` map social posts to these corpus entries.\n"
+}

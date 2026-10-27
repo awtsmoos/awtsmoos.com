@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-design-os-archive-teach-readme-md-4277a68dc1",
+	"title": "Design Archive + Teaching System",
+	"sourcePath": "geelooy/apps/tunnel/design-os/archive-teach/README.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Design Archive + Teaching System",
+			"anchor": "design-archive-teaching-system"
+		},
+		{
+			"level": 2,
+			"text": "The Archive",
+			"anchor": "the-archive"
+		},
+		{
+			"level": 2,
+			"text": "The Explainer",
+			"anchor": "the-explainer"
+		},
+		{
+			"level": 2,
+			"text": "Teacher mode",
+			"anchor": "teacher-mode"
+		},
+		{
+			"level": 2,
+			"text": "Tests",
+			"anchor": "tests"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-design-os-archive-teach-readme-md-4277a68dc1-001.json"
+	]
+}

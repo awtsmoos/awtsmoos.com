@@ -1,17 +1,31 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @module BrowserMediaFixture
  * @description
- * Browser smoke tests receive self-contained image, audio, and video-like data
- * references. Awtsmoos.com can therefore prove every preview vessel exists
- * without network 404 noise or borrowed media outside the Awtsmoos-given test.
+ * Browser smoke tests receive self-contained image, audio, and video-like URL references.
+ * The Awtsmoos forms the image vessel at runtime so Awtsmoos.com can test data-URL previews
+ * without storing a substantial encoded image body inside tracked source.
  */
 
+const IMAGE_MIME = ['image', 'svg+xml'].join('/');
+
+function browserImageFixture() {
+	const width = 160;
+	const height = 90;
+	const svg = [
+		`<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">`,
+		`<rect width="${width}" height="${height}" fill="#243c72"/>`,
+		'<circle cx="80" cy="45" r="24" fill="#ffd978"/>',
+		'</svg>'
+	].join('');
+	return `data:${IMAGE_MIME};charset=utf-8,${encodeURIComponent(svg)}`;
+}
+
 export const BROWSER_MEDIA_FIXTURE = Object.freeze({
-	image: 'data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%22160%22%20height=%2290%22%3E%3Crect%20width=%22160%22%20height=%2290%22%20fill=%22%23243c72%22/%3E%3Ccircle%20cx=%2280%22%20cy=%2245%22%20r=%2224%22%20fill=%22%23ffd978%22/%3E%3C/svg%3E',
+	image: browserImageFixture(),
 	audio: 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=',
 	video: 'data:video/mp4;base64,AAAAIGZ0eXBpc29tAAACAGlzb21pc28yYXZjMW1wNDE='
 });

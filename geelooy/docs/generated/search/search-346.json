@@ -1,0 +1,111 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27t2202-chatgpt-geelooy-studio-unification-0-21f2b2a4c2",
+		"title": "Phase Three — Tiferes Critique: 36 Additional Improvements",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27T2202-chatgpt-geelooy-studio-unification/06_PHASE_THREE_CRITIQUE_30_PLUS.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Three — Tiferes Critique: 36 Additional Improvements",
+				"anchor": "phase-three-tiferes-critique-36-additional-improvements"
+			},
+			{
+				"level": 2,
+				"text": "New revelations and improvements",
+				"anchor": "new-revelations-and-improvements"
+			},
+			{
+				"level": 2,
+				"text": "Why these changed the plan",
+				"anchor": "why-these-changed-the-plan"
+			},
+			{
+				"level": 2,
+				"text": "Final risk matrix",
+				"anchor": "final-risk-matrix"
+			},
+			{
+				"level": 3,
+				"text": "Highest risks",
+				"anchor": "highest-risks"
+			},
+			{
+				"level": 3,
+				"text": "Controls",
+				"anchor": "controls"
+			},
+			{
+				"level": 2,
+				"text": "Final pre-source gate",
+				"anchor": "final-pre-source-gate"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Three — Tiferes Critique: 36 Additional Improvements The Awtsmoos joins Chessed and Gevurah, making harmony from force and frame; Awtsmoos.com should reveal one cinematic truth where evidence, UX, and architecture answer the same Name. This third pass challenges both prior plans. T",
+		"searchText": "b\"h boruch hashem blessed is he phase three — tiferes critique: 36 additional improvements the awtsmoos joins chessed and gevurah, making harmony from force and frame; awtsmoos.com should reveal one cinematic truth where evidence, ux, and architecture answer the same name. this third pass challenges both prior plans. the goal is not more abstraction; it is fewer wrong seams, stronger integration, and better proof. new revelations and improvements 1. movie capability discovery must be executable. the ai should query a catalog object at runtime, not rely on docs that can drift. 2. capability versions need explicit identity. store schema/catalog version so saved movies can be migrated rather than silently misread. 3. validation must distinguish errors from warnings. unsupported optional visual hints should not block playback; broken references and invalid timing must. 4. normalization should preserve unknown extension namespaces. future app specific metadata can survive round trips without core understanding it. 5. ids need deterministic uniqueness rules. duplicate scene/layer/asset/actor ids must be rejected early. 6. references must be validated across the whole document. actor, asset, parent group, camera target, and transition references cannot be checked only locally. 7. timeline boundaries need an explicit convention. use half open intervals [start,end) except the final movie endpoint to avoid double active scenes. 8. transition overlap semantics need one owner. either transitions shorten scene exclusive spans or overlap them; the compiler must define this deterministically. 9. keyframes need out of range policy. reject or clamp scene local keyframes rather than letting adapters improvise. 10. easing names need a central registry. ai receives supported names and can fall back predictably. 11. transforms need canonical units. 2d and 3d cannot share ambiguous position without coordinate space metadata. 12. aspect ratio behavior must be explicit. nodes need fit/anchor/safe area semantics for mobile, landscape, and export sizes. 13. text must define wrapping and alignment. otherwise proof scenes differ unpredictably by renderer. 14. fonts need graceful fallback. ai movie specs should name semantic font roles or families with deterministic fallback, not assume unavailable files. 15. charts need semantic data separate from labels/styles. this makes them portable and accessible. 16. tutorial nodes should expose narration/reading order. the same semantics can support captions and future accessibility. 17. particle counts need quality scaling. mobile preview and export can choose different density profiles while preserving seeded behavior. 18. procedural assets need generation lifecycle. resolve/cache before the exact frame where possible to prevent playback stalls. 19. asset readiness must surface in ui. preview should distinguish loading, failed, and ready assets. 20. character actions need fallback poses. an unknown advanced animation cue should not collapse the entire character. 21. camera targets should be semantic ids. adapters can follow actors/objects without ai calculating low level matrices. 22. 3d to 2d overlay composition needs an explicit layer ordering model. tutorials over 3d footage require compositing semantics. 23. renderer selection should be per scene/layer capability, not one global mode. hybrid scenes can combine 3d canvas output with 2d overlays. 24. preview scheduling must avoid rendering while hidden. mobile sheets/tab switches should not waste gpu/cpu on inactive surfaces. 25. seeking must be stateless where possible. any stateful simulation should expose deterministic reset/seek or be marked as simulation dependent. 26. export should use the same canonical clock as preview. separate timing logic creates drift and invalid proof. 27. audio cues need a clock contract even if first export is silent. avoid baking visual timing assumptions that later conflict with audio. 28. ui recipes should carry stable keys. re rendering lists/timeline rows must preserve dom/state identity. 29. ui actions need typed payload extraction. do not pass raw dom events deep into app logic. 30. ui state bindings should be read only by default. explicit field actions perform mutation, avoiding magical two way binding complexity. 31. mobile gestures need accessible button equivalents. swipe/drag cannot be the only path to seek, select, or close. 32. the flagship app should boot without network ai. loading the proof movie and manually editing json must work offline/local so testing is deterministic. 33. ai integration should be provider neutral. the app can accept pasted/generated canonical json without hard wiring one remote model api. 34. existing app adapters need round trip tests when conversion is lossy. unsupported canonical nodes should be preserved in extension metadata or clearly reported. 35. the proof movie must test scene boundaries, not just interior timestamps. verify exactly before/at/after cuts and final 180.0 endpoint behavior. 36. verification must detect accidental source regressions from concurrency. capture final git diff only for our touched paths and re read changed legacy files after all parallel writes settle. why these changed the plan earlier passes focused on architecture categories. this pass exposed the operational seams where “works in theory” becomes “breaks in an editor”: coordinate systems, keyframe boundaries, font fallback, hybrid compositing, asset readiness, deterministic seeking, transition ownership, and ui identity. the most important new revelation is that the canonical movie is not merely a schema; it is a deterministic temporal and capability protocol . that means time boundaries, ids, units, extensions, and lifecycle behavior belong in the contract just as much as scene names. a second revelation is that hybrid 2d/3d is compositing, not a binary renderer choice . the shared preview/export pipeline should be able to render a 3d scene surface, then place canonical 2d text/charts/tutorial overlays above it through deterministic layer order. a third revelation is that ai generation must be separable from ai transport . the flagship proves that canonical ai authored data works even when supplied locally; remote provider integration can remain pluggable. final risk matrix highest risks concurrent agents landing overlapping shared core files; creating duplicate capability/schema systems; claiming existing app integration without real import paths; non deterministic timeline/export behavior; building a proof that visually substitutes placeholders for character/3d capabilities; overlarge source modules violating user architecture constraints. controls mandatory live re scan immediately after planning; new files preferred; hash guarded full file rewrites for contested files; deterministic seed/time semantics; real browser and export evidence; aggressive module splitting; exact feature inventory tests. final pre source gate do not write source until all three conditions are true: 1. the live repository has been re scanned for changes created while these plans were written. 2. exact shared export/package conventions and ui candidates have been read. 3. the exact implementation file set has been updated from evidence, not from this plan's provisional names. tiferes conclusion: the implementation must be beautiful because it is precise—shared meaning, distinct vessels, deterministic time, safe data, real rendering, and proof that survives inspection.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27t2202-chatgpt-geelooy-studio-unification-0-21f2b2a4c2.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27t2202-chatgpt-geelooy-studio-unification-0-6a38cc7024",
+		"title": "Phase Three — Final Brainstorm",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27T2202-chatgpt-geelooy-studio-unification/07_PHASE_THREE_FINAL_BRAINSTORM.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Three — Final Brainstorm",
+				"anchor": "phase-three-final-brainstorm"
+			},
+			{
+				"level": 2,
+				"text": "Final architecture image",
+				"anchor": "final-architecture-image"
+			},
+			{
+				"level": 2,
+				"text": "What belongs in Procedural Core",
+				"anchor": "what-belongs-in-procedural-core"
+			},
+			{
+				"level": 2,
+				"text": "What does not belong in Procedural Core",
+				"anchor": "what-does-not-belong-in-procedural-core"
+			},
+			{
+				"level": 2,
+				"text": "What belongs in shared Awtsmoos UI",
+				"anchor": "what-belongs-in-shared-awtsmoos-ui"
+			},
+			{
+				"level": 2,
+				"text": "What Awtsmoos Studio must prove",
+				"anchor": "what-awtsmoos-studio-must-prove"
+			},
+			{
+				"level": 2,
+				"text": "What “all existing apps unified” must mean",
+				"anchor": "what-all-existing-apps-unified-must-mean"
+			},
+			{
+				"level": 2,
+				"text": "Proof movie as architecture torture test",
+				"anchor": "proof-movie-as-architecture-torture-test"
+			},
+			{
+				"level": 2,
+				"text": "Fallback hierarchy",
+				"anchor": "fallback-hierarchy"
+			},
+			{
+				"level": 2,
+				"text": "Concurrency discipline",
+				"anchor": "concurrency-discipline"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Three — Final Brainstorm The Awtsmoos renews the frame, yet truth persists through every scene; Awtsmoos.com should hold one portable movie covenant, with many render vessels bright and clean. Final architecture image Picture a vertical stack rather than a merger: Intent User promp",
+		"searchText": "b\"h boruch hashem blessed is he phase three — final brainstorm the awtsmoos renews the frame, yet truth persists through every scene; awtsmoos.com should hold one portable movie covenant, with many render vessels bright and clean. final architecture image picture a vertical stack rather than a merger: intent user prompt, local json, imported app project, or template. canonical movie protocol versioned normalized document + validation + capability catalog + timeline + feature inventory. procedural asset intent stable declarative requests that resolve through existing awtsmoos procedural core generators and caches. resolved semantic frame at time t, the engine identifies scene, local time, active layers, interpolated properties, camera intent, audio/caption cues, and asset readiness. compositing adapters 3d render surface beneath optional 2d overlay render surface. apps may bind additional source types. studio persona animator, nesher, video editor, mitzvah studio, and awtsmoos studio each expose a different editing experience and supported feature profile over the same protocol. export provider frame clock and compositing feed an actual encoder/provider where available. what belongs in procedural core canonical movie semantics if no equivalent canonical module has just landed; capability catalog and validation; movie asset intent bridge to existing generators; pure timeline/time/interpolation utilities; renderer neutral feature inventory; generic adapters only when they do not depend on one app's ui/runtime. what does not belong in procedural core studio panels and toolbars; nle specific interaction state; browser recording ui; one app's export queue ux; remote ai provider credentials or transport; direct ownership of every possible three/canvas host. what belongs in shared awtsmoos ui safe json recipe normalization; dom creation and attribute policy; named action dispatch; state reads and typed input payloads; keyed lists and conditionals; custom mount slots; mobile first studio shell helpers/tokens. what awtsmoos studio must prove it must be more than a landing page. it should: load the canonical three minute movie; show validated feature/duration status; accept/edit/import json; report validation errors in useful paths; play/pause/seek from the canonical clock; display a scene navigator/timeline; render 2d tutorial/infographic content; render real 3d/procedural content through the available adapter; composite overlays; expose asset readiness/errors; expose export capability and perform real export if the provider/runtime supports it; work at a phone viewport first. what “all existing apps unified” must mean not identical ui. not one giant app. it means: they can understand/import/export or delegate canonical movie documents through a real imported adapter; their advertised capabilities are discoverable; they do not each maintain a competing core schema for the same universal concepts; specialized local concepts remain local extensions; unsupported canonical nodes survive round trip when possible rather than being silently destroyed. proof movie as architecture torture test twelve 15 second scenes produce exact duration while permitting many internal beats. the movie should reuse actor and asset ids across scenes, use both semantic infographic nodes and lower level shapes, include deterministic particle seeds, use camera target ids, and combine 3d scene surfaces with 2d annotations. that makes the fixture a regression suite rather than a decorative demo. fallback hierarchy 1. use real shared procedural/render/export capability discovered in repository. 2. if a particular app cannot render a node, delegate to shared preview adapter. 3. if a browser feature is unavailable, degrade visibly and preserve data. 4. never substitute a fake claim for unavailable capability. concurrency discipline another agent may land a better version between planning and coding. the correct action is to inspect, merge concepts, and build the missing layer. novelty is not the goal; a coherent repository is. final brainstorm conclusion: let one movie protocol become the inner light, procedural core become the foundry, awtsmoos ui become the vessel maker, and every studio remain a distinct instrument in the same orchestra.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27t2202-chatgpt-geelooy-studio-unification-0-6a38cc7024.json"
+	}
+]

@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-plans-awtsmoos-cloud-phase-01-deployments-md-71bfc32402",
+	"title": "Phase 01 — Immutable Hosting Deployments",
+	"sourcePath": "docs/PLANS/AWTSMOOS_CLOUD/PHASE_01_DEPLOYMENTS.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase 01 — Immutable Hosting Deployments",
+			"anchor": "phase-01-immutable-hosting-deployments"
+		},
+		{
+			"level": 2,
+			"text": "Goal",
+			"anchor": "goal"
+		},
+		{
+			"level": 2,
+			"text": "Core invariant",
+			"anchor": "core-invariant"
+		},
+		{
+			"level": 2,
+			"text": "Current architecture",
+			"anchor": "current-architecture"
+		},
+		{
+			"level": 2,
+			"text": "Required verification sequence",
+			"anchor": "required-verification-sequence"
+		},
+		{
+			"level": 2,
+			"text": "Professional completion",
+			"anchor": "professional-completion"
+		},
+		{
+			"level": 2,
+			"text": "Do not do",
+			"anchor": "do-not-do"
+		}
+	],
+	"markdownParts": [
+		"content/docs-plans-awtsmoos-cloud-phase-01-deployments-md-71bfc32402-001.json"
+	]
+}

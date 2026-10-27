@@ -1,0 +1,141 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27t2258-geelooy-movie-full-improvement-brain-5550462eed",
+		"title": "Boundless Brainstorm — Everything the Movie System Could Become",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27T2258-geelooy-movie-full-improvement-brainstorm/01_BOUNDLESS_BRAINSTORM.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Boundless Brainstorm — Everything the Movie System Could Become",
+				"anchor": "boundless-brainstorm-everything-the-movie-system-could-become"
+			},
+			{
+				"level": 2,
+				"text": "AI director",
+				"anchor": "ai-director"
+			},
+			{
+				"level": 2,
+				"text": "Canonical movie language",
+				"anchor": "canonical-movie-language"
+			},
+			{
+				"level": 2,
+				"text": "2D animation",
+				"anchor": "2d-animation"
+			},
+			{
+				"level": 2,
+				"text": "3D animation",
+				"anchor": "3d-animation"
+			},
+			{
+				"level": 2,
+				"text": "Characters and people",
+				"anchor": "characters-and-people"
+			},
+			{
+				"level": 2,
+				"text": "Audio and dialogue",
+				"anchor": "audio-and-dialogue"
+			},
+			{
+				"level": 2,
+				"text": "Editing and NLE",
+				"anchor": "editing-and-nle"
+			},
+			{
+				"level": 2,
+				"text": "Mobile-first UX",
+				"anchor": "mobile-first-ux"
+			},
+			{
+				"level": 2,
+				"text": "Infographics/tutorials",
+				"anchor": "infographics-tutorials"
+			},
+			{
+				"level": 2,
+				"text": "Assets and media",
+				"anchor": "assets-and-media"
+			},
+			{
+				"level": 2,
+				"text": "Export/render",
+				"anchor": "export-render"
+			},
+			{
+				"level": 2,
+				"text": "Collaboration and AI safety",
+				"anchor": "collaboration-and-ai-safety"
+			},
+			{
+				"level": 2,
+				"text": "Accessibility and publishing",
+				"anchor": "accessibility-and-publishing"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Boundless Brainstorm — Everything the Movie System Could Become The Awtsmoos speaks and worlds arise; Awtsmoos.com can make a director from language, with every scene becoming editable before our eyes. AI director Natural language movie briefs with goal, audience, tone, duration, aspect ",
+		"searchText": "b\"h boruch hashem blessed is he boundless brainstorm — everything the movie system could become the awtsmoos speaks and worlds arise; awtsmoos.com can make a director from language, with every scene becoming editable before our eyes. ai director natural language movie briefs with goal, audience, tone, duration, aspect ratio and platform. story architect: acts, beats, setup, escalation, climax, resolution and callback tracking. tutorial architect: prerequisites, numbered steps, demonstrations, callouts, zooms and knowledge checks. infographic architect: datasets, chart selection, annotations, comparisons, counters, maps and transitions. shot planner: automatic coverage, establishing shots, inserts, reactions, closeups, pov, overhead and b roll. continuity brain: clothing, props, character positions, lighting, time of day, geography and screen direction. constraint solver: fit narration, dialogue, shots and visual explanations into an exact requested duration. self review agents for pacing, clarity, visual repetition, factual consistency and mobile legibility. editable ai patches: \"make scene 7 funnier\", \"move the camera closer\", \"replace this chart\", \"slow this reveal\". explain its plan mode so ai can show beats/shots before expensive asset generation. capability aware planning so ai never requests unsupported app features without a fallback. canonical movie language first class layer families: visual, spatial, audio, dialogue, captions, media, adjustment, mask/matte, camera and data. stable nested groups, parent child transforms, constraints and reusable symbols/components. typed tracks with explicit local/absolute timing semantics. variables, expressions, procedural parameters and data bindings. semantic events: beat, action, cue, marker, chapter, speaker turn and interactive trigger. explicit color management, frame rate, pixel aspect, orientation and safe regions. protocol migrations with version by version upgrade/downgrade functions. canonical patch/diff operations with optimistic conflict detection. round trip fidelity metadata and unsupported feature preservation. 2d animation bezier paths, morphing, trim paths, dash animation, strokes, fills and gradients. parenting, anchors, pivots, nested groups and precompositions. masks, mattes, clipping, blend modes and adjustment layers. text animators per word/line/character with kinetic typography presets. svg import and editable vector decomposition. hand drawn frame support, onion skinning and vector rigs. motion paths with editable handles and spatial easing. shape boolean operations and procedural pattern/repeater systems. graph editor for easing, velocity and overshoot. 3d animation real scene graph with mesh, material, texture, light, camera and environment nodes. pbr materials, hdr environments, shadows, reflections and fog. skeletal animation, ik/fk, constraints and animation blending. camera focal length, sensor, focus distance, depth of field and handheld motion. physics: rigid bodies, cloth, particles, collisions, gravity and constraints. procedural geometry, instancing and lod. webgpu/webgl renderer abstraction with graceful mobile fallback. post processing: bloom, tone mapping, color grade, motion blur and vignette. 2d layers composited inside 3d space and 3d renders embedded in 2d timelines. characters and people canonical cast bible: appearance, personality, voice, wardrobe, props and relationships. reusable 2d and 3d rigs mapped to the same semantic character id. pose, gesture, gaze, facial expression, emotion and locomotion tracks. lipsync from phonemes with per language timing. blocking system: where people stand, walk, enter, exit and interact. crowd systems with seeded variation. camera aware eye lines and shot/reverse shot continuity. character memory across scenes so ai does not randomly change identity or clothing. audio and dialogue dialogue, narration, music, ambience and sound effect tracks. voice profiles and speaker identities separated from text. word/phoneme timing for captions and lipsync. ducking, fades, gain envelopes, pan and spatial audio. loudness normalization and clipping detection. beat/tempo markers for music synchronized edits. automatic room tone and ambience continuity. multiple language dialogue/caption variants sharing the same visuals. editing and nle unified timeline with ripple, roll, slip, slide, trim, split and magnetic snapping. nested sequences, compound clips, multicam and alternate takes. markers, chapters, comments and review status. proxy media and relink workflows. full undo/redo command history shared with ai patch operations. version snapshots and compare/restore. autosave and crash recovery. round trip handoff: animator nesher video editor canonical without silent loss. mobile first ux director first home screen: prompt, storyboard, timeline, canvas, export. thumb zone bottom controls; inspector sheets instead of tiny desktop panels. pinch timeline zoom, two finger pan, drag handles and haptic snapping. portrait editing even for landscape movies, with responsive preview framing. voice directed editing: \"cut here\", \"make this title bigger\", \"orbit around her\". ai suggestions as reversible cards, never silent mutations. progressive disclosure: beginner mode and expert mode share one engine. on device low quality preview with cloud/high quality final render optional later. infographics/tutorials semantic diagram nodes and connectors. animated tables, formulas, code blocks and syntax highlighted walkthroughs. data bound charts with animated ranges and labels. screen/device mockups and zoomable ui callouts. cursor/tap demonstrations and step highlights. automatic layout solver preventing overlaps on mobile safe areas. chapter cards, progress meters and recap scenes. assets and media canonical asset registry with hashes, mime/type, source, license, proxy and original. image/video/audio/font/model/svg/lottie support. generated asset provenance: model/provider/prompt/seed/version. deduplication by content hash. offline cache and missing asset diagnostics. smart placeholders allowing ai to finish structure before assets exist. export/render deterministic frame renderer with one authoritative clock. webcodecs path, mediarecorder fallback and ffmpeg offline/headless path. mp4/webm/gif/image sequence/transparent webm/export frames. separate audio mix/render then mux. render queue, cancellation, retry, resume and progress estimates. proxy/preview/final quality profiles. background workers/offscreencanvas where supported. frame cache and dirty region/dirty scene invalidation. render manifest storing exact movie hash, renderer version and assets. collaboration and ai safety patch based edits with author, timestamp and reason. presence/cursors/comments if real time collaboration is later enabled. conflict aware merge of different scene edits. asset/source provenance and factual citations for educational films. permission boundaries for destructive ai edits. always preview mode for high impact operations such as deleting scenes or replacing all dialogue. accessibility and publishing captions and subtitle tracks as semantic data, not burned text only. audio description track and transcript export. reduced motion alternate animation profile. contrast and safe size checks for text/graphics. platform presets for youtube, shorts, tiktok, reels, presentations and web embeds. poster frame, chapter metadata, thumbnails and social cutdowns generated from one master movie.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27t2258-geelooy-movie-full-improvement-brain-5550462eed.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27t2258-geelooy-movie-full-improvement-brain-2011f64427",
+		"title": "Prioritized Roadmap — Build the Foundation Before the Fireworks",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27T2258-geelooy-movie-full-improvement-brainstorm/02_PRIORITIZED_ROADMAP.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Prioritized Roadmap — Build the Foundation Before the Fireworks",
+				"anchor": "prioritized-roadmap-build-the-foundation-before-the-fireworks"
+			},
+			{
+				"level": 2,
+				"text": "P0 — Make the current core trustworthy",
+				"anchor": "p0-make-the-current-core-trustworthy"
+			},
+			{
+				"level": 2,
+				"text": "P1 — Make AI genuinely direct movies",
+				"anchor": "p1-make-ai-genuinely-direct-movies"
+			},
+			{
+				"level": 2,
+				"text": "P2 — Complete semantic media vocabulary",
+				"anchor": "p2-complete-semantic-media-vocabulary"
+			},
+			{
+				"level": 2,
+				"text": "P3 — Professional 2D and 3D engines",
+				"anchor": "p3-professional-2d-and-3d-engines"
+			},
+			{
+				"level": 2,
+				"text": "P4 — Editing experience",
+				"anchor": "p4-editing-experience"
+			},
+			{
+				"level": 2,
+				"text": "P5 — Reliability and scale",
+				"anchor": "p5-reliability-and-scale"
+			},
+			{
+				"level": 2,
+				"text": "P6 — Product-level magic",
+				"anchor": "p6-product-level-magic"
+			},
+			{
+				"level": 2,
+				"text": "Definition of excellent",
+				"anchor": "definition-of-excellent"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Prioritized Roadmap — Build the Foundation Before the Fireworks The Awtsmoos gives infinite possibility, but vessels reveal it in order; Awtsmoos.com should harden the covenant first, then widen every creative border. P0 — Make the current core trustworthy 1. Fix public exports: export c",
+		"searchText": "b\"h boruch hashem blessed is he prioritized roadmap — build the foundation before the fireworks the awtsmoos gives infinite possibility, but vessels reveal it in order; awtsmoos.com should harden the covenant first, then widen every creative border. p0 — make the current core trustworthy 1. fix public exports: export createmoviepromptintent and all intended ai/runtime apis from one canonical index. 2. fix aimoviecontract() to derive protocol/version from a real capability profile or protocol constants. 3. replace compact one line source patterns with fully readable modular formatting. 4. define a formal json schema or equivalent typed validation contract. 5. validate layer end time, keyframes, cameras, transitions, cast ids, asset ids, references and payload shapes. 6. add canonical error codes and warnings, not only free form strings. 7. decide which animator adapter is authoritative and deprecate/bridge the duplicate. 8. make every adapter return {projection, report, capabilities, canonicalmovie} consistently. 9. add adapter round trip tests and explicit loss accounting. 10. add protocol version migrations before v1 spreads further. 11. add tests under apps/shared/movie/tests for protocol, ai, runtime, adapters and 180 second movie. 12. track the canonical core in git and document it as the sole source of truth. p1 — make ai genuinely direct movies 13. introduce a provider interface: planmovie, revisemovie, generateassetbrief, reviewmovie. 14. separate deterministic fallback prompt parsing from real model intelligence. 15. add hierarchical planning: movie acts scenes shots layers keyframes. 16. add a canonical patch language so ai revisions change only what was requested. 17. add duration/pacing solver and narration/dialogue timing constraints. 18. add continuity state and a character/cast bible. 19. add self critique passes for repetition, pacing, legibility and unsupported capabilities. 20. store ai provenance and prompts in metadata without polluting renderer semantics. p2 — complete semantic media vocabulary 21. add audio, dialogue, narration, music, ambience, sfx and caption layer/track types. 22. add video/image/media asset layers. 23. add mask, matte, adjustment and compositing semantics. 24. add camera tracks separate from ordinary layers. 25. add parent/group/constraint semantics and reusable symbols. 26. add data sources for charts/diagrams/tutorials. 27. add semantic character pose, gaze, gesture, emotion and lipsync tracks. p3 — professional 2d and 3d engines 28. 2d: bezier editor, masks, blend modes, path morphing, text animators and graph editor. 29. 3d: real meshes/materials/lights/cameras with pbr and shadows. 30. rigging/ik and animation blending for characters. 31. physics and procedural particles with deterministic seeds. 32. proper camera lens/focus/dof and cinematic motion systems. 33. post processing/color pipeline. 34. renderer abstraction allowing canvas proof, webgl/webgpu spatial preview and headless export. p4 — editing experience 35. one shared timeline interaction model: snapping, trims, ripple, markers, nesting and keyframe graph. 36. shared command/undo layer so human and ai edits are equally reversible. 37. storyboard/shot list view synchronized with timeline and canvas. 38. beginner/expert modes over the same project data. 39. full mobile interaction design with bottom sheets, gestures and safe area aware previews. 40. voice editing and contextual ai actions. p5 — reliability and scale 41. asset registry, hashing, proxy/original relationships and missing file diagnostics. 42. autosave, version snapshots, recovery and project integrity checks. 43. render queue, cancellation, retries and resumable final export. 44. offscreencanvas/workers, frame caches and adaptive preview quality. 45. webcodecs plus ffmpeg/headless compatibility matrix. 46. performance budgets for low end phones and large 3 minute+ projects. 47. deterministic render manifests and frame hashes. 48. golden visual tests across scene timestamps. 49. fuzz tests for ai generated malformed movie json. 50. cross browser/mobile e2e tests. p6 — product level magic 51. templates that remain fully editable after ai generation. 52. automatic cutdowns: 16:9 master 9:16 short 1:1 social. 53. multilingual dubbing/captions with timing preservation. 54. automatic b roll and infographic suggestions. 55. review mode with comments and ai addressable notes. 56. educational factuality/citation metadata where appropriate. 57. project/plugin sdk so new app personalities can join the protocol cleanly. 58. capability negotiation for third party renderers/editors. 59. import/export bridges for common standards where feasible. 60. a true acceptance movie suite: narrative + tutorial + infographic + people + particles + camera work + 2d + 3d + audio, rendered for three real minutes and probed/sampled automatically. definition of excellent a user should be able to say: \"make a three minute film teaching this concept, with two recurring characters, animated charts, a 3d world, text callouts and cinematic cameras,\" receive an editable structured movie, revise any part conversationally, open the same project in multiple specialized apps without losing unsupported semantics, and export measured real media from a phone or desktop.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27t2258-geelooy-movie-full-improvement-brain-2011f64427.json"
+	}
+]

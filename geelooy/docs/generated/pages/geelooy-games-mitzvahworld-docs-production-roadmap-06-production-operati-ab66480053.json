@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-docs-production-roadmap-06-production-operati-ab66480053",
+	"title": "Production Operations, Security, Privacy, and Capacity",
+	"sourcePath": "geelooy/games/mitzvahWorld/docs/production-roadmap/06-production-operations.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Production Operations, Security, Privacy, and Capacity",
+			"anchor": "production-operations-security-privacy-and-capacity"
+		},
+		{
+			"level": 2,
+			"text": "Security",
+			"anchor": "security"
+		},
+		{
+			"level": 2,
+			"text": "Privacy and account lifecycle",
+			"anchor": "privacy-and-account-lifecycle"
+		},
+		{
+			"level": 2,
+			"text": "Observability",
+			"anchor": "observability"
+		},
+		{
+			"level": 2,
+			"text": "Capacity and cost",
+			"anchor": "capacity-and-cost"
+		},
+		{
+			"level": 2,
+			"text": "Deployment and recovery",
+			"anchor": "deployment-and-recovery"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-docs-production-roadmap-06-production-operati-ab66480053-001.json"
+	]
+}

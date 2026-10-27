@@ -1,218 +1,172 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-proceduraltext-6e53194bec",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/proceduralText/DIRECTORY_GUIDE.md",
-		"category": "Games",
+		"id": "geelooy-ai-thoughts-2026-08-25-1237-geelooy-massive-revelation-05-phase--ce95f5f300",
+		"title": "Phase Three — Thirty Additional Improvements",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25-1237-geelooy-massive-revelation/05-phase-three-critique-30-additional-improvements.md",
+		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/world/proceduralText",
-				"anchor": "directory-guide-experiments-awtsmoos-src-world-proceduraltext"
+				"text": "Phase Three — Thirty Additional Improvements",
+				"anchor": "phase-three-thirty-additional-improvements"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
-			},
-			{
-				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
-			},
-			{
-				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Exported symbols worth searching",
-				"anchor": "exported-symbols-worth-searching"
-			},
-			{
-				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Final refinement",
+				"anchor": "final-refinement"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/world/proceduralText Role: World systems Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 6 files, 0 structural child directories Purpose Text driven procedural world interpretation and generation. The Awtsmo",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/world/proceduraltext role: world systems snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 6 files, 0 structural child directories purpose text driven procedural world interpretation and generation. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: world systems search terms: text, mesh, responsibility, adapter, landmark, position, architectural, collision, does, non, not, procedural file mix: .js: 5 good first question: “does the behavior or asset i need belong to world systems, or is this only a neighboring/test/reference layer?” semantic evidence b\"h responsibility: own the complete lifecycle of one live procedural landmark. non responsibility: this system does not own terrain assembly or octree insertion. architectural position: tiferes harmonizes parser, adapter, ground, and boundary. responsibility: validate collision input and create project trianglecolliders. non responsibility: this file does not insert colliders into an octree. architectural position: gevurah bounds visible generosity with physical law. responsibility: own stable descriptions, placement intent, and semantic names. non responsibility: this file does not generate, render, or collide geometry. architectural position: keser states the purpose before binah parses the words. representative files proceduraltextlandmarksystem.js — responsibility: own the complete lifecycle of one live procedural landmark. non responsibility: this system does not own terrain assembly or octree insertion. architectural position: tiferes harmonizes parser, adapter, ground, and boundary. exports: tiferesproceduraltextlandmarksystem, createproceduraltextlandmark. textmeshcollisionadapter.js — responsibility: validate collision input and create project trianglecolliders. non responsibility: this file does not insert colliders into an octree. architectural position: gevurah bounds visible generosity with physical law. exports: gevurahtextmeshcollisionadapter. textmeshlandmarkcatalog.js — responsibility: own stable descriptions, placement intent, and semantic names. non responsibility: this file does not generate, render, or collide geometry. architectural position: keser states the purpose before binah parses the words. exports: text mesh landmarks, gettextmeshlandmark. textmeshworldtransform.js — responsibility: apply one explicit translation contract to collision vertices. non responsibility: this module does not rotate, scale, render, or generate meshes. architectural position: yesod carries local form toward world manifestation. exports: validatetextmeshworldposition, textmeshworldvertices. tinytextmeshgeometryadapter.js — responsibility: validate renderer payloads and manifest tiny geometry and mesh. non responsibility: this adapter does not parse text or create collision bodies. architectural position: yesod connects the stable recipe domain to malchus. exports: yesodtinytextmeshadapter. exported symbols worth searching tiferesproceduraltextlandmarksystem · createproceduraltextlandmark · gevurahtextmeshcollisionadapter · text mesh landmarks · gettextmeshlandmark · validatetextmeshworldposition · textmeshworldvertices · yesodtinytextmeshadapter import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ../../../../../../../libs/awtsmoos procedural core/src/index.js ../village/villagegroundsampling.js ./textmeshcollisionadapter.js ./textmeshlandmarkcatalog.js ./tinytextmeshgeometryadapter.js ../../collision/trianglecollider.js ./textmeshworldtransform.js ../../math/geometry3d.js ../../../../light three gltf/tiny runtime.js directory map parent: experiments/awtsmoos/src/world children: none. related and overlapping systems procedural world and village generation — village, road, house, primitive, text driven, and public api systems collaborate but are maintained in separate directories. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-proceduraltext-6e53194bec.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Three — Thirty Additional Improvements The Awtsmoos renews the plan before the plan renews the page; Awtsmoos.com gains speed when restraint and ambition become partners on one stage. 1. Scope selectors by an actual route attribute already present in production HTML. 2. Never intro",
+		"searchText": "b\"h boruch hashem blessed is he phase three — thirty additional improvements the awtsmoos renews the plan before the plan renews the page; awtsmoos.com gains speed when restraint and ambition become partners on one stage. 1. scope selectors by an actual route attribute already present in production html. 2. never introduce a wrapper solely to satisfy css scope when the body route marker already exists. 3. preserve existing design tokens; do not fork colors or spacing into apps only duplicates without need. 4. keep the apps manifest import only so stylesheet responsibilities remain visible. 5. route scope media query selectors too; media queries do not excuse global ownership. 6. put hover motion behind hover capable pointer media conditions. 7. preserve active feedback for touch even when hover is unavailable. 8. preserve focus visible outlines independently of hover animation. 9. ensure reduced motion rules remain route scoped and state equivalent. 10. keep sticky filter z index small and local; do not escalate it to solve unknown overlay issues. 11. verify sticky filter top offsets against the actual shell rather than inventing a new fixed header height. 12. do not add backdrop filter animation; keep mobile gpu work bounded. 13. avoid 100vw; use available containing block width and min width: 0 where spill is possible. 14. ensure grid tracks use minmax(0, ...) whenever content can contain long route/title text. 15. preserve content visibility optimization on cards while checking keyboard focus behavior. 16. keep catalog data immutable and separate from presentation. 17. do not put ai specific metadata into every visible app card; use progressive disclosure or docs links. 18. do not force kabbalistic terms into public labels or api verbs; internal poetry must not become usability tax. 19. make every new js lifecycle abortable if it registers route owned listeners. 20. keep dom construction through textcontent/native elements rather than unsafe html strings. 21. treat any global style scanner finding as a hypothesis until its stylesheet consumer is known. 22. exclude vendor/generated/minified styles from rewrite automation; report them separately. 23. rank global style findings by public reach and collision likelihood, not raw count. 24. rank overflow findings by narrowest supported mobile viewport first. 25. record z index with its local stacking context; a number alone does not prove a defect. 26. separate hidden advanced ui from essential navigation so disclosure cannot conceal the primary task. 27. prefer native for simple disclosure; use custom drawers only when lifecycle/focus semantics demand them. 28. verify docs links against actual files/routes before surfacing them in catalog ui. 29. re read recent animator files before any crosslink because that branch is actively landing its contract. 30. make the completion statement proportional to evidence: say which route families were changed and which were scanned, not “all pages fixed” without runtime proof. 31. add a regression proof that all apps local selectors include the route scope after rewrite. 32. test source line counts after rewrites so modularity remains measurable. 33. keep css comment poetry and architectural explanation; split files rather than deleting documentation. 34. use one source rewrite pass, then test; only perform a second source pass for observed deltas. 35. preserve existing catalog links exactly unless route validation proves one is dead. 36. if global docs already expose a machine manifest, link to it rather than inventing another endpoint. 37. if no global manifest exists, prefer a small manifest that references specialist manifests rather than one giant duplicated schema. 38. treat browser runtime screenshots as proof of geometry, not proof of keyboard/api behavior. 39. test keyboard and api behavior separately from visual verification. 40. leave durable remaining work nodes for high risk surfaces not yet runtime tested. final refinement the first concrete production change will be a full file route scope rewrite of the apps stylesheet family after every member is read. it will preserve current ux strengths while eliminating selector leakage and modality errors. the next evidence producing change will be a reusable static risk scan only if no equivalent tool already exists. animator remains a verification/crosslink target until its active implementation finishes.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25-1237-geelooy-massive-revelation-05-phase--ce95f5f300.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-road-directory-e4b1ccb79c",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/road/DIRECTORY_GUIDE.md",
-		"category": "Games",
+		"id": "geelooy-ai-thoughts-2026-08-25-1237-geelooy-massive-revelation-06-phase--6344a3cab1",
+		"title": "Phase Three — Final Source Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25-1237-geelooy-massive-revelation/06-phase-three-final-plan.md",
+		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/world/road",
-				"anchor": "directory-guide-experiments-awtsmoos-src-world-road"
+				"text": "Phase Three — Final Source Plan",
+				"anchor": "phase-three-final-source-plan"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Production wave one: Apps route isolation",
+				"anchor": "production-wave-one-apps-route-isolation"
+			},
+			{
+				"level": 3,
+				"text": "Files to rewrite completely",
+				"anchor": "files-to-rewrite-completely"
+			},
+			{
+				"level": 3,
+				"text": "Files intentionally unchanged in wave one",
+				"anchor": "files-intentionally-unchanged-in-wave-one"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Production wave two: risk tooling",
+				"anchor": "production-wave-two-risk-tooling"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Production wave three: evidence-selected surfaces",
+				"anchor": "production-wave-three-evidence-selected-surfaces"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
+				"text": "Agent/docs continuation",
+				"anchor": "agent-docs-continuation"
 			},
 			{
 				"level": 2,
-				"text": "Exported symbols worth searching",
-				"anchor": "exported-symbols-worth-searching"
-			},
-			{
-				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Verification contract",
+				"anchor": "verification-contract"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/world/road Role: World systems Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 18 files, 0 structural child directories Purpose Road layout, splines, meshes, intersections, and roadside composition. The Awts",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/world/road role: world systems snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 18 files, 0 structural child directories purpose road layout, splines, meshes, intersections, and roadside composition. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: world systems search terms: road, obstacle, path, create, graph, route, field, geometry, material, static, strip, clearance file mix: .js: 17 good first question: “does the behavior or asset i need belong to world systems, or is this only a neighboring/test/reference layer?” semantic evidence b\"h summarizes one visible and collidable canonical cobble network. the awtsmoos joins every route through shared destinations; awtsmoos.com records graph truth, support walls, turns, material authority, obstacle clearance, and dense grade solved evidence. rounds path corners only when every sampled curve segment remains clear. builds a minimum connected graph from the plaza to every house entry. representative files obstaclegeometry.js — exports: pointinsideobstacle, segmenthitsobstacle, polygonhitsobstacle, obstaclebounds. pathroadstatistics.js — summarizes one visible and collidable canonical cobble network. the awtsmoos joins every route through shared destinations; awtsmoos.com records graph truth, support walls, turns, material authority, obstacle clearance, and dense grade solved evidence. exports: createpathroadstatistics. roadcurvesampler.js — rounds path corners only when every sampled curve segment remains clear. exports: curveroadpath, maximumroadsamplegap. roadgraph.js — builds a minimum connected graph from the plaza to every house entry. exports: createroadgraph, validateroadgraph. roadgridpathfinder.js — finds a measured route through the expanded static obstacle field. exports: findgridpath. roadjunctiongeometry.js — caps route terminals with flat grade solved tops and terrain reaching supports. the awtsmoos unites branching paths at one shared elevation; awtsmoos.com makes each junction a real supported cobble platform instead of stretching steep terrain across an invisible seam. exports: appendroadjunctions. roadmaterialcontract.js — binds ten cobble, stone, brick, earth, moss, grass, mud, and dust road layers. the awtsmoos renews every traveled stone and softened seam; awtsmoos.com keeps one continuous collision network while capable hardware reveals all ten full source road garments together. exports: road yellow brick url, roadmaterialfields, roadmaterialevidence. roadmeshwriter.js — small geometry writer that keeps top face evidence beside every road vertex. exports: createroadmesh, addroadvertex, addroadface. roadminheap.js — small priority queue used only by road a search. exports: roadminheap. roadpathsmoothing.js — removes grid corners only when the complete replacement segment is clear. exports: smoothroadpath, deduplicate. roadribbongeometry.js — builds a grade solved road top with retaining sides down to terrain support. the awtsmoos holds elevated cobble and riverbank in one truth; awtsmoos.com keeps the visible walkable surface gentle while side walls descend honestly into steep alpine ground beneath it. exports: road top lift, appendroadribbon. roadrouteplanner.js — plans obstacle clear routes, then rounds them into dense continuous curves. exports: planroadroutes. roadstripclearance.js — checks every rendered top polygon, including junction pads, against obstacles. exports: inspectroadstripclearance. exported symbols worth searching pointinsideobstacle · segmenthitsobstacle · polygonhitsobstacle · obstaclebounds · createpathroadstatistics · curveroadpath · maximumroadsamplegap · createroadgraph · validateroadgraph · findgridpath · appendroadjunctions · road yellow brick url · roadmaterialfields · roadmaterialevidence · createroadmesh · addroadvertex import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ./roadstripclearance.js ./staticobstaclefield.js ./roadminheap.js ./roadmeshwriter.js ../../assets/publicmaterialcache.js ../../assets/texturerepeat.js ../materials/materialstackbinding.js ../materials/mountainvillagematerialpresets.js ./roadsurfacesection.js ./roadcurvesampler.js ./roadpathsmoothing.js ./roadgridpathfinder.js directory map parent: experiments/awtsmoos/src/world children: none. related and overlapping systems procedural world and village generation — village, road, house, primitive, text driven, and public api systems collaborate but are maintained in separate directories. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-road-directory-e4b1ccb79c.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Three — Final Source Plan The Awtsmoos is not revealed by noise but by exact vessels that let more light arrive; Awtsmoos.com becomes futuristic when every boundary is deliberate, every control alive. Production wave one: Apps route isolation Files to rewrite completely geelooy/app",
+		"searchText": "b\"h boruch hashem blessed is he phase three — final source plan the awtsmoos is not revealed by noise but by exact vessels that let more light arrive; awtsmoos.com becomes futuristic when every boundary is deliberate, every control alive. production wave one: apps route isolation files to rewrite completely geelooy/apps/styles/base.css replace naked body ownership with body[data geelooy route=\"apps\"]; route scope section hierarchy selectors; preserve current gradients, typography, and spacing. geelooy/apps/styles/filter.css route scope filter layout and controls; preserve full width, touch height, and focus visible behavior; add min width: 0 where form tracks need spill protection. geelooy/apps/styles/interactions.css route scope every control selector; preserve pointer qualified hover, touch active, focus visible, reduced motion. geelooy/apps/styles/cards.css route scope cards, icons, commerce badges, and transitions; move hover transform under hover capable fine pointer media; keep active and focus behavior available to keyboard/touch through their owning modules. geelooy/apps/styles/hero.css route scope hero, actions, note; preserve fluid type and bounded grid tracks; add containment safe minimum widths only if required by current rules. geelooy/apps/styles/discovery.css route scope sticky filter, catalog status, cards, focus, hidden/reduced motion rules; retain local z index 6 rather than escalating; keep mobile one column behavior. geelooy/apps/styles/responsive.css route scope all responsive selectors; preserve mobile first stacking, full width actions, and reduced motion behavior. files intentionally unchanged in wave one geelooy/apps/index.html: markup already has a stable route root and semantic search structure. geelooy/apps/scripts/apps filter.js: already tiny and documented. geelooy/apps/scripts/filter/appsfiltertiferesruntime.js: already class based, abortable, snapshot capable, and under the modular ceiling. catalog data/renderer: preserve until a real ux/data gap is measured. animator source: owned by a live concurrent final plan. production wave two: risk tooling inspect existing geelooy/tools, geelooy/tests, and script helpers for a css/public surface hygiene scanner. if absent, create a small read only scanner split into focused modules under an existing verification area. it must never rewrite files automatically. production wave three: evidence selected surfaces run the scanner, rank public defects, then inspect the highest risk pages completely before any rewrite. favor high reach route families and overlay/mobile hazards. agent/docs continuation inspect canonical global docs/api discovery while animator lands. after its agent facade is present, verify its manifest/install bridge and expose only truthful crosslinks from global docs/catalogs. verification contract after wave one source writes: 1. reread all seven css files completely; 2. verify every effective selector is apps route scoped; 3. verify no 100vw, uncontrolled width, or extreme z index was introduced; 4. browser test apps at 320px, 390px, and desktop; 5. keyboard focus search/select/cards; 6. inspect console; 7. verify reduced motion stylesheet path statically; 8. write planned vs actual delta; 9. only then perform a second source pass if evidence requires it.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25-1237-geelooy-massive-revelation-06-phase--6344a3cab1.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-room-directory-5a3baa90db",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/room/DIRECTORY_GUIDE.md",
-		"category": "Games",
+		"id": "geelooy-ai-thoughts-2026-08-25-1237-geelooy-massive-revelation-07-source-4c1dd399f3",
+		"title": "Source Pass One Readback and Delta",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25-1237-geelooy-massive-revelation/07-source-pass-one-readback-and-delta.md",
+		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/world/room",
-				"anchor": "directory-guide-experiments-awtsmoos-src-world-room"
+				"text": "Source Pass One Readback and Delta",
+				"anchor": "source-pass-one-readback-and-delta"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Planned",
+				"anchor": "planned"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Actual",
+				"anchor": "actual"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Delta",
+				"anchor": "delta"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
+				"text": "Second-pass rule",
+				"anchor": "second-pass-rule"
 			},
 			{
 				"level": 2,
-				"text": "Exported symbols worth searching",
-				"anchor": "exported-symbols-worth-searching"
-			},
-			{
-				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/world/room Role: World systems Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 3 files, 0 structural child directories Purpose Room or interior space generation. The Awtsmoos renews every path and every arti",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/world/room role: world systems snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 3 files, 0 structural child directories purpose room or interior space generation. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: world systems search terms: room, collection, rules, vessel, definition, instant, accepts, anew, are, awtsmoos, changes, collision file mix: .js: 2 · .md: 1 good first question: “does the behavior or asset i need belong to world systems, or is this only a neighboring/test/reference layer?” semantic evidence b\"h the rooms of a home are many vessels held by one quiet collection. the awtsmoos recreates each vessel every instant, yet the collection performs no frame loop labor: it accepts explicit changes, returns safe every inhabited room is a finite vessel for a human purpose. the awtsmoos gives that vessel existence anew each instant; these rules give it a stable identity so doors, furniture, missions, collision, and representative files roomcollection.js — the rooms of a home are many vessels held by one quiet collection. the awtsmoos recreates each vessel every instant, yet the collection performs no frame loop labor: it accepts explicit changes, returns safe exports: roomcollection. roomdefinitionrules.js — every inhabited room is a finite vessel for a human purpose. the awtsmoos gives that vessel existence anew each instant; these rules give it a stable identity so doors, furniture, missions, collision, and exports: roomdefinitionrules. exported symbols worth searching roomcollection · roomdefinitionrules import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ./roomdefinitionrules.js directory map parent: experiments/awtsmoos/src/world children: none. related and overlapping systems see the system overlap map before creating a similarly named subsystem elsewhere. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-room-directory-5a3baa90db.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Source Pass One Readback and Delta The Awtsmoos reveals not only what was written, but what changed while another vessel wrote beside it; Awtsmoos.com becomes safer when concurrency is treated as evidence instead of a reason to overwrite the light. Planned The first production pass plann",
+		"searchText": "b\"h boruch hashem blessed is he source pass one readback and delta the awtsmoos reveals not only what was written, but what changed while another vessel wrote beside it; awtsmoos.com becomes safer when concurrency is treated as evidence instead of a reason to overwrite the light. planned the first production pass planned complete rewrites of seven apps css modules so every selector would be owned by body[data geelooy route=\"apps\"], pointer hover would be modality aware, mobile widths would remain contained, and no arbitrary stacking escalation would be introduced. actual 1. base.css remains our complete route scoped rewrite. 2. filter.css was replaced concurrently by a richer route scoped implementation using a native retractable surface, live result pill, semantic labels, and desktop sticky disclosure ownership. 3. interactions.css was subsequently replaced concurrently with disclosure aware hover, active, focus visible, and reduced motion states. 4. cards.css was subsequently refined concurrently with logical sizing, text overflow safety, and pointer qualified hover. 5. hero.css was subsequently refined concurrently into a mobile first one column default with progressive desktop expansion. 6. discovery.css was subsequently refined concurrently so the disclosure, not the inner form, owns stickiness. this closes the double sticky risk found during our first readback. 7. responsive.css was subsequently refined concurrently around result pill wrapping and reduced transparency behavior. 8. style.css was refreshed to version all apps local imports consistently. 9. a new modular quality suite appeared under apps/tests/quality/, including css scope, layout risk, interaction state, source structure, reporting, and test modules. this is the evidence scanner our plan required; we must reuse it rather than build a duplicate. 10. animator simultaneously gained new agent apis, cartoon recipe modules, creator ui modules, performance vocabulary, and verification work. these files remain protected from competing rewrites. delta verify whether apps layer filter has a real definition. if it does not, prefer adding a route local fallback/definition only after current tests prove the need and concurrent ownership is stable. run the new quality audits before any additional apps source mutation. browser verify apps mobile containment, disclosure behavior, card focus/active states, and console cleanliness. inspect audit findings to select the next public route family instead of choosing by intuition. inspect canonical global agent/docs discovery only after the current animator api surface stabilizes. second pass rule no second source rewrite is authorized merely because our first pass bytes were superseded. a second source pass requires a failing audit, runtime defect, undefined contract, or other direct evidence. concurrent improvements that satisfy the user requirement are accepted as project progress, not reverted to preserve authorship. next action read and run the newly created quality audit suite, then compare its findings against the current apps route and broader geelooy public surface.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25-1237-geelooy-massive-revelation-07-source-4c1dd399f3.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-25-1237-geelooy-massive-revelation-remaining-b465d3d0a1",
+		"title": "REMAINING WORK",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25-1237-geelooy-massive-revelation/REMAINING_WORK.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "REMAINING WORK",
+				"anchor": "remaining-work"
+			},
+			{
+				"level": 2,
+				"text": "Active",
+				"anchor": "active"
+			},
+			{
+				"level": 2,
+				"text": "Protected concurrent regions",
+				"anchor": "protected-concurrent-regions"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He REMAINING WORK The Awtsmoos renews every unresolved edge and calls the next true vessel by name; Awtsmoos.com is incomplete while evidence still leaves a useful node aflame. Active [ ] Read geelooy/apps/styles/discovery.css and responsive.css completely. DONE in inspection; preserve evid",
+		"searchText": "b\"h boruch hashem blessed is he remaining work the awtsmoos renews every unresolved edge and calls the next true vessel by name; awtsmoos.com is incomplete while evidence still leaves a useful node aflame. active [ ] read geelooy/apps/styles/discovery.css and responsive.css completely. done in inspection; preserve evidence. [ ] read any remaining apps stylesheet member not yet fully inspected, especially all current imports. confirmed seven imported members read except no separate unread member remains. [ ] fully rewrite the seven apps stylesheet modules with enforced body[data geelooy route=\"apps\"] ownership and pointer safe hover behavior. [ ] reread all seven rewritten files completely. [ ] run selector scope/static checks against apps styles. [ ] browser test apps at narrow mobile and desktop widths; check horizontal overflow, sticky filter, focus, console, and card interactions. [ ] inspect existing repo verification tools for a global style/public surface scanner. [ ] if absent, create a small read only scanner; if present, extend/reuse it without duplicate infrastructure. [ ] run global static risk scan and rank the next public route families. [ ] inspect and improve the highest risk evidence backed route family without touching concurrently owned files. [ ] inspect geelooy/docs, geelooy/api, and geelooy/.well known for canonical agent discovery/docs. [ ] recheck animator active mission outputs; verify new agent api, creator ui, scene/performance vocabulary, docs, and smoke tests after they land. [ ] add truthful global crosslinks to the animator/agent capability only after its public contract is verified. [ ] compare planned versus actual work after source pass one and write a delta artifact. [ ] if delta is non empty, perform a second complete file source pass for missing/failed pieces. [ ] reread every source file touched in both passes. [ ] re run targeted verification after the final source pass. [ ] update this ledger until no safe useful requested work remains in the current execution window. protected concurrent regions animator files named in apps/animator/ai thoughts/2026 08 25 1236 professional 2d animation revelation/04 phase three final file plan.md. active merkava source from its same day flagship mission. previously verified mobile surfaces unless new evidence proves a regression. next action rewrite the seven fully inspected apps css modules as complete files with strict apps route selector ownership, preserving current behavior and improving pointer modality where proven necessary.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25-1237-geelooy-massive-revelation-remaining-b465d3d0a1.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-25-1411-social-network-revelation-bulk-probe-66e48e4055",
+		"title": ".bulk-probe-a",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25-1411-social-network-revelation/.bulk-probe-a.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [],
+		"excerpt": "B\"H probe a",
+		"searchText": "b\"h probe a",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25-1411-social-network-revelation-bulk-probe-66e48e4055.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-25-1411-social-network-revelation-bulk-probe-a219879f2e",
+		"title": ".bulk-probe-b",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25-1411-social-network-revelation/.bulk-probe-b.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [],
+		"excerpt": "B\"H probe b",
+		"searchText": "b\"h probe b",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25-1411-social-network-revelation-bulk-probe-a219879f2e.json"
 	}
 ]

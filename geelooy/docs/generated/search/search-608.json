@@ -1,0 +1,106 @@
+[
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-1eca4c2e6d",
+		"title": "Exhaustive Improvement Universe",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/.ai-thoughts/20260902_0315-universal-procedural-api/18_EXHAUSTIVE_IMPROVEMENT_UNIVERSE.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Exhaustive Improvement Universe",
+				"anchor": "exhaustive-improvement-universe"
+			},
+			{
+				"level": 2,
+				"text": "Core architecture",
+				"anchor": "core-architecture"
+			},
+			{
+				"level": 2,
+				"text": "Compiler federation",
+				"anchor": "compiler-federation"
+			},
+			{
+				"level": 2,
+				"text": "Constraint federation",
+				"anchor": "constraint-federation"
+			},
+			{
+				"level": 2,
+				"text": "Cache and performance",
+				"anchor": "cache-and-performance"
+			},
+			{
+				"level": 2,
+				"text": "Demo UX and observability",
+				"anchor": "demo-ux-and-observability"
+			},
+			{
+				"level": 2,
+				"text": "Visual/artifact demo",
+				"anchor": "visual-artifact-demo"
+			},
+			{
+				"level": 2,
+				"text": "Accessibility and interaction",
+				"anchor": "accessibility-and-interaction"
+			},
+			{
+				"level": 2,
+				"text": "Testing and robustness",
+				"anchor": "testing-and-robustness"
+			},
+			{
+				"level": 2,
+				"text": "Documentation and handoff",
+				"anchor": "documentation-and-handoff"
+			},
+			{
+				"level": 2,
+				"text": "Security / trust boundaries",
+				"anchor": "security-trust-boundaries"
+			},
+			{
+				"level": 2,
+				"text": "Git / release / deployment",
+				"anchor": "git-release-deployment"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Exhaustive Improvement Universe The Awtsmoos renews every detail before detail knows its name; Awtsmoos.com seeks not merely working code, but a system whose speed, truth, clarity, extension, proof, and release all sing the same flame. Core architecture 1. Keep one semantic engine while ",
+		"searchText": "b\"h boruch hashem blessed is he exhaustive improvement universe the awtsmoos renews every detail before detail knows its name; awtsmoos.com seeks not merely working code, but a system whose speed, truth, clarity, extension, proof, and release all sing the same flame. core architecture 1. keep one semantic engine while supporting multiple composition weights. 2. measure lifecycle imports continuously so lightweight never silently becomes heavy. 3. make lifecycle/full equivalence a permanent regression invariant. 4. make absent heavy authorities truly absent rather than null placeholders. 5. document authority ownership and mutation boundaries explicitly. 6. audit every public namespace for accidental mutable internals. 7. ensure private executor/solver functions never leak through manifests. 8. add public factory discovery metadata so agents can choose full vs lifecycle intentionally. 9. audit whether createawtsmooslifecycle() needs a dedicated typescript/jsdoc typedef surface. 10. keep package subpath stable and direct; prevent barrel redirection. 11. audit seed behavior in define/compile/cache identity across both factories. 12. audit authored compile policy precedence and null/undefined edge cases. 13. audit canonical definition freezing deeply across optional properties/materials. 14. audit repeated input wrapper/tojson behavior for lifecycle factory. 15. audit plugin registration duplicate id semantics and diagnostics. 16. audit cache invalidation when compiler version/support state/dependencies change. 17. audit constraint plan identity when solver capability metadata changes. 18. audit deterministic provenance ordering independent of registration order. 19. consider an explicit mode:'lifecycle' 'full' discovery field only if it adds truth without api clutter. 20. add a composition information method only if current namespaces cannot answer the same question. compiler federation 21. validate required and optional trait normalization against malformed values. 22. audit unsupported/deferred/native/adapter transitions for plan and execution truth. 23. add explicit diagnostics for duplicate compiler registrations. 24. audit channel coverage when multiple compilers overlap partially. 25. audit strict compile when planning coverage is complete only through deferred compilers. 26. audit deterministic selection order when two candidates score equally. 27. audit dependency metadata serialization and explain output. 28. document dependencies as declarative until typed compiler/service semantics exist. 29. add example manifests showing native, adapter, deferred, unsupported states. 30. audit capability schema round trip for every new manifest field. constraint federation 31. test multiple constraints of the same type with different ids/targets. 32. test known vocabulary with no solver versus unknown vocabulary. 33. test a native declared solver missing its executor becomes deferred truthfully. 34. test environment dependent solver bypasses cache. 35. test solver receipt ordering and deterministic identity. 36. test strictconstraints preflight does not invoke compilers when unresolved. 37. test unsatisfied solver result blocks strict compilation after resolution. 38. improve demo visibility for satisfied vs deferred vs unsupported constraints. 39. add concise solver diagnostics to the public explanation surface if not already present. 40. document that solvers return receipts rather than mutating authored truth. cache and performance 41. add cache identity regression tests for compiler version, support state, constraint plan, and request quality/budget. 42. add cache clear/stat lifecycle test. 43. audit cache behavior for rejected compilation and thrown compiler errors. 44. audit cache storage of mutable artifact objects versus immutable identity receipts. 45. add import graph ceiling test using structural forbidden roots rather than exact module count. 46. record current full/lifecycle graph sizes as evidence, not contract. 47. add browser ready performance mark to measure application boot with native performance api. 48. add compile timing marks in demo only as local diagnostics if they do not pollute semantic results. 49. audit repeated scenario navigation cache behavior across non adjacent scenarios. 50. add a small performance evidence json/markdown artifact for future comparisons. demo ux and observability 51. add explicit compile duration display from browser local timing, labeled local. 52. add pipeline support counts: native/partial/delegated/deferred. 53. add compiler manifest details in a collapsible/details surface. 54. add a copyable/shareable deep link without clipboard dependency. 55. add a reset to first scenario control only if navigation becomes hard to recover. 56. add url query validation for unknown scenario ids. 57. add home/end keyboard navigation in addition to arrows. 58. do not hijack arrow keys while focus is inside text editable controls. 59. add roving tabindex semantics for scenario buttons if keyboard ux benefits. 60. add accessible status announcement when compilation starts/completes. 61. add aria busy to a broader lifecycle region, not only svg stage. 62. add aria describedby or visible explanation for deferred constraint work. 63. verify color contrast and non color support state labels. 64. verify 320px, 390px, 768px, desktop widths. 65. verify very long compiler ids, solver ids, hashes, budgets, and kind strings wrap safely. 66. verify browser navigation back/forward with query state if history semantics become push based. 67. preserve no innerhtml safety in every renderer. 68. add a deterministic data scenario id and ready marker for automation. 69. add a machine readable data attribute for pipeline stage count/version if useful for public probes. 70. add a visible architecture badge showing lightweight composition. visual/artifact demo 71. audit svg primitives for invalid dimensions and nan/infinity. 72. add an artifact metadata summary: primitive count and roles. 73. verify renderer adapter escapes/sets attributes safely. 74. add visual bounds calculation and fit to view if current scenarios can clip. 75. add fallback for an empty artifact with explicit visible diagnostic. 76. add a compiler scenario that intentionally returns metadata only only if it teaches a real contract. 77. keep all visual generation deterministic for identical definition+seed. 78. avoid implying svg is the canonical output; label it adapter output. 79. add optional json artifact view if it improves inspectability without clutter. 80. verify material role names are semantic rather than renderer specific. accessibility and interaction 81. audit button names, landmark hierarchy, heading order, focus rings, live regions. 82. ensure compile again disabled state cannot trap focus. 83. prevent global arrow navigation when modifier keys are held. 84. prevent navigation shortcuts while user is interacting with form like controls. 85. support home/end and possibly number shortcuts only if discoverable. 86. verify active scenario has aria current and focus state are distinct. 87. verify screen reader order keeps visual proof before deep evidence reasonable. 88. add reduced motion handling if animation is ever introduced; currently prefer no animation. 89. verify semantic html around evidence rows and pipeline. 90. verify page works with css disabled enough to expose readable truth. testing and robustness 91. add lifecycle malformed input parity tests with full facade. 92. add duplicate compiler/solver registration tests. 93. add import graph regression test for package subpath itself. 94. add demo navigation unit test with a minimal dom substitute only if not duplicating browser proof. 95. add browser e2e for unknown query scenario fallback. 96. add browser e2e for home/end if implemented. 97. add 320px overflow e2e in addition to 390px. 98. add long token responsive fixture in test or dev scenario. 99. add zero severe console requirement to public verification. 100. add package export smoke test from package scope. 101. add no world/no portal property descriptor test, not only value test. 102. add explanation purity test ensuring no compiler/solver executor invocation. 103. add compile error provenance/diagnostic test. 104. add cache bypass test for environment dependent constraint solver + compiler combinations. 105. rerun full 519 test universe only after focused changes stabilize; compare inherited reds against baseline ledger. documentation and handoff 106. reconcile uncertain docs write before replacing any file. 107. add full vs lifecycle decision table. 108. add browser import recommendation with direct subpath example. 109. add current graph and browser module counts clearly labeled point in time. 110. add cache benchmark evidence with environment and caveats. 111. add constraint truth examples with deferred/unsupported distinction. 112. add extension recipe for compiler + solver + renderer adapter. 113. add explicit non goals: no universal subgraph cache yet; dependencies declarative. 114. add troubleshooting: accidental heavy import, missing executor, deferred constraints, cache bypass. 115. add release/public verification checklist. 116. update remaining work/next action after every major pass. 117. write planned vs actual delta after final reread. 118. keep baseline 19 failure classification linked in evidence ledger. 119. write takeover summary for future agent/developer. 120. preserve exact test job ids and sha receipts where useful. security / trust boundaries 121. confirm demo uses only dom apis, never innerhtml for engine text. 122. audit url query handling for injection/path behavior. 123. audit json parsing boundaries in define() for prototype pollution like keys and malformed json. 124. audit public manifests for function/object references that should be serialized. 125. audit browser app for external network calls; demo should remain local/static except same origin modules. 126. consider csp/meta only if compatible with existing static hosting and module imports. 127. avoid exposing secrets or host paths in public diagnostics. 128. ensure errors shown in demo are bounded and safe for public display. 129. audit cache keys for attacker controlled unbounded strings only if api is remotely exposed. 130. document trust boundary: compiler/solver executors are trusted code, manifests are data. git / release / deployment 131. reconcile docs write control request before replay. 132. refresh head/origin immediately before staging because concurrent agents move main. 133. generate explicit mission file manifest from dependency graph. 134. compare mission file hashes against last reread before staging. 135. stage explicit files only; never directory wildcard if it can capture neighbor work. 136. inspect staged diff for quantity/reality/nature/cosmic/tunnel contamination. 137. run focused tests from staged snapshot or clean worktree. 138. commit one coherent universal lifecycle/demo tranche. 139. fetch fresh origin and cherry pick into isolated clean worktree if main moved. 140. run package self reference and browser static route from integration worktree. 141. inspect bhrelease.mjs exact two phase contract immediately before deploy. 142. activate exact clean sha only. 143. verify remote main sha equals intended commit. 144. verify production authority sha equals activated commit. 145. fresh browser public e2e at canonical url. 146. verify public resource graph still uses lifecycle entry. 147. record public response headers and route status. 148. stop local static server and clean temporary worktrees only after evidence preservation. 149. keep inherited 19 reds documented, never \"fix\" unrelated tests to manufacture green. 150. empty remaining work only after public sha/browser proof closes.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-1eca4c2e6d.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-47df64d17e",
+		"title": "Improvement Critique and Priorities",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/.ai-thoughts/20260902_0315-universal-procedural-api/19_IMPROVEMENT_CRITIQUE_AND_PRIORITIES.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Improvement Critique and Priorities",
+				"anchor": "improvement-critique-and-priorities"
+			},
+			{
+				"level": 2,
+				"text": "Highest-leverage accepted themes",
+				"anchor": "highest-leverage-accepted-themes"
+			},
+			{
+				"level": 2,
+				"text": "Ideas deferred deliberately",
+				"anchor": "ideas-deferred-deliberately"
+			},
+			{
+				"level": 2,
+				"text": "Thirty concrete improvements over the previous pass",
+				"anchor": "thirty-concrete-improvements-over-the-previous-pass"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Improvement Critique and Priorities The Awtsmoos renews abundance with Gevurah so possibility becomes useful form; Awtsmoos.com rejects glitter that adds weight without making truth, speed, safety, or maintenance warm. Highest leverage accepted themes 1. Reconcile uncertain docs mutation",
+		"searchText": "b\"h boruch hashem blessed is he improvement critique and priorities the awtsmoos renews abundance with gevurah so possibility becomes useful form; awtsmoos.com rejects glitter that adds weight without making truth, speed, safety, or maintenance warm. highest leverage accepted themes 1. reconcile uncertain docs mutation before any doc replay. 2. preserve lifecycle/full composition split and lock it structurally. 3. strengthen lifecycle edge case parity: malformed input, seed, compile policy, explanation purity. 4. strengthen compiler/constraint/cache invalidation and support state truth tests. 5. improve navigation semantics: unknown query fallback, home/end, modifier/editable guard. 6. improve demo observability: local compile duration, pipeline support counts, primitive count, explicit lightweight architecture badge. 7. add accessibility state: ready/busy announcement and broader lifecycle busy semantics. 8. add 320px responsive e2e and long token coverage. 9. add public safe error bounding and verify no external network calls. 10. add a performance evidence artifact and docs decision matrix. 11. rerun focused + structural + package export gates after each source wave. 12. rerun full package universe only after stabilization, using existing 19 red baseline classification. 13. complete full file reread, delta, evidence ledger, exact file staging. 14. integrate from clean origin if concurrent main advanced. 15. run two phase release and public e2e before declaring completion. ideas deferred deliberately no new global template/preset registry: existing domain portals already cover this and no current user need justifies another universal authority. no typed compiler dependency scheduler yet: existing dependencies can mean services, so ordering would be semantically unsafe without a richer type. no subgraph compilation cache claim: current cache is whole definition deterministic reuse. no animation/reduced motion work until animation exists. no clipboard api dependency; url state already gives shareability. no absolute browser boot sla; machine load makes exact timing unstable. structural module graph is the stable contract. no csp change until deployment headers/static hosting behavior are inspected; a meta csp could accidentally break existing module loading. thirty concrete improvements over the previous pass 1. add package subpath import graph test, not just source file graph test. 2. add lifecycle explanation purity test with execution counters. 3. add malformed json and wrapper/tojson parity tests. 4. add authored seed precedence parity test. 5. add compile request override parity test. 6. add duplicate compiler id diagnostics or at least deterministic replacement/throw contract test. 7. add overlapping channel compiler selection determinism test. 8. add deferred only coverage strict execution test. 9. add compiler version cache invalidation test. 10. add support state cache invalidation test. 11. add solver capability cache invalidation test. 12. add environment dependent solver cache bypass test. 13. add cache clear/stat test. 14. add compile failure not cached test. 15. add home/end navigation. 16. guard shortcuts in editable elements and modifier key chords. 17. add unknown query fallback test. 18. add aria busy to lifecycle workspace. 19. add visible local compile duration to status/summary. 20. add pipeline support count evidence. 21. add visual primitive count evidence. 22. add lightweight composition badge. 23. add bounded error message rendering. 24. add 320px browser e2e. 25. add long token overflow source contract. 26. add no external network resource browser assertion. 27. add browser resource/core count to evidence artifact. 28. add lifecycle decision table + troubleshooting docs. 29. add exact mission file manifest before staging. 30. add clean worktree release verification script/command list to handoff.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-47df64d17e.json"
+	}
+]

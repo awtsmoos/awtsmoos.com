@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-5e6f95a285",
+	"title": "Source and route discovery",
+	"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/SOURCE_AND_ROUTE_DISCOVERY.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 2,
+			"text": "Current tunnel integration takes precedence",
+			"anchor": "current-tunnel-integration-takes-precedence"
+		},
+		{
+			"level": 1,
+			"text": "Source and route discovery",
+			"anchor": "source-and-route-discovery"
+		},
+		{
+			"level": 2,
+			"text": "Select the source",
+			"anchor": "select-the-source"
+		},
+		{
+			"level": 2,
+			"text": "Present evidence",
+			"anchor": "present-evidence"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-5e6f95a285-001.json"
+	]
+}

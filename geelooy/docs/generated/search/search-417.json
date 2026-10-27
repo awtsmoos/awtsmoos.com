@@ -1,0 +1,212 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-09-11t1342-deployment-hardening-recovery-05-pla-51e8dfc796",
+		"title": "Deployment Hardening — Planned Versus Actual",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-11T1342-deployment-hardening-recovery/05-planned-vs-actual.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Deployment Hardening — Planned Versus Actual",
+				"anchor": "deployment-hardening-planned-versus-actual"
+			},
+			{
+				"level": 2,
+				"text": "Original recovery plan",
+				"anchor": "original-recovery-plan"
+			},
+			{
+				"level": 2,
+				"text": "What was observed",
+				"anchor": "what-was-observed"
+			},
+			{
+				"level": 2,
+				"text": "What was changed",
+				"anchor": "what-was-changed"
+			},
+			{
+				"level": 2,
+				"text": "Structural outcome",
+				"anchor": "structural-outcome"
+			},
+			{
+				"level": 2,
+				"text": "Remaining action",
+				"anchor": "remaining-action"
+			}
+		],
+		"excerpt": "Deployment Hardening — Planned Versus Actual Original recovery plan The recovery wave intentionally froze application code and focused only on production transport. The plan required named remote phases, safe diagnostics, bounded fetch retries, repair of detached or stale branch state, exact SHA validation, preservatio",
+		"searchText": "deployment hardening — planned versus actual original recovery plan the recovery wave intentionally froze application code and focused only on production transport. the plan required named remote phases, safe diagnostics, bounded fetch retries, repair of detached or stale branch state, exact sha validation, preservation of canonical activation, public verification, and a release canary. what was observed two consecutive pushes reached github actions but failed in the same opaque single ssh deployment step before the running service exposed the new reconciliation route. the product release itself had already passed 115 isolated tests and clean diff hygiene. the public apps, games, and transcribe surfaces remained healthy, proving the failure was deployment side rather than a public outage. the original workflow bundled repository preparation, activation, and public verification into one ssh action. that made the failure phase invisible. the activation script also proved that git checkout could advance before service restart, so the old public route alone could not tell whether fetch/reset or activation had failed. what was changed only .github/workflows/main.yml was rewritten in the isolated release worktree. the deployment now has four named phases: 1. probe production ssh reachability. 2. prepare exact production checkout. 3. activate canonical production server. 4. verify canonical public release. the checkout phase now validates the expected forty character sha, checks the production git repository, retries only git fetch with bounded backoff, verifies origin/main, repairs detached or stale branch state with checkout b main, cleans the checkout, and verifies a clean exact sha result. a safe err diagnostic prints only phase, exit code, branch, head, and origin/main sha. it never enables shell tracing or prints secrets. activation remains delegated to the existing canonical production activation script. public verification preserves the existing home and tunnel verifiers and adds the new reconciliation route as a deployment canary: an invalid route response proves the new wallet router is not yet running. structural outcome the first workflow rewrite reached 132 lines and was rejected. the second reached 121 lines and was rejected. the final rewrite is 119 lines, preserving readable control flow instead of minifying it. the application release remains unchanged. no commerce, wallet, apps, games, seo, server runtime, or activation source was modified by this recovery wave. remaining action commit the single validated workflow file separately, require remote main freshness, push without force, observe the newly split github actions phases, and verify the public reconciliation canary plus primary public routes.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-11t1342-deployment-hardening-recovery-05-pla-51e8dfc796.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-11t1342-deployment-hardening-recovery-06-ver-ca81cd760f",
+		"title": "Deployment Hardening Verification",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-11T1342-deployment-hardening-recovery/06-verification.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Deployment Hardening Verification",
+				"anchor": "deployment-hardening-verification"
+			},
+			{
+				"level": 2,
+				"text": "Source law",
+				"anchor": "source-law"
+			},
+			{
+				"level": 2,
+				"text": "Workflow structure",
+				"anchor": "workflow-structure"
+			},
+			{
+				"level": 2,
+				"text": "Checkout-repair simulation",
+				"anchor": "checkout-repair-simulation"
+			},
+			{
+				"level": 2,
+				"text": "Security/diagnostic properties",
+				"anchor": "security-diagnostic-properties"
+			},
+			{
+				"level": 2,
+				"text": "Production-release behavior retained",
+				"anchor": "production-release-behavior-retained"
+			},
+			{
+				"level": 2,
+				"text": "Previous failure testimony",
+				"anchor": "previous-failure-testimony"
+			},
+			{
+				"level": 2,
+				"text": "Next gate",
+				"anchor": "next-gate"
+			}
+		],
+		"excerpt": "Deployment Hardening Verification Source law The final deployment workflow is 119 lines, below the strict 120 line ceiling. It begins with the exact three blessing comments appropriate to YAML. Workflow structure Ruby YAML parsing succeeded against the final logical structure. The workflow contains exactly four named d",
+		"searchText": "deployment hardening verification source law the final deployment workflow is 119 lines, below the strict 120 line ceiling. it begins with the exact three blessing comments appropriate to yaml. workflow structure ruby yaml parsing succeeded against the final logical structure. the workflow contains exactly four named deployment steps: probe production ssh reachability. prepare exact production checkout. activate canonical production server. verify canonical public release. git diff check succeeded. actionlint was not installed on the local machine, so no actionlint result is claimed. checkout repair simulation a disposable git fixture was created with its own tiny bare remote. the working clone was deliberately detached from main and given an untracked junk file. the same deployment checkout sequence then fetched main, verified the expected commit, reset hard, recreated main at the expected sha, cleaned untracked files, and verified branch, sha, and clean status. the simulation completed with: sim branch=main sim clean=yes deployment checkout sim green this specifically proves the new workflow no longer rejects a detached production checkout merely because branch show current is empty. security/diagnostic properties the workflow does not enable set x and does not print secret values. the prepare phase failure trap exposes only phase, exit code, branch, head, and origin/main sha. network retry is limited to idempotent git fetch; activation is never implicitly retried. production release behavior retained the existing canonical activation script remains untouched. existing homepage and tunnel public release verifiers remain required. the verification phase additionally rejects the old wallet router by treating an invalid route reconciliation canary as deployment failure. previous failure testimony two consecutive commits failed the old single opaque ssh deployment step while the public site stayed healthy and the reconciliation canary remained the old invalid route response. this hardening does not claim the exact historical remote subcommand; its purpose is to make the next github actions run identify that phase directly while repairing one proven brittle assumption: detached/stale branch state. next gate only .github/workflows/main.yml may be staged in the isolated release worktree. before commit and push, remote main must still equal the worktree head, the worktree must contain no additional changes, cached diff hygiene must pass, and the push must be a strict non force fast forward.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-11t1342-deployment-hardening-recovery-06-ver-ca81cd760f.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-11t1342-deployment-hardening-recovery-07-fin-79def6257d",
+		"title": "Final Live Deployment Status",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-11T1342-deployment-hardening-recovery/07-final-live-deployment-status.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Final Live Deployment Status",
+				"anchor": "final-live-deployment-status"
+			},
+			{
+				"level": 2,
+				"text": "Product release",
+				"anchor": "product-release"
+			},
+			{
+				"level": 2,
+				"text": "Tunnel 502",
+				"anchor": "tunnel-502"
+			},
+			{
+				"level": 2,
+				"text": "CI/CD diagnosis",
+				"anchor": "ci-cd-diagnosis"
+			},
+			{
+				"level": 2,
+				"text": "Current safe posture",
+				"anchor": "current-safe-posture"
+			},
+			{
+				"level": 2,
+				"text": "Next exact infrastructure action",
+				"anchor": "next-exact-infrastructure-action"
+			}
+		],
+		"excerpt": "Final Live Deployment Status Product release The hardened Geelooy release is live on Awtsmoos.com. The strongest public canary is the Wallet reconciliation health route: the old production router returned JSON INVALID ROUTE, while current production returns the new authenticated text/plain response with Cache Control: ",
+		"searchText": "final live deployment status product release the hardened geelooy release is live on awtsmoos.com. the strongest public canary is the wallet reconciliation health route: the old production router returned json invalid route, while current production returns the new authenticated text/plain response with cache control: no store and login required for an anonymous request. the isolated product candidate previously passed 115/115 release tests: 50 apps/games/retention/shared commerce, 55 wallet/reconciliation/paid action, and 10 static/seo/startup tests. product code remained frozen during the deployment recovery work. tunnel 502 the awtsmoos tunnel relay temporarily returned upstream 502 responses before requests reached the mac. the relay later recovered and resumed healthy durable command execution. the 502 was not an awtsmoos.com production outage. ci/cd diagnosis the canonical deployment workflow was hardened into named phases and canonical host routing. awtsmoos.com resolves publicly, tcp/22 is reachable, and the server presents openssh. password authentication failed at the first ssh probe. historical workflow evidence showed ssh private key, so key authentication was restored and tested. it also failed at the first ssh probe. a dedicated credential diagnostic then proved: server user is non empty in github actions. ssh private key is non empty in github actions. ssh private key parses successfully with ssh keygen. the actual non interactive ssh connection exits 255. therefore the remaining ci/cd fault is outside application code: the stored key/user pair is not accepted by the production ssh service, or a server side ssh access policy rejects github hosted runners. no further product or workflow guessing should be used to conceal that credential/infrastructure fact. current safe posture production is live and healthy. the application release does not depend on resolving the ci credential defect to remain available. future automation repair should rotate/re authorize the github deploy key for the configured server user on the production server, then rerun the already diagnostic workflow and require the checkout, activation, and verification phases to pass. next exact infrastructure action authorize a fresh github actions deploy public key for the production ssh account and replace the repository ssh private key secret with the matching private key, or correct server user to the account that already owns that key. then trigger the workflow and verify all named phases plus the reconciliation canary.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-11t1342-deployment-hardening-recovery-07-fin-79def6257d.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-11t1342-deployment-hardening-recovery-07-liv-e9f235abd2",
+		"title": "Live Deployment Evidence",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-11T1342-deployment-hardening-recovery/07-live-deployment.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Live Deployment Evidence",
+				"anchor": "live-deployment-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Production is serving the hardened release",
+				"anchor": "production-is-serving-the-hardened-release"
+			},
+			{
+				"level": 2,
+				"text": "Current remote release state",
+				"anchor": "current-remote-release-state"
+			},
+			{
+				"level": 2,
+				"text": "Product verification authority",
+				"anchor": "product-verification-authority"
+			},
+			{
+				"level": 2,
+				"text": "Remaining CI testimony",
+				"anchor": "remaining-ci-testimony"
+			},
+			{
+				"level": 2,
+				"text": "Tunnel-control 502 testimony",
+				"anchor": "tunnel-control-502-testimony"
+			},
+			{
+				"level": 2,
+				"text": "Release conclusion",
+				"anchor": "release-conclusion"
+			}
+		],
+		"excerpt": "Live Deployment Evidence Production is serving the hardened release Verified from the public network after the tunnel control 502 recovered: https://awtsmoos.com/ returns HTTP 200 HTML. https://awtsmoos.com/apps/ returns HTTP 200 HTML. https://awtsmoos.com/games/ returns HTTP 200 HTML. https://awtsmoos.com/apps/transcr",
+		"searchText": "live deployment evidence production is serving the hardened release verified from the public network after the tunnel control 502 recovered: https://awtsmoos.com/ returns http 200 html. https://awtsmoos.com/apps/ returns http 200 html. https://awtsmoos.com/games/ returns http 200 html. https://awtsmoos.com/apps/transcribe/ returns http 200 html. https://awtsmoos.com/api/wallet/commerce/reconciliation/health returns http 200 text/plain with cache control: no store. the reconciliation route returns the expected unauthenticated testimony: ok=false, error=login required, login=/login. the reconciliation response is decisive release evidence because the old production wallet router returned json invalid route; the new text/plain login guard exists only in the hardened release graph. current remote release state observed origin/main sha: 5d96d0af647f14a67eca1f4f9a9df1d4b0519d9c. the remote deployment workflow is 119 lines and exactly matches the locally validated canonical host workflow blob. it contains four host: awtsmoos.com references and zero server ip references. product verification authority before deployment, the isolated release candidate passed: 50/50 apps, games, retention, and shared commerce tests. 55/55 wallet, reconciliation, reservation, paid action, and radiance tests. 10/10 static inventory, seo, and startup tests. git diff check with no whitespace errors. that is 115/115 behavioral/static release tests. remaining ci testimony github actions run 34641872306 is marked failed because step 2, probe production ssh reachability, failed. checkout preparation, canonical activation, and workflow public verification were skipped in that run. this ci failure is no longer evidence that the product is unpublished: the public reconciliation canary proves the hardened wallet router is running. the remaining github ssh issue is therefore an automation/credential/access policy concern to repair independently, without rolling back or disturbing the working production release. tunnel control 502 testimony the device control relay experienced repeated upstream websocket 502 bad gateway handshakes and server restart 1012 closes. after the tunnel agent was refreshed, the main native tunnel recovered and completed filesystem, git, github api, and public http verification successfully. release conclusion the hardened geelooy release is live. production should remain untouched while future work isolates the github ssh false negative from the already working public service.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-11t1342-deployment-hardening-recovery-07-liv-e9f235abd2.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-14-main-only-convergence-01-boundless-conver-1b165545f7",
+		"title": "Phase One — Main-Only Convergence",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-14-main-only-convergence/01-boundless-convergence.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase One — Main-Only Convergence",
+				"anchor": "phase-one-main-only-convergence"
+			},
+			{
+				"level": 2,
+				"text": "Non-negotiable constraints",
+				"anchor": "non-negotiable-constraints"
+			},
+			{
+				"level": 2,
+				"text": "Convergence possibilities",
+				"anchor": "convergence-possibilities"
+			}
+		],
+		"excerpt": "Phase One — Main Only Convergence The goal is one canonical repository folder, one long lived branch (main), and no valuable work stranded in auxiliary worktrees or historical branches. Non negotiable constraints Mutate source only under /Users/awtsmoos/work/awtsmoos.com. Do not create any new branches. Preserve every ",
+		"searchText": "phase one — main only convergence the goal is one canonical repository folder, one long lived branch (main), and no valuable work stranded in auxiliary worktrees or historical branches. non negotiable constraints mutate source only under /users/awtsmoos/work/awtsmoos.com. do not create any new branches. preserve every valuable local commit and uncommitted file before deleting branch/worktree references. never force push over unknown remote work. never commit secrets, caches, generated junk, or machine local artifacts merely because they are untracked. keep product source changes whole file only. convergence possibilities detect branches already fully contained in origin/main and delete their local references after verifying no dirty worktree remains. detect branches with unique commits and replay/merge their content into canonical main only after diff review and tests. detect worktrees whose branch commit is already contained upstream but whose filesystem contains uncommitted changes; harvest those diffs into canonical main before removal. detect prunable/missing worktrees and prune their metadata immediately after confirming their branch tips are safe. preserve canonical main's four unique commits. classify the 2,009 canonical local changes by tracked/untracked, top level area, size, and secret risk before any commit. bring origin/main into canonical main only after local work is made durable on main. resolve conflicts in favor of current product truth rather than blindly taking one side. run tests per merged area before publishing. delete merged local branches and obsolete worktrees when their unique commit count against final main is zero.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-14-main-only-convergence-01-boundless-conver-1b165545f7.json"
+	}
+]

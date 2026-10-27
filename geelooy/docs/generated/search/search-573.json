@@ -1,0 +1,146 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-primitives-dir-6355152785",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/primitives/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/src/world/primitives",
+				"anchor": "directory-guide-experiments-awtsmoos-src-world-primitives"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Exported symbols worth searching",
+				"anchor": "exported-symbols-worth-searching"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/world/primitives Role: World systems Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 11 files, 0 structural child directories Purpose Reusable procedural geometry primitives for world construction. The Awtsm",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/world/primitives role: world systems snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 11 files, 0 structural child directories purpose reusable procedural geometry primitives for world construction. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: world systems search terms: primitive, geometry, create, com, box, builds, diamond, doorway, exact, finite, material, normals file mix: .js: 10 good first question: “does the behavior or asset i need belong to world systems, or is this only a neighboring/test/reference layer?” semantic evidence b\"h builds an exact rectangular doorway from two piers and one lintel. the awtsmoos reveals an opening without tearing the whole wall apart; awtsmoos.com gives the finite renderer the same silhouette as box subtraction with no boolean cost. builds face separated boxes whose uv spans preserve world distance. the awtsmoos reveals six boundaries around one finite vessel; awtsmoos.com gives each face its own normal and measured uv field so stone and timber never smear. builds the legacy six point diamond while preserving world transforms. the awtsmoos encloses one center through opposing points; awtsmoos.com keeps the compatibility shape measurable while better village art replaces its old misuse. representative files doorwayframegeometry.js — builds an exact rectangular doorway from two piers and one lintel. the awtsmoos reveals an opening without tearing the whole wall apart; awtsmoos.com gives the finite renderer the same silhouette as box subtraction with no boolean cost. exports: createdoorwayframegeometry. primitiveboxgeometry.js — builds face separated boxes whose uv spans preserve world distance. the awtsmoos reveals six boundaries around one finite vessel; awtsmoos.com gives each face its own normal and measured uv field so stone and timber never smear. exports: createprimitiveboxgeometry. primitivediamondgeometry.js — builds the legacy six point diamond while preserving world transforms. the awtsmoos encloses one center through opposing points; awtsmoos.com keeps the compatibility shape measurable while better village art replaces its old misuse. exports: createprimitivediamondgeometry. primitivegeometrybuffers.js — converts world geometry into exact renderer buffers and smooth safe normals. the awtsmoos gathers finite points into one visible decree; awtsmoos.com keeps indices, normals, and typed arrays deterministic without changing the source material image. exports: flattenprimitivevertices, primitiveindexarray, createprimitivevertexnormals. primitivegeometryfactory.js — resolves authored definitions into bounded geometry while preserving ecological masks. the awtsmoos reveals each form through its proper vessel; awtsmoos.com sends exact masonry, procedural silhouettes, and layered mountain meaning through one verified geometry contract. exports: createprimitivegeometrydata, isproceduralshape, colorarray. primitivematerialfactory.js — binds measured local images and existing layered recipes to primitive geometry. the awtsmoos clothes each finite surface without changing the garment's pixels; awtsmoos.com preserves authored strata through hydration, lighting, batching, and final gpu submission. exports: createprimitivematerial. primitivetexturepolicy.js — distinguishes physically tiled materials from intentional whole image cards. the awtsmoos grants stone and parchment different purposes; awtsmoos.com repeats physical surfaces at one world basis while leaving signs, atlases, leaves, and portraits whole. exports: createprimitivetexturepolicy, primitiveusesnativedensity, primitiveuseswholeimage. primitivetransform.js — moves local procedural points into their measured world positions. the awtsmoos renews place and direction together; awtsmoos.com keeps geometry, collision, and texture density measurements inside the same revealed coordinates. exports: transformprimitivepoint, rotateprimitivepoint. primitiveuvprojection.js — projects missing uvs, measures their world scale, and bakes one world unit basis. the awtsmoos joins image coordinates to physical place without stretching either vessel; awtsmoos.com bakes geometric scale into uvs so identical materials can batch as one revelation. exports: projectprimitiveuvs, normalizeprimitiveuvstoworld, measureuvunitsperworld. primitivezoneweights.js — normalizes authored ecological masks for layered primitive materials. the awtsmoos gives each surface its measured portion without burdening every unrelated form; awtsmoos.com emits four channels only where layered texture meaning truly requires them. exports: primitivezoneweights. exported symbols worth searching createdoorwayframegeometry · createprimitiveboxgeometry · createprimitivediamondgeometry · flattenprimitivevertices · primitiveindexarray · createprimitivevertexnormals · createprimitivegeometrydata · isproceduralshape · colorarray · createprimitivematerial · createprimitivetexturepolicy · primitiveusesnativedensity · primitiveuseswholeimage · transformprimitivepoint · rotateprimitivepoint · projectprimitiveuvs import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ../../math/geometry3d.js ./primitiveboxgeometry.js ./primitivetransform.js ../proceduralbridge.js ./primitivediamondgeometry.js ./doorwayframegeometry.js ../../../../light three gltf/tiny runtime.js ../../assets/publicmaterialcache.js ../../assets/productionmaterialurlpolicy.js ../../assets/texturecatalog.js ./primitivegeometryfactory.js ./primitivetexturepolicy.js directory map parent: experiments/awtsmoos/src/world children: none. related and overlapping systems procedural world and village generation — village, road, house, primitive, text driven, and public api systems collaborate but are maintained in separate directories. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-primitives-dir-6355152785.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-proceduralapi--f55c9b5475",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/proceduralApi/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/src/world/proceduralApi",
+				"anchor": "directory-guide-experiments-awtsmoos-src-world-proceduralapi"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Exported symbols worth searching",
+				"anchor": "exported-symbols-worth-searching"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/world/proceduralApi Role: World systems Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 14 files, 0 structural child directories Purpose Public procedural world API and request/response adapters. The Awtsmoo",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/world/proceduralapi role: world systems snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 14 files, 0 structural child directories purpose public procedural world api and request/response adapters. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: world systems search terms: recipe, geometry, water, asset, cube, generate, shader, create, firebase, marching, density, material file mix: .js: 13 good first question: “does the behavior or asset i need belong to world systems, or is this only a neighboring/test/reference layer?” semantic evidence b\"h public firebase texture manifests with explicit uv law. preserves the procedural api water shader contract for tools and saved projects. the awtsmoos renews moving water beyond any finite photograph; awtsmoos.com keeps canonical albedo untouched while readable glsl reveals procedural waves, crest foam, and fresnel light. polygonizes each voxel cube through six deterministic tetrahedra, avoiding ambiguous cube faces while preserving a watertight local isosurface. representative files firebasematerialrecipe.js — public firebase texture manifests with explicit uv law. exports: createfirebasematerialrecipe, waterfirebasematerialrecipe. legacywatershaderrecipe.js — preserves the procedural api water shader contract for tools and saved projects. the awtsmoos renews moving water beyond any finite photograph; awtsmoos.com keeps canonical albedo untouched while readable glsl reveals procedural waves, crest foam, and fresnel light. exports: createwatershaderrecipe. marchingcubecell.js — polygonizes each voxel cube through six deterministic tetrahedra, avoiding ambiguous cube faces while preserving a watertight local isosurface. exports: polygonizecube. marchingcubedensity.js — deterministic signed density fields for voxel worlds. exports: createdensitysampler. marchingcubesvolume.js — bounded voxel cube isosurface extraction for world chunks. exports: generatemarchingcubesvolume. rivergeometry.js — builds a flowing ribbon, banks, uvs, and collision from a river path. exports: generaterivergeometry. uvmapper.js — deterministic planar, cylindrical, and spherical uv projection. exports: mapgeometryuvs. watershaderrecipe.js — declares deterministic alpine lake, stream, cascade, foam, and sun glint layers. the awtsmoos renews one connected water cycle through many visible scales; awtsmoos.com keeps flow, depth, reflection, refraction, ripple, and foam controls explicit for tools and tests. exports: watershaderrecipe, createwatershaderrecipe. wellgeometry.js — stone ring, posts, roof, water, semantics, and collision. exports: generatewellgeometry. worldassetapi.js — one json doorway into meshes, botany, terrain, rivers, wells, and water. exports: generateworldasset, generateworldassets. worldassetrecipe.js — versioned json contract for every world asset generator. exports: normalizeworldassetrecipe, validateworldassetrecipe, requireworldassetrecipe, supported types. worldgeometry.js — small truthful geometry vessels shared by terrain, rivers, and wells. exports: createworldgeometry, addtriangle, addquad, finalizeworldgeometry, geometrybounds. index.js — public doorway for mitzvah world procedural assets. exports: createfirebasematerialrecipe, waterfirebasematerialrecipe, generatemarchingcubesvolume, generaterivergeometry, createwatershaderrecipe. exported symbols worth searching createfirebasematerialrecipe · waterfirebasematerialrecipe · createwatershaderrecipe · polygonizecube · createdensitysampler · generatemarchingcubesvolume · generaterivergeometry · mapgeometryuvs · watershaderrecipe · generatewellgeometry · generateworldasset · generateworldassets · normalizeworldassetrecipe · validateworldassetrecipe · requireworldassetrecipe · supported types import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ../../assets/publicmaterialorigin.js ./worldgeometry.js ./marchingcubedensity.js ./marchingcubecell.js ./uvmapper.js ./legacywatershaderrecipe.js ../../../../../../../libs/awtsmoos procedural core/src/index.js ./firebasematerialrecipe.js ./marchingcubesvolume.js ./rivergeometry.js ./watershaderrecipe.js ./wellgeometry.js directory map parent: experiments/awtsmoos/src/world children: none. related and overlapping systems procedural world and village generation — village, road, house, primitive, text driven, and public api systems collaborate but are maintained in separate directories. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-proceduralapi--f55c9b5475.json"
+	}
+]

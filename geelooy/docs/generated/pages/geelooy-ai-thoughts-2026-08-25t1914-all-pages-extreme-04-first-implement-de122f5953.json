@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-25t1914-all-pages-extreme-04-first-implement-de122f5953",
+	"title": "First Implementation File Map",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-25T1914-all-pages-extreme/04_FIRST_IMPLEMENTATION_FILE_MAP.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "First Implementation File Map",
+			"anchor": "first-implementation-file-map"
+		},
+		{
+			"level": 2,
+			"text": "Read before rewrite",
+			"anchor": "read-before-rewrite"
+		},
+		{
+			"level": 2,
+			"text": "Probable first rewrites after evidence",
+			"anchor": "probable-first-rewrites-after-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Verification artifacts",
+			"anchor": "verification-artifacts"
+		},
+		{
+			"level": 2,
+			"text": "NEXTACTION",
+			"anchor": "nextaction"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-25t1914-all-pages-extreme-04-first-implement-de122f5953-001.json"
+	]
+}

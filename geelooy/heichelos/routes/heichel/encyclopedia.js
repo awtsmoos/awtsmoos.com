@@ -200,7 +200,7 @@ function createEncyclopedia($i) {
 <meta property="og:description" content="${escapeHtml(description)}">
 <meta property="og:url" content="${escapeHtml(canonical)}">
 <meta property="og:site_name" content="Awtsmoos">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230d0b08'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-size='36' fill='%23d4a94e'%3E%D7%90%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo-image-archive/sha256/1be42a935229f419884743069841806a9550a026df2254562665c97e954d9b3c/asset">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=Frank+Ruhl+Libre:wght@400;500;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">

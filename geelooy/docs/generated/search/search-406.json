@@ -1,0 +1,183 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-09-04-0515-olam-api-http-hardening-02-critique--289fe664d0",
+		"title": "Critique — Twenty-Four Improvements",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-04-0515-olam-api-http-hardening/02-critique-24.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Critique — Twenty-Four Improvements",
+				"anchor": "critique-twenty-four-improvements"
+			}
+		],
+		"excerpt": "Critique — Twenty Four Improvements 1. Do not globally infer HTTP status from arbitrary domain objects. 2. Do not throw for expected validation failures when handlers already return structured bodies. 3. Preserve every existing JSON field exactly. 4. Keep successful / and /status HTTP 200. 5. Keep successful create/tas",
+		"searchText": "critique — twenty four improvements 1. do not globally infer http status from arbitrary domain objects. 2. do not throw for expected validation failures when handlers already return structured bodies. 3. preserve every existing json field exactly. 4. keep successful / and /status http 200. 5. keep successful create/task http 200. 6. use the framework supported envelope rather than hand inventing a response protocol. 7. hide the framework dependency behind an olam local adapter. 8. give the adapter one responsibility: transport manifestation. 9. default absent/invalid body status to 200 only for successful bodies. 10. accept only legal http status values before passing transport metadata. 11. ensure headers remain no store json. 12. prove normalization recognizes the adapter output as wrapped. 13. prove the sender sets node response status. 14. prove response body still parses to the original object. 15. preserve browser data.ok === false behavior. 16. preserve requestid/type metadata. 17. do not touch minimax provider payload mapping. 18. do not touch image replacement code already proven correct. 19. re run 43+ deterministic tests after the change. 20. re probe the real public endpoints after deployment. 21. re run the public five browser ui suites after deployment. 22. re fetch remote before commit and before push because other agents are active. 23. never deploy an older sha over unrelated newer production; integrate onto latest remote lineage. 24. keep all new/rewritten source under 120 lines with tabs and full awtsmoos documentation.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-04-0515-olam-api-http-hardening-02-critique--289fe664d0.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-04-0515-olam-api-http-hardening-03-tiferes-f-64ec16de70",
+		"title": "Phase Three — Final Design",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-04-0515-olam-api-http-hardening/03-tiferes-final-design.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Three — Final Design",
+				"anchor": "phase-three-final-design"
+			}
+		],
+		"excerpt": "Phase Three — Final Design Create a small MalchusH3HttpResponse adapter. It receives a handler body, derives the transport status from a legal body.status only when body.ok === false, otherwise uses 200, and delegates JSON envelope construction to the Awtsmoos dynamic server makeJsonResponse helper. Rewrite awtsmoos.de",
+		"searchText": "phase three — final design create a small malchush3httpresponse adapter. it receives a handler body, derives the transport status from a legal body.status only when body.ok === false, otherwise uses 200, and delegates json envelope construction to the awtsmoos dynamic server makejsonresponse helper. rewrite awtsmoos.derech.js fully so each route calls one local reveal(handlerpromise) function that awaits the domain body and passes it through malchush3httpresponse.frombody. add a focused transport test that uses the actual framework normalizer/sender with a fake node response vessel. it must prove 200/400/503 status lines and unchanged json bodies. then run the existing full deterministic suite, safe local/public api probes, and production ui browser suite. the paid minimax boundary remains external while configured:false.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-04-0515-olam-api-http-hardening-03-tiferes-f-64ec16de70.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-04-0515-olam-api-http-hardening-04-final-tou-c513b14ebf",
+		"title": "Final Touch List",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-04-0515-olam-api-http-hardening/04-final-touch-list.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Final Touch List",
+				"anchor": "final-touch-list"
+			},
+			{
+				"level": 2,
+				"text": "Actually write",
+				"anchor": "actually-write"
+			},
+			{
+				"level": 2,
+				"text": "Re-read but do not modify unless evidence forces it",
+				"anchor": "re-read-but-do-not-modify-unless-evidence-forces-it"
+			},
+			{
+				"level": 2,
+				"text": "Release proof",
+				"anchor": "release-proof"
+			}
+		],
+		"excerpt": "Final Touch List Actually write 1. geelooy/api/olam h3/core/httpResponse.js 2. geelooy/api/olam h3/ awtsmoos.derech.js 3. geelooy/apps/olam h3/tests/http response contract.test.mjs Re read but do not modify unless evidence forces it core/handlers.js scripts/api/MinimaxProxyClient.js asset replacement/cache files and te",
+		"searchText": "final touch list actually write 1. geelooy/api/olam h3/core/httpresponse.js 2. geelooy/api/olam h3/ awtsmoos.derech.js 3. geelooy/apps/olam h3/tests/http response contract.test.mjs re read but do not modify unless evidence forces it core/handlers.js scripts/api/minimaxproxyclient.js asset replacement/cache files and tests generation queue/record/recovery/cache files release proof file size/syntax/tab/diff gates full deterministic olam tests actual http status behavior public five browser ui regression current production sha/clean/service proof secret scan cleanup and final evidence",
+		"page": "pages/geelooy-ai-thoughts-2026-09-04-0515-olam-api-http-hardening-04-final-tou-c513b14ebf.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-04-0515-olam-api-http-hardening-remaining-wo-e16547a6ee",
+		"title": "REMAININGWORK — Olam H3 API Hardening",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-04-0515-olam-api-http-hardening/REMAINING_WORK.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "REMAININGWORK — Olam H3 API Hardening",
+				"anchor": "remainingwork-olam-h3-api-hardening"
+			}
+		],
+		"excerpt": "REMAINING WORK — Olam H3 API Hardening [x] Prove Better V2 UI on production with five browser suites. [x] Inventory all Olam browser/server API routes and call sites. [x] Prove provider create/query URLs, auth, methods, payloads, and error mapping deterministically. [x] Prove stable ID image replacement, preview invali",
+		"searchText": "remaining work — olam h3 api hardening [x] prove better v2 ui on production with five browser suites. [x] inventory all olam browser/server api routes and call sites. [x] prove provider create/query urls, auth, methods, payloads, and error mapping deterministically. [x] prove stable id image replacement, preview invalidation, and fresh transport bytes deterministically. [x] run live public api probes and discover http 200 on error defect. [x] trace real awtsmoos dynamic response transport contract. [x] re read route/generation public contracts before mutation. [x] write three api hardening planning phases, critique, and final touch list. [ ] create isolated latest main sparse release worktree. [ ] write olam local http response adapter. [ ] rewrite olam route module through adapter. [ ] add framework integrated http response contract test. [ ] run full deterministic and source gates. [ ] run safe local http integration proof. [ ] re read touched files and planned vs actual delta. [ ] reconcile latest origin/main safely. [ ] commit only intended olam api/test paths. [ ] fast forward push without overwriting unrelated work. [ ] canonically deploy latest integrated sha. [ ] public api probes must return real 400/503 status lines. [ ] re run public five browser ui suite. [ ] prove production clean/service active and current lineage. [ ] secret scan and cleanup. [ ] write final api/ui release evidence. [ ] external paid minimax generation remains blocked only if production still reports configured:false. next action: create a fresh isolated sparse worktree from latest origin/main, prove no concurrent olam delta from the inspected tree, then write the three planned source/test files in full.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-04-0515-olam-api-http-hardening-remaining-wo-e16547a6ee.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-09t0712-peruta-marketplace-uiux-00-mission-m-5061c609c9",
+		"title": "Geelooy Marketplace & Peruta Mission",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-09T0712-peruta-marketplace-uiux/00-mission.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Geelooy Marketplace & Peruta Mission",
+				"anchor": "geelooy-marketplace-peruta-mission"
+			},
+			{
+				"level": 2,
+				"text": "Outcome",
+				"anchor": "outcome"
+			},
+			{
+				"level": 2,
+				"text": "Observed Reality",
+				"anchor": "observed-reality"
+			},
+			{
+				"level": 2,
+				"text": "Strategy",
+				"anchor": "strategy"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Geelooy Marketplace & Peruta Mission From Awtsmoos every vessel is renewed in ordered light; Awtsmoos.com should make each tool and game discoverable, useful, and bright. Outcome Create a coherent mobile first product platform across Geelooy: professional catalog presentation, polished s",
+		"searchText": "b\"h boruch hashem blessed is he geelooy marketplace & peruta mission from awtsmoos every vessel is renewed in ordered light; awtsmoos.com should make each tool and game discoverable, useful, and bright. outcome create a coherent mobile first product platform across geelooy: professional catalog presentation, polished shared ui, transparent peruta commerce, product credits/entitlements where appropriate, and measurable activation/retention/purchase flows. observed reality apps/wallet already has modular commerce, ownership, purchase, pricing, ledger and responsive ui modules. games/scripts/storefront already has contract, model, orchestration and presentation layers. games/scripts/wallet rewards already has claim contracts, idempotent looking key factories, transport and presentation layers. games/scripts/catalog already has commerce plan.mjs, marketing.mjs, capability modules and card markup. strategy extend existing shared contracts first. avoid bespoke payment buttons in dozens of products. use catalog metadata and reusable commerce surfaces so one platform improvement can reach many apps and games.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-09t0712-peruta-marketplace-uiux-00-mission-m-5061c609c9.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-09t0712-peruta-marketplace-uiux-01-pass-one--144cafdc46",
+		"title": "Pass One — Unbounded Brainstorm",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-09T0712-peruta-marketplace-uiux/01-pass-one-unbounded.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Pass One — Unbounded Brainstorm",
+				"anchor": "pass-one-unbounded-brainstorm"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Pass One — Unbounded Brainstorm Awtsmoos makes the moment new; the interface may reveal that truth anew. Unified app + game marketplace with search, categories, featured collections, recents, trending and launch ready cards. Wallet balance chip in shared shells, quick top up, ledger acce",
+		"searchText": "b\"h boruch hashem blessed is he pass one — unbounded brainstorm awtsmoos makes the moment new; the interface may reveal that truth anew. unified app + game marketplace with search, categories, featured collections, recents, trending and launch ready cards. wallet balance chip in shared shells, quick top up, ledger access and clear peruta denomination. product credit packs backed by explicit peruta exchange rules and server authoritative ownership. reusable purchase sheet: what is bought, price, balance before/after, receipt, insufficient balance path. transparent free starter allowances; purchased credits must not silently expire. app offers: compute/render/export/storage/batch/collaboration capacity rather than locking basic usefulness. game offers: cosmetics, themes, challenge/level packs and non pay to win convenience; no wagering mechanics. product detail pages with screenshots, use cases, credit model, privacy, accessibility and device support. cross promotion based on relevant workflows, not intrusive ads. referral/loyalty/reward systems with abuse caps and transparent rules. funnel analytics: impression → launch → activation → quote → purchase → successful spend → return. mobile safe areas, 44px touch targets, responsive typography, reduced motion, visible focus, offline/failure states. pwa/install prompts, optimized assets, share metadata, localization and rtl readiness.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-09t0712-peruta-marketplace-uiux-01-pass-one--144cafdc46.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-09t0712-peruta-marketplace-uiux-02-pass-two--8039dcb792",
+		"title": "Pass Two — Architecture Choice",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-09T0712-peruta-marketplace-uiux/02-pass-two-architecture.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Pass Two — Architecture Choice",
+				"anchor": "pass-two-architecture-choice"
+			},
+			{
+				"level": 2,
+				"text": "Competing Approaches",
+				"anchor": "competing-approaches"
+			},
+			{
+				"level": 2,
+				"text": "Layers To Preserve / Extend",
+				"anchor": "layers-to-preserve-extend"
+			},
+			{
+				"level": 2,
+				"text": "Contract Questions Before Source Changes",
+				"anchor": "contract-questions-before-source-changes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Pass Two — Architecture Choice The Awtsmoos gives light a vessel; shared contracts give scale a stable frame. Competing Approaches A. Bespoke monetization per product — reject: inconsistent and expensive. B. Injected global iframe — reject: brittle and detached from product context. C. S",
+		"searchText": "b\"h boruch hashem blessed is he pass two — architecture choice the awtsmoos gives light a vessel; shared contracts give scale a stable frame. competing approaches a. bespoke monetization per product — reject: inconsistent and expensive. b. injected global iframe — reject: brittle and detached from product context. c. shared catalog metadata + commerce shell + product adapters — preferred. d. rewrite entire site as one spa — defer: destructive before contracts demand it. e. progressive shared platform layer over current routes — preferred with c. layers to preserve / extend apps/wallet: source of truth consumer wallet experience. games/scripts/catalog: game metadata, marketing and commerce declaration. games/scripts/storefront: reusable game marketplace interaction/presentation. games/scripts/wallet rewards: earned reward transport/claim flow. existing shared styles/tokens/catalog infrastructure discovered next. contract questions before source changes 1. exact wallet endpoints and purchase/ownership payloads. 2. peruta precision and balance semantics. 3. existing product credit or entitlement representation. 4. commerce plan schema used by game cards. 5. existing app catalog metadata and shared platform navigation. 6. current mobile token system and reusable shell components.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-09t0712-peruta-marketplace-uiux-02-pass-two--8039dcb792.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-09t0712-peruta-marketplace-uiux-03-pass-thre-fe1e333c69",
+		"title": "Pass Three — Critique & Improvements",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-09T0712-peruta-marketplace-uiux/03-pass-three-critique.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Pass Three — Critique & Improvements",
+				"anchor": "pass-three-critique-improvements"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Pass Three — Critique & Improvements Awtsmoos reveals the hidden edge before the polished vessel can shine. 1. Never trust client side price as charge authority. 2. Require idempotent purchase/claim operations. 3. Visually separate Peruta balance from product credits. 4. Make credit prov",
+		"searchText": "b\"h boruch hashem blessed is he pass three — critique & improvements awtsmoos reveals the hidden edge before the polished vessel can shine. 1. never trust client side price as charge authority. 2. require idempotent purchase/claim operations. 3. visually separate peruta balance from product credits. 4. make credit provenance explicit: free, earned, purchased, promotional. 5. preserve user work when a paid action is required mid flow. 6. never imply purchase success while offline. 7. keep purchased value non expiring unless policy explicitly says otherwise. 8. provide insufficient balance recovery without losing context. 9. keep game monetization non pay to win. 10. keep core utility useful before paid capacity upgrades. 11. lazy load commerce overlays outside critical rendering/game loops. 12. respect reduced motion and high contrast needs. 13. minimum 44px primary touch targets and safe area insets. 14. keyboard/focus semantics for every purchase surface. 15. receipt ids and clear error recovery. 16. analytics without sensitive project/content payloads. 17. central price formatting and experimentation config. 18. catalog schema validation. 19. purchase state machine and balance race tests. 20. screenshot checks at 360px/390px/tablet/desktop. 21. no dark patterns, fake scarcity or hidden depletion. 22. no promise of guaranteed revenue; optimize trust, conversion and retention with evidence. 23. check user modified files before each rewrite. 24. full file rewrites only after complete readback. 25. split any touched source that exceeds the project line size doctrine. 26. maintain tabs in code indentation. 27. re read every touched file after writing. 28. compare planned vs actual implementation and close deltas. 29. document adapter coverage across apps/games. 30. record every remaining product specific ux gap honestly.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-09t0712-peruta-marketplace-uiux-03-pass-thre-fe1e333c69.json"
+	}
+]

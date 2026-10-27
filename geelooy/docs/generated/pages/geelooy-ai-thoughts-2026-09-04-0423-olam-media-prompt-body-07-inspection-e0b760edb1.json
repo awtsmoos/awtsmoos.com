@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-04-0423-olam-media-prompt-body-07-inspection-e0b760edb1",
+	"title": "Inspection-Derived Touch Plan",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-04-0423-olam-media-prompt-body/07-inspection-derived-touch-plan.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Inspection-Derived Touch Plan",
+			"anchor": "inspection-derived-touch-plan"
+		},
+		{
+			"level": 2,
+			"text": "Direct observations",
+			"anchor": "direct-observations"
+		},
+		{
+			"level": 2,
+			"text": "Exact product touch set",
+			"anchor": "exact-product-touch-set"
+		},
+		{
+			"level": 2,
+			"text": "Explicit non-touches",
+			"anchor": "explicit-non-touches"
+		},
+		{
+			"level": 2,
+			"text": "Tests after product code",
+			"anchor": "tests-after-product-code"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-04-0423-olam-media-prompt-body-07-inspection-e0b760edb1-001.json"
+	]
+}

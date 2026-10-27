@@ -1,0 +1,228 @@
+[
+	{
+		"id": "geelooy-apps-tunnel-downloads-artifact-transport-md-a3fbab9d83",
+		"title": "B\"H",
+		"sourcePath": "geelooy/apps/tunnel/downloads/ARTIFACT_TRANSPORT.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Awtsmoos Tunnel Artifacts — Native Browser Capture and Stored Sharing",
+				"anchor": "awtsmoos-tunnel-artifacts-native-browser-capture-and-stored-sharing"
+			},
+			{
+				"level": 2,
+				"text": "1. Exact-target browser screenshot",
+				"anchor": "1-exact-target-browser-screenshot"
+			},
+			{
+				"level": 2,
+				"text": "2. Built-in image conversion",
+				"anchor": "2-built-in-image-conversion"
+			},
+			{
+				"level": 2,
+				"text": "3. Controller-hosted temporary URL",
+				"anchor": "3-controller-hosted-temporary-url"
+			},
+			{
+				"level": 2,
+				"text": "4. Important current limitations",
+				"anchor": "4-important-current-limitations"
+			},
+			{
+				"level": 2,
+				"text": "5. Verification",
+				"anchor": "5-verification"
+			},
+			{
+				"level": 2,
+				"text": "6. First-class Shliach MCP artifact tools (0.91.0 packaging)",
+				"anchor": "6-first-class-shliach-mcp-artifact-tools-0-91-0-packaging"
+			}
+		],
+		"excerpt": "B\"H Awtsmoos Tunnel Artifacts — Native Browser Capture and Stored Sharing This document describes the implemented release 1.0.673 features and their current limits. The browser and publisher are separate authorization boundaries. 1. Exact target browser screenshot Native tunnel action (browser enabled device): For 390 ",
+		"searchText": "b\"h awtsmoos tunnel artifacts — native browser capture and stored sharing this document describes the implemented release 1.0.673 features and their current limits. the browser and publisher are separate authorization boundaries. 1. exact target browser screenshot native tunnel action (browser enabled device): for 390 × 844 css pixels at dpr 3, chrome produces 1170 × 2532 device pixels. the action uses page.capturescreenshot on a separate, explicitly identified cdp page socket; it does not capture the mac foreground window or attach to whichever tab happens to be active. an absent or ambiguous target fails closed. its compact response contains: sha 256, file path, bytes, mime, timestamp, target id, url, title, requested viewport, dpr, and transfer descriptor. the raw image is stored in the connected agent's project root .awtsmoos/chrome/artifacts/ directory, not pasted into tool output. the default capture execution budget is 3900 ms (configurable to 4000 ms). each failure includes the stage and elapsed time. request ids are bound to capture inputs; a repeated matching id returns the completed on disk receipt. a completed artifact remains readable across an agent reconnect as long as that machine's evidence directory remains intact. diagnostics:true requests a limited stylesheet and computed style summary; it does not currently guarantee a complete network error or console log. 2. built in image conversion native action: this uses chrome's built in createimagebitmap, offscreencanvas, and converttoblob in an isolated page connection. output supports png, jpeg, and webp. canvas re encoding strips exif and embedded image metadata. no python/pillow, imagemagick, ffmpeg, sips, or installed image package is invoked. input paths still use the existing secure project root/secret policy; browser control and filesystem read permission must both exist. 3. controller hosted temporary url the artifact copy endpoint is: authenticated owner/admin json payload: requires a verified session/api key with tunnel.admin scope. the controller uses the existing identity checked device file transfer actions to retrieve and sha 256 verify the complete file, then stores its own private disk copy. it returns a random token url under /api/tunnel/control/artifact/ / . the url expires automatically, is not cacheable, and is downloadable without a live mac tunnel for its remaining ttl. max upload: 16 mib. max ttl: 3600 s. for one file inside a folder, use post /api/tunnel/control/artifact/publish folder file with root and relativepath in place of path. traversal is rejected. it never publishes the entire directory. to revoke early: revocation invalidates the url and removes stored bytes. metadata is retained only while active; expired records are cleaned in bounded maintenance sweeps. 4. important current limitations cross project, arbitrary desktop paths are still denied unless the current device project root authority permits them. a future path specific owner approval contract is required before implementing universal publishfile({path:\"/users/.../desktop/...\"}). do not widen fsread or bypass secret file protections merely to advertise that capability. the upload operation is an authenticated controller endpoint; it is not yet a single chatgpt side pullartifact tool that installs bytes directly at /mnt/data. an ai that can download the token url can write a real local file and verify its sha. that is not equivalent to a fully integrated host side ingestion action. publication time includes server to device transfer and may exceed four seconds for large images. the four second latency target is enforced for lightweight local target capture, not unlimited external network transfer. the server's durable artifact copy is stored in a private disk directory, controlled by awtsmoos artifact storage root or a private home fallback. operations that need cross server durability must use shared encrypted storage; the current implementation assumes the configured production host. browser inspection requires a chrome devtools connection already available; it never silently captures the wrong macos foreground window. 5. verification tests cover exact target ids, 1170×2532 output, sha 256, reusable receipts, mismatched request ids, latency failures, binary read back, owner isolation, path traversal, expired urls, revocation, and native webp conversion. live results should be recorded separately from unit or simulated tests. 6. first class shliach mcp artifact tools (0.91.0 packaging) the source mcp catalog now includes two explicit authenticated operations: awtsmoos artifact publish: {routereference, path, ttlseconds, allowdownload, confirmpublicsharing}. requires the caller's real tunnel.admin scope and fresh file specific consent, because anyone with the resulting public bearer url can download or view that file. the device path must remain within its current authorized project root policy. this is not a general mac filesystem sharing grant. awtsmoos artifact revoke: {artifactid}. revokes only an artifact owned by the authenticated publisher. the mcp tool handlers delegate to the same controller artifact store and sha 256 verified device transfer as the direct http routes. they do not mint alternate tokens, create arbitrary access rights or silently upload private files. the public controller must deploy the new source before these names appear in its tools/list; a plugin manifest update alone does not create a server action. the host must separately download the url into its own local filesystem and check exact bytes and sha 256 before asserting a real in chat screenshot or downloadable attachment. a successful publication receipt is not proof of host ingestion. an installer upgrade can require fresh user pairing. while the candidate is waiting, the old agent may remain registered; report the actual installed runtime and advertised action list separately. the capturebrowsertarget source action is not live on an old agent that replies unknown fs action. never mark that action as verified merely because unit tests pass. for a practical source linked checklist, see plugins/awtsmoos shliach/skills/instructions/references/artifacts and public links.md and public submission checklist.md.",
+		"page": "pages/geelooy-apps-tunnel-downloads-artifact-transport-md-a3fbab9d83.json"
+	},
+	{
+		"id": "geelooy-apps-tunnel-downloads-headless-gpu-setup-md-536e4d31b5",
+		"title": "B\"H — Headless GPU box: install, log in, let other AI agents connect",
+		"sourcePath": "geelooy/apps/tunnel/downloads/HEADLESS_GPU_SETUP.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Headless GPU box: install, log in, let other AI agents connect",
+				"anchor": "b-h-headless-gpu-box-install-log-in-let-other-ai-agents-connect"
+			},
+			{
+				"level": 2,
+				"text": "1. Install on the rented GPU box",
+				"anchor": "1-install-on-the-rented-gpu-box"
+			},
+			{
+				"level": 2,
+				"text": "2. Log in with no browser (device flow)",
+				"anchor": "2-log-in-with-no-browser-device-flow"
+			},
+			{
+				"level": 2,
+				"text": "3. Let other AI agents connect to this box",
+				"anchor": "3-let-other-ai-agents-connect-to-this-box"
+			},
+			{
+				"level": 1,
+				"text": "on the GPU box, using the key from step 2",
+				"anchor": "on-the-gpu-box-using-the-key-from-step-2"
+			},
+			{
+				"level": 1,
+				"text": "→ { \"url\": \"https://awtsmoos.com/tunnel/connect?code=XXXXXXXXXXXX\", ... }",
+				"anchor": "url-https-awtsmoos-com-tunnel-connect-code-xxxxxxxxxxxx"
+			},
+			{
+				"level": 2,
+				"text": "The whole chain, conceptually",
+				"anchor": "the-whole-chain-conceptually"
+			},
+			{
+				"level": 2,
+				"text": "Troubleshooting",
+				"anchor": "troubleshooting"
+			}
+		],
+		"excerpt": "B\"H — Headless GPU box: install, log in, let other AI agents connect Yaakov 2026 10 12. No browser needed anywhere on the box. 1. Install on the rented GPU box agent only = fastest headless install: tunnel agent + registration, no browser, no recovery lanes, uses the box's system Node.js 18+. ( minimal also works if yo",
+		"searchText": "b\"h — headless gpu box: install, log in, let other ai agents connect yaakov 2026 10 12. no browser needed anywhere on the box. 1. install on the rented gpu box agent only = fastest headless install: tunnel agent + registration, no browser, no recovery lanes, uses the box's system node.js 18+. ( minimal also works if you want the fuller agent; no login skips step 2.) 2. log in with no browser (device flow) at the end of the install the box prints: on your phone (signed in as the tunnel owner) open the url, check the device name, tap approve & connect . the installer sees the approval within seconds and finishes. credentials land in /.awtsmoos tunnel/credentials.json (mode 600, never shown again) and the box is bound to your account. the code expires in 10 minutes and works once. ctrl+c skips login any time — the tunnel still installs and works; run the installer again to retry login. 3. let other ai agents connect to this box the owner mints a single use connect link (on the phone, or with the box's key): hand that link to any ai agent (chatgpt, claude, anything). it opens the link (or, headless: get .../invite/describe?code=… then post .../invite/redeem {\"code\",\"agentname\"}), presses connect , and gets one scoped api key. the link dies on use and expires within hours. the whole chain, conceptually troubleshooting no system node 18+ : install node.js 18+ first, or drop agent only for the full install (it brings its own runtime). code expired : run the installer again; a fresh code is minted. denied by mistake : run the installer again. server endpoints: post /api/tunnel/control/device login/code, post /api/tunnel/control/device login/status, post /api/tunnel/control/device login/describe approve deny.",
+		"page": "pages/geelooy-apps-tunnel-downloads-headless-gpu-setup-md-536e4d31b5.json"
+	},
+	{
+		"id": "geelooy-apps-tunnel-downloads-merkava-shot-readme-md-b887304845",
+		"title": "Merkava — run page JS, get every error. No browser.",
+		"sourcePath": "geelooy/apps/tunnel/downloads/merkava-shot/README.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Merkava — run page JS, get every error. No browser.",
+				"anchor": "merkava-run-page-js-get-every-error-no-browser"
+			},
+			{
+				"level": 1,
+				"text": "One command, prints errors:",
+				"anchor": "one-command-prints-errors"
+			},
+			{
+				"level": 1,
+				"text": "ERROR [runtime] ReferenceError: foo is not defined @ <inline>:3",
+				"anchor": "error-runtime-referenceerror-foo-is-not-defined-inline-3"
+			},
+			{
+				"level": 1,
+				"text": "Or raw JS:",
+				"anchor": "or-raw-js"
+			},
+			{
+				"level": 1,
+				"text": "[log] hi",
+				"anchor": "log-hi"
+			},
+			{
+				"level": 1,
+				"text": "ERROR [runtime] ReferenceError: brokenFn is not defined @ <inline>:1",
+				"anchor": "error-runtime-referenceerror-brokenfn-is-not-defined-inline-1"
+			},
+			{
+				"level": 2,
+				"text": "Install (one line)",
+				"anchor": "install-one-line"
+			},
+			{
+				"level": 1,
+				"text": "then:",
+				"anchor": "then"
+			},
+			{
+				"level": 2,
+				"text": "run-js — the flagship (documented first)",
+				"anchor": "run-js-the-flagship-documented-first"
+			},
+			{
+				"level": 3,
+				"text": "CLI",
+				"anchor": "cli"
+			},
+			{
+				"level": 3,
+				"text": "Live API — POST /api/merkava/run-js",
+				"anchor": "live-api-post-api-merkava-run-js"
+			},
+			{
+				"level": 3,
+				"text": "Tunnel-local — POST /merkava/run-js",
+				"anchor": "tunnel-local-post-merkava-run-js"
+			},
+			{
+				"level": 3,
+				"text": "Screenshots now execute page JS",
+				"anchor": "screenshots-now-execute-page-js"
+			},
+			{
+				"level": 2,
+				"text": "For AI agents",
+				"anchor": "for-ai-agents"
+			},
+			{
+				"level": 3,
+				"text": "Option A — live API (zero install)",
+				"anchor": "option-a-live-api-zero-install"
+			},
+			{
+				"level": 1,
+				"text": "run-js:",
+				"anchor": "run-js"
+			},
+			{
+				"level": 1,
+				"text": "screenshot:",
+				"anchor": "screenshot"
+			},
+			{
+				"level": 3,
+				"text": "Option B — Python SDK (one command)",
+				"anchor": "option-b-python-sdk-one-command"
+			},
+			{
+				"level": 3,
+				"text": "Option C — Node SDK",
+				"anchor": "option-c-node-sdk"
+			},
+			{
+				"level": 2,
+				"text": "API reference (live + tunnel-local, same shape)",
+				"anchor": "api-reference-live-tunnel-local-same-shape"
+			},
+			{
+				"level": 2,
+				"text": "CLI usage",
+				"anchor": "cli-usage"
+			},
+			{
+				"level": 2,
+				"text": "Notes",
+				"anchor": "notes"
+			}
+		],
+		"excerpt": "Merkava — run page JS, get every error. No browser. B\"H Flagship: execute JavaScript with Merkava's real VM and instantly get back every runtime error — console output, uncaught exceptions with file/line, failed loads. No browser, no repo needed. Three distribution paths, one shared core (runPage + runJs): Path How Bes",
+		"searchText": "merkava — run page js, get every error. no browser. b\"h flagship: execute javascript with merkava's real vm and instantly get back every runtime error — console output, uncaught exceptions with file/line, failed loads. no browser, no repo needed. three distribution paths, one shared core (runpage + runjs): path how best for standalone cli curl fssl https://awtsmoos.com/api/tunnel/install/merkava shot.sh \\ bash humans, shell scripts, agents live api post https://awtsmoos.com/api/merkava/run js agents with nothing installed tunnel local post http://127.0.0.1: /merkava/run js on an installed tunnel agents on a tunnel (no network round trip) install (one line) direct files: tarball: https://awtsmoos.com/api/tunnel/install/runtime/merkava shot.tar.gz (+ .sha256) installer: https://awtsmoos.com/api/tunnel/install/merkava shot.sh run js — the flagship (documented first) cli output: [level] message lines for console, then error [kind] name: message @ file:line per error. exit 1 if any errors. kinds: runtime, parse (real file/line from the parser), timeout, skipped (es modules — the vm doesn't compile import/export yet). live api — post /api/merkava/run js body: {js html url, file?, maxsteps?, timeoutms?}. response: line is exact for parse errors; for runtime errors it's best effort (estimated: true) — the bytecode has no line table, so the engine matches the offending identifier/message against the source. tunnel local — post /merkava/run js same body/response shape as the live api, runs on the installed tunnel. screenshots now execute page js post /api/merkava/run (and runpage) executes inline s through the vm before layout. response now includes real console logs, js errors, and js status. pass executejs: false to skip. for ai agents option a — live api (zero install) option b — python sdk (one command) option c — node sdk sdk resolution order: local bundle → live api → merkava shot on path. override the api base with merkava api; override the cli with merkava shot bin. api reference (live + tunnel local, same shape) post /run js — body: {js html url, file?, maxsteps?, timeoutms?} → run js response above (flagship). post /run — body: {html url, css, js, viewport device, actions, timeoutms, executejs?} → screenshot + console logs, js errors, js status. get /devices — viewport presets. cli usage interaction ops: shot[:path] click:x,y click:.sel tap: hover: dblclick: scroll:dy scrollto:y type:.sel:text press:enter wait:ms state:.sel:+open open open hide:.sel show:.sel attr: style: assert:visible: assert:hidden: assert:text: assert:bg: viewport:wxh log: notes the vm executes real javascript (parser → bytecode → vm). es module scripts (type=\"module\" / import/export) are reported as skipped — not yet supported. external files are not fetched by run js (inline only). hebrew text renders as ? in the bitmap painter (no font shaping yet). version 1.1.0 — bundled from mw repo @ 2026 10 13.",
+		"page": "pages/geelooy-apps-tunnel-downloads-merkava-shot-readme-md-b887304845.json"
+	}
+]

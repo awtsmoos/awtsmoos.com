@@ -22,45 +22,71 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-scripts-3467c7e0.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 74,
+		"source": 189,
 		"tests": 0,
 		"assets": 0,
 		"generated": 4,
 		"docs": 1,
 		"other": 2
 	},
-	"totalFiles": 81,
+	"totalFiles": 196,
 	"symbolSummary": {
-		"files": 73,
-		"classes": 113,
-		"functions": 3381,
-		"exports": 55,
+		"files": 183,
+		"classes": 161,
+		"functions": 3553,
+		"exports": 232,
 		"samples": [
 			"UI",
 			"stands",
 			"MOTION_ADVENTURE_GAMES",
 			"MYSTIC_ADVENTURE_GAMES",
 			"ADVENTURE_GAMES",
-			"enrichGame",
-			"enrichGames",
+			"revealGameCapabilities",
+			"revealCatalogCapabilities",
+			"revealCapabilityTags",
+			"revealSoloCovenant",
 			"multiplayerCapability",
 			"NATIVE_MULTIPLAYER_GAME_IDS",
-			"visualCapability",
-			"WEBGL_GAMES",
-			"commercePlanFor"
+			"visualCapability"
 		]
 	},
-	"outgoingDependencies": [],
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/libs",
+			"count": 5,
+			"examples": "geelooy/games/scripts/runtime/native-3d/SemanticMeshPool.js; geelooy/games/scripts/runtime/native-3d/SemanticNative3DStage.js; geelooy/games/scripts/runtime/native-3d/StateSparks.js"
+		},
+		{
+			"project": "geelooy/scripts",
+			"count": 2,
+			"examples": "geelooy/games/scripts/storefront/orchestration/TiferesStorefrontProjectionService.js; geelooy/games/scripts/storefront/presentation/MalchusStorefrontCatalogView.js"
+		}
+	],
 	"incomingDependencies": [
 		{
-			"project": "geelooy/games/seven-mitzvos",
-			"count": 16,
-			"examples": "geelooy/games/seven-mitzvos/js/assets/advanced-model-hydrator.js; geelooy/games/seven-mitzvos/js/assets/gltf-model-library.js; geelooy/games/seven-mitzvos/js/city/city-district-builder.js"
+			"project": "geelooy/games/mitzvahWorld",
+			"count": 5,
+			"examples": "geelooy/games/mitzvahWorld/photoreal/js/reality-character.mjs; geelooy/games/mitzvahWorld/photoreal/js/reality-particles.mjs; geelooy/games/mitzvahWorld/photoreal/js/reality-scene.mjs"
+		},
+		{
+			"project": "geelooy/scripts",
+			"count": 4,
+			"examples": "geelooy/scripts/commerce/install-product-commerce.mjs; geelooy/scripts/home-simple/constellation-catalog.js; geelooy/scripts/seo/audit/run.mjs"
 		},
 		{
 			"project": "geelooy/apps/scripts",
 			"count": 1,
 			"examples": "geelooy/apps/scripts/catalog/games.mjs"
+		},
+		{
+			"project": "geelooy/games/brick-blast",
+			"count": 1,
+			"examples": "geelooy/games/brick-blast/js/levels/brick.js"
+		},
+		{
+			"project": "geelooy/games/cards",
+			"count": 1,
+			"examples": "geelooy/games/cards/js/engine/renderer.js"
 		},
 		{
 			"project": "geelooy/games/party",
@@ -70,7 +96,22 @@
 		{
 			"project": "geelooy/games/pong",
 			"count": 1,
-			"examples": "geelooy/games/pong/js/wallet-reward.mjs"
+			"examples": "geelooy/games/pong/js/wallet-reward.js"
+		},
+		{
+			"project": "geelooy/games/tetris",
+			"count": 1,
+			"examples": "geelooy/games/tetris/game/render-primitives.js"
+		},
+		{
+			"project": "geelooy/os",
+			"count": 1,
+			"examples": "geelooy/os/shell/appCatalogPublicProducts.js"
+		},
+		{
+			"project": "geelooy/seo",
+			"count": 1,
+			"examples": "geelooy/seo/generatePublicCatalog.mjs"
 		}
 	],
 	"externalDependencies": [

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — YouTube API (geelooy/api/youtube/)\n\nAwtsmoos YouTube family: Google OAuth, channel info, video upload/metadata,\nand live broadcast management — with provider secrets kept outside Git.\nPowers the browser manager at `/youtube/` (connect Google, pick a channel,\nupload videos, edit metadata).\n\nSubdirectories:\n- `core/` — OAuth, session/cookie/token storage, vault, API client, json/body\n- `routes/` — handler modules + `table.js` route registry\n- `docs/` — `SETUP.md` (Google Cloud OAuth config, secret installation)\n- `test/` — security tests (`security.test.cjs`)\n\nMain routes (from `routes/table.js`): `auth/start`, `auth/callback`,\n`auth/status`, `auth/logout` (aliased as `oauth/*`), `channel`, `channel/mine`,\n`uploads/start`, `videos`, `videos/list`, `videos/update`, `live`, `live/list`,\n`live/create`, `live/transition`. OAuth modes escalate: read → upload → manage.\n`_awtsmoos.derech.js` dispatches 1–3 path segments to the table with\n`Cache-Control: private, no-store` and strict security headers.\n"
+}

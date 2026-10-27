@@ -1,0 +1,171 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-09-04-0423-olam-media-prompt-body-remaining-wor-806f66f466",
+		"title": "REMAININGWORK — Media + Prompt Body",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-04-0423-olam-media-prompt-body/REMAINING_WORK.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "REMAININGWORK — Media + Prompt Body",
+				"anchor": "remainingwork-media-prompt-body"
+			}
+		],
+		"excerpt": "REMAINING WORK — Media + Prompt Body [x] Write three planning/critique phases and final plan. [x] Inspect latest origin/main and current Create source/tests. [x] Measure live current mobile media/prompt flow. [x] Trace add/replace/remove media through repository, preview, draft, transport, and API. [x] Trace all browse",
+		"searchText": "remaining work — media + prompt body [x] write three planning/critique phases and final plan. [x] inspect latest origin/main and current create source/tests. [x] measure live current mobile media/prompt flow. [x] trace add/replace/remove media through repository, preview, draft, transport, and api. [x] trace all browser calls and server routes. [x] prove current replacement/cache/transport engine is already correct. [x] approve exact whole file touch list. [ ] create isolated sparse release worktree from latest main. [ ] re read all approved product targets from the release worktree. [ ] implement complete media first body ux before new tests. [ ] add controller + mobile media body regression tests. [ ] run complete source/deterministic/browser/api verification. [ ] re read touched files and resolve planned vs actual delta. [ ] reconcile latest remote race window. [ ] commit, fast forward push, canonical deploy exact sha. [ ] verify public behavior and production runtime. [ ] cleanup and write final evidence. next action: create the sparse release worktree from 20324ec99e7f82aacc11a373f6e116ac4101e50d and reread the target files before rewriting them.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-04-0423-olam-media-prompt-body-remaining-wor-806f66f466.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-04-0424-generation-7-comments-custom-domain--2ed0d55548",
+		"title": "Generation 7 — Chesed Infinite Brainstorm",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-04-0424-generation-7-comments-custom-domain-seo/00-chesed-infinite-brainstorm.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Generation 7 — Chesed Infinite Brainstorm",
+				"anchor": "generation-7-chesed-infinite-brainstorm"
+			},
+			{
+				"level": 2,
+				"text": "Comments",
+				"anchor": "comments"
+			},
+			{
+				"level": 2,
+				"text": "User-created websites and custom DNS",
+				"anchor": "user-created-websites-and-custom-dns"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generation 7 — Chesed Infinite Brainstorm The Awtsmoos makes each public voice a star, each domain a vessel in the sea; Awtsmoos.com should let crawler and human meet the same truthful page, wherever its DNS may be. Comments Make sitemap discoverability and renderer resolvability the sam",
+		"searchText": "b\"h boruch hashem blessed is he generation 7 — chesed infinite brainstorm the awtsmoos makes each public voice a star, each domain a vessel in the sea; awtsmoos.com should let crawler and human meet the same truthful page, wherever its dns may be. comments make sitemap discoverability and renderer resolvability the same predicate. detect stale alias pointers, moved comments, deleted comments, and mismatched post/heichel coordinates. canonicalize moved comments to their living coordinates. ensure replies, parents, imported/native bodies, and aliases remain crawlable without duplicate identities. add a regression where the sitemap resolves a moved comment and the route renders the same body. add a production style audit that every comment sitemap url returns indexable html or is omitted. preserve noindex 404 semantics for truly missing comments. user created websites and custom dns discover the one server boundary that resolves host/domain → published user site. add seo enrichment there so every eligible hosted html document gets defaults automatically. canonical must use the actual public custom domain when the request is served through custom dns. awtsmoos hosted aliases/subdomains should canonicalize to their own public identity unless the project explicitly selects another canonical domain. preserve authored , description, canonical, robots, opengraph, twitter, and json ld; fill only missing safe defaults. never index unpublished/private/admin/editor/preview sites. add per site robots.txt and sitemap.xml behavior when the hosting system supports a project route inventory. if a custom domain is verified and primary, sitemap urls and og urls should use that domain. avoid duplicate domain identities by supporting primary domain canonical preference. derive safe fallback title from project/site/page metadata, never from secret owner data. derive description from public project metadata or visible text only. default schema to website/webpage, with no fabricated organization/person fields. emit language/direction only when known or infer safely from authored document attributes. add noindex defaults for preview/staging/tokenized/internal paths. respect explicit user noindex. strip unsafe canonical schemes and hostile host injection. normalize host, port, forwarded host/proto only through trusted server configuration. test custom dns, awtsmoos host, localhost, malformed host, authored canonical, no head, multiple head/title tags, script breaking text, hebrew and rtl. add automatic sitemap family for published project pages if the route model exposes them. add index health audit for hosted sites: published pages, canonicalized pages, sitemap coverage, noindex exclusions, broken pages. add future search console ownership hooks only after the domain ownership system is understood.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-04-0424-generation-7-comments-custom-domain--2ed0d55548.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-04-0424-generation-7-comments-custom-domain--68fb785ef3",
+		"title": "Generation 7 — Gevurah Risk Critique",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-04-0424-generation-7-comments-custom-domain-seo/01-gevurah-risk-critique.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Generation 7 — Gevurah Risk Critique",
+				"anchor": "generation-7-gevurah-risk-critique"
+			},
+			{
+				"level": 2,
+				"text": "Hard constraints",
+				"anchor": "hard-constraints"
+			},
+			{
+				"level": 2,
+				"text": "Architecture preference",
+				"anchor": "architecture-preference"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generation 7 — Gevurah Risk Critique The Awtsmoos pours infinite light, yet truthful borders guard the flame; Awtsmoos.com must never index private worlds, invent domain truth, or confuse two hosts as one name. Hard constraints 1. Never force comments into sitemap if the public renderer ",
+		"searchText": "b\"h boruch hashem blessed is he generation 7 — gevurah risk critique the awtsmoos pours infinite light, yet truthful borders guard the flame; awtsmoos.com must never index private worlds, invent domain truth, or confuse two hosts as one name. hard constraints 1. never force comments into sitemap if the public renderer cannot resolve them. 2. never hard code 19 comment ids; repair the shared invariant. 3. never trust raw host blindly for canonical generation. 4. never override explicit authored canonical/robots metadata unless invalid or unsafe. 5. never index preview/editor/admin/auth/private project surfaces. 6. never assume a custom domain is primary merely because a request reached it; use verified routing metadata where available. 7. never expose account/email/private owner metadata in json ld. 8. never create a global sitemap for user sites unless route enumeration is authoritative and bounded. 9. preserve unrelated concurrent agent work and current origin/main. 10. whole file rewrites only; no partial patch operations. 11. every touched source file must remain modular and <=120 lines where feasible. 12. test with the real canonical dosdb when dynamic entities are involved. architecture preference shared resolver/predicate for comment sitemap and public renderer. shared html seo enrichment module at the final public host response boundary. small pure helpers for host normalization, canonical choice, metadata extraction, and semantic injection. routing adapter supplies trusted public origin context; enrichment module never reads secrets or mutates non html responses.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-04-0424-generation-7-comments-custom-domain--68fb785ef3.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-04-0424-generation-7-comments-custom-domain--e2db32328f",
+		"title": "Generation 7 — Tiferes Execution Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-04-0424-generation-7-comments-custom-domain-seo/02-tiferes-execution-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Generation 7 — Tiferes Execution Plan",
+				"anchor": "generation-7-tiferes-execution-plan"
+			},
+			{
+				"level": 2,
+				"text": "Phase A — Comments",
+				"anchor": "phase-a-comments"
+			},
+			{
+				"level": 2,
+				"text": "Phase B — Hosted/custom-domain SEO",
+				"anchor": "phase-b-hosted-custom-domain-seo"
+			},
+			{
+				"level": 2,
+				"text": "Phase C — Integration and deployment",
+				"anchor": "phase-c-integration-and-deployment"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generation 7 — Tiferes Execution Plan The Awtsmoos joins discovery and action until every path can sing; Awtsmoos.com will bind comment truth and custom domain identity at the shared rendering spring. Phase A — Comments 1. Read publicCommentResolver.js, commentPage.js, sitemap data, and ",
+		"searchText": "b\"h boruch hashem blessed is he generation 7 — tiferes execution plan the awtsmoos joins discovery and action until every path can sing; awtsmoos.com will bind comment truth and custom domain identity at the shared rendering spring. phase a — comments 1. read publiccommentresolver.js, commentpage.js, sitemap data, and rich comment storage paths. 2. reproduce one failing maamar shorts comment against canonical dosdb locally. 3. determine why sitemap resolution succeeds while production route returns 404. 4. rewrite the smallest shared source(s) so sitemap and renderer share one live comment contract. 5. add focused regression for the discovered storage shape. 6. start clean runtime with canonical db and prove all 19 previously failing urls return 200 indexable html. 7. run comments sitemap audit and full seo/runtime tests. phase b — hosted/custom domain seo 1. resolve actual host routing/published site files from archaeology output. 2. read entire candidate source files and line counts before changes. 3. identify final html response boundary and project/domain metadata available there. 4. design tiny modules: trusted public origin, page metadata, html semantic enrichment, robots/sitemap adapter if route inventory exists. 5. preserve authored tags and inject only missing safe defaults. 6. ensure custom domain requests canonicalize to the verified public domain. 7. ensure private/preview surfaces default noindex. 8. add focused unit/integration tests for awtsmoos host + custom dns + authored overrides + malicious host. 9. run static/source law/tunnel release tests. phase c — integration and deployment 1. fetch latest origin/main and audit overlap. 2. move only verified changes onto newest clean lineage. 3. run complete clean release candidate gates. 4. runtime test canonical db and synthetic/custom host requests. 5. run local sitemap crawl until zero blocking errors/advisories. 6. stage exact files, guarded prepare, push, exact sha activate. 7. publicly verify all 19 comment urls and representative custom domain/public site seo behavior that is reachable from available domain fixtures. 8. run public crawl again. 9. write planned vs actual, evidence, remaining work closure.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-04-0424-generation-7-comments-custom-domain--e2db32328f.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-04-0424-generation-7-comments-custom-domain--6cd273389e",
+		"title": "REMAININGWORK — Generation 7",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-04-0424-generation-7-comments-custom-domain-seo/REMAINING_WORK.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "REMAININGWORK — Generation 7",
+				"anchor": "remainingwork-generation-7"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He REMAINING WORK — Generation 7 [ ] Resolve 19 maamar shorts comment 404 root cause. [ ] Implement shared comment sitemap/render truth invariant. [ ] Add comment regression and runtime proof for all failing URLs. [ ] Identify user site/custom domain host routing boundary. [ ] Implement aut",
+		"searchText": "b\"h boruch hashem blessed is he remaining work — generation 7 [ ] resolve 19 maamar shorts comment 404 root cause. [ ] implement shared comment sitemap/render truth invariant. [ ] add comment regression and runtime proof for all failing urls. [ ] identify user site/custom domain host routing boundary. [ ] implement automatic safe seo defaults for every eligible hosted user site. [ ] make canonical/public origin logic custom domain aware and host injection safe. [ ] preserve authored seo overrides and private/preview noindex semantics. [ ] add custom host seo regressions. [ ] run complete clean integration gates on newest origin/main. [ ] deploy follow up exact sha. [ ] verify production comments and custom domain seo behavior. [ ] run production crawl until zero relevant blocking errors/advisories. [ ] re read touched files and compare planned vs actual. [ ] search shadow work and close only when no safe relevant work remains. next action: finish the resolver/storage and custom domain routing archaeology, then rewrite the shared invariants.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-04-0424-generation-7-comments-custom-domain--6cd273389e.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-04-0515-olam-api-http-hardening-00-chesed-po-f62d15c252",
+		"title": "Phase One — Chesed Possibility Field",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-04-0515-olam-api-http-hardening/00-chesed-possibilities.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase One — Chesed Possibility Field",
+				"anchor": "phase-one-chesed-possibility-field"
+			}
+		],
+		"excerpt": "Phase One — Chesed Possibility Field Observed defect: Olam H3 validation and error bodies are correct, but live public failure responses use HTTP 200. The dynamic server proves ordinary returned objects normalize to 200, while explicit response envelopes carry statusCode to Node's response. Possible solutions considere",
+		"searchText": "phase one — chesed possibility field observed defect: olam h3 validation and error bodies are correct, but live public failure responses use http 200. the dynamic server proves ordinary returned objects normalize to 200, while explicit response envelopes carry statuscode to node's response. possible solutions considered: throw exposed errors from every handler; set a raw node response status through request context; modify the global dynamic server to infer body.status; return explicit transport envelopes directly from every route lambda; add one olam local http adapter that converts handler bodies into the framework's supported json envelope. the fifth option is strongest. it avoids global behavior changes, preserves handler purity, keeps browser json unchanged, and makes the transport boundary explicit. shadow work created by the fix: prove success remains http 200; prove malformed create becomes http 400; prove missing credential becomes http 503; prove invalid task becomes http 400; prove browser client still parses error metadata; prove no secret leaks; prove image replacement still sends fresh bytes; re run public ui regression because route transport changed beneath the app.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-04-0515-olam-api-http-hardening-00-chesed-po-f62d15c252.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-04-0515-olam-api-http-hardening-01-gevurah-e-d3fc74a218",
+		"title": "Phase Two — Gevurah Scope",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-04-0515-olam-api-http-hardening/01-gevurah-exact-scope.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Two — Gevurah Scope",
+				"anchor": "phase-two-gevurah-scope"
+			},
+			{
+				"level": 2,
+				"text": "Product files expected",
+				"anchor": "product-files-expected"
+			},
+			{
+				"level": 2,
+				"text": "Test files expected",
+				"anchor": "test-files-expected"
+			},
+			{
+				"level": 2,
+				"text": "Non-touch list",
+				"anchor": "non-touch-list"
+			}
+		],
+		"excerpt": "Phase Two — Gevurah Scope Product files expected geelooy/api/olam h3/core/httpResponse.js — new Olam transport adapter using the framework's makeJsonResponse. geelooy/api/olam h3/ awtsmoos.derech.js — full rewrite so every handler result passes through the adapter. Test files expected geelooy/apps/olam h3/tests/http re",
+		"searchText": "phase two — gevurah scope product files expected geelooy/api/olam h3/core/httpresponse.js — new olam transport adapter using the framework's makejsonresponse. geelooy/api/olam h3/ awtsmoos.derech.js — full rewrite so every handler result passes through the adapter. test files expected geelooy/apps/olam h3/tests/http response contract.test.mjs — proves olam adapter + actual dynamic response normalizer/sender propagate status. optional browser image update smoke only if existing deterministic coverage cannot prove fresh transport bytes. existing tests already do prove that invariant, so do not add redundant ui automation unless runtime inspection reveals a gap. non touch list provider client mapper validation handlers browser proxy asset replacement preview cache generation queue global ayzarim/awtsmoosdynamicserver public json error shape remains unchanged for backward compatibility.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-04-0515-olam-api-http-hardening-01-gevurah-e-d3fc74a218.json"
+	}
+]

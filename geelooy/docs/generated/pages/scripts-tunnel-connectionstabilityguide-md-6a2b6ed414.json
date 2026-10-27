@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "scripts-tunnel-connectionstabilityguide-md-6a2b6ed414",
+	"title": "Awtsmoos connection stability and shared plugin instructions",
+	"sourcePath": "scripts/tunnel/connectionStabilityGuide.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Awtsmoos connection stability and shared plugin instructions",
+			"anchor": "awtsmoos-connection-stability-and-shared-plugin-instructions"
+		}
+	],
+	"markdownParts": [
+		"content/scripts-tunnel-connectionstabilityguide-md-6a2b6ed414-001.json"
+	]
+}

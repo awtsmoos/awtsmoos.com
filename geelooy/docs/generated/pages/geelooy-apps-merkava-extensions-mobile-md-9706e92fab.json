@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-merkava-extensions-mobile-md-9706e92fab",
+	"title": "B\"H — Extensions on mobile (Android APK shell)",
+	"sourcePath": "geelooy/apps/merkava/EXTENSIONS_MOBILE.md",
+	"category": "Apps",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Extensions on mobile (Android APK shell)",
+			"anchor": "b-h-extensions-on-mobile-android-apk-shell"
+		},
+		{
+			"level": 2,
+			"text": "The core claim",
+			"anchor": "the-core-claim"
+		},
+		{
+			"level": 2,
+			"text": "What already holds (verified, not claimed)",
+			"anchor": "what-already-holds-verified-not-claimed"
+		},
+		{
+			"level": 2,
+			"text": "What the APK shell must provide",
+			"anchor": "what-the-apk-shell-must-provide"
+		},
+		{
+			"level": 2,
+			"text": "Honest v1 limits (all documented in js/extensions-host.js)",
+			"anchor": "honest-v1-limits-all-documented-in-js-extensions-host-js"
+		},
+		{
+			"level": 2,
+			"text": "Threat model note",
+			"anchor": "threat-model-note"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-merkava-extensions-mobile-md-9706e92fab-001.json"
+	]
+}

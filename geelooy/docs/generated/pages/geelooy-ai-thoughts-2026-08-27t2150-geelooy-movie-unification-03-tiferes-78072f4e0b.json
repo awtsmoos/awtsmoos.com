@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-27t2150-geelooy-movie-unification-03-tiferes-78072f4e0b",
+	"title": "Phase 3 — Tiferes Execution Contract",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-27T2150-geelooy-movie-unification/03_TIFERES_EXECUTION_CONTRACT.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase 3 — Tiferes Execution Contract",
+			"anchor": "phase-3-tiferes-execution-contract"
+		},
+		{
+			"level": 2,
+			"text": "Work graph",
+			"anchor": "work-graph"
+		},
+		{
+			"level": 2,
+			"text": "Planned artifacts",
+			"anchor": "planned-artifacts"
+		},
+		{
+			"level": 2,
+			"text": "Interface goals",
+			"anchor": "interface-goals"
+		},
+		{
+			"level": 2,
+			"text": "Showcase acceptance story",
+			"anchor": "showcase-acceptance-story"
+		},
+		{
+			"level": 2,
+			"text": "Completion rule",
+			"anchor": "completion-rule"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-27t2150-geelooy-movie-unification-03-tiferes-78072f4e0b-001.json"
+	]
+}

@@ -1,0 +1,225 @@
+[
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-docs-universal-awtsmoos-migration--11eab0db34",
+		"title": "B\"H",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/UNIVERSAL_AWTSMOOS_MIGRATION.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Universal API Migration and Extension",
+				"anchor": "universal-api-migration-and-extension"
+			},
+			{
+				"level": 2,
+				"text": "Moving compile-only callers",
+				"anchor": "moving-compile-only-callers"
+			},
+			{
+				"level": 2,
+				"text": "Why the direct package subpath matters",
+				"anchor": "why-the-direct-package-subpath-matters"
+			},
+			{
+				"level": 2,
+				"text": "Low-level kernel isolation",
+				"anchor": "low-level-kernel-isolation"
+			},
+			{
+				"level": 2,
+				"text": "Adding a compiler",
+				"anchor": "adding-a-compiler"
+			},
+			{
+				"level": 2,
+				"text": "Adding a constraint solver",
+				"anchor": "adding-a-constraint-solver"
+			},
+			{
+				"level": 2,
+				"text": "Renderer and adapter boundary",
+				"anchor": "renderer-and-adapter-boundary"
+			},
+			{
+				"level": 2,
+				"text": "Current non-goals",
+				"anchor": "current-non-goals"
+			},
+			{
+				"level": 2,
+				"text": "Troubleshooting",
+				"anchor": "troubleshooting"
+			}
+		],
+		"excerpt": "B\"H Universal API Migration and Extension The Awtsmoos renews old and new pathways without erasing either shore; Awtsmoos.com adds a lighter gate while established expert authorities remain available evermore. Moving compile only callers If code currently imports the full universal facade but only uses define, validate",
+		"searchText": "b\"h universal api migration and extension the awtsmoos renews old and new pathways without erasing either shore; awtsmoos.com adds a lighter gate while established expert authorities remain available evermore. moving compile only callers if code currently imports the full universal facade but only uses define, validate, plan, explain, compile, compilers, constraints, cache, or pipeline, migrate the import: no semantic rewrite is required. regression tests require full and lifecycle factories to agree on request planning, compiler chain selection, semantic identity, artifacts, execution receipts, and compiler provenance essentials for equivalent deterministic inputs. keep full createawtsmoos() when the caller actually needs portal or world. why the direct package subpath matters a lightweight runtime factory can still become browser heavy if imported through a broad barrel. the dedicated package subpath points directly at the lightweight factory graph and is protected by import graph tests. low level kernel isolation createuniversalsemantickernel() intentionally starts without implicit compilers. high level factories install built in modeling support only when they own the kernel, unless a supplied kernel explicitly opts in. adding a compiler 1. describe kinds, channels, required/optional traits, support state, execution tier, determinism, schemas, adapters, costs, diagnostics, dependencies, and examples in the manifest. 2. register trusted executor code separately from public manifest data. 3. keep planning and explanation side effect free. 4. test native, adapter, deferred, and unsupported behavior explicitly. 5. include version/support state changes in cache identity expectations. adding a constraint solver 1. use a noun neutral vocabulary type when possible. 2. declare constraint types, semantic kinds, support state, execution tier, determinism, schemas, and diagnostics. 3. return resolution receipts; do not mutate authored canonical truth. 4. use strictconstraints only when unresolved or unsatisfied work must block compilation. 5. environment dependent solving bypasses deterministic compile cache reuse. renderer and adapter boundary semantic compiler output should remain renderer neutral. three.js, blender, svg, mitzvahworld, or other renderer specific conversion belongs in adapters. the public demo follows this pattern: semantic definition → real lifecycle compile → primitive artifact → svg adapter. current non goals no claim of universal subgraph/incremental recompilation; current deterministic reuse is whole definition compile caching. compiler dependencies remain declarative because existing ids can describe services as well as compilers; no unsafe topological ordering is inferred. no new global template/preset registry has been added; mature domain authorities remain responsible for their own presets/templates. troubleshooting unexpectedly large browser graph: import @awtsmoos/procedural core/universal lifecycle directly, not a broad root barrel. manifest says native but nothing executes: confirm a trusted executor is actually registered; declared native/adapter support without an executor is downgraded truthfully. constraint remains deferred: inspect solver capabilities and explain() rather than mutating the authored definition to silence the receipt. cache bypasses: check compiler and solver determinism, explicit cache:false, and environment dependent execution. strict compile fails after planning: semantic coverage and executable completion are distinct; deferred coverage can plan while execution remains incomplete.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-docs-universal-awtsmoos-migration--11eab0db34.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-docs-universal-awtsmoos-performanc-5725a9257d",
+		"title": "B\"H",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/UNIVERSAL_AWTSMOOS_PERFORMANCE.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Universal Lifecycle Performance Evidence",
+				"anchor": "universal-lifecycle-performance-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Static dependency graph",
+				"anchor": "static-dependency-graph"
+			},
+			{
+				"level": 2,
+				"text": "Real browser proof before the latest UX wave",
+				"anchor": "real-browser-proof-before-the-latest-ux-wave"
+			},
+			{
+				"level": 2,
+				"text": "Deterministic cache microbenchmark",
+				"anchor": "deterministic-cache-microbenchmark"
+			},
+			{
+				"level": 2,
+				"text": "Stable cache contracts",
+				"anchor": "stable-cache-contracts"
+			},
+			{
+				"level": 2,
+				"text": "Responsive/browser performance principle",
+				"anchor": "responsive-browser-performance-principle"
+			}
+		],
+		"excerpt": "B\"H Universal Lifecycle Performance Evidence The Awtsmoos renews time, dependency, and memory before finite measurement can speak; Awtsmoos.com records measured evidence without turning one machine's number into eternal decree. Static dependency graph A recursive static import measurement on the current repository comp",
+		"searchText": "b\"h universal lifecycle performance evidence the awtsmoos renews time, dependency, and memory before finite measurement can speak; awtsmoos.com records measured evidence without turning one machine's number into eternal decree. static dependency graph a recursive static import measurement on the current repository compared direct factory modules: entry reachable modules : full createawtsmoos.js 1,538 createawtsmooslifecycle.js 133 the lifecycle entry avoided 1,406 statically reachable modules, a 91.4% reduction. of those avoided files, 324 matched heavy portal/world/nature/reality/renderer authority areas in that measurement. exact module counts are point in time repository evidence, not a semver contract. the stable regression contract is that the lifecycle static graph does not reach heavy expert world/domain renderer roots. real browser proof before the latest ux wave a cache busted chrome run of /apps/universal procedural/ loaded: 157 total resource entries; 144 javascript resources; exactly 133 javascript resources from procedural core; 11 javascript resources from the demo application. the 133 procedural core browser modules matched the recursive lifecycle static graph, proving the page used the intended lightweight entry rather than an accidental broad barrel. the same development machine run reached its application ready marker in 3,693.8 ms. this is local diagnostic context only; no absolute startup sla is claimed. a new browser run is required after the current accessibility/observability wave before final release evidence is recorded. deterministic cache microbenchmark on node v24.17.0 / darwin x64, three bounded rounds each ran 2,000 plans and 500 identical deterministic compiles. in every round: compiler executor invocations: 1; cache hits: 499; cache misses: 1; cache entries: 1. observed plan throughput ranged roughly 925–1,783 plans/second and warm compile call throughput roughly 365–1,338 calls/second under concurrent machine load. those timings are machine local diagnostics, not cross machine guarantees. stable cache contracts semantic, request, compiler chain, constraint plan, and constraint resolution identity changes invalidate reuse; compiler id/version/support state participate in cache identity; environment dependent compiler or solver execution bypasses deterministic reuse; failed compilation must never populate cache; repeated deterministic work may reuse immutable compile results; planning and explanation remain executor free. responsive/browser performance principle prefer structural assertions over timing thresholds: exact app ready state, no page level overflow at narrow widths, same origin static resources, no severe console/runtime diagnostics, and the expected lifecycle/core module graph. absolute timing is recorded for diagnosis only.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-docs-universal-awtsmoos-performanc-5725a9257d.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-docs-universal-awtsmoos-schema-md-874b2e5580",
+		"title": "B\"H",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/UNIVERSAL_AWTSMOOS_SCHEMA.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Universal Definition Graph",
+				"anchor": "universal-definition-graph"
+			},
+			{
+				"level": 2,
+				"text": "Canonical base",
+				"anchor": "canonical-base"
+			},
+			{
+				"level": 2,
+				"text": "Authoring shorthand",
+				"anchor": "authoring-shorthand"
+			},
+			{
+				"level": 2,
+				"text": "Artifact intent",
+				"anchor": "artifact-intent"
+			},
+			{
+				"level": 2,
+				"text": "Identity and determinism",
+				"anchor": "identity-and-determinism"
+			},
+			{
+				"level": 2,
+				"text": "Relationship and constraint philosophy",
+				"anchor": "relationship-and-constraint-philosophy"
+			}
+		],
+		"excerpt": "B\"H Universal Definition Graph The Awtsmoos renews identity, property, relationship, material, behavior, and law in one light; Awtsmoos.com stores them as portable semantic truth before any renderer comes in sight. Canonical base Universal definitions remain awtsmoos.procedural language/1. No replacement schema was int",
+		"searchText": "b\"h universal definition graph the awtsmoos renews identity, property, relationship, material, behavior, and law in one light; awtsmoos.com stores them as portable semantic truth before any renderer comes in sight. canonical base universal definitions remain awtsmoos.procedural language/1. no replacement schema was introduced. the existing canonical definition is extended additively with optional first class sections. core identity and authoring sections include: id, kind, seed, revision; optional type; optional properties for semantic quantities and structured authored values; traits, relationships, behaviors; optional materials for semantic material intent; constraints, resources, actions; compile, editor, metadata, extensions, provenance, payload. type, properties, and materials appear only when authored. this avoids changing the shape and identity hash of legacy definitions that never used those sections. authoring shorthand the high level createawtsmoos() boundary accepts simple semantic vocabulary while the canonical language remains strict. string traits become stable {id, kind} descriptors. string relationships and behaviors are expanded at the same ergonomic boundary. structured canonical descriptors remain untouched. artifact intent definition.compile can carry authored generation policy: channels / required; optional channels; quality; budget; preferredadapters; lod; metadata. call time request fields override authored compile policy for that invocation. this lets reusable definitions carry normal output intent while callers can still request a smaller channel subset or another quality tier. identity and determinism canonical semantic identity is computed from the full canonical definition. first class property/material changes therefore change the content hash. factory seed inheritance is deterministic, while an explicit authored seed always wins. relationship and constraint philosophy relationships are semantic graph edges, not renderer parenting commands. constraints are authored laws, not procedural code. compiler and solver registries decide what can currently be interpreted; unknown or unavailable behavior remains explicit evidence instead of being guessed.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-docs-universal-awtsmoos-schema-md-874b2e5580.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-docs-universal-world-format-md-f0b813d07f",
+		"title": "B\"H",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/UNIVERSAL_WORLD_FORMAT.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 2,
+				"text": "Boruch Hashem",
+				"anchor": "boruch-hashem"
+			},
+			{
+				"level": 2,
+				"text": "Blessed is He",
+				"anchor": "blessed-is-he"
+			},
+			{
+				"level": 1,
+				"text": "Universal World Format",
+				"anchor": "universal-world-format"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Root contract",
+				"anchor": "root-contract"
+			},
+			{
+				"level": 2,
+				"text": "Resource contract",
+				"anchor": "resource-contract"
+			},
+			{
+				"level": 2,
+				"text": "Runtime API",
+				"anchor": "runtime-api"
+			},
+			{
+				"level": 2,
+				"text": "Validation and errors",
+				"anchor": "validation-and-errors"
+			},
+			{
+				"level": 2,
+				"text": "Undo and UI",
+				"anchor": "undo-and-ui"
+			},
+			{
+				"level": 2,
+				"text": "Stability",
+				"anchor": "stability"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He The Awtsmoos renews every contract in ordered light; Awtsmoos.com keeps exact creation editable and right. Universal World Format Purpose awtsmoos.world.v1 is the authoritative JSON compatible project document. Runtime caches, GPU handles, and compiled shaders are adapters, never hidden ",
+		"searchText": "b\"h boruch hashem blessed is he the awtsmoos renews every contract in ordered light; awtsmoos.com keeps exact creation editable and right. universal world format purpose awtsmoos.world.v1 is the authoritative json compatible project document. runtime caches, gpu handles, and compiled shaders are adapters, never hidden project truth. root contract a document contains format, version, revision, metadata, imports, resources, scenes, timeline, render, dependencies, and plugins. every standard resource bucket is present when createworlddocument() normalizes a project. resource contract every resource has a stable id, type, version, revision, name, enabled, metadata, and references. creator specific properties remain serializable extensions. runtime api use createworlddocument(input) or createuniversalawtsmoosapi({ document }). validation and errors commands reject missing identities with validation failed. duplicate stable ids return resource exists. undo and ui mutating methods create one history entry. the api explorer reads the same method schemas that execute commands. stability the root format and resource identity contract are stable. domain specific resource bodies remain experimental.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-docs-universal-world-format-md-f0b813d07f.json"
+	}
+]

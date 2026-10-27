@@ -1,378 +1,53 @@
 [
 	{
-		"id": "docs-generated-api-tutorials-routes-api-runtime-native-capabilities-7b0e-4675cf5b0b",
-		"title": "API Tutorial: /api/runtime/native/capabilities",
-		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-runtime-native-capabilities-7b0ee881a8.md",
-		"category": "Routes",
+		"id": "docs-generated-api-source-contracts-api-source-contracts-001-md-ef3abf2744",
+		"title": "Generated API Source Contract Evidence 1–65",
+		"sourcePath": "docs/GENERATED/API_SOURCE_CONTRACTS/api-source-contracts-001.md",
+		"category": "General",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "API Tutorial: /api/runtime/native/capabilities",
-				"anchor": "api-tutorial-api-runtime-native-capabilities"
-			},
-			{
-				"level": 2,
-				"text": "Contract evidence",
-				"anchor": "contract-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Path parameters",
-				"anchor": "path-parameters"
-			},
-			{
-				"level": 2,
-				"text": "Starter call",
-				"anchor": "starter-call"
-			},
-			{
-				"level": 2,
-				"text": "Observed callers",
-				"anchor": "observed-callers"
-			},
-			{
-				"level": 2,
-				"text": "Related tests",
-				"anchor": "related-tests"
-			},
-			{
-				"level": 2,
-				"text": "Related routes",
-				"anchor": "related-routes"
+				"text": "Generated API Source Contract Evidence 1–65",
+				"anchor": "generated-api-source-contract-evidence-1-65"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/runtime/native/capabilities Family: Native Runtime · Mount: /api/runtime · Derech health: OK Source: geelooy/api/runtime/ awtsmoos.derech.js · Discovery: static literal · Confidence: unknown method Read the human Native Runtime tutorial Generated evidence is a navigati",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/runtime/native/capabilities family: native runtime · mount: /api/runtime · derech health: ok source: geelooy/api/runtime/ awtsmoos.derech.js · discovery: static literal · confidence: unknown method read the human native runtime tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/runtime/native/capabilities geelooy/os/programs/project command center/runtimeprobe.js runtime related tests no package script heuristic match was found. related routes /api/runtime/native/launch /api/runtime/native/status /api/runtime/native/stop",
-		"page": "pages/docs-generated-api-tutorials-routes-api-runtime-native-capabilities-7b0e-4675cf5b0b.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated API Source Contract Evidence 1–65 Lexical source evidence; methods marked unknown are not assumed GET. Source Methods Vessels Statuses Headers geelooy/api/ awtsmoos.derech.js unknown — — Access Control Allow Origin geelooy/api/admin/ awtsmoos.derech.js unknown $ POST, identity ",
+		"searchText": "b\"h boruch hashem blessed is he generated api source contract evidence 1–65 lexical source evidence; methods marked unknown are not assumed get. source methods vessels statuses headers geelooy/api/ awtsmoos.derech.js unknown — — access control allow origin geelooy/api/admin/ awtsmoos.derech.js unknown $ post, identity — — geelooy/api/apk web/core/handlers.js unknown $ post 200, 400, 404, 405 cache control, content length, content type, cross origin embedder policy, cross origin resource policy, x content type options geelooy/api/client errors/ awtsmoos.derech.js post $ post, headers 400, 429, 500 — geelooy/api/compiler/core/body.js unknown $ post — — geelooy/api/contact/ awtsmoos.derech.js post — — — geelooy/api/contact/services/malchuscontactservice.js unknown $ post — x forwarded for geelooy/api/contact/services/tiferescontactdelivery.js unknown db — — geelooy/api/core/legacyapidemoroutes.js unknown route vars — — geelooy/api/email/ awtsmoos.derech.js unknown identity — — geelooy/api/fetch/ awtsmoos.derech.js unknown $ post, headers, cookies, identity 400, 401, 403, 429 — geelooy/api/gpt/core/body.js unknown $ get, $ post, cookies — — geelooy/api/gpt/core/handlers.js unknown $ post — — geelooy/api/merkava/ awtsmoos.derech.js unknown $ post, headers 400, 404, 405, 429, 500 content disposition, content type geelooy/api/oauth/ awtsmoos.derech.js unknown route vars 404 access control allow headers, access control allow methods, access control allow origin, cache control geelooy/api/oauth/core/currentuser.js unknown cookies, identity — — geelooy/api/oauth/core/deviceverifylimiter.js unknown headers — — geelooy/api/oauth/core/requestbody.js unknown $ get, $ post — — geelooy/api/oauth/routes/agentlinks.js unknown cookies — — geelooy/api/oauth/routes/deviceverification.js post — — — geelooy/api/oauth/routes/logout.js unknown headers, cookies — set cookie geelooy/api/oauth/routes/register.js unknown — — content type geelooy/api/oauth/routes/start.js unknown identity — — geelooy/api/oauth/tools/requestdata.js unknown $ get, $ post — — geelooy/api/ohr hagnuz/ awtsmoos.derech.js unknown — — cache control, vary geelooy/api/ohr hagnuz/auth/gameticketclaims.js unknown headers — — geelooy/api/ohr hagnuz/auth/gameticketissuer.js unknown identity — — geelooy/api/ohr hagnuz/auth/gameticketstore.js unknown identity — — geelooy/api/ohrbound/ awtsmoos.derech.js unknown — — cache control, vary geelooy/api/ohrbound/routes/levels.js get, post, delete $ get, $ post, $ delete — — geelooy/api/ohrbound/routes/progress.js post $ get, $ post — — geelooy/api/ohrbound/services/authorization.js unknown cookies, identity — — geelooy/api/olam h3/core/body.js unknown $ post — — geelooy/api/platform/ awtsmoos.derech.js unknown $ get 200, 404 — geelooy/api/portal/contracts/portalerrorresource.js unknown — 500 — geelooy/api/portal/core/portalhttphandlers.js unknown $ get 404 — geelooy/api/projecthosting/planroute.js unknown $ get — — geelooy/api/projecthosting/requestidentity.js unknown identity — — geelooy/api/projecthosting/runtimerequest.js unknown $ post — — geelooy/api/projecthosting/runtimeroutes.js unknown $ get — — geelooy/api/public/ awtsmoos.derech.js unknown $ get, $ post, route vars, identity, db — — geelooy/api/release/ awtsmoos.derech.js unknown — — cache control geelooy/api/runtime/core/body.js unknown $ post — — geelooy/api/sefarim/ awtsmoos.derech.js unknown route vars, db — — geelooy/api/social legacy archive/helper old/comments old/commentcreation.js unknown $ post, identity, db — — geelooy/api/social legacy archive/helper old/comments old/commentdeletion.js unknown $ post, $ delete, db — — geelooy/api/social legacy archive/helper old/comments old/commentmoderation.js unknown $ get, $ post, db — — geelooy/api/social legacy archive/helper old/comments old/commentmodification.js unknown $ post, db — connection, transfer encoding geelooy/api/social legacy archive/helper old/comments old/commentpaths.js unknown db — — geelooy/api/social legacy archive/helper old/comments old/commentretrieval.js unknown $ get, db — — geelooy/api/social legacy archive/helper old/comments old/post/index.js get, put, delete $ get, $ post, $ delete, identity, db — — geelooy/api/social legacy archive/helper old/comments old/series.js unknown $ post, $ delete, db — — geelooy/api/social legacy archive/old/ awtsmoos.comments old.js get, post, put, delete $ get, $ post, route vars, identity — — geelooy/api/social legacy archive/old/ awtsmoos.posts.js get, post $ get, $ post, identity — — geelooy/api/social legacy archive/old/ awtsmoos.series.js get, post $ get, $ post — — geelooy/api/social legacy archive/old/index.js unknown identity — — geelooy/api/social/ awtsmoos.activityledger.js get, post — — — geelooy/api/social/ awtsmoos.assets.js unknown $ post — — geelooy/api/social/ awtsmoos.books.js unknown route vars — — geelooy/api/social/ awtsmoos.comments.js unknown db — — geelooy/api/social/ awtsmoos.community.js unknown $ get, $ post, $ delete — — geelooy/api/social/ awtsmoos.content.js get, post $ post — — geelooy/api/social/ awtsmoos.counter.js get, post, delete — — — geelooy/api/social/ awtsmoos.derech.js unknown identity — — geelooy/api/social/ awtsmoos.editor.js unknown route vars — —",
+		"page": "pages/docs-generated-api-source-contracts-api-source-contracts-001-md-ef3abf2744.json"
 	},
 	{
-		"id": "docs-generated-api-tutorials-routes-api-runtime-native-launch-00685c52f8-9ad0e59434",
-		"title": "API Tutorial: /api/runtime/native/launch",
-		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-runtime-native-launch-00685c52f8.md",
-		"category": "Routes",
+		"id": "docs-generated-api-source-contracts-api-source-contracts-002-md-e0e709a6df",
+		"title": "Generated API Source Contract Evidence 66–130",
+		"sourcePath": "docs/GENERATED/API_SOURCE_CONTRACTS/api-source-contracts-002.md",
+		"category": "General",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "API Tutorial: /api/runtime/native/launch",
-				"anchor": "api-tutorial-api-runtime-native-launch"
-			},
-			{
-				"level": 2,
-				"text": "Contract evidence",
-				"anchor": "contract-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Path parameters",
-				"anchor": "path-parameters"
-			},
-			{
-				"level": 2,
-				"text": "Starter call",
-				"anchor": "starter-call"
-			},
-			{
-				"level": 2,
-				"text": "Observed callers",
-				"anchor": "observed-callers"
-			},
-			{
-				"level": 2,
-				"text": "Related tests",
-				"anchor": "related-tests"
-			},
-			{
-				"level": 2,
-				"text": "Related routes",
-				"anchor": "related-routes"
+				"text": "Generated API Source Contract Evidence 66–130",
+				"anchor": "generated-api-source-contract-evidence-66-130"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/runtime/native/launch Family: Native Runtime · Mount: /api/runtime · Derech health: OK Source: geelooy/api/runtime/ awtsmoos.derech.js · Discovery: static literal · Confidence: unknown method Read the human Native Runtime tutorial Generated evidence is a navigation and",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/runtime/native/launch family: native runtime · mount: /api/runtime · derech health: ok source: geelooy/api/runtime/ awtsmoos.derech.js · discovery: static literal · confidence: unknown method read the human native runtime tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/runtime/native/capabilities /api/runtime/native/status /api/runtime/native/stop",
-		"page": "pages/docs-generated-api-tutorials-routes-api-runtime-native-launch-00685c52f8-9ad0e59434.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated API Source Contract Evidence 66–130 Lexical source evidence; methods marked unknown are not assumed GET. Source Methods Vessels Statuses Headers geelooy/api/social/ awtsmoos.entities.js GET, POST $ GET, $ POST, route vars — — geelooy/api/social/ awtsmoos.fileSystem.js unknown $",
+		"searchText": "b\"h boruch hashem blessed is he generated api source contract evidence 66–130 lexical source evidence; methods marked unknown are not assumed get. source methods vessels statuses headers geelooy/api/social/ awtsmoos.entities.js get, post $ get, $ post, route vars — — geelooy/api/social/ awtsmoos.filesystem.js unknown $ post, $ delete, route vars — — geelooy/api/social/ awtsmoos.governance.js get, post, put $ get, $ post, route vars — — geelooy/api/social/ awtsmoos.graph.js get, post $ get, $ post — — geelooy/api/social/ awtsmoos.heichel.js unknown $ get, $ post, $ delete, route vars — — geelooy/api/social/ awtsmoos.identitybootstrap.js get, post $ get — — geelooy/api/social/ awtsmoos.keys.js get, post route vars — — geelooy/api/social/ awtsmoos.living.js get $ get, route vars — — geelooy/api/social/ awtsmoos.mail.js unknown $ get, $ post, route vars — — geelooy/api/social/ awtsmoos.migrations.js unknown $ get, $ post — — geelooy/api/social/ awtsmoos.nodeos.js unknown $ get, $ post, route vars — — geelooy/api/social/ awtsmoos.notifications.js get, post, delete $ get, $ post, $ delete — — geelooy/api/social/ awtsmoos.objects.js unknown $ get, $ post, route vars — — geelooy/api/social/ awtsmoos.posts.js get, post — — — geelooy/api/social/ awtsmoos.publicdiscovery.js get — — — geelooy/api/social/ awtsmoos.radiance.js unknown $ post — — geelooy/api/social/ awtsmoos.reactions.js unknown $ get, $ post, $ delete — — geelooy/api/social/ awtsmoos.reviewcenter.js get — — — geelooy/api/social/ awtsmoos.richsocial.js get — — — geelooy/api/social/ awtsmoos.socialsummary.js post $ get, $ post — — geelooy/api/social/ awtsmoos.thoughts.js get, post, put, delete $ get, $ post, route vars — — geelooy/api/social/helper/aliascreate.js unknown $ post, db — — geelooy/api/social/helper/aliasdefault.js unknown $ post, cookies, identity — — geelooy/api/social/helper/aliasdelete.js unknown db — — geelooy/api/social/helper/aliasdetails.js get, post $ post — — geelooy/api/social/helper/aliasupdate.js unknown db — — geelooy/api/social/helper/aliasverify.js unknown db — — geelooy/api/social/helper/api/binahrequestbody.js unknown $ post — — geelooy/api/social/helper/api/binahrequestquery.js unknown $ get — — geelooy/api/social/helper/api/yesodsocialidentityresolver.js unknown identity — — geelooy/api/social/helper/apikeyscore.js unknown $ get, $ post, $ delete, cookies — — geelooy/api/social/helper/apikeysmanage.js unknown $ post, db — — geelooy/api/social/helper/apikeysverify.js unknown db — — geelooy/api/social/helper/assets/assetbindings.js unknown db — — geelooy/api/social/helper/assets/assetcopy.js unknown $ get, $ post — — geelooy/api/social/helper/assets/assetmanifest.js unknown db — — geelooy/api/social/helper/assets/assetratelimit.js unknown — — x forwarded for geelooy/api/social/helper/assets/assetupload.js unknown $ get, $ post, db — — geelooy/api/social/helper/assets/multipart.js unknown $ post — — geelooy/api/social/helper/assets/privatemessageassetproof.js unknown db — — geelooy/api/social/helper/books/download.js unknown — 200 cache control, content disposition, content length, content type geelooy/api/social/helper/books/options.js unknown $ get, $ post — — geelooy/api/social/helper/civilization/binahcivilizationrequest.js unknown $ get, $ post — — geelooy/api/social/helper/civilization/yesodcivilizationsubscriptionroutes.js unknown $ post — — geelooy/api/social/helper/comments/commentdeletionalias.js unknown $ delete — — geelooy/api/social/helper/comments/commentdeletionaliascore.js unknown db — — geelooy/api/social/helper/comments/commentdeletioncleanup.js unknown db — — geelooy/api/social/helper/comments/commentdeletionindexcheck.js unknown db — — geelooy/api/social/helper/comments/commentdeletionindexremove.js unknown db — — geelooy/api/social/helper/comments/commentdeletionparent.js unknown $ post, $ delete — — geelooy/api/social/helper/comments/commentdeletionparentcore.js unknown db — — geelooy/api/social/helper/comments/commentdeletionsingle.js unknown $ delete — — geelooy/api/social/helper/comments/commentdeletionsingleload.js unknown db — — geelooy/api/social/helper/comments/commentdeletionsinglestore.js unknown db — — geelooy/api/social/helper/comments/commentmigrationcopy.js unknown db — — geelooy/api/social/helper/comments/commentmigrationhelpers.js unknown db — — geelooy/api/social/helper/comments/commentmoderationapprove.js unknown db — — geelooy/api/social/helper/comments/commentmoderationapprovemove.js unknown $ post, db — — geelooy/api/social/helper/comments/commentmoderationdeny.js unknown $ get — — geelooy/api/social/helper/comments/commentmoderationdenydelete.js unknown db — — geelooy/api/social/helper/comments/commentmoderationsubmitted.js unknown $ get, db — — geelooy/api/social/helper/comments/commentmodificationeditapply.js unknown db — — geelooy/api/social/helper/comments/commentpathssubmitted.js unknown db — — geelooy/api/social/helper/comments/commentreactions.js unknown db — — geelooy/api/social/helper/comments/commentreadutils.js unknown $ get — —",
+		"page": "pages/docs-generated-api-source-contracts-api-source-contracts-002-md-e0e709a6df.json"
 	},
 	{
-		"id": "docs-generated-api-tutorials-routes-api-runtime-native-status-71d1b10724-a4530bc652",
-		"title": "API Tutorial: /api/runtime/native/status",
-		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-runtime-native-status-71d1b10724.md",
-		"category": "Routes",
+		"id": "docs-generated-api-source-contracts-api-source-contracts-003-md-17493e80c0",
+		"title": "Generated API Source Contract Evidence 131–195",
+		"sourcePath": "docs/GENERATED/API_SOURCE_CONTRACTS/api-source-contracts-003.md",
+		"category": "General",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "API Tutorial: /api/runtime/native/status",
-				"anchor": "api-tutorial-api-runtime-native-status"
-			},
-			{
-				"level": 2,
-				"text": "Contract evidence",
-				"anchor": "contract-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Path parameters",
-				"anchor": "path-parameters"
-			},
-			{
-				"level": 2,
-				"text": "Starter call",
-				"anchor": "starter-call"
-			},
-			{
-				"level": 2,
-				"text": "Observed callers",
-				"anchor": "observed-callers"
-			},
-			{
-				"level": 2,
-				"text": "Related tests",
-				"anchor": "related-tests"
-			},
-			{
-				"level": 2,
-				"text": "Related routes",
-				"anchor": "related-routes"
+				"text": "Generated API Source Contract Evidence 131–195",
+				"anchor": "generated-api-source-contract-evidence-131-195"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/runtime/native/status Family: Native Runtime · Mount: /api/runtime · Derech health: OK Source: geelooy/api/runtime/ awtsmoos.derech.js · Discovery: static literal · Confidence: unknown method Read the human Native Runtime tutorial Generated evidence is a navigation and",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/runtime/native/status family: native runtime · mount: /api/runtime · derech health: ok source: geelooy/api/runtime/ awtsmoos.derech.js · discovery: static literal · confidence: unknown method read the human native runtime tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/runtime/native/capabilities /api/runtime/native/launch /api/runtime/native/stop",
-		"page": "pages/docs-generated-api-tutorials-routes-api-runtime-native-status-71d1b10724-a4530bc652.json"
-	},
-	{
-		"id": "docs-generated-api-tutorials-routes-api-runtime-native-stop-8d06fff18a-m-02a26ad71d",
-		"title": "API Tutorial: /api/runtime/native/stop",
-		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-runtime-native-stop-8d06fff18a.md",
-		"category": "Routes",
-		"provenance": "generated",
-		"headings": [
-			{
-				"level": 1,
-				"text": "API Tutorial: /api/runtime/native/stop",
-				"anchor": "api-tutorial-api-runtime-native-stop"
-			},
-			{
-				"level": 2,
-				"text": "Contract evidence",
-				"anchor": "contract-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Path parameters",
-				"anchor": "path-parameters"
-			},
-			{
-				"level": 2,
-				"text": "Starter call",
-				"anchor": "starter-call"
-			},
-			{
-				"level": 2,
-				"text": "Observed callers",
-				"anchor": "observed-callers"
-			},
-			{
-				"level": 2,
-				"text": "Related tests",
-				"anchor": "related-tests"
-			},
-			{
-				"level": 2,
-				"text": "Related routes",
-				"anchor": "related-routes"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/runtime/native/stop Family: Native Runtime · Mount: /api/runtime · Derech health: OK Source: geelooy/api/runtime/ awtsmoos.derech.js · Discovery: static literal · Confidence: unknown method Read the human Native Runtime tutorial Generated evidence is a navigation and t",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/runtime/native/stop family: native runtime · mount: /api/runtime · derech health: ok source: geelooy/api/runtime/ awtsmoos.derech.js · discovery: static literal · confidence: unknown method read the human native runtime tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/runtime/native/capabilities /api/runtime/native/launch /api/runtime/native/status",
-		"page": "pages/docs-generated-api-tutorials-routes-api-runtime-native-stop-8d06fff18a-m-02a26ad71d.json"
-	},
-	{
-		"id": "docs-generated-api-tutorials-routes-api-sefarim-6e405748c6-md-e3f3dfb01f",
-		"title": "API Tutorial: /api/sefarim",
-		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-sefarim-6e405748c6.md",
-		"category": "Routes",
-		"provenance": "generated",
-		"headings": [
-			{
-				"level": 1,
-				"text": "API Tutorial: /api/sefarim",
-				"anchor": "api-tutorial-api-sefarim"
-			},
-			{
-				"level": 2,
-				"text": "Contract evidence",
-				"anchor": "contract-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Path parameters",
-				"anchor": "path-parameters"
-			},
-			{
-				"level": 2,
-				"text": "Starter call",
-				"anchor": "starter-call"
-			},
-			{
-				"level": 2,
-				"text": "Observed callers",
-				"anchor": "observed-callers"
-			},
-			{
-				"level": 2,
-				"text": "Related tests",
-				"anchor": "related-tests"
-			},
-			{
-				"level": 2,
-				"text": "Related routes",
-				"anchor": "related-routes"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/sefarim Family: Sefarim · Mount: /api/sefarim · Derech health: OK Source: geelooy/api/sefarim/ awtsmoos.derech.js · Discovery: static literal · Confidence: unknown method Read the human Sefarim tutorial Generated evidence is a navigation and teaching aid, not an OpenAP",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/sefarim family: sefarim · mount: /api/sefarim · derech health: ok source: geelooy/api/sefarim/ awtsmoos.derech.js · discovery: static literal · confidence: unknown method read the human sefarim tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: route vars, db observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/sefarim/:sefer /api/sefarim/:sefer/section/:section /api/sefarim/:sefer/section/:section/sub/:sub",
-		"page": "pages/docs-generated-api-tutorials-routes-api-sefarim-6e405748c6-md-e3f3dfb01f.json"
-	},
-	{
-		"id": "docs-generated-api-tutorials-routes-api-sefarim-sefer-2e1687688f-md-15c6425c6c",
-		"title": "API Tutorial: /api/sefarim/:sefer",
-		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-sefarim-sefer-2e1687688f.md",
-		"category": "Routes",
-		"provenance": "generated",
-		"headings": [
-			{
-				"level": 1,
-				"text": "API Tutorial: /api/sefarim/:sefer",
-				"anchor": "api-tutorial-api-sefarim-sefer"
-			},
-			{
-				"level": 2,
-				"text": "Contract evidence",
-				"anchor": "contract-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Path parameters",
-				"anchor": "path-parameters"
-			},
-			{
-				"level": 2,
-				"text": "Starter call",
-				"anchor": "starter-call"
-			},
-			{
-				"level": 2,
-				"text": "Observed callers",
-				"anchor": "observed-callers"
-			},
-			{
-				"level": 2,
-				"text": "Related tests",
-				"anchor": "related-tests"
-			},
-			{
-				"level": 2,
-				"text": "Related routes",
-				"anchor": "related-routes"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/sefarim/:sefer Family: Sefarim · Mount: /api/sefarim · Derech health: OK Source: geelooy/api/sefarim/ awtsmoos.derech.js · Discovery: static literal · Confidence: unknown method Read the human Sefarim tutorial Generated evidence is a navigation and teaching aid, not an",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/sefarim/:sefer family: sefarim · mount: /api/sefarim · derech health: ok source: geelooy/api/sefarim/ awtsmoos.derech.js · discovery: static literal · confidence: unknown method read the human sefarim tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: route vars, db observed status literals: — observed headers: — path parameters name shape sefer single segment starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/sefarim /api/sefarim/:sefer/section/:section /api/sefarim/:sefer/section/:section/sub/:sub",
-		"page": "pages/docs-generated-api-tutorials-routes-api-sefarim-sefer-2e1687688f-md-15c6425c6c.json"
-	},
-	{
-		"id": "docs-generated-api-tutorials-routes-api-sefarim-sefer-section-section-b4-f75d13acd6",
-		"title": "API Tutorial: /api/sefarim/:sefer/section/:section",
-		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-sefarim-sefer-section-section-b464ddf1a3.md",
-		"category": "Routes",
-		"provenance": "generated",
-		"headings": [
-			{
-				"level": 1,
-				"text": "API Tutorial: /api/sefarim/:sefer/section/:section",
-				"anchor": "api-tutorial-api-sefarim-sefer-section-section"
-			},
-			{
-				"level": 2,
-				"text": "Contract evidence",
-				"anchor": "contract-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Path parameters",
-				"anchor": "path-parameters"
-			},
-			{
-				"level": 2,
-				"text": "Starter call",
-				"anchor": "starter-call"
-			},
-			{
-				"level": 2,
-				"text": "Observed callers",
-				"anchor": "observed-callers"
-			},
-			{
-				"level": 2,
-				"text": "Related tests",
-				"anchor": "related-tests"
-			},
-			{
-				"level": 2,
-				"text": "Related routes",
-				"anchor": "related-routes"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/sefarim/:sefer/section/:section Family: Sefarim · Mount: /api/sefarim · Derech health: OK Source: geelooy/api/sefarim/ awtsmoos.derech.js · Discovery: static literal · Confidence: unknown method Read the human Sefarim tutorial Generated evidence is a navigation and tea",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/sefarim/:sefer/section/:section family: sefarim · mount: /api/sefarim · derech health: ok source: geelooy/api/sefarim/ awtsmoos.derech.js · discovery: static literal · confidence: unknown method read the human sefarim tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: route vars, db observed status literals: — observed headers: — path parameters name shape sefer single segment section single segment starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/sefarim /api/sefarim/:sefer /api/sefarim/:sefer/section/:section/sub/:sub",
-		"page": "pages/docs-generated-api-tutorials-routes-api-sefarim-sefer-section-section-b4-f75d13acd6.json"
-	},
-	{
-		"id": "docs-generated-api-tutorials-routes-api-sefarim-sefer-section-section-su-a3fcf327ca",
-		"title": "API Tutorial: /api/sefarim/:sefer/section/:section/sub/:sub",
-		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-sefarim-sefer-section-section-sub-sub-8bc044022c.md",
-		"category": "Routes",
-		"provenance": "generated",
-		"headings": [
-			{
-				"level": 1,
-				"text": "API Tutorial: /api/sefarim/:sefer/section/:section/sub/:sub",
-				"anchor": "api-tutorial-api-sefarim-sefer-section-section-sub-sub"
-			},
-			{
-				"level": 2,
-				"text": "Contract evidence",
-				"anchor": "contract-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Path parameters",
-				"anchor": "path-parameters"
-			},
-			{
-				"level": 2,
-				"text": "Starter call",
-				"anchor": "starter-call"
-			},
-			{
-				"level": 2,
-				"text": "Observed callers",
-				"anchor": "observed-callers"
-			},
-			{
-				"level": 2,
-				"text": "Related tests",
-				"anchor": "related-tests"
-			},
-			{
-				"level": 2,
-				"text": "Related routes",
-				"anchor": "related-routes"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/sefarim/:sefer/section/:section/sub/:sub Family: Sefarim · Mount: /api/sefarim · Derech health: OK Source: geelooy/api/sefarim/ awtsmoos.derech.js · Discovery: static literal · Confidence: unknown method Read the human Sefarim tutorial Generated evidence is a navigatio",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/sefarim/:sefer/section/:section/sub/:sub family: sefarim · mount: /api/sefarim · derech health: ok source: geelooy/api/sefarim/ awtsmoos.derech.js · discovery: static literal · confidence: unknown method read the human sefarim tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: route vars, db observed status literals: — observed headers: — path parameters name shape sefer single segment section single segment sub single segment starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/sefarim /api/sefarim/:sefer /api/sefarim/:sefer/section/:section",
-		"page": "pages/docs-generated-api-tutorials-routes-api-sefarim-sefer-section-section-su-a3fcf327ca.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated API Source Contract Evidence 131–195 Lexical source evidence; methods marked unknown are not assumed GET. Source Methods Vessels Statuses Headers geelooy/api/social/helper/comments/creation/BinahCommentInput.js unknown $ POST — — geelooy/api/social/helper/comments/creation/Bina",
+		"searchText": "b\"h boruch hashem blessed is he generated api source contract evidence 131–195 lexical source evidence; methods marked unknown are not assumed get. source methods vessels statuses headers geelooy/api/social/helper/comments/creation/binahcommentinput.js unknown $ post — — geelooy/api/social/helper/comments/creation/binahcommentsubmissionservice.js unknown $ post, db — — geelooy/api/social/helper/comments/creation/chesedbulkcommentservice.js unknown $ post, db — — geelooy/api/social/helper/comments/creation/hodaliascommentindex.js unknown db — — geelooy/api/social/helper/comments/creation/kesercommentcreationcoordinator.js unknown $ post — — geelooy/api/social/helper/comments/creation/tiferescommentcreationservice.js unknown db — — geelooy/api/social/helper/comments/imported/adapters/corpusadapter.js unknown db — — geelooy/api/social/helper/comments/imported/adapters/legacyadapter.js unknown db — — geelooy/api/social/helper/comments/imported/adapters/shardadapter.js unknown db — — geelooy/api/social/helper/comments/imported/meluketmapload.js unknown db — — geelooy/api/social/helper/comments/imported/postresolver.js unknown db — — geelooy/api/social/helper/comments/postrefcomment.js unknown db — — geelooy/api/social/helper/comments/query/binahcommentreadcontext.js unknown $ get — — geelooy/api/social/helper/comments/query/tiferescommentqueryservice.js unknown $ get — — geelooy/api/social/helper/comments/richcommentcreate.js unknown $ post — — geelooy/api/social/helper/comments/richcommentownership.js unknown $ get, $ post — — geelooy/api/social/helper/comments/richcommentupdate.js unknown $ post — — geelooy/api/social/helper/comments/richcompatibility.js unknown $ get, $ post, $ delete — — geelooy/api/social/helper/comments/richcompatibilitymutation.js unknown $ get, $ post, $ delete — — geelooy/api/social/helper/comments/routes/comment.js unknown $ get — — geelooy/api/social/helper/comments/routes/indexingroutehandlers.js unknown $ post — — geelooy/api/social/helper/comments/routes/legacyindexreader.js unknown db — — geelooy/api/social/helper/comments/routes/moderated.js unknown $ post — — geelooy/api/social/helper/comments/routes/post.js unknown route vars — — geelooy/api/social/helper/comments/routes/postmutationoperations.js unknown $ get, route vars — — geelooy/api/social/helper/comments/routes/postreadoperations.js unknown $ get, route vars — — geelooy/api/social/helper/comments/routes/reactions.js unknown $ post, $ delete — — geelooy/api/social/helper/comments/routes/rich.js unknown $ get, $ post, $ delete — — geelooy/api/social/helper/comments/routes/search.js unknown $ get, $ post, route vars — — geelooy/api/social/helper/comments/routes/submitted.js unknown $ get, $ post, route vars — — geelooy/api/social/helper/comments/routes/translationannotations.js unknown $ get, $ post — — geelooy/api/social/helper/comments/routes/translations.js unknown $ get — — geelooy/api/social/helper/comments/scripts/copylegacycommentshelpers.js unknown db — — geelooy/api/social/helper/comments/translations/corpusstore.js unknown db — — geelooy/api/social/helper/communicationinbox/read.js unknown db — — geelooy/api/social/helper/communicationinbox/write.js unknown db — — geelooy/api/social/helper/communicationroutes/communicationroutevessel.js unknown $ get — — geelooy/api/social/helper/community/communitysettings.js unknown db — — geelooy/api/social/helper/community/reviewengine.js unknown db — — geelooy/api/social/helper/contentcanonicalbridge.js unknown db — — geelooy/api/social/helper/contentroutesupport.js unknown $ get, $ post — — geelooy/api/social/helper/countercore.js unknown identity — — geelooy/api/social/helper/counterincrease.js unknown db — access control allow origin, essence geelooy/api/social/helper/countermake.js unknown $ post, identity, db — — geelooy/api/social/helper/counterread.js unknown identity, db — — geelooy/api/social/helper/drive/browser/interactiveconnectproxy.js unknown — 502 — geelooy/api/social/helper/drive/browser/interactivehttpproxy.js unknown headers — — geelooy/api/social/helper/drive/browser/interactiveprofilestore.js unknown cookies — — geelooy/api/social/helper/drive/browser/interactiveproxytarget.js unknown headers — — geelooy/api/social/helper/drive/browser/interactivesessionids.js unknown cookies — — geelooy/api/social/helper/drive/browser/interactivesessionservice.js unknown cookies — — geelooy/api/social/helper/drive/browser/proxycookiejar.js unknown cookies — — geelooy/api/social/helper/drive/browser/proxycookiepolicy.js unknown cookies — — geelooy/api/social/helper/drive/browser/proxyheaders.js unknown cookies — — geelooy/api/social/helper/drive/browser/proxyhopservice.js unknown cookies — — geelooy/api/social/helper/drive/browser/proxyratelimiter.js unknown cookies — — geelooy/api/social/helper/drive/browser/proxyrequestpolicy.js post — — — geelooy/api/social/helper/drive/browser/proxyresponse.js unknown cookies — — geelooy/api/social/helper/drive/browser/proxyservice.js unknown cookies — — geelooy/api/social/helper/drive/browser/proxytransport.js unknown cookies — — geelooy/api/social/helper/drive/credentialprovisioningmanage.js unknown — 409 — geelooy/api/social/helper/drive/credentialverification.js unknown — 401, 403 — geelooy/api/social/helper/drive/deploymentpolicy.js unknown — 400 — geelooy/api/social/helper/drive/deploymentpreviewresponse.js unknown — 308, 404 — geelooy/api/social/helper/drive/domainhostnamepolicy.js unknown — 400 —",
+		"page": "pages/docs-generated-api-source-contracts-api-source-contracts-003-md-17493e80c0.json"
 	}
 ]

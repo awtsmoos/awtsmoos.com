@@ -1,0 +1,109 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-workos-architecture-md-f544dc3270",
+	"title": "WorkOS — Architecture Blueprint",
+	"sourcePath": "geelooy/apps/workos/ARCHITECTURE.md",
+	"category": "Apps",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "WorkOS — Architecture Blueprint",
+			"anchor": "workos-architecture-blueprint"
+		},
+		{
+			"level": 2,
+			"text": "1. The one idea",
+			"anchor": "1-the-one-idea"
+		},
+		{
+			"level": 2,
+			"text": "2. Layer map",
+			"anchor": "2-layer-map"
+		},
+		{
+			"level": 2,
+			"text": "3. Identity: everything gets a permanent URI",
+			"anchor": "3-identity-everything-gets-a-permanent-uri"
+		},
+		{
+			"level": 2,
+			"text": "4. The event fabric (deepest primitive)",
+			"anchor": "4-the-event-fabric-deepest-primitive"
+		},
+		{
+			"level": 3,
+			"text": "Event taxonomy (v0.1)",
+			"anchor": "event-taxonomy-v0-1"
+		},
+		{
+			"level": 3,
+			"text": "Facts ≠ claims ≠ decisions",
+			"anchor": "facts-claims-decisions"
+		},
+		{
+			"level": 3,
+			"text": "Decision lifecycle",
+			"anchor": "decision-lifecycle"
+		},
+		{
+			"level": 2,
+			"text": "5. Work graph schema",
+			"anchor": "5-work-graph-schema"
+		},
+		{
+			"level": 2,
+			"text": "6. Mission rooms (the live operating room)",
+			"anchor": "6-mission-rooms-the-live-operating-room"
+		},
+		{
+			"level": 2,
+			"text": "7. Provenance (automatic, at the tool boundary)",
+			"anchor": "7-provenance-automatic-at-the-tool-boundary"
+		},
+		{
+			"level": 2,
+			"text": "8. Context compiler (context capsules)",
+			"anchor": "8-context-compiler-context-capsules"
+		},
+		{
+			"level": 2,
+			"text": "9. Capabilities & trust",
+			"anchor": "9-capabilities-trust"
+		},
+		{
+			"level": 2,
+			"text": "10. Sharing / forking / contributions",
+			"anchor": "10-sharing-forking-contributions"
+		},
+		{
+			"level": 2,
+			"text": "11. UI map (v0.1 → forward)",
+			"anchor": "11-ui-map-v0-1-forward"
+		},
+		{
+			"level": 2,
+			"text": "12. Storage & sync path",
+			"anchor": "12-storage-sync-path"
+		},
+		{
+			"level": 2,
+			"text": "13. API surface",
+			"anchor": "13-api-surface"
+		},
+		{
+			"level": 2,
+			"text": "14. Phased rollout",
+			"anchor": "14-phased-rollout"
+		},
+		{
+			"level": 2,
+			"text": "15. Open decisions for Yaakov",
+			"anchor": "15-open-decisions-for-yaakov"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-workos-architecture-md-f544dc3270-001.json"
+	]
+}

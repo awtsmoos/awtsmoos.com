@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-08780bb176",
+	"title": "Phase Two — Failure and Risk Map",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/.ai-thoughts/20260902_0315-universal-procedural-api/03_FAILURE_AND_RISK_MAP.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase Two — Failure and Risk Map",
+			"anchor": "phase-two-failure-and-risk-map"
+		},
+		{
+			"level": 2,
+			"text": "Architectural risks",
+			"anchor": "architectural-risks"
+		},
+		{
+			"level": 2,
+			"text": "Compatibility risks",
+			"anchor": "compatibility-risks"
+		},
+		{
+			"level": 2,
+			"text": "Operational risks",
+			"anchor": "operational-risks"
+		},
+		{
+			"level": 2,
+			"text": "Failure graph",
+			"anchor": "failure-graph"
+		},
+		{
+			"level": 2,
+			"text": "Preventive gates",
+			"anchor": "preventive-gates"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-08780bb176-001.json"
+	]
+}

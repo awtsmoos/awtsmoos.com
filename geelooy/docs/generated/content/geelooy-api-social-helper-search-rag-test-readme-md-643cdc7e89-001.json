@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Search RAG Tests (geelooy/api/social/helper/search/rag/test/)\n\nTests for the RAG/semantic search stack (40+ files).\n\n- Comment lanes: `authoritativeCommentRows`, `bridgeCommentRows`, `packedCommentRows`, `richCommentRows`, comment hydration guards, relevance, coordinates, metadata hits.\n- Canonical: `canonicalWorkSearch`, `exactTanachNavigation`, catalog/sidecar.\n- Library: multi-lane search, latency/concurrency policy, merge/bounded failure, deadline, native text search, publication catalog storage policy/rollback.\n- Infra: `manifestCache`, `ragStartupWarmup`, `searchCacheWarmup`, `searchColdPathIsolation`, request snapshot, response cache, search contracts, runtime AI discovery, runtime path resolution, llama embedding args, `liveSearchProbe.js` (live probe, not a test).\n"
+}

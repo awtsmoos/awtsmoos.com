@@ -1,0 +1,195 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-08-30-1307-olam-h3-studio-07-connection-readine-ae286d687e",
+		"title": "Connection Readiness Continuation",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-30-1307-olam-h3-studio/07-connection-readiness-continuation.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Connection Readiness Continuation",
+				"anchor": "connection-readiness-continuation"
+			},
+			{
+				"level": 2,
+				"text": "Observed production secret topology",
+				"anchor": "observed-production-secret-topology"
+			},
+			{
+				"level": 2,
+				"text": "Newly discovered UX gap",
+				"anchor": "newly-discovered-ux-gap"
+			},
+			{
+				"level": 2,
+				"text": "Improvement plan",
+				"anchor": "improvement-plan"
+			},
+			{
+				"level": 2,
+				"text": "Release safety",
+				"anchor": "release-safety"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "Connection Readiness Continuation Observed production secret topology awtsmoos.service fragment: /etc/systemd/system/awtsmoos.service. Immutable release drop in: /etc/systemd/system/awtsmoos.service.d/10 immutable release.conf. EnvironmentFiles is empty. Live service process does not contain the MINIMAX API KEY environ",
+		"searchText": "connection readiness continuation observed production secret topology awtsmoos.service fragment: /etc/systemd/system/awtsmoos.service. immutable release drop in: /etc/systemd/system/awtsmoos.service.d/10 immutable release.conf. environmentfiles is empty. live service process does not contain the minimax api key environment name. /etc/environment is readable but contains no minimax environment variable name. the immutable release drop in contains no minimax environment variable name. no credential value was printed or inspected. conclusion: there is no existing production minimax credential available through the discovered service/environment path. the credential boundary remains genuinely external. newly discovered ux gap the application already fetches safe connection state into appshell.connection, but appviews passes connection state only to settings. create therefore evaluates draft/media readiness without provider readiness. a user can write a valid prompt and receive an enabled generate button even though production already knows that minimax is not configured. improvement plan 1. add a small provider readiness domain object that combines draft readiness with the safe proxy status. 2. pass appshell.connection into create view state. 3. render a compact provider status banner in create when the server key is unavailable or the status check failed. 4. disable generate whenever either draft readiness or provider readiness is false. 5. make the readiness message distinguish creative requirements from server configuration requirements. 6. add a direct settings action from the provider status banner. 7. add a second programmatic guard in composeractions.generate() so ui state cannot be bypassed. 8. refresh connection status on browser online events and when the user returns to create, without polling aggressively. 9. add focused tests for configured, unconfigured, and status error states. 10. re run local/browser gates, then publish as an isolated fast forward patch release from current origin/main. release safety the original shared worktree remains dirty with unrelated work. this patch must again be released from an isolated clean worktree based on the then current origin/main, copying only whole changed olam files. next action read the exact create renderer/controller callback contracts, then rewrite provider readiness modules and bindings as complete files.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-30-1307-olam-h3-studio-07-connection-readine-ae286d687e.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-30-1307-olam-h3-studio-09-favicon-console-cl-a5989cf526",
+		"title": "Favicon Console Cleanup",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-30-1307-olam-h3-studio/09-favicon-console-cleanup.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Favicon Console Cleanup",
+				"anchor": "favicon-console-cleanup"
+			},
+			{
+				"level": 2,
+				"text": "Observed defect",
+				"anchor": "observed-defect"
+			},
+			{
+				"level": 2,
+				"text": "Fix plan",
+				"anchor": "fix-plan"
+			},
+			{
+				"level": 2,
+				"text": "Failure rule",
+				"anchor": "failure-rule"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "Favicon Console Cleanup Observed defect The second provider readiness release is live at commit 8499a37d3e3b1bf5419749cf24cdf69dc2726dbe and all functional production browser assertions passed. The public browser smoke failed only because Chrome recorded one fresh console error: Failed to load resource: the server resp",
+		"searchText": "favicon console cleanup observed defect the second provider readiness release is live at commit 8499a37d3e3b1bf5419749cf24cdf69dc2726dbe and all functional production browser assertions passed. the public browser smoke failed only because chrome recorded one fresh console error: failed to load resource: the server responded with a status of 404 (not found). a direct production request proved https://awtsmoos.com/favicon.ico returns http 404. olam h3 currently declares no favicon, so chrome falls back to the missing origin level icon. fix plan 1. add a dedicated favicon.svg inside the olam h3 app directory. 2. keep the svg compact, branded to the existing olam orb, and self contained with no external resources. 3. add an explicit to olam's html head. 4. keep both files under the 120 line rule and preserve b\"h / awtsmoos comments. 5. re run structural checks and the 19 test node suite. 6. run deterministic local chrome smoke and specifically assert no fresh http/console failures. 7. apply the two file fix to the existing clean release worktree on top of 8499a37.... 8. commit only index.html and favicon.svg, fast forward push, deploy exact sha, then repeat public chrome smoke. failure rule do not weaken the browser assertion. the goal is zero fresh console/resource failures on the production olam page. next action write the complete favicon svg and complete html file, then verify their local browser behavior before git release.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-30-1307-olam-h3-studio-09-favicon-console-cl-a5989cf526.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-30-1307-olam-h3-studio-10-final-release-evid-d590b9d8b1",
+		"title": "Final Olam H3 Release Evidence",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-30-1307-olam-h3-studio/10-final-release-evidence.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Final Olam H3 Release Evidence",
+				"anchor": "final-olam-h3-release-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Release lineage",
+				"anchor": "release-lineage"
+			},
+			{
+				"level": 2,
+				"text": "Shared-worktree safety",
+				"anchor": "shared-worktree-safety"
+			},
+			{
+				"level": 2,
+				"text": "Structural and automated verification",
+				"anchor": "structural-and-automated-verification"
+			},
+			{
+				"level": 2,
+				"text": "Provider-readiness browser evidence",
+				"anchor": "provider-readiness-browser-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Production favicon discovery and repair",
+				"anchor": "production-favicon-discovery-and-repair"
+			},
+			{
+				"level": 2,
+				"text": "Final production deployment",
+				"anchor": "final-production-deployment"
+			},
+			{
+				"level": 2,
+				"text": "Final strict public browser gate",
+				"anchor": "final-strict-public-browser-gate"
+			},
+			{
+				"level": 2,
+				"text": "External credential boundary",
+				"anchor": "external-credential-boundary"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION after credential configuration",
+				"anchor": "nextaction-after-credential-configuration"
+			}
+		],
+		"excerpt": "Final Olam H3 Release Evidence Release lineage Initial studio release: 8c30101ece9f88af6fe3e2b32f44ff1fbef7b0ad. Provider readiness and prompt focus patch: 8499a37d3e3b1bf5419749cf24cdf69dc2726dbe. Final favicon/console cleanup microfix: 3e544cc749ead3093279660cb253c61bd1643f10. Every push was a normal fast forward to ",
+		"searchText": "final olam h3 release evidence release lineage initial studio release: 8c30101ece9f88af6fe3e2b32f44ff1fbef7b0ad. provider readiness and prompt focus patch: 8499a37d3e3b1bf5419749cf24cdf69dc2726dbe. final favicon/console cleanup microfix: 3e544cc749ead3093279660cb253c61bd1643f10. every push was a normal fast forward to origin/main; no force push was used. the final microfix parent was exactly the provider readiness sha before push. shared worktree safety the original local worktree remained on 35bfeb4e129b113c1001284d807e790e99de55b6 during isolated releases. its 105 unrelated staged files were kept outside all olam release commits. provider and favicon releases were created in a clean worktree based on current origin/main. structural and automated verification every olam file remained at or below 120 lines. javascript syntax checks passed. no placeholder only field guidance remained. required b\"h, awtsmoos, awtsmoos.com, and tab indentation gates remained intact. settled node suite: 19 passed, 0 failed . the added readiness tests cover configured, missing key, offline, status error, invalid draft, and reference ready states. provider readiness browser evidence a deterministic local browser pass used the current source tree, an isolated temporary awtsmoos server, and isolated chrome. it proved: create shows generation paused when the server credential is absent. generate is disabled before submission. prompt typing preserves the exact textarea dom node and focus. prompt count updates in place without whole view redraw. default 5 second 768p estimate remains $0.40. forcibly enabling the dom button still creates no generation record because the controller guard rejects unavailable provider state. open settings navigates correctly and reports the missing server key. 360px, 768px, and 1440px layouts have no horizontal overflow. browser console errors and failed http responses were empty in the deterministic pass. production favicon discovery and repair the first strict public browser pass after the provider patch passed functional behavior but exposed one fresh console 404. direct observation proved https://awtsmoos.com/favicon.ico returned 404. olam declared no favicon, so chrome used the missing origin level fallback. the microfix added: geelooy/apps/olam h3/favicon.svg, 19 lines and 910 bytes. an explicit rel=\"icon\" link in olam's index.html. the repository's generic .svg ignore rule was traced before release. only this verified favicon was intentionally force added; the global ignore policy was not changed. final production deployment canonical deployment fast forwarded only favicon.svg and index.html to final sha 3e544cc749ead3093279660cb253c61bd1643f10. the deploy output emitted: canonical server active sha=3e544cc749ead3093279660cb253c61bd1643f10. canonical deploy ok sha=3e544cc749ead3093279660cb253c61bd1643f10. public https://awtsmoos.com/apps/olam h3/favicon.svg then returned http 200 with exactly 910 bytes. final strict public browser gate the final production chrome job completed exit code 0 with empty stderr and printed: chrome 9457 alive. pass browser smoke: provider gate, stable prompt focus, controller guard, settings, responsive. final public browser smoke pass. the strict browser test still asserts zero captured console errors and zero failed http responses; no assertion was weakened to obtain this pass. external credential boundary production still lacks minimax api key. earlier production status returned configured: false, and the exact browser create envelope reached the credential guard and returned minimax api key is not configured on the server. no safe project action can create, infer, recover, or fabricate that third party credential. a real paid h3 generation remains the only externally blocked proof. next action after credential configuration 1. configure minimax api key in the production awtsmoos.service environment. 2. canonically restart or redeploy the service. 3. verify /api/olam h3/status reports configured: true without exposing the key. 4. run one minimum 4 second 768p text only h3 generation, locally estimated at $0.32. 5. verify real task id, h3 v2 polling, task.content.url, playback, reload persistence, and local cache. 6. run one small image reference generation and record its production evidence. 7. close the final external blocker node.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-30-1307-olam-h3-studio-10-final-release-evid-d590b9d8b1.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-30-1307-olam-h3-studio-remaining-work-md-749ba7e0fd",
+		"title": "REMAINING WORK",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-30-1307-olam-h3-studio/REMAINING_WORK.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "REMAINING WORK",
+				"anchor": "remaining-work"
+			},
+			{
+				"level": 2,
+				"text": "Completion state",
+				"anchor": "completion-state"
+			},
+			{
+				"level": 2,
+				"text": "Completed Director experience",
+				"anchor": "completed-director-experience"
+			},
+			{
+				"level": 2,
+				"text": "Completed verification",
+				"anchor": "completed-verification"
+			},
+			{
+				"level": 2,
+				"text": "Current release lineage",
+				"anchor": "current-release-lineage"
+			},
+			{
+				"level": 2,
+				"text": "External blocker",
+				"anchor": "external-blocker"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION after credential configuration",
+				"anchor": "nextaction-after-credential-configuration"
+			},
+			{
+				"level": 2,
+				"text": "Hard-stop justification",
+				"anchor": "hard-stop-justification"
+			}
+		],
+		"excerpt": "REMAINING WORK Completion state All safe executable Olam H3 product work, mobile UI repair, premium visual polish, Director Console intelligence, automated verification, Git publication, canonical deployment, and public browser regression is complete. Exactly one unresolved product node remains, externally blocked by t",
+		"searchText": "remaining work completion state all safe executable olam h3 product work, mobile ui repair, premium visual polish, director console intelligence, automated verification, git publication, canonical deployment, and public browser regression is complete. exactly one unresolved product node remains, externally blocked by the absent production minimax credential. completed director experience [x] cinematic director console hero and animated viewfinder. [x] live shot brief with subject, action, camera, light, atmosphere, and audio ingredient coverage. [x] nonjudgmental coverage states from blank canvas through fully directed. [x] live 0% to 100% prompt analysis without replacing the textarea or shot brief dom nodes. [x] neo noir, golden hour, documentary, and dreamlike macro style lanes. [x] style directions append as editable prompt text and deduplicate repeated taps. [x] reference recipes for character consistency, motion/camera, frame transitions, and voice/ambience. [x] recipe cards switch into the correct h3 control mode. [x] existing prompt templates, paste prompt, minimax onboarding, reference guidance, glass motion, and secure provider guard preserved. [x] existing estimated cost / generate / bottom navigation no overlap behavior preserved. completed verification [x] every olam file remains <=120 lines. [x] javascript/test syntax checks passed. [x] clean release tree unit suite: 23 passed, 0 failed. [x] director domain tests cover blank, partial, and fully directed prompts plus style deduplication. [x] local director browser proof: live 0% to 100%, all six ingredients, same dom nodes, focus retention, style append, recipe mode switch, animated viewfinder, no overflow, no browser/network errors. [x] separate local premium/mobile/security regression passed unchanged. [x] public director browser job completed exit 0 against https://awtsmoos.com. [x] separate public premium/mobile/security regression completed in the same guarded job with exit 0. current release lineage [x] initial release 8c30101ece9f88af6fe3e2b32f44ff1fbef7b0ad. [x] provider readiness 8499a37d3e3b1bf5419749cf24cdf69dc2726dbe. [x] favicon cleanup 3e544cc749ead3093279660cb253c61bd1643f10. [x] mobile creation flow repair 2fcf49b3cc2d47ae6bcd30ad5acd66da07424ecf. [x] premium glass/onboarding release 84667872befb4810ba695fffbc825f1543b07a4e. [x] director console release df2b30c338582fda21d533c2f500bb248133cdb2. [x] director release was based on newer remote parent 569f142f45fe72f83e85b22ffda089e429de4e79 after proving concurrent remote work changed zero olam files. [x] director push was a normal fast forward; no force push. [x] canonical deploy emitted canonical server active and canonical deploy ok for the director sha. external blocker [ ] configure minimax api key in the production awtsmoos.service environment. the production server previously reported configured: false. olam intentionally never accepts or stores the secret in browser ui. the key cannot be safely fabricated, inferred, or recovered from repository state. next action after credential configuration 1. canonically restart or redeploy the service. 2. verify /api/olam h3/status reports configured: true without exposing the key. 3. run one minimum 4 second 768p real h3 generation. 4. verify task id, polling, task.content.url, playback, persistence, and local cache. 5. run one small image reference generation. 6. record the paid generation evidence and close the external blocker. hard stop justification no safe project action can manufacture the missing third party production credential. every known work item not requiring that credential—including the requested deeper ui/ux improvement—is implemented, tested, pushed, deployed, and publicly verified.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-30-1307-olam-h3-studio-remaining-work-md-749ba7e0fd.json"
+	}
+]

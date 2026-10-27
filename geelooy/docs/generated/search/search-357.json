@@ -1,0 +1,141 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28-1318-geelooy-better-render-ai-02-phase-th-001d607f45",
+		"title": "Phase Three — Tiferes Final Improvement Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28-1318-geelooy-better-render-ai/02_PHASE_THREE_FINAL_PLAN.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Three — Tiferes Final Improvement Plan",
+				"anchor": "phase-three-tiferes-final-improvement-plan"
+			},
+			{
+				"level": 2,
+				"text": "Third-Pass Revelation",
+				"anchor": "third-pass-revelation"
+			},
+			{
+				"level": 2,
+				"text": "34 Additional Improvements Beyond Phase Two",
+				"anchor": "34-additional-improvements-beyond-phase-two"
+			},
+			{
+				"level": 2,
+				"text": "Final Execution Order",
+				"anchor": "final-execution-order"
+			},
+			{
+				"level": 3,
+				"text": "Gate 0 — Collision / Reality Refresh",
+				"anchor": "gate-0-collision-reality-refresh"
+			},
+			{
+				"level": 3,
+				"text": "Gate 1 — Baseline Benchmark",
+				"anchor": "gate-1-baseline-benchmark"
+			},
+			{
+				"level": 3,
+				"text": "Gate 2 — Parallel Prototype",
+				"anchor": "gate-2-parallel-prototype"
+			},
+			{
+				"level": 3,
+				"text": "Gate 3 — Export Integration",
+				"anchor": "gate-3-export-integration"
+			},
+			{
+				"level": 3,
+				"text": "Gate 4 — AI Baseline",
+				"anchor": "gate-4-ai-baseline"
+			},
+			{
+				"level": 3,
+				"text": "Gate 5 — AI Richness Modules",
+				"anchor": "gate-5-ai-richness-modules"
+			},
+			{
+				"level": 3,
+				"text": "Gate 6 — AI Tests",
+				"anchor": "gate-6-ai-tests"
+			},
+			{
+				"level": 3,
+				"text": "Gate 7 — Studio UX",
+				"anchor": "gate-7-studio-ux"
+			},
+			{
+				"level": 3,
+				"text": "Gate 8 — Full Regression / Readback",
+				"anchor": "gate-8-full-regression-readback"
+			},
+			{
+				"level": 2,
+				"text": "Actual Candidate Files — Conditional Until Fresh Reads",
+				"anchor": "actual-candidate-files-conditional-until-fresh-reads"
+			},
+			{
+				"level": 2,
+				"text": "Acceptance Thresholds",
+				"anchor": "acceptance-thresholds"
+			}
+		],
+		"excerpt": "B\"H Phase Three — Tiferes Final Improvement Plan Chesed imagines endless cinema, Gevurah measures every cost, Tiferes joins the two in form; the Awtsmoos renews each frame, while Awtsmoos.com makes speed and meaning one coherent storm. Third Pass Revelation The system does not need another movie schema, another Studio ",
+		"searchText": "b\"h phase three — tiferes final improvement plan chesed imagines endless cinema, gevurah measures every cost, tiferes joins the two in form; the awtsmoos renews each frame, while awtsmoos.com makes speed and meaning one coherent storm. third pass revelation the system does not need another movie schema, another studio shell, or another proof only workaround. it needs deeper engines that preserve the verified architecture: render: faster orchestration around the existing deterministic renderer, with sequential equivalence and bounded memory proven. ai: richer canonical scene composition below the already thin director, with semantic coverage measured from actual generated layers. studio: authoring feedback that surfaces richness, fidelity, and render quality without lying about native capabilities. 34 additional improvements beyond phase two 1. benchmark constructor cost separately from frame render cost. 2. warm each renderer once before timing steady state throughput. 3. record median, p90, and max frame latency instead of a single average. 4. benchmark multiple timestamps because some scenes/overlays are more expensive. 5. compare buffer hashes between repeated sequential renders to prove determinism before parallelization. 6. use a compact worker initialization payload rather than serializing unnecessary ui metadata. 7. partition frame requests into small chunks when ipc per frame dominates. 8. maintain an explicit maximum reorder window size. 9. apply backpressure from ffmpeg all the way to worker scheduling. 10. terminate worker processes on cancellation and error; do not orphan native canvas processes. 11. include worker/frame identifiers in errors for reproducible diagnostics. 12. add an automatic sequential fallback if worker initialization fails. 13. make worker count injectable for deterministic tests. 14. do not assume os.availableparallelism() cores should all be used; leave headroom for ffmpeg and the os. 15. benchmark 1, 2, and 4 workers before choosing defaults. 16. preserve exact local time calculations from the sequential exporter. 17. avoid encoding per worker unless raw ipc is proven worse; encoding many tiny streams may cost more cpu. 18. keep render benchmark artifacts out of production proof directories. 19. in ai planning, distinguish requested features from inferred enhancements. 20. add requestedcoverage and generatedcoverage evidence to ai metadata only if schema allows arbitrary metadata cleanly. 21. scene purposes should be deterministic from duration/genre but not repetitive round robin labels without context. 22. camera choices should vary by purpose and dimension, not merely scene index. 23. character scenes need spatial/action beats, not just presence layers. 24. infographic scenes need actual chart/label/data semantic layers. 25. tutorial scenes need step/focus/annotation semantics and readable text. 26. hybrid scenes should intentionally combine 2d overlays with 3d world/model/character layers. 27. particle use should have semantic roles such as emphasis, transition, ambience, or visualization. 28. text density must remain bounded for mobile readability. 29. generated style should be stable across scenes through deterministic palette/motion choices. 30. richness scoring should penalize missing requested features more strongly than lack of optional flair. 31. tests should include negative prompts that request only simple 2d output to prove the planner does not force 3d everywhere. 32. studio richness ui should summarize instead of exposing raw internal arrays by default. 33. studio render presets should show fps/dimensions and relative cost, never promise exact wall clock completion. 34. final acceptance must prove either measured render throughput improvement or explicitly reject the parallel architecture with benchmark evidence before moving to micro optimization. final execution order gate 0 — collision / reality refresh read current git status and modification times for renderer, ai compiler, studio layout, and new plan directory. identify any active concurrent movie agent touching the same files. if a candidate file changed after planning, re read before deciding. gate 1 — baseline benchmark read and benchmark cinematicframerenderer plus immediate dependencies. create a small benchmark script only after reading current constructors/apis. baseline representative frames with one renderer instance. record throughput and determinism hashes. gate 2 — parallel prototype if renderer isolation is valid, add new child process worker modules without rewriting cinematic painting code. benchmark 1/2/4 workers on a bounded frame set. require correct ordered hashes and meaningful throughput improvement. if it loses, delete/avoid integrating the prototype and record why. gate 3 — export integration only if gate 2 wins, integrate the worker pool into a separate parallel exporter path. keep sequential exporter as fallback. verify a short higher fps movie/segment before attempting full 180 seconds. gate 4 — ai baseline read prompt/intent/outline compiler modules. generate at least five prompt fixtures and inventory layer kinds, cameras, scene purposes, and requested feature misses. gate 5 — ai richness modules create small deterministic planners/factories below director. rewrite the compiler only if needed after fresh hash/read. preserve provider based ai path and schema validation. gate 6 — ai tests require arbitrary durations, deterministic output, requested feature coverage, 2d only restraint, hybrid richness, tutorial/infographic semantics, and camera variety. gate 7 — studio ux after render/ai contracts settle, add compact mobile authoring summaries for semantic coverage/fidelity and render profile. browser test desktop/mobile again. gate 8 — full regression / readback run studio/shared movie/adapter/procedural/render tests, syntax, line limits, tabs, browser smoke, benchmark comparison. re read all touched files and write delta/evidence/handoff. actual candidate files — conditional until fresh reads new render files if benchmark supports child process architecture: apps/animator/tools/render/parallel/parallelframeprotocol.js apps/animator/tools/render/parallel/malchusframeworker.js apps/animator/tools/render/parallel/tiferesrenderworkerpool.js apps/animator/tools/render/parallel/yesodorderedframebuffer.js apps/animator/tools/render/bench/threeminuterenderbenchmark.js apps/animator/tools/render/threeminute/threeminuteparallelexporter.js ai files are intentionally unnamed until current compiler readback; likely small modules under apps/shared/movie/ai/planning/ plus a full rewrite of movieintentcompiler.js only if the current file remains the correct composition point. studio files are intentionally deferred until render/ai work proves new metadata/contracts worth displaying. acceptance thresholds render acceleration is successful only with identical frame hashes for compared timestamps and a material measured throughput gain under comparable load. ai improvement is successful only if generated canonical output contains requested semantic kinds/scene purpose/camera diversity rather than metadata promises. studio improvement is successful only if mobile browser evidence shows the new information is usable without horizontal overflow or control loss. no source work begins before remaining work.md is written and current hot path files are freshly read.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28-1318-geelooy-better-render-ai-02-phase-th-001d607f45.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28-1318-geelooy-better-render-ai-04-release--21a7c5af8e",
+		"title": "Release and Improvement Evidence",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28-1318-geelooy-better-render-ai/04_RELEASE_AND_IMPROVEMENT_EVIDENCE.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Release and Improvement Evidence",
+				"anchor": "release-and-improvement-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Render Improvement",
+				"anchor": "render-improvement"
+			},
+			{
+				"level": 2,
+				"text": "AI Improvement",
+				"anchor": "ai-improvement"
+			},
+			{
+				"level": 2,
+				"text": "Release Hardening",
+				"anchor": "release-hardening"
+			},
+			{
+				"level": 2,
+				"text": "Repository-Wide Evidence",
+				"anchor": "repository-wide-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Deployment Rule",
+				"anchor": "deployment-rule"
+			},
+			{
+				"level": 2,
+				"text": "Current Release Boundary",
+				"anchor": "current-release-boundary"
+			},
+			{
+				"level": 2,
+				"text": "Post-Deploy Improvement Frontier",
+				"anchor": "post-deploy-improvement-frontier"
+			}
+		],
+		"excerpt": "B\"H Release and Improvement Evidence The Awtsmoos renews the frame, the test, the branch, and the door through which the living change may flow; Awtsmoos.com binds speed to truth, and truth to release, so deployed vessels reveal what measurements know. Render Improvement The cinematic pixel core was profiled rather tha",
+		"searchText": "b\"h release and improvement evidence the awtsmoos renews the frame, the test, the branch, and the door through which the living change may flow; awtsmoos.com binds speed to truth, and truth to release, so deployed vessels reveal what measurements know. render improvement the cinematic pixel core was profiled rather than parallelized blindly. pixelcanvas.js was fully rewritten to cache decoded colors and use direct bounded rgb writes inside filled primitives. measured representative frame result: baseline mean: 2020.09 ms/frame; optimized mean: about 193.4 ms/frame; mean speedup: about 10.45x; baseline median: 1485.51 ms/frame; optimized median: about 182.58 ms/frame; median speedup: about 8.14x; seven canonical cinematic frame sha 256 hashes remained byte identical. a sustained 120 frame 12 fps sample measured about 141.94 ms/frame, roughly 7.05 freshly rendered frames/second. that evidence rejected a child process frame farm as unnecessary complexity for this pass. the original 12 fps exporter subsequently rendered the complete 180 second acceptance movie successfully: 2,160 freshly rendered frames; 180 seconds; 640x360; h.264 video with aac audio; approximately 4.31 minutes exporter wall time. ai improvement the deterministic fallback previously forced essentially the same busy semantic layer recipe into every prompt. it now uses feature policy, camera grammar, and semantic layer composition so requested restraint is real as well as requested richness. focused acceptance passed 5/5: 2d only motion graphics remain 2d and omit unwanted spatial/chart/particle/character layers; infographics create chart/label/graphic semantics without forced 3d noise; tutorials create presenter, step, callout, and text semantics; 3d product demos create spatial/model/particle semantics and honor explicit orbit intent; hybrid character stories deliberately combine requested 2d and 3d semantics with camera variety. release hardening the repository had a mixed working tree and upstream movement. a previous merge attempt appeared resolved but still contained raw conflict markers in 22 files. the release gate rejected that state before publication. the poisoned overlap was repaired and source/build contracts were reverified. additional unrelated release regressions found and closed during this gate: mitzvahworld production/source parity repaired and verified 9/9; homepage direct release routes restored for torah library, social hub, tunnel control, and code; home source verification passed; a stale comments white box policy test was replaced by a real modular runtime contract; comments suite passed 18/18 after the repair. repository wide evidence the broad root npm test completed with exit code 0 after about 224.5 seconds. it included route coverage, treasury, css ownership/quality, heichelos quality, profile menu, governance, post submissions, comments, api keys, graph, social content, notifications, packed migration/repair, packed engine, platform operations/execution, node client syntax, and dayuh cutover. previously banked focused suites also include: awtsmoos studio: 5/5; shared movie: 27/27; mitzvahworld: 9/9; ai semantic richness: 5/5; pixelcanvas regression: canonical cinematic hashes preserved; repository hygiene: clean over roughly 46.9k tracked files / 359 mib; staged conflict marker, diff integrity, and explicit secret pattern gates: clean on the earlier release snapshot. deployment rule the repository github actions file is not a valid deployment authority in the inspected state. production authority is the guarded scripts/bhrelease.mjs path, which must deploy an exact pushed sha and verify production/public access. no release is called deployed until local head, remote main, activation sha, and production verification are all observed to agree. current release boundary root tests are green, but concurrent agents landed additional studio federation/backend/export and apps filter changes after that root run began. those changes must be collected into the final snapshot and receive their own focused validation before commit/push/activation. post deploy improvement frontier after the exact current snapshot is pushed and verified in production, continue with: studio semantic richness and target fidelity ux; render quality/profile controls that do not alter canonical movie content; real 3d renderer convergence and capability truthfulness; desktop/mobile browser interaction and overflow/accessibility proof; further duplication and technical debt discovery across studio adapters and shared libraries.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28-1318-geelooy-better-render-ai-04-release--21a7c5af8e.json"
+	}
+]

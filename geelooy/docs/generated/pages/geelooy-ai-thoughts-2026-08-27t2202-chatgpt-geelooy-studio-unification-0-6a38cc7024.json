@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-27t2202-chatgpt-geelooy-studio-unification-0-6a38cc7024",
+	"title": "Phase Three — Final Brainstorm",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-27T2202-chatgpt-geelooy-studio-unification/07_PHASE_THREE_FINAL_BRAINSTORM.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase Three — Final Brainstorm",
+			"anchor": "phase-three-final-brainstorm"
+		},
+		{
+			"level": 2,
+			"text": "Final architecture image",
+			"anchor": "final-architecture-image"
+		},
+		{
+			"level": 2,
+			"text": "What belongs in Procedural Core",
+			"anchor": "what-belongs-in-procedural-core"
+		},
+		{
+			"level": 2,
+			"text": "What does not belong in Procedural Core",
+			"anchor": "what-does-not-belong-in-procedural-core"
+		},
+		{
+			"level": 2,
+			"text": "What belongs in shared Awtsmoos UI",
+			"anchor": "what-belongs-in-shared-awtsmoos-ui"
+		},
+		{
+			"level": 2,
+			"text": "What Awtsmoos Studio must prove",
+			"anchor": "what-awtsmoos-studio-must-prove"
+		},
+		{
+			"level": 2,
+			"text": "What “all existing apps unified” must mean",
+			"anchor": "what-all-existing-apps-unified-must-mean"
+		},
+		{
+			"level": 2,
+			"text": "Proof movie as architecture torture test",
+			"anchor": "proof-movie-as-architecture-torture-test"
+		},
+		{
+			"level": 2,
+			"text": "Fallback hierarchy",
+			"anchor": "fallback-hierarchy"
+		},
+		{
+			"level": 2,
+			"text": "Concurrency discipline",
+			"anchor": "concurrency-discipline"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-27t2202-chatgpt-geelooy-studio-unification-0-6a38cc7024-001.json"
+	]
+}

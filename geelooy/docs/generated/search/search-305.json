@@ -1,234 +1,150 @@
 [
 	{
-		"id": "geelooy-games-nitzotz-io-documentation-md-cffefeee32",
-		"title": "Nitzotz.io — Shlichus Adventure Metropolis",
-		"sourcePath": "geelooy/games/nitzotz-io/DOCUMENTATION.md",
-		"category": "Games",
-		"provenance": "breadcrumb",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Nitzotz.io — Shlichus Adventure Metropolis",
-				"anchor": "nitzotz-io-shlichus-adventure-metropolis"
-			},
-			{
-				"level": 2,
-				"text": "Role",
-				"anchor": "role"
-			},
-			{
-				"level": 2,
-				"text": "Start here",
-				"anchor": "start-here"
-			},
-			{
-				"level": 2,
-				"text": "Change rule",
-				"anchor": "change-rule"
-			},
-			{
-				"level": 2,
-				"text": "Project-specific notes",
-				"anchor": "project-specific-notes"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Nitzotz.io — Shlichus Adventure Metropolis The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAMES",
-		"searchText": "b\"h boruch hashem blessed is he nitzotz.io — shlichus adventure metropolis the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “nitzotz.io — shlichus adventure metropolis”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
-		"page": "pages/geelooy-games-nitzotz-io-documentation-md-cffefeee32.json"
-	},
-	{
-		"id": "geelooy-games-ohr-hagnuz-documentation-md-8146254f6a",
-		"title": "B\"H — Ohr HaGnuz: The Concealed Frontier",
-		"sourcePath": "geelooy/games/ohr-hagnuz/DOCUMENTATION.md",
-		"category": "Games",
-		"provenance": "breadcrumb",
-		"headings": [
-			{
-				"level": 1,
-				"text": "B\"H — Ohr HaGnuz: The Concealed Frontier",
-				"anchor": "b-h-ohr-hagnuz-the-concealed-frontier"
-			},
-			{
-				"level": 2,
-				"text": "Role",
-				"anchor": "role"
-			},
-			{
-				"level": 2,
-				"text": "Start here",
-				"anchor": "start-here"
-			},
-			{
-				"level": 2,
-				"text": "Change rule",
-				"anchor": "change-rule"
-			},
-			{
-				"level": 2,
-				"text": "Project-specific notes",
-				"anchor": "project-specific-notes"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He B\"H — Ohr HaGnuz: The Concealed Frontier The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAMES P",
-		"searchText": "b\"h boruch hashem blessed is he b\"h — ohr hagnuz: the concealed frontier the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “b\"h — ohr hagnuz: the concealed frontier”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
-		"page": "pages/geelooy-games-ohr-hagnuz-documentation-md-8146254f6a.json"
-	},
-	{
-		"id": "geelooy-games-ohr-hagnuz-ohr-hagnuz-next-phase-md-f28ad35ea0",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/ohr-hagnuz/OHR_HAGNUZ_NEXT_PHASE.md",
-		"category": "Games",
+		"id": "geelooy-ai-thoughts-2026-08-25t2250-social-network-extreme-01-realistic--72d48bbfbb",
+		"title": "Phase Two — Realistic Architecture Pass",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25T2250-social-network-extreme/01_REALISTIC_ARCHITECTURE_PASS.md",
+		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Ohr HaGnuz Next Phase",
-				"anchor": "ohr-hagnuz-next-phase"
+				"text": "Phase Two — Realistic Architecture Pass",
+				"anchor": "phase-two-realistic-architecture-pass"
 			},
 			{
 				"level": 2,
-				"text": "Mobile",
-				"anchor": "mobile"
+				"text": "Observed architecture",
+				"anchor": "observed-architecture"
 			},
 			{
 				"level": 2,
-				"text": "Gameplay",
-				"anchor": "gameplay"
+				"text": "First implementation wave",
+				"anchor": "first-implementation-wave"
+			},
+			{
+				"level": 3,
+				"text": "Assembly decomposition",
+				"anchor": "assembly-decomposition"
+			},
+			{
+				"level": 3,
+				"text": "Lifecycle decomposition",
+				"anchor": "lifecycle-decomposition"
+			},
+			{
+				"level": 3,
+				"text": "Cross-surface operation truth",
+				"anchor": "cross-surface-operation-truth"
 			},
 			{
 				"level": 2,
-				"text": "Exploration",
-				"anchor": "exploration"
+				"text": "Second implementation wave",
+				"anchor": "second-implementation-wave"
 			},
 			{
 				"level": 2,
-				"text": "Implementation Order",
-				"anchor": "implementation-order"
+				"text": "Non-goals",
+				"anchor": "non-goals"
+			},
+			{
+				"level": 2,
+				"text": "Verification",
+				"anchor": "verification"
 			}
 		],
-		"excerpt": "B\"H Ohr HaGnuz Next Phase Mobile 1. Bottom thumb action bar 2. Collapsible HUD 3. Floating notifications 4. Fullscreen battle mode Gameplay 5. Musag personalities 6. Torah response combos 7. Sefiros progression tree 8. Torah scroll discoveries 9. Quest system Exploration 10. Hidden groves and secrets 11. Day/night cycl",
-		"searchText": "b\"h ohr hagnuz next phase mobile 1. bottom thumb action bar 2. collapsible hud 3. floating notifications 4. fullscreen battle mode gameplay 5. musag personalities 6. torah response combos 7. sefiros progression tree 8. torah scroll discoveries 9. quest system exploration 10. hidden groves and secrets 11. day/night cycle 12. non combat debate npcs implementation order phase 1: mobile hud + fullscreen battle phase 2: musag personalities + combo system phase 3: quest framework + discoveries phase 4: sefiros progression tree phase 5: day/night and exploration secrets",
-		"page": "pages/geelooy-games-ohr-hagnuz-ohr-hagnuz-next-phase-md-f28ad35ea0.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Two — Realistic Architecture Pass The Awtsmoos gives Chesed the dream and Gevurah the border; Awtsmoos.com must preserve the social network already alive while revealing stronger joints beneath it. Observed architecture AppAssembly.js constructs nearly every domain object and embed",
+		"searchText": "b\"h boruch hashem blessed is he phase two — realistic architecture pass the awtsmoos gives chesed the dream and gevurah the border; awtsmoos.com must preserve the social network already alive while revealing stronger joints beneath it. observed architecture appassembly.js constructs nearly every domain object and embeds cross object callbacks. hubapp.js owns lifecycle, identity transition, active route refresh, aggregate rendering, status, and live sync. hubroutecoordinator already owns route specific loading. livecommunicationscoordinator already owns live chat/messages synchronization. api foundation already separates transport from domain routes and supports timeout/abort semantics. css has already passed route isolation and semantic layer gates in prior work. first implementation wave assembly decomposition create focused factories instead of one giant constructor function: assembly/socialcoreassembly.js — state/api/status/tracker/navigation foundations. assembly/socialidentityassembly.js — identity/profile/network/people/discovery. assembly/socialcommunicationassembly.js — inbox/chat/messages/live facing panels. assembly/socialcreationassembly.js — comments, transformations, creator launch, quick actions. assembly/socialsurfaceassembly.js — activity/privacy/spaces/home. appassembly.js — tiny composition root only. lifecycle decomposition split hubapp.js into truthful collaborators: lifecycle/hubinitializationcoordinator.js — initialization ordering and state subscription. identity/socialidentitytransitioncoordinator.js — alias switch, identity scoped reloads, active route refresh, live resync. ui/hubcontextpresenter.js — active alias/destination/privacy badges and aggregate route independent render. hubapp.js — public facade preserving current methods. cross surface operation truth inspect existing state and api first. if absent, introduce: state/socialoperationledger.js — pending/failed/succeeded operation records by key. state/socialrelationshipmodel.js — normalized follow/mutual/self relation vocabulary. these must be driven by real feature needs and tests, not speculative global abstractions. second implementation wave after first wave is verified, inspect and deepen: networkpanel and related apis for optimistic follow convergence. profilepanel for relationship state and self/other differentiation. peoplepanel + publicdiscovery for search/ranking/pagination consistency. inboxpanel for typed/unread event models. messagespanel and message realtime adapters for delivery/read/reconnect state. chatpanel for explicit realtime/offline status. commentstudio and creator apis for draft persistence and mutation state. spacespanel for membership/role/visibility. non goals no framework migration. no replacement api client. no ornamental inheritance. no public route signature break without traced consumers. no fake websocket semantics if backend transport does not provide them. no visual claim of read/delivery/presence certainty unless backend evidence exists. verification code first. then run existing social hub tests, api foundation tests, syntax checks, import cycle checks, indentation/minification audits, and browser smoke where the adapter returns usable evidence.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25t2250-social-network-extreme-01-realistic--72d48bbfbb.json"
 	},
 	{
-		"id": "geelooy-games-ohr-hagnuz-src-design-expansionbrainstorm-md-e231ef0321",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/ohr-hagnuz/src/design/ExpansionBrainstorm.md",
-		"category": "Games",
+		"id": "geelooy-ai-thoughts-2026-08-25t2250-social-network-extreme-02-critique-2-684f8a6914",
+		"title": "Phase Two Critique — Twenty-Five Improvements",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25T2250-social-network-extreme/02_CRITIQUE_25_IMPROVEMENTS.md",
+		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
+				"text": "Phase Two Critique — Twenty-Five Improvements",
+				"anchor": "phase-two-critique-twenty-five-improvements"
 			},
 			{
-				"level": 1,
-				"text": "Ohr HaGnuz Expansion Brainstorm",
-				"anchor": "ohr-hagnuz-expansion-brainstorm"
+				"level": 2,
+				"text": "Revised architecture",
+				"anchor": "revised-architecture"
 			}
 		],
-		"excerpt": "B\"H Ohr HaGnuz Expansion Brainstorm The goal is not to copy Pokemon or RuneScape; the goal is to make a single player Torah soul RPG with the research, exploration, collection, combat, skilling, and quest depth that makes those games feel infinite. 1. World Multi region open world: village, beist midrash, forest, orcha",
-		"searchText": "b\"h ohr hagnuz expansion brainstorm the goal is not to copy pokemon or runescape; the goal is to make a single player torah soul rpg with the research, exploration, collection, combat, skilling, and quest depth that makes those games feel infinite. 1. world multi region open world: village, beist midrash, forest, orchard, river, cave, desert, midbar, shok, migdal, palace, sky gates, hidden sefiros chambers. travel gates: doors, region edges, portals, skill locked gates, quest locked gardens. random events: wild musagim, lost scrolls, singing trees, wandering magiggidim. 2. collection wild musagim as concept creatures that can be studied, sweetened, indexed, and used to unlock quests (not captured, but revealed). musag dex with question label, place found, development stage, sweetening date. iron/bronze/silver/gold mastery for each musag. 3. battle pokemon style battle screen: two visible sides, bars, exp, menu, status, animations. runescape style skill contribution: chochmah damage, binah defense, daat critical, niggun heal, hitbonenus evade. tempo system: attack, defend, meditate, niggun, source, svara. status: dazed, awe, shattered, fervor, joy, silence, ohr chozer, hitaapachut. enemy ai: logical opponents choose moves based on player status. 4. skills skills like runescape: learning, writing, niggun, hitbonenus, chesed, gevurah, tiferet, netzach, hod, yesod, malchus. each skill has level, exp, nextexp, and perks. world actions grant skill exp: read scroll, collect spark, fixbridge, meditate at tree, sing at river. 5. items inventory: sparks, scrolls, keys, chests, lamps, tools, forged letters, food, niggun shards. garments: equipment that changes appearance, stats, moves, and battle effects. tools: pen, lamp, kleiznemer, forge hammer, bridge nusach. 6. quests main quest: gather hidden light through seven regions. region quests: village, beist midrash, forest, river, cave, orchard, forge, ruins. side quests: npc memories, skill tutorials, rare musagim, reward garments. quest chains with prerequisites and stages. 7. nncs every npc has unique glyph, story, quest, battle or skill function. npc story progresses as quests complete. some npcs are shops, trainers, teleporters, skill masters, secret path guides. 8. ui/\u0015t kh\u0013z[�[x\\ ���\u0005\u0017vw7b\u0006��r��\u00056����\u0007\u0006\u0016�v���\u0004��fv�f�'�\u0007\u0006\u0016�v���\u0004�w6\u0016r\u0006fw���\u0004&\u0017gf�r\u000767&vv�\u0007v�f�\u0006��fw2�\u00077f\u0017gw2�\u0006&\u0017'2�\u0006\u0016��\u0017f���2��\u0005\u0007&w6wb\u0007fw7b\u0006�v�s�\u0007fw7b\u0006f��'2�\u0006f�&w7b�\u0006w&\u001772�\u0007g&\u0016��w\"�\u0006֖fv\u0016�r�\u0006&�72ࠣ��\u0004\u0017wf��\u0017f���\u0006\u0016�b\u0005fw7f��p��\u0004\u0017wf��v\u0016ʋ\u0006'�\u00066ɩ6���\u0005\u0007&w6wb\u0007\u0006\u0017f�2\u0006f�\"\u0006f��'2�\u0006vfvw2�\u0006w&\u001772�\u0004�\u000472�\u0006�fv�2��\u00056���r\u0007fw7g2\u0006f�\"\u0006&\u0017gf�w2�\u0007\u0006�'f\u0016�2�\u0007\u0017vw7g2�\u00076����2�\u0006�\u0017\u0002\u0006��\u0016f��r��\u0004&�b\u0007\u0006�\u0017�fw7b\u0006g&��\u0007f���\u0016vr\u0007f�\u0006֖fv\u0016�rࠣ\u0013\u0002\u00056\u0017fr���\u0016@��\u0004��6\u0016�7f�&\u0016vr\u00076\u0017fr��\u0004\u0017wf�6\u0017fr\u0006\u0016gfw\"\u0007\u0017vw7b\u00066��\u0006�wf����\u0006v\u0017&�v�b\u0007v���6��\u0006�wfv�\u0007w\u0002��\u0004w�\u0006�'b���\u0006�'b\u00076\u0017fr\u00066�frࠤ��\u0006�v�v�f\u0017f���\u0006�&fw ��\u0012�\u00056����2\u0006f�v�f\u0017f����\"�\u00056����\u0004u�\u0002\u0007v�&vb\u0006��f�\u0006&\u0017gf�w2\u0006\u0016�b\u0006�fv�2�2�\u0004�w6\u0016r\u0006fw�\u0006f�v�f\u0017f����b�\u0005t�\u0006�fw&�\u0017�\u0006f�\"\u00076����2�\u0007\u0017vw7g2�\u0006��fv�f�'��r�\u0004v�vג\u0004\u0014�\u0006\u0016�b\u00077f\u0017gw2\u0006��fw2�b�\u0004��&r\u0006�\u0017\u00072\u0006\u0016�b\u0007\u0017vw7b\u00066�\u0016��2�r�\u00056\u0017fr���\u0016bࣂ�\u0004&�b\u0007\u0006�\u0017�fw7b�",
-		"page": "pages/geelooy-games-ohr-hagnuz-src-design-expansionbrainstorm-md-e231ef0321.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Two Critique — Twenty Five Improvements The Awtsmoos renews even the plan that seemed complete; Awtsmoos.com therefore asks what hidden fracture would embarrass the next developer if left concealed. 1. Do not create assembly modules until constructor signatures are read in full. 2.",
+		"searchText": "b\"h boruch hashem blessed is he phase two critique — twenty five improvements the awtsmoos renews even the plan that seemed complete; awtsmoos.com therefore asks what hidden fracture would embarrass the next developer if left concealed. 1. do not create assembly modules until constructor signatures are read in full. 2. preserve createsocialhub(root) exactly. 3. preserve hubapp.initialize, identitychanged, navigated, and locationchanged until all callers are traced. 4. do not use object.assign blindly in new authorities; prefer explicit dependency fields where manageable. 5. state subscription must be removable if lifecycle ever supports remounting. 6. initialization ordering must remain discovery → identity → live after actual call stack confirmation. 7. identity switching must reject stale responses from a previous alias. 8. public discovery should not be invalidated merely because private identity changes unless its mode truly depends on alias. 9. promise fan out on identity change should use explicit failure policy rather than one rejected load hiding other successful refreshes. 10. status success must not claim inbox/messages/spaces are ready if their loads failed or were never requested. 11. active route refresh should be data driven instead of independent if statements once all route loaders are confirmed. 12. live sync must happen after identity context mutation and relevant route reload, but should not multiply duplicate subscriptions. 13. relationship vocabulary must distinguish unknown from false. 14. optimistic follow rollback needs the server's previous relation snapshot. 15. network list and profile relation buttons must converge after one mutation. 16. inbox events need stable ids before read/unread logic is added. 17. message delivery/read state must only be introduced if backend returns sufficient evidence. 18. realtime reconnect must preserve one connection owner per transport. 19. abort controllers should be route/identity scoped, not global. 20. draft persistence must avoid storing private content beyond the user's existing browser context and should be bounded. 21. search result ranking must not silently mix incompatible entity kinds without labels. 22. every async panel needs explicit loading/empty/error/offline states. 23. mobile sheets must restore focus to their invoker. 24. new cross domain modules require tests before graduating to shared abstractions. 25. documentation must name both the frontend owner and backend route for each major social flow. revised architecture start with lifecycle/assembly because it is measurable and low risk. use the resulting explicit boundaries to expose real cross surface state duplication, then introduce operation/relationship authorities only where multiple domains prove the need.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25t2250-social-network-extreme-02-critique-2-684f8a6914.json"
 	},
 	{
-		"id": "geelooy-games-ohr-hagnuz-src-design-ohr-hagnuz-full-gameplay-plan-md-d10f40b770",
-		"title": "Ohr HaGnuz: I Did Not Forget",
-		"sourcePath": "geelooy/games/ohr-hagnuz/src/design/OHR_HAGNUZ_FULL_GAMEPLAY_PLAN.md",
-		"category": "Games",
+		"id": "geelooy-ai-thoughts-2026-08-25t2250-social-network-extreme-03-final-crit-d149421c7c",
+		"title": "Phase Three — Final Critique and Thirty-Five Further Improvements",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25T2250-social-network-extreme/03_FINAL_CRITIQUE_35_IMPROVEMENTS.md",
+		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Ohr HaGnuz: I Did Not Forget",
-				"anchor": "ohr-hagnuz-i-did-not-forget"
+				"text": "Phase Three — Final Critique and Thirty-Five Further Improvements",
+				"anchor": "phase-three-final-critique-and-thirty-five-further-improvements"
 			},
 			{
 				"level": 2,
-				"text": "Beginning",
-				"anchor": "beginning"
-			},
-			{
-				"level": 2,
-				"text": "Middle",
-				"anchor": "middle"
-			},
-			{
-				"level": 2,
-				"text": "End",
-				"anchor": "end"
-			},
-			{
-				"level": 2,
-				"text": "Files Added",
-				"anchor": "files-added"
-			},
-			{
-				"level": 2,
-				"text": "Files Rewritten",
-				"anchor": "files-rewritten"
+				"text": "Final decision",
+				"anchor": "final-decision"
 			}
 		],
-		"excerpt": "B\"H Ohr HaGnuz: I Did Not Forget This pass turns the game from loose systems into a real gameplay spine. Beginning The player starts in the first village with the guide ג. The road east now opens into the Garden of Ungiven Things. Middle The player collects five entrusted gifts: Terumah, First Tithe, Poor Tithe, Second",
-		"searchText": "b\"h ohr hagnuz: i did not forget this pass turns the game from loose systems into a real gameplay spine. beginning the player starts in the first village with the guide ג. the road east now opens into the garden of ungiven things. middle the player collects five entrusted gifts: terumah, first tithe, poor tithe, second tithe, and bikkurim. each gift has a receiver and an order. the court of rightful receivers teaches that holiness is given, not sold. end the house of forgetting checks whether the player removed the holy from the house, gave to the levi, gave to the poor, remembered blessing, shared joy, and restored flavor to fruit. files added data/rambam/ yesod/rambam/ data/maps/rambamgiftmaps.js portalindexrambam.js questindexrambam.js storyindexrambam.js encounterindexrambam.js rambammusagspecies.js files rewritten state.js tilelexicon.js worldmaps.js portalindex.js ohrencounter.js questindex.js storyindex.js encounterindex.js musagspecies.js the next major pass should update the ui visuals so the player sees the declaration checklist without opening dev logs.",
-		"page": "pages/geelooy-games-ohr-hagnuz-src-design-ohr-hagnuz-full-gameplay-plan-md-d10f40b770.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Three — Final Critique and Thirty Five Further Improvements The Awtsmoos is not contained by first insight or second; Awtsmoos.com lets the third pass cut through attractive abstractions until only verified social contracts remain. 1. Read every first wave target completely before ",
+		"searchText": "b\"h boruch hashem blessed is he phase three — final critique and thirty five further improvements the awtsmoos is not contained by first insight or second; awtsmoos.com lets the third pass cut through attractive abstractions until only verified social contracts remain. 1. read every first wave target completely before rewrite. 2. trace constructor call sites outside social hub before changing paths. 3. trace all direct app. property consumers before changing facade fields. 4. preserve root dom ids and data attributes during architecture work. 5. keep assembly modules free of user flow business logic. 6. keep lifecycle coordinator free of dom rendering details. 7. keep context presenter synchronous and side effect limited to its owned elements. 8. keep identity transition coordinator the only authority for alias scoped refresh fan out. 9. add a monotonic identity generation so old async completions can be ignored. 10. do not abort public loads that do not depend on alias. 11. return structured refresh results so status can report partial failure honestly. 12. separate 'initialized' from 'loaded for current identity'. 13. ensure state change rendering cannot throw and kill the subscriber chain silently. 14. preserve one render pass after initialization. 15. avoid creating coordinator cycles back into hubapp if narrower callbacks suffice. 16. make route loaders a declarative manifest only after their signatures are verified. 17. do not retrofit all panels to a base class unless genuine shared lifecycle exists. 18. prefer composition for panel capabilities. 19. add operation state only to mutations that need optimistic ui. 20. keep failed mutation records bounded/clearable. 21. ensure operation keys include entity identity to prevent cross row collisions. 22. normalize alias ids at api/state boundaries once, not independently in every view. 23. relationship state should be immutable snapshots in rendering paths. 24. discovery pagination should guard duplicate pages and stale mode responses. 25. search should cancel prior queries on new input. 26. debounce is not a substitute for cancellation. 27. inbox unread counters should derive from event records, not separate drifting integers. 28. message unread counters should derive from conversation state where possible. 29. realtime events should carry dedupe keys or be deduped by stable server ids. 30. reconnect must stop when the user changes identity or leaves the relevant live surface if transport ownership requires it. 31. composer retries must not duplicate successful server creations. 32. media upload state must distinguish validation rejection, transport failure, cancellation, and server rejection. 33. accessibility assertions should be added to surface tests for busy/pressed/expanded relationships. 34. documentation examples must use the same public apis that production imports. 35. final browser verification must check narrow/mobile/desktop, focus restoration, zero horizontal document overflow, and console/network errors without claiming unsupported adapter evidence. final decision first write only assembly/lifecycle/context decomposition after full reads and call site tracing. then test. then use the newly explicit boundaries to drive the next social feature wave.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25t2250-social-network-extreme-03-final-crit-d149421c7c.json"
 	},
 	{
-		"id": "geelooy-games-oros-ha-kelim-docs-runtime-api-md-5e01ab45d3",
-		"title": "Oros HaKelim Runtime API v2",
-		"sourcePath": "geelooy/games/oros-ha-kelim/docs/RUNTIME_API.md",
-		"category": "Games",
+		"id": "geelooy-ai-thoughts-2026-08-25t2250-social-network-extreme-04-final-impl-67ee355fa6",
+		"title": "Final Social Network Implementation Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25T2250-social-network-extreme/04_FINAL_IMPLEMENTATION_PLAN.md",
+		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Oros HaKelim Runtime API v2",
-				"anchor": "oros-hakelim-runtime-api-v2"
+				"text": "Final Social Network Implementation Plan",
+				"anchor": "final-social-network-implementation-plan"
 			},
 			{
 				"level": 2,
-				"text": "Entry point",
-				"anchor": "entry-point"
+				"text": "Read before first production write",
+				"anchor": "read-before-first-production-write"
 			},
 			{
 				"level": 2,
-				"text": "Observations",
-				"anchor": "observations"
+				"text": "Actual first-wave files to write",
+				"anchor": "actual-first-wave-files-to-write"
 			},
 			{
 				"level": 2,
-				"text": "Lifecycle",
-				"anchor": "lifecycle"
+				"text": "Required behavior preservation",
+				"anchor": "required-behavior-preservation"
 			},
 			{
 				"level": 2,
-				"text": "Direct controls",
-				"anchor": "direct-controls"
+				"text": "Tests after code",
+				"anchor": "tests-after-code"
 			},
 			{
 				"level": 2,
-				"text": "Generic commands",
-				"anchor": "generic-commands"
+				"text": "Second wave after first-wave proof",
+				"anchor": "second-wave-after-first-wave-proof"
 			},
 			{
 				"level": 2,
-				"text": "Events",
-				"anchor": "events"
-			},
-			{
-				"level": 2,
-				"text": "Runtime errors",
-				"anchor": "runtime-errors"
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Oros HaKelim Runtime API v2 The Awtsmoos renews command, event and observation before any interface can stay; Awtsmoos.com gives Yesod a guarded contract so outside tools may join the play. Entry point The browser exposes one OrosRuntimeApi instance: api.version is 2.0.0. api.capabilitie",
-		"searchText": "b\"h boruch hashem blessed is he oros hakelim runtime api v2 the awtsmoos renews command, event and observation before any interface can stay; awtsmoos.com gives yesod a guarded contract so outside tools may join the play. entry point the browser exposes one orosruntimeapi instance: api.version is 2.0.0. api.capabilities() advertises commands, event types and the motion model. observations snapshots and metrics are json detached copies. the api keeps its game and eventbus references in private class fields, so external callers cannot reach mutable matchstate through the public object. published eventbus payloads are detached and recursively frozen before listeners receive them. recentevents() returns new detached copies. lifecycle pause stops authoritative simulation pulses while rendering continues. resume resets the frame clock baseline so a paused interval cannot become catch up debt. direct controls setboost() requires a boolean and throws typeerror for invalid values. generic commands tooling can use data envelopes instead of direct methods: unknown command types throw rangeerror. invalid command envelopes throw typeerror. events runtime api v2 publishes: move energy claim gate shatter respawn round end runtime start runtime pause runtime resume every simulation event carries the authoritative tick for the event. runtime lifecycle events carry the current match tick. subscribe to one type or all types: listener exceptions are isolated from the game loop and retained in bounded runtime metrics. runtime errors api.runtimeerrors remains available for compatibility with browser diagnostics. it records window errors and unhandled promise rejections. it is deliberately separate from authoritative match state.",
-		"page": "pages/geelooy-games-oros-ha-kelim-docs-runtime-api-md-5e01ab45d3.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Final Social Network Implementation Plan The Awtsmoos gives the social world one purpose through many chambers; Awtsmoos.com will reveal that unity by shrinking orchestration files while preserving every public road. Read before first production write js/AppAssembly.js js/HubApp.js js/st",
+		"searchText": "b\"h boruch hashem blessed is he final social network implementation plan the awtsmoos gives the social world one purpose through many chambers; awtsmoos.com will reveal that unity by shrinking orchestration files while preserving every public road. read before first production write js/appassembly.js js/hubapp.js js/state/socialhubstate.js js/navigation/navigationcontroller.js js/navigation/hubroutecoordinator.js js/realtime/livecommunicationscoordinator.js constructors for activitypanel, privacypanel, socialhubapi, chatpanel, inboxpanel, commentstudio, creatorlaunch, transformationpanel, messagespanel, networkpanel, peoplepanel, profilepanel, spacespanel, homepulse, identitycontroller, publicdiscovery, quickactions, statusview, activitytracker relevant tests and outside call sites of createsocialhub / hubapp actual first wave files to write create: js/assembly/socialcoreassembly.js js/assembly/socialidentityassembly.js js/assembly/socialcommunicationassembly.js js/assembly/socialcreationassembly.js js/assembly/socialsurfaceassembly.js js/lifecycle/hubinitializationcoordinator.js js/identity/socialidentitytransitioncoordinator.js js/ui/hubcontextpresenter.js rewrite completely: js/appassembly.js js/hubapp.js js/main.js only if full reread proves its boot/error boundary needs the same architecture cleanup. required behavior preservation createsocialhub(root) returns a fully assembled hubapp. all existing panel properties remain reachable on app. initialization still wires panels, initializes discovery and identity, starts live communications, and renders initial state. alias changes update state/profile alias field, refresh identity dependent surfaces, sync live communications, and manifest privacy/status. navigation/location changes continue through hubroutecoordinator then live sync. tests after code existing package tests api foundation test state/route/comment/surface contracts new assembly compatibility test new identity transition generation/partial failure tests if the coordinator introduces those semantics syntax check every touched js file indentation and compressed code scan import cycle check among first wave modules full readback of every touched file second wave after first wave proof 1. network/profile relationship convergence. 2. discovery/people query cancellation and ranking/pagination consistency. 3. inbox typed/unread model. 4. messages delivery/read/realtime convergence based on actual backend evidence. 5. chat reconnect/offline state. 6. comment/composer draft and mutation resilience. 7. spaces membership/role state. 8. social docs and browser/mobile verification. next action read the first wave constructor/state/route/realtime contracts and external call sites. only then rewrite the assembly and lifecycle files in full.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25t2250-social-network-extreme-04-final-impl-67ee355fa6.json"
 	}
 ]

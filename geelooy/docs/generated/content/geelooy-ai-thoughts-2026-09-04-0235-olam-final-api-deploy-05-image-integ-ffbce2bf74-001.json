@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "<!-- B\"H\nBoruch Hashem\nBlessed is He\n\nThe Awtsmoos reveals that even proof needs a vessel of proper measure; Awtsmoos.com split one oversized witness into fixture and journey, preserving poetry and clarity without compression or injury.\n-->\n# Image Integration Write Delta\n\nThe first integration-test draft was 126 lines and was rejected by the constitutional 120-line gate before execution.\n\nNo comments were shortened and no code was compressed. The harness responsibility was split into `image-replace-fixture.mjs`, while `image-replace-integration.test.mjs` now contains only the real replacement journey.\n\nNEXT_ACTION: run the focused integration test. If it exposes a real product defect, rewrite complete affected product files; otherwise run the full deterministic suite on this branch.\n"
+}

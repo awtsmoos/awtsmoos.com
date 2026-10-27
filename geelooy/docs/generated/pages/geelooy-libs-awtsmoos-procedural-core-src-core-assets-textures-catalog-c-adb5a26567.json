@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-src-core-assets-textures-catalog-c-adb5a26567",
+	"title": "B\"H",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/src/core/assets/textures/CATALOG_CRAFT_TREES.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Awtsmoos Drive Catalog — Craft + Trees",
+			"anchor": "awtsmoos-drive-catalog-craft-trees"
+		},
+		{
+			"level": 2,
+			"text": "Craft / Material — 24",
+			"anchor": "craft-material-24"
+		},
+		{
+			"level": 2,
+			"text": "Trees / Nature — 33",
+			"anchor": "trees-nature-33"
+		},
+		{
+			"level": 2,
+			"text": "Useful restrained pairs",
+			"anchor": "useful-restrained-pairs"
+		},
+		{
+			"level": 2,
+			"text": "Leaf/cutout caution",
+			"anchor": "leaf-cutout-caution"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-src-core-assets-textures-catalog-c-adb5a26567-001.json"
+	]
+}

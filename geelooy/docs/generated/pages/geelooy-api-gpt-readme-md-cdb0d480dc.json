@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-gpt-readme-md-cdb0d480dc",
+	"title": "B\"H — GPT API (/api/gpt/)",
+	"sourcePath": "geelooy/api/gpt/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — GPT API (/api/gpt/)",
+			"anchor": "b-h-gpt-api-api-gpt"
+		},
+		{
+			"level": 2,
+			"text": "Subdirectories",
+			"anchor": "subdirectories"
+		},
+		{
+			"level": 2,
+			"text": "Files",
+			"anchor": "files"
+		},
+		{
+			"level": 2,
+			"text": "Routes",
+			"anchor": "routes"
+		},
+		{
+			"level": 2,
+			"text": "See also",
+			"anchor": "see-also"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-gpt-readme-md-cdb0d480dc-001.json"
+	]
+}

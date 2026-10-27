@@ -22,14 +22,14 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-a2e02092.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 25402,
-		"tests": 4699,
-		"assets": 13,
-		"generated": 77,
-		"docs": 3950,
-		"other": 556
+		"source": 38749,
+		"tests": 7661,
+		"assets": 1385,
+		"generated": 252,
+		"docs": 4384,
+		"other": 5136
 	},
-	"totalFiles": 34697,
+	"totalFiles": 57567,
 	"symbolSummary": null,
 	"outgoingDependencies": [],
 	"incomingDependencies": [],
@@ -39,7 +39,7 @@
 			"url": "/",
 			"file": "geelooy/index.html",
 			"title": "Awtsmoos — Torah, Creation & Living Worlds",
-			"scripts": 1,
+			"scripts": 2,
 			"styles": 4
 		}
 	],

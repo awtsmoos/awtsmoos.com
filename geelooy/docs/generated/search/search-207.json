@@ -1,36 +1,287 @@
 [
 	{
-		"id": "docs-generated-public-entry-points-public-entry-points-002-md-8f25830101",
-		"title": "Generated Public Entry Point Atlas 46–90",
-		"sourcePath": "docs/GENERATED/PUBLIC_ENTRY_POINTS/public-entry-points-002.md",
-		"category": "General",
+		"id": "docs-generated-project-tutorials-projects-awtsmoos-com-0c3ac1c0-md-d5ed92968a",
+		"title": "Project Tutorial: awtsmoos.com",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/awtsmoos-com-0c3ac1c0.md",
+		"category": "Projects",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Generated Public Entry Point Atlas 46–90",
-				"anchor": "generated-public-entry-point-atlas-46-90"
+				"text": "Project Tutorial: awtsmoos.com",
+				"anchor": "project-tutorial-awtsmoos-com"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Public Entry Point Atlas 46–90 Every discovered index.html beneath the Geelooy public root, with title and linked script/style evidence. URL Entry file Title Scripts Script sample Styles Style sample /apps/tunnel/agent/tools/fs/testing/.tmp runtime actions real geelooy/apps/tun",
-		"searchText": "b\"h boruch hashem blessed is he generated public entry point atlas 46–90 every discovered index.html beneath the geelooy public root, with title and linked script/style evidence. url entry file title scripts script sample styles style sample /apps/tunnel/agent/tools/fs/testing/.tmp runtime actions real geelooy/apps/tunnel/agent/tools/fs/testing/.tmp runtime actions real/index.html — 1 ./app.js 0 — /apps/universal chat geelooy/apps/universal chat/index.html messages & torah chat \\ awtsmoos.com 2 app.js; /register.js 1 style.css /apps/video editor geelooy/apps/video editor/index.html awtsmoos video editor chapter 7 revised 0 — 0 — /apps/virtual os stress light counter geelooy/apps/virtual os stress light counter/index.html light counter 0 — 0 — /apps/wallet geelooy/apps/wallet/index.html awtsmoos wallet — send, buy & own 2 ./main.js?v=wallet currency 010; /scripts/future system/index.js?v=future 002 2 ./style.css?v=wallet currency 010; /style/future system/index.css?v=future 004 /apps/watermark remover geelooy/apps/watermark remover/index.html svg mask alpha brute force 1 https://cdn.jsdelivr.net/npm/canvg/dist/browser/canvg.min.js 0 — /awtai db geelooy/awtai db/index.html awtai db model foundry 1 ./app.js?v=awtai revelation 001 2 ../style/geelooy app/index.css?v=awtai revelation 001; ./style.css?v=awtai revelation 001 /ayin geelooy/ayin/index.html real awtsmoos recorder 0 — 0 — /comment thread geelooy/comment thread/index.html comment thread — geelooy 2 /scripts/awtsmoos/social/shell/boot.js?v=extreme 005; /comment thread/app.js?v=comments 004 2 /style/geelooy app/index.css?v=extreme 005; /style/social system/comments.css?v=comments 003 /contact geelooy/contact/index.html contact — awtsmoos 1 /contact/contact.js?v=1 1 /contact/contact.css?v=1 /control geelooy/control/index.html code control panel 1 app.js 1 styles.css /db geelooy/db/index.html — 0 — 0 — /db/console geelooy/db/console/index.html simple dosdb gui 0 — 0 — /db/explorer geelooy/db/explorer/index.html awtsmoos db interface hyperdrive edition 1 script.js 2 styles.css; https://fonts.googleapis.com/css2?family=orbitron:wght@400;700&family=press+start+2p&family=turret+road:wght@300;500;800&display=swap /docs geelooy/docs/index.html awtsmoos documentation 1 ./modules/app.mjs 19 data:,; ./styles/tokens.css; ./styles/shell.css; ./styles/rails.css /donate geelooy/donate/index.html — 0 — 0 — /drive geelooy/drive/index.html geelooy sites · awtsmoos 1 ./app.js 25 ./styles/tokens.css; ./styles/controls.css; ./styles/topbar.css; ./styles/topbar menu.css /editor geelooy/editor/index.html — 2 /scripts/awtsmoos/awtsmoosgptify.js; /scripts/awtsmoostamper.js 0 — /email geelooy/email/index.html awtsmoos quantum mail 2 /scripts/awtsmoos/social/shell/boot.js?v=mail revelation 013; ./index.js?v=mail revelation 013 6 /style/geelooy app/index.css?v=mail revelation 013; ./css/core.css?v=mail revelation 013; ./css/sidebar.css?v=mail revelation 013; ./css/chat.css?v=mail revelation 013 /entity view geelooy/entity view/index.html entity universe 1 /entity view/app.js 2 /style/social system/entity/base.css; /style/social system/entity/cards.css /fetch geelooy/fetch/index.html — 0 — 0 — /game geelooy/game/index.html opening mitzvah world… 0 — 0 — /games geelooy/games/index.html awtsmoos games — 25 playable worlds 3 /scripts/awtsmoos/social/shell/boot.js?v=games shell 001; ./scripts/games index.js?v=games storefront 004; /scripts/future system/index.js?v=future 002 2 ./style.css?v=games storefront 004; /style/future system/index.css?v=future 004 /games/adventure geelooy/games/adventure/index.html adventure game 0 — 0 — /games/brick blast geelooy/games/brick blast/index.html brick blast 1 index.js 4 https://fonts.googleapis.com; https://fonts.gstatic.com; https://fonts.googleapis.com/css2?family=inter:wght@400;700;900&display=swap; /index.css /games/cards geelooy/games/cards/index.html the utterances — blackjack on awtsmoos 1 ./js/main.js 1 ./style.css?v=cards solid 002 /games/chess geelooy/games/chess/index.html ultimate chess ai 6 ui/engine worker route.js; ui/canvas stability.js; social/legacy observer.js; main.js 7 style.css; ui/chess polish.css; ui/chess mobile.css; ui/chess accessibility.css /games/chess/debug geelooy/games/chess/debug/index.html awtsmoos engine debugging harness 1 debug tool.js 0 — /games/city of light geelooy/games/city of light/index.html city of light · the complete pilgrimage 2 ./js/main.js; /register.js 1 ./style.css /games/connect4 geelooy/games/connect4/index.html connect 4 2 main.js; /register.js 1 style.css /games/dove geelooy/games/dove/index.html noah's dove's 🕊️ quest ❓ for shalom 1 ./game.js 1 style.css /games/emojis geelooy/games/emojis/index.html emoji war — neon caption arcade 1 ./js/main.js?v=emoji war solid 004 1 ./style.css?v=emoji war solid 004 /games/kabbalah shooter geelooy/games/kabbalah shooter/index.html kabbalah infinite — the breaking of vessels 1 ./main.js 2 ./style.css?v=kabbalah solid 002; /index.css /games/kavanah geelooy/games/kavanah/index.html kavanah 1 js/main.js 2 data:,; style.css /games/merkava geelooy/games/merkava/index.html merkava — war of the sparks 1 ./src/main.js?version=20260713 8 2 data:,; ./styles/game.css?version=20260713 8 /games/migdol geelooy/games/migdol/index.html migdol kabbalah tower defense 1 js/script.js 1 style.css /games/mitzvahworld geelooy/games/mitzvahworld/index.html b&quot;h mitzvah world — restored river valley 1 ./experiments/awtsmoos/src/mitzvah world.compact.js 2 data:image/svg+xml,%3csvg%20xmlns=%22http%3a%2f%2fwww.w3.org/2000/svg%22%20viewbox=%220%200%2064%2064%22%3e%3ctitle%3emitzvah%20world%3c/title%3e%3crect%20width=%2264%22%20height=%2264%22%20rx=%2214%22%20fill=%22%2307140b%22/%3e%3ccircle%20cx=%2246%22%20cy=%2217%22%20r=%227%22%20fill=%22%23f4c95d%22/%3e%3cpath%20d=%22m6%2043l22%2027l34%2039l44%2029l58%2043v58h6z%22%20fill=%22%232f8a59%22/%3e%3cpath%20d=%22m30%2035c38%2040%2024%2045%2033%2050c39%2054%2032%2058%2028%2062%22%20fill=%22none%22%20stroke=%22%2367c5e8%22%20stroke width=%223%22%20stroke linecap=%22round%22/%3e%3c/svg%3e; ./styles/generated/mitzvah world.production.css /games/mitzvahworld/subwaysurfer geelooy/games/mitzvahworld/subwaysurfer/index.html peruta run — mitzvah world 1 ./src/main.js 4 ./styles/base.css; ./styles/hud.css; ./styles/controls.css; ./styles/mobile.css /games/mitzvahworld/templerunner geelooy/games/mitzvahworld/templerunner/index.html temple run — mitzvah world 1 ./src/main.js 1 ./styles/game.css /games/nachash geelooy/games/nachash/index.html tikkun hanachash 2 main.js; /register.js 2 style.css; https://fonts.googleapis.com/css2?family=cormorant+garamond:wght@400;700&display=swap /games/neshama quest geelooy/games/neshama quest/index.html neshama quest 5 config.js; maze.js; entities.js; input.js 1 style.css /games/nitzotz io geelooy/games/nitzotz io/index.html nitzotz.io — shlichus adventure metropolis 1 ./js/main.js?v=20260714 shlichus 1 2 data:image/svg+xml,%3csvg xmlns=; ./style.css?v=20260714 shlichus 1 /games/ohr hagnuz geelooy/games/ohr hagnuz/index.html b&quot;h — ohr hagnuz: the concealed frontier 1 ./src/index.js 7 data:image/svg+xml,%3csvg xmlns=; ./src/design/revelation/tokens.css; ./src/design/revelation/shell.css; ./src/design/revelation/hud.css /games/oros ha kelim geelooy/games/oros ha kelim/index.html oros hakelim · awtsmoos.com 1 ./src/main.js 3 ./styles/game.css; ./styles/overlays.css; ./styles/controls.css /games/party geelooy/games/party/index.html party challenge — awtsmoos games 1 ./js/main.js?v=party 001 1 ./style.css?v=party 001",
-		"page": "pages/docs-generated-public-entry-points-public-entry-points-002-md-8f25830101.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: awtsmoos.com Path: awtsmoos.com · Type: project · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime owner",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: awtsmoos.com path: awtsmoos.com · type: project · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: documentation.md local documentation: awtsmoos.com/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 4 0 0 0 1 19 24 public entry points none observed. symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-awtsmoos-com-0c3ac1c0-md-d5ed92968a.json"
 	},
 	{
-		"id": "docs-generated-public-entry-points-public-entry-points-003-md-47f5d0e8a9",
-		"title": "Generated Public Entry Point Atlas 91–135",
-		"sourcePath": "docs/GENERATED/PUBLIC_ENTRY_POINTS/public-entry-points-003.md",
-		"category": "General",
+		"id": "docs-generated-project-tutorials-projects-ayzarim-awtsmoosdynamicserver--a8b3930e7c",
+		"title": "Project Tutorial: ayzarim/awtsmoosDynamicServer",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-awtsmoosdynamicserver-e406758e.md",
+		"category": "Projects",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Generated Public Entry Point Atlas 91–135",
-				"anchor": "generated-public-entry-point-atlas-91-135"
+				"text": "Project Tutorial: ayzarim/awtsmoosDynamicServer",
+				"anchor": "project-tutorial-ayzarim-awtsmoosdynamicserver"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Public Entry Point Atlas 91–135 Every discovered index.html beneath the Geelooy public root, with title and linked script/style evidence. URL Entry file Title Scripts Script sample Styles Style sample /games/pong geelooy/games/pong/index.html Pong · Awtsmoos Games 9 ./js/partic",
-		"searchText": "b\"h boruch hashem blessed is he generated public entry point atlas 91–135 every discovered index.html beneath the geelooy public root, with title and linked script/style evidence. url entry file title scripts script sample styles style sample /games/pong geelooy/games/pong/index.html pong · awtsmoos games 9 ./js/particles.js; ./js/ball.js; ./js/paddle.js; ./js/ui.js 1 ./style.css?v=pong reward 001 /games/rambam/kiddushhachodesh/12 geelooy/games/rambam/kiddushhachodesh/12/index.html sun movement visualization 0 — 0 — /games/rebbe runner geelooy/games/rebbe runner/index.html the rebbe's runner 2 assets.js; game.js 1 style.css /games/scribe journey geelooy/games/scribe journey/index.html the scribe's journey: echoes of ein sof 1 js/main.js 2 data:,; style.css /games/sefira clash geelooy/games/sefira clash/index.html sefira clash · open world, expedition, co op, adventure &amp; vs 2 ./js/main.js; ./js/commerce/bootarenatheme.js 9 ./style.css; ./css/expedition.css; ./css/expedition components.css; ./css/expedition services.css /games/seven mitzvos geelooy/games/seven mitzvos/index.html seven mitzvos · living material worlds 1 ./js/main.js?v=startup 002 8 https://awtsmoos.com/sites/awtsmoos release assets/icons/mark.svg; https://awtsmoos.com/sites/firebase drive migration/various/stone%20retaining%20wall%20masonry.png; https://awtsmoos.com/sites/firebase drive migration/various/rough%20weathered%20oak%20wood%20planks.png; https://awtsmoos.com/sites/firebase drive migration/various/slate%20roof%20shingles.png /games/shema strike geelooy/games/shema strike/index.html shema strike: gates of light 1 js/main.js 1 style.css /games/soul jump geelooy/games/soul jump/index.html ein sof ascent 1 main.js 0 — /games/sulam ha sod geelooy/games/sulam ha sod/index.html sulam hasod 1 ./js/main.js 1 ./css/game.css /games/tests/1 geelooy/games/tests/1/index.html — 1 ./ikar.js 0 — /games/tests/2 geelooy/games/tests/2/index.html three.js webgpu compute particles rain 0 — 0 — /games/tests/3 geelooy/games/tests/3/index.html — 4 //cdn.jsdelivr.net/gh/mrdoob/three.js@r151/build/three.js; //cdn.jsdelivr.net/gh/mrdoob/three.js@r147/examples/js/controls/orbitcontrols.js; //cdn.jsdelivr.net/gh/mrdoob/three.js@r147/examples/js/loaders/gltfloader.js; //cdn.jsdelivr.net/gh/mrdoob/three.js@r147/examples/js/loaders/rgbeloader.js 1 https://fonts.googleapis.com/css2?family=baloo+tamma+2&display=swap /games/tests/tree geelooy/games/tests/tree/index.html three.js tree swaying 0 — 0 — /games/tetris geelooy/games/tetris/index.html tikkun haolam the final rectification 1 main.js 1 style.css /heichel editor geelooy/heichel editor/index.html heichel editor — geelooy 2 /scripts/awtsmoos/social/shell/boot.js?v=extreme 005; /heichel editor/app.js?v=editor 004 2 /style/geelooy app/index.css?v=extreme 005; /style/social system/editor.css?v=editor 003 /heichel review geelooy/heichel review/index.html heichel review and governance center 1 ./js/main.js?v=review dark 002 1 ./style.css?v=review dark 002 /heichelos/manage alias heichelos geelooy/heichelos/manage alias heichelos/index.html — 1 script.js 1 /style/social/heichelos/manage alias heichelos.css?v=social os 002 /heichelos/settings/community geelooy/heichelos/settings/community/index.html community governance — awtsmoos 1 /heichelos/settings/community/app.js?v=community governance 001 2 /style/geelooy app/index.css?v=community governance 001; /style/heichelos/community settings.css?v=community governance 001 /heichelos/settings/community/moderation geelooy/heichelos/settings/community/moderation/index.html community moderation 1 /heichelos/settings/community/moderation/app.js 1 /style/heichelos/community settings.css?v=clean 002 /heichelos/social/demo geelooy/heichelos/social/demo/index.html awtsmoos social revamp demo 0 — 1 ../styles/index.css /legal/privacy geelooy/legal/privacy/index.html awtsmoos.com privacy policy 0 — 1 ../shared.css /legal/terms geelooy/legal/terms/index.html awtsmoos.com terms of use 0 — 1 ../shared.css /login geelooy/login/index.html login with awtsmoos 1 /scripts/awtsmoos/bh.js 2 /style/bh.css; /style/forms.css /logout geelooy/logout/index.html — 0 — 0 — /mawgawl geelooy/mawgawl/index.html — 1 ./script.js 1 ./styles.css /mawgawl/sefarim geelooy/mawgawl/sefarim/index.html search the living library — geelooy 2 /scripts/awtsmoos/social/shell/boot.js?v=living search shell 001; ./script.js?v=living search 009 18 /style/civilization/core tokens.css?v=living search 006; /style/civilization/core base.css?v=living search 006; /style/civilization/core components.css?v=living search 006; ./styles/shell.css?v=living search 006 /node os geelooy/node os/index.html awtsmoos node os 1 /node os/app.js 2 /style/social system/node os/base.css; /style/social system/node os/cards.css /notifications geelooy/notifications/index.html signals — geelooy 3 /scripts/awtsmoos/social/shell/boot.js?v=signals revelation 007; ./app.js?v=app 001; ./modules/categorytabs.js?v=signals revelation 007 3 /style/geelooy app/index.css?v=signals revelation 007; /style/social system/index.css?v=social core 005; ./style.css?v=signals revelation 007 /ocr geelooy/ocr/index.html ocr studio — awtsmoos 1 /scripts/awtsmoos/ocr/index.js?v=tesseract api 003 1 /style/ocr/index.css?v=tesseract api 003 /os geelooy/os/index.html geelooy os — files, awtsmoosdb, runtime & control 1 ./script.js?v=revelation 8 19 data:image/svg+xml,%3csvg xmlns=; ./styles.css?v=revelation 8; ./civilization/styles.css?v=revelation 8; ./native executable accessibility.css?v=revelation 8 /parsers/whatsapp geelooy/parsers/whatsapp/index.html whatsapp message maker 0 — 0 — /post editor geelooy/post editor/index.html post editor — geelooy 2 /scripts/awtsmoos/social/shell/boot.js?v=extreme 005; /post editor/app.js?v=editor 004 2 /style/geelooy app/index.css?v=extreme 005; /style/social system/editor.css?v=editor 003 /profile geelooy/profile/index.html profile — geelooy 2 /scripts/awtsmoos/social/shell/boot.js?v=; ./script.js?v=app 001 6 /style/civilization/core tokens.css?v=; /style/civilization/core base.css?v=; /style/civilization/core components.css?v=; /style/civilization/profile identity.css?v= /profile/alias manage geelooy/profile/alias manage/index.html — 1 ./script.js?v=alias studio 002 2 /style/geelooy app/index.css?v=alias studio 002; ./style.css?v=alias studio 002 /public/virtual os games/crystal 1780372754759 geelooy/public/virtual os games/crystal 1780372754759/index.html crystal critters 0 — 0 — /public/virtual os games/crystal 1780372758361 geelooy/public/virtual os games/crystal 1780372758361/index.html crystal critters 0 — 0 — /public/virtual os games/crystal 1780373501785 improved geelooy/public/virtual os games/crystal 1780373501785 improved/index.html crystal critters: awakened cave 0 — 0 — /public/virtual os games/crystal 1780373505136 improved geelooy/public/virtual os games/crystal 1780373505136 improved/index.html crystal critters: awakened cave 0 — 0 — /public/virtual os games/crystal 1780373765713 swarm v2 geelooy/public/virtual os games/crystal 1780373765713 swarm v2/index.html crystal critters: thumb safe swarm 0 — 0 — /public/virtual os games/crystal 1780373769185 swarm v2 geelooy/public/virtual os games/crystal 1780373769185 swarm v2/index.html crystal critters: thumb safe swarm 0 — 0 — /public/virtual os games/crystal 1780374109835 clean mobile geelooy/public/virtual os games/crystal 1780374109835 clean mobile/index.html crystal critters: clean mobile 0 — 0 — /public/virtual os games/crystal 1780374112967 clean mobile geelooy/public/virtual os games/crystal 1780374112967 clean mobile/index.html crystal critters: clean mobile 0 — 0 — /record geelooy/record/index.html camera preview — geelooy 1 script.js?v=media capture 001 1 style.css?v=media capture 001 /recorder geelooy/recorder/index.html local recorder — geelooy 1 recorder.js?v=media capture 001 1 style.css?v=media capture 001 /reeyuh geelooy/reeyuh/index.html shulchan aruch viewer 0 — 2 ../style/bh.css; ../style/toyr.css",
-		"page": "pages/docs-generated-public-entry-points-public-entry-points-003-md-47f5d0e8a9.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: ayzarim/awtsmoosDynamicServer Path: ayzarim/awtsmoosDynamicServer · Type: runtime · Family: Runtime and Infrastructure Read the human Runtime and Infrastructure guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: ayzarim/awtsmoosdynamicserver path: ayzarim/awtsmoosdynamicserver · type: runtime · family: runtime and infrastructure read the human runtime and infrastructure guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.js, documentation.md local documentation: ayzarim/awtsmoosdynamicserver/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 994 306 0 0 1 4 1305 public entry points none observed. symbol evidence source files: 994; classes: 239; functions: 2768; exports: 2540; samples: dependencyinjector, greet, templateobjectgenerator, fetchawtsmoos, gettemplateobject, fetchit, checkratelimit, recordusage, estimatetokens, callgemini, result, data. depends on geelooy/api/tunnel — 12 lexical references; examples: ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/channel.js; ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/channelsnapshot.js; ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/missionroomupgradefakes.cjs ayzarim/dosdb — 8 lexical references; examples: ayzarim/awtsmoosdynamicserver/projecthosting/projectdatabaseboundedkeys.js; ayzarim/awtsmoosdynamicserver/server/deps.js; ayzarim/awtsmoosdynamicserver/server/initdb.js geelooy/api/social — 7 lexical references; examples: ayzarim/awtsmoosdynamicserver/server/searchstartupwarmup.js; ayzarim/awtsmoosdynamicserver/websocket/apps/privatemessaging/integrationgateway.js; ayzarim/awtsmoosdynamicserver/websocket/apps/privatemessaging/meaningfulactivity.js ayzarim/email — 3 lexical references; examples: ayzarim/awtsmoosdynamicserver/server/deps.js; ayzarim/awtsmoosdynamicserver/websocket/apps/forms/emailnotifications.js ayzarim/tools — 3 lexical references; examples: ayzarim/awtsmoosdynamicserver/server/deps.js geelooy/apps/tunnel — 3 lexical references; examples: ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/actionaliases.js; ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/instructioncatalog.js; ayzarim/awtsmoosdynamicserver/zipbundles/sourceresolver.js geelooy/seo — 3 lexical references; examples: ayzarim/awtsmoosdynamicserver/static/publiccataloginventoryrecords.js; ayzarim/awtsmoosdynamicserver/static/publiccatalogseometadata.js; ayzarim/awtsmoosdynamicserver/static/publichtmlseo.js geelooy/api/ohr hagnuz — 2 lexical references; examples: ayzarim/awtsmoosdynamicserver/websocket/apps/ohrhagnuz/authenticatedworldtestharness.cjs; ayzarim/awtsmoosdynamicserver/websocket/apps/ohrhagnuz/auth/gameticketconsumer.js used by geelooy/apps/android emulator — 6 lexical references; examples: geelooy/apps/android emulator/node/localtcprelay/clientsession.cjs; geelooy/apps/android emulator/node/localtcprelay/framehandling.cjs; geelooy/apps/android emulator/node/localtcprelay/server.cjs geelooy/api/social — 5 lexical references; examples: geelooy/api/social/helper/drive/projectdatabaseservice.js; geelooy/api/social/helper/drive/projectruntimematerializer.js; geelooy/api/social/helper/drive/routes/projecthostingroutes.js geelooy/api/tunnel — 3 lexical references; examples: geelooy/api/tunnel/ awtsmoos.derech.js; geelooy/api/tunnel/control/core/respond.js; geelooy/api/tunnel/control/routes/fsvessel/tunnelclient.js geelooy/api/projecthosting — 2 lexical references; examples: geelooy/api/projecthosting/planroute.js; geelooy/api/projecthosting/runtimeroutes.js geelooy/heichelos — 1 lexical reference; examples: geelooy/heichelos/routes/friendlyids/friendlyderech.js geelooy/platform — 1 lexical reference; examples: geelooy/platform/products/readiness/productreadinessaudit.cjs geelooy/sites — 1 lexical reference; examples: geelooy/sites/hostedprojectproxy.js external packages ws — 2 lexical references verification clue observed test classified files: 306 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-ayzarim-awtsmoosdynamicserver--a8b3930e7c.json"
+	},
+	{
+		"id": "docs-generated-project-tutorials-projects-ayzarim-c859d21f-md-ffc1103fcc",
+		"title": "Project Tutorial: ayzarim",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-c859d21f.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: ayzarim",
+				"anchor": "project-tutorial-ayzarim"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: ayzarim Path: ayzarim · Type: runtime root · Family: Runtime and Infrastructure Read the human Runtime and Infrastructure guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: ayzarim path: ayzarim · type: runtime root · family: runtime and infrastructure read the human runtime and infrastructure guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: documentation.md local documentation: ayzarim/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 1971 493 1 0 26 7 2498 public entry points none observed. symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 493 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-ayzarim-c859d21f-md-ffc1103fcc.json"
+	},
+	{
+		"id": "docs-generated-project-tutorials-projects-ayzarim-dosdb-eaaa802e-md-a04b09e772",
+		"title": "Project Tutorial: ayzarim/DosDB",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-dosdb-eaaa802e.md",
+		"category": "Data",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: ayzarim/DosDB",
+				"anchor": "project-tutorial-ayzarim-dosdb"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: ayzarim/DosDB Path: ayzarim/DosDB · Type: data · Family: Runtime and Infrastructure Read the human Runtime and Infrastructure guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownershi",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: ayzarim/dosdb path: ayzarim/dosdb · type: data · family: runtime and infrastructure read the human runtime and infrastructure guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.js, documentation.md local documentation: ayzarim/dosdb/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 870 178 0 0 23 1 1072 public entry points none observed. symbol evidence source files: 856; classes: 390; functions: 1290; exports: 883; samples: awtsmoosdbembedderconfig, defaultembeddingdimensions, embedtextfallback, attachdefaultembedding, awtsmoos db ai config path, loadembedderconfig, getdefaultembedderconfig, resolveembeddermodelpath, providershape, detectggufrunner, assertggufembedderready, embedtextwithconfiguredgguf. depends on none observed. used by geelooy/api/social — 54 lexical references; examples: geelooy/api/social/helper/comments/aliasindex/packedindexstore.js; geelooy/api/social/helper/comments/canonicalcommentsource.js; geelooy/api/social/helper/comments/commentawtsmoosdbbridge.js ayzarim/awtsmoosdynamicserver — 8 lexical references; examples: ayzarim/awtsmoosdynamicserver/projecthosting/projectdatabaseboundedkeys.js; ayzarim/awtsmoosdynamicserver/server/deps.js; ayzarim/awtsmoosdynamicserver/server/initdb.js ayzarim/maintence — 2 lexical references; examples: ayzarim/maintence/transferolddbtoawtsmoosdb.js geelooy/scripts — 1 lexical reference; examples: geelooy/scripts/awtsmoos/minimax virtual os game/seed users.cjs external packages awtsmoosdb — 1 lexical reference entries — 1 lexical reference mongodb — 1 lexical reference verification clue observed test classified files: 178 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-ayzarim-dosdb-eaaa802e-md-a04b09e772.json"
+	},
+	{
+		"id": "docs-generated-project-tutorials-projects-ayzarim-email-b0bdabd0-md-8dbce8fc60",
+		"title": "Project Tutorial: ayzarim/email",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-email-b0bdabd0.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: ayzarim/email",
+				"anchor": "project-tutorial-ayzarim-email"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: ayzarim/email Path: ayzarim/email · Type: infrastructure · Family: Runtime and Infrastructure Read the human Runtime and Infrastructure guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtim",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: ayzarim/email path: ayzarim/email · type: infrastructure · family: runtime and infrastructure read the human runtime and infrastructure guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: — local documentation: no local documentation.md observed. local doc requirement: yes; covered: no symlink target: — file shape source tests assets generated docs other total 24 2 0 0 0 0 26 public entry points none observed. symbol evidence source files: 24; classes: 18; functions: 20; exports: 34; samples: awtsmoosemailclient, processcapsules, awtsmoosemailingress, processrules, processreplyvariables, forwarded html marker, prepareforwardingbody, forwardingdelivery, max forward depth, max forward targets, canonicaladdress, extendtrail. depends on geelooy/api/social — 1 lexical reference; examples: ayzarim/email/ingress/pushwake.js used by geelooy/api/social — 4 lexical references; examples: geelooy/api/social/helper/mail/globalforwardingsettings.js; geelooy/api/social/helper/mail/localdelivery.js; geelooy/api/social/helper/mail/settingsservice.js ayzarim/awtsmoosdynamicserver — 3 lexical references; examples: ayzarim/awtsmoosdynamicserver/server/deps.js; ayzarim/awtsmoosdynamicserver/websocket/apps/forms/emailnotifications.js external packages none observed. verification clue observed test classified files: 2 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-ayzarim-email-b0bdabd0-md-8dbce8fc60.json"
 	}
 ]

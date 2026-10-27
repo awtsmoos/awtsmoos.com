@@ -1,0 +1,79 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-heichelos-routes-friendlyids-friendly-ids-md-9c4018d331",
+	"title": "B\"H — Human-Friendly Content IDs",
+	"sourcePath": "geelooy/heichelos/routes/friendlyIds/FRIENDLY_IDS.md",
+	"category": "Routes",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Human-Friendly Content IDs",
+			"anchor": "b-h-human-friendly-content-ids"
+		},
+		{
+			"level": 2,
+			"text": "Architecture (two layers)",
+			"anchor": "architecture-two-layers"
+		},
+		{
+			"level": 2,
+			"text": "Mounts",
+			"anchor": "mounts"
+		},
+		{
+			"level": 2,
+			"text": "Patterns",
+			"anchor": "patterns"
+		},
+		{
+			"level": 3,
+			"text": "Sefer landing",
+			"anchor": "sefer-landing"
+		},
+		{
+			"level": 3,
+			"text": "Chapters (Tanya = Likkutei Amarim perakim 1–53)",
+			"anchor": "chapters-tanya-likkutei-amarim-perakim-1-53"
+		},
+		{
+			"level": 3,
+			"text": "Verses / sections (fragment hint for scroll/highlight)",
+			"anchor": "verses-sections-fragment-hint-for-scroll-highlight"
+		},
+		{
+			"level": 3,
+			"text": "Likkutei Torah (parsha → chapter)",
+			"anchor": "likkutei-torah-parsha-chapter"
+		},
+		{
+			"level": 3,
+			"text": "Igeres HaKodesh (volume → letter)",
+			"anchor": "igeres-hakodesh-volume-letter"
+		},
+		{
+			"level": 2,
+			"text": "Normalization rules",
+			"anchor": "normalization-rules"
+		},
+		{
+			"level": 2,
+			"text": "404 contract",
+			"anchor": "404-contract"
+		},
+		{
+			"level": 2,
+			"text": "Files",
+			"anchor": "files"
+		},
+		{
+			"level": 2,
+			"text": "Verification",
+			"anchor": "verification"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-heichelos-routes-friendlyids-friendly-ids-md-9c4018d331-001.json"
+	]
+}

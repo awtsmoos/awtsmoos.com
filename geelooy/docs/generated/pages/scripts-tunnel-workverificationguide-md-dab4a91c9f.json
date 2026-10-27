@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "scripts-tunnel-workverificationguide-md-dab4a91c9f",
+	"title": "Awtsmoos continuation and frontend verification",
+	"sourcePath": "scripts/tunnel/workVerificationGuide.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Awtsmoos continuation and frontend verification",
+			"anchor": "awtsmoos-continuation-and-frontend-verification"
+		}
+	],
+	"markdownParts": [
+		"content/scripts-tunnel-workverificationguide-md-dab4a91c9f-001.json"
+	]
+}

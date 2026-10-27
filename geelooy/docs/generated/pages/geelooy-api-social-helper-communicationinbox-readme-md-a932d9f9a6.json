@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-social-helper-communicationinbox-readme-md-a932d9f9a6",
+	"title": "B\"H — Communication Inbox (geelooy/api/social/helper/communicationInbox/)",
+	"sourcePath": "geelooy/api/social/helper/communicationInbox/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Communication Inbox (geelooy/api/social/helper/communicationInbox/)",
+			"anchor": "b-h-communication-inbox-geelooy-api-social-helper-communicationinbox"
+		},
+		{
+			"level": 2,
+			"text": "Files",
+			"anchor": "files"
+		},
+		{
+			"level": 2,
+			"text": "What it does",
+			"anchor": "what-it-does"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-social-helper-communicationinbox-readme-md-a932d9f9a6-001.json"
+	]
+}

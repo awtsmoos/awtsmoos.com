@@ -1,142 +1,344 @@
 [
 	{
-		"id": "docs-generated-system-tutorials-systems-websocket-upgrade-session-md-e3ca056fe3",
-		"title": "System Tutorial: WebSocket Upgrade and Session",
-		"sourcePath": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/websocket-upgrade-session.md",
-		"category": "Realtime",
+		"id": "docs-generated-project-tutorials-projects-geelooy-api-projecthosting-73d-d7aa0c1f4a",
+		"title": "Project Tutorial: geelooy/api/projectHosting",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-projecthosting-73d794a5.md",
+		"category": "Projects",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "System Tutorial: WebSocket Upgrade and Session",
-				"anchor": "system-tutorial-websocket-upgrade-and-session"
+				"text": "Project Tutorial: geelooy/api/projectHosting",
+				"anchor": "project-tutorial-geelooy-api-projecthosting"
 			},
 			{
 				"level": 2,
-				"text": "Claims boundary",
-				"anchor": "claims-boundary"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Change risk",
-				"anchor": "change-risk"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Human manuals",
-				"anchor": "human-manuals"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "Related project boundaries",
-				"anchor": "related-project-boundaries"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Source anchors",
-				"anchor": "source-anchors"
+				"text": "Depends on",
+				"anchor": "depends-on"
 			},
 			{
 				"level": 2,
-				"text": "Generated evidence",
-				"anchor": "generated-evidence"
+				"text": "Used by",
+				"anchor": "used-by"
 			},
 			{
 				"level": 2,
-				"text": "Environment-name evidence",
-				"anchor": "environment-name-evidence"
+				"text": "External packages",
+				"anchor": "external-packages"
 			},
 			{
 				"level": 2,
-				"text": "Realtime application registration evidence",
-				"anchor": "realtime-application-registration-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Lexical event/message evidence",
-				"anchor": "lexical-event-message-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Tags",
-				"anchor": "tags"
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He System Tutorial: WebSocket Upgrade and Session District: realtime · System ID: websocket upgrade session Upgrade time identity/admission, handshake, client session attachment, and connection activity. Generated evidence below is a navigation aid. Trust, migration, consistency, protocol, ",
-		"searchText": "b\"h boruch hashem blessed is he system tutorial: websocket upgrade and session district: realtime · system id: websocket upgrade session upgrade time identity/admission, handshake, client session attachment, and connection activity. generated evidence below is a navigation aid. trust, migration, consistency, protocol, and authorization semantics remain grounded in the linked human manuals and current source. claims boundary upgrade source establishes the handshake/session boundary; deployment reachability is not inferred. change risk handshake, identity, cookie, and admission changes can alter every realtime application. human manuals docs/websockets/readme.md docs/security/realtime security.md related project boundaries ayzarim/awtsmoosdynamicserver (runtime) — ayzarim/awtsmoosdynamicserver source anchors ayzarim/awtsmoosdynamicserver/websocket/core/socketupgrade.js generated evidence docs/generated/websocket applications.md environment name evidence name class source refs example sources awtsmoos ws max missed heartbeats runtime config 1 ayzarim/awtsmoosdynamicserver/websocket/core/clientliveness.js awtsmoos ws probe grace ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/core/clientliveness.js awtsmoos ws stale ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/core/clientliveness.js realtime application registration evidence no versioned application registrations are attached to this packet. lexical event/message evidence none observed for this system packet. tags websocket · upgrade · identity · protocol",
-		"page": "pages/docs-generated-system-tutorials-systems-websocket-upgrade-session-md-e3ca056fe3.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/api/projectHosting Path: geelooy/api/projectHosting · Type: api · Family: API Projects Read the human API Projects guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership o",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/api/projecthosting path: geelooy/api/projecthosting · type: api · family: api projects read the human api projects guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: awtsmoos.derech.js, readme.md, readme.md local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 6 2 0 0 1 0 9 public entry points none observed. symbol evidence source files: 6; classes: 0; functions: 24; exports: 16; samples: dynamicroutes, projecthostingplanresponse, failure, resolveprojectowner, max runtime request bytes, requirepost, runtimerequestbody, text, requesterror, default activity limit, max activity limit, activitylimit. depends on ayzarim/awtsmoosdynamicserver — 2 lexical references; examples: geelooy/api/projecthosting/planroute.js; geelooy/api/projecthosting/runtimeroutes.js geelooy/api/social — 2 lexical references; examples: geelooy/api/projecthosting/requestidentity.js used by none observed. external packages none observed. verification clue observed test classified files: 2 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-api-projecthosting-73d-d7aa0c1f4a.json"
 	},
 	{
-		"id": "docs-generated-test-ownership-md-beeceaf32d",
-		"title": "Generated Test Ownership",
-		"sourcePath": "docs/GENERATED/TEST_OWNERSHIP.md",
-		"category": "Testing",
+		"id": "docs-generated-project-tutorials-projects-geelooy-api-public-aeb4e1be-md-0c835f4438",
+		"title": "Project Tutorial: geelooy/api/public",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-public-aeb4e1be.md",
+		"category": "Projects",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Generated Test Ownership",
-				"anchor": "generated-test-ownership"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Test Ownership Project Type Test files Local docs geelooy public root 4699 geelooy/DOCUMENTATION.md geelooy/apps public 1790 geelooy/apps/DOCUMENTATION.md geelooy/games public 1469 geelooy/games/DOCUMENTATION.md geelooy/games/mitzvahWorld game 1015 geelooy/games/mitzvahWorld/DO",
-		"searchText": "b\"h boruch hashem blessed is he generated test ownership project type test files local docs geelooy public root 4699 geelooy/documentation.md geelooy/apps public 1790 geelooy/apps/documentation.md geelooy/games public 1469 geelooy/games/documentation.md geelooy/games/mitzvahworld game 1015 geelooy/games/mitzvahworld/documentation.md geelooy/apps/tunnel app 820 geelooy/apps/tunnel/documentation.md geelooy/apps/android emulator app 566 geelooy/apps/android emulator/documentation.md geelooy/api project 399 geelooy/api/documentation.md ayzarim runtime root 367 ayzarim/documentation.md geelooy/api/social api 250 geelooy/api/social/documentation.md ayzarim/awtsmoosdynamicserver runtime 207 ayzarim/awtsmoosdynamicserver/documentation.md geelooy/ai public 165 geelooy/ai/documentation.md ayzarim/dosdb data 160 ayzarim/dosdb/documentation.md geelooy/libs library 138 geelooy/libs/documentation.md geelooy/apps/exe emulator app 133 geelooy/apps/exe emulator/documentation.md geelooy/heichelos project 131 geelooy/heichelos/documentation.md geelooy/apps/nesher studio app 117 geelooy/apps/nesher studio/documentation.md geelooy/scripts library 113 geelooy/scripts/documentation.md geelooy/tests test 107 geelooy/tests/documentation.md geelooy/api/tunnel api 106 geelooy/api/tunnel/documentation.md ai thoughts alias 100 — geelooy/games/scribe journey game 99 geelooy/games/scribe journey/documentation.md tests test 92 tests/documentation.md geelooy/games/ohr hagnuz game 89 geelooy/games/ohr hagnuz/documentation.md geelooy/os public 79 geelooy/os/documentation.md geelooy/games/seven mitzvos game 66 geelooy/games/seven mitzvos/documentation.md geelooy/apps/tunnel control app 57 geelooy/apps/tunnel control/documentation.md geelooy/drive public 52 geelooy/drive/documentation.md geelooy/style library 48 geelooy/style/documentation.md geelooy/social hub public 46 geelooy/social hub/documentation.md geelooy/apps/code app 44 geelooy/apps/code/documentation.md geelooy/games/sefira clash game 41 geelooy/games/sefira clash/documentation.md geelooy/games/merkava game 32 geelooy/games/merkava/documentation.md scripts tooling 30 scripts/documentation.md geelooy/games/nitzotz io game 29 geelooy/games/nitzotz io/documentation.md tools tooling 29 tools/documentation.md geelooy/shared library 28 geelooy/shared/documentation.md geelooy/social composer public 28 geelooy/social composer/documentation.md geelooy/apps/universal chat app 22 geelooy/apps/universal chat/documentation.md geelooy/games/chess game 22 geelooy/games/chess/documentation.md geelooy/games/shema strike game 21 geelooy/games/shema strike/documentation.md geelooy/api/wallet api 19 geelooy/api/wallet/documentation.md geelooy/platform project 19 geelooy/platform/documentation.md geelooy/games/tests game 16 geelooy/games/tests/documentation.md geelooy/zmanim public 16 geelooy/zmanim/documentation.md geelooy/.awtsmoos agent transfer project 14 geelooy/.awtsmoos agent transfer/documentation.md geelooy/games/oros ha kelim game 14 geelooy/games/oros ha kelim/documentation.md geelooy/games/sulam ha sod game 14 geelooy/games/sulam ha sod/documentation.md geelooy/mawgawl public 14 geelooy/mawgawl/documentation.md geelooy/games/city of light game 11 geelooy/games/city of light/documentation.md geelooy/sites project 11 geelooy/sites/documentation.md geelooy/api/oauth api 10 geelooy/api/oauth/documentation.md geelooy/apps/slides app 10 geelooy/apps/slides/documentation.md geelooy/apps/drive app 9 geelooy/apps/drive/documentation.md geelooy/apps/mitzvah pushkuh app 7 geelooy/apps/mitzvah pushkuh/documentation.md geelooy/social public 7 geelooy/social/documentation.md geelooy/api/zmanim api 5 geelooy/api/zmanim/documentation.md geelooy/email public 4 geelooy/email/documentation.md geelooy/heichel review public 4 geelooy/heichel review/documentation.md geelooy/profile public 4 geelooy/profile/documentation.md geelooy/api/gpt api 3 geelooy/api/gpt/documentation.md geelooy/geelooy project 3 — geelooy/api/projecthosting api 2 — geelooy/apps/sheets app 2 geelooy/apps/sheets/documentation.md geelooy/comment thread public 2 geelooy/comment thread/documentation.md geelooy/heichel editor public 2 geelooy/heichel editor/documentation.md geelooy/notifications public 2 geelooy/notifications/documentation.md geelooy/post editor public 2 geelooy/post editor/documentation.md geelooy/api/compiler api 1 geelooy/api/compiler/documentation.md geelooy/api/ohr hagnuz api 1 geelooy/api/ohr hagnuz/documentation.md geelooy/api/sefarim api 1 geelooy/api/sefarim/documentation.md geelooy/api/youtube api 1 geelooy/api/youtube/documentation.md geelooy/apps/compiler app 1 geelooy/apps/compiler/documentation.md geelooy/apps/tests app 1 — geelooy/apps/wallet app 1 geelooy/apps/wallet/documentation.md geelooy/browser test project 1 — geelooy/social actions project 1 geelooy/social actions/documentation.md templates tooling 1 templates/documentation.md",
-		"page": "pages/docs-generated-test-ownership-md-beeceaf32d.json"
-	},
-	{
-		"id": "docs-generated-test-script-index-md-412dcbafde",
-		"title": "Generated Test Script Index",
-		"sourcePath": "docs/GENERATED/TEST_SCRIPT_INDEX.md",
-		"category": "Testing",
-		"provenance": "generated",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Generated Test Script Index",
-				"anchor": "generated-test-script-index"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Test Script Index Script Command emailTest node ayzarim/email/emailTest.js test npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported style ownership && npm run test:css quality && npm run test:heichelos quality && npm run test:prof",
-		"searchText": "b\"h boruch hashem blessed is he generated test script index script command emailtest node ayzarim/email/emailtest.js test npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported style ownership && npm run test:css quality && npm run test:heichelos quality && npm run test:profile menu && npm run test:heichel governance && npm run test:post submissions && npm run test:comments && npm run test:api keys && npm run test:graph && npm run test:social content && npm run test:notifications && npm run test:social packed && npm run test:packed engine && npm run test:platform ops && npm run test:platform execution && npm run test:node client && npm run test:dayuh cutover test:ai node geelooy/ai/tests/harness/run.cjs all test:ai:stress awtsmoos ai test rounds=5 node geelooy/ai/tests/harness/run.cjs all test:api keys node geelooy/api/social/helper/test/apikeys.test.js test:code ai studio node geelooy/apps/code/test/ai studio isolated.test.mjs test:comments node geelooy/api/social/helper/comments/test/runallcommentstests.js test:concurrency failure node geelooy/api/social/test/concurrencyfailurestress.test.mjs test:css quality node geelooy/style/test/cssquality.test.js test:dayuh cutover node tools/dayuhchadashcutover/releasecheck.js test:dayuh release npm run test:routes && npm run test:comments && npm run test:social content && npm run test:social packed && npm run test:packed engine && node test tools/dayuhchadashmaintenance/test/ .test.js && npm run test:dayuh cutover test:graph node geelooy/api/social/helper/test/socialgraph.test.js test:heichel governance node geelooy/heichelos/heichel/modules/test/editormanagement.test.mjs && node geelooy/api/social/helper/test/heichelroles.test.js test:heichelos quality node geelooy/heichelos/test/heichelosquality.test.js test:imported style ownership node geelooy/heichelos/post/styles/test/importedstyleownership.test.js test:live smoke node geelooy/heichelos/heichel/modules/test/sociallivesmoke.test.mjs test:mission continuity actions node geelooy/apps/tunnel/agent/tools/fs/actiongroups/test/missioncontinuityactions.test.mjs test:node client node check geelooy/scripts/awtsmoos/api/social/nodeclient.mjs test:notifications node geelooy/api/social/helper/test/notifications.test.js test:packed engine node geelooy/api/social/helper/test/packedengine.test.js test:platform execution node geelooy/api/social/helper/test/platformexecution.test.js test:platform ops node geelooy/api/social/helper/test/platformops.test.js test:platform ui node geelooy/heichelos/heichel/modules/test/platformpanelnodesimulation.test.mjs && node geelooy/heichelos/heichel/modules/test/notificationspanelnodesimulation.test.mjs && node geelooy/heichelos/heichel/modules/test/platformcoveragestatic.test.mjs && node geelooy/heichelos/heichel/modules/test/browserapisurfacestatic.test.mjs && node geelooy/heichelos/heichel/modules/test/browserapirequestshapes.test.mjs && node geelooy/heichelos/heichel/modules/test/platformopsapi.test.mjs && node geelooy/heichelos/heichel/modules/test/socialgraphfoundation.test.mjs && node geelooy/heichelos/heichel/modules/test/recursivesociallayer.test.mjs test:post submissions node geelooy/api/social/helper/post/test/postsubmissions.test.js test:profile menu node geelooy/scripts/awtsmoos/social/test/profilemenusimulation.test.mjs test:real server writes node geelooy/api/social/test/realserverwrites.test.mjs test:routes node geelooy/api/social/test/routecoverage.test.js test:social content node geelooy/api/social/helper/test/socialcontent.test.js test:social packed node geelooy/api/social/helper/test/socialpacked.test.js && node geelooy/api/social/helper/test/postmigration.test.js && node geelooy/api/social/helper/test/packedsnapshotrepair.test.js test:treasury node geelooy/api/tunnel/control/test/runtreasurytests.cjs test:treasury:full node geelooy/api/tunnel/control/test/treasury/runall.cjs test:tunnel release node test scripts/tunnel/testing/ .test.cjs scripts/repository hygiene/testing/ .test.cjs test:virtual os node geelooy/tests/virtual os/run smokes.cjs",
-		"page": "pages/docs-generated-test-script-index-md-412dcbafde.json"
-	},
-	{
-		"id": "docs-generated-websocket-applications-md-58413448ec",
-		"title": "Generated Realtime Application Inventory",
-		"sourcePath": "docs/GENERATED/WEBSOCKET_APPLICATIONS.md",
-		"category": "Realtime",
-		"provenance": "generated",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Generated Realtime Application Inventory",
-				"anchor": "generated-realtime-application-inventory"
+				"text": "Project Tutorial: geelooy/api/public",
+				"anchor": "project-tutorial-geelooy-api-public"
 			},
 			{
 				"level": 2,
-				"text": "WebSocket application directories",
-				"anchor": "websocket-application-directories"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Realtime Application Inventory Application id Versions Factory awtsmoos core 1 createAwtsmoosCoreApplication awtsmoos social 1 createAwtsmoosSocialApplication chess 1 createChessApplication geelooy code 1 createGeelooyCodeApplication geelooy docs 1 createGeelooyDocsApplication ",
-		"searchText": "b\"h boruch hashem blessed is he generated realtime application inventory application id versions factory awtsmoos core 1 createawtsmooscoreapplication awtsmoos social 1 createawtsmoossocialapplication chess 1 createchessapplication geelooy code 1 creategeelooycodeapplication geelooy docs 1 creategeelooydocsapplication sheets 1 createsheetsapplication universal chat 1 createuniversalchatapplication private messaging 1 createprivatemessagingapplication sefira clash 1 createsefiraclashapplication mitzvah world 1 createmitzvahworldapplication ohr hagnuz 1 createohrhagnuzapplication scribe journey 1, 2 createscribejourneyapplication tunnel activity 1 createtunnelactivityapplication shema strike 1 createshemastrikeapplication websocket application directories directory files source chess 28 ayzarim/awtsmoosdynamicserver/websocket/apps/chess forms 3 ayzarim/awtsmoosdynamicserver/websocket/apps/forms geelooycode 19 ayzarim/awtsmoosdynamicserver/websocket/apps/geelooycode geelooydocs 41 ayzarim/awtsmoosdynamicserver/websocket/apps/geelooydocs missionrooms 11 ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms mitzvahworld 278 ayzarim/awtsmoosdynamicserver/websocket/apps/mitzvahworld ohrhagnuz 25 ayzarim/awtsmoosdynamicserver/websocket/apps/ohrhagnuz privatemessaging 52 ayzarim/awtsmoosdynamicserver/websocket/apps/privatemessaging scribejourney 38 ayzarim/awtsmoosdynamicserver/websocket/apps/scribejourney sefiraclash 91 ayzarim/awtsmoosdynamicserver/websocket/apps/sefiraclash sheets 36 ayzarim/awtsmoosdynamicserver/websocket/apps/sheets shemastrike 77 ayzarim/awtsmoosdynamicserver/websocket/apps/shemastrike tunnelactivity 10 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelactivity tunnelrelay 83 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay universalchat 37 ayzarim/awtsmoosdynamicserver/websocket/apps/universalchat",
-		"page": "pages/docs-generated-websocket-applications-md-58413448ec.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/api/public Path: geelooy/api/public · Type: api · Family: API Projects Read the human API Projects guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarant",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/api/public path: geelooy/api/public · type: api · family: api projects read the human api projects guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: awtsmoos.derech.js, documentation.md, readme.md, readme.md local documentation: geelooy/api/public/documentation.md local doc requirement: no; covered: yes symlink target: — file shape source tests assets generated docs other total 1 0 0 0 2 0 3 public entry points none observed. symbol evidence source files: 1; classes: 0; functions: 2; exports: 1; samples: dynamicroutes, if, checkuser. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-api-public-aeb4e1be-md-0c835f4438.json"
 	},
 	{
-		"id": "docs-generated-websocket-event-index-md-530cf0fd87",
-		"title": "Generated WebSocket Event Evidence",
-		"sourcePath": "docs/GENERATED/WEBSOCKET_EVENT_INDEX.md",
-		"category": "Realtime",
+		"id": "docs-generated-project-tutorials-projects-geelooy-api-release-7b1745e6-m-76aec69969",
+		"title": "Project Tutorial: geelooy/api/release",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-release-7b1745e6.md",
+		"category": "Projects",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Generated WebSocket Event Evidence",
-				"anchor": "generated-websocket-event-evidence"
+				"text": "Project Tutorial: geelooy/api/release",
+				"anchor": "project-tutorial-geelooy-api-release"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Generated WebSocket Event Evidence Production source lexical event/message evidence; this is not a formal protocol schema. 143 rows. Chunk Rows Count websocket events 001.md 1–85 85 websocket events 002.md 86–143 58",
-		"searchText": "b\"h boruch hashem blessed is he generated websocket event evidence production source lexical event/message evidence; this is not a formal protocol schema. 143 rows. chunk rows count websocket events 001.md 1–85 85 websocket events 002.md 86–143 58",
-		"page": "pages/docs-generated-websocket-event-index-md-530cf0fd87.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/api/release Path: geelooy/api/release · Type: api · Family: API Projects Read the human API Projects guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guara",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/api/release path: geelooy/api/release · type: api · family: api projects read the human api projects guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: awtsmoos.derech.js, readme.md, readme.md local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 1 0 0 0 1 0 2 public entry points none observed. symbol evidence source files: 1; classes: 0; functions: 0; exports: 1; samples: dynamicroutes. depends on geelooy/api/tunnel — 1 lexical reference; examples: geelooy/api/release/ awtsmoos.derech.js used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-api-release-7b1745e6-m-76aec69969.json"
+	},
+	{
+		"id": "docs-generated-project-tutorials-projects-geelooy-api-runtime-5791d099-m-9fb9f63bda",
+		"title": "Project Tutorial: geelooy/api/runtime",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-runtime-5791d099.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: geelooy/api/runtime",
+				"anchor": "project-tutorial-geelooy-api-runtime"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/api/runtime Path: geelooy/api/runtime · Type: api · Family: API Projects Read the human API Projects guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guara",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/api/runtime path: geelooy/api/runtime · type: api · family: api projects read the human api projects guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: awtsmoos.derech.js, documentation.md, readme.md, readme.md local documentation: geelooy/api/runtime/documentation.md local doc requirement: no; covered: yes symlink target: — file shape source tests assets generated docs other total 5 0 0 0 3 0 8 public entry points none observed. symbol evidence source files: 5; classes: 0; functions: 14; exports: 8; samples: authorizeruntimerequest, isallowedorigin, normalizedhost, failure, request bytes, runtimerequestbody, bodyerror, runtimecapabilities, runtimelaunch, runtimestatus, runtimestop, authorizedbodycall. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-api-runtime-5791d099-m-9fb9f63bda.json"
+	},
+	{
+		"id": "docs-generated-project-tutorials-projects-geelooy-api-sefarim-ff35f559-m-0eacc067c1",
+		"title": "Project Tutorial: geelooy/api/sefarim",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-sefarim-ff35f559.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: geelooy/api/sefarim",
+				"anchor": "project-tutorial-geelooy-api-sefarim"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/api/sefarim Path: geelooy/api/sefarim · Type: api · Family: API Projects Read the human API Projects guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guara",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/api/sefarim path: geelooy/api/sefarim · type: api · family: api projects read the human api projects guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: awtsmoos.derech.js, documentation.md, readme.md, readme.md local documentation: geelooy/api/sefarim/documentation.md local doc requirement: no; covered: yes symlink target: — file shape source tests assets generated docs other total 1 1 0 0 3 0 5 public entry points none observed. symbol evidence source files: 1; classes: 0; functions: 3; exports: 8; samples: dynamicroutes, sig, op, corpus, works, title, kind, units, revealportions, revealorempty, readbody. depends on geelooy/api/social — 1 lexical reference; examples: geelooy/api/sefarim/ awtsmoos.derech.js geelooy/api/tunnel — 1 lexical reference; examples: geelooy/api/sefarim/ awtsmoos.derech.js used by none observed. external packages none observed. verification clue observed test classified files: 1 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-api-sefarim-ff35f559-m-0eacc067c1.json"
+	},
+	{
+		"id": "docs-generated-project-tutorials-projects-geelooy-api-social-0cd2dc86-md-536423786c",
+		"title": "Project Tutorial: geelooy/api/social",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-social-0cd2dc86.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: geelooy/api/social",
+				"anchor": "project-tutorial-geelooy-api-social"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/api/social Path: geelooy/api/social · Type: api · Family: API Projects Read the human API Projects guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarant",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/api/social path: geelooy/api/social · type: api · family: api projects read the human api projects guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: awtsmoos.derech.js, documentation.md, readme.md, readme.md local documentation: geelooy/api/social/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 2023 411 0 0 148 5 2587 public entry points none observed. symbol evidence source files: 1455; classes: 110; functions: 4671; exports: 5001; samples: metadata, createagentroutes, createaliasroutes, copyinput, privatecoordinates, requiremethod, targetfrombody, guarded, failure, body, query, method. depends on ayzarim/dosdb — 54 lexical references; examples: geelooy/api/social/helper/comments/aliasindex/packedindexstore.js; geelooy/api/social/helper/comments/canonicalcommentsource.js; geelooy/api/social/helper/comments/commentawtsmoosdbbridge.js geelooy/api/oauth — 8 lexical references; examples: geelooy/api/social/helper/comments/postrefcomment.js; geelooy/api/social/helper/comments/routes/rich.js; geelooy/api/social/helper/comments/translationannotations.js ayzarim/awtsmoosdynamicserver — 5 lexical references; examples: geelooy/api/social/helper/drive/projectdatabaseservice.js; geelooy/api/social/helper/drive/projectruntimematerializer.js; geelooy/api/social/helper/drive/routes/projecthostingroutes.js ayzarim/email — 4 lexical references; examples: geelooy/api/social/helper/mail/globalforwardingsettings.js; geelooy/api/social/helper/mail/localdelivery.js; geelooy/api/social/helper/mail/settingsservice.js geelooy/sites — 3 lexical references; examples: geelooy/api/social/helper/drive/sitediscoveryrecord.js; geelooy/api/social/helper/drive/siteprojectlineage.js; geelooy/api/social/helper/drive/sitestatusservice.js geelooy/ai — 2 lexical references; examples: geelooy/api/social/helper/drive/browser/interactivebrowsertargetcatalog.js; geelooy/api/social/helper/drive/browser/interactivetargetcontroller.js geelooy/api/tunnel — 1 lexical reference; examples: geelooy/api/social/helper/repositories/gitcloneservice.js used by geelooy/sites — 34 lexical references; examples: geelooy/sites/customdomaingateway.js; geelooy/sites/deploymentsiteresponse.js; geelooy/sites/directsitereadiness.js geelooy/heichelos — 12 lexical references; examples: geelooy/heichelos/routes/heichel/comments/commenthtml.js; geelooy/heichelos/routes/heichel/comments/commentpage.js; geelooy/heichelos/routes/heichel/comments/postannotations.js ayzarim/awtsmoosdynamicserver — 7 lexical references; examples: ayzarim/awtsmoosdynamicserver/server/searchstartupwarmup.js; ayzarim/awtsmoosdynamicserver/websocket/apps/privatemessaging/integrationgateway.js; ayzarim/awtsmoosdynamicserver/websocket/apps/privatemessaging/meaningfulactivity.js geelooy/@ — 6 lexical references; examples: geelooy/@/seo/aliasdata.js; geelooy/@/seo/aliassitemap.js; geelooy/@/seo/aliassites.js geelooy/api/tunnel — 6 lexical references; examples: geelooy/api/tunnel/control/routes/fsvessel/hostedvirtualos/sitepublicationdispatcher.js; geelooy/api/tunnel/control/routes/osfs/virtualdirectoryvalues.js; geelooy/api/tunnel/control/routes/osfs/virtualreadtext.js geelooy/api/ohrbound — 3 lexical references; examples: geelooy/api/ohrbound/services/authorization.js; geelooy/api/ohrbound/services/objectgateway.js geelooy/api/projecthosting — 2 lexical references; examples: geelooy/api/projecthosting/requestidentity.js geelooy/api/ssh — 2 lexical references; examples: geelooy/api/ssh/virtual/accessguard.js external packages none observed. verification clue observed test classified files: 411 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-api-social-0cd2dc86-md-536423786c.json"
 	}
 ]

@@ -12,7 +12,9 @@
 	"title": "geelooy/api/ssh",
 	"entries": [
 		"_awtsmoos.derech.js",
-		"DOCUMENTATION.md"
+		"DOCUMENTATION.md",
+		"README.md",
+		"readme.md"
 	],
 	"humanDocumentation": [
 		"geelooy/api/ssh/DOCUMENTATION.md",
@@ -23,20 +25,21 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-ssh-23e5c9da.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 33,
-		"tests": 0,
+		"source": 52,
+		"tests": 3,
 		"assets": 0,
 		"generated": 0,
-		"docs": 1,
+		"docs": 5,
 		"other": 0
 	},
-	"totalFiles": 34,
+	"totalFiles": 60,
 	"symbolSummary": {
-		"files": 33,
+		"files": 52,
 		"classes": 4,
-		"functions": 102,
-		"exports": 71,
+		"functions": 149,
+		"exports": 108,
 		"samples": [
+			"revealSshRoutes",
 			"call",
 			"connect",
 			"withClient",
@@ -47,15 +50,14 @@
 			"writeContent",
 			"decodeBase64",
 			"buildFileRoutes",
-			"quote",
-			"bodyOf"
+			"quote"
 		]
 	},
 	"outgoingDependencies": [
 		{
 			"project": "ayzarim/ssh",
 			"count": 2,
-			"examples": "geelooy/api/ssh/lib/client.js; geelooy/api/ssh/virtual/service.js"
+			"examples": "geelooy/api/ssh/lib/client.js; geelooy/api/ssh/virtual/serviceComponents.js"
 		},
 		{
 			"project": "geelooy/api/social",

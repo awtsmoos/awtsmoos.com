@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-30-1748-daily-chitas-heichel-ikar-04-post-wr-92bc280d18",
+	"title": "Post-Write Delta and Verification",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-30-1748-daily-chitas-heichel-ikar/04-post-write-delta-and-verification.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Post-Write Delta and Verification",
+			"anchor": "post-write-delta-and-verification"
+		},
+		{
+			"level": 2,
+			"text": "Original mission versus actual revelation",
+			"anchor": "original-mission-versus-actual-revelation"
+		},
+		{
+			"level": 2,
+			"text": "Calculation actually implemented",
+			"anchor": "calculation-actually-implemented"
+		},
+		{
+			"level": 2,
+			"text": "Planned versus actual file delta",
+			"anchor": "planned-versus-actual-file-delta"
+		},
+		{
+			"level": 2,
+			"text": "Verification completed",
+			"anchor": "verification-completed"
+		},
+		{
+			"level": 2,
+			"text": "Verification not claimed",
+			"anchor": "verification-not-claimed"
+		},
+		{
+			"level": 2,
+			"text": "Remaining work state",
+			"anchor": "remaining-work-state"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-30-1748-daily-chitas-heichel-ikar-04-post-wr-92bc280d18-001.json"
+	]
+}

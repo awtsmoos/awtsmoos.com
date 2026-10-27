@@ -1,0 +1,220 @@
+[
+	{
+		"id": "geelooy-awtsmoos-agent-transfer-archive-org-video-20260821-predeploy-bac-a158bd8283",
+		"title": "B\"H",
+		"sourcePath": "geelooy/.awtsmoos-agent-transfer/archive-org-video-20260821/predeploy-backup/social/migrate/API.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Social Migration API",
+				"anchor": "social-migration-api"
+			},
+			{
+				"level": 2,
+				"text": "Capability discovery",
+				"anchor": "capability-discovery"
+			},
+			{
+				"level": 2,
+				"text": "Preflight",
+				"anchor": "preflight"
+			},
+			{
+				"level": 2,
+				"text": "Dry plan",
+				"anchor": "dry-plan"
+			},
+			{
+				"level": 2,
+				"text": "Native asset shape",
+				"anchor": "native-asset-shape"
+			},
+			{
+				"level": 2,
+				"text": "Publication",
+				"anchor": "publication"
+			},
+			{
+				"level": 2,
+				"text": "Idempotency and retries",
+				"anchor": "idempotency-and-retries"
+			},
+			{
+				"level": 2,
+				"text": "Rate pacing",
+				"anchor": "rate-pacing"
+			}
+		],
+		"excerpt": "B\"H Social Migration API Boruch Hashem. Blessed is He. The Awtsmoos lets one migration intention pass through measured gates; Awtsmoos.com keeps local inspection, server validation, upload, and publication visibly distinct. Capability discovery GET /api/social/migrations/meta/metadata Returns: apiVersion supported prov",
+		"searchText": "b\"h social migration api boruch hashem. blessed is he. the awtsmoos lets one migration intention pass through measured gates; awtsmoos.com keeps local inspection, server validation, upload, and publication visibly distinct. capability discovery get /api/social/migrations/meta/metadata returns: apiversion supported providers and archive formats plan.maxitems upload.maxfilesperrequest upload.maxuploadsperminute image/audio/video byte limits accepted mime lists upload/publication route contracts checkpoint privacy guarantees these values derive from the same server asset policy that enforces uploads. preflight post /api/social/migrations/meta/preflight body: preflight never publishes. it returns: valid deterministic planfingerprint provider/date/media statistics evidence warnings invalid requests return structured issues with code, path, and message. dry plan post /api/social/migrations/meta/plan planning never publishes. the response keeps entries for direct client use and also returns: apiversion planversion planfingerprint generatedat destination statistics warnings chronology distribution each entry has: provider/source identity deterministic hashed idempotencykey native unified social publicationplan content payload provenance native shaped rootassets unknown dates remain unknown; they are not synthesized. native asset shape selected media is uploaded through: post /api/social/assets/:alias/upload returned manifests are preserved rather than collapsed. relevant fields include: id type mime size publicpath dimensions/duration where present title/alt/caption/role where available only /api/social/assets/ public paths are accepted by meta planning. publication actual content mutation occurs only through: post /api/social/unified social/publish the migration planner never calls a hidden publication route. the client replans after upload so rootassets contain real server issued paths before publication. idempotency and retries meta idempotency keys hash provider, source id, alias, heichel, and series. rerunning the same migration destination therefore produces the same key without leaking a long raw source id. checkpointed completed keys are skipped. failures remain retryable. rate pacing the upload api returns live rate evidence: remaining resetat the client waits only when remaining reaches zero and uses the returned reset boundary. it does not invent a separate rate schedule.",
+		"page": "pages/geelooy-awtsmoos-agent-transfer-archive-org-video-20260821-predeploy-bac-a158bd8283.json"
+	},
+	{
+		"id": "geelooy-awtsmoos-agent-transfer-archive-org-video-20260821-predeploy-bac-884e3ce2eb",
+		"title": "Social Migration Studio",
+		"sourcePath": "geelooy/.awtsmoos-agent-transfer/archive-org-video-20260821/predeploy-backup/social/migrate/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Social Migration Studio",
+				"anchor": "social-migration-studio"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Facebook and Instagram exports",
+				"anchor": "facebook-and-instagram-exports"
+			},
+			{
+				"level": 2,
+				"text": "YouTube exports",
+				"anchor": "youtube-exports"
+			},
+			{
+				"level": 2,
+				"text": "Local-first archive safety",
+				"anchor": "local-first-archive-safety"
+			},
+			{
+				"level": 2,
+				"text": "Review and import flow",
+				"anchor": "review-and-import-flow"
+			},
+			{
+				"level": 2,
+				"text": "API and provenance truth",
+				"anchor": "api-and-provenance-truth"
+			},
+			{
+				"level": 2,
+				"text": "Recovery",
+				"anchor": "recovery"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Social Migration Studio The Awtsmoos renews remembered social vessels without pretending their history was born here; Awtsmoos.com keeps archive opening local, planning dry, selected upload explicit, and publication causally clear. Purpose /social/migrate/ imports authored Facebook and I",
+		"searchText": "b\"h boruch hashem blessed is he social migration studio the awtsmoos renews remembered social vessels without pretending their history was born here; awtsmoos.com keeps archive opening local, planning dry, selected upload explicit, and publication causally clear. purpose /social/migrate/ imports authored facebook and instagram history and links to advanced youtube migration. choosing a zip, folder, json file, or html file does not upload it. the browser inspects metadata locally and uploads only media required by explicitly selected memories after import begins. facebook and instagram exports use accounts center → your information and permissions → export your information → create export. choose the profile, export to device, select the wanted content/date range/format/media quality, and prefer all time + json for the fullest structured migration. open the resulting zip, extracted folder, json, or older html export in /social/migrate/. official facebook export help: https://www.facebook.com/help/212802592074644 official instagram export help: https://www.facebook.com/help/181231772500920 youtube exports for a whole creator archive, use google takeout, select youtube and youtube music, choose the wanted youtube data, create a one time zip export, download every part, then use /youtube/migrate/. google takeout help: https://support.google.com/accounts/answer/3024190?hl=en google takeout: https://takeout.google.com/ for one owned video, use youtube studio → content → video menu → download, then bring the media and metadata into the advanced migration workflow. youtube studio help: https://support.google.com/youtube/answer/56100?hl=en youtube studio: https://studio.youtube.com/ local first archive safety zip opening reads the central directory first instead of inflating every media file. json is preferred while html remains supported for older exports. imported html is neutralized before detached parsing: executable containers and event handlers are removed and fetch capable resource attributes become inert data. archive paths reject traversal, absolute paths, uri schemes, windows drive escapes, and nul bytes. unknown source dates stay unknown rather than becoming the unix epoch. review and import flow 1. open the archive locally and inspect detected provider evidence. 2. filter/select memories and choose alias, heichel, and series. 3. run server preflight and generate a dry plan. 4. explicitly begin import. 5. upload only selected image/video/audio media. 6. preserve returned native asset manifests. 7. re plan with the real publicpath values. 8. publish through /api/social/unified social/publish. 9. save checkpoint evidence and retry unfinished work without duplicating completed idempotency keys. api and provenance truth the browser negotiates migration limits from the server. capability discovery, preflight, dry planning, asset upload, and publication are separate gates. api.md documents routes, response semantics, native assets, and retry/idempotency rules. imported reaction/comment/share counts remain historical provenance. imported comments never become fake native awtsmoos user comments. provenance can preserve provider, source id/url/type/profile, known publication date, archive path, media paths, historical counts, and import time. recovery the local checkpoint stores serializable evidence only: selected ids, destination, returned native asset manifests, completed publication ids/idempotency evidence, failures, and timestamp. it never stores file objects or object urls. after a browser restart the archive must be opened again because local file handles are not silently persisted.",
+		"page": "pages/geelooy-awtsmoos-agent-transfer-archive-org-video-20260821-predeploy-bac-884e3ce2eb.json"
+	},
+	{
+		"id": "geelooy-awtsmoos-agent-transfer-archive-org-video-20260821-predeploy-bac-d857f27260",
+		"title": "YouTube Migration",
+		"sourcePath": "geelooy/.awtsmoos-agent-transfer/archive-org-video-20260821/predeploy-backup/youtube/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "YouTube Migration",
+				"anchor": "youtube-migration"
+			},
+			{
+				"level": 2,
+				"text": "Choose the right path",
+				"anchor": "choose-the-right-path"
+			},
+			{
+				"level": 2,
+				"text": "Whole-channel archive",
+				"anchor": "whole-channel-archive"
+			},
+			{
+				"level": 2,
+				"text": "One owned video",
+				"anchor": "one-owned-video"
+			},
+			{
+				"level": 2,
+				"text": "Advanced creator migration",
+				"anchor": "advanced-creator-migration"
+			},
+			{
+				"level": 2,
+				"text": "Playlist, chronology, captions, and archives",
+				"anchor": "playlist-chronology-captions-and-archives"
+			},
+			{
+				"level": 2,
+				"text": "Dry planning and resumability",
+				"anchor": "dry-planning-and-resumability"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He YouTube Migration The Awtsmoos lets a creator carry chronology, descriptions, captions, playlists, and source truth without counterfeit history; Awtsmoos.com keeps every migration dry first, resumable, provenance aware, and published through the same native social current. Choose the rig",
+		"searchText": "b\"h boruch hashem blessed is he youtube migration the awtsmoos lets a creator carry chronology, descriptions, captions, playlists, and source truth without counterfeit history; awtsmoos.com keeps every migration dry first, resumable, provenance aware, and published through the same native social current. choose the right path use /youtube/ for the authenticated youtube manager, /youtube/migrate/ for advanced archive tooling, and /social/migrate/ for the unified social migration studio. whole channel archive use google takeout, deselect unrelated products, select youtube and youtube music, choose the wanted data, create a one time zip export, and download every generated archive part. keep videos beside metadata/info json, descriptions, thumbnails, subtitles/automatic captions, and playlist metadata when supplied. then open /youtube/migrate/ and review the dry plan before publication. google takeout help: https://support.google.com/accounts/answer/3024190?hl=en google takeout: https://takeout.google.com/ one owned video use youtube studio → content → the owned video menu → download. preserve description, thumbnail, caption, and playlist context you need beside the media, then use /youtube/migrate/ when normalizing it into awtsmoos creator/publication state. youtube studio help: https://support.google.com/youtube/answer/56100?hl=en youtube studio: https://studio.youtube.com/ advanced creator migration the advanced migration studio may generate creator owned yt dlp commands instead of pretending the browser can fetch everything. prefer metadata rich runs that preserve descriptions, thumbnails, subtitles, automatic captions, timestamps, playlist membership, and info json. review every generated command before running it on a trusted machine and migrate only material you own or are authorized to migrate. a typical flow is: identify the owned channel/playlist/videos; generate the command; download media and metadata; preserve thumbnails/captions/playlists; return the local archive evidence; generate and review a dry publication plan; upload required media; re plan with returned public asset paths; publish idempotently through the unified social publication endpoint. playlist, chronology, captions, and archives youtube playlists map to awtsmoos series only when source evidence supports that relationship. preserve playlist provenance rather than fabricating membership. use the original known publication timestamp when supplied; otherwise keep it unknown rather than coercing it to january 1, 1970. preserve available subtitle/automatic caption files, languages, descriptions, and source supplied chapter like metadata. when /youtube/migrate/ offers an archive.org command workflow, treat it as an explicit advanced path. review identifiers, metadata, and generated commands, and preserve resulting archive identifiers/urls where supported. dry planning and resumability planning must not publish. the migration api produces deterministic publication plans and idempotency keys; actual creation goes through /api/social/unified social/publish. long migrations should checkpoint completed keys, uploaded public asset paths, destination choices, and failures. retry only unfinished work so re planning cannot create duplicate posts.",
+		"page": "pages/geelooy-awtsmoos-agent-transfer-archive-org-video-20260821-predeploy-bac-d857f27260.json"
+	},
+	{
+		"id": "geelooy-awtsmoos-agent-transfer-archive-org-video-20260821-verified-stag-14f05eb97f",
+		"title": "B\"H",
+		"sourcePath": "geelooy/.awtsmoos-agent-transfer/archive-org-video-20260821/verified-stage/social/migrate/API.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Social Migration API",
+				"anchor": "social-migration-api"
+			},
+			{
+				"level": 2,
+				"text": "Capability discovery",
+				"anchor": "capability-discovery"
+			},
+			{
+				"level": 2,
+				"text": "Native asset boundary",
+				"anchor": "native-asset-boundary"
+			},
+			{
+				"level": 2,
+				"text": "Archive.org browser boundary",
+				"anchor": "archive-org-browser-boundary"
+			},
+			{
+				"level": 2,
+				"text": "Preflight",
+				"anchor": "preflight"
+			},
+			{
+				"level": 2,
+				"text": "Dry plan",
+				"anchor": "dry-plan"
+			},
+			{
+				"level": 2,
+				"text": "Public attachment whitelist",
+				"anchor": "public-attachment-whitelist"
+			},
+			{
+				"level": 2,
+				"text": "Publication",
+				"anchor": "publication"
+			},
+			{
+				"level": 2,
+				"text": "Idempotency, pacing, and recovery",
+				"anchor": "idempotency-pacing-and-recovery"
+			}
+		],
+		"excerpt": "B\"H Social Migration API Boruch Hashem. Blessed is He. The Awtsmoos lets one migration intention pass through measured gates; Awtsmoos.com keeps local inspection, external video custody, server validation, and publication visibly distinct. Capability discovery GET /api/social/migrations/meta/metadata API v3 returns: su",
+		"searchText": "b\"h social migration api boruch hashem. blessed is he. the awtsmoos lets one migration intention pass through measured gates; awtsmoos.com keeps local inspection, external video custody, server validation, and publication visibly distinct. capability discovery get /api/social/migrations/meta/metadata api v3 returns: supported providers/archive formats plan.maxitems native image/audio upload limits and mime lists upload.video.nativeupload = false upload.video.provider = \"archive.org\" upload.video.mode = \"browser direct\" upload.video.credentials = \"local only\" upload.video.serverreceivescredentials = false canonical archive.org public url prefix publication/checkpoint contracts native limits derive from the same assetpolicy used by the upload server. native asset boundary post /api/social/assets/:alias/upload the native vault accepts bounded image/audio files. known video/ mime types return: video external storage required video bytes are intentionally refused before any filesystem write. the server never asks for archive.org ia s3 credentials. archive.org browser boundary the browser may use local ia s3 credentials only for direct requests to: https://s3.us.archive.org internet archive documents https put, authorization: low access:secret, new item headers, metadata headers, size hints, derive behavior, slowdown responses, and overload preflight: https://archive.org/developers/ias3.html credential creation: https://archive.org/account/s3.php after direct upload, migration state may contain only public attachment evidence such as: the migration server accepts remote video only when the url is canonical https archive.org/download/ / with no credentials, port, query, fragment, traversal, or alternate host. preflight post /api/social/migrations/meta/preflight preflight never publishes. it returns validity, deterministic plan fingerprint, provider/date/media statistics, warnings, and structured issues. secret shaped fields such as access keys, secret keys, authorization, tokens, or passwords are rejected recursively. dry plan post /api/social/migrations/meta/plan planning never publishes. api v3 plan envelopes contain destination, statistics, warnings, chronology distribution, and entries. each entry contains deterministic hashed idempotency, native unified social publication intent, provenance, and native shaped rootassets. unknown dates remain unknown. public attachment whitelist browser planning code does not spread provider objects into requests. it whitelists public attachment fields such as: id type mime size publicpath alt/caption/role dimensions/duration where present private provider fields cannot hitchhike into a migration manifest. publication actual mutation occurs only through: post /api/social/unified social/publish archive.org upload success is not publication . the client checkpoints the public url, regenerates the dry plan, presents it for review, and publishes only after explicit user action. idempotency, pacing, and recovery meta idempotency hashes provider, source id, alias, heichel, and series. native image/audio upload pacing uses the server returned remaining and resetat. archive.org video pacing uses archive.org's own overload preflight and bounded transient retries. authentication errors are not blindly retried. checkpoints exclude credentials and local file objects.",
+		"page": "pages/geelooy-awtsmoos-agent-transfer-archive-org-video-20260821-verified-stag-14f05eb97f.json"
+	}
+]

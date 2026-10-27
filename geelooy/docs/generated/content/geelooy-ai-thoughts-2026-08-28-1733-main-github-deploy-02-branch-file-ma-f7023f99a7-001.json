@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Branch and File Map\n\nInspect `main`, all linked worktrees, release branches, origin refs, uncommitted paths, branch-only commits, and deployment workflows. Classify every changed file as movie-data release, unrelated concurrent work, planning/proof artifact, or unknown before staging anything.\n"
+}

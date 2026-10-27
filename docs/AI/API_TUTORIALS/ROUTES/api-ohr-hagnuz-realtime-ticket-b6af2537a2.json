@@ -29,12 +29,17 @@
 			"kind": "test"
 		},
 		{
+			"literal": "/api/ohr-hagnuz/realtime-ticket?${o}",
+			"source": "geelooy/games/ohr-hagnuz/src/bundle/ohr-gate.bundle.js",
+			"kind": "runtime"
+		},
+		{
 			"literal": "/api/ohr-hagnuz/realtime-ticket?${parameters}",
 			"source": "geelooy/games/ohr-hagnuz/src/multiplayer/auth/SharedJourneyTicketClient.js",
 			"kind": "runtime"
 		}
 	],
-	"callerCount": 2,
+	"callerCount": 3,
 	"tests": [],
 	"examples": [],
 	"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-ohr-hagnuz-realtime-ticket-b6af2537a2.md",

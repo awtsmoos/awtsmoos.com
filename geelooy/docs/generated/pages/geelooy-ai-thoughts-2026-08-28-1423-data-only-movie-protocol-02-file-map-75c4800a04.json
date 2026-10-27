@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-28-1423-data-only-movie-protocol-02-file-map-75c4800a04",
+	"title": "Pass Two — Theoretical File Map",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-28-1423-data-only-movie-protocol/02-file-map.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Pass Two — Theoretical File Map",
+			"anchor": "pass-two-theoretical-file-map"
+		},
+		{
+			"level": 2,
+			"text": "Read before touching",
+			"anchor": "read-before-touching"
+		},
+		{
+			"level": 2,
+			"text": "Likely new/reframed vessels",
+			"anchor": "likely-new-reframed-vessels"
+		},
+		{
+			"level": 2,
+			"text": "Files likely removed from runtime/public API",
+			"anchor": "files-likely-removed-from-runtime-public-api"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-28-1423-data-only-movie-protocol-02-file-map-75c4800a04-001.json"
+	]
+}

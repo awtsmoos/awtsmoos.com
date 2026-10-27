@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-awtsmoos-agent-transfer-archive-org-video-20260821-verified-stag-41d59067ea",
+	"title": "B\"H",
+	"sourcePath": "geelooy/.awtsmoos-agent-transfer/archive-org-video-20260821/verified-stage/social/migrate/DOCUMENTATION.md",
+	"category": "General",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Social Migration Studio",
+			"anchor": "social-migration-studio"
+		},
+		{
+			"level": 2,
+			"text": "What this studio does",
+			"anchor": "what-this-studio-does"
+		},
+		{
+			"level": 2,
+			"text": "Facebook export tutorial",
+			"anchor": "facebook-export-tutorial"
+		},
+		{
+			"level": 2,
+			"text": "Instagram export tutorial",
+			"anchor": "instagram-export-tutorial"
+		},
+		{
+			"level": 2,
+			"text": "YouTube export tutorial",
+			"anchor": "youtube-export-tutorial"
+		},
+		{
+			"level": 2,
+			"text": "Video storage: Archive.org direct",
+			"anchor": "video-storage-archive-org-direct"
+		},
+		{
+			"level": 2,
+			"text": "Local-first archive safety",
+			"anchor": "local-first-archive-safety"
+		},
+		{
+			"level": 2,
+			"text": "Review and import flow",
+			"anchor": "review-and-import-flow"
+		},
+		{
+			"level": 2,
+			"text": "Provenance and recovery",
+			"anchor": "provenance-and-recovery"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-awtsmoos-agent-transfer-archive-org-video-20260821-verified-stag-41d59067ea-001.json"
+	]
+}

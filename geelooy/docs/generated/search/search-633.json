@@ -1,0 +1,165 @@
+[
+	{
+		"id": "geelooy-tests-glyph-engine-readme-md-a68f40775e",
+		"title": "B\"H — Awtsmoos Glyph Lab v2 & Session Lab v3",
+		"sourcePath": "geelooy/tests/glyph-engine/README.md",
+		"category": "Testing",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Awtsmoos Glyph Lab v2 & Session Lab v3",
+				"anchor": "b-h-awtsmoos-glyph-lab-v2-session-lab-v3"
+			},
+			{
+				"level": 2,
+				"text": "v2 — Stable experimental font",
+				"anchor": "v2-stable-experimental-font"
+			},
+			{
+				"level": 2,
+				"text": "v3 — Per-session fonts and natural RTL",
+				"anchor": "v3-per-session-fonts-and-natural-rtl"
+			},
+			{
+				"level": 1,
+				"text": "Mac Chrome CDP must be listening on port 9339:",
+				"anchor": "mac-chrome-cdp-must-be-listening-on-port-9339"
+			},
+			{
+				"level": 2,
+				"text": "Critical security limitations",
+				"anchor": "critical-security-limitations"
+			}
+		],
+		"excerpt": "B\"H — Awtsmoos Glyph Lab v2 & Session Lab v3 Boruch Hashem. Blessed is He. The Awtsmoos sustains each letter from nothing every instant; Awtsmoos.com tests the proof of its typography rather than promises. v2 — Stable experimental font /tests/glyph engine/ preserves the original public experiment. Build it with native ",
+		"searchText": "b\"h — awtsmoos glyph lab v2 & session lab v3 boruch hashem. blessed is he. the awtsmoos sustains each letter from nothing every instant; awtsmoos.com tests the proof of its typography rather than promises. v2 — stable experimental font /tests/glyph engine/ preserves the original public experiment. build it with native node.js: all 27 hebrew letters and final forms use 2–4 independent truetype glyf outlines, with 78 new fragments and 432 randomized aliases. fragment decomposition changes native text selection and increases bandwidth. original source font noto sans hebrew is sil ofl 1.1. v3 — per session fonts and natural rtl /tests/glyph engine/session.html calls two new server only endpoints: get /api/glyph lab/session sets a secure, httponly, samesite=strict, short lived cookie and responds with a manifest of encoded pua letter tokens , never the original hebrew passage or source mapping. get /api/glyph lab/font serves a matching woff1 only with the correct cookie. all responses are no store, vary: cookie, nosniff. a server only hmac keyed by a per process secret (or awtsmoos glyph secret) mixes session id, document id, position, occurrence count and fragment index. 24 alternative pua aliases for each fragment allow identical words and letters to have different source encodings, for 1,944 mappings and 81 shufflable outlines. original whole hebrew glyphs are removed from the per session font. cache holds at most 32 sessions for ten minutes; a global 60 new session/minute guard limits unbounded cpu use, but is not per ip rate limiting . most importantly, v3 preserves logical hebrew letter order . each visible letter occupies an atomic inline unit with inner ltr fragments inside a true rtl word. it no longer reverses whole hebrew words in javascript. chrome verified the first visual letter is to the right of the second and a dom range can select both exactly, without dropping the first. native android touch handle behavior remains unverified on a real android device ; multiple fragment characters can still create unexpected caret behavior on some browsers. run native node.js tests (no additional dependencies): critical security limitations this is obfuscation, not encryption, drm, secrecy, or access control . anyone who can render text obtains the geometric glyphs and mapping. a font parser can group all 24 equivalent aliases by cmap glyph id without ocr; public source font matching or visual ocr can reconstruct hebrew despite random aliases and shuffled ids. spaces, punctuation, word lengths, fragment count and document geometry remain observable. a per session cookie limits accidental cross session mixing, not an attacker who controls the same browser session. changing the font every session prevents shared font cache economies and increases cpu and transfer bandwidth. accessibility, copy as hebrew, niqqud, cantillation and arbitrarily complex rtl punctuation are not fully supported. synthetic transfer tests measure original utf 8 hebrew+brotli versus randomized fragment pua+brotli both with cold font and cached font; never claim a bandwidth win without data . source license: noto fonts (sil ofl 1.1).",
+		"page": "pages/geelooy-tests-glyph-engine-readme-md-a68f40775e.json"
+	},
+	{
+		"id": "geelooy-tests-virtual-os-readme-md-e4135edaef",
+		"title": "B\"H — Virtual OS Smoke Suite",
+		"sourcePath": "geelooy/tests/virtual-os/README.md",
+		"category": "Testing",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Virtual OS Smoke Suite",
+				"anchor": "b-h-virtual-os-smoke-suite"
+			}
+		],
+		"excerpt": "B\"H — Virtual OS Smoke Suite Run from the repository root one level above geelooy: Or run directly inside geelooy: The suite checks syntax for the split Virtual OS modules and then runs focused behavior smokes for: browser object graph watchers and transactions VFS mount resolution, permissions, guarded mutation gates,",
+		"searchText": "b\"h — virtual os smoke suite run from the repository root one level above geelooy: or run directly inside geelooy: the suite checks syntax for the split virtual os modules and then runs focused behavior smokes for: browser object graph watchers and transactions vfs mount resolution, permissions, guarded mutation gates, and graph sync server mirror graph watchers and transactions browser tunnel handler composition for graph and vfs actions these tests are intentionally small. they protect the current architecture slice without replacing the larger project test system.",
+		"page": "pages/geelooy-tests-virtual-os-readme-md-e4135edaef.json"
+	},
+	{
+		"id": "geelooy-youtube-documentation-md-1d74e31a03",
+		"title": "B\"H",
+		"sourcePath": "geelooy/youtube/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "YouTube Migration",
+				"anchor": "youtube-migration"
+			},
+			{
+				"level": 2,
+				"text": "Choose the right path",
+				"anchor": "choose-the-right-path"
+			},
+			{
+				"level": 2,
+				"text": "Google Takeout",
+				"anchor": "google-takeout"
+			},
+			{
+				"level": 2,
+				"text": "Download one owned video",
+				"anchor": "download-one-owned-video"
+			},
+			{
+				"level": 2,
+				"text": "Advanced yt-dlp creator workflow",
+				"anchor": "advanced-yt-dlp-creator-workflow"
+			},
+			{
+				"level": 2,
+				"text": "Archive.org direct video storage",
+				"anchor": "archive-org-direct-video-storage"
+			},
+			{
+				"level": 2,
+				"text": "Resilient video recovery",
+				"anchor": "resilient-video-recovery"
+			},
+			{
+				"level": 2,
+				"text": "Public verification after PUT",
+				"anchor": "public-verification-after-put"
+			},
+			{
+				"level": 2,
+				"text": "Legacy checkpoint compatibility",
+				"anchor": "legacy-checkpoint-compatibility"
+			},
+			{
+				"level": 2,
+				"text": "Dry plan and explicit publish",
+				"anchor": "dry-plan-and-explicit-publish"
+			},
+			{
+				"level": 2,
+				"text": "Playlist, chronology, and provenance",
+				"anchor": "playlist-chronology-and-provenance"
+			},
+			{
+				"level": 2,
+				"text": "Publication resumability",
+				"anchor": "publication-resumability"
+			}
+		],
+		"excerpt": "B\"H YouTube Migration Boruch Hashem. Blessed is He. The Awtsmoos lets a creator carry chronology, descriptions, playlists, and source truth without counterfeit history; Awtsmoos.com keeps IA S3 keys local, sends video directly to the Archive shore, and remembers only bounded public recovery history. Choose the right pa",
+		"searchText": "b\"h youtube migration boruch hashem. blessed is he. the awtsmoos lets a creator carry chronology, descriptions, playlists, and source truth without counterfeit history; awtsmoos.com keeps ia s3 keys local, sends video directly to the archive shore, and remembers only bounded public recovery history. choose the right path use /youtube/ for the authenticated youtube manager. use /youtube/migrate/ for creator owned acquisition, archive.org storage, dry planning, recovery, and explicit publication. use /social/migrate/ for unified facebook/instagram migration. google takeout 1. open google takeout and select youtube and youtube music . 2. choose the youtube data you want and a one time zip export. 3. download every generated archive part. 4. keep video beside .info.json, descriptions, thumbnails, subtitles/captions, and playlist metadata when available. 5. open /youtube/migrate/. google takeout help: https://support.google.com/accounts/answer/3024190?hl=en google takeout: https://takeout.google.com/ download one owned video youtube studio → content → owned video menu → download. youtube studio download help: https://support.google.com/youtube/answer/56100?hl=en youtube studio: https://studio.youtube.com/ advanced yt dlp creator workflow /youtube/migrate/ can generate local yt dlp commands for creator owned material. review commands before running them. preserve info json, descriptions, thumbnails, subtitles/automatic captions, timestamps, and playlist evidence when useful. only migrate material you own or are authorized to migrate. archive.org direct video storage video does not pass through awtsmoos storage. 1. get ia s3 keys at https://archive.org/account/s3.php. 2. save them locally in the migration studio; session only is the default. 3. device persistence is explicit and should be used only on a trusted device. 4. choose local video files or an extracted downloaded folder. 5. the browser resolves prior public receipts before asking for credentials. 6. on a true upload miss, the browser checks archive.org capacity and puts directly to https://s3.us.archive.org. 7. awtsmoos receives only canonical https://archive.org/download/... public evidence. 8. forget credentials clears local secret storage but does not erase already public archive.org files. ias3 documentation: https://archive.org/developers/ias3.html resilient video recovery a successful direct put is journaled locally as public only evidence before the dry plan phase begins. this matters when archive.org succeeds but planning, publication, the page, or the network fails afterward. the shared receipt includes sampled file fingerprint, archive identifier, fingerprint suffixed filename, public url, mime, bytes, etag when available, upload state, and timestamps. it excludes file, blob, access key, secret key, and authorization. the fingerprint is sample sha256 v1: sha 256 over bounded beginning/middle/end slices plus file size and mime. it is designed for practical local recovery without copying a multi gigabyte video into memory and is not claimed to be a full file digest. after reload, choose the local video again. fingerprinting and receipt lookup happen before the credential provider is invoked. a matching receipt therefore reuses the public archive.org asset without another ia s3 key prompt or another video put. two simultaneous attempts for the same fingerprint and archive target share one in memory upload operation. receipts are capped at 96 entries and pruned after 180 days. public verification after put a successful ias3 put means archive.org accepted the upload, but public visibility/derivation may lag. the browser stores that result as uploaded, then checks the credential free archive.org metadata api for the exact filename. if the file is listed, the receipt becomes verified. if metadata is delayed or temporarily unavailable, the receipt remains uploaded; later recovery rechecks metadata and does not retransmit the video bytes. legacy checkpoint compatibility pre v2 youtube checkpoints have public archive urls but no sampled fingerprint. those entries keep their old feature scoped reuse behavior so upgrading does not force creators to re upload successful historical video. new v2 checkpoints preserve fingerprint, receipt state, verification timestamp, etag, and byte count as public evidence only. a fingerprinted checkpoint can repopulate a cleared shared receipt ledger only when the current file fingerprint and canonical archive identifier/filename match exactly. dry plan and explicit publish the advanced studio performs: local files → receipt lookup/direct archive.org storage → public only checkpoint → migration dry plan → review → explicit unified publish. planning must not publish. archive upload must not publish. actual creation goes through /api/social/unified social/publish. the youtube server guard accepts archive.mediaurl only when it is a canonical archive.org download url and rejects credential like fields. playlist, chronology, and provenance youtube playlists may map to awtsmoos series when source evidence proves the relationship. a video may retain playlist provenance even when one canonical series is selected. original known publication time is preserved; missing/invalid time remains unknown , never january 1, 1970. source provenance may preserve youtube video/channel identity, original url, publication time, playlists, public archive.org identifier/urls, transcript languages, and migration time. ia s3 credentials are never provenance. publication resumability the youtube checkpoint stores only public archive results and completed publication state. it excludes file, object url, access key, secret key, and authorization headers. if publication fails after video archiving succeeds, retrying publication reuses the public archive evidence instead of sending the video again. deterministic publication idempotency prevents duplicate native posts.",
+		"page": "pages/geelooy-youtube-documentation-md-1d74e31a03.json"
+	},
+	{
+		"id": "geelooy-zmanim-documentation-md-f3dd7909d8",
+		"title": "Awtsmoos Zmanim",
+		"sourcePath": "geelooy/zmanim/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos Zmanim",
+				"anchor": "awtsmoos-zmanim"
+			},
+			{
+				"level": 2,
+				"text": "Entry point",
+				"anchor": "entry-point"
+			},
+			{
+				"level": 2,
+				"text": "Experience",
+				"anchor": "experience"
+			},
+			{
+				"level": 2,
+				"text": "Shared truth",
+				"anchor": "shared-truth"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos Zmanim The Awtsmoos renews every instant beneath the turning sky; Awtsmoos.com reveals one measured day through a mobile first browser experience while calculation authority remains shared with the public API. Entry point index.html is the /zmanim browser shell. js/ contains the",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos zmanim the awtsmoos renews every instant beneath the turning sky; awtsmoos.com reveals one measured day through a mobile first browser experience while calculation authority remains shared with the public api. entry point index.html is the /zmanim browser shell. js/ contains the dependency free application/calculation presentation code and styles/ contains focused theme, layout, hero, dashboard, timeline, card, opinion, methodology, responsive, and contrast modules. package.json declares an esm private browser package and tests/ carries witnesses. experience the app supports worldwide location search, owned gregorian calendar navigation, civil/hebrew dates, chabad/alter rebbe primary calculations, comparison opinions, next zman countdown, timeline/cards, share urls, optional usno validation, and explicit high latitude unavailable states. readme.md documents the calculation/presentation contract. shared truth browser and /api/zmanim must use the same calculation model rather than inventing competing zmanim. presentation choices do not redefine the underlying calculation.",
+		"page": "pages/geelooy-zmanim-documentation-md-f3dd7909d8.json"
+	}
+]

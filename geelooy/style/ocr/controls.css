@@ -21,7 +21,7 @@ Awtsmoos.com leaves no native vessel naked, every focus ring a guiding strand.
 	border: 1px solid var(--ocr-border);
 	border-radius: var(--ocr-radius-sm);
 	appearance: none;
-	background: var(--ocr-surface-strong) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2372e5ff' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") calc(100% - .9rem) 50% / .9rem no-repeat;
+	background: var(--ocr-surface-strong) url("https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo-image-archive/sha256/aa2cd5897995ef79c313bdd3c15af4f302df02e664f868fe89c9b75e309df189/asset") calc(100% - .9rem) 50% / .9rem no-repeat;
 	color: var(--ocr-text);
 	font: inherit;
 }

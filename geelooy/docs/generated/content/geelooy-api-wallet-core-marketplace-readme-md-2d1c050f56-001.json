@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Wallet Marketplace (geelooy/api/wallet/core/marketplace/)\n\nMarketplace treasury logic behind the `marketplace` and `marketplace/action` routes.\n\nFiles:\n- `marketplaceCreate.js`, `marketplacePurchase.js` — listing creation and purchases\n- `marketplacePolicy.js` — marketplace rules/fees\n- `marketplaceService.js` — service orchestration\n- `marketplaceState.js` — marketplace state\n\nRoute helpers `routes/marketplaceActionSupport.js`; business tests in\n`tests/business/marketplaceEconomics.test.js`.\n"
+}

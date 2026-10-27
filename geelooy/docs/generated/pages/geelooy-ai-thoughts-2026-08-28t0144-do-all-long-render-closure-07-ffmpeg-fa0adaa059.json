@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-28t0144-do-all-long-render-closure-07-ffmpeg-fa0adaa059",
+	"title": "Chesed Brainstorm — Deterministic ffmpeg Fallback",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0144-do-all-long-render-closure/07_FFMPEG_FALLBACK_BRAINSTORM.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Chesed Brainstorm — Deterministic ffmpeg Fallback",
+			"anchor": "chesed-brainstorm-deterministic-ffmpeg-fallback"
+		},
+		{
+			"level": 2,
+			"text": "Candidate transports",
+			"anchor": "candidate-transports"
+		},
+		{
+			"level": 2,
+			"text": "Audio transport",
+			"anchor": "audio-transport"
+		},
+		{
+			"level": 2,
+			"text": "Server shape",
+			"anchor": "server-shape"
+		},
+		{
+			"level": 2,
+			"text": "Browser shape",
+			"anchor": "browser-shape"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-28t0144-do-all-long-render-closure-07-ffmpeg-fa0adaa059-001.json"
+	]
+}

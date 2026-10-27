@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-voice-to-css-readme-md-fc2561fa64",
+	"title": "Voice-to-CSS Tool",
+	"sourcePath": "geelooy/apps/tunnel/voice-to-css/README.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Voice-to-CSS Tool",
+			"anchor": "voice-to-css-tool"
+		},
+		{
+			"level": 2,
+			"text": "The loop",
+			"anchor": "the-loop"
+		},
+		{
+			"level": 2,
+			"text": "Modules",
+			"anchor": "modules"
+		},
+		{
+			"level": 2,
+			"text": "Demo",
+			"anchor": "demo"
+		},
+		{
+			"level": 1,
+			"text": "→ parses, generates CSS, renders preview page to /tmp/voice-css-preview.html",
+			"anchor": "parses-generates-css-renders-preview-page-to-tmp-voice-css-preview-html"
+		},
+		{
+			"level": 1,
+			"text": "→ prints the approver chat text",
+			"anchor": "prints-the-approver-chat-text"
+		},
+		{
+			"level": 2,
+			"text": "Wiring to deploy",
+			"anchor": "wiring-to-deploy"
+		},
+		{
+			"level": 2,
+			"text": "Tests",
+			"anchor": "tests"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-voice-to-css-readme-md-fc2561fa64-001.json"
+	]
+}

@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-27-2150-geelooy-movie-unification-08-three-m-791c9609a5",
+	"title": "Three-Minute Proof Plan Delta",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-27-2150-geelooy-movie-unification/08-three-minute-proof-plan-delta.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Three-Minute Proof Plan Delta",
+			"anchor": "three-minute-proof-plan-delta"
+		},
+		{
+			"level": 2,
+			"text": "Why the prior implementation map changed",
+			"anchor": "why-the-prior-implementation-map-changed"
+		},
+		{
+			"level": 2,
+			"text": "Owned proof surface",
+			"anchor": "owned-proof-surface"
+		},
+		{
+			"level": 2,
+			"text": "Proof rules",
+			"anchor": "proof-rules"
+		},
+		{
+			"level": 2,
+			"text": "Collision rule",
+			"anchor": "collision-rule"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-27-2150-geelooy-movie-unification-08-three-m-791c9609a5-001.json"
+	]
+}

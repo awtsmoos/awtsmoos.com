@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-docs-procedural-compiler-bridges-m-972921dfca",
+	"title": "B\"H — Procedural Compiler Bridges",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/PROCEDURAL_COMPILER_BRIDGES.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Procedural Compiler Bridges",
+			"anchor": "b-h-procedural-compiler-bridges"
+		},
+		{
+			"level": 2,
+			"text": "Purpose",
+			"anchor": "purpose"
+		},
+		{
+			"level": 2,
+			"text": "Authority boundaries",
+			"anchor": "authority-boundaries"
+		},
+		{
+			"level": 2,
+			"text": "Built-in Modeling bridge",
+			"anchor": "built-in-modeling-bridge"
+		},
+		{
+			"level": 2,
+			"text": "Explicit installation",
+			"anchor": "explicit-installation"
+		},
+		{
+			"level": 2,
+			"text": "High-level facade integration seam",
+			"anchor": "high-level-facade-integration-seam"
+		},
+		{
+			"level": 2,
+			"text": "Quantity convergence",
+			"anchor": "quantity-convergence"
+		},
+		{
+			"level": 2,
+			"text": "Verification evidence",
+			"anchor": "verification-evidence"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-docs-procedural-compiler-bridges-m-972921dfca-001.json"
+	]
+}

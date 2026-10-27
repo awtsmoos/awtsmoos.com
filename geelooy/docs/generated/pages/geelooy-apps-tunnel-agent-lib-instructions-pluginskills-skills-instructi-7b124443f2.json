@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-7b124443f2",
+	"title": "Awtsmoos Shliach — public plugin submission gate",
+	"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/PUBLIC_SUBMISSION_CHECKLIST.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Awtsmoos Shliach — public plugin submission gate",
+			"anchor": "awtsmoos-shliach-public-plugin-submission-gate"
+		},
+		{
+			"level": 2,
+			"text": "Package and developer identity",
+			"anchor": "package-and-developer-identity"
+		},
+		{
+			"level": 2,
+			"text": "Public identity and service",
+			"anchor": "public-identity-and-service"
+		},
+		{
+			"level": 2,
+			"text": "Security and task execution",
+			"anchor": "security-and-task-execution"
+		},
+		{
+			"level": 2,
+			"text": "Reproduction evidence",
+			"anchor": "reproduction-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Developer submission",
+			"anchor": "developer-submission"
+		},
+		{
+			"level": 2,
+			"text": "Release verification snapshot — 2026-10-18",
+			"anchor": "release-verification-snapshot-2026-10-18"
+		},
+		{
+			"level": 2,
+			"text": "How to submit",
+			"anchor": "how-to-submit"
+		},
+		{
+			"level": 2,
+			"text": "Any file as an artifact",
+			"anchor": "any-file-as-an-artifact"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-7b124443f2-001.json"
+	]
+}

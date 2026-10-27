@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-social-helper-routes-packed-readme-post-import-modules-md-e13f68d411",
+	"title": "Post Import Module Map (postImportRoutes.js split, 2026-10-19)",
+	"sourcePath": "geelooy/api/social/helper/routes/packed/README-post-import-modules.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Post Import Module Map (postImportRoutes.js split, 2026-10-19)",
+			"anchor": "post-import-module-map-postimportroutes-js-split-2026-10-19"
+		},
+		{
+			"level": 2,
+			"text": "Composition",
+			"anchor": "composition"
+		},
+		{
+			"level": 2,
+			"text": "Standalone modules (no this)",
+			"anchor": "standalone-modules-no-this"
+		},
+		{
+			"level": 2,
+			"text": "Mixins (methods on the class prototype)",
+			"anchor": "mixins-methods-on-the-class-prototype"
+		},
+		{
+			"level": 2,
+			"text": "Job execution pipeline (runJob)",
+			"anchor": "job-execution-pipeline-runjob"
+		},
+		{
+			"level": 2,
+			"text": "AI safeguards — do not break these",
+			"anchor": "ai-safeguards-do-not-break-these"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-social-helper-routes-packed-readme-post-import-modules-md-e13f68d411-001.json"
+	]
+}

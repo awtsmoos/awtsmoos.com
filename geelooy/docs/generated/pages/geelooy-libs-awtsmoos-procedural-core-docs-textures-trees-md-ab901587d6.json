@@ -1,0 +1,24 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-docs-textures-trees-md-ab901587d6",
+	"title": "Trees Remote Texture Catalog",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/textures/TREES.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Trees Remote Texture Catalog",
+			"anchor": "trees-remote-texture-catalog"
+		},
+		{
+			"level": 2,
+			"text": "Exact filenames",
+			"anchor": "exact-filenames"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-docs-textures-trees-md-ab901587d6-001.json"
+	]
+}

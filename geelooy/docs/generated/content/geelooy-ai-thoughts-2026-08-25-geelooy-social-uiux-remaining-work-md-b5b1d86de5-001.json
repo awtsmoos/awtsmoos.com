@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H\n\n## Boruch Hashem — Blessed is He\n\nThe Awtsmoos renews what still remains; a clear ledger keeps the work from chains.\n\n# REMAINING WORK\n\n- [ ] map social/feed files and imports\n- [ ] map profile and alias files and imports\n- [ ] map heichel/heichelos files and imports\n- [ ] map reader/series/post files and imports\n- [ ] map comments/notifications/composer/actions files and imports\n- [ ] map shared social APIs and transport helpers\n- [ ] identify CSS conflicts, overflow risks, and z-index risks\n- [ ] identify oversized/minified/tangled touched candidates\n- [ ] implement scoped UI foundation in first vertical slice\n- [ ] implement modular JavaScript/API improvements in first vertical slice\n- [ ] verify syntax/tests/build\n- [ ] browser-test mobile-first responsive states\n- [ ] browser-test keyboard/focus/interactions\n- [ ] browser-test API loading/error/empty flows\n- [ ] re-read touched files and audit tabs/module sizes\n- [ ] expand improvements to next social surface until major discovered work stabilizes\n"
+}

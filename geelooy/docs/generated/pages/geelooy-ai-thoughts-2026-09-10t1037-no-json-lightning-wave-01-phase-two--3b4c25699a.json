@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-10t1037-no-json-lightning-wave-01-phase-two--3b4c25699a",
+	"title": "Phase Two — Architecture Map And Twenty Improvements",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-10T1037-no-json-lightning-wave/01-phase-two-map-and-20-improvements.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase Two — Architecture Map And Twenty Improvements",
+			"anchor": "phase-two-architecture-map-and-twenty-improvements"
+		},
+		{
+			"level": 2,
+			"text": "Systems To Inspect Before Rewriting",
+			"anchor": "systems-to-inspect-before-rewriting"
+		},
+		{
+			"level": 2,
+			"text": "Twenty Improvements",
+			"anchor": "twenty-improvements"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-10t1037-no-json-lightning-wave-01-phase-two--3b4c25699a-001.json"
+	]
+}

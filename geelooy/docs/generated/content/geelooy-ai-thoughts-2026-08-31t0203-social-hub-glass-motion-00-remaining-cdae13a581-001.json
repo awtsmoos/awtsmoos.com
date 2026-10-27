@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# REMAINING WORK — Glass Motion First\n\n- [x] Inspect current glass, motion, accessibility, and dirty-tree owners.\n- [x] Write three-phase glass-motion plan.\n- [ ] Inspect pseudo-element collisions and motion tokens.\n- [ ] Create focused glass-motion CSS modules.\n- [ ] Rewrite style manifest with one new cache generation.\n- [ ] Read back and audit new CSS.\n- [ ] Run static/unit contracts.\n- [ ] Run browser smoke and all-route quality.\n- [ ] Inspect real mobile glass motion visually.\n- [ ] Fix any evidence-backed motion/accessibility defects.\n- [ ] Continue the simpler/retractable UX only after glass motion is sound.\n\n## NEXT_ACTION\nInspect pseudo-element ownership and motion tokens, then write the glass-motion modules in full.\n"
+}

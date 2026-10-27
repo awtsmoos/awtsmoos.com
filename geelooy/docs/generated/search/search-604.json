@@ -1,0 +1,187 @@
+[
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-361818ca48",
+		"title": "Phase One — Five Competing Designs",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/.ai-thoughts/20260902_0315-universal-procedural-api/02_FIVE_COMPETING_DESIGNS.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase One — Five Competing Designs",
+				"anchor": "phase-one-five-competing-designs"
+			},
+			{
+				"level": 2,
+				"text": "A — Replace everything with a new Definition Graph",
+				"anchor": "a-replace-everything-with-a-new-definition-graph"
+			},
+			{
+				"level": 2,
+				"text": "B — Expand Creation Portal from six verbs to the whole universe",
+				"anchor": "b-expand-creation-portal-from-six-verbs-to-the-whole-universe"
+			},
+			{
+				"level": 2,
+				"text": "C — Make Procedural Portal the only public API",
+				"anchor": "c-make-procedural-portal-the-only-public-api"
+			},
+			{
+				"level": 2,
+				"text": "D — Add an unrelated new top-level package/folder",
+				"anchor": "d-add-an-unrelated-new-top-level-package-folder"
+			},
+			{
+				"level": 2,
+				"text": "E — Additive convergence inside existing core/universalApi",
+				"anchor": "e-additive-convergence-inside-existing-core-universalapi"
+			},
+			{
+				"level": 2,
+				"text": "Winner constraints",
+				"anchor": "winner-constraints"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase One — Five Competing Designs Five vessels face one light; the Awtsmoos.com architecture chooses the vessel that keeps every authority truthful and bright. A — Replace everything with a new Definition Graph Pros: clean theoretical start. Cons: duplicates mature schemas, breaks compa",
+		"searchText": "b\"h boruch hashem blessed is he phase one — five competing designs five vessels face one light; the awtsmoos.com architecture chooses the vessel that keeps every authority truthful and bright. a — replace everything with a new definition graph pros: clean theoretical start. cons: duplicates mature schemas, breaks compatibility, creates migration catastrophe, discards tested world/history/reality/nature systems. verdict: reject. b — expand creation portal from six verbs to the whole universe pros: existing semantic doorway. cons: tests intentionally lock its six verb contract; adding world transactions/history would blur responsibilities. verdict: reject. c — make procedural portal the only public api pros: already has world scale validation/planning/explanation/compile. cons: does not naturally expose transactional awtsmoos.world.v1 command/history api and changes the meaning of a mature facade. verdict: reject as sole doorway. d — add an unrelated new top level package/folder pros: isolates dependencies. cons: creates the exact second “universal api” the project archaeology warns against; requires new package export and migration surface. verdict: reject unless dependency cycles force it. e — additive convergence inside existing core/universalapi create createawtsmoos() and an awtsmoos facade that compose: universal semantic kernel for portable definitions and compiler federation; canonical definition validator; procedural portal for explainable world scale planning/compile federation; existing createuniversalawtsmoosapi() for transactions/history/world document commands; serializable pipeline/discovery metadata. pros: one package surface, no new language, old apis untouched, simple outside/immense inside, additive migration, existing root exports automatically expose it. cons: must guard dependency direction and clearly name expert namespaces. verdict: winner. winner constraints no semantic vocabulary duplication. no top level method sprawl beyond five lifecycle verbs. no fake compiler support. no mutations of the stable creation portal method set. no replacement of createuniversalawtsmoosapi().",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-361818ca48.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-08780bb176",
+		"title": "Phase Two — Failure and Risk Map",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/.ai-thoughts/20260902_0315-universal-procedural-api/03_FAILURE_AND_RISK_MAP.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Two — Failure and Risk Map",
+				"anchor": "phase-two-failure-and-risk-map"
+			},
+			{
+				"level": 2,
+				"text": "Architectural risks",
+				"anchor": "architectural-risks"
+			},
+			{
+				"level": 2,
+				"text": "Compatibility risks",
+				"anchor": "compatibility-risks"
+			},
+			{
+				"level": 2,
+				"text": "Operational risks",
+				"anchor": "operational-risks"
+			},
+			{
+				"level": 2,
+				"text": "Failure graph",
+				"anchor": "failure-graph"
+			},
+			{
+				"level": 2,
+				"text": "Preventive gates",
+				"anchor": "preventive-gates"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Two — Failure and Risk Map The Awtsmoos renews each edge and node; a stable release names every cliff before carrying the world down the road. Architectural risks 1. Competing universal formats — prevented by delegating to procedural language and awtsmoos.world.v1 only. 2. Dependen",
+		"searchText": "b\"h boruch hashem blessed is he phase two — failure and risk map the awtsmoos renews each edge and node; a stable release names every cliff before carrying the world down the road. architectural risks 1. competing universal formats — prevented by delegating to procedural language and awtsmoos.world.v1 only. 2. dependency cycle — constrained by direct module imports; verified import direction before implementation. 3. facade ambiguity — flat five verbs must have one documented semantic meaning each. 4. portal contract breakage — keep creation portal unchanged. 5. transactional api breakage — keep createuniversalawtsmoosapi unchanged and expose as expert namespace. 6. world vs single definition confusion — normalize definitions before world orchestration and document authority boundaries. 7. capability dishonesty — preserve native/adapter/deferred support state from existing registries. 8. unsupported channels silently dropped — compilation must retain diagnostics/deferred descriptors or reject strict requirements. 9. seed drift — facade seed must be deterministic and visible in definitions/plans/provenance. 10. hash drift — facade must not mutate canonical definitions behind the caller’s back. compatibility risks existing root exports may collide with new names. tests may assume exact creation portal verbs. reality currently depends on nature; universal api depends on reality. portal imports universalapi/world.js, so barrel imports require care. existing docs call /universal api transactional; new facade must clarify additive evolution. operational risks repository has extensive unrelated dirty work from active agents. origin/main may advance during implementation. production activation is shared infrastructure and other agents are deploying. a demo route may be unnecessary or conflict with an existing route. browser only adapters may require a real browser rather than node tests. failure graph bad abstraction → duplicate schema → divergent serializers → incompatible worlds → broken migration false capability → planner selects impossible compiler → compile failure → misleading demo wide staging → unrelated dirty work enters commit → unsafe release stale head → push conflict → accidental overwrite → concurrent agent damage tests only → runtime assumption survives → production defect preventive gates architecture review → complete source draft → structural gates → targeted tests → compatibility suites → readback → delta → docs/examples → browser/runtime → staged diff → upstream reconciliation → push sha verification → real deploy → public fresh browser proof.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-08780bb176.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-6ba2c22707",
+		"title": "Phase Two — Twenty Improvements to the First Design",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/.ai-thoughts/20260902_0315-universal-procedural-api/04_TWENTY_IMPROVEMENTS.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Two — Twenty Improvements to the First Design",
+				"anchor": "phase-two-twenty-improvements-to-the-first-design"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Two — Twenty Improvements to the First Design Each critique is gevurah shaping chesed into form; through the Awtsmoos.com vessel, abundance becomes a stable norm. 1. Keep the five flat verbs immutable and put expert power under namespaces. 2. Treat createAwtsmoos() as composition, ",
+		"searchText": "b\"h boruch hashem blessed is he phase two — twenty improvements to the first design each critique is gevurah shaping chesed into form; through the awtsmoos.com vessel, abundance becomes a stable norm. 1. keep the five flat verbs immutable and put expert power under namespaces. 2. treat createawtsmoos() as composition, never a fourth semantic engine. 3. delegate validation to validateproceduraldefinition rather than reimplementing schema rules. 4. delegate per definition compiler matching to universal semantic kernel. 5. delegate world explanation and orchestration to procedural portal. 6. preserve createuniversalawtsmoosapi() as the transactional world/history authority. 7. publish a serializable pipeline descriptor showing normalization through cache/provenance intent. 8. expose compiler catalog discovery without executor leakage. 9. preserve explicit native/adapter/deferred/unsupported truth. 10. make seed inheritance deterministic and test it. 11. ensure caller supplied canonical definitions retain semantic hashes across facade operations. 12. make define() accept both canonical procedural definition payloads and ergonomic kind/input form only if existing factories already support it. 13. avoid automatic world wrapping when a direct semantic plan is sufficient. 14. keep expert namespaces frozen/read only so callers cannot replace authorities accidentally. 15. add tests for malformed definitions and unsupported channels. 16. add tests proving legacy creation portal and transactional universal api behavior is unchanged. 17. close the inherited aug. 31 authored semantics verification debt in this release. 18. document responsibility boundaries so future agents do not build a rival api. 19. build examples from the same public facade rather than special demo only helpers. 20. delay public route creation until existing examples/routes are inspected; prefer a small proof route over a giant app.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-6ba2c22707.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-be66abfd5c",
+		"title": "Phase Two — Improved Architecture",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/.ai-thoughts/20260902_0315-universal-procedural-api/05_IMPROVED_ARCHITECTURE.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Two — Improved Architecture",
+				"anchor": "phase-two-improved-architecture"
+			},
+			{
+				"level": 2,
+				"text": "Canonical facade",
+				"anchor": "canonical-facade"
+			},
+			{
+				"level": 2,
+				"text": "Expert namespaces",
+				"anchor": "expert-namespaces"
+			},
+			{
+				"level": 2,
+				"text": "Lifecycle",
+				"anchor": "lifecycle"
+			},
+			{
+				"level": 2,
+				"text": "Why this scales",
+				"anchor": "why-this-scales"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Two — Improved Architecture One light enters many keilim, yet the source remains one; Awtsmoos.com should let every specialist reveal its work without pretending the others are gone. Canonical facade createAwtsmoos(options) returns an immutable Awtsmoos instance with exactly: defin",
+		"searchText": "b\"h boruch hashem blessed is he phase two — improved architecture one light enters many keilim, yet the source remains one; awtsmoos.com should let every specialist reveal its work without pretending the others are gone. canonical facade createawtsmoos(options) returns an immutable awtsmoos instance with exactly: define(data) — create/normalize canonical portable semantic definition. validate(definition, options) — canonical procedural language validation. plan(definition, request) — explainable artifact plan using existing semantic kernel/portal authority. explain(definition, request) — serializable explanation containing validation, plan, capability/support evidence, and pipeline metadata without executing artifacts. compile(definition, request) — execute requested supported channels and preserve deferred/diagnostic/provenance truth. expert namespaces names should reveal authority, not marketing ambiguity: semantic — universal semantic kernel. portal — world procedural portal. world — existing transactional createuniversalawtsmoosapi() runtime over awtsmoos.world.v1. compilers — compiler capability registration/discovery view. diagnostics — pipeline/explanation helpers if a separate object is useful. add more namespaces only when they delegate an existing authority and tests prove a need. lifecycle 1. define / normalize canonical semantic data; 2. validate canonical definition; 3. resolve requested artifact channels and compile policy; 4. consult compiler capabilities and semantic support policy; 5. build artifact plan with cost/lod/deferred truth; 6. explain selected/rejected compiler chain and diagnostics; 7. compile supported requested channels; 8. validate artifact result shape; 9. preserve definition hash, seed, compiler versions, dependencies, quality policy, channels, and provenance; 10. allow existing caches/transactions/world document layers to own their established responsibilities. why this scales domain plugins register semantic capability; they do not add new top level verbs. a chair, river, arch, creature, city block, or future quantum garden enters the same definition graph and differs only by data, traits, relationships, constraints, resources, and compiler capabilities.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-be66abfd5c.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-c80fd29820",
+		"title": "Phase Two — Exact Files to Touch",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/.ai-thoughts/20260902_0315-universal-procedural-api/06_EXACT_FILES_TO_TOUCH.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Two — Exact Files to Touch",
+				"anchor": "phase-two-exact-files-to-touch"
+			},
+			{
+				"level": 2,
+				"text": "First implementation draft",
+				"anchor": "first-implementation-draft"
+			},
+			{
+				"level": 2,
+				"text": "Tests after first source draft",
+				"anchor": "tests-after-first-source-draft"
+			},
+			{
+				"level": 2,
+				"text": "Documentation/examples after behavior verifies",
+				"anchor": "documentation-examples-after-behavior-verifies"
+			},
+			{
+				"level": 2,
+				"text": "Potential public demo",
+				"anchor": "potential-public-demo"
+			},
+			{
+				"level": 2,
+				"text": "Files explicitly not to rewrite merely for style",
+				"anchor": "files-explicitly-not-to-rewrite-merely-for-style"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Two — Exact Files to Touch The Awtsmoos is infinite; the diff must be finite. Every file named here has one vessel and one reason to unite. First implementation draft Create under src/core/universalApi/: 1. Awtsmoos.js — five verb immutable public facade. 2. createAwtsmoos.js — com",
+		"searchText": "b\"h boruch hashem blessed is he phase two — exact files to touch the awtsmoos is infinite; the diff must be finite. every file named here has one vessel and one reason to unite. first implementation draft create under src/core/universalapi/: 1. awtsmoos.js — five verb immutable public facade. 2. createawtsmoos.js — composes authorities from options. 3. createawtsmoosauthorities.js — builds semantic kernel, portal, transactional world runtime without duplicating logic. 4. awtsmoosexplanation.js — serializable explanation/provenance/capability view if needed after exact signature inspection. 5. awtsmoospipeline.js — canonical discoverable pipeline stage descriptor. 6. rewrite complete index.js — export new facade modules while retaining every existing export. tests after first source draft create focused modules, each kept small: test/universalawtsmoosfacade.test.mjs test/universalawtsmoosplanning.test.mjs test/universalawtsmooscompilation.test.mjs test/universalawtsmooscompatibility.test.mjs only add a file when the behavior requires it; do not pad the release with empty architecture. documentation/examples after behavior verifies docs/universal awtsmoos api.md examples/universalawtsmoosdemo.mjs full rewrite of an existing index/readme only if a verified discoverability gap remains. potential public demo do not choose a route until current awtsmoos serving/routing and existing procedural demos are inspected. if needed, create an isolated mobile first route whose files are listed in a later delta plan before writing. files explicitly not to rewrite merely for style mature procedural language modules; creation portal six verb facade; createuniversalawtsmoosapi.js transactional implementation; unrelated mitzvahworld/piano/nesher/android files; any other agent’s dirty work.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-c80fd29820.json"
+	}
+]

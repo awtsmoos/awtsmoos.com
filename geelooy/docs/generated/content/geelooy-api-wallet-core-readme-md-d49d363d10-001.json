@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Wallet Core (geelooy/api/wallet/core/)\n\nTreasury business logic the routes call. Root-level helpers: balance buckets and\nstate, ledger, transfers (identity/validation/operations), spend/credit\noperations, PayPal transport/receipt/return-path, persistence + file locking,\ntransaction runner, request/response utilities, environment + storage paths.\n\nSubdirectories:\n- `commerce/` — catalogs, paid actions, entitlements, purchase engine, credits\n- `currency/` — conversion, denominations, decompose, sources\n- `gameRewards/` — reward catalog, claim, daily policy, results\n- `marketplace/` — marketplace create/purchase/policy/service/state\n- `organizations/` — org create/fund/consume, members, budgets, policy, events\n\nThe route files in `../routes/` are thin; the real money logic lives here.\n"
+}

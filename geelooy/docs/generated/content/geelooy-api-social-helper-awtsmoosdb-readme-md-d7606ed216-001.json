@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — AwtsmoosDb Shard Engine (geelooy/api/social/helper/awtsmoosDb/)\n\nStorage engine for AwtsmoosDB shards, used by social data that lives in sharded files rather than a single database.\n\n## Files\n- `shardEngine.js` — core read/write engine over sharded data.\n- `shardRoot.js` — resolves the shard root for a given key/dataset.\n- `shardStore.js` — higher-level store operations on top of the engine.\n- `test/` — engine/root/store tests.\n\n## What it does\nPartitions social data into shards (by key ranges/buckets), routes reads and writes to the right shard, and presents a store-like interface over the underlying sharded files.\n"
+}

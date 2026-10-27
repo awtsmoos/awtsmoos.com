@@ -10,7 +10,10 @@
 		"title": "API Projects"
 	},
 	"title": "geelooy/api/nav",
-	"entries": [],
+	"entries": [
+		"README.md",
+		"readme.md"
+	],
 	"humanDocumentation": [
 		"docs/TUTORIALS/PROJECTS/APIS.md",
 		"docs/API/README.md"
@@ -23,10 +26,10 @@
 		"tests": 0,
 		"assets": 0,
 		"generated": 0,
-		"docs": 0,
+		"docs": 1,
 		"other": 0
 	},
-	"totalFiles": 1,
+	"totalFiles": 2,
 	"symbolSummary": {
 		"files": 1,
 		"classes": 1,

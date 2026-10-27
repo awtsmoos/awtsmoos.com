@@ -23,16 +23,22 @@
 	"symlinkTarget": null,
 	"counts": {
 		"source": 0,
-		"tests": 16,
+		"tests": 100,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
 		"other": 0
 	},
-	"totalFiles": 17,
+	"totalFiles": 101,
 	"symbolSummary": null,
 	"outgoingDependencies": [],
-	"incomingDependencies": [],
+	"incomingDependencies": [
+		{
+			"project": "geelooy/browser-test",
+			"count": 2,
+			"examples": "geelooy/browser-test/mobile-ui/RouteAudit.mjs"
+		}
+	],
 	"externalDependencies": [],
 	"publicEntries": [
 		{
@@ -61,7 +67,7 @@
 			"file": "geelooy/games/tests/tree/index.html",
 			"title": "Three.js Tree Swaying",
 			"scripts": 0,
-			"styles": 0
+			"styles": 1
 		}
 	],
 	"requiresLocalDocumentation": true,

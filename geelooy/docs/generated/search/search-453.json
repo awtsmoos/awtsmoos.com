@@ -1,0 +1,256 @@
+[
+	{
+		"id": "geelooy-api-social-helper-search-lexicon-binary-readme-md-ace042fd62",
+		"title": "B\"H — Lexicon Binary Format (geelooy/api/social/helper/search/lexicon/binary/)",
+		"sourcePath": "geelooy/api/social/helper/search/lexicon/binary/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Lexicon Binary Format (geelooy/api/social/helper/search/lexicon/binary/)",
+				"anchor": "b-h-lexicon-binary-format-geelooy-api-social-helper-search-lexicon-binary"
+			}
+		],
+		"excerpt": "B\"H — Lexicon Binary Format (geelooy/api/social/helper/search/lexicon/binary/) Binary record format for the search lexicon. recordSchema.js — binary record schema. recordWriter.js, recordReader.js, recordCursor.js — write, read, and cursor through binary records.",
+		"searchText": "b\"h — lexicon binary format (geelooy/api/social/helper/search/lexicon/binary/) binary record format for the search lexicon. recordschema.js — binary record schema. recordwriter.js, recordreader.js, recordcursor.js — write, read, and cursor through binary records.",
+		"page": "pages/geelooy-api-social-helper-search-lexicon-binary-readme-md-ace042fd62.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-search-lexicon-readme-md-68df651d1a",
+		"title": "B\"H — Search Lexicon (geelooy/api/social/helper/search/lexicon/)",
+		"sourcePath": "geelooy/api/social/helper/search/lexicon/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Search Lexicon (geelooy/api/social/helper/search/lexicon/)",
+				"anchor": "b-h-search-lexicon-geelooy-api-social-helper-search-lexicon"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			},
+			{
+				"level": 2,
+				"text": "Routes",
+				"anchor": "routes"
+			}
+		],
+		"excerpt": "B\"H — Search Lexicon (geelooy/api/social/helper/search/lexicon/) Lexicon/dictionary search: browseable dictionary over a binary record format with cursor pagination. Files browse.js, browseCatalog.js, browseCore.js, browsePage.js, browseReader.js — dictionary browsing. search.js, indexReader.js, keySpace.js, cursor.js ",
+		"searchText": "b\"h — search lexicon (geelooy/api/social/helper/search/lexicon/) lexicon/dictionary search: browseable dictionary over a binary record format with cursor pagination. files browse.js, browsecatalog.js, browsecore.js, browsepage.js, browsereader.js — dictionary browsing. search.js, indexreader.js, keyspace.js, cursor.js — search and index reading. normalize.js, paths.js, publicsourceidentity.js — normalization, paths, source identity. binary/ — binary record format (recordcursor, recordreader, recordschema, recordwriter). test/ — binary record, bounded storage, browse, builder, normalize, paths, search tests. routes /search/library/dictionary[/alphabet ranges browse], /search/library/dictionaries, /dictionary/alphabet ranges browse.",
+		"page": "pages/geelooy-api-social-helper-search-lexicon-readme-md-68df651d1a.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-search-lexicon-test-readme-md-fb319618d9",
+		"title": "B\"H — Lexicon Tests (geelooy/api/social/helper/search/lexicon/test/)",
+		"sourcePath": "geelooy/api/social/helper/search/lexicon/test/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Lexicon Tests (geelooy/api/social/helper/search/lexicon/test/)",
+				"anchor": "b-h-lexicon-tests-geelooy-api-social-helper-search-lexicon-test"
+			}
+		],
+		"excerpt": "B\"H — Lexicon Tests (geelooy/api/social/helper/search/lexicon/test/) Lexicon/dictionary tests. binaryRecord.test.js — binary record read/write. browse.test.js, builder.test.js — dictionary browse and building. normalize.test.js, paths.test.js, search.test.js — normalization, paths, search. boundedStorage.test.js — boun",
+		"searchText": "b\"h — lexicon tests (geelooy/api/social/helper/search/lexicon/test/) lexicon/dictionary tests. binaryrecord.test.js — binary record read/write. browse.test.js, builder.test.js — dictionary browse and building. normalize.test.js, paths.test.js, search.test.js — normalization, paths, search. boundedstorage.test.js — bounded storage behavior. fixturedatabase.js — shared fixture database.",
+		"page": "pages/geelooy-api-social-helper-search-lexicon-test-readme-md-fb319618d9.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-search-rag-readme-md-c52afd2a0f",
+		"title": "B\"H — Search RAG (geelooy/api/social/helper/search/rag/)",
+		"sourcePath": "geelooy/api/social/helper/search/rag/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Search RAG (geelooy/api/social/helper/search/rag/)",
+				"anchor": "b-h-search-rag-geelooy-api-social-helper-search-rag"
+			},
+			{
+				"level": 2,
+				"text": "Key files",
+				"anchor": "key-files"
+			},
+			{
+				"level": 2,
+				"text": "Routes",
+				"anchor": "routes"
+			}
+		],
+		"excerpt": "B\"H — Search RAG (geelooy/api/social/helper/search/rag/) Retrieval augmented / semantic search: BGE embeddings, flat vector matrices, comment row hydration and relevance, canonical work search, and a multi lane library search planner with merge, deadlines, and caching. Key files Embeddings: bgeEmbedder.js, bgeRuntime.j",
+		"searchText": "b\"h — search rag (geelooy/api/social/helper/search/rag/) retrieval augmented / semantic search: bge embeddings, flat vector matrices, comment row hydration and relevance, canonical work search, and a multi lane library search planner with merge, deadlines, and caching. key files embeddings: bgeembedder.js, bgeruntime.js, bgeworker.py, bgeworkerclient.js, llama.js, llamainstall.js. vectors: flatmatrixbest.js, flatmatrixreader.js, flatmatrixsearch.js, flatmetadatareader.js. comments: comments.js, commentrowshape.js, commentrows variants (authoritative, bridge, legacy), commenthydration, commentrelevance, commentcoordinates, importedcoordinates.js, hydrate.js. library search: librarysearch.js, librarylexicalplanner.js, librarysearchplanner.js, librarysearchmerge(+helpers).js, librarysearchdeadline.js, librarylanemetadata.js, librarysearchemptyresult.js, emptyresult.js. canonical: canonicalworkindex.js, canonicalworksearch.js, canonicalshards.js, canonicalnavigationresult.js, exacttanachnavigation.js, legacytextsearch.js. infra: manifestcache.js, math.js, immutableragwarmup.js. test/ — 40+ tests: comment hydration/rows, canonical work search, flat matrix bounds, library search merge/concurrency/latency, manifest cache, native publication catalog, rag warmup, search contracts, response cache, etc. routes /search/rag/query, /rag/search/query, /search/rag/shards, /rag/search/shards, /search/rag/comments/:comment, /search/rag/post comments, /search/rag/llama/status.",
+		"page": "pages/geelooy-api-social-helper-search-rag-readme-md-c52afd2a0f.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-search-rag-test-readme-md-643cdc7e89",
+		"title": "B\"H — Search RAG Tests (geelooy/api/social/helper/search/rag/test/)",
+		"sourcePath": "geelooy/api/social/helper/search/rag/test/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Search RAG Tests (geelooy/api/social/helper/search/rag/test/)",
+				"anchor": "b-h-search-rag-tests-geelooy-api-social-helper-search-rag-test"
+			}
+		],
+		"excerpt": "B\"H — Search RAG Tests (geelooy/api/social/helper/search/rag/test/) Tests for the RAG/semantic search stack (40+ files). Comment lanes: authoritativeCommentRows, bridgeCommentRows, packedCommentRows, richCommentRows, comment hydration guards, relevance, coordinates, metadata hits. Canonical: canonicalWorkSearch, exactT",
+		"searchText": "b\"h — search rag tests (geelooy/api/social/helper/search/rag/test/) tests for the rag/semantic search stack (40+ files). comment lanes: authoritativecommentrows, bridgecommentrows, packedcommentrows, richcommentrows, comment hydration guards, relevance, coordinates, metadata hits. canonical: canonicalworksearch, exacttanachnavigation, catalog/sidecar. library: multi lane search, latency/concurrency policy, merge/bounded failure, deadline, native text search, publication catalog storage policy/rollback. infra: manifestcache, ragstartupwarmup, searchcachewarmup, searchcoldpathisolation, request snapshot, response cache, search contracts, runtime ai discovery, runtime path resolution, llama embedding args, livesearchprobe.js (live probe, not a test).",
+		"page": "pages/geelooy-api-social-helper-search-rag-test-readme-md-643cdc7e89.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-search-readme-md-08f48e0449",
+		"title": "B\"H — Search (geelooy/api/social/helper/search/)",
+		"sourcePath": "geelooy/api/social/helper/search/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Search (geelooy/api/social/helper/search/)",
+				"anchor": "b-h-search-geelooy-api-social-helper-search"
+			},
+			{
+				"level": 2,
+				"text": "Key files",
+				"anchor": "key-files"
+			},
+			{
+				"level": 2,
+				"text": "Main endpoints (via routes/)",
+				"anchor": "main-endpoints-via-routes"
+			}
+		],
+		"excerpt": "B\"H — Search (geelooy/api/social/helper/search/) The search domain: exact Hebrew search, series search, lexicon/dictionary browsing, semantic/RAG search, library search, and Tanach search. Key files exactHebrew .js (Bucket/Index/JsonSlice/Paths/Pending/Public/Records/Response/Serializable/Shape/V3/Worker/WorkerClient/W",
+		"searchText": "b\"h — search (geelooy/api/social/helper/search/) the search domain: exact hebrew search, series search, lexicon/dictionary browsing, semantic/rag search, library search, and tanach search. key files exacthebrew .js (bucket/index/jsonslice/paths/pending/public/records/response/serializable/shape/v3/worker/workerclient/workerdb) — exact hebrew text search engine, with a worker process. exactseriesindex.js, exactseriestext.js — exact series text indexing/search. corpussearchpolicy.js — corpus search policy. subdirs: lexicon/ (dictionary browse/search over a binary record format), rag/ (semantic/rag search with bge embeddings, flat matrices, library search planner), routes/ (search http routes), tanach/ (tanach search with native data per sefer), test/. main endpoints (via routes/) /search/exact/hebrew[/meta] — exact hebrew search. /search/semantic — semantic search. /search/capabilities — search capabilities. /search/library/ — library query/browse/dictionary/shards. /search/rag/ , /rag/search/ — rag query/shards/comments. /search/tanach/hebrew, /search/tanach/native — tanach search. /dictionary/ — dictionary alphabet/ranges/browse.",
+		"page": "pages/geelooy-api-social-helper-search-readme-md-08f48e0449.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-search-routes-readme-md-eaad7f7799",
+		"title": "B\"H — Search Routes (geelooy/api/social/helper/search/routes/)",
+		"sourcePath": "geelooy/api/social/helper/search/routes/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Search Routes (geelooy/api/social/helper/search/routes/)",
+				"anchor": "b-h-search-routes-geelooy-api-social-helper-search-routes"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			},
+			{
+				"level": 2,
+				"text": "Endpoints",
+				"anchor": "endpoints"
+			}
+		],
+		"excerpt": "B\"H — Search Routes (geelooy/api/social/helper/search/routes/) HTTP routes for all search surfaces, mounted via awtsmoos.search.js. Files routeGroups.js — assembles route groups; values.js, requestSnapshot.js, responseStatus.js, safe.js, capabilities.js — route plumbing. exact.js — exact Hebrew routes; semantic.js — se",
+		"searchText": "b\"h — search routes (geelooy/api/social/helper/search/routes/) http routes for all search surfaces, mounted via awtsmoos.search.js. files routegroups.js — assembles route groups; values.js, requestsnapshot.js, responsestatus.js, safe.js, capabilities.js — route plumbing. exact.js — exact hebrew routes; semantic.js — semantic routes. library.js — library search routes; lexicon.js — lexicon/dictionary routes. tanach.js — tanach search routes; comments.js — comment search routes. endpoints /search/exact/hebrew[/meta], /search/semantic, /search/capabilities /search/library/query browse dictionary[/alphabet ranges browse] dictionaries shards /search/rag/query shards comments/:comment post comments llama/status, /rag/search/query shards /search/tanach/hebrew, /search/tanach/native /dictionary/alphabet ranges browse test/ — lexicon browse registration and semantic route tests.",
+		"page": "pages/geelooy-api-social-helper-search-routes-readme-md-eaad7f7799.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-search-routes-test-readme-md-acb65fbc5a",
+		"title": "B\"H — Search Routes Tests (geelooy/api/social/helper/search/routes/test/)",
+		"sourcePath": "geelooy/api/social/helper/search/routes/test/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Search Routes Tests (geelooy/api/social/helper/search/routes/test/)",
+				"anchor": "b-h-search-routes-tests-geelooy-api-social-helper-search-routes-test"
+			}
+		],
+		"excerpt": "B\"H — Search Routes Tests (geelooy/api/social/helper/search/routes/test/) Search route tests. lexiconBrowseRegistration.test.js — lexicon browse route registration. semanticRoute.test.js — semantic search route.",
+		"searchText": "b\"h — search routes tests (geelooy/api/social/helper/search/routes/test/) search route tests. lexiconbrowseregistration.test.js — lexicon browse route registration. semanticroute.test.js — semantic search route.",
+		"page": "pages/geelooy-api-social-helper-search-routes-test-readme-md-acb65fbc5a.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-search-tanach-native-data-readme-md-9f25e93cba",
+		"title": "B\"H — Tanach Native Data (geelooy/api/social/helper/search/tanach/native-data/)",
+		"sourcePath": "geelooy/api/social/helper/search/tanach/native-data/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Tanach Native Data (geelooy/api/social/helper/search/tanach/native-data/)",
+				"anchor": "b-h-tanach-native-data-geelooy-api-social-helper-search-tanach-native-data"
+			}
+		],
+		"excerpt": "B\"H — Tanach Native Data (geelooy/api/social/helper/search/tanach/native data/) Native Tanach text data: one JSON file per sefer (39 sefarim) plus manifest.json. Raw corpus data consumed by ../search.js / ../nativeTranslations.js — never edited by hand.",
+		"searchText": "b\"h — tanach native data (geelooy/api/social/helper/search/tanach/native data/) native tanach text data: one json file per sefer (39 sefarim) plus manifest.json. raw corpus data consumed by ../search.js / ../nativetranslations.js — never edited by hand.",
+		"page": "pages/geelooy-api-social-helper-search-tanach-native-data-readme-md-9f25e93cba.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-search-tanach-readme-md-69ea194fa4",
+		"title": "B\"H — Tanach Search (geelooy/api/social/helper/search/tanach/)",
+		"sourcePath": "geelooy/api/social/helper/search/tanach/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Tanach Search (geelooy/api/social/helper/search/tanach/)",
+				"anchor": "b-h-tanach-search-geelooy-api-social-helper-search-tanach"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			},
+			{
+				"level": 2,
+				"text": "Routes",
+				"anchor": "routes"
+			}
+		],
+		"excerpt": "B\"H — Tanach Search (geelooy/api/social/helper/search/tanach/) Tanach search over native per sefer JSON data: query, normalize, store, and result shaping, with native translations. Files search.js, query.js, normalize.js — search execution and Hebrew normalization. store.js, paths.js — storage and paths. result.js — re",
+		"searchText": "b\"h — tanach search (geelooy/api/social/helper/search/tanach/) tanach search over native per sefer json data: query, normalize, store, and result shaping, with native translations. files search.js, query.js, normalize.js — search execution and hebrew normalization. store.js, paths.js — storage and paths. result.js — result shaping. nativetranslations.js — native tanach translations. native data/ — one json per sefer (39 sefarim + manifest.json): bereishis, shemos, vayikra, bamidbar, devarim, yehoshua, shoftim, shmuel 1/2, melachim 1/2, yeshayahu, yirmiyahu, yechezkel, tehillim, mishlei, iyov, shir hashirim, rus, eichah, koheles, esther, daniel, ezra, nechemyah, divrei hayamim 1/2, hoshea, yoel, amos, ovadiah, yonah, michah, nachum, chavakuk, tzefanyah, chagai, zecharyah, malachi. test/ — nativetranslations.test.js. routes /search/tanach/hebrew, /search/tanach/native.",
+		"page": "pages/geelooy-api-social-helper-search-tanach-readme-md-69ea194fa4.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-search-tanach-test-readme-md-a9f5975525",
+		"title": "B\"H — Tanach Search Tests (geelooy/api/social/helper/search/tanach/test/)",
+		"sourcePath": "geelooy/api/social/helper/search/tanach/test/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Tanach Search Tests (geelooy/api/social/helper/search/tanach/test/)",
+				"anchor": "b-h-tanach-search-tests-geelooy-api-social-helper-search-tanach-test"
+			}
+		],
+		"excerpt": "B\"H — Tanach Search Tests (geelooy/api/social/helper/search/tanach/test/) Tanach search tests. nativeTranslations.test.js — native Tanach translation data.",
+		"searchText": "b\"h — tanach search tests (geelooy/api/social/helper/search/tanach/test/) tanach search tests. nativetranslations.test.js — native tanach translation data.",
+		"page": "pages/geelooy-api-social-helper-search-tanach-test-readme-md-a9f5975525.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-search-test-readme-md-406b1e6ce3",
+		"title": "B\"H — Search Tests (geelooy/api/social/helper/search/test/)",
+		"sourcePath": "geelooy/api/social/helper/search/test/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Search Tests (geelooy/api/social/helper/search/test/)",
+				"anchor": "b-h-search-tests-geelooy-api-social-helper-search-test"
+			}
+		],
+		"excerpt": "B\"H — Search Tests (geelooy/api/social/helper/search/test/) Top level search tests. exactHebrewPublic.test.js, exactHebrewShape.test.js — exact Hebrew public surface and shape. searchResponseStatus.test.js, searchRouteSafety.test.js — response statuses and route safety. tanachSearch.test.js, tanachMetadata.test.js — Ta",
+		"searchText": "b\"h — search tests (geelooy/api/social/helper/search/test/) top level search tests. exacthebrewpublic.test.js, exacthebrewshape.test.js — exact hebrew public surface and shape. searchresponsestatus.test.js, searchroutesafety.test.js — response statuses and route safety. tanachsearch.test.js, tanachmetadata.test.js — tanach search and metadata.",
+		"page": "pages/geelooy-api-social-helper-search-test-readme-md-406b1e6ce3.json"
+	}
+]

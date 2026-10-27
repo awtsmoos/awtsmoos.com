@@ -1,5 +1,84 @@
 [
 	{
+		"id": "api-caf1672720",
+		"route": "/api",
+		"source": "geelooy/api/_awtsmoos.derech.js",
+		"discoveryKind": "static-literal",
+		"family": {
+			"mount": "/api",
+			"title": "API Root",
+			"manual": "docs/TUTORIALS/API/ROOT_API.md"
+		},
+		"derech": {
+			"source": "geelooy/api/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [],
+		"statuses": [],
+		"headers": [
+			"Access-Control-Allow-Origin"
+		],
+		"callers": [],
+		"callerCount": 0,
+		"tests": [
+			{
+				"name": "test",
+				"command": "npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported-style-ownership && npm run test:css-quality && npm run test:heichelos-quality && npm run test:heichel-cache-scale && npm run test:profile-menu && npm run test:heichel-governance && npm run test:post-submissions && npm run test:comments && npm run test:api-keys && npm run test:graph && npm run test:social-content && npm run test:notifications && npm run test:social-packed && npm run test:packed-engine && npm run test:platform-ops && npm run test:platform-execution && npm run test:node-client && npm run test:dayuh-cutover"
+			},
+			{
+				"name": "test:dayuh-release",
+				"command": "npm run test:routes && npm run test:comments && npm run test:social-content && npm run test:social-packed && npm run test:packed-engine && node --test tools/dayuhChadashMaintenance/test/*.test.js && npm run test:dayuh-cutover"
+			},
+			{
+				"name": "test:routes",
+				"command": "node geelooy/api/social/test/routeCoverage.test.js"
+			}
+		],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-caf1672720.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-asdfg-9e43b7d9e7",
+				"route": "/api/asdfg"
+			},
+			{
+				"id": "api-catalog-80c2586373",
+				"route": "/api/catalog"
+			},
+			{
+				"id": "api-even-asd-more-rt-k-feb231eb24",
+				"route": "/api/even/:asd/more/:rt/k"
+			},
+			{
+				"id": "api-heichelos-heichel-addcontenttoseries-cda5c16063",
+				"route": "/api/heichelos/:heichel/addContentToSeries"
+			},
+			{
+				"id": "api-heichelos-heichel-addnewseries-6c167f7390",
+				"route": "/api/heichelos/:heichel/addNewSeries"
+			},
+			{
+				"id": "api-heichelos-heichel-aliases-alias-commentsactions-addcommentin-4141eb36ea",
+				"route": "/api/heichelos/:heichel/aliases/:alias/commentsActions/addCommentIndexToAlias/comment/:comment"
+			},
+			{
+				"id": "api-heichelos-heichel-aliases-alias-commentsactions-updateallcom-a68539ccb3",
+				"route": "/api/heichelos/:heichel/aliases/:alias/commentsActions/updateAllCommentIndexes"
+			},
+			{
+				"id": "api-heichelos-heichel-comment-comment-e9e27fc087",
+				"route": "/api/heichelos/:heichel/comment/:comment"
+			}
+		]
+	},
+	{
 		"id": "api-admin-code-932e02a2cc",
 		"route": "/api/admin/code",
 		"source": "geelooy/api/admin/_awtsmoos.derech.js",
@@ -40,6 +119,344 @@
 		"related": []
 	},
 	{
+		"id": "api-apk-web-asset-token-path-49c0866383",
+		"route": "/api/apk-web/asset/:token/:path*",
+		"source": "geelooy/api/apk-web/_awtsmoos.derech.js",
+		"discoveryKind": "static-literal",
+		"family": {
+			"mount": "/api/apk-web",
+			"title": "/api/apk-web",
+			"manual": "docs/API/README.md"
+		},
+		"derech": {
+			"source": "geelooy/api/apk-web/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/apk-web"
+		},
+		"dynamic": true,
+		"pathParameters": [
+			{
+				"name": "token",
+				"catchAll": false
+			},
+			{
+				"name": "path",
+				"catchAll": true
+			}
+		],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [],
+		"statuses": [],
+		"headers": [],
+		"callers": [],
+		"callerCount": 0,
+		"tests": [],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-apk-web-asset-token-path-49c0866383.md",
+		"confidence": "unknown-method",
+		"related": []
+	},
+	{
+		"id": "api-asdfg-9e43b7d9e7",
+		"route": "/api/asdfg",
+		"source": "geelooy/api/social-legacy-archive/old/_awtsmoos.posts.js",
+		"discoveryKind": "static-literal",
+		"family": {
+			"mount": "/api",
+			"title": "API Root",
+			"manual": "docs/TUTORIALS/API/ROOT_API.md"
+		},
+		"derech": {
+			"source": "geelooy/api/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [
+			"GET",
+			"POST"
+		],
+		"methodEvidence": "GET, POST",
+		"vessels": [
+			"$_GET",
+			"$_POST",
+			"identity"
+		],
+		"statuses": [],
+		"headers": [],
+		"callers": [],
+		"callerCount": 0,
+		"tests": [
+			{
+				"name": "test",
+				"command": "npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported-style-ownership && npm run test:css-quality && npm run test:heichelos-quality && npm run test:heichel-cache-scale && npm run test:profile-menu && npm run test:heichel-governance && npm run test:post-submissions && npm run test:comments && npm run test:api-keys && npm run test:graph && npm run test:social-content && npm run test:notifications && npm run test:social-packed && npm run test:packed-engine && npm run test:platform-ops && npm run test:platform-execution && npm run test:node-client && npm run test:dayuh-cutover"
+			},
+			{
+				"name": "test:dayuh-release",
+				"command": "npm run test:routes && npm run test:comments && npm run test:social-content && npm run test:social-packed && npm run test:packed-engine && node --test tools/dayuhChadashMaintenance/test/*.test.js && npm run test:dayuh-cutover"
+			},
+			{
+				"name": "test:routes",
+				"command": "node geelooy/api/social/test/routeCoverage.test.js"
+			}
+		],
+		"examples": [
+			{
+				"method": "GET",
+				"warning": "Starter only: method evidence is lexical at the source-file level; inspect the handler before relying on payload or response shape.",
+				"curl": "curl -X GET 'https://awtsmoos.com/api/asdfg'",
+				"fetch": "const response = await fetch(\"/api/asdfg\", {\n\tmethod: \"GET\"\n});\nconst result = await response.json();"
+			}
+		],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-asdfg-9e43b7d9e7.md",
+		"confidence": "source-lexical",
+		"related": [
+			{
+				"id": "api-caf1672720",
+				"route": "/api"
+			},
+			{
+				"id": "api-catalog-80c2586373",
+				"route": "/api/catalog"
+			},
+			{
+				"id": "api-even-asd-more-rt-k-feb231eb24",
+				"route": "/api/even/:asd/more/:rt/k"
+			},
+			{
+				"id": "api-heichelos-heichel-addcontenttoseries-cda5c16063",
+				"route": "/api/heichelos/:heichel/addContentToSeries"
+			},
+			{
+				"id": "api-heichelos-heichel-addnewseries-6c167f7390",
+				"route": "/api/heichelos/:heichel/addNewSeries"
+			},
+			{
+				"id": "api-heichelos-heichel-aliases-alias-commentsactions-addcommentin-4141eb36ea",
+				"route": "/api/heichelos/:heichel/aliases/:alias/commentsActions/addCommentIndexToAlias/comment/:comment"
+			},
+			{
+				"id": "api-heichelos-heichel-aliases-alias-commentsactions-updateallcom-a68539ccb3",
+				"route": "/api/heichelos/:heichel/aliases/:alias/commentsActions/updateAllCommentIndexes"
+			},
+			{
+				"id": "api-heichelos-heichel-comment-comment-e9e27fc087",
+				"route": "/api/heichelos/:heichel/comment/:comment"
+			}
+		]
+	},
+	{
+		"id": "api-catalog-80c2586373",
+		"route": "/api/catalog",
+		"source": "geelooy/api/_awtsmoos.derech.js",
+		"discoveryKind": "static-literal",
+		"family": {
+			"mount": "/api",
+			"title": "API Root",
+			"manual": "docs/TUTORIALS/API/ROOT_API.md"
+		},
+		"derech": {
+			"source": "geelooy/api/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [],
+		"statuses": [],
+		"headers": [
+			"Access-Control-Allow-Origin"
+		],
+		"callers": [],
+		"callerCount": 0,
+		"tests": [
+			{
+				"name": "test",
+				"command": "npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported-style-ownership && npm run test:css-quality && npm run test:heichelos-quality && npm run test:heichel-cache-scale && npm run test:profile-menu && npm run test:heichel-governance && npm run test:post-submissions && npm run test:comments && npm run test:api-keys && npm run test:graph && npm run test:social-content && npm run test:notifications && npm run test:social-packed && npm run test:packed-engine && npm run test:platform-ops && npm run test:platform-execution && npm run test:node-client && npm run test:dayuh-cutover"
+			},
+			{
+				"name": "test:dayuh-release",
+				"command": "npm run test:routes && npm run test:comments && npm run test:social-content && npm run test:social-packed && npm run test:packed-engine && node --test tools/dayuhChadashMaintenance/test/*.test.js && npm run test:dayuh-cutover"
+			},
+			{
+				"name": "test:routes",
+				"command": "node geelooy/api/social/test/routeCoverage.test.js"
+			}
+		],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-catalog-80c2586373.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-caf1672720",
+				"route": "/api"
+			},
+			{
+				"id": "api-asdfg-9e43b7d9e7",
+				"route": "/api/asdfg"
+			},
+			{
+				"id": "api-even-asd-more-rt-k-feb231eb24",
+				"route": "/api/even/:asd/more/:rt/k"
+			},
+			{
+				"id": "api-heichelos-heichel-addcontenttoseries-cda5c16063",
+				"route": "/api/heichelos/:heichel/addContentToSeries"
+			},
+			{
+				"id": "api-heichelos-heichel-addnewseries-6c167f7390",
+				"route": "/api/heichelos/:heichel/addNewSeries"
+			},
+			{
+				"id": "api-heichelos-heichel-aliases-alias-commentsactions-addcommentin-4141eb36ea",
+				"route": "/api/heichelos/:heichel/aliases/:alias/commentsActions/addCommentIndexToAlias/comment/:comment"
+			},
+			{
+				"id": "api-heichelos-heichel-aliases-alias-commentsactions-updateallcom-a68539ccb3",
+				"route": "/api/heichelos/:heichel/aliases/:alias/commentsActions/updateAllCommentIndexes"
+			},
+			{
+				"id": "api-heichelos-heichel-comment-comment-e9e27fc087",
+				"route": "/api/heichelos/:heichel/comment/:comment"
+			}
+		]
+	},
+	{
+		"id": "api-client-errors-8db468b3a0",
+		"route": "/api/client-errors",
+		"source": "geelooy/api/client-errors/_awtsmoos.derech.js",
+		"discoveryKind": "static-literal",
+		"family": {
+			"mount": "/api/client-errors",
+			"title": "/api/client-errors",
+			"manual": "docs/API/README.md"
+		},
+		"derech": {
+			"source": "geelooy/api/client-errors/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/client-errors"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [
+			"POST"
+		],
+		"methodEvidence": "POST",
+		"vessels": [
+			"$_POST",
+			"headers"
+		],
+		"statuses": [
+			"400",
+			"429",
+			"500"
+		],
+		"headers": [],
+		"callers": [
+			{
+				"literal": "/api/client-errors/",
+				"source": "geelooy/heichelos/post/logic/initialization/ReaderClientErrorReporter.js",
+				"kind": "runtime"
+			}
+		],
+		"callerCount": 1,
+		"tests": [
+			{
+				"name": "test",
+				"command": "npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported-style-ownership && npm run test:css-quality && npm run test:heichelos-quality && npm run test:heichel-cache-scale && npm run test:profile-menu && npm run test:heichel-governance && npm run test:post-submissions && npm run test:comments && npm run test:api-keys && npm run test:graph && npm run test:social-content && npm run test:notifications && npm run test:social-packed && npm run test:packed-engine && npm run test:platform-ops && npm run test:platform-execution && npm run test:node-client && npm run test:dayuh-cutover"
+			},
+			{
+				"name": "test:node-client",
+				"command": "node --check geelooy/scripts/awtsmoos/api/social/nodeClient.mjs"
+			}
+		],
+		"examples": [
+			{
+				"method": "POST",
+				"warning": "Starter only: method evidence is lexical at the source-file level; inspect the handler before relying on payload or response shape.",
+				"curl": "curl -X POST 'https://awtsmoos.com/api/client-errors' \\\n  -H 'content-type: application/json' \\\n  --data '{}'",
+				"fetch": "const response = await fetch(\"/api/client-errors\", {\n\tmethod: \"POST\"\n\theaders: { \"content-type\": \"application/json\" },\n\tbody: JSON.stringify({})\n});\nconst result = await response.json();"
+			}
+		],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-client-errors-8db468b3a0.md",
+		"confidence": "source-lexical",
+		"related": [
+			{
+				"id": "api-client-errors-recent-70eff70cb6",
+				"route": "/api/client-errors/recent"
+			}
+		]
+	},
+	{
+		"id": "api-client-errors-recent-70eff70cb6",
+		"route": "/api/client-errors/recent",
+		"source": "geelooy/api/client-errors/_awtsmoos.derech.js",
+		"discoveryKind": "static-literal",
+		"family": {
+			"mount": "/api/client-errors",
+			"title": "/api/client-errors",
+			"manual": "docs/API/README.md"
+		},
+		"derech": {
+			"source": "geelooy/api/client-errors/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/client-errors"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [
+			"POST"
+		],
+		"methodEvidence": "POST",
+		"vessels": [
+			"$_POST",
+			"headers"
+		],
+		"statuses": [
+			"400",
+			"429",
+			"500"
+		],
+		"headers": [],
+		"callers": [],
+		"callerCount": 0,
+		"tests": [
+			{
+				"name": "test",
+				"command": "npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported-style-ownership && npm run test:css-quality && npm run test:heichelos-quality && npm run test:heichel-cache-scale && npm run test:profile-menu && npm run test:heichel-governance && npm run test:post-submissions && npm run test:comments && npm run test:api-keys && npm run test:graph && npm run test:social-content && npm run test:notifications && npm run test:social-packed && npm run test:packed-engine && npm run test:platform-ops && npm run test:platform-execution && npm run test:node-client && npm run test:dayuh-cutover"
+			},
+			{
+				"name": "test:node-client",
+				"command": "node --check geelooy/scripts/awtsmoos/api/social/nodeClient.mjs"
+			}
+		],
+		"examples": [
+			{
+				"method": "POST",
+				"warning": "Starter only: method evidence is lexical at the source-file level; inspect the handler before relying on payload or response shape.",
+				"curl": "curl -X POST 'https://awtsmoos.com/api/client-errors/recent' \\\n  -H 'content-type: application/json' \\\n  --data '{}'",
+				"fetch": "const response = await fetch(\"/api/client-errors/recent\", {\n\tmethod: \"POST\"\n\theaders: { \"content-type\": \"application/json\" },\n\tbody: JSON.stringify({})\n});\nconst result = await response.json();"
+			}
+		],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-client-errors-recent-70eff70cb6.md",
+		"confidence": "source-lexical",
+		"related": [
+			{
+				"id": "api-client-errors-8db468b3a0",
+				"route": "/api/client-errors"
+			}
+		]
+	},
+	{
 		"id": "api-compiler-android-rebbe-8d84cca1d6",
 		"route": "/api/compiler/android/rebbe",
 		"source": "geelooy/api/compiler/_awtsmoos.derech.js",
@@ -62,14 +479,8 @@
 		"vessels": [],
 		"statuses": [],
 		"headers": [],
-		"callers": [
-			{
-				"literal": "/api/compiler/android/rebbe",
-				"source": "geelooy/apps/code/js/android/rebbe-apk-client.js",
-				"kind": "runtime"
-			}
-		],
-		"callerCount": 1,
+		"callers": [],
+		"callerCount": 0,
 		"tests": [],
 		"examples": [],
 		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-compiler-android-rebbe-8d84cca1d6.md",
@@ -128,604 +539,6 @@
 			{
 				"id": "api-compiler-build-437ecdb93f",
 				"route": "/api/compiler/build"
-			}
-		]
-	},
-	{
-		"id": "api-compiler-build-437ecdb93f",
-		"route": "/api/compiler/build",
-		"source": "geelooy/api/compiler/_awtsmoos.derech.js",
-		"discoveryKind": "static-literal",
-		"family": {
-			"mount": "/api/compiler",
-			"title": "Compiler",
-			"manual": "docs/TUTORIALS/API/COMPILER.md"
-		},
-		"derech": {
-			"source": "geelooy/api/compiler/_awtsmoos.derech.js",
-			"status": "OK",
-			"issue": "—",
-			"mount": "/api/compiler"
-		},
-		"dynamic": false,
-		"pathParameters": [],
-		"methods": [],
-		"methodEvidence": "unknown",
-		"vessels": [],
-		"statuses": [],
-		"headers": [],
-		"callers": [
-			{
-				"literal": "/api/compiler/build",
-				"source": "geelooy/apps/compiler/ui/nativeBuildClient.js",
-				"kind": "runtime"
-			}
-		],
-		"callerCount": 1,
-		"tests": [],
-		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-compiler-build-437ecdb93f.md",
-		"confidence": "unknown-method",
-		"related": [
-			{
-				"id": "api-compiler-android-rebbe-8d84cca1d6",
-				"route": "/api/compiler/android/rebbe"
-			},
-			{
-				"id": "api-compiler-backends-8fe593f696",
-				"route": "/api/compiler/backends"
-			}
-		]
-	},
-	{
-		"id": "api-contact-56bcbbe9cd",
-		"route": "/api/contact",
-		"source": "geelooy/api/contact/_awtsmoos.derech.js",
-		"discoveryKind": "static-literal",
-		"family": {
-			"mount": "/api/contact",
-			"title": "Contact",
-			"manual": "docs/TUTORIALS/API/CONTACT.md"
-		},
-		"derech": {
-			"source": "geelooy/api/contact/_awtsmoos.derech.js",
-			"status": "OK",
-			"issue": "—",
-			"mount": "/api/contact"
-		},
-		"dynamic": false,
-		"pathParameters": [],
-		"methods": [
-			"POST"
-		],
-		"methodEvidence": "POST",
-		"vessels": [
-			"$_POST",
-			"db"
-		],
-		"statuses": [],
-		"headers": [
-			"x-forwarded-for"
-		],
-		"callers": [
-			{
-				"literal": "/api/contact/",
-				"source": "geelooy/contact/contact.js",
-				"kind": "runtime"
-			}
-		],
-		"callerCount": 1,
-		"tests": [],
-		"examples": [
-			{
-				"method": "POST",
-				"warning": "Starter only: method evidence is lexical at the source-file level; inspect the handler before relying on payload or response shape.",
-				"curl": "curl -X POST 'https://awtsmoos.com/api/contact' \\\n  -H 'content-type: application/json' \\\n  --data '{}'",
-				"fetch": "const response = await fetch(\"/api/contact\", {\n\tmethod: \"POST\"\n\theaders: { \"content-type\": \"application/json\" },\n\tbody: JSON.stringify({})\n});\nconst result = await response.json();"
-			}
-		],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-contact-56bcbbe9cd.md",
-		"confidence": "source-lexical",
-		"related": [
-			{
-				"id": "api-contact-status-078003efb4",
-				"route": "/api/contact/status"
-			}
-		]
-	},
-	{
-		"id": "api-contact-status-078003efb4",
-		"route": "/api/contact/status",
-		"source": "geelooy/api/contact/_awtsmoos.derech.js",
-		"discoveryKind": "static-literal",
-		"family": {
-			"mount": "/api/contact",
-			"title": "Contact",
-			"manual": "docs/TUTORIALS/API/CONTACT.md"
-		},
-		"derech": {
-			"source": "geelooy/api/contact/_awtsmoos.derech.js",
-			"status": "OK",
-			"issue": "—",
-			"mount": "/api/contact"
-		},
-		"dynamic": false,
-		"pathParameters": [],
-		"methods": [
-			"POST"
-		],
-		"methodEvidence": "POST",
-		"vessels": [
-			"$_POST",
-			"db"
-		],
-		"statuses": [],
-		"headers": [
-			"x-forwarded-for"
-		],
-		"callers": [],
-		"callerCount": 0,
-		"tests": [],
-		"examples": [
-			{
-				"method": "POST",
-				"warning": "Starter only: method evidence is lexical at the source-file level; inspect the handler before relying on payload or response shape.",
-				"curl": "curl -X POST 'https://awtsmoos.com/api/contact/status' \\\n  -H 'content-type: application/json' \\\n  --data '{}'",
-				"fetch": "const response = await fetch(\"/api/contact/status\", {\n\tmethod: \"POST\"\n\theaders: { \"content-type\": \"application/json\" },\n\tbody: JSON.stringify({})\n});\nconst result = await response.json();"
-			}
-		],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-contact-status-078003efb4.md",
-		"confidence": "source-lexical",
-		"related": [
-			{
-				"id": "api-contact-56bcbbe9cd",
-				"route": "/api/contact"
-			}
-		]
-	},
-	{
-		"id": "api-email-f77f0430fe",
-		"route": "/api/email",
-		"source": "geelooy/api/email/_awtsmoos.derech.js",
-		"discoveryKind": "static-literal",
-		"family": {
-			"mount": "/api/email",
-			"title": "Email",
-			"manual": "docs/TUTORIALS/API/EMAIL.md"
-		},
-		"derech": {
-			"source": "geelooy/api/email/_awtsmoos.derech.js",
-			"status": "OK",
-			"issue": "—",
-			"mount": "/api/email"
-		},
-		"dynamic": false,
-		"pathParameters": [],
-		"methods": [],
-		"methodEvidence": "unknown",
-		"vessels": [],
-		"statuses": [],
-		"headers": [],
-		"callers": [],
-		"callerCount": 0,
-		"tests": [
-			{
-				"name": "emailTest",
-				"command": "node ayzarim/email/emailTest.js"
-			}
-		],
-		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-email-f77f0430fe.md",
-		"confidence": "unknown-method",
-		"related": [
-			{
-				"id": "api-email-email-21dde810a8",
-				"route": "/api/email/email"
-			}
-		]
-	},
-	{
-		"id": "api-email-email-21dde810a8",
-		"route": "/api/email/email",
-		"source": "geelooy/api/email/_awtsmoos.derech.js",
-		"discoveryKind": "static-literal",
-		"family": {
-			"mount": "/api/email",
-			"title": "Email",
-			"manual": "docs/TUTORIALS/API/EMAIL.md"
-		},
-		"derech": {
-			"source": "geelooy/api/email/_awtsmoos.derech.js",
-			"status": "OK",
-			"issue": "—",
-			"mount": "/api/email"
-		},
-		"dynamic": false,
-		"pathParameters": [],
-		"methods": [],
-		"methodEvidence": "unknown",
-		"vessels": [],
-		"statuses": [],
-		"headers": [],
-		"callers": [],
-		"callerCount": 0,
-		"tests": [
-			{
-				"name": "emailTest",
-				"command": "node ayzarim/email/emailTest.js"
-			}
-		],
-		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-email-email-21dde810a8.md",
-		"confidence": "unknown-method",
-		"related": [
-			{
-				"id": "api-email-f77f0430fe",
-				"route": "/api/email"
-			}
-		]
-	},
-	{
-		"id": "api-even-asd-more-rt-k-0e23c6ff58",
-		"route": "/api/even/:asd/more/:rt/k",
-		"source": "geelooy/api/_awtsmoos.derech.js",
-		"discoveryKind": "static-literal",
-		"family": {
-			"mount": "/api",
-			"title": "API Root",
-			"manual": "docs/TUTORIALS/API/ROOT_API.md"
-		},
-		"derech": {
-			"source": "geelooy/api/_awtsmoos.derech.js",
-			"status": "OK",
-			"issue": "—",
-			"mount": "/api"
-		},
-		"dynamic": true,
-		"pathParameters": [
-			{
-				"name": "asd",
-				"catchAll": false
-			},
-			{
-				"name": "rt",
-				"catchAll": false
-			}
-		],
-		"methods": [],
-		"methodEvidence": "unknown",
-		"vessels": [
-			"route-vars"
-		],
-		"statuses": [],
-		"headers": [
-			"Access-Control-Allow-Origin"
-		],
-		"callers": [],
-		"callerCount": 0,
-		"tests": [
-			{
-				"name": "test",
-				"command": "npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported-style-ownership && npm run test:css-quality && npm run test:heichelos-quality && npm run test:profile-menu && npm run test:heichel-governance && npm run test:post-submissions && npm run test:comments && npm run test:api-keys && npm run test:graph && npm run test:social-content && npm run test:notifications && npm run test:social-packed && npm run test:packed-engine && npm run test:platform-ops && npm run test:platform-execution && npm run test:node-client && npm run test:dayuh-cutover"
-			},
-			{
-				"name": "test:dayuh-release",
-				"command": "npm run test:routes && npm run test:comments && npm run test:social-content && npm run test:social-packed && npm run test:packed-engine && node --test tools/dayuhChadashMaintenance/test/*.test.js && npm run test:dayuh-cutover"
-			},
-			{
-				"name": "test:routes",
-				"command": "node geelooy/api/social/test/routeCoverage.test.js"
-			}
-		],
-		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-even-asd-more-rt-k-0e23c6ff58.md",
-		"confidence": "unknown-method",
-		"related": [
-			{
-				"id": "api-what-are-you-doing-43227e74be",
-				"route": "/api/what/:are/you/:doing"
-			},
-			{
-				"id": "api-wow-asd-asd-rt-k-3fe992d4a2",
-				"route": "/api/wow/:asd/asd/:rt/k"
-			}
-		]
-	},
-	{
-		"id": "api-fetch-9837786494",
-		"route": "/api/fetch",
-		"source": "geelooy/api/fetch/_awtsmoos.derech.js",
-		"discoveryKind": "static-literal",
-		"family": {
-			"mount": "/api/fetch",
-			"title": "Fetch Proxy",
-			"manual": "docs/TUTORIALS/API/FETCH.md"
-		},
-		"derech": {
-			"source": "geelooy/api/fetch/_awtsmoos.derech.js",
-			"status": "OK",
-			"issue": "—",
-			"mount": "/api/fetch"
-		},
-		"dynamic": false,
-		"pathParameters": [],
-		"methods": [],
-		"methodEvidence": "unknown",
-		"vessels": [
-			"$_POST",
-			"headers",
-			"cookies",
-			"identity"
-		],
-		"statuses": [
-			"400",
-			"401",
-			"403",
-			"429"
-		],
-		"headers": [],
-		"callers": [
-			{
-				"literal": "/api/fetch",
-				"source": "geelooy/scripts/tricks/jem/script.js",
-				"kind": "runtime"
-			}
-		],
-		"callerCount": 1,
-		"tests": [],
-		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-fetch-9837786494.md",
-		"confidence": "unknown-method",
-		"related": []
-	},
-	{
-		"id": "api-gpt-d048698bbd",
-		"route": "/api/gpt",
-		"source": "geelooy/api/gpt/_awtsmoos.derech.js",
-		"discoveryKind": "static-literal",
-		"family": {
-			"mount": "/api/gpt",
-			"title": "GPT",
-			"manual": "docs/TUTORIALS/API/GPT.md"
-		},
-		"derech": {
-			"source": "geelooy/api/gpt/_awtsmoos.derech.js",
-			"status": "OK",
-			"issue": "—",
-			"mount": "/api/gpt"
-		},
-		"dynamic": false,
-		"pathParameters": [],
-		"methods": [],
-		"methodEvidence": "unknown",
-		"vessels": [],
-		"statuses": [],
-		"headers": [],
-		"callers": [
-			{
-				"literal": "/api/gpt",
-				"source": "geelooy/ai/js/chatgpt/api/GptApiClient.js",
-				"kind": "runtime"
-			},
-			{
-				"literal": "/api/gpt",
-				"source": "geelooy/ai/js/chatgpt/api/GptApiTransport.js",
-				"kind": "runtime"
-			}
-		],
-		"callerCount": 2,
-		"tests": [],
-		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-gpt-d048698bbd.md",
-		"confidence": "unknown-method",
-		"related": [
-			{
-				"id": "api-gpt-capability-64cc6e59cc",
-				"route": "/api/gpt/capability"
-			},
-			{
-				"id": "api-gpt-chat-04ca454293",
-				"route": "/api/gpt/chat"
-			},
-			{
-				"id": "api-gpt-health-3da27f3934",
-				"route": "/api/gpt/health"
-			},
-			{
-				"id": "api-gpt-reset-cde51acb79",
-				"route": "/api/gpt/reset"
-			}
-		]
-	},
-	{
-		"id": "api-gpt-capability-64cc6e59cc",
-		"route": "/api/gpt/capability",
-		"source": "geelooy/api/gpt/_awtsmoos.derech.js",
-		"discoveryKind": "static-literal",
-		"family": {
-			"mount": "/api/gpt",
-			"title": "GPT",
-			"manual": "docs/TUTORIALS/API/GPT.md"
-		},
-		"derech": {
-			"source": "geelooy/api/gpt/_awtsmoos.derech.js",
-			"status": "OK",
-			"issue": "—",
-			"mount": "/api/gpt"
-		},
-		"dynamic": false,
-		"pathParameters": [],
-		"methods": [],
-		"methodEvidence": "unknown",
-		"vessels": [],
-		"statuses": [],
-		"headers": [],
-		"callers": [],
-		"callerCount": 0,
-		"tests": [],
-		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-gpt-capability-64cc6e59cc.md",
-		"confidence": "unknown-method",
-		"related": [
-			{
-				"id": "api-gpt-d048698bbd",
-				"route": "/api/gpt"
-			},
-			{
-				"id": "api-gpt-chat-04ca454293",
-				"route": "/api/gpt/chat"
-			},
-			{
-				"id": "api-gpt-health-3da27f3934",
-				"route": "/api/gpt/health"
-			},
-			{
-				"id": "api-gpt-reset-cde51acb79",
-				"route": "/api/gpt/reset"
-			}
-		]
-	},
-	{
-		"id": "api-gpt-chat-04ca454293",
-		"route": "/api/gpt/chat",
-		"source": "geelooy/api/gpt/_awtsmoos.derech.js",
-		"discoveryKind": "static-literal",
-		"family": {
-			"mount": "/api/gpt",
-			"title": "GPT",
-			"manual": "docs/TUTORIALS/API/GPT.md"
-		},
-		"derech": {
-			"source": "geelooy/api/gpt/_awtsmoos.derech.js",
-			"status": "OK",
-			"issue": "—",
-			"mount": "/api/gpt"
-		},
-		"dynamic": false,
-		"pathParameters": [],
-		"methods": [],
-		"methodEvidence": "unknown",
-		"vessels": [],
-		"statuses": [],
-		"headers": [],
-		"callers": [],
-		"callerCount": 0,
-		"tests": [],
-		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-gpt-chat-04ca454293.md",
-		"confidence": "unknown-method",
-		"related": [
-			{
-				"id": "api-gpt-d048698bbd",
-				"route": "/api/gpt"
-			},
-			{
-				"id": "api-gpt-capability-64cc6e59cc",
-				"route": "/api/gpt/capability"
-			},
-			{
-				"id": "api-gpt-health-3da27f3934",
-				"route": "/api/gpt/health"
-			},
-			{
-				"id": "api-gpt-reset-cde51acb79",
-				"route": "/api/gpt/reset"
-			}
-		]
-	},
-	{
-		"id": "api-gpt-health-3da27f3934",
-		"route": "/api/gpt/health",
-		"source": "geelooy/api/gpt/_awtsmoos.derech.js",
-		"discoveryKind": "static-literal",
-		"family": {
-			"mount": "/api/gpt",
-			"title": "GPT",
-			"manual": "docs/TUTORIALS/API/GPT.md"
-		},
-		"derech": {
-			"source": "geelooy/api/gpt/_awtsmoos.derech.js",
-			"status": "OK",
-			"issue": "—",
-			"mount": "/api/gpt"
-		},
-		"dynamic": false,
-		"pathParameters": [],
-		"methods": [],
-		"methodEvidence": "unknown",
-		"vessels": [],
-		"statuses": [],
-		"headers": [],
-		"callers": [],
-		"callerCount": 0,
-		"tests": [],
-		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-gpt-health-3da27f3934.md",
-		"confidence": "unknown-method",
-		"related": [
-			{
-				"id": "api-gpt-d048698bbd",
-				"route": "/api/gpt"
-			},
-			{
-				"id": "api-gpt-capability-64cc6e59cc",
-				"route": "/api/gpt/capability"
-			},
-			{
-				"id": "api-gpt-chat-04ca454293",
-				"route": "/api/gpt/chat"
-			},
-			{
-				"id": "api-gpt-reset-cde51acb79",
-				"route": "/api/gpt/reset"
-			}
-		]
-	},
-	{
-		"id": "api-gpt-reset-cde51acb79",
-		"route": "/api/gpt/reset",
-		"source": "geelooy/api/gpt/_awtsmoos.derech.js",
-		"discoveryKind": "static-literal",
-		"family": {
-			"mount": "/api/gpt",
-			"title": "GPT",
-			"manual": "docs/TUTORIALS/API/GPT.md"
-		},
-		"derech": {
-			"source": "geelooy/api/gpt/_awtsmoos.derech.js",
-			"status": "OK",
-			"issue": "—",
-			"mount": "/api/gpt"
-		},
-		"dynamic": false,
-		"pathParameters": [],
-		"methods": [],
-		"methodEvidence": "unknown",
-		"vessels": [],
-		"statuses": [],
-		"headers": [],
-		"callers": [],
-		"callerCount": 0,
-		"tests": [],
-		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-gpt-reset-cde51acb79.md",
-		"confidence": "unknown-method",
-		"related": [
-			{
-				"id": "api-gpt-d048698bbd",
-				"route": "/api/gpt"
-			},
-			{
-				"id": "api-gpt-capability-64cc6e59cc",
-				"route": "/api/gpt/capability"
-			},
-			{
-				"id": "api-gpt-chat-04ca454293",
-				"route": "/api/gpt/chat"
-			},
-			{
-				"id": "api-gpt-health-3da27f3934",
-				"route": "/api/gpt/health"
 			}
 		]
 	}

@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-docs-production-roadmap-02-world-simulation-m-2c511a0a65",
+	"title": "World and Simulation",
+	"sourcePath": "geelooy/games/mitzvahWorld/docs/production-roadmap/02-world-simulation.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "World and Simulation",
+			"anchor": "world-and-simulation"
+		},
+		{
+			"level": 2,
+			"text": "Terrain and geology",
+			"anchor": "terrain-and-geology"
+		},
+		{
+			"level": 2,
+			"text": "Hydrology",
+			"anchor": "hydrology"
+		},
+		{
+			"level": 2,
+			"text": "Connected geography and streaming",
+			"anchor": "connected-geography-and-streaming"
+		},
+		{
+			"level": 2,
+			"text": "Architecture",
+			"anchor": "architecture"
+		},
+		{
+			"level": 2,
+			"text": "Interiors",
+			"anchor": "interiors"
+		},
+		{
+			"level": 2,
+			"text": "Ecology and biomes",
+			"anchor": "ecology-and-biomes"
+		},
+		{
+			"level": 2,
+			"text": "Atmosphere and weather",
+			"anchor": "atmosphere-and-weather"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-docs-production-roadmap-02-world-simulation-m-2c511a0a65-001.json"
+	]
+}

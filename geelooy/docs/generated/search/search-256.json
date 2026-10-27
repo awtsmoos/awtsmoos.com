@@ -1,250 +1,319 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-assets-materials-local-world-processed-direct-d41405e16a",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/assets/materials/local/world/processed/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-glossary-md-a84b61a5eb",
+		"title": "Repository Glossary",
+		"sourcePath": "docs/GLOSSARY.md",
+		"category": "General",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: assets/materials/local/world/processed",
-				"anchor": "directory-guide-assets-materials-local-world-processed"
+				"text": "Repository Glossary",
+				"anchor": "repository-glossary"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Awtsmoos",
+				"anchor": "awtsmoos"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Geelooy",
+				"anchor": "geelooy"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Derech",
+				"anchor": "derech"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
+				"text": "$i",
+				"anchor": "i"
 			},
 			{
 				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
+				"text": "$GET, $POST, $DELETE",
+				"anchor": "get-post-delete"
 			},
 			{
 				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
+				"text": "Dynamic parameter",
+				"anchor": "dynamic-parameter"
 			},
 			{
 				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
+				"text": "Heichel / Heichelos",
+				"anchor": "heichel-heichelos"
 			},
 			{
 				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Alias",
+				"anchor": "alias"
+			},
+			{
+				"level": 2,
+				"text": "DosDB",
+				"anchor": "dosdb"
+			},
+			{
+				"level": 2,
+				"text": "Perutah / Perutas",
+				"anchor": "perutah-perutas"
+			},
+			{
+				"level": 2,
+				"text": "Tunnel",
+				"anchor": "tunnel"
+			},
+			{
+				"level": 2,
+				"text": "Mission room",
+				"anchor": "mission-room"
+			},
+			{
+				"level": 2,
+				"text": "Generated docs",
+				"anchor": "generated-docs"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/materials/local/world/processed Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 1 files, 1 structural child directories Purpose Processed material derivatives organized by semantic subject. The Awtsmoos renews ev",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/materials/local/world/processed role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 1 files, 1 structural child directories purpose processed material derivatives organized by semantic subject. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: assets, guide, local, materials, processed file mix: .md: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files no immediate files. this directory is an organizational parent; follow the child guides below. directory map parent: assets/materials/local/world children: assets/materials/local/world/processed/botany related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. boundaries and cautions this directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-assets-materials-local-world-processed-direct-d41405e16a.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Repository Glossary The Awtsmoos gives language to vessels so maintainers can share one map; Awtsmoos.com has its own names, and this glossary prevents a semantic trap. Awtsmoos The project name and recurring conceptual vocabulary throughout source comments, APIs, apps, and runtime syste",
+		"searchText": "b\"h boruch hashem blessed is he repository glossary the awtsmoos gives language to vessels so maintainers can share one map; awtsmoos.com has its own names, and this glossary prevents a semantic trap. awtsmoos the project name and recurring conceptual vocabulary throughout source comments, apis, apps, and runtime systems. this documentation uses the spelling present in the repository and user instructions. geelooy the default public filesystem root is geelooy/ because awtsmoosstaticserver.maindir defaults to config.public \"geelooy\". it contains pages, applications, games, shared browser code, and the filesystem located api tree. derech a dynamic route module convention represented by awtsmoos.derech.js. the dynamic server searches upward through the physical request path for such files, then evaluates their route definitions. the current api tree contains 21 derech mount files. $i a common server side request/context vessel passed to derech code. it can expose db access, request/user state, helper methods, url information, body/query vessels, route parameters, and response utilities depending on the runtime. it is not a url dollar path segment. $ get, $ post, $ delete php like names used by route code for parsed input vessels. they are data objects, not path grammar. dynamic parameter a url route segment declared as :name. example: /:sefer/section/:section. a terminal :name is a catch all. see routes/dynamic paths.md. heichel / heichelos a core social/content domain represented across browser surfaces and social api modules. the source includes heichel creation/editing, posts, series, editors, review/governance, comments, and discovery. treat it as a first class content container/domain, not merely a page name. alias a user/social identity concept heavily used by social routes. many write operations are authorized in terms of whether the current identity owns or may act for an alias. dosdb the persistence engine instantiated by the dynamic server. the database root is configurable by environment/local config/tracked config and exposed as process.awtsmoosdbpath. perutah / perutas value/economy vocabulary used in wallet and tunnel control commerce/treasury systems. read the route implementation before assuming units, accounting guarantees, or production payment semantics. tunnel the remote device/agent bridge spanning apps, apis, shared client code, installer artifacts, live calls, previews, mission rooms, filesystem actions, and provider/compute/economy systems. mission room a collaboration/agent orchestration concept with both http control routes and websocket server behavior. generated docs markdown under docs/generated/, fully regenerated by node scripts/docs/generate docs.js. never hand maintain them as authoritative narrative; change the generator or source instead.",
+		"page": "pages/docs-glossary-md-a84b61a5eb.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-assets-materials-local-world-various-director-673f954b28",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/assets/materials/local/world/various/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-health-md-5b9eeee252",
+		"title": "Source and API Health Evidence",
+		"sourcePath": "docs/HEALTH.md",
+		"category": "General",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: assets/materials/local/world/various",
-				"anchor": "directory-guide-assets-materials-local-world-various"
+				"text": "Source and API Health Evidence",
+				"anchor": "source-and-api-health-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Derech syntax matrix",
+				"anchor": "derech-syntax-matrix"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "What OK proves",
+				"anchor": "what-ok-proves"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "What route discovery proves",
+				"anchor": "what-route-discovery-proves"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
+				"text": "Stronger evidence ladder",
+				"anchor": "stronger-evidence-ladder"
 			},
 			{
 				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Why the Text failure stays visible",
+				"anchor": "why-the-text-failure-stays-visible"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/materials/local/world/various Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 5 files, 0 structural child directories Purpose Loose world material assets that do not yet belong to a narrower collection. The Awtsm",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/materials/local/world/various role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 5 files, 0 structural child directories purpose loose world material assets that do not yet belong to a narrower collection. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: png, stone, assets, guide, local, masonry, materials, oak, planks, retaining, roof, rough file mix: .png: 4 · .md: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files rough weathered oak wood planks.png — a .png artifact in this directory. stone retaining wall masonry.png — a .png artifact in this directory. whitewashed stone.png — a .png artifact in this directory. slate roof shingles.png — a .png artifact in this directory. directory map parent: assets/materials/local/world children: none. related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. boundaries and cautions this directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-assets-materials-local-world-various-director-673f954b28.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Source and API Health Evidence The Awtsmoos distinguishes existence from health, for a path in source may still fail before it can speak; Awtsmoos.com records syntax evidence separately so a generated route row is never mistaken for a runtime guarantee we did not seek. Derech syntax matr",
+		"searchText": "b\"h boruch hashem blessed is he source and api health evidence the awtsmoos distinguishes existence from health, for a path in source may still fail before it can speak; awtsmoos.com records syntax evidence separately so a generated route row is never mistaken for a runtime guarantee we did not seek. derech syntax matrix generated/derech health.md runs node check against every awtsmoos.derech.js mount in geelooy/api. at the continuation discovery point, 20 of 21 derech files parsed successfully. the one known failure remained geelooy/api/text/ awtsmoos.derech.js, with a javascript syntax error. what ok proves ok proves only that node can parse the derech file. it does not prove: imported modules exist in every deployment; credentials/configuration are present; every route handler succeeds; authentication permits the current caller; external providers are reachable; database state is valid; all http methods are accepted; websocket protocol versions match. what route discovery proves the route atlas proves source visible route registrations discovered by the generator's supported patterns and known route tables. it is stronger than a guessed list but weaker than a successful endpoint probe. stronger evidence ladder 1. source exists. 2. source parses. 3. route registration is discoverable. 4. dependencies/config load. 5. authentication/authorization works for a test identity. 6. handler executes in a controlled test. 7. expected side effects and response are verified. 8. relevant integration/browser/provider/realtime behavior is verified. why the text failure stays visible the documentation task does not silently repair unrelated application source. keeping the failure in generated health output prevents a future reader from interpreting textually extracted route evidence as a verified live endpoint.",
+		"page": "pages/docs-health-md-5b9eeee252.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-assets-textures-directory-guide-md-5f33f001af",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/assets/textures/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-how-to-choose-a-project-md-d7737467cb",
+		"title": "How to Choose a Project Boundary",
+		"sourcePath": "docs/HOW_TO_CHOOSE_A_PROJECT.md",
+		"category": "Projects",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: assets/textures",
-				"anchor": "directory-guide-assets-textures"
+				"text": "How to Choose a Project Boundary",
+				"anchor": "how-to-choose-a-project-boundary"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "First question: what kind of surface is this?",
+				"anchor": "first-question-what-kind-of-surface-is-this"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Use Project Explorer",
+				"anchor": "use-project-explorer"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "What each project packet can answer",
+				"anchor": "what-each-project-packet-can-answer"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "What it cannot prove",
+				"anchor": "what-it-cannot-prove"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/textures Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 3 files, 0 structural child directories Purpose Loose top level textures that are not part of the structured material library. The Awtsmoos renews every pa",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/textures role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 3 files, 0 structural child directories purpose loose top level textures that are not part of the structured material library. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: svg, assets, brick, coin, gold, guide, textures, wall file mix: .svg: 2 · .md: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files brick wall.svg — a .svg artifact in this directory. gold coin.svg — a .svg artifact in this directory. directory map parent: assets children: none. related and overlapping systems see the system overlap map before creating a similarly named subsystem elsewhere. boundaries and cautions this directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-assets-textures-directory-guide-md-5f33f001af.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He How to Choose a Project Boundary Choose a boundary by the behavior you need to understand, not by which directory happens to be largest. First question: what kind of surface is this? End user browser experience → look for app / public boundaries and public entry evidence. Dynamic HTTP be",
+		"searchText": "b\"h boruch hashem blessed is he how to choose a project boundary choose a boundary by the behavior you need to understand, not by which directory happens to be largest. first question: what kind of surface is this? end user browser experience → look for app / public boundaries and public entry evidence. dynamic http behavior → start with an api project, then switch to route tutorials for url semantics. game/world → use game projects plus realtime evidence where applicable. server/database/runtime → use runtime, runtime root, infrastructure, data, or operations projects. shared implementation → use library or tooling boundaries and inspect incoming consumers. compatibility/navigation root → inspect alias or generic project evidence carefully. planning/discovery material → evidence is not automatically a product. use project explorer /docs/?view=projects exposes the generated boundary model directly. filter by exact type, whether a public entry exists, whether test files exist, documentation coverage, or a path/dependency/entry search term. what each project packet can answer where is it? exact project path. how does source enter? source entry files and symbol samples. how can a user enter? discovered public html entries when present. what does it reference? lexical outgoing project edges and external package evidence. what references it? lexical incoming project edges. how might i verify it? nearby test file evidence and human docs. what it cannot prove runtime call frequency or reachability; application health; complete dynamic imports/registrations; behavioral test coverage quality; authentication/authorization policy; production deployment status. for those questions, continue into current source, dedicated api/realtime/data/security docs, tests, and runtime checks.",
+		"page": "pages/docs-how-to-choose-a-project-md-d7737467cb.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-directory-guide-md-eb13522f77",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-integrations-md-c37aff7eb3",
+		"title": "External Integrations",
+		"sourcePath": "docs/INTEGRATIONS.md",
+		"category": "General",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: .",
-				"anchor": "directory-guide"
+				"text": "External Integrations",
+				"anchor": "external-integrations"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Awtsmoos OAuth",
+				"anchor": "awtsmoos-oauth"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "YouTube / Google",
+				"anchor": "youtube-google"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "PayPal / Wallet",
+				"anchor": "paypal-wallet"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
+				"text": "SMTP / email",
+				"anchor": "smtp-email"
 			},
 			{
 				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
+				"text": "SSH",
+				"anchor": "ssh"
 			},
 			{
 				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
+				"text": "AI/model providers",
+				"anchor": "ai-model-providers"
 			},
 			{
 				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
+				"text": "Streaming connectors",
+				"anchor": "streaming-connectors"
 			},
 			{
 				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Fetch proxy",
+				"anchor": "fetch-proxy"
+			},
+			{
+				"level": 2,
+				"text": "Configuration and secrets",
+				"anchor": "configuration-and-secrets"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: . Role: Project root Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 11 files, 5 structural child directories Purpose Project entry, top level audits, handoff notes, and navigation for the Mitzvah World game. The Awtsmoos renews eve",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: . role: project root snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 11 files, 5 structural child directories purpose project entry, top level audits, handoff notes, and navigation for the mitzvah world game. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: project root search terms: audit, mitzvah, forest, index, maker, movie, next, procedural, remaining, work, ., basic file mix: [none]: 2 · .json: 1 · .html: 1 good first question: “does the behavior or asset i need belong to project root, or is this only a neighboring/test/reference layer?” semantic evidence b\"h b\"h — mitzvah world movie maker audit b\"h — next ai: mitzvah world was simplified b\"h — mitzvah world procedural forest audit representative files movie maker audit.md — b\"h — mitzvah world movie maker audit next ai readme.md — b\"h — next ai: mitzvah world was simplified procedural forest audit.md — b\"h — mitzvah world procedural forest audit remaining work.md — mitzvah world basic meadow — remaining work index.html — a .html artifact in this directory. directory map parent: project root. children: assets experiments movies references styles existing markdown: directory index.md, movie maker audit.md, next ai readme.md, procedural forest audit.md, remaining work.md, system overlap map.md related and overlapping systems diagnostics, logs, tools, and root audits — live diagnostics, captured logs, offline tools, and root audit reports describe different stages of observability. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-directory-guide-md-eb13522f77.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He External Integrations The Awtsmoos lets Awtsmoos.com meet external providers through explicit vessels while secret values and foreign failure remain outside the documentation itself. Awtsmoos OAuth Source: geelooy/api/oauth/. Human docs: docs/API/OAUTH.md. OAuth bearer evidence can becom",
+		"searchText": "b\"h boruch hashem blessed is he external integrations the awtsmoos lets awtsmoos.com meet external providers through explicit vessels while secret values and foreign failure remain outside the documentation itself. awtsmoos oauth source: geelooy/api/oauth/. human docs: docs/api/oauth.md. oauth bearer evidence can become a trusted identity source for tunnel control after server verification. client registration, redirect validation, scopes, tokens and current identity behavior remain source controlled contracts. youtube / google source: geelooy/api/youtube/ plus youtube/streaming clients. human docs: docs/api/youtube.md. configuration includes client, redirect, refresh token, encryption/session and secret root concepts; the generated environment inventory lists names without values. paypal / wallet source: geelooy/api/wallet/. human docs: docs/api/wallet.md. purchase, capture, entitlement and provider behavior must be read from current handlers/tests; mock purchase routes are not production settlement guarantees. smtp / email root server startup, geelooy/api/email/, contact, social mail and browser email interfaces are related but distinct. awtsmoos disable mail affects mail startup in inspected root behavior. ssh source: geelooy/api/ssh/ plus server side ssh infrastructure. remote command/filesystem operations are security sensitive; credentials and remote mutations must never be documented as reusable live examples. ai/model providers gpt api, browser ai, local gguf tooling, search/vector systems and developer ai integrations can use different providers/models/configuration. do not collapse them into one credential or schema. streaming connectors geelooy/api/streaming/ dispatches connector/action behavior. observed connector families include awtsmoos, facebook, twitch and youtube. each connector owns provider specific payload and credential semantics. fetch proxy /api/fetch is a server side outbound fetch surface with auth/origin/limit/binary behavior; it should not be described as an unrestricted generic proxy. configuration and secrets use docs/configuration.md, docs/security/secrets and config.md and docs/generated/environment variables.md. the generated layer intentionally records names and source ownership, never secret values.",
+		"page": "pages/docs-integrations-md-c37aff7eb3.json"
+	},
+	{
+		"id": "docs-interactive-documentation-md-5e3a4b2975",
+		"title": "Interactive Documentation Application",
+		"sourcePath": "docs/INTERACTIVE_DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Interactive Documentation Application",
+				"anchor": "interactive-documentation-application"
+			},
+			{
+				"level": 2,
+				"text": "Primary modes",
+				"anchor": "primary-modes"
+			},
+			{
+				"level": 3,
+				"text": "Learn — /docs/?view=learn",
+				"anchor": "learn-docs-view-learn"
+			},
+			{
+				"level": 3,
+				"text": "API Explorer — /docs/?view=api",
+				"anchor": "api-explorer-docs-view-api"
+			},
+			{
+				"level": 3,
+				"text": "Project Explorer — /docs/?view=projects",
+				"anchor": "project-explorer-docs-view-projects"
+			},
+			{
+				"level": 3,
+				"text": "Systems Explorer — /docs/?view=systems",
+				"anchor": "systems-explorer-docs-view-systems"
+			},
+			{
+				"level": 3,
+				"text": "Documents",
+				"anchor": "documents"
+			},
+			{
+				"level": 2,
+				"text": "Publication v6",
+				"anchor": "publication-v6"
+			},
+			{
+				"level": 2,
+				"text": "Safety",
+				"anchor": "safety"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Interactive Documentation Application /docs/ converts intentional documentation and bounded generated evidence into a safe browser experience without making the publication itself authoritative over source. Primary modes Learn — /docs/?view=learn Five source backed tracks with local only",
+		"searchText": "b\"h boruch hashem blessed is he interactive documentation application /docs/ converts intentional documentation and bounded generated evidence into a safe browser experience without making the publication itself authoritative over source. primary modes learn — /docs/?view=learn five source backed tracks with local only completion state. api explorer — /docs/?view=api routes, method/source/caller/test evidence, family/health/shape/confidence filters, deep links and ask. project explorer — /docs/?view=projects project boundaries, entries, file shape, symbols, dependencies, tests, docs, public surfaces and ask. systems explorer — /docs/?view=systems curated data/security/realtime concepts with district/evidence/text filters, claims boundary, change risk, human/generated docs, project links, copyable source anchors, environment names only , registered realtime applications, lexical events, deep links and system aware ask. documents global search, safe markdown reading, provenance, favorites/recents, deep links and retrieval first ask. publication v6 geelooy/docs/generated/manifest.json declares transport bounded search, project, system, api tutorial, page, and content shards. the browser guesses no shard names. safety raw markdown html is not executed. authored modules do not assign innerhtml. system packets never publish environment values. event literals remain lexical clues. project/api/system evidence does not replace source verification.",
+		"page": "pages/docs-interactive-documentation-md-5e3a4b2975.json"
+	},
+	{
+		"id": "docs-learn-add-an-api-route-md-7ac7b52b6e",
+		"title": "Add an API Route",
+		"sourcePath": "docs/LEARN/ADD_AN_API_ROUTE.md",
+		"category": "Routes",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Add an API Route",
+				"anchor": "add-an-api-route"
+			},
+			{
+				"level": 2,
+				"text": "Before coding",
+				"anchor": "before-coding"
+			},
+			{
+				"level": 2,
+				"text": "Decide ownership",
+				"anchor": "decide-ownership"
+			},
+			{
+				"level": 2,
+				"text": "Implementation checklist",
+				"anchor": "implementation-checklist"
+			},
+			{
+				"level": 2,
+				"text": "Documentation gate",
+				"anchor": "documentation-gate"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Add an API Route Before coding Read the owning local DOCUMENTATION.md, family tutorial, derech file, neighboring handlers, auth helpers, persistence paths, and tests. Decide ownership Prefer the existing family derech/route table when the behavior belongs to that subsystem. Do not create",
+		"searchText": "b\"h boruch hashem blessed is he add an api route before coding read the owning local documentation.md, family tutorial, derech file, neighboring handlers, auth helpers, persistence paths, and tests. decide ownership prefer the existing family derech/route table when the behavior belongs to that subsystem. do not create a new mount merely to avoid understanding the ancestor routing model. implementation checklist 1. define an explicit route/path shape. 2. choose method behavior in the exact handler. 3. parse only required query/body/path inputs. 4. establish trusted identity before privileged actions. 5. apply resource level authorization separately. 6. return explicit status/header/body semantics. 7. add focused tests and representative caller integration if appropriate. 8. update the human family tutorial when meaning/workflow changes. 9. regenerate docs so the route tutorial appears automatically. documentation gate the generated tutorial must never invent payload fields that the implementation does not prove.",
+		"page": "pages/docs-learn-add-an-api-route-md-7ac7b52b6e.json"
 	}
 ]

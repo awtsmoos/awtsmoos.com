@@ -1,5 +1,71 @@
 [
 	{
+		"systemId": "parallel-awtsmoosdb",
+		"district": "data",
+		"title": "Parallel AwtsmoosDB Bridge",
+		"summary": "The DosDB-side bridge that exposes a parallel AwtsmoosDB path for newer database capabilities.",
+		"manuals": [
+			"docs/DATA/README.md",
+			"docs/DATA/AWTSMOOSDB_AND_VIRTUALFS.md"
+		],
+		"projects": [
+			{
+				"projectId": "ayzarim-dosdb-eaaa802e",
+				"path": "ayzarim/DosDB",
+				"type": "data",
+				"title": "ayzarim/DosDB",
+				"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-dosdb-eaaa802e.md"
+			}
+		],
+		"sources": [
+			"ayzarim/DosDB/awtsmoosDbBridge.js"
+		],
+		"generatedEvidence": [],
+		"tags": [
+			"persistence",
+			"awtsmoosdb",
+			"bridge"
+		],
+		"claimsBoundary": "Bridge presence does not mean all legacy DosDB callers use the newer engine.",
+		"changeRisk": "Bridge selection/fallback changes can alter which physical storage family receives writes.",
+		"environmentEvidence": [
+			{
+				"name": "AWTSMOOS_EMBED_MODE",
+				"classification": "runtime-config",
+				"sources": 1,
+				"exampleSources": "ayzarim/DosDB/aiSearch/textEmbedRunner.js"
+			},
+			{
+				"name": "AWTSMOOS_EMBED_MODEL_ROOT",
+				"classification": "test/tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/ai_search_model_root_precedence_test.js"
+			},
+			{
+				"name": "AWTSMOOSDB_FAST_TEST",
+				"classification": "test/tuning",
+				"sources": 3,
+				"exampleSources": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/idle/fastGate.js; ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/lightning/env.js; ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/semantic_ai_dosdb_test.js"
+			},
+			{
+				"name": "AWTSMOOSDB_TEST_SCALE",
+				"classification": "test/tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/lightning/env.js"
+			},
+			{
+				"name": "NODE_ENV",
+				"classification": "runtime-config",
+				"sources": 4,
+				"exampleSources": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/lightning/env.js; geelooy/api/tunnel/install/tools/zipBundle.js; geelooy/api/wallet/core/paypalEnvironment.js"
+			}
+		],
+		"realtimeApplications": [],
+		"eventEvidence": [],
+		"tutorialFile": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/parallel-awtsmoosdb.md",
+		"provenance": "curated-system-semantics-plus-generated-local-source-evidence"
+	},
+	{
 		"systemId": "session-authentication",
 		"district": "security",
 		"title": "Session Authentication",
@@ -79,6 +145,18 @@
 		"changeRisk": "Token validation, expiry, issuer/subject, scope, or CORS behavior is security-sensitive.",
 		"environmentEvidence": [
 			{
+				"name": "AWTSMOOS_ARTIFACT_STORAGE_ROOT",
+				"classification": "path/storage",
+				"sources": 6,
+				"exampleSources": "geelooy/api/tunnel/control/core/artifactPublicationStore.js; geelooy/api/tunnel/control/core/binaryArtifactPublication.js; geelooy/api/tunnel/control/core/binaryArtifactPublication.test.cjs"
+			},
+			{
+				"name": "AWTSMOOS_BINARY_ARTIFACT_ROOT",
+				"classification": "path/storage",
+				"sources": 6,
+				"exampleSources": "geelooy/api/tunnel/control/core/binaryArtifactVault.js; geelooy/api/tunnel/control/routes/test/artifactBinaryHttp.test.cjs; geelooy/api/tunnel/control/routes/test/artifactBinaryPrivateRangeHttp.test.cjs"
+			},
+			{
 				"name": "AWTSMOOS_BINDING_HISTORY_PER_IDENTITY",
 				"classification": "runtime-config",
 				"sources": 1,
@@ -136,6 +214,18 @@
 		"claimsBoundary": "The identity resolver rejects browser-supplied owner fields as authority; downstream permissions remain separate.",
 		"changeRisk": "Identity-source precedence, API-key verification, and account normalization directly affect authorization inputs.",
 		"environmentEvidence": [
+			{
+				"name": "AWTSMOOS_ARTIFACT_STORAGE_ROOT",
+				"classification": "path/storage",
+				"sources": 6,
+				"exampleSources": "geelooy/api/tunnel/control/core/artifactPublicationStore.js; geelooy/api/tunnel/control/core/binaryArtifactPublication.js; geelooy/api/tunnel/control/core/binaryArtifactPublication.test.cjs"
+			},
+			{
+				"name": "AWTSMOOS_BINARY_ARTIFACT_ROOT",
+				"classification": "path/storage",
+				"sources": 6,
+				"exampleSources": "geelooy/api/tunnel/control/core/binaryArtifactVault.js; geelooy/api/tunnel/control/routes/test/artifactBinaryHttp.test.cjs; geelooy/api/tunnel/control/routes/test/artifactBinaryPrivateRangeHttp.test.cjs"
+			},
 			{
 				"name": "AWTSMOOS_BINDING_HISTORY_PER_IDENTITY",
 				"classification": "runtime-config",
@@ -307,6 +397,12 @@
 		"changeRisk": "Weakening ticket/origin/protocol/authority checks can cross a realtime security boundary.",
 		"environmentEvidence": [
 			{
+				"name": "AWTSMOOS_WS_BACKPRESSURE_GRACE_MS",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/core/clientLiveness.js"
+			},
+			{
 				"name": "AWTSMOOS_WS_MAX_MISSED_HEARTBEATS",
 				"classification": "runtime-config",
 				"sources": 1,
@@ -363,6 +459,12 @@
 		"claimsBoundary": "Upgrade source establishes the handshake/session boundary; deployment reachability is not inferred.",
 		"changeRisk": "Handshake, identity, cookie, and admission changes can alter every realtime application.",
 		"environmentEvidence": [
+			{
+				"name": "AWTSMOOS_WS_BACKPRESSURE_GRACE_MS",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/core/clientLiveness.js"
+			},
 			{
 				"name": "AWTSMOOS_WS_MAX_MISSED_HEARTBEATS",
 				"classification": "runtime-config",

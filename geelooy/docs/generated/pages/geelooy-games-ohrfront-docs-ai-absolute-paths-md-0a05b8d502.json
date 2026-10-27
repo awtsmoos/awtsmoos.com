@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-ohrfront-docs-ai-absolute-paths-md-0a05b8d502",
+	"title": "AI Absolute System Paths",
+	"sourcePath": "geelooy/games/ohrfront/docs/AI_ABSOLUTE_PATHS.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "AI Absolute System Paths",
+			"anchor": "ai-absolute-system-paths"
+		},
+		{
+			"level": 2,
+			"text": "Purpose",
+			"anchor": "purpose"
+		},
+		{
+			"level": 2,
+			"text": "Canonical printer",
+			"anchor": "canonical-printer"
+		},
+		{
+			"level": 2,
+			"text": "Registered roots",
+			"anchor": "registered-roots"
+		},
+		{
+			"level": 2,
+			"text": "Current physical mission paths",
+			"anchor": "current-physical-mission-paths"
+		},
+		{
+			"level": 2,
+			"text": "Safety and correctness laws",
+			"anchor": "safety-and-correctness-laws"
+		},
+		{
+			"level": 2,
+			"text": "Handoff rule",
+			"anchor": "handoff-rule"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-ohrfront-docs-ai-absolute-paths-md-0a05b8d502-001.json"
+	]
+}

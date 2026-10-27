@@ -1,0 +1,68 @@
+{
+	"schema": "awtsmoos-api-tutorial-v1",
+	"id": "api-tunnel-hetzner-exec-267e52e243",
+	"route": "/api/tunnel/hetzner/exec",
+	"source": "geelooy/api/tunnel/hetzner/opsRoutes.js",
+	"discoveryKind": "static-literal",
+	"family": {
+		"mount": "/api/tunnel",
+		"title": "Tunnel Relay",
+		"manual": "docs/TUTORIALS/API/TUNNEL.md"
+	},
+	"derech": {
+		"source": "geelooy/api/tunnel/_awtsmoos.derech.js",
+		"status": "OK",
+		"issue": "—",
+		"mount": "/api/tunnel"
+	},
+	"dynamic": false,
+	"pathParameters": [],
+	"methods": [],
+	"methodEvidence": "unknown",
+	"vessels": [
+		"$_POST"
+	],
+	"statuses": [],
+	"headers": [],
+	"callers": [],
+	"callerCount": 0,
+	"tests": [
+		{
+			"name": "test:mission-continuity-actions",
+			"command": "node geelooy/apps/tunnel/agent/tools/fs/actionGroups/test/missionContinuityActions.test.mjs"
+		},
+		{
+			"name": "test:treasury",
+			"command": "node geelooy/api/tunnel/control/test/runTreasuryTests.cjs"
+		},
+		{
+			"name": "test:treasury:full",
+			"command": "node geelooy/api/tunnel/control/test/treasury/runAll.cjs"
+		},
+		{
+			"name": "test:tunnel-release",
+			"command": "node --test scripts/tunnel/testing/*.test.cjs scripts/repository-hygiene/testing/*.test.cjs"
+		}
+	],
+	"examples": [],
+	"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-hetzner-exec-267e52e243.md",
+	"confidence": "unknown-method",
+	"related": [
+		{
+			"id": "api-tunnel-fs-tunnelname-48e2aaea39",
+			"route": "/api/tunnel/fs/:tunnelName"
+		},
+		{
+			"id": "api-tunnel-hetzner-health-d92bb398ee",
+			"route": "/api/tunnel/hetzner/health"
+		},
+		{
+			"id": "api-tunnel-hetzner-readlog-d12187a4e3",
+			"route": "/api/tunnel/hetzner/readlog"
+		},
+		{
+			"id": "api-tunnel-request-tunnelname-4e57b0d0cc",
+			"route": "/api/tunnel/request/:tunnelName"
+		}
+	]
+}

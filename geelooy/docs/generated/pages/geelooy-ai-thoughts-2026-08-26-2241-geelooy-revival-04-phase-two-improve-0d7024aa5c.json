@@ -1,0 +1,84 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-26-2241-geelooy-revival-04-phase-two-improve-0d7024aa5c",
+	"title": "Phase Two — Improved Brainstorm",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-26-2241-geelooy-revival/04_PHASE_TWO_IMPROVED_BRAINSTORM.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase Two — Improved Brainstorm",
+			"anchor": "phase-two-improved-brainstorm"
+		},
+		{
+			"level": 2,
+			"text": "Search-First Architecture",
+			"anchor": "search-first-architecture"
+		},
+		{
+			"level": 2,
+			"text": "Desktop Shape",
+			"anchor": "desktop-shape"
+		},
+		{
+			"level": 2,
+			"text": "Tablet Shape",
+			"anchor": "tablet-shape"
+		},
+		{
+			"level": 2,
+			"text": "Phone Shape",
+			"anchor": "phone-shape"
+		},
+		{
+			"level": 2,
+			"text": "Information Weight",
+			"anchor": "information-weight"
+		},
+		{
+			"level": 3,
+			"text": "Primary",
+			"anchor": "primary"
+		},
+		{
+			"level": 3,
+			"text": "Secondary",
+			"anchor": "secondary"
+		},
+		{
+			"level": 3,
+			"text": "Tertiary",
+			"anchor": "tertiary"
+		},
+		{
+			"level": 2,
+			"text": "Behavioral Preservation",
+			"anchor": "behavioral-preservation"
+		},
+		{
+			"level": 2,
+			"text": "Likely Implementation Strategy",
+			"anchor": "likely-implementation-strategy"
+		},
+		{
+			"level": 2,
+			"text": "Verification Model After Code Draft",
+			"anchor": "verification-model-after-code-draft"
+		},
+		{
+			"level": 2,
+			"text": "Wider Site Strategy",
+			"anchor": "wider-site-strategy"
+		},
+		{
+			"level": 2,
+			"text": "NEXTACTION",
+			"anchor": "nextaction"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-26-2241-geelooy-revival-04-phase-two-improve-0d7024aa5c-001.json"
+	]
+}

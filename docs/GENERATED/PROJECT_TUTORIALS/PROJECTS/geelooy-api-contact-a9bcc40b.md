@@ -12,7 +12,7 @@ Blessed is He
 
 ## Entry and documentation evidence
 
-- Entry files: `_awtsmoos.derech.js`, `DOCUMENTATION.md`
+- Entry files: `_awtsmoos.derech.js`, `DOCUMENTATION.md`, `README.md`, `readme.md`
 - Local documentation: `geelooy/api/contact/DOCUMENTATION.md`
 - Local-doc requirement: no; covered: yes
 - Symlink target: —
@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 1 | 0 | 0 | 0 | 1 | 0 | 2 |
+| 6 | 0 | 0 | 0 | 3 | 0 | 9 |
 
 ## Public entry points
 
@@ -29,7 +29,7 @@ None observed.
 
 ## Symbol evidence
 
-Source files: 1; classes: 0; functions: 11; exports: 1; samples: dynamicRoutes, status, submit, parseBody, normalize, validate, deliverSignal, storeSignal, createReference, response, clientKey, clean.
+Source files: 6; classes: 5; functions: 1; exports: 6; samples: dynamicRoutes, crownContactRoutes, ContactSignalPolicy, GevurahInputPolicy, MalchusContactService, TiferesContactDelivery, YesodSignalGate.
 
 ## Depends on
 

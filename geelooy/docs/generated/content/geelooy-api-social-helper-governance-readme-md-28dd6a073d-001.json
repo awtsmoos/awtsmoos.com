@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Governance (geelooy/api/social/helper/governance/)\n\nLegacy governance helpers: Heichel settings, roles, invites, and submissions.\n\n## Files\n- `heichelSettings.js` — Heichel governance settings.\n- `roles.js` — role definitions (owner, editor, moderator, contributor).\n- `invites.js` — invitation handling.\n- `submissions.js` — governance submissions.\n\nThe newer, unified implementation lives in `unifiedSocial/` (permissions, review); these are the legacy counterparts still in use.\n"
+}

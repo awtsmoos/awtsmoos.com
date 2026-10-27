@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-plans-awtsmoos-cloud-phase-00-load-and-ai-create-md-cb2f0e62cd",
+	"title": "Phase 00 — Load Truth + Ask AI To Create Here",
+	"sourcePath": "docs/PLANS/AWTSMOOS_CLOUD/PHASE_00_LOAD_AND_AI_CREATE.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase 00 — Load Truth + Ask AI To Create Here",
+			"anchor": "phase-00-load-truth-ask-ai-to-create-here"
+		},
+		{
+			"level": 2,
+			"text": "LOAD track — the application actually runs",
+			"anchor": "load-track-the-application-actually-runs"
+		},
+		{
+			"level": 2,
+			"text": "AI-CREATE track — Shliach at every path",
+			"anchor": "ai-create-track-shliach-at-every-path"
+		},
+		{
+			"level": 2,
+			"text": "Acceptance",
+			"anchor": "acceptance"
+		},
+		{
+			"level": 2,
+			"text": "Built-in Geelooy Browser track",
+			"anchor": "built-in-geelooy-browser-track"
+		}
+	],
+	"markdownParts": [
+		"content/docs-plans-awtsmoos-cloud-phase-00-load-and-ai-create-md-cb2f0e62cd-001.json"
+	]
+}

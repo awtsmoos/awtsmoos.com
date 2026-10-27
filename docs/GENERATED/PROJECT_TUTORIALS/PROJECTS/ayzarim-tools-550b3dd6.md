@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 4 | 0 | 0 | 0 | 0 | 0 | 4 |
+| 5 | 3 | 0 | 0 | 0 | 0 | 8 |
 
 ## Public entry points
 
@@ -29,7 +29,7 @@ None observed.
 
 ## Symbol evidence
 
-Source files: 4; classes: 2; functions: 10; exports: 7; samples: AwtsmoosAuth, decodeCookieToken, decodeTokenPayload, validateToken, createToken, generateSalt, hashPassword, verifyPassword, encrypt, decrypt, Utils, generateRandomId.
+Source files: 5; classes: 2; functions: 13; exports: 11; samples: AwtsmoosAuth, decodeCookieToken, decodeTokenPayload, SESSION_MAX_AGE_MS, SESSION_CLOCK_SKEW_MS, createSessionMetadata, validateSessionInfo, generateSalt, hashPassword, verifyPassword, isLegacyPasswordHash, createToken.
 
 ## Depends on
 
@@ -45,4 +45,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **0**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **3**. Treat this as file evidence, not proof of behavioral coverage.

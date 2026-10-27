@@ -1,0 +1,208 @@
+[
+	{
+		"id": "geelooy-apps-animator-proofs-three-minute-unified-showcase-completion-ve-f6a4587251",
+		"title": "Three-Minute Unified Showcase — Completion Verification",
+		"sourcePath": "geelooy/apps/animator/proofs/three-minute-unified-showcase/completion-verification.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Three-Minute Unified Showcase — Completion Verification",
+				"anchor": "three-minute-unified-showcase-completion-verification"
+			},
+			{
+				"level": 2,
+				"text": "Final Media",
+				"anchor": "final-media"
+			},
+			{
+				"level": 2,
+				"text": "Why Completion Sampling Is 2 FPS",
+				"anchor": "why-completion-sampling-is-2-fps"
+			},
+			{
+				"level": 2,
+				"text": "Temporal Diversity Evidence",
+				"anchor": "temporal-diversity-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Audio Evidence",
+				"anchor": "audio-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Project Feature Evidence",
+				"anchor": "project-feature-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Browser / Mobile Evidence",
+				"anchor": "browser-mobile-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Final Automated Gates",
+				"anchor": "final-automated-gates"
+			},
+			{
+				"level": 2,
+				"text": "Verifier Defect Found and Closed",
+				"anchor": "verifier-defect-found-and-closed"
+			},
+			{
+				"level": 2,
+				"text": "Completion Meaning",
+				"anchor": "completion-meaning"
+			}
+		],
+		"excerpt": "B\"H Three Minute Unified Showcase — Completion Verification The Awtsmoos renews each instant while a measured movie gathers those instants into time; Awtsmoos.com keeps proof beside the vessel, where scene and sound and changing frame together rhyme. Final Media File: awtsmoos unified three minute showcase.mp4 Duration",
+		"searchText": "b\"h three minute unified showcase — completion verification the awtsmoos renews each instant while a measured movie gathers those instants into time; awtsmoos.com keeps proof beside the vessel, where scene and sound and changing frame together rhyme. final media file: awtsmoos unified three minute showcase.mp4 duration: 180.000000 seconds. video codec: h.264. audio codec: aac. dimensions: 640x360. completion render sampling: 2/1 fps. freshly rendered temporal samples: 360. file size measured by ffprobe: 3,948,519 bytes. historical rejected artifact preserved as awtsmoos unified showcase legacy 63s.mp4; that older file measured only 63.833333 seconds and is not acceptance evidence. why completion sampling is 2 fps the canonical exporter defaults to 12 fps, which means 2,160 freshly rendered frames for 180 seconds. direct execution on the available mac proved that the mature cinematic renderer could not finish that sampling density inside a practical bounded execution envelope. the completion exporter therefore changes only plan.settings.fps to 2. this does not change movie duration, scene timing, camera timing, semantic layers, particle/character/world choreography, overlays, or timed voice clips. it changes only how many temporal samples are freshly rasterized for the proof container. the canonical project remains 180 seconds and the final container is measured at exactly 180 seconds. temporal diversity evidence seven frames were extracted from widely separated times and sha 256 hashed: 5s: 909f386fc3630376663aae529fef14eea5e1dbfb7f24409766555273a24abf0c 35s: 176e8774fc65bc5acecdccdf3f354e424a178518284a4a1c9b7949da3650d64d 65s: 1a93e64292e8691213849e7c78890c684937574b6670806b72aa914031d949c1 95s: fd6763bdf61b2ef0a9f8c796b625e4112c693ca0eed1a7a4c4a4ad86a063b435 125s: ec8794d75c76d9b4575dfd991bc5483d9c3fb3a3d85bee0ebc3f7073fcf8577b 155s: 22f65e3da8a7a94381262bc3df6b8d33558f0c5c3fa7679d1f5659c15bfeed95 175s: 85c47de16315ab0fd7d7c3602f816cff689f009403425b749d01a0a4bdd6f22f distinct hash count: 7 of 7 . the movie is therefore not a static frame stretched to three minutes. sample files live in completion samples/. audio evidence ffmpeg volumedetect on the final mp4 measured: mean volume: 40.9 db. maximum volume: 3.8 db. the audio stream is non silent. the exporter builds a 180 second bed plus timed voice material; the final container includes aac audio. project feature evidence the canonical acceptance movie is exactly 180 seconds across 18 ten second scenes. automated acceptance tests require semantic coverage of world3d, light3d, model3d, shape2d, path2d, chart, particles2d, particles3d, character2d, character3d, text, and overlay. the fixture also requires at least six camera kinds and at least three cast members. browser / mobile evidence awtsmoos studio was exercised in an owned chrome target against the real declarative ui and canvas runtime. desktop viewport around 1440px: no horizontal overflow. mobile emulation near 390x844: no horizontal overflow. logical canvas resolution: 640x360, responsively scaled to approximately 340x191 on the mobile proof viewport. live playback reached 180.0 / 180s. a real browser prompt directed a 24 second hybrid movie. browser seek changed the live display to 12.0 / 24s. reset restored 0.0 / 180s. corrected cdp smoke captured zero runtime.exceptionthrown events during ai generation and seek. mobile screenshot: ../../../../awtsmoos studio/proofs/mobile 390x844.png from this proof directory. final automated gates awtsmoos studio: 5/5 passed. shared movie tests: 12/12 passed. media probe/exporter regression: 3/3 passed. awtsmoosui store/schema smoke: 1/1 passed. syntax checks: passed. touched js/test files <=120 lines: passed. leading space code indentation scan: passed; tab indented code preserved. verifier defect found and closed the first successful 2 fps completion render exited with verifier failure because threeminutemediaprobe hardcoded 12/1. the media itself was valid. the verifier was rewritten to validate explicit render plan expectations while preserving 12 fps as its default. the exporter was also rewritten to calculate its frame count from duration and current plan fps rather than hardcoding 2,160. regression tests protect both behaviors. completion meaning this artifact is evidence of a genuine full duration rendered movie: measured duration, video and audio codecs, changing content across the timeline, broad semantic feature coverage, and executable regression proof. it does not claim that 2 fps is a production theatrical frame rate; it is the bounded acceptance render sampling used to prove the complete three minute movie on the available local hardware.",
+		"page": "pages/geelooy-apps-animator-proofs-three-minute-unified-showcase-completion-ve-f6a4587251.json"
+	},
+	{
+		"id": "geelooy-apps-awtsmoos-gguf-documentation-md-394fa2c5c8",
+		"title": "Awtsmoos GGUF Documentation",
+		"sourcePath": "geelooy/apps/awtsmoos-gguf/DOCUMENTATION.md",
+		"category": "Apps",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos GGUF Documentation",
+				"anchor": "awtsmoos-gguf-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos GGUF Documentation The Awtsmoos lets local model artifacts become a conversational tool while metadata, model path, and runtime stay distinct; Awtsmoos.com maps this app beside the AI system without assuming it shares every /api/gpt contract. Read ../../../docs/SYSTEMS/AI.md, ..",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos gguf documentation the awtsmoos lets local model artifacts become a conversational tool while metadata, model path, and runtime stay distinct; awtsmoos.com maps this app beside the ai system without assuming it shares every /api/gpt contract. read ../../../docs/systems/ai.md, ../../../docs/apps/developer tools.md, and ../../../docs/configuration.md.",
+		"page": "pages/geelooy-apps-awtsmoos-gguf-documentation-md-394fa2c5c8.json"
+	},
+	{
+		"id": "geelooy-apps-captions-documentation-md-635b1fa0a8",
+		"title": "Captions App Documentation",
+		"sourcePath": "geelooy/apps/captions/DOCUMENTATION.md",
+		"category": "Apps",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Captions App Documentation",
+				"anchor": "captions-app-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Captions App Documentation The Awtsmoos lets timed language clothe moving media while editor and provider systems remain separately traced; Awtsmoos.com maps this substantial captions tool beside media APIs and related transcription/streaming space. Read ../../../docs/APPS/MEDIA TOOLS.md",
+		"searchText": "b\"h boruch hashem blessed is he captions app documentation the awtsmoos lets timed language clothe moving media while editor and provider systems remain separately traced; awtsmoos.com maps this substantial captions tool beside media apis and related transcription/streaming space. read ../../../docs/apps/media tools.md and ../../../docs/api/streaming.md.",
+		"page": "pages/geelooy-apps-captions-documentation-md-635b1fa0a8.json"
+	},
+	{
+		"id": "geelooy-apps-code-documentation-md-5950f1ac34",
+		"title": "Awtsmoos Code Documentation",
+		"sourcePath": "geelooy/apps/code/DOCUMENTATION.md",
+		"category": "Apps",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos Code Documentation",
+				"anchor": "awtsmoos-code-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos Code Documentation The Awtsmoos gives source an editor and lets local, native, AI, SSH, and Tunnel powers meet; Awtsmoos.com maps this major developer project without pretending every backend lives beneath one suite. Read ../../../docs/APPS/DEVELOPER TOOLS.md. Related backend fa",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos code documentation the awtsmoos gives source an editor and lets local, native, ai, ssh, and tunnel powers meet; awtsmoos.com maps this major developer project without pretending every backend lives beneath one suite. read ../../../docs/apps/developer tools.md. related backend families: compiler, runtime/native, ssh, gpt, and tunnel. search exact callers before changing contracts.",
+		"page": "pages/geelooy-apps-code-documentation-md-5950f1ac34.json"
+	},
+	{
+		"id": "geelooy-apps-code-js-ai-readme-agent-wiring-md-327fd031cf",
+		"title": "B\"H",
+		"sourcePath": "geelooy/apps/code/js/ai/README-AGENT-WIRING.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Autonomous Vibe Agent Wiring",
+				"anchor": "autonomous-vibe-agent-wiring"
+			},
+			{
+				"level": 2,
+				"text": "Main fixes",
+				"anchor": "main-fixes"
+			},
+			{
+				"level": 2,
+				"text": "Required stream integration",
+				"anchor": "required-stream-integration"
+			}
+		],
+		"excerpt": "B\"H Autonomous Vibe Agent Wiring This folder adds the missing architecture for the AI coding UI. Main fixes 1. The filesystem provider now rejects missing provider identity early. 2. Git commit context is validated before remote upload. 3. GitHub commit happens once, after all files are uploaded. 4. Local .awtsmoos rep",
+		"searchText": "b\"h autonomous vibe agent wiring this folder adds the missing architecture for the ai coding ui. main fixes 1. the filesystem provider now rejects missing provider identity early. 2. git commit context is validated before remote upload. 3. github commit happens once, after all files are uploaded. 4. local .awtsmoos repo/ikar.js anchor writes inherit the correct provider type. 5. agent timeline phases replace frozen \"waiting first spark\" ui. 6. tool calls render collapsed by default. 7. file edits/creates/tests/commits can stream as readable phases. required stream integration wherever the ai api currently handles stream events, import: ```js import { agentstreamcontroller } from './agent/stream controller.js';",
+		"page": "pages/geelooy-apps-code-js-ai-readme-agent-wiring-md-327fd031cf.json"
+	},
+	{
+		"id": "geelooy-apps-compiler-documentation-md-381c936be3",
+		"title": "Compiler App Documentation",
+		"sourcePath": "geelooy/apps/compiler/DOCUMENTATION.md",
+		"category": "Apps",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Compiler App Documentation",
+				"anchor": "compiler-app-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Compiler App Documentation The Awtsmoos lets source become artifact through backend, build, and native vessel; Awtsmoos.com maps this app to /api/compiler and related runtime paths so changes remain evidential. Read ../../../docs/APPS/DEVELOPER TOOLS.md and ../../../docs/API/OTHER FAMILI",
+		"searchText": "b\"h boruch hashem blessed is he compiler app documentation the awtsmoos lets source become artifact through backend, build, and native vessel; awtsmoos.com maps this app to /api/compiler and related runtime paths so changes remain evidential. read ../../../docs/apps/developer tools.md and ../../../docs/api/other families.md.",
+		"page": "pages/geelooy-apps-compiler-documentation-md-381c936be3.json"
+	},
+	{
+		"id": "geelooy-apps-docs-documentation-md-2fc7b60ac9",
+		"title": "Awtsmoos Docs App",
+		"sourcePath": "geelooy/apps/docs/DOCUMENTATION.md",
+		"category": "Apps",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos Docs App",
+				"anchor": "awtsmoos-docs-app"
+			},
+			{
+				"level": 2,
+				"text": "Entry point",
+				"anchor": "entry-point"
+			},
+			{
+				"level": 2,
+				"text": "Integration",
+				"anchor": "integration"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos Docs App The Awtsmoos lets text, structure, collaboration, and page layout meet in one document vessel; Awtsmoos.com keeps the editor shell split into readable source modules rather than one hidden document runtime. Entry point index.html mounts docsRoot and boots src/app.js. Fo",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos docs app the awtsmoos lets text, structure, collaboration, and page layout meet in one document vessel; awtsmoos.com keeps the editor shell split into readable source modules rather than one hidden document runtime. entry point index.html mounts docsroot and boots src/app.js. focused css modules under styles/ own tokens, shell, toolbar, editor, navigation, page layout, panels, command palette, responsive behavior, touch, motion, and print. view/ and tests provide rendering and behavior boundaries. integration this app is the browser facing docs surface. realtime document authority and application events remain in the matching websocket application/server modules; this folder owns the client experience and composition.",
+		"page": "pages/geelooy-apps-docs-documentation-md-2fc7b60ac9.json"
+	},
+	{
+		"id": "geelooy-apps-documentation-md-58c0820286",
+		"title": "Apps Directory Documentation",
+		"sourcePath": "geelooy/apps/DOCUMENTATION.md",
+		"category": "Apps",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Apps Directory Documentation",
+				"anchor": "apps-directory-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Apps Directory Documentation The Awtsmoos gives many tools one district while each app keeps its separate art; Awtsmoos.com keeps a generated inventory and human chooser so the maintainer knows where to start. Start with ../../docs/APPS/README.md. Full immediate app inventory: ../../docs",
+		"searchText": "b\"h boruch hashem blessed is he apps directory documentation the awtsmoos gives many tools one district while each app keeps its separate art; awtsmoos.com keeps a generated inventory and human chooser so the maintainer knows where to start. start with ../../docs/apps/readme.md. full immediate app inventory: ../../docs/generated/app inventory.md developer tools: ../../docs/apps/developer tools.md tunnel/runtime: ../../docs/apps/tunnel and runtime.md creative tools: ../../docs/apps/creative tools.md media tools: ../../docs/apps/media tools.md games/simulation: ../../docs/apps/games and simulation.md commerce/wallet: ../../docs/apps/commerce and wallet.md",
+		"page": "pages/geelooy-apps-documentation-md-58c0820286.json"
+	}
+]

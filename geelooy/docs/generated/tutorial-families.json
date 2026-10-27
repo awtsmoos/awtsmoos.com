@@ -4,9 +4,9 @@
 		"title": "API Root",
 		"manual": "docs/TUTORIALS/API/ROOT_API.md",
 		"summary": "Root-level dynamic route demonstrations and compatibility paths.",
-		"routeCount": 3,
-		"dynamicCount": 3,
-		"unknownMethodCount": 3,
+		"routeCount": 40,
+		"dynamicCount": 37,
+		"unknownMethodCount": 5,
 		"health": "OK"
 	},
 	{
@@ -44,9 +44,9 @@
 		"title": "Email",
 		"manual": "docs/TUTORIALS/API/EMAIL.md",
 		"summary": "Email façade joined to the Social mail route family.",
-		"routeCount": 2,
+		"routeCount": 3,
 		"dynamicCount": 0,
-		"unknownMethodCount": 2,
+		"unknownMethodCount": 3,
 		"health": "OK"
 	},
 	{
@@ -74,9 +74,9 @@
 		"title": "OAuth",
 		"manual": "docs/TUTORIALS/API/OAUTH.md",
 		"summary": "Awtsmoos OAuth authorization, clients, identity, start, and token flow.",
-		"routeCount": 8,
+		"routeCount": 4,
 		"dynamicCount": 1,
-		"unknownMethodCount": 8,
+		"unknownMethodCount": 4,
 		"health": "OK"
 	},
 	{
@@ -114,9 +114,9 @@
 		"title": "Sefarim",
 		"manual": "docs/TUTORIALS/API/SEFARIM.md",
 		"summary": "DosDB-backed sefer, section, and subsection reading.",
-		"routeCount": 4,
+		"routeCount": 5,
 		"dynamicCount": 3,
-		"unknownMethodCount": 4,
+		"unknownMethodCount": 5,
 		"health": "OK"
 	},
 	{
@@ -124,9 +124,9 @@
 		"title": "Social",
 		"manual": "docs/TUTORIALS/API/SOCIAL.md",
 		"summary": "Identity, aliases, Heichelos, content, series, comments, governance, search, mail, drive, and more.",
-		"routeCount": 459,
-		"dynamicCount": 328,
-		"unknownMethodCount": 237,
+		"routeCount": 377,
+		"dynamicCount": 270,
+		"unknownMethodCount": 262,
 		"health": "OK"
 	},
 	{
@@ -164,9 +164,9 @@
 		"title": "Tunnel Relay",
 		"manual": "docs/TUTORIALS/API/TUNNEL.md",
 		"summary": "Account-authorized HTTP and filesystem relay into connected tunnels.",
-		"routeCount": 2,
+		"routeCount": 5,
 		"dynamicCount": 2,
-		"unknownMethodCount": 2,
+		"unknownMethodCount": 5,
 		"health": "OK"
 	},
 	{
@@ -174,9 +174,9 @@
 		"title": "Tunnel Control",
 		"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
 		"summary": "Large authenticated control plane for agents, missions, rooms, keys, previews, and operations.",
-		"routeCount": 80,
-		"dynamicCount": 14,
-		"unknownMethodCount": 80,
+		"routeCount": 142,
+		"dynamicCount": 23,
+		"unknownMethodCount": 127,
 		"health": "OK"
 	},
 	{
@@ -194,9 +194,9 @@
 		"title": "Wallet",
 		"manual": "docs/TUTORIALS/API/WALLET.md",
 		"summary": "Balance, commerce catalog, entitlements, purchase, mock buy, and PayPal flows.",
-		"routeCount": 11,
+		"routeCount": 25,
 		"dynamicCount": 0,
-		"unknownMethodCount": 11,
+		"unknownMethodCount": 25,
 		"health": "OK"
 	},
 	{

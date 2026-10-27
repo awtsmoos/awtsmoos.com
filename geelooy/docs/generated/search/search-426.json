@@ -1,0 +1,200 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-09-28-1236-heichelos-final-completion-01-risk-a-835cd1b0cc",
+		"title": "Risk and Unknowns",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-28-1236-heichelos-final-completion/01-risk-and-unknowns.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Risk and Unknowns",
+				"anchor": "risk-and-unknowns"
+			},
+			{
+				"level": 2,
+				"text": "Highest-gravity unknowns",
+				"anchor": "highest-gravity-unknowns"
+			},
+			{
+				"level": 2,
+				"text": "Thirty completion-improvement checks",
+				"anchor": "thirty-completion-improvement-checks"
+			},
+			{
+				"level": 2,
+				"text": "Likely inspection families, not pre-authorized edits",
+				"anchor": "likely-inspection-families-not-pre-authorized-edits"
+			},
+			{
+				"level": 2,
+				"text": "REMAININGWORK",
+				"anchor": "remainingwork"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Risk and Unknowns The Awtsmoos gives every light a vessel and every claim a test; Awtsmoos.com must challenge the easiest answer until runtime grants it rest. Highest gravity unknowns 1. Is startup rich comment warming actually executed with real dependencies, or does the current call si",
+		"searchText": "b\"h boruch hashem blessed is he risk and unknowns the awtsmoos gives every light a vessel and every claim a test; awtsmoos.com must challenge the easiest answer until runtime grants it rest. highest gravity unknowns 1. is startup rich comment warming actually executed with real dependencies, or does the current call silently skip? 2. if warming is wired, which cold stage dominates: packed store open, manifest readiness, index read, native tree walk, imported aggregation, or serialization? 3. does visible auto scroll state match measured movement through countdown, pause, resume, stop, pace change, document end, and restart? 4. do main menu, scribe's lens, study sheet, community, and floating controls share one truthful layer model without ghost interceptors? 5. which historical post css owners still load, and which active !important rules are still behaviorally relevant? 6. does any production route currently create a genuinely scrollable .scroll view wrapper? 7. which user facing heichelos route families and edit/admin/social surfaces remain untested? 8. are transport, server, auth, retrying, and successful empty community states still distinct under every path? thirty completion improvement checks 1. measure cold and second identical /comment tree latency. 2. capture startup warmup result: warmed or skipped. 3. prove listener pid/command before restart experiments. 4. never terminate tunnel infrastructure as if it were the app. 5. preserve 45 wpm / contemplate defaults. 6. measure scrolling only after countdown completes. 7. hold pause long enough to catch stray frames. 8. prove resume has no coordinate jump. 9. prove stop remains stable over time. 10. cancel countdown visibly and prove no delayed start survives. 11. change wpm while active and compare equal interval velocities. 12. reach document end and verify clean terminal state. 13. restart after stop and verify a fresh session. 14. prove any inner root with geometry, overflow, and actual scrolltop mutation. 15. enumerate main menu children from registrations, not memory. 16. exercise child back another child back close. 17. test reader input after overlays close to catch ghost backdrops. 18. exercise every scribe's lens control behaviorally. 19. reset settings and compare against current production defaults. 20. tab and shift+tab through key controls and inspect visible focus. 21. emulate reduced motion and inspect computed transitions/animations. 22. test 390x844 and 430x932 safe area coexistence. 23. test 768x1024 separately from phone and desktop assumptions. 24. test 1440x900 hover/focus semantics. 25. test hebrew and english heichel fixtures. 26. reproduce real empty/loading/error states instead of inferring them. 27. audit social media/pseudo element rules for root scoping. 28. treat ownership tests only as evidence for what they cover. 29. scan touched files for debug residue, stale todos, indentation drift, and 120 line responsibility drift. 30. after every apparent success, rerun takeover and embarrassment tests. likely inspection families, not pre authorized edits ayzarim/awtsmoosdynamicserver/server/richcommentwarmup.js and its caller/import boundary. geelooy/api/social/helper/comments/ native/path/packed/imported orchestration. geelooy/heichelos/post/actions/autoscroll/ plus ui listeners and public controls. awtsmoos.post.html, reader css roots, main menu registrations, and scribe settings. awtsmoos.heichel.html, heichel bootstrap/modules/styles/renderers. heichelos/social/ bootstrap/components/styles/apis. remaining work the 18 item ledger in 00 reality and inheritance.md remains open. no production rewrite is justified by appearance alone. next action run baseline tests, listener identity checks, and rich comment warmup call path proof; convert any failure into an owner level repair plan.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-28-1236-heichelos-final-completion-01-risk-a-835cd1b0cc.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-28-1236-heichelos-final-completion-02-execut-dbd80d54c6",
+		"title": "Execution Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-28-1236-heichelos-final-completion/02-execution-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Execution Plan",
+				"anchor": "execution-plan"
+			},
+			{
+				"level": 2,
+				"text": "Phase One — Baseline testimony",
+				"anchor": "phase-one-baseline-testimony"
+			},
+			{
+				"level": 2,
+				"text": "Phase Two — Cold Community proof",
+				"anchor": "phase-two-cold-community-proof"
+			},
+			{
+				"level": 2,
+				"text": "Phase Three — Reader behavior witness",
+				"anchor": "phase-three-reader-behavior-witness"
+			},
+			{
+				"level": 2,
+				"text": "Phase Four — Overlay and accessibility sweep",
+				"anchor": "phase-four-overlay-and-accessibility-sweep"
+			},
+			{
+				"level": 2,
+				"text": "Phase Five — CSS ownership and route inventory",
+				"anchor": "phase-five-css-ownership-and-route-inventory"
+			},
+			{
+				"level": 2,
+				"text": "Phase Six — Heichel and Social browser sweep",
+				"anchor": "phase-six-heichel-and-social-browser-sweep"
+			},
+			{
+				"level": 2,
+				"text": "Phase Seven — Evidence-led whole-file repairs",
+				"anchor": "phase-seven-evidence-led-whole-file-repairs"
+			},
+			{
+				"level": 2,
+				"text": "Phase Eight — Completion closure",
+				"anchor": "phase-eight-completion-closure"
+			},
+			{
+				"level": 2,
+				"text": "Source-touch policy",
+				"anchor": "source-touch-policy"
+			},
+			{
+				"level": 2,
+				"text": "REMAININGWORK",
+				"anchor": "remainingwork"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Execution Plan The Awtsmoos renews the river, yet no wave may falsely claim the sea; Awtsmoos.com moves from proof to owner to rewrite to proof, until the graph is free. Phase One — Baseline testimony Run the two auto scroll Node tests unchanged. Run imported style ownership and CSS qual",
+		"searchText": "b\"h boruch hashem blessed is he execution plan the awtsmoos renews the river, yet no wave may falsely claim the sea; awtsmoos.com moves from proof to owner to rewrite to proof, until the graph is free. phase one — baseline testimony run the two auto scroll node tests unchanged. run imported style ownership and css quality baselines. confirm the port 8080 listener pid, command, http identity, and canonical route response. trace every import/caller/test for richcommentwarmup and prove whether real dependencies reach it. phase two — cold community proof stop only a process proven to be the awtsmoos application, never tunnel infrastructure. restart through the package defined application entry and capture logs outside product source. measure startup warmup result, first chitas /comment tree, second identical request, and a nonexistent fixture control. if latency is defective, isolate packed store open, manifest readiness, root index read, native tree traversal, imported aggregation, and serialization using external profiling first. rewrite a whole owner only after the measured cause is known; leave no temporary diagnostics behind. phase three — reader behavior witness discover the current chrome target afresh and navigate via real rendered routes. at 390x844 prove document scroll topology and measure countdown cancel, running movement, pause stability, resume movement, stop stability, restart, pace mutation, and clean document end. search production routes for a true inner scroll vessel; accept one only if geometry, overflow, and actual scrolltop movement prove it. phase four — overlay and accessibility sweep enumerate main menu registrations from runtime/source and exercise every child path on phone and desktop. exercise every scribe's lens control, persistence/reset, focus order, internal scrolling, escape/close, safe area, and reduced motion behavior. verify floating controls never overlap or intercept beneath overlays. repair layer ownership, never by arbitrary z index escalation. phase five — css ownership and route inventory build the active post css closure from template links plus recursive imports. map ownership for floating controls, scroll roots, sidebars, sheets, modals, comments, fixed positioning, dimensions, z index, focus/hover/active/disabled, and safe area padding. classify historical owners active / dormant / legacy / dead / compatibility before removal. inventory heichel and social entrypoints, renderers, bootstraps, css roots, apis, overlays, and scroll ownership. phase six — heichel and social browser sweep heichel: 390x844, 430x932, 768x1024, 1440x900; ltr/rtl; long/short titles; cards/series/posts/menus/loading/empty/error/modal/focus/overflow/network/console. social: root scope, feed, profile, composer, notifications, reactions, comments, following, discovery/search, rails, empty/loading/error, mobile/desktop, focus/press/hover/reduced motion/overflow/network/console. phase seven — evidence led whole file repairs for every reproduced defect: read the complete owner and imports; preserve public contracts unless runtime disproves them; rewrite the complete source file; split oversized responsibilities; use tabs and full readable layout; add no !important, specificity escalation, or global catch all fix; then run syntax, targeted tests, browser reproduction, and regression search. phase eight — completion closure rerun required suites and newly discovered relevant scripts. re scan active css closure, social scoping, debug residue, focus, reduced motion, horizontal overflow, fixed/z index collisions, stale pace/storage assumptions, touched file line counts, and indentation. re read every modified source file in full. compare 0240 plan vs actual source vs runtime proof. create non colliding implementation readback, browser verification, and final delta completion files in the original 0240 folder. run takeover and embarrassment tests; every actionable answer re enters remaining work. source touch policy no production file is pre authorized for change. the first likely candidate is the rich comment startup warmup boundary because its observed dependency contract appears inconsistent with its observed caller; that remains a hypothesis until call path and runtime evidence prove it. remaining work the 18 item ledger in 00 reality and inheritance.md remains authoritative and open. next action run auto scroll/style baselines and prove the rich comment warmup caller contract, then update the ledger from receipts.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-28-1236-heichelos-final-completion-02-execut-dbd80d54c6.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-28-1236-heichelos-final-completion-03-commun-e6b7d4c568",
+		"title": "Community Cold-Start Evidence",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-28-1236-heichelos-final-completion/03-community-cold-start-evidence.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Community Cold-Start Evidence",
+				"anchor": "community-cold-start-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Reproduced defect before repair",
+				"anchor": "reproduced-defect-before-repair"
+			},
+			{
+				"level": 2,
+				"text": "Root cause proven",
+				"anchor": "root-cause-proven"
+			},
+			{
+				"level": 2,
+				"text": "Repair",
+				"anchor": "repair"
+			},
+			{
+				"level": 2,
+				"text": "Cold verification after repair",
+				"anchor": "cold-verification-after-repair"
+			},
+			{
+				"level": 2,
+				"text": "Conclusion",
+				"anchor": "conclusion"
+			},
+			{
+				"level": 2,
+				"text": "REMAININGWORK",
+				"anchor": "remainingwork"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Community Cold Start Evidence The Awtsmoos awakens the vessel before the public gate receives its light; Awtsmoos.com now pays the heavy commentary opening cost before requests enter sight. Reproduced defect before repair Fresh verified npm start node index process on port 8080. First re",
+		"searchText": "b\"h boruch hashem blessed is he community cold start evidence the awtsmoos awakens the vessel before the public gate receives its light; awtsmoos.com now pays the heavy commentary opening cost before requests enter sight. reproduced defect before repair fresh verified npm start node index process on port 8080. first real chitas composite comment tree request: http 200 in 12.34 s . second identical request: 107.7 ms . nonexistent post control: 16.8 ms . browser transport abort policy in heichelos/post/comments/panel/tree.js: 8000 ms . therefore the original first request exceeded the browser's truthful transport boundary and could produce community unavailable. root cause proven index.js invoked warmrichcommentauthority(dynamicserver) before http readiness. the generic warmup requires injected packedstore and fs dependencies; without them it returns skipped. dynamicserver.db is already initialized at that point, so ordering was valid and dependency composition was incomplete. native rich comment reads use the canonical richdb/packedstore.js; startup must warm this same authority rather than create another store. repair whole file rewrites: index.js: composition root injects node fs and the canonical rich comment packedstore, and logs measured warmup duration. ayzarim/awtsmoosdynamicserver/server/richcommentwarmup.js: preserves dependency injection, reports elapsed time, opens/readies the canonical store, and hydrates representative root index/comment body data. ayzarim/awtsmoosdynamicserver/server/richcommentwarmup.test.cjs: five focused contract tests including elapsed time reporting. all three are below 120 lines and pass node check. focused test result: 5 passed, 0 failed . cold verification after repair fresh repaired start a: rich comment warmup before http listen: 14.178 s . first real chitas composite tree after readiness: 901 ms . second identical request: 24.9 ms . nonexistent post control: 24.5 ms . fresh repaired start b, route isolation: rich comment warmup before http listen: 13.173 s . first native only chitas tree: 467 ms . composite tree immediately afterward: 21.2 ms . imported only tree immediately afterward: 17.5 ms . daily chitas has no imported comment family, so imported aggregation is not the cold cause. packedstore caches by database file fingerprint, proving the first live read reuses the startup opened database rather than reopening it. conclusion the heavyweight first access defect is repaired at the storage/startup boundary. public readiness now follows rich comment authority initialization. the remaining path specific native first lookup is subsecond and comfortably below the existing 8 second browser abort contract. no client timeout hack is justified. community browser semantics are still open: successful empty, explicit transport/server failure, retry, transient recovery, and paragraph/index truth must be proven in the real reader ui. remaining work browser community state verification remains open. auto scroll browser witness remains open. main menu, scribe's lens, heichel, social, active css closure, accessibility, reduced motion, console/network, final suites/readback remain open. next action discover the current chrome target, open the canonical chitas reader at 390x844, and run the complete measured auto scroll witness while recording community network/state evidence.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-28-1236-heichelos-final-completion-03-commun-e6b7d4c568.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-28-1719-reader-simplicity-heichel-identity-0-7953b4459e",
+		"title": "Screenshot-driven reality",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-28-1719-reader-simplicity-heichel-identity/00-observed-defects.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Screenshot-driven reality",
+				"anchor": "screenshot-driven-reality"
+			},
+			{
+				"level": 2,
+				"text": "Observed defects",
+				"anchor": "observed-defects"
+			},
+			{
+				"level": 2,
+				"text": "REMAININGWORK",
+				"anchor": "remainingwork"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Screenshot driven reality The Awtsmoos reveals the vessel by what the user actually sees; Awtsmoos.com must answer the hand, not the abstraction beneath. Observed defects Floating Auto Scroll explicitly requests a three second countdown through AutoScrollButton.js. Auto Scroll also wires",
+		"searchText": "b\"h boruch hashem blessed is he screenshot driven reality the awtsmoos reveals the vessel by what the user actually sees; awtsmoos.com must answer the hand, not the abstraction beneath. observed defects floating auto scroll explicitly requests a three second countdown through autoscrollbutton.js. auto scroll also wires gesture and study surface interruption systems that pause and later resume motion; this creates the reported scroll stop start rhythm. the user wants one contract: start means immediate continuous downward motion; stop means stop. scribe's lens exposes unit switching, four pace presets, pace range, eye line range, estimate/density, font, theme, colors, focus mode, text scale, and reset in one mobile sheet. the visible hierarchy is too option heavy. main menu uses five full width stacked command cards. on a phone this occupies most of the screen for simple navigation. ikar root displays the internal ish ikar heading and generic operational copy such as 3 torah pathways ready. instead of a strong public torah library identity. ikar cards are numbered like a control panel, reinforcing a dashboard feel instead of a living library. remaining work 1. make visible auto scroll immediate and continuous. 2. remove automatic pause/resume from ordinary reader surfaces and gestures. 3. preserve explicit public pause/resume api only for code paths that deliberately request it. 4. reduce lens to primary mobile controls with advanced appearance collapsed. 5. make main menu compact and scannable on phone. 6. give ikar a real bilingual/public identity and remove operational status language/numbering. 7. run syntax, unit, css/ownership, heichel quality, and browser checks. 8. deploy from an isolated release worktree. next action rewrite the exact behavioral and presentation owners, then test the simplified contract.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-28-1719-reader-simplicity-heichel-identity-0-7953b4459e.json"
+	}
+]

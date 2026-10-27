@@ -21,14 +21,9 @@
 		"POST"
 	],
 	"methodEvidence": "POST",
-	"vessels": [
-		"$_POST",
-		"db"
-	],
+	"vessels": [],
 	"statuses": [],
-	"headers": [
-		"x-forwarded-for"
-	],
+	"headers": [],
 	"callers": [],
 	"callerCount": 0,
 	"tests": [],

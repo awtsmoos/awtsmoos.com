@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-01-0310-native-chitas-reader-07-release-depe-73f3161dd6",
+	"title": "Release Dependency Correction",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-01-0310-native-chitas-reader/07-release-dependency-correction.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Release Dependency Correction",
+			"anchor": "release-dependency-correction"
+		},
+		{
+			"level": 2,
+			"text": "Discovery after final source audit",
+			"anchor": "discovery-after-final-source-audit"
+		},
+		{
+			"level": 2,
+			"text": "Why these files belong to the feature",
+			"anchor": "why-these-files-belong-to-the-feature"
+		},
+		{
+			"level": 2,
+			"text": "Corrected frozen release surface",
+			"anchor": "corrected-frozen-release-surface"
+		},
+		{
+			"level": 2,
+			"text": "Required new evidence",
+			"anchor": "required-new-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Release consequence",
+			"anchor": "release-consequence"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-01-0310-native-chitas-reader-07-release-depe-73f3161dd6-001.json"
+	]
+}

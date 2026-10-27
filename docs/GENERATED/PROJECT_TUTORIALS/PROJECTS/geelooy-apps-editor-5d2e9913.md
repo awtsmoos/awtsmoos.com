@@ -2,7 +2,7 @@ B"H
 Boruch Hashem
 Blessed is He
 
-# Project Tutorial: Mitzvah World Animator
+# Project Tutorial: Mitzvah World Animator · Awtsmoos
 
 **Path:** `geelooy/apps/editor` · **Type:** app · **Family:** Applications
 
@@ -21,16 +21,16 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 39 | 0 | 0 | 0 | 1 | 0 | 40 |
+| 92 | 8 | 0 | 0 | 1 | 0 | 101 |
 
 ## Public entry points
 
-- `/apps/editor` → `geelooy/apps/editor/index.html` — Mitzvah World Animator
+- `/apps/editor` → `geelooy/apps/editor/index.html` — Mitzvah World Animator · Awtsmoos
 - `/apps/editor/old` → `geelooy/apps/editor/old/index.html` — Mitzvah World Editor
 
 ## Symbol evidence
 
-Source files: 35; classes: 39; functions: 31; exports: 33; samples: HeightMapGenerator, ObjectTreeManager, when, for, switchToTranslationMode, switchToRotationMode, switchToScalingMode, makeGrid, handleSimulatedClick, createObject, updateObjectTree, selectObjectTree.
+Source files: 73; classes: 70; functions: 55; exports: 88; samples: HeightMapGenerator, ObjectTreeManager, when, for, switchToTranslationMode, switchToRotationMode, switchToScalingMode, makeGrid, handleSimulatedClick, createObject, updateObjectTree, selectObjectTree.
 
 ## Depends on
 
@@ -46,4 +46,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **0**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **8**. Treat this as file evidence, not proof of behavioral coverage.

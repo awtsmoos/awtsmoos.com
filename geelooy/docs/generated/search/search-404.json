@@ -1,0 +1,141 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-09-04-0423-olam-media-prompt-body-01-chesed-bra-f4c3b42566",
+		"title": "Phase One — Chesed Brainstorm",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-04-0423-olam-media-prompt-body/01-chesed-brainstorm.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase One — Chesed Brainstorm",
+				"anchor": "phase-one-chesed-brainstorm"
+			}
+		],
+		"excerpt": "Phase One — Chesed Brainstorm Anything useful is allowed in this pass before restraint: One dominant composer body instead of separate Prompt / Mode / References cards. Large image wells at the top of the creation body. Drag/drop anywhere over the composer to add images. Tap to add image button that opens the existing ",
+		"searchText": "phase one — chesed brainstorm anything useful is allowed in this pass before restraint: one dominant composer body instead of separate prompt / mode / references cards. large image wells at the top of the creation body. drag/drop anywhere over the composer to add images. tap to add image button that opens the existing file path, not a new duplicate asset system. empty state that says exactly what to do: add image or start with text. added image previews become cinematic tiles rather than tiny chips. clear replace, remove, and add another actions on each image. reorder reference images by drag or explicit arrows where the current contract supports ordering. show first frame / last frame roles visually on image tiles when relevant. offer one obvious “use as first frame” or “use as reference” action rather than exposing raw technical vocabulary first. prompt textarea directly below or beside media previews. prompt label changes contextually: “describe the motion” when an image is present, “describe the shot” for text only. prompt helper chips become lightweight inline seeds, not a horizontal card carousel. mode control becomes a quiet contextual row generated from actual media state. image addition can automatically recommend reference/frame mode but never silently destroy user intent. advanced settings collapse into one disclosure below the main composer. generate lives inside or immediately after the main composer. provider disabled state remains truthful but visually calm. glass depth should focus around active media/prompt, with no heavy animated blur. media tiles get soft scanline/edge motion using transform/opacity only. mobile should show media + prompt + generate path in the first one to two thumb scrolls. desktop can become two column inside one continuous composer: visual board + prompt. keep asset library as a secondary path surfaced from the add media affordance. allow adding by url only where the current app already supports it. preserve asset dedupe and in place replacement semantics. preview cache must invalidate on updated asset versions. media update browser proof must assert the same asset id receives new bytes where replacement is intended. generate transport must prove the updated asset bytes/url are what the api receives. no provider secret in browser code or payload logs.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-04-0423-olam-media-prompt-body-01-chesed-bra-f4c3b42566.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-04-0423-olam-media-prompt-body-02-theoretica-2a0d8bdee1",
+		"title": "Phase One — Theoretical File Surface",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-04-0423-olam-media-prompt-body/02-theoretical-files.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase One — Theoretical File Surface",
+				"anchor": "phase-one-theoretical-file-surface"
+			}
+		],
+		"excerpt": "Phase One — Theoretical File Surface Likely areas to inspect before finalizing touches: Create page composition/view modules. Prompt view and template modules. Assigned media/reference view modules. Composer asset controller/event modules. Asset preview/cache modules. Generation transport and provider proxy client. Lat",
+		"searchText": "phase one — theoretical file surface likely areas to inspect before finalizing touches: create page composition/view modules. prompt view and template modules. assigned media/reference view modules. composer asset controller/event modules. asset preview/cache modules. generation transport and provider proxy client. late loaded director/create stylesheet loader. existing intuitive/unified body css modules. browser smoke tests for intuitive ui, better v2, assets, director, legacy behavior. deterministic tests for replacement and api client/mapper/validation. possible new small modules if inspection proves responsibility boundaries: createmediapromptbody.js — one main composition shell only. createmediaboard.js — assigned image/video/audio presentation only. createmediaactions.js — ui data for add/replace/remove roles only. media composer.css — main responsive body geometry. media board.css — image wells, preview tiles, drop affordance. media prompt.css — prompt integration and contextual helper layout. media motion.css — compositor only focus/hover/reduced motion effects. media prompt smoke.cjs — body first ux proof. media replacement smoke.cjs — actual replacement persistence/payload proof if not already covered. no file is approved for modification until real imports, call sites, line counts, and current production behavior are inspected.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-04-0423-olam-media-prompt-body-02-theoretica-2a0d8bdee1.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-04-0423-olam-media-prompt-body-03-critique-2-ebbb685222",
+		"title": "Phase Two — Twenty Corrections",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-04-0423-olam-media-prompt-body/03-critique-20.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Two — Twenty Corrections",
+				"anchor": "phase-two-twenty-corrections"
+			}
+		],
+		"excerpt": "Phase Two — Twenty Corrections 1. Do not create a second asset upload system. 2. Do not duplicate file inputs if existing event wiring can be reused. 3. Do not infer frame/reference mode in a way that surprises the user. 4. Do not hide text only generation behind an image requirement. 5. Do not turn images into decorat",
+		"searchText": "phase two — twenty corrections 1. do not create a second asset upload system. 2. do not duplicate file inputs if existing event wiring can be reused. 3. do not infer frame/reference mode in a way that surprises the user. 4. do not hide text only generation behind an image requirement. 5. do not turn images into decorative thumbnails too small to judge. 6. do not place critical replace/remove actions only on hover; mobile has no hover. 7. do not animate blur or layout dimensions. 8. do not add pointer tracking javascript for decoration. 9. do not add permanent explanatory paragraphs to the main path. 10. do not expose api/provider jargon ahead of creative language. 11. do not regress reusable asset replacement propagation. 12. do not leave stale object urls after replacement. 13. do not allow removed media to survive in outgoing payloads. 14. do not break first/last/reference role mapping. 15. do not break prompt node identity/focus when media changes. 16. do not increase first screen vertical density with more cards. 17. do not modify provider/api files unless inspection finds an actual contract issue. 18. do not touch generated assets or bundles. 19. do not accept any touched source file above 120 lines; split real responsibilities instead. 20. do not push until the new media first body and the previous five browser regressions all pass together.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-04-0423-olam-media-prompt-body-03-critique-2-ebbb685222.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-04-0423-olam-media-prompt-body-04-improved-b-a4c56c6996",
+		"title": "Phase Two — Improved Design",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-04-0423-olam-media-prompt-body/04-improved-brainstorm.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Two — Improved Design",
+				"anchor": "phase-two-improved-design"
+			}
+		],
+		"excerpt": "Phase Two — Improved Design Preferred design after critique: The Create body opens with one continuous Media + Prompt composer. Empty media board has one strong “Add image” action, one secondary “Library” action, and drag/drop language. Text only remains possible: prompt is always available and never gated by media. On",
+		"searchText": "phase two — improved design preferred design after critique: the create body opens with one continuous media + prompt composer. empty media board has one strong “add image” action, one secondary “library” action, and drag/drop language. text only remains possible: prompt is always available and never gated by media. once an image exists, the media board expands naturally and the prompt copy becomes contextual. existing role/mode state is reflected with small role badges and concise actions, not a separate large mode card. mode selection remains available as a compact contextual strip below the prompt/media body. assigned image tiles expose replace and remove as persistent touch targets. additional images use a compact add tile inside the same board. optional director/looks/guide stay below as collapsed disclosures. generate remains immediately beneath the composer and should feel like the natural conclusion of the single body. one ambient glass field contains media + prompt + mode, with internal seams instead of many outer cards. image previews use aspect ratio containers with object fit:cover, but preserve access to full media metadata/role. desktop uses a responsive grid; phone uses a vertical board without horizontal overflow. reduced motion disables scan/aurora motion completely. existing upload/replace/repository/transport logic is reused and verified rather than reinvented.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-04-0423-olam-media-prompt-body-04-improved-b-a4c56c6996.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-04-0423-olam-media-prompt-body-05-critique-3-d9163bd3ec",
+		"title": "Phase Three — Thirty Final Checks",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-04-0423-olam-media-prompt-body/05-critique-30.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Three — Thirty Final Checks",
+				"anchor": "phase-three-thirty-final-checks"
+			}
+		],
+		"excerpt": "Phase Three — Thirty Final Checks 1. Does the current DOM allow media to move above prompt without breaking controllers? 2. Can existing file inputs be triggered from new body buttons safely? 3. Are image roles stored in draft state or inferred from order? 4. Does current assigned media rendering already support replac",
+		"searchText": "phase three — thirty final checks 1. does the current dom allow media to move above prompt without breaking controllers? 2. can existing file inputs be triggered from new body buttons safely? 3. are image roles stored in draft state or inferred from order? 4. does current assigned media rendering already support replacement by id? 5. does replacement keep the same asset id? 6. does every preview cache key include updatedat or equivalent versioning? 7. does asset removal revoke object urls? 8. does replacement revoke old object urls? 9. does local asset transport inline only within existing limits? 10. do public urls remain public urls? 11. does media addition preserve prompt value? 12. does mode switching preserve assigned media where semantics allow it? 13. are reference counts/provider limits visible only when relevant? 14. does first frame remain singular? 15. does last frame remain singular? 16. are reference images visually distinguishable from first/last frame roles? 17. can image tiles be operated entirely by touch and keyboard? 18. are buttons at least thumb usable without bloating the ui? 19. is there zero horizontal overflow at 360px? 20. does the main body remain understandable with javascript delayed styles? 21. does provider disabled generate remain honest? 22. does add media ui work before paid provider setup? 23. is no api secret ever rendered? 24. are advanced disclosures still reachable but visually subordinate? 25. does browserwaits replace fragile sleeps in new tests? 26. do existing better v2/intuitive/future hud/director/legacy regressions still pass? 27. are api proxy create/task/status routes still covered? 28. is image replacement reflected in the exact outgoing generation payload? 29. are touched files fully reread after implementation? 30. is the exact pushed sha or its unchanged descendant proven on production before completion?",
+		"page": "pages/geelooy-ai-thoughts-2026-09-04-0423-olam-media-prompt-body-05-critique-3-d9163bd3ec.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-04-0423-olam-media-prompt-body-06-final-plan-0ed359b267",
+		"title": "Final Pre-Code Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-04-0423-olam-media-prompt-body/06-final-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Final Pre-Code Plan",
+				"anchor": "final-pre-code-plan"
+			}
+		],
+		"excerpt": "Final Pre Code Plan 1. Inspect newest origin/main, production ancestry, and exact current Olam Create source. 2. Capture current 390x844 live DOM geometry and media/prompt body behavior. 3. Trace upload, assigned media, replace/remove, repository, preview cache, draft, and generation transport end to end. 4. Trace curr",
+		"searchText": "final pre code plan 1. inspect newest origin/main, production ancestry, and exact current olam create source. 2. capture current 390x844 live dom geometry and media/prompt body behavior. 3. trace upload, assigned media, replace/remove, repository, preview cache, draft, and generation transport end to end. 4. trace current /api/olam h3 routes and browser api callers so ui work preserves every call contract. 5. freeze an exact small whole file touch list based on inspection. 6. create a new sparse release worktree from latest origin/main; preserve unrelated shared worktree state. 7. write the complete media first body implementation before tests. 8. add focused body first ux and image update/payload regressions. 9. run source/line/syntax/diff checks, deterministic suite, new media tests, and all existing chrome suites. 10. re read every touched file, compare planned vs actual, resolve delta. 11. refresh origin/main; if parent changes outside targets, rebase safely and rerun final gate. 12. commit only intended olam paths; normal fast forward push only. 13. canonically deploy exact final sha. 14. verify public http, mobile media/prompt flow, replacement persistence/payload behavior, existing regressions, production sha/clean service. 15. cleanup owned temporary worktrees/processes and write final release evidence. next action: inspect latest source/runtime and trace the media/prompt/api path before approving the touch list.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-04-0423-olam-media-prompt-body-06-final-plan-0ed359b267.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-04-0423-olam-media-prompt-body-07-inspection-e0b760edb1",
+		"title": "Inspection-Derived Touch Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-04-0423-olam-media-prompt-body/07-inspection-derived-touch-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Inspection-Derived Touch Plan",
+				"anchor": "inspection-derived-touch-plan"
+			},
+			{
+				"level": 2,
+				"text": "Direct observations",
+				"anchor": "direct-observations"
+			},
+			{
+				"level": 2,
+				"text": "Exact product touch set",
+				"anchor": "exact-product-touch-set"
+			},
+			{
+				"level": 2,
+				"text": "Explicit non-touches",
+				"anchor": "explicit-non-touches"
+			},
+			{
+				"level": 2,
+				"text": "Tests after product code",
+				"anchor": "tests-after-product-code"
+			}
+		],
+		"excerpt": "Inspection Derived Touch Plan Direct observations Current default text mode has no \\\u001b[1mAdd image\\u001b[0m control at all; live browser baseline reported and . Current page height is 1711px at 390x844 with zero horizontal overflow. Media controls appear only after selecting Frames or References. Existing can launch the",
+		"searchText": "inspection derived touch plan direct observations current default text mode has no \\\u001b[1madd image\\u001b[0m control at all; live browser baseline reported and . current page height is 1711px at 390x844 with zero horizontal overflow. media controls appear only after selecting frames or references. existing can launch the hidden file input from any button. existing library selection already promotes text mode to before assignment. file upload does not currently perform that promotion. replacement preserves stable asset id; preview cache invalidates changed blobs; transport rereads current repository bytes. browser proxy/server api contracts already have deterministic coverage and should not change. exact product touch set 1. — full rewrite: render one media+prompt body before provider/settings/submission. 2. — new: pure composition shell for media + prompt markup. 3. — full rewrite: text mode becomes a true primary image launchpad with hidden existing file input, add image, and library actions; frames/references preserve current semantics. 4. — full rewrite: promote text mode to the correct media mode before assigning newly uploaded media, matching existing library behavior. 5. — full rewrite: clearer creative prompt language inside the unified body while preserving prompt/mode selectors and secondary intelligence. 6. — full rewrite: load new body layers last. 7. — new unified body geometry. 8. — new image launchpad and assigned media presentation. 9. — new prompt/mode hierarchy inside body. 10. — new compositor only media focus/scan treatment + reduced motion fallback. explicit non touches no minimax proxy/server route changes. no repository/storage schema changes. no assetservice changes. no assetpreviewcache changes. no generationtransport changes. tests after product code add focused deterministic controller test for text mode upload reference promotion and assignment. add mobile : direct add image affordance visible before technical mode selection, media+prompt composer order, prompt preserved, zero overflow, reduced motion. add browser image replacement/payload proof if existing deterministic tests are insufficient to prove the new quick path uses the same stable id bytes. re run all existing deterministic and five chrome regression suites. base at plan lock: 20324ec99e7f82aacc11a373f6e116ac4101e50d next action: create sparse worktree from this base, reread exact target files there, then write the entire product pass before any new tests.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-04-0423-olam-media-prompt-body-07-inspection-e0b760edb1.json"
+	}
+]

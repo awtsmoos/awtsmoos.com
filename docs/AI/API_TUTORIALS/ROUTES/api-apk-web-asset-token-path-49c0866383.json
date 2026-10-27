@@ -1,0 +1,41 @@
+{
+	"schema": "awtsmoos-api-tutorial-v1",
+	"id": "api-apk-web-asset-token-path-49c0866383",
+	"route": "/api/apk-web/asset/:token/:path*",
+	"source": "geelooy/api/apk-web/_awtsmoos.derech.js",
+	"discoveryKind": "static-literal",
+	"family": {
+		"mount": "/api/apk-web",
+		"title": "/api/apk-web",
+		"manual": "docs/API/README.md"
+	},
+	"derech": {
+		"source": "geelooy/api/apk-web/_awtsmoos.derech.js",
+		"status": "OK",
+		"issue": "—",
+		"mount": "/api/apk-web"
+	},
+	"dynamic": true,
+	"pathParameters": [
+		{
+			"name": "token",
+			"catchAll": false
+		},
+		{
+			"name": "path",
+			"catchAll": true
+		}
+	],
+	"methods": [],
+	"methodEvidence": "unknown",
+	"vessels": [],
+	"statuses": [],
+	"headers": [],
+	"callers": [],
+	"callerCount": 0,
+	"tests": [],
+	"examples": [],
+	"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-apk-web-asset-token-path-49c0866383.md",
+	"confidence": "unknown-method",
+	"related": []
+}

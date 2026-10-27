@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-09t0833-lightning-full-platform-continuation-6cdef44264",
+	"title": "Phase Two — Gevurah Architecture",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-09T0833-lightning-full-platform-continuation/01-phase-two-architecture.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase Two — Gevurah Architecture",
+			"anchor": "phase-two-gevurah-architecture"
+		},
+		{
+			"level": 2,
+			"text": "Paid Action State Machine",
+			"anchor": "paid-action-state-machine"
+		},
+		{
+			"level": 2,
+			"text": "Boundaries",
+			"anchor": "boundaries"
+		},
+		{
+			"level": 2,
+			"text": "First Adoption Candidates",
+			"anchor": "first-adoption-candidates"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-09t0833-lightning-full-platform-continuation-6cdef44264-001.json"
+	]
+}

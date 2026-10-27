@@ -1,0 +1,178 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-08-30-1307-olam-h3-studio-04-first-pass-review--9370b48b5e",
+		"title": "First-Pass Review and Second-Pass Split Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-30-1307-olam-h3-studio/04-first-pass-review-and-split-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "First-Pass Review and Second-Pass Split Plan",
+				"anchor": "first-pass-review-and-second-pass-split-plan"
+			},
+			{
+				"level": 2,
+				"text": "Evidence from reread and measurement",
+				"anchor": "evidence-from-reread-and-measurement"
+			},
+			{
+				"level": 2,
+				"text": "Second-pass exact structural changes",
+				"anchor": "second-pass-exact-structural-changes"
+			},
+			{
+				"level": 3,
+				"text": "Shell",
+				"anchor": "shell"
+			},
+			{
+				"level": 3,
+				"text": "Catalog",
+				"anchor": "catalog"
+			},
+			{
+				"level": 3,
+				"text": "CSS",
+				"anchor": "css"
+			},
+			{
+				"level": 3,
+				"text": "UI controllers/views",
+				"anchor": "ui-controllers-views"
+			},
+			{
+				"level": 3,
+				"text": "H3 domain/server",
+				"anchor": "h3-domain-server"
+			},
+			{
+				"level": 3,
+				"text": "Cache and import",
+				"anchor": "cache-and-import"
+			},
+			{
+				"level": 2,
+				"text": "Test gate after second-pass production rewrite",
+				"anchor": "test-gate-after-second-pass-production-rewrite"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "First Pass Review and Second Pass Split Plan Evidence from reread and measurement Production implementation now exists from browser shell through IndexedDB, queue, reusable libraries, usage, settings, and the same project MiniMax proxy. The first review deliberately challenged apparent completion. Observed line count f",
+		"searchText": "first pass review and second pass split plan evidence from reread and measurement production implementation now exists from browser shell through indexeddb, queue, reusable libraries, usage, settings, and the same project minimax proxy. the first review deliberately challenged apparent completion. observed line count failures: scripts/ui/appshell.js: 149 lines. styles/layout.css: 133 lines. styles/responsive.css: 187 lines. styles/overlays.css: 204 lines. styles/cards.css: 211 lines. styles/components.css: 212 lines. apps/scripts/catalog/creation.mjs: 121 lines. observed compression failures: composercontroller.js contains multiple one line methods. libraryactions.js contains multiple one line methods and very long action bodies. long render/template lines also exist in create, creations, assets, usage, and settings views. observed runtime/design risks: 1. appshell.start() calls composer.reset() before views exists; reset() refreshes immediately, so startup can render through an uninitialized view registry. 2. server h3 validation imposes a mixed reference total of 12 even though the live h3 contract documents per kind limits and does not clearly establish that combined ceiling. remove the invented restriction. 3. completed task result mapping must be reverified against the current official minimax v2 query response before queue code is trusted. 4. local file ingestion does not yet enforce all configured mime and per kind byte ceilings. 5. public video references lack required duration metadata, which can understate estimated cost. require duration for url video/audio references where billing/limit checks need it. 6. dedicated prompt history still lacks favorites/search/edit behavior required by the brief. 7. assets view can add public urls but not a local file directly from the permanent library screen. 8. cachepreference = ask does not yet ask after successful completion. 9. import currently mutates while validating; malformed backup data can produce partial import. 10. final task/video retrieval may require a minimax file retrieval endpoint depending on the live v2 completion response. second pass exact structural changes shell rewrite appshell.js below 120 lines and move global chrome rendering into new appchrome.js. boot the composer without an eager refresh, then install views, then perform first render. catalog move olam h3 definition to new creation ai.mjs; rewrite creation.mjs in full and compose that entry while preserving every existing application. css rewrite all overlong css files in full, splitting responsibilities into: layout.css — shell positioning only. pages.css — page headings and grids. controls.css — buttons/segmented/search. forms.css — prompt/settings/form fields. asset cards.css — asset tray/library cards. creation cards.css — generation cards/status. metrics.css — usage and cost cards. sheets.css — bottom sheet/dialog layer. sticky.css — sticky generation affordance. toasts.css — notifications. settings.css — settings/category/base state rules. responsive.css — only breakpoints/reduced motion. every linked stylesheet remains below 120 lines. ui controllers/views rewrite composercontroller.js with expanded methods. create promptlibrary.js for searchable/favoritable/editable reusable prompt history. split libraryactions.js into generationlibraryactions.js, assetlibraryactions.js, and backupactions.js, with a small facade. create assetaddsheet.js for permanent library local file + url ingestion. rewrite rendering views with multiline templates and/or small rendering helpers so no compressed source remains. h3 domain/server rewrite validation.js removing the undocumented combined reference ceiling. enforce mime/byte limits in assetservice.js. require duration metadata when public reference video/audio needs duration accounting. reverify official v2 task response and update mapper/client/queue only from observed documentation. implement final result/file retrieval through the existing same project proxy if required by minimax. cache and import implement one time ask to cache completion state. validate the entire metadata backup shape before store mutation. test gate after second pass production rewrite only after all production rewrites are complete: 1. re run line count and compressed code scans. 2. run syntax/import tests for every js file. 3. add focused domain/server/static tests. 4. start/inspect the real awtsmoos server. 5. exercise /apps and /apps/olam h3/ with browser console capture. 6. exercise indexeddb, navigation, draft restore, prompt/assets, queue recovery simulation, usage, settings, and error paths. 7. exercise phone/tablet/desktop dimensions where the tunnel browser permits device metrics. 8. call the real proxy status endpoint. 9. if minimax api key remains absent, prove the missing key path is actionable and record live paid generation as the single external credential boundary rather than faking success. next action verify minimax v2 completion response and final video retrieval from current official documentation, then execute every second pass rewrite above before testing.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-30-1307-olam-h3-studio-04-first-pass-review--9370b48b5e.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-30-1307-olam-h3-studio-05-ui-release-deploy--2356768653",
+		"title": "UI / Release / Deployment Continuation",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-30-1307-olam-h3-studio/05-ui-release-deploy-continuation.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "UI / Release / Deployment Continuation",
+				"anchor": "ui-release-deployment-continuation"
+			},
+			{
+				"level": 2,
+				"text": "Observed delivery reality",
+				"anchor": "observed-delivery-reality"
+			},
+			{
+				"level": 2,
+				"text": "Current structural evidence",
+				"anchor": "current-structural-evidence"
+			},
+			{
+				"level": 2,
+				"text": "UI/UX refinement obligations",
+				"anchor": "ui-ux-refinement-obligations"
+			},
+			{
+				"level": 2,
+				"text": "Release graph",
+				"anchor": "release-graph"
+			},
+			{
+				"level": 2,
+				"text": "Git safety",
+				"anchor": "git-safety"
+			},
+			{
+				"level": 2,
+				"text": "Deployment gate",
+				"anchor": "deployment-gate"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "UI / Release / Deployment Continuation Observed delivery reality Branch: main. Remote: origin https://github.com/awtsmoos/awtsmoos.com.git. The shared worktree contains extensive unrelated staged and unstaged MitzvahWorld/server changes. npm run ship is forbidden for this release because scripts/ship.mjs stages the ent",
+		"searchText": "ui / release / deployment continuation observed delivery reality branch: main. remote: origin https://github.com/awtsmoos/awtsmoos.com.git. the shared worktree contains extensive unrelated staged and unstaged mitzvahworld/server changes. npm run ship is forbidden for this release because scripts/ship.mjs stages the entire worktree. the repository deployment guide explicitly requires exact file git handling in a shared worktree. canonical production activation is scripts/production/remote deploy entry.sh on the production host. it fast forwards /mnt/hc volume 102267213/git/awtsmoos.com to origin/main, then calls canonical server activate.sh. current structural evidence javascript/mjs files are now at or below the 120 line source boundary. no compressed one line method scan failures remain. five first pass css files remain over the boundary and must be rewritten into smaller responsibility specific stylesheets. ui/ux refinement obligations 1. strengthen mobile creation hierarchy around prompt mode references compact controls cost sticky generate. 2. surface h3 mode constraints before the request: frame mode cannot mix with references; text mode has no references; adaptive ratio is tied to reference/frame workflows. 3. make reference cards thumb friendly, dense, and readable at 360px. 4. improve active generation visibility without blocking create. 5. improve creation history scanability, status contrast, prompt excerpts, and build from this emphasis. 6. improve assets category/filter touch behavior and media card metadata. 7. improve usage honesty and visual hierarchy for local recorded spend. 8. improve settings clarity for server connection, storage, cache policy, pricing provenance, backup, and destructive actions. 9. make bottom sheets keyboard/safe area aware and more polished on tablet/desktop. 10. honor reduced motion and focus visible states. release graph ui rewrite structural audit js syntax/import tests targeted domain/proxy tests local server chrome console + phone/tablet/desktop inspection fixes exact olam diff review exact path commit push main production ssh preflight canonical deploy requested sha service/pid/hash checks public /apps and /apps/olam h3/ verification final remaining work close. git safety do not stage or commit unrelated paths. do not use git add a, npm run ship, or any reset/stash command. the olam commit is restricted to: geelooy/apps/olam h3/ geelooy/api/olam h3/ geelooy/apps/scripts/catalog/creation ai.mjs geelooy/apps/scripts/catalog/creation.mjs the shared catalog file must be diff reviewed before inclusion. deployment gate deploy only the pushed commit sha. production canonical repo must be clean and on main. after activation, verify live pid, expected cwd, remote head, http success, app catalog presence, olam h3 boot, no browser console errors, and safe missing key behavior if production lacks minimax api key. next action rewrite all remaining ui renderers/styles as readable mobile first modules, then run the structural gate again.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-30-1307-olam-h3-studio-05-ui-release-deploy--2356768653.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-30-1307-olam-h3-studio-06-production-release-4b3eb3395e",
+		"title": "Production Release Evidence",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-30-1307-olam-h3-studio/06-production-release-evidence.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Production Release Evidence",
+				"anchor": "production-release-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Release identity",
+				"anchor": "release-identity"
+			},
+			{
+				"level": 2,
+				"text": "Shared-worktree safety",
+				"anchor": "shared-worktree-safety"
+			},
+			{
+				"level": 2,
+				"text": "Pre-release verification",
+				"anchor": "pre-release-verification"
+			},
+			{
+				"level": 2,
+				"text": "Canonical production deployment",
+				"anchor": "canonical-production-deployment"
+			},
+			{
+				"level": 2,
+				"text": "Public route evidence",
+				"anchor": "public-route-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Public browser regression",
+				"anchor": "public-browser-regression"
+			},
+			{
+				"level": 2,
+				"text": "Hard external blocker",
+				"anchor": "hard-external-blocker"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION once the external credential exists",
+				"anchor": "nextaction-once-the-external-credential-exists"
+			}
+		],
+		"excerpt": "Production Release Evidence Release identity Release commit: 8c30101ece9f88af6fe3e2b32f44ff1fbef7b0ad. Commit parent: cbc83278a060b4613aa1d30648d2368d5e22c6ef. Release branch was created in an isolated worktree directly from the then current origin/main. Push was a normal fast forward, never force pushed. origin/main w",
+		"searchText": "production release evidence release identity release commit: 8c30101ece9f88af6fe3e2b32f44ff1fbef7b0ad. commit parent: cbc83278a060b4613aa1d30648d2368d5e22c6ef. release branch was created in an isolated worktree directly from the then current origin/main. push was a normal fast forward, never force pushed. origin/main was verified to equal the release sha after push. shared worktree safety original dirty worktree head remained 35bfeb4e129b113c1001284d807e790e99de55b6 during release isolation. original worktree retained 105 unrelated staged files. the unrelated local only movie/interface commit was not included in the olam release lineage. release commit path whitelist contained only olam app, olam api, and catalog registration paths. pre release verification every olam file was verified at or below 120 lines. javascript and catalog module syntax checks passed. focused contract suite: 14 passed, 0 failed. local isolated chrome smoke passed. credential pattern scan found no embedded minimax key material. required b\"h, awtsmoos, awtsmoos.com, and tab indentation gates passed. git diff cached check passed before commit. canonical production deployment canonical repo: /mnt/hc volume 102267213/git/awtsmoos.com. deployment used the repository's bh:ssh path and scripts/production/remote deploy entry.sh with the exact release sha. deploy output emitted canonical server active for the release sha. deploy output emitted canonical deploy ok for the release sha. post deploy service state: active. post deploy pid: 2364577. post deploy cwd: canonical production repo. post deploy head: exact release sha. post deploy production repo dirty count: 0. public route evidence /apps returned http 200 and exposed olam h3 studio in the catalog. /apps/olam h3/ returned http 200. /api/olam h3/status returned http 200. status response identified provider minimax, model minimax h3, and configured: false. exact browser client create envelope reached production and returned http style status 503 with minimax api key is not configured on the server. the credential value itself was never returned or logged. public browser regression a fresh log isolated chrome pass against production verified: olam catalog discovery. direct the next shot. creator boot. five navigation rooms. 360px mobile width with zero horizontal overflow. 768px tablet width with zero horizontal overflow. 1440px desktop width with zero horizontal overflow. settings truthfully showed server key missing. fresh browser errors: none. fresh failed network responses: none. the first public console assertion saw two stale 404 log entries already retained by the long lived devtools target. a network level diagnostic on fresh navigations returned no 404 events. after clearing chrome's historical log buffer, the full production browser regression passed with zero fresh errors. hard external blocker production does not currently have minimax api key configured. therefore a real paid h3 upstream generation cannot be executed truthfully yet. next action once the external credential exists 1. configure minimax api key in the production awtsmoos.service environment without exposing it to browser code or logs. 2. canonically restart/redeploy the service. 3. verify /api/olam h3/status returns configured: true. 4. submit one minimum 4 second 768p text only generation; current local estimate is $0.32. 5. persist and poll the returned task id until a terminal h3 v2 state. 6. verify successful task.content.url, playback, indexeddb persistence, reload recovery, and optional local cache. 7. run one small image reference generation to prove production reference transport. 8. record the real task/result evidence and then close the external blocker node.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-30-1307-olam-h3-studio-06-production-release-4b3eb3395e.json"
+	}
+]

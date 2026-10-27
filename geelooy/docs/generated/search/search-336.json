@@ -1,0 +1,138 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27-2150-unified-movie-revelation-verificatio-a89cd21587",
+		"title": "Verification Ledger",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27-2150-unified-movie-revelation/VERIFICATION_LEDGER.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Verification Ledger",
+				"anchor": "verification-ledger"
+			},
+			{
+				"level": 2,
+				"text": "Evidence hierarchy",
+				"anchor": "evidence-hierarchy"
+			},
+			{
+				"level": 2,
+				"text": "Current observations",
+				"anchor": "current-observations"
+			},
+			{
+				"level": 2,
+				"text": "Verification not yet earned",
+				"anchor": "verification-not-yet-earned"
+			},
+			{
+				"level": 2,
+				"text": "Test receipts",
+				"anchor": "test-receipts"
+			},
+			{
+				"level": 2,
+				"text": "Final closure format",
+				"anchor": "final-closure-format"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Verification Ledger The Awtsmoos makes evidence stronger than a hopeful word; this ledger records only checks that truly ran and facts directly heard. Evidence hierarchy OBSERVED: directly read from repository, command output, or browser runtime. MEASURED: test/check result with explicit",
+		"searchText": "b\"h boruch hashem blessed is he verification ledger the awtsmoos makes evidence stronger than a hopeful word; this ledger records only checks that truly ran and facts directly heard. evidence hierarchy observed: directly read from repository, command output, or browser runtime. measured: test/check result with explicit command or runtime observation. inferred: strong conclusion from observed imports/contracts, still labeled. unknown: not yet proven. current observations observed: repository root requested is work/awtsmoos.com/geelooy. observed: app directory includes animator, video editor, mitzvah studio, and nesher studio among many other apps. observed: a native awtsmoos tunnel is connected and supports command/browser execution. observed: multiple other logical agents are currently active against the same repository, so collision safety is required. observed: this mission's three planning passes and remaining work.md are stored under .ai thoughts/2026 08 27 2150 unified movie revelation/. verification not yet earned unknown: exact full set of movie capable apps. unknown: strongest existing canonical timeline/movie core. unknown: current test status of movie routes. unknown: whether all candidate routes are browser reachable without errors. unknown: whether a 180 second project already exists or must be authored. unknown: whether encoded video export is currently supported. test receipts no implementation test receipt is recorded until the relevant command/browser check has actually run. final closure format for each claim record: target, method, exact result, and whether it closes a remaining work item.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27-2150-unified-movie-revelation-verificatio-a89cd21587.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27-2156-awtsmoos-studio-unification-00-missi-bfe3ff4979",
+		"title": "Awtsmoos Studio Unification — Mission and Evidence",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27-2156-awtsmoos-studio-unification/00_MISSION_AND_EVIDENCE.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos Studio Unification — Mission and Evidence",
+				"anchor": "awtsmoos-studio-unification-mission-and-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Mission",
+				"anchor": "mission"
+			},
+			{
+				"level": 2,
+				"text": "Direct Repository Evidence",
+				"anchor": "direct-repository-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Hard Safety and Quality Constraints",
+				"anchor": "hard-safety-and-quality-constraints"
+			},
+			{
+				"level": 2,
+				"text": "Work Graph Roots",
+				"anchor": "work-graph-roots"
+			},
+			{
+				"level": 2,
+				"text": "Evidence Standard",
+				"anchor": "evidence-standard"
+			}
+		],
+		"excerpt": "B\"H Awtsmoos Studio Unification — Mission and Evidence From one hidden source the many frames arise; the Awtsmoos renews every pixel before our eyes. At Awtsmoos.com the vessels may differ in face, while one truthful contract gives every studio its place. Mission Build a shared movie making foundation for Geelooy that ",
+		"searchText": "b\"h awtsmoos studio unification — mission and evidence from one hidden source the many frames arise; the awtsmoos renews every pixel before our eyes. at awtsmoos.com the vessels may differ in face, while one truthful contract gives every studio its place. mission build a shared movie making foundation for geelooy that lets ai author real timed 2d, 3d, and hybrid productions: characters, shapes, paths, text, particles, tutorials, infographics, camera language, transitions, audio/captions, procedural assets, and export. preserve distinct product personalities while sharing one canonical movie contract and reusable engines. create a mobile first awtsmoos studio that combines the shared capabilities and prove the system with a real 180 second movie. direct repository evidence apps/animator already contains ai command routing, character performance, camera planning, studio film ui, procedural generators, render pipelines, and movie export machinery. apps/nesher studio contains mature nle concepts, effects/particles, audio, webcodecs/webm/mp4 oriented export code, timeline/project models, and scene graph tooling. apps/slides contains declarative element composition, procedural authoring, mobile oriented ui, and compact render abstractions valuable for text/shape/tutorial scenes. apps/mitzvah studio contains a focused document/object/canvas/editor model suitable as a 2d adapter personality. apps/video editor contains another timeline/editor personality that should converge on the same movie contract rather than duplicate it. libs/awtsmoos procedural core already contains animation, 3d text, human scene objects, creature systems, physics, liquids, particles, particle presets, procedural objects, scene timeline handlers, and three.js adapters. as observed before implementation, no apps/awtsmoos studio, no libs/awtsmoos ui, and no libs/awtsmoos procedural core/src/core/movie namespace existed. the working tree is already heavily dirty, especially animator, mitzvah studio, and portions of procedural core. concurrent agents are active. existing dirty files must not be casually rewritten. hard safety and quality constraints 1. prefer new modules and adapters over collision prone rewrites. 2. re read any existing file immediately before a full file rewrite. 3. never partially patch an existing file. 4. keep executable source files at or below 120 lines where practical; split responsibilities aggressively. 5. use tabs for code indentation, descriptive names, readable line breaks, and jsdoc. 6. keep browser/mobile behavior first class, not an afterthought. 7. build code first, then tests and runtime verification. 8. verification must include syntax/import checks, contract tests, 180 second feature coverage, app/browser smoke, responsive checks, and export/probe evidence when available. work graph roots shared movie contract and compiler in procedural core. shared procedural movie asset catalog that exposes existing 2d/3d generation through one ai facing vocabulary. shared awtsmoos ui json to dom system with accessible mobile studio recipes. new awtsmoos studio application consuming both libraries. adapters/profiles for animator, nesher studio, mitzvah studio, video editor, and slides. a 180 second production fixture with multiple scenes, cameras, characters, particles, text, shapes, infographic/tutorial beats, 2d/3d layers, and transitions. tests, browser verification, export verification, read back, delta review, and handoff. evidence standard no claim is complete because a file exists. completion requires observed behavior. every success creates shadow work: tests, read back, integration review, mobile review, export review, and documentation. remaining work stays open until those proofs exist.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27-2156-awtsmoos-studio-unification-00-missi-bfe3ff4979.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27-2156-awtsmoos-studio-unification-01-phase-5893d84047",
+		"title": "Phase One — Boundless Movie-System Brainstorm",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27-2156-awtsmoos-studio-unification/01_PHASE_ONE_BOUNDLESS_BRAINSTORM.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase One — Boundless Movie-System Brainstorm",
+				"anchor": "phase-one-boundless-movie-system-brainstorm"
+			},
+			{
+				"level": 2,
+				"text": "Movie Language Possibilities",
+				"anchor": "movie-language-possibilities"
+			},
+			{
+				"level": 2,
+				"text": "Procedural Asset Possibilities",
+				"anchor": "procedural-asset-possibilities"
+			},
+			{
+				"level": 2,
+				"text": "Awtsmoos UI Possibilities",
+				"anchor": "awtsmoos-ui-possibilities"
+			},
+			{
+				"level": 2,
+				"text": "AI Movie Director Possibilities",
+				"anchor": "ai-movie-director-possibilities"
+			},
+			{
+				"level": 2,
+				"text": "Three-Minute Proof Movie Possibilities",
+				"anchor": "three-minute-proof-movie-possibilities"
+			},
+			{
+				"level": 2,
+				"text": "Ideal Export Possibilities",
+				"anchor": "ideal-export-possibilities"
+			},
+			{
+				"level": 2,
+				"text": "Phase-One Principle",
+				"anchor": "phase-one-principle"
+			}
+		],
+		"excerpt": "B\"H Phase One — Boundless Movie System Brainstorm The Awtsmoos makes one instant bloom into a world of light; one contract can let a thousand renderers tell truth in sight. Awtsmoos.com can hold both pencil line and volumetric sky, one shared language beneath them while their surfaces stay spry. This pass deliberately ",
+		"searchText": "b\"h phase one — boundless movie system brainstorm the awtsmoos makes one instant bloom into a world of light; one contract can let a thousand renderers tell truth in sight. awtsmoos.com can hold both pencil line and volumetric sky, one shared language beneath them while their surfaces stay spry. this pass deliberately explores the ideal system before constraining implementation. movie language possibilities a canonical movie document with metadata, duration, frame rate, aspect ratio, scenes, tracks, assets, cues, cameras, audio, captions, and export intent. scene local 2d/3d/hybrid layers with deterministic z/depth order. typed timed entities: character, text, shape, path, image, video, particle system, light, camera, infographic widget, tutorial pointer, chart, and procedural world object. keyframes plus semantic motions such as enter, exit, orbit, walk, gesture, morph, pulse, reveal, count, explode, dissolve, type, wipe, and camera crane/dolly/pan/tilt/orbit. ai facing high level commands that compile into deterministic low level timeline events. constraint based choreography: keep text readable, faces in frame, labels attached, tutorial arrows pointing at targets, charts avoiding overlap, and camera motion respecting safe zones. reusable scene templates: dialogue, explainer, infographic, product/tutorial, world flythrough, title sequence, montage, data story, split screen, classroom, documentary, and character performance. a feature capability manifest so ai knows what each studio/renderer can actually execute. graceful fallback rules: 3d particle field to 2d particles, mesh text to canvas text, unavailable physics to baked transforms, advanced shader to flat material. procedural asset possibilities one movie asset vocabulary over existing procedural core primitives, text, humans, animals, plants, rocks, water, architecture, particles, physics, and materials. asset intents that say what is needed rather than which app implementation to call. deterministic seed support for reproducible ai generations. 2d companion assets: vector characters, diagram primitives, arrows, callouts, iconographic bodies, charts, and educational glyphs. 3d companion assets: humans, creatures, props, terrain, sky, vegetation, liquids, buildings, text, particles, and lights. hybrid adapters that can project 3d points into 2d labels and hud/tutorial overlays. asset caches and manifests so repeated generations share data rather than duplicate code. awtsmoos ui possibilities a small json grammar for dom trees: tag, text, class, attributes, data, aria, style tokens, children, condition, repeat, slot, events, and bindings. safe dom construction rather than uncontrolled html string injection. reusable studio primitives: app shell, top bar, bottom transport, drawer, inspector, scene list, timeline, asset shelf, viewport, floating action button, segmented control, scrubber, dialog, toast, and command palette. mobile first shell with thumb reachable transport and collapsible panels. responsive density profiles for phone, tablet, laptop, and large canvas. accessible labels, focus order, keyboard shortcuts, reduced motion mode, and minimum touch targets. theme tokens and product profiles so animator, nesher, slides, mitzvah, video editor, and awtsmoos studio feel related without becoming clones. ai movie director possibilities prompt intent beat sheet scenes shots assets timeline validation render plan. ai can request an infographic/tutorial rather than micromanage pixels. automatic shot planning based on subjects, emotion, teaching target, and scene scale. automatic continuity: persistent cast identity, wardrobe/material intent, world seed, prop reuse, camera side continuity, and subtitle style. automatic pacing: scene duration, beat density, reading time, transition time, and tutorial pauses. preflight reports missing assets, unsupported effects, impossible time ranges, overlap, unreadable text, and renderer fallbacks before render. three minute proof movie possibilities a 180 second proof should be a feature anthology rather than one repeated loop: opening title particles; 2d kinetic typography; character dialogue; 3d world flythrough; animated chart; tutorial sequence with pointer/callout; shape morph section; particle science visualization; crowd/people section; water/vegetation or world section; split screen 2d/3d comparison; cinematic montage; final title. it should use multiple camera angles and camera moves, transitions, depth changes, captions, and mixed visual languages. ideal export possibilities deterministic offline frame evaluation independent of wall clock. browser preview renderer plus export adapter. mediarecorder fallback and webcodecs/ffmpeg backed fast path where available. audio/caption muxing and export metadata. ffprobe/duration validation for produced media. project json remains the source of truth, so render/export can evolve without changing authored movies. phase one principle do not build six independent movie engines. build one language, one reusable procedural vocabulary, one reusable ui grammar, and multiple personalities/adapters. the ideal architecture makes ai author truth once and lets every studio choose its own vessel.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27-2156-awtsmoos-studio-unification-01-phase-5893d84047.json"
+	}
+]

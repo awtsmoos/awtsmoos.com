@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Reactions Tests (geelooy/api/social/helper/reactions/test/)\n\nReaction store tests.\n\n- `entityReactionStore.test.js` — entity reaction storage behavior.\n- `ReactionTestVessel.js` — test fixture vessel.\n"
+}

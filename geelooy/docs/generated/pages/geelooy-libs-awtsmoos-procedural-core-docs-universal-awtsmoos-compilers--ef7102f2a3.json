@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-docs-universal-awtsmoos-compilers--ef7102f2a3",
+	"title": "B\"H",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/UNIVERSAL_AWTSMOOS_COMPILERS.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Universal Compiler Federation",
+			"anchor": "universal-compiler-federation"
+		},
+		{
+			"level": 2,
+			"text": "Compiler manifest",
+			"anchor": "compiler-manifest"
+		},
+		{
+			"level": 2,
+			"text": "Support-state truth",
+			"anchor": "support-state-truth"
+		},
+		{
+			"level": 2,
+			"text": "Registration",
+			"anchor": "registration"
+		},
+		{
+			"level": 2,
+			"text": "Built-in Modeling bridge",
+			"anchor": "built-in-modeling-bridge"
+		},
+		{
+			"level": 2,
+			"text": "Adapters and deferred work",
+			"anchor": "adapters-and-deferred-work"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-docs-universal-awtsmoos-compilers--ef7102f2a3-001.json"
+	]
+}

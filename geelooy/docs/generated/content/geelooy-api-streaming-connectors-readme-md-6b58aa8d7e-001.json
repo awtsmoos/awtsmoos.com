@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Streaming Connectors (geelooy/api/streaming/connectors/)\n\nPer-provider streaming connectors, keyed by `map.js` (`connectorMap`).\n\n- `youtube/` — YouTube Live API: OAuth, broadcast/stream control, HLS/RTMPS ingest metadata\n- `twitch/` — manual stream-key first; OAuth for chat/metadata can be added later\n- `facebook/` — manual stream URL first; Graph API setup after app review decisions\n- `awtsmoos/` — optional hosted relay/record/multicast path where video bytes\n  intentionally pass through Awtsmoos\n\nEach connector implements the actions routed by `../core/router.js` from\n`:connector/:action`.\n"
+}

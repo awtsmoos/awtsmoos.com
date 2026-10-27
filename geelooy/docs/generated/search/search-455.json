@@ -1,0 +1,277 @@
+[
+	{
+		"id": "geelooy-api-social-helper-test-readme-md-3477da563d",
+		"title": "B\"H — Helper Integration Tests (geelooy/api/social/helper/test/)",
+		"sourcePath": "geelooy/api/social/helper/test/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Helper Integration Tests (geelooy/api/social/helper/test/)",
+				"anchor": "b-h-helper-integration-tests-geelooy-api-social-helper-test"
+			}
+		],
+		"excerpt": "B\"H — Helper Integration Tests (geelooy/api/social/helper/test/) Cross domain integration tests for the social helper layer. socialContent.test.js, socialGraph.test.js, socialPacked.test.js — content, graph, packed storage. platformExecution.test.js, platformOps.test.js — platform execution and ops. postMigration.test.",
+		"searchText": "b\"h — helper integration tests (geelooy/api/social/helper/test/) cross domain integration tests for the social helper layer. socialcontent.test.js, socialgraph.test.js, socialpacked.test.js — content, graph, packed storage. platformexecution.test.js, platformops.test.js — platform execution and ops. postmigration.test.js, postpackedbridge.test.js — post migration and packed bridge. packedengine.test.js, packedsnapshotrepair.test.js — packed engine and snapshot repair. apikeys.test.js, heichelroles.test.js, notifications.test.js, responseshapes.test.js — keys, roles, notifications, response shapes.",
+		"page": "pages/geelooy-api-social-helper-test-readme-md-3477da563d.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-thoughtstreams-readme-md-773ac35926",
+		"title": "B\"H — Thought Streams (geelooy/api/social/helper/thoughtStreams/)",
+		"sourcePath": "geelooy/api/social/helper/thoughtStreams/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Thought Streams (geelooy/api/social/helper/thoughtStreams/)",
+				"anchor": "b-h-thought-streams-geelooy-api-social-helper-thoughtstreams"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "B\"H — Thought Streams (geelooy/api/social/helper/thoughtStreams/) \"Thought streams\": short form posts (thoughts) with reads, writes, reactions, queries, and sanitization. Mounted via awtsmoos.thoughts.js. Files write.js, read.js, query.js — write, read, query streams. reactions.js — stream reactions. sanitize.js — inpu",
+		"searchText": "b\"h — thought streams (geelooy/api/social/helper/thoughtstreams/) \"thought streams\": short form posts (thoughts) with reads, writes, reactions, queries, and sanitization. mounted via awtsmoos.thoughts.js. files write.js, read.js, query.js — write, read, query streams. reactions.js — stream reactions. sanitize.js — input sanitization. paths.js — storage paths.",
+		"page": "pages/geelooy-api-social-helper-thoughtstreams-readme-md-773ac35926.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-unifiedactivity-readme-md-aaa893312d",
+		"title": "B\"H",
+		"sourcePath": "geelooy/api/social/helper/unifiedActivity/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Boruch Hashem",
+				"anchor": "boruch-hashem"
+			},
+			{
+				"level": 1,
+				"text": "Blessed is He",
+				"anchor": "blessed-is-he"
+			},
+			{
+				"level": 1,
+				"text": "Unified Activity Ledger",
+				"anchor": "unified-activity-ledger"
+			},
+			{
+				"level": 2,
+				"text": "Privacy law",
+				"anchor": "privacy-law"
+			},
+			{
+				"level": 2,
+				"text": "Controls",
+				"anchor": "controls"
+			},
+			{
+				"level": 2,
+				"text": "Storage",
+				"anchor": "storage"
+			},
+			{
+				"level": 2,
+				"text": "Adoption",
+				"anchor": "adoption"
+			},
+			{
+				"level": 2,
+				"text": "Tests",
+				"anchor": "tests"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Unified Activity Ledger This domain provides user controlled page and social activity memory for verified public aliases. Privacy law Private by default. A public alias identifier is not authentication. Owner reads and mutations require native ownership verification. Selected alias and H",
+		"searchText": "b\"h boruch hashem blessed is he unified activity ledger this domain provides user controlled page and social activity memory for verified public aliases. privacy law private by default. a public alias identifier is not authentication. owner reads and mutations require native ownership verification. selected alias and heichel member views verify the viewer alias before disclosure. anonymous viewers receive only explicitly public events. cross origin paths are rejected. sensitive query keys are removed before storage. query, title, and duration capture preferences alter the stored event itself. controls pause or resume. capture categories independently. retention from one to 365 days. private, selected alias, heichel member, or public event scope. per event visibility updates. individual forgetting. complete clearing. json export. rapid same path navigation deduplication. storage event bodies and the bounded chronological index live under the alias owned social activity path. deletion removes the event from active indexes and leaves only a redacted tombstone. adoption the social hub has a full tracker with route and dwell time awareness. the social composer and heichel review center explicitly adopt the shared activitybeacon. the beacon is not secretly injected into every unrelated legacy page. additional applications can adopt it after presenting the same legal and privacy controls. tests the test folder proves sanitization, storage, deduplication, pause behavior, capture preferences, visibility acls, deletion, and clearing with an in memory database. the awtsmoos remembers every instant without a ledger. awtsmoos.com therefore treats its finite activity memory as a reversible user owned vessel rather than an invisible surveillance source.",
+		"page": "pages/geelooy-api-social-helper-unifiedactivity-readme-md-aaa893312d.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-unifiedactivity-test-readme-md-bfc7833fb2",
+		"title": "B\"H — Unified Activity Tests (geelooy/api/social/helper/unifiedActivity/test/)",
+		"sourcePath": "geelooy/api/social/helper/unifiedActivity/test/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Unified Activity Tests (geelooy/api/social/helper/unifiedActivity/test/)",
+				"anchor": "b-h-unified-activity-tests-geelooy-api-social-helper-unifiedactivity-test"
+			}
+		],
+		"excerpt": "B\"H — Unified Activity Tests (geelooy/api/social/helper/unifiedActivity/test/) Unified activity tests. capturePreferences.test.js — activity capture preferences. privacy.test.js — activity privacy rules. schema.test.js, store.test.js — activity schema and store.",
+		"searchText": "b\"h — unified activity tests (geelooy/api/social/helper/unifiedactivity/test/) unified activity tests. capturepreferences.test.js — activity capture preferences. privacy.test.js — activity privacy rules. schema.test.js, store.test.js — activity schema and store.",
+		"page": "pages/geelooy-api-social-helper-unifiedactivity-test-readme-md-bfc7833fb2.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-unifiedinteraction-readme-md-5bcdd3e991",
+		"title": "B\"H",
+		"sourcePath": "geelooy/api/social/helper/unifiedInteraction/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Boruch Hashem",
+				"anchor": "boruch-hashem"
+			},
+			{
+				"level": 1,
+				"text": "Blessed is He",
+				"anchor": "blessed-is-he"
+			},
+			{
+				"level": 1,
+				"text": "Unified Interaction Domain",
+				"anchor": "unified-interaction-domain"
+			},
+			{
+				"level": 2,
+				"text": "Exact targets",
+				"anchor": "exact-targets"
+			},
+			{
+				"level": 2,
+				"text": "Media",
+				"anchor": "media"
+			},
+			{
+				"level": 2,
+				"text": "References",
+				"anchor": "references"
+			},
+			{
+				"level": 2,
+				"text": "Comment becomes post",
+				"anchor": "comment-becomes-post"
+			},
+			{
+				"level": 2,
+				"text": "Routes",
+				"anchor": "routes"
+			},
+			{
+				"level": 2,
+				"text": "Native delegation",
+				"anchor": "native-delegation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Unified Interaction Domain This domain orchestrates exact target comments, replies, media reports, canonical references, and comment to post transformations through existing native social helpers. Exact targets A comment may attach to: an entire post, question, or answer; a verse; a subs",
+		"searchText": "b\"h boruch hashem blessed is he unified interaction domain this domain orchestrates exact target comments, replies, media reports, canonical references, and comment to post transformations through existing native social helpers. exact targets a comment may attach to: an entire post, question, or answer; a verse; a subsection; another comment; a section inside another comment. the target carries heichel, series, entity type and id, verse, subsection, parent comment, and parent comment section coordinates. media comments may use native alias owned: images; voice notes; video reports. media manifests are verified before the rich comment is created. pending browser blobs never enter a published comment payload. references posts, questions, and answers may appear inside a comment as canonical references. the source body is not copied. the rich comment stores a bounded reference descriptor and the native social graph receives a provenance edge. comment becomes post an alias may promote only its own canonical comment. the transformation preserves: text; transcript; media manifests; comment sections; original target coordinates; source author; source comment id; an idempotency key; a graph edge from the new post back to the comment. the source comment remains unchanged. routes native delegation the orchestration reuses native: rich comment creation; comment ownership and moderation; alias owned asset manifests; posts and publication planning; social graph references. no second comment or media database is introduced. the awtsmoos gives every response its source and every source its wider possibility. awtsmoos.com preserves that unity as exact coordinates, canonical identities, and visible transformation receipts.",
+		"page": "pages/geelooy-api-social-helper-unifiedinteraction-readme-md-5bcdd3e991.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-unifiedinteraction-test-readme-md-a5a01605da",
+		"title": "B\"H — Unified Interaction Tests (geelooy/api/social/helper/unifiedInteraction/test/)",
+		"sourcePath": "geelooy/api/social/helper/unifiedInteraction/test/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Unified Interaction Tests (geelooy/api/social/helper/unifiedInteraction/test/)",
+				"anchor": "b-h-unified-interaction-tests-geelooy-api-social-helper-unifiedinteraction-test"
+			}
+		],
+		"excerpt": "B\"H — Unified Interaction Tests (geelooy/api/social/helper/unifiedInteraction/test/) Unified interaction tests. CommentGraphService.test.js — comment graph service. promotion.test.js — comment promotion. media.test.js, schema.test.js — interaction media and schema.",
+		"searchText": "b\"h — unified interaction tests (geelooy/api/social/helper/unifiedinteraction/test/) unified interaction tests. commentgraphservice.test.js — comment graph service. promotion.test.js — comment promotion. media.test.js, schema.test.js — interaction media and schema.",
+		"page": "pages/geelooy-api-social-helper-unifiedinteraction-test-readme-md-a5a01605da.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-unifiedsocial-destinations-readme-md-93176f546c",
+		"title": "B\"H — Unified Social Destinations (geelooy/api/social/helper/unifiedSocial/destinations/)",
+		"sourcePath": "geelooy/api/social/helper/unifiedSocial/destinations/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Unified Social Destinations (geelooy/api/social/helper/unifiedSocial/destinations/)",
+				"anchor": "b-h-unified-social-destinations-geelooy-api-social-helper-unifiedsocial-destinations"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "B\"H — Unified Social Destinations (geelooy/api/social/helper/unifiedSocial/destinations/) Destinations for unified publishing: where content may be placed (Heichels, series), with evidence, policy, and management routes. Files DestinationService.js, DestinationSchema.js, DestinationRouteHandlers.js — service, schema, r",
+		"searchText": "b\"h — unified social destinations (geelooy/api/social/helper/unifiedsocial/destinations/) destinations for unified publishing: where content may be placed (heichels, series), with evidence, policy, and management routes. files destinationservice.js, destinationschema.js, destinationroutehandlers.js — service, schema, routes. heichelevidence.js — heichel evidence for destination policy. inlinecreationservice.js — inline heichel/series creation. managementroutes.js — destination management routes. seriestree.js — bounded nested series traversal.",
+		"page": "pages/geelooy-api-social-helper-unifiedsocial-destinations-readme-md-93176f546c.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-unifiedsocial-identity-readme-md-0688c5954b",
+		"title": "B\"H — Unified Social Identity (geelooy/api/social/helper/unifiedSocial/identity/)",
+		"sourcePath": "geelooy/api/social/helper/unifiedSocial/identity/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Unified Social Identity (geelooy/api/social/helper/unifiedSocial/identity/)",
+				"anchor": "b-h-unified-social-identity-geelooy-api-social-helper-unifiedsocial-identity"
+			}
+		],
+		"excerpt": "B\"H — Unified Social Identity (geelooy/api/social/helper/unifiedSocial/identity/) Native identity for unified social: alias context and bootstrap. AliasContext.js — public alias context for acting aliases. AliasBootstrapService.js — alias creation through native helpers.",
+		"searchText": "b\"h — unified social identity (geelooy/api/social/helper/unifiedsocial/identity/) native identity for unified social: alias context and bootstrap. aliascontext.js — public alias context for acting aliases. aliasbootstrapservice.js — alias creation through native helpers.",
+		"page": "pages/geelooy-api-social-helper-unifiedsocial-identity-readme-md-0688c5954b.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-unifiedsocial-permissions-readme-md-26215d1b0f",
+		"title": "B\"H — Unified Social Permissions (geelooy/api/social/helper/unifiedSocial/permissions/)",
+		"sourcePath": "geelooy/api/social/helper/unifiedSocial/permissions/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Unified Social Permissions (geelooy/api/social/helper/unifiedSocial/permissions/)",
+				"anchor": "b-h-unified-social-permissions-geelooy-api-social-helper-unifiedsocial-permissions"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "B\"H — Unified Social Permissions (geelooy/api/social/helper/unifiedSocial/permissions/) Acting alias authorization for unified social: compiled capabilities, governance, roles, invitations, and route authorization — all fail closed. Files ActorAuthorization.js — acting alias authorization (adapts native verifyAliasOwne",
+		"searchText": "b\"h — unified social permissions (geelooy/api/social/helper/unifiedsocial/permissions/) acting alias authorization for unified social: compiled capabilities, governance, roles, invitations, and route authorization — all fail closed. files actorauthorization.js — acting alias authorization (adapts native verifyaliasownership). permissioncompiler.js, capabilitycatalog.js, policyresolver.js — compile effective roles into capabilities. routeauthorization.js — per route authorization. roleindexes.js, rolemutationschema.js, rolemutationservice.js — role storage and hierarchy safe mutations. roleinvitationservice.js, roleinvitationstore.js — seven day invitations with explicit consent. legacyrolereader.js — dual reads legacy editors/moderators/contributors/followers. membergovernancehandlers.js, governanceaudit.js, governancenotifications.js — member governance, audit records, notifications.",
+		"page": "pages/geelooy-api-social-helper-unifiedsocial-permissions-readme-md-26215d1b0f.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-unifiedsocial-publishing-readme-md-45b5b554f2",
+		"title": "B\"H — Unified Social Publishing (geelooy/api/social/helper/unifiedSocial/publishing/)",
+		"sourcePath": "geelooy/api/social/helper/unifiedSocial/publishing/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Unified Social Publishing (geelooy/api/social/helper/unifiedSocial/publishing/)",
+				"anchor": "b-h-unified-social-publishing-geelooy-api-social-helper-unifiedsocial-publishing"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "B\"H — Unified Social Publishing (geelooy/api/social/helper/unifiedSocial/publishing/) Publication pipeline for unified social: plan, execute, and place content with one canonical origin, deterministic secondary placements, and idempotency. Files PublicationPlanner.js, PublicationPlanSchema.js, PlanningActions.js — plan",
+		"searchText": "b\"h — unified social publishing (geelooy/api/social/helper/unifiedsocial/publishing/) publication pipeline for unified social: plan, execute, and place content with one canonical origin, deterministic secondary placements, and idempotency. files publicationplanner.js, publicationplanschema.js, planningactions.js — planning. publicationexecutor.js, contentpublisher.js, submissionfactory.js — execution and publishing. canonicallocator.js — one canonical origin per piece of content. placementstore.js, placementindexes.js — placements. idempotencyledger.js — prevents retry duplication. publicationroutehandlers.js — http routes.",
+		"page": "pages/geelooy-api-social-helper-unifiedsocial-publishing-readme-md-45b5b554f2.json"
+	}
+]

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Wallet Routes (geelooy/api/wallet/routes/)\n\nOne handler file per wallet route, registered in `table.js`.\n\nHandlers: `me.js`, `balance.js`, `currencyInfo.js`, `transfer.js`, `buyMock.js`,\n`paypalCreate.js` / `paypalCapture.js`, `resourceQuote.js`, `marketplace.js` /\n`marketplaceAction.js` / `marketplaceActionSupport.js`, `organizations.js` /\n`organizationAction.js` / `organizationActionSupport.js`, and the\n`commerce{,Catalog,Actions,ActionExecute,Entitlements,DigitalGood,Purchase,Products,Credit*,\nReconciliationHealth}.js` family plus `gameRewardClaim.js`.\n\n`table.js` exports `routeTable` — public catalog reads stay anonymous; every\nmutation re-checks authorization in its handler before touching private state.\n`_awtsmoos.derech.js` mounts the whole table dynamically.\n"
+}

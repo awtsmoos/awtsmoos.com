@@ -1,0 +1,175 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27t21-50-geelooy-movie-unification-04-phase--c9d667c6fb",
+		"title": "Phase Three — Final Execution Plan and Thirty Further Improvements",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27T21-50-geelooy-movie-unification/04_PHASE_THREE_FINAL_PLAN_30_IMPROVEMENTS.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Three — Final Execution Plan and Thirty Further Improvements",
+				"anchor": "phase-three-final-execution-plan-and-thirty-further-improvements"
+			},
+			{
+				"level": 2,
+				"text": "Thirty Further Improvements",
+				"anchor": "thirty-further-improvements"
+			},
+			{
+				"level": 2,
+				"text": "Exact Implementation Order",
+				"anchor": "exact-implementation-order"
+			},
+			{
+				"level": 2,
+				"text": "Files We Will Not Rewrite Blindly",
+				"anchor": "files-we-will-not-rewrite-blindly"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Three — Final Execution Plan and Thirty Further Improvements The first plan saw breadth, the second found bounds; the third binds intent to evidence where verification resounds. Thirty Further Improvements 1. Validate nonnegative finite numbers everywhere. 2. Reject zero duration m",
+		"searchText": "b\"h boruch hashem blessed is he phase three — final execution plan and thirty further improvements the first plan saw breadth, the second found bounds; the third binds intent to evidence where verification resounds. thirty further improvements 1. validate nonnegative finite numbers everywhere. 2. reject zero duration movie and scene records. 3. clamp no creative values silently; report invalid inputs. 4. provide protocol feature flags for future extensions. 5. require unique scene ids and layer ids. 6. require scenes to remain inside movie duration. 7. permit intentional scene gaps for black/silence holds. 8. permit explicit overlaps for transition composition. 9. normalize color strings without assuming a renderer's color library. 10. keep text content unicode safe. 11. model shapes generically with subtype/data rather than one class per polygon. 12. model charts with series/categories/value arrays. 13. model particles with emitter semantics and deterministic seeds. 14. model 3d depth even in 2d adapters as preserved metadata. 15. give each adapter a stable name/version/capability manifest. 16. add source document provenance to adapted outputs. 17. add conversion warnings with machine readable codes. 18. keep ai schema discoverable through plain js data and json safe serialization. 19. include examples for narrative, tutorial, infographic and mixed media scenes. 20. include camera angle changes at meaningful story beats in the showcase. 21. include at least three characters across the full showcase. 22. include multiple particle systems with different emitter types. 23. include chart, text, path/patch, primitive shape and grouped overlays. 24. include portrait safe ui behavior despite landscape showcase output. 25. test adapter conversions without requiring browser globals where possible. 26. run browser console checks after static tests. 27. use ffprobe as authoritative duration/codec evidence after render. 28. record artifact size and exact path in durable evidence. 29. re run git status after work to identify only our own new/touched files. 30. re read all touched files and produce plan vs actual delta before declaring completion. exact implementation order 1. re read clean existing integration files and locate any pre existing movie protocol. 2. write shared movie core as new modules. 3. run node check and core smoke tests immediately after code exists. 4. write deterministic 180 second showcase. 5. write captions adapter and its smoke test. 6. write nesher adapter and its smoke test. 7. write animator adapter only as new files; wire it only if a clean extension point exists after fresh inspection. 8. add mobile movie dock only through clean conflict free hooks. 9. run relevant existing app regressions. 10. use current animator/nesher export tooling to realize the showcase; prefer existing proven render/export paths over a duplicate renderer. 11. verify output with ffprobe and browser/runtime evidence. 12. write final delta/evidence notes and close remaining work only with proof. files we will not rewrite blindly any currently dirty animator core/ai/camera/mobile/export file belongs to concurrent work until proven otherwise. no reset, checkout, patch, or forced overwrite is allowed.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27t21-50-geelooy-movie-unification-04-phase--c9d667c6fb.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27t21-50-geelooy-movie-unification-05-verifi-c193a3b92c",
+		"title": "Verification Universe",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27T21-50-geelooy-movie-unification/05_VERIFICATION_UNIVERSE.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Verification Universe",
+				"anchor": "verification-universe"
+			},
+			{
+				"level": 2,
+				"text": "Static",
+				"anchor": "static"
+			},
+			{
+				"level": 2,
+				"text": "Protocol",
+				"anchor": "protocol"
+			},
+			{
+				"level": 2,
+				"text": "Showcase",
+				"anchor": "showcase"
+			},
+			{
+				"level": 2,
+				"text": "Adapters",
+				"anchor": "adapters"
+			},
+			{
+				"level": 2,
+				"text": "Runtime",
+				"anchor": "runtime"
+			},
+			{
+				"level": 2,
+				"text": "Render Evidence",
+				"anchor": "render-evidence"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Verification Universe Evidence is the keli; confidence alone cannot be the light. Static node check every touched .js/.mjs file. Assert no new source file exceeds 120 lines unless data only structure makes splitting demonstrably worse. Assert tabs for indentation in touched executable so",
+		"searchText": "b\"h boruch hashem blessed is he verification universe evidence is the keli; confidence alone cannot be the light. static node check every touched .js/.mjs file. assert no new source file exceeds 120 lines unless data only structure makes splitting demonstrably worse. assert tabs for indentation in touched executable source. assert headers/jsdoc presence required by the project constitution. protocol valid mixed movie normalizes and validates. invalid duration, duplicate ids and out of bounds scenes fail with useful errors. sampling at 0, scene boundaries, middle and 179.999 seconds resolves deterministically. keyframe interpolation handles linear/ease/hold semantics. ai contract serializes without functions or browser globals. showcase exact duration 180 seconds. multiple distinct scenes and camera angles. 2d shapes, text, paths/patches, charts and particles. 3d declarations, camera depth/movement, lights/world objects where supported. recurring people/characters with continuity metadata. tutorial and infographic sequences in addition to narrative scenes. adapters captions adapter reports its 2d strengths and preserves unsupported 3d layers. nesher adapter creates edit/timeline oriented records without losing source provenance. animator adapter preserves semantic camera/character/3d intent for cinematic realization. runtime load relevant apps at desktop and narrow mobile widths. no new console exceptions. controls remain reachable and viewport safe. existing app specific focused regression tests pass. render evidence produce actual media artifact when existing project exporter supports the document path. ffprobe duration approximately 180.000 seconds with expected video stream. inspect representative frames from opening, middle and ending, plus at least one infographic and character scene. record command outputs and artifact path in final evidence note.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27t21-50-geelooy-movie-unification-05-verifi-c193a3b92c.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27t2150-geelooy-movie-unification-01-chessed-c76f81d359",
+		"title": "Phase 1 — Chesed Brainstorm: The Movie Studio Without Walls",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27T2150-geelooy-movie-unification/01_CHESSED_BRAINSTORM.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase 1 — Chesed Brainstorm: The Movie Studio Without Walls",
+				"anchor": "phase-1-chesed-brainstorm-the-movie-studio-without-walls"
+			},
+			{
+				"level": 2,
+				"text": "Mission",
+				"anchor": "mission"
+			},
+			{
+				"level": 2,
+				"text": "Required user outcomes",
+				"anchor": "required-user-outcomes"
+			},
+			{
+				"level": 2,
+				"text": "Five architecture candidates",
+				"anchor": "five-architecture-candidates"
+			},
+			{
+				"level": 2,
+				"text": "Ideal capability universe",
+				"anchor": "ideal-capability-universe"
+			},
+			{
+				"level": 2,
+				"text": "Evidence required before code",
+				"anchor": "evidence-required-before-code"
+			}
+		],
+		"excerpt": "B\"H Phase 1 — Chesed Brainstorm: The Movie Studio Without Walls The Awtsmoos renews each frame from no prior frame; a timeline becomes a vessel, yet every app keeps its name. Mission Reveal every 2D and 3D movie making surface in geelooy, trace its actual runtime contracts, and converge duplicated capabilities onto one",
+		"searchText": "b\"h phase 1 — chesed brainstorm: the movie studio without walls the awtsmoos renews each frame from no prior frame; a timeline becomes a vessel, yet every app keeps its name. mission reveal every 2d and 3d movie making surface in geelooy, trace its actual runtime contracts, and converge duplicated capabilities onto one shared movie creation grammar without flattening each app's distinct product identity. required user outcomes ai can create a whole movie from structured intent rather than merely emit prose. 2d and 3d scenes share one scene/timeline contract where it is genuinely useful. characters, shapes, text, infographic primitives, particles, cameras, transitions, audio hooks, and patches are composable. movies can include many scenes, multiple camera angles, entrances/exits, animated typography, procedural motion, and deterministic timing. ui/ux is mobile first while remaining productive on desktop. existing apps remain recognizably different products even when they share the same engine. a real approximately three minute showcase movie is authored and rendered/playback tested. verification includes syntax/static checks, runtime/browser checks, console inspection, and evidence that the full timeline reaches its end. five architecture candidates a. one giant universal editor: maximum reuse, unacceptable identity loss and coupling. b. shared schema only: safe but leaves rendering, ai, and timeline duplication. c. shared engine + app adapters: preferred if current app boundaries support it. d. 2d and 3d completely separate engines: preserves specialization but prevents unified ai generation. e. plugin kernel with 2d/3d render backends: strongest long term target if it can be introduced without breaking existing paths. ideal capability universe scene graph; tracks; keyframes; easing; constraints; camera rigs; 2d canvas/svg/dom layers; 3d scene nodes; lights; materials; particle emitters; reusable characters; pose/motion clips; text; charts; infographic layouts; arrows; callouts; masks; transitions; audio cues; narration metadata; asset references; deterministic seeded procedural effects; ai generated storyboards; ai generated scene specs; validation; previews; timeline scrubbing; responsive stage; touch gestures; scene library; reusable templates; export/render hooks. evidence required before code exact app directories and entry points. actual 2d/3d libraries in use. current timeline/state formats. existing ai endpoints and command grammars. browser routes that can be tested. existing tests and scripts. import graph around movie code.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27t2150-geelooy-movie-unification-01-chessed-c76f81d359.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27t2150-geelooy-movie-unification-01-discove-41e780882f",
+		"title": "Phase One — Discovery Breath",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27T2150-geelooy-movie-unification/01-discovery-breath.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase One — Discovery Breath",
+				"anchor": "phase-one-discovery-breath"
+			},
+			{
+				"level": 2,
+				"text": "User outcome",
+				"anchor": "user-outcome"
+			},
+			{
+				"level": 2,
+				"text": "Observed evidence so far",
+				"anchor": "observed-evidence-so-far"
+			},
+			{
+				"level": 2,
+				"text": "Discovery graph",
+				"anchor": "discovery-graph"
+			},
+			{
+				"level": 2,
+				"text": "Required inspection before code",
+				"anchor": "required-inspection-before-code"
+			},
+			{
+				"level": 2,
+				"text": "Non-negotiable architecture principles",
+				"anchor": "non-negotiable-architecture-principles"
+			},
+			{
+				"level": 2,
+				"text": "First-pass risks",
+				"anchor": "first-pass-risks"
+			},
+			{
+				"level": 2,
+				"text": "Completion evidence required",
+				"anchor": "completion-evidence-required"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase One — Discovery Breath The Awtsmoos renews each frame and file; Awtsmoos.com is the shore, Many movie vessels can become one light, while each app keeps its door. User outcome Find every Geelooy app with meaningful 2D or 3D movie making capability. Repair broken or fragmented behav",
+		"searchText": "b\"h boruch hashem blessed is he phase one — discovery breath the awtsmoos renews each frame and file; awtsmoos.com is the shore, many movie vessels can become one light, while each app keeps its door. user outcome find every geelooy app with meaningful 2d or 3d movie making capability. repair broken or fragmented behavior. unify shared movie semantics without erasing product specific personality. make the system genuinely ai addressable: scenes, characters, cameras, text, shapes, particles, tutorials, infographics, patches, 2d and 3d animation. make authoring mobile first. produce a real three minute movie demonstrating broad capability. test and verify the result in runtime. observed evidence so far social composer/reel studio/ contains an nle, ai movie schema, movie package schema, renderer, recorder, action catalog, advanced mutations, and movie docs. apps/video editor/ is present in generated project documentation and must be inspected directly. games/mitzvahworld/experiments/awtsmoos/src/movie/ is referenced by generated docs and appears to contain a 3d/cinematic movie subsystem. platform/creator world os/adapters/moviecompileradapter.mjs is a cross surface compiler bridge and must be inspected. social composer/js/reel/reelmovierenderer.js is another render surface. discovery graph movie capability → package/schema → timeline and sequencing → scene graph → render backends → ai command surface → mobile authoring ui → export/recording → test fixtures → showcase movie required inspection before code 1. enumerate exact app directories and entry points. 2. read package manifests, route html, bootstrap modules, schemas, renderers, timelines, and tests. 3. trace current 2d and 3d data models. 4. find duplicate concepts: scene, clip, object, actor, camera, keyframe, effect, transition, text, particle, audio. 5. find broken imports, oversized modules, stale experiments, incompatible schemas, and missing mobile affordances. 6. locate existing three minute or thirty second movie fixtures and evidence folders. 7. identify how apps are served locally and which browser routes can be tested. non negotiable architecture principles one canonical movie document model. multiple adapters/renderers for product specific behavior. deterministic ai mutation commands with validation and stable ids. backward compatible import adapters for legacy schemas. shared timing, easing, keyframe, transform, camera, audio, text, shape, particle, and patch semantics. mobile first controls that remain efficient on desktop. every touched source file remains small, readable, tab indented, fully rewritten rather than partially patched. first pass risks existing apps may use incompatible coordinate, timing, or scene conventions. export/recording may differ from preview runtime. 3d rendering may depend on game specific world services. browser autoplay/audio policies may affect verification. a visually rich 180 second movie can expose performance or memory leaks. completion evidence required source inspection proves all relevant movie surfaces were covered. schema/api tests prove ai can author scenes and mutations. unit/integration tests prove adapters preserve legacy inputs. browser tests prove mobile authoring controls and playback work. the showcase document reports exactly 180 seconds. browser/runtime evidence shows multiple scenes, cameras, people/characters, shapes, text, particles, 2d layers, 3d layers, transitions, and animated infographic/tutorial content. no known safe relevant work remains in the ledger. the many vessels may differ in face, yet one inner grammar can restore, oros move through faithful keilim; one movie light can enter every door.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27t2150-geelooy-movie-unification-01-discove-41e780882f.json"
+	}
+]

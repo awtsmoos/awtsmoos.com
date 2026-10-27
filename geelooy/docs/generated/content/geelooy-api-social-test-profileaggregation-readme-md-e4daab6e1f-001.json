@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Profile Aggregation Test Support (geelooy/api/social/test/profileAggregation/)\n\nFixtures for profile aggregation tests.\n\n- `NetzachProfileTestServer.mjs` — test server for profile aggregation.\n- `YesodProfileAggregationFixture.mjs` — aggregation fixtures.\n\nUsed by `../profileAggregation.test.mjs`.\n"
+}

@@ -22,14 +22,8 @@
 	"vessels": [],
 	"statuses": [],
 	"headers": [],
-	"callers": [
-		{
-			"literal": "/api/compiler/android/rebbe",
-			"source": "geelooy/apps/code/js/android/rebbe-apk-client.js",
-			"kind": "runtime"
-		}
-	],
-	"callerCount": 1,
+	"callers": [],
+	"callerCount": 0,
 	"tests": [],
 	"examples": [],
 	"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-compiler-android-rebbe-8d84cca1d6.md",

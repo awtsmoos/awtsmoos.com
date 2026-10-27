@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-master-execution-plan-10-test-release-deploy--4f122c7aa6",
+	"title": "10 — Test Gates, Release, Reconciliation, Deployment",
+	"sourcePath": "geelooy/games/mitzvahWorld/MASTER_EXECUTION_PLAN/10_TEST_RELEASE_DEPLOY.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "10 — Test Gates, Release, Reconciliation, Deployment",
+			"anchor": "10-test-gates-release-reconciliation-deployment"
+		},
+		{
+			"level": 2,
+			"text": "Authored-source gate",
+			"anchor": "authored-source-gate"
+		},
+		{
+			"level": 2,
+			"text": "Core correctness tests",
+			"anchor": "core-correctness-tests"
+		},
+		{
+			"level": 2,
+			"text": "Runtime world tests",
+			"anchor": "runtime-world-tests"
+		},
+		{
+			"level": 2,
+			"text": "Visual/performance test matrix",
+			"anchor": "visual-performance-test-matrix"
+		},
+		{
+			"level": 2,
+			"text": "Git reconciliation",
+			"anchor": "git-reconciliation"
+		},
+		{
+			"level": 2,
+			"text": "Deployment",
+			"anchor": "deployment"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-master-execution-plan-10-test-release-deploy--4f122c7aa6-001.json"
+	]
+}

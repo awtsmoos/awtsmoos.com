@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 1431 | 113 | 0 | 0 | 6 | 37 | 1587 |
+| 1962 | 179 | 0 | 0 | 11 | 69 | 2221 |
 
 ## Public entry points
 
@@ -36,35 +36,36 @@ Blessed is He
 
 ## Symbol evidence
 
-Source files: 1375; classes: 389; functions: 4857; exports: 1925; samples: AwtsmoosAPI, for, processText, causalLength, attend, applyRopePair, rotateHead, softmaxInPlace, convertGgufBytes, convertGgufFile, copyTensors, finalManifestBytes.
+Source files: 1889; classes: 619; functions: 7459; exports: 2976; samples: AwtsmoosAPI, for, processText, causalLength, attend, applyRopePair, rotateHead, softmaxInPlace, convertGgufBytes, convertGgufFile, copyTensors, finalManifestBytes.
 
 ## Depends on
 
-- `geelooy/shared` — 38 lexical references; examples: geelooy/scripts/awtsmoos/compiling/native/asmImage.js; geelooy/scripts/awtsmoos/compiling/native/asmObjectData.js; geelooy/scripts/awtsmoos/compiling/native/c/frame.js
+- `geelooy/shared` — 46 lexical references; examples: geelooy/scripts/awtsmoos/compiling/native/asmImage.js; geelooy/scripts/awtsmoos/compiling/native/asmObjectData.js; geelooy/scripts/awtsmoos/compiling/native/c/frame.js
+- `geelooy/api/wallet` — 5 lexical references; examples: geelooy/scripts/production-covenant/productLaunchPaths.cjs; geelooy/scripts/production-covenant/productRules.cjs
 - `geelooy/apps/tunnel` — 5 lexical references; examples: geelooy/scripts/awtsmoos/MerkavaExecutor/.test-tunnel-directory-entry-env.cjs; geelooy/scripts/awtsmoos/MerkavaExecutor/.test-tunnel-simulate-runtime-helpers.cjs; geelooy/scripts/awtsmoos/MerkavaExecutor/.test-tunnel-simulate-runtime-url-puppeteer.cjs
+- `geelooy/apps/scripts` — 4 lexical references; examples: geelooy/scripts/commerce/install-product-commerce.mjs; geelooy/scripts/home-simple/constellation-catalog.js; geelooy/scripts/seo/audit/run.mjs
+- `geelooy/games/scripts` — 4 lexical references; examples: geelooy/scripts/commerce/install-product-commerce.mjs; geelooy/scripts/home-simple/constellation-catalog.js; geelooy/scripts/seo/audit/run.mjs
 - `geelooy/apps/android-emulator` — 3 lexical references; examples: geelooy/scripts/awtsmoos/compiling/android/apk/zipWriter.js; geelooy/scripts/awtsmoos/extracting/webview-apk/extract.js
 - `geelooy/apps/compiler` — 3 lexical references; examples: geelooy/scripts/awtsmoos/compiling/cpp/compiler.js
-- `ayzarim/DosDB` — 1 lexical reference; examples: geelooy/scripts/awtsmoos/minimax-virtual-os-game/seed-users.cjs
-- `geelooy/api/social` — 1 lexical reference; examples: geelooy/scripts/release-assets/seed-drive.js
-- `geelooy/api/tunnel` — 1 lexical reference; examples: geelooy/scripts/awtsmoos/minimax-virtual-os-game/seed-users.cjs
-- `geelooy/apps/app.js` — 1 lexical reference; examples: geelooy/scripts/awtsmoos/social/navigation/adapters/appsRoute.js
+- `geelooy/seo` — 2 lexical references; examples: geelooy/scripts/seo/artifactPlan.mjs; geelooy/scripts/seo/translationPaths.mjs
 
 ## Used by
 
 - `geelooy/apps/merkava-native-browser` — 44 lexical references; examples: geelooy/apps/merkava-native-browser/.inspect-md2.cjs; geelooy/apps/merkava-native-browser/.test-compile-webgl.cjs; geelooy/apps/merkava-native-browser/build-seed.mjs
 - `geelooy/apps/exe-emulator` — 8 lexical references; examples: geelooy/apps/exe-emulator/examples/progressive/generatedArtifacts.mjs; geelooy/apps/exe-emulator/source/compileSourceArtifact.js; geelooy/apps/exe-emulator/source/nativeContainers.js
+- `geelooy/apps/scripts` — 6 lexical references; examples: geelooy/apps/scripts/apps-filter.v2.js; geelooy/apps/scripts/filter/AppsFilterMalchusView.js; geelooy/apps/scripts/filter/AppsFilterTiferesRuntime.js
 - `geelooy/apps/compiler` — 3 lexical references; examples: geelooy/apps/compiler/compiler.js; geelooy/apps/compiler/compiler_c.js; geelooy/apps/compiler/ui/browserArtifactBuilders.js
-- `geelooy/ai` — 1 lexical reference; examples: geelooy/ai/js/render/event-ui/codeHighlight.js
-- `geelooy/apps/rebbe` — 1 lexical reference; examples: geelooy/apps/rebbe/android/build.js
-- `geelooy/apps/slides` — 1 lexical reference; examples: geelooy/apps/slides/src/collab/PresenceSlidesTransport.js
-- `geelooy/apps/tunnel` — 1 lexical reference; examples: geelooy/apps/tunnel/agent/tools/fs/jsWriteVerifier.js
-- `geelooy/apps/universal-chat` — 1 lexical reference; examples: geelooy/apps/universal-chat/MessagingConversationActions.js
+- `geelooy/apps/drive` — 2 lexical references; examples: geelooy/apps/drive/js/app.js; geelooy/apps/drive/js/driveIdentity.js
+- `geelooy/apps/rebbe` — 2 lexical references; examples: geelooy/apps/rebbe/android/build.js; geelooy/apps/rebbe/boot-entry.js
+- `geelooy/games/scripts` — 2 lexical references; examples: geelooy/games/scripts/storefront/orchestration/TiferesStorefrontProjectionService.js; geelooy/games/scripts/storefront/presentation/MalchusStorefrontCatalogView.js
+- `geelooy/heichelos` — 2 lexical references; examples: geelooy/heichelos/heichel/modules/app/post-ready-experience.js; geelooy/heichelos/heichel/modules/ui/blueprints/pending-profile-context.js
 
 ## External packages
 
+- `s` — 3 lexical references
 - `react` — 1 lexical reference
 - `ws` — 1 lexical reference
 
 ## Verification clue
 
-Observed test-classified files: **113**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **179**. Treat this as file evidence, not proof of behavioral coverage.

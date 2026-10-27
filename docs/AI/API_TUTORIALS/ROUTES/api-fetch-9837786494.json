@@ -35,11 +35,26 @@
 	"callers": [
 		{
 			"literal": "/api/fetch",
+			"source": "geelooy/apps/android-emulator/ai_thoughts/2026-10-06_2125_run85_secure_apk_web_origin/rebbe_ui_proxy_probe.mjs",
+			"kind": "runtime"
+		},
+		{
+			"literal": "/api/fetch",
+			"source": "geelooy/apps/android-emulator/ai_thoughts/2026-10-07_0208_run86_existing_fetch_proxy_bridge/local_bridge_probe.mjs",
+			"kind": "runtime"
+		},
+		{
+			"literal": "/api/fetch",
+			"source": "geelooy/apps/code/js/android/apk-web-fetch-parent.js",
+			"kind": "runtime"
+		},
+		{
+			"literal": "/api/fetch",
 			"source": "geelooy/scripts/tricks/jem/script.js",
 			"kind": "runtime"
 		}
 	],
-	"callerCount": 1,
+	"callerCount": 4,
 	"tests": [],
 	"examples": [],
 	"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-fetch-9837786494.md",

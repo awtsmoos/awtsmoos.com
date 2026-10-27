@@ -44,3 +44,4 @@ No package-script heuristic match was found.
 - [`/api/sefarim`](./api-sefarim-6e405748c6.md)
 - [`/api/sefarim/:sefer`](./api-sefarim-sefer-2e1687688f.md)
 - [`/api/sefarim/:sefer/section/:section`](./api-sefarim-sefer-section-section-b464ddf1a3.md)
+- [`/api/sefarim/write/batch`](./api-sefarim-write-batch-1891bada35.md)

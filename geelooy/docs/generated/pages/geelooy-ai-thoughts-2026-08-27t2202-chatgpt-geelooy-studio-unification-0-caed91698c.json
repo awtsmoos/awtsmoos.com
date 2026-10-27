@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-27t2202-chatgpt-geelooy-studio-unification-0-caed91698c",
+	"title": "REMAINING WORK — Geelooy Movie and Studio Unification",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-27T2202-chatgpt-geelooy-studio-unification/00_REMAINING_WORK.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "REMAINING WORK — Geelooy Movie and Studio Unification",
+			"anchor": "remaining-work-geelooy-movie-and-studio-unification"
+		},
+		{
+			"level": 2,
+			"text": "Evidence already established",
+			"anchor": "evidence-already-established"
+		},
+		{
+			"level": 2,
+			"text": "Discovery still required before source writes",
+			"anchor": "discovery-still-required-before-source-writes"
+		},
+		{
+			"level": 2,
+			"text": "Architecture work",
+			"anchor": "architecture-work"
+		},
+		{
+			"level": 2,
+			"text": "Implementation work",
+			"anchor": "implementation-work"
+		},
+		{
+			"level": 2,
+			"text": "Three-minute proof movie",
+			"anchor": "three-minute-proof-movie"
+		},
+		{
+			"level": 2,
+			"text": "Verification work — only after first full source-writing pass",
+			"anchor": "verification-work-only-after-first-full-source-writing-pass"
+		},
+		{
+			"level": 2,
+			"text": "Closure and shadow work",
+			"anchor": "closure-and-shadow-work"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-27t2202-chatgpt-geelooy-studio-unification-0-caed91698c-001.json"
+	]
+}

@@ -1,0 +1,186 @@
+[
+	{
+		"id": "geelooy-apps-tunnel-downloads-tunnel-api-reference-md-b020aa0268",
+		"title": "Awtsmoos Tunnel — API Reference (for AI agents)",
+		"sourcePath": "geelooy/apps/tunnel/downloads/TUNNEL_API_REFERENCE.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos Tunnel — API Reference (for AI agents)",
+				"anchor": "awtsmoos-tunnel-api-reference-for-ai-agents"
+			},
+			{
+				"level": 2,
+				"text": "Recipe A — install headless (fastest)",
+				"anchor": "recipe-a-install-headless-fastest"
+			},
+			{
+				"level": 2,
+				"text": "Recipe B — device login, programmatically (poll loop)",
+				"anchor": "recipe-b-device-login-programmatically-poll-loop"
+			},
+			{
+				"level": 1,
+				"text": "Device-login: mint code, poll until the owner approves. Needs python3.",
+				"anchor": "device-login-mint-code-poll-until-the-owner-approves-needs-python3"
+			},
+			{
+				"level": 1,
+				"text": "→ 201 {ok, userCode, deviceCode, verificationUrl, verificationUrlWithCode, expiresIn, interval}",
+				"anchor": "201-ok-usercode-devicecode-verificationurl-verificationurlwithcode-expiresin-interval"
+			},
+			{
+				"level": 2,
+				"text": "Recipe C — mint a connect link (owner only)",
+				"anchor": "recipe-c-mint-a-connect-link-owner-only"
+			},
+			{
+				"level": 1,
+				"text": "→ { \"url\": \"https://awtsmoos.com/tunnel/connect?code=XXXXXXXXXXXX\", ... }",
+				"anchor": "url-https-awtsmoos-com-tunnel-connect-code-xxxxxxxxxxxx"
+			},
+			{
+				"level": 2,
+				"text": "Recipe D — redeem an invite as a new agent",
+				"anchor": "recipe-d-redeem-an-invite-as-a-new-agent"
+			},
+			{
+				"level": 1,
+				"text": "1. (optional) confirm the invite is valid — exact response shape unverified",
+				"anchor": "1-optional-confirm-the-invite-is-valid-exact-response-shape-unverified"
+			},
+			{
+				"level": 1,
+				"text": "2. redeem as a named agent → scoped API key",
+				"anchor": "2-redeem-as-a-named-agent-scoped-api-key"
+			},
+			{
+				"level": 1,
+				"text": "→ 200 with your scoped API key. Store the key material from the response",
+				"anchor": "200-with-your-scoped-api-key-store-the-key-material-from-the-response"
+			},
+			{
+				"level": 1,
+				"text": "(exact field set unverified) — mode 600, never print it to logs.",
+				"anchor": "exact-field-set-unverified-mode-600-never-print-it-to-logs"
+			},
+			{
+				"level": 2,
+				"text": "Recipe E — authenticated API calls",
+				"anchor": "recipe-e-authenticated-api-calls"
+			},
+			{
+				"level": 2,
+				"text": "Endpoint table",
+				"anchor": "endpoint-table"
+			},
+			{
+				"level": 2,
+				"text": "Error codes — what each means and what to do",
+				"anchor": "error-codes-what-each-means-and-what-to-do"
+			},
+			{
+				"level": 2,
+				"text": "Polling & rate-limit etiquette",
+				"anchor": "polling-rate-limit-etiquette"
+			},
+			{
+				"level": 2,
+				"text": "Credential storage rules",
+				"anchor": "credential-storage-rules"
+			}
+		],
+		"excerpt": "Awtsmoos Tunnel — API Reference (for AI agents) You are an AI agent acting with the tunnel owner's credentials. This document gives you exact, copy pasteable recipes for installing headless, completing device login programmatically, minting and redeeming connect links, and making authenticated control calls. Convention",
+		"searchText": "awtsmoos tunnel — api reference (for ai agents) you are an ai agent acting with the tunnel owner's credentials. this document gives you exact, copy pasteable recipes for installing headless, completing device login programmatically, minting and redeeming connect links, and making authenticated control calls. conventions: base url: https://awtsmoos.com auth for control endpoints: header x awtsmoos api key: all request bodies are json; send content type: application/json. only the endpoints below exist — do not guess others. recipe a — install headless (fastest) agent only: agent + registration only; needs system node.js 18+; no browser, no recovery lanes. ( minimal for agent + registration with no browser auto open; default full brings its own runtime.) y: skip the interactive menu. no login: skip the device login card. ctrl+c cancels cleanly (exit 130, nothing half installed). recipe b — device login, programmatically (poll loop) the device flow mints a user code the owner approves on their phone. steps: 1. post /api/tunnel/control/device login/code with {tunnelid, deviceid, devicename} → 201 {ok, usercode, devicecode, verificationurl, verificationurlwithcode, expiresin, interval}. 2. show the owner verificationurlwithcode and usercode (format abcd 1234, 10 minute ttl, single use). 3. poll post /api/tunnel/control/device login/status with {devicecode} every interval seconds until status is approved, denied, or expired. on slow down, back off. stop polling when expiresin elapses. 4. on approved, the response also carries apikey, keyid, accountid — save them with mode 600. note: this loop prints only the url and code — never the api key. recipe c — mint a connect link (owner only) hand the returned url to the other agent. the link is single use and dies on use. recipe d — redeem an invite as a new agent you received a connect link like https://awtsmoos.com/tunnel/connect?code=xxxxxxxxxxxx. the invite dies on redeem; a redeemed or expired code returns an error. recipe e — authenticated api calls get /api/tunnel/control/me is the smoke test: if your key is valid you get your account/device identity back (exact shape unverified); a bad key fails auth. never run with set x while the key is in scope, and never paste the key into chat, logs, or tickets. endpoint table method endpoint auth request response notes get /api/tunnel/install/unix none — shell script (text) the installer one liner target post /api/tunnel/control/device login/code none {tunnelid, deviceid, devicename} 201 {ok, usercode, devicecode, verificationurl, verificationurlwithcode, expiresin, interval} usercode like abcd 1234; 10 min ttl; single use post /api/tunnel/control/device login/status none {devicecode} 200 {status: pending\\ approved\\ denied\\ expired\\ slow down, apikey?, keyid?, accountid?}; 404 unknown code apikey etc. only when approved post /api/tunnel/control/device login/describe owner session unverified unverified phone side — powers get /tunnel/device post /api/tunnel/control/device login/approve owner session unverified unverified phone side — approves the device post /api/tunnel/control/device login/deny owner session unverified unverified phone side — denies the device get /tunnel/device owner session (browser) ?code=abcd 1234 html approval page owner opens the card url here post /api/tunnel/control/external agent/invite/create x awtsmoos api key {label} {url: \"https://awtsmoos.com/tunnel/connect?code=...\"} (+ other fields unverified) single use link get /api/tunnel/control/external agent/invite/describe none (code is the secret) ?code=… invite metadata (shape unverified) check validity before redeeming post /api/tunnel/control/external agent/invite/redeem none (code is the secret) {code, agentname} 200 with scoped api key (exact field set unverified) link dies on use get /tunnel/connect none (code in url) ?code=… html connect page human/agent connect entry point get /api/tunnel/control/me x awtsmoos api key — identity payload (shape unverified) smoke test for key validity error codes — what each means and what to do code meaning do this 400 bad request: malformed json, missing/wrong fields fix the payload; do not retry unchanged 404 unknown code (devicecode / invite code): never existed, expired, or already used mint a fresh code; do not retry the old one 429 / slow down rate limited / politely asked to back off double your poll interval and keep waiting; never hammer 5xx server side failure retry with backoff a few times, then surface the failure general rules: 4xx means your request is wrong — fix it, don't retry. slow down is not an error, it's pacing — honor it. device login codes are cheap to re mint; prefer a fresh code over aggressive polling of a dying one. polling & rate limit etiquette 1. poll device login/status at the interval (seconds) returned by the code request — never faster. 2. on slow down, double the interval and continue. 3. stop polling when status is approved, denied, or expired — and in any case when expiresin seconds have elapsed. never poll a dead code. 4. login is best effort by design: a missed or expired login never fails the install — mint a new code instead of looping forever. credential storage rules save api keys to /.awtsmoos tunnel/credentials.json with file mode 600 (exactly what the installer does). never log keys : don't print the status/redeem response body, don't echo $key, don't run set x while a key is in scope. load the key transiently (env var or process substitution), unset it after use. never commit keys to git, never paste them into chat, tickets, or screenshots. treat devicecode values as short lived secrets and invite codes as single use bearer tokens. human facing install walkthrough, modes, the phone card flow, and per failure troubleshooting: see tunnel install guide.md in this folder.",
+		"page": "pages/geelooy-apps-tunnel-downloads-tunnel-api-reference-md-b020aa0268.json"
+	},
+	{
+		"id": "geelooy-apps-tunnel-downloads-tunnel-install-guide-md-2edad295c7",
+		"title": "B\"H",
+		"sourcePath": "geelooy/apps/tunnel/downloads/TUNNEL_INSTALL_GUIDE.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Awtsmoos Tunnel — Installation and Recovery Guide",
+				"anchor": "awtsmoos-tunnel-installation-and-recovery-guide"
+			},
+			{
+				"level": 2,
+				"text": "Install from a terminal",
+				"anchor": "install-from-a-terminal"
+			},
+			{
+				"level": 2,
+				"text": "Installation options",
+				"anchor": "installation-options"
+			},
+			{
+				"level": 2,
+				"text": "Approve the device on your phone",
+				"anchor": "approve-the-device-on-your-phone"
+			},
+			{
+				"level": 2,
+				"text": "Read the installer's diagnostics",
+				"anchor": "read-the-installer-s-diagnostics"
+			},
+			{
+				"level": 2,
+				"text": "Troubleshooting",
+				"anchor": "troubleshooting"
+			},
+			{
+				"level": 3,
+				"text": "invaliddevicecredential",
+				"anchor": "invaliddevicecredential"
+			},
+			{
+				"level": 3,
+				"text": "Paired candidate fails after promotion",
+				"anchor": "paired-candidate-fails-after-promotion"
+			},
+			{
+				"level": 3,
+				"text": "Code appears unknown or expired immediately",
+				"anchor": "code-appears-unknown-or-expired-immediately"
+			},
+			{
+				"level": 3,
+				"text": "Waiting at candidate probe",
+				"anchor": "waiting-at-candidate-probe"
+			},
+			{
+				"level": 3,
+				"text": "Verify the final machine",
+				"anchor": "verify-the-final-machine"
+			},
+			{
+				"level": 3,
+				"text": "Old traces and authorizations",
+				"anchor": "old-traces-and-authorizations"
+			},
+			{
+				"level": 2,
+				"text": "API and agent access",
+				"anchor": "api-and-agent-access"
+			},
+			{
+				"level": 2,
+				"text": "Verified artifact transport (native browser and files)",
+				"anchor": "verified-artifact-transport-native-browser-and-files"
+			}
+		],
+		"excerpt": "B\"H Awtsmoos Tunnel — Installation and Recovery Guide The native tunnel connects a Mac or Linux machine to an Awtsmoos account. It provides registered, permission controlled access for authorized clients. The public installer is served by Awtsmoos.com from the deployed source release. Install from a terminal For a comp",
+		"searchText": "b\"h awtsmoos tunnel — installation and recovery guide the native tunnel connects a mac or linux machine to an awtsmoos account. it provides registered, permission controlled access for authorized clients. the public installer is served by awtsmoos.com from the deployed source release. install from a terminal for a complete, explicitly requested installation: headless linux or rented server with node.js 18+ already installed: for the interactive menu, omit flags: the explicit full, minimal, and agent only modes stage and verify a replacement even if the installed release has the same version. unattended recovery without an explicit installation mode may use a faster, verified same release repair. an interactive choice also requests a replacement. the normal replacement sequence is: 1. validate the installer component archive, node runtime, and release hash. 2. stage the candidate beside the existing installation; retain the predecessor for rollback and keep its identity metadata protected. 3. create a fresh device pairing and show its approval code and secure url. 4. wait for approval from the correct signed in account; consume and provision the scoped credential without printing the credential itself. 5. prove candidate process, local action, and version in an isolated probe. 6. atomically switch runtimes, then prove live relay registration and supervisor custody. an isolated probe is not live relay registration. 7. after verified success, retire recognized older local tunnel generations. if installation fails during preparation or verification, it does not intentionally remove the prior working runtime. if a promoted agent cannot register, rollback restores the predecessor's durable identity metadata before restarting it. installation options option behavior full complete native agent, guardian and recovery lanes, with browser support minimal native agent and registration; system node.js 18+; no automatic browser open agent only headless native agent; system node.js 18+; no browser or full recovery lane set yes / y skip the interactive mode selector; does not skip pairing no login skip the separate optional headless device login step; does not bypass secure device pairing keep old tunnels retain displaced local runtimes; still create a fresh approved identity by default reuse identity explicitly try the existing credential instead of requesting new pairing; fails if that credential is revoked clean destructive installer state reset; not required for ordinary reinstall or rejected credentials help print built in usage and available options to keep older installations while pairing the new one: for a trusted unattended upgrade that intentionally reuses an existing valid credential (and might fail if it was revoked): the flags are independent. keep old tunnels retains older installation files; only reuse identity reuses older authorization. do not use reuse identity to repair an invalid device credential rejection. approve the device on your phone the installer prints a code and a direct approval url such as: the example code is illustrative, not a real credential. open the complete approval link printed in your terminal, sign in to the account that should own the device, confirm the code, and approve only your own machine. the terminal polls the approval state and then proceeds without a second ssh session. the exact expiry is provided by the server and displayed by the installer. a code not yet approved is different from an expired, rejected, or unknown pairing. if you are signed out, the approval page should direct you to sign in, not incorrectly call the code expired. a failed or skipped approval must not be reported as a registered tunnel. local identity metadata lives in guarded runtime/recovery state. native secure credentials are held in the platform's secure store implementation, not in a universally readable credentials.json. never paste private keys, request secrets, keychain contents, or the credential itself into support messages. read the installer's diagnostics the terminal uses compact, color safe cards designed to fit a narrow termux or ssh display. candidate readiness reports elapsed and remaining time plus these independent checks: process: the candidate executable remains alive. isolation: the candidate uses the deliberately isolated pre promotion lane. api: a real local filesystem action completed. version: the runtime reports the intended verified release. only after promotion can live relay registration be proved. the terminal should identify the failing check rather than showing a motionless 69% line. run a harmless real tunnel command afterward: a process alive check or http 200 alone does not prove that command execution works. troubleshooting invalid device credential the previous device credential was rejected by the server. rerun a normal explicit full yes installation without reuse identity and approve the new device on your phone. do not remove files or credentials by hand. paired candidate fails after promotion the installer should stop the candidate, restore the previous installation and its saved identity, and verify that predecessor's registration. capture the displayed failing readiness lane and install log path. never delete the recovery directory just to silence an error. code appears unknown or expired immediately open the exact link printed by the installer while signed in as the correct owner. if its server side state is actually expired or rejected, rerun for a fresh code. a signed out error is not proof that a pairing expired. waiting at candidate probe the installer prints updated timing and readiness evidence. process:1 and api:1 without real registration do not mean the new tunnel is live. during an isolated pre promotion probe, actual registration is intentionally deferred. a terminal timeout should name the failing lane and preserve the predecessor. verify the final machine when installed locally, http://127.0.0.1:3977/readyz may report registration and relay state. it does not prove a command executed; send an actual harmless command through an authorized tunnel client and check stdout and exit code before calling it fully operational. old traces and authorizations successful cleanup removes recognized, user owned older local runtime roots and services. keep old tunnels suppresses that cleanup. deleting local files is not the same as revoking a server side device binding. separate server revocation and detection of installations under arbitrary custom directories must be verified independently; do not claim universal eradication. api and agent access for the current native control actions and external agent invitation interface, consult tunnel api reference.md and the live /api/tunnel/control/docs.json discovery endpoint. discover your current authorized route rather than routing by a guessed friendly tunnel name. verified artifact transport (native browser and files) see artifact transport.md for explicit target cdp capture, browser native conversion, durable controller publication, verified local pull, authorization constraints, and current limitations.",
+		"page": "pages/geelooy-apps-tunnel-downloads-tunnel-install-guide-md-2edad295c7.json"
+	}
+]

@@ -1,0 +1,180 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-0134-chitas-release-ui-final-01-phase-two-e3629cb528",
+		"title": "Phase Two — Integration and File Map",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-0134-chitas-release-ui-final/01-phase-two-integration-map.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Two — Integration and File Map",
+				"anchor": "phase-two-integration-and-file-map"
+			},
+			{
+				"level": 2,
+				"text": "Clean integration strategy",
+				"anchor": "clean-integration-strategy"
+			},
+			{
+				"level": 2,
+				"text": "Release files",
+				"anchor": "release-files"
+			},
+			{
+				"level": 3,
+				"text": "Heichel Chitas",
+				"anchor": "heichel-chitas"
+			},
+			{
+				"level": 3,
+				"text": "Native reader",
+				"anchor": "native-reader"
+			},
+			{
+				"level": 3,
+				"text": "Tests",
+				"anchor": "tests"
+			},
+			{
+				"level": 2,
+				"text": "Clean-tree checks before UX edits",
+				"anchor": "clean-tree-checks-before-ux-edits"
+			},
+			{
+				"level": 2,
+				"text": "UX owner boundaries",
+				"anchor": "ux-owner-boundaries"
+			},
+			{
+				"level": 2,
+				"text": "Release owner boundaries",
+				"anchor": "release-owner-boundaries"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Two — Integration and File Map The Awtsmoos lets the clean branch become a new vessel where no unfinished neighbor is mistaken for our own flame; Awtsmoos.com receives complete files only, with origin truth and release custody written beside each name. Clean integration strategy Cr",
+		"searchText": "b\"h boruch hashem blessed is he phase two — integration and file map the awtsmoos lets the clean branch become a new vessel where no unfinished neighbor is mistaken for our own flame; awtsmoos.com receives complete files only, with origin truth and release custody written beside each name. clean integration strategy create a new worktree from the newest fetched origin/main. never merge/rebase the dirty root. never stage the root wholesale. transfer only the exact complete chitas release files and proven reader dependencies. compare each transferred file against both source root bytes and latest origin bytes before committing. release files heichel chitas geelooy/heichelos/heichel/modules/chitas/constants.js date policy.js week state.js hebcal provider.js schedule.js virtual series.js geelooy/heichelos/heichel/modules/navigator/loader.js geelooy/heichelos/heichel/modules/ui/render/living path/cards.js timeline.js chitas week.js chitas week.css governance helpers if they differ from origin and remain chitas required. native reader geelooy/heichelos/post/logic/reference posts/rangereference.js rangeresolver.js geelooy/heichelos/post/logic/chitas/books.js rangeparser.js dynamicpost.js masthead.js masthead.css geelooy/heichelos/post/logic/initialization/coordinates.js postmanifest.js geelooy/heichelos/post/functions/ui/nav.js chitasnav.js geelooy/heichelos/post/ awtsmoos.post.html tests tests/geelooy/chitasschedule.test.mjs chitaslivingpathcontract.test.mjs chitasnativereference.test.mjs chitasreadershellcontract.test.mjs clean tree checks before ux edits 1. each release file hash equals dirty root frozen source immediately after transfer. 2. every release source/test file remains <=120 lines. 3. every js/mjs parses. 4. no chabad.org, externalhref, virtualstudy remains in production chitas path. 5. no stale native chitas 001 remains in changed browser facing chitas owners. 6. native range resolves exact ikar sections against the running api. 7. dynamic discussion endpoint returns ordinary thread envelope. 8. dynamic route returns native reader shell. 9. reader shell guard and chitas aware nav contract pass. 10. git diff check clean. ux owner boundaries only improve files whose purpose is chitas ui: chitas week.js, chitas week.css, masthead.js, masthead.css, and if necessary card rendering behavior gated by raw.chitasstudy. avoid unrelated global style rewrites. release owner boundaries inspect the current bhrelease script and docs from the clean latest main worktree before activation. use dry run/preflight if available. push only a commit whose parent is current origin/main or a later fetched main. never force push.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-0134-chitas-release-ui-final-01-phase-two-e3629cb528.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-0134-chitas-release-ui-final-02-phase-thr-ae98e0dc53",
+		"title": "Phase Three — Critique and Improvement Ledger",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-0134-chitas-release-ui-final/02-phase-three-critique.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Three — Critique and Improvement Ledger",
+				"anchor": "phase-three-critique-and-improvement-ledger"
+			},
+			{
+				"level": 2,
+				"text": "Improvements over the prior release plan",
+				"anchor": "improvements-over-the-prior-release-plan"
+			},
+			{
+				"level": 2,
+				"text": "Things deliberately not changed",
+				"anchor": "things-deliberately-not-changed"
+			},
+			{
+				"level": 2,
+				"text": "Third-pass completion challenge",
+				"anchor": "third-pass-completion-challenge"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Three — Critique and Improvement Ledger The Awtsmoos stands before every green gate and asks what the browser, maintainer, or learner could still expose; Awtsmoos.com improves by evidence, never by decorating a hidden fracture with prose. Improvements over the prior release plan 1.",
+		"searchText": "b\"h boruch hashem blessed is he phase three — critique and improvement ledger the awtsmoos stands before every green gate and asks what the browser, maintainer, or learner could still expose; awtsmoos.com improves by evidence, never by decorating a hidden fracture with prose. improvements over the prior release plan 1. treat rendered template assertions separately from source template assertions. 2. include chitas reader navigation helper in the release surface. 3. include guarded native post shell in the release surface. 4. create a clean worktree from newest origin instead of staging dirty root. 5. hash compare every transferred full file. 6. re fetch origin immediately before final commit. 7. reject force push or implicit merge of active agent bytes. 8. test discussion identity in the clean tree. 9. test hard dynamic deep link in the clean tree. 10. test current week and arbitrary week schedule fixtures. 11. test simchas torah and next day cumulative bereishis fixtures. 12. test israel schedule marker separately from diaspora. 13. verify reader previous/next creates canonical day ids. 14. verify query state survives previous/next week navigation. 15. verify no external navigation path survives. 16. verify card social rail remains present. 17. verify mobile controls =48px. 18. verify horizontal overflow at 320, 390, and 430 widths. 19. verify source reference wraps rather than clipping. 20. verify selected day is visually distinguished. 21. verify hebrew interface uses rtl in chitas specific control surfaces. 22. verify english control is labeled english ui rather than claiming translated torah. 23. verify native hebrew torah remains canonical in both interface modes. 24. verify browser console has no chitas/module exceptions. 25. verify production module urls serve the committed generation markers. 26. verify public comments endpoint for synthetic post id. 27. verify public grouping url can navigate into chitas without leaving awtsmoos. 28. verify deployment exact sha equals pushed main sha. 29. verify release health after activation. 30. re read every modified clean tree file after ux changes before commit. 31. run git diff check and status against only expected files. 32. document the final live route and deployment evidence in a fresh audit artifact. things deliberately not changed canonical torah corpus. generic translation subsystem. generic reader navigation outside the chitas branch. global heichel cache generation unless clean tree evidence requires it. active unrelated dirty files from other agents. third pass completion challenge the release is incomplete if the code merely passes node tests. it is incomplete if local http works but browser dom does not manifest. it is incomplete if local browser works but production is not the same sha. it is incomplete if production responds but mobile ui overflows. it is incomplete if chitas works but the user cannot reach it from ikar. the final gate must close all of these in order.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-0134-chitas-release-ui-final-02-phase-thr-ae98e0dc53.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-0134-chitas-release-ui-final-03-final-exe-597c5f96f9",
+		"title": "Final Execution Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-0134-chitas-release-ui-final/03-final-execution-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Final Execution Plan",
+				"anchor": "final-execution-plan"
+			},
+			{
+				"level": 2,
+				"text": "Execution sequence",
+				"anchor": "execution-sequence"
+			},
+			{
+				"level": 2,
+				"text": "Completion gate",
+				"anchor": "completion-gate"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Final Execution Plan The Awtsmoos lets the last plan become small enough to execute and strict enough to trust; Awtsmoos.com will receive one tested SHA, one public witness, and no borrowed dust. Execution sequence 1. Fetch newest origin/main and record SHA. 2. Create a dedicated clean i",
+		"searchText": "b\"h boruch hashem blessed is he final execution plan the awtsmoos lets the last plan become small enough to execute and strict enough to trust; awtsmoos.com will receive one tested sha, one public witness, and no borrowed dust. execution sequence 1. fetch newest origin/main and record sha. 2. create a dedicated clean integration worktree and branch from that sha. 3. transfer the complete chitas release surface by whole file copy from the frozen root. 4. hash compare transferred files to frozen root. 5. run all chitas contracts and live api/range/discussion/deep link checks inside integration. 6. start or reuse a server rooted at the integration tree on an isolated port if required. 7. run a browser mobile audit at 320/390/430 widths. 8. improve only chitas specific week/masthead/card ui owners based on the observed browser deltas. 9. rewrite any changed ux owner completely; no partial writes. 10. re run browser + contracts + full readback. 11. write a new post ux delta artifact. 12. inspect latest origin again and reconcile any new main commit before commit. 13. run affected broader tests plus release contract. 14. commit exact clean tree release files. 15. push the integration commit by fast forwarding main according to repository release contract. 16. confirm remote origin/main equals intended sha. 17. execute bhrelease preflight/dry run, then activate exact sha. 18. verify deployment health and public module bytes. 19. verify public ikar grouping route, dynamic chitas day route, mobile dom, torah text, controls, and discussion. 20. record the final public url and sha in a durable completion artifact. completion gate only stop when implementation, integration, deployment, and public browser evidence all agree. if any one differs, continue from that exact mismatch.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-0134-chitas-release-ui-final-03-final-exe-597c5f96f9.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-0310-native-chitas-reader-00-phase-one-re-ee3774999f",
+		"title": "Phase One — Revelation Without Limits",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-0310-native-chitas-reader/00-phase-one-revelation.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase One — Revelation Without Limits",
+				"anchor": "phase-one-revelation-without-limits"
+			},
+			{
+				"level": 2,
+				"text": "User truth revealed by the screenshots",
+				"anchor": "user-truth-revealed-by-the-screenshots"
+			},
+			{
+				"level": 2,
+				"text": "Unlimited architecture possibilities",
+				"anchor": "unlimited-architecture-possibilities"
+			},
+			{
+				"level": 2,
+				"text": "Five competing architectures",
+				"anchor": "five-competing-architectures"
+			},
+			{
+				"level": 3,
+				"text": "A — Chitas-only custom reader",
+				"anchor": "a-chitas-only-custom-reader"
+			},
+			{
+				"level": 3,
+				"text": "B — External redirect with better wrapper",
+				"anchor": "b-external-redirect-with-better-wrapper"
+			},
+			{
+				"level": 3,
+				"text": "C — Generic reference post resolved inside normal post reader",
+				"anchor": "c-generic-reference-post-resolved-inside-normal-post-reader"
+			},
+			{
+				"level": 3,
+				"text": "D — Persist generated Chitas posts daily in database",
+				"anchor": "d-persist-generated-chitas-posts-daily-in-database"
+			},
+			{
+				"level": 3,
+				"text": "E — Treat every Torah verse as a tiny standalone route and iframe/embed them",
+				"anchor": "e-treat-every-torah-verse-as-a-tiny-standalone-route-and-iframe-embed-them"
+			},
+			{
+				"level": 2,
+				"text": "Phase-one winner",
+				"anchor": "phase-one-winner"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase One — Revelation Without Limits The Awtsmoos renews the Torah and the reader in one indivisible light; Awtsmoos.com must never throw the learner outside when our own letters can shine bright. User truth revealed by the screenshots The current Daily Chitas grouping proves the calend",
+		"searchText": "b\"h boruch hashem blessed is he phase one — revelation without limits the awtsmoos renews the torah and the reader in one indivisible light; awtsmoos.com must never throw the learner outside when our own letters can shine bright. user truth revealed by the screenshots the current daily chitas grouping proves the calendar calculation can materialize inside living path, but the experience breaks its own world at the most important moment. a chitas card is visually treated as a generic teaching and then virtualstudy removes the social rail and redirects the learner to chabad.org. the user wants the opposite covenant: internal torah text, internal post reader, internal comments, internal navigation, richer bilingual/week controls, and chitas specific formatting that feels native rather than bolted on. unlimited architecture possibilities 1. a generic dynamic reference post can be a stable post identity whose body is assembled at read time from canonical source references. 2. a reference can target a complete post, one section of a post, a contiguous section range, or several ordered ranges. 3. a torah adapter can resolve tanach references into the same internal content structures used by the ordinary tanach reader. 4. chitas can be only one producer of reference posts; future producers could make daf review packets, rambam selections, source sheets, playlists of teachings, or study plans. 5. the dynamic post url must be deterministic and reloadable: no transient javascript state may be required to reconstruct it. 6. comments can belong to the dynamic post as a whole while verse level comments can retain canonical versesection identity so discussion survives reuse. 7. the reader should preserve normal awtsmoos post controls and comments instead of creating a second social implementation. 8. calendar metadata and torah content must be separate. hebcal may answer which parsha/aliyah applies; it must never be the source of torah text. 9. a source registry can allow post range, tanach range, and future source kinds behind one resolver interface. 10. a chitas week state can be encoded in query parameters: date, language, israel/diaspora schedule, and possibly display mode. 11. hebrew and english can be a two state segmented control with dir changing naturally, while a future bilingual state can be added without changing reference identity. 12. previous week, next week, today, and a native date input can all project onto one selected civil date. 13. the week header should display the parsha in english and hebrew and identify the selected aliyah clearly. 14. the seven day list should read sunday through shabbos, not generic reverse timeline semantics. 15. today should be highlighted without forcing the entire list into a generic today bucket. 16. on mobile, each selector/control should be at least 48px and never collide with the persistent bottom dock. 17. the reader can carry a chitas masthead above the ordinary torah content: weekday, aliyah, reference, date, language, week navigation. 18. direct links such as /heichelos/ikar/series/daily chitas/chitas 2026 09 05?chitaslang=he should reconstruct the post after hard reload. 19. a reference serializer should produce canonical stable strings so comments/progress/bookmarks can key to identity, not display text. 20. a parser should understand english tanach ranges like deuteronomy 31:20 31:30 without tying the generic contract to english labels. 21. hebrew book labels should be presentation metadata, not storage keys. 22. the seven weekly cards should be normal post cards with normal social actions. 23. the external chabad allowlist branch should disappear from living path cards once no native feature needs it. 24. existing normal posts must remain byte for byte behavioral equivalents after the card rewrite. 25. the reference renderer should tolerate one source temporarily unavailable and show an internal retry/error state, never fall through to an external url. 26. cache reference resolution per dynamic post and language, while retaining source freshness. 27. progress can record the dynamic post id plus canonical verse marker, letting continue learning return to the exact chitas passage. 28. the selected week should remain bookmarkable/shareable and update history without full reload. 29. a reader route should be reconstructible server side or client side from url alone so screenshots and deep links behave identically. 30. tests should prove the page hostname remains awtsmoos after clicking a chitas card. 31. tests should prove comments remain visible and social actions are not suppressed. 32. tests should prove hebrew mode is rtl, english mode ltr, and both preserve the same canonical torah range. 33. tests should exercise simchas torah and isru chag through the same native reader. 34. tests should exercise 320, 375, 390, and 430px widths. 35. the ideal future allows a teacher to save any arbitrary range composition as a dynamic post without duplicating torah text. five competing architectures a — chitas only custom reader fast but duplicates post/comments logic and creates another silo. rejected. b — external redirect with better wrapper preserves current implementation but violates the core request. rejected. c — generic reference post resolved inside normal post reader best balance. a dynamic post is ordinary to navigation/social layers but obtains its body from canonical references. preferred. d — persist generated chitas posts daily in database makes comments easy but duplicates torah text and creates maintenance/date cleanup. rejected unless comment backend later requires persistence. e — treat every torah verse as a tiny standalone route and iframe/embed them too fragmented, poor accessibility, bad reader flow. rejected. phase one winner architecture c: stable dynamic reference post identities, source adapters, normal post reader/social/comment surfaces, chitas specific producer and controls. the awtsmoos remains one; source text is not copied, yet many study vessels can reveal the same torah anew on awtsmoos.com.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-0310-native-chitas-reader-00-phase-one-re-ee3774999f.json"
+	}
+]

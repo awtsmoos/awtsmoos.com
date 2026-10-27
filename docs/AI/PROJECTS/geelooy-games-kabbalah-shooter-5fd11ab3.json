@@ -25,19 +25,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-kabbalah-shooter-5fd11ab3.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 38,
+		"source": 61,
 		"tests": 0,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
 		"other": 0
 	},
-	"totalFiles": 39,
+	"totalFiles": 62,
 	"symbolSummary": {
-		"files": 35,
-		"classes": 32,
-		"functions": 16,
-		"exports": 61,
+		"files": 55,
+		"classes": 40,
+		"functions": 75,
+		"exports": 93,
 		"samples": [
 			"CONFIG",
 			"HEBREW_LETTERS",
@@ -53,7 +53,13 @@
 			"SPELLS"
 		]
 	},
-	"outgoingDependencies": [],
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/libs",
+			"count": 7,
+			"examples": "geelooy/games/kabbalah-shooter/js/runtime/KabbalahNative3DRenderer.js; geelooy/games/kabbalah-shooter/js/runtime/kabbalah-native-3d-meshes.js; geelooy/games/kabbalah-shooter/js/runtime/kabbalah-native-3d-pool.js"
+		}
+	],
 	"incomingDependencies": [],
 	"externalDependencies": [],
 	"publicEntries": [
@@ -61,8 +67,8 @@
 			"url": "/games/kabbalah-shooter",
 			"file": "geelooy/games/kabbalah-shooter/index.html",
 			"title": "Kabbalah Infinite — The Breaking of Vessels",
-			"scripts": 1,
-			"styles": 2
+			"scripts": 5,
+			"styles": 8
 		}
 	],
 	"requiresLocalDocumentation": true,

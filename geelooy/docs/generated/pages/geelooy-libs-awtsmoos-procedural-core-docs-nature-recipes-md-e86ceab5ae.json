@@ -1,0 +1,74 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-docs-nature-recipes-md-e86ceab5ae",
+	"title": "Nature Recipes — Declarative Worlds Without a Second Engine",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/NATURE_RECIPES.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Nature Recipes — Declarative Worlds Without a Second Engine",
+			"anchor": "nature-recipes-declarative-worlds-without-a-second-engine"
+		},
+		{
+			"level": 2,
+			"text": "When to use recipes",
+			"anchor": "when-to-use-recipes"
+		},
+		{
+			"level": 2,
+			"text": "Recipe shape",
+			"anchor": "recipe-shape"
+		},
+		{
+			"level": 2,
+			"text": "Synchronous execution",
+			"anchor": "synchronous-execution"
+		},
+		{
+			"level": 2,
+			"text": "Asynchronous execution",
+			"anchor": "asynchronous-execution"
+		},
+		{
+			"level": 2,
+			"text": "Ordered batches",
+			"anchor": "ordered-batches"
+		},
+		{
+			"level": 2,
+			"text": "Operation discovery",
+			"anchor": "operation-discovery"
+		},
+		{
+			"level": 2,
+			"text": "Default operation families",
+			"anchor": "default-operation-families"
+		},
+		{
+			"level": 2,
+			"text": "Custom operation registries",
+			"anchor": "custom-operation-registries"
+		},
+		{
+			"level": 2,
+			"text": "Persistence-safe recipes",
+			"anchor": "persistence-safe-recipes"
+		},
+		{
+			"level": 2,
+			"text": "Direct and declarative APIs remain equivalent",
+			"anchor": "direct-and-declarative-apis-remain-equivalent"
+		},
+		{
+			"level": 2,
+			"text": "Design covenant",
+			"anchor": "design-covenant"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-docs-nature-recipes-md-e86ceab5ae-001.json"
+	]
+}

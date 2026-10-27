@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-11t1342-deployment-hardening-recovery-03-fin-d15b7c4479",
+	"title": "Final Deployment Recovery Plan",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-11T1342-deployment-hardening-recovery/03-final-plan.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Final Deployment Recovery Plan",
+			"anchor": "final-deployment-recovery-plan"
+		},
+		{
+			"level": 2,
+			"text": "Evidence first",
+			"anchor": "evidence-first"
+		},
+		{
+			"level": 2,
+			"text": "Implementation",
+			"anchor": "implementation"
+		},
+		{
+			"level": 2,
+			"text": "Verification",
+			"anchor": "verification"
+		},
+		{
+			"level": 2,
+			"text": "Release",
+			"anchor": "release"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-11t1342-deployment-hardening-recovery-03-fin-d15b7c4479-001.json"
+	]
+}

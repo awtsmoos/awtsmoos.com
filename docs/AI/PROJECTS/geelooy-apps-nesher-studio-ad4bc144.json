@@ -9,10 +9,11 @@
 		"id": "apps",
 		"title": "Applications"
 	},
-	"title": "🦅 Nesher Studio",
+	"title": "🦅 AWTSMOOS STUDIO",
 	"entries": [
 		"index.html",
 		"main.js",
+		"package.json",
 		"DOCUMENTATION.md"
 	],
 	"humanDocumentation": [
@@ -24,19 +25,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-nesher-studio-ad4bc144.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 416,
-		"tests": 117,
+		"source": 563,
+		"tests": 138,
 		"assets": 0,
 		"generated": 0,
 		"docs": 5,
 		"other": 4
 	},
-	"totalFiles": 542,
+	"totalFiles": 710,
 	"symbolSummary": {
-		"files": 368,
-		"classes": 13,
-		"functions": 1176,
-		"exports": 909,
+		"files": 501,
+		"classes": 35,
+		"functions": 1487,
+		"exports": 1118,
 		"samples": [
 			"renderAudioMixerPanel",
 			"mountAudioMixerPanel",
@@ -52,14 +53,20 @@
 			"mountPreviewMonitor"
 		]
 	},
-	"outgoingDependencies": [],
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/apps/shared",
+			"count": 2,
+			"examples": "geelooy/apps/nesher-studio/modules/movie/NesherMovieAdapter.js; geelooy/apps/nesher-studio/modules/movie/installMovieAi.js"
+		}
+	],
 	"incomingDependencies": [],
 	"externalDependencies": [],
 	"publicEntries": [
 		{
 			"url": "/apps/nesher-studio",
 			"file": "geelooy/apps/nesher-studio/index.html",
-			"title": "🦅 Nesher Studio",
+			"title": "🦅 AWTSMOOS STUDIO",
 			"scripts": 1,
 			"styles": 1
 		}

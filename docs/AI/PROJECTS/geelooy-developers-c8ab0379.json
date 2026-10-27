@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-developers-c8ab0379",
+	"path": "geelooy/developers",
+	"type": "public",
+	"family": {
+		"id": "public",
+		"title": "Public and Other Boundaries"
+	},
+	"title": "Awtsmoos API Documentation — Torah Library API for Developers &amp; AI Agents",
+	"entries": [
+		"index.html"
+	],
+	"humanDocumentation": [
+		"docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-developers-c8ab0379.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 2,
+		"tests": 0,
+		"assets": 0,
+		"generated": 0,
+		"docs": 0,
+		"other": 0
+	},
+	"totalFiles": 2,
+	"symbolSummary": null,
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/developers",
+			"file": "geelooy/developers/index.html",
+			"title": "Awtsmoos API Documentation — Torah Library API for Developers &amp; AI Agents",
+			"scripts": 0,
+			"styles": 2
+		},
+		{
+			"url": "/developers/api",
+			"file": "geelooy/developers/api/index.html",
+			"title": "Awtsmoos API Drive — Operate Awtsmoos.com: Import, Census, Bulk Update, Notes, Submissions, Tunnel",
+			"scripts": 1,
+			"styles": 2
+		}
+	],
+	"requiresLocalDocumentation": false,
+	"documentationCovered": false,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

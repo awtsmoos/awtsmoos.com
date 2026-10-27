@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-social-publishing-md-b6633a74da",
+	"title": "PUBLISHING TO THE SOCIAL PACKED STORES — AGENT GUIDE",
+	"sourcePath": "geelooy/api/social/PUBLISHING.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "PUBLISHING TO THE SOCIAL PACKED STORES — AGENT GUIDE",
+			"anchor": "publishing-to-the-social-packed-stores-agent-guide"
+		},
+		{
+			"level": 2,
+			"text": "The One Rule",
+			"anchor": "the-one-rule"
+		},
+		{
+			"level": 2,
+			"text": "The Three Stores You Care About",
+			"anchor": "the-three-stores-you-care-about"
+		},
+		{
+			"level": 2,
+			"text": "Comment Path Layout (comments/richCommentPaths.js)",
+			"anchor": "comment-path-layout-comments-richcommentpaths-js"
+		},
+		{
+			"level": 2,
+			"text": "Production Write Path (comments/richCommentCreate.js)",
+			"anchor": "production-write-path-comments-richcommentcreate-js"
+		},
+		{
+			"level": 2,
+			"text": "Reader (comments/richCommentReader.js, richCompatibilityRead.js)",
+			"anchor": "reader-comments-richcommentreader-js-richcompatibilityread-js"
+		},
+		{
+			"level": 2,
+			"text": "OCR Protocol (post records)",
+			"anchor": "ocr-protocol-post-records"
+		},
+		{
+			"level": 2,
+			"text": "Alias Conventions (Chassidus)",
+			"anchor": "alias-conventions-chassidus"
+		},
+		{
+			"level": 2,
+			"text": "Verification Law",
+			"anchor": "verification-law"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-social-publishing-md-b6633a74da-001.json"
+	]
+}

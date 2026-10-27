@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-27-dbconsole-mobi-fef5379e71",
+	"title": "DB Console — Mobile Containment Proof",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-21-geelooy-uiux-revelation/27-dbconsole-mobile-proof.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "DB Console — Mobile Containment Proof",
+			"anchor": "db-console-mobile-containment-proof"
+		},
+		{
+			"level": 2,
+			"text": "Pre-change evidence",
+			"anchor": "pre-change-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Implementation",
+			"anchor": "implementation"
+		},
+		{
+			"level": 2,
+			"text": "Final evidence",
+			"anchor": "final-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Harness note",
+			"anchor": "harness-note"
+		},
+		{
+			"level": 2,
+			"text": "NEXTACTION",
+			"anchor": "nextaction"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-27-dbconsole-mobi-fef5379e71-001.json"
+	]
+}

@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-social-helper-packed-readme-md-4476d9f26a",
+	"title": "Packed Storage Model — Agent Handoff",
+	"sourcePath": "geelooy/api/social/helper/packed/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Packed Storage Model — Agent Handoff",
+			"anchor": "packed-storage-model-agent-handoff"
+		},
+		{
+			"level": 2,
+			"text": "Logical keys (shardPaths.js)",
+			"anchor": "logical-keys-shardpaths-js"
+		},
+		{
+			"level": 2,
+			"text": "Shards",
+			"anchor": "shards"
+		},
+		{
+			"level": 2,
+			"text": "Writers (socialPacked.js)",
+			"anchor": "writers-socialpacked-js"
+		},
+		{
+			"level": 2,
+			"text": "Reads",
+			"anchor": "reads"
+		},
+		{
+			"level": 2,
+			"text": "Record envelope (recordEnvelope.js)",
+			"anchor": "record-envelope-recordenvelope-js"
+		},
+		{
+			"level": 2,
+			"text": "Tombstones (deletion)",
+			"anchor": "tombstones-deletion"
+		},
+		{
+			"level": 2,
+			"text": "Files map",
+			"anchor": "files-map"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-social-helper-packed-readme-md-4476d9f26a-001.json"
+	]
+}

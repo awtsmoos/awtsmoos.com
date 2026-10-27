@@ -1,198 +1,344 @@
 [
 	{
-		"id": "geelooy-apps-compiler-documentation-md-381c936be3",
-		"title": "Compiler App Documentation",
-		"sourcePath": "geelooy/apps/compiler/DOCUMENTATION.md",
-		"category": "Apps",
-		"provenance": "breadcrumb",
+		"id": "docs-generated-project-tutorials-projects-geelooy-shliach-plugin-f8298c9-1254761965",
+		"title": "Project Tutorial: Awtsmoos Shliach — Awtsmoos Shliach",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-shliach-plugin-f8298c9f.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Compiler App Documentation",
-				"anchor": "compiler-app-documentation"
+				"text": "Project Tutorial: Awtsmoos Shliach — Awtsmoos Shliach",
+				"anchor": "project-tutorial-awtsmoos-shliach-awtsmoos-shliach"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Compiler App Documentation The Awtsmoos lets source become artifact through backend, build, and native vessel; Awtsmoos.com maps this app to /api/compiler and related runtime paths so changes remain evidential. Read ../../../docs/APPS/DEVELOPER TOOLS.md and ../../../docs/API/OTHER FAMILI",
-		"searchText": "b\"h boruch hashem blessed is he compiler app documentation the awtsmoos lets source become artifact through backend, build, and native vessel; awtsmoos.com maps this app to /api/compiler and related runtime paths so changes remain evidential. read ../../../docs/apps/developer tools.md and ../../../docs/api/other families.md.",
-		"page": "pages/geelooy-apps-compiler-documentation-md-381c936be3.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Awtsmoos Shliach — Awtsmoos Shliach Path: geelooy/shliach plugin · Type: public · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: awtsmoos shliach — awtsmoos shliach path: geelooy/shliach plugin · type: public · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html local documentation: no local documentation.md observed. local doc requirement: yes; covered: no symlink target: — file shape source tests assets generated docs other total 5 0 1 0 1 4 11 public entry points /shliach plugin → geelooy/shliach plugin/index.html — awtsmoos shliach — awtsmoos shliach /shliach plugin/privacy → geelooy/shliach plugin/privacy/index.html — privacy policy — awtsmoos shliach /shliach plugin/support → geelooy/shliach plugin/support/index.html — support — awtsmoos shliach /shliach plugin/terms → geelooy/shliach plugin/terms/index.html — terms of use — awtsmoos shliach symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-shliach-plugin-f8298c9-1254761965.json"
 	},
 	{
-		"id": "geelooy-apps-docs-documentation-md-2fc7b60ac9",
-		"title": "Awtsmoos Docs App",
-		"sourcePath": "geelooy/apps/docs/DOCUMENTATION.md",
-		"category": "Apps",
-		"provenance": "breadcrumb",
+		"id": "docs-generated-project-tutorials-projects-geelooy-showcase-92bf7f54-md-dbe70a7e9f",
+		"title": "Project Tutorial: geelooy/showcase",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-showcase-92bf7f54.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Awtsmoos Docs App",
-				"anchor": "awtsmoos-docs-app"
+				"text": "Project Tutorial: geelooy/showcase",
+				"anchor": "project-tutorial-geelooy-showcase"
 			},
 			{
 				"level": 2,
-				"text": "Entry point",
-				"anchor": "entry-point"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Integration",
-				"anchor": "integration"
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos Docs App The Awtsmoos lets text, structure, collaboration, and page layout meet in one document vessel; Awtsmoos.com keeps the editor shell split into readable source modules rather than one hidden document runtime. Entry point index.html mounts docsRoot and boots src/app.js. Fo",
-		"searchText": "b\"h boruch hashem blessed is he awtsmoos docs app the awtsmoos lets text, structure, collaboration, and page layout meet in one document vessel; awtsmoos.com keeps the editor shell split into readable source modules rather than one hidden document runtime. entry point index.html mounts docsroot and boots src/app.js. focused css modules under styles/ own tokens, shell, toolbar, editor, navigation, page layout, panels, command palette, responsive behavior, touch, motion, and print. view/ and tests provide rendering and behavior boundaries. integration this app is the browser facing docs surface. realtime document authority and application events remain in the matching websocket application/server modules; this folder owns the client experience and composition.",
-		"page": "pages/geelooy-apps-docs-documentation-md-2fc7b60ac9.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/showcase Path: geelooy/showcase · Type: project · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runti",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/showcase path: geelooy/showcase · type: project · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: — local documentation: no local documentation.md observed. local doc requirement: yes; covered: no symlink target: — file shape source tests assets generated docs other total 10 0 0 0 0 0 10 public entry points /showcase/unified movie 180 → geelooy/showcase/unified movie 180/index.html — awtsmoos unified movie · 180 second proof symbol evidence source files: 5; classes: 3; functions: 7; exports: 4; samples: showcasecontroller, formattime, showcaseevidence, readmode, rendershowcaseevidence, setstatus, settext, requireelement, showcaseplayback. depends on geelooy/apps/shared — 4 lexical references; examples: geelooy/showcase/unified movie 180/showcasecontroller.js; geelooy/showcase/unified movie 180/showcaseevidence.js; geelooy/showcase/unified movie 180/showcase.js geelooy/libs — 1 lexical reference; examples: geelooy/showcase/unified movie 180/showcaseevidence.js used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-showcase-92bf7f54-md-dbe70a7e9f.json"
 	},
 	{
-		"id": "geelooy-apps-documentation-md-58c0820286",
-		"title": "Apps Directory Documentation",
-		"sourcePath": "geelooy/apps/DOCUMENTATION.md",
-		"category": "Apps",
-		"provenance": "breadcrumb",
+		"id": "docs-generated-project-tutorials-projects-geelooy-sitemaps-461705f5-md-915e0ed16f",
+		"title": "Project Tutorial: geelooy/sitemaps",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-sitemaps-461705f5.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Apps Directory Documentation",
-				"anchor": "apps-directory-documentation"
+				"text": "Project Tutorial: geelooy/sitemaps",
+				"anchor": "project-tutorial-geelooy-sitemaps"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Apps Directory Documentation The Awtsmoos gives many tools one district while each app keeps its separate art; Awtsmoos.com keeps a generated inventory and human chooser so the maintainer knows where to start. Start with ../../docs/APPS/README.md. Full immediate app inventory: ../../docs",
-		"searchText": "b\"h boruch hashem blessed is he apps directory documentation the awtsmoos gives many tools one district while each app keeps its separate art; awtsmoos.com keeps a generated inventory and human chooser so the maintainer knows where to start. start with ../../docs/apps/readme.md. full immediate app inventory: ../../docs/generated/app inventory.md developer tools: ../../docs/apps/developer tools.md tunnel/runtime: ../../docs/apps/tunnel and runtime.md creative tools: ../../docs/apps/creative tools.md media tools: ../../docs/apps/media tools.md games/simulation: ../../docs/apps/games and simulation.md commerce/wallet: ../../docs/apps/commerce and wallet.md",
-		"page": "pages/geelooy-apps-documentation-md-58c0820286.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/sitemaps Path: geelooy/sitemaps · Type: project · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runti",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/sitemaps path: geelooy/sitemaps · type: project · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: — local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 0 0 0 0 0 1 1 public entry points none observed. symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-sitemaps-461705f5-md-915e0ed16f.json"
 	},
 	{
-		"id": "geelooy-apps-drive-documentation-md-8e9926ffcf",
-		"title": "Awtsmoos Drive · Website Maker",
-		"sourcePath": "geelooy/apps/drive/DOCUMENTATION.md",
-		"category": "Apps",
-		"provenance": "breadcrumb",
+		"id": "docs-generated-project-tutorials-projects-geelooy-sites-fdcaa928-md-bc357fd040",
+		"title": "Project Tutorial: geelooy/sites",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-sites-fdcaa928.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Awtsmoos Drive · Website Maker",
-				"anchor": "awtsmoos-drive-website-maker"
+				"text": "Project Tutorial: geelooy/sites",
+				"anchor": "project-tutorial-geelooy-sites"
 			},
 			{
 				"level": 2,
-				"text": "Guided Website Maker",
-				"anchor": "guided-website-maker"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Five-step workspace",
-				"anchor": "five-step-workspace"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Responsive Drive shell",
-				"anchor": "responsive-drive-shell"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "Browser agent API",
-				"anchor": "browser-agent-api"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
 			},
 			{
 				"level": 2,
-				"text": "DNS migration worksheet",
-				"anchor": "dns-migration-worksheet"
+				"text": "Depends on",
+				"anchor": "depends-on"
 			},
 			{
 				"level": 2,
-				"text": "Tunnel agents",
-				"anchor": "tunnel-agents"
+				"text": "Used by",
+				"anchor": "used-by"
 			},
 			{
 				"level": 2,
-				"text": "Connected Node runtime",
-				"anchor": "connected-node-runtime"
+				"text": "External packages",
+				"anchor": "external-packages"
 			},
 			{
 				"level": 2,
-				"text": "Verification covenant",
-				"anchor": "verification-covenant"
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos Drive · Website Maker The Awtsmoos renews every file, route, domain name, connected machine, and responsive vessel in each instant; Awtsmoos.com makes Drive the visible workshop where ordinary source becomes a public website without hiding the boundaries between configuration, l",
-		"searchText": "b\"h boruch hashem blessed is he awtsmoos drive · website maker the awtsmoos renews every file, route, domain name, connected machine, and responsive vessel in each instant; awtsmoos.com makes drive the visible workshop where ordinary source becomes a public website without hiding the boundaries between configuration, local reflection, mutation acknowledgement, server facts, dns verification, runtime health, and browser evidence. guided website maker open /apps/drive/, connect an alias, and use the persistent website maker studio. the experience is one guided journey rather than five unrelated forms: source readiness proves whether real index.html source exists. preview readiness records whether the current source has actually been rendered locally. public readiness reflects canonical publication testimony. domain readiness stays locked until canonical publication and then becomes explicitly optional. the readiness cockpit always names the next useful action. before any account snapshot arrives it truthfully starts at needs source, not previewed, not published, and publish first rather than displaying generic unknown badges. five step workspace the numbered stepper preserves the existing build / preview / code / publish / domain service boundaries while making their relationship clear: build saves an optional private brief, creates blank/landing/portfolio/docs source, and shows the real source inventory. preview renders current index.html in a sandboxed responsive frame and is visibly labeled as a local preview. code edits real source files rather than a proprietary page format. publish emphasizes one primary canonical publication action while advanced publication options and agent help remain behind native disclosure controls. domain claims and verifies an optional custom hostname through server attested ownership, dns, routing, and tls testimony. local preview is never presented as public publication. canonical publication does not require a custom hostname. ownership, route state, tls state, and external browser health remain separate gates. responsive drive shell drive uses explicit zero minimum grid tracks so wide file controls, website maker content, tables, and project tools cannot expand the entire page beyond the viewport. the narrow layout keeps the application shell inside the true 390 css pixel viewport, uses a fixed safe area aware website maker stepper, and keeps primary touch actions at least 44px high. desktop preserves the two column overview and converts the website maker stepper into a sticky rail. browser agent api window.geelooysitebuilder v1.2 exposes source, preview, publication, domain, and nameserver actions without dom scraping. response protocol v3 preserves old envelope keys while adding invocation, contract, evidence, and lifecycle. caller request ids are correlation only; mutations currently provide no server idempotency guarantee and should be reconciled before replay. result evidence separates server facts from external verification. a dns verification action may carry dns ownership verified when the resolver actually observed the proof record. route/tls states remain server facts unless stronger external testimony exists. dns migration worksheet project settings preserves portable a, aaaa, cname, txt, mx, caa, srv, and ns records as configuration intent. this worksheet is not itself a dns mutation. keep dns at the current provider unless a real provider adapter or deployed nameserver service is attested. preserve mx, spf, dkim, dmarc, caa, srv, delegated ns, verification records, and intentional subdomains before migration. read docs/websites/readme.md and tutorial index.md. provider specific migration lives in dns provider playbooks.md; dnssec has its own migration guide. tunnel agents tunnel catalog 3.7.0 exposes publication protocol v1 while preserving historical action result objects. call sitepublishfolder(path, siteid, direct snapshot), inspect the returned canonical publication testimony, and reconcile with sitepublicationstatus after uncertain mutation. verified live is valid only when the returned publication actually carries canonicalverifiedlive: true. connected node runtime a native compute project stores only a portable recipe: cwd, relative entry, port, and public scalar arguments. the actual account owned tunnel machine is chosen live in connected node server. portable project state never stores machine identity and never silently starts a process. verification covenant the focused website/api/domain/runtime matrix currently carries 78 passing witnesses. real browser verification also checks desktop and true 390px layouts, horizontal overflow, 44px primary targets, one pane stepper navigation, api v1.2 survival, console/runtime exceptions, failed network requests, and http errors. drive ui is one surface. trace behavior through geelooy/api/social/helper/drive/, geelooy/shared/workspace/, geelooy/sites/, ayzarim hosting/runtime modules, and tunnel publication contracts. generated documentation is a locator; source, tests, dns observations, live http, and browser runtime evidence remain authoritative.",
-		"page": "pages/geelooy-apps-drive-documentation-md-8e9926ffcf.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/sites Path: geelooy/sites · Type: project · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime own",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/sites path: geelooy/sites · type: project · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: awtsmoos.derech.js, documentation.md local documentation: geelooy/sites/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 41 27 0 0 1 0 69 public entry points none observed. symbol evidence source files: 41; classes: 0; functions: 161; exports: 120; samples: buildcustomdomainresponse, createcustomdomainhttpingress, drivecontext, rawrequestpath, writegatewayresponse, customdomainhttpingress, closeexternalhost, badpathresponse, builddeploymentresponse, fallbackresponse, entryresponse, reserved segments. depends on geelooy/api/social — 34 lexical references; examples: geelooy/sites/customdomaingateway.js; geelooy/sites/deploymentsiteresponse.js; geelooy/sites/directsitereadiness.js geelooy/api/tunnel — 6 lexical references; examples: geelooy/sites/directsitereadiness.js; geelooy/sites/hostedfoldermanifest.js; geelooy/sites/publicrootpublication.js ayzarim/awtsmoosdynamicserver — 1 lexical reference; examples: geelooy/sites/hostedprojectproxy.js geelooy/api/oauth — 1 lexical reference; examples: geelooy/sites/siteremixreceiptcrypto.js used by geelooy/api/tunnel — 4 lexical references; examples: geelooy/api/tunnel/control/routes/agentmanifest.js; geelooy/api/tunnel/control/routes/fsvessel/hostedvirtualos/sitepublicationdispatcher.js geelooy/api/social — 3 lexical references; examples: geelooy/api/social/helper/drive/sitediscoveryrecord.js; geelooy/api/social/helper/drive/siteprojectlineage.js; geelooy/api/social/helper/drive/sitestatusservice.js external packages none observed. verification clue observed test classified files: 27 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-sites-fdcaa928-md-bc357fd040.json"
 	},
 	{
-		"id": "geelooy-apps-editor-documentation-md-a30483cf0c",
-		"title": "Mitzvah World Editor Documentation",
-		"sourcePath": "geelooy/apps/editor/DOCUMENTATION.md",
-		"category": "Apps",
-		"provenance": "breadcrumb",
+		"id": "docs-generated-project-tutorials-projects-geelooy-social-actions-2ff7e00-f69766a959",
+		"title": "Project Tutorial: geelooy/social-actions",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-social-actions-2ff7e001.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Mitzvah World Editor Documentation",
-				"anchor": "mitzvah-world-editor-documentation"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Mitzvah World Editor Documentation The Awtsmoos lets a world be authored before it is played, joining scene, animation, asset, and game runtime in one creative gate; Awtsmoos.com maps this editor to game/simulation and creative tool documentation so source ownership does not become opaqu",
-		"searchText": "b\"h boruch hashem blessed is he mitzvah world editor documentation the awtsmoos lets a world be authored before it is played, joining scene, animation, asset, and game runtime in one creative gate; awtsmoos.com maps this editor to game/simulation and creative tool documentation so source ownership does not become opaque. read ../../../docs/apps/games and simulation.md and ../../../docs/apps/creative tools.md.",
-		"page": "pages/geelooy-apps-editor-documentation-md-a30483cf0c.json"
-	},
-	{
-		"id": "geelooy-apps-exe-emulator-documentation-md-39e24347e0",
-		"title": "EXE Emulator Documentation",
-		"sourcePath": "geelooy/apps/exe-emulator/DOCUMENTATION.md",
-		"category": "Apps",
-		"provenance": "breadcrumb",
-		"headings": [
-			{
-				"level": 1,
-				"text": "EXE Emulator Documentation",
-				"anchor": "exe-emulator-documentation"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He EXE Emulator Documentation The Awtsmoos lets executable world behavior be simulated through a large browser side engine with many moving parts; Awtsmoos.com maps this app beside simulation and developer runtime docs before anyone assumes it is a trivial launcher of charts. Read ../../../",
-		"searchText": "b\"h boruch hashem blessed is he exe emulator documentation the awtsmoos lets executable world behavior be simulated through a large browser side engine with many moving parts; awtsmoos.com maps this app beside simulation and developer runtime docs before anyone assumes it is a trivial launcher of charts. read ../../../docs/apps/games and simulation.md and ../../../docs/apps/developer tools.md.",
-		"page": "pages/geelooy-apps-exe-emulator-documentation-md-39e24347e0.json"
-	},
-	{
-		"id": "geelooy-apps-exe-emulator-examples-progressive-readme-md-0cd104cb11",
-		"title": "Progressive Executable Examples",
-		"sourcePath": "geelooy/apps/exe-emulator/examples/progressive/README.md",
-		"category": "Apps",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Progressive Executable Examples",
-				"anchor": "progressive-executable-examples"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Progressive Executable Examples These examples measure executable emulator capability without hiding boundaries. Every artifact is opened through runExecutableArtifact; no level receives a format , filename , or product specific execution path. Level Name Formats New capability : 0 Ident",
-		"searchText": "b\"h boruch hashem blessed is he progressive executable examples these examples measure executable emulator capability without hiding boundaries. every artifact is opened through runexecutableartifact; no level receives a format , filename , or product specific execution path. level name formats new capability : 0 identity elf, mach o header and loader inspection 1 syscall hello elf, mach o write and exit syscalls 2 integer control elf, mach o arithmetic, branches, loops 3 stack recursion elf, mach o frames, calls, recursion 4 globals and pointers elf, mach o data segments and relocations 5 windows console pe imports and console host apis 6 windows window pe window creation and event behavior 7 truthful boundary elf, mach o unsupported opcode reporting and semantic fallback run the corpus: the output is deterministic json. actualevidence distinguishes loader inspection, instruction subset emulation, semantic simulation, and errors. a mismatched level remains visible in the report rather than being deleted or silently reclassified. the awtsmoos creates every rung and every limitation anew. awtsmoos.com treats this corpus as an executable capability ledger, not as evidence of complete windows, linux, macos, cpu, dynamic loader, framework, or graphics compatibility.",
-		"page": "pages/geelooy-apps-exe-emulator-examples-progressive-readme-md-0cd104cb11.json"
-	},
-	{
-		"id": "geelooy-apps-merkava-native-browser-css-support-audit-md-e95e19a7ad",
-		"title": "Merkava Executor CSS Support Audit",
-		"sourcePath": "geelooy/apps/merkava-native-browser/CSS_SUPPORT_AUDIT.md",
-		"category": "Apps",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Merkava Executor CSS Support Audit",
-				"anchor": "merkava-executor-css-support-audit"
+				"text": "Project Tutorial: geelooy/social-actions",
+				"anchor": "project-tutorial-geelooy-social-actions"
 			},
 			{
 				"level": 2,
-				"text": "Implemented / Started",
-				"anchor": "implemented-started"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Missing CSS Rules / Features",
-				"anchor": "missing-css-rules-features"
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Merkava Executor CSS Support Audit This is the working checklist. The native C host must not implement these as browser logic; each item belongs in MerkavaExecutor and should emit render ops that C maps to OpenGL. Implemented / Started Basic selectors: type, id, class, attributes, descendant, child, adjacent siblin",
-		"searchText": "b\"h merkava executor css support audit this is the working checklist. the native c host must not implement these as browser logic; each item belongs in merkavaexecutor and should emit render ops that c maps to opengl. implemented / started basic selectors: type, id, class, attributes, descendant, child, adjacent sibling. basic pseudo selectors: focus, checked, disabled, enabled, first child. inline style cascade over stylesheet rules. basic box paint ops: background color, text color, width, height, min height, padding, margin, border width. basic block and inline ish flow. linked and inline css collection for fetched network html. linked and inline script collection for fetched network html. color normalization to opengl safe hex for named, short hex, long hex, rgb(), rgba(). first flexbox pass: display flex/inline flex, row/column, gap, justify content, align items. browser like ua defaults instead of fake per element white boxes. per side margin, padding, border width, border color expansion. background and border shorthand normalization. viewport units: vw, vh, vmin, vmax. calc() arithmetic for px, %, em/rem, and viewport units. fixed, absolute, and relative positioning basics. transform translatex()/translatey() basics, including offscreen sidebar patterns. flex grow and margin auto footer style flows. inherited typography basics: font size, font family, line height, text align, white space. text wrapping and center/right alignment. replaced element sizing for img/canvas. pseudo element rules are ignored instead of being applied to real elements. native stream now distinguishes border from filled box ops. missing css rules / features full cascade origins, inherited properties, !important ordering, media queries, @supports, @layer, @scope. full selector grammar: general sibling, :not, :is, :where, :has, nth child family, pseudo elements. css variables and calc()/min()/max()/clamp(). complete units: vw, vh, vmin, vmax, ch, ex, lh, percentages per property, font relative metrics. box model: per side margin/padding/border, box sizing, border styles, border radius. full colors: hsl(), hsla(), lab(), lch(), color mix(), currentcolor, transparent alpha compositing. typography: font family fallback, font size, weight, style, line height, letter spacing, wrapping, white space. layout: full flexbox algorithm, grid, absolute/fixed/sticky positioning, floats, z index/stacking contexts. overflow: scroll containers, clipping, hidden/auto/scroll, scrollbars. backgrounds: images, gradients, repeat, size, position, attachment, multiple layers. transforms: translate, scale, rotate, matrix, transform origin, 3d transforms. effects: opacity, box shadow, text shadow, filters, backdrop filter, mix blend mode. transitions/animations/keyframes. forms and replaced elements: image sizing, canvas intrinsic sizing, video/audio/object/embed. tables, lists, columns, writing modes, directionality. responsive viewport behavior and container queries. svg styling integration.",
-		"page": "pages/geelooy-apps-merkava-native-browser-css-support-audit-md-e95e19a7ad.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/social actions Path: geelooy/social actions · Type: project · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observation",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/social actions path: geelooy/social actions · type: project · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: documentation.md, readme.md, readme.md local documentation: geelooy/social actions/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 8 1 0 0 2 0 11 public entry points none observed. symbol evidence source files: 7; classes: 1; functions: 15; exports: 13; samples: buildownedcloneurl, put, createpostreferencebutton, mountpostreferenceaction, contextfromdataset, mountdatasetreferenceactions, normalizereferencecontext, validatereferencecontext, buildpostreferenceurl, safereturnpath, clean, yesodreactionapi. depends on none observed. used by geelooy/social hub — 4 lexical references; examples: geelooy/social hub/js/ui/feed/feedreaction.js; geelooy/social hub/js/ui/feed/socialactionrail.js geelooy/heichelos — 3 lexical references; examples: geelooy/heichelos/heichel/modules/ui/render/heichelreactionaction.js; geelooy/heichelos/heichel/modules/ui/render/secondary social actions.js; geelooy/heichelos/heichel/modules/ui/render/social action urls.js geelooy/shared — 2 lexical references; examples: geelooy/shared/social/composer/composerlaunch.js geelooy/comment thread — 1 lexical reference; examples: geelooy/comment thread/modules/commentreaction.js external packages none observed. verification clue observed test classified files: 1 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-social-actions-2ff7e00-f69766a959.json"
+	},
+	{
+		"id": "docs-generated-project-tutorials-projects-geelooy-social-composer-5d72af-ba90ddda09",
+		"title": "Project Tutorial: Create New Post — Geelooy",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-social-composer-5d72af7c.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: Create New Post — Geelooy",
+				"anchor": "project-tutorial-create-new-post-geelooy"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Create New Post — Geelooy Path: geelooy/social composer · Type: public · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observat",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: create new post — geelooy path: geelooy/social composer · type: public · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, package.json, documentation.md, readme.md, readme.md local documentation: geelooy/social composer/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 389 33 0 0 9 0 431 public entry points /social composer → geelooy/social composer/index.html — create new post — geelooy /social composer/reel studio → geelooy/social composer/reel studio/index.html — mitzvahworld movie studio symbol evidence source files: 233; classes: 87; functions: 531; exports: 374; samples: createcomposer, createworkflow, createcontroller, createcreatorassembly, createdestinationassembly, draftassembly, createdraftassembly, createeditorassembly, createreelassembly, createreviewassembly, installcomposeraccessibility, hasaccessiblename. depends on geelooy/games/mitzvahworld — 9 lexical references; examples: geelooy/social composer/reel studio/nle/nleaiprojectcodec.js; geelooy/social composer/reel studio/nle/nlemoviepackage.js; geelooy/social composer/reel studio/nle/nlemoviesimplemutations.js geelooy/shared — 9 lexical references; examples: geelooy/social composer/js/creator/creatorcommandcatalog.js; geelooy/social composer/js/creator/creatorcommandpalette.js; geelooy/social composer/js/creator/creatorintentmodel.js used by none observed. external packages none observed. verification clue observed test classified files: 33 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-social-composer-5d72af-ba90ddda09.json"
 	}
 ]

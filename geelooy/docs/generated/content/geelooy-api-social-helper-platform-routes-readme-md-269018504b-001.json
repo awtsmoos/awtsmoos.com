@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Platform Routes (geelooy/api/social/helper/platform/routes/)\n\nHTTP routes for platform primitives, mounted via `_awtsmoos.platform.js`.\n\n## Files\n- `PlatformFeedThreadRoutes.js` — feed + comment-thread routes.\n- `PlatformLiveDiscoveryRoutes.js` — live presence and discovery routes.\n- `PlatformOpsRoutes.js` — ops routes (cache, metrics, jobs).\n- `PlatformQaRoutes.js` — Q&A routes.\n- `PlatformRuntimeRoutes.js` — runtime routes (sync, graph transactions, federation).\n- `PlatformRouteTools.js` — shared route tooling.\n\n## Endpoint families\n`/feed/*`, `/live/*`, `/jobs/*`, `/mod/*`, `/sync/*`, `/qa/*`, `/relationships/*`, `/cache/*`, `/media/*`, `/notifications/digest/:alias`, `/permissions/compile`, `/graph/transaction`, `/federation/import`, `/analytics/metric`, `/search/*`, `/abuse/rateLimit/check`. See `../README.md` for the full list.\n"
+}

@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-28t0310-geelooy-social-mobile-08-routewide-q-e01894fbc6",
+	"title": "Phase Two — Route-Wide Quality Architecture and Critique",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0310-geelooy-social-mobile/08_ROUTEWIDE_QUALITY_CRITIQUE.md",
+	"category": "Routes",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase Two — Route-Wide Quality Architecture and Critique",
+			"anchor": "phase-two-route-wide-quality-architecture-and-critique"
+		},
+		{
+			"level": 2,
+			"text": "Five audit architectures",
+			"anchor": "five-audit-architectures"
+		},
+		{
+			"level": 3,
+			"text": "A — Source grep only",
+			"anchor": "a-source-grep-only"
+		},
+		{
+			"level": 3,
+			"text": "B — Screenshot-only visual review",
+			"anchor": "b-screenshot-only-visual-review"
+		},
+		{
+			"level": 3,
+			"text": "C — Browser DOM computed-style audit across all twelve routes",
+			"anchor": "c-browser-dom-computed-style-audit-across-all-twelve-routes"
+		},
+		{
+			"level": 3,
+			"text": "D — Rewrite every route proactively",
+			"anchor": "d-rewrite-every-route-proactively"
+		},
+		{
+			"level": 3,
+			"text": "E — Require a class on every text element",
+			"anchor": "e-require-a-class-on-every-text-element"
+		},
+		{
+			"level": 2,
+			"text": "Chosen quality contract",
+			"anchor": "chosen-quality-contract"
+		},
+		{
+			"level": 2,
+			"text": "Critique improvements",
+			"anchor": "critique-improvements"
+		},
+		{
+			"level": 2,
+			"text": "Architectural boundary",
+			"anchor": "architectural-boundary"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-28t0310-geelooy-social-mobile-08-routewide-q-e01894fbc6-001.json"
+	]
+}

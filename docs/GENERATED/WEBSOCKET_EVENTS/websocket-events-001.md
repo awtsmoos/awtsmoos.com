@@ -9,7 +9,6 @@ Production-source lexical event/message evidence; this is not a formal protocol 
 | Event/message literal | Source |
 | --- | --- |
 | ACK | ayzarim/awtsmoosDynamicServer/websocket/apps/aliasRouting.js |
-| audio | ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/messageAttachmentPolicy.js |
 | awtsmoosMyDevice | ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/envelopeErrors.js |
 | bossTelegraph | ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/CoopCombat.js |
 | bridge:lanterns | ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/RiverCrossingService.js |
@@ -29,6 +28,7 @@ Production-source lexical event/message evidence; this is not a formal protocol 
 | chess.room.joined | ayzarim/awtsmoosDynamicServer/websocket/apps/chess/roomHandlers.js |
 | chess.room.listed | ayzarim/awtsmoosDynamicServer/websocket/apps/chess/roomHandlers.js |
 | chess.room.watched | ayzarim/awtsmoosDynamicServer/websocket/apps/chess/roomHandlers.js |
+| close | ayzarim/awtsmoosDynamicServer/websocket/apps/tcpRelay/sessionEvents.js |
 | close | ayzarim/awtsmoosDynamicServer/websocket/core/clientSession.js |
 | code.access.invited | ayzarim/awtsmoosDynamicServer/websocket/apps/geelooyCode/accessHandlers.js |
 | code.access.updated | ayzarim/awtsmoosDynamicServer/websocket/apps/geelooyCode/accessHandlers.js |
@@ -41,7 +41,9 @@ Production-source lexical event/message evidence; this is not a formal protocol 
 | code.project.structured | ayzarim/awtsmoosDynamicServer/websocket/apps/geelooyCode/structureEvents.js |
 | contact-blocked | ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/meaningfulActivity.js |
 | data | ayzarim/awtsmoosDynamicServer/websocket/apps/scribeJourney/rawWebSocketTestClient.cjs |
+| data | ayzarim/awtsmoosDynamicServer/websocket/apps/tcpRelay/sessionEvents.js |
 | data | ayzarim/awtsmoosDynamicServer/websocket/core/clientSession.js |
+| data | ayzarim/awtsmoosDynamicServer/websocket/core/rawWebSocketClient.js |
 | defeat | ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/CombatDefeatRewards.js |
 | docs.access.invited | ayzarim/awtsmoosDynamicServer/websocket/apps/geelooyDocs/accessHandlers.js |
 | docs.access.updated | ayzarim/awtsmoosDynamicServer/websocket/apps/geelooyDocs/accessHandlers.js |
@@ -63,9 +65,15 @@ Production-source lexical event/message evidence; this is not a formal protocol 
 | docs.version.loaded | ayzarim/awtsmoosDynamicServer/websocket/apps/geelooyDocs/versionHandlers.js |
 | docs.version.named | ayzarim/awtsmoosDynamicServer/websocket/apps/geelooyDocs/versionHandlers.js |
 | docs.version.restored | ayzarim/awtsmoosDynamicServer/websocket/apps/geelooyDocs/versionRestoreHandler.js |
+| durable_relay_record_verification_failed | ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/durableVerification.js |
+| end | ayzarim/awtsmoosDynamicServer/websocket/apps/tcpRelay/sessionEvents.js |
 | enrage | ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/EnemyActionSupportRules.js |
+| error | ayzarim/awtsmoosDynamicServer/websocket/apps/tcpRelay/sessionEvents.js |
 | error | ayzarim/awtsmoosDynamicServer/websocket/core/clientSession.js |
 | ERROR | ayzarim/awtsmoosDynamicServer/websocket/platform/LegacyRouting.js |
+| forms.document.public | ayzarim/awtsmoosDynamicServer/websocket/apps/forms/documentHandlers.js |
+| forms.document.snapshot | ayzarim/awtsmoosDynamicServer/websocket/apps/forms/documentHandlers.js |
+| forms.response.accepted | ayzarim/awtsmoosDynamicServer/websocket/apps/forms/responseHandlers.js |
 | friendship-accepted | ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/meaningfulActivity.js |
 | game.click | ayzarim/awtsmoosDynamicServer/websocket/apps/chess/historyHandlers.js |
 | game.finished | ayzarim/awtsmoosDynamicServer/websocket/apps/chess/historyHandlers.js |
@@ -82,14 +90,6 @@ Production-source lexical event/message evidence; this is not a formal protocol 
 | library | ayzarim/awtsmoosDynamicServer/websocket/apps/universalChat/sourceNormalizer.js |
 | LIVE_PREVIEW | ayzarim/awtsmoosDynamicServer/websocket/apps/livePreview.js |
 | loot | ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/CorpseLootService.js |
-| message | ayzarim/awtsmoosDynamicServer/websocket/apps/chess/realtimeTestClient.js |
 | message | ayzarim/awtsmoosDynamicServer/websocket/apps/universalChat/realtimeTestClient.js |
 | PAGE_ENTERED | ayzarim/awtsmoosDynamicServer/websocket/apps/socialLive.js |
 | PAGE_LEFT | ayzarim/awtsmoosDynamicServer/websocket/apps/socialLive.js |
-| PAGE_PRESENCE | ayzarim/awtsmoosDynamicServer/websocket/apps/socialLive.js |
-| playerDown | ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/CoopCombat.js |
-| playerHit | ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/CoopCombat.js |
-| private-message-request | ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/integrationGateway.js |
-| privateMessaging.block.accepted | ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/relationshipHandlers.js |
-| privateMessaging.conversation.listed | ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/conversationReadHandlers.js |
-| privateMessaging.conversations.listed | ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/conversationReadHandlers.js |

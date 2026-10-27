@@ -1,0 +1,198 @@
+[
+	{
+		"id": "geelooy-apps-tunnel-emergency-recovery-md-899cb2e26e",
+		"title": "Emergency Recovery Architecture",
+		"sourcePath": "geelooy/apps/tunnel/EMERGENCY_RECOVERY.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Emergency Recovery Architecture",
+				"anchor": "emergency-recovery-architecture"
+			},
+			{
+				"level": 2,
+				"text": "The failure this architecture prevents",
+				"anchor": "the-failure-this-architecture-prevents"
+			},
+			{
+				"level": 2,
+				"text": "Recovery lanes",
+				"anchor": "recovery-lanes"
+			},
+			{
+				"level": 3,
+				"text": "Lane 0 — diagnosis",
+				"anchor": "lane-0-diagnosis"
+			},
+			{
+				"level": 3,
+				"text": "Lane 1 — sealed Tier-0",
+				"anchor": "lane-1-sealed-tier-0"
+			},
+			{
+				"level": 3,
+				"text": "Lane 2 — guarded sealed takeover",
+				"anchor": "lane-2-guarded-sealed-takeover"
+			},
+			{
+				"level": 3,
+				"text": "Lane 3 — portable primary guardian",
+				"anchor": "lane-3-portable-primary-guardian"
+			},
+			{
+				"level": 3,
+				"text": "Lane 4 — known-good restore",
+				"anchor": "lane-4-known-good-restore"
+			},
+			{
+				"level": 3,
+				"text": "Lane 5 — continuity-preserving full repair",
+				"anchor": "lane-5-continuity-preserving-full-repair"
+			},
+			{
+				"level": 3,
+				"text": "Lane 6 — browser vessel",
+				"anchor": "lane-6-browser-vessel"
+			},
+			{
+				"level": 2,
+				"text": "Primary self-heal flow",
+				"anchor": "primary-self-heal-flow"
+			},
+			{
+				"level": 2,
+				"text": "Durable state",
+				"anchor": "durable-state"
+			},
+			{
+				"level": 2,
+				"text": "Incident-oriented commands",
+				"anchor": "incident-oriented-commands"
+			},
+			{
+				"level": 2,
+				"text": "Evidence for completion",
+				"anchor": "evidence-for-completion"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Emergency Recovery Architecture The Awtsmoos is not trapped in one garment; Awtsmoos.com therefore keeps recovery outside what it may need to replace, with independent lanes that meet again only after evidence is clear. The failure this architecture prevents A refresh can legitimately st",
+		"searchText": "b\"h boruch hashem blessed is he emergency recovery architecture the awtsmoos is not trapped in one garment; awtsmoos.com therefore keeps recovery outside what it may need to replace, with independent lanes that meet again only after evidence is clear. the failure this architecture prevents a refresh can legitimately stop a healthy primary generation and then fail before the replacement produces a supervisor pid, agent pid, tunnel ack, or project root receipt. a delayed launchd start can also arrive at the cleanup boundary and immediately observe a managed stop marker. without another registered channel, remote repair is lost even though durable identity and a sealed recovery slot survive. the continuity invariant is now: a failed primary replacement should leave one authenticated repair channel whenever the durable recovery slot is valid. recovery lanes lane 0 — diagnosis /api/tunnel/install/emergency diagnose reads live/recovery state and uses the persisted node path. it does not require a healthy supervisor. lane 1 — sealed tier 0 /api/tunnel/install/emergency unix invokes emergency auto.sh. dependencies: recovery root, valid sealed slot, saved identity, and any executable node recorded in durable state. it bypasses launchd, the live supervisor, the awt wrapper, and published release metadata. success means a fresh receipt matches the exact emergency pid and tunnel name. lane 2 — guarded sealed takeover /api/tunnel/install/emergency sealed verifies/prepares the sealed slot and can stop an exact live runtime only when awtsmoos emergency takeover=1 is intentionally provided to the receiving shell. it refuses ambiguous pids. lane 3 — portable primary guardian /api/tunnel/install/emergency supervisor uses intact live supervisor files while bypassing launchd. it resolves node from durable recovery state, starts the guardian detached, and waits for primary registration. use this when service management is broken but live runtime bytes are trustworthy. lane 4 — known good restore /api/tunnel/install/emergency known good uses the sealed or live awt.cjs recovery controller and confirmed known good archive logic. this is stronger than merely starting emergency and should follow diagnosis. lane 5 — continuity preserving full repair /api/tunnel/install/emergency repair first runs lane 1 and requires its registration proof. only then does it pipe the normal installer into awtsmoos restart=1 bash. if full repair fails, tier 0 remains the repair vessel. lane 6 — browser vessel awtsmoos code at remains architecturally separate from native supervision. use it when browser access exists but every native recovery lane is unavailable. primary self heal flow 1. the installer writes supervisor helpers and removes only the managed stop marker for the new activation. 2. launchd is attempted on macos. 3. unix supervisor start gate.sh requires a real supervisor process, not just a loaded label. 4. if the guardian never appears, launchd is stopped and a portable detached supervisor is attempted. 5. candidate readiness verifies live pid, current release, receipt, local action, project root compatibility, and service supervision. 6. if real process evidence appears at the deadline, unix late readiness.sh grants one bounded grace window. 7. if primary readiness still fails, unix emergency continuity.sh starts the sealed slot and waits for ack. 8. a later primary supervisor may start beside emergency; it does not extinguish the rescue channel on spawn. 9. retire emergency after primary registration stops emergency only after the primary receipt matches. durable state the live root /.awtsmoos tunnel is replaceable. recovery identity, sealed runtime, chrome profile, command receipts, and operator rescue commands must remain outside that replaceable generation. incident oriented commands for guarded sealed takeover: environment assignments belong on the right side of the pipe when they are intended for the script. evidence for completion a primary repair is complete only when all of these are simultaneously true: exactly one primary supervisor is alive; exactly one primary agent is alive; the primary receipt is fresh and registered; the expected runtime version is reported; project root action evidence is compatible; service supervision is stable; the sealed recovery slot verifies; durable rescue commands exist; emergency has retired only after primary registration; the remote emergency endpoints still return independently of agent zip / release metadata generation.",
+		"page": "pages/geelooy-apps-tunnel-emergency-recovery-md-899cb2e26e.json"
+	},
+	{
+		"id": "geelooy-apps-tunnel-instruction-system-md-00e8510084",
+		"title": "Awtsmoos Tunnel Instruction Protocol",
+		"sourcePath": "geelooy/apps/tunnel/INSTRUCTION_SYSTEM.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos Tunnel Instruction Protocol",
+				"anchor": "awtsmoos-tunnel-instruction-protocol"
+			},
+			{
+				"level": 2,
+				"text": "Mandatory workflow before writing",
+				"anchor": "mandatory-workflow-before-writing"
+			},
+			{
+				"level": 2,
+				"text": "Actions",
+				"anchor": "actions"
+			},
+			{
+				"level": 3,
+				"text": "instructionCatalog",
+				"anchor": "instructioncatalog"
+			},
+			{
+				"level": 3,
+				"text": "instructionResolve",
+				"anchor": "instructionresolve"
+			},
+			{
+				"level": 3,
+				"text": "instructionGet",
+				"anchor": "instructionget"
+			},
+			{
+				"level": 2,
+				"text": "Compatibility for older clients",
+				"anchor": "compatibility-for-older-clients"
+			},
+			{
+				"level": 2,
+				"text": "Instruction IDs",
+				"anchor": "instruction-ids"
+			},
+			{
+				"level": 2,
+				"text": "Focused response modes",
+				"anchor": "focused-response-modes"
+			},
+			{
+				"level": 2,
+				"text": "Stability law",
+				"anchor": "stability-law"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos Tunnel Instruction Protocol The Awtsmoos gives every shliach a small doorway into deep law. Normal tunnel replies stay focused; detailed doctrine is retrieved only when the task requires it. Mandatory workflow before writing 1. Call instructionResolve with a concise description ",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos tunnel instruction protocol the awtsmoos gives every shliach a small doorway into deep law. normal tunnel replies stay focused; detailed doctrine is retrieved only when the task requires it. mandatory workflow before writing 1. call instructionresolve with a concise description of the task, relevant tags, and file hints. 2. read requiredinstructionids and instructionsummaries from the response. 3. call instructionget for every required id. 4. read every returned full instruction body before editing, creating, moving, deleting, refactoring, styling, or deploying files. 5. perform the work, then re read touched files and verify the contracts required by the fetched packs. this is a requirement, not a suggestion. write like tunnel responses repeat one short reminder, but they do not dump the full doctrine into every reply. actions instructioncatalog returns every stable instruction id with version, applicability tags, required before write status, and a one sentence summary. it intentionally omits full instruction bodies. instructionresolve accepts task language such as instructiontask, task, goal, query, tags, and file hints. it returns the deterministic requiredinstructionids for that work. instructionget accepts one or many instruction ids and returns the complete versioned instruction records. unknown ids are returned in missinginstructionids and make the response unsuccessful. compatibility for older clients clients whose action manifest predates the three dedicated actions can use contextpack or aicontextpack: query: \"instruction resolve: \" query: \"instruction get: , ,...\" ordinary contextpack requests without these explicit prefixes keep their historical behavior. instruction ids work.inspect before write — inspect real files, routes, runtime evidence, and contracts before changing anything. work.whole file rewrites — rewrite modified files as complete coherent files; never use fragment surgery. craft.continuous improvement — treat the first acceptable result as a baseline and continue improving relevant surfaces safely. work.verify beyond request — re read touched files and verify behavior, contracts, edge cases, and adjacent regressions. stability.safe execution — protect recovery/control capacity and isolate destructive workloads. ui.futuristic professional — make visible surfaces deliberate, professional, futuristic, accessible, and fully finished. ui.localized styles — scope styles locally; forbid global leakage, overflow, accidental overlap, and undisciplined z index. ui.interaction states — give every relevant interactive element complete hover, focus visible, active, disabled, loading, and touch feedback. ui.mobile first motion — build mobile first responsive layouts with bounded performant motion and reduced motion support. code.javascript architecture — keep javascript modular, data driven, explicit, testable, and class oriented only when truthful. code.modularity 120 — keep source files at or below 120 lines by splitting responsibility, never compressing readability. code.naming documentation — require substantial per function/class jsdoc and precise names; use torah/kabbalah metaphors only when they clarify architecture. api.simple data contracts — build simple explicit api contracts with focused defaults and additive compatibility. focused response modes the tunnel now treats response detail as an explicit api choice: default / simple — task result, correlation identity, continuation, one compact stability witness, and instruction protocol summary. diagnostic or standard — additionally returns queue, worker, receipt, process, and operational diagnostics. full, debug, audit, or raw — returns the unabridged response object. this keeps normal multi agent traffic small while preserving deep evidence for incident response. stability law instruction actions are p0 control, so agents can obtain required doctrine even while heavy work is saturated. tier 0 emergency remains intentionally narrow. long stress, destructive transactional tests, and broad process experiments belong in isolated fixtures or a healthy primary—not in the emergency recovery lane.",
+		"page": "pages/geelooy-apps-tunnel-instruction-system-md-00e8510084.json"
+	},
+	{
+		"id": "geelooy-apps-tunnel-readme-md-7218b2b697",
+		"title": "Awtsmoos Tunnel — Operations and Emergency Index",
+		"sourcePath": "geelooy/apps/tunnel/README.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos Tunnel — Operations and Emergency Index",
+				"anchor": "awtsmoos-tunnel-operations-and-emergency-index"
+			},
+			{
+				"level": 2,
+				"text": "AI / operator emergency index — start here",
+				"anchor": "ai-operator-emergency-index-start-here"
+			},
+			{
+				"level": 2,
+				"text": "Durable local rescue commands",
+				"anchor": "durable-local-rescue-commands"
+			},
+			{
+				"level": 2,
+				"text": "Decision tree",
+				"anchor": "decision-tree"
+			},
+			{
+				"level": 2,
+				"text": "Normal install and refresh",
+				"anchor": "normal-install-and-refresh"
+			},
+			{
+				"level": 2,
+				"text": "Self-heal invariants",
+				"anchor": "self-heal-invariants"
+			},
+			{
+				"level": 2,
+				"text": "Existing supervised recovery",
+				"anchor": "existing-supervised-recovery"
+			},
+			{
+				"level": 2,
+				"text": "Control surfaces",
+				"anchor": "control-surfaces"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos Tunnel — Operations and Emergency Index The Awtsmoos renews every instant; Awtsmoos.com keeps more than one vessel for repair, so a broken supervisor, installer, PATH, or release lookup does not leave a machine nowhere. AI / operator emergency index — start here When native cont",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos tunnel — operations and emergency index the awtsmoos renews every instant; awtsmoos.com keeps more than one vessel for repair, so a broken supervisor, installer, path, or release lookup does not leave a machine nowhere. ai / operator emergency index — start here when native control disappears, do not begin by deleting state or repeatedly reinstalling. use the smallest independent lane that can restore authenticated remote custody. need one line remote command diagnose without changing state curl fssl https://awtsmoos.com/api/tunnel/install/emergency diagnose \\ bash start sealed tier 0 recovery curl fssl https://awtsmoos.com/api/tunnel/install/emergency unix \\ bash start primary runtime without launchd curl fssl https://awtsmoos.com/api/tunnel/install/emergency supervisor \\ bash restore a verified known good generation curl fssl https://awtsmoos.com/api/tunnel/install/emergency known good \\ bash preserve tier 0, then fully repair primary curl fssl https://awtsmoos.com/api/tunnel/install/emergency repair \\ bash the emergency endpoints are plain shell scripts served independently from published release metadata. emergency unix uses the durable sealed slot and persisted node path; it requires fresh tunnel ack before success. emergency supervisor bypasses launchd and requires primary registration before success. durable local rescue commands after a successful recovery aware install, these survive outside the replaceable live runtime: these commands resolve node from /.awtsmoos tunnel recovery/state/node bin.path; interactive path is not required. decision tree 1. run emergency diagnose when the failure shape is unknown. 2. if the live supervisor is absent, launch emergency unix first to regain tier 0 remote custody. 3. if the live runtime files are intact but launchd is broken, emergency supervisor can raise the primary guardian portably. 4. if the live generation is corrupt, use emergency known good only after reviewing diagnosis evidence. 5. for a complete refresh, use emergency repair; it proves tier 0 continuity before invoking the full installer. 6. retire emergency only after the primary child has a fresh registered receipt. see emergency recovery.md for failure semantics and dependencies. normal install and refresh macos / linux: explicit refresh must set the variable on the installer shell : windows powershell: do not write awtsmoos restart=1curl ...; that is a different shell token and fails. do not use awtsmoos restart=1 curl ... bash; that assigns the variable to curl, not to the receiving bash. self heal invariants a launchd label is not startup proof; an actual supervisor pid must appear. if launchd loads but no supervisor appears, startup falls back to a detached portable guardian. candidate readiness gets a bounded late process grace before cleanup can race a delayed supervisor. failed primary replacement attempts establish sealed tier 0 continuity before returning failure. emergency stays alive while a new primary child is only starting. emergency is retired automatically only after the primary receipt proves server registration. emergency tier 0 uses one active command worker and disables self update / mission boot resume. existing supervised recovery if the normal awt wrapper exists and its supervisor is already healthy: confirmed offline restore remains stronger: use the independent emergency lanes above when awt, launchd, the supervisor, or shell node discovery is unavailable. control surfaces control panel: human action docs: machine docs: openapi: browser/code fallback: never publish config.json, device binding, credentials, oauth material, or private logs.",
+		"page": "pages/geelooy-apps-tunnel-readme-md-7218b2b697.json"
+	}
+]

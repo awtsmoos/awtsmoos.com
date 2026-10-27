@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-18-1624-shliach-homepage-campaign-06-phase-t-aff217ecce",
+	"title": "Phase Three — Final Execution Plan",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-18_1624_shliach-homepage-campaign/06_PHASE_THREE_FINAL_PLAN.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase Three — Final Execution Plan",
+			"anchor": "phase-three-final-execution-plan"
+		},
+		{
+			"level": 2,
+			"text": "Files that will actually be rewritten or created",
+			"anchor": "files-that-will-actually-be-rewritten-or-created"
+		},
+		{
+			"level": 3,
+			"text": "Existing Home module",
+			"anchor": "existing-home-module"
+		},
+		{
+			"level": 3,
+			"text": "HTML route family",
+			"anchor": "html-route-family"
+		},
+		{
+			"level": 3,
+			"text": "Shared Shliach CSS",
+			"anchor": "shared-shliach-css"
+		},
+		{
+			"level": 3,
+			"text": "Shared browser modules",
+			"anchor": "shared-browser-modules"
+		},
+		{
+			"level": 3,
+			"text": "Tests written only after source implementation",
+			"anchor": "tests-written-only-after-source-implementation"
+		},
+		{
+			"level": 2,
+			"text": "Source-pass order",
+			"anchor": "source-pass-order"
+		},
+		{
+			"level": 2,
+			"text": "Completion gate",
+			"anchor": "completion-gate"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-18-1624-shliach-homepage-campaign-06-phase-t-aff217ecce-001.json"
+	]
+}

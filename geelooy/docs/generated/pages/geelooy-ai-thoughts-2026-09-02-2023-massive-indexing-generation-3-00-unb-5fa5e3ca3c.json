@@ -1,0 +1,74 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-02-2023-massive-indexing-generation-3-00-unb-5fa5e3ca3c",
+	"title": "Generation 3 — Unbounded Brainstorm",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-02-2023-massive-indexing-generation-3/00-unbounded-brainstorm.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Generation 3 — Unbounded Brainstorm",
+			"anchor": "generation-3-unbounded-brainstorm"
+		},
+		{
+			"level": 2,
+			"text": "Discovery architecture",
+			"anchor": "discovery-architecture"
+		},
+		{
+			"level": 2,
+			"text": "Static page semantics",
+			"anchor": "static-page-semantics"
+		},
+		{
+			"level": 2,
+			"text": "App/game discoverability",
+			"anchor": "app-game-discoverability"
+		},
+		{
+			"level": 2,
+			"text": "Alias discoverability",
+			"anchor": "alias-discoverability"
+		},
+		{
+			"level": 2,
+			"text": "Heichel / series / post graph",
+			"anchor": "heichel-series-post-graph"
+		},
+		{
+			"level": 2,
+			"text": "Comments and replies",
+			"anchor": "comments-and-replies"
+		},
+		{
+			"level": 2,
+			"text": "Translations",
+			"anchor": "translations"
+		},
+		{
+			"level": 2,
+			"text": "Robots and sitemap protocol",
+			"anchor": "robots-and-sitemap-protocol"
+		},
+		{
+			"level": 2,
+			"text": "Runtime and performance",
+			"anchor": "runtime-and-performance"
+		},
+		{
+			"level": 2,
+			"text": "Release safety",
+			"anchor": "release-safety"
+		},
+		{
+			"level": 2,
+			"text": "Documentation and maintenance",
+			"anchor": "documentation-and-maintenance"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-02-2023-massive-indexing-generation-3-00-unb-5fa5e3ca3c-001.json"
+	]
+}

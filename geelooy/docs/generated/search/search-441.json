@@ -1,0 +1,303 @@
+[
+	{
+		"id": "geelooy-api-runtime-documentation-md-9666920d47",
+		"title": "Native Runtime API Documentation",
+		"sourcePath": "geelooy/api/runtime/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Native Runtime API Documentation",
+				"anchor": "native-runtime-api-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Native Runtime API Documentation The Awtsmoos lets browser intent meet native capability through explicit launch, status, stop, and discovery gates; Awtsmoos.com keeps this runtime separate from Tunnel transport so similar power does not imply identical states. Read ../../../docs/API/OTH",
+		"searchText": "b\"h boruch hashem blessed is he native runtime api documentation the awtsmoos lets browser intent meet native capability through explicit launch, status, stop, and discovery gates; awtsmoos.com keeps this runtime separate from tunnel transport so similar power does not imply identical states. read ../../../docs/api/other families.md, ../../../docs/systems/geelooy os.md, and ../../../docs/apps/developer tools.md.",
+		"page": "pages/geelooy-api-runtime-documentation-md-9666920d47.json"
+	},
+	{
+		"id": "geelooy-api-runtime-readme-md-8f5c5bec87",
+		"title": "B\"H — Native Runtime API (geelooy/api/runtime/)",
+		"sourcePath": "geelooy/api/runtime/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Native Runtime API (geelooy/api/runtime/)",
+				"anchor": "b-h-native-runtime-api-geelooy-api-runtime"
+			},
+			{
+				"level": 2,
+				"text": "Contents",
+				"anchor": "contents"
+			},
+			{
+				"level": 2,
+				"text": "Endpoints",
+				"anchor": "endpoints"
+			}
+		],
+		"excerpt": "B\"H — Native Runtime API (geelooy/api/runtime/) Lets browser intent meet native capability through explicit launch, status, stop, and capability discovery gates. Kept separate from Tunnel transport; never exposes a shell command, arbitrary environment, or module path. Contents awtsmoos.derech.js — routes: /native/capab",
+		"searchText": "b\"h — native runtime api (geelooy/api/runtime/) lets browser intent meet native capability through explicit launch, status, stop, and capability discovery gates. kept separate from tunnel transport; never exposes a shell command, arbitrary environment, or module path. contents awtsmoos.derech.js — routes: /native/capabilities, /native/launch, /native/status, /native/stop documentation.md — full docs + geelooy os / developer tools pointers. core/ — auth, body parsing, handlers, service loader. endpoints /native/capabilities — authenticated capability discovery. /native/launch — launch a native process behind the capability gate. /native/status — status of a running native process record. /native/stop — stop it.",
+		"page": "pages/geelooy-api-runtime-readme-md-8f5c5bec87.json"
+	},
+	{
+		"id": "geelooy-api-sefarim-documentation-md-3579995508",
+		"title": "Sefarim API Documentation",
+		"sourcePath": "geelooy/api/sefarim/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Sefarim API Documentation",
+				"anchor": "sefarim-api-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Sefarim API Documentation The Awtsmoos lets text descend through sefer, section, and subsection paths while each parameter remains visible; Awtsmoos.com maps these dynamic routes to readers without turning colon variables into invented dollar syntax. Read ../../../docs/API/OTHER FAMILIES",
+		"searchText": "b\"h boruch hashem blessed is he sefarim api documentation the awtsmoos lets text descend through sefer, section, and subsection paths while each parameter remains visible; awtsmoos.com maps these dynamic routes to readers without turning colon variables into invented dollar syntax. read ../../../docs/api/other families.md and ../../../docs/routes/dynamic paths.md.",
+		"page": "pages/geelooy-api-sefarim-documentation-md-3579995508.json"
+	},
+	{
+		"id": "geelooy-api-sefarim-readme-md-95c0e4f070",
+		"title": "B\"H — Sefarim API (geelooy/api/sefarim/)",
+		"sourcePath": "geelooy/api/sefarim/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Sefarim API (geelooy/api/sefarim/)",
+				"anchor": "b-h-sefarim-api-geelooy-api-sefarim"
+			},
+			{
+				"level": 2,
+				"text": "Contents",
+				"anchor": "contents"
+			},
+			{
+				"level": 2,
+				"text": "Endpoints",
+				"anchor": "endpoints"
+			}
+		],
+		"excerpt": "B\"H — Sefarim API (geelooy/api/sefarim/) Reveals each sefer through a guarded vessel: sefer → section → subsection dynamic routes for the readers. Answers with an empty doorway when old legacy data is absent, never a crash. Contents awtsmoos.derech.js — routes: /, /:sefer, /:sefer/section/:section, /:sefer/section/:sec",
+		"searchText": "b\"h — sefarim api (geelooy/api/sefarim/) reveals each sefer through a guarded vessel: sefer → section → subsection dynamic routes for the readers. answers with an empty doorway when old legacy data is absent, never a crash. contents awtsmoos.derech.js — routes: /, /:sefer, /:sefer/section/:section, /:sefer/section/:section/sub/:sub documentation.md — dynamic path conventions. test/ — sefarimroute.test.js: empty chamber and filled chamber cases. endpoints / — list of available sefarim (portions normalized to stable {id, name} shape whether the store is array or object backed). /:sefer — portions of one sefer. /:sefer/section/:section — a section; plus /sub/:sub for subsections.",
+		"page": "pages/geelooy-api-sefarim-readme-md-95c0e4f070.json"
+	},
+	{
+		"id": "geelooy-api-sefarim-test-readme-md-53fb1a2094",
+		"title": "B\"H — Sefarim Tests (geelooy/api/sefarim/test/)",
+		"sourcePath": "geelooy/api/sefarim/test/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Sefarim Tests (geelooy/api/sefarim/test/)",
+				"anchor": "b-h-sefarim-tests-geelooy-api-sefarim-test"
+			}
+		],
+		"excerpt": "B\"H — Sefarim Tests (geelooy/api/sefarim/test/) Node tests for the Sefarim API (see ../README.md). sefarimRoute.test.js — tests both the empty chamber (missing legacy Sefarim data) and the filled one, proving the API answers gracefully instead of crashing.",
+		"searchText": "b\"h — sefarim tests (geelooy/api/sefarim/test/) node tests for the sefarim api (see ../readme.md). sefarimroute.test.js — tests both the empty chamber (missing legacy sefarim data) and the filled one, proving the api answers gracefully instead of crashing.",
+		"page": "pages/geelooy-api-sefarim-test-readme-md-53fb1a2094.json"
+	},
+	{
+		"id": "geelooy-api-social-legacy-archive-helper-old-comments-old-post-readme-md-69ab8aa21c",
+		"title": "B\"H — Legacy Post Comments (geelooy/api/social/helper/old/comments-old/post/)",
+		"sourcePath": "geelooy/api/social-legacy-archive/helper-old/comments-old/post/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Legacy Post Comments (geelooy/api/social/helper/old/comments-old/post/)",
+				"anchor": "b-h-legacy-post-comments-geelooy-api-social-helper-old-comments-old-post"
+			}
+		],
+		"excerpt": "B\"H — Legacy Post Comments (geelooy/api/social/helper/old/comments old/post/) Legacy post comment helper. index.js — old post comment module.",
+		"searchText": "b\"h — legacy post comments (geelooy/api/social/helper/old/comments old/post/) legacy post comment helper. index.js — old post comment module.",
+		"page": "pages/geelooy-api-social-legacy-archive-helper-old-comments-old-post-readme-md-69ab8aa21c.json"
+	},
+	{
+		"id": "geelooy-api-social-legacy-archive-helper-old-comments-old-readme-md-e11f2560a3",
+		"title": "B\"H — Legacy Comments Old (geelooy/api/social/helper/old/comments-old/)",
+		"sourcePath": "geelooy/api/social-legacy-archive/helper-old/comments-old/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Legacy Comments Old (geelooy/api/social/helper/old/comments-old/)",
+				"anchor": "b-h-legacy-comments-old-geelooy-api-social-helper-old-comments-old"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "B\"H — Legacy Comments Old (geelooy/api/social/helper/old/comments old/) The old comment implementation (pre rewrite), kept for reference. Files index.js — module entry. commentCreation.js, commentDeletion.js, commentModeration.js, commentModification.js — legacy mutation operations. commentPaths.js, commentRetrieval.js",
+		"searchText": "b\"h — legacy comments old (geelooy/api/social/helper/old/comments old/) the old comment implementation (pre rewrite), kept for reference. files index.js — module entry. commentcreation.js, commentdeletion.js, commentmoderation.js, commentmodification.js — legacy mutation operations. commentpaths.js, commentretrieval.js — legacy paths and reads. post/, series.js — legacy post/series comment helpers.",
+		"page": "pages/geelooy-api-social-legacy-archive-helper-old-comments-old-readme-md-e11f2560a3.json"
+	},
+	{
+		"id": "geelooy-api-social-legacy-archive-helper-old-readme-md-1554770144",
+		"title": "B\"H — Old Comment System (geelooy/api/social/helper/old/)",
+		"sourcePath": "geelooy/api/social-legacy-archive/helper-old/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Old Comment System (geelooy/api/social/helper/old/)",
+				"anchor": "b-h-old-comment-system-geelooy-api-social-helper-old"
+			},
+			{
+				"level": 2,
+				"text": "Contents",
+				"anchor": "contents"
+			}
+		],
+		"excerpt": "B\"H — Old Comment System (geelooy/api/social/helper/old/) Superseded comment implementation, kept for reference and legacy reads. Do not build on it — the live system is helper/comments/. Contents comments old/ — legacy comment modules: creation, deletion, moderation, modification, paths, retrieval, index.js, plus post",
+		"searchText": "b\"h — old comment system (geelooy/api/social/helper/old/) superseded comment implementation, kept for reference and legacy reads. do not build on it — the live system is helper/comments/. contents comments old/ — legacy comment modules: creation, deletion, moderation, modification, paths, retrieval, index.js, plus post/ and series.js.",
+		"page": "pages/geelooy-api-social-legacy-archive-helper-old-readme-md-1554770144.json"
+	},
+	{
+		"id": "geelooy-api-social-legacy-archive-old-readme-md-1c06d03c79",
+		"title": "B\"H — Old Route Mounts (geelooy/api/social/old/)",
+		"sourcePath": "geelooy/api/social-legacy-archive/old/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Old Route Mounts (geelooy/api/social/old/)",
+				"anchor": "b-h-old-route-mounts-geelooy-api-social-old"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "B\"H — Old Route Mounts (geelooy/api/social/old/) Legacy derech route mounts for the social API, superseded by the awtsmoos. .js chapters at the parent level. Kept for reference. Files index.js — module entry. awtsmoos.comments old.js — old comment route mount. awtsmoos.posts.js — old post route mount. awtsmoos.series.j",
+		"searchText": "b\"h — old route mounts (geelooy/api/social/old/) legacy derech route mounts for the social api, superseded by the awtsmoos. .js chapters at the parent level. kept for reference. files index.js — module entry. awtsmoos.comments old.js — old comment route mount. awtsmoos.posts.js — old post route mount. awtsmoos.series.js — old series route mount.",
+		"page": "pages/geelooy-api-social-legacy-archive-old-readme-md-1c06d03c79.json"
+	},
+	{
+		"id": "geelooy-api-social-legacy-archive-readme-md-9c0b024e80",
+		"title": "B\"H",
+		"sourcePath": "geelooy/api/social-legacy-archive/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Blessed is He",
+				"anchor": "blessed-is-he"
+			},
+			{
+				"level": 1,
+				"text": "Boruch Hashem",
+				"anchor": "boruch-hashem"
+			},
+			{
+				"level": 1,
+				"text": "social-legacy-archive",
+				"anchor": "social-legacy-archive"
+			},
+			{
+				"level": 2,
+				"text": "Why archived instead of split",
+				"anchor": "why-archived-instead-of-split"
+			},
+			{
+				"level": 2,
+				"text": "Restore",
+				"anchor": "restore"
+			}
+		],
+		"excerpt": "B\"H Blessed is He Boruch Hashem social legacy archive Legacy trees moved here 2026 10 20 (impl phase 3, split program) from: geelooy/api/social/old/ → old/ (4 JS files, 1,301 lines) geelooy/api/social/helper/old/ → helper old/ (8 JS files under comments old/, 6,376 lines) Why archived instead of split The 120 line spli",
+		"searchText": "b\"h blessed is he boruch hashem social legacy archive legacy trees moved here 2026 10 20 (impl phase 3, split program) from: geelooy/api/social/old/ → old/ (4 js files, 1,301 lines) geelooy/api/social/helper/old/ → helper old/ (8 js files under comments old/, 6,376 lines) why archived instead of split the 120 line split program covers live code. these trees are the retired pre rewrite comment system (\"comments old\") and are provably unreferenced : 1. repo wide grep for require() paths containing helper/old, /old/, or comments old across geelooy/ + ayzarim/ (excluding the trees themselves): zero matches. 2. plain string grep for comments old across geelooy/api/ + ayzarim/awtsmoosdynamicserver/: zero matches outside the trees. 3. relative require grep into any old directory across geelooy/api/: zero matches. per the migration design (section d): dead legacy files are archived out of the tree, not split. nothing is deleted; history is preserved by git mv. restore",
+		"page": "pages/geelooy-api-social-legacy-archive-readme-md-9c0b024e80.json"
+	},
+	{
+		"id": "geelooy-api-social-documentation-md-02501ae227",
+		"title": "Social API Documentation",
+		"sourcePath": "geelooy/api/social/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Social API Documentation",
+				"anchor": "social-api-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Social API Documentation The Awtsmoos gives aliases, posts, comments, Heichelos, follows, signals, drive, graph, and search one vast backend domain; Awtsmoos.com maps its routes, auth, callers, methods, and storage so a maintainer does not enter this forest without a plan. Read ../../../",
+		"searchText": "b\"h boruch hashem blessed is he social api documentation the awtsmoos gives aliases, posts, comments, heichelos, follows, signals, drive, graph, and search one vast backend domain; awtsmoos.com maps its routes, auth, callers, methods, and storage so a maintainer does not enter this forest without a plan. read ../../../docs/api/social.md, ../../../docs/systems/social and heichel.md, and ../../../docs/api/methods.md. callers: ../../../docs/generated/api caller index.md.",
+		"page": "pages/geelooy-api-social-documentation-md-02501ae227.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-api-readme-md-89aebcbb03",
+		"title": "B\"H — API Request/Response Primitives (geelooy/api/social/helper/api/)",
+		"sourcePath": "geelooy/api/social/helper/api/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — API Request/Response Primitives (geelooy/api/social/helper/api/)",
+				"anchor": "b-h-api-request-response-primitives-geelooy-api-social-helper-api"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			},
+			{
+				"level": 2,
+				"text": "What it does",
+				"anchor": "what-it-does"
+			}
+		],
+		"excerpt": "B\"H — API Request/Response Primitives (geelooy/api/social/helper/api/) Low level request/response policy wrappers used by social routes, named in the sephirah style used across this codebase. Files BinahRequestBody.js, BinahRequestQuery.js — decode and validate incoming request bodies and query values. BinahRequestValu",
+		"searchText": "b\"h — api request/response primitives (geelooy/api/social/helper/api/) low level request/response policy wrappers used by social routes, named in the sephirah style used across this codebase. files binahrequestbody.js, binahrequestquery.js — decode and validate incoming request bodies and query values. binahrequestvaluedecoder.js — shared value decoding used by the binah request wrappers. gevurahroutemethodpolicy.js — enforces allowed http methods per route. hodapimetadata.js — attaches api metadata (caller, version, timing) to responses. malchusresponsegarments.js — shapes final response envelopes (\"garments\") so every route returns a consistent success/error structure. yesodsocialidentityresolver.js — resolves the acting social identity (user/alias) behind a request. what it does gives route handlers one place to: parse request input safely, reject wrong methods, know who is acting, and emit uniform responses with metadata attached.",
+		"page": "pages/geelooy-api-social-helper-api-readme-md-89aebcbb03.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-assets-readme-md-4f7be4d8d3",
+		"title": "B\"H — Assets (geelooy/api/social/helper/assets/)",
+		"sourcePath": "geelooy/api/social/helper/assets/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Assets (geelooy/api/social/helper/assets/)",
+				"anchor": "b-h-assets-geelooy-api-social-helper-assets"
+			},
+			{
+				"level": 2,
+				"text": "Key files",
+				"anchor": "key-files"
+			},
+			{
+				"level": 2,
+				"text": "What it does",
+				"anchor": "what-it-does"
+			}
+		],
+		"excerpt": "B\"H — Assets (geelooy/api/social/helper/assets/) Asset upload, storage, manifesting, and access control for social content (post attachments, editor uploads, private message media). Key files assetUpload.js, multipart.js — multipart upload handling. assetCopy.js, assetCopySource.js — copy assets between sources. assetM",
+		"searchText": "b\"h — assets (geelooy/api/social/helper/assets/) asset upload, storage, manifesting, and access control for social content (post attachments, editor uploads, private message media). key files assetupload.js, multipart.js — multipart upload handling. assetcopy.js, assetcopysource.js — copy assets between sources. assetmanifest.js, assetpaths.js, privatemessageassetmanifestsource.js — manifest tracking and path resolution. assetpolicy.js, assetratelimit.js — upload policy and per user rate limiting. assetbindings.js — binds assets to comment/post sections. publicassetaccess.js vs privatemessageassetaccess.js (+ proofs: privatemessageassetproof.js, privatemessageimageassetaccess) — public access layer and gated private message access with image manifest proofs. test/ — copy/binding test vessels and suites. what it does handles the full asset lifecycle: parse uploads, enforce policy and rate limits, record manifests, and serve assets — with a strict split between public assets and private message assets, which require access proofs.",
+		"page": "pages/geelooy-api-social-helper-assets-readme-md-4f7be4d8d3.json"
+	}
+]

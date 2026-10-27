@@ -1,0 +1,182 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27-2150-geelooy-movie-unification-07-post-im-995adc10f6",
+		"title": "Post-Implementation Delta — Planned vs Actual",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27-2150-geelooy-movie-unification/07-post-implementation-delta.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Post-Implementation Delta — Planned vs Actual",
+				"anchor": "post-implementation-delta-planned-vs-actual"
+			},
+			{
+				"level": 2,
+				"text": "Original plan",
+				"anchor": "original-plan"
+			},
+			{
+				"level": 2,
+				"text": "Actual implementation discovered and completed",
+				"anchor": "actual-implementation-discovered-and-completed"
+			},
+			{
+				"level": 2,
+				"text": "Required-scope delta remaining",
+				"anchor": "required-scope-delta-remaining"
+			},
+			{
+				"level": 2,
+				"text": "Shadow work resolved",
+				"anchor": "shadow-work-resolved"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Post Implementation Delta — Planned vs Actual The Awtsmoos reveals a plan as seed, yet runtime decides the shape the branches take; Awtsmoos.com compares promise to observed world, so no missing leaf can hide behind a claim we make. Original plan The mission required one AI authorable mo",
+		"searchText": "b\"h boruch hashem blessed is he post implementation delta — planned vs actual the awtsmoos reveals a plan as seed, yet runtime decides the shape the branches take; awtsmoos.com compares promise to observed world, so no missing leaf can hide behind a claim we make. original plan the mission required one ai authorable movie language, distinct renderer personalities, deterministic timing, mobile first controls, a feature rich three minute movie, real browser verification, and a final plan vs actual closure. actual implementation discovered and completed the repository already contained a substantial shared movie architecture, so the work did not duplicate it. instead it completed user facing integration and fixed runtime boundaries that source only tests did not expose. major completed deltas from the pre implementation hypothesis: 1. five products, not merely a 2d/3d pair, participate in the canonical director surface: animator, nesher studio, video editor, mitzvah studio, and captions. 2. animator required two browser only startup fixes: hidden tab requestanimationframe throttling and a lost stylesheet readiness event. 3. mitzvah's hardest failure was not the movie system; it was eager evaluation through the procedural core root barrel. replacing giant barrel imports with narrow geometry/placement/history modules restored both native studio and director boot. 4. nesher's director needed to be decoupled from its large native nle dependency graph so each branch can awaken independently. 5. browser verification had to use fresh foreground targets; reused/background targets created false evidence through chrome throttling and polluted module registries. 6. showcase verification needed the actual readiness global, not merely the existence of dom controls. required scope delta remaining none. every original completion gate now has direct test, file, media, or browser evidence. shadow work resolved new entrypoint wiring regression coverage. new mitzvah dependency boundary regression coverage. full touched file reread/static audit. exact media metadata re verification after runtime fixes. live ai generation acceptance and long form seek/play acceptance.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27-2150-geelooy-movie-unification-07-post-im-995adc10f6.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27-2150-geelooy-movie-unification-07-sol-imp-fee84dc7f7",
+		"title": "Sol Implementation File Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27-2150-geelooy-movie-unification/07-sol-implementation-file-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Sol Implementation File Plan",
+				"anchor": "sol-implementation-file-plan"
+			},
+			{
+				"level": 2,
+				"text": "Collision-safe implementation boundary",
+				"anchor": "collision-safe-implementation-boundary"
+			},
+			{
+				"level": 2,
+				"text": "New shared movie files",
+				"anchor": "new-shared-movie-files"
+			},
+			{
+				"level": 2,
+				"text": "Three-minute proof",
+				"anchor": "three-minute-proof"
+			},
+			{
+				"level": 2,
+				"text": "Adapter pass after shared proof",
+				"anchor": "adapter-pass-after-shared-proof"
+			},
+			{
+				"level": 2,
+				"text": "Completion evidence",
+				"anchor": "completion-evidence"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Sol Implementation File Plan The Awtsmoos renews each frame, yet every vessel keeps its name; Awtsmoos.com shall share one movie language without flattening every flame. Collision safe implementation boundary Observed dirty/concurrently owned surfaces are excluded from this pass: existin",
+		"searchText": "b\"h boruch hashem blessed is he sol implementation file plan the awtsmoos renews each frame, yet every vessel keeps its name; awtsmoos.com shall share one movie language without flattening every flame. collision safe implementation boundary observed dirty/concurrently owned surfaces are excluded from this pass: existing animator and mitzvah studio production files, including the active animator mobile css and film/export work. existing clean video editor, nesher studio, rebbe, and apps/shared files will only be changed after their recorded hashes are rechecked immediately before each rewrite. new shared movie files apps/shared/movie/package.json — local esm boundary and focused verification script. apps/shared/movie/schema/moviedefaults.js — canonical defaults and supported vocabulary. apps/shared/movie/schema/movienormalizer.js — serializable canonicalization and cumulative scene timing. apps/shared/movie/schema/movievalidator.js — structured, ai repairable validation errors. apps/shared/movie/timeline/movieeasing.js — named easing vocabulary. apps/shared/movie/timeline/keyframeinterpolator.js — deterministic property interpolation. apps/shared/movie/timeline/movietimeline.js — active scene/node evaluation. apps/shared/movie/ai/movietoolcontract.js — declarative ai authoring contract. apps/shared/movie/renderers/canvasnodepainter.js — shapes, text, people, charts, paths, pseudo 3d fallback. apps/shared/movie/renderers/canvasparticlepainter.js — deterministic particle systems. apps/shared/movie/renderers/canvasmovierenderer.js — responsive canvas renderer. apps/shared/movie/runtime/movieplayer.js — play, pause, restart, seek and current scene state. apps/shared/movie/index.js — stable public surface. three minute proof apps/shared/movie/showcase/scenes/scenefactory.js — compact scene/node factories. apps/shared/movie/showcase/scenes/actone.js through actfour.js — twelve fifteen second scenes. apps/shared/movie/showcase/awtsmoosthreeminutemovie.js — exactly 180 seconds. apps/shared/movie/showcase/index.html, main.js, showcase.css — mobile first runnable showcase. apps/shared/movie/tests/threeminutemoviesmoke.js — exact duration and feature coverage verification. adapter pass after shared proof new bridge modules will translate the canonical document into each app's native project/state rather than replace native renderers. entry point rewrites are authorized only for files that still match the recorded prewrite hash and remain clean. animator/mitzvah integration must be additive in new adapter files until the concurrent owners settle. completion evidence the pass is not complete until the shared smoke test passes, the showcase runs in desktop and mobile browser viewports, console errors are reviewed, clean app bridges are exercised, an actual encoded 180 second artifact is produced through an existing renderer/export path when available, touched files are reread, and planned versus actual delta is closed.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27-2150-geelooy-movie-unification-07-sol-imp-fee84dc7f7.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27-2150-geelooy-movie-unification-08-final-v-a98ab93bb8",
+		"title": "Final Verification Record",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27-2150-geelooy-movie-unification/08-final-verification.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Final Verification Record",
+				"anchor": "final-verification-record"
+			},
+			{
+				"level": 2,
+				"text": "Completion matrix",
+				"anchor": "completion-matrix"
+			},
+			{
+				"level": 2,
+				"text": "Final judgment",
+				"anchor": "final-judgment"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Final Verification Record The Awtsmoos moves the frame, the test records the trace; Awtsmoos.com calls a gate complete only when observed behavior meets the promised place. Completion matrix Gate Evidence Result Shared AI movie language Canonical shared movie system + deterministic core ",
+		"searchText": "b\"h boruch hashem blessed is he final verification record the awtsmoos moves the frame, the test records the trace; awtsmoos.com calls a gate complete only when observed behavior meets the promised place. completion matrix gate evidence result shared ai movie language canonical shared movie system + deterministic core + five adapters pass distinct product personalities adapter projection tests and live product specific uis pass ai can actually generate real director form submission produced validated storyboard/timeline/canvas pass 2d + 3d vocabulary automated semantic tests plus live hybrid generation pass characters/tutorial/infographic/particles/cameras focused semantic tests and authored 180s acceptance movie pass mobile first director 390×844 browser emulation, viewport safe geometry, 44px visible controls pass native apps still work fresh browser witnesses for animator, nesher, video editor, mitzvah, captions pass three minute movie canonical mp4 ffprobe duration 180.000000s pass long form playback seek 175s, render late scene, play to 176.3s, pause pass test universe 46/46 passing pass console/network final clean witnesses: no relevant 4xx, failed requests, exceptions, warnings/errors pass source hygiene syntax, tabs, ≤120 lines, diff check, todo scan pass dependency hygiene zero mitzvah procedural core root barrel imports pass final judgment requested movie unification scope is implemented, tested, browser verified, mobile verified, media verified, and statically audited.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27-2150-geelooy-movie-unification-08-final-v-a98ab93bb8.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27-2150-geelooy-movie-unification-08-three-m-791c9609a5",
+		"title": "Three-Minute Proof Plan Delta",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27-2150-geelooy-movie-unification/08-three-minute-proof-plan-delta.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Three-Minute Proof Plan Delta",
+				"anchor": "three-minute-proof-plan-delta"
+			},
+			{
+				"level": 2,
+				"text": "Why the prior implementation map changed",
+				"anchor": "why-the-prior-implementation-map-changed"
+			},
+			{
+				"level": 2,
+				"text": "Owned proof surface",
+				"anchor": "owned-proof-surface"
+			},
+			{
+				"level": 2,
+				"text": "Proof rules",
+				"anchor": "proof-rules"
+			},
+			{
+				"level": 2,
+				"text": "Collision rule",
+				"anchor": "collision-rule"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Three Minute Proof Plan Delta The Awtsmoos renews the plan when evidence changes the road; Awtsmoos.com keeps one truth in many vessels, never a duplicated load. Why the prior implementation map changed The prior Sol addendum proposed a new apps/shared/movie package. During collision che",
+		"searchText": "b\"h boruch hashem blessed is he three minute proof plan delta the awtsmoos renews the plan when evidence changes the road; awtsmoos.com keeps one truth in many vessels, never a duplicated load. why the prior implementation map changed the prior sol addendum proposed a new apps/shared/movie package. during collision checks, another active movie unification worker materialized the intended renderer neutral contract at libs/awtsmoos movie core, including movie defaults, feature discovery, validation, easing, and keyframe interpolation. creating a second core would violate the unification goal, so this pass will consume that living package and will not rewrite its concurrently owned files. owned proof surface this pass owns only new, collision checked three minute proof files: apps/animator/src/scenes/showcase/unifiedshowcasecanonicalmovie.js — exact 180 second ai facing 2d/3d/hybrid document using the neutral core. apps/animator/src/scenes/showcase/unifiedthreeminuteshowcasemovie.js — exact 180 second production cut derived from the first six proven four minute festival worlds, preserving people, dialogue, acting, cameras, audio/edit metadata, and 24 shots. apps/animator/tools/render/showcase/showcaseshapepainter.js — animated 2d geometry, paths, arrows, patches, and pseudo 3d wire geometry. apps/animator/tools/render/showcase/showcaseparticlepainter.js — deterministic multi style particles. apps/animator/tools/render/showcase/showcaseinfographicpainter.js — animated charts, tutorial steps, text, and node diagrams. apps/animator/tools/render/showcase/unifiedshowcasefeaturepainter.js — scene local feature choreography. apps/animator/tools/render/unifiedthreeminuteframerenderer.js — wrapper around the proven cinematic renderer; no fork of its camera/cast/set logic. apps/animator/tools/render/exportunifiedthreeminutemovie.js — real ffmpeg h.264/aac export plus ffprobe evidence. apps/animator/tools/verify/unifiedthreeminutemoviesmoke.js — structural and canonical contract verification. proof rules the movie must be exactly 180000ms, 640x360, 12fps, six distinct 30 second worlds, twenty four camera shots, five recurring people, dialogue/performance clips, actual rendered text, animated shapes, paths, particles, chart/tutorial graphics, patches, and pseudo 3d geometry. the canonical document must validate through awtsmoos movie core and explicitly include 2d, 3d, and hybrid scenes. the exported mp4 must be verified by ffprobe as h.264 video + aac audio with duration within 0.5 seconds of 180 seconds. collision rule every path above must be confirmed absent immediately before creation. existing animator source files remain untouched because concurrent agents are actively modifying them. all implementation files are complete file writes, tab indented, non minified, documented, and kept at or below the project line ceiling.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27-2150-geelooy-movie-unification-08-three-m-791c9609a5.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27-2150-geelooy-movie-unification-09-handoff-f0dbe7d353",
+		"title": "Handoff — Unified Movie System",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27-2150-geelooy-movie-unification/09-handoff.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Handoff — Unified Movie System",
+				"anchor": "handoff-unified-movie-system"
+			},
+			{
+				"level": 2,
+				"text": "Where to begin",
+				"anchor": "where-to-begin"
+			},
+			{
+				"level": 2,
+				"text": "Architectural invariants",
+				"anchor": "architectural-invariants"
+			},
+			{
+				"level": 2,
+				"text": "Known reviewed repository concern",
+				"anchor": "known-reviewed-repository-concern"
+			},
+			{
+				"level": 2,
+				"text": "Takeover answer",
+				"anchor": "takeover-answer"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Handoff — Unified Movie System The Awtsmoos gives tomorrow's developer the same world anew, yet memory keeps the path in sight; Awtsmoos.com leaves breadcrumbs beside the code, so future change can move with evidence and light. Where to begin Canonical authoring and Director: apps/shared",
+		"searchText": "b\"h boruch hashem blessed is he handoff — unified movie system the awtsmoos gives tomorrow's developer the same world anew, yet memory keeps the path in sight; awtsmoos.com leaves breadcrumbs beside the code, so future change can move with evidence and light. where to begin canonical authoring and director: apps/shared/movie/. deterministic runtime: libs/awtsmoos movie core/. long form acceptance surface: showcase/unified movie 180/. product adapters/installers live inside each participating app. focused shared tests: apps/shared/movie/tests/. animator movie/export tests: apps/animator/tests/sharedmovie/. architectural invariants keep canonical movie data serializable and renderer neutral. keep product personalities in adapters rather than forking the authoring language. keep heavy native product boot independent from ai director mounting. do not reintroduce libs/awtsmoos procedural core/src/index.js into mitzvah studio; import the defining narrow module instead. use fresh foreground browser targets for module startup verification; background/reused chrome targets can throttle or retain poisoned module state. for the long showcase, wait for window.awtsmoosmovieshowcase, not merely dom controls. known reviewed repository concern node's typeless package esm warning remains a repository level packaging choice. it is not a movie runtime failure. if addressed later, evaluate the whole repository's commonjs/esm compatibility before changing the root package type. takeover answer a future agent should first run the 46 test movie suite, open the live 180 second showcase, submit one director prompt, and preserve the narrow mitzvah dependency boundary while extending features.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27-2150-geelooy-movie-unification-09-handoff-f0dbe7d353.json"
+	}
+]

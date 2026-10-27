@@ -9,7 +9,7 @@
 		"id": "games",
 		"title": "Games and Worlds"
 	},
-	"title": "Shema Strike: Gates of Light",
+	"title": "Shema Strike — 2D Platformer",
 	"entries": [
 		"index.html",
 		"package.json",
@@ -24,32 +24,32 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-shema-strike-fd59d11a.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 149,
-		"tests": 21,
+		"source": 173,
+		"tests": 23,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
 		"other": 2
 	},
-	"totalFiles": 173,
+	"totalFiles": 199,
 	"symbolSummary": {
-		"files": 140,
-		"classes": 66,
-		"functions": 13,
-		"exports": 192,
+		"files": 151,
+		"classes": 71,
+		"functions": 56,
+		"exports": 202,
 		"samples": [
 			"AccessibilityProfile",
 			"copy",
 			"objectiveCopy",
+			"KeserCampaignGate",
+			"MalchusBootFailure",
+			"YesodOptionalArena",
 			"CheckpointManager",
 			"entityState",
 			"restoreEntities",
 			"componentSnapshots",
 			"createComponent",
-			"COMPONENT_KINDS",
-			"CycleComponent",
-			"EscortComponent",
-			"GuardianComponent"
+			"COMPONENT_KINDS"
 		]
 	},
 	"outgoingDependencies": [],
@@ -59,9 +59,9 @@
 		{
 			"url": "/games/shema-strike",
 			"file": "geelooy/games/shema-strike/index.html",
-			"title": "Shema Strike: Gates of Light",
-			"scripts": 1,
-			"styles": 1
+			"title": "Shema Strike — 2D Platformer",
+			"scripts": 3,
+			"styles": 5
 		}
 	],
 	"requiresLocalDocumentation": true,

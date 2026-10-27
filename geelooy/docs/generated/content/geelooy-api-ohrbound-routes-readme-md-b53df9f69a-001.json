@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Ohrbound Routes (geelooy/api/ohrbound/routes/)\n\nRoute implementations for the Ohrbound API (see `../README.md`).\n\n## Files\n- `table.js` — the frozen route table: `progress/:alias`, `levels`. One explicit\n  table consumed by mounting, testing, and docs alike.\n- `progress.js` — binds one bounded cloud progress document to a player alias.\n- `levels.js` — public level catalog plus GET/POST/DELETE publish/delete intents.\n"
+}

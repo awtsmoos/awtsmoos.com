@@ -1,0 +1,128 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-08-30-1748-daily-chitas-heichel-ikar-02-phase-t-7edc7a1113",
+		"title": "Phase Three — Critique, Safeguards, Verification",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-30-1748-daily-chitas-heichel-ikar/02-phase-three-critique-and-verification.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Three — Critique, Safeguards, Verification",
+				"anchor": "phase-three-critique-safeguards-verification"
+			},
+			{
+				"level": 2,
+				"text": "Twenty safeguards before implementation",
+				"anchor": "twenty-safeguards-before-implementation"
+			},
+			{
+				"level": 2,
+				"text": "Completion evidence",
+				"anchor": "completion-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Remaining-work ledger",
+				"anchor": "remaining-work-ledger"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Three — Critique, Safeguards, Verification The Awtsmoos renews every instant, so stale assumptions cannot lead; Awtsmoos.com must prove the calendar path in code, in tests, and in the reader’s deed. Twenty safeguards before implementation 1. Trace the exact road read entry point. 2",
+		"searchText": "b\"h boruch hashem blessed is he phase three — critique, safeguards, verification the awtsmoos renews every instant, so stale assumptions cannot lead; awtsmoos.com must prove the calendar path in code, in tests, and in the reader’s deed. twenty safeguards before implementation 1. trace the exact road read entry point. 2. trace the exact heichel ikar identifier and route. 3. resolve “mc l” from repository evidence instead of guessing. 4. search for existing grouping schemas and serializers. 5. search for existing daily study/calendar code. 6. search for hebrew date utilities before adding a library. 7. search for parsha metadata before importing external data. 8. search for aliyah boundaries in existing torah sources. 9. verify whether the project distinguishes israel and diaspora. 10. define the day boundary/timezone policy explicitly. 11. keep calendar calculation pure and testable. 12. keep ui adaptation separate from calendar logic. 13. preserve existing grouping behavior for non chitas readers. 14. handle double parshiyos as one weekly seven aliyah sequence. 15. handle yom tov / shabbos displacement without pretending the festival reading is the weekly chitas sedra. 16. verify a normal week from sunday through shabbos. 17. verify a double parsha week. 18. verify an israel/diaspora divergence week if the app supports both. 19. read every touched file back after writing and check indentation/module size. 20. run focused syntax/unit/runtime tests and compare planned behavior with actual output. completion evidence completion requires all of the following: observed file paths for road read, grouping, heichel ikar, calendar, and torah text; a documented deterministic calculation for date parsha weekday aliyah; implementation through the existing grouping contract; focused tests for calendar and grouping behavior; readback of every changed file; no unresolved critical edge case found by final search. remaining work ledger until the repository trace is complete, source file names remain deliberately unspecified. discovery is the next action; implementation is forbidden until the exact call path is known.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-30-1748-daily-chitas-heichel-ikar-02-phase-t-7edc7a1113.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-30-1748-daily-chitas-heichel-ikar-03-final-i-56afb1aed0",
+		"title": "Final Implementation Plan — Daily Chitas in Living Path",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-30-1748-daily-chitas-heichel-ikar/03-final-implementation-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Final Implementation Plan — Daily Chitas in Living Path",
+				"anchor": "final-implementation-plan-daily-chitas-in-living-path"
+			},
+			{
+				"level": 2,
+				"text": "Exact source files to create",
+				"anchor": "exact-source-files-to-create"
+			},
+			{
+				"level": 2,
+				"text": "Exact existing files to rewrite completely",
+				"anchor": "exact-existing-files-to-rewrite-completely"
+			},
+			{
+				"level": 2,
+				"text": "Exact tests to create",
+				"anchor": "exact-tests-to-create"
+			},
+			{
+				"level": 2,
+				"text": "Thirty final refinements before writing",
+				"anchor": "thirty-final-refinements-before-writing"
+			},
+			{
+				"level": 2,
+				"text": "Calculation contract",
+				"anchor": "calculation-contract"
+			},
+			{
+				"level": 2,
+				"text": "Completion evidence required",
+				"anchor": "completion-evidence-required"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Final Implementation Plan — Daily Chitas in Living Path The Awtsmoos renews each date, each verse, each road, each gate; Awtsmoos.com will reveal the weekly Sidra without storing tomorrow's state. Exact source files to create 1. geelooy/heichelos/heichel/modules/chitas/constants.js virtu",
+		"searchText": "b\"h boruch hashem blessed is he final implementation plan — daily chitas in living path the awtsmoos renews each date, each verse, each road, each gate; awtsmoos.com will reveal the weekly sidra without storing tomorrow's state. exact source files to create 1. geelooy/heichelos/heichel/modules/chitas/constants.js virtual series identity, heichel ikar scope, weekday labels, source labels. 2. geelooy/heichelos/heichel/modules/chitas/date policy.js local date keys, sunday week start, seven study dates, aliyah number, official chabad date links. 3. geelooy/heichelos/heichel/modules/chitas/hebcal provider.js browser safe hebcal url construction and calendar fetch with diaspora/israel switch. 4. geelooy/heichelos/heichel/modules/chitas/schedule.js pure next parsha selection, seven aliyah extraction, simchat torah recognition, study card metadata. 5. geelooy/heichelos/heichel/modules/chitas/virtual series.js root special grouping and the virtual daily chitas series payload consumed by living path. exact existing files to rewrite completely 6. geelooy/heichelos/heichel/modules/navigator/loader.js route daily chitas through the virtual source, inject the special grouping only into heichel ikar root, avoid dnd for virtual content. 7. geelooy/heichelos/heichel/modules/ui/render/living path/cards.js allow only trusted chabad daily study external links for virtual study cards and suppress unrelated social/menu actions. 8. geelooy/heichelos/heichel/modules/ui/controls.js clear and hide owner mutation controls while the current series is virtual. exact tests to create 9. tests/geelooy/chitasschedule.test.mjs ordinary sunday mapping, seven aliyah extraction, double parsha compatibility, holiday deferral selection, simchat torah marker, local week construction. 10. tests/geelooy/chitaslivingpathcontract.test.mjs static contract for ikar only grouping injection, virtual loader interception, trusted external navigation, and virtual owner control suppression. thirty final refinements before writing 1. use browser local civil dates, never utc date slicing. 2. construct dates at local noon to reduce dst boundary hazards. 3. keep sunday=aliyah 1 through shabbos=aliyah 7 explicit. 4. search forward far enough to survive multi day festival displacement. 5. select only hebcal records whose category is exactly parashat. 6. never substitute a holiday torah reading for the chitas sidra. 7. let a displaced shabbos naturally repeat the next actual sidra. 8. accept combined parsha titles without splitting them apart. 9. consume the combined parsha's seven full leyning aliyos. 10. preserve hebrew parsha name from hebcal when available. 11. keep the provider separate from pure scheduling logic. 12. keep chabad url construction separate from hebcal retrieval. 13. link to chabad's exact civil date daily chumash page rather than copying translation text. 14. mark each generated study card as virtual and non social. 15. restrict external card navigation to https://www.chabad.org/dailystudy/. 16. keep ordinary posts, series, and groupings behavior unchanged. 17. surface the chitas grouping only at heichelid=ikar, seriesid=root. 18. do not persist a date changing alternate group record. 19. give the grouping a stable daily chitas id for progress/history urls. 20. make the virtual series itself render through the ordinary posts viewport. 21. include all seven days so the user can review ahead/behind within the weekly grouping. 22. prefix today's card visibly without changing its canonical date identity. 23. include exact aliyah reference in each card description when hebcal supplies it. 24. degrade to seven official chabad date links if hebcal is unavailable. 25. treat simchat torah as an explicit exceptional day and defer exact text detail to chabad's canonical page. 26. allow an explicit chitasisrael=1 query switch instead of guessing geography. 27. hide owner mutation controls for virtual series. 28. disable dnd initialization for virtual series. 29. re read every touched file and enforce the small file/tab/b\"h contract. 30. run node tests, syntax checks, and a browser/runtime smoke path before claiming completion. calculation contract for an ordinary date d: candidate events = hebcal(d ... d+35, parsha=on, major holidays=on, israel mode explicit) sidra = first event where category === \"parashat\" aliyos = sidra.leyning[\"1\"] ... sidra.leyning[\"7\"] todayaliyah = d.getday() + 1 this works during festival displacement because the displaced shabbos has no parashat event, so the same next actual sidra remains selected and its weekday passages repeat, matching chabad's stated chitas rule. simchat torah is the explicit exception: the exact canonical chabad date page is the authority for that day's vezot haberachah/bereishit transition, while following days resume the upcoming bereishit weekday aliyos. completion evidence required all ten files exist with intended contracts; test fixtures demonstrate nitzavim vayeilech and the 2026 rosh hashanah ha'azinu deferral; ordinary living path remains internal navigation based; virtual chitas cards navigate only to trusted chabad daily study urls; source files read back with tabs, no minification, no source file over 120 lines; browser heichel ikar root shows daily chitas grouping and opening it shows seven daily portions.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-30-1748-daily-chitas-heichel-ikar-03-final-i-56afb1aed0.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-30-1748-daily-chitas-heichel-ikar-04-post-wr-92bc280d18",
+		"title": "Post-Write Delta and Verification",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-30-1748-daily-chitas-heichel-ikar/04-post-write-delta-and-verification.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Post-Write Delta and Verification",
+				"anchor": "post-write-delta-and-verification"
+			},
+			{
+				"level": 2,
+				"text": "Original mission versus actual revelation",
+				"anchor": "original-mission-versus-actual-revelation"
+			},
+			{
+				"level": 2,
+				"text": "Calculation actually implemented",
+				"anchor": "calculation-actually-implemented"
+			},
+			{
+				"level": 2,
+				"text": "Planned versus actual file delta",
+				"anchor": "planned-versus-actual-file-delta"
+			},
+			{
+				"level": 2,
+				"text": "Verification completed",
+				"anchor": "verification-completed"
+			},
+			{
+				"level": 2,
+				"text": "Verification not claimed",
+				"anchor": "verification-not-claimed"
+			},
+			{
+				"level": 2,
+				"text": "Remaining work state",
+				"anchor": "remaining-work-state"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Post Write Delta and Verification The Awtsmoos renews every claim by evidence, not by pride; Awtsmoos.com records both what was proven and what the tunnel could not visually provide. Original mission versus actual revelation The original mission was to place a Daily Chitas Chumash study ",
+		"searchText": "b\"h boruch hashem blessed is he post write delta and verification the awtsmoos renews every claim by evidence, not by pride; awtsmoos.com records both what was proven and what the tunnel could not visually provide. original mission versus actual revelation the original mission was to place a daily chitas chumash study path into the existing heichel ikar road read system as a special grouping, calculate the weekly parsha, divide it into seven daily readings, and follow the chabad chitas schedule. the implementation uses the existing living path grouping contract instead of creating a parallel page. a stable daily chitas grouping is synthesized only in heichelid=ikar, seriesid=root. opening it loads a virtual series containing seven sunday through shabbos study cards. calculation actually implemented 1. use the browser local civil date, not utc. 2. ask hebcal for a 35 day forward calendar window with weekly parsha events. 3. select the first event whose category is exactly parashat. 4. read its full seven shabbos aliyah boundaries from leyning[\"1\"] through leyning[\"7\"]. 5. map sunday through shabbos to aliyos 1 through 7. 6. festival shabbos displacement therefore repeats the same upcoming sidra automatically, matching chabad's published chitas rule. 7. simchat torah is kept explicit and its exact date page remains canonical at chabad daily study. planned versus actual file delta the initial final plan expected the owner mutation change in modules/ui/controls.js. import tracing proved that living path's public ui facade actually delegates governance rendering to modules/ui/render/controls.js. the real call target was changed instead; the similarly named helper was left alone. the first rewrite of ui/render/controls.js exceeded the 120 line project ceiling. the architecture contract caught that failure. rather than compressing comments or code, governance was split into: ui/render/governance/control plan.js ui/render/governance/create controls.js ui/render/governance/series controls.js a small ui/render/controls.js coordinator verification completed daily chitas schedule contract passes. living path integration contract passes. all changed source modules pass node check. source contract verifies b\"h headers and at most 120 lines for all touched source modules. fixture verifies nitzavim vayeilech's seven aliyos for the week beginning august 30, 2026. fixture verifies the rosh hashanah deferral: thursday september 10, 2026 resolves to ha'azinu aliyah 5, deuteronomy 32:29 32:39. public https://awtsmoos.com/heichelos/ikar?view=groupings&series=root returned http 200. public heichel html references the live module based heichel application. hebcal returned http 200 with access control allow origin: , proving browser side calendar json is permitted cross origin. test stderr contains only node's existing package module type warning; no test or syntax failure occurred. verification not claimed the tunnel's chrome control is disabled, so no visual click through screenshot was possible in this session. a later public static module probe also timed out before device acceptance because the shared tunnel lane was congested; therefore i do not claim direct http evidence for each newly created module url even though the public heichel itself and its module boot path were verified. remaining work state no known code defect remains from the implemented contracts. the only outstanding evidence is a visual browser click through or a successful direct public fetch of the new module urls once the tunnel/browser lane is available. that is verification debt, not an unimplemented feature.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-30-1748-daily-chitas-heichel-ikar-04-post-wr-92bc280d18.json"
+	}
+]

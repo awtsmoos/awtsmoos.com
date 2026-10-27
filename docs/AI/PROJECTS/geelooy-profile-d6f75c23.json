@@ -9,7 +9,7 @@
 		"id": "public",
 		"title": "Public and Other Boundaries"
 	},
-	"title": "Profile — Geelooy",
+	"title": "Profile — Awtsmoos",
 	"entries": [
 		"index.html",
 		"DOCUMENTATION.md"
@@ -22,19 +22,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-profile-d6f75c23.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 33,
-		"tests": 4,
+		"source": 54,
+		"tests": 6,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
 		"other": 1
 	},
-	"totalFiles": 39,
+	"totalFiles": 62,
 	"symbolSummary": {
-		"files": 22,
-		"classes": 1,
-		"functions": 99,
-		"exports": 44,
+		"files": 30,
+		"classes": 4,
+		"functions": 126,
+		"exports": 59,
 		"samples": [
 			"async",
 			"readAliasValues",
@@ -52,9 +52,9 @@
 	},
 	"outgoingDependencies": [
 		{
-			"project": "geelooy/scripts",
-			"count": 1,
-			"examples": "geelooy/profile/auth.js"
+			"project": "geelooy/shared",
+			"count": 4,
+			"examples": "geelooy/profile/modules/ProfileCardActions.js; geelooy/profile/modules/ProfileIdentityTools.js; geelooy/profile/modules/SocialLaunchpad.js"
 		}
 	],
 	"incomingDependencies": [],
@@ -63,9 +63,16 @@
 		{
 			"url": "/profile",
 			"file": "geelooy/profile/index.html",
-			"title": "Profile — Geelooy",
-			"scripts": 2,
-			"styles": 6
+			"title": "Profile — Awtsmoos",
+			"scripts": 5,
+			"styles": 10
+		},
+		{
+			"url": "/profile/alias",
+			"file": "geelooy/profile/alias/index.html",
+			"title": "Alias Profile — Awtsmoos",
+			"scripts": 0,
+			"styles": 4
 		},
 		{
 			"url": "/profile/alias-manage",

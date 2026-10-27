@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-master-execution-plan-06-creator-api-discover-053f495cd7",
+	"title": "06 — Creator, Public API, Discoverability, AI Authoring",
+	"sourcePath": "geelooy/games/mitzvahWorld/MASTER_EXECUTION_PLAN/06_CREATOR_API_DISCOVERABILITY.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "06 — Creator, Public API, Discoverability, AI Authoring",
+			"anchor": "06-creator-public-api-discoverability-ai-authoring"
+		},
+		{
+			"level": 2,
+			"text": "Public API north star",
+			"anchor": "public-api-north-star"
+		},
+		{
+			"level": 2,
+			"text": "Three API layers",
+			"anchor": "three-api-layers"
+		},
+		{
+			"level": 2,
+			"text": "Discoverability",
+			"anchor": "discoverability"
+		},
+		{
+			"level": 2,
+			"text": "Creator UX",
+			"anchor": "creator-ux"
+		},
+		{
+			"level": 2,
+			"text": "Query / events / transactions",
+			"anchor": "query-events-transactions"
+		},
+		{
+			"level": 2,
+			"text": "AI authoring",
+			"anchor": "ai-authoring"
+		},
+		{
+			"level": 2,
+			"text": "API stability",
+			"anchor": "api-stability"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-master-execution-plan-06-creator-api-discover-053f495cd7-001.json"
+	]
+}

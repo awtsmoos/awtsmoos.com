@@ -1,344 +1,36 @@
 [
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-parsers-5c860271-md-9af792836c",
-		"title": "Project Tutorial: geelooy/parsers",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-parsers-5c860271.md",
+		"id": "docs-generated-project-dependencies-md-6af5d749d6",
+		"title": "Generated Cross-Project Dependency Evidence",
+		"sourcePath": "docs/GENERATED/PROJECT_DEPENDENCIES.md",
 		"category": "Projects",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: geelooy/parsers",
-				"anchor": "project-tutorial-geelooy-parsers"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Generated Cross-Project Dependency Evidence",
+				"anchor": "generated-cross-project-dependency-evidence"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/parsers Path: geelooy/parsers · Type: project · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/parsers path: geelooy/parsers · type: project · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: — local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 1 0 0 0 0 0 1 public entry points /parsers/whatsapp → geelooy/parsers/whatsapp/index.html — whatsapp message maker symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-parsers-5c860271-md-9af792836c.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Cross Project Dependency Evidence Relative import edges between observed project boundaries; counts are lexical references, not runtime reachability. 192 rows. Chunk Rows Count dependencies 001.md 1–65 65 dependencies 002.md 66–130 65 dependencies 003.md 131–192 62",
+		"searchText": "b\"h boruch hashem blessed is he generated cross project dependency evidence relative import edges between observed project boundaries; counts are lexical references, not runtime reachability. 192 rows. chunk rows count dependencies 001.md 1–65 65 dependencies 002.md 66–130 65 dependencies 003.md 131–192 62",
+		"page": "pages/docs-generated-project-dependencies-md-6af5d749d6.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-platform-37340101-md-dc3d0eed5b",
-		"title": "Project Tutorial: geelooy/platform",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-platform-37340101.md",
+		"id": "docs-generated-project-dependencies-dependencies-001-md-00fbbe63d3",
+		"title": "Generated Cross-Project Dependency Evidence 1–65",
+		"sourcePath": "docs/GENERATED/PROJECT_DEPENDENCIES/dependencies-001.md",
 		"category": "Projects",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: geelooy/platform",
-				"anchor": "project-tutorial-geelooy-platform"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Generated Cross-Project Dependency Evidence 1–65",
+				"anchor": "generated-cross-project-dependency-evidence-1-65"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/platform Path: geelooy/platform · Type: project · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runti",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/platform path: geelooy/platform · type: project · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: documentation.md local documentation: geelooy/platform/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 89 19 0 0 2 0 110 public entry points none observed. symbol evidence source files: 89; classes: 1; functions: 145; exports: 115; samples: createandroidroundtripadapter, requirefunction, createbundleartifactadapter, createcharacterauthorityadapter, createmoviecompileradapter, tomoviesource, createradianceadapter, normalizetime, reasonstosignals, createrichsocialadapter, adapttunnelreceipt, createquarantineifneeded. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 19 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-platform-37340101-md-dc3d0eed5b.json"
-	},
-	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-post-editor-1686f567-m-8b01f06d91",
-		"title": "Project Tutorial: Post Editor — Geelooy",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-post-editor-1686f567.md",
-		"category": "Projects",
-		"provenance": "generated",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Project Tutorial: Post Editor — Geelooy",
-				"anchor": "project-tutorial-post-editor-geelooy"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Post Editor — Geelooy Path: geelooy/post editor · Type: public · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, no",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: post editor — geelooy path: geelooy/post editor · type: public · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, app.js, documentation.md local documentation: geelooy/post editor/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 12 2 0 0 1 0 15 public entry points /post editor → geelooy/post editor/index.html — post editor — geelooy symbol evidence source files: 11; classes: 1; functions: 27; exports: 13; samples: async, savepostdraft, publishpostdraft, request, errormessage, readposteditorconfig, clean, createelement, saveeditordraft, publisheditorpost, runeditoroperation, setstatus. depends on geelooy/scripts — 1 lexical reference; examples: geelooy/post editor/app.js used by none observed. external packages none observed. verification clue observed test classified files: 2 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-post-editor-1686f567-m-8b01f06d91.json"
-	},
-	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-profile-d6f75c23-md-975a2e6b1a",
-		"title": "Project Tutorial: Profile — Geelooy",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-profile-d6f75c23.md",
-		"category": "Projects",
-		"provenance": "generated",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Project Tutorial: Profile — Geelooy",
-				"anchor": "project-tutorial-profile-geelooy"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Profile — Geelooy Path: geelooy/profile · Type: public · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtim",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: profile — geelooy path: geelooy/profile · type: public · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, documentation.md local documentation: geelooy/profile/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 33 4 0 0 1 1 39 public entry points /profile → geelooy/profile/index.html — profile — geelooy /profile/alias manage → geelooy/profile/alias manage/index.html symbol evidence source files: 22; classes: 1; functions: 99; exports: 44; samples: async, readaliasvalues, setaliasstudiostatus, setaliasstudiobusy, savealias, deletealias, createaliasbody, readapiresult, getaliasstudioconfig, getaliasstudiorefs, readbootstrap, bindaliasdeletion. depends on geelooy/scripts — 1 lexical reference; examples: geelooy/profile/auth.js used by none observed. external packages none observed. verification clue observed test classified files: 4 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-profile-d6f75c23-md-975a2e6b1a.json"
-	},
-	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-public-72540595-md-a6dfbc70b8",
-		"title": "Project Tutorial: geelooy/public",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-public-72540595.md",
-		"category": "Projects",
-		"provenance": "generated",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Project Tutorial: geelooy/public",
-				"anchor": "project-tutorial-geelooy-public"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/public Path: geelooy/public · Type: project · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime o",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/public path: geelooy/public · type: project · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: documentation.md local documentation: geelooy/public/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 8 0 0 0 9 0 17 public entry points /public/virtual os games/crystal 1780372754759 → geelooy/public/virtual os games/crystal 1780372754759/index.html — crystal critters /public/virtual os games/crystal 1780372758361 → geelooy/public/virtual os games/crystal 1780372758361/index.html — crystal critters /public/virtual os games/crystal 1780373501785 improved → geelooy/public/virtual os games/crystal 1780373501785 improved/index.html — crystal critters: awakened cave /public/virtual os games/crystal 1780373505136 improved → geelooy/public/virtual os games/crystal 1780373505136 improved/index.html — crystal critters: awakened cave /public/virtual os games/crystal 1780373765713 swarm v2 → geelooy/public/virtual os games/crystal 1780373765713 swarm v2/index.html — crystal critters: thumb safe swarm /public/virtual os games/crystal 1780373769185 swarm v2 → geelooy/public/virtual os games/crystal 1780373769185 swarm v2/index.html — crystal critters: thumb safe swarm /public/virtual os games/crystal 1780374109835 clean mobile → geelooy/public/virtual os games/crystal 1780374109835 clean mobile/index.html — crystal critters: clean mobile /public/virtual os games/crystal 1780374112967 clean mobile → geelooy/public/virtual os games/crystal 1780374112967 clean mobile/index.html — crystal critters: clean mobile symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-public-72540595-md-a6dfbc70b8.json"
-	},
-	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-record-466e4ab9-md-92e1bea56f",
-		"title": "Project Tutorial: Camera Preview — Geelooy",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-record-466e4ab9.md",
-		"category": "Projects",
-		"provenance": "generated",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Project Tutorial: Camera Preview — Geelooy",
-				"anchor": "project-tutorial-camera-preview-geelooy"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Camera Preview — Geelooy Path: geelooy/record · Type: public · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not ",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: camera preview — geelooy path: geelooy/record · type: public · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 7 0 0 0 0 0 7 public entry points /record → geelooy/record/index.html — camera preview — geelooy symbol evidence source files: 1; classes: 0; functions: 7; exports: 0; samples: setstatus, stopstream, requestcamera, startcamera, stopstreamsilently, switchcamera, cameraerrormessage. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-record-466e4ab9-md-92e1bea56f.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Cross Project Dependency Evidence 1–65 Relative import edges between observed project boundaries; counts are lexical references, not runtime reachability. Source project Target project References Example sources geelooy/games/mitzvahWorld geelooy/libs 174 geelooy/games/mitzvahW",
+		"searchText": "b\"h boruch hashem blessed is he generated cross project dependency evidence 1–65 relative import edges between observed project boundaries; counts are lexical references, not runtime reachability. source project target project references example sources geelooy/games/mitzvahworld geelooy/libs 174 geelooy/games/mitzvahworld/experiments/awtsmoos/src/api/portal/mitzvahworlddoorwayportalfields.js; geelooy/games/mitzvahworld/experiments/awtsmoos/src/api/portal/mitzvahworldhouseportalfields.js; geelooy/games/mitzvahworld/experiments/awtsmoos/src/api/portal/mitzvahworldportalfactory.js geelooy/apps/awtsmoos studio geelooy/libs 65 geelooy/apps/awtsmoos studio/src/awtsmoosstudioapp.js; geelooy/apps/awtsmoos studio/src/studiolayout.js; geelooy/apps/awtsmoos studio/src/studiomoviebridge.js geelooy/os geelooy/shared 58 geelooy/os/programs/advanced code editor/compilerbridge.js; geelooy/os/programs/advanced code editor/embedconfiguration.js; geelooy/os/programs/advanced code editor/vfsbridge.js geelooy/api/social ayzarim/dosdb 54 geelooy/api/social/helper/comments/aliasindex/packedindexstore.js; geelooy/api/social/helper/comments/canonicalcommentsource.js; geelooy/api/social/helper/comments/commentawtsmoosdbbridge.js geelooy/apps/android emulator ai thoughts 54 geelooy/apps/android emulator/ai thoughts/2026 08 31 global origin merge and rebbe runtime/103 fresh authentic checkpoint writer.mjs; geelooy/apps/android emulator/ai thoughts/2026 08 31 global origin merge and rebbe runtime/104 fresh authentic run.mjs; geelooy/apps/android emulator/ai thoughts/2026 08 31 global origin merge and rebbe runtime/138 post ucvtf authentic run.mjs geelooy/scripts geelooy/shared 46 geelooy/scripts/awtsmoos/compiling/native/asmimage.js; geelooy/scripts/awtsmoos/compiling/native/asmobjectdata.js; geelooy/scripts/awtsmoos/compiling/native/c/frame.js geelooy/apps/merkava native browser geelooy/scripts 44 geelooy/apps/merkava native browser/.inspect md2.cjs; geelooy/apps/merkava native browser/.test compile webgl.cjs; geelooy/apps/merkava native browser/build seed.mjs geelooy/sites geelooy/api/social 34 geelooy/sites/customdomaingateway.js; geelooy/sites/deploymentsiteresponse.js; geelooy/sites/directsitereadiness.js geelooy/apps/awtsmoos studio geelooy/apps/shared 26 geelooy/apps/awtsmoos studio/src/studiosharedmoviecontract.js; geelooy/apps/awtsmoos studio/src/studioshowcasemovie.js; geelooy/apps/awtsmoos studio/src/ai/studiopromptcontentpolicy.js geelooy/games/seven mitzvos geelooy/libs 23 geelooy/games/seven mitzvos/js/assets/gltf model library.js; geelooy/games/seven mitzvos/js/city/city district builder.js; geelooy/games/seven mitzvos/js/games3d/world label.js geelooy/apps/code geelooy/shared 19 geelooy/apps/code/js/actions/commands/compileprojectmanifest.js; geelooy/apps/code/js/ai studio/oracle.js; geelooy/apps/code/js/ai studio/panel.js geelooy/api/tunnel geelooy/api/perutas 16 geelooy/api/tunnel/control/core/usagestore.js; geelooy/api/tunnel/control/routes/adminperutas.js; geelooy/api/tunnel/control/routes/adminvault.js geelooy/api/tunnel geelooy/apps/tunnel 14 geelooy/api/tunnel/control/routes/filetransferget.js; geelooy/api/tunnel/control/routes/fsvessel/publicactionresolver.js; geelooy/api/tunnel/control/routes/fsvessel/responsecontractidentity.js geelooy/games/oros ha kelim geelooy/libs 14 geelooy/games/oros ha kelim/src/render/core/coregeometryfactory.js; geelooy/games/oros ha kelim/src/render/core/coregpugeometrypool.js; geelooy/games/oros ha kelim/src/render/core/coregpuvessel.js geelooy/apps/animator geelooy/apps/shared 13 geelooy/apps/animator/src/movie/animatormovieadapter.js; geelooy/apps/animator/src/scenes/awtsmoosthreeminutemovie.js; geelooy/apps/animator/src/scenes/awtsmoosthreeminute/awtsmoosthreeminutedata.js geelooy/games/ohrbound geelooy/libs 13 geelooy/games/ohrbound/src/nature/ohrboundnaturedirector.js; geelooy/games/ohrbound/src/render/ambientparticlefield.js; geelooy/games/ohrbound/src/render/corebufferatlas.js geelooy/social hub geelooy/shared 13 geelooy/social hub/js/api/interactionapi.js; geelooy/social hub/js/interactions/creatorlaunchmodel.js; geelooy/social hub/js/ui/publicdiscovery.js ayzarim/awtsmoosdynamicserver geelooy/api/tunnel 12 ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/channel.js; ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/channelsnapshot.js; ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/missionroomupgradefakes.cjs geelooy/heichelos geelooy/api/social 12 geelooy/heichelos/routes/heichel/comments/commenthtml.js; geelooy/heichelos/routes/heichel/comments/commentpage.js; geelooy/heichelos/routes/heichel/comments/postannotations.js geelooy/games/nitzotz io geelooy/libs 11 geelooy/games/nitzotz io/js/procedural/cityroad.js; geelooy/games/nitzotz io/js/procedural/localmeshes.js; geelooy/games/nitzotz io/js/procedural/realityhouses.js geelooy/games/ohrfront geelooy/libs 11 geelooy/games/ohrfront/src/core/awtsmoosnativeapi.js; geelooy/games/ohrfront/src/core/api/awtsmoosmaterialapi.js; geelooy/games/ohrfront/src/core/api/awtsmoosperformanceapi.js geelooy/youtube geelooy/shared 11 geelooy/youtube/migrate/js/localsecretvault.js; geelooy/youtube/migrate/js/localyoutubebundle.js; geelooy/youtube/migrate/js/youtubearchivecheckpoint.js geelooy/heichelos geelooy/shared 10 geelooy/heichelos/heichel/modules/app/post ready experience.js; geelooy/heichelos/heichel/modules/legend/carddepthobserver.js; geelooy/heichelos/heichel/modules/legend/heroscrolldepth.js geelooy/apps/compiler geelooy/shared 9 geelooy/apps/compiler/embed/oscompilerchannel.js; geelooy/apps/compiler/ui/browserartifactbuilders.js; geelooy/apps/compiler/ui/nativebuildclient.js geelooy/os geelooy/apps/exe emulator 9 geelooy/os/programs/awtsmoos executable/browserruntime.js; geelooy/os/programs/awtsmoos executable/index.js; geelooy/os/programs/awtsmoos executable/nativelifecycle.js geelooy/social composer geelooy/games/mitzvahworld 9 geelooy/social composer/reel studio/nle/nleaiprojectcodec.js; geelooy/social composer/reel studio/nle/nlemoviepackage.js; geelooy/social composer/reel studio/nle/nlemoviesimplemutations.js geelooy/social composer geelooy/shared 9 geelooy/social composer/js/creator/creatorcommandcatalog.js; geelooy/social composer/js/creator/creatorcommandpalette.js; geelooy/social composer/js/creator/creatorintentmodel.js ayzarim/awtsmoosdynamicserver ayzarim/dosdb 8 ayzarim/awtsmoosdynamicserver/projecthosting/projectdatabaseboundedkeys.js; ayzarim/awtsmoosdynamicserver/server/deps.js; ayzarim/awtsmoosdynamicserver/server/initdb.js geelooy/@ geelooy/seo 8 geelooy/@/seo/aliascommentspage.js; geelooy/@/seo/aliasdata.js; geelooy/@/seo/aliaspage.js geelooy/api/social geelooy/api/oauth 8 geelooy/api/social/helper/comments/postrefcomment.js; geelooy/api/social/helper/comments/routes/rich.js; geelooy/api/social/helper/comments/translationannotations.js geelooy/apps/exe emulator geelooy/scripts 8 geelooy/apps/exe emulator/examples/progressive/generatedartifacts.mjs; geelooy/apps/exe emulator/source/compilesourceartifact.js; geelooy/apps/exe emulator/source/nativecontainers.js geelooy/apps/exe emulator geelooy/shared 8 geelooy/apps/exe emulator/core/awtexeruntime.js; geelooy/apps/exe emulator/core/executablehost.js; geelooy/apps/exe emulator/core/wasmguiimports.js geelooy/comment thread geelooy/shared 8 geelooy/comment thread/modules/assetvaultclient.js; geelooy/comment thread/modules/commentuniversalactions.js; geelooy/comment thread/modules/contextpanel.js ayzarim/awtsmoosdynamicserver geelooy/api/social 7 ayzarim/awtsmoosdynamicserver/server/searchstartupwarmup.js; ayzarim/awtsmoosdynamicserver/websocket/apps/privatemessaging/integrationgateway.js; ayzarim/awtsmoosdynamicserver/websocket/apps/privatemessaging/meaningfulactivity.js geelooy/apps/awtsmoos studio geelooy/apps/animator 7 geelooy/apps/awtsmoos studio/src/movie/export/studioanimatorexportcontroller.js geelooy/games/kabbalah shooter geelooy/libs 7 geelooy/games/kabbalah shooter/js/runtime/kabbalahnative3drenderer.js; geelooy/games/kabbalah shooter/js/runtime/kabbalah native 3d meshes.js; geelooy/games/kabbalah shooter/js/runtime/kabbalah native 3d pool.js geelooy/heichelos geelooy/seo 7 geelooy/heichelos/routes/heichel/comments/commenthtml.js; geelooy/heichelos/routes/heichel/comments/commentpage.js; geelooy/heichelos/routes/heichel/comments/commenttext.js geelooy/@ geelooy/api/social 6 geelooy/@/seo/aliasdata.js; geelooy/@/seo/aliassitemap.js; geelooy/@/seo/aliassites.js geelooy/api/tunnel geelooy/api/social 6 geelooy/api/tunnel/control/routes/fsvessel/hostedvirtualos/sitepublicationdispatcher.js; geelooy/api/tunnel/control/routes/osfs/virtualdirectoryvalues.js; geelooy/api/tunnel/control/routes/osfs/virtualreadtext.js geelooy/apps/android emulator ayzarim/awtsmoosdynamicserver 6 geelooy/apps/android emulator/node/localtcprelay/clientsession.cjs; geelooy/apps/android emulator/node/localtcprelay/framehandling.cjs; geelooy/apps/android emulator/node/localtcprelay/server.cjs geelooy/apps/code geelooy/apps/android emulator 6 geelooy/apps/code/js/actions/commands/build android apk.js; geelooy/apps/code/js/android/run imported apk.js geelooy/apps/drive geelooy/shared 6 geelooy/apps/drive/js/api/driveprivatecontent.js; geelooy/apps/drive/js/osbridge.js; geelooy/apps/drive/js/projectplatform.js geelooy/apps/scripts geelooy/scripts 6 geelooy/apps/scripts/apps filter.v2.js; geelooy/apps/scripts/filter/appsfiltermalchusview.js; geelooy/apps/scripts/filter/appsfiltertiferesruntime.js geelooy/sites geelooy/api/tunnel 6 geelooy/sites/directsitereadiness.js; geelooy/sites/hostedfoldermanifest.js; geelooy/sites/publicrootpublication.js geelooy/api/social ayzarim/awtsmoosdynamicserver 5 geelooy/api/social/helper/drive/projectdatabaseservice.js; geelooy/api/social/helper/drive/projectruntimematerializer.js; geelooy/api/social/helper/drive/routes/projecthostingroutes.js geelooy/apps/mitzvah studio geelooy/libs 5 geelooy/apps/mitzvah studio/modules/catalog/mitzvahstudiocatalog.js; geelooy/apps/mitzvah studio/modules/generate/geometrygenerators.js; geelooy/apps/mitzvah studio/modules/state/studiodocumentmutations.js geelooy/apps/tunnel geelooy/apps/tests 5 geelooy/apps/tunnel/css guarantee/layer1/interactivestates.mjs; geelooy/apps/tunnel/css guarantee/layer1/ownershipcontracts.mjs; geelooy/apps/tunnel/css guarantee/layer1/selectorregistry.mjs geelooy/games/mitzvahworld geelooy/games/scripts 5 geelooy/games/mitzvahworld/photoreal/js/reality character.mjs; geelooy/games/mitzvahworld/photoreal/js/reality particles.mjs; geelooy/games/mitzvahworld/photoreal/js/reality scene.mjs geelooy/games/scripts geelooy/libs 5 geelooy/games/scripts/runtime/native 3d/semanticmeshpool.js; geelooy/games/scripts/runtime/native 3d/semanticnative3dstage.js; geelooy/games/scripts/runtime/native 3d/statesparks.js geelooy/scripts geelooy/api/wallet 5 geelooy/scripts/production covenant/productlaunchpaths.cjs; geelooy/scripts/production covenant/productrules.cjs geelooy/scripts geelooy/apps/tunnel 5 geelooy/scripts/awtsmoos/merkavaexecutor/.test tunnel directory entry env.cjs; geelooy/scripts/awtsmoos/merkavaexecutor/.test tunnel simulate runtime helpers.cjs; geelooy/scripts/awtsmoos/merkavaexecutor/.test tunnel simulate runtime url puppeteer.cjs geelooy/api/social ayzarim/email 4 geelooy/api/social/helper/mail/globalforwardingsettings.js; geelooy/api/social/helper/mail/localdelivery.js; geelooy/api/social/helper/mail/settingsservice.js geelooy/api/tunnel geelooy/sites 4 geelooy/api/tunnel/control/routes/agentmanifest.js; geelooy/api/tunnel/control/routes/fsvessel/hostedvirtualos/sitepublicationdispatcher.js geelooy/apps/animator geelooy/libs 4 geelooy/apps/animator/src/scenes/showcase/unifiedshowcasecanonicalmovie.js; geelooy/apps/animator/src/unified movie/animatormovieadapter.js; geelooy/apps/animator/tools/render/threeminute/threeminutefeatureoverlay.js geelooy/drive geelooy/os 4 geelooy/drive/transport/credentialedfs.js; geelooy/drive/transport/tunneldiscovery.js; geelooy/drive/transport/tunnelpublishing.js geelooy/games/mitzvahworld libs 4 geelooy/games/mitzvahworld/experiments/awtsmoos/src/app/minimalmeadowtreecorefacade.js; geelooy/games/mitzvahworld/movies/unified/mitzvahworldmovieadapter.js; geelooy/games/mitzvahworld/photoreal/js/reality scene.mjs geelooy/mawgawl geelooy/shared 4 geelooy/mawgawl/sefarim/exactapi.js; geelooy/mawgawl/sefarim/searchapi.js; geelooy/mawgawl/sefarim/searchhistory.js geelooy/profile geelooy/shared 4 geelooy/profile/modules/profilecardactions.js; geelooy/profile/modules/profileidentitytools.js; geelooy/profile/modules/sociallaunchpad.js geelooy/scripts geelooy/apps/scripts 4 geelooy/scripts/commerce/install product commerce.mjs; geelooy/scripts/home simple/constellation catalog.js; geelooy/scripts/seo/audit/run.mjs geelooy/scripts geelooy/games/scripts 4 geelooy/scripts/commerce/install product commerce.mjs; geelooy/scripts/home simple/constellation catalog.js; geelooy/scripts/seo/audit/run.mjs geelooy/showcase geelooy/apps/shared 4 geelooy/showcase/unified movie 180/showcasecontroller.js; geelooy/showcase/unified movie 180/showcaseevidence.js; geelooy/showcase/unified movie 180/showcase.js geelooy/social geelooy/shared 4 geelooy/social/migrate/js/main.js; geelooy/social/migrate/js/publish/manifestbuilder.js; geelooy/social/migrate/js/upload/archiveorgvideouploader.js geelooy/social hub geelooy/social actions 4 geelooy/social hub/js/ui/feed/feedreaction.js; geelooy/social hub/js/ui/feed/socialactionrail.js ayzarim/awtsmoosdynamicserver ayzarim/email 3 ayzarim/awtsmoosdynamicserver/server/deps.js; ayzarim/awtsmoosdynamicserver/websocket/apps/forms/emailnotifications.js ayzarim/awtsmoosdynamicserver ayzarim/tools 3 ayzarim/awtsmoosdynamicserver/server/deps.js",
+		"page": "pages/docs-generated-project-dependencies-dependencies-001-md-00fbbe63d3.json"
 	}
 ]

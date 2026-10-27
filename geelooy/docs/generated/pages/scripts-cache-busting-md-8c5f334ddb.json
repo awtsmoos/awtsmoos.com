@@ -1,0 +1,99 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "scripts-cache-busting-md-8c5f334ddb",
+	"title": "B\"H — Bulletproof Cache Busting System",
+	"sourcePath": "scripts/CACHE_BUSTING.md",
+	"category": "Operations",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Bulletproof Cache Busting System",
+			"anchor": "b-h-bulletproof-cache-busting-system"
+		},
+		{
+			"level": 2,
+			"text": "How It Works",
+			"anchor": "how-it-works"
+		},
+		{
+			"level": 3,
+			"text": "1. Content-Hash Asset Versions (Automatic)",
+			"anchor": "1-content-hash-asset-versions-automatic"
+		},
+		{
+			"level": 3,
+			"text": "2. Automatic on Every Deploy",
+			"anchor": "2-automatic-on-every-deploy"
+		},
+		{
+			"level": 3,
+			"text": "3. Service Worker with Auto-Updates",
+			"anchor": "3-service-worker-with-auto-updates"
+		},
+		{
+			"level": 3,
+			"text": "4. Drive Asset Hashing",
+			"anchor": "4-drive-asset-hashing"
+		},
+		{
+			"level": 3,
+			"text": "5. HTML Never Cached (Server-Side)",
+			"anchor": "5-html-never-cached-server-side"
+		},
+		{
+			"level": 2,
+			"text": "Verification",
+			"anchor": "verification"
+		},
+		{
+			"level": 1,
+			"text": "SW is live",
+			"anchor": "sw-is-live"
+		},
+		{
+			"level": 1,
+			"text": "→ 200",
+			"anchor": "200"
+		},
+		{
+			"level": 1,
+			"text": "Registration script is live",
+			"anchor": "registration-script-is-live"
+		},
+		{
+			"level": 1,
+			"text": "→ 200",
+			"anchor": "200-2"
+		},
+		{
+			"level": 1,
+			"text": "Pages include hashed SW registration",
+			"anchor": "pages-include-hashed-sw-registration"
+		},
+		{
+			"level": 1,
+			"text": "→ sw-register.js?v=ea8654e790",
+			"anchor": "sw-register-js-v-ea8654e790"
+		},
+		{
+			"level": 2,
+			"text": "Commits",
+			"anchor": "commits"
+		},
+		{
+			"level": 3,
+			"text": "6. Build Version Guard (2026-10-13 — \"fix cache busting way better\")",
+			"anchor": "6-build-version-guard-2026-10-13-fix-cache-busting-way-better"
+		},
+		{
+			"level": 2,
+			"text": "What Yaakov Gets",
+			"anchor": "what-yaakov-gets"
+		}
+	],
+	"markdownParts": [
+		"content/scripts-cache-busting-md-8c5f334ddb-001.json"
+	]
+}

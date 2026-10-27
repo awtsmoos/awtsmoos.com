@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — API Request/Response Primitives (geelooy/api/social/helper/api/)\n\nLow-level request/response policy wrappers used by social routes, named in the sephirah style used across this codebase.\n\n## Files\n- `BinahRequestBody.js`, `BinahRequestQuery.js` — decode and validate incoming request bodies and query values.\n- `BinahRequestValueDecoder.js` — shared value-decoding used by the Binah request wrappers.\n- `GevurahRouteMethodPolicy.js` — enforces allowed HTTP methods per route.\n- `HodApiMetadata.js` — attaches API metadata (caller, version, timing) to responses.\n- `MalchusResponseGarments.js` — shapes final response envelopes (\"garments\") so every route returns a consistent success/error structure.\n- `YesodSocialIdentityResolver.js` — resolves the acting social identity (user/alias) behind a request.\n\n## What it does\nGives route handlers one place to: parse request input safely, reject wrong methods, know who is acting, and emit uniform responses with metadata attached.\n"
+}

@@ -22,19 +22,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-shared-cc435059.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 124,
-		"tests": 28,
+		"source": 227,
+		"tests": 50,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
 		"other": 1
 	},
-	"totalFiles": 154,
+	"totalFiles": 279,
 	"symbolSummary": {
-		"files": 117,
-		"classes": 23,
-		"functions": 377,
-		"exports": 280,
+		"files": 208,
+		"classes": 69,
+		"functions": 651,
+		"exports": 447,
 		"samples": [
 			"ActivityBeacon",
 			"startActivityBeacon",
@@ -65,17 +65,22 @@
 			"project": "geelooy/apps/android-emulator",
 			"count": 1,
 			"examples": "geelooy/shared/compiling/native/apkIdentity.js"
+		},
+		{
+			"project": "geelooy/libs",
+			"count": 1,
+			"examples": "geelooy/shared/social/ambient/SocialAmbientLayer.js"
 		}
 	],
 	"incomingDependencies": [
 		{
 			"project": "geelooy/os",
-			"count": 54,
+			"count": 58,
 			"examples": "geelooy/os/programs/advanced-code-editor/compilerBridge.js; geelooy/os/programs/advanced-code-editor/embedConfiguration.js; geelooy/os/programs/advanced-code-editor/vfsBridge.js"
 		},
 		{
 			"project": "geelooy/scripts",
-			"count": 38,
+			"count": 46,
 			"examples": "geelooy/scripts/awtsmoos/compiling/native/asmImage.js; geelooy/scripts/awtsmoos/compiling/native/asmObjectData.js; geelooy/scripts/awtsmoos/compiling/native/c/frame.js"
 		},
 		{
@@ -84,9 +89,29 @@
 			"examples": "geelooy/apps/code/js/actions/commands/compileProjectManifest.js; geelooy/apps/code/js/ai-studio/oracle.js; geelooy/apps/code/js/ai-studio/panel.js"
 		},
 		{
+			"project": "geelooy/social-hub",
+			"count": 13,
+			"examples": "geelooy/social-hub/js/api/InteractionApi.js; geelooy/social-hub/js/interactions/CreatorLaunchModel.js; geelooy/social-hub/js/ui/PublicDiscovery.js"
+		},
+		{
+			"project": "geelooy/youtube",
+			"count": 11,
+			"examples": "geelooy/youtube/migrate/js/LocalSecretVault.js; geelooy/youtube/migrate/js/LocalYouTubeBundle.js; geelooy/youtube/migrate/js/YouTubeArchiveCheckpoint.js"
+		},
+		{
+			"project": "geelooy/heichelos",
+			"count": 10,
+			"examples": "geelooy/heichelos/heichel/modules/app/post-ready-experience.js; geelooy/heichelos/heichel/modules/legend/cardDepthObserver.js; geelooy/heichelos/heichel/modules/legend/heroScrollDepth.js"
+		},
+		{
 			"project": "geelooy/apps/compiler",
 			"count": 9,
 			"examples": "geelooy/apps/compiler/embed/osCompilerChannel.js; geelooy/apps/compiler/ui/browserArtifactBuilders.js; geelooy/apps/compiler/ui/nativeBuildClient.js"
+		},
+		{
+			"project": "geelooy/social-composer",
+			"count": 9,
+			"examples": "geelooy/social-composer/js/creator/CreatorCommandCatalog.js; geelooy/social-composer/js/creator/CreatorCommandPalette.js; geelooy/social-composer/js/creator/CreatorIntentModel.js"
 		},
 		{
 			"project": "geelooy/apps/exe-emulator",
@@ -94,39 +119,19 @@
 			"examples": "geelooy/apps/exe-emulator/core/awtexeRuntime.js; geelooy/apps/exe-emulator/core/executableHost.js; geelooy/apps/exe-emulator/core/wasmGuiImports.js"
 		},
 		{
-			"project": "geelooy/heichelos",
+			"project": "geelooy/comment-thread",
 			"count": 8,
-			"examples": "geelooy/heichelos/heichel/modules/legend/cardDepthObserver.js; geelooy/heichelos/heichel/modules/legend/heroScrollDepth.js; geelooy/heichelos/post/functions/ui/context/relatedSearchPanel.js"
-		},
-		{
-			"project": "geelooy/social-hub",
-			"count": 5,
-			"examples": "geelooy/social-hub/js/interactions/CreatorLaunchModel.js; geelooy/social-hub/js/ui/feed/FeedPostModel.js; geelooy/social-hub/js/ui/feed/FeedUniversalActions.js"
+			"examples": "geelooy/comment-thread/modules/AssetVaultClient.js; geelooy/comment-thread/modules/CommentUniversalActions.js; geelooy/comment-thread/modules/ContextPanel.js"
 		},
 		{
 			"project": "geelooy/apps/drive",
+			"count": 6,
+			"examples": "geelooy/apps/drive/js/api/DrivePrivateContent.js; geelooy/apps/drive/js/osBridge.js; geelooy/apps/drive/js/projectPlatform.js"
+		},
+		{
+			"project": "geelooy/mawgawl",
 			"count": 4,
-			"examples": "geelooy/apps/drive/js/osBridge.js; geelooy/apps/drive/js/projectPlatform.js"
-		},
-		{
-			"project": "geelooy/social-composer",
-			"count": 4,
-			"examples": "geelooy/social-composer/js/creator/CreatorCommandCatalog.js; geelooy/social-composer/js/creator/CreatorCommandPalette.js; geelooy/social-composer/js/creator/CreatorIntentModel.js"
-		},
-		{
-			"project": "geelooy/drive",
-			"count": 3,
-			"examples": "geelooy/drive/core/platformCapabilityBridge.js; geelooy/drive/transport/osWorkspace.js; geelooy/drive/ui/platformJourney.js"
-		},
-		{
-			"project": "geelooy/ai",
-			"count": 2,
-			"examples": "geelooy/ai/central/index.js; geelooy/ai/central/streamClient.js"
-		},
-		{
-			"project": "geelooy/apps/tunnel-control",
-			"count": 2,
-			"examples": "geelooy/apps/tunnel-control/js/runtime/mesh/runtimeAdapters.js; geelooy/apps/tunnel-control/js/runtime/mesh/virtualFilesystem.js"
+			"examples": "geelooy/mawgawl/sefarim/exactApi.js; geelooy/mawgawl/sefarim/searchApi.js; geelooy/mawgawl/sefarim/searchHistory.js"
 		}
 	],
 	"externalDependencies": [],

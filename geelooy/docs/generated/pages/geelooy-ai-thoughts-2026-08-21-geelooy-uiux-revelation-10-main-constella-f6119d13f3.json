@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-10-main-constella-f6119d13f3",
+	"title": "Phase One — Main Constellation Possibilities",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-21-geelooy-uiux-revelation/10-main-constellation-phase-one.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase One — Main Constellation Possibilities",
+			"anchor": "phase-one-main-constellation-possibilities"
+		},
+		{
+			"level": 2,
+			"text": "User intent translated into missions",
+			"anchor": "user-intent-translated-into-missions"
+		},
+		{
+			"level": 2,
+			"text": "Extreme possibility field",
+			"anchor": "extreme-possibility-field"
+		},
+		{
+			"level": 2,
+			"text": "Five possible architectures",
+			"anchor": "five-possible-architectures"
+		},
+		{
+			"level": 3,
+			"text": "A — Duplicate everything into world-catalog.js",
+			"anchor": "a-duplicate-everything-into-world-catalog-js"
+		},
+		{
+			"level": 3,
+			"text": "B — Homepage imports PUBLICAPPS and GAMES directly",
+			"anchor": "b-homepage-imports-publicapps-and-games-directly"
+		},
+		{
+			"level": 3,
+			"text": "C — Generate a build-time merged JSON catalog",
+			"anchor": "c-generate-a-build-time-merged-json-catalog"
+		},
+		{
+			"level": 3,
+			"text": "D — Fetch /apps/ and /games/ rendered DOM",
+			"anchor": "d-fetch-apps-and-games-rendered-dom"
+		},
+		{
+			"level": 3,
+			"text": "E — Add a shared universal discovery registry consumed by homepage/apps/games",
+			"anchor": "e-add-a-shared-universal-discovery-registry-consumed-by-homepage-apps-games"
+		},
+		{
+			"level": 2,
+			"text": "Phase-one winner",
+			"anchor": "phase-one-winner"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-10-main-constella-f6119d13f3-001.json"
+	]
+}

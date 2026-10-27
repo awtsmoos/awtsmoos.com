@@ -1,0 +1,206 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-08-26t134731-portal-universal-ui-resource-platf-32ccb48dd8",
+		"title": "First Implementation Delta — Planned Versus Actual",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26T134731-portal-universal-ui-resource-platform/08_FIRST_IMPLEMENTATION_DELTA.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "First Implementation Delta — Planned Versus Actual",
+				"anchor": "first-implementation-delta-planned-versus-actual"
+			},
+			{
+				"level": 2,
+				"text": "What Was Planned",
+				"anchor": "what-was-planned"
+			},
+			{
+				"level": 2,
+				"text": "What Was Actually Written",
+				"anchor": "what-was-actually-written"
+			},
+			{
+				"level": 3,
+				"text": "Server",
+				"anchor": "server"
+			},
+			{
+				"level": 3,
+				"text": "Client / UI",
+				"anchor": "client-ui"
+			},
+			{
+				"level": 3,
+				"text": "Production Repair",
+				"anchor": "production-repair"
+			},
+			{
+				"level": 2,
+				"text": "Delta 1 — Portal Application Responsibility Boundary",
+				"anchor": "delta-1-portal-application-responsibility-boundary"
+			},
+			{
+				"level": 3,
+				"text": "Required second pass",
+				"anchor": "required-second-pass"
+			},
+			{
+				"level": 2,
+				"text": "Delta 2 — Portal Component CSS Responsibility Boundary",
+				"anchor": "delta-2-portal-component-css-responsibility-boundary"
+			},
+			{
+				"level": 3,
+				"text": "Required second pass",
+				"anchor": "required-second-pass-2"
+			},
+			{
+				"level": 2,
+				"text": "Delta 3 — Real API-Family Shape Versus Built-In Schema",
+				"anchor": "delta-3-real-api-family-shape-versus-built-in-schema"
+			},
+			{
+				"level": 3,
+				"text": "Required second pass",
+				"anchor": "required-second-pass-3"
+			},
+			{
+				"level": 2,
+				"text": "Delta 4 — Resource-Type Collection Cards Are Too Heavy",
+				"anchor": "delta-4-resource-type-collection-cards-are-too-heavy"
+			},
+			{
+				"level": 3,
+				"text": "Required second pass",
+				"anchor": "required-second-pass-4"
+			},
+			{
+				"level": 2,
+				"text": "Delta 5 — Unknown Card Fallback Should Stay Compact",
+				"anchor": "delta-5-unknown-card-fallback-should-stay-compact"
+			},
+			{
+				"level": 3,
+				"text": "Required second pass",
+				"anchor": "required-second-pass-5"
+			},
+			{
+				"level": 2,
+				"text": "Delta 6 — Event Listener Cleanup",
+				"anchor": "delta-6-event-listener-cleanup"
+			},
+			{
+				"level": 3,
+				"text": "Required second pass",
+				"anchor": "required-second-pass-6"
+			},
+			{
+				"level": 2,
+				"text": "Delta 7 — Portal Field Registry Is Architectural Capability But Not Yet Consumed",
+				"anchor": "delta-7-portal-field-registry-is-architectural-capability-but-not-yet-consumed"
+			},
+			{
+				"level": 3,
+				"text": "Decision",
+				"anchor": "decision"
+			},
+			{
+				"level": 2,
+				"text": "Delta 8 — Additional Universal Contracts From The Brainstorm",
+				"anchor": "delta-8-additional-universal-contracts-from-the-brainstorm"
+			},
+			{
+				"level": 3,
+				"text": "Decision",
+				"anchor": "decision-2"
+			},
+			{
+				"level": 2,
+				"text": "Delta 9 — Runtime Audit Still Needs New UI Findings",
+				"anchor": "delta-9-runtime-audit-still-needs-new-ui-findings"
+			},
+			{
+				"level": 3,
+				"text": "Required after second-pass source readback",
+				"anchor": "required-after-second-pass-source-readback"
+			},
+			{
+				"level": 2,
+				"text": "Second-Pass Write Set",
+				"anchor": "second-pass-write-set"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H First Implementation Delta — Planned Versus Actual The Awtsmoos renews every plan after finite code has entered form; Awtsmoos.com therefore compares promise to source, source to runtime, and runtime to deployment before declaring calm after storm. What Was Planned The discovered actual file plan authorized: additi",
+		"searchText": "b\"h first implementation delta — planned versus actual the awtsmoos renews every plan after finite code has entered form; awtsmoos.com therefore compares promise to source, source to runtime, and runtime to deployment before declaring calm after storm. what was planned the discovered actual file plan authorized: additive universal portal contracts and read only discovery one real compatibility adapter over an existing mature api domain a trusted generic renderer registry and unknown resource fallback a calm mobile first /portal/ proof surface a complete universal semantic html fallback layer runtime/deployment repair driven by evidence no silent breaking changes to legacy apis complete file rewrites only every human authored source file below 120 lines mandatory reread before tests what was actually written server portal contract primitives, limits, resource envelopes, types, actions, relationships, queries, structured errors, provenance, jobs, and transformations. deterministic type registry, built in type catalog, and capability root. real api family compatibility adapter over apifamilycatalog.reveal(). read service, http handlers, and /api/portal route family. api family catalog registration for portal without changing existing /api/catalog semantics. client / ui portal api transport with timeout, json mime validation, and structured error handling. defensive resource normalization and bounded collection normalization. safe dom creation with no api supplied innerhtml execution. deterministic renderer selection and trusted local renderer registry. semantic field registry and bounded arbitrary value renderer. api family, collection, generic, unknown, inspector, and shared resource chrome renderers. browser history aware portal state/navigation/route loading/application shell. /portal/ semantic html page and calm responsive styling. universal html fallback styling for prose, lists, tables, media/code, forms, choices, actions, feedback, semantic structure, responsive layout, and reduced motion. production repair direct local versus production probes proved the user's apps mime failure is a deployment completeness defect: local compactjs returns valid javascript for apps filter.js. production returned application/json because a required imported source file did not exist in the deployed checkout. production's missing file was explicitly geelooy/scripts/awtsmoos/ui/runtime/gevurahdomcontract.js. production also lacked geelooy/scripts/awtsmoos/ui/foundation.js. both files existed locally but were silently hidden from git by the old broad rule geelooy/scripts/awtsmoos/ . 1,293 older files in that namespace were already tracked, while 66 newer source/runtime files were ignored. .gitignore was completely rewritten so authored source beneath geelooy/scripts/awtsmoos/ is trackable while caches, runtime data, media, generated bundles, and temporary artifacts remain excluded. after the rewrite only .ds store remains ignored there; previously invisible authored modules are now visible for explicit review and release. delta 1 — portal application responsibility boundary geelooy/portal/scripts/portalapp.js is 139 lines, exceeding the 120 line ceiling. it also owns three distinct responsibilities: navigation/control event binding state to dom rendering route loading/orchestration required second pass create: portalinteractioncontroller.js — bind route/view controls and return cleanup. portalstaterenderer.js — render busy/error/resource states and view button state. completely rewrite portalapp.js to coordinate only lifecycle, navigation, and loading. add stop() cleanup behavior. delta 2 — portal component css responsibility boundary geelooy/portal/styles/components.css is 161 lines and owns resource shells, cards, links, arbitrary values, status, and badges. required second pass create: resource.css — resource header/section/status/compatibility surfaces. cards.css — cards, grids, link/action rows. values.css — value lists/objects, truncation, badges. completely rewrite components.css as a small import only composition entry. delta 3 — real api family shape versus built in schema the compatibility adapter correctly preserves the existing catalog's public shape: id path description but portalbuiltintypes.js currently declares key, path, and description. required second pass completely rewrite portalbuiltintypes.js so the awtsmoos.api family schema and semantic field mapping use id instead of key. preserve the adapter rather than distorting real legacy data to satisfy a new schema. delta 4 — resource type collection cards are too heavy the types collection contains awtsmoos.portal type resources. only its detail renderer is registered. card rendering therefore reaches the global unknown fallback, which renders a compatibility warning plus a full generic detail surface inside each card. required second pass create portaltyperenderer.js with a compact type card showing label/type/lifecycle/version and bounded description. completely rewrite portalbuiltinrenderers.js to register awtsmoos.portal type:card explicitly. delta 5 — unknown card fallback should stay compact future unknown types in a collection should remain usable without turning a card grid into full detail views. required second pass completely rewrite portalunknownrenderer.js so context.view === \"card\" produces a compact compatibility card; detail views retain the explicit compatibility notice plus bounded generic renderer. delta 6 — event listener cleanup the current portalapp.bindnavigationcontrols() installs a document click listener without a removal path. repeated app mounting or future hot navigation could accumulate listeners. required second pass move binding into portalinteractioncontroller.js, return an unbind function, and have portalapp.stop() execute all cleanup callbacks. delta 7 — portal field registry is architectural capability but not yet consumed the field registry exists but the current proof surface uses bounded generic value rendering and domain specific api family rendering. this is not a runtime defect, but it is unfinished integration if semantic type definitions are expected to affect generic rendering. decision do not fake semantic field application before the type definition lookup path is connected to rendering context. keep the registry as a tested extension point for this release, document it in the inspector/architecture, and add semantic field integration after the first end to end portal proof is runtime clean. delta 8 — additional universal contracts from the brainstorm the first pass implements the high value compatibility core but does not yet define separate first class contracts for: permission/field visibility descriptors immutable revisions/history representation/content negotiation resumable events/stream cursors saved views decision after the second pass proof surface is syntax/api/browser clean, add these as declarative contracts only where they can remain truthful and additive. do not advertise executable behavior without real domain services. delta 9 — runtime audit still needs new ui findings the prior runtime audit measures target size, accessible names, native style risk, and horizontal overflow but has not yet been extended for: accidental navigation list markers unlabeled dialogs viewport escaping pre/code portal specific renderer crash surfaces required after second pass source readback read the current runtime audit modules fully, split if necessary, then add these findings without exceeding 120 lines. second pass write set create: geelooy/portal/scripts/portalinteractioncontroller.js geelooy/portal/scripts/portalstaterenderer.js geelooy/portal/styles/resource.css geelooy/portal/styles/cards.css geelooy/portal/styles/values.css geelooy/scripts/awtsmoos/portal/renderers/portaltyperenderer.js completely rewrite: geelooy/portal/scripts/portalapp.js geelooy/portal/styles/components.css geelooy/api/portal/registry/portalbuiltintypes.js geelooy/scripts/awtsmoos/portal/portalbuiltinrenderers.js geelooy/scripts/awtsmoos/portal/renderers/portalunknownrenderer.js next action check ownership/status of every second pass target against concurrent agent work, then create and completely rewrite the named files. re read every second pass file and rerun line counts before adding tests.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26t134731-portal-universal-ui-resource-platf-32ccb48dd8.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-26t134731-portal-universal-ui-resource-platf-d96e8ad831",
+		"title": "Second Implementation Delta — Structural Reconciliation",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26T134731-portal-universal-ui-resource-platform/09_SECOND_IMPLEMENTATION_DELTA.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Second Implementation Delta — Structural Reconciliation",
+				"anchor": "second-implementation-delta-structural-reconciliation"
+			},
+			{
+				"level": 2,
+				"text": "Second-Pass Work Completed",
+				"anchor": "second-pass-work-completed"
+			},
+			{
+				"level": 2,
+				"text": "Mechanical Line-Count Evidence",
+				"anchor": "mechanical-line-count-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Full Second Readback",
+				"anchor": "full-second-readback"
+			},
+			{
+				"level": 2,
+				"text": "Closed First-Pass Deltas",
+				"anchor": "closed-first-pass-deltas"
+			},
+			{
+				"level": 2,
+				"text": "Remaining Architectural Extension Point",
+				"anchor": "remaining-architectural-extension-point"
+			},
+			{
+				"level": 2,
+				"text": "Newly Discovered Delta — Cache Version Coherence",
+				"anchor": "newly-discovered-delta-cache-version-coherence"
+			},
+			{
+				"level": 3,
+				"text": "Required third write pass",
+				"anchor": "required-third-write-pass"
+			},
+			{
+				"level": 2,
+				"text": "Verification Gate After Third Pass",
+				"anchor": "verification-gate-after-third-pass"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Second Implementation Delta — Structural Reconciliation The Awtsmoos renews the second pass before tests can call the structure complete; Awtsmoos.com therefore measures each vessel, reads each rewritten file, and closes cache/version ambiguity before execution takes its seat. Second Pass Work Completed Split Porta",
+		"searchText": "b\"h second implementation delta — structural reconciliation the awtsmoos renews the second pass before tests can call the structure complete; awtsmoos.com therefore measures each vessel, reads each rewritten file, and closes cache/version ambiguity before execution takes its seat. second pass work completed split portal interaction binding into portalinteractioncontroller.js with removable listener cleanup. split portal state to dom manifestation into portalstaterenderer.js. completely rewrote portalapp.js as lifecycle/navigation/loading coordinator with stop() cleanup. added compact portaltyperenderer.js. completely rewrote portalunknownrenderer.js so collection cards remain compact while detail remains fully generic/inspectable. completely rewrote portalbuiltinrenderers.js to register api family, portal type, collection, inspector, root, and unknown fallbacks deterministically. completely rewrote portalbuiltintypes.js so the api family schema follows the real legacy catalog shape {id, path, description}. split portal component styling into resource.css, cards.css, and values.css. completely rewrote components.css as a small import composition vessel. added explicit styling for classed .portal facts, preventing specialist portal markup from bypassing raw semantic fallbacks into browser default layout. mechanical line count evidence portalinteractioncontroller.js: 53 lines. portalstaterenderer.js: 64 lines. portalapp.js: 115 lines. portalbuiltintypes.js: 84 lines. portaltyperenderer.js: 61 lines. portalunknownrenderer.js: 73 lines. portalbuiltinrenderers.js: 42 lines. resource.css: 77 lines. cards.css: 88 lines. values.css: 66 lines. components.css: 10 lines. every second pass source remains below the 120 line ceiling without compressing documentation or implementation. full second readback every second pass file above was reread completely after writing. the complete portal css import chain was also reread and every expected imported file exists. closed first pass deltas controller responsibility/size: closed. component css responsibility/size: closed. api family key versus id schema mismatch: closed. heavy portal type collection cards: closed. heavy unknown collection cards: closed. unremovable document interaction listener: closed. remaining architectural extension point portalfieldregistry.js remains intentionally present but not yet used to transform arbitrary values based on type semantic metadata. this is not hidden runtime behavior: the proof surface uses safe bounded generic rendering plus exact api family/type renderers. semantic role integration belongs after the current type definition/read path is runtime proven, so a field role system is not guessed against unverified schemas. newly discovered delta — cache version coherence the second pass component graph uses portal ui 002, but: geelooy/portal/portal.css still imports its first level styles with portal ui 001. geelooy/portal/index.html still links portal.css and portal.js with portal ui 001. a fresh browser would still obtain the current new untracked files, but leaving two cache epochs in one release weakens deployment diagnosis and can preserve stale first pass resources in an already open browser. required third write pass completely rewrite: geelooy/portal/portal.css to use portal ui 002 for all first level imports. geelooy/portal/index.html to request portal.css?v=portal ui 002 and portal.js?v=portal ui 002. then reread those two files and verify the complete portal dependency graph has one cache epoch. verification gate after third pass only after that small coherence pass may testing begin: 1. create focused portal contract/adapter/service tests, 2. run syntax checks, 3. run node tests, 4. probe real local http api routes, 5. probe compactjs and the previously missing ui modules, 6. run chrome runtime/ui audits on /apps/ and /portal/ at desktop and mobile sizes. next action rewrite portal.css and index.html completely with cache epoch portal ui 002, reread them, then create the portal test universe before executing any tests.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26t134731-portal-universal-ui-resource-platf-d96e8ad831.json"
+	}
+]

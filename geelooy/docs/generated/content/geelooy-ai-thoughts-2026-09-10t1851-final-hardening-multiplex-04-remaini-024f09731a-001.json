@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "<!-- B\"H -->\n<!-- Boruch Hashem -->\n<!-- Blessed be He -->\n\n# Remaining Work\n\n- [ ] Finish commerce dialog focus restoration integration + tests + browser proof.\n- [ ] Re-run full 101-test baseline after focus integration.\n- [ ] Audit/extend existing workspace/embed launch consumers.\n- [ ] Audit/fix any remaining shared mobile overflow/accessibility issues.\n- [ ] Audit game commerce semantics and implement safe broad improvements.\n- [ ] Audit creator/developer premium fulfillment and improve product-specific value.\n- [ ] Reconfirm startup module-load profile and safe-laziness boundary.\n- [ ] Full git overlap + touched-file readback + planned-vs-actual audit.\n"
+}

@@ -1,0 +1,277 @@
+[
+	{
+		"id": "geelooy-api-tunnel-control-routes-osfs-sync-io-warnlist-md-26faeaec79",
+		"title": "Sync-I/O warn list — geelooy/api (safeguards Phase 3, 2026-10-20)",
+		"sourcePath": "geelooy/api/tunnel/control/routes/osFs/SYNC_IO_WARNLIST.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Sync-I/O warn list — geelooy/api (safeguards Phase 3, 2026-10-20)",
+				"anchor": "sync-i-o-warn-list-geelooy-api-safeguards-phase-3-2026-10-20"
+			},
+			{
+				"level": 2,
+				"text": "The rule",
+				"anchor": "the-rule"
+			},
+			{
+				"level": 2,
+				"text": "Existing offenders: warn-listed, NOT grandfathered for edits",
+				"anchor": "existing-offenders-warn-listed-not-grandfathered-for-edits"
+			},
+			{
+				"level": 2,
+				"text": "Offenders by directory (file counts, 2026-10-20)",
+				"anchor": "offenders-by-directory-file-counts-2026-10-20"
+			},
+			{
+				"level": 2,
+				"text": "Regenerate the exact file list",
+				"anchor": "regenerate-the-exact-file-list"
+			}
+		],
+		"excerpt": "B\"H Sync I/O warn list — geelooy/api (safeguards Phase 3, 2026 10 20) The rule lineLimitGuard.js now BLOCKS any NEW structured write under geelooy/api/ whose content calls a synchronous fs API (readFileSync, writeFileSync, readdirSync, statSync, existsSync, openSync, readSync, writeSync, closeSync, appendFileSync, mkdi",
+		"searchText": "b\"h sync i/o warn list — geelooy/api (safeguards phase 3, 2026 10 20) the rule linelimitguard.js now blocks any new structured write under geelooy/api/ whose content calls a synchronous fs api (readfilesync, writefilesync, readdirsync, statsync, existssync, opensync, readsync, writesync, closesync, appendfilesync, mkdirsync, lstatsync, realpathsync, copyfilesync). one sync call freezes the single event loop for every request — the mechanism behind the 2026 10 20 flap. exempt: test files ( .test. , .spec. , any /test/ path) and the guard file itself. existing offenders: warn listed, not grandfathered for edits 167 files already contained sync i/o when the ban landed (measured 2026 10 20). they keep running — this list is the work queue, not a breakage. rules for agents: 1. do not add new sync calls to any file under geelooy/api. 2. when you edit a warn listed file, converting its sync calls to fs.promises equivalents is welcome but not required; never let the conversion expand the edit's blast radius. 3. hot request path directories first: helper/routes/packed (14), helper/packed (9), helper/search/rag (19), tunnel/control/core (9). offenders by directory (file counts, 2026 10 20) files directory : 19 geelooy/api/social/helper/search/rag 16 geelooy/api/social/helper/search/rag/test 14 geelooy/api/social/helper/routes/packed 9 geelooy/api/tunnel/control/core 9 geelooy/api/social/helper/packed 8 geelooy/api/social/helper/comments/test 7 geelooy/api/tunnel/install/tools 6 geelooy/api/social/helper/books 6 geelooy/api/social/helper/assets 5 geelooy/api/tunnel/control/routes 4 geelooy/api/tunnel/lanes/simple 4 geelooy/api/social/helper/drive/browser 4 geelooy/api/social/helper/comments/imported 3 geelooy/api/wallet/tests 3 geelooy/api/social/helper/packed/scripts 3 geelooy/api/social/helper/drive/test 3 geelooy/api/social/helper/comments 3 geelooy/api/social/helper/books/test 3 geelooy/api/social/helper/awtsmoosdb 3 geelooy/api/oauth/core 2 each social/helper/test, search/lexicon/test, search, platform/jobs, imports/ayinbeis(+test), assets/test 1 each youtube/core, wallet/core/commerce/platform, tunnel/install, tunnel/hetzner, tunnel/control/routes/test, tunnel/control/routes/osfs, tunnel/control/core/tunnelsecurity, social/test/routecoverage, social/helper/series, search/test, search/tanach(+test), search/lexicon regenerate the exact file list",
+		"page": "pages/geelooy-api-tunnel-control-routes-osfs-sync-io-warnlist-md-26faeaec79.json"
+	},
+	{
+		"id": "geelooy-api-tunnel-documentation-md-ddc3c1d7e8",
+		"title": "Tunnel API Documentation",
+		"sourcePath": "geelooy/api/tunnel/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Tunnel API Documentation",
+				"anchor": "tunnel-api-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Tunnel API Documentation The Awtsmoos bridges request to remote vessel while control, install, and live relay remain separate layers in view; Awtsmoos.com maps base Tunnel status/client/request/filesystem routes beside deeper Control and WebSocket work too. Read ../../../docs/SYSTEMS/TUN",
+		"searchText": "b\"h boruch hashem blessed is he tunnel api documentation the awtsmoos bridges request to remote vessel while control, install, and live relay remain separate layers in view; awtsmoos.com maps base tunnel status/client/request/filesystem routes beside deeper control and websocket work too. read ../../../docs/systems/tunnel.md, ../../../docs/api/tunnel control.md, and ../../../docs/websockets/tunnel relay.md.",
+		"page": "pages/geelooy-api-tunnel-documentation-md-ddc3c1d7e8.json"
+	},
+	{
+		"id": "geelooy-api-tunnel-install-documentation-md-074970bfde",
+		"title": "Tunnel Installer and Emergency API",
+		"sourcePath": "geelooy/api/tunnel/install/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Tunnel Installer and Emergency API",
+				"anchor": "tunnel-installer-and-emergency-api"
+			},
+			{
+				"level": 2,
+				"text": "Public Unix routes",
+				"anchor": "public-unix-routes"
+			},
+			{
+				"level": 2,
+				"text": "One-line examples",
+				"anchor": "one-line-examples"
+			},
+			{
+				"level": 2,
+				"text": "Other installer artifacts",
+				"anchor": "other-installer-artifacts"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Tunnel Installer and Emergency API The Awtsmoos sends a full garment when a machine is healthy and a tiny rescue spark when it is not; Awtsmoos.com keeps emergency routes independent so release metadata or agent bundling cannot block the plot. Public Unix routes Route Purpose Depends on ",
+		"searchText": "b\"h boruch hashem blessed is he tunnel installer and emergency api the awtsmoos sends a full garment when a machine is healthy and a tiny rescue spark when it is not; awtsmoos.com keeps emergency routes independent so release metadata or agent bundling cannot block the plot. public unix routes route purpose depends on release metadata? /api/tunnel/install/unix full normal installer / refresh may consult release metadata and package routes /api/tunnel/install/emergency diagnose read only failure diagnosis no /api/tunnel/install/emergency unix launch + verify sealed tier 0 no /api/tunnel/install/emergency sealed guarded manual sealed takeover no /api/tunnel/install/emergency supervisor portable primary guardian + ack no /api/tunnel/install/emergency known good confirmed known good restore no /api/tunnel/install/emergency repair tier 0 first, then full refresh rescue phase: no emergency script routes call readtunneldownload() directly. they do not construct agent.zip, query published release metadata, or require the installer component archive merely to return the rescue script. one line examples normal forced refresh syntax: the variable is intentionally placed on the receiving bash process. other installer artifacts /api/tunnel/install/windows /api/tunnel/install/linux /api/tunnel/install/installer components.tar.gz /api/tunnel/install/bundle manifest /api/tunnel/install/agent.zip the emergency endpoints must remain usable even if bundle manifest or agent.zip construction fails. read ../../../../docs/api/other families.md, ../../../../docs/systems/tunnel.md, and ../../../apps/tunnel/emergency recovery.md.",
+		"page": "pages/geelooy-api-tunnel-install-documentation-md-074970bfde.json"
+	},
+	{
+		"id": "geelooy-api-tunnel-install-readme-md-b57d30a21a",
+		"title": "B\"H — Tunnel Installer (Yaakov 2026-10-15)",
+		"sourcePath": "geelooy/api/tunnel/install/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Tunnel Installer (Yaakov 2026-10-15)",
+				"anchor": "b-h-tunnel-installer-yaakov-2026-10-15"
+			},
+			{
+				"level": 2,
+				"text": "Endpoints",
+				"anchor": "endpoints"
+			},
+			{
+				"level": 2,
+				"text": "Installer Menu (7 Choices)",
+				"anchor": "installer-menu-7-choices"
+			},
+			{
+				"level": 2,
+				"text": "Agent Bundle",
+				"anchor": "agent-bundle"
+			},
+			{
+				"level": 2,
+				"text": "Key Files",
+				"anchor": "key-files"
+			}
+		],
+		"excerpt": "B\"H — Tunnel Installer (Yaakov 2026 10 15) Serves installer scripts and agent bundles. Endpoints GET /api/tunnel/install/unix — Bash installer (shows menu with 7 tunnel choices) GET /api/tunnel/install/agent.zip — Agent bundle (v1.0.668+, rebuilt with fixes) GET /api/tunnel/install/windows — PowerShell installer GET /a",
+		"searchText": "b\"h — tunnel installer (yaakov 2026 10 15) serves installer scripts and agent bundles. endpoints get /api/tunnel/install/unix — bash installer (shows menu with 7 tunnel choices) get /api/tunnel/install/agent.zip — agent bundle (v1.0.668+, rebuilt with fixes) get /api/tunnel/install/windows — powershell installer get /api/tunnel/install/status — installer status installer menu (7 choices) 1. full (recommended) — complete tunnel with browser support, rsa pairing 2. minimal — agent + registration, uses system node.js 3. agent only — fastest, for headless servers 4. simple (poll) — file based, no pairing, http polling 5. simple (approval) — file based with manual approval step 6. simple (websocket) — real time, falls back to polling 7. simple (file) — pure file, zero http, air gapped capable plus auth management: 8. delete old auth — remove all credentials, start fresh 9. reset tunnel — clear config, keep auth 10. continue — keep existing auth and config agent bundle built dynamically from geelooy/apps/tunnel/agent/ via tools/zipbundle.js. cache: expires after 60 seconds (was: only on manifest change). version: bump geelooy/apps/tunnel/agent/manifest.txt to force rebuild. key files awtsmoos.derech.js — route definitions scripts/unix.js — serves the bash installer tools/zipbundle.js — builds agent.zip tools/scriptroute.js — serves script files ../downloads/unix.sh — the actual bash installer (now in git!)",
+		"page": "pages/geelooy-api-tunnel-install-readme-md-b57d30a21a.json"
+	},
+	{
+		"id": "geelooy-api-tunnel-lanes-how-to-run-commands-md-4fee402c96",
+		"title": "B\"H — How to Run Commands From Each Tunnel Lane (Yaakov 2026-10-15)",
+		"sourcePath": "geelooy/api/tunnel/lanes/HOW_TO_RUN_COMMANDS.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — How to Run Commands From Each Tunnel Lane (Yaakov 2026-10-15)",
+				"anchor": "b-h-how-to-run-commands-from-each-tunnel-lane-yaakov-2026-10-15"
+			},
+			{
+				"level": 2,
+				"text": "Lane 1: Simple Tunnel — Poll (BASELINE, permanent)",
+				"anchor": "lane-1-simple-tunnel-poll-baseline-permanent"
+			},
+			{
+				"level": 1,
+				"text": "1. Queue a command (from anywhere):",
+				"anchor": "1-queue-a-command-from-anywhere"
+			},
+			{
+				"level": 1,
+				"text": "Returns: {\"ok\":true,\"id\":\"cmd123...\"}",
+				"anchor": "returns-ok-true-id-cmd123"
+			},
+			{
+				"level": 1,
+				"text": "2. Get the result (after 5 seconds):",
+				"anchor": "2-get-the-result-after-5-seconds"
+			},
+			{
+				"level": 1,
+				"text": "Returns: {\"ok\":true,\"done\":true,\"output\":\"...\"}",
+				"anchor": "returns-ok-true-done-true-output"
+			},
+			{
+				"level": 1,
+				"text": "Target a command to a specific agent (by TUNNELAGENTID):",
+				"anchor": "target-a-command-to-a-specific-agent-by-tunnelagentid"
+			},
+			{
+				"level": 1,
+				"text": "Only the agent with TUNNELAGENTID=my-macbook will pick it up.",
+				"anchor": "only-the-agent-with-tunnelagentid-my-macbook-will-pick-it-up"
+			},
+			{
+				"level": 1,
+				"text": "If agentId is omitted, any agent can pick it up.",
+				"anchor": "if-agentid-is-omitted-any-agent-can-pick-it-up"
+			},
+			{
+				"level": 1,
+				"text": "The agent identifies itself with TUNNELAGENTID (defaults to hostname):",
+				"anchor": "the-agent-identifies-itself-with-tunnelagentid-defaults-to-hostname"
+			},
+			{
+				"level": 1,
+				"text": "Env vars: TUNNELSERVER, TUNNELSECRET, TUNNELAGENTID, TUNNELQUEUEFILE, TUNNELPOLLMS",
+				"anchor": "env-vars-tunnelserver-tunnelsecret-tunnelagentid-tunnelqueuefile-tunnelpollms"
+			},
+			{
+				"level": 2,
+				"text": "Lane 2: Simple Tunnel — Approval",
+				"anchor": "lane-2-simple-tunnel-approval"
+			},
+			{
+				"level": 1,
+				"text": "1. Agent requests approval (on target machine):",
+				"anchor": "1-agent-requests-approval-on-target-machine"
+			},
+			{
+				"level": 1,
+				"text": "Output: \"Waiting for approval...\"",
+				"anchor": "output-waiting-for-approval"
+			},
+			{
+				"level": 1,
+				"text": "2. Approve (on server, via any command lane):",
+				"anchor": "2-approve-on-server-via-any-command-lane"
+			},
+			{
+				"level": 1,
+				"text": "3. Agent starts polling. Then use Lane 1 commands.",
+				"anchor": "3-agent-starts-polling-then-use-lane-1-commands"
+			},
+			{
+				"level": 2,
+				"text": "Lane 3: Simple Tunnel — WebSocket",
+				"anchor": "lane-3-simple-tunnel-websocket"
+			},
+			{
+				"level": 1,
+				"text": "Tries WebSocket first, falls back to HTTP polling automatically.",
+				"anchor": "tries-websocket-first-falls-back-to-http-polling-automatically"
+			},
+			{
+				"level": 2,
+				"text": "Lane 4: Simple Tunnel — Pure File (zero HTTP)",
+				"anchor": "lane-4-simple-tunnel-pure-file-zero-http"
+			},
+			{
+				"level": 1,
+				"text": "1. Write command file (on target machine, or via another lane):",
+				"anchor": "1-write-command-file-on-target-machine-or-via-another-lane"
+			},
+			{
+				"level": 1,
+				"text": "2. Agent picks it up and writes result to:",
+				"anchor": "2-agent-picks-it-up-and-writes-result-to"
+			},
+			{
+				"level": 1,
+				"text": "/tmp/simple-tunnel-results/myserver/cmd1.json",
+				"anchor": "tmp-simple-tunnel-results-myserver-cmd1-json"
+			},
+			{
+				"level": 1,
+				"text": "3. Read the result:",
+				"anchor": "3-read-the-result"
+			},
+			{
+				"level": 2,
+				"text": "Lane 5: Full Tunnel (pairing/RSA)",
+				"anchor": "lane-5-full-tunnel-pairing-rsa"
+			},
+			{
+				"level": 1,
+				"text": "Create pairing:",
+				"anchor": "create-pairing"
+			},
+			{
+				"level": 1,
+				"text": "Check state (now works with GET):",
+				"anchor": "check-state-now-works-with-get"
+			},
+			{
+				"level": 2,
+				"text": "Lane 6-13: Recovery Lanes (emergency infrastructure)",
+				"anchor": "lane-6-13-recovery-lanes-emergency-infrastructure"
+			},
+			{
+				"level": 2,
+				"text": "Quick Reference",
+				"anchor": "quick-reference"
+			}
+		],
+		"excerpt": "B\"H — How to Run Commands From Each Tunnel Lane (Yaakov 2026 10 15) Lane 1: Simple Tunnel — Poll (BASELINE, permanent) What: HTTP polling command tunnel. The proven working baseline. Server endpoints (on https://awtsmoos.com): POST /api/tunnel/control/simple/cmd — Queue a command (requires secret) GET /api/tunnel/contr",
+		"searchText": "b\"h — how to run commands from each tunnel lane (yaakov 2026 10 15) lane 1: simple tunnel — poll (baseline, permanent) what: http polling command tunnel. the proven working baseline. server endpoints (on https://awtsmoos.com): post /api/tunnel/control/simple/cmd — queue a command (requires secret) get /api/tunnel/control/simple/poll — agent polls for commands get /api/tunnel/control/simple/result?id=...&secret=... — get command result run a command: select a specific tunnel: run the agent (on target machine): lane 2: simple tunnel — approval what: same as poll, but requires manual approval before agent starts. run a command: server endpoints: post /api/tunnel/control/simple/request — {\"agentid\":\"...\"} get /api/tunnel/control/simple/approved?agentid=... — {\"approved\":true/false} lane 3: simple tunnel — websocket what: websocket real time lane. falls back to polling if ws unavailable. run the agent: note: uses the ayzarim websocket server infrastructure (ayzarim/awtsmoosdynamicserver/websocket/). the fallback ensures it always works even without a dedicated ws endpoint. lane 4: simple tunnel — pure file (zero http) what: 100% file based. no network. for air gapped environments. run a command: run the agent: lane 5: full tunnel (pairing/rsa) what: the standard production tunnel with rsa pairing. standard install command: what happens: 1. installer generates rsa keypair 2. gets pairing code, shows approval url with beautiful cli 3. you approve in browser 4. installer polls pairing/state until approved (now fixed for get) 5. receives encrypted credential, starts tunnel 6. cli shows styled success messages (now with ansi colors) pairing api (for manual testing): lane 6 13: recovery lanes (emergency infrastructure) location: geelooy/apps/tunnel/agent/recovery/lanes/ these are not command tunnels. they are emergency recovery systems: httpserver.js — recovery http api (port 3977). test: curl http://localhost:3977/health unixsocket.js — unix domain socket for local ipc filetrigger.js — watches atomic files, survives network failure primaryguardian.js — keeps primary process alive sealedtier0.js, secondarydirecttunnel.js, etc. — specialized recovery they do not run arbitrary shell commands. use the simple tunnel lanes for commands. quick reference lane command channel needs server tested poll http polling yes ✅ yes approval http + file approval yes ✅ server endpoints websocket ws (fallback: polling) yes ⚠️ fallback only pure file files only no ✅ mechanism full tunnel websocket + rsa yes ✅ endpoints recovery various local ✅ httpserver",
+		"page": "pages/geelooy-api-tunnel-lanes-how-to-run-commands-md-4fee402c96.json"
+	}
+]

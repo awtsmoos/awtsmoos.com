@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Portal Contracts (geelooy/api/portal/contracts/)\n\nThe declarative contract vocabulary of the Portal API (see `../README.md`).\n\n## Files\n- `PortalResourceEnvelope.js` — the canonical response envelope.\n- `PortalTypeDefinition.js` / `PortalTransformation.js` / `PortalRelationship.js`\n  — type shapes, transforms, and relations.\n- `PortalQueryDefinition.js` / `PortalActionDefinition.js` / `PortalJob.js`\n  — queries, actions, and async jobs.\n- `PortalContractPrimitives.js` / `PortalContractLimits.js` — primitives and bounds.\n- `PortalErrorResource.js` — error resource shape.\n- `PortalProvenance.js` — provenance metadata carried on responses.\n"
+}

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Heichel Routes (geelooy/api/social/helper/heichelRoutes/)\n\nRoute tooling for Heichel routes.\n\n- `routeTools.js` — shared helpers used to build Heichel-scoped route handlers (mounted via `_awtsmoos.heichel.js`).\n"
+}

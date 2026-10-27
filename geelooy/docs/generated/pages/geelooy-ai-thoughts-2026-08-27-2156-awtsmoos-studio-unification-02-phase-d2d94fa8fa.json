@@ -1,0 +1,94 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-27-2156-awtsmoos-studio-unification-02-phase-d2d94fa8fa",
+	"title": "Phase Two — Architecture and File Map",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-27-2156-awtsmoos-studio-unification/02_PHASE_TWO_ARCHITECTURE_AND_FILE_MAP.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase Two — Architecture and File Map",
+			"anchor": "phase-two-architecture-and-file-map"
+		},
+		{
+			"level": 2,
+			"text": "Competing Architectures Considered",
+			"anchor": "competing-architectures-considered"
+		},
+		{
+			"level": 3,
+			"text": "A — Animator Becomes the Universal Engine",
+			"anchor": "a-animator-becomes-the-universal-engine"
+		},
+		{
+			"level": 3,
+			"text": "B — Nesher Studio Becomes the Universal Engine",
+			"anchor": "b-nesher-studio-becomes-the-universal-engine"
+		},
+		{
+			"level": 3,
+			"text": "C — New Standalone Movie Library Outside Procedural Core",
+			"anchor": "c-new-standalone-movie-library-outside-procedural-core"
+		},
+		{
+			"level": 3,
+			"text": "D — Canonical Movie Domain Inside Procedural Core + Shared UI Library + App Adapters",
+			"anchor": "d-canonical-movie-domain-inside-procedural-core-shared-ui-library-app-adapters"
+		},
+		{
+			"level": 3,
+			"text": "E — One Monolithic New Studio Copying Every App",
+			"anchor": "e-one-monolithic-new-studio-copying-every-app"
+		},
+		{
+			"level": 2,
+			"text": "Selected Layer Graph",
+			"anchor": "selected-layer-graph"
+		},
+		{
+			"level": 2,
+			"text": "New Collision-Free Core Files",
+			"anchor": "new-collision-free-core-files"
+		},
+		{
+			"level": 3,
+			"text": "libs/awtsmoos-procedural-core/src/core/movie/",
+			"anchor": "libs-awtsmoos-procedural-core-src-core-movie"
+		},
+		{
+			"level": 3,
+			"text": "libs/awtsmoos-ui/",
+			"anchor": "libs-awtsmoos-ui"
+		},
+		{
+			"level": 3,
+			"text": "apps/awtsmoos-studio/",
+			"anchor": "apps-awtsmoos-studio"
+		},
+		{
+			"level": 2,
+			"text": "App Adapter Targets",
+			"anchor": "app-adapter-targets"
+		},
+		{
+			"level": 2,
+			"text": "Asset Migration Strategy",
+			"anchor": "asset-migration-strategy"
+		},
+		{
+			"level": 2,
+			"text": "Verification Graph",
+			"anchor": "verification-graph"
+		},
+		{
+			"level": 2,
+			"text": "Conflict Policy",
+			"anchor": "conflict-policy"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-27-2156-awtsmoos-studio-unification-02-phase-d2d94fa8fa-001.json"
+	]
+}

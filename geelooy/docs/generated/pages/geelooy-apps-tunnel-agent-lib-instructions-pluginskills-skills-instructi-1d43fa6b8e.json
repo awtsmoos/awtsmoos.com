@@ -1,0 +1,524 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-1d43fa6b8e",
+	"title": "Runtime Trace Engine",
+	"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/13_RUNTIME_TRACE_ENGINE.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 2,
+			"text": "Current tunnel integration takes precedence",
+			"anchor": "current-tunnel-integration-takes-precedence"
+		},
+		{
+			"level": 1,
+			"text": "Runtime Trace Engine",
+			"anchor": "runtime-trace-engine"
+		},
+		{
+			"level": 2,
+			"text": "Root Rule",
+			"anchor": "root-rule"
+		},
+		{
+			"level": 2,
+			"text": "Constitutional Body",
+			"anchor": "constitutional-body"
+		},
+		{
+			"level": 2,
+			"text": "Pass 1: Orientation",
+			"anchor": "pass-1-orientation"
+		},
+		{
+			"level": 3,
+			"text": "Mission",
+			"anchor": "mission"
+		},
+		{
+			"level": 3,
+			"text": "Inputs",
+			"anchor": "inputs"
+		},
+		{
+			"level": 3,
+			"text": "State",
+			"anchor": "state"
+		},
+		{
+			"level": 3,
+			"text": "Procedure",
+			"anchor": "procedure"
+		},
+		{
+			"level": 3,
+			"text": "Artifacts",
+			"anchor": "artifacts"
+		},
+		{
+			"level": 3,
+			"text": "Verification",
+			"anchor": "verification"
+		},
+		{
+			"level": 3,
+			"text": "Continuation",
+			"anchor": "continuation"
+		},
+		{
+			"level": 3,
+			"text": "Critique",
+			"anchor": "critique"
+		},
+		{
+			"level": 3,
+			"text": "Failure Modes",
+			"anchor": "failure-modes"
+		},
+		{
+			"level": 3,
+			"text": "Awtsmoos Vessel",
+			"anchor": "awtsmoos-vessel"
+		},
+		{
+			"level": 3,
+			"text": "Pass 1 Gate",
+			"anchor": "pass-1-gate"
+		},
+		{
+			"level": 2,
+			"text": "Pass 2: Mapping",
+			"anchor": "pass-2-mapping"
+		},
+		{
+			"level": 3,
+			"text": "Mission",
+			"anchor": "mission-2"
+		},
+		{
+			"level": 3,
+			"text": "Inputs",
+			"anchor": "inputs-2"
+		},
+		{
+			"level": 3,
+			"text": "State",
+			"anchor": "state-2"
+		},
+		{
+			"level": 3,
+			"text": "Procedure",
+			"anchor": "procedure-2"
+		},
+		{
+			"level": 3,
+			"text": "Artifacts",
+			"anchor": "artifacts-2"
+		},
+		{
+			"level": 3,
+			"text": "Verification",
+			"anchor": "verification-2"
+		},
+		{
+			"level": 3,
+			"text": "Continuation",
+			"anchor": "continuation-2"
+		},
+		{
+			"level": 3,
+			"text": "Critique",
+			"anchor": "critique-2"
+		},
+		{
+			"level": 3,
+			"text": "Failure Modes",
+			"anchor": "failure-modes-2"
+		},
+		{
+			"level": 3,
+			"text": "Awtsmoos Vessel",
+			"anchor": "awtsmoos-vessel-2"
+		},
+		{
+			"level": 3,
+			"text": "Pass 2 Gate",
+			"anchor": "pass-2-gate"
+		},
+		{
+			"level": 2,
+			"text": "Pass 3: Execution",
+			"anchor": "pass-3-execution"
+		},
+		{
+			"level": 3,
+			"text": "Mission",
+			"anchor": "mission-3"
+		},
+		{
+			"level": 3,
+			"text": "Inputs",
+			"anchor": "inputs-3"
+		},
+		{
+			"level": 3,
+			"text": "State",
+			"anchor": "state-3"
+		},
+		{
+			"level": 3,
+			"text": "Procedure",
+			"anchor": "procedure-3"
+		},
+		{
+			"level": 3,
+			"text": "Artifacts",
+			"anchor": "artifacts-3"
+		},
+		{
+			"level": 3,
+			"text": "Verification",
+			"anchor": "verification-3"
+		},
+		{
+			"level": 3,
+			"text": "Continuation",
+			"anchor": "continuation-3"
+		},
+		{
+			"level": 3,
+			"text": "Critique",
+			"anchor": "critique-3"
+		},
+		{
+			"level": 3,
+			"text": "Failure Modes",
+			"anchor": "failure-modes-3"
+		},
+		{
+			"level": 3,
+			"text": "Awtsmoos Vessel",
+			"anchor": "awtsmoos-vessel-3"
+		},
+		{
+			"level": 3,
+			"text": "Pass 3 Gate",
+			"anchor": "pass-3-gate"
+		},
+		{
+			"level": 2,
+			"text": "Pass 4: Verification",
+			"anchor": "pass-4-verification"
+		},
+		{
+			"level": 3,
+			"text": "Mission",
+			"anchor": "mission-4"
+		},
+		{
+			"level": 3,
+			"text": "Inputs",
+			"anchor": "inputs-4"
+		},
+		{
+			"level": 3,
+			"text": "State",
+			"anchor": "state-4"
+		},
+		{
+			"level": 3,
+			"text": "Procedure",
+			"anchor": "procedure-4"
+		},
+		{
+			"level": 3,
+			"text": "Artifacts",
+			"anchor": "artifacts-4"
+		},
+		{
+			"level": 3,
+			"text": "Verification",
+			"anchor": "verification-4"
+		},
+		{
+			"level": 3,
+			"text": "Continuation",
+			"anchor": "continuation-4"
+		},
+		{
+			"level": 3,
+			"text": "Critique",
+			"anchor": "critique-4"
+		},
+		{
+			"level": 3,
+			"text": "Failure Modes",
+			"anchor": "failure-modes-4"
+		},
+		{
+			"level": 3,
+			"text": "Awtsmoos Vessel",
+			"anchor": "awtsmoos-vessel-4"
+		},
+		{
+			"level": 3,
+			"text": "Pass 4 Gate",
+			"anchor": "pass-4-gate"
+		},
+		{
+			"level": 2,
+			"text": "Pass 5: Critique",
+			"anchor": "pass-5-critique"
+		},
+		{
+			"level": 3,
+			"text": "Mission",
+			"anchor": "mission-5"
+		},
+		{
+			"level": 3,
+			"text": "Inputs",
+			"anchor": "inputs-5"
+		},
+		{
+			"level": 3,
+			"text": "State",
+			"anchor": "state-5"
+		},
+		{
+			"level": 3,
+			"text": "Procedure",
+			"anchor": "procedure-5"
+		},
+		{
+			"level": 3,
+			"text": "Artifacts",
+			"anchor": "artifacts-5"
+		},
+		{
+			"level": 3,
+			"text": "Verification",
+			"anchor": "verification-5"
+		},
+		{
+			"level": 3,
+			"text": "Continuation",
+			"anchor": "continuation-5"
+		},
+		{
+			"level": 3,
+			"text": "Critique",
+			"anchor": "critique-5"
+		},
+		{
+			"level": 3,
+			"text": "Failure Modes",
+			"anchor": "failure-modes-5"
+		},
+		{
+			"level": 3,
+			"text": "Awtsmoos Vessel",
+			"anchor": "awtsmoos-vessel-5"
+		},
+		{
+			"level": 3,
+			"text": "Pass 5 Gate",
+			"anchor": "pass-5-gate"
+		},
+		{
+			"level": 2,
+			"text": "Pass 6: Expansion",
+			"anchor": "pass-6-expansion"
+		},
+		{
+			"level": 3,
+			"text": "Mission",
+			"anchor": "mission-6"
+		},
+		{
+			"level": 3,
+			"text": "Inputs",
+			"anchor": "inputs-6"
+		},
+		{
+			"level": 3,
+			"text": "State",
+			"anchor": "state-6"
+		},
+		{
+			"level": 3,
+			"text": "Procedure",
+			"anchor": "procedure-6"
+		},
+		{
+			"level": 3,
+			"text": "Artifacts",
+			"anchor": "artifacts-6"
+		},
+		{
+			"level": 3,
+			"text": "Verification",
+			"anchor": "verification-6"
+		},
+		{
+			"level": 3,
+			"text": "Continuation",
+			"anchor": "continuation-6"
+		},
+		{
+			"level": 3,
+			"text": "Critique",
+			"anchor": "critique-6"
+		},
+		{
+			"level": 3,
+			"text": "Failure Modes",
+			"anchor": "failure-modes-6"
+		},
+		{
+			"level": 3,
+			"text": "Awtsmoos Vessel",
+			"anchor": "awtsmoos-vessel-6"
+		},
+		{
+			"level": 3,
+			"text": "Pass 6 Gate",
+			"anchor": "pass-6-gate"
+		},
+		{
+			"level": 2,
+			"text": "Pass 7: Memory",
+			"anchor": "pass-7-memory"
+		},
+		{
+			"level": 3,
+			"text": "Mission",
+			"anchor": "mission-7"
+		},
+		{
+			"level": 3,
+			"text": "Inputs",
+			"anchor": "inputs-7"
+		},
+		{
+			"level": 3,
+			"text": "State",
+			"anchor": "state-7"
+		},
+		{
+			"level": 3,
+			"text": "Procedure",
+			"anchor": "procedure-7"
+		},
+		{
+			"level": 3,
+			"text": "Artifacts",
+			"anchor": "artifacts-7"
+		},
+		{
+			"level": 3,
+			"text": "Verification",
+			"anchor": "verification-7"
+		},
+		{
+			"level": 3,
+			"text": "Continuation",
+			"anchor": "continuation-7"
+		},
+		{
+			"level": 3,
+			"text": "Critique",
+			"anchor": "critique-7"
+		},
+		{
+			"level": 3,
+			"text": "Failure Modes",
+			"anchor": "failure-modes-7"
+		},
+		{
+			"level": 3,
+			"text": "Awtsmoos Vessel",
+			"anchor": "awtsmoos-vessel-7"
+		},
+		{
+			"level": 3,
+			"text": "Pass 7 Gate",
+			"anchor": "pass-7-gate"
+		},
+		{
+			"level": 2,
+			"text": "Pass 8: Convergence",
+			"anchor": "pass-8-convergence"
+		},
+		{
+			"level": 3,
+			"text": "Mission",
+			"anchor": "mission-8"
+		},
+		{
+			"level": 3,
+			"text": "Inputs",
+			"anchor": "inputs-8"
+		},
+		{
+			"level": 3,
+			"text": "State",
+			"anchor": "state-8"
+		},
+		{
+			"level": 3,
+			"text": "Procedure",
+			"anchor": "procedure-8"
+		},
+		{
+			"level": 3,
+			"text": "Artifacts",
+			"anchor": "artifacts-8"
+		},
+		{
+			"level": 3,
+			"text": "Verification",
+			"anchor": "verification-8"
+		},
+		{
+			"level": 3,
+			"text": "Continuation",
+			"anchor": "continuation-8"
+		},
+		{
+			"level": 3,
+			"text": "Critique",
+			"anchor": "critique-8"
+		},
+		{
+			"level": 3,
+			"text": "Failure Modes",
+			"anchor": "failure-modes-8"
+		},
+		{
+			"level": 3,
+			"text": "Awtsmoos Vessel",
+			"anchor": "awtsmoos-vessel-8"
+		},
+		{
+			"level": 3,
+			"text": "Pass 8 Gate",
+			"anchor": "pass-8-gate"
+		},
+		{
+			"level": 2,
+			"text": "Final Operating Command",
+			"anchor": "final-operating-command"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-1d43fa6b8e-001.json",
+		"content/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-1d43fa6b8e-002.json",
+		"content/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-1d43fa6b8e-003.json",
+		"content/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-1d43fa6b8e-004.json",
+		"content/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-1d43fa6b8e-005.json",
+		"content/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-1d43fa6b8e-006.json"
+	]
+}

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Unified Interaction Tests (geelooy/api/social/helper/unifiedInteraction/test/)\n\nUnified interaction tests.\n\n- `CommentGraphService.test.js` — comment graph service.\n- `promotion.test.js` — comment promotion.\n- `media.test.js`, `schema.test.js` — interaction media and schema.\n"
+}

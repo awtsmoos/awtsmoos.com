@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — YouTube Streaming Connector (geelooy/api/streaming/connectors/youtube/)\n\nYouTube Live streaming connector: OAuth + YouTube Live API broadcast/stream\ncontrol, with HLS/RTMPS ingest metadata.\n\nFiles: `index.js` (connector entry), `client.js`, `oauth.js`, `config.js`,\n`tokenStore.js`. Activated via `/api/streaming/youtube/:action` through the\nconnector dispatch in `../core/router.js`. (Distinct from the separate\n`/api/youtube/` family, which is account/video/upload management.)\n"
+}

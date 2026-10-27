@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Unified Social Review (geelooy/api/social/helper/unifiedSocial/review/)\n\nReview workflow for unified social: typed submissions, legal state transitions, reviewer assignment, scheduling, publication, and notifications — with legacy governance/post adapters.\n\n## Files\n- `ReviewService.js`, `ReviewStore.js`, `ReviewRouteHandlers.js` — review service, store, routes.\n- `ReviewAssignment.js`, `ReviewAccess.js`, `ReviewNotifications.js` — assignment, access, notifications.\n- `SubmissionSchema.js`, `SubmissionPaths.js`, `SubmissionPublisher.js`, `SubmissionPresenter.js` — submissions.\n- `LegacyPostSubmissionAdapter/Input/ReviewState/Publication`, `LegacyGovernanceSubmissionAdapter/Input/ReviewState/Publication` — legacy adapters so old records keep working.\n"
+}

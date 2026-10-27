@@ -1,0 +1,84 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-28t0237-geelooy-social-posting-03-final-exec-2c0a2e044b",
+	"title": "Phase Three — Final Execution Plan",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0237-geelooy-social-posting/03_FINAL_EXECUTION_PLAN.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase Three — Final Execution Plan",
+			"anchor": "phase-three-final-execution-plan"
+		},
+		{
+			"level": 2,
+			"text": "Final decision",
+			"anchor": "final-decision"
+		},
+		{
+			"level": 2,
+			"text": "Canonical storage shape",
+			"anchor": "canonical-storage-shape"
+		},
+		{
+			"level": 2,
+			"text": "Files to create",
+			"anchor": "files-to-create"
+		},
+		{
+			"level": 3,
+			"text": "social-composer/js/model/AttachmentStorage.js",
+			"anchor": "social-composer-js-model-attachmentstorage-js"
+		},
+		{
+			"level": 3,
+			"text": "api/social/helper/richSocial/AttachmentStorageSchema.js",
+			"anchor": "api-social-helper-richsocial-attachmentstorageschema-js"
+		},
+		{
+			"level": 3,
+			"text": "social-composer/js/model/test/AttachmentStorage.test.mjs",
+			"anchor": "social-composer-js-model-test-attachmentstorage-test-mjs"
+		},
+		{
+			"level": 3,
+			"text": "api/social/helper/richSocial/test/attachmentStorage.test.js",
+			"anchor": "api-social-helper-richsocial-test-attachmentstorage-test-js"
+		},
+		{
+			"level": 2,
+			"text": "Files to rewrite in full",
+			"anchor": "files-to-rewrite-in-full"
+		},
+		{
+			"level": 3,
+			"text": "social-composer/js/model/PostPayloadParts.js",
+			"anchor": "social-composer-js-model-postpayloadparts-js"
+		},
+		{
+			"level": 3,
+			"text": "api/social/helper/richSocial/AttachmentSchema.js",
+			"anchor": "api-social-helper-richsocial-attachmentschema-js"
+		},
+		{
+			"level": 2,
+			"text": "Files explicitly protected in this pass",
+			"anchor": "files-explicitly-protected-in-this-pass"
+		},
+		{
+			"level": 2,
+			"text": "Thirty final checks and improvements",
+			"anchor": "thirty-final-checks-and-improvements"
+		},
+		{
+			"level": 2,
+			"text": "Final file graph",
+			"anchor": "final-file-graph"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-28t0237-geelooy-social-posting-03-final-exec-2c0a2e044b-001.json"
+	]
+}

@@ -14,42 +14,47 @@
 		},
 		{
 			"level": 2,
-			"text": "PURPOSE",
+			"text": "Purpose",
 			"anchor": "purpose"
 		},
 		{
 			"level": 2,
-			"text": "CANONICAL ENTRY POINTS",
+			"text": "Canonical entry points",
 			"anchor": "canonical-entry-points"
 		},
 		{
 			"level": 2,
-			"text": "TERRAIN MIX LAW",
+			"text": "Local-first surface law",
+			"anchor": "local-first-surface-law"
+		},
+		{
+			"level": 2,
+			"text": "Remote and generation semantics",
+			"anchor": "remote-and-generation-semantics"
+		},
+		{
+			"level": 2,
+			"text": "Terrain mix law",
 			"anchor": "terrain-mix-law"
 		},
 		{
 			"level": 2,
-			"text": "OWNS",
+			"text": "Owns",
 			"anchor": "owns"
 		},
 		{
 			"level": 2,
-			"text": "DOES NOT OWN",
+			"text": "Does not own",
 			"anchor": "does-not-own"
 		},
 		{
 			"level": 2,
-			"text": "EXTENSION RULES",
+			"text": "Extension rules",
 			"anchor": "extension-rules"
 		},
 		{
 			"level": 2,
-			"text": "AI DISCOVERY KEYWORDS",
-			"anchor": "ai-discovery-keywords"
-		},
-		{
-			"level": 2,
-			"text": "NEXT FILES TO READ",
+			"text": "Next files to read",
 			"anchor": "next-files-to-read"
 		}
 	],

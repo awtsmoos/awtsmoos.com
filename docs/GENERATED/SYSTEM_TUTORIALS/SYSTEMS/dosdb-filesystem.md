@@ -43,7 +43,7 @@ Filesystem layout and compatibility behavior can be migration-sensitive.
 | `AWTSMOOS_EMBED_MODEL_ROOT` | test/tuning | 1 | `ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/ai_search_model_root_precedence_test.js` |
 | `AWTSMOOSDB_FAST_TEST` | test/tuning | 3 | `ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/idle/fastGate.js; ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/lightning/env.js; ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/semantic_ai_dosdb_test.js` |
 | `AWTSMOOSDB_TEST_SCALE` | test/tuning | 1 | `ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/lightning/env.js` |
-| `NODE_ENV` | runtime-config | 3 | `ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/lightning/env.js; geelooy/api/wallet/core/paypalEnvironment.js; geelooy/api/wallet/tests/paypalEnvironment.test.js` |
+| `NODE_ENV` | runtime-config | 4 | `ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/lightning/env.js; geelooy/api/tunnel/install/tools/zipBundle.js; geelooy/api/wallet/core/paypalEnvironment.js` |
 
 ## Realtime application registration evidence
 

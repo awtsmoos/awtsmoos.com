@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-28t0144-do-all-long-render-closure-15-voice--085aa02a54",
+	"title": "Tiferes Final Plan — Speech Metadata to Verified AIFF",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0144-do-all-long-render-closure/15_VOICE_TIFERES_FINAL_PLAN.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Tiferes Final Plan — Speech Metadata to Verified AIFF",
+			"anchor": "tiferes-final-plan-speech-metadata-to-verified-aiff"
+		},
+		{
+			"level": 2,
+			"text": "Source files to create",
+			"anchor": "source-files-to-create"
+		},
+		{
+			"level": 2,
+			"text": "Existing source to rewrite",
+			"anchor": "existing-source-to-rewrite"
+		},
+		{
+			"level": 2,
+			"text": "Source-first verification before tests",
+			"anchor": "source-first-verification-before-tests"
+		},
+		{
+			"level": 2,
+			"text": "Test files after source",
+			"anchor": "test-files-after-source"
+		},
+		{
+			"level": 2,
+			"text": "Generated evidence after tests",
+			"anchor": "generated-evidence-after-tests"
+		},
+		{
+			"level": 2,
+			"text": "Runtime continuation",
+			"anchor": "runtime-continuation"
+		},
+		{
+			"level": 2,
+			"text": "NEXTACTION",
+			"anchor": "nextaction"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-28t0144-do-all-long-render-closure-15-voice--085aa02a54-001.json"
+	]
+}

@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-geelooy-revelation-architecture-md-fd97afabef",
+	"title": "Geelooy Revelation Architecture",
+	"sourcePath": "docs/geelooy/REVELATION_ARCHITECTURE.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Geelooy Revelation Architecture",
+			"anchor": "geelooy-revelation-architecture"
+		},
+		{
+			"level": 2,
+			"text": "Product law",
+			"anchor": "product-law"
+		},
+		{
+			"level": 2,
+			"text": "Shell ownership",
+			"anchor": "shell-ownership"
+		},
+		{
+			"level": 2,
+			"text": "Shared layers",
+			"anchor": "shared-layers"
+		},
+		{
+			"level": 2,
+			"text": "Progressive disclosure",
+			"anchor": "progressive-disclosure"
+		},
+		{
+			"level": 2,
+			"text": "Source discipline",
+			"anchor": "source-discipline"
+		},
+		{
+			"level": 2,
+			"text": "Current major ownership",
+			"anchor": "current-major-ownership"
+		}
+	],
+	"markdownParts": [
+		"content/docs-geelooy-revelation-architecture-md-fd97afabef-001.json"
+	]
+}

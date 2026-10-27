@@ -9,8 +9,10 @@
 		"id": "apps",
 		"title": "Applications"
 	},
-	"title": "geelooy/apps/forms",
-	"entries": [],
+	"title": "Awtsmoos Forms",
+	"entries": [
+		"index.html"
+	],
 	"humanDocumentation": [
 		"docs/TUTORIALS/PROJECTS/APPS.md",
 		"docs/APPS/README.md"
@@ -19,20 +21,53 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-forms-58d109c0.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 0,
+		"source": 43,
 		"tests": 0,
 		"assets": 0,
 		"generated": 0,
 		"docs": 0,
 		"other": 0
 	},
-	"totalFiles": 0,
-	"symbolSummary": null,
-	"outgoingDependencies": [],
+	"totalFiles": 43,
+	"symbolSummary": {
+		"files": 23,
+		"classes": 8,
+		"functions": 57,
+		"exports": 40,
+		"samples": [
+			"waitForFormsConnection",
+			"statusChanged",
+			"TiferesFormEditor",
+			"editorToolbar",
+			"fieldSectionHeader",
+			"button",
+			"NetzachFormEditorLifecycle",
+			"editorLifecycleActions",
+			"secondaryActions",
+			"patchField",
+			"changeFieldType",
+			"moveField"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/apps/shared",
+			"count": 1,
+			"examples": "geelooy/apps/forms/js/main.js"
+		}
+	],
 	"incomingDependencies": [],
 	"externalDependencies": [],
-	"publicEntries": [],
-	"requiresLocalDocumentation": false,
+	"publicEntries": [
+		{
+			"url": "/apps/forms",
+			"file": "geelooy/apps/forms/index.html",
+			"title": "Awtsmoos Forms",
+			"scripts": 1,
+			"styles": 6
+		}
+	],
+	"requiresLocalDocumentation": true,
 	"documentationCovered": false,
 	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
 }

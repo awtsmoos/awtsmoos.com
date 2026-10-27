@@ -1,0 +1,94 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-25t1914-all-pages-extreme-02-realistic-route-7ebc6b9735",
+	"title": "Phase Two — Realistic Route Architecture",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-25T1914-all-pages-extreme/02_REALISTIC_ROUTE_ARCHITECTURE.md",
+	"category": "Routes",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase Two — Realistic Route Architecture",
+			"anchor": "phase-two-realistic-route-architecture"
+		},
+		{
+			"level": 2,
+			"text": "Chosen architecture",
+			"anchor": "chosen-architecture"
+		},
+		{
+			"level": 3,
+			"text": "1. Route-owned style manifests",
+			"anchor": "1-route-owned-style-manifests"
+		},
+		{
+			"level": 3,
+			"text": "2. Opt-in shared future contracts",
+			"anchor": "2-opt-in-shared-future-contracts"
+		},
+		{
+			"level": 3,
+			"text": "3. Route-family migration instead of page-by-page duplication",
+			"anchor": "3-route-family-migration-instead-of-page-by-page-duplication"
+		},
+		{
+			"level": 3,
+			"text": "4. Native disclosure first",
+			"anchor": "4-native-disclosure-first"
+		},
+		{
+			"level": 3,
+			"text": "5. Semantic layer tokens",
+			"anchor": "5-semantic-layer-tokens"
+		},
+		{
+			"level": 3,
+			"text": "6. JavaScript boundaries",
+			"anchor": "6-javascript-boundaries"
+		},
+		{
+			"level": 2,
+			"text": "First route-family wave",
+			"anchor": "first-route-family-wave"
+		},
+		{
+			"level": 3,
+			"text": "Social Hub",
+			"anchor": "social-hub"
+		},
+		{
+			"level": 3,
+			"text": "Home",
+			"anchor": "home"
+		},
+		{
+			"level": 3,
+			"text": "Docs",
+			"anchor": "docs"
+		},
+		{
+			"level": 3,
+			"text": "Drive",
+			"anchor": "drive"
+		},
+		{
+			"level": 2,
+			"text": "Second wave",
+			"anchor": "second-wave"
+		},
+		{
+			"level": 2,
+			"text": "Third wave",
+			"anchor": "third-wave"
+		},
+		{
+			"level": 2,
+			"text": "Parallel procedural wave",
+			"anchor": "parallel-procedural-wave"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-25t1914-all-pages-extreme-02-realistic-route-7ebc6b9735-001.json"
+	]
+}

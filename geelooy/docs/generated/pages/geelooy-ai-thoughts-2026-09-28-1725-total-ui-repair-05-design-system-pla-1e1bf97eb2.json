@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-28-1725-total-ui-repair-05-design-system-pla-1e1bf97eb2",
+	"title": "B\"H — 05 — Design System Plan (palace metaphor = first-class principle)",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-28-1725-total-ui-repair/05-design-system-plan.md",
+	"category": "Systems",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — 05 — Design System Plan (palace metaphor = first-class principle)",
+			"anchor": "b-h-05-design-system-plan-palace-metaphor-first-class-principle"
+		},
+		{
+			"level": 2,
+			"text": "1. The metaphor, stated as law",
+			"anchor": "1-the-metaphor-stated-as-law"
+		},
+		{
+			"level": 2,
+			"text": "2. Palette — vivid-extreme-professional",
+			"anchor": "2-palette-vivid-extreme-professional"
+		},
+		{
+			"level": 2,
+			"text": "3. Motion / alive bar",
+			"anchor": "3-motion-alive-bar"
+		},
+		{
+			"level": 2,
+			"text": "4. Global top nav (gating check)",
+			"anchor": "4-global-top-nav-gating-check"
+		},
+		{
+			"level": 2,
+			"text": "5. Breadth track",
+			"anchor": "5-breadth-track"
+		},
+		{
+			"level": 2,
+			"text": "6. CSS governance (source law)",
+			"anchor": "6-css-governance-source-law"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-28-1725-total-ui-repair-05-design-system-pla-1e1bf97eb2-001.json"
+	]
+}

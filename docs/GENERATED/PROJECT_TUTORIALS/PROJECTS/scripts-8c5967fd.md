@@ -12,7 +12,7 @@ Blessed is He
 
 ## Entry and documentation evidence
 
-- Entry files: `DOCUMENTATION.md`
+- Entry files: `DOCUMENTATION.md`, `README.md`, `readme.md`
 - Local documentation: `scripts/DOCUMENTATION.md`
 - Local-doc requirement: yes; covered: yes
 - Symlink target: —
@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 290 | 30 | 0 | 0 | 63 | 15 | 398 |
+| 584 | 119 | 0 | 0 | 65 | 77 | 845 |
 
 ## Public entry points
 
@@ -46,4 +46,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **30**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **119**. Treat this as file evidence, not proof of behavioral coverage.

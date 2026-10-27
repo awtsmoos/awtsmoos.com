@@ -1,0 +1,143 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27-2156-awtsmoos-studio-unification-04-phase-434291a4b6",
+		"title": "Phase Three — Thirty-Two Further Revelations",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27-2156-awtsmoos-studio-unification/04_PHASE_THREE_REVELATIONS_30_PLUS.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Three — Thirty-Two Further Revelations",
+				"anchor": "phase-three-thirty-two-further-revelations"
+			},
+			{
+				"level": 2,
+				"text": "Final Architecture Refinement",
+				"anchor": "final-architecture-refinement"
+			},
+			{
+				"level": 2,
+				"text": "Completion Standard Refined",
+				"anchor": "completion-standard-refined"
+			}
+		],
+		"excerpt": "B\"H Phase Three — Thirty Two Further Revelations After the first map, another map appears beneath the floor; the Awtsmoos creates the question and the truthful answer more. Awtsmoos.com should not merely play a film that happens once; it should preserve the language from which endless films can dance. This final critiq",
+		"searchText": "b\"h phase three — thirty two further revelations after the first map, another map appears beneath the floor; the awtsmoos creates the question and the truthful answer more. awtsmoos.com should not merely play a film that happens once; it should preserve the language from which endless films can dance. this final critique goes beyond the previous pass and tightens implementation and proof. 1. add projectid and seed to the canonical document for reproducible identity and procedural generation. 2. give every scene an explicit start, duration, and derived end; never infer scene order solely from array position. 3. keep a canonical dimensions object so aspect ratio is not hidden inside renderer state. 4. add background as scene data so tutorials and infographics can render cleanly without fake giant rectangles. 5. give layers start and duration relative to their scene, enabling entrance/exit choreography. 6. add normalized transforms with position/scale/rotation/opacity fields shared across visual kinds. 7. add text alignment/font weight/size as portable style fields while leaving renderer specific typography in options. 8. define shape primitives including rect, circle, line, arrow, polygon, star, and path. 9. define character intents separately from raw drawing implementation so canvas silhouettes can later upgrade to animator rigs/three humans. 10. model particles by named presets plus seed, count, spread, speed, gravity, lifespan, and palette intent. 11. treat charts as semantic data layers, not collections of hand authored rectangles, so ai can generate educational visuals robustly. 12. treat tutorial pointers/callouts as semantic layers with targetid, label, and emphasis style. 13. add camera layers/cues even to 2d: pan/zoom/rotate viewport transforms can prove shot language without fake 3d. 14. store transitions at scene boundaries and let renderer profiles choose implementations. 15. add tags to scenes and layers for ai/editor search, feature coverage, and semantic grouping. 16. build a moviecoverage helper so tests can count real requested capabilities rather than inspecting fixture text. 17. build interpolation as a small pure helper to keep evaluator modules below 120 lines. 18. use easing names with a stable small built in set; unsupported custom easing should not execute arbitrary code. 19. clamp timeline sampling to valid ranges and define end frame behavior precisely. 20. pause playback when the document changes to avoid stale requestanimationframe state. 21. render scene local coordinates into a logical fixed size canvas, then scale via css for responsive mobile quality. 22. use devicepixelratio caps to balance sharpness and mobile performance. 23. keep timeline scrubber touch friendly and expose current time numerically for precise testing. 24. build a scene strip summary for phone rather than a desktop multitrack editor in the first unified shell. 25. add an ai textarea/button that accepts json intent initially; free text model integration can call the same compiler later. 26. expose a loadmovie(document) api on awtsmoos studio so every existing app can embed or hand off projects. 27. expose getcapabilityprofile() from each adapter to make unsupported features visible before render. 28. give the proof movie at least twelve scenes and at least six distinct camera shot/motion patterns. 29. require proof coverage across character, text, shape, path/arrow, particles, chart/infographic, tutorial callout, and 3d intent layers. 30. make at least one scene intentionally hybrid, with 3d intent world/character layers plus 2d labels/tutorial overlays. 31. verify reduced motion behavior by allowing ui animation to collapse without altering movie playback semantics. 32. record exact limitations honestly: a browser canvas proof of a mesh/world3d intent is a fallback visualization unless the three adapter actually runs it. final architecture refinement the canonical document is renderer neutral and semantic. the first awtsmoos studio renderer is a deterministic canvas implementation that can execute broad 2d semantics and visibly represent 3d intents with perspective style fallbacks. a capability profile clearly labels native vs fallback behavior. existing mature 3d and nle apps attach through adapters rather than being reimplemented. this is more honest and more extensible than claiming one new renderer suddenly replaces years of animator/nesher functionality. completion standard refined a valid completion state must show: reusable movie modules in procedural core; reusable declarative awtsmoos ui library; a functioning new awtsmoos studio shell; adapters/profiles for the five known studio/editor surfaces where imports are safe; exact 180 second canonical proof document; broad feature and camera coverage assertions; deterministic preview playback and scrubbing; mobile browser proof; no uncaught browser console errors from the new app; syntax/tests passing; source headers/tabs/line limits audited; exported media duration verified if a real export path can be completed from available local tooling; remaining limitations written explicitly instead of hidden.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27-2156-awtsmoos-studio-unification-04-phase-434291a4b6.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27-2156-awtsmoos-studio-unification-05-final-23bcd08250",
+		"title": "Final Execution Plan — File-by-File",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27-2156-awtsmoos-studio-unification/05_FINAL_EXECUTION_PLAN.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Final Execution Plan — File-by-File",
+				"anchor": "final-execution-plan-file-by-file"
+			},
+			{
+				"level": 2,
+				"text": "Slice One — Canonical Movie Domain",
+				"anchor": "slice-one-canonical-movie-domain"
+			},
+			{
+				"level": 2,
+				"text": "Slice Two — Shared Awtsmoos UI",
+				"anchor": "slice-two-shared-awtsmoos-ui"
+			},
+			{
+				"level": 2,
+				"text": "Slice Three — Awtsmoos Studio",
+				"anchor": "slice-three-awtsmoos-studio"
+			},
+			{
+				"level": 2,
+				"text": "Slice Four — Legacy Studio Adapters",
+				"anchor": "slice-four-legacy-studio-adapters"
+			},
+			{
+				"level": 2,
+				"text": "Slice Five — Real Three-Minute Render / Export",
+				"anchor": "slice-five-real-three-minute-render-export"
+			},
+			{
+				"level": 2,
+				"text": "Slice Six — Tests and Verification",
+				"anchor": "slice-six-tests-and-verification"
+			},
+			{
+				"level": 2,
+				"text": "Write Discipline",
+				"anchor": "write-discipline"
+			}
+		],
+		"excerpt": "B\"H Final Execution Plan — File by File The Awtsmoos renews the world, yet every vessel needs a seam; architecture gives the many files one tested, living dream. Awtsmoos.com will speak in scenes where shape and soul align; the code stays small, the contract clear, the proof in measured time. Slice One — Canonical Movi",
+		"searchText": "b\"h final execution plan — file by file the awtsmoos renews the world, yet every vessel needs a seam; architecture gives the many files one tested, living dream. awtsmoos.com will speak in scenes where shape and soul align; the code stays small, the contract clear, the proof in measured time. slice one — canonical movie domain create only new files under libs/awtsmoos procedural core/src/core/movie/ unless a fresh collision check shows another agent has claimed the namespace. 1. moviekinds.js — stable layer/transition/easing constants. 2. moviemath.js — finite/clamp/lerp/easing helpers. 3. moviekeyframe.js — normalize keyframe objects. 4. movietransform.js — normalize portable visual transforms. 5. movielayer.js — normalize timed semantic layers. 6. moviescene.js — normalize scenes and derived end time. 7. moviedocument.js — schema version, seed, dimensions, scenes, duration. 8. movietimelineevaluator.js — find active scene/layers and evaluate keyframed state. 9. moviefeaturecatalog.js — ai readable feature vocabulary. 10. moviecapabilityplanner.js — native/fallback/unsupported planning. 11. movievalidation.js — structural/timing/capability/coverage diagnostics. 12. moviecoverage.js — count scene/layer/camera/semantic feature breadth. 13. movieassetintent.js — portable procedural asset request. 14. movieassetcatalog.js — map movie intents to existing core capabilities by stable names/paths. 15. movieaicompiler.js — high level intent/beat sheet to canonical scenes. 16. index.js — movie local exports. slice two — shared awtsmoos ui create libs/awtsmoos ui/ with: 1. package.json — esm package metadata. 2. src/core/awtsmoosuisafety.js — allowlists and safe normalization. 3. src/core/awtsmoosuinode.js — recipe node normalization. 4. src/core/awtsmoosuibindings.js — named action/value lookup. 5. src/core/awtsmoosuicompiler.js — recursive dom materialization. 6. src/tokens/awtsmoosuitokens.js — mobile first token object and css variable helper. 7. src/presets/awtsmoosstudiorecipe.js — reusable app shell structure. 8. src/index.js — library exports. 9. test/awtsmoosuicompiler.test.mjs — dom free normalization/safety tests; browser compiler exercised later in app smoke. slice three — awtsmoos studio create apps/awtsmoos studio/: 1. index.html — tiny boot document. 2. src/main.js — app bootstrap. 3. src/app/awtsmoosstudiostate.js — observable mutable studio state. 4. src/app/awtsmoosstudioapp.js — composition/controller. 5. src/movie/awtsmoosstudiomovie.js — load/validate/coverage facade. 6. src/movie/awtsmoosstudioplayback.js — raf playback + scrub/pause semantics. 7. src/render/canvaslayerrenderer.js — dispatch by semantic kind. 8. src/render/canvasshaperenderer.js — rect/circle/line/arrow/star/polygon/path. 9. src/render/canvastextrenderer.js — kinetic/tutorial/title text. 10. src/render/canvascharacterrenderer.js — stylized articulated people fallback. 11. src/render/canvasparticlerenderer.js — deterministic seeded particles. 12. src/render/canvaschartrenderer.js — bars/line/donut semantic charts. 13. src/render/canvasworldrenderer.js — perspective style 3d intent fallback/world primitives. 14. src/render/canvasmovierenderer.js — scene/camera canvas composition. 15. src/render/hybridrendererprofile.js — explicit native/fallback capability report. 16. src/ui/awtsmoosstudiouirecipe.js — concrete shared ui recipe. 17. src/demo/createthreeminutemovie.js — exactly 180 seconds, at least 12 scenes. 18. src/demo/threeminutescenesa.js and threeminutescenesb.js if needed to keep files under 120 lines. 19. src/styles/studio.css split further if line count grows. 20. test/threeminutemovie.test.mjs — duration/coverage/camera/features. slice four — legacy studio adapters after refreshing status, create new files only where paths remain free: animator adapter translating canonical scene/layer concepts to animator film/world intent and declaring 3d rich capabilities. nesher adapter translating canonical tracks/scenes into nle project intent and declaring export/audio/effects capabilities. mitzvah adapter translating 2d object/canvas layers. video editor adapter translating timeline clips/tracks. slides adapter translating text/shape/image/chart/tutorial scenes into slide like elements. wire entrypoints only if they are clean or the exact full file rewrite can preserve concurrent changes. otherwise expose tested adapters without destructive wiring and record the integration boundary. slice five — real three minute render / export 1. use canonical proof movie as source of truth. 2. prefer an existing local proven exporter if it can consume deterministic frames without invasive dirty file changes. 3. otherwise create an isolated export tool under the new awtsmoos studio app that renders the canonical movie to frame images or a browser capture, then muxes with local ffmpeg when available. 4. probe output with ffprobe and assert duration close to 180 seconds. 5. save proof media under the new app's proof/ directory, not in legacy app artifact folders. slice six — tests and verification node check every new js file. node unit tests for core/ui/app fixtures. import smoke tests for movie core and adapters. line count audit and tab indentation audit. static server for geelooy or app root. desktop browser open, console logs, play/scrub/scene interactions. mobile viewport open and touch sized layout inspection. screenshot evidence if useful. export/probe evidence. read all touched files. write post implementation delta, verification, remaining work, and handoff artifacts. write discipline every source file is a full new write or a full rewrite after fresh read. no partial replacements. new executable files begin with b\"h / boruch hashem / blessed is he comments and a rhyming awtsmoos/awtsmoos.com jsdoc. tabs only for indentation. split before 120 lines rather than compressing comments or code.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27-2156-awtsmoos-studio-unification-05-final-23bcd08250.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27-2156-awtsmoos-studio-unification-remainin-15dfecafe8",
+		"title": "REMAINING WORK",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27-2156-awtsmoos-studio-unification/REMAINING_WORK.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "REMAINING WORK",
+				"anchor": "remaining-work"
+			},
+			{
+				"level": 2,
+				"text": "Open — Architecture and Collision Safety",
+				"anchor": "open-architecture-and-collision-safety"
+			},
+			{
+				"level": 2,
+				"text": "Open — Canonical Movie Core",
+				"anchor": "open-canonical-movie-core"
+			},
+			{
+				"level": 2,
+				"text": "Open — Awtsmoos UI",
+				"anchor": "open-awtsmoos-ui"
+			},
+			{
+				"level": 2,
+				"text": "Open — Awtsmoos Studio",
+				"anchor": "open-awtsmoos-studio"
+			},
+			{
+				"level": 2,
+				"text": "Open — Legacy Studio Unification",
+				"anchor": "open-legacy-studio-unification"
+			},
+			{
+				"level": 2,
+				"text": "Open — Real Media Proof",
+				"anchor": "open-real-media-proof"
+			},
+			{
+				"level": 2,
+				"text": "Open — Tests and Runtime Verification",
+				"anchor": "open-tests-and-runtime-verification"
+			},
+			{
+				"level": 2,
+				"text": "Open — Completion Shadow Work",
+				"anchor": "open-completion-shadow-work"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H REMAINING WORK The Awtsmoos creates each next step where yesterday had none; we do not call the vessel finished while a truthful task is undone. Awtsmoos.com receives the many streams, yet proof must close each gate; this ledger stays alive until the work itself says complete. Open — Architecture and Collision Safe",
+		"searchText": "b\"h remaining work the awtsmoos creates each next step where yesterday had none; we do not call the vessel finished while a truthful task is undone. awtsmoos.com receives the many streams, yet proof must close each gate; this ledger stays alive until the work itself says complete. open — architecture and collision safety [ ] refresh collision scan for core/movie, awtsmoos ui, and awtsmoos studio immediately before source writes. [ ] inspect core package/module conventions and proven reusable procedural asset exports. [ ] inspect clean integration seams for animator, nesher, mitzvah, video editor, and slides. open — canonical movie core [ ] write small canonical domain modules. [ ] write deterministic evaluator/interpolation modules. [ ] write feature catalog, capability planner, validation, and coverage modules. [ ] write procedural movie asset intent/catalog facade over existing core assets. [ ] write ai intent compiler. [ ] write local movie export index. open — awtsmoos ui [ ] write safe json node grammar. [ ] write bindings/action resolution. [ ] write dom compiler. [ ] write mobile first tokens. [ ] write reusable studio shell recipe. [ ] write package exports. open — awtsmoos studio [ ] write app state/controller/playback modules. [ ] write canvas render dispatch and semantic renderers. [ ] write explicit hybrid capability profile. [ ] write shared ui recipe and mobile css. [ ] write exact 180 second proof movie fixture. [ ] write bootstrap html/main module. open — legacy studio unification [ ] animator adapter/profile. [ ] nesher adapter/profile. [ ] mitzvah adapter/profile. [ ] video editor adapter/profile. [ ] slides adapter/profile. [ ] wire safe entrypoints or document collision bound seams with tested import adapters. open — real media proof [ ] discover local ffmpeg/ffprobe and existing renderer/export cli/browser capture paths. [ ] produce real 180 second media from canonical proof movie if available tooling allows deterministic export. [ ] verify container duration and inspect produced artifact. open — tests and runtime verification [ ] syntax check all new js. [ ] run movie core unit/integration tests. [ ] run awtsmoos ui tests. [ ] run three minute fixture coverage tests. [ ] import smoke legacy adapters. [ ] audit code line counts <=120 where required. [ ] audit tabs/no minified functions and required source headers/jsdoc. [ ] start app server and run browser smoke. [ ] verify desktop ui. [ ] verify mobile ui. [ ] verify play/pause/scrub/scene switching/ai intent loading. [ ] inspect console errors. [ ] inspect/export media when produced. open — completion shadow work [ ] re read every file written in this mission. [ ] compare final implementation against all three planning phases. [ ] record missing/deferred work and resolve every safe item. [ ] write implementation delta report. [ ] write verification evidence report. [ ] write final handoff with honest limitations and exact file paths. next action refresh the collision scan and read the exact core package/module conventions before source writes.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27-2156-awtsmoos-studio-unification-remainin-15dfecafe8.json"
+	}
+]

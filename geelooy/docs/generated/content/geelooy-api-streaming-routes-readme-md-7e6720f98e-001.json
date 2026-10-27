@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Streaming Routes (geelooy/api/streaming/routes/)\n\nSingle file: `table.js`. Route table is tiny — two entries:\n\n- `''` — index: returns service name, available connectors, and the\n  `/api/streaming/:connector/:action` URL pattern\n- `connector` — `routeConnector` from `../core/router.js`, dispatched from\n  `:connector` (defaults to `status`) and `:connector/:action`\n\n`_awtsmoos.derech.js` mounts both with CORS headers and 404s on unknown routes.\n"
+}

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Response (geelooy/api/social/helper/response/)\n\nStandard API response helpers.\n\n- `routeResponses.js` — shared success/error response builders used by social routes (used with `helper/api`'s `MalchusResponseGarments`).\n"
+}

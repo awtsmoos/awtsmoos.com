@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Streaming API (geelooy/api/streaming/)\n\nGeneric live-streaming control plane: one dispatch vessel reaching provider\nconnectors while each external contract keeps its own key. Browser/WebCodecs is\nthe media plane (via the local tunnel for ingest bytes); this API is the\ncloud/control plane.\n\nSubdirectories:\n- `connectors/` — provider connectors (youtube, twitch, facebook, awtsmoos) + `map.js`\n- `core/` — `router.js` (connector dispatch), `json.js`, `body.js` helpers\n- `routes/` — `table.js`: `''` index + `connector` routed from\n  `:connector/:action` URL patterns\n- `docs/` — `ARCHITECTURE.md`, `LOCAL_TUNNEL_MEDIA_PLANE.md`\n\nMain routes: `/api/streaming/:connector/:action` — e.g.\n`/api/streaming/youtube/status`, `/api/streaming/twitch/start`. Base returns\nservice name, connector list, and URL patterns.\n\nNote: the missing heavy piece per the architecture doc is the mux/protocol\nadapter (browser JS can't cleanly push RTMP; the local tunnel forwards muxed bytes).\n"
+}

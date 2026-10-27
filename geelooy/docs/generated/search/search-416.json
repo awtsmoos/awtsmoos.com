@@ -1,0 +1,159 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-09-10t1851-final-hardening-multiplex-10-clean-r-dc8f4f3ab9",
+		"title": "Clean Release Protocol",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-10T1851-final-hardening-multiplex/10-clean-release-protocol.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Clean Release Protocol",
+				"anchor": "clean-release-protocol"
+			},
+			{
+				"level": 2,
+				"text": "Why the current checkout must not be pushed wholesale",
+				"anchor": "why-the-current-checkout-must-not-be-pushed-wholesale"
+			},
+			{
+				"level": 2,
+				"text": "Current safe construction strategy",
+				"anchor": "current-safe-construction-strategy"
+			},
+			{
+				"level": 2,
+				"text": "Audited release areas",
+				"anchor": "audited-release-areas"
+			},
+			{
+				"level": 2,
+				"text": "Candidate validation",
+				"anchor": "candidate-validation"
+			},
+			{
+				"level": 2,
+				"text": "Promotion gate",
+				"anchor": "promotion-gate"
+			},
+			{
+				"level": 2,
+				"text": "Revenue truth",
+				"anchor": "revenue-truth"
+			}
+		],
+		"excerpt": "Clean Release Protocol The Awtsmoos is beyond branch, tree, and deployment; Awtsmoos.com nevertheless reveals finite release truth through one exact immutable SHA rather than through a dirty checkout. Why the current checkout must not be pushed wholesale Local branch is main but committed history is 3 commits ahead and",
+		"searchText": "clean release protocol the awtsmoos is beyond branch, tree, and deployment; awtsmoos.com nevertheless reveals finite release truth through one exact immutable sha rather than through a dirty checkout. why the current checkout must not be pushed wholesale local branch is main but committed history is 3 commits ahead and 26 commits behind current origin/main. working tree contains roughly 1,510 dirty paths, much of it unrelated concurrent work. many geelooy commerce/retention/reconciliation modules are new/untracked relative to remote main. production hard resets hetzner to the exact pushed github sha and cleans untracked files. current safe construction strategy build an immutable candidate commit without changing the real index, branch, or working tree: 1. create a temporary git index. 2. git read tree origin/main into that temporary index. 3. stage only the audited release areas into that temporary index, including tracked edits, deletions, and untracked files. 4. git write tree. 5. git commit tree p origin/main to create a candidate commit directly parented on current remote main. 6. verify the candidate contains every critical commerce, retention, reconciliation, catalog, seo, and server injection module. audited release areas geelooy/shared/commerce geelooy/api/wallet/core/commerce geelooy/api/wallet/routes geelooy/api/wallet/tests geelooy/scripts/awtsmoos/ui geelooy/style/premium/product commerce geelooy/style/premium/product memory.css geelooy/apps/scripts/catalog geelooy/apps/scripts/filter geelooy/games/scripts/catalog geelooy/games/scripts/storefront geelooy/seo ayzarim/awtsmoosdynamicserver/static ayzarim/awtsmoosdynamicserver/server candidate validation materialize only the immutable candidate commit into a clean checkout. then run the same release gates as .github/workflows/main.yml under node 24 where available: node check scripts/verifyhomeproduction.mjs runtime quality tests production tests city of light release surface test static asset representation + html product metadata tests npm run test:routes npm run test:css quality npm run repo:hygiene npm run test:concurrency failure the workflow's rebbe/living library/heichel release checks the complete geelooy commerce/retention/reconciliation/seo platform suite used during this hardening pass promotion gate before pushing: inspect git diff origin/main..candidate and reject unrelated subsystems; ensure candidate parent is the current fetched origin/main sha; ensure no required file exists only in the dirty development checkout; ensure all production and product gates are green. only then update main to the exact candidate sha. github actions will verify the same sha, ssh to hetzner, hard reset the production checkout to it, clean untracked files, activate the canonical server, and execute public release verification. revenue truth this release system protects a real monetization engine—80 monetizable products, 240 product credit packs, durable radiance entitlements, wallet settlement, reconciliation diagnostics, retention, discovery, and mobile conversion surfaces. it optimizes the conditions for revenue but cannot guarantee any dollar rate or permanence of income.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-10t1851-final-hardening-multiplex-10-clean-r-dc8f4f3ab9.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-11t1342-deployment-hardening-recovery-00-pha-94e499690e",
+		"title": "Phase One — Deployment Hardening Recovery",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-11T1342-deployment-hardening-recovery/00-phase-one-boundless.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase One — Deployment Hardening Recovery",
+				"anchor": "phase-one-deployment-hardening-recovery"
+			},
+			{
+				"level": 2,
+				"text": "Boundless possibilities",
+				"anchor": "boundless-possibilities"
+			}
+		],
+		"excerpt": "Phase One — Deployment Hardening Recovery The Awtsmoos renews every finite release vessel each instant. This wave touches deployment infrastructure only; the 115 test application release remains frozen. Boundless possibilities Identify the exact remote phase that fails without exposing credentials. Make every remote ph",
+		"searchText": "phase one — deployment hardening recovery the awtsmoos renews every finite release vessel each instant. this wave touches deployment infrastructure only; the 115 test application release remains frozen. boundless possibilities identify the exact remote phase that fails without exposing credentials. make every remote phase name itself before execution. add a safe err trap that prints phase, exit code, repo path, branch, head and fetched origin/main sha only. keep secrets out of logs entirely. separate transient network fetch failure from permanent production repo state failure. retry only idempotent network operations such as git fetch, never activation blindly. verify the production repo is a git worktree and identify branch/detached state explicitly. avoid assuming branch main is checked out if exact sha reset is the real invariant. verify expected sha exists locally before reset. preserve exact sha hard reset/clean semantics. verify activation script contract before changing branch assumptions. give canonical activation a named phase and retain its current behavior. run home and tunnel public verifiers as distinct named phases. add a lightweight release canary after activation if existing verifiers do not cover wallet routing. preserve concurrency serialization and no force git release behavior. keep workflow compact by moving remote shell logic into a small tested script if this improves diagnosability. make deployment helper locally testable in a dry run/preflight mode without production credentials. keep every touched script under 120 lines and fully documented. push only from the isolated release worktree after syntax, dry run, and git freshness gates. verify the github action and the live reconciliation canary after deployment.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-11t1342-deployment-hardening-recovery-00-pha-94e499690e.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-11t1342-deployment-hardening-recovery-01-pha-4999b11123",
+		"title": "Phase Two — Twenty Deployment Improvements",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-11T1342-deployment-hardening-recovery/01-phase-two-20-improvements.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Two — Twenty Deployment Improvements",
+				"anchor": "phase-two-twenty-deployment-improvements"
+			}
+		],
+		"excerpt": "Phase Two — Twenty Deployment Improvements 1. Name every remote phase before it runs. 2. Trap ERR and print only non secret diagnostics. 3. Verify production repo directory exists. 4. Verify production repo is a Git repository. 5. Print branch/detached state instead of assuming silently. 6. Retry git fetch with bounded",
+		"searchText": "phase two — twenty deployment improvements 1. name every remote phase before it runs. 2. trap err and print only non secret diagnostics. 3. verify production repo directory exists. 4. verify production repo is a git repository. 5. print branch/detached state instead of assuming silently. 6. retry git fetch with bounded attempts and backoff. 7. verify fetched expected sha exists as a commit. 8. verify fetched origin/main equals expected sha. 9. reset hard only after sha validation. 10. clean only after reset and preserve exact current semantics. 11. verify post reset status is clean. 12. verify head equals expected sha before activation. 13. name canonical activation as its own phase. 14. preserve activation arguments exactly unless its contract proves otherwise. 15. name homepage verification separately. 16. name tunnel installer verification separately. 17. re verify head after all public checks. 18. keep deployment script reusable outside github actions for deterministic diagnosis. 19. add shell syntax and local preflight tests before push. 20. do one exact push and verify production with the new reconciliation route canary.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-11t1342-deployment-hardening-recovery-01-pha-4999b11123.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-11t1342-deployment-hardening-recovery-02-pha-e3a0fdee7d",
+		"title": "Phase Three — Thirty Final Refinements",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-11T1342-deployment-hardening-recovery/02-phase-three-30-improvements.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Three — Thirty Final Refinements",
+				"anchor": "phase-three-thirty-final-refinements"
+			}
+		],
+		"excerpt": "Phase Three — Thirty Final Refinements 1. Do not alter product code while deployment recovery is active. 2. Do not amend the already tested product commit. 3. Keep deployment hardening as a separate commit. 4. Preserve the no force push rule. 5. Preserve main branch concurrency serialization. 6. Keep expected SHA sourc",
+		"searchText": "phase three — thirty final refinements 1. do not alter product code while deployment recovery is active. 2. do not amend the already tested product commit. 3. keep deployment hardening as a separate commit. 4. preserve the no force push rule. 5. preserve main branch concurrency serialization. 6. keep expected sha sourced from github, never caller text. 7. quote every path and sha expansion. 8. reject malformed shas before ssh. 9. make the helper fail closed on missing sha. 10. make the helper fail closed on missing repo. 11. avoid printing environment secrets. 12. avoid set x in production deployment. 13. print git remote/branch state only if non secret. 14. bound fetch retries. 15. never retry reset/activation implicitly. 16. verify expected object after fetch before reset. 17. verify origin/main after fetch before reset. 18. preserve clean tree requirement. 19. preserve post activation head requirement. 20. preserve homepage contract verification. 21. preserve tunnel public release verification. 22. add wallet canary only if it can be unauthenticated without leaking identity. 23. keep helper source under 120 lines. 24. keep workflow source under 120 lines by delegating remote logic. 25. use exact blessing headers appropriate to yaml/shell. 26. use tabs inside shell script indentation where syntactically safe. 27. run bash n on every touched shell file. 28. re read every touched deployment file after rewrite. 29. re fetch origin/main immediately before commit and push. 30. declare live only after the github run succeeds and the reconciliation canary no longer reports invalid route.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-11t1342-deployment-hardening-recovery-02-pha-e3a0fdee7d.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-11t1342-deployment-hardening-recovery-03-fin-d15b7c4479",
+		"title": "Final Deployment Recovery Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-11T1342-deployment-hardening-recovery/03-final-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Final Deployment Recovery Plan",
+				"anchor": "final-deployment-recovery-plan"
+			},
+			{
+				"level": 2,
+				"text": "Evidence first",
+				"anchor": "evidence-first"
+			},
+			{
+				"level": 2,
+				"text": "Implementation",
+				"anchor": "implementation"
+			},
+			{
+				"level": 2,
+				"text": "Verification",
+				"anchor": "verification"
+			},
+			{
+				"level": 2,
+				"text": "Release",
+				"anchor": "release"
+			}
+		],
+		"excerpt": "Final Deployment Recovery Plan Evidence first Read scripts/production/canonical server activate.sh, current workflow, and recent workflow history. Determine which assumptions can fail before activation. Implementation Prefer one small remote deployment helper under scripts/production/ that owns phase logging, safe diag",
+		"searchText": "final deployment recovery plan evidence first read scripts/production/canonical server activate.sh, current workflow, and recent workflow history. determine which assumptions can fail before activation. implementation prefer one small remote deployment helper under scripts/production/ that owns phase logging, safe diagnostics, bounded fetch retry, exact sha validation, reset/clean, activation, and post deploy verification. rewrite .github/workflows/main.yml whole so ssh invokes that helper rather than embedding an opaque multi command block. verification run shell syntax, local non destructive preflight/dry run if supported, source law checks, workflow structural checks, and the relevant production verifier scripts where safe. re read touched files. release commit deployment hardening separately in the isolated release worktree, fetch remote main, require strict fast forward, push exact sha, observe github actions, and verify the live reconciliation canary plus public apps/games/transcribe routes.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-11t1342-deployment-hardening-recovery-03-fin-d15b7c4479.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-11t1342-deployment-hardening-recovery-04-rem-0df354ca4c",
+		"title": "Remaining Work",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-11T1342-deployment-hardening-recovery/04-remaining-work.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Remaining Work",
+				"anchor": "remaining-work"
+			}
+		],
+		"excerpt": "Remaining Work [ ] Inspect canonical activation script and successful workflow history. [ ] Identify brittle/opaque SSH assumptions. [ ] Implement diagnostic/retry safe deployment helper and workflow delegation. [ ] Validate source law and shell/workflow syntax. [ ] Re read touched deployment files. [ ] Commit separate",
+		"searchText": "remaining work [ ] inspect canonical activation script and successful workflow history. [ ] identify brittle/opaque ssh assumptions. [ ] implement diagnostic/retry safe deployment helper and workflow delegation. [ ] validate source law and shell/workflow syntax. [ ] re read touched deployment files. [ ] commit separately from product release. [ ] push only on strict remote freshness. [ ] verify successful github→hetzner run. [ ] verify live reconciliation route is the new authenticated surface. [ ] verify /, /apps/, /games/, and /apps/transcribe/ publicly.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-11t1342-deployment-hardening-recovery-04-rem-0df354ca4c.json"
+	}
+]

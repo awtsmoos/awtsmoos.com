@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-merkava-native-browser-build-pipeline-md-fff88caca6",
+	"title": "Merkava Android Browser — Build Pipeline",
+	"sourcePath": "geelooy/apps/merkava-native-browser/BUILD_PIPELINE.md",
+	"category": "Apps",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Merkava Android Browser — Build Pipeline",
+			"anchor": "merkava-android-browser-build-pipeline"
+		},
+		{
+			"level": 2,
+			"text": "1. NDK / SDK location",
+			"anchor": "1-ndk-sdk-location"
+		},
+		{
+			"level": 2,
+			"text": "2. APK packager",
+			"anchor": "2-apk-packager"
+		},
+		{
+			"level": 1,
+			"text": "example:",
+			"anchor": "example"
+		},
+		{
+			"level": 2,
+			"text": "3. Manifest",
+			"anchor": "3-manifest"
+		},
+		{
+			"level": 2,
+			"text": "4. Native source",
+			"anchor": "4-native-source"
+		},
+		{
+			"level": 3,
+			"text": "Compiling the browser .so (the exact command the v2 builder used)",
+			"anchor": "compiling-the-browser-so-the-exact-command-the-v2-builder-used"
+		},
+		{
+			"level": 2,
+			"text": "5. Verification commands",
+			"anchor": "5-verification-commands"
+		},
+		{
+			"level": 2,
+			"text": "6. APKs built (2026-10-09)",
+			"anchor": "6-apks-built-2026-10-09"
+		},
+		{
+			"level": 2,
+			"text": "7. Commits",
+			"anchor": "7-commits"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-merkava-native-browser-build-pipeline-md-fff88caca6-001.json"
+	]
+}

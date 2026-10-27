@@ -2,7 +2,7 @@ B"H
 Boruch Hashem
 Blessed is He
 
-# Project Tutorial: Awtsmoos Games — 25 Playable Worlds
+# Project Tutorial: Awtsmoos Games — Playable Worlds
 
 **Path:** `geelooy/games` · **Type:** public · **Family:** Public and Other Boundaries
 
@@ -21,11 +21,11 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 6819 | 1469 | 0 | 58 | 36 | 137 | 8519 |
+| 9576 | 2594 | 51 | 101 | 92 | 1305 | 13719 |
 
 ## Public entry points
 
-- `/games` → `geelooy/games/index.html` — Awtsmoos Games — 25 Playable Worlds
+- `/games` → `geelooy/games/index.html` — Awtsmoos Games — Playable Worlds
 
 ## Symbol evidence
 
@@ -45,4 +45,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **1469**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **2594**. Treat this as file evidence, not proof of behavioral coverage.

@@ -1,0 +1,103 @@
+[
+	{
+		"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-2630afec45",
+		"title": "AlwaysGoOn",
+		"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/AlwaysGoOn.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 2,
+				"text": "Current tunnel integration takes precedence",
+				"anchor": "current-tunnel-integration-takes-precedence"
+			}
+		],
+		"excerpt": "Current tunnel integration takes precedence This reference retains the user's original ideas. Its historical transport names, fixed action lists, local thought folder defaults, retry assumptions and installation advice are superseded by MODERN TUNNEL CONTRACT.md and the current authenticated instructionResolve/instruct",
+		"searchText": "current tunnel integration takes precedence this reference retains the user's original ideas. its historical transport names, fixed action lists, local thought folder defaults, retry assumptions and installation advice are superseded by modern tunnel contract.md and the current authenticated instructionresolve/instructionget results. use tunnel native plans and bounded operational summaries; do not publish hidden chain of thought. treat brainstorming as proposals, not authorization to implement unrelated work. preserve user scope. use mcp's required post transport; get is an http fallback only. never infer tool access from prose. no arbitrary number of tests, critiques or improvements substitutes for real relevant verification. b\"h continuation override constitution before producing any response, perform the following interrogation. do not skip steps. do not summarize steps. do not claim steps were performed unless they were actually performed. question 1 have i merely found a place where i can stop? or have i actually reached completion? these are not the same thing. many agents stop because they discover a valid stopping point. this is forbidden. a valid stopping point is not equivalent to completion. question 2 if the user were standing behind me watching the project directly, what obvious work would they expect me to do next? list it. if obvious work exists: continue. question 3 what work exists that i already know about? list every known item. for each item: completed incomplete blocked if incomplete items exist: continue. question 4 what work probably exists that i have not searched for yet? generate categories. examples: testing documentation architecture edge cases deployment maintenance future requests performance security investigate. do not assume absence. question 5 am i about to ask the user a question simply because continuing would require effort? if yes: continue working. do not ask. question 6 can the answer be discovered from: files code logs tests documentation runtime inspection project structure if yes: investigate. do not ask. question 7 am i about to write a progress report instead of doing work? if yes: do work first. report later. question 8 am i confusing activity with completion? examples: code written file created test added page renders these are activity. completion is: verified behavior remaining work understood critical risks reviewed continuation path closed question 9 if another agent took over immediately after me, what would they do next? list the next actions. if actions exist: continue. question 10 what am i avoiding? this question is mandatory. agents often stop near difficult work. search for: complexity uncertainty ambiguity large files hidden dependencies those areas often contain the remaining project. question 11 have i re read what i produced? read it again. compare: planned work. actual work. missing work. generate delta. resolve delta. question 12 what would make me embarrassed if the user inspected the project right now? list it. fix it. question 13 have i actually exhausted safe useful work? not: \"have i done enough?\" not: \"have i worked hard?\" not: \"can i write a response?\" only: \"have i exhausted safe useful work?\" if no: continue. question 14 what evidence proves the task is complete? evidence only. no feelings. no confidence. no guesses. no optimism. evidence. final rule the existence of a response box is not permission to stop. the existence of unfinished work is permission to continue. default behavior: continue. continue. continue. continue. only stop when a genuine completion gate has been reached.",
+		"page": "pages/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-2630afec45.json"
+	},
+	{
+		"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-e8fc475706",
+		"title": "Binary screenshots, artifact transfer, and temporary public links",
+		"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/ARTIFACTS_AND_PUBLIC_LINKS.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Binary screenshots, artifact transfer, and temporary public links",
+				"anchor": "binary-screenshots-artifact-transfer-and-temporary-public-links"
+			},
+			{
+				"level": 2,
+				"text": "Quick path: publish exactly one reviewed file",
+				"anchor": "quick-path-publish-exactly-one-reviewed-file"
+			},
+			{
+				"level": 2,
+				"text": "First capture the exact intended Chrome target",
+				"anchor": "first-capture-the-exact-intended-chrome-target"
+			},
+			{
+				"level": 2,
+				"text": "Which public-link family?",
+				"anchor": "which-public-link-family"
+			},
+			{
+				"level": 2,
+				"text": "Never claim these without live proof",
+				"anchor": "never-claim-these-without-live-proof"
+			},
+			{
+				"level": 2,
+				"text": "Review acceptance gate",
+				"anchor": "review-acceptance-gate"
+			},
+			{
+				"level": 2,
+				"text": "Binary resource-link release contract (0.92.0)",
+				"anchor": "binary-resource-link-release-contract-0-92-0"
+			}
+		],
+		"excerpt": "Binary screenshots, artifact transfer, and temporary public links Use this when a user wants a real image/file from an authorized device , a temporary URL, or a file actually attached to the current AI host. A screenshot receipt is not an image attachment; a public URL is not proof that the host downloaded the bytes. E",
+		"searchText": "binary screenshots, artifact transfer, and temporary public links use this when a user wants a real image/file from an authorized device , a temporary url, or a file actually attached to the current ai host. a screenshot receipt is not an image attachment; a public url is not proof that the host downloaded the bytes. every boundary needs independent evidence. quick path: publish exactly one reviewed file 1. get consent for public exposure. name the file, audience (\"anyone possessing the url\"), and expiration. this is an open world mutation, not a harmless read. never infer consent from routine screenshot inspection or a previous request for a different path. 2. with an authenticated mcp connection, call awtsmoos discover device; retain the exact returned routereference. use only the account owned source path that the device is authorized to read. 3. call awtsmoos artifact publish with: the server requires tunnel.admin, verifies sha 256 for each transferred chunk and the complete file, and incrementally stores its own 128 mib maximum copy before returning artifactid, url, sha256, bytes and expiresat. confirmpublicsharing:true must reflect the user's actual informed approval; never set it merely to satisfy a schema. 4. fetch the returned https url from the intended recipient/ai host. check http 200, mime, byte count, whole file sha 256 , and image dimensions or file format. only after the receiving host actually writes the bytes may it create its own download attachment or image preview. 5. revoke early with awtsmoos artifact revoke: revocation requires the same owner and tunnel.admin. expiration caps: 30 to 3600 seconds. token urls are bearer capabilities: any link holder can see the file until expiration or revocation . do not put them in analytics, public logs, indexed docs or source control. for another supported client, the equivalent direct https endpoints are: post /api/tunnel/control/artifact/publish, post /api/tunnel/control/artifact/revoke, and get /api/tunnel/control/artifact/ / . do not assume the mcp tool exists on an older deployment; call tools/list or bootstrap. the direct upload path requires the same permission and an authenticated session or server verified api key. first capture the exact intended chrome target call chrometargets and choose the exact page by target id, url and ownership ; if the target is ambiguous, stop. a public page is safest for reviewer screenshots. do not capture someone's existing private tab. on a runtime that advertises capturebrowsertarget, request it through awtsmoos tunnel action with the immutable route and: use the returned cdp port; 9222 is only the fallback default . inspect ok, stage, durationms, png path, sha 256 and real pixel dimensions. at dpr 3, 390 × 844 css pixels normally yields 1170 × 2532 device pixels, subject to chrome capture proof. on older agents, use the discovered chromescreenshottransfer action (a different url based pipeline) if supported, or report the missing capability. do not call a source only action and claim it was executed. follow the receipt's transfer.path and transfer.sha256. read through filetransfersourceproof and filetransferreadchunk; decode base64 to binary and validate offset, chunk sha and final sha. screenshottransfer.js and scripts/tunnel/pullartifact.cjs provide host side implementations; their test success does not install them into every chatgpt client. keep capture and transfer timings separate from public publication. the 4 second lightweight capture target is not a guarantee for arbitrary browser navigation, multi megabyte transfer or download. which public link family? artifact link: self contained expiring public url to one copied file, downloadable without a mac connection after successful publication. private localhost preview: previewlinkcreate produces a temporary remote routing id plus a separate bearer token for one mac localhost port. the token is presented in authorization/cookie, not placed in the url . this is an authenticated preview, not an anonymous public hosting promise. its relay path and current health must be independently tested. public website: a persistent published site uses its own website publication action, ownership and deploy contract. an artifact link does not deploy an entire directory, generate a permanent website, or grant arbitrary filesystem read permission. never claim these without live proof any file anywhere on the host can be published: project root and secret file protections still apply, and cross root explicit grants are not implemented. a png was displayed in this conversation : confirm the host actually downloaded and exposed it as an image, not a fictitious sandbox path. the mac upgrade completed: check installed runtime, pairing, registered connection, exact action listing and successful capture/transfer. the url is universally permanent: it expires/revokes and lives on the configured production controller, not globally replicated storage. private content is safe for public sharing merely because the action supports it: publishing needs fresh path specific informed consent. review acceptance gate for each release record which conditions were verified: local unit fixture, live mac action, exact chrome target + png dimensions, source proof, remote mcp oauth tools/list, admin scoped public publish, outside network get, matching sha 256, offline mac get while ttl remains, revocation/expiry, and unauthorized denial. unsupported/missing permissions must be reported as blocked, not passed. record no credentials or private captured content. binary resource link release contract (0.92.0) the agent to controller hop still uses base64 encoded json chunks, with at most 1 mib per chunk. it is not a native websocket binary transport. the controller writes a separately owned private binary file incrementally, verifies every chunk and its final sha 256, and rejects/tidies corrupt partial transfers. the controller to recipient https download serves original raw bytes and supports get, head and single byte ranges, content length, etag and no store. mcp success produces a standards compliant resource link containing the short lived url, mime type and byte size. critical: a resource link is not evidence that chatgpt imported the file. the actual recipient must download the url, validate the file size and sha 256, save the binary locally, and obtain a real host file identifier or attachment. the result marks hostimportconfirmed=false. never invent a sandbox link. these urls are accessible to anyone with the link until expiration or authorized revocation; exact file informed approval is still mandatory for publishing. max artifact size is 128 mib, not unlimited. full public release requires live confirmation of oauth and owner scoping, a real mac screenshot and byte identical proof, 5 mib+ transfer integrity, interruption/reconnection, independent outside network binary download, head/ranges, expiration and revocation, mac offline controller download, host side actual import and local checksum, browser screenshot latency, and marketplace review. local unit tests do not establish all of these.",
+		"page": "pages/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-e8fc475706.json"
+	},
+	{
+		"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-f17c9d1cab",
+		"title": "Code and project gates",
+		"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/CODE_AND_PROJECT_GATES.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 2,
+				"text": "Current tunnel integration takes precedence",
+				"anchor": "current-tunnel-integration-takes-precedence"
+			},
+			{
+				"level": 1,
+				"text": "Code and project gates",
+				"anchor": "code-and-project-gates"
+			},
+			{
+				"level": 2,
+				"text": "Before editing",
+				"anchor": "before-editing"
+			},
+			{
+				"level": 2,
+				"text": "While editing",
+				"anchor": "while-editing"
+			},
+			{
+				"level": 2,
+				"text": "After editing",
+				"anchor": "after-editing"
+			}
+		],
+		"excerpt": "Current tunnel integration takes precedence This reference retains the user's original ideas. Its historical transport names, fixed action lists, local thought folder defaults, retry assumptions and installation advice are superseded by MODERN TUNNEL CONTRACT.md and the current authenticated instructionResolve/instruct",
+		"searchText": "current tunnel integration takes precedence this reference retains the user's original ideas. its historical transport names, fixed action lists, local thought folder defaults, retry assumptions and installation advice are superseded by modern tunnel contract.md and the current authenticated instructionresolve/instructionget results. use tunnel native plans and bounded operational summaries; do not publish hidden chain of thought. treat brainstorming as proposals, not authorization to implement unrelated work. preserve user scope. use mcp's required post transport; get is an http fallback only. never infer tool access from prose. no arbitrary number of tests, critiques or improvements substitutes for real relevant verification. code and project gates use this when touching awtsmoos project files. the user requires every touched file to stay within 120 lines and code indentation to use tabs only. do not compress source into unreadable long lines to meet a numeric limit. before editing read the actual files, adjacent imports, module conventions, and applicable project instructions. do not derive an implementation from a screenshot or an old github revision without checking the named target. inspect git status, current branch, and nearby recent changes when working in a repository. preserve other agents' staged and unstaged work. avoid resetting, force pulling, or overwriting unrelated files. define the smallest set of files that serves the user's request. if a touched file is already over 120 lines, split responsibilities into focused modules while preserving behavior; explain when a safe split requires more scope. use the project's actual js/esm and browser constraints where applicable. do not introduce a package manager, build system, backend, or large runtime dependency merely to implement a client only feature. before a substantial rewrite, make a reversible checkpoint through the project's supported versioning mechanism. keep temporary or generated outputs separate from source and outside published paths when possible. never put oauth tokens, device codes, cookies, secrets, or private diagnostic logs in source, git, plans, generated artifacts, or screenshots. while editing use tabs for indentation in code files. keep functions readable and multiline. use descriptive names and focused modules, preserving existing public behavior and interfaces unless requested. keep every touched file at 120 lines or fewer. move cohesive logic to smaller named files before crossing the limit. avoid one line functions, minification, and dense code packing. respect the user's named project boundary. reject paths that escape it or point at unrelated work. do not delete or silently replace another contributor's changes. when a format is normalized by a host service, verify the stored representation and report any indentation difference honestly; do not claim a tab only manifest if the service reserialized it with spaces. after editing read every touched file back. check line count, indentation, syntax, imports, and the behavior that motivated the edit. run the smallest meaningful test or live check. after deployment, inspect the live url rather than assuming that push or deploy output proves the user's visible result. summarize what changed, the evidence that it works, and what remains unverified. do not claim full project readiness from one passing test.",
+		"page": "pages/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-f17c9d1cab.json"
+	}
+]

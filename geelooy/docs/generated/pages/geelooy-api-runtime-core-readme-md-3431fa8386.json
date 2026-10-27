@@ -1,0 +1,24 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-runtime-core-readme-md-3431fa8386",
+	"title": "B\"H — Runtime Core (geelooy/api/runtime/core/)",
+	"sourcePath": "geelooy/api/runtime/core/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Runtime Core (geelooy/api/runtime/core/)",
+			"anchor": "b-h-runtime-core-geelooy-api-runtime-core"
+		},
+		{
+			"level": 2,
+			"text": "Files",
+			"anchor": "files"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-runtime-core-readme-md-3431fa8386-001.json"
+	]
+}

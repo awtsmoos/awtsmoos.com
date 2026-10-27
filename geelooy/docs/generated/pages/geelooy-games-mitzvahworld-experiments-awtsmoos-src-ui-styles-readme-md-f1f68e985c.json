@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-ui-styles-readme-md-f1f68e985c",
+	"title": "Localized UI Style Architecture",
+	"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/styles/README.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Localized UI Style Architecture",
+			"anchor": "localized-ui-style-architecture"
+		},
+		{
+			"level": 2,
+			"text": "Core contract",
+			"anchor": "core-contract"
+		},
+		{
+			"level": 2,
+			"text": "Localization rules",
+			"anchor": "localization-rules"
+		},
+		{
+			"level": 2,
+			"text": "Layer rules",
+			"anchor": "layer-rules"
+		},
+		{
+			"level": 2,
+			"text": "Viewport rules",
+			"anchor": "viewport-rules"
+		},
+		{
+			"level": 2,
+			"text": "Interaction rules",
+			"anchor": "interaction-rules"
+		},
+		{
+			"level": 2,
+			"text": "Animation rules",
+			"anchor": "animation-rules"
+		},
+		{
+			"level": 2,
+			"text": "File-size rule",
+			"anchor": "file-size-rule"
+		},
+		{
+			"level": 2,
+			"text": "Current manifests",
+			"anchor": "current-manifests"
+		},
+		{
+			"level": 2,
+			"text": "Verification",
+			"anchor": "verification"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-experiments-awtsmoos-src-ui-styles-readme-md-f1f68e985c-001.json"
+	]
+}

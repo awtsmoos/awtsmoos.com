@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-30-2036-heichel-mobile-ui-repair-01-phase-on-3b9071dcb7",
+	"title": "Phase One — Candidate File Map",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-30-2036-heichel-mobile-ui-repair/01-phase-one-file-map.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase One — Candidate File Map",
+			"anchor": "phase-one-candidate-file-map"
+		},
+		{
+			"level": 2,
+			"text": "Files observed as relevant",
+			"anchor": "files-observed-as-relevant"
+		},
+		{
+			"level": 2,
+			"text": "Required further reads before final file list",
+			"anchor": "required-further-reads-before-final-file-list"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-30-2036-heichel-mobile-ui-repair-01-phase-on-3b9071dcb7-001.json"
+	]
+}

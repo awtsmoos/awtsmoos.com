@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Portal Core (geelooy/api/portal/core/)\n\nRead path behind the Portal routes (see `../README.md`).\n\n## Files\n- `PortalHttpHandlers.js` — route handlers: extracts bounded query values from\n  the dynamic route context, delegates to the read service, and translates\n  failures into portal error resources.\n- `PortalReadService.js` — the domain read service: portal root, types,\n  API-family discovery; free of HTTP transport details.\n"
+}

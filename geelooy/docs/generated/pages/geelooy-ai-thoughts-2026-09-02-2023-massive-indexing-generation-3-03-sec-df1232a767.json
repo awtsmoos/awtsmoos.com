@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-02-2023-massive-indexing-generation-3-03-sec-df1232a767",
+	"title": "Second Brainstorm — Evidence-Driven Expansion",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-02-2023-massive-indexing-generation-3/03-second-brainstorm.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Second Brainstorm — Evidence-Driven Expansion",
+			"anchor": "second-brainstorm-evidence-driven-expansion"
+		},
+		{
+			"level": 2,
+			"text": "Generation-3 implementation families",
+			"anchor": "generation-3-implementation-families"
+		},
+		{
+			"level": 3,
+			"text": "Family 1: semantic runtime completion",
+			"anchor": "family-1-semantic-runtime-completion"
+		},
+		{
+			"level": 3,
+			"text": "Family 2: coverage auditor",
+			"anchor": "family-2-coverage-auditor"
+		},
+		{
+			"level": 3,
+			"text": "Family 3: runtime crawl acceptance",
+			"anchor": "family-3-runtime-crawl-acceptance"
+		},
+		{
+			"level": 3,
+			"text": "Family 4: comment fixture depth",
+			"anchor": "family-4-comment-fixture-depth"
+		},
+		{
+			"level": 3,
+			"text": "Family 5: alias structured identity",
+			"anchor": "family-5-alias-structured-identity"
+		},
+		{
+			"level": 3,
+			"text": "Family 6: post structured identity",
+			"anchor": "family-6-post-structured-identity"
+		},
+		{
+			"level": 3,
+			"text": "Family 7: translation integrity",
+			"anchor": "family-7-translation-integrity"
+		},
+		{
+			"level": 3,
+			"text": "Family 8: developer architecture docs",
+			"anchor": "family-8-developer-architecture-docs"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-02-2023-massive-indexing-generation-3-03-sec-df1232a767-001.json"
+	]
+}

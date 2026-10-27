@@ -22,39 +22,49 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-heichelos-d9fbb499.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 917,
-		"tests": 131,
+		"source": 1713,
+		"tests": 212,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
-		"other": 2
+		"other": 22
 	},
-	"totalFiles": 1051,
+	"totalFiles": 1948,
 	"symbolSummary": {
-		"files": 563,
-		"classes": 83,
-		"functions": 2150,
-		"exports": 1032,
+		"files": 873,
+		"classes": 183,
+		"functions": 3115,
+		"exports": 1669,
 		"samples": [
-			"queryMap",
-			"heichelFields",
-			"postFields",
-			"escapeAttribute",
-			"renderCanonicalPostRedirect",
-			"getHeichel",
-			"renderHeichelShell",
-			"renderGlobalSubmit",
-			"renderDelete",
-			"renderSubmit",
-			"renderPost",
-			"renderSeriesPost"
+			"revealHeichelRoutes",
+			"xmur3",
+			"mulberry32",
+			"makeRand",
+			"buildAtlas",
+			"compile",
+			"program",
+			"Ambient",
+			"attrBuf",
+			"bindAttr",
+			"styleCanvas",
+			"init"
 		]
 	},
 	"outgoingDependencies": [
 		{
+			"project": "geelooy/api/social",
+			"count": 12,
+			"examples": "geelooy/heichelos/routes/heichel/comments/commentHtml.js; geelooy/heichelos/routes/heichel/comments/commentPage.js; geelooy/heichelos/routes/heichel/comments/postAnnotations.js"
+		},
+		{
 			"project": "geelooy/shared",
-			"count": 8,
-			"examples": "geelooy/heichelos/heichel/modules/legend/cardDepthObserver.js; geelooy/heichelos/heichel/modules/legend/heroScrollDepth.js; geelooy/heichelos/post/functions/ui/context/relatedSearchPanel.js"
+			"count": 10,
+			"examples": "geelooy/heichelos/heichel/modules/app/post-ready-experience.js; geelooy/heichelos/heichel/modules/legend/cardDepthObserver.js; geelooy/heichelos/heichel/modules/legend/heroScrollDepth.js"
+		},
+		{
+			"project": "geelooy/seo",
+			"count": 7,
+			"examples": "geelooy/heichelos/routes/heichel/comments/commentHtml.js; geelooy/heichelos/routes/heichel/comments/commentPage.js; geelooy/heichelos/routes/heichel/comments/commentText.js"
 		},
 		{
 			"project": "geelooy/social-actions",
@@ -63,11 +73,52 @@
 		},
 		{
 			"project": "geelooy/scripts",
+			"count": 2,
+			"examples": "geelooy/heichelos/heichel/modules/app/post-ready-experience.js; geelooy/heichelos/heichel/modules/ui/blueprints/pending-profile-context.js"
+		},
+		{
+			"project": "geelooy/zmanim",
+			"count": 2,
+			"examples": "geelooy/heichelos/post/logic/dreamCelestial.js"
+		},
+		{
+			"project": "ayzarim/awtsmoosDynamicServer",
 			"count": 1,
-			"examples": "geelooy/heichelos/heichel/modules/ui/blueprints/pending-profile-context.js"
+			"examples": "geelooy/heichelos/routes/friendlyIds/friendlyDerech.js"
 		}
 	],
-	"incomingDependencies": [],
+	"incomingDependencies": [
+		{
+			"project": "geelooy/igeres-hakodesh",
+			"count": 1,
+			"examples": "geelooy/igeres-hakodesh/_awtsmoos.derech.js"
+		},
+		{
+			"project": "geelooy/likutei-torah",
+			"count": 1,
+			"examples": "geelooy/likutei-torah/_awtsmoos.derech.js"
+		},
+		{
+			"project": "geelooy/tanya",
+			"count": 1,
+			"examples": "geelooy/tanya/_awtsmoos.derech.js"
+		},
+		{
+			"project": "geelooy/אגרות-קודש",
+			"count": 1,
+			"examples": "geelooy/אגרות-קודש/_awtsmoos.derech.js"
+		},
+		{
+			"project": "geelooy/לקוטי-תורה",
+			"count": 1,
+			"examples": "geelooy/לקוטי-תורה/_awtsmoos.derech.js"
+		},
+		{
+			"project": "geelooy/תניא",
+			"count": 1,
+			"examples": "geelooy/תניא/_awtsmoos.derech.js"
+		}
+	],
 	"externalDependencies": [],
 	"publicEntries": [
 		{
@@ -76,6 +127,20 @@
 			"title": "",
 			"scripts": 1,
 			"styles": 1
+		},
+		{
+			"url": "/heichelos/mittler-rebbe",
+			"file": "geelooy/heichelos/mittler-rebbe/index.html",
+			"title": "מפתח מאמרי אדמו״ר האמצעי · Mittler Rebbe Maamar Index",
+			"scripts": 0,
+			"styles": 0
+		},
+		{
+			"url": "/heichelos/parsha-index",
+			"file": "geelooy/heichelos/parsha-index/index.html",
+			"title": "מפתח החסידות · Parsha &amp; Date Index",
+			"scripts": 0,
+			"styles": 0
 		},
 		{
 			"url": "/heichelos/settings/community",

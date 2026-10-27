@@ -40,6 +40,10 @@
 			"route": "/api/zmanim"
 		},
 		{
+			"id": "api-zmanim-calendar-bcc58b9c32",
+			"route": "/api/zmanim/calendar"
+		},
+		{
 			"id": "api-zmanim-compare-c5bb565fcb",
 			"route": "/api/zmanim/compare"
 		},
@@ -62,10 +66,6 @@
 		{
 			"id": "api-zmanim-methodology-2cd7bce9af",
 			"route": "/api/zmanim/methodology"
-		},
-		{
-			"id": "api-zmanim-opinions-c99cc9fdf7",
-			"route": "/api/zmanim/opinions"
 		}
 	]
 }

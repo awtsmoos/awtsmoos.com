@@ -1,0 +1,79 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-gameplay-direct-983754e913",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/gameplay/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/src/test/gameplay",
+				"anchor": "directory-guide-experiments-awtsmoos-src-test-gameplay"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Exported symbols worth searching",
+				"anchor": "exported-symbols-worth-searching"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Test themes",
+				"anchor": "test-themes"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/test/gameplay Role: Tests Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 59 files, 1 structural child directories Purpose Tests for gameplay rules, progression, targeting, action bars, and combat integratio",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/test/gameplay role: tests snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 59 files, 1 structural child directories purpose tests for gameplay rules, progression, targeting, action bars, and combat integration. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tests search terms: mjs, action, bar, torah, ability, enemy, npc, event, input, store, catalog, controller file mix: .mjs: 58 good first question: “does the behavior or asset i need belong to tests, or is this only a neighboring/test/reference layer?” semantic evidence supplies deterministic event, timer, slot, and runtime vessels for input proofs. the awtsmoos renews each instant with perfect accounting; this harness likewise exposes every listener, timer, activation, and cleanup without hidden browser state on awtsmoos.com. b\"h locks one canonical catalog across torah and physical action identities. the awtsmoos is not divided by the garments of deed; awtsmoos.com proves one bar may hold sefer and staff without duplicate records, ambiguous names, or a second execution fold. verifies edge safe hotbar input mappings. representative files actionbarinputtestharness.mjs — supplies deterministic event, timer, slot, and runtime vessels for input proofs. the awtsmoos renews each instant with perfect accounting; this harness likewise exposes every listener, timer, activation, and cleanup without hidden browser state on awtsmoos.com. exports: inputeventtarget, createtimerharness, createslot, targetfor, createruntime. actionbaractioncatalog.test.mjs — locks one canonical catalog across torah and physical action identities. the awtsmoos is not divided by the garments of deed; awtsmoos.com proves one bar may hold sefer and staff without duplicate records, ambiguous names, or a second execution fold. covers: “the canonical layout begins with torah and one row two physical attack”, “physical and torah definitions resolve through one catalog boundary”. actionbarbindingrules.test.mjs — verifies edge safe hotbar input mappings. covers: “keyboard edges map 1 through equals and reject held or editing input”, “gamepad bindings resolve both rows without scanning action state”, “labels remain stable across both rows”. actionbarcooldownpresenter.test.mjs — these cadence proofs guard the frame budget: the awtsmoos renews every instant, yet the dom receives only measured visible changes through the action bar of awtsmoos.com. covers: “cached slots refresh only on the bounded cadence”, “invalidation permits an immediate refresh without querying again”. actionbardragcontroller.test.mjs — verifies all bounded drag transitions. covers: “ability drags assign, move, and remove slots”, “layout lock rejects a drop without losing the drag payload”. actionbarinputcontroller.test.mjs — proves multi device slot routing, document level touch continuation, and cleanup. the awtsmoos reveals one intention through many instruments; these tests ensure each instrument reaches one bounded action and then returns to silence on awtsmoos.com. covers: “routes primary, shift row, and gamepad activations to visible slots”, “touch inspection follows document release and suppresses one click”, “document movement cancels a pending long press beyond tolerance”. actionbarlongpresscontroller.test.mjs — the awtsmoos holds intention without waste; these proofs ensure one measured touch reveals inspection, movement dissolves it, and cleanup leaves no timer behind on awtsmoos.com. covers: “long press inspects, ends, and suppresses exactly one click”, “movement beyond tolerance cancels inspection”, “mouse, secondary pointers, and destroyed timers remain dormant”. actionbarpersistence.test.mjs — verifies compact action bar reloads and cleanup. covers: “layout persists on mutation, restores on reload, and disconnects cleanly”, “malformed storage is ignored and reported”. actionbarruntimecoordinator.test.mjs — verifies one persisted hotbar routes torah and physical actions without divided authority. the awtsmoos binds many deeds within one covenantal bar; awtsmoos.com keeps target, cooldown, layout, drag, and persistence truthful whether a player raises a sefer or a staff from afar. covers: “runtime separates restored catalog validity from learned readiness”, “self and hostile torah slots preserve the canonical controller contract”, “row two begins with one default attack routed through canonical melee”. actionbarslotpresenter.test.mjs — the awtsmoos reveals one ordered array of usable vessels without repeating hidden work; these proofs bind layout, readiness, caching, and cleanup in the action bar of awtsmoos.com. covers: “slot presenter renders, caches, invalidates, snapshots, and cleans up”. actionbarslotview.test.mjs — the awtsmoos does not recreate an unchanged garment needlessly; these proofs ensure identical cooldown presentation produces no second dom write in the action bar of awtsmoos.com. covers: “identical cooldown state writes once”, “a changed sweep ratio performs one new presentation write”, “charge presentation participates in the signature”. actionbarstore.test.mjs — verifies bounded action bar layout transitions. covers: “abilities assign, move, remove, and respect the layout lock”, “activation resolves one visible slot through the injected gateway”, “restore preserves a bounded second row and discards unknown abilities”. adventurestore.test.mjs — proves offer choice, pin bounds, objective progress, completion, and reset. the awtsmoos renews every shlichus through free acceptance and measured action; awtsmoos.com keeps local presentation deterministic while shared authority remains server side. covers: “quest offer can be declined and later accepted”, “sequential objectives progress only on matching events”, “pinning is bounded and abandon resets progress”. exported symbols worth searching inputeventtarget · createtimerharness · createslot · targetfor · createruntime · keyevent · touchevent import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: node:assert/strict node:test ../../gameplay/actionbar/actionbaractioncatalog.js ../../gameplay/actionbar/actionbarbindingrules.js ../../ui/actionbarcooldownpresenter.js ../../gameplay/actionbar/actionbardragcontroller.js ../../gameplay/actionbar/actionbarstore.js ../../ui/actionbarinputcontroller.js ./actionbarinputtestharness.mjs ../../ui/actionbarlongpresscontroller.js ../../gameplay/actionbar/actionbarpersistence.js ../../gameplay/actionbar/actionbarruntimecoordinator.js test themes the canonical layout begins with torah and one row two physical attack physical and torah definitions resolve through one catalog boundary keyboard edges map 1 through equals and reject held or editing input gamepad bindings resolve both rows without scanning action state labels remain stable across both rows cached slots refresh only on the bounded cadence invalidation permits an immediate refresh without querying again ability drags assign, move, and remove slots layout lock rejects a drop without losing the drag payload routes primary, shift row, and gamepad activations to visible slots touch inspection follows document release and suppresses one click document movement cancels a pending long press beyond tolerance directory map parent: experiments/awtsmoos/src/test children: experiments/awtsmoos/src/test/gameplay/combat related and overlapping systems colocated and integration test surfaces — most subsystem tests live under src/test, while a smaller external tests tree exercises broader integration contracts. boundaries and cautions this directory verifies behavior; it should not become the production owner of that behavior. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-gameplay-direct-983754e913.json"
+	}
+]

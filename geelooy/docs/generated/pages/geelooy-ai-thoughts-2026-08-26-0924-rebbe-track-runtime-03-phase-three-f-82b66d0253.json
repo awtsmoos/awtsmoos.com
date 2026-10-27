@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-26-0924-rebbe-track-runtime-03-phase-three-f-82b66d0253",
+	"title": "Phase Three — Final Track Architecture",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-26-0924-rebbe-track-runtime/03-phase-three-final.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase Three — Final Track Architecture",
+			"anchor": "phase-three-final-track-architecture"
+		},
+		{
+			"level": 2,
+			"text": "Final source architecture",
+			"anchor": "final-source-architecture"
+		},
+		{
+			"level": 2,
+			"text": "Verification graph",
+			"anchor": "verification-graph"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-26-0924-rebbe-track-runtime-03-phase-three-f-82b66d0253-001.json"
+	]
+}

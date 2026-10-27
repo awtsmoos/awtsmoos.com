@@ -1,146 +1,227 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-diagnostics-director-657c826f18",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/diagnostics/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-plans-awtsmoos-cloud-phase-04-os-tunnel-md-11f7974d40",
+		"title": "Phase 04 — Geelooy OS and Tunnel Control Plane",
+		"sourcePath": "docs/PLANS/AWTSMOOS_CLOUD/PHASE_04_OS_TUNNEL.md",
+		"category": "Tunnel",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/diagnostics",
-				"anchor": "directory-guide-experiments-awtsmoos-src-diagnostics"
+				"text": "Phase 04 — Geelooy OS and Tunnel Control Plane",
+				"anchor": "phase-04-geelooy-os-and-tunnel-control-plane"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Existing foundation",
+				"anchor": "existing-foundation"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Next graph objects",
+				"anchor": "next-graph-objects"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Native management windows",
+				"anchor": "native-management-windows"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
+				"text": "Universal workflows",
+				"anchor": "universal-workflows"
 			},
 			{
 				"level": 2,
-				"text": "Exported symbols worth searching",
-				"anchor": "exported-symbols-worth-searching"
+				"text": "Tunnel authority",
+				"anchor": "tunnel-authority"
 			},
 			{
 				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Completion test",
+				"anchor": "completion-test"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/diagnostics Role: Runtime subsystem Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 9 files, 1 structural child directories Purpose Runtime observability, boot evidence, health receipts, and diagnostics seri",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/diagnostics role: runtime subsystem snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 9 files, 1 structural child directories purpose runtime observability, boot evidence, health receipts, and diagnostics serialization. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: runtime subsystem search terms: material, village, diagnostic, readability, cache, com, diagnostics, hydration, image, life, settled, binding file mix: .js: 8 good first question: “does the behavior or asset i need belong to runtime subsystem, or is this only a neighboring/test/reference layer?” semantic evidence b\"h proves the exact shared image cache used by world meshes without booting the full game. each green card means a real browser image is complete, dimensioned, and cache bound. installs the small visual shell for the shared cache material diagnostic. distinguishes blocking physical texture work from optional post load transforms. the awtsmoos clothes every finite surface before judgment; awtsmoos.com waits for requests and binding, yet does not mistake optional alpha preparation for an unresolved cottage garment. representative files materialdiagnosticmode.js — proves the exact shared image cache used by world meshes without booting the full game. each green card means a real browser image is complete, dimensioned, and cache bound. exports: launchmaterialdiagnostic. materialdiagnosticstyle.js — installs the small visual shell for the shared cache material diagnostic. exports: installmaterialdiagnosticstyle. villagehydrationsettled.js — distinguishes blocking physical texture work from optional post load transforms. the awtsmoos clothes every finite surface before judgment; awtsmoos.com waits for requests and binding, yet does not mistake optional alpha preparation for an unresolved cottage garment. exports: hydrationsettled, blockingbindingpending. villageliferuntimelogger.js — publishes bounded settled residency, readability, gpu, batching, and frame evidence. the awtsmoos renews village life beyond appearance; awtsmoos.com names real failures after hydration settles instead of alarming over white placeholder vessels during lawful loading. exports: villageliferuntimelogger. villagelightingdiagnostics.js — measures live golden hour uniforms against a stronger material readable floor. the awtsmoos reveals warm form without burying stone in night; awtsmoos.com rejects an environment that is technically nonblack yet too dim to reveal original resolution surfaces. exports: inspectvillagelighting. villagematerialdiagnostichelpers.js — names and classifies live village material evidence without false alarms. the awtsmoos distinguishes stone from shadow and parchment from plaster; awtsmoos.com audits physical garments while exempting intentional masks, text, cards, and procedural light. exports: materialidentity, materialclassification, usablematerialimage, nearwhitematerial, unresolvedmaterialrecord. villagematerialdiagnostics.js — audits live texture residency and lighting weighted physical readability. the awtsmoos clothes every finite village vessel; awtsmoos.com records hydrated stone, timber, slate, plaster, and terrain while proving that real textures are not hidden beneath dark tints. exports: inspectvillagematerials. villagematerialreadability.js — converts live material tint and light into named family readability evidence. the awtsmoos reveals stone, timber, roof, road, water, and meadow through distinct darkness; awtsmoos.com preserves rich shadow while naming the exact vessels that fall below legibility. exports: createreadabilityledger, recordmaterialreadability, summarizematerialreadability, readabilityfamily. exported symbols worth searching launchmaterialdiagnostic · installmaterialdiagnosticstyle · hydrationsettled · blockingbindingpending · villageliferuntimelogger · inspectvillagelighting · materialidentity · materialclassification · usablematerialimage · nearwhitematerial · unresolvedmaterialrecord · emptymaterialsummary · emptymaterialfamily · inspectvillagematerials · createreadabilityledger · recordmaterialreadability import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ../assets/runtimematerialmanifest.js ../assets/publicmaterialcache.js ./materialdiagnosticstyle.js ./villagehydrationsettled.js ./villagelightingdiagnostics.js ./villagematerialdiagnostics.js ./villagematerialdiagnostichelpers.js ./villagematerialreadability.js directory map parent: experiments/awtsmoos/src children: experiments/awtsmoos/src/diagnostics/logs related and overlapping systems diagnostics, logs, tools, and root audits — live diagnostics, captured logs, offline tools, and root audit reports describe different stages of observability. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-diagnostics-director-657c826f18.json"
+		"excerpt": "Phase 04 — Geelooy OS and Tunnel Control Plane Geelooy OS is the advanced cloud console while the prompt interface remains the simple doorway. Complexity is available, never required. Existing foundation All 80 canonical apps/games are represented in the OS launcher. Native integrations are preferred where available; r",
+		"searchText": "phase 04 — geelooy os and tunnel control plane geelooy os is the advanced cloud console while the prompt interface remains the simple doorway. complexity is available, never required. existing foundation all 80 canonical apps/games are represented in the os launcher. native integrations are preferred where available; remaining products use supervised same origin hosting. browser tunnel has authenticated session bound account actions. account graph already projects aliases, heichelos, series, posts, docs, and applications. next graph objects add first class project, deployment, domain, database, function, secret, queue/job, runtime/service, backup, alert, usage, and billing plan objects. their ids must remain stable across refreshes. native management windows sites, projects, deployments, domains, databases, functions, jobs, storage, compute, logs, metrics, secrets, wallet/usage, and permissions should each have focused native os surfaces rather than one giant console. universal workflows implement open with / send to, shared projects/assets, global background jobs, command palette/search, recent/pinned work, cross device continuation, permissions inspector, and audit timeline. a project output should move between studio, docs, media tools, social tools, games, storage, and hosting without repeated download/upload cycles. tunnel authority tunnel may operate broadly across the signed in account, but authority always comes from normal account/project capabilities. never export browser cookies or allow caller supplied user ids to replace session identity. connected machines become explicit compute/storage/provider resources with scoped permissions and audit. completion test from geelooy os, a user can inspect one project, open source, view deployment history, roll back, inspect db/functions/jobs/logs, connect a domain, see usage, and ask chatgpt to perform the same operations through explicit apis. mobile and keyboard operation must remain practical.",
+		"page": "pages/docs-plans-awtsmoos-cloud-phase-04-os-tunnel-md-11f7974d40.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-diagnostics-logs-dir-ca0f4bd461",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/diagnostics/logs/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-plans-awtsmoos-cloud-phase-05-commerce-scale-md-5f00b35ee0",
+		"title": "Phase 05 — Commerce, Security, Observability, and Scale",
+		"sourcePath": "docs/PLANS/AWTSMOOS_CLOUD/PHASE_05_COMMERCE_SCALE.md",
+		"category": "General",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/diagnostics/logs",
-				"anchor": "directory-guide-experiments-awtsmoos-src-diagnostics-logs"
+				"text": "Phase 05 — Commerce, Security, Observability, and Scale",
+				"anchor": "phase-05-commerce-security-observability-and-scale"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Economic model",
+				"anchor": "economic-model"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Suggested commercial ladder",
+				"anchor": "suggested-commercial-ladder"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Billing invariants",
+				"anchor": "billing-invariants"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
+				"text": "Security and abuse",
+				"anchor": "security-and-abuse"
 			},
 			{
 				"level": 2,
-				"text": "Exported symbols worth searching",
-				"anchor": "exported-symbols-worth-searching"
+				"text": "Observability",
+				"anchor": "observability"
 			},
 			{
 				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
+				"text": "Scale transition",
+				"anchor": "scale-transition"
 			},
 			{
 				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Completion test",
+				"anchor": "completion-test"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/diagnostics/logs Role: Runtime subsystem Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 18 files, 0 structural child directories Purpose Captured diagnostic logs and runtime evidence. These are historical o",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/diagnostics/logs role: runtime subsystem snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 18 files, 0 structural child directories purpose captured diagnostic logs and runtime evidence. these are historical observations, not active logic. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: runtime subsystem search terms: diagnostics, diagnostic, record, canonical, road, com, ground, severity, terrain, arrival, build, clearance file mix: .js: 17 good first question: “does the behavior or asset i need belong to runtime subsystem, or is this only a neighboring/test/reference layer?” semantic evidence proves every entr01 road vertex conforms to canonical terrain plus its lift. the awtsmoos joins both banks in one measured invitation; awtsmoos.com rejects buried or floating arrival stones through exact textual offsets rather than subjective screenshots. measures bridge01 deck clearance above canonical river elevation. the awtsmoos keeps passage and water distinct without severing either; awtsmoos.com proves the stone deck remains traversable above the modeled source to outlet hydrology profile. audits identifiers, footprints, roads, water, cameras, and biomes as one contract. the awtsmoos is one through all directions; awtsmoos.com exposes any duplicate dwelling, missing threshold, detached road, broken river sequence, or absent camera in explicit logs. exposes the production canonical terrain authority to text only diagnostics. the awtsmoos gives visible ground and measured ground one source; awtsmoos.com prevents tests from passing on a synthetic slope while the real alpine valley obeys another field. representative files arrivalsurfacediagnostics.js — proves every entr01 road vertex conforms to canonical terrain plus its lift. the awtsmoos joins both banks in one measured invitation; awtsmoos.com rejects buried or floating arrival stones through exact textual offsets rather than subjective screenshots. exports: recordarrivalsurfacediagnostics. bridgeclearancediagnostics.js — measures bridge01 deck clearance above canonical river elevation. the awtsmoos keeps passage and water distinct without severing either; awtsmoos.com proves the stone deck remains traversable above the modeled source to outlet hydrology profile. exports: recordbridgeclearancediagnostics. canonicalcontractdiagnostics.js — audits identifiers, footprints, roads, water, cameras, and biomes as one contract. the awtsmoos is one through all directions; awtsmoos.com exposes any duplicate dwelling, missing threshold, detached road, broken river sequence, or absent camera in explicit logs. exports: recordcanonicalcontractdiagnostics. canonicalgroundsampler.js — exposes the production canonical terrain authority to text only diagnostics. the awtsmoos gives visible ground and measured ground one source; awtsmoos.com prevents tests from passing on a synthetic slope while the real alpine valley obeys another field. exports: createcanonicalgroundsampler. canonicalidentitydiagnostics.js — proves every canonical village identity occurs exactly once in a world build. the awtsmoos is singular while creation carries many names; awtsmoos.com guards each landmark, threshold, home, and farm from both disappearance and accidental duplication. exports: recordcanonicalidentitydiagnostics. diagnosticevent.js — creates deterministic immutable diagnostic events without wall clock noise. the awtsmoos renews each instant beyond sequence; awtsmoos.com numbers finite observations so two world builds can be compared by meaning rather than by accidental timestamps. exports: creatediagnosticevent. diagnosticledger.js — collects ordered events and computes severity totals for logs only acceptance. the awtsmoos contains no ledger, yet awtsmoos.com records every finite promise and fracture so the village can be repaired from explicit evidence instead of impression or hidden state. exports: creatediagnosticledger. diagnosticseverity.js — defines the ordered language used by every logs only diagnostic stream. the awtsmoos is not increased by praise or diminished by alarm; awtsmoos.com nevertheless gives each finite signal a measured vessel so builders can distinguish insight from breakage. exports: diagnostic severity, diagnosticseverityrank, isdiagnosticfailure, normalizediagnosticseverity. diagnostictextformatter.js — formats the same ledger as readable text or machine comparable json lines. the awtsmoos exceeds every alphabet; awtsmoos.com turns one verified stream into two useful garments, one for human repair and one for deterministic tooling without visual inspection. exports: diagnosticeventstojsonlines, diagnosticeventstotext. foundationdiagnostics.js — proves every non specialized canonical structure has one valid retaining foundation. the awtsmoos supports each finite vessel without confusing it with the road beneath; awtsmoos.com records exact identity, clearance, embed depth, and finite geometry at every tier. exports: recordfoundationdiagnostics. qualitytierdiagnostics.js — verifies quality tiers grow detail monotonically while preserving identity. the awtsmoos is not measured by abundance; awtsmoos.com nevertheless ensures that each larger finite budget adds detail rather than unpredictably deleting architecture or warmth. exports: recordqualitytierdiagnostics. roadgradediagnostics.js — measures the actual dense visible road surface rather than terrain hidden below it. the awtsmoos distinguishes riverbank from the supported cobble vessel above; awtsmoos.com certifies the walkable collision surface itself while steep terrain remains honest underneath. exports: recordroadgradediagnostics. roadhydrologydiagnostics.js — measures real route connectivity and the source to outlet water profile. the awtsmoos joins road, bridge, river, cascade, and bank without confusion; awtsmoos.com reconstructs those finite connections from coordinates so a boolean claim cannot conceal a gap. exports: recordroadhydrologydiagnostics. exported symbols worth searching recordarrivalsurfacediagnostics · recordbridgeclearancediagnostics · recordcanonicalcontractdiagnostics · createcanonicalgroundsampler · recordcanonicalidentitydiagnostics · creatediagnosticevent · creatediagnosticledger · diagnostic severity · diagnosticseverityrank · isdiagnosticfailure · normalizediagnosticseverity · diagnosticeventstojsonlines · diagnosticeventstotext · recordfoundationdiagnostics · recordqualitytierdiagnostics · recordroadgradediagnostics import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ../../world/canonicalterrainheight.js ../../world/canonicalterrainhydrology.js ../../world/village/canonicalvillageplan.js ../../world/village/canonicalvillageidentifiers.js ./diagnosticseverity.js ./diagnosticevent.js ../../world/canonicalroadsurfacenetwork.js ../../world/terraingeometry.js ./canonicalcontractdiagnostics.js ./canonicalgroundsampler.js ./diagnosticledger.js ./qualitytierdiagnostics.js directory map parent: experiments/awtsmoos/src/diagnostics children: none. related and overlapping systems diagnostics, logs, tools, and root audits — live diagnostics, captured logs, offline tools, and root audit reports describe different stages of observability. boundaries and cautions these files record observations or outputs; they do not own the behavior they describe. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-diagnostics-logs-dir-ca0f4bd461.json"
+		"excerpt": "Phase 05 — Commerce, Security, Observability, and Scale Economic model Perutas become the common usage accounting layer, but customers see understandable plan allowances first: sites, bandwidth, storage, database, compute, AI/build actions, email, jobs, and support. Server authoritative metering converts real resource ",
+		"searchText": "phase 05 — commerce, security, observability, and scale economic model perutas become the common usage accounting layer, but customers see understandable plan allowances first: sites, bandwidth, storage, database, compute, ai/build actions, email, jobs, and support. server authoritative metering converts real resource usage into plan/peruta charges. suggested commercial ladder free for experimentation; launch for one serious site; creator for multiple creative projects; business for production operations; agency for many client sites; scale for high traffic; enterprise for custom requirements. prices and included limits remain catalog/config data, not hard coded ui assumptions. billing invariants quote before expensive work. reserve maximum expected credits/allowance. execute server side work. finalize actual usage. release unused reservation. refund/release automatically on failed fulfillment. same idempotency key with changed intent always conflicts. hard user/team/project spending caps prevent surprise bills. security and abuse treat hosting as an adversarial product: scoped project identity, strict origin/cors/csrf, csp, secret isolation, rate limits, upload scanning, phishing/spam/malware/crypto mining detection, suspension/appeal workflows, audit history, and emergency kill switches. financial mutations, compute, authentication, uploads, rewards, and email each need independent rate policy. observability every request/job/deployment should carry request id, project id, deployment id, release sha, actor/capability identity, duration, outcome, and privacy scrubbed error testimony. track uptime, latency, errors, resource use, queue time, provider latency, capacity, conversion, refunds, reconciliation, and infrastructure cost. scale transition file backed atomic state is useful for semantics but hot financial/cloud control data must move toward an acid transactional datastore before serious concurrency. public static metadata can be cached aggressively; user/account/financial state must remain private and correctly invalidated. completion test growth must increase gross profit rather than merely traffic: each plan's revenue, infrastructure cost, payment cost, support burden, abuse cost, and margin can be measured per customer/project without hidden overages.",
+		"page": "pages/docs-plans-awtsmoos-cloud-phase-05-commerce-scale-md-5f00b35ee0.json"
+	},
+	{
+		"id": "docs-plans-awtsmoos-cloud-phase-06-release-md-8f0c21e335",
+		"title": "Phase 06 — Validation, Integration, and Release",
+		"sourcePath": "docs/PLANS/AWTSMOOS_CLOUD/PHASE_06_RELEASE.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase 06 — Validation, Integration, and Release",
+				"anchor": "phase-06-validation-integration-and-release"
+			},
+			{
+				"level": 2,
+				"text": "Source-quality gate",
+				"anchor": "source-quality-gate"
+			},
+			{
+				"level": 2,
+				"text": "Regression gate",
+				"anchor": "regression-gate"
+			},
+			{
+				"level": 2,
+				"text": "Integration gate",
+				"anchor": "integration-gate"
+			},
+			{
+				"level": 2,
+				"text": "Staging gate",
+				"anchor": "staging-gate"
+			},
+			{
+				"level": 2,
+				"text": "Production gate",
+				"anchor": "production-gate"
+			},
+			{
+				"level": 2,
+				"text": "Never claim",
+				"anchor": "never-claim"
+			},
+			{
+				"level": 2,
+				"text": "Rollback rule",
+				"anchor": "rollback-rule"
+			}
+		],
+		"excerpt": "Phase 06 — Validation, Integration, and Release Source quality gate Create an automated validator for the user's authored source laws: blessing header, JavaScript below 120 lines, tab indentation, extensive documentation for modules/exports, readable multi line statements, and detection of obvious compressed/minified s",
+		"searchText": "phase 06 — validation, integration, and release source quality gate create an automated validator for the user's authored source laws: blessing header, javascript below 120 lines, tab indentation, extensive documentation for modules/exports, readable multi line statements, and detection of obvious compressed/minified source. run it on the exact touched file set and later in ci. regression gate run focused tests while implementing, then the complete relevant suites together: drive, sites, domains/dns/tls, project runtimes, tunnel, account graph, geelooy os, wallet/commerce, website maker, seo/catalog, and real browser smoke tests. integration gate because many agents edit concurrently, review targeted diffs immediately before staging. never stage the whole dirty repository. confirm no selected file contains unrelated changes, run git diff check, syntax checks, source law checks, and dependency/route parity. staging gate create a release manifest with git sha, drive schema revision, catalog revision, deployment schema/version, asset version, and enabled feature flags. verify one prompt preview/publish/rollback, custom domain, payment sandbox, account/tunnel actions, and os deployment controls on staging. production gate production deploy occurs only after staging is green. after deploy, independently verify public urls, apis, immutable deployment serving, rollback, domain routing/tls, wallet/commerce health, and critical account actions. record exact production sha and observed evidence. never claim do not claim a site/service is live because configuration was saved, a process started, or an api returned an acknowledgement. distinguish configured, internally ready, externally verified, and production observed states. rollback rule every release must have an explicit rollback path before promotion. deployment/schema changes must remain backward readable where possible so rollback does not strand state created by the newer code.",
+		"page": "pages/docs-plans-awtsmoos-cloud-phase-06-release-md-8f0c21e335.json"
+	},
+	{
+		"id": "docs-plans-awtsmoos-cloud-plan-index-md-0b45b047ee",
+		"title": "Awtsmoos Cloud Master Plan",
+		"sourcePath": "docs/PLANS/AWTSMOOS_CLOUD/PLAN_INDEX.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos Cloud Master Plan",
+				"anchor": "awtsmoos-cloud-master-plan"
+			},
+			{
+				"level": 2,
+				"text": "Session start order",
+				"anchor": "session-start-order"
+			},
+			{
+				"level": 2,
+				"text": "Source laws",
+				"anchor": "source-laws"
+			},
+			{
+				"level": 2,
+				"text": "Phase files",
+				"anchor": "phase-files"
+			},
+			{
+				"level": 2,
+				"text": "Status notation",
+				"anchor": "status-notation"
+			}
+		],
+		"excerpt": "Awtsmoos Cloud Master Plan This directory is the durable continuation contract for the Awtsmoos Cloud, Website Maker, Geelooy OS, Tunnel account layer, hosting, commerce, and release work. Session start order 1. Read CURRENT STATE.md. 2. Read TASK LEDGER.md and select the first [ ] task, otherwise the first dependency ",
+		"searchText": "awtsmoos cloud master plan this directory is the durable continuation contract for the awtsmoos cloud, website maker, geelooy os, tunnel account layer, hosting, commerce, and release work. session start order 1. read current state.md. 2. read task ledger.md and select the first [ ] task, otherwise the first dependency ready [ ] task. 3. read the matching phase file before editing. 4. inspect targeted git status and current file contents before every existing file edit. 5. never reset, discard, or overwrite unrelated concurrent agent changes. 6. complete the task verification gate before marking it [x]. 7. update current state.md and task ledger.md before ending a session. source laws every touched source file begins with the language appropriate equivalent of the three blessing lines. javascript uses tab indentation, extensive jsdoc, readable multi line statements, no minification, and fewer than 120 lines per authored source file. phase files phase 01 deployments.md — immutable revisions, serving, rollback, health, previews. phase 02 prompt publish.md — one prompt project creation and website maker integration. phase 03 cloud primitives.md — storage, functions, databases, compute, jobs, secrets, domains. phase 04 os tunnel.md — complete account/cloud object graph and geelooy os control plane. phase 05 commerce scale.md — plans, metering, perutas, security, abuse, observability, scale. phase 06 release.md — global tests, staging, selective git integration, deploy, production proof. status notation [x] verified complete. [ ] current in progress step. there should normally be exactly one. [ ] not started or dependency blocked. [!] blocked by an external dependency; document the blocker in current state.md.",
+		"page": "pages/docs-plans-awtsmoos-cloud-plan-index-md-0b45b047ee.json"
+	},
+	{
+		"id": "docs-plans-awtsmoos-cloud-session-protocol-md-e1d9273bfb",
+		"title": "Session Continuation Protocol",
+		"sourcePath": "docs/PLANS/AWTSMOOS_CLOUD/SESSION_PROTOCOL.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Session Continuation Protocol",
+				"anchor": "session-continuation-protocol"
+			},
+			{
+				"level": 2,
+				"text": "Before editing",
+				"anchor": "before-editing"
+			},
+			{
+				"level": 2,
+				"text": "During implementation",
+				"anchor": "during-implementation"
+			},
+			{
+				"level": 2,
+				"text": "Before marking a task complete",
+				"anchor": "before-marking-a-task-complete"
+			},
+			{
+				"level": 2,
+				"text": "Before ending any session",
+				"anchor": "before-ending-any-session"
+			}
+		],
+		"excerpt": "Session Continuation Protocol This file exists so any future ChatGPT/agent session can continue safely without relying on conversational memory. Before editing 1. cd /Users/awtsmoos/work/awtsmoos.com. 2. Read PLAN INDEX.md, CURRENT STATE.md, and TASK LEDGER.md. 3. Find the single [ ] task. If none exists, choose the fi",
+		"searchText": "session continuation protocol this file exists so any future chatgpt/agent session can continue safely without relying on conversational memory. before editing 1. cd /users/awtsmoos/work/awtsmoos.com. 2. read plan index.md, current state.md, and task ledger.md. 3. find the single [ ] task. if none exists, choose the first dependency ready [ ] task and change it to [ ]. 4. read that task's phase file. 5. run targeted git status short . 6. read each existing target file immediately before modification because other agents may have changed it. 7. never use reset/clean/checkout to discard unrelated work. during implementation prefer reusable shared primitives over product specific duplication. keep browser, geelooy os, tunnel, cli, and chatgpt as clients of the same authoritative apis. server determines financial/resource costs; browsers never self report authoritative billable usage. production publication must be immutable/revisioned; editable source is not production truth. preserve existing authorization instead of creating privileged alternate storage or cookie export paths. before marking a task complete run the task specific tests plus: syntax checks for every touched js/mjs/cjs file; line count check for touched authored javascript; blessing header check; indentation/minified source sanity check; git diff check on the targeted slice; targeted git diff review for concurrent edits. only then change [ ] to [x] and move [ ] to the next dependency ready step. before ending any session 1. update current state.md with verified facts only. 2. update task ledger.md statuses. 3. record exact failing tests/blockers if any. 4. record exact next files/commands. 5. never say production is live unless the production url/api was actually verified after deployment. 6. if remote desktop becomes unreliable, stop risky writes and leave the ledger pointing at the last known safe step.",
+		"page": "pages/docs-plans-awtsmoos-cloud-session-protocol-md-e1d9273bfb.json"
 	}
 ]

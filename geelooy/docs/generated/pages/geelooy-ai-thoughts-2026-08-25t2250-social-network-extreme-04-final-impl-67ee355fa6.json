@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-25t2250-social-network-extreme-04-final-impl-67ee355fa6",
+	"title": "Final Social Network Implementation Plan",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-25T2250-social-network-extreme/04_FINAL_IMPLEMENTATION_PLAN.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Final Social Network Implementation Plan",
+			"anchor": "final-social-network-implementation-plan"
+		},
+		{
+			"level": 2,
+			"text": "Read before first production write",
+			"anchor": "read-before-first-production-write"
+		},
+		{
+			"level": 2,
+			"text": "Actual first-wave files to write",
+			"anchor": "actual-first-wave-files-to-write"
+		},
+		{
+			"level": 2,
+			"text": "Required behavior preservation",
+			"anchor": "required-behavior-preservation"
+		},
+		{
+			"level": 2,
+			"text": "Tests after code",
+			"anchor": "tests-after-code"
+		},
+		{
+			"level": 2,
+			"text": "Second wave after first-wave proof",
+			"anchor": "second-wave-after-first-wave-proof"
+		},
+		{
+			"level": 2,
+			"text": "NEXTACTION",
+			"anchor": "nextaction"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-25t2250-social-network-extreme-04-final-impl-67ee355fa6-001.json"
+	]
+}

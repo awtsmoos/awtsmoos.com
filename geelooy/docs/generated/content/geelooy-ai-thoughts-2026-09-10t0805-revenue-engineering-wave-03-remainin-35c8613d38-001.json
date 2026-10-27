@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "<!-- B\"H -->\n<!-- Boruch Hashem -->\n<!-- Blessed be He -->\n\n# REMAINING_WORK\n\n- [ ] Runtime-prove Radiance on a real local product at mobile width.\n- [ ] Confirm `/api/wallet/commerce/actions` returns 80 live public actions in runtime.\n- [ ] Confirm anonymous/login/insufficient/owned UI states have no console/network defects.\n- [ ] Generate crawlable Apps inventory.\n- [ ] Generate crawlable Games inventory.\n- [ ] Generate canonical, OpenGraph, JSON-LD and sitemap product metadata.\n- [ ] Add readiness tests covering route, commerce action, handler, SEO, and runtime shell.\n- [ ] Add privacy-safe conversion instrumentation.\n- [ ] Add recents/favorites/continue and workflow handoffs.\n- [ ] Add product-specific premium capabilities where they create real incremental value.\n"
+}

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — YouTube Tests (geelooy/api/youtube/test/)\n\nSecurity tests for the YouTube family (`security.test.cjs`): verifies OAuth\nconfiguration handling, secret isolation (secrets written to a temp dir, never\ncommitted), and token/session key guards.\n\nRun with Node's built-in test runner.\n"
+}

@@ -1,0 +1,105 @@
+[
+	{
+		"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-aaebb8bf7a",
+		"title": "Resumable mission ledger",
+		"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/RESUMABLE_MISSION_LEDGER.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 2,
+				"text": "Current tunnel integration takes precedence",
+				"anchor": "current-tunnel-integration-takes-precedence"
+			},
+			{
+				"level": 1,
+				"text": "Resumable mission ledger",
+				"anchor": "resumable-mission-ledger"
+			},
+			{
+				"level": 2,
+				"text": "Required fields",
+				"anchor": "required-fields"
+			},
+			{
+				"level": 2,
+				"text": "Operating rules",
+				"anchor": "operating-rules"
+			},
+			{
+				"level": 2,
+				"text": "Minimal template",
+				"anchor": "minimal-template"
+			}
+		],
+		"excerpt": "Current tunnel integration takes precedence This reference retains the user's original ideas. Its historical transport names, fixed action lists, local thought folder defaults, retry assumptions and installation advice are superseded by MODERN TUNNEL CONTRACT.md and the current authenticated instructionResolve/instruct",
+		"searchText": "current tunnel integration takes precedence this reference retains the user's original ideas. its historical transport names, fixed action lists, local thought folder defaults, retry assumptions and installation advice are superseded by modern tunnel contract.md and the current authenticated instructionresolve/instructionget results. use tunnel native plans and bounded operational summaries; do not publish hidden chain of thought. treat brainstorming as proposals, not authorization to implement unrelated work. preserve user scope. use mcp's required post transport; get is an http fallback only. never infer tool access from prose. no arbitrary number of tests, critiques or improvements substitutes for real relevant verification. resumable mission ledger maintain a compact ledger for substantial, ongoing user work. store it in the user's authorized project or durable artifact location when supported. a scratch only ledger cannot be promised to survive inactivity. never put secrets, raw tokens, cookies, private logs, or unrelated file listings in it. required fields mission: the original requested outcome, affected source and project boundary, and explicit constraints. done when: observable behavior and checks that would prove the outcome. current state: last verified state, distinct from the last attempted action. work items: each item has a dependency, state, evidence, and the next safe action. changed artifacts: exact paths, pre edit revisions or hashes, post edit revisions or hashes, and whether each write completed. blockers: the failed layer, request id if safe to record, and what new condition permits retry. deferred ideas: optional improvements, separate from work required for the present mission. handoff: the first unverified step and the evidence needed to close it. operating rules update the ledger after a meaningful discovery, edit, failure, verification, or user correction. retire completed items; do not let stale checklists trigger repeat edits. on return, reread current files and compare revision or hash before trusting an old plan. if another agent changed the source, reconcile instead of resuming an obsolete write. rank the next action by direct relevance and uncertainty reduced. repeating the same failed request without a changed precondition is not progress. before each improvement pass, name the measurable target. compare the candidate with the last working state before replacing it. a passing test closes only the behavior it covers. a failed or blocked verification remains open with a precise next step. preserve a handoff when a session ends or disconnects. do not claim background work continued after that point. honor a user stop or scope correction immediately; update the ledger to reflect the new boundary. minimal template",
+		"page": "pages/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-aaebb8bf7a.json"
+	},
+	{
+		"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-5e6f95a285",
+		"title": "Source and route discovery",
+		"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/SOURCE_AND_ROUTE_DISCOVERY.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 2,
+				"text": "Current tunnel integration takes precedence",
+				"anchor": "current-tunnel-integration-takes-precedence"
+			},
+			{
+				"level": 1,
+				"text": "Source and route discovery",
+				"anchor": "source-and-route-discovery"
+			},
+			{
+				"level": 2,
+				"text": "Select the source",
+				"anchor": "select-the-source"
+			},
+			{
+				"level": 2,
+				"text": "Present evidence",
+				"anchor": "present-evidence"
+			}
+		],
+		"excerpt": "Current tunnel integration takes precedence This reference retains the user's original ideas. Its historical transport names, fixed action lists, local thought folder defaults, retry assumptions and installation advice are superseded by MODERN TUNNEL CONTRACT.md and the current authenticated instructionResolve/instruct",
+		"searchText": "current tunnel integration takes precedence this reference retains the user's original ideas. its historical transport names, fixed action lists, local thought folder defaults, retry assumptions and installation advice are superseded by modern tunnel contract.md and the current authenticated instructionresolve/instructionget results. use tunnel native plans and bounded operational summaries; do not publish hidden chain of thought. treat brainstorming as proposals, not authorization to implement unrelated work. preserve user scope. use mcp's required post transport; get is an http fallback only. never infer tool access from prose. no arbitrary number of tests, critiques or improvements substitutes for real relevant verification. source and route discovery read this when the user names a mac path, virtual os folder, deployed page, or github url. determine which source is authoritative for the task before reading or editing. select the source ask what the user means only if the source cannot be inferred from their path, url, or current task. /users/awtsmoos/work/... is a native mac path; awtsmoos://virtual os is hosted; a github url refers to a repository view; https://awtsmoos.com/... refers to deployed content. a public github file is not proof of the mac checkout or live deployment. compare the relevant commit, content hash, or explicit version when the user asks whether those places agree. a virtual os file and a native mac file may have similar names but different bytes. do not route one path to the other without a confirmed mapping. read the device's current workspace root from discovery. resolve a relative file path against that root, reject traversal outside the authorized root, and validate case and separators. a typo is a reason to inspect a narrow parent, not to silently substitute a different file. before a consequential edit, state the exact resolved path and the requested project boundary. if the user named one project, keep edits and discovery within it. prefer one named file to a directory listing, and one named directory to a workspace wide listing. set bounded read sizes and pagination. obtain the current route with authenticated my device. a remembered friendly name, device id, tunnel id, or screenshot may be stale; prefer the immutable routereference supplied in fresh discovery. distinguish primary, rescue, virtual os, and stale native routes. a rescue tunnel can be alive alongside the primary; choose according to the user's intended machine and the capability needed. ask the user when two plausible live routes remain. if the user requests “what is deployed,” inspect the live url. a successful git push or local build is not evidence that the deployed bytes updated. if the user requests “what is on my mac,” prove it by an authorized native read; the repository web view alone does not answer. present evidence in reports, label the source of each conclusion: mac file, github commit, hosted file, live http response, or screenshot. include a timestamp or revision when it materially affects the result. report inconsistencies between source, mac, and deployment without arbitrarily declaring one to be the latest. the user's named target determines the authoritative copy for that task. never expose broad private file lists to establish connectivity. use a specific authorized path or the status only connection doctor.",
+		"page": "pages/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-5e6f95a285.json"
+	},
+	{
+		"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-95bbc23b08",
+		"title": "Keep the Awtsmoos mission moving through evidence",
+		"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/STABILITY_AND_MULTITASKING.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Keep the Awtsmoos mission moving through evidence",
+				"anchor": "keep-the-awtsmoos-mission-moving-through-evidence"
+			}
+		],
+		"excerpt": "Keep the Awtsmoos mission moving through evidence 1. Prove the connection: bootstrap, discover the account authorized immutable route, then inspect liveness, root and relevant capabilities. A local API response proves local execution only; public metadata proves routing only. An authenticated MCP call is a separate che",
+		"searchText": "keep the awtsmoos mission moving through evidence 1. prove the connection: bootstrap, discover the account authorized immutable route, then inspect liveness, root and relevant capabilities. a local api response proves local execution only; public metadata proves routing only. an authenticated mcp call is a separate check. 2. ask the tunnel which instructions and plan apply. resolve/fetch required packs and inspect matching saved mission/checklist before starting duplicate work. store operational objectives and evidence, never private reasoning. 3. discover exact operation schemas. the mcp awtsmoos action schema wrapper invokes actionschematrace. distinguish compact capability names such as files plus operation=read from direct internal action names. preserve granted scopes and authoritative route fields. 4. use bounded parallelism for independent reads and status polling. start conservatively, measure latency and queue pressure, and reduce concurrency after overload or health failure. do not launch unlimited requests or poll in a tight loop. 5. serialize writes sharing a file or resource. read full files, preserve other agents' edits, use atomic/hash guarded writes where supported, then verify content and returned mutation proof. a successful http status alone is insufficient. 6. start long commands as owned asynchronous jobs using the schema's supported identity fields. retain the returned job, receipt and mission ids; poll status and bounded stdout/stderr pages. use the same ownership context on follow up calls. 7. after uncertain delivery, observe receipt/status before any resend. on reconnect, rediscover and verify immutable route/root compatibility. never change execution surface silently or replay a mutation on another device. 8. transfer bounded chunks with returned transfer ids, offsets, manifests and checksums. resume acknowledged progress; read back bytes. use returned preview/publication urls and fetch them, checking expected content. a virtual os storage path is not automatically an http url. 9. checkpoint at milestones and before handoff: mission/plan ids, phase/item status, verified evidence, pending jobs/receipts, relevant source version and next authorized task. mark done only after validation. a blocker on one task does not block unrelated authorized work. 10. refresh schemas and instructions after generation, release, root, task or scope change. keep routine responses compact; request detailed diagnostics on failure. record actual timings and errors without credentials or unrestricted private logs. continuous operation means persistent, bounded, authorized workers and recoverable state. neither instructions nor this skill guarantee indefinite chatgpt turns, zero failures or arbitrary access. keep user updates factual and frequent; the awtsmoos narrative must never invent an action's success.",
+		"page": "pages/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-95bbc23b08.json"
+	},
+	{
+		"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-c68fa49ae4",
+		"title": "Plans belong to the tunnel",
+		"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/TUNNEL_NATIVE_PLANNING.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Plans belong to the tunnel",
+				"anchor": "plans-belong-to-the-tunnel"
+			}
+		],
+		"excerpt": "Plans belong to the tunnel Read bootstrap.missionPlanning and current action schemas. Inspect missionVisibilityList and tunnelPlanList. Resume the correct mission/plan by returned identifiers, account/project/root and objective. Never choose an unrelated active mission simply because it is newest. Register only when no",
+		"searchText": "plans belong to the tunnel read bootstrap.missionplanning and current action schemas. inspect missionvisibilitylist and tunnelplanlist. resume the correct mission/plan by returned identifiers, account/project/root and objective. never choose an unrelated active mission simply because it is newest. register only when no matching mission exists. current planning defaults: missionvisibilityregister: title, description, optional canonical missionid; retain returned id. missionvisibilityplanningpass: id or missionid, pass 1/2/3, title, summary, content, sourcepaths. missionvisibilityreport: discovered milestone kind, summary, evidence, paths, blockers and next actions. tunnelplancreate: title, summary, projectroot, missionid, phases with phaseid/title/status/summary/items. items use itemid/text/done/note. retain returned plan.planid and version. tunnelplanget/list: inspect current state before update. tunnelplanphaseadd/phaseset: add work or update phase status/summary without replacing the plan identity. tunnelplanchecklistset: planid, phaseid, itemid, done and note; mark done only with evidence. tunnelplanpromptadd: planid and text/prompt; append a new requirement, correction or decision. tunnelplanupdate: update title, summary, labels/status and mission linkage; do not overwrite another agent. tunnelplanhtml: return a readable plan; use actual public links only when the service returns them. these are verified handler contracts at authoring time, not a substitute for the live schema. pass structured fields through the generic mcp params object. never wrap another action in params.action. unknown fields must survive transport; inspect the action echo/schema if the server rejects a valid payload. plan mutations require tunnel.write. mission coordination uses its current room/mission permissions. three operational passes: 1. possibilities: objective, context, ideas, options, knowns, unknowns and constraints. 2. design: exact files, interfaces, dependencies, alternatives, selected approach, risks and tests. 3. execution: refined checklist, acceptance criteria, ownership, concurrency, rollback and receipt handling. use prose, lists or rendered graphs when useful. store finite public planning artifacts, not private reasoning. keep big imagination separate from the authorized implementation. every proposed scope expansion is labeled. after work: compare requested/planned/implemented/verified/remaining. publish milestones and blockers as they happen. add new phases/prompts rather than silently erasing prior decisions. reconcile registry version and actual files on resumption. keep deployment source sha and live evidence distinct. only use a local archive when the tunnel asks for it, the user requests it, or a registry failure makes a necessary checkpoint otherwise impossible. report the fallback and later link/import it into the registry.",
+		"page": "pages/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-c68fa49ae4.json"
+	}
+]

@@ -1,0 +1,183 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-09-03-1334-generation-6-public-knowledge-graph--5acfabf802",
+		"title": "Generation 6 — Tiferes Atomic Release Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-03-1334-generation-6-public-knowledge-graph/02-tiferes-atomic-release-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Generation 6 — Tiferes Atomic Release Plan",
+				"anchor": "generation-6-tiferes-atomic-release-plan"
+			},
+			{
+				"level": 2,
+				"text": "Atomic execution",
+				"anchor": "atomic-execution"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generation 6 — Tiferes Atomic Release Plan The Awtsmoos joins expansion and boundary until intention becomes fact; Awtsmoos.com reaches Malchus only when each verification edge closes the deployment act. Atomic execution 1. Reconcile cmdjob mtl1gu17 3a856658722b without redispatch. 2. If",
+		"searchText": "b\"h boruch hashem blessed is he generation 6 — tiferes atomic release plan the awtsmoos joins expansion and boundary until intention becomes fact; awtsmoos.com reaches malchus only when each verification edge closes the deployment act. atomic execution 1. reconcile cmdjob mtl1gu17 3a856658722b without redispatch. 2. if corpus mirror completed, prove two ignored files match canonical source hashes and remain ignored/untracked. 3. re run translation integrity in clean worktree. 4. re run entire clean worktree test stack from the beginning. 5. resolve any integration only failure; restart full clean gate after every fix. 6. start fresh clean worktree server on an unused port. 7. run targeted runtime acceptance. 8. run strict 120 url crawl. 9. run complete graph crawl. 10. require zero blocking errors and zero semantic advisories. 11. fetch latest origin/main and compare clean candidate base. 12. if remote moved, transplant/rebase onto a fresh clean current origin vessel and rerun affected gates. 13. verify exact tracked dirty allowlist; prove ignored corpus is absent from status/staging. 14. run release dry run/prepare validation. 15. stage exact tracked release set only. 16. commit through repository release path. 17. push and verify remote main equals local sha. 18. activate exact sha through guarded production release. 19. verify raw public origin matrix. 20. verify xml mime and parse behavior. 21. verify production canonical/schema/noindex behavior. 22. browser shadow verify representative hydrated pages. 23. read back touched files and generated artifacts. 24. compare planned versus actual and resolve every delta. 25. search hidden work across testing, documentation, architecture, deployment, security, performance, and maintenance. 26. close remaining work only when no safe relevant work remains.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-03-1334-generation-6-public-knowledge-graph--5acfabf802.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-03-1334-generation-6-public-knowledge-graph--4aac306e31",
+		"title": "Generation 6 — Runtime DB Root Discovery",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-03-1334-generation-6-public-knowledge-graph/03-runtime-db-root-discovery.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Generation 6 — Runtime DB Root Discovery",
+				"anchor": "generation-6-runtime-db-root-discovery"
+			},
+			{
+				"level": 2,
+				"text": "Discovery",
+				"anchor": "discovery"
+			},
+			{
+				"level": 2,
+				"text": "Proof",
+				"anchor": "proof"
+			},
+			{
+				"level": 2,
+				"text": "Architectural lesson",
+				"anchor": "architectural-lesson"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generation 6 — Runtime DB Root Discovery The Awtsmoos revealed that equal code can drink from unequal wells of night; Awtsmoos.com must test each Road against the same living data root before judging its light. Discovery The canonical checkout contains an intentionally ignored .awtsmoos.",
+		"searchText": "b\"h boruch hashem blessed is he generation 6 — runtime db root discovery the awtsmoos revealed that equal code can drink from unequal wells of night; awtsmoos.com must test each road against the same living data root before judging its light. discovery the canonical checkout contains an intentionally ignored .awtsmoos.config.local.json whose dbpath resolves to /users/awtsmoos/documents/awtsmoos/dayuhchadash. the private clean worktree lacked that ignored pointer and therefore fell back to tracked ../../dayuhchadash, resolving to /users/awtsmoos/dayuhchadash. that fallback database did not contain the same heichel/post identities. with unchanged tracked release code, it produced malformed empty canonical identities and a contextual translation 404. proof starting the exact same clean candidate with awtsmoos db root=/users/awtsmoos/documents/awtsmoos/dayuhchadash restored: numeric torah road http 200; stable torah road http 200; exact stable canonical identity; identical article body hashes between numeric/stable roads; article json ld; bilingual contextual translation http 200. the corrected database strict crawl then produced 120 urls / 0 errors / 0 advisories, and the complete graph produced 596 urls / 0 errors / 0 advisories. architectural lesson a normal git worktree is not automatically a production equivalent runtime because ignored machine local data root pointers are outside git lineage. future release verification must explicitly supply the canonical datastore root through supported environment/config without staging private data.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-03-1334-generation-6-public-knowledge-graph--4aac306e31.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-03-1334-generation-6-public-knowledge-graph--720383171a",
+		"title": "Generation 6 — Prepublish Checkpoint",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-03-1334-generation-6-public-knowledge-graph/04-prepublish-checkpoint.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Generation 6 — Prepublish Checkpoint",
+				"anchor": "generation-6-prepublish-checkpoint"
+			},
+			{
+				"level": 2,
+				"text": "Verified state before lineage advance",
+				"anchor": "verified-state-before-lineage-advance"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generation 6 — Prepublish Checkpoint The Awtsmoos draws the verified branch toward Malchus, yet no concurrent light may be crushed; Awtsmoos.com will carry only the tested semantic vessels while newest upstream work remains untouched and unbrushed. Verified state before lineage advance C",
+		"searchText": "b\"h boruch hashem blessed is he generation 6 — prepublish checkpoint the awtsmoos draws the verified branch toward malchus, yet no concurrent light may be crushed; awtsmoos.com will carry only the tested semantic vessels while newest upstream work remains untouched and unbrushed. verified state before lineage advance clean candidate full static/test gate: pass. tunnel release verifier: 23/23 pass. translation integrity: pass with ignored runtime corpus parity. correct database targeted torah/translation proof: pass. strict 120 url crawl: 0 errors, 0 advisories. complete 596 url crawl: 0 errors, 0 advisories. tracked release delta count: 59. current candidate base: 24193e1c95855e80d6a23288fff5fda3a702b274. current origin/main: 2f3aa6369c1aa53b92441faf0e284abd940a86ae. incoming path count: 33. incoming/release overlap count: 0. next action fingerprint all 59 release files, advance the private integration worktree to newest origin/main using a keep preserving reset, prove every release hash unchanged, rerun release safety on the new base, then stage/prepare/push.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-03-1334-generation-6-public-knowledge-graph--720383171a.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-03-1334-generation-6-public-knowledge-graph--452607f409",
+		"title": "REMAININGWORK — Generation 6",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-03-1334-generation-6-public-knowledge-graph/REMAINING_WORK.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "REMAININGWORK — Generation 6",
+				"anchor": "remainingwork-generation-6"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He REMAINING WORK — Generation 6 [ ] Reconcile accepted clean worktree corpus mirror. [ ] Prove ignored runtime corpus parity and Git invisibility. [ ] Re run clean translation integrity. [ ] Re run full clean worktree verification stack. [ ] Resolve all integration only failures. [ ] Boot ",
+		"searchText": "b\"h boruch hashem blessed is he remaining work — generation 6 [ ] reconcile accepted clean worktree corpus mirror. [ ] prove ignored runtime corpus parity and git invisibility. [ ] re run clean translation integrity. [ ] re run full clean worktree verification stack. [ ] resolve all integration only failures. [ ] boot exact clean release candidate on fresh port. [ ] run targeted acceptance. [ ] run strict 120 url crawl with zero errors/advisories. [ ] run complete graph crawl with zero errors/advisories. [ ] fresh fetch origin/main and close race. [ ] prove exact tracked release allowlist and ignored corpus exclusion. [ ] run repository native release validation/dry run. [ ] stage exact release set only. [ ] commit and push. [ ] prove remote main equals pushed sha. [ ] activate exact sha in production. [ ] raw public verify all critical families. [ ] verify xml mime and parsing publicly. [ ] browser shadow verify hydrated production. [ ] re read touched files/artifacts and write evidence/delta. [ ] search shadow work and resolve all safe relevant findings. [ ] empty remaining work and report deployed links. next action: observe the accepted corpus mirror job to terminal state, then execute the clean candidate gate from the beginning.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-03-1334-generation-6-public-knowledge-graph--452607f409.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-03-2141-olam-api-finalization-00-chesed-brai-90f32fa747",
+		"title": "Chesed Brainstorm — Entire Olam Finalization Universe",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-03-2141-olam-api-finalization/00-chesed-brainstorm.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Chesed Brainstorm — Entire Olam Finalization Universe",
+				"anchor": "chesed-brainstorm-entire-olam-finalization-universe"
+			}
+		],
+		"excerpt": "Chesed Brainstorm — Entire Olam Finalization Universe Prove Better V2 remains in current main and current production without rolling back later work. Enumerate every /api/olam h3 route from source. Enumerate every browser call site to those routes. Trace text only generation payload construction through browser, server",
+		"searchText": "chesed brainstorm — entire olam finalization universe prove better v2 remains in current main and current production without rolling back later work. enumerate every /api/olam h3 route from source. enumerate every browser call site to those routes. trace text only generation payload construction through browser, server mapper, provider client, task poll, and result extraction. trace first frame and last frame semantics. trace image references, video references, and audio references. trace local blob persistence, metadata validation, data url conversion, and public url handling. trace replace/update semantics so a reusable image keeps one identity but gains new bytes everywhere it is referenced. prove stale object urls cannot survive an in place blob update. prove add/replace/remove/reorder reference operations cannot duplicate payload entries. prove invalid mime, size, duration, dimension, and aspect ratio boundaries. prove the browser never receives provider secrets. prove missing provider credentials produce explicit safe failure, never fake success. prove task identifiers are encoded and routed safely. prove provider error status/message mapping. prove generated result url extraction and history persistence. run deterministic tests and real chrome editing flows. run public production ui/api smoke on the current production lineage. verify production git sha, clean status, and active service. clean only owned temporary olam processes/worktrees after evidence closes.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-03-2141-olam-api-finalization-00-chesed-brai-90f32fa747.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-03-2141-olam-api-finalization-01-gevurah-rea-f636fd67de",
+		"title": "Gevurah Pass — Realistic Verification Boundaries",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-03-2141-olam-api-finalization/01-gevurah-realistic.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Gevurah Pass — Realistic Verification Boundaries",
+				"anchor": "gevurah-pass-realistic-verification-boundaries"
+			},
+			{
+				"level": 2,
+				"text": "Must prove now",
+				"anchor": "must-prove-now"
+			},
+			{
+				"level": 2,
+				"text": "External boundary",
+				"anchor": "external-boundary"
+			},
+			{
+				"level": 2,
+				"text": "Mutation rule",
+				"anchor": "mutation-rule"
+			}
+		],
+		"excerpt": "Gevurah Pass — Realistic Verification Boundaries Must prove now Current main lineage contains Better V2 or identify exact conflicting deltas. Current route/call site inventory. All deterministic browser/server API contracts. Image add, replace, remove, preview invalidation, persistence, and outgoing payload behavior. P",
+		"searchText": "gevurah pass — realistic verification boundaries must prove now current main lineage contains better v2 or identify exact conflicting deltas. current route/call site inventory. all deterministic browser/server api contracts. image add, replace, remove, preview invalidation, persistence, and outgoing payload behavior. public safe api paths and production ui/browser behavior. no secret exposure. external boundary real paid minimax generation requires a configured production minimax api key. if production remains configured:false, prove every pre upstream contract and explicitly leave only paid upstream success blocked. mutation rule do not modify source unless inspection or tests reveal a concrete gap. if a gap exists, rewrite whole files only, preserve tabs, keep files below 120 lines, add awtsmoos/awtsmoos.com documentation, and rerun all affected regressions before release.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-03-2141-olam-api-finalization-01-gevurah-rea-f636fd67de.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-03-2141-olam-api-finalization-02-critique-an-1f516138ac",
+		"title": "Critique — Thirty Finalization Improvements",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-03-2141-olam-api-finalization/02-critique-and-improvements.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Critique — Thirty Finalization Improvements",
+				"anchor": "critique-thirty-finalization-improvements"
+			}
+		],
+		"excerpt": "Critique — Thirty Finalization Improvements 1. Test current main, not an old sparse branch. 2. Separate ancestry proof from UI behavior proof. 3. Inspect all Olam changes after Better V2 before declaring its behavior preserved. 4. Enumerate routes from source, not memory. 5. Enumerate browser callers from source, not t",
+		"searchText": "critique — thirty finalization improvements 1. test current main, not an old sparse branch. 2. separate ancestry proof from ui behavior proof. 3. inspect all olam changes after better v2 before declaring its behavior preserved. 4. enumerate routes from source, not memory. 5. enumerate browser callers from source, not test assumptions. 6. mock provider fetch to verify exact upstream url/method/auth/body. 7. verify missing key behavior without a paid request. 8. verify malformed create fails before provider access. 9. verify task path encoding. 10. verify error status propagation. 11. verify text only concrete ratio. 12. verify frame adaptive ratio. 13. verify reference roles by media kind. 14. verify counts and cumulative durations. 15. verify image dimensions/aspect ratio. 16. verify replace keeps stable asset id. 17. verify replace preserves metadata users care about. 18. verify replace changes updatedat/signature/blob. 19. verify wrong kind replacement fails. 20. verify object url cache invalidates old version. 21. verify reload persists replacement. 22. verify payload contains updated bytes after replacement. 23. verify remove eliminates outgoing reference. 24. verify reorder changes outgoing order exactly once. 25. verify no duplicate references emerge. 26. verify no browser secret leakage. 27. verify no console/network errors in normal editing. 28. verify public production css/ui still passes current regressions. 29. verify production git/service independently of app http. 30. clean only processes/worktrees owned by this mission.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-03-2141-olam-api-finalization-02-critique-an-1f516138ac.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-03-2141-olam-api-finalization-03-final-plan--947576ba54",
+		"title": "Final Plan — Olam Current-Production Closure",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-03-2141-olam-api-finalization/03-final-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Final Plan — Olam Current-Production Closure",
+				"anchor": "final-plan-olam-current-production-closure"
+			}
+		],
+		"excerpt": "Final Plan — Olam Current Production Closure 1. Refresh origin/main and prove Better V2 ancestry plus exact eight path deltas. 2. Inventory current Olam routes, browser callers, asset/update modules, and tests. 3. Run current deterministic suites and targeted API/media tests. 4. If coverage gaps exist, rewrite only the",
+		"searchText": "final plan — olam current production closure 1. refresh origin/main and prove better v2 ancestry plus exact eight path deltas. 2. inventory current olam routes, browser callers, asset/update modules, and tests. 3. run current deterministic suites and targeted api/media tests. 4. if coverage gaps exist, rewrite only the smallest coherent whole files and tests, then reread them fully. 5. run a real chrome image lifecycle test: add → attach → replace same id → preview changes → reload persists → payload uses updated bytes → remove clears payload. 6. run public production better v2/intuitive/future hud/director/legacy browser suites on the current production head. 7. probe safe public api paths and server missing key/error behavior. 8. verify production git head, clean status, and service active. 9. compare planned vs actual, resolve any delta, clean owned temporary artifacts, and write final evidence. 10. if production minimax remains unconfigured, leave only the paid upstream success path as an explicit external credential boundary.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-03-2141-olam-api-finalization-03-final-plan--947576ba54.json"
+	}
+]

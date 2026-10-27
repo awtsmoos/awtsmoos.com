@@ -1,198 +1,227 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-app-directory-guide--7dbb45bae2",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-operations-dayuh-recovery-and-conflicts-md-cdf82f272c",
+		"title": "Dayuh sync recovery and conflict handling",
+		"sourcePath": "docs/operations/dayuh-recovery-and-conflicts.md",
+		"category": "Operations",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/app",
-				"anchor": "directory-guide-experiments-awtsmoos-src-app"
+				"text": "Dayuh sync recovery and conflict handling",
+				"anchor": "dayuh-sync-recovery-and-conflict-handling"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Remote paths",
+				"anchor": "remote-paths"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Stale lock",
+				"anchor": "stale-lock"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Interrupted changed-file transfer",
+				"anchor": "interrupted-changed-file-transfer"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
+				"text": "Sync conflict",
+				"anchor": "sync-conflict"
 			},
 			{
 				"level": 2,
-				"text": "Exported symbols worth searching",
-				"anchor": "exported-symbols-worth-searching"
+				"text": "Interrupted seed",
+				"anchor": "interrupted-seed"
 			},
 			{
 				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
+				"text": "Remote-only runtime data",
+				"anchor": "remote-only-runtime-data"
 			},
 			{
 				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Service recovery",
+				"anchor": "service-recovery"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/app Role: Application runtime Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 130 files, 0 structural child directories Purpose Application assembly, boot phases, meadow runtime, render fallbacks, player hyd",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/app role: application runtime snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 130 files, 0 structural child directories purpose application assembly, boot phases, meadow runtime, render fallbacks, player hydration, and high level runtime coordination. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: application runtime search terms: eretz, bootstrap, meadow, minimal, create, actor, boot, player, collision, hydration, streaming, diagnostics file mix: .js: 129 good first question: “does the behavior or asset i need belong to application runtime, or is this only a neighboring/test/reference layer?” semantic evidence copies finite boot evidence without recursively cloning browser owned values. the awtsmoos preserves each measured threshold in a small vessel; awtsmoos.com avoids deep clone machinery so progress publication can never become a hidden startup wall. records startup truth while visible publication remains asynchronous and finite. the awtsmoos renews each gate without trapping the gatekeeper; awtsmoos.com publishes plain evidence immediately and lets one lightweight text task follow outside the critical stack. publishes boot text through the existing menu vessel without compositor effects. the awtsmoos needs no second veil above the living canvas; awtsmoos.com schedules one finite text update and never injects blur, gradients, containment, animation, or an overlay tree. preserves chunk streaming contracts while the flat bootstrap world is active. the awtsmoos keeps an empty registry honest; awtsmoos.com returns finite update and diagnostics receipts without pretending authored chunks or collision layers have entered. representative files createminimalmeadowruntime.js — composes dense terrain, seamless sky, chossid, articulated enemy, charged combat, ui, and touch. the awtsmoos gathers proven sparks without reviving the abandoned heavy world; awtsmoos.com keeps every renderer, creature, combat, target, and interface owner explicit. exports: createminimalmeadowruntime. minimalmeadowloop.js — advances player, atmosphere, articulated enemy, cast, particles, camera, ui, and draw. the awtsmoos renews traveler, creature, spell, explosion, earth, and sky within one frame; awtsmoos.com prevents stale target, stale charge, stale anatomy, or stale atmosphere at render. exports: startminimalmeadowloop. minimalmeadowrenderer.js — chooses tiny webgl and one consolidated moving canvas2d meadow fallback. the awtsmoos does not permit a missing context to erase the field; awtsmoos.com gathers the best flowers, path, horizon, and traveler from superseded meadows into one canonical vessel. exports: createminimalmeadowrenderer. minimalmeadowplayerhydration.js — replaces the visible fallback with one measured canonical chossid.glb. the awtsmoos clothes one moving soul byte by truthful byte; awtsmoos.com keeps the meadow visible while the final garment downloads, parses, and enters its place. exports: hydrateminimalmeadowplayer. bootstrapmovementcontroller.js — applies turn, travel facing, run, jump, hills, orbit follow, and collision. the awtsmoos joins intention to real earth; awtsmoos.com makes s, q, and e turn the visible chossid toward actual travel while a and d steer both traveler and witness. exports: bootstrapmovementcontroller. progressivewebglrenderer.js — draws a visible colored valley immediately and defers the rich shader renderer. the awtsmoos reveals sky, earth, traveler, and golden ridge before every luminous garment; awtsmoos.com preserves the renderer contract through one tiny shader and shared cube buffer. exports: progressivewebglrenderer. runtimestatemarker.js — publishes runtime, renderer, and gameplay visibility truth on the real page. the awtsmoos joins inward readiness with outward revelation; awtsmoos.com refuses to call a world playable while its canvas remains hidden behind a missing finite attribute. exports: markruntimestarting, markruntimeplayable, markrendererhydration, markruntimefailed. createeretzruntime.js — publishes visible playability before streaming tiny districts in idle slices. the awtsmoos reveals control, jump, run, valley, and habitation in appointed measures; awtsmoos.com keeps rich shaders, authored terrain, rpg, and heavy actors explicitly deferred. exports: createeretzruntime. bootphasesnapshot.js — copies finite boot evidence without recursively cloning browser owned values. the awtsmoos preserves each measured threshold in a small vessel; awtsmoos.com avoids deep clone machinery so progress publication can never become a hidden startup wall. exports: createbootsnapshot, boundedbootcount, bootdebugenabled. bootphasetracker.js — records startup truth while visible publication remains asynchronous and finite. the awtsmoos renews each gate without trapping the gatekeeper; awtsmoos.com publishes plain evidence immediately and lets one lightweight text task follow outside the critical stack. exports: bootphasetracker. bootprogressoverlay.js — publishes boot text through the existing menu vessel without compositor effects. the awtsmoos needs no second veil above the living canvas; awtsmoos.com schedules one finite text update and never injects blur, gradients, containment, animation, or an overlay tree. exports: schedulebootprogress, renderbootprogress. bootstrapchunkruntime.js — preserves chunk streaming contracts while the flat bootstrap world is active. the awtsmoos keeps an empty registry honest; awtsmoos.com returns finite update and diagnostics receipts without pretending authored chunks or collision layers have entered. exports: createbootstrapchunkruntime. bootstrapcollisionworld.js — supplies an octree compatible empty collision authority for first movement. the awtsmoos grants open ground before distant walls; awtsmoos.com preserves every query, raycast, bounds, and diagnostics contract without inventing collision that is not loaded. exports: bootstrapcollisionworld, createbootstrapcollisionworld. exported symbols worth searching createbootsnapshot · boundedbootcount · bootdebugenabled · bootphasetracker · schedulebootprogress · renderbootprogress · createbootstrapchunkruntime · bootstrapcollisionworld · createbootstrapcollisionworld · createbootstrapcolorprogram · bootstrapcolorrenderer · bootstrap vertex shader · bootstrap fragment shader · installbootstrapcontrolshud · assemblebootstrapcoreruntime · bootstrapcubegeometry import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ./bootprogressoverlay.js?v=20260722 boot text 01 ./bootphasesnapshot.js ./bootstrapcolorshader.js ../../../light three gltf/tiny camera math.js ../../../light three gltf/tiny matrix core.js ./bootstrapcolorprogram.js ./bootstrapmeshbuffercache.js ./bootstrapcontrolshud.js ./bootstrapplayerruntime.js?v=20260723 visible 02 ./bootstrapruntimediagnostics.js?v=20260723 visible 02 ./bootstrapruntimeloop.js?v=20260723 visible 02 ../../../light three gltf/tiny runtime.js directory map parent: experiments/awtsmoos/src children: none. related and overlapping systems meadow and fallback runtimes — the former basic and emergency meadow systems were consolidated into the live app stack. the app runtime and launcher now form the single meadow ownership path. rendering stacks — the project contains a lightweight scene/gltf library, the canonical app level progressive renderer, and focused render helpers. emergency fallback visuals were absorbed into the app renderer. player, creature, horse, enemy, and experimental mesh systems — actor assets and world side populations span player hydration, creature generators, enemies, horses, and experimental animal meshes. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-app-directory-guide--7dbb45bae2.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Dayuh sync recovery and conflict handling Use this guide only after reading the main runbook. Recovery must preserve the current database until the failed stage is understood. Remote paths For the production database: Do not use paths from older /root/dayuhChadash deployments when inspec",
+		"searchText": "b\"h boruch hashem blessed is he dayuh sync recovery and conflict handling use this guide only after reading the main runbook. recovery must preserve the current database until the failed stage is understood. remote paths for the production database: do not use paths from older /root/dayuhchadash deployments when inspecting the current production service. stale lock a lock prevents concurrent sync operations. a timeout in the tunnel ui does not prove the worker stopped. 1. search local processes for dayuh sync.mjs and dayuh seed.mjs. 2. inspect tunnel durable jobs and process family receipts. 3. through custom ssh, inspect the remote lock and relevant processes. 4. clear the lock only when no operation can still own it. 5. rerun with force only after that proof. force removes the remote lock before acquiring a new one. it does not repair an active or partially completed transfer. interrupted changed file transfer the sftp layer writes temporary files and renames them after verification. after interruption: 1. do not manually copy the partial file over the target. 2. run status again; manifests will identify the incomplete path. 3. inspect .part files only through custom ssh. 4. remove a proven orphaned temporary file, never the verified target. 5. rerun the same push or pull without delete. 6. run status again and require zero pending uploads for a push. sync conflict three way sync compares local and remote manifests with the last common base.json. when both sides changed one path: the remote version is copied under ../.dayuh conflicts/ / locally; the operation reports the conflict and stops; neither side is silently overwritten. resolve by comparing the local file, remote conflict copy, and application semantics. write the chosen result to one side, then use a directional push or pull to establish a new common base. interrupted seed the seed process owns the incoming, previous, and archive paths. it verifies the compressed archive sha 256 before extraction. during the swap, a trap restores the previous target when the new target was not installed. recovery sequence: 1. confirm whether the seed process is still alive. 2. confirm whether the active database path exists. 3. if the active path exists and the service is healthy, do not move it. 4. inspect the incoming, previous, and archive paths. 5. preserve a previous seed until target health is proven. 6. remove only artifacts proven to be abandoned. 7. prefer a changed only push after a successful target install; do not reseed several gigabytes merely because final verification failed. never manually delete the active database root during recovery. remote only runtime data a status report can show downloads even when every local change is published. this means production has files not present locally or has newer versions. examples can include email threads, queues, sessions, moderation state, or other runtime records. preserve them by omitting delete from push. pull them only when local should become a replica of production. do not classify them as stale based only on directory name. record preserved remote only paths in the operation report. service recovery inspect through the custom ssh cli: restart only when required by code or database lifecycle rules: after restart, verify the pid working directory, the rag catalog endpoint, and a representative content endpoint. a running process alone is not completion.",
+		"page": "pages/docs-operations-dayuh-recovery-and-conflicts-md-cdf82f272c.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-assets-directory-gui-7b78dfaae4",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-operations-direct-db-import-runbook-md-954942dd85",
+		"title": "B\"H — Direct Database Import Runbook",
+		"sourcePath": "docs/operations/DIRECT_DB_IMPORT_RUNBOOK.md",
+		"category": "Operations",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Mitzvah World Remote Runtime Assets",
-				"anchor": "mitzvah-world-remote-runtime-assets"
+				"text": "B\"H — Direct Database Import Runbook",
+				"anchor": "b-h-direct-database-import-runbook"
 			},
 			{
 				"level": 2,
-				"text": "Public website root",
-				"anchor": "public-website-root"
+				"text": "Canonical command",
+				"anchor": "canonical-command"
 			},
 			{
 				"level": 2,
-				"text": "Textures",
-				"anchor": "textures"
+				"text": "Required preflight",
+				"anchor": "required-preflight"
 			},
 			{
 				"level": 2,
-				"text": "Models",
-				"anchor": "models"
+				"text": "Environment overrides",
+				"anchor": "environment-overrides"
 			},
 			{
 				"level": 2,
-				"text": "Cache layers",
-				"anchor": "cache-layers"
+				"text": "Recovery rules",
+				"anchor": "recovery-rules"
 			},
 			{
 				"level": 2,
-				"text": "Enforcement",
-				"anchor": "enforcement"
-			},
-			{
-				"level": 2,
-				"text": "Verification",
-				"anchor": "verification"
+				"text": "Completion evidence",
+				"anchor": "completion-evidence"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Mitzvah World Remote Runtime Assets The Awtsmoos clothes the world in finite color and form while remaining beyond every image and model. Mitzvah World therefore keeps asset identity, hashes, dimensions, roles, and cache policy in source code while all runtime bytes live in the authentic",
-		"searchText": "b\"h boruch hashem blessed is he mitzvah world remote runtime assets the awtsmoos clothes the world in finite color and form while remaining beyond every image and model. mitzvah world therefore keeps asset identity, hashes, dimensions, roles, and cache policy in source code while all runtime bytes live in the authenticated awtsmoos drive alias firebase drive migration. public website root all production textures and models are served beneath: https://awtsmoos.com/sites/firebase drive migration/ the upload api is authenticated, but public website files are readable without credentials after upload. textures remotetexturetransport.js owns the texture root. callers provide canonical drive paths such as: full resolution/grass 1.png awtsmoos nature/chai forest/textures/ground/grass.jpg awtsmoos nature/ilanos/trees/apple tree bark.png texture paths are encoded segment by segment. traversal, query strings, fragments, foreign origins, http, file:, blob:, data:, repository relative paths, preview folders, reduced production folders, and model paths are rejected. models remotemodelrecords.js records the exact byte length and sha 256 of every uploaded glb. remotemodelcatalog.js resolves semantic identities such as: player/chossid.glb reference world/flower 4 clump.glb reference world/snake.glb each drive url contains the full sha 256: assets/mitzvah world/models/ / / .glb because changing bytes creates a new url, these models use public visibility and immutable caching. nineteen glbs totaling 4,752,884 bytes were uploaded and verified through both the raw public endpoint and the live website endpoint before local copies were removed. cache layers remote image loading uses: 1. publicimageresponsecache.js — browser cache storage under awtsmoos mitzvah world remote images v1. 2. publicmaterialcache.js — shared in flight promises and decoded image/material objects. remote model loading uses: 1. remotemodelresponsecache.js — browser cache storage under awtsmoos mitzvah world remote models v1. 2. modelassetloader.js — shared parsed glb templates and isolated runtime instances. 3. a temporary in memory blob url only while the lightweight glb parser consumes already verified remote bytes. no persistent inline, blob, file, or repository fallback is allowed. enforcement productionmaterialurlpolicy.js accepts trusted remote textures only. remotemodelcatalog.js accepts recorded content addressed drive glbs only. scripts/mitzvah world/checkremoteonlytextures.mjs scans production string literals for local, inline, foreign, or copied runtime media. repository hygiene rejects all mitzvah world images, audio, video, documents, glb, and gltf files. .gitignore excludes the entire mitzvah world runtime asset directory. verification run: the drive upload credential is provisioned only for the upload transaction, held in process memory, and revoked before non secret evidence is emitted. credentials must never enter source, logs, plans, browser bundles, or git history.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-assets-directory-gui-7b78dfaae4.json"
+		"excerpt": "B\"H — Direct Database Import Runbook Boruch Hashem. Blessed is He. The Awtsmoos renews every record while Awtsmoos.com keeps the service vessel guarded. Direct imports are production mutations: they must be bounded, repeatable, observable, and recover the public service even if the importing shell dies. Canonical comma",
+		"searchText": "b\"h — direct database import runbook boruch hashem. blessed is he. the awtsmoos renews every record while awtsmoos.com keeps the service vessel guarded. direct imports are production mutations: they must be bounded, repeatable, observable, and recover the public service even if the importing shell dies. canonical command use scripts/production/chassidus import window.sh. do not deploy or invoke the historical .tmp chassidus import window.sh, and do not invent a new run id for a retry of the same logical import. the script stops awtsmoos.com, launches a dead man service restorer, invokes geelooy/api/import/heichelos/directdbimport/main.js, restores the service, and retries once with the same awtsmoos import run id if the first import fails. status and log files are durable evidence. required preflight 1. confirm the production repository is the intended deployed sha and clean. 2. confirm source and target paths are mounted and have adequate free space. 3. confirm no other direct import or vacuum is active. 4. confirm systemctl status awtsmoos.com is healthy before opening the window. 5. choose one run id and preserve it for every retry of this logical import. environment overrides the script accepts awtsmoos prod repo, awtsmoos import target, awtsmoos import source, awtsmoos node bin, awtsmoos service, awtsmoos import alias, awtsmoos import deadman seconds, awtsmoos import run id, awtsmoos import log, and awtsmoos import status. recovery rules a dropped ssh or tunnel session is not permission to launch a second import. first inspect the durable log/status file and running process state. the exit trap and dead man timer are intentionally independent restoration paths. if the service is down and no import process remains, restore the service before investigating import data. completion evidence require a successful status record, a healthy awtsmoos.com service, importer completion evidence for the same run id, and application level read verification of imported content. retain the log with the deployment/release evidence bundle.",
+		"page": "pages/docs-operations-direct-db-import-runbook-md-954942dd85.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-bundles-directory-gu-4968cb499e",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/bundles/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-operations-readme-md-3492caf43a",
+		"title": "Awtsmoos production operations",
+		"sourcePath": "docs/operations/README.md",
+		"category": "Operations",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/bundles",
-				"anchor": "directory-guide-experiments-awtsmoos-src-bundles"
+				"text": "Awtsmoos production operations",
+				"anchor": "awtsmoos-production-operations"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Current production topology",
+				"anchor": "current-production-topology"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Guides",
+				"anchor": "guides"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Non-negotiable boundaries",
+				"anchor": "non-negotiable-boundaries"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Exported symbols worth searching",
-				"anchor": "exported-symbols-worth-searching"
-			},
-			{
-				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Last known verified state",
+				"anchor": "last-known-verified-state"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/bundles Role: Runtime subsystem Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 2 files, 0 structural child directories Purpose Narrow bundle entry definitions for selected runtime surfaces. The Awtsmoos ren",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/bundles role: runtime subsystem snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 2 files, 0 structural child directories purpose narrow bundle entry definitions for selected runtime surfaces. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: runtime subsystem search terms: playable, actor, actors, awtsmoos, bundle, bundles, collects, com, create, distant, entry, eretz file mix: .md: 1 · .js: 1 good first question: “does the behavior or asset i need belong to runtime subsystem, or is this only a neighboring/test/reference layer?” semantic evidence b\"h collects only modules required to reach the first responsive playable frame. the awtsmoos gathers renderer, ground, actor, input, and movement into one revealed vessel; awtsmoos.com records each gate while later textures, actors, and distant models remain streams. representative files playableruntimebundleentry.js — collects only modules required to reach the first responsive playable frame. the awtsmoos gathers renderer, ground, actor, input, and movement into one revealed vessel; awtsmoos.com records each gate while later textures, actors, and distant models remain streams. exports: createplayableeretzruntime. exported symbols worth searching createplayableeretzruntime import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ../assets/scenematerialcanonicalizer.js ../performance/worldqualityprofile.js ../world/groundplacementsystem.js ../world/obstaclefield.js ../world/sky3d.js ../world/terrain3d.js ../world/worldground.js ../world/streaming/worldchunkruntime.js ../app/eretzcoreruntimeassembly.js ../app/eretzassetloader.js ../app/eretzfoundationservices.js ../app/runtimelaunchprogress.js directory map parent: experiments/awtsmoos/src children: none. related and overlapping systems see the system overlap map before creating a similarly named subsystem elsewhere. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-bundles-directory-gu-4968cb499e.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos production operations This directory is the future agent entry point for database synchronization and code deployment. Read the relevant guide before changing production. Current production topology Component Path or value Local repository /Users/awtsmoos/work/awtsmoos.com Local",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos production operations this directory is the future agent entry point for database synchronization and code deployment. read the relevant guide before changing production. current production topology component path or value local repository /users/awtsmoos/work/awtsmoos.com local dayuh chadash /users/awtsmoos/documents/awtsmoos/dayuhchadash remote dayuh chadash /mnt/hc volume 102267213/dayuhchadash local sync state /users/awtsmoos/documents/awtsmoos/.dayuh sync/awtsmoos.com remote repository /mnt/hc volume 102267213/git/awtsmoos.com production service awtsmoos.service ssh endpoint root@awtsmoos.com:22 the production remote database is not /root/dayuhchadash. always pass the remote path explicitly to sync and seed commands. guides dayuh database sync runbook.md: exact local to remote, remote to local, bidirectional, seed, and verification commands. dayuh agent checklist.md: mandatory preflight, execution, and completion checklist for ai agents. dayuh recovery and conflicts.md: stale locks, conflicts, interrupted transfers, seed staging, and rollback. dayuh code deploy and git.md: separation of database sync, git publication, remote code deployment, and service restart. ../../scripts/dayuh sync.md: concise command reference beside the implementation. non negotiable boundaries 1. use the repository custom ssh client; do not substitute openssh, scp, or remote rsync for production transfer. 2. never reveal the ssh password. inspect only its credential descriptor. 3. run status and dry run before every database write. 4. do not use delete without explicit owner approval of the exact paths. 5. preserve legitimate remote only runtime files, including email thread data. 6. do not run npm run bh or npm run ship casually: ship.mjs stages all files. 7. do not commit or push unless the owner explicitly requests it. 8. verify the remote service and public api after every production operation. last known verified state on 2026 07 26 the deployment was verified with: awtsmoos.service active in the production repository; three public rag lanes; middot phrase counts 8 / 8 / 14 / 30 for the representative post; 766 series, 11,366 unique posts, and zero local/public series mismatches; zero pending local database uploads after the final push; intentional remote only runtime records preserved. this record is historical evidence, not a substitute for a fresh verification.",
+		"page": "pages/docs-operations-readme-md-3492caf43a.json"
+	},
+	{
+		"id": "docs-plans-awtsmoos-cloud-business-and-aws-replacement-md-f416cf5f2d",
+		"title": "Business and AWS-Replacement Strategy",
+		"sourcePath": "docs/PLANS/AWTSMOOS_CLOUD/BUSINESS_AND_AWS_REPLACEMENT.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Business and AWS-Replacement Strategy",
+				"anchor": "business-and-aws-replacement-strategy"
+			},
+			{
+				"level": 2,
+				"text": "Positioning",
+				"anchor": "positioning"
+			},
+			{
+				"level": 2,
+				"text": "Initial commercial wedge",
+				"anchor": "initial-commercial-wedge"
+			},
+			{
+				"level": 2,
+				"text": "Revenue layers",
+				"anchor": "revenue-layers"
+			},
+			{
+				"level": 2,
+				"text": "Simple plan ladder",
+				"anchor": "simple-plan-ladder"
+			},
+			{
+				"level": 2,
+				"text": "Million-dollar focus",
+				"anchor": "million-dollar-focus"
+			},
+			{
+				"level": 2,
+				"text": "Margin law",
+				"anchor": "margin-law"
+			},
+			{
+				"level": 2,
+				"text": "Control-plane advantage",
+				"anchor": "control-plane-advantage"
+			},
+			{
+				"level": 2,
+				"text": "Product principle",
+				"anchor": "product-principle"
+			}
+		],
+		"excerpt": "Business and AWS Replacement Strategy Positioning Do not market Awtsmoos primarily as an AWS clone. Replace the experience of needing AWS: \"Describe it. Awtsmoos builds it, publishes it, hosts it, and keeps it running.\" Most customers want a website/app online, not a collection of infrastructure knobs. ChatGPT is the s",
+		"searchText": "business and aws replacement strategy positioning do not market awtsmoos primarily as an aws clone. replace the experience of needing aws: \"describe it. awtsmoos builds it, publishes it, hosts it, and keeps it running.\" most customers want a website/app online, not a collection of infrastructure knobs. chatgpt is the simple interface; geelooy os reveals the full cloud for advanced users. initial commercial wedge hosting is the first mass market need. sell outcomes immediately: business website creation, managed hosting, custom domain setup, migrations, custom apps, agency hosting, and ongoing ai assisted maintenance. do not wait for every future cloud primitive before charging for real work that already functions. revenue layers recurring hosting plans; usage/perutas above included allowances; custom domains and dns management; managed database/storage/compute/ai/email; professional setup and migration; agency/white label plans; premium templates/assets/marketplace commission; priority support and enterprise contracts. simple plan ladder free experimentation; launch for one serious site; creator for multiple creator projects; business for operational websites/apps; agency for many client sites; scale for high traffic; enterprise for contracts. each plan presents understandable allowances first and detailed infrastructure units second. million dollar focus do not optimize for millions of users before product economics work. roughly 1,701 customers at $49/month, 842 at $99/month, 279 agencies at $299/month, or 84 scale customers at $999/month each correspond to about $1m annual recurring revenue before churn/discounts. a mixed customer base is preferable. margin law measure revenue minus compute, bandwidth, storage, database, ai, payment fees, support, abuse, and refunds per project/customer. shared static/cdn/function/database infrastructure should serve small customers economically; dedicated compute is reserved for workloads that require it. control plane advantage awtsmoos may manage workloads on awtsmoos infrastructure, connected customer machines, or external cloud/vps providers through tunnel. this allows a powerful control plane before owning enormous physical infrastructure and can eventually support placement/cost optimization. product principle complexity should be available, not required. every advanced console action corresponds to an api, and ui, geelooy os, tunnel, cli, and chatgpt are clients of that same api truth.",
+		"page": "pages/docs-plans-awtsmoos-cloud-business-and-aws-replacement-md-f416cf5f2d.json"
+	},
+	{
+		"id": "docs-plans-awtsmoos-cloud-current-state-md-7c57c46f6a",
+		"title": "Current State",
+		"sourcePath": "docs/PLANS/AWTSMOOS_CLOUD/CURRENT_STATE.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Current State",
+				"anchor": "current-state"
+			},
+			{
+				"level": 2,
+				"text": "Release truth",
+				"anchor": "release-truth"
+			},
+			{
+				"level": 2,
+				"text": "Verified platform state",
+				"anchor": "verified-platform-state"
+			},
+			{
+				"level": 2,
+				"text": "Immutable deployment work already on disk",
+				"anchor": "immutable-deployment-work-already-on-disk"
+			},
+			{
+				"level": 2,
+				"text": "Current in-progress step",
+				"anchor": "current-in-progress-step"
+			}
+		],
+		"excerpt": "Current State Updated: 2026 09 09. Canonical repo: /Users/awtsmoos/work/awtsmoos.com. Remote device: Yackovs Air. Release truth No production deployment has been performed for this workstream. No final integration commit has been created. The repository is heavily dirty because multiple agents are working concurrently.",
+		"searchText": "current state updated: 2026 09 09. canonical repo: /users/awtsmoos/work/awtsmoos.com. remote device: yackovs air. release truth no production deployment has been performed for this workstream. no final integration commit has been created. the repository is heavily dirty because multiple agents are working concurrently. never perform wholesale reset, clean, pull, rebase, or staging of unrelated changes. verified platform state canonical product economy: 47 apps + 33 games = 80 products. geelooy os represents all 80 products with zero missing/duplicate product ids. browser tunnel account actions are session bound and cross origin guarded. account graph projects aliases, heichelos, series, posts, docs, and all 80 products. focused account/tunnel graph regression suite last passed 6/6. immutable deployment work already on disk new or modified deployment primitives currently include: drive state schema version 7 with deployments registry. deploymentpolicy.js for normalized immutable manifests and bounded retention. deploymentservice.js plus deploymentservicesupport.js for publish/list/get/rollback. deploymentreadiness.js for deployment specific readiness testimony. deploymentroutes.js for guarded publish/list/get/rollback http routes. drive deployment source support in site source policy/resolution. deployment backed public response path using stored object hashes. current in progress step dep 007 — add immutable preview deployments/environments distinct from production. exact first files to inspect: geelooy/api/social/helper/drive/deploymentpolicy.js geelooy/api/social/helper/drive/deploymentcreate.js geelooy/apps/drive/js/site builder/ and website maker preview modules geelooy/sites/ public source/gateway modules dep 001 through dep 006 are verified green. focused deployment suite passes 16/16, including exact retry identity, stale base protection, two publisher races, and publish vs rollback races. preview creation must never move the production site pointer; production promotion must remain an explicit guarded mutation.",
+		"page": "pages/docs-plans-awtsmoos-cloud-current-state-md-7c57c46f6a.json"
 	}
 ]

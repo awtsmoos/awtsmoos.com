@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-28-1725-total-ui-repair-09-tokens-animation--94e388bd22",
+	"title": "B\"H — 09 · tokens-animation re-surge log · 2026-09-28 21:45 EDT",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-28-1725-total-ui-repair/09-tokens-animation-resurge.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — 09 · tokens-animation re-surge log · 2026-09-28 21:45 EDT",
+			"anchor": "b-h-09-tokens-animation-re-surge-log-2026-09-28-21-45-edt"
+		},
+		{
+			"level": 2,
+			"text": "Guards honored",
+			"anchor": "guards-honored"
+		},
+		{
+			"level": 2,
+			"text": "Git state observed (NOT modified)",
+			"anchor": "git-state-observed-not-modified"
+		},
+		{
+			"level": 2,
+			"text": "Design-system home: verified, adopted (not created parallel)",
+			"anchor": "design-system-home-verified-adopted-not-created-parallel"
+		},
+		{
+			"level": 2,
+			"text": "Reconciliation (adopt, don't clobber)",
+			"anchor": "reconciliation-adopt-don-t-clobber"
+		},
+		{
+			"level": 2,
+			"text": "Deploy record — 10/10 landed, sha-verified on re-read",
+			"anchor": "deploy-record-10-10-landed-sha-verified-on-re-read"
+		},
+		{
+			"level": 2,
+			"text": "Readability gate — re-run against LANDED files: PASS",
+			"anchor": "readability-gate-re-run-against-landed-files-pass"
+		},
+		{
+			"level": 2,
+			"text": "Mission-law compliance of landed files",
+			"anchor": "mission-law-compliance-of-landed-files"
+		},
+		{
+			"level": 2,
+			"text": "Still open (not this worker's scope)",
+			"anchor": "still-open-not-this-worker-s-scope"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-28-1725-total-ui-repair-09-tokens-animation--94e388bd22-001.json"
+	]
+}

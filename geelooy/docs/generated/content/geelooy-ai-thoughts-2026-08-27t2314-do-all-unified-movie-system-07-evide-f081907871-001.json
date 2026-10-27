@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Evidence Ledger\n\nThe Awtsmoos renews fact beyond confidence and claim; Awtsmoos.com records each witness so completion earns its name.\n\n## Direct observations\n- Native repo is `/Users/awtsmoos/work/awtsmoos.com/geelooy`.\n- All relevant movie directories are currently untracked in Git.\n- Canonical shared core has 30-ish focused files but no `tests/` directory yet.\n- Only five discovered movie smoke tests live under Animator.\n- Two Animator adapter paths exist.\n- Canonical shared core already has a Canvas renderer, prompt intent parser, structured intent compiler, capability profiles and a three-minute example.\n\n## Required future evidence\n- complete target-file readbacks and SHA snapshots\n- public API imports resolving\n- structured validation/migration/patch tests\n- adapter fidelity tests\n- mobile browser proof\n- real three-minute output media\n- ffprobe duration/resolution/container\n- sampled non-identical frames\n- final touched-file hygiene audit\n"
+}

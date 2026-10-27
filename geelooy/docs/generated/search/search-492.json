@@ -1,0 +1,93 @@
+[
+	{
+		"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-bcbd903bb9",
+		"title": "DIRECT_AWTSMOOS_ACCESS",
+		"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/DIRECT_AWTSMOOS_ACCESS.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 2,
+				"text": "Current tunnel integration takes precedence",
+				"anchor": "current-tunnel-integration-takes-precedence"
+			},
+			{
+				"level": 2,
+				"text": "Direct Awtsmoos access when plugin actions are unavailable",
+				"anchor": "direct-awtsmoos-access-when-plugin-actions-are-unavailable"
+			},
+			{
+				"level": 3,
+				"text": "Authorization",
+				"anchor": "authorization"
+			},
+			{
+				"level": 3,
+				"text": "Prove the requested action",
+				"anchor": "prove-the-requested-action"
+			}
+		],
+		"excerpt": "Current tunnel integration takes precedence This reference retains the user's original ideas. Its historical transport names, fixed action lists, local thought folder defaults, retry assumptions and installation advice are superseded by MODERN TUNNEL CONTRACT.md and the current authenticated instructionResolve/instruct",
+		"searchText": "current tunnel integration takes precedence this reference retains the user's original ideas. its historical transport names, fixed action lists, local thought folder defaults, retry assumptions and installation advice are superseded by modern tunnel contract.md and the current authenticated instructionresolve/instructionget results. use tunnel native plans and bounded operational summaries; do not publish hidden chain of thought. treat brainstorming as proposals, not authorization to implement unrelated work. preserve user scope. use mcp's required post transport; get is an http fallback only. never infer tool access from prose. no arbitrary number of tests, critiques or improvements substitutes for real relevant verification. direct awtsmoos access when plugin actions are unavailable the awtsmoos tunnel control api can be used through ordinary https requests even when this plugin has no connected action or mcp tool. never claim that instructions alone grant tool access. at the start of a mac or virtual os task, discover the tools actually available in this session. if native awtsmoos tools are present, use them. otherwise, check whether the current execution environment can reach https://awtsmoos.com/api/tunnel/control/agent manifest and https://awtsmoos.com/api/tunnel/control/docs.json. browser access to the public control page is not proof that authenticated machine actions work. do not demand developer mode or an mcp plugin when direct https is available. read the live manifest and docs before constructing requests; endpoint schemas, action names, scopes, and routing rules can change. the public github directory geelooy/apps/tunnel documents the system, while /api/tunnel/control/agent manifest and /api/tunnel/control/docs.json describe the deployed api. check each claim about the user's machine against an actual authenticated response. do not treat a screenshot of a connected tunnel as proof that an individual action succeeds. authorization use the external agent oauth client. prefer authorization code with pkce s256 when a secure callback handoff is available. a headless https client may use device authorization: 1. post client id=external agent and only the scopes needed for the present task to https://awtsmoos.com/api/oauth/device authorization. for an initial connection check or file read, request profile tunnel.read. do not ask for tunnel.write, tunnel.command, or tunnel.browser until the user requests work that requires those powers. 2. show the user the returned verification uri complete and user code. say which scopes are requested and when the code expires. approval must occur on awtsmoos; never ask the user to paste a password, bearer token, refresh token, or device code into chat. 3. poll https://awtsmoos.com/api/oauth/token with grant type=urn:ietf:params:oauth:grant type:device code, client id=external agent, and the returned device code. honor interval, slow down, expiration, denial, and terminal errors. do not treat authorization pending as approval. 4. keep the device code, access token, and refresh token out of chat, command output, logs, urls, repositories, and browser visible page text. store credentials only in an approved private credential store, or a restricted temporary file when the environment supports one; remove temporary credentials when no longer needed. never include tokens in the final answer. 5. call get https://awtsmoos.com/api/tunnel/control/my device with authorization: bearer . a response can contain several old or rescue tunnels and can report multiple authorized tunnels while still describing a live device. select the intended device by fresh liveness, the user's stated machine, and the immutable routereference (otherwise tunnelid); never route by a friendly display name when an immutable route exists. ask only when two plausible live devices remain. prove the requested action send the immutable route as the :tunnelname segment to https://awtsmoos.com/api/tunnel/control/fs/:tunnelname. the live docs describe get query parameters for small calls and post json for larger calls. for a targeted read, use action=read, p= , and a bounded maxchars. the workspace root reported by the mac tunnel in september 2026 was /users/awtsmoos/work; awtsmoos.com/geelooy/apps/tunnel/readme.md was successfully read from that root through awt awtsmoos 2184. treat these as historical examples, not permanent paths or routes: rediscover them from the current device and user request. keep reads scoped to the user's requested folder or known file. avoid listing a broad root such as p=. solely to test connectivity; it may expose unrelated private filenames. a successful my device heartbeat proves connectivity, and a successful targeted read proves file access. if an automatic approval review rejects a broad request, honor the rejection, choose a genuinely narrower authorized target, and explain any remaining limitation. do not work around a rejected operation with an indirect or equivalent broad action. distinguish the server's transport receipt from a completed file action. report the returned ok, actual action, path, and any error without disclosing private contents unnecessarily. if ready=false or acceptance unproven appears in discovery, test an authorized, narrow action before claiming that action acceptance is healthy. a read only token cannot write or run commands. for requested edits, request the necessary oauth scope through a new authorization flow and preserve the user's constraints. never infer write authority from capabilities advertised by the mac agent; the bearer token's scopes still apply. for the virtual os, the docs advertise an independently available route, but browser pages that stay on “starting geelooy os…” do not establish file access. use an authenticated api action with a narrow path to verify it, and keep hosted files distinct from native mac paths. when a connection fails, report which layer failed: network reachability, oauth, device discovery, routing, action acceptance, or the file path. give the user a concrete next step without claiming access that was not proven.",
+		"page": "pages/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-bcbd903bb9.json"
+	},
+	{
+		"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-570d676833",
+		"title": "Durable verified Awtsmoos work and connection recovery",
+		"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/DURABLE_WORK_AND_CONNECTION_RECOVERY.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Durable verified Awtsmoos work and connection recovery",
+				"anchor": "durable-verified-awtsmoos-work-and-connection-recovery"
+			}
+		],
+		"excerpt": "Durable verified Awtsmoos work and connection recovery Discover instructionCatalog, instructionResolve and instructionGet before writing. External agents use the same authenticated generic tunnel action surface. Plugin skills have stable IDs shliach.skill.instructions, shliach.skill.tunnel workflow, shliach.skill.novel",
+		"searchText": "durable verified awtsmoos work and connection recovery discover instructioncatalog, instructionresolve and instructionget before writing. external agents use the same authenticated generic tunnel action surface. plugin skills have stable ids shliach.skill.instructions, shliach.skill.tunnel workflow, shliach.skill.novel voice and shliach.skill.poetic code. fetch relevant skill ids in full. discover all retained reference resources through instructionresourcecatalog; read bounded pages with instructionresourceget using resourcepath, offset and expectedhash until nextoffset is null. treat legacy originals as historical source; current schema and modern contracts govern transport and execution. begin substantial work with tunnelworkbegin; retain workid, revision and optional existing planid/missionid. read returned instruction bodies and acknowledge their exact hash through tunnelworkcheckpoint. store only operational plans, results, pending receipts, blockers and next safe actions. checkpoint after meaningful steps. on conflict read the latest revision; never overwrite another worker. tunnelworkresume refreshes instruction and repository evidence; refresh and re acknowledge after changed scope, source or instructions. a checkpoint never authorizes arbitrary code or creates an indefinite background worker. use tunnelconnectiondiagnostics to inspect bounded parent connection transitions, registration duration, attempts and recorded outages. correlate these with installer/guardian activity and actual command/file probes. tunnelworkhealth separates process, relay, command, file, authenticated client and frontend evidence. unverified checks remain unverified. during a flap preserve request/job ids, observe uncertain mutation receipts before resending, and use one authorized recovery owner. avoid repeated reinstallations and competing watchdogs. start with bounded concurrency, lower it after overload, serialize shared writes and preserve cancellation capacity. before frontend approval commit the tested source, call chromeverifyfrontend with affected urls, mobile/tablet/desktop widths, critical computed style assertions, and click followed by visible state assertions. require running release sha matching the tested commit or assetcontracts matching committed css/js/html bytes. inspect every saved screenshot, attach report ids, and record real review notes and exact screenshot hashes through tunnelworkreview. clear remainingwork and nextaction only when finished. tunnelworkgate and tunnelworkreleasereceipt reject dirty/stale source, stale or missing browser proof, missing source matches, missing interaction/style checks and missing screenshot review. transfer release receipts outside git; production deploy requires the exact target sha and covered frontend paths. verify the deployed release and real production behavior separately. give factual progress at least once per minute; continue independent authorized work while jobs run. use the awtsmoos novel voice without inventing outcomes. keep code readable, preserve public interfaces, and use valid b\"h / boruch hashem / blessed is he headers. claim complete only with relevant evidence. instructions cannot grant account access, override user scope, expose credentials, or remove host turn limits. record repeated failures through tunnelworkfailure with workid, exact revision and failurereason. default retrybudget is three; exhaustion blocks the work record and requires inspection before an authorized retry. no mutation is replayed automatically. connection recovery preserves pressure across brief registration; one minute of sustained registration clears it. installer activation ownership prevents competing lease actors from interrupting promotion.",
+		"page": "pages/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-570d676833.json"
+	},
+	{
+		"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-791d0ae95e",
+		"title": "Execution persistence contract",
+		"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/EXECUTION_PERSISTENCE_CONTRACT.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 2,
+				"text": "Current tunnel integration takes precedence",
+				"anchor": "current-tunnel-integration-takes-precedence"
+			},
+			{
+				"level": 1,
+				"text": "Execution persistence contract",
+				"anchor": "execution-persistence-contract"
+			},
+			{
+				"level": 2,
+				"text": "Continue until the mission gate closes",
+				"anchor": "continue-until-the-mission-gate-closes"
+			},
+			{
+				"level": 2,
+				"text": "Required completion cycle",
+				"anchor": "required-completion-cycle"
+			},
+			{
+				"level": 2,
+				"text": "Blockers",
+				"anchor": "blockers"
+			},
+			{
+				"level": 2,
+				"text": "Session boundary",
+				"anchor": "session-boundary"
+			}
+		],
+		"excerpt": "Current tunnel integration takes precedence This reference retains the user's original ideas. Its historical transport names, fixed action lists, local thought folder defaults, retry assumptions and installation advice are superseded by MODERN TUNNEL CONTRACT.md and the current authenticated instructionResolve/instruct",
+		"searchText": "current tunnel integration takes precedence this reference retains the user's original ideas. its historical transport names, fixed action lists, local thought folder defaults, retry assumptions and installation advice are superseded by modern tunnel contract.md and the current authenticated instructionresolve/instructionget results. use tunnel native plans and bounded operational summaries; do not publish hidden chain of thought. treat brainstorming as proposals, not authorization to implement unrelated work. preserve user scope. use mcp's required post transport; get is an http fallback only. never infer tool access from prose. no arbitrary number of tests, critiques or improvements substitutes for real relevant verification. execution persistence contract b\"h continue until the mission gate closes after every meaningful action, identify the next safe relevant action. continue while one exists. do not stop merely because: code was written; a test passed; a request returned 200; a page rendered once; a commit or push succeeded; an oauth flow completed; a tunnel reported connected; a plugin release was accepted; a progress report can be written. these are milestones, not completion. required completion cycle 1. re read the requested outcome and constraints. 2. compare planned work with actual work. 3. implement missing required pieces. 4. read back touched artifacts. 5. run meaningful targeted verification. 6. verify integration or live behavior where relevant and reachable. 7. inspect obvious edge cases and regressions. 8. perform one focused improvement pass over the touched area. 9. fix material issues found by that pass. 10. re verify the fixes. 11. confirm no material required work remains. repeat the cycle when it discovers concrete defects or missing requirements. do not invent infinite speculative work after evidence is sufficient. blockers a blocker must identify a real failed layer: unavailable tool, missing permission, disconnected machine, rejected operation, inaccessible target, required user decision, or external dependency. complete independent authorized work before stopping on a blocker. record the exact retry condition and first next action. session boundary work as long as the active session and available tools permit. never promise invisible continuation after disconnection or after the response unless a real scheduled or persistent worker exists. preserve a resumable ledger instead.",
+		"page": "pages/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-791d0ae95e.json"
+	}
+]

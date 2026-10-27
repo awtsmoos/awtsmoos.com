@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 671 | 165 | 0 | 0 | 4 | 44 | 884 |
+| 699 | 187 | 0 | 0 | 4 | 44 | 934 |
 
 ## Public entry points
 
@@ -30,7 +30,7 @@ Blessed is He
 
 ## Symbol evidence
 
-Source files: 484; classes: 152; functions: 1769; exports: 883; samples: AwtsmoosGPTify, IndexedDBHandler, withTimeout, fallbackKey, fallbackObject, saveFallbackObject, fallbackWrite, fallbackRead, fallbackRows, fallbackDelete, fallbackClear, fallbackStoreNames.
+Source files: 512; classes: 154; functions: 1921; exports: 992; samples: AwtsmoosGPTify, IndexedDBHandler, withTimeout, fallbackKey, fallbackObject, saveFallbackObject, fallbackWrite, fallbackRead, fallbackRows, fallbackDelete, fallbackClear, fallbackStoreNames.
 
 ## Depends on
 
@@ -49,4 +49,4 @@ Source files: 484; classes: 152; functions: 1769; exports: 883; samples: Awtsmoo
 
 ## Verification clue
 
-Observed test-classified files: **165**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **187**. Treat this as file evidence, not proof of behavioral coverage.

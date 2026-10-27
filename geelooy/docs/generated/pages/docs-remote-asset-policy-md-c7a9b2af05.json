@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-remote-asset-policy-md-c7a9b2af05",
+	"title": "Remote Asset Policy — Images Never Live in Git",
+	"sourcePath": "docs/REMOTE_ASSET_POLICY.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Remote Asset Policy — Images Never Live in Git",
+			"anchor": "remote-asset-policy-images-never-live-in-git"
+		},
+		{
+			"level": 2,
+			"text": "Absolute image rule",
+			"anchor": "absolute-image-rule"
+		},
+		{
+			"level": 2,
+			"text": "Canonical storage",
+			"anchor": "canonical-storage"
+		},
+		{
+			"level": 2,
+			"text": "Runtime image use",
+			"anchor": "runtime-image-use"
+		},
+		{
+			"level": 2,
+			"text": "Evidence and screenshots",
+			"anchor": "evidence-and-screenshots"
+		},
+		{
+			"level": 2,
+			"text": "Enforcement",
+			"anchor": "enforcement"
+		}
+	],
+	"markdownParts": [
+		"content/docs-remote-asset-policy-md-c7a9b2af05-001.json"
+	]
+}

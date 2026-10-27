@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-16-ein-sof-first--23cdc04890",
+	"title": "Ein Sof Captions — First Verification Delta",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-21-geelooy-uiux-revelation/16-ein-sof-first-pass-delta.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Ein Sof Captions — First Verification Delta",
+			"anchor": "ein-sof-captions-first-verification-delta"
+		},
+		{
+			"level": 2,
+			"text": "Planned versus actual",
+			"anchor": "planned-versus-actual"
+		},
+		{
+			"level": 2,
+			"text": "Why these boundaries were still too broad",
+			"anchor": "why-these-boundaries-were-still-too-broad"
+		},
+		{
+			"level": 2,
+			"text": "Second-pass file split",
+			"anchor": "second-pass-file-split"
+		},
+		{
+			"level": 2,
+			"text": "Additional correction discovered before runtime",
+			"anchor": "additional-correction-discovered-before-runtime"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-16-ein-sof-first--23cdc04890-001.json"
+	]
+}

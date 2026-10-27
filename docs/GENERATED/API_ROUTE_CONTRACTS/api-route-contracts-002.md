@@ -8,7 +8,53 @@ Every discovered path joined to its source-file contract evidence; unknown remai
 
 | URL pattern | Source | Methods | Vessels | Statuses | Headers |
 | --- | --- | --- | --- | --- | --- |
-| /api/social/aliases/:alias | geelooy/api/social/_awtsmoos.alias.js | GET, POST, PUT, DELETE | route-vars, identity | — | — |
+| /api/heichelos/:heichel/submittedComments/deny | geelooy/api/social-legacy-archive/old/_awtsmoos.comments-old.js | GET, POST, PUT, DELETE | $_GET, $_POST, route-vars, identity | — | — |
+| /api/merkava | geelooy/api/merkava/_awtsmoos.derech.js | unknown | $_POST, headers | 400, 404, 405, 429, 500 | Content-Disposition, Content-Type |
+| /api/merkava/devices | geelooy/api/merkava/_awtsmoos.derech.js | unknown | $_POST, headers | 400, 404, 405, 429, 500 | Content-Disposition, Content-Type |
+| /api/merkava/download-bundle | geelooy/api/merkava/_awtsmoos.derech.js | unknown | $_POST, headers | 400, 404, 405, 429, 500 | Content-Disposition, Content-Type |
+| /api/merkava/download-installer | geelooy/api/merkava/_awtsmoos.derech.js | unknown | $_POST, headers | 400, 404, 405, 429, 500 | Content-Disposition, Content-Type |
+| /api/merkava/run | geelooy/api/merkava/_awtsmoos.derech.js | unknown | $_POST, headers | 400, 404, 405, 429, 500 | Content-Disposition, Content-Type |
+| /api/merkava/run-js | geelooy/api/merkava/_awtsmoos.derech.js | unknown | $_POST, headers | 400, 404, 405, 429, 500 | Content-Disposition, Content-Type |
+| /api/oauth/:route | geelooy/api/oauth/_awtsmoos.derech.js | unknown | route-vars | 404 | Access-Control-Allow-Headers, Access-Control-Allow-Methods, Access-Control-Allow-Origin, Cache-Control |
+| /api/oauth/getRouteHandler | geelooy/api/oauth/routes/table.js | unknown | — | — | — |
+| /api/oauth/getRouteTable | geelooy/api/oauth/routes/table.js | unknown | — | — | — |
+| /api/oauth/listRouteNames | geelooy/api/oauth/routes/table.js | unknown | — | — | — |
+| /api/ohr-hagnuz/realtime-ticket | geelooy/api/ohr-hagnuz/routes/table.js | unknown | — | — | — |
+| /api/olam-h3 | geelooy/api/olam-h3/_awtsmoos.derech.js | unknown | — | — | — |
+| /api/olam-h3/create | geelooy/api/olam-h3/_awtsmoos.derech.js | unknown | — | — | — |
+| /api/olam-h3/status | geelooy/api/olam-h3/_awtsmoos.derech.js | unknown | — | — | — |
+| /api/olam-h3/task | geelooy/api/olam-h3/_awtsmoos.derech.js | unknown | — | — | — |
+| /api/platform/manifest | geelooy/api/platform/_awtsmoos.derech.js | unknown | $_GET | 200, 404 | — |
+| /api/portal | geelooy/api/portal/_awtsmoos.derech.js | unknown | — | — | — |
+| /api/portal/api-families | geelooy/api/portal/_awtsmoos.derech.js | unknown | — | — | — |
+| /api/portal/api-family | geelooy/api/portal/_awtsmoos.derech.js | unknown | — | — | — |
+| /api/portal/type | geelooy/api/portal/_awtsmoos.derech.js | unknown | — | — | — |
+| /api/portal/types | geelooy/api/portal/_awtsmoos.derech.js | unknown | — | — | — |
+| /api/projectHosting | geelooy/api/projectHosting/_awtsmoos.derech.js | unknown | — | — | — |
+| /api/projectHosting/activity | geelooy/api/projectHosting/runtimeRoutes.js | unknown | $_GET | — | — |
+| /api/projectHosting/cleanup | geelooy/api/projectHosting/runtimeRoutes.js | unknown | $_GET | — | — |
+| /api/projectHosting/materialize | geelooy/api/projectHosting/runtimeRoutes.js | unknown | $_GET | — | — |
+| /api/projectHosting/restart | geelooy/api/projectHosting/runtimeRoutes.js | unknown | $_GET | — | — |
+| /api/projectHosting/start | geelooy/api/projectHosting/runtimeRoutes.js | unknown | $_GET | — | — |
+| /api/projectHosting/status | geelooy/api/projectHosting/runtimeRoutes.js | unknown | $_GET | — | — |
+| /api/projectHosting/stop | geelooy/api/projectHosting/runtimeRoutes.js | unknown | $_GET | — | — |
+| /api/public | geelooy/api/public/_awtsmoos.derech.js | unknown | $_GET, $_POST, route-vars, identity, db | — | — |
+| /api/release | geelooy/api/release/_awtsmoos.derech.js | unknown | — | — | Cache-Control |
+| /api/runtime/native/capabilities | geelooy/api/runtime/_awtsmoos.derech.js | unknown | — | — | — |
+| /api/runtime/native/launch | geelooy/api/runtime/_awtsmoos.derech.js | unknown | — | — | — |
+| /api/runtime/native/status | geelooy/api/runtime/_awtsmoos.derech.js | unknown | — | — | — |
+| /api/runtime/native/stop | geelooy/api/runtime/_awtsmoos.derech.js | unknown | — | — | — |
+| /api/sefarim | geelooy/api/sefarim/_awtsmoos.derech.js | unknown | route-vars, db | — | — |
+| /api/sefarim/:sefer | geelooy/api/sefarim/_awtsmoos.derech.js | unknown | route-vars, db | — | — |
+| /api/sefarim/:sefer/section/:section | geelooy/api/sefarim/_awtsmoos.derech.js | unknown | route-vars, db | — | — |
+| /api/sefarim/:sefer/section/:section/sub/:sub | geelooy/api/sefarim/_awtsmoos.derech.js | unknown | route-vars, db | — | — |
+| /api/sefarim/write/batch | geelooy/api/sefarim/_awtsmoos.derech.js | unknown | route-vars, db | — | — |
+| /api/social | geelooy/api/social/_awtsmoos.derech.js | unknown | identity | — | — |
+| /api/social/abuse/rateLimit/check | geelooy/api/social/helper/platform/routes/PlatformLiveDiscoveryRoutes.js | unknown | $_GET, $_POST, route-vars | — | — |
+| /api/social/alias/:alias/heichelos | geelooy/api/social/_awtsmoos.heichel.js | unknown | $_GET, $_POST, $_DELETE, route-vars | — | — |
+| /api/social/alias/:alias/heichelos/:heichel | geelooy/api/social/_awtsmoos.heichel.js | unknown | $_GET, $_POST, $_DELETE, route-vars | — | — |
+| /api/social/alias/:alias/heichelos/:heichel/ownership | geelooy/api/social/_awtsmoos.heichel.js | unknown | $_GET, $_POST, $_DELETE, route-vars | — | — |
+| /api/social/alias/:alias/heichelos/details | geelooy/api/social/_awtsmoos.heichel.js | unknown | $_GET, $_POST, $_DELETE, route-vars | — | — |
 | /api/social/aliases/:alias/commentsMade | geelooy/api/social/helper/comments/routes/indexing.js | unknown | — | — | — |
 | /api/social/aliases/:alias/commentsMade/heichel/:heichel | geelooy/api/social/helper/comments/routes/indexing.js | unknown | — | — | — |
 | /api/social/aliases/:alias/commentsMade/heichel/:heichel/series | geelooy/api/social/helper/comments/routes/indexing.js | unknown | — | — | — |
@@ -16,50 +62,4 @@ Every discovered path joined to its source-file contract evidence; unknown remai
 | /api/social/aliases/:alias/commentsMade/heichel/:heichel/series/:series/post/:post | geelooy/api/social/helper/comments/routes/indexing.js | unknown | — | — | — |
 | /api/social/aliases/:alias/commentsMade/heichel/:heichel/series/:series/posts | geelooy/api/social/helper/comments/routes/indexing.js | unknown | — | — | — |
 | /api/social/aliases/:alias/commentsMade/heichelos | geelooy/api/social/helper/comments/routes/indexing.js | unknown | — | — | — |
-| /api/social/aliases/:alias/details | geelooy/api/social/_awtsmoos.alias.js | GET, POST, PUT, DELETE | route-vars, identity | — | — |
 | /api/social/aliases/:alias/fileSystem/copyEntry | geelooy/api/social/_awtsmoos.fileSystem.js | unknown | $_POST, $_DELETE, route-vars | — | — |
-| /api/social/aliases/:alias/fileSystem/delete | geelooy/api/social/_awtsmoos.fileSystem.js | unknown | $_POST, $_DELETE, route-vars | — | — |
-| /api/social/aliases/:alias/fileSystem/makeFile | geelooy/api/social/_awtsmoos.fileSystem.js | unknown | $_POST, $_DELETE, route-vars | — | — |
-| /api/social/aliases/:alias/fileSystem/makeFolder | geelooy/api/social/_awtsmoos.fileSystem.js | unknown | $_POST, $_DELETE, route-vars | — | — |
-| /api/social/aliases/:alias/fileSystem/moveEntry | geelooy/api/social/_awtsmoos.fileSystem.js | unknown | $_POST, $_DELETE, route-vars | — | — |
-| /api/social/aliases/:alias/fileSystem/readFile | geelooy/api/social/_awtsmoos.fileSystem.js | unknown | $_POST, $_DELETE, route-vars | — | — |
-| /api/social/aliases/:alias/fileSystem/readFolder | geelooy/api/social/_awtsmoos.fileSystem.js | unknown | $_POST, $_DELETE, route-vars | — | — |
-| /api/social/aliases/:alias/ownership | geelooy/api/social/_awtsmoos.alias.js | GET, POST, PUT, DELETE | route-vars, identity | — | — |
-| /api/social/aliases/:alias/postsMade/heichel/:heichel/pathToSeries/:pathive | geelooy/api/social/_awtsmoos.posts.base.js | GET, PUT | $_GET, $_POST, $_DELETE, route-vars | — | — |
-| /api/social/aliases/:alias/postsMade/heichel/:heichel/series | geelooy/api/social/_awtsmoos.posts.base.js | GET, PUT | $_GET, $_POST, $_DELETE, route-vars | — | — |
-| /api/social/aliases/:alias/postsMade/heichelos | geelooy/api/social/_awtsmoos.posts.base.js | GET, PUT | $_GET, $_POST, $_DELETE, route-vars | — | — |
-| /api/social/aliases/checkOrGenerateId | geelooy/api/social/_awtsmoos.alias.js | GET, POST, PUT, DELETE | route-vars, identity | — | — |
-| /api/social/aliases/details | geelooy/api/social/_awtsmoos.alias.js | GET, POST, PUT, DELETE | route-vars, identity | — | — |
-| /api/social/analytics/metric | geelooy/api/social/_awtsmoos.platform.js | unknown | $_GET, $_POST, route-vars | — | — |
-| /api/social/asdfg | geelooy/api/social/old/_awtsmoos.posts.js | GET, POST | $_GET, $_POST, identity | — | — |
-| /api/social/bulk | geelooy/api/social/_awtsmoos.profile.js | unknown | $_POST, route-vars | — | — |
-| /api/social/cache/get | geelooy/api/social/_awtsmoos.platform.js | unknown | $_GET, $_POST, route-vars | — | — |
-| /api/social/cache/invalidate | geelooy/api/social/_awtsmoos.platform.js | unknown | $_GET, $_POST, route-vars | — | — |
-| /api/social/cache/set | geelooy/api/social/_awtsmoos.platform.js | unknown | $_GET, $_POST, route-vars | — | — |
-| /api/social/civilization/entities/:type/:id/state | geelooy/api/social/_awtsmoos.civilization.js | GET, POST | $_GET, $_POST, route-vars | — | — |
-| /api/social/civilization/events | geelooy/api/social/_awtsmoos.civilization.js | GET, POST | $_GET, $_POST, route-vars | — | — |
-| /api/social/civilization/feed/:alias | geelooy/api/social/_awtsmoos.civilization.js | GET, POST | $_GET, $_POST, route-vars | — | — |
-| /api/social/civilization/state | geelooy/api/social/_awtsmoos.civilization.js | GET, POST | $_GET, $_POST, route-vars | — | — |
-| /api/social/civilization/subscriptions/:alias | geelooy/api/social/_awtsmoos.civilization.js | GET, POST | $_GET, $_POST, route-vars | — | — |
-| /api/social/comments/thread/:post/ranked | geelooy/api/social/_awtsmoos.platform.js | unknown | $_GET, $_POST, route-vars | — | — |
-| /api/social/comments/thread/append | geelooy/api/social/_awtsmoos.platform.js | unknown | $_GET, $_POST, route-vars | — | — |
-| /api/social/comments/url/:comment | geelooy/api/social/helper/comments/routes/rich.js | unknown | $_GET, $_POST, $_DELETE | — | — |
-| /api/social/communications/:alias/inbox | geelooy/api/social/_awtsmoos.communications.js | GET, POST | $_GET, $_POST, route-vars | — | — |
-| /api/social/communications/:alias/inbox/:item/read | geelooy/api/social/_awtsmoos.communications.js | GET, POST | $_GET, $_POST, route-vars | — | — |
-| /api/social/communications/:alias/inbox/unread | geelooy/api/social/_awtsmoos.communications.js | GET, POST | $_GET, $_POST, route-vars | — | — |
-| /api/social/communications/:alias/live-map | geelooy/api/social/_awtsmoos.communications.js | GET, POST | $_GET, $_POST, route-vars | — | — |
-| /api/social/communications/:alias/notification-digest | geelooy/api/social/_awtsmoos.communications.js | GET, POST | $_GET, $_POST, route-vars | — | — |
-| /api/social/communications/:alias/overview | geelooy/api/social/_awtsmoos.communications.js | GET, POST | $_GET, $_POST, route-vars | — | — |
-| /api/social/communications/:alias/threads/:thread | geelooy/api/social/_awtsmoos.communications.js | GET, POST | $_GET, $_POST, route-vars | — | — |
-| /api/social/communications/:alias/threads/:thread/read | geelooy/api/social/_awtsmoos.communications.js | GET, POST | $_GET, $_POST, route-vars | — | — |
-| /api/social/content/heichelos/:heichel/posts | geelooy/api/social/_awtsmoos.content.js | GET, POST | $_POST | — | — |
-| /api/social/content/heichelos/:heichel/posts/:post/sections | geelooy/api/social/_awtsmoos.content.js | GET, POST | $_POST | — | — |
-| /api/social/content/heichelos/:heichel/questions | geelooy/api/social/_awtsmoos.content.js | GET, POST | $_POST | — | — |
-| /api/social/content/heichelos/:heichel/questions/:question/answers | geelooy/api/social/_awtsmoos.content.js | GET, POST | $_POST | — | — |
-| /api/social/content/repost | geelooy/api/social/_awtsmoos.content.js | GET, POST | $_POST | — | — |
-| /api/social/content/share | geelooy/api/social/_awtsmoos.content.js | GET, POST | $_POST | — | — |
-| /api/social/counters | geelooy/api/social/_awtsmoos.counter.js | GET, POST, DELETE | — | — | — |
-| /api/social/counters/:counter | geelooy/api/social/_awtsmoos.counter.js | GET, POST, DELETE | — | — | — |
-| /api/social/counters/:counter/increaseCount | geelooy/api/social/_awtsmoos.counter.js | GET, POST, DELETE | — | — | — |
-| /api/social/drive/:aliasId/actions/bootstrap-site-project | geelooy/api/social/helper/drive/routes/actionRoutes.js | unknown | headers | — | x-request-id |
-| /api/social/drive/:aliasId/actions/copy | geelooy/api/social/helper/drive/routes/actionRoutes.js | unknown | headers | — | x-request-id |

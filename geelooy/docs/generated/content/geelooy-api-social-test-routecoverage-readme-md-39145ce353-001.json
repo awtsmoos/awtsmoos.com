@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Route Coverage (geelooy/api/social/test/routeCoverage/)\n\nRequired-route coverage machinery for the social API.\n\n- `RequiredRoutes.js`, `RequiredRoutesCore.js`, `RequiredRoutesPlatform.js`, `RequiredRoutesSocial.js` — required route lists.\n- `RouteSourceScanner.js` — scans route sources to verify coverage.\n\nUsed by `../routeCoverage.test.js`.\n"
+}

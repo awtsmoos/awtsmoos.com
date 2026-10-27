@@ -1,238 +1,401 @@
 [
 	{
-		"id": "docs-generated-public-entry-points-public-entry-points-004-md-026ad01293",
-		"title": "Generated Public Entry Point Atlas 136–153",
-		"sourcePath": "docs/GENERATED/PUBLIC_ENTRY_POINTS/public-entry-points-004.md",
-		"category": "General",
+		"id": "docs-generated-project-tutorials-projects-ayzarim-glyph-engine-7919ad9a--20370422fa",
+		"title": "Project Tutorial: ayzarim/glyph-engine",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-glyph-engine-7919ad9a.md",
+		"category": "Projects",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Generated Public Entry Point Atlas 136–153",
-				"anchor": "generated-public-entry-point-atlas-136-153"
+				"text": "Project Tutorial: ayzarim/glyph-engine",
+				"anchor": "project-tutorial-ayzarim-glyph-engine"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Public Entry Point Atlas 136–153 Every discovered index.html beneath the Geelooy public root, with title and linked script/style evidence. URL Entry file Title Scripts Script sample Styles Style sample /register geelooy/register/index.html Create Awtsmoos Account 1 /scripts/awt",
-		"searchText": "b\"h boruch hashem blessed is he generated public entry point atlas 136–153 every discovered index.html beneath the geelooy public root, with title and linked script/style evidence. url entry file title scripts script sample styles style sample /register geelooy/register/index.html create awtsmoos account 1 /scripts/awtsmoos/bh.js 2 /style/bh.css; /style/forms.css /scripts/awtsmoos/compiling/pe geelooy/scripts/awtsmoos/compiling/pe/index.html awtsmoos exe compiler 1 script.js 1 style.css /scripts/awtsmoos/merkavaastparser geelooy/scripts/awtsmoos/merkavaastparser/index.html kabbalistic es6 ast parser 1 parser core.js 0 — /scripts/awtsmoos/merkavabeautifier geelooy/scripts/awtsmoos/merkavabeautifier/index.html merkava beautifier 1 main.js 1 style.css /scripts/awtsmoos/merkavaexecutor geelooy/scripts/awtsmoos/merkavaexecutor/index.html merkava executor — runtime id ast ect 7 /scripts/awtsmoos/merkavaexecutor/app/browser/state.js?v=51; /scripts/awtsmoos/merkavaexecutor/app/browser/examples.js?v=51; /scripts/awtsmoos/merkavaexecutor/app/browser/files.js?v=51; /scripts/awtsmoos/merkavaexecutor/app/browser/renderers.js?v=51 1 /scripts/awtsmoos/merkavaexecutor/app/styles.css?v=51 /scripts/awtsmoos/merkavaexecutor/.mode2 path app geelooy/scripts/awtsmoos/merkavaexecutor/.mode2 path app/index.html — 1 /js/main.js 1 /css/style.css /scripts/awtsmoos/tts geelooy/scripts/awtsmoos/tts/index.html kokoro forge b\"h 1 ./main.js 2 https://fonts.googleapis.com/css2?family=orbitron:wght@400;700;900&family=rajdhani:wght@300;500;700&family=jetbrains+mono:wght@400;700&display=swap; ./index.css /scripts/awtsmoos/zip geelooy/scripts/awtsmoos/zip/index.html awtsmoos native zip 1 main.js 1 style.css /scripts/tricks geelooy/scripts/tricks/index.html — 0 — 0 — /scripts/tricks/jem geelooy/scripts/tricks/jem/index.html awtsmoos jemizier 1 script.js 2 style.css; https://cdnjs.cloudflare.com/ajax/libs/font awesome/6.0.0/css/all.min.css /social geelooy/social/index.html awtsmoos social observatory 1 /scripts/awtsmoos/social/hub/index.js?v=social hub 003 4 /style/social/hub/index.css?v=social hub 003; /style/social/live/presence.css?v=social hub 003; /scripts/awtsmoos/social/hub/render.js; /scripts/awtsmoos/social/hub/requestplan.js /social composer geelooy/social composer/index.html create new post — geelooy 2 ./js/main.js?v=civilization 005; ./js/civilizationenhancements.js?v=civilization 005 1 ./style.css?v=civilization 005 /social composer/reel studio geelooy/social composer/reel studio/index.html mitzvahworld movie studio 1 ./boot.js?v=social nle 004 1 ./style.css?v=social nle 004 /social hub geelooy/social hub/index.html social hub — geelooy 2 /scripts/awtsmoos/social/shell/boot.js?v=interface dark 011; ./js/main.js?v=hub nebula 004 3 /style/geelooy app/index.css?v=interface dark 011; ./style.css?v=hub nebula 004; /scripts/awtsmoos/social/shell/boot.js /social/migrate geelooy/social/migrate/index.html social migration studio · awtsmoos 1 ./js/main.js?v=social migrate 001 2 ../../style/future system/index.css?v=future 004; ./style.css?v=social migrate 001 /sod geelooy/sod/index.html endpoint interaction 0 — 0 — /youtube geelooy/youtube/index.html awtsmoos youtube manager 1 youtube.js 1 youtube.css /zmanim geelooy/zmanim/index.html halachic zmanim · awtsmoos 1 /zmanim/js/app.js?v=presentation 005 37 /zmanim/favicon.svg; /zmanim/styles/tokens.css; /zmanim/styles/presentation theme light.css?v=presentation 005; /zmanim/styles/presentation theme system.css?v=presentation 005",
-		"page": "pages/docs-generated-public-entry-points-public-entry-points-004-md-026ad01293.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: ayzarim/glyph engine Path: ayzarim/glyph engine · Type: infrastructure · Family: Runtime and Infrastructure Read the human Runtime and Infrastructure guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observatio",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: ayzarim/glyph engine path: ayzarim/glyph engine · type: infrastructure · family: runtime and infrastructure read the human runtime and infrastructure guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: — local documentation: no local documentation.md observed. local doc requirement: yes; covered: no symlink target: — file shape source tests assets generated docs other total 22 4 1 0 0 1 28 public entry points none observed. symbol evidence source files: 22; classes: 0; functions: 44; exports: 41; samples: audit, benchmarks, browserproof, send, create, letters, punctuation, passage, alternatives, mappings, encode, shuffledcodes. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 4 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-ayzarim-glyph-engine-7919ad9a--20370422fa.json"
 	},
 	{
-		"id": "docs-generated-public-route-inventory-md-7a76f1c409",
-		"title": "Generated Public Directory Inventory",
-		"sourcePath": "docs/GENERATED/PUBLIC_ROUTE_INVENTORY.md",
-		"category": "Routes",
+		"id": "docs-generated-project-tutorials-projects-ayzarim-maintence-c5395902-md-1f085c468b",
+		"title": "Project Tutorial: ayzarim/maintence",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-maintence-c5395902.md",
+		"category": "Projects",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Generated Public Directory Inventory",
-				"anchor": "generated-public-directory-inventory"
+				"text": "Project Tutorial: ayzarim/maintence",
+				"anchor": "project-tutorial-ayzarim-maintence"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Public Directory Inventory Directory Files HTML title Has index.html .awtsmoos 6 no .awtsmoos agent thoughts 200 no .awtsmoos agent transfer 139 no .awtsmoos smoke 4 no .awtsmoos transfer 8 no .data 1 no .well known 1 no @ 3 no about 1 About — Geelooy yes ai 884 Awtsmoos AI yes",
-		"searchText": "b\"h boruch hashem blessed is he generated public directory inventory directory files html title has index.html .awtsmoos 6 no .awtsmoos agent thoughts 200 no .awtsmoos agent transfer 139 no .awtsmoos smoke 4 no .awtsmoos transfer 8 no .data 1 no .well known 1 no @ 3 no about 1 about — geelooy yes ai 884 awtsmoos ai yes api 2242 no apps 10325 awtsmoos apps — every browser tool & game yes awtai db 9 awtai db model foundry yes ayin 1 real awtsmoos recorder yes browser test 2 no comment thread 23 comment thread — geelooy yes contact 3 contact — awtsmoos yes control 3 code control panel yes css 1 no db 9 yes docs 3555 awtsmoos documentation yes donate 1 yes drive 213 geelooy sites · awtsmoos yes editor 1 yes email 167 awtsmoos quantum mail yes entity view 2 entity universe yes fetch 1 yes game 1 opening mitzvah world… yes games 8520 awtsmoos games — 25 playable worlds yes geelooy 5 no git 1 no heichel 1 no heichel editor 19 heichel editor — geelooy yes heichel review 40 heichel review and governance center yes heichelos 1051 no legal 6 no libs 2268 no login 1 login with awtsmoos yes logout 1 yes mawgawl 80 yes node os 2 awtsmoos node os yes notifications 34 signals — geelooy yes ocr 1 ocr studio — awtsmoos yes os 729 geelooy os — files, awtsmoosdb, runtime & control yes parsers 1 no platform 110 no post editor 15 post editor — geelooy yes profile 39 profile — geelooy yes public 17 no record 7 camera preview — geelooy yes recorder 13 local recorder — geelooy yes reeyuh 1 shulchan aruch viewer yes register 1 create awtsmoos account yes resources 2 no scripts 1587 no shared 154 no sites 35 no social 62 awtsmoos social observatory yes social actions 11 no social composer 354 create new post — geelooy yes social hub 265 social hub — geelooy yes sod 1 endpoint interaction yes style 1184 no tests 109 no tmp 9 no view 1 no webscrapers 5 no youtube 10 awtsmoos youtube manager yes zmanim 128 halachic zmanim · awtsmoos yes",
-		"page": "pages/docs-generated-public-route-inventory-md-7a76f1c409.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: ayzarim/maintence Path: ayzarim/maintence · Type: infrastructure · Family: Runtime and Infrastructure Read the human Runtime and Infrastructure guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, no",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: ayzarim/maintence path: ayzarim/maintence · type: infrastructure · family: runtime and infrastructure read the human runtime and infrastructure guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: — local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 1 0 0 0 0 0 1 public entry points none observed. symbol evidence source files: 1; classes: 0; functions: 1; exports: 0; samples: convertnodetoobj. depends on ayzarim/dosdb — 2 lexical references; examples: ayzarim/maintence/transferolddbtoawtsmoosdb.js used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-ayzarim-maintence-c5395902-md-1f085c468b.json"
 	},
 	{
-		"id": "docs-generated-symlinks-md-b93b9284a6",
-		"title": "Generated Symlink / Alias Inventory",
-		"sourcePath": "docs/GENERATED/SYMLINKS.md",
-		"category": "General",
+		"id": "docs-generated-project-tutorials-projects-ayzarim-math-f7d5fed1-md-25496ac99d",
+		"title": "Project Tutorial: ayzarim/math",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-math-f7d5fed1.md",
+		"category": "Projects",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Generated Symlink / Alias Inventory",
-				"anchor": "generated-symlink-alias-inventory"
+				"text": "Project Tutorial: ayzarim/math",
+				"anchor": "project-tutorial-ayzarim-math"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Symlink / Alias Inventory Path Target Type ai thoughts /Users/awtsmoos/work/Awtsmoos.com artifacts/ai thoughts alias",
-		"searchText": "b\"h boruch hashem blessed is he generated symlink / alias inventory path target type ai thoughts /users/awtsmoos/work/awtsmoos.com artifacts/ai thoughts alias",
-		"page": "pages/docs-generated-symlinks-md-b93b9284a6.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: ayzarim/math Path: ayzarim/math · Type: infrastructure · Family: Runtime and Infrastructure Read the human Runtime and Infrastructure guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: ayzarim/math path: ayzarim/math · type: infrastructure · family: runtime and infrastructure read the human runtime and infrastructure guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: — local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 1 0 0 0 0 0 1 public entry points none observed. symbol evidence source files: 1; classes: 2; functions: 0; exports: 0; samples: node, btree. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-ayzarim-math-f7d5fed1-md-25496ac99d.json"
 	},
 	{
-		"id": "docs-generated-system-district-summary-md-cce5c863d7",
-		"title": "System District Summary",
-		"sourcePath": "docs/GENERATED/SYSTEM_DISTRICT_SUMMARY.md",
-		"category": "Systems",
+		"id": "docs-generated-project-tutorials-projects-ayzarim-ssh-099c712a-md-39862ea1b6",
+		"title": "Project Tutorial: ayzarim/ssh",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-ssh-099c712a.md",
+		"category": "Projects",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "System District Summary",
-				"anchor": "system-district-summary"
+				"text": "Project Tutorial: ayzarim/ssh",
+				"anchor": "project-tutorial-ayzarim-ssh"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He System District Summary District Systems Env names Apps Events Data and Persistence 7 38 0 0 Security and Trust 6 10 0 0 Realtime and WebSockets 5 43 28 54",
-		"searchText": "b\"h boruch hashem blessed is he system district summary district systems env names apps events data and persistence 7 38 0 0 security and trust 6 10 0 0 realtime and websockets 5 43 28 54",
-		"page": "pages/docs-generated-system-district-summary-md-cce5c863d7.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: ayzarim/ssh Path: ayzarim/ssh · Type: infrastructure · Family: Runtime and Infrastructure Read the human Runtime and Infrastructure guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ow",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: ayzarim/ssh path: ayzarim/ssh · type: infrastructure · family: runtime and infrastructure read the human runtime and infrastructure guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: documentation.md local documentation: ayzarim/ssh/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 53 0 0 0 1 0 54 public entry points none observed. symbol evidence source files: 53; classes: 32; functions: 121; exports: 140; samples: ignore, unimplemented, debug, service request, service accept, kexinit, newkeys, kexdh init, kexdh reply, userauth request, userauth failure, userauth success. depends on none observed. used by geelooy/api/ssh — 2 lexical references; examples: geelooy/api/ssh/lib/client.js; geelooy/api/ssh/virtual/servicecomponents.js external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-ayzarim-ssh-099c712a-md-39862ea1b6.json"
 	},
 	{
-		"id": "docs-generated-system-tutorial-index-md-e1ecb41557",
-		"title": "System Tutorial Index",
-		"sourcePath": "docs/GENERATED/SYSTEM_TUTORIAL_INDEX.md",
-		"category": "Systems",
+		"id": "docs-generated-project-tutorials-projects-ayzarim-tools-550b3dd6-md-0b0eeb249c",
+		"title": "Project Tutorial: ayzarim/tools",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-tools-550b3dd6.md",
+		"category": "Projects",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "System Tutorial Index",
-				"anchor": "system-tutorial-index"
+				"text": "Project Tutorial: ayzarim/tools",
+				"anchor": "project-tutorial-ayzarim-tools"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He System Tutorial Index Data, Security, and Realtime system teaching. Chunk Rows Count systems 001.md 1–18 18",
-		"searchText": "b\"h boruch hashem blessed is he system tutorial index data, security, and realtime system teaching. chunk rows count systems 001.md 1–18 18",
-		"page": "pages/docs-generated-system-tutorial-index-md-e1ecb41557.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: ayzarim/tools Path: ayzarim/tools · Type: infrastructure · Family: Runtime and Infrastructure Read the human Runtime and Infrastructure guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtim",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: ayzarim/tools path: ayzarim/tools · type: infrastructure · family: runtime and infrastructure read the human runtime and infrastructure guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: — local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 5 3 0 0 0 0 8 public entry points none observed. symbol evidence source files: 5; classes: 2; functions: 13; exports: 11; samples: awtsmoosauth, decodecookietoken, decodetokenpayload, session max age ms, session clock skew ms, createsessionmetadata, validatesessioninfo, generatesalt, hashpassword, verifypassword, islegacypasswordhash, createtoken. depends on none observed. used by ayzarim/awtsmoosdynamicserver — 3 lexical references; examples: ayzarim/awtsmoosdynamicserver/server/deps.js external packages none observed. verification clue observed test classified files: 3 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-ayzarim-tools-550b3dd6-md-0b0eeb249c.json"
 	},
 	{
-		"id": "docs-generated-system-tutorial-index-systems-001-md-5e621ff998",
-		"title": "System Tutorial Index 1–18",
-		"sourcePath": "docs/GENERATED/SYSTEM_TUTORIAL_INDEX/systems-001.md",
-		"category": "Systems",
+		"id": "docs-generated-project-tutorials-projects-geelooy-33d12459-md-4ac3921adc",
+		"title": "Project Tutorial: Igeres HaKodesh — Awtsmoos.com",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-33d12459.md",
+		"category": "Projects",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "System Tutorial Index 1–18",
-				"anchor": "system-tutorial-index-1-18"
+				"text": "Project Tutorial: Igeres HaKodesh — Awtsmoos.com",
+				"anchor": "project-tutorial-igeres-hakodesh-awtsmoos-com"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He System Tutorial Index 1–18 Curated system meaning joined to bounded current source evidence. System District Projects Env names Apps Events Tutorial Database Root Resolution data 1 0 0 0 tutorial DosDB Filesystem Storage data 1 5 0 0 tutorial AwtsmoosBinaryJSON data 1 0 0 0 tutorial Awts",
-		"searchText": "b\"h boruch hashem blessed is he system tutorial index 1–18 curated system meaning joined to bounded current source evidence. system district projects env names apps events tutorial database root resolution data 1 0 0 0 tutorial dosdb filesystem storage data 1 5 0 0 tutorial awtsmoosbinaryjson data 1 0 0 0 tutorial awtsmoosdb and virtualfs data 1 4 0 0 tutorial social packed storage data 1 24 0 0 tutorial persistence path contracts data 2 0 0 0 tutorial parallel awtsmoosdb bridge data 1 5 0 0 tutorial session authentication security 1 0 0 0 tutorial oauth bearer identity security 2 3 0 0 tutorial tunnel control identity security 1 2 0 0 tutorial authorization and resource ownership security 2 2 0 0 tutorial secrets and runtime configuration security 3 0 0 0 tutorial realtime identity and admission security 2 3 0 0 tutorial websocket upgrade and session realtime 1 3 0 0 tutorial realtime application routing realtime 1 13 14 0 tutorial mission room admission realtime 2 1 0 0 tutorial tunnel relay realtime 2 13 0 18 tutorial realtime application and event evidence realtime 1 13 14 36 tutorial",
-		"page": "pages/docs-generated-system-tutorial-index-systems-001-md-5e621ff998.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Igeres HaKodesh — Awtsmoos.com Path: geelooy/אגרות קודש · Type: public · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observat",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: igeres hakodesh — awtsmoos.com path: geelooy/אגרות קודש · type: public · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, awtsmoos.derech.js local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 2 0 0 0 0 0 2 public entry points /אגרות קודש → geelooy/אגרות קודש/index.html — igeres hakodesh — awtsmoos.com symbol evidence source files: 1; classes: 0; functions: 0; exports: 0; samples: —. depends on geelooy/heichelos — 1 lexical reference; examples: geelooy/אגרות קודש/ awtsmoos.derech.js used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-33d12459-md-4ac3921adc.json"
 	},
 	{
-		"id": "docs-generated-system-tutorials-systems-authorization-resource-ownership-1225944356",
-		"title": "System Tutorial: Authorization and Resource Ownership",
-		"sourcePath": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/authorization-resource-ownership.md",
-		"category": "Security",
+		"id": "docs-generated-project-tutorials-projects-geelooy-819b4c5b-md-46deeb70b0",
+		"title": "Project Tutorial: geelooy/@",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-819b4c5b.md",
+		"category": "Projects",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "System Tutorial: Authorization and Resource Ownership",
-				"anchor": "system-tutorial-authorization-and-resource-ownership"
+				"text": "Project Tutorial: geelooy/@",
+				"anchor": "project-tutorial-geelooy"
 			},
 			{
 				"level": 2,
-				"text": "Claims boundary",
-				"anchor": "claims-boundary"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Change risk",
-				"anchor": "change-risk"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Human manuals",
-				"anchor": "human-manuals"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "Related project boundaries",
-				"anchor": "related-project-boundaries"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Source anchors",
-				"anchor": "source-anchors"
+				"text": "Depends on",
+				"anchor": "depends-on"
 			},
 			{
 				"level": 2,
-				"text": "Generated evidence",
-				"anchor": "generated-evidence"
+				"text": "Used by",
+				"anchor": "used-by"
 			},
 			{
 				"level": 2,
-				"text": "Environment-name evidence",
-				"anchor": "environment-name-evidence"
+				"text": "External packages",
+				"anchor": "external-packages"
 			},
 			{
 				"level": 2,
-				"text": "Realtime application registration evidence",
-				"anchor": "realtime-application-registration-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Lexical event/message evidence",
-				"anchor": "lexical-event-message-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Tags",
-				"anchor": "tags"
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He System Tutorial: Authorization and Resource Ownership District: security · System ID: authorization resource ownership Account scoped ownership, explicit grants, permissions, and anti enumeration behavior above authentication. Generated evidence below is a navigation aid. Trust, migratio",
-		"searchText": "b\"h boruch hashem blessed is he system tutorial: authorization and resource ownership district: security · system id: authorization resource ownership account scoped ownership, explicit grants, permissions, and anti enumeration behavior above authentication. generated evidence below is a navigation aid. trust, migration, consistency, protocol, and authorization semantics remain grounded in the linked human manuals and current source. claims boundary this packet demonstrates one inspected authorization boundary; it is not a repository wide security audit. change risk ownership/grant resolution and information disclosure behavior are high impact security contracts. human manuals docs/security/readme.md docs/security/trust boundaries.md related project boundaries geelooy/api/tunnel (api) — geelooy/api/tunnel geelooy/api/social (api) — geelooy/api/social source anchors geelooy/api/tunnel/control/core/tunnelsecurity/authorization.js generated evidence none observed for this system packet. environment name evidence name class source refs example sources awtsmoos binding history per identity runtime config 1 geelooy/api/tunnel/control/core/tunnelsecurity/bindingretentionpolicy.js awtsmoos binding retention ms tuning 1 geelooy/api/tunnel/control/core/tunnelsecurity/bindingretentionpolicy.js realtime application registration evidence no versioned application registrations are attached to this packet. lexical event/message evidence none observed for this system packet. tags authorization · ownership · grants · permissions · security",
-		"page": "pages/docs-generated-system-tutorials-systems-authorization-resource-ownership-1225944356.json"
-	},
-	{
-		"id": "docs-generated-system-tutorials-systems-awtsmoos-binary-json-md-86bee0fcc0",
-		"title": "System Tutorial: AwtsmoosBinaryJSON",
-		"sourcePath": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/awtsmoos-binary-json.md",
-		"category": "Systems",
-		"provenance": "generated",
-		"headings": [
-			{
-				"level": 1,
-				"text": "System Tutorial: AwtsmoosBinaryJSON",
-				"anchor": "system-tutorial-awtsmoosbinaryjson"
-			},
-			{
-				"level": 2,
-				"text": "Claims boundary",
-				"anchor": "claims-boundary"
-			},
-			{
-				"level": 2,
-				"text": "Change risk",
-				"anchor": "change-risk"
-			},
-			{
-				"level": 2,
-				"text": "Human manuals",
-				"anchor": "human-manuals"
-			},
-			{
-				"level": 2,
-				"text": "Related project boundaries",
-				"anchor": "related-project-boundaries"
-			},
-			{
-				"level": 2,
-				"text": "Source anchors",
-				"anchor": "source-anchors"
-			},
-			{
-				"level": 2,
-				"text": "Generated evidence",
-				"anchor": "generated-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Environment-name evidence",
-				"anchor": "environment-name-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Realtime application registration evidence",
-				"anchor": "realtime-application-registration-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Lexical event/message evidence",
-				"anchor": "lexical-event-message-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Tags",
-				"anchor": "tags"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He System Tutorial: AwtsmoosBinaryJSON District: data · System ID: awtsmoos binary json Binary JSON serialization used inside the broader DosDB/Awtsmoos storage family. Generated evidence below is a navigation aid. Trust, migration, consistency, protocol, and authorization semantics remain ",
-		"searchText": "b\"h boruch hashem blessed is he system tutorial: awtsmoosbinaryjson district: data · system id: awtsmoos binary json binary json serialization used inside the broader dosdb/awtsmoos storage family. generated evidence below is a navigation aid. trust, migration, consistency, protocol, and authorization semantics remain grounded in the linked human manuals and current source. claims boundary the catalog identifies the serializer boundary; exact byte level semantics remain source and format contract questions. change risk serialization changes can make existing persisted bytes unreadable or semantically incompatible. human manuals docs/data/dosdb.md docs/data/awtsmoosdb and virtualfs.md related project boundaries ayzarim/dosdb (data) — ayzarim/dosdb source anchors ayzarim/dosdb/awtsmoosbinary/awtsmoosbinaryjson/index.js generated evidence none observed for this system packet. environment name evidence no environment name evidence matched this system's source/project scope. realtime application registration evidence no versioned application registrations are attached to this packet. lexical event/message evidence none observed for this system packet. tags persistence · serialization · compatibility · migration",
-		"page": "pages/docs-generated-system-tutorials-systems-awtsmoos-binary-json-md-86bee0fcc0.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/@ Path: geelooy/@ · Type: project · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership o",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/@ path: geelooy/@ · type: project · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: awtsmoos.derech.js local documentation: no local documentation.md observed. local doc requirement: yes; covered: no symlink target: — file shape source tests assets generated docs other total 10 0 0 0 0 0 10 public entry points none observed. symbol evidence source files: 8; classes: 0; functions: 29; exports: 21; samples: dynamicroutes, registerroutes, renderaliassitemap, renderaliassitemapshard, renderaliascomments, renderalias, page size, renderaliascommentspage, pagenumber, navigation, authored post limit, commenturl. depends on geelooy/seo — 8 lexical references; examples: geelooy/@/seo/aliascommentspage.js; geelooy/@/seo/aliasdata.js; geelooy/@/seo/aliaspage.js geelooy/api/social — 6 lexical references; examples: geelooy/@/seo/aliasdata.js; geelooy/@/seo/aliassitemap.js; geelooy/@/seo/aliassites.js used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-819b4c5b-md-46deeb70b0.json"
 	}
 ]

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Routes (geelooy/api/social/helper/routes/)\n\nMaster HTTP route assembly for the social API: mounts domain route groups (agent, alias, packed, posts, profile, reading, series, views) into one derech surface.\n\n## Files\n- `apiHttp.js` — HTTP plumbing for routes.\n- `requestValues.js` — request value decoding.\n\n## Subdirectories\n- `agent/` — AI agent API (`/agent/*`).\n- `alias/` — alias/user routes (`/alias/*`, `/aliases/*`, `/user/:user/aliases*`).\n- `packed/` — packed-data routes (has its own README).\n- `posts/` — post routes (has its own README).\n- `profile/` — profile routes (`/profile/*`, `/profiles/*`, `/feed`, `/trending`, `/search`, `/openapi.json`).\n- `reading/` — reading routes (`/reading/heartbeat|privacy|recent|stats`).\n- `series/` — series routes (`/heichelos/:heichel/series/*`).\n- `views/` — view counts (`/views/*`, `/comments/by-anchor`, `/comments/verse-counts`).\n- `test/` — route composition contracts (alias, packed, profile, route, series compatibility).\n"
+}

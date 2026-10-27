@@ -1,0 +1,173 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-assets-textures-remote-texture-agent-guide-md-6ec768fd7f",
+		"title": "Remote Texture Agent Guide",
+		"sourcePath": "geelooy/games/mitzvahWorld/assets/textures/REMOTE_TEXTURE_AGENT_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Remote Texture Agent Guide",
+				"anchor": "remote-texture-agent-guide"
+			},
+			{
+				"level": 2,
+				"text": "Canonical library",
+				"anchor": "canonical-library"
+			},
+			{
+				"level": 2,
+				"text": "Machine-first discovery",
+				"anchor": "machine-first-discovery"
+			},
+			{
+				"level": 2,
+				"text": "Important family-key distinction",
+				"anchor": "important-family-key-distinction"
+			},
+			{
+				"level": 2,
+				"text": "Exact filename law",
+				"anchor": "exact-filename-law"
+			},
+			{
+				"level": 2,
+				"text": "Complete-name authorities",
+				"anchor": "complete-name-authorities"
+			},
+			{
+				"level": 2,
+				"text": "Next: material mixing",
+				"anchor": "next-material-mixing"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Remote Texture Agent Guide The Awtsmoos renews every remote grain before a filename, URL, or catalog can seem to endure; Awtsmoos.com lets this guide turn discovery into evidence so future agents find exact textures and keep their source pure. Canonical library Trusted remote root: https",
+		"searchText": "b\"h boruch hashem blessed is he remote texture agent guide the awtsmoos renews every remote grain before a filename, url, or catalog can seem to endure; awtsmoos.com lets this guide turn discovery into evidence so future agents find exact textures and keep their source pure. canonical library trusted remote root: https://awtsmoos.com/sites/firebase drive migration/ canonical count: 125 textures. architecture: 33 craft: 24 ground: 35 tree: 33 the complete exact filenames live in the generated inventories under: ../../experiments/awtsmoos/src/assets/docs/textures/ start with remote texture inventory.md, then use the architecture, craft, ground, and trees family pages when you need every name in one category. machine first discovery import the current procedural core doorway: search before guessing: resolve only an exact returned filename: important family key distinction the current procedural core code key is singular tree . the older mitzvahworld generated documentation uses the human facing family label trees . do not pass trees to awtsmoosdrivetextureurl(). do not rename the older generated docs merely to hide this historical distinction. exact filename law filenames are canonical historical data. preserve their exact spelling, capitalization, spaces, punctuation, and legacy wording. never normalize or “correct” them from memory. preferred workflow: 1. searchawtsmoosdrivetextures(query) 2. inspect the exact returned record 3. pass its exact family/filename to awtsmoosdrivetextureurl() 4. use the resolved trusted https url in a semantic material recipe. complete name authorities generated index: ../../experiments/awtsmoos/src/assets/docs/textures/remote texture inventory.md architecture names: remote texture architecture.md craft names: remote texture craft.md ground names: remote texture ground.md tree names: remote texture trees.md detailed discovery law: ../../experiments/awtsmoos/src/assets/texture discovery.md the generated inventories—not this hand written guide—are the complete name authority. this prevents a second list from drifting. next: material mixing for native two map blending, uv density, weather patches, fallback first loading, and performance rules, read: remote texture mixing guide.md search the authority; do not guess the texture.",
+		"page": "pages/geelooy-games-mitzvahworld-assets-textures-remote-texture-agent-guide-md-6ec768fd7f.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-assets-textures-remote-texture-mixing-guide-m-72d9b24602",
+		"title": "Remote Texture Mixing Guide",
+		"sourcePath": "geelooy/games/mitzvahWorld/assets/textures/REMOTE_TEXTURE_MIXING_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Remote Texture Mixing Guide",
+				"anchor": "remote-texture-mixing-guide"
+			},
+			{
+				"level": 2,
+				"text": "Native two-map authority",
+				"anchor": "native-two-map-authority"
+			},
+			{
+				"level": 2,
+				"text": "Author a material story",
+				"anchor": "author-a-material-story"
+			},
+			{
+				"level": 2,
+				"text": "UV density law",
+				"anchor": "uv-density-law"
+			},
+			{
+				"level": 2,
+				"text": "Patch controls",
+				"anchor": "patch-controls"
+			},
+			{
+				"level": 2,
+				"text": "Fallback-first law",
+				"anchor": "fallback-first-law"
+			},
+			{
+				"level": 2,
+				"text": "Shared-material law",
+				"anchor": "shared-material-law"
+			},
+			{
+				"level": 2,
+				"text": "Readability law",
+				"anchor": "readability-law"
+			},
+			{
+				"level": 2,
+				"text": "Renderer boundaries",
+				"anchor": "renderer-boundaries"
+			},
+			{
+				"level": 2,
+				"text": "Real recipe example",
+				"anchor": "real-recipe-example"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Remote Texture Mixing Guide The Awtsmoos renews map, detail, world position noise, and fallback color before one material can seem weathered in place; Awtsmoos.com lets this guide keep mixing truthful, restrained, asynchronous, and fast across every procedural surface and space. Native t",
+		"searchText": "b\"h boruch hashem blessed is he remote texture mixing guide the awtsmoos renews map, detail, world position noise, and fallback color before one material can seem weathered in place; awtsmoos.com lets this guide keep mixing truthful, restrained, asynchronous, and fast across every procedural surface and space. native two map authority temple runner uses the procedural core nativelayeredmaterialhydrator from: /libs/awtsmoos procedural core/src/adapters/native/textures.js supported recipe fields include: mapurl mixurl maprepeat mixrepeat mixstrength mixpatchscale mixpatchsharpness map and mix texture policies. the native shader performs spatial mixing. it builds a patch mask from world position value noise and blends the secondary texture through that mask. this is not a flat alpha fade. author a material story use pairs that describe believable variation: clean stone + weathered fieldstone cobblestone + worn stone floor oak planks + darker aged timber copper + restrained rust ceramic + small dirt patches. do not mix two images merely because both are available. uv density law primary and secondary maps have independent repeat values. choose repeat density for the physical object, not only the image. long road slabs need denser forward tiling so cobbles do not become enormous. walls need moderate repeats so bricks stay believable at running distance. small pottery needs low repeats to avoid visual static. long narrow rope or timber can use directional repeat bias. patch controls mixstrength controls how much secondary detail may contribute. mixpatchscale controls the spatial size of the world noise regions. mixpatchsharpness shapes transitions between primary and secondary areas. use broader, softer patches for dirt and aged masonry. use tighter patches for timber wear or oxidation. keep strengths restrained when gameplay silhouette matters. fallback first law the fallback material color is visible immediately. remote maps hydrate asynchronously afterward. the hydrator records real evidence on material.awtsmoostexturestatus: mapready mixready maperror mixerror mapurl mixurl. a remote failure must degrade to fallback color or a surviving primary map. it must never block the run. shared material law reuse semantic materials and urls. do not create unique remote recipes per recycled object instance. do not preload all 125 textures. good semantic roles include road stone, jerusalem wall, dark timber, pottery, bronze, cloth, rope, craft gold, parchment, and bark. load only roles actually referenced by the scene. readability law texture detail serves form; it does not replace gameplay language. keep jump/duck/avoid action faces color first if image detail would weaken the cue. texture structural posts, wheels, stone walls, gates, roofs, and supporting craft geometry more aggressively. keep reward gold semantically rare. do not let a noisy road map erase lane guides. renderer boundaries temple runner's tiny native standard material does not currently consume authored roughness/metalness knobs. do not invent fake pbr fields. gltf metallic/roughness metadata belongs to the imported model path and is a separate concern. do not use ordinary two map blending as a substitute for the procedural core's water specific flow system. do not assume alpha cutout foliage behavior until the active renderer proves it. bark is safe; leaves should stay conservative. real recipe example find exact names first in remote texture agent guide.md, then author the smallest believable material vessel.",
+		"page": "pages/geelooy-games-mitzvahworld-assets-textures-remote-texture-mixing-guide-m-72d9b24602.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-directory-guide-md-eb13522f77",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: .",
+				"anchor": "directory-guide"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: . Role: Project root Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 11 files, 5 structural child directories Purpose Project entry, top level audits, handoff notes, and navigation for the Mitzvah World game. The Awtsmoos renews eve",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: . role: project root snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 11 files, 5 structural child directories purpose project entry, top level audits, handoff notes, and navigation for the mitzvah world game. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: project root search terms: audit, mitzvah, forest, index, maker, movie, next, procedural, remaining, work, ., basic file mix: [none]: 2 · .json: 1 · .html: 1 good first question: “does the behavior or asset i need belong to project root, or is this only a neighboring/test/reference layer?” semantic evidence b\"h b\"h — mitzvah world movie maker audit b\"h — next ai: mitzvah world was simplified b\"h — mitzvah world procedural forest audit representative files movie maker audit.md — b\"h — mitzvah world movie maker audit next ai readme.md — b\"h — next ai: mitzvah world was simplified procedural forest audit.md — b\"h — mitzvah world procedural forest audit remaining work.md — mitzvah world basic meadow — remaining work index.html — a .html artifact in this directory. directory map parent: project root. children: assets experiments movies references styles existing markdown: directory index.md, movie maker audit.md, next ai readme.md, procedural forest audit.md, remaining work.md, system overlap map.md related and overlapping systems diagnostics, logs, tools, and root audits — live diagnostics, captured logs, offline tools, and root audit reports describe different stages of observability. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-directory-guide-md-eb13522f77.json"
+	}
+]

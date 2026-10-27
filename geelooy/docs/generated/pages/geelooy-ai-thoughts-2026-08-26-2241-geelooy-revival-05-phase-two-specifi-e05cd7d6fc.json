@@ -1,0 +1,84 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-26-2241-geelooy-revival-05-phase-two-specifi-e05cd7d6fc",
+	"title": "Phase Two — Specific Candidate File Plan",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-26-2241-geelooy-revival/05_PHASE_TWO_SPECIFIC_FILE_PLAN.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase Two — Specific Candidate File Plan",
+			"anchor": "phase-two-specific-candidate-file-plan"
+		},
+		{
+			"level": 2,
+			"text": "Candidate Production Files",
+			"anchor": "candidate-production-files"
+		},
+		{
+			"level": 3,
+			"text": "1. geelooy/mawgawl/sefarim/index.html",
+			"anchor": "1-geelooy-mawgawl-sefarim-index-html"
+		},
+		{
+			"level": 3,
+			"text": "2. geelooy/mawgawl/sefarim/styles/hero.css",
+			"anchor": "2-geelooy-mawgawl-sefarim-styles-hero-css"
+		},
+		{
+			"level": 3,
+			"text": "3. geelooy/mawgawl/sefarim/styles/layout.css",
+			"anchor": "3-geelooy-mawgawl-sefarim-styles-layout-css"
+		},
+		{
+			"level": 3,
+			"text": "4. geelooy/mawgawl/sefarim/styles/discovery.css",
+			"anchor": "4-geelooy-mawgawl-sefarim-styles-discovery-css"
+		},
+		{
+			"level": 3,
+			"text": "5. geelooy/mawgawl/sefarim/styles/responsive.css",
+			"anchor": "5-geelooy-mawgawl-sefarim-styles-responsive-css"
+		},
+		{
+			"level": 3,
+			"text": "6. geelooy/mawgawl/sefarim/styles/mobile-context.css",
+			"anchor": "6-geelooy-mawgawl-sefarim-styles-mobile-context-css"
+		},
+		{
+			"level": 3,
+			"text": "7. geelooy/mawgawl/sefarim/styles/mobile.css",
+			"anchor": "7-geelooy-mawgawl-sefarim-styles-mobile-css"
+		},
+		{
+			"level": 2,
+			"text": "Files Explicitly Planned To Preserve Unless Runtime Proves A Defect",
+			"anchor": "files-explicitly-planned-to-preserve-unless-runtime-proves-a-defect"
+		},
+		{
+			"level": 2,
+			"text": "Read-Before-Final-Plan Owners",
+			"anchor": "read-before-final-plan-owners"
+		},
+		{
+			"level": 2,
+			"text": "Dirty Families — Explicit Non-Mutation Boundary",
+			"anchor": "dirty-families-explicit-non-mutation-boundary"
+		},
+		{
+			"level": 2,
+			"text": "First-Draft Order",
+			"anchor": "first-draft-order"
+		},
+		{
+			"level": 2,
+			"text": "NEXTACTION",
+			"anchor": "nextaction"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-26-2241-geelooy-revival-05-phase-two-specifi-e05cd7d6fc-001.json"
+	]
+}

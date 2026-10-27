@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-02-0240-real-public-sitemap-release-02-secon-21b8cc0bcb",
+	"title": "Second Critique — Real Door, Not Decorative XML",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-02-0240-real-public-sitemap-release/02-second-architecture-critique.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Second Critique — Real Door, Not Decorative XML",
+			"anchor": "second-critique-real-door-not-decorative-xml"
+		},
+		{
+			"level": 2,
+			"text": "Improvement over the earlier sitemap idea",
+			"anchor": "improvement-over-the-earlier-sitemap-idea"
+		},
+		{
+			"level": 2,
+			"text": "Release architecture",
+			"anchor": "release-architecture"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-02-0240-real-public-sitemap-release-02-secon-21b8cc0bcb-001.json"
+	]
+}

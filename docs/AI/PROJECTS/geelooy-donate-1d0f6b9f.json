@@ -9,7 +9,7 @@
 		"id": "public",
 		"title": "Public and Other Boundaries"
 	},
-	"title": "geelooy/donate",
+	"title": "Donate · Awtsmoos",
 	"entries": [
 		"index.html"
 	],
@@ -36,9 +36,9 @@
 		{
 			"url": "/donate",
 			"file": "geelooy/donate/index.html",
-			"title": "",
+			"title": "Donate · Awtsmoos",
 			"scripts": 0,
-			"styles": 0
+			"styles": 1
 		}
 	],
 	"requiresLocalDocumentation": false,

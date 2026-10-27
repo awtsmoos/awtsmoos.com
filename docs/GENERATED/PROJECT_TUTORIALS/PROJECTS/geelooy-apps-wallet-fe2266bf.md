@@ -2,7 +2,7 @@ B"H
 Boruch Hashem
 Blessed is He
 
-# Project Tutorial: Awtsmoos Wallet — Send, Buy & Own
+# Project Tutorial: Awtsmoos Wallet — Balances, Credits & Ownership
 
 **Path:** `geelooy/apps/wallet` · **Type:** app · **Family:** Applications
 
@@ -21,15 +21,15 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 38 | 1 | 0 | 0 | 1 | 0 | 40 |
+| 43 | 3 | 0 | 0 | 1 | 0 | 47 |
 
 ## Public entry points
 
-- `/apps/wallet` → `geelooy/apps/wallet/index.html` — Awtsmoos Wallet — Send, Buy & Own
+- `/apps/wallet` → `geelooy/apps/wallet/index.html` — Awtsmoos Wallet — Balances, Credits & Ownership
 
 ## Symbol evidence
 
-Source files: 20; classes: 1; functions: 73; exports: 34; samples: refreshWallet, beginCheckout, bootWallet, async, clearCheckoutQuery, processCheckoutReturn, startPayPalCheckout, decodeWalletResponse, getWalletJson, postWalletJson, networkFailure, createCoinStudySurface.
+Source files: 24; classes: 1; functions: 92; exports: 38; samples: refreshWallet, refreshWalletData, beginCheckout, bootWallet, async, clearCheckoutQuery, processCheckoutReturn, startPayPalCheckout, decodeWalletResponse, getWalletJson, postWalletJson, networkFailure.
 
 ## Depends on
 
@@ -37,7 +37,7 @@ None observed.
 
 ## Used by
 
-None observed.
+- `geelooy/cloud` — 1 lexical reference; examples: geelooy/cloud/cloudData.js
 
 ## External packages
 
@@ -45,4 +45,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **1**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **3**. Treat this as file evidence, not proof of behavioral coverage.

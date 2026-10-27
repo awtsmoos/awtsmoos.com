@@ -1,0 +1,266 @@
+[
+	{
+		"id": "geelooy-games-city-of-light-documentation-md-9350b949bc",
+		"title": "City of Light · The Complete Pilgrimage",
+		"sourcePath": "geelooy/games/city-of-light/DOCUMENTATION.md",
+		"category": "Games",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "City of Light · The Complete Pilgrimage",
+				"anchor": "city-of-light-the-complete-pilgrimage"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He City of Light · The Complete Pilgrimage The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAMES PL",
+		"searchText": "b\"h boruch hashem blessed is he city of light · the complete pilgrimage the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “city of light · the complete pilgrimage”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
+		"page": "pages/geelooy-games-city-of-light-documentation-md-9350b949bc.json"
+	},
+	{
+		"id": "geelooy-games-city-of-light-readme-md-2f4aebe2c9",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/city-of-light/README.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Boruch Hashem",
+				"anchor": "boruch-hashem"
+			},
+			{
+				"level": 1,
+				"text": "Blessed is He",
+				"anchor": "blessed-is-he"
+			},
+			{
+				"level": 1,
+				"text": "City of Light: The Complete Pilgrimage",
+				"anchor": "city-of-light-the-complete-pilgrimage"
+			},
+			{
+				"level": 2,
+				"text": "Campaign",
+				"anchor": "campaign"
+			},
+			{
+				"level": 2,
+				"text": "Production guarantees",
+				"anchor": "production-guarantees"
+			},
+			{
+				"level": 2,
+				"text": "Living systems",
+				"anchor": "living-systems"
+			},
+			{
+				"level": 2,
+				"text": "Progress and accessibility",
+				"anchor": "progress-and-accessibility"
+			},
+			{
+				"level": 2,
+				"text": "Verification",
+				"anchor": "verification"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He City of Light: The Complete Pilgrimage City of Light is a dependency free 24 chapter campaign for Awtsmoos.com. Every district is generated from a reproducible seed, but each chapter has an authored mission, region, wildlife population, environmental identity, and progression purpose. Ca",
+		"searchText": "b\"h boruch hashem blessed is he city of light: the complete pilgrimage city of light is a dependency free 24 chapter campaign for awtsmoos.com. every district is generated from a reproducible seed, but each chapter has an authored mission, region, wildlife population, environmental identity, and progression purpose. campaign the pilgrimage crosses six four chapter regions: 1. courtyards of dawn — sparks, shrines, checkpoints, and the swift light dash. 2. garden paths — deer, doves, foxes, sanctuaries, and the call of kindness. 3. river of mirrors — paired bridge stones, lanterns, mist, and the bridge song. 4. archive of echoes — owl guided sequences, memory paths, and echo sight. 5. heights of gold — raised courts, honest ramps, wind, and the wind step. 6. heart of the city — four long chapters combining every learned system. production guarantees generation does not finish merely because a maze exists. every chapter is rejected unless: every walkable tile belongs to the spawn connected component; every raised platform cell is reachable; every platform has at least two reachable ramps; every spark, landmark, checkpoint, sanctuary, and beacon is reachable; every animal begins on a valid tile; every animal patrol consists of contiguous walkable steps; every mission stage has enough real bound targets; the complete mission sequence can be satisfied in order; identical seeds reproduce identical worlds. living systems five procedural species: dove, deer, fox, owl, and firefly. path aware patrol, following, listening, flocking, sanctuary, and perch like behavior. procedural wings, gait, antlers, ears, tails, eyes, glows, and following rings. player breathing, gait lean, landing pulse, dash stretch, crown, and orbit motion. seeded rain, mist, leaves, dustlight, aurora, and crownlight particles. camera easing, mission pulses, a truthful minimap, distinct landmarks, and raised terrain. generated webaudio cues with a working mute setting. progress and accessibility the campaign stores chapter completion, unlocks, abilities, best times, total light, settings, and seed through a versioned save repository that recovers safely from malformed data. controls include keyboard, wasd, touch movement, interact/call, dash, mission reveal, pause, checkpoint restart, chapter restart, chapter selection, reduced motion, high contrast, and mute. verification npm test verifies campaign data, saves, wildlife, and 288 complete generated chapters. npm run test:stress validates 2,400 complete generated chapters across 100 seeds. npm run test:browser enters the real campaign in chrome, watches wildlife animation, moves, dashes, pauses, changes settings, selects a chapter, reloads persistent progress, captures a screenshot, and verifies the arcade doorway. the awtsmoos is not revealed through random rooms called content. the city becomes worthy of its name when every road can be walked, every creature has a path, every mission can finish, and the tests return from thousands of worlds carrying proof.",
+		"page": "pages/geelooy-games-city-of-light-readme-md-2f4aebe2c9.json"
+	},
+	{
+		"id": "geelooy-games-cobyk-docs-original-lineage-md-7123510f7c",
+		"title": "CobyK Original Lineage",
+		"sourcePath": "geelooy/games/cobyk/docs/original-lineage.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "CobyK Original Lineage",
+				"anchor": "cobyk-original-lineage"
+			},
+			{
+				"level": 2,
+				"text": "Preserved source",
+				"anchor": "preserved-source"
+			},
+			{
+				"level": 2,
+				"text": "Original gameplay identity",
+				"anchor": "original-gameplay-identity"
+			},
+			{
+				"level": 2,
+				"text": "Original texture identity",
+				"anchor": "original-texture-identity"
+			},
+			{
+				"level": 2,
+				"text": "What is modernized",
+				"anchor": "what-is-modernized"
+			},
+			{
+				"level": 2,
+				"text": "Separate descendant",
+				"anchor": "separate-descendant"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He CobyK Original Lineage The Awtsmoos renews source and successor before history can separate one spark from the next; Awtsmoos.com lets this document keep the preserved CobyK identity explicit while a modern vessel replaces obsolete technical context. Preserved source The immutable eviden",
+		"searchText": "b\"h boruch hashem blessed is he cobyk original lineage the awtsmoos renews source and successor before history can separate one spark from the next; awtsmoos.com lets this document keep the preserved cobyk identity explicit while a modern vessel replaces obsolete technical context. preserved source the immutable evidence source is /users/awtsmoos/work/downloads/google drive 1 yrph2wl5vw663hxoxxx4oikgv k9siv. it is titled cobyk and contains the original processing.js/legacy three implementation, editor, six map mapdata.js, and texture directory. recovery work never edits that directory. mapdata.js sha 256: f96d518ec8988120133d8ed25748127749f334d0f64555d78eb01d6a89f5d2f5. the six canonical map hashes are recorded in tests/support/originallineageexpectations.mjs and verified from the copied immutable row modules during tests. level 4 intentionally reaches 54 columns; it must not be normalized to 53. original gameplay identity cobyk has six authored ascii levels. p is the player spawn, a solid brick, s a lethal spike, c a coin, f the coin gated finisher, u an elevator, d a disappearing support, l a horizontally moving spike, and ^, , < directional force tiles. digits 1 through 9 are the original tutorial anchors. every coin in a level must be collected before the finisher completes it. restart/attempt rhythm, moving hazards, elevators, disappearing supports, directional forces, tutorial intent, and the editor concept belong to the game identity. original texture identity fifteen real texture files were copied byte for byte into assets/textures/: brick.png, coin.png, coin2.png, downarrow.png, elevator.png, finisher.png, fire.jpg, gold.jpg, hat.jpg, lava.jpg, leftarrow.png, player.png, rightarrow.png, shrinker.png, and uparrow.png. every copied file was compared to the preserved source with sha 256 and matched. coin.png and coin2.png are byte identical. the historical runtime also used gold.jpg as its coin surface, so all three coin related assets are retained as evidence rather than collapsed. what is modernized the original implementation is not copied wholesale into production. its global processing sketch, bundled legacy three, coby wrapper, absolute position menus, global css, frame dependent physics, direct camera lock, and obsolete external account hosts are implementation debt rather than cobyk identity. the modern working tree is geelooy/games/cobyk/. it preserves canonical maps, tile semantics, mechanics, and local texture identity while replacing the engine with deterministic modular gameplay, a smoother bounded camera, direct awtsmoos procedural core rendering, local first persistence, scoped mobile first ui, and optional richer materials/nature that never change collision truth. the old remote hosts coby.16mb.com and maamer.000webhostapp.com must never be revived. legacy games.vex data may only be read by an explicit migration adapter. separate descendant geelooy/games/ohrbound/ is a rebuilt descendant whose own readme describes it as an independent architecture descended from an older prototype. it is intentionally left untouched during this recovery. compatible infrastructure ideas may be studied, but cobyk does not inherit ohrbound's 48 level campaign or substitute its gameplay identity.",
+		"page": "pages/geelooy-games-cobyk-docs-original-lineage-md-7123510f7c.json"
+	},
+	{
+		"id": "geelooy-games-documentation-md-91efed5ea4",
+		"title": "Games Documentation",
+		"sourcePath": "geelooy/games/DOCUMENTATION.md",
+		"category": "Games",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Games Documentation",
+				"anchor": "games-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Games Documentation The Awtsmoos gives each world rules, motion, players, reports, and story in time; Awtsmoos.com maps game files together with editors, emulators, direct handlers, and realtime lines. Read ../../docs/APPS/GAMES AND SIMULATION.md. Mitzvah World autoplay report endpoints ",
+		"searchText": "b\"h boruch hashem blessed is he games documentation the awtsmoos gives each world rules, motion, players, reports, and story in time; awtsmoos.com maps game files together with editors, emulators, direct handlers, and realtime lines. read ../../docs/apps/games and simulation.md. mitzvah world autoplay report endpoints are documented at ../../docs/api/direct root handlers.md. realtime behavior may continue under the server websocket apps.",
+		"page": "pages/geelooy-games-documentation-md-91efed5ea4.json"
+	},
+	{
+		"id": "geelooy-games-emojis-documentation-md-3ea2d9114e",
+		"title": "Emoji War — Neon Caption Arcade",
+		"sourcePath": "geelooy/games/emojis/DOCUMENTATION.md",
+		"category": "Games",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Emoji War — Neon Caption Arcade",
+				"anchor": "emoji-war-neon-caption-arcade"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Emoji War — Neon Caption Arcade The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAMES PLATFORM.m",
+		"searchText": "b\"h boruch hashem blessed is he emoji war — neon caption arcade the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “emoji war — neon caption arcade”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
+		"page": "pages/geelooy-games-emojis-documentation-md-3ea2d9114e.json"
+	},
+	{
+		"id": "geelooy-games-kabbalah-shooter-documentation-md-5502ac94b7",
+		"title": "Kabbalah Infinite — The Breaking of Vessels",
+		"sourcePath": "geelooy/games/kabbalah-shooter/DOCUMENTATION.md",
+		"category": "Games",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Kabbalah Infinite — The Breaking of Vessels",
+				"anchor": "kabbalah-infinite-the-breaking-of-vessels"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Kabbalah Infinite — The Breaking of Vessels The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAME",
+		"searchText": "b\"h boruch hashem blessed is he kabbalah infinite — the breaking of vessels the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “kabbalah infinite — the breaking of vessels”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
+		"page": "pages/geelooy-games-kabbalah-shooter-documentation-md-5502ac94b7.json"
+	},
+	{
+		"id": "geelooy-games-kavanah-documentation-md-adf23132c3",
+		"title": "KAVANAH",
+		"sourcePath": "geelooy/games/KAVANAH/DOCUMENTATION.md",
+		"category": "Games",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "KAVANAH",
+				"anchor": "kavanah"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He KAVANAH The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAMES PLATFORM.md for the central explan",
+		"searchText": "b\"h boruch hashem blessed is he kavanah the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “kavanah”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
+		"page": "pages/geelooy-games-kavanah-documentation-md-adf23132c3.json"
+	}
+]

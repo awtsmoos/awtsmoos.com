@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Portal Adapters (geelooy/api/portal/adapters/)\n\nBridge between the Portal read model and the real API-family world (see `../README.md`).\n\n## Files\n- `ApiFamilyResourceAdapter.js` — adapts an actual Awtsmoos API family into\n  portal resources, so `/api-families` and `/api-family` expose live discovery\n  data through the portal envelope shapes.\n"
+}

@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-27-2150-unified-movie-revelation-00-mission--a2ab963175",
+	"title": "Unified Movie Revelation Mission",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-27-2150-unified-movie-revelation/00_MISSION.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Unified Movie Revelation Mission",
+			"anchor": "unified-movie-revelation-mission"
+		},
+		{
+			"level": 2,
+			"text": "User outcome",
+			"anchor": "user-outcome"
+		},
+		{
+			"level": 2,
+			"text": "Completion evidence",
+			"anchor": "completion-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Guardrails",
+			"anchor": "guardrails"
+		},
+		{
+			"level": 2,
+			"text": "Work graph",
+			"anchor": "work-graph"
+		},
+		{
+			"level": 2,
+			"text": "Remaining-work rule",
+			"anchor": "remaining-work-rule"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-27-2150-unified-movie-revelation-00-mission--a2ab963175-001.json"
+	]
+}

@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-olam-h3-docs-release-verification-md-c673fa6599",
+	"title": "Olam H3 Release Verification",
+	"sourcePath": "geelooy/apps/olam-h3/docs/release-verification.md",
+	"category": "Apps",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Olam H3 Release Verification",
+			"anchor": "olam-h3-release-verification"
+		},
+		{
+			"level": 2,
+			"text": "Automated contract tests",
+			"anchor": "automated-contract-tests"
+		},
+		{
+			"level": 2,
+			"text": "Browser smoke verification",
+			"anchor": "browser-smoke-verification"
+		},
+		{
+			"level": 2,
+			"text": "Security and source gates",
+			"anchor": "security-and-source-gates"
+		},
+		{
+			"level": 2,
+			"text": "Credential boundary",
+			"anchor": "credential-boundary"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-olam-h3-docs-release-verification-md-c673fa6599-001.json"
+	]
+}

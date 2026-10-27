@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Entity Universe Tests (geelooy/api/social/helper/entityUniverse/test/)\n\nTests for the entity universe store.\n\n- `universeStore.test.mjs` — universe store read/write.\n- `universeStressNetwork.test.mjs` — stress tests over a network of universes.\n"
+}

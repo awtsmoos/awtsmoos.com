@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-social-helper-search-tanach-native-data-readme-md-9f25e93cba",
+	"title": "B\"H — Tanach Native Data (geelooy/api/social/helper/search/tanach/native-data/)",
+	"sourcePath": "geelooy/api/social/helper/search/tanach/native-data/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Tanach Native Data (geelooy/api/social/helper/search/tanach/native-data/)",
+			"anchor": "b-h-tanach-native-data-geelooy-api-social-helper-search-tanach-native-data"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-social-helper-search-tanach-native-data-readme-md-9f25e93cba-001.json"
+	]
+}

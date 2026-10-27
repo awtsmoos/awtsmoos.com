@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-tests-glyph-engine-readme-md-a68f40775e",
+	"title": "B\"H — Awtsmoos Glyph Lab v2 & Session Lab v3",
+	"sourcePath": "geelooy/tests/glyph-engine/README.md",
+	"category": "Testing",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Awtsmoos Glyph Lab v2 & Session Lab v3",
+			"anchor": "b-h-awtsmoos-glyph-lab-v2-session-lab-v3"
+		},
+		{
+			"level": 2,
+			"text": "v2 — Stable experimental font",
+			"anchor": "v2-stable-experimental-font"
+		},
+		{
+			"level": 2,
+			"text": "v3 — Per-session fonts and natural RTL",
+			"anchor": "v3-per-session-fonts-and-natural-rtl"
+		},
+		{
+			"level": 1,
+			"text": "Mac Chrome CDP must be listening on port 9339:",
+			"anchor": "mac-chrome-cdp-must-be-listening-on-port-9339"
+		},
+		{
+			"level": 2,
+			"text": "Critical security limitations",
+			"anchor": "critical-security-limitations"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-tests-glyph-engine-readme-md-a68f40775e-001.json"
+	]
+}

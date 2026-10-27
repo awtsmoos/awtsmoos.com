@@ -1,292 +1,321 @@
 [
 	{
-		"id": "geelooy-games-migdol-documentation-md-3feffea982",
-		"title": "Migdol - Kabbalah Tower Defense",
-		"sourcePath": "geelooy/games/migdol/DOCUMENTATION.md",
-		"category": "Games",
-		"provenance": "breadcrumb",
+		"id": "docs-generated-system-district-summary-md-cce5c863d7",
+		"title": "System District Summary",
+		"sourcePath": "docs/GENERATED/SYSTEM_DISTRICT_SUMMARY.md",
+		"category": "Systems",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Migdol - Kabbalah Tower Defense",
-				"anchor": "migdol-kabbalah-tower-defense"
-			},
-			{
-				"level": 2,
-				"text": "Role",
-				"anchor": "role"
-			},
-			{
-				"level": 2,
-				"text": "Start here",
-				"anchor": "start-here"
-			},
-			{
-				"level": 2,
-				"text": "Change rule",
-				"anchor": "change-rule"
-			},
-			{
-				"level": 2,
-				"text": "Project-specific notes",
-				"anchor": "project-specific-notes"
+				"text": "System District Summary",
+				"anchor": "system-district-summary"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Migdol Kabbalah Tower Defense The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAMES PLATFORM.md ",
-		"searchText": "b\"h boruch hashem blessed is he migdol kabbalah tower defense the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “migdol kabbalah tower defense”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
-		"page": "pages/geelooy-games-migdol-documentation-md-3feffea982.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He System District Summary District Systems Env names Apps Events Data and Persistence 7 38 0 0 Security and Trust 6 15 0 0 Realtime and WebSockets 5 62 32 57",
+		"searchText": "b\"h boruch hashem blessed is he system district summary district systems env names apps events data and persistence 7 38 0 0 security and trust 6 15 0 0 realtime and websockets 5 62 32 57",
+		"page": "pages/docs-generated-system-district-summary-md-cce5c863d7.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-assets-directory-guide-md-67aadb8dcf",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/assets/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-generated-system-tutorial-index-md-e1ecb41557",
+		"title": "System Tutorial Index",
+		"sourcePath": "docs/GENERATED/SYSTEM_TUTORIAL_INDEX.md",
+		"category": "Systems",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: assets",
-				"anchor": "directory-guide-assets"
-			},
-			{
-				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
-			},
-			{
-				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
-			},
-			{
-				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "System Tutorial Index",
+				"anchor": "system-tutorial-index"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 1 files, 3 structural child directories Purpose Runtime consumable models, textures, and material libraries. The Awtsmoos renews every path and every artifact from ",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: assets role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 1 files, 3 structural child directories purpose runtime consumable models, textures, and material libraries. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: assets, guide file mix: .md: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files no immediate files. this directory is an organizational parent; follow the child guides below. directory map parent: . children: assets/materials assets/models assets/textures related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. vegetation, trees, and forest systems — botany rules, tree generation, forest composition, grass, and source texture libraries overlap semantically but own different layers. player, creature, horse, enemy, and experimental mesh systems — actor assets and world side populations span player hydration, creature generators, enemies, horses, and experimental animal meshes. boundaries and cautions this directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-assets-directory-guide-md-67aadb8dcf.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He System Tutorial Index Data, Security, and Realtime system teaching. Chunk Rows Count systems 001.md 1–18 18",
+		"searchText": "b\"h boruch hashem blessed is he system tutorial index data, security, and realtime system teaching. chunk rows count systems 001.md 1–18 18",
+		"page": "pages/docs-generated-system-tutorial-index-md-e1ecb41557.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-assets-materials-directory-guide-md-e4d190e3ad",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/assets/materials/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-generated-system-tutorial-index-systems-001-md-5e621ff998",
+		"title": "System Tutorial Index 1–18",
+		"sourcePath": "docs/GENERATED/SYSTEM_TUTORIAL_INDEX/systems-001.md",
+		"category": "Systems",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: assets/materials",
-				"anchor": "directory-guide-assets-materials"
-			},
-			{
-				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
-			},
-			{
-				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
-			},
-			{
-				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "System Tutorial Index 1–18",
+				"anchor": "system-tutorial-index-1-18"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/materials Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 1 files, 2 structural child directories Purpose Material and surface asset collections used to dress terrain, vegetation, and world geometry. The Awtsmoos",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/materials role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 1 files, 2 structural child directories purpose material and surface asset collections used to dress terrain, vegetation, and world geometry. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: assets, guide, materials file mix: .md: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files no immediate files. this directory is an organizational parent; follow the child guides below. directory map parent: assets children: assets/materials/generated assets/materials/local related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. vegetation, trees, and forest systems — botany rules, tree generation, forest composition, grass, and source texture libraries overlap semantically but own different layers. boundaries and cautions this directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-assets-materials-directory-guide-md-e4d190e3ad.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He System Tutorial Index 1–18 Curated system meaning joined to bounded current source evidence. System District Projects Env names Apps Events Tutorial Database Root Resolution data 1 0 0 0 tutorial DosDB Filesystem Storage data 1 5 0 0 tutorial AwtsmoosBinaryJSON data 1 0 0 0 tutorial Awts",
+		"searchText": "b\"h boruch hashem blessed is he system tutorial index 1–18 curated system meaning joined to bounded current source evidence. system district projects env names apps events tutorial database root resolution data 1 0 0 0 tutorial dosdb filesystem storage data 1 5 0 0 tutorial awtsmoosbinaryjson data 1 0 0 0 tutorial awtsmoosdb and virtualfs data 1 4 0 0 tutorial social packed storage data 1 24 0 0 tutorial persistence path contracts data 2 0 0 0 tutorial parallel awtsmoosdb bridge data 1 5 0 0 tutorial session authentication security 1 0 0 0 tutorial oauth bearer identity security 2 5 0 0 tutorial tunnel control identity security 1 4 0 0 tutorial authorization and resource ownership security 2 2 0 0 tutorial secrets and runtime configuration security 3 0 0 0 tutorial realtime identity and admission security 2 4 0 0 tutorial websocket upgrade and session realtime 1 4 0 0 tutorial realtime application routing realtime 1 19 16 0 tutorial mission room admission realtime 2 1 0 0 tutorial tunnel relay realtime 2 19 0 21 tutorial realtime application and event evidence realtime 1 19 16 36 tutorial",
+		"page": "pages/docs-generated-system-tutorial-index-systems-001-md-5e621ff998.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-assets-materials-generated-catalog-directory--3a9a3aebd9",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/assets/materials/generated/catalog/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-generated-system-tutorials-systems-authorization-resource-ownership-1225944356",
+		"title": "System Tutorial: Authorization and Resource Ownership",
+		"sourcePath": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/authorization-resource-ownership.md",
+		"category": "Security",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: assets/materials/generated/catalog",
-				"anchor": "directory-guide-assets-materials-generated-catalog"
+				"text": "System Tutorial: Authorization and Resource Ownership",
+				"anchor": "system-tutorial-authorization-and-resource-ownership"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Claims boundary",
+				"anchor": "claims-boundary"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Change risk",
+				"anchor": "change-risk"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Human manuals",
+				"anchor": "human-manuals"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
+				"text": "Related project boundaries",
+				"anchor": "related-project-boundaries"
 			},
 			{
 				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
+				"text": "Source anchors",
+				"anchor": "source-anchors"
 			},
 			{
 				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
+				"text": "Generated evidence",
+				"anchor": "generated-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
+				"text": "Environment-name evidence",
+				"anchor": "environment-name-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Realtime application registration evidence",
+				"anchor": "realtime-application-registration-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Lexical event/message evidence",
+				"anchor": "lexical-event-message-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Tags",
+				"anchor": "tags"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/materials/generated/catalog Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 2 files, 0 structural child directories Purpose Generated material catalog metadata for programmatic lookup. The Awtsmoos renews every p",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/materials/generated/catalog role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 2 files, 0 structural child directories purpose generated material catalog metadata for programmatic lookup. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: materials, assets, catalog, generated, guide, json file mix: .md: 1 · .json: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files materials.json — a .json artifact in this directory. directory map parent: assets/materials/generated children: none. related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. boundaries and cautions generated assets should normally be changed through their source or generator, not edited as the first choice. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-assets-materials-generated-catalog-directory--3a9a3aebd9.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He System Tutorial: Authorization and Resource Ownership District: security · System ID: authorization resource ownership Account scoped ownership, explicit grants, permissions, and anti enumeration behavior above authentication. Generated evidence below is a navigation aid. Trust, migratio",
+		"searchText": "b\"h boruch hashem blessed is he system tutorial: authorization and resource ownership district: security · system id: authorization resource ownership account scoped ownership, explicit grants, permissions, and anti enumeration behavior above authentication. generated evidence below is a navigation aid. trust, migration, consistency, protocol, and authorization semantics remain grounded in the linked human manuals and current source. claims boundary this packet demonstrates one inspected authorization boundary; it is not a repository wide security audit. change risk ownership/grant resolution and information disclosure behavior are high impact security contracts. human manuals docs/security/readme.md docs/security/trust boundaries.md related project boundaries geelooy/api/tunnel (api) — geelooy/api/tunnel geelooy/api/social (api) — geelooy/api/social source anchors geelooy/api/tunnel/control/core/tunnelsecurity/authorization.js generated evidence none observed for this system packet. environment name evidence name class source refs example sources awtsmoos binding history per identity runtime config 1 geelooy/api/tunnel/control/core/tunnelsecurity/bindingretentionpolicy.js awtsmoos binding retention ms tuning 1 geelooy/api/tunnel/control/core/tunnelsecurity/bindingretentionpolicy.js realtime application registration evidence no versioned application registrations are attached to this packet. lexical event/message evidence none observed for this system packet. tags authorization · ownership · grants · permissions · security",
+		"page": "pages/docs-generated-system-tutorials-systems-authorization-resource-ownership-1225944356.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-assets-materials-generated-directory-guide-md-4336007560",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/assets/materials/generated/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-generated-system-tutorials-systems-awtsmoos-binary-json-md-86bee0fcc0",
+		"title": "System Tutorial: AwtsmoosBinaryJSON",
+		"sourcePath": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/awtsmoos-binary-json.md",
+		"category": "Systems",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: assets/materials/generated",
-				"anchor": "directory-guide-assets-materials-generated"
+				"text": "System Tutorial: AwtsmoosBinaryJSON",
+				"anchor": "system-tutorial-awtsmoosbinaryjson"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Claims boundary",
+				"anchor": "claims-boundary"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Change risk",
+				"anchor": "change-risk"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Human manuals",
+				"anchor": "human-manuals"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
+				"text": "Related project boundaries",
+				"anchor": "related-project-boundaries"
 			},
 			{
 				"level": 2,
-				"text": "Data keys observed",
-				"anchor": "data-keys-observed"
+				"text": "Source anchors",
+				"anchor": "source-anchors"
 			},
 			{
 				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
+				"text": "Generated evidence",
+				"anchor": "generated-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
+				"text": "Environment-name evidence",
+				"anchor": "environment-name-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
+				"text": "Realtime application registration evidence",
+				"anchor": "realtime-application-registration-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Lexical event/message evidence",
+				"anchor": "lexical-event-message-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Tags",
+				"anchor": "tags"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/materials/generated Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 75 files, 1 structural child directories Purpose Generated material derivatives and machine produced visual assets. Treat these as outputs unles",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/materials/generated role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 75 files, 1 structural child directories purpose generated material derivatives and machine produced visual assets. treat these as outputs unless the generating workflow says otherwise. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: svg, full, resolution, grass, forest, dirt, nature, chai, oak, textures, brick, leaves file mix: .svg: 71 · .json: 3 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files awtsmoos nature chai forest textures bark bark001 1k jpg bark001 1k jpg 296c0f5f.svg — a .svg artifact in this directory. awtsmoos nature chai forest textures ground dirt color 9f8372fe.svg — a .svg artifact in this directory. awtsmoos nature chai forest textures ground grass f5733be1.svg — a .svg artifact in this directory. awtsmoos nature chai forest textures leaves ash a2a45478.svg — a .svg artifact in this directory. awtsmoos nature chai forest textures leaves aspen 9b18519b.svg — a .svg artifact in this directory. awtsmoos nature chai forest textures leaves oak 6fc9ef51.svg — a .svg artifact in this directory. awtsmoos nature chai forest textures leaves pine 0dc70930.svg — a .svg artifact in this directory. awtsmoos nature ilanos trees sakura petal 9542c53e.svg — a .svg artifact in this directory. full resolution bluestone 1 e5ff9c01.svg — a .svg artifact in this directory. full resolution cobblestone 9961d4d5.svg — a .svg artifact in this directory. full resolution copper 1 7caccc0d.svg — a .svg artifact in this directory. full resolution cow fur 1 90616b26.svg — a .svg artifact in this directory. data keys observed assets · schema · palettes · records directory map parent: assets/materials children: assets/materials/generated/catalog related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. boundaries and cautions generated assets should normally be changed through their source or generator, not edited as the first choice. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-assets-materials-generated-directory-guide-md-4336007560.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He System Tutorial: AwtsmoosBinaryJSON District: data · System ID: awtsmoos binary json Binary JSON serialization used inside the broader DosDB/Awtsmoos storage family. Generated evidence below is a navigation aid. Trust, migration, consistency, protocol, and authorization semantics remain ",
+		"searchText": "b\"h boruch hashem blessed is he system tutorial: awtsmoosbinaryjson district: data · system id: awtsmoos binary json binary json serialization used inside the broader dosdb/awtsmoos storage family. generated evidence below is a navigation aid. trust, migration, consistency, protocol, and authorization semantics remain grounded in the linked human manuals and current source. claims boundary the catalog identifies the serializer boundary; exact byte level semantics remain source and format contract questions. change risk serialization changes can make existing persisted bytes unreadable or semantically incompatible. human manuals docs/data/dosdb.md docs/data/awtsmoosdb and virtualfs.md related project boundaries ayzarim/dosdb (data) — ayzarim/dosdb source anchors ayzarim/dosdb/awtsmoosbinary/awtsmoosbinaryjson/index.js generated evidence none observed for this system packet. environment name evidence no environment name evidence matched this system's source/project scope. realtime application registration evidence no versioned application registrations are attached to this packet. lexical event/message evidence none observed for this system packet. tags persistence · serialization · compatibility · migration",
+		"page": "pages/docs-generated-system-tutorials-systems-awtsmoos-binary-json-md-86bee0fcc0.json"
+	},
+	{
+		"id": "docs-generated-system-tutorials-systems-awtsmoosdb-virtualfs-md-63b49daf27",
+		"title": "System Tutorial: AwtsmoosDB and VirtualFs",
+		"sourcePath": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/awtsmoosdb-virtualfs.md",
+		"category": "Systems",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "System Tutorial: AwtsmoosDB and VirtualFs",
+				"anchor": "system-tutorial-awtsmoosdb-and-virtualfs"
+			},
+			{
+				"level": 2,
+				"text": "Claims boundary",
+				"anchor": "claims-boundary"
+			},
+			{
+				"level": 2,
+				"text": "Change risk",
+				"anchor": "change-risk"
+			},
+			{
+				"level": 2,
+				"text": "Human manuals",
+				"anchor": "human-manuals"
+			},
+			{
+				"level": 2,
+				"text": "Related project boundaries",
+				"anchor": "related-project-boundaries"
+			},
+			{
+				"level": 2,
+				"text": "Source anchors",
+				"anchor": "source-anchors"
+			},
+			{
+				"level": 2,
+				"text": "Generated evidence",
+				"anchor": "generated-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Environment-name evidence",
+				"anchor": "environment-name-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Realtime application registration evidence",
+				"anchor": "realtime-application-registration-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Lexical event/message evidence",
+				"anchor": "lexical-event-message-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Tags",
+				"anchor": "tags"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He System Tutorial: AwtsmoosDB and VirtualFs District: data · System ID: awtsmoosdb virtualfs The newer .awtsdb storage engine and its virtual filesystem interface. Generated evidence below is a navigation aid. Trust, migration, consistency, protocol, and authorization semantics remain grou",
+		"searchText": "b\"h boruch hashem blessed is he system tutorial: awtsmoosdb and virtualfs district: data · system id: awtsmoosdb virtualfs the newer .awtsdb storage engine and its virtual filesystem interface. generated evidence below is a navigation aid. trust, migration, consistency, protocol, and authorization semantics remain grounded in the linked human manuals and current source. claims boundary source paths establish the engine/interface boundary; generated docs do not infer transaction or consistency guarantees. change risk storage engine, manifest, transaction, or path changes require compatibility review. human manuals docs/data/awtsmoosdb and virtualfs.md docs/data/readme.md related project boundaries ayzarim/dosdb (data) — ayzarim/dosdb source anchors ayzarim/dosdb/awtsmoosbinary/awtsmoosdb/index.js ayzarim/dosdb/awtsmoosbinary/awtsmoosdb/api/fs/v3/virtualfs.js generated evidence none observed for this system packet. environment name evidence name class source refs example sources awtsmoos embed model root test/tuning 1 ayzarim/dosdb/awtsmoosbinary/awtsmoosdb/test/ai search model root precedence test.js awtsmoosdb fast test test/tuning 3 ayzarim/dosdb/awtsmoosbinary/awtsmoosdb/core/idle/fastgate.js; ayzarim/dosdb/awtsmoosbinary/awtsmoosdb/test/lightning/env.js; ayzarim/dosdb/awtsmoosbinary/awtsmoosdb/test/semantic ai dosdb test.js awtsmoosdb test scale test/tuning 1 ayzarim/dosdb/awtsmoosbinary/awtsmoosdb/test/lightning/env.js node env runtime config 4 ayzarim/dosdb/awtsmoosbinary/awtsmoosdb/test/lightning/env.js; geelooy/api/tunnel/install/tools/zipbundle.js; geelooy/api/wallet/core/paypalenvironment.js realtime application registration evidence no versioned application registrations are attached to this packet. lexical event/message evidence none observed for this system packet. tags persistence · virtualfs · awtsmoosdb · migration",
+		"page": "pages/docs-generated-system-tutorials-systems-awtsmoosdb-virtualfs-md-63b49daf27.json"
+	},
+	{
+		"id": "docs-generated-system-tutorials-systems-database-root-resolution-md-9326197d90",
+		"title": "System Tutorial: Database Root Resolution",
+		"sourcePath": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/database-root-resolution.md",
+		"category": "Systems",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "System Tutorial: Database Root Resolution",
+				"anchor": "system-tutorial-database-root-resolution"
+			},
+			{
+				"level": 2,
+				"text": "Claims boundary",
+				"anchor": "claims-boundary"
+			},
+			{
+				"level": 2,
+				"text": "Change risk",
+				"anchor": "change-risk"
+			},
+			{
+				"level": 2,
+				"text": "Human manuals",
+				"anchor": "human-manuals"
+			},
+			{
+				"level": 2,
+				"text": "Related project boundaries",
+				"anchor": "related-project-boundaries"
+			},
+			{
+				"level": 2,
+				"text": "Source anchors",
+				"anchor": "source-anchors"
+			},
+			{
+				"level": 2,
+				"text": "Generated evidence",
+				"anchor": "generated-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Environment-name evidence",
+				"anchor": "environment-name-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Realtime application registration evidence",
+				"anchor": "realtime-application-registration-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Lexical event/message evidence",
+				"anchor": "lexical-event-message-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Tags",
+				"anchor": "tags"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He System Tutorial: Database Root Resolution District: data · System ID: database root resolution How the runtime chooses the persistence root before DosDB or newer storage layers operate. Generated evidence below is a navigation aid. Trust, migration, consistency, protocol, and authorizati",
+		"searchText": "b\"h boruch hashem blessed is he system tutorial: database root resolution district: data · system id: database root resolution how the runtime chooses the persistence root before dosdb or newer storage layers operate. generated evidence below is a navigation aid. trust, migration, consistency, protocol, and authorization semantics remain grounded in the linked human manuals and current source. claims boundary environment names and inspected manuals describe precedence; no environment value is read or published. change risk changing root precedence or defaults can redirect an existing deployment to different persisted data. human manuals docs/data/readme.md docs/data/path contracts.md related project boundaries ayzarim/awtsmoosdynamicserver (runtime) — ayzarim/awtsmoosdynamicserver source anchors ayzarim/awtsmoosdynamicserver/server/initdb.js generated evidence docs/generated/environment variables.md environment name evidence no environment name evidence matched this system's source/project scope. realtime application registration evidence no versioned application registrations are attached to this packet. lexical event/message evidence none observed for this system packet. tags persistence · environment · path · migration",
+		"page": "pages/docs-generated-system-tutorials-systems-database-root-resolution-md-9326197d90.json"
 	}
 ]

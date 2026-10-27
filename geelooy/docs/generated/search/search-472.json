@@ -1,0 +1,209 @@
+[
+	{
+		"id": "geelooy-apps-piano-documentation-md-c6f560e2e1",
+		"title": "Piano App Documentation",
+		"sourcePath": "geelooy/apps/piano/DOCUMENTATION.md",
+		"category": "Apps",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Piano App Documentation",
+				"anchor": "piano-app-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Piano App Documentation The Awtsmoos lets sound become interactive through keys, timing, browser input, and musical state; Awtsmoos.com maps this app within creative tools while its own source remains authority for implementation fate. Read ../../../docs/APPS/CREATIVE TOOLS.md and ../../",
+		"searchText": "b\"h boruch hashem blessed is he piano app documentation the awtsmoos lets sound become interactive through keys, timing, browser input, and musical state; awtsmoos.com maps this app within creative tools while its own source remains authority for implementation fate. read ../../../docs/apps/creative tools.md and ../../../docs/apps/media tools.md.",
+		"page": "pages/geelooy-apps-piano-documentation-md-c6f560e2e1.json"
+	},
+	{
+		"id": "geelooy-apps-rebbe-documentation-md-e77410fce1",
+		"title": "Rebbe App Documentation",
+		"sourcePath": "geelooy/apps/rebbe/DOCUMENTATION.md",
+		"category": "Apps",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Rebbe App Documentation",
+				"anchor": "rebbe-app-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Rebbe App Documentation The Awtsmoos gives this substantial named app a local map while compiler evidence shows backend relationships that must be traced; Awtsmoos.com links developer and creative documentation without inventing contracts not actually written in source. Read ../../../doc",
+		"searchText": "b\"h boruch hashem blessed is he rebbe app documentation the awtsmoos gives this substantial named app a local map while compiler evidence shows backend relationships that must be traced; awtsmoos.com links developer and creative documentation without inventing contracts not actually written in source. read ../../../docs/apps/creative tools.md, ../../../docs/apps/developer tools.md, and ../../../docs/api/other families.md.",
+		"page": "pages/geelooy-apps-rebbe-documentation-md-e77410fce1.json"
+	},
+	{
+		"id": "geelooy-apps-scripts-documentation-md-598e560db6",
+		"title": "App Script Catalog Helpers",
+		"sourcePath": "geelooy/apps/scripts/DOCUMENTATION.md",
+		"category": "Apps",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "App Script Catalog Helpers",
+				"anchor": "app-script-catalog-helpers"
+			},
+			{
+				"level": 2,
+				"text": "Boundary",
+				"anchor": "boundary"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He App Script Catalog Helpers The Awtsmoos lets application discovery become a small reusable browser vessel; Awtsmoos.com keeps catalog filtering separate from individual app implementations. Boundary geelooy/apps/scripts/ contains apps filter.js and the catalog/ modules used by applicatio",
+		"searchText": "b\"h boruch hashem blessed is he app script catalog helpers the awtsmoos lets application discovery become a small reusable browser vessel; awtsmoos.com keeps catalog filtering separate from individual app implementations. boundary geelooy/apps/scripts/ contains apps filter.js and the catalog/ modules used by application discovery/catalog surfaces. it is shared app listing support, not a standalone product runtime. change rule trace consumers before changing filtering or catalog semantics because multiple application surfaces may depend on the same shared discovery behavior.",
+		"page": "pages/geelooy-apps-scripts-documentation-md-598e560db6.json"
+	},
+	{
+		"id": "geelooy-apps-sheets-documentation-md-376db4ec7e",
+		"title": "Awtsmoos Sheets",
+		"sourcePath": "geelooy/apps/sheets/DOCUMENTATION.md",
+		"category": "Apps",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos Sheets",
+				"anchor": "awtsmoos-sheets"
+			},
+			{
+				"level": 2,
+				"text": "Entry point",
+				"anchor": "entry-point"
+			},
+			{
+				"level": 2,
+				"text": "Boundary",
+				"anchor": "boundary"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos Sheets The Awtsmoos lets formulas, commands, collaborators, and cells move through one precise grid while Awtsmoos.com keeps their roles explicit and inspectable. Entry point index.html is the browser shell. js/ contains workbook/grid/application behavior and css/ contains focus",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos sheets the awtsmoos lets formulas, commands, collaborators, and cells move through one precise grid while awtsmoos.com keeps their roles explicit and inspectable. entry point index.html is the browser shell. js/ contains workbook/grid/application behavior and css/ contains focused tokens, shell, controls, menus, dialogs, panels, grid, presence, tabs, responsive, motion, and futuristic presentation modules. boundary this directory owns the sheets client experience. realtime authority and persistence must be traced to the corresponding server/websocket application before changing protocol or storage semantics.",
+		"page": "pages/geelooy-apps-sheets-documentation-md-376db4ec7e.json"
+	},
+	{
+		"id": "geelooy-apps-slides-agents-md-d6e5531731",
+		"title": "Awtsmoos Slides — AI and Agent Instructions",
+		"sourcePath": "geelooy/apps/slides/AGENTS.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos Slides — AI and Agent Instructions",
+				"anchor": "awtsmoos-slides-ai-and-agent-instructions"
+			},
+			{
+				"level": 2,
+				"text": "Canonical file format",
+				"anchor": "canonical-file-format"
+			},
+			{
+				"level": 2,
+				"text": "Root document",
+				"anchor": "root-document"
+			},
+			{
+				"level": 2,
+				"text": "Supported elements",
+				"anchor": "supported-elements"
+			},
+			{
+				"level": 2,
+				"text": "Generation rules",
+				"anchor": "generation-rules"
+			},
+			{
+				"level": 2,
+				"text": "Minimal generated slide",
+				"anchor": "minimal-generated-slide"
+			},
+			{
+				"level": 2,
+				"text": "Direct opening in Geelooy OS",
+				"anchor": "direct-opening-in-geelooy-os"
+			},
+			{
+				"level": 2,
+				"text": "Export surfaces",
+				"anchor": "export-surfaces"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos Slides — AI and Agent Instructions The Awtsmoos lets thought become a portable presentation vessel. Awtsmoos Slides deliberately uses a human readable JSON file format so an AI agent, script, Geelooy OS program, or person can generate an entire presentation without reverse engin",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos slides — ai and agent instructions the awtsmoos lets thought become a portable presentation vessel. awtsmoos slides deliberately uses a human readable json file format so an ai agent, script, geelooy os program, or person can generate an entire presentation without reverse engineering the editor. canonical file format use the .awtslides extension. the file contents are one json object. the editor normalizes imported data through the same presentation model used for local persistence and collaboration. public discovery files: /apps/slides/ai/manifest.json — machine readable capabilities and schema summary. /apps/slides/ai/example.awtslides — directly openable generated example. /apps/slides/agents.md — this guide. root document supported themes: midnight, dawn, forest, paper, neon. each slide supports name, background, notes, and elements. ids and revision are optional for generated documents because the editor can normalize missing values. supported elements text and headings support percentage geometry plus text, fontsize, fontweight, fontfamily, color, align, rotation, and opacity. shapes use type: \"shape\", shape: \"rect\" \"circle\", percentage geometry, fill, bordercolor, borderwidth, radius, rotation, and opacity. images use type: \"image\", percentage geometry, src, alt, fit, rotation, and opacity. prefer safe https urls or data:image/... urls when generating portable decks. generation rules 1. output one valid json object, not markdown. 2. keep visible text concise and put extra narration in slide notes. 3. compose for a 16:9 stage using x/y/width/height percentages. 4. leave visual margins; do not place every element at the edges. 5. use css hex colors such as f7f7fb. 6. keep slides visually hierarchical: one dominant idea, supporting text, and purposeful shapes/media. 7. do not invent unsupported element types when direct opening is required. 8. save generated json as something.awtslides, paste it into the ai studio, or deliver it to the geelooy os opener. minimal generated slide direct opening in geelooy os .awtslides is registered with awtsmoos slides. a geelooy file opener can pass the file contents to the presenter program as options.content; the presenter host transfers that content to the embedded slides application through the same origin deck bridge. export surfaces awtsmoos slides supports its native .awtslides json, standalone playable html, embeddable iframe markup, and dependency free .pptx powerpoint export for the supported presentation subset. the awtsmoos gives the agent a clear covenant: generate one normalized deck, and let every other surface—editor, os, embed, html, collaboration, powerpoint—flow from that same truth.",
+		"page": "pages/geelooy-apps-slides-agents-md-d6e5531731.json"
+	},
+	{
+		"id": "geelooy-apps-slides-documentation-md-d31dbecf91",
+		"title": "Awtsmoos Slides",
+		"sourcePath": "geelooy/apps/slides/DOCUMENTATION.md",
+		"category": "Apps",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos Slides",
+				"anchor": "awtsmoos-slides"
+			},
+			{
+				"level": 2,
+				"text": "Authoring",
+				"anchor": "authoring"
+			},
+			{
+				"level": 2,
+				"text": "Mobile command system",
+				"anchor": "mobile-command-system"
+			},
+			{
+				"level": 2,
+				"text": "Direct interaction integrity",
+				"anchor": "direct-interaction-integrity"
+			},
+			{
+				"level": 2,
+				"text": "Presentation mode",
+				"anchor": "presentation-mode"
+			},
+			{
+				"level": 2,
+				"text": "Speaker notes",
+				"anchor": "speaker-notes"
+			},
+			{
+				"level": 2,
+				"text": "Persistence and portability",
+				"anchor": "persistence-and-portability"
+			},
+			{
+				"level": 2,
+				"text": "Collaboration",
+				"anchor": "collaboration"
+			},
+			{
+				"level": 2,
+				"text": "Architecture",
+				"anchor": "architecture"
+			},
+			{
+				"level": 2,
+				"text": "Verification",
+				"anchor": "verification"
+			},
+			{
+				"level": 2,
+				"text": "Deliberate boundaries",
+				"anchor": "deliberate-boundaries"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos Slides Awtsmoos Slides is a mobile first presentation editor for Geelooy. It runs at /apps/slides/ and as awtsmoosPresenter inside Geelooy OS. The Awtsmoos renews every visible slide while Awtsmoos.com keeps editing, presentation, persistence, collaboration, and export as inspec",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos slides awtsmoos slides is a mobile first presentation editor for geelooy. it runs at /apps/slides/ and as awtsmoospresenter inside geelooy os. the awtsmoos renews every visible slide while awtsmoos.com keeps editing, presentation, persistence, collaboration, and export as inspectable vessels. authoring create, select, duplicate, reorder, and delete slides. insert headings, text, rectangles, circles, and local images. drag with mouse/touch pointer input and snap to slide/peer edges and centers. resize from corner handles with coarse pointer targets. double click text for direct editing and nudge selections with arrow keys. copy, cut, paste, duplicate, delete, and change z order through store commands. edit geometry, opacity, rotation, typography, colors, borders, and image fit. apply midnight, dawn, forest, paper, and neon themes. keep per slide speaker notes outside presented/exported canvas. undo and redo history aware mutations. mobile command system below 900px the editor becomes a phone native command surface. a safe area aware bottom bar exposes slides, insert, design, and more. selected elements gain a contextual ribbon for style, copy, duplicate, arrange, and delete. arrange exposes front/forward/backward/back layering. bars and sheets share one action registry and trusted inline svg icon renderer. only one command sheet opens at a time; backdrop, close button, escape, and successful commands dismiss it. presentation mode suppresses all authoring chrome. the stage reserves bottom space for fixed mobile chrome. panels and sheets preserve a 390px document width without horizontal overflow. direct interaction integrity pointer cancellation and window blur terminate drags and clear snap guides. pointer capture is attempted safely, so synthetic pointers cannot throw browser owned capture errors. slide order arrows disable at deck boundaries, panels stay mutually exclusive, resize handles enlarge for coarse pointers, and notes stay collapsed until requested. presentation mode presentation includes previous/next, slide position, exit, swipe navigation, and keyboard support for arrows, page up/down, space, and escape. boundary controls disable on first/final slides. speaker notes pending notes remain bound to the slide where they were typed. they flush on blur, page hide, visibility loss, and slide transitions through targeted slide updates. notes remain in deck json but never enter rendered slides or standalone html output. persistence and portability room scoped localstorage autosave. versioned .awtslides json import/export. hardened import normalization for enums, colors, image schemes, geometry, typography, and payload sizes. dependency free html export with escaped user text, keyboard playback, and swipe navigation. theme colors resolve into canonical slide/element data so exported html has no runtime theme dependency. collaboration rooms use slides: . the app reuses the geelooy page presence websocket. social publish carries slides.sync.request and slides.sync through the existing social event path. messages include protocol version and per tab client id; echoes are ignored and older revisions cannot overwrite newer local state. synchronization is last revision wins snapshots, not character level crdt merging. connectivity labels remain literal: connecting, live · n, reconnecting, or offline. architecture src/model/ — document factories, themes, sanitization, normalization. src/state/ — deck state, history, slide lifecycle/order, targeted updates, element mutations. src/render/ — stage, thumbnails, selection handles, snap guides, presentation rendering. src/ui/icons/ — dependency free inline svg icons. src/ui/menus/ — shared action registry and command sheet controller. src/ui/ — panels, inspector, drag/text/resize/keyboard/clipboard/mobile/notes/themes/playback. src/persistence/ — local drafts and .awtslides transfer. src/export/ — standalone html generation/player assets. src/collab/ — collaboration policy and presence adapter. geelooy/os/programs/awtsmoos presenter/ — thin os host for the same app. verification the focused suite documents 33 passing tests covering normalization/security, notes, targeted slide updates, ordering, element mutation/z order, html escaping, collaboration envelopes, resize geometry, theme resolution, snapping, presenter navigation, and mobile command/theme mapping. browser verification uses an isolated chrome profile at 390×844 and checks width/overflow, mobile commands, insert/design/arrange/more actions, dawn theme rendering, presentation chrome suppression, footer/notes overlap, and runtime exceptions. the architecture audit keeps slides js, mjs, css, html, and this handoff under the 120 line source/document ceiling. deliberate boundaries binary pptx import/export is not implemented. collaboration is snapshot/revision based, not crdt character merging. drive backed persistence is intentionally decoupled from slides. shared os registry files may contain unrelated application registrations and should not be cleaned up as part of slides work.",
+		"page": "pages/geelooy-apps-slides-documentation-md-d31dbecf91.json"
+	}
+]

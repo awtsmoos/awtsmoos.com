@@ -12,7 +12,9 @@
 	"title": "geelooy/api/contact",
 	"entries": [
 		"_awtsmoos.derech.js",
-		"DOCUMENTATION.md"
+		"DOCUMENTATION.md",
+		"README.md",
+		"readme.md"
 	],
 	"humanDocumentation": [
 		"geelooy/api/contact/DOCUMENTATION.md",
@@ -23,32 +25,27 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-contact-a9bcc40b.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 1,
+		"source": 6,
 		"tests": 0,
 		"assets": 0,
 		"generated": 0,
-		"docs": 1,
+		"docs": 3,
 		"other": 0
 	},
-	"totalFiles": 2,
+	"totalFiles": 9,
 	"symbolSummary": {
-		"files": 1,
-		"classes": 0,
-		"functions": 11,
-		"exports": 1,
+		"files": 6,
+		"classes": 5,
+		"functions": 1,
+		"exports": 6,
 		"samples": [
 			"dynamicRoutes",
-			"status",
-			"submit",
-			"parseBody",
-			"normalize",
-			"validate",
-			"deliverSignal",
-			"storeSignal",
-			"createReference",
-			"response",
-			"clientKey",
-			"clean"
+			"crownContactRoutes",
+			"ContactSignalPolicy",
+			"GevurahInputPolicy",
+			"MalchusContactService",
+			"TiferesContactDelivery",
+			"YesodSignalGate"
 		]
 	},
 	"outgoingDependencies": [],

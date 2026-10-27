@@ -1,0 +1,178 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28t0237-geelooy-social-posting-04-source-rea-da083c03c5",
+		"title": "Source Readback, Planned-vs-Actual, and Test Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0237-geelooy-social-posting/04_SOURCE_READBACK_AND_TEST_PLAN.md",
+		"category": "Testing",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Source Readback, Planned-vs-Actual, and Test Plan",
+				"anchor": "source-readback-planned-vs-actual-and-test-plan"
+			},
+			{
+				"level": 2,
+				"text": "Original source plan",
+				"anchor": "original-source-plan"
+			},
+			{
+				"level": 2,
+				"text": "What the first source pass actually wrote",
+				"anchor": "what-the-first-source-pass-actually-wrote"
+			},
+			{
+				"level": 2,
+				"text": "Readback discovery",
+				"anchor": "readback-discovery"
+			},
+			{
+				"level": 2,
+				"text": "Second source pass",
+				"anchor": "second-source-pass"
+			},
+			{
+				"level": 2,
+				"text": "Current observed contract after full readback",
+				"anchor": "current-observed-contract-after-full-readback"
+			},
+			{
+				"level": 2,
+				"text": "Delta remaining before tests",
+				"anchor": "delta-remaining-before-tests"
+			},
+			{
+				"level": 2,
+				"text": "Test creation rule",
+				"anchor": "test-creation-rule"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Source Readback, Planned vs Actual, and Test Plan Original source plan The final plan required four production code changes before any tests: 1. Create a tiny client attachment storage mapper. 2. Rewrite the client post payload fragment module in full. 3. Create a tiny server attachment ",
+		"searchText": "b\"h boruch hashem blessed is he source readback, planned vs actual, and test plan original source plan the final plan required four production code changes before any tests: 1. create a tiny client attachment storage mapper. 2. rewrite the client post payload fragment module in full. 3. create a tiny server attachment storage sanitizer. 4. rewrite the server attachment schema in full. the intended contract was optional public per attachment storage evidence, archive bytes converted to canonical size, https only evidence links, and no credential/private field propagation. what the first source pass actually wrote social composer/js/model/attachmentstorage.js social composer/js/model/postpayloadparts.js api/social/helper/richsocial/attachmentstorageschema.js api/social/helper/richsocial/attachmentschema.js all four preserve their intended module boundaries. existing public exports remain intact; only the new helper modules add new exports. readback discovery the first client mapper chose manifest.storage by truthiness. an empty object could therefore eclipse valid legacy archive receipt fields. this was not acceptable because an empty new format garment must not erase older truthful evidence. second source pass attachmentstorage.js was fully rewritten. it now tries four candidates in order: 1. manifest generic storage, 2. item generic storage, 3. manifest archive receipt fields, 4. item archive receipt fields. a candidate wins only when normalization produces actual whitelisted evidence. empty/invalid generic storage therefore falls through to archive receipt evidence. current observed contract after full readback client archive receipt fields map into generic storage evidence. generic storage evidence remains provider neutral. only https details/history links survive. archive bytes becomes canonical attachment size through postpayloadparts. publicpath remains playback truth. server whitelists only provider, externalid, filename, detailsurl, historyurl, fingerprint, state, uploadedat, verifiedat, and etag. credential fields and unknown fields have no copy path. existing attachment type/role/size/path normalization remains in place. post level sourceprovenance remains untouched and semantically separate. delta remaining before tests no known production code delta remains. verification now needs evidence for: archive legacy receipt → client canonical attachment. empty generic storage → archive legacy fallback. generic provider storage → canonical client storage. archive bytes → canonical size. server storage whitelist and https filtering. credential/unknown field removal. legacy attachment normalization without storage. existing rich social tests remaining green. existing composer publication tests remaining green. test creation rule before writing test files, inspect the actual test directories, package scripts, and nearby tests. place tests where repository convention proves they belong rather than forcing the earlier theoretical path. the awtsmoos reveals truth by crossing vessels without losing itself; awtsmoos.com now has a source contract worth testing, not merely a hope worth asserting. the next gate is executable evidence.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28t0237-geelooy-social-posting-04-source-rea-da083c03c5.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28t0237-geelooy-social-posting-05-verificati-65fb2690f1",
+		"title": "Verification and Delta — Internet-facing Awtsmoos Posting Gate",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0237-geelooy-social-posting/05_VERIFICATION_AND_DELTA.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Verification and Delta — Internet-facing Awtsmoos Posting Gate",
+				"anchor": "verification-and-delta-internet-facing-awtsmoos-posting-gate"
+			},
+			{
+				"level": 2,
+				"text": "Original gate",
+				"anchor": "original-gate"
+			},
+			{
+				"level": 2,
+				"text": "Actual production files changed",
+				"anchor": "actual-production-files-changed"
+			},
+			{
+				"level": 2,
+				"text": "Actual tests created",
+				"anchor": "actual-tests-created"
+			},
+			{
+				"level": 2,
+				"text": "Review delta discovered and resolved",
+				"anchor": "review-delta-discovered-and-resolved"
+			},
+			{
+				"level": 2,
+				"text": "Evidence",
+				"anchor": "evidence"
+			},
+			{
+				"level": 3,
+				"text": "Syntax and repository-size law",
+				"anchor": "syntax-and-repository-size-law"
+			},
+			{
+				"level": 3,
+				"text": "Focused contract tests",
+				"anchor": "focused-contract-tests"
+			},
+			{
+				"level": 3,
+				"text": "Existing regressions",
+				"anchor": "existing-regressions"
+			},
+			{
+				"level": 3,
+				"text": "Real client-to-server round-trip",
+				"anchor": "real-client-to-server-round-trip"
+			},
+			{
+				"level": 3,
+				"text": "Browser/runtime witness",
+				"anchor": "browser-runtime-witness"
+			},
+			{
+				"level": 2,
+				"text": "Planned versus actual",
+				"anchor": "planned-versus-actual"
+			},
+			{
+				"level": 2,
+				"text": "Gate conclusion",
+				"anchor": "gate-conclusion"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Verification and Delta — Internet facing Awtsmoos Posting Gate Original gate Before redesigning the social network, finish and verify the existing Internet facing publication path. The inspected project revealed two connected truths: canonical Awtsmoos post publication was already struct",
+		"searchText": "b\"h boruch hashem blessed is he verification and delta — internet facing awtsmoos posting gate original gate before redesigning the social network, finish and verify the existing internet facing publication path. the inspected project revealed two connected truths: canonical awtsmoos post publication was already structurally complete, while archive.org video uploads lost their durable public storage evidence when transformed into canonical attachment data. actual production files changed social composer/js/model/attachmentstorage.js — created. social composer/js/model/postpayloadparts.js — rewritten in full. api/social/helper/richsocial/attachmentstorageschema.js — created. api/social/helper/richsocial/attachmentschema.js — rewritten in full. actual tests created social composer/tests/attachmentstorage.test.mjs. api/social/helper/richsocial/test/attachmentstorage.test.js. review delta discovered and resolved the first client storage mapper would have allowed an empty manifest.storage = {} to eclipse truthful legacy archive receipt fields. full readback exposed that edge case before testing. attachmentstorage.js was rewritten in full so candidate storage garments are accepted only when they contain real whitelisted evidence; empty generic storage now falls through to archive receipt fields. no additional production code delta remained after the second full readback. evidence syntax and repository size law node check passed for all six touched source/test files. line counts were 80, 99, 54, 120, 65, and 67; no touched source exceeded 120 lines. focused contract tests both new storage tests passed with exit code 0. they prove archive receipt evidence and bytes survive client canonicalization, https evidence links are bounded, unsafe http links disappear, private/unknown fields have no copy path, and legacy attachments still normalize without storage metadata. existing regressions all pre existing rich social schema, service, clone source, and route suites passed. the complete non browser composer npm test suite also passed, including schema parity, alias memory, publication plan, responsive panels, and social hierarchy contracts. real client to server round trip a representative archive video attachment was passed through the actual client attachmentpayload() and server normalizeattachment() functions. exit code was 0. the resulting canonical attachment retained: publicpath: https://archive.org/download/roundtrip/video.mp4 size: 8765 storage provider: archive.org storage external id: roundtrip storage filename, details/history urls, fingerprint, and state. browser/runtime witness a fresh chrome target owned by geelooy social 20260828 loaded: http://127.0.0.1:5180/geelooy/social composer/?storage proof=20260828 the browser reported the title create new post — geelooy, proving the edited module graph loads far enough to render the composer application. browser console triage reported no concrete repair issue. no publish control was activated and no public test post was created. the preview reused a pre existing shared local server rooted at work/awtsmoos.com; it was not stopped because this mission did not own that server process. planned versus actual the chosen architecture was implemented as planned: generic optional per attachment storage provenance, not archive specific canonical fields and not post level sourceprovenance. the one deviation was test placement: inspection proved composer tests conventionally belong under social composer/tests/, so the theoretical plan was corrected to repository reality before tests were written. gate conclusion the internet facing media to canonical post seam is complete for the discovered defect. archive.org playback and public recovery evidence now cross from upload receipt through the composer payload into the server canonical attachment schema, while upload credentials remain outside the post. the awtsmoos creates the instant and renews every vessel; awtsmoos.com now lets the public evidence of a durable media vessel cross its boundaries without losing its name or carrying a secret flame. the next unfinished work is the user's mobile first social network experience and verified external network publishing architecture.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28t0237-geelooy-social-posting-05-verificati-65fb2690f1.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28t0310-geelooy-social-mobile-00-remaining-w-18882f232a",
+		"title": "REMAINING WORK — Mobile-First Geelooy Social Hub",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0310-geelooy-social-mobile/00_REMAINING_WORK.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "REMAINING WORK — Mobile-First Geelooy Social Hub",
+				"anchor": "remaining-work-mobile-first-geelooy-social-hub"
+			},
+			{
+				"level": 2,
+				"text": "Scope boundary",
+				"anchor": "scope-boundary"
+			},
+			{
+				"level": 2,
+				"text": "Completed creator and core mobile work",
+				"anchor": "completed-creator-and-core-mobile-work"
+			},
+			{
+				"level": 2,
+				"text": "Reopened hidden-work mission",
+				"anchor": "reopened-hidden-work-mission"
+			},
+			{
+				"level": 2,
+				"text": "Route-wide quality work",
+				"anchor": "route-wide-quality-work"
+			},
+			{
+				"level": 2,
+				"text": "Objective route-wide gate",
+				"anchor": "objective-route-wide-gate"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He REMAINING WORK — Mobile First Geelooy Social Hub Scope boundary Internal Geelooy Social Hub only. External YouTube, Facebook, Instagram, OAuth, account linking, and external auto posting remain explicitly excluded by the user. Completed creator and core mobile work [x] Persistent Create ",
+		"searchText": "b\"h boruch hashem blessed is he remaining work — mobile first geelooy social hub scope boundary internal geelooy social hub only. external youtube, facebook, instagram, oauth, account linking, and external auto posting remain explicitly excluded by the user. completed creator and core mobile work [x] persistent create post action outside route navigation. [x] dominant styled home creation card and contextual chips. [x] canonical alias/heichel/series internal composer url shared by home/mobile create. [x] safe area/dock clearance, touch size, focus, wrapping, narrow phone, reduced motion behavior. [x] creator integration through existing assembly/lifecycle/presenter. [x] all creator source/test files <=120 lines. [x] all 80 root stylesheet imports normalized to hub local 021. [x] focused creator contract and repaired real surface ownership contract pass. [x] strengthened 390px real chrome creator geometry journey passes. [x] npm run test:all passed on that creator complete tree. [x] no public test post was created. reopened hidden work mission the original requirement also says every element must be styled and no labels/text should be loose. creation specific evidence cannot prove all twelve internal routes satisfy that broader standard. the live route model exposes home, inbox, messages, spaces, people, profile, chat, interact, activity, network, references, and privacy. route wide quality work [x] read live routemodel and enumerate all twelve routes. [x] read real active panel contract: panel.hidden plus data active=\"true\". [x] write three pass route wide quality plans. [ ] create browsersurfacequalityinspector.mjs for objective rendered surface evidence. [ ] create browserroutequalityjourney.mjs to traverse all twelve routes at 390px. [ ] read back and syntax/line budget check both modules. [ ] run the route wide browser audit against the deterministic fixture. [ ] record every real route defect with exact evidence. [ ] for each real defect, read its template/style owner and fully rewrite the necessary production file(s). [ ] re read every production repair before rerunning tests. [ ] repeat route wide audit until objective defects are zero. [ ] integrate the stable route wide audit into the normal browser smoke covenant. [ ] run npm run test:all on the true final tree. [ ] recheck no external provider leakage and no scoped todo/fixme residue. [ ] write/read back route wide final verification. [ ] empty this ledger only after all twelve routes have browser evidence. objective route wide gate for every active route at 390px: positive panel geometry, no document horizontal overflow, no visible descendants escaping viewport unless deliberately contained by horizontal scrolling, no meaningful bare direct text under generic unowned containers, no invisible/zero typography, and no collapsed ordinary mobile controls. the audit may report conservative evidence, but production changes require tracing a real owner and confirming the finding is not an intentional compact/native exception. next action create and read back the two small browser quality modules, then run the twelve route audit without publishing or mutating user data. the awtsmoos renews all twelve chambers while each word seeks its proper vessel; awtsmoos.com will let living chrome expose what still spills, and only evidence will authorize another garment.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28t0310-geelooy-social-mobile-00-remaining-w-18882f232a.json"
+	}
+]

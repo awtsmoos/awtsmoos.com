@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-28-1318-geelooy-better-render-ai-01-phase-tw-ccffc31df2",
+	"title": "Phase Two — Gevurah Architecture and Critique",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-28-1318-geelooy-better-render-ai/01_PHASE_TWO_ARCHITECTURE_CRITIQUE.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase Two — Gevurah Architecture and Critique",
+			"anchor": "phase-two-gevurah-architecture-and-critique"
+		},
+		{
+			"level": 2,
+			"text": "Evidence-Driven Architecture Direction",
+			"anchor": "evidence-driven-architecture-direction"
+		},
+		{
+			"level": 2,
+			"text": "Proposed Workstreams",
+			"anchor": "proposed-workstreams"
+		},
+		{
+			"level": 3,
+			"text": "Workstream A — Measured Render Acceleration",
+			"anchor": "workstream-a-measured-render-acceleration"
+		},
+		{
+			"level": 3,
+			"text": "Workstream B — Richer Deterministic AI Direction",
+			"anchor": "workstream-b-richer-deterministic-ai-direction"
+		},
+		{
+			"level": 3,
+			"text": "Workstream C — Studio Capability and Quality UX",
+			"anchor": "workstream-c-studio-capability-and-quality-ux"
+		},
+		{
+			"level": 2,
+			"text": "24 Critiques / Improvements to Phase One",
+			"anchor": "24-critiques-improvements-to-phase-one"
+		},
+		{
+			"level": 2,
+			"text": "Failure Map",
+			"anchor": "failure-map"
+		},
+		{
+			"level": 2,
+			"text": "Phase-Two File Touch Policy",
+			"anchor": "phase-two-file-touch-policy"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-28-1318-geelooy-better-render-ai-01-phase-tw-ccffc31df2-001.json"
+	]
+}

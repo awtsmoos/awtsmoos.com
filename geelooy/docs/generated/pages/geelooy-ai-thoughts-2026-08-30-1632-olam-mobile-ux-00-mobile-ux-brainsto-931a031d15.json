@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-30-1632-olam-mobile-ux-00-mobile-ux-brainsto-931a031d15",
+	"title": "Mobile UX Brainstorm",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-30-1632-olam-mobile-ux/00-mobile-ux-brainstorm.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Mobile UX Brainstorm",
+			"anchor": "mobile-ux-brainstorm"
+		},
+		{
+			"level": 2,
+			"text": "Observed problems",
+			"anchor": "observed-problems"
+		},
+		{
+			"level": 2,
+			"text": "Candidate improvements",
+			"anchor": "candidate-improvements"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-30-1632-olam-mobile-ux-00-mobile-ux-brainsto-931a031d15-001.json"
+	]
+}

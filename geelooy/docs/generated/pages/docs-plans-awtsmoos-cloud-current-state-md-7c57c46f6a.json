@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-plans-awtsmoos-cloud-current-state-md-7c57c46f6a",
+	"title": "Current State",
+	"sourcePath": "docs/PLANS/AWTSMOOS_CLOUD/CURRENT_STATE.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Current State",
+			"anchor": "current-state"
+		},
+		{
+			"level": 2,
+			"text": "Release truth",
+			"anchor": "release-truth"
+		},
+		{
+			"level": 2,
+			"text": "Verified platform state",
+			"anchor": "verified-platform-state"
+		},
+		{
+			"level": 2,
+			"text": "Immutable deployment work already on disk",
+			"anchor": "immutable-deployment-work-already-on-disk"
+		},
+		{
+			"level": 2,
+			"text": "Current in-progress step",
+			"anchor": "current-in-progress-step"
+		}
+	],
+	"markdownParts": [
+		"content/docs-plans-awtsmoos-cloud-current-state-md-7c57c46f6a-001.json"
+	]
+}

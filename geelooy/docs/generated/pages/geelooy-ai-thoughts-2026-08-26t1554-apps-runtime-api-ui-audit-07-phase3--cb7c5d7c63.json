@@ -1,0 +1,79 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-26t1554-apps-runtime-api-ui-audit-07-phase3--cb7c5d7c63",
+	"title": "Phase 3 — Final Brainstorm",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-26T1554-apps-runtime-api-ui-audit/07_PHASE3_FINAL_BRAINSTORM.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase 3 — Final Brainstorm",
+			"anchor": "phase-3-final-brainstorm"
+		},
+		{
+			"level": 2,
+			"text": "Final System Shape",
+			"anchor": "final-system-shape"
+		},
+		{
+			"level": 3,
+			"text": "1. Establish Reality",
+			"anchor": "1-establish-reality"
+		},
+		{
+			"level": 3,
+			"text": "2. Reproduce The Visible Failure",
+			"anchor": "2-reproduce-the-visible-failure"
+		},
+		{
+			"level": 3,
+			"text": "3. Close The Dependency Graph",
+			"anchor": "3-close-the-dependency-graph"
+		},
+		{
+			"level": 3,
+			"text": "4. Locate Systemic Ownership",
+			"anchor": "4-locate-systemic-ownership"
+		},
+		{
+			"level": 3,
+			"text": "5. Discover The Whole Page Surface",
+			"anchor": "5-discover-the-whole-page-surface"
+		},
+		{
+			"level": 3,
+			"text": "6. Repair In Dependency Order",
+			"anchor": "6-repair-in-dependency-order"
+		},
+		{
+			"level": 3,
+			"text": "7. Make The UI Cinematic Without Making It Fragile",
+			"anchor": "7-make-the-ui-cinematic-without-making-it-fragile"
+		},
+		{
+			"level": 3,
+			"text": "8. Make APIs More Realistic",
+			"anchor": "8-make-apis-more-realistic"
+		},
+		{
+			"level": 3,
+			"text": "9. Verify More Aggressively Than We Write",
+			"anchor": "9-verify-more-aggressively-than-we-write"
+		},
+		{
+			"level": 3,
+			"text": "10. Publish With Provenance",
+			"anchor": "10-publish-with-provenance"
+		},
+		{
+			"level": 2,
+			"text": "Final Completion Invariant",
+			"anchor": "final-completion-invariant"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-26t1554-apps-runtime-api-ui-audit-07-phase3--cb7c5d7c63-001.json"
+	]
+}

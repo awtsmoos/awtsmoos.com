@@ -329,7 +329,8 @@ function printCard(card, item) {
    the counts opens the who-reacted list. Reaction ids are the emoji file
    base names; the server stores them as the reaction kind string. */
 
-const EMOJI_BASE = '/feed/assets/emojis';
+const EMOJI_IMAGE_BASE = 'https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo-image-mirror/geelooy/feed/assets/emojis';
+const EMOJI_VIDEO_BASE = '/feed/assets/emojis';
 
 const YARMULKE_EMOJIS = [
 	{ id: 'laughing', name: 'laughter' },
@@ -381,13 +382,13 @@ const LEGACY_REACTION_MAP = { '👍': 'thumbsup', '❤️': 'love', '😂': 'lau
 function emojiImg(id, cls = '') {
 	const e = EMOJI_BY_ID[id];
 	if (!e) return '';
-	return `<img class="feed-emoji-img ${cls}" src="${EMOJI_BASE}/${id}.png" alt="${escapeAttr(e.name)}" loading="lazy" decoding="async" draggable="false">`;
+	return `<img class="feed-emoji-img ${cls}" src="${EMOJI_IMAGE_BASE}/${id}.png" alt="${escapeAttr(e.name)}" loading="lazy" decoding="async" draggable="false">`;
 }
 
 function emojiVideo(id, cls = '') {
 	const e = EMOJI_BY_ID[id];
 	if (!e) return '';
-	return `<video class="feed-emoji-video ${cls}" muted loop playsinline preload="none" poster="${EMOJI_BASE}/${id}.png" data-video-src="${EMOJI_BASE}/${id}.mp4" aria-hidden="true" tabindex="-1"></video>`;
+	return `<video class="feed-emoji-video ${cls}" muted loop playsinline preload="none" poster="${EMOJI_IMAGE_BASE}/${id}.png" data-video-src="${EMOJI_VIDEO_BASE}/${id}.mp4" aria-hidden="true" tabindex="-1"></video>`;
 }
 
 function normalizeReactionId(raw) {

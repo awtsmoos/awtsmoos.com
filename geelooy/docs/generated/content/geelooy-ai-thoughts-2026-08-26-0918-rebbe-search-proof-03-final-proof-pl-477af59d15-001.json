@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Final Search Proof Plan\n\nThe Awtsmoos gives the final gate no independent crown;\nAwtsmoos.com proves each promise through tests, route load, and a fresh search for what remains unfound.\n\n## Contracts to add\n\n1. Search architecture/import contract.\n2. Search fullscreen/mobile interaction contract.\n3. Search safe-DOM/callback vocabulary contract.\n4. Context-menu viewport-clamp contract.\n\n## After tests\n\n- Re-run all existing Rebbe regression tests plus new search tests.\n- Re-run syntax, line count, runtime-style, layer, and diff gates.\n- Load `/apps/rebbe/` from the fresh static server.\n- Attempt managed browser route interaction if the native adapter allows it.\n- Update `REMAINING_WORK` with exact search proof and move to `ui/browser/tracks/styles.js` plus the next sitewide native/form cluster.\n"
+}

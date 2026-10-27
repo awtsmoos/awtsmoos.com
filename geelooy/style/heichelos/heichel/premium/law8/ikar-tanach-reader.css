@@ -3,7 +3,7 @@
  * Blessed is He
  *
  * @file Ikar Tanach reader — LAW 8 reference-driven surface.
- * @design-ref https://awtsmoos.com/design-refs/law8/ikar-reader-ref.webp
+ * @design-ref https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo-image-mirror/geelooy/design-refs/law8/ikar-reader-ref.webp
  * @description
  * The visual truth for the Ikar / Tanach study reader: an ivory parchment
  * card on a warm glowing backdrop, split Hebrew (large serif, gold verse
@@ -131,7 +131,7 @@
 .law8-tr-picker-select {
 	appearance: none;
 	background-color: var(--law8-tr-input-bg);
-	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' fill='none' stroke='%2386631f' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E");
+	background-image: url("https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo-image-archive/sha256/bc9eab16a926d293965c6d5cf61a821bb35bc1214d63e13b2ced0288ccc695c7/asset");
 	background-position: right 0.8rem center;
 	background-repeat: no-repeat;
 	border: 1px solid var(--law8-tr-hairline);

@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-master-execution-plan-09-ux-visual-audio-acce-edd4963486",
+	"title": "09 — UX, Visual Art Direction, Audio, Accessibility",
+	"sourcePath": "geelooy/games/mitzvahWorld/MASTER_EXECUTION_PLAN/09_UX_VISUAL_AUDIO_ACCESSIBILITY.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "09 — UX, Visual Art Direction, Audio, Accessibility",
+			"anchor": "09-ux-visual-art-direction-audio-accessibility"
+		},
+		{
+			"level": 2,
+			"text": "Reference-image target",
+			"anchor": "reference-image-target"
+		},
+		{
+			"level": 2,
+			"text": "HUD / interaction",
+			"anchor": "hud-interaction"
+		},
+		{
+			"level": 2,
+			"text": "Visual quality",
+			"anchor": "visual-quality"
+		},
+		{
+			"level": 2,
+			"text": "Cinematic / shareable polish",
+			"anchor": "cinematic-shareable-polish"
+		},
+		{
+			"level": 2,
+			"text": "Audio",
+			"anchor": "audio"
+		},
+		{
+			"level": 2,
+			"text": "Accessibility / controls",
+			"anchor": "accessibility-controls"
+		},
+		{
+			"level": 2,
+			"text": "First 60 seconds",
+			"anchor": "first-60-seconds"
+		},
+		{
+			"level": 2,
+			"text": "Art/content review",
+			"anchor": "art-content-review"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-master-execution-plan-09-ux-visual-audio-acce-edd4963486-001.json"
+	]
+}

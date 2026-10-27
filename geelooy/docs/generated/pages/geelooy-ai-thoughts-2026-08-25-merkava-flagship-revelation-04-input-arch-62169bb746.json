@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-25-merkava-flagship-revelation-04-input-arch-62169bb746",
+	"title": "Merkava Input Architecture Delta",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-25-merkava-flagship-revelation/04-input-architecture-delta.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Merkava Input Architecture Delta",
+			"anchor": "merkava-input-architecture-delta"
+		},
+		{
+			"level": 2,
+			"text": "New revelation after direct failure reproduction",
+			"anchor": "new-revelation-after-direct-failure-reproduction"
+		},
+		{
+			"level": 2,
+			"text": "Why the first final plan needs one refinement",
+			"anchor": "why-the-first-final-plan-needs-one-refinement"
+		},
+		{
+			"level": 2,
+			"text": "Additional modules",
+			"anchor": "additional-modules"
+		},
+		{
+			"level": 2,
+			"text": "Input API names",
+			"anchor": "input-api-names"
+		},
+		{
+			"level": 2,
+			"text": "Reversal behavior",
+			"anchor": "reversal-behavior"
+		},
+		{
+			"level": 2,
+			"text": "App dependency vessel",
+			"anchor": "app-dependency-vessel"
+		},
+		{
+			"level": 2,
+			"text": "No behavior changes beyond the bug repair",
+			"anchor": "no-behavior-changes-beyond-the-bug-repair"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-25-merkava-flagship-revelation-04-input-arch-62169bb746-001.json"
+	]
+}

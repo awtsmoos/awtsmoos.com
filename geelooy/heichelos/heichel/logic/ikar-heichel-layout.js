@@ -13,7 +13,7 @@
 	"use strict";
 
 	var STORE_KEY = "ikar-heichel-v1";
-	var ART_BASE = "../../design-refs/law8/ikar-heichel/";
+	var ART_BASE = "https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo-image-mirror/geelooy/design-refs/law8/ikar-heichel/";
 	var ART_PLATES = [
 		{ id: "sinai-intense", label: "Sinai" },
 		{ id: "kotel-intense", label: "Kotel" },

@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-docs-procedural-world-semantic-lin-349187746d",
+	"title": "B\"H — World Semantic Lineage Details",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/PROCEDURAL_WORLD_SEMANTIC_LINEAGE_DETAILS.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — World Semantic Lineage Details",
+			"anchor": "b-h-world-semantic-lineage-details"
+		},
+		{
+			"level": 2,
+			"text": "Why semantic relationships are not dependencies",
+			"anchor": "why-semantic-relationships-are-not-dependencies"
+		},
+		{
+			"level": 2,
+			"text": "Why identity is split",
+			"anchor": "why-identity-is-split"
+		},
+		{
+			"level": 2,
+			"text": "Deletion-safe impact",
+			"anchor": "deletion-safe-impact"
+		},
+		{
+			"level": 2,
+			"text": "Ordering and portability",
+			"anchor": "ordering-and-portability"
+		},
+		{
+			"level": 2,
+			"text": "Unresolved external targets",
+			"anchor": "unresolved-external-targets"
+		},
+		{
+			"level": 2,
+			"text": "Next composition layer",
+			"anchor": "next-composition-layer"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-docs-procedural-world-semantic-lin-349187746d-001.json"
+	]
+}

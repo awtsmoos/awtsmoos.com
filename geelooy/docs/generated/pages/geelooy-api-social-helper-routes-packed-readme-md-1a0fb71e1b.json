@@ -1,0 +1,105 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-social-helper-routes-packed-readme-md-1a0fb71e1b",
+	"title": "Bulk Import API — Agent Handoff",
+	"sourcePath": "geelooy/api/social/helper/routes/packed/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Bulk Import API — Agent Handoff",
+			"anchor": "bulk-import-api-agent-handoff"
+		},
+		{
+			"level": 2,
+			"text": "1. Endpoints",
+			"anchor": "1-endpoints"
+		},
+		{
+			"level": 3,
+			"text": "Posts lane — postImportRoutes.js",
+			"anchor": "posts-lane-postimportroutes-js"
+		},
+		{
+			"level": 3,
+			"text": "Bulk (comments) lane — bulkImportRoutes.js",
+			"anchor": "bulk-comments-lane-bulkimportroutes-js"
+		},
+		{
+			"level": 3,
+			"text": "Stage upload — bulkPublishAllRoutes.js",
+			"anchor": "stage-upload-bulkpublishallroutes-js"
+		},
+		{
+			"level": 2,
+			"text": "2. Auth — Ed25519 signing (importSign.js)",
+			"anchor": "2-auth-ed25519-signing-importsign-js"
+		},
+		{
+			"level": 2,
+			"text": "3. The standard import flow (scripts/vmImportStaged.mjs)",
+			"anchor": "3-the-standard-import-flow-scripts-vmimportstaged-mjs"
+		},
+		{
+			"level": 1,
+			"text": "Full run: stage → upload → import → verify",
+			"anchor": "full-run-stage-upload-import-verify"
+		},
+		{
+			"level": 1,
+			"text": "Resume an interrupted run (state file is resumable):",
+			"anchor": "resume-an-interrupted-run-state-file-is-resumable"
+		},
+		{
+			"level": 1,
+			"text": "Verify only, no writes:",
+			"anchor": "verify-only-no-writes"
+		},
+		{
+			"level": 1,
+			"text": "Dry run (hashes live records, reports what would change):",
+			"anchor": "dry-run-hashes-live-records-reports-what-would-change"
+		},
+		{
+			"level": 2,
+			"text": "4. Concurrency, budgets, guards",
+			"anchor": "4-concurrency-budgets-guards"
+		},
+		{
+			"level": 2,
+			"text": "5. Verify semantics (byte-exact, not \"HTTP 200\")",
+			"anchor": "5-verify-semantics-byte-exact-not-http-200"
+		},
+		{
+			"level": 2,
+			"text": "6. The alias model",
+			"anchor": "6-the-alias-model"
+		},
+		{
+			"level": 2,
+			"text": "7. ⚠️ CRITICAL — --heichel must equal the posts' heichelId",
+			"anchor": "7-critical-heichel-must-equal-the-posts-heichelid"
+		},
+		{
+			"level": 2,
+			"text": "8. Common errors",
+			"anchor": "8-common-errors"
+		},
+		{
+			"level": 2,
+			"text": "Files map",
+			"anchor": "files-map"
+		},
+		{
+			"level": 2,
+			"text": "Crash guards (2026-10-20)",
+			"anchor": "crash-guards-2026-10-20"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-social-helper-routes-packed-readme-md-1a0fb71e1b-001.json",
+		"content/geelooy-api-social-helper-routes-packed-readme-md-1a0fb71e1b-002.json"
+	]
+}

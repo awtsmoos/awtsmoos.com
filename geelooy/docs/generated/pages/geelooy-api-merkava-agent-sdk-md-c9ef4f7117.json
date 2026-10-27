@@ -1,0 +1,89 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-merkava-agent-sdk-md-c9ef4f7117",
+	"title": "B\"H — Merkava Agent SDK",
+	"sourcePath": "geelooy/api/merkava/AGENT_SDK.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Merkava Agent SDK",
+			"anchor": "b-h-merkava-agent-sdk"
+		},
+		{
+			"level": 2,
+			"text": "One-command install",
+			"anchor": "one-command-install"
+		},
+		{
+			"level": 1,
+			"text": "installs merkava to /.local/bin (override with MERKAVADEST)",
+			"anchor": "installs-merkava-to-local-bin-override-with-merkavadest"
+		},
+		{
+			"level": 2,
+			"text": "CLI",
+			"anchor": "cli"
+		},
+		{
+			"level": 1,
+			"text": "FLAGSHIP: run a page's JS, print every runtime error with file:line",
+			"anchor": "flagship-run-a-page-s-js-print-every-runtime-error-with-file-line"
+		},
+		{
+			"level": 1,
+			"text": "Raw JS snippet",
+			"anchor": "raw-js-snippet"
+		},
+		{
+			"level": 1,
+			"text": "HTML string or file",
+			"anchor": "html-string-or-file"
+		},
+		{
+			"level": 1,
+			"text": "Screenshot (JS executes first, so JS apps render)",
+			"anchor": "screenshot-js-executes-first-so-js-apps-render"
+		},
+		{
+			"level": 2,
+			"text": "Live API (no install)",
+			"anchor": "live-api-no-install"
+		},
+		{
+			"level": 1,
+			"text": "run-js: POST {url|html|js} -> {consolelogs, jserrors[]}",
+			"anchor": "run-js-post-url-html-js-consolelogs-jserrors"
+		},
+		{
+			"level": 1,
+			"text": "run: POST {url|html, viewport|device, actions} -> {screenshotpng (base64), jserrors, ...}",
+			"anchor": "run-post-url-html-viewport-device-actions-screenshotpng-base64-jserrors"
+		},
+		{
+			"level": 2,
+			"text": "Node SDK (local, no install beyond the bundle)",
+			"anchor": "node-sdk-local-no-install-beyond-the-bundle"
+		},
+		{
+			"level": 2,
+			"text": "Python SDK",
+			"anchor": "python-sdk"
+		},
+		{
+			"level": 1,
+			"text": "copy-paste:",
+			"anchor": "copy-paste"
+		},
+		{
+			"level": 2,
+			"text": "Notes",
+			"anchor": "notes"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-merkava-agent-sdk-md-c9ef4f7117-001.json"
+	]
+}

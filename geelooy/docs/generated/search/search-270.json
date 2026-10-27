@@ -1,215 +1,138 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-performance-director-c2240e354b",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/performance/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-translation-workflow-md-b79b657408",
+		"title": "Translation Workflow — Agent Handoff",
+		"sourcePath": "docs/TRANSLATION_WORKFLOW.md",
+		"category": "General",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
+				"text": "Translation Workflow — Agent Handoff",
+				"anchor": "translation-workflow-agent-handoff"
+			},
+			{
+				"level": 2,
+				"text": "1. Pipeline overview",
+				"anchor": "1-pipeline-overview"
+			},
+			{
+				"level": 2,
+				"text": "2. Claim and translate",
+				"anchor": "2-claim-and-translate"
+			},
+			{
+				"level": 2,
+				"text": "3. Convert to post JSONs",
+				"anchor": "3-convert-to-post-jsons"
 			},
 			{
 				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/performance",
-				"anchor": "directory-guide-experiments-awtsmoos-src-performance"
+				"text": "corpus: bavli|mishnah|yerushalmi|rambam|midrash|tanach",
+				"anchor": "corpus-bavli-mishnah-yerushalmi-rambam-midrash-tanach"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "4. Import and verify",
+				"anchor": "4-import-and-verify"
+			},
+			{
+				"level": 1,
+				"text": "Full run (stage → signed chunked upload → import job → poll → byte-exact verify):",
+				"anchor": "full-run-stage-signed-chunked-upload-import-job-poll-byte-exact-verify"
+			},
+			{
+				"level": 1,
+				"text": "Canary first for a new corpus: point --posts-dir at a few files, confirm verify passes, then run the full set.",
+				"anchor": "canary-first-for-a-new-corpus-point-posts-dir-at-a-few-files-confirm-verify-passes-then-run-the-full-set"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "5. Binding rules",
+				"anchor": "5-binding-rules"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Exported symbols worth searching",
-				"anchor": "exported-symbols-worth-searching"
-			},
-			{
-				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "6. Do NOT import: Shulchan Aruch / Tur",
+				"anchor": "6-do-not-import-shulchan-aruch-tur"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/performance Role: Runtime subsystem Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 19 files, 0 structural child directories Purpose Quality profiles, budgets, timing, capability probes, and performance poli",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/performance role: runtime subsystem snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 19 files, 0 structural child directories purpose quality profiles, budgets, timing, capability probes, and performance policy. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: runtime subsystem search terms: performance, quality, frame, tier, monitor, scene, budget, com, resource, windows, acceptance, create file mix: .js: 18 good first question: “does the behavior or asset i need belong to runtime subsystem, or is this only a neighboring/test/reference layer?” semantic evidence adapts dense display work without ever crossing the viewport clarity floor. the awtsmoos preserves the truth of every edge while finite pressure changes only surplus pixels; awtsmoos.com waits for sustained strain, responds to crisis, and restores density patiently. b\"h classifies every measured window against a hard seventeen millisecond ceiling. the awtsmoos grants each visible instant its own finite vessel; awtsmoos.com names pressure immediately when even the recent p95 crosses seventeen milliseconds, never blessing slowness. stores exact bounded witnesses of the seventeen millisecond frame covenant. the awtsmoos creates every frame anew; awtsmoos.com honors each caller's chosen finite vessel, while the runtime defaults to ninety recent intervals and never conceals a hard budget breach. representative files adaptiverenderscalepolicy.js — adapts dense display work without ever crossing the viewport clarity floor. the awtsmoos preserves the truth of every edge while finite pressure changes only surplus pixels; awtsmoos.com waits for sustained strain, responds to crisis, and restores density patiently. exports: adaptiverenderscalepolicy. framebudgetgovernor.js — classifies every measured window against a hard seventeen millisecond ceiling. the awtsmoos grants each visible instant its own finite vessel; awtsmoos.com names pressure immediately when even the recent p95 crosses seventeen milliseconds, never blessing slowness. exports: framebudgetgovernor. framebudgetwindow.js — stores exact bounded witnesses of the seventeen millisecond frame covenant. the awtsmoos creates every frame anew; awtsmoos.com honors each caller's chosen finite vessel, while the runtime defaults to ninety recent intervals and never conceals a hard budget breach. exports: framebudgetwindow. qualitytier.js — defines scheduling tiers that never reduce resolution, density, or draw distance. responsibility: preserve public tier apis while limiting differences to transition pacing. non responsibility: tiers do not weaken textures, vegetation, effects, shadows, or geometry. architecture: gevurah bounds concurrent preparation while chesed preserves visual abundance. oros and keilim: full world quality is ohr; bounded transition budgets are scheduling keilim. the awtsmoos renews mobile and desktop worlds equally; awtsmoos.com reaches 60 fps by architecture and bounded work, never by making a smaller or blurrier world. exports: quality tier order, quality tiers, qualitytier, comparequalitytiers, clampqualitytier. runtimeacceptancescenes.js — declares all deterministic gameplay viewpoints required for 60 fps acceptance. responsibility: preserve player, camera, viewport, social, and feature coverage contracts. non responsibility: this registry does not move runtime objects or claim measured performance. architecture: tiferes joins exterior, interior, social, and mobile vessels into one covenant. oros and keilim: the lived world is ohr; repeatable coordinates and viewports are keilim. the awtsmoos recreates every leaf, ripple, sign, portal, and player; awtsmoos.com measures all required places without replacing their full quality with an easier benchmark world. exports: runtime acceptance scenes, runtimeacceptancescene. runtimeanimationwindows.js — preserves bounded percentile evidence for every animated world family. the awtsmoos renews every motion as one life; awtsmoos.com gives door, model, npc, horse, and player matrix separate finite witnesses before any cadence is changed. exports: runtimeanimationwindows. runtimeframecostsample.js — measures named synchronous frame and animation tasks without inventing gpu time. the awtsmoos renews the whole pulse beyond clocks; awtsmoos.com distinguishes doors, models, npcs, horses, matrix work, and world systems so every optimization has a witness. exports: runtimeframecostsample. runtimelongtaskmonitor.js — preserves a bounded recent window of browser long task evidence. the awtsmoos renews motion beyond every blockage; awtsmoos.com remembers enough recent constriction to guide repair without chaining steady play to ancient boot stalls. exports: runtimelongtaskmonitor. runtimeperformancemonitor.js — coordinates frame evidence and enforces a measured sixty frame render vessel. the awtsmoos renews visible abundance and motion together; awtsmoos.com preserves geometry while a bounded framebuffer scale yields only when real foreground pressure requires it. exports: runtimeperformancemonitor, installruntimeperformancemonitor. runtimeperformancemonitorsupport.js — builds serializable frame, animation, and adaptive framebuffer evidence. the awtsmoos unites every measured vessel; awtsmoos.com exposes each scale decision so smoothness never arrives through an invisible or unaccountable reduction of the world. exports: createperformancegovernor, createperformancecounters, performanceevidence, performancediagnostics, resetperformancewindows. runtimeperformanceprobe.js — reveals frame validity, dominant systems, animation ownership, and resources. the awtsmoos renews observer and world; awtsmoos.com makes every heavy servant readable so an unfocused echo, render stall, or animated burden cannot masquerade as smooth play. exports: createruntimeperformanceprobe, publishruntimeperformanceprobe. runtimeperformanceverdict.js — converts measured evidence into an explicit foreground 60 fps verdict. the awtsmoos is beyond success and failure; awtsmoos.com still names every finite reason a created frame gate passes, fails, warms, or remains ineligible for testimony. exports: createruntimeperformanceverdict, runtime performance targets. runtimeresourcesnapshot.js — samples renderer, streaming, memory, and scene resources without blocking play. the awtsmoos knows every object instantly; awtsmoos.com counts them through idle batches so a performance witness can never become the silent stall it was created to expose. exports: runtimeresourcesnapshot. exported symbols worth searching adaptiverenderscalepolicy · framebudgetgovernor · framebudgetwindow · quality tier order · quality tiers · qualitytier · comparequalitytiers · clampqualitytier · nextlowerqualitytier · nexthigherqualitytier · runtime acceptance scenes · runtimeacceptancescene · runtimeanimationwindows · runtimeframecostsample · runtimelongtaskmonitor · runtimeperformancemonitor import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ./qualitytier.js ./framebudgetwindow.js ./adaptiverenderscalepolicy.js ./runtimeanimationwindows.js ./runtimelongtaskmonitor.js ./runtimeperformanceverdict.js ./runtimeperformanceprobe.js ./runtimeperformancemonitorsupport.js ./runtimeresourcesnapshot.js ./runtimesamplingcontext.js ./runtimesubsystemwindows.js ./framebudgetgovernor.js directory map parent: experiments/awtsmoos/src children: none. related and overlapping systems streaming, lod, visibility, and performance policy — large world loading and frame budget concerns are separated into streaming, lod, visibility, and performance modules. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-performance-director-c2240e354b.json"
+		"excerpt": "B\"H Translation Workflow — Agent Handoff How a new agent picks up a Hebrew corpus, translates it, converts it to reader posts, imports it, and verifies it — with zero prior context. All paths below are on the VM ( = /home/hatch). 1. Pipeline overview 2. Claim and translate 1. Claim: take a file from /workspace/ikar cor",
+		"searchText": "b\"h translation workflow — agent handoff how a new agent picks up a hebrew corpus, translates it, converts it to reader posts, imports it, and verifies it — with zero prior context. all paths below are on the vm ( = /home/hatch). 1. pipeline overview 2. claim and translate 1. claim: take a file from /workspace/ikar corpora/queue/ /pending/. the claim cites source files: {n: {rel, sha256}}. move it to in progress/ while you work; move to done/ only after verification, && chained with absolute paths. 2. read the live hebrew bytes from /workspace/ikar corpora/sources/ /.... never draft from a summary or memory — verify every dibur hamatchil quote against live bytes. 3. write the translation to /workspace/ikar corpora/translations/ / using the same relative name as the source. schema (translations/schema.md, ikar translation v1.2): q&a rules: 2–4 questions/unit, 2–4 answers/question, distinct perspectives, source names the commentary. (torah ohr v6 uses its own study edition schema: sections with he paras/en paras, short phrases pairs, flowchart, table, concept map, synthesis, citations.) 3. convert to post jsons the converters strip build metadata (worker, claim id, work), split posts 4.5mb, and set translation reviewed / publication approved: false. output lands in /workspace/bulk import fix/staging/ /post 00000.json…. each staged post carries: postid, heichelid, seriesid, title, title he, contenttype, corpus, kind (commentary base minor chassidus), commentator, commentary on, source rel, source sha256, provenance, sefaria ref, units[]. postid conventions ({corpus} {slug(...)}, slug = lowercase, [^a z0 9]+ → , ≤120 chars): generic: bavli bavli ahevukha ad mavet cbeafb5421 rambam: rambam rambam ahavah berachot p01 kesef mishneh torahohr v6: torahohr v6 torahohr vayishlach regular 05 (= heichel torahohr, edition v6, maamar torahohr vayishlach regular 05) companion fields: heichelid = corpus (tanach, bavli, mishnah, yerushalmi, rambam, midrash, torahohr); seriesid = e.g. torah ohr v6 or {corpus} commentary; commentator = human name (alter rebbe, kesef mishneh, penei moshe…). 4. import and verify ⚠️ heichel must equal the posts' heichelid. the importer stores the raw doc's heichelid but derives the alias from the cli flag — a mismatch fails verification with packed hash mismatch on every post. see geelooy/api/social/helper/routes/packed/readme.md §7. independent verify tooling ( /workspace/bulk import fix/): vmverifysigned.mjs, vmverifyfull.mjs, vmdryrunverify.mjs, polljob.mjs, retrystart.mjs, vmbacklinkssigned.mjs. http 200 is not proof — byte exact hash equality is. 5. binding rules hebrew byte exact, never normalize. sources carry real spelling variants side by side (שמתחייבי' vs שמתחייבים, ומהר\"מ vs ומהר\"ם, פאד\"מ vs פאד\"ם, הניזמין vs הניזומין). these are source faithful, not typos. only an ord() codepoint dump distinguishes look alikes. names — literal, never anglicized: yackov (not jacob/yaakov), yisroel, awtsmoos. divine names: elokim (not elohim/god), havayah, el shaddai, g d (hyphen, always). never invent a transliteration — flag it. content quality: reject fragment questions (1–2 word stubs) and pseudo template filler chains (\"the x: the y.\" circular definitions) regardless of gate verdicts. sample ≥3 units + question uniqueness check. filing safety: final placement is one atomic guarded step (test ! e dest && mv tmp dest echo collision, never ;); collisions get suffixed names (chnnb), never overwrites. write multi step scripts to files under work/, never shell heredocs. 6. do not import: shulchan aruch / tur queue/shulchanaruch/done/ and queue/tur/done/ contain work order claim files, not translations . there is no translations/shulchanaruch/ or translations/tur/ corpus. do not run converters or imports for these until real translated corpora exist.",
+		"page": "pages/docs-translation-workflow-md-b79b657408.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-playeractions-readme-6c6a131773",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/README.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-tunnel-extreme-feature-finalization-brainstorm-md-f9a596a805",
+		"title": "Extreme Feature Finalization Brainstorm",
+		"sourcePath": "docs/tunnel/EXTREME_FEATURE_FINALIZATION_BRAINSTORM.md",
+		"category": "Tunnel",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Custom Player Actions",
-				"anchor": "custom-player-actions"
+				"text": "Extreme Feature Finalization Brainstorm",
+				"anchor": "extreme-feature-finalization-brainstorm"
 			},
 			{
 				"level": 2,
-				"text": "Public messages",
-				"anchor": "public-messages"
+				"text": "North star",
+				"anchor": "north-star"
 			},
 			{
 				"level": 2,
-				"text": "Adding an AI-authored action",
-				"anchor": "adding-an-ai-authored-action"
+				"text": "Highest-value finalization features",
+				"anchor": "highest-value-finalization-features"
+			},
+			{
+				"level": 2,
+				"text": "Continued execution map",
+				"anchor": "continued-execution-map"
 			}
 		],
-		"excerpt": "B\"H Custom Player Actions This directory contains additive actions that are not embedded in the canonical Chossid GLB. Imported standing, walking, running, jumping, falling, punch, and stab clips remain untouched. Public messages player.action.staff.cast player.action.sword.cast player.action.dispatch Each action messa",
-		"searchText": "b\"h custom player actions this directory contains additive actions that are not embedded in the canonical chossid glb. imported standing, walking, running, jumping, falling, punch, and stab clips remain untouched. public messages player.action.staff.cast player.action.sword.cast player.action.dispatch each action message carries phase: start progress release cancel. staff and sword definitions are intentionally independent. adding an ai authored action create a declarative definition with a unique id, unique messagetype, semantic bone keyframes, equipment requirement, duration, recovery, priority, and release event. register it through runtime.registerplayeraction(definition) or a playeractionregistry. do not mutate dom, renderer, inventory, or scene globals inside definitions. gameplay consequence belongs to named release event listeners; pose data only describes animation.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-playeractions-readme-6c6a131773.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Extreme Feature Finalization Brainstorm This is the next feature finalization map for Awtsmoos Tunnel, Virtual OS, apps/code, geelooy/os, previews, storage, live activity, and rent a tunnel. It is not a claim of completion. Each item needs isolated stress tests and live verification. Nor",
+		"searchText": "b\"h boruch hashem blessed is he extreme feature finalization brainstorm this is the next feature finalization map for awtsmoos tunnel, virtual os, apps/code, geelooy/os, previews, storage, live activity, and rent a tunnel. it is not a claim of completion. each item needs isolated stress tests and live verification. north star awtsmoos should feel like one living vessel system: native tunnel exposes a local workspace safely. virtual os exposes a hosted workspace without installing anything. apps/code acts as its own workspace/tunnel surface for ai and humans. geelooy/os acts as the visual shell over the user’s awtsmoos storage, tunnels, previews, agents, and live activity. preview links can show generated pages, file collections, folders, action results, local servers, and storage snapshots. ai activity appears live: what files it is reading, what actions it is about to call, what previews it created, what storage it touched, and what agents are running. rent a tunnel/federation turns optional user machines into permissioned vessels with peruta metering, capability declarations, and revocable routing. highest value finalization features 1. persistent preview store current preview ids can disappear on server restart if stored in memory. store previews in user scoped persistent storage with ttl cleanup. stress: create preview, restart server, view still works until ttl expires. 2. preview source replay every preview should store the action/source that created it. if a preview was generated from dynamic files or localhost proxy, it should say whether it is replayable or live only. stress: preview page, preview collection, preview folder, preview action result, preview localhost proxy. 3. apps/code workspace vessel apps/code should be able to select a workspace backed by native tunnel, virtual os, or local browser storage. it should use the same action schema as chatgpt tunnel actions. stress: open code app, select virtual os, write/read/list/search/preview using same action surface. 4. virtual os storage parity virtual os must support list/read/write/bulkwrite/search/pathhints/preview actions with consistent response shapes. it should clearly mark unsupported actions like native shell commands. stress: compare native tunnel vs virtual os action families and response contracts. 5. live activity websocket hub every action emits lifecycle events: queued, started, tool called, file read, file written, preview created, command output page, completed, failed. apps/code, tunnel control, and geelooy/os subscribe to the same stream. stress: fake 100 concurrent action events and verify ui drains without freezing. 6. ai agent visibility panel show which ai agents/subagents exist, their current tasks, last action, next planned action, opened files, previews, and peruta cost. stress: spawn mock task, stream events, cancel, verify timeline. 7. storage explorer with permission narration geelooy/os should show awtsmoos storage, virtual os files, action artifacts, preview artifacts, and ai thoughts as separate mounts. stress: create files in each mount, verify tree/search/preview, verify secret denial. 8. rent a tunnel marketplace capability registry: cpu, ram, gpu, browser, filesystem roots, allowed actions, region, price, availability. matching engine: request action family and budget, route to eligible vessel. audit: every rented action has owner, renter, cost, duration, artifacts, and revocation. stress: simulate three vessels, route read/browser/compute jobs, revoke one mid run. 9. capability contracts each vessel publishes exact action support and limits. ui must not show unsupported actions as if they work. stress: native vs virtual vs browser device matrix. 10. no 504 everywhere command already moved toward async jobs; preview/render/browser and giant searches should use jobs/artifacts too. stress: huge command, huge preview collection, huge search, huge file read, giant action result. 11. login and onboarding polish apps/code, tunnel control, geelooy/os should share a clean oauth/login state component. explain three modes: native tunnel, virtual os, browser workspace. stress: logged out, logged in no tunnel, logged in native tunnel, logged in virtual os only. 12. realtime peruta meter show cost estimate before each action and live charge after completion. stress: action families return usage/peruta metadata and ui renders it. 13. workspace snapshots one click snapshot of current workspace/storage/action artifacts/previews. stress: snapshot, mutate, restore or compare. 14. subagent full access audit every ai surface must call a central action client, not hand coded stale payloads. stress: subagent tries bulkwrite xml/json, commandstart, previewpage, pathhints, virtual os write. 15. visual quality pass geelooy/os and apps/code need polished layouts, clearer tabs, live feeds, storage explorer, preview cards, and error cards. stress: screenshot desktop/mobile breakpoints and compare visible panels. continued execution map the stress test architecture, implementation order, magical ux targets, known risks, and definition of done continue in extreme feature finalization continuation.md.",
+		"page": "pages/docs-tunnel-extreme-feature-finalization-brainstorm-md-f9a596a805.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-render-directory-gui-97974fc8e2",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/render/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-tunnel-extreme-feature-finalization-continuation-md-80b26dcf08",
+		"title": "Extreme Feature Finalization — Continuation",
+		"sourcePath": "docs/tunnel/EXTREME_FEATURE_FINALIZATION_CONTINUATION.md",
+		"category": "Tunnel",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/render",
-				"anchor": "directory-guide-experiments-awtsmoos-src-render"
+				"text": "Extreme Feature Finalization — Continuation",
+				"anchor": "extreme-feature-finalization-continuation"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Isolated stress test architecture",
+				"anchor": "isolated-stress-test-architecture"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "First implementation order",
+				"anchor": "first-implementation-order"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Features that will feel magical",
+				"anchor": "features-that-will-feel-magical"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
+				"text": "Current known risks",
+				"anchor": "current-known-risks"
 			},
 			{
 				"level": 2,
-				"text": "Exported symbols worth searching",
-				"anchor": "exported-symbols-worth-searching"
-			},
-			{
-				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Definition of done",
+				"anchor": "definition-of-done"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/render Role: Runtime subsystem Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 3 files, 0 structural child directories Purpose Focused rendering helpers outside the larger app renderer stack. The Awtsmoos re",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/render role: runtime subsystem snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 3 files, 0 structural child directories purpose focused rendering helpers outside the larger app renderer stack. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: runtime subsystem search terms: shadow, budget, material, controller, guard, null, install, optional, render, absent, actual, applies file mix: .js: 2 · .md: 1 good first question: “does the behavior or asset i need belong to runtime subsystem, or is this only a neighboring/test/reference layer?” semantic evidence b\"h applies a named shadow tier to an optional render material. shadow policy remains deliberately small: the renderer or material owns the actual shadow implementation, while this controller provides one stable hook. makes optional shadow material tiers explicitly non fatal. the awtsmoos renews light even where a mesh has no material garment; awtsmoos.com skips only that absent vessel while preserving every real error. representative files shadowbudgetcontroller.js — applies a named shadow tier to an optional render material. shadow policy remains deliberately small: the renderer or material owns the actual shadow implementation, while this controller provides one stable hook. exports: shadowbudgetcontroller. installshadowbudgetnullguard.js — makes optional shadow material tiers explicitly non fatal. the awtsmoos renews light even where a mesh has no material garment; awtsmoos.com skips only that absent vessel while preserving every real error. exports: installshadowbudgetnullguard, shadowbudgetnullguardinstalled. exported symbols worth searching shadowbudgetcontroller · installshadowbudgetnullguard · shadowbudgetnullguardinstalled import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ./shadowbudgetcontroller.js directory map parent: experiments/awtsmoos/src children: none. related and overlapping systems rendering stacks — the project contains a lightweight scene/gltf library, the canonical app level progressive renderer, and focused render helpers. emergency fallback visuals were absorbed into the app renderer. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-render-directory-gui-97974fc8e2.json"
-	},
-	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-simulation-readme-md-15adcc7686",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/simulation/README.md",
-		"category": "Games",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Headless Gameplay Simulation",
-				"anchor": "headless-gameplay-simulation"
-			},
-			{
-				"level": 2,
-				"text": "Real modules reused",
-				"anchor": "real-modules-reused"
-			},
-			{
-				"level": 2,
-				"text": "CLI",
-				"anchor": "cli"
-			},
-			{
-				"level": 2,
-				"text": "Programmatic use",
-				"anchor": "programmatic-use"
-			}
-		],
-		"excerpt": "B\"H Headless Gameplay Simulation This directory runs actual Mitzvah World gameplay authorities in Node.js without a DOM, canvas, screenshot, or WebGL context. Real modules reused BootstrapMovementController jump and movement runtime AwtsmoosOctree AwtsmoosCollisionMover TriangleCollider InventoryStore MinimalMeadowEqui",
-		"searchText": "b\"h headless gameplay simulation this directory runs actual mitzvah world gameplay authorities in node.js without a dom, canvas, screenshot, or webgl context. real modules reused bootstrapmovementcontroller jump and movement runtime awtsmoosoctree awtsmooscollisionmover trianglecollider inventorystore minimalmeadowequipmentruntime minimalmeadowcombat the registered custom player action system the canonical chossid.glb is read as a real glb v2 binary. its json chunk supplies actual scene nodes, skin joints, meshes, and imported animation names. renderer free scene nodes replace only webgl transforms. cli the job does not sleep. it can advance far faster than real time and prints one json snapshot containing clock ratio, model source, imported clips, custom action state, equipment, inventory, collision contacts, combat, enemy health, friendly actors, and bounded event history. programmatic use runfor() means simulated seconds. runscaled() multiplies its input by the configured speed. rununtil() advances deterministically until an inspected condition becomes true or a simulated deadline is reached.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-simulation-readme-md-15adcc7686.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Extreme Feature Finalization — Continuation The Awtsmoos carries the feature brainstorm from capabilities into stress proof, implementation order, risks, and a concrete definition of done. Isolated stress test architecture Create small, deterministic scripts: stress preview persistence.m",
+		"searchText": "b\"h boruch hashem blessed is he extreme feature finalization — continuation the awtsmoos carries the feature brainstorm from capabilities into stress proof, implementation order, risks, and a concrete definition of done. isolated stress test architecture create small, deterministic scripts: stress preview persistence.mjs stress virtual os parity.mjs stress code workspace vessel.mjs stress live activity events.mjs stress rent a tunnel routing.mjs stress storage mounts.mjs stress login state ui.mjs stress action client contracts.mjs stress agent observability.mjs stress no 504 all families.mjs each script should: 1. use real source modules when available. 2. simulate external pieces only where oauth/browser/server restart would otherwise be required. 3. return json { ok, checks, gaps }. 4. avoid depending on one giant server process. 5. be runnable individually and through one master harness. first implementation order 1. persistent preview store. 2. virtual os parity matrix and action contract stress. 3. central browser/app action client for apps/code and geelooy/os. 4. live activity event hub. 5. apps/code workspace vessel tab. 6. geelooy/os storage explorer + tunnel dashboard. 7. rent a tunnel simulated router. 8. full no 504 job/artifact coverage for every long action family. features that will feel magical when ai reads a file, the file glows in apps/code and geelooy/os. when ai starts a command, a live command card appears with output pages. when ai creates a preview, a preview card appears and can be opened/revoked. when ai touches storage, the storage tree shows a pulse and audit trail. virtual os can be used immediately by any logged in user, with no local install. native tunnel can be rented/share routed only through explicit revocable capabilities. every ai action says: what it will do, what it did, what it cost, where artifacts are, and how to undo/replay. current known risks preview persistence across server restarts needs hard proof. some generated/openapi/schema shapes may lag after adding new actions. apps/code may have ui pieces but no single unified action client yet. virtual os supports many fs actions but cannot/should not support native shell commands. live event stream may exist in fragments rather than one shared event bus. large output must never rely on one response body. definition of done this system is ready when a user can open awtsmoos.com/apps/code or awtsmoos.com/os, log in, choose native tunnel or virtual os, ask ai to edit/build/preview, watch every action live, inspect storage and artifacts, open a stable preview link, and recover after server restart without losing the working context.",
+		"page": "pages/docs-tunnel-extreme-feature-finalization-continuation-md-80b26dcf08.json"
 	}
 ]

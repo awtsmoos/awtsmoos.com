@@ -1,0 +1,187 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27t2150-geelooy-movie-unification-02-gevurah-7b2fad3880",
+		"title": "Phase 2 — Gevurah Reality Gate",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27T2150-geelooy-movie-unification/02_GEVURAH_REALITY_GATE.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase 2 — Gevurah Reality Gate",
+				"anchor": "phase-2-gevurah-reality-gate"
+			},
+			{
+				"level": 2,
+				"text": "Reality constraints",
+				"anchor": "reality-constraints"
+			},
+			{
+				"level": 2,
+				"text": "Expected implementation shape",
+				"anchor": "expected-implementation-shape"
+			},
+			{
+				"level": 2,
+				"text": "Verification gate",
+				"anchor": "verification-gate"
+			}
+		],
+		"excerpt": "B\"H Phase 2 — Gevurah Reality Gate Chesed dreams of worlds in flight; Gevurah measures every byte; the Awtsmoos gives the frame a bound, so living motion stays sound. Reality constraints 1. Do not rewrite unrelated site systems. 2. Do not invent a new rendering dependency until existing dependencies are traced. 3. Pres",
+		"searchText": "b\"h phase 2 — gevurah reality gate chesed dreams of worlds in flight; gevurah measures every byte; the awtsmoos gives the frame a bound, so living motion stays sound. reality constraints 1. do not rewrite unrelated site systems. 2. do not invent a new rendering dependency until existing dependencies are traced. 3. preserve each app's public route and identity unless evidence requires a migration. 4. never partially patch a touched file; rewrite the complete touched file. 5. split touched source files so executable logic remains below the project line size law. 6. use tab indentation and expanded readable functions. 7. prefer shared contracts and adapters over copy/paste. 8. validate ai generated scene data before execution. 9. keep timeline evaluation deterministic for testing. 10. ensure mobile controls remain usable without hover. 11. provide desktop affordances without making mobile a degraded afterthought. 12. do not rely on screenshots alone for verification. 13. check console errors and runtime state. 14. test a long timeline, not only toy scenes. 15. keep render backends swappable. 16. separate scene data from renderer implementation. 17. separate ai planning from execution. 18. separate ui shell from playback engine. 19. preserve backward compatibility where existing saved projects can be mapped safely. 20. record every discovered app and whether it is migrated, adapted, or intentionally left alone. expected implementation shape a shared movie core should likely own schema validation, timeline evaluation, scene lifecycle, easing, animation primitives, character/shape/text semantics, procedural particles, camera intentions, and ai plan normalization. 2d and 3d backends should implement renderer specific behavior. each existing creator app should consume the shared core through a thin personality adapter and its own mobile first shell/theme. verification gate no completion claim until the showcase movie demonstrates multiple scenes, people/characters, shapes, text, particles, infographic content, transitions, 2d/3d motion, changing angles/cameras where supported, and completes its 180 second timeline without uncaught console errors.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27t2150-geelooy-movie-unification-02-gevurah-7b2fad3880.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27t2150-geelooy-movie-unification-03-tiferes-78072f4e0b",
+		"title": "Phase 3 — Tiferes Execution Contract",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27T2150-geelooy-movie-unification/03_TIFERES_EXECUTION_CONTRACT.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase 3 — Tiferes Execution Contract",
+				"anchor": "phase-3-tiferes-execution-contract"
+			},
+			{
+				"level": 2,
+				"text": "Work graph",
+				"anchor": "work-graph"
+			},
+			{
+				"level": 2,
+				"text": "Planned artifacts",
+				"anchor": "planned-artifacts"
+			},
+			{
+				"level": 2,
+				"text": "Interface goals",
+				"anchor": "interface-goals"
+			},
+			{
+				"level": 2,
+				"text": "Showcase acceptance story",
+				"anchor": "showcase-acceptance-story"
+			},
+			{
+				"level": 2,
+				"text": "Completion rule",
+				"anchor": "completion-rule"
+			}
+		],
+		"excerpt": "B\"H Phase 3 — Tiferes Execution Contract Many apps, one pulse beneath; many scenes, one timed breath. On Awtsmoos.com the vessels differ, while a common light becomes their tether. Work graph Discovery app inventory dependency trace runtime trace shared contract design whole file implementation app adapters mobile UI i",
+		"searchText": "b\"h phase 3 — tiferes execution contract many apps, one pulse beneath; many scenes, one timed breath. on awtsmoos.com the vessels differ, while a common light becomes their tether. work graph discovery app inventory dependency trace runtime trace shared contract design whole file implementation app adapters mobile ui integration showcase authoring static tests runtime tests browser tests delta audit final evidence. planned artifacts discovery.md: movie app inventory and import/runtime evidence. architecture.md: chosen shared core/backends/adapters contract and rejected alternatives. remaining work.md: live closure ledger. verification.md: exact commands, routes, runtime observations, failures, and fixes. source modules: only after discovery identifies the real paths. interface goals project: metadata + duration + scenes + global assets/settings. scene: time range + renderer mode + layers/entities + camera + transitions. entity: typed node with transform, appearance, behavior, and tracks. track: property target + keyframes/easing. ai command: normalized intent validated project/scene operations. renderer adapter: mount, load scene, apply evaluated state, resize, destroy. app adapter: product specific defaults, palette, templates, feature exposure. showcase acceptance story a three minute authored project changes visual language several times: cinematic 3d establishing shots, character movement, 2d explanatory diagrams, animated text, data/infographic beats, particle transitions, close/wide/orbit camera changes, layered shapes, and a final composite scene. it must be reproducible from saved data and play from start to finish in the real app. completion rule when implementation seems done, re read every touched file, compare planned vs actual, discover missing tests/docs/edge cases, fix remaining deltas, re run browser verification, and only then close remaining work.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27t2150-geelooy-movie-unification-03-tiferes-78072f4e0b.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27t2150-geelooy-movie-unification-04-discove-41b98d9c20",
+		"title": "Phase 4 — Discovery: Four Vessels, One Movie Language",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27T2150-geelooy-movie-unification/04_DISCOVERY.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase 4 — Discovery: Four Vessels, One Movie Language",
+				"anchor": "phase-4-discovery-four-vessels-one-movie-language"
+			},
+			{
+				"level": 2,
+				"text": "Observed app roles",
+				"anchor": "observed-app-roles"
+			},
+			{
+				"level": 2,
+				"text": "Existing Animator movie grammar",
+				"anchor": "existing-animator-movie-grammar"
+			},
+			{
+				"level": 2,
+				"text": "Existing Nesher grammar",
+				"anchor": "existing-nesher-grammar"
+			},
+			{
+				"level": 2,
+				"text": "Existing Mitzvah grammar",
+				"anchor": "existing-mitzvah-grammar"
+			},
+			{
+				"level": 2,
+				"text": "Existing lightweight editor grammar",
+				"anchor": "existing-lightweight-editor-grammar"
+			},
+			{
+				"level": 2,
+				"text": "Architectural conclusion",
+				"anchor": "architectural-conclusion"
+			}
+		],
+		"excerpt": "B\"H Phase 4 — Discovery: Four Vessels, One Movie Language The Awtsmoos renews each vessel without making every vessel the same; Awtsmoos.com can share one living movie grammar while each studio keeps its name. Observed app roles apps/animator: mature generative animation engine with structured movie plans, characters, ",
+		"searchText": "b\"h phase 4 — discovery: four vessels, one movie language the awtsmoos renews each vessel without making every vessel the same; awtsmoos.com can share one living movie grammar while each studio keeps its name. observed app roles apps/animator: mature generative animation engine with structured movie plans, characters, performances, sequences, shots, dialogue, objects, titles, effects tracks, custom canvas/webgl runtime, webcodecs export, and extensive verification. apps/nesher studio: nle/recording/export product with clips/tracks/history plus webcodecs capability negotiation and browser export. apps/video editor: deliberately lightweight media timeline whose clip truth is url/type/start/duration plus captions/playback. apps/mitzvah studio: portable awtsmoos.world.v1 world authoring model with objects carrying shape, position, rotation, scale, material role, color, size, and deterministic seed. apps/slides: no meaningful movie engine evidence in current scan; excluded unless a dependency trace later proves otherwise. existing animator movie grammar a plan already carries duration, characters, sequences, shots, dialogue, performances, objects, titlecards, textboxes, assets, and settings. movieplancompiler turns that into editable nle tracks for composition, camera, video, titles, dialogue, audio, action, emotion, gesture, props, effects, and music. existing nesher grammar timeline state carries fps, duration, playhead, zoom, markers, tracks, history. clips carry assetid, track, start, duration, inpoint, volume, opacity, mute/disabled, and fades. export planning negotiates actual browser support rather than assuming codecs. existing mitzvah grammar awtsmoos.world.v1 is a portable object document. it is useful as a spatial/world adapter target, not as a substitute for a cinematic timeline. existing lightweight editor grammar media/timing is the intentional scope. it should receive a flattened movie representation instead of inheriting an entire renderer stack. architectural conclusion create shared/movie/ as an es module interchange and ai director layer. preserve animator as the highest fidelity cinematic backend, nesher as nle/export backend, mitzvah as spatial/world authoring backend, and video editor as fast media timeline backend. capability manifests make fidelity explicit.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27t2150-geelooy-movie-unification-04-discove-41b98d9c20.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27t2150-geelooy-movie-unification-05-archite-e4e2ecf39e",
+		"title": "Phase 5 — Architecture Critique: Twenty-Four Corrections Before Code",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27T2150-geelooy-movie-unification/05_ARCHITECTURE_CRITIQUE.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase 5 — Architecture Critique: Twenty-Four Corrections Before Code",
+				"anchor": "phase-5-architecture-critique-twenty-four-corrections-before-code"
+			},
+			{
+				"level": 2,
+				"text": "Improvements over the first brainstorm",
+				"anchor": "improvements-over-the-first-brainstorm"
+			},
+			{
+				"level": 2,
+				"text": "Failure map",
+				"anchor": "failure-map"
+			}
+		],
+		"excerpt": "B\"H Phase 5 — Architecture Critique: Twenty Four Corrections Before Code Chesed wants every frame; Gevurah asks what each vessel can truly hold; Tiferes joins them without false promises, as the Awtsmoos makes the many bold. Improvements over the first brainstorm 1. Do not build another renderer; reuse Animator. 2. Do ",
+		"searchText": "b\"h phase 5 — architecture critique: twenty four corrections before code chesed wants every frame; gevurah asks what each vessel can truly hold; tiferes joins them without false promises, as the awtsmoos makes the many bold. improvements over the first brainstorm 1. do not build another renderer; reuse animator. 2. do not make every app render 3d; expose capability truth. 3. put shared semantics in shared/movie, matching repo convention. 4. keep the shared schema renderer neutral. 5. preserve millisecond timing because animator already uses it. 6. provide adapters for second based nles. 7. treat scenes and sequences as semantic blocks, not media clips only. 8. carry cameras as first class entities. 9. carry particles/effects as first class semantic entities. 10. carry infographic primitives explicitly: chart, callout, arrow, label, meter. 11. carry tutorial steps explicitly so ai can explain procedures. 12. carry character roles and performances separately from visual shape data. 13. carry 2d/3d dimensional intent per scene/entity. 14. preserve unsupported source data in adapter metadata instead of silently discarding it. 15. return adapter reports listing preserved, flattened, and unsupported features. 16. make validation reject negative timing and timeline overflow. 17. make ids deterministic when ai omits them. 18. make prompt/intent generation deterministic enough for tests. 19. keep ai intent compiler separate from app adapters. 20. add capability negotiation before choosing an app target. 21. avoid current hot animator/mitzvah ui files until hashes stabilize. 22. prove the architecture through a real 180 second project, not a toy fixture. 23. validate cross app projections of that same project. 24. browser test actual mobile layouts after source integration, not only node imports. failure map schema too weak ai invents unrenderable fields. counter: normalized factories + validator. schema too narrow tutorials/infographics collapse into text. counter: semantic entity kinds. fake unification every app claims all features. counter: capability manifest + projection report. renderer coupling shared modules import animator internals. counter: adapters own app specific imports. concurrent overwrite lost work. counter: new file first design and hash guarded rewrites. three minute proof too repetitive false breadth. counter: acceptance metrics for scene kinds, cameras, shapes, effects, people, and transitions.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27t2150-geelooy-movie-unification-05-archite-e4e2ecf39e.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27t2150-geelooy-movie-unification-06-final-f-457e399f2c",
+		"title": "Phase 6 — Final File Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27T2150-geelooy-movie-unification/06_FINAL_FILE_PLAN.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase 6 — Final File Plan",
+				"anchor": "phase-6-final-file-plan"
+			},
+			{
+				"level": 2,
+				"text": "New shared core",
+				"anchor": "new-shared-core"
+			},
+			{
+				"level": 2,
+				"text": "New app bridges",
+				"anchor": "new-app-bridges"
+			},
+			{
+				"level": 2,
+				"text": "Three-minute proof",
+				"anchor": "three-minute-proof"
+			},
+			{
+				"level": 2,
+				"text": "Integration approach",
+				"anchor": "integration-approach"
+			}
+		],
+		"excerpt": "B\"H Phase 6 — Final File Plan One light, many keilim; one timeline, many faces; the Awtsmoos lets each studio reveal the features fitting its places. New shared core shared/movie/core/MovieKinds.js — semantic kinds and dimensional modes. shared/movie/core/MovieIds.js — deterministic safe IDs. shared/movie/core/MoviePro",
+		"searchText": "b\"h phase 6 — final file plan one light, many keilim; one timeline, many faces; the awtsmoos lets each studio reveal the features fitting its places. new shared core shared/movie/core/moviekinds.js — semantic kinds and dimensional modes. shared/movie/core/movieids.js — deterministic safe ids. shared/movie/core/movieprojectfactory.js — normalized project/scene/entity creation. shared/movie/core/movieprojectvalidator.js — timing/shape/feature validation. shared/movie/core/moviecapabilities.js — per app feature contracts and negotiation. shared/movie/ai/movieintentcompiler.js — structured ai intent to a real project. shared/movie/ai/moviedirector.js — genre/tutorial/infographic/cinematic scene expansion. shared/movie/adapters/projectionreport.js — truthful fidelity accounting. shared/movie/index.js — public shared surface. new app bridges apps/animator/src/sharedmovie/animatormovieadapter.js — shared project to existing animator movie plan grammar. apps/nesher studio/modules/movie/neshermovieadapter.js — shared project to nle tracks/clips. apps/video editor/js/movie/videoeditormovieadapter.js — shared project to lightweight clip records. apps/mitzvah studio/modules/movie/mitzvahmovieadapter.js — shared scene entities to awtsmoos.world.v1. three minute proof apps/animator/src/scenes/awtsmoosthreeminute/awtsmoosthreeminuteintent.js — rich declarative intent. apps/animator/src/scenes/awtsmoosthreeminutemovie.js — creates and adapts the 180000ms project. apps/animator/tools/verify/verifyawtsmoosthreeminutemovie.js — project/adapter acceptance proof. integration approach first prove imports and adapters. then inspect stable ui/boot seams and wire shared ai generation only with hash guarded whole file rewrites. never overwrite live concurrent ui work merely to expose a button.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27t2150-geelooy-movie-unification-06-final-f-457e399f2c.json"
+	}
+]

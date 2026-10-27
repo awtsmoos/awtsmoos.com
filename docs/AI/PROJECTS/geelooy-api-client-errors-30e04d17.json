@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-api-client-errors-30e04d17",
+	"path": "geelooy/api/client-errors",
+	"type": "api",
+	"family": {
+		"id": "apis",
+		"title": "API Projects"
+	},
+	"title": "geelooy/api/client-errors",
+	"entries": [
+		"_awtsmoos.derech.js",
+		"README.md",
+		"readme.md"
+	],
+	"humanDocumentation": [
+		"docs/TUTORIALS/PROJECTS/APIS.md",
+		"docs/API/README.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/APIS.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-client-errors-30e04d17.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 1,
+		"tests": 0,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 0
+	},
+	"totalFiles": 2,
+	"symbolSummary": {
+		"files": 1,
+		"classes": 0,
+		"functions": 9,
+		"exports": 1,
+		"samples": [
+			"dynamicRoutes",
+			"rateLimited",
+			"dataDir",
+			"logPath",
+			"cleanText",
+			"parseBody",
+			"rotateIfNeeded",
+			"appendError",
+			"readRecent",
+			"crownClientErrorRoutes"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [],
+	"requiresLocalDocumentation": false,
+	"documentationCovered": false,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

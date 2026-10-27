@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-assets-texture-disco-0a19f24959",
+	"title": "B\"H",
+	"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/TEXTURE_DISCOVERY.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Texture Discovery for MitzvahWorld Agents",
+			"anchor": "texture-discovery-for-mitzvahworld-agents"
+		},
+		{
+			"level": 2,
+			"text": "Start here",
+			"anchor": "start-here"
+		},
+		{
+			"level": 2,
+			"text": "Exact filename law",
+			"anchor": "exact-filename-law"
+		},
+		{
+			"level": 2,
+			"text": "Generated inventories",
+			"anchor": "generated-inventories"
+		},
+		{
+			"level": 2,
+			"text": "Real WebGL mixing law",
+			"anchor": "real-webgl-mixing-law"
+		},
+		{
+			"level": 2,
+			"text": "Terrain is different",
+			"anchor": "terrain-is-different"
+		},
+		{
+			"level": 2,
+			"text": "Water is different",
+			"anchor": "water-is-different"
+		},
+		{
+			"level": 2,
+			"text": "Procedural realism entry points",
+			"anchor": "procedural-realism-entry-points"
+		},
+		{
+			"level": 2,
+			"text": "Loading and performance law",
+			"anchor": "loading-and-performance-law"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-experiments-awtsmoos-src-assets-texture-disco-0a19f24959-001.json"
+	]
+}

@@ -1,24 +1,317 @@
 [
 	{
-		"id": "api-oauth-route-99d253c847",
-		"route": "/api/oauth/:route",
-		"source": "geelooy/api/oauth/_awtsmoos.derech.js",
+		"id": "api-compiler-build-437ecdb93f",
+		"route": "/api/compiler/build",
+		"source": "geelooy/api/compiler/_awtsmoos.derech.js",
 		"discoveryKind": "static-literal",
 		"family": {
-			"mount": "/api/oauth",
-			"title": "OAuth",
-			"manual": "docs/TUTORIALS/API/OAUTH.md"
+			"mount": "/api/compiler",
+			"title": "Compiler",
+			"manual": "docs/TUTORIALS/API/COMPILER.md"
 		},
 		"derech": {
-			"source": "geelooy/api/oauth/_awtsmoos.derech.js",
+			"source": "geelooy/api/compiler/_awtsmoos.derech.js",
 			"status": "OK",
 			"issue": "—",
-			"mount": "/api/oauth"
+			"mount": "/api/compiler"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [],
+		"statuses": [],
+		"headers": [],
+		"callers": [
+			{
+				"literal": "/api/compiler/build",
+				"source": "geelooy/apps/compiler/ui/nativeBuildClient.js",
+				"kind": "runtime"
+			}
+		],
+		"callerCount": 1,
+		"tests": [],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-compiler-build-437ecdb93f.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-compiler-android-rebbe-8d84cca1d6",
+				"route": "/api/compiler/android/rebbe"
+			},
+			{
+				"id": "api-compiler-backends-8fe593f696",
+				"route": "/api/compiler/backends"
+			}
+		]
+	},
+	{
+		"id": "api-contact-56bcbbe9cd",
+		"route": "/api/contact",
+		"source": "geelooy/api/contact/_awtsmoos.derech.js",
+		"discoveryKind": "static-literal",
+		"family": {
+			"mount": "/api/contact",
+			"title": "Contact",
+			"manual": "docs/TUTORIALS/API/CONTACT.md"
+		},
+		"derech": {
+			"source": "geelooy/api/contact/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/contact"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [
+			"POST"
+		],
+		"methodEvidence": "POST",
+		"vessels": [],
+		"statuses": [],
+		"headers": [],
+		"callers": [
+			{
+				"literal": "/api/contact/",
+				"source": "geelooy/contact/modules/ContactSignalClient.js",
+				"kind": "runtime"
+			}
+		],
+		"callerCount": 1,
+		"tests": [],
+		"examples": [
+			{
+				"method": "POST",
+				"warning": "Starter only: method evidence is lexical at the source-file level; inspect the handler before relying on payload or response shape.",
+				"curl": "curl -X POST 'https://awtsmoos.com/api/contact' \\\n  -H 'content-type: application/json' \\\n  --data '{}'",
+				"fetch": "const response = await fetch(\"/api/contact\", {\n\tmethod: \"POST\"\n\theaders: { \"content-type\": \"application/json\" },\n\tbody: JSON.stringify({})\n});\nconst result = await response.json();"
+			}
+		],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-contact-56bcbbe9cd.md",
+		"confidence": "source-lexical",
+		"related": [
+			{
+				"id": "api-contact-status-078003efb4",
+				"route": "/api/contact/status"
+			}
+		]
+	},
+	{
+		"id": "api-contact-status-078003efb4",
+		"route": "/api/contact/status",
+		"source": "geelooy/api/contact/_awtsmoos.derech.js",
+		"discoveryKind": "static-literal",
+		"family": {
+			"mount": "/api/contact",
+			"title": "Contact",
+			"manual": "docs/TUTORIALS/API/CONTACT.md"
+		},
+		"derech": {
+			"source": "geelooy/api/contact/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/contact"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [
+			"POST"
+		],
+		"methodEvidence": "POST",
+		"vessels": [],
+		"statuses": [],
+		"headers": [],
+		"callers": [],
+		"callerCount": 0,
+		"tests": [],
+		"examples": [
+			{
+				"method": "POST",
+				"warning": "Starter only: method evidence is lexical at the source-file level; inspect the handler before relying on payload or response shape.",
+				"curl": "curl -X POST 'https://awtsmoos.com/api/contact/status' \\\n  -H 'content-type: application/json' \\\n  --data '{}'",
+				"fetch": "const response = await fetch(\"/api/contact/status\", {\n\tmethod: \"POST\"\n\theaders: { \"content-type\": \"application/json\" },\n\tbody: JSON.stringify({})\n});\nconst result = await response.json();"
+			}
+		],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-contact-status-078003efb4.md",
+		"confidence": "source-lexical",
+		"related": [
+			{
+				"id": "api-contact-56bcbbe9cd",
+				"route": "/api/contact"
+			}
+		]
+	},
+	{
+		"id": "api-email-f77f0430fe",
+		"route": "/api/email",
+		"source": "geelooy/api/email/_awtsmoos.derech.js",
+		"discoveryKind": "static-literal",
+		"family": {
+			"mount": "/api/email",
+			"title": "Email",
+			"manual": "docs/TUTORIALS/API/EMAIL.md"
+		},
+		"derech": {
+			"source": "geelooy/api/email/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/email"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [
+			"identity"
+		],
+		"statuses": [],
+		"headers": [],
+		"callers": [
+			{
+				"literal": "/api/email",
+				"source": "geelooy/email/ui/settings/mailSettingsApi.js",
+				"kind": "runtime"
+			}
+		],
+		"callerCount": 1,
+		"tests": [
+			{
+				"name": "emailTest",
+				"command": "node ayzarim/email/emailTest.js"
+			}
+		],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-email-f77f0430fe.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-email-capabilities-f24a8a356b",
+				"route": "/api/email/capabilities"
+			},
+			{
+				"id": "api-email-settings-schema-059e1193b6",
+				"route": "/api/email/settings/schema"
+			}
+		]
+	},
+	{
+		"id": "api-email-capabilities-f24a8a356b",
+		"route": "/api/email/capabilities",
+		"source": "geelooy/api/email/_awtsmoos.derech.js",
+		"discoveryKind": "static-literal",
+		"family": {
+			"mount": "/api/email",
+			"title": "Email",
+			"manual": "docs/TUTORIALS/API/EMAIL.md"
+		},
+		"derech": {
+			"source": "geelooy/api/email/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/email"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [
+			"identity"
+		],
+		"statuses": [],
+		"headers": [],
+		"callers": [],
+		"callerCount": 0,
+		"tests": [
+			{
+				"name": "emailTest",
+				"command": "node ayzarim/email/emailTest.js"
+			}
+		],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-email-capabilities-f24a8a356b.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-email-f77f0430fe",
+				"route": "/api/email"
+			},
+			{
+				"id": "api-email-settings-schema-059e1193b6",
+				"route": "/api/email/settings/schema"
+			}
+		]
+	},
+	{
+		"id": "api-email-settings-schema-059e1193b6",
+		"route": "/api/email/settings/schema",
+		"source": "geelooy/api/email/_awtsmoos.derech.js",
+		"discoveryKind": "static-literal",
+		"family": {
+			"mount": "/api/email",
+			"title": "Email",
+			"manual": "docs/TUTORIALS/API/EMAIL.md"
+		},
+		"derech": {
+			"source": "geelooy/api/email/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/email"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [
+			"identity"
+		],
+		"statuses": [],
+		"headers": [],
+		"callers": [],
+		"callerCount": 0,
+		"tests": [
+			{
+				"name": "emailTest",
+				"command": "node ayzarim/email/emailTest.js"
+			}
+		],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-email-settings-schema-059e1193b6.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-email-f77f0430fe",
+				"route": "/api/email"
+			},
+			{
+				"id": "api-email-capabilities-f24a8a356b",
+				"route": "/api/email/capabilities"
+			}
+		]
+	},
+	{
+		"id": "api-even-asd-more-rt-k-feb231eb24",
+		"route": "/api/even/:asd/more/:rt/k",
+		"source": "geelooy/api/core/LegacyApiDemoRoutes.js",
+		"discoveryKind": "static-literal",
+		"family": {
+			"mount": "/api",
+			"title": "API Root",
+			"manual": "docs/TUTORIALS/API/ROOT_API.md"
+		},
+		"derech": {
+			"source": "geelooy/api/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api"
 		},
 		"dynamic": true,
 		"pathParameters": [
 			{
-				"name": "route",
+				"name": "asd",
+				"catchAll": false
+			},
+			{
+				"name": "rt",
 				"catchAll": false
 			}
 		],
@@ -27,678 +320,372 @@
 		"vessels": [
 			"route-vars"
 		],
-		"statuses": [
-			"404"
-		],
-		"headers": [
-			"Access-Control-Allow-Headers",
-			"Access-Control-Allow-Methods",
-			"Access-Control-Allow-Origin",
-			"Cache-Control"
-		],
-		"callers": [],
-		"callerCount": 0,
-		"tests": [],
-		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-oauth-route-99d253c847.md",
-		"confidence": "unknown-method",
-		"related": [
-			{
-				"id": "api-oauth-agent-callback-b4e6bf1061",
-				"route": "/api/oauth/agent-callback"
-			},
-			{
-				"id": "api-oauth-authorize-bdf605a5c6",
-				"route": "/api/oauth/authorize"
-			},
-			{
-				"id": "api-oauth-device-ff7c9e5d87",
-				"route": "/api/oauth/device"
-			},
-			{
-				"id": "api-oauth-device-authorization-c8c90e0df0",
-				"route": "/api/oauth/device-authorization"
-			},
-			{
-				"id": "api-oauth-metadata-323cb59001",
-				"route": "/api/oauth/metadata"
-			},
-			{
-				"id": "api-oauth-start-7c94ba48c1",
-				"route": "/api/oauth/start"
-			},
-			{
-				"id": "api-oauth-token-037d29e842",
-				"route": "/api/oauth/token"
-			}
-		]
-	},
-	{
-		"id": "api-oauth-agent-callback-b4e6bf1061",
-		"route": "/api/oauth/agent-callback",
-		"source": "geelooy/api/oauth/routes/table.js",
-		"discoveryKind": "route-table",
-		"family": {
-			"mount": "/api/oauth",
-			"title": "OAuth",
-			"manual": "docs/TUTORIALS/API/OAUTH.md"
-		},
-		"derech": {
-			"source": "geelooy/api/oauth/_awtsmoos.derech.js",
-			"status": "OK",
-			"issue": "—",
-			"mount": "/api/oauth"
-		},
-		"dynamic": false,
-		"pathParameters": [],
-		"methods": [],
-		"methodEvidence": "unknown",
-		"vessels": [],
 		"statuses": [],
 		"headers": [],
 		"callers": [],
 		"callerCount": 0,
-		"tests": [],
-		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-oauth-agent-callback-b4e6bf1061.md",
-		"confidence": "unknown-method",
-		"related": [
+		"tests": [
 			{
-				"id": "api-oauth-route-99d253c847",
-				"route": "/api/oauth/:route"
+				"name": "test",
+				"command": "npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported-style-ownership && npm run test:css-quality && npm run test:heichelos-quality && npm run test:heichel-cache-scale && npm run test:profile-menu && npm run test:heichel-governance && npm run test:post-submissions && npm run test:comments && npm run test:api-keys && npm run test:graph && npm run test:social-content && npm run test:notifications && npm run test:social-packed && npm run test:packed-engine && npm run test:platform-ops && npm run test:platform-execution && npm run test:node-client && npm run test:dayuh-cutover"
 			},
 			{
-				"id": "api-oauth-authorize-bdf605a5c6",
-				"route": "/api/oauth/authorize"
+				"name": "test:dayuh-release",
+				"command": "npm run test:routes && npm run test:comments && npm run test:social-content && npm run test:social-packed && npm run test:packed-engine && node --test tools/dayuhChadashMaintenance/test/*.test.js && npm run test:dayuh-cutover"
 			},
 			{
-				"id": "api-oauth-device-ff7c9e5d87",
-				"route": "/api/oauth/device"
-			},
-			{
-				"id": "api-oauth-device-authorization-c8c90e0df0",
-				"route": "/api/oauth/device-authorization"
-			},
-			{
-				"id": "api-oauth-metadata-323cb59001",
-				"route": "/api/oauth/metadata"
-			},
-			{
-				"id": "api-oauth-start-7c94ba48c1",
-				"route": "/api/oauth/start"
-			},
-			{
-				"id": "api-oauth-token-037d29e842",
-				"route": "/api/oauth/token"
-			}
-		]
-	},
-	{
-		"id": "api-oauth-authorize-bdf605a5c6",
-		"route": "/api/oauth/authorize",
-		"source": "geelooy/api/oauth/routes/table.js",
-		"discoveryKind": "route-table",
-		"family": {
-			"mount": "/api/oauth",
-			"title": "OAuth",
-			"manual": "docs/TUTORIALS/API/OAUTH.md"
-		},
-		"derech": {
-			"source": "geelooy/api/oauth/_awtsmoos.derech.js",
-			"status": "OK",
-			"issue": "—",
-			"mount": "/api/oauth"
-		},
-		"dynamic": false,
-		"pathParameters": [],
-		"methods": [],
-		"methodEvidence": "unknown",
-		"vessels": [],
-		"statuses": [],
-		"headers": [],
-		"callers": [
-			{
-				"literal": "/api/oauth/authorize?client=social-hub",
-				"source": "geelooy/social-hub/tests/legalEntry.test.mjs",
-				"kind": "test"
+				"name": "test:routes",
+				"command": "node geelooy/api/social/test/routeCoverage.test.js"
 			}
 		],
-		"callerCount": 1,
-		"tests": [],
 		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-oauth-authorize-bdf605a5c6.md",
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-even-asd-more-rt-k-feb231eb24.md",
 		"confidence": "unknown-method",
 		"related": [
 			{
-				"id": "api-oauth-route-99d253c847",
-				"route": "/api/oauth/:route"
+				"id": "api-caf1672720",
+				"route": "/api"
 			},
 			{
-				"id": "api-oauth-agent-callback-b4e6bf1061",
-				"route": "/api/oauth/agent-callback"
+				"id": "api-asdfg-9e43b7d9e7",
+				"route": "/api/asdfg"
 			},
 			{
-				"id": "api-oauth-device-ff7c9e5d87",
-				"route": "/api/oauth/device"
+				"id": "api-catalog-80c2586373",
+				"route": "/api/catalog"
 			},
 			{
-				"id": "api-oauth-device-authorization-c8c90e0df0",
-				"route": "/api/oauth/device-authorization"
+				"id": "api-heichelos-heichel-addcontenttoseries-cda5c16063",
+				"route": "/api/heichelos/:heichel/addContentToSeries"
 			},
 			{
-				"id": "api-oauth-metadata-323cb59001",
-				"route": "/api/oauth/metadata"
+				"id": "api-heichelos-heichel-addnewseries-6c167f7390",
+				"route": "/api/heichelos/:heichel/addNewSeries"
 			},
 			{
-				"id": "api-oauth-start-7c94ba48c1",
-				"route": "/api/oauth/start"
+				"id": "api-heichelos-heichel-aliases-alias-commentsactions-addcommentin-4141eb36ea",
+				"route": "/api/heichelos/:heichel/aliases/:alias/commentsActions/addCommentIndexToAlias/comment/:comment"
 			},
 			{
-				"id": "api-oauth-token-037d29e842",
-				"route": "/api/oauth/token"
+				"id": "api-heichelos-heichel-aliases-alias-commentsactions-updateallcom-a68539ccb3",
+				"route": "/api/heichelos/:heichel/aliases/:alias/commentsActions/updateAllCommentIndexes"
+			},
+			{
+				"id": "api-heichelos-heichel-comment-comment-e9e27fc087",
+				"route": "/api/heichelos/:heichel/comment/:comment"
 			}
 		]
 	},
 	{
-		"id": "api-oauth-device-ff7c9e5d87",
-		"route": "/api/oauth/device",
-		"source": "geelooy/api/oauth/routes/table.js",
-		"discoveryKind": "route-table",
-		"family": {
-			"mount": "/api/oauth",
-			"title": "OAuth",
-			"manual": "docs/TUTORIALS/API/OAUTH.md"
-		},
-		"derech": {
-			"source": "geelooy/api/oauth/_awtsmoos.derech.js",
-			"status": "OK",
-			"issue": "—",
-			"mount": "/api/oauth"
-		},
-		"dynamic": false,
-		"pathParameters": [],
-		"methods": [],
-		"methodEvidence": "unknown",
-		"vessels": [],
-		"statuses": [],
-		"headers": [],
-		"callers": [
-			{
-				"literal": "/api/oauth/device",
-				"source": "geelooy/apps/tunnel-control/index.html",
-				"kind": "runtime"
-			},
-			{
-				"literal": "/api/oauth/device",
-				"source": "geelooy/apps/tunnel-control/js/shell/agentLinks.js",
-				"kind": "runtime"
-			}
-		],
-		"callerCount": 2,
-		"tests": [],
-		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-oauth-device-ff7c9e5d87.md",
-		"confidence": "unknown-method",
-		"related": [
-			{
-				"id": "api-oauth-route-99d253c847",
-				"route": "/api/oauth/:route"
-			},
-			{
-				"id": "api-oauth-agent-callback-b4e6bf1061",
-				"route": "/api/oauth/agent-callback"
-			},
-			{
-				"id": "api-oauth-authorize-bdf605a5c6",
-				"route": "/api/oauth/authorize"
-			},
-			{
-				"id": "api-oauth-device-authorization-c8c90e0df0",
-				"route": "/api/oauth/device-authorization"
-			},
-			{
-				"id": "api-oauth-metadata-323cb59001",
-				"route": "/api/oauth/metadata"
-			},
-			{
-				"id": "api-oauth-start-7c94ba48c1",
-				"route": "/api/oauth/start"
-			},
-			{
-				"id": "api-oauth-token-037d29e842",
-				"route": "/api/oauth/token"
-			}
-		]
-	},
-	{
-		"id": "api-oauth-device-authorization-c8c90e0df0",
-		"route": "/api/oauth/device-authorization",
-		"source": "geelooy/api/oauth/routes/table.js",
-		"discoveryKind": "route-table",
-		"family": {
-			"mount": "/api/oauth",
-			"title": "OAuth",
-			"manual": "docs/TUTORIALS/API/OAUTH.md"
-		},
-		"derech": {
-			"source": "geelooy/api/oauth/_awtsmoos.derech.js",
-			"status": "OK",
-			"issue": "—",
-			"mount": "/api/oauth"
-		},
-		"dynamic": false,
-		"pathParameters": [],
-		"methods": [],
-		"methodEvidence": "unknown",
-		"vessels": [],
-		"statuses": [],
-		"headers": [],
-		"callers": [],
-		"callerCount": 0,
-		"tests": [],
-		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-oauth-device-authorization-c8c90e0df0.md",
-		"confidence": "unknown-method",
-		"related": [
-			{
-				"id": "api-oauth-route-99d253c847",
-				"route": "/api/oauth/:route"
-			},
-			{
-				"id": "api-oauth-agent-callback-b4e6bf1061",
-				"route": "/api/oauth/agent-callback"
-			},
-			{
-				"id": "api-oauth-authorize-bdf605a5c6",
-				"route": "/api/oauth/authorize"
-			},
-			{
-				"id": "api-oauth-device-ff7c9e5d87",
-				"route": "/api/oauth/device"
-			},
-			{
-				"id": "api-oauth-metadata-323cb59001",
-				"route": "/api/oauth/metadata"
-			},
-			{
-				"id": "api-oauth-start-7c94ba48c1",
-				"route": "/api/oauth/start"
-			},
-			{
-				"id": "api-oauth-token-037d29e842",
-				"route": "/api/oauth/token"
-			}
-		]
-	},
-	{
-		"id": "api-oauth-metadata-323cb59001",
-		"route": "/api/oauth/metadata",
-		"source": "geelooy/api/oauth/routes/table.js",
-		"discoveryKind": "route-table",
-		"family": {
-			"mount": "/api/oauth",
-			"title": "OAuth",
-			"manual": "docs/TUTORIALS/API/OAUTH.md"
-		},
-		"derech": {
-			"source": "geelooy/api/oauth/_awtsmoos.derech.js",
-			"status": "OK",
-			"issue": "—",
-			"mount": "/api/oauth"
-		},
-		"dynamic": false,
-		"pathParameters": [],
-		"methods": [],
-		"methodEvidence": "unknown",
-		"vessels": [],
-		"statuses": [],
-		"headers": [],
-		"callers": [],
-		"callerCount": 0,
-		"tests": [],
-		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-oauth-metadata-323cb59001.md",
-		"confidence": "unknown-method",
-		"related": [
-			{
-				"id": "api-oauth-route-99d253c847",
-				"route": "/api/oauth/:route"
-			},
-			{
-				"id": "api-oauth-agent-callback-b4e6bf1061",
-				"route": "/api/oauth/agent-callback"
-			},
-			{
-				"id": "api-oauth-authorize-bdf605a5c6",
-				"route": "/api/oauth/authorize"
-			},
-			{
-				"id": "api-oauth-device-ff7c9e5d87",
-				"route": "/api/oauth/device"
-			},
-			{
-				"id": "api-oauth-device-authorization-c8c90e0df0",
-				"route": "/api/oauth/device-authorization"
-			},
-			{
-				"id": "api-oauth-start-7c94ba48c1",
-				"route": "/api/oauth/start"
-			},
-			{
-				"id": "api-oauth-token-037d29e842",
-				"route": "/api/oauth/token"
-			}
-		]
-	},
-	{
-		"id": "api-oauth-start-7c94ba48c1",
-		"route": "/api/oauth/start",
-		"source": "geelooy/api/oauth/routes/table.js",
-		"discoveryKind": "route-table",
-		"family": {
-			"mount": "/api/oauth",
-			"title": "OAuth",
-			"manual": "docs/TUTORIALS/API/OAUTH.md"
-		},
-		"derech": {
-			"source": "geelooy/api/oauth/_awtsmoos.derech.js",
-			"status": "OK",
-			"issue": "—",
-			"mount": "/api/oauth"
-		},
-		"dynamic": false,
-		"pathParameters": [],
-		"methods": [],
-		"methodEvidence": "unknown",
-		"vessels": [],
-		"statuses": [],
-		"headers": [],
-		"callers": [
-			{
-				"literal": "/api/oauth/start?client_id=chatgpt",
-				"source": "geelooy/apps/tunnel-control/js/api/auth.js",
-				"kind": "runtime"
-			},
-			{
-				"literal": "/api/oauth/start?next=${next}",
-				"source": "geelooy/apps/code/js/session/inline-login.js",
-				"kind": "runtime"
-			}
-		],
-		"callerCount": 2,
-		"tests": [],
-		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-oauth-start-7c94ba48c1.md",
-		"confidence": "unknown-method",
-		"related": [
-			{
-				"id": "api-oauth-route-99d253c847",
-				"route": "/api/oauth/:route"
-			},
-			{
-				"id": "api-oauth-agent-callback-b4e6bf1061",
-				"route": "/api/oauth/agent-callback"
-			},
-			{
-				"id": "api-oauth-authorize-bdf605a5c6",
-				"route": "/api/oauth/authorize"
-			},
-			{
-				"id": "api-oauth-device-ff7c9e5d87",
-				"route": "/api/oauth/device"
-			},
-			{
-				"id": "api-oauth-device-authorization-c8c90e0df0",
-				"route": "/api/oauth/device-authorization"
-			},
-			{
-				"id": "api-oauth-metadata-323cb59001",
-				"route": "/api/oauth/metadata"
-			},
-			{
-				"id": "api-oauth-token-037d29e842",
-				"route": "/api/oauth/token"
-			}
-		]
-	},
-	{
-		"id": "api-oauth-token-037d29e842",
-		"route": "/api/oauth/token",
-		"source": "geelooy/api/oauth/routes/table.js",
-		"discoveryKind": "route-table",
-		"family": {
-			"mount": "/api/oauth",
-			"title": "OAuth",
-			"manual": "docs/TUTORIALS/API/OAUTH.md"
-		},
-		"derech": {
-			"source": "geelooy/api/oauth/_awtsmoos.derech.js",
-			"status": "OK",
-			"issue": "—",
-			"mount": "/api/oauth"
-		},
-		"dynamic": false,
-		"pathParameters": [],
-		"methods": [],
-		"methodEvidence": "unknown",
-		"vessels": [],
-		"statuses": [],
-		"headers": [],
-		"callers": [],
-		"callerCount": 0,
-		"tests": [],
-		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-oauth-token-037d29e842.md",
-		"confidence": "unknown-method",
-		"related": [
-			{
-				"id": "api-oauth-route-99d253c847",
-				"route": "/api/oauth/:route"
-			},
-			{
-				"id": "api-oauth-agent-callback-b4e6bf1061",
-				"route": "/api/oauth/agent-callback"
-			},
-			{
-				"id": "api-oauth-authorize-bdf605a5c6",
-				"route": "/api/oauth/authorize"
-			},
-			{
-				"id": "api-oauth-device-ff7c9e5d87",
-				"route": "/api/oauth/device"
-			},
-			{
-				"id": "api-oauth-device-authorization-c8c90e0df0",
-				"route": "/api/oauth/device-authorization"
-			},
-			{
-				"id": "api-oauth-metadata-323cb59001",
-				"route": "/api/oauth/metadata"
-			},
-			{
-				"id": "api-oauth-start-7c94ba48c1",
-				"route": "/api/oauth/start"
-			}
-		]
-	},
-	{
-		"id": "api-ohr-hagnuz-realtime-ticket-b6af2537a2",
-		"route": "/api/ohr-hagnuz/realtime-ticket",
-		"source": "geelooy/api/ohr-hagnuz/routes/table.js",
-		"discoveryKind": "route-table",
-		"family": {
-			"mount": "/api/ohr-hagnuz",
-			"title": "Ohr HaGnuz",
-			"manual": "docs/TUTORIALS/API/OHR_HAGNUZ.md"
-		},
-		"derech": {
-			"source": "geelooy/api/ohr-hagnuz/_awtsmoos.derech.js",
-			"status": "OK",
-			"issue": "—",
-			"mount": "/api/ohr-hagnuz"
-		},
-		"dynamic": false,
-		"pathParameters": [],
-		"methods": [],
-		"methodEvidence": "unknown",
-		"vessels": [],
-		"statuses": [],
-		"headers": [],
-		"callers": [
-			{
-				"literal": "/api/ohr-hagnuz/realtime-ticket",
-				"source": "geelooy/games/ohr-hagnuz/tests/browser/SharedJourneyTestServer.mjs",
-				"kind": "test"
-			},
-			{
-				"literal": "/api/ohr-hagnuz/realtime-ticket?${parameters}",
-				"source": "geelooy/games/ohr-hagnuz/src/multiplayer/auth/SharedJourneyTicketClient.js",
-				"kind": "runtime"
-			}
-		],
-		"callerCount": 2,
-		"tests": [],
-		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-ohr-hagnuz-realtime-ticket-b6af2537a2.md",
-		"confidence": "unknown-method",
-		"related": []
-	},
-	{
-		"id": "api-projecthosting-827e82a6c0",
-		"route": "/api/projectHosting",
-		"source": "geelooy/api/projectHosting/_awtsmoos.derech.js",
+		"id": "api-fetch-9837786494",
+		"route": "/api/fetch",
+		"source": "geelooy/api/fetch/_awtsmoos.derech.js",
 		"discoveryKind": "static-literal",
 		"family": {
-			"mount": "/api/projectHosting",
-			"title": "/api/projectHosting",
-			"manual": "docs/API/README.md"
+			"mount": "/api/fetch",
+			"title": "Fetch Proxy",
+			"manual": "docs/TUTORIALS/API/FETCH.md"
 		},
 		"derech": {
-			"source": "geelooy/api/projectHosting/_awtsmoos.derech.js",
+			"source": "geelooy/api/fetch/_awtsmoos.derech.js",
 			"status": "OK",
 			"issue": "—",
-			"mount": "/api/projectHosting"
-		},
-		"dynamic": false,
-		"pathParameters": [],
-		"methods": [],
-		"methodEvidence": "unknown",
-		"vessels": [],
-		"statuses": [],
-		"headers": [],
-		"callers": [
-			{
-				"literal": "/api/projectHosting/?${query}",
-				"source": "geelooy/drive/services/projectHostingService.js",
-				"kind": "runtime"
-			}
-		],
-		"callerCount": 1,
-		"tests": [],
-		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-projecthosting-827e82a6c0.md",
-		"confidence": "unknown-method",
-		"related": [
-			{
-				"id": "api-projecthosting-activity-685d6a80bb",
-				"route": "/api/projectHosting/activity"
-			},
-			{
-				"id": "api-projecthosting-cleanup-86c3f103e2",
-				"route": "/api/projectHosting/cleanup"
-			},
-			{
-				"id": "api-projecthosting-materialize-04d0cae6e7",
-				"route": "/api/projectHosting/materialize"
-			},
-			{
-				"id": "api-projecthosting-restart-3328768971",
-				"route": "/api/projectHosting/restart"
-			},
-			{
-				"id": "api-projecthosting-start-15affd017d",
-				"route": "/api/projectHosting/start"
-			},
-			{
-				"id": "api-projecthosting-status-e49bd88d04",
-				"route": "/api/projectHosting/status"
-			},
-			{
-				"id": "api-projecthosting-stop-7e644b25e9",
-				"route": "/api/projectHosting/stop"
-			}
-		]
-	},
-	{
-		"id": "api-projecthosting-activity-685d6a80bb",
-		"route": "/api/projectHosting/activity",
-		"source": "geelooy/api/projectHosting/runtimeRoutes.js",
-		"discoveryKind": "static-literal",
-		"family": {
-			"mount": "/api/projectHosting",
-			"title": "/api/projectHosting",
-			"manual": "docs/API/README.md"
-		},
-		"derech": {
-			"source": "geelooy/api/projectHosting/_awtsmoos.derech.js",
-			"status": "OK",
-			"issue": "—",
-			"mount": "/api/projectHosting"
+			"mount": "/api/fetch"
 		},
 		"dynamic": false,
 		"pathParameters": [],
 		"methods": [],
 		"methodEvidence": "unknown",
 		"vessels": [
-			"$_GET"
+			"$_POST",
+			"headers",
+			"cookies",
+			"identity"
 		],
+		"statuses": [
+			"400",
+			"401",
+			"403",
+			"429"
+		],
+		"headers": [],
+		"callers": [
+			{
+				"literal": "/api/fetch",
+				"source": "geelooy/apps/android-emulator/ai_thoughts/2026-10-06_2125_run85_secure_apk_web_origin/rebbe_ui_proxy_probe.mjs",
+				"kind": "runtime"
+			},
+			{
+				"literal": "/api/fetch",
+				"source": "geelooy/apps/android-emulator/ai_thoughts/2026-10-07_0208_run86_existing_fetch_proxy_bridge/local_bridge_probe.mjs",
+				"kind": "runtime"
+			},
+			{
+				"literal": "/api/fetch",
+				"source": "geelooy/apps/code/js/android/apk-web-fetch-parent.js",
+				"kind": "runtime"
+			},
+			{
+				"literal": "/api/fetch",
+				"source": "geelooy/scripts/tricks/jem/script.js",
+				"kind": "runtime"
+			}
+		],
+		"callerCount": 4,
+		"tests": [],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-fetch-9837786494.md",
+		"confidence": "unknown-method",
+		"related": []
+	},
+	{
+		"id": "api-gpt-d048698bbd",
+		"route": "/api/gpt",
+		"source": "geelooy/api/gpt/_awtsmoos.derech.js",
+		"discoveryKind": "static-literal",
+		"family": {
+			"mount": "/api/gpt",
+			"title": "GPT",
+			"manual": "docs/TUTORIALS/API/GPT.md"
+		},
+		"derech": {
+			"source": "geelooy/api/gpt/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/gpt"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [],
 		"statuses": [],
 		"headers": [],
 		"callers": [
 			{
-				"literal": "/api/projectHosting/activity?projectId=drive-site&limit=3",
-				"source": "geelooy/drive/test/projectRuntimeClient.test.mjs",
-				"kind": "test"
+				"literal": "/api/gpt",
+				"source": "geelooy/ai/js/chatgpt/api/GptApiClient.js",
+				"kind": "runtime"
 			},
 			{
-				"literal": "/api/projectHosting/activity?projectId=drive-site&limit=8",
-				"source": "geelooy/drive/test/projectRuntimeClient.test.mjs",
-				"kind": "test"
+				"literal": "/api/gpt",
+				"source": "geelooy/ai/js/chatgpt/api/GptApiTransport.js",
+				"kind": "runtime"
 			}
 		],
 		"callerCount": 2,
 		"tests": [],
 		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-projecthosting-activity-685d6a80bb.md",
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-gpt-d048698bbd.md",
 		"confidence": "unknown-method",
 		"related": [
 			{
-				"id": "api-projecthosting-827e82a6c0",
-				"route": "/api/projectHosting"
+				"id": "api-gpt-capability-64cc6e59cc",
+				"route": "/api/gpt/capability"
 			},
 			{
-				"id": "api-projecthosting-cleanup-86c3f103e2",
-				"route": "/api/projectHosting/cleanup"
+				"id": "api-gpt-chat-04ca454293",
+				"route": "/api/gpt/chat"
 			},
 			{
-				"id": "api-projecthosting-materialize-04d0cae6e7",
-				"route": "/api/projectHosting/materialize"
+				"id": "api-gpt-health-3da27f3934",
+				"route": "/api/gpt/health"
 			},
 			{
-				"id": "api-projecthosting-restart-3328768971",
-				"route": "/api/projectHosting/restart"
+				"id": "api-gpt-reset-cde51acb79",
+				"route": "/api/gpt/reset"
+			}
+		]
+	},
+	{
+		"id": "api-gpt-capability-64cc6e59cc",
+		"route": "/api/gpt/capability",
+		"source": "geelooy/api/gpt/_awtsmoos.derech.js",
+		"discoveryKind": "static-literal",
+		"family": {
+			"mount": "/api/gpt",
+			"title": "GPT",
+			"manual": "docs/TUTORIALS/API/GPT.md"
+		},
+		"derech": {
+			"source": "geelooy/api/gpt/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/gpt"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [],
+		"statuses": [],
+		"headers": [],
+		"callers": [],
+		"callerCount": 0,
+		"tests": [],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-gpt-capability-64cc6e59cc.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-gpt-d048698bbd",
+				"route": "/api/gpt"
 			},
 			{
-				"id": "api-projecthosting-start-15affd017d",
-				"route": "/api/projectHosting/start"
+				"id": "api-gpt-chat-04ca454293",
+				"route": "/api/gpt/chat"
 			},
 			{
-				"id": "api-projecthosting-status-e49bd88d04",
-				"route": "/api/projectHosting/status"
+				"id": "api-gpt-health-3da27f3934",
+				"route": "/api/gpt/health"
 			},
 			{
-				"id": "api-projecthosting-stop-7e644b25e9",
-				"route": "/api/projectHosting/stop"
+				"id": "api-gpt-reset-cde51acb79",
+				"route": "/api/gpt/reset"
+			}
+		]
+	},
+	{
+		"id": "api-gpt-chat-04ca454293",
+		"route": "/api/gpt/chat",
+		"source": "geelooy/api/gpt/_awtsmoos.derech.js",
+		"discoveryKind": "static-literal",
+		"family": {
+			"mount": "/api/gpt",
+			"title": "GPT",
+			"manual": "docs/TUTORIALS/API/GPT.md"
+		},
+		"derech": {
+			"source": "geelooy/api/gpt/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/gpt"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [],
+		"statuses": [],
+		"headers": [],
+		"callers": [],
+		"callerCount": 0,
+		"tests": [],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-gpt-chat-04ca454293.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-gpt-d048698bbd",
+				"route": "/api/gpt"
+			},
+			{
+				"id": "api-gpt-capability-64cc6e59cc",
+				"route": "/api/gpt/capability"
+			},
+			{
+				"id": "api-gpt-health-3da27f3934",
+				"route": "/api/gpt/health"
+			},
+			{
+				"id": "api-gpt-reset-cde51acb79",
+				"route": "/api/gpt/reset"
+			}
+		]
+	},
+	{
+		"id": "api-gpt-health-3da27f3934",
+		"route": "/api/gpt/health",
+		"source": "geelooy/api/gpt/_awtsmoos.derech.js",
+		"discoveryKind": "static-literal",
+		"family": {
+			"mount": "/api/gpt",
+			"title": "GPT",
+			"manual": "docs/TUTORIALS/API/GPT.md"
+		},
+		"derech": {
+			"source": "geelooy/api/gpt/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/gpt"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [],
+		"statuses": [],
+		"headers": [],
+		"callers": [],
+		"callerCount": 0,
+		"tests": [],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-gpt-health-3da27f3934.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-gpt-d048698bbd",
+				"route": "/api/gpt"
+			},
+			{
+				"id": "api-gpt-capability-64cc6e59cc",
+				"route": "/api/gpt/capability"
+			},
+			{
+				"id": "api-gpt-chat-04ca454293",
+				"route": "/api/gpt/chat"
+			},
+			{
+				"id": "api-gpt-reset-cde51acb79",
+				"route": "/api/gpt/reset"
+			}
+		]
+	},
+	{
+		"id": "api-gpt-reset-cde51acb79",
+		"route": "/api/gpt/reset",
+		"source": "geelooy/api/gpt/_awtsmoos.derech.js",
+		"discoveryKind": "static-literal",
+		"family": {
+			"mount": "/api/gpt",
+			"title": "GPT",
+			"manual": "docs/TUTORIALS/API/GPT.md"
+		},
+		"derech": {
+			"source": "geelooy/api/gpt/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/gpt"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [],
+		"statuses": [],
+		"headers": [],
+		"callers": [],
+		"callerCount": 0,
+		"tests": [],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-gpt-reset-cde51acb79.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-gpt-d048698bbd",
+				"route": "/api/gpt"
+			},
+			{
+				"id": "api-gpt-capability-64cc6e59cc",
+				"route": "/api/gpt/capability"
+			},
+			{
+				"id": "api-gpt-chat-04ca454293",
+				"route": "/api/gpt/chat"
+			},
+			{
+				"id": "api-gpt-health-3da27f3934",
+				"route": "/api/gpt/health"
 			}
 		]
 	}

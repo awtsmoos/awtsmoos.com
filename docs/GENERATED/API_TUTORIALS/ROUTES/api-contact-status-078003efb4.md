@@ -15,9 +15,9 @@ Blessed is He
 ## Contract evidence
 
 - Methods: `POST`
-- Request vessels: `$_POST`, `db`
+- Request vessels: —
 - Observed status literals: —
-- Observed headers: `x-forwarded-for`
+- Observed headers: —
 
 ## Path parameters
 

@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-docs-production-roadmap-readme-md-613d442724",
+	"title": "MitzvahWorld Production Roadmap",
+	"sourcePath": "geelooy/games/mitzvahWorld/docs/production-roadmap/README.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "MitzvahWorld Production Roadmap",
+			"anchor": "mitzvahworld-production-roadmap"
+		},
+		{
+			"level": 2,
+			"text": "Non-negotiable laws",
+			"anchor": "non-negotiable-laws"
+		},
+		{
+			"level": 2,
+			"text": "Roadmap modules",
+			"anchor": "roadmap-modules"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-docs-production-roadmap-readme-md-613d442724-001.json"
+	]
+}

@@ -45,10 +45,16 @@ Registration authority, routing identity, correlation, retry, or durable-state c
 | `AWTSMOOS_REGISTRATION_STRESS_COUNT` | test/tuning | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/test/registrationReplacementStress.test.cjs` |
 | `AWTSMOOS_RELAY_STRESS_COUNT` | test/tuning | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay.concurrent-correlation.test.cjs` |
 | `AWTSMOOS_SEFIRA_PROFILE_PATH` | path/storage | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/ExpeditionProfileRepository.js` |
+| `AWTSMOOS_TUNNEL_ACCEPTANCE_RECOVERY_FAILURES` | runtime-config | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestAcceptanceRecoveryValues.js` |
+| `AWTSMOOS_TUNNEL_ACCEPTANCE_RECOVERY_SUSTAIN_MS` | tuning | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestAcceptanceRecoveryValues.js` |
+| `AWTSMOOS_TUNNEL_ACCEPTANCE_RETRANSMIT_ATTEMPTS` | runtime-config | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestAcceptanceRetransmit.js` |
+| `AWTSMOOS_TUNNEL_ACCEPTANCE_RETRANSMIT_MS` | tuning | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestAcceptanceRetransmit.js` |
 | `AWTSMOOS_TUNNEL_COMPLETED_LIMIT` | tuning | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js` |
 | `AWTSMOOS_TUNNEL_CONSUMER_PROGRESS_MS` | tuning | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestConsumerWatchdog.js` |
-| `AWTSMOOS_TUNNEL_CONTROL_STORE` | path/storage | 9 | `ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomSocketIntegration.test.cjs; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomUpgrade.test.cjs; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/upgradePolicy.test.cjs` |
+| `AWTSMOOS_TUNNEL_CONTROL_STORE` | path/storage | 11 | `ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomSocketIntegration.test.cjs; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomUpgrade.test.cjs; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/upgradePolicy.test.cjs` |
+| `AWTSMOOS_TUNNEL_INSTRUCTION_FILE` | path/storage | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/instructionDynamicFile.js` |
 | `AWTSMOOS_TUNNEL_PENDING_TTL_MS` | tuning | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js` |
+| `AWTSMOOS_TUNNEL_PRE_ACCEPTANCE_RECOVERY_MS` | tuning | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestDispatchWatchdog.js` |
 | `AWTSMOOS_TUNNEL_QUARANTINE_LIMIT` | tuning | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js` |
 | `AWTSMOOS_TUNNEL_RELAY_MAX_SAFE_WAIT_MS` | tuning | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js` |
 | `AWTSMOOS_TUNNEL_RELAY_SAFE_WAIT_MS` | tuning | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js` |
@@ -63,11 +69,14 @@ No versioned application registrations are attached to this packet.
 ## Lexical event/message evidence
 
 - `awtsmoosMyDevice` — `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/envelopeErrors.js`
+- `durable_relay_record_verification_failed` — `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/durableVerification.js`
 - `retryAction` — `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/canonicalEnvelopes.js`
 - `retryAction` — `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/envelopeIdentity.js`
 - `TUNNEL_ACK` — `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/registrationProbe.js`
 - `TUNNEL_ACK` — `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/registrationPublication.js`
 - `TUNNEL_ACK` — `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/registrationTransfer.js`
+- `TUNNEL_INSTRUCTION_DETAILS` — `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/instructionHandler.js`
+- `TUNNEL_INSTRUCTION_RESOLVED` — `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/instructionHandler.js`
 - `TUNNEL_REPLACED` — `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/registrationTransfer.js`
 - `TUNNEL_REQUEST` — `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestDispatch.js`
 - `TUNNEL_RESPONSE_ACK` — `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/responseProtocol.js`

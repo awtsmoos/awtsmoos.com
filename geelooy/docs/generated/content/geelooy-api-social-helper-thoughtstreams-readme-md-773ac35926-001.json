@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Thought Streams (geelooy/api/social/helper/thoughtStreams/)\n\n\"Thought streams\": short-form posts (thoughts) with reads, writes, reactions, queries, and sanitization. Mounted via `_awtsmoos.thoughts.js`.\n\n## Files\n- `write.js`, `read.js`, `query.js` — write, read, query streams.\n- `reactions.js` — stream reactions.\n- `sanitize.js` — input sanitization.\n- `paths.js` — storage paths.\n"
+}

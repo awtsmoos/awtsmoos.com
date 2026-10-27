@@ -1,0 +1,258 @@
+[
+	{
+		"id": "geelooy-api-social-helper-unifiedsocial-readme-md-8a45e56a01",
+		"title": "B\"H",
+		"sourcePath": "geelooy/api/social/helper/unifiedSocial/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Boruch Hashem",
+				"anchor": "boruch-hashem"
+			},
+			{
+				"level": 1,
+				"text": "Blessed is He",
+				"anchor": "blessed-is-he"
+			},
+			{
+				"level": 1,
+				"text": "Unified Social Backend",
+				"anchor": "unified-social-backend"
+			},
+			{
+				"level": 2,
+				"text": "Identity",
+				"anchor": "identity"
+			},
+			{
+				"level": 2,
+				"text": "Acting-alias authorization",
+				"anchor": "acting-alias-authorization"
+			},
+			{
+				"level": 2,
+				"text": "Permissions",
+				"anchor": "permissions"
+			},
+			{
+				"level": 2,
+				"text": "Destinations",
+				"anchor": "destinations"
+			},
+			{
+				"level": 2,
+				"text": "Publishing",
+				"anchor": "publishing"
+			},
+			{
+				"level": 2,
+				"text": "Review",
+				"anchor": "review"
+			},
+			{
+				"level": 2,
+				"text": "Governance",
+				"anchor": "governance"
+			},
+			{
+				"level": 2,
+				"text": "Compatibility",
+				"anchor": "compatibility"
+			},
+			{
+				"level": 2,
+				"text": "Testing",
+				"anchor": "testing"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Unified Social Backend This domain coordinates native Geelooy identity, Heichel, series, content, graph, notification, draft, asset, and governance helpers. It does not introduce a second social database. Identity identity/ returns public alias context, creates aliases through native hel",
+		"searchText": "b\"h boruch hashem blessed is he unified social backend this domain coordinates native geelooy identity, heichel, series, content, graph, notification, draft, asset, and governance helpers. it does not introduce a second social database. identity identity/ returns public alias context, creates aliases through native helpers, and selects the protected default alias. no route returns or stores passwords, cookies, tokens, authorization headers, or private session material. acting alias authorization permissions/actorauthorization.js adapts the native verifyaliasownership helper and fails closed when its signature or result is ambiguous. every acting alias route requires: 1. a live authenticated user; 2. ownership of the claimed alias; 3. compiled capabilities; 4. destination policy; 5. legal workflow or hierarchy state. a public alias id alone never grants authority. permissions the compiler dual reads: heichel owner information; current member records; legacy editors; legacy moderators; legacy contributors; legacy followers. it emits one effective role, every evidence source, named capabilities, and direct, submit, or deny explanations. destinations destinations/ provides searchable heichel evidence, bounded nested series traversal, breadcrumbs, root series semantics, effective access, and inline heichel or series creation through native helpers. publishing publishing/ enforces one canonical origin and deterministic secondary placements. it supports references, reposts, quotes, excerpts, and syndication. idempotency prevents retry duplication. native content helpers create posts, questions, and answers; native graph helpers receive provenance edges. review review/ stores typed submissions, legal transitions, reviewer assignment, history, scheduling, publication, and notifications. approval does not bypass final capability and ownership checks. governance permissions/rolemutationservice.js and invitation services provide: hierarchy safe roles; protected ownership; dual writes to current and legacy role stores; governance audit records; native notifications; seven day invitations; explicit recipient consent; authority revalidation at acceptance; expiration evidence. compatibility old routes and records remain readable. new modules delegate to existing helpers and coexist through dual read or dual write evidence until migration parity is proven. testing the test folder uses an in memory database to prove schemas, access, destinations, planning, idempotency, publication, review, native ownership adaptation, governance hierarchy, invitation consent, and route discovery. existing rich social and route coverage tests are also required. the awtsmoos is one before all stores, routes, roles, and graphs. these modules reveal that unity without erasing the older vessels through which awtsmoos.com already lives.",
+		"page": "pages/geelooy-api-social-helper-unifiedsocial-readme-md-8a45e56a01.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-unifiedsocial-review-readme-md-c350c164cd",
+		"title": "B\"H — Unified Social Review (geelooy/api/social/helper/unifiedSocial/review/)",
+		"sourcePath": "geelooy/api/social/helper/unifiedSocial/review/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Unified Social Review (geelooy/api/social/helper/unifiedSocial/review/)",
+				"anchor": "b-h-unified-social-review-geelooy-api-social-helper-unifiedsocial-review"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "B\"H — Unified Social Review (geelooy/api/social/helper/unifiedSocial/review/) Review workflow for unified social: typed submissions, legal state transitions, reviewer assignment, scheduling, publication, and notifications — with legacy governance/post adapters. Files ReviewService.js, ReviewStore.js, ReviewRouteHandler",
+		"searchText": "b\"h — unified social review (geelooy/api/social/helper/unifiedsocial/review/) review workflow for unified social: typed submissions, legal state transitions, reviewer assignment, scheduling, publication, and notifications — with legacy governance/post adapters. files reviewservice.js, reviewstore.js, reviewroutehandlers.js — review service, store, routes. reviewassignment.js, reviewaccess.js, reviewnotifications.js — assignment, access, notifications. submissionschema.js, submissionpaths.js, submissionpublisher.js, submissionpresenter.js — submissions. legacypostsubmissionadapter/input/reviewstate/publication, legacygovernancesubmissionadapter/input/reviewstate/publication — legacy adapters so old records keep working.",
+		"page": "pages/geelooy-api-social-helper-unifiedsocial-review-readme-md-c350c164cd.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-unifiedsocial-test-readme-md-84fa707cb0",
+		"title": "B\"H — Unified Social Tests (geelooy/api/social/helper/unifiedSocial/test/)",
+		"sourcePath": "geelooy/api/social/helper/unifiedSocial/test/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Unified Social Tests (geelooy/api/social/helper/unifiedSocial/test/)",
+				"anchor": "b-h-unified-social-tests-geelooy-api-social-helper-unifiedsocial-test"
+			}
+		],
+		"excerpt": "B\"H — Unified Social Tests (geelooy/api/social/helper/unifiedSocial/test/) Unified social tests (in memory DB). authorization.test.js, permissions.test.js — acting alias authorization and permissions. destinations.test.js, planning.test.js — destinations and publication planning. governance.test.js, governanceSubmissio",
+		"searchText": "b\"h — unified social tests (geelooy/api/social/helper/unifiedsocial/test/) unified social tests (in memory db). authorization.test.js, permissions.test.js — acting alias authorization and permissions. destinations.test.js, planning.test.js — destinations and publication planning. governance.test.js, governancesubmissions.test.js — governance and submissions. review.test.js, routes.test.js, schema.test.js — review, routes, schemas. governancesubmissionfixture.js, inmemorydb.js — fixtures.",
+		"page": "pages/geelooy-api-social-helper-unifiedsocial-test-readme-md-84fa707cb0.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-views-readme-md-22d0e2e0ea",
+		"title": "B\"H — Views (geelooy/api/social/helper/views/)",
+		"sourcePath": "geelooy/api/social/helper/views/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Views (geelooy/api/social/helper/views/)",
+				"anchor": "b-h-views-geelooy-api-social-helper-views"
+			},
+			{
+				"level": 2,
+				"text": "Endpoints",
+				"anchor": "endpoints"
+			}
+		],
+		"excerpt": "B\"H — Views (geelooy/api/social/helper/views/) View count store. Mounted via awtsmoos.views.js; routes in helper/routes/views/. viewStore.js — view count storage. Endpoints /views/record (POST), /views/batch, /views/:postId",
+		"searchText": "b\"h — views (geelooy/api/social/helper/views/) view count store. mounted via awtsmoos.views.js; routes in helper/routes/views/. viewstore.js — view count storage. endpoints /views/record (post), /views/batch, /views/:postid",
+		"page": "pages/geelooy-api-social-helper-views-readme-md-22d0e2e0ea.json"
+	},
+	{
+		"id": "geelooy-api-social-publishing-md-b6633a74da",
+		"title": "PUBLISHING TO THE SOCIAL PACKED STORES — AGENT GUIDE",
+		"sourcePath": "geelooy/api/social/PUBLISHING.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "PUBLISHING TO THE SOCIAL PACKED STORES — AGENT GUIDE",
+				"anchor": "publishing-to-the-social-packed-stores-agent-guide"
+			},
+			{
+				"level": 2,
+				"text": "The One Rule",
+				"anchor": "the-one-rule"
+			},
+			{
+				"level": 2,
+				"text": "The Three Stores You Care About",
+				"anchor": "the-three-stores-you-care-about"
+			},
+			{
+				"level": 2,
+				"text": "Comment Path Layout (comments/richCommentPaths.js)",
+				"anchor": "comment-path-layout-comments-richcommentpaths-js"
+			},
+			{
+				"level": 2,
+				"text": "Production Write Path (comments/richCommentCreate.js)",
+				"anchor": "production-write-path-comments-richcommentcreate-js"
+			},
+			{
+				"level": 2,
+				"text": "Reader (comments/richCommentReader.js, richCompatibilityRead.js)",
+				"anchor": "reader-comments-richcommentreader-js-richcompatibilityread-js"
+			},
+			{
+				"level": 2,
+				"text": "OCR Protocol (post records)",
+				"anchor": "ocr-protocol-post-records"
+			},
+			{
+				"level": 2,
+				"text": "Alias Conventions (Chassidus)",
+				"anchor": "alias-conventions-chassidus"
+			},
+			{
+				"level": 2,
+				"text": "Verification Law",
+				"anchor": "verification-law"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He PUBLISHING TO THE SOCIAL PACKED STORES — AGENT GUIDE For agents: this is the verified map of how content actually gets into the production social database and what the site actually reads. Traced and live proven 2026 09 23. The binary structure needs NO changes — go through the productio",
+		"searchText": "b\"h boruch hashem blessed is he publishing to the social packed stores — agent guide for agents: this is the verified map of how content actually gets into the production social database and what the site actually reads. traced and live proven 2026 09 23. the binary structure needs no changes — go through the production modules and the format is exact by construction. the one rule the production page reads the packed .awtsdb stores, never loose json. writing .awtsmoosjson files does nothing visible. the importers in the chassidus publish workspace ( /workspace/chassidus rebuild/publish/) bridge that gap. the three stores you care about store file (under /socialpacked/) holds read by social.richcomments.v1.fs.awtsdb all rich comments (translations, summaries, discussion) comments api (routes/post.js → richcommentreader) social.heichel.ikar.posts.fs.awtsdb post records (hebrew source text) post api / pages — ocr target social.heichel.ikar.comments.corpus. .alias. .v2.fs.awtsdb per corpus translation corpora /translations endpoint (registry: comments/imported/registry.js, store: comments/translations/corpusstore.js) comment path layout (comments/richcommentpaths.js) helpers: comments/richcommentaccess.js (read/write), comments/richdb/packedstore.js (the store itself: awtsmoosdb with virtual fs + awtsmoosbinaryjson serialization), comments/aliasindex/ (alias → comment index). production write path (comments/richcommentcreate.js) createcomment() writes the comment body, the commenturls pointer, the roots/byverse/bysubsection indexes, and the alias index — all through richcommentaccess → packedstore → awtsmoosdb. the writer lock: the store opens with processlockmode: 'exclusive'. a separate process cannot write while the web server holds it — imports need a controlled server stop → import → start sequence. reads are concurrent safe. reader (comments/richcommentreader.js, richcompatibilityread.js) gettree() pages the roots/byverse/bysubsection indexes, expands replies from children indexes, filters by alias. public endpoint: ocr protocol (post records) post records are the hebrew source of truth. any fix must: 1. read the live packed post record first. 2. require the repair's before bytes to match production exactly. 3. replace only that span; preserve every other byte. 4. skip and log mismatches — never force. 5. re verify through the public post api and the visible page. 6. one canary post first; broad rollout only after it verifies. alias conventions (chassidus) translations: likkutei translation en, sefer hasichos translation en, sichos kodesh translation en, meluket translation en summaries: likkutei summary en, sefer hasichos summary en, sichos kodesh summary en, meluket summary en summaries are separate comments under separate aliases — never mixed with phrase translations. verification law nothing is \"published\" or \"live\" until the public endpoint returns the exact expected records. importer output and filesystem writes are not evidence.",
+		"page": "pages/geelooy-api-social-publishing-md-b6633a74da.json"
+	},
+	{
+		"id": "geelooy-api-social-readme-md-ffc25d5a8e",
+		"title": "B\"H — Social API (geelooy/api/social/)",
+		"sourcePath": "geelooy/api/social/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Social API (geelooy/api/social/)",
+				"anchor": "b-h-social-api-geelooy-api-social"
+			},
+			{
+				"level": 2,
+				"text": "Contents",
+				"anchor": "contents"
+			},
+			{
+				"level": 2,
+				"text": "What it does",
+				"anchor": "what-it-does"
+			}
+		],
+		"excerpt": "B\"H — Social API (geelooy/api/social/) Root of the Awtsmoos.com social backend API. Contents DOCUMENTATION.md — entry point; points to docs/API/SOCIAL.md, docs/SYSTEMS/SOCIAL AND HEICHEL.md, and the generated caller index. awtsmoos. .js — 50 route \"chapters\" (derech modules), one per domain: alias, posts, series, comme",
+		"searchText": "b\"h — social api (geelooy/api/social/) root of the awtsmoos.com social backend api. contents documentation.md — entry point; points to docs/api/social.md, docs/systems/social and heichel.md, and the generated caller index. awtsmoos. .js — 50 route \"chapters\" (derech modules), one per domain: alias, posts, series, comments, search, drive, mail, profile, heichel, packed, platform, governance, community, notifications, views, reactions, reading, books, agent, civilization, objects, entities, repositories, nodeos, thoughts, thoughtsstreams, living, identitybootstrap, membergovernance, interactionflow, publishflow, reviewcenter, socialkernel, socialsummary, richsocial, unifiedsocial destinations, publicdiscovery, profilehub, radiance, counter, keys, activityledger, filesystem, migrations, communications, editor, graph, content. helper/ — all implementation behind those route chapters. old/ — legacy comment/post/series route mounts, kept for reference. test/, tests/ — top level test suites. what it does gives aliases, posts, comments, heichelos (communities), follows, signals, drive, graph, and search one vast backend domain. the derech modules mount routes; the helper tree implements them.",
+		"page": "pages/geelooy-api-social-readme-md-ffc25d5a8e.json"
+	},
+	{
+		"id": "geelooy-api-social-test-profileaggregation-readme-md-e4daab6e1f",
+		"title": "B\"H — Profile Aggregation Test Support (geelooy/api/social/test/profileAggregation/)",
+		"sourcePath": "geelooy/api/social/test/profileAggregation/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Profile Aggregation Test Support (geelooy/api/social/test/profileAggregation/)",
+				"anchor": "b-h-profile-aggregation-test-support-geelooy-api-social-test-profileaggregation"
+			}
+		],
+		"excerpt": "B\"H — Profile Aggregation Test Support (geelooy/api/social/test/profileAggregation/) Fixtures for profile aggregation tests. NetzachProfileTestServer.mjs — test server for profile aggregation. YesodProfileAggregationFixture.mjs — aggregation fixtures. Used by ../profileAggregation.test.mjs.",
+		"searchText": "b\"h — profile aggregation test support (geelooy/api/social/test/profileaggregation/) fixtures for profile aggregation tests. netzachprofiletestserver.mjs — test server for profile aggregation. yesodprofileaggregationfixture.mjs — aggregation fixtures. used by ../profileaggregation.test.mjs.",
+		"page": "pages/geelooy-api-social-test-profileaggregation-readme-md-e4daab6e1f.json"
+	},
+	{
+		"id": "geelooy-api-social-test-readme-md-e6b7ba5f3c",
+		"title": "B\"H — Social API Top-Level Tests (geelooy/api/social/test/)",
+		"sourcePath": "geelooy/api/social/test/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Social API Top-Level Tests (geelooy/api/social/test/)",
+				"anchor": "b-h-social-api-top-level-tests-geelooy-api-social-test"
+			}
+		],
+		"excerpt": "B\"H — Social API Top Level Tests (geelooy/api/social/test/) End to end and contract tests over the whole social API surface. routeCoverage.test.js + routeCoverage/ — required route coverage (RequiredRoutes{,Core,Platform,Social}.js, RouteSourceScanner.js). profileAggregation.test.mjs + profileAggregation/ — profile agg",
+		"searchText": "b\"h — social api top level tests (geelooy/api/social/test/) end to end and contract tests over the whole social api surface. routecoverage.test.js + routecoverage/ — required route coverage (requiredroutes{,core,platform,social}.js, routesourcescanner.js). profileaggregation.test.mjs + profileaggregation/ — profile aggregation (netzachprofiletestserver, yesodprofileaggregationfixture). followownership.test.cjs — follow ownership rules. identitybootstraproute.test.cjs — identity bootstrap route. publicaliasdirectory.test.cjs, publicdiscoveryroutes.test.cjs, publicfeedfairness.test.cjs — public discovery/feed. globalprofilesearch.test.cjs — global profile search. multiaccountsocialburst.test.mjs, concurrencyfailurestress.test.mjs — burst and concurrency stress. discoverymodulebudget.test.cjs — discovery module budget. editorassetsgovernance.test.mjs, liveeditorassetsupload.test.mjs — editor assets governance and live upload. profileheichelcreation.test.mjs, profilelegacycompatibility.test.mjs — heichel creation and legacy compat. realserverwrites.test.mjs — real server write path.",
+		"page": "pages/geelooy-api-social-test-readme-md-e6b7ba5f3c.json"
+	}
+]

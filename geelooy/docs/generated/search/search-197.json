@@ -1,344 +1,36 @@
 [
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-games-scribe-journey-e-84815b54d4",
-		"title": "Project Tutorial: The Scribe's Journey: Echoes of Ein Sof",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-scribe-journey-e49e326e.md",
-		"category": "Projects",
+		"id": "docs-generated-environment-variables-md-9286de8488",
+		"title": "Generated Environment Variable Names",
+		"sourcePath": "docs/GENERATED/ENVIRONMENT_VARIABLES.md",
+		"category": "General",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: The Scribe's Journey: Echoes of Ein Sof",
-				"anchor": "project-tutorial-the-scribe-s-journey-echoes-of-ein-sof"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Generated Environment Variable Names",
+				"anchor": "generated-environment-variable-names"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: The Scribe's Journey: Echoes of Ein Sof Path: geelooy/games/scribe journey · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations,",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: the scribe's journey: echoes of ein sof path: geelooy/games/scribe journey · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, documentation.md local documentation: geelooy/games/scribe journey/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 375 99 0 0 1 1 476 public entry points /games/scribe journey → geelooy/games/scribe journey/index.html — the scribe's journey: echoes of ein sof symbol evidence source files: 362; classes: 12; functions: 551; exports: 536; samples: amalekbeasts, binahbeasts, campaignbeasts, campaignchesedbinahbeasts, campaignchokhmahketerbeasts, createcampaignmusag, createcampaignroster, campaignhodnetzachbeasts, campaignmalkuthfinalebeasts, campaignmalkuthyesodbeasts, campaignpostgamebeasts, campaigntiferetgevurahbeasts. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 99 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-scribe-journey-e-84815b54d4.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Environment Variable Names Values are never read or written here. Name Class Sources Example source paths AWTS DB ROOT path/storage 3 geelooy/api/social/helper/search/rag/paths.js; geelooy/api/social/helper/search/rag/test/catalogAndSidecar.test.js; geelooy/api/social/helper/se",
+		"searchText": "b\"h boruch hashem blessed is he generated environment variable names values are never read or written here. name class sources example source paths awts db root path/storage 3 geelooy/api/social/helper/search/rag/paths.js; geelooy/api/social/helper/search/rag/test/catalogandsidecar.test.js; geelooy/api/social/helper/search/rag/test/livesearchprobe.js awts rag semantic warmup runtime config 2 geelooy/api/social/helper/search/rag/ragstartupwarmup.js; geelooy/api/social/helper/search/rag/test/ragstartupwarmup.test.js awts rag startup warmup runtime config 2 geelooy/api/social/helper/search/rag/ragstartupwarmup.js; geelooy/api/social/helper/search/rag/test/searchcontracts.test.js awtsmoos acceptance health stale ms tuning 1 geelooy/api/tunnel/control/routes/fsvessel/tunnelacceptancehealth.js awtsmoos ai root path/storage 1 geelooy/api/social/helper/search/rag/paths.js awtsmoos allow legacy rich migration runtime config 2 geelooy/api/social/helper/comments/richdb/packedstoreguard.js; geelooy/api/social/helper/comments/test/legacymigrationguard.test.js awtsmoos artifact storage root path/storage 6 geelooy/api/tunnel/control/core/artifactpublicationstore.js; geelooy/api/tunnel/control/core/binaryartifactpublication.js; geelooy/api/tunnel/control/core/binaryartifactpublication.test.cjs awtsmoos bge model path path/storage 1 geelooy/api/social/helper/search/rag/bgeruntime.js awtsmoos bge python runtime config 1 geelooy/api/social/helper/search/rag/bgeruntime.js awtsmoos binary artifact root path/storage 6 geelooy/api/tunnel/control/core/binaryartifactvault.js; geelooy/api/tunnel/control/routes/test/artifactbinaryhttp.test.cjs; geelooy/api/tunnel/control/routes/test/artifactbinaryprivaterangehttp.test.cjs awtsmoos binding history per identity runtime config 1 geelooy/api/tunnel/control/core/tunnelsecurity/bindingretentionpolicy.js awtsmoos binding retention ms tuning 1 geelooy/api/tunnel/control/core/tunnelsecurity/bindingretentionpolicy.js awtsmoos book export root path/storage 2 geelooy/api/social/helper/books/paths.js; geelooy/api/social/helper/books/test/bookresilience.test.js awtsmoos browser allow no sandbox runtime config 1 geelooy/api/social/helper/drive/browser/interactivechromelauncher.js awtsmoos browser headless runtime config 2 geelooy/api/social/helper/drive/browser/interactivechromelauncher.js; geelooy/api/social/helper/drive/browser/interactivechromelauncher.test.js awtsmoos browser profile root path/storage 1 geelooy/api/social/helper/drive/browser/interactiveprofilestore.js awtsmoos bulk import key secret name 1 geelooy/api/social/helper/routes/packed/bulkimportroutesclass.js awtsmoos compact cache dir path/storage 3 ayzarim/awtsmoosdynamicserver/compactcache/cacheartifactpath.js; ayzarim/awtsmoosdynamicserver/tests/compactpersistentcache.test.js; ayzarim/awtsmoosdynamicserver/tests/compactpersistentcss.test.js awtsmoos credential service test/tuning 1 ayzarim/awtsmoosdynamicserver/tests/zipbundles/helpers/unixtestidentity.cjs awtsmoos data root path/storage 1 geelooy/api/social/helper/safeguards/shapeaudit.js awtsmoos dbroot path/storage 10 geelooy/api/social/helper/routes/packed/bulkimportroutesclass.js; geelooy/api/social/helper/routes/packed/bulkimportroutesguards.js; geelooy/api/social/helper/routes/packed/bulkpublishallroutespaths.js awtsmoos deploy key secret name 1 geelooy/api/social/helper/routes/packed/bulkimportroutesclass.js awtsmoos dir path/storage 1 geelooy/api/oauth/core/serversecret.js awtsmoos disable mail runtime config 1 index.js awtsmoos drive admin user ids runtime config 1 geelooy/api/social/helper/drive/adminauthorization.js awtsmoos embed mode runtime config 1 ayzarim/dosdb/aisearch/textembedrunner.js awtsmoos embed model root test/tuning 1 ayzarim/dosdb/awtsmoosbinary/awtsmoosdb/test/ai search model root precedence test.js awtsmoos enable comment breadcrumb index path/storage 1 geelooy/api/social/helper/comments/creation/hodaliascommentindex.js awtsmoos execution health stale ms tuning 1 geelooy/api/tunnel/control/routes/fsvessel/tunnelexecutionhealth.js awtsmoos git bin runtime config 1 geelooy/api/social/helper/repositories/gitprocess.js awtsmoos git http backend runtime config 1 geelooy/api/social/helper/repositories/gitprocess.js awtsmoos glyph secret secret name 1 ayzarim/glyph engine/session entropy.cjs awtsmoos guardian active runtime config 1 index.js awtsmoos import key secret name 3 geelooy/api/social/helper/routes/packed/authcoremixin.js; geelooy/api/social/helper/routes/packed/notesmixin.js; geelooy/api/social/helper/routes/packed/submissionsmixin.js awtsmoos import lanes runtime config 2 geelooy/api/social/helper/routes/packed/importlanescheduler.integration.test.cjs; geelooy/api/social/helper/routes/packed/importlanescheduler.js awtsmoos import workers runtime config 1 geelooy/api/social/helper/routes/packed/runjobcontext.js awtsmoos imported comment data root path/storage 3 geelooy/api/social/helper/comments/imported/bundlestoreread.js; geelooy/api/social/helper/comments/test/richimportedroute.test.js; geelooy/api/social/helper/comments/test/translationbundles.test.js awtsmoos install root test/tuning 1 ayzarim/awtsmoosdynamicserver/tests/zipbundles/helpers/unixtestidentity.cjs awtsmoos lexicon root path/storage 5 geelooy/api/social/helper/search/lexicon/paths.js; geelooy/api/social/helper/search/lexicon/test/browse.test.js; geelooy/api/social/helper/search/lexicon/test/builder.test.js awtsmoos likkutei sichos rag root path/storage 1 geelooy/api/social/helper/search/rag/paths.js awtsmoos live hash prep ms tuning 1 geelooy/api/social/helper/routes/packed/joblivehashprep.js awtsmoos native recovering ms tuning 1 geelooy/api/tunnel/control/routes/fsvessel/livedeviceidentity.js awtsmoos public origin runtime config 3 geelooy/api/social/helper/drive/sitecanonicalurl.js; geelooy/api/social/helper/repositories/gitcloneservice.js; geelooy/api/wallet/routes/paypalcreate.js awtsmoos rag root path/storage 1 geelooy/api/social/helper/search/rag/paths.js awtsmoos real chrome png test/tuning 1 geelooy/api/tunnel/control/routes/test/artifactrealchromeroundtrip.test.cjs awtsmoos real smoke debug test/tuning 1 geelooy/api/social/helper/apikeysverify.js awtsmoos recovery root test/tuning 1 ayzarim/awtsmoosdynamicserver/tests/zipbundles/helpers/unixtestidentity.cjs awtsmoos registration stress count test/tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/test/registrationreplacementstress.test.cjs awtsmoos relay stress count test/tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay.concurrent correlation.test.cjs awtsmoos release sha runtime config 2 geelooy/api/release/ awtsmoos.derech.js; geelooy/api/tunnel/control/routes/osfs/instructionactionfamily.js awtsmoos release source sha runtime config 3 geelooy/api/tunnel/install/test/releasesourceimmutabletag.test.cjs; geelooy/api/tunnel/install/tools/releasesourceidentity.js; geelooy/api/tunnel/install/tools/zipbundle.js awtsmoos safeguard state runtime config 1 geelooy/api/social/helper/safeguards/safeguardstate.js awtsmoos sefira profile path path/storage 1 ayzarim/awtsmoosdynamicserver/websocket/apps/sefiraclash/expeditionprofilerepository.js awtsmoos sichos kodesh rag root test/tuning 1 geelooy/api/social/helper/search/rag/test/sichoskodeshcommentrows.test.js awtsmoos simple tunnel agent key test/tuning 1 geelooy/api/tunnel/control/test/simpletunnelsecureflow.test.cjs awtsmoos simple tunnel approval dir path/storage 1 geelooy/api/tunnel/control/routes/simpletunnel.js awtsmoos simple tunnel client key test/tuning 1 geelooy/api/tunnel/control/test/simpletunnelsecureflow.test.cjs awtsmoos simple tunnel store path/storage 2 geelooy/api/tunnel/control/routes/simpletunnelstore.js; geelooy/api/tunnel/control/test/simpletunnelsecureflow.test.cjs awtsmoos social awtsdb test/tuning 2 geelooy/api/social/helper/assets/test/assetcopy.test.mjs; geelooy/api/social/helper/awtsmoosdb/test/shardstore.test.js awtsmoos tanach embed python runtime config 2 geelooy/api/social/helper/search/rag/bgeruntime.js; geelooy/api/social/helper/search/rag/multilingualruntime.js awtsmoos tanach index path/storage 3 geelooy/api/social/helper/search/rag/storagepolicy.js; geelooy/api/social/helper/search/rag/test/storageinvariantfixture.js; geelooy/api/social/helper/search/tanach/paths.js awtsmoos tanach model path path/storage 1 geelooy/api/social/helper/search/rag/multilingualruntime.js awtsmoos test mode test/tuning 1 ayzarim/awtsmoosdynamicserver/tests/zipbundles/helpers/unixtestidentity.cjs awtsmoos test namespace test/tuning 1 ayzarim/awtsmoosdynamicserver/tests/zipbundles/helpers/unixtestidentity.cjs awtsmoos translate engine url runtime config 2 geelooy/api/social/helper/routes/agent/enginetranslate.js; geelooy/api/social/helper/routes/agent/routesclass.js awtsmoos tunnel acceptance recovery failures runtime config 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/requestacceptancerecoveryvalues.js awtsmoos tunnel acceptance recovery sustain ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/requestacceptancerecoveryvalues.js awtsmoos tunnel acceptance retransmit attempts runtime config 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/requestacceptanceretransmit.js awtsmoos tunnel acceptance retransmit ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/requestacceptanceretransmit.js awtsmoos tunnel bundle cache dir path/storage 1 geelooy/api/tunnel/install/tools/zipbundle.js awtsmoos tunnel completed limit tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel consumer progress ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/requestconsumerwatchdog.js awtsmoos tunnel control store path/storage 11 ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/missionroomsocketintegration.test.cjs; ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/missionroomupgrade.test.cjs; ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/upgradepolicy.test.cjs awtsmoos tunnel instruction file path/storage 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/instructiondynamicfile.js awtsmoos tunnel pending ttl ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel pre acceptance recovery ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/requestdispatchwatchdog.js awtsmoos tunnel quarantine limit tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel relay max safe wait ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel relay safe wait ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel relay state root path/storage 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/durablepaths.js awtsmoos tunnel request acceptance ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/requestdispatchwatchdog.js awtsmoos tunnel timing runtime config 1 geelooy/api/tunnel/control/routes/fsvessel/nativetunnelregistry.js awtsmoos wallet data dir test/tuning 13 geelooy/api/wallet/tests/commerceengine.test.js; geelooy/api/wallet/tests/commerceidempotency.test.js; geelooy/api/wallet/tests/commercemonetization.test.js awtsmoos wallet test actions test/tuning 4 geelooy/api/wallet/core/commerce/paidactiontestcatalog.js; geelooy/api/wallet/tests/paidactionauthority.test.js; geelooy/api/wallet/tests/paidactionexecution.test.js awtsmoos wallet test handlers test/tuning 2 geelooy/api/wallet/core/commerce/paidactiontesthandlers.js; geelooy/api/wallet/tests/paidactionexecution.test.js awtsmoos warm rich comments runtime config 1 index.js awtsmoos warm semantic search runtime config 1 index.js awtsmoos ws backpressure grace ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/core/clientliveness.js awtsmoos ws max missed heartbeats runtime config 1 ayzarim/awtsmoosdynamicserver/websocket/core/clientliveness.js awtsmoos ws probe grace ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/core/clientliveness.js awtsmoos ws stale ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/core/clientliveness.js awtsmoosdb fast test test/tuning 3 ayzarim/dosdb/awtsmoosbinary/awtsmoosdb/core/idle/fastgate.js; ayzarim/dosdb/awtsmoosbinary/awtsmoosdb/test/lightning/env.js; ayzarim/dosdb/awtsmoosbinary/awtsmoosdb/test/semantic ai dosdb test.js awtsmoosdb test scale test/tuning 1 ayzarim/dosdb/awtsmoosbinary/awtsmoosdb/test/lightning/env.js bh runtime config 1 ayzarim/email/awtsmoosemailclient.js bh gemini key secret name 1 ayzarim/email/awtsmoosemailrules.js chrome path path/storage 1 geelooy/api/social/helper/drive/browser/interactivechromelauncher.js credentials directory path/storage 2 geelooy/api/tunnel/lanes/simple/agent approval.js; geelooy/api/tunnel/lanes/simple/agent poll.js exact hebrew index db path/storage 1 geelooy/api/social/helper/search/exacthebrewpaths.js glyph port runtime config 1 ayzarim/glyph engine/demo server.cjs home runtime config 1 geelooy/api/social/helper/repositories/gitprocess.js minimax api key secret name 1 geelooy/api/olam h3/core/client.js mw load clients runtime config 1 ayzarim/awtsmoosdynamicserver/websocket/apps/mitzvahworld/sessionloadprobe.cjs node env runtime config 4 ayzarim/dosdb/awtsmoosbinary/awtsmoosdb/test/lightning/env.js; geelooy/api/tunnel/install/tools/zipbundle.js; geelooy/api/wallet/core/paypalenvironment.js path path/storage 1 geelooy/api/social/helper/repositories/gitprocess.js paypal base runtime config 2 geelooy/api/wallet/core/paypalenvironment.js; geelooy/api/wallet/tests/paypalenvironment.test.js paypal client id runtime config 2 geelooy/api/wallet/core/paypalenvironment.js; geelooy/api/wallet/tests/paypalenvironment.test.js paypal client secret secret name 2 geelooy/api/wallet/core/paypalenvironment.js; geelooy/api/wallet/tests/paypalenvironment.test.js pending vector max rows runtime config 1 geelooy/api/social/helper/search/rag/pendingcommentvectorscore.js peruta observe only runtime config 1 geelooy/api/perutas/usageservice.js tunnel agent file path/storage 1 geelooy/api/tunnel/lanes/simple/agent resilient.js tunnel agent id runtime config 4 geelooy/api/tunnel/lanes/simple/agent approval.js; geelooy/api/tunnel/lanes/simple/agent file.js; geelooy/api/tunnel/lanes/simple/agent poll.js tunnel agent key secret name 2 geelooy/api/tunnel/lanes/simple/agent approval.js; geelooy/api/tunnel/lanes/simple/agent poll.js tunnel agent key file secret name 2 geelooy/api/tunnel/lanes/simple/agent approval.js; geelooy/api/tunnel/lanes/simple/agent poll.js tunnel client key secret name 1 geelooy/api/tunnel/lanes/simple/verify lanes.js tunnel cmd dir path/storage 1 geelooy/api/tunnel/lanes/simple/agent file.js tunnel poll ms tuning 1 geelooy/api/tunnel/lanes/simple/agent poll.js tunnel result dir path/storage 1 geelooy/api/tunnel/lanes/simple/agent file.js tunnel secret secret name 2 geelooy/api/tunnel/lanes/simple/agent approval.js; geelooy/api/tunnel/lanes/simple/agent poll.js tunnel server runtime config 2 geelooy/api/tunnel/lanes/simple/agent approval.js; geelooy/api/tunnel/lanes/simple/agent poll.js tunnel simple command profile path/storage 1 geelooy/api/tunnel/lanes/simple/agent poll.js virtual ssh host test/tuning 1 geelooy/api/ssh/virtual/test/bootlifecycle.test.cjs virtual ssh port test/tuning 1 geelooy/api/ssh/virtual/test/bootlifecycle.test.cjs youtube google client file path/storage 1 geelooy/api/youtube/core/config.js youtube google client id runtime config 2 geelooy/api/streaming/connectors/youtube/config.js; geelooy/api/youtube/core/config.js youtube google client secret secret name 2 geelooy/api/streaming/connectors/youtube/config.js; geelooy/api/youtube/core/config.js youtube google refresh token secret name 1 geelooy/api/streaming/connectors/youtube/tokenstore.js youtube oauth redirect uri path/storage 2 geelooy/api/streaming/connectors/youtube/config.js; geelooy/api/youtube/core/config.js youtube secret root secret name 2 geelooy/api/youtube/core/config.js; geelooy/api/youtube/test/security.test.cjs youtube session secret secret name 1 geelooy/api/youtube/core/config.js youtube token encryption key secret name 1 geelooy/api/youtube/core/config.js",
+		"page": "pages/docs-generated-environment-variables-md-9286de8488.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-games-scripts-3467c7e0-e9d757ce98",
-		"title": "Project Tutorial: geelooy/games/scripts",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-scripts-3467c7e0.md",
-		"category": "Projects",
+		"id": "docs-generated-external-dependencies-md-e2c4466410",
+		"title": "Generated External Dependency Evidence",
+		"sourcePath": "docs/GENERATED/EXTERNAL_DEPENDENCIES.md",
+		"category": "General",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: geelooy/games/scripts",
-				"anchor": "project-tutorial-geelooy-games-scripts"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Generated External Dependency Evidence",
+				"anchor": "generated-external-dependency-evidence"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/games/scripts Path: geelooy/games/scripts · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/games/scripts path: geelooy/games/scripts · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: documentation.md local documentation: geelooy/games/scripts/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 74 0 0 4 1 2 81 public entry points none observed. symbol evidence source files: 73; classes: 113; functions: 3381; exports: 55; samples: ui, stands, motion adventure games, mystic adventure games, adventure games, enrichgame, enrichgames, multiplayercapability, native multiplayer game ids, visualcapability, webgl games, commerceplanfor. depends on none observed. used by geelooy/games/seven mitzvos — 16 lexical references; examples: geelooy/games/seven mitzvos/js/assets/advanced model hydrator.js; geelooy/games/seven mitzvos/js/assets/gltf model library.js; geelooy/games/seven mitzvos/js/city/city district builder.js geelooy/apps/scripts — 1 lexical reference; examples: geelooy/apps/scripts/catalog/games.mjs geelooy/games/party — 1 lexical reference; examples: geelooy/games/party/js/game catalog.mjs geelooy/games/pong — 1 lexical reference; examples: geelooy/games/pong/js/wallet reward.mjs external packages three — 3 lexical references srgb linear — 1 lexical reference verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-scripts-3467c7e0-e9d757ce98.json"
-	},
-	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-games-sefira-clash-94c-54eaa59ef7",
-		"title": "Project Tutorial: Sefira Clash · Open World, Expedition, Co-op, Adventure &amp; VS",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-sefira-clash-94c3f01f.md",
-		"category": "Projects",
-		"provenance": "generated",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Project Tutorial: Sefira Clash · Open World, Expedition, Co-op, Adventure &amp; VS",
-				"anchor": "project-tutorial-sefira-clash-open-world-expedition-co-op-adventure-amp-vs"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Sefira Clash · Open World, Expedition, Co op, Adventure &amp; VS Path: geelooy/games/sefira clash · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries ar",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: sefira clash · open world, expedition, co op, adventure &amp; vs path: geelooy/games/sefira clash · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, package.json, documentation.md local documentation: geelooy/games/sefira clash/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 1337 41 0 0 1 2 1381 public entry points /games/sefira clash → geelooy/games/sefira clash/index.html — sefira clash · open world, expedition, co op, adventure &amp; vs symbol evidence source files: 1289; classes: 59; functions: 2762; exports: 1932; samples: neutralinput, botreport, finitefighter, summarizespectacle, round, assert, snap, sumdamage, alivecount, summarize, length, checkcase. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 41 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-sefira-clash-94c-54eaa59ef7.json"
-	},
-	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-games-seven-mitzvos-50-42a4ed3174",
-		"title": "Project Tutorial: Seven Mitzvos · Living Material Worlds",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-seven-mitzvos-50390da0.md",
-		"category": "Projects",
-		"provenance": "generated",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Project Tutorial: Seven Mitzvos · Living Material Worlds",
-				"anchor": "project-tutorial-seven-mitzvos-living-material-worlds"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Seven Mitzvos · Living Material Worlds Path: geelooy/games/seven mitzvos · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, n",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: seven mitzvos · living material worlds path: geelooy/games/seven mitzvos · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, package.json, documentation.md local documentation: geelooy/games/seven mitzvos/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 530 66 0 0 1 0 597 public entry points /games/seven mitzvos → geelooy/games/seven mitzvos/index.html — seven mitzvos · living material worlds symbol evidence source files: 454; classes: 281; functions: 597; exports: 659; samples: accessibilityprofileservice, accessiblestateprojector, population, describealert, inputbindingservice, setpersonaction, updatepersonaction, personactionname, createstate, applypose, required, apptemplate. depends on geelooy/games/scripts — 16 lexical references; examples: geelooy/games/seven mitzvos/js/assets/advanced model hydrator.js; geelooy/games/seven mitzvos/js/assets/gltf model library.js; geelooy/games/seven mitzvos/js/city/city district builder.js geelooy/libs — 12 lexical references; examples: geelooy/games/seven mitzvos/js/materials/firebase material manifest.js; geelooy/games/seven mitzvos/js/materials/seven material runtime.js; geelooy/games/seven mitzvos/js/materials/stage material runtime.js used by none observed. external packages none observed. verification clue observed test classified files: 66 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-seven-mitzvos-50-42a4ed3174.json"
-	},
-	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-games-shema-strike-fd5-bad04a6396",
-		"title": "Project Tutorial: Shema Strike: Gates of Light",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-shema-strike-fd59d11a.md",
-		"category": "Projects",
-		"provenance": "generated",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Project Tutorial: Shema Strike: Gates of Light",
-				"anchor": "project-tutorial-shema-strike-gates-of-light"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Shema Strike: Gates of Light Path: geelooy/games/shema strike · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: shema strike: gates of light path: geelooy/games/shema strike · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, package.json, documentation.md local documentation: geelooy/games/shema strike/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 149 21 0 0 1 2 173 public entry points /games/shema strike → geelooy/games/shema strike/index.html — shema strike: gates of light symbol evidence source files: 140; classes: 66; functions: 13; exports: 192; samples: accessibilityprofile, copy, objectivecopy, checkpointmanager, entitystate, restoreentities, componentsnapshots, createcomponent, component kinds, cyclecomponent, escortcomponent, guardiancomponent. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 21 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-shema-strike-fd5-bad04a6396.json"
-	},
-	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-games-soul-jump-0c3378-60e2433b97",
-		"title": "Project Tutorial: Ein Sof Ascent",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-soul-jump-0c3378cb.md",
-		"category": "Projects",
-		"provenance": "generated",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Project Tutorial: Ein Sof Ascent",
-				"anchor": "project-tutorial-ein-sof-ascent"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Ein Sof Ascent Path: geelooy/games/soul jump · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or heal",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: ein sof ascent path: geelooy/games/soul jump · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, main.js local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 2 0 0 0 0 0 2 public entry points /games/soul jump → geelooy/games/soul jump/index.html — ein sof ascent symbol evidence source files: 1; classes: 6; functions: 11; exports: 0; samples: player, backgroundparticle, platform, enemy, powerup, particle, geteventx, startdrag, ondrag, enddrag, startgame, generateplatforms. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-soul-jump-0c3378-60e2433b97.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated External Dependency Evidence Package import evidence grouped by project; provider/runtime meaning remains source specific. 18 rows. Chunk Rows Count external dependencies 001.md 1–18 18",
+		"searchText": "b\"h boruch hashem blessed is he generated external dependency evidence package import evidence grouped by project; provider/runtime meaning remains source specific. 18 rows. chunk rows count external dependencies 001.md 1–18 18",
+		"page": "pages/docs-generated-external-dependencies-md-e2c4466410.json"
 	}
 ]

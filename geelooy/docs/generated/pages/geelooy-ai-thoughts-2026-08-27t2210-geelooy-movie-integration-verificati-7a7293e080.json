@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-27t2210-geelooy-movie-integration-verificati-7a7293e080",
+	"title": "Final Authorized Execution Manifest",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-27T2210-geelooy-movie-integration-verification/08_FINAL_EXECUTION_MANIFEST.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Final Authorized Execution Manifest",
+			"anchor": "final-authorized-execution-manifest"
+		},
+		{
+			"level": 2,
+			"text": "Canonical lane",
+			"anchor": "canonical-lane"
+		},
+		{
+			"level": 2,
+			"text": "Expected source writes",
+			"anchor": "expected-source-writes"
+		},
+		{
+			"level": 2,
+			"text": "Files deliberately avoided unless proven necessary",
+			"anchor": "files-deliberately-avoided-unless-proven-necessary"
+		},
+		{
+			"level": 2,
+			"text": "Completion proof",
+			"anchor": "completion-proof"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-27t2210-geelooy-movie-integration-verificati-7a7293e080-001.json"
+	]
+}

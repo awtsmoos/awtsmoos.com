@@ -1,146 +1,153 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-sky-directory--63388621a6",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/sky/DIRECTORY_GUIDE.md",
-		"category": "Games",
+		"id": "geelooy-ai-thoughts-2026-08-25-1411-social-network-revelation-01-phase-o-36e85171b2",
+		"title": "Phase One — Boundless Social Network Brainstorm",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25-1411-social-network-revelation/01_PHASE_ONE_BOUNDLESS_SOCIAL_BRAINSTORM.md",
+		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/world/sky",
-				"anchor": "directory-guide-experiments-awtsmoos-src-world-sky"
+				"text": "Phase One — Boundless Social Network Brainstorm",
+				"anchor": "phase-one-boundless-social-network-brainstorm"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "North star",
+				"anchor": "north-star"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Product universe",
+				"anchor": "product-universe"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "UX universe",
+				"anchor": "ux-universe"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
+				"text": "API / architecture universe",
+				"anchor": "api-architecture-universe"
 			},
 			{
 				"level": 2,
-				"text": "Exported symbols worth searching",
-				"anchor": "exported-symbols-worth-searching"
+				"text": "Backend parity universe",
+				"anchor": "backend-parity-universe"
 			},
 			{
 				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
+				"text": "Documentation universe",
+				"anchor": "documentation-universe"
 			},
 			{
 				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
+				"text": "Verification universe",
+				"anchor": "verification-universe"
 			},
 			{
 				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Architectural restraint",
+				"anchor": "architectural-restraint"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/world/sky Role: World systems Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 4 files, 0 structural child directories Purpose Sky, atmosphere, backdrop, and celestial presentation. The Awtsmoos renews every ",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/world/sky role: world systems snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 4 files, 0 structural child directories purpose sky, atmosphere, backdrop, and celestial presentation. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: world systems search terms: sky, create, mesh, procedural, texture, atmosphere, dome, remain, awtsmoos, boundary, builds, cached file mix: .js: 3 · .md: 1 good first question: “does the behavior or asset i need belong to world systems, or is this only a neighboring/test/reference layer?” semantic evidence b\"h builds one complete inward atmosphere sphere with no visible lower boundary. the awtsmoos surrounds every finite gaze without seam or painted wall; awtsmoos.com centers this shader vessel on the camera so horizon, zenith, clouds, and sun remain infinite. creates one sky mesh whose public url and real cached image remain inseparable. representative files proceduralatmospheretexture.js — exports: proceduralcloudtexture, proceduralhazetexture. skydome.js — builds one complete inward atmosphere sphere with no visible lower boundary. the awtsmoos surrounds every finite gaze without seam or painted wall; awtsmoos.com centers this shader vessel on the camera so horizon, zenith, clouds, and sun remain infinite. exports: createskydome. skymeshfactory.js — creates one sky mesh whose public url and real cached image remain inseparable. exports: createskymesh, createskyquad, createskydisc, createskyray. exported symbols worth searching proceduralcloudtexture · proceduralhazetexture · createskydome · createskymesh · createskyquad · createskydisc · createskyray import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ./skymeshfactory.js ../../../../light three gltf/tiny runtime.js ../../assets/publicmaterialcache.js ../../math/geometry3d.js directory map parent: experiments/awtsmoos/src/world children: none. related and overlapping systems see the system overlap map before creating a similarly named subsystem elsewhere. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-sky-directory--63388621a6.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase One — Boundless Social Network Brainstorm The Awtsmoos renews every voice before a timeline learns its name; Awtsmoos.com should reveal a social world where depth expands by choice, never by cluttered frame. North star Transform the current Social Observatory plus Interaction Studi",
+		"searchText": "b\"h boruch hashem blessed is he phase one — boundless social network brainstorm the awtsmoos renews every voice before a timeline learns its name; awtsmoos.com should reveal a social world where depth expands by choice, never by cluttered frame. north star transform the current social observatory plus interaction studio into one coherent social network experience. the default layer should feel human, fast, calm, mobile first, and socially alive. exact api routes, payloads, json, health probes, schemas, and developer evidence remain available through retractable advanced surfaces rather than occupying the primary experience. product universe 1. home feed with readable social cards instead of raw json. 2. discover surface for people, heichelos, series, posts, comments, and recommendations. 3. profile surface with identity, activity, graph, analytics, history, relationships, roles, and references. 4. communities / heichelos surface with membership, editors, submissions, moderation, posts, series, and governance. 5. composer surface for posts, questions, comments, replies, media, canonical references, and provenance aware promotion. 6. notifications / signals with unread state, human summaries, actions, and read management where backend support exists. 7. relationships with following, followers, recommendations, graph context, and deliberate follow mutations. 8. activity / privacy with user visible history, reading continuity, activity ledger, retention, and supported privacy controls. 9. moderation / review with submissions, editors, review center, governance evidence, and permission aware mutation controls. 10. live social current with replay, presence, subscriptions, and publishing in an explicit live chamber. 11. messaging / communications surfaced only from verified existing backend capabilities, without guessing what the unfinished user phrase “add m” meant. 12. developer chamber with openapi, route health, key verification, cache probes, exact requests, responses, and capability parity. ux universe 13. one mobile first shell with a compact bottom/top navigation model and optional desktop rail. 14. primary navigation names tasks rather than backend nouns: home, discover, create, profile, inbox, more. 15. advanced surfaces use native where possible and bounded drawers only when focus lifecycle requires them. 16. every rich card has a concise summary, contextual actions, and optional exact data disclosure. 17. composer is retractable and contextual: opening it from a post/comment/profile carries target context automatically. 18. permission dependent controls render disabled/hidden with an explanation rather than failing after a click. 19. empty states teach the next useful action. 20. loading states are skeletons or compact progress states, never giant blank cards. 21. error states translate structured backend errors into human next steps while preserving raw evidence under advanced. 22. infinite or paginated lists use explicit load more or intersection behavior with abortable requests and stable focus. 23. navigation state is url addressable so social surfaces can be shared/bookmarked. 24. on mobile, secondary rail/navigation retracts completely and never overlays content accidentally. 25. no fixed surface uses raw viewport width; all sheets use inset safe inline sizing and max block height. 26. no uncontrolled z index escalation; local layers are named and bounded. 27. pointer hover is progressive enhancement inside hover capable media queries. 28. touch active states and keyboard focus visible states exist independently. 29. reduced motion preserves state meaning. 30. long aliases, ids, urls, code, media, and json never widen the page. api / architecture universe 31. split the current hub/api.js monolith into a tiny transport plus domain endpoint modules. 32. keep a stable socialapi facade so callers do not break during internal modularization. 33. introduce a data driven capability registry that records key, group, mode, label, endpoint family, required context, danger level, and presentation adapter. 34. registry parity should be testable against the backend’s supported public capability contract. 35. unknown or undocumented mutations are never auto exposed as executable controls. 36. read capabilities may be discoverable dynamically, but presentation adapters remain explicit for human quality output. 37. mutation policy stays explicit and consequence labeled. 38. request construction remains isolated from rendering and state. 39. human renderers map common response shapes into feed/profile/relationship/notification/community cards. 40. exact request and response evidence lives in reusable advanced disclosure components. 41. existing /social hub/ canonical interaction logic should be reused or linked contextually rather than reimplemented in parallel. 42. existing social backend modules remain authoritative for behavior and authorization. 43. frontend never bypasses server permission checks. 44. new code uses tabs, descriptive torah/kabbalah inspired internal names, exhaustive jsdoc, and small files. 45. public ui labels remain simple and predictable. backend parity universe the live router actively composes identity, communications, civilization, objects, aliases, keys, graph, search, content, community, entities, living state, thoughts, assets, drive, editor, governance, notifications, packed data, platform, migrations, heichelos, posts, counters, mail, filesystem, nodeos, comments, series, books, plus social kernel/profile/discovery/summary layers. the frontend must create a discoverable path for every supported public capability, but administrative/internal operations must remain permission aware and never become unauthenticated power buttons merely because a route exists. documentation universe 46. social documentation becomes an actual product map rather than a paragraph. 47. every social chamber documents user purpose, backend capability family, required identity/context, mutations, and advanced evidence path. 48. developer docs include exact api quickstarts and capability discovery. 49. architecture docs explain observatory vs interaction studio consolidation and reuse boundaries. 50. a parity report records backend capabilities that have full ui, advanced only ui, or intentionally non public status. verification universe 51. static scope audit: every social hub css selector must remain route/component local. 52. interaction audit: hover/active/focus visible/disabled/busy/expanded states. 53. layout audit at 320, 390, 768, and desktop widths. 54. keyboard only navigation across rail, tabs, cards, disclosures, composer, and dialogs. 55. console cleanliness and failed network handling. 56. capability parity test between frontend registry and verified public backend surface. 57. api facade tests for each endpoint family. 58. mutation boundary tests to ensure reads cannot secretly mutate. 59. raw evidence disclosure tests for developer access. 60. complete file readback and planned vs actual delta before completion. architectural restraint the social network should not become one giant page or one giant api object. the awtsmoos is revealed through many bounded keilim: small modules, clear ownership, one source of truth, predictable public names, and advanced power that unfolds only when requested.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25-1411-social-network-revelation-01-phase-o-36e85171b2.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-streaming-dire-b457d15859",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/streaming/DIRECTORY_GUIDE.md",
-		"category": "Games",
+		"id": "geelooy-ai-thoughts-2026-08-25-1411-social-network-revelation-02-phase-t-be96beb893",
+		"title": "Phase Two — Architecture and Capability Parity",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25-1411-social-network-revelation/02_PHASE_TWO_ARCHITECTURE_AND_PARITY.md",
+		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/world/streaming",
-				"anchor": "directory-guide-experiments-awtsmoos-src-world-streaming"
+				"text": "Phase Two — Architecture and Capability Parity",
+				"anchor": "phase-two-architecture-and-capability-parity"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Evidence",
+				"anchor": "evidence"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Chosen architecture",
+				"anchor": "chosen-architecture"
+			},
+			{
+				"level": 3,
+				"text": "Product center",
+				"anchor": "product-center"
+			},
+			{
+				"level": 3,
+				"text": "Capability model",
+				"anchor": "capability-model"
+			},
+			{
+				"level": 3,
+				"text": "Capability center UI",
+				"anchor": "capability-center-ui"
+			},
+			{
+				"level": 3,
+				"text": "Observatory bridge",
+				"anchor": "observatory-bridge"
+			},
+			{
+				"level": 3,
+				"text": "API cleanup",
+				"anchor": "api-cleanup"
+			},
+			{
+				"level": 3,
+				"text": "CSS",
+				"anchor": "css"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Verification graph",
+				"anchor": "verification-graph"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
+				"text": "Files that may be touched after final critique",
+				"anchor": "files-that-may-be-touched-after-final-critique"
 			},
 			{
 				"level": 2,
-				"text": "Exported symbols worth searching",
-				"anchor": "exported-symbols-worth-searching"
-			},
-			{
-				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Protected areas",
+				"anchor": "protected-areas"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/world/streaming Role: World systems Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 61 files, 0 structural child directories Purpose Chunk, district, visibility, collision, and asset streaming for large worl",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/world/streaming role: world systems snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 61 files, 0 structural child directories purpose chunk, district, visibility, collision, and asset streaming for large worlds. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: world systems search terms: collision, chunk, incremental, create, deferred, terrain, streaming, child, handoff, diagnostics, enrichment, generated file mix: .js: 60 good first question: “does the behavior or asset i need belong to world systems, or is this only a neighboring/test/reference layer?” semantic evidence b\"h makes streamed collision insertion atomic and exactly reversible. the awtsmoos grants every visible trunk and carved letter a truthful boundary; awtsmoos.com records each inserted vessel so teardown can remove the same identity. streams sacred lettering and forest after the playable valley exists. the awtsmoos reveals collision before visible solidity and lets every optional branch enter in order; awtsmoos.com guards exactly once work, teardown, and stale promises. hydrates stable forest and sacred landmark facades after collision exists. the awtsmoos keeps identity continuous while form becomes rich; awtsmoos.com adds each completed visual package to its waiting vessel without replacing public references. representative files deferredterraincollisionledger.js — makes streamed collision insertion atomic and exactly reversible. the awtsmoos grants every visible trunk and carved letter a truthful boundary; awtsmoos.com records each inserted vessel so teardown can remove the same identity. exports: deferredterraincollisionledger. deferredterrainenrichment.js — streams sacred lettering and forest after the playable valley exists. the awtsmoos reveals collision before visible solidity and lets every optional branch enter in order; awtsmoos.com guards exactly once work, teardown, and stale promises. exports: deferredterrainenrichment, createdeferredterrainenrichment. deferredterrainfeaturehydrator.js — hydrates stable forest and sacred landmark facades after collision exists. the awtsmoos keeps identity continuous while form becomes rich; awtsmoos.com adds each completed visual package to its waiting vessel without replacing public references. exports: deferredterrainfeaturehydrator. deferredterrainfeaturestate.js — creates stable empty vessels for forest and sacred landmark enrichment. the awtsmoos grants identity before abundance; awtsmoos.com keeps diagnostics and scene references truthful while optional procedural geometry waits beyond first movement. exports: createdeferredforeststate, createdeferredtextlandmarkstate. deferredterrainmoduleloaders.js — holds the dynamic import and idle scheduling boundary for terrain enrichment. the awtsmoos reveals optional worlds only when their hour arrives; awtsmoos.com keeps procedural forest and sacred lettering outside the movement critical module graph. exports: loaddeferredtextlandmarkmodule, loaddeferredforestmodule, scheduleterrainidle, cancelterrainidle. deferredvillagebotanicalenrichment.js — installs visual only village botany after movement becomes available. the awtsmoos lets the shliach enter before every petal is revealed; awtsmoos.com preserves exactly once installation, cancellation, cleanup, and bounded diagnostics. exports: deferredvillagebotanicalenrichment, createdeferredvillagebotanicalenrichment. worldchunkbootstrap.js — wraps the existing complete valley as one active root chunk without changing its geometry or collision. the awtsmoos renews the whole scene as one vessel; awtsmoos.com gives that inherited world a stable streaming identity. exports: bootstrap world chunk id, createbootstrapworldchunk. worldchunkcollisionchildassignment.js — assigns canonical source triangles to every touching child octant. the awtsmoos lets one boundary face illuminate neighboring vessels; awtsmoos.com preserves that continuity while measuring exact source duplicates and assignments. exports: assignworldchunkcollisionchildren. worldchunkcollisionchildlayout.js — divides one accepted parent into eight stable collision octants. the awtsmoos remains one while eight vessels appear; awtsmoos.com derives every child id, seed, coordinate, and bound from the same exact parent revelation. exports: world chunk collision child count, createworldchunkcollisionchildlayout. worldchunkcollisionchildoctreefactory.js — preserves synchronous child generation through the bounded engine. the awtsmoos contains every phase in one purpose; awtsmoos.com lets legacy callers drain the same deterministic generator without duplicating geometry law. exports: createworldchunkcollisionchildoctrees. worldchunkcollisioncoverage.js — proves that validated child bounds form one complete parent partition. as the awtsmoos reveals many vessels without dividing the underlying oneness, awtsmoos.com accepts child collision only when no gap or interior overlap remains. exports: collision volume tolerance, assertcollisionreplacementcoverage. worldchunkcollisiondiagnostics.js — aggregates exact collision ownership without serializing octrees. the awtsmoos renews safe ground beneath every traveler; awtsmoos.com exposes ids, bounds, triangles, parent coverage, and geometric handoff proof for direct audit. exports: createworldchunkcollisiondiagnostics. worldchunkcollisionentry.js — wraps one real octree in immutable collision ownership metadata. the awtsmoos renews every triangle; awtsmoos.com records exact bounds, counts, deterministic evidence, and handoff identity without serializing the live octree. exports: createworldchunkcollisionentry, validateworldchunkcollisionentry, activateworldchunkcollisionentry, discardworldchunkcollisionentry, serializeworldchunkcollisionentry. exported symbols worth searching deferredterraincollisionledger · deferredterrainenrichment · createdeferredterrainenrichment · deferredterrainfeaturehydrator · createdeferredforeststate · createdeferredtextlandmarkstate · loaddeferredtextlandmarkmodule · loaddeferredforestmodule · scheduleterrainidle · cancelterrainidle · deferredvillagebotanicalenrichment · createdeferredvillagebotanicalenrichment · bootstrap world chunk id · createbootstrapworldchunk · assignworldchunkcollisionchildren · world chunk collision child count import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ./deferredterraincollisionledger.js ./deferredterrainfeaturehydrator.js ./deferredterrainmoduleloaders.js ../../../../light three gltf/tiny runtime.js ../proceduraltext/proceduraltextlandmarksystem.js ../trees/proceduralforestsystem.js ../box3d.js ../village/villagebotanicalenrichmentsystem.js ./worldchunkid.js ./worldchunkrecord.js ./worldchunkstate.js ./worldchunkcollisiontrianglebounds.js directory map parent: experiments/awtsmoos/src/world children: none. related and overlapping systems streaming, lod, visibility, and performance policy — large world loading and frame budget concerns are separated into streaming, lod, visibility, and performance modules. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-streaming-dire-b457d15859.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Two — Architecture and Capability Parity The Awtsmoos gives every social force a vessel, and every vessel a measured shore; Awtsmoos.com should reveal the whole network through one clear door, with deeper truth unfolding only when users ask for more. Evidence /social/ is a capable ",
+		"searchText": "b\"h boruch hashem blessed is he phase two — architecture and capability parity the awtsmoos gives every social force a vessel, and every vessel a measured shore; awtsmoos.com should reveal the whole network through one clear door, with deeper truth unfolding only when users ask for more. evidence /social/ is a capable but developer shaped observatory. /social hub/ is already the richer human product with inbox, dms, live chat, people, spaces, network, profile, activity, privacy, creation, canonical comments/replies, media, promotion, references, review, and governance. the live /api/social router composes far more backend families than /social/ currently exposes. social hub/js/api/ already has domain apis for graph, activity, channels, communications, destinations, governance, interactions, reviews, and transport. social hub/style.css already composes many route local modules; creating another global styling layer would be architectural regression. social hub/index.html is a remaining monolith. new ui should not be appended inline. chosen architecture product center /social hub/ is the human social network. /social/ becomes the developer/capability observatory and explicit doorway into the human product. do not duplicate inbox, messages, chat, community, profile, or interaction logic between them. capability model create a small data registry under social hub/js/capabilities/ describing supported user facing capabilities. each record contains: id label group mode: read / mutation / navigation required identity/context implementation status route/panel destination advanced api evidence link where applicable the registry is presentation metadata, not authorization. the server remains authoritative. capability center ui create a runtime generated, retractable capability center instead of adding another giant section to index.html. it should: summarize available social powers in human language; route users to the existing owning panel; show missing context requirements; expose raw api/openapi details only inside advanced; make communications, publishing, comments, reactions, communities, governance, activity, profile, graph, discovery, and developer tooling discoverable from one place. observatory bridge upgrade /social/ so its primary cta opens the social hub and its developer cards link back to the human surface that owns each capability. preserve raw observatory probes for agents/developers. api cleanup do not rewrite the already modular social hub/js/api foundation. the technical debt target is the separate scripts/awtsmoos/social/hub/api.js observatory monolith. split it into transport plus small domain groups while preserving the socialapi facade. css new social hub styles must be imported from social hub/style.css and every selector must begin beneath .social hub document or a dedicated component root that itself lives beneath that route. no naked element/root selectors. no 100vw. no arbitrary z index. suggested new modules: styles/capability center.css styles/capability disclosure.css styles/social polish.css do not create these if existing style modules already own the same concern; reuse first. verification graph 1. source structure and line count checks. 2. social hub style ownership test. 3. api foundation tests. 4. communications/governance/interaction tests. 5. capability registry coverage test. 6. mobile route visibility test. 7. browser smoke at 390px and desktop. 8. horizontal overflow probe. 9. keyboard route/disclosure/focus restoration probe. 10. console error ledger. 11. full touched file reread. 12. planned vs actual delta. files that may be touched after final critique new geelooy/social hub/js/capabilities/ new geelooy/social hub/js/ui/capabilitycenter.js or similarly small view/controller split geelooy/social hub/js/appassembly.js only if needed to assemble the new capability controller geelooy/social hub/js/hubapp.js only if lifecycle integration cannot remain inside assembly geelooy/social hub/style.css import manifest new localized social hub css modules geelooy/social/documentation.md geelooy/social hub/documentation.md observatory api modules under geelooy/scripts/awtsmoos/social/hub/api/ plus compatibility api.js parity/structure tests protected areas do not rewrite the large social hub html unless a later decomposition mission first extracts existing panels into smaller owned templates. do not duplicate messages/chat/inbox logic. do not expose privileged backend mutations without existing authorization semantics and explicit consequence ui.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25-1411-social-network-revelation-02-phase-t-be96beb893.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-25-1411-social-network-revelation-03-phase-t-2c8202272d",
+		"title": "Phase Two Critique — Forty Refinements",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25-1411-social-network-revelation/03_PHASE_TWO_CRITIQUE_25_IMPROVEMENTS.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Two Critique — Forty Refinements",
+				"anchor": "phase-two-critique-forty-refinements"
+			},
+			{
+				"level": 2,
+				"text": "Improved decision",
+				"anchor": "improved-decision"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Two Critique — Forty Refinements The Awtsmoos tests every social vessel before another current may stream; Awtsmoos.com grows cleaner when power submits to evidence, contract, and dream. 1. Keep /social hub/ canonical human UX. 2. Keep /social/ developer observability. 3. Do not du",
+		"searchText": "b\"h boruch hashem blessed is he phase two critique — forty refinements the awtsmoos tests every social vessel before another current may stream; awtsmoos.com grows cleaner when power submits to evidence, contract, and dream. 1. keep /social hub/ canonical human ux. 2. keep /social/ developer observability. 3. do not duplicate inbox, dms, chat, spaces, people, network, or create. 4. reference existing routemodel.js instead of duplicating route metadata. 5. capability discovery stays retractable, not another permanent dock item. 6. do not append markup to the oversized social hub html. 7. mount new ui from small modules. 8. server authorization remains authoritative. 9. a backend file does not automatically imply public mutation ui. 10. record parity status: full, advanced, internal, planned. 11. search capability metadata locally. 12. navigate to owning panels instead of surprise mutation. 13. label mutation consequences. 14. show missing identity/context before execution. 15. raw json belongs under advanced disclosure. 16. preserve exact api evidence for developers. 17. preserve the existing modular socialhubapi foundation. 18. split the separate observatory api.js monolith. 19. preserve its socialapi compatibility facade. 20. close the verified feedtrending registry gap. 21. use existing abort/timeout transport foundations. 22. prefer for nonmodal disclosure. 23. use only when modal focus lifecycle is required. 24. keep mobile primary navigation short. 25. prevent long ids/urls from widening cards. 26. motion uses transform/opacity. 27. respect reduced motion. 28. respect forced colors. 29. add backend to frontend capability coverage tests. 30. test intended public families, not every internal literal route. 31. render unknown response fields safely. 32. errors get human summaries plus exact evidence. 33. every new selector remains under .social hub document or an owned component root. 34. no global variables or generic selectors. 35. reuse existing focus/interaction baselines. 36. no arbitrary z index escalation. 37. test 320px and 390px mobile widths. 38. make /social/ clearly point to the full social hub. 39. expand docs into capability → ui → api → auth/mutation matrix. 40. reread every touched file because concurrent changes are possible. improved decision wave one: a data driven capability center in social hub, a truthful observatory bridge, the feedtrending parity repair, and modular observatory api transport. then verify before broader expansion.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25-1411-social-network-revelation-03-phase-t-2c8202272d.json"
 	}
 ]

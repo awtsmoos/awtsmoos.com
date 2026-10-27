@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-1f3bf48c99",
+	"title": "Connecting other plugins and agents to Awtsmoos",
+	"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/PLUGIN_LOGIN_PLAYBOOK.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 2,
+			"text": "Current tunnel integration takes precedence",
+			"anchor": "current-tunnel-integration-takes-precedence"
+		},
+		{
+			"level": 1,
+			"text": "Connecting other plugins and agents to Awtsmoos",
+			"anchor": "connecting-other-plugins-and-agents-to-awtsmoos"
+		},
+		{
+			"level": 2,
+			"text": "Choose a supported route",
+			"anchor": "choose-a-supported-route"
+		},
+		{
+			"level": 2,
+			"text": "Builder sequence for a new integration",
+			"anchor": "builder-sequence-for-a-new-integration"
+		},
+		{
+			"level": 2,
+			"text": "ChatGPT-specific distinction",
+			"anchor": "chatgpt-specific-distinction"
+		},
+		{
+			"level": 2,
+			"text": "Convenient first-run wording",
+			"anchor": "convenient-first-run-wording"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-1f3bf48c99-001.json"
+	]
+}

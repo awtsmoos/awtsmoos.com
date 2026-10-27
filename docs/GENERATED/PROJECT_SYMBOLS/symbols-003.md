@@ -2,30 +2,64 @@ B"H
 Boruch Hashem
 Blessed is He
 
-# Generated Project Symbol Summary 111–131
+# Generated Project Symbol Summary 111–165
 
 Lexical JavaScript-family symbol evidence grouped by project; sample names aid discovery without replacing source inspection.
 
 | Project | Source files | Classes | Named functions | Exports | Sample names |
 | --- | --- | --- | --- | --- | --- |
-| geelooy/os | 595 | 60 | 1887 | 1112 | for, AwtsmoosDB, AwtsmoosOS, programIcon, programsByExtension, initialDefaultPrograms, programs, program, defaultPrograms, getDefaultProgram, Object, CivilizationOSClient |
+| geelooy/games/dove | 13 | 2 | 41 | 41 | DoveGame, DoveLoop, init, update, draw, drawBackground, drawSky, drawCloud, blob, drawOcean, drawOceanActors, drawFish |
+| geelooy/games/emojis | 34 | 18 | 111 | 95 | setupAudio, playSound, configureSound, configureSweep, rebuildStars, drawBackground, drawWebcamBackground, loadCaptionDraft, prepareCaptionData, updateFileCount, revokeCaptionUrls, bindCaptionDragging |
+| geelooy/games/js | 2 | 0 | 11 | 0 | $, buildOverlay, showTip, rotateTips, setProgress, observeResources, done, probeWebGL, commonCauses, showOverlay, ensure |
+| geelooy/games/kabbalah-shooter | 55 | 40 | 75 | 93 | CONFIG, HEBREW_LETTERS, COLORS, SPRITES, AudioSynth, SETTINGS, WEAPONS, SOUNDS, SCALES, SEFIROT, TRAITS, SPELLS |
+| geelooy/games/KAVANAH | 17 | 10 | 54 | 57 | Otiot, Tzomeach, Chai, and, Entity, Particle, HEBREW_LETTERS, PLANT_EMOJIS, ANIMAL_EMOJIS, getPointerState, setupControls, clearPointer |
+| geelooy/games/Merkava | 90 | 47 | 176 | 148 | appDiagnostics, createDiagnosticControls, checkpoint, setLane, chargeAbility, advanceLevel, setWorld, setLevel, grantPrutahs, defeatBoss, completeWorldRotation, clampIndex |
+| geelooy/games/migdol | 21 | 13 | 41 | 36 | TILE_SIZE, MAPS, TOWER_TYPES, ENEMY_TYPES, GroundEffect, LetterParticle, Enemy, Projectile, placeTower, towerAt, upgradeTower, sellTower |
+| geelooy/games/mitzvahWorld | 3587 | 941 | 10513 | 6675 | async, sleep, connectMitzvahChrome, ready, probeMitzvahWorld, CdpClient, waitForWitness, holdCdpKey, keyPayload, assertFiveMilestones, measureHiddenFrameProgress, calculateDisplacement |
+| geelooy/games/Nachash | 19 | 16 | 43 | 12 | bindBoost, NachashKeyboardInput, editable, NachashPointerInput, NachashAudio, NachashPauseState, loadNachashPreferences, saveNachashPreferences, recordNachashScore, read, safeNumber, NachashResultReporter |
+| geelooy/games/neshama-quest | 13 | 6 | 36 | 0 | Entity, Neshama, Klipah, revealNeshamaAi, updateKlipah, chooseDirection, availableDirections, nearestToNeshama, farthestFromTarget, revealNeshamaCollisions, checkCollisions, checkPowerUpTimer |
+| geelooy/games/nitzotz-io | 230 | 0 | 708 | 448 | selectShlichus, shlichusTemplates, resolveTemplate, descriptionFor, template, hash, mix, adventureMetric, adventureProgress, settleAdventureReward, emptySettlement, updateAdventure |
+| geelooy/games/ohr-hagnuz | 685 | 198 | 203 | 1144 | CollisionMatrix, validates, EncounterValidator, InteractionValidator, OverworldLogic, PortalValidator, WorldMapAssembler, takes, EncounterGenerator, MovementLogic, PathLogic, DivineWill |
+| geelooy/games/ohrbound | 130 | 107 | 27 | 158 | CommunityService, CreatorFlow, GameLoop, OhrboundApp, OhrboundBrowserBindings, OhrboundIdentityFlow, OhrboundResultReporter, OhrboundRuntimeBridge, MalchusBrowserVessel, AppearanceRepository, CharacterAppearance, carry |
+| geelooy/games/ohrfront | 234 | 102 | 331 | 314 | OHRFRONT_ABSOLUTE_ROOTS, listChochmahAbsoluteRootNames, resolveChochmahAbsolutePath, createChochmahMissionPaths, parseChochmahAbsolutePathArguments, createChochmahAbsolutePathHelp, createHodAbsolutePathEntry, createHodAbsolutePathManifest, formatHodAbsolutePathText, formatHodAbsolutePathJson, runMalchusAbsolutePathPrinter, isMalchusAbsolutePathCliEntry |
+| geelooy/games/oros-ha-kelim | 125 | 93 | 57 | 181 | installDebugBridge, collectRuntimeErrors, FrameCadence, FrameConductor, createGameFrameAssembly, GameRuntimeControl, GameServices, MatchSession, OrosGame, RenderCoordinator, GRID_SIZE, CELL_SIZE |
+| geelooy/games/party | 10 | 1 | 29 | 27 | startChallenge, reloadCurrentTurn, recordCurrentTurn, recordAutomatedTurn, activeSession, recordTurnValue, beginCurrentTurn, finishChallenge, dom, setFrameGame, loadFreshTurn, frameGame |
+| geelooy/games/pong | 13 | 0 | 51 | 0 | createBall, bindPongControls, moveToPointer, clampedPaddleY, createPongCourt, resize, buildStars, centerActors, scorePulse, tip, draw, drawArena |
+| geelooy/games/rambam | 8 | 4 | 11 | 20 | renderCurrent, publishStatus, animate, synchronizeMotion, NUM_SLICES, ORBIT_RADIUS, DEGREES_PER_DAY, SIMULATION_DIVISOR, CAMERA_FOV, CAMERA_NEAR, CAMERA_FAR, CAMERA_POSITION |
+| geelooy/games/rebbe-runner | 38 | 29 | 34 | 41 | NEFESH_VISUALS, KELIPOS, MITZVAH_VISUALS, SHEFA, MASLUL_SCENERY, OLAM, MASLULIM, CHESED_RUN_CATALOG, KelipahObstacle, MaslulState, MitzvahSpark, NefeshRunner |
+| geelooy/games/scribe-journey | 370 | 12 | 558 | 543 | awakenScribeJourney, revealAwakeningFailure, escapeChronicleText, amalekBeasts, binahBeasts, campaignBeasts, campaignChesedBinahBeasts, campaignChokhmahKeterBeasts, createCampaignMusag, createCampaignRoster, campaignHodNetzachBeasts, campaignMalkuthFinaleBeasts |
+| geelooy/games/scripts | 183 | 161 | 3553 | 232 | UI, stands, MOTION_ADVENTURE_GAMES, MYSTIC_ADVENTURE_GAMES, ADVENTURE_GAMES, revealGameCapabilities, revealCatalogCapabilities, revealCapabilityTags, revealSoloCovenant, multiplayerCapability, NATIVE_MULTIPLAYER_GAME_IDS, visualCapability |
+| geelooy/games/sefira-clash | 1300 | 61 | 2799 | 1947 | neutralInput, botReport, finiteFighter, summarizeSpectacle, round, assert, snap, sumDamage, aliveCount, summarize, length, checkCase |
+| geelooy/games/seven-mitzvos | 471 | 285 | 642 | 687 | AccessibilityProfileService, AccessibleStateProjector, population, describeAlert, InputBindingService, setPersonAction, updatePersonAction, personActionName, createState, applyPose, required, AppRouteServices |
+| geelooy/games/shared | 1 | 0 | 8 | 0 | data, render, setProgress, rotateTip, finish, bump, watch, scan |
+| geelooy/games/shema-strike | 151 | 71 | 56 | 202 | AccessibilityProfile, copy, objectiveCopy, KeserCampaignGate, MalchusBootFailure, YesodOptionalArena, CheckpointManager, entityState, restoreEntities, componentSnapshots, createComponent, COMPONENT_KINDS |
+| geelooy/games/soul-jump | 22 | 19 | 1 | 23 | VerticalCamera, SOUL_CONFIG, SOUL_GLYPHS, BackgroundParticle, Enemy, Particle, Platform, Player, Powerup, DragInput, OverlayRenderer, WorldRenderer |
+| geelooy/games/sulam-ha-sod | 145 | 28 | 161 | 243 | CameraRig, Game, InputVessel, Renderer, LightningRenderer, PhysicsWorld, CanvasViewport, hardenCampaign, hardenLevel, chooseCruelX, rotate, fakeCoin |
+| geelooy/games/tetris | 52 | 18 | 89 | 103 | landingCandidate, evaluateBoard, AIEngine, COLS, HIDDEN_ROWS, VISIBLE_ROWS, LOGICAL_ROWS, LOCK_DELAY_MS, MAX_LOCK_RESETS, COLORS, SHAPES, LINE_SCORES |
+| geelooy/git | 1 | 0 | 3 | 0 | handleGit, queryStringOf, gitErrorResponse |
+| geelooy/heichel-editor | 15 | 0 | 24 | 14 | async, postEditorRequest, readEditorConfig, clean, el, field, formShell, submitForm, inviteForm, settingsFields, settingsForm, advancedSettings |
+| geelooy/heichel-review | 19 | 10 | 37 | 18 | GovernanceApi, renderInvitations, invitationCard, renderMembers, memberCard, GovernanceMutations, GovernancePanel, reviewActionPolicy, reviewActionNames, ReviewApi, ensureConsequenceSurface, setDecisionFieldVisibility |
+| geelooy/heichelos | 873 | 183 | 3115 | 1669 | revealHeichelRoutes, xmur3, mulberry32, makeRand, buildAtlas, compile, program, Ambient, attrBuf, bindAttr, styleCanvas, init |
+| geelooy/igeres-hakodesh | 1 | 0 | 0 | 0 | — |
+| geelooy/js | 5 | 3 | 21 | 4 | AwtsmoosAudioPlayer, formatTime, escapeHtml, escapeAttr, _build, open, close, isOpen, enhanceAll, _injectStyles, _init, loadStyles |
+| geelooy/libs | 3910 | 843 | 7426 | 5580 | AwtsmoosUiActions, AwtsmoosUiStore, UI, bind, when, each, element, buildElement, AwtsmoosUiElement, AwtsmoosUiRenderer, normalizeUiNode, collectDomProps |
+| geelooy/likutei-torah | 1 | 0 | 0 | 0 | — |
+| geelooy/mawgawl | 42 | 8 | 148 | 92 | from, showMessage, showDivInModal, updateDivInModal, closeModal, createCalendar, resetMinutes, createCalendarWithMonth, addBooking, displayHours, minuteClickHandler, displayMinutes |
+| geelooy/messages | 1 | 0 | 11 | 1 | async, cleanAlias, json, ep, listFrom, esc, fmtDate, loadAliases, loadInbox, openThread, sendMessage, bootMessages |
+| geelooy/node-os | 1 | 0 | 16 | 0 | el, json, pathParts, openPath, breadcrumbs, childCard, detail, preview, nodeCard, sourceLabel, sideCard, hero |
+| geelooy/notifications | 15 | 0 | 56 | 32 | async, bootNotificationSocialOs, createNotificationActions, markButton, safeActionLink, actionLabel, secondaryReadDisclosure, revealBinahNotificationContext, humanize, groupLabel, contextChips, entityKey |
+| geelooy/os | 732 | 80 | 2426 | 1346 | for, AwtsmoosDB, AwtsmoosOS, programIcon, programsByExtension, initialDefaultPrograms, programs, program, defaultPrograms, getDefaultProgram, Object, CivilizationOSClient |
 | geelooy/oyvedEdom.js | 1 | 0 | 0 | 0 | — |
-| geelooy/platform | 89 | 1 | 145 | 115 | createAndroidRoundTripAdapter, requireFunction, createBundleArtifactAdapter, createCharacterAuthorityAdapter, createMovieCompilerAdapter, toMovieSource, createRadianceAdapter, normalizeTime, reasonsToSignals, createRichSocialAdapter, adaptTunnelReceipt, createQuarantineIfNeeded |
+| geelooy/parsers | 2 | 1 | 5 | 2 | buildArchiveDocument, escapeHtml, renderContent, renderMessage, renderDay, WhatsAppParser |
+| geelooy/platform | 94 | 1 | 161 | 120 | createAndroidRoundTripAdapter, requireFunction, createBundleArtifactAdapter, createCharacterAuthorityAdapter, createMovieCompilerAdapter, toMovieSource, createRadianceAdapter, normalizeTime, reasonsToSignals, createRichSocialAdapter, adaptTunnelReceipt, createQuarantineIfNeeded |
+| geelooy/portal | 7 | 2 | 8 | 9 | PortalApp, bindPortalInteractions, parsePortalRoute, portalRouteHref, publishPortalRoute, listenPortalNavigation, async, loadPortalRoute, PortalState, renderPortalState, revealPortal |
 | geelooy/post-editor | 11 | 1 | 27 | 13 | async, savePostDraft, publishPostDraft, request, errorMessage, readPostEditorConfig, clean, createElement, saveEditorDraft, publishEditorPost, runEditorOperation, setStatus |
-| geelooy/profile | 22 | 1 | 99 | 44 | async, readAliasValues, setAliasStudioStatus, setAliasStudioBusy, saveAlias, deleteAlias, createAliasBody, readApiResult, getAliasStudioConfig, getAliasStudioRefs, readBootstrap, bindAliasDeletion |
+| geelooy/profile | 30 | 4 | 126 | 59 | async, readAliasValues, setAliasStudioStatus, setAliasStudioBusy, saveAlias, deleteAlias, createAliasBody, readApiResult, getAliasStudioConfig, getAliasStudioRefs, readBootstrap, bindAliasDeletion |
+| geelooy/profile-comments | 1 | 0 | 15 | 0 | esc, alias, url, setStatus, showPager, crumb, getJSON, seriesLabel, renderSeries, go, renderPosts, commentCard |
 | geelooy/record | 1 | 0 | 7 | 0 | setStatus, stopStream, requestCamera, startCamera, stopStreamSilently, switchCamera, cameraErrorMessage |
 | geelooy/recorder | 4 | 0 | 18 | 9 | async, beginRecording, stopRecording, stopStream, acquireCameraStream, acquireDesktopStream, selectMimeType, downloadRecording, createRecorderController, setState, start, stop |
-| geelooy/register.js | 1 | 0 | 8 | 0 | retireLegacyOfflineState, mountUniversalChatFallback, unregisterWorkers, clearCaches, clearMetadataDatabases, deleteDatabase, readStorage, writeStorage |
-| geelooy/scripts | 1375 | 389 | 4857 | 1925 | AwtsmoosAPI, for, processText, causalLength, attend, applyRopePair, rotateHead, softmaxInPlace, convertGgufBytes, convertGgufFile, copyTensors, finalManifestBytes |
+| geelooy/reeyuh | 5 | 4 | 8 | 9 | TiferesReeyuhContentRenderer, KliReeyuhDom, GevurahReeyuhNavigator, normalizeBookName, normalizeNamedEntries, findShulchanAruch, buildSeferUrl, buildSectionUrl, ReeyuhSefarimRepository, normalizeEntry, loadPortion, initialize |
+| geelooy/register.js | 1 | 0 | 10 | 0 | isDedicatedMessagingPage, mountUniversalChatFallback, scheduleLegacyOfflineRetirement, retireLegacyOfflineState, unregisterLegacyWorker, registrationUsesLegacyWorker, clearMetadataDatabases, deleteDatabase, readStorage, writeStorage |
+| geelooy/scripts | 1889 | 619 | 7459 | 2976 | AwtsmoosAPI, for, processText, causalLength, attend, applyRopePair, rotateHead, softmaxInPlace, convertGgufBytes, convertGgufFile, copyTensors, finalManifestBytes |
+| geelooy/seo | 7 | 0 | 29 | 18 | generatePublicCatalog, publicCatalogRecords, shardRecords, writeShard, sitemapPaths, addPublicPath, normalizePath, renderSitemap, escapeXml, generateSitemap, cleanPlain, encodeSegment |
 | geelooy/service-worker.js | 1 | 0 | 1 | 0 | retireLegacyWorker |
-| geelooy/shared | 117 | 23 | 377 | 280 | ActivityBeacon, startActivityBeacon, publicAliasFromMemory, queryAlias, verifiedAlias, eventPayload, recordSearchActivity, recordPostView, async, recordMeaningfulActivity, postKey, seenPost |
-| geelooy/sites | 23 | 0 | 90 | 56 | buildCustomDomainResponse, createCustomDomainHttpIngress, driveContext, rawRequestPath, writeGatewayResponse, customDomainHttpIngress, closeExternalHost, badPathResponse, RESERVED_SEGMENTS, assertDirectPublicPath, privatePathError, assertPublicSegment |
-| geelooy/social | 41 | 23 | 50 | 56 | MigrationController, MigrationRecoveryController, MigrationRenderCoordinator, archiveKind, archiveMime, isMetadataPath, ArchiveSource, safeArchivePath, safeArchivePathOrNull, ZipCentralDirectory, ZipEntryReader, matchesMigrationFilters |
-| geelooy/social-actions | 7 | 1 | 15 | 13 | buildOwnedCloneUrl, put, createPostReferenceButton, mountPostReferenceAction, contextFromDataset, mountDatasetReferenceActions, normalizeReferenceContext, validateReferenceContext, buildPostReferenceUrl, safeReturnPath, clean, YesodReactionApi |
-| geelooy/social-composer | 200 | 81 | 452 | 323 | createComposer, createWorkflow, createController, createCreatorAssembly, createDestinationAssembly, DraftAssembly, createDraftAssembly, createEditorAssembly, createReelAssembly, createReviewAssembly, installComposerAccessibility, hasAccessibleName |
-| geelooy/social-hub | 128 | 77 | 166 | 159 | createSocialHub, HubApp, activityCard, durationLabel, timestamp, ActivityPanel, ActivityTracker, PrivacyActions, prepared, PrivacyPanel, CATEGORIES, preferencesFromFields |
-| geelooy/tmp | 1 | 0 | 3 | 0 | send, captureBrowserEvent, readPageState |
-| geelooy/view | 1 | 0 | 0 | 1 | dynamicRoutes |
-| geelooy/webScrapers | 5 | 0 | 30 | 0 | processGemaraJson, processChabadOneText, doAll, getFilesInDirectory, formatPage, getDafData, getPage, getEntireChabadLibraryBookSequential, processItemSequential, getEntireChabadLibraryBook, downloadJ, getData |
-| geelooy/youtube | 7 | 3 | 14 | 10 | HodCommandQuoter, YesodLocalSecretVault, ChesedYtDlpCommandBuilder, boot, loadChannel, loadVideos, uploadMetadata, updateChanges, showUpdateError, youtubeApi, request, uploadToGoogle |
-| geelooy/zmanim | 65 | 35 | 108 | 115 | ZmanimApp, AwtsmoosZmanimCalendar, MALCHUS_CALENDAR_DAY_STYLES, parseIsoDate, toIsoDate, shiftDays, shiftMonths, monthLabel, monthGrid, isCurrentMonth, BinahCalendarRenderer, malchusTodayIsoDate |

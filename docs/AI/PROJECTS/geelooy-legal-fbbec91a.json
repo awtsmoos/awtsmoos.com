@@ -18,14 +18,14 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-legal-fbbec91a.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 6,
+		"source": 8,
 		"tests": 0,
 		"assets": 0,
 		"generated": 0,
 		"docs": 0,
 		"other": 0
 	},
-	"totalFiles": 6,
+	"totalFiles": 8,
 	"symbolSummary": null,
 	"outgoingDependencies": [],
 	"incomingDependencies": [],

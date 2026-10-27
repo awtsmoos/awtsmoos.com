@@ -1,0 +1,89 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-01-0310-native-chitas-reader-06-final-plan-v-bcb45d5d02",
+	"title": "Final Plan Versus Actual Audit",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-01-0310-native-chitas-reader/06-final-plan-vs-actual-audit.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Final Plan Versus Actual Audit",
+			"anchor": "final-plan-versus-actual-audit"
+		},
+		{
+			"level": 2,
+			"text": "The original requested experience",
+			"anchor": "the-original-requested-experience"
+		},
+		{
+			"level": 2,
+			"text": "What actually exists after two implementation passes",
+			"anchor": "what-actually-exists-after-two-implementation-passes"
+		},
+		{
+			"level": 3,
+			"text": "Native dynamic-range layer",
+			"anchor": "native-dynamic-range-layer"
+		},
+		{
+			"level": 3,
+			"text": "Native Tanach adapter",
+			"anchor": "native-tanach-adapter"
+		},
+		{
+			"level": 3,
+			"text": "Chitas schedule",
+			"anchor": "chitas-schedule"
+		},
+		{
+			"level": 3,
+			"text": "Native reader",
+			"anchor": "native-reader"
+		},
+		{
+			"level": 3,
+			"text": "Comments and social behavior",
+			"anchor": "comments-and-social-behavior"
+		},
+		{
+			"level": 3,
+			"text": "Mobile-first week/list UX",
+			"anchor": "mobile-first-week-list-ux"
+		},
+		{
+			"level": 3,
+			"text": "Language truth",
+			"anchor": "language-truth"
+		},
+		{
+			"level": 2,
+			"text": "What readback found and corrected",
+			"anchor": "what-readback-found-and-corrected"
+		},
+		{
+			"level": 2,
+			"text": "Evidence after the second pass",
+			"anchor": "evidence-after-the-second-pass"
+		},
+		{
+			"level": 2,
+			"text": "Second readback result",
+			"anchor": "second-readback-result"
+		},
+		{
+			"level": 2,
+			"text": "Frozen Chitas release surface",
+			"anchor": "frozen-chitas-release-surface"
+		},
+		{
+			"level": 2,
+			"text": "Remaining work is release work, not known Chitas source work",
+			"anchor": "remaining-work-is-release-work-not-known-chitas-source-work"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-01-0310-native-chitas-reader-06-final-plan-v-bcb45d5d02-001.json"
+	]
+}

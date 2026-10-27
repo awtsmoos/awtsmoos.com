@@ -1,0 +1,131 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-light-three-gltf-test-directory-g-75aa421554",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/light-three-gltf/test/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/light-three-gltf/test",
+				"anchor": "directory-guide-experiments-light-three-gltf-test"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Exported symbols worth searching",
+				"anchor": "exported-symbols-worth-searching"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Test themes",
+				"anchor": "test-themes"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/light three gltf/test Role: Rendering library Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 27 files, 0 structural child directories Purpose Tests for the lightweight scene graph, GLTF, math, and renderer primitives. T",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/light three gltf/test role: rendering library snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 27 files, 0 structural child directories purpose tests for the lightweight scene graph, gltf, math, and renderer primitives. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: rendering library search terms: mjs, tiny, state, render, texture, cache, com, proves, layered, material, native, static file mix: .mjs: 26 good first question: “does the behavior or asset i need belong to rendering library, or is this only a neighboring/test/reference layer?” semantic evidence b\"h proves first clip activation, exact looping, crossfade, and bind restoration. the awtsmoos gives motion to clip zero before any clock has passed; awtsmoos.com verifies that idle begins alive, continues without reset, and yields cleanly to every later gesture. creates a fake webgl context whose native call ledger remains observable. proves exact skips, selective vao invalidation, restore, and identity. the awtsmoos remembers without confusion; awtsmoos.com erases only the declarations a hidden vertex array change can alter while preserving every unrelated witnessed state. representative files tiny animation player.test.mjs — proves first clip activation, exact looping, crossfade, and bind restoration. the awtsmoos gives motion to clip zero before any clock has passed; awtsmoos.com verifies that idle begins alive, continues without reset, and yields cleanly to every later gesture. tiny gl state cache fixture.mjs — creates a fake webgl context whose native call ledger remains observable. exports: createfakegl, nativecallcount. tiny gl state cache.test.mjs — proves exact skips, selective vao invalidation, restore, and identity. the awtsmoos remembers without confusion; awtsmoos.com erases only the declarations a hidden vertex array change can alter while preserving every unrelated witnessed state. tiny gltf instance.test.mjs — proves resource sharing and mutable skeleton isolation between actors. the awtsmoos renews each body through one shared form; awtsmoos.com verifies that geometry and palette vessels are reused while bones and transforms remain independent. covers: “instances share geometry and default material but not bones”, “palette resolvers can share one variant across many instances”. tiny gpu texture binding.test.mjs — proves an already bound unit needs neither activation nor another texture bind. the awtsmoos joins memory and garment without empty motion; awtsmoos.com verifies that returning to a resident unit changes only the sampler uniform, not global webgl texture state. covers: “resident texture units skip redundant activetexture and bindtexture calls”. tiny layered terrain shader.test.mjs — proves six active samplers, ecological controls, and smaller gpu compilation. the awtsmoos is one beneath every stacked garment; awtsmoos.com verifies distinct earth without assuming every finite gpu should evaluate ten overlapping textures per pixel. covers: “default fragment shader contains six terrain samplers and seven mixes”, “a smaller shader contains only its measured layer capacity”, “ecological zone weights travel from vertex input to fragment shader”. tiny layered texture binder.test.mjs — proves zero ordinary material tax and hardware aware terrain layer capacity. the awtsmoos fills six vessels on broad hardware and five on a smaller vessel; awtsmoos.com never makes cottages or chassidim walk through empty terrain binding declarations. covers: “ordinary materials perform no terrain texture operations”, “verified hardware binds all six layers to units three through eight”, “eight unit hardware disables only the sixth excess terrain layer”. tiny layered texture state.test.mjs — proves ordinary materials stay empty while six active layers compare exactly. the awtsmoos joins only truly equal garments; awtsmoos.com detects image, readiness, repeat, ecology, height, slope, rotation, strength, and wetness without blank ordinary state. covers: “ordinary materials expose no layered state”, “six complete layers compare by exact shader visible state”, “missing logical layers become disabled default shader records”. tiny material signature.test.mjs — prevents batching across sidedness or incompatible native pixel density contracts. the awtsmoos unites forms without confusing their boundaries or scale; awtsmoos.com keeps distinct culling covenants and original pixel measurements in separate renderer vessels. covers: “material signatures distinguish every renderer visible sidedness contract”, “pre hydration signatures preserve distinct native density policies”, “hydrated source dimensions become part of the effective repeat signature”. tiny native texture density.test.mjs — proves original pixels produce fractional world scale repeats without resampling. the awtsmoos preserves the finite dimensions of every image vessel; awtsmoos.com verifies that world uvs reveal more or less of that source rather than enlarging or shrinking the source. covers: “world uv density uses exact source width, height, and uv scale”, “normalized surfaces calculate fractional cycles from measured surface size”, “unresolved and opted out sources preserve authored fallback repetition”. tiny render allocation cache.test.mjs — proves frame, transform, world map, and bounds storage reuse without math drift. the awtsmoos renews every coordinate; awtsmoos.com verifies the same finite vessels may receive those exact values again instead of becoming short lived frame garbage. covers: “world traversal reuses map, snapshots, hierarchy matrices, and sphere storage”, “render frames reuse camera matrices, camera position, and world map exactly”. tiny render culling.test.mjs — proves conservative bounds, camera culling, and invisible matrix skipping. the awtsmoos renews seen and unseen forms alike; awtsmoos.com verifies that the renderer conceals only what evidence places outside the present camera vessel. covers: “local and world spheres are cached and transformed”, “camera collection preserves front meshes and rejects side and distant meshes”, “explicit mountains remain visible and missing bounds fail open”. tiny render gl state stats.test.mjs — proves exact aggregation of cache and vertex array invalidation evidence. the awtsmoos contains every call and lawful omission; awtsmoos.com records their measure so an optimization remains a tested vessel rather than a flattering boast. exported symbols worth searching createfakegl · nativecallcount · createscene · collect · material · triangle · readyimage import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: node:assert/strict ../tiny runtime.js ../tiny animation.js ../tiny gl state cache.js ./tiny gl state cache fixture.mjs node:test ../tiny gltf instance.js ../tiny gpu texture cache.js ../tiny fragment shader.js ../tiny unified shaders.js ../tiny render webgl utils.js ../tiny layered texture binder.js test themes instances share geometry and default material but not bones palette resolvers can share one variant across many instances resident texture units skip redundant activetexture and bindtexture calls default fragment shader contains six terrain samplers and seven mixes a smaller shader contains only its measured layer capacity ecological zone weights travel from vertex input to fragment shader only explicit layered terrain enters material mode five ordinary materials perform no terrain texture operations verified hardware binds all six layers to units three through eight eight unit hardware disables only the sixth excess terrain layer ordinary materials expose no layered state six complete layers compare by exact shader visible state directory map parent: experiments/light three gltf children: none. related and overlapping systems rendering stacks — the project contains a lightweight scene/gltf library, the canonical app level progressive renderer, and focused render helpers. emergency fallback visuals were absorbed into the app renderer. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-light-three-gltf-test-directory-g-75aa421554.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-master-execution-plan-00-read-first-md-cb66805e1d",
+		"title": "MitzvahWorld Master Execution Handbook",
+		"sourcePath": "geelooy/games/mitzvahWorld/MASTER_EXECUTION_PLAN/00_READ_FIRST.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "MitzvahWorld Master Execution Handbook",
+				"anchor": "mitzvahworld-master-execution-handbook"
+			},
+			{
+				"level": 2,
+				"text": "Mission",
+				"anchor": "mission"
+			},
+			{
+				"level": 2,
+				"text": "Non-negotiable boot law",
+				"anchor": "non-negotiable-boot-law"
+			},
+			{
+				"level": 2,
+				"text": "Source law for every touched authored source file",
+				"anchor": "source-law-for-every-touched-authored-source-file"
+			},
+			{
+				"level": 2,
+				"text": "Concurrency / Git law",
+				"anchor": "concurrency-git-law"
+			},
+			{
+				"level": 2,
+				"text": "Existing isolated lanes to inspect before duplicating work",
+				"anchor": "existing-isolated-lanes-to-inspect-before-duplicating-work"
+			},
+			{
+				"level": 2,
+				"text": "Definition of done",
+				"anchor": "definition-of-done"
+			},
+			{
+				"level": 2,
+				"text": "North-star quality",
+				"anchor": "north-star-quality"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed be He MitzvahWorld Master Execution Handbook This folder is the persistent handoff for future sessions. Read this file first, then STATUS CHECKLIST.md, then the domain file for the task you are taking. Mission Build MitzvahWorld into a renderer independent, deterministic, persistent living wor",
+		"searchText": "b\"h boruch hashem blessed be he mitzvahworld master execution handbook this folder is the persistent handoff for future sessions. read this file first, then status checklist.md, then the domain file for the task you are taking. mission build mitzvahworld into a renderer independent, deterministic, persistent living world platform whose terrain, weather, water, vegetation, wildlife, civilization, creator, quests, audio, ui, and persistence share one coherent world truth. non negotiable boot law 1. first frame. 2. visible local world. 3. player movement/control. 4. playable state published. 5. optional enrichment only afterward. 6. no remote api, ai, multiplayer, weather provider, texture catalog, or heavy simulation may block first control. source law for every touched authored source file start with exactly //b\"h, //boruch hashem, //blessed be he when the language supports comments. javascript authored files must remain strictly under 120 lines. use tabs for indentation. use extensive, real jsdoc and descriptive names. never minify, compress, or squeeze logic to satisfy line limits; split modules instead. prefer whole file rewrites after reading the file; do not blindly patch concurrent work. concurrency / git law canonical repo: /users/awtsmoos/work/awtsmoos.com on main. re check git fetch origin main, status, head, origin/main, worktrees, reflog, and stashes before any reconciliation. canonical is highly concurrent. never use git reset hard, git clean fd, git add ., force push, or blind stashes. stage only owned paths. preserve unrelated changes. temporary worktrees are implementation lanes only; final useful work must return to canonical main and be pushed so head == origin/main. existing isolated lanes to inspect before duplicating work tree/vegetation: /users/awtsmoos/.awtsmoos tree vegetation 20260909, branch ai/tree vegetation superset 20260909. weather: /users/awtsmoos/.awtsmoos weather core 20260909, branch ai/weather core 20260909. world selector: /users/awtsmoos/.awtsmoos world selector 20260909, branch ai/world selector 20260909. do not assume lane state is current; inspect before editing or removing. definition of done a task is not done because code exists. it is done only when authored source rules pass, tests pass, runtime/browser behavior is verified where relevant, persistence/reload is proven where relevant, canonical main contains the work, origin is synchronized, and production/live verification is complete when deployment is in scope. north star quality the reference artwork shows the target mood: cinematic valleys, rivers, waterfalls, real settlements, forests, mountains, study halls, creator building, traversal challenges, coast, desert, night sky, community, and restrained contextual ui. the goal is better: every beautiful scene must be systemic, explorable, persistent, performant, and causally connected rather than a static backdrop.",
+		"page": "pages/geelooy-games-mitzvahworld-master-execution-plan-00-read-first-md-cb66805e1d.json"
+	}
+]

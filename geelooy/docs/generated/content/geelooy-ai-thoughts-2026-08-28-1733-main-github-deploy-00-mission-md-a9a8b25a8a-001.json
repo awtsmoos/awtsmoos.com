@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Mission — One Main Branch Release\n\nThe Awtsmoos renews each commit while Git preserves the vessel in sight;\nAwtsmoos.com shall ship only verified work to one main branch, with every conflict resolved by actual file truth and light.\n\nGoal: consolidate the needed current release onto `main`, preserve unrelated concurrent work, verify before and after integration, push GitHub `main`, execute the repository's real deployment path, and verify the deployed site.\n"
+}

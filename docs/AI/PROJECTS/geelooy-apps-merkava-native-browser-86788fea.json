@@ -9,8 +9,9 @@
 		"id": "apps",
 		"title": "Applications"
 	},
-	"title": "geelooy/apps/merkava-native-browser",
+	"title": "Merkava Native Browser Engine — Awtsmoos",
 	"entries": [
+		"index.html",
 		"package.json",
 		"DOCUMENTATION.md"
 	],
@@ -23,19 +24,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-merkava-native-browser-86788fea.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 60,
+		"source": 72,
 		"tests": 0,
 		"assets": 0,
-		"generated": 10,
+		"generated": 62,
 		"docs": 1,
-		"other": 8
+		"other": 95
 	},
-	"totalFiles": 79,
+	"totalFiles": 230,
 	"symbolSummary": {
-		"files": 55,
+		"files": 58,
 		"classes": 0,
-		"functions": 55,
-		"exports": 10,
+		"functions": 71,
+		"exports": 15,
 		"samples": [
 			"readSample",
 			"cStringLiteral",
@@ -61,6 +62,13 @@
 	"incomingDependencies": [],
 	"externalDependencies": [],
 	"publicEntries": [
+		{
+			"url": "/apps/merkava-native-browser",
+			"file": "geelooy/apps/merkava-native-browser/index.html",
+			"title": "Merkava Native Browser Engine — Awtsmoos",
+			"scripts": 0,
+			"styles": 0
+		},
 		{
 			"url": "/apps/merkava-native-browser/tmp-chrome-webgl",
 			"file": "geelooy/apps/merkava-native-browser/tmp-chrome-webgl/index.html",

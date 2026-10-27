@@ -12,7 +12,7 @@ Blessed is He
 
 ## Entry and documentation evidence
 
-- Entry files: `_awtsmoos.derech.js`, `DOCUMENTATION.md`
+- Entry files: `_awtsmoos.derech.js`, `DOCUMENTATION.md`, `README.md`, `readme.md`
 - Local documentation: `geelooy/api/oauth/DOCUMENTATION.md`
 - Local-doc requirement: yes; covered: yes
 - Symlink target: —
@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 47 | 10 | 0 | 0 | 1 | 0 | 58 |
+| 60 | 16 | 0 | 0 | 7 | 0 | 83 |
 
 ## Public entry points
 
@@ -29,7 +29,7 @@ None observed.
 
 ## Symbol evidence
 
-Source files: 47; classes: 0; functions: 168; exports: 155; samples: dynamicRoutes, cleanRouteName, missingRoute, callRoute, applyOAuthHeaders, buildTokenBody, makeAccessToken, base64Url, sign, getClient, listClients, publicClient.
+Source files: 60; classes: 0; functions: 216; exports: 210; samples: dynamicRoutes, cleanRouteName, missingRoute, callRoute, logRouteLoadFailure, applyOAuthHeaders, buildTokenBody, makeAccessToken, base64Url, sign, HANDOFF_ID_BYTES, HANDOFF_MAX_RECORDS.
 
 ## Depends on
 
@@ -37,9 +37,11 @@ Source files: 47; classes: 0; functions: 168; exports: 155; samples: dynamicRout
 
 ## Used by
 
+- `geelooy/api/social` — 8 lexical references; examples: geelooy/api/social/helper/comments/postRefComment.js; geelooy/api/social/helper/comments/routes/rich.js; geelooy/api/social/helper/comments/translationAnnotations.js
+- `geelooy/api/tunnel` — 2 lexical references; examples: geelooy/api/tunnel/control/core/auth.js; geelooy/api/tunnel/control/mcp/auth.js
 - `geelooy/.well-known` — 1 lexical reference; examples: geelooy/.well-known/_awtsmoos.derech.js
-- `geelooy/api/tunnel` — 1 lexical reference; examples: geelooy/api/tunnel/control/core/auth.js
 - `geelooy/api/youtube` — 1 lexical reference; examples: geelooy/api/youtube/routes/auth.js
+- `geelooy/sites` — 1 lexical reference; examples: geelooy/sites/siteRemixReceiptCrypto.js
 
 ## External packages
 
@@ -47,4 +49,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **10**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **16**. Treat this as file evidence, not proof of behavioral coverage.

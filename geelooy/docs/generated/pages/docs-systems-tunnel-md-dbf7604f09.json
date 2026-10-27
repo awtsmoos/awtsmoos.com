@@ -2,50 +2,60 @@
 	"BH": "B\"H / Boruch Hashem / Blessed is He",
 	"schema": "awtsmoos-doc-page-v2",
 	"id": "docs-systems-tunnel-md-dbf7604f09",
-	"title": "Tunnel System",
+	"title": "Tunnel System — Architecture Truth",
 	"sourcePath": "docs/SYSTEMS/TUNNEL.md",
 	"category": "Tunnel",
 	"provenance": "manual",
 	"headings": [
 		{
 			"level": 1,
-			"text": "Tunnel System",
-			"anchor": "tunnel-system"
+			"text": "Tunnel System — Architecture Truth",
+			"anchor": "tunnel-system-architecture-truth"
 		},
 		{
 			"level": 2,
-			"text": "Major source roots",
-			"anchor": "major-source-roots"
+			"text": "Runtime graph",
+			"anchor": "runtime-graph"
 		},
 		{
 			"level": 2,
-			"text": "Base Tunnel API",
-			"anchor": "base-tunnel-api"
+			"text": "Identity and custody",
+			"anchor": "identity-and-custody"
 		},
 		{
 			"level": 2,
-			"text": "Control plane",
-			"anchor": "control-plane"
+			"text": "Installer and promotion lifecycle",
+			"anchor": "installer-and-promotion-lifecycle"
 		},
 		{
 			"level": 2,
-			"text": "Installer plane",
-			"anchor": "installer-plane"
+			"text": "Transfer protocol",
+			"anchor": "transfer-protocol"
 		},
 		{
 			"level": 2,
-			"text": "Trusted identity",
-			"anchor": "trusted-identity"
+			"text": "Permission model",
+			"anchor": "permission-model"
 		},
 		{
 			"level": 2,
-			"text": "Long-lived behavior",
-			"anchor": "long-lived-behavior"
+			"text": "Source roots",
+			"anchor": "source-roots"
 		},
 		{
 			"level": 2,
-			"text": "Existing docs",
-			"anchor": "existing-docs"
+			"text": "Release truth",
+			"anchor": "release-truth"
+		},
+		{
+			"level": 2,
+			"text": "Incident rules",
+			"anchor": "incident-rules"
+		},
+		{
+			"level": 2,
+			"text": "Operator verification",
+			"anchor": "operator-verification"
 		}
 	],
 	"markdownParts": [

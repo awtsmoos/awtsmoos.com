@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Search Routes (geelooy/api/social/helper/search/routes/)\n\nHTTP routes for all search surfaces, mounted via `_awtsmoos.search.js`.\n\n## Files\n- `routeGroups.js` — assembles route groups; `values.js`, `requestSnapshot.js`, `responseStatus.js`, `safe.js`, `capabilities.js` — route plumbing.\n- `exact.js` — exact Hebrew routes; `semantic.js` — semantic routes.\n- `library.js` — library search routes; `lexicon.js` — lexicon/dictionary routes.\n- `tanach.js` — Tanach search routes; `comments.js` — comment search routes.\n\n## Endpoints\n- `/search/exact/hebrew[/meta]`, `/search/semantic`, `/search/capabilities`\n- `/search/library/query|browse|dictionary[/alphabet|ranges|browse]|dictionaries|shards`\n- `/search/rag/query|shards|comments/:comment|post-comments|llama/status`, `/rag/search/query|shards`\n- `/search/tanach/hebrew`, `/search/tanach/native`\n- `/dictionary/alphabet|ranges|browse`\n\n`test/` — lexicon browse registration and semantic route tests.\n"
+}

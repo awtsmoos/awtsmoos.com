@@ -1,401 +1,331 @@
 [
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-apps-rebbe-d2246f9f-md-d4bd63bbb8",
-		"title": "Project Tutorial: AWTSMOOS ARCHIVE // OMEGA",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-rebbe-d2246f9f.md",
-		"category": "Projects",
+		"id": "docs-generated-api-tutorials-routes-api-youtube-live-create-ed8850fb7e-m-b9bd04fbdf",
+		"title": "API Tutorial: /api/youtube/live/create",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-live-create-ed8850fb7e.md",
+		"category": "Routes",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: AWTSMOOS ARCHIVE // OMEGA",
-				"anchor": "project-tutorial-awtsmoos-archive-omega"
+				"text": "API Tutorial: /api/youtube/live/create",
+				"anchor": "api-tutorial-api-youtube-live-create"
 			},
 			{
 				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
 			},
 			{
 				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
+				"text": "Path parameters",
+				"anchor": "path-parameters"
 			},
 			{
 				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
+				"text": "Starter call",
+				"anchor": "starter-call"
 			},
 			{
 				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
+				"text": "Observed callers",
+				"anchor": "observed-callers"
 			},
 			{
 				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
+				"text": "Related tests",
+				"anchor": "related-tests"
 			},
 			{
 				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Related routes",
+				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: AWTSMOOS ARCHIVE // OMEGA Path: geelooy/apps/rebbe · Type: app · Family: Applications Read the human Applications guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health ",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: awtsmoos archive // omega path: geelooy/apps/rebbe · type: app · family: applications read the human applications guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, main.js, documentation.md local documentation: geelooy/apps/rebbe/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 125 0 0 0 1 0 126 public entry points /apps/rebbe → geelooy/apps/rebbe/index.html — awtsmoos archive // omega symbol evidence source files: 117; classes: 8; functions: 588; exports: 261; samples: async, collectrebbeassets, collectdirectory, boundednumber, asseterror, buildrebberesponsaapk, generaterebberesponsaapk, rebbe android source, mainactivity, handleback, handlenext, handleprev. depends on geelooy/scripts — 1 lexical reference; examples: geelooy/apps/rebbe/android/build.js used by geelooy/api/compiler — 1 lexical reference; examples: geelooy/api/compiler/core/rebbeapkhandler.js external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-apps-rebbe-d2246f9f-md-d4bd63bbb8.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/youtube/live/create Family: YouTube · Mount: /api/youtube · Derech health: OK Source: geelooy/api/youtube/routes/table.js · Discovery: route table · Confidence: unknown method Read the human YouTube tutorial Generated evidence is a navigation and teaching aid, not an O",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/youtube/live/create family: youtube · mount: /api/youtube · derech health: ok source: geelooy/api/youtube/routes/table.js · discovery: route table · confidence: unknown method read the human youtube tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/youtube/live/create geelooy/apps/nesher studio/modules/streaming/youtubecontrol.js runtime related tests no package script heuristic match was found. related routes /api/youtube /api/youtube/:a /api/youtube/:a/:b /api/youtube/:a/:b/:c /api/youtube/auth/callback /api/youtube/auth/logout /api/youtube/auth/start /api/youtube/auth/status",
+		"page": "pages/docs-generated-api-tutorials-routes-api-youtube-live-create-ed8850fb7e-m-b9bd04fbdf.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-apps-scripts-e21af555--b470fc3f61",
-		"title": "Project Tutorial: geelooy/apps/scripts",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-scripts-e21af555.md",
-		"category": "Projects",
+		"id": "docs-generated-api-tutorials-routes-api-youtube-live-list-ead6bdc367-md-ac8edf2494",
+		"title": "API Tutorial: /api/youtube/live/list",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-live-list-ead6bdc367.md",
+		"category": "Routes",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: geelooy/apps/scripts",
-				"anchor": "project-tutorial-geelooy-apps-scripts"
+				"text": "API Tutorial: /api/youtube/live/list",
+				"anchor": "api-tutorial-api-youtube-live-list"
 			},
 			{
 				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
 			},
 			{
 				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
+				"text": "Path parameters",
+				"anchor": "path-parameters"
 			},
 			{
 				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
+				"text": "Starter call",
+				"anchor": "starter-call"
 			},
 			{
 				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
+				"text": "Observed callers",
+				"anchor": "observed-callers"
 			},
 			{
 				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
+				"text": "Related tests",
+				"anchor": "related-tests"
 			},
 			{
 				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Related routes",
+				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/apps/scripts Path: geelooy/apps/scripts · Type: app · Family: Applications Read the human Applications guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health gua",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/apps/scripts path: geelooy/apps/scripts · type: app · family: applications read the human applications guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: documentation.md local documentation: geelooy/apps/scripts/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 15 0 0 0 1 0 16 public entry points none observed. symbol evidence source files: 15; classes: 1; functions: 10; exports: 16; samples: categorymatches, announceresults, applyfilters, defineapp, creation apps, developer apps, game apps, awtsmoos, gameasapp, publicgamehref, public apps, media apps. depends on geelooy/games/scripts — 1 lexical reference; examples: geelooy/apps/scripts/catalog/games.mjs used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-apps-scripts-e21af555--b470fc3f61.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/youtube/live/list Family: YouTube · Mount: /api/youtube · Derech health: OK Source: geelooy/api/youtube/routes/table.js · Discovery: route table · Confidence: unknown method Read the human YouTube tutorial Generated evidence is a navigation and teaching aid, not an Ope",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/youtube/live/list family: youtube · mount: /api/youtube · derech health: ok source: geelooy/api/youtube/routes/table.js · discovery: route table · confidence: unknown method read the human youtube tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/youtube /api/youtube/:a /api/youtube/:a/:b /api/youtube/:a/:b/:c /api/youtube/auth/callback /api/youtube/auth/logout /api/youtube/auth/start /api/youtube/auth/status",
+		"page": "pages/docs-generated-api-tutorials-routes-api-youtube-live-list-ead6bdc367-md-ac8edf2494.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-apps-sheets-95681150-m-83fc8093f0",
-		"title": "Project Tutorial: Awtsmoos Sheets",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-sheets-95681150.md",
-		"category": "Projects",
+		"id": "docs-generated-api-tutorials-routes-api-youtube-live-transition-ae1a4cbf-0359626d7b",
+		"title": "API Tutorial: /api/youtube/live/transition",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-live-transition-ae1a4cbf7f.md",
+		"category": "Routes",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: Awtsmoos Sheets",
-				"anchor": "project-tutorial-awtsmoos-sheets"
+				"text": "API Tutorial: /api/youtube/live/transition",
+				"anchor": "api-tutorial-api-youtube-live-transition"
 			},
 			{
 				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
 			},
 			{
 				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
+				"text": "Path parameters",
+				"anchor": "path-parameters"
 			},
 			{
 				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
+				"text": "Starter call",
+				"anchor": "starter-call"
 			},
 			{
 				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
+				"text": "Observed callers",
+				"anchor": "observed-callers"
 			},
 			{
 				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
+				"text": "Related tests",
+				"anchor": "related-tests"
 			},
 			{
 				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Related routes",
+				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Awtsmoos Sheets Path: geelooy/apps/sheets · Type: app · Family: Applications Read the human Applications guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantee",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: awtsmoos sheets path: geelooy/apps/sheets · type: app · family: applications read the human applications guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, documentation.md local documentation: geelooy/apps/sheets/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 127 2 0 0 1 0 130 public entry points /apps/sheets → geelooy/apps/sheets/index.html — awtsmoos sheets symbol evidence source files: 112; classes: 42; functions: 303; exports: 214; samples: gevurahworkbookactions, applydocumentoperation, applysharestate, applyvaluepatches, applystylepatches, applyextensionsave, applyextensionremove, async, malchuschromestate, selectedtsv, parseclipboardmatrix, matrixpatches. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 2 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-apps-sheets-95681150-m-83fc8093f0.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/youtube/live/transition Family: YouTube · Mount: /api/youtube · Derech health: OK Source: geelooy/api/youtube/routes/table.js · Discovery: route table · Confidence: unknown method Read the human YouTube tutorial Generated evidence is a navigation and teaching aid, not ",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/youtube/live/transition family: youtube · mount: /api/youtube · derech health: ok source: geelooy/api/youtube/routes/table.js · discovery: route table · confidence: unknown method read the human youtube tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/youtube/live/transition geelooy/apps/nesher studio/modules/streaming/youtubecontrol.js runtime related tests no package script heuristic match was found. related routes /api/youtube /api/youtube/:a /api/youtube/:a/:b /api/youtube/:a/:b/:c /api/youtube/auth/callback /api/youtube/auth/logout /api/youtube/auth/start /api/youtube/auth/status",
+		"page": "pages/docs-generated-api-tutorials-routes-api-youtube-live-transition-ae1a4cbf-0359626d7b.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-apps-slides-31197e15-m-707255350f",
-		"title": "Project Tutorial: Awtsmoos Slides",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-slides-31197e15.md",
-		"category": "Projects",
+		"id": "docs-generated-api-tutorials-routes-api-youtube-oauth-callback-77ef36bff-4be269fac7",
+		"title": "API Tutorial: /api/youtube/oauth/callback",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-oauth-callback-77ef36bff2.md",
+		"category": "Security",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: Awtsmoos Slides",
-				"anchor": "project-tutorial-awtsmoos-slides"
+				"text": "API Tutorial: /api/youtube/oauth/callback",
+				"anchor": "api-tutorial-api-youtube-oauth-callback"
 			},
 			{
 				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
 			},
 			{
 				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
+				"text": "Path parameters",
+				"anchor": "path-parameters"
 			},
 			{
 				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
+				"text": "Starter call",
+				"anchor": "starter-call"
 			},
 			{
 				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
+				"text": "Observed callers",
+				"anchor": "observed-callers"
 			},
 			{
 				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
+				"text": "Related tests",
+				"anchor": "related-tests"
 			},
 			{
 				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Related routes",
+				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Awtsmoos Slides Path: geelooy/apps/slides · Type: app · Family: Applications Read the human Applications guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantee",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: awtsmoos slides path: geelooy/apps/slides · type: app · family: applications read the human applications guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, package.json, documentation.md local documentation: geelooy/apps/slides/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 70 10 0 0 1 1 82 public entry points /apps/slides → geelooy/apps/slides/index.html — awtsmoos slides symbol evidence source files: 54; classes: 31; functions: 89; exports: 88; samples: collab version, sync event, request event, createpublishmessage, parsecollaborationevent, createroomid, createclientid, presenceslidestransport, presentationcollaboration, placeroominurl, async, copysharelink. depends on geelooy/scripts — 1 lexical reference; examples: geelooy/apps/slides/src/collab/presenceslidestransport.js used by none observed. external packages none observed. verification clue observed test classified files: 10 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-apps-slides-31197e15-m-707255350f.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/youtube/oauth/callback Family: YouTube · Mount: /api/youtube · Derech health: OK Source: geelooy/api/youtube/routes/table.js · Discovery: route table · Confidence: unknown method Read the human YouTube tutorial Generated evidence is a navigation and teaching aid, not a",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/youtube/oauth/callback family: youtube · mount: /api/youtube · derech health: ok source: geelooy/api/youtube/routes/table.js · discovery: route table · confidence: unknown method read the human youtube tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/youtube /api/youtube/:a /api/youtube/:a/:b /api/youtube/:a/:b/:c /api/youtube/auth/callback /api/youtube/auth/logout /api/youtube/auth/start /api/youtube/auth/status",
+		"page": "pages/docs-generated-api-tutorials-routes-api-youtube-oauth-callback-77ef36bff-4be269fac7.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-apps-styles-c794a9eb-m-222012fc5b",
-		"title": "Project Tutorial: geelooy/apps/styles",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-styles-c794a9eb.md",
-		"category": "Projects",
+		"id": "docs-generated-api-tutorials-routes-api-youtube-oauth-logout-b12d002f1f--d78a71c1f2",
+		"title": "API Tutorial: /api/youtube/oauth/logout",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-oauth-logout-b12d002f1f.md",
+		"category": "Security",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: geelooy/apps/styles",
-				"anchor": "project-tutorial-geelooy-apps-styles"
+				"text": "API Tutorial: /api/youtube/oauth/logout",
+				"anchor": "api-tutorial-api-youtube-oauth-logout"
 			},
 			{
 				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
 			},
 			{
 				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
+				"text": "Path parameters",
+				"anchor": "path-parameters"
 			},
 			{
 				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
+				"text": "Starter call",
+				"anchor": "starter-call"
 			},
 			{
 				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
+				"text": "Observed callers",
+				"anchor": "observed-callers"
 			},
 			{
 				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
+				"text": "Related tests",
+				"anchor": "related-tests"
 			},
 			{
 				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Related routes",
+				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/apps/styles Path: geelooy/apps/styles · Type: app · Family: Applications Read the human Applications guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guara",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/apps/styles path: geelooy/apps/styles · type: app · family: applications read the human applications guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: — local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 6 0 0 0 0 0 6 public entry points none observed. symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-apps-styles-c794a9eb-m-222012fc5b.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/youtube/oauth/logout Family: YouTube · Mount: /api/youtube · Derech health: OK Source: geelooy/api/youtube/routes/table.js · Discovery: route table · Confidence: unknown method Read the human YouTube tutorial Generated evidence is a navigation and teaching aid, not an ",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/youtube/oauth/logout family: youtube · mount: /api/youtube · derech health: ok source: geelooy/api/youtube/routes/table.js · discovery: route table · confidence: unknown method read the human youtube tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/youtube /api/youtube/:a /api/youtube/:a/:b /api/youtube/:a/:b/:c /api/youtube/auth/callback /api/youtube/auth/logout /api/youtube/auth/start /api/youtube/auth/status",
+		"page": "pages/docs-generated-api-tutorials-routes-api-youtube-oauth-logout-b12d002f1f--d78a71c1f2.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-apps-tests-427fc317-md-5ececbcea6",
-		"title": "Project Tutorial: geelooy/apps/tests",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-tests-427fc317.md",
-		"category": "Testing",
+		"id": "docs-generated-api-tutorials-routes-api-youtube-oauth-start-0855498762-m-a7ce0302f3",
+		"title": "API Tutorial: /api/youtube/oauth/start",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-oauth-start-0855498762.md",
+		"category": "Security",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: geelooy/apps/tests",
-				"anchor": "project-tutorial-geelooy-apps-tests"
+				"text": "API Tutorial: /api/youtube/oauth/start",
+				"anchor": "api-tutorial-api-youtube-oauth-start"
 			},
 			{
 				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
 			},
 			{
 				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
+				"text": "Path parameters",
+				"anchor": "path-parameters"
 			},
 			{
 				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
+				"text": "Starter call",
+				"anchor": "starter-call"
 			},
 			{
 				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
+				"text": "Observed callers",
+				"anchor": "observed-callers"
 			},
 			{
 				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
+				"text": "Related tests",
+				"anchor": "related-tests"
 			},
 			{
 				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Related routes",
+				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/apps/tests Path: geelooy/apps/tests · Type: app · Family: Applications Read the human Applications guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarant",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/apps/tests path: geelooy/apps/tests · type: app · family: applications read the human applications guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: — local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 0 1 0 0 0 0 1 public entry points none observed. symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 1 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-apps-tests-427fc317-md-5ececbcea6.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/youtube/oauth/start Family: YouTube · Mount: /api/youtube · Derech health: OK Source: geelooy/api/youtube/routes/table.js · Discovery: route table · Confidence: unknown method Read the human YouTube tutorial Generated evidence is a navigation and teaching aid, not an O",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/youtube/oauth/start family: youtube · mount: /api/youtube · derech health: ok source: geelooy/api/youtube/routes/table.js · discovery: route table · confidence: unknown method read the human youtube tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/youtube /api/youtube/:a /api/youtube/:a/:b /api/youtube/:a/:b/:c /api/youtube/auth/callback /api/youtube/auth/logout /api/youtube/auth/start /api/youtube/auth/status",
+		"page": "pages/docs-generated-api-tutorials-routes-api-youtube-oauth-start-0855498762-m-a7ce0302f3.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-apps-transcribe-82ebd4-59e8b1dcf3",
-		"title": "Project Tutorial: AssemblyAI Transcription",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-transcribe-82ebd494.md",
-		"category": "Projects",
+		"id": "docs-generated-api-tutorials-routes-api-youtube-oauth-status-529fa78f69--120cf5707f",
+		"title": "API Tutorial: /api/youtube/oauth/status",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-oauth-status-529fa78f69.md",
+		"category": "Security",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: AssemblyAI Transcription",
-				"anchor": "project-tutorial-assemblyai-transcription"
+				"text": "API Tutorial: /api/youtube/oauth/status",
+				"anchor": "api-tutorial-api-youtube-oauth-status"
 			},
 			{
 				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
 			},
 			{
 				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
+				"text": "Path parameters",
+				"anchor": "path-parameters"
 			},
 			{
 				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
+				"text": "Starter call",
+				"anchor": "starter-call"
 			},
 			{
 				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
+				"text": "Observed callers",
+				"anchor": "observed-callers"
 			},
 			{
 				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
+				"text": "Related tests",
+				"anchor": "related-tests"
 			},
 			{
 				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Related routes",
+				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: AssemblyAI Transcription Path: geelooy/apps/transcribe · Type: app · Family: Applications Read the human Applications guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or hea",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: assemblyai transcription path: geelooy/apps/transcribe · type: app · family: applications read the human applications guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 2 0 0 0 0 0 2 public entry points /apps/transcribe → geelooy/apps/transcribe/index.html — assemblyai transcription symbol evidence source files: 1; classes: 0; functions: 4; exports: 0; samples: uploadaudio, requesttranscription, polltranscription, displaytranscription. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-apps-transcribe-82ebd4-59e8b1dcf3.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/youtube/oauth/status Family: YouTube · Mount: /api/youtube · Derech health: OK Source: geelooy/api/youtube/routes/table.js · Discovery: route table · Confidence: unknown method Read the human YouTube tutorial Generated evidence is a navigation and teaching aid, not an ",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/youtube/oauth/status family: youtube · mount: /api/youtube · derech health: ok source: geelooy/api/youtube/routes/table.js · discovery: route table · confidence: unknown method read the human youtube tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/youtube /api/youtube/:a /api/youtube/:a/:b /api/youtube/:a/:b/:c /api/youtube/auth/callback /api/youtube/auth/logout /api/youtube/auth/start /api/youtube/auth/status",
+		"page": "pages/docs-generated-api-tutorials-routes-api-youtube-oauth-status-529fa78f69--120cf5707f.json"
 	}
 ]

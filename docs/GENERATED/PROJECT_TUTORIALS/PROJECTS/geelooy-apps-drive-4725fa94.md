@@ -2,7 +2,7 @@ B"H
 Boruch Hashem
 Blessed is He
 
-# Project Tutorial: Awtsmoos Drive · Website Maker
+# Project Tutorial: Awtsmoos Drive
 
 **Path:** `geelooy/apps/drive` · **Type:** app · **Family:** Applications
 
@@ -12,7 +12,7 @@ Blessed is He
 
 ## Entry and documentation evidence
 
-- Entry files: `index.html`, `DOCUMENTATION.md`
+- Entry files: `index.html`, `DOCUMENTATION.md`, `README.md`, `readme.md`
 - Local documentation: `geelooy/apps/drive/DOCUMENTATION.md`
 - Local-doc requirement: yes; covered: yes
 - Symlink target: —
@@ -21,23 +21,26 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 95 | 9 | 0 | 0 | 1 | 0 | 105 |
+| 246 | 47 | 0 | 0 | 2 | 1 | 296 |
 
 ## Public entry points
 
-- `/apps/drive` → `geelooy/apps/drive/index.html` — Awtsmoos Drive · Website Maker
+- `/apps/drive` → `geelooy/apps/drive/index.html` — Awtsmoos Drive
 
 ## Symbol evidence
 
-Source files: 75; classes: 0; functions: 409; exports: 182; samples: async, routeEntryAction, createFolder, saveMetadata, applyPathAction, applyConfirmedAction, copyPublicLink, copyWithSelection, listEntries, getProjectPlan, listProjects, saveProject.
+Source files: 162; classes: 41; functions: 741; exports: 372; samples: createFolder, makePublic, downloadEntry, saveMetadata, applyPathAction, renameEntry, applyConfirmedAction, async, routeEntryAction, copyPublicLink, copyWithSelection, revealAdvancedDrive.
 
 ## Depends on
 
-- `geelooy/shared` — 4 lexical references; examples: geelooy/apps/drive/js/osBridge.js; geelooy/apps/drive/js/projectPlatform.js
+- `geelooy/shared` — 6 lexical references; examples: geelooy/apps/drive/js/api/DrivePrivateContent.js; geelooy/apps/drive/js/osBridge.js; geelooy/apps/drive/js/projectPlatform.js
+- `geelooy/os` — 2 lexical references; examples: geelooy/apps/drive/js/macBridgeActions.js; geelooy/apps/drive/js/macBridgeWiring.js
+- `geelooy/scripts` — 2 lexical references; examples: geelooy/apps/drive/js/app.js; geelooy/apps/drive/js/driveIdentity.js
+- `geelooy/apps/os` — 1 lexical reference; examples: geelooy/apps/drive/js/macBridge.js
 
 ## Used by
 
-None observed.
+- `geelooy/os` — 1 lexical reference; examples: geelooy/os/vfs/macBridgeHook.js
 
 ## External packages
 
@@ -45,4 +48,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **9**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **47**. Treat this as file evidence, not proof of behavioral coverage.

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Social Kernel Routes (geelooy/api/social/helper/socialKernel/routes/)\n\nHTTP route handlers for the social kernel.\n\n## Files\n- `SocialKernelHandlers.js` — core kernel routes.\n- `SocialKernelRouteTools.js` — shared route tooling.\n- `TiferesEntityHandlers.js` — entity routes.\n- `YesodCollectionHandlers.js` — collection routes.\n"
+}

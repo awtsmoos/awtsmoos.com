@@ -1,305 +1,78 @@
 [
 	{
-		"projectId": "geelooy-shared-cc435059",
-		"path": "geelooy/shared",
-		"type": "library",
+		"projectId": "geelooy-games-party-7fcd4a78",
+		"path": "geelooy/games/party",
+		"type": "game",
 		"family": {
-			"id": "libraries",
-			"title": "Libraries and Tooling"
+			"id": "games",
+			"title": "Games and Worlds"
 		},
-		"title": "geelooy/shared",
+		"title": "Party Challenge — Awtsmoos Games",
 		"entries": [
-			"package.json",
+			"index.html",
 			"DOCUMENTATION.md"
 		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/LIBRARIES_AND_TOOLING.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-shared-cc435059.md",
+		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-party-7fcd4a78.md",
 		"documentation": [
 			{
-				"sourcePath": "geelooy/shared/DOCUMENTATION.md",
-				"documentId": "geelooy-shared-documentation-md-02d3743582"
+				"sourcePath": "geelooy/games/party/DOCUMENTATION.md",
+				"documentId": "geelooy-games-party-documentation-md-88dde20566"
 			},
 			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/LIBRARIES_AND_TOOLING.md",
-				"documentId": "docs-tutorials-projects-libraries-and-tooling-md-f171c0f31f"
+				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
+				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
+			},
+			{
+				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
+				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
 			}
 		],
 		"symlinkTarget": null,
 		"counts": {
-			"source": 124,
-			"tests": 28,
-			"assets": 0,
-			"generated": 0,
-			"docs": 1,
-			"other": 1
-		},
-		"totalFiles": 154,
-		"symbolSummary": {
-			"files": 117,
-			"classes": 23,
-			"functions": 377,
-			"exports": 280,
-			"samples": [
-				"ActivityBeacon",
-				"startActivityBeacon",
-				"publicAliasFromMemory",
-				"queryAlias",
-				"verifiedAlias",
-				"eventPayload",
-				"recordSearchActivity",
-				"recordPostView",
-				"async",
-				"recordMeaningfulActivity",
-				"postKey",
-				"seenPost"
-			]
-		},
-		"outgoing": [
-			{
-				"project": "geelooy/ai",
-				"count": 2,
-				"examples": "geelooy/shared/awtsmoos-runtime/actions.js; geelooy/shared/awtsmoos-runtime/agent-core.js"
-			},
-			{
-				"project": "geelooy/social-actions",
-				"count": 2,
-				"examples": "geelooy/shared/social/composer/ComposerLaunch.js"
-			},
-			{
-				"project": "geelooy/apps/android-emulator",
-				"count": 1,
-				"examples": "geelooy/shared/compiling/native/apkIdentity.js"
-			}
-		],
-		"incoming": [
-			{
-				"project": "geelooy/os",
-				"count": 54,
-				"examples": "geelooy/os/programs/advanced-code-editor/compilerBridge.js; geelooy/os/programs/advanced-code-editor/embedConfiguration.js; geelooy/os/programs/advanced-code-editor/vfsBridge.js"
-			},
-			{
-				"project": "geelooy/scripts",
-				"count": 38,
-				"examples": "geelooy/scripts/awtsmoos/compiling/native/asmImage.js; geelooy/scripts/awtsmoos/compiling/native/asmObjectData.js; geelooy/scripts/awtsmoos/compiling/native/c/frame.js"
-			},
-			{
-				"project": "geelooy/apps/code",
-				"count": 19,
-				"examples": "geelooy/apps/code/js/actions/commands/compileProjectManifest.js; geelooy/apps/code/js/ai-studio/oracle.js; geelooy/apps/code/js/ai-studio/panel.js"
-			},
-			{
-				"project": "geelooy/apps/compiler",
-				"count": 9,
-				"examples": "geelooy/apps/compiler/embed/osCompilerChannel.js; geelooy/apps/compiler/ui/browserArtifactBuilders.js; geelooy/apps/compiler/ui/nativeBuildClient.js"
-			},
-			{
-				"project": "geelooy/apps/exe-emulator",
-				"count": 8,
-				"examples": "geelooy/apps/exe-emulator/core/awtexeRuntime.js; geelooy/apps/exe-emulator/core/executableHost.js; geelooy/apps/exe-emulator/core/wasmGuiImports.js"
-			},
-			{
-				"project": "geelooy/heichelos",
-				"count": 8,
-				"examples": "geelooy/heichelos/heichel/modules/legend/cardDepthObserver.js; geelooy/heichelos/heichel/modules/legend/heroScrollDepth.js; geelooy/heichelos/post/functions/ui/context/relatedSearchPanel.js"
-			},
-			{
-				"project": "geelooy/social-hub",
-				"count": 5,
-				"examples": "geelooy/social-hub/js/interactions/CreatorLaunchModel.js; geelooy/social-hub/js/ui/feed/FeedPostModel.js; geelooy/social-hub/js/ui/feed/FeedUniversalActions.js"
-			},
-			{
-				"project": "geelooy/apps/drive",
-				"count": 4,
-				"examples": "geelooy/apps/drive/js/osBridge.js; geelooy/apps/drive/js/projectPlatform.js"
-			},
-			{
-				"project": "geelooy/social-composer",
-				"count": 4,
-				"examples": "geelooy/social-composer/js/creator/CreatorCommandCatalog.js; geelooy/social-composer/js/creator/CreatorCommandPalette.js; geelooy/social-composer/js/creator/CreatorIntentModel.js"
-			},
-			{
-				"project": "geelooy/drive",
-				"count": 3,
-				"examples": "geelooy/drive/core/platformCapabilityBridge.js; geelooy/drive/transport/osWorkspace.js; geelooy/drive/ui/platformJourney.js"
-			},
-			{
-				"project": "geelooy/ai",
-				"count": 2,
-				"examples": "geelooy/ai/central/index.js; geelooy/ai/central/streamClient.js"
-			},
-			{
-				"project": "geelooy/apps/tunnel-control",
-				"count": 2,
-				"examples": "geelooy/apps/tunnel-control/js/runtime/mesh/runtimeAdapters.js; geelooy/apps/tunnel-control/js/runtime/mesh/virtualFilesystem.js"
-			}
-		],
-		"externalDependencies": [],
-		"publicEntries": [],
-		"requiresLocalDoc": true,
-		"documentationCovered": true,
-		"provenance": "generated-from-local-source"
-	},
-	{
-		"projectId": "geelooy-sites-fdcaa928",
-		"path": "geelooy/sites",
-		"type": "project",
-		"family": {
-			"id": "public",
-			"title": "Public and Other Boundaries"
-		},
-		"title": "geelooy/sites",
-		"entries": [
-			"_awtsmoos.derech.js",
-			"DOCUMENTATION.md"
-		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-sites-fdcaa928.md",
-		"documentation": [
-			{
-				"sourcePath": "geelooy/sites/DOCUMENTATION.md",
-				"documentId": "geelooy-sites-documentation-md-d1a863c76b"
-			},
-			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
-			}
-		],
-		"symlinkTarget": null,
-		"counts": {
-			"source": 23,
-			"tests": 11,
+			"source": 18,
+			"tests": 0,
 			"assets": 0,
 			"generated": 0,
 			"docs": 1,
 			"other": 0
 		},
-		"totalFiles": 35,
+		"totalFiles": 19,
 		"symbolSummary": {
-			"files": 23,
-			"classes": 0,
-			"functions": 90,
-			"exports": 56,
+			"files": 10,
+			"classes": 1,
+			"functions": 29,
+			"exports": 27,
 			"samples": [
-				"buildCustomDomainResponse",
-				"createCustomDomainHttpIngress",
-				"driveContext",
-				"rawRequestPath",
-				"writeGatewayResponse",
-				"customDomainHttpIngress",
-				"closeExternalHost",
-				"badPathResponse",
-				"RESERVED_SEGMENTS",
-				"assertDirectPublicPath",
-				"privatePathError",
-				"assertPublicSegment"
+				"startChallenge",
+				"reloadCurrentTurn",
+				"recordCurrentTurn",
+				"recordAutomatedTurn",
+				"activeSession",
+				"recordTurnValue",
+				"beginCurrentTurn",
+				"finishChallenge",
+				"dom",
+				"setFrameGame",
+				"loadFreshTurn",
+				"frameGame"
 			]
 		},
 		"outgoing": [
 			{
-				"project": "geelooy/api/social",
-				"count": 27,
-				"examples": "geelooy/sites/customDomainGateway.js; geelooy/sites/directSiteReadiness.js; geelooy/sites/directSiteResponse.js"
-			},
-			{
-				"project": "geelooy/api/tunnel",
-				"count": 5,
-				"examples": "geelooy/sites/directSiteReadiness.js; geelooy/sites/hostedFolderManifest.js; geelooy/sites/siteFolderPublication.js"
-			},
-			{
-				"project": "ayzarim/awtsmoosDynamicServer",
+				"project": "geelooy/games/scripts",
 				"count": 1,
-				"examples": "geelooy/sites/hostedProjectProxy.js"
+				"examples": "geelooy/games/party/js/game-catalog.mjs"
 			}
 		],
-		"incoming": [
-			{
-				"project": "geelooy/api/social",
-				"count": 1,
-				"examples": "geelooy/api/social/helper/drive/siteStatusService.js"
-			},
-			{
-				"project": "geelooy/api/tunnel",
-				"count": 1,
-				"examples": "geelooy/api/tunnel/control/routes/fsVessel/hostedVirtualOs/sitePublicationDispatcher.js"
-			}
-		],
-		"externalDependencies": [],
-		"publicEntries": [],
-		"requiresLocalDoc": true,
-		"documentationCovered": true,
-		"provenance": "generated-from-local-source"
-	},
-	{
-		"projectId": "geelooy-social-eb0c5134",
-		"path": "geelooy/social",
-		"type": "public",
-		"family": {
-			"id": "public",
-			"title": "Public and Other Boundaries"
-		},
-		"title": "Awtsmoos Social Observatory",
-		"entries": [
-			"index.html",
-			"DOCUMENTATION.md"
-		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-social-eb0c5134.md",
-		"documentation": [
-			{
-				"sourcePath": "geelooy/social/DOCUMENTATION.md",
-				"documentId": "geelooy-social-documentation-md-bec3bd9b5d"
-			},
-			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
-			}
-		],
-		"symlinkTarget": null,
-		"counts": {
-			"source": 52,
-			"tests": 7,
-			"assets": 0,
-			"generated": 0,
-			"docs": 2,
-			"other": 1
-		},
-		"totalFiles": 62,
-		"symbolSummary": {
-			"files": 41,
-			"classes": 23,
-			"functions": 50,
-			"exports": 56,
-			"samples": [
-				"MigrationController",
-				"MigrationRecoveryController",
-				"MigrationRenderCoordinator",
-				"archiveKind",
-				"archiveMime",
-				"isMetadataPath",
-				"ArchiveSource",
-				"safeArchivePath",
-				"safeArchivePathOrNull",
-				"ZipCentralDirectory",
-				"ZipEntryReader",
-				"matchesMigrationFilters"
-			]
-		},
-		"outgoing": [],
 		"incoming": [],
 		"externalDependencies": [],
 		"publicEntries": [
 			{
-				"url": "/social",
-				"file": "geelooy/social/index.html",
-				"title": "Awtsmoos Social Observatory",
-				"scripts": 1,
-				"styles": 4
-			},
-			{
-				"url": "/social/migrate",
-				"file": "geelooy/social/migrate/index.html",
-				"title": "Social Migration Studio · Awtsmoos",
-				"scripts": 1,
+				"url": "/games/party",
+				"file": "geelooy/games/party/index.html",
+				"title": "Party Challenge — Awtsmoos Games",
+				"scripts": 3,
 				"styles": 2
 			}
 		],
@@ -308,176 +81,80 @@
 		"provenance": "generated-from-local-source"
 	},
 	{
-		"projectId": "geelooy-social-actions-2ff7e001",
-		"path": "geelooy/social-actions",
-		"type": "project",
+		"projectId": "geelooy-games-pong-d3953f2b",
+		"path": "geelooy/games/pong",
+		"type": "game",
 		"family": {
-			"id": "public",
-			"title": "Public and Other Boundaries"
+			"id": "games",
+			"title": "Games and Worlds"
 		},
-		"title": "geelooy/social-actions",
+		"title": "Pong · Awtsmoos Games",
 		"entries": [
-			"DOCUMENTATION.md",
-			"README.md",
-			"readme.md"
+			"index.html",
+			"DOCUMENTATION.md"
 		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-social-actions-2ff7e001.md",
+		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-pong-d3953f2b.md",
 		"documentation": [
 			{
-				"sourcePath": "geelooy/social-actions/DOCUMENTATION.md",
-				"documentId": "geelooy-social-actions-documentation-md-b4a7df6aad"
+				"sourcePath": "geelooy/games/pong/DOCUMENTATION.md",
+				"documentId": "geelooy-games-pong-documentation-md-c5a129b7c9"
 			},
 			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
+				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
+			},
+			{
+				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
+				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
 			}
 		],
 		"symlinkTarget": null,
 		"counts": {
-			"source": 8,
-			"tests": 1,
+			"source": 15,
+			"tests": 0,
 			"assets": 0,
 			"generated": 0,
-			"docs": 2,
+			"docs": 1,
 			"other": 0
 		},
-		"totalFiles": 11,
+		"totalFiles": 16,
 		"symbolSummary": {
-			"files": 7,
-			"classes": 1,
-			"functions": 15,
-			"exports": 13,
+			"files": 13,
+			"classes": 0,
+			"functions": 51,
+			"exports": 0,
 			"samples": [
-				"buildOwnedCloneUrl",
-				"put",
-				"createPostReferenceButton",
-				"mountPostReferenceAction",
-				"contextFromDataset",
-				"mountDatasetReferenceActions",
-				"normalizeReferenceContext",
-				"validateReferenceContext",
-				"buildPostReferenceUrl",
-				"safeReturnPath",
-				"clean",
-				"YesodReactionApi"
+				"createBall",
+				"bindPongControls",
+				"moveToPointer",
+				"clampedPaddleY",
+				"createPongCourt",
+				"resize",
+				"buildStars",
+				"centerActors",
+				"scorePulse",
+				"tip",
+				"draw",
+				"drawArena"
 			]
 		},
-		"outgoing": [],
-		"incoming": [
+		"outgoing": [
 			{
-				"project": "geelooy/social-hub",
-				"count": 4,
-				"examples": "geelooy/social-hub/js/ui/feed/FeedReaction.js; geelooy/social-hub/js/ui/feed/SocialActionRail.js"
-			},
-			{
-				"project": "geelooy/heichelos",
-				"count": 3,
-				"examples": "geelooy/heichelos/heichel/modules/ui/render/HeichelReactionAction.js; geelooy/heichelos/heichel/modules/ui/render/secondary-social-actions.js; geelooy/heichelos/heichel/modules/ui/render/social-action-urls.js"
-			},
-			{
-				"project": "geelooy/shared",
-				"count": 2,
-				"examples": "geelooy/shared/social/composer/ComposerLaunch.js"
-			},
-			{
-				"project": "geelooy/comment-thread",
+				"project": "geelooy/games/scripts",
 				"count": 1,
-				"examples": "geelooy/comment-thread/modules/CommentReaction.js"
-			}
-		],
-		"externalDependencies": [],
-		"publicEntries": [],
-		"requiresLocalDoc": true,
-		"documentationCovered": true,
-		"provenance": "generated-from-local-source"
-	},
-	{
-		"projectId": "geelooy-social-composer-5d72af7c",
-		"path": "geelooy/social-composer",
-		"type": "public",
-		"family": {
-			"id": "public",
-			"title": "Public and Other Boundaries"
-		},
-		"title": "Create New Post — Geelooy",
-		"entries": [
-			"index.html",
-			"package.json",
-			"DOCUMENTATION.md",
-			"README.md",
-			"readme.md"
-		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-social-composer-5d72af7c.md",
-		"documentation": [
-			{
-				"sourcePath": "geelooy/social-composer/DOCUMENTATION.md",
-				"documentId": "geelooy-social-composer-documentation-md-2f82c69f1d"
-			},
-			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
-			}
-		],
-		"symlinkTarget": null,
-		"counts": {
-			"source": 317,
-			"tests": 28,
-			"assets": 0,
-			"generated": 0,
-			"docs": 9,
-			"other": 0
-		},
-		"totalFiles": 354,
-		"symbolSummary": {
-			"files": 200,
-			"classes": 81,
-			"functions": 452,
-			"exports": 323,
-			"samples": [
-				"createComposer",
-				"createWorkflow",
-				"createController",
-				"createCreatorAssembly",
-				"createDestinationAssembly",
-				"DraftAssembly",
-				"createDraftAssembly",
-				"createEditorAssembly",
-				"createReelAssembly",
-				"createReviewAssembly",
-				"installComposerAccessibility",
-				"hasAccessibleName"
-			]
-		},
-		"outgoing": [
-			{
-				"project": "geelooy/games/mitzvahWorld",
-				"count": 4,
-				"examples": "geelooy/social-composer/reel-studio/nle/NleAiProjectCodec.js; geelooy/social-composer/reel-studio/nle/NleMovieActionExecutor.js; geelooy/social-composer/reel-studio/nle/NleMoviePackage.js"
-			},
-			{
-				"project": "geelooy/shared",
-				"count": 4,
-				"examples": "geelooy/social-composer/js/creator/CreatorCommandCatalog.js; geelooy/social-composer/js/creator/CreatorCommandPalette.js; geelooy/social-composer/js/creator/CreatorIntentModel.js"
+				"examples": "geelooy/games/pong/js/wallet-reward.js"
 			}
 		],
 		"incoming": [],
 		"externalDependencies": [],
 		"publicEntries": [
 			{
-				"url": "/social-composer",
-				"file": "geelooy/social-composer/index.html",
-				"title": "Create New Post — Geelooy",
-				"scripts": 2,
-				"styles": 1
-			},
-			{
-				"url": "/social-composer/reel-studio",
-				"file": "geelooy/social-composer/reel-studio/index.html",
-				"title": "MitzvahWorld Movie Studio",
-				"scripts": 1,
-				"styles": 1
+				"url": "/games/pong",
+				"file": "geelooy/games/pong/index.html",
+				"title": "Pong · Awtsmoos Games",
+				"scripts": 15,
+				"styles": 4
 			}
 		],
 		"requiresLocalDoc": true,
@@ -485,176 +162,521 @@
 		"provenance": "generated-from-local-source"
 	},
 	{
-		"projectId": "geelooy-social-hub-6c189d12",
-		"path": "geelooy/social-hub",
-		"type": "public",
+		"projectId": "geelooy-games-rambam-9b03ea55",
+		"path": "geelooy/games/rambam",
+		"type": "game",
 		"family": {
-			"id": "public",
-			"title": "Public and Other Boundaries"
+			"id": "games",
+			"title": "Games and Worlds"
 		},
-		"title": "Social Hub — Geelooy",
-		"entries": [
-			"index.html",
-			"package.json",
-			"DOCUMENTATION.md",
-			"README.md",
-			"readme.md"
-		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-social-hub-6c189d12.md",
-		"documentation": [
-			{
-				"sourcePath": "geelooy/social-hub/DOCUMENTATION.md",
-				"documentId": "geelooy-social-hub-documentation-md-811730e03e"
-			},
-			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
-			}
-		],
-		"symlinkTarget": null,
-		"counts": {
-			"source": 217,
-			"tests": 46,
-			"assets": 0,
-			"generated": 0,
-			"docs": 2,
-			"other": 0
-		},
-		"totalFiles": 265,
-		"symbolSummary": {
-			"files": 128,
-			"classes": 77,
-			"functions": 166,
-			"exports": 159,
-			"samples": [
-				"createSocialHub",
-				"HubApp",
-				"activityCard",
-				"durationLabel",
-				"timestamp",
-				"ActivityPanel",
-				"ActivityTracker",
-				"PrivacyActions",
-				"prepared",
-				"PrivacyPanel",
-				"CATEGORIES",
-				"preferencesFromFields"
-			]
-		},
-		"outgoing": [
-			{
-				"project": "geelooy/shared",
-				"count": 5,
-				"examples": "geelooy/social-hub/js/interactions/CreatorLaunchModel.js; geelooy/social-hub/js/ui/feed/FeedPostModel.js; geelooy/social-hub/js/ui/feed/FeedUniversalActions.js"
-			},
-			{
-				"project": "geelooy/social-actions",
-				"count": 4,
-				"examples": "geelooy/social-hub/js/ui/feed/FeedReaction.js; geelooy/social-hub/js/ui/feed/SocialActionRail.js"
-			}
-		],
-		"incoming": [],
-		"externalDependencies": [],
-		"publicEntries": [
-			{
-				"url": "/social-hub",
-				"file": "geelooy/social-hub/index.html",
-				"title": "Social Hub — Geelooy",
-				"scripts": 2,
-				"styles": 3
-			}
-		],
-		"requiresLocalDoc": true,
-		"documentationCovered": true,
-		"provenance": "generated-from-local-source"
-	},
-	{
-		"projectId": "geelooy-sod-9a8ec439",
-		"path": "geelooy/sod",
-		"type": "public",
-		"family": {
-			"id": "public",
-			"title": "Public and Other Boundaries"
-		},
-		"title": "Endpoint Interaction",
+		"title": "Rambam · Kiddush HaChodesh",
 		"entries": [
 			"index.html"
 		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-sod-9a8ec439.md",
+		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-rambam-9b03ea55.md",
 		"documentation": [
 			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
+				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
+			},
+			{
+				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
+				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
 			}
 		],
 		"symlinkTarget": null,
 		"counts": {
-			"source": 1,
-			"tests": 0,
+			"source": 14,
+			"tests": 3,
 			"assets": 0,
 			"generated": 0,
 			"docs": 0,
 			"other": 0
 		},
-		"totalFiles": 1,
-		"symbolSummary": null,
+		"totalFiles": 17,
+		"symbolSummary": {
+			"files": 8,
+			"classes": 4,
+			"functions": 11,
+			"exports": 20,
+			"samples": [
+				"renderCurrent",
+				"publishStatus",
+				"animate",
+				"synchronizeMotion",
+				"NUM_SLICES",
+				"ORBIT_RADIUS",
+				"DEGREES_PER_DAY",
+				"SIMULATION_DIVISOR",
+				"CAMERA_FOV",
+				"CAMERA_NEAR",
+				"CAMERA_FAR",
+				"CAMERA_POSITION"
+			]
+		},
 		"outgoing": [],
 		"incoming": [],
 		"externalDependencies": [],
 		"publicEntries": [
 			{
-				"url": "/sod",
-				"file": "geelooy/sod/index.html",
-				"title": "Endpoint Interaction",
+				"url": "/games/rambam",
+				"file": "geelooy/games/rambam/index.html",
+				"title": "Rambam · Kiddush HaChodesh",
 				"scripts": 0,
-				"styles": 0
+				"styles": 1
+			},
+			{
+				"url": "/games/rambam/kiddushHachodesh/12",
+				"file": "geelooy/games/rambam/kiddushHachodesh/12/index.html",
+				"title": "Kiddush HaChodesh · Movement of the Sun",
+				"scripts": 3,
+				"styles": 2
 			}
 		],
-		"requiresLocalDoc": false,
+		"requiresLocalDoc": true,
 		"documentationCovered": false,
 		"provenance": "generated-from-local-source"
 	},
 	{
-		"projectId": "geelooy-style-84fcde79",
-		"path": "geelooy/style",
-		"type": "library",
+		"projectId": "geelooy-games-rebbe-runner-775c456f",
+		"path": "geelooy/games/rebbe-runner",
+		"type": "game",
 		"family": {
-			"id": "libraries",
-			"title": "Libraries and Tooling"
+			"id": "games",
+			"title": "Games and Worlds"
 		},
-		"title": "geelooy/style",
+		"title": "Rebbe Runner — Run Through Brooklyn",
 		"entries": [
-			"DOCUMENTATION.md"
+			"index.html",
+			"package.json"
 		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/LIBRARIES_AND_TOOLING.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-style-84fcde79.md",
+		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-rebbe-runner-775c456f.md",
 		"documentation": [
 			{
-				"sourcePath": "geelooy/style/DOCUMENTATION.md",
-				"documentId": "geelooy-style-documentation-md-b19d9ac553"
+				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
+				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
 			},
 			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/LIBRARIES_AND_TOOLING.md",
-				"documentId": "docs-tutorials-projects-libraries-and-tooling-md-f171c0f31f"
+				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
+				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
 			}
 		],
 		"symlinkTarget": null,
 		"counts": {
-			"source": 1132,
-			"tests": 48,
+			"source": 51,
+			"tests": 3,
 			"assets": 0,
 			"generated": 0,
-			"docs": 1,
-			"other": 3
+			"docs": 0,
+			"other": 0
 		},
-		"totalFiles": 1184,
-		"symbolSummary": null,
+		"totalFiles": 54,
+		"symbolSummary": {
+			"files": 38,
+			"classes": 29,
+			"functions": 34,
+			"exports": 41,
+			"samples": [
+				"NEFESH_VISUALS",
+				"KELIPOS",
+				"MITZVAH_VISUALS",
+				"SHEFA",
+				"MASLUL_SCENERY",
+				"OLAM",
+				"MASLULIM",
+				"CHESED_RUN_CATALOG",
+				"KelipahObstacle",
+				"MaslulState",
+				"MitzvahSpark",
+				"NefeshRunner"
+			]
+		},
 		"outgoing": [],
 		"incoming": [],
 		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/games/rebbe-runner",
+				"file": "geelooy/games/rebbe-runner/index.html",
+				"title": "Rebbe Runner — Run Through Brooklyn",
+				"scripts": 2,
+				"styles": 4
+			}
+		],
+		"requiresLocalDoc": true,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-games-scribe-journey-e49e326e",
+		"path": "geelooy/games/scribe-journey",
+		"type": "game",
+		"family": {
+			"id": "games",
+			"title": "Games and Worlds"
+		},
+		"title": "The Scribe's Journey: Echoes of Ein Sof",
+		"entries": [
+			"index.html",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-scribe-journey-e49e326e.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/games/scribe-journey/DOCUMENTATION.md",
+				"documentId": "geelooy-games-scribe-journey-documentation-md-5e17fccc8e"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
+				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
+			},
+			{
+				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
+				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 384,
+			"tests": 486,
+			"assets": 0,
+			"generated": 0,
+			"docs": 1,
+			"other": 1
+		},
+		"totalFiles": 872,
+		"symbolSummary": {
+			"files": 370,
+			"classes": 12,
+			"functions": 558,
+			"exports": 543,
+			"samples": [
+				"awakenScribeJourney",
+				"revealAwakeningFailure",
+				"escapeChronicleText",
+				"amalekBeasts",
+				"binahBeasts",
+				"campaignBeasts",
+				"campaignChesedBinahBeasts",
+				"campaignChokhmahKeterBeasts",
+				"createCampaignMusag",
+				"createCampaignRoster",
+				"campaignHodNetzachBeasts",
+				"campaignMalkuthFinaleBeasts"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/games/scribe-journey",
+				"file": "geelooy/games/scribe-journey/index.html",
+				"title": "The Scribe's Journey: Echoes of Ein Sof",
+				"scripts": 5,
+				"styles": 6
+			}
+		],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-games-scripts-3467c7e0",
+		"path": "geelooy/games/scripts",
+		"type": "game",
+		"family": {
+			"id": "games",
+			"title": "Games and Worlds"
+		},
+		"title": "geelooy/games/scripts",
+		"entries": [
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-scripts-3467c7e0.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/games/scripts/DOCUMENTATION.md",
+				"documentId": "geelooy-games-scripts-documentation-md-c1bcde5503"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
+				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
+			},
+			{
+				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
+				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 189,
+			"tests": 0,
+			"assets": 0,
+			"generated": 4,
+			"docs": 1,
+			"other": 2
+		},
+		"totalFiles": 196,
+		"symbolSummary": {
+			"files": 183,
+			"classes": 161,
+			"functions": 3553,
+			"exports": 232,
+			"samples": [
+				"UI",
+				"stands",
+				"MOTION_ADVENTURE_GAMES",
+				"MYSTIC_ADVENTURE_GAMES",
+				"ADVENTURE_GAMES",
+				"revealGameCapabilities",
+				"revealCatalogCapabilities",
+				"revealCapabilityTags",
+				"revealSoloCovenant",
+				"multiplayerCapability",
+				"NATIVE_MULTIPLAYER_GAME_IDS",
+				"visualCapability"
+			]
+		},
+		"outgoing": [
+			{
+				"project": "geelooy/libs",
+				"count": 5,
+				"examples": "geelooy/games/scripts/runtime/native-3d/SemanticMeshPool.js; geelooy/games/scripts/runtime/native-3d/SemanticNative3DStage.js; geelooy/games/scripts/runtime/native-3d/StateSparks.js"
+			},
+			{
+				"project": "geelooy/scripts",
+				"count": 2,
+				"examples": "geelooy/games/scripts/storefront/orchestration/TiferesStorefrontProjectionService.js; geelooy/games/scripts/storefront/presentation/MalchusStorefrontCatalogView.js"
+			}
+		],
+		"incoming": [
+			{
+				"project": "geelooy/games/mitzvahWorld",
+				"count": 5,
+				"examples": "geelooy/games/mitzvahWorld/photoreal/js/reality-character.mjs; geelooy/games/mitzvahWorld/photoreal/js/reality-particles.mjs; geelooy/games/mitzvahWorld/photoreal/js/reality-scene.mjs"
+			},
+			{
+				"project": "geelooy/scripts",
+				"count": 4,
+				"examples": "geelooy/scripts/commerce/install-product-commerce.mjs; geelooy/scripts/home-simple/constellation-catalog.js; geelooy/scripts/seo/audit/run.mjs"
+			},
+			{
+				"project": "geelooy/apps/scripts",
+				"count": 1,
+				"examples": "geelooy/apps/scripts/catalog/games.mjs"
+			},
+			{
+				"project": "geelooy/games/brick-blast",
+				"count": 1,
+				"examples": "geelooy/games/brick-blast/js/levels/brick.js"
+			},
+			{
+				"project": "geelooy/games/cards",
+				"count": 1,
+				"examples": "geelooy/games/cards/js/engine/renderer.js"
+			},
+			{
+				"project": "geelooy/games/party",
+				"count": 1,
+				"examples": "geelooy/games/party/js/game-catalog.mjs"
+			},
+			{
+				"project": "geelooy/games/pong",
+				"count": 1,
+				"examples": "geelooy/games/pong/js/wallet-reward.js"
+			},
+			{
+				"project": "geelooy/games/tetris",
+				"count": 1,
+				"examples": "geelooy/games/tetris/game/render-primitives.js"
+			},
+			{
+				"project": "geelooy/os",
+				"count": 1,
+				"examples": "geelooy/os/shell/appCatalogPublicProducts.js"
+			},
+			{
+				"project": "geelooy/seo",
+				"count": 1,
+				"examples": "geelooy/seo/generatePublicCatalog.mjs"
+			}
+		],
+		"externalDependencies": [
+			{
+				"dependency": "three",
+				"count": 3,
+				"examples": "geelooy/games/scripts/jsm/exporters/GLTFExporter.js; geelooy/games/scripts/jsm/loaders/DRACOLoader.js; geelooy/games/scripts/jsm/utils/SkeletonUtils.js"
+			},
+			{
+				"dependency": "srgb-linear",
+				"count": 1,
+				"examples": "geelooy/games/scripts/jsm/loaders/GLTFLoader.js"
+			}
+		],
 		"publicEntries": [],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-games-sefira-clash-94c3f01f",
+		"path": "geelooy/games/sefira-clash",
+		"type": "game",
+		"family": {
+			"id": "games",
+			"title": "Games and Worlds"
+		},
+		"title": "Sefira Clash · Open World, Expedition, Co-op, Adventure &amp; VS",
+		"entries": [
+			"index.html",
+			"package.json",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-sefira-clash-94c3f01f.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/games/sefira-clash/DOCUMENTATION.md",
+				"documentId": "geelooy-games-sefira-clash-documentation-md-c82ee9b752"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
+				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
+			},
+			{
+				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
+				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 1354,
+			"tests": 41,
+			"assets": 0,
+			"generated": 0,
+			"docs": 1,
+			"other": 2
+		},
+		"totalFiles": 1398,
+		"symbolSummary": {
+			"files": 1300,
+			"classes": 61,
+			"functions": 2799,
+			"exports": 1947,
+			"samples": [
+				"neutralInput",
+				"botReport",
+				"finiteFighter",
+				"summarizeSpectacle",
+				"round",
+				"assert",
+				"snap",
+				"sumDamage",
+				"aliveCount",
+				"summarize",
+				"length",
+				"checkCase"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/games/sefira-clash",
+				"file": "geelooy/games/sefira-clash/index.html",
+				"title": "Sefira Clash · Open World, Expedition, Co-op, Adventure &amp; VS",
+				"scripts": 5,
+				"styles": 13
+			}
+		],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-games-seven-mitzvos-50390da0",
+		"path": "geelooy/games/seven-mitzvos",
+		"type": "game",
+		"family": {
+			"id": "games",
+			"title": "Games and Worlds"
+		},
+		"title": "Seven Mitzvos · Living Material Worlds",
+		"entries": [
+			"index.html",
+			"package.json",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-seven-mitzvos-50390da0.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/games/seven-mitzvos/DOCUMENTATION.md",
+				"documentId": "geelooy-games-seven-mitzvos-documentation-md-1e46ac11f1"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
+				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
+			},
+			{
+				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
+				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 547,
+			"tests": 71,
+			"assets": 0,
+			"generated": 0,
+			"docs": 1,
+			"other": 0
+		},
+		"totalFiles": 619,
+		"symbolSummary": {
+			"files": 471,
+			"classes": 285,
+			"functions": 642,
+			"exports": 687,
+			"samples": [
+				"AccessibilityProfileService",
+				"AccessibleStateProjector",
+				"population",
+				"describeAlert",
+				"InputBindingService",
+				"setPersonAction",
+				"updatePersonAction",
+				"personActionName",
+				"createState",
+				"applyPose",
+				"required",
+				"AppRouteServices"
+			]
+		},
+		"outgoing": [
+			{
+				"project": "geelooy/libs",
+				"count": 23,
+				"examples": "geelooy/games/seven-mitzvos/js/assets/gltf-model-library.js; geelooy/games/seven-mitzvos/js/city/city-district-builder.js; geelooy/games/seven-mitzvos/js/games3d/world-label.js"
+			}
+		],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/games/seven-mitzvos",
+				"file": "geelooy/games/seven-mitzvos/index.html",
+				"title": "Seven Mitzvos · Living Material Worlds",
+				"scripts": 5,
+				"styles": 11
+			}
+		],
 		"requiresLocalDoc": true,
 		"documentationCovered": true,
 		"provenance": "generated-from-local-source"

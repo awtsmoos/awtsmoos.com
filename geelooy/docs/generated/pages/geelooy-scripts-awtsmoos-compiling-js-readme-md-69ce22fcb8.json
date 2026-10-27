@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-scripts-awtsmoos-compiling-js-readme-md-69ce22fcb8",
+	"title": "Merkava JS → Native Tier (geelooy/scripts/awtsmoos/compiling/js/)",
+	"sourcePath": "geelooy/scripts/awtsmoos/compiling/js/README.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Merkava JS → Native Tier (geelooy/scripts/awtsmoos/compiling/js/)",
+			"anchor": "merkava-js-native-tier-geelooy-scripts-awtsmoos-compiling-js"
+		},
+		{
+			"level": 2,
+			"text": "Modules",
+			"anchor": "modules"
+		},
+		{
+			"level": 2,
+			"text": "Supported subset (asm.js v1)",
+			"anchor": "supported-subset-asm-js-v1"
+		},
+		{
+			"level": 2,
+			"text": "Optimizations",
+			"anchor": "optimizations"
+		},
+		{
+			"level": 2,
+			"text": "Correctness",
+			"anchor": "correctness"
+		},
+		{
+			"level": 2,
+			"text": "Benchmarks",
+			"anchor": "benchmarks"
+		},
+		{
+			"level": 2,
+			"text": "Entry points",
+			"anchor": "entry-points"
+		},
+		{
+			"level": 2,
+			"text": "Roadmap",
+			"anchor": "roadmap"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-scripts-awtsmoos-compiling-js-readme-md-69ce22fcb8-001.json"
+	]
+}

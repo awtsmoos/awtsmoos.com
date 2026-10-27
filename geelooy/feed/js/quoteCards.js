@@ -7,7 +7,7 @@
  * Yaakov 2026-10-14 (TRACK J): shareable quote cards. Any passage selected in
  * the feed gets a floating "Make quote card" action. The generator paints a
  * 1080x1350 (4:5) canvas: a parchment background from
- * /feed/assets/parchment/, corner ornaments from /feed/assets/ornaments/,
+ * https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo-image-mirror/geelooy/feed/assets/parchment/, corner ornaments from https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo-image-mirror/geelooy/feed/assets/ornaments/,
  * elegant Hebrew/English typography, and "via Awtsmoos" attribution plus the
  * post link at the bottom. Download PNG via canvas, or share through the
  * Web Share API when available.
@@ -17,19 +17,19 @@
  */
 
 const PARCHMENTS = [
-	{ id: 'clean-1', file: '/feed/assets/parchment/parchment-clean-1.webp', dark: false },
-	{ id: 'aged-1', file: '/feed/assets/parchment/parchment-aged-1.webp', dark: false },
-	{ id: 'golden-1', file: '/feed/assets/parchment/parchment-golden-1.webp', dark: false },
-	{ id: 'night-1', file: '/feed/assets/parchment/parchment-night-1.webp', dark: true },
-	{ id: 'clean-3', file: '/feed/assets/parchment/parchment-clean-3.webp', dark: false },
-	{ id: 'aged-3', file: '/feed/assets/parchment/parchment-aged-3.webp', dark: false }
+	{ id: 'clean-1', file: 'https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo-image-mirror/geelooy/feed/assets/parchment/parchment-clean-1.webp', dark: false },
+	{ id: 'aged-1', file: 'https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo-image-mirror/geelooy/feed/assets/parchment/parchment-aged-1.webp', dark: false },
+	{ id: 'golden-1', file: 'https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo-image-mirror/geelooy/feed/assets/parchment/parchment-golden-1.webp', dark: false },
+	{ id: 'night-1', file: 'https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo-image-mirror/geelooy/feed/assets/parchment/parchment-night-1.webp', dark: true },
+	{ id: 'clean-3', file: 'https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo-image-mirror/geelooy/feed/assets/parchment/parchment-clean-3.webp', dark: false },
+	{ id: 'aged-3', file: 'https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo-image-mirror/geelooy/feed/assets/parchment/parchment-aged-3.webp', dark: false }
 ];
 
 const ORNAMENTS = [
-	'/feed/assets/ornaments/ornament-corner-filigree-1.webp',
-	'/feed/assets/ornaments/ornament-corner-floral-1.webp',
-	'/feed/assets/ornaments/ornament-corner-geometric-1.webp',
-	'/feed/assets/ornaments/ornament-corner-minimal-1.webp'
+	'https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo-image-mirror/geelooy/feed/assets/ornaments/ornament-corner-filigree-1.webp',
+	'https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo-image-mirror/geelooy/feed/assets/ornaments/ornament-corner-floral-1.webp',
+	'https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo-image-mirror/geelooy/feed/assets/ornaments/ornament-corner-geometric-1.webp',
+	'https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo-image-mirror/geelooy/feed/assets/ornaments/ornament-corner-minimal-1.webp'
 ];
 
 const CARD_W = 1080;

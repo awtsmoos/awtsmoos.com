@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-olam-h3-readme-md-762da6a91c",
+	"title": "Olam H3 Studio",
+	"sourcePath": "geelooy/apps/olam-h3/README.md",
+	"category": "Apps",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Olam H3 Studio",
+			"anchor": "olam-h3-studio"
+		},
+		{
+			"level": 2,
+			"text": "Security and server key",
+			"anchor": "security-and-server-key"
+		},
+		{
+			"level": 2,
+			"text": "MiniMax H3 V2 endpoints",
+			"anchor": "minimax-h3-v2-endpoints"
+		},
+		{
+			"level": 2,
+			"text": "Capability configuration",
+			"anchor": "capability-configuration"
+		},
+		{
+			"level": 2,
+			"text": "Pricing configuration",
+			"anchor": "pricing-configuration"
+		},
+		{
+			"level": 2,
+			"text": "IndexedDB schema",
+			"anchor": "indexeddb-schema"
+		},
+		{
+			"level": 2,
+			"text": "Persistence and recovery",
+			"anchor": "persistence-and-recovery"
+		},
+		{
+			"level": 2,
+			"text": "Reusable workspace flows",
+			"anchor": "reusable-workspace-flows"
+		},
+		{
+			"level": 2,
+			"text": "Verification and operations",
+			"anchor": "verification-and-operations"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-olam-h3-readme-md-762da6a91c-001.json"
+	]
+}

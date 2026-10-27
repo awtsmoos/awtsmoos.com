@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-27-2150-geelooy-movie-unification-09-handoff-f0dbe7d353",
+	"title": "Handoff — Unified Movie System",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-27-2150-geelooy-movie-unification/09-handoff.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Handoff — Unified Movie System",
+			"anchor": "handoff-unified-movie-system"
+		},
+		{
+			"level": 2,
+			"text": "Where to begin",
+			"anchor": "where-to-begin"
+		},
+		{
+			"level": 2,
+			"text": "Architectural invariants",
+			"anchor": "architectural-invariants"
+		},
+		{
+			"level": 2,
+			"text": "Known reviewed repository concern",
+			"anchor": "known-reviewed-repository-concern"
+		},
+		{
+			"level": 2,
+			"text": "Takeover answer",
+			"anchor": "takeover-answer"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-27-2150-geelooy-movie-unification-09-handoff-f0dbe7d353-001.json"
+	]
+}

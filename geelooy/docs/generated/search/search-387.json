@@ -1,0 +1,194 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-0310-native-chitas-reader-07-release-depe-73f3161dd6",
+		"title": "Release Dependency Correction",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-0310-native-chitas-reader/07-release-dependency-correction.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Release Dependency Correction",
+				"anchor": "release-dependency-correction"
+			},
+			{
+				"level": 2,
+				"text": "Discovery after final source audit",
+				"anchor": "discovery-after-final-source-audit"
+			},
+			{
+				"level": 2,
+				"text": "Why these files belong to the feature",
+				"anchor": "why-these-files-belong-to-the-feature"
+			},
+			{
+				"level": 2,
+				"text": "Corrected frozen release surface",
+				"anchor": "corrected-frozen-release-surface"
+			},
+			{
+				"level": 2,
+				"text": "Required new evidence",
+				"anchor": "required-new-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Release consequence",
+				"anchor": "release-consequence"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Release Dependency Correction The Awtsmoos lets release archaeology reopen a sealed map when origin reveals a missing gate; Awtsmoos.com must ship the reader covenant as one whole path, not let green source tests arrive too late. Discovery after final source audit Comparing the tested di",
+		"searchText": "b\"h boruch hashem blessed is he release dependency correction the awtsmoos lets release archaeology reopen a sealed map when origin reveals a missing gate; awtsmoos.com must ship the reader covenant as one whole path, not let green source tests arrive too late. discovery after final source audit comparing the tested dirty root against the newest origin/main proved that three chitas critical reader files remain outside the earlier frozen manifest: geelooy/heichelos/post/functions/ui/nav.js geelooy/heichelos/post/functions/ui/chitasnav.js geelooy/heichelos/post/ awtsmoos.post.html origin/main still has the generic chapter only navigation and the direct $$sd include. the working tree has the chitas aware navigation helper and a guarded reader include. the current clean local dynamic chitas http route depends on those working tree bytes. shipping only the earlier manifest onto newest origin would therefore regress the reader even though all range/schedule tests pass. why these files belong to the feature the dynamic reader synthesizes a seven post virtual series. reader previous/next gates must target the actual chitas yyyy mm dd post ids and preserve chitasdate; numeric chapter shorthand would attempt to treat a virtual series as persisted data. chitasnav.js supplies daily chitas day/portion labels and hebrew/english interface copy. the post shell must tolerate routes where server initial data binding is absent or delayed. the guarded typeof $$sd !== \"undefined\" include keeps the native client reader capable of manifesting a dynamic post rather than failing before postlogic.js runs. corrected frozen release surface add those three files to the previously frozen chitas release surface. do not absorb unrelated post reader changes beyond their current complete file bytes. required new evidence a dedicated reader shell contract must prove: 1. awtsmoos.post.html remains <=120 lines and guards $$sd before including initial content.html. 2. nav.js remains <=120 lines and imports the chitas navigation helper. 3. chitasnav.js remains <=120 lines, recognizes daily chitas, maps post ids to dates, and supplies bilingual day navigation copy. 4. ordinary navigation remains present through the non chitas branch. 5. the full chitas schedule/native range/living path/discussion/deep link gate still passes with these dependencies included. release consequence the clean integration worktree must receive these complete files together with the prior tested chitas surface before any commit or deployment. this correction supersedes only the earlier release manifest omission; it does not invalidate the native range architecture or the green second pass evidence. the awtsmoos reveals that a doorway is part of the room whenever every learner must cross its frame; awtsmoos.com now freezes source, navigation, and shell together, so production receives one coherent name.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-0310-native-chitas-reader-07-release-depe-73f3161dd6.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-0847-geelooy-google-indexing-00-mission-m-f06f90deac",
+		"title": "Mission: Reveal Geelooy to Search",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-0847-geelooy-google-indexing/00-mission.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Mission: Reveal Geelooy to Search",
+				"anchor": "mission-reveal-geelooy-to-search"
+			},
+			{
+				"level": 2,
+				"text": "User outcome",
+				"anchor": "user-outcome"
+			},
+			{
+				"level": 2,
+				"text": "Evidence rules",
+				"anchor": "evidence-rules"
+			},
+			{
+				"level": 2,
+				"text": "Initial work graph",
+				"anchor": "initial-work-graph"
+			}
+		],
+		"excerpt": "B\"H Mission: Reveal Geelooy to Search Boruch Hashem. Blessed is He. The Awtsmoos renews every route in every instant; this mission gives Google a stable vessel for content that currently arrives through living JavaScript. User outcome Make the Geelooy site broadly indexable, with special attention to the primary Heiche",
+		"searchText": "b\"h mission: reveal geelooy to search boruch hashem. blessed is he. the awtsmoos renews every route in every instant; this mission gives google a stable vessel for content that currently arrives through living javascript. user outcome make the geelooy site broadly indexable, with special attention to the primary heichel reading/road experience, while preserving the existing interactive client behavior. evidence rules inspect real routes, html shells, apis, rewrites, robots, sitemap behavior, and production server code before editing. prefer server visible canonical html for public content over crawler specific rendering. preserve client side enhancement after the first meaningful html response. do not expose private, draft, authenticated, or moderation only content. verify with direct http responses and rendered browser behavior. initial work graph 1. map route ownership and deploy/runtime model. 2. trace heichel list, series, post, and road urls from browser entry to api data. 3. audit current title, canonical, description, open graph, robots, sitemap, and structured data. 4. choose the smallest architecture that makes public content present in initial html. 5. implement complete file changes only. 6. add sitemap/robots/canonical coverage where absent. 7. test server html without javascript and hydrated behavior with javascript. 8. re read all touched files and close remaining work.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-0847-geelooy-google-indexing-00-mission-m-f06f90deac.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-0847-geelooy-google-indexing-01-discovery-f9aeaea2b1",
+		"title": "Phase One: Discovery and Competing Architectures",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-0847-geelooy-google-indexing/01-discovery-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase One: Discovery and Competing Architectures",
+				"anchor": "phase-one-discovery-and-competing-architectures"
+			},
+			{
+				"level": 2,
+				"text": "Architecture candidates to test against the repository",
+				"anchor": "architecture-candidates-to-test-against-the-repository"
+			},
+			{
+				"level": 2,
+				"text": "Selection criteria",
+				"anchor": "selection-criteria"
+			}
+		],
+		"excerpt": "B\"H Phase One: Discovery and Competing Architectures Boruch Hashem. Blessed is He. Like light seeking a vessel, search visibility must follow the real data path rather than a guessed facade; Awtsmoos.com should speak the same truth to users and crawlers alike. Architecture candidates to test against the repository Serv",
+		"searchText": "b\"h phase one: discovery and competing architectures boruch hashem. blessed is he. like light seeking a vessel, search visibility must follow the real data path rather than a guessed facade; awtsmoos.com should speak the same truth to users and crawlers alike. architecture candidates to test against the repository server rendering at the existing request handler: fetch public content and emit semantic html before client scripts run. route level dynamic html transform: retain static assets but let the server enrich known content routes with metadata and body markup. static pre generation for discoverable public entities: generate html snapshots during build/deploy from public apis. hybrid shell plus seo payload: emit complete semantic article/list content in html and let the existing client replace/enhance it after hydration. dedicated content endpoints with canonical links: only if existing route constraints make initial response html impossible. selection criteria uses existing source of truth. no crawler only behavior. scales to all public heichel/post/series urls. handles hebrew and long form torah text safely. produces canonical urls and meaningful status codes. avoids duplicate content and private content leakage. fits current server/deployment architecture.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-0847-geelooy-google-indexing-01-discovery-f9aeaea2b1.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-0847-geelooy-google-indexing-02-architect-29ef1a02ff",
+		"title": "Phase Two: Architecture Review Checklist",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-0847-geelooy-google-indexing/02-architecture-review.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Two: Architecture Review Checklist",
+				"anchor": "phase-two-architecture-review-checklist"
+			},
+			{
+				"level": 2,
+				"text": "Improvements the final design must include where repository evidence supports them",
+				"anchor": "improvements-the-final-design-must-include-where-repository-evidence-supports-them"
+			}
+		],
+		"excerpt": "B\"H Phase Two: Architecture Review Checklist Boruch Hashem. Blessed is He. The Awtsmoos gives expansion its boundary: every new search doorway needs Gevurah around visibility, canonical identity, errors, and access control. Improvements the final design must include where repository evidence supports them 1. Server vis",
+		"searchText": "b\"h phase two: architecture review checklist boruch hashem. blessed is he. the awtsmoos gives expansion its boundary: every new search doorway needs gevurah around visibility, canonical identity, errors, and access control. improvements the final design must include where repository evidence supports them 1. server visible page title. 2. server visible meta description. 3. canonical url. 4. correct robots directive. 5. open graph title. 6. open graph description. 7. open graph url. 8. semantic h1. 9. semantic main/article content. 10. crawlable internal links. 11. stable public url per entity. 12. 404 for missing public entities. 13. noindex for non public surfaces. 14. sitemap discovery. 15. sitemap inclusion for public entities. 16. robots.txt sitemap declaration. 17. structured data where content type maps cleanly. 18. no dependency on user agent cloaking. 19. javascript enhancement remains functional. 20. escaping/sanitization of fetched content. 21. avoid duplicate canonical paths. 22. avoid indexing query state variants. 23. preserve hebrew directionality. 24. preserve existing api authorization boundaries. 25. cache expensive public render data if runtime evidence requires it. 26. keep server failures from returning misleading 200 shells. 27. make metadata derive from the same entity data as visible content. 28. ensure list/index pages expose links without js. 29. ensure road/reader navigation exposes adjacent discoverable links when appropriate. 30. add regression checks for html without js responses.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-0847-geelooy-google-indexing-02-architect-29ef1a02ff.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-0847-geelooy-google-indexing-03-final-pla-1b6dca0f6c",
+		"title": "Phase Three: Evidence-Gated Final Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-0847-geelooy-google-indexing/03-final-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Three: Evidence-Gated Final Plan",
+				"anchor": "phase-three-evidence-gated-final-plan"
+			},
+			{
+				"level": 2,
+				"text": "Execution gates",
+				"anchor": "execution-gates"
+			}
+		],
+		"excerpt": "B\"H Phase Three: Evidence Gated Final Plan Boruch Hashem. Blessed is He. No source file is named here until inspection proves ownership. The Awtsmoos renews the world from truth, so the final edit set will be the smallest complete set supported by traced runtime evidence. Execution gates Identify server entry point and",
+		"searchText": "b\"h phase three: evidence gated final plan boruch hashem. blessed is he. no source file is named here until inspection proves ownership. the awtsmoos renews the world from truth, so the final edit set will be the smallest complete set supported by traced runtime evidence. execution gates identify server entry point and route mapping. identify the actual road/heichel public url shapes. identify public apis/data access used by those pages. identify existing seo utilities before creating new ones. read every candidate file fully before rewrite. record exact files to touch after the trace. rewrite entire touched files, preserving public contracts. run syntax/lint/tests available for changed modules. fetch representative urls without browser javascript and inspect returned html. run browser verification to ensure enhancement still works. audit robots, sitemap, canonical, status codes, and accidental noindex. re read all touched files and compare planned versus actual changes.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-0847-geelooy-google-indexing-03-final-pla-1b6dca0f6c.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-0847-geelooy-google-indexing-04-evidence--8c4ece086b",
+		"title": "Evidence-Gated Final Edit Set",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-0847-geelooy-google-indexing/04-evidence-final-edit-set.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Evidence-Gated Final Edit Set",
+				"anchor": "evidence-gated-final-edit-set"
+			},
+			{
+				"level": 2,
+				"text": "Proven failure",
+				"anchor": "proven-failure"
+			},
+			{
+				"level": 2,
+				"text": "Files this pass will write",
+				"anchor": "files-this-pass-will-write"
+			},
+			{
+				"level": 3,
+				"text": "New focused modules",
+				"anchor": "new-focused-modules"
+			},
+			{
+				"level": 3,
+				"text": "Existing clean files rewritten completely",
+				"anchor": "existing-clean-files-rewritten-completely"
+			},
+			{
+				"level": 2,
+				"text": "Explicit non-touch boundary",
+				"anchor": "explicit-non-touch-boundary"
+			},
+			{
+				"level": 2,
+				"text": "Verification contract",
+				"anchor": "verification-contract"
+			}
+		],
+		"excerpt": "B\"H Evidence Gated Final Edit Set Boruch Hashem. Blessed is He. The Awtsmoos renews each doorway from nothing in every instant; this pass therefore changes only files whose ownership and runtime duty were directly observed, so Awtsmoos.com can reveal Torah to a browser, a reader, and a search crawler through one honest",
+		"searchText": "b\"h evidence gated final edit set boruch hashem. blessed is he. the awtsmoos renews each doorway from nothing in every instant; this pass therefore changes only files whose ownership and runtime duty were directly observed, so awtsmoos.com can reveal torah to a browser, a reader, and a search crawler through one honest vessel. proven failure production road html contains reader chrome and a loading state, but not the post title/body in the initial response. direct post routes already fetch post, heichel, and alias data on the server. numeric road routes pass only series identity plus index, causing the existing initial content template to fall back to loading html. the browser resolves road positions through /series/:series/details, reads series.posts[index], then fetches that post. live public api responses confirm ordered series.posts ids and post detail summaries. the selected existing route/template files were clean immediately before this pass. files this pass will write new focused modules heichelos/routes/heichel/readerdata.js — shared public post/heichel/series data resolution for direct and road urls. heichelos/routes/heichel/postsemantic.js — canonical url, title, description, and safe metadata model for reader pages. heichelos/routes/heichel/discovery.js — public series/post discovery links for semantic heichel html. heichelos/post/semantic head.html — server visible canonical, robots, open graph, and twitter metadata. existing clean files rewritten completely heichelos/routes/heichel/postreader.js — one renderer path for direct, series post, and numeric road pages. heichelos/routes/heichel/seriesentry.js — resolve numeric road entries through the server reader rather than a loading only shell. heichelos/routes/heichel/createroutes.js — wire the numeric road renderer into the existing ordered route table. heichelos/routes/heichel/shell.js — obtain crawl discovery alongside heichel/series semantics. heichelos/ awtsmoos.post.html — replace the generic title with route generated semantic head while preserving the existing interactive reader. heichelos/heichel/semantic/head.html — add canonical, robots, social metadata, and absolute public url. heichelos/heichel/semantic/fallback.html — include crawlable series/post links in initial html. explicit non touch boundary the actively modified files under heichelos/post/ reader logic and heichel chitas/living path modules remain untouched. this seo pass composes around them at the clean route/template layer. verification contract 1. parse every changed javascript module with node. 2. confirm module line counts remain small and readable. 3. test direct post, named series post, and numeric road data resolution. 4. inspect initial http html for real title/body, canonical, and crawlable links without relying on javascript. 5. verify the interactive browser still hydrates the same public pages. 6. re read every touched file and compare the actual diff with this edit set. 7. continue into root heichel discovery, robots, and sitemap only after the primary route contract passes.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-0847-geelooy-google-indexing-04-evidence--8c4ece086b.json"
+	}
+]

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "<!-- B\"H -->\n<!-- Boruch Hashem -->\n<!-- Blessed be He -->\n\n# REMAINING WORK\n\n- [ ] Finish product-memory structural and behavior gate.\n- [ ] Integrate Recent/Favorite into global foundation, Apps, and Games.\n- [ ] Runtime-prove retention at mobile and desktop widths.\n- [ ] Re-run entire release baseline after retention integration.\n- [ ] Measure isolated full-server startup stages.\n- [ ] Improve any proven safe startup bottleneck.\n- [ ] Audit/implement wallet reconciliation observability.\n- [ ] Audit/implement cross-product workflow handoffs.\n- [ ] Audit/fix shared accessibility and performance regressions.\n- [ ] Audit/implement additional fulfillment-backed premium value.\n- [ ] Re-read all touched files and write planned-versus-actual evidence.\n"
+}

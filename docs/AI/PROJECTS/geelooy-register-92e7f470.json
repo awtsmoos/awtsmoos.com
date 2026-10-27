@@ -37,8 +37,8 @@
 			"url": "/register",
 			"file": "geelooy/register/index.html",
 			"title": "Create Awtsmoos Account",
-			"scripts": 1,
-			"styles": 2
+			"scripts": 2,
+			"styles": 3
 		}
 	],
 	"requiresLocalDocumentation": false,

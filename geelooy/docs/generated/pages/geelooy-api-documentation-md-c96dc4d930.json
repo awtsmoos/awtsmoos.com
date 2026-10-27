@@ -2,15 +2,60 @@
 	"BH": "B\"H / Boruch Hashem / Blessed is He",
 	"schema": "awtsmoos-doc-page-v2",
 	"id": "geelooy-api-documentation-md-c96dc4d930",
-	"title": "API Directory Documentation",
+	"title": "Awtsmoos API",
 	"sourcePath": "geelooy/api/DOCUMENTATION.md",
 	"category": "API",
 	"provenance": "breadcrumb",
 	"headings": [
 		{
 			"level": 1,
-			"text": "API Directory Documentation",
-			"anchor": "api-directory-documentation"
+			"text": "Awtsmoos API",
+			"anchor": "awtsmoos-api"
+		},
+		{
+			"level": 2,
+			"text": "The root is discovery, not a monolith",
+			"anchor": "the-root-is-discovery-not-a-monolith"
+		},
+		{
+			"level": 2,
+			"text": "Federated families",
+			"anchor": "federated-families"
+		},
+		{
+			"level": 2,
+			"text": "Social API architecture",
+			"anchor": "social-api-architecture"
+		},
+		{
+			"level": 3,
+			"text": "Communications",
+			"anchor": "communications"
+		},
+		{
+			"level": 2,
+			"text": "Email",
+			"anchor": "email"
+		},
+		{
+			"level": 2,
+			"text": "Response compatibility",
+			"anchor": "response-compatibility"
+		},
+		{
+			"level": 2,
+			"text": "Legacy root compatibility",
+			"anchor": "legacy-root-compatibility"
+		},
+		{
+			"level": 2,
+			"text": "Extension rules",
+			"anchor": "extension-rules"
+		},
+		{
+			"level": 2,
+			"text": "Canonical documentation",
+			"anchor": "canonical-documentation"
 		}
 	],
 	"markdownParts": [

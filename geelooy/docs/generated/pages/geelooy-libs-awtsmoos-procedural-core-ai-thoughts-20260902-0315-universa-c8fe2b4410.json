@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-c8fe2b4410",
+	"title": "Massive Improvement Architecture Critique",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/.ai-thoughts/20260902_0315-universal-procedural-api/16_MASSIVE_IMPROVEMENT_CRITIQUE.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Massive Improvement Architecture Critique",
+			"anchor": "massive-improvement-architecture-critique"
+		},
+		{
+			"level": 2,
+			"text": "Evidence",
+			"anchor": "evidence"
+		},
+		{
+			"level": 2,
+			"text": "Rejected routes",
+			"anchor": "rejected-routes"
+		},
+		{
+			"level": 2,
+			"text": "Chosen architecture",
+			"anchor": "chosen-architecture"
+		},
+		{
+			"level": 2,
+			"text": "Required proof",
+			"anchor": "required-proof"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-c8fe2b4410-001.json"
+	]
+}

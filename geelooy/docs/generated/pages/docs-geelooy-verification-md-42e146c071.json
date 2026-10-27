@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-geelooy-verification-md-42e146c071",
+	"title": "Geelooy Verification",
+	"sourcePath": "docs/geelooy/VERIFICATION.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Geelooy Verification",
+			"anchor": "geelooy-verification"
+		},
+		{
+			"level": 2,
+			"text": "Runtime structure audit",
+			"anchor": "runtime-structure-audit"
+		},
+		{
+			"level": 2,
+			"text": "Visual reference capture",
+			"anchor": "visual-reference-capture"
+		},
+		{
+			"level": 2,
+			"text": "Quality audit",
+			"anchor": "quality-audit"
+		},
+		{
+			"level": 2,
+			"text": "Completion gates",
+			"anchor": "completion-gates"
+		}
+	],
+	"markdownParts": [
+		"content/docs-geelooy-verification-md-42e146c071-001.json"
+	]
+}

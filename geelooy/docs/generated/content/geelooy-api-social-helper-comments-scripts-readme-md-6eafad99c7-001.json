@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Comment Migration Scripts (geelooy/api/social/helper/comments/scripts/)\n\nOne-off migration scripts for the comment system (run manually, not part of request handling).\n\n- `copyLegacyCommentsToNewSystem.js` — copies legacy comments into the new comment system.\n- `migrateOldCommentsToAwtsmoosDb.js` — migrates old comments into AwtsmoosDB storage.\n"
+}

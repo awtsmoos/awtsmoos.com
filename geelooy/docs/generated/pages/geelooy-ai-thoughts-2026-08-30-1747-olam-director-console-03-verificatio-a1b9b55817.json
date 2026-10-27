@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-30-1747-olam-director-console-03-verificatio-a1b9b55817",
+	"title": "Director Console Verification",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-30-1747-olam-director-console/03-verification.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Director Console Verification",
+			"anchor": "director-console-verification"
+		},
+		{
+			"level": 2,
+			"text": "Release identity",
+			"anchor": "release-identity"
+		},
+		{
+			"level": 2,
+			"text": "Director Console delivered",
+			"anchor": "director-console-delivered"
+		},
+		{
+			"level": 2,
+			"text": "Automated verification",
+			"anchor": "automated-verification"
+		},
+		{
+			"level": 2,
+			"text": "Local browser verification",
+			"anchor": "local-browser-verification"
+		},
+		{
+			"level": 2,
+			"text": "Production deployment",
+			"anchor": "production-deployment"
+		},
+		{
+			"level": 2,
+			"text": "Public browser verification",
+			"anchor": "public-browser-verification"
+		},
+		{
+			"level": 2,
+			"text": "External boundary",
+			"anchor": "external-boundary"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-30-1747-olam-director-console-03-verificatio-a1b9b55817-001.json"
+	]
+}

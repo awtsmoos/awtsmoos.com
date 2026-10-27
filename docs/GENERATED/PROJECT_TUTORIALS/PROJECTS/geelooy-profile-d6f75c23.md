@@ -2,7 +2,7 @@ B"H
 Boruch Hashem
 Blessed is He
 
-# Project Tutorial: Profile — Geelooy
+# Project Tutorial: Profile — Awtsmoos
 
 **Path:** `geelooy/profile` · **Type:** public · **Family:** Public and Other Boundaries
 
@@ -21,20 +21,21 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 33 | 4 | 0 | 0 | 1 | 1 | 39 |
+| 54 | 6 | 0 | 0 | 1 | 1 | 62 |
 
 ## Public entry points
 
-- `/profile` → `geelooy/profile/index.html` — Profile — Geelooy
+- `/profile` → `geelooy/profile/index.html` — Profile — Awtsmoos
+- `/profile/alias` → `geelooy/profile/alias/index.html` — Alias Profile — Awtsmoos
 - `/profile/alias-manage` → `geelooy/profile/alias-manage/index.html`
 
 ## Symbol evidence
 
-Source files: 22; classes: 1; functions: 99; exports: 44; samples: async, readAliasValues, setAliasStudioStatus, setAliasStudioBusy, saveAlias, deleteAlias, createAliasBody, readApiResult, getAliasStudioConfig, getAliasStudioRefs, readBootstrap, bindAliasDeletion.
+Source files: 30; classes: 4; functions: 126; exports: 59; samples: async, readAliasValues, setAliasStudioStatus, setAliasStudioBusy, saveAlias, deleteAlias, createAliasBody, readApiResult, getAliasStudioConfig, getAliasStudioRefs, readBootstrap, bindAliasDeletion.
 
 ## Depends on
 
-- `geelooy/scripts` — 1 lexical reference; examples: geelooy/profile/auth.js
+- `geelooy/shared` — 4 lexical references; examples: geelooy/profile/modules/ProfileCardActions.js; geelooy/profile/modules/ProfileIdentityTools.js; geelooy/profile/modules/SocialLaunchpad.js
 
 ## Used by
 
@@ -46,4 +47,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **4**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **6**. Treat this as file evidence, not proof of behavioral coverage.

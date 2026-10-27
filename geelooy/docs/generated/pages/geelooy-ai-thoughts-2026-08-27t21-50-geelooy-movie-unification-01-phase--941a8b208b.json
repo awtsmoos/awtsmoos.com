@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-27t21-50-geelooy-movie-unification-01-phase--941a8b208b",
+	"title": "Phase One — Broad Movie Possibility Space",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-27T21-50-geelooy-movie-unification/01_PHASE_ONE_BROAD_BRAINSTORM.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase One — Broad Movie Possibility Space",
+			"anchor": "phase-one-broad-movie-possibility-space"
+		},
+		{
+			"level": 2,
+			"text": "Movie Language Possibilities",
+			"anchor": "movie-language-possibilities"
+		},
+		{
+			"level": 2,
+			"text": "Five Candidate Architectures",
+			"anchor": "five-candidate-architectures"
+		},
+		{
+			"level": 3,
+			"text": "A — One Giant Renderer",
+			"anchor": "a-one-giant-renderer"
+		},
+		{
+			"level": 3,
+			"text": "B — Shared JSON Protocol + Capability Adapters",
+			"anchor": "b-shared-json-protocol-capability-adapters"
+		},
+		{
+			"level": 3,
+			"text": "C — Nesher as Universal Host",
+			"anchor": "c-nesher-as-universal-host"
+		},
+		{
+			"level": 3,
+			"text": "D — Animator as Universal Host",
+			"anchor": "d-animator-as-universal-host"
+		},
+		{
+			"level": 3,
+			"text": "E — Event Bus Only",
+			"anchor": "e-event-bus-only"
+		},
+		{
+			"level": 2,
+			"text": "Preferred Direction",
+			"anchor": "preferred-direction"
+		},
+		{
+			"level": 2,
+			"text": "Ideal End State",
+			"anchor": "ideal-end-state"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-27t21-50-geelooy-movie-unification-01-phase--941a8b208b-001.json"
+	]
+}

@@ -1,146 +1,170 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-terrain-direct-52dd7d6aaf",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/terrain/DIRECTORY_GUIDE.md",
-		"category": "Games",
+		"id": "geelooy-ai-thoughts-2026-08-25-1411-social-network-revelation-05-api-arc-86e7ee6d37",
+		"title": "API Architecture Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25-1411-social-network-revelation/05_API_ARCHITECTURE_PLAN.md",
+		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/world/terrain",
-				"anchor": "directory-guide-experiments-awtsmoos-src-world-terrain"
+				"text": "API Architecture Plan",
+				"anchor": "api-architecture-plan"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Evidence",
+				"anchor": "evidence"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Winning architecture",
+				"anchor": "winning-architecture"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Safety and compatibility",
+				"anchor": "safety-and-compatibility"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Exported symbols worth searching",
-				"anchor": "exported-symbols-worth-searching"
-			},
-			{
-				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Verification",
+				"anchor": "verification"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/world/terrain Role: World systems Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 4 files, 0 structural child directories Purpose Terrain data, geometry, collision, and terrain runtime helpers. The Awtsmoos ",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/world/terrain role: world systems snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 4 files, 0 structural child directories purpose terrain data, geometry, collision, and terrain runtime helpers. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: world systems search terms: terrain, local, com, earth, layer, material, meadow, shore, texture, alpine, floor, images file mix: .js: 3 · .md: 1 good first question: “does the behavior or asset i need belong to world systems, or is this only a neighboring/test/reference layer?” semantic evidence b\"h names six high resolution terrain images served beside the game itself. the awtsmoos reveals earth without a quota gate; awtsmoos.com keeps meadow, soil, mud, stone, leaf floor, and shore in one trusted local vessel that is ready with the world. selects biome diverse active roles from a sixteen source alpine ground covenant. the awtsmoos reveals one valley through meadow, earth, wet bank, rock, forest, and shore; awtsmoos.com serves first view terrain locally while preserving the complete authored stack. creates a visibly textured alpine terrain material from guaranteed local images. the awtsmoos clothes the valley in meadow and earth before distant enrichment can arrive; awtsmoos.com binds real pixels directly, then adds mud, stone, leaf floor, and shore layers. representative files localterraintexturecatalog.js — names six high resolution terrain images served beside the game itself. the awtsmoos reveals earth without a quota gate; awtsmoos.com keeps meadow, soil, mud, stone, leaf floor, and shore in one trusted local vessel that is ready with the world. exports: local terrain textures, localterraintextureurl, localterraintextureurls. terrainlayerrecipe.js — selects biome diverse active roles from a sixteen source alpine ground covenant. the awtsmoos reveals one valley through meadow, earth, wet bank, rock, forest, and shore; awtsmoos.com serves first view terrain locally while preserving the complete authored stack. exports: terrain layer count, terrainlayerrecipe. terrainmaterialfactory.js — creates a visibly textured alpine terrain material from guaranteed local images. the awtsmoos clothes the valley in meadow and earth before distant enrichment can arrive; awtsmoos.com binds real pixels directly, then adds mud, stone, leaf floor, and shore layers. exports: createterrainmaterial. exported symbols worth searching local terrain textures · localterraintextureurl · localterraintextureurls · terrain layer count · terrainlayerrecipe · createterrainmaterial import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ../materials/mountainvillagematerialpresets.js ./localterraintexturecatalog.js ../../../../light three gltf/tiny runtime.js ../../assets/publicmaterialcache.js ../../assets/texturerepeat.js ../materials/materialstackrecipe.js ./terrainlayerrecipe.js directory map parent: experiments/awtsmoos/src/world children: none. related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-terrain-direct-52dd7d6aaf.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Architecture Plan The Awtsmoos renews every request before transport can pretend to be the source; Awtsmoos.com will keep one calm public contract while many small domain vessels carry the force. Evidence The canonical Social Hub already composes focused API delegates. The separate O",
+		"searchText": "b\"h boruch hashem blessed is he api architecture plan the awtsmoos renews every request before transport can pretend to be the source; awtsmoos.com will keep one calm public contract while many small domain vessels carry the force. evidence the canonical social hub already composes focused api delegates. the separate observatory still concentrates transport parsing, url construction, 32 public methods, mutation bodies, route health orchestration, and developer probes inside one api.js; its request factory is a second large switch. feedtrending exists in transport but is absent from the operation policy/groups/factory. winning architecture 1. preserve every current socialapi method and {status, ok, body} envelope. 2. split transport into route covenant, query/form vessels, response parser, structured error, and one canonical transport. 3. split methods into core, discovery, feed, profile, relationship, signal, governance, live, and developer domain clients. 4. compose those domains beneath one stable socialobservatoryapi facade. 5. replace operation arrays/switches with one immutable data only registry. 6. separate browser context adaptation (binahcontextinputresolver) from operation execution (yesodoperationexecutor). 7. generate read/mutation policy, visible groups, execution, docs, and agent catalog from that registry. 8. add a machine gateway that discovers freely, validates reads, and requires explicit allowmutation: true for mutations. 9. preserve multi group membership and existing group order. 10. make feedtrending a first class read operation. safety and compatibility unknown operations fail closed. mutation consequence text stays equivalent to the current policy. server error payloads remain intact. network failures and unreadable response bodies become structured client side errors. blank query values remain distinct from absent values. no generic agent route exposes filesystem, nodeos, or migration mutation powers. verification facade parity, exact route strings, query encoding, transport parsing, operation uniqueness, json safe catalog, mutation classification, context adaptation, agent required input errors, explicit mutation opt in, existing observatory tests, live route health probes, and browser smoke.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25-1411-social-network-revelation-05-api-arc-86e7ee6d37.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-trees-director-0b20c21868",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/trees/DIRECTORY_GUIDE.md",
-		"category": "Games",
+		"id": "geelooy-ai-thoughts-2026-08-25-geelooy-futuristic-revelation-00-remainin-a84ab05dcb",
+		"title": "REMAINING WORK — Geelooy Futuristic Revelation",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25-geelooy-futuristic-revelation/00_REMAINING_WORK.md",
+		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/world/trees",
-				"anchor": "directory-guide-experiments-awtsmoos-src-world-trees"
+				"text": "REMAINING WORK — Geelooy Futuristic Revelation",
+				"anchor": "remaining-work-geelooy-futuristic-revelation"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Mission",
+				"anchor": "mission"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Open Work Graph",
+				"anchor": "open-work-graph"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Exported symbols worth searching",
-				"anchor": "exported-symbols-worth-searching"
-			},
-			{
-				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Completion Evidence",
+				"anchor": "completion-evidence"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/world/trees Role: World systems Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 13 files, 0 structural child directories Purpose Tree generation, placement, geometry, and world integration. The Awtsmoos rene",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/world/trees role: world systems snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 13 files, 0 structural child directories purpose tree generation, placement, geometry, and world integration. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: world systems search terms: forest, create, tree, leaf, texture, geometry, bark, collision, material, com, procedural, trunk file mix: .js: 12 good first question: “does the behavior or asset i need belong to world systems, or is this only a neighboring/test/reference layer?” semantic evidence b\"h builds bounded collision only from selected visible lower trunk triangles. the awtsmoos preserves truthful contact without copying every branch face into physics; awtsmoos.com uses deterministic visible mesh stratification and never inserts proxy primitives. selects bounded real trunk triangles by height and angular coverage. the awtsmoos preserves the visible trunk while physics needs fewer finite vessels; awtsmoos.com keeps the largest authored triangle in each of ninety six spatial cells. batches procedural core trees by semantic bark and leaf material type. the awtsmoos reveals one forest without erasing species; awtsmoos.com merges geometry only where bark or leaf identity truly matches and preserves collision transform compatibility. representative files forestcollision.js — builds bounded collision only from selected visible lower trunk triangles. the awtsmoos preserves truthful contact without copying every branch face into physics; awtsmoos.com uses deterministic visible mesh stratification and never inserts proxy primitives. exports: createforestcolliders. forestcollisionselection.js — selects bounded real trunk triangles by height and angular coverage. the awtsmoos preserves the visible trunk while physics needs fewer finite vessels; awtsmoos.com keeps the largest authored triangle in each of ninety six spatial cells. exports: selectvisibletrunktriangles. forestgeometry.js — batches procedural core trees by semantic bark and leaf material type. the awtsmoos reveals one forest without erasing species; awtsmoos.com merges geometry only where bark or leaf identity truly matches and preserves collision transform compatibility. exports: createmergedforestgeometry, transformtreepoint. forestgeometrybuffer.js — transforms procedural core tree geometry into renderer ready merged buffers. the awtsmoos carries every branch from abstract seed into measured place; awtsmoos.com rotates, scales, colors, indexes, and exposes collision transforms without generating trees. exports: appendtreegeometry, createforestmesh, emptyforestbuilder, rgba, transformtreepoint. forestleaftexture.js — builds the green fallback and prepares opaque source chai leaves for mask rendering. the licensed chai pngs are rgb images on a witnessed 486c55 studio green field. a one time, idle sliced connected chroma key converts only edge reachable background to alpha, avoiding square foliage cards, protecting similar interior leaf greens, and preventing frame time spikes. exports: createforestleaftexture, createforestleafpublictexture, forestleafpublictexturecontract. forestmaterialfactory.js — creates one high resolution bark or alpha cutout leaf material per semantic type. the awtsmoos refuses one painted canopy for every species; awtsmoos.com binds each core type to its own public texture and hides missing leaf cards rather than showing opaque green blobs. exports: createtreebarkmaterial, createtreeleafmaterial. forestplacement.js — deterministic terrain placement against measured world truth. exports: createforestplacements. forestpolicy.js — adapts every procedural core tree preset or species to measured world placement. the awtsmoos reveals many botanical forms through one generator; awtsmoos.com changes only runtime density, height, spacing, collision, and seed while core owns all tree construction. exports: createforestpolicy, createreferenceforestpolicy. forestrecordfactory.js — generates preset trees and bounded live reference canopies from one placement shape. the awtsmoos renews every species beyond polygon count; awtsmoos.com requests the runtime vessel only for the running forest while canonical procedural exports retain cinematic density. exports: buildforestrecord. forestsystemstats.js — summarizes one procedural forest and its single semantic renderer. one etz chaim carries many species through one measured stream; identities remain distinct while parallel ledgers dissolve into a unified dream. exports: createforestsystemstats. proceduralforestsystem.js — reveals one procedural core forest through one renderer and collision covenant. from one etz chaim the many species rise, each branch retaining its name; one heichal merges their material light, one ledger measures the flame. exports: createproceduralforest. treesemanticmaterialcatalog.js — maps every procedural core bark and leaf type to a high resolution public asset. the awtsmoos reveals each species through its own garment; awtsmoos.com preserves oak, willow, pine, palm, redwood, sakura, and every neighboring form without generic canopy paint. exports: treebarktextureurl, treeleaftextureurl, treesemantictextureurls, tree bark texture types, tree leaf texture types. exported symbols worth searching createforestcolliders · selectvisibletrunktriangles · createmergedforestgeometry · transformtreepoint · appendtreegeometry · createforestmesh · emptyforestbuilder · rgba · createforestleaftexture · createforestleafpublictexture · forestleafpublictexturecontract · createtreebarkmaterial · createtreeleafmaterial · createforestplacements · createforestpolicy · createreferenceforestpolicy import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ../../collision/trianglecollider.js ./forestcollisionselection.js ./forestgeometry.js ../../../../light three gltf/tiny runtime.js ./forestgeometrybuffer.js ./forestmaterialfactory.js ../../assets/publicmaterialcache.js ./treesemanticmaterialcatalog.js ../village/villagereferencecomposition.js ../../../../../../../libs/awtsmoos procedural core/src/index.js ./forestcollision.js ./forestplacement.js directory map parent: experiments/awtsmoos/src/world children: none. related and overlapping systems vegetation, trees, and forest systems — botany rules, tree generation, forest composition, grass, and source texture libraries overlap semantically but own different layers. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-trees-director-0b20c21868.json"
+		"excerpt": "B\"H REMAINING WORK — Geelooy Futuristic Revelation Boruch Hashem. Blessed is He. The Awtsmoos renews the instant; this ledger renews the work, so no hidden brittle edge survives beneath a polished quirk. Awtsmoos.com is the visible shore; the code beneath must be equally sure. Mission Transform the public geelooy/ surf",
+		"searchText": "b\"h remaining work — geelooy futuristic revelation boruch hashem. blessed is he. the awtsmoos renews the instant; this ledger renews the work, so no hidden brittle edge survives beneath a polished quirk. awtsmoos.com is the visible shore; the code beneath must be equally sure. mission transform the public geelooy/ surfaces into a coherent, fast, mobile first, accessible, futuristic system while preserving real contracts and eliminating style leakage, overflow, accidental overlap, inconsistent interaction states, and tangled javascript/api boundaries. open work graph [ ] capture clean git baseline and preserve unrelated local changes. [ ] discover nested agents.md files and formatting/build contracts. [ ] inventory public page families and their html/css/js entry points. [ ] map shared css, shared javascript, api clients, and runtime dependencies. [ ] identify pages using inline/global styles or collision prone selectors. [ ] identify viewport overflow, fixed position, z index, and mobile hazards. [ ] identify duplicated navigation, button, panel, form, card, and feedback patterns. [ ] design a root scoped, import driven visual foundation with no global selectors. [ ] add motion tokens and reduced motion behavior. [ ] add coherent hover, active, focus visible, disabled, loading, and expanded states. [ ] build retractable mobile first navigation/panel primitives without accidental overlays. [ ] build overflow safe layout primitives with explicit z index layers. [ ] establish data driven ui configuration and explicit javascript contracts. [ ] refactor shared browser/api utilities into small documented modules. [ ] preserve endpoint names, payloads, public exports, and existing navigation contracts. [ ] improve static informational pages. [ ] improve authentication/form pages. [ ] improve catalog/navigation pages. [ ] improve social/profile/heichel application surfaces. [ ] improve editor/composer surfaces. [ ] improve docs and api documentation surfaces. [ ] improve utility/os/tool surfaces where they share the same web foundation. [ ] read back every touched file in full. [ ] verify tab indentation in touched source files. [ ] verify no compressed one line logic in touched source files. [ ] verify all new css selectors are localized beneath an explicit page/surface root. [ ] verify every interactive primitive has relevant hover/active/focus visible states. [ ] verify reduced motion behavior. [ ] verify no accidental horizontal overflow at representative mobile widths. [ ] verify z index layers and overlay containment. [ ] run syntax/import/build/tests available for touched modules. [ ] browser test representative page families on mobile and desktop. [ ] inspect console/network errors for representative flows. [ ] update durable documentation and migration guidance. [ ] compare planned vs actual work and convert every delta into remaining work. [ ] close only when no safe high value discovered work remains within this migration pass. completion evidence completion requires file readback, syntax/build/test results, browser evidence on representative families, static style scope checks, and an empty actionable remainder for the implemented migration layer.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25-geelooy-futuristic-revelation-00-remainin-a84ab05dcb.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-25-geelooy-futuristic-revelation-01-discover-fcd5f520a0",
+		"title": "Phase One — Discovery and Possibility Map",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25-geelooy-futuristic-revelation/01_DISCOVERY_AND_POSSIBILITY_MAP.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase One — Discovery and Possibility Map",
+				"anchor": "phase-one-discovery-and-possibility-map"
+			},
+			{
+				"level": 2,
+				"text": "Observed Project Shape",
+				"anchor": "observed-project-shape"
+			},
+			{
+				"level": 2,
+				"text": "Ideal Possibilities",
+				"anchor": "ideal-possibilities"
+			},
+			{
+				"level": 2,
+				"text": "Things We Will Not Do",
+				"anchor": "things-we-will-not-do"
+			},
+			{
+				"level": 2,
+				"text": "Discovery Questions to Resolve from Files",
+				"anchor": "discovery-questions-to-resolve-from-files"
+			}
+		],
+		"excerpt": "B\"H Phase One — Discovery and Possibility Map Boruch Hashem. Blessed is He. The Awtsmoos makes each boundary new; our work must reveal what is actually true. Awtsmoos.com should feel like one lucid world, though many pages carry the light unfurled. Observed Project Shape The geelooy/ root contains many distinct web fam",
+		"searchText": "b\"h phase one — discovery and possibility map boruch hashem. blessed is he. the awtsmoos makes each boundary new; our work must reveal what is actually true. awtsmoos.com should feel like one lucid world, though many pages carry the light unfurled. observed project shape the geelooy/ root contains many distinct web families: static information, auth, docs, apps, social/profile/heichel surfaces, editors/composers, utility tools, os style surfaces, games, apis, shared modules, and multiple existing style/script locations. ideal possibilities a consistent visual language without a single unsafe global stylesheet. page root scoped design tokens imported into each family stylesheet. small css files grouped by tokens, layout, components, state, and motion. consistent 44px+ touch targets and obvious keyboard focus. retractable navigation/panels using semantic controls and bounded overlays. responsive typography and spacing using clamp() inside safe limits. soft luminous surfaces, restrained glass effects, crisp borders, and high contrast. motion based on opacity/transform where possible, never layout thrashing spectacle. explicit prefers reduced motion fallbacks. one documented z index scale per surface; no arbitrary 999999 escalation. every flex/grid child designed with min width: 0 and overflow safe content rules. forms with clear labels, validation, errors, busy states, and password manager friendliness. data driven navigation/catalog definitions rather than duplicated markup logic. small javascript classes where lifecycle inheritance is real; composition otherwise. shared api transport with explicit request, response, error, cancellation, and parsing contracts. accessible empty/loading/error/success states across asynchronous views. documentation that explains user workflows and developer extension boundaries. browser evidence covering representative mobile and desktop routes. things we will not do no unscoped body, button, a, .card, .modal, or similarly collision prone rules. no visual rewrite that silently changes api payloads, endpoint names, auth behavior, or navigation semantics. no giant “design system” file that becomes another monolith. no decorative inheritance or mystical names that obscure technical responsibility. no global reset that breaks embedded/legacy pages. no animation without reduced motion behavior. no fixed overlay without explicit containment, close behavior, stacking contract, and mobile testing. no editing generated bundles when human authored sources exist. discovery questions to resolve from files 1. which pages already share css/js imports? 2. which html pages contain inline styles/scripts? 3. where is common navigation currently generated? 4. what api client or fetch wrappers already exist? 5. what page roots/classes are safe migration anchors? 6. which pages use fixed/sticky/absolute positioning? 7. which routes have nested local agent instructions? 8. which tests/build scripts cover browser facing surfaces? 9. which public exports and global browser names are consumed elsewhere? 10. which pages can inherit improvements through shared modules with minimal rewrites?",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25-geelooy-futuristic-revelation-01-discover-fcd5f520a0.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-25-geelooy-futuristic-revelation-02-feasibil-abd3503365",
+		"title": "Phase Two — Feasibility and Risk Map",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25-geelooy-futuristic-revelation/02_FEASIBILITY_AND_RISK_MAP.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Two — Feasibility and Risk Map",
+				"anchor": "phase-two-feasibility-and-risk-map"
+			},
+			{
+				"level": 2,
+				"text": "Practical Architecture Direction",
+				"anchor": "practical-architecture-direction"
+			},
+			{
+				"level": 3,
+				"text": "Styling",
+				"anchor": "styling"
+			},
+			{
+				"level": 3,
+				"text": "Layout",
+				"anchor": "layout"
+			},
+			{
+				"level": 3,
+				"text": "Interaction",
+				"anchor": "interaction"
+			},
+			{
+				"level": 3,
+				"text": "JavaScript",
+				"anchor": "javascript"
+			},
+			{
+				"level": 3,
+				"text": "API",
+				"anchor": "api"
+			},
+			{
+				"level": 2,
+				"text": "Primary Risks and Controls",
+				"anchor": "primary-risks-and-controls"
+			},
+			{
+				"level": 2,
+				"text": "Migration Order",
+				"anchor": "migration-order"
+			},
+			{
+				"level": 2,
+				"text": "Gate",
+				"anchor": "gate"
+			}
+		],
+		"excerpt": "B\"H Phase Two — Feasibility and Risk Map Boruch Hashem. Blessed is He. Chesed opens possibility; Gevurah gives it form. The Awtsmoos renews both current and shore; Awtsmoos.com must become simpler by becoming more sure. Practical Architecture Direction Styling Use imported CSS modules, but bind every rule to an explici",
+		"searchText": "b\"h phase two — feasibility and risk map boruch hashem. blessed is he. chesed opens possibility; gevurah gives it form. the awtsmoos renews both current and shore; awtsmoos.com must become simpler by becoming more sure. practical architecture direction styling use imported css modules, but bind every rule to an explicit page/surface root. shared modules may define reusable patterns only beneath that root contract. do not use :root tokens or generic global element selectors. each entry stylesheet becomes a manifest of @import statements for small scoped modules. layout design mobile first. use bounded content widths, min width: 0, safe wrapping, and flexible grids. fixed/sticky ui must declare its containing block and z index layer. drawers/dialogs must have a single overlay owner and deterministic close/focus behavior. interaction every actionable control receives focus visible, active, disabled, and busy semantics. hover enhancements run only on hover capable devices. motion uses bounded transform/opacity transitions and respects reduced motion. javascript prefer small classes for genuine lifecycle/state specialization and composition for services. keep public names compatible where externally consumed. introduce explicit data definitions for navigation, actions, form state, and api operation metadata instead of scattered branching. api separate request validation, transport, response normalization, error translation, and ui rendering. document every boundary. do not silently alter endpoint paths or payload contracts during ui modernization. primary risks and controls 1. style collisions — require explicit root prefix on every authored selector. 2. legacy page breakage — migrate page families incrementally and browser test representative routes. 3. hidden public globals — search call sites before renaming javascript exports/globals. 4. mobile overflow — static scan risky css and test narrow viewports. 5. overlay stacking errors — one documented z layer scale and explicit overlay ownership. 6. animation fatigue — short restrained transitions and reduced motion fallback. 7. false abstraction — extract only real responsibilities; avoid wrapper only modules. 8. huge module count without clarity — each file gets one named responsibility and obvious dependency direction. 9. api regressions — preserve contracts and test error/success paths. 10. accessibility regression — semantic controls, keyboard focus, labels, live feedback where relevant. 11. local uncommitted work — inspect git state before touching existing files and never overwrite unrelated edits. 12. generated assets mistaken for source — locate human authored source before rewrites. 13. tunnel instability — use small durable operations and verify every accepted write by readback. 14. documentation drift — docs updated from verified implementation, not aspirational behavior. migration order 1. establish evidence baseline and nested instructions. 2. inventory representative families and shared dependencies. 3. build scoped visual foundation from actual recurring patterns. 4. migrate static/info pages first to validate css isolation. 5. migrate forms/auth to validate interactive state system. 6. migrate data heavy/social/editor surfaces to validate javascript/api contracts. 7. improve docs from implemented architecture. 8. verify and then widen migration to remaining compatible families. gate no existing source rewrite begins until its full contents, callers/imports, and nearby style/runtime dependencies have been inspected.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25-geelooy-futuristic-revelation-02-feasibil-abd3503365.json"
 	}
 ]

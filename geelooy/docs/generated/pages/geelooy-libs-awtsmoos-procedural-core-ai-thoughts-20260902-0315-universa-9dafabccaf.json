@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-9dafabccaf",
+	"title": "Atomic Implementation Matrix",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/.ai-thoughts/20260902_0315-universal-procedural-api/20_ATOMIC_IMPLEMENTATION_MATRIX.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Atomic Implementation Matrix",
+			"anchor": "atomic-implementation-matrix"
+		},
+		{
+			"level": 2,
+			"text": "Parallel lane A — state and docs reconciliation",
+			"anchor": "parallel-lane-a-state-and-docs-reconciliation"
+		},
+		{
+			"level": 2,
+			"text": "Parallel lane B — lifecycle/core edge cases",
+			"anchor": "parallel-lane-b-lifecycle-core-edge-cases"
+		},
+		{
+			"level": 2,
+			"text": "Parallel lane C — compiler/constraint/cache hardening",
+			"anchor": "parallel-lane-c-compiler-constraint-cache-hardening"
+		},
+		{
+			"level": 2,
+			"text": "Parallel lane D — demo UX/accessibility",
+			"anchor": "parallel-lane-d-demo-ux-accessibility"
+		},
+		{
+			"level": 2,
+			"text": "Parallel lane E — browser/security/responsive proof",
+			"anchor": "parallel-lane-e-browser-security-responsive-proof"
+		},
+		{
+			"level": 2,
+			"text": "Parallel lane F — Git/release ownership",
+			"anchor": "parallel-lane-f-git-release-ownership"
+		},
+		{
+			"level": 2,
+			"text": "Completion condition",
+			"anchor": "completion-condition"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-9dafabccaf-001.json"
+	]
+}

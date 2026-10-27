@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Communication Inbox (geelooy/api/social/helper/communicationInbox/)\n\nLow-level inbox storage for per-alias communications (messages/notifications).\n\n## Files\n- `index.js` — module entry.\n- `paths.js` — storage paths for inbox items.\n- `read.js`, `write.js` — read/write inbox items.\n- `sanitize.js` — sanitizes stored items.\n\n## What it does\nPersists and retrieves inbox items for an alias; the HTTP surface is `communicationRoutes/` (mounted via `_awtsmoos.communications.js`).\n"
+}

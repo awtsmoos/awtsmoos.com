@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-26-0924-rebbe-track-runtime-05-post-implemen-fcb2bd7341",
+	"title": "Track Browser — Post-Implementation Delta",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-26-0924-rebbe-track-runtime/05-post-implementation-delta.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Track Browser — Post-Implementation Delta",
+			"anchor": "track-browser-post-implementation-delta"
+		},
+		{
+			"level": 2,
+			"text": "Planned",
+			"anchor": "planned"
+		},
+		{
+			"level": 2,
+			"text": "Actual",
+			"anchor": "actual"
+		},
+		{
+			"level": 2,
+			"text": "Delta discovered by success",
+			"anchor": "delta-discovered-by-success"
+		},
+		{
+			"level": 2,
+			"text": "DELTA",
+			"anchor": "delta"
+		},
+		{
+			"level": 2,
+			"text": "NEXTACTION",
+			"anchor": "nextaction"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-26-0924-rebbe-track-runtime-05-post-implemen-fcb2bd7341-001.json"
+	]
+}

@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-02-0240-real-public-sitemap-release-06-final-af40397382",
+	"title": "Final Planned vs Actual",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-02-0240-real-public-sitemap-release/06-final-planned-vs-actual.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Final Planned vs Actual",
+			"anchor": "final-planned-vs-actual"
+		},
+		{
+			"level": 2,
+			"text": "Planned",
+			"anchor": "planned"
+		},
+		{
+			"level": 2,
+			"text": "Actual",
+			"anchor": "actual"
+		},
+		{
+			"level": 3,
+			"text": "Delta 1 — deep sitemap recursion rejected",
+			"anchor": "delta-1-deep-sitemap-recursion-rejected"
+		},
+		{
+			"level": 3,
+			"text": "Delta 2 — release verifier repaired",
+			"anchor": "delta-2-release-verifier-repaired"
+		},
+		{
+			"level": 2,
+			"text": "Verification actually completed",
+			"anchor": "verification-actually-completed"
+		},
+		{
+			"level": 2,
+			"text": "Remaining delta",
+			"anchor": "remaining-delta"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-02-0240-real-public-sitemap-release-06-final-af40397382-001.json"
+	]
+}

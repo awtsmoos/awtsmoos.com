@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-10t1750-extreme-completion-wave-2-03-final-p-5b0bdf35cf",
+	"title": "Final Plan",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-10T1750-extreme-completion-wave-2/03-final-plan.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Final Plan",
+			"anchor": "final-plan"
+		},
+		{
+			"level": 2,
+			"text": "Wave A — Reconciliation",
+			"anchor": "wave-a-reconciliation"
+		},
+		{
+			"level": 2,
+			"text": "Wave B — Startup performance",
+			"anchor": "wave-b-startup-performance"
+		},
+		{
+			"level": 2,
+			"text": "Wave C — Workflow continuity",
+			"anchor": "wave-c-workflow-continuity"
+		},
+		{
+			"level": 2,
+			"text": "Wave D — Accessibility/performance/product value",
+			"anchor": "wave-d-accessibility-performance-product-value"
+		},
+		{
+			"level": 2,
+			"text": "Wave E — Final proof",
+			"anchor": "wave-e-final-proof"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-10t1750-extreme-completion-wave-2-03-final-p-5b0bdf35cf-001.json"
+	]
+}

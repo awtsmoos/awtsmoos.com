@@ -38,10 +38,10 @@ No package-script heuristic match was found.
 ## Related routes
 
 - [`/api/zmanim`](./api-zmanim-86d9bd4874.md)
+- [`/api/zmanim/calendar`](./api-zmanim-calendar-bcc58b9c32.md)
 - [`/api/zmanim/compare`](./api-zmanim-compare-c5bb565fcb.md)
 - [`/api/zmanim/day`](./api-zmanim-day-6b37237ce4.md)
 - [`/api/zmanim/embed`](./api-zmanim-embed-7a9e392500.md)
 - [`/api/zmanim/health`](./api-zmanim-health-3637c50b08.md)
 - [`/api/zmanim/location`](./api-zmanim-location-d9b647041e.md)
 - [`/api/zmanim/methodology`](./api-zmanim-methodology-2cd7bce9af.md)
-- [`/api/zmanim/opinions`](./api-zmanim-opinions-c99cc9fdf7.md)

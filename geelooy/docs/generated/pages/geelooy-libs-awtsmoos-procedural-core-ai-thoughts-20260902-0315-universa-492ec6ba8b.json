@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-492ec6ba8b",
+	"title": "Phase Three — Migration Plan",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/.ai-thoughts/20260902_0315-universal-procedural-api/07_MIGRATION_PLAN.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase Three — Migration Plan",
+			"anchor": "phase-three-migration-plan"
+		},
+		{
+			"level": 2,
+			"text": "Additive path",
+			"anchor": "additive-path"
+		},
+		{
+			"level": 2,
+			"text": "Bridge policy",
+			"anchor": "bridge-policy"
+		},
+		{
+			"level": 2,
+			"text": "Compatibility proof",
+			"anchor": "compatibility-proof"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-492ec6ba8b-001.json"
+	]
+}

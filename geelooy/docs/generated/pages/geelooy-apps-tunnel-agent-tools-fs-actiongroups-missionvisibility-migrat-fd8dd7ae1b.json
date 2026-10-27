@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-agent-tools-fs-actiongroups-missionvisibility-migrat-fd8dd7ae1b",
+	"title": "Mission Visibility Registry — tunnel-native three-pass planning",
+	"sourcePath": "geelooy/apps/tunnel/agent/tools/fs/actionGroups/missionVisibility/MIGRATION.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Mission Visibility Registry — tunnel-native three-pass planning",
+			"anchor": "mission-visibility-registry-tunnel-native-three-pass-planning"
+		},
+		{
+			"level": 2,
+			"text": "The rule going forward",
+			"anchor": "the-rule-going-forward"
+		},
+		{
+			"level": 2,
+			"text": "Instant onboarding",
+			"anchor": "instant-onboarding"
+		},
+		{
+			"level": 2,
+			"text": "Storage",
+			"anchor": "storage"
+		},
+		{
+			"level": 2,
+			"text": "Legacy folders",
+			"anchor": "legacy-folders"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-agent-tools-fs-actiongroups-missionvisibility-migrat-fd8dd7ae1b-001.json"
+	]
+}

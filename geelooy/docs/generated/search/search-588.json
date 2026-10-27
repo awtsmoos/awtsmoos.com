@@ -1,0 +1,312 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-movies-directory-guide-md-9c1ae6d7bb",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/movies/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: movies",
+				"anchor": "directory-guide-movies"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Data keys observed",
+				"anchor": "data-keys-observed"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: movies Role: Movies Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 7 files, 3 structural child directories Purpose Movie projects, generated evidence, manifests, and tool entry points. The Awtsmoos renews every path and every artif",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: movies role: movies snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 7 files, 3 structural child directories purpose movie projects, generated evidence, manifests, and tool entry points. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: movies search terms: 30s, chossid, journey, json, movie, mp4, browser, ffprobe, guide, jpg, maker, master file mix: .json: 2 · .webm: 1 · .jpg: 1 · .mp4: 1 good first question: “does the behavior or asset i need belong to movies, or is this only a neighboring/test/reference layer?” semantic evidence b\"h b\"h — mitzvah world movie maker representative files readme.md — b\"h — mitzvah world movie maker chossid journey 30s browser master.webm — a .webm artifact in this directory. chossid journey 30s poster.jpg — a .jpg artifact in this directory. chossid journey 30s.mp4 — a .mp4 artifact in this directory. chossid journey 30s.mp4.ffprobe.json — a .json artifact in this directory. movie project.schema.json — a .json artifact in this directory. data keys observed output · project · source · sha256 · dialogues · probe · $schema · $id · title · type · required · properties · $defs directory map parent: . children: movies/evidence movies/projects movies/tools existing markdown: readme.md related and overlapping systems movie runtime, projects, tools, and evidence — runtime movie logic is separated from authored projects, exact generation tools, and captured evidence. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-movies-directory-guide-md-9c1ae6d7bb.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-movies-evidence-chossid-journey-30s-corrected-1c9a2d651f",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/movies/evidence/chossid-journey-30s-corrected/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: movies/evidence/chossid-journey-30s-corrected",
+				"anchor": "directory-guide-movies-evidence-chossid-journey-30s-corrected"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Data keys observed",
+				"anchor": "data-keys-observed"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: movies/evidence/chossid journey 30s corrected Role: Movies Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 11 files, 0 structural child directories Purpose Evidence artifacts for the corrected 30 second Chossid journey movie. The Aw",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: movies/evidence/chossid journey 30s corrected role: movies snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 11 files, 0 structural child directories purpose evidence artifacts for the corrected 30 second chossid journey movie. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: movies search terms: jpg, frame, txt, 14s, 17s, 24s, 29s, audio, chossid journey 30s corrected, contact, evidence, ffprobe file mix: .jpg: 7 · .txt: 2 · .json: 1 good first question: “does the behavior or asset i need belong to movies, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files audio levels.txt — a .txt artifact in this directory. contact sheet.jpg — a .jpg artifact in this directory. frame 14s.jpg — a .jpg artifact in this directory. frame 17s.jpg — a .jpg artifact in this directory. frame 1s.jpg — a .jpg artifact in this directory. frame 24s.jpg — a .jpg artifact in this directory. frame 29s.jpg — a .jpg artifact in this directory. frame 8s.jpg — a .jpg artifact in this directory. independent ffprobe.json — a .json artifact in this directory. sha256.txt — a .txt artifact in this directory. data keys observed programs · stream groups · streams · format directory map parent: movies/evidence children: none. related and overlapping systems movie runtime, projects, tools, and evidence — runtime movie logic is separated from authored projects, exact generation tools, and captured evidence. boundaries and cautions these files record observations or outputs; they do not own the behavior they describe. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-movies-evidence-chossid-journey-30s-corrected-1c9a2d651f.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-movies-evidence-directory-guide-md-b9250c0f20",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/movies/evidence/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: movies/evidence",
+				"anchor": "directory-guide-movies-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: movies/evidence Role: Movies Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 1 files, 1 structural child directories Purpose Rendered or captured evidence grouped by movie run. The Awtsmoos renews every path and every artifact from ",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: movies/evidence role: movies snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 1 files, 1 structural child directories purpose rendered or captured evidence grouped by movie run. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: movies search terms: evidence, guide, movies file mix: .md: 1 good first question: “does the behavior or asset i need belong to movies, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files no immediate files. this directory is an organizational parent; follow the child guides below. directory map parent: movies children: movies/evidence/chossid journey 30s corrected related and overlapping systems movie runtime, projects, tools, and evidence — runtime movie logic is separated from authored projects, exact generation tools, and captured evidence. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-movies-evidence-directory-guide-md-b9250c0f20.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-movies-projects-directory-guide-md-fd6ac0e425",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/movies/projects/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: movies/projects",
+				"anchor": "directory-guide-movies-projects"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Data keys observed",
+				"anchor": "data-keys-observed"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: movies/projects Role: Movies Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 5 files, 0 structural child directories Purpose Authored movie project definitions and timelines. The Awtsmoos renews every path and every artifact from no",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: movies/projects role: movies snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 5 files, 0 structural child directories purpose authored movie project definitions and timelines. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: movies search terms: json, shlichus, village, 120s, 180s, 30s, 60s, chossid, emerald, guide, journey, movies file mix: .json: 4 · .md: 1 good first question: “does the behavior or asset i need belong to movies, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files chossid journey 30s.json — a .json artifact in this directory. emerald village shlichus 180s.json — a .json artifact in this directory. reference village 60s.json — a .json artifact in this directory. tefillin shlichus 120s.json — a .json artifact in this directory. data keys observed version · title · duration · fps · resolution · seed · render · tracks · characters · viewmode · camerarigs · materialgraphs · sequences directory map parent: movies children: none. related and overlapping systems movie runtime, projects, tools, and evidence — runtime movie logic is separated from authored projects, exact generation tools, and captured evidence. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-movies-projects-directory-guide-md-fd6ac0e425.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-movies-readme-md-67bc694a6f",
+		"title": "B\"H — Mitzvah World Movie Maker",
+		"sourcePath": "geelooy/games/mitzvahWorld/movies/README.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Mitzvah World Movie Maker",
+				"anchor": "b-h-mitzvah-world-movie-maker"
+			},
+			{
+				"level": 2,
+				"text": "Entry routes",
+				"anchor": "entry-routes"
+			},
+			{
+				"level": 2,
+				"text": "NLE tracks",
+				"anchor": "nle-tracks"
+			},
+			{
+				"level": 2,
+				"text": "Editing",
+				"anchor": "editing"
+			},
+			{
+				"level": 2,
+				"text": "Browser output",
+				"anchor": "browser-output"
+			},
+			{
+				"level": 2,
+				"text": "Final MP4",
+				"anchor": "final-mp4"
+			},
+			{
+				"level": 2,
+				"text": "Included film",
+				"anchor": "included-film"
+			}
+		],
+		"excerpt": "B\"H — Mitzvah World Movie Maker The Movie Maker directs the real Mitzvah World renderer, actors, houses, trees, doors, cameras, animations, subtitles, audio, and scene visibility from one JSON project. Entry routes /games/mitzvahWorld/ opens the short launcher menu. /games/mitzvahWorld/?mode=world enters normal gamepla",
+		"searchText": "b\"h — mitzvah world movie maker the movie maker directs the real mitzvah world renderer, actors, houses, trees, doors, cameras, animations, subtitles, audio, and scene visibility from one json project. entry routes /games/mitzvahworld/ opens the short launcher menu. /games/mitzvahworld/?mode=world enters normal gameplay directly. /games/mitzvahworld/?mode=movie&movie=sample30 opens the included 30 second project. movie= opens an encoded project. moviejson= opens raw json. movieurl=/path/project.json fetches a project. autorender=1 starts rendering after the studio is ready. nle tracks scene applies labels, color grades, transitions, and object visibility maps. actor targets player or npc. clips support move, pose, talk, and jump, named animations, facing targets, positions, jump height, and easing. door targets a real door definition id and interpolates its open amount from zero to one. camera contains cinematic shots with eased position and target paths. targets may be explicit points or live actors. dialogue draws timed speaker subtitles and supplies speech text to post production. audio schedules score and event tones into the browser capture stream. editing the studio contains a track based timeline, clip lanes, scrub playhead, preview, json editor, apply json button, get url generator, and render + download button. the json schema is movie project.schema.json. the complete example is projects/chossid journey 30s.json. browser output the real tiny renderer draws the world into its webgl canvas. movieoverlay composites that frame into a deterministic output canvas with scene grading, title cards, shot labels, transitions, and subtitles. movierecorder captures the output canvas with mediarecorder, preferring vp8/opus webm. webaudio is included when the browser allows the context to run. final mp4 run: the finalizer reads dialogue directly from the project json, creates speaker voices with macos say, mixes them over browser audio, normalizes the movie to the requested duration and frame rate, and writes h.264/aac mp4 plus an ffprobe json report. included film chossid journey 30s.mp4 is the accepted final movie. it contains a chossid walking, running, speaking to another person, approaching and passing through the real main house front door, running inside, jumping, and finishing under a rising crane camera. verified properties: 30.000 seconds 960 × 540 24 fps 720 h.264 frames aac stereo at 48 khz four spoken dialogue cues full video/audio decode without errors the browser master, final mp4, poster, probe report, and sampled frame evidence are retained in this folder.",
+		"page": "pages/geelooy-games-mitzvahworld-movies-readme-md-67bc694a6f.json"
+	}
+]

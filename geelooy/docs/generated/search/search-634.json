@@ -1,0 +1,287 @@
+[
+	{
+		"id": "geelooy-zmanim-readme-md-a2fd86370c",
+		"title": "Awtsmoos Zmanim",
+		"sourcePath": "geelooy/zmanim/README.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos Zmanim",
+				"anchor": "awtsmoos-zmanim"
+			},
+			{
+				"level": 2,
+				"text": "Daily experience",
+				"anchor": "daily-experience"
+			},
+			{
+				"level": 2,
+				"text": "Alter Rebbe / Chabad method",
+				"anchor": "alter-rebbe-chabad-method"
+			},
+			{
+				"level": 2,
+				"text": "Calculation architecture",
+				"anchor": "calculation-architecture"
+			},
+			{
+				"level": 2,
+				"text": "Public API",
+				"anchor": "public-api"
+			},
+			{
+				"level": 2,
+				"text": "Practical use",
+				"anchor": "practical-use"
+			},
+			{
+				"level": 2,
+				"text": "Verification",
+				"anchor": "verification"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos Zmanim The Awtsmoos renews every instant beneath the turning sky; Awtsmoos.com reveals the measured day while the Source remains infinitely high. Daily experience /zmanim is a dependency free, mobile first halachic times application with a daily dashboard UX rather than only a t",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos zmanim the awtsmoos renews every instant beneath the turning sky; awtsmoos.com reveals the measured day while the source remains infinitely high. daily experience /zmanim is a dependency free, mobile first halachic times application with a daily dashboard ux rather than only a table of timestamps. the page includes: worldwide city and postal/zip search. a custom owned gregorian calendar web component. previous, today, and next day navigation. civil and hebrew date display. alter rebbe / chabad as the primary calculation profile. gra sunrise to sunset and fixed 72 minute magen avraham alternatives. descriptive shita cards plus an accessible native select fallback. a next zman hero with a live countdown when viewing today in the selected timezone. automatic advancement when the currently displayed next zman passes. a visual five anchor day timeline from alos through tzeis. passed, next, upcoming, selected date, and unavailable card states. 18 detailed zmanim cards. copy link and copy all zmanim actions. fully restorable share urls containing date, opinion, coordinates, timezone, and a bounded location label. u.s. naval observatory rise/set validation when reachable. explicit high latitude unavailable states and practical use cautions. alter rebbe / chabad method the default profile uses the published chabad calculation anchors: alos hashachar: 16.9° solar depression. misheyakir: 10.2°. practical sunrise/sunset: standard 0.833° horizon correction. internal hanetz amiti / shkiah amitis seasonal hour anchors: 1.583°. tzeis: 6°. shabbos / yom tov end: 8.5°. the internal true rise/true set anchors are calculation vessels and are intentionally distinct from the practical sunrise/sunset displayed to users. calculation architecture the browser calculation modules under js/domain/ and js/config/ are the canonical source of astronomical and halachic math. the public /api/zmanim api dynamically imports those exact modules from the commonjs server tree. browser and api therefore share one calculation engine instead of maintaining duplicate formulas. worldwide place lookup uses the open meteo geocoder. solar angle calculations are local and based on noaa published solar position equations. usno is a separate government cross check and never a dependency of core daily/range calculations. public api canonical api: /api/zmanim compatibility alias: /api/zmanimms available api resources include daily zmanim, bounded ranges, worldwide location lookup, opinions, methodology, usno comparison, and health. see geelooy/api/zmanim/readme.md for the complete contract. practical use calculated zmanim contain unavoidable astronomical and methodological uncertainty. the interface explicitly encourages a safety margin rather than relying on the final minute. local custom and practical questions require a competent rav, especially at unusual latitudes. verification from the repository root: the feature is also verified through the real awtsmoos dynamic server and a real chrome session, including responsive widths, url hydration, interactions, network responses, and console state.",
+		"page": "pages/geelooy-zmanim-readme-md-a2fd86370c.json"
+	},
+	{
+		"id": "ops-documentation-md-ffd7ef6004",
+		"title": "Operations",
+		"sourcePath": "ops/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Operations",
+				"anchor": "operations"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Operations The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Operations/deployment/repair support root. Start here Read docs/OPERATIONS AND TOOLING.md for the central explanation. Use docs/GENERA",
+		"searchText": "b\"h boruch hashem blessed is he operations the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role operations/deployment/repair support root. start here read docs/operations and tooling.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes existing specialist operations material under docs/operations/ remains canonical for detailed operational workflows.",
+		"page": "pages/ops-documentation-md-ffd7ef6004.json"
+	},
+	{
+		"id": "scripts-cache-busting-md-8c5f334ddb",
+		"title": "B\"H — Bulletproof Cache Busting System",
+		"sourcePath": "scripts/CACHE_BUSTING.md",
+		"category": "Operations",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Bulletproof Cache Busting System",
+				"anchor": "b-h-bulletproof-cache-busting-system"
+			},
+			{
+				"level": 2,
+				"text": "How It Works",
+				"anchor": "how-it-works"
+			},
+			{
+				"level": 3,
+				"text": "1. Content-Hash Asset Versions (Automatic)",
+				"anchor": "1-content-hash-asset-versions-automatic"
+			},
+			{
+				"level": 3,
+				"text": "2. Automatic on Every Deploy",
+				"anchor": "2-automatic-on-every-deploy"
+			},
+			{
+				"level": 3,
+				"text": "3. Service Worker with Auto-Updates",
+				"anchor": "3-service-worker-with-auto-updates"
+			},
+			{
+				"level": 3,
+				"text": "4. Drive Asset Hashing",
+				"anchor": "4-drive-asset-hashing"
+			},
+			{
+				"level": 3,
+				"text": "5. HTML Never Cached (Server-Side)",
+				"anchor": "5-html-never-cached-server-side"
+			},
+			{
+				"level": 2,
+				"text": "Verification",
+				"anchor": "verification"
+			},
+			{
+				"level": 1,
+				"text": "SW is live",
+				"anchor": "sw-is-live"
+			},
+			{
+				"level": 1,
+				"text": "→ 200",
+				"anchor": "200"
+			},
+			{
+				"level": 1,
+				"text": "Registration script is live",
+				"anchor": "registration-script-is-live"
+			},
+			{
+				"level": 1,
+				"text": "→ 200",
+				"anchor": "200-2"
+			},
+			{
+				"level": 1,
+				"text": "Pages include hashed SW registration",
+				"anchor": "pages-include-hashed-sw-registration"
+			},
+			{
+				"level": 1,
+				"text": "→ sw-register.js?v=ea8654e790",
+				"anchor": "sw-register-js-v-ea8654e790"
+			},
+			{
+				"level": 2,
+				"text": "Commits",
+				"anchor": "commits"
+			},
+			{
+				"level": 3,
+				"text": "6. Build Version Guard (2026-10-13 — \"fix cache busting way better\")",
+				"anchor": "6-build-version-guard-2026-10-13-fix-cache-busting-way-better"
+			},
+			{
+				"level": 2,
+				"text": "What Yaakov Gets",
+				"anchor": "what-yaakov-gets"
+			}
+		],
+		"excerpt": "B\"H — Bulletproof Cache Busting System Yaakov's law (2026 10 13): \"Users should NEVER need to hard refresh.\" How It Works 1. Content Hash Asset Versions (Automatic) Script: scripts/bustAllCaches.mjs Scans ALL 574 HTML files in geelooy/ Finds every href=\"...\", src=\"...\", @import, import(), url() referencing .css, .js, .",
+		"searchText": "b\"h — bulletproof cache busting system yaakov's law (2026 10 13): \"users should never need to hard refresh.\" how it works 1. content hash asset versions (automatic) script: scripts/bustallcaches.mjs scans all 574 html files in geelooy/ finds every href=\"...\", src=\"...\", @import, import(), url() referencing .css, .js, .webp, .png, .jpg, .mp4, etc. rewrites ?v=xxx to the sha256 content hash (first 10 chars) of the referenced file when a file changes → hash changes → browser fetches fresh automatically when a file doesn't change → hash stays same → browser uses cache (fast) 1076 asset references updated in the first run usage: 2. automatic on every deploy modified: scripts/vmdeploysigned.mjs before every deploy, if any .css, .js, or .html is in the payload: 1. runs bustallcaches.mjs write automatically 2. re reads modified payload files 3. auto adds any html files the buster touched no human ever bumps a version manually again bypass with no bust (not recommended) 3. service worker with auto updates files: geelooy/sw.js, geelooy/scripts/sw register.js strategy: html: network first, always revalidate. users never get stale html. hashed assets (?v=abc123): cache first (immutable, safe to cache forever) unhashed assets: network first with short cache on update: shows \"✨ new version available\" toast, auto updates after 10s registration: added to homepage, games, profile, email. once registered with scope /, controls all pages. 4. drive asset hashing modified: scripts/driveserviceupload.mjs now outputs content hash and versioned url on every upload when re uploading to the same path, append ?v= to bust cache example: https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/foo.webp?v=a1b2c3d4e5 5. html never cached (server side) /games/ already serves cache control: no cache, must revalidate service worker enforces network first for all html navigations even if server headers are wrong, sw ensures freshness verification commits 79cd805d2 — bustallcaches.mjs, sw.js, sw register.js, vmdeploysigned.mjs integration c1552c65e — driveserviceupload.mjs content hash output 1570af55a — sw registration on key pages 6. build version guard (2026 10 13 — \"fix cache busting way better\") problem: the app shell is a long lived spa. once loaded it never does a full page load, so a deploy could leave it running stale code for hours (this is how the old /mav search route survived a deploy on yaakov's phone). files: geelooy/version.json, geelooy/scripts/sw register.js (version guard section), scripts/vmdeploysigned.mjs (stamps the version) every deploy writes a fresh build id ( ) to geelooy/version.json and pushes it with the payload. sw register.js polls /version.json (cache: 'no store') every 60s, on tab visibility, and 5s after load. on mismatch: hidden tab reloads immediately; visible tab shows an \"✨ new version ready\" toast and reloads after 45s of user idleness (any tap/key/scroll resets the timer; tapping the toast reloads now). never reload loops: one auto reload per build id, max 3 per 10 minutes. sw register.js also polls registration.update() every 5 minutes so long lived tabs pick up sw updates. sw.js v3: skip waiting message handler added (was dropped silently before), activate now deletes every cache except the two current ones, and only response.ok responses are cached (error pages are never cached). what yaakov gets 1. never hard refresh again — content hashes change automatically 2. no manual version bumps — the buster handles it on every deploy 3. instant updates — sw checks for new versions on every navigation 4. offline support — cached pages work offline, update when online 5. fast caching — unchanged assets stay cached (hashes don't change)",
+		"page": "pages/scripts-cache-busting-md-8c5f334ddb.json"
+	},
+	{
+		"id": "scripts-dayuh-sync-md-27ff27b4e1",
+		"title": "Dayuh Chadash synchronization",
+		"sourcePath": "scripts/DAYUH_SYNC.md",
+		"category": "Operations",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Dayuh Chadash synchronization",
+				"anchor": "dayuh-chadash-synchronization"
+			},
+			{
+				"level": 2,
+				"text": "Production topology",
+				"anchor": "production-topology"
+			},
+			{
+				"level": 2,
+				"text": "Safety rules",
+				"anchor": "safety-rules"
+			},
+			{
+				"level": 2,
+				"text": "Shell variables",
+				"anchor": "shell-variables"
+			},
+			{
+				"level": 2,
+				"text": "Inspect credentials without exposing them",
+				"anchor": "inspect-credentials-without-exposing-them"
+			},
+			{
+				"level": 2,
+				"text": "Status and dry runs",
+				"anchor": "status-and-dry-runs"
+			},
+			{
+				"level": 2,
+				"text": "Local to remote",
+				"anchor": "local-to-remote"
+			},
+			{
+				"level": 2,
+				"text": "Remote to local",
+				"anchor": "remote-to-local"
+			},
+			{
+				"level": 2,
+				"text": "Bidirectional sync",
+				"anchor": "bidirectional-sync"
+			},
+			{
+				"level": 2,
+				"text": "Initial or disaster-recovery seed",
+				"anchor": "initial-or-disaster-recovery-seed"
+			},
+			{
+				"level": 2,
+				"text": "Required completion gates",
+				"anchor": "required-completion-gates"
+			}
+		],
+		"excerpt": "Dayuh Chadash synchronization This is the canonical quick reference for the implemented custom SSH database synchronizer. The detailed runbooks live in docs/operations/. Production topology Always pass the production remote path explicitly. The code default is /root/dayuhChadash, which is not the current production dat",
+		"searchText": "dayuh chadash synchronization this is the canonical quick reference for the implemented custom ssh database synchronizer. the detailed runbooks live in docs/operations/. production topology always pass the production remote path explicitly. the code default is /root/dayuhchadash, which is not the current production database. safety rules use scripts/dayuh sync.mjs and scripts/dayuh seed.mjs as the canonical tools. they use the repository keter ssh/sftp client, not openssh, scp, or remote rsync. the password comes from safesshpasswordstore.mjs; never print or copy it. run status and a dry run before every write. do not use delete unless the owner approved the exact removal list. production may contain valid server only runtime records, including email data. database sync and git/code deployment are separate operations. shell variables inspect credentials without exposing them set the password only when the store is empty: status and dry runs local to remote this uploads changed or missing local files. it does not remove remote only files unless delete is explicitly supplied. remote to local this downloads changed or missing remote files. it does not remove local only files unless delete is explicitly supplied. bidirectional sync use only after a successful push or pull has established base.json: one sided changes move toward the unchanged side. two sided changes are saved under .dayuh conflicts locally and the operation stops. initial or disaster recovery seed seed only from an immutable, verified snapshot: the seed streams a compressed archive through custom ssh, verifies sha 256, extracts to an incoming directory, and atomically swaps the target with rollback. required completion gates 1. a second status reports zero push.upload entries. 2. push.removeremote is empty unless removals were explicitly approved. 3. npm run bh:ssh command \"systemctl is active awtsmoos.service\" reports active. 4. public api smoke tests pass. 5. no seed or .part staging artifact remains. see docs/operations/readme.md for agent checklists, recovery, and git guidance.",
+		"page": "pages/scripts-dayuh-sync-md-27ff27b4e1.json"
+	},
+	{
+		"id": "scripts-dayuh-sync-readme-md-09a800a649",
+		"title": "B\"H — dayuhChadash incremental SSH sync",
+		"sourcePath": "scripts/dayuh_sync/README.md",
+		"category": "Operations",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — dayuhChadash incremental SSH sync",
+				"anchor": "b-h-dayuhchadash-incremental-ssh-sync"
+			},
+			{
+				"level": 2,
+				"text": "Safety",
+				"anchor": "safety"
+			},
+			{
+				"level": 2,
+				"text": "Configure",
+				"anchor": "configure"
+			},
+			{
+				"level": 2,
+				"text": "Commands",
+				"anchor": "commands"
+			},
+			{
+				"level": 2,
+				"text": "Isolated verification",
+				"anchor": "isolated-verification"
+			}
+		],
+		"excerpt": "B\"H — dayuhChadash incremental SSH sync This tool uses ayzarim/ssh/Keter Client.js and its SFTP implementation. It does not invoke system ssh, scp, or rsync. Safety SHA 256 decides whether a file changed. Uploads are written to .awtsmoos part and renamed atomically. Remote deletion is off unless delete is given. WAL, r",
+		"searchText": "b\"h — dayuhchadash incremental ssh sync this tool uses ayzarim/ssh/keter client.js and its sftp implementation. it does not invoke system ssh, scp, or rsync. safety sha 256 decides whether a file changed. uploads are written to .awtsmoos part and renamed atomically. remote deletion is off unless delete is given. wal, reader lock, and transient lock files are excluded. a real sync refuses active database readers. stop the local server before pushing database files, or prepare a stable snapshot and point localroot at that snapshot. credentials belong in environment variables, not the json config. configure copy dayuh sync.example.json to a private file such as dayuh sync.json, then set: private key authentication can use awtsmoos sync private key and optionally awtsmoos sync passphrase. commands watch checks repeatedly and sends only files whose hashes changed. it never deletes remote files. isolated verification the test uses temporary local directories as both ends and verifies initial push, no op repeat, one file update, and pull restoration.",
+		"page": "pages/scripts-dayuh-sync-readme-md-09a800a649.json"
+	}
+]

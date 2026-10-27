@@ -22,19 +22,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-sites-fdcaa928.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 23,
-		"tests": 11,
+		"source": 41,
+		"tests": 27,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
 		"other": 0
 	},
-	"totalFiles": 35,
+	"totalFiles": 69,
 	"symbolSummary": {
-		"files": 23,
+		"files": 41,
 		"classes": 0,
-		"functions": 90,
-		"exports": 56,
+		"functions": 161,
+		"exports": 120,
 		"samples": [
 			"buildCustomDomainResponse",
 			"createCustomDomainHttpIngress",
@@ -44,39 +44,44 @@
 			"customDomainHttpIngress",
 			"closeExternalHost",
 			"badPathResponse",
-			"RESERVED_SEGMENTS",
-			"assertDirectPublicPath",
-			"privatePathError",
-			"assertPublicSegment"
+			"buildDeploymentResponse",
+			"fallbackResponse",
+			"entryResponse",
+			"RESERVED_SEGMENTS"
 		]
 	},
 	"outgoingDependencies": [
 		{
 			"project": "geelooy/api/social",
-			"count": 27,
-			"examples": "geelooy/sites/customDomainGateway.js; geelooy/sites/directSiteReadiness.js; geelooy/sites/directSiteResponse.js"
+			"count": 34,
+			"examples": "geelooy/sites/customDomainGateway.js; geelooy/sites/deploymentSiteResponse.js; geelooy/sites/directSiteReadiness.js"
 		},
 		{
 			"project": "geelooy/api/tunnel",
-			"count": 5,
-			"examples": "geelooy/sites/directSiteReadiness.js; geelooy/sites/hostedFolderManifest.js; geelooy/sites/siteFolderPublication.js"
+			"count": 6,
+			"examples": "geelooy/sites/directSiteReadiness.js; geelooy/sites/hostedFolderManifest.js; geelooy/sites/publicRootPublication.js"
 		},
 		{
 			"project": "ayzarim/awtsmoosDynamicServer",
 			"count": 1,
 			"examples": "geelooy/sites/hostedProjectProxy.js"
+		},
+		{
+			"project": "geelooy/api/oauth",
+			"count": 1,
+			"examples": "geelooy/sites/siteRemixReceiptCrypto.js"
 		}
 	],
 	"incomingDependencies": [
 		{
-			"project": "geelooy/api/social",
-			"count": 1,
-			"examples": "geelooy/api/social/helper/drive/siteStatusService.js"
+			"project": "geelooy/api/tunnel",
+			"count": 4,
+			"examples": "geelooy/api/tunnel/control/routes/agentManifest.js; geelooy/api/tunnel/control/routes/fsVessel/hostedVirtualOs/sitePublicationDispatcher.js"
 		},
 		{
-			"project": "geelooy/api/tunnel",
-			"count": 1,
-			"examples": "geelooy/api/tunnel/control/routes/fsVessel/hostedVirtualOs/sitePublicationDispatcher.js"
+			"project": "geelooy/api/social",
+			"count": 3,
+			"examples": "geelooy/api/social/helper/drive/siteDiscoveryRecord.js; geelooy/api/social/helper/drive/siteProjectLineage.js; geelooy/api/social/helper/drive/siteStatusService.js"
 		}
 	],
 	"externalDependencies": [],

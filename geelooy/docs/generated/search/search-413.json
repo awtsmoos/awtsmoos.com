@@ -1,0 +1,178 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-09-10t1750-extreme-completion-wave-2-01-phase-t-e43f4c6332",
+		"title": "Phase Two — Twenty Concrete Improvements",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-10T1750-extreme-completion-wave-2/01-phase-two-20-improvements.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Two — Twenty Concrete Improvements",
+				"anchor": "phase-two-twenty-concrete-improvements"
+			}
+		],
+		"excerpt": "Phase Two — Twenty Concrete Improvements 1. Make reconciliation observation read only under the same Wallet lock. 2. Detect stale reserved credits separately from execution mismatch. 3. Treat succeeded/already owned release as a valid deduplicated terminal topology. 4. Strip account IDs, reservation IDs, execution IDs,",
+		"searchText": "phase two — twenty concrete improvements 1. make reconciliation observation read only under the same wallet lock. 2. detect stale reserved credits separately from execution mismatch. 3. treat succeeded/already owned release as a valid deduplicated terminal topology. 4. strip account ids, reservation ids, execution ids, provider results, and private payloads from health output. 5. expose health only through authenticated current account identity unless a real admin role exists. 6. prefer text/html health output if serialization constraints forbid new json output. 7. test missing reservations and contradictory terminal states. 8. keep reconciliation aggregation in focused sibling modules. 9. profile startup by module load rather than guessing at database latency. 10. lazy load only optional dosdb subsystems proven unnecessary for basic db initialization. 11. preserve required db/auth readiness before http bind. 12. re run isolated startup measurement after any lazy load refactor. 13. reuse existing share/export/import route/query conventions for cross product handoff. 14. keep handoff payloads small, typed, url safe, and non secret. 15. degrade gracefully if a target product is absent. 16. verify focus visible, reduced motion, high contrast, touch size, and overflow on shared ui. 17. keep games non pay to win; monetize cosmetics/content/convenience/creator value only. 18. add premium value only where a real server handler can fulfill it. 19. re run generated catalog/sitemap freshness after shared route changes. 20. preserve explicit continuation ledgers for anything honestly unfinished.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-10t1750-extreme-completion-wave-2-01-phase-t-e43f4c6332.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-10t1750-extreme-completion-wave-2-02-phase-t-af1124c27b",
+		"title": "Phase Three — Thirty Final Refinements",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-10T1750-extreme-completion-wave-2/02-phase-three-30-improvements.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Three — Thirty Final Refinements",
+				"anchor": "phase-three-thirty-final-refinements"
+			}
+		],
+		"excerpt": "Phase Three — Thirty Final Refinements 1. Verify reconciliation core source laws before endpoint exposure. 2. Verify read only inspect never writes persistence. 3. Verify current account route rejects unauthenticated access. 4. Verify route output contains no identity shaped values. 5. Verify healthy summary can be par",
+		"searchText": "phase three — thirty final refinements 1. verify reconciliation core source laws before endpoint exposure. 2. verify read only inspect never writes persistence. 3. verify current account route rejects unauthenticated access. 4. verify route output contains no identity shaped values. 5. verify healthy summary can be parsed by humans without json. 6. verify stale holds are visible even with no execution record. 7. verify unknown execution status counts inconsistent. 8. verify unknown reservation status does not inflate known counters. 9. verify startup profiler cost with current tree after retention work. 10. trace deps.js imports to concrete call sites before lazy loading. 11. avoid global lazy proxy magic if explicit factory boundaries exist. 12. keep startup logging bounded and secret free. 13. measure total require time again after optimization. 14. measure full isolated http ready time again after optimization. 15. verify workflow handoff does not store opaque blobs in local storage. 16. prefer canonical route plus query parameters for simple handoffs. 17. add explicit versioning if a handoff payload needs structured encoding. 18. avoid introducing json storage/protocol where current constraint forbids it. 19. verify handoff target maps to an existing catalog route. 20. verify handoff source remains useful when target launch fails. 21. test mobile commerce footer after reconciliation/continuity changes. 22. test keyboard favorite interaction and pressed state. 23. test apps and games catalog ordering after recent memory. 24. test no duplicate memory badges after repeated renders. 25. audit public marketing copy for generic/empty descriptions. 26. prioritize premium value by fulfillment readiness, not pricing imagination. 27. keep game purchases reversible where fulfillment can fail. 28. keep product credit economics server authoritative. 29. run full touched file readback and structural audit. 30. end only with evidence backed completed vs remaining state.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-10t1750-extreme-completion-wave-2-02-phase-t-af1124c27b.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-10t1750-extreme-completion-wave-2-03-final-p-5b0bdf35cf",
+		"title": "Final Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-10T1750-extreme-completion-wave-2/03-final-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Final Plan",
+				"anchor": "final-plan"
+			},
+			{
+				"level": 2,
+				"text": "Wave A — Reconciliation",
+				"anchor": "wave-a-reconciliation"
+			},
+			{
+				"level": 2,
+				"text": "Wave B — Startup performance",
+				"anchor": "wave-b-startup-performance"
+			},
+			{
+				"level": 2,
+				"text": "Wave C — Workflow continuity",
+				"anchor": "wave-c-workflow-continuity"
+			},
+			{
+				"level": 2,
+				"text": "Wave D — Accessibility/performance/product value",
+				"anchor": "wave-d-accessibility-performance-product-value"
+			},
+			{
+				"level": 2,
+				"text": "Wave E — Final proof",
+				"anchor": "wave-e-final-proof"
+			}
+		],
+		"excerpt": "Final Plan Wave A — Reconciliation Verify current reconciliation modules and tests. Fix any structural/behavioral failures. Add a current account authenticated health route only if route auth conventions are proven. Wave B — Startup performance Read server/deps.js, DosDB constructor/module graph, and concrete use sites",
+		"searchText": "final plan wave a — reconciliation verify current reconciliation modules and tests. fix any structural/behavioral failures. add a current account authenticated health route only if route auth conventions are proven. wave b — startup performance read server/deps.js, dosdb constructor/module graph, and concrete use sites. extract or lazy load only optional heavy capabilities proven unnecessary before http readiness. re profile require time and isolated full startup. wave c — workflow continuity trace real share/export/import/open with patterns. add one reusable cross product handoff primitive if missing. integrate only through small shared seams. wave d — accessibility/performance/product value audit shared commerce/catalog/retention surfaces. fix proven global regressions. audit game and creator/developer premium capabilities, implementing only fulfillment backed value. wave e — final proof run full release baseline. runtime prove browser flows. re read every touched file. write planned vs actual, remaining work, and next action ledgers.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-10t1750-extreme-completion-wave-2-03-final-p-5b0bdf35cf.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-10t1750-extreme-completion-wave-2-04-remaini-6c995abe25",
+		"title": "Remaining Work",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-10T1750-extreme-completion-wave-2/04-remaining-work.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Remaining Work",
+				"anchor": "remaining-work"
+			}
+		],
+		"excerpt": "Remaining Work [ ] Fresh reconciliation source/behavior gate. [ ] Safe authenticated current account reconciliation health surface. [ ] Measured startup module load optimization. [ ] Re profile isolated startup after optimization. [ ] Cross product handoff primitive and integration where absent. [ ] Shared accessibilit",
+		"searchText": "remaining work [ ] fresh reconciliation source/behavior gate. [ ] safe authenticated current account reconciliation health surface. [ ] measured startup module load optimization. [ ] re profile isolated startup after optimization. [ ] cross product handoff primitive and integration where absent. [ ] shared accessibility/performance audit and fixes. [ ] game monetization quality audit and fulfillment backed improvements. [ ] creator/developer premium value audit and fulfillment backed improvements. [ ] full release regression after all shared writes. [ ] full touched file readback and planned vs actual audit.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-10t1750-extreme-completion-wave-2-04-remaini-6c995abe25.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-10t1750-extreme-completion-wave-2-05-next-ac-c1076de598",
+		"title": "Next Action",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-10T1750-extreme-completion-wave-2/05-next-action.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Next Action",
+				"anchor": "next-action"
+			}
+		],
+		"excerpt": "Next Action Run reconciliation verification immediately while parallel read only lanes inspect authenticated Wallet routing, eager startup dependencies, handoff conventions, shared accessibility, game economy, premium capability seams, and touched file overlap. Promote the first proven safe gap into a whole file implem",
+		"searchText": "next action run reconciliation verification immediately while parallel read only lanes inspect authenticated wallet routing, eager startup dependencies, handoff conventions, shared accessibility, game economy, premium capability seams, and touched file overlap. promote the first proven safe gap into a whole file implementation wave.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-10t1750-extreme-completion-wave-2-05-next-ac-c1076de598.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-10t1750-finish-everything-sprint-00-phase-on-8122a4511d",
+		"title": "Phase One — Boundless Completion Brainstorm",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-10T1750-finish-everything-sprint/00-phase-one-boundless-brainstorm.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase One — Boundless Completion Brainstorm",
+				"anchor": "phase-one-boundless-completion-brainstorm"
+			},
+			{
+				"level": 2,
+				"text": "Everything that can move now",
+				"anchor": "everything-that-can-move-now"
+			}
+		],
+		"excerpt": "Phase One — Boundless Completion Brainstorm The Awtsmoos recreates every finite vessel each instant; this sprint treats Geelooy as one living product universe where discovery, return, commerce, performance, accessibility, reconciliation, workflow continuity, and trust reinforce each other. Everything that can move now ",
+		"searchText": "phase one — boundless completion brainstorm the awtsmoos recreates every finite vessel each instant; this sprint treats geelooy as one living product universe where discovery, return, commerce, performance, accessibility, reconciliation, workflow continuity, and trust reinforce each other. everything that can move now finish and globally integrate the route only recent/favorite continuity layer already written but not yet exposed. re run the complete current release suite after integration, including existing commerce/radiance/readiness/seo/startup tests. runtime prove recent/favorite behavior in a production faithful mobile browser. run an isolated full server against a temporary database root and capture startup stage timings. identify and improve the measured pre bind bottleneck without weakening durability, auth, or startup failure semantics. audit wallet reservations, commits, releases, expirations, replay, and reconciliation; add operator visible health where evidence shows gaps. audit existing share/export/import/open with patterns and add one reusable cross product handoff primitive if absent. audit global accessibility/performance on the newly shared catalog/commerce/retention layers. audit public product copy and catalog metadata for weak, missing, or generic descriptions and prioritize highest traffic conversion surfaces. audit game monetization for cosmetic, convenience, replay, theme, content, and achievement value without pay to win mechanics. audit creator/developer apps for truthful compute/storage/automation premium value backed by real fulfillment. re read every touched file and write planned versus actual evidence before declaring any subsystem done. no engineering can guarantee revenue. the target is a truthful, compelling, low friction system that maximizes sustainable conversion and retention through genuine value.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-10t1750-finish-everything-sprint-00-phase-on-8122a4511d.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-10t1750-finish-everything-sprint-01-phase-tw-97d594e469",
+		"title": "Phase Two — Exact Surfaces And Twenty Improvements",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-10T1750-finish-everything-sprint/01-phase-two-files-and-20-improvements.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Two — Exact Surfaces And Twenty Improvements",
+				"anchor": "phase-two-exact-surfaces-and-twenty-improvements"
+			},
+			{
+				"level": 2,
+				"text": "Immediate source surfaces",
+				"anchor": "immediate-source-surfaces"
+			},
+			{
+				"level": 2,
+				"text": "Twenty improvements over the unfinished retention wave",
+				"anchor": "twenty-improvements-over-the-unfinished-retention-wave"
+			}
+		],
+		"excerpt": "Phase Two — Exact Surfaces And Twenty Improvements Immediate source surfaces scripts/awtsmoos/ui/productMemory .js scripts/awtsmoos/ui/foundation.js Apps catalog runtime/view modules under apps/scripts/filter/ and apps/scripts/catalog/ Games storefront projection/presentation modules under games/scripts/storefront/ sha",
+		"searchText": "phase two — exact surfaces and twenty improvements immediate source surfaces scripts/awtsmoos/ui/productmemory .js scripts/awtsmoos/ui/foundation.js apps catalog runtime/view modules under apps/scripts/filter/ and apps/scripts/catalog/ games storefront projection/presentation modules under games/scripts/storefront/ shared/commerce/surface.js and the existing commerce footer contract ayzarim/awtsmoosdynamicserver/server/staticserverlifecycle.js plus db/config initialization wallet reservation/reconciliation modules/tests under api/wallet/ existing share/export/import/handoff modules discovered from actual code twenty improvements over the unfinished retention wave 1. test the route memory core before any global import. 2. reject any retention module over 119 lines by architectural split, never compression. 3. keep storage route only and non json. 4. make storage denial/failure completely non fatal. 5. record only canonical product routes, never hub routes. 6. bound recents to a small deterministic list. 7. preserve original catalog order for non recent records. 8. avoid nested buttons inside product anchors. 9. put favorite interaction inside the existing universal commerce sheet. 10. use aria pressed and native buttons for favorite state. 11. show catalog recent/favorite state as noninteractive badges. 12. keep apps search/filter semantics unchanged after recent first projection. 13. keep games category/group semantics unchanged after recent first projection. 14. refresh catalog badges after favorite changes without page reload if existing event seams permit it. 15. reuse one shared stylesheet with mobile, focus, high contrast, and reduced motion rules. 16. runtime prove at 390px and desktop widths. 17. preserve the already green 63 test release baseline. 18. measure full server startup only with an isolated temporary db root. 19. add reconciliation evidence before increasing paid economic complexity. 20. write exact continuation state for anything genuinely unfinished.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-10t1750-finish-everything-sprint-01-phase-tw-97d594e469.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-10t1750-finish-everything-sprint-02-phase-th-befb04ea3e",
+		"title": "Phase Three — Thirty Further Refinements",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-10T1750-finish-everything-sprint/02-phase-three-30-improvements.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Three — Thirty Further Refinements",
+				"anchor": "phase-three-thirty-further-refinements"
+			}
+		],
+		"excerpt": "Phase Three — Thirty Further Refinements 1. Verify product memory codec rejects arbitrary non product routes. 2. Verify URI decoding failures cannot crash page boot. 3. Verify duplicate recents collapse deterministically. 4. Verify favorites cannot duplicate routes. 5. Verify removing favorite persists immediately. 6. ",
+		"searchText": "phase three — thirty further refinements 1. verify product memory codec rejects arbitrary non product routes. 2. verify uri decoding failures cannot crash page boot. 3. verify duplicate recents collapse deterministically. 4. verify favorites cannot duplicate routes. 5. verify removing favorite persists immediately. 6. verify recent rank uses canonical absolute url resolution for relative catalog links. 7. verify memory decoration is idempotent. 8. verify badge rerender removes stale badges before adding current state. 9. verify favorite control mounts exactly once. 10. verify favorite control uses the current canonical product path. 11. verify product visits record before commerce interaction is required. 12. verify catalog pages themselves are not recorded as products. 13. verify global foundation remains below the source ceiling after integration. 14. split foundation integration if it would exceed the ceiling. 15. verify apps runtime remains below the ceiling after integration. 16. split apps integration into a sibling adapter if needed. 17. verify games projection remains below the ceiling after integration. 18. split games integration into a sibling adapter if needed. 19. verify browser local retention does not depend on authentication. 20. verify logout/login cannot corrupt local route memory. 21. verify startup timing reports database stage distinctly from auth. 22. verify temporary db startup never points at production storage. 23. verify reconciliation exposes counts/statuses without leaking account content. 24. verify workflow handoff carries explicit typed route/value metadata, not opaque blobs. 25. verify handoffs degrade gracefully when target app is unavailable. 26. verify accessibility focus order after commerce footer gains favorite control. 27. verify mobile sheet has no horizontal overflow. 28. verify performance cost of retention is negligible and synchronous storage is tiny. 29. re run generated catalog/sitemap freshness after shared changes even if not directly touched. 30. end with a full touched file readback and only evidence backed completion claims.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-10t1750-finish-everything-sprint-02-phase-th-befb04ea3e.json"
+	}
+]

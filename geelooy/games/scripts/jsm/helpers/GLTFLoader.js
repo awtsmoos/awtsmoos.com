@@ -1376,7 +1376,7 @@ class GLTFTextureWebPExtension {
 
 				// Lossy test image. Support for lossy images doesn't guarantee support for all
 				// WebP images, unfortunately.
-				image.src = 'data:image/webp;base64,UklGRiIAAABXRUJQVlA4IBYAAAAwAQCdASoBAAEADsD+JaQAA3AAAAAA';
+				image.src = 'https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo-image-archive/sha256/c90cff659645a312a28804965f3dbc34061338f7234ff5d6ddb2c57e9eadec15/asset';
 
 				image.onload = image.onerror = function () {
 
@@ -1460,7 +1460,7 @@ class GLTFTextureAVIFExtension {
 				var image = new Image();
 
 				// Lossy test image.
-				image.src = 'data:image/avif;base64,AAAAIGZ0eXBhdmlmAAAAAGF2aWZtaWYxbWlhZk1BMUIAAADybWV0YQAAAAAAAAAoaGRscgAAAAAAAAAAcGljdAAAAAAAAAAAAAAAAGxpYmF2aWYAAAAADnBpdG0AAAAAAAEAAAAeaWxvYwAAAABEAAABAAEAAAABAAABGgAAABcAAAAoaWluZgAAAAAAAQAAABppbmZlAgAAAAABAABhdjAxQ29sb3IAAAAAamlwcnAAAABLaXBjbwAAABRpc3BlAAAAAAAAAAEAAAABAAAAEHBpeGkAAAAAAwgICAAAAAxhdjFDgQAMAAAAABNjb2xybmNseAACAAIABoAAAAAXaXBtYQAAAAAAAAABAAEEAQKDBAAAAB9tZGF0EgAKCBgABogQEDQgMgkQAAAAB8dSLfI=';
+				image.src = 'https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo-image-archive/sha256/44a885f39964f2a7a1af67d8a5862ed1381b37aaec22062d30e914626e0f78c6/asset';
 				image.onload = image.onerror = function () {
 
 					resolve( image.height === 1 );

@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-api-compat-redis-readme-md-bc3eb3c43e",
+	"title": "AwtsmoosDB — Redis-compatible API",
+	"sourcePath": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/compat/redis/README.md",
+	"category": "Data",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "AwtsmoosDB — Redis-compatible API",
+			"anchor": "awtsmoosdb-redis-compatible-api"
+		},
+		{
+			"level": 2,
+			"text": "Design",
+			"anchor": "design"
+		},
+		{
+			"level": 2,
+			"text": "Supported commands",
+			"anchor": "supported-commands"
+		},
+		{
+			"level": 2,
+			"text": "Honestly not supported",
+			"anchor": "honestly-not-supported"
+		}
+	],
+	"markdownParts": [
+		"content/ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-api-compat-redis-readme-md-bc3eb3c43e-001.json"
+	]
+}

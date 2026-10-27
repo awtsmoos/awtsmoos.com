@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Text / Timestamp API (geelooy/api/text/)\n\nMedia timestamp/transcription jobs: submit a job keyed by API key + media URL,\nthen poll for the result.\n\n## Contents\n- `_awtsmoos.derech.js` — routes: `timestamp`, `timestamp/:jobId`,\n  `timestamp/:jobId/result`.\n- `DOCUMENTATION.md` — health docs; notes this mount carries a known syntax\n  defect (see `docs/GENERATED/DERECH_HEALTH.md` for the generated evidence).\n\n## Endpoints\n- `timestamp` — submit a transcription job (`apiKey` + `mediaURL` required).\n- `timestamp/:jobId` — job status.\n- `timestamp/:jobId/result` — job result.\n\n## Caveat\nThe mount is intentionally kept visible with its syntax defect so intended\nroutes are not mistaken for verified ones — check the DERECH_HEALTH evidence\nbefore relying on these endpoints.\n"
+}

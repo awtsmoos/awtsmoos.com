@@ -1,103 +1,116 @@
 [
 	{
-		"id": "tools-documentation-md-df0412aa0e",
-		"title": "Repository Tools",
-		"sourcePath": "tools/DOCUMENTATION.md",
-		"category": "Operations",
-		"provenance": "breadcrumb",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Repository Tools",
-				"anchor": "repository-tools"
-			},
-			{
-				"level": 2,
-				"text": "Role",
-				"anchor": "role"
-			},
-			{
-				"level": 2,
-				"text": "Start here",
-				"anchor": "start-here"
-			},
-			{
-				"level": 2,
-				"text": "Change rule",
-				"anchor": "change-rule"
-			},
-			{
-				"level": 2,
-				"text": "Project-specific notes",
-				"anchor": "project-specific-notes"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Repository Tools The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Large developer/maintenance utility root. Tools are support infrastructure, not automatically public runtime code. Start here Re",
-		"searchText": "b\"h boruch hashem blessed is he repository tools the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role large developer/maintenance utility root. tools are support infrastructure, not automatically public runtime code. start here read docs/operations and tooling.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes inspect tool source, write behavior, credentials/environment requirements and target paths before execution.",
-		"page": "pages/tools-documentation-md-df0412aa0e.json"
-	},
-	{
-		"id": "tools-meluket-translation-job-job-outputs-md-e8151fe521",
-		"title": "Meluket job output location",
-		"sourcePath": "tools/meluket-translation-job/JOB_OUTPUTS.md",
-		"category": "Operations",
+		"id": "geelooy-ai-thoughts-2026-08-26t134731-portal-universal-ui-resource-platf-71ed576b8c",
+		"title": "Phase 2 — Improved Compatibility-First Architecture",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26T134731-portal-universal-ui-resource-platform/04_PHASE2_IMPROVED_ARCHITECTURE.md",
+		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Meluket job output location",
-				"anchor": "meluket-job-output-location"
+				"text": "Phase 2 — Improved Compatibility-First Architecture",
+				"anchor": "phase-2-improved-compatibility-first-architecture"
+			},
+			{
+				"level": 2,
+				"text": "Stable Core Contract",
+				"anchor": "stable-core-contract"
+			},
+			{
+				"level": 2,
+				"text": "Type Definitions",
+				"anchor": "type-definitions"
+			},
+			{
+				"level": 2,
+				"text": "Schema Layer",
+				"anchor": "schema-layer"
+			},
+			{
+				"level": 2,
+				"text": "Action Layer",
+				"anchor": "action-layer"
+			},
+			{
+				"level": 2,
+				"text": "Query + Collection Layer",
+				"anchor": "query-collection-layer"
+			},
+			{
+				"level": 2,
+				"text": "Relationship Layer",
+				"anchor": "relationship-layer"
+			},
+			{
+				"level": 2,
+				"text": "Provenance + History Layer",
+				"anchor": "provenance-history-layer"
+			},
+			{
+				"level": 2,
+				"text": "Job + Stream Layer",
+				"anchor": "job-stream-layer"
+			},
+			{
+				"level": 2,
+				"text": "Transformation Layer",
+				"anchor": "transformation-layer"
+			},
+			{
+				"level": 2,
+				"text": "UI Layer",
+				"anchor": "ui-layer"
+			},
+			{
+				"level": 2,
+				"text": "Stable Visual Foundation",
+				"anchor": "stable-visual-foundation"
+			},
+			{
+				"level": 2,
+				"text": "Migration Strategy",
+				"anchor": "migration-strategy"
+			},
+			{
+				"level": 2,
+				"text": "Verification Strategy",
+				"anchor": "verification-strategy"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
 			}
 		],
-		"excerpt": "B\"H Meluket job output location Generated translation, validation, raw XML, swarm progress, import backups, and other run artifacts are intentionally kept outside this git repository. Default external job root: Override when needed: The repository should contain scripts only, not generated job output.",
-		"searchText": "b\"h meluket job output location generated translation, validation, raw xml, swarm progress, import backups, and other run artifacts are intentionally kept outside this git repository. default external job root: override when needed: the repository should contain scripts only, not generated job output.",
-		"page": "pages/tools-meluket-translation-job-job-outputs-md-e8151fe521.json"
+		"excerpt": "B\"H Phase 2 — Improved Compatibility First Architecture The Awtsmoos joins boundless ohr to measured keli, possibility to covenant, motion to form; Awtsmoos.com should let any future thing arrive without turning every present API into migration storm. Stable Core Contract A resource envelope should contain only univers",
+		"searchText": "b\"h phase 2 — improved compatibility first architecture the awtsmoos joins boundless ohr to measured keli, possibility to covenant, motion to form; awtsmoos.com should let any future thing arrive without turning every present api into migration storm. stable core contract a resource envelope should contain only universally useful identity and discovery fields: id type title data schema links capabilities meta everything richer—relationships, actions, history, provenance, jobs, presentation, representations—must be optional capability sections with stable names and version metadata. type definitions type definitions are themselves inspectable resources. each definition can declare: namespaced identifier contract version lifecycle state human labels/descriptions schema and semantic field roles supported relationships supported actions queryable/sortable/filterable fields available render modes compatibility aliases documentation/examples deprecation/replacement metadata a type registry does not own domain storage. it describes how existing domain resources participate in portal interoperability. schema layer do not create a new validator before inspecting existing validators. define a normalized internal schema vocabulary and adapters from current json schema like systems. preserve source schema identity so clients and tooling can inspect the original dialect when necessary. validation always has budgets: depth, object properties, array length, string size, reference count, union branches, and recursion. action layer each action has a stable machine id plus human presentation metadata. it declares: input schema output type(s) availability/permission hint destructive/confirmation policy synchronous or job backed execution idempotency/retry behavior concurrency/revision preconditions dry run/preview support where real domain behavior permits it invocation is separately authorized and validated; descriptors never grant permission by themselves. query + collection layer a collection advertises the operators it genuinely supports. generic clients build only allowed queries. backends enforce cost budgets and may return structured unsupported/cost errors rather than pretending every field supports arbitrary traversal. collections can describe cursors, totals, facets, sort choices, projection, groups, aggregates, bulk actions, and saved views as capabilities. relationship layer relationships are optional typed links with direction, target type, target identity, label, and navigation url. backlinks are provided only when a domain can support them efficiently. graph visualization is a renderer over relationship capable resources—not the universal storage model. provenance + history layer revision and provenance are distinct: history answers “how did this resource change?” provenance answers “where did this value/resource originate?” generated or inferred resources can attach transformer/model/tool/source references and confidence/status without implying deterministic reproducibility when none exists. job + stream layer jobs use a stable state machine and can expose progress stages, logs, output resources, cancellation, retry capability, and parent/child relationships. streaming events augment snapshots; clients can always recover by re fetching the canonical resource/job. transformation layer a transformer describes accepted types, configuration schema, output types, side effect class, determinism, execution mode, permission needs, and cost hints. pipelines compose transformer resources but do not bypass each transformer's validation/security boundary. ui layer the universal renderer uses a deterministic fallback chain: 1. exact type + view renderer 2. type family renderer 3. semantic role renderer 4. schema based renderer 5. bounded generic object/list renderer 6. explicit developer/raw inspector unknown data never becomes an exception merely because no specialized renderer exists. stable visual foundation the shared design foundation initially activates only inside a portal root scope. it provides: type and spacing tokens solid surfaces/borders/elevation intentional native element styling buttons/forms/lists/tables/details/code/media/dialog defaults focus visible/reduced motion/logical properties mobile target sizing, safe areas, dvh, overflow rules loading/empty/error/status patterns specialized apps can inherit foundations without inheriting a visual theme. migration strategy adapters are one way at first: legacy domain payload → portal resource envelope. existing endpoints and consumers remain unchanged. a new discovery surface can expose adapted resources to the generic client. only after equivalence tests and real adoption should domains optionally return resource envelopes natively. verification strategy every resource contract test includes: valid minimal envelope maximal optional capabilities unknown extension fields malformed schema/action/query data permission descriptor versus invocation authorization recursion/size budget enforcement version/deprecation behavior serialization stability specialized renderer and fallback renderer equivalence on core semantics narrow/wide/mobile ui behavior next action perform phase 3 critique with thirty additional operational/evolution/ui hardening improvements, then write the final execution plan before inspecting implementation targets.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26t134731-portal-universal-ui-resource-platf-71ed576b8c.json"
 	},
 	{
-		"id": "tools-meluket-translation-job-readme-md-e514fd58ac",
-		"title": "Meluket DeepSeek Translation Job Scaffold",
-		"sourcePath": "tools/meluket-translation-job/README.md",
-		"category": "Operations",
+		"id": "geelooy-ai-thoughts-2026-08-26t134731-portal-universal-ui-resource-platf-d6bc50183e",
+		"title": "Phase 3 — Thirty Additional Hardening Improvements",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26T134731-portal-universal-ui-resource-platform/05_PHASE3_CRITIQUE_30_ADDITIONAL_IMPROVEMENTS.md",
+		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Meluket DeepSeek Translation Job Scaffold",
-				"anchor": "meluket-deepseek-translation-job-scaffold"
+				"text": "Phase 3 — Thirty Additional Hardening Improvements",
+				"anchor": "phase-3-thirty-additional-hardening-improvements"
 			},
 			{
 				"level": 2,
-				"text": "Compact alignment model",
-				"anchor": "compact-alignment-model"
+				"text": "Final Revelation",
+				"anchor": "final-revelation"
 			},
 			{
 				"level": 2,
-				"text": "Required output contents",
-				"anchor": "required-output-contents"
-			},
-			{
-				"level": 2,
-				"text": "Transliteration / glossary rules",
-				"anchor": "transliteration-glossary-rules"
-			},
-			{
-				"level": 2,
-				"text": "Compact XML response schema",
-				"anchor": "compact-xml-response-schema"
-			},
-			{
-				"level": 2,
-				"text": "Future comment storage shape",
-				"anchor": "future-comment-storage-shape"
-			},
-			{
-				"level": 2,
-				"text": "Safe flow",
-				"anchor": "safe-flow"
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
 			}
 		],
-		"excerpt": "B\"H Meluket DeepSeek Translation Job Scaffold This folder is intentionally inert unless explicitly run. It is designed for whole post translation batches to save tokens while preserving exact alignment. Compact alignment model Do not repeat seriesId, postId, and full source hashes on every subsection. Instead: The prom",
-		"searchText": "b\"h meluket deepseek translation job scaffold this folder is intentionally inert unless explicitly run. it is designed for whole post translation batches to save tokens while preserving exact alignment. compact alignment model do not repeat seriesid, postid, and full source hashes on every subsection. instead: the prompt sends one post at a time. the root xml has seriesid and postid once. each subsection uses only compact coordinates: v = versesection index s = subsection index the validator compares counts and coordinates against the original source item list. optional short hashes can be used only as a safety check, for example first 8 hex chars, but they are not needed for every line if order + coordinates are strict. required output contents for each post, the model should return: 1. postintroshort — one sentence summary of the whole maamar. 2. postintrolong — longer “eric novel style” opening, atmospheric but faithful. 3. for each versesection: sectionsummaryshort — one sentence. sectionsummarylong — fuller summary. translations for every subsection in that section. transliteration / glossary rules the model must preserve these spellings exactly: יעקב → yaakov, not jacob יצחק → yitzchak, not isaac אברהם → avraham, not abraham משה → moshe, not moses דוד → dovid, not david עצמות / atzmus → awtsmoos ein sof, sefiros, nefesh habahamis, nefesh haelokis, yechidah, chayah the rebbe, the alter rebbe, the mitteler rebbe, the tzemach tzedek compact xml response schema future comment storage shape translation comments: /social/heichelos/ikar/comments/atseries/ /atpost/ /meluket translation en.awtsmoosjson summary comments: meluket summary en.awtsmoosjson possible object shape: safe flow 1. prepare one whole post prompt. 2. send one whole post test to deepseek. 3. validate strict coordinate coverage: every source subsection must have exactly one . 4. reject markdown fences. 5. reject missing or extra sections/subsections. 6. review output manually. 7. only then write comments.",
-		"page": "pages/tools-meluket-translation-job-readme-md-e514fd58ac.json"
+		"excerpt": "B\"H Phase 3 — Thirty Additional Hardening Improvements The Awtsmoos renews the interface and contract before every request can claim stability; Awtsmoos.com must make universality survive evolution, latency, offline states, mobile constraints, and operational reality. 1. Resource envelopes need explicit envelope versio",
+		"searchText": "b\"h phase 3 — thirty additional hardening improvements the awtsmoos renews the interface and contract before every request can claim stability; awtsmoos.com must make universality survive evolution, latency, offline states, mobile constraints, and operational reality. 1. resource envelopes need explicit envelope version metadata independent of domain type version. 2. clients need forward compatible unknown field handling and must never reject an envelope merely because a new optional capability appears. 3. type registry responses need cache validators and revision ids so clients can cache aggressively without becoming stale forever. 4. schema references should be immutable by version; mutable aliases like latest can exist only as convenience links. 5. registry/type lookups need cycle detection for type inheritance, schema references, and relationship expansion. 6. generic clients need a maximum rendered field count and progressive disclosure for very wide objects. 7. large collections must never be embedded by default in parent resources; use links/cursors to prevent accidental megabyte envelopes. 8. binary/media values must use typed references rather than base64 blobs inside generic envelopes except for deliberately tiny inline representations. 9. url/link fields need canonical relation names and safe same origin/external distinction for ui presentation. 10. action invocation needs csrf/auth/session behavior inherited from existing server security architecture, not a new parallel auth scheme. 11. field permission metadata needs three states—visible/editable/hidden or omitted—not boolean ambiguity. 12. server must never disclose hidden field names through generic schema metadata to unauthorized clients when those names are themselves sensitive. 13. query definitions require stable serialization so saved views, cache keys, sharing links, and tests compare meaningfully. 14. saved views need schema/type compatibility checks when resource types evolve. 15. pagination needs cursor first support, while page number metadata may be adapted only for domains that genuinely support it. 16. event streams need resumable cursor ids and snapshot recovery; the ui must tolerate missed events without corrupting state. 17. job progress percentages must be optional because many operations only know stages, not honest numeric completion. 18. cancellation needs explicit states like requested versus actually cancelled so ui never lies that work stopped immediately. 19. retry capability must indicate whether the original inputs are preserved and whether repeated execution can duplicate effects. 20. transform pipelines need bounded fan out and output budgets to prevent one arbitrary input from generating unbounded resource explosions. 21. template generation needs version pinning so regeneration later can reproduce the intended template rather than silently using the newest one. 22. generic renderer plugins need security boundaries: only trusted local modules register executable renderers; api data selects identifiers, never code locations. 23. renderer registry needs telemetry/diagnostics explaining why a renderer won, useful for the resource inspector and debugging. 24. generic edit forms need dirty state, navigation blocking where warranted, save state, conflict handling, server validation mapping, and mobile keyboard resilience. 25. universal tables need semantic column priority metadata but must preserve accessible table structure even when mobile presentation changes. 26. dialog/sheet primitives need nested overlay policy so focus trapping and z index do not collapse under complex editors. 27. stable ui tokens need contrast tests and system font fallbacks; visual polish cannot depend on a single remote font loading successfully. 28. rtl must be tested with mixed ltr code/urls/numbers, not only whole page direction: rtl screenshots. 29. audit tooling needs explicit findings for raw default list markers in navigation, unscoped overflowing pre/code blocks, missing dialog labels, tiny controls, and root horizontal overflow. 30. production rollout needs feature/capability gating so portal generic ui can coexist with legacy pages until each integration passes runtime and compatibility tests. final revelation the portal should not replace every domain. it should become the interoperability language between domains and the fallback manifestation language for the ui. specialist applications remain sovereign over their deep experiences; the portal guarantees identity, discoverability, contracts, safety, and a dignified default rendering path. next action write the final execution architecture and exact discovery checklist, then inspect the real router, entity/schema patterns, resource clients, shared shell, and style foundation before approving source files.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26t134731-portal-universal-ui-resource-platf-d6bc50183e.json"
 	}
 ]

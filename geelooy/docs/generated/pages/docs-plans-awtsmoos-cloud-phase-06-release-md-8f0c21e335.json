@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-plans-awtsmoos-cloud-phase-06-release-md-8f0c21e335",
+	"title": "Phase 06 — Validation, Integration, and Release",
+	"sourcePath": "docs/PLANS/AWTSMOOS_CLOUD/PHASE_06_RELEASE.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase 06 — Validation, Integration, and Release",
+			"anchor": "phase-06-validation-integration-and-release"
+		},
+		{
+			"level": 2,
+			"text": "Source-quality gate",
+			"anchor": "source-quality-gate"
+		},
+		{
+			"level": 2,
+			"text": "Regression gate",
+			"anchor": "regression-gate"
+		},
+		{
+			"level": 2,
+			"text": "Integration gate",
+			"anchor": "integration-gate"
+		},
+		{
+			"level": 2,
+			"text": "Staging gate",
+			"anchor": "staging-gate"
+		},
+		{
+			"level": 2,
+			"text": "Production gate",
+			"anchor": "production-gate"
+		},
+		{
+			"level": 2,
+			"text": "Never claim",
+			"anchor": "never-claim"
+		},
+		{
+			"level": 2,
+			"text": "Rollback rule",
+			"anchor": "rollback-rule"
+		}
+	],
+	"markdownParts": [
+		"content/docs-plans-awtsmoos-cloud-phase-06-release-md-8f0c21e335-001.json"
+	]
+}

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Ayin Beis Importer (geelooy/api/social/helper/imports/ayinBeis/)\n\nBulk import pipeline for the Ayin Beis corpus.\n\n## Files\n- `index.js` — module entry.\n- `importPlanner.js` — plans what to import and where it lands.\n- `importWriter.js` — writes imported content into the social store.\n- `authorizedBundle.js` — authorized import bundle handling.\n- `test/` — `authorizedBundle.test.js`, `importPlanner.test.js`, `importWriter.test.js`.\n"
+}

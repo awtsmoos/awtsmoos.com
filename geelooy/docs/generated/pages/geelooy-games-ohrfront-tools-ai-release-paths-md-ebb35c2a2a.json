@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-ohrfront-tools-ai-release-paths-md-ebb35c2a2a",
+	"title": "Ohrfront Absolute Release Paths",
+	"sourcePath": "geelooy/games/ohrfront/tools/ai/RELEASE_PATHS.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Ohrfront Absolute Release Paths",
+			"anchor": "ohrfront-absolute-release-paths"
+		},
+		{
+			"level": 2,
+			"text": "Current AI publication authority",
+			"anchor": "current-ai-publication-authority"
+		},
+		{
+			"level": 2,
+			"text": "Legacy planning archaeology",
+			"anchor": "legacy-planning-archaeology"
+		},
+		{
+			"level": 2,
+			"text": "Current absolute-path mission",
+			"anchor": "current-absolute-path-mission"
+		},
+		{
+			"level": 2,
+			"text": "Repository and Git",
+			"anchor": "repository-and-git"
+		},
+		{
+			"level": 2,
+			"text": "Ohrfront application",
+			"anchor": "ohrfront-application"
+		},
+		{
+			"level": 2,
+			"text": "Shared core and dynamic server",
+			"anchor": "shared-core-and-dynamic-server"
+		},
+		{
+			"level": 2,
+			"text": "Absolute-path system executables",
+			"anchor": "absolute-path-system-executables"
+		},
+		{
+			"level": 2,
+			"text": "Materialize path evidence",
+			"anchor": "materialize-path-evidence"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-ohrfront-tools-ai-release-paths-md-ebb35c2a2a-001.json"
+	]
+}

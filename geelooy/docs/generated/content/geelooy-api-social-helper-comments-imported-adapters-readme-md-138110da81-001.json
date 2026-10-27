@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Imported Comment Adapters (geelooy/api/social/helper/comments/imported/adapters/)\n\nSource adapters that let the imported-comment orchestrator read from different storage backends.\n\n- `bundleAdapter.js` — reads imported comments from bundles.\n- `corpusAdapter.js` — reads from raw corpus data (`data/`).\n- `legacyAdapter.js` — reads legacy comment stores.\n- `shardAdapter.js` — reads sharded AwtsmoosDB comment storage.\n"
+}

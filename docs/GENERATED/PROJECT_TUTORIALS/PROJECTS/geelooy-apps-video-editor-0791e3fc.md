@@ -2,7 +2,7 @@ B"H
 Boruch Hashem
 Blessed is He
 
-# Project Tutorial: Awtsmoos Video Editor - Chapter 7 Revised
+# Project Tutorial: Awtsmoos Video Editor
 
 **Path:** `geelooy/apps/video-editor` · **Type:** app · **Family:** Applications
 
@@ -14,26 +14,26 @@ Blessed is He
 
 - Entry files: `index.html`
 - Local documentation: No local `DOCUMENTATION.md` observed.
-- Local-doc requirement: no; covered: no
+- Local-doc requirement: yes; covered: no
 - Symlink target: —
 
 ## File shape
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 2 | 0 | 0 | 0 | 0 | 0 | 2 |
+| 27 | 0 | 0 | 0 | 0 | 0 | 27 |
 
 ## Public entry points
 
-- `/apps/video-editor` → `geelooy/apps/video-editor/index.html` — Awtsmoos Video Editor - Chapter 7 Revised
+- `/apps/video-editor` → `geelooy/apps/video-editor/index.html` — Awtsmoos Video Editor
 
 ## Symbol evidence
 
-No lexical symbol summary observed.
+Source files: 14; classes: 13; functions: 9; exports: 14; samples: ChesedTimelineScale, GevurahPanelController, HodScrubber, KliDom, MalchusPlaybackController, NetzachMediaImporter, OhrEditorState, stores, TiferesClipElement, TiferesTimelineItem, TzimtzumPointerSession, YesodCaptionRenderer.
 
 ## Depends on
 
-None observed.
+- `geelooy/apps/shared` — 2 lexical references; examples: geelooy/apps/video-editor/js/movie/VideoEditorMovieAdapter.js; geelooy/apps/video-editor/js/movie/installMovieAi.js
 
 ## Used by
 

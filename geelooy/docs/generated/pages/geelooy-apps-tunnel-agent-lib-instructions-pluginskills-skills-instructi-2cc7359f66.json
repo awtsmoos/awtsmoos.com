@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-2cc7359f66",
+	"title": "Mission persistence",
+	"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/MISSION_PERSISTENCE.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 2,
+			"text": "Current tunnel integration takes precedence",
+			"anchor": "current-tunnel-integration-takes-precedence"
+		},
+		{
+			"level": 1,
+			"text": "Mission persistence",
+			"anchor": "mission-persistence"
+		},
+		{
+			"level": 2,
+			"text": "Establish and maintain the mission",
+			"anchor": "establish-and-maintain-the-mission"
+		},
+		{
+			"level": 2,
+			"text": "Execute without premature stopping",
+			"anchor": "execute-without-premature-stopping"
+		},
+		{
+			"level": 2,
+			"text": "Evidence-based completion gate",
+			"anchor": "evidence-based-completion-gate"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-2cc7359f66-001.json"
+	]
+}

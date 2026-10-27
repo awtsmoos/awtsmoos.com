@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-18-1624-shliach-homepage-campaign-04-phase-t-0409df7266",
+	"title": "Phase Two — Improved Architecture",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-18_1624_shliach-homepage-campaign/04_PHASE_TWO_IMPROVED_PLAN.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase Two — Improved Architecture",
+			"anchor": "phase-two-improved-architecture"
+		},
+		{
+			"level": 2,
+			"text": "Chosen architecture",
+			"anchor": "chosen-architecture"
+		},
+		{
+			"level": 2,
+			"text": "Homepage repair",
+			"anchor": "homepage-repair"
+		},
+		{
+			"level": 2,
+			"text": "Campaign routes",
+			"anchor": "campaign-routes"
+		},
+		{
+			"level": 2,
+			"text": "Shared visual system",
+			"anchor": "shared-visual-system"
+		},
+		{
+			"level": 2,
+			"text": "Browser behavior",
+			"anchor": "browser-behavior"
+		},
+		{
+			"level": 2,
+			"text": "Verification after source pass",
+			"anchor": "verification-after-source-pass"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-18-1624-shliach-homepage-campaign-04-phase-t-0409df7266-001.json"
+	]
+}

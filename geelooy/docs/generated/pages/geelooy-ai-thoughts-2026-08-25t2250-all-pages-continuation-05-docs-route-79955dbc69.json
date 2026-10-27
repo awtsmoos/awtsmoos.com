@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-25t2250-all-pages-continuation-05-docs-route-79955dbc69",
+	"title": "Docs Route Revelation",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-25T2250-all-pages-continuation/05_DOCS_ROUTE_REVELATION.md",
+	"category": "Routes",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Docs Route Revelation",
+			"anchor": "docs-route-revelation"
+		},
+		{
+			"level": 2,
+			"text": "Observed current architecture",
+			"anchor": "observed-current-architecture"
+		},
+		{
+			"level": 2,
+			"text": "Confirmed debt",
+			"anchor": "confirmed-debt"
+		},
+		{
+			"level": 2,
+			"text": "Architecture chosen",
+			"anchor": "architecture-chosen"
+		},
+		{
+			"level": 3,
+			"text": "CSS",
+			"anchor": "css"
+		},
+		{
+			"level": 3,
+			"text": "JavaScript",
+			"anchor": "javascript"
+		},
+		{
+			"level": 2,
+			"text": "Files to inspect before production rewrite",
+			"anchor": "files-to-inspect-before-production-rewrite"
+		},
+		{
+			"level": 2,
+			"text": "Verification gate",
+			"anchor": "verification-gate"
+		},
+		{
+			"level": 2,
+			"text": "NEXTACTION",
+			"anchor": "nextaction"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-25t2250-all-pages-continuation-05-docs-route-79955dbc69-001.json"
+	]
+}

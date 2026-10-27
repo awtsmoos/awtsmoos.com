@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-merkava-docs-runtime-bootstrap-md-38b0859e6f",
+	"title": "Merkava Runtime Bootstrap",
+	"sourcePath": "geelooy/games/Merkava/docs/runtime-bootstrap.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Merkava Runtime Bootstrap",
+			"anchor": "merkava-runtime-bootstrap"
+		},
+		{
+			"level": 2,
+			"text": "Runtime path",
+			"anchor": "runtime-path"
+		},
+		{
+			"level": 2,
+			"text": "KesserMerkavaBootstrap",
+			"anchor": "kessermerkavabootstrap"
+		},
+		{
+			"level": 2,
+			"text": "Runtime evidence",
+			"anchor": "runtime-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Compatibility globals",
+			"anchor": "compatibility-globals"
+		},
+		{
+			"level": 2,
+			"text": "Optional commerce",
+			"anchor": "optional-commerce"
+		},
+		{
+			"level": 2,
+			"text": "Fatal behavior",
+			"anchor": "fatal-behavior"
+		},
+		{
+			"level": 2,
+			"text": "Testing",
+			"anchor": "testing"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-merkava-docs-runtime-bootstrap-md-38b0859e6f-001.json"
+	]
+}

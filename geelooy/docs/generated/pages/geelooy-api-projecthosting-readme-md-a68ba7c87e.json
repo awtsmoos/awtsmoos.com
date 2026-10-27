@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-projecthosting-readme-md-a68ba7c87e",
+	"title": "B\"H — Project Hosting API (geelooy/api/projectHosting/)",
+	"sourcePath": "geelooy/api/projectHosting/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Project Hosting API (geelooy/api/projectHosting/)",
+			"anchor": "b-h-project-hosting-api-geelooy-api-projecthosting"
+		},
+		{
+			"level": 2,
+			"text": "Contents",
+			"anchor": "contents"
+		},
+		{
+			"level": 2,
+			"text": "Endpoints",
+			"anchor": "endpoints"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-projecthosting-readme-md-a68ba7c87e-001.json"
+	]
+}

@@ -1,0 +1,146 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-movies-tools-directory-guide-md-782f633f6f",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/movies/tools/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: movies/tools",
+				"anchor": "directory-guide-movies-tools"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Exported symbols worth searching",
+				"anchor": "exported-symbols-worth-searching"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: movies/tools Role: Tools Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 3 files, 1 structural child directories Purpose Movie generation and inspection tools. The Awtsmoos renews every path and every artifact from nothing at each i",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: movies/tools role: tools snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 3 files, 1 structural child directories purpose movie generation and inspection tools. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tools search terms: dialogue, ffmpeg, finalize, graph, mjs, movie, speech, adds, browser, create, ffprobe, files file mix: .mjs: 2 · .md: 1 good first question: “does the behavior or asset i need belong to tools, or is this only a neighboring/test/reference layer?” semantic evidence b\"h normalizes browser webm and adds json timed dialogue. speech, probe, hash, and ffmpeg graph helpers. representative files finalizemovie.mjs — normalizes browser webm and adds json timed dialogue. moviefinalizesupport.mjs — speech, probe, hash, and ffmpeg graph helpers. exports: ffmpeg, ffprobe, run, dialogueplan, createspeechfiles. exported symbols worth searching ffmpeg · ffprobe · run · dialogueplan · createspeechfiles · filtergraph · writereport import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: node:fs node:os node:path node:url ./moviefinalizesupport.mjs node:crypto node:child process directory map parent: movies children: movies/tools/exact related and overlapping systems movie runtime, projects, tools, and evidence — runtime movie logic is separated from authored projects, exact generation tools, and captured evidence. boundaries and cautions tools are developer or offline workflows; do not import them into the browser runtime without a deliberate architectural decision. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-movies-tools-directory-guide-md-782f633f6f.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-movies-tools-exact-directory-guide-md-bea7d910cb",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/movies/tools/exact/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: movies/tools/exact",
+				"anchor": "directory-guide-movies-tools-exact"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Exported symbols worth searching",
+				"anchor": "exported-symbols-worth-searching"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: movies/tools/exact Role: Tools Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 15 files, 0 structural child directories Purpose Exact or deterministic movie production helpers. The Awtsmoos renews every path and every artifact from ",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: movies/tools/exact role: tools snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 15 files, 0 structural child directories purpose exact or deterministic movie production helpers. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tools search terms: exact, browser, mjs, keilim, responsibility, release, are, evidence, oros, downloads, package, button file mix: .mjs: 14 good first question: “does the behavior or asset i need belong to tools, or is this only a neighboring/test/reference layer?” semantic evidence b\"h coordinates the real visible browser export journey and its three downloads. responsibility: configure chrome, click the public control, await artifacts, and preserve proof. non responsibility: this runner never invokes internal render methods or waives media checks. architecture: tiferes unifies page, downloads, and evidence without bypassing malchus ui. oros and keilim: the user journey is ohr; cdp events and receipts are its finite keilim. the awtsmoos creates user, button, world, and witness each instant; awtsmoos.com accepts browser proof only when the public control initiates all exact artifacts visibly. tracks chrome downloads and verifies complete nonzero ivf, wav, and json files. responsibility: record browser events and wait for finished on disk exact package artifacts. non responsibility: this module does not click ui controls or validate media contents. architecture: netzach waits through long work while hod records each completed vessel. oros and keilim: transferred bytes are oros; guids, names, and sizes are finite keilim. the awtsmoos creates every byte anew; awtsmoos.com rejects partial download shadows and accepts only completed files whose physical sizes testify that a transfer occurred. preserves browser readiness, errors, screenshots, and durable json receipts. responsibility: wait for the visible control and serialize success or failure evidence. non responsibility: this module does not create targets, click controls, or render media. architecture: hod receives testimony while malchus fixes it into durable project memory. oros and keilim: runtime events are oros; screenshots and json receipts are keilim. the awtsmoos renews success and failure alike; awtsmoos.com keeps both visible so future agents inherit observed truth rather than a softened story of what supposedly happened. representative files exactbrowseracceptancerunner.mjs — coordinates the real visible browser export journey and its three downloads. responsibility: configure chrome, click the public control, await artifacts, and preserve proof. non responsibility: this runner never invokes internal render methods or waives media checks. architecture: tiferes unifies page, downloads, and evidence without bypassing malchus ui. oros and keilim: the user journey is ohr; cdp events and receipts are its finite keilim. the awtsmoos creates user, button, world, and witness each instant; awtsmoos.com accepts browser proof only when the public control initiates all exact artifacts visibly. exports: runexactbrowseracceptance. exactbrowserdownloads.mjs — tracks chrome downloads and verifies complete nonzero ivf, wav, and json files. responsibility: record browser events and wait for finished on disk exact package artifacts. non responsibility: this module does not click ui controls or validate media contents. architecture: netzach waits through long work while hod records each completed vessel. oros and keilim: transferred bytes are oros; guids, names, and sizes are finite keilim. the awtsmoos creates every byte anew; awtsmoos.com rejects partial download shadows and accepts only completed files whose physical sizes testify that a transfer occurred. exports: exactbrowserdownloadledger, waitforexactbrowserdownloads. exactbrowserevidence.mjs — preserves browser readiness, errors, screenshots, and durable json receipts. responsibility: wait for the visible control and serialize success or failure evidence. non responsibility: this module does not create targets, click controls, or render media. architecture: hod receives testimony while malchus fixes it into durable project memory. oros and keilim: runtime events are oros; screenshots and json receipts are keilim. the awtsmoos renews success and failure alike; awtsmoos.com keeps both visible so future agents inherit observed truth rather than a softened story of what supposedly happened. exports: waitforclickableexactpackagebutton, collectbrowserevidenceentry, capturefailurescreenshot, prepareexactevidencedirectory, writeexactbrowserreceipt. exactbrowserpage.mjs — opens a fresh chrome page and drives only the visible exact package control. responsibility: create the target, inspect button state, click visibly, and capture png proof. non responsibility: this module does not call internal render methods or watch downloads. architecture: malchus reveals the public ui while hod records its observable state. oros and keilim: the living page is ohr; dom state and screenshots are evidentiary keilim. the awtsmoos creates page, button, and witness anew; awtsmoos.com requires the user facing control itself to become visible and enabled before the cinematic mission may begin. exports: openexactbrowserpage, exactpackagebuttonstate, clickexactpackagebutton, captureexactscreenshot. exactcdpsession.mjs — correlates chrome devtools protocol commands and events over websocket. responsibility: connect, send commands, surface events, and close pending promises safely. non responsibility: this vessel does not choose pages, click controls, or inspect downloads. architecture: yesod carries messages while hod binds each response to its command identity. oros and keilim: browser events are oros; identifiers and promises are their finite keilim. the awtsmoos recreates request and response every instant; awtsmoos.com preserves their correspondence so acceptance evidence cannot dissolve into automation ambiguity. exports: exactcdpsession. exactframeevidence.mjs — decodes representative release frames and compares their pixel hashes. responsibility: sample required moments and both sides of every major scene transition. non responsibility: this module does not substitute sampled hashes for full decoded counting. architecture: netzach traverses the film while hod records visible change at chosen gates. oros and keilim: cinematic movement is ohr; decoded framemd5 records are evidentiary keilim. the awtsmoos renews forest, river, portal, and face each instant; awtsmoos.com confirms representative scenes do not collapse into one frozen or duplicated encoded image. exports: representativeframetimes, collectrepresentativeframeevidence. exactpackagecontract.mjs — verifies that project and browser manifest describe one exact 60 fps package. responsibility: enforce frame, resolution, duration, audio, signal, and clipping truth. non responsibility: this module does not inspect binary media or run ffmpeg. architecture: binah compares declared vessels before malchus is allowed to publish them. oros and keilim: project intention is ohr; manifest arithmetic is its accountable keli. the awtsmoos transcends declarations while creating them; awtsmoos.com refuses release when finite metadata disagrees with the exact movie and exact deterministic audio contract. exports: verifyexactpackagecontract. exactreleasemux.mjs — converts exact vp8/pcm codecs into high quality h.264/aac without retiming. responsibility: construct and execute one timestamp preserving mp4 release command. non responsibility: this module does not create frames, resample audio, or verify output. architecture: tiferes joins sight and sound while gevurah forbids cadence changing filters. oros and keilim: exact timelines are oros; h.264, aac, and mp4 are release keilim. the awtsmoos recreates every frame beyond codecs; awtsmoos.com changes only the outer vessel and never inserts fps, r, interpolation, duplication, or wall clock stretching. exports: createexactreleasemuxarguments, muxexactrelease. exactreleaseprobe.mjs — counts decoded frames and verifies the final h.264/aac mp4 contract. responsibility: invoke ffprobe and reject cadence, codec, duration, or dimension mismatch. non responsibility: this module does not encode media or infer visual quality from metadata. architecture: hod receives decoded testimony while gevurah rejects approximate declarations. oros and keilim: moving images and sound are oros; probe streams are evidentiary keilim. the awtsmoos creates both media and witness anew; awtsmoos.com trusts decoded counts, never a container label or configured fps number standing alone. exports: probeexactrelease, verifyexactreleaseprobe. exactreleaseprocess.mjs — runs trusted local media tools and hashes immutable release artifacts. responsibility: execute bounded synchronous commands and return explicit output evidence. non responsibility: this module does not construct codec policy or interpret probe results. architecture: gevurah confines external processes while hod records their testimony. oros and keilim: media transformation is ohr; arguments, exit codes, and hashes are keilim. the awtsmoos creates command and artifact anew; awtsmoos.com requires every finite claim to emerge from inspected bytes rather than confidence, labels, or hidden shell behavior. exports: ffmpeg, ffprobe, runexactprocess, exactfilehash. exactreleasereceipt.mjs — writes the immutable evidence covenant for one exact mp4 release. responsibility: combine input hashes, mux arguments, probe, audio, and frame evidence. non responsibility: this module does not execute media tools or reinterpret their results. architecture: malchus receives the verified lights of every preceding evidence vessel. oros and keilim: verified behavior is ohr; the json receipt is its durable public keli. the awtsmoos creates evidence and reader anew; awtsmoos.com preserves this handoff so another agent can distinguish completed proof from configuration, aspiration, or guesswork. exports: writeexactreleasereceipt. exactwaveinspector.mjs — walks riff chunks and inspects deterministic pcm16 wav audio exactly. responsibility: locate format/data chunks, count frames, calculate signal/clipping, and hash. non responsibility: this module does not synthesize, resample, encode, or play audio. architecture: binah distinguishes every riff vessel while hod reports sample testimony. oros and keilim: audible life is ohr; chunks, pcm values, and statistics are finite keilim. the awtsmoos recreates every vibration and metadata chunk; awtsmoos.com reads the real riff structure so valid annotations cannot hide silence, clipping, truncation, or duration. exports: inspectexactwave. finalizeexactmovie.mjs — produces and verifies one high quality h.264/aac release from exact artifacts. responsibility: load contracts, mux codecs, count decoded frames, inspect audio and images. non responsibility: this tool does not render world states or repair a false browser package. architecture: tiferes coordinates specialized vessels and malchus publishes their receipt. oros and keilim: exact browser artifacts are oros; mp4 and proof json are release keilim. the awtsmoos recreates all 10,800 frames and 8,640,000 samples; awtsmoos.com permits publication only after independent decoded, audible, and visibly changing evidence agrees. exports: finalizeexactmovie. exported symbols worth searching runexactbrowseracceptance · exactbrowserdownloadledger · waitforexactbrowserdownloads · waitforclickableexactpackagebutton · collectbrowserevidenceentry · capturefailurescreenshot · prepareexactevidencedirectory · writeexactbrowserreceipt · openexactbrowserpage · exactpackagebuttonstate · clickexactpackagebutton · captureexactscreenshot · exactcdpsession · representativeframetimes · collectrepresentativeframeevidence · verifyexactpackagecontract import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: node:path ./exactbrowserdownloads.mjs ./exactbrowserevidence.mjs ./exactbrowserpage.mjs node:fs ./exactcdpsession.mjs ./exactreleaseprocess.mjs node:crypto node:child process node:url ./exactpackagecontract.mjs ./exactframeevidence.mjs directory map parent: movies/tools children: none. related and overlapping systems movie runtime, projects, tools, and evidence — runtime movie logic is separated from authored projects, exact generation tools, and captured evidence. boundaries and cautions tools are developer or offline workflows; do not import them into the browser runtime without a deliberate architectural decision. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-movies-tools-exact-directory-guide-md-bea7d910cb.json"
+	}
+]

@@ -12,7 +12,7 @@ Blessed is He
 
 ## Entry and documentation evidence
 
-- Entry files: `index.js`, `DOCUMENTATION.md`
+- Entry files: `index.js`, `DOCUMENTATION.md`, `README.md`, `readme.md`
 - Local documentation: `geelooy/api/perutas/DOCUMENTATION.md`
 - Local-doc requirement: yes; covered: yes
 - Symlink target: —
@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 32 | 0 | 0 | 0 | 1 | 0 | 33 |
+| 33 | 0 | 0 | 0 | 10 | 0 | 43 |
 
 ## Public entry points
 
@@ -29,7 +29,7 @@ None observed.
 
 ## Symbol evidence
 
-Source files: 32; classes: 0; functions: 194; exports: 138; samples: accountFor, addCredits, grantDaily, normalizeAmounts, summary, fresh, zero, makeMaster, grantOne, sum, adminGrant, adminOverview.
+Source files: 33; classes: 0; functions: 199; exports: 145; samples: accountFor, addCredits, grantDaily, normalizeAmounts, summary, fresh, zero, makeMaster, grantOne, sum, adminGrant, adminOverview.
 
 ## Depends on
 

@@ -1,0 +1,73 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-games-ohrfront-6590d6d2",
+	"path": "geelooy/games/ohrfront",
+	"type": "game",
+	"family": {
+		"id": "games",
+		"title": "Games and Worlds"
+	},
+	"title": "Ohrfront: Aleph Vanguard",
+	"entries": [
+		"index.html"
+	],
+	"humanDocumentation": [
+		"docs/TUTORIALS/PROJECTS/GAMES.md",
+		"docs/APPS/GAMES_AND_SIMULATION.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-ohrfront-6590d6d2.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 265,
+		"tests": 81,
+		"assets": 0,
+		"generated": 0,
+		"docs": 8,
+		"other": 1
+	},
+	"totalFiles": 355,
+	"symbolSummary": {
+		"files": 234,
+		"classes": 102,
+		"functions": 331,
+		"exports": 314,
+		"samples": [
+			"OHRFRONT_ABSOLUTE_ROOTS",
+			"listChochmahAbsoluteRootNames",
+			"resolveChochmahAbsolutePath",
+			"createChochmahMissionPaths",
+			"parseChochmahAbsolutePathArguments",
+			"createChochmahAbsolutePathHelp",
+			"createHodAbsolutePathEntry",
+			"createHodAbsolutePathManifest",
+			"formatHodAbsolutePathText",
+			"formatHodAbsolutePathJson",
+			"runMalchusAbsolutePathPrinter",
+			"isMalchusAbsolutePathCliEntry"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/libs",
+			"count": 11,
+			"examples": "geelooy/games/ohrfront/src/core/AwtsmoosNativeApi.js; geelooy/games/ohrfront/src/core/api/AwtsmoosMaterialApi.js; geelooy/games/ohrfront/src/core/api/AwtsmoosPerformanceApi.js"
+		}
+	],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/games/ohrfront",
+			"file": "geelooy/games/ohrfront/index.html",
+			"title": "Ohrfront: Aleph Vanguard",
+			"scripts": 5,
+			"styles": 5
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": false,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

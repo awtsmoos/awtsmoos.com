@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-design-os-hebrew-first-readme-md-9e2a13403c",
+	"title": "Hebrew-First Design System",
+	"sourcePath": "geelooy/apps/tunnel/design-os/hebrew-first/README.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Hebrew-First Design System",
+			"anchor": "hebrew-first-design-system"
+		},
+		{
+			"level": 2,
+			"text": "Quick start",
+			"anchor": "quick-start"
+		},
+		{
+			"level": 2,
+			"text": "The contract",
+			"anchor": "the-contract"
+		},
+		{
+			"level": 2,
+			"text": "Modules",
+			"anchor": "modules"
+		},
+		{
+			"level": 2,
+			"text": "Constraint bundles",
+			"anchor": "constraint-bundles"
+		},
+		{
+			"level": 2,
+			"text": "Markup contract",
+			"anchor": "markup-contract"
+		},
+		{
+			"level": 2,
+			"text": "Tests",
+			"anchor": "tests"
+		},
+		{
+			"level": 2,
+			"text": "Browser rendering",
+			"anchor": "browser-rendering"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-design-os-hebrew-first-readme-md-9e2a13403c-001.json"
+	]
+}

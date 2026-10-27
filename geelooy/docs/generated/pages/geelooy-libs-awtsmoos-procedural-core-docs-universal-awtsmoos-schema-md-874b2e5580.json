@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-docs-universal-awtsmoos-schema-md-874b2e5580",
+	"title": "B\"H",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/UNIVERSAL_AWTSMOOS_SCHEMA.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Universal Definition Graph",
+			"anchor": "universal-definition-graph"
+		},
+		{
+			"level": 2,
+			"text": "Canonical base",
+			"anchor": "canonical-base"
+		},
+		{
+			"level": 2,
+			"text": "Authoring shorthand",
+			"anchor": "authoring-shorthand"
+		},
+		{
+			"level": 2,
+			"text": "Artifact intent",
+			"anchor": "artifact-intent"
+		},
+		{
+			"level": 2,
+			"text": "Identity and determinism",
+			"anchor": "identity-and-determinism"
+		},
+		{
+			"level": 2,
+			"text": "Relationship and constraint philosophy",
+			"anchor": "relationship-and-constraint-philosophy"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-docs-universal-awtsmoos-schema-md-874b2e5580-001.json"
+	]
+}

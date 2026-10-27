@@ -1,0 +1,296 @@
+[
+	{
+		"id": "geelooy-api-social-helper-profilehub-readme-md-36fde6a0ab",
+		"title": "B\"H",
+		"sourcePath": "geelooy/api/social/helper/profileHub/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Boruch Hashem",
+				"anchor": "boruch-hashem"
+			},
+			{
+				"level": 1,
+				"text": "Blessed is He",
+				"anchor": "blessed-is-he"
+			},
+			{
+				"level": 1,
+				"text": "Unified Profile Hub",
+				"anchor": "unified-profile-hub"
+			},
+			{
+				"level": 2,
+				"text": "Response model",
+				"anchor": "response-model"
+			},
+			{
+				"level": 2,
+				"text": "Privacy boundary",
+				"anchor": "privacy-boundary"
+			},
+			{
+				"level": 2,
+				"text": "Canonical comments",
+				"anchor": "canonical-comments"
+			},
+			{
+				"level": 2,
+				"text": "References",
+				"anchor": "references"
+			},
+			{
+				"level": 2,
+				"text": "Compatibility",
+				"anchor": "compatibility"
+			},
+			{
+				"level": 2,
+				"text": "Route",
+				"anchor": "route"
+			},
+			{
+				"level": 2,
+				"text": "Tests",
+				"anchor": "tests"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Unified Profile Hub The Profile Hub combines existing public alias information with canonical social evidence without creating a second profile, comment, reference, or activity database. Response model A profile response may include: public alias fields; public profile fields; active pro",
+		"searchText": "b\"h boruch hashem blessed is he unified profile hub the profile hub combines existing public alias information with canonical social evidence without creating a second profile, comment, reference, or activity database. response model a profile response may include: public alias fields; public profile fields; active profile template; authored posts; canonical rich comments and replies; heichel relationships and roles; inbound and outbound graph references; visibility approved activity; owner view state. privacy boundary the older return history stream remains private and is omitted from non owner responses. activity is filtered at read time: private events remain owner only; selected alias events require a verified viewer alias included in the event scope; heichel scoped events require a verified alias with a real relationship to that heichel; public events may be read anonymously. a public viewer alias string is never treated as authorization. canonical comments the alias comment index stores compact pointers only. comment bodies remain in the native rich comment tree. the profile route hydrates each pointer through the canonical comment store and exposes: whole post targets; verse targets; subsection targets; parent comment ids; parent comment section ids; voice transcripts; image, audio, and video manifests; canonical reference descriptors; comment sections. references references are read from the native social graph around authored posts and rich comments. the response may include inbound and outbound: references; reposts; quotes; answers; cross links. the edge retains exact source and target identities rather than copying content into the profile. compatibility profile comment routes prefer the packed alias comment sidecar and transparently read the legacy $i.db heichel and series maps when packed evidence is absent. the legacy bulk rebuild route walks old comment trees and writes compact packed pointers while preserving its historical success response. route an optional verified aliasid query parameter enables owner, selected alias, and heichel member visibility decisions. tests the profile tests prove: route discovery; private return history redaction; activity privacy metadata; canonical rich comment behavior; reference graph metadata. existing comment indexing route tests also remain required. the awtsmoos knows the complete person, every word, every reference, and every path at once. awtsmoos.com reveals only the canonical and deliberately shared garments of that unity.",
+		"page": "pages/geelooy-api-social-helper-profilehub-readme-md-36fde6a0ab.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-profilehub-test-readme-md-6d3c11e21f",
+		"title": "B\"H — ProfileHub Tests (geelooy/api/social/helper/profileHub/test/)",
+		"sourcePath": "geelooy/api/social/helper/profileHub/test/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — ProfileHub Tests (geelooy/api/social/helper/profileHub/test/)",
+				"anchor": "b-h-profilehub-tests-geelooy-api-social-helper-profilehub-test"
+			}
+		],
+		"excerpt": "B\"H — ProfileHub Tests (geelooy/api/social/helper/profileHub/test/) ProfileHub route tests. routes.test.js — profile hub route behavior (/unified social/profile hub/:alias and references).",
+		"searchText": "b\"h — profilehub tests (geelooy/api/social/helper/profilehub/test/) profilehub route tests. routes.test.js — profile hub route behavior (/unified social/profile hub/:alias and references).",
+		"page": "pages/geelooy-api-social-helper-profilehub-test-readme-md-6d3c11e21f.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-radiance-readme-md-5eddf60a31",
+		"title": "B\"H — Radiance (geelooy/api/social/helper/radiance/)",
+		"sourcePath": "geelooy/api/social/helper/radiance/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Radiance (geelooy/api/social/helper/radiance/)",
+				"anchor": "b-h-radiance-geelooy-api-social-helper-radiance"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "B\"H — Radiance (geelooy/api/social/helper/radiance/) \"Radiance\" quality/ranking signal for social discovery: scores and ranks content so the best rises. Files index.js — module entry. RadianceScorer.js — computes radiance scores. RadianceSignal.js — signal inputs to scoring. RadianceWeights.js — scoring weights. Radian",
+		"searchText": "b\"h — radiance (geelooy/api/social/helper/radiance/) \"radiance\" quality/ranking signal for social discovery: scores and ranks content so the best rises. files index.js — module entry. radiancescorer.js — computes radiance scores. radiancesignal.js — signal inputs to scoring. radianceweights.js — scoring weights. radianceranker.js — ranks content by radiance. test/ — radiancediscovery.test.js. mounted via awtsmoos.radiance.js.",
+		"page": "pages/geelooy-api-social-helper-radiance-readme-md-5eddf60a31.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-radiance-test-readme-md-d227b5186b",
+		"title": "B\"H — Radiance Tests (geelooy/api/social/helper/radiance/test/)",
+		"sourcePath": "geelooy/api/social/helper/radiance/test/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Radiance Tests (geelooy/api/social/helper/radiance/test/)",
+				"anchor": "b-h-radiance-tests-geelooy-api-social-helper-radiance-test"
+			}
+		],
+		"excerpt": "B\"H — Radiance Tests (geelooy/api/social/helper/radiance/test/) Radiance tests. radianceDiscovery.test.js — radiance ranked discovery behavior.",
+		"searchText": "b\"h — radiance tests (geelooy/api/social/helper/radiance/test/) radiance tests. radiancediscovery.test.js — radiance ranked discovery behavior.",
+		"page": "pages/geelooy-api-social-helper-radiance-test-readme-md-d227b5186b.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-reactions-readme-md-38ea2faf29",
+		"title": "B\"H — Reactions (geelooy/api/social/helper/reactions/)",
+		"sourcePath": "geelooy/api/social/helper/reactions/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Reactions (geelooy/api/social/helper/reactions/)",
+				"anchor": "b-h-reactions-geelooy-api-social-helper-reactions"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "B\"H — Reactions (geelooy/api/social/helper/reactions/) Entity reactions (likes etc.) store. Mounted via awtsmoos.reactions.js. Files entityReactionStore.js — reaction storage per entity (posts, comments). test/ — entityReactionStore.test.js, ReactionTestVessel.js. Serves reaction routes such as /heichelos/:heichel/post",
+		"searchText": "b\"h — reactions (geelooy/api/social/helper/reactions/) entity reactions (likes etc.) store. mounted via awtsmoos.reactions.js. files entityreactionstore.js — reaction storage per entity (posts, comments). test/ — entityreactionstore.test.js, reactiontestvessel.js. serves reaction routes such as /heichelos/:heichel/posts/:post/comments/:comment/reactions.",
+		"page": "pages/geelooy-api-social-helper-reactions-readme-md-38ea2faf29.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-reactions-test-readme-md-b2c283e66f",
+		"title": "B\"H — Reactions Tests (geelooy/api/social/helper/reactions/test/)",
+		"sourcePath": "geelooy/api/social/helper/reactions/test/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Reactions Tests (geelooy/api/social/helper/reactions/test/)",
+				"anchor": "b-h-reactions-tests-geelooy-api-social-helper-reactions-test"
+			}
+		],
+		"excerpt": "B\"H — Reactions Tests (geelooy/api/social/helper/reactions/test/) Reaction store tests. entityReactionStore.test.js — entity reaction storage behavior. ReactionTestVessel.js — test fixture vessel.",
+		"searchText": "b\"h — reactions tests (geelooy/api/social/helper/reactions/test/) reaction store tests. entityreactionstore.test.js — entity reaction storage behavior. reactiontestvessel.js — test fixture vessel.",
+		"page": "pages/geelooy-api-social-helper-reactions-test-readme-md-b2c283e66f.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-reading-readme-md-88dd025443",
+		"title": "B\"H — Reading (geelooy/api/social/helper/reading/)",
+		"sourcePath": "geelooy/api/social/helper/reading/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Reading (geelooy/api/social/helper/reading/)",
+				"anchor": "b-h-reading-geelooy-api-social-helper-reading"
+			},
+			{
+				"level": 2,
+				"text": "Endpoints",
+				"anchor": "endpoints"
+			}
+		],
+		"excerpt": "B\"H — Reading (geelooy/api/social/helper/reading/) Reading tracking store (heartbeats, privacy, recents, stats). Mounted via awtsmoos.reading.js; routes in helper/routes/reading/. readingStore.js — reading record storage. Endpoints /reading/heartbeat (POST), /reading/privacy (GET/POST) /reading/recent/:userId, /reading",
+		"searchText": "b\"h — reading (geelooy/api/social/helper/reading/) reading tracking store (heartbeats, privacy, recents, stats). mounted via awtsmoos.reading.js; routes in helper/routes/reading/. readingstore.js — reading record storage. endpoints /reading/heartbeat (post), /reading/privacy (get/post) /reading/recent/:userid, /reading/stats/:userid",
+		"page": "pages/geelooy-api-social-helper-reading-readme-md-88dd025443.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-readme-md-6dc7f54521",
+		"title": "B\"H — Social Helpers (geelooy/api/social/helper/)",
+		"sourcePath": "geelooy/api/social/helper/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Social Helpers (geelooy/api/social/helper/)",
+				"anchor": "b-h-social-helpers-geelooy-api-social-helper"
+			},
+			{
+				"level": 2,
+				"text": "Key files",
+				"anchor": "key-files"
+			},
+			{
+				"level": 2,
+				"text": "Subdirectories (one per domain)",
+				"anchor": "subdirectories-one-per-domain"
+			},
+			{
+				"level": 2,
+				"text": "Tests",
+				"anchor": "tests"
+			}
+		],
+		"excerpt": "B\"H — Social Helpers (geelooy/api/social/helper/) Shared implementation layer for the entire social API. The awtsmoos. .js route chapters at the parent level are thin mounts; the real logic lives here. Key files index.js — consolidates and re exports the core modules (general, mail, comments, posts, heichels). general.",
+		"searchText": "b\"h — social helpers (geelooy/api/social/helper/) shared implementation layer for the entire social api. the awtsmoos. .js route chapters at the parent level are thin mounts; the real logic lives here. key files index.js — consolidates and re exports the core modules (general, mail, comments, posts, heichels). general.js — loggedin, er error helper used everywhere. mail.js, notifications.js, communications.js, counter.js, filesystem.js, alias.js, apikeys.js, heichel.js, heichelroles.js, livepresence.js. contentcanonicalbridge.js, contentcanonicaldb.js, contentroutesupport.js — canonical content bridge used by route modules. subdirectories (one per domain) api · assets · awtsmoosdb · books · civilization · comments · communicationinbox · communicationroutes · community · drive · editor · entities · entityuniverse · governance · heichelroutes · imports · livingentityview · mail · migrations · nodeos · notifications · objects · old · packed · platform · post · profile · profilehub · radiance · reactions · reading · repositories · response · richsocial · routes · search · series · socialkernel · socialsummary · thoughtstreams · unifiedactivity · unifiedinteraction · unifiedsocial · views tests test/ holds cross domain integration tests (apikeys, heichelroles, notifications, packed engine, platform, post migration, response shapes, social graph). each domain also keeps its own test/ dir; see those readmes.",
+		"page": "pages/geelooy-api-social-helper-readme-md-6dc7f54521.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-repositories-readme-md-ec53ad5c35",
+		"title": "B\"H — Repositories (geelooy/api/social/helper/repositories/)",
+		"sourcePath": "geelooy/api/social/helper/repositories/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Repositories (geelooy/api/social/helper/repositories/)",
+				"anchor": "b-h-repositories-geelooy-api-social-helper-repositories"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "B\"H — Repositories (geelooy/api/social/helper/repositories/) Git repository hosting over HTTP: clone service, CGI gateway, auth, credentials, policy, and a virtual OS tree view. Files gitCloneService.js, gitHttpGateway.js, gitCgiResponse.js, gitProcess.js — git over HTTP serving. gitBasicAuth.js, gitRemotePolicy.js — a",
+		"searchText": "b\"h — repositories (geelooy/api/social/helper/repositories/) git repository hosting over http: clone service, cgi gateway, auth, credentials, policy, and a virtual os tree view. files gitcloneservice.js, githttpgateway.js, gitcgiresponse.js, gitprocess.js — git over http serving. gitbasicauth.js, gitremotepolicy.js — auth and remote policy. repositorystore.js, repositorypaths.js, repositorypolicy.js, repositoryauthorization.js — repo storage, paths, policy, authorization. repositorycredentialcrypto.js, repositorycredentialservice.js — credential handling. virtualostree.js — virtual os tree view of repositories.",
+		"page": "pages/geelooy-api-social-helper-repositories-readme-md-ec53ad5c35.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-response-readme-md-d8c480e3f1",
+		"title": "B\"H — Response (geelooy/api/social/helper/response/)",
+		"sourcePath": "geelooy/api/social/helper/response/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Response (geelooy/api/social/helper/response/)",
+				"anchor": "b-h-response-geelooy-api-social-helper-response"
+			}
+		],
+		"excerpt": "B\"H — Response (geelooy/api/social/helper/response/) Standard API response helpers. routeResponses.js — shared success/error response builders used by social routes (used with helper/api's MalchusResponseGarments).",
+		"searchText": "b\"h — response (geelooy/api/social/helper/response/) standard api response helpers. routeresponses.js — shared success/error response builders used by social routes (used with helper/api's malchusresponsegarments).",
+		"page": "pages/geelooy-api-social-helper-response-readme-md-d8c480e3f1.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-richsocial-readme-md-e0102c9c87",
+		"title": "B\"H — Rich Social (geelooy/api/social/helper/richSocial/)",
+		"sourcePath": "geelooy/api/social/helper/richSocial/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Rich Social (geelooy/api/social/helper/richSocial/)",
+				"anchor": "b-h-rich-social-geelooy-api-social-helper-richsocial"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "B\"H — Rich Social (geelooy/api/social/helper/richSocial/) Rich post system: schema driven rich posts with sections, attachments, creator metadata, provenance, and sanitization. Mounted via awtsmoos.richSocial.js. Files index.js, RichPostService.js — module entry and service. RichPostSchema.js, RichPostOptions.js, Secti",
+		"searchText": "b\"h — rich social (geelooy/api/social/helper/richsocial/) rich post system: schema driven rich posts with sections, attachments, creator metadata, provenance, and sanitization. mounted via awtsmoos.richsocial.js. files index.js, richpostservice.js — module entry and service. richpostschema.js, richpostoptions.js, sectionschema.js — post and section schemas. attachmentschema.js, attachmentstorageschema.js — attachment schemas. creatormetadataschema.js, creatorsocialmetadataschema.js, creatordistributionschema.js — creator metadata and distribution. discussiontargets.js — discussion targeting. internalclonesourceschema.js, sourceprovenanceschema.js — clone source and provenance. textsanitizer.js — text sanitization. test/ — attachment storage, clone source, routes, schema, and service tests.",
+		"page": "pages/geelooy-api-social-helper-richsocial-readme-md-e0102c9c87.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-richsocial-test-readme-md-5e75931cd1",
+		"title": "B\"H — Rich Social Tests (geelooy/api/social/helper/richSocial/test/)",
+		"sourcePath": "geelooy/api/social/helper/richSocial/test/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Rich Social Tests (geelooy/api/social/helper/richSocial/test/)",
+				"anchor": "b-h-rich-social-tests-geelooy-api-social-helper-richsocial-test"
+			}
+		],
+		"excerpt": "B\"H — Rich Social Tests (geelooy/api/social/helper/richSocial/test/) Rich post system tests. schema.test.js — post/attachment/section schemas. service.test.js — rich post service. routes.test.js — rich social routes. attachmentStorage.test.js — attachment storage. cloneSource.test.js — internal clone sources.",
+		"searchText": "b\"h — rich social tests (geelooy/api/social/helper/richsocial/test/) rich post system tests. schema.test.js — post/attachment/section schemas. service.test.js — rich post service. routes.test.js — rich social routes. attachmentstorage.test.js — attachment storage. clonesource.test.js — internal clone sources.",
+		"page": "pages/geelooy-api-social-helper-richsocial-test-readme-md-5e75931cd1.json"
+	}
+]

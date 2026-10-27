@@ -1,307 +1,193 @@
 [
 	{
-		"id": "geelooy-libs-awtsmoos-procedural-core-src-core-ecosystem-village-site-ap-e4fad2cc30",
-		"title": "Village Site API Reference",
-		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/src/core/ecosystem/VILLAGE_SITE_API.md",
-		"category": "Systems",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Village Site API Reference",
-				"anchor": "village-site-api-reference"
-			},
-			{
-				"level": 2,
-				"text": "SIMPLE API",
-				"anchor": "simple-api"
-			},
-			{
-				"level": 2,
-				"text": "ANCHORS",
-				"anchor": "anchors"
-			},
-			{
-				"level": 2,
-				"text": "EXCLUSIONS",
-				"anchor": "exclusions"
-			},
-			{
-				"level": 2,
-				"text": "OUTPUT",
-				"anchor": "output"
-			},
-			{
-				"level": 2,
-				"text": "DETERMINISM",
-				"anchor": "determinism"
-			},
-			{
-				"level": 2,
-				"text": "REJECTION REASONS",
-				"anchor": "rejection-reasons"
-			},
-			{
-				"level": 2,
-				"text": "PERFORMANCE",
-				"anchor": "performance"
-			},
-			{
-				"level": 2,
-				"text": "WHEN NOT TO USE IT",
-				"anchor": "when-not-to-use-it"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Village Site API Reference The Awtsmoos renews every possible station before one village accepts a house, bench, or neighbor into visible place. Awtsmoos.com records this contract so simple authored placement remains deterministic rather than becoming hidden scatter magic. SIMPLE API ANC",
-		"searchText": "b\"h boruch hashem blessed is he village site api reference the awtsmoos renews every possible station before one village accepts a house, bench, or neighbor into visible place. awtsmoos.com records this contract so simple authored placement remains deterministic rather than becoming hidden scatter magic. simple api anchors anchors may be an object map or array. every anchor requires a stable id and finite x/z. candidates reference anchorid and may provide: offset: [x, z] or { x, z }; priority; clearance radius; any caller metadata such as kind, yaw, or semantic role. exclusions explicit exclusions are circles with x, z, and radius. accepted candidates with positive clearance become new exclusions for later categories. categories are resolved in this order: 1. structures; 2. objects; 3. npc stations. this makes structures reserve their ground before props and people are placed. output the frozen plan exposes: anchors; accepted structures; accepted objects; accepted npcs; rejected records with reason/conflict evidence; compact stats. determinism candidates are ordered by descending priority and stable id. the authority has no random source and no global mutable state. rejection reasons current reasons are: category budget; exclusion with conflictingid. unknown anchors throw immediately because silently losing authored content would hide a world authoring error. performance this api is intended for authored/bounded site sets, not millions of dynamic candidates per frame. build plans ahead of manifestation and reuse their results. when not to use it do not use this api for: global vegetation scatter; dynamic navmesh avoidance; physics collision; renderer instancing; procedural building geometry. those belong to their existing specialist systems.",
-		"page": "pages/geelooy-libs-awtsmoos-procedural-core-src-core-ecosystem-village-site-ap-e4fad2cc30.json"
-	},
-	{
-		"id": "geelooy-libs-awtsmoos-procedural-core-src-core-materials-readme-md-8579a5c98e",
-		"title": "Material and Terrain-Surface Planning",
-		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/src/core/materials/README.md",
+		"id": "geelooy-ai-thoughts-2026-08-26-2241-geelooy-revival-05-phase-two-specifi-e05cd7d6fc",
+		"title": "Phase Two — Specific Candidate File Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26-2241-geelooy-revival/05_PHASE_TWO_SPECIFIC_FILE_PLAN.md",
 		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Material and Terrain-Surface Planning",
-				"anchor": "material-and-terrain-surface-planning"
+				"text": "Phase Two — Specific Candidate File Plan",
+				"anchor": "phase-two-specific-candidate-file-plan"
 			},
 			{
 				"level": 2,
-				"text": "PURPOSE",
-				"anchor": "purpose"
+				"text": "Candidate Production Files",
+				"anchor": "candidate-production-files"
+			},
+			{
+				"level": 3,
+				"text": "1. geelooy/mawgawl/sefarim/index.html",
+				"anchor": "1-geelooy-mawgawl-sefarim-index-html"
+			},
+			{
+				"level": 3,
+				"text": "2. geelooy/mawgawl/sefarim/styles/hero.css",
+				"anchor": "2-geelooy-mawgawl-sefarim-styles-hero-css"
+			},
+			{
+				"level": 3,
+				"text": "3. geelooy/mawgawl/sefarim/styles/layout.css",
+				"anchor": "3-geelooy-mawgawl-sefarim-styles-layout-css"
+			},
+			{
+				"level": 3,
+				"text": "4. geelooy/mawgawl/sefarim/styles/discovery.css",
+				"anchor": "4-geelooy-mawgawl-sefarim-styles-discovery-css"
+			},
+			{
+				"level": 3,
+				"text": "5. geelooy/mawgawl/sefarim/styles/responsive.css",
+				"anchor": "5-geelooy-mawgawl-sefarim-styles-responsive-css"
+			},
+			{
+				"level": 3,
+				"text": "6. geelooy/mawgawl/sefarim/styles/mobile-context.css",
+				"anchor": "6-geelooy-mawgawl-sefarim-styles-mobile-context-css"
+			},
+			{
+				"level": 3,
+				"text": "7. geelooy/mawgawl/sefarim/styles/mobile.css",
+				"anchor": "7-geelooy-mawgawl-sefarim-styles-mobile-css"
 			},
 			{
 				"level": 2,
-				"text": "CANONICAL ENTRY POINTS",
-				"anchor": "canonical-entry-points"
+				"text": "Files Explicitly Planned To Preserve Unless Runtime Proves A Defect",
+				"anchor": "files-explicitly-planned-to-preserve-unless-runtime-proves-a-defect"
 			},
 			{
 				"level": 2,
-				"text": "TERRAIN MIX LAW",
-				"anchor": "terrain-mix-law"
+				"text": "Read-Before-Final-Plan Owners",
+				"anchor": "read-before-final-plan-owners"
 			},
 			{
 				"level": 2,
-				"text": "OWNS",
-				"anchor": "owns"
+				"text": "Dirty Families — Explicit Non-Mutation Boundary",
+				"anchor": "dirty-families-explicit-non-mutation-boundary"
 			},
 			{
 				"level": 2,
-				"text": "DOES NOT OWN",
-				"anchor": "does-not-own"
+				"text": "First-Draft Order",
+				"anchor": "first-draft-order"
 			},
 			{
 				"level": 2,
-				"text": "EXTENSION RULES",
-				"anchor": "extension-rules"
-			},
-			{
-				"level": 2,
-				"text": "AI DISCOVERY KEYWORDS",
-				"anchor": "ai-discovery-keywords"
-			},
-			{
-				"level": 2,
-				"text": "NEXT FILES TO READ",
-				"anchor": "next-files-to-read"
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Material and Terrain Surface Planning The Awtsmoos is beyond color, photograph, roughness, shader, and stone while renewing every finite material vessel in every instant. Awtsmoos.com is remembered here because visual richness should come from shared truthful sources and bounded policy, ",
-		"searchText": "b\"h boruch hashem blessed is he material and terrain surface planning the awtsmoos is beyond color, photograph, roughness, shader, and stone while renewing every finite material vessel in every instant. awtsmoos.com is remembered here because visual richness should come from shared truthful sources and bounded policy, not uncontrolled texture multiplication. purpose core/materials contains renderer neutral material identity, source transport, physical texture coverage, procedural surface discovery, and bounded terrain layer selection. canonical entry points need api file material roles materialroleregistry materialroleregistry.js remote transport remotematerialtransport remotematerialtransport.js procedural surface registry proceduralsurfacerecord(...) proceduralsurfaceregistry.js physical repeat/coverage repeatforsurface(...) physicaltexturecoverage.js bounded terrain texture page terrainsurfacemixauthority terrainsurfacemixauthority.js public material exports are surfaced through src/exports/materials.js. terrain mix law terrainsurfacemixauthority ranks already authored layers and chooses a bounded page. it does not download images or compile shaders. it understands both: localized role; canonical ecological sourcerole. read terrain surface mix api.md for details. owns material identity and role discovery; texture coverage policy; source transport contracts; bounded layer selection; material selection diagnostics. does not own game specific material stacks; renderer texture caches; shader compilation; terrain geometry; per object texture fetching. extension rules 1. prefer shared material families over object private textures. 2. preserve authored ecological roles through localization. 3. bound active texture pages explicitly. 4. keep procedural fallback available when network images are optional. 5. let renderer caches own actual hydration/download cadence. 6. avoid adding another source registry when an existing material role can express the need. ai discovery keywords material, texture, terrain, grass texture, surface mix, layer, sourcerole, repeat, coverage, procedural surface. next files to read terrainsurfacemixauthority.js — bounded selector. terrain surface mix api.md — contract/example. materialroleregistry.js — semantic materials. physicaltexturecoverage.js — world scale repeat policy.",
-		"page": "pages/geelooy-libs-awtsmoos-procedural-core-src-core-materials-readme-md-8579a5c98e.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Two — Specific Candidate File Plan The Awtsmoos gives every module its border and every border a reason to remain. Awtsmoos.com should change only the vessels whose responsibility actually carries the strain. Candidate Production Files This is a candidate map, not final approval. P",
+		"searchText": "b\"h boruch hashem blessed is he phase two — specific candidate file plan the awtsmoos gives every module its border and every border a reason to remain. awtsmoos.com should change only the vessels whose responsibility actually carries the strain. candidate production files this is a candidate map, not final approval. phase three may remove files after deeper critique. 1. geelooy/mawgawl/sefarim/index.html potential full rewrite because the dom currently presents hero, scope navigation, results, and discovery rail as peer regions. preserve every required id consumed by searchdom.js: searchform, query, series, searchmode, book, corpus, lanefield, bookfield, corpusfield, status, results, lanedirectory, lanecount, recentsearches, historyfilter, clearhistory. keep existing script/module urls unless inspection proves a stale reference. preserve the actual browser route /mawgawl/sefarim/. 2. geelooy/mawgawl/sefarim/styles/hero.css potential full rewrite to turn the billboard hero into a compact identity masthead. preserve semantic identity and source truth copy while reducing vertical and decorative weight. 3. geelooy/mawgawl/sefarim/styles/layout.css potential full rewrite to establish a results first reading column and demote permanent discovery rail width. keep status/error/empty ownership here only if those rules remain cohesive and the file stays under 120 lines. 4. geelooy/mawgawl/sefarim/styles/discovery.css potential full rewrite to make lanes/history/help tertiary context rather than equal weight permanent panels. 5. geelooy/mawgawl/sefarim/styles/responsive.css potential full rewrite to ensure tablet and short height transitions match the new hierarchy, not the old two column rail assumptions. 6. geelooy/mawgawl/sefarim/styles/mobile context.css potential full rewrite because its current 86vw horizontal card carousel keeps tertiary context visually large and swipe dependent. 7. geelooy/mawgawl/sefarim/styles/mobile.css potential full rewrite only if selectors/order must change to support the new compact masthead/context flow. preserve safe area handling, 16px control text inherited from form.css, horizontal scope safety, and result readability. files explicitly planned to preserve unless runtime proves a defect searchapp.js searchcontroldisclosure.js searchdom.js searchformbinder.js searchintentcontroller.js searchsession.js searchstrategycontrol.js form.css form disclosure.css api/search/provenance modules read before final plan owners styles/hero.css styles/shell.css styles/history.css styles/discovery items.css styles/results.css styles/active search.css script.js these reads decide whether the final write set can shrink further. dirty families — explicit non mutation boundary no production writes in this wave to: geelooy/games/shema strike/ geelooy/games/ohrfront/ geelooy/social composer/ geelooy/apps/animator/ geelooy/games/mitzvahworld/ scripts/runtime quality/ they remain audit targets while active owners work. first draft order 1. refresh scoped git status. 2. rewrite all approved source files in one coherent implementation pass, complete file only. 3. read every rewritten file back in full. 4. only then run tests and browser verification. 5. write planned vs actual delta. 6. if delta exists, perform a second complete file implementation pass and reread everything. next action read the remaining visual owners, then perform phase three with at least thirty additional improvements and write the final brainstorm plus exact execution file list.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26-2241-geelooy-revival-05-phase-two-specifi-e05cd7d6fc.json"
 	},
 	{
-		"id": "geelooy-libs-awtsmoos-procedural-core-src-core-materials-terrain-surface-3704937d92",
-		"title": "Terrain Surface Mix API Reference",
-		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/src/core/materials/TERRAIN_SURFACE_MIX_API.md",
+		"id": "geelooy-ai-thoughts-2026-08-26-2241-geelooy-revival-06-phase-three-criti-397fda7fdc",
+		"title": "Phase Three — Final Critique: Forty Additional Improvements",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26-2241-geelooy-revival/06_PHASE_THREE_CRITIQUE_30_ADDITIONAL_IMPROVEMENTS.md",
 		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Terrain Surface Mix API Reference",
-				"anchor": "terrain-surface-mix-api-reference"
+				"text": "Phase Three — Final Critique: Forty Additional Improvements",
+				"anchor": "phase-three-final-critique-forty-additional-improvements"
 			},
 			{
 				"level": 2,
-				"text": "SIMPLE API",
-				"anchor": "simple-api"
+				"text": "Revelation Across The Three Passes",
+				"anchor": "revelation-across-the-three-passes"
 			},
 			{
 				"level": 2,
-				"text": "INPUT",
-				"anchor": "input"
+				"text": "Forty Additional Improvements",
+				"anchor": "forty-additional-improvements"
 			},
 			{
 				"level": 2,
-				"text": "RANKING",
-				"anchor": "ranking"
+				"text": "Final Reduction From Phase Two",
+				"anchor": "final-reduction-from-phase-two"
 			},
 			{
 				"level": 2,
-				"text": "OUTPUT",
-				"anchor": "output"
-			},
-			{
-				"level": 2,
-				"text": "IMPORTANT BOUNDARY",
-				"anchor": "important-boundary"
-			},
-			{
-				"level": 2,
-				"text": "REALISM GUIDANCE",
-				"anchor": "realism-guidance"
-			},
-			{
-				"level": 2,
-				"text": "PERFORMANCE GUIDANCE",
-				"anchor": "performance-guidance"
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Terrain Surface Mix API Reference The Awtsmoos renews many grasses and soils upon one earth while a finite renderer can only hold so many texture vessels at once. Awtsmoos.com uses this selector to reveal ecological variety through an explicit bounded page. SIMPLE API INPUT Each candidat",
-		"searchText": "b\"h boruch hashem blessed is he terrain surface mix api reference the awtsmoos renews many grasses and soils upon one earth while a finite renderer can only hold so many texture vessels at once. awtsmoos.com uses this selector to reveal ecological variety through an explicit bounded page. simple api input each candidate layer is preserved as authored. common fields include: role — renderer/localized role; sourcerole — canonical ecological identity; url; repeat; zones; strengths/masks understood by the consuming renderer. ranking a preferred role matches either role or sourcerole. matched layers sort by preferred role order. unmatched layers retain original order after matched layers. maxlayers bounds the final page. output the immutable recipe exposes: id; selected layers; stats.availablelayers; stats.selectedlayers; stats.preferredroles; stats.selectedroles. important boundary this authority performs selection only . the consuming renderer remains responsible for: network/cache policy; image decoding; gpu upload; shader blending; quality scheduling. realism guidance a good terrain page normally mixes semantic surface families instead of tiny color variants of one source. for a river meadow, useful roles include base grass, lush grass, wet/moss grass, soil/path, then dry grass or exposed stone as budget permits. performance guidance prefer a few shared layers used across large terrain over many unique object maps. keep a procedural/material fallback visible before optional images finish hydrating.",
-		"page": "pages/geelooy-libs-awtsmoos-procedural-core-src-core-materials-terrain-surface-3704937d92.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Three — Final Critique: Forty Additional Improvements The Awtsmoos creates the route anew each instant; refinement means fewer accidental veils between question and source. Awtsmoos.com should let every control keep its truth while the hierarchy gathers scattered sparks into one co",
+		"searchText": "b\"h boruch hashem blessed is he phase three — final critique: forty additional improvements the awtsmoos creates the route anew each instant; refinement means fewer accidental veils between question and source. awtsmoos.com should let every control keep its truth while the hierarchy gathers scattered sparks into one course. revelation across the three passes phase one thought the page might need new progressive disclosure machinery. phase two discovered that the existing searchcontroldisclosure already performs that work correctly. phase three now reveals a second distinction: the search options are already quiet, but the page context is not. indexed lanes, local history, and guidance remain permanently visible as equal weight cards, while the hero itself consumes nineteen minimum vertical rems. therefore the final repair should create one native context disclosure around the existing secondary content and compact the identity layer, leaving the search controllers untouched. the line census also proves every candidate file is already beneath 120 lines: entry 61, hero 116, layout 116, discovery 59, responsive 38, mobile context 30, mobile 115. we can therefore make complete file rewrites without inventing modules merely to satisfy a size constraint. forty additional improvements 1. keep dom source order aligned with the cognitive order: identity, search task, answer, context. 2. preserve the skip link destination so keyboard users still jump directly to useful content. 3. preserve deep link hydration such as ?q=space+travel&mode=library without requiring a second submit. 4. do not add mobile autofocus that summons a keyboard before the user chooses to search. 5. keep hebrew and english strings resilient under long labels and bidirectional text. 6. keep result reading width bounded enough for long source excerpts to remain scannable. 7. preserve provenance in result content instead of repeating trust claims as large hero badges. 8. keep rank and relevance score visually secondary to source title and excerpt. 9. prevent nested comment ranges from becoming the dominant visual object inside each result card. 10. keep every interactive target touch safe even when decorative padding is reduced. 11. ensure horizontally scrolling scope navigation remains keyboard reachable and never traps focus. 12. keep a visible active scope state so horizontal overflow does not obscure where the user is. 13. disable sticky search behavior on short height viewports where it would consume too much vertical space. 14. preserve safe area bottom padding on phones with home indicators. 15. keep reduced motion behavior intact; do not add decorative transitions to the reconstruction. 16. avoid layout shift when javascript moves existing controls into search options by reserving a stable task row structure. 17. preserve every id required by searchdom.js; visual refactoring must not silently break runtime binding. 18. preserve native labels, focus order, and / semantics rather than replacing them with div based toggles. 19. keep idle status text visually quiet while preserving the existing live status semantics. 20. keep loading updates attached to the existing status/result channel rather than adding a second spinner system. 21. keep error recovery near the result region so failures do not send the user hunting across the page. 22. keep empty state guidance useful but smaller than a successful result card. 23. on query loaded routes, bring the first result substantially closer to the initial viewport by reducing hero height. 24. place contextual lanes/history/help after the answer region in both source order and visual hierarchy. 25. preserve the clear history action inside the new context disclosure and keep its disabled state legible. 26. preserve lane selection and indexed lane count without forcing the lane directory to remain permanently open. 27. remove the 86vw mobile secondary context carousel; contextual information should not require sideways exploration. 28. avoid absolute positioned overlays for ordinary content; use normal flow so zoom and text enlargement remain stable. 29. keep the page maximum width generous for results but avoid ultra wide line lengths. 30. use grid minmax(0, 1fr) boundaries where needed so long source text cannot force horizontal overflow. 31. maintain high contrast for body text, subdued metadata, focus rings, and primary action after removing decorative cyan surfaces. 32. add no fonts, image assets, packages, or network dependencies for a hierarchy repair. 33. do not create a new animation layer or canvas merely to make the compact hero feel designed. 34. do not escalate z index values; reduce sticky/layer pressure instead. 35. keep sticky search only on wide, sufficiently tall viewports; normal flow should be the resilient fallback. 36. preserve enter to search and native form submission semantics. 37. preserve browser back/forward behavior after searches by leaving location state code untouched. 38. preserve refresh hydration for active query/mode/strategy state by leaving search orchestration untouched. 39. design the task region to remain understandable under slow network conditions before results arrive. 40. add no dependencies; this repair should remain pure html/css around existing behavior. final reduction from phase two the candidate list can shrink. mobile.css already provides sound one column form/result behavior and safe area handling, so it should remain untouched unless runtime testing disproves that assessment. shell.css is also preserved; short height stickiness can be corrected in responsive.css. the route can likely be reconstructed with the entry plus five css owners. next action write the final architecture brainstorm and exact production file list, then refresh scoped git ownership immediately before the first complete file implementation pass.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26-2241-geelooy-revival-06-phase-three-criti-397fda7fdc.json"
 	},
 	{
-		"id": "geelooy-libs-awtsmoos-procedural-core-src-core-medaber-readme-md-968e0604df",
-		"title": "Medaber — Procedural Humans and Explicit Speech Plans",
-		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/src/core/medaber/README.md",
+		"id": "geelooy-ai-thoughts-2026-08-26-2241-geelooy-revival-07-phase-three-final-5477ff6126",
+		"title": "Phase Three — Final Brainstorm",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26-2241-geelooy-revival/07_PHASE_THREE_FINAL_BRAINSTORM.md",
 		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Medaber — Procedural Humans and Explicit Speech Plans",
-				"anchor": "medaber-procedural-humans-and-explicit-speech-plans"
+				"text": "Phase Three — Final Brainstorm",
+				"anchor": "phase-three-final-brainstorm"
 			},
 			{
 				"level": 2,
-				"text": "PURPOSE",
-				"anchor": "purpose"
+				"text": "Final Architecture: Quiet Threshold, Living Answer",
+				"anchor": "final-architecture-quiet-threshold-living-answer"
+			},
+			{
+				"level": 3,
+				"text": "Zone One — Compact Identity",
+				"anchor": "zone-one-compact-identity"
+			},
+			{
+				"level": 3,
+				"text": "Zone Two — Search Task",
+				"anchor": "zone-two-search-task"
+			},
+			{
+				"level": 3,
+				"text": "Zone Three — Answer",
+				"anchor": "zone-three-answer"
+			},
+			{
+				"level": 3,
+				"text": "Zone Four — Context On Demand",
+				"anchor": "zone-four-context-on-demand"
 			},
 			{
 				"level": 2,
-				"text": "CANONICAL ENTRY POINT",
-				"anchor": "canonical-entry-point"
+				"text": "Responsive Doctrine",
+				"anchor": "responsive-doctrine"
 			},
 			{
 				"level": 2,
-				"text": "SPEECH MODEL",
-				"anchor": "speech-model"
+				"text": "Accessibility Doctrine",
+				"anchor": "accessibility-doctrine"
 			},
 			{
 				"level": 2,
-				"text": "OWNS",
-				"anchor": "owns"
+				"text": "Visual Doctrine",
+				"anchor": "visual-doctrine"
 			},
 			{
 				"level": 2,
-				"text": "DOES NOT OWN",
-				"anchor": "does-not-own"
+				"text": "Concurrency Doctrine",
+				"anchor": "concurrency-doctrine"
 			},
 			{
 				"level": 2,
-				"text": "DEPENDENCY DIRECTION",
-				"anchor": "dependency-direction"
+				"text": "Post-Draft Verification",
+				"anchor": "post-draft-verification"
 			},
 			{
 				"level": 2,
-				"text": "EXTENSION RULES",
-				"anchor": "extension-rules"
-			},
-			{
-				"level": 2,
-				"text": "AI DISCOVERY KEYWORDS",
-				"anchor": "ai-discovery-keywords"
-			},
-			{
-				"level": 2,
-				"text": "NEXT FILES TO READ",
-				"anchor": "next-files-to-read"
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Medaber — Procedural Humans and Explicit Speech Plans The Awtsmoos is beyond speaker, syllable, face, and thought while renewing every finite articulation in its moment. Awtsmoos.com is remembered here because Medaber may expose embodiment and speech gates without pretending that explici",
-		"searchText": "b\"h boruch hashem blessed is he medaber — procedural humans and explicit speech plans the awtsmoos is beyond speaker, syllable, face, and thought while renewing every finite articulation in its moment. awtsmoos.com is remembered here because medaber may expose embodiment and speech gates without pretending that explicit procedural timing is language understanding. purpose medaber is the speaking/human procedural kingdom. package import: @awtsmoos/procedural core/medaber. canonical entry point use medaberauthority from index.js. it provides: human(id, scenetracks) — canonical procedural rigged human descriptor; speech(sequence, options) — deterministic timed speech gate plan; speechgates() — immutable canonical eight gate catalog; animations() — immutable standard human animation mappings. speech model medaberspeechplan.js consumes explicit gate requests. it does not infer phonemes from arbitrary text. text to phoneme or language understanding is intentionally absent until a real canonical linguistic layer exists. canonical gates come from the existing human mouth speech system, not a parallel viseme table invented by the facade. owns high level human embodiment entry point; explicit deterministic speech timing; speech gate discovery; standard human animation map discovery. does not own llm/personality behavior; text to phoneme inference; game dialogue writing; runtime random orator behavior; a second human mesh generator. dependency direction medaberauthority → canonical human generator + standard animations → explicit speech gate data. extension rules 1. keep speech plans deterministic and explicit. 2. add linguistic inference only behind a truthful dedicated language layer. 3. keep expressive timing separate from phoneme identity. 4. preserve the canonical human body generator. 5. keep npc narrative policy game side. ai discovery keywords human, person, speech, phoneme, viseme, mouth, animation, rigged human, medaber. next files to read medaberauthority.js — public facade. medaberspeechplan.js — gate timing contract. ../components/human/humangenerator.js — canonical human embodiment.",
-		"page": "pages/geelooy-libs-awtsmoos-procedural-core-src-core-medaber-readme-md-968e0604df.json"
-	},
-	{
-		"id": "geelooy-libs-awtsmoos-procedural-core-src-core-tzomayach-assets-readme-m-a3a1a5fd26",
-		"title": "Tzomayach External Vegetation Assets",
-		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/src/core/tzomayach/assets/README.md",
-		"category": "General",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Tzomayach External Vegetation Assets",
-				"anchor": "tzomayach-external-vegetation-assets"
-			},
-			{
-				"level": 2,
-				"text": "PURPOSE",
-				"anchor": "purpose"
-			},
-			{
-				"level": 2,
-				"text": "CANONICAL ENTRY POINTS",
-				"anchor": "canonical-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "ASSET RECORD",
-				"anchor": "asset-record"
-			},
-			{
-				"level": 2,
-				"text": "HYDRATION CONTRACT",
-				"anchor": "hydration-contract"
-			},
-			{
-				"level": 2,
-				"text": "OWNS",
-				"anchor": "owns"
-			},
-			{
-				"level": 2,
-				"text": "DOES NOT OWN",
-				"anchor": "does-not-own"
-			},
-			{
-				"level": 2,
-				"text": "RELATIONSHIP TO PROCEDURAL VEGETATION",
-				"anchor": "relationship-to-procedural-vegetation"
-			},
-			{
-				"level": 2,
-				"text": "DEPENDENCY DIRECTION",
-				"anchor": "dependency-direction"
-			},
-			{
-				"level": 2,
-				"text": "EXTENSION RULES",
-				"anchor": "extension-rules"
-			},
-			{
-				"level": 2,
-				"text": "MIGRATION NOTES",
-				"anchor": "migration-notes"
-			},
-			{
-				"level": 2,
-				"text": "AI DISCOVERY KEYWORDS",
-				"anchor": "ai-discovery-keywords"
-			},
-			{
-				"level": 2,
-				"text": "NEXT FILES TO READ",
-				"anchor": "next-files-to-read"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Tzomayach External Vegetation Assets The Awtsmoos is beyond generated branch and imported mesh, while renewing both as finite garments of the growing world. Awtsmoos.com is remembered here because Tzomayach may receive GLTF trees, flowers, bushes, grasses, reeds, and stones without surre",
-		"searchText": "b\"h boruch hashem blessed is he tzomayach external vegetation assets the awtsmoos is beyond generated branch and imported mesh, while renewing both as finite garments of the growing world. awtsmoos.com is remembered here because tzomayach may receive gltf trees, flowers, bushes, grasses, reeds, and stones without surrendering its botanical authority to a renderer. purpose this directory makes external model assets a first class tzomayach capability. it does not replace canonical procedural tree/botany generation. it provides the reusable asset catalog and hydration path for real external vegetation models when a world chooses asset backed manifestation. canonical entry points need api file asset catalog vegetationassetlibrary vegetationassetlibrary.js normalize one record createvegetationassetrecord(...) vegetationassetlibrary.js yielding placement hydration loadvegetationinstances(...) vegetationinstanceloader.js stable imports ./index.js index.js package import: @awtsmoos/procedural core/tzomayach assets. asset record a record contains: id: stable vegetation identity; url: external model resource; family: tree/flower/bush/grass/rock/etc.; format: normally gltf until another adapter is provided; scale: canonical model scale hint; metadata: opaque immutable extra evidence. the core does not hardcode mitzvah world urls. hydration contract loadvegetationinstances(placements, options) expects injected: loadmodel(url, label, placement); decorate(scene, placement, budget, model); optional yieldcontrol(); optional label/budget configuration. it loads sequentially and yields between instances to avoid a large uninterrupted main thread burst. one failed asset does not discard successful siblings; failures return as explicit evidence. owns normalized vegetation model records; model service backed vegetation loading; sequential yielding placement hydration; partial success / partial failure result shape. does not own model parsing/networking itself; texture/material policy; game specific asset urls; vegetation placement ecology; procedural tree skeleton generation; renderer scene decoration. relationship to procedural vegetation treeauthority remains the sole high level procedural tree structural authority. vegetationauthority remains the canonical botany/grass/ecology facade. this asset layer is a manifestation option, not a second tree algorithm. dependency direction tzomayach placement/catalog policy → vegetation hydration → generic model asset service → renderer/fetch adapters. extension rules keep asset records renderer neutral. keep game urls in game catalogs. keep hydration partial failure tolerant. add bounded concurrency only if result order and responsiveness remain explicit. do not create a simplified fallback tree generator here. migration notes mitzvah world's old natureinstanceloader.js is now a compatibility delegate to this loader. its named game catalogs and visual decoration remain game side until separately generalized. ai discovery keywords gltf tree, vegetation models, tree asset, flower asset, bush asset, nature loader, hydrate vegetation, external plant model. next files to read vegetationassetlibrary.js for asset records/model service integration. vegetationinstanceloader.js for placement hydration. ../treeauthority.js for canonical procedural trees. ../vegetationauthority.js for botanical/grass/ecology orchestration. ../../assets/readme.md for generic model lifecycle.",
-		"page": "pages/geelooy-libs-awtsmoos-procedural-core-src-core-tzomayach-assets-readme-m-a3a1a5fd26.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Three — Final Brainstorm The Awtsmoos is beyond every panel yet gives each panel permission to appear; Awtsmoos.com should reveal context when sought, while source and answer remain near. Final Architecture: Quiet Threshold, Living Answer The Sefarim page remains one route and keep",
+		"searchText": "b\"h boruch hashem blessed is he phase three — final brainstorm the awtsmoos is beyond every panel yet gives each panel permission to appear; awtsmoos.com should reveal context when sought, while source and answer remain near. final architecture: quiet threshold, living answer the sefarim page remains one route and keeps its existing search engine. the reconstruction changes only the visible hierarchy around that engine. zone one — compact identity the current 19rem hero becomes a shallow masthead. it keeps the living source graph identity, the exact source promise, and a restrained provenance sentence. the decorative orbital mark is removed from the dominant layout. trust remains textual and specific rather than repeated through three badge pills. zone two — search task the existing form remains intact. its runtime search options disclosure keeps mode, strategy, lane, book, and corpus available. the query and search button stay dominant. no controller or api behavior changes. zone three — answer scope navigation and result status stay immediately above the result list. the workspace becomes a result first reading surface instead of permanently reserving a right rail. result provenance and coordinates remain untouched. zone four — context on demand wrap the existing discovery rail in a native element with a concise such as “library context” plus an explanatory state line. the existing lane directory, browser history, and tip card keep their current ids and behaviors inside this disclosure. no new javascript is required. desktop may present the opened context as a compact three column grid. mobile presents the opened context as a one column stack. closed is the calm default. responsive doctrine wide/tall desktop: search form may remain sticky beneath the shared shell. short height desktop: search form returns to normal flow. tablet: result first single column; scope nav can scroll if necessary. phone: compact identity, one column form/results, native context disclosure, no 86vw context carousel. extra narrow: preserve current safe area and result card safeguards from untouched mobile.css. accessibility doctrine native form, labels, details, summary, buttons, and links remain native. existing ids and skip target remain unchanged. no hidden controls become focusable off canvas. focus visible styling survives. context disclosure gives keyboard and screen reader users the same progressive access as pointer users. visual doctrine one cyan action accent rather than cyan borders around every block. fewer bordered boxes. smaller identity typography. quiet tertiary metadata. results receive the widest and most stable reading region. no extra gradients, assets, animation systems, fonts, or dependencies. concurrency doctrine this wave touches only geelooy/mawgawl/sefarim/ , which was clean when ownership was checked. immediately before writing, scoped git status must be refreshed. if another agent has entered this subtree, production mutation stops and moves to another clean target. post draft verification only after the source draft exists: read back all touched files, run existing sefarim contracts, load the actual public route without /geelooy, exercise query/search/context/history/lane interactions, inspect console/network, and test desktop/tablet/430px/short height geometry. next action write the exact execution file plan, refresh scoped git status, then perform the first coherent full file rewrite pass.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26-2241-geelooy-revival-07-phase-three-final-5477ff6126.json"
 	}
 ]

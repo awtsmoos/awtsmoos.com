@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Agent API (geelooy/api/social/helper/routes/agent/)\n\nHTTP API for AI agents acting on Awtsmoos: corpora, glossary, Heichel/post management, search, and a translation pipeline with jobs, batches, and idempotency.\n\n## Files\n- `routes.js` — route definitions; `engine.js` — agent engine; `transactions.js` — transactional operations.\n- `AGENT_API.md` — agent API documentation; `corpora.json`, `glossary.json` — corpora and glossary data.\n- `test/` — `agentApi.test.cjs`.\n\n## Endpoints\n- `/agent/health`, `/agent/corpora`, `/agent/glossary`, `/agent/search`\n- `/agent/heichelos/create|edit|delete|list`\n- `/agent/post`, `/agent/posts/create|edit|delete|list|import`\n- `/agent/translate`, `/agent/translate/batch|job|stream|submit`, `/agent/translation-status`\n- `/ikar/agentApi/jobs`, `/ikar/agentApi/submissions`, `/ikar/agentApi/idempotency`\n"
+}

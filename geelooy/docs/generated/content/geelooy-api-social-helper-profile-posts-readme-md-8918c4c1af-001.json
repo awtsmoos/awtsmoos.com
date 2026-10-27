@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Profile Posts (geelooy/api/social/helper/profile/posts/)\n\nPost collection and projection for profiles: gather posts across series/Heichelos and project them into profile views.\n\n## Files\n- `PostCollector.js` — collects posts for an alias.\n- `PostCoordinates.js` — locates posts (heichel/series/post coordinates).\n- `PostProjection.js` — projects post records into profile-view shape.\n- `PostsByAlias.js` — posts grouped by alias.\n- `test/` — `PostProjectionTruth.test.js`.\n"
+}

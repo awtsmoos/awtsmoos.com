@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 151 | 4 | 10 | 0 | 1 | 1 | 167 |
+| 169 | 8 | 10 | 0 | 1 | 1 | 189 |
 
 ## Public entry points
 
@@ -29,7 +29,7 @@ Blessed is He
 
 ## Symbol evidence
 
-Source files: 54; classes: 5; functions: 228; exports: 131; samples: smartParse, markdownToHtml, htmlToMarkdown, formatTime, bootMail, renderBootFailure, async, connectSocket, broadcastTyping, publishSocialMailEvent, threadKey, firstText.
+Source files: 64; classes: 11; functions: 266; exports: 151; samples: smartParse, markdownToHtml, htmlToMarkdown, formatTime, plainTextSnippet, decodeSnippetEntities, bootMail, renderBootFailure, async, connectSocket, broadcastTyping, publishSocialMailEvent.
 
 ## Depends on
 
@@ -45,4 +45,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **4**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **8**. Treat this as file evidence, not proof of behavioral coverage.

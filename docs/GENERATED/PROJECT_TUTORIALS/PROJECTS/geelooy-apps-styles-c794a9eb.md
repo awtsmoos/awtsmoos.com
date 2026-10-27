@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 6 | 0 | 0 | 0 | 0 | 0 | 6 |
+| 9 | 0 | 0 | 0 | 0 | 0 | 9 |
 
 ## Public entry points
 

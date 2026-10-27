@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-01-1331-geelooy-seo-continuation-01-discover-3f1a9452ee",
+	"title": "Discovery and Risk Map",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-01-1331-geelooy-seo-continuation/01-discovery-and-risk-map.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Discovery and Risk Map",
+			"anchor": "discovery-and-risk-map"
+		},
+		{
+			"level": 2,
+			"text": "Known evidence from prior pass",
+			"anchor": "known-evidence-from-prior-pass"
+		},
+		{
+			"level": 2,
+			"text": "Current unknowns to resolve",
+			"anchor": "current-unknowns-to-resolve"
+		},
+		{
+			"level": 2,
+			"text": "Failure risks",
+			"anchor": "failure-risks"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-01-1331-geelooy-seo-continuation-01-discover-3f1a9452ee-001.json"
+	]
+}

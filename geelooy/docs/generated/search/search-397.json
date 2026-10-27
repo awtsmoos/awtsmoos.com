@@ -1,0 +1,155 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-09-02-1028-sitewide-indexing-generation-2-remai-a095830863",
+		"title": "REMAININGWORK",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-02-1028-sitewide-indexing-generation-2/REMAINING_WORK.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "REMAININGWORK",
+				"anchor": "remainingwork"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He REMAINING WORK [x] Generation 1 public SEO release pipeline exits zero. [ ] Audit app/game detail page metadata coverage and central server enrichment seam. [ ] Implement/test page level app/game SEO where evidence shows gaps. [ ] Audit repository authoritative translation title metadata",
+		"searchText": "b\"h boruch hashem blessed is he remaining work [x] generation 1 public seo release pipeline exits zero. [ ] audit app/game detail page metadata coverage and central server enrichment seam. [ ] implement/test page level app/game seo where evidence shows gaps. [ ] audit repository authoritative translation title metadata. [ ] implement/test human readable translation catalog titles when reliable. [ ] audit compact alias authored content/public activity indexes. [ ] implement/test richer alias contribution discovery without n+1 reads when safe. [ ] inventory stable public top level page families absent from core discovery. [ ] add intentional missing public families; exclude action/private surfaces. [ ] add deterministic native comment sitemap fixture tests. [ ] run focused and existing regression suites. [ ] run real data runtime acceptance and latency checks. [ ] fresh fetch, stage exact generation 2 paths, commit, push race safe. [ ] guarded production activation exits zero. [ ] raw public generation 2 acceptance passes. [ ] re read all generation 2 touched files and compare planned vs actual. [ ] write final closure evidence and confirm no safe high value work remains in this mission. next action: inspect the real server/app/game/translation/alias route architecture before writing source code.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-02-1028-sitewide-indexing-generation-2-remai-a095830863.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-02-2023-massive-indexing-generation-3-00-unb-5fa5e3ca3c",
+		"title": "Generation 3 — Unbounded Brainstorm",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-02-2023-massive-indexing-generation-3/00-unbounded-brainstorm.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Generation 3 — Unbounded Brainstorm",
+				"anchor": "generation-3-unbounded-brainstorm"
+			},
+			{
+				"level": 2,
+				"text": "Discovery architecture",
+				"anchor": "discovery-architecture"
+			},
+			{
+				"level": 2,
+				"text": "Static page semantics",
+				"anchor": "static-page-semantics"
+			},
+			{
+				"level": 2,
+				"text": "App/game discoverability",
+				"anchor": "app-game-discoverability"
+			},
+			{
+				"level": 2,
+				"text": "Alias discoverability",
+				"anchor": "alias-discoverability"
+			},
+			{
+				"level": 2,
+				"text": "Heichel / series / post graph",
+				"anchor": "heichel-series-post-graph"
+			},
+			{
+				"level": 2,
+				"text": "Comments and replies",
+				"anchor": "comments-and-replies"
+			},
+			{
+				"level": 2,
+				"text": "Translations",
+				"anchor": "translations"
+			},
+			{
+				"level": 2,
+				"text": "Robots and sitemap protocol",
+				"anchor": "robots-and-sitemap-protocol"
+			},
+			{
+				"level": 2,
+				"text": "Runtime and performance",
+				"anchor": "runtime-and-performance"
+			},
+			{
+				"level": 2,
+				"text": "Release safety",
+				"anchor": "release-safety"
+			},
+			{
+				"level": 2,
+				"text": "Documentation and maintenance",
+				"anchor": "documentation-and-maintenance"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generation 3 — Unbounded Brainstorm The Awtsmoos renews every public road each instant in light; Awtsmoos.com should reveal each truthful world to crawler and person alike, clear and bright. This is an implementation brainstorm, not hidden chain of thought. It records candidate improveme",
+		"searchText": "b\"h boruch hashem blessed is he generation 3 — unbounded brainstorm the awtsmoos renews every public road each instant in light; awtsmoos.com should reveal each truthful world to crawler and person alike, clear and bright. this is an implementation brainstorm, not hidden chain of thought. it records candidate improvements that can be tested against the actual repository. discovery architecture build one authoritative public content graph that knows canonical urls, public/private state, content type, title, description, parent/child links, and last known update signal. generate all sitemap indexes from that graph rather than hard coded family knowledge scattered across modules. add sitemap coverage assertions for every registered public app, game, alias, heichel, series, post, native comment/reply, translation, and curated public information page. add a reverse audit that finds public semantic pages not represented in any discovery graph. add orphan detection for indexed urls that no ordinary html page links to. add redirect canonical consistency checks: no canonical or sitemap url may land on a 3xx. add missing entity checks: stale aliases/comments/posts must disappear or noindex. add duplicate canonical checks across all generated public pages. add url normalization tests for unicode, spaces, hebrew, encoded separators, trailing slashes, and .html routes. static page semantics keep registry backed canonical, description, robots, opengraph, twitter, and json ld. ensure generated og/twitter title always matches authored document title when present. add language metadata where reliable. add og:site name and schema ispartof consistently. add softwareapplication fields only when genuinely known, never fabricated ratings/prices. add videogame fields only when genuinely known. add public webpage structured data for about/docs/social/contact. detect pages with no semantic heading and produce a developer facing quality ledger instead of hidden keyword stuffing. explore visible reusable semantic shell components only when they improve user experience too. ensure authored json ld, canonical, robots, og, twitter are preserved. make enrichment idempotent across repeated render passes. app/game discoverability audit every registry entry for path existence, final http status, title, h1, meaningful text, description, canonical, structured data, and ordinary incoming catalog link. detect duplicate registry hrefs and dead cards. detect registered apps/games whose index file differs from the registry href. detect html entry documents that are public but absent from registries. improve catalog categories and semantic grouping if registry data supports them. add catalog page counts and stable section headings by category without changing canonical identity. link related apps/games only from real shared categories, never invented relationships. alias discoverability keep validated alias ssr with profile, bounded authored posts, and public discussion. audit whether authored post fallback scans are ever triggered in production and how expensive they are. prefer packed authored post census when available. add semantic counts only when derived cheaply. add json ld person or profilepage only if profile fields are sufficient and privacy safe. add canonical links from authored posts back to alias only if that relation is already public and meaningful. add alias sitemap fixture coverage across pagination boundaries. add stale alias rejection tests at pagination edges. heichel / series / post graph audit heichel roots for title, description, h1, ordinary series links, canonical, robots. audit every series page for ordinary stable post links and no numeric only dead ends. ensure road/numeric pages self resolve to stable named post canonical. add breadcrumb structured data to heichel → series → post where parent labels are known. add article/creativework structured data to server rendered torah posts only from real title/author/date fields. audit missing post noindex behavior across both numeric and named routes. detect orphan posts not reachable from any series/root path. detect series with duplicate or inconsistent post ordering. comments and replies keep root/reply canonical public urls in the sitemap graph. add fixture coverage across multiple shards and alias pagination boundaries. verify deleted/malformed/stale pointers are absent. audit whether comment pages expose parent post, author alias, reply ancestry, and safe text before js. add discussion structured data only if schema mapping is truthful. ensure imported translation/comment mirrors never create duplicate canonical content. add size/latency budgets for comment sitemap endpoints. translations preserve english + hebrew paired ssr. avoid fabricated human titles while source manifests lack them. add importer time title sidecar design so future imports can provide real titles deterministically. audit translation pages for canonical, hreflang feasibility, source post link, series/heichel context, and no duplicate canonical. add translation corpus integrity checks: manifest coordinate exists, bundle exists, row ids unique, hebrew source present where expected. add deterministic title sidecar migration tooling only when a trustworthy source field is found. robots and sitemap protocol validate every xml document with a parser. validate mime types and charset. enforce sitemap url count and size budgets. enforce sitemap index nesting rules. add lastmod only where authoritative timestamps exist. keep api/action/admin/auth routes disallowed and absent from sitemap output. detect accidental public query string urls. ensure no fragment urls. ensure no localhost/internal hostnames. runtime and performance measure representative cold and warm requests. ensure static enrichment adds negligible latency. cache generated metadata map once per process. avoid database reads for static pages. bound alias authored post requests. bound sitemap enumeration work. add local runtime acceptance that samples weak and strong pages. add a crawl budget smoke script that walks sitemap roots with concurrency limits and reports status/redirect/canonical mismatches. release safety keep exact sha guarded release. verify current origin/main before staging and before pushing. stage only generation 3 paths. use a clean worktree for deployment. verify tunnel manifest closure before production activation. raw origin production acceptance after release. verify public homepage, robots, sitemap roots, app/game sample, alias, comment sitemap, translation, road, missing entity. documentation and maintenance add a concise public indexing architecture note explaining registries, generated artifacts, static enrichment, dynamic ssr, exclusions, and release gates. add a generated coverage report developers can run locally. document why donate and action/auth/control surfaces are excluded unless semantics improve. document translation title limitation and safe future migration. keep remaining work current after each meaningful discovery.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-02-2023-massive-indexing-generation-3-00-unb-5fa5e3ca3c.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-02-2023-massive-indexing-generation-3-01-fiv-aef6a1a640",
+		"title": "Five Competing Architectures",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-02-2023-massive-indexing-generation-3/01-five-architectures.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Five Competing Architectures",
+				"anchor": "five-competing-architectures"
+			},
+			{
+				"level": 2,
+				"text": "A — Central public-content graph",
+				"anchor": "a-central-public-content-graph"
+			},
+			{
+				"level": 2,
+				"text": "B — Preserve family generators + add coverage auditor",
+				"anchor": "b-preserve-family-generators-add-coverage-auditor"
+			},
+			{
+				"level": 2,
+				"text": "C — Runtime crawler graph",
+				"anchor": "c-runtime-crawler-graph"
+			},
+			{
+				"level": 2,
+				"text": "D — Static pre-render of every public page",
+				"anchor": "d-static-pre-render-of-every-public-page"
+			},
+			{
+				"level": 2,
+				"text": "E — Search-specific parallel pages",
+				"anchor": "e-search-specific-parallel-pages"
+			},
+			{
+				"level": 2,
+				"text": "Decision",
+				"anchor": "decision"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Five Competing Architectures The Awtsmoos can clothe one truth in many vessels that rhyme; Awtsmoos.com must choose the vessel that stays fastest and clearest through time. A — Central public content graph One build time graph feeds sitemap, metadata artifacts, coverage tests, and develo",
+		"searchText": "b\"h boruch hashem blessed is he five competing architectures the awtsmoos can clothe one truth in many vessels that rhyme; awtsmoos.com must choose the vessel that stays fastest and clearest through time. a — central public content graph one build time graph feeds sitemap, metadata artifacts, coverage tests, and developer reports. pros: one source of truth, strong auditability, future extensibility. cons: larger migration from current specialized generators. use: incremental destination, not an all at once rewrite. b — preserve family generators + add coverage auditor keep existing app/game/translation/heichel/comment modules, add a separate auditor that cross checks them. pros: lowest regression risk, easy incremental rollout. cons: duplicated family knowledge remains. use: preferred near term architecture. c — runtime crawler graph generate discovery dynamically from live database and registries. pros: fresh data. cons: latency, failure coupling, n+1 risk, crawler monopolization already observed historically. use: reject for broad discovery; reserve for bounded dynamic families. d — static pre render of every public page generate html for aliases, heichels, posts, comments, translations, apps, games. pros: crawler simplicity. cons: huge build/deploy footprint, duplication, stale dynamic content. use: reject as global architecture. e — search specific parallel pages create seo only mirror pages for interactive surfaces. pros: easy semantic control. cons: duplicate identity and canonical complexity. use: reject except for rare impossible to enrich legacy entrypoints. decision use b now while moving toward a: preserve proven family specific runtime behavior, add a unified audit/coverage layer, strengthen page semantics centrally, and only consolidate generation when evidence proves the migration worth the risk.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-02-2023-massive-indexing-generation-3-01-fiv-aef6a1a640.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-02-2023-massive-indexing-generation-3-02-cri-db109a4d82",
+		"title": "Critique Pass One — Twenty Improvements",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-02-2023-massive-indexing-generation-3/02-critique-pass-one.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Critique Pass One — Twenty Improvements",
+				"anchor": "critique-pass-one-twenty-improvements"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Critique Pass One — Twenty Improvements The Awtsmoos tests every plan by boundary and flame; Awtsmoos.com improves not by volume alone but by proving each name. 1. Separate crawler coverage from user visible semantic quality. 2. Never fix missing H1 with hidden text. 3. Never add lastmod",
+		"searchText": "b\"h boruch hashem blessed is he critique pass one — twenty improvements the awtsmoos tests every plan by boundary and flame; awtsmoos.com improves not by volume alone but by proving each name. 1. separate crawler coverage from user visible semantic quality. 2. never fix missing h1 with hidden text. 3. never add lastmod without a real timestamp source. 4. reject canonicals that redirect. 5. reject sitemap urls returning non 200. 6. preserve authored noindex even on registered pages. 7. preserve authored json ld. 8. treat query strings as suspicious in sitemap output. 9. test unicode/hebrew url encoding explicitly. 10. test app registry href collisions. 11. test game registry href collisions. 12. test generated metadata file path collisions. 13. measure enrichment cpu cost independently of full app load. 14. add sitemap xml byte/count limits. 15. add comment alias pagination fixture beyond one page. 16. add comment shard fixture beyond one shard boundary. 17. add alias authored post fixture with root and named series. 18. add dynamic missing entity noindex acceptance. 19. add release time public url audit script reusable after every deploy. 20. add developer readable coverage report so failures are actionable rather than binary.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-02-2023-massive-indexing-generation-3-02-cri-db109a4d82.json"
+	}
+]

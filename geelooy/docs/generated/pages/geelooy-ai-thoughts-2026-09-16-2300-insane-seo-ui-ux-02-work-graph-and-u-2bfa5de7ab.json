@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-16-2300-insane-seo-ui-ux-02-work-graph-and-u-2bfa5de7ab",
+	"title": "Work Graph and Unknowns Map",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-16-2300-insane-seo-ui-ux/02-work-graph-and-unknowns.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Work Graph and Unknowns Map",
+			"anchor": "work-graph-and-unknowns-map"
+		},
+		{
+			"level": 2,
+			"text": "Work graph",
+			"anchor": "work-graph"
+		},
+		{
+			"level": 2,
+			"text": "Route-map branches",
+			"anchor": "route-map-branches"
+		},
+		{
+			"level": 2,
+			"text": "SEO-map branches",
+			"anchor": "seo-map-branches"
+		},
+		{
+			"level": 2,
+			"text": "UI-map branches",
+			"anchor": "ui-map-branches"
+		},
+		{
+			"level": 2,
+			"text": "Unknowns to discover automatically",
+			"anchor": "unknowns-to-discover-automatically"
+		},
+		{
+			"level": 2,
+			"text": "Assumptions — unproven until inspected",
+			"anchor": "assumptions-unproven-until-inspected"
+		},
+		{
+			"level": 2,
+			"text": "Blockers",
+			"anchor": "blockers"
+		},
+		{
+			"level": 2,
+			"text": "NEXTACTION",
+			"anchor": "nextaction"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-16-2300-insane-seo-ui-ux-02-work-graph-and-u-2bfa5de7ab-001.json"
+	]
+}

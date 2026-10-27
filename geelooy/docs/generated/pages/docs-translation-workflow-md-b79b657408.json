@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-translation-workflow-md-b79b657408",
+	"title": "Translation Workflow — Agent Handoff",
+	"sourcePath": "docs/TRANSLATION_WORKFLOW.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Translation Workflow — Agent Handoff",
+			"anchor": "translation-workflow-agent-handoff"
+		},
+		{
+			"level": 2,
+			"text": "1. Pipeline overview",
+			"anchor": "1-pipeline-overview"
+		},
+		{
+			"level": 2,
+			"text": "2. Claim and translate",
+			"anchor": "2-claim-and-translate"
+		},
+		{
+			"level": 2,
+			"text": "3. Convert to post JSONs",
+			"anchor": "3-convert-to-post-jsons"
+		},
+		{
+			"level": 1,
+			"text": "corpus: bavli|mishnah|yerushalmi|rambam|midrash|tanach",
+			"anchor": "corpus-bavli-mishnah-yerushalmi-rambam-midrash-tanach"
+		},
+		{
+			"level": 2,
+			"text": "4. Import and verify",
+			"anchor": "4-import-and-verify"
+		},
+		{
+			"level": 1,
+			"text": "Full run (stage → signed chunked upload → import job → poll → byte-exact verify):",
+			"anchor": "full-run-stage-signed-chunked-upload-import-job-poll-byte-exact-verify"
+		},
+		{
+			"level": 1,
+			"text": "Canary first for a new corpus: point --posts-dir at a few files, confirm verify passes, then run the full set.",
+			"anchor": "canary-first-for-a-new-corpus-point-posts-dir-at-a-few-files-confirm-verify-passes-then-run-the-full-set"
+		},
+		{
+			"level": 2,
+			"text": "5. Binding rules",
+			"anchor": "5-binding-rules"
+		},
+		{
+			"level": 2,
+			"text": "6. Do NOT import: Shulchan Aruch / Tur",
+			"anchor": "6-do-not-import-shulchan-aruch-tur"
+		}
+	],
+	"markdownParts": [
+		"content/docs-translation-workflow-md-b79b657408-001.json"
+	]
+}

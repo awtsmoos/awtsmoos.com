@@ -1,0 +1,580 @@
+[
+	{
+		"projectId": "geelooy-scripts-1d55a5b0",
+		"path": "geelooy/scripts",
+		"type": "library",
+		"family": {
+			"id": "libraries",
+			"title": "Libraries and Tooling"
+		},
+		"title": "geelooy/scripts",
+		"entries": [
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/LIBRARIES_AND_TOOLING.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-scripts-1d55a5b0.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/scripts/DOCUMENTATION.md",
+				"documentId": "geelooy-scripts-documentation-md-56189279f9"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/LIBRARIES_AND_TOOLING.md",
+				"documentId": "docs-tutorials-projects-libraries-and-tooling-md-f171c0f31f"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 1962,
+			"tests": 179,
+			"assets": 0,
+			"generated": 0,
+			"docs": 11,
+			"other": 69
+		},
+		"totalFiles": 2221,
+		"symbolSummary": {
+			"files": 1889,
+			"classes": 619,
+			"functions": 7459,
+			"exports": 2976,
+			"samples": [
+				"AwtsmoosAPI",
+				"for",
+				"processText",
+				"causalLength",
+				"attend",
+				"applyRopePair",
+				"rotateHead",
+				"softmaxInPlace",
+				"convertGgufBytes",
+				"convertGgufFile",
+				"copyTensors",
+				"finalManifestBytes"
+			]
+		},
+		"outgoing": [
+			{
+				"project": "geelooy/shared",
+				"count": 46,
+				"examples": "geelooy/scripts/awtsmoos/compiling/native/asmImage.js; geelooy/scripts/awtsmoos/compiling/native/asmObjectData.js; geelooy/scripts/awtsmoos/compiling/native/c/frame.js"
+			},
+			{
+				"project": "geelooy/api/wallet",
+				"count": 5,
+				"examples": "geelooy/scripts/production-covenant/productLaunchPaths.cjs; geelooy/scripts/production-covenant/productRules.cjs"
+			},
+			{
+				"project": "geelooy/apps/tunnel",
+				"count": 5,
+				"examples": "geelooy/scripts/awtsmoos/MerkavaExecutor/.test-tunnel-directory-entry-env.cjs; geelooy/scripts/awtsmoos/MerkavaExecutor/.test-tunnel-simulate-runtime-helpers.cjs; geelooy/scripts/awtsmoos/MerkavaExecutor/.test-tunnel-simulate-runtime-url-puppeteer.cjs"
+			},
+			{
+				"project": "geelooy/apps/scripts",
+				"count": 4,
+				"examples": "geelooy/scripts/commerce/install-product-commerce.mjs; geelooy/scripts/home-simple/constellation-catalog.js; geelooy/scripts/seo/audit/run.mjs"
+			},
+			{
+				"project": "geelooy/games/scripts",
+				"count": 4,
+				"examples": "geelooy/scripts/commerce/install-product-commerce.mjs; geelooy/scripts/home-simple/constellation-catalog.js; geelooy/scripts/seo/audit/run.mjs"
+			},
+			{
+				"project": "geelooy/apps/android-emulator",
+				"count": 3,
+				"examples": "geelooy/scripts/awtsmoos/compiling/android/apk/zipWriter.js; geelooy/scripts/awtsmoos/extracting/webview-apk/extract.js"
+			},
+			{
+				"project": "geelooy/apps/compiler",
+				"count": 3,
+				"examples": "geelooy/scripts/awtsmoos/compiling/cpp/compiler.js"
+			},
+			{
+				"project": "geelooy/seo",
+				"count": 2,
+				"examples": "geelooy/scripts/seo/artifactPlan.mjs; geelooy/scripts/seo/translationPaths.mjs"
+			},
+			{
+				"project": "ayzarim/DosDB",
+				"count": 1,
+				"examples": "geelooy/scripts/awtsmoos/minimax-virtual-os-game/seed-users.cjs"
+			},
+			{
+				"project": "geelooy/api/social",
+				"count": 1,
+				"examples": "geelooy/scripts/release-assets/seed-drive.js"
+			},
+			{
+				"project": "geelooy/api/tunnel",
+				"count": 1,
+				"examples": "geelooy/scripts/awtsmoos/minimax-virtual-os-game/seed-users.cjs"
+			},
+			{
+				"project": "geelooy/apps/app.js",
+				"count": 1,
+				"examples": "geelooy/scripts/awtsmoos/social/navigation/adapters/appsRoute.js"
+			}
+		],
+		"incoming": [
+			{
+				"project": "geelooy/apps/merkava-native-browser",
+				"count": 44,
+				"examples": "geelooy/apps/merkava-native-browser/.inspect-md2.cjs; geelooy/apps/merkava-native-browser/.test-compile-webgl.cjs; geelooy/apps/merkava-native-browser/build-seed.mjs"
+			},
+			{
+				"project": "geelooy/apps/exe-emulator",
+				"count": 8,
+				"examples": "geelooy/apps/exe-emulator/examples/progressive/generatedArtifacts.mjs; geelooy/apps/exe-emulator/source/compileSourceArtifact.js; geelooy/apps/exe-emulator/source/nativeContainers.js"
+			},
+			{
+				"project": "geelooy/apps/scripts",
+				"count": 6,
+				"examples": "geelooy/apps/scripts/apps-filter.v2.js; geelooy/apps/scripts/filter/AppsFilterMalchusView.js; geelooy/apps/scripts/filter/AppsFilterTiferesRuntime.js"
+			},
+			{
+				"project": "geelooy/apps/compiler",
+				"count": 3,
+				"examples": "geelooy/apps/compiler/compiler.js; geelooy/apps/compiler/compiler_c.js; geelooy/apps/compiler/ui/browserArtifactBuilders.js"
+			},
+			{
+				"project": "geelooy/apps/drive",
+				"count": 2,
+				"examples": "geelooy/apps/drive/js/app.js; geelooy/apps/drive/js/driveIdentity.js"
+			},
+			{
+				"project": "geelooy/apps/rebbe",
+				"count": 2,
+				"examples": "geelooy/apps/rebbe/android/build.js; geelooy/apps/rebbe/boot-entry.js"
+			},
+			{
+				"project": "geelooy/games/scripts",
+				"count": 2,
+				"examples": "geelooy/games/scripts/storefront/orchestration/TiferesStorefrontProjectionService.js; geelooy/games/scripts/storefront/presentation/MalchusStorefrontCatalogView.js"
+			},
+			{
+				"project": "geelooy/heichelos",
+				"count": 2,
+				"examples": "geelooy/heichelos/heichel/modules/app/post-ready-experience.js; geelooy/heichelos/heichel/modules/ui/blueprints/pending-profile-context.js"
+			},
+			{
+				"project": "geelooy/ai",
+				"count": 1,
+				"examples": "geelooy/ai/js/render/event-ui/codeHighlight.js"
+			},
+			{
+				"project": "geelooy/apps/android-emulator",
+				"count": 1,
+				"examples": "geelooy/apps/android-emulator/core/browser/nativeBrowserRemoteSocketAdapter.js"
+			},
+			{
+				"project": "geelooy/apps/slides",
+				"count": 1,
+				"examples": "geelooy/apps/slides/src/collab/PresenceSlidesTransport.js"
+			},
+			{
+				"project": "geelooy/apps/universal-chat",
+				"count": 1,
+				"examples": "geelooy/apps/universal-chat/MessagingConversationActions.js"
+			}
+		],
+		"externalDependencies": [
+			{
+				"dependency": "s",
+				"count": 3,
+				"examples": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-service/snapshots/jsPageRunner.js"
+			},
+			{
+				"dependency": "react",
+				"count": 1,
+				"examples": "geelooy/scripts/awtsmoos/MerkavaASTParser/parser-declarations.js"
+			},
+			{
+				"dependency": "ws",
+				"count": 1,
+				"examples": "geelooy/scripts/awtsmoos/extracting/webview-apk/cdpClient.js"
+			}
+		],
+		"publicEntries": [
+			{
+				"url": "/scripts/awtsmoos/compiling/pe",
+				"file": "geelooy/scripts/awtsmoos/compiling/pe/index.html",
+				"title": "Awtsmoos EXE Compiler",
+				"scripts": 1,
+				"styles": 1
+			},
+			{
+				"url": "/scripts/awtsmoos/MerkavaASTParser",
+				"file": "geelooy/scripts/awtsmoos/MerkavaASTParser/index.html",
+				"title": "Kabbalistic ES6 AST Parser",
+				"scripts": 1,
+				"styles": 0
+			},
+			{
+				"url": "/scripts/awtsmoos/MerkavaBeautifier",
+				"file": "geelooy/scripts/awtsmoos/MerkavaBeautifier/index.html",
+				"title": "Merkava Beautifier",
+				"scripts": 1,
+				"styles": 1
+			},
+			{
+				"url": "/scripts/awtsmoos/MerkavaExecutor",
+				"file": "geelooy/scripts/awtsmoos/MerkavaExecutor/index.html",
+				"title": "Merkava Executor — Runtime ID AST ECT",
+				"scripts": 7,
+				"styles": 1
+			},
+			{
+				"url": "/scripts/awtsmoos/MerkavaExecutor/.mode2-path-app",
+				"file": "geelooy/scripts/awtsmoos/MerkavaExecutor/.mode2-path-app/index.html",
+				"title": "",
+				"scripts": 1,
+				"styles": 1
+			},
+			{
+				"url": "/scripts/awtsmoos/tts",
+				"file": "geelooy/scripts/awtsmoos/tts/index.html",
+				"title": "Kokoro Forge - B\"H",
+				"scripts": 1,
+				"styles": 2
+			},
+			{
+				"url": "/scripts/awtsmoos/zip",
+				"file": "geelooy/scripts/awtsmoos/zip/index.html",
+				"title": "Awtsmoos Native Zip",
+				"scripts": 1,
+				"styles": 1
+			},
+			{
+				"url": "/scripts/tricks",
+				"file": "geelooy/scripts/tricks/index.html",
+				"title": "",
+				"scripts": 0,
+				"styles": 0
+			},
+			{
+				"url": "/scripts/tricks/jem",
+				"file": "geelooy/scripts/tricks/jem/index.html",
+				"title": "Awtsmoos Jemizier",
+				"scripts": 1,
+				"styles": 2
+			}
+		],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-seo-6a62801c",
+		"path": "geelooy/seo",
+		"type": "project",
+		"family": {
+			"id": "public",
+			"title": "Public and Other Boundaries"
+		},
+		"title": "geelooy/seo",
+		"entries": [
+			"README.md",
+			"readme.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-seo-6a62801c.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 7,
+			"tests": 12,
+			"assets": 0,
+			"generated": 29,
+			"docs": 1,
+			"other": 0
+		},
+		"totalFiles": 49,
+		"symbolSummary": {
+			"files": 7,
+			"classes": 0,
+			"functions": 29,
+			"exports": 18,
+			"samples": [
+				"generatePublicCatalog",
+				"publicCatalogRecords",
+				"shardRecords",
+				"writeShard",
+				"sitemapPaths",
+				"addPublicPath",
+				"normalizePath",
+				"renderSitemap",
+				"escapeXml",
+				"generateSitemap",
+				"cleanPlain",
+				"encodeSegment"
+			]
+		},
+		"outgoing": [
+			{
+				"project": "geelooy/api/social",
+				"count": 1,
+				"examples": "geelooy/seo/publicAliasValidity.js"
+			},
+			{
+				"project": "geelooy/apps/scripts",
+				"count": 1,
+				"examples": "geelooy/seo/generatePublicCatalog.mjs"
+			},
+			{
+				"project": "geelooy/games/scripts",
+				"count": 1,
+				"examples": "geelooy/seo/generatePublicCatalog.mjs"
+			}
+		],
+		"incoming": [
+			{
+				"project": "geelooy/@",
+				"count": 8,
+				"examples": "geelooy/@/seo/aliasCommentsPage.js; geelooy/@/seo/aliasData.js; geelooy/@/seo/aliasPage.js"
+			},
+			{
+				"project": "geelooy/heichelos",
+				"count": 7,
+				"examples": "geelooy/heichelos/routes/heichel/comments/commentHtml.js; geelooy/heichelos/routes/heichel/comments/commentPage.js; geelooy/heichelos/routes/heichel/comments/commentText.js"
+			},
+			{
+				"project": "ayzarim/awtsmoosDynamicServer",
+				"count": 3,
+				"examples": "ayzarim/awtsmoosDynamicServer/static/PublicCatalogInventoryRecords.js; ayzarim/awtsmoosDynamicServer/static/PublicCatalogSeoMetadata.js; ayzarim/awtsmoosDynamicServer/static/PublicHtmlSeo.js"
+			},
+			{
+				"project": "geelooy/comments",
+				"count": 3,
+				"examples": "geelooy/comments/sitemap/commentSitemapDataFactory.js; geelooy/comments/sitemap/data.js; geelooy/comments/sitemap/routes.js"
+			},
+			{
+				"project": "geelooy/scripts",
+				"count": 2,
+				"examples": "geelooy/scripts/seo/artifactPlan.mjs; geelooy/scripts/seo/translationPaths.mjs"
+			}
+		],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": true,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-shared-cc435059",
+		"path": "geelooy/shared",
+		"type": "library",
+		"family": {
+			"id": "libraries",
+			"title": "Libraries and Tooling"
+		},
+		"title": "geelooy/shared",
+		"entries": [
+			"package.json",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/LIBRARIES_AND_TOOLING.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-shared-cc435059.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/shared/DOCUMENTATION.md",
+				"documentId": "geelooy-shared-documentation-md-02d3743582"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/LIBRARIES_AND_TOOLING.md",
+				"documentId": "docs-tutorials-projects-libraries-and-tooling-md-f171c0f31f"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 227,
+			"tests": 50,
+			"assets": 0,
+			"generated": 0,
+			"docs": 1,
+			"other": 1
+		},
+		"totalFiles": 279,
+		"symbolSummary": {
+			"files": 208,
+			"classes": 69,
+			"functions": 651,
+			"exports": 447,
+			"samples": [
+				"ActivityBeacon",
+				"startActivityBeacon",
+				"publicAliasFromMemory",
+				"queryAlias",
+				"verifiedAlias",
+				"eventPayload",
+				"recordSearchActivity",
+				"recordPostView",
+				"async",
+				"recordMeaningfulActivity",
+				"postKey",
+				"seenPost"
+			]
+		},
+		"outgoing": [
+			{
+				"project": "geelooy/ai",
+				"count": 2,
+				"examples": "geelooy/shared/awtsmoos-runtime/actions.js; geelooy/shared/awtsmoos-runtime/agent-core.js"
+			},
+			{
+				"project": "geelooy/social-actions",
+				"count": 2,
+				"examples": "geelooy/shared/social/composer/ComposerLaunch.js"
+			},
+			{
+				"project": "geelooy/apps/android-emulator",
+				"count": 1,
+				"examples": "geelooy/shared/compiling/native/apkIdentity.js"
+			},
+			{
+				"project": "geelooy/libs",
+				"count": 1,
+				"examples": "geelooy/shared/social/ambient/SocialAmbientLayer.js"
+			}
+		],
+		"incoming": [
+			{
+				"project": "geelooy/os",
+				"count": 58,
+				"examples": "geelooy/os/programs/advanced-code-editor/compilerBridge.js; geelooy/os/programs/advanced-code-editor/embedConfiguration.js; geelooy/os/programs/advanced-code-editor/vfsBridge.js"
+			},
+			{
+				"project": "geelooy/scripts",
+				"count": 46,
+				"examples": "geelooy/scripts/awtsmoos/compiling/native/asmImage.js; geelooy/scripts/awtsmoos/compiling/native/asmObjectData.js; geelooy/scripts/awtsmoos/compiling/native/c/frame.js"
+			},
+			{
+				"project": "geelooy/apps/code",
+				"count": 19,
+				"examples": "geelooy/apps/code/js/actions/commands/compileProjectManifest.js; geelooy/apps/code/js/ai-studio/oracle.js; geelooy/apps/code/js/ai-studio/panel.js"
+			},
+			{
+				"project": "geelooy/social-hub",
+				"count": 13,
+				"examples": "geelooy/social-hub/js/api/InteractionApi.js; geelooy/social-hub/js/interactions/CreatorLaunchModel.js; geelooy/social-hub/js/ui/PublicDiscovery.js"
+			},
+			{
+				"project": "geelooy/youtube",
+				"count": 11,
+				"examples": "geelooy/youtube/migrate/js/LocalSecretVault.js; geelooy/youtube/migrate/js/LocalYouTubeBundle.js; geelooy/youtube/migrate/js/YouTubeArchiveCheckpoint.js"
+			},
+			{
+				"project": "geelooy/heichelos",
+				"count": 10,
+				"examples": "geelooy/heichelos/heichel/modules/app/post-ready-experience.js; geelooy/heichelos/heichel/modules/legend/cardDepthObserver.js; geelooy/heichelos/heichel/modules/legend/heroScrollDepth.js"
+			},
+			{
+				"project": "geelooy/apps/compiler",
+				"count": 9,
+				"examples": "geelooy/apps/compiler/embed/osCompilerChannel.js; geelooy/apps/compiler/ui/browserArtifactBuilders.js; geelooy/apps/compiler/ui/nativeBuildClient.js"
+			},
+			{
+				"project": "geelooy/social-composer",
+				"count": 9,
+				"examples": "geelooy/social-composer/js/creator/CreatorCommandCatalog.js; geelooy/social-composer/js/creator/CreatorCommandPalette.js; geelooy/social-composer/js/creator/CreatorIntentModel.js"
+			},
+			{
+				"project": "geelooy/apps/exe-emulator",
+				"count": 8,
+				"examples": "geelooy/apps/exe-emulator/core/awtexeRuntime.js; geelooy/apps/exe-emulator/core/executableHost.js; geelooy/apps/exe-emulator/core/wasmGuiImports.js"
+			},
+			{
+				"project": "geelooy/comment-thread",
+				"count": 8,
+				"examples": "geelooy/comment-thread/modules/AssetVaultClient.js; geelooy/comment-thread/modules/CommentUniversalActions.js; geelooy/comment-thread/modules/ContextPanel.js"
+			},
+			{
+				"project": "geelooy/apps/drive",
+				"count": 6,
+				"examples": "geelooy/apps/drive/js/api/DrivePrivateContent.js; geelooy/apps/drive/js/osBridge.js; geelooy/apps/drive/js/projectPlatform.js"
+			},
+			{
+				"project": "geelooy/mawgawl",
+				"count": 4,
+				"examples": "geelooy/mawgawl/sefarim/exactApi.js; geelooy/mawgawl/sefarim/searchApi.js; geelooy/mawgawl/sefarim/searchHistory.js"
+			}
+		],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-shliach-plugin-f8298c9f",
+		"path": "geelooy/shliach-plugin",
+		"type": "public",
+		"family": {
+			"id": "public",
+			"title": "Public and Other Boundaries"
+		},
+		"title": "Awtsmoos Shliach — Awtsmoos Shliach",
+		"entries": [
+			"index.html"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-shliach-plugin-f8298c9f.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 5,
+			"tests": 0,
+			"assets": 1,
+			"generated": 0,
+			"docs": 1,
+			"other": 4
+		},
+		"totalFiles": 11,
+		"symbolSummary": null,
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/shliach-plugin",
+				"file": "geelooy/shliach-plugin/index.html",
+				"title": "Awtsmoos Shliach — Awtsmoos Shliach",
+				"scripts": 0,
+				"styles": 1
+			},
+			{
+				"url": "/shliach-plugin/privacy",
+				"file": "geelooy/shliach-plugin/privacy/index.html",
+				"title": "Privacy Policy — Awtsmoos Shliach",
+				"scripts": 0,
+				"styles": 1
+			},
+			{
+				"url": "/shliach-plugin/support",
+				"file": "geelooy/shliach-plugin/support/index.html",
+				"title": "Support — Awtsmoos Shliach",
+				"scripts": 0,
+				"styles": 1
+			},
+			{
+				"url": "/shliach-plugin/terms",
+				"file": "geelooy/shliach-plugin/terms/index.html",
+				"title": "Terms of Use — Awtsmoos Shliach",
+				"scripts": 0,
+				"styles": 1
+			}
+		],
+		"requiresLocalDoc": true,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	}
+]

@@ -2,7 +2,7 @@ B"H
 Boruch Hashem
 Blessed is He
 
-# Project Tutorial: Neshama Quest
+# Project Tutorial: Neshama Quest · Awtsmoos Games
 
 **Path:** `geelooy/games/neshama-quest` · **Type:** game · **Family:** Games and Worlds
 
@@ -14,22 +14,22 @@ Blessed is He
 
 - Entry files: `index.html`
 - Local documentation: No local `DOCUMENTATION.md` observed.
-- Local-doc requirement: no; covered: no
+- Local-doc requirement: yes; covered: no
 - Symlink target: —
 
 ## File shape
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 7 | 0 | 0 | 0 | 0 | 0 | 7 |
+| 16 | 0 | 0 | 0 | 0 | 0 | 16 |
 
 ## Public entry points
 
-- `/games/neshama-quest` → `geelooy/games/neshama-quest/index.html` — Neshama Quest
+- `/games/neshama-quest` → `geelooy/games/neshama-quest/index.html` — Neshama Quest · Awtsmoos Games
 
 ## Symbol evidence
 
-Source files: 5; classes: 5; functions: 4; exports: 0; samples: Entity, Neshama, Klipah, Game, InputHandler, generateFullMaze, createPerfectMaze, addLoopsToMaze, addSideTunnels.
+Source files: 13; classes: 6; functions: 36; exports: 0; samples: Entity, Neshama, Klipah, revealNeshamaAi, updateKlipah, chooseDirection, availableDirections, nearestToNeshama, farthestFromTarget, revealNeshamaCollisions, checkCollisions, checkPowerUpTimer.
 
 ## Depends on
 

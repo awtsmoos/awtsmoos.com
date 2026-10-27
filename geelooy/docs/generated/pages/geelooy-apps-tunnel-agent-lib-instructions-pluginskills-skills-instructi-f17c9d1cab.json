@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-f17c9d1cab",
+	"title": "Code and project gates",
+	"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/CODE_AND_PROJECT_GATES.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 2,
+			"text": "Current tunnel integration takes precedence",
+			"anchor": "current-tunnel-integration-takes-precedence"
+		},
+		{
+			"level": 1,
+			"text": "Code and project gates",
+			"anchor": "code-and-project-gates"
+		},
+		{
+			"level": 2,
+			"text": "Before editing",
+			"anchor": "before-editing"
+		},
+		{
+			"level": 2,
+			"text": "While editing",
+			"anchor": "while-editing"
+		},
+		{
+			"level": 2,
+			"text": "After editing",
+			"anchor": "after-editing"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-f17c9d1cab-001.json"
+	]
+}

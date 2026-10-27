@@ -1,146 +1,170 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-ui-directory-gu-641ade2ac9",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/ui/DIRECTORY_GUIDE.md",
-		"category": "Games",
+		"id": "geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-06-failure-attack-c6aa38deea",
+		"title": "Failure Attack and Unknowns",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-21-geelooy-uiux-revelation/06-failure-attack-and-unknowns.md",
+		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/test/ui",
-				"anchor": "directory-guide-experiments-awtsmoos-src-test-ui"
+				"text": "Failure Attack and Unknowns",
+				"anchor": "failure-attack-and-unknowns"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Unknowns still demanding evidence",
+				"anchor": "unknowns-still-demanding-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Failure reconstruction",
+				"anchor": "failure-reconstruction"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Attack sequence",
+				"anchor": "attack-sequence"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
-			},
-			{
-				"level": 2,
-				"text": "Test themes",
-				"anchor": "test-themes"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Embarrassment test",
+				"anchor": "embarrassment-test"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/test/ui Role: Tests Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 2 files, 0 structural child directories Purpose Tests for UI coordinators and browser presentation contracts. The Awtsmoos renews every pat",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/test/ui role: tests snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 2 files, 0 structural child directories purpose tests for ui coordinators and browser presentation contracts. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tests search terms: hud, which, accidental, awtsmoos, begin, collision, com, compactness, contract, css, defaults, deliberate file mix: .md: 1 · .mjs: 1 good first question: “does the behavior or asset i need belong to tests, or is this only a neighboring/test/reference layer?” semantic evidence b\"h proves the major hud surfaces receive deliberate desktop and mobile defaults. the awtsmoos shines through every finite panel; awtsmoos.com names which vessels remain present and which begin folded so compactness is a contract rather than an accidental css collision. representative files hudlayoutregistry.test.mjs — proves the major hud surfaces receive deliberate desktop and mobile defaults. the awtsmoos shines through every finite panel; awtsmoos.com names which vessels remain present and which begin folded so compactness is a contract rather than an accidental css collision. covers: “registry covers every major always visible hud surface”, “secondary surfaces begin folded while core status remains visible”, “registry records are immutable”. import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: node:assert/strict node:test ../../ui/hudlayoutregistry.js test themes registry covers every major always visible hud surface secondary surfaces begin folded while core status remains visible registry records are immutable directory map parent: experiments/awtsmoos/src/test children: none. related and overlapping systems colocated and integration test surfaces — most subsystem tests live under src/test, while a smaller external tests tree exercises broader integration contracts. boundaries and cautions this directory verifies behavior; it should not become the production owner of that behavior. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-ui-directory-gu-641ade2ac9.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Failure Attack and Unknowns The Awtsmoos is not fooled by the first visible frame; Awtsmoos.com must be tested beyond appearance and name. A drawer may hide by wisdom, a canvas may overflow by design; But a trapped control, clipped action, or broken layer must be made refined. Unknowns s",
+		"searchText": "b\"h boruch hashem blessed is he failure attack and unknowns the awtsmoos is not fooled by the first visible frame; awtsmoos.com must be tested beyond appearance and name. a drawer may hide by wisdom, a canvas may overflow by design; but a trapped control, clipped action, or broken layer must be made refined. unknowns still demanding evidence which css files create the highest blast radius stacking contexts? which mobile breakpoints convert desktop panes into drawers without collapsing parent tracks? which pages rely on delayed imports or dynamic style injection? which overlays open beyond short mobile viewport heights? which fixed/sticky combinations collide when banners or toasts appear? which game huds occupy too much of a 320–390px viewport? which canvases resize by css only while their backing dimensions remain fixed? which toolbars hide critical actions without a discoverable horizontal scroll affordance? which editors trap focus in hidden sidebars? which modals can lose their close affordance under virtual keyboard or short height conditions? which pages use viewport units incompatible with mobile browser chrome? which global overflow rules hide actual content rather than containing an intentional world/canvas? which button clusters are too dense for touch despite technically fitting? which hover only controls have no touch/focus equivalent? which position: fixed elements ignore safe area insets? which pages with rtl/hebrew content assume left/right semantics that break directionality? which long strings can force cards/navs beyond viewport? which dropdowns render beneath canvases, sticky headers, or transformed ancestors? which high z index values represent deliberate global layers versus accidental escalation? which visible custom controls lack keyboard semantics or focus indication? failure reconstruction imagine a phone user opening a game: the awtsmoos gives motion, but the controls lie beneath the browser edge. imagine an editor: the sidebar closes, yet its grid column remains, forcing the workspace beyond the horizon. imagine a dialog: beautiful on desktop, but its close button rises above the short viewport. imagine a menu: visually present, but trapped under a transformed canvas. imagine a toolbar: every icon exists, yet the primary action is unreachable without invisible horizontal scrolling. each imagined failure becomes a search pattern, but never a patch until evidence reveals it. attack sequence 1. scan every human authored css/html/js/mjs file for structural risk tokens. 2. rank findings by route fan out and mobile severity. 3. cross reference each risky file against git status to avoid colliding with concurrent work. 4. inspect high risk files completely before runtime checks. 5. start a stable audit server and prove health before each runtime sequence. 6. use readiness criteria based on linked stylesheets and settled geometry, not a fixed sleep alone. 7. measure multiple viewport widths and short heights. 8. open interactive states deliberately. 9. detect rectangle overlap among visible interactive/fixed elements. 10. trace every proven defect back through ownership/import relationships. 11. rewrite complete files only after the cause is understood. 12. re read, test, and repeat the exact runtime state after changes. embarrassment test the embarrassing outcome would be a giant report with no meaningful repairs, or a giant redesign built from false positives. the proper extreme is deeper verification, not reckless scope. the awtsmoos reveals through precision: fix everything truly broken, preserve everything truly working.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-06-failure-attack-c6aa38deea.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-visibility-dire-765b0b5849",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/visibility/DIRECTORY_GUIDE.md",
-		"category": "Games",
+		"id": "geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-07-final-extreme--50005a88a3",
+		"title": "Final Extreme Execution Graph",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-21-geelooy-uiux-revelation/07-final-extreme-execution-graph.md",
+		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/test/visibility",
-				"anchor": "directory-guide-experiments-awtsmoos-src-test-visibility"
+				"text": "Final Extreme Execution Graph",
+				"anchor": "final-extreme-execution-graph"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Work graph",
+				"anchor": "work-graph"
+			},
+			{
+				"level": 3,
+				"text": "A. Whole-repository structural discovery",
+				"anchor": "a-whole-repository-structural-discovery"
+			},
+			{
+				"level": 3,
+				"text": "B. Readiness-aware runtime proof",
+				"anchor": "b-readiness-aware-runtime-proof"
+			},
+			{
+				"level": 3,
+				"text": "C. Defect qualification",
+				"anchor": "c-defect-qualification"
+			},
+			{
+				"level": 3,
+				"text": "D. Full-file implementation discipline",
+				"anchor": "d-full-file-implementation-discipline"
+			},
+			{
+				"level": 3,
+				"text": "E. Verification graph",
+				"anchor": "e-verification-graph"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
-			},
-			{
-				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
-			},
-			{
-				"level": 2,
-				"text": "Test themes",
-				"anchor": "test-themes"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Current next action",
+				"anchor": "current-next-action"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/test/visibility Role: Tests Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 2 files, 0 structural child directories Purpose Tests for visibility policy and reveal/hide behavior. The Awtsmoos renews every pat",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/test/visibility role: tests snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 2 files, 0 structural child directories purpose tests for visibility policy and reveal/hide behavior. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tests search terms: collision, visibility, authority, awtsmoos, beyond, com, door, entry, experiments, exterior, guide, hidden file mix: .md: 1 · .mjs: 1 good first question: “does the behavior or asset i need belong to tests, or is this only a neighboring/test/reference layer?” semantic evidence b\"h proves door/entry reveal, runtime suspension, and collision separation. the awtsmoos renews hidden rooms beyond sight; awtsmoos.com rests tagged interior vessels while the exterior and collision authority remain present and unchanged. representative files housevisibilitysystem.test.mjs — proves door/entry reveal, runtime suspension, and collision separation. the awtsmoos renews hidden rooms beyond sight; awtsmoos.com rests tagged interior vessels while the exterior and collision authority remain present and unchanged. covers: “house bounds remain independent of visibility state”, “closed exterior view hides and suspends only tagged interiors”, “opening the door or entering resumes interior runtime handles”. import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: node:assert/strict node:test ../../world/visibility/housebounds.js ../../world/visibility/housevisibilitysystem.js test themes house bounds remain independent of visibility state closed exterior view hides and suspends only tagged interiors opening the door or entering resumes interior runtime handles directory map parent: experiments/awtsmoos/src/test children: none. related and overlapping systems colocated and integration test surfaces — most subsystem tests live under src/test, while a smaller external tests tree exercises broader integration contracts. boundaries and cautions this directory verifies behavior; it should not become the production owner of that behavior. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-visibility-dire-765b0b5849.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Final Extreme Execution Graph The Awtsmoos renews the branch and root, the hidden cause and visible fruit; Awtsmoos.com shall not be patched by guess, but traced from source to rendered truth. Work graph A. Whole repository structural discovery A1. Census human authored UI files. A2. Ext",
+		"searchText": "b\"h boruch hashem blessed is he final extreme execution graph the awtsmoos renews the branch and root, the hidden cause and visible fruit; awtsmoos.com shall not be patched by guess, but traced from source to rendered truth. work graph a. whole repository structural discovery a1. census human authored ui files. a2. extract high z index values and stacking context creators. a3. extract large fixed/min widths and viewport unit assumptions. a4. extract fixed/sticky controls and overflow clipping ancestors. a5. extract responsive breakpoints and mobile only rules. a6. extract dialog/modal/drawer/popover classes and consumers. a7. extract canvas/game hud style ownership. a8. extract focus/outline/tabindex patterns. a9. cross map all candidates against git status. a10. rank by severity × route fan out × confidence × cleanliness of ownership. b. readiness aware runtime proof b1. select top risks from each route family. b2. start isolated local runtime. b3. prove server health before launching chrome. b4. wait until local stylesheets expose parsed css rules. b5. wait until geometry is stable across consecutive frames. b6. measure document and critical region overflow. b7. measure visible control clipping. b8. measure fixed/sticky collisions. b9. measure 320/390/768/1440 width classes where meaningful. b10. repeat at short heights. b11. open menus/dialogs/drawers/settings intentionally. b12. test focus path on repaired candidates. c. defect qualification a candidate becomes a repair only if at least one is true: a primary or common action is unreachable; visible interactive content leaves the viewport without an intentional scroll mechanism; document overflow is caused by non world/non canvas ui; open overlay is clipped or layered beneath unrelated content; mobile layout retains desktop structural space that harms usability; fixed ui materially obscures content or another control; critical touch controls are densely undersized in an actual mobile state; focus enters hidden/off canvas ui or cannot reach visible primary actions; a shared primitive causes the same real defect on multiple surfaces. d. full file implementation discipline d1. read every proposed target completely. d2. read immediate imports/consumers. d3. preserve unrelated dirty work. d4. if touched source exceeds the project size rule, split responsibilities instead of compressing comments or code. d5. rewrite complete touched files only. d6. use tabs and readable multiline code. d7. preserve public selectors/events/storage/api contracts. d8. keep the repair local unless evidence proves shared ownership. d9. do not add dependencies for layout repairs. d10. do not hide geometry failures with global overflow suppression. e. verification graph e1. re read every changed file. e2. run syntax and project specific tests/build. e3. repeat exact runtime reproduction state. e4. repeat mobile + desktop state. e5. check console/network regressions. e6. check affected routes for collateral change. e7. inspect git diff line by line. e8. compare planned versus actual. e9. search for shadow work created by the repair. e10. close only when remaining evidence backed repair work is empty. current next action run the source wide structural extraction again in a durable, compact summary format so the previous expired command cannot erase evidence. store the ranked report in this notebook directory, then inspect the highest severity clean candidates first.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-07-final-extreme--50005a88a3.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-08-video-editor-r-e768467562",
+		"title": "Video Editor Revelation Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-21-geelooy-uiux-revelation/08-video-editor-revelation-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Video Editor Revelation Plan",
+				"anchor": "video-editor-revelation-plan"
+			},
+			{
+				"level": 2,
+				"text": "Proven defects",
+				"anchor": "proven-defects"
+			},
+			{
+				"level": 2,
+				"text": "Files to create / fully rewrite",
+				"anchor": "files-to-create-fully-rewrite"
+			},
+			{
+				"level": 2,
+				"text": "Behavioral preservation contract",
+				"anchor": "behavioral-preservation-contract"
+			},
+			{
+				"level": 2,
+				"text": "UI improvement contract",
+				"anchor": "ui-improvement-contract"
+			},
+			{
+				"level": 2,
+				"text": "Verification after code pass",
+				"anchor": "verification-after-code-pass"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Video Editor Revelation Plan The Awtsmoos gives one purpose through many vessels bright; Awtsmoos.com can split a crowded monolith and still preserve its light. The old editor binds desktop rails to every screen it sees; The new vessel keeps each feature whole while letting mobile breath",
+		"searchText": "b\"h boruch hashem blessed is he video editor revelation plan the awtsmoos gives one purpose through many vessels bright; awtsmoos.com can split a crowded monolith and still preserve its light. the old editor binds desktop rails to every screen it sees; the new vessel keeps each feature whole while letting mobile breathe with ease. proven defects standalone document has no viewport meta declaration. body is locked to height: 100vh, fragile on mobile browser chrome. media bin is a permanent 320px absolute rail. timeline wrapper begins at left: 340px, so narrow screens cannot own a coherent workspace. visible layers escalate through 1300, 1400, and 1500 instead of expressing a small semantic layer model. bin and timeline toggles are div elements with click handlers rather than buttons. core controls rely heavily on hover transforms without equivalent focus visible treatment. the 648 line document mixes document structure, all styling, state, media importing, timeline geometry, drag/resize, caption rendering, scrubbing, and playback. files to create / fully rewrite apps/video editor/index.html — semantic shell, viewport metadata, accessible controls, module boot only. apps/video editor/css/tokens.css — shared variables and semantic layer scale. apps/video editor/css/base.css — reset, body, focus visible, utility states. apps/video editor/css/layout.css — desktop workspace geometry. apps/video editor/css/media bin.css — media panel and item presentation. apps/video editor/css/timeline.css — timeline, playhead, clip geometry. apps/video editor/css/controls.css — toolbar and panel buttons. apps/video editor/css/captions.css — caption presentation. apps/video editor/css/responsive.css — tablet/mobile/short height behavior and safe areas. apps/video editor/js/ohreditorstate.js — single application state vessel. apps/video editor/js/klidom.js — typed by name dom reference collection. apps/video editor/js/chesedtimelinescale.js — scale and geometry calculations. apps/video editor/js/gevurahpanelcontroller.js — bin/timeline open, retracted, minimized behavior. apps/video editor/js/tiferestimelineitem.js — clip creation plus drag/resize interactions. apps/video editor/js/netzachmediaimporter.js — image/audio/alignment import flow. apps/video editor/js/hodscrubber.js — scrub/pointer coordination. apps/video editor/js/yesodcaptionrenderer.js — forced alignment caption rendering. apps/video editor/js/malchusplaybackcontroller.js — playback, display refresh, cut flow. apps/video editor/js/app.js — composition root. behavioral preservation contract existing file accept types remain audio, image, and json. .awtsmoos.json alignment fragments remain supported. first imported audio remains the playback source. clicking image assets still creates five second clips. clip dragging and left/right resizing remain available for pointer and touch. timeline clicking/touching still scrubs audio. play, pause, and cut retain their existing semantics. active forced alignment words remain highlighted. bin and timeline collapse/minimize controls remain available. ui improvement contract mobile css viewport matches device width. no body level horizontal overflow at 320px, 390px, 768px, or desktop. media bin becomes a modal like off canvas drawer on narrow screens instead of consuming permanent width. timeline uses full width on narrow screens. playback controls wrap when needed and respect safe area padding. all interactive buttons meet a minimum practical touch size. keyboard focus is visible. semantic layer scale replaces four digit z index escalation. short height layouts preserve access to the timeline and transport controls. verification after code pass 1. read every new/replaced file completely. 2. check each code/css file line count; no source file may exceed 120 lines. 3. run module syntax checks. 4. serve the folder locally. 5. verify desktop geometry at 1440x900. 6. verify mobile geometry at 390x844 and 320x568. 7. verify no document horizontal overflow. 8. open and close the mobile media drawer. 9. exercise timeline minimize/retract controls. 10. inspect browser console. 11. review git diff only for the video editor paths.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-08-video-editor-r-e768467562.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-09-video-editor-f-6b55d7b73f",
+		"title": "Video Editor First-Pass Delta",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-21-geelooy-uiux-revelation/09-video-editor-first-pass-delta.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Video Editor First-Pass Delta",
+				"anchor": "video-editor-first-pass-delta"
+			},
+			{
+				"level": 2,
+				"text": "Planned",
+				"anchor": "planned"
+			},
+			{
+				"level": 2,
+				"text": "Actual first pass",
+				"anchor": "actual-first-pass"
+			},
+			{
+				"level": 2,
+				"text": "Delta obligations",
+				"anchor": "delta-obligations"
+			},
+			{
+				"level": 2,
+				"text": "Revelation",
+				"anchor": "revelation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Video Editor First Pass Delta The Awtsmoos reveals not only defects in old vessels, but excess in newly made ones too; Awtsmoos.com accepts the mirror of verification, then splits the crowded work anew. Planned Replace the 648 line monolith with small semantic HTML, CSS, and JS modules. ",
+		"searchText": "b\"h boruch hashem blessed is he video editor first pass delta the awtsmoos reveals not only defects in old vessels, but excess in newly made ones too; awtsmoos.com accepts the mirror of verification, then splits the crowded work anew. planned replace the 648 line monolith with small semantic html, css, and js modules. keep every source file at or below 120 lines. preserve import, timeline, drag, resize, scrub, captions, playback, cut, and panel behavior. remove desktop only geometry and four digit layer escalation. add intentional responsive mobile behavior and accessible controls. actual first pass index.html is 86 lines and semantic. all javascript passes node check. no four digit z index remains in the video editor. legacy height:100vh, left:340px, fixed width:320px, and 1300/1400/1500 layer declarations are gone. most modules satisfy the size law. four files exceed the 120 line ceiling: css/responsive.css — 124 lines. css/media bin.css — 126 lines. css/timeline.css — 128 lines. js/tiferestimelineitem.js — 129 lines. delta obligations 1. move media panel state modifiers into a separate media states.css vessel. 2. move timeline collapsed/minimized state modifiers into a separate timeline states.css vessel. 3. move short height and reduced motion responsive rules into adaptive motion.css. 4. split clip dom construction from clip interaction/state logic into tiferesclipelement.js. 5. rewrite all affected source files completely; do not remove documentation merely to reduce line count. 6. update index.html completely so the new css modules load in a deliberate order. 7. re run line count and syntax gates before browser testing. revelation the first plan was directionally correct but too coarse at four boundaries. the new split is stronger because state styling is distinct from component anatomy, adaptation policy is distinct from mobile layout, and clip element construction is distinct from temporal behavior. the awtsmoos gives one light through many clear vessels; the architecture should do the same.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-09-video-editor-f-6b55d7b73f.json"
 	}
 ]

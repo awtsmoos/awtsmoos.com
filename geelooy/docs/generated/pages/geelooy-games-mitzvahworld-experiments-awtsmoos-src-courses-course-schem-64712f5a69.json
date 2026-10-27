@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-courses-course-schem-64712f5a69",
+	"title": "Mitzvah World Course Schema — v1 (FROZEN)",
+	"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/courses/COURSE_SCHEMA.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Mitzvah World Course Schema — v1 (FROZEN)",
+			"anchor": "mitzvah-world-course-schema-v1-frozen"
+		},
+		{
+			"level": 2,
+			"text": "Units",
+			"anchor": "units"
+		},
+		{
+			"level": 2,
+			"text": "Top-level fields",
+			"anchor": "top-level-fields"
+		},
+		{
+			"level": 2,
+			"text": "Surfaces",
+			"anchor": "surfaces"
+		},
+		{
+			"level": 2,
+			"text": "Movers",
+			"anchor": "movers"
+		},
+		{
+			"level": 2,
+			"text": "Hazards (sweepers)",
+			"anchor": "hazards-sweepers"
+		},
+		{
+			"level": 2,
+			"text": "Run rules",
+			"anchor": "run-rules"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-experiments-awtsmoos-src-courses-course-schem-64712f5a69-001.json"
+	]
+}

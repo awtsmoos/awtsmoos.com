@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — API Core Catalog (geelooy/api/core/)\n\nShared catalog data used for API discovery. Not an HTTP route family itself.\n\n## Files\n- `ApiFamilyCatalog.js` — transforms the stable top-level family tuples into a\n  discoverable API catalog response (read-only: never mounts, calls, or owns a family).\n- `ApiFamilyCatalogData.js` — the underlying family data (`CHOCHMAH_API_FAMILIES`).\n- `LegacyApiDemoRoutes.js` — legacy/demo route shapes for reference.\n"
+}

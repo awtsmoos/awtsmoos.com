@@ -1,36 +1,183 @@
 [
 	{
-		"id": "docs-generated-api-callers-api-callers-001-md-e30926467d",
-		"title": "Generated API Caller Index 1–80",
-		"sourcePath": "docs/GENERATED/API_CALLERS/api-callers-001.md",
+		"id": "docs-faster-import-design-md-cd30f56bd5",
+		"title": "B\"H — Faster Future Import Path: Bottleneck Analysis + Design",
+		"sourcePath": "docs/FASTER_IMPORT_DESIGN.md",
 		"category": "General",
-		"provenance": "generated",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Generated API Caller Index 1–80",
-				"anchor": "generated-api-caller-index-1-80"
+				"text": "B\"H — Faster Future Import Path: Bottleneck Analysis + Design",
+				"anchor": "b-h-faster-future-import-path-bottleneck-analysis-design"
+			},
+			{
+				"level": 2,
+				"text": "1. Measured bottlenecks (production, 2026-10-11)",
+				"anchor": "1-measured-bottlenecks-production-2026-10-11"
+			},
+			{
+				"level": 3,
+				"text": "1.1 Baseline: serial import job — 7 records/sec",
+				"anchor": "1-1-baseline-serial-import-job-7-records-sec"
+			},
+			{
+				"level": 3,
+				"text": "1.2 Per-post cost breakdown (in order of cost)",
+				"anchor": "1-2-per-post-cost-breakdown-in-order-of-cost"
+			},
+			{
+				"level": 3,
+				"text": "1.3 One-time per-job costs",
+				"anchor": "1-3-one-time-per-job-costs"
+			},
+			{
+				"level": 3,
+				"text": "1.4 Structural limits found",
+				"anchor": "1-4-structural-limits-found"
+			},
+			{
+				"level": 2,
+				"text": "2. What was already done (2026-10-11, live in production)",
+				"anchor": "2-what-was-already-done-2026-10-11-live-in-production"
+			},
+			{
+				"level": 2,
+				"text": "3. Faster future design (for the NEXT rework)",
+				"anchor": "3-faster-future-design-for-the-next-rework"
+			},
+			{
+				"level": 3,
+				"text": "3.1 Kill the per-post round trips (biggest win)",
+				"anchor": "3-1-kill-the-per-post-round-trips-biggest-win"
+			},
+			{
+				"level": 3,
+				"text": "3.2 Cache the live-hash scan across jobs",
+				"anchor": "3-2-cache-the-live-hash-scan-across-jobs"
+			},
+			{
+				"level": 3,
+				"text": "3.3 Move hashing client-side",
+				"anchor": "3-3-move-hashing-client-side"
+			},
+			{
+				"level": 3,
+				"text": "3.4 Streaming ingest (replace stage→poll for large corpora)",
+				"anchor": "3-4-streaming-ingest-replace-stage-poll-for-large-corpora"
+			},
+			{
+				"level": 3,
+				"text": "3.5 Allow bounded concurrent jobs (with disjoint series)",
+				"anchor": "3-5-allow-bounded-concurrent-jobs-with-disjoint-series"
+			},
+			{
+				"level": 3,
+				"text": "3.6 Direct shard append for the packed mirror (if it stays)",
+				"anchor": "3-6-direct-shard-append-for-the-packed-mirror-if-it-stays"
+			},
+			{
+				"level": 3,
+				"text": "3.7 What NOT to do",
+				"anchor": "3-7-what-not-to-do"
+			},
+			{
+				"level": 2,
+				"text": "4. Throughput log",
+				"anchor": "4-throughput-log"
+			},
+			{
+				"level": 2,
+				"text": "6. Igros Kodesh import — final tally (2026-10-11 19:20 EDT)",
+				"anchor": "6-igros-kodesh-import-final-tally-2026-10-11-19-20-edt"
+			},
+			{
+				"level": 2,
+				"text": "5. Recommendation",
+				"anchor": "5-recommendation"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Generated API Caller Index 1–80 Literal /api/ references found outside the API source tree; test callers are labeled. API literal Caller source Kind /api/admin/code geelooy/control/app.js runtime /api/auth/session geelooy/ai/js/chatgpt/auth/session.js runtime /api/auth/session geelooy/ai",
-		"searchText": "b\"h boruch hashem blessed is he generated api caller index 1–80 literal /api/ references found outside the api source tree; test callers are labeled. api literal caller source kind /api/admin/code geelooy/control/app.js runtime /api/auth/session geelooy/ai/js/chatgpt/auth/session.js runtime /api/auth/session geelooy/ai/js/chatgpt/conversations/list.js runtime /api/auth/session geelooy/ai/relay/split browser/authstate.cjs runtime /api/auth/session geelooy/apps/tunnel/agent/tools/chatgpt/auth/sessioncheck.js runtime /api/auth/session geelooy/apps/tunnel/agent/tools/chatgpt/direct/auth.js runtime /api/chrome geelooy/apps/tunnel/downloads/awtsmoos local app.js runtime /api/compiler/android/rebbe geelooy/apps/code/js/android/rebbe apk client.js runtime /api/compiler/backends geelooy/apps/compiler/ui/nativebuildclient.js runtime /api/compiler/build geelooy/apps/compiler/ui/nativebuildclient.js runtime /api/config geelooy/apps/tunnel/downloads/awtsmoos local app.js runtime /api/contact/ geelooy/contact/contact.js runtime /api/data geelooy/scripts/awtsmoos/merkavaexecutor/.ect ast probe.cjs runtime /api/data geelooy/scripts/awtsmoos/merkavaexecutor/.ect storage roundtrip.cjs runtime /api/data geelooy/scripts/awtsmoos/merkavaexecutor/.ect stress 20.cjs runtime /api/data geelooy/scripts/awtsmoos/merkavaexecutor/app/browser/examples.js runtime /api/fetch geelooy/scripts/tricks/jem/script.js runtime /api/gpt geelooy/ai/js/chatgpt/api/gptapiclient.js runtime /api/gpt geelooy/ai/js/chatgpt/api/gptapitransport.js runtime /api/me geelooy/os/test/awtsmoosbrowserembeddednetworkrequestpolicy.test.mjs test /api/mitzvahworld/autoplay report geelooy/games/mitzvahworld/server/autoplayreportingress.js runtime /api/nav/highlighter.js geelooy/heichelos/post/functions/interaction/interactionwatchman.js runtime /api/oauth/authorize?client=social hub geelooy/social hub/tests/legalentry.test.mjs test /api/oauth/device geelooy/apps/tunnel control/index.html runtime /api/oauth/device geelooy/apps/tunnel control/js/shell/agentlinks.js runtime /api/oauth/start?client id=chatgpt geelooy/apps/tunnel control/js/api/auth.js runtime /api/oauth/start?next=${next} geelooy/apps/code/js/session/inline login.js runtime /api/ohr hagnuz/realtime ticket geelooy/games/ohr hagnuz/tests/browser/sharedjourneytestserver.mjs test /api/ohr hagnuz/realtime ticket?${parameters} geelooy/games/ohr hagnuz/src/multiplayer/auth/sharedjourneyticketclient.js runtime /api/projecthosting/?${query} geelooy/drive/services/projecthostingservice.js runtime /api/projecthosting/${action} geelooy/drive/services/projectruntimeclient.js runtime /api/projecthosting/${action}?${query} geelooy/drive/services/projectruntimeclient.js runtime /api/projecthosting/activity?projectid=drive site&limit=3 geelooy/drive/test/projectruntimeclient.test.mjs test /api/projecthosting/activity?projectid=drive site&limit=8 geelooy/drive/test/projectruntimeclient.test.mjs test /api/projecthosting/status?projectid=drive site geelooy/drive/test/projectruntimeclient.test.mjs test /api/public geelooy/db/api bridge.js runtime /api/public geelooy/db/explorer/script.js runtime /api/restart geelooy/apps/tunnel/downloads/awtsmoos local app.js runtime /api/runtime/native geelooy/apps/exe emulator/core/nativehostclient.js runtime /api/runtime/native/capabilities geelooy/os/programs/project command center/runtimeprobe.js runtime /api/save?draft=1 geelooy/sites/test/hostedprojectproxycontract.test.js test /api/social geelooy/apps/drive/js/apitransport.js runtime /api/social geelooy/drive/builder/platformapi.js runtime /api/social geelooy/drive/transport/projecthostingclient.js runtime /api/social geelooy/heichel review/js/governanceapi.js runtime /api/social geelooy/heichel review/js/reviewapi.js runtime /api/social geelooy/heichelos/social/api/client.js runtime /api/social geelooy/heichelos/social/test/inmemorysocialruntime.mjs test /api/social geelooy/heichelos/social/test/socialapicontract.test.mjs test /api/social geelooy/heichelos/social/test/socialhypergraphcontract.test.mjs test /api/social geelooy/heichelos/social/test/socialrealapistress.test.mjs test /api/social geelooy/notifications/modules/api.js runtime /api/social geelooy/scripts/awtsmoos/api/helperscripts/traverseallposts.js runtime /api/social geelooy/scripts/awtsmoos/social/aliasidentity.js runtime /api/social geelooy/scripts/awtsmoos/social/entitymodule.js runtime /api/social geelooy/scripts/awtsmoos/social/hub/api.js runtime /api/social geelooy/scripts/awtsmoos/social/test/profilemenuapicases.mjs test /api/social geelooy/shared/activitybeaconcontext.js runtime /api/social geelooy/social composer/js/config.js runtime /api/social geelooy/social hub/js/api/channelapi.js runtime /api/social geelooy/social hub/js/api/interactionapi.js runtime /api/social geelooy/social hub/js/api/reviewapi.js runtime /api/social geelooy/social hub/js/api/socialgraphapi.js runtime /api/social/ geelooy/heichelos/heichel/api/core.js runtime /api/social/ geelooy/heichelos/heichel/modules/api/base.js runtime /api/social/ geelooy/scripts/awtsmoos/api/filesystem/filesystemdb.js runtime /api/social/ geelooy/scripts/awtsmoos/social/aliasmodule.js runtime /api/social/ geelooy/scripts/awtsmoos/social/postsmodule.js runtime /api/social/ geelooy/scripts/core/api.js runtime /api/social/ geelooy/social hub/tests/fixture/fixtureinstaller.mjs test /api/social/activity?scope=all geelooy/heichelos/social/test/socialapicontract.test.mjs test /api/social/alias/ geelooy/heichelos/ awtsmoos.index.html runtime /api/social/alias/ geelooy/heichelos/manage alias heichelos/script.js runtime /api/social/alias/ geelooy/scripts/awtsmoos/social/feed/onepagesocialcontract.test.mjs test /api/social/alias/${alias}/heichelos/${heichelid}/ownership geelooy/heichelos/heichel/logic/heichelapi.js runtime /api/social/alias/${curalias}/heichelos/${hid}/ownership geelooy/heichelos/post/logic/initialization/boot.js runtime /api/social/alias/${encoded}/heichelos/details geelooy/profile/modules/api.js runtime /api/social/alias/${encoded}/heichelos/details geelooy/profile/profiledashboardcontract.test.mjs test /api/social/alias/default geelooy/heichelos/heichel/modules/test/socialcompletioncontract.test.mjs test /api/social/alias/default geelooy/heichelos/heichel/submit/logic/target.js runtime",
-		"page": "pages/docs-generated-api-callers-api-callers-001-md-e30926467d.json"
+		"excerpt": "B\"H — Faster Future Import Path: Bottleneck Analysis + Design Date: 2026 10 11 Context: Yaakov ordered (2026 10 11 18:29 EDT): figure out how to import FASTER in the future, in AwtsmoosDB format, once the current import lands and verifies working. Status of current import: Igros Kodesh (11,062 posts) importing with the",
+		"searchText": "b\"h — faster future import path: bottleneck analysis + design date: 2026 10 11 context: yaakov ordered (2026 10 11 18:29 edt): figure out how to import faster in the future, in awtsmoosdb format, once the current import lands and verifies working. status of current import: igros kodesh (11,062 posts) importing with the reworked parallel path; see throughput numbers below. 1. measured bottlenecks (production, 2026 10 11) 1.1 baseline: serial import job — 7 records/sec measured on the original serial runjob loop (postimport mv4dvlb2 b5614c99, 11,062 posts): 342 → 552 posts in 22.8s = 9.2 rec/s 552 → 677 posts in 21.5s = 5.8 rec/s sustained average: 7 rec/s → 11,062 posts ≈ 26 minutes 1.2 per post cost breakdown (in order of cost) each post in the serial loop does: 1. readspecpost — readfilesync + json.parse of one staged file ( 1ms; negligible) 2. validatepost + normalizepost + canonicalbytes + contenthash (sha 256) — cpu, 1–2ms 3. writeonepostbulk — packed mirror write (sync, fast) 4. ensurealias — await $i.db.get + occasional await $i.db.write (alias info/profile) 5. writenativepost — 2× await $i.db.write (the post record + the alias backlink) 6. seriesadd — in memory (flushed every 25 posts) 7. await yieldtick() — setimmediate (negligible) dominant cost: the sequential awaited awtsmoosdb writes (steps 4–5). the db lives on /mnt/hc volume 102267213 (network volume); every await $i.db.write is a network round trip ( 30–80ms). 3–4 round trips per post × 140ms ≈ the observed 7 rec/s. the event loop sits idle waiting for i/o — pure serialization waste. 1.3 one time per job costs live hash cache build (buildlivehashcacheasync): 45s streaming scan of the 3.9 gb core shard, once per job. for a 1,000 post chunk this is 30% overhead; for 11k posts 3%. staged upload : tarball + signed chunks — fast (8 mb / 9 chunks / seconds). not a bottleneck. verify job : server side byte exact read back, 9–10 rec/s (895 posts ≈ 95s). acceptable; runs after import. 1.4 structural limits found one import job at a time : runningjob() rejects concurrent posts/start with job already running. parallelism must live inside the job, not across jobs (a start race briefly allowed 2 concurrent jobs; one was later interrupted by a restart). verify jobs also block imports : verify jobs register in the same jobs map with status running, so posts/start is rejected while any verify runs. import and verify are otherwise independent — this is over serialization worth fixing (§3.5). crash between writes hole (fixed 2026 10 11) : the old order wrote the packed mirror before the native record, and the skip check was packed hash only. a crash between the two left a post skipped forever but missing natively (observed: 1 post in production, repaired). fix: native first write order + native existence check on the skip path. intermittent server restarts observed : several import/verify jobs reported interrupted (in memory job lost) mid flight during 2026 10 11 18:20–18:55. the client's auto resume (new job + idempotent skip) handled every case with zero data loss, but the restart cause is unknown — worth investigating separately. 2. what was already done (2026 10 11, live in production) commit b369417ec — geelooy/api/social/helper/routes/packed/postimportroutes.js: 1. parallel worker pool in runjob (8 workers, awtsmoos import workers env override, max 16). posts are independent (per post keys); workers share the job's maps/sets, safe under the single threaded event loop because every mutation is synchronous. 2. mutex guarded series flush + snapshot+clear in flushseriesadds, so concurrent workers can never lose a series index entry (lost update and clear race both closed; verified by simulation: 1,000 posts, 8 workers, 0 missing posts, 0 missing series entries). 3. airtight idempotency : skip on packed hash now verifies the native record exists ($i.db.get on the skip path); missing natives fall through and re write. 4. native first write order : native awtsmoosdb record → alias → packed mirror. expected throughput: 8 workers × 7 rec/s ≈ 40–55 rec/s (i/o overlapped), 11,062 posts in 4 minutes instead of 26. measured numbers to be appended below once the current chunks land. 3. faster future design (for the next rework) goal: 1,000+ rec/s — \"almost instant\" for 10k post corpora. the ideas below are ordered by payoff/effort. all preserve: byte exact hebrew, native awtsmoosdb records, idempotency, per book verification. 3.1 kill the per post round trips (biggest win) bulk native write : add $i.db.writemany([{path, value}]) (or check whether the awtsmoosdb driver already batches). one round trip per 100–500 posts instead of 2 per post. estimated: 10–20× on the write path alone. defer the packed mirror : the packed shard is a diagnostic mirror, not the source of truth. write it asynchronously in batches after the job (or drop it for bulk imports — readpacked already falls back to native). removes 1 sync write per post from the hot loop. alias fast path : ensurealias does a db.get per post even when the alias is cached in job.aliascache (the cache check is in memory and already skips the i/o — keep this; just never let it leave the process). 3.2 cache the live hash scan across jobs buildlivehashcacheasync ( 45s) runs per job. persist it as /socialpacked/post import jobs/live hashes .json with a mtime/epoch, invalidate on any import write to that heichel. chunked imports (6 × 1k posts) would share one scan instead of six. even better: maintain an incremental hash index — the import job already knows every hash it wrote; merge into the persisted cache instead of rescanning. 3.3 move hashing client side contenthash (sha 256 over canonical json) is cpu work the vm already does during staging (vmimportstaged reads every file). ship {postid, contenthash} in the manifest; the server verifies by sampling (e.g., re hash 1%) instead of hashing 100%. removes 1–2ms/post of server cpu and lets the skip check run before parsing. 3.4 streaming ingest (replace stage→poll for large corpora) keep the signed chunked /stage upload (it works, it's fast). replace \"start job → poll every 15s\" with a server sent events stream : the job pushes {postsdone, wrote, skipped, failed} as it goes; the client gets live progress with zero polling overhead and can pipeline the next chunk's upload while the current chunk imports. 3.5 allow bounded concurrent jobs (with disjoint series) relax runningjob() to allow up to n (e.g., 4) concurrent import jobs, provided their series sets are disjoint (declare seriesids in posts/start; reject overlaps with 409). combined with in job workers: 4 jobs × 8 workers ≈ 200+ rec/s on i/o bound writes. requires the series flush race to stay closed (it is, post §2) and the import lock to become a counter instead of a boolean. 3.6 direct shard append for the packed mirror (if it stays) writepacked → store.put per record. for bulk, append pre serialized envelopes to the shard stream in one fs.appendfilesync per batch. only if the mirror stays on the hot path. 3.7 what not to do don't parallelize across jobs by exploiting the start race (fragile; caused an \"interrupted\" job when the server restarted mid flight). don't skip the verify pass — it's the only proof of byte exactness, and it caught the 1 missing native record. don't batch different books into one job: per book jobs keep series disjoint, logs clean, and resume granular. 4. throughput log when what records/s notes 2026 10 11 18:16 serial runjob, 11,062 posts 7 baseline; 26 min projected 2026 10 11 18:55 8 worker pool, chunk3 (1,143 fresh writes) 18–22 3× serial 2026 10 11 19:05 8 worker pool, chunk5 (1,410 fresh writes) 17 consistent 2026 10 11 19:10 8 worker pool, chunk6 (1,310 fresh writes) 17.5 consistent 2026 10 11 19:15 8 worker pool, chunk8 (1,749 fresh writes) 18 consistent 2026 10 11 18:52 8 worker pool, chunk1 (1,239 skips w/ native check) 37 skips/s skip path (packed hit + native db.get) 2026 10 11 19:00 verify jobs (1,143–2,302 posts) 14 server side byte exact read back why only 3×, not 8×: the 8 workers overlap the network round trips, but the awtsmoosdb driver and/or the /mnt/hc volume network volume serialize writes somewhere below the node event loop — workers queue behind each other on the actual i/o. the remaining bottleneck is per record write latency, not cpu or parallelism. §3.1 (bulk native write — one round trip per 100–500 posts) is the next 10× lever. 6. igros kodesh import — final tally (2026 10 11 19:20 edt) all 11,062 posts live as native awtsmoosdb records, byte exact verified: chunk volumes posts verified 1 1–4 1,239 1,239/1,239 ✓ 2 5–7 1,034 1,034/1,034 ✓ 3 8–10 1,143 1,143/1,143 ✓ 4 11–13 1,381 1,381/1,381 ✓ 5 14–16 1,410 1,410/1,410 ✓ 6 17–19 1,310 1,310/1,310 ✓ 7 20–22 1,243 1,243/1,243 ✓ 8 23–28 2,302 2,302/2,302 ✓ total 28 vols 11,062 11,062/11,062, 0 mismatches incidents during import (all resolved): 1 post (igeres he v21 0236) hit the crash between writes hole (packed without native); repaired via the new airtight skip logic, re verified byte exact. 4 jobs interrupted by intermittent production restarts; client auto resume + idempotent skip recovered every one with zero duplicates and zero data loss. verify jobs block import starts (same runningjob() gate); worked around by sequencing. 5. recommendation ship §2 now (done). for the next rework, do §3.1 (bulk native write) first — it attacks the dominant cost directly and needs no protocol change. then §3.2 (shared hash cache) and §3.4 (sse progress) . §3.5 (concurrent jobs) only after §3.1 proves stable.",
+		"page": "pages/docs-faster-import-design-md-cd30f56bd5.json"
 	},
 	{
-		"id": "docs-generated-api-callers-api-callers-002-md-da86b06f37",
-		"title": "Generated API Caller Index 81–160",
-		"sourcePath": "docs/GENERATED/API_CALLERS/api-callers-002.md",
+		"id": "docs-geelooy-accessibility-and-mobile-md-b5cb004799",
+		"title": "Accessibility and Mobile Law",
+		"sourcePath": "docs/geelooy/ACCESSIBILITY_AND_MOBILE.md",
 		"category": "General",
-		"provenance": "generated",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Generated API Caller Index 81–160",
-				"anchor": "generated-api-caller-index-81-160"
+				"text": "Accessibility and Mobile Law",
+				"anchor": "accessibility-and-mobile-law"
+			},
+			{
+				"level": 2,
+				"text": "Structural requirements",
+				"anchor": "structural-requirements"
+			},
+			{
+				"level": 2,
+				"text": "Mobile requirements",
+				"anchor": "mobile-requirements"
+			},
+			{
+				"level": 2,
+				"text": "Motion",
+				"anchor": "motion"
+			},
+			{
+				"level": 2,
+				"text": "Current executable witnesses",
+				"anchor": "current-executable-witnesses"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Generated API Caller Index 81–160 Literal /api/ references found outside the API source tree; test callers are labeled. API literal Caller source Kind /api/social/alias/default geelooy/notifications/script.js runtime /api/social/alias/default geelooy/profile/modules/api.js runtime /api/s",
-		"searchText": "b\"h boruch hashem blessed is he generated api caller index 81–160 literal /api/ references found outside the api source tree; test callers are labeled. api literal caller source kind /api/social/alias/default geelooy/notifications/script.js runtime /api/social/alias/default geelooy/profile/modules/api.js runtime /api/social/alias/default geelooy/profile/profiledashboardcontract.test.mjs test /api/social/alias/default geelooy/scripts/awtsmoos/social/aliasidentity.js runtime /api/social/alias/default geelooy/scripts/awtsmoos/social/feed/ikarfeedapi.js runtime /api/social/alias/default geelooy/scripts/awtsmoos/social/home/inline actions/api.js runtime /api/social/aliases geelooy/scripts/awtsmoos/social/aliasidentity.js runtime /api/social/aliases geelooy/scripts/awtsmoos/social/profiledropdown/aliasidentitypersistence.test.mjs test /api/social/aliases/ geelooy/profile/alias manage/index.html runtime /api/social/aliases/${aliasid}/ownership geelooy/heichelos/ awtsmoos.derech.js runtime /api/social/aliases/${cleanalias}/filesystem geelooy/os/programs/awtsmoosdb explorer/examples.js runtime /api/social/aliases/checkorgenerateid geelooy/heichelos/manage alias heichelos/script.js runtime /api/social/aliases/checkorgenerateid geelooy/profile/alias manage/modules/validation.js runtime /api/social/aliases/checkorgenerateid geelooy/scripts/awtsmoos/social/home/inline actions/api.js runtime /api/social/aliases/details geelooy/apps/code/js/fs/awtsmoos os.js runtime /api/social/aliases/details geelooy/apps/code/js/fs/test/awtsmoososprovideradapter.test.mjs test /api/social/aliases/details geelooy/profile/modules/api.js runtime /api/social/aliases/details geelooy/profile/profiledashboardcontract.test.mjs test /api/social/aliases/details geelooy/scripts/awtsmoos/social/aliasidentity.js runtime /api/social/aliases/details geelooy/scripts/awtsmoos/social/home/inline actions/api.js runtime /api/social/aliases/testalias/commentsmade/heichelos geelooy/heichelos/heichel/modules/test/sociallivesmoke.test.mjs test /api/social/answers/answer%201/comments geelooy/heichelos/social/test/socialhypergraphcontract.test.mjs test /api/social/assets geelooy/scripts/awtsmoos/social/media/attachmentstate.js runtime /api/social/assets/ geelooy/.awtsmoos agent transfer/social future 20260821 v2/verified stage/api/social/helper/migrations/meta/metamanifest.js runtime /api/social/assets/ geelooy/.awtsmoos agent transfer/social future 20260821 v2/verified stage/api/social/helper/migrations/meta/metamanifestguard.js runtime /api/social/assets/ geelooy/.awtsmoos agent transfer/social future 20260821 v2/verified stage/social/migrate/js/publish/manifestbuilder.js runtime /api/social/assets/ geelooy/.awtsmoos agent transfer/social future 20260821 v2/verified stage/social/migrate/test/integration contracts.test.mjs test /api/social/assets/ geelooy/.awtsmoos agent transfer/social future 20260821 v2/verified stage/social/migrate/test/server meta api.test.cjs test /api/social/assets/ geelooy/social/migrate/js/publish/manifestbuilder.js runtime /api/social/assets/ geelooy/social/migrate/test/integration contracts.test.mjs test /api/social/assets/ geelooy/social/migrate/test/server meta api.test.cjs test /api/social/assets/:alias/upload geelooy/.awtsmoos agent transfer/social future 20260821 v2/verified stage/api/social/helper/migrations/meta/metamigrationcapabilities.js runtime /api/social/assets/:alias/upload geelooy/scripts/awtsmoos/social/media/assetuploader.js runtime /api/social/assets/a/${sizes.length} ${index} geelooy/.awtsmoos agent transfer/social future 20260821 v2/verified stage/tests/social migrate/publish recovery.test.mjs test /api/social/assets/a/${sizes.length} ${index} geelooy/tests/social migrate/publish recovery.test.mjs test /api/social/assets/a/1 geelooy/.awtsmoos agent transfer/social future 20260821 v2/verified stage/tests/social migrate/publish recovery.test.mjs test /api/social/assets/a/1 geelooy/tests/social migrate/publish recovery.test.mjs test /api/social/assets/a/asset 1 geelooy/.awtsmoos agent transfer/social future 20260821 v2/verified stage/tests/social migrate/publish recovery.test.mjs test /api/social/assets/a/asset 1 geelooy/tests/social migrate/publish recovery.test.mjs test /api/social/assets/a/image/asset ${uploads} ${index}.jpg geelooy/.awtsmoos agent transfer/social future 20260821 v2/verified stage/social/migrate/test/integration contracts.test.mjs test /api/social/assets/a/image/asset ${uploads} ${index}.jpg geelooy/social/migrate/test/integration contracts.test.mjs test /api/social/assets/a/image/asset a.jpg geelooy/.awtsmoos agent transfer/social future 20260821 v2/verified stage/social/migrate/test/client migration.test.mjs test /api/social/assets/a/image/asset a.jpg geelooy/social/migrate/test/client migration.test.mjs test /api/social/assets/a/v1 geelooy/.awtsmoos agent transfer/social future 20260821 v2/verified stage/tests/social migrate/server meta.test.cjs test /api/social/assets/a/v1 geelooy/tests/social migrate/server meta.test.cjs test /api/social/assets/alias a/image/asset a.jpg geelooy/.awtsmoos agent transfer/social future 20260821 v2/verified stage/social/migrate/test/server meta api.test.cjs test /api/social/assets/alias a/image/asset a.jpg geelooy/social/migrate/test/server meta api.test.cjs test /api/social/assets/teacher/image/asset original.png geelooy/social composer/js/clone/test/clonemediamapper.test.mjs test /api/social/cache/get?key=social hub missing probe geelooy/scripts/awtsmoos/social/hub/api.js runtime /api/social/civilization/events?limit=8 geelooy/os/civilization/client.js runtime /api/social/civilization/state geelooy/apps/code/js/civilization/client.js runtime /api/social/civilization/state geelooy/os/civilization/client.js runtime /api/social/comments/comment%20one geelooy/heichelos/social/test/socialapicontract.test.mjs test /api/social/comments/comment%20one/replies geelooy/heichelos/social/test/socialapicontract.test.mjs test /api/social/comments/comment%20one/replies?page=3 geelooy/heichelos/social/test/socialapicontract.test.mjs test /api/social/communications geelooy/social hub/js/api/communicationsapi.js runtime /api/social/communications/yakov/inbox/item%20one/read geelooy/social hub/js/api/communicationsapi.test.mjs test /api/social/communications/yakov/threads/review%2fchannel%20one?limit=150 geelooy/social hub/js/api/communicationsapi.test.mjs test /api/social/communications/yakov/threads/thread%20one/read geelooy/social hub/js/api/communicationsapi.test.mjs test /api/social/communications/yakov%20yosef/inbox?limit=75 geelooy/social hub/js/api/communicationsapi.test.mjs test /api/social/communications/yakov%20yosef/overview geelooy/social hub/js/api/communicationsapi.test.mjs test /api/social/content/heichelos/h%201/posts/p1/sections geelooy/heichelos/heichel/modules/test/browserapirequestshapes.test.mjs test /api/social/content/heichelos/h%201/questions geelooy/heichelos/heichel/modules/test/browserapirequestshapes.test.mjs test /api/social/content/heichelos/h%201/questions/q1/answers geelooy/heichelos/heichel/modules/test/browserapirequestshapes.test.mjs test /api/social/content/heichelos/testheichel/posts/testquestion/sections geelooy/heichelos/heichel/modules/test/sociallivesmoke.test.mjs test /api/social/content/heichelos/testheichel/questions/testquestion/answers geelooy/heichelos/heichel/modules/test/sociallivesmoke.test.mjs test /api/social/content/heichelos/testheichel/questions/testquestion/answers?apikey=none geelooy/heichelos/heichel/modules/test/sociallivesmoke.test.mjs test /api/social/content/repost geelooy/heichelos/heichel/modules/test/browserapirequestshapes.test.mjs test /api/social/content/share geelooy/heichelos/heichel/modules/test/browserapirequestshapes.test.mjs test /api/social/discovery?limit=5 geelooy/heichelos/social/test/socialapicontract.test.mjs test /api/social/drive geelooy/drive/transport/domainclaimclient.js runtime /api/social/drive geelooy/drive/transport/sitemappingclient.js runtime /api/social/drive geelooy/drive/transport/siteruntimeclient.js runtime /api/social/drive/a/sites/docs%20v2 geelooy/drive/test/sitemappingclient.test.mjs test /api/social/drive/alice%20bob/browser/sessions geelooy/os/test/awtsmoosbrowserinteractiveclient.test.mjs test /api/social/drive/alpha/domains geelooy/apps/drive/test/domainapi.test.mjs test /api/social/drive/alpha/domains/site.example geelooy/apps/drive/test/domainapi.test.mjs test /api/social/drive/alpha/domains/site.example/activate geelooy/apps/drive/test/domainapi.test.mjs test /api/social/drive/alpha/domains/site.example/deactivate geelooy/apps/drive/test/domainapi.test.mjs test /api/social/drive/alpha/domains/site.example/hosting plan geelooy/apps/drive/test/domainapi.test.mjs test",
-		"page": "pages/docs-generated-api-callers-api-callers-002-md-da86b06f37.json"
+		"excerpt": "B\"H Accessibility and Mobile Law Structural requirements One meaningful main region for the primary work. Native buttons, links, labels, details/summary and form semantics before custom ARIA. Visible keyboard focus. Skip links reveal on keyboard focus rather than remaining permanently hidden. Menus/sheets/disclosures m",
+		"searchText": "b\"h accessibility and mobile law structural requirements one meaningful main region for the primary work. native buttons, links, labels, details/summary and form semantics before custom aria. visible keyboard focus. skip links reveal on keyboard focus rather than remaining permanently hidden. menus/sheets/disclosures must have keyboard dismissal and sane focus restoration. custom state changes use polite/assertive live regions only where they add real information. mobile requirements design structurally for 320, 375 and 430px widths; do not rely on desktop shrinkage. respect viewport fit=cover and safe areas where fixed controls meet device edges. primary touch controls should meet the shared target size law. document level horizontal overflow is a failure; local editors/media strips may scroll intentionally. advanced controls collapse instead of producing giant action rows. virtual keyboard/forms/composers must keep the active field reachable. motion all decorative motion must have a reduced motion path. coarse/mobile devices should not pay for expensive visual effects merely to preserve desktop spectacle. current executable witnesses remainingaccessibility.test.mjs uimotionarchitecture.test.mjs responsive os/shell contracts maintained runtime audit at 1440/430/375/320",
+		"page": "pages/docs-geelooy-accessibility-and-mobile-md-b5cb004799.json"
+	},
+	{
+		"id": "docs-geelooy-power-features-md-576cc7bf80",
+		"title": "Shared Power Features",
+		"sourcePath": "docs/geelooy/POWER_FEATURES.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Shared Power Features",
+				"anchor": "shared-power-features"
+			},
+			{
+				"level": 2,
+				"text": "One command/search doorway",
+				"anchor": "one-command-search-doorway"
+			},
+			{
+				"level": 2,
+				"text": "Keyboard",
+				"anchor": "keyboard"
+			},
+			{
+				"level": 2,
+				"text": "Persistence",
+				"anchor": "persistence"
+			},
+			{
+				"level": 2,
+				"text": "Network truth",
+				"anchor": "network-truth"
+			},
+			{
+				"level": 2,
+				"text": "Files drag/drop",
+				"anchor": "files-drag-drop"
+			}
+		],
+		"excerpt": "B\"H Shared Power Features One command/search doorway The shared header search remains the single global search/command lens. Do not add a second global palette merely to expose shortcuts. The shell power layer enriches that existing doorway with: remembered recent routes; user favorited routes; shortcut/help discovery ",
+		"searchText": "b\"h shared power features one command/search doorway the shared header search remains the single global search/command lens. do not add a second global palette merely to expose shortcuts. the shell power layer enriches that existing doorway with: remembered recent routes; user favorited routes; shortcut/help discovery with ?; profile, signals and safe sign out account actions; torah search alongside route search. keyboard existing cmd/ctrl+k and / focus the shared search. cmd/ctrl+shift+f toggles the current route favorite when focus is not inside an editable control. ? opens help through the existing search lens. persistence recents/favorites and the one time onboarding hint use localstorage as optional convenience only. navigation never depends on localstorage being available. network truth the shared shell records data network state=\"online offline\" and emits the shared toast language when connectivity changes. it does not pretend that browser online state proves every backend dependency is healthy; product specific degraded states may still exist beneath it. files drag/drop file explorer drag/drop/paste uses vfs stat() before a move/import. existing destinations are skipped rather than silently overwritten, and recursive self moves are refused. transfer feedback states how many items completed or were skipped.",
+		"page": "pages/docs-geelooy-power-features-md-576cc7bf80.json"
 	}
 ]

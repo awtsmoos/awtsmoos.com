@@ -1,0 +1,121 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-master-execution-plan-01-world-selection-boot-2263bec864",
+		"title": "01 — World Selection, Boot, Saves, and Streaming",
+		"sourcePath": "geelooy/games/mitzvahWorld/MASTER_EXECUTION_PLAN/01_WORLD_SELECTION_BOOT.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "01 — World Selection, Boot, Saves, and Streaming",
+				"anchor": "01-world-selection-boot-saves-and-streaming"
+			},
+			{
+				"level": 2,
+				"text": "Required official worlds",
+				"anchor": "required-official-worlds"
+			},
+			{
+				"level": 2,
+				"text": "Existing launcher foundation to extend",
+				"anchor": "existing-launcher-foundation-to-extend"
+			},
+			{
+				"level": 2,
+				"text": "World manifest contract",
+				"anchor": "world-manifest-contract"
+			},
+			{
+				"level": 2,
+				"text": "Critical feature-policy work",
+				"anchor": "critical-feature-policy-work"
+			},
+			{
+				"level": 2,
+				"text": "Boot acceptance",
+				"anchor": "boot-acceptance"
+			},
+			{
+				"level": 2,
+				"text": "Saves and world switching",
+				"anchor": "saves-and-world-switching"
+			},
+			{
+				"level": 2,
+				"text": "Official-world release ladder",
+				"anchor": "official-world-release-ladder"
+			},
+			{
+				"level": 2,
+				"text": "Rule",
+				"anchor": "rule"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed be He 01 — World Selection, Boot, Saves, and Streaming Required official worlds [ ] Blank Meadow: grass + dirt blend + subtle terrain + sky + collision + player + movement + Creator. Absolutely no trees, NPCs, houses, rivers, quests, enemies, combat, animals, or heavy simulation unless the use",
+		"searchText": "b\"h boruch hashem blessed be he 01 — world selection, boot, saves, and streaming required official worlds [ ] blank meadow: grass + dirt blend + subtle terrain + sky + collision + player + movement + creator. absolutely no trees, npcs, houses, rivers, quests, enemies, combat, animals, or heavy simulation unless the user adds them. [ ] living village: real canonical village with usable houses/doors/interiors, npc residents/schedules, roads/paths, trees, river/stream, bridge, wells/water, orchards/flowers, animals, ambient sound, basic economy, quests, and persistence. [ ] great valley: village plus streamed mountain/forest/highland packages, waterfalls, wildlife, expanded hydrology, deeper weather/ecology, and large region traversal. [ ] living city & countryside: only expose after a distinct real city authority exists; never silently route to village. [ ] later official candidates: procedural wilderness, deep forest, mountain valley, riverlands, desert/dry highlands, winter world, weather laboratory, random world. [ ] developer only worlds: performance torture, physics lab, vegetation gallery, hydrology lab, npc civilization lab, asset gallery. existing launcher foundation to extend world/experience/mitzvahworldexperiencecatalog.js launcher/worldbrowsermodel.js launcher/worldbrowserview.js launcher/mitzvahworldsingleplayerruntimeoptions.js app/createeretzruntime.js app/eretzpostplayableworldpolicy.js app/eretzpostplayablepriority.js do not create a competing selector. world manifest contract every official world should be an immutable manifest containing: stable world/template id and schema version; seed and procedural version pin; terrain/climate/biome recipe; feature flags for combat, quests, map, creator, houses, npcs, animals, trees, water, weather, districts, deep streaming; starting position and safe spawn; required assets versus optional enrichment; graphics/simulation budget class; save compatibility/migration information. critical feature policy work [ ] attach selected worldexperience to the live runtime before bootstrap systems mount. [ ] make bootstrap combat conditional; blank meadow must not construct it. [ ] make minimap optional per manifest. [ ] make cinematic environment, landscape, hero presentation, terrain hydration, districts, and deferred enrichment individually policy driven. [ ] rich mounts must consult the same immutable authority for houses, mountains, trees, vegetation, water, npcs, animals, quests, and targeting. [ ] preserve compatibility aliases for old simple meadow and local reference village ids without duplicating runtime truth. [ ] unknown ids must safely resolve to blank meadow, not a rich world. boot acceptance [ ] card click resolves exact world id. [ ] first meaningful frame appears before enrichment. [ ] input visibly moves the player before optional systems settle. [ ] every optional subsystem has a bounded timeout/cancellation path. [ ] network disabled: blank meadow still reaches control. [ ] missing weather/catalog/ai/multiplayer: no first control regression. [ ] cold cache, warm cache, corrupt cache, slow network, and offline boots all tested. saves and world switching [ ] separate immutable template from save instance: e.g. living village versus my village — day 36. [ ] save procedural baseline identity plus sparse deltas; never serialize untouched forests/terrain wholesale. [ ] transactional autosave with multiple recovery checkpoints. [ ] corrupt save detection and rollback. [ ] explicit schema migrations and procedural generator version pinning. [ ] preserve important stable ids for trees, buildings, npcs, quests, builds, bridges, inventories, and world events. [ ] world a → b → c → a soak test; memory, workers, gpu resources, audio nodes, timers, physics, navigation, and network subscriptions must return to baseline. [ ] safe boot after prior crash: same save, optional enrichment temporarily disabled. [ ] continue/new/duplicate/rename/delete/export recipe/share seed ux. official world release ladder tier 0 engine alive: blank meadow boots, renders, collides, and moves. tier 1 world alive: village has real doors, residents, trees, river, bridge, persistence. tier 2 region alive: great valley streams settlement + wilderness + weather/ecology. tier 3 civilization alive: schedules, economy, ecology, weather, quests, construction, and persistence interact coherently. rule no official world appears as playable unless automated testing proves that exact manifest reaches controllable gameplay. experimental/incomplete worlds belong in labs and are labeled honestly.",
+		"page": "pages/geelooy-games-mitzvahworld-master-execution-plan-01-world-selection-boot-2263bec864.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-master-execution-plan-02-procedural-core-tree-cbf0557efb",
+		"title": "02 — Procedural Core Tree, Vegetation, Botany, Ecology",
+		"sourcePath": "geelooy/games/mitzvahWorld/MASTER_EXECUTION_PLAN/02_PROCEDURAL_CORE_TREE_VEGETATION.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "02 — Procedural Core Tree, Vegetation, Botany, Ecology",
+				"anchor": "02-procedural-core-tree-vegetation-botany-ecology"
+			},
+			{
+				"level": 2,
+				"text": "Architectural laws",
+				"anchor": "architectural-laws"
+			},
+			{
+				"level": 2,
+				"text": "EZ-Tree 2.0 strict-superset gate",
+				"anchor": "ez-tree-2-0-strict-superset-gate"
+			},
+			{
+				"level": 2,
+				"text": "Canonical tree authority",
+				"anchor": "canonical-tree-authority"
+			},
+			{
+				"level": 2,
+				"text": "Branch and crown biology",
+				"anchor": "branch-and-crown-biology"
+			},
+			{
+				"level": 2,
+				"text": "Fine morphology",
+				"anchor": "fine-morphology"
+			},
+			{
+				"level": 2,
+				"text": "Flowers, fruit, lifecycle, damage",
+				"anchor": "flowers-fruit-lifecycle-damage"
+			},
+			{
+				"level": 2,
+				"text": "Roots and environment",
+				"anchor": "roots-and-environment"
+			},
+			{
+				"level": 2,
+				"text": "Species asset authority",
+				"anchor": "species-asset-authority"
+			},
+			{
+				"level": 2,
+				"text": "Forest scale",
+				"anchor": "forest-scale"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed be He 02 — Procedural Core Tree, Vegetation, Botany, Ecology Architectural laws [ ] awtsmoos procedural core contains zero THREE.js specific implementation, imports, DOM assumptions, WebGL objects, or renderer classes. [ ] Move all THREE adapters into an external renderer integration package; ",
+		"searchText": "b\"h boruch hashem blessed be he 02 — procedural core tree, vegetation, botany, ecology architectural laws [ ] awtsmoos procedural core contains zero three.js specific implementation, imports, dom assumptions, webgl objects, or renderer classes. [ ] move all three adapters into an external renderer integration package; migrate consumers before deleting compatibility paths. [ ] core outputs only portable data: positions, normals, uvs, indices, material roles, texture identities, instances, skeletons, collision intent, animation/deformation state, semantic metadata, simulation state. [ ] core must import in plain node and workers without window, document, image, three, webgl, or network access. [ ] add ci scans/tests that fail on forbidden renderer references. ez tree 2.0 strict superset gate maintain a checked in parity matrix mapping each upstream feature to awtsmoos implementation + regression test. [ ] seeded deterministic generation; [ ] recursive branching, taper, twist, gnarliness; [ ] global growth force and trellis attraction; [ ] stratified longitudinal attachments + independently permuted radial slots; [ ] attachment interpolation between real branch nodes; [ ] radius aware bark uvs and physical bark repeat scale; [ ] single/double billboard foliage and rounded foliage normals; [ ] same skeleton multi lod with radial/longitudinal/leaf/twig controls; [ ] raw renderer neutral geometry; [ ] caller supplied abstract pbr/material identities; [ ] wind behavior surpassed by renderer neutral hierarchical dynamics. canonical tree authority [ ] collapse duplicate tree paths into one flow: species → environment → biology → canonical skeleton → roots → twigs → reproductive organs → foliage → geometry → materials → wind → lod → instances/streaming. [ ] separate species identity, preset/style, age, environment, management, and quality budget. [ ] keep rng domains independent for trunk, major branches, twigs, leaves, flowers, fruit, roots, bark variation, deadwood, wind, seasons, damage, and ecology. [ ] changing textures, season, wind, or graphics quality must not alter structural identity. [ ] stable skeleton hashes across lods and reloads. [ ] resource budgets must degrade gracefully rather than delete foliage or violate pipe model conservation. branch and crown biology [ ] apical dominance, internodes, lateral/terminal buds, species branch whorls, phyllotaxis; [ ] age specific branch order, lower branch shedding, self thinning, crown retrenchment; [ ] light seeking growth, self shading avoidance, canopy gap filling, crown collision avoidance; [ ] obstacle/building avoidance, prevailing wind asymmetry, slope response, tree lean; [ ] allometry between height, trunk diameter, crown radius, branch radius, leaf area, roots, and biomass; [ ] pipe model conductive area, sapwood/heartwood intent, branch collars, junction swelling, butt flare; [ ] hero quality blended/welded branch junctions rather than visibly glued cylinders. fine morphology [ ] broadleaf hierarchy: trunk → limb → branch → fine twig → petiole → individual leaf; [ ] compound leaves: pinnate, bipinnate, palmate, opposite/alternate/whorled placement; [ ] petioles, leaf curvature/cupping/twist, front/back material intent, transmission, midrib/edge wind weights; [ ] pine branch whorls → shoots → needle fascicles/clusters; [ ] cedar/cypress flattened sprays/scale foliage; [ ] palm trunk → crown → frond rachis → leaflet behavior; [ ] willow hanging flexible terminal twigs; [ ] mangrove prop roots/pneumatophores; baobab massive trunk/sparse limbs; redwood vertical dominance. flowers, fruit, lifecycle, damage [ ] replace placeholders with parameterized buds, sepals, petals, centers, stamens/pistils where useful, stems, fruit, pods, nuts, cones. [ ] flower controls: petal count/shape/curve/rotation/color, center, orientation, clustering; support solitary/raceme/panicle/umbel/spike/catkin. [ ] lifecycle: dormant bud → swelling/opening → leaf/flower → pollinated → immature fruit → mature fruit → dropped fruit/seed. [ ] fruit/cones attach to real twigs and can influence branch deformation at hero quality. [ ] seasons: leaf out, mature, autumn, senescence, fall, bare winter; evergreens get new shoots/annual shedding/snow loading. [ ] persistent damage: pruning, broken branches, scars, lightning, fire, wounds, deadwood, snags, cavities, fallen logs, stumps, growth rings. [ ] growth stages: sapling, young, mature, ancient, decline, dead; preserve tree lineage across years. roots and environment [ ] root architectures: taproot, fibrous, shallow radial, buttress, prop root; roots follow soil/slope, avoid rock/foundations, seek moisture. [ ] root/trunk ground blending and exposed roots near erosion. [ ] soil fields: moisture, organic matter, ph, drainage, depth, rockiness, temperature, salinity. [ ] light, water, temperature, elevation, slope/aspect, wind exposure, flooding, drought, snow, fire, grazing, and human management alter phenotype. [ ] crown and root competition fields; sapling recruitment and carrying capacity. [ ] succession: disturbance → pioneers → young woodland → mature forest → old growth; age cohorts and edge ecology. species asset authority [ ] your exact transparent per species leaf is hero/high detail authority. [ ] generated 1024/512/256 derivatives are standard lod sources; old chai/ez aggregate cards become lower lod/fallback assets. [ ] exact bark → evidenced pbr bark family → morphology fallback → neutral procedural fallback. never silently fake species identity. [ ] publish/version tree species.json with aliases, morphology, leaf/bark/pbr assets, alpha state, resolution, provenance, lods, fallback confidence. [ ] remaining known true gaps: cedar bark, maple bark, proper cherry/sakura leaf + bark. [ ] alpha safe mipmaps/edge dilation/coverage preservation; verify no white halos or clipped stems. forest scale [ ] instance batching by species/lod/material/archetype; cache structural archetypes and shared geometry. [ ] lod hierarchy: hero tree → simplified tree → tree impostor → forest cluster → canopy mass → regional statistical cover. [ ] hysteresis/crossfade intent, canopy projected area preservation, alpha overdraw budgets, texture/material lod. [ ] near trees simulated individually; mid distance cohorts; far forest statistics. promote/demote without changing identity. [ ] worker generation, cancellation, transferable arrays, deterministic cell seeds, cell border consistency. [ ] performance, fuzz, determinism, memory, topology, material, and species gallery tests are release gates.",
+		"page": "pages/geelooy-games-mitzvahworld-master-execution-plan-02-procedural-core-tree-cbf0557efb.json"
+	}
+]

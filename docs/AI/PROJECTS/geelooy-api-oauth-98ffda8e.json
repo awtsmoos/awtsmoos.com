@@ -12,7 +12,9 @@
 	"title": "geelooy/api/oauth",
 	"entries": [
 		"_awtsmoos.derech.js",
-		"DOCUMENTATION.md"
+		"DOCUMENTATION.md",
+		"README.md",
+		"readme.md"
 	],
 	"humanDocumentation": [
 		"geelooy/api/oauth/DOCUMENTATION.md",
@@ -23,32 +25,32 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-oauth-98ffda8e.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 47,
-		"tests": 10,
+		"source": 60,
+		"tests": 16,
 		"assets": 0,
 		"generated": 0,
-		"docs": 1,
+		"docs": 7,
 		"other": 0
 	},
-	"totalFiles": 58,
+	"totalFiles": 83,
 	"symbolSummary": {
-		"files": 47,
+		"files": 60,
 		"classes": 0,
-		"functions": 168,
-		"exports": 155,
+		"functions": 216,
+		"exports": 210,
 		"samples": [
 			"dynamicRoutes",
 			"cleanRouteName",
 			"missingRoute",
 			"callRoute",
+			"logRouteLoadFailure",
 			"applyOAuthHeaders",
 			"buildTokenBody",
 			"makeAccessToken",
 			"base64Url",
 			"sign",
-			"getClient",
-			"listClients",
-			"publicClient"
+			"HANDOFF_ID_BYTES",
+			"HANDOFF_MAX_RECORDS"
 		]
 	},
 	"outgoingDependencies": [
@@ -60,19 +62,29 @@
 	],
 	"incomingDependencies": [
 		{
+			"project": "geelooy/api/social",
+			"count": 8,
+			"examples": "geelooy/api/social/helper/comments/postRefComment.js; geelooy/api/social/helper/comments/routes/rich.js; geelooy/api/social/helper/comments/translationAnnotations.js"
+		},
+		{
+			"project": "geelooy/api/tunnel",
+			"count": 2,
+			"examples": "geelooy/api/tunnel/control/core/auth.js; geelooy/api/tunnel/control/mcp/auth.js"
+		},
+		{
 			"project": "geelooy/.well-known",
 			"count": 1,
 			"examples": "geelooy/.well-known/_awtsmoos.derech.js"
 		},
 		{
-			"project": "geelooy/api/tunnel",
-			"count": 1,
-			"examples": "geelooy/api/tunnel/control/core/auth.js"
-		},
-		{
 			"project": "geelooy/api/youtube",
 			"count": 1,
 			"examples": "geelooy/api/youtube/routes/auth.js"
+		},
+		{
+			"project": "geelooy/sites",
+			"count": 1,
+			"examples": "geelooy/sites/siteRemixReceiptCrypto.js"
 		}
 	],
 	"externalDependencies": [],

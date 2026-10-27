@@ -1,0 +1,163 @@
+[
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-docs-procedural-compiler-bridges-m-972921dfca",
+		"title": "B\"H — Procedural Compiler Bridges",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/PROCEDURAL_COMPILER_BRIDGES.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Procedural Compiler Bridges",
+				"anchor": "b-h-procedural-compiler-bridges"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Authority boundaries",
+				"anchor": "authority-boundaries"
+			},
+			{
+				"level": 2,
+				"text": "Built-in Modeling bridge",
+				"anchor": "built-in-modeling-bridge"
+			},
+			{
+				"level": 2,
+				"text": "Explicit installation",
+				"anchor": "explicit-installation"
+			},
+			{
+				"level": 2,
+				"text": "High-level facade integration seam",
+				"anchor": "high-level-facade-integration-seam"
+			},
+			{
+				"level": 2,
+				"text": "Quantity convergence",
+				"anchor": "quantity-convergence"
+			},
+			{
+				"level": 2,
+				"text": "Verification evidence",
+				"anchor": "verification-evidence"
+			}
+		],
+		"excerpt": "B\"H — Procedural Compiler Bridges Boruch Hashem. Blessed is He. The Awtsmoos renews intent, compiler, and artifact before any layer can pretend to stand alone; Awtsmoos.com keeps each semantic vessel explicit so universality grows through truthful bridges, not hidden fusion. Purpose This document records the stable bri",
+		"searchText": "b\"h — procedural compiler bridges boruch hashem. blessed is he. the awtsmoos renews intent, compiler, and artifact before any layer can pretend to stand alone; awtsmoos.com keeps each semantic vessel explicit so universality grows through truthful bridges, not hidden fusion. purpose this document records the stable bridge architecture between canonical semantic definitions, specialist modeling data, compiler discovery, and renderer neutral output. authority boundaries 1. awtsmoos.procedural language/1 definition is canonical semantic intent. 2. awtsmoos.modeling document is a specialist modeling dialect carried explicitly by a modeling.document definition. 3. proceduralcompilercapabilityregistry owns serializable compiler discovery and keeps executors private. 4. universalsemantickernel is intentionally empty when constructed directly; low level kernels have no implicit specialist registrations. 5. installdefaultproceduralcompilers(...) is the explicit bridge that installs built in specialists into either a registry or semantic kernel. 6. awtsmoos.procedural object recipe remains the renderer neutral execution recipe produced by the modeling bridge. built in modeling bridge the built in capability id is awtsmoos.modeling document.core bridge. it accepts only kind: modeling.document and advertises the geometry, material, and metadata channels. its public descriptor never exposes the trusted executor function. a modeling definition carries its specialist source at: the compiler resolves that field through createmodelingdocument(...), then reuses the existing lowermodelingdocumenttoproceduralobject(...) authority. no second modeling schema or renderer specific source of truth is introduced. explicit installation createdefaultcompilercapabilityregistry() creates a fresh registry and calls installdefaultproceduralcompilers(...). a directly created semantic kernel remains empty until the same installer is called explicitly. this preserves low level isolation while giving higher level apis one stable composition seam. the installer currently registers the modeling bridge and is the intended home for future built in compiler registrations. high level facade integration seam the concurrent five verb createawtsmoos() facade currently creates an isolated semantic kernel and then registers caller provided compilers. its authority composition files were active untracked work during this implementation, so this tranche did not overwrite them. when that facade ownership is clean, its high level authority composition should explicitly call installdefaultproceduralcompilers(kernel) before applying caller registrations. the low level createuniversalsemantickernel() factory must remain unchanged and implicit registration free. quantity convergence the canonical quantity factory now supports finite scalar and vector values while preserving the mature scalar tolerance/min/max contract. the legacy quantity/createquantitydescriptor.js path is a compatibility re export of the canonical value/createquantitydescriptor.js authority. vector quantities intentionally reject scalar tolerance, min, and max fields until component wise range semantics are formally defined. verification evidence focused quantity compatibility and historic quantity tests: 7/7 passed after final helper rewrite focused modeling/compiler/kernel tests: 9/9 passed explicit default installer tests: 4/4 passed broad procedurallanguage .test.mjs regression after installer integration: 47/47 passed concurrent universalawtsmoos .test.mjs facade regression: 21/21 passed all touched source/test files parse with node check git diff check passes for all touched source/test files every touched source/test file is at most 100 lines",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-docs-procedural-compiler-bridges-m-972921dfca.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-docs-procedural-portal-universal-d-b91f8604b1",
+		"title": "Portal Universal Data — Describe Anything Without Teaching Portal Every Noun",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/PROCEDURAL_PORTAL_UNIVERSAL_DATA.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Portal Universal Data — Describe Anything Without Teaching Portal Every Noun",
+				"anchor": "portal-universal-data-describe-anything-without-teaching-portal-every-noun"
+			},
+			{
+				"level": 2,
+				"text": "Root principle",
+				"anchor": "root-principle"
+			},
+			{
+				"level": 2,
+				"text": "Canonical definition shape",
+				"anchor": "canonical-definition-shape"
+			},
+			{
+				"level": 2,
+				"text": "Why traits instead of one giant class tree?",
+				"anchor": "why-traits-instead-of-one-giant-class-tree"
+			},
+			{
+				"level": 2,
+				"text": "Relationships make the world a graph",
+				"anchor": "relationships-make-the-world-a-graph"
+			},
+			{
+				"level": 2,
+				"text": "Constraints preserve truth across implementations",
+				"anchor": "constraints-preserve-truth-across-implementations"
+			},
+			{
+				"level": 2,
+				"text": "Artifact requests",
+				"anchor": "artifact-requests"
+			},
+			{
+				"level": 2,
+				"text": "Provenance",
+				"anchor": "provenance"
+			},
+			{
+				"level": 2,
+				"text": "The honest meaning of “generate anything”",
+				"anchor": "the-honest-meaning-of-generate-anything"
+			}
+		],
+		"excerpt": "B\"H Portal Universal Data — Describe Anything Without Teaching Portal Every Noun Boruch Hashem. Blessed is He. The Awtsmoos renews tree, river, building, creature, garment, machine, weather, and future unnamed form before a schema may call them different. Awtsmoos.com lets their finite differences live in semantic data",
+		"searchText": "b\"h portal universal data — describe anything without teaching portal every noun boruch hashem. blessed is he. the awtsmoos renews tree, river, building, creature, garment, machine, weather, and future unnamed form before a schema may call them different. awtsmoos.com lets their finite differences live in semantic data and specialist compilers while the common language remains stable enough for worlds not imagined when the kernel was written. root principle geometry is an artifact, not the root ontology. a portal definition describes intent . registered compilers decide how requested intent becomes visual geometry, collision, navigation, rigs, physics, audio, metadata, or other supported artifacts. canonical definition shape the canonical procedural definition can also carry behaviors, quantities/units, semantic references, resources, ordered actions, provenance, extensions, revision, and deterministic seed data. why traits instead of one giant class tree? one thing may simultaneously be living, container, walkable, weatherable, riggable, or structural. traits compose without forcing every future noun into a single inheritance hierarchy foreseen by today's code. implementation classes remain valuable for registries, compilers, planners, validators, adapters, and runtime services. authored reality stays data composed. relationships make the world a graph relationships use generic from / to endpoints and can express meanings such as: inside / contains attachedto supportedby spans growsfrom follows carvedinto surrounds drainsinto connectedby the kernel need not hardcode every relationship meaning. domain validators and compilers may register deeper semantics above the generic portable descriptor. constraints preserve truth across implementations constraints currently remain portable json safe definition data. domain authorities may interpret meanings such as clearance, slope, containment, support, no intersection, silhouette, biological proportion, spatial budget, or other laws. a compiler may satisfy a constraint natively, delegate it, defer it, or report that its capability cannot fulfill it. it must not silently claim success. artifact requests the same definition can produce different requested manifestations: editor preview: visual + metadata gameplay: visual + collision + navigation + interaction animation: visual + rig + animation simulation: geometry + physics + metadata export: visual + material + export the semantic definition remains stable while compile policy changes. provenance portal planning exposes a stable definitionhash. compilation carries the canonical artifact request into every specialist. compile outputs, explanations, and universal world resources preserve both values so future editors can answer: which exact authored definition produced this? what artifact channels were requested? which dependencies existed? was fallback used? which result type appeared? the honest meaning of “generate anything” the grammar is open to any noun without kernel changes. the runtime ability to produce a high quality artifact depends on registered compiler capability. adding architecture.cathedral, biology.beetle, or future.quantum garden should require a domain compiler/plugin, not a new portal verb or a new root data format.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-docs-procedural-portal-universal-d-b91f8604b1.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-docs-procedural-portal-md-2fa1c36d04",
+		"title": "Procedural Portal — One Small Doorway Into the Anything Kernel",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/PROCEDURAL_PORTAL.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Procedural Portal — One Small Doorway Into the Anything Kernel",
+				"anchor": "procedural-portal-one-small-doorway-into-the-anything-kernel"
+			},
+			{
+				"level": 2,
+				"text": "Start simple",
+				"anchor": "start-simple"
+			},
+			{
+				"level": 2,
+				"text": "One canonical definition model",
+				"anchor": "one-canonical-definition-model"
+			},
+			{
+				"level": 2,
+				"text": "Universal artifact desire",
+				"anchor": "universal-artifact-desire"
+			},
+			{
+				"level": 2,
+				"text": "Deterministic identity and planning",
+				"anchor": "deterministic-identity-and-planning"
+			},
+			{
+				"level": 2,
+				"text": "Compilation and persistence",
+				"anchor": "compilation-and-persistence"
+			},
+			{
+				"level": 2,
+				"text": "Open-ended domain federation",
+				"anchor": "open-ended-domain-federation"
+			},
+			{
+				"level": 2,
+				"text": "Extension and trust",
+				"anchor": "extension-and-trust"
+			}
+		],
+		"excerpt": "B\"H Procedural Portal — One Small Doorway Into the Anything Kernel Boruch Hashem. Blessed is He. The Awtsmoos renews intention, relation, measure, compiler, and manifestation before any generated thing can claim itself. Awtsmoos.com keeps that immense possibility usable through one small Portal: describe what should ex",
+		"searchText": "b\"h procedural portal — one small doorway into the anything kernel boruch hashem. blessed is he. the awtsmoos renews intention, relation, measure, compiler, and manifestation before any generated thing can claim itself. awtsmoos.com keeps that immense possibility usable through one small portal: describe what should exist, inspect the plan, and let registered specialists reveal the requested artifacts without inventing a second semantic language. start simple the ordinary surface stays intentionally small: create(intent, options) — plan and compile semantic roots. world(initial) — open an additive authoring session. plan(intent, options) — validate and measure without execution. compile(intentorplan, options) — execute a plan or fresh intent. describe(kind?) — discover kinds, fields, and artifact vocabulary. with(overrides) — derive an independent extended portal. one canonical definition model every portal recipe is normalized through awtsmoos.procedural language/1. portal does not maintain a competing object language. simple old recipes remain valid. rich recipes may add traits, relationships, behaviors, constraints, quantities, resources, provenance, and compile policy. see procedural portal universal data.md for the complete data architecture. universal artifact desire portal discovery publishes the canonical channels: visual, geometry, material, collision, navigation, rig, animation, physics, audio, interaction, metadata, lod, thumbnail, export, debug. a recipe may request channels through compile.required, compile.optional, or the compatibility compile.channels field. required channels are strict intent; optional channels are best effort desires selected by available compiler capability. deterministic identity and planning aliases resolve before anonymous ids are hashed. each node receives a hierarchical seed path, a canonical definitionhash, a dependency list, demand evidence, budget assessment, and stable plan hash. planning rejects missing references, conflicting ids, cycles, excessive depth, excessive node count, and declared over budget demand before specialist execution. compilation and persistence every specialist receives the same frozen context: canonicaldefinition definitionhash artifactrequest completed dependencies trusted plan current node explicit injected services compatibility recipe runtime heavy results remain in portalcompileresult. portable universal world resources persist definition hash, artifact request, dependency references, fallback evidence, kind, seed lineage, and result type without serializing renderer objects. result.explain(id) exposes the same provenance directly. open ended domain federation createproceduralportal({ proceduralkernel }) installs one instance local dynamic resolver over the universal semantic kernel. new compiler kind patterns become portal visible without adding another method or hardcoded noun to portal itself. actual production generation still requires a registered compiler for the requested kind/channel combination. the architecture is noun neutral; capability claims remain truthful and explicit. extension and trust portal kinds and procedural language compilers are trusted javascript in the current host realm. budgets are planning evidence, not process isolation. do not install untrusted generator code without a real worker/process/realm capability boundary. instance local registry/kernel extension is the intended pattern. semantic data enters portal; mature domain authorities perform the work; portable receipts preserve what was requested and what actually happened.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-docs-procedural-portal-md-2fa1c36d04.json"
+	}
+]

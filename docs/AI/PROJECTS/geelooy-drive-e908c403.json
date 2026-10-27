@@ -9,7 +9,7 @@
 		"id": "public",
 		"title": "Public and Other Boundaries"
 	},
-	"title": "Geelooy Sites · Awtsmoos",
+	"title": "Awtsmoos Drive",
 	"entries": [
 		"index.html",
 		"app.js",
@@ -25,19 +25,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-drive-e908c403.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 159,
-		"tests": 52,
-		"assets": 0,
+		"source": 211,
+		"tests": 76,
+		"assets": 1,
 		"generated": 0,
 		"docs": 2,
 		"other": 0
 	},
-	"totalFiles": 213,
+	"totalFiles": 290,
 	"symbolSummary": {
-		"files": 132,
-		"classes": 30,
-		"functions": 448,
-		"exports": 222,
+		"files": 170,
+		"classes": 37,
+		"functions": 628,
+		"exports": 314,
 		"samples": [
 			"initializeBuilder",
 			"installKeyboardCommands",
@@ -71,9 +71,9 @@
 		{
 			"url": "/drive",
 			"file": "geelooy/drive/index.html",
-			"title": "Geelooy Sites · Awtsmoos",
+			"title": "Awtsmoos Drive",
 			"scripts": 1,
-			"styles": 25
+			"styles": 2
 		}
 	],
 	"requiresLocalDocumentation": true,

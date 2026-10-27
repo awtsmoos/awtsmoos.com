@@ -1,250 +1,203 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--956429f1fe",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/assets/materials/local/world/awtsmoos-nature/chai-forest/textures/bark/Bark014_1K-JPG/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-generated-system-tutorials-systems-tunnel-control-identity-md-25a3e91352",
+		"title": "System Tutorial: Tunnel Control Identity",
+		"sourcePath": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/tunnel-control-identity.md",
+		"category": "Tunnel",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: assets/materials/local/world/awtsmoos-nature/chai-forest/textures/bark/Bark0141K-JPG",
-				"anchor": "directory-guide-assets-materials-local-world-awtsmoos-nature-chai-forest-textures-bark-bark0141k-jpg"
+				"text": "System Tutorial: Tunnel Control Identity",
+				"anchor": "system-tutorial-tunnel-control-identity"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Claims boundary",
+				"anchor": "claims-boundary"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Change risk",
+				"anchor": "change-risk"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Human manuals",
+				"anchor": "human-manuals"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
+				"text": "Related project boundaries",
+				"anchor": "related-project-boundaries"
 			},
 			{
 				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
+				"text": "Source anchors",
+				"anchor": "source-anchors"
 			},
 			{
 				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
+				"text": "Generated evidence",
+				"anchor": "generated-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
+				"text": "Environment-name evidence",
+				"anchor": "environment-name-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Realtime application registration evidence",
+				"anchor": "realtime-application-registration-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Lexical event/message evidence",
+				"anchor": "lexical-event-message-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Tags",
+				"anchor": "tags"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/Bark014 1K JPG Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 2 files, 0 structural child directories Purpose A single bark material set named Bark",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark014 1k jpg role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 2 files, 0 structural child directories purpose a single bark material set named bark014 1k jpg, kept as a leaf so its texture maps remain grouped. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: jpg, assets, awtsmoos nature, bark, bark014, bark014 1k jpg, chai forest, color, guide, local, materials, textures file mix: .jpg: 1 · .md: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files bark014 1k jpg color.jpg — a .jpg artifact in this directory. directory map parent: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark children: none. related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. vegetation, trees, and forest systems — botany rules, tree generation, forest composition, grass, and source texture libraries overlap semantically but own different layers. boundaries and cautions this directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--956429f1fe.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He System Tutorial: Tunnel Control Identity District: security · System ID: tunnel control identity Tunnel Control resolves session, OAuth, or verified API key identity into one authoritative account record. Generated evidence below is a navigation aid. Trust, migration, consistency, protoc",
+		"searchText": "b\"h boruch hashem blessed is he system tutorial: tunnel control identity district: security · system id: tunnel control identity tunnel control resolves session, oauth, or verified api key identity into one authoritative account record. generated evidence below is a navigation aid. trust, migration, consistency, protocol, and authorization semantics remain grounded in the linked human manuals and current source. claims boundary the identity resolver rejects browser supplied owner fields as authority; downstream permissions remain separate. change risk identity source precedence, api key verification, and account normalization directly affect authorization inputs. human manuals docs/security/trust boundaries.md docs/tutorials/api/tunnel control.md related project boundaries geelooy/api/tunnel (api) — geelooy/api/tunnel source anchors geelooy/api/tunnel/control/core/auth.js generated evidence docs/generated/api tutorial index.md environment name evidence name class source refs example sources awtsmoos artifact storage root path/storage 6 geelooy/api/tunnel/control/core/artifactpublicationstore.js; geelooy/api/tunnel/control/core/binaryartifactpublication.js; geelooy/api/tunnel/control/core/binaryartifactpublication.test.cjs awtsmoos binary artifact root path/storage 6 geelooy/api/tunnel/control/core/binaryartifactvault.js; geelooy/api/tunnel/control/routes/test/artifactbinaryhttp.test.cjs; geelooy/api/tunnel/control/routes/test/artifactbinaryprivaterangehttp.test.cjs awtsmoos binding history per identity runtime config 1 geelooy/api/tunnel/control/core/tunnelsecurity/bindingretentionpolicy.js awtsmoos binding retention ms tuning 1 geelooy/api/tunnel/control/core/tunnelsecurity/bindingretentionpolicy.js realtime application registration evidence no versioned application registrations are attached to this packet. lexical event/message evidence none observed for this system packet. tags identity · api key · oauth · session · tunnel",
+		"page": "pages/docs-generated-system-tutorials-systems-tunnel-control-identity-md-25a3e91352.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--22bfadd784",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/assets/materials/local/world/awtsmoos-nature/chai-forest/textures/bark/Bark015_1K-JPG/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-generated-system-tutorials-systems-tunnel-relay-md-345cf07b9d",
+		"title": "System Tutorial: Tunnel Relay",
+		"sourcePath": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/tunnel-relay.md",
+		"category": "Tunnel",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: assets/materials/local/world/awtsmoos-nature/chai-forest/textures/bark/Bark0151K-JPG",
-				"anchor": "directory-guide-assets-materials-local-world-awtsmoos-nature-chai-forest-textures-bark-bark0151k-jpg"
+				"text": "System Tutorial: Tunnel Relay",
+				"anchor": "system-tutorial-tunnel-relay"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Claims boundary",
+				"anchor": "claims-boundary"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Change risk",
+				"anchor": "change-risk"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Human manuals",
+				"anchor": "human-manuals"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
+				"text": "Related project boundaries",
+				"anchor": "related-project-boundaries"
 			},
 			{
 				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
+				"text": "Source anchors",
+				"anchor": "source-anchors"
 			},
 			{
 				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
+				"text": "Generated evidence",
+				"anchor": "generated-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
+				"text": "Environment-name evidence",
+				"anchor": "environment-name-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Realtime application registration evidence",
+				"anchor": "realtime-application-registration-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Lexical event/message evidence",
+				"anchor": "lexical-event-message-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Tags",
+				"anchor": "tags"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/Bark015 1K JPG Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 2 files, 0 structural child directories Purpose A single bark material set named Bark",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark015 1k jpg role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 2 files, 0 structural child directories purpose a single bark material set named bark015 1k jpg, kept as a leaf so its texture maps remain grouped. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: jpg, assets, awtsmoos nature, bark, bark015, bark015 1k jpg, chai forest, color, guide, local, materials, textures file mix: .jpg: 1 · .md: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files bark015 1k jpg color.jpg — a .jpg artifact in this directory. directory map parent: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark children: none. related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. vegetation, trees, and forest systems — botany rules, tree generation, forest composition, grass, and source texture libraries overlap semantically but own different layers. boundaries and cautions this directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--22bfadd784.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He System Tutorial: Tunnel Relay District: realtime · System ID: tunnel relay Account bound agent/device transport, durable request correlation, registration authority, and relay lifecycle. Generated evidence below is a navigation aid. Trust, migration, consistency, protocol, and authorizat",
+		"searchText": "b\"h boruch hashem blessed is he system tutorial: tunnel relay district: realtime · system id: tunnel relay account bound agent/device transport, durable request correlation, registration authority, and relay lifecycle. generated evidence below is a navigation aid. trust, migration, consistency, protocol, and authorization semantics remain grounded in the linked human manuals and current source. claims boundary tunnel relay is a specialized account bound transport, not one of the ordinary versioned application factories. change risk registration authority, routing identity, correlation, retry, or durable state changes can cross account/transport boundaries. human manuals docs/websockets/tunnel relay.md docs/tutorials/api/tunnel control.md related project boundaries ayzarim/awtsmoosdynamicserver (runtime) — ayzarim/awtsmoosdynamicserver geelooy/api/tunnel (api) — geelooy/api/tunnel source anchors ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay.js ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/securitybridge.js ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/registrationauthority.js generated evidence docs/generated/websocket event index.md environment name evidence name class source refs example sources awtsmoos registration stress count test/tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/test/registrationreplacementstress.test.cjs awtsmoos relay stress count test/tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay.concurrent correlation.test.cjs awtsmoos sefira profile path path/storage 1 ayzarim/awtsmoosdynamicserver/websocket/apps/sefiraclash/expeditionprofilerepository.js awtsmoos tunnel acceptance recovery failures runtime config 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/requestacceptancerecoveryvalues.js awtsmoos tunnel acceptance recovery sustain ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/requestacceptancerecoveryvalues.js awtsmoos tunnel acceptance retransmit attempts runtime config 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/requestacceptanceretransmit.js awtsmoos tunnel acceptance retransmit ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/requestacceptanceretransmit.js awtsmoos tunnel completed limit tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel consumer progress ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/requestconsumerwatchdog.js awtsmoos tunnel control store path/storage 11 ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/missionroomsocketintegration.test.cjs; ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/missionroomupgrade.test.cjs; ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/upgradepolicy.test.cjs awtsmoos tunnel instruction file path/storage 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/instructiondynamicfile.js awtsmoos tunnel pending ttl ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel pre acceptance recovery ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/requestdispatchwatchdog.js awtsmoos tunnel quarantine limit tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel relay max safe wait ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel relay safe wait ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel relay state root path/storage 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/durablepaths.js awtsmoos tunnel request acceptance ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/requestdispatchwatchdog.js mw load clients runtime config 1 ayzarim/awtsmoosdynamicserver/websocket/apps/mitzvahworld/sessionloadprobe.cjs realtime application registration evidence no versioned application registrations are attached to this packet. lexical event/message evidence awtsmoosmydevice — ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/envelopeerrors.js durable relay record verification failed — ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/durableverification.js retryaction — ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/canonicalenvelopes.js retryaction — ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/envelopeidentity.js tunnel ack — ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/registrationprobe.js tunnel ack — ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/registrationpublication.js tunnel ack — ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/registrationtransfer.js tunnel instruction details — ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/instructionhandler.js tunnel instruction resolved — ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/instructionhandler.js tunnel replaced — ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/registrationtransfer.js tunnel request — ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/requestdispatch.js tunnel response ack — ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/responseprotocol.js tunnelrequestacceptancetimedout — ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/envelopestalls.js tunnelrequestconflict — ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/envelopeerrors.js tunnelrequestconsumerstalled — ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/envelopestalls.js tunnelrequestpending — ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/envelopepending.js tunnelrequestpersistencefailed — ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/canonicalenvelopes.js tunnelrequestsendfailed — ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/envelopeerrors.js tunnelrequeststateunknown — ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/envelopeerrors.js tunnelrequesttransportstalled — ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/envelopestalls.js tunnelunavailable — ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/envelopeerrors.js tags websocket · tunnel · relay · authorization · correlation",
+		"page": "pages/docs-generated-system-tutorials-systems-tunnel-relay-md-345cf07b9d.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--5c1070077a",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/assets/materials/local/world/awtsmoos-nature/chai-forest/textures/bark/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-generated-system-tutorials-systems-websocket-upgrade-session-md-e3ca056fe3",
+		"title": "System Tutorial: WebSocket Upgrade and Session",
+		"sourcePath": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/websocket-upgrade-session.md",
+		"category": "Realtime",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: assets/materials/local/world/awtsmoos-nature/chai-forest/textures/bark",
-				"anchor": "directory-guide-assets-materials-local-world-awtsmoos-nature-chai-forest-textures-bark"
+				"text": "System Tutorial: WebSocket Upgrade and Session",
+				"anchor": "system-tutorial-websocket-upgrade-and-session"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Claims boundary",
+				"anchor": "claims-boundary"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Change risk",
+				"anchor": "change-risk"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Human manuals",
+				"anchor": "human-manuals"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
+				"text": "Related project boundaries",
+				"anchor": "related-project-boundaries"
 			},
 			{
 				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
+				"text": "Source anchors",
+				"anchor": "source-anchors"
 			},
 			{
 				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
+				"text": "Generated evidence",
+				"anchor": "generated-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
+				"text": "Environment-name evidence",
+				"anchor": "environment-name-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Realtime application registration evidence",
+				"anchor": "realtime-application-registration-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Lexical event/message evidence",
+				"anchor": "lexical-event-message-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Tags",
+				"anchor": "tags"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 1 files, 11 structural child directories Purpose Collection of individual bark material sets. The Aw",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 1 files, 11 structural child directories purpose collection of individual bark material sets. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: assets, awtsmoos nature, bark, chai forest, guide, local, materials, textures file mix: .md: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files no immediate files. this directory is an organizational parent; follow the child guides below. directory map parent: assets/materials/local/world/awtsmoos nature/chai forest/textures children: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark001 1k jpg assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark002 1k jpg assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark003 1k jpg assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark004 1k jpg assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark006 1k jpg assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark007 1k jpg assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark008 1k jpg assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark012 1k jpg assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark013 1k jpg assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark014 1k jpg assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark015 1k jpg related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. vegetation, trees, and forest systems — botany rules, tree generation, forest composition, grass, and source texture libraries overlap semantically but own different layers. boundaries and cautions this directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--5c1070077a.json"
-	},
-	{
-		"id": "geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--998d6b0cd4",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/assets/materials/local/world/awtsmoos-nature/chai-forest/textures/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: assets/materials/local/world/awtsmoos-nature/chai-forest/textures",
-				"anchor": "directory-guide-assets-materials-local-world-awtsmoos-nature-chai-forest-textures"
-			},
-			{
-				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
-			},
-			{
-				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
-			},
-			{
-				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/materials/local/world/awtsmoos nature/chai forest/textures Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 1 files, 3 structural child directories Purpose Texture groups used to construct forest materials. The Aw",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/materials/local/world/awtsmoos nature/chai forest/textures role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 1 files, 3 structural child directories purpose texture groups used to construct forest materials. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: assets, awtsmoos nature, chai forest, guide, local, materials, textures file mix: .md: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files no immediate files. this directory is an organizational parent; follow the child guides below. directory map parent: assets/materials/local/world/awtsmoos nature/chai forest children: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark assets/materials/local/world/awtsmoos nature/chai forest/textures/ground assets/materials/local/world/awtsmoos nature/chai forest/textures/leaves related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. vegetation, trees, and forest systems — botany rules, tree generation, forest composition, grass, and source texture libraries overlap semantically but own different layers. boundaries and cautions this directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--998d6b0cd4.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He System Tutorial: WebSocket Upgrade and Session District: realtime · System ID: websocket upgrade session Upgrade time identity/admission, handshake, client session attachment, and connection activity. Generated evidence below is a navigation aid. Trust, migration, consistency, protocol, ",
+		"searchText": "b\"h boruch hashem blessed is he system tutorial: websocket upgrade and session district: realtime · system id: websocket upgrade session upgrade time identity/admission, handshake, client session attachment, and connection activity. generated evidence below is a navigation aid. trust, migration, consistency, protocol, and authorization semantics remain grounded in the linked human manuals and current source. claims boundary upgrade source establishes the handshake/session boundary; deployment reachability is not inferred. change risk handshake, identity, cookie, and admission changes can alter every realtime application. human manuals docs/websockets/readme.md docs/security/realtime security.md related project boundaries ayzarim/awtsmoosdynamicserver (runtime) — ayzarim/awtsmoosdynamicserver source anchors ayzarim/awtsmoosdynamicserver/websocket/core/socketupgrade.js generated evidence docs/generated/websocket applications.md environment name evidence name class source refs example sources awtsmoos ws backpressure grace ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/core/clientliveness.js awtsmoos ws max missed heartbeats runtime config 1 ayzarim/awtsmoosdynamicserver/websocket/core/clientliveness.js awtsmoos ws probe grace ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/core/clientliveness.js awtsmoos ws stale ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/core/clientliveness.js realtime application registration evidence no versioned application registrations are attached to this packet. lexical event/message evidence none observed for this system packet. tags websocket · upgrade · identity · protocol",
+		"page": "pages/docs-generated-system-tutorials-systems-websocket-upgrade-session-md-e3ca056fe3.json"
 	}
 ]

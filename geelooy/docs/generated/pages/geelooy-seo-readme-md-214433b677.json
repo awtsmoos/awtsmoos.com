@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-seo-readme-md-214433b677",
+	"title": "Awtsmoos.com Public Indexing Architecture",
+	"sourcePath": "geelooy/seo/README.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Awtsmoos.com Public Indexing Architecture",
+			"anchor": "awtsmoos-com-public-indexing-architecture"
+		},
+		{
+			"level": 2,
+			"text": "Public content families",
+			"anchor": "public-content-families"
+		},
+		{
+			"level": 2,
+			"text": "Static HTML enrichment",
+			"anchor": "static-html-enrichment"
+		},
+		{
+			"level": 2,
+			"text": "Discovery graph",
+			"anchor": "discovery-graph"
+		},
+		{
+			"level": 2,
+			"text": "Audits",
+			"anchor": "audits"
+		},
+		{
+			"level": 2,
+			"text": "Important quality boundaries",
+			"anchor": "important-quality-boundaries"
+		},
+		{
+			"level": 2,
+			"text": "Release gate",
+			"anchor": "release-gate"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-seo-readme-md-214433b677-001.json"
+	]
+}

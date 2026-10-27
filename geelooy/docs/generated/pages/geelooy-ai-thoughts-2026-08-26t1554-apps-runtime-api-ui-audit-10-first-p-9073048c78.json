@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-26t1554-apps-runtime-api-ui-audit-10-first-p-9073048c78",
+	"title": "First Pass Delta — Planned Versus Actual",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-26T1554-apps-runtime-api-ui-audit/10_FIRST_PASS_DELTA.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "First Pass Delta — Planned Versus Actual",
+			"anchor": "first-pass-delta-planned-versus-actual"
+		},
+		{
+			"level": 2,
+			"text": "Original Planned Writes",
+			"anchor": "original-planned-writes"
+		},
+		{
+			"level": 2,
+			"text": "What Was Actually Written",
+			"anchor": "what-was-actually-written"
+		},
+		{
+			"level": 2,
+			"text": "What The First Readback Revealed",
+			"anchor": "what-the-first-readback-revealed"
+		},
+		{
+			"level": 3,
+			"text": "Delta 1 — Failed Request URL Correlation",
+			"anchor": "delta-1-failed-request-url-correlation"
+		},
+		{
+			"level": 3,
+			"text": "Delta 2 — Concurrency Responsibility Is Hidden In The CLI",
+			"anchor": "delta-2-concurrency-responsibility-is-hidden-in-the-cli"
+		},
+		{
+			"level": 3,
+			"text": "Delta 3 — Generated Browser Expression Contains Anonymous Logic",
+			"anchor": "delta-3-generated-browser-expression-contains-anonymous-logic"
+		},
+		{
+			"level": 3,
+			"text": "Delta 4 — No Production Rewrite Yet",
+			"anchor": "delta-4-no-production-rewrite-yet"
+		},
+		{
+			"level": 2,
+			"text": "Second Writing Pass",
+			"anchor": "second-writing-pass"
+		},
+		{
+			"level": 2,
+			"text": "NEXTACTION",
+			"anchor": "nextaction"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-26t1554-apps-runtime-api-ui-audit-10-first-p-9073048c78-001.json"
+	]
+}

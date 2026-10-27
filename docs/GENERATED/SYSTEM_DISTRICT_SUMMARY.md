@@ -7,5 +7,5 @@ Blessed is He
 | District | Systems | Env names | Apps | Events |
 | --- | --- | --- | --- | --- |
 | Data and Persistence | 7 | 38 | 0 | 0 |
-| Security and Trust | 6 | 10 | 0 | 0 |
-| Realtime and WebSockets | 5 | 43 | 28 | 54 |
+| Security and Trust | 6 | 15 | 0 | 0 |
+| Realtime and WebSockets | 5 | 62 | 32 | 57 |

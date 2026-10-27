@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# REMAINING_WORK\n\n- [ ] Read wallet commerce contracts and endpoints.\n- [ ] Read game commerce-plan, marketing, storefront and reward contracts.\n- [ ] Discover app catalog and shared tokens/shells.\n- [ ] Check target-path git modifications before rewrites.\n- [ ] Write exact final file plan from evidence.\n- [ ] Implement highest-leverage shared mobile commerce/catalog UX.\n- [ ] Integrate representative app and game paths without duplicating existing abstractions.\n- [ ] Expand declarative monetization/catalog coverage across eligible products.\n- [ ] Verify responsive, accessibility, offline/failure and purchase states.\n- [ ] Re-read touched files; run syntax/tests/build/browser checks.\n- [ ] Compare planned vs actual; resolve deltas and document residual work.\n"
+}

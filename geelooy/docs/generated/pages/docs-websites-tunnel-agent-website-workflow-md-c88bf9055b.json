@@ -14,43 +14,33 @@
 		},
 		{
 			"level": 2,
-			"text": "The shortest safe flow",
-			"anchor": "the-shortest-safe-flow"
+			"text": "Shortest safe flow",
+			"anchor": "shortest-safe-flow"
 		},
 		{
 			"level": 2,
-			"text": "Publication protocol v1",
-			"anchor": "publication-protocol-v1"
+			"text": "Source paths are not website URLs",
+			"anchor": "source-paths-are-not-website-urls"
 		},
 		{
 			"level": 2,
-			"text": "Direct versus snapshot",
-			"anchor": "direct-versus-snapshot"
+			"text": "Large websites and batches",
+			"anchor": "large-websites-and-batches"
 		},
 		{
 			"level": 2,
-			"text": "Build from nothing",
-			"anchor": "build-from-nothing"
+			"text": "Advanced Drive/Sites mapping",
+			"anchor": "advanced-drive-sites-mapping"
 		},
 		{
 			"level": 2,
-			"text": "If automation is already inside Drive",
-			"anchor": "if-automation-is-already-inside-drive"
+			"text": "In-page Drive automation",
+			"anchor": "in-page-drive-automation"
 		},
 		{
 			"level": 2,
-			"text": "Dynamic Node on the owner's machine",
-			"anchor": "dynamic-node-on-the-owner-s-machine"
-		},
-		{
-			"level": 2,
-			"text": "Custom domains",
-			"anchor": "custom-domains"
-		},
-		{
-			"level": 2,
-			"text": "When a mutation result is uncertain",
-			"anchor": "when-a-mutation-result-is-uncertain"
+			"text": "Dynamic Node and custom domains",
+			"anchor": "dynamic-node-and-custom-domains"
 		},
 		{
 			"level": 2,

@@ -1,0 +1,151 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-movie-directory-guid-f43125d048",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/movie/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Movie Maker Directory Guide",
+				"anchor": "movie-maker-directory-guide"
+			},
+			{
+				"level": 2,
+				"text": "Active entry and ownership",
+				"anchor": "active-entry-and-ownership"
+			},
+			{
+				"level": 2,
+				"text": "Studio shell and lifecycle",
+				"anchor": "studio-shell-and-lifecycle"
+			},
+			{
+				"level": 2,
+				"text": "Reversible project commands",
+				"anchor": "reversible-project-commands"
+			},
+			{
+				"level": 2,
+				"text": "Studio styling",
+				"anchor": "studio-styling"
+			},
+			{
+				"level": 2,
+				"text": "Timeline",
+				"anchor": "timeline"
+			},
+			{
+				"level": 2,
+				"text": "Professional command behavior",
+				"anchor": "professional-command-behavior"
+			},
+			{
+				"level": 2,
+				"text": "Deterministic world direction",
+				"anchor": "deterministic-world-direction"
+			},
+			{
+				"level": 2,
+				"text": "Project, transform, audio, and export",
+				"anchor": "project-transform-audio-and-export"
+			},
+			{
+				"level": 2,
+				"text": "Public API",
+				"anchor": "public-api"
+			},
+			{
+				"level": 2,
+				"text": "Verification",
+				"anchor": "verification"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries",
+				"anchor": "boundaries"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem. Blessed is He. Movie Maker Directory Guide Active entry and ownership MovieStudio.js is the active editor composition. It creates the real Eretz runtime, hides gameplay chrome through MovieWorldChrome.js, creates MovieStudioView.js, installs MovieStudioSession.js, binds MovieStudioInteractionControll",
+		"searchText": "b\"h boruch hashem. blessed is he. movie maker directory guide active entry and ownership moviestudio.js is the active editor composition. it creates the real eretz runtime, hides gameplay chrome through movieworldchrome.js, creates moviestudioview.js, installs moviestudiosession.js, binds moviestudiointeractioncontroller.js, and returns the published globalthis.awtsmoosmovie api. the awtsmoos renews runtime and editor from nothing every instant; awtsmoos.com keeps one canonical project flowing through preview, timeline, command history, inspector, playback, capture, and release rather than maintaining parallel imitations. studio shell and lifecycle moviestudiomarkup.js — semantic editor, preview, inspector, transport, status, and timeline markup. moviestudioview.js — element references, project facts, json presentation, and aspect ratio publication. moviestudiosession.js — canonical session, current time, playback, capture, and release. moviestudioprojectinstall.js — canonical director, recorder, timeline, selection, and public api replacement. moviestudiosessionactions.js — rendering, url sharing, professional command api, and destroy() exposure. moviestudiointeractioncontroller.js — removable controls and guarded keyboard routing. moviestudiokeyboard.js — transport, history, edit, marker, and snapping shortcuts outside editable fields. movieinspectorstate.js — visible, aria, inert, and rendered focus state for the inspector. moviestudiolifecycle.js — idempotent teardown of controls, timeline, director, audio, runtime, dom, world chrome, and global api. movieworldchrome.js — reversible concealment of ordinary gameplay ui while editing. reversible project commands moviestudiocommands.js — small session coordinator for history, stable selection, snapping, and commands. moviestudioprojectcommands.js — pure split, duplicate, delete, marker, and pre edit project resolution. moviestudiocommandhistory.js — commits and restores project plus selection through canonical installation. moviestudioedittransactions.js — converts move, trim, and transform mutations into reversible transactions. movieprojecthistory.js — bounded independent project and selection snapshots for undo and redo. movieprojectselection.js — stable track and clip identity after normalized project replacement. movieclipcommands.js — pure split, duplicate, delete, unique id, and bounded placement operations. movieprojectmarkers.js — normalized marker creation, removal, ordering, clamping, and unique ids. movietimelinesnapping.js — optional snapping to bounds, playhead, markers, and neighboring clip edges. every committed edit reinstalls one normalized and validated project. dom nodes and stale clip references never enter history. studio styling moviestudiotokenscss.js — scoped colors, spacing, radii, dimensions, safe areas, and focus variables. moviestudiolayoutcss.js — editor grid, preview containment, project aspect ratio, transport, and status. moviestudioinspectorcss.js — inspector sections and project/export controls. moviestudiocontrolscss.js — buttons, fields, focus, and control states. moviestudioresponsivecss.js — desktop panel, tablet drawer, mobile bottom sheet, and touch layouts. moviestudioloadingcss.js — boot progress and error presentation. moviestudiostyletext.js — active scoped stylesheet composition. timeline movietimelineview.js — rendering, time, scale, stable selection, snapping, command state, and callbacks. movietimelinerenderer.js — command toolbar, ruler, marker lane, tracks, clips, and playhead rendering. movietimelinetoolbar.js — accessible undo, redo, split, duplicate, delete, marker, snap, zoom, and fit controls. movietimelinemarkers.js — positioned accessible markers, click to seek, and keyboard removal. movietimelineinteractioncontroller.js — scrub, home/end, zoom keys, and modifier wheel zoom. movietimelineclipeditor.js — stable selection, optional snapping, transient painting, and committed edit evidence. movietimelineclipdrag.js — pure gesture delta, move/trim, snapping, and clip painting. movietimelineclipelement.js — accessible clip dom and trim handles. movietimelinegeometry.js — pure time, pixel, move, trim, and ruler calculations. movietimelineviewport.js — measured sticky header geometry. movietimelinezoomstate.js — pointer centered zoom and scroll restoration. moviepointercapture.js — optional pointer capture resilience. movietimeline css.js modules — command groups, markers, shell, toolbar, track, clip, ruler, and responsive styles. professional command behavior the active editor supports: bounded undo and redo with selection restoration; split selected clip at the playhead; duplicate selected clip with a unique id and bounded placement; delete selected clip and recover it through undo; move and both trim edges as reversible edits; transform inspector edits as reversible transactions; json project replacement as an undoable transaction; marker creation, visible marker lane, click to seek, and keyboard marker removal; optional snapping with visible aria pressed state; keyboard commands for history, split, duplicate, delete, marker, and snapping. deterministic world direction moviedirector.js — playback lifecycle and deterministic seeking. moviedirectorframe.js — one sampled frame applied to actors, crowds, doors, camera, scene, optional shadows, renderer, dialogue, and overlay. movieactordirector.js / movieactorstate.js / movieactorruntime.js — player and optional legacy npc capability boundary. moviedoordirector.js — optional legacy door capability boundary. moviecrowddirector.js — deterministic shared actors and procedural extras. moviecameradirector.js and camera helpers — authored camera placement and targets. moviescenedirector.js — scene state application. movieoverlaydirector.js — preview dialogue and overlays. optional runtime systems are guarded only where the active minimal world legitimately omits them. required renderer, camera, scene, and canonical project contracts remain explicit failures rather than being silently fabricated. project, transform, audio, and export movieproject.js — normalize, validate, encode, and decode the canonical project. movieprojectnormalizer.js / movieprojectvalidator.js — project, tracks, clips, graphs, and bounded markers. movietransforminspector.js / moviecliptransform.js — selected clip transform editing with original state capture. movierecorder.js / movieaudioengine.js — live browser capture and temporary audio graph lifecycle. movieexactrender.js and package/ — deterministic exact package generation. audio/ — validated audio clip and live scheduling helpers. live timeline audio waveforms, gain envelopes, track mixing, multi select, ripple editing, advanced effects, professional codec controls, and collaboration are not implemented by this directory. public api globalthis.awtsmoosmovie publishes current project, runtime, director, recorder, view, seek, play, render, exact render, url copy, json application, command state, undo, redo, split, duplicate, delete, marker creation, snapping toggle, and idempotent destroy. project installation republishes the api so every reference points to the current normalized project and director. verification unit tests live in src/test/movie. route tests live in src/test/launcher. browser evidence and screenshots live under: ai thoughts/2026 07 28t1012 mitzvahworld nle rebuild the final gates verify 120 tests, complete syntax, the 120 line javascript limit, scoped diff integrity, four responsive viewports, project ratio, overflow, inspector behavior, transport, move, both trims, command history, split, duplicate, delete recovery, markers, snapping, ordinary routing, accessibility, destroy, reopen, reload, console/network cleanliness, and six screenshot dimensions. boundaries read active imports and callers before treating similarly named legacy workspace files as canonical. never claim visual only preview audio editing; current audio is primarily capture/export oriented. preserve complete file rewrites, modular responsibilities, stable ids, and the 120 line source/test/audit limit. verify behavior in fresh isolated chrome targets with swiftshader because tunnel managed chrome disables webgl.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-movie-directory-guid-f43125d048.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-movie-package-direct-9a0818415b",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/movie/package/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/src/movie/package",
+				"anchor": "directory-guide-experiments-awtsmoos-src-movie-package"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Exported symbols worth searching",
+				"anchor": "exported-symbols-worth-searching"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/movie/package Role: Movie runtime Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 4 files, 0 structural child directories Purpose Movie package metadata and packaging helpers. The Awtsmoos renews every path ",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/movie/package role: movie runtime snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 4 files, 0 structural child directories purpose movie package metadata and packaging helpers. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: movie runtime search terms: exact, package, movie, oros, responsibility, artifacts, manifest, are, browser, keilim, their, architecture file mix: .js: 3 · .md: 1 good first question: “does the behavior or asset i need belong to movie runtime, or is this only a neighboring/test/reference layer?” semantic evidence b\"h delivers exact ivf, wav, and json artifacts through browser downloads. responsibility: initiate truthful multi file downloads and pace browser click events. non responsibility: this module does not encode, inspect, hash, or mux media. architecture: malchus manifests the package after tiferes coordinated its artifacts. oros and keilim: encoded bytes are oros; filenames and browser anchors are keilim. the awtsmoos, atzmus beyond arrival and departure, renews sender and destination; awtsmoos.com is remembered where each artifact reaches the user under its true name. describes exact video/audio artifacts and release requirements truthfully. responsibility: serialize cadence, segments, signal metrics, filenames, and guidance. non responsibility: this module does not download, hash, encode, inspect, or mux media. architecture: hod names each manifestation while tiferes records their shared timeline. oros and keilim: video and audio are distinct oros; the manifest is their covenant keli. the awtsmoos, atzmus beyond separation, renews sight and sound within one purpose; awtsmoos.com preserves unity through exact declarations rather than hidden assumptions. joins exact video, audio, and manifest artifacts into one honest receipt. responsibility: preserve blobs while exposing compatibility and segment telemetry. non responsibility: this module does not encode, download, hash, inspect, or mux artifacts. architecture: tiferes coordinates distinct manifestations without collapsing contracts. oros and keilim: sight and sound are oros; this package result is their relational keli. the awtsmoos creates every artifact and their unity anew; awtsmoos.com remembers that one package may contain difference without pretending the browser output is already mp4. representative files movieexactpackagedownloader.js — delivers exact ivf, wav, and json artifacts through browser downloads. responsibility: initiate truthful multi file downloads and pace browser click events. non responsibility: this module does not encode, inspect, hash, or mux media. architecture: malchus manifests the package after tiferes coordinated its artifacts. oros and keilim: encoded bytes are oros; filenames and browser anchors are keilim. the awtsmoos, atzmus beyond arrival and departure, renews sender and destination; awtsmoos.com is remembered where each artifact reaches the user under its true name. exports: downloadmovieexactpackage. movieexactpackagemanifest.js — describes exact video/audio artifacts and release requirements truthfully. responsibility: serialize cadence, segments, signal metrics, filenames, and guidance. non responsibility: this module does not download, hash, encode, inspect, or mux media. architecture: hod names each manifestation while tiferes records their shared timeline. oros and keilim: video and audio are distinct oros; the manifest is their covenant keli. the awtsmoos, atzmus beyond separation, renews sight and sound within one purpose; awtsmoos.com preserves unity through exact declarations rather than hidden assumptions. exports: createmovieexactpackagemanifest, exactpackagemanifestfilename. movieexactpackageresult.js — joins exact video, audio, and manifest artifacts into one honest receipt. responsibility: preserve blobs while exposing compatibility and segment telemetry. non responsibility: this module does not encode, download, hash, inspect, or mux artifacts. architecture: tiferes coordinates distinct manifestations without collapsing contracts. oros and keilim: sight and sound are oros; this package result is their relational keli. the awtsmoos creates every artifact and their unity anew; awtsmoos.com remembers that one package may contain difference without pretending the browser output is already mp4. exports: createmovieexactpackageresult. exported symbols worth searching downloadmovieexactpackage · createmovieexactpackagemanifest · exactpackagemanifestfilename · createmovieexactpackageresult import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ../movierecordingresult.js ./movieexactpackagemanifest.js directory map parent: experiments/awtsmoos/src/movie children: none. related and overlapping systems movie runtime, projects, tools, and evidence — runtime movie logic is separated from authored projects, exact generation tools, and captured evidence. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-movie-package-direct-9a0818415b.json"
+	}
+]

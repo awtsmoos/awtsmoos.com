@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Tanach Search (geelooy/api/social/helper/search/tanach/)\n\nTanach search over native per-sefer JSON data: query, normalize, store, and result shaping, with native translations.\n\n## Files\n- `search.js`, `query.js`, `normalize.js` — search execution and Hebrew normalization.\n- `store.js`, `paths.js` — storage and paths.\n- `result.js` — result shaping.\n- `nativeTranslations.js` — native Tanach translations.\n- `native-data/` — one JSON per sefer (39 sefarim + `manifest.json`): bereishis, shemos, vayikra, bamidbar, devarim, yehoshua, shoftim, shmuel_1/2, melachim_1/2, yeshayahu, yirmiyahu, yechezkel, tehillim, mishlei, iyov, shir_hashirim, rus, eichah, koheles, esther, daniel, ezra, nechemyah, divrei_hayamim_1/2, hoshea, yoel, amos, ovadiah, yonah, michah, nachum, chavakuk, tzefanyah, chagai, zecharyah, malachi.\n- `test/` — `nativeTranslations.test.js`.\n\n## Routes\n`/search/tanach/hebrew`, `/search/tanach/native`.\n"
+}

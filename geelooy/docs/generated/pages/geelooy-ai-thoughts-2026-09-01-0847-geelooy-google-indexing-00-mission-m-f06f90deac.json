@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-01-0847-geelooy-google-indexing-00-mission-m-f06f90deac",
+	"title": "Mission: Reveal Geelooy to Search",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-01-0847-geelooy-google-indexing/00-mission.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Mission: Reveal Geelooy to Search",
+			"anchor": "mission-reveal-geelooy-to-search"
+		},
+		{
+			"level": 2,
+			"text": "User outcome",
+			"anchor": "user-outcome"
+		},
+		{
+			"level": 2,
+			"text": "Evidence rules",
+			"anchor": "evidence-rules"
+		},
+		{
+			"level": 2,
+			"text": "Initial work graph",
+			"anchor": "initial-work-graph"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-01-0847-geelooy-google-indexing-00-mission-m-f06f90deac-001.json"
+	]
+}

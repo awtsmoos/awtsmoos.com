@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Books Tests (geelooy/api/social/helper/books/test/)\n\nTests for the print-book builder.\n\n- `bookRender.test.js` — book/chapter/front-matter rendering.\n- `bookRoutes.test.js`, `bookDirectRoute.test.js` — book HTTP routes.\n- `bookTree.test.js` — series-tree assembly.\n- `bookZip.test.js` — zip packaging.\n- `bookResilience.test.js` — job/worker resilience.\n- `bookUnicodeDownload.test.js` — unicode filename/download handling.\n- `runAll.js` — runs the whole book suite.\n"
+}

@@ -19,8 +19,13 @@
 		},
 		{
 			"level": 2,
-			"text": "Five-step workspace",
-			"anchor": "five-step-workspace"
+			"text": "Canonical publication",
+			"anchor": "canonical-publication"
+		},
+		{
+			"level": 2,
+			"text": "Large files and batches",
+			"anchor": "large-files-and-batches"
 		},
 		{
 			"level": 2,
@@ -34,18 +39,8 @@
 		},
 		{
 			"level": 2,
-			"text": "DNS migration worksheet",
-			"anchor": "dns-migration-worksheet"
-		},
-		{
-			"level": 2,
-			"text": "Tunnel agents",
-			"anchor": "tunnel-agents"
-		},
-		{
-			"level": 2,
-			"text": "Connected Node runtime",
-			"anchor": "connected-node-runtime"
+			"text": "DNS and connected runtime",
+			"anchor": "dns-and-connected-runtime"
 		},
 		{
 			"level": 2,

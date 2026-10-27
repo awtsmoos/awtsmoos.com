@@ -1,0 +1,217 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-docs-production-roadmap-06-production-operati-ab66480053",
+		"title": "Production Operations, Security, Privacy, and Capacity",
+		"sourcePath": "geelooy/games/mitzvahWorld/docs/production-roadmap/06-production-operations.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Production Operations, Security, Privacy, and Capacity",
+				"anchor": "production-operations-security-privacy-and-capacity"
+			},
+			{
+				"level": 2,
+				"text": "Security",
+				"anchor": "security"
+			},
+			{
+				"level": 2,
+				"text": "Privacy and account lifecycle",
+				"anchor": "privacy-and-account-lifecycle"
+			},
+			{
+				"level": 2,
+				"text": "Observability",
+				"anchor": "observability"
+			},
+			{
+				"level": 2,
+				"text": "Capacity and cost",
+				"anchor": "capacity-and-cost"
+			},
+			{
+				"level": 2,
+				"text": "Deployment and recovery",
+				"anchor": "deployment-and-recovery"
+			}
+		],
+		"excerpt": "B\"H Production Operations, Security, Privacy, and Capacity Security Define guest/account authentication, guest to account progress transfer, secure sessions, CSRF/XSS defenses, CSP, security headers, strict mutable API validation, and rate limits. Protect uploads and migration endpoints; keep credentials ephemeral, sco",
+		"searchText": "b\"h production operations, security, privacy, and capacity security define guest/account authentication, guest to account progress transfer, secure sessions, csrf/xss defenses, csp, security headers, strict mutable api validation, and rate limits. protect uploads and migration endpoints; keep credentials ephemeral, scoped, redacted, rotated, and absent from git/client bundles. run dependency/vulnerability review and edge/ddos protection appropriate to scale. add moderation/reporting and construction/social abuse controls if public user generated content ships. privacy and account lifecycle minimize telemetry and personal data. document retention, privacy behavior, export, deletion, and account recovery. keep logs/save data free of tokens and unrelated personal data. apply appropriate protections if children or teens are an intended audience. observability record build id, boot success, crash free sessions, frame time distribution, asset failures, save failures, endpoint latency, catalog generation, and backend capacity. add privacy conscious client error reports, structured diagnostics receipts, alert thresholds, and incident runbooks. monitor drive asset serving, cdn/cache correctness, saves/apis, and tunnel as separate operational domains. capacity and cost load test public asset serving and all stateful services. use immutable content hash urls and cdn edge caching; keep mutable aliases/catalogs small and revalidatable. measure bandwidth/egress before making full resolution textures default. precompute popular derivatives and avoid uncached request time transforms. track storage/index/file descriptor limits and content addressed store integrity. garbage collect only truly unreferenced immutable blobs after a long compatibility retention window. deployment and recovery separate development, staging, and production configuration/assets/saves. use canary releases, feature flags, release receipts, automatic rollback thresholds, and staged rollout. back up repository state, catalogs, content addressed assets, and stateful databases/saves. test actual restoration from backup. keep rollback for both code deployment and asset catalog publication.",
+		"page": "pages/geelooy-games-mitzvahworld-docs-production-roadmap-06-production-operati-ab66480053.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-docs-production-roadmap-07-testing-release-md-eaf8ba7010",
+		"title": "Testing, Acceptance, and Release",
+		"sourcePath": "geelooy/games/mitzvahWorld/docs/production-roadmap/07-testing-release.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Testing, Acceptance, and Release",
+				"anchor": "testing-acceptance-and-release"
+			},
+			{
+				"level": 2,
+				"text": "Every integration wave",
+				"anchor": "every-integration-wave"
+			},
+			{
+				"level": 2,
+				"text": "Domain tests",
+				"anchor": "domain-tests"
+			},
+			{
+				"level": 2,
+				"text": "Visual acceptance",
+				"anchor": "visual-acceptance"
+			},
+			{
+				"level": 2,
+				"text": "Release candidate",
+				"anchor": "release-candidate"
+			}
+		],
+		"excerpt": "B\"H Testing, Acceptance, and Release Every integration wave Refresh Git status/log/reflog/worktrees/stashes and preserve concurrent dirt. Run syntax checks, line count enforcement, header/style rules, tabs, git diff check, focused unit tests, architecture tests, and official compact runtime build. Never hand edit compa",
+		"searchText": "b\"h testing, acceptance, and release every integration wave refresh git status/log/reflog/worktrees/stashes and preserve concurrent dirt. run syntax checks, line count enforcement, header/style rules, tabs, git diff check, focused unit tests, architecture tests, and official compact runtime build. never hand edit compact bundles; verify build outputs were generated from authored sources. keep generated diagnostics out of git. domain tests full catalog semantic regressions and pbr channel safety. import dedupe, filename collision, idempotency, archive safety, and provenance. quest exact once rewards, prerequisites, abandonment, restore, and event ordering. bridge gap, road grade, creator transaction rollback, duplicate click races, persistence, collision restore, and navigation. terrain/hydrology invariants, streaming duplicate prevention, memory leaks, repeated region transitions, and long session soak. mobile multi touch, pointer cancel, orientation, browser lifecycle, context loss, offline/online, and save/reload loops. visual acceptance maintain stable reference cameras for opening vista, dense village/market, river/waterfall, forest, alpine, night, beis midrash, farbrengen, bridge trial, creator, and mobile hud. compare automated screenshots for regressions and manually review realism, density, composition, lighting, material scale, religious details, and ui readability. review jewish architecture, hebrew, sacred objects, clothing, menorah form, and accidental cross like forms explicitly. release candidate freeze an exact rc build long enough to test it completely. verify deployed commit equals intended origin/main. verify public asset catalog generation equals intended release. hard reload and cached reload; fresh guest and returning save; mobile and desktop. require no uncaught errors, unhandled rejections, unexpected 404/cors failures, stale cdn mix, invisible collision, negative inventory, duplicate rewards, impossible quests, or unbounded memory growth. run the complete bridge trial stone reward build reload proof as a cross system acceptance path. fix all p0/p1 issues, rebuild the rc, and rerun affected acceptance gates. roll out gradually and watch real metrics before expanding traffic.",
+		"page": "pages/geelooy-games-mitzvahworld-docs-production-roadmap-07-testing-release-md-eaf8ba7010.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-docs-production-roadmap-08-long-horizon-md-911aa86268",
+		"title": "Long-Horizon Platform and Content Evolution",
+		"sourcePath": "geelooy/games/mitzvahWorld/docs/production-roadmap/08-long-horizon.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Long-Horizon Platform and Content Evolution",
+				"anchor": "long-horizon-platform-and-content-evolution"
+			},
+			{
+				"level": 2,
+				"text": "Data-driven world growth",
+				"anchor": "data-driven-world-growth"
+			},
+			{
+				"level": 2,
+				"text": "Developer tooling",
+				"anchor": "developer-tooling"
+			},
+			{
+				"level": 2,
+				"text": "Documentation",
+				"anchor": "documentation"
+			},
+			{
+				"level": 2,
+				"text": "Catalog growth",
+				"anchor": "catalog-growth"
+			},
+			{
+				"level": 2,
+				"text": "Content operations",
+				"anchor": "content-operations"
+			}
+		],
+		"excerpt": "B\"H Long Horizon Platform and Content Evolution Data driven world growth Separate engine code from declarative quests, dialogue, region configuration, NPC schedules, biome definitions, material intent, and landmarks. Validate every referenced quest target, NPC, landmark, region, asset, localization key, and world event",
+		"searchText": "b\"h long horizon platform and content evolution data driven world growth separate engine code from declarative quests, dialogue, region configuration, npc schedules, biome definitions, material intent, and landmarks. validate every referenced quest target, npc, landmark, region, asset, localization key, and world event identity at build time. detect dead content, orphaned assets, missing aliases, circular dependencies, and disconnected map topology. developer tooling one command for focused mitzvahworld validation. one command for asset dry run/import. one command for transactional asset publication and verification. one command for official build plus production tests. one command for browser/mobile smoke acceptance where automation permits. emit machine readable receipts for every substantial operation. documentation maintain art direction, world bible, naming conventions, event schemas, procedural core apis, asset ingestion/publication, rollback, save migrations, performance tiers, mobile input, deployment, and tunnel recovery docs. keep operational documents free of secrets. catalog growth add compact bootstrap indexes, browser side semantic index caching, generation based invalidation, compressed delivery, and eventually paging/indexed search when the asset universe becomes large. keep aliases backward compatible across old cached clients. content operations build repeatable pipelines for new quests, regions, npcs, models, sounds, materials, localization, and seasonal/world events without engine surgery. measure player behavior and failures before adding complexity merely because it is possible. preserve the core identity: one connected living world where torah, mitzvos, kindness, learning, construction, nature, and civilization visibly affect one another.",
+		"page": "pages/geelooy-games-mitzvahworld-docs-production-roadmap-08-long-horizon-md-911aa86268.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-docs-production-roadmap-readme-md-613d442724",
+		"title": "MitzvahWorld Production Roadmap",
+		"sourcePath": "geelooy/games/mitzvahWorld/docs/production-roadmap/README.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "MitzvahWorld Production Roadmap",
+				"anchor": "mitzvahworld-production-roadmap"
+			},
+			{
+				"level": 2,
+				"text": "Non-negotiable laws",
+				"anchor": "non-negotiable-laws"
+			},
+			{
+				"level": 2,
+				"text": "Roadmap modules",
+				"anchor": "roadmap-modules"
+			}
+		],
+		"excerpt": "B\"H MitzvahWorld Production Roadmap This directory is the durable engineering record for the production scale ideas gathered during the September 2026 completion push. The governing target is a living Jewish civilization simulator with immediate play, cinematic realism, persistent consequences, and reusable world intel",
+		"searchText": "b\"h mitzvahworld production roadmap this directory is the durable engineering record for the production scale ideas gathered during the september 2026 completion push. the governing target is a living jewish civilization simulator with immediate play, cinematic realism, persistent consequences, and reusable world intelligence owned by awtsmoos procedural core. non negotiable laws fps always wins; realism should come from simulation, good materials, instancing, lighting, and hierarchy rather than brute force. first frame must become visible before enrichment; first control must never wait for optional systems. mitzvahworld should define this world while reusable terrain, water, architecture, ecology, materials, placement, collision, and streaming move toward procedural core. remote assets are authoritative; exact byte identity is sha 256, aliases do not create duplicate runtime resources. pure base materials stay pure; wetness, dirt, snow, moss, wear, transitions, and combinations belong to procedural layering. gameplay state has one authority per domain; rewards and construction must be idempotent and transactional. every touched authored source file stays readable, documented, tab indented, non minified, and at or below 120 lines. generated compact bundles are never hand edited. concurrent work is preserved; stage only owned paths. roadmap modules 01 assets materials.md — ingestion, semantics, pbr, publication, caching, provenance. 02 world simulation.md — terrain, hydrology, biomes, architecture, interiors, ecology, weather. 03 gameplay content.md — quests, bridge trial, creator, torah/mitzvah loops, persistence. 04 character npcs ui.md — player, traversal, npc civilization, camera, mobile, accessibility. 05 performance platform.md — streaming, lod, budgets, browser/device resilience, multiplayer boundaries. 06 production operations.md — security, observability, capacity, deployment, backup, privacy. 07 testing release.md — automated gates, visual acceptance, rc and rollout. 08 long horizon.md — data driven expansion, tooling, content operations, future platform evolution.",
+		"page": "pages/geelooy-games-mitzvahworld-docs-production-roadmap-readme-md-613d442724.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-docs-texture-material-discovery-md-a74a5c868f",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/docs/TEXTURE_MATERIAL_DISCOVERY.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Texture + Material Discovery for AI Agents",
+				"anchor": "texture-material-discovery-for-ai-agents"
+			},
+			{
+				"level": 2,
+				"text": "Fast path",
+				"anchor": "fast-path"
+			},
+			{
+				"level": 2,
+				"text": "Canonical counts",
+				"anchor": "canonical-counts"
+			},
+			{
+				"level": 2,
+				"text": "Remote transport truth",
+				"anchor": "remote-transport-truth"
+			},
+			{
+				"level": 2,
+				"text": "Shared Procedural Core roles",
+				"anchor": "shared-procedural-core-roles"
+			},
+			{
+				"level": 2,
+				"text": "Public searchable catalog",
+				"anchor": "public-searchable-catalog"
+			},
+			{
+				"level": 2,
+				"text": "The 71-item generated inventory is different",
+				"anchor": "the-71-item-generated-inventory-is-different"
+			},
+			{
+				"level": 2,
+				"text": "Mixing + realism source map",
+				"anchor": "mixing-realism-source-map"
+			},
+			{
+				"level": 2,
+				"text": "Remote-only image policy",
+				"anchor": "remote-only-image-policy"
+			},
+			{
+				"level": 2,
+				"text": "Verification checklist",
+				"anchor": "verification-checklist"
+			}
+		],
+		"excerpt": "B\"H Texture + Material Discovery for AI Agents The Awtsmoos renews color, grain, metadata, and road before one material can arrive; Awtsmoos.com lets agents discover remote reality from named records instead of copying image bodies inside. Fast path For code, start here: experiments/Awtsmoos/src/assets/RemoteTextureCat",
+		"searchText": "b\"h texture + material discovery for ai agents the awtsmoos renews color, grain, metadata, and road before one material can arrive; awtsmoos.com lets agents discover remote reality from named records instead of copying image bodies inside. fast path for code, start here: experiments/awtsmoos/src/assets/remotetexturecatalog.js remotetextureagentcatalog() — grouped records for all canonical textures. remotetexturerecords() — flat serializable records with family, collection, filename, id, and url. remotetexturecatalogevidence() — count/drift evidence. do not reconstruct urls by hand if these apis are available. canonical counts the runtime filename modules contain 125 canonical remote textures : ground: 35 — texture names ground.md architecture: 33 — texture names architecture.md craft: 24 — texture names craft.md trees: 33 — texture names trees.md the four remotetexture names.js modules are authoritative if documentation ever drifts. remote transport truth remotetexturetransport.js owns the production root: https://awtsmoos.com/sites/firebase drive migration/ texture collections are deliberately separate from the model namespace: full resolution material images: full resolution/ tree images: awtsmoos nature/ilanos/trees/ models: assets/mitzvah world/models/... — not a texture path the texture transport rejects inline/data/blob/file schemes, traversal, foreign hosts, glb/gltf model paths, query strings, and fragments. shared procedural core roles before choosing an arbitrary filename, inspect the renderer neutral shared registry: geelooy/libs/awtsmoos procedural core/src/exports/materials.js src/core/materials/presets/awtsmoosremotematerials.js src/core/materials/presets/awtsmoosremotematerialrecords.js prefer awtsmoosmaterialrecord(role) / awtsmoosmaterialurl(role) for common semantic roles such as grass, dirt, stone, masonry, bark, timber, metal, leather, parchment, water, cloth, and fur. these records also carry physical metadata such as roughness/metalness. public searchable catalog for broad discovery, publicmaterialcatalog.js loads the published awtsmoos material catalog/v1 catalog and exposes: searchpublicmaterials(query, options) resolvepublicmaterial(query, quality, options) searchmaterialrecords(records, query, options) this searchable public catalog is broader metadata. the four canonical runtime filename modules above remain the exact approved mitzvahworld runtime name set. the 71 item generated inventory is different assets/materials/generated/inventory.json is a generated local metadata snapshot that previously enumerated 71 material records. it is not the 125 name canonical runtime texture set. do not infer “missing” textures by comparing those counts directly. the repository must never contain the image bodies themselves. text inventories/catalogs/names are allowed; png/jpeg/webp/svg/etc. payloads are not. mixing + realism source map for mature world space texture mixing, inspect: experiments/awtsmoos/src/world/terraintexturecatalog.js experiments/awtsmoos/src/world/terrain/terrainmaterialfactory.js experiments/awtsmoos/src/world/terrain/terrainlayerrecipe.js experiments/awtsmoos/src/world/terrain/terrainrealismprofile.js experiments/light three gltf/tiny terrain fragment projection functions.js experiments/light three gltf/tiny terrain fragment ecology functions.js important concepts include bounded active texture pages, world space projection, triplanar weights, rotated samples, domain warp, near/far frequency blending, and semantic layer weights. reuse the mathematics/metadata concepts without importing an unrelated renderer into a renderer neutral project. remote only image policy repository wide policy: docs/remote asset policy.md. persistent image bodies belong in the drive/dayuhchadash remote asset system. git may hold ids, names, urls, hashes, dimensions, manifests, semantic roles, and documentation only. never add a local texture “fallback”; runtime fallbacks must be procedural/in memory. verification checklist 1. resolve through catalog/transport, not string concatenation. 2. require https and the trusted awtsmoos migration root. 3. confirm the filename is canonical for its family when using the runtime catalog. 4. keep material pages bounded; never preload all 125 images. 5. verify browser network/cors and runtime material metrics. 6. verify no image payload entered git or a source data uri. 7. update source modules first; regenerate these human readable mirrors afterward.",
+		"page": "pages/geelooy-games-mitzvahworld-docs-texture-material-discovery-md-a74a5c868f.json"
+	}
+]

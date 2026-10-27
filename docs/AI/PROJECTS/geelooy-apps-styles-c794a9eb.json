@@ -19,14 +19,14 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-styles-c794a9eb.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 6,
+		"source": 9,
 		"tests": 0,
 		"assets": 0,
 		"generated": 0,
 		"docs": 0,
 		"other": 0
 	},
-	"totalFiles": 6,
+	"totalFiles": 9,
 	"symbolSummary": null,
 	"outgoingDependencies": [],
 	"incomingDependencies": [],

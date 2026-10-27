@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — OAuth data (`/api/oauth/data/`)\n\nSeed and policy data for OAuth.\n\n- `clients.js` — Pre-registered OAuth clients.\n- `publicAgentPolicy.js` — Policy for public agent clients.\n"
+}

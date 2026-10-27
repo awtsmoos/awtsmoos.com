@@ -1,70 +1,284 @@
 [
 	{
-		"id": "docs-generated-project-atlas-projects-002-md-9cb1b33e4d",
-		"title": "Generated Project Atlas 46–90",
-		"sourcePath": "docs/GENERATED/PROJECT_ATLAS/projects-002.md",
-		"category": "Projects",
+		"id": "docs-generated-api-tutorials-routes-api-tunnel-control-pairing-page-37f1-147d2e91ad",
+		"title": "API Tutorial: /api/tunnel/control/pairing/page",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-pairing-page-37f1dec649.md",
+		"category": "Tunnel",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Generated Project Atlas 46–90",
-				"anchor": "generated-project-atlas-46-90"
+				"text": "API Tutorial: /api/tunnel/control/pairing/page",
+				"anchor": "api-tutorial-api-tunnel-control-pairing-page"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Project Atlas 46–90 Observed project/directory boundaries with classified file counts and local documentation status. Path Type Files Source Tests Assets Generated Local docs Entries Title geelooy/api/zmanimms api 1 1 0 0 0 — awtsmoos.derech.js — geelooy/apps public 10325 8210 ",
-		"searchText": "b\"h boruch hashem blessed is he generated project atlas 46–90 observed project/directory boundaries with classified file counts and local documentation status. path type files source tests assets generated local docs entries title geelooy/api/zmanimms api 1 1 0 0 0 — awtsmoos.derech.js — geelooy/apps public 10325 8210 1790 0 19 geelooy/apps/documentation.md index.html, app.js, documentation.md awtsmoos apps — every browser tool & game geelooy/apps/android emulator app 1495 926 566 0 0 geelooy/apps/android emulator/documentation.md documentation.md — geelooy/apps/animator app 2488 2458 0 0 0 geelooy/apps/animator/documentation.md index.html, package.json, documentation.md awtsmoos park engine — b\"h geelooy/apps/archive uploader app 3 3 0 0 0 — index.html, app.js ia//hyper uploader geelooy/apps/audio editor app 4 4 0 0 0 — index.html, main.js pro audio editor geelooy/apps/awtsmoos gguf app 88 87 0 0 0 geelooy/apps/awtsmoos gguf/documentation.md index.html, index.js, app.js, documentation.md gguf chat & metadata b\"h geelooy/apps/bookcovermaker app 1 1 0 0 0 — index.html book cover generator geelooy/apps/broadcaster app 3 3 0 0 0 — index.html — geelooy/apps/byteviewer app 4 3 0 0 0 — index.html hex viewer of the awtsmoos geelooy/apps/captions app 68 64 0 0 0 geelooy/apps/captions/documentation.md index.html, documentation.md ein sof engine [quantum core v2.5] geelooy/apps/code app 1125 1078 44 0 0 geelooy/apps/code/documentation.md index.html, documentation.md awtsmoos code geelooy/apps/compiler app 79 77 1 0 0 geelooy/apps/compiler/documentation.md index.html, documentation.md awtsmoos compiler geelooy/apps/csv app 5 5 0 0 0 — index.html awtsmoos native grid geelooy/apps/docs app 194 0 0 0 0 geelooy/apps/docs/documentation.md index.html, documentation.md awtsmoos docs geelooy/apps/drive app 105 95 9 0 0 geelooy/apps/drive/documentation.md index.html, documentation.md awtsmoos drive · website maker geelooy/apps/editor app 40 39 0 0 0 geelooy/apps/editor/documentation.md index.html, documentation.md mitzvah world animator geelooy/apps/exe emulator app 416 271 133 0 9 geelooy/apps/exe emulator/documentation.md index.html, documentation.md awtsmoos exe emulator geelooy/apps/forms app 0 0 0 0 0 — — — geelooy/apps/gpt api pulse garden app 1 1 0 0 0 — index.html awtsmoos pulse garden geelooy/apps/lyric sync app 4 4 0 0 0 — index.html lyric sync engine geelooy/apps/merkava native browser app 79 60 0 0 10 geelooy/apps/merkava native browser/documentation.md package.json, documentation.md — geelooy/apps/mitzvah pushkuh app 150 140 7 0 0 geelooy/apps/mitzvah pushkuh/documentation.md index.html, documentation.md mitzvah pushkuh · garden of sparks geelooy/apps/nesher studio app 542 416 117 0 0 geelooy/apps/nesher studio/documentation.md index.html, main.js, documentation.md 🦅 nesher studio geelooy/apps/pdf to img app 1 1 0 0 0 — index.html high res pdf to image converter geelooy/apps/piano app 60 59 0 0 0 geelooy/apps/piano/documentation.md index.html, main.js, documentation.md awtsmoos web synthesizer ultimate geelooy/apps/rebbe app 126 125 0 0 0 geelooy/apps/rebbe/documentation.md index.html, main.js, documentation.md awtsmoos archive // omega geelooy/apps/scripts app 16 15 0 0 0 geelooy/apps/scripts/documentation.md documentation.md — geelooy/apps/sheets app 130 127 2 0 0 geelooy/apps/sheets/documentation.md index.html, documentation.md awtsmoos sheets geelooy/apps/slides app 82 70 10 0 0 geelooy/apps/slides/documentation.md index.html, package.json, documentation.md awtsmoos slides geelooy/apps/styles app 6 6 0 0 0 — — — geelooy/apps/tests app 1 0 1 0 0 — — — geelooy/apps/transcribe app 2 2 0 0 0 — index.html assemblyai transcription geelooy/apps/tunnel app 2295 1449 820 0 0 geelooy/apps/tunnel/documentation.md index.html, documentation.md, readme.md, readme.md awtsmoos tunnel console geelooy/apps/tunnel control app 490 426 57 0 0 geelooy/apps/tunnel control/documentation.md index.html, documentation.md, readme.md, readme.md awtsmoos tunnel control geelooy/apps/universal chat app 173 150 22 0 0 geelooy/apps/universal chat/documentation.md index.html, app.js, documentation.md messages & torah chat \\ awtsmoos.com geelooy/apps/video editor app 2 2 0 0 0 — index.html awtsmoos video editor chapter 7 revised geelooy/apps/virtual os stress light counter app 1 1 0 0 0 — index.html light counter geelooy/apps/wallet app 40 38 1 0 0 geelooy/apps/wallet/documentation.md index.html, main.js, documentation.md awtsmoos wallet — send, buy & own geelooy/apps/watermark remover app 1 1 0 0 0 — index.html svg mask alpha brute force geelooy/awtai db public 9 9 0 0 0 — index.html, app.js awtai db model foundry geelooy/ayin public 1 1 0 0 0 — index.html real awtsmoos recorder geelooy/browser test project 2 1 1 0 0 — — — geelooy/comment thread public 23 20 2 0 0 geelooy/comment thread/documentation.md index.html, app.js, documentation.md comment thread — geelooy geelooy/contact public 3 3 0 0 0 — index.html contact — awtsmoos",
-		"page": "pages/docs-generated-project-atlas-projects-002-md-9cb1b33e4d.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/tunnel/control/pairing/page Family: Tunnel Control · Mount: /api/tunnel/control · Derech health: OK Source: geelooy/api/tunnel/control/ awtsmoos.derech.js · Discovery: static literal · Confidence: source lexical Read the human Tunnel Control tutorial Generated evidence",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/tunnel/control/pairing/page family: tunnel control · mount: /api/tunnel/control · derech health: ok source: geelooy/api/tunnel/control/ awtsmoos.derech.js · discovery: static literal · confidence: source lexical read the human tunnel control tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: post request vessels: route vars observed status literals: 200, 500 observed headers: — path parameters none. starter call starter only: method evidence is lexical at the source file level; inspect the handler before relying on payload or response shape. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/tunnel/control/pairing/page geelooy/apps/tunnel/agent/lib/deviceidentity/pairingclient.js runtime /api/tunnel/control/pairing/page geelooy/apps/tunnel/downloads/unix pairing direct.cjs runtime related tests heuristic family matches: test:mission continuity actions — node geelooy/apps/tunnel/agent/tools/fs/actiongroups/test/missioncontinuityactions.test.mjs test:treasury — node geelooy/api/tunnel/control/test/runtreasurytests.cjs test:treasury:full — node geelooy/api/tunnel/control/test/treasury/runall.cjs test:tunnel release — node test scripts/tunnel/testing/ .test.cjs scripts/repository hygiene/testing/ .test.cjs related routes /api/tunnel/control/admin vault /api/tunnel/control/admin/perutas /api/tunnel/control/agent economy /api/tunnel/control/agent lobby /api/tunnel/control/agent lobby/join /api/tunnel/control/agent lobby/post /api/tunnel/control/agent manifest /api/tunnel/control/agent room",
+		"page": "pages/docs-generated-api-tutorials-routes-api-tunnel-control-pairing-page-37f1-147d2e91ad.json"
 	},
 	{
-		"id": "docs-generated-project-atlas-projects-003-md-51bf083cfd",
-		"title": "Generated Project Atlas 91–135",
-		"sourcePath": "docs/GENERATED/PROJECT_ATLAS/projects-003.md",
-		"category": "Projects",
+		"id": "docs-generated-api-tutorials-routes-api-tunnel-control-pairing-page-d0c3-7b5e2a4c45",
+		"title": "API Tutorial: /api/tunnel/control/pairing/page",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-pairing-page-d0c3772e64.md",
+		"category": "Tunnel",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Generated Project Atlas 91–135",
-				"anchor": "generated-project-atlas-91-135"
+				"text": "API Tutorial: /api/tunnel/control/pairing/page",
+				"anchor": "api-tutorial-api-tunnel-control-pairing-page"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Project Atlas 91–135 Observed project/directory boundaries with classified file counts and local documentation status. Path Type Files Source Tests Assets Generated Local docs Entries Title geelooy/control public 3 3 0 0 0 — index.html, app.js Code Control Panel geelooy/css pro",
-		"searchText": "b\"h boruch hashem blessed is he generated project atlas 91–135 observed project/directory boundaries with classified file counts and local documentation status. path type files source tests assets generated local docs entries title geelooy/control public 3 3 0 0 0 — index.html, app.js code control panel geelooy/css project 1 1 0 0 0 — — — geelooy/db public 9 7 0 0 0 geelooy/db/documentation.md index.html, documentation.md — geelooy/docs public 3555 0 0 0 0 geelooy/docs/documentation.md index.html, documentation.md awtsmoos documentation geelooy/donate public 1 1 0 0 0 — index.html — geelooy/drive public 213 159 52 0 0 geelooy/drive/documentation.md index.html, app.js, documentation.md, readme.md, readme.md geelooy sites · awtsmoos geelooy/editor public 1 1 0 0 0 — index.html — geelooy/email public 167 151 4 10 0 geelooy/email/documentation.md index.html, index.js, documentation.md awtsmoos quantum mail geelooy/entity view public 2 2 0 0 0 — index.html, app.js entity universe geelooy/fetch public 1 1 0 0 0 — index.html — geelooy/game public 1 1 0 0 0 — index.html opening mitzvah world… geelooy/games public 8519 6819 1469 0 58 geelooy/games/documentation.md index.html, documentation.md awtsmoos games — 25 playable worlds geelooy/games/kavanah game 16 15 0 0 0 geelooy/games/kavanah/documentation.md index.html, documentation.md kavanah geelooy/games/merkava game 128 93 32 0 0 geelooy/games/merkava/documentation.md index.html, package.json, documentation.md, readme.md, readme.md merkava — war of the sparks geelooy/games/nachash game 5 5 0 0 0 — index.html, main.js tikkun hanachash geelooy/games/adventure game 1 1 0 0 0 — index.html adventure game geelooy/games/brick blast game 80 79 0 0 0 geelooy/games/brick blast/documentation.md index.html, index.js, documentation.md brick blast geelooy/games/cards game 11 10 0 0 0 geelooy/games/cards/documentation.md index.html, documentation.md the utterances — blackjack on awtsmoos geelooy/games/chess game 97 74 22 0 0 geelooy/games/chess/documentation.md index.html, main.js, documentation.md ultimate chess ai geelooy/games/city of light game 80 67 11 0 0 geelooy/games/city of light/documentation.md index.html, package.json, documentation.md, readme.md, readme.md city of light · the complete pilgrimage geelooy/games/connect4 game 6 6 0 0 0 — index.html, main.js connect 4 geelooy/games/dove game 8 8 0 0 0 — index.html noah's dove's 🕊️ quest ❓ for shalom geelooy/games/emojis game 37 36 0 0 0 geelooy/games/emojis/documentation.md index.html, documentation.md emoji war — neon caption arcade geelooy/games/kabbalah shooter game 39 38 0 0 0 geelooy/games/kabbalah shooter/documentation.md index.html, main.js, package.json, documentation.md kabbalah infinite — the breaking of vessels geelooy/games/migdol game 12 11 0 0 0 geelooy/games/migdol/documentation.md index.html, documentation.md migdol kabbalah tower defense geelooy/games/mitzvahworld game 3920 2717 1015 0 54 geelooy/games/mitzvahworld/documentation.md index.html, documentation.md b&quot;h mitzvah world — restored river valley geelooy/games/neshama quest game 7 7 0 0 0 — index.html neshama quest geelooy/games/nitzotz io game 250 220 29 0 0 geelooy/games/nitzotz io/documentation.md index.html, package.json, documentation.md nitzotz.io — shlichus adventure metropolis geelooy/games/ohr hagnuz game 793 700 89 0 0 geelooy/games/ohr hagnuz/documentation.md index.html, package.json, documentation.md b&quot;h — ohr hagnuz: the concealed frontier geelooy/games/oros ha kelim game 76 59 14 0 0 geelooy/games/oros ha kelim/documentation.md index.html, package.json, documentation.md, readme.md, readme.md oros hakelim · awtsmoos.com geelooy/games/party game 16 15 0 0 0 geelooy/games/party/documentation.md index.html, documentation.md party challenge — awtsmoos games geelooy/games/pong game 12 11 0 0 0 geelooy/games/pong/documentation.md index.html, documentation.md pong · awtsmoos games geelooy/games/rambam game 1 1 0 0 0 — — — geelooy/games/rebbe runner game 4 4 0 0 0 — index.html the rebbe's runner geelooy/games/scribe journey game 476 375 99 0 0 geelooy/games/scribe journey/documentation.md index.html, documentation.md the scribe's journey: echoes of ein sof geelooy/games/scripts game 81 74 0 0 4 geelooy/games/scripts/documentation.md documentation.md — geelooy/games/sefira clash game 1381 1337 41 0 0 geelooy/games/sefira clash/documentation.md index.html, package.json, documentation.md sefira clash · open world, expedition, co op, adventure &amp; vs geelooy/games/seven mitzvos game 597 530 66 0 0 geelooy/games/seven mitzvos/documentation.md index.html, package.json, documentation.md seven mitzvos · living material worlds geelooy/games/shema strike game 173 149 21 0 0 geelooy/games/shema strike/documentation.md index.html, package.json, documentation.md shema strike: gates of light geelooy/games/soul jump game 2 2 0 0 0 — index.html, main.js ein sof ascent geelooy/games/styles game 14 13 0 0 0 geelooy/games/styles/documentation.md documentation.md — geelooy/games/sulam ha sod game 167 152 14 0 0 geelooy/games/sulam ha sod/documentation.md index.html, documentation.md sulam hasod geelooy/games/tests game 17 0 16 0 0 geelooy/games/tests/documentation.md documentation.md — geelooy/games/tetris game 8 8 0 0 0 — index.html, main.js tikkun haolam the final rectification geelooy/geelooy project 5 1 3 0 0 — — —",
-		"page": "pages/docs-generated-project-atlas-projects-003-md-51bf083cfd.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/tunnel/control/pairing/page Family: Tunnel Control · Mount: /api/tunnel/control · Derech health: OK Source: geelooy/api/tunnel/control/routes/table.js · Discovery: route table · Confidence: unknown method Read the human Tunnel Control tutorial Generated evidence is a n",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/tunnel/control/pairing/page family: tunnel control · mount: /api/tunnel/control · derech health: ok source: geelooy/api/tunnel/control/routes/table.js · discovery: route table · confidence: unknown method read the human tunnel control tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/tunnel/control/pairing/page geelooy/apps/tunnel/agent/lib/deviceidentity/pairingclient.js runtime /api/tunnel/control/pairing/page geelooy/apps/tunnel/downloads/unix pairing direct.cjs runtime related tests heuristic family matches: test:mission continuity actions — node geelooy/apps/tunnel/agent/tools/fs/actiongroups/test/missioncontinuityactions.test.mjs test:treasury — node geelooy/api/tunnel/control/test/runtreasurytests.cjs test:treasury:full — node geelooy/api/tunnel/control/test/treasury/runall.cjs test:tunnel release — node test scripts/tunnel/testing/ .test.cjs scripts/repository hygiene/testing/ .test.cjs related routes /api/tunnel/control/admin vault /api/tunnel/control/admin/perutas /api/tunnel/control/agent economy /api/tunnel/control/agent lobby /api/tunnel/control/agent lobby/join /api/tunnel/control/agent lobby/post /api/tunnel/control/agent manifest /api/tunnel/control/agent room",
+		"page": "pages/docs-generated-api-tutorials-routes-api-tunnel-control-pairing-page-d0c3-7b5e2a4c45.json"
 	},
 	{
-		"id": "docs-generated-project-atlas-projects-004-md-55e934ed19",
-		"title": "Generated Project Atlas 136–179",
-		"sourcePath": "docs/GENERATED/PROJECT_ATLAS/projects-004.md",
-		"category": "Projects",
+		"id": "docs-generated-api-tutorials-routes-api-tunnel-control-pairing-request-6-3a31d20e59",
+		"title": "API Tutorial: /api/tunnel/control/pairing/request",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-pairing-request-6a2bdf47f1.md",
+		"category": "Tunnel",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Generated Project Atlas 136–179",
-				"anchor": "generated-project-atlas-136-179"
+				"text": "API Tutorial: /api/tunnel/control/pairing/request",
+				"anchor": "api-tutorial-api-tunnel-control-pairing-request"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Project Atlas 136–179 Observed project/directory boundaries with classified file counts and local documentation status. Path Type Files Source Tests Assets Generated Local docs Entries Title geelooy/git project 1 1 0 0 0 — awtsmoos.derech.js — geelooy/heichel project 1 1 0 0 0 ",
-		"searchText": "b\"h boruch hashem blessed is he generated project atlas 136–179 observed project/directory boundaries with classified file counts and local documentation status. path type files source tests assets generated local docs entries title geelooy/git project 1 1 0 0 0 — awtsmoos.derech.js — geelooy/heichel project 1 1 0 0 0 — — — geelooy/heichel editor public 19 16 2 0 0 geelooy/heichel editor/documentation.md index.html, app.js, documentation.md heichel editor — geelooy geelooy/heichel review public 40 34 4 0 0 geelooy/heichel review/documentation.md index.html, documentation.md, readme.md, readme.md heichel review and governance center geelooy/heichelos project 1051 917 131 0 0 geelooy/heichelos/documentation.md awtsmoos.derech.js, documentation.md — geelooy/legal project 6 6 0 0 0 — — — geelooy/libs library 2268 2098 138 0 0 geelooy/libs/documentation.md documentation.md — geelooy/login public 1 1 0 0 0 — index.html login with awtsmoos geelooy/logout public 1 1 0 0 0 — index.html — geelooy/mawgawl public 80 65 14 0 0 geelooy/mawgawl/documentation.md index.html, documentation.md — geelooy/node os public 2 2 0 0 0 — index.html, app.js awtsmoos node os geelooy/notifications public 34 31 2 0 0 geelooy/notifications/documentation.md index.html, app.js, documentation.md signals — geelooy geelooy/ocr public 1 1 0 0 0 — index.html ocr studio — awtsmoos geelooy/os public 729 648 79 0 0 geelooy/os/documentation.md index.html, documentation.md geelooy os — files, awtsmoosdb, runtime & control geelooy/parsers project 1 1 0 0 0 — — — geelooy/platform project 110 89 19 0 0 geelooy/platform/documentation.md documentation.md — geelooy/post editor public 15 12 2 0 0 geelooy/post editor/documentation.md index.html, app.js, documentation.md post editor — geelooy geelooy/profile public 39 33 4 0 0 geelooy/profile/documentation.md index.html, documentation.md profile — geelooy geelooy/public project 17 8 0 0 0 geelooy/public/documentation.md documentation.md — geelooy/record public 7 7 0 0 0 — index.html camera preview — geelooy geelooy/recorder public 13 11 0 0 0 geelooy/recorder/documentation.md index.html, documentation.md local recorder — geelooy geelooy/reeyuh public 1 1 0 0 0 — index.html shulchan aruch viewer geelooy/register public 1 1 0 0 0 — index.html create awtsmoos account geelooy/resources project 2 2 0 0 0 — — — geelooy/scripts library 1587 1431 113 0 0 geelooy/scripts/documentation.md documentation.md — geelooy/shared library 154 124 28 0 0 geelooy/shared/documentation.md package.json, documentation.md — geelooy/sites project 35 23 11 0 0 geelooy/sites/documentation.md awtsmoos.derech.js, documentation.md — geelooy/social public 62 52 7 0 0 geelooy/social/documentation.md index.html, documentation.md awtsmoos social observatory geelooy/social actions project 11 8 1 0 0 geelooy/social actions/documentation.md documentation.md, readme.md, readme.md — geelooy/social composer public 354 317 28 0 0 geelooy/social composer/documentation.md index.html, package.json, documentation.md, readme.md, readme.md create new post — geelooy geelooy/social hub public 265 217 46 0 0 geelooy/social hub/documentation.md index.html, package.json, documentation.md, readme.md, readme.md social hub — geelooy geelooy/sod public 1 1 0 0 0 — index.html endpoint interaction geelooy/style library 1184 1132 48 0 0 geelooy/style/documentation.md documentation.md — geelooy/tests test 109 0 107 0 0 geelooy/tests/documentation.md documentation.md — geelooy/tmp project 9 3 0 0 0 — — — geelooy/view project 1 1 0 0 0 — awtsmoos.derech.js — geelooy/webscrapers project 5 5 0 0 0 — — — geelooy/youtube public 10 9 0 0 0 geelooy/youtube/documentation.md index.html, documentation.md awtsmoos youtube manager geelooy/zmanim public 128 109 16 1 0 geelooy/zmanim/documentation.md index.html, package.json, documentation.md, readme.md, readme.md halachic zmanim · awtsmoos ops operations 5 0 0 0 0 ops/documentation.md documentation.md — scripts tooling 398 290 30 0 0 scripts/documentation.md documentation.md — templates tooling 17 15 1 0 0 templates/documentation.md documentation.md — tests test 93 0 92 0 0 tests/documentation.md documentation.md — tools tooling 201 113 29 0 0 tools/documentation.md documentation.md —",
-		"page": "pages/docs-generated-project-atlas-projects-004-md-55e934ed19.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/tunnel/control/pairing/request Family: Tunnel Control · Mount: /api/tunnel/control · Derech health: OK Source: geelooy/api/tunnel/control/routes/table.js · Discovery: route table · Confidence: unknown method Read the human Tunnel Control tutorial Generated evidence is ",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/tunnel/control/pairing/request family: tunnel control · mount: /api/tunnel/control · derech health: ok source: geelooy/api/tunnel/control/routes/table.js · discovery: route table · confidence: unknown method read the human tunnel control tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/tunnel/control/pairing/request geelooy/apps/tunnel/downloads/unix pairing direct.cjs runtime related tests heuristic family matches: test:mission continuity actions — node geelooy/apps/tunnel/agent/tools/fs/actiongroups/test/missioncontinuityactions.test.mjs test:treasury — node geelooy/api/tunnel/control/test/runtreasurytests.cjs test:treasury:full — node geelooy/api/tunnel/control/test/treasury/runall.cjs test:tunnel release — node test scripts/tunnel/testing/ .test.cjs scripts/repository hygiene/testing/ .test.cjs related routes /api/tunnel/control/admin vault /api/tunnel/control/admin/perutas /api/tunnel/control/agent economy /api/tunnel/control/agent lobby /api/tunnel/control/agent lobby/join /api/tunnel/control/agent lobby/post /api/tunnel/control/agent manifest /api/tunnel/control/agent room",
+		"page": "pages/docs-generated-api-tutorials-routes-api-tunnel-control-pairing-request-6-3a31d20e59.json"
 	},
 	{
-		"id": "docs-generated-project-dependencies-md-6af5d749d6",
-		"title": "Generated Cross-Project Dependency Evidence",
-		"sourcePath": "docs/GENERATED/PROJECT_DEPENDENCIES.md",
-		"category": "Projects",
+		"id": "docs-generated-api-tutorials-routes-api-tunnel-control-pairing-request-a-1e90c6ff05",
+		"title": "API Tutorial: /api/tunnel/control/pairing/request",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-pairing-request-a4efc34825.md",
+		"category": "Tunnel",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Generated Cross-Project Dependency Evidence",
-				"anchor": "generated-cross-project-dependency-evidence"
+				"text": "API Tutorial: /api/tunnel/control/pairing/request",
+				"anchor": "api-tutorial-api-tunnel-control-pairing-request"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Cross Project Dependency Evidence Relative import edges between observed project boundaries; counts are lexical references, not runtime reachability. 105 rows. Chunk Rows Count dependencies 001.md 1–65 65 dependencies 002.md 66–105 40",
-		"searchText": "b\"h boruch hashem blessed is he generated cross project dependency evidence relative import edges between observed project boundaries; counts are lexical references, not runtime reachability. 105 rows. chunk rows count dependencies 001.md 1–65 65 dependencies 002.md 66–105 40",
-		"page": "pages/docs-generated-project-dependencies-md-6af5d749d6.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/tunnel/control/pairing/request Family: Tunnel Control · Mount: /api/tunnel/control · Derech health: OK Source: geelooy/api/tunnel/control/ awtsmoos.derech.js · Discovery: static literal · Confidence: source lexical Read the human Tunnel Control tutorial Generated evide",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/tunnel/control/pairing/request family: tunnel control · mount: /api/tunnel/control · derech health: ok source: geelooy/api/tunnel/control/ awtsmoos.derech.js · discovery: static literal · confidence: source lexical read the human tunnel control tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: post request vessels: route vars observed status literals: 200, 500 observed headers: — path parameters none. starter call starter only: method evidence is lexical at the source file level; inspect the handler before relying on payload or response shape. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/tunnel/control/pairing/request geelooy/apps/tunnel/downloads/unix pairing direct.cjs runtime related tests heuristic family matches: test:mission continuity actions — node geelooy/apps/tunnel/agent/tools/fs/actiongroups/test/missioncontinuityactions.test.mjs test:treasury — node geelooy/api/tunnel/control/test/runtreasurytests.cjs test:treasury:full — node geelooy/api/tunnel/control/test/treasury/runall.cjs test:tunnel release — node test scripts/tunnel/testing/ .test.cjs scripts/repository hygiene/testing/ .test.cjs related routes /api/tunnel/control/admin vault /api/tunnel/control/admin/perutas /api/tunnel/control/agent economy /api/tunnel/control/agent lobby /api/tunnel/control/agent lobby/join /api/tunnel/control/agent lobby/post /api/tunnel/control/agent manifest /api/tunnel/control/agent room",
+		"page": "pages/docs-generated-api-tutorials-routes-api-tunnel-control-pairing-request-a-1e90c6ff05.json"
+	},
+	{
+		"id": "docs-generated-api-tutorials-routes-api-tunnel-control-pairing-state-abc-671074206e",
+		"title": "API Tutorial: /api/tunnel/control/pairing/state",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-pairing-state-abcc80bfb0.md",
+		"category": "Tunnel",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/tunnel/control/pairing/state",
+				"anchor": "api-tutorial-api-tunnel-control-pairing-state"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/tunnel/control/pairing/state Family: Tunnel Control · Mount: /api/tunnel/control · Derech health: OK Source: geelooy/api/tunnel/control/routes/table.js · Discovery: route table · Confidence: unknown method Read the human Tunnel Control tutorial Generated evidence is a ",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/tunnel/control/pairing/state family: tunnel control · mount: /api/tunnel/control · derech health: ok source: geelooy/api/tunnel/control/routes/table.js · discovery: route table · confidence: unknown method read the human tunnel control tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test:mission continuity actions — node geelooy/apps/tunnel/agent/tools/fs/actiongroups/test/missioncontinuityactions.test.mjs test:treasury — node geelooy/api/tunnel/control/test/runtreasurytests.cjs test:treasury:full — node geelooy/api/tunnel/control/test/treasury/runall.cjs test:tunnel release — node test scripts/tunnel/testing/ .test.cjs scripts/repository hygiene/testing/ .test.cjs related routes /api/tunnel/control/admin vault /api/tunnel/control/admin/perutas /api/tunnel/control/agent economy /api/tunnel/control/agent lobby /api/tunnel/control/agent lobby/join /api/tunnel/control/agent lobby/post /api/tunnel/control/agent manifest /api/tunnel/control/agent room",
+		"page": "pages/docs-generated-api-tutorials-routes-api-tunnel-control-pairing-state-abc-671074206e.json"
+	},
+	{
+		"id": "docs-generated-api-tutorials-routes-api-tunnel-control-pairing-state-d90-bb147c9ebc",
+		"title": "API Tutorial: /api/tunnel/control/pairing/state",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-pairing-state-d90fb51623.md",
+		"category": "Tunnel",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/tunnel/control/pairing/state",
+				"anchor": "api-tutorial-api-tunnel-control-pairing-state"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/tunnel/control/pairing/state Family: Tunnel Control · Mount: /api/tunnel/control · Derech health: OK Source: geelooy/api/tunnel/control/ awtsmoos.derech.js · Discovery: static literal · Confidence: source lexical Read the human Tunnel Control tutorial Generated evidenc",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/tunnel/control/pairing/state family: tunnel control · mount: /api/tunnel/control · derech health: ok source: geelooy/api/tunnel/control/ awtsmoos.derech.js · discovery: static literal · confidence: source lexical read the human tunnel control tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: post request vessels: route vars observed status literals: 200, 500 observed headers: — path parameters none. starter call starter only: method evidence is lexical at the source file level; inspect the handler before relying on payload or response shape. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test:mission continuity actions — node geelooy/apps/tunnel/agent/tools/fs/actiongroups/test/missioncontinuityactions.test.mjs test:treasury — node geelooy/api/tunnel/control/test/runtreasurytests.cjs test:treasury:full — node geelooy/api/tunnel/control/test/treasury/runall.cjs test:tunnel release — node test scripts/tunnel/testing/ .test.cjs scripts/repository hygiene/testing/ .test.cjs related routes /api/tunnel/control/admin vault /api/tunnel/control/admin/perutas /api/tunnel/control/agent economy /api/tunnel/control/agent lobby /api/tunnel/control/agent lobby/join /api/tunnel/control/agent lobby/post /api/tunnel/control/agent manifest /api/tunnel/control/agent room",
+		"page": "pages/docs-generated-api-tutorials-routes-api-tunnel-control-pairing-state-d90-bb147c9ebc.json"
 	}
 ]

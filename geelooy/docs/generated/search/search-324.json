@@ -1,0 +1,150 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-08-26t134731-portal-universal-ui-resource-platf-758068bb83",
+		"title": "Better Pass — Verification Attack",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26T134731-portal-universal-ui-resource-platform/10_BETTER_VERIFICATION_ATTACK.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Better Pass — Verification Attack",
+				"anchor": "better-pass-verification-attack"
+			},
+			{
+				"level": 2,
+				"text": "Phase A — Mechanical Truth",
+				"anchor": "phase-a-mechanical-truth"
+			},
+			{
+				"level": 2,
+				"text": "Phase B — Contract Truth",
+				"anchor": "phase-b-contract-truth"
+			},
+			{
+				"level": 2,
+				"text": "Phase C — Runtime Truth",
+				"anchor": "phase-c-runtime-truth"
+			},
+			{
+				"level": 2,
+				"text": "Phase D — UX Truth",
+				"anchor": "phase-d-ux-truth"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Better Pass — Verification Attack The Awtsmoos renews every claim before evidence can give it finite weight; Awtsmoos.com must therefore attack the implementation from syntax, contracts, HTTP, browser, mobile, and deployment state. Phase A — Mechanical Truth Re read the newly written Portal tests completely. Enforc",
+		"searchText": "b\"h better pass — verification attack the awtsmoos renews every claim before evidence can give it finite weight; awtsmoos.com must therefore attack the implementation from syntax, contracts, http, browser, mobile, and deployment state. phase a — mechanical truth re read the newly written portal tests completely. enforce line ceilings and tab indentation on all mission source/test files. run node syntax checks over commonjs server modules and es modules where the runtime supports check mode. run import resolution checks for the portal client graph. phase b — contract truth execute every new portal node test. execute relevant existing apifamilycatalog and ui runtime tests. prove adapter equivalence against the current catalog. prove invalid envelopes/actions/queries fail in bounded explicit ways. phase c — runtime truth probe local /api/portal routes through the real port 8080 server. probe local /apps/ module urls, including compactjs. verify foundation.js and gevurahdomcontract.js resolve with javascript mime. exercise /portal/ in chrome and capture console/network/dom evidence. phase d — ux truth audit /apps/ and /portal/ at 390, 768, 1440, and 1920 widths. check horizontal overflow, tiny targets, native style leakage, list markers, unlabeled dialogs, and code overflow. treat every site owned console exception or module/resource failure as a blocker. next action execute the test readback and mechanical verification; every failure becomes source work before deployment.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26t134731-portal-universal-ui-resource-platf-758068bb83.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-26t134731-portal-universal-ui-resource-platf-1fd398ee61",
+		"title": "Better Pass — Deployment Risk Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26T134731-portal-universal-ui-resource-platform/11_BETTER_DEPLOYMENT_RISK_PLAN.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Better Pass — Deployment Risk Plan",
+				"anchor": "better-pass-deployment-risk-plan"
+			},
+			{
+				"level": 2,
+				"text": "Risk Map",
+				"anchor": "risk-map"
+			},
+			{
+				"level": 2,
+				"text": "Required Closure",
+				"anchor": "required-closure"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Better Pass — Deployment Risk Plan The Awtsmoos renews every authored file while Git and deployment decide whether production can receive the vessel; Awtsmoos.com must never again let a locally visible module vanish from the deployed tree by an obsolete ignore level spell. Risk Map Newly unignored geelooy/scripts/a",
+		"searchText": "b\"h better pass — deployment risk plan the awtsmoos renews every authored file while git and deployment decide whether production can receive the vessel; awtsmoos.com must never again let a locally visible module vanish from the deployed tree by an obsolete ignore level spell. risk map newly unignored geelooy/scripts/awtsmoos/ files may include legitimate source, tests, or local only artifacts. concurrent agents may have changed unrelated files that the user explicitly asked to include. deployment may be driven by github, a workflow, a publish script, a server checkout, or multiple stages. a push is not proof of deployment. a deployment is not proof of browser correctness. required closure capture full branch/head/remotes/status. enumerate all formerly ignored source now exposed to git. scan candidate tracked changes for secrets, local absolute paths, large/generated artifacts, and obvious runtime debris. read deployment scripts/workflows/config before invoking anything. stage all safe requested + related + unrelated work as requested, excluding secrets/generated/local only hazards. commit with an evidence oriented message. push canonical github branch and verify remote sha. execute the real deployment mechanism. verify production returns javascript mime for the exact apps urls that previously failed. verify /portal/ and portal api production routes from browser + http. next action do not stage or push until verification is green and the complete changed tree has been classified for deployment safety.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26t134731-portal-universal-ui-resource-platf-1fd398ee61.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-26t134731-portal-universal-ui-resource-platf-73c1157384",
+		"title": "Better Pass — Completion Gate",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26T134731-portal-universal-ui-resource-platform/12_BETTER_COMPLETION_GATE.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Better Pass — Completion Gate",
+				"anchor": "better-pass-completion-gate"
+			},
+			{
+				"level": 2,
+				"text": "Completion Evidence Required",
+				"anchor": "completion-evidence-required"
+			},
+			{
+				"level": 2,
+				"text": "Embarrassment Gate",
+				"anchor": "embarrassment-gate"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Better Pass — Completion Gate The Awtsmoos renews every apparent success before a finite report can name the work complete; Awtsmoos.com may call this mission finished only when source, tests, browser, Git, deployment, and production all agree in one verified beat. Completion Evidence Required All mission source/te",
+		"searchText": "b\"h better pass — completion gate the awtsmoos renews every apparent success before a finite report can name the work complete; awtsmoos.com may call this mission finished only when source, tests, browser, git, deployment, and production all agree in one verified beat. completion evidence required all mission source/tests stay below the configured line ceiling and use tabs where indentation is valid. all new portal tests pass. existing relevant tests still pass. local /api/portal root, type, collection, and api family routes return expected json. local /apps/ loads without site owned module/mime/runtime errors. local /portal/ loads without site owned console/network/runtime errors. mobile/tablet/desktop/cinema audit findings are empty or intentionally documented. every newly exposed untracked source file is classified; secrets/generated/local only artifacts are excluded. git diff is reviewed in full enough to understand every released category. canonical branch push succeeds and remote sha matches local sha. real deployment mechanism succeeds. production foundation.js returns javascript rather than 404. production apps compactjs returns javascript rather than json enoent. production /apps/ browser console is clean of site owned errors. production /portal/ and /api/portal are directly reachable and clean. embarrassment gate before final response, ask what the user would immediately notice if they opened /apps/ on a phone and /portal/ on a desktop. any obvious failure, awkward overflow, naked native control, stale asset, broken deep link, or console error creates more work. next action execute the test/readback/mechanical checks now; do not write a final response while any required evidence above is missing.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26t134731-portal-universal-ui-resource-platf-73c1157384.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-26t1554-apps-runtime-api-ui-audit-00-remaini-c878d3c977",
+		"title": "REMAINING WORK — Geelooy Runtime, API, UI, and Deployment Audit",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26T1554-apps-runtime-api-ui-audit/00_REMAINING_WORK.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "REMAINING WORK — Geelooy Runtime, API, UI, and Deployment Audit",
+				"anchor": "remaining-work-geelooy-runtime-api-ui-and-deployment-audit"
+			},
+			{
+				"level": 2,
+				"text": "Mission",
+				"anchor": "mission"
+			},
+			{
+				"level": 2,
+				"text": "Observed Evidence",
+				"anchor": "observed-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Known Work Graph",
+				"anchor": "known-work-graph"
+			},
+			{
+				"level": 2,
+				"text": "Risks To Track",
+				"anchor": "risks-to-track"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H REMAINING WORK — Geelooy Runtime, API, UI, and Deployment Audit The Awtsmoos renews each instant; this ledger renews each obligation in sight. No route is called complete while errors still burn in the night. Awtsmoos.com is the vessel under inspection, with evidence as the light. Mission Audit every discoverable p",
+		"searchText": "b\"h remaining work — geelooy runtime, api, ui, and deployment audit the awtsmoos renews each instant; this ledger renews each obligation in sight. no route is called complete while errors still burn in the night. awtsmoos.com is the vessel under inspection, with evidence as the light. mission audit every discoverable page under geelooy, remove runtime failures, repair /apps, improve shared apis and ui architecture where evidence justifies it, verify movie friendly responsive css, then commit and push all repository changes requested by the user and prove the deployed url live. observed evidence repository root: /users/awtsmoos/work/awtsmoos.com. target surface: geelooy/ with many route families including apps, api, auth, social, editors, games, docs, os, and shared ui. user screenshot shows /apps loading a javascript module request that receives application/json, plus 404s for foundation.js and favicon.ico. root agents.md requires inspection before claims, real provider verification, complete file rewrites, small modules, and real tests. tunnel is connected and execution healthy; a stale outbox receipt exists but current filesystem requests succeed. known work graph [ ] capture clean git branch, head, remotes, status, and unrelated modifications. [ ] inventory route entrypoints beneath geelooy. [ ] inventory javascript module entrypoints and static asset references. [ ] inventory api facing client modules and server api routes used by geelooy pages. [ ] reproduce /apps in chrome and capture console/network failures. [ ] identify the exact request returning json for a module script and prove why. [ ] find every broken local static import, missing asset, bad relative url, and route to file mismatch. [ ] build or strengthen automated route/runtime auditing so regressions are caught repeatedly. [ ] audit shared ui foundations before duplicating page local fixes. [ ] audit css loading, responsive behavior, typography, controls, focus states, overlays, and cinematic/mobile layouts. [ ] improve api organization only where actual usage, duplication, weak validation, or inconsistent contracts are observed. [ ] rewrite every touched source file completely; no partial textual patching. [ ] keep touched executable source files small; split real responsibilities into coherent modules. [ ] use tabs, readable formatting, complete jsdoc with every parameter, return value, failure mode, and useful awtsmoos poetry. [ ] add or update tests for every repaired public/runtime contract. [ ] run syntax, lint, test, build, import resolution, and page runtime checks available in the repository. [ ] crawl every practical page route with browser/runtime auditing and record clean/error results. [ ] verify /apps specifically has zero relevant console/runtime errors and no broken module requests. [ ] read back every touched file fully after implementation. [ ] compare planned versus actual changes and close all deltas. [ ] re run git status and inspect every repository change, including unrelated pre existing work. [ ] commit all changes requested by the user without discarding unrelated work. [ ] push the correct branch/remotes to github. [ ] determine actual deployment mechanism from repository evidence. [ ] deploy through the repository's real production path. [ ] verify the deployed url directly, including /apps and representative page families. [ ] confirm the published/live receipt or equivalent evidence before reporting deployment success. risks to track route enumeration may include dynamic parameterized pages that require fixtures or authentication. some browser errors may originate from extensions rather than site code; classify by source before fixing. broad api rewrites can break public contracts; preserve signatures and response shapes unless all consumers migrate together. user requested pushing unrelated work; inspect it before committing so secrets, local artifacts, or destructive debris are not published blindly. deployment may have multiple targets; derive the canonical target from config, github workflow, or hosting scripts. next action capture git status/branch/remotes, inspect the apps and shared runtime trees, then reproduce /apps in chrome before any source rewrite.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26t1554-apps-runtime-api-ui-audit-00-remaini-c878d3c977.json"
+	}
+]

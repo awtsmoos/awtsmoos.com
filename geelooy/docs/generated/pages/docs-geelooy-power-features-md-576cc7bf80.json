@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-geelooy-power-features-md-576cc7bf80",
+	"title": "Shared Power Features",
+	"sourcePath": "docs/geelooy/POWER_FEATURES.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Shared Power Features",
+			"anchor": "shared-power-features"
+		},
+		{
+			"level": 2,
+			"text": "One command/search doorway",
+			"anchor": "one-command-search-doorway"
+		},
+		{
+			"level": 2,
+			"text": "Keyboard",
+			"anchor": "keyboard"
+		},
+		{
+			"level": 2,
+			"text": "Persistence",
+			"anchor": "persistence"
+		},
+		{
+			"level": 2,
+			"text": "Network truth",
+			"anchor": "network-truth"
+		},
+		{
+			"level": 2,
+			"text": "Files drag/drop",
+			"anchor": "files-drag-drop"
+		}
+	],
+	"markdownParts": [
+		"content/docs-geelooy-power-features-md-576cc7bf80-001.json"
+	]
+}

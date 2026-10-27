@@ -1,0 +1,74 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-docs-procedural-world-semantic-lin-9786a2eceb",
+	"title": "B\"H — Procedural World Semantic Lineage",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/PROCEDURAL_WORLD_SEMANTIC_LINEAGE.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Procedural World Semantic Lineage",
+			"anchor": "b-h-procedural-world-semantic-lineage"
+		},
+		{
+			"level": 2,
+			"text": "Purpose",
+			"anchor": "purpose"
+		},
+		{
+			"level": 2,
+			"text": "Two topologies",
+			"anchor": "two-topologies"
+		},
+		{
+			"level": 3,
+			"text": "Semantic topology",
+			"anchor": "semantic-topology"
+		},
+		{
+			"level": 3,
+			"text": "Dependency topology",
+			"anchor": "dependency-topology"
+		},
+		{
+			"level": 2,
+			"text": "Dependency directions",
+			"anchor": "dependency-directions"
+		},
+		{
+			"level": 2,
+			"text": "Snapshot contract",
+			"anchor": "snapshot-contract"
+		},
+		{
+			"level": 2,
+			"text": "Identity boundaries",
+			"anchor": "identity-boundaries"
+		},
+		{
+			"level": 2,
+			"text": "Change-impact receipt",
+			"anchor": "change-impact-receipt"
+		},
+		{
+			"level": 2,
+			"text": "External targets and cycles",
+			"anchor": "external-targets-and-cycles"
+		},
+		{
+			"level": 2,
+			"text": "Verification",
+			"anchor": "verification"
+		},
+		{
+			"level": 2,
+			"text": "Deeper reference",
+			"anchor": "deeper-reference"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-docs-procedural-world-semantic-lin-9786a2eceb-001.json"
+	]
+}

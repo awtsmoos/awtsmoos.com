@@ -1,0 +1,147 @@
+[
+	{
+		"id": "geelooy-apps-mitzvah-pushkuh-reinvention-blueprint-full-md-b91f8193ab",
+		"title": "Mitzvah Pushkuh Reinvention Blueprint",
+		"sourcePath": "geelooy/apps/mitzvah-pushkuh/REINVENTION_BLUEPRINT_FULL.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Mitzvah Pushkuh Reinvention Blueprint",
+				"anchor": "mitzvah-pushkuh-reinvention-blueprint"
+			},
+			{
+				"level": 2,
+				"text": "Current-state analysis",
+				"anchor": "current-state-analysis"
+			},
+			{
+				"level": 2,
+				"text": "200 deposit rituals",
+				"anchor": "200-deposit-rituals"
+			},
+			{
+				"level": 2,
+				"text": "100 lifecycle systems",
+				"anchor": "100-lifecycle-systems"
+			},
+			{
+				"level": 2,
+				"text": "100 archive systems",
+				"anchor": "100-archive-systems"
+			},
+			{
+				"level": 2,
+				"text": "100 profile/community/interaction/animation/visual systems",
+				"anchor": "100-profile-community-interaction-animation-visual-systems"
+			},
+			{
+				"level": 2,
+				"text": "20 product visions",
+				"anchor": "20-product-visions"
+			},
+			{
+				"level": 2,
+				"text": "Selected vision",
+				"anchor": "selected-vision"
+			},
+			{
+				"level": 2,
+				"text": "Final test",
+				"anchor": "final-test"
+			}
+		],
+		"excerpt": "B\"H Mitzvah Pushkuh Reinvention Blueprint Current state analysis The prior app had sacred language, canvas particles, IndexedDB persistence, missions, archive cards, profile inspiration, and constellations. It still resolved emotionally into form, save, list, open card. The rewrite changes the model to world, ritual, l",
+		"searchText": "b\"h mitzvah pushkuh reinvention blueprint current state analysis the prior app had sacred language, canvas particles, indexeddb persistence, missions, archive cards, profile inspiration, and constellations. it still resolved emotionally into form, save, list, open card. the rewrite changes the model to world, ritual, living spark, stewardship, memory, and invitation. ux: deposit is now selected ritual plus planting. visual: garden/sky/sanctuary instead of dashboard. interaction: canvas responds to pointer blessing and ritual selection. accessibility: semantic form, buttons, focus styles, reduced motion support, dialog actions. architecture: split into concepts, state, render, world, app, db. emotional journey: choose ritual, plant spark, watch it live, revisit memory forest, let it bear fruit. 200 deposit rituals 1 plant seed, 2 release lantern, 3 repair star, 4 ignite flame, 5 drop pebble, 6 open gate, 7 carve crystal, 8 light window, 9 graft branch, 10 tune bell, 11 pour river drop, 12 weave thread, 13 bury ember, 14 polish mirror, 15 raise banner, 16 fold prayer, 17 tie knot, 18 build bridge, 19 open shell, 20 wake stone, 21 draw circle, 22 fill cup, 23 cast bread on water, 24 place crown, 25 seal scroll, 26 sow constellation, 27 mend wing, 28 ring chime, 29 pour oil, 30 shape clay, 31 feed root, 32 send dove, 33 turn key, 34 paint door, 35 lay stepping stone, 36 stitch cloak, 37 gather dew, 38 name star, 39 lift veil, 40 plant orchard, 41 kindle menorah, 42 set table, 43 sweep path, 44 bless threshold, 45 carry coal, 46 build nest, 47 release seedpod, 48 water sapling, 49 open book, 50 draw map, 51 place feather, 52 gather sparks, 53 repair bridge, 54 raise sail, 55 anchor boat, 56 send echo, 57 open well, 58 spin wheel, 59 catch rain, 60 make candle, 61 wake garden, 62 place bead, 63 thread needle, 64 fold wing, 65 build altar, 66 lift lamp, 67 plant vineyard, 68 release firefly, 69 lay brick, 70 write name, 71 melt frost, 72 call bird, 73 open hive, 74 feed flame, 75 salt path, 76 wrap gift, 77 seal promise, 78 bend bow, 79 paint sunrise, 80 open compass, 81 repair clock, 82 place seed in orbit, 83 open ark, 84 pour honey, 85 find spring, 86 blow shofar, 87 build ladder, 88 touch mezuzah, 89 mend net, 90 cast light, 91 open cave, 92 plant flag, 93 shape key, 94 wake dragonfly, 95 fill lamp, 96 send cloud, 97 build well, 98 strike harp, 99 read wind, 100 carry water, 101 plant moonseed, 102 release silver fish, 103 open pomegranate, 104 make pathway glow, 105 carve doorway, 106 warm frozen star, 107 raise hidden city, 108 place quiet coin, 109 polish crown, 110 mend vessel, 111 pour blue fire, 112 wake mountain, 113 stitch sky, 114 feed dove, 115 unfold tent, 116 plant secret, 117 catch falling star, 118 bless footprint, 119 open garden gate, 120 turn soil, 121 light city window, 122 send paper boat, 123 build rain altar, 124 tune crystal, 125 draw spiral, 126 pour living ink, 127 open shell temple, 128 shape flame creature, 129 plant courage, 130 harvest silence, 131 lift fallen leaf, 132 place river stone, 133 whisper to seed, 134 make constellation bridge, 135 open dawn, 136 paint spark, 137 repair moon, 138 raise lighthouse, 139 plant blessing, 140 send lantern fleet, 141 open memory door, 142 fill empty bowl, 143 clean hidden room, 144 touch heartstone, 145 plant prayer flag, 146 open root chamber, 147 ring golden bell, 148 restore broken harp, 149 pour kindness rain, 150 build compassion nest, 151 light shabbos window, 152 place torah spark, 153 open chesed well, 154 send tefillah bird, 155 feed ahavas root, 156 guard speech gate, 157 forgive stone, 158 lift another's lamp, 159 build family tree, 160 repair shul star, 161 school garden seed, 162 anonymous candle, 163 hidden coin river, 164 gratitude flower, 165 courage bridge, 166 patience pearl, 167 joy kite, 168 hope lantern, 169 teshuvah path, 170 humility cup, 171 awe mountain, 172 wonder pond, 173 responsibility stone, 174 momentum wheel, 175 meaning scroll, 176 growth vine, 177 stewardship flame, 178 guardianship gate, 179 discovery shell, 180 mystery cave, 181 restoration hammer, 182 creation brush, 183 exploration boat, 184 memory orchard, 185 light archive, 186 city repair, 187 global vessel, 188 family hearth, 189 school starfield, 190 shul constellation, 191 personal sanctuary, 192 river covenant, 193 galaxy seed, 194 cloud prayer, 195 dream lake, 196 living garden, 197 sacred archive, 198 vessel network, 199 world tree, 200 garden of sparks. 100 lifecycle systems 1 seed to fruit, 2 flame to beacon, 3 star to constellation, 4 pebble to ripple, 5 crystal to prism, 6 lantern to sky, 7 root to tree, 8 drop to river, 9 thread to tapestry, 10 bell to song, 11 spark creature, 12 flower seasons, 13 dormant stone, 14 memory fruit, 15 weathered vow, 16 candle wax, 17 moon phases, 18 river migration, 19 orchard growth, 20 city window, 21 cave mineral, 22 book page, 23 island rising, 24 mountain trail, 25 garden biome, 26 shul lamp, 27 family hearth, 28 school grove, 29 hidden nest, 30 spirit animal, 31 prayer cloud, 32 torah scroll, 33 tzedakah coin river, 34 chesed bridge, 35 speech gate, 36 forgiveness thaw, 37 joy bloom, 38 hope comet, 39 awe aurora, 40 courage shield, 41 humility bowl, 42 patience vine, 43 gratitude fountain, 44 teshuvah door, 45 mitzvah seedling, 46 invitation star, 47 communal root, 48 personal sanctuary, 49 guardian flame, 50 stewardship tree, 51 sleep/wake cycle, 52 calling glow, 53 tenderness pulse, 54 forgotten moss, 55 rekindled ember, 56 fulfilled fruit, 57 shared perfume, 58 archive fossil, 59 blessing bird, 60 memory echo, 61 tension crystal, 62 repair scar, 63 inner orbit, 64 soil depth, 65 dew renewal, 66 rain blessing, 67 wind testing, 68 winter dormancy, 69 spring return, 70 summer radiance, 71 autumn harvest, 72 night watch, 73 dawn reveal, 74 pilgrim path, 75 star repair, 76 gate opening, 77 vessel filling, 78 vessel overflow, 79 humble concealment, 80 anonymous glow, 81 public invitation, 82 private root, 83 family branch, 84 school grove, 85 shul canopy, 86 city light, 87 world constellation, 88 river delta, 89 orchard seed bank, 90 book of sparks, 91 memory lantern, 92 quiet crown, 93 hidden gem, 94 returning dove, 95 strengthened bridge, 96 refined flame, 97 living promise, 98 soul map, 99 gan expansion, 100 awtsmoos breath. 100 archive systems memory forest, star archive, river of days, cave of light, book of sparks, floating islands, celestial map, commitment garden, orchard rings, lake ripples, lantern sky, city windows, mountain cairns, shul wall, family hearth, school grove, crystal cave, prayer clouds, hidden library, constellation repair, time river, vessel shelf, dream lake, feather path, bridge museum, gate hallway, root network, moon calendar, kindness chain map, anonymous glow field, gratitude well, teshuvah doorways, chesed streets, torah shelves, tzedakah riverbed, speech garden, patience vineyard, courage cliffs, humility bowls, joy kites, hope observatory, awe aurora, sanctuary rooms, old seeds vault, fruit cellar, dormant stone field, relit ember shelf, fulfilled orchard, unfulfilled moss, invitation gallery, no trophy profile wall, communal canopy, global vessel, school constellation, shul constellation, family constellation, city garden, world tree, spark fossils, sacred weather log, sound archive, bell tower, scroll drawers, cloud atlas, river stones, gate registry, lantern fleet, mountain echo, cave minerals, star nursery, root archive, blessing birds, hidden nest, crystal prism room, mirror hall, quiet ocean, dawn field, twilight forest, golden bridge, living tapestry, remembered footprints, repaired moon, pearl archive, kindness aquarium, prayer aviary, mitzvah hive, orchard path, lake of tears, meadow of courage, forest of return, sky of promises, earth of responsibility, chamber of hope, chamber of meaning, chamber of mercy, chamber of joy, chamber of wonder, chamber of silence, chamber of light, awtsmoos archive. 100 profile/community/interaction/animation/visual systems profiles: invitation garden, anonymous courage, shared growth notes, no counts, no ranks, family hearth, school grove, shul canopy, city light, personal sanctuary. community: shared constellations, collective restoration, kindness chains, communal gardens, global vessel, anonymous inspiration, family worlds, school worlds, shul worlds, city worlds. interaction: hold to warm, drag to plant, circle to bless, pinch to open memory, two finger covenant, pressure ignite, magnetic sparks, tactile ripples, living particles, keyboard planting. animation: seed pulse, bloom, fruit fall, lantern lift, star mend, gate open, fog part, aurora breathe, root grow, river ripple. visual: volumetric light, atmospheric depth, spiritual weather, auroras, fog, reflections, refractions, glowing roots, living sky, impossible browser garden. each category expands by combining 10 verbs × 10 spiritual objects, yielding 100 distinct implementations per category. 20 product visions 1 garden of sparks. 2 galaxy of hachlatos. 3 city of light. 4 river of days. 5 memory palace. 6 vessel network. 7 sanctuary world. 8 floating islands. 9 world tree. 10 cave of candles. 11 book of sparks. 12 constellation repair. 13 desert journey. 14 mountain ascent. 15 hidden village. 16 shul of light. 17 family orchard. 18 school garden. 19 dream lake. 20 flame forge. selected vision garden of sparks + galaxy: grounded enough for a child to remember planting, infinite enough for adults to return. improvement passes: remove vanity, remove xp, replace streaks with stewardship, replace feed with constellations, replace form with ritual, replace card list with memory forest, replace status with lifecycle, replace community with shared restoration, replace rewards with meaning, replace dashboard with sanctuary; then deepen: weather, seasons, dormant mercy, relighting, family worlds, shul worlds, schools, anonymous inspiration, accessible keyboard rituals, reduced motion sanctity; then polish: microcopy, sound ready hooks, particle restraint, performance caps, graceful old data migration, mobile first touch, long note memory, history as magic, visual depth, awe without dopamine sludge. final test a child can remember it. an adult can love it. a person can return daily. a friend can be told. someone may feel changed. the category has begun to move from crud to sacred game world.",
+		"page": "pages/geelooy-apps-mitzvah-pushkuh-reinvention-blueprint-full-md-b91f8193ab.json"
+	},
+	{
+		"id": "geelooy-apps-nesher-studio-core-000-engine-md-c975460564",
+		"title": "Nesher Engine Map",
+		"sourcePath": "geelooy/apps/nesher-studio/core/000_ENGINE.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Nesher Engine Map",
+				"anchor": "nesher-engine-map"
+			}
+		],
+		"excerpt": "B\"H Nesher Engine Map Nesher is an OBS class live studio and Premiere class NLE built from browser native vessels. Graphs: Scene Graph: live OBS source composition. Render Graph: deterministic canvas/video frame production. Audio Graph: buses, meters, filters, monitoring, export mix, stream mix. Timeline Graph: sequenc",
+		"searchText": "b\"h nesher engine map nesher is an obs class live studio and premiere class nle built from browser native vessels. graphs: scene graph: live obs source composition. render graph: deterministic canvas/video frame production. audio graph: buses, meters, filters, monitoring, export mix, stream mix. timeline graph: sequences, tracks, clips, trims, markers, nesting, multicam. export graph: webcodecs encoding, muxing, validation, queueing. streaming graph: hls sessions, provider adapters, health, tunnel relay. rule: no provider ingest is considered proven until codec/container/network validation proves it.",
+		"page": "pages/geelooy-apps-nesher-studio-core-000-engine-md-c975460564.json"
+	},
+	{
+		"id": "geelooy-apps-nesher-studio-docs-long-recording-design-md-c255980439",
+		"title": "Long Recording Design",
+		"sourcePath": "geelooy/apps/nesher-studio/docs/LONG_RECORDING_DESIGN.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Long Recording Design",
+				"anchor": "long-recording-design"
+			}
+		],
+		"excerpt": "B\"H Long Recording Design Current Nesher behavior: Video frames are sent one at a time to the existing MediaBunnyBase worker. MediaBunnyBase keeps only a small frame queue. Final MP4 bytes are written through an IndexedDB range target in the shared video library. Captured tab audio is stored as PCM packets in IndexedDB",
+		"searchText": "b\"h long recording design current nesher behavior: video frames are sent one at a time to the existing mediabunnybase worker. mediabunnybase keeps only a small frame queue. final mp4 bytes are written through an indexeddb range target in the shared video library. captured tab audio is stored as pcm packets in indexeddb while recording. this avoids the main ram traps during recording. remaining limitation: the current shared finalize api expects one audiobuffer like shim, so final muxing materializes audio once at the end. future true segment mode: finalize a fragment every 30 120 seconds. store fragments in indexeddb. stitch using a same codec fragmented mp4 concat action, not by decoding/re encoding. this belongs in /scripts/awtsmoos/video, so all apps benefit.",
+		"page": "pages/geelooy-apps-nesher-studio-docs-long-recording-design-md-c255980439.json"
+	},
+	{
+		"id": "geelooy-apps-nesher-studio-docs-monitor-sources-md-a25532b5cd",
+		"title": "Monitor Sources",
+		"sourcePath": "geelooy/apps/nesher-studio/docs/MONITOR_SOURCES.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Monitor Sources",
+				"anchor": "monitor-sources"
+			}
+		],
+		"excerpt": "B\"H Monitor Sources Nesher now exposes monitor capture as a first class source. Implementation details: Add Monitor calls getDisplayMedia() with monitor oriented hints. Browser permission still controls the final picker choice. The chosen display surface is read from track.getSettings().displaySurface. The monitor sour",
+		"searchText": "b\"h monitor sources nesher now exposes monitor capture as a first class source. implementation details: add monitor calls getdisplaymedia() with monitor oriented hints. browser permission still controls the final picker choice. the chosen display surface is read from track.getsettings().displaysurface. the monitor source is a normal video source, so scenes, dragging, resizing, audio capture, and recording use the same stable path. important browser fact: a web page cannot silently select a monitor. the user must choose the screen/window/tab in the picker. the app can request and label monitor capture, but chrome owns permission and selection.",
+		"page": "pages/geelooy-apps-nesher-studio-docs-monitor-sources-md-a25532b5cd.json"
+	},
+	{
+		"id": "geelooy-apps-nesher-studio-docs-tab-capture-roadmap-md-169ad3a82d",
+		"title": "Nesher Studio Tab Capture Roadmap",
+		"sourcePath": "geelooy/apps/nesher-studio/docs/TAB_CAPTURE_ROADMAP.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Nesher Studio Tab Capture Roadmap",
+				"anchor": "nesher-studio-tab-capture-roadmap"
+			},
+			{
+				"level": 2,
+				"text": "What works inside a normal page",
+				"anchor": "what-works-inside-a-normal-page"
+			},
+			{
+				"level": 2,
+				"text": "What cannot be done by a normal page",
+				"anchor": "what-cannot-be-done-by-a-normal-page"
+			},
+			{
+				"level": 2,
+				"text": "Best extension route",
+				"anchor": "best-extension-route"
+			},
+			{
+				"level": 2,
+				"text": "Best tunnel route",
+				"anchor": "best-tunnel-route"
+			}
+		],
+		"excerpt": "B\"H Nesher Studio Tab Capture Roadmap What works inside a normal page Use navigator.mediaDevices.getDisplayMedia({ video: true }). The user chooses a tab, window, or screen. The returned MediaStream can be drawn as a video source into the Nesher canvas and encoded like webcam. This is now represented as a display sourc",
+		"searchText": "b\"h nesher studio tab capture roadmap what works inside a normal page use navigator.mediadevices.getdisplaymedia({ video: true }). the user chooses a tab, window, or screen. the returned mediastream can be drawn as a video source into the nesher canvas and encoded like webcam. this is now represented as a display source route in modules/tabcaptureideas.js and makedisplaysource(). what cannot be done by a normal page a web page cannot silently pick and record an arbitrary chrome tab. browser security requires user permission. an iframe source also cannot be pixel captured if cross origin; nesher records a safe iframe plate unless capture is done through display media or an extension. best extension route build a chrome extension with: tabcapture permission activetab permission offscreen document permission if needed a content/control page that calls chrome.tabcapture.capture stream handoff to nesher through a controlled extension page or webrtc/messagechannel bridge best tunnel route do not bypass browser consent. instead, add tunnel actions: chrometabslist chrometabfocus chromeextensioninstalldev chromecaptureworkflowstart chromecaptureworkflowstatus chromeprofilelaunchwithextension these make the agent able to prepare and test the capture workflow while the extension/browser still owns real capture permission.",
+		"page": "pages/geelooy-apps-nesher-studio-docs-tab-capture-roadmap-md-169ad3a82d.json"
+	}
+]

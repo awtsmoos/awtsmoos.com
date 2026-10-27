@@ -12,16 +12,16 @@ Blessed is He
 
 ## Entry and documentation evidence
 
-- Entry files: `_awtsmoos.derech.js`, `DOCUMENTATION.md`
+- Entry files: `_awtsmoos.derech.js`, `DOCUMENTATION.md`, `README.md`, `readme.md`
 - Local documentation: `geelooy/api/ohr-hagnuz/DOCUMENTATION.md`
-- Local-doc requirement: no; covered: yes
+- Local-doc requirement: yes; covered: yes
 - Symlink target: —
 
 ## File shape
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 6 | 1 | 0 | 0 | 1 | 0 | 8 |
+| 6 | 1 | 0 | 0 | 4 | 0 | 11 |
 
 ## Public entry points
 

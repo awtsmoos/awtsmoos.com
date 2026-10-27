@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-tunnel-readme-md-f4feb86c82",
+	"title": "B\"H — Awtsmoos Tunnel API (Yaakov 2026-10-15)",
+	"sourcePath": "geelooy/api/tunnel/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Awtsmoos Tunnel API (Yaakov 2026-10-15)",
+			"anchor": "b-h-awtsmoos-tunnel-api-yaakov-2026-10-15"
+		},
+		{
+			"level": 2,
+			"text": "Directory Structure",
+			"anchor": "directory-structure"
+		},
+		{
+			"level": 2,
+			"text": "Quick Start",
+			"anchor": "quick-start"
+		},
+		{
+			"level": 1,
+			"text": "Choose 1-7 for tunnel type",
+			"anchor": "choose-1-7-for-tunnel-type"
+		},
+		{
+			"level": 2,
+			"text": "Key Concepts",
+			"anchor": "key-concepts"
+		},
+		{
+			"level": 2,
+			"text": "Critical Files",
+			"anchor": "critical-files"
+		},
+		{
+			"level": 2,
+			"text": "Lessons Learned (2026-10-15)",
+			"anchor": "lessons-learned-2026-10-15"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-tunnel-readme-md-f4feb86c82-001.json"
+	]
+}

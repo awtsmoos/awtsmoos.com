@@ -2,70 +2,50 @@
 	"BH": "B\"H / Boruch Hashem / Blessed is He",
 	"schema": "awtsmoos-doc-page-v2",
 	"id": "geelooy-apps-tunnel-readme-md-7218b2b697",
-	"title": "Awtsmoos Tunnel — Human Operations Guide",
+	"title": "Awtsmoos Tunnel — Operations and Emergency Index",
 	"sourcePath": "geelooy/apps/tunnel/README.md",
 	"category": "Tunnel",
 	"provenance": "project",
 	"headings": [
 		{
 			"level": 1,
-			"text": "Awtsmoos Tunnel — Human Operations Guide",
-			"anchor": "awtsmoos-tunnel-human-operations-guide"
+			"text": "Awtsmoos Tunnel — Operations and Emergency Index",
+			"anchor": "awtsmoos-tunnel-operations-and-emergency-index"
 		},
 		{
 			"level": 2,
-			"text": "Emergency recovery — use the shortest safe command first",
-			"anchor": "emergency-recovery-use-the-shortest-safe-command-first"
-		},
-		{
-			"level": 3,
-			"text": "macOS or Linux",
-			"anchor": "macos-or-linux"
-		},
-		{
-			"level": 3,
-			"text": "Windows",
-			"anchor": "windows"
+			"text": "AI / operator emergency index — start here",
+			"anchor": "ai-operator-emergency-index-start-here"
 		},
 		{
 			"level": 2,
-			"text": "Know which layer is broken",
-			"anchor": "know-which-layer-is-broken"
+			"text": "Durable local rescue commands",
+			"anchor": "durable-local-rescue-commands"
 		},
 		{
 			"level": 2,
-			"text": "Install, refresh, or start",
-			"anchor": "install-refresh-or-start"
-		},
-		{
-			"level": 3,
-			"text": "macOS or Linux",
-			"anchor": "macos-or-linux-2"
-		},
-		{
-			"level": 3,
-			"text": "Windows PowerShell",
-			"anchor": "windows-powershell"
+			"text": "Decision tree",
+			"anchor": "decision-tree"
 		},
 		{
 			"level": 2,
-			"text": "Recovery levels",
-			"anchor": "recovery-levels"
+			"text": "Normal install and refresh",
+			"anchor": "normal-install-and-refresh"
 		},
 		{
 			"level": 2,
-			"text": "Deep recovery tools",
-			"anchor": "deep-recovery-tools"
+			"text": "Self-heal invariants",
+			"anchor": "self-heal-invariants"
+		},
+		{
+			"level": 2,
+			"text": "Existing supervised recovery",
+			"anchor": "existing-supervised-recovery"
 		},
 		{
 			"level": 2,
 			"text": "Control surfaces",
 			"anchor": "control-surfaces"
-		},
-		{
-			"level": 2,
-			"text": "Important runtime files",
-			"anchor": "important-runtime-files"
 		}
 	],
 	"markdownParts": [

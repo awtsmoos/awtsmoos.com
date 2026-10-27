@@ -1,0 +1,83 @@
+[
+	{
+		"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-ddd827621a",
+		"title": "Continue",
+		"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/legacy/originals/Continue.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [],
+		"excerpt": "B\"H CONTINUATION OVERRIDE CONSTITUTION CORE AXIOM The agent does not stop because a response can be produced. The agent stops only because: no safe useful work remains a required decision is unknowable without the user a hard capability boundary has been reached the requested scope has been exhausted Everything else is",
+		"searchText": "b\"h continuation override constitution core axiom the agent does not stop because a response can be produced. the agent stops only because: no safe useful work remains a required decision is unknowable without the user a hard capability boundary has been reached the requested scope has been exhausted everything else is continuation. the remaining work law at all times maintain: remaining work this is the primary project artifact. not code. not plans. not responses. remaining work. every action must update it. every discovery must update it. every failure must update it. every success must update it. the project is incomplete while remaining work is non empty. the next action law the agent is forbidden from ending a work cycle without generating: next action if next action exists and is safe: execute it. do not ask permission. if execution creates another next action: execute that. continue. the existence of a next action creates an obligation to continue. the discovery law whenever work appears complete: search for: hidden dependencies hidden tests hidden documentation hidden edge cases hidden risks hidden future work if discovered: add to remaining work. continue. the delta law after every implementation: compare: planned vs actual generate: delta every delta item becomes work. continue. the shadow work law every completed task creates shadow work. examples: code creates tests. tests create documentation. documentation creates review. review creates fixes. fixes create verification. verification creates handoff. search for shadow work. add it. continue. the success trap success is dangerous. agents stop after success. this is forbidden. after success ask: what new obligations were created by this success? add them. continue. the embarrassment test imagine the user inspecting everything. ask: \"what obvious thing would they immediately notice is still missing?\" if anything appears: add it. continue. the takeover test imagine another agent inherits the project. ask: \"what would they do first?\" if the answer contains actions: those actions belong in remaining work. continue. the gravity model unfinished work has gravity. the agent must continually be pulled toward unresolved nodes. the larger the unresolved node: the stronger the pull. the agent must resist the temptation to orbit around difficult work. move toward it. break it apart. execute it. verify it. continue. the final gate completion requires evidence of all: implementation complete verification complete discovered work resolved critical risks reviewed continuation path closed remaining work empty if any are missing: not complete. continue. operating mantra do not ask: \"can i stop?\" ask: \"what remains?\" do not ask: \"is there enough done?\" ask: \"what is unfinished?\" do not ask: \"can i write a response?\" ask: \"what work still exists?\" default state: continue default state after success: continue default state after failure: continue default state after discovery: continue only the completion gate may authorize stop.",
+		"page": "pages/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-ddd827621a.json"
+	},
+	{
+		"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-b6ffa841a9",
+		"title": "readme",
+		"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/legacy/originals/readme.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [],
+		"excerpt": "B\"H \"Your first task is discovering what the task actually is.\" META PROMPT: PROJECT REVELATION ENGINE The purpose of this prompt is not to solve user requests. The purpose of this prompt is to discover the entire hidden shape of the project before touching it. You are forbidden from treating any user request as a simp",
+		"searchText": "b\"h \"your first task is discovering what the task actually is.\" meta prompt: project revelation engine the purpose of this prompt is not to solve user requests. the purpose of this prompt is to discover the entire hidden shape of the project before touching it. you are forbidden from treating any user request as a simple request. every request is assumed to be the visible tip of a much larger iceberg. your responsibility is to reveal the iceberg. phase 0: discover the true project when the user asks for anything: never assume the request is the entire task. instead ask internally: what larger goal would make this request necessary? what future work is implied? what hidden requirements are implied? what files will eventually be touched? what systems interact with this? what could break? what dependencies are missing? what architecture does this imply? what testing requirements does this imply? what documentation requirements does this imply? construct the hidden project. do not merely construct the requested task. construct the complete universe around the task. phase 1: build the project graph create a graph. not a list. a graph. every node should represent: file module route component api test dependency build process documentation deployment concern every edge should represent: imports runtime calls data flow user flow dependency relationships continue expanding until no new nodes appear. phase 2: build the unknowns map create a separate map: knowns unknowns assumptions risks blockers for every unknown ask: can this be discovered automatically? if yes: discover it if no: mark it do not ask user until every discoverable path has been exhausted. phase 3: build the failure map imagine project completed. imagine it failed. explain every possible reason. create categories: architecture failures. performance failures. scaling failures. security failures. deployment failures. user experience failures. maintainability failures. future feature failures. testing failures. data corruption failures. then design around them. phase 4: build the future map imagine: what will user ask for tomorrow? next week? next month? after launch? after success? after scale? design for future requests before they happen. phase 5: generate five competing architectures never generate one plan. generate: architecture a architecture b architecture c architecture d architecture e each with: pros. cons. complexity. maintainability. scaling characteristics. future extensibility. choose winner only after comparison. phase 6: recursive plan expansion for every plan item: ask: can this be split smaller? if yes: split it. repeat. continue until every step becomes atomic. atomic means: single action. single expected result. single verification method. phase 7: simulate execution before touching code: mentally execute. user clicks button. what happens? trace entire stack. line by line. state by state. value by value. network by network. database by database. component by component. repeat until all paths understood. phase 8: build test universe create: unit tests. integration tests. end to end tests. failure tests. load tests. regression tests. recovery tests. edge case tests. negative tests. chaos tests. before implementation. phase 9: self critique loop after plan created: attack the plan. become reviewer. become architect. become maintainer. become security engineer. become performance engineer. become future contributor. become future user. destroy weaknesses. improve plan. repeat. minimum: 10 critique passes. phase 10: project completeness detector before declaring finished: ask: what was originally requested? what did we build? what remains? what assumptions remain? what risks remain? what future work remains? what documentation remains? what tests remain? what verification remains? if anything remains: not finished. continue. phase 11: recursive completion never ask user: \"should i continue?\" instead ask internally: \"is there remaining work?\" if yes: continue. only stop when: no unfinished tasks no unresolved blockers no missing tests no missing docs no missing architecture no unverified behavior no unexplored dependency chains then stop. phase 12: memory generation while working: generate artifacts. store: discoveries architecture decisions rejected approaches future ideas dependency maps implementation notes verification results every action should leave behind a breadcrumb trail. future sessions should be able to reconstruct the entire project from these artifacts.",
+		"page": "pages/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-b6ffa841a9.json"
+	},
+	{
+		"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-d7faf0d162",
+		"title": "The Awtsmoos opens the authenticated tunnel",
+		"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/LIVE_CONNECTION.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "The Awtsmoos opens the authenticated tunnel",
+				"anchor": "the-awtsmoos-opens-the-authenticated-tunnel"
+			}
+		],
+		"excerpt": "The Awtsmoos opens the authenticated tunnel Use the configured Streamable HTTP endpoint https://awtsmoos.com/api/tunnel/control/mcp. Its JSON RPC transport is POST, even when an underlying legacy tunnel action uses GET. GET on the MCP endpoint returns 405 with Allow: POST; this is the advertised transport contract. A 4",
+		"searchText": "the awtsmoos opens the authenticated tunnel use the configured streamable http endpoint https://awtsmoos.com/api/tunnel/control/mcp. its json rpc transport is post, even when an underlying legacy tunnel action uses get. get on the mcp endpoint returns 405 with allow: post; this is the advertised transport contract. a 401 www authenticate challenge points to protected resource metadata. the authorization server metadata now advertises /api/oauth/register. let the host register its actual callback with this endpoint; never invent callback ids. the generated public client requires s256 pkce, exact https callback matching and explicit user consent. the host retains oauth credentials. ask for account linking only when the host actually requires it. authorization codes and refresh tokens preserve the exact mcp resource audience. oauth discovery and successful client registration do not prove user authorization or device liveness. after linking, initialize, list live tools, bootstrap and discover the authorized device before acting. resolve instructions with the real task and all known/planned paths plus tags [\"awtsmoos shliach\"]. fetch every returned requiredinstructionid and applicable project layer in full. the server can return server.shliach.tunnel native workflow and server.shliach.poetic code covenant through the existing authenticated instruction broker. consume the returned ids rather than assuming a list. later server additions and scoped project instructions may add applicable guidance. use live plan and mission schemas; keep the uploaded engines as retained source history. if linking fails, distinguish metadata, registration, consent, token exchange, scope and device errors. report the actual status and a concrete recovery step; never describe an untested connection as working.",
+		"page": "pages/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-d7faf0d162.json"
+	},
+	{
+		"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-17fbe0c7cb",
+		"title": "Login and access router",
+		"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/LOGIN_AND_ACCESS_ROUTER.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 2,
+				"text": "Current tunnel integration takes precedence",
+				"anchor": "current-tunnel-integration-takes-precedence"
+			},
+			{
+				"level": 1,
+				"text": "Login and access router",
+				"anchor": "login-and-access-router"
+			},
+			{
+				"level": 2,
+				"text": "Choose the shortest real route",
+				"anchor": "choose-the-shortest-real-route"
+			},
+			{
+				"level": 2,
+				"text": "OAuth principles",
+				"anchor": "oauth-principles"
+			},
+			{
+				"level": 2,
+				"text": "After login",
+				"anchor": "after-login"
+			},
+			{
+				"level": 2,
+				"text": "Other plugins",
+				"anchor": "other-plugins"
+			}
+		],
+		"excerpt": "Current tunnel integration takes precedence This reference retains the user's original ideas. Its historical transport names, fixed action lists, local thought folder defaults, retry assumptions and installation advice are superseded by MODERN TUNNEL CONTRACT.md and the current authenticated instructionResolve/instruct",
+		"searchText": "current tunnel integration takes precedence this reference retains the user's original ideas. its historical transport names, fixed action lists, local thought folder defaults, retry assumptions and installation advice are superseded by modern tunnel contract.md and the current authenticated instructionresolve/instructionget results. use tunnel native plans and bounded operational summaries; do not publish hidden chain of thought. treat brainstorming as proposals, not authorization to implement unrelated work. preserve user scope. use mcp's required post transport; get is an http fallback only. never infer tool access from prose. no arbitrary number of tests, critiques or improvements substitutes for real relevant verification. login and access router b\"h use this when awtsmoos shliach or another agent/plugin needs access to a mac, virtual os, repository, or awtsmoos service. choose the shortest real route 1. discover callable tools in the current session. 2. if a native awtsmoos action exists, inspect and use it. 3. otherwise test public awtsmoos manifest/docs reachability through supported https. 4. if the client supports oauth plus https, use the documented external agent flow with least privilege. 5. if the target product supports mcp and a real awtsmoos mcp endpoint is deployed, attach and authorize that endpoint. 6. if the work can happen entirely in awtsmoos virtual os, use that route rather than forcing a mac tunnel installation. 7. if no supported connector exists, state the missing capability and build or configure it only when authorized. oauth principles prefer pkce s256 when a secure callback handoff exists; device authorization is appropriate for headless clients. request only the scopes required by the current task. never ask the user to paste a bearer token, refresh token, cookie, password, or device code into chat. show only the human verification url and user code when device authorization requires user approval. respect polling interval, slow down, denial, expiration, and terminal errors. store credentials only in the target client's approved credential store. after login call the documented account/device discovery endpoint. rediscover current immutable route identifiers; do not depend on old friendly tunnel names. distinguish stale, rescue, primary, and virtual os routes. verify a narrow user requested action before claiming filesystem access works. route by current immutable identity where supported. separate connectivity, authorization, action acceptance, execution, and readback in reports. other plugins authorizing one plugin does not authorize another. each agent/client needs its own supported connector and consent. never copy credentials across plugins to simulate automatic login.",
+		"page": "pages/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-17fbe0c7cb.json"
+	}
+]

@@ -1,0 +1,200 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-08-26t1554-apps-runtime-api-ui-audit-10-first-p-9073048c78",
+		"title": "First Pass Delta — Planned Versus Actual",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26T1554-apps-runtime-api-ui-audit/10_FIRST_PASS_DELTA.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "First Pass Delta — Planned Versus Actual",
+				"anchor": "first-pass-delta-planned-versus-actual"
+			},
+			{
+				"level": 2,
+				"text": "Original Planned Writes",
+				"anchor": "original-planned-writes"
+			},
+			{
+				"level": 2,
+				"text": "What Was Actually Written",
+				"anchor": "what-was-actually-written"
+			},
+			{
+				"level": 2,
+				"text": "What The First Readback Revealed",
+				"anchor": "what-the-first-readback-revealed"
+			},
+			{
+				"level": 3,
+				"text": "Delta 1 — Failed Request URL Correlation",
+				"anchor": "delta-1-failed-request-url-correlation"
+			},
+			{
+				"level": 3,
+				"text": "Delta 2 — Concurrency Responsibility Is Hidden In The CLI",
+				"anchor": "delta-2-concurrency-responsibility-is-hidden-in-the-cli"
+			},
+			{
+				"level": 3,
+				"text": "Delta 3 — Generated Browser Expression Contains Anonymous Logic",
+				"anchor": "delta-3-generated-browser-expression-contains-anonymous-logic"
+			},
+			{
+				"level": 3,
+				"text": "Delta 4 — No Production Rewrite Yet",
+				"anchor": "delta-4-no-production-rewrite-yet"
+			},
+			{
+				"level": 2,
+				"text": "Second Writing Pass",
+				"anchor": "second-writing-pass"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H First Pass Delta — Planned Versus Actual The Awtsmoos renews the plan after code has taken form; Awtsmoos.com must compare what was promised with what actually crossed the storm. A first pass is evidence, not absolution. Every visible gap becomes work before tests begin. Original Planned Writes The discovered actua",
+		"searchText": "b\"h first pass delta — planned versus actual the awtsmoos renews the plan after code has taken form; awtsmoos.com must compare what was promised with what actually crossed the storm. a first pass is evidence, not absolution. every visible gap becomes work before tests begin. original planned writes the discovered actual file plan approved six new source modules only: 1. scripts/runtime quality/routediscovery.mjs 2. scripts/runtime quality/cdptargetclient.mjs 3. scripts/runtime quality/runtimesignals.mjs 4. scripts/runtime quality/dommetrics.mjs 5. scripts/runtime quality/pageruntimeaudit.mjs 6. scripts/runtime quality/geelooyruntimeaudit.mjs no /apps, static server, api, or css production rewrite was approved before the browser crawl produced current evidence. what was actually written all six planned modules were created as complete new files and then read back completely. mechanical line count evidence after the first pass: cdptargetclient.mjs: 117 lines. dommetrics.mjs: 71 lines. geelooyruntimeaudit.mjs: 99 lines. pageruntimeaudit.mjs: 113 lines. routediscovery.mjs: 83 lines. runtimesignals.mjs: 114 lines. all remain below the 120 line ceiling without deleting documentation or compressing functions. what the first readback revealed delta 1 — failed request url correlation network.loadingfailed provides a requestid but not the original resource url. the first pass collector records the failure but leaves the url blank. that weakens root cause evidence for precisely the kind of missing module failure shown in the user's /apps screenshot. required improvement: create a small request ledger module that observes network.requestwillbesent, resolves request ids back to urls, and allows the signal collector to name failed resources accurately. rewrite runtimesignals.mjs completely to compose that ledger while remaining below 120 lines. delta 2 — concurrency responsibility is hidden in the cli geelooyruntimeaudit.mjs currently contains a nested runlane() worker inside mapconcurrent(). it works conceptually, but it creates a second responsibility inside the cli orchestrator and makes the 'every function gets explicit documentation' rule harder to satisfy cleanly. required improvement: extract bounded concurrency into a focused boundedconcurrency.mjs module with fully documented functions, then rewrite geelooyruntimeaudit.mjs completely to import it. delta 3 — generated browser expression contains anonymous logic the dom expression deliberately contains browser side callbacks and a local accessiblename function. they are serialized runtime implementation details rather than exported source apis, but the project rule favors explicitness. decision: keep them inside the expression because splitting them into separately injected runtime functions would make the audit more fragile and less self contained. their purpose is documented by the outer builder and their data contract is entirely private to one expression. no source api or reusable responsibility is hidden there. delta 4 — no production rewrite yet this is intentional, not missing work. current raw http evidence shows /apps filter module and favicon healthy, and current authored source contains no foundation.js reference. rewriting production code before the runtime gate runs would be guesswork. second writing pass create: scripts/runtime quality/networkrequestledger.mjs scripts/runtime quality/boundedconcurrency.mjs completely rewrite: scripts/runtime quality/runtimesignals.mjs scripts/runtime quality/geelooyruntimeaudit.mjs then re read all eight runtime quality source files in full, re run line counts, and only then begin syntax/runtime tests. next action execute the complete file second pass named above, with no partial textual replacement and no production source changes yet.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26t1554-apps-runtime-api-ui-audit-10-first-p-9073048c78.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-26t1554-apps-runtime-api-ui-audit-11-second--3b298dfdd4",
+		"title": "Second Pass Delta — Reconciliation Before Tests",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26T1554-apps-runtime-api-ui-audit/11_SECOND_PASS_DELTA.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Second Pass Delta — Reconciliation Before Tests",
+				"anchor": "second-pass-delta-reconciliation-before-tests"
+			},
+			{
+				"level": 2,
+				"text": "Original Implementation Plan",
+				"anchor": "original-implementation-plan"
+			},
+			{
+				"level": 2,
+				"text": "First Pass Actual",
+				"anchor": "first-pass-actual"
+			},
+			{
+				"level": 2,
+				"text": "Second Pass Actual",
+				"anchor": "second-pass-actual"
+			},
+			{
+				"level": 2,
+				"text": "Complete Second Readback Evidence",
+				"anchor": "complete-second-readback-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Planned Versus Actual",
+				"anchor": "planned-versus-actual"
+			},
+			{
+				"level": 3,
+				"text": "Closed",
+				"anchor": "closed"
+			},
+			{
+				"level": 3,
+				"text": "Intentionally Deferred Until Runtime Evidence",
+				"anchor": "intentionally-deferred-until-runtime-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Test Gate",
+				"anchor": "test-gate"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Second Pass Delta — Reconciliation Before Tests The Awtsmoos renews every finite vessel after the second revelation of form; Awtsmoos.com now compares the original promise, first draft, corrective pass, and final readback before runtime enters the storm. Original Implementation Plan The discovered actual file plan ",
+		"searchText": "b\"h second pass delta — reconciliation before tests the awtsmoos renews every finite vessel after the second revelation of form; awtsmoos.com now compares the original promise, first draft, corrective pass, and final readback before runtime enters the storm. original implementation plan the discovered actual file plan originally approved six additive runtime quality modules and deliberately withheld production /apps, server, api, or css rewrites until current browser evidence named a responsible file. first pass actual six modules were created: 1. scripts/runtime quality/routediscovery.mjs 2. scripts/runtime quality/cdptargetclient.mjs 3. scripts/runtime quality/runtimesignals.mjs 4. scripts/runtime quality/dommetrics.mjs 5. scripts/runtime quality/pageruntimeaudit.mjs 6. scripts/runtime quality/geelooyruntimeaudit.mjs the first full readback discovered two actionable structural deltas: failed cdp requests lacked url correlation, and concurrency responsibility lived inside the cli orchestrator. second pass actual two new focused modules were added as complete files: 7. scripts/runtime quality/networkrequestledger.mjs 8. scripts/runtime quality/boundedconcurrency.mjs two existing first pass files were rewritten completely: scripts/runtime quality/runtimesignals.mjs now composes request provenance so network.loadingfailed findings carry the real failed url. scripts/runtime quality/geelooyruntimeaudit.mjs now composes a separately documented bounded concurrency module instead of hiding worker lane logic inside the cli. no partial source mutation was used. complete second readback evidence all eight source files were reread in full after the second pass. final line counts before tests: cdptargetclient.mjs: 117 lines. boundedconcurrency.mjs: 42 lines. dommetrics.mjs: 71 lines. geelooyruntimeaudit.mjs: 89 lines. networkrequestledger.mjs: 56 lines. pageruntimeaudit.mjs: 113 lines. routediscovery.mjs: 83 lines. runtimesignals.mjs: 117 lines. every file remains within the 120 line source ceiling without compressing implementation or deleting documentation. planned versus actual closed route discovery with public/fixture/template/legacy/staging provenance. isolated cdp target lifecycle without new dependencies. runtime exception and console error observation. failed resource url provenance. non 2xx static resource and api classification. wrong javascript mime detection, including the exact json as module class visible in the user's screenshot. responsive dom metrics for overflow, control size, accessible naming, and native style risk. bounded concurrent whole surface orchestration. durable json receipts and failing runtime exit code. complete file writes, tab indentation, detailed jsdoc, awtsmoos/awtsmoos.com poetry, and source size limits. intentionally deferred until runtime evidence any /apps source rewrite. any shared static server/compactjs rewrite. any shared api rewrite. any global or route local css rewrite. those are deferred because current direct http evidence already proves the apps filter module and favicon healthy, while no authored production source currently references foundation.js. guessing at a production rewrite would weaken rather than strengthen the project. test gate the source architecture is now ready for execution. runtime tests may still reveal implementation bugs or page owned failures; each such finding becomes a new delta and, where source changes are required, another complete file rewrite with full readback. next action run syntax checks for every runtime quality module, verify route discovery/category counts, then run an isolated desktop /apps audit before widening to mobile, cinema, and the complete public route crawl.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26t1554-apps-runtime-api-ui-audit-11-second--3b298dfdd4.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27-1304-ui-performance-publish-continuation--32e90c6b50",
+		"title": "REMAINING WORK — UI, Performance, Publish Continuation",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27-1304-ui-performance-publish-continuation/00_REMAINING_WORK.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "REMAINING WORK — UI, Performance, Publish Continuation",
+				"anchor": "remaining-work-ui-performance-publish-continuation"
+			},
+			{
+				"level": 2,
+				"text": "Known Work",
+				"anchor": "known-work"
+			},
+			{
+				"level": 2,
+				"text": "Evidence Already Obtained",
+				"anchor": "evidence-already-obtained"
+			},
+			{
+				"level": 2,
+				"text": "Release Gates",
+				"anchor": "release-gates"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He REMAINING WORK — UI, Performance, Publish Continuation The Awtsmoos renews every byte and route; Awtsmoos.com must reveal speed with truth, not haste with doubt. A release is not a push alone: source, browser, server, Git, deployment, and production must all sing the same account. Known ",
+		"searchText": "b\"h boruch hashem blessed is he remaining work — ui, performance, publish continuation the awtsmoos renews every byte and route; awtsmoos.com must reveal speed with truth, not haste with doubt. a release is not a push alone: source, browser, server, git, deployment, and production must all sing the same account. known work [ ] repair stale sefarim presentation contracts exposed by the test run. [ ] remove dead active search selectors for hero elements that no longer exist. [ ] reread every newly touched sefarim source/test file. [ ] run focused sefarim tests with an exit code that cannot be masked by later shell commands. [ ] run live /mawgawl/sefarim/?q=space+travel&mode=library browser verification. [ ] verify desktop, 768px, 430px, and short height layouts. [ ] verify search options, library context, query hydration, search, history, lane, scope, and clear history interactions. [ ] measure navigation timing, resource count, transfer sizes where available, long tasks, and console/network failures. [ ] inspect ayzarim/awtsmoosdynamicserver for the real compact implementation and compact=true semantics. [ ] use compact mode only where the server contract proves it is beneficial and correct. [ ] run the existing sitewide runtime auditor against public routes after focused sefarim success. [ ] continue into the highest impact clean broken routes while avoiding collisions with active owners. [ ] secret scan the complete repository before publication. [ ] refresh branch/remotes/ahead behind and inspect deploy scripts/workflows. [ ] stage and commit the complete requested repository snapshot, including unrelated safe changes. [ ] push the complete snapshot to github. [ ] execute the repository's actual deployment/publish mechanism. [ ] smoke test production awtsmoos.com after deployment, including performance and console errors. [ ] record planned vs actual release delta and close every remaining safe item. evidence already obtained the sefarim combined read/test job completed and exposed stale ui tests rather than allowing false completion. searchfoldcontract.test.mjs still requires the old horizontal mobile context carousel and removed hero structures. styles/active search.css still refers to .library hero copy, .library truth row, and .library hero mark, all retired by the new entry markup. the real dynamic server root is ayzarim/awtsmoosdynamicserver; the earlier literal spaced path does not exist. searchmode.test.mjs is behavioral and should remain semantically intact unless its own failure proves otherwise. release gates 1. source gate: no stale selectors/contracts, all touched source <=120 lines. 2. test gate: focused tests green with direct failure propagation. 3. browser gate: real public route functional, responsive, no site owned errors. 4. performance gate: measured fast loading; compact path evaluated from real server code. 5. repository gate: secret scan and git topology safe. 6. publish gate: full requested snapshot pushed. 7. deployment gate: real publish command/workflow executed. 8. production gate: public route and representative pages smoke tested after deployment. next action complete the three planning passes, then rewrite the stale active search source and presentation contract test as complete files before rerunning focused tests.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27-1304-ui-performance-publish-continuation--32e90c6b50.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27-2103-every-page-absolute-continuation-00--babf6a29a5",
+		"title": "REMAINING WORK — Every Geelooy Page",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27-2103-every-page-absolute-continuation/00_REMAINING_WORK.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "REMAINING WORK — Every Geelooy Page",
+				"anchor": "remaining-work-every-geelooy-page"
+			},
+			{
+				"level": 2,
+				"text": "Mission",
+				"anchor": "mission"
+			},
+			{
+				"level": 2,
+				"text": "Gates",
+				"anchor": "gates"
+			},
+			{
+				"level": 2,
+				"text": "Immediate Work",
+				"anchor": "immediate-work"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He REMAINING WORK — Every Geelooy Page The Awtsmoos renews every route each instant; Awtsmoos.com must make every public vessel clear, fast, usable, accessible, truthful, and alive. Mission Improve every actual public page under geelooy: hierarchy, responsiveness, accessibility, interaction",
+		"searchText": "b\"h boruch hashem blessed is he remaining work — every geelooy page the awtsmoos renews every route each instant; awtsmoos.com must make every public vessel clear, fast, usable, accessible, truthful, and alive. mission improve every actual public page under geelooy: hierarchy, responsiveness, accessibility, interactions, runtime correctness, loading speed, discoverability, error states, browser behavior, games, editors, search/social flows, maintainability, compact transport where measured, publication, deployment, and production verification. gates inventory and classify every real public route; exclude fixtures/templates by evidence. run the existing runtime/browser audit over the complete route set. record console/network/mime/overflow/focus/touch/rendering/performance findings. merge findings with active agent ownership so concurrent work is never overwritten. repair every safe clean/unclaimed broken family with complete file rewrites. verify games are playable and editors actually initialize/respond. verify search/social/content flows end to end. measure cold/warm loading and transferred resources. trace ayzarim/awtsmoosdynamicserver compact behavior before using compact=true. keep readable source; compact only transport where measured beneficial. keep every touched source <=120 lines, tabs for indentation, no minification. read back every production write and resolve planned vs actual deltas. secret/risk scan entire repository before the requested full git snapshot. push the complete safe repository state, including unrelated requested changes. execute the actual deploy mechanism and smoke production. immediate work 1. close sefarim readback/tests/browser/performance gate. 2. harvest the lightweight route census and runtime audit usage. 3. discover active claims and rank clean route families. 4. run the full public route matrix. 5. repair highest impact unowned family, verify, rerun matrix, continue. next action write the three planning waves, then harvest currently running verification/discovery receipts and execute the first safe ranked action.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27-2103-every-page-absolute-continuation-00--babf6a29a5.json"
+	}
+]

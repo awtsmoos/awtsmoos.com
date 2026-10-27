@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-procedural-language-api-md-55a9830972",
+	"title": "B\"H",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/PROCEDURAL_LANGUAGE_API.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Awtsmoos Procedural Language — Public Creation Portal",
+			"anchor": "awtsmoos-procedural-language-public-creation-portal"
+		},
+		{
+			"level": 2,
+			"text": "Supported import",
+			"anchor": "supported-import"
+		},
+		{
+			"level": 2,
+			"text": "Simple surface",
+			"anchor": "simple-surface"
+		},
+		{
+			"level": 2,
+			"text": "Anything/everything principle",
+			"anchor": "anything-everything-principle"
+		},
+		{
+			"level": 2,
+			"text": "Advanced public symbols",
+			"anchor": "advanced-public-symbols"
+		},
+		{
+			"level": 2,
+			"text": "Stability law",
+			"anchor": "stability-law"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-procedural-language-api-md-55a9830972-001.json"
+	]
+}

@@ -1,0 +1,248 @@
+[
+	{
+		"id": "geelooy-apps-tunnel-design-os-aleph-beis-guide-md-7259edc4c8",
+		"title": "Designing with the Aleph-Beis",
+		"sourcePath": "geelooy/apps/tunnel/design-os/aleph-beis/GUIDE.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Designing with the Aleph-Beis",
+				"anchor": "designing-with-the-aleph-beis"
+			},
+			{
+				"level": 2,
+				"text": "The idea",
+				"anchor": "the-idea"
+			},
+			{
+				"level": 2,
+				"text": "Quick start",
+				"anchor": "quick-start"
+			},
+			{
+				"level": 2,
+				"text": "The composition rule",
+				"anchor": "the-composition-rule"
+			},
+			{
+				"level": 2,
+				"text": "The twenty-two principles",
+				"anchor": "the-twenty-two-principles"
+			},
+			{
+				"level": 3,
+				"text": "א Aleph (1) — Unity",
+				"anchor": "aleph-1-unity"
+			},
+			{
+				"level": 3,
+				"text": "ב Beis (2) — Containment",
+				"anchor": "beis-2-containment"
+			},
+			{
+				"level": 3,
+				"text": "ג Gimmel (3) — Generosity",
+				"anchor": "gimmel-3-generosity"
+			},
+			{
+				"level": 3,
+				"text": "ד Daled (4) — Openness",
+				"anchor": "daled-4-openness"
+			},
+			{
+				"level": 3,
+				"text": "ה Hei (5) — Clarity",
+				"anchor": "hei-5-clarity"
+			},
+			{
+				"level": 3,
+				"text": "ו Vav (6) — Connection",
+				"anchor": "vav-6-connection"
+			},
+			{
+				"level": 3,
+				"text": "ז Zayin (7) — Precision",
+				"anchor": "zayin-7-precision"
+			},
+			{
+				"level": 3,
+				"text": "ח Ches (8) — Protection",
+				"anchor": "ches-8-protection"
+			},
+			{
+				"level": 3,
+				"text": "ט Tes (9) — Goodness",
+				"anchor": "tes-9-goodness"
+			},
+			{
+				"level": 3,
+				"text": "י Yud (10) — Humility",
+				"anchor": "yud-10-humility"
+			},
+			{
+				"level": 3,
+				"text": "כ Kaf (20) — Receptivity",
+				"anchor": "kaf-20-receptivity"
+			},
+			{
+				"level": 3,
+				"text": "ל Lamed (30) — Aspiration",
+				"anchor": "lamed-30-aspiration"
+			},
+			{
+				"level": 3,
+				"text": "מ Mem (40) — Flow",
+				"anchor": "mem-40-flow"
+			},
+			{
+				"level": 3,
+				"text": "נ Nun (50) — Depth",
+				"anchor": "nun-50-depth"
+			},
+			{
+				"level": 3,
+				"text": "ס Samech (60) — Support",
+				"anchor": "samech-60-support"
+			},
+			{
+				"level": 3,
+				"text": "ע Ayin (70) — Vision",
+				"anchor": "ayin-70-vision"
+			},
+			{
+				"level": 3,
+				"text": "פ Pei (80) — Voice",
+				"anchor": "pei-80-voice"
+			},
+			{
+				"level": 3,
+				"text": "צ Tzadi (90) — Balance",
+				"anchor": "tzadi-90-balance"
+			},
+			{
+				"level": 3,
+				"text": "ק Kuf (100) — Sanctity",
+				"anchor": "kuf-100-sanctity"
+			},
+			{
+				"level": 3,
+				"text": "ר Reish (200) — Leadership",
+				"anchor": "reish-200-leadership"
+			},
+			{
+				"level": 3,
+				"text": "ש Shin (300) — Energy",
+				"anchor": "shin-300-energy"
+			},
+			{
+				"level": 3,
+				"text": "ת Tav (400) — Truth",
+				"anchor": "tav-400-truth"
+			},
+			{
+				"level": 2,
+				"text": "Reading the report",
+				"anchor": "reading-the-report"
+			},
+			{
+				"level": 2,
+				"text": "Notes on the meanings",
+				"anchor": "notes-on-the-meanings"
+			}
+		],
+		"excerpt": "Designing with the Aleph Beis B\"H \"God looked into the Torah and created the world.\" — Zohar The letters are older than the world. This guide shows how to design with them. The idea Every Hebrew letter carries a traditional meaning — oneness, house, kindness, door, revelation, connection, and so on through all twenty t",
+		"searchText": "designing with the aleph beis b\"h \"god looked into the torah and created the world.\" — zohar the letters are older than the world. this guide shows how to design with them. the idea every hebrew letter carries a traditional meaning — oneness, house, kindness, door, revelation, connection, and so on through all twenty two. each meaning becomes one design principle , and each principle is encoded two ways: 1. as constraints in the design os constraint language (letters.mjs), so a design program can literally declare hei.clarity = \"on\" and be held to measurable rules (contrast ratios, type scales, spacing rhythms). 2. as verifiers (checks.mjs), so any solved design can be audited: which letters does it embody, which does it violate, which are silent? silence is not a violation. a check only applies when the design defines the tokens the principle speaks about. quick start the composition rule when letter principles are appended to a design program, the designer's own source comes first . the solver honors the first = definition it sees, so: letter = lines only fill what the design leaves unsaid (defaults). letter inequalities ( =, , <, !=) still verify what the design does say — a cramped line height fails gimmel even though the designer wrote it. the designer's word is first; the letters fill what is unsaid and judge what is said. the twenty two principles each letter: its traditional meaning, the design principle drawn from it, the constraints that encode it, and the sources for the meaning. א aleph (1) — unity the silent letter; denotes the oneness of god (alufo shel olam). chief of all letters, it did not clamor for honor at creation. read as 'aluf binah' — master understanding. one clear hierarchy, never fragmented. the eye meets a single order of importance: title above section above body, each unmistakably ranked. as the aleph is one, the layout is one. sources: alphabet of rabbi akiva; shabbat 104a; sefer yetzirah ב beis (2) — containment house (bayit); blessing (berachah); understanding (binah). value two: with creation begins multiplicity — and the world becomes a dwelling place. content dwells in clear containers, as the world dwells in the house. bounded measure, breathing padding — nothing spills formlessly across the page. sources: alphabet of rabbi akiva; bereishis rabbah 1 ג gimmel (3) — generosity camel — motion and balance between opposites; gemilut chasadim, loving kindness. its leg stretches forward: the giver runs after the poor (the daled) to give. give the content room to breathe. generous line height and section spacing — the design gives to the reader the way the gimmel runs to give. sources: shabbat 104a; alphabet of rabbi akiva ד daled (4) — openness door (delet); the poor person (dal), who waits behind the door for kindness. the door is the threshold between outside and in. every door opens. every interactive element is reachable and operable — visible focus, generous touch targets. no one is left standing outside the door. sources: shabbat 104a; alphabet of rabbi akiva ה hei (5) — clarity behold; revelation. the letter of god's name — the breath that reveals. what was hidden becomes seen. nothing hidden, everything revealed. text stands in full contrast against its ground — body text at 4.5:1, titles at 7:1. behold the words: they can actually be read. sources: shabbat 104a; zohar ו vav (6) — connection hook; the word 'and'. the connector — it joins heaven and earth, one thing to the next. also a letter of the divine name. one rhythm ties all spacing together. every gap derives from a single base unit, the way the vav hooks each word to the next. no arbitrary distances. sources: shabbat 104a; sefer yetzirah ז zayin (7) — precision weapon; also sustenance (mazon) held in god's hand; crowned letter. sharp, decisive, exact. sharp and exact — no blurry half pixels. type sizes land on whole pixels so every edge renders crisp, like the edge of the zayin's sword. sources: shabbat 104a; alphabet of rabbi akiva ח ches (8) — protection fence; enclosure; life (chai). the fence guards the garden — protection that makes life inside possible. the fence guards the text: content has defined boundaries — a bounded container with real padding — so lines never run wild and the reader rests inside a protected space. sources: sefer yetzirah; maharal ט tes (9) — goodness goodness (tov); clay (tit) — the earth from which resurrection comes. the good that is buried and rises. the design does good: it honors those who need stillness. reduced motion preferences are respected — no animation assaults the sensitive reader. sources: alphabet of rabbi akiva; shabbat 104a י yud (10) — humility hand (yad); the smallest letter — a single point, the dot from which all writing begins. humility that starts everything. small text is cared for like large text. footnotes and captions stay legible (never below 12px) yet humbly smaller than the body — the yud does not pretend to be an aleph. sources: alphabet of rabbi akiva; menachos 29b כ kaf (20) — receptivity palm (kaf) — the hollow of the hand that gives and receives. bent in humility, straight in dignity: two forms, one hand. the open palm receives every guest: the layout holds together at the smallest phone width. bent or straight, humble or upright — every device is welcomed. sources: alphabet of rabbi akiva ל lamed (30) — aspiration learning (limud); heart (lev). the tallest letter — it alone rises above the line, reaching upward. reach upward. the title rises high above the body — at least twice its size — lifting the reader's eyes and heart the way the lamed rises above every other letter. sources: alphabet of rabbi akiva; sefer yetzirah מ mem (40) — flow water (mayim); kingdom (malchut). open mem reveals, closed mem conceals — both are water, both are true. content flows like water. text containers never dam the flow with fixed heights; the layout is fluid, open and closed states both honored. sources: alphabet of rabbi akiva; shabbat 104a נ nun (50) — depth fish — it lives in the deep; falling (nofel) and rising; the light (ner) of god is the soul of man; fifty gates of understanding. go deep and return. a page that descends into depth must surface again with a clear ending — the footer closes the dive, as the fish returns from the deep. sources: alphabet of rabbi akiva; mishlei 20:27 ס samech (60) — support support — 'god supports (somech) all who fall.' the closed circle: what is inside is held, nothing drops through. nothing is left unsupported. type always lands on a fallback stack — if the first choice falls, the next catches it, the way the samech catches all who fall. sources: tehillim 145:14; alphabet of rabbi akiva ע ayin (70) — vision eye. the organ of sight — what the eye meets first, and how it travels. guide the eye: the most important element carries the strongest contrast. the title outshines the body, so the eye lands where it matters first. sources: sefer yetzirah; alphabet of rabbi akiva פ pei (80) — voice mouth (peh). speech — the vessel of the voice; what is spoken must be heard. the design speaks: body text at a full, audible 16px or more. a mouth that whispers is no mouth — type too small to read is type that does not speak. sources: sefer yetzirah; alphabet of rabbi akiva צ tzadi (90) — balance the righteous one (tzaddik) — bent in this world, straight in the next. justice: the balanced scale. balanced and just: symmetric breathing room, left equal to right. nothing lopsided, nothing favoring one side — the tzaddik's scale hangs even. sources: alphabet of rabbi akiva; shabbat 104a ק kuf (100) — sanctity holy (kadosh) — set apart; the back of the head, the unseen. holiness is separation: the sacred is not mixed with the mundane. the sacred is set apart. holy content — verses, names, blessings — receives generous surrounding space, separated from the ordinary flow as the kadosh is separated. sources: shabbat 104a; zohar ר reish (200) — leadership head (rosh); beginning. the head leads the body; every journey starts with a single head. one head leads: exactly one title crowns the page. two heads argue; one head leads the reader in a clear direction from the very beginning. sources: sefer yetzirah; alphabet of rabbi akiva ש shin (300) — energy tooth (shen); shaddai — the name written on the mezuzah; fire. three flames rising from one base: energy with a single root. warmth and vitality: the accent color carries fire — warm, red dominant, alive. three flames, one root: energy in service of the whole, never decoration for its own sake. sources: sefer yetzirah; zohar; menachos 29b ת tav (400) — truth mark, sign; truth (emes: aleph mem tav) — its letters stand on broad bases, so truth stands firm while falsehood (sheker) falls. the last letter: completion, the seal. true and finished: the layout stands firm — no shifting under the reader's eyes, no loose ends. like the letters of emes, the design has broad bases and does not fall. sources: shabbat 104a; alphabet of rabbi akiva reading the report checkdesign returns per letter results: pass — the design embodies the principle where it speaks. applicable: false — the design doesn't define the relevant tokens; silence is not a violation. score — passed / applicable. a design that defines nothing scores 1 (vacuous); a design that defines much and honors it earns its score. notes on the meanings the meanings are paraphrased from traditional sources (talmud bavli shabbat 104a, the alphabet of rabbi akiva, sefer yetzirah, zohar, midrash). where traditions differ, the most widely taught reading is used. the mapping from meaning to design principle is interpretive — that is the point: the letters are a lens for seeing design, not a spec sheet. designed with the aleph beis, for the glory of the one who gave it.",
+		"page": "pages/geelooy-apps-tunnel-design-os-aleph-beis-guide-md-7259edc4c8.json"
+	},
+	{
+		"id": "geelooy-apps-tunnel-design-os-archive-teach-readme-md-4277a68dc1",
+		"title": "Design Archive + Teaching System",
+		"sourcePath": "geelooy/apps/tunnel/design-os/archive-teach/README.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Design Archive + Teaching System",
+				"anchor": "design-archive-teaching-system"
+			},
+			{
+				"level": 2,
+				"text": "The Archive",
+				"anchor": "the-archive"
+			},
+			{
+				"level": 2,
+				"text": "The Explainer",
+				"anchor": "the-explainer"
+			},
+			{
+				"level": 2,
+				"text": "Teacher mode",
+				"anchor": "teacher-mode"
+			},
+			{
+				"level": 2,
+				"text": "Tests",
+				"anchor": "tests"
+			}
+		],
+		"excerpt": "//B\"H Design Archive + Teaching System Every design decision, preserved. Every design, teachable. A design decision is like a psak: the question asked, the sources consulted, the conclusion reached, and who signed it. This module is the responsa literature of the Design OS — and the rebbe who teaches it. The Archive Ea",
+		"searchText": "//b\"h design archive + teaching system every design decision, preserved. every design, teachable. a design decision is like a psak: the question asked, the sources consulted, the conclusion reached, and who signed it. this module is the responsa literature of the design os — and the rebbe who teaches it. the archive each design() call can be logged: the constraint source (the question), the solved values (the answer), the timestamp, who approved, and a note. stored as jsonl at /.awtsmoos design archive/design decisions.jsonl (override with setarchivepath() or the awtsmoos design archive env var). one record per line — queryable forever, never rewritten, only appended (approvals update in place via approve(id, by)). the explainer plain language for every choice — no jargon: teacher mode the ai as rebbe for design — what was decided, why, which letter stands behind it (with sources), and how to judge it. sections: what was decided · why each choice was made · the letters behind it (א–ת, each with its principle and sources; failing letters are named honestly — \"a rebbe does not flatter\") · how to judge it (the letters' score). tests",
+		"page": "pages/geelooy-apps-tunnel-design-os-archive-teach-readme-md-4277a68dc1.json"
+	},
+	{
+		"id": "geelooy-apps-tunnel-design-os-constraints-readme-md-56c7c4fecd",
+		"title": "Awtsmoos Design OS — Constraint Language",
+		"sourcePath": "geelooy/apps/tunnel/design-os/constraints/README.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos Design OS — Constraint Language",
+				"anchor": "awtsmoos-design-os-constraint-language"
+			},
+			{
+				"level": 2,
+				"text": "Quick start",
+				"anchor": "quick-start"
+			},
+			{
+				"level": 2,
+				"text": "Syntax",
+				"anchor": "syntax"
+			},
+			{
+				"level": 2,
+				"text": "Pipeline",
+				"anchor": "pipeline"
+			},
+			{
+				"level": 2,
+				"text": "Built-in functions",
+				"anchor": "built-in-functions"
+			},
+			{
+				"level": 2,
+				"text": "Constraint library",
+				"anchor": "constraint-library"
+			},
+			{
+				"level": 2,
+				"text": "Design principles",
+				"anchor": "design-principles"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "Awtsmoos Design OS — Constraint Language B\"H A formal language for expressing design intent as mathematical constraints. Instead of writing CSS that might conflict, designers declare what must be true — and the solver finds values that satisfy every constraint. Quick start Or run the built in demo: Syntax Pipeline 1. P",
+		"searchText": "awtsmoos design os — constraint language b\"h a formal language for expressing design intent as mathematical constraints. instead of writing css that might conflict, designers declare what must be true — and the solver finds values that satisfy every constraint. quick start or run the built in demo: syntax pipeline 1. parse (parser.mjs): source text → ast. syntax errors reported with line/col. 2. validate (validator.mjs): checks satisfiability before solving — conflicting assignments, impossible bounds, empty ranges, type errors, unknown functions, self references, division by zero. 3. solve (solver.mjs): topological resolution of = definitions in dependency order, then verification of =, = 7.0). built in functions function args returns description contrast(a, b) color, color number wcag contrast ratio (1–21) luminance(c) color number wcag relative luminance (0–1) darken(c, n) color, number color darken by n% lighten(c, n) color, number color lighten by n% mix(a, b, n) color, color, number color mix a→b by n% min(a, b) / max(a, b) number, number number clamp(v, lo, hi) number ×3 number abs(x) / round(x) number number below(x) / above(x) / beside(x) any position relative placement constraint library 100 pre built bundles in library.mjs, organized by category: typography (20): 4x scale, line heights, weights, hebrew serif, … color (20): sefer light/dark themes, wcag aa/aaa, white on white guard, … layout (20): page width, stacked hebrew/english, spacing, touch targets, … hebrew (20): rtl, english under hebrew, phrase rules, nikkud spacing, … spacing (10): spacing scale, section/paragraph gaps, … interactive (10): hover/active/focus states, transitions, … design principles 1. declare, don't style. say what must be true; let the solver find how. 2. conflicts are errors. two different values for one target is a validation failure, not a cascade to resolve. 3. prove before solving. the validator rejects impossible programs so the solver never produces garbage. 4. hebrew first. rtl, nikkud spacing, and the english under hebrew rule are first class constraints, not afterthoughts. files parser.mjs — tokenizer + recursive descent parser → ast validator.mjs — satisfiability checks, type checking solver.mjs — topological evaluation + constraint verification + color math library.mjs — 100 pre built constraint bundles index.mjs — design(), designwithlibrary(), demo() pipeline tests/constraints.test.mjs — 71 tests (node test tests/)",
+		"page": "pages/geelooy-apps-tunnel-design-os-constraints-readme-md-56c7c4fecd.json"
+	}
+]

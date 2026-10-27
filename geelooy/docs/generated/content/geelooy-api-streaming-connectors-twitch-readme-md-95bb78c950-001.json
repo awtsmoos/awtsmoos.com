@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Twitch Streaming Connector (geelooy/api/streaming/connectors/twitch/)\n\nTwitch streaming connector: manual stream-key first. OAuth for chat/metadata\ncan be added later.\n\nSingle module: `index.js`. Activated via `/api/streaming/twitch/:action`\nthrough the connector dispatch in `../core/router.js`.\n"
+}

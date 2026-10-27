@@ -1,0 +1,69 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-docs-universal-awtsmoos-api-md-4c0ca27b14",
+	"title": "B\"H",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/UNIVERSAL_AWTSMOOS_API.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Universal Awtsmoos API",
+			"anchor": "universal-awtsmoos-api"
+		},
+		{
+			"level": 2,
+			"text": "Composition decision",
+			"anchor": "composition-decision"
+		},
+		{
+			"level": 2,
+			"text": "Five verbs",
+			"anchor": "five-verbs"
+		},
+		{
+			"level": 2,
+			"text": "Lightweight namespaces",
+			"anchor": "lightweight-namespaces"
+		},
+		{
+			"level": 2,
+			"text": "Full namespaces",
+			"anchor": "full-namespaces"
+		},
+		{
+			"level": 2,
+			"text": "Default compiler policy",
+			"anchor": "default-compiler-policy"
+		},
+		{
+			"level": 2,
+			"text": "Modeling example",
+			"anchor": "modeling-example"
+		},
+		{
+			"level": 2,
+			"text": "Planning and support truth",
+			"anchor": "planning-and-support-truth"
+		},
+		{
+			"level": 2,
+			"text": "Browser dependency evidence",
+			"anchor": "browser-dependency-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Compatibility",
+			"anchor": "compatibility"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-docs-universal-awtsmoos-api-md-4c0ca27b14-001.json"
+	]
+}

@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-30-1307-olam-h3-studio-03-observed-delta-and-dff5250c3a",
+	"title": "Observed Delta and Exact Touch Plan",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-30-1307-olam-h3-studio/03-observed-delta-and-exact-touch-plan.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Observed Delta and Exact Touch Plan",
+			"anchor": "observed-delta-and-exact-touch-plan"
+		},
+		{
+			"level": 2,
+			"text": "New evidence since the three planning passes",
+			"anchor": "new-evidence-since-the-three-planning-passes"
+		},
+		{
+			"level": 2,
+			"text": "Exact existing file rewritten in full",
+			"anchor": "exact-existing-file-rewritten-in-full"
+		},
+		{
+			"level": 2,
+			"text": "Exact new server files",
+			"anchor": "exact-new-server-files"
+		},
+		{
+			"level": 2,
+			"text": "Exact new application files",
+			"anchor": "exact-new-application-files"
+		},
+		{
+			"level": 2,
+			"text": "Test files created after first code pass",
+			"anchor": "test-files-created-after-first-code-pass"
+		},
+		{
+			"level": 2,
+			"text": "Deliberate exclusions",
+			"anchor": "deliberate-exclusions"
+		},
+		{
+			"level": 2,
+			"text": "Implementation order",
+			"anchor": "implementation-order"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-30-1307-olam-h3-studio-03-observed-delta-and-dff5250c3a-001.json"
+	]
+}

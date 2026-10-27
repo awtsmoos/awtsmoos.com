@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Olam H3 API (geelooy/api/olam-h3/)\n\nThe smallest possible H3 (MiniMax) AI server doorway: validation, mapping, and\ncredentialed transport kept server-side, with the API key never reaching the\nbrowser.\n\n## Contents\n- `_awtsmoos.derech.js` — routes: `/`, `/status`, `/create`, `/task`\n- `core/` — body reader, validator, mapper, MiniMax client, handlers.\n\n## Endpoints\n- `/` and `/status` — connection capability, no secret disclosure.\n- `/create` — create an H3 task through the validated pipeline.\n- `/task` — query task state.\n\n## Flow\n`body.js` → `validation.js` (H3CombinationValidation) → `mapper.js` →\n`client.js` (`NetzachMiniMaxClient` → `https://api.minimax.io`). See\n`core/README.md`.\n"
+}

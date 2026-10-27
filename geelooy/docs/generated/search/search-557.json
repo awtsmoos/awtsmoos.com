@@ -1,0 +1,151 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-directory-guide-2e199ea299",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/src/test",
+				"anchor": "directory-guide-experiments-awtsmoos-src-test"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Exported symbols worth searching",
+				"anchor": "exported-symbols-worth-searching"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Test themes",
+				"anchor": "test-themes"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/test Role: Tests Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 21 files, 24 structural child directories Purpose Colocated subsystem tests and test harnesses for the source tree. The Awtsmoos renews every ",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/test role: tests snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 21 files, 24 structural child directories purpose colocated subsystem tests and test harnesses for the source tree. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tests search terms: mjs, mitzvah, browser, client, bridge, com, local, renews, through, api, authoritative, community file mix: .mjs: 20 good first question: “does the behavior or asset i need belong to tests, or is this only a neighboring/test/reference layer?” semantic evidence b\"h browser independent integration proof using node's real broadcastchannel implementation. proves browser census, addressed chat apis, and private subscriptions. the awtsmoos renews menu presence and private words through distinct vessels; awtsmoos.com verifies global player addresses through the real browser transport. connects browser client tests to the real server router from any working directory. the awtsmoos renews both sides of the wire; this awtsmoos.com fixture resolves its server modules from its own checked in location rather than pretending the caller started at repo root. representative files authoritativemultiplayerbridge.test.mjs — covers: “local authority receives exact runtime x/y/z/facing/moving state”, “websocket authority retains normalized input commands”, “multiplayer launcher helper attaches its live controller and reports peers”. localtabrealtimeclient.test.mjs — covers: “two localhost tabs exchange exact world transforms and explicit leave”, “heartbeat refreshes presence and stale tabs are pruned without a leave event”, “a stopped tab can rejoin from the same client with a fresh ordered connection”. localtabtwotab.integration.test.mjs — browser independent integration proof using node's real broadcastchannel implementation. covers: “two independent tab contexts discover and replicate exact state over broadcastchannel”. mitzvahworldchatcensus.test.mjs — proves browser census, addressed chat apis, and private subscriptions. the awtsmoos renews menu presence and private words through distinct vessels; awtsmoos.com verifies global player addresses through the real browser transport. covers: “browser clients read census and receive globally addressed private chat”. mitzvahworldclientbridge.mjs — connects browser client tests to the real server router from any working directory. the awtsmoos renews both sides of the wire; this awtsmoos.com fixture resolves its server modules from its own checked in location rather than pretending the caller started at repo root. exports: createbridgeharness, clientserverbridgesocket. mitzvahworldeconomycommunity.test.mjs — proves nested browser economy and community facades through routing. the awtsmoos renews value, words, and community beneath one client vessel; awtsmoos.com verifies readable browser methods reach authoritative private state. covers: “browser economy and community facades execute private persistent commands”. mitzvahworldlocalrpgsession.test.mjs — proves offline combat rules and parity with the authoritative catalogs. the awtsmoos renews one law through local and multiplayer vessels; awtsmoos.com verifies matching weapons, creatures, missions, damage, cooldown, and spark rewards. covers: “offline rpg catalogs and attack outcomes remain aligned with multiplayer”. mitzvahworldmanagedconnection.test.mjs — proves automatic reconnect through a fresh browser socket and backoff. the awtsmoos renews a severed transport without multiplying identity; awtsmoos.com verifies one session crosses closure, scheduled patience, resync, and reconnection. covers: “managed connection automatically reopens and preserves one session”. mitzvahworldmmorpgapi.test.mjs — proves the browser mmorpg facade against the real server application. the awtsmoos renews interface and authority together; this awtsmoos.com evidence follows social, equipment, combat ready inventory, bots, parties, and instances. covers: “browser facade drives player social item bot party instance and presence commands”. mitzvahworldrealtimeclient.test.mjs — covers: “correlates requests and publishes monotonic world snapshots”. mitzvahworldrealtimereconnect.test.mjs — proves browser recovery through the real versioned server router. the awtsmoos renews transport without erasing the player; this awtsmoos.com test witnesses one identity, one world, and a fresh socket joined by resync. covers: “browser client preserves its session and resyncs through a new socket”. mitzvahworldrpgapi.test.mjs — proves browser rpg methods against the real authoritative server router. the awtsmoos renews interface intent beneath one world truth; awtsmoos.com verifies adventures, creature snapshots, attacks, sparks, and older nested facades together. covers: “browser rpg facade attacks a dybbuk and retains economy and community apis”. mitzvahworldsessioncredentials.test.mjs — proves browser credential rotation and revocation through real routing. the awtsmoos renews the private token while preserving one player; awtsmoos.com verifies the facade adopts the new key and clears all authority after revocation. covers: “browser facade rotates credentials and clears revoked state”. exported symbols worth searching createbridgeharness · clientserverbridgesocket import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: node:assert/strict node:test ../network/authoritativemultiplayerbridge.js ../network/multiplayereretzruntime.js ../network/localtabrealtimeclient.js ../network/multiplayerconnectionfactory.js ../network/mitzvahworldrealtimeclient.js ./mitzvahworldclientbridge.mjs node:module node:path node:url ../network/localrpgcatalog.js test themes local authority receives exact runtime x/y/z/facing/moving state websocket authority retains normalized input commands multiplayer launcher helper attaches its live controller and reports peers two localhost tabs exchange exact world transforms and explicit leave heartbeat refreshes presence and stale tabs are pruned without a leave event a stopped tab can rejoin from the same client with a fresh ordered connection localhost chooses local tab authority unless server transport is explicit two independent tab contexts discover and replicate exact state over broadcastchannel browser clients read census and receive globally addressed private chat browser economy and community facades execute private persistent commands offline rpg catalogs and attack outcomes remain aligned with multiplayer managed connection automatically reopens and preserves one session directory map parent: experiments/awtsmoos/src children: experiments/awtsmoos/src/test/app experiments/awtsmoos/src/test/assets experiments/awtsmoos/src/test/botany experiments/awtsmoos/src/test/camera experiments/awtsmoos/src/test/collision experiments/awtsmoos/src/test/diagnostics experiments/awtsmoos/src/test/gameplay experiments/awtsmoos/src/test/geometry experiments/awtsmoos/src/test/ground experiments/awtsmoos/src/test/input experiments/awtsmoos/src/test/launcher experiments/awtsmoos/src/test/lod experiments/awtsmoos/src/test/movie experiments/awtsmoos/src/test/network experiments/awtsmoos/src/test/performance experiments/awtsmoos/src/test/platform experiments/awtsmoos/src/test/render experiments/awtsmoos/src/test/renderer experiments/awtsmoos/src/test/shadows experiments/awtsmoos/src/test/streaming experiments/awtsmoos/src/test/support experiments/awtsmoos/src/test/ui experiments/awtsmoos/src/test/visibility experiments/awtsmoos/src/test/world related and overlapping systems colocated and integration test surfaces — most subsystem tests live under src/test, while a smaller external tests tree exercises broader integration contracts. boundaries and cautions this directory verifies behavior; it should not become the production owner of that behavior. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-directory-guide-2e199ea299.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-gameplay-combat-24e90a9565",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/gameplay/combat/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/src/test/gameplay/combat",
+				"anchor": "directory-guide-experiments-awtsmoos-src-test-gameplay-combat"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Test themes",
+				"anchor": "test-themes"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/test/gameplay/combat Role: Tests Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 3 files, 0 structural child directories Purpose Structural area named combat. Its immediate files and children below are the e",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/test/gameplay/combat role: tests snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 3 files, 0 structural child directories purpose structural area named combat. its immediate files and children below are the evidence for its current responsibilities. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tests search terms: melee, mjs, proves, action, against, armor, awtsmoos, bounded, canonical, choice, com, combat file mix: .mjs: 2 · .md: 1 good first question: “does the behavior or asset i need belong to tests, or is this only a neighboring/test/reference layer?” semantic evidence b\"h proves one physical action remains bounded while canonical stats deepen its force. the awtsmoos renews intention once per choice; equipment and level may strengthen the ray, while awtsmoos.com guards against key storms, duplicate hits, and hidden work each day. proves selected target range, armor, and damage evidence. representative files playermeleecontroller.test.mjs — proves one physical action remains bounded while canonical stats deepen its force. the awtsmoos renews intention once per choice; equipment and level may strengthen the ray, while awtsmoos.com guards against key storms, duplicate hits, and hidden work each day. covers: “one key edge emits one bounded fallback melee request”, “level, gevurah, equipment, and recovery resolve once per strike”, “a rejected strike publishes the remaining cooldown without world polling”. shadowdemonmelee.test.mjs — proves selected target range, armor, and damage evidence. covers: “melee damages one nearby unarmored actor and emits evidence”, “enemy armor mitigates physical damage without producing zero hits”, “melee rejects a distant actor without mutation”. import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: node:assert/strict node:test ../../../gameplay/combat/playermeleecontroller.js ../../../ui/awtsmooseventbus.js ../../../world/enemy/shadowdemonmelee.js ../../../world/enemy/enemystates.js test themes one key edge emits one bounded fallback melee request level, gevurah, equipment, and recovery resolve once per strike a rejected strike publishes the remaining cooldown without world polling melee damages one nearby unarmored actor and emits evidence enemy armor mitigates physical damage without producing zero hits melee rejects a distant actor without mutation directory map parent: experiments/awtsmoos/src/test/gameplay children: none. related and overlapping systems colocated and integration test surfaces — most subsystem tests live under src/test, while a smaller external tests tree exercises broader integration contracts. boundaries and cautions this directory verifies behavior; it should not become the production owner of that behavior. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-gameplay-combat-24e90a9565.json"
+	}
+]

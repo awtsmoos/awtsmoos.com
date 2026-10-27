@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-26t1554-apps-runtime-api-ui-audit-11-second--3b298dfdd4",
+	"title": "Second Pass Delta — Reconciliation Before Tests",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-26T1554-apps-runtime-api-ui-audit/11_SECOND_PASS_DELTA.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Second Pass Delta — Reconciliation Before Tests",
+			"anchor": "second-pass-delta-reconciliation-before-tests"
+		},
+		{
+			"level": 2,
+			"text": "Original Implementation Plan",
+			"anchor": "original-implementation-plan"
+		},
+		{
+			"level": 2,
+			"text": "First Pass Actual",
+			"anchor": "first-pass-actual"
+		},
+		{
+			"level": 2,
+			"text": "Second Pass Actual",
+			"anchor": "second-pass-actual"
+		},
+		{
+			"level": 2,
+			"text": "Complete Second Readback Evidence",
+			"anchor": "complete-second-readback-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Planned Versus Actual",
+			"anchor": "planned-versus-actual"
+		},
+		{
+			"level": 3,
+			"text": "Closed",
+			"anchor": "closed"
+		},
+		{
+			"level": 3,
+			"text": "Intentionally Deferred Until Runtime Evidence",
+			"anchor": "intentionally-deferred-until-runtime-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Test Gate",
+			"anchor": "test-gate"
+		},
+		{
+			"level": 2,
+			"text": "NEXTACTION",
+			"anchor": "nextaction"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-26t1554-apps-runtime-api-ui-audit-11-second--3b298dfdd4-001.json"
+	]
+}

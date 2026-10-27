@@ -53,6 +53,30 @@
 			"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/ExpeditionProfileRepository.js"
 		},
 		{
+			"name": "AWTSMOOS_TUNNEL_ACCEPTANCE_RECOVERY_FAILURES",
+			"classification": "runtime-config",
+			"sources": 1,
+			"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestAcceptanceRecoveryValues.js"
+		},
+		{
+			"name": "AWTSMOOS_TUNNEL_ACCEPTANCE_RECOVERY_SUSTAIN_MS",
+			"classification": "tuning",
+			"sources": 1,
+			"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestAcceptanceRecoveryValues.js"
+		},
+		{
+			"name": "AWTSMOOS_TUNNEL_ACCEPTANCE_RETRANSMIT_ATTEMPTS",
+			"classification": "runtime-config",
+			"sources": 1,
+			"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestAcceptanceRetransmit.js"
+		},
+		{
+			"name": "AWTSMOOS_TUNNEL_ACCEPTANCE_RETRANSMIT_MS",
+			"classification": "tuning",
+			"sources": 1,
+			"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestAcceptanceRetransmit.js"
+		},
+		{
 			"name": "AWTSMOOS_TUNNEL_COMPLETED_LIMIT",
 			"classification": "tuning",
 			"sources": 1,
@@ -67,14 +91,26 @@
 		{
 			"name": "AWTSMOOS_TUNNEL_CONTROL_STORE",
 			"classification": "path/storage",
-			"sources": 9,
+			"sources": 11,
 			"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomSocketIntegration.test.cjs; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomUpgrade.test.cjs; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/upgradePolicy.test.cjs"
+		},
+		{
+			"name": "AWTSMOOS_TUNNEL_INSTRUCTION_FILE",
+			"classification": "path/storage",
+			"sources": 1,
+			"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/instructionDynamicFile.js"
 		},
 		{
 			"name": "AWTSMOOS_TUNNEL_PENDING_TTL_MS",
 			"classification": "tuning",
 			"sources": 1,
 			"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js"
+		},
+		{
+			"name": "AWTSMOOS_TUNNEL_PRE_ACCEPTANCE_RECOVERY_MS",
+			"classification": "tuning",
+			"sources": 1,
+			"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestDispatchWatchdog.js"
 		},
 		{
 			"name": "AWTSMOOS_TUNNEL_QUARANTINE_LIMIT",
@@ -130,6 +166,11 @@
 			"factory": "createChessApplication"
 		},
 		{
+			"id": "forms",
+			"versions": "1",
+			"factory": "createFormsApplication"
+		},
+		{
 			"id": "geelooy-code",
 			"versions": "1",
 			"factory": "createGeelooyCodeApplication"
@@ -173,6 +214,11 @@
 			"id": "scribe-journey",
 			"versions": "1, 2",
 			"factory": "createScribeJourneyApplication"
+		},
+		{
+			"id": "tcp-relay",
+			"versions": "1",
+			"factory": "createTcpRelayApplication"
 		},
 		{
 			"id": "tunnel-activity",

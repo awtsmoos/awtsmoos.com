@@ -1,309 +1,201 @@
 [
 	{
-		"id": "geelooy-heichel-review-readme-md-7354660661",
-		"title": "B\"H",
-		"sourcePath": "geelooy/heichel-review/README.md",
+		"id": "geelooy-ai-thoughts-2026-08-26-0924-rebbe-track-runtime-01-phase-one-pos-bb236bea4c",
+		"title": "Phase One — Track Palace Possibility",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26-0924-rebbe-track-runtime/01-phase-one-possibility.md",
 		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Boruch Hashem",
-				"anchor": "boruch-hashem"
-			},
-			{
-				"level": 1,
-				"text": "Blessed is He",
-				"anchor": "blessed-is-he"
-			},
-			{
-				"level": 1,
-				"text": "Heichel Review and Governance Center",
-				"anchor": "heichel-review-and-governance-center"
+				"text": "Phase One — Track Palace Possibility",
+				"anchor": "phase-one-track-palace-possibility"
 			},
 			{
 				"level": 2,
-				"text": "Entry point",
-				"anchor": "entry-point"
+				"text": "Proven starting reality",
+				"anchor": "proven-starting-reality"
 			},
 			{
 				"level": 2,
-				"text": "Review center",
-				"anchor": "review-center"
-			},
-			{
-				"level": 2,
-				"text": "Member governance",
-				"anchor": "member-governance"
-			},
-			{
-				"level": 2,
-				"text": "Invitations",
-				"anchor": "invitations"
-			},
-			{
-				"level": 2,
-				"text": "Series policy",
-				"anchor": "series-policy"
-			},
-			{
-				"level": 2,
-				"text": "Security",
-				"anchor": "security"
-			},
-			{
-				"level": 2,
-				"text": "Tests",
-				"anchor": "tests"
+				"text": "Possibility field",
+				"anchor": "possibility-field"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Heichel Review and Governance Center This application combines private submission review with verified institutional governance for one Heichel. Entry point The acting alias is public identity context only. Every private read and write revalidates ownership through the authenticated Awts",
-		"searchText": "b\"h boruch hashem blessed is he heichel review and governance center this application combines private submission review with verified institutional governance for one heichel. entry point the acting alias is public identity context only. every private read and write revalidates ownership through the authenticated awtsmoos user session before capabilities are compiled. review center the queue supports: state, series, and submitter filters; new canonical posts; questions and answers; reference and repost placements; quotes and excerpts; edit and series proposals; stable deep links; source provenance and structured payload inspection; assignment and chronological history; triage, changes requested, approval, scheduling, publication, rejection, withdrawal, and resubmission. illegal state transitions are rejected by the backend. every accepted transition records actor, previous state, next state, note, and time. member governance the governance panel shows compiled evidence from both current member records and legacy role indexes. assignable roles: admin; moderator; editor; contributor; member; follower; guest, which removes ordinary membership. owner transfer is intentionally excluded. an acting role may grant only a lower role and must possess managemembers. role mutations rewrite both governance generations, append a governance audit record, and notify the affected alias through native notifications when possible. invitations seven day expiration. no authority before acceptance. indexed from both heichel and invited alias. accept or reject under the invited alias's verified session. acceptance revalidates that the original inviter still possesses managemembers and may still grant the role. expiration, acceptance, rejection, and resulting role grant are audited separately. series policy owners and administrators may write a bounded series policy for: content submissions; content approval; reference submissions; reference approval; comments; formal answers. a child series cannot weaken restrictions imposed by the parent heichel policy. security the ui never treats an alias id as authority. server routes require: 1. a live awtsmoos user session; 2. native ownership verification for the acting alias; 3. compiled heichel and series capabilities; 4. legal state transition or hierarchy rules. tests the shared real chrome journey exercises moderation and governance through visible controls against a hermetic same origin api fixture. static tests cover review actions, governance transport, role options, and bounded policy values. the awtsmoos holds judgment, mercy, membership, and consent in one indivisible present. awtsmoos.com reveals that unity through evidence, explicit boundaries, and an audit trail that no hidden moderator can silently rewrite.",
-		"page": "pages/geelooy-heichel-review-readme-md-7354660661.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase One — Track Palace Possibility The Awtsmoos renews every sound before row and toolbar can divide; Awtsmoos.com lets the archive become one clean river where hidden runtime styles no longer hide. Proven starting reality ui/browser/tracks.js actively imports and invokes ensureTrackSt",
+		"searchText": "b\"h boruch hashem blessed is he phase one — track palace possibility the awtsmoos renews every sound before row and toolbar can divide; awtsmoos.com lets the archive become one clean river where hidden runtime styles no longer hide. proven starting reality ui/browser/tracks.js actively imports and invokes ensuretrackstyles(). tracks/styles.js injects a compressed string into the document. the runtime string owns toolbar, row, checkbox, command, state, and mobile rules. it uses generic :focus, hover, and disabled states but lacks a complete explicit active/reduced motion contract. track js files are git clean before this wave. several live track modules use two space indentation and innerhtml even though safe dom is practical. rebbe search is 7/7 test green and the live rebbe route returns http 200 on port 8913. possibility field move all track styling into static route local css imported by runtime ui.css. make ensuretrackstyles() a compatibility no op or remove its active call while preserving export compatibility. split toolbar, row, checkbox, command, and interaction css by responsibility. give every visible command a =44px touch target. replace generic focus with :focus visible. add explicit hover, active, disabled, saved, and reduced motion behavior. preserve event toolbar command vocabulary exactly. preserve row command vocabulary exactly. replace innerhtml in track rows, toolbar copy, selection checkbox, and cache mark with dom construction/textcontent. convert internal construction into class based factories/controllers while preserving old public function exports. replace onclick assignments with addeventlistener where touched. use replacechildren() instead of innerhtml = '' for the track list. keep every source file <=120 lines without compressed functions. add regression contracts for static style ownership, callback vocabulary, safe dom, interaction states, and mobile layout.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26-0924-rebbe-track-runtime-01-phase-one-pos-bb236bea4c.json"
 	},
 	{
-		"id": "geelooy-heichelos-documentation-md-2903622a38",
-		"title": "Heichelos Documentation",
-		"sourcePath": "geelooy/heichelos/DOCUMENTATION.md",
-		"category": "General",
-		"provenance": "breadcrumb",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Heichelos Documentation",
-				"anchor": "heichelos-documentation"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Heichelos Documentation The Awtsmoos gives content a chamber where posts, series, editors, review, comments, and discovery meet; Awtsmoos.com documents the Heichel system across this UI tree and the Social API beneath its feet. Read ../../docs/SYSTEMS/SOCIAL AND HEICHEL.md. Related UIs: ",
-		"searchText": "b\"h boruch hashem blessed is he heichelos documentation the awtsmoos gives content a chamber where posts, series, editors, review, comments, and discovery meet; awtsmoos.com documents the heichel system across this ui tree and the social api beneath its feet. read ../../docs/systems/social and heichel.md. related uis: ../heichel editor/, ../heichel review/, ../post editor/, ../comment thread/. backend: ../api/social/.",
-		"page": "pages/geelooy-heichelos-documentation-md-2903622a38.json"
-	},
-	{
-		"id": "geelooy-heichelos-post-styles-style-ownership-map-md-215cb6ea0d",
-		"title": "Reader Style Ownership Map",
-		"sourcePath": "geelooy/heichelos/post/styles/STYLE_OWNERSHIP_MAP.md",
+		"id": "geelooy-ai-thoughts-2026-08-26-0924-rebbe-track-runtime-02-phase-two-cri-6f1b85dee4",
+		"title": "Phase Two — Gevurah Critique",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26-0924-rebbe-track-runtime/02-phase-two-critique.md",
 		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Reader Style Ownership Map",
-				"anchor": "reader-style-ownership-map"
+				"text": "Phase Two — Gevurah Critique",
+				"anchor": "phase-two-gevurah-critique"
 			},
 			{
 				"level": 2,
-				"text": "Active entry",
-				"anchor": "active-entry"
-			},
-			{
-				"level": 2,
-				"text": "Active modern reader vessels",
-				"anchor": "active-modern-reader-vessels"
-			},
-			{
-				"level": 2,
-				"text": "Legacy compatibility still loaded",
-				"anchor": "legacy-compatibility-still-loaded"
-			},
-			{
-				"level": 2,
-				"text": "High-risk historical areas",
-				"anchor": "high-risk-historical-areas"
-			},
-			{
-				"level": 2,
-				"text": "Rules for future edits",
-				"anchor": "rules-for-future-edits"
+				"text": "Twenty improvements",
+				"anchor": "twenty-improvements"
 			}
 		],
-		"excerpt": "B\"H Reader Style Ownership Map The Awtsmoos creates every layer every instant, but maintainers need earthly borders. This file marks the current reader CSS reality after the first design system implementation pass. Active entry geelooy/heichelos/post/styles/main.css This is the only reader CSS entry currently trusted f",
-		"searchText": "b\"h reader style ownership map the awtsmoos creates every layer every instant, but maintainers need earthly borders. this file marks the current reader css reality after the first design system implementation pass. active entry geelooy/heichelos/post/styles/main.css this is the only reader css entry currently trusted for the route level reader bundle. active modern reader vessels these are the preferred places for new reader work: reader foundation/ — scroll root, localized shell, reader tokens, top header. reader content/ — scroll chunks, title crown, typography, section cards, content width. reader controls/ — floating reader controls and labels. reader settings/ — settings sheet, inputs, color grid, grouped controls. reader sidebar/ — sidebar shell, comments, composer, resizer. reader overlays/ — command palette, context menu, verse menu. reader responsive/ — desktop, tablet, mobile, reduced motion. reader beauty/ — optional visual enhancement; must not own scroll. reader legend/ — optional visual state; must not own scroll. legacy compatibility still loaded these still load from main.css before the modern stack and must be treated as compatibility until replaced by tests: ideal/reborn/tokens.css ideal/reborn/comments.css ideal/reborn/comment composer.css ideal/reborn/inline comments.css ideal/reborn/inline action menu.css ideal/reborn/context menu.css ideal/reborn/button hover.css do not delete these in the same pass as a replacement. first create focused modern modules, then add selector contract tests, then turn the old files into wrappers or remove their imports. high risk historical areas the following folders contain older or parallel designs. they may still be referenced by old templates or tests, so they require grep and route verification before edits: comments/ content/ layout/ modules/ ideal/ outside ideal/reborn/ root files such as settings.css, sidebar.css, tabs.css, new style.css rules for future edits 1. entry files should import only. 2. no css module should exceed 120 lines without a written exception. 3. beauty and legend layers are optional; they may enhance but not repair core layout. 4. js state must have a css contract test. 5. css state selectors must have a js or template source. 6. scroll belongs to the browser. 7. android touch and reduced motion are first class. 8. hebrew and rtl must be explicit, not accidental.",
-		"page": "pages/geelooy-heichelos-post-styles-style-ownership-map-md-215cb6ea0d.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Two — Gevurah Critique The Awtsmoos cuts through convenient paint that would leave old machinery below; Awtsmoos.com becomes stronger when the live contract is preserved while hidden complexity has nowhere to grow. Twenty improvements 1. Do not delete the historical ensureTrackStyl",
+		"searchText": "b\"h boruch hashem blessed is he phase two — gevurah critique the awtsmoos cuts through convenient paint that would leave old machinery below; awtsmoos.com becomes stronger when the live contract is preserved while hidden complexity has nowhere to grow. twenty improvements 1. do not delete the historical ensuretrackstyles export if callers outside the traced path may still import it. 2. make the compatibility style initializer inert and document static ownership. 3. keep rendertracks signature unchanged. 4. keep rendertrackrow signature unchanged for any direct consumers. 5. keep createcommandbutton and durationpill exports unchanged. 6. keep selection exports unchanged. 7. keep cache api unchanged. 8. avoid reusing search .premium track row rules for browser tracks unless selectors intentionally overlap. 9. scope track browser css to list tracks and .premium event toolbar where practical. 10. keep toolbar copy wrapping and min width:0 so long event titles cannot widen the page. 11. keep command decks gridable at 720px and narrower. 12. make 44px the minimum command/checkbox/main title hit area. 13. use safe dom for all title/cache/selection text. 14. do not animate width/height; use transform, border, background, box shadow, opacity. 15. add reduced motion only to this subsystem rather than global animation suppression. 16. preserve cache saved visual state. 17. preserve selected count updates and disabled add truth. 18. preserve event one file download vs multi file zip wording. 19. verify no runtime style element id remains necessary after migration. 20. run all seven existing rebbe tests plus new track contracts after code is complete.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26-0924-rebbe-track-runtime-02-phase-two-cri-6f1b85dee4.json"
 	},
 	{
-		"id": "geelooy-libs-awtsmoos-procedural-core-animal-mesh-api-md-d399a3366a",
-		"title": "B\"H — Awtsmoos Animal Mesh API",
-		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/ANIMAL_MESH_API.md",
+		"id": "geelooy-ai-thoughts-2026-08-26-0924-rebbe-track-runtime-03-phase-three-f-82b66d0253",
+		"title": "Phase Three — Final Track Architecture",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26-0924-rebbe-track-runtime/03-phase-three-final.md",
 		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H — Awtsmoos Animal Mesh API",
-				"anchor": "b-h-awtsmoos-animal-mesh-api"
+				"text": "Phase Three — Final Track Architecture",
+				"anchor": "phase-three-final-track-architecture"
 			},
 			{
 				"level": 2,
-				"text": "Core Decision",
-				"anchor": "core-decision"
+				"text": "Final source architecture",
+				"anchor": "final-source-architecture"
 			},
 			{
 				"level": 2,
-				"text": "Public Imports",
-				"anchor": "public-imports"
-			},
-			{
-				"level": 2,
-				"text": "Recipe Lifecycle",
-				"anchor": "recipe-lifecycle"
-			},
-			{
-				"level": 2,
-				"text": "Implemented Geometry Operations",
-				"anchor": "implemented-geometry-operations"
-			},
-			{
-				"level": 2,
-				"text": "Rigging",
-				"anchor": "rigging"
-			},
-			{
-				"level": 2,
-				"text": "Patches",
-				"anchor": "patches"
-			},
-			{
-				"level": 2,
-				"text": "Validation Report",
-				"anchor": "validation-report"
-			},
-			{
-				"level": 2,
-				"text": "Production Boundary",
-				"anchor": "production-boundary"
+				"text": "Verification graph",
+				"anchor": "verification-graph"
 			}
 		],
-		"excerpt": "B\"H — Awtsmoos Animal Mesh API Core Decision A vision model returns a validated awtsmoos.animal mesh recipe JSON document. The procedural core compiles that intent deterministically. It never executes model generated JavaScript, Python, shell commands, file paths, or network URLs. Public Imports Three.js presentation h",
-		"searchText": "b\"h — awtsmoos animal mesh api core decision a vision model returns a validated awtsmoos.animal mesh recipe json document. the procedural core compiles that intent deterministically. it never executes model generated javascript, python, shell commands, file paths, or network urls. public imports three.js presentation helpers are available from @awtsmoos/procedural core/three. safe blender execution plans are available from @awtsmoos/procedural core/blender. json schemas are available from @awtsmoos/procedural core/schema. recipe lifecycle 1. normalize and label two to six reference images. 2. ask a vision model for recipe json only. 3. validate schema, coordinates, references, landmarks, guides, commands, materials, rig data, dependencies, limits, and unsafe content. 4. compile supported operations into deterministic render artifacts. 5. hand deferred trusted operations to a renderer specific executor. 6. build a three.js preview or a blender execution plan. 7. apply immutable recipe patches and regenerate only affected commands. implemented geometry operations the core directly implements elliptical and profile lofts, ellipsoids, tubes, capsule like profiles, mirroring, boundary bridges, mesh joins, welding, normal recalculation, scheduling, dependency resolution, and validation. the full recipe whitelist is accepted as a stable language contract. operations that require a renderer specific topology engine are reported as deferred; they are never silently approximated or executed as arbitrary code. rigging recipes may declare bones, parent relationships, heads, tails, and influence limits. the compiler builds an inspectable rig artifact and deterministic nearest bone weights constrained to the recipe's maximum influences. patches use createanimalmeshpatch() or animalmeshsession. patches use json pointer paths, old value guards, immutable contract fields, stable patch identities, and dependency aware regeneration. validation report compilation reports triangle and vertex counts, open boundaries, non manifold edges, degenerate faces, bounding dimensions, ground penetration, required parts, unweighted vertices, influence violations, deferred operations, and export status. production boundary this expansion supplies the safe anatomical language, deterministic core, incremental editor contract, and adapter boundaries. a production blender worker must still implement the deferred trusted operations, sandboxed process limits, glb export, uv tooling, retopology, texture generation, and final deformation quality review.",
-		"page": "pages/geelooy-libs-awtsmoos-procedural-core-animal-mesh-api-md-d399a3366a.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Three — Final Track Architecture The Awtsmoos is one before command, selection, cache, toolbar, and row become names; Awtsmoos.com reveals each as a small vessel while the public gateway remains the same. Final source architecture Rewrite ui/browser/tracks.js as the stable public g",
+		"searchText": "b\"h boruch hashem blessed is he phase three — final track architecture the awtsmoos is one before command, selection, cache, toolbar, and row become names; awtsmoos.com reveals each as a small vessel while the public gateway remains the same. final source architecture rewrite ui/browser/tracks.js as the stable public gateway with tab indentation and safe list replacement. rewrite tracks/styles.js as a compatibility no op documenting static css ownership. rewrite tracks/commands.js around a small chesedtrackcommandfactory while keeping exports. rewrite tracks/row.js around malchustrackrowfactory and safe dom. rewrite tracks/toolbar.js around tifereseventtoolbarfactory and safe dom. rewrite tracks/selection.js around yesodtrackselectioncontroller, no html strings. rewrite tracks/cache.js around netzachtrackcacheindicator, no html strings. add styles/runtime/track browser shell.css for toolbar/row geometry. add styles/runtime/track browser controls.css for buttons/checks/text. add styles/runtime/track browser interaction.css for hover/active/focus visible/disabled/saved/reduced motion/mobile. import all three from styles/runtime ui.css. verification graph syntax line ceiling no runtime style factory no track innerhtml static import graph interaction state scan diff check new track tests all rebbe tests live route load remaining work update next sitewide node.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26-0924-rebbe-track-runtime-03-phase-three-f-82b66d0253.json"
 	},
 	{
-		"id": "geelooy-libs-awtsmoos-procedural-core-docs-api-introspection-md-5ab53d98f0",
-		"title": "B\"H",
-		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/API_INTROSPECTION.md",
-		"category": "API",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 2,
-				"text": "Boruch Hashem",
-				"anchor": "boruch-hashem"
-			},
-			{
-				"level": 2,
-				"text": "Blessed is He",
-				"anchor": "blessed-is-he"
-			},
-			{
-				"level": 1,
-				"text": "API Introspection",
-				"anchor": "api-introspection"
-			},
-			{
-				"level": 2,
-				"text": "Methods",
-				"anchor": "methods"
-			},
-			{
-				"level": 2,
-				"text": "Definition fields",
-				"anchor": "definition-fields"
-			},
-			{
-				"level": 2,
-				"text": "Extension",
-				"anchor": "extension"
-			},
-			{
-				"level": 2,
-				"text": "UI parity",
-				"anchor": "ui-parity"
-			},
-			{
-				"level": 2,
-				"text": "Stability",
-				"anchor": "stability"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He The Awtsmoos renews every contract in ordered light; Awtsmoos.com keeps exact creation editable and right. API Introspection Methods api.describe, api.namespaces, api.methods, api.schema, api.capabilities, and api.examples are generated from MethodRegistry. Definition fields Each definit",
-		"searchText": "b\"h boruch hashem blessed is he the awtsmoos renews every contract in ordered light; awtsmoos.com keeps exact creation editable and right. api introspection methods api.describe, api.namespaces, api.methods, api.schema, api.capabilities, and api.examples are generated from methodregistry. definition fields each definition exposes identity, namespace, runtime name, label, description, stability, parameter/result schemas, permissions, transaction mode, undo support, side effects, cost, ui metadata, and examples. extension register a method definition when creating the api, or register it on methodregistry before runtime aliases are generated. duplicate ids fail deterministically. ui parity createapiexplorermodel(registry) uses the same public definitions. no second handwritten control contract exists. stability registry and introspection envelopes are stable; individual experimental method stability is reported explicitly.",
-		"page": "pages/geelooy-libs-awtsmoos-procedural-core-docs-api-introspection-md-5ab53d98f0.json"
-	},
-	{
-		"id": "geelooy-libs-awtsmoos-procedural-core-docs-command-protocol-md-4fabb3e7b1",
-		"title": "B\"H",
-		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/COMMAND_PROTOCOL.md",
+		"id": "geelooy-ai-thoughts-2026-08-26-0924-rebbe-track-runtime-04-final-executi-4d87341883",
+		"title": "Final Execution Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26-0924-rebbe-track-runtime/04-final-execution-plan.md",
 		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
+				"text": "Final Execution Plan",
+				"anchor": "final-execution-plan"
 			},
 			{
 				"level": 2,
-				"text": "Boruch Hashem",
-				"anchor": "boruch-hashem"
+				"text": "Files actually planned for source mutation",
+				"anchor": "files-actually-planned-for-source-mutation"
 			},
 			{
 				"level": 2,
-				"text": "Blessed is He",
-				"anchor": "blessed-is-he"
-			},
-			{
-				"level": 1,
-				"text": "Command Protocol",
-				"anchor": "command-protocol"
+				"text": "Test files after code phase",
+				"anchor": "test-files-after-code-phase"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
-			},
-			{
-				"level": 2,
-				"text": "JSON",
-				"anchor": "json"
-			},
-			{
-				"level": 2,
-				"text": "Runtime parity",
-				"anchor": "runtime-parity"
-			},
-			{
-				"level": 2,
-				"text": "Result",
-				"anchor": "result"
-			},
-			{
-				"level": 2,
-				"text": "Side effects",
-				"anchor": "side-effects"
-			},
-			{
-				"level": 2,
-				"text": "UI",
-				"anchor": "ui"
-			},
-			{
-				"level": 2,
-				"text": "Stability",
-				"anchor": "stability"
+				"text": "Stop condition for this node",
+				"anchor": "stop-condition-for-this-node"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He The Awtsmoos renews every contract in ordered light; Awtsmoos.com keeps exact creation editable and right. Command Protocol Purpose Every caller submits the same envelope: api, id, method, params, and optional options. There is no prompt endpoint and no model provider. JSON Runtime parit",
-		"searchText": "b\"h boruch hashem blessed is he the awtsmoos renews every contract in ordered light; awtsmoos.com keeps exact creation editable and right. command protocol purpose every caller submits the same envelope: api, id, method, params, and optional options. there is no prompt endpoint and no model provider. json runtime parity awtsmoos.houses.create(params, options) constructs that envelope and dispatches it through commandexecutor. result successful results expose revisions, transaction identity, created/updated/deleted resources, validation, warnings, undo availability, and method result. errors expose stable codes and details. side effects validation and document execution happen before runtime adapter commit. runtime failure preserves the prior document. ui schema forms and raw json both call api.execute(command). stability the awtsmoos.core.v1 envelope is stable.",
-		"page": "pages/geelooy-libs-awtsmoos-procedural-core-docs-command-protocol-md-4fabb3e7b1.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Final Execution Plan The Awtsmoos gives execution no separate crown from truth; Awtsmoos.com will rewrite whole files only, then prove each public contract survived in youth. Files actually planned for source mutation geelooy/apps/rebbe/ui/browser/tracks.js geelooy/apps/rebbe/ui/browser/",
+		"searchText": "b\"h boruch hashem blessed is he final execution plan the awtsmoos gives execution no separate crown from truth; awtsmoos.com will rewrite whole files only, then prove each public contract survived in youth. files actually planned for source mutation geelooy/apps/rebbe/ui/browser/tracks.js geelooy/apps/rebbe/ui/browser/tracks/styles.js geelooy/apps/rebbe/ui/browser/tracks/commands.js geelooy/apps/rebbe/ui/browser/tracks/row.js geelooy/apps/rebbe/ui/browser/tracks/toolbar.js geelooy/apps/rebbe/ui/browser/tracks/selection.js geelooy/apps/rebbe/ui/browser/tracks/cache.js geelooy/apps/rebbe/styles/runtime/track browser shell.css geelooy/apps/rebbe/styles/runtime/track browser controls.css geelooy/apps/rebbe/styles/runtime/track browser interaction.css geelooy/apps/rebbe/styles/runtime ui.css test files after code phase one static style/safe dom contract; one behavior/public vocabulary/mobile interaction contract. stop condition for this node only after source gates and the complete rebbe suite are green, plus a fresh live route load, may the track runtime node be marked closed. then continue to the next discovered rebbe/sitewide defect.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26-0924-rebbe-track-runtime-04-final-executi-4d87341883.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-26-0924-rebbe-track-runtime-05-post-implemen-fcb2bd7341",
+		"title": "Track Browser — Post-Implementation Delta",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26-0924-rebbe-track-runtime/05-post-implementation-delta.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Track Browser — Post-Implementation Delta",
+				"anchor": "track-browser-post-implementation-delta"
+			},
+			{
+				"level": 2,
+				"text": "Planned",
+				"anchor": "planned"
+			},
+			{
+				"level": 2,
+				"text": "Actual",
+				"anchor": "actual"
+			},
+			{
+				"level": 2,
+				"text": "Delta discovered by success",
+				"anchor": "delta-discovered-by-success"
+			},
+			{
+				"level": 2,
+				"text": "DELTA",
+				"anchor": "delta"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Track Browser — Post Implementation Delta The Awtsmoos renews the work after the work, so success cannot disguise a missing seam; Awtsmoos.com compares intention with evidence until each remaining shadow enters the beam. Planned Remove the live runtime track stylesheet factory. Preserve ",
+		"searchText": "b\"h boruch hashem blessed is he track browser — post implementation delta the awtsmoos renews the work after the work, so success cannot disguise a missing seam; awtsmoos.com compares intention with evidence until each remaining shadow enters the beam. planned remove the live runtime track stylesheet factory. preserve historical public render/command/selection/cache exports. replace track innerhtml, .onclick, and injected styles with safe readable dom and listeners. split toolbar, controls, and interaction css into static route local modules. preserve selection count, cache saved state, download vs zip wording, playlist, cache, bookmark, and play behavior. keep every touched source 249 lines, so any studio touch requires a full modular split rather than a local tweak. loaded styles/ui.css still includes a raw 9999 layer; styles/boot.css includes 10000. index.html still contains inline style ownership for ctx menu and matrix bg, including raw z index values; do not touch until exact ownership/status is proven because the entry file is large and would require a deliberate modular strategy. historical style.css also contains raw layers but is not loaded by the main rebbe entry and remains out of scope unless another live entry proves it active. delta 1. mark track browser complete in the durable ledger. 2. trace bookshelf import/caller/render/style ownership and git status. 3. if bookshelf is live and clean, migrate its runtime style factory to static scoped css and modernize its visible dom safely. 4. add focused bookshelf tests and rerun the complete rebbe suite. 5. start a fresh isolated server for live route proof after bookshelf closure. 6. then open the larger studio layer/form control wave with its own three phase plan. next action update remaining work, then inspect bookshelf ownership, source, import graph, line count, and existing css contracts before any mutation.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26-0924-rebbe-track-runtime-05-post-implemen-fcb2bd7341.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-26-0935-rebbe-bookshelf-01-phase-one-revelat-002848e86b",
+		"title": "Phase One — Bookshelf Revelation",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26-0935-rebbe-bookshelf/01-phase-one-revelation.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase One — Bookshelf Revelation",
+				"anchor": "phase-one-bookshelf-revelation"
+			},
+			{
+				"level": 2,
+				"text": "Proven reality",
+				"anchor": "proven-reality"
+			},
+			{
+				"level": 2,
+				"text": "Possibility field",
+				"anchor": "possibility-field"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase One — Bookshelf Revelation The Awtsmoos remembers without being limited by memory or shelf; Awtsmoos.com lets each saved teaching return as a luminous vessel, never a hidden style spell unto itself. Proven reality ui/bookshelf.js is live through render.js and main.js. Public contra",
+		"searchText": "b\"h boruch hashem blessed is he phase one — bookshelf revelation the awtsmoos remembers without being limited by memory or shelf; awtsmoos.com lets each saved teaching return as a luminous vessel, never a hidden style spell unto itself. proven reality ui/bookshelf.js is live through render.js and main.js. public contract: renderbookshelf(bookmarks, { onopen, onremove }). current source is git clean before this bookshelf wave. current renderer mixes grouping, section construction, card construction, callback binding, empty state, runtime style injection, innerhtml, and .onclick. no static bookshelf selectors exist in the loaded stylesheet graph. the runtime css is one compressed string and does not provide a complete explicit hover/active/focus visible/disabled/reduced motion contract. possibility field keep renderbookshelf() as the stable public gateway. move grouping/render coordination into a tiferesbookshelfview. move safe card/section construction into a malchusbookshelfcardfactory. use textcontent for all saved bookmark data. replace .onclick with addeventlistener. use explicit semantic buttons with 44px minimum touch targets. keep open and remove visually distinct without clutter. make cards responsive through auto fit with a minimum that still works at 320px. preserve folder vs track visual identity through classes, icon, and metadata—not browser default controls. give empty state deliberate glass/dashed styling. add hover lift only on fine pointers. add active press, focus visible ring, disabled state, and reduced motion fallback. keep every style selector under the rebbe bookshelf root/classes so no global form/button leakage occurs. import static bookshelf css through runtime ui.css. add regression tests that fail if runtime style injection, innerhtml, or .onclick returns.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26-0935-rebbe-bookshelf-01-phase-one-revelat-002848e86b.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-26-0935-rebbe-bookshelf-02-phase-two-critiqu-ec8b24b801",
+		"title": "Phase Two — Gevurah Critique",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26-0935-rebbe-bookshelf/02-phase-two-critique.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Two — Gevurah Critique",
+				"anchor": "phase-two-gevurah-critique"
+			},
+			{
+				"level": 2,
+				"text": "Twenty improvements",
+				"anchor": "twenty-improvements"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Two — Gevurah Critique The Awtsmoos cuts away the shortcut that merely moves old confusion to another place; Awtsmoos.com becomes truly clean only when ownership, semantics, mobile geometry, and code all share one face. Twenty improvements 1. Do not keep the old styles() function a",
+		"searchText": "b\"h boruch hashem blessed is he phase two — gevurah critique the awtsmoos cuts away the shortcut that merely moves old confusion to another place; awtsmoos.com becomes truly clean only when ownership, semantics, mobile geometry, and code all share one face. twenty improvements 1. do not keep the old styles() function as a no op because nothing outside the file imports it. 2. do keep the public renderbookshelf export unchanged. 3. avoid with nested action semantics that imply the whole card itself is clickable when only buttons act. 4. use a section/list like card vessel with explicit controls. 5. use replacechildren() for root clearing. 6. do not interpolate bookmark title/folder/path into html strings. 7. preserve item identity exactly when invoking onopen(item). 8. preserve removal identity exactly through onremove(item.id). 9. group unknown/non folder item types under the historical track bucket. 10. keep folders before/after tracks according to object insertion from reduction, matching current first seen grouping semantics unless evidence requires order changes. 11. use minmax(min(16rem,100%),1fr) or equivalent so cards cannot force phone overflow. 12. use min inline size:0 on body/title/meta/action areas. 13. let metadata wrap anywhere rather than widening the rail. 14. use icon/spine only as decoration with aria hidden where applicable. 15. give buttons explicit labels and type=\"button\". 16. make remove destructive but not visually dominant over open. 17. ensure action row collapses to one column on very narrow phones. 18. keep animations to transform/border/background/shadow/opacity. 19. avoid generic .modal btn styling as the primary bookshelf ownership layer; add local .book action classes. 20. regression test the static import graph as well as source tokens.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26-0935-rebbe-bookshelf-02-phase-two-critiqu-ec8b24b801.json"
 	}
 ]

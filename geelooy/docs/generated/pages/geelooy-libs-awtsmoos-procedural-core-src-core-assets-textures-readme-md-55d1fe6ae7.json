@@ -1,0 +1,89 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-src-core-assets-textures-readme-md-55d1fe6ae7",
+	"title": "B\"H",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/src/core/assets/textures/README.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Awtsmoos Drive Texture Discovery",
+			"anchor": "awtsmoos-drive-texture-discovery"
+		},
+		{
+			"level": 2,
+			"text": "Canonical remote source",
+			"anchor": "canonical-remote-source"
+		},
+		{
+			"level": 2,
+			"text": "Renderer-neutral discovery API",
+			"anchor": "renderer-neutral-discovery-api"
+		},
+		{
+			"level": 2,
+			"text": "Native browser texture API",
+			"anchor": "native-browser-texture-api"
+		},
+		{
+			"level": 2,
+			"text": "Caching is always enabled when the browser supports it",
+			"anchor": "caching-is-always-enabled-when-the-browser-supports-it"
+		},
+		{
+			"level": 2,
+			"text": "Cache failure policy",
+			"anchor": "cache-failure-policy"
+		},
+		{
+			"level": 2,
+			"text": "Cache diagnostics",
+			"anchor": "cache-diagnostics"
+		},
+		{
+			"level": 2,
+			"text": "Transport policy",
+			"anchor": "transport-policy"
+		},
+		{
+			"level": 2,
+			"text": "Progressive layered hydration",
+			"anchor": "progressive-layered-hydration"
+		},
+		{
+			"level": 2,
+			"text": "Route policy example",
+			"anchor": "route-policy-example"
+		},
+		{
+			"level": 2,
+			"text": "UV requirement",
+			"anchor": "uv-requirement"
+		},
+		{
+			"level": 2,
+			"text": "Complete filename catalogs",
+			"anchor": "complete-filename-catalogs"
+		},
+		{
+			"level": 2,
+			"text": "Agent search vocabulary",
+			"anchor": "agent-search-vocabulary"
+		},
+		{
+			"level": 2,
+			"text": "AI-agent checklist",
+			"anchor": "ai-agent-checklist"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-src-core-assets-textures-readme-md-55d1fe6ae7-001.json"
+	]
+}

@@ -1,0 +1,24 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-social-helper-mail-readme-md-9cdec3e5e6",
+	"title": "B\"H — Mail (geelooy/api/social/helper/mail/)",
+	"sourcePath": "geelooy/api/social/helper/mail/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Mail (geelooy/api/social/helper/mail/)",
+			"anchor": "b-h-mail-geelooy-api-social-helper-mail"
+		},
+		{
+			"level": 2,
+			"text": "Files",
+			"anchor": "files"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-social-helper-mail-readme-md-9cdec3e5e6-001.json"
+	]
+}

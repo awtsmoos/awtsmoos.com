@@ -1,19 +1,19 @@
 [
 	{
-		"id": "api-youtube-oauth-status-529fa78f69",
-		"route": "/api/youtube/oauth/status",
-		"source": "geelooy/api/youtube/routes/table.js",
+		"id": "api-wallet-me-c462e10539",
+		"route": "/api/wallet/me",
+		"source": "geelooy/api/wallet/routes/table.js",
 		"discoveryKind": "route-table",
 		"family": {
-			"mount": "/api/youtube",
-			"title": "YouTube",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md"
+			"mount": "/api/wallet",
+			"title": "Wallet",
+			"manual": "docs/TUTORIALS/API/WALLET.md"
 		},
 		"derech": {
-			"source": "geelooy/api/youtube/_awtsmoos.derech.js",
+			"source": "geelooy/api/wallet/_awtsmoos.derech.js",
 			"status": "OK",
 			"issue": "—",
-			"mount": "/api/youtube"
+			"mount": "/api/wallet"
 		},
 		"dynamic": false,
 		"pathParameters": [],
@@ -26,378 +26,58 @@
 		"callerCount": 0,
 		"tests": [],
 		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-oauth-status-529fa78f69.md",
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-me-c462e10539.md",
 		"confidence": "unknown-method",
 		"related": [
 			{
-				"id": "api-youtube-44e720e9a3",
-				"route": "/api/youtube"
+				"id": "api-wallet-balance-59097f364b",
+				"route": "/api/wallet/balance"
 			},
 			{
-				"id": "api-youtube-a-8c1cdc043d",
-				"route": "/api/youtube/:a"
+				"id": "api-wallet-buy-mock-45ef52f2b5",
+				"route": "/api/wallet/buy/mock"
 			},
 			{
-				"id": "api-youtube-a-b-0f1bfdc710",
-				"route": "/api/youtube/:a/:b"
+				"id": "api-wallet-commerce-actions-8e2f72034a",
+				"route": "/api/wallet/commerce/actions"
 			},
 			{
-				"id": "api-youtube-a-b-c-02c6f58285",
-				"route": "/api/youtube/:a/:b/:c"
+				"id": "api-wallet-commerce-actions-execute-1b212726d5",
+				"route": "/api/wallet/commerce/actions/execute"
 			},
 			{
-				"id": "api-youtube-auth-callback-9c2556106d",
-				"route": "/api/youtube/auth/callback"
+				"id": "api-wallet-commerce-catalog-f9d5b627eb",
+				"route": "/api/wallet/commerce/catalog"
 			},
 			{
-				"id": "api-youtube-auth-logout-e16d771492",
-				"route": "/api/youtube/auth/logout"
+				"id": "api-wallet-commerce-credits-commit-514993bf32",
+				"route": "/api/wallet/commerce/credits/commit"
 			},
 			{
-				"id": "api-youtube-auth-start-c2f5a58fbd",
-				"route": "/api/youtube/auth/start"
+				"id": "api-wallet-commerce-credits-consume-6e724abb1d",
+				"route": "/api/wallet/commerce/credits/consume"
 			},
 			{
-				"id": "api-youtube-auth-status-10475f963f",
-				"route": "/api/youtube/auth/status"
+				"id": "api-wallet-commerce-credits-release-01fbab351a",
+				"route": "/api/wallet/commerce/credits/release"
 			}
 		]
 	},
 	{
-		"id": "api-youtube-uploads-start-9d5f4138cd",
-		"route": "/api/youtube/uploads/start",
-		"source": "geelooy/api/youtube/routes/table.js",
+		"id": "api-wallet-organizations-5d3968176e",
+		"route": "/api/wallet/organizations",
+		"source": "geelooy/api/wallet/routes/table.js",
 		"discoveryKind": "route-table",
 		"family": {
-			"mount": "/api/youtube",
-			"title": "YouTube",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md"
+			"mount": "/api/wallet",
+			"title": "Wallet",
+			"manual": "docs/TUTORIALS/API/WALLET.md"
 		},
 		"derech": {
-			"source": "geelooy/api/youtube/_awtsmoos.derech.js",
+			"source": "geelooy/api/wallet/_awtsmoos.derech.js",
 			"status": "OK",
 			"issue": "—",
-			"mount": "/api/youtube"
-		},
-		"dynamic": false,
-		"pathParameters": [],
-		"methods": [],
-		"methodEvidence": "unknown",
-		"vessels": [],
-		"statuses": [],
-		"headers": [],
-		"callers": [],
-		"callerCount": 0,
-		"tests": [],
-		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-uploads-start-9d5f4138cd.md",
-		"confidence": "unknown-method",
-		"related": [
-			{
-				"id": "api-youtube-44e720e9a3",
-				"route": "/api/youtube"
-			},
-			{
-				"id": "api-youtube-a-8c1cdc043d",
-				"route": "/api/youtube/:a"
-			},
-			{
-				"id": "api-youtube-a-b-0f1bfdc710",
-				"route": "/api/youtube/:a/:b"
-			},
-			{
-				"id": "api-youtube-a-b-c-02c6f58285",
-				"route": "/api/youtube/:a/:b/:c"
-			},
-			{
-				"id": "api-youtube-auth-callback-9c2556106d",
-				"route": "/api/youtube/auth/callback"
-			},
-			{
-				"id": "api-youtube-auth-logout-e16d771492",
-				"route": "/api/youtube/auth/logout"
-			},
-			{
-				"id": "api-youtube-auth-start-c2f5a58fbd",
-				"route": "/api/youtube/auth/start"
-			},
-			{
-				"id": "api-youtube-auth-status-10475f963f",
-				"route": "/api/youtube/auth/status"
-			}
-		]
-	},
-	{
-		"id": "api-youtube-videos-53702b8520",
-		"route": "/api/youtube/videos",
-		"source": "geelooy/api/youtube/routes/table.js",
-		"discoveryKind": "route-table",
-		"family": {
-			"mount": "/api/youtube",
-			"title": "YouTube",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md"
-		},
-		"derech": {
-			"source": "geelooy/api/youtube/_awtsmoos.derech.js",
-			"status": "OK",
-			"issue": "—",
-			"mount": "/api/youtube"
-		},
-		"dynamic": false,
-		"pathParameters": [],
-		"methods": [],
-		"methodEvidence": "unknown",
-		"vessels": [],
-		"statuses": [],
-		"headers": [],
-		"callers": [],
-		"callerCount": 0,
-		"tests": [],
-		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-videos-53702b8520.md",
-		"confidence": "unknown-method",
-		"related": [
-			{
-				"id": "api-youtube-44e720e9a3",
-				"route": "/api/youtube"
-			},
-			{
-				"id": "api-youtube-a-8c1cdc043d",
-				"route": "/api/youtube/:a"
-			},
-			{
-				"id": "api-youtube-a-b-0f1bfdc710",
-				"route": "/api/youtube/:a/:b"
-			},
-			{
-				"id": "api-youtube-a-b-c-02c6f58285",
-				"route": "/api/youtube/:a/:b/:c"
-			},
-			{
-				"id": "api-youtube-auth-callback-9c2556106d",
-				"route": "/api/youtube/auth/callback"
-			},
-			{
-				"id": "api-youtube-auth-logout-e16d771492",
-				"route": "/api/youtube/auth/logout"
-			},
-			{
-				"id": "api-youtube-auth-start-c2f5a58fbd",
-				"route": "/api/youtube/auth/start"
-			},
-			{
-				"id": "api-youtube-auth-status-10475f963f",
-				"route": "/api/youtube/auth/status"
-			}
-		]
-	},
-	{
-		"id": "api-youtube-videos-list-0c5f0e2ea2",
-		"route": "/api/youtube/videos/list",
-		"source": "geelooy/api/youtube/routes/table.js",
-		"discoveryKind": "route-table",
-		"family": {
-			"mount": "/api/youtube",
-			"title": "YouTube",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md"
-		},
-		"derech": {
-			"source": "geelooy/api/youtube/_awtsmoos.derech.js",
-			"status": "OK",
-			"issue": "—",
-			"mount": "/api/youtube"
-		},
-		"dynamic": false,
-		"pathParameters": [],
-		"methods": [],
-		"methodEvidence": "unknown",
-		"vessels": [],
-		"statuses": [],
-		"headers": [],
-		"callers": [],
-		"callerCount": 0,
-		"tests": [],
-		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-videos-list-0c5f0e2ea2.md",
-		"confidence": "unknown-method",
-		"related": [
-			{
-				"id": "api-youtube-44e720e9a3",
-				"route": "/api/youtube"
-			},
-			{
-				"id": "api-youtube-a-8c1cdc043d",
-				"route": "/api/youtube/:a"
-			},
-			{
-				"id": "api-youtube-a-b-0f1bfdc710",
-				"route": "/api/youtube/:a/:b"
-			},
-			{
-				"id": "api-youtube-a-b-c-02c6f58285",
-				"route": "/api/youtube/:a/:b/:c"
-			},
-			{
-				"id": "api-youtube-auth-callback-9c2556106d",
-				"route": "/api/youtube/auth/callback"
-			},
-			{
-				"id": "api-youtube-auth-logout-e16d771492",
-				"route": "/api/youtube/auth/logout"
-			},
-			{
-				"id": "api-youtube-auth-start-c2f5a58fbd",
-				"route": "/api/youtube/auth/start"
-			},
-			{
-				"id": "api-youtube-auth-status-10475f963f",
-				"route": "/api/youtube/auth/status"
-			}
-		]
-	},
-	{
-		"id": "api-youtube-videos-update-d8820be806",
-		"route": "/api/youtube/videos/update",
-		"source": "geelooy/api/youtube/routes/table.js",
-		"discoveryKind": "route-table",
-		"family": {
-			"mount": "/api/youtube",
-			"title": "YouTube",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md"
-		},
-		"derech": {
-			"source": "geelooy/api/youtube/_awtsmoos.derech.js",
-			"status": "OK",
-			"issue": "—",
-			"mount": "/api/youtube"
-		},
-		"dynamic": false,
-		"pathParameters": [],
-		"methods": [],
-		"methodEvidence": "unknown",
-		"vessels": [],
-		"statuses": [],
-		"headers": [],
-		"callers": [],
-		"callerCount": 0,
-		"tests": [],
-		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-videos-update-d8820be806.md",
-		"confidence": "unknown-method",
-		"related": [
-			{
-				"id": "api-youtube-44e720e9a3",
-				"route": "/api/youtube"
-			},
-			{
-				"id": "api-youtube-a-8c1cdc043d",
-				"route": "/api/youtube/:a"
-			},
-			{
-				"id": "api-youtube-a-b-0f1bfdc710",
-				"route": "/api/youtube/:a/:b"
-			},
-			{
-				"id": "api-youtube-a-b-c-02c6f58285",
-				"route": "/api/youtube/:a/:b/:c"
-			},
-			{
-				"id": "api-youtube-auth-callback-9c2556106d",
-				"route": "/api/youtube/auth/callback"
-			},
-			{
-				"id": "api-youtube-auth-logout-e16d771492",
-				"route": "/api/youtube/auth/logout"
-			},
-			{
-				"id": "api-youtube-auth-start-c2f5a58fbd",
-				"route": "/api/youtube/auth/start"
-			},
-			{
-				"id": "api-youtube-auth-status-10475f963f",
-				"route": "/api/youtube/auth/status"
-			}
-		]
-	},
-	{
-		"id": "api-zmanim-86d9bd4874",
-		"route": "/api/zmanim",
-		"source": "geelooy/api/zmanim/_awtsmoos.derech.js",
-		"discoveryKind": "static-literal",
-		"family": {
-			"mount": "/api/zmanim",
-			"title": "/api/zmanim",
-			"manual": "docs/API/README.md"
-		},
-		"derech": {
-			"source": "geelooy/api/zmanim/_awtsmoos.derech.js",
-			"status": "OK",
-			"issue": "—",
-			"mount": "/api/zmanim"
-		},
-		"dynamic": false,
-		"pathParameters": [],
-		"methods": [],
-		"methodEvidence": "unknown",
-		"vessels": [],
-		"statuses": [],
-		"headers": [],
-		"callers": [],
-		"callerCount": 0,
-		"tests": [],
-		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-zmanim-86d9bd4874.md",
-		"confidence": "unknown-method",
-		"related": [
-			{
-				"id": "api-zmanim-compare-c5bb565fcb",
-				"route": "/api/zmanim/compare"
-			},
-			{
-				"id": "api-zmanim-day-6b37237ce4",
-				"route": "/api/zmanim/day"
-			},
-			{
-				"id": "api-zmanim-embed-7a9e392500",
-				"route": "/api/zmanim/embed"
-			},
-			{
-				"id": "api-zmanim-health-3637c50b08",
-				"route": "/api/zmanim/health"
-			},
-			{
-				"id": "api-zmanim-location-d9b647041e",
-				"route": "/api/zmanim/location"
-			},
-			{
-				"id": "api-zmanim-methodology-2cd7bce9af",
-				"route": "/api/zmanim/methodology"
-			},
-			{
-				"id": "api-zmanim-opinions-c99cc9fdf7",
-				"route": "/api/zmanim/opinions"
-			},
-			{
-				"id": "api-zmanim-options-4bf5e888df",
-				"route": "/api/zmanim/options"
-			}
-		]
-	},
-	{
-		"id": "api-zmanim-compare-c5bb565fcb",
-		"route": "/api/zmanim/compare",
-		"source": "geelooy/api/zmanim/_awtsmoos.derech.js",
-		"discoveryKind": "static-literal",
-		"family": {
-			"mount": "/api/zmanim",
-			"title": "/api/zmanim",
-			"manual": "docs/API/README.md"
-		},
-		"derech": {
-			"source": "geelooy/api/zmanim/_awtsmoos.derech.js",
-			"status": "OK",
-			"issue": "—",
-			"mount": "/api/zmanim"
+			"mount": "/api/wallet"
 		},
 		"dynamic": false,
 		"pathParameters": [],
@@ -408,71 +88,211 @@
 		"headers": [],
 		"callers": [
 			{
-				"literal": "/api/zmanim/compare",
-				"source": "geelooy/zmanim/js/domain/server-embed-url.js",
+				"literal": "/api/wallet/organizations",
+				"source": "geelooy/cloud/agency/data.js",
+				"kind": "runtime"
+			}
+		],
+		"callerCount": 1,
+		"tests": [],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-organizations-5d3968176e.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-wallet-balance-59097f364b",
+				"route": "/api/wallet/balance"
+			},
+			{
+				"id": "api-wallet-buy-mock-45ef52f2b5",
+				"route": "/api/wallet/buy/mock"
+			},
+			{
+				"id": "api-wallet-commerce-actions-8e2f72034a",
+				"route": "/api/wallet/commerce/actions"
+			},
+			{
+				"id": "api-wallet-commerce-actions-execute-1b212726d5",
+				"route": "/api/wallet/commerce/actions/execute"
+			},
+			{
+				"id": "api-wallet-commerce-catalog-f9d5b627eb",
+				"route": "/api/wallet/commerce/catalog"
+			},
+			{
+				"id": "api-wallet-commerce-credits-commit-514993bf32",
+				"route": "/api/wallet/commerce/credits/commit"
+			},
+			{
+				"id": "api-wallet-commerce-credits-consume-6e724abb1d",
+				"route": "/api/wallet/commerce/credits/consume"
+			},
+			{
+				"id": "api-wallet-commerce-credits-release-01fbab351a",
+				"route": "/api/wallet/commerce/credits/release"
+			}
+		]
+	},
+	{
+		"id": "api-wallet-organizations-action-61e9565e7b",
+		"route": "/api/wallet/organizations/action",
+		"source": "geelooy/api/wallet/routes/table.js",
+		"discoveryKind": "route-table",
+		"family": {
+			"mount": "/api/wallet",
+			"title": "Wallet",
+			"manual": "docs/TUTORIALS/API/WALLET.md"
+		},
+		"derech": {
+			"source": "geelooy/api/wallet/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/wallet"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [],
+		"statuses": [],
+		"headers": [],
+		"callers": [
+			{
+				"literal": "/api/wallet/organizations/action",
+				"source": "geelooy/cloud/agency/data.js",
+				"kind": "runtime"
+			}
+		],
+		"callerCount": 1,
+		"tests": [],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-organizations-action-61e9565e7b.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-wallet-balance-59097f364b",
+				"route": "/api/wallet/balance"
+			},
+			{
+				"id": "api-wallet-buy-mock-45ef52f2b5",
+				"route": "/api/wallet/buy/mock"
+			},
+			{
+				"id": "api-wallet-commerce-actions-8e2f72034a",
+				"route": "/api/wallet/commerce/actions"
+			},
+			{
+				"id": "api-wallet-commerce-actions-execute-1b212726d5",
+				"route": "/api/wallet/commerce/actions/execute"
+			},
+			{
+				"id": "api-wallet-commerce-catalog-f9d5b627eb",
+				"route": "/api/wallet/commerce/catalog"
+			},
+			{
+				"id": "api-wallet-commerce-credits-commit-514993bf32",
+				"route": "/api/wallet/commerce/credits/commit"
+			},
+			{
+				"id": "api-wallet-commerce-credits-consume-6e724abb1d",
+				"route": "/api/wallet/commerce/credits/consume"
+			},
+			{
+				"id": "api-wallet-commerce-credits-release-01fbab351a",
+				"route": "/api/wallet/commerce/credits/release"
+			}
+		]
+	},
+	{
+		"id": "api-wallet-paypal-capture-df2c3232c6",
+		"route": "/api/wallet/paypal/capture",
+		"source": "geelooy/api/wallet/routes/table.js",
+		"discoveryKind": "route-table",
+		"family": {
+			"mount": "/api/wallet",
+			"title": "Wallet",
+			"manual": "docs/TUTORIALS/API/WALLET.md"
+		},
+		"derech": {
+			"source": "geelooy/api/wallet/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/wallet"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [],
+		"statuses": [],
+		"headers": [],
+		"callers": [
+			{
+				"literal": "/api/wallet/paypal/capture",
+				"source": "geelooy/apps/wallet/scripts/checkout.js",
 				"kind": "runtime"
 			},
 			{
-				"literal": "/api/zmanim/compare",
-				"source": "geelooy/zmanim/tests/embed-comparison-links.test.mjs",
-				"kind": "test"
+				"literal": "/api/wallet/paypal/capture",
+				"source": "geelooy/shared/commerce/return.js",
+				"kind": "runtime"
 			}
 		],
 		"callerCount": 2,
 		"tests": [],
 		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-zmanim-compare-c5bb565fcb.md",
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-paypal-capture-df2c3232c6.md",
 		"confidence": "unknown-method",
 		"related": [
 			{
-				"id": "api-zmanim-86d9bd4874",
-				"route": "/api/zmanim"
+				"id": "api-wallet-balance-59097f364b",
+				"route": "/api/wallet/balance"
 			},
 			{
-				"id": "api-zmanim-day-6b37237ce4",
-				"route": "/api/zmanim/day"
+				"id": "api-wallet-buy-mock-45ef52f2b5",
+				"route": "/api/wallet/buy/mock"
 			},
 			{
-				"id": "api-zmanim-embed-7a9e392500",
-				"route": "/api/zmanim/embed"
+				"id": "api-wallet-commerce-actions-8e2f72034a",
+				"route": "/api/wallet/commerce/actions"
 			},
 			{
-				"id": "api-zmanim-health-3637c50b08",
-				"route": "/api/zmanim/health"
+				"id": "api-wallet-commerce-actions-execute-1b212726d5",
+				"route": "/api/wallet/commerce/actions/execute"
 			},
 			{
-				"id": "api-zmanim-location-d9b647041e",
-				"route": "/api/zmanim/location"
+				"id": "api-wallet-commerce-catalog-f9d5b627eb",
+				"route": "/api/wallet/commerce/catalog"
 			},
 			{
-				"id": "api-zmanim-methodology-2cd7bce9af",
-				"route": "/api/zmanim/methodology"
+				"id": "api-wallet-commerce-credits-commit-514993bf32",
+				"route": "/api/wallet/commerce/credits/commit"
 			},
 			{
-				"id": "api-zmanim-opinions-c99cc9fdf7",
-				"route": "/api/zmanim/opinions"
+				"id": "api-wallet-commerce-credits-consume-6e724abb1d",
+				"route": "/api/wallet/commerce/credits/consume"
 			},
 			{
-				"id": "api-zmanim-options-4bf5e888df",
-				"route": "/api/zmanim/options"
+				"id": "api-wallet-commerce-credits-release-01fbab351a",
+				"route": "/api/wallet/commerce/credits/release"
 			}
 		]
 	},
 	{
-		"id": "api-zmanim-day-6b37237ce4",
-		"route": "/api/zmanim/day",
-		"source": "geelooy/api/zmanim/_awtsmoos.derech.js",
-		"discoveryKind": "static-literal",
+		"id": "api-wallet-paypal-create-b8a88e1af7",
+		"route": "/api/wallet/paypal/create",
+		"source": "geelooy/api/wallet/routes/table.js",
+		"discoveryKind": "route-table",
 		"family": {
-			"mount": "/api/zmanim",
-			"title": "/api/zmanim",
-			"manual": "docs/API/README.md"
+			"mount": "/api/wallet",
+			"title": "Wallet",
+			"manual": "docs/TUTORIALS/API/WALLET.md"
 		},
 		"derech": {
-			"source": "geelooy/api/zmanim/_awtsmoos.derech.js",
+			"source": "geelooy/api/wallet/_awtsmoos.derech.js",
 			"status": "OK",
 			"issue": "—",
-			"mount": "/api/zmanim"
+			"mount": "/api/wallet"
 		},
 		"dynamic": false,
 		"pathParameters": [],
@@ -483,81 +303,71 @@
 		"headers": [],
 		"callers": [
 			{
-				"literal": "/api/zmanim/day",
-				"source": "geelooy/zmanim/index.html",
+				"literal": "/api/wallet/paypal/create",
+				"source": "geelooy/apps/wallet/scripts/checkout.js",
 				"kind": "runtime"
 			},
 			{
-				"literal": "/api/zmanim/day",
-				"source": "geelooy/zmanim/js/domain/server-embed-url.js",
+				"literal": "/api/wallet/paypal/create",
+				"source": "geelooy/shared/commerce/controller.js",
 				"kind": "runtime"
-			},
-			{
-				"literal": "/api/zmanim/day",
-				"source": "geelooy/zmanim/tests/embed-comparison-links.test.mjs",
-				"kind": "test"
-			},
-			{
-				"literal": "/api/zmanim/day",
-				"source": "geelooy/zmanim/tests/embed-links.test.mjs",
-				"kind": "test"
 			}
 		],
-		"callerCount": 4,
+		"callerCount": 2,
 		"tests": [],
 		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-zmanim-day-6b37237ce4.md",
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-paypal-create-b8a88e1af7.md",
 		"confidence": "unknown-method",
 		"related": [
 			{
-				"id": "api-zmanim-86d9bd4874",
-				"route": "/api/zmanim"
+				"id": "api-wallet-balance-59097f364b",
+				"route": "/api/wallet/balance"
 			},
 			{
-				"id": "api-zmanim-compare-c5bb565fcb",
-				"route": "/api/zmanim/compare"
+				"id": "api-wallet-buy-mock-45ef52f2b5",
+				"route": "/api/wallet/buy/mock"
 			},
 			{
-				"id": "api-zmanim-embed-7a9e392500",
-				"route": "/api/zmanim/embed"
+				"id": "api-wallet-commerce-actions-8e2f72034a",
+				"route": "/api/wallet/commerce/actions"
 			},
 			{
-				"id": "api-zmanim-health-3637c50b08",
-				"route": "/api/zmanim/health"
+				"id": "api-wallet-commerce-actions-execute-1b212726d5",
+				"route": "/api/wallet/commerce/actions/execute"
 			},
 			{
-				"id": "api-zmanim-location-d9b647041e",
-				"route": "/api/zmanim/location"
+				"id": "api-wallet-commerce-catalog-f9d5b627eb",
+				"route": "/api/wallet/commerce/catalog"
 			},
 			{
-				"id": "api-zmanim-methodology-2cd7bce9af",
-				"route": "/api/zmanim/methodology"
+				"id": "api-wallet-commerce-credits-commit-514993bf32",
+				"route": "/api/wallet/commerce/credits/commit"
 			},
 			{
-				"id": "api-zmanim-opinions-c99cc9fdf7",
-				"route": "/api/zmanim/opinions"
+				"id": "api-wallet-commerce-credits-consume-6e724abb1d",
+				"route": "/api/wallet/commerce/credits/consume"
 			},
 			{
-				"id": "api-zmanim-options-4bf5e888df",
-				"route": "/api/zmanim/options"
+				"id": "api-wallet-commerce-credits-release-01fbab351a",
+				"route": "/api/wallet/commerce/credits/release"
 			}
 		]
 	},
 	{
-		"id": "api-zmanim-embed-7a9e392500",
-		"route": "/api/zmanim/embed",
-		"source": "geelooy/api/zmanim/_awtsmoos.derech.js",
-		"discoveryKind": "static-literal",
+		"id": "api-wallet-resource-quote-a5128cd438",
+		"route": "/api/wallet/resource/quote",
+		"source": "geelooy/api/wallet/routes/table.js",
+		"discoveryKind": "route-table",
 		"family": {
-			"mount": "/api/zmanim",
-			"title": "/api/zmanim",
-			"manual": "docs/API/README.md"
+			"mount": "/api/wallet",
+			"title": "Wallet",
+			"manual": "docs/TUTORIALS/API/WALLET.md"
 		},
 		"derech": {
-			"source": "geelooy/api/zmanim/_awtsmoos.derech.js",
+			"source": "geelooy/api/wallet/_awtsmoos.derech.js",
 			"status": "OK",
 			"issue": "—",
-			"mount": "/api/zmanim"
+			"mount": "/api/wallet"
 		},
 		"dynamic": false,
 		"pathParameters": [],
@@ -568,76 +378,66 @@
 		"headers": [],
 		"callers": [
 			{
-				"literal": "/api/zmanim/embed",
-				"source": "geelooy/zmanim/js/domain/server-embed-url.js",
+				"literal": "/api/wallet/resource/quote?${query}",
+				"source": "geelooy/cloud/agency/data.js",
 				"kind": "runtime"
-			},
-			{
-				"literal": "/api/zmanim/embed",
-				"source": "geelooy/zmanim/tests/embed-comparison-links.test.mjs",
-				"kind": "test"
-			},
-			{
-				"literal": "/api/zmanim/embed",
-				"source": "geelooy/zmanim/tests/embed-links.test.mjs",
-				"kind": "test"
 			}
 		],
-		"callerCount": 3,
+		"callerCount": 1,
 		"tests": [],
 		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-zmanim-embed-7a9e392500.md",
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-resource-quote-a5128cd438.md",
 		"confidence": "unknown-method",
 		"related": [
 			{
-				"id": "api-zmanim-86d9bd4874",
-				"route": "/api/zmanim"
+				"id": "api-wallet-balance-59097f364b",
+				"route": "/api/wallet/balance"
 			},
 			{
-				"id": "api-zmanim-compare-c5bb565fcb",
-				"route": "/api/zmanim/compare"
+				"id": "api-wallet-buy-mock-45ef52f2b5",
+				"route": "/api/wallet/buy/mock"
 			},
 			{
-				"id": "api-zmanim-day-6b37237ce4",
-				"route": "/api/zmanim/day"
+				"id": "api-wallet-commerce-actions-8e2f72034a",
+				"route": "/api/wallet/commerce/actions"
 			},
 			{
-				"id": "api-zmanim-health-3637c50b08",
-				"route": "/api/zmanim/health"
+				"id": "api-wallet-commerce-actions-execute-1b212726d5",
+				"route": "/api/wallet/commerce/actions/execute"
 			},
 			{
-				"id": "api-zmanim-location-d9b647041e",
-				"route": "/api/zmanim/location"
+				"id": "api-wallet-commerce-catalog-f9d5b627eb",
+				"route": "/api/wallet/commerce/catalog"
 			},
 			{
-				"id": "api-zmanim-methodology-2cd7bce9af",
-				"route": "/api/zmanim/methodology"
+				"id": "api-wallet-commerce-credits-commit-514993bf32",
+				"route": "/api/wallet/commerce/credits/commit"
 			},
 			{
-				"id": "api-zmanim-opinions-c99cc9fdf7",
-				"route": "/api/zmanim/opinions"
+				"id": "api-wallet-commerce-credits-consume-6e724abb1d",
+				"route": "/api/wallet/commerce/credits/consume"
 			},
 			{
-				"id": "api-zmanim-options-4bf5e888df",
-				"route": "/api/zmanim/options"
+				"id": "api-wallet-commerce-credits-release-01fbab351a",
+				"route": "/api/wallet/commerce/credits/release"
 			}
 		]
 	},
 	{
-		"id": "api-zmanim-health-3637c50b08",
-		"route": "/api/zmanim/health",
-		"source": "geelooy/api/zmanim/_awtsmoos.derech.js",
-		"discoveryKind": "static-literal",
+		"id": "api-wallet-transfer-79a871c4e0",
+		"route": "/api/wallet/transfer",
+		"source": "geelooy/api/wallet/routes/table.js",
+		"discoveryKind": "route-table",
 		"family": {
-			"mount": "/api/zmanim",
-			"title": "/api/zmanim",
-			"manual": "docs/API/README.md"
+			"mount": "/api/wallet",
+			"title": "Wallet",
+			"manual": "docs/TUTORIALS/API/WALLET.md"
 		},
 		"derech": {
-			"source": "geelooy/api/zmanim/_awtsmoos.derech.js",
+			"source": "geelooy/api/wallet/_awtsmoos.derech.js",
 			"status": "OK",
 			"issue": "—",
-			"mount": "/api/zmanim"
+			"mount": "/api/wallet"
 		},
 		"dynamic": false,
 		"pathParameters": [],
@@ -646,108 +446,138 @@
 		"vessels": [],
 		"statuses": [],
 		"headers": [],
-		"callers": [],
-		"callerCount": 0,
+		"callers": [
+			{
+				"literal": "/api/wallet/transfer",
+				"source": "geelooy/apps/wallet/scripts/transfer.js",
+				"kind": "runtime"
+			}
+		],
+		"callerCount": 1,
 		"tests": [],
 		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-zmanim-health-3637c50b08.md",
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-transfer-79a871c4e0.md",
 		"confidence": "unknown-method",
 		"related": [
 			{
-				"id": "api-zmanim-86d9bd4874",
-				"route": "/api/zmanim"
+				"id": "api-wallet-balance-59097f364b",
+				"route": "/api/wallet/balance"
 			},
 			{
-				"id": "api-zmanim-compare-c5bb565fcb",
-				"route": "/api/zmanim/compare"
+				"id": "api-wallet-buy-mock-45ef52f2b5",
+				"route": "/api/wallet/buy/mock"
 			},
 			{
-				"id": "api-zmanim-day-6b37237ce4",
-				"route": "/api/zmanim/day"
+				"id": "api-wallet-commerce-actions-8e2f72034a",
+				"route": "/api/wallet/commerce/actions"
 			},
 			{
-				"id": "api-zmanim-embed-7a9e392500",
-				"route": "/api/zmanim/embed"
+				"id": "api-wallet-commerce-actions-execute-1b212726d5",
+				"route": "/api/wallet/commerce/actions/execute"
 			},
 			{
-				"id": "api-zmanim-location-d9b647041e",
-				"route": "/api/zmanim/location"
+				"id": "api-wallet-commerce-catalog-f9d5b627eb",
+				"route": "/api/wallet/commerce/catalog"
 			},
 			{
-				"id": "api-zmanim-methodology-2cd7bce9af",
-				"route": "/api/zmanim/methodology"
+				"id": "api-wallet-commerce-credits-commit-514993bf32",
+				"route": "/api/wallet/commerce/credits/commit"
 			},
 			{
-				"id": "api-zmanim-opinions-c99cc9fdf7",
-				"route": "/api/zmanim/opinions"
+				"id": "api-wallet-commerce-credits-consume-6e724abb1d",
+				"route": "/api/wallet/commerce/credits/consume"
 			},
 			{
-				"id": "api-zmanim-options-4bf5e888df",
-				"route": "/api/zmanim/options"
+				"id": "api-wallet-commerce-credits-release-01fbab351a",
+				"route": "/api/wallet/commerce/credits/release"
 			}
 		]
 	},
 	{
-		"id": "api-zmanim-location-d9b647041e",
-		"route": "/api/zmanim/location",
-		"source": "geelooy/api/zmanim/_awtsmoos.derech.js",
+		"id": "api-what-are-you-doing-69dd47f2a2",
+		"route": "/api/what/:are/you/:doing",
+		"source": "geelooy/api/core/LegacyApiDemoRoutes.js",
 		"discoveryKind": "static-literal",
 		"family": {
-			"mount": "/api/zmanim",
-			"title": "/api/zmanim",
-			"manual": "docs/API/README.md"
+			"mount": "/api",
+			"title": "API Root",
+			"manual": "docs/TUTORIALS/API/ROOT_API.md"
 		},
 		"derech": {
-			"source": "geelooy/api/zmanim/_awtsmoos.derech.js",
+			"source": "geelooy/api/_awtsmoos.derech.js",
 			"status": "OK",
 			"issue": "—",
-			"mount": "/api/zmanim"
+			"mount": "/api"
 		},
-		"dynamic": false,
-		"pathParameters": [],
+		"dynamic": true,
+		"pathParameters": [
+			{
+				"name": "are",
+				"catchAll": false
+			},
+			{
+				"name": "doing",
+				"catchAll": false
+			}
+		],
 		"methods": [],
 		"methodEvidence": "unknown",
-		"vessels": [],
+		"vessels": [
+			"route-vars"
+		],
 		"statuses": [],
 		"headers": [],
 		"callers": [],
 		"callerCount": 0,
-		"tests": [],
+		"tests": [
+			{
+				"name": "test",
+				"command": "npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported-style-ownership && npm run test:css-quality && npm run test:heichelos-quality && npm run test:heichel-cache-scale && npm run test:profile-menu && npm run test:heichel-governance && npm run test:post-submissions && npm run test:comments && npm run test:api-keys && npm run test:graph && npm run test:social-content && npm run test:notifications && npm run test:social-packed && npm run test:packed-engine && npm run test:platform-ops && npm run test:platform-execution && npm run test:node-client && npm run test:dayuh-cutover"
+			},
+			{
+				"name": "test:dayuh-release",
+				"command": "npm run test:routes && npm run test:comments && npm run test:social-content && npm run test:social-packed && npm run test:packed-engine && node --test tools/dayuhChadashMaintenance/test/*.test.js && npm run test:dayuh-cutover"
+			},
+			{
+				"name": "test:routes",
+				"command": "node geelooy/api/social/test/routeCoverage.test.js"
+			}
+		],
 		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-zmanim-location-d9b647041e.md",
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-what-are-you-doing-69dd47f2a2.md",
 		"confidence": "unknown-method",
 		"related": [
 			{
-				"id": "api-zmanim-86d9bd4874",
-				"route": "/api/zmanim"
+				"id": "api-caf1672720",
+				"route": "/api"
 			},
 			{
-				"id": "api-zmanim-compare-c5bb565fcb",
-				"route": "/api/zmanim/compare"
+				"id": "api-asdfg-9e43b7d9e7",
+				"route": "/api/asdfg"
 			},
 			{
-				"id": "api-zmanim-day-6b37237ce4",
-				"route": "/api/zmanim/day"
+				"id": "api-catalog-80c2586373",
+				"route": "/api/catalog"
 			},
 			{
-				"id": "api-zmanim-embed-7a9e392500",
-				"route": "/api/zmanim/embed"
+				"id": "api-even-asd-more-rt-k-feb231eb24",
+				"route": "/api/even/:asd/more/:rt/k"
 			},
 			{
-				"id": "api-zmanim-health-3637c50b08",
-				"route": "/api/zmanim/health"
+				"id": "api-heichelos-heichel-addcontenttoseries-cda5c16063",
+				"route": "/api/heichelos/:heichel/addContentToSeries"
 			},
 			{
-				"id": "api-zmanim-methodology-2cd7bce9af",
-				"route": "/api/zmanim/methodology"
+				"id": "api-heichelos-heichel-addnewseries-6c167f7390",
+				"route": "/api/heichelos/:heichel/addNewSeries"
 			},
 			{
-				"id": "api-zmanim-opinions-c99cc9fdf7",
-				"route": "/api/zmanim/opinions"
+				"id": "api-heichelos-heichel-aliases-alias-commentsactions-addcommentin-4141eb36ea",
+				"route": "/api/heichelos/:heichel/aliases/:alias/commentsActions/addCommentIndexToAlias/comment/:comment"
 			},
 			{
-				"id": "api-zmanim-options-4bf5e888df",
-				"route": "/api/zmanim/options"
+				"id": "api-heichelos-heichel-aliases-alias-commentsactions-updateallcom-a68539ccb3",
+				"route": "/api/heichelos/:heichel/aliases/:alias/commentsActions/updateAllCommentIndexes"
 			}
 		]
 	}

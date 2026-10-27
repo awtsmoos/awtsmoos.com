@@ -1,0 +1,271 @@
+[
+	{
+		"id": "geelooy-drive-documentation-md-27fd60aedc",
+		"title": "Geelooy Sites",
+		"sourcePath": "geelooy/drive/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Geelooy Sites",
+				"anchor": "geelooy-sites"
+			},
+			{
+				"level": 2,
+				"text": "Entry point",
+				"anchor": "entry-point"
+			},
+			{
+				"level": 2,
+				"text": "Primary journey",
+				"anchor": "primary-journey"
+			},
+			{
+				"level": 2,
+				"text": "Authority",
+				"anchor": "authority"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Geelooy Sites The Awtsmoos renews idea and source together; Awtsmoos.com keeps every visual act grounded in a real file and every public doorway grounded in explicit publication authority. Entry point index.html boots app.js. The app composes workspace transport, canonical site and domai",
+		"searchText": "b\"h boruch hashem blessed is he geelooy sites the awtsmoos renews idea and source together; awtsmoos.com keeps every visual act grounded in a real file and every public doorway grounded in explicit publication authority. entry point index.html boots app.js. the app composes workspace transport, canonical site and domain services, project deployment/runtime services, ui shell/dialogs, and the human/agent website builder apis. primary journey the mobile first real source builder follows build → preview → code → publish → domain. html, css, javascript, json, markdown, svg, and ordinary assets remain the project. preview and code operate on the same source. window.geelooysitebuilder exposes bounded machine parity without arbitrary shell access or credential leakage. authority builder/, services/, transport/, ui/, core/, and test/ divide the browser boundary. canonical publication, domains, tunnel devices, and hosted runtime must be reconciled through their owning server apis rather than inferred from local ui state.",
+		"page": "pages/geelooy-drive-documentation-md-27fd60aedc.json"
+	},
+	{
+		"id": "geelooy-drive-readme-md-0b446fdf63",
+		"title": "Geelooy Sites",
+		"sourcePath": "geelooy/drive/README.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Geelooy Sites",
+				"anchor": "geelooy-sites"
+			},
+			{
+				"level": 2,
+				"text": "Source truth",
+				"anchor": "source-truth"
+			},
+			{
+				"level": 2,
+				"text": "Human and machine parity",
+				"anchor": "human-and-machine-parity"
+			},
+			{
+				"level": 2,
+				"text": "Storage modes",
+				"anchor": "storage-modes"
+			},
+			{
+				"level": 3,
+				"text": "Standalone Tunnel",
+				"anchor": "standalone-tunnel"
+			},
+			{
+				"level": 3,
+				"text": "Embedded Geelooy OS",
+				"anchor": "embedded-geelooy-os"
+			},
+			{
+				"level": 2,
+				"text": "Publication stages",
+				"anchor": "publication-stages"
+			},
+			{
+				"level": 2,
+				"text": "Domains and nameservers",
+				"anchor": "domains-and-nameservers"
+			},
+			{
+				"level": 2,
+				"text": "Managed runtime",
+				"anchor": "managed-runtime"
+			},
+			{
+				"level": 2,
+				"text": "Verification",
+				"anchor": "verification"
+			}
+		],
+		"excerpt": "Geelooy Sites Geelooy Sites is a mobile first real source website builder over Geelooy Drive. Its primary journey is Build → Preview → Code → Publish → Domain . Files, Platform, Devices, Access, and Runtime remain available as retractable engineering power. Source truth HTML, CSS, JavaScript, JSON, Markdown, SVG, and o",
+		"searchText": "geelooy sites geelooy sites is a mobile first real source website builder over geelooy drive. its primary journey is build → preview → code → publish → domain . files, platform, devices, access, and runtime remain available as retractable engineering power. source truth html, css, javascript, json, markdown, svg, and ordinary assets remain the project. the builder brief is bounded local state, not an opaque page schema. blank, landing, portfolio, and documentation starters create readable index.html, styles.css, and site.js only when those names are free. preview and code open the same source document. closing a semantic panel does not destroy the editor textarea or preview iframe. human and machine parity window.geelooysitebuilder exposes a cataloged machine api. every action states mutation, capability, scope, availability, description, and affected resource. source writes, starter creation, and preview publication use the same workspace services as human controls. project collection returns bounded metadata, never source bodies, credentials, cookies, ssh material, or dns secrets. explicit code inspection may return only the currently opened document. there is no arbitrary shell api. storage modes standalone tunnel signed in sessions discover authorized devices and read files. save/create require a transient scoped key with tunnel.write. the key remains only in the current transport instance and request header. managed static runtime requires tunnel.command and uses dedicated lifecycle actions. embedded geelooy os drive uses a same origin random channel vfs bridge. only list, read, write, and mkdir cross the confined root. no tunnel key or command authority enters the iframe. tunnel preview publication and runtime remain unavailable. publication stages 1. source preview — sandboxed local reflection. 2. owned folder preview — existing tunnel preview with visibility and ttl. 3. canonical awtsmoos site — existing drive mapping at /sites/:aliasid/:siteid/; builder linking remains gated until an owned mapping endpoint is proven. 4. custom domain + https — requires server claim, dns verification, host routing, and tls orchestration. domains and nameservers the browser can normalize and plan public hostnames. it can plan either the current dns provider or custom external nameservers. it cannot generate proof tokens, mutate dns, activate routing, issue certificates, or claim an awtsmoos owned hostname. awtsmoos authoritative nameservers are visibly unavailable because production has nginx, certbot, and the node server but no authoritative dns service/provider. a future server side dnsprovider and domain claim repository must precede that mode. managed runtime the purpose built static lifecycle supports start, rediscovery, logs, public exposure, and stop for the recorded tunnel route. it is not a dynamic node hosting shell. dynamic runtimes, git, databases, project auth, apis, forms, and social bindings remain separate capability slices. verification run the drive suite with: also run os drive/vfs tests, shared tunnel client tests, the site gateway test, syntax checks, the 120 line audit, and the four required browser viewports before release.",
+		"page": "pages/geelooy-drive-readme-md-0b446fdf63.json"
+	},
+	{
+		"id": "geelooy-email-documentation-md-ba2042cc9d",
+		"title": "Email Project Documentation",
+		"sourcePath": "geelooy/email/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Email Project Documentation",
+				"anchor": "email-project-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Email Project Documentation The Awtsmoos lets mail meet identity, Social messaging, and server delivery through distinct vessels in view; Awtsmoos.com maps this browser project to its API and configuration so frontend changes can trace backend consequences too. Read ../../docs/API/OTHER ",
+		"searchText": "b\"h boruch hashem blessed is he email project documentation the awtsmoos lets mail meet identity, social messaging, and server delivery through distinct vessels in view; awtsmoos.com maps this browser project to its api and configuration so frontend changes can trace backend consequences too. read ../../docs/api/other families.md, ../../docs/systems/social and heichel.md, and ../../docs/configuration.md.",
+		"page": "pages/geelooy-email-documentation-md-ba2042cc9d.json"
+	},
+	{
+		"id": "geelooy-games-awtsmoos-bounce-readme-md-e221d3dc64",
+		"title": "Awtsmoos Bounce: Orbit Run",
+		"sourcePath": "geelooy/games/awtsmoos-bounce/README.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos Bounce: Orbit Run",
+				"anchor": "awtsmoos-bounce-orbit-run"
+			},
+			{
+				"level": 2,
+				"text": "Canonical game",
+				"anchor": "canonical-game"
+			},
+			{
+				"level": 2,
+				"text": "Campaign",
+				"anchor": "campaign"
+			},
+			{
+				"level": 2,
+				"text": "Controls and physical feel",
+				"anchor": "controls-and-physical-feel"
+			},
+			{
+				"level": 2,
+				"text": "Architecture",
+				"anchor": "architecture"
+			},
+			{
+				"level": 2,
+				"text": "Runtime safeguards",
+				"anchor": "runtime-safeguards"
+			},
+			{
+				"level": 2,
+				"text": "Publishing",
+				"anchor": "publishing"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos Bounce: Orbit Run The Awtsmoos renews each moving arc before momentum can boast of yesterday; Awtsmoos.com turns force, purpose, and mastery into a six level campaign of luminous play. Canonical game https://awtsmoos.com/games/awtsmoos bounce/ The canonical game is published dir",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos bounce: orbit run the awtsmoos renews each moving arc before momentum can boast of yesterday; awtsmoos.com turns force, purpose, and mastery into a six level campaign of luminous play. canonical game https://awtsmoos.com/games/awtsmoos bounce/ the canonical game is published directly from this virtual os source through the verified public root static publisher. the exact release sha, census, dependency closure, and browser acceptance receipt live in the private .awtsmoos/publication.json metadata so the public readme never changes merely to describe its own hash. campaign 1. first light — learn scoring, portals, chains, and launch economy. 2. twin orbit — sustain more hits under tighter resource pressure. 3. gravity garden — learn to bend an orbit around a real gravity well. 4. chain covenant — build a long chain while floor impacts break it. 5. needle storm — survive two wells with a narrow launch reserve. 6. crown run — combine score, precision, chains, gravity, and resource mastery. every level has an explicit score goal, portal goal, combo goal, time limit, and launch budget. victory unlocks the next level. failure does not. best score and 0–3 mastery stars persist locally. controls and physical feel tap or click to apply a directional impulse toward the aim point. existing momentum is partially preserved instead of being discarded. the resultant speed is capped so repeated launches remain controllable. a short dotted trajectory previews gravity, drag, and gravity well pull without predicting bounces. floor contact breaks the active combo but preserves the best combo reached during the mission. space aims at the nearest portal; p pauses; r retries. audio is optional and never required for gameplay. architecture levels.js, campaign.js, challenge state.js, progress.js, and medals.js own campaign law. launch model.js owns momentum carry, impulse strength, and speed bounds. physics.js owns ball integration and delegates launch calculation to the launch model. trajectory.js predicts a short advisory arc from copied state only. hazards.js exposes one gravity force law shared by live motion and trajectory preview. collision.js owns arena boundary resolution and floor impact consequences. targets.js owns moving portals and hit detection. round.js owns per frame gameplay consequences and win/fail evaluation. render trajectory.js, render hazards.js, render world.js, and render effects.js paint without owning gameplay truth. runtime diagnostics.js exposes frozen read only runtime testimony for verification. game session.js owns level preparation/start/result flow; game.js owns input and frame scheduling. runtime safeguards physics uses bounded frame deltas and substeps. device pixel ratio is capped. particles and trails are bounded. local storage failure is non fatal. visibility loss pauses active play. trajectory prediction never mutates the ball and never claims to predict collision bounces. publishing source lives at asdf/sites/awtsmoos bounce/ in the awtsmoos virtual os. normal websites should use publishwebsite. this game intentionally keeps the explicit canonical route games/awtsmoos bounce, so it is released with publicrootpublishfolder. never call a release live merely because files were written. require all of: source.completeness.complete === true, release.dependencyclosure.complete === true, successful public asset verification, and publication.canonicalverifiedlive === true.",
+		"page": "pages/geelooy-games-awtsmoos-bounce-readme-md-e221d3dc64.json"
+	},
+	{
+		"id": "geelooy-games-brick-blast-documentation-md-e8cf94ec9b",
+		"title": "Brick Blast",
+		"sourcePath": "geelooy/games/brick-blast/DOCUMENTATION.md",
+		"category": "Games",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Brick Blast",
+				"anchor": "brick-blast"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Brick Blast The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAMES PLATFORM.md for the central ex",
+		"searchText": "b\"h boruch hashem blessed is he brick blast the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “brick blast”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
+		"page": "pages/geelooy-games-brick-blast-documentation-md-e8cf94ec9b.json"
+	},
+	{
+		"id": "geelooy-games-cards-documentation-md-1b0e742765",
+		"title": "The Utterances — Blackjack on Awtsmoos",
+		"sourcePath": "geelooy/games/cards/DOCUMENTATION.md",
+		"category": "Games",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "The Utterances — Blackjack on Awtsmoos",
+				"anchor": "the-utterances-blackjack-on-awtsmoos"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He The Utterances — Blackjack on Awtsmoos The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAMES PLA",
+		"searchText": "b\"h boruch hashem blessed is he the utterances — blackjack on awtsmoos the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “the utterances — blackjack on awtsmoos”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
+		"page": "pages/geelooy-games-cards-documentation-md-1b0e742765.json"
+	},
+	{
+		"id": "geelooy-games-chess-documentation-md-10b4da5210",
+		"title": "Ultimate Chess AI",
+		"sourcePath": "geelooy/games/chess/DOCUMENTATION.md",
+		"category": "Games",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Ultimate Chess AI",
+				"anchor": "ultimate-chess-ai"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Ultimate Chess AI The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAMES PLATFORM.md for the cent",
+		"searchText": "b\"h boruch hashem blessed is he ultimate chess ai the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “ultimate chess ai”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
+		"page": "pages/geelooy-games-chess-documentation-md-10b4da5210.json"
+	}
+]

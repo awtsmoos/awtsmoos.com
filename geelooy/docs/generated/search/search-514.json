@@ -1,0 +1,64 @@
+[
+	{
+		"id": "geelooy-apps-tunnel-agents-md-c5c27feed0",
+		"title": "Awtsmoos Tunnel Agent Operating Law",
+		"sourcePath": "geelooy/apps/tunnel/agents.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos Tunnel Agent Operating Law",
+				"anchor": "awtsmoos-tunnel-agent-operating-law"
+			},
+			{
+				"level": 2,
+				"text": "Start with reality",
+				"anchor": "start-with-reality"
+			},
+			{
+				"level": 2,
+				"text": "Specialist instruction discovery",
+				"anchor": "specialist-instruction-discovery"
+			},
+			{
+				"level": 2,
+				"text": "Mission visibility",
+				"anchor": "mission-visibility"
+			},
+			{
+				"level": 2,
+				"text": "Connection, custody, and recovery law",
+				"anchor": "connection-custody-and-recovery-law"
+			},
+			{
+				"level": 2,
+				"text": "File transfer and permission law",
+				"anchor": "file-transfer-and-permission-law"
+			},
+			{
+				"level": 2,
+				"text": "Command and test discipline",
+				"anchor": "command-and-test-discipline"
+			},
+			{
+				"level": 2,
+				"text": "Planning and continuation",
+				"anchor": "planning-and-continuation"
+			},
+			{
+				"level": 2,
+				"text": "Deployment truth",
+				"anchor": "deployment-truth"
+			},
+			{
+				"level": 2,
+				"text": "Watchdog, restore, and completion",
+				"anchor": "watchdog-restore-and-completion"
+			}
+		],
+		"excerpt": "B\"H Awtsmoos Tunnel Agent Operating Law The Awtsmoos recreates reality every instant; Awtsmoos.com tunnel work therefore proves the current vessel from current evidence instead of trusting stale assumptions. Start with reality Discover the current owned route before substantial work and preserve immutable route identit",
+		"searchText": "b\"h awtsmoos tunnel agent operating law the awtsmoos recreates reality every instant; awtsmoos.com tunnel work therefore proves the current vessel from current evidence instead of trusting stale assumptions. start with reality discover the current owned route before substantial work and preserve immutable route identity across reconnects. inspect project root, git state, active missions, runtime health, and relevant source before changing anything. never treat one transient 409/502/503/504, epipe, socket close, or restart window as proof reinstall is required. never reset, clean, stash, checkout, or overwrite unrelated user work to simplify a task. local head, origin, production repository, running service, installed agent, and public assets are separate evidence surfaces. specialist instruction discovery keep this core and each specialist pack at or below 120 physical lines; split larger domains structurally. before file writes, call instructionresolve with the task plus known/planned/touched paths, extensions, tags, mode, and runtime domain. fetch every returned requiredinstructionid with instructionget; use instructioncatalog when the domain or resolver coverage is unclear. do not bulk load unrelated packs. resolve again when scope or runtime layers change materially. css/ui work must load ui.css production working agreement; backend only work must not inherit css doctrine accidentally. mission and handoff reports should name the specialist instruction ids that governed the work. mission visibility 1. inspect canonical live rooms and missionvisibilitylist where supported. 2. avoid duplicating another active agent's work. 3. register or link the canonical mission id when one exists. 4. publish required planning passes and bounded factual reports for implementation, verification, deployment, and handoff. 5. never publish hidden reasoning, unrestricted command output, or secrets. connection, custody, and recovery law rediscover the same route after transient loss; bounded retry is preferred over reinstall. an accepted mutation is durable custody. observe the same receipt/job/history; never blindly redispatch it. follow returned retryaction, commandjobstatus, commandwait, and output page contracts exactly. valid active command states include spawning, running, and detached running. distinguish transport, acceptance, execution, mailbox, registration, and public service health. a live transport with a stalled execution consumer is not a healthy executor. an installer may replace the worker that launched it. after route recovery, verify the installed runtime from a fresh read only command instead of replaying the installer. official independent recovery lanes are guardian, http, socket, and file; they must be installed before the promoted primary supervisor starts. retired independent jobs are not official recovery and may be removed only after all four official lanes are proven alive. installer/refresh entry points, only when evidence calls for refresh: macos/linux: curl fssl https://awtsmoos.com/api/tunnel/install/unix bash windows: irm https://awtsmoos.com/api/tunnel/install/windows iex file transfer and permission law read complete files before edits and use whole file rewrites. resumable transfer chunks are hash verified; manifest mutation is serialized across workers. commit enters durable committing state before rename and must recover safely after interruption; cancel shares transfer custody. preserve path/secret guards, size limits, final file hash proof, and overwrite policy. mission write permission is a one time capability bound to mission, action, path, and expiry. missionstepauthorized or any caller boolean is never authority. token replay, wrong scope, and expiry must fail closed. keep secret access disabled unless explicitly authorized by the user and genuinely required. command and test discipline prefer filesystem actions for ordinary reads/writes and durable command jobs for shell/build/test work. sparse checkout can create false missing module failures. prove the test universe before changing production code for a missing fixture. preserve apis and safety gates unless coordinated migration evidence proves change is correct. use tabs, real newlines, descriptive names, useful jsdoc/file comments, and non minified handwritten code. strongly prefer modules below 120 physical lines; split responsibility instead of shrinking comments. planning and continuation maintain remaining work, dependencies, risks, evidence, verification gates, and the next safe action. re read touched files and compare planned versus actual work after implementation passes. discover shadow work: tests, docs, deployment implications, runtime/public verification, rollback, and handoff. do not stop while obvious safe in scope work remains. deployment truth inspect local head, origin, production, installed runtime, and public release independently. fetch before push; preserve production/user hotfixes; fast forward only and never force push. bundle preflight must succeed before real deployment service mutation/restart. a pushed commit is not deployed; an activated repository is not public proof. verify service state, exact release sha/version, public manifest/zip/installer, same immutable route, and official recovery lanes. brief 1012/502/504 during a known restart window is restart turbulence, not automatic redeploy permission. watchdog, restore, and completion never invent missing watchdog choices or erase lifecycle history to silence a watchdog. offline restore requires integrity evidence and a real archive; preserve configuration, recovery metadata, checksums, and identity. never edit immutable recovery archives in place. after restore/repair, verify status, selected recovery level, a read action, and a command action. completion requires implementation, verification, discovered work closure, critical risk review, deployment/public proof when applicable, and durable handoff. state anything unverified explicitly.",
+		"page": "pages/geelooy-apps-tunnel-agents-md-c5c27feed0.json"
+	}
+]

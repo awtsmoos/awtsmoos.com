@@ -1,7 +1,7 @@
 /* B"H
  * Meluket Sefer Reader — LAW 8 reference layer.
  * Driven by the hyperrealistic reference:
- *   https://awtsmoos.com/design-refs/law8/meluket-reader-ref.webp
+ *   https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo-image-mirror/geelooy/design-refs/law8/meluket-reader-ref.webp
  * (linked in _awtsmoos.post.html as <link rel="design-reference">)
  *
  * What the reference demands: warm parchment-cream page with a golden glow
@@ -42,7 +42,7 @@
 	--law8-card-shadow: 0 2px 14px rgba(90, 70, 40, 0.10);
 	--law8-frame-line: #d9c9a8;
 	--law8-frame-deep: #efe4cd;
-	--law8-particles: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cg font-family='Frank Ruhl Libre,Georgia,serif' fill='%23c9992f'%3E%3Ctext x='36' y='52' font-size='24' fill-opacity='0.10'%3E%D7%90%3C/text%3E%3Ctext x='140' y='34' font-size='18' fill-opacity='0.08'%3E%D7%94%3C/text%3E%3Ctext x='238' y='70' font-size='30' fill-opacity='0.11'%3E%D7%91%3C/text%3E%3Ctext x='70' y='150' font-size='20' fill-opacity='0.09'%3E%D7%99%3C/text%3E%3Ctext x='190' y='140' font-size='26' fill-opacity='0.10'%3E%D7%A9%3C/text%3E%3Ctext x='262' y='190' font-size='18' fill-opacity='0.08'%3E%D7%9E%3C/text%3E%3Ctext x='40' y='250' font-size='28' fill-opacity='0.10'%3E%D7%9C%3C/text%3E%3Ctext x='150' y='240' font-size='20' fill-opacity='0.08'%3E%D7%93%3C/text%3E%3Ctext x='230' y='272' font-size='24' fill-opacity='0.09'%3E%D7%AA%3C/text%3E%3Ctext x='110' y='100' font-size='16' fill-opacity='0.07'%3E%D7%95%3C/text%3E%3C/g%3E%3C/svg%3E");
+	--law8-particles: url("https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo-image-archive/sha256/ad0314535139b1881053687a2333dbf46f01aefb08926686dac40f2606c8c223/asset");
 }
 
 /* ============ LAW 8 tokens — dark (candlelit) ============ */

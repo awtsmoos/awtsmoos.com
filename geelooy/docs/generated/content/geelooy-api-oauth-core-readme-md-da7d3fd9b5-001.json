@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — OAuth core (`/api/oauth/core/`)\n\nToken, client, device-flow, scope, and PKCE internals.\n\n## Key files\n\n- `accessToken.js`, `tokenMaker.js`, `tokenDecoder.js`, `tokenReader.js` — Token lifecycle.\n- `refreshStore.js`, `codeStore.js` — Refresh tokens and auth codes.\n- `clients.js`, `dynamicClientStore.js`, `dynamicClientPolicy.js` — Client registry.\n- `deviceCodes.js`, `deviceStore.js`, `devicePolicy.js`, `deviceVerifyLimiter.js` — Device flow.\n- `scopes.js`, `scopeEvolution.js` — Scope catalog.\n- `pkce.js` — PKCE verification.\n- `serverMetadata.js`, `serverSecret.js`, `resourceIndicator.js` — Server metadata.\n- `currentUser.js`, `requestBody.js` — Request context helpers.\n- `agentHandoffPolicy.js`, `agentHandoffStore.js`, `agentLinkPolicy.js`, `agentLinkStore.js`, `agentLinkFile.js` — Agent delegation.\n"
+}

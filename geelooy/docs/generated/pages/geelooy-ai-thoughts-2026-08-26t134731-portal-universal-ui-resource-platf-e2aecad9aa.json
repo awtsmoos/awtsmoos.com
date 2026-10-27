@@ -1,0 +1,74 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-26t134731-portal-universal-ui-resource-platf-e2aecad9aa",
+	"title": "Discovered Actual File Plan",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-26T134731-portal-universal-ui-resource-platform/07_DISCOVERED_ACTUAL_FILE_PLAN.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Discovered Actual File Plan",
+			"anchor": "discovered-actual-file-plan"
+		},
+		{
+			"level": 2,
+			"text": "Direct Evidence",
+			"anchor": "direct-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Existing File Approved For Complete Rewrite",
+			"anchor": "existing-file-approved-for-complete-rewrite"
+		},
+		{
+			"level": 3,
+			"text": "geelooy/api/core/ApiFamilyCatalogData.js",
+			"anchor": "geelooy-api-core-apifamilycatalogdata-js"
+		},
+		{
+			"level": 3,
+			"text": "Universal UI files",
+			"anchor": "universal-ui-files"
+		},
+		{
+			"level": 2,
+			"text": "New Portal Server Contract Modules",
+			"anchor": "new-portal-server-contract-modules"
+		},
+		{
+			"level": 2,
+			"text": "New Portal Server Registry + Adapter Modules",
+			"anchor": "new-portal-server-registry-adapter-modules"
+		},
+		{
+			"level": 2,
+			"text": "New Portal Client Engine",
+			"anchor": "new-portal-client-engine"
+		},
+		{
+			"level": 2,
+			"text": "New Tests",
+			"anchor": "new-tests"
+		},
+		{
+			"level": 2,
+			"text": "Runtime Audit Extension",
+			"anchor": "runtime-audit-extension"
+		},
+		{
+			"level": 2,
+			"text": "First-Pass Boundary",
+			"anchor": "first-pass-boundary"
+		},
+		{
+			"level": 2,
+			"text": "NEXTACTION",
+			"anchor": "nextaction"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-26t134731-portal-universal-ui-resource-platf-e2aecad9aa-001.json"
+	]
+}

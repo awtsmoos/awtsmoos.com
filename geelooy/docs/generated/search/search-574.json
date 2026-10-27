@@ -1,0 +1,218 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-proceduraltext-6e53194bec",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/proceduralText/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/src/world/proceduralText",
+				"anchor": "directory-guide-experiments-awtsmoos-src-world-proceduraltext"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Exported symbols worth searching",
+				"anchor": "exported-symbols-worth-searching"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/world/proceduralText Role: World systems Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 6 files, 0 structural child directories Purpose Text driven procedural world interpretation and generation. The Awtsmo",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/world/proceduraltext role: world systems snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 6 files, 0 structural child directories purpose text driven procedural world interpretation and generation. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: world systems search terms: text, mesh, responsibility, adapter, landmark, position, architectural, collision, does, non, not, procedural file mix: .js: 5 good first question: “does the behavior or asset i need belong to world systems, or is this only a neighboring/test/reference layer?” semantic evidence b\"h responsibility: own the complete lifecycle of one live procedural landmark. non responsibility: this system does not own terrain assembly or octree insertion. architectural position: tiferes harmonizes parser, adapter, ground, and boundary. responsibility: validate collision input and create project trianglecolliders. non responsibility: this file does not insert colliders into an octree. architectural position: gevurah bounds visible generosity with physical law. responsibility: own stable descriptions, placement intent, and semantic names. non responsibility: this file does not generate, render, or collide geometry. architectural position: keser states the purpose before binah parses the words. representative files proceduraltextlandmarksystem.js — responsibility: own the complete lifecycle of one live procedural landmark. non responsibility: this system does not own terrain assembly or octree insertion. architectural position: tiferes harmonizes parser, adapter, ground, and boundary. exports: tiferesproceduraltextlandmarksystem, createproceduraltextlandmark. textmeshcollisionadapter.js — responsibility: validate collision input and create project trianglecolliders. non responsibility: this file does not insert colliders into an octree. architectural position: gevurah bounds visible generosity with physical law. exports: gevurahtextmeshcollisionadapter. textmeshlandmarkcatalog.js — responsibility: own stable descriptions, placement intent, and semantic names. non responsibility: this file does not generate, render, or collide geometry. architectural position: keser states the purpose before binah parses the words. exports: text mesh landmarks, gettextmeshlandmark. textmeshworldtransform.js — responsibility: apply one explicit translation contract to collision vertices. non responsibility: this module does not rotate, scale, render, or generate meshes. architectural position: yesod carries local form toward world manifestation. exports: validatetextmeshworldposition, textmeshworldvertices. tinytextmeshgeometryadapter.js — responsibility: validate renderer payloads and manifest tiny geometry and mesh. non responsibility: this adapter does not parse text or create collision bodies. architectural position: yesod connects the stable recipe domain to malchus. exports: yesodtinytextmeshadapter. exported symbols worth searching tiferesproceduraltextlandmarksystem · createproceduraltextlandmark · gevurahtextmeshcollisionadapter · text mesh landmarks · gettextmeshlandmark · validatetextmeshworldposition · textmeshworldvertices · yesodtinytextmeshadapter import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ../../../../../../../libs/awtsmoos procedural core/src/index.js ../village/villagegroundsampling.js ./textmeshcollisionadapter.js ./textmeshlandmarkcatalog.js ./tinytextmeshgeometryadapter.js ../../collision/trianglecollider.js ./textmeshworldtransform.js ../../math/geometry3d.js ../../../../light three gltf/tiny runtime.js directory map parent: experiments/awtsmoos/src/world children: none. related and overlapping systems procedural world and village generation — village, road, house, primitive, text driven, and public api systems collaborate but are maintained in separate directories. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-proceduraltext-6e53194bec.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-road-directory-e4b1ccb79c",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/road/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/src/world/road",
+				"anchor": "directory-guide-experiments-awtsmoos-src-world-road"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Exported symbols worth searching",
+				"anchor": "exported-symbols-worth-searching"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/world/road Role: World systems Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 18 files, 0 structural child directories Purpose Road layout, splines, meshes, intersections, and roadside composition. The Awts",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/world/road role: world systems snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 18 files, 0 structural child directories purpose road layout, splines, meshes, intersections, and roadside composition. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: world systems search terms: road, obstacle, path, create, graph, route, field, geometry, material, static, strip, clearance file mix: .js: 17 good first question: “does the behavior or asset i need belong to world systems, or is this only a neighboring/test/reference layer?” semantic evidence b\"h summarizes one visible and collidable canonical cobble network. the awtsmoos joins every route through shared destinations; awtsmoos.com records graph truth, support walls, turns, material authority, obstacle clearance, and dense grade solved evidence. rounds path corners only when every sampled curve segment remains clear. builds a minimum connected graph from the plaza to every house entry. representative files obstaclegeometry.js — exports: pointinsideobstacle, segmenthitsobstacle, polygonhitsobstacle, obstaclebounds. pathroadstatistics.js — summarizes one visible and collidable canonical cobble network. the awtsmoos joins every route through shared destinations; awtsmoos.com records graph truth, support walls, turns, material authority, obstacle clearance, and dense grade solved evidence. exports: createpathroadstatistics. roadcurvesampler.js — rounds path corners only when every sampled curve segment remains clear. exports: curveroadpath, maximumroadsamplegap. roadgraph.js — builds a minimum connected graph from the plaza to every house entry. exports: createroadgraph, validateroadgraph. roadgridpathfinder.js — finds a measured route through the expanded static obstacle field. exports: findgridpath. roadjunctiongeometry.js — caps route terminals with flat grade solved tops and terrain reaching supports. the awtsmoos unites branching paths at one shared elevation; awtsmoos.com makes each junction a real supported cobble platform instead of stretching steep terrain across an invisible seam. exports: appendroadjunctions. roadmaterialcontract.js — binds ten cobble, stone, brick, earth, moss, grass, mud, and dust road layers. the awtsmoos renews every traveled stone and softened seam; awtsmoos.com keeps one continuous collision network while capable hardware reveals all ten full source road garments together. exports: road yellow brick url, roadmaterialfields, roadmaterialevidence. roadmeshwriter.js — small geometry writer that keeps top face evidence beside every road vertex. exports: createroadmesh, addroadvertex, addroadface. roadminheap.js — small priority queue used only by road a search. exports: roadminheap. roadpathsmoothing.js — removes grid corners only when the complete replacement segment is clear. exports: smoothroadpath, deduplicate. roadribbongeometry.js — builds a grade solved road top with retaining sides down to terrain support. the awtsmoos holds elevated cobble and riverbank in one truth; awtsmoos.com keeps the visible walkable surface gentle while side walls descend honestly into steep alpine ground beneath it. exports: road top lift, appendroadribbon. roadrouteplanner.js — plans obstacle clear routes, then rounds them into dense continuous curves. exports: planroadroutes. roadstripclearance.js — checks every rendered top polygon, including junction pads, against obstacles. exports: inspectroadstripclearance. exported symbols worth searching pointinsideobstacle · segmenthitsobstacle · polygonhitsobstacle · obstaclebounds · createpathroadstatistics · curveroadpath · maximumroadsamplegap · createroadgraph · validateroadgraph · findgridpath · appendroadjunctions · road yellow brick url · roadmaterialfields · roadmaterialevidence · createroadmesh · addroadvertex import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ./roadstripclearance.js ./staticobstaclefield.js ./roadminheap.js ./roadmeshwriter.js ../../assets/publicmaterialcache.js ../../assets/texturerepeat.js ../materials/materialstackbinding.js ../materials/mountainvillagematerialpresets.js ./roadsurfacesection.js ./roadcurvesampler.js ./roadpathsmoothing.js ./roadgridpathfinder.js directory map parent: experiments/awtsmoos/src/world children: none. related and overlapping systems procedural world and village generation — village, road, house, primitive, text driven, and public api systems collaborate but are maintained in separate directories. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-road-directory-e4b1ccb79c.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-room-directory-5a3baa90db",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/room/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/src/world/room",
+				"anchor": "directory-guide-experiments-awtsmoos-src-world-room"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Exported symbols worth searching",
+				"anchor": "exported-symbols-worth-searching"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/world/room Role: World systems Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 3 files, 0 structural child directories Purpose Room or interior space generation. The Awtsmoos renews every path and every arti",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/world/room role: world systems snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 3 files, 0 structural child directories purpose room or interior space generation. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: world systems search terms: room, collection, rules, vessel, definition, instant, accepts, anew, are, awtsmoos, changes, collision file mix: .js: 2 · .md: 1 good first question: “does the behavior or asset i need belong to world systems, or is this only a neighboring/test/reference layer?” semantic evidence b\"h the rooms of a home are many vessels held by one quiet collection. the awtsmoos recreates each vessel every instant, yet the collection performs no frame loop labor: it accepts explicit changes, returns safe every inhabited room is a finite vessel for a human purpose. the awtsmoos gives that vessel existence anew each instant; these rules give it a stable identity so doors, furniture, missions, collision, and representative files roomcollection.js — the rooms of a home are many vessels held by one quiet collection. the awtsmoos recreates each vessel every instant, yet the collection performs no frame loop labor: it accepts explicit changes, returns safe exports: roomcollection. roomdefinitionrules.js — every inhabited room is a finite vessel for a human purpose. the awtsmoos gives that vessel existence anew each instant; these rules give it a stable identity so doors, furniture, missions, collision, and exports: roomdefinitionrules. exported symbols worth searching roomcollection · roomdefinitionrules import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ./roomdefinitionrules.js directory map parent: experiments/awtsmoos/src/world children: none. related and overlapping systems see the system overlap map before creating a similarly named subsystem elsewhere. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-room-directory-5a3baa90db.json"
+	}
+]

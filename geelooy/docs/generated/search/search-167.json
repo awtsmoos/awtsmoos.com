@@ -1,19 +1,284 @@
 [
 	{
-		"id": "docs-generated-dynamic-parameters-dynamic-parameters-001-md-af1da09450",
-		"title": "Generated Dynamic Parameter Inventory 1–85",
-		"sourcePath": "docs/GENERATED/DYNAMIC_PARAMETERS/dynamic-parameters-001.md",
-		"category": "General",
+		"id": "docs-generated-api-tutorials-routes-api-tunnel-control-devices-protocol--3b93277bdc",
+		"title": "API Tutorial: /api/tunnel/control/devices/protocol/messages",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-devices-protocol-messages-4dadf154b9.md",
+		"category": "Tunnel",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Generated Dynamic Parameter Inventory 1–85",
-				"anchor": "generated-dynamic-parameter-inventory-1-85"
+				"text": "API Tutorial: /api/tunnel/control/devices/protocol/messages",
+				"anchor": "api-tutorial-api-tunnel-control-devices-protocol-messages"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Dynamic Parameter Inventory 1–85 Colon prefixed URL parameters are path grammar; dollar prefixed request vessels are not. URL pattern Source Discovery /api/even/:asd/more/:rt/k geelooy/api/ awtsmoos.derech.js static literal /api/oauth/:route geelooy/api/oauth/ awtsmoos.derech.j",
-		"searchText": "b\"h boruch hashem blessed is he generated dynamic parameter inventory 1–85 colon prefixed url parameters are path grammar; dollar prefixed request vessels are not. url pattern source discovery /api/even/:asd/more/:rt/k geelooy/api/ awtsmoos.derech.js static literal /api/oauth/:route geelooy/api/oauth/ awtsmoos.derech.js static literal /api/sefarim/:sefer geelooy/api/sefarim/ awtsmoos.derech.js static literal /api/sefarim/:sefer/section/:section geelooy/api/sefarim/ awtsmoos.derech.js static literal /api/sefarim/:sefer/section/:section/sub/:sub geelooy/api/sefarim/ awtsmoos.derech.js static literal /api/social/alias/:alias geelooy/api/social/ awtsmoos.alias.js static literal /api/social/alias/:alias/details geelooy/api/social/ awtsmoos.alias.js static literal /api/social/alias/:alias/heichelos geelooy/api/social/ awtsmoos.heichel.js static literal /api/social/alias/:alias/heichelos/:heichel geelooy/api/social/ awtsmoos.heichel.js static literal /api/social/alias/:alias/heichelos/:heichel/ownership geelooy/api/social/ awtsmoos.heichel.js static literal /api/social/alias/:alias/heichelos/details geelooy/api/social/ awtsmoos.heichel.js static literal /api/social/alias/:alias/history geelooy/api/social/ awtsmoos.profile.js static literal /api/social/alias/:alias/ownership geelooy/api/social/ awtsmoos.alias.js static literal /api/social/alias/:alias/profile geelooy/api/social/ awtsmoos.profile.js static literal /api/social/alias/:alias/profile/template geelooy/api/social/ awtsmoos.profile.js static literal /api/social/aliases/:alias geelooy/api/social/ awtsmoos.alias.js static literal /api/social/aliases/:alias/commentsmade geelooy/api/social/helper/comments/routes/indexing.js static literal /api/social/aliases/:alias/commentsmade/heichel/:heichel geelooy/api/social/helper/comments/routes/indexing.js static literal /api/social/aliases/:alias/commentsmade/heichel/:heichel/series geelooy/api/social/helper/comments/routes/indexing.js static literal /api/social/aliases/:alias/commentsmade/heichel/:heichel/series/:series geelooy/api/social/helper/comments/routes/indexing.js static literal /api/social/aliases/:alias/commentsmade/heichel/:heichel/series/:series/post/:post geelooy/api/social/helper/comments/routes/indexing.js static literal /api/social/aliases/:alias/commentsmade/heichel/:heichel/series/:series/posts geelooy/api/social/helper/comments/routes/indexing.js static literal /api/social/aliases/:alias/commentsmade/heichelos geelooy/api/social/helper/comments/routes/indexing.js static literal /api/social/aliases/:alias/details geelooy/api/social/ awtsmoos.alias.js static literal /api/social/aliases/:alias/filesystem/copyentry geelooy/api/social/ awtsmoos.filesystem.js static literal /api/social/aliases/:alias/filesystem/delete geelooy/api/social/ awtsmoos.filesystem.js static literal /api/social/aliases/:alias/filesystem/makefile geelooy/api/social/ awtsmoos.filesystem.js static literal /api/social/aliases/:alias/filesystem/makefolder geelooy/api/social/ awtsmoos.filesystem.js static literal /api/social/aliases/:alias/filesystem/moveentry geelooy/api/social/ awtsmoos.filesystem.js static literal /api/social/aliases/:alias/filesystem/readfile geelooy/api/social/ awtsmoos.filesystem.js static literal /api/social/aliases/:alias/filesystem/readfolder geelooy/api/social/ awtsmoos.filesystem.js static literal /api/social/aliases/:alias/ownership geelooy/api/social/ awtsmoos.alias.js static literal /api/social/aliases/:alias/postsmade/heichel/:heichel/pathtoseries/:pathive geelooy/api/social/ awtsmoos.posts.base.js static literal /api/social/aliases/:alias/postsmade/heichel/:heichel/series geelooy/api/social/ awtsmoos.posts.base.js static literal /api/social/aliases/:alias/postsmade/heichelos geelooy/api/social/ awtsmoos.posts.base.js static literal /api/social/civilization/entities/:type/:id/state geelooy/api/social/ awtsmoos.civilization.js static literal /api/social/civilization/feed/:alias geelooy/api/social/ awtsmoos.civilization.js static literal /api/social/civilization/subscriptions/:alias geelooy/api/social/ awtsmoos.civilization.js static literal /api/social/comments/thread/:post/ranked geelooy/api/social/ awtsmoos.platform.js static literal /api/social/comments/url/:comment geelooy/api/social/helper/comments/routes/rich.js static literal /api/social/communications/:alias/inbox geelooy/api/social/ awtsmoos.communications.js static literal /api/social/communications/:alias/inbox/:item/read geelooy/api/social/ awtsmoos.communications.js static literal /api/social/communications/:alias/inbox/unread geelooy/api/social/ awtsmoos.communications.js static literal /api/social/communications/:alias/live map geelooy/api/social/ awtsmoos.communications.js static literal /api/social/communications/:alias/notification digest geelooy/api/social/ awtsmoos.communications.js static literal /api/social/communications/:alias/overview geelooy/api/social/ awtsmoos.communications.js static literal /api/social/communications/:alias/threads/:thread geelooy/api/social/ awtsmoos.communications.js static literal /api/social/communications/:alias/threads/:thread/read geelooy/api/social/ awtsmoos.communications.js static literal /api/social/content/heichelos/:heichel/posts geelooy/api/social/ awtsmoos.content.js static literal /api/social/content/heichelos/:heichel/posts/:post/sections geelooy/api/social/ awtsmoos.content.js static literal /api/social/content/heichelos/:heichel/questions geelooy/api/social/ awtsmoos.content.js static literal /api/social/content/heichelos/:heichel/questions/:question/answers geelooy/api/social/ awtsmoos.content.js static literal /api/social/counters/:counter geelooy/api/social/ awtsmoos.counter.js static literal /api/social/counters/:counter/increasecount geelooy/api/social/ awtsmoos.counter.js static literal /api/social/drive/:aliasid/actions/bootstrap site project geelooy/api/social/helper/drive/routes/actionroutes.js static literal /api/social/drive/:aliasid/actions/copy geelooy/api/social/helper/drive/routes/actionroutes.js static literal /api/social/drive/:aliasid/actions/move geelooy/api/social/helper/drive/routes/actionroutes.js static literal /api/social/drive/:aliasid/actions/purge geelooy/api/social/helper/drive/routes/actionroutes.js static literal /api/social/drive/:aliasid/actions/restore geelooy/api/social/helper/drive/routes/actionroutes.js static literal /api/social/drive/:aliasid/actions/trash geelooy/api/social/helper/drive/routes/actionroutes.js static literal /api/social/drive/:aliasid/admin/quota geelooy/api/social/helper/drive/routes/quotaroutes.js static literal /api/social/drive/:aliasid/browser/fetch geelooy/api/social/helper/drive/routes/browserroutes.js static literal /api/social/drive/:aliasid/browser/jars geelooy/api/social/helper/drive/routes/browserroutes.js static literal /api/social/drive/:aliasid/browser/jars/:jarid geelooy/api/social/helper/drive/routes/browserroutes.js static literal /api/social/drive/:aliasid/browser/sessions geelooy/api/social/helper/drive/routes/interactivebrowserroutes.js static literal /api/social/drive/:aliasid/browser/sessions/:sessionid geelooy/api/social/helper/drive/routes/interactivebrowserroutes.js static literal /api/social/drive/:aliasid/browser/sessions/:sessionid/targets geelooy/api/social/helper/drive/routes/interactivebrowserroutes.js static literal /api/social/drive/:aliasid/browser/sessions/:sessionid/targets/:targetid geelooy/api/social/helper/drive/routes/interactivebrowserroutes.js static literal /api/social/drive/:aliasid/browser/sessions/:sessionid/targets/:targetid/cookies geelooy/api/social/helper/drive/routes/interactivebrowserroutes.js static literal /api/social/drive/:aliasid/browser/sessions/:sessionid/targets/:targetid/frame geelooy/api/social/helper/drive/routes/interactivebrowserroutes.js static literal /api/social/drive/:aliasid/browser/sessions/:sessionid/targets/:targetid/history geelooy/api/social/helper/drive/routes/interactivebrowserroutes.js static literal /api/social/drive/:aliasid/browser/sessions/:sessionid/targets/:targetid/input geelooy/api/social/helper/drive/routes/interactivebrowserroutes.js static literal /api/social/drive/:aliasid/browser/sessions/:sessionid/targets/:targetid/navigate geelooy/api/social/helper/drive/routes/interactivebrowserroutes.js static literal /api/social/drive/:aliasid/credentials geelooy/api/social/helper/drive/routes/credentialroutes.js static literal /api/social/drive/:aliasid/credentials/:credentialid geelooy/api/social/helper/drive/routes/credentialroutes.js static literal /api/social/drive/:aliasid/domains geelooy/api/social/helper/drive/routes/domainroutes.js static literal /api/social/drive/:aliasid/domains/:hostname geelooy/api/social/helper/drive/routes/domainroutes.js static literal /api/social/drive/:aliasid/domains/:hostname/activate geelooy/api/social/helper/drive/routes/domainroutes.js static literal /api/social/drive/:aliasid/domains/:hostname/deactivate geelooy/api/social/helper/drive/routes/domainroutes.js static literal /api/social/drive/:aliasid/domains/:hostname/hosting plan geelooy/api/social/helper/drive/routes/domainplanroutes.js static literal /api/social/drive/:aliasid/domains/:hostname/verify geelooy/api/social/helper/drive/routes/domainroutes.js static literal /api/social/drive/:aliasid/entries geelooy/api/social/helper/drive/routes/entryroutes.js static literal /api/social/drive/:aliasid/entry/:path geelooy/api/social/helper/drive/routes/entryroutes.js static literal /api/social/drive/:aliasid/hosting/infrastructure geelooy/api/social/helper/drive/routes/domainroutes.js static literal /api/social/drive/:aliasid/project geelooy/api/social/helper/drive/routes/projectplanroutes.js static literal",
-		"page": "pages/docs-generated-dynamic-parameters-dynamic-parameters-001-md-af1da09450.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/tunnel/control/devices/protocol/messages Family: Tunnel Control · Mount: /api/tunnel/control · Derech health: OK Source: geelooy/api/tunnel/control/routes/table.js · Discovery: route table · Confidence: unknown method Read the human Tunnel Control tutorial Generated ev",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/tunnel/control/devices/protocol/messages family: tunnel control · mount: /api/tunnel/control · derech health: ok source: geelooy/api/tunnel/control/routes/table.js · discovery: route table · confidence: unknown method read the human tunnel control tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test:mission continuity actions — node geelooy/apps/tunnel/agent/tools/fs/actiongroups/test/missioncontinuityactions.test.mjs test:treasury — node geelooy/api/tunnel/control/test/runtreasurytests.cjs test:treasury:full — node geelooy/api/tunnel/control/test/treasury/runall.cjs test:tunnel release — node test scripts/tunnel/testing/ .test.cjs scripts/repository hygiene/testing/ .test.cjs related routes /api/tunnel/control/admin vault /api/tunnel/control/admin/perutas /api/tunnel/control/agent economy /api/tunnel/control/agent lobby /api/tunnel/control/agent lobby/join /api/tunnel/control/agent lobby/post /api/tunnel/control/agent manifest /api/tunnel/control/agent room",
+		"page": "pages/docs-generated-api-tutorials-routes-api-tunnel-control-devices-protocol--3b93277bdc.json"
+	},
+	{
+		"id": "docs-generated-api-tutorials-routes-api-tunnel-control-devices-protocol--74be367943",
+		"title": "API Tutorial: /api/tunnel/control/devices/protocol/messages/ack",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-devices-protocol-messages-ack-ec00f2962d.md",
+		"category": "Tunnel",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/tunnel/control/devices/protocol/messages/ack",
+				"anchor": "api-tutorial-api-tunnel-control-devices-protocol-messages-ack"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/tunnel/control/devices/protocol/messages/ack Family: Tunnel Control · Mount: /api/tunnel/control · Derech health: OK Source: geelooy/api/tunnel/control/routes/table.js · Discovery: route table · Confidence: unknown method Read the human Tunnel Control tutorial Generate",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/tunnel/control/devices/protocol/messages/ack family: tunnel control · mount: /api/tunnel/control · derech health: ok source: geelooy/api/tunnel/control/routes/table.js · discovery: route table · confidence: unknown method read the human tunnel control tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test:mission continuity actions — node geelooy/apps/tunnel/agent/tools/fs/actiongroups/test/missioncontinuityactions.test.mjs test:treasury — node geelooy/api/tunnel/control/test/runtreasurytests.cjs test:treasury:full — node geelooy/api/tunnel/control/test/treasury/runall.cjs test:tunnel release — node test scripts/tunnel/testing/ .test.cjs scripts/repository hygiene/testing/ .test.cjs related routes /api/tunnel/control/admin vault /api/tunnel/control/admin/perutas /api/tunnel/control/agent economy /api/tunnel/control/agent lobby /api/tunnel/control/agent lobby/join /api/tunnel/control/agent lobby/post /api/tunnel/control/agent manifest /api/tunnel/control/agent room",
+		"page": "pages/docs-generated-api-tutorials-routes-api-tunnel-control-devices-protocol--74be367943.json"
+	},
+	{
+		"id": "docs-generated-api-tutorials-routes-api-tunnel-control-devices-protocol--b3e39cd56f",
+		"title": "API Tutorial: /api/tunnel/control/devices/protocol/messages/send",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-devices-protocol-messages-send-b0461b6ac0.md",
+		"category": "Tunnel",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/tunnel/control/devices/protocol/messages/send",
+				"anchor": "api-tutorial-api-tunnel-control-devices-protocol-messages-send"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/tunnel/control/devices/protocol/messages/send Family: Tunnel Control · Mount: /api/tunnel/control · Derech health: OK Source: geelooy/api/tunnel/control/routes/table.js · Discovery: route table · Confidence: unknown method Read the human Tunnel Control tutorial Generat",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/tunnel/control/devices/protocol/messages/send family: tunnel control · mount: /api/tunnel/control · derech health: ok source: geelooy/api/tunnel/control/routes/table.js · discovery: route table · confidence: unknown method read the human tunnel control tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test:mission continuity actions — node geelooy/apps/tunnel/agent/tools/fs/actiongroups/test/missioncontinuityactions.test.mjs test:treasury — node geelooy/api/tunnel/control/test/runtreasurytests.cjs test:treasury:full — node geelooy/api/tunnel/control/test/treasury/runall.cjs test:tunnel release — node test scripts/tunnel/testing/ .test.cjs scripts/repository hygiene/testing/ .test.cjs related routes /api/tunnel/control/admin vault /api/tunnel/control/admin/perutas /api/tunnel/control/agent economy /api/tunnel/control/agent lobby /api/tunnel/control/agent lobby/join /api/tunnel/control/agent lobby/post /api/tunnel/control/agent manifest /api/tunnel/control/agent room",
+		"page": "pages/docs-generated-api-tutorials-routes-api-tunnel-control-devices-protocol--b3e39cd56f.json"
+	},
+	{
+		"id": "docs-generated-api-tutorials-routes-api-tunnel-control-devices-protocol--53beadd5fd",
+		"title": "API Tutorial: /api/tunnel/control/devices/protocol/presence",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-devices-protocol-presence-f8ac3369ad.md",
+		"category": "Tunnel",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/tunnel/control/devices/protocol/presence",
+				"anchor": "api-tutorial-api-tunnel-control-devices-protocol-presence"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/tunnel/control/devices/protocol/presence Family: Tunnel Control · Mount: /api/tunnel/control · Derech health: OK Source: geelooy/api/tunnel/control/routes/table.js · Discovery: route table · Confidence: unknown method Read the human Tunnel Control tutorial Generated ev",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/tunnel/control/devices/protocol/presence family: tunnel control · mount: /api/tunnel/control · derech health: ok source: geelooy/api/tunnel/control/routes/table.js · discovery: route table · confidence: unknown method read the human tunnel control tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test:mission continuity actions — node geelooy/apps/tunnel/agent/tools/fs/actiongroups/test/missioncontinuityactions.test.mjs test:treasury — node geelooy/api/tunnel/control/test/runtreasurytests.cjs test:treasury:full — node geelooy/api/tunnel/control/test/treasury/runall.cjs test:tunnel release — node test scripts/tunnel/testing/ .test.cjs scripts/repository hygiene/testing/ .test.cjs related routes /api/tunnel/control/admin vault /api/tunnel/control/admin/perutas /api/tunnel/control/agent economy /api/tunnel/control/agent lobby /api/tunnel/control/agent lobby/join /api/tunnel/control/agent lobby/post /api/tunnel/control/agent manifest /api/tunnel/control/agent room",
+		"page": "pages/docs-generated-api-tutorials-routes-api-tunnel-control-devices-protocol--53beadd5fd.json"
+	},
+	{
+		"id": "docs-generated-api-tutorials-routes-api-tunnel-control-devices-protocol--f7a9ab3603",
+		"title": "API Tutorial: /api/tunnel/control/devices/protocol/relationships",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-devices-protocol-relationships-d640dd1436.md",
+		"category": "Tunnel",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/tunnel/control/devices/protocol/relationships",
+				"anchor": "api-tutorial-api-tunnel-control-devices-protocol-relationships"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/tunnel/control/devices/protocol/relationships Family: Tunnel Control · Mount: /api/tunnel/control · Derech health: OK Source: geelooy/api/tunnel/control/routes/table.js · Discovery: route table · Confidence: unknown method Read the human Tunnel Control tutorial Generat",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/tunnel/control/devices/protocol/relationships family: tunnel control · mount: /api/tunnel/control · derech health: ok source: geelooy/api/tunnel/control/routes/table.js · discovery: route table · confidence: unknown method read the human tunnel control tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test:mission continuity actions — node geelooy/apps/tunnel/agent/tools/fs/actiongroups/test/missioncontinuityactions.test.mjs test:treasury — node geelooy/api/tunnel/control/test/runtreasurytests.cjs test:treasury:full — node geelooy/api/tunnel/control/test/treasury/runall.cjs test:tunnel release — node test scripts/tunnel/testing/ .test.cjs scripts/repository hygiene/testing/ .test.cjs related routes /api/tunnel/control/admin vault /api/tunnel/control/admin/perutas /api/tunnel/control/agent economy /api/tunnel/control/agent lobby /api/tunnel/control/agent lobby/join /api/tunnel/control/agent lobby/post /api/tunnel/control/agent manifest /api/tunnel/control/agent room",
+		"page": "pages/docs-generated-api-tutorials-routes-api-tunnel-control-devices-protocol--f7a9ab3603.json"
+	},
+	{
+		"id": "docs-generated-api-tutorials-routes-api-tunnel-control-devices-protocol--c0a4cd06d1",
+		"title": "API Tutorial: /api/tunnel/control/devices/protocol/relationships/revoke",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-devices-protocol-relationships-revoke-db353cd5ff.md",
+		"category": "Tunnel",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/tunnel/control/devices/protocol/relationships/revoke",
+				"anchor": "api-tutorial-api-tunnel-control-devices-protocol-relationships-revoke"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/tunnel/control/devices/protocol/relationships/revoke Family: Tunnel Control · Mount: /api/tunnel/control · Derech health: OK Source: geelooy/api/tunnel/control/routes/table.js · Discovery: route table · Confidence: unknown method Read the human Tunnel Control tutorial ",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/tunnel/control/devices/protocol/relationships/revoke family: tunnel control · mount: /api/tunnel/control · derech health: ok source: geelooy/api/tunnel/control/routes/table.js · discovery: route table · confidence: unknown method read the human tunnel control tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test:mission continuity actions — node geelooy/apps/tunnel/agent/tools/fs/actiongroups/test/missioncontinuityactions.test.mjs test:treasury — node geelooy/api/tunnel/control/test/runtreasurytests.cjs test:treasury:full — node geelooy/api/tunnel/control/test/treasury/runall.cjs test:tunnel release — node test scripts/tunnel/testing/ .test.cjs scripts/repository hygiene/testing/ .test.cjs related routes /api/tunnel/control/admin vault /api/tunnel/control/admin/perutas /api/tunnel/control/agent economy /api/tunnel/control/agent lobby /api/tunnel/control/agent lobby/join /api/tunnel/control/agent lobby/post /api/tunnel/control/agent manifest /api/tunnel/control/agent room",
+		"page": "pages/docs-generated-api-tutorials-routes-api-tunnel-control-devices-protocol--c0a4cd06d1.json"
 	}
 ]

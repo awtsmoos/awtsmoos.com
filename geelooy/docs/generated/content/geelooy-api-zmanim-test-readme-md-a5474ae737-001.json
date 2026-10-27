@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Zmanim Tests (geelooy/api/zmanim/test/)\n\nNode tests for the Zmanim (halachic times) API (see `../README.md`).\n\n- `api-core.test.cjs` — day/calendar/range/location core API behavior.\n- `comparison.test.cjs` — zmanim comparison across opinions/methods.\n- `html-response.test.cjs` — HTML response shaping and escaping.\n- `presentation-embed.test.cjs` — presentation and embeddable-widget output.\n- `validation.test.cjs` — input validation.\n"
+}

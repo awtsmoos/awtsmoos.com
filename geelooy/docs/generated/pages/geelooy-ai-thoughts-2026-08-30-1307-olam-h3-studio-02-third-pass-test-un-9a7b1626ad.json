@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-30-1307-olam-h3-studio-02-third-pass-test-un-9a7b1626ad",
+	"title": "Third Pass — Test Universe and Final Pre-Code Plan",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-30-1307-olam-h3-studio/02-third-pass-test-universe-and-final-precode-plan.md",
+	"category": "Testing",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Third Pass — Test Universe and Final Pre-Code Plan",
+			"anchor": "third-pass-test-universe-and-final-pre-code-plan"
+		},
+		{
+			"level": 2,
+			"text": "Additional refinements after critique",
+			"anchor": "additional-refinements-after-critique"
+		},
+		{
+			"level": 2,
+			"text": "Expected implementation families",
+			"anchor": "expected-implementation-families"
+		},
+		{
+			"level": 3,
+			"text": "Static application",
+			"anchor": "static-application"
+		},
+		{
+			"level": 3,
+			"text": "Existing app catalog",
+			"anchor": "existing-app-catalog"
+		},
+		{
+			"level": 3,
+			"text": "Existing server",
+			"anchor": "existing-server"
+		},
+		{
+			"level": 2,
+			"text": "Test universe",
+			"anchor": "test-universe"
+		},
+		{
+			"level": 2,
+			"text": "Stop gate",
+			"anchor": "stop-gate"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-30-1307-olam-h3-studio-02-third-pass-test-un-9a7b1626ad-001.json"
+	]
+}

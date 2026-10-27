@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Perutas Budgets (geelooy/api/perutas/budgets/)\n\nBudget management for peruta-denominated accounts.\n\n- `budgetService.js` — budget lifecycle\n- `budgetGuardService.js` — spend guards enforcing budget limits\n\nAggregated as `budgets` / `budgetGuard` in `../index.js`.\n"
+}

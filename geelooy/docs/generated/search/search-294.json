@@ -1,9 +1,76 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-village-direct-973c27dc92",
+		"id": "geelooy-ai-thoughts-2026-08-25-geelooy-futuristic-revelation-03-final-ex-a28e193142",
+		"title": "Phase Three — Final Execution Specification",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25-geelooy-futuristic-revelation/03_FINAL_EXECUTION_SPEC.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Three — Final Execution Specification",
+				"anchor": "phase-three-final-execution-specification"
+			},
+			{
+				"level": 2,
+				"text": "Final Architecture Contract",
+				"anchor": "final-architecture-contract"
+			},
+			{
+				"level": 3,
+				"text": "A. Surface Isolation",
+				"anchor": "a-surface-isolation"
+			},
+			{
+				"level": 3,
+				"text": "B. CSS Module Families",
+				"anchor": "b-css-module-families"
+			},
+			{
+				"level": 3,
+				"text": "C. JavaScript Architecture",
+				"anchor": "c-javascript-architecture"
+			},
+			{
+				"level": 3,
+				"text": "D. Interaction Contract",
+				"anchor": "d-interaction-contract"
+			},
+			{
+				"level": 3,
+				"text": "E. Mobile and Overlay Contract",
+				"anchor": "e-mobile-and-overlay-contract"
+			},
+			{
+				"level": 3,
+				"text": "F. API Contract",
+				"anchor": "f-api-contract"
+			},
+			{
+				"level": 3,
+				"text": "G. Documentation Contract",
+				"anchor": "g-documentation-contract"
+			},
+			{
+				"level": 2,
+				"text": "First Implementation Wave",
+				"anchor": "first-implementation-wave"
+			},
+			{
+				"level": 2,
+				"text": "Definition of Better",
+				"anchor": "definition-of-better"
+			}
+		],
+		"excerpt": "B\"H Phase Three — Final Execution Specification Boruch Hashem. Blessed is He. The Awtsmoos is not revealed by clutter but by order that lets intention flow; Awtsmoos.com should hide needless machinery while making every needed pathway glow. Final Architecture Contract A. Surface Isolation Every migrated page has one ex",
+		"searchText": "b\"h phase three — final execution specification boruch hashem. blessed is he. the awtsmoos is not revealed by clutter but by order that lets intention flow; awtsmoos.com should hide needless machinery while making every needed pathway glow. final architecture contract a. surface isolation every migrated page has one explicit root attribute/class. every authored selector lives beneath that root. entry css files contain only @import statements plus, if unavoidable, a documented root declaration. shared css modules never style arbitrary document elements globally. b. css module families keep modules focused and small: tokens: local colors, typography, spacing, radius, shadows, z layers foundation: box sizing and typography scoped to the surface root layout: shell, containers, grids, stacks, overflow behavior controls: buttons, links, fields, toggles, summaries panels: cards, drawers, dialogs, notices, toolbars states: hover, active, focus visible, disabled, busy, selected, expanded motion: transitions/keyframes plus reduced motion contract responsive: mobile first enhancements at explicit breakpoints c. javascript architecture use technically precise torah/kabbalah names only where the mapping clarifies responsibility. a genuine lifecycle hierarchy may progress from static vessel to reactive controller; services such as api transport, validation, serialization, and rendering remain separate composed collaborators. every nontrivial declaration receives full jsdoc. suggested responsibility mapping when truthful: gevurah... — validation/permission/bounds tiferes... — orchestration/reconciliation netzach... — persistence/retry/durable state hod... — formatting/reporting/serialization yesod... — transport/repository/integration malchus... — rendering/user visible manifestation d. interaction contract every relevant interactive control must define: default state hover state on hover capable devices focus visible state active/pressed state disabled state where applicable selected/expanded state where applicable loading/busy state where applicable no interaction may depend on hover alone. e. mobile and overlay contract mobile is the base layout. no component may require horizontal page scrolling. drawers/panels must retract cleanly and restore focus. overlays own one bounded stacking context. z index values come from local tokens, not arbitrary escalation. fixed elements respect safe area insets where relevant. content children use wrapping/min width protections. f. api contract for touched browser/api paths, explicitly separate validation, transport, normalization, error translation, and rendering. preserve existing public request/response contracts unless all consumers are intentionally migrated and verified. g. documentation contract docs must describe real current behavior: page family architecture, css scoping rules, interaction/state requirements, javascript module boundaries, api/error conventions, and verification commands. aspirational behavior remains labeled as planned. first implementation wave 1. establish git/uncommitted change evidence. 2. discover local instructions and common dependencies. 3. inspect static, auth, docs/catalog, social/app, and api representatives. 4. extract only recurring primitives proven by those pages. 5. build scoped css foundation and shared js contracts. 6. rewrite complete representative files and their imports. 7. verify before expanding to compatible siblings. 8. expand family by family while updating 00 remaining work.md. 9. finish docs from verified implementation. 10. perform whole pass browser/static/build review. definition of better the result is better only when it is visibly clearer, measurably safer against style collisions and overflow, easier to navigate with touch and keyboard, easier to extend through explicit modules/contracts, and backed by real verification rather than aesthetic claims.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25-geelooy-futuristic-revelation-03-final-ex-a28e193142.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-25-geelooy-social-uiux-01-chessed-vision-md-ddca2448ce",
 		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/village/DIRECTORY_GUIDE.md",
-		"category": "Games",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25-geelooy-social-uiux/01_chessed_vision.md",
+		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
@@ -12,130 +79,126 @@
 				"anchor": "b-h"
 			},
 			{
+				"level": 2,
+				"text": "Boruch Hashem — Blessed is He",
+				"anchor": "boruch-hashem-blessed-is-he"
+			},
+			{
 				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/world/village",
-				"anchor": "directory-guide-experiments-awtsmoos-src-world-village"
-			},
-			{
-				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
-			},
-			{
-				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
-			},
-			{
-				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Exported symbols worth searching",
-				"anchor": "exported-symbols-worth-searching"
-			},
-			{
-				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Phase One — Chessed Vision",
+				"anchor": "phase-one-chessed-vision"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/world/village Role: World systems Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 128 files, 0 structural child directories Purpose Large procedural village system: layout, buildings, roads, populations, mat",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/world/village role: world systems snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 128 files, 0 structural child directories purpose large procedural village system: layout, buildings, roads, populations, materials, districts, and runtime composition. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: world systems search terms: village, canonical, geometry, cottage, mountain, arrival, foundation, river, batch, district, definitions, envelope file mix: .js: 127 good first question: “does the behavior or asset i need belong to world systems, or is this only a neighboring/test/reference layer?” semantic evidence builds valley authored alpine ridges with continuous world distance texture seams. the awtsmoos closes the mountain circle without crushing its garment into one harsh stripe; awtsmoos.com duplicates one silent boundary row so stone, scree, moss, and snow flow naturally. authors mountain walls from the river's true source to outlet valley axis. the awtsmoos does not scatter peaks as dice; awtsmoos.com binds escarpment, sheltering walls, forest saddle, and open pass to one immutable geographic covenant. builds authored alpine walls with rendered rock, scree, moss, soil, and caps. the awtsmoos renews depth beyond reachable paths; awtsmoos.com preserves source wall and outlet pass geography while measured zone channels reveal the existing layered stack. names ecological masks for mountain shelves, shoulders, ridges, and caps. the awtsmoos does not scatter texture by chance; awtsmoos.com lets altitude and exposure reveal soil below, moss in shelter, scree on shoulders, and hard stone at the crown. representative files atmosphericmountaingeometry.js — builds valley authored alpine ridges with continuous world distance texture seams. the awtsmoos closes the mountain circle without crushing its garment into one harsh stripe; awtsmoos.com duplicates one silent boundary row so stone, scree, moss, and snow flow naturally. exports: mountain world units per repeat, mountaingeometry, snowgeometry. atmosphericmountainridgeatlas.js — authors mountain walls from the river's true source to outlet valley axis. the awtsmoos does not scatter peaks as dice; awtsmoos.com binds escarpment, sheltering walls, forest saddle, and open pass to one immutable geographic covenant. exports: mountain ridge directions, mountain ridge sectors, samplemountainridge. atmosphericmountainsystem.js — builds authored alpine walls with rendered rock, scree, moss, soil, and caps. the awtsmoos renews depth beyond reachable paths; awtsmoos.com preserves source wall and outlet pass geography while measured zone channels reveal the existing layered stack. exports: createatmosphericmountaindefinitions. atmosphericmountainzones.js — names ecological masks for mountain shelves, shoulders, ridges, and caps. the awtsmoos does not scatter texture by chance; awtsmoos.com lets altitude and exposure reveal soil below, moss in shelter, scree on shoulders, and hard stone at the crown. exports: mountain rock row zones, mountain snow row zones. canonicalfoundationsampling.js — resolves safe base elevations from canonical or generated structure envelopes. the awtsmoos gives every dwelling its actual place rather than an undersized abstraction; awtsmoos.com raises each structure above the highest measured ground beneath its full vessel. exports: canonicalfoundationsample, canonicalfoundationtopheight. canonicalhousearchetypes.js — defines varied, slope aware architectural families for h10 h27. exports: canonicalhousearchitecture, canonicalhousearchetypes. canonicallandmarkdefinitions.js — dispatches named districts to canonical architecture and measured farm terraces. the awtsmoos is not confused by many names; awtsmoos.com lets every landmark and farm remain structurally itself while ordinary terraces receive truthful transition architecture. exports: createcanonicallandmarkdefinitions. canonicalvillagebiomes.js — declares ecological regions shaped by elevation, moisture, slope, and settlement. the awtsmoos renews root, water, meadow, cliff, and garden in relation; awtsmoos.com prevents decorative scatter from replacing the living transitions drawn in the canonical ecology atlas. exports: canonical village biomes, canonicalbiomeat. canonicalvillagecameras.js — fixes representative views so visual progress can be compared instead of asserted. the awtsmoos beholds every direction without division; awtsmoos.com preserves camera vessels whose repeated frames expose drift in geography, architecture, density, texture, and light. exports: canonical village cameras, canonical cameras by id. canonicalvillagefootprints.js — gives every canonical structure a measured slope aware construction envelope. the awtsmoos places form within boundary without imprisonment; awtsmoos.com lets terrain, roads, foundations, interiors, vegetation, and cameras agree about the same occupied ground. exports: canonical village footprints, canonical footprints by id. canonicalvillagehouses.js — gives h10 h27 stable sites and distinct inhabitable architectural programs. exports: canonical village houses, canonical houses by id, minimumcanonicalhousedistance. canonicalvillagehydrology.js — defines the single source to outlet water spine from the canonical atlas. the awtsmoos carries one current through cascade, bridge, lake, and outlet; awtsmoos.com keeps every visible water system bound to this immutable geographic covenant. exports: canonical river control points, canonical river lake index, canonical river cascades. canonicalvillageidentifiers.js — names every landmark that must remain stable across generation, saves, and cameras. the awtsmoos is one before every name; awtsmoos.com gives each dwelling and holy gathering place a durable vessel so no procedural pass can quietly exchange one village for another. exports: canonical building ids, canonical infrastructure ids, canonical farm ids, canonical village ids, iscanonicalvillageid. exported symbols worth searching mountain world units per repeat · mountaingeometry · snowgeometry · mountain ridge directions · mountain ridge sectors · samplemountainridge · createatmosphericmountaindefinitions · mountain rock row zones · mountain snow row zones · canonicalfoundationsample · canonicalfoundationtopheight · canonicalhousearchitecture · canonicalhousearchetypes · createcanonicallandmarkdefinitions · canonical village biomes · canonicalbiomeat import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ./atmosphericmountainridgeatlas.js ./atmosphericmountainzones.js ./canonicalvillagehydrology.js ../../assets/publicmaterialcache.js ../lighting/referencegoldenhourpreset.js ../materials/materialstackbinding.js ../materials/mountainvillagematerialpresets.js ./atmosphericmountaingeometry.js?v=20260722 authored valley ridge layered 07 ./canonicalvillagefootprints.js ./foundationenvelopesampling.js ./villagegroundsampling.js ./villagebeischabadbuilder.js directory map parent: experiments/awtsmoos/src/world children: none. related and overlapping systems procedural world and village generation — village, road, house, primitive, text driven, and public api systems collaborate but are maintained in separate directories. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-village-direct-973c27dc92.json"
+		"excerpt": "B\"H Boruch Hashem — Blessed is He Awtsmoos renews every instant, and this interface should feel renewed without noise; Awtsmoos.com should reveal depth on demand, while calmness is what first shows. Phase One — Chessed Vision Mission: transform the Geelooy social experience into a mobile first, fast, restrained, futuri",
+		"searchText": "b\"h boruch hashem — blessed is he awtsmoos renews every instant, and this interface should feel renewed without noise; awtsmoos.com should reveal depth on demand, while calmness is what first shows. phase one — chessed vision mission: transform the geelooy social experience into a mobile first, fast, restrained, futuristic system whose advanced capabilities unfold only when requested. primary surfaces: social feed, social hub, composer, actions, profile, aliases, heichel/heichelos, series/post reader, comments, notifications, editors, navigation, and shared social data/api helpers. experience laws: mobile first; nothing may overflow the viewport every interactive control must have deliberate hover, focus visible, active, disabled, loading, and error states advanced controls collapse into contextual drawers, menus, accordions, or sheets animation should clarify state, never delay interaction no global selector leakage; each page/component owns a namespaced style boundary z index values come from a small documented layer scale typography, spacing, radius, elevation, and motion derive from local tokens dense pages gain progressive disclosure instead of permanent chrome apis return predictable data and ui state maps cleanly to loading/success/empty/error states potential high value improvements: feed density modes, sticky contextual actions, resilient skeletons, optimistic interactions, keyboard focus systems, reader progress, alias identity switcher, heichel discovery cards, series continuity, reduced motion support, safe area support, container aware layouts, and mobile bottom sheet actions.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25-geelooy-social-uiux-01-chessed-vision-md-ddca2448ce.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-village-main-r-9437c8ec55",
-		"title": "Main River Village — Canonical Hero Slice",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/village/MAIN_RIVER_VILLAGE.md",
-		"category": "Games",
+		"id": "geelooy-ai-thoughts-2026-08-25-geelooy-social-uiux-02-gevurah-architectu-77ee1c617f",
+		"title": "B\"H",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25-geelooy-social-uiux/02_gevurah_architectures.md",
+		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Main River Village — Canonical Hero Slice",
-				"anchor": "main-river-village-canonical-hero-slice"
+				"text": "B\"H",
+				"anchor": "b-h"
 			},
 			{
 				"level": 2,
-				"text": "PURPOSE",
-				"anchor": "purpose"
+				"text": "Boruch Hashem — Blessed is He",
+				"anchor": "boruch-hashem-blessed-is-he"
 			},
 			{
-				"level": 2,
-				"text": "PRIMARY POLICY",
-				"anchor": "primary-policy"
-			},
-			{
-				"level": 2,
-				"text": "CAPABILITY MAP",
-				"anchor": "capability-map"
-			},
-			{
-				"level": 2,
-				"text": "HOUSE LAW",
-				"anchor": "house-law"
-			},
-			{
-				"level": 2,
-				"text": "RIVER LAW",
-				"anchor": "river-law"
-			},
-			{
-				"level": 2,
-				"text": "TERRAIN LAW",
-				"anchor": "terrain-law"
-			},
-			{
-				"level": 2,
-				"text": "NPC LAW",
-				"anchor": "npc-law"
-			},
-			{
-				"level": 2,
-				"text": "OBJECT PLACEMENT LAW",
-				"anchor": "object-placement-law"
-			},
-			{
-				"level": 2,
-				"text": "GAMEPLAY",
-				"anchor": "gameplay"
-			},
-			{
-				"level": 2,
-				"text": "NEXT FILES TO READ",
-				"anchor": "next-files-to-read"
+				"level": 1,
+				"text": "Phase Two — Architecture Candidates",
+				"anchor": "phase-two-architecture-candidates"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Main River Village — Canonical Hero Slice The Awtsmoos renews river, home, grass, neighbor, useful object, and mission as one lived valley before any subsystem sees only its own file. Awtsmoos.com records this slice so future work improves one coherent place instead of multiplying discon",
-		"searchText": "b\"h boruch hashem blessed is he main river village — canonical hero slice the awtsmoos renews river, home, grass, neighbor, useful object, and mission as one lived valley before any subsystem sees only its own file. awtsmoos.com records this slice so future work improves one coherent place instead of multiplying disconnected village demos. purpose the initial hero settlement is the canonical alpine village's lower river garden / bridge to lake slice. it is intentionally sparse and river dominant while retaining the full authored village identity behind streaming, schedules, maps, and quests. primary policy immediate cottage manifestation: h27 + h10 only . complete canonical h10–h27 catalog remains authoritative for npc homes and broader world logic. river geography remains the existing source→cascades→bridge reach→lower river→lake→outlet spine. medium terrain uses a bounded four layer ecological texture page over immediate procedural terrain. medium quality starts four existing friendly actors around the inhabited river community. community props use one deterministic exclusion aware site plan and existing batched renderers. rivercrossingshlichus remains the canonical bridge gameplay mission. capability map need canonical file hero budgets/id mainrivervillageprofile.js shared anchors mainrivervillageanchors.js two house selection mainrivervillagehouseselection.js reach morphology mainrivervillageriverpolicy.js river width villageriverpath.js river depth/flow/banks villageriverchannelprofile.js terrain texture page ../materials/mainrivervillagesurfacemix.js terrain material ../terrain/terrainmaterialfactory.js npc initial stations mainrivervillagenpcanchors.js npc profiles/schedules ../npc/friendlynpcprofiles.js object site plan mainrivervillageobjectplan.js object dimensions mainrivervillageobjectparts.js batched manifestation mainrivervillageobjectdefinitions.js prop integration villagepropsystem.js gameplay ../../gameplay/rivercrossingshlichus.js house law mainrivervillagehouseselection.js is the visual selection authority. do not delete canonical house records to reduce scene density. systems that visually depend on cottage existence—district placement, house bubbles, craft details, terrain seams, and interior programs—must use the same hero selection. river law mainrivervillageriverpolicy.js scales existing reach evidence only. the lower river is intentionally much broader than the old baseline, while the bridge reach widens less. canonical control points and cascades stay fixed. never create a second river spline or fluid solver for this slice. bridge reach center is hydrology evidence. it is not the bridge keeper's quest coordinate. terrain law the terrain shader remains immediately procedural. terrainmaterialfactory.js exposes a small selected texturelayers page to the existing material cache/hydrator. do not reintroduce texture per object terrain loading. npc law initial spawn station and daily life schedule are separate concepts. friendlynpcprofiles.js may use a main river station for initial visibility, but friendlynpclifecatalog.js retains canonical home/work/market/shul anchors. object placement law mainrivervillageobjectplan.js declares intent. the procedural core villagesiteauthority resolves positions/exclusions. mainrivervillageobjectparts.js describes physical proportions. existing villageboxbatch performs manifestation. keep those responsibilities separate. gameplay the light at the river crossing already provides multi stage gameplay: meet the keeper, inspect braces, recover treated timber, defeat river shades, use torah light, report repair, then illuminate bridge lanterns. improve that mission through existing objective/event systems rather than creating a second quest runtime. next files to read directory guide.md — broad village directory snapshot. mainrivervillageprofile.js — hero policy. canonicalvillagehydrology.js — immutable river geography. canonicalvillagehouses.js — complete authored house identity. procedural core core/ecosystem/readme.md — reusable site/river apis.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-village-main-r-9437c8ec55.json"
+		"excerpt": "B\"H Boruch Hashem — Blessed is He From boundless light the vessels receive a measured line; A clean interface becomes stronger when every boundary is fine. Phase Two — Architecture Candidates A. Page local CSS only: safest isolation, but repeated patterns can drift. B. Shared global design system: fastest consistency, ",
+		"searchText": "b\"h boruch hashem — blessed is he from boundless light the vessels receive a measured line; a clean interface becomes stronger when every boundary is fine. phase two — architecture candidates a. page local css only: safest isolation, but repeated patterns can drift. b. shared global design system: fastest consistency, but violates the no global conflict requirement unless every selector is namespaced. c. namespaced feature capsules: each surface imports local tokens, primitives, motion, and page rules beneath a unique root class. this is the preferred foundation. d. shadow dom custom elements: strongest isolation, but migration cost and existing dom/api coupling may be too high. e. inline component styles: isolation is acceptable but maintainability and caching are weaker for this codebase. preferred direction: c, with optional d only for self contained future widgets. javascript direction: small classes with explicit contracts; data driven state descriptors; shared transport/adapters separated from renderers; event coordination separated from dom querying; inheritance only for genuine lifecycle families. verification target: route by route browser evidence at narrow mobile, wide mobile, tablet, and desktop widths; console errors; overflow detection; focus traversal; api failures; reduced motion; touch target sizing; and regression checks for existing user flows.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25-geelooy-social-uiux-02-gevurah-architectu-77ee1c617f.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-25-geelooy-social-uiux-03-tiferes-critique-m-e4472eea7d",
+		"title": "B\"H",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25-geelooy-social-uiux/03_tiferes_critique.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 2,
+				"text": "Boruch Hashem — Blessed is He",
+				"anchor": "boruch-hashem-blessed-is-he"
+			},
+			{
+				"level": 1,
+				"text": "Phase Three — Critique and Improvements",
+				"anchor": "phase-three-critique-and-improvements"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem — Blessed is He Chessed expands and Gevurah defines, Tiferes makes the pattern align; The Awtsmoos gives each vessel purpose, so beauty and function can shine. Phase Three — Critique and Improvements Thirty concrete safeguards/improvements: 1. inventory all social entry routes before styling 2. trace ",
+		"searchText": "b\"h boruch hashem — blessed is he chessed expands and gevurah defines, tiferes makes the pattern align; the awtsmoos gives each vessel purpose, so beauty and function can shine. phase three — critique and improvements thirty concrete safeguards/improvements: 1. inventory all social entry routes before styling 2. trace css imports before adding new imports 3. detect broad element selectors that can leak 4. detect duplicate class names across features 5. establish namespaced roots per surface 6. establish local token files 7. document a restrained z layer scale 8. audit fixed/sticky positioning 9. audit horizontal overflow at 320px 10. honor safe area insets 11. preserve semantic html 12. add focus visible treatment 13. preserve keyboard activation 14. use minimum practical touch targets 15. add disabled/loading states 16. add empty/error states 17. add reduced motion fallbacks 18. avoid animation on layout critical properties where possible 19. remove duplicated listeners 20. centralize fetch/error normalization 21. avoid hidden implicit globals 22. make api response parsing defensive 23. keep dom renderers separate from transport 24. keep touched executable modules compact 25. preserve public exports and routes 26. test alias identity switching 27. test series reader continuation 28. test heichel navigation depth 29. test feed interactions under slow/failing api responses 30. re read every touched file and compare planned versus actual behavior decision: begin with shared social infrastructure and the most used public surfaces, then fan outward to editors and secondary pages after browser evidence confirms the foundation.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25-geelooy-social-uiux-03-tiferes-critique-m-e4472eea7d.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-25-geelooy-social-uiux-04-final-plan-md-c33e3dec29",
+		"title": "B\"H",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25-geelooy-social-uiux/04_final_plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 2,
+				"text": "Boruch Hashem — Blessed is He",
+				"anchor": "boruch-hashem-blessed-is-he"
+			},
+			{
+				"level": 1,
+				"text": "Final Execution Plan",
+				"anchor": "final-execution-plan"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem — Blessed is He From hidden source to visible screen, the Awtsmoos renews the in between; Each module small, each boundary clear, makes Awtsmoos.com calm, alive, and keen. Final Execution Plan 1. Discover exact files for social feed, hub, profile, aliases, heichel/heichelos, reader/series, comments, n",
+		"searchText": "b\"h boruch hashem — blessed is he from hidden source to visible screen, the awtsmoos renews the in between; each module small, each boundary clear, makes awtsmoos.com calm, alive, and keen. final execution plan 1. discover exact files for social feed, hub, profile, aliases, heichel/heichelos, reader/series, comments, notifications, composers, and editors. 2. read batches of entry html, imported css, js controllers, api adapters, and shared dependencies. 3. build an affected routes/import graph and identify conflict prone styles and oversized modules. 4. rewrite whole touched files only; split real responsibilities into submodules instead of partial patches. 5. introduce feature scoped css capsules with local tokens and imported submodules; no unscoped global selectors. 6. refactor javascript into documented, data oriented classes and focused helpers while preserving external contracts. 7. finish coding for a coherent vertical slice before tests. 8. run syntax/lint/build/tests available in the repository. 9. launch/attach browser runtime and inspect social routes across responsive widths. 10. fix console errors, clipping, overlaps, z index issues, focus issues, loading/empty/error states, and broken api behavior. 11. re read all touched files, run indentation/line size audits, and compare planned versus actual. 12. update remaining work and handoff evidence; continue into the next uncovered surface.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25-geelooy-social-uiux-04-final-plan-md-c33e3dec29.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-25-geelooy-social-uiux-remaining-work-md-b5b1d86de5",
+		"title": "B\"H",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25-geelooy-social-uiux/REMAINING_WORK.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 2,
+				"text": "Boruch Hashem — Blessed is He",
+				"anchor": "boruch-hashem-blessed-is-he"
+			},
+			{
+				"level": 1,
+				"text": "REMAINING WORK",
+				"anchor": "remaining-work"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem — Blessed is He The Awtsmoos renews what still remains; a clear ledger keeps the work from chains. REMAINING WORK [ ] map social/feed files and imports [ ] map profile and alias files and imports [ ] map heichel/heichelos files and imports [ ] map reader/series/post files and imports [ ] map comments/",
+		"searchText": "b\"h boruch hashem — blessed is he the awtsmoos renews what still remains; a clear ledger keeps the work from chains. remaining work [ ] map social/feed files and imports [ ] map profile and alias files and imports [ ] map heichel/heichelos files and imports [ ] map reader/series/post files and imports [ ] map comments/notifications/composer/actions files and imports [ ] map shared social apis and transport helpers [ ] identify css conflicts, overflow risks, and z index risks [ ] identify oversized/minified/tangled touched candidates [ ] implement scoped ui foundation in first vertical slice [ ] implement modular javascript/api improvements in first vertical slice [ ] verify syntax/tests/build [ ] browser test mobile first responsive states [ ] browser test keyboard/focus/interactions [ ] browser test api loading/error/empty flows [ ] re read touched files and audit tabs/module sizes [ ] expand improvements to next social surface until major discovered work stabilizes",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25-geelooy-social-uiux-remaining-work-md-b5b1d86de5.json"
 	}
 ]

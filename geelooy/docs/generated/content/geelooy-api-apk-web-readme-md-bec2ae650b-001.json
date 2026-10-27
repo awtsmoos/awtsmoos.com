@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — APK Web API (geelooy/api/apk-web/)\n\nGeneric APK web publication gate.\n\n## Contents\n- `_awtsmoos.derech.js` — route mount: `publish`, `asset/:token/:path*`\n- `core/` — internal helpers: `handlers.js`, `mime.js`, `store.js`, `validation.js`\n\n## What it does\nPublishes an APK's web bundle through a measured, validated gate and then serves\nits assets back out under signed token URLs (`asset/:token/:path*`), keeping app\nidentity outside the scheme.\n\n## Endpoints\n- `publish` — accept and validate an APK web bundle for publication.\n- `asset/:token/:path*` — serve a published bundle asset for a valid token.\n"
+}

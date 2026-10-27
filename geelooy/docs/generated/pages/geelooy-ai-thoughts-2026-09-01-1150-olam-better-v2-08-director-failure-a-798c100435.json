@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-01-1150-olam-better-v2-08-director-failure-a-798c100435",
+	"title": "Director Failure Analysis",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-01-1150-olam-better-v2/08-director-failure-analysis.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Director Failure Analysis",
+			"anchor": "director-failure-analysis"
+		},
+		{
+			"level": 2,
+			"text": "Verified green before failure",
+			"anchor": "verified-green-before-failure"
+		},
+		{
+			"level": 2,
+			"text": "Failure shape",
+			"anchor": "failure-shape"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-01-1150-olam-better-v2-08-director-failure-a-798c100435-001.json"
+	]
+}

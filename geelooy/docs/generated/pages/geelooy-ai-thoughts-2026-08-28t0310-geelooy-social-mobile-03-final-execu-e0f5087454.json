@@ -1,0 +1,109 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-28t0310-geelooy-social-mobile-03-final-execu-e0f5087454",
+	"title": "Phase Three — Final Mobile-First Execution Plan",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0310-geelooy-social-mobile/03_FINAL_EXECUTION_PLAN.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase Three — Final Mobile-First Execution Plan",
+			"anchor": "phase-three-final-mobile-first-execution-plan"
+		},
+		{
+			"level": 2,
+			"text": "Final architecture",
+			"anchor": "final-architecture"
+		},
+		{
+			"level": 2,
+			"text": "Files expected to create",
+			"anchor": "files-expected-to-create"
+		},
+		{
+			"level": 3,
+			"text": "js/interactions/PersistentCreatorView.js",
+			"anchor": "js-interactions-persistentcreatorview-js"
+		},
+		{
+			"level": 3,
+			"text": "js/interactions/PersistentCreator.js",
+			"anchor": "js-interactions-persistentcreator-js"
+		},
+		{
+			"level": 3,
+			"text": "styles/persistent-creator.css",
+			"anchor": "styles-persistent-creator-css"
+		},
+		{
+			"level": 3,
+			"text": "styles/persistent-creator-surface.css",
+			"anchor": "styles-persistent-creator-surface-css"
+		},
+		{
+			"level": 3,
+			"text": "styles/persistent-creator-mobile.css",
+			"anchor": "styles-persistent-creator-mobile-css"
+		},
+		{
+			"level": 3,
+			"text": "Focused tests",
+			"anchor": "focused-tests"
+		},
+		{
+			"level": 2,
+			"text": "Files expected to rewrite in full",
+			"anchor": "files-expected-to-rewrite-in-full"
+		},
+		{
+			"level": 3,
+			"text": "js/ui/shell/HomePanelTemplate.js",
+			"anchor": "js-ui-shell-homepaneltemplate-js"
+		},
+		{
+			"level": 3,
+			"text": "js/ui/shell/SocialHubChromeTemplate.js",
+			"anchor": "js-ui-shell-socialhubchrometemplate-js"
+		},
+		{
+			"level": 3,
+			"text": "js/assembly/SocialCreationAssembly.js",
+			"anchor": "js-assembly-socialcreationassembly-js"
+		},
+		{
+			"level": 3,
+			"text": "js/HubApp.js or lifecycle/presenter owner only if inspection proves registration/rendering is explicit there",
+			"anchor": "js-hubapp-js-or-lifecycle-presenter-owner-only-if-inspection-proves-registration-rendering-is-explicit-there"
+		},
+		{
+			"level": 3,
+			"text": "js/ui/HubSurfacePresenter.js only if persistent creator needs snapshot rendering through the established presenter",
+			"anchor": "js-ui-hubsurfacepresenter-js-only-if-persistent-creator-needs-snapshot-rendering-through-the-established-presenter"
+		},
+		{
+			"level": 3,
+			"text": "style.css",
+			"anchor": "style-css"
+		},
+		{
+			"level": 2,
+			"text": "Files protected from change",
+			"anchor": "files-protected-from-change"
+		},
+		{
+			"level": 2,
+			"text": "Thirty final refinements",
+			"anchor": "thirty-final-refinements"
+		},
+		{
+			"level": 2,
+			"text": "Verification order",
+			"anchor": "verification-order"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-28t0310-geelooy-social-mobile-03-final-execu-e0f5087454-001.json"
+	]
+}

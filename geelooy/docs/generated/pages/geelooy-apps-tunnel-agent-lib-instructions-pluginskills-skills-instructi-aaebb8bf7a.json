@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-aaebb8bf7a",
+	"title": "Resumable mission ledger",
+	"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/RESUMABLE_MISSION_LEDGER.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 2,
+			"text": "Current tunnel integration takes precedence",
+			"anchor": "current-tunnel-integration-takes-precedence"
+		},
+		{
+			"level": 1,
+			"text": "Resumable mission ledger",
+			"anchor": "resumable-mission-ledger"
+		},
+		{
+			"level": 2,
+			"text": "Required fields",
+			"anchor": "required-fields"
+		},
+		{
+			"level": 2,
+			"text": "Operating rules",
+			"anchor": "operating-rules"
+		},
+		{
+			"level": 2,
+			"text": "Minimal template",
+			"anchor": "minimal-template"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-aaebb8bf7a-001.json"
+	]
+}

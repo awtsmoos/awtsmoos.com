@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\n# Craft Remote Texture Catalog\n\nThe Awtsmoos renews each photographed surface, leaf, and stone in light;\nAwtsmoos.com keeps every filename discoverable so future agents can choose the vessel right.\n\nCanonical production root: `https://awtsmoos.com/sites/firebase_drive_migration/`\nCanonical source: `geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteTextureCraftNames.js`\n\n## Exact filenames\n\n- `copper 1.png`\n- `copper 2.png`\n- `cow fur 1.png`\n- `cracked glass.png`\n- `deer fur 1.png`\n- `fox fur 1.png`\n- `gold 2.png`\n- `horse fur 1.png`\n- `leaf 1.png`\n- `leather.png`\n- `oak leaf fall.png`\n- `oak leaf spring.png`\n- `parchment.png`\n- `raveled rope.png`\n- `red ceramic.png`\n- `rusty iron.png`\n- `seamless water brighter.png`\n- `seamless water.png`\n- `shallow river water.png`\n- `silver 1.png`\n- `silver 2.png`\n- `tan cloth.png`\n- `unraveled rope.png`\n- `water not seamless.png`\n\nTotal: **24** filenames.\n"
+}

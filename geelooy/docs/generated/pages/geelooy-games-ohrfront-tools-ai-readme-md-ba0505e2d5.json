@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-ohrfront-tools-ai-readme-md-ba0505e2d5",
+	"title": "Ohrfront AI Absolute System Paths",
+	"sourcePath": "geelooy/games/ohrfront/tools/ai/README.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Ohrfront AI Absolute System Paths",
+			"anchor": "ohrfront-ai-absolute-system-paths"
+		},
+		{
+			"level": 2,
+			"text": "Canonical AI artifact root",
+			"anchor": "canonical-ai-artifact-root"
+		},
+		{
+			"level": 2,
+			"text": "Legacy planning locations",
+			"anchor": "legacy-planning-locations"
+		},
+		{
+			"level": 2,
+			"text": "Core contract",
+			"anchor": "core-contract"
+		},
+		{
+			"level": 2,
+			"text": "Verified Node executable",
+			"anchor": "verified-node-executable"
+		},
+		{
+			"level": 2,
+			"text": "Print one absolute path",
+			"anchor": "print-one-absolute-path"
+		},
+		{
+			"level": 2,
+			"text": "Session paths",
+			"anchor": "session-paths"
+		},
+		{
+			"level": 2,
+			"text": "Dedicated AI handoff",
+			"anchor": "dedicated-ai-handoff"
+		},
+		{
+			"level": 2,
+			"text": "Materialize evidence",
+			"anchor": "materialize-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Safety boundary",
+			"anchor": "safety-boundary"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-ohrfront-tools-ai-readme-md-ba0505e2d5-001.json"
+	]
+}

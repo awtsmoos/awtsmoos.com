@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Native Runtime API (geelooy/api/runtime/)\n\nLets browser intent meet native capability through explicit launch, status,\nstop, and capability-discovery gates. Kept separate from Tunnel transport;\nnever exposes a shell command, arbitrary environment, or module path.\n\n## Contents\n- `_awtsmoos.derech.js` — routes: `/native/capabilities`, `/native/launch`,\n  `/native/status`, `/native/stop`\n- `DOCUMENTATION.md` — full docs + Geelooy OS / developer-tools pointers.\n- `core/` — auth, body parsing, handlers, service loader.\n\n## Endpoints\n- `/native/capabilities` — authenticated capability discovery.\n- `/native/launch` — launch a native process behind the capability gate.\n- `/native/status` — status of a running native process record.\n- `/native/stop` — stop it.\n"
+}

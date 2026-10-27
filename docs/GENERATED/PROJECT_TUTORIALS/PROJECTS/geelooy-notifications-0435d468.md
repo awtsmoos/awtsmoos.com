@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 31 | 2 | 0 | 0 | 1 | 0 | 34 |
+| 32 | 3 | 0 | 0 | 1 | 0 | 36 |
 
 ## Public entry points
 
@@ -29,11 +29,11 @@ Blessed is He
 
 ## Symbol evidence
 
-Source files: 15; classes: 0; functions: 53; exports: 27; samples: createNotificationActions, markButton, safeActionLink, actionLabel, revealBinahNotificationContext, humanize, groupLabel, contextChips, entityKey, shorten, clean, findOrCreateNotificationGroup.
+Source files: 15; classes: 0; functions: 56; exports: 32; samples: async, bootNotificationSocialOs, createNotificationActions, markButton, safeActionLink, actionLabel, secondaryReadDisclosure, revealBinahNotificationContext, humanize, groupLabel, contextChips, entityKey.
 
 ## Depends on
 
-None observed.
+- `geelooy/shared` — 2 lexical references; examples: geelooy/notifications/app.js; geelooy/notifications/modules/NotificationActions.js
 
 ## Used by
 
@@ -45,4 +45,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **2**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **3**. Treat this as file evidence, not proof of behavioral coverage.

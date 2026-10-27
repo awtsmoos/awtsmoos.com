@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-social-hub-architecture-md-41a5a38d57",
+	"title": "Social Hub Architecture Covenant",
+	"sourcePath": "geelooy/social-hub/ARCHITECTURE.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Social Hub Architecture Covenant",
+			"anchor": "social-hub-architecture-covenant"
+		},
+		{
+			"level": 2,
+			"text": "Surface ownership",
+			"anchor": "surface-ownership"
+		},
+		{
+			"level": 2,
+			"text": "Interaction hierarchy",
+			"anchor": "interaction-hierarchy"
+		},
+		{
+			"level": 2,
+			"text": "Mobile and overflow",
+			"anchor": "mobile-and-overflow"
+		},
+		{
+			"level": 2,
+			"text": "API foundation",
+			"anchor": "api-foundation"
+		},
+		{
+			"level": 2,
+			"text": "Verification gates",
+			"anchor": "verification-gates"
+		},
+		{
+			"level": 2,
+			"text": "Expansion rule",
+			"anchor": "expansion-rule"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-social-hub-architecture-md-41a5a38d57-001.json"
+	]
+}

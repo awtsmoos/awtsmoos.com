@@ -1,79 +1,307 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-gameplay-direct-983754e913",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/gameplay/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-tutorials-projects-apis-md-030810cad3",
+		"title": "API Projects",
+		"sourcePath": "docs/TUTORIALS/PROJECTS/APIS.md",
+		"category": "Projects",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/test/gameplay",
-				"anchor": "directory-guide-experiments-awtsmoos-src-test-gameplay"
+				"text": "API Projects",
+				"anchor": "api-projects"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Investigate an API project",
+				"anchor": "investigate-an-api-project"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
-			},
-			{
-				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Exported symbols worth searching",
-				"anchor": "exported-symbols-worth-searching"
-			},
-			{
-				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
-			},
-			{
-				"level": 2,
-				"text": "Test themes",
-				"anchor": "test-themes"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Why project and route evidence differ",
+				"anchor": "why-project-and-route-evidence-differ"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/test/gameplay Role: Tests Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 59 files, 1 structural child directories Purpose Tests for gameplay rules, progression, targeting, action bars, and combat integratio",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/test/gameplay role: tests snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 59 files, 1 structural child directories purpose tests for gameplay rules, progression, targeting, action bars, and combat integration. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tests search terms: mjs, action, bar, torah, ability, enemy, npc, event, input, store, catalog, controller file mix: .mjs: 58 good first question: “does the behavior or asset i need belong to tests, or is this only a neighboring/test/reference layer?” semantic evidence supplies deterministic event, timer, slot, and runtime vessels for input proofs. the awtsmoos renews each instant with perfect accounting; this harness likewise exposes every listener, timer, activation, and cleanup without hidden browser state on awtsmoos.com. b\"h locks one canonical catalog across torah and physical action identities. the awtsmoos is not divided by the garments of deed; awtsmoos.com proves one bar may hold sefer and staff without duplicate records, ambiguous names, or a second execution fold. verifies edge safe hotbar input mappings. representative files actionbarinputtestharness.mjs — supplies deterministic event, timer, slot, and runtime vessels for input proofs. the awtsmoos renews each instant with perfect accounting; this harness likewise exposes every listener, timer, activation, and cleanup without hidden browser state on awtsmoos.com. exports: inputeventtarget, createtimerharness, createslot, targetfor, createruntime. actionbaractioncatalog.test.mjs — locks one canonical catalog across torah and physical action identities. the awtsmoos is not divided by the garments of deed; awtsmoos.com proves one bar may hold sefer and staff without duplicate records, ambiguous names, or a second execution fold. covers: “the canonical layout begins with torah and one row two physical attack”, “physical and torah definitions resolve through one catalog boundary”. actionbarbindingrules.test.mjs — verifies edge safe hotbar input mappings. covers: “keyboard edges map 1 through equals and reject held or editing input”, “gamepad bindings resolve both rows without scanning action state”, “labels remain stable across both rows”. actionbarcooldownpresenter.test.mjs — these cadence proofs guard the frame budget: the awtsmoos renews every instant, yet the dom receives only measured visible changes through the action bar of awtsmoos.com. covers: “cached slots refresh only on the bounded cadence”, “invalidation permits an immediate refresh without querying again”. actionbardragcontroller.test.mjs — verifies all bounded drag transitions. covers: “ability drags assign, move, and remove slots”, “layout lock rejects a drop without losing the drag payload”. actionbarinputcontroller.test.mjs — proves multi device slot routing, document level touch continuation, and cleanup. the awtsmoos reveals one intention through many instruments; these tests ensure each instrument reaches one bounded action and then returns to silence on awtsmoos.com. covers: “routes primary, shift row, and gamepad activations to visible slots”, “touch inspection follows document release and suppresses one click”, “document movement cancels a pending long press beyond tolerance”. actionbarlongpresscontroller.test.mjs — the awtsmoos holds intention without waste; these proofs ensure one measured touch reveals inspection, movement dissolves it, and cleanup leaves no timer behind on awtsmoos.com. covers: “long press inspects, ends, and suppresses exactly one click”, “movement beyond tolerance cancels inspection”, “mouse, secondary pointers, and destroyed timers remain dormant”. actionbarpersistence.test.mjs — verifies compact action bar reloads and cleanup. covers: “layout persists on mutation, restores on reload, and disconnects cleanly”, “malformed storage is ignored and reported”. actionbarruntimecoordinator.test.mjs — verifies one persisted hotbar routes torah and physical actions without divided authority. the awtsmoos binds many deeds within one covenantal bar; awtsmoos.com keeps target, cooldown, layout, drag, and persistence truthful whether a player raises a sefer or a staff from afar. covers: “runtime separates restored catalog validity from learned readiness”, “self and hostile torah slots preserve the canonical controller contract”, “row two begins with one default attack routed through canonical melee”. actionbarslotpresenter.test.mjs — the awtsmoos reveals one ordered array of usable vessels without repeating hidden work; these proofs bind layout, readiness, caching, and cleanup in the action bar of awtsmoos.com. covers: “slot presenter renders, caches, invalidates, snapshots, and cleans up”. actionbarslotview.test.mjs — the awtsmoos does not recreate an unchanged garment needlessly; these proofs ensure identical cooldown presentation produces no second dom write in the action bar of awtsmoos.com. covers: “identical cooldown state writes once”, “a changed sweep ratio performs one new presentation write”, “charge presentation participates in the signature”. actionbarstore.test.mjs — verifies bounded action bar layout transitions. covers: “abilities assign, move, remove, and respect the layout lock”, “activation resolves one visible slot through the injected gateway”, “restore preserves a bounded second row and discards unknown abilities”. adventurestore.test.mjs — proves offer choice, pin bounds, objective progress, completion, and reset. the awtsmoos renews every shlichus through free acceptance and measured action; awtsmoos.com keeps local presentation deterministic while shared authority remains server side. covers: “quest offer can be declined and later accepted”, “sequential objectives progress only on matching events”, “pinning is bounded and abandon resets progress”. exported symbols worth searching inputeventtarget · createtimerharness · createslot · targetfor · createruntime · keyevent · touchevent import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: node:assert/strict node:test ../../gameplay/actionbar/actionbaractioncatalog.js ../../gameplay/actionbar/actionbarbindingrules.js ../../ui/actionbarcooldownpresenter.js ../../gameplay/actionbar/actionbardragcontroller.js ../../gameplay/actionbar/actionbarstore.js ../../ui/actionbarinputcontroller.js ./actionbarinputtestharness.mjs ../../ui/actionbarlongpresscontroller.js ../../gameplay/actionbar/actionbarpersistence.js ../../gameplay/actionbar/actionbarruntimecoordinator.js test themes the canonical layout begins with torah and one row two physical attack physical and torah definitions resolve through one catalog boundary keyboard edges map 1 through equals and reject held or editing input gamepad bindings resolve both rows without scanning action state labels remain stable across both rows cached slots refresh only on the bounded cadence invalidation permits an immediate refresh without querying again ability drags assign, move, and remove slots layout lock rejects a drop without losing the drag payload routes primary, shift row, and gamepad activations to visible slots touch inspection follows document release and suppresses one click document movement cancels a pending long press beyond tolerance directory map parent: experiments/awtsmoos/src/test children: experiments/awtsmoos/src/test/gameplay/combat related and overlapping systems colocated and integration test surfaces — most subsystem tests live under src/test, while a smaller external tests tree exercises broader integration contracts. boundaries and cautions this directory verifies behavior; it should not become the production owner of that behavior. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-gameplay-direct-983754e913.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Projects API project boundaries generally live under geelooy/api/, but URL ownership is determined by derech discovery and route tables rather than directory names alone. Investigate an API project 1. Open the project tutorial for source/dependency shape. 2. Open the API family manua",
+		"searchText": "b\"h boruch hashem blessed is he api projects api project boundaries generally live under geelooy/api/, but url ownership is determined by derech discovery and route tables rather than directory names alone. investigate an api project 1. open the project tutorial for source/dependency shape. 2. open the api family manual and generated route tutorials for http behavior. 3. read the owning awtsmoos.derech.js and imported handlers. 4. separate trusted identity, resource authorization, persistence, provider calls, and response semantics. 5. verify through callers/tests/runtime where safe. why project and route evidence differ a project packet answers “what files/dependencies/entries surround this subsystem?” a route tutorial answers “what source evidence belongs to this url pattern?” one project can own many routes, and directory ownership does not prove request reachability. never infer get from unknown method evidence or anonymous access from an /api/ path.",
+		"page": "pages/docs-tutorials-projects-apis-md-030810cad3.json"
+	},
+	{
+		"id": "docs-tutorials-projects-apps-md-cc69985cf2",
+		"title": "Applications",
+		"sourcePath": "docs/TUTORIALS/PROJECTS/APPS.md",
+		"category": "Projects",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Applications",
+				"anchor": "applications"
+			},
+			{
+				"level": 2,
+				"text": "Investigate an app",
+				"anchor": "investigate-an-app"
+			},
+			{
+				"level": 2,
+				"text": "Common traps",
+				"anchor": "common-traps"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Applications Application boundaries usually live beneath geelooy/apps/ and combine a public entry surface with browser modules, styles, assets, and calls into APIs or shared libraries. Investigate an app 1. Open its generated project tutorial and local DOCUMENTATION.md when present. 2. S",
+		"searchText": "b\"h boruch hashem blessed is he applications application boundaries usually live beneath geelooy/apps/ and combine a public entry surface with browser modules, styles, assets, and calls into apis or shared libraries. investigate an app 1. open its generated project tutorial and local documentation.md when present. 2. start from observed public entries and source entry files. 3. trace imported shared libraries and api callers separately. 4. check whether state persists locally, through social/dosdb, or through a specialized api. 5. use test evidence as a verification clue, not a quality score. common traps a browser app is not automatically the server control plane with the same name. a public index.html does not prove authentication or backend availability. relative imports show lexical coupling, not which feature executes at runtime. build/generated files should not be mistaken for the authored source boundary. use /docs/?view=projects to filter project type app and inspect source/dependency/public entry evidence.",
+		"page": "pages/docs-tutorials-projects-apps-md-cc69985cf2.json"
+	},
+	{
+		"id": "docs-tutorials-projects-games-md-5a9ff5ac78",
+		"title": "Games and Worlds",
+		"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
+		"category": "Projects",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Games and Worlds",
+				"anchor": "games-and-worlds"
+			},
+			{
+				"level": 2,
+				"text": "Investigate a game",
+				"anchor": "investigate-a-game"
+			},
+			{
+				"level": 2,
+				"text": "Caveats",
+				"anchor": "caveats"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Games and Worlds Game boundaries under geelooy/games/ can contain standalone browser experiences, shared game infrastructure, realtime integrations, assets, simulations, and specialized reports. Investigate a game 1. Identify the game project boundary rather than shared games/scripts, st",
+		"searchText": "b\"h boruch hashem blessed is he games and worlds game boundaries under geelooy/games/ can contain standalone browser experiences, shared game infrastructure, realtime integrations, assets, simulations, and specialized reports. investigate a game 1. identify the game project boundary rather than shared games/scripts, styles, or tests roots. 2. open observed public entry urls and source entry files. 3. check imports into shared game/browser libraries. 4. check generated websocket application/event evidence when the game is realtime. 5. inspect direct root handlers when a game has specialized server reporting, such as mitzvah world. caveats an html entry does not prove server/realtime readiness. asset volume does not measure architectural importance. generated dependency edges are lexical. shared game infrastructure should not be documented as if it were one game product.",
+		"page": "pages/docs-tutorials-projects-games-md-5a9ff5ac78.json"
+	},
+	{
+		"id": "docs-tutorials-projects-libraries-and-tooling-md-f171c0f31f",
+		"title": "Libraries and Tooling",
+		"sourcePath": "docs/TUTORIALS/PROJECTS/LIBRARIES_AND_TOOLING.md",
+		"category": "Projects",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Libraries and Tooling",
+				"anchor": "libraries-and-tooling"
+			},
+			{
+				"level": 2,
+				"text": "Investigate these boundaries",
+				"anchor": "investigate-these-boundaries"
+			},
+			{
+				"level": 2,
+				"text": "Caveats",
+				"anchor": "caveats"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Libraries and Tooling Library/tooling/test boundaries exist to be consumed, executed during development, or support other systems rather than present one end user surface. Investigate these boundaries 1. Use incoming dependency evidence to find consumers. 2. Use outgoing/external depende",
+		"searchText": "b\"h boruch hashem blessed is he libraries and tooling library/tooling/test boundaries exist to be consumed, executed during development, or support other systems rather than present one end user surface. investigate these boundaries 1. use incoming dependency evidence to find consumers. 2. use outgoing/external dependencies to understand assumptions. 3. inspect exports and representative symbol samples. 4. distinguish production libraries from scripts/tools/tests by exact project type. 5. trace package scripts and test ownership before changing shared behavior. caveats a highly connected library can have no public html entry. export counts are lexical discovery evidence. tooling commands can mutate files/processes and should be reviewed for safety separately from ordinary library calls.",
+		"page": "pages/docs-tutorials-projects-libraries-and-tooling-md-f171c0f31f.json"
+	},
+	{
+		"id": "docs-tutorials-projects-public-surfaces-md-56c7282e61",
+		"title": "Public and Other Boundaries",
+		"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"category": "Projects",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Public and Other Boundaries",
+				"anchor": "public-and-other-boundaries"
+			},
+			{
+				"level": 2,
+				"text": "Read the exact type first",
+				"anchor": "read-the-exact-type-first"
+			},
+			{
+				"level": 2,
+				"text": "Investigation strategy",
+				"anchor": "investigation-strategy"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Public and Other Boundaries This family contains public/public root/project boundaries plus alias/evidence roots that do not fit the narrower app/API/game/runtime/library families. Read the exact type first public / public root can represent broad browser facing roots. project is a disco",
+		"searchText": "b\"h boruch hashem blessed is he public and other boundaries this family contains public/public root/project boundaries plus alias/evidence roots that do not fit the narrower app/api/game/runtime/library families. read the exact type first public / public root can represent broad browser facing roots. project is a discovered boundary without a more specific classification. alias can represent a symlinked compatibility/navigation boundary. evidence can represent planning/discovery material and is not a product surface. investigation strategy use the generated tutorial’s exact path/type, symlink target, public entries, local docs, file counts, and dependency evidence. do not convert an evidence root into a product simply because it is large. do not treat a symlink alias as an independent implementation without inspecting its target.",
+		"page": "pages/docs-tutorials-projects-public-surfaces-md-56c7282e61.json"
+	},
+	{
+		"id": "docs-tutorials-projects-readme-md-ef98756543",
+		"title": "Project and System Tutorials",
+		"sourcePath": "docs/TUTORIALS/PROJECTS/README.md",
+		"category": "Projects",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project and System Tutorials",
+				"anchor": "project-and-system-tutorials"
+			},
+			{
+				"level": 2,
+				"text": "Human guides",
+				"anchor": "human-guides"
+			},
+			{
+				"level": 2,
+				"text": "Generated project teaching",
+				"anchor": "generated-project-teaching"
+			},
+			{
+				"level": 2,
+				"text": "Evidence rule",
+				"anchor": "evidence-rule"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project and System Tutorials A project boundary is a discovery vessel, not a guarantee of runtime isolation. Use these manuals to understand how to investigate each kind of boundary, then use generated project tutorials for current evidence. Human guides Applications API Projects Games a",
+		"searchText": "b\"h boruch hashem blessed is he project and system tutorials a project boundary is a discovery vessel, not a guarantee of runtime isolation. use these manuals to understand how to investigate each kind of boundary, then use generated project tutorials for current evidence. human guides applications api projects games and worlds runtime and infrastructure libraries and tooling public and other boundaries generated project teaching project tutorial index gives one generated tutorial for every current project boundary. each project tutorial joins file shape, entries, local docs, public urls, lexical symbol summaries, incoming/outgoing dependencies, external packages, and test file evidence. evidence rule imports are lexical dependency evidence, not runtime call graphs. index.html means a public entry file was found, not that the application is healthy. test file counts are not behavioral coverage scores. generated packets point you toward source and verification; they do not replace either.",
+		"page": "pages/docs-tutorials-projects-readme-md-ef98756543.json"
+	},
+	{
+		"id": "docs-tutorials-projects-runtime-and-infrastructure-md-1e31989624",
+		"title": "Runtime and Infrastructure",
+		"sourcePath": "docs/TUTORIALS/PROJECTS/RUNTIME_AND_INFRASTRUCTURE.md",
+		"category": "Projects",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Runtime and Infrastructure",
+				"anchor": "runtime-and-infrastructure"
+			},
+			{
+				"level": 2,
+				"text": "Investigate runtime code",
+				"anchor": "investigate-runtime-code"
+			},
+			{
+				"level": 2,
+				"text": "Caveats",
+				"anchor": "caveats"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Runtime and Infrastructure Runtime/infrastructure boundaries include the dynamic server, persistence machinery, operations roots, and other server side vessels whose public surface may be indirect or absent. Investigate runtime code 1. Start with central architecture/system manuals and t",
+		"searchText": "b\"h boruch hashem blessed is he runtime and infrastructure runtime/infrastructure boundaries include the dynamic server, persistence machinery, operations roots, and other server side vessels whose public surface may be indirect or absent. investigate runtime code 1. start with central architecture/system manuals and the generated project tutorial. 2. follow source entry files and symbols rather than looking for index.html. 3. trace incoming dependencies to understand who relies on the subsystem. 4. treat database paths, process boundaries, environment names, and transport protocols as compatibility/security contracts. 5. use focused server/realtime/data tests before changing behavior. caveats no public entry is normal for infrastructure. lexical incoming edges do not enumerate dynamic requires, runtime registration, or process level coupling. configuration documentation exposes names and precedence—not secret values.",
+		"page": "pages/docs-tutorials-projects-runtime-and-infrastructure-md-1e31989624.json"
+	},
+	{
+		"id": "docs-tutorials-readme-md-63e5ec071c",
+		"title": "Awtsmoos.com Tutorials",
+		"sourcePath": "docs/TUTORIALS/README.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos.com Tutorials",
+				"anchor": "awtsmoos-com-tutorials"
+			},
+			{
+				"level": 2,
+				"text": "API families",
+				"anchor": "api-families"
+			},
+			{
+				"level": 2,
+				"text": "Server and runtime",
+				"anchor": "server-and-runtime"
+			},
+			{
+				"level": 2,
+				"text": "Content platform",
+				"anchor": "content-platform"
+			},
+			{
+				"level": 2,
+				"text": "Foundation curriculum",
+				"anchor": "foundation-curriculum"
+			},
+			{
+				"level": 2,
+				"text": "Evidence rule",
+				"anchor": "evidence-rule"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos.com Tutorials The Awtsmoos lets a tutorial explain why and how while generated evidence answers which files and routes exist right now . API families TUTORIALS/API/ contains one manual for every currently cataloged derech family. These pages explain ownership, trust boundaries, ",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos.com tutorials the awtsmoos lets a tutorial explain why and how while generated evidence answers which files and routes exist right now . api families tutorials/api/ contains one manual for every currently cataloged derech family. these pages explain ownership, trust boundaries, interpretation, and how to descend into the generated route tutorials without copying volatile route tables by hand. use ../generated/api family tutorials.md for regenerated family counts/health and ../generated/api tutorial index.md for every route. server and runtime tutorials/systems/ teaches server boot, request pipeline, dynamic routing, identity/authorization, dosdb runtime, realtime runtime, and the documentation runtime itself. content platform tutorials/content/ teaches the social content model, heichel governance, posts/series, comments, aliases/api keys, moderation, search/graph/discovery, mail/notifications/drive, and migrations. foundation curriculum if the repository is unfamiliar, start with ../learn/readme.md rather than entering a specialist tutorial in the middle. evidence rule manual tutorials describe inspected meaning and workflows. generated tutorials describe source derived evidence. neither replaces current implementation/tests when exact runtime behavior matters.",
+		"page": "pages/docs-tutorials-readme-md-63e5ec071c.json"
+	},
+	{
+		"id": "docs-tutorials-systems-documentation-runtime-md-74eedfd291",
+		"title": "Tutorial: Documentation Runtime",
+		"sourcePath": "docs/TUTORIALS/SYSTEMS/DOCUMENTATION_RUNTIME.md",
+		"category": "Systems",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Tutorial: Documentation Runtime",
+				"anchor": "tutorial-documentation-runtime"
+			},
+			{
+				"level": 2,
+				"text": "Layers",
+				"anchor": "layers"
+			},
+			{
+				"level": 2,
+				"text": "Why publication is sharded",
+				"anchor": "why-publication-is-sharded"
+			},
+			{
+				"level": 2,
+				"text": "Regeneration",
+				"anchor": "regeneration"
+			},
+			{
+				"level": 2,
+				"text": "Verification",
+				"anchor": "verification"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Tutorial: Documentation Runtime The documentation system is itself a generated/public runtime surface. Layers Manual Markdown → generated evidence/tutorials → AI records → transport bounded public publication → /docs/ frontend. Why publication is sharded Real server/browser testing disco",
+		"searchText": "b\"h boruch hashem blessed is he tutorial: documentation runtime the documentation system is itself a generated/public runtime surface. layers manual markdown → generated evidence/tutorials → ai records → transport bounded public publication → /docs/ frontend. why publication is sharded real server/browser testing discovered static json response size limits. the publisher keeps search/project/page/content data below a conservative transport ceiling and losslessly reconstructs markdown. regeneration node scripts/docs/generate docs.js must become the one authoritative rebuild after tutorial integration. verification search/tutorial tests, unified validator, public response sweep, and real browser smoke protect different failure classes. read docs/interactive documentation.md.",
+		"page": "pages/docs-tutorials-systems-documentation-runtime-md-74eedfd291.json"
+	},
+	{
+		"id": "docs-tutorials-systems-dosdb-runtime-md-8cb27ff28a",
+		"title": "Tutorial: DosDB Runtime",
+		"sourcePath": "docs/TUTORIALS/SYSTEMS/DOSDB_RUNTIME.md",
+		"category": "Data",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Tutorial: DosDB Runtime",
+				"anchor": "tutorial-dosdb-runtime"
+			},
+			{
+				"level": 2,
+				"text": "Root selection",
+				"anchor": "root-selection"
+			},
+			{
+				"level": 2,
+				"text": "Why runtime paths matter",
+				"anchor": "why-runtime-paths-matter"
+			},
+			{
+				"level": 2,
+				"text": "Safe changes",
+				"anchor": "safe-changes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Tutorial: DosDB Runtime The dynamic server initializes DosDB once and shares the instance through request/server context. Root selection Environment overrides and local/tracked configuration participate in DB root selection before repository fallback. Inspect server/initDb.js for current",
+		"searchText": "b\"h boruch hashem blessed is he tutorial: dosdb runtime the dynamic server initializes dosdb once and shares the instance through request/server context. root selection environment overrides and local/tracked configuration participate in db root selection before repository fallback. inspect server/initdb.js for current precedence. why runtime paths matter many apis encode compatibility in database path shapes. sefarim reads directly from the shared db; social has multiple generations/adapters/migrations. safe changes trace every writer/reader, migration, and fallback before changing a persisted path. tests should cover old and new forms when compatibility is promised. read docs/data/readme.md and docs/data/path contracts.md.",
+		"page": "pages/docs-tutorials-systems-dosdb-runtime-md-8cb27ff28a.json"
 	}
 ]

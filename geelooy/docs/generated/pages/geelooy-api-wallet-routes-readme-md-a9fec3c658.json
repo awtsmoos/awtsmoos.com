@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-wallet-routes-readme-md-a9fec3c658",
+	"title": "B\"H — Wallet Routes (geelooy/api/wallet/routes/)",
+	"sourcePath": "geelooy/api/wallet/routes/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Wallet Routes (geelooy/api/wallet/routes/)",
+			"anchor": "b-h-wallet-routes-geelooy-api-wallet-routes"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-wallet-routes-readme-md-a9fec3c658-001.json"
+	]
+}

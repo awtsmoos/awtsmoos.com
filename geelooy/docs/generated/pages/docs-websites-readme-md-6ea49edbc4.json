@@ -14,38 +14,28 @@
 		},
 		{
 			"level": 2,
-			"text": "The shortest human path",
-			"anchor": "the-shortest-human-path"
+			"text": "Make and publish a static website",
+			"anchor": "make-and-publish-a-static-website"
 		},
 		{
 			"level": 2,
-			"text": "The shortest Tunnel path",
-			"anchor": "the-shortest-tunnel-path"
+			"text": "Human UI path",
+			"anchor": "human-ui-path"
 		},
 		{
 			"level": 2,
-			"text": "Choose your tutorial",
-			"anchor": "choose-your-tutorial"
+			"text": "Tunnel / agent path",
+			"anchor": "tunnel-agent-path"
 		},
 		{
 			"level": 2,
-			"text": "DNS migration worksheet",
-			"anchor": "dns-migration-worksheet"
+			"text": "Tutorials",
+			"anchor": "tutorials"
 		},
 		{
 			"level": 2,
-			"text": "Two automation planes",
-			"anchor": "two-automation-planes"
-		},
-		{
-			"level": 2,
-			"text": "Static versus connected Node",
-			"anchor": "static-versus-connected-node"
-		},
-		{
-			"level": 2,
-			"text": "Current DNS boundary",
-			"anchor": "current-dns-boundary"
+			"text": "Custom domains and connected Node",
+			"anchor": "custom-domains-and-connected-node"
 		}
 	],
 	"markdownParts": [

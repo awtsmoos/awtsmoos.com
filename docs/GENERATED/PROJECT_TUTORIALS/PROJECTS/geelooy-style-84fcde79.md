@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 1132 | 48 | 0 | 0 | 1 | 3 | 1184 |
+| 1324 | 59 | 0 | 0 | 1 | 3 | 1387 |
 
 ## Public entry points
 
@@ -29,7 +29,7 @@ None observed.
 
 ## Symbol evidence
 
-No lexical symbol summary observed.
+Source files: 1; classes: 0; functions: 5; exports: 7; samples: AUTH_STYLE_ROOT, AUTH_MODULE_NAMES, AUTH_MANIFEST_NAMES, readAuthSource, assertContainsEvery, assertNoGlobalSelectorLeak, assertAuthLineBudget, stripCssComments.
 
 ## Depends on
 
@@ -45,4 +45,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **48**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **59**. Treat this as file evidence, not proof of behavioral coverage.

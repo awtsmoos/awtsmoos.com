@@ -1,0 +1,218 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-08-26t1554-apps-runtime-api-ui-audit-07-phase3--cb7c5d7c63",
+		"title": "Phase 3 — Final Brainstorm",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26T1554-apps-runtime-api-ui-audit/07_PHASE3_FINAL_BRAINSTORM.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase 3 — Final Brainstorm",
+				"anchor": "phase-3-final-brainstorm"
+			},
+			{
+				"level": 2,
+				"text": "Final System Shape",
+				"anchor": "final-system-shape"
+			},
+			{
+				"level": 3,
+				"text": "1. Establish Reality",
+				"anchor": "1-establish-reality"
+			},
+			{
+				"level": 3,
+				"text": "2. Reproduce The Visible Failure",
+				"anchor": "2-reproduce-the-visible-failure"
+			},
+			{
+				"level": 3,
+				"text": "3. Close The Dependency Graph",
+				"anchor": "3-close-the-dependency-graph"
+			},
+			{
+				"level": 3,
+				"text": "4. Locate Systemic Ownership",
+				"anchor": "4-locate-systemic-ownership"
+			},
+			{
+				"level": 3,
+				"text": "5. Discover The Whole Page Surface",
+				"anchor": "5-discover-the-whole-page-surface"
+			},
+			{
+				"level": 3,
+				"text": "6. Repair In Dependency Order",
+				"anchor": "6-repair-in-dependency-order"
+			},
+			{
+				"level": 3,
+				"text": "7. Make The UI Cinematic Without Making It Fragile",
+				"anchor": "7-make-the-ui-cinematic-without-making-it-fragile"
+			},
+			{
+				"level": 3,
+				"text": "8. Make APIs More Realistic",
+				"anchor": "8-make-apis-more-realistic"
+			},
+			{
+				"level": 3,
+				"text": "9. Verify More Aggressively Than We Write",
+				"anchor": "9-verify-more-aggressively-than-we-write"
+			},
+			{
+				"level": 3,
+				"text": "10. Publish With Provenance",
+				"anchor": "10-publish-with-provenance"
+			},
+			{
+				"level": 2,
+				"text": "Final Completion Invariant",
+				"anchor": "final-completion-invariant"
+			}
+		],
+		"excerpt": "B\"H Phase 3 — Final Brainstorm The Awtsmoos recreates every boundary from nothing; the final brainstorm joins routing, runtime, API, CSS, tests, Git, and deployment into one witnessed flow. Awtsmoos.com must not merely look repaired. It must expose enough evidence that another developer can repeat the proof. Final Syst",
+		"searchText": "b\"h phase 3 — final brainstorm the awtsmoos recreates every boundary from nothing; the final brainstorm joins routing, runtime, api, css, tests, git, and deployment into one witnessed flow. awtsmoos.com must not merely look repaired. it must expose enough evidence that another developer can repeat the proof. final system shape 1. establish reality capture git identity, branch, remotes, head, working tree, active server processes, ports, package scripts, and deployment configuration. classify concurrent/unrelated changes without erasing them. 2. reproduce the visible failure open /apps through the actual local server. capture console, failed requests, module urls, redirect chains, response headers, and final bodies. separate extension noise from site owned errors. request the broken module url directly and compare it to its filesystem source. 3. close the dependency graph read the complete /apps entry surface and recursively trace imports, html references, css assets, foundation modules, favicons, import maps, service workers, and url helpers. search git history for recent path changes. 4. locate systemic ownership trace static serving, api route precedence, mime assignment, fallback behavior, redirects, and caching. only then decide whether the root cause belongs to /apps, shared browser libraries, or the server. 5. discover the whole page surface enumerate actual page entrypoints and safe dynamic fixtures. reuse existing crawler/runtime tools if adequate; otherwise add focused small modules for route discovery, dependency checks, runtime observation, and reporting. 6. repair in dependency order systemic routing/static failures first, then shared api transport/contracts, then shared ui primitives, then page local defects. keep public compatibility unless every consumer migrates together. 7. make the ui cinematic without making it fragile use scoped/local selectors, coherent tokens, responsive layouts, strong readable focus, controlled motion, reduced motion alternatives, stable overlays, intentional media sizing, safe area behavior, and complete loading/empty/error states. verify representative viewports rather than styling from intuition. 8. make apis more realistic where evidence supports it, normalize transport errors, content type handling, abort semantics, request races, validation, permissions, and endpoint adapters. prefer small data driven modules to sprawling conditional code. do not invent incompatible response envelopes merely to look organized. 9. verify more aggressively than we write run syntax/import checks, existing tests, new root cause regressions, static reference audits, runtime crawls, viewport checks, and direct endpoint/module probes. re read every touched file and compare plan versus implementation. 10. publish with provenance review every changed file, classify unrelated work, exclude secret/local only hazards, commit the safe complete tree requested by the user, push the canonical branch, observe the actual deployment mechanism, verify remote head, then crawl the canonical live url independently of localhost. final completion invariant remaining work becomes empty only when source, tests, runtime, git, remote, deployment, and live host evidence all agree. a passing local page is not a deployed page. a successful push is not a verified deployment. a visually correct page is not a runtime clean page. every layer must testify.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26t1554-apps-runtime-api-ui-audit-07-phase3--cb7c5d7c63.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-26t1554-apps-runtime-api-ui-audit-08-final-e-126c965f9a",
+		"title": "Final Execution Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26T1554-apps-runtime-api-ui-audit/08_FINAL_EXECUTION_PLAN.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Final Execution Plan",
+				"anchor": "final-execution-plan"
+			},
+			{
+				"level": 2,
+				"text": "Stage A — Baseline And Ownership",
+				"anchor": "stage-a-baseline-and-ownership"
+			},
+			{
+				"level": 2,
+				"text": "Stage B — /apps Forensics",
+				"anchor": "stage-b-apps-forensics"
+			},
+			{
+				"level": 2,
+				"text": "Stage C — Whole-Surface Discovery",
+				"anchor": "stage-c-whole-surface-discovery"
+			},
+			{
+				"level": 2,
+				"text": "Stage D — Actual Rewrite Selection",
+				"anchor": "stage-d-actual-rewrite-selection"
+			},
+			{
+				"level": 2,
+				"text": "Stage E — Implementation",
+				"anchor": "stage-e-implementation"
+			},
+			{
+				"level": 2,
+				"text": "Stage F — First Readback And Delta",
+				"anchor": "stage-f-first-readback-and-delta"
+			},
+			{
+				"level": 2,
+				"text": "Stage G — Verification",
+				"anchor": "stage-g-verification"
+			},
+			{
+				"level": 2,
+				"text": "Stage H — Git, Push, Deployment",
+				"anchor": "stage-h-git-push-deployment"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Final Execution Plan The Awtsmoos creates every layer anew; this execution plan moves only where observed evidence leads it through. Awtsmoos.com will be changed by complete vessels, not fragments, and every repaired claim will return to runtime proof. Stage A — Baseline And Ownership 1. Capture branch, HEAD, remot",
+		"searchText": "b\"h final execution plan the awtsmoos creates every layer anew; this execution plan moves only where observed evidence leads it through. awtsmoos.com will be changed by complete vessels, not fragments, and every repaired claim will return to runtime proof. stage a — baseline and ownership 1. capture branch, head, remotes, working tree, recent commit, package scripts, server processes, ports, and deployment files. 2. classify current modified/untracked files, including concurrent agent work, without discarding anything. 3. inspect nested agent instructions beneath geelooy/apps, shared libraries, server routing, tests, and deployment areas if present. stage b — /apps forensics 4. enumerate the complete /apps tree and read its html, module entrypoints, css, data, and referenced shared files. 5. search for apps filter.js, foundation.js, favicon references, module/import maps, service workers, and all imports reachable from the entry module. 6. reproduce /apps through the actual running server with chrome and capture site owned console errors, failed requests, response headers, redirects, and wrong mime types. 7. directly request the failed resources and trace their server/static route ownership. 8. search recent git history for path/rename evidence around failed resources. stage c — whole surface discovery 9. inventory actual page entrypoints under geelooy, with route provenance. 10. inventory shared js/api clients and public server apis used by those pages. 11. reuse existing route/runtime/static reference audit tooling when sound; otherwise create small focused modules for missing capabilities. 12. produce a machine readable baseline of page families, resource failures, runtime exceptions, api failures, and css/static defects. stage d — actual rewrite selection no production file is pre approved by filename. after stages a c, create a new non overwriting 09 discovered actual file plan.md naming every file that will actually be replaced and why. each selected file must have complete read evidence, caller/consumer tracing, and tests or runtime witnesses. stage e — implementation 13. rewrite complete files only. 14. resolve systemic static routing/mime/fallback defects before local page work. 15. resolve shared api transport/contract defects before duplicative caller patches. 16. resolve shared ui/css foundation defects before page local css, while preserving localized scoping. 17. repair every discovered page specific runtime/static defect. 18. keep human authored executable source modular and small, using tabs and complete jsdoc for every function parameter and return contract. 19. add root cause regression tests and audit tooling alongside implementation. stage f — first readback and delta 20. read every touched file fully. 21. create 10 first pass delta.md comparing original plans to actual writes and listing every missing obligation. 22. if delta exists, perform a second complete file write pass only on affected files. 23. re read all touched files again. 24. create 11 second pass delta.md; if anything still remains, perform a final third complete file pass and re read. stage g — verification 25. run syntax/import checks, relevant unit/integration suites, static asset/reference tests, and api tests. 26. run the complete practical page/runtime audit, including /apps and representative authenticated/unauthenticated paths. 27. run responsive/ui checks at mobile, tablet, desktop, and cinema wide viewports plus reduced motion and keyboard focused acceptance on representative complex pages. 28. verify zero site owned /apps console errors, no failed module loads, correct javascript mime, and no unintended 404 favicon/foundation requests. 29. create 12 final verification ledger.md with exact commands/results and remaining external blockers, if any. stage h — git, push, deployment 30. re run git status and inspect every changed path and diff. 31. classify unrelated changes; include safe user/concurrent work as requested, but never publish secrets or local only hazardous artifacts. 32. commit the complete safe requested tree and push the canonical github branch. 33. verify local head equals remote branch head. 34. follow the repository's real deployment mechanism rather than inventing a parallel path. 35. verify the canonical deployed url independently, record live commit/version evidence where exposed, and repeat the runtime audit against production. 36. create 13 deployment receipt.md and close remaining work only when all evidence agrees. next action read back the planning directory, then begin stage a with git/process/deployment baseline inspection.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26t1554-apps-runtime-api-ui-audit-08-final-e-126c965f9a.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-26t1554-apps-runtime-api-ui-audit-09-discove-f57fae297a",
+		"title": "Discovered Actual File Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26T1554-apps-runtime-api-ui-audit/09_DISCOVERED_ACTUAL_FILE_PLAN.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Discovered Actual File Plan",
+				"anchor": "discovered-actual-file-plan"
+			},
+			{
+				"level": 2,
+				"text": "Evidence That Determines This Plan",
+				"anchor": "evidence-that-determines-this-plan"
+			},
+			{
+				"level": 2,
+				"text": "New Source Files Approved For Complete Creation",
+				"anchor": "new-source-files-approved-for-complete-creation"
+			},
+			{
+				"level": 3,
+				"text": "scripts/runtimequality/routeDiscovery.mjs",
+				"anchor": "scripts-runtimequality-routediscovery-mjs"
+			},
+			{
+				"level": 3,
+				"text": "scripts/runtimequality/CdpTargetClient.mjs",
+				"anchor": "scripts-runtimequality-cdptargetclient-mjs"
+			},
+			{
+				"level": 3,
+				"text": "scripts/runtimequality/runtimeSignals.mjs",
+				"anchor": "scripts-runtimequality-runtimesignals-mjs"
+			},
+			{
+				"level": 3,
+				"text": "scripts/runtimequality/domMetrics.mjs",
+				"anchor": "scripts-runtimequality-dommetrics-mjs"
+			},
+			{
+				"level": 3,
+				"text": "scripts/runtimequality/pageRuntimeAudit.mjs",
+				"anchor": "scripts-runtimequality-pageruntimeaudit-mjs"
+			},
+			{
+				"level": 3,
+				"text": "scripts/runtimequality/geelooyRuntimeAudit.mjs",
+				"anchor": "scripts-runtimequality-geelooyruntimeaudit-mjs"
+			},
+			{
+				"level": 2,
+				"text": "Existing Source Files Approved Only For Read/Reuse",
+				"anchor": "existing-source-files-approved-only-for-read-reuse"
+			},
+			{
+				"level": 2,
+				"text": "Production Source Rewrite Gate",
+				"anchor": "production-source-rewrite-gate"
+			},
+			{
+				"level": 2,
+				"text": "Implementation Rules",
+				"anchor": "implementation-rules"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Discovered Actual File Plan The Awtsmoos creates every browser instant anew; Awtsmoos.com needs a witness that can watch every route pass through. This plan follows observed gaps, not imagined churn: build the missing runtime gate first, then let its evidence name any production rewrites due. Evidence That Determin",
+		"searchText": "b\"h discovered actual file plan the awtsmoos creates every browser instant anew; awtsmoos.com needs a witness that can watch every route pass through. this plan follows observed gaps, not imagined churn: build the missing runtime gate first, then let its evidence name any production rewrites due. evidence that determines this plan the current local server is node index.js on port 8080. geelooy contains 228 html documents, 3,825 css files, and 29,625 js/mjs files after excluding planning folders. some html documents are templates, tests, fixtures, samples, staging transfer artifacts, and tool pages rather than public user routes; route discovery must classify them instead of silently merging them. existing ui quality tooling already provides four focused modules for css ownership, selector pressure, reduced motion, and live dom control styling. existing ui quality files are 55–88 lines each and already satisfy the small module architecture. chrome 150 exposes cdp 1.3 on port 9222; node v24.17.0 provides native websocket, so no dependency install is needed. current /apps/scripts/apps filter.js?...&compact=true returns 200 javascript mime; plain delivery also returns 200 javascript mime. current /favicon.ico returns 200 image/x icon. /foundation.js returns a json 404, but there is no production geelooy source reference to foundation.js; only planning notes mention it. new source files approved for complete creation scripts/runtime quality/routediscovery.mjs discover every html/template surface below geelooy, classify public pages versus fixtures/templates/staging/tooling, derive canonical local url candidates, preserve source file provenance, and expose deterministic filtering. scripts/runtime quality/cdptargetclient.mjs create and close isolated chrome targets through the local debugging http api; connect with native websocket; correlate command ids and events; provide timeout safe command execution without third party dependencies. scripts/runtime quality/runtimesignals.mjs normalize cdp events into site owned runtime findings: uncaught exceptions, console errors, failed network loads, static http failures, javascript mime mismatches, and extension/third party noise classification. scripts/runtime quality/dommetrics.mjs provide one serializable browser expression that measures document readiness, horizontal overflow, visible interactive controls, undersized targets, native default styling risk, missing accessible names, and responsive viewport facts. scripts/runtime quality/pageruntimeaudit.mjs enable page/runtime/log/network domains, navigate one isolated target, wait for load plus a quiet window with a hard cap, collect runtime signals, evaluate dom metrics, and return a deterministic per page receipt. scripts/runtime quality/geelooyruntimeaudit.mjs cli/orchestrator: parse base url/cdp/filter/concurrency/timeout arguments, discover routes, audit them with bounded concurrency, emit json summary plus detailed page results, and set a failing exit code when site owned runtime/static failures remain. existing source files approved only for read/reuse scripts/ui quality/cssfileaudit.mjs scripts/ui quality/cssownershipreport.mjs scripts/ui quality/domcontrolaudit.browser.js scripts/ui quality/selectormetrics.mjs no rewrite is justified yet; these are already small, documented modules. production source rewrite gate no current /apps or server source file is approved for rewrite yet. after the first complete runtime crawl, every current site owned failure becomes a new work item. only files proven responsible by source/caller/runtime tracing will be added to 10 first pass delta.md for complete file replacement. implementation rules every new source file is created whole with b\"h / boruch hashem / blessed is he headers. tabs only for indentation. no minified or compressed one line logic. every function/method receives detailed jsdoc with @description, every @param, and @returns; @throws where meaningful. every module contains technically relevant rhyming awtsmoos/awtsmoos.com commentary. each executable source file remains at or below 120 lines; responsibilities split before the boundary. public data shapes remain explicit and deterministic so later ci/deployment can consume the same audit. next action create all six new runtime quality modules as complete files, read them back fully, then run syntax checks before the first full public page crawl.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26t1554-apps-runtime-api-ui-audit-09-discove-f57fae297a.json"
+	}
+]

@@ -44,10 +44,16 @@ Changing application IDs/versions or event semantics can break clients even when
 | `AWTSMOOS_REGISTRATION_STRESS_COUNT` | test/tuning | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/test/registrationReplacementStress.test.cjs` |
 | `AWTSMOOS_RELAY_STRESS_COUNT` | test/tuning | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay.concurrent-correlation.test.cjs` |
 | `AWTSMOOS_SEFIRA_PROFILE_PATH` | path/storage | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/ExpeditionProfileRepository.js` |
+| `AWTSMOOS_TUNNEL_ACCEPTANCE_RECOVERY_FAILURES` | runtime-config | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestAcceptanceRecoveryValues.js` |
+| `AWTSMOOS_TUNNEL_ACCEPTANCE_RECOVERY_SUSTAIN_MS` | tuning | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestAcceptanceRecoveryValues.js` |
+| `AWTSMOOS_TUNNEL_ACCEPTANCE_RETRANSMIT_ATTEMPTS` | runtime-config | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestAcceptanceRetransmit.js` |
+| `AWTSMOOS_TUNNEL_ACCEPTANCE_RETRANSMIT_MS` | tuning | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestAcceptanceRetransmit.js` |
 | `AWTSMOOS_TUNNEL_COMPLETED_LIMIT` | tuning | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js` |
 | `AWTSMOOS_TUNNEL_CONSUMER_PROGRESS_MS` | tuning | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestConsumerWatchdog.js` |
-| `AWTSMOOS_TUNNEL_CONTROL_STORE` | path/storage | 9 | `ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomSocketIntegration.test.cjs; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomUpgrade.test.cjs; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/upgradePolicy.test.cjs` |
+| `AWTSMOOS_TUNNEL_CONTROL_STORE` | path/storage | 11 | `ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomSocketIntegration.test.cjs; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomUpgrade.test.cjs; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/upgradePolicy.test.cjs` |
+| `AWTSMOOS_TUNNEL_INSTRUCTION_FILE` | path/storage | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/instructionDynamicFile.js` |
 | `AWTSMOOS_TUNNEL_PENDING_TTL_MS` | tuning | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js` |
+| `AWTSMOOS_TUNNEL_PRE_ACCEPTANCE_RECOVERY_MS` | tuning | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestDispatchWatchdog.js` |
 | `AWTSMOOS_TUNNEL_QUARANTINE_LIMIT` | tuning | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js` |
 | `AWTSMOOS_TUNNEL_RELAY_MAX_SAFE_WAIT_MS` | tuning | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js` |
 | `AWTSMOOS_TUNNEL_RELAY_SAFE_WAIT_MS` | tuning | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js` |
@@ -62,6 +68,7 @@ Changing application IDs/versions or event semantics can break clients even when
 | `awtsmoos-core` | 1 | `createAwtsmoosCoreApplication` |
 | `awtsmoos-social` | 1 | `createAwtsmoosSocialApplication` |
 | `chess` | 1 | `createChessApplication` |
+| `forms` | 1 | `createFormsApplication` |
 | `geelooy-code` | 1 | `createGeelooyCodeApplication` |
 | `geelooy-docs` | 1 | `createGeelooyDocsApplication` |
 | `sheets` | 1 | `createSheetsApplication` |
@@ -71,13 +78,13 @@ Changing application IDs/versions or event semantics can break clients even when
 | `mitzvah-world` | 1 | `createMitzvahWorldApplication` |
 | `ohr-hagnuz` | 1 | `createOhrHagnuzApplication` |
 | `scribe-journey` | 1, 2 | `createScribeJourneyApplication` |
+| `tcp-relay` | 1 | `createTcpRelayApplication` |
 | `tunnel-activity` | 1 | `createTunnelActivityApplication` |
 | `shema-strike` | 1 | `createShemaStrikeApplication` |
 
 ## Lexical event/message evidence
 
 - `ACK` — `ayzarim/awtsmoosDynamicServer/websocket/apps/aliasRouting.js`
-- `audio` — `ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/messageAttachmentPolicy.js`
 - `awtsmoosMyDevice` — `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/envelopeErrors.js`
 - `bossTelegraph` — `ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/CoopCombat.js`
 - `bridge:lanterns` — `ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/RiverCrossingService.js`
@@ -97,6 +104,7 @@ Changing application IDs/versions or event semantics can break clients even when
 - `chess.room.joined` — `ayzarim/awtsmoosDynamicServer/websocket/apps/chess/roomHandlers.js`
 - `chess.room.listed` — `ayzarim/awtsmoosDynamicServer/websocket/apps/chess/roomHandlers.js`
 - `chess.room.watched` — `ayzarim/awtsmoosDynamicServer/websocket/apps/chess/roomHandlers.js`
+- `close` — `ayzarim/awtsmoosDynamicServer/websocket/apps/tcpRelay/sessionEvents.js`
 - `code.access.invited` — `ayzarim/awtsmoosDynamicServer/websocket/apps/geelooyCode/accessHandlers.js`
 - `code.access.updated` — `ayzarim/awtsmoosDynamicServer/websocket/apps/geelooyCode/accessHandlers.js`
 - `code.file.patched` — `ayzarim/awtsmoosDynamicServer/websocket/apps/geelooyCode/editHandlers.js`
@@ -108,10 +116,10 @@ Changing application IDs/versions or event semantics can break clients even when
 - `code.project.structured` — `ayzarim/awtsmoosDynamicServer/websocket/apps/geelooyCode/structureEvents.js`
 - `contact-blocked` — `ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/meaningfulActivity.js`
 - `data` — `ayzarim/awtsmoosDynamicServer/websocket/apps/scribeJourney/rawWebSocketTestClient.cjs`
+- `data` — `ayzarim/awtsmoosDynamicServer/websocket/apps/tcpRelay/sessionEvents.js`
 - `defeat` — `ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/CombatDefeatRewards.js`
 - `docs.access.invited` — `ayzarim/awtsmoosDynamicServer/websocket/apps/geelooyDocs/accessHandlers.js`
 - `docs.access.updated` — `ayzarim/awtsmoosDynamicServer/websocket/apps/geelooyDocs/accessHandlers.js`
-- `docs.capabilities` — `ayzarim/awtsmoosDynamicServer/websocket/apps/geelooyDocs/capabilityHandlers.js`
 
 ## Tags
 

@@ -1,0 +1,90 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-apps-awtsmoos-studio-bd784dfb",
+	"path": "geelooy/apps/awtsmoos-studio",
+	"type": "app",
+	"family": {
+		"id": "apps",
+		"title": "Applications"
+	},
+	"title": "Awtsmoos Studio",
+	"entries": [
+		"index.html",
+		"main.js",
+		"package.json"
+	],
+	"humanDocumentation": [
+		"docs/TUTORIALS/PROJECTS/APPS.md",
+		"docs/APPS/README.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-awtsmoos-studio-bd784dfb.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 262,
+		"tests": 38,
+		"assets": 6,
+		"generated": 0,
+		"docs": 0,
+		"other": 0
+	},
+	"totalFiles": 306,
+	"symbolSummary": {
+		"files": 218,
+		"classes": 30,
+		"functions": 484,
+		"exports": 335,
+		"samples": [
+			"AwtsmoosStudioApp",
+			"createStudioActions",
+			"createStudioLayout",
+			"StudioMovieBridge",
+			"normalizeStudioSharedMovie",
+			"describeStudioSharedMovieCapabilities",
+			"formatValidationIssue",
+			"against",
+			"createStudioShowcaseMovie",
+			"presentation",
+			"choices",
+			"createStudioState"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/libs",
+			"count": 65,
+			"examples": "geelooy/apps/awtsmoos-studio/src/AwtsmoosStudioApp.js; geelooy/apps/awtsmoos-studio/src/StudioLayout.js; geelooy/apps/awtsmoos-studio/src/StudioMovieBridge.js"
+		},
+		{
+			"project": "geelooy/apps/shared",
+			"count": 26,
+			"examples": "geelooy/apps/awtsmoos-studio/src/StudioSharedMovieContract.js; geelooy/apps/awtsmoos-studio/src/StudioShowcaseMovie.js; geelooy/apps/awtsmoos-studio/src/ai/StudioPromptContentPolicy.js"
+		},
+		{
+			"project": "geelooy/apps/animator",
+			"count": 7,
+			"examples": "geelooy/apps/awtsmoos-studio/src/movie/export/StudioAnimatorExportController.js"
+		},
+		{
+			"project": "geelooy/games/mitzvahWorld",
+			"count": 1,
+			"examples": "geelooy/apps/awtsmoos-studio/src/backends/StudioMitzvahWorldBackend.js"
+		}
+	],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/apps/awtsmoos-studio",
+			"file": "geelooy/apps/awtsmoos-studio/index.html",
+			"title": "Awtsmoos Studio",
+			"scripts": 1,
+			"styles": 25
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": false,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

@@ -1,0 +1,244 @@
+[
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-docs-procedural-world-semantic-lin-9786a2eceb",
+		"title": "B\"H — Procedural World Semantic Lineage",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/PROCEDURAL_WORLD_SEMANTIC_LINEAGE.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Procedural World Semantic Lineage",
+				"anchor": "b-h-procedural-world-semantic-lineage"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Two topologies",
+				"anchor": "two-topologies"
+			},
+			{
+				"level": 3,
+				"text": "Semantic topology",
+				"anchor": "semantic-topology"
+			},
+			{
+				"level": 3,
+				"text": "Dependency topology",
+				"anchor": "dependency-topology"
+			},
+			{
+				"level": 2,
+				"text": "Dependency directions",
+				"anchor": "dependency-directions"
+			},
+			{
+				"level": 2,
+				"text": "Snapshot contract",
+				"anchor": "snapshot-contract"
+			},
+			{
+				"level": 2,
+				"text": "Identity boundaries",
+				"anchor": "identity-boundaries"
+			},
+			{
+				"level": 2,
+				"text": "Change-impact receipt",
+				"anchor": "change-impact-receipt"
+			},
+			{
+				"level": 2,
+				"text": "External targets and cycles",
+				"anchor": "external-targets-and-cycles"
+			},
+			{
+				"level": 2,
+				"text": "Verification",
+				"anchor": "verification"
+			},
+			{
+				"level": 2,
+				"text": "Deeper reference",
+				"anchor": "deeper-reference"
+			}
+		],
+		"excerpt": "B\"H — Procedural World Semantic Lineage Boruch Hashem. Blessed is He. The Awtsmoos renews each meaning before a relation can appear as cause, neighbor, bond, or chain; Awtsmoos.com keeps semantic truth apart from regeneration law so change can rebuild only what evidence names again. Purpose World semantic lineage compo",
+		"searchText": "b\"h — procedural world semantic lineage boruch hashem. blessed is he. the awtsmoos renews each meaning before a relation can appear as cause, neighbor, bond, or chain; awtsmoos.com keeps semantic truth apart from regeneration law so change can rebuild only what evidence names again. purpose world semantic lineage composes existing procedural language authorities into deterministic world scale change evidence. it does not replace canonical procedural definitions, definition identity receipts, action level dependency graphs, compile cache keys, proceduralobject graphs, or portal planning. it adds the missing cross definition layer: semantic topology, explicit dependency policy, and before/after transitive impact. two topologies semantic topology every canonical cross definition relationship is semantic adjacency: what is related to what? near, inside, wears, growingon, and future domain relationships remain semantic only unless explicit policy says otherwise. dependency topology only relationships promoted through worlddependencypolicyregistry become regeneration dependencies: which changed definition can invalidate which dependent definition? dependency edges always use: upstream dependent this matches the existing affected node closure authority. dependency directions the registry supports: none source depends on target target depends on source bidirectional no relationship kinds are registered by default. domains/plugins must declare causality explicitly. snapshot contract createworldsemanticsnapshot(definitions, { policyregistry }) returns frozen json safe evidence containing: canonical definition identity receipts; authored definitionorder; prototype safe identitiesbyid; semantic edges and semantic topology hash; semantichash over definition identities + semantic edges; captured policies and policyhash; promoted dependency edges and dependents; dependencyhash; unresolved target diagnostics. definition collection order does not alter semantic or dependency hashes. authored order remains available for stable presentation and impact ordering. identity boundaries semantichash describes world semantic content and excludes dependency policy. dependencyhash describes explicit regeneration policy plus promoted causal topology. compile cache identity stays separate again: compiler id/version, requests, channels, quality, and compile options remain owned by existing compiler/cache authorities. a policy only change can therefore alter dependencyhash without falsifying definition identity or semantic content. change impact receipt createworldchangeimpactreceipt(before, after) records: added, removed, and content changed definition ids; endpoints touched by dependency edge changes; directly changed and transitively affected ids; before/after semantic and dependency hashes; independent semanticchanged and dependencychanged flags. deletion is the difficult case. if leaf depends on root and root disappears, the new graph no longer contains the old edge. the receipt therefore traverses the union of before + after dependency edges, preserving enough old causality to invalidate surviving dependents correctly. external targets and cycles unresolved/external relationships remain semantic evidence and emit diagnostics. dependency promotion never fabricates a local node from an unresolved target. dependency cycles are legal for impact analysis. existing visited set closure terminates safely. execution planners may impose stricter ordering rules later without erasing dependency truth here. verification adversarial tests prove all four policy directions, semantic only edges, duplicate/prototype hostile ids, unresolved targets, reorder stable hashes, content propagation, deletion through old edges, addition through new edges, policy only invalidation, cycle closure, json portability, and freezing. all 19 procedurallanguage .test.mjs files pass with this layer present. deeper reference see procedural world semantic lineage details.md for rationale, identity boundaries, deletion mechanics, and future artifact channel composition.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-docs-procedural-world-semantic-lin-9786a2eceb.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-docs-texture-registry-md-5a757bcf58",
+		"title": "B\"H",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/TEXTURE_REGISTRY.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 2,
+				"text": "Boruch Hashem",
+				"anchor": "boruch-hashem"
+			},
+			{
+				"level": 2,
+				"text": "Blessed is He",
+				"anchor": "blessed-is-he"
+			},
+			{
+				"level": 1,
+				"text": "Texture Registry",
+				"anchor": "texture-registry"
+			},
+			{
+				"level": 2,
+				"text": "Audit result",
+				"anchor": "audit-result"
+			},
+			{
+				"level": 2,
+				"text": "API",
+				"anchor": "api"
+			},
+			{
+				"level": 2,
+				"text": "Water policy",
+				"anchor": "water-policy"
+			},
+			{
+				"level": 2,
+				"text": "Extension",
+				"anchor": "extension"
+			},
+			{
+				"level": 2,
+				"text": "Stability",
+				"anchor": "stability"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He The Awtsmoos renews every contract in ordered light; Awtsmoos.com keeps exact creation editable and right. Texture Registry Audit result The in root MitzvahWorld registry currently includes brick wall.svg and gold coin.svg. The confirmed external environment v2 asset link points outside ",
+		"searchText": "b\"h boruch hashem blessed is he the awtsmoos renews every contract in ordered light; awtsmoos.com keeps exact creation editable and right. texture registry audit result the in root mitzvahworld registry currently includes brick wall.svg and gold coin.svg. the confirmed external environment v2 asset link points outside the repository boundary and was not indexed through the guarded tunnel. api textures.register, textures.replace, and textures.search store and query serializable metadata. search supports deterministic all/any tag matching. water policy no in root water normal was observed. water creators therefore report procedural fallback with an explicit reason. they do not claim to have selected an existing texture. extension a host asset scanner may register dimensions, hashes, mime types, channels, color space, tags, and licensing metadata. gpu loading belongs to a runtime adapter. stability registry identity and search are stable. upload, atlas, mipmap, and baking adapters are deferred.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-docs-texture-registry-md-5a757bcf58.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-docs-textures-architecture-md-9f7eaf9b7d",
+		"title": "Architecture Remote Texture Catalog",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/textures/ARCHITECTURE.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Architecture Remote Texture Catalog",
+				"anchor": "architecture-remote-texture-catalog"
+			},
+			{
+				"level": 2,
+				"text": "Exact filenames",
+				"anchor": "exact-filenames"
+			}
+		],
+		"excerpt": "B\"H Architecture Remote Texture Catalog The Awtsmoos renews each photographed surface, leaf, and stone in light; Awtsmoos.com keeps every filename discoverable so future agents can choose the vessel right. Canonical production root: https://awtsmoos.com/sites/firebase drive migration/ Canonical source: geelooy/games/mi",
+		"searchText": "b\"h architecture remote texture catalog the awtsmoos renews each photographed surface, leaf, and stone in light; awtsmoos.com keeps every filename discoverable so future agents can choose the vessel right. canonical production root: https://awtsmoos.com/sites/firebase drive migration/ canonical source: geelooy/games/mitzvahworld/experiments/awtsmoos/src/assets/remotetexturearchitecturenames.js exact filenames displacement map for tiled roof 4.png gray brick 1.png limestone bricks 1.png limestone bricks 2.png marble 1.png new bricks 1.png new red bricks 2.png oak wood 1.png oak wood 2.png oak wood 3.png oak wooden planks 2.png polished granite rock 1.png polished granite rock 2.png polished granite rock 3.png polished granite rock 4.png red brick 1.png red brick 2.png red brick 3.png tiled roof 1.png tiled roof 2.png tiled roof 3 smaller tiles.png tiled roof 4.png tree bark 1.png weathered red bricks 1.png weathered red bricks 3.png weathered red bricks 5.png weathered red bricks 6.png weathered red bricks with slight yellow touch4.png weathered red bricks2.png white brick 1.png wooden oak planks 1.png wooden planked floor.png yellow brick 1.png total: 33 filenames.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-docs-textures-architecture-md-9f7eaf9b7d.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-docs-textures-craft-md-ab5afa0f85",
+		"title": "Craft Remote Texture Catalog",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/textures/CRAFT.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Craft Remote Texture Catalog",
+				"anchor": "craft-remote-texture-catalog"
+			},
+			{
+				"level": 2,
+				"text": "Exact filenames",
+				"anchor": "exact-filenames"
+			}
+		],
+		"excerpt": "B\"H Craft Remote Texture Catalog The Awtsmoos renews each photographed surface, leaf, and stone in light; Awtsmoos.com keeps every filename discoverable so future agents can choose the vessel right. Canonical production root: https://awtsmoos.com/sites/firebase drive migration/ Canonical source: geelooy/games/mitzvahWo",
+		"searchText": "b\"h craft remote texture catalog the awtsmoos renews each photographed surface, leaf, and stone in light; awtsmoos.com keeps every filename discoverable so future agents can choose the vessel right. canonical production root: https://awtsmoos.com/sites/firebase drive migration/ canonical source: geelooy/games/mitzvahworld/experiments/awtsmoos/src/assets/remotetexturecraftnames.js exact filenames copper 1.png copper 2.png cow fur 1.png cracked glass.png deer fur 1.png fox fur 1.png gold 2.png horse fur 1.png leaf 1.png leather.png oak leaf fall.png oak leaf spring.png parchment.png raveled rope.png red ceramic.png rusty iron.png seamless water brighter.png seamless water.png shallow river water.png silver 1.png silver 2.png tan cloth.png unraveled rope.png water not seamless.png total: 24 filenames.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-docs-textures-craft-md-ab5afa0f85.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-docs-textures-ground-md-f573fede60",
+		"title": "Ground Remote Texture Catalog",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/textures/GROUND.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Ground Remote Texture Catalog",
+				"anchor": "ground-remote-texture-catalog"
+			},
+			{
+				"level": 2,
+				"text": "Exact filenames",
+				"anchor": "exact-filenames"
+			}
+		],
+		"excerpt": "B\"H Ground Remote Texture Catalog The Awtsmoos renews each photographed surface, leaf, and stone in light; Awtsmoos.com keeps every filename discoverable so future agents can choose the vessel right. Canonical production root: https://awtsmoos.com/sites/firebase drive migration/ Canonical source: geelooy/games/mitzvahW",
+		"searchText": "b\"h ground remote texture catalog the awtsmoos renews each photographed surface, leaf, and stone in light; awtsmoos.com keeps every filename discoverable so future agents can choose the vessel right. canonical production root: https://awtsmoos.com/sites/firebase drive migration/ canonical source: geelooy/games/mitzvahworld/experiments/awtsmoos/src/assets/remotetexturegroundnames.js exact filenames bluestone 1.png cave floor.png cobblestone.png dark forest floor nonlight.png dirt 1.png dirt 2.png dirt 5.png dirt 6.png dirt grass 1.png dirt grass 2.png dirt grass 3.png dirt grass 4.png dirt grass 6.png dirt ground 3.png forest floor covered with leaves.png grass 1.png grass 4.png grass 5.png grass 6.png grass 7.png grass 8.png grass1.png marsh grass.png mud.png sand 1.png sand 2.png scortced floor.png snow 1.png snow 2.png stone 1.png stone floor 2.png stone floor.png tilled soil.png weathered fieldstone rock 1.png weathered fieldstone rock 2.png total: 35 filenames.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-docs-textures-ground-md-f573fede60.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-docs-textures-readme-md-a74cf95217",
+		"title": "Awtsmoos Remote Texture Discovery",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/textures/README.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos Remote Texture Discovery",
+				"anchor": "awtsmoos-remote-texture-discovery"
+			},
+			{
+				"level": 2,
+				"text": "Canonical production root",
+				"anchor": "canonical-production-root"
+			},
+			{
+				"level": 2,
+				"text": "Fastest AI entry point",
+				"anchor": "fastest-ai-entry-point"
+			},
+			{
+				"level": 2,
+				"text": "Human-readable family catalogs",
+				"anchor": "human-readable-family-catalogs"
+			},
+			{
+				"level": 2,
+				"text": "Semantic runtime roles",
+				"anchor": "semantic-runtime-roles"
+			},
+			{
+				"level": 2,
+				"text": "Native renderer texture fields",
+				"anchor": "native-renderer-texture-fields"
+			},
+			{
+				"level": 2,
+				"text": "Agent search recipe",
+				"anchor": "agent-search-recipe"
+			}
+		],
+		"excerpt": "B\"H Awtsmoos Remote Texture Discovery The Awtsmoos renews every distant image while remaining beyond every file and frame; Awtsmoos.com keeps source, collection, role, and renderer contract written so future agents need not rediscover every name. Canonical production root https://awtsmoos.com/sites/firebase drive migra",
+		"searchText": "b\"h awtsmoos remote texture discovery the awtsmoos renews every distant image while remaining beyond every file and frame; awtsmoos.com keeps source, collection, role, and renderer contract written so future agents need not rediscover every name. canonical production root https://awtsmoos.com/sites/firebase drive migration/ fastest ai entry point open catalog.json. it contains all 125 canonical records with: family collection stable id exact filename exact encoded production url its records are generated from mitzvah world's remotetexturecatalog.remotetexturerecords(), so deployed subdirectories are preserved rather than guessed. human readable family catalogs architecture.md — 33 brick, roof, timber, granite, floor, and building textures. craft.md — 24 cloth, metal, hide, glass, parchment, rope, leaf, and water textures. ground.md — 35 grass, dirt, stone, road, mud, sand, marsh, snow, and terrain textures. trees.md — 33 bark, leaf, needle, frond, spray, and petal textures. architecture, craft, and ground records deploy under full resolution/. tree records deploy under awtsmoos nature/ilanos/trees/. semantic runtime roles for ordinary game code, prefer the shared registry: src/core/materials/presets/awtsmoosremotematerialrecords.js use awtsmoosmaterialurl(roleorid) from src/exports/materials.js when a semantic role already exists. search catalog.json or the family docs when choosing a new photographic source or expanding the semantic registry. native renderer texture fields native materials may carry: mapimage, maprepeat miximage, mixrepeat, mixstrength, mixpatchscale, mixpatchsharpness texturelayers[] with image, repeat, strength, angle, zones, slope, height, wetness terrainmixing vectors for global blend policy materialtexturebinder in src/runtime/native/tiny render textures.js uploads these directly to the awtsmoos core webgl renderer. no three adapter is involved. agent search recipe 1. search catalog.json by visual noun or family. 2. use the provided productionurl when inspecting the exact deployed image. 3. prefer a semantic core role for runtime code; add one when a raw texture becomes reusable domain vocabulary. 4. hydrate through loadremotetextureimage from src/exports/materials.js. 5. bind images to native materials through base, mix, or ecological layer fields. 6. keep physical repeat based on repeatforsurface, not arbitrary uv tiling. see ../native material blending.md for terrain and structure mixing guidance.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-docs-textures-readme-md-a74cf95217.json"
+	}
+]

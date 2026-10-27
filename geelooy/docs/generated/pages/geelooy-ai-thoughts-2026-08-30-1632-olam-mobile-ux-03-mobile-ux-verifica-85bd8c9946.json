@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-30-1632-olam-mobile-ux-03-mobile-ux-verifica-85bd8c9946",
+	"title": "Mobile UX Verification",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-30-1632-olam-mobile-ux/03-mobile-ux-verification.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Mobile UX Verification",
+			"anchor": "mobile-ux-verification"
+		},
+		{
+			"level": 2,
+			"text": "Release",
+			"anchor": "release"
+		},
+		{
+			"level": 2,
+			"text": "Screenshot defect repaired",
+			"anchor": "screenshot-defect-repaired"
+		},
+		{
+			"level": 2,
+			"text": "Added creation guidance",
+			"anchor": "added-creation-guidance"
+		},
+		{
+			"level": 2,
+			"text": "Defects found during verification",
+			"anchor": "defects-found-during-verification"
+		},
+		{
+			"level": 2,
+			"text": "Automated evidence",
+			"anchor": "automated-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Local browser geometry evidence",
+			"anchor": "local-browser-geometry-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Production browser evidence",
+			"anchor": "production-browser-evidence"
+		},
+		{
+			"level": 2,
+			"text": "External boundary",
+			"anchor": "external-boundary"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-30-1632-olam-mobile-ux-03-mobile-ux-verifica-85bd8c9946-001.json"
+	]
+}

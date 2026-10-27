@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-791d0ae95e",
+	"title": "Execution persistence contract",
+	"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/EXECUTION_PERSISTENCE_CONTRACT.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 2,
+			"text": "Current tunnel integration takes precedence",
+			"anchor": "current-tunnel-integration-takes-precedence"
+		},
+		{
+			"level": 1,
+			"text": "Execution persistence contract",
+			"anchor": "execution-persistence-contract"
+		},
+		{
+			"level": 2,
+			"text": "Continue until the mission gate closes",
+			"anchor": "continue-until-the-mission-gate-closes"
+		},
+		{
+			"level": 2,
+			"text": "Required completion cycle",
+			"anchor": "required-completion-cycle"
+		},
+		{
+			"level": 2,
+			"text": "Blockers",
+			"anchor": "blockers"
+		},
+		{
+			"level": 2,
+			"text": "Session boundary",
+			"anchor": "session-boundary"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-791d0ae95e-001.json"
+	]
+}

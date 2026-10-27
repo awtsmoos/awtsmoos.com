@@ -1,364 +1,194 @@
 [
 	{
-		"id": "geelooy-libs-awtsmoos-procedural-core-docs-mitzvah-world-creator-bridges-3c8954db5b",
-		"title": "B\"H",
-		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/MITZVAH_WORLD_CREATOR_BRIDGES.md",
+		"id": "geelooy-ai-thoughts-2026-08-26-0935-rebbe-bookshelf-03-phase-three-final-9a34909762",
+		"title": "Phase Three — Final Bookshelf Architecture",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26-0935-rebbe-bookshelf/03-phase-three-final.md",
 		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
+				"text": "Phase Three — Final Bookshelf Architecture",
+				"anchor": "phase-three-final-bookshelf-architecture"
 			},
 			{
 				"level": 2,
-				"text": "Boruch Hashem",
-				"anchor": "boruch-hashem"
+				"text": "Final architecture",
+				"anchor": "final-architecture"
 			},
 			{
 				"level": 2,
-				"text": "Blessed is He",
-				"anchor": "blessed-is-he"
-			},
-			{
-				"level": 1,
-				"text": "MitzvahWorld Creator Bridges",
-				"anchor": "mitzvahworld-creator-bridges"
+				"text": "API law",
+				"anchor": "api-law"
 			},
 			{
 				"level": 2,
-				"text": "Layering",
-				"anchor": "layering"
-			},
-			{
-				"level": 2,
-				"text": "Humans",
-				"anchor": "humans"
-			},
-			{
-				"level": 2,
-				"text": "Trees and houses",
-				"anchor": "trees-and-houses"
-			},
-			{
-				"level": 2,
-				"text": "Water",
-				"anchor": "water"
-			},
-			{
-				"level": 2,
-				"text": "Actions",
-				"anchor": "actions"
-			},
-			{
-				"level": 2,
-				"text": "Stability",
-				"anchor": "stability"
+				"text": "Verification graph",
+				"anchor": "verification-graph"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He The Awtsmoos renews every contract in ordered light; Awtsmoos.com keeps exact creation editable and right. MitzvahWorld Creator Bridges Layering Humans, trees, houses, water, textures, and actions are high level resource methods layered over the universal registry and transaction executo",
-		"searchText": "b\"h boruch hashem blessed is he the awtsmoos renews every contract in ordered light; awtsmoos.com keeps exact creation editable and right. mitzvahworld creator bridges layering humans, trees, houses, water, textures, and actions are high level resource methods layered over the universal registry and transaction executor. they do not bypass validation or history. humans humans.create({ id }) defaults to the observed /games/mitzvahworld/assets/models/player/chossid.glb. modelid explicitly overrides the default. trees and houses initial creators preserve exact parameters, stable identity, revisions, and runtime adapter changes. geometry compilation remains delegated to existing procedural core or mitzvahworld adapters. water water.create and water.createriver preserve geometry/material intent and report fallback provenance. actions actions.register stores structured action resources. stability the bridge contracts are experimental until concrete live scene adapters cover every resource family.",
-		"page": "pages/geelooy-libs-awtsmoos-procedural-core-docs-mitzvah-world-creator-bridges-3c8954db5b.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Three — Final Bookshelf Architecture The Awtsmoos is one before memory becomes group, card, action, or empty room; Awtsmoos.com lets each concern enter a smaller vessel so future growth creates branches instead of monolithic gloom. Final architecture ui/bookshelf.js: stable public ",
+		"searchText": "b\"h boruch hashem blessed is he phase three — final bookshelf architecture the awtsmoos is one before memory becomes group, card, action, or empty room; awtsmoos.com lets each concern enter a smaller vessel so future growth creates branches instead of monolithic gloom. final architecture ui/bookshelf.js: stable public gateway only. ui/bookshelf/tiferesbookshelfview.js: grouping, root clearing, section order, empty state. ui/bookshelf/malchusbookshelfcardfactory.js: safe dom section/card/action construction. styles/runtime/bookshelf shell.css: rail/section/empty/mobile geometry. styles/runtime/bookshelf cards.css: card/spine/body/type identity. styles/runtime/bookshelf interaction.css: open/remove actions, hover/active/focus visible/disabled/reduced motion. styles/runtime ui.css: import manifest only. api law renderbookshelf(bookmarks = [], handlers = {}) remains unchanged. handlers.onopen(item) remains unchanged. handlers.onremove(item.id) remains unchanged. verification graph syntax line ceiling no runtime style no innerhtml no .onclick = import graph 44px/interactions/mobile diff check new bookshelf tests complete rebbe suite fresh live route proof post implementation delta studio next.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26-0935-rebbe-bookshelf-03-phase-three-final-9a34909762.json"
 	},
 	{
-		"id": "geelooy-libs-awtsmoos-procedural-core-docs-multi-document-composition-md-caf6f0343d",
-		"title": "B\"H",
-		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/MULTI_DOCUMENT_COMPOSITION.md",
+		"id": "geelooy-ai-thoughts-2026-08-26-0935-rebbe-bookshelf-04-final-execution-p-f727268483",
+		"title": "Final Execution Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26-0935-rebbe-bookshelf/04-final-execution-plan.md",
 		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
+				"text": "Final Execution Plan",
+				"anchor": "final-execution-plan"
 			},
 			{
 				"level": 2,
-				"text": "Boruch Hashem",
-				"anchor": "boruch-hashem"
+				"text": "Source files to write",
+				"anchor": "source-files-to-write"
 			},
 			{
 				"level": 2,
-				"text": "Blessed is He",
-				"anchor": "blessed-is-he"
-			},
-			{
-				"level": 1,
-				"text": "Multi-Document Composition",
-				"anchor": "multi-document-composition"
+				"text": "Test shadow work after code",
+				"anchor": "test-shadow-work-after-code"
 			},
 			{
 				"level": 2,
-				"text": "Sources",
-				"anchor": "sources"
-			},
-			{
-				"level": 2,
-				"text": "Namespaces",
-				"anchor": "namespaces"
-			},
-			{
-				"level": 2,
-				"text": "Conflicts",
-				"anchor": "conflicts"
-			},
-			{
-				"level": 2,
-				"text": "Cycles and optional imports",
-				"anchor": "cycles-and-optional-imports"
-			},
-			{
-				"level": 2,
-				"text": "Undo",
-				"anchor": "undo"
-			},
-			{
-				"level": 2,
-				"text": "Stability",
-				"anchor": "stability"
+				"text": "Completion condition for this node",
+				"anchor": "completion-condition-for-this-node"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He The Awtsmoos renews every contract in ordered light; Awtsmoos.com keeps exact creation editable and right. Multi Document Composition Sources Imports may embed a document directly or use an application provided resolveImport(source, entry) function for local, URL, or package resolution. ",
-		"searchText": "b\"h boruch hashem blessed is he the awtsmoos renews every contract in ordered light; awtsmoos.com keeps exact creation editable and right. multi document composition sources imports may embed a document directly or use an application provided resolveimport(source, entry) function for local, url, or package resolution. the core never performs unrestricted network or file access. namespaces an import namespace prefixes stable resource ids as : . conflicts supported deterministic policies are error, keep existing, replace, and shallow merge properties. arrays are replaced under merge properties; ambiguous recursive merging is deliberately absent. cycles and optional imports source ancestry is tracked and circular imports return import cycle. optional resolution failures are skipped; required failures are returned. undo documents.compose is one mutating transaction when invoked through the universal api. stability embedded composition and explicit conflict policies are stable. live watching, hashes, version constraints, and conditional expressions beyond boolean gates are deferred.",
-		"page": "pages/geelooy-libs-awtsmoos-procedural-core-docs-multi-document-composition-md-caf6f0343d.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Final Execution Plan The Awtsmoos gives no separate existence to plan and deed when both serve truth; Awtsmoos.com will rewrite whole files, preserve the public doorway, and prove the shelf anew in every route of youth. Source files to write geelooy/apps/rebbe/ui/bookshelf.js geelooy/app",
+		"searchText": "b\"h boruch hashem blessed is he final execution plan the awtsmoos gives no separate existence to plan and deed when both serve truth; awtsmoos.com will rewrite whole files, preserve the public doorway, and prove the shelf anew in every route of youth. source files to write geelooy/apps/rebbe/ui/bookshelf.js geelooy/apps/rebbe/ui/bookshelf/tiferesbookshelfview.js geelooy/apps/rebbe/ui/bookshelf/malchusbookshelfcardfactory.js geelooy/apps/rebbe/styles/runtime/bookshelf shell.css geelooy/apps/rebbe/styles/runtime/bookshelf cards.css geelooy/apps/rebbe/styles/runtime/bookshelf interaction.css geelooy/apps/rebbe/styles/runtime ui.css test shadow work after code add one bookshelf source/style ownership contract. add one bookshelf public api/safe dom contract. rerun all rebbe tests. start a new preview server only after source/test closure. completion condition for this node bookshelf closes only when the runtime style factory is gone, all bookmark data enters through safe dom, interaction/mobile style ownership is static and local, every touched source is <=120 lines, the complete rebbe suite is green, and fresh route load is proven.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26-0935-rebbe-bookshelf-04-final-execution-p-f727268483.json"
 	},
 	{
-		"id": "geelooy-libs-awtsmoos-procedural-core-docs-texture-registry-md-5a757bcf58",
-		"title": "B\"H",
-		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/TEXTURE_REGISTRY.md",
+		"id": "geelooy-ai-thoughts-2026-08-26-0935-rebbe-bookshelf-05-post-implementati-e074b17933",
+		"title": "Bookshelf — Post-Implementation Delta",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26-0935-rebbe-bookshelf/05-post-implementation-delta.md",
 		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
+				"text": "Bookshelf — Post-Implementation Delta",
+				"anchor": "bookshelf-post-implementation-delta"
 			},
 			{
 				"level": 2,
-				"text": "Boruch Hashem",
-				"anchor": "boruch-hashem"
+				"text": "Planned",
+				"anchor": "planned"
 			},
 			{
 				"level": 2,
-				"text": "Blessed is He",
-				"anchor": "blessed-is-he"
-			},
-			{
-				"level": 1,
-				"text": "Texture Registry",
-				"anchor": "texture-registry"
+				"text": "Actual",
+				"anchor": "actual"
 			},
 			{
 				"level": 2,
-				"text": "Audit result",
-				"anchor": "audit-result"
+				"text": "DELTA",
+				"anchor": "delta"
 			},
 			{
 				"level": 2,
-				"text": "API",
-				"anchor": "api"
-			},
-			{
-				"level": 2,
-				"text": "Water policy",
-				"anchor": "water-policy"
-			},
-			{
-				"level": 2,
-				"text": "Extension",
-				"anchor": "extension"
-			},
-			{
-				"level": 2,
-				"text": "Stability",
-				"anchor": "stability"
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He The Awtsmoos renews every contract in ordered light; Awtsmoos.com keeps exact creation editable and right. Texture Registry Audit result The in root MitzvahWorld registry currently includes brick wall.svg and gold coin.svg. The confirmed external environment v2 asset link points outside ",
-		"searchText": "b\"h boruch hashem blessed is he the awtsmoos renews every contract in ordered light; awtsmoos.com keeps exact creation editable and right. texture registry audit result the in root mitzvahworld registry currently includes brick wall.svg and gold coin.svg. the confirmed external environment v2 asset link points outside the repository boundary and was not indexed through the guarded tunnel. api textures.register, textures.replace, and textures.search store and query serializable metadata. search supports deterministic all/any tag matching. water policy no in root water normal was observed. water creators therefore report procedural fallback with an explicit reason. they do not claim to have selected an existing texture. extension a host asset scanner may register dimensions, hashes, mime types, channels, color space, tags, and licensing metadata. gpu loading belongs to a runtime adapter. stability registry identity and search are stable. upload, atlas, mipmap, and baking adapters are deferred.",
-		"page": "pages/geelooy-libs-awtsmoos-procedural-core-docs-texture-registry-md-5a757bcf58.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Bookshelf — Post Implementation Delta The Awtsmoos remembers every intention before a saved card can claim a name; Awtsmoos.com compares plan with evidence until memory and implementation burn in the same clear flame. Planned Preserve renderBookshelf(bookmarks, { onOpen, onRemove }). Rem",
+		"searchText": "b\"h boruch hashem blessed is he bookshelf — post implementation delta the awtsmoos remembers every intention before a saved card can claim a name; awtsmoos.com compares plan with evidence until memory and implementation burn in the same clear flame. planned preserve renderbookshelf(bookmarks, { onopen, onremove }). remove the runtime stylesheet factory. replace innerhtml and .onclick with safe dom and listeners. split grouping/view/card responsibilities. add three static scoped css modules with mobile and full interaction ownership. keep every touched source factory remains. bookshelf shell.css, bookshelf cards.css, and bookshelf interaction.css are statically imported and scoped under bookshelf list. cards use bounded auto fit geometry, min inline size:0, and overflow wrap:anywhere. actions enforce 44px minimum height plus hover, active, focus visible, disabled, narrow phone, and reduced motion states. every touched bookshelf source is <=81 lines and js syntax is clean. two bookshelf regression contracts were added. complete rebbe suite passes 11/11. fresh port 8914 returned http 200 for /apps/rebbe/ and the route loads the real core/main/ui/studio cascade. delta bookshelf itself has no unresolved implementation delta. success exposed the next live node: studio. next action enter the live modular studio graph through modules/studio/index.js; split the 266 line loaded stylesheet, remove raw property control html/inline handlers, normalize named layers, and modularize live owners that exceed 120 lines.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26-0935-rebbe-bookshelf-05-post-implementati-e074b17933.json"
 	},
 	{
-		"id": "geelooy-libs-awtsmoos-procedural-core-docs-transactions-and-dry-runs-md-01f8645243",
-		"title": "B\"H",
-		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/TRANSACTIONS_AND_DRY_RUNS.md",
+		"id": "geelooy-ai-thoughts-2026-08-26-0942-rebbe-studio-01-phase-one-revelation-b309e54b67",
+		"title": "Phase One — Studio Revelation",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26-0942-rebbe-studio/01-phase-one-revelation.md",
 		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
+				"text": "Phase One — Studio Revelation",
+				"anchor": "phase-one-studio-revelation"
 			},
 			{
 				"level": 2,
-				"text": "Boruch Hashem",
-				"anchor": "boruch-hashem"
+				"text": "Proven live graph",
+				"anchor": "proven-live-graph"
 			},
 			{
 				"level": 2,
-				"text": "Blessed is He",
-				"anchor": "blessed-is-he"
-			},
-			{
-				"level": 1,
-				"text": "Transactions and Dry Runs",
-				"anchor": "transactions-and-dry-runs"
-			},
-			{
-				"level": 2,
-				"text": "Dry run",
-				"anchor": "dry-run"
-			},
-			{
-				"level": 2,
-				"text": "Atomic batch",
-				"anchor": "atomic-batch"
-			},
-			{
-				"level": 2,
-				"text": "Revision control",
-				"anchor": "revision-control"
-			},
-			{
-				"level": 2,
-				"text": "Runtime adapters",
-				"anchor": "runtime-adapters"
-			},
-			{
-				"level": 2,
-				"text": "Undo",
-				"anchor": "undo"
+				"text": "Ideal possibilities",
+				"anchor": "ideal-possibilities"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He The Awtsmoos renews every contract in ordered light; Awtsmoos.com keeps exact creation editable and right. Transactions and Dry Runs Dry run Set options.dryRun or call api.dryRun(command). The executor clones the document, validates and executes the method, and returns would create/updat",
-		"searchText": "b\"h boruch hashem blessed is he the awtsmoos renews every contract in ordered light; awtsmoos.com keeps exact creation editable and right. transactions and dry runs dry run set options.dryrun or call api.dryrun(command). the executor clones the document, validates and executes the method, and returns would create/update/delete sets without changing revision, history, runtime, autosave, or ui selection. atomic batch api.batch(operations) evaluates every operation against one detached draft. earlier results may be referenced with $operations. .result. . failure returns batch failed with the failed index and leaves the authoritative document untouched. revision control set options.expectedrevision. a stale value returns revision conflict with expected and current revisions. runtime adapters adapters implement prepare, apply, commit, and rollback. a document is committed only after the runtime stage succeeds. undo each successful mutating command or atomic batch creates exactly one snapshot history entry.",
-		"page": "pages/geelooy-libs-awtsmoos-procedural-core-docs-transactions-and-dry-runs-md-01f8645243.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase One — Studio Revelation The Awtsmoos is beyond frame, clip, property, range, color, and timeline light; Awtsmoos.com reveals the living editor as one clean vessel where advanced power unfolds only when invited into sight. Proven live graph main.js imports initStudio and closeStudio",
+		"searchText": "b\"h boruch hashem blessed is he phase one — studio revelation the awtsmoos is beyond frame, clip, property, range, color, and timeline light; awtsmoos.com reveals the living editor as one clean vessel where advanced power unfolds only when invited into sight. proven live graph main.js imports initstudio and closestudio from modules/studio/index.js. modules/studio/index.js re exports core/lifecycle.js; the giant sibling modules/studio.js is not the main entry path. loaded styles/studio.css is 266 lines and contains raw z index values up to 9999. live ui.js injects a mobile close button with inline styles and .onclick. live property renderers use innerhtml, inline event attributes, raw range/color/checkbox/select/textarea controls, and several inline style attributes. actions.js is 157 lines, interaction.js 191, project.js 179; all are in the live modular graph and violate the source ceiling. ui.js is 112 lines but mixes properties rendering and resizer behavior. ideal possibilities turn styles/studio.css into a tiny import manifest, not another giant sheet. split shell/preview, properties, controls, timeline, clips, layers, responsive, and interactions into small studio scoped css modules. replace raw z indexes with named studio tokens derived from the existing rebbe layer scale. keep studio modal below fullscreen search but above ordinary content/player layers. keep mobile properties as a retractable drawer, not a permanent full screen takeover. make its drawer close action part of static dom/controller logic with =44px touch target. give ranges custom track/thumb/focus/active styling. give color inputs custom swatch vessels rather than browser default chrome. give checkboxes custom 44px rows and visible checked/focus states. keep selects/textareas/number inputs locally styled under modal studio. preserve the hidden file input but make the visible import trigger fully styled. replace property panel html interpolation with safe dom factories and event listeners. use progressive property groups so advanced clip/effect controls can be collapsed. preserve window.studio compatibility where other live modules still depend on it, but stop generating new inline window.studio. event strings. split resizer into a dedicated pointer controller with mouse/touch/pointer ownership and bounded percentages. split live oversized action/project/interaction modules by responsibility instead of trimming comments. keep timeline drag/trim performance direct dom updates where appropriate. move timeline visual inline styles into classes/data/state where possible without disrupting pixel positioning that legitimately depends on runtime time/zoom. add tests for studio import graph, layer tokens, form control ownership, no inline handlers in property renderers, mobile drawer law, and source size ceiling.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26-0942-rebbe-studio-01-phase-one-revelation-b309e54b67.json"
 	},
 	{
-		"id": "geelooy-libs-awtsmoos-procedural-core-docs-ui-api-parity-md-0e65001502",
-		"title": "B\"H",
-		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/UI_API_PARITY.md",
+		"id": "geelooy-ai-thoughts-2026-08-26-0942-rebbe-studio-02-phase-two-critique-m-85b8c12bad",
+		"title": "Phase Two — Gevurah Studio Critique",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26-0942-rebbe-studio/02-phase-two-critique.md",
 		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
+				"text": "Phase Two — Gevurah Studio Critique",
+				"anchor": "phase-two-gevurah-studio-critique"
 			},
 			{
 				"level": 2,
-				"text": "Boruch Hashem",
-				"anchor": "boruch-hashem"
-			},
-			{
-				"level": 2,
-				"text": "Blessed is He",
-				"anchor": "blessed-is-he"
-			},
-			{
-				"level": 1,
-				"text": "UI and API Parity",
-				"anchor": "ui-and-api-parity"
-			},
-			{
-				"level": 2,
-				"text": "Generated explorer",
-				"anchor": "generated-explorer"
-			},
-			{
-				"level": 2,
-				"text": "MitzvahWorld integration",
-				"anchor": "mitzvahworld-integration"
-			},
-			{
-				"level": 2,
-				"text": "Runtime events",
-				"anchor": "runtime-events"
-			},
-			{
-				"level": 2,
-				"text": "Mobile",
-				"anchor": "mobile"
-			},
-			{
-				"level": 2,
-				"text": "Stability",
-				"anchor": "stability"
+				"text": "Twenty-five refinements",
+				"anchor": "twenty-five-refinements"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He The Awtsmoos renews every contract in ordered light; Awtsmoos.com keeps exact creation editable and right. UI and API Parity Generated explorer createApiExplorerModel() groups methods by their definition ui.panel. mountApiExplorer() creates forms, raw JSON editors, dry run buttons, execu",
-		"searchText": "b\"h boruch hashem blessed is he the awtsmoos renews every contract in ordered light; awtsmoos.com keeps exact creation editable and right. ui and api parity generated explorer createapiexplorermodel() groups methods by their definition ui.panel. mountapiexplorer() creates forms, raw json editors, dry run buttons, execute buttons, and result viewers. mitzvahworld integration minimaluniversalapiexplorer.js mounts the explorer and exposes the same api at window.awtsmoos.universal, with non destructive namespace aliases where available. runtime events the initial mitzvahworld adapter emits awtsmoos:universal transaction after commit. existing scene systems can subscribe and rebuild affected resources without creating a second command implementation. mobile the explorer becomes full width below 48rem and uses bounded overflow. stability schema generated controls are experimental. the shared executor path is stable.",
-		"page": "pages/geelooy-libs-awtsmoos-procedural-core-docs-ui-api-parity-md-0e65001502.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Two — Gevurah Studio Critique The Awtsmoos cuts through the temptation to modernize only what shines; Awtsmoos.com becomes stronger when every visible control and internal owner obeys the same measured lines. Twenty five refinements 1. Do not touch dead modules/studio.js in this wa",
+		"searchText": "b\"h boruch hashem blessed is he phase two — gevurah studio critique the awtsmoos cuts through the temptation to modernize only what shines; awtsmoos.com becomes stronger when every visible control and internal owner obeys the same measured lines. twenty five refinements 1. do not touch dead modules/studio.js in this wave unless another entry proves it live. 2. do not touch giant index.html yet; preserve existing ids and shell markup while moving visual ownership into loaded css/modules. 3. treat style.left/width for clip/time geometry as legitimate runtime state, not style debt by default. 4. remove decorative inline styles from property rendering because those are static presentation. 5. replace inline event attributes with listeners through factories/controllers. 6. preserve every window.studio public action name until all live consumers are migrated. 7. keep property rendering data driven so global/clip/fx can expand without html concatenation. 8. use semantic labels linked to controls where practical. 9. use details only where it improves disclosure; do not bury frequently used start/duration/volume. 10. keep destructive delete visually secondary to primary adjustment controls until intentionally invoked. 11. make tab buttons =44px on phone even if desktop remains compact. 12. never shrink toolbar buttons to 26px on mobile again. 13. mobile timeline labels may narrow, but actions must stay reachable with horizontal/internal scroll rather than viewport escape. 14. drawer layer must use named token, not 200. 15. fab must use named floating layer, not 9999. 16. snap guide/playhead/block selected/hover layers need named studio local tokens. 17. use touch action deliberately on drag/trim handles and resizer. 18. prefer pointer events for new interaction controllers rather than parallel mouse/touch branches. 19. preserve reduced motion for drawer/button/hover transitions. 20. add short height rules so preview/properties/timeline actions remain reachable at 568px height. 21. do not make the property panel itself the scroll trap; only inner content should scroll. 22. ensure color/range/checkbox focus rings are visible against dark glass. 23. ensure textareas have deliberate resize behavior and max size within the panel. 24. split tests by visual contract/source contract, not brittle implementation line coincidence. 25. after visual/property wave, re read oversized actions/project/interaction and split them as separate code wave before declaring studio complete.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26-0942-rebbe-studio-02-phase-two-critique-m-85b8c12bad.json"
 	},
 	{
-		"id": "geelooy-libs-awtsmoos-procedural-core-docs-universal-world-format-md-f0b813d07f",
-		"title": "B\"H",
-		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/UNIVERSAL_WORLD_FORMAT.md",
+		"id": "geelooy-ai-thoughts-2026-08-26-0942-rebbe-studio-03-phase-three-final-md-97fd10ea60",
+		"title": "Phase Three — Final Studio Architecture",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26-0942-rebbe-studio/03-phase-three-final.md",
 		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
+				"text": "Phase Three — Final Studio Architecture",
+				"anchor": "phase-three-final-studio-architecture"
 			},
 			{
 				"level": 2,
-				"text": "Boruch Hashem",
-				"anchor": "boruch-hashem"
+				"text": "CSS architecture",
+				"anchor": "css-architecture"
 			},
 			{
 				"level": 2,
-				"text": "Blessed is He",
-				"anchor": "blessed-is-he"
-			},
-			{
-				"level": 1,
-				"text": "Universal World Format",
-				"anchor": "universal-world-format"
+				"text": "JS property architecture",
+				"anchor": "js-property-architecture"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Oversized live module architecture after property/CSS wave",
+				"anchor": "oversized-live-module-architecture-after-property-css-wave"
 			},
 			{
 				"level": 2,
-				"text": "Root contract",
-				"anchor": "root-contract"
+				"text": "Layer law",
+				"anchor": "layer-law"
 			},
 			{
 				"level": 2,
-				"text": "Resource contract",
-				"anchor": "resource-contract"
-			},
-			{
-				"level": 2,
-				"text": "Runtime API",
-				"anchor": "runtime-api"
-			},
-			{
-				"level": 2,
-				"text": "Validation and errors",
-				"anchor": "validation-and-errors"
-			},
-			{
-				"level": 2,
-				"text": "Undo and UI",
-				"anchor": "undo-and-ui"
-			},
-			{
-				"level": 2,
-				"text": "Stability",
-				"anchor": "stability"
+				"text": "Verification graph",
+				"anchor": "verification-graph"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He The Awtsmoos renews every contract in ordered light; Awtsmoos.com keeps exact creation editable and right. Universal World Format Purpose awtsmoos.world.v1 is the authoritative JSON compatible project document. Runtime caches, GPU handles, and compiled shaders are adapters, never hidden ",
-		"searchText": "b\"h boruch hashem blessed is he the awtsmoos renews every contract in ordered light; awtsmoos.com keeps exact creation editable and right. universal world format purpose awtsmoos.world.v1 is the authoritative json compatible project document. runtime caches, gpu handles, and compiled shaders are adapters, never hidden project truth. root contract a document contains format, version, revision, metadata, imports, resources, scenes, timeline, render, dependencies, and plugins. every standard resource bucket is present when createworlddocument() normalizes a project. resource contract every resource has a stable id, type, version, revision, name, enabled, metadata, and references. creator specific properties remain serializable extensions. runtime api use createworlddocument(input) or createuniversalawtsmoosapi({ document }). validation and errors commands reject missing identities with validation failed. duplicate stable ids return resource exists. undo and ui mutating methods create one history entry. the api explorer reads the same method schemas that execute commands. stability the root format and resource identity contract are stable. domain specific resource bodies remain experimental.",
-		"page": "pages/geelooy-libs-awtsmoos-procedural-core-docs-universal-world-format-md-f0b813d07f.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Three — Final Studio Architecture The Awtsmoos is one while shell, drawer, control, timeline, action, and project appear apart; Awtsmoos.com reveals each as a smaller Sefirah like vessel so expansion grows from order instead of accumulating wart. CSS architecture styles/studio.css ",
+		"searchText": "b\"h boruch hashem blessed is he phase three — final studio architecture the awtsmoos is one while shell, drawer, control, timeline, action, and project appear apart; awtsmoos.com reveals each as a smaller sefirah like vessel so expansion grows from order instead of accumulating wart. css architecture styles/studio.css import manifest only. styles/studio/shell.css modal/top/bottom/preview/resizer. styles/studio/properties.css drawer/tabs/property groups. styles/studio/controls.css fields/buttons/ranges/colors/checks/selects/textarea. styles/studio/timeline.css toolbar/header/tracks/labels/lane/playhead. styles/studio/clips.css blocks/selection/trim handles/types. styles/studio/layers.css named studio z index tokens and state layering. styles/studio/responsive.css phone/short height drawer/timeline geometry. styles/studio/interaction.css hover/active/focus visible/disabled/reduced motion. js property architecture ui/propertiespanelcontroller.js tabs/drawer/content coordinator. ui/studioresizercontroller.js pointer based bounded split resizing. ui/props/studiofieldfactory.js labels/selects/ranges/colors/numbers/textarea/check rows. ui/props/studioactionfactory.js semantic buttons/action rows. rewrite global.js, clip.js, fx.js as safe dom renderers using factories. ui.js becomes a small compatibility gateway exporting timeline/binds/properties/resizer. oversized live module architecture after property/css wave split actions.js into small feature modules while keeping the aggregator export surface. split interaction.js into drag session, snap engine, and timeline selection controller. split project.js into db repository, state codec, and project gateway. layer law use rebbe tokens plus studio local aliases; no raw 9999 or arbitrary 200/100 values in the rewritten studio css. verification graph code first full file rewrites line ceiling syntax no property innerhtml/inline event attributes static css imports named layer scan control interaction scan full rebbe tests new studio tests fresh http route browser proof if adapter cooperates post implementation delta next sitewide node.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26-0942-rebbe-studio-03-phase-three-final-md-97fd10ea60.json"
 	}
 ]

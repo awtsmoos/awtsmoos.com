@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Platform Jobs (geelooy/api/social/helper/platform/jobs/)\n\nBackground job system for the social platform: admission, queueing, leasing, workers, ownership, health, and settlement.\n\n## Files\n- `jobQueue.js`, `jobAdmission.js`, `jobDrain.js` — queue, admission, draining.\n- `jobWorker.js`, `jobWorkerPolicy.js` — workers and their policy.\n- `jobLease.js`, `jobLock.js`, `jobOwnership.js`, `jobOwnerService.js` — leasing, locking, ownership.\n- `jobStore.js`, `jobActiveIndex.js` — storage and active-job index.\n- `jobHealth.js`, `jobPolicy.js`, `jobSettlement.js` — health, policy, settlement.\n- `*.test.js` — jobActiveIndex, jobHealth, jobOwnerService, jobQueue, jobWorker tests.\n"
+}

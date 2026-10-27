@@ -14,14 +14,14 @@ Blessed is He
 
 - Entry files: —
 - Local documentation: No local `DOCUMENTATION.md` observed.
-- Local-doc requirement: no; covered: no
+- Local-doc requirement: yes; covered: no
 - Symlink target: —
 
 ## File shape
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 1 | 0 | 0 | 0 | 0 | 0 | 1 |
+| 14 | 0 | 0 | 0 | 0 | 0 | 14 |
 
 ## Public entry points
 

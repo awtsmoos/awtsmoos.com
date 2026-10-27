@@ -1,15 +1,15 @@
 [
 	{
-		"id": "docs-generated-api-tutorials-routes-api-social-drive-aliasid-domains-hos-7638988b8a",
-		"title": "API Tutorial: /api/social/drive/:aliasId/domains/:hostname/deactivate",
-		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-drive-aliasid-domains-hostname-deactivate-32677328c5.md",
+		"id": "docs-generated-api-tutorials-routes-api-merkava-download-bundle-c98f28d7-f736522a8e",
+		"title": "API Tutorial: /api/merkava/download-bundle",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-merkava-download-bundle-c98f28d7b5.md",
 		"category": "Routes",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "API Tutorial: /api/social/drive/:aliasId/domains/:hostname/deactivate",
-				"anchor": "api-tutorial-api-social-drive-aliasid-domains-hostname-deactivate"
+				"text": "API Tutorial: /api/merkava/download-bundle",
+				"anchor": "api-tutorial-api-merkava-download-bundle"
 			},
 			{
 				"level": 2,
@@ -42,21 +42,21 @@
 				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/social/drive/:aliasId/domains/:hostname/deactivate Family: Social · Mount: /api/social · Derech health: OK Source: geelooy/api/social/helper/drive/routes/domainRoutes.js · Discovery: static literal · Confidence: source lexical Read the human Social tutorial Generated e",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/social/drive/:aliasid/domains/:hostname/deactivate family: social · mount: /api/social · derech health: ok source: geelooy/api/social/helper/drive/routes/domainroutes.js · discovery: static literal · confidence: source lexical read the human social tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: get, delete request vessels: — observed status literals: — observed headers: — path parameters name shape aliasid single segment hostname single segment starter call starter only: method evidence is lexical at the source file level; inspect the handler before relying on payload or response shape. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/social/drive/alpha/domains/site.example/deactivate geelooy/apps/drive/test/domainapi.test.mjs test related tests heuristic family matches: test — npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported style ownership && npm run test:css quality && npm run test:heichelos quality && npm run test:profile menu && npm run test:heichel governance && npm run test:post submissions && npm run test:comments && npm run test:api keys && npm run test:graph && npm run test:social content && npm run test:notifications && npm run test:social packed && npm run test:packed engine && npm run test:platform ops && npm run test:platform execution && npm run test:node client && npm run test:dayuh cutover test:api keys — node geelooy/api/social/helper/test/apikeys.test.js test:comments — node geelooy/api/social/helper/comments/test/runallcommentstests.js test:concurrency failure — node geelooy/api/social/test/concurrencyfailurestress.test.mjs test:dayuh release — npm run test:routes && npm run test:comments && npm run test:social content && npm run test:social packed && npm run test:packed engine && node test tools/dayuhchadashmaintenance/test/ .test.js && npm run test:dayuh cutover related routes /api/social /api/social/abuse/ratelimit/check /api/social/alias/:alias /api/social/alias/:alias/details /api/social/alias/:alias/heichelos /api/social/alias/:alias/heichelos/:heichel /api/social/alias/:alias/heichelos/:heichel/ownership /api/social/alias/:alias/heichelos/details",
-		"page": "pages/docs-generated-api-tutorials-routes-api-social-drive-aliasid-domains-hos-7638988b8a.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/merkava/download bundle Family: /api/merkava · Mount: /api/merkava · Derech health: OK Source: geelooy/api/merkava/ awtsmoos.derech.js · Discovery: static literal · Confidence: unknown method Read the human /api/merkava tutorial Generated evidence is a navigation and t",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/merkava/download bundle family: /api/merkava · mount: /api/merkava · derech health: ok source: geelooy/api/merkava/ awtsmoos.derech.js · discovery: static literal · confidence: unknown method read the human /api/merkava tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: $ post, headers observed status literals: 400, 404, 405, 429, 500 observed headers: content disposition, content type path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/merkava /api/merkava/devices /api/merkava/download installer /api/merkava/run /api/merkava/run js",
+		"page": "pages/docs-generated-api-tutorials-routes-api-merkava-download-bundle-c98f28d7-f736522a8e.json"
 	},
 	{
-		"id": "docs-generated-api-tutorials-routes-api-social-drive-aliasid-domains-hos-24ec1d3e65",
-		"title": "API Tutorial: /api/social/drive/:aliasId/domains/:hostname",
-		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-drive-aliasid-domains-hostname-f2368c7f3f.md",
+		"id": "docs-generated-api-tutorials-routes-api-merkava-download-installer-28c99-e41b9b2426",
+		"title": "API Tutorial: /api/merkava/download-installer",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-merkava-download-installer-28c990a8c4.md",
 		"category": "Routes",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "API Tutorial: /api/social/drive/:aliasId/domains/:hostname",
-				"anchor": "api-tutorial-api-social-drive-aliasid-domains-hostname"
+				"text": "API Tutorial: /api/merkava/download-installer",
+				"anchor": "api-tutorial-api-merkava-download-installer"
 			},
 			{
 				"level": 2,
@@ -89,21 +89,21 @@
 				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/social/drive/:aliasId/domains/:hostname Family: Social · Mount: /api/social · Derech health: OK Source: geelooy/api/social/helper/drive/routes/domainRoutes.js · Discovery: static literal · Confidence: source lexical Read the human Social tutorial Generated evidence is ",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/social/drive/:aliasid/domains/:hostname family: social · mount: /api/social · derech health: ok source: geelooy/api/social/helper/drive/routes/domainroutes.js · discovery: static literal · confidence: source lexical read the human social tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: get, delete request vessels: — observed status literals: — observed headers: — path parameters name shape aliasid single segment hostname single segment starter call starter only: method evidence is lexical at the source file level; inspect the handler before relying on payload or response shape. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/social/drive/alpha/domains/site.example geelooy/apps/drive/test/domainapi.test.mjs test related tests heuristic family matches: test — npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported style ownership && npm run test:css quality && npm run test:heichelos quality && npm run test:profile menu && npm run test:heichel governance && npm run test:post submissions && npm run test:comments && npm run test:api keys && npm run test:graph && npm run test:social content && npm run test:notifications && npm run test:social packed && npm run test:packed engine && npm run test:platform ops && npm run test:platform execution && npm run test:node client && npm run test:dayuh cutover test:api keys — node geelooy/api/social/helper/test/apikeys.test.js test:comments — node geelooy/api/social/helper/comments/test/runallcommentstests.js test:concurrency failure — node geelooy/api/social/test/concurrencyfailurestress.test.mjs test:dayuh release — npm run test:routes && npm run test:comments && npm run test:social content && npm run test:social packed && npm run test:packed engine && node test tools/dayuhchadashmaintenance/test/ .test.js && npm run test:dayuh cutover related routes /api/social /api/social/abuse/ratelimit/check /api/social/alias/:alias /api/social/alias/:alias/details /api/social/alias/:alias/heichelos /api/social/alias/:alias/heichelos/:heichel /api/social/alias/:alias/heichelos/:heichel/ownership /api/social/alias/:alias/heichelos/details",
-		"page": "pages/docs-generated-api-tutorials-routes-api-social-drive-aliasid-domains-hos-24ec1d3e65.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/merkava/download installer Family: /api/merkava · Mount: /api/merkava · Derech health: OK Source: geelooy/api/merkava/ awtsmoos.derech.js · Discovery: static literal · Confidence: unknown method Read the human /api/merkava tutorial Generated evidence is a navigation an",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/merkava/download installer family: /api/merkava · mount: /api/merkava · derech health: ok source: geelooy/api/merkava/ awtsmoos.derech.js · discovery: static literal · confidence: unknown method read the human /api/merkava tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: $ post, headers observed status literals: 400, 404, 405, 429, 500 observed headers: content disposition, content type path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/merkava /api/merkava/devices /api/merkava/download bundle /api/merkava/run /api/merkava/run js",
+		"page": "pages/docs-generated-api-tutorials-routes-api-merkava-download-installer-28c99-e41b9b2426.json"
 	},
 	{
-		"id": "docs-generated-api-tutorials-routes-api-social-drive-aliasid-domains-hos-8724aa8969",
-		"title": "API Tutorial: /api/social/drive/:aliasId/domains/:hostname/hosting-plan",
-		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-drive-aliasid-domains-hostname-hosting-plan-49dd2f9c69.md",
+		"id": "docs-generated-api-tutorials-routes-api-merkava-run-8c99141d56-md-ddddc5a799",
+		"title": "API Tutorial: /api/merkava/run",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-merkava-run-8c99141d56.md",
 		"category": "Routes",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "API Tutorial: /api/social/drive/:aliasId/domains/:hostname/hosting-plan",
-				"anchor": "api-tutorial-api-social-drive-aliasid-domains-hostname-hosting-plan"
+				"text": "API Tutorial: /api/merkava/run",
+				"anchor": "api-tutorial-api-merkava-run"
 			},
 			{
 				"level": 2,
@@ -136,21 +136,21 @@
 				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/social/drive/:aliasId/domains/:hostname/hosting plan Family: Social · Mount: /api/social · Derech health: OK Source: geelooy/api/social/helper/drive/routes/domainPlanRoutes.js · Discovery: static literal · Confidence: unknown method Read the human Social tutorial Gener",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/social/drive/:aliasid/domains/:hostname/hosting plan family: social · mount: /api/social · derech health: ok source: geelooy/api/social/helper/drive/routes/domainplanroutes.js · discovery: static literal · confidence: unknown method read the human social tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: headers observed status literals: — observed headers: x request id path parameters name shape aliasid single segment hostname single segment starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/social/drive/alpha/domains/site.example/hosting plan geelooy/apps/drive/test/domainapi.test.mjs test related tests heuristic family matches: test — npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported style ownership && npm run test:css quality && npm run test:heichelos quality && npm run test:profile menu && npm run test:heichel governance && npm run test:post submissions && npm run test:comments && npm run test:api keys && npm run test:graph && npm run test:social content && npm run test:notifications && npm run test:social packed && npm run test:packed engine && npm run test:platform ops && npm run test:platform execution && npm run test:node client && npm run test:dayuh cutover test:api keys — node geelooy/api/social/helper/test/apikeys.test.js test:comments — node geelooy/api/social/helper/comments/test/runallcommentstests.js test:concurrency failure — node geelooy/api/social/test/concurrencyfailurestress.test.mjs test:dayuh release — npm run test:routes && npm run test:comments && npm run test:social content && npm run test:social packed && npm run test:packed engine && node test tools/dayuhchadashmaintenance/test/ .test.js && npm run test:dayuh cutover related routes /api/social /api/social/abuse/ratelimit/check /api/social/alias/:alias /api/social/alias/:alias/details /api/social/alias/:alias/heichelos /api/social/alias/:alias/heichelos/:heichel /api/social/alias/:alias/heichelos/:heichel/ownership /api/social/alias/:alias/heichelos/details",
-		"page": "pages/docs-generated-api-tutorials-routes-api-social-drive-aliasid-domains-hos-8724aa8969.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/merkava/run Family: /api/merkava · Mount: /api/merkava · Derech health: OK Source: geelooy/api/merkava/ awtsmoos.derech.js · Discovery: static literal · Confidence: unknown method Read the human /api/merkava tutorial Generated evidence is a navigation and teaching aid,",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/merkava/run family: /api/merkava · mount: /api/merkava · derech health: ok source: geelooy/api/merkava/ awtsmoos.derech.js · discovery: static literal · confidence: unknown method read the human /api/merkava tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: $ post, headers observed status literals: 400, 404, 405, 429, 500 observed headers: content disposition, content type path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/merkava /api/merkava/devices /api/merkava/download bundle /api/merkava/download installer /api/merkava/run js",
+		"page": "pages/docs-generated-api-tutorials-routes-api-merkava-run-8c99141d56-md-ddddc5a799.json"
 	},
 	{
-		"id": "docs-generated-api-tutorials-routes-api-social-drive-aliasid-domains-hos-90d8428c51",
-		"title": "API Tutorial: /api/social/drive/:aliasId/domains/:hostname/verify",
-		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-drive-aliasid-domains-hostname-verify-3927e4a49e.md",
+		"id": "docs-generated-api-tutorials-routes-api-merkava-run-js-8a969517a7-md-4113fd126d",
+		"title": "API Tutorial: /api/merkava/run-js",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-merkava-run-js-8a969517a7.md",
 		"category": "Routes",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "API Tutorial: /api/social/drive/:aliasId/domains/:hostname/verify",
-				"anchor": "api-tutorial-api-social-drive-aliasid-domains-hostname-verify"
+				"text": "API Tutorial: /api/merkava/run-js",
+				"anchor": "api-tutorial-api-merkava-run-js"
 			},
 			{
 				"level": 2,
@@ -183,21 +183,21 @@
 				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/social/drive/:aliasId/domains/:hostname/verify Family: Social · Mount: /api/social · Derech health: OK Source: geelooy/api/social/helper/drive/routes/domainRoutes.js · Discovery: static literal · Confidence: source lexical Read the human Social tutorial Generated evide",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/social/drive/:aliasid/domains/:hostname/verify family: social · mount: /api/social · derech health: ok source: geelooy/api/social/helper/drive/routes/domainroutes.js · discovery: static literal · confidence: source lexical read the human social tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: get, delete request vessels: — observed status literals: — observed headers: — path parameters name shape aliasid single segment hostname single segment starter call starter only: method evidence is lexical at the source file level; inspect the handler before relying on payload or response shape. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/social/drive/alpha/domains/site.example/verify geelooy/apps/drive/test/domainapi.test.mjs test related tests heuristic family matches: test — npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported style ownership && npm run test:css quality && npm run test:heichelos quality && npm run test:profile menu && npm run test:heichel governance && npm run test:post submissions && npm run test:comments && npm run test:api keys && npm run test:graph && npm run test:social content && npm run test:notifications && npm run test:social packed && npm run test:packed engine && npm run test:platform ops && npm run test:platform execution && npm run test:node client && npm run test:dayuh cutover test:api keys — node geelooy/api/social/helper/test/apikeys.test.js test:comments — node geelooy/api/social/helper/comments/test/runallcommentstests.js test:concurrency failure — node geelooy/api/social/test/concurrencyfailurestress.test.mjs test:dayuh release — npm run test:routes && npm run test:comments && npm run test:social content && npm run test:social packed && npm run test:packed engine && node test tools/dayuhchadashmaintenance/test/ .test.js && npm run test:dayuh cutover related routes /api/social /api/social/abuse/ratelimit/check /api/social/alias/:alias /api/social/alias/:alias/details /api/social/alias/:alias/heichelos /api/social/alias/:alias/heichelos/:heichel /api/social/alias/:alias/heichelos/:heichel/ownership /api/social/alias/:alias/heichelos/details",
-		"page": "pages/docs-generated-api-tutorials-routes-api-social-drive-aliasid-domains-hos-90d8428c51.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/merkava/run js Family: /api/merkava · Mount: /api/merkava · Derech health: OK Source: geelooy/api/merkava/ awtsmoos.derech.js · Discovery: static literal · Confidence: unknown method Read the human /api/merkava tutorial Generated evidence is a navigation and teaching a",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/merkava/run js family: /api/merkava · mount: /api/merkava · derech health: ok source: geelooy/api/merkava/ awtsmoos.derech.js · discovery: static literal · confidence: unknown method read the human /api/merkava tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: $ post, headers observed status literals: 400, 404, 405, 429, 500 observed headers: content disposition, content type path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/merkava /api/merkava/devices /api/merkava/download bundle /api/merkava/download installer /api/merkava/run",
+		"page": "pages/docs-generated-api-tutorials-routes-api-merkava-run-js-8a969517a7-md-4113fd126d.json"
 	},
 	{
-		"id": "docs-generated-api-tutorials-routes-api-social-drive-aliasid-entries-8c4-d9f3c07f16",
-		"title": "API Tutorial: /api/social/drive/:aliasId/entries",
-		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-drive-aliasid-entries-8c4c482d1b.md",
-		"category": "Routes",
+		"id": "docs-generated-api-tutorials-routes-api-oauth-getroutehandler-487575ef09-12e93bfdc7",
+		"title": "API Tutorial: /api/oauth/getRouteHandler",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-oauth-getroutehandler-487575ef09.md",
+		"category": "Security",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "API Tutorial: /api/social/drive/:aliasId/entries",
-				"anchor": "api-tutorial-api-social-drive-aliasid-entries"
+				"text": "API Tutorial: /api/oauth/getRouteHandler",
+				"anchor": "api-tutorial-api-oauth-getroutehandler"
 			},
 			{
 				"level": 2,
@@ -230,8 +230,102 @@
 				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/social/drive/:aliasId/entries Family: Social · Mount: /api/social · Derech health: OK Source: geelooy/api/social/helper/drive/routes/entryRoutes.js · Discovery: static literal · Confidence: source lexical Read the human Social tutorial Generated evidence is a navigatio",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/social/drive/:aliasid/entries family: social · mount: /api/social · derech health: ok source: geelooy/api/social/helper/drive/routes/entryroutes.js · discovery: static literal · confidence: source lexical read the human social tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: get, post, put, delete, head request vessels: $ get, headers observed status literals: — observed headers: x request id path parameters name shape aliasid single segment starter call starter only: method evidence is lexical at the source file level; inspect the handler before relying on payload or response shape. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test — npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported style ownership && npm run test:css quality && npm run test:heichelos quality && npm run test:profile menu && npm run test:heichel governance && npm run test:post submissions && npm run test:comments && npm run test:api keys && npm run test:graph && npm run test:social content && npm run test:notifications && npm run test:social packed && npm run test:packed engine && npm run test:platform ops && npm run test:platform execution && npm run test:node client && npm run test:dayuh cutover test:api keys — node geelooy/api/social/helper/test/apikeys.test.js test:comments — node geelooy/api/social/helper/comments/test/runallcommentstests.js test:concurrency failure — node geelooy/api/social/test/concurrencyfailurestress.test.mjs test:dayuh release — npm run test:routes && npm run test:comments && npm run test:social content && npm run test:social packed && npm run test:packed engine && node test tools/dayuhchadashmaintenance/test/ .test.js && npm run test:dayuh cutover related routes /api/social /api/social/abuse/ratelimit/check /api/social/alias/:alias /api/social/alias/:alias/details /api/social/alias/:alias/heichelos /api/social/alias/:alias/heichelos/:heichel /api/social/alias/:alias/heichelos/:heichel/ownership /api/social/alias/:alias/heichelos/details",
-		"page": "pages/docs-generated-api-tutorials-routes-api-social-drive-aliasid-entries-8c4-d9f3c07f16.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/oauth/getRouteHandler Family: OAuth · Mount: /api/oauth · Derech health: OK Source: geelooy/api/oauth/routes/table.js · Discovery: route table · Confidence: unknown method Read the human OAuth tutorial Generated evidence is a navigation and teaching aid, not an OpenAPI",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/oauth/getroutehandler family: oauth · mount: /api/oauth · derech health: ok source: geelooy/api/oauth/routes/table.js · discovery: route table · confidence: unknown method read the human oauth tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/oauth/:route /api/oauth/getroutetable /api/oauth/listroutenames",
+		"page": "pages/docs-generated-api-tutorials-routes-api-oauth-getroutehandler-487575ef09-12e93bfdc7.json"
+	},
+	{
+		"id": "docs-generated-api-tutorials-routes-api-oauth-getroutetable-632912a20b-m-da47f785ce",
+		"title": "API Tutorial: /api/oauth/getRouteTable",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-oauth-getroutetable-632912a20b.md",
+		"category": "Security",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/oauth/getRouteTable",
+				"anchor": "api-tutorial-api-oauth-getroutetable"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/oauth/getRouteTable Family: OAuth · Mount: /api/oauth · Derech health: OK Source: geelooy/api/oauth/routes/table.js · Discovery: route table · Confidence: unknown method Read the human OAuth tutorial Generated evidence is a navigation and teaching aid, not an OpenAPI c",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/oauth/getroutetable family: oauth · mount: /api/oauth · derech health: ok source: geelooy/api/oauth/routes/table.js · discovery: route table · confidence: unknown method read the human oauth tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/oauth/:route /api/oauth/getroutehandler /api/oauth/listroutenames",
+		"page": "pages/docs-generated-api-tutorials-routes-api-oauth-getroutetable-632912a20b-m-da47f785ce.json"
+	},
+	{
+		"id": "docs-generated-api-tutorials-routes-api-oauth-listroutenames-9be1b1f0f5--0d8f7a2867",
+		"title": "API Tutorial: /api/oauth/listRouteNames",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-oauth-listroutenames-9be1b1f0f5.md",
+		"category": "Security",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/oauth/listRouteNames",
+				"anchor": "api-tutorial-api-oauth-listroutenames"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/oauth/listRouteNames Family: OAuth · Mount: /api/oauth · Derech health: OK Source: geelooy/api/oauth/routes/table.js · Discovery: route table · Confidence: unknown method Read the human OAuth tutorial Generated evidence is a navigation and teaching aid, not an OpenAPI ",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/oauth/listroutenames family: oauth · mount: /api/oauth · derech health: ok source: geelooy/api/oauth/routes/table.js · discovery: route table · confidence: unknown method read the human oauth tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/oauth/:route /api/oauth/getroutehandler /api/oauth/getroutetable",
+		"page": "pages/docs-generated-api-tutorials-routes-api-oauth-listroutenames-9be1b1f0f5--0d8f7a2867.json"
 	}
 ]

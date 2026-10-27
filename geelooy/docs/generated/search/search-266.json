@@ -1,213 +1,227 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-lod-directory-guide--8cd01483e4",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/lod/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-routes-readme-md-8ea0afd4f4",
+		"title": "Routes",
+		"sourcePath": "docs/ROUTES/README.md",
+		"category": "Routes",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/lod",
-				"anchor": "directory-guide-experiments-awtsmoos-src-lod"
+				"text": "Routes",
+				"anchor": "routes"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Public filesystem routes",
+				"anchor": "public-filesystem-routes"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Dynamic/API routes",
+				"anchor": "dynamic-api-routes"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Dynamic parameters",
+				"anchor": "dynamic-parameters"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
+				"text": "URL lookup workflow",
+				"anchor": "url-lookup-workflow"
 			},
 			{
 				"level": 2,
-				"text": "Exported symbols worth searching",
-				"anchor": "exported-symbols-worth-searching"
-			},
-			{
-				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Do not confuse these three things",
+				"anchor": "do-not-confuse-these-three-things"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/lod Role: Runtime subsystem Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 12 files, 0 structural child directories Purpose Level of detail selection, distance policies, and scene LOD coordination. The Awts",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/lod role: runtime subsystem snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 12 files, 0 structural child directories purpose level of detail selection, distance policies, and scene lod coordination. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: runtime subsystem search terms: lod, distance, scene, bounds, spatial, geometry, key, transition, visibility, class, com, controller file mix: .js: 11 good first question: “does the behavior or asset i need belong to runtime subsystem, or is this only a neighboring/test/reference layer?” semantic evidence b\"h applies event bounded distance visibility through a transition queue. the awtsmoos renews the whole valley in one instant; awtsmoos.com changes only the finite garments whose spatial, camera, quality, or streaming truth actually changed. returns visible state with asymmetric hysteresis around one distance limit. caches finite local geometry bounds and rendering cost evidence. the awtsmoos recreates every vertex without repetition; awtsmoos.com measures shared geometry once so the frame may preserve beauty while refusing needless distant work. representative files lodcontroller.js — applies event bounded distance visibility through a transition queue. the awtsmoos renews the whole valley in one instant; awtsmoos.com changes only the finite garments whose spatial, camera, quality, or streaming truth actually changed. exports: lodcontroller. lodcontrollermath.js — returns visible state with asymmetric hysteresis around one distance limit. exports: desiredlodvisibility, lodspheredistance, lodtransitionpriority, createinitiallodstats, finitelodnumber. lodgeometrybounds.js — caches finite local geometry bounds and rendering cost evidence. the awtsmoos recreates every vertex without repetition; awtsmoos.com measures shared geometry once so the frame may preserve beauty while refusing needless distant work. exports: geometrylodbounds. lodhysteresis.js — selects a distance lod without trembling at its thresholds. levels must be ordered from most detailed to least detailed by increasing maximum distance. exports: selectlodlevel, ideallevelindex. lodpolicy.js — normalizes scene semantics and resolves conservative distance visibility. the awtsmoos contains mountain, cottage, creature, and garden in one indivisible truth; awtsmoos.com gives each renderer name its proper vessel before any object may disappear. exports: normalizelodclass, inferlodclass, lodclasspolicy, lodmaximumdistance, evaluatelodvisibility. lodscenecandidate.js — converts explicitly authored static meshes into safe lod registrations. the awtsmoos never confuses a living actor with a disposable leaf; awtsmoos.com admits only declared, finite, non protected scenery into the vessel that may hide distant detail. exports: createlodscenecandidate. lodspatialkey.js — quantizes world position and camera yaw into stable event keys. exports: lodspatialkey, lodspatialkeystring, lodspatialkeychanged, yawsector. lodtransitionqueue.js — applies a bounded number of lod changes per frame. higher priority wins, then older work, so a cell crossing cannot become one giant frame long rupture. exports: lodtransitionqueue. lodworldbounds.js — transforms one cached local bound into a conservative world space sphere. the awtsmoos holds every near and distant point in one truth; awtsmoos.com lets the finite renderer measure distance without recomputing the geometry from which it arose. exports: worldlodbounds. sceneloddiagnostics.js — summarizes registered visibility, triangle relief, and semantic classes. the awtsmoos knows every revealed and concealed face; awtsmoos.com exposes finite proof so performance claims arise from counted geometry rather than hopeful declarations. exports: sceneloddiagnostics. scenelodruntime.js — registers authored static detail once and delegates event bounded visibility. the awtsmoos creates the forest continuously without rescanning it blindly; awtsmoos.com refreshes this finite registry only when world construction or streaming reveals new vessels. exports: scenelodruntime. exported symbols worth searching lodcontroller · desiredlodvisibility · lodspheredistance · lodtransitionpriority · createinitiallodstats · finitelodnumber · geometrylodbounds · selectlodlevel · ideallevelindex · normalizelodclass · inferlodclass · lodclasspolicy · lodmaximumdistance · evaluatelodvisibility · lodpolicyclasses · createlodscenecandidate import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ../performance/qualitytier.js ./lodcontrollermath.js ./lodpolicy.js ./lodspatialkey.js ./lodtransitionqueue.js ./lodgeometrybounds.js ./lodworldbounds.js ../../../light three gltf/tiny math.js ./lodcontroller.js ./lodscenecandidate.js ./sceneloddiagnostics.js directory map parent: experiments/awtsmoos/src children: none. related and overlapping systems streaming, lod, visibility, and performance policy — large world loading and frame budget concerns are separated into streaming, lod, visibility, and performance modules. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-lod-directory-guide--8cd01483e4.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Routes The Awtsmoos sends a path through filesystem and derech, both visible and concealed; Awtsmoos.com becomes navigable when URL, parameter, and source are all revealed. This section explains how to travel from a browser URL to the source that serves it. Public filesystem routes The d",
+		"searchText": "b\"h boruch hashem blessed is he routes the awtsmoos sends a path through filesystem and derech, both visible and concealed; awtsmoos.com becomes navigable when url, parameter, and source are all revealed. this section explains how to travel from a browser url to the source that serves it. public filesystem routes the dynamic server's default public root is geelooy. therefore a public url such as /login, /os, /apps/code, or /games/... normally begins by resolving inside the corresponding geelooy/... path. directory index.html files are common entry points, but dynamic derech behavior can intercept or augment a request. use public routes.md for major human facing areas and ../generated/public route inventory.md for the immediate directory inventory. dynamic/api routes derech files named awtsmoos.derech.js are discovered by walking upward from the request's physical path. a derech can return route definitions with exact path strings or colon parameters. api mounts are inventoried in ../generated/derech mounts.md. dynamic parameters :name matches exactly one segment. a terminal :name captures the remainder. catch all parameters must be the final route part. dollar prefixed request variables are not url syntax. read dynamic paths.md for the exact distinction. url lookup workflow 1. if the url starts with /api/, search ../generated/api route atlas.md. 2. otherwise map its first segment to geelooy/ /. 3. look for index.html, client scripts, and nested directories. 4. search ancestors for awtsmoos.derech.js if behavior is dynamic. 5. if the feature uses websockets, also inspect ayzarim/awtsmoosdynamicserver/websocket/. 6. use url to source.md for common examples. do not confuse these three things filesystem url path — source location under public geelooy/. derech route pattern — an exact or colon parameterized dynamic handler. request data vessel — $i, $ get, $ post, $ delete, headers, cookies, body, or auth state.",
+		"page": "pages/docs-routes-readme-md-8ea0afd4f4.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-math-directory-guide-6d28ea1a5c",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/math/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-routes-url-to-source-md-a765505c6a",
+		"title": "URL to Source",
+		"sourcePath": "docs/ROUTES/URL_TO_SOURCE.md",
+		"category": "Routes",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/math",
-				"anchor": "directory-guide-experiments-awtsmoos-src-math"
+				"text": "URL to Source",
+				"anchor": "url-to-source"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "General rule",
+				"anchor": "general-rule"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "API URL lookup",
+				"anchor": "api-url-lookup"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Root-direct exception",
+				"anchor": "root-direct-exception"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Exported symbols worth searching",
-				"anchor": "exported-symbols-worth-searching"
-			},
-			{
-				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "WebSocket exception",
+				"anchor": "websocket-exception"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/math Role: Runtime subsystem Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 6 files, 0 structural child directories Purpose Low level geometry and spatial mathematics used by collision and world systems. Th",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/math role: runtime subsystem snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 6 files, 0 structural child directories purpose low level geometry and spatial mathematics used by collision and world systems. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: runtime subsystem search terms: ray, aabb, point, through, com, finite, segment, triangle, without, aligned, axis, clear file mix: .js: 5 good first question: “does the behavior or asset i need belong to runtime subsystem, or is this only a neighboring/test/reference layer?” semantic evidence holds one axis aligned spatial vessel with inclusive boundaries. the awtsmoos surrounds every finite form without being bounded by it; awtsmoos.com reveals exact containment and contact through readable planes. b\"h geometry helpers: normals, barycentric tests, and raw capsule math vessels. represents one normalized question traveling through the world. the awtsmoos sends a line from origin toward revelation; awtsmoos.com lets distance become a clear point without borrowing an outside geometry engine. representative files aabb.js — holds one axis aligned spatial vessel with inclusive boundaries. the awtsmoos surrounds every finite form without being bounded by it; awtsmoos.com reveals exact containment and contact through readable planes. exports: aabb. geometry3d.js — geometry helpers: normals, barycentric tests, and raw capsule math vessels. exports: v, add, sub, scale, dot. ray.js — represents one normalized question traveling through the world. the awtsmoos sends a line from origin toward revelation; awtsmoos.com lets distance become a clear point without borrowing an outside geometry engine. exports: ray. rayaabb.js — tests whether a normalized ray reaches an axis aligned box before its finite horizon. the slab closes around only the path that exists; malformed numbers cannot pretend to be a doorway through the world. exports: rayintersectsaabb. vec3.js — provides the mutable three dimensional vector vessel. the awtsmoos draws every finite direction from indivisible oneness; awtsmoos.com lets motion appear through clear coordinates without concealment. exports: vec3. exported symbols worth searching aabb · v · add · sub · scale · dot · cross · length · normalize · negate · clamp01 · rotatey · transformpoint · trianglenormal · planedistance · projecttoplane import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ./vec3.js directory map parent: experiments/awtsmoos/src children: none. related and overlapping systems see the system overlap map before creating a similarly named subsystem elsewhere. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-math-directory-guide-6d28ea1a5c.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He URL to Source The Awtsmoos lets the visible address point back toward the hidden file; Awtsmoos.com gives this lookup so a maintainer can cross the distance in a little while. General rule The server's default public root is geelooy. For a non API URL, begin by joining the URL path benea",
+		"searchText": "b\"h boruch hashem blessed is he url to source the awtsmoos lets the visible address point back toward the hidden file; awtsmoos.com gives this lookup so a maintainer can cross the distance in a little while. general rule the server's default public root is geelooy. for a non api url, begin by joining the url path beneath geelooy/. then inspect index.html, scripts, nested files, and any ancestor awtsmoos.derech.js. url first source location additional system /os geelooy/os/ geelooy/shared/virtual os, platform modules /apps/code geelooy/apps/code/ compiler/runtime/tunnel apis as used /apps/tunnel control geelooy/apps/tunnel control/ /api/tunnel/control/ , shared tunnel /apps/tunnel geelooy/apps/tunnel/ /api/tunnel/ /apps/wallet geelooy/apps/wallet/ /api/wallet/ /youtube geelooy/youtube/ /api/youtube/ /profile geelooy/profile/ /api/social/ /heichelos/... geelooy/heichelos/ /api/social/ /social hub geelooy/social hub/ /api/social/ /games/... geelooy/games/... possible websocket server apps /db geelooy/db/ dosdb runtime /ai geelooy/ai/ /api/gpt/ api url lookup search ../generated/api route atlas.md. each row includes the url pattern, source file, and discovery method. examples: /api/gpt/health → gpt derech. /api/wallet/balance → wallet route table. /api/tunnel/control/my device → tunnel control route table. /api/tunnel/install/windows → tunnel installer derech. /api/ssh/connect/:username/:host → ssh derech. root direct exception /mitzvahworld/autoplay ping, /mitzvahworld/autoplay report, and /api/mitzvahworld/autoplay report are handled directly in root index.js before generic dynamic server dispatch. see ../api/direct root handlers.md. websocket exception a url or ticket flow that upgrades to websocket may continue in ayzarim/awtsmoosdynamicserver/websocket/ rather than an ordinary derech response. mission rooms and some game systems are examples of this second runtime plane.",
+		"page": "pages/docs-routes-url-to-source-md-a765505c6a.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-motion-directory-gui-6d0377565a",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/motion/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-security-readme-md-19893eb549",
+		"title": "Security and Trust",
+		"sourcePath": "docs/SECURITY/README.md",
+		"category": "Security",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/motion",
-				"anchor": "directory-guide-experiments-awtsmoos-src-motion"
+				"text": "Security and Trust",
+				"anchor": "security-and-trust"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Interactive system map",
+				"anchor": "interactive-system-map"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Human manuals",
+				"anchor": "human-manuals"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Identity sources",
+				"anchor": "identity-sources"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
+				"text": "Secrets/config evidence",
+				"anchor": "secrets-config-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Exported symbols worth searching",
-				"anchor": "exported-symbols-worth-searching"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Security-evidence boundary",
+				"anchor": "security-evidence-boundary"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/motion Role: Runtime subsystem Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 2 files, 0 structural child directories Purpose Focused motion primitives or helpers that do not own a full gameplay domain. The",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/motion role: runtime subsystem snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 2 files, 0 structural child directories purpose focused motion primitives or helpers that do not own a full gameplay domain. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: runtime subsystem search terms: jump, physics, awtsmoos, current, experiments, feet, floors, guide, height, motion, only, reachable file mix: .md: 1 · .js: 1 good first question: “does the behavior or asset i need belong to runtime subsystem, or is this only a neighboring/test/reference layer?” semantic evidence b\"h jump physics samples only floors reachable from the current feet height. representative files jumpphysics.js — jump physics samples only floors reachable from the current feet height. exports: jumpphysics. exported symbols worth searching jumpphysics directory map parent: experiments/awtsmoos/src children: none. related and overlapping systems see the system overlap map before creating a similarly named subsystem elsewhere. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-motion-directory-gui-6d0377565a.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Security and Trust Security questions must preserve distinct layers: authentication, authorization, resource ownership, scopes/grants, origin policy, and realtime admission are not interchangeable . Interactive system map Open /docs/?view=systems&systemDistrict=security for curated trust",
+		"searchText": "b\"h boruch hashem blessed is he security and trust security questions must preserve distinct layers: authentication, authorization, resource ownership, scopes/grants, origin policy, and realtime admission are not interchangeable . interactive system map open /docs/?view=systems&systemdistrict=security for curated trust systems joined to bounded source/project/environment name evidence. human manuals trust boundaries realtime security secrets and config identity sources current inspected source includes signed sessions, oauth bearer records, verified api keys, and server attached websocket identity. identity shaped request fields are not authority unless server verification explicitly establishes them. use trace trusted identity to follow verifier → authoritative identity → authorization → ownership/grants → negative cases. secrets/config evidence generated documentation records environment variable names, classifications, source reference counts, and example source paths only . it does not read .env files or publish values. security evidence boundary system/route/project packets help locate trust boundaries. they do not constitute a security audit, vulnerability assessment, or proof that authorization is complete.",
+		"page": "pages/docs-security-readme-md-19893eb549.json"
+	},
+	{
+		"id": "docs-security-realtime-security-md-1133b9c294",
+		"title": "Realtime Security",
+		"sourcePath": "docs/SECURITY/REALTIME_SECURITY.md",
+		"category": "Realtime",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Realtime Security",
+				"anchor": "realtime-security"
+			},
+			{
+				"level": 2,
+				"text": "Shared authentication, separate transport boundary",
+				"anchor": "shared-authentication-separate-transport-boundary"
+			},
+			{
+				"level": 2,
+				"text": "Mission Room admission happens before handshake",
+				"anchor": "mission-room-admission-happens-before-handshake"
+			},
+			{
+				"level": 2,
+				"text": "One-time tickets are not permanent authority",
+				"anchor": "one-time-tickets-are-not-permanent-authority"
+			},
+			{
+				"level": 2,
+				"text": "Versioned realtime applications",
+				"anchor": "versioned-realtime-applications"
+			},
+			{
+				"level": 2,
+				"text": "Tunnel Relay",
+				"anchor": "tunnel-relay"
+			},
+			{
+				"level": 2,
+				"text": "Origin and browser context",
+				"anchor": "origin-and-browser-context"
+			},
+			{
+				"level": 2,
+				"text": "Realtime change checklist",
+				"anchor": "realtime-change-checklist"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Realtime Security The Awtsmoos gives every socket a living instant while Awtsmoos.com binds long lived communication to trusted identity, admission policy, protocol version and current authority. Shared authentication, separate transport boundary The dynamic server installs the same Auth",
+		"searchText": "b\"h boruch hashem blessed is he realtime security the awtsmoos gives every socket a living instant while awtsmoos.com binds long lived communication to trusted identity, admission policy, protocol version and current authority. shared authentication, separate transport boundary the dynamic server installs the same auth verifier into http and websocket infrastructure, but websocket upgrades parse their own cookies/headers and produce a trusted socket identity for the connection. application messages must not recreate identity from message payload. mission room admission happens before handshake for /api/tunnel/control/mission room/ws, inspected source requires: 1. the correct path; 2. sec websocket key; 3. trusted identity with accountid; 4. canonical/accepted origin; 5. a one time ticket from query parameter ticket; 6. current tunnel.mission authorization for the ticket's tunnel; 7. matching current/ticket authority; 8. the current room protocol version. missing or changed authority is rejected before a successful websocket session is established. one time tickets are not permanent authority the mission room ticket is consumed during admission and then checked against current authorization. a previously issued ticket cannot safely replace a fresh server side permission check when grants may have been revoked or changed. versioned realtime applications the realtimeplatform routes versioned applications through a registry/router. trusted account identity belongs to the server side client session. message types, application ids and versions are domain protocol fields, not identity credentials. tunnel relay tunnel relay has its own registration authority and account bound transport lifecycle. registration, replacement and acknowledgement behavior must preserve trusted account association. do not merge relay device identity with arbitrary message accountid or tunnel name fields. origin and browser context origin checking is an admission control where source explicitly requires it. do not assume cookie authentication alone is sufficient for every browser websocket. likewise, do not add permissive origin behavior to a sensitive socket merely because an http api uses broad cors. realtime change checklist where does trusted client identity originate? is admission checked before or after handshake? does the connection require origin, ticket, grant or scope? can permission change while the connection exists? which protocol versions are accepted? what disconnect cleanup removes presence/subscriptions/state? are errors machine readable without leaking secrets? are wrong account, stale ticket, wrong origin and wrong version cases tested?",
+		"page": "pages/docs-security-realtime-security-md-1133b9c294.json"
+	},
+	{
+		"id": "docs-security-secrets-and-config-md-0f6557495f",
+		"title": "Secrets and Security-Sensitive Configuration",
+		"sourcePath": "docs/SECURITY/SECRETS_AND_CONFIG.md",
+		"category": "Security",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Secrets and Security-Sensitive Configuration",
+				"anchor": "secrets-and-security-sensitive-configuration"
+			},
+			{
+				"level": 2,
+				"text": "Documentation rule",
+				"anchor": "documentation-rule"
+			},
+			{
+				"level": 2,
+				"text": "Canonical authentication secret",
+				"anchor": "canonical-authentication-secret"
+			},
+			{
+				"level": 2,
+				"text": "API keys",
+				"anchor": "api-keys"
+			},
+			{
+				"level": 2,
+				"text": "OAuth and provider secrets",
+				"anchor": "oauth-and-provider-secrets"
+			},
+			{
+				"level": 2,
+				"text": "Local configuration",
+				"anchor": "local-configuration"
+			},
+			{
+				"level": 2,
+				"text": "Debug and smoke flags",
+				"anchor": "debug-and-smoke-flags"
+			},
+			{
+				"level": 2,
+				"text": "Review checklist",
+				"anchor": "review-checklist"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Secrets and Security Sensitive Configuration The Awtsmoos gives configuration a vessel while Awtsmoos.com must distinguish a variable name that may be documented from a secret value that must remain concealed. Documentation rule Generated environment documentation records variable names,",
+		"searchText": "b\"h boruch hashem blessed is he secrets and security sensitive configuration the awtsmoos gives configuration a vessel while awtsmoos.com must distinguish a variable name that may be documented from a secret value that must remain concealed. documentation rule generated environment documentation records variable names, coarse classes and source ownership only. never copy live values, token files, oauth secrets, api keys, session cookies, provider credentials, ssh credentials or private machine paths into documentation merely to make setup look complete. canonical authentication secret the dynamic server's inspected authsetup.js reads deps.config.secret as a module path, requires that configured module, stringifies the resulting value and constructs the shared auth verifier used by http sessions and websockets. if the configured secret cannot be required, the inspected fallback object contains nokey: \"no security\". that fallback means deployment configuration for authentication deserves explicit review; documentation must not present a missing secret as an ordinary harmless default. api keys social api keys are created from cryptographically random bytes. the raw key is returned at creation; storage retains its sha 256 hash and metadata. documentation may describe the prefix/format conceptually, but must never include a real generated key. tunnel control maintains a separate verified api key system with its own scopes/account identity. do not assume social api keys and tunnel control keys share stores, scopes or header schemes. oauth and provider secrets oauth, youtube/google, paypal, streaming, email/smtp and ai integrations can use provider specific secret names. the generated environment inventory is a locator. the owning source determines required/optional status, defaults, redirect uris, encryption, token persistence and lifecycle. local configuration .awtsmoos.config.local.json is an ignored machine local configuration vessel used by database root resolution. documentation may name supported keys, but should not copy the actual local file or absolute private paths unless a troubleshooting task explicitly requires them. debug and smoke flags debug/test environment flags can cause sensitive diagnostic material to appear. social api key verification, for example, has an inspected smoke debug branch that can expose supplied key prefixes, hashes, index paths and db root information in errors. treat debug flags as security relevant and disable them outside intended controlled testing. review checklist is the value secret or merely configuration? where is it loaded? does absence disable security or change trust behavior? is it logged or included in errors? is it persisted encrypted, hashed, plaintext or not persisted? what rotates/revokes it? which tests exercise missing/invalid/expired credentials?",
+		"page": "pages/docs-security-secrets-and-config-md-0f6557495f.json"
 	}
 ]

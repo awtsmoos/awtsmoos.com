@@ -9,7 +9,7 @@
 		"id": "public",
 		"title": "Public and Other Boundaries"
 	},
-	"title": "geelooy/mawgawl",
+	"title": "Mawgawl · Booking Calendar",
 	"entries": [
 		"index.html",
 		"DOCUMENTATION.md"
@@ -22,19 +22,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-mawgawl-13489054.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 65,
-		"tests": 14,
+		"source": 84,
+		"tests": 20,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
 		"other": 0
 	},
-	"totalFiles": 80,
+	"totalFiles": 105,
 	"symbolSummary": {
-		"files": 30,
-		"classes": 3,
-		"functions": 129,
-		"exports": 71,
+		"files": 42,
+		"classes": 8,
+		"functions": 148,
+		"exports": 92,
 		"samples": [
 			"from",
 			"showMessage",
@@ -53,8 +53,8 @@
 	"outgoingDependencies": [
 		{
 			"project": "geelooy/shared",
-			"count": 1,
-			"examples": "geelooy/mawgawl/sefarim/searchHistory.js"
+			"count": 4,
+			"examples": "geelooy/mawgawl/sefarim/exactApi.js; geelooy/mawgawl/sefarim/searchApi.js; geelooy/mawgawl/sefarim/searchHistory.js"
 		}
 	],
 	"incomingDependencies": [],
@@ -63,16 +63,16 @@
 		{
 			"url": "/mawgawl",
 			"file": "geelooy/mawgawl/index.html",
-			"title": "",
+			"title": "Mawgawl · Booking Calendar",
 			"scripts": 1,
-			"styles": 1
+			"styles": 2
 		},
 		{
 			"url": "/mawgawl/sefarim",
 			"file": "geelooy/mawgawl/sefarim/index.html",
 			"title": "Search the Living Library — Geelooy",
-			"scripts": 2,
-			"styles": 18
+			"scripts": 3,
+			"styles": 7
 		}
 	],
 	"requiresLocalDocumentation": true,

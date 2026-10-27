@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-oauth-views-readme-md-2fd67a1620",
+	"title": "B\"H — OAuth views (/api/oauth/views/)",
+	"sourcePath": "geelooy/api/oauth/views/README.md",
+	"category": "Security",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — OAuth views (/api/oauth/views/)",
+			"anchor": "b-h-oauth-views-api-oauth-views"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-oauth-views-readme-md-2fd67a1620-001.json"
+	]
+}

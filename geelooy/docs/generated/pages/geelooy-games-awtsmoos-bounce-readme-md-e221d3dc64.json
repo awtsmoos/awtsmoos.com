@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-awtsmoos-bounce-readme-md-e221d3dc64",
+	"title": "Awtsmoos Bounce: Orbit Run",
+	"sourcePath": "geelooy/games/awtsmoos-bounce/README.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Awtsmoos Bounce: Orbit Run",
+			"anchor": "awtsmoos-bounce-orbit-run"
+		},
+		{
+			"level": 2,
+			"text": "Canonical game",
+			"anchor": "canonical-game"
+		},
+		{
+			"level": 2,
+			"text": "Campaign",
+			"anchor": "campaign"
+		},
+		{
+			"level": 2,
+			"text": "Controls and physical feel",
+			"anchor": "controls-and-physical-feel"
+		},
+		{
+			"level": 2,
+			"text": "Architecture",
+			"anchor": "architecture"
+		},
+		{
+			"level": 2,
+			"text": "Runtime safeguards",
+			"anchor": "runtime-safeguards"
+		},
+		{
+			"level": 2,
+			"text": "Publishing",
+			"anchor": "publishing"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-awtsmoos-bounce-readme-md-e221d3dc64-001.json"
+	]
+}

@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-08-ro-6b28f0b03f",
+	"title": "Robots and Sitemap Architecture",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-01-2342-geelooy-seo-current-head-merge/08-robots-sitemap-architecture.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Robots and Sitemap Architecture",
+			"anchor": "robots-and-sitemap-architecture"
+		},
+		{
+			"level": 2,
+			"text": "Evidence",
+			"anchor": "evidence"
+		},
+		{
+			"level": 2,
+			"text": "Chosen architecture",
+			"anchor": "chosen-architecture"
+		},
+		{
+			"level": 3,
+			"text": "Static root robots",
+			"anchor": "static-root-robots"
+		},
+		{
+			"level": 3,
+			"text": "Static root core sitemap",
+			"anchor": "static-root-core-sitemap"
+		},
+		{
+			"level": 3,
+			"text": "Dynamic Heichel sitemap index",
+			"anchor": "dynamic-heichel-sitemap-index"
+		},
+		{
+			"level": 3,
+			"text": "Dynamic per-Heichel sitemap",
+			"anchor": "dynamic-per-heichel-sitemap"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-08-ro-6b28f0b03f-001.json"
+	]
+}

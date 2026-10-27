@@ -1,0 +1,68 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-shliach-plugin-f8298c9f",
+	"path": "geelooy/shliach-plugin",
+	"type": "public",
+	"family": {
+		"id": "public",
+		"title": "Public and Other Boundaries"
+	},
+	"title": "Awtsmoos Shliach — Awtsmoos Shliach",
+	"entries": [
+		"index.html"
+	],
+	"humanDocumentation": [
+		"docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-shliach-plugin-f8298c9f.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 5,
+		"tests": 0,
+		"assets": 1,
+		"generated": 0,
+		"docs": 1,
+		"other": 4
+	},
+	"totalFiles": 11,
+	"symbolSummary": null,
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/shliach-plugin",
+			"file": "geelooy/shliach-plugin/index.html",
+			"title": "Awtsmoos Shliach — Awtsmoos Shliach",
+			"scripts": 0,
+			"styles": 1
+		},
+		{
+			"url": "/shliach-plugin/privacy",
+			"file": "geelooy/shliach-plugin/privacy/index.html",
+			"title": "Privacy Policy — Awtsmoos Shliach",
+			"scripts": 0,
+			"styles": 1
+		},
+		{
+			"url": "/shliach-plugin/support",
+			"file": "geelooy/shliach-plugin/support/index.html",
+			"title": "Support — Awtsmoos Shliach",
+			"scripts": 0,
+			"styles": 1
+		},
+		{
+			"url": "/shliach-plugin/terms",
+			"file": "geelooy/shliach-plugin/terms/index.html",
+			"title": "Terms of Use — Awtsmoos Shliach",
+			"scripts": 0,
+			"styles": 1
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": false,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

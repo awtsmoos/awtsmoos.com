@@ -1,0 +1,202 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-09-28-1719-reader-simplicity-heichel-identity-0-7aa59d927e",
+		"title": "Simplification rules",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-28-1719-reader-simplicity-heichel-identity/01-simplification-rules.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Simplification rules",
+				"anchor": "simplification-rules"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Simplification rules The Awtsmoos is One; the user facing motion should therefore feel like one river, not many competing mechanisms. Auto Scroll has two visible states: Start and Stop. No countdown in the ordinary UI. No automatic pause merely because a menu, Lens, dialog, touch, wheel,",
+		"searchText": "b\"h boruch hashem blessed is he simplification rules the awtsmoos is one; the user facing motion should therefore feel like one river, not many competing mechanisms. auto scroll has two visible states: start and stop. no countdown in the ordinary ui. no automatic pause merely because a menu, lens, dialog, touch, wheel, or reading key appears; the user can stop when desired. pace remains adjustable, but only one clear speed control is primary. unit, preset, eye line, density, and estimate machinery may remain internally compatible but must not crowd the default mobile surface. reader appearance options belong behind a single expandable appearance section. main menu should prioritize navigation labels, not long explanations. ikar should identify itself as a torah library with hebrew/english identity and meaningful section names; internal readiness language should not be prominent ui. no new !important; rewrite active owners rather than escalate specificity. next action apply these rules to autoscrollbutton/controller/session/wiring, lens semantic controls/markup, menu renderer/styles, and ikar fallback/first light css.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-28-1719-reader-simplicity-heichel-identity-0-7aa59d927e.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-28-1719-reader-simplicity-heichel-identity-0-138cb6a70e",
+		"title": "Exact owner plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-28-1719-reader-simplicity-heichel-identity/02-owner-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Exact owner plan",
+				"anchor": "exact-owner-plan"
+			},
+			{
+				"level": 2,
+				"text": "Behavior owners",
+				"anchor": "behavior-owners"
+			},
+			{
+				"level": 2,
+				"text": "Reader UI owners",
+				"anchor": "reader-ui-owners"
+			},
+			{
+				"level": 2,
+				"text": "Ikar owners",
+				"anchor": "ikar-owners"
+			},
+			{
+				"level": 2,
+				"text": "Verification",
+				"anchor": "verification"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Exact owner plan Behavior owners heichelos/post/logic/listeners/AutoScrollButton.js: visible click must call immediate toggle. heichelos/post/actions/autoScroll/AutoScrollController.js: do not attach automatic interruption observer. heichelos/post/actions/autoScroll/AutoScrollSession.js:",
+		"searchText": "b\"h boruch hashem blessed is he exact owner plan behavior owners heichelos/post/logic/listeners/autoscrollbutton.js: visible click must call immediate toggle. heichelos/post/actions/autoscroll/autoscrollcontroller.js: do not attach automatic interruption observer. heichelos/post/actions/autoscroll/autoscrollsession.js: remove countdown/interruption startup responsibilities from ordinary session start. heichelos/post/actions/autoscroll/autoscrollwiring.js: keep explicit pause api but stop wiring automatic gesture/interruption behavior into the session. autoscrollcontrolcopy.js: collapse visible state language to start/stop. reader ui owners reader settings.html: primary focus, text size, auto scroll, compact appearance disclosure. autoscrollsemanticcontrols.js: one speed control, no unit/preset/eye line dashboard. sidebarcontent.js: shorter labels and no explanatory prose in the visible grid. panel rows/menu button.css, menu copy.css, menu tabs.css: compact two column mobile commands, no !important. ikar owners semantic/fallback.html: ikar bilingual/public title and concise library description; remove readiness chip language. ikar first.js: do not rewrite title back to operational language; concise discovery heading. premium/ikar first parts/part 03.css, part 04.css, part 05.css, part 06.css: stronger hero/card hierarchy, remove numbered dashboard visual and unnecessary status ornament. verification auto scroll tests plus a new immediate start/continuous contract test. test:imported style ownership, test:css quality, test:heichelos quality. mobile browser measurements: one click moves immediately; movement continues through at least two intervals until stop; stop remains stable. mobile screenshot/dom checks for menu, lens, and ikar root. next action rewrite owners completely, then run verification before deployment.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-28-1719-reader-simplicity-heichel-identity-0-138cb6a70e.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-28-1719-reader-simplicity-heichel-identity-0-af777a3602",
+		"title": "Database identity correction",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-28-1719-reader-simplicity-heichel-identity/03-database-identity-correction.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Database identity correction",
+				"anchor": "database-identity-correction"
+			},
+			{
+				"level": 2,
+				"text": "Evidence",
+				"anchor": "evidence"
+			},
+			{
+				"level": 2,
+				"text": "Repair",
+				"anchor": "repair"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Database identity correction The Awtsmoos reveals identity through the actual vessel of data; Awtsmoos.com must not invent a Heichel name in presentation code. Evidence The live local DosDB row at /social/heichelos/ikar/info was a device transfer placeholder: name: Ikar title: Ikar descr",
+		"searchText": "b\"h boruch hashem blessed is he database identity correction the awtsmoos reveals identity through the actual vessel of data; awtsmoos.com must not invent a heichel name in presentation code. evidence the live local dosdb row at /social/heichelos/ikar/info was a device transfer placeholder: name: ikar title: ikar description: the root heichel restored after device transfer. dayuh.restoredafterdevicetransfer: true the user supplied the canonical identity: the entire torah and explicitly required the ui to read the database rather than fabricate it. repair backed up the placeholder row to /tmp/awtsmoos ikar info before entire torah.json. repaired the database record to name/title: the entire torah. removed only the exact transfer placeholder description and marker. preserved id, author, createdat, and all non placeholder data. source presentation will now render database identity directly and will not special case an ikar display name. next action rewrite the fallback/enhancer so database name/title is sovereign, strengthen the futuristic hero without invented copy, simplify community composer repetition, then test and deploy both code and production data repair.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-28-1719-reader-simplicity-heichel-identity-0-af777a3602.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-28-1725-total-ui-repair-00-current-breakage--e67c47a413",
+		"title": "B\"H — 00 — Current Breakage (2026-09-28-1725)",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-28-1725-total-ui-repair/00-current-breakage.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — 00 — Current Breakage (2026-09-28-1725)",
+				"anchor": "b-h-00-current-breakage-2026-09-28-1725"
+			},
+			{
+				"level": 2,
+				"text": "Phase 0 — the boot failure (gating, nothing else matters until fixed)",
+				"anchor": "phase-0-the-boot-failure-gating-nothing-else-matters-until-fixed"
+			},
+			{
+				"level": 2,
+				"text": "Listing layer — beyond the empty root",
+				"anchor": "listing-layer-beyond-the-empty-root"
+			},
+			{
+				"level": 2,
+				"text": "Reader",
+				"anchor": "reader"
+			},
+			{
+				"level": 2,
+				"text": "Social",
+				"anchor": "social"
+			},
+			{
+				"level": 2,
+				"text": "Process / environment hazards",
+				"anchor": "process-environment-hazards"
+			},
+			{
+				"level": 2,
+				"text": "Known-good ground (do not re-verify, build on it)",
+				"anchor": "known-good-ground-do-not-re-verify-build-on-it"
+			}
+		],
+		"excerpt": "B\"H — 00 — Current Breakage (2026 09 28 1725) Mission continuation of geelooy/.ai thoughts/2026 09 28 1954 heichelos social total/. Plan only. FILE OWNERSHIP: this directory and nothing else. Phase 0 — the boot failure (gating, nothing else matters until fixed) bootIkarFirst is not a function thrown through the chain c",
+		"searchText": "b\"h — 00 — current breakage (2026 09 28 1725) mission continuation of geelooy/.ai thoughts/2026 09 28 1954 heichelos social total/. plan only. file ownership: this directory and nothing else. phase 0 — the boot failure (gating, nothing else matters until fixed) bootikarfirst is not a function thrown through the chain critical boot.js → ikar stable.js → ikar first.js. /heichelos/ikar renders empty: heichel boot title empty, discovery list empty. document title already says \"the entire torah\" while the body paints nothing. previous continuation's root cause note: semantic was not in the document at first light; boot order/contract mismatch across the three files. public browse of /heichelos/ikar showed only \"torah · living library\" and \"explore\". listing layer — beyond the empty root nested series/post listing redesign was explicitly not done (carried in prior remaining work: \"full heichel nested series/post listing redesign beyond empty root hydration\"). the listing + navigation layer is now a first class track with an \"amazing, not basic\" bar (see 02). reader auto scroll session already implements start=river, stop=still, countdown 0. still missing: interval measurement in a real post vessel; regression tests (no auto scroll test script exists — new files required); scribe's lens default hierarchy browser proof at 390 and 430. social tokens exist (midnight/cyan/violet/gold under .awtsmoos social root). still missing: community composer de duplication proof; hub route by route implementation (profiles, search, notifications). process / environment hazards server is the repo's own node index on port 8080 (pid 3818 at last check). no watcher → every code change requires a manual restart or you verify stale code. no build script in package.json; package name awtsfaria. worktree is dirty (dd77276a2) with unrelated tunnel/oauth work plus in progress reader auto scroll and social css. never deploy from this shared tree. tunnel control plane is flaky (observed http 409 tunnel not alive and http 502 on the route refresh endpoint). 409s are transient: wait 15s, refresh route, retry up to 4x. blocked only if down 5 min. previous continuation's next action.md was empty — this plan fills that vacuum. known good ground (do not re verify, build on it) db identity live verified: get /api/social/heichelos/ikar → {\"id\":\"ikar\",\"name\":\"the entire torah\",\"title\":\"the entire torah\", \"author\":\"awtsmoos\",\"createdat\":1782070065512}. no description field exists. get /api/social/heichelos/ikar/series → the written torah, the oral torah. architecture law: db → api → semantic model → renderer → ui. never hard code the heichel name in presentation; always render from the api payload.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-28-1725-total-ui-repair-00-current-breakage--e67c47a413.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-28-1725-total-ui-repair-01-runtime-contract--4413baa5d1",
+		"title": "B\"H — 01 — Runtime Contract Map",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-28-1725-total-ui-repair/01-runtime-contract-map.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — 01 — Runtime Contract Map",
+				"anchor": "b-h-01-runtime-contract-map"
+			},
+			{
+				"level": 2,
+				"text": "Data identity contract (DB → API → semantic model → renderer → UI)",
+				"anchor": "data-identity-contract-db-api-semantic-model-renderer-ui"
+			},
+			{
+				"level": 2,
+				"text": "Boot chain contract (Phase 0)",
+				"anchor": "boot-chain-contract-phase-0"
+			},
+			{
+				"level": 2,
+				"text": "Auto-scroll contract (reader)",
+				"anchor": "auto-scroll-contract-reader"
+			},
+			{
+				"level": 2,
+				"text": "CSS contracts",
+				"anchor": "css-contracts"
+			},
+			{
+				"level": 2,
+				"text": "Navigation contract (gating check)",
+				"anchor": "navigation-contract-gating-check"
+			},
+			{
+				"level": 2,
+				"text": "Motion contract",
+				"anchor": "motion-contract"
+			},
+			{
+				"level": 2,
+				"text": "Server contract",
+				"anchor": "server-contract"
+			},
+			{
+				"level": 2,
+				"text": "Release contract",
+				"anchor": "release-contract"
+			}
+		],
+		"excerpt": "B\"H — 01 — Runtime Contract Map Every repair below must honor these contracts. A contract change is allowed only if every consumer is traced first (source law). Data identity contract (DB → API → semantic model → renderer → UI) DB record for ikar: id, name, title, author, createdAt. THERE IS NO description field — neve",
+		"searchText": "b\"h — 01 — runtime contract map every repair below must honor these contracts. a contract change is allowed only if every consumer is traced first (source law). data identity contract (db → api → semantic model → renderer → ui) db record for ikar: id, name, title, author, createdat. there is no description field — never assume one, never render a placeholder that pretends to be data. absence gets an elegant quiet state, not fabrication. api: get /api/social/heichelos/ikar → the record; get /api/social/heichelos/ikar/series → series list (the written torah, the oral torah). client builds a semantic model (normalized; must include semantic) and the renderer paints ui from it. pipeline is one way; ui never invents fields. presentation never hard codes \"the entire torah\" — it renders the title from the payload. same for every series/post title, count, and timestamp. boot chain contract (phase 0) order: critical boot.js → ikar stable.js → ikar first.js. bootikarfirst must be a callable function exported through this chain. the current breakage is exactly this export contract being violated. first light contract: semantic must exist in the document before the first paint that reads it; heichel boot title and the discovery list hydrate from the semantic model, never from literals. auto scroll contract (reader) start = immediate continuous motion. no countdown, no ramp up ceremony. stop = stop and stay stopped. no phantom restarts, no drift. measure the real scroll vessel (the element that actually scrolls in a real post), never a window proxy or a guessed container. interval measurement must be proven in a real post vessel, in a real browser. css contracts social styles live only under .awtsmoos social root. leaks are defects. every stylesheet gets classified: active / compatibility / dormant / legacy / dead. no !important wars — specificity conflicts get resolved by scoping, never by escalation. whole site chrome (heichelos focus, breadth track) renders from shared design tokens (see 05). navigation contract (gating check) global top nav is persistent and offers one tap home from every route. mobile: safe area insets respected, touch targets ≥ 44px. failing the one tap home check on any route fails the whole track. motion contract transform/opacity only for animation; 60fps budget. every animation ships a reduced motion counterpart (stillness, not a lesser animation). timid/washed out default = defect. shared motion language everywhere: staggered card entrances, tactile press feedback, route continuity (forward pushes in, back returns gracefully). server contract node index on port 8080. no watcher → restart after every change before verifying. no build script; npm run test: are the suites (headless node). regression tests for auto scroll do not exist yet — they must be new files. release contract the dirty shared worktree (dd77276a2) never deploys. release = clean isolated worktree from fresh origin/main, exact file set, gates pass, commit, fast forward push only. then npm run bh (node scripts/bhrelease.mjs — read it first) on the remote ssh host, then verify public production in a real browser (public sha verification).",
+		"page": "pages/geelooy-ai-thoughts-2026-09-28-1725-total-ui-repair-01-runtime-contract--4413baa5d1.json"
+	}
+]

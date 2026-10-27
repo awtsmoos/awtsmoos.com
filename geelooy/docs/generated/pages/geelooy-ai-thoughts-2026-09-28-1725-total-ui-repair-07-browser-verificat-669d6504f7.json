@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-28-1725-total-ui-repair-07-browser-verificat-669d6504f7",
+	"title": "B\"H — 07 — Browser Verification Plan",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-28-1725-total-ui-repair/07-browser-verification.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — 07 — Browser Verification Plan",
+			"anchor": "b-h-07-browser-verification-plan"
+		},
+		{
+			"level": 2,
+			"text": "Routes to walk (every one, in order — the procession)",
+			"anchor": "routes-to-walk-every-one-in-order-the-procession"
+		},
+		{
+			"level": 2,
+			"text": "Per-route checks",
+			"anchor": "per-route-checks"
+		},
+		{
+			"level": 2,
+			"text": "Matrix (each route × each condition)",
+			"anchor": "matrix-each-route-each-condition"
+		},
+		{
+			"level": 2,
+			"text": "The embarrassment walk (continuous, every worker)",
+			"anchor": "the-embarrassment-walk-continuous-every-worker"
+		},
+		{
+			"level": 2,
+			"text": "Production verification (after npm run bh)",
+			"anchor": "production-verification-after-npm-run-bh"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-28-1725-total-ui-repair-07-browser-verificat-669d6504f7-001.json"
+	]
+}

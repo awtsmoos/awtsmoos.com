@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Alias Routes Tests (geelooy/api/social/helper/routes/alias/test/)\n\nAlias route tests.\n\n- `PublicSiteRoute.test.js` — public site route behavior.\n"
+}

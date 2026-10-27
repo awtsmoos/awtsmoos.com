@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Game Rewards (geelooy/api/wallet/core/gameRewards/)\n\nGame reward economy: catalogs of rewards, claim flow, daily policy, results.\n\nFiles:\n- `catalog.js` — reward catalog\n- `claim.js` — claiming a reward\n- `day.js` — daily/periodic reward logic\n- `policy.js` — reward policy rules\n- `result.js` — claim results\n\nExposed via the `game-rewards/claim` route; tested by\n`tests/gameRewards.test.js`, `tests/gameRewardPolicy.test.js`, and\n`tests/gameRewardRoute.test.js`.\n"
+}

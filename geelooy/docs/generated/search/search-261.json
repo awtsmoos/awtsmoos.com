@@ -1,146 +1,175 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-camera-directory-gui-a44e579fd7",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/camera/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-plans-awtsmoos-cloud-phase-00-load-and-ai-create-md-cb2f0e62cd",
+		"title": "Phase 00 — Load Truth + Ask AI To Create Here",
+		"sourcePath": "docs/PLANS/AWTSMOOS_CLOUD/PHASE_00_LOAD_AND_AI_CREATE.md",
+		"category": "General",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/camera",
-				"anchor": "directory-guide-experiments-awtsmoos-src-camera"
+				"text": "Phase 00 — Load Truth + Ask AI To Create Here",
+				"anchor": "phase-00-load-truth-ask-ai-to-create-here"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "LOAD track — the application actually runs",
+				"anchor": "load-track-the-application-actually-runs"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "AI-CREATE track — Shliach at every path",
+				"anchor": "ai-create-track-shliach-at-every-path"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Acceptance",
+				"anchor": "acceptance"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Exported symbols worth searching",
-				"anchor": "exported-symbols-worth-searching"
-			},
-			{
-				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Built-in Geelooy Browser track",
+				"anchor": "built-in-geelooy-browser-track"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/camera Role: Runtime subsystem Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 10 files, 0 structural child directories Purpose Camera profiles, orbit/follow behavior, framing, and camera state coordination.",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/camera role: runtime subsystem snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 10 files, 0 structural child directories purpose camera profiles, orbit/follow behavior, framing, and camera state coordination. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: runtime subsystem search terms: camera, first, person, legacy, orbit, pointer, controller, zoom, keilim, pitch, responsibility, bounded file mix: .js: 9 good first question: “does the behavior or asset i need belong to runtime subsystem, or is this only a neighboring/test/reference layer?” semantic evidence reuses a recent obstruction distance while the camera continues following motion. the awtsmoos renews observer and obstacle without needless repetition; awtsmoos.com preserves responsive camera movement while expensive collision truth is refreshed on a bounded cadence. owns mouse, pointer lock, and touch look gestures for the active camera mode. responsibility: bind observed input and mutate only camera yaw, pitch, and gesture state. non responsibility: this controller does not move actors, render, or lower visual fidelity. architecture: yesod receives gestures while focused zoom and math vessels hold details. oros and keilim: the desire to look is ohr; pointer deltas and camera angles are keilim. the awtsmoos renews hand, eye, and scene together; awtsmoos.com makes first person sight immediate across mouse, pointer lock, and touch without abandoning the old orbit contract. supplies pure bounded angle and pointer calculations for camera gestures. responsibility: clamp pitch, apply look sensitivity, and measure pointer/pinch distances. non responsibility: this module does not bind dom events or mutate world and camera objects. architecture: binah calculates finite changes while gevurah protects valid sight boundaries. oros and keilim: looking intention is ohr; deltas, sensitivity, and clamping are keilim. the awtsmoos creates every gesture and result anew; awtsmoos.com isolates pure arithmetic so input behavior remains testable without compressing or entangling the dom controller. preserves wheel and pinch zoom only for explicitly selected legacy orbit mode. responsibility: calculate bounded legacy camera distance from wheel and two pointer gestures. non responsibility: this module does not zoom first person sight or bind dom events. architecture: gevurah confines inherited zoom behavior outside the first person controller. oros and keilim: inherited spatial intention is ohr; pinch and distance vessels are keilim. the awtsmoos recreates compatibility without confusion; awtsmoos.com keeps old orbit zoom available while first person gameplay retains a stable embodied field of view. representative files cameraclipcache.js — reuses a recent obstruction distance while the camera continues following motion. the awtsmoos renews observer and obstacle without needless repetition; awtsmoos.com preserves responsive camera movement while expensive collision truth is refreshed on a bounded cadence. exports: cameraclipcache. cameraclipsystem.js — exports: desiredcameraeye, clipcameraeye, buildcamerastats. cameragesturecontroller.js — owns mouse, pointer lock, and touch look gestures for the active camera mode. responsibility: bind observed input and mutate only camera yaw, pitch, and gesture state. non responsibility: this controller does not move actors, render, or lower visual fidelity. architecture: yesod receives gestures while focused zoom and math vessels hold details. oros and keilim: the desire to look is ohr; pointer deltas and camera angles are keilim. the awtsmoos renews hand, eye, and scene together; awtsmoos.com makes first person sight immediate across mouse, pointer lock, and touch without abandoning the old orbit contract. exports: cameragesturecontroller. cameragesturemath.js — supplies pure bounded angle and pointer calculations for camera gestures. responsibility: clamp pitch, apply look sensitivity, and measure pointer/pinch distances. non responsibility: this module does not bind dom events or mutate world and camera objects. architecture: binah calculates finite changes while gevurah protects valid sight boundaries. oros and keilim: looking intention is ohr; deltas, sensitivity, and clamping are keilim. the awtsmoos creates every gesture and result anew; awtsmoos.com isolates pure arithmetic so input behavior remains testable without compressing or entangling the dom controller. exports: maximum camera pitch, minimum camera pitch, cameralookangles, clampcamerapitch, camerapointerpoint. cameralegacyzoom.js — preserves wheel and pinch zoom only for explicitly selected legacy orbit mode. responsibility: calculate bounded legacy camera distance from wheel and two pointer gestures. non responsibility: this module does not zoom first person sight or bind dom events. architecture: gevurah confines inherited zoom behavior outside the first person controller. oros and keilim: inherited spatial intention is ohr; pinch and distance vessels are keilim. the awtsmoos recreates compatibility without confusion; awtsmoos.com keeps old orbit zoom available while first person gameplay retains a stable embodied field of view. exports: applylegacywheelzoom, beginlegacypinch, updatelegacypinch. cameraorbitcontroller.js — preserves one camera api with responsive orbit and cached collision truth. the awtsmoos creates observer and scene anew; awtsmoos.com follows the traveler every frame while a bounded cache prevents one unchanged wall from demanding the same octree answer again. exports: cameraorbitcontroller. cameraprofilesystem.js — resolves camera mode from measured house and stair metadata. exports: camera profiles, resolvecameracontext. firstpersoncamerapose.js — calculates deterministic eye level camera poses for gameplay and exact movies. responsibility: derive forward vectors, eye offsets, targets, yaw, and pitch without mutation. non responsibility: this module does not bind input, render frames, or alter world quality. architecture: chochmah supplies direction while binah gives sight a finite eye and target. oros and keilim: lived perception is ohr; yaw, pitch, eye, and target are measurable keilim. the awtsmoos creates observer and world anew each instant; awtsmoos.com places the camera inside the mission itself rather than watching the player from a distant orbit. exports: firstpersonlookvector, firstpersoncamerapose, firstpersonyawtopoint, firstpersonpitchtopoint. legacyorbitcamerapose.js — applies the preserved third person orbit with bounded collision refresh. the awtsmoos creates past and present anew; awtsmoos.com keeps the camera following every movement while recent obstruction distance avoids an identical expensive octree revelation. exports: applylegacyorbitcamera. exported symbols worth searching cameraclipcache · desiredcameraeye · clipcameraeye · buildcamerastats · cameragesturecontroller · maximum camera pitch · minimum camera pitch · cameralookangles · clampcamerapitch · camerapointerpoint · camerapointerdistance · boundedcameradistance · applylegacywheelzoom · beginlegacypinch · updatelegacypinch · cameraorbitcontroller import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ./cameraclipsystem.js ../math/ray.js ./cameragesturemath.js ./cameralegacyzoom.js ./cameraclipcache.js ./cameragesturecontroller.js ./firstpersoncamerapose.js ./legacyorbitcamerapose.js ./cameraprofilesystem.js directory map parent: experiments/awtsmoos/src children: none. related and overlapping systems see the system overlap map before creating a similarly named subsystem elsewhere. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-camera-directory-gui-a44e579fd7.json"
+		"excerpt": "Phase 00 — Load Truth + Ask AI To Create Here This phase outranks visible feature expansion. A route is not ready merely because its HTML returns 200; the authored application must execute, reveal usable UI, and survive degraded optional services without an eternal loading state. LOAD track — the application actually r",
+		"searchText": "phase 00 — load truth + ask ai to create here this phase outranks visible feature expansion. a route is not ready merely because its html returns 200; the authored application must execute, reveal usable ui, and survive degraded optional services without an eternal loading state. load track — the application actually runs load 000 prove home, os, apps, games, drive, wallet, tunnel control, login, and profile in real chrome. load 001 compare authored versus served esm bytes; remove any compact/bundle transformation that blocks module execution. load 002 require meaningful first paint and usable shell before optional account, tunnel, ai, analytics, or social hydration. load 003 add bounded startup timeouts and visible retry states for every optional startup dependency. load 004 add permanent browser smoke gates at 320, 390, 412, and desktop widths. load 005 fail release on uncaught errors, first party js/css/module 4xx/5xx, or permanent loading text. load 006 add startup timings: first paint, shell ready, app ready, background hydration complete. load 007 test slow network, offline transition, interrupted websocket, expired session, and api 5xx startup behavior. load 008 add low memory/reduced motion/mobile safe startup paths and prevent expensive boot time work. load 009 keep customer hosted site serving independent from geelooy os/control plane startup health. ai create track — shliach at every path ai create 001 one shared shliach url builder using the exact gpt route plus encoded ?prompt= context. ai create 002 one canonical prompt envelope containing product, account safe workspace identity, exact vfs/drive path, intent, constraints, and expected result. ai create 003 add a prominent “ask ai to create here” action whenever a writable directory/project is current. ai create 004 add polished prompt presets: website, app, api, document, folder structure, game/world, improve this directory, debug this project. ai create 005 add an advanced prompt composer with user request, detected context, scope preview, and editable generated prompt before leaving awtsmoos. ai create 006 open awtsmoos shliach in a new tab with the encoded prompt; never auto submit financial/production mutations. ai create 007 preserve a copy to clipboard fallback because chatgpt query prefill behavior is useful but not a documented stable integration contract. ai create 008 wire file explorer, drive/website maker, project command center, and directory context menus to the same primitive. ai create 009 add mobile bottom sheet and desktop command palette entry points with 48px touch targets and full keyboard support. ai create 010 add source tests proving exact path/context encoding, no secrets, no cross account identifiers, and correct gpt target. ai create 011 let shliach return to the exact awtsmoos project/path through existing authenticated account/tunnel apis. ai create 012 progress from create here to preview here, test here, publish here, and explain/fix here using explicit capabilities. acceptance phase 00 is green only when os truly boots, directory level ai creation is discoverable and professional, prompt urls contain no secrets, and another session can reproduce the browser/load tests from this repository without consulting chat history. built in geelooy browser track the primary external web experience is not an iframe . a real isolated chromium process runs behind the authenticated awtsmoos browser service. geelooy os owns the trusted chrome and displays remote frames while forwarding bounded user pointer, keyboard, wheel, navigation, and popup intent. browser 001 make real chromium the default external page engine; keep iframe code out of the live browsing path. browser 002 resolve the signed in user's owned/default alias automatically; manual alias selection becomes advanced only. browser 003 add first class awtsmoos shliach launch using the canonical gpt url and encoded ?prompt= context. browser 004 preserve user controlled browser login state in private server side profile jars; never export cookies/tokens to page js or agents. browser 005 make oauth/new window target lineage open as trusted geelooy browser child windows. browser 006 prove ordinary public browsing, chatgpt sign in surface, shliach deep link rendering, pointer, keyboard, scrolling, history, reload, and popup flow. browser 007 add professional tabs, address/search suggestions, bookmarks, history, downloads, saved sessions, and reopen closed tab ux. browser 008 expose explicit direct / relay / remote engine testimony without asking normal users to understand cors. browser 009 replace high frequency jpeg polling with bounded streaming/damage updates after correctness is green. browser 010 add clipboard, download, file picker, audio, permission, and safe fullscreen bridges. browser 011 meter sessions/bandwidth/cpu and enforce ssrf, destination, concurrency, timeout, storage, and abuse quotas. browser 012 add provider safe failure ux; never bypass captcha, anti bot, access control, or provider security policy. acceptance: external interactive content is never mounted as a third party iframe; private targets remain unreachable from the public client; a user can open shliach inside geelooy browser, perform their own provider login, and continue using the same private browser profile when the provider supports that environment.",
+		"page": "pages/docs-plans-awtsmoos-cloud-phase-00-load-and-ai-create-md-cb2f0e62cd.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-collision-directory--fb2eb97f2f",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/collision/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-plans-awtsmoos-cloud-phase-01-deployments-md-71bfc32402",
+		"title": "Phase 01 — Immutable Hosting Deployments",
+		"sourcePath": "docs/PLANS/AWTSMOOS_CLOUD/PHASE_01_DEPLOYMENTS.md",
+		"category": "General",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/collision",
-				"anchor": "directory-guide-experiments-awtsmoos-src-collision"
+				"text": "Phase 01 — Immutable Hosting Deployments",
+				"anchor": "phase-01-immutable-hosting-deployments"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Goal",
+				"anchor": "goal"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Core invariant",
+				"anchor": "core-invariant"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Current architecture",
+				"anchor": "current-architecture"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
+				"text": "Required verification sequence",
+				"anchor": "required-verification-sequence"
 			},
 			{
 				"level": 2,
-				"text": "Exported symbols worth searching",
-				"anchor": "exported-symbols-worth-searching"
+				"text": "Professional completion",
+				"anchor": "professional-completion"
 			},
 			{
 				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Do not do",
+				"anchor": "do-not-do"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/collision Role: Runtime subsystem Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 8 files, 0 structural child directories Purpose Octree storage, triangle geometry, capsule collision, raycasts, and step reso",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/collision role: runtime subsystem snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 8 files, 0 structural child directories purpose octree storage, triangle geometry, capsule collision, raycasts, and step resolution. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: runtime subsystem search terms: capsule, octree, collision, triangle, contact, step, branches, collider, finite, lets, mover, ray file mix: .js: 7 good first question: “does the behavior or asset i need belong to runtime subsystem, or is this only a neighboring/test/reference layer?” semantic evidence resolves a capsule against actual octree triangles, including visible risers. stores and removes collision vessels in deterministic spatial branches. the awtsmoos renews the whole valley while awtsmoos.com lets one ray question only the finite branches it can touch, and lets streamed matter depart by exact identity. capsule triangle contact: copied as an idea from octree.js, reborn raw. b\"h representative files awtsmoosoctree.js — stores and removes collision vessels in deterministic spatial branches. the awtsmoos renews the whole valley while awtsmoos.com lets one ray question only the finite branches it can touch, and lets streamed matter depart by exact identity. exports: awtsmoosoctree. awtsmooscollisionmover.js — resolves a capsule against actual octree triangles, including visible risers. exports: awtsmooscollisionmover. trianglecollider.js — gives one rendered triangle an exact collision body and spatial box. the awtsmoos renews every face without division; awtsmoos.com lets each finite surface reveal its normal, solidity, floor meaning, and searchable boundary. exports: trianglecollider, trianglesfromindexed. capsulecollisionquery.js — exports: capsulefor, deepestcontact. octreeraycast.js — follows one ray through the octree without flattening the entire world. every nearer finite answer shortens the remaining horizon, while malformed faces are left outside the covenant of collision truth. exports: raycastoctree. capsuletriangle.js — capsule triangle contact: copied as an idea from octree.js, reborn raw. exports: capsuletrianglecontact. stepupresolver.js — finds the next real tread before the capsule's leading edge reaches its riser. exports: findwalkablestep, applywalkablestep. exported symbols worth searching awtsmooscollisionmover · awtsmoosoctree · capsulefor · deepestcontact · capsuletrianglecontact · raycastoctree · findwalkablestep · applywalkablestep · trianglecollider · trianglesfromindexed import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ./capsulecollisionquery.js ../math/aabb.js ../math/ray.js ./octreeraycast.js ./capsuletriangle.js ../math/geometry3d.js ../math/rayaabb.js directory map parent: experiments/awtsmoos/src children: none. related and overlapping systems see the system overlap map before creating a similarly named subsystem elsewhere. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-collision-directory--fb2eb97f2f.json"
+		"excerpt": "Phase 01 — Immutable Hosting Deployments Goal Editable project files remain mutable. Production always points to an immutable deployment manifest. Publish creates a revision; rollback atomically changes the active deployment pointer; no rollback rewrites source files. Core invariant A deployment manifest maps normalize",
+		"searchText": "phase 01 — immutable hosting deployments goal editable project files remain mutable. production always points to an immutable deployment manifest. publish creates a revision; rollback atomically changes the active deployment pointer; no rollback rewrites source files. core invariant a deployment manifest maps normalized relative paths to previously persisted content addressed drive object hashes. therefore editing or deleting the working file after publication cannot mutate the deployed bytes. current architecture drive alias state is normalized at schema version 7 and includes deployments. deploymentpolicy.js validates deployment ids/manifests and bounded retention. deploymentservice.js creates/lists/reads/rolls back deployments. deploymentservicesupport.js handles capture, activation, pruning, and audit details. sitesourcepolicy.js recognizes drive deployment snapshot sources. sitesourceresolution.js resolves immutable deployment paths. deploymentsiteresponse.js serves manifest selected object hashes. deploymentreadiness.js produces readiness testimony. deploymentroutes.js exposes guarded management routes. required verification sequence 1. route crown loads deployment routes without collisions. 2. old state normalizes safely to version 7. 3. publish captures only active public files beneath the requested root. 4. publish refuses missing index.html, bad hashes, traversal, invalid ids, oversized manifests. 5. production response remains byte identical after working source mutation. 6. directory index, immutable 404, mime, head, range, etag/304 behavior remain correct. 7. rollback changes the public object hash without rewriting working files. 8. missing/wrong site deployment ids fail closed. 9. concurrent publishes/rollbacks cannot silently stomp one another. 10. same idempotency key with different publish intent is a conflict. 11. preview deployment does not become production until explicitly promoted. 12. post publish health distinguishes configured, internally ready, and externally verified. professional completion website maker, tunnel, geelooy os, and direct api clients must all use this same deployment service. ui must show revision, actor, timestamp, message, health, preview url, current production marker, and one click rollback. do not do never treat mutable drive paths as immutable production after this phase. never label configuration as externally healthy without an http/browser witness. never duplicate object bytes just to create a revision when content hashes already identify them. never expose private manifest entries through public site serving.",
+		"page": "pages/docs-plans-awtsmoos-cloud-phase-01-deployments-md-71bfc32402.json"
+	},
+	{
+		"id": "docs-plans-awtsmoos-cloud-phase-02-prompt-publish-md-4bfa363bbb",
+		"title": "Phase 02 — One Prompt to a Production Website or App",
+		"sourcePath": "docs/PLANS/AWTSMOOS_CLOUD/PHASE_02_PROMPT_PUBLISH.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase 02 — One Prompt to a Production Website or App",
+				"anchor": "phase-02-one-prompt-to-a-production-website-or-app"
+			},
+			{
+				"level": 2,
+				"text": "Product promise",
+				"anchor": "product-promise"
+			},
+			{
+				"level": 2,
+				"text": "Canonical flow",
+				"anchor": "canonical-flow"
+			},
+			{
+				"level": 2,
+				"text": "Prompt specification must be explicit",
+				"anchor": "prompt-specification-must-be-explicit"
+			},
+			{
+				"level": 2,
+				"text": "Business archetypes",
+				"anchor": "business-archetypes"
+			},
+			{
+				"level": 2,
+				"text": "Import/export",
+				"anchor": "import-export"
+			},
+			{
+				"level": 2,
+				"text": "Acceptance gate",
+				"anchor": "acceptance-gate"
+			}
+		],
+		"excerpt": "Phase 02 — One Prompt to a Production Website or App Product promise A signed in user can tell ChatGPT/Awtsmoos what they want. The system creates a durable project, generates source into an isolated preview, provisions requested bounded capabilities, shows evidence, and publishes an immutable production revision only ",
+		"searchText": "phase 02 — one prompt to a production website or app product promise a signed in user can tell chatgpt/awtsmoos what they want. the system creates a durable project, generates source into an isolated preview, provisions requested bounded capabilities, shows evidence, and publishes an immutable production revision only through the deployment layer. canonical flow 1. resolve signed in account and chosen alias. 2. convert prompt into a bounded project specification. 3. create/reconcile project identity idempotently. 4. generate files into preview/workspace source. 5. validate source, routes, accessibility basics, and project limits. 6. provision requested db/auth/storage/function/secret bindings through explicit apis. 7. produce preview url and generation testimony. 8. user or authorized agent explicitly publishes. 9. create immutable deployment and verify health. 10. optionally connect/verify/activate custom domain. 11. persist activity history so later prompts continue the same project. prompt specification must be explicit the prompt compiler should emit project name/slug, site type, pages, content goals, visual direction, required forms/data, requested integrations, runtime class, storage needs, authentication needs, custom domain intent, and estimated paid server capabilities. it must not silently invent unrestricted infrastructure authority. business archetypes ship complete production archetypes, not cosmetic themes: contractor lead site, restaurant/menu/catering, creator/media, synagogue/events/donations/zmanim, consultant/booking/intake, and store/catalog/orders. each archetype should include a useful data model and operational workflow. import/export existing zip, html, or git projects reconcile into the same project/deployment model. every project must remain exportable with source and user owned data so awtsmoos earns retention through usefulness rather than lock in. acceptance gate a fresh account can create a real site from one prompt, receive a preview, publish revision 1, change the site through a second prompt, preview revision 2, publish it, roll back to revision 1, and connect a custom domain without manually editing infrastructure configuration.",
+		"page": "pages/docs-plans-awtsmoos-cloud-phase-02-prompt-publish-md-4bfa363bbb.json"
+	},
+	{
+		"id": "docs-plans-awtsmoos-cloud-phase-03-cloud-primitives-md-45dc3d3239",
+		"title": "Phase 03 — Cloud Primitives",
+		"sourcePath": "docs/PLANS/AWTSMOOS_CLOUD/PHASE_03_CLOUD_PRIMITIVES.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase 03 — Cloud Primitives",
+				"anchor": "phase-03-cloud-primitives"
+			},
+			{
+				"level": 2,
+				"text": "Priority order",
+				"anchor": "priority-order"
+			},
+			{
+				"level": 2,
+				"text": "Common resource law",
+				"anchor": "common-resource-law"
+			},
+			{
+				"level": 2,
+				"text": "Isolation and cost law",
+				"anchor": "isolation-and-cost-law"
+			},
+			{
+				"level": 2,
+				"text": "AWS-style mapping",
+				"anchor": "aws-style-mapping"
+			},
+			{
+				"level": 2,
+				"text": "Completion test",
+				"anchor": "completion-test"
+			}
+		],
+		"excerpt": "Phase 03 — Cloud Primitives Awtsmoos should replace the experience of needing AWS, not copy hundreds of AWS screens. A user asks for an outcome; Awtsmoos composes the required primitives behind one project identity. Priority order 1. Static hosting/CDN and immutable deployments. 2. Domains, DNS, TLS. 3. Object/file sto",
+		"searchText": "phase 03 — cloud primitives awtsmoos should replace the experience of needing aws, not copy hundreds of aws screens. a user asks for an outcome; awtsmoos composes the required primitives behind one project identity. priority order 1. static hosting/cdn and immutable deployments. 2. domains, dns, tls. 3. object/file storage. 4. serverless javascript functions/apis. 5. managed project database. 6. project authentication and roles. 7. secrets/bindings. 8. durable queues/background jobs. 9. cron/events/workflows. 10. managed node/container compute. 11. transactional email. 12. backups/restore and disaster recovery. 13. capacity scheduler, dedicated compute, regions, failover. 14. bring your own server/tunnel placement. common resource law every resource has immutable id, project owner, lifecycle state, capability policy, usage counters, health, audit history, created/updated timestamps, and a graph representation. ui, os, tunnel, cli, and chatgpt call the same apis. isolation and cost law shared infrastructure is preferred for low cost workloads, but tenant identity and resource limits must be explicit. static files use content addressed objects/cdn; sporadic apis use bounded function workers; background work uses queues; larger workloads graduate to isolated managed compute. never give each tiny website a dedicated vm by default. aws style mapping compute → awtsmoos compute; s3 → drive/objects; lambda → functions; rds/dynamo style needs → project database; cloudfront → edge/cdn; route 53 → domains/dns; cognito → project identity; secrets manager → secrets; sqs/eventbridge → queues/events; cloudwatch → observe; ecs/fargate → managed compute; ses → mail; cost explorer → peruta usage; aws console → geelooy os. completion test a small saas should be creatable without leaving awtsmoos: frontend, api, database, auth, storage, background email/job, domain, secrets, logs, metrics, backup, deployment, rollback, and bounded billing all exist under one project.",
+		"page": "pages/docs-plans-awtsmoos-cloud-phase-03-cloud-primitives-md-45dc3d3239.json"
 	}
 ]

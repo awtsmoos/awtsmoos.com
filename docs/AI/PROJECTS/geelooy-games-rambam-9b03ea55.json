@@ -9,8 +9,10 @@
 		"id": "games",
 		"title": "Games and Worlds"
 	},
-	"title": "geelooy/games/rambam",
-	"entries": [],
+	"title": "Rambam · Kiddush HaChodesh",
+	"entries": [
+		"index.html"
+	],
 	"humanDocumentation": [
 		"docs/TUTORIALS/PROJECTS/GAMES.md",
 		"docs/APPS/GAMES_AND_SIMULATION.md"
@@ -19,28 +21,54 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-rambam-9b03ea55.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 1,
-		"tests": 0,
+		"source": 14,
+		"tests": 3,
 		"assets": 0,
 		"generated": 0,
 		"docs": 0,
 		"other": 0
 	},
-	"totalFiles": 1,
-	"symbolSummary": null,
+	"totalFiles": 17,
+	"symbolSummary": {
+		"files": 8,
+		"classes": 4,
+		"functions": 11,
+		"exports": 20,
+		"samples": [
+			"renderCurrent",
+			"publishStatus",
+			"animate",
+			"synchronizeMotion",
+			"NUM_SLICES",
+			"ORBIT_RADIUS",
+			"DEGREES_PER_DAY",
+			"SIMULATION_DIVISOR",
+			"CAMERA_FOV",
+			"CAMERA_NEAR",
+			"CAMERA_FAR",
+			"CAMERA_POSITION"
+		]
+	},
 	"outgoingDependencies": [],
 	"incomingDependencies": [],
 	"externalDependencies": [],
 	"publicEntries": [
 		{
+			"url": "/games/rambam",
+			"file": "geelooy/games/rambam/index.html",
+			"title": "Rambam · Kiddush HaChodesh",
+			"scripts": 0,
+			"styles": 1
+		},
+		{
 			"url": "/games/rambam/kiddushHachodesh/12",
 			"file": "geelooy/games/rambam/kiddushHachodesh/12/index.html",
-			"title": "Sun Movement Visualization",
-			"scripts": 0,
-			"styles": 0
+			"title": "Kiddush HaChodesh · Movement of the Sun",
+			"scripts": 3,
+			"styles": 2
 		}
 	],
-	"requiresLocalDocumentation": false,
+	"requiresLocalDocumentation": true,
 	"documentationCovered": false,
 	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
 }

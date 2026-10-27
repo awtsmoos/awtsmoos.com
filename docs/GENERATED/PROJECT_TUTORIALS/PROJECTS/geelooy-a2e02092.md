@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 25402 | 4699 | 13 | 77 | 3950 | 556 | 34697 |
+| 38749 | 7661 | 1385 | 252 | 4384 | 5136 | 57567 |
 
 ## Public entry points
 
@@ -45,4 +45,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **4699**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **7661**. Treat this as file evidence, not proof of behavioral coverage.

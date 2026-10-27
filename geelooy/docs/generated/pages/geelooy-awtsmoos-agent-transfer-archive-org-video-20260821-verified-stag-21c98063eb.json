@@ -1,0 +1,69 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-awtsmoos-agent-transfer-archive-org-video-20260821-verified-stag-21c98063eb",
+	"title": "B\"H",
+	"sourcePath": "geelooy/.awtsmoos-agent-transfer/archive-org-video-20260821/verified-stage/youtube/DOCUMENTATION.md",
+	"category": "General",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "YouTube Migration",
+			"anchor": "youtube-migration"
+		},
+		{
+			"level": 2,
+			"text": "Choose the right path",
+			"anchor": "choose-the-right-path"
+		},
+		{
+			"level": 2,
+			"text": "Google Takeout",
+			"anchor": "google-takeout"
+		},
+		{
+			"level": 2,
+			"text": "Download one owned video",
+			"anchor": "download-one-owned-video"
+		},
+		{
+			"level": 2,
+			"text": "Advanced yt-dlp creator workflow",
+			"anchor": "advanced-yt-dlp-creator-workflow"
+		},
+		{
+			"level": 2,
+			"text": "Archive.org direct video storage",
+			"anchor": "archive-org-direct-video-storage"
+		},
+		{
+			"level": 2,
+			"text": "Dry plan and explicit publish",
+			"anchor": "dry-plan-and-explicit-publish"
+		},
+		{
+			"level": 2,
+			"text": "Playlist and chronology",
+			"anchor": "playlist-and-chronology"
+		},
+		{
+			"level": 2,
+			"text": "Provenance",
+			"anchor": "provenance"
+		},
+		{
+			"level": 2,
+			"text": "Resumability",
+			"anchor": "resumability"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-awtsmoos-agent-transfer-archive-org-video-20260821-verified-stag-21c98063eb-001.json"
+	]
+}

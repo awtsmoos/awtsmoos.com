@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-26t1554-apps-runtime-api-ui-audit-08-final-e-126c965f9a",
+	"title": "Final Execution Plan",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-26T1554-apps-runtime-api-ui-audit/08_FINAL_EXECUTION_PLAN.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Final Execution Plan",
+			"anchor": "final-execution-plan"
+		},
+		{
+			"level": 2,
+			"text": "Stage A — Baseline And Ownership",
+			"anchor": "stage-a-baseline-and-ownership"
+		},
+		{
+			"level": 2,
+			"text": "Stage B — /apps Forensics",
+			"anchor": "stage-b-apps-forensics"
+		},
+		{
+			"level": 2,
+			"text": "Stage C — Whole-Surface Discovery",
+			"anchor": "stage-c-whole-surface-discovery"
+		},
+		{
+			"level": 2,
+			"text": "Stage D — Actual Rewrite Selection",
+			"anchor": "stage-d-actual-rewrite-selection"
+		},
+		{
+			"level": 2,
+			"text": "Stage E — Implementation",
+			"anchor": "stage-e-implementation"
+		},
+		{
+			"level": 2,
+			"text": "Stage F — First Readback And Delta",
+			"anchor": "stage-f-first-readback-and-delta"
+		},
+		{
+			"level": 2,
+			"text": "Stage G — Verification",
+			"anchor": "stage-g-verification"
+		},
+		{
+			"level": 2,
+			"text": "Stage H — Git, Push, Deployment",
+			"anchor": "stage-h-git-push-deployment"
+		},
+		{
+			"level": 2,
+			"text": "NEXTACTION",
+			"anchor": "nextaction"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-26t1554-apps-runtime-api-ui-audit-08-final-e-126c965f9a-001.json"
+	]
+}

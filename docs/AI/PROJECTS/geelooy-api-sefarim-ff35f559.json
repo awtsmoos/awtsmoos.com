@@ -12,7 +12,9 @@
 	"title": "geelooy/api/sefarim",
 	"entries": [
 		"_awtsmoos.derech.js",
-		"DOCUMENTATION.md"
+		"DOCUMENTATION.md",
+		"README.md",
+		"readme.md"
 	],
 	"humanDocumentation": [
 		"geelooy/api/sefarim/DOCUMENTATION.md",
@@ -27,23 +29,41 @@
 		"tests": 1,
 		"assets": 0,
 		"generated": 0,
-		"docs": 1,
+		"docs": 3,
 		"other": 0
 	},
-	"totalFiles": 3,
+	"totalFiles": 5,
 	"symbolSummary": {
 		"files": 1,
 		"classes": 0,
-		"functions": 2,
-		"exports": 2,
+		"functions": 3,
+		"exports": 8,
 		"samples": [
 			"dynamicRoutes",
-			"available",
+			"sig",
+			"op",
+			"corpus",
+			"works",
+			"title",
+			"kind",
+			"units",
 			"revealPortions",
-			"revealOrEmpty"
+			"revealOrEmpty",
+			"readBody"
 		]
 	},
-	"outgoingDependencies": [],
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/api/social",
+			"count": 1,
+			"examples": "geelooy/api/sefarim/_awtsmoos.derech.js"
+		},
+		{
+			"project": "geelooy/api/tunnel",
+			"count": 1,
+			"examples": "geelooy/api/sefarim/_awtsmoos.derech.js"
+		}
+	],
 	"incomingDependencies": [],
 	"externalDependencies": [],
 	"publicEntries": [],

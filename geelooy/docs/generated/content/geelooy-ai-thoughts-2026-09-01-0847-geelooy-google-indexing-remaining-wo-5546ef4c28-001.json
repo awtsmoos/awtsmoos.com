@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\n\n# REMAINING_WORK\n\nBoruch Hashem. Blessed is He.\n\n- [ ] Map project runtime and server entry point.\n- [ ] Trace Heichel/Road routes and dynamic fetches.\n- [ ] Audit existing SEO, robots, sitemap, metadata, and structured-data support.\n- [ ] Determine public/private visibility rules.\n- [ ] Select evidence-backed rendering architecture.\n- [ ] Record exact files to rewrite.\n- [ ] Implement initial-response indexable HTML and metadata.\n- [ ] Implement or repair sitewide crawl discovery as needed.\n- [ ] Verify syntax/tests.\n- [ ] Verify direct HTTP HTML without JavaScript.\n- [ ] Verify browser hydration/interactivity.\n- [ ] Re-read touched files and close plan/actual delta.\n"
+}

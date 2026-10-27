@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-social-helper-routes-posts-readme-md-3b8030afd9",
+	"title": "Post / Reader APIs — Agent Handoff",
+	"sourcePath": "geelooy/api/social/helper/routes/posts/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Post / Reader APIs — Agent Handoff",
+			"anchor": "post-reader-apis-agent-handoff"
+		},
+		{
+			"level": 2,
+			"text": "Post routes (routes/posts/seriesRoutes.js, readers.js)",
+			"anchor": "post-routes-routes-posts-seriesroutes-js-readers-js"
+		},
+		{
+			"level": 2,
+			"text": "Raw packed reads (routes/packed/readRoutes.js, all GET)",
+			"anchor": "raw-packed-reads-routes-packed-readroutes-js-all-get"
+		},
+		{
+			"level": 2,
+			"text": "Signed import/remove endpoints (summary)",
+			"anchor": "signed-import-remove-endpoints-summary"
+		},
+		{
+			"level": 2,
+			"text": "Files map",
+			"anchor": "files-map"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-social-helper-routes-posts-readme-md-3b8030afd9-001.json"
+	]
+}

@@ -1,198 +1,194 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-tools-directory-guide-md-a3873dcb7b",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/tools/DIRECTORY_GUIDE.md",
-		"category": "Games",
+		"id": "geelooy-ai-thoughts-2026-08-25-social-system-native-revelation-02-gevura-2739af3cae",
+		"title": "Gevurah — Native Architecture Boundaries",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25-social-system-native-revelation/02_GEVURAH_ARCHITECTURE.md",
+		"category": "Systems",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/tools",
-				"anchor": "directory-guide-experiments-awtsmoos-tools"
+				"text": "Gevurah — Native Architecture Boundaries",
+				"anchor": "gevurah-native-architecture-boundaries"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "High-leverage first tranche",
+				"anchor": "high-leverage-first-tranche"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
-			},
-			{
-				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Non-negotiable contracts",
+				"anchor": "non-negotiable-contracts"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/tools Role: Tools Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 1 files, 2 structural child directories Purpose Offline or developer facing utilities for diagnostics and material preparation. The Awtsmoos rene",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/tools role: tools snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 1 files, 2 structural child directories purpose offline or developer facing utilities for diagnostics and material preparation. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tools search terms: awtsmoos, experiments, guide, tools file mix: .md: 1 good first question: “does the behavior or asset i need belong to tools, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files no immediate files. this directory is an organizational parent; follow the child guides below. directory map parent: experiments/awtsmoos children: experiments/awtsmoos/tools/diagnostics experiments/awtsmoos/tools/materials related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. diagnostics, logs, tools, and root audits — live diagnostics, captured logs, offline tools, and root audit reports describe different stages of observability. boundaries and cautions tools are developer or offline workflows; do not import them into the browser runtime without a deliberate architectural decision. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-tools-directory-guide-md-a3873dcb7b.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Gevurah — Native Architecture Boundaries The Awtsmoos is without limit, yet every useful keli guards one role and line; Awtsmoos.com gains infinite expansion when finite module boundaries stay fine. High leverage first tranche 1. Add a shared data driven DOM factory beneath shared/social",
+		"searchText": "b\"h boruch hashem blessed is he gevurah — native architecture boundaries the awtsmoos is without limit, yet every useful keli guards one role and line; awtsmoos.com gains infinite expansion when finite module boundaries stay fine. high leverage first tranche 1. add a shared data driven dom factory beneath shared/social/ui/. 2. rewrite progressivedisclosure.js as a documented class backed facade while preserving exported functions. 3. rewrite actionoverflow.js to use explicit policy/state/view helpers and preserve public exports. 4. rewrite universalactionrail.js around a small action control view and explicit async error state. 5. audit their css modules for owned root scoping, hover/focus/active/disabled/reduced motion coverage, overflow, and z layers. 6. only after shared primitives stabilize, add a social hub capability center plugin using real route ids. non negotiable contracts no innerhtml. no global element selectors in new/touched social styles. no 100vw in component styles. no arbitrary z index escalation. no new mutation authority inside discovery components. no route ids invented outside routemodel. existing exported factory names remain callable. complete file rewrites only.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25-social-system-native-revelation-02-gevura-2739af3cae.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-tools-materials-director-a143cc5e92",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/tools/materials/DIRECTORY_GUIDE.md",
-		"category": "Games",
+		"id": "geelooy-ai-thoughts-2026-08-25-social-system-native-revelation-03-tifere-21ad8a6f08",
+		"title": "Tiferes — Native Critique and Safeguards",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25-social-system-native-revelation/03_TIFERES_CRITIQUE.md",
+		"category": "Systems",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/tools/materials",
-				"anchor": "directory-guide-experiments-awtsmoos-tools-materials"
+				"text": "Tiferes — Native Critique and Safeguards",
+				"anchor": "tiferes-native-critique-and-safeguards"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
-			},
-			{
-				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
-			},
-			{
-				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Exported symbols worth searching",
-				"anchor": "exported-symbols-worth-searching"
-			},
-			{
-				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Thirty safeguards",
+				"anchor": "thirty-safeguards"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/tools/materials Role: Tools Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 7 files, 0 structural child directories Purpose Structural area named materials. Its immediate files and children below are the evidenc",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/tools/materials role: tools snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 7 files, 0 structural child directories purpose structural area named materials. its immediate files and children below are the evidence for its current responsibilities. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tools search terms: material, marks, mjs, com, procedural, canonical, local, materials, photographic, source, svg, alpha file mix: .mjs: 6 good first question: “does the behavior or asset i need belong to tools, or is this only a neighboring/test/reference layer?” semantic evidence copies user owned material originals into deterministic local vessels. the awtsmoos turns no image into an anonymous shadow: awtsmoos.com preserves the canonical path, selected tier, byte count, and hash in one durable provenance ledger. b\"h rebuilds every declared local material and searchable metadata file. the awtsmoos renews the library from one immutable covenant; awtsmoos.com writes complete files so deployment never depends on a vanished host or manual copying. selects the lightest truthful local source for each canonical identity. the awtsmoos clothes one essence in many resolutions; awtsmoos.com chooses a nearby vessel without changing the canonical name that the playable world understands. representative files copyphotographicmaterials.mjs — copies user owned material originals into deterministic local vessels. the awtsmoos turns no image into an anonymous shadow: awtsmoos.com preserves the canonical path, selected tier, byte count, and hash in one durable provenance ledger. generatelocalmaterials.mjs — rebuilds every declared local material and searchable metadata file. the awtsmoos renews the library from one immutable covenant; awtsmoos.com writes complete files so deployment never depends on a vanished host or manual copying. photographicmaterialsourceselector.mjs — selects the lightest truthful local source for each canonical identity. the awtsmoos clothes one essence in many resolutions; awtsmoos.com chooses a nearby vessel without changing the canonical name that the playable world understands. exports: selectphotographicmaterialsource, candidatepaths. proceduralmaterialorganicmarks.mjs — draws grass, soil, fibers, metals, leaves, and petals as small svg marks. the awtsmoos reveals living variation through ordered repetition; awtsmoos.com keeps alpha silhouettes, blade rhythm, weave, and mineral scratches deterministic. exports: grassmarks, earthmarks, metalmarks, fibermarks, foliagemarks. proceduralmaterialprofile.mjs — classifies canonical names into compact visual material profiles. the awtsmoos reveals stone as stone and leaf as leaf; awtsmoos.com therefore derives palette, grain, alpha, and structure from semantic truth rather than chance. exports: proceduralmaterialprofile, materialseed. proceduralmaterialsvg.mjs — builds seamless role aware svg textures without external dependencies. the awtsmoos bends noise, grain, mortar, water, and leaf light into finite tiles; awtsmoos.com keeps every generated garment deterministic, compact, and local. exports: proceduralmaterialsvg. exported symbols worth searching selectphotographicmaterialsource · candidatepaths · grassmarks · earthmarks · metalmarks · fibermarks · foliagemarks · proceduralmaterialprofile · materialseed · proceduralmaterialsvg import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: node:crypto node:fs/promises node:path ../../src/assets/localmaterialsourcepaths.js ../../src/assets/photographicmaterialassetpolicy.js ./photographicmaterialsourceselector.mjs node:url ../../src/assets/localmaterialassetpolicy.js ./proceduralmaterialsvg.mjs ./proceduralmaterialorganicmarks.mjs ./proceduralmaterialprofile.mjs directory map parent: experiments/awtsmoos/tools children: none. related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. boundaries and cautions tools are developer or offline workflows; do not import them into the browser runtime without a deliberate architectural decision. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-tools-materials-director-a143cc5e92.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Tiferes — Native Critique and Safeguards The Awtsmoos joins Chesed and Gevurah until motion and measure rhyme; Awtsmoos.com should feel obvious on first touch and inexhaustible over time. Thirty safeguards 1. Preserve canonical route IDs. 2. Preserve hash/history semantics. 3. Preserve p",
+		"searchText": "b\"h boruch hashem blessed is he tiferes — native critique and safeguards the awtsmoos joins chesed and gevurah until motion and measure rhyme; awtsmoos.com should feel obvious on first touch and inexhaustible over time. thirty safeguards 1. preserve canonical route ids. 2. preserve hash/history semantics. 3. preserve public exports of shared social primitives. 4. preserve existing action descriptor fields. 5. keep disabled actions truly disabled. 6. keep deep links as anchors. 7. keep mutations delegated to handler maps. 8. keep secondary actions reachable at 320px. 9. restore focus after closing overflow. 10. keep native details semantics. 11. expose expanded state through data/aria where relevant. 12. avoid layout shifting active states. 13. restrict hover affordances to hover capable devices. 14. add :focus visible everywhere interactive. 15. add reduced motion fallbacks. 16. add forced colors resilience. 17. keep safe area aware mobile spacing. 18. avoid horizontal overflow from grid/flex children. 19. keep z layers finite and documented. 20. do not attach duplicate listeners on repeated mounts. 21. keep async action failures visible but non destructive. 22. never swallow exact errors before evidence layers can inspect them. 23. keep discovery separate from execution. 24. keep dom creation safe through textcontent. 25. keep touched files small by extracting responsibilities. 26. use tabs in executable code. 27. re read every touched file after writes. 28. run syntax/tests only after the coherent code tranche is complete. 29. browser verify narrow mobile and desktop. 30. compare planned versus actual and convert every delta into remaining work.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25-social-system-native-revelation-03-tifere-21ad8a6f08.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-directory-guide-md-c601eeb481",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/DIRECTORY_GUIDE.md",
-		"category": "Games",
+		"id": "geelooy-ai-thoughts-2026-08-25-social-system-native-revelation-04-remain-1fd9eabd8f",
+		"title": "REMAINING WORK",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25-social-system-native-revelation/04_REMAINING_WORK.md",
+		"category": "Systems",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments",
-				"anchor": "directory-guide-experiments"
-			},
-			{
-				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
-			},
-			{
-				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
-			},
-			{
-				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "REMAINING WORK",
+				"anchor": "remaining-work"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments Role: Experiments Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 1 files, 3 structural child directories Purpose Experimental implementations and supporting libraries used to develop Mitzvah World. The Awtsmoos renews e",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments role: experiments snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 1 files, 3 structural child directories purpose experimental implementations and supporting libraries used to develop mitzvah world. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: experiments search terms: experiments, guide file mix: .md: 1 good first question: “does the behavior or asset i need belong to experiments, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files no immediate files. this directory is an organizational parent; follow the child guides below. directory map parent: . children: experiments/awtsmoos experiments/animalmesh experiments/light three gltf related and overlapping systems meadow and fallback runtimes — the former basic and emergency meadow systems were consolidated into the live app stack. the app runtime and launcher now form the single meadow ownership path. rendering stacks — the project contains a lightweight scene/gltf library, the canonical app level progressive renderer, and focused render helpers. emergency fallback visuals were absorbed into the app renderer. terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. procedural world and village generation — village, road, house, primitive, text driven, and public api systems collaborate but are maintained in separate directories. vegetation, trees, and forest systems — botany rules, tree generation, forest composition, grass, and source texture libraries overlap semantically but own different layers. combat domain, action bars, targeting, and hud — domain rules live under gameplay while browser widgets and target presentation live under ui and styles. colocated and integration test surfaces — most subsystem tests live under src/test, while a smaller external tests tree exercises broader integration contracts. movie runtime, projects, tools, and evidence — runtime movie logic is separated from authored projects, exact generation tools, and captured evidence. diagnostics, logs, tools, and root audits — live diagnostics, captured logs, offline tools, and root audit reports describe different stages of observability. player, creature, horse, enemy, and experimental mesh systems — actor assets and world side populations span player hydration, creature generators, enemies, horses, and experimental animal meshes. streaming, lod, visibility, and performance policy — large world loading and frame budget concerns are separated into streaming, lod, visibility, and performance modules. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-directory-guide-md-c601eeb481.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He REMAINING WORK The Awtsmoos renews what remains before completion can pretend to arrive; Awtsmoos.com keeps the next action visible so unfinished truth stays alive. [ ] read shared social CSS primitives [ ] map tests for disclosure/overflow/action rail [ ] rewrite shared data driven DOM ",
+		"searchText": "b\"h boruch hashem blessed is he remaining work the awtsmoos renews what remains before completion can pretend to arrive; awtsmoos.com keeps the next action visible so unfinished truth stays alive. [ ] read shared social css primitives [ ] map tests for disclosure/overflow/action rail [ ] rewrite shared data driven dom foundation [ ] rewrite progressive disclosure [ ] rewrite action overflow [ ] rewrite universal action rail [ ] audit all touched files for tabs and module size [ ] run existing tests and syntax checks [ ] browser verify shared primitives on social hub/feed surfaces [ ] add native capability center plugin using real route ids [ ] add localized capability center css through style.css import [ ] inspect/profile alias and heichel surfaces next [ ] inspect series reader inline css/scripts and extract localized modules [ ] inspect comments/notifications/composer/editor pages next [ ] re read all touched files and produce planned versus actual delta",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25-social-system-native-revelation-04-remain-1fd9eabd8f.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-25t1237-geelooy-total-revelation-00-mission--48195d7dd9",
+		"title": "Geelooy Total Revelation — Mission and Evidence",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25T1237-geelooy-total-revelation/00_MISSION_AND_EVIDENCE.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Geelooy Total Revelation — Mission and Evidence",
+				"anchor": "geelooy-total-revelation-mission-and-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Mission",
+				"anchor": "mission"
+			},
+			{
+				"level": 2,
+				"text": "Observed evidence",
+				"anchor": "observed-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Hard constraints",
+				"anchor": "hard-constraints"
+			},
+			{
+				"level": 2,
+				"text": "Evidence still required",
+				"anchor": "evidence-still-required"
+			}
+		],
+		"excerpt": "B\"H Geelooy Total Revelation — Mission and Evidence Mission Transform the public geelooy surface into a coherent, mobile first, futuristic, accessible, fast, retractable interface system without introducing global CSS conflicts or changing unverified contracts. The Awtsmoos is beyond every interface and every file; the",
+		"searchText": "b\"h geelooy total revelation — mission and evidence mission transform the public geelooy surface into a coherent, mobile first, futuristic, accessible, fast, retractable interface system without introducing global css conflicts or changing unverified contracts. the awtsmoos is beyond every interface and every file; the many pages are vessels, not islands. on awtsmoos.com, each route may carry its own garment while the underlying intention remains one. let the borders stay clear, the motion stay light, and every screen reveal delight. observed evidence repository root: /users/awtsmoos/work/awtsmoos.com. root agents.md requires inspection before claims, full file rewrites, small modules, and real verification. geelooy contains dozens of product areas and at least roughly eighty discoverable index.html entry points before archive/test fixtures are excluded. home already has a modern hero, launcher, omnibox, featured cards, and a mobile dock. docs and drive already use many local stylesheet modules. apps mixes route local css with broader /style/geelooy app/ and /style/future system/ layers. social hub mixes broader shell css with local css and contains dense single line markup that is difficult to maintain. geelooy/index.css contains unscoped universal selectors, which conflicts with the new no global style requirement if consumed by pages. geelooy/oyvededom.js is a legacy service worker implementation with mixed formatting, debug logging, and minimal documentation. hard constraints no blind global reset. every migrated visual rule must be rooted under an explicit page/surface selector. no layout may rely on viewport overflow as a hiding mechanism. z index values must come from a documented local layer scale. every relevant interactive control needs visible hover, active, focus visible, disabled, and motion reduced behavior. touch targets must remain usable on phones. complete file rewrites only. existing public apis and route contracts survive unless a deliberate migration is verified end to end. no archive, generated, vendor, or test fixture rewrite merely to make audit numbers look better. evidence still required exact git working tree state, branch, and commit receipt. usage graph for geelooy/index.css and legacy service worker files. selector scope audit of shared css layers. runtime/browser receipts for each migrated surface. syntax/import/test receipts for touched javascript.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25t1237-geelooy-total-revelation-00-mission--48195d7dd9.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-25t1237-geelooy-total-revelation-01-limitles-f4db62c47e",
+		"title": "Phase One — Limitless Brainstorm",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25T1237-geelooy-total-revelation/01_LIMITLESS_BRAINSTORM.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase One — Limitless Brainstorm",
+				"anchor": "phase-one-limitless-brainstorm"
+			},
+			{
+				"level": 2,
+				"text": "Ideal experience universe",
+				"anchor": "ideal-experience-universe"
+			},
+			{
+				"level": 2,
+				"text": "North star",
+				"anchor": "north-star"
+			}
+		],
+		"excerpt": "B\"H Phase One — Limitless Brainstorm The Awtsmoos is beyond every frame, yet Awtsmoos.com may reveal one intention through many clean vessels; motion may glow without noise, and depth may show without choice becoming a maze. Ideal experience universe Every route opens with immediate orientation, one primary action, and",
+		"searchText": "b\"h phase one — limitless brainstorm the awtsmoos is beyond every frame, yet awtsmoos.com may reveal one intention through many clean vessels; motion may glow without noise, and depth may show without choice becoming a maze. ideal experience universe every route opens with immediate orientation, one primary action, and advanced controls hidden behind explicit disclosure. navigation becomes context aware, thumb friendly, keyboard complete, and never covers content accidentally. every visual module has a local root scope; no selector escapes its route or component vessel. each page owns a documented z index scale with only the layers it actually needs. layouts use container aware grids, logical properties, safe area insets, minmax sizing, and overflow guards. motion communicates state: enter, reveal, press, focus, success, loading, expansion, and spatial continuity. reduced motion users receive equally clear state changes without decorative movement. dense expert tools progressively disclose inspectors, filters, metadata, logs, and secondary actions. search becomes a first class command surface wherever catalog or documentation density warrants it. empty, loading, offline, permission, error, and success states are designed rather than incidental. cards are not decorative boxes: every card has hierarchy, purpose, action affordance, and responsive behavior. mobile surfaces use compact headers, retractable rails, bottom safe navigation, and no horizontal overflow. desktop surfaces expand into multi rail workspaces only when width can support them. interactive elements expose hover, active, focus visible, disabled, busy, selected, expanded, and invalid states. apis use explicit gateways, validators, request models, response models, error translators, and observable state. repeated behavior becomes data driven registries rather than duplicated branching. rich jsdoc describes intent, contracts, failure modes, side effects, and architectural position. css token values remain local to a product surface, with shared values imported only into explicit scopes. documentation explains user workflows first, then architecture, apis, evidence, troubleshooting, and extension points. browser verification includes viewport width checks, computed overflow checks, focus traversal, dialog/rail behavior, and console errors. north star simple at first glance. powerful on demand. fast on touch. exact on keyboard. beautiful under scrutiny. no page should feel like a forgotten annex of the platform.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25t1237-geelooy-total-revelation-01-limitles-f4db62c47e.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-25t1237-geelooy-total-revelation-02-first-ar-53320fce29",
+		"title": "Phase One Architecture and File Map",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25T1237-geelooy-total-revelation/02_FIRST_ARCHITECTURE_AND_FILE_MAP.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase One Architecture and File Map",
+				"anchor": "phase-one-architecture-and-file-map"
+			},
+			{
+				"level": 2,
+				"text": "Competing architectures",
+				"anchor": "competing-architectures"
+			},
+			{
+				"level": 3,
+				"text": "A — One global design system",
+				"anchor": "a-one-global-design-system"
+			},
+			{
+				"level": 3,
+				"text": "B — Fully bespoke CSS per page",
+				"anchor": "b-fully-bespoke-css-per-page"
+			},
+			{
+				"level": 3,
+				"text": "C — Opt-in scoped primitives + local page composition",
+				"anchor": "c-opt-in-scoped-primitives-local-page-composition"
+			},
+			{
+				"level": 3,
+				"text": "D — Shadow DOM everywhere",
+				"anchor": "d-shadow-dom-everywhere"
+			},
+			{
+				"level": 3,
+				"text": "E — Utility-class migration",
+				"anchor": "e-utility-class-migration"
+			},
+			{
+				"level": 2,
+				"text": "Proposed platform vessels",
+				"anchor": "proposed-platform-vessels"
+			},
+			{
+				"level": 2,
+				"text": "First migration wave",
+				"anchor": "first-migration-wave"
+			},
+			{
+				"level": 2,
+				"text": "Explicit non-targets in this wave",
+				"anchor": "explicit-non-targets-in-this-wave"
+			}
+		],
+		"excerpt": "B\"H Phase One Architecture and File Map Competing architectures A — One global design system Rejected. Fast to apply, but directly violates localized style requirements and creates selector blast radius. B — Fully bespoke CSS per page Rejected as the only strategy. Maximum isolation, but duplicates accessibility, motio",
+		"searchText": "b\"h phase one architecture and file map competing architectures a — one global design system rejected. fast to apply, but directly violates localized style requirements and creates selector blast radius. b — fully bespoke css per page rejected as the only strategy. maximum isolation, but duplicates accessibility, motion, disclosure, and interaction logic across dozens of routes. c — opt in scoped primitives + local page composition preferred. shared source contains only selectors rooted beneath an explicit [data awtsmoos surface] or component root; each route imports a local index that chooses which primitives enter its vessel. d — shadow dom everywhere deferred. strong isolation but invasive for legacy markup, event delegation, styling hooks, and current server rendered routes. e — utility class migration rejected for this project. it would clutter markup, weaken semantic ownership, and still require a conflict strategy for legacy pages. proposed platform vessels geelooy/shared/revelation ui/styles/ — opt in scoped primitives only. geelooy/shared/revelation ui/js/ — small behavioral controllers for disclosure, viewport safety, and interaction state. each migrated route keeps its own styles/index.css with @import statements into local modules. each migrated route receives a unique body/root marker so style reach is mechanically bounded. existing specialized systems such as docs and drive remain local; improvements happen inside their own modules instead of forcing shared css upon them. first migration wave 1. home: audit existing home simple scope and interaction states; preserve successful visual identity. 2. apps catalog: remove broad style dependence where practical; localize catalog presentation and disclosure. 3. docs: improve navigation density, mobile retractability, focus, and evidence readability within existing local modules. 4. drive/sites: audit viewport, topbar, retractable panels, mobile dock, builder states, and dialog layering. 5. social hub: rewrite dense html fully, keep ids/contracts, localize styles, simplify progressive disclosure, verify messages/inbox routes. 6. service worker layer: only after registration/call site archaeology. explicit non targets in this wave archives, .tmp fixtures, generated bundles, old editor snapshots, and test preview fixtures are inventory evidence but not production migration targets unless a real runtime dependency proves otherwise.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25t1237-geelooy-total-revelation-02-first-ar-53320fce29.json"
 	}
 ]

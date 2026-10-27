@@ -43,10 +43,16 @@ Application IDs, versions, registry selection, or legacy compatibility changes a
 | `AWTSMOOS_REGISTRATION_STRESS_COUNT` | test/tuning | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/test/registrationReplacementStress.test.cjs` |
 | `AWTSMOOS_RELAY_STRESS_COUNT` | test/tuning | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay.concurrent-correlation.test.cjs` |
 | `AWTSMOOS_SEFIRA_PROFILE_PATH` | path/storage | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/ExpeditionProfileRepository.js` |
+| `AWTSMOOS_TUNNEL_ACCEPTANCE_RECOVERY_FAILURES` | runtime-config | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestAcceptanceRecoveryValues.js` |
+| `AWTSMOOS_TUNNEL_ACCEPTANCE_RECOVERY_SUSTAIN_MS` | tuning | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestAcceptanceRecoveryValues.js` |
+| `AWTSMOOS_TUNNEL_ACCEPTANCE_RETRANSMIT_ATTEMPTS` | runtime-config | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestAcceptanceRetransmit.js` |
+| `AWTSMOOS_TUNNEL_ACCEPTANCE_RETRANSMIT_MS` | tuning | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestAcceptanceRetransmit.js` |
 | `AWTSMOOS_TUNNEL_COMPLETED_LIMIT` | tuning | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js` |
 | `AWTSMOOS_TUNNEL_CONSUMER_PROGRESS_MS` | tuning | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestConsumerWatchdog.js` |
-| `AWTSMOOS_TUNNEL_CONTROL_STORE` | path/storage | 9 | `ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomSocketIntegration.test.cjs; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomUpgrade.test.cjs; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/upgradePolicy.test.cjs` |
+| `AWTSMOOS_TUNNEL_CONTROL_STORE` | path/storage | 11 | `ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomSocketIntegration.test.cjs; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomUpgrade.test.cjs; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/upgradePolicy.test.cjs` |
+| `AWTSMOOS_TUNNEL_INSTRUCTION_FILE` | path/storage | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/instructionDynamicFile.js` |
 | `AWTSMOOS_TUNNEL_PENDING_TTL_MS` | tuning | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js` |
+| `AWTSMOOS_TUNNEL_PRE_ACCEPTANCE_RECOVERY_MS` | tuning | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestDispatchWatchdog.js` |
 | `AWTSMOOS_TUNNEL_QUARANTINE_LIMIT` | tuning | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js` |
 | `AWTSMOOS_TUNNEL_RELAY_MAX_SAFE_WAIT_MS` | tuning | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js` |
 | `AWTSMOOS_TUNNEL_RELAY_SAFE_WAIT_MS` | tuning | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js` |
@@ -61,6 +67,7 @@ Application IDs, versions, registry selection, or legacy compatibility changes a
 | `awtsmoos-core` | 1 | `createAwtsmoosCoreApplication` |
 | `awtsmoos-social` | 1 | `createAwtsmoosSocialApplication` |
 | `chess` | 1 | `createChessApplication` |
+| `forms` | 1 | `createFormsApplication` |
 | `geelooy-code` | 1 | `createGeelooyCodeApplication` |
 | `geelooy-docs` | 1 | `createGeelooyDocsApplication` |
 | `sheets` | 1 | `createSheetsApplication` |
@@ -70,6 +77,7 @@ Application IDs, versions, registry selection, or legacy compatibility changes a
 | `mitzvah-world` | 1 | `createMitzvahWorldApplication` |
 | `ohr-hagnuz` | 1 | `createOhrHagnuzApplication` |
 | `scribe-journey` | 1, 2 | `createScribeJourneyApplication` |
+| `tcp-relay` | 1 | `createTcpRelayApplication` |
 | `tunnel-activity` | 1 | `createTunnelActivityApplication` |
 | `shema-strike` | 1 | `createShemaStrikeApplication` |
 

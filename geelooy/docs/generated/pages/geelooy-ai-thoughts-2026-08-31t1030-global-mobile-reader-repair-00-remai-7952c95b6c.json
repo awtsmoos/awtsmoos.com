@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-31t1030-global-mobile-reader-repair-00-remai-7952c95b6c",
+	"title": "REMAININGWORK — Global Mobile + Reader Repair",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-31T1030-global-mobile-reader-repair/00_REMAINING_WORK.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "REMAININGWORK — Global Mobile + Reader Repair",
+			"anchor": "remainingwork-global-mobile-reader-repair"
+		},
+		{
+			"level": 2,
+			"text": "P0 Reader/runtime",
+			"anchor": "p0-reader-runtime"
+		},
+		{
+			"level": 2,
+			"text": "P1 Mobile UX surfaces",
+			"anchor": "p1-mobile-ux-surfaces"
+		},
+		{
+			"level": 2,
+			"text": "P2 Cross-page verification",
+			"anchor": "p2-cross-page-verification"
+		},
+		{
+			"level": 2,
+			"text": "P3 Release",
+			"anchor": "p3-release"
+		},
+		{
+			"level": 2,
+			"text": "NEXTACTION",
+			"anchor": "nextaction"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-31t1030-global-mobile-reader-repair-00-remai-7952c95b6c-001.json"
+	]
+}

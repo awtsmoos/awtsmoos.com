@@ -1,0 +1,200 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-09-28-1725-total-ui-repair-09-tokens-animation--94e388bd22",
+		"title": "B\"H — 09 · tokens-animation re-surge log · 2026-09-28 21:45 EDT",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-28-1725-total-ui-repair/09-tokens-animation-resurge.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — 09 · tokens-animation re-surge log · 2026-09-28 21:45 EDT",
+				"anchor": "b-h-09-tokens-animation-re-surge-log-2026-09-28-21-45-edt"
+			},
+			{
+				"level": 2,
+				"text": "Guards honored",
+				"anchor": "guards-honored"
+			},
+			{
+				"level": 2,
+				"text": "Git state observed (NOT modified)",
+				"anchor": "git-state-observed-not-modified"
+			},
+			{
+				"level": 2,
+				"text": "Design-system home: verified, adopted (not created parallel)",
+				"anchor": "design-system-home-verified-adopted-not-created-parallel"
+			},
+			{
+				"level": 2,
+				"text": "Reconciliation (adopt, don't clobber)",
+				"anchor": "reconciliation-adopt-don-t-clobber"
+			},
+			{
+				"level": 2,
+				"text": "Deploy record — 10/10 landed, sha-verified on re-read",
+				"anchor": "deploy-record-10-10-landed-sha-verified-on-re-read"
+			},
+			{
+				"level": 2,
+				"text": "Readability gate — re-run against LANDED files: PASS",
+				"anchor": "readability-gate-re-run-against-landed-files-pass"
+			},
+			{
+				"level": 2,
+				"text": "Mission-law compliance of landed files",
+				"anchor": "mission-law-compliance-of-landed-files"
+			},
+			{
+				"level": 2,
+				"text": "Still open (not this worker's scope)",
+				"anchor": "still-open-not-this-worker-s-scope"
+			}
+		],
+		"excerpt": "B\"H — 09 · tokens animation re surge log · 2026 09 28 21:45 EDT Worker: TOKENS ANIMATION RE SURGE (subagent). Parent: mission orchestrator. Tunnel: native tun RC99m5Wz75O789hZ0pIsay5p (awt awtsmoos 2184, Yackovs Air), readinessState=ready, execution healthy. Every op strict checked route.startswith('tun '); deploy.py's",
+		"searchText": "b\"h — 09 · tokens animation re surge log · 2026 09 28 21:45 edt worker: tokens animation re surge (subagent). parent: mission orchestrator. tunnel: native tun rc99m5wz75o789hz0pisay5p (awt awtsmoos 2184, yackovs air), readinessstate=ready, execution healthy. every op strict checked route.startswith('tun '); deploy.py's own native check + abort on flip armed. flap policy (15s ride + my device refresh + reload + retry) via flap.py. guards honored 1. native route only — refused anything not starting tun . one flap episode mid deploy (http 502s); idempotent retry rode it out, no route flip. 2. first action before any write : git status, git log oneline 3, git stash list — all read only over the tunnel before deploy.py ran. 3. design system home verified first — see below. 4. native route re read proof for every write — sha256 re read after every fwrite; per file record below. git state observed (not modified) head 503018e5a \"b\"h bulk import oom fix\" (matches expected). worktree dirty: tunnel control + agent work (routes, missionrooms, recovery lanes, tests) — other workers' in flight changes, untouched. stash@{0} exists: \"b\"h preserve concurrent work before returning canonical checkout to main\" — not popped , reported only. design system home: verified, adopted (not created parallel) geelooy/style/foundation/design system/ already existed (created 2026 09 28 18:13, predecessor's interrupted attempt) with 4 files: tokens.css 15111b, motion.css 9265b, transitions.css 8369b (all three byte identical to staged — sha verified already landed), and states.css 0 bytes (truncated write — rewritten this run). ownership: the mission's own workstream (05 design system plan.md, \"design system sweep\", 05/p4); no other worker claims the directory. the predecessor's final parked report confirmed 0 of 7 complete ; the 3 byte identical files were adopted as is. reconciliation (adopt, don't clobber) geelooy/style/foundation/tokens/ verified live: color.css (1318b, awt dark palette + g alias layer), space.css, radius.css, type.css, shadow.css, motion.css (own reduced motion block), index.css — all active primitive layer, all left byte identical, zero edits . foundation/reset/: focus.css, index.css, media.css, scroll.css (listed). foundation/beauty/palette/: 6 files (crimson, emerald, index, night gold, parchment, sapphire) — stub contents still to verify. zero gl collisions repo wide : grep over foundation/tokens/ .css and the c1 token files (auth/tokens.css, shared/civilization/tokens.css, civilization/core tokens.css) returned no gl definitions. the gl namespace is greenfield; v1 stable names land uncontested. classification.md landed as v1.0.0 with new conflict note c6 (foundation/tokens/ vs gl : conceptual overlap, zero name overlap; adopt don't clobber; alias mapping only with owning track's sign off, coordinator routed). c1/c4/c5 routed to coordinator; c2/c3 shims = my later pass. deploy record — 10/10 landed, sha verified on re read tool: staged deploy.py (7 code files: strict native pre check, sha compare, rewrite mismatches only, re read sha confirm, abort on route flip) + same pattern for 3 docs via flap.py. file bytes result proof tokens.css 15111 already landed (predecessor, sha match) re read sha 10e1c78aa39d3195 motion.css 9265 already landed (sha match) re read sha f46a0f92ad0b1c0c transitions.css 8369 already landed (sha match) re read sha 1c03d1662a2694c9 states.css 8339 rewritten (was 0 bytes) → landed re read sha 48f21d1680c1bd2d reduced motion.css 5105 landed (sha match on re read) re read sha 83cb0a9566f10e5a design system.css 1073 written → landed re read sha bbef6588d1fcd1e8 fx guard.js 1413 written → landed re read sha 142db8cc83bd0ed9 classification.md 16776 written → landed (v1.0.0, +c6) re read sha match performance budget.md 5967 written → landed re read sha match index.md 5066 written → landed (v1.0.0 manifest) sha match after flap retry git status: ?? geelooy/style/foundation/design system/ (new, untracked — commit left to coordinator/release flow). readability gate — re run against landed files: pass check contrast.mjs run against the byte identical re fetched landed tokens.css (+ landed motion.css for the guard check): 16/16 required pairs ≥ 4.5:1 pass — lowest: captions gl text 3/abyss 5.89:1 2 by design warnings: gl text faint 3.08/ 2.81 (placeholder/disabled only) torah law: gl t torah 20px ✓, gl lh torah 1.9 ✓ → pass [data gl torah] kill switch present in landed motion.css → pass gate: pass, 2 warnings (exit 0) mission law compliance of landed files complete file writes only; tabs; no new !important introduced by me (pre existing !important in reduced motion kill switches and the torah guard kept as deliberate law enforcement); animations transform/opacity only; no continuous blur/filter animation; no scroll bound js (fx guard: one 2.4s raf sample, then detaches); every animation has a genuine reduced motion counterpart (removed, never slowed) + .gl reduced fx manual override; torah text never dances. still open (not this worker's scope) 1. full tree css walk + load graph (cheap targeted pass — no whole repo greps over the tunnel); dead candidates need track owner sign off. 2. c2/c3 deprecation shims (beauty/motion depth palette stubs → re export shims). 3. npm run test:css quality green on the mac. 4. visual sanity: serve css over tunnel, curl 200s. 5. human readability review per readability gate.md part 2 (real devices). 6. c1/c4/c5/c6 coordinator routing (auth, civilization, social tracks).",
+		"page": "pages/geelooy-ai-thoughts-2026-09-28-1725-total-ui-repair-09-tokens-animation--94e388bd22.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-28-1725-total-ui-repair-next-action-md-e2922cfc8e",
+		"title": "NEXTACTION — 2026-09-28-1725-total-ui-repair",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-28-1725-total-ui-repair/NEXT_ACTION.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "NEXTACTION — 2026-09-28-1725-total-ui-repair",
+				"anchor": "nextaction-2026-09-28-1725-total-ui-repair"
+			},
+			{
+				"level": 2,
+				"text": "Single next action",
+				"anchor": "single-next-action"
+			}
+		],
+		"excerpt": "NEXT ACTION — 2026 09 28 1725 total ui repair Single next action P0 boot repair (02 §0, 06 P0): read critical boot.js, ikar stable.js, and ikar first.js IN FULL, trace every consumer of their exports, then rewrite the complete files so bootIkarFirst is a callable function through the chain and semantic is in the docume",
+		"searchText": "next action — 2026 09 28 1725 total ui repair single next action p0 boot repair (02 §0, 06 p0): read critical boot.js, ikar stable.js, and ikar first.js in full, trace every consumer of their exports, then rewrite the complete files so bootikarfirst is a callable function through the chain and semantic is in the document before first light paint. then: restart node index on 8080 (no watcher — restart is mandatory) and verify /heichelos/ikar paints heichel boot title and the discovery list from the semantic model, with the title rendered from the api payload (get /api/social/heichelos/ikar → \"the entire torah\"), never a literal. nothing else starts until /heichelos/ikar renders. this is the mission gate. do not deploy from the dirty shared worktree — all repair work happens in it, release happens later from a clean isolated worktree (06 p6).",
+		"page": "pages/geelooy-ai-thoughts-2026-09-28-1725-total-ui-repair-next-action-md-e2922cfc8e.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-28-1725-total-ui-repair-remaining-work-md-3f3597bd78",
+		"title": "REMAININGWORK — 2026-09-28-1725-total-ui-repair",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-28-1725-total-ui-repair/REMAINING_WORK.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "REMAININGWORK — 2026-09-28-1725-total-ui-repair",
+				"anchor": "remainingwork-2026-09-28-1725-total-ui-repair"
+			}
+		],
+		"excerpt": "REMAINING WORK — 2026 09 28 1725 total ui repair Carried from the previous continuation (still open): Full Heichel nested series/post listing redesign beyond empty root hydration → now specified as the AMAZING listing track in 02 (not started) Reader Scribe default hierarchy browser proof at 390 and 430 (03, P2) Auto s",
+		"searchText": "remaining work — 2026 09 28 1725 total ui repair carried from the previous continuation (still open): full heichel nested series/post listing redesign beyond empty root hydration → now specified as the amazing listing track in 02 (not started) reader scribe default hierarchy browser proof at 390 and 430 (03, p2) auto scroll interval measurement in a real post vessel (03, p2) community composer de duplication proof (04, p3) social hub route by route implementation: profiles, search, notifications (04, p3) isolated clean release worktree + public sha verification (06, p6) rtl / reduced motion / keyboard matrix on production (07, p5) new in this continuation: p0 boot chain repair: bootikarfirst is not a function (02, gates everything) listing layer \"not basic\" bar + embarrassment enforcement (02, 07) palace metaphor as first class principle + metaphor test in the walk (02, 03, 05, 07) new auto scroll regression test files (none exist) (03, p2) design system sweep: css classification, shared tokens across site chrome (05, p4) one tap home from every route — gating check (05, 07) read scripts/bhrelease.mjs before first npm run bh (06, 08)",
+		"page": "pages/geelooy-ai-thoughts-2026-09-28-1725-total-ui-repair-remaining-work-md-3f3597bd78.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-28-1954-heichelos-social-total-00-reality-md-ce12e912b1",
+		"title": "B\"H Reality",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-28-1954-heichelos-social-total/00-reality.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H Reality",
+				"anchor": "b-h-reality"
+			}
+		],
+		"excerpt": "B\"H Reality Connected tunnel: awt awtsmoos 2184 / tun RC99m5Wz75O789hZ0pIsay5p on Yackovs Air. Project root: /Users/awtsmoos/work/awtsmoos.com Port 8080 owner: node PID 3818, cwd project root, command node index. API truth (local and public shape): GET /api/social/heichelos/ikar → id=ikar, name/title=\"The Entire Torah\"",
+		"searchText": "b\"h reality connected tunnel: awt awtsmoos 2184 / tun rc99m5wz75o789hz0pisay5p on yackovs air. project root: /users/awtsmoos/work/awtsmoos.com port 8080 owner: node pid 3818, cwd project root, command node index. api truth (local and public shape): get /api/social/heichelos/ikar → id=ikar, name/title=\"the entire torah\" get /api/social/heichelos/ikar/series → the written torah, the oral torah observed defect: live html first light painted empty heichel boot title and empty discovery list because semantic was not in the document. document title already said the entire torah. public browse of /heichelos/ikar showed only \"torah · living library\" and \"explore\". worktree is dirty with unrelated tunnel/oauth work plus in progress reader auto scroll and social css. do not deploy from this shared tree. auto scroll session already implements start=river, stop=still, countdown 0. reader settings html already simplified toward scribe's lens. social tokens already midnight/cyan/violet/gold under .awtsmoos social root.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-28-1954-heichelos-social-total-00-reality-md-ce12e912b1.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-28-1954-heichelos-social-total-01-vision-bra-c7d15d0982",
+		"title": "B\"H Vision",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-28-1954-heichelos-social-total/01-vision-brainstorm.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H Vision",
+				"anchor": "b-h-vision"
+			}
+		],
+		"excerpt": "B\"H Vision One Torah universe: Heichel hero from DB name, two living gates into Written and Oral Torah, reader as sacred quiet text, social as midnight glass intelligence. Not neon everywhere. Identity never hardcoded in renderers. Motion only for entry, focus, press, route. Mobile first 44px targets. Community one com",
+		"searchText": "b\"h vision one torah universe: heichel hero from db name, two living gates into written and oral torah, reader as sacred quiet text, social as midnight glass intelligence. not neon everywhere. identity never hardcoded in renderers. motion only for entry, focus, press, route. mobile first 44px targets. community one composer. auto scroll one river.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-28-1954-heichelos-social-total-01-vision-bra-c7d15d0982.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-28-1954-heichelos-social-total-02-architectu-b0ed8f0600",
+		"title": "B\"H Architecture",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-28-1954-heichelos-social-total/02-architecture-map.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H Architecture",
+				"anchor": "b-h-architecture"
+			}
+		],
+		"excerpt": "B\"H Architecture ikar HTML → semantic fallback → critical boot → ikar stable.boot → ikar first.boot ikar first now hydrates empty identity via /api/social/heichelos/:id and /series series cards use /heichelos/:id/series/:seriesId (200 on local) social styles stay imported under .awtsmoos social root reader auto scroll ",
+		"searchText": "b\"h architecture ikar html → semantic fallback → critical boot → ikar stable.boot → ikar first.boot ikar first now hydrates empty identity via /api/social/heichelos/:id and /series series cards use /heichelos/:id/series/:seriesid (200 on local) social styles stay imported under .awtsmoos social root reader auto scroll modules already own start/stop river",
+		"page": "pages/geelooy-ai-thoughts-2026-09-28-1954-heichelos-social-total-02-architectu-b0ed8f0600.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-28-1954-heichelos-social-total-03-ui-ux-syst-a928761165",
+		"title": "B\"H UI UX",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-28-1954-heichelos-social-total/03-ui-ux-system-plan.md",
+		"category": "Systems",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H UI UX",
+				"anchor": "b-h-ui-ux"
+			}
+		],
+		"excerpt": "B\"H UI UX Heichel: DB title as H1, series names as card labels, descriptions as title hints only if API supplies them. Social: existing tokens + motion.css + reduced motion.css. Reader: keep text first; do not expand Scribe cockpit this pass.",
+		"searchText": "b\"h ui ux heichel: db title as h1, series names as card labels, descriptions as title hints only if api supplies them. social: existing tokens + motion.css + reduced motion.css. reader: keep text first; do not expand scribe cockpit this pass.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-28-1954-heichelos-social-total-03-ui-ux-syst-a928761165.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-28-1954-heichelos-social-total-04-file-plan--bd860cf336",
+		"title": "B\"H File plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-28-1954-heichelos-social-total/04-file-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H File plan",
+				"anchor": "b-h-file-plan"
+			}
+		],
+		"excerpt": "B\"H File plan Added: ikar identity.js, ikar identity paint.js, social/styles/motion.css, social/styles/reduced motion.css Rewrote: ikar first.js, social/styles/index.css Restored from HEAD after regression: fallback.html (then left as restored server template)",
+		"searchText": "b\"h file plan added: ikar identity.js, ikar identity paint.js, social/styles/motion.css, social/styles/reduced motion.css rewrote: ikar first.js, social/styles/index.css restored from head after regression: fallback.html (then left as restored server template)",
+		"page": "pages/geelooy-ai-thoughts-2026-09-28-1954-heichelos-social-total-04-file-plan--bd860cf336.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-28-1954-heichelos-social-total-05-risk-revie-a7f618f0ae",
+		"title": "B\"H Risks",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-28-1954-heichelos-social-total/05-risk-review.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H Risks",
+				"anchor": "b-h-risks"
+			}
+		],
+		"excerpt": "B\"H Risks Dirty shared worktree — no production deploy this pass. ikar first.js 126 lines — slightly over 120; hydrate is isolated. Series URL contract could differ on nested series; only root series painted when list empty. Do not invent Ikar description; API record has none.",
+		"searchText": "b\"h risks dirty shared worktree — no production deploy this pass. ikar first.js 126 lines — slightly over 120; hydrate is isolated. series url contract could differ on nested series; only root series painted when list empty. do not invent ikar description; api record has none.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-28-1954-heichelos-social-total-05-risk-revie-a7f618f0ae.json"
+	}
+]

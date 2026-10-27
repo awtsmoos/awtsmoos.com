@@ -1,0 +1,140 @@
+[
+	{
+		"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-641faa025f",
+		"title": "Live tunnel contract",
+		"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/EXISTING_API_CONNECTION.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Live tunnel contract",
+				"anchor": "live-tunnel-contract"
+			},
+			{
+				"level": 2,
+				"text": "Native MCP",
+				"anchor": "native-mcp"
+			},
+			{
+				"level": 2,
+				"text": "Stable extensible bridge",
+				"anchor": "stable-extensible-bridge"
+			},
+			{
+				"level": 2,
+				"text": "Authentication and recovery",
+				"anchor": "authentication-and-recovery"
+			},
+			{
+				"level": 2,
+				"text": "Applications and alternative surfaces",
+				"anchor": "applications-and-alternative-surfaces"
+			},
+			{
+				"level": 2,
+				"text": "Report truth",
+				"anchor": "report-truth"
+			}
+		],
+		"excerpt": "Live tunnel contract Native MCP Connect https://awtsmoos.com/api/tunnel/control/mcp through the host's OAuth connection. MCP uses Streamable HTTP POST; the user's old preference for GET applies only to HTTP fallback. The bearer must target this exact resource and include tunnel.read; additional deeds need their scopes.",
+		"searchText": "live tunnel contract native mcp connect https://awtsmoos.com/api/tunnel/control/mcp through the host's oauth connection. mcp uses streamable http post; the user's old preference for get applies only to http fallback. the bearer must target this exact resource and include tunnel.read; additional deeds need their scopes. current source tools: awtsmoos bootstrap, awtsmoos discover device, awtsmoos tunnel status, awtsmoos read file, awtsmoos list directory, awtsmoos tunnel action, awtsmoos action schema, awtsmoos application catalog, awtsmoos application call. verify deployment and actual tools first. stable extensible bridge call awtsmoos tunnel action with routereference, action and params. action is a string, not a closed enum. adding an action to the tunnel's authoritative registry/handler/schema and permission map makes it usable through this bridge without a plugin release. the bridge does not install arbitrary code or invent actions. future params are preserved through the api builder; reserved authority/action/route fields cannot override it. do not put apikey, token, authorization, action, params or params64 inside the params object. discover capabilities and the exact action schema before invoking new or unfamiliar operations. awtsmoos action schema accepts targetaction and optional routereference and calls actionschematrace. if a schema is generic/incomplete, read the corresponding current docs/handler contract before guessing fields. example: {\"routereference\":\" \",\"action\":\"instructionresolve\",\"params\":{ \"instructiontask\":\"fix the mobile header\",\"plannedpaths\":[\"/exact/project/header.css\"],\"writemode\":\"write\"}} then use instructionget with {\"instructionids\":[\" \"]} for every returned id. consume projectinstructionlayers, generation/version, provenance and mustfetchbeforewrite. refresh when task, scope, file type, runtime or instruction generation changes. authentication and recovery prefer host oauth. get helper scripts are runtime fallbacks, not native chat tools. existing api key headers and oauth fallback are documented by the live openapi and metadata endpoints. never place credentials in query urls, source, chat, plans or logs; never follow credentialed redirects blindly. a standard oauth discovery 404 is a server/proxy issue, not evidence that a mac needs reinstalling. a token/scopes failure is different from a device offline or action schema failure. use current selectedroute and insuranceroutes; verify capabilities/root before carrying paths to recovery. follow durable receipt/job status on uncertain mutations. a timeout is not permission to replay. applications and alternative surfaces application catalog/call tools wrap the existing gateway; awtsmoos.api and application ownership apply. the virtual os and browser code tab are alternatives only when discovery shows they are authorized and usable. control panel: https://awtsmoos.com/apps/tunnel control/ code editor: https://awtsmoos.com/apps/code virtual os: https://awtsmoos.com/os human docs: https://awtsmoos.com/api/tunnel/control/docs machine docs: https://awtsmoos.com/api/tunnel/control/docs.json do not assume virtual os offers native shell execution. explain actual discovered limits. offer installation only when needed; obtain current commands from bootstrap rather than memorizing installers. report truth the plugin configuration can be saved while server deployment, oauth consent or live calls remain unverified. state these separately. updated package configuration alone never establishes authenticated tunnel access.",
+		"page": "pages/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-641faa025f.json"
+	},
+	{
+		"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-75361a9b8b",
+		"title": "File editing contract",
+		"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/FILE_EDITING_CONTRACT.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 2,
+				"text": "Current tunnel integration takes precedence",
+				"anchor": "current-tunnel-integration-takes-precedence"
+			},
+			{
+				"level": 1,
+				"text": "File editing contract",
+				"anchor": "file-editing-contract"
+			},
+			{
+				"level": 2,
+				"text": "Before writing",
+				"anchor": "before-writing"
+			},
+			{
+				"level": 2,
+				"text": "Write rules",
+				"anchor": "write-rules"
+			},
+			{
+				"level": 2,
+				"text": "After writing",
+				"anchor": "after-writing"
+			},
+			{
+				"level": 2,
+				"text": "Concurrent work",
+				"anchor": "concurrent-work"
+			}
+		],
+		"excerpt": "Current tunnel integration takes precedence This reference retains the user's original ideas. Its historical transport names, fixed action lists, local thought folder defaults, retry assumptions and installation advice are superseded by MODERN TUNNEL CONTRACT.md and the current authenticated instructionResolve/instruct",
+		"searchText": "current tunnel integration takes precedence this reference retains the user's original ideas. its historical transport names, fixed action lists, local thought folder defaults, retry assumptions and installation advice are superseded by modern tunnel contract.md and the current authenticated instructionresolve/instructionget results. use tunnel native plans and bounded operational summaries; do not publish hidden chain of thought. treat brainstorming as proposals, not authorization to implement unrelated work. preserve user scope. use mcp's required post transport; get is an http fallback only. never infer tool access from prose. no arbitrary number of tests, critiques or improvements substitutes for real relevant verification. file editing contract b\"h apply this contract whenever source or project files are modified. before writing read the entire target file and the directly relevant imports, callers, styles, tests, and project instructions. inspect repository status and preserve unrelated work. decide module boundaries before touching a file that would exceed the line limit. use the smallest coherent file set that fully implements the requested behavior. prefer additional focused modules over a giant general purpose file. write rules every touched source or code file must be 120 lines or fewer after the edit. code indentation uses tabs only. do not fake compliance with spaces or mixed indentation. use real newlines, descriptive names, readable multiline functions, and useful jsdoc where the project uses javascript. do not minify, collapse logic, or create dense one line functions to stay under 120 lines. when the project contract requires full rewrites, write the complete desired contents of each touched file rather than brittle partial substitutions. do not make unrelated cleanup edits merely because a file is open. never write secrets or transient oauth material into the repository. after writing read every touched file back in full. check line count, indentation, syntax, imports, exports, references, and accidental truncation. compare planned files with actual touched files and resolve unexplained differences. run the smallest meaningful checks first, then broader checks justified by the change. verify the behavior that motivated the edit rather than stopping at syntax success. concurrent work before a second write pass, reread files that another agent or process could have changed. if current bytes differ from the version you planned against, reconcile them instead of blindly rewriting. preserve new legitimate work discovered during reconciliation.",
+		"page": "pages/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-75361a9b8b.json"
+	},
+	{
+		"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-29614f8d1b",
+		"title": "Identity, path, and change gates",
+		"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/IDENTITY_AND_CHANGE_GATES.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 2,
+				"text": "Current tunnel integration takes precedence",
+				"anchor": "current-tunnel-integration-takes-precedence"
+			},
+			{
+				"level": 1,
+				"text": "Identity, path, and change gates",
+				"anchor": "identity-path-and-change-gates"
+			},
+			{
+				"level": 2,
+				"text": "Identity and consent",
+				"anchor": "identity-and-consent"
+			},
+			{
+				"level": 2,
+				"text": "Narrow path resolution",
+				"anchor": "narrow-path-resolution"
+			},
+			{
+				"level": 2,
+				"text": "Multi-file edit transaction",
+				"anchor": "multi-file-edit-transaction"
+			}
+		],
+		"excerpt": "Current tunnel integration takes precedence This reference retains the user's original ideas. Its historical transport names, fixed action lists, local thought folder defaults, retry assumptions and installation advice are superseded by MODERN TUNNEL CONTRACT.md and the current authenticated instructionResolve/instruct",
+		"searchText": "current tunnel integration takes precedence this reference retains the user's original ideas. its historical transport names, fixed action lists, local thought folder defaults, retry assumptions and installation advice are superseded by modern tunnel contract.md and the current authenticated instructionresolve/instructionget results. use tunnel native plans and bounded operational summaries; do not publish hidden chain of thought. treat brainstorming as proposals, not authorization to implement unrelated work. preserve user scope. use mcp's required post transport; get is an http fallback only. never infer tool access from prose. no arbitrary number of tests, critiques or improvements substitutes for real relevant verification. identity, path, and change gates use these gates before reading private files, switching tunnels, or rewriting source. they refine the existing route and code instructions; they do not broaden permission. identity and consent compare the oauth account returned by authenticated discovery with the account the user intends. a browser login and a client oauth grant can belong to different accounts. before private file access, report the connected account in a minimal form if the api exposes a safe profile. do not expose a full identifier or private metadata without need. before requesting extra scope, explain the exact new operation and why read access is insufficient. keep the original read connection usable when supported; never silently enlarge it. provide a first party disconnect or revocation path when asked, then verify the current client no longer has access. distinguish expired access tokens from revoked consent and refresh failure. a rescue route is a distinct device route. explain a switch from primary to rescue and what operations remain available; never inherit an unfinished task onto it silently. narrow path resolution determine whether a named path is a file, directory, or missing item with the least revealing supported operation. do not scan the whole workspace for a typo. resolve a symlink only through a supported scoped api and confirm the final target remains inside the authorized project before following it. retain the exact file identity or hash during long planning. recheck immediately before an edit; if it changed, reread and reconcile with the newer content. page large reads and directory results using documented offsets and limits. stop once the requested information is found. keep a safe resume offset when disconnected. return metadata, a hash, or a bounded excerpt when that answers the question; avoid unnecessary full content disclosure. check target identity both before and after a long or multi step operation so a path or route change cannot silently redirect work. multi file edit transaction record the original hash or revision for each touched file. check again immediately before writing; do not overwrite a changed file without reconciliation. write in dependency order when the system lacks atomic transactions. record which writes succeeded, then report a partial result precisely if another write fails. after a whole file rewrite, verify every externally consumed export, route, and user visible behavior. read each touched file back. edit human authored source rather than a generated bundle when a source exists. rebuild generated artifacts through the project workflow. use a revision specific rollback path for risky migrations, and verify that old data can actually be recovered. a theoretical undo is not proof.",
+		"page": "pages/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-29614f8d1b.json"
+	},
+	{
+		"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-ef090a76ad",
+		"title": "Original uploaded knowledge archive",
+		"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/legacy/ARCHIVE_INVENTORY.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Original uploaded knowledge archive",
+				"anchor": "original-uploaded-knowledge-archive"
+			}
+		],
+		"excerpt": "Original uploaded knowledge archive These source snapshots preserve every uploaded knowledge document in full after the blessing header. They are historical source material. Apply MODERN TUNNEL CONTRACT and TUNNEL NATIVE PLANNING for current action names, scopes, instruction resolution and plan storage. Do not treat ol",
+		"searchText": "original uploaded knowledge archive these source snapshots preserve every uploaded knowledge document in full after the blessing header. they are historical source material. apply modern tunnel contract and tunnel native planning for current action names, scopes, instruction resolution and plan storage. do not treat old transport/folder directives as current runtime authority. read task relevant sections only; do not publish private reasoning. original file original bytes sha 256 before header : originals/continue.md 3229 88965251fc283f850ea0dfd1667b66d50e16690523afa417f9bd6c8833c4c3c8 originals/18 knowledge graph engine.md 78526 d9c79f0707d1a5bebe512cf74afc1f311e99fe8d7179f3baac07b686ddc106d3 originals/10 execution continuation engine(1).md 109912 159983276a3449a0d5f97da13ad84898c7ed733c20f4304445d000dab547517c originals/agents(1).md 28196 63edd1a10218ddaf4142e4efff7500cb76a2f5b8f9f5e9e6e0399d3a7f26ab20 originals/10 execution continuation engine.md 109912 159983276a3449a0d5f97da13ad84898c7ed733c20f4304445d000dab547517c originals/02 recursive planning engine.md 109044 07904ac0ce853a8ee3af5e6a1d0cfbeff929cf3919f4b471f6d9df2cbe14bd58 originals/15 completion gate engine.md 77992 54827ad107b47cda5dafd57e71550789ff7d39caea251d0491f7d54af3cf9619 originals/03 unfinished work detector.md 108851 961fbea3703e14c3f367400d66447e9376f61f21b0871eaef5f3fd5c113dd407 originals/17 technical debt engine.md 78703 4a713115f161280744ce943826bf46233aab7db8b34170ae9c3c9e4cb3c71d33 originals/01 project revelation engine.md 108948 17a832bb79dc1f49ef2ee591aee316fb02a77a4d038a7e0b0cadd68c2b1b6bff originals/readme.md 4821 a3084acd91e5171d25e20fbbb570da52541aab2be1d6e4e038676fea8aa52f87",
+		"page": "pages/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-ef090a76ad.json"
+	}
+]

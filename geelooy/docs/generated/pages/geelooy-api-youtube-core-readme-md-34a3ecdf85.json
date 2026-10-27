@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-youtube-core-readme-md-34a3ecdf85",
+	"title": "B\"H — YouTube Core (geelooy/api/youtube/core/)",
+	"sourcePath": "geelooy/api/youtube/core/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — YouTube Core (geelooy/api/youtube/core/)",
+			"anchor": "b-h-youtube-core-geelooy-api-youtube-core"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-youtube-core-readme-md-34a3ecdf85-001.json"
+	]
+}

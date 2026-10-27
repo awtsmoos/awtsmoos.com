@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Ohrbound Contracts (geelooy/api/ohrbound/contracts/)\n\nImmutable bounded contracts for the Ohrbound API (see `../README.md`).\n\n## Files\n- `progressContract.js` — the cloud progress document contract: version 1,\n  `objectType \"ohrbound-progress\"`, max 200 completed levels, max level id\n  length 80. Keeps persistence small, inspectable, and safe to evolve.\n- `levelPolicyContract.js` — the community level policy contract governing\n  what may be published.\n"
+}

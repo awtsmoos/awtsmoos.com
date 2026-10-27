@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Sichos Kodesh Imported Posts (geelooy/api/social/helper/comments/imported/data/sichosKodesh/)\n\nThe Sichos Kodesh imported corpus data.\n\n- `manifest.json` — index of the corpus.\n- `posts/` — 283 JSON files, one per imported post (hash-named).\n\nConsumed by the imported-comment adapters and post resolver to serve imported comment trees through the normal comment routes.\n"
+}

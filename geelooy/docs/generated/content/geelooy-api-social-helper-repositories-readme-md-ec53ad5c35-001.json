@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Repositories (geelooy/api/social/helper/repositories/)\n\nGit repository hosting over HTTP: clone service, CGI gateway, auth, credentials, policy, and a virtual OS tree view.\n\n## Files\n- `gitCloneService.js`, `gitHttpGateway.js`, `gitCgiResponse.js`, `gitProcess.js` — git-over-HTTP serving.\n- `gitBasicAuth.js`, `gitRemotePolicy.js` — auth and remote policy.\n- `repositoryStore.js`, `repositoryPaths.js`, `repositoryPolicy.js`, `repositoryAuthorization.js` — repo storage, paths, policy, authorization.\n- `repositoryCredentialCrypto.js`, `repositoryCredentialService.js` — credential handling.\n- `virtualOsTree.js` — virtual OS tree view of repositories.\n"
+}

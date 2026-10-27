@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Compiler Core (geelooy/api/compiler/core/)\n\nInternals behind the compiler API (see `../README.md`).\n\n## Files\n- `handlers.js` — joins auth, build discovery, guarded builds, and the Rebbe APK into one boundary.\n- `auth.js` / `body.js` — request authorization and body parsing.\n- `limiter.js` — build leases / concurrency limits so builds can't stampede.\n- `serviceLoader.js` — loads the compiler backend services.\n- `serializer.js` — build-result response shaping.\n- `rebbeApkHandler.js` — builds the source-owned Rebbe Responsa APK behind compiler security.\n- `rebbeApkHandler.test.mjs` — node test for the Rebbe APK handler.\n"
+}

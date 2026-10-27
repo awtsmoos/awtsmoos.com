@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-01-0310-native-chitas-reader-06-compactjs-st-d8526b69c5",
+	"title": "CompactJS Static-Link Boundary Corruption",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-01-0310-native-chitas-reader/06-compactjs-static-link-boundary-corruption.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "CompactJS Static-Link Boundary Corruption",
+			"anchor": "compactjs-static-link-boundary-corruption"
+		},
+		{
+			"level": 2,
+			"text": "Direct evidence",
+			"anchor": "direct-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Repair law",
+			"anchor": "repair-law"
+		},
+		{
+			"level": 2,
+			"text": "Verification universe",
+			"anchor": "verification-universe"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-01-0310-native-chitas-reader-06-compactjs-st-d8526b69c5-001.json"
+	]
+}

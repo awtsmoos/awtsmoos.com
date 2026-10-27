@@ -1,0 +1,51 @@
+{
+	"schema": "awtsmoos-api-tutorial-v1",
+	"id": "api-olam-h3-status-cac8d0a010",
+	"route": "/api/olam-h3/status",
+	"source": "geelooy/api/olam-h3/_awtsmoos.derech.js",
+	"discoveryKind": "static-literal",
+	"family": {
+		"mount": "/api/olam-h3",
+		"title": "/api/olam-h3",
+		"manual": "docs/API/README.md"
+	},
+	"derech": {
+		"source": "geelooy/api/olam-h3/_awtsmoos.derech.js",
+		"status": "OK",
+		"issue": "—",
+		"mount": "/api/olam-h3"
+	},
+	"dynamic": false,
+	"pathParameters": [],
+	"methods": [],
+	"methodEvidence": "unknown",
+	"vessels": [],
+	"statuses": [],
+	"headers": [],
+	"callers": [
+		{
+			"literal": "/api/olam-h3/status",
+			"source": "geelooy/apps/olam-h3/tests/proxy-browser-client.test.mjs",
+			"kind": "test"
+		}
+	],
+	"callerCount": 1,
+	"tests": [],
+	"examples": [],
+	"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-olam-h3-status-cac8d0a010.md",
+	"confidence": "unknown-method",
+	"related": [
+		{
+			"id": "api-olam-h3-4e998afd7f",
+			"route": "/api/olam-h3"
+		},
+		{
+			"id": "api-olam-h3-create-cb86a5dbff",
+			"route": "/api/olam-h3/create"
+		},
+		{
+			"id": "api-olam-h3-task-17b79454b5",
+			"route": "/api/olam-h3/task"
+		}
+	]
+}

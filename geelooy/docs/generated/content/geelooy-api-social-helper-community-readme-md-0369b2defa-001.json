@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Community (geelooy/api/social/helper/community/)\n\nCommunity governance for Heichelos: settings, permissions, review workflow, moderation, and statuses.\n\n## Files\n- `communitySettings.js`, `settingsDefaults.js` — community settings and defaults.\n- `permissionEngine.js` — who may do what in a community.\n- `reviewEngine.js` — review/approval workflow for community submissions.\n- `eventBus.js` — community event dispatch.\n- `pagination.js`, `statuses.js` — pagination helpers and community status values.\n- `test/` — publishing, routes, stress, and multi-account journey tests.\n\n## Routes (examples)\n- `/heichelos/:heichel/review` · `/heichelos/:heichel/review/:review/approve|reject`\n- `/heichelos/:heichel/moderation`\n- `/heichelos/:heichel/settings/community`\n"
+}

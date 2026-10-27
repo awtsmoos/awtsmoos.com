@@ -18,30 +18,45 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-browser-test-1d0e410e.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 1,
-		"tests": 1,
+		"source": 18,
+		"tests": 5,
 		"assets": 0,
 		"generated": 0,
 		"docs": 0,
 		"other": 0
 	},
-	"totalFiles": 2,
+	"totalFiles": 23,
 	"symbolSummary": {
-		"files": 1,
-		"classes": 0,
-		"functions": 0,
-		"exports": 3,
+		"files": 18,
+		"classes": 1,
+		"functions": 20,
+		"exports": 18,
 		"samples": [
-			"mobileRoutes",
-			"mobileViewport",
-			"mobileAssertions"
+			"auditHtmlEntries",
+			"LocalJavaScriptUrl",
+			"splitSource",
+			"decodeKey",
+			"async",
+			"findChromeTarget",
+			"domIdentityExpression",
+			"awtsmoosIdentity",
+			"summarizeHomeAudit",
+			"HOME_STATES",
+			"layerProbeExpression",
+			"box"
 		]
 	},
-	"outgoingDependencies": [],
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/games/tests",
+			"count": 2,
+			"examples": "geelooy/browser-test/mobile-ui/RouteAudit.mjs"
+		}
+	],
 	"incomingDependencies": [],
 	"externalDependencies": [],
 	"publicEntries": [],
-	"requiresLocalDocumentation": false,
+	"requiresLocalDocumentation": true,
 	"documentationCovered": false,
 	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
 }

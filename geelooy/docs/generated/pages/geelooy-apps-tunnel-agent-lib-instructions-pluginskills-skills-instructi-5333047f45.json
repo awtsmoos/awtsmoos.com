@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-5333047f45",
+	"title": "Plugin integration and connection doctor",
+	"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/PLUGIN_INTEGRATION_AND_DOCTOR.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 2,
+			"text": "Current tunnel integration takes precedence",
+			"anchor": "current-tunnel-integration-takes-precedence"
+		},
+		{
+			"level": 1,
+			"text": "Plugin integration and connection doctor",
+			"anchor": "plugin-integration-and-connection-doctor"
+		},
+		{
+			"level": 2,
+			"text": "A focused integration",
+			"anchor": "a-focused-integration"
+		},
+		{
+			"level": 2,
+			"text": "Connection doctor sequence",
+			"anchor": "connection-doctor-sequence"
+		},
+		{
+			"level": 2,
+			"text": "Publication boundary",
+			"anchor": "publication-boundary"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-5333047f45-001.json"
+	]
+}

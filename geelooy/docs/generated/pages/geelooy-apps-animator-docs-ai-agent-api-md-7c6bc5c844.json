@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-animator-docs-ai-agent-api-md-7c6bc5c844",
+	"title": "Awtsmoos Animator Agent API",
+	"sourcePath": "geelooy/apps/animator/docs/AI_AGENT_API.md",
+	"category": "Apps",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Awtsmoos Animator Agent API",
+			"anchor": "awtsmoos-animator-agent-api"
+		},
+		{
+			"level": 2,
+			"text": "Contract",
+			"anchor": "contract"
+		},
+		{
+			"level": 2,
+			"text": "Discover Before Acting",
+			"anchor": "discover-before-acting"
+		},
+		{
+			"level": 2,
+			"text": "Command Envelope",
+			"anchor": "command-envelope"
+		},
+		{
+			"level": 2,
+			"text": "Read Commands",
+			"anchor": "read-commands"
+		},
+		{
+			"level": 2,
+			"text": "Preview Before Mutation",
+			"anchor": "preview-before-mutation"
+		},
+		{
+			"level": 2,
+			"text": "Acting Data",
+			"anchor": "acting-data"
+		},
+		{
+			"level": 2,
+			"text": "Integration Rules",
+			"anchor": "integration-rules"
+		},
+		{
+			"level": 2,
+			"text": "Minimal Agent Recipe",
+			"anchor": "minimal-agent-recipe"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-animator-docs-ai-agent-api-md-7c6bc5c844-001.json"
+	]
+}

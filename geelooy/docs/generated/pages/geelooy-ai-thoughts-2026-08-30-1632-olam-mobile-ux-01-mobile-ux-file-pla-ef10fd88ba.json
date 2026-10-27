@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-30-1632-olam-mobile-ux-01-mobile-ux-file-pla-ef10fd88ba",
+	"title": "Mobile UX File Plan",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-30-1632-olam-mobile-ux/01-mobile-ux-file-plan.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Mobile UX File Plan",
+			"anchor": "mobile-ux-file-plan"
+		},
+		{
+			"level": 2,
+			"text": "Files to rewrite or add",
+			"anchor": "files-to-rewrite-or-add"
+		},
+		{
+			"level": 2,
+			"text": "Constraints",
+			"anchor": "constraints"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-30-1632-olam-mobile-ux-01-mobile-ux-file-pla-ef10fd88ba-001.json"
+	]
+}

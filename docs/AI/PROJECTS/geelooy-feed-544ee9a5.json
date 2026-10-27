@@ -1,0 +1,66 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-feed-544ee9a5",
+	"path": "geelooy/feed",
+	"type": "public",
+	"family": {
+		"id": "public",
+		"title": "Public and Other Boundaries"
+	},
+	"title": "Awtsmoos River — Social Feed",
+	"entries": [
+		"index.html"
+	],
+	"humanDocumentation": [
+		"docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-feed-544ee9a5.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 100,
+		"tests": 0,
+		"assets": 0,
+		"generated": 0,
+		"docs": 0,
+		"other": 1
+	},
+	"totalFiles": 101,
+	"symbolSummary": {
+		"files": 54,
+		"classes": 0,
+		"functions": 887,
+		"exports": 231,
+		"samples": [
+			"ACTIVITY_SYNC_ENDPOINT",
+			"currentAlias",
+			"logActivity",
+			"getActivity",
+			"clearActivity",
+			"isActivityHidden",
+			"setActivityHidden",
+			"describeActivity",
+			"activityMarker",
+			"readJson",
+			"writeJson",
+			"initAnchoredComments"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/feed",
+			"file": "geelooy/feed/index.html",
+			"title": "Awtsmoos River — Social Feed",
+			"scripts": 0,
+			"styles": 38
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": false,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

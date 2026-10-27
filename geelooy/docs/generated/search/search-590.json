@@ -1,0 +1,197 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-next-ai-readme-md-7e81181f41",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/NEXT_AI_README.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Mitzvah World — Verified AI Handoff",
+				"anchor": "mitzvah-world-verified-ai-handoff"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Texture discovery",
+				"anchor": "texture-discovery"
+			},
+			{
+				"level": 2,
+				"text": "Runtime boundary",
+				"anchor": "runtime-boundary"
+			},
+			{
+				"level": 2,
+				"text": "CompactJS build",
+				"anchor": "compactjs-build"
+			},
+			{
+				"level": 2,
+				"text": "Model delivery",
+				"anchor": "model-delivery"
+			},
+			{
+				"level": 2,
+				"text": "Maintenance guardrails",
+				"anchor": "maintenance-guardrails"
+			}
+		],
+		"excerpt": "B\"H Mitzvah World — Verified AI Handoff The Awtsmoos renews the living valley while each maintainer receives a truthful map; Awtsmoos.com keeps source, compact light, remote garments, materials, and evidence on one discoverable path. Start here Public route: /games/mitzvahWorld/ Route shell: geelooy/games/mitzvahWorld/",
+		"searchText": "b\"h mitzvah world — verified ai handoff the awtsmoos renews the living valley while each maintainer receives a truthful map; awtsmoos.com keeps source, compact light, remote garments, materials, and evidence on one discoverable path. start here public route: /games/mitzvahworld/ route shell: geelooy/games/mitzvahworld/index.html compact entry: experiments/awtsmoos/src/mitzvah world.compact.js source launcher: experiments/awtsmoos/src/launcher/minimalsharedmeadowpage.js runtime diagnostics: globalthis.awtsmoosmitzvahworld texture/material guide: docs/texture material discovery.md remote asset policy: repository docs/remote asset policy.md texture discovery do not search for local texture files or add image binaries to git. the canonical runtime texture api is: experiments/awtsmoos/src/assets/remotetexturecatalog.js use remotetextureagentcatalog() or remotetexturerecords() first. the current canonical set contains 125 remote filenames : 35 ground, 33 architecture, 24 craft, and 33 trees. human readable mirrors live in the four docs/texture names .md files. the trusted texture root is owned by remotetexturetransport.js. full resolution and tree textures use different remote collections; the glb model namespace is not a texture namespace. for common semantic material roles and physical metadata, prefer the shared procedural core material registry before hardcoding a mitzvahworld filename. runtime boundary createminimalmeadowruntime.js creates the visible fallback runtime. minimalmeadowfeaturescheduler.js installs inventory, equipment, combat, quests, recovery, streaming, and essential ui inside the compact graph. minimalmeadowfeaturebundle.js is loaded through a source aware deferred url for rich world and visual hydration. essential readiness must never await rich hydration. compactjs build from repository root: never hand edit mitzvah world.compact.js. after rebuilding: model delivery canonical glbs are remote immutable awtsmoos drive objects beneath: https://awtsmoos.com/sites/firebase drive migration/assets/mitzvah world/models/ semantic identities, byte counts, and sha 256 values live in remotemodelrecords.js. do not restore mutable /games/.../assets/models/ browser urls. maintenance guardrails preserve exact file commits; unrelated local work may coexist. keep all image bodies in drive/dayuhchadash remote storage, never git or source data uris. keep essential bootstrap statically folded and rich hydration deferred. keep deferred imports source aware in readable and compact modes. update canonical source records first, then regenerate human docs/catalog mirrors. verify public bytes, browser state, console, network, and movement before declaring completion.",
+		"page": "pages/geelooy-games-mitzvahworld-next-ai-readme-md-7e81181f41.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-photoreal-readme-md-6a37c4b255",
+		"title": "B\"H — Reality Engine Photorealism Scene",
+		"sourcePath": "geelooy/games/mitzvahWorld/photoreal/README.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Reality Engine Photorealism Scene",
+				"anchor": "b-h-reality-engine-photorealism-scene"
+			},
+			{
+				"level": 2,
+				"text": "Run",
+				"anchor": "run"
+			},
+			{
+				"level": 2,
+				"text": "Textures (NOT in git — repo is code-only)",
+				"anchor": "textures-not-in-git-repo-is-code-only"
+			},
+			{
+				"level": 2,
+				"text": "Provenance notes",
+				"anchor": "provenance-notes"
+			}
+		],
+		"excerpt": "B\"H — Reality Engine Photorealism Scene Standalone hyperrealistic nature renderer on branch reality photorealism. No blocky placeholders: ez tree derived procedural trees, real photographic textures, animated water, grass blades, particle motes. Run Open reality.html in a browser (or capture headless): ?view=forest riv",
+		"searchText": "b\"h — reality engine photorealism scene standalone hyperrealistic nature renderer on branch reality photorealism. no blocky placeholders: ez tree derived procedural trees, real photographic textures, animated water, grass blades, particle motes. run open reality.html in a browser (or capture headless): ?view=forest river grassland particles character forest character river character sitting character portrait character older night character views place yaakov's procedural avatar in scene (fedora, clear frame glasses, full beard always): standing in a forest clearing, walking the riverbank, sitting on a rock, close up portrait, older variant in a dark tee. night renders a moonlit forest with fireflies + embers + character silhouette. capture (this vm): node /workspace/reality photorealism/capture.mjs fast capture (smaller viewport, fewer settle frames, &fast=1): node /workspace/reality photorealism/capture fast.mjs [wxh] textures (not in git — repo is code only) real photographic textures live outside the repo: /workspace/reality photorealism/textures/ (+ texture manifest.json) recovered from the awtsmoos drive \"textures\" folder (wood/grass/dirt/wheat/leaves). copy them into ./textures/ before rendering: cp /workspace/reality photorealism/textures/ .{jpg,png,webp} ./textures/ files: grass1.jpg (meadow), dirt1.jpg (earth), bark1.webp (bark), leaves1.png / leaf1.jpg / leaf2.jpg (canopy), wheat1.jpg, wood hood1.jpg. provenance notes tree generator: libs/awtsmoos procedural core/.../tree/treegenerator.js (ez tree presets absorbed as data in eztreepresets.js; never vendored code). the old remote texture catalog (awtsmoos.com/sites/firebase drive migration/) is 404 dead; the remotematerialimagevalidity covenant rejects local images, which is why the game falls back to flat colors. this scene bypasses the covenant deliberately and uses the real photos directly.",
+		"page": "pages/geelooy-games-mitzvahworld-photoreal-readme-md-6a37c4b255.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-photoreal-textures-cc0-readme-md-e03da3dd7a",
+		"title": "B\"H — photographic house materials",
+		"sourcePath": "geelooy/games/mitzvahWorld/photoreal/textures/cc0/README.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — photographic house materials",
+				"anchor": "b-h-photographic-house-materials"
+			}
+		],
+		"excerpt": "B\"H — photographic house materials Five actual 1k JPEG diffuse photographs from Poly Haven, licensed CC0 (public domain). These are downloaded, committed, versioned assets. No fake empty texture, canvas only substitution, or remote third party dependency occurs during gameplay. Local filename Source brick 4.jpg https:/",
+		"searchText": "b\"h — photographic house materials five actual 1k jpeg diffuse photographs from poly haven, licensed cc0 (public domain). these are downloaded, committed, versioned assets. no fake empty texture, canvas only substitution, or remote third party dependency occurs during gameplay. local filename source brick 4.jpg https://polyhaven.com/a/brick 4 clay plaster.jpg https://polyhaven.com/a/clay plaster cobblestone 01.jpg https://polyhaven.com/a/cobblestone 01 clay roof tiles.jpg https://polyhaven.com/a/clay roof tiles oak wood planks.jpg https://polyhaven.com/a/oak wood planks all photos were fetched from https://dl.polyhaven.org/file/ph assets/textures/jpg/1k/ / diff 1k.jpg. original textures remain cc0; game geometry and renderer are independent authored code.",
+		"page": "pages/geelooy-games-mitzvahworld-photoreal-textures-cc0-readme-md-e03da3dd7a.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-procedural-forest-audit-md-9e29ab5286",
+		"title": "B\"H — Mitzvah World Procedural Forest Audit",
+		"sourcePath": "geelooy/games/mitzvahWorld/PROCEDURAL_FOREST_AUDIT.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Mitzvah World Procedural Forest Audit",
+				"anchor": "b-h-mitzvah-world-procedural-forest-audit"
+			},
+			{
+				"level": 2,
+				"text": "Canonical system",
+				"anchor": "canonical-system"
+			},
+			{
+				"level": 2,
+				"text": "Dependency graph",
+				"anchor": "dependency-graph"
+			},
+			{
+				"level": 2,
+				"text": "Preset inventory",
+				"anchor": "preset-inventory"
+			},
+			{
+				"level": 2,
+				"text": "Geometry and generation",
+				"anchor": "geometry-and-generation"
+			},
+			{
+				"level": 2,
+				"text": "Capability matrix",
+				"anchor": "capability-matrix"
+			},
+			{
+				"level": 2,
+				"text": "Mitzvah World integration",
+				"anchor": "mitzvah-world-integration"
+			},
+			{
+				"level": 2,
+				"text": "Verified metrics",
+				"anchor": "verified-metrics"
+			},
+			{
+				"level": 2,
+				"text": "Regression evidence",
+				"anchor": "regression-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Explicit limitations",
+				"anchor": "explicit-limitations"
+			}
+		],
+		"excerpt": "B\"H — Mitzvah World Procedural Forest Audit Canonical system The active generator is geelooy/libs/awtsmoos procedural core/src/core/geometry/generators/tree/treeGenerator.js. Its public entrypoint is geelooy/libs/awtsmoos procedural core/src/index.js. The public API exposes TreeGenerator, generateTreeProceduralData, ge",
+		"searchText": "b\"h — mitzvah world procedural forest audit canonical system the active generator is geelooy/libs/awtsmoos procedural core/src/core/geometry/generators/tree/treegenerator.js. its public entrypoint is geelooy/libs/awtsmoos procedural core/src/index.js. the public api exposes treegenerator, generatetreeproceduraldata, gettreepreset, listtreepresets, preset constants, material catalogs, and structural validation. dependency graph preset inventory the public registry contains 36 presets. ez tree lineage: ash small, ash medium, ash large, aspen small, aspen medium, aspen large, bush 1, bush 2, bush 3, oak small, oak medium, oak large, pine small, pine medium, pine large, trellis. special presets: sakura, dead tree. recovered legacy presets: pine classic, pine tall, oak majestic, birch elegant, ash standard, aspen grove. awtsmoos varieties: redwood giant, cedar broad, cypress column, willow weeping, maple crown, olive ancient, date palm, baobab giant, acacia umbrella, apple orchard, poplar tall, mangrove roots. geometry and generation the generator is deterministic and seed driven. it grows branches recursively through a bounded queue. branches are tapered indexed tubes with normals and uvs. leaves are indexed single or crossed planes with normals, uvs, and colors. the generator returns separate branch and leaf payloads plus generation statistics. preset defaults are cloned before use and remain immutable. capability matrix implemented: trunks, recursive branches, twigs through deeper branch levels, tapering, curvature through directional forces and gnarliness, canopy shaping through branch parameters, leaf clusters, individual leaf planes, bark types, leaf types, dead tree foliage suppression, deterministic variation. not implemented in the canonical generator: dedicated roots, fruit, flowers, seasonal simulation, fallen logs, explicit dead branch tagging, l systems, space colonization, spline branches, billboard sprites, runtime wind, collision, placement, instancing, or dynamic lod. some preset names describe roots or orchard species, but the active geometry path still emits only branches and leaves. mitzvah world integration the eretz forest contains 54 deterministic trees and represents all 36 presets. fourteen trees use the near showcase policy; forty use the mobile canopy policy. policies clone presets and cap recursion, children, sections, segments, leaves, and total branches without mutating canonical defaults. placement rejects real road triangles, measured obstacle bounds, unsafe terrain slopes, spawn proximity, and inter tree spacing. no hard coded house coordinates or invisible forest barriers are used. all branch geometry is merged into one indexed draw. all foliage geometry is merged into one indexed alpha cutout, double sided draw. leaf colors remain per vertex and a procedural alpha mask avoids external leaf asset dependency. collision is extracted only from visible lower branch triangles. the trunk radius is measured per tree from its own generated lower vertices. there are no proxy cylinders, canopy colliders, or oversized forest walls. verified metrics forest population: 54 trees. preset coverage: 36 of 36. forest draw calls: 2. forest triangles: 72,857. branch vertices: 33,739. leaf vertices: 55,328. visible trunk collision triangles: 5,118. every rendered tree contributes collision triangles. full local scene: 246 draws and 141,319 triangles. webgl error: 0. renderer error list: empty. true mobile viewport: 390 × 844, matching canvas and camera aspect. mobile jump and joystick controls: present. regression evidence the canonical 36 preset suite validates finite positions, normals, uvs, colors, indices, bounds, determinism, and immutable defaults. the forest suite validates deterministic placement, all preset coverage, the triangle budget, two draws, finite merged buffers, valid indices, spawn clearance, and exact visible collision. the previous geometry suite still passes for five houses, fourteen doors and mezuzahs, four staircases, 1,288 visible stair triangles, and zero road gaps or intersections. explicit limitations tree wind is static because the tiny renderer only exposes a grass specific deformation path. lod is selected at generation time to preserve two draw calls; there is no distance swapped runtime lod. fruit, flowers, dedicated roots, and fallen logs require future canonical generator features rather than scene specific fakes.",
+		"page": "pages/geelooy-games-mitzvahworld-procedural-forest-audit-md-9e29ab5286.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-proof-phase1-realism-log-md-956b680717",
+		"title": "B\"H — Phase 1 realism log (2026-10-12)",
+		"sourcePath": "geelooy/games/mitzvahWorld/proof/phase1-realism-log.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Phase 1 realism log (2026-10-12)",
+				"anchor": "b-h-phase-1-realism-log-2026-10-12"
+			},
+			{
+				"level": 2,
+				"text": "Changes",
+				"anchor": "changes"
+			},
+			{
+				"level": 2,
+				"text": "Verification (real evidence, no fakes)",
+				"anchor": "verification-real-evidence-no-fakes"
+			},
+			{
+				"level": 2,
+				"text": "2026-10-12 04:18 EDT: merkava-shot path evaluated and RULED OUT",
+				"anchor": "2026-10-12-04-18-edt-merkava-shot-path-evaluated-and-ruled-out"
+			}
+		],
+		"excerpt": "B\"H — Phase 1 realism log (2026 10 12) Changes photoreal/js/reality scene.mjs New TOD time of day preset table: midday / golden / dusk (+ night untouched). midday reproduces the exact pre Phase 1 lighting values (renderer contract intact). buildRealityScene() takes new opt tod (default 'midday'). Sky shader gains uGold",
+		"searchText": "b\"h — phase 1 realism log (2026 10 12) changes photoreal/js/reality scene.mjs new tod time of day preset table: midday / golden / dusk (+ night untouched). midday reproduces the exact pre phase 1 lighting values (renderer contract intact). buildrealityscene() takes new opt tod (default 'midday'). sky shader gains ugolden: warm horizon band + sun disc bloom near sun azimuth. new sun glow additive billboard (1 extra draw call, no postprocessing chain). wind gust strength keyed to tod: midday 0.25 / golden 0.9 / dusk 1.3 / night 0.2. photoreal/js/reality particles.mjs makepollen() and makefallingleaves() accept gust (default 0 = old behavior exactly). photoreal/reality.html reads ?tod= query param; shows it in the hud. verification (real evidence, no fakes) node input type=module check passes on both edited modules. tod table extracted from the real file and evaluated in node: all 3 presets have all required fields; unknown value falls back to midday; golden horizon blend 0.55, dusk 0.88; sun elevation golden 0.30 / dusk 0.13; exposures golden 1.18 / dusk 1.15. midday defaults byte identical to pre phase 1 lighting values (sun [0.55,0.62,0.35], 0xfff2dd/2.6, hemi 0xbdd8ee/0x5d6b46/0.85, fog 0xcfdfe8 70/300, exposure 1.12). only caller of buildrealityscene (reality.html) updated; no other callers exist. not yet verified: pixel level screenshot comparison. /opt/meta chromium/chrome launches but writes no screenshot file in this environment (tried headless new/old, swiftshader, virtual time budget — exits 0, no png produced). a working browser render is needed for the acceptance screenshot + first frame timing; flagging for the parent's browser capable route. 2026 10 12 04:18 edt: merkava shot path evaluated and ruled out ran node merkava shot.mjs file .../photoreal/reality.html out /tmp/merkava reality.png: completed in 4697ms, produced a 1280x800 / 5kb png. i viewed it: it is only the static html shell (black background + \"reality photorealism ?\" hud text). the three.js webgl scene is entirely absent — merkava renders dom layout + css only; page module scripts are never executed. the pipeline's webgl \"painter\" (software/canvas painter/webglwitness.js) does not execute gl: it paints a placeholder badge (\"webgl cube\", grid, swatches) unless texture.glpixels is supplied, and nothing in the pipeline produces real gl pixels. the 4697ms was shell render time, not scene first frame — meaningless for the ≤3s acceptance bar. conclusion: merkava shot.mjs cannot produce a real render of the reality engine. the only viable acceptance path is the parent's live browser (real chromium with working webgl): open reality.html?view=character forest&fast=1&tod=golden, measure from navigation start to window. realityready === true, screenshot, review at full resolution.",
+		"page": "pages/geelooy-games-mitzvahworld-proof-phase1-realism-log-md-956b680717.json"
+	}
+]

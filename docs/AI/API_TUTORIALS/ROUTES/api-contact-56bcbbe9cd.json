@@ -21,18 +21,13 @@
 		"POST"
 	],
 	"methodEvidence": "POST",
-	"vessels": [
-		"$_POST",
-		"db"
-	],
+	"vessels": [],
 	"statuses": [],
-	"headers": [
-		"x-forwarded-for"
-	],
+	"headers": [],
 	"callers": [
 		{
 			"literal": "/api/contact/",
-			"source": "geelooy/contact/contact.js",
+			"source": "geelooy/contact/modules/ContactSignalClient.js",
 			"kind": "runtime"
 		}
 	],

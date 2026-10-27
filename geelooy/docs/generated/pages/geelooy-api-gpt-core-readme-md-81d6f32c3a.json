@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-gpt-core-readme-md-81d6f32c3a",
+	"title": "B\"H — GPT core (/api/gpt/core/)",
+	"sourcePath": "geelooy/api/gpt/core/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — GPT core (/api/gpt/core/)",
+			"anchor": "b-h-gpt-core-api-gpt-core"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-gpt-core-readme-md-81d6f32c3a-001.json"
+	]
+}

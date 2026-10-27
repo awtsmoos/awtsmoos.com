@@ -1,0 +1,24 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-templerunner-docs-textures-current-temple-usa-5f2fbe1ec3",
+	"title": "Current Temple Runner Texture Usage",
+	"sourcePath": "geelooy/games/mitzvahWorld/templeRunner/docs/textures/CURRENT_TEMPLE_USAGE.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Current Temple Runner Texture Usage",
+			"anchor": "current-temple-runner-texture-usage"
+		},
+		{
+			"level": 2,
+			"text": "Used textures",
+			"anchor": "used-textures"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-templerunner-docs-textures-current-temple-usa-5f2fbe1ec3-001.json"
+	]
+}

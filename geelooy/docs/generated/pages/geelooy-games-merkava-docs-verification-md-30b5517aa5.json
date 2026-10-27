@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-merkava-docs-verification-md-30b5517aa5",
+	"title": "Merkava Verification Contract",
+	"sourcePath": "geelooy/games/Merkava/docs/verification.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Merkava Verification Contract",
+			"anchor": "merkava-verification-contract"
+		},
+		{
+			"level": 2,
+			"text": "Primary commands",
+			"anchor": "primary-commands"
+		},
+		{
+			"level": 2,
+			"text": "Structural witnesses",
+			"anchor": "structural-witnesses"
+		},
+		{
+			"level": 2,
+			"text": "Source gates",
+			"anchor": "source-gates"
+		},
+		{
+			"level": 2,
+			"text": "Style gates",
+			"anchor": "style-gates"
+		},
+		{
+			"level": 2,
+			"text": "Runtime mobile matrix",
+			"anchor": "runtime-mobile-matrix"
+		},
+		{
+			"level": 2,
+			"text": "Interaction acceptance",
+			"anchor": "interaction-acceptance"
+		},
+		{
+			"level": 2,
+			"text": "CompactJS gate",
+			"anchor": "compactjs-gate"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-merkava-docs-verification-md-30b5517aa5-001.json"
+	]
+}

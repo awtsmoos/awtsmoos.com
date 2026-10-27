@@ -1,0 +1,242 @@
+[
+	{
+		"id": "geelooy-api-social-helper-comments-test-readme-md-16571c817e",
+		"title": "B\"H — Comments Tests (geelooy/api/social/helper/comments/test/)",
+		"sourcePath": "geelooy/api/social/helper/comments/test/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Comments Tests (geelooy/api/social/helper/comments/test/)",
+				"anchor": "b-h-comments-tests-geelooy-api-social-helper-comments-test"
+			}
+		],
+		"excerpt": "B\"H — Comments Tests (geelooy/api/social/helper/comments/test/) The full comment system test suite (21 files). runAllCommentsTests.js — runs the whole suite. Creation/policy: commentSubmissionPolicy.test.js, commentCreationSidecarRead.test.js. Reading: richCommentReader.test.js, richCommentTreeCascade.test.mjs, comment",
+		"searchText": "b\"h — comments tests (geelooy/api/social/helper/comments/test/) the full comment system test suite (21 files). runallcommentstests.js — runs the whole suite. creation/policy: commentsubmissionpolicy.test.js, commentcreationsidecarread.test.js. reading: richcommentreader.test.js, richcommenttreecascade.test.mjs, commenttreesectioneditdelete.test.js, commentderivedpriority.test.js, awtsmoosdbrichrouting.test.js. indexing/search: commentindexingroute.test.js, commentsearchroute.test.js. migration: commentmigration.test.js, legacymigrationguard.test.js, legacyrichcompatibility.test.js, commentawtsmoosdbbridge.test.js, commentshardauthorcatalog.test.js, commentshardprocessisolation.test.js. translations: translationbundles.test.js, translationcoverage.test.js, translationroutes.test.js. imported: richimportedroute.test.js, importedbundlefixture.js.",
+		"page": "pages/geelooy-api-social-helper-comments-test-readme-md-16571c817e.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-comments-translations-readme-md-5328ce9aff",
+		"title": "B\"H — Comment Translations (geelooy/api/social/helper/comments/translations/)",
+		"sourcePath": "geelooy/api/social/helper/comments/translations/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Comment Translations (geelooy/api/social/helper/comments/translations/)",
+				"anchor": "b-h-comment-translations-geelooy-api-social-helper-comments-translations"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "B\"H — Comment Translations (geelooy/api/social/helper/comments/translations/) Translation bundles for comments: cataloging, storing, reading, searching translations, and measuring coverage. Files catalog.js — translation bundle catalog. corpusStore.js — storage of translation corpora. reader.js — reads translations for",
+		"searchText": "b\"h — comment translations (geelooy/api/social/helper/comments/translations/) translation bundles for comments: cataloging, storing, reading, searching translations, and measuring coverage. files catalog.js — translation bundle catalog. corpusstore.js — storage of translation corpora. reader.js — reads translations for comments. search.js — searches within translations. coverage.js — measures translation coverage per series/post. serves the .../translations, .../translations/coverage, and .../translations/search routes.",
+		"page": "pages/geelooy-api-social-helper-comments-translations-readme-md-5328ce9aff.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-communicationinbox-readme-md-a932d9f9a6",
+		"title": "B\"H — Communication Inbox (geelooy/api/social/helper/communicationInbox/)",
+		"sourcePath": "geelooy/api/social/helper/communicationInbox/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Communication Inbox (geelooy/api/social/helper/communicationInbox/)",
+				"anchor": "b-h-communication-inbox-geelooy-api-social-helper-communicationinbox"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			},
+			{
+				"level": 2,
+				"text": "What it does",
+				"anchor": "what-it-does"
+			}
+		],
+		"excerpt": "B\"H — Communication Inbox (geelooy/api/social/helper/communicationInbox/) Low level inbox storage for per alias communications (messages/notifications). Files index.js — module entry. paths.js — storage paths for inbox items. read.js, write.js — read/write inbox items. sanitize.js — sanitizes stored items. What it does",
+		"searchText": "b\"h — communication inbox (geelooy/api/social/helper/communicationinbox/) low level inbox storage for per alias communications (messages/notifications). files index.js — module entry. paths.js — storage paths for inbox items. read.js, write.js — read/write inbox items. sanitize.js — sanitizes stored items. what it does persists and retrieves inbox items for an alias; the http surface is communicationroutes/ (mounted via awtsmoos.communications.js).",
+		"page": "pages/geelooy-api-social-helper-communicationinbox-readme-md-a932d9f9a6.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-communicationroutes-readme-md-b698447ddd",
+		"title": "B\"H — Communication Routes (geelooy/api/social/helper/communicationRoutes/)",
+		"sourcePath": "geelooy/api/social/helper/communicationRoutes/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Communication Routes (geelooy/api/social/helper/communicationRoutes/)",
+				"anchor": "b-h-communication-routes-geelooy-api-social-helper-communicationroutes"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			},
+			{
+				"level": 2,
+				"text": "Endpoints",
+				"anchor": "endpoints"
+			}
+		],
+		"excerpt": "B\"H — Communication Routes (geelooy/api/social/helper/communicationRoutes/) HTTP routes for alias communications: inbox, threads, overview, live map, and notification digest. Files CommunicationRouteVessel.js — assembles the route set. CommunicationInboxRoutes.js — inbox read/mark read. CommunicationThreadRoutes.js — t",
+		"searchText": "b\"h — communication routes (geelooy/api/social/helper/communicationroutes/) http routes for alias communications: inbox, threads, overview, live map, and notification digest. files communicationroutevessel.js — assembles the route set. communicationinboxroutes.js — inbox read/mark read. communicationthreadroutes.js — thread read/mark read. communicationoverviewroutes.js — per alias communication overview. communicationnotificationroutes.js — notification digests. endpoints /communications/:alias/inbox · /communications/:alias/inbox/unread · /communications/:alias/inbox/:item/read /communications/:alias/threads/:thread · /communications/:alias/threads/:thread/read /communications/:alias/overview /communications/:alias/live map /communications/:alias/notification digest",
+		"page": "pages/geelooy-api-social-helper-communicationroutes-readme-md-b698447ddd.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-community-readme-md-0369b2defa",
+		"title": "B\"H — Community (geelooy/api/social/helper/community/)",
+		"sourcePath": "geelooy/api/social/helper/community/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Community (geelooy/api/social/helper/community/)",
+				"anchor": "b-h-community-geelooy-api-social-helper-community"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			},
+			{
+				"level": 2,
+				"text": "Routes (examples)",
+				"anchor": "routes-examples"
+			}
+		],
+		"excerpt": "B\"H — Community (geelooy/api/social/helper/community/) Community governance for Heichelos: settings, permissions, review workflow, moderation, and statuses. Files communitySettings.js, settingsDefaults.js — community settings and defaults. permissionEngine.js — who may do what in a community. reviewEngine.js — review/a",
+		"searchText": "b\"h — community (geelooy/api/social/helper/community/) community governance for heichelos: settings, permissions, review workflow, moderation, and statuses. files communitysettings.js, settingsdefaults.js — community settings and defaults. permissionengine.js — who may do what in a community. reviewengine.js — review/approval workflow for community submissions. eventbus.js — community event dispatch. pagination.js, statuses.js — pagination helpers and community status values. test/ — publishing, routes, stress, and multi account journey tests. routes (examples) /heichelos/:heichel/review · /heichelos/:heichel/review/:review/approve reject /heichelos/:heichel/moderation /heichelos/:heichel/settings/community",
+		"page": "pages/geelooy-api-social-helper-community-readme-md-0369b2defa.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-community-test-readme-md-8880a814e1",
+		"title": "B\"H — Community Tests (geelooy/api/social/helper/community/test/)",
+		"sourcePath": "geelooy/api/social/helper/community/test/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Community Tests (geelooy/api/social/helper/community/test/)",
+				"anchor": "b-h-community-tests-geelooy-api-social-helper-community-test"
+			}
+		],
+		"excerpt": "B\"H — Community Tests (geelooy/api/social/helper/community/test/) Tests for community governance. communityPublishing.test.js — community publishing flow. communityRoutes.test.js — community HTTP routes. communityStress.test.js — stress tests. multiAccountApiJourney.test.js — multi account end to end journey.",
+		"searchText": "b\"h — community tests (geelooy/api/social/helper/community/test/) tests for community governance. communitypublishing.test.js — community publishing flow. communityroutes.test.js — community http routes. communitystress.test.js — stress tests. multiaccountapijourney.test.js — multi account end to end journey.",
+		"page": "pages/geelooy-api-social-helper-community-test-readme-md-8880a814e1.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-drive-browser-readme-md-d2e2465fef",
+		"title": "B\"H — Drive Interactive Browser (geelooy/api/social/helper/drive/browser/)",
+		"sourcePath": "geelooy/api/social/helper/drive/browser/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Drive Interactive Browser (geelooy/api/social/helper/drive/browser/)",
+				"anchor": "b-h-drive-interactive-browser-geelooy-api-social-helper-drive-browser"
+			},
+			{
+				"level": 2,
+				"text": "Key files",
+				"anchor": "key-files"
+			},
+			{
+				"level": 2,
+				"text": "Routes",
+				"anchor": "routes"
+			}
+		],
+		"excerpt": "B\"H — Drive Interactive Browser (geelooy/api/social/helper/drive/browser/) Interactive remote browser sessions behind Drive: launch Chromium targets, drive them over DevTools, proxy HTTP, and manage cookies/profiles — per alias. Key files interactiveSessionService.js, interactiveSessionRuntime.js, interactiveSessionSto",
+		"searchText": "b\"h — drive interactive browser (geelooy/api/social/helper/drive/browser/) interactive remote browser sessions behind drive: launch chromium targets, drive them over devtools, proxy http, and manage cookies/profiles — per alias. key files interactivesessionservice.js, interactivesessionruntime.js, interactivesessionstore.js, interactivesessionids.js, interactivesessionactions.js, interactivesessionpublic.js — session lifecycle. interactivetargetcontroller.js, interactivetargetmetadata.js, interactivebrowsertargetcatalog.js — browser targets. interactivechromelauncher.js, interactivechromereadiness.js — chromium launch/readiness. interactivedevtoolshttp.js, interactivedevtoolsrequest.js — devtools protocol access. interactivehttpproxy.js, interactiveloopbackproxy.js, interactiveconnectproxy.js, proxyhopservice.js, interactiveproxytarget.js — http proxying. proxycookiejar.js, proxycookiepolicy.js, proxyheaders.js, proxyperutapolicy.js — cookies/headers policy. proxybrowserprofile.js, proxyratelimiter.js, interactiverategate.js — profiles and rate gating. interactiveenginemode.js, interactiveinputpolicy.js — engine mode and input rules. .test.js — matching tests (sessions, targets, launcher, proxies, rate gate, headers/cookies). routes /drive/:aliasid/browser/sessions[/:sessionid[/targets[/:targetid[/cookies frame history input navigate]]]], /drive/:aliasid/browser/jars[/:jarid], /drive/:aliasid/browser/fetch.",
+		"page": "pages/geelooy-api-social-helper-drive-browser-readme-md-d2e2465fef.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-drive-migration-readme-md-52e3be6bf7",
+		"title": "B\"H — Drive Migration (geelooy/api/social/helper/drive/migration/)",
+		"sourcePath": "geelooy/api/social/helper/drive/migration/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Drive Migration (geelooy/api/social/helper/drive/migration/)",
+				"anchor": "b-h-drive-migration-geelooy-api-social-helper-drive-migration"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			},
+			{
+				"level": 2,
+				"text": "Tests",
+				"anchor": "tests"
+			}
+		],
+		"excerpt": "B\"H — Drive Migration (geelooy/api/social/helper/drive/migration/) Data migration pipeline for Drive: scan a source tree, import items into Drive, and verify/roll back with atomic receipts. Files sourceTreeScanner.js, sourcePathPolicy.js, sourceFileIdentity.js, sourceFileHasher.js — scan and identify source files. migr",
+		"searchText": "b\"h — drive migration (geelooy/api/social/helper/drive/migration/) data migration pipeline for drive: scan a source tree, import items into drive, and verify/roll back with atomic receipts. files sourcetreescanner.js, sourcepathpolicy.js, sourcefileidentity.js, sourcefilehasher.js — scan and identify source files. migrationmanifest.js, migrationimportsupport.js, migrationimporter.js, migrationitemimporter.js, migrationitempolicy.js, migrationitemwriter.js — import pipeline. migrationreceiptfile (atomicreceiptfile.js), migrationreceiptrepository.js, migrationreceiptstates.js, migrationreceiptshape.js, migrationreceiptlock.js — atomic receipt tracking. migrationrollback.js, migrationrollbackstate.js — rollback. migrationverifier.js — post import verification. migrationratecontroller.js, migrationdestinationsnapshot.js — rate control and destination snapshots. tests ../test/migration/ — accounting, importer, manifest, rate controller/recovery, receipts, rollback, hasher, path policy, tree scanner.",
+		"page": "pages/geelooy-api-social-helper-drive-migration-readme-md-52e3be6bf7.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-drive-readme-md-a70ab61861",
+		"title": "B\"H — Drive (geelooy/api/social/helper/drive/)",
+		"sourcePath": "geelooy/api/social/helper/drive/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Drive (geelooy/api/social/helper/drive/)",
+				"anchor": "b-h-drive-geelooy-api-social-helper-drive"
+			},
+			{
+				"level": 2,
+				"text": "Subdirectories",
+				"anchor": "subdirectories"
+			},
+			{
+				"level": 2,
+				"text": "Key files",
+				"anchor": "key-files"
+			}
+		],
+		"excerpt": "B\"H — Drive (geelooy/api/social/helper/drive/) The Drive domain: per alias file storage, credentials, custom domains, site deployments, project hosting, interactive browser sessions, and data migration. Mounted via awtsmoos.drive.js. Subdirectories routes/ — HTTP routes for everything Drive (see its README for the endp",
+		"searchText": "b\"h — drive (geelooy/api/social/helper/drive/) the drive domain: per alias file storage, credentials, custom domains, site deployments, project hosting, interactive browser sessions, and data migration. mounted via awtsmoos.drive.js. subdirectories routes/ — http routes for everything drive (see its readme for the endpoint list). browser/ — interactive remote browser sessions (devtools, proxies, cookies, input). migration/ — source tree scanning, import, receipts, rollback, verification. test/ — drive test suite (credentials, deployments, domains, migration, jobs, crud, http). key files file entries: authorization.js, adminauthorization.js, cachepolicy.js, boundedconcurrency.js. credentials: credentialcrypto.js, credentialpolicy.js, credentialprovisioning.js, credentialverification.js. domains: domainclaim .js, domainregistryclaimservice.js, domaindnsverifier.js, domainchallenge.js, domainpolicy.js, domainnameserverpolicy.js, domainhostnamepolicy.js, domainhostresolver.js, domainhostingplan .js, domainingresstargets.js, domaininfrastructure.js, domaincompatibilitypolicy.js, domainactivationservice.js. deployments: deploymentcreate.js, deploymentservice.js (+support), deploymentpolicy.js, deploymentmanifestpolicy.js, deploymentpreview .js, deploymentreadiness.js, deploymentrollback.js, deploymentidempotency.js, deploymentconcurrency.js, deploymentqueries.js, deploymententryselection.js.",
+		"page": "pages/geelooy-api-social-helper-drive-readme-md-a70ab61861.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-drive-routes-readme-md-cac6b13df3",
+		"title": "B\"H — Drive Routes (geelooy/api/social/helper/drive/routes/)",
+		"sourcePath": "geelooy/api/social/helper/drive/routes/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Drive Routes (geelooy/api/social/helper/drive/routes/)",
+				"anchor": "b-h-drive-routes-geelooy-api-social-helper-drive-routes"
+			},
+			{
+				"level": 2,
+				"text": "Main endpoints (all under /drive/:aliasId/)",
+				"anchor": "main-endpoints-all-under-drive-aliasid"
+			}
+		],
+		"excerpt": "B\"H — Drive Routes (geelooy/api/social/helper/drive/routes/) HTTP routes for the Drive domain, mounted via awtsmoos.drive.js. 34 files covering entries, actions, browser, credentials, domains, deployments, projects, jobs, sites, and admin. Main endpoints (all under /drive/:aliasId/) Entries: entries, entry/:path ; acti",
+		"searchText": "b\"h — drive routes (geelooy/api/social/helper/drive/routes/) http routes for the drive domain, mounted via awtsmoos.drive.js. 34 files covering entries, actions, browser, credentials, domains, deployments, projects, jobs, sites, and admin. main endpoints (all under /drive/:aliasid/) entries: entries, entry/:path ; actions: actions/copy move purge restore trash, actions/bootstrap site project. browser: browser/sessions[/:sessionid[/targets[/:targetid[/cookies frame history input navigate]]]], browser/jars[/:jarid], browser/fetch. credentials: credentials[/:credentialid]. domains: domains[/:hostname[/verify activate deactivate hosting plan]]. deployments: deployment routes + deploymentpreviewroutes, jobroutes (jobs[/:jobid[/cancel retry]], jobs/health). projects: projects[/:projectid[/database hosting]], project, projecthostingroutes, projectplanroutes, projectregistryroutes. sites/hosting: sites[/:siteid], site, siteroutes, siteruntimeroutes, hosting/infrastructure. admin/ops: admin/quota, quotaroutes, managerroutes, reconciliationroutes, serviceprovisioningroutes, servicealiasroutes, publicroutes, streamingroutes, entry operation helpers, routesupport, entryroutedata/values.",
+		"page": "pages/geelooy-api-social-helper-drive-routes-readme-md-cac6b13df3.json"
+	}
+]

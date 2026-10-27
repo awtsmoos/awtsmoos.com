@@ -1,0 +1,74 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-26-2241-geelooy-revival-08-final-execution-p-b7d41888ea",
+	"title": "Final Execution Plan — First Safe Reconstruction Wave",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-26-2241-geelooy-revival/08_FINAL_EXECUTION_PLAN.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Final Execution Plan — First Safe Reconstruction Wave",
+			"anchor": "final-execution-plan-first-safe-reconstruction-wave"
+		},
+		{
+			"level": 2,
+			"text": "Approved Production Write Set",
+			"anchor": "approved-production-write-set"
+		},
+		{
+			"level": 3,
+			"text": "1. geelooy/mawgawl/sefarim/index.html",
+			"anchor": "1-geelooy-mawgawl-sefarim-index-html"
+		},
+		{
+			"level": 3,
+			"text": "2. geelooy/mawgawl/sefarim/styles/hero.css",
+			"anchor": "2-geelooy-mawgawl-sefarim-styles-hero-css"
+		},
+		{
+			"level": 3,
+			"text": "3. geelooy/mawgawl/sefarim/styles/layout.css",
+			"anchor": "3-geelooy-mawgawl-sefarim-styles-layout-css"
+		},
+		{
+			"level": 3,
+			"text": "4. geelooy/mawgawl/sefarim/styles/discovery.css",
+			"anchor": "4-geelooy-mawgawl-sefarim-styles-discovery-css"
+		},
+		{
+			"level": 3,
+			"text": "5. geelooy/mawgawl/sefarim/styles/responsive.css",
+			"anchor": "5-geelooy-mawgawl-sefarim-styles-responsive-css"
+		},
+		{
+			"level": 3,
+			"text": "6. geelooy/mawgawl/sefarim/styles/mobile-context.css",
+			"anchor": "6-geelooy-mawgawl-sefarim-styles-mobile-context-css"
+		},
+		{
+			"level": 2,
+			"text": "Explicitly Preserved Production Files",
+			"anchor": "explicitly-preserved-production-files"
+		},
+		{
+			"level": 2,
+			"text": "Execution Sequence",
+			"anchor": "execution-sequence"
+		},
+		{
+			"level": 2,
+			"text": "Completion Evidence Required For This Wave",
+			"anchor": "completion-evidence-required-for-this-wave"
+		},
+		{
+			"level": 2,
+			"text": "NEXTACTION",
+			"anchor": "nextaction"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-26-2241-geelooy-revival-08-final-execution-p-b7d41888ea-001.json"
+	]
+}

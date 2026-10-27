@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-geelooy-route-ownership-md-18279ffd67",
+	"title": "Route Ownership",
+	"sourcePath": "docs/geelooy/ROUTE_OWNERSHIP.md",
+	"category": "Routes",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Route Ownership",
+			"anchor": "route-ownership"
+		},
+		{
+			"level": 2,
+			"text": "One route, one global shell",
+			"anchor": "one-route-one-global-shell"
+		},
+		{
+			"level": 2,
+			"text": "Verification",
+			"anchor": "verification"
+		},
+		{
+			"level": 2,
+			"text": "Server templates",
+			"anchor": "server-templates"
+		}
+	],
+	"markdownParts": [
+		"content/docs-geelooy-route-ownership-md-18279ffd67-001.json"
+	]
+}

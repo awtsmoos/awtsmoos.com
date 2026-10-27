@@ -23,14 +23,14 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-mitzvah-pushkuh-8cd09b5d.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 140,
+		"source": 156,
 		"tests": 7,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
 		"other": 2
 	},
-	"totalFiles": 150,
+	"totalFiles": 166,
 	"symbolSummary": {
 		"files": 131,
 		"classes": 0,
@@ -60,7 +60,7 @@
 			"file": "geelooy/apps/mitzvah-pushkuh/index.html",
 			"title": "Mitzvah Pushkuh · Garden of Sparks",
 			"scripts": 1,
-			"styles": 2
+			"styles": 1
 		}
 	],
 	"requiresLocalDocumentation": true,

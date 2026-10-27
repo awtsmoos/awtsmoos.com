@@ -1,0 +1,79 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-28t0237-geelooy-social-posting-05-verificati-65fb2690f1",
+	"title": "Verification and Delta — Internet-facing Awtsmoos Posting Gate",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0237-geelooy-social-posting/05_VERIFICATION_AND_DELTA.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Verification and Delta — Internet-facing Awtsmoos Posting Gate",
+			"anchor": "verification-and-delta-internet-facing-awtsmoos-posting-gate"
+		},
+		{
+			"level": 2,
+			"text": "Original gate",
+			"anchor": "original-gate"
+		},
+		{
+			"level": 2,
+			"text": "Actual production files changed",
+			"anchor": "actual-production-files-changed"
+		},
+		{
+			"level": 2,
+			"text": "Actual tests created",
+			"anchor": "actual-tests-created"
+		},
+		{
+			"level": 2,
+			"text": "Review delta discovered and resolved",
+			"anchor": "review-delta-discovered-and-resolved"
+		},
+		{
+			"level": 2,
+			"text": "Evidence",
+			"anchor": "evidence"
+		},
+		{
+			"level": 3,
+			"text": "Syntax and repository-size law",
+			"anchor": "syntax-and-repository-size-law"
+		},
+		{
+			"level": 3,
+			"text": "Focused contract tests",
+			"anchor": "focused-contract-tests"
+		},
+		{
+			"level": 3,
+			"text": "Existing regressions",
+			"anchor": "existing-regressions"
+		},
+		{
+			"level": 3,
+			"text": "Real client-to-server round-trip",
+			"anchor": "real-client-to-server-round-trip"
+		},
+		{
+			"level": 3,
+			"text": "Browser/runtime witness",
+			"anchor": "browser-runtime-witness"
+		},
+		{
+			"level": 2,
+			"text": "Planned versus actual",
+			"anchor": "planned-versus-actual"
+		},
+		{
+			"level": 2,
+			"text": "Gate conclusion",
+			"anchor": "gate-conclusion"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-28t0237-geelooy-social-posting-05-verificati-65fb2690f1-001.json"
+	]
+}

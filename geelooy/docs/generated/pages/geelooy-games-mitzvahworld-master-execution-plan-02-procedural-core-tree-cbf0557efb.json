@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-master-execution-plan-02-procedural-core-tree-cbf0557efb",
+	"title": "02 — Procedural Core Tree, Vegetation, Botany, Ecology",
+	"sourcePath": "geelooy/games/mitzvahWorld/MASTER_EXECUTION_PLAN/02_PROCEDURAL_CORE_TREE_VEGETATION.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "02 — Procedural Core Tree, Vegetation, Botany, Ecology",
+			"anchor": "02-procedural-core-tree-vegetation-botany-ecology"
+		},
+		{
+			"level": 2,
+			"text": "Architectural laws",
+			"anchor": "architectural-laws"
+		},
+		{
+			"level": 2,
+			"text": "EZ-Tree 2.0 strict-superset gate",
+			"anchor": "ez-tree-2-0-strict-superset-gate"
+		},
+		{
+			"level": 2,
+			"text": "Canonical tree authority",
+			"anchor": "canonical-tree-authority"
+		},
+		{
+			"level": 2,
+			"text": "Branch and crown biology",
+			"anchor": "branch-and-crown-biology"
+		},
+		{
+			"level": 2,
+			"text": "Fine morphology",
+			"anchor": "fine-morphology"
+		},
+		{
+			"level": 2,
+			"text": "Flowers, fruit, lifecycle, damage",
+			"anchor": "flowers-fruit-lifecycle-damage"
+		},
+		{
+			"level": 2,
+			"text": "Roots and environment",
+			"anchor": "roots-and-environment"
+		},
+		{
+			"level": 2,
+			"text": "Species asset authority",
+			"anchor": "species-asset-authority"
+		},
+		{
+			"level": 2,
+			"text": "Forest scale",
+			"anchor": "forest-scale"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-master-execution-plan-02-procedural-core-tree-cbf0557efb-001.json"
+	]
+}

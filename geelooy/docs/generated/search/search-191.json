@@ -1,401 +1,181 @@
 [
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-ayin-5c356134-md-1538bb0616",
-		"title": "Project Tutorial: Real Awtsmoos Recorder",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-ayin-5c356134.md",
-		"category": "Projects",
+		"id": "docs-generated-api-tutorials-routes-api-zmanim-range-d21fa63b21-md-6510fa720f",
+		"title": "API Tutorial: /api/zmanim/range",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-zmanim-range-d21fa63b21.md",
+		"category": "Routes",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: Real Awtsmoos Recorder",
-				"anchor": "project-tutorial-real-awtsmoos-recorder"
+				"text": "API Tutorial: /api/zmanim/range",
+				"anchor": "api-tutorial-api-zmanim-range"
 			},
 			{
 				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
 			},
 			{
 				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
+				"text": "Path parameters",
+				"anchor": "path-parameters"
 			},
 			{
 				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
+				"text": "Starter call",
+				"anchor": "starter-call"
 			},
 			{
 				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
+				"text": "Observed callers",
+				"anchor": "observed-callers"
 			},
 			{
 				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
+				"text": "Related tests",
+				"anchor": "related-tests"
 			},
 			{
 				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Related routes",
+				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Real Awtsmoos Recorder Path: geelooy/ayin · Type: public · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runt",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: real awtsmoos recorder path: geelooy/ayin · type: public · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 1 0 0 0 0 0 1 public entry points /ayin → geelooy/ayin/index.html — real awtsmoos recorder symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-ayin-5c356134-md-1538bb0616.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/zmanim/range Family: /api/zmanim · Mount: /api/zmanim · Derech health: OK Source: geelooy/api/zmanim/ awtsmoos.derech.js · Discovery: static literal · Confidence: unknown method Read the human /api/zmanim tutorial Generated evidence is a navigation and teaching aid, no",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/zmanim/range family: /api/zmanim · mount: /api/zmanim · derech health: ok source: geelooy/api/zmanim/ awtsmoos.derech.js · discovery: static literal · confidence: unknown method read the human /api/zmanim tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/zmanim /api/zmanim/calendar /api/zmanim/compare /api/zmanim/day /api/zmanim/embed /api/zmanim/health /api/zmanim/location /api/zmanim/methodology",
+		"page": "pages/docs-generated-api-tutorials-routes-api-zmanim-range-d21fa63b21-md-6510fa720f.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-browser-test-1d0e410e--01574c7413",
-		"title": "Project Tutorial: geelooy/browser-test",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-browser-test-1d0e410e.md",
-		"category": "Testing",
+		"id": "docs-generated-api-tutorials-routes-api-zmanim-usno-1a12361c10-md-6d6bf30f37",
+		"title": "API Tutorial: /api/zmanim/usno",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-zmanim-usno-1a12361c10.md",
+		"category": "Routes",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: geelooy/browser-test",
-				"anchor": "project-tutorial-geelooy-browser-test"
+				"text": "API Tutorial: /api/zmanim/usno",
+				"anchor": "api-tutorial-api-zmanim-usno"
 			},
 			{
 				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
 			},
 			{
 				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
+				"text": "Path parameters",
+				"anchor": "path-parameters"
 			},
 			{
 				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
+				"text": "Starter call",
+				"anchor": "starter-call"
 			},
 			{
 				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
+				"text": "Observed callers",
+				"anchor": "observed-callers"
 			},
 			{
 				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
+				"text": "Related tests",
+				"anchor": "related-tests"
 			},
 			{
 				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Related routes",
+				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/browser test Path: geelooy/browser test · Type: project · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, n",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/browser test path: geelooy/browser test · type: project · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: — local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 1 1 0 0 0 0 2 public entry points none observed. symbol evidence source files: 1; classes: 0; functions: 0; exports: 3; samples: mobileroutes, mobileviewport, mobileassertions. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 1 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-browser-test-1d0e410e--01574c7413.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/zmanim/usno Family: /api/zmanim · Mount: /api/zmanim · Derech health: OK Source: geelooy/api/zmanim/ awtsmoos.derech.js · Discovery: static literal · Confidence: unknown method Read the human /api/zmanim tutorial Generated evidence is a navigation and teaching aid, not",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/zmanim/usno family: /api/zmanim · mount: /api/zmanim · derech health: ok source: geelooy/api/zmanim/ awtsmoos.derech.js · discovery: static literal · confidence: unknown method read the human /api/zmanim tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/zmanim /api/zmanim/calendar /api/zmanim/compare /api/zmanim/day /api/zmanim/embed /api/zmanim/health /api/zmanim/location /api/zmanim/methodology",
+		"page": "pages/docs-generated-api-tutorials-routes-api-zmanim-usno-1a12361c10-md-6d6bf30f37.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-comment-thread-6cb3458-399de4632f",
-		"title": "Project Tutorial: Comment Thread — Geelooy",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-comment-thread-6cb34586.md",
-		"category": "Projects",
+		"id": "docs-generated-app-inventory-md-9aeb57a0c8",
+		"title": "Generated App Inventory",
+		"sourcePath": "docs/GENERATED/APP_INVENTORY.md",
+		"category": "General",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: Comment Thread — Geelooy",
-				"anchor": "project-tutorial-comment-thread-geelooy"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Generated App Inventory",
+				"anchor": "generated-app-inventory"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Comment Thread — Geelooy Path: geelooy/comment thread · Type: public · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observatio",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: comment thread — geelooy path: geelooy/comment thread · type: public · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, app.js, documentation.md local documentation: geelooy/comment thread/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 20 2 0 0 1 0 23 public entry points /comment thread → geelooy/comment thread/index.html — comment thread — geelooy symbol evidence source files: 18; classes: 3; functions: 44; exports: 18; samples: async, uploadmalchuscommentasset, createcommentreactionrail, createyesodcontextpanel, coordinatefield, textareafield, yesodmanifeststore, manifeststore, createchesedmediapicker, createhodreferencepicker, referencemanifest, textfield. depends on geelooy/social actions — 1 lexical reference; examples: geelooy/comment thread/modules/commentreaction.js used by none observed. external packages none observed. verification clue observed test classified files: 2 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-comment-thread-6cb3458-399de4632f.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated App Inventory App Files HTML title Has index.html android emulator 4169 Android Emulator Engine — Awtsmoos yes animator 3502 Awtsmoos Animator — B\"H yes archive uploader 3 IA//HYPER UPLOADER yes audio editor 6 Awtsmoos Pro Audio Editor yes awtsmoos gguf 88 GGUF Chat & Metadata ",
+		"searchText": "b\"h boruch hashem blessed is he generated app inventory app files html title has index.html android emulator 4169 android emulator engine — awtsmoos yes animator 3502 awtsmoos animator — b\"h yes archive uploader 3 ia//hyper uploader yes audio editor 6 awtsmoos pro audio editor yes awtsmoos gguf 88 gguf chat & metadata b\"h yes awtsmoos studio 306 awtsmoos studio yes bookcovermaker 15 book cover maker · awtsmoos yes broadcaster 16 awtsmoos broadcaster yes byteviewer 4 hex viewer of the awtsmoos yes captions 116 ein sof caption engine yes code 1196 awtsmoos code yes compiler 79 awtsmoos compiler yes csv 8 awtsmoos native grid yes dist 0 no docs 204 awtsmoos docs yes drive 296 awtsmoos drive yes editor 101 mitzvah world animator · awtsmoos yes exe emulator 406 awtsmoos exe emulator yes forms 43 awtsmoos forms yes gpt api pulse garden 3 awtsmoos pulse garden yes lyric sync 5 lyric sync engine yes merkava 79 merkava yes merkava native browser 230 merkava native browser engine — awtsmoos yes mitzvah pushkuh 166 mitzvah pushkuh · garden of sparks yes mitzvah studio 51 mitzvah studio · awtsmoos yes nesher studio 710 🦅 awtsmoos studio yes olam h3 149 olam h3 studio · awtsmoos yes pdf to img 17 high res pdf to image converter yes piano 377 awtsmoos web synthesizer ultimate yes rebbe 256 awtsmoos archive // omega yes scripts 34 no shared 115 no sheets 170 awtsmoos sheets yes slides 84 awtsmoos slides yes styles 9 no tests 13 no transcribe 13 awtsmoos transcription studio yes tunnel 3674 awtsmoos tunnel console yes tunnel control 565 awtsmoos tunnel control yes universal chat 223 messages & torah chat \\ awtsmoos.com yes universal procedural 20 universal procedural awtsmoos yes video editor 27 awtsmoos video editor yes virtual os stress light counter 8 light counter · awtsmoos yes wallet 47 awtsmoos wallet — balances, credits & ownership yes watermark remover 11 svg mask alpha brute force yes workos 22 workos — awtsmoos yes",
+		"page": "pages/docs-generated-app-inventory-md-9aeb57a0c8.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-contact-fe32cc9f-md-8423880345",
-		"title": "Project Tutorial: Contact — Awtsmoos",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-contact-fe32cc9f.md",
-		"category": "Projects",
+		"id": "docs-generated-derech-health-md-ff777e6f85",
+		"title": "Generated Derech Syntax Health",
+		"sourcePath": "docs/GENERATED/DERECH_HEALTH.md",
+		"category": "General",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: Contact — Awtsmoos",
-				"anchor": "project-tutorial-contact-awtsmoos"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Generated Derech Syntax Health",
+				"anchor": "generated-derech-syntax-health"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Contact — Awtsmoos Path: geelooy/contact · Type: public · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runti",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: contact — awtsmoos path: geelooy/contact · type: public · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 3 0 0 0 0 0 3 public entry points /contact → geelooy/contact/index.html — contact — awtsmoos symbol evidence source files: 1; classes: 0; functions: 1; exports: 0; samples: submitcontact. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-contact-fe32cc9f-md-8423880345.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Derech Syntax Health Derech Syntax Issue geelooy/api/ awtsmoos.derech.js OK — geelooy/api/admin/ awtsmoos.derech.js OK — geelooy/api/apk web/ awtsmoos.derech.js OK — geelooy/api/client errors/ awtsmoos.derech.js OK — geelooy/api/compiler/ awtsmoos.derech.js OK — geelooy/api/con",
+		"searchText": "b\"h boruch hashem blessed is he generated derech syntax health derech syntax issue geelooy/api/ awtsmoos.derech.js ok — geelooy/api/admin/ awtsmoos.derech.js ok — geelooy/api/apk web/ awtsmoos.derech.js ok — geelooy/api/client errors/ awtsmoos.derech.js ok — geelooy/api/compiler/ awtsmoos.derech.js ok — geelooy/api/contact/ awtsmoos.derech.js ok — geelooy/api/email/ awtsmoos.derech.js ok — geelooy/api/fetch/ awtsmoos.derech.js ok — geelooy/api/gpt/ awtsmoos.derech.js ok — geelooy/api/merkava/ awtsmoos.derech.js ok — geelooy/api/oauth/ awtsmoos.derech.js ok — geelooy/api/ohr hagnuz/ awtsmoos.derech.js ok — geelooy/api/ohrbound/ awtsmoos.derech.js ok — geelooy/api/olam h3/ awtsmoos.derech.js ok — geelooy/api/platform/ awtsmoos.derech.js ok — geelooy/api/portal/ awtsmoos.derech.js ok — geelooy/api/projecthosting/ awtsmoos.derech.js ok — geelooy/api/public/ awtsmoos.derech.js ok — geelooy/api/release/ awtsmoos.derech.js ok — geelooy/api/runtime/ awtsmoos.derech.js ok — geelooy/api/sefarim/ awtsmoos.derech.js ok — geelooy/api/social/ awtsmoos.derech.js ok — geelooy/api/ssh/ awtsmoos.derech.js ok — geelooy/api/streaming/ awtsmoos.derech.js ok — geelooy/api/text/ awtsmoos.derech.js fail unexpected token ',' geelooy/api/tunnel/ awtsmoos.derech.js ok — geelooy/api/tunnel/control/ awtsmoos.derech.js ok — geelooy/api/tunnel/install/ awtsmoos.derech.js ok — geelooy/api/wallet/ awtsmoos.derech.js ok — geelooy/api/youtube/ awtsmoos.derech.js ok — geelooy/api/zmanim/ awtsmoos.derech.js ok — geelooy/api/zmanimms/ awtsmoos.derech.js ok —",
+		"page": "pages/docs-generated-derech-health-md-ff777e6f85.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-control-4c72edda-md-2c84af12e5",
-		"title": "Project Tutorial: Code Control Panel",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-control-4c72edda.md",
-		"category": "Projects",
+		"id": "docs-generated-derech-mounts-md-1662eb2745",
+		"title": "Generated Derech Mounts",
+		"sourcePath": "docs/GENERATED/DERECH_MOUNTS.md",
+		"category": "General",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: Code Control Panel",
-				"anchor": "project-tutorial-code-control-panel"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Generated Derech Mounts",
+				"anchor": "generated-derech-mounts"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Code Control Panel Path: geelooy/control · Type: public · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runti",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: code control panel path: geelooy/control · type: public · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, app.js local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 3 0 0 0 0 0 3 public entry points /control → geelooy/control/index.html — code control panel symbol evidence source files: 1; classes: 0; functions: 7; exports: 0; samples: loadscripts, displayscripts, opendb, savescript, createnewscript, loadscript, sendcode. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-control-4c72edda-md-2c84af12e5.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Derech Mounts Mount Derech file /api geelooy/api/ awtsmoos.derech.js /api/admin geelooy/api/admin/ awtsmoos.derech.js /api/apk web geelooy/api/apk web/ awtsmoos.derech.js /api/client errors geelooy/api/client errors/ awtsmoos.derech.js /api/compiler geelooy/api/compiler/ awtsmo",
+		"searchText": "b\"h boruch hashem blessed is he generated derech mounts mount derech file /api geelooy/api/ awtsmoos.derech.js /api/admin geelooy/api/admin/ awtsmoos.derech.js /api/apk web geelooy/api/apk web/ awtsmoos.derech.js /api/client errors geelooy/api/client errors/ awtsmoos.derech.js /api/compiler geelooy/api/compiler/ awtsmoos.derech.js /api/contact geelooy/api/contact/ awtsmoos.derech.js /api/email geelooy/api/email/ awtsmoos.derech.js /api/fetch geelooy/api/fetch/ awtsmoos.derech.js /api/gpt geelooy/api/gpt/ awtsmoos.derech.js /api/merkava geelooy/api/merkava/ awtsmoos.derech.js /api/oauth geelooy/api/oauth/ awtsmoos.derech.js /api/ohr hagnuz geelooy/api/ohr hagnuz/ awtsmoos.derech.js /api/ohrbound geelooy/api/ohrbound/ awtsmoos.derech.js /api/olam h3 geelooy/api/olam h3/ awtsmoos.derech.js /api/platform geelooy/api/platform/ awtsmoos.derech.js /api/portal geelooy/api/portal/ awtsmoos.derech.js /api/projecthosting geelooy/api/projecthosting/ awtsmoos.derech.js /api/public geelooy/api/public/ awtsmoos.derech.js /api/release geelooy/api/release/ awtsmoos.derech.js /api/runtime geelooy/api/runtime/ awtsmoos.derech.js /api/sefarim geelooy/api/sefarim/ awtsmoos.derech.js /api/social geelooy/api/social/ awtsmoos.derech.js /api/ssh geelooy/api/ssh/ awtsmoos.derech.js /api/streaming geelooy/api/streaming/ awtsmoos.derech.js /api/text geelooy/api/text/ awtsmoos.derech.js /api/tunnel geelooy/api/tunnel/ awtsmoos.derech.js /api/tunnel/control geelooy/api/tunnel/control/ awtsmoos.derech.js /api/tunnel/install geelooy/api/tunnel/install/ awtsmoos.derech.js /api/wallet geelooy/api/wallet/ awtsmoos.derech.js /api/youtube geelooy/api/youtube/ awtsmoos.derech.js /api/zmanim geelooy/api/zmanim/ awtsmoos.derech.js /api/zmanimms geelooy/api/zmanimms/ awtsmoos.derech.js",
+		"page": "pages/docs-generated-derech-mounts-md-1662eb2745.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-css-453f029b-md-1ec828f6f9",
-		"title": "Project Tutorial: geelooy/css",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-css-453f029b.md",
-		"category": "Projects",
+		"id": "docs-generated-documentation-coverage-md-e185f0c7c0",
+		"title": "Generated Documentation Coverage",
+		"sourcePath": "docs/GENERATED/DOCUMENTATION_COVERAGE.md",
+		"category": "General",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: geelooy/css",
-				"anchor": "project-tutorial-geelooy-css"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Generated Documentation Coverage",
+				"anchor": "generated-documentation-coverage"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/css Path: geelooy/css · Type: project · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownersh",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/css path: geelooy/css · type: project · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: — local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 1 0 0 0 0 0 1 public entry points none observed. symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-css-453f029b-md-1ec828f6f9.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Documentation Coverage Observed project boundaries and whether a local human breadcrumb is required and present. 238 rows. Chunk Rows Count documentation coverage 001.md 1–60 60 documentation coverage 002.md 61–120 60 documentation coverage 003.md 121–180 60 documentation cover",
+		"searchText": "b\"h boruch hashem blessed is he generated documentation coverage observed project boundaries and whether a local human breadcrumb is required and present. 238 rows. chunk rows count documentation coverage 001.md 1–60 60 documentation coverage 002.md 61–120 60 documentation coverage 003.md 121–180 60 documentation coverage 004.md 181–238 58",
+		"page": "pages/docs-generated-documentation-coverage-md-e185f0c7c0.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-data-2189dd36-md-a270e1c789",
-		"title": "Project Tutorial: geelooy/.data",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-data-2189dd36.md",
-		"category": "Projects",
+		"id": "docs-generated-documentation-coverage-documentation-coverage-001-md-fdb5e60c5b",
+		"title": "Generated Documentation Coverage 1–60",
+		"sourcePath": "docs/GENERATED/DOCUMENTATION_COVERAGE/documentation-coverage-001.md",
+		"category": "General",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: geelooy/.data",
-				"anchor": "project-tutorial-geelooy-data"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Generated Documentation Coverage 1–60",
+				"anchor": "generated-documentation-coverage-1-60"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/.data Path: geelooy/.data · Type: project · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime own",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/.data path: geelooy/.data · type: project · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: — local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 1 0 0 0 0 0 1 public entry points none observed. symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-data-2189dd36-md-a270e1c789.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Documentation Coverage 1–60 Observed project boundaries and whether a local human breadcrumb is required and present. Project Type Files Requires local docs Covered Local docs ai thoughts evidence 575 no no — ai thoughts alias 8974 no no — awtsmoos.com project 24 yes yes awtsmo",
+		"searchText": "b\"h boruch hashem blessed is he generated documentation coverage 1–60 observed project boundaries and whether a local human breadcrumb is required and present. project type files requires local docs covered local docs ai thoughts evidence 575 no no — ai thoughts alias 8974 no no — awtsmoos.com project 24 yes yes awtsmoos.com/documentation.md ayzarim runtime root 2498 yes yes ayzarim/documentation.md ayzarim/dosdb data 1072 yes yes ayzarim/dosdb/documentation.md ayzarim/awtsmoosdynamicserver runtime 1305 yes yes ayzarim/awtsmoosdynamicserver/documentation.md ayzarim/email infrastructure 26 yes no — ayzarim/glyph engine infrastructure 28 yes no — ayzarim/maintence infrastructure 1 no no — ayzarim/math infrastructure 1 no no — ayzarim/ssh infrastructure 54 yes yes ayzarim/ssh/documentation.md ayzarim/tools infrastructure 8 no no — geelooy public root 57567 yes yes geelooy/documentation.md geelooy/.ai thoughts project 1939 yes no — geelooy/.awtsmoos project 6 no no — geelooy/.awtsmoos agent thoughts evidence 495 no no — geelooy/.awtsmoos agent transfer project 244 yes yes geelooy/.awtsmoos agent transfer/documentation.md geelooy/.awtsmoos smoke project 4 no no — geelooy/.awtsmoos transfer project 8 no no — geelooy/.data project 1 no no — geelooy/.well known project 1 no no — geelooy/@ project 10 yes no — geelooy/shliach public 4 no no — geelooy/about public 7 no no — geelooy/ai public 934 yes yes geelooy/ai/documentation.md geelooy/ai thoughts project 57 yes no — geelooy/ai thoughts local project 4 no no — geelooy/api project 3927 yes yes geelooy/api/documentation.md geelooy/api/admin api 3 no yes geelooy/api/admin/documentation.md geelooy/api/apk web api 7 no no — geelooy/api/client errors api 2 no no — geelooy/api/compiler api 12 yes yes geelooy/api/compiler/documentation.md geelooy/api/contact api 9 no yes geelooy/api/contact/documentation.md geelooy/api/core api 4 no no — geelooy/api/email api 5 no yes geelooy/api/email/documentation.md geelooy/api/fetch api 3 no yes geelooy/api/fetch/documentation.md geelooy/api/gpt api 16 yes yes geelooy/api/gpt/documentation.md geelooy/api/merkava api 3 no no — geelooy/api/nav api 2 no no — geelooy/api/oauth api 83 yes yes geelooy/api/oauth/documentation.md geelooy/api/ohr hagnuz api 11 yes yes geelooy/api/ohr hagnuz/documentation.md geelooy/api/ohrbound api 17 yes no — geelooy/api/olam h3 api 9 no no — geelooy/api/perutas api 43 yes yes geelooy/api/perutas/documentation.md geelooy/api/platform api 5 no no — geelooy/api/portal api 28 yes no — geelooy/api/projecthosting api 9 no no — geelooy/api/public api 3 no yes geelooy/api/public/documentation.md geelooy/api/release api 2 no no — geelooy/api/runtime api 8 no yes geelooy/api/runtime/documentation.md geelooy/api/sefarim api 5 no yes geelooy/api/sefarim/documentation.md geelooy/api/social api 2587 yes yes geelooy/api/social/documentation.md geelooy/api/social legacy archive api 18 yes no — geelooy/api/ssh api 60 yes yes geelooy/api/ssh/documentation.md geelooy/api/streaming api 26 yes yes geelooy/api/streaming/documentation.md geelooy/api/text api 3 no yes geelooy/api/text/documentation.md geelooy/api/tunnel api 661 yes yes geelooy/api/tunnel/documentation.md geelooy/api/wallet api 216 yes yes geelooy/api/wallet/documentation.md geelooy/api/youtube api 27 yes yes geelooy/api/youtube/documentation.md geelooy/api/zmanim api 33 yes yes geelooy/api/zmanim/documentation.md",
+		"page": "pages/docs-generated-documentation-coverage-documentation-coverage-001-md-fdb5e60c5b.json"
 	}
 ]

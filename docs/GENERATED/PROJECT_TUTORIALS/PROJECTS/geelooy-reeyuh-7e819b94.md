@@ -2,7 +2,7 @@ B"H
 Boruch Hashem
 Blessed is He
 
-# Project Tutorial: Shulchan Aruch Viewer
+# Project Tutorial: Reeyuh · Shulchan Aruch Reader
 
 **Path:** `geelooy/reeyuh` · **Type:** public · **Family:** Public and Other Boundaries
 
@@ -14,22 +14,22 @@ Blessed is He
 
 - Entry files: `index.html`
 - Local documentation: No local `DOCUMENTATION.md` observed.
-- Local-doc requirement: no; covered: no
+- Local-doc requirement: yes; covered: no
 - Symlink target: —
 
 ## File shape
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 1 | 0 | 0 | 0 | 0 | 0 | 1 |
+| 11 | 1 | 0 | 0 | 0 | 0 | 12 |
 
 ## Public entry points
 
-- `/reeyuh` → `geelooy/reeyuh/index.html` — Shulchan Aruch Viewer
+- `/reeyuh` → `geelooy/reeyuh/index.html` — Reeyuh · Shulchan Aruch Reader
 
 ## Symbol evidence
 
-No lexical symbol summary observed.
+Source files: 5; classes: 4; functions: 8; exports: 9; samples: TiferesReeyuhContentRenderer, KliReeyuhDom, GevurahReeyuhNavigator, normalizeBookName, normalizeNamedEntries, findShulchanAruch, buildSeferUrl, buildSectionUrl, ReeyuhSefarimRepository, normalizeEntry, loadPortion, initialize.
 
 ## Depends on
 
@@ -45,4 +45,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **0**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **1**. Treat this as file evidence, not proof of behavioral coverage.

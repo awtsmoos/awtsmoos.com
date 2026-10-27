@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-756c19b96b",
+	"title": "Tiferes Execution Graph",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/.ai-thoughts/20260902_0315-universal-procedural-api/23_TIFERES_EXECUTION_GRAPH.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Tiferes Execution Graph",
+			"anchor": "tiferes-execution-graph"
+		},
+		{
+			"level": 2,
+			"text": "Wave A — six concurrent verification lanes",
+			"anchor": "wave-a-six-concurrent-verification-lanes"
+		},
+		{
+			"level": 2,
+			"text": "Wave B — browser proof",
+			"anchor": "wave-b-browser-proof"
+		},
+		{
+			"level": 2,
+			"text": "Wave C — closure artifacts",
+			"anchor": "wave-c-closure-artifacts"
+		},
+		{
+			"level": 2,
+			"text": "Wave D — Git integration",
+			"anchor": "wave-d-git-integration"
+		},
+		{
+			"level": 2,
+			"text": "Wave E — release/public proof",
+			"anchor": "wave-e-release-public-proof"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-756c19b96b-001.json"
+	]
+}

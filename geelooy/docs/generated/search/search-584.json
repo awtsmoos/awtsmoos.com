@@ -1,0 +1,168 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-master-execution-plan-03-weather-environment--40ae7caeb8",
+		"title": "03 — Weather, Atmosphere, Climate, Environment Authority",
+		"sourcePath": "geelooy/games/mitzvahWorld/MASTER_EXECUTION_PLAN/03_WEATHER_ENVIRONMENT.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "03 — Weather, Atmosphere, Climate, Environment Authority",
+				"anchor": "03-weather-atmosphere-climate-environment-authority"
+			},
+			{
+				"level": 2,
+				"text": "Core law",
+				"anchor": "core-law"
+			},
+			{
+				"level": 2,
+				"text": "Existing weather lane to finish",
+				"anchor": "existing-weather-lane-to-finish"
+			},
+			{
+				"level": 2,
+				"text": "Required atmospheric simulation",
+				"anchor": "required-atmospheric-simulation"
+			},
+			{
+				"level": 2,
+				"text": "Storms and precipitation",
+				"anchor": "storms-and-precipitation"
+			},
+			{
+				"level": 2,
+				"text": "Environmental memory and coupling",
+				"anchor": "environmental-memory-and-coupling"
+			},
+			{
+				"level": 2,
+				"text": "Realtime outside-weather mode",
+				"anchor": "realtime-outside-weather-mode"
+			},
+			{
+				"level": 2,
+				"text": "Presentation targets outside Core",
+				"anchor": "presentation-targets-outside-core"
+			},
+			{
+				"level": 2,
+				"text": "Performance / persistence",
+				"anchor": "performance-persistence"
+			},
+			{
+				"level": 2,
+				"text": "Acceptance tests",
+				"anchor": "acceptance-tests"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed be He 03 — Weather, Atmosphere, Climate, Environment Authority Core law Weather is renderer neutral world state, not particles. One environment authority must answer temperature, pressure, humidity, wind, clouds, precipitation, visibility, snowpack, surface wetness, soil moisture, runoff, haza",
+		"searchText": "b\"h boruch hashem blessed be he 03 — weather, atmosphere, climate, environment authority core law weather is renderer neutral world state, not particles. one environment authority must answer temperature, pressure, humidity, wind, clouds, precipitation, visibility, snowpack, surface wetness, soil moisture, runoff, hazards, and environmental consequences at any world coordinate/time. existing weather lane to finish inspect /users/awtsmoos/.awtsmoos weather core 20260909 before duplicating work. known work includes weather state/presets, moving spatial fronts, realtime observation assimilation, surface memory, hazards, coupling, vertical profile, terrain coupling, cloud layers, lightning/thunder, and forecast sampling. re run tests before merging. required atmospheric simulation [ ] spatial weather cells/fronts; player can walk from rain into sun; [ ] clear, scattered/partly/mostly cloudy, overcast, haze, drizzle, rain, heavy/torrential rain, snow, blizzard; [ ] low/mid/high cloud layers: stratus, cumulus, cumulonimbus, altostratus, cirrus; [ ] pressure systems, warm/cold fronts, multi day continuity, post frontal clearing; [ ] elevation lapse rate, pressure change, dynamic rain/snow line; [ ] orographic lift, mountain cloud, rain shadow, valley/mountain wind cycles; [ ] microclimates for ridge, valley, forest, river, coast, village/courtyard, slope/aspect; [ ] coherent 3d wind/gust fields, shelter/wakes/turbulence, not unrelated sine waves; [ ] fog: valley, river, mountain cloud, morning/radiation; waterfall mist connects to same humidity system. storms and precipitation [ ] rain cells linked to real cloud masses; distant rain curtains and virga; [ ] wind angle/drop size/intensity variation; roof/tree/terrain shelter; [ ] lightning: intra cloud, cloud to cloud, cloud to ground, deterministic strike locations, physically plausible context; [ ] thunder delay by distance plus optional terrain echo/reverb intent; [ ] gust fronts, downbursts/microbursts, hail, sleet, freezing rain, mixed precipitation; [ ] tornado potential requires convective storm + instability + shear + sufficient wind; support funnel cloud, tornado, waterspout where appropriate; [ ] dust devils and dust/sand storms are separate phenomena for hot/dry climates; [ ] snow varieties, accumulation depth, branch/roof interception, wind drifting, blowing snow, ground blizzards; [ ] frost, dew, melt/refreeze, icicles and ice state hooks. environmental memory and coupling [ ] wetness, mud, standing water, soil moisture, snow depth, frost, ice persist after precipitation stops; [ ] drying/melting depends on sun, temperature, airflow, shelter, drainage, and material; [ ] rain/snowmelt feeds hydrology/runoff/river state; [ ] vegetation consumes wind, gust, water availability, frost, snow loading, drought, storm damage; [ ] materials consume wetness/snow/mud/frost and change appearance physically; [ ] movement consumes traction/deep snow/mud/ice state; [ ] audio consumes rain, wind, thunder, snow damping and surface type; [ ] npcs/animals consume storm, temperature, visibility, shelter, travel conditions; [ ] world history keeps summarized recent weather so yesterday's storm matters today. realtime outside weather mode [ ] core never requests location/network itself; accept a provider neutral observation contract. [ ] modes: procedural, hybrid, realtime. [ ] approximate/manual location supported; precise device location optional and privacy conscious. [ ] cache/freshness/confidence fields: observed, forecast, stale cache, procedural fallback. [ ] api/provider outage must never block boot or gameplay. [ ] smooth assimilation; do not abruptly replace sky/world when an observation arrives. [ ] optional real sunrise/sunset/daylight synchronization; world climate mode remains independent. presentation targets outside core [ ] moving cloud shadows; cloud sunlight transmission and shadow softness; [ ] atmospheric perspective/haze matching the mountain valley reference art; [ ] volumetric/card/impostor cloud quality tiers driven by the same core state; [ ] near precipitation particles, cheaper far precipitation volumes/curtains; [ ] lightning illuminates clouds/world; accessibility limits rapid flashes; [ ] sunrise, golden hour, blue hour, night, moon/stars, cloud occlusion, moon phase; [ ] rainbows/halos/god rays only when geometry/atmosphere supports them; [ ] visibility aware streaming: fog/blizzard lowers far view demand; crystal clear air expands it. performance / persistence [ ] weather simulation timestep decoupled from render fps; [ ] far weather updates statistically/coarsely; near weather resolves spatial detail; [ ] never persist raindrops/snowflakes—persist meaningful atmospheric state/history only; [ ] deterministic seeds for replay/multiplayer; cosmetic particles may be client local; [ ] extreme value clamps and malformed provider fuzz tests; [ ] suspend/resume does not simulate hours of particles; advance summarized state cheaply; [ ] storm, blizzard, clear vista, fog, tornado/dust benchmark scenes with frame/memory budgets. acceptance tests [ ] same seed/time/position produces stable meaningful weather; [ ] forecast sampling does not mutate live clock; [ ] mountain can snow while lower village rains; [ ] windward side receives more precipitation than leeward where appropriate; [ ] sunny state has negligible tornado potential; [ ] thunder delay increases with strike distance; [ ] precipitation ends but wetness/mud/snow history remains and decays correctly; [ ] network/weather provider failure leaves the world playable.",
+		"page": "pages/geelooy-games-mitzvahworld-master-execution-plan-03-weather-environment--40ae7caeb8.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-master-execution-plan-04-terrain-water-world--94fdc784df",
+		"title": "04 — Terrain, Geology, Hydrology, Roads, Architecture, World Building",
+		"sourcePath": "geelooy/games/mitzvahWorld/MASTER_EXECUTION_PLAN/04_TERRAIN_WATER_WORLD.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "04 — Terrain, Geology, Hydrology, Roads, Architecture, World Building",
+				"anchor": "04-terrain-geology-hydrology-roads-architecture-world-building"
+			},
+			{
+				"level": 2,
+				"text": "One environmental field",
+				"anchor": "one-environmental-field"
+			},
+			{
+				"level": 2,
+				"text": "Terrain / geology",
+				"anchor": "terrain-geology"
+			},
+			{
+				"level": 2,
+				"text": "Hydrology",
+				"anchor": "hydrology"
+			},
+			{
+				"level": 2,
+				"text": "Roads / infrastructure",
+				"anchor": "roads-infrastructure"
+			},
+			{
+				"level": 2,
+				"text": "Settlements / architecture",
+				"anchor": "settlements-architecture"
+			},
+			{
+				"level": 2,
+				"text": "City authority before official release",
+				"anchor": "city-authority-before-official-release"
+			},
+			{
+				"level": 2,
+				"text": "World-building quality",
+				"anchor": "world-building-quality"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed be He 04 — Terrain, Geology, Hydrology, Roads, Architecture, World Building One environmental field Terrain cells should expose elevation, slope, aspect, soil, rockiness, drainage, moisture, temperature, sunlight, wind exposure, disturbance, water table, and biome intent. Vegetation, roads, bu",
+		"searchText": "b\"h boruch hashem blessed be he 04 — terrain, geology, hydrology, roads, architecture, world building one environmental field terrain cells should expose elevation, slope, aspect, soil, rockiness, drainage, moisture, temperature, sunlight, wind exposure, disturbance, water table, and biome intent. vegetation, roads, buildings, weather, wildlife, and npcs consume the same field. terrain / geology [ ] deterministic streamed terrain with seamless cell borders and stable seeds; [ ] geological strata: organic layer, soil/clay/gravel, rock, bedrock; [ ] coherent cliff/rock geology rather than decorative random scatter; [ ] erosion forms: gullies, ravines, scree, talus, exposed roots, flood deposits; [ ] landslide/rockfall/avalanche corridors where topology/climate supports them; [ ] material transitions blend by slope, moisture, geology, wear, altitude, and biome; [ ] terrain lod preserves silhouette and hydrology; no popping rivers/roads at chunk edges; [ ] distant terrain integrates atmospheric/forest statistical cover. hydrology [ ] watershed/catchment authority; streams flow downhill through plausible drainage basins; [ ] springs/water table/wetlands/riparian zones; [ ] connected river → bridge/ford → lake/rapids/waterfall → downstream continuation; [ ] seasonal flow, rain response, snowmelt response, floodplain state, bank erosion; [ ] water depth/velocity/turbidity/foam/shallow/deep intent; [ ] waterfalls physically connect upstream/downstream and emit spray/mist intent; [ ] puddles, roof runoff, road runoff, temporary channels, evaporation/drying; [ ] freeze/thaw/ice hooks; seasonal/intermittent streams where appropriate. roads / infrastructure [ ] hierarchy: footpath, alley, village street, farm road, regional road; [ ] roads follow slope, crossings, settlement needs, bridges/culverts/fords rather than noise; [ ] wear from traffic: compaction, ruts, mud, dust, erosion, snow tracks; [ ] bridges: wood/stone/rope/causeway/ford variants with real collision/navigation; [ ] bridge/build transactions atomic and idempotent; repaired geometry persists exactly once; [ ] wells, drainage channels, retaining walls, stairs, terraces, irrigation, gutters and runoff connect to environment. settlements / architecture [ ] settlement planner coordinates roads, water access, houses, markets, community buildings, farms, gardens, orchards, public spaces; [ ] real doors, stairs, windows, rooms, collision, interiors for important buildings; [ ] furnishing grammar by room purpose: beds, tables, shelves, books, ovens, storage, workspaces; [ ] occupancy ownership: who lives/works here, opening hours, inventory/resources, schedules; [ ] district identity and functional land use, not visual labels only; [ ] climate aware architecture: roof pitch, drainage, courtyards, materials, shade, snow handling; [ ] village/city growth history and building age/repair state; [ ] architecture avoids inappropriate religious motifs; important jewish buildings/signage require art/content review. city authority before official release [ ] distinct city center, market/commercial, civic/community, educational, residential, craft/industrial, gardens, outskirts; [ ] streets/alleys/plazas, multi story verticality, doors/interiors, regional transit/roads; [ ] population streaming and crowd lod; [ ] outskirts transition to farms/orchards/river/forest/mountains rather than abrupt city wall; [ ] city has its own manifest/boot acceptance and is never a renamed village. world building quality [ ] preserve vistas/landmark sightlines; avoid random trees/buildings blocking every scenic composition; [ ] generate natural settlement hierarchy: center → neighborhoods → outskirts → farms → wilderness; [ ] support authored landmarks while procedural systems fill around them; [ ] all generated objects expose stable ids, generator/seed/provenance, semantic role, lod, collision intent, persistence identity.",
+		"page": "pages/geelooy-games-mitzvahworld-master-execution-plan-04-terrain-water-world--94fdc784df.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-master-execution-plan-05-civilization-gamepla-f549a4cb44",
+		"title": "05 — NPC Civilization, Wildlife, Traversal, Quests, Torah, Economy",
+		"sourcePath": "geelooy/games/mitzvahWorld/MASTER_EXECUTION_PLAN/05_CIVILIZATION_GAMEPLAY.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "05 — NPC Civilization, Wildlife, Traversal, Quests, Torah, Economy",
+				"anchor": "05-npc-civilization-wildlife-traversal-quests-torah-economy"
+			},
+			{
+				"level": 2,
+				"text": "NPC identity and schedules",
+				"anchor": "npc-identity-and-schedules"
+			},
+			{
+				"level": 2,
+				"text": "Economy and settlement life",
+				"anchor": "economy-and-settlement-life"
+			},
+			{
+				"level": 2,
+				"text": "Wildlife / ecology",
+				"anchor": "wildlife-ecology"
+			},
+			{
+				"level": 2,
+				"text": "Traversal / character feel",
+				"anchor": "traversal-character-feel"
+			},
+			{
+				"level": 2,
+				"text": "Quests / world transformation",
+				"anchor": "quests-world-transformation"
+			},
+			{
+				"level": 2,
+				"text": "Torah / learning / community",
+				"anchor": "torah-learning-community"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed be He 05 — NPC Civilization, Wildlife, Traversal, Quests, Torah, Economy NPC identity and schedules [ ] stable persistent NPC IDs, home/work/community relationships, family/friend/work graphs; [ ] daily schedules driven by world clock, weather, work, prayer/study, needs, social events, quests;",
+		"searchText": "b\"h boruch hashem blessed be he 05 — npc civilization, wildlife, traversal, quests, torah, economy npc identity and schedules [ ] stable persistent npc ids, home/work/community relationships, family/friend/work graphs; [ ] daily schedules driven by world clock, weather, work, prayer/study, needs, social events, quests; [ ] goal arbitration with bounded priorities; no impossible simultaneous goals; [ ] knowledge boundaries: npcs know only what they observed or heard; information propagates through people/places; [ ] meaningful interaction memory alters future behavior/dialogue; [ ] indoor/outdoor shelter decisions, weather clothing, travel delays, crowd gathering/dispersion; [ ] nearby important npcs resolve individually; distant civilization uses cohorts/statistics. economy and settlement life [ ] professions: farmer, builder, baker, merchant, shepherd, teacher, artisan, etc.; [ ] inventory conservation; goods cannot exist in two owners after a transfer; [ ] supply chains such as grain → flour → bread → market/household; [ ] farms/orchards/grazing/irrigation, planting/growth/harvest/fallow state; [ ] shortages/surpluses, weather effects, road/travel effects, shop hours/stock; [ ] settlement activity sound/visuals derive from actual npc work rather than loops. wildlife / ecology [ ] habitat maps from forest, water, cliffs, fields, human activity, season/weather; [ ] animal needs: food, water, shelter, rest, group behavior; [ ] livestock herding and shelter/shade behavior; [ ] birds: flocks, perches, nests, seasonal/weather activity; distant flocks can be statistical; [ ] fish depend on water depth/flow/quality; insects/pollinators mostly statistical; [ ] animal tracks in mud/snow; fruit/seed/pollination hooks connect ecology. traversal / character feel [ ] walk, run, sprint, jump, climb, balance, ledges, slopes, shallow water, stairs/ladders; [ ] terrain aware acceleration/traction and surface states: dry/wet/mud/snow/ice; [ ] foot ik and hand ik for terrain, doors, ladders, tools, interactions; [ ] camera collision, smart obstruction handling, stable third person framing; [ ] mobile touch, keyboard/mouse, gamepad parity; remapping and one handed/mobile safe layouts; [ ] mount/animal traversal only when animation/collision/control quality is real; [ ] traversal affordances are semantic core/world data, not hardcoded per level. quests / world transformation [ ] one canonical quest/event store, versioned and persistent; [ ] exact once rewards and atomic construction/inventory transactions; [ ] quests point to real landmarks/npc knowledge, not arbitrary floating markers; [ ] world changes persist: repaired bridge, built garden, planted tree, opened route, changed npc schedule; [ ] reload must not duplicate reward, geometry, quest completion, or resource consumption; [ ] weather/environment can influence opportunities but must not make required progression randomly impossible; [ ] creator and quest systems use the same build transaction authority. torah / learning / community [ ] beis midrash and study interactions use real learning content, not decorative text only; [ ] separate trustworthy torah content authority from world geometry/gameplay; [ ] preserve source/provenance/citations for learning text; hebrew/rtl rendered correctly; [ ] community scenes: farbrengen, dancing, learning, davening, market, family/community life need crowd formation/lod; [ ] religious art/signage review prevents accidental non jewish motifs and bad hebrew; [ ] gameplay should include quiet meaningful moments: study, forest walk, ocean, night sky, village sunset—not constant action. navigation [ ] local navmesh/graph plus regional route graph; [ ] dynamic obstacle updates after construction/destruction/bridge repair; [ ] crowd path reservation to reduce jams; [ ] npc directions reference real landmarks/roads; [ ] map/fog of discovery derives from actual world geography and discovered locations.",
+		"page": "pages/geelooy-games-mitzvahworld-master-execution-plan-05-civilization-gamepla-f549a4cb44.json"
+	}
+]

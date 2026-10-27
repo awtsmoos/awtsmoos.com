@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Builder Templates (geelooy/api/wallet/core/commerce/builderTemplates/)\n\nCommerce data for app-builder templates sold/purchased through the wallet.\n\nFiles:\n- `catalog.js` — builder template catalog (what's purchasable)\n- `markup.js`, `script.js`, `style.js` — template content assets\n\nBacked by `commerce/builderTemplate{Access,Delivery,Skus}.js`; covered by\n`tests/builderTemplateCommerce.test.js`.\n"
+}

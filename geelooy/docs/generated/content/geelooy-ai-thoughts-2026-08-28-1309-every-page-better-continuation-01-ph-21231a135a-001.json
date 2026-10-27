@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Phase One — Evidence-First Repair\n\nThe Awtsmoos makes the current source the witness, not yesterday's test;\nAwtsmoos.com improves when each contract follows the real owner best.\n\nObserved facts:\n- `SearchApp.js` owns `document.body.dataset.searchActive = 'true'`.\n- `SearchControlDisclosure.js` creates `.library-search-options` and inserts it before the Search button.\n- `form.css` is therefore a three-column desktop shell: query, options, action.\n- `form-disclosure.css` expands opened advanced options across the form.\n- The stale test still reads `script.js` and requires the retired four-column layout.\n\nPlan:\n1. Rewrite only the presentation contract.\n2. Keep production source unchanged unless tests/browser evidence proves a defect.\n3. Preserve active-search, vertical mobile context, asset-version, and small-module assertions.\n4. Verify the contract itself remains <=120 lines.\n"
+}

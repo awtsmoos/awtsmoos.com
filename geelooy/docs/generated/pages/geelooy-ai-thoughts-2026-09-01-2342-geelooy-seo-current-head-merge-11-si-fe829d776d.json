@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-11-si-fe829d776d",
+	"title": "Sitemap Performance Delta",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-01-2342-geelooy-seo-current-head-merge/11-sitemap-performance-delta.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Sitemap Performance Delta",
+			"anchor": "sitemap-performance-delta"
+		},
+		{
+			"level": 2,
+			"text": "Measured failure",
+			"anchor": "measured-failure"
+		},
+		{
+			"level": 2,
+			"text": "Interpretation",
+			"anchor": "interpretation"
+		},
+		{
+			"level": 2,
+			"text": "Next architecture search",
+			"anchor": "next-architecture-search"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-11-si-fe829d776d-001.json"
+	]
+}

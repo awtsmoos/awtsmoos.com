@@ -2,7 +2,7 @@ B"H
 Boruch Hashem
 Blessed is He
 
-# Project Tutorial: Noah's Dove's 🕊️ Quest ❓ for Shalom
+# Project Tutorial: Noah's Dove · Quest for Shalom
 
 **Path:** `geelooy/games/dove` · **Type:** game · **Family:** Games and Worlds
 
@@ -14,22 +14,22 @@ Blessed is He
 
 - Entry files: `index.html`
 - Local documentation: No local `DOCUMENTATION.md` observed.
-- Local-doc requirement: no; covered: no
+- Local-doc requirement: yes; covered: no
 - Symlink target: —
 
 ## File shape
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 8 | 0 | 0 | 0 | 0 | 0 | 8 |
+| 15 | 0 | 0 | 0 | 0 | 0 | 15 |
 
 ## Public entry points
 
-- `/games/dove` → `geelooy/games/dove/index.html` — Noah's Dove's 🕊️ Quest ❓ for Shalom
+- `/games/dove` → `geelooy/games/dove/index.html` — Noah's Dove · Quest for Shalom
 
 ## Symbol evidence
 
-Source files: 6; classes: 0; functions: 22; exports: 32; samples: init, update, draw, drawWaveLine, CANVAS_WIDTH, CANVAS_HEIGHT, updateDimensions, DOVE_START_X, DOVE_START_Y, DOVE_WIDTH, DOVE_HEIGHT, DOVE_RADIUS.
+Source files: 13; classes: 2; functions: 41; exports: 41; samples: DoveGame, DoveLoop, init, update, draw, drawBackground, drawSky, drawCloud, blob, drawOcean, drawOceanActors, drawFish.
 
 ## Depends on
 

@@ -1,237 +1,53 @@
 [
 	{
-		"id": "docs-generated-api-tutorials-routes-api-social-9fa4891e88-md-77249dcc5c",
-		"title": "API Tutorial: /api/social",
-		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-9fa4891e88.md",
-		"category": "Routes",
+		"id": "docs-generated-api-source-contracts-api-source-contracts-004-md-f91de333dc",
+		"title": "Generated API Source Contract Evidence 196–260",
+		"sourcePath": "docs/GENERATED/API_SOURCE_CONTRACTS/api-source-contracts-004.md",
+		"category": "General",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "API Tutorial: /api/social",
-				"anchor": "api-tutorial-api-social"
-			},
-			{
-				"level": 2,
-				"text": "Contract evidence",
-				"anchor": "contract-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Path parameters",
-				"anchor": "path-parameters"
-			},
-			{
-				"level": 2,
-				"text": "Starter call",
-				"anchor": "starter-call"
-			},
-			{
-				"level": 2,
-				"text": "Observed callers",
-				"anchor": "observed-callers"
-			},
-			{
-				"level": 2,
-				"text": "Related tests",
-				"anchor": "related-tests"
-			},
-			{
-				"level": 2,
-				"text": "Related routes",
-				"anchor": "related-routes"
+				"text": "Generated API Source Contract Evidence 196–260",
+				"anchor": "generated-api-source-contract-evidence-196-260"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/social Family: Social · Mount: /api/social · Derech health: OK Source: geelooy/api/social/ awtsmoos.derech.js · Discovery: static literal · Confidence: unknown method Read the human Social tutorial Generated evidence is a navigation and teaching aid, not an OpenAPI con",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/social family: social · mount: /api/social · derech health: ok source: geelooy/api/social/ awtsmoos.derech.js · discovery: static literal · confidence: unknown method read the human social tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: identity observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/social geelooy/apps/drive/js/apitransport.js runtime /api/social geelooy/drive/builder/platformapi.js runtime /api/social geelooy/drive/transport/projecthostingclient.js runtime /api/social geelooy/heichel review/js/governanceapi.js runtime /api/social geelooy/heichel review/js/reviewapi.js runtime /api/social geelooy/heichelos/social/api/client.js runtime related tests heuristic family matches: test — npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported style ownership && npm run test:css quality && npm run test:heichelos quality && npm run test:profile menu && npm run test:heichel governance && npm run test:post submissions && npm run test:comments && npm run test:api keys && npm run test:graph && npm run test:social content && npm run test:notifications && npm run test:social packed && npm run test:packed engine && npm run test:platform ops && npm run test:platform execution && npm run test:node client && npm run test:dayuh cutover test:api keys — node geelooy/api/social/helper/test/apikeys.test.js test:comments — node geelooy/api/social/helper/comments/test/runallcommentstests.js test:concurrency failure — node geelooy/api/social/test/concurrencyfailurestress.test.mjs test:dayuh release — npm run test:routes && npm run test:comments && npm run test:social content && npm run test:social packed && npm run test:packed engine && node test tools/dayuhchadashmaintenance/test/ .test.js && npm run test:dayuh cutover related routes /api/social/abuse/ratelimit/check /api/social/alias/:alias /api/social/alias/:alias/details /api/social/alias/:alias/heichelos /api/social/alias/:alias/heichelos/:heichel /api/social/alias/:alias/heichelos/:heichel/ownership /api/social/alias/:alias/heichelos/details /api/social/alias/:alias/history",
-		"page": "pages/docs-generated-api-tutorials-routes-api-social-9fa4891e88-md-77249dcc5c.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated API Source Contract Evidence 196–260 Lexical source evidence; methods marked unknown are not assumed GET. Source Methods Vessels Statuses Headers geelooy/api/social/helper/drive/managerAssetPolicy.js unknown — 404 — geelooy/api/social/helper/drive/nativeAliasContract.js unknown",
+		"searchText": "b\"h boruch hashem blessed is he generated api source contract evidence 196–260 lexical source evidence; methods marked unknown are not assumed get. source methods vessels statuses headers geelooy/api/social/helper/drive/managerassetpolicy.js unknown — 404 — geelooy/api/social/helper/drive/nativealiascontract.js unknown — 409 — geelooy/api/social/helper/drive/nativealiasgateway.js unknown $ post, db 409 — geelooy/api/social/helper/drive/privateresponse.js head — 200, 206, 304, 404, 405 — geelooy/api/social/helper/drive/projectconfigpolicy.js unknown — 400 — geelooy/api/social/helper/drive/projectdatabasequery.js unknown — 400 — geelooy/api/social/helper/drive/projectdatabaseservice.js unknown db — — geelooy/api/social/helper/drive/projectdnscontentpolicy.js unknown — 400 — geelooy/api/social/helper/drive/projectdnspolicy.js unknown — 400 — geelooy/api/social/helper/drive/projectnativecomputepolicy.js unknown — 400 — geelooy/api/social/helper/drive/projectplanservice.js unknown — 400 — geelooy/api/social/helper/drive/projectproviderbindingpolicy.js unknown — 400 — geelooy/api/social/helper/drive/projectproviderintentpolicy.js unknown — 400 — geelooy/api/social/helper/drive/projectsecretpolicy.js unknown — 400 — geelooy/api/social/helper/drive/publicresponseentry.js head — 304 — geelooy/api/social/helper/drive/publicresponseheaders.js unknown — 200, 206, 404, 405 — geelooy/api/social/helper/drive/publicresponselisting.js unknown — 200 — geelooy/api/social/helper/drive/reconciliationservice.js unknown — 409 — geelooy/api/social/helper/drive/routes/actionroutes.js unknown headers — x request id geelooy/api/social/helper/drive/routes/browserrouteactor.js unknown headers — x request id geelooy/api/social/helper/drive/routes/browserroutes.js unknown cookies — — geelooy/api/social/helper/drive/routes/credentialroutes.js get headers — — geelooy/api/social/helper/drive/routes/deploymentpreviewroutes.js get — — — geelooy/api/social/helper/drive/routes/deploymentroutes.js get — — — geelooy/api/social/helper/drive/routes/deploymentroutesupport.js unknown — — idempotency key, x awtsmoos expected deployment, x request id geelooy/api/social/helper/drive/routes/domainplanroutes.js unknown headers — x request id geelooy/api/social/helper/drive/routes/domainroutes.js get, delete — — — geelooy/api/social/helper/drive/routes/entrycollectionoperation.js get, post — — — geelooy/api/social/helper/drive/routes/entrymutationoperation.js get, put, delete, head — — — geelooy/api/social/helper/drive/routes/entryroutedata.js head $ get, headers — — geelooy/api/social/helper/drive/routes/entryroutevalues.js unknown headers — x request id geelooy/api/social/helper/drive/routes/interactivebrowserroutes.js delete $ get, cookies — — geelooy/api/social/helper/drive/routes/jobroutes.js unknown $ get — — geelooy/api/social/helper/drive/routes/managerroutes.js head — 200, 302, 404 — geelooy/api/social/helper/drive/routes/projecthostingroutes.js get, post $ get — x request id geelooy/api/social/helper/drive/routes/projectplanroutes.js unknown $ get — x request id geelooy/api/social/helper/drive/routes/projectregistryroutes.js get, put — — x request id geelooy/api/social/helper/drive/routes/publicroutes.js options headers 204 — geelooy/api/social/helper/drive/routes/quotaroutes.js unknown headers — — geelooy/api/social/helper/drive/routes/reconciliationroutes.js get $ get, headers — — geelooy/api/social/helper/drive/routes/routesupport.js put, delete $ post, $ delete 405 — geelooy/api/social/helper/drive/routes/servicealiasroutes.js unknown headers — — geelooy/api/social/helper/drive/routes/serviceprovisioningroutes.js unknown headers — — geelooy/api/social/helper/drive/routes/siteroutes.js unknown — — x request id geelooy/api/social/helper/drive/routes/siteruntimeroutes.js get, delete — — x request id geelooy/api/social/helper/drive/scopepolicy.js get, delete, head — — — geelooy/api/social/helper/drive/servicealiaspolicy.js unknown — 400 — geelooy/api/social/helper/drive/siteconfigpolicyrules.js unknown cookies — — geelooy/api/social/helper/drive/siteprojectlineage.js unknown — 400 — geelooy/api/social/helper/drive/streamingobjectwriter.js unknown — 400 — geelooy/api/social/helper/editor/postdrafts.js unknown $ post, db — — geelooy/api/social/helper/editor/poststructuredeletion.js unknown $ get, $ post, db — — geelooy/api/social/helper/entityuniverse/universestoredna.js unknown db — — geelooy/api/social/helper/entityuniverse/universestoreedges.js unknown db — — geelooy/api/social/helper/entityuniverse/universestoreentities.js unknown db — — geelooy/api/social/helper/entityuniverse/universestoreio.js unknown db — — geelooy/api/social/helper/filesystemdelete.js unknown $ get, $ delete, db — — geelooy/api/social/helper/filesystemfolder.js unknown $ get, $ post, db — — geelooy/api/social/helper/filesystemmove.js unknown $ post, db — — geelooy/api/social/helper/filesystemread.js unknown $ get, $ post, db — content type geelooy/api/social/helper/filesystemwrite.js unknown $ get, $ post, db — — geelooy/api/social/helper/general.js unknown $ get, $ post, identity, db — — geelooy/api/social/helper/governance/heichelsettings.js unknown $ post, db — — geelooy/api/social/helper/governance/invites.js unknown $ post, db — — geelooy/api/social/helper/governance/roles.js unknown db — —",
+		"page": "pages/docs-generated-api-source-contracts-api-source-contracts-004-md-f91de333dc.json"
 	},
 	{
-		"id": "docs-generated-api-tutorials-routes-api-social-abuse-ratelimit-check-0a3-67bf644883",
-		"title": "API Tutorial: /api/social/abuse/rateLimit/check",
-		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-abuse-ratelimit-check-0a30b621f8.md",
-		"category": "Routes",
+		"id": "docs-generated-api-source-contracts-api-source-contracts-005-md-5d95f95e2e",
+		"title": "Generated API Source Contract Evidence 261–325",
+		"sourcePath": "docs/GENERATED/API_SOURCE_CONTRACTS/api-source-contracts-005.md",
+		"category": "General",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "API Tutorial: /api/social/abuse/rateLimit/check",
-				"anchor": "api-tutorial-api-social-abuse-ratelimit-check"
-			},
-			{
-				"level": 2,
-				"text": "Contract evidence",
-				"anchor": "contract-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Path parameters",
-				"anchor": "path-parameters"
-			},
-			{
-				"level": 2,
-				"text": "Starter call",
-				"anchor": "starter-call"
-			},
-			{
-				"level": 2,
-				"text": "Observed callers",
-				"anchor": "observed-callers"
-			},
-			{
-				"level": 2,
-				"text": "Related tests",
-				"anchor": "related-tests"
-			},
-			{
-				"level": 2,
-				"text": "Related routes",
-				"anchor": "related-routes"
+				"text": "Generated API Source Contract Evidence 261–325",
+				"anchor": "generated-api-source-contract-evidence-261-325"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/social/abuse/rateLimit/check Family: Social · Mount: /api/social · Derech health: OK Source: geelooy/api/social/ awtsmoos.platform.js · Discovery: static literal · Confidence: unknown method Read the human Social tutorial Generated evidence is a navigation and teaching",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/social/abuse/ratelimit/check family: social · mount: /api/social · derech health: ok source: geelooy/api/social/ awtsmoos.platform.js · discovery: static literal · confidence: unknown method read the human social tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: $ get, $ post, route vars observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test — npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported style ownership && npm run test:css quality && npm run test:heichelos quality && npm run test:profile menu && npm run test:heichel governance && npm run test:post submissions && npm run test:comments && npm run test:api keys && npm run test:graph && npm run test:social content && npm run test:notifications && npm run test:social packed && npm run test:packed engine && npm run test:platform ops && npm run test:platform execution && npm run test:node client && npm run test:dayuh cutover test:api keys — node geelooy/api/social/helper/test/apikeys.test.js test:comments — node geelooy/api/social/helper/comments/test/runallcommentstests.js test:concurrency failure — node geelooy/api/social/test/concurrencyfailurestress.test.mjs test:dayuh release — npm run test:routes && npm run test:comments && npm run test:social content && npm run test:social packed && npm run test:packed engine && node test tools/dayuhchadashmaintenance/test/ .test.js && npm run test:dayuh cutover related routes /api/social /api/social/alias/:alias /api/social/alias/:alias/details /api/social/alias/:alias/heichelos /api/social/alias/:alias/heichelos/:heichel /api/social/alias/:alias/heichelos/:heichel/ownership /api/social/alias/:alias/heichelos/details /api/social/alias/:alias/history",
-		"page": "pages/docs-generated-api-tutorials-routes-api-social-abuse-ratelimit-check-0a3-67bf644883.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated API Source Contract Evidence 261–325 Lexical source evidence; methods marked unknown are not assumed GET. Source Methods Vessels Statuses Headers geelooy/api/social/helper/governance/submissions.js unknown $ POST — — geelooy/api/social/helper/heichelAuthority.js unknown db — — ",
+		"searchText": "b\"h boruch hashem blessed is he generated api source contract evidence 261–325 lexical source evidence; methods marked unknown are not assumed get. source methods vessels statuses headers geelooy/api/social/helper/governance/submissions.js unknown $ post — — geelooy/api/social/helper/heichelauthority.js unknown db — — geelooy/api/social/helper/heichelcreate.js unknown $ post, identity, db — — geelooy/api/social/helper/heicheldelete.js unknown identity, db — — geelooy/api/social/helper/heicheleditoradd.js unknown $ post, $ delete, db — — geelooy/api/social/helper/heicheleditorremove.js unknown $ post, $ delete, db — — geelooy/api/social/helper/heicheleditors.js unknown db — — geelooy/api/social/helper/heichelid.js unknown $ post, db — — geelooy/api/social/helper/heichelpermissions.js unknown identity, db — — geelooy/api/social/helper/heichelqueries.js unknown identity, db — — geelooy/api/social/helper/heichelrolesmembers.js unknown $ post, $ delete, db — — geelooy/api/social/helper/heichelrolessettings.js unknown $ post, db — — geelooy/api/social/helper/heichelroutes/routetools.js unknown $ post — — geelooy/api/social/helper/heichelupdate.js unknown $ get, $ post, route vars, identity, db — — geelooy/api/social/helper/indexgeneral.js unknown identity — — geelooy/api/social/helper/livingentityview/read.js unknown db — — geelooy/api/social/helper/livingentityview/test.js unknown $ get, db — — geelooy/api/social/helper/mail/addressresolver.js unknown db — — geelooy/api/social/helper/mail/localdelivery.js unknown db — — geelooy/api/social/helper/mail/mailboxmutations.js unknown db — — geelooy/api/social/helper/mail/mailboxservice.js unknown db — — geelooy/api/social/helper/mail/maildomainservice.js unknown identity — — geelooy/api/social/helper/mail/notificationservice.js unknown db — — geelooy/api/social/helper/mail/sendservice.js unknown $ get, $ post — — geelooy/api/social/helper/mail/settingsservice.js unknown db — — geelooy/api/social/helper/mail/smtpdelivery.js unknown db — — geelooy/api/social/helper/mail/threadreader.js unknown db — — geelooy/api/social/helper/migrations/meta/metamanifestguard.js unknown $ post — — geelooy/api/social/helper/migrations/youtube/manifestguard.js unknown cookies — — geelooy/api/social/helper/migrations/youtube/youtubemigrationroutes.js unknown $ post — — geelooy/api/social/helper/nodeos/migration.js unknown db — — geelooy/api/social/helper/nodeos/nodeosstore.js unknown db — — geelooy/api/social/helper/notifications.js unknown $ get — — geelooy/api/social/helper/notifications/notificationmutations.js unknown db — — geelooy/api/social/helper/notifications/notificationpreferences.js unknown db — — geelooy/api/social/helper/notifications/notificationqueries.js unknown db — — geelooy/api/social/helper/packed/postmigrationscan.js unknown db — — geelooy/api/social/helper/platform/commentthreads.js unknown db — — geelooy/api/social/helper/platform/jobs/jobpolicy.js unknown — 400 — geelooy/api/social/helper/platform/routes/platformfeedthreadroutes.js unknown $ get, $ post, route vars — — geelooy/api/social/helper/platform/routes/platformlivediscoveryroutes.js unknown $ get, $ post, route vars — — geelooy/api/social/helper/platform/routes/platformopsroutes.js unknown $ post — — geelooy/api/social/helper/platform/routes/platformqaroutes.js unknown $ get, $ post, route vars, db — — geelooy/api/social/helper/platform/routes/platformruntimeroutes.js unknown $ get, $ post, route vars — — geelooy/api/social/helper/post/indexadd.js unknown $ post, identity, db — — geelooy/api/social/helper/post/indexaddwrite.js unknown db — — geelooy/api/social/helper/post/indexaliascollect.js unknown db — — geelooy/api/social/helper/post/indexaliasposts.js unknown db — — geelooy/api/social/helper/post/indexbyproperty.js unknown db — — geelooy/api/social/helper/post/indexcore.js unknown db — — geelooy/api/social/helper/post/indexdelete.js unknown $ post, $ delete, db — — geelooy/api/social/helper/post/indexedit.js unknown identity, db — — geelooy/api/social/helper/post/indexlist.js unknown db — — geelooy/api/social/helper/post/indexread.js unknown db — — geelooy/api/social/helper/post/seriesreadcompatibility.js unknown db — — geelooy/api/social/helper/post/seriesrecordreader.js unknown db — — geelooy/api/social/helper/post/submissions.js unknown $ post — — geelooy/api/social/helper/postcanonicalroute.js get, put db — — geelooy/api/social/helper/postcompatibilitysupport.js unknown $ get, $ post, $ delete — — geelooy/api/social/helper/profile/apitools.js unknown $ get — — geelooy/api/social/helper/profile/follows.js unknown db — — geelooy/api/social/helper/profile/history.js unknown db — — geelooy/api/social/helper/profile/paths.js unknown db — — geelooy/api/social/helper/profile/posts/postcoordinates.js unknown db — — geelooy/api/social/helper/profile/publicaliases.js unknown db — —",
+		"page": "pages/docs-generated-api-source-contracts-api-source-contracts-005-md-5d95f95e2e.json"
 	},
 	{
-		"id": "docs-generated-api-tutorials-routes-api-social-alias-alias-2cc6a9ba6e-md-32609ba90a",
-		"title": "API Tutorial: /api/social/alias/:alias",
-		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-alias-alias-2cc6a9ba6e.md",
-		"category": "Routes",
+		"id": "docs-generated-api-source-contracts-api-source-contracts-006-md-044784e785",
+		"title": "Generated API Source Contract Evidence 326–390",
+		"sourcePath": "docs/GENERATED/API_SOURCE_CONTRACTS/api-source-contracts-006.md",
+		"category": "General",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "API Tutorial: /api/social/alias/:alias",
-				"anchor": "api-tutorial-api-social-alias-alias"
-			},
-			{
-				"level": 2,
-				"text": "Contract evidence",
-				"anchor": "contract-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Path parameters",
-				"anchor": "path-parameters"
-			},
-			{
-				"level": 2,
-				"text": "Starter call",
-				"anchor": "starter-call"
-			},
-			{
-				"level": 2,
-				"text": "Observed callers",
-				"anchor": "observed-callers"
-			},
-			{
-				"level": 2,
-				"text": "Related tests",
-				"anchor": "related-tests"
-			},
-			{
-				"level": 2,
-				"text": "Related routes",
-				"anchor": "related-routes"
+				"text": "Generated API Source Contract Evidence 326–390",
+				"anchor": "generated-api-source-contract-evidence-326-390"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/social/alias/:alias Family: Social · Mount: /api/social · Derech health: OK Source: geelooy/api/social/ awtsmoos.alias.js · Discovery: static literal · Confidence: source lexical Read the human Social tutorial Generated evidence is a navigation and teaching aid, not an",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/social/alias/:alias family: social · mount: /api/social · derech health: ok source: geelooy/api/social/ awtsmoos.alias.js · discovery: static literal · confidence: source lexical read the human social tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: get, post, put, delete request vessels: route vars, identity observed status literals: — observed headers: — path parameters name shape alias single segment starter call starter only: method evidence is lexical at the source file level; inspect the handler before relying on payload or response shape. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test — npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported style ownership && npm run test:css quality && npm run test:heichelos quality && npm run test:profile menu && npm run test:heichel governance && npm run test:post submissions && npm run test:comments && npm run test:api keys && npm run test:graph && npm run test:social content && npm run test:notifications && npm run test:social packed && npm run test:packed engine && npm run test:platform ops && npm run test:platform execution && npm run test:node client && npm run test:dayuh cutover test:api keys — node geelooy/api/social/helper/test/apikeys.test.js test:comments — node geelooy/api/social/helper/comments/test/runallcommentstests.js test:concurrency failure — node geelooy/api/social/test/concurrencyfailurestress.test.mjs test:dayuh release — npm run test:routes && npm run test:comments && npm run test:social content && npm run test:social packed && npm run test:packed engine && node test tools/dayuhchadashmaintenance/test/ .test.js && npm run test:dayuh cutover related routes /api/social /api/social/abuse/ratelimit/check /api/social/alias/:alias/details /api/social/alias/:alias/heichelos /api/social/alias/:alias/heichelos/:heichel /api/social/alias/:alias/heichelos/:heichel/ownership /api/social/alias/:alias/heichelos/details /api/social/alias/:alias/history",
-		"page": "pages/docs-generated-api-tutorials-routes-api-social-alias-alias-2cc6a9ba6e-md-32609ba90a.json"
-	},
-	{
-		"id": "docs-generated-api-tutorials-routes-api-social-alias-alias-details-7e413-26b85815ee",
-		"title": "API Tutorial: /api/social/alias/:alias/details",
-		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-alias-alias-details-7e4136898b.md",
-		"category": "Routes",
-		"provenance": "generated",
-		"headings": [
-			{
-				"level": 1,
-				"text": "API Tutorial: /api/social/alias/:alias/details",
-				"anchor": "api-tutorial-api-social-alias-alias-details"
-			},
-			{
-				"level": 2,
-				"text": "Contract evidence",
-				"anchor": "contract-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Path parameters",
-				"anchor": "path-parameters"
-			},
-			{
-				"level": 2,
-				"text": "Starter call",
-				"anchor": "starter-call"
-			},
-			{
-				"level": 2,
-				"text": "Observed callers",
-				"anchor": "observed-callers"
-			},
-			{
-				"level": 2,
-				"text": "Related tests",
-				"anchor": "related-tests"
-			},
-			{
-				"level": 2,
-				"text": "Related routes",
-				"anchor": "related-routes"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/social/alias/:alias/details Family: Social · Mount: /api/social · Derech health: OK Source: geelooy/api/social/ awtsmoos.alias.js · Discovery: static literal · Confidence: source lexical Read the human Social tutorial Generated evidence is a navigation and teaching aid",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/social/alias/:alias/details family: social · mount: /api/social · derech health: ok source: geelooy/api/social/ awtsmoos.alias.js · discovery: static literal · confidence: source lexical read the human social tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: get, post, put, delete request vessels: route vars, identity observed status literals: — observed headers: — path parameters name shape alias single segment starter call starter only: method evidence is lexical at the source file level; inspect the handler before relying on payload or response shape. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test — npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported style ownership && npm run test:css quality && npm run test:heichelos quality && npm run test:profile menu && npm run test:heichel governance && npm run test:post submissions && npm run test:comments && npm run test:api keys && npm run test:graph && npm run test:social content && npm run test:notifications && npm run test:social packed && npm run test:packed engine && npm run test:platform ops && npm run test:platform execution && npm run test:node client && npm run test:dayuh cutover test:api keys — node geelooy/api/social/helper/test/apikeys.test.js test:comments — node geelooy/api/social/helper/comments/test/runallcommentstests.js test:concurrency failure — node geelooy/api/social/test/concurrencyfailurestress.test.mjs test:dayuh release — npm run test:routes && npm run test:comments && npm run test:social content && npm run test:social packed && npm run test:packed engine && node test tools/dayuhchadashmaintenance/test/ .test.js && npm run test:dayuh cutover related routes /api/social /api/social/abuse/ratelimit/check /api/social/alias/:alias /api/social/alias/:alias/heichelos /api/social/alias/:alias/heichelos/:heichel /api/social/alias/:alias/heichelos/:heichel/ownership /api/social/alias/:alias/heichelos/details /api/social/alias/:alias/history",
-		"page": "pages/docs-generated-api-tutorials-routes-api-social-alias-alias-details-7e413-26b85815ee.json"
-	},
-	{
-		"id": "docs-generated-api-tutorials-routes-api-social-alias-alias-heichelos-34b-8d0d320206",
-		"title": "API Tutorial: /api/social/alias/:alias/heichelos",
-		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-alias-alias-heichelos-34bfb8e313.md",
-		"category": "Routes",
-		"provenance": "generated",
-		"headings": [
-			{
-				"level": 1,
-				"text": "API Tutorial: /api/social/alias/:alias/heichelos",
-				"anchor": "api-tutorial-api-social-alias-alias-heichelos"
-			},
-			{
-				"level": 2,
-				"text": "Contract evidence",
-				"anchor": "contract-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Path parameters",
-				"anchor": "path-parameters"
-			},
-			{
-				"level": 2,
-				"text": "Starter call",
-				"anchor": "starter-call"
-			},
-			{
-				"level": 2,
-				"text": "Observed callers",
-				"anchor": "observed-callers"
-			},
-			{
-				"level": 2,
-				"text": "Related tests",
-				"anchor": "related-tests"
-			},
-			{
-				"level": 2,
-				"text": "Related routes",
-				"anchor": "related-routes"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/social/alias/:alias/heichelos Family: Social · Mount: /api/social · Derech health: OK Source: geelooy/api/social/ awtsmoos.heichel.js · Discovery: static literal · Confidence: unknown method Read the human Social tutorial Generated evidence is a navigation and teaching",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/social/alias/:alias/heichelos family: social · mount: /api/social · derech health: ok source: geelooy/api/social/ awtsmoos.heichel.js · discovery: static literal · confidence: unknown method read the human social tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: $ get, $ post, $ delete, route vars observed status literals: — observed headers: — path parameters name shape alias single segment starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test — npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported style ownership && npm run test:css quality && npm run test:heichelos quality && npm run test:profile menu && npm run test:heichel governance && npm run test:post submissions && npm run test:comments && npm run test:api keys && npm run test:graph && npm run test:social content && npm run test:notifications && npm run test:social packed && npm run test:packed engine && npm run test:platform ops && npm run test:platform execution && npm run test:node client && npm run test:dayuh cutover test:api keys — node geelooy/api/social/helper/test/apikeys.test.js test:comments — node geelooy/api/social/helper/comments/test/runallcommentstests.js test:concurrency failure — node geelooy/api/social/test/concurrencyfailurestress.test.mjs test:dayuh release — npm run test:routes && npm run test:comments && npm run test:social content && npm run test:social packed && npm run test:packed engine && node test tools/dayuhchadashmaintenance/test/ .test.js && npm run test:dayuh cutover related routes /api/social /api/social/abuse/ratelimit/check /api/social/alias/:alias /api/social/alias/:alias/details /api/social/alias/:alias/heichelos/:heichel /api/social/alias/:alias/heichelos/:heichel/ownership /api/social/alias/:alias/heichelos/details /api/social/alias/:alias/history",
-		"page": "pages/docs-generated-api-tutorials-routes-api-social-alias-alias-heichelos-34b-8d0d320206.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated API Source Contract Evidence 326–390 Lexical source evidence; methods marked unknown are not assumed GET. Source Methods Vessels Statuses Headers geelooy/api/social/helper/profile/writeProfile.js unknown $ POST, db — — geelooy/api/social/helper/reactions/entityReactionStore.js ",
+		"searchText": "b\"h boruch hashem blessed is he generated api source contract evidence 326–390 lexical source evidence; methods marked unknown are not assumed get. source methods vessels statuses headers geelooy/api/social/helper/profile/writeprofile.js unknown $ post, db — — geelooy/api/social/helper/reactions/entityreactionstore.js unknown db — — geelooy/api/social/helper/repositories/gitbasicauth.js unknown — 401 — geelooy/api/social/helper/repositories/gitcgiresponse.js unknown — 200 — geelooy/api/social/helper/repositories/gitcloneservice.js unknown db — — geelooy/api/social/helper/repositories/repositoryauthorization.js unknown — 404 — geelooy/api/social/helper/response/routeresponses.js unknown — 400, 405 — geelooy/api/social/helper/richsocial/richpostservice.js unknown $ get, $ post — — geelooy/api/social/helper/routes/agent/engine.js unknown db — — geelooy/api/social/helper/routes/agent/routesclass.js unknown db — — geelooy/api/social/helper/routes/agent/routesheichel.js unknown $ post — — geelooy/api/social/helper/routes/agent/routesjobsubmit.js unknown $ post — — geelooy/api/social/helper/routes/agent/routespostlist.js unknown $ post — — geelooy/api/social/helper/routes/agent/routespostwrite.js unknown $ post — — geelooy/api/social/helper/routes/agent/routestranslate.js unknown $ post, db — cache control, connection, content type, transfer encoding geelooy/api/social/helper/routes/agent/transactions.js unknown db — — geelooy/api/social/helper/routes/agent/transactionsauth.js unknown $ post, $ delete, identity — — geelooy/api/social/helper/routes/agent/transactionsheichel.js unknown route vars, db — — geelooy/api/social/helper/routes/agent/transactionslist.js unknown db — — geelooy/api/social/helper/routes/agent/transactionspostcreate.js unknown db — — geelooy/api/social/helper/routes/agent/transactionspostmodify.js unknown db — — geelooy/api/social/helper/routes/alias/collectionroutes.js get, post — — — geelooy/api/social/helper/routes/alias/entityroutes.js unknown route vars — — geelooy/api/social/helper/routes/alias/operations.js put, delete identity — — geelooy/api/social/helper/routes/alias/userroutes.js get, post route vars — — geelooy/api/social/helper/routes/packed/aliasmixin.js unknown db — — geelooy/api/social/helper/routes/packed/authcoremixin.js unknown identity — — geelooy/api/social/helper/routes/packed/authsignmixin.js unknown $ post — — geelooy/api/social/helper/routes/packed/backlinksmixin.js unknown db — — geelooy/api/social/helper/routes/packed/backlinksrepairmixin.js unknown db — — geelooy/api/social/helper/routes/packed/censusmixin.js unknown identity, db — — geelooy/api/social/helper/routes/packed/deployroutesclass.js unknown $ post — — geelooy/api/social/helper/routes/packed/deployroutespush.js unknown $ post — — geelooy/api/social/helper/routes/packed/deploysign.js unknown route vars — — geelooy/api/social/helper/routes/packed/maintenanceroutesadmin.js unknown $ post, db — — geelooy/api/social/helper/routes/packed/nativewritemixin.js unknown db — — geelooy/api/social/helper/routes/packed/notesmixin.js unknown $ post, identity, db — — geelooy/api/social/helper/routes/packed/notesstore.js unknown db — — geelooy/api/social/helper/routes/packed/ownershipaliases.js unknown identity, db — — geelooy/api/social/helper/routes/packed/ownershipheichel.js unknown db — — geelooy/api/social/helper/routes/packed/ownershipidentity.js unknown identity — — geelooy/api/social/helper/routes/packed/processonewrite.js unknown db — — geelooy/api/social/helper/routes/packed/removemixin.js unknown db — — geelooy/api/social/helper/routes/packed/requestvalues.js unknown $ get, $ post — — geelooy/api/social/helper/routes/packed/runverifymixin.js unknown db — — geelooy/api/social/helper/routes/packed/seriesaddsmixin.js unknown db — — geelooy/api/social/helper/routes/packed/seriesprateemmixin.js unknown db — — geelooy/api/social/helper/routes/packed/shardroutesclass.js unknown $ post — — geelooy/api/social/helper/routes/packed/startposts.js unknown $ post — — geelooy/api/social/helper/routes/packed/submissionsmixin.js get, post $ post, identity, db — — geelooy/api/social/helper/routes/packed/updatemixin.js unknown $ post, db — — geelooy/api/social/helper/routes/packed/verifymixin.js unknown db — — geelooy/api/social/helper/routes/posts/aliasroutes.js unknown route vars — — geelooy/api/social/helper/routes/posts/bulkpublishcore.js unknown identity — — geelooy/api/social/helper/routes/posts/bulkpublishposts.js unknown db — — geelooy/api/social/helper/routes/posts/bulkpublishroute.js unknown $ post, identity — — geelooy/api/social/helper/routes/posts/needsworkdb.js unknown db — — geelooy/api/social/helper/routes/posts/needsworkreport.js unknown $ get — — geelooy/api/social/helper/routes/posts/needsworkroutes.js unknown route vars, identity, db — — geelooy/api/social/helper/routes/posts/readersquery.js unknown $ get — — geelooy/api/social/helper/routes/posts/seriesroutes.js unknown $ get, $ post, $ delete, route vars — — geelooy/api/social/helper/routes/posts/submissionroutes.js unknown $ post, route vars — — geelooy/api/social/helper/routes/profile/commentbrowseroutes.js unknown route vars — — geelooy/api/social/helper/routes/profile/discoveryrecommendationroutes.js unknown route vars — — geelooy/api/social/helper/routes/profile/legacyauthoredroutes.js unknown route vars — —",
+		"page": "pages/docs-generated-api-source-contracts-api-source-contracts-006-md-044784e785.json"
 	}
 ]

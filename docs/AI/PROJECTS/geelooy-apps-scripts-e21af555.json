@@ -22,42 +22,63 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-scripts-e21af555.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 15,
-		"tests": 0,
+		"source": 27,
+		"tests": 6,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
 		"other": 0
 	},
-	"totalFiles": 16,
+	"totalFiles": 34,
 	"symbolSummary": {
-		"files": 15,
-		"classes": 1,
-		"functions": 10,
-		"exports": 16,
+		"files": 27,
+		"classes": 9,
+		"functions": 19,
+		"exports": 35,
 		"samples": [
-			"categoryMatches",
-			"announceResults",
-			"applyFilters",
+			"PRIMARY_APPS_RUNTIME_URL",
+			"createAppsRuntimeRecoveryUrl",
+			"async",
+			"importAppsFilterRuntime",
+			"defaultRecoveryNonce",
+			"appsFilterRuntimeReady",
+			"revealAppsFilterTiferes",
+			"startAppsBuildFreshness",
 			"defineApp",
-			"CREATION_APPS",
-			"DEVELOPER_APPS",
-			"GAME_APPS",
-			"Awtsmoos",
-			"gameAsApp",
-			"publicGameHref",
-			"PUBLIC_APPS",
-			"MEDIA_APPS"
+			"commerceLabelFor",
+			"AI_CREATION_APPS",
+			"CREATION_APPS"
 		]
 	},
 	"outgoingDependencies": [
+		{
+			"project": "geelooy/scripts",
+			"count": 6,
+			"examples": "geelooy/apps/scripts/apps-filter.v2.js; geelooy/apps/scripts/filter/AppsFilterMalchusView.js; geelooy/apps/scripts/filter/AppsFilterTiferesRuntime.js"
+		},
 		{
 			"project": "geelooy/games/scripts",
 			"count": 1,
 			"examples": "geelooy/apps/scripts/catalog/games.mjs"
 		}
 	],
-	"incomingDependencies": [],
+	"incomingDependencies": [
+		{
+			"project": "geelooy/scripts",
+			"count": 4,
+			"examples": "geelooy/scripts/commerce/install-product-commerce.mjs; geelooy/scripts/home-simple/constellation-catalog.js; geelooy/scripts/seo/audit/run.mjs"
+		},
+		{
+			"project": "geelooy/os",
+			"count": 1,
+			"examples": "geelooy/os/shell/appCatalogPublicProducts.js"
+		},
+		{
+			"project": "geelooy/seo",
+			"count": 1,
+			"examples": "geelooy/seo/generatePublicCatalog.mjs"
+		}
+	],
 	"externalDependencies": [],
 	"publicEntries": [],
 	"requiresLocalDocumentation": true,

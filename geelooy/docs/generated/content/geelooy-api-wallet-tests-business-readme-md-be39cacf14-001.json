@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Wallet Business Tests (geelooy/api/wallet/tests/business/)\n\nEconomics-level tests for wallet organizations and marketplace:\n`marketplaceEconomics.test.js`, `organizationMembers.test.js`,\n`organizationTreasury.test.js`, `resourceQuotePolicy.test.js`.\n\nThese verify money-behavior rules (who can spend what, fee/policy math)\nrather than single route handlers.\n"
+}

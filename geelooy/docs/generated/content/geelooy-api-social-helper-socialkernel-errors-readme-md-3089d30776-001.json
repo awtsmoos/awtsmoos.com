@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Social Kernel Errors (geelooy/api/social/helper/socialKernel/errors/)\n\n- `SocialError.js` — kernel error type with codes used across social kernel modules.\n"
+}

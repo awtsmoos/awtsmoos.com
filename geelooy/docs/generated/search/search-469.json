@@ -1,0 +1,108 @@
+[
+	{
+		"id": "geelooy-apps-merkava-extensions-mobile-md-9706e92fab",
+		"title": "B\"H — Extensions on mobile (Android APK shell)",
+		"sourcePath": "geelooy/apps/merkava/EXTENSIONS_MOBILE.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Extensions on mobile (Android APK shell)",
+				"anchor": "b-h-extensions-on-mobile-android-apk-shell"
+			},
+			{
+				"level": 2,
+				"text": "The core claim",
+				"anchor": "the-core-claim"
+			},
+			{
+				"level": 2,
+				"text": "What already holds (verified, not claimed)",
+				"anchor": "what-already-holds-verified-not-claimed"
+			},
+			{
+				"level": 2,
+				"text": "What the APK shell must provide",
+				"anchor": "what-the-apk-shell-must-provide"
+			},
+			{
+				"level": 2,
+				"text": "Honest v1 limits (all documented in js/extensions-host.js)",
+				"anchor": "honest-v1-limits-all-documented-in-js-extensions-host-js"
+			},
+			{
+				"level": 2,
+				"text": "Threat model note",
+				"anchor": "threat-model-note"
+			}
+		],
+		"excerpt": "B\"H — Extensions on mobile (Android APK shell) Why the same extension host runs on Android with no porting of extension logic, what already holds, and what the APK shell must provide. The core claim merkava browser/ExtensionHost.js + VmScriptRunner.js are pure JavaScript with zero Node only dependencies on the browser ",
+		"searchText": "b\"h — extensions on mobile (android apk shell) why the same extension host runs on android with no porting of extension logic, what already holds, and what the apk shell must provide. the core claim merkava browser/extensionhost.js + vmscriptrunner.js are pure javascript with zero node only dependencies on the browser path , verified by tests/test extensions browser.mjs (61/61 in a vm sandbox with no require/module/process/buffer/fs): all node access goes through a guarded noderequire() shim that returns null in a page. no bare require() outside it (s0 audit). buffer is used only by the crx3/zip reader — the unpacked flow is buffer free (s0 audit). process.cwd() is guarded by path ? and never evaluated in a page. background service workers run through the real merkava vm (merkavaastparser → json ir → bytecode → merkava vm). v8/javascriptcore never executes guest code directly: guest function values cross into the host as interpreter vessels bridged by defaultmerkavahost.callmethod. the vm pipeline is injected, not required: vmscriptrunner.setpipelineloaders({ compilejstocode, createdefaulthost, decodesangartifact }) — the page bundle supplies the already bundled modules, so the node only loadpipeline() never runs. chrome.storage. persists via a backend chain: node fs → browser localstorage → in memory . on android the localstorage leg is what persists (per extension key namespace merkava.ext. .storage. ). so on android the extension system is the same files , not a port. what already holds (verified, not claimed) verified in test extensions browser.mjs s0 static audit: zero unguarded node only deps on the browser path s1 module loads in a browser like global; manifest v2+v3 validation; match patterns ( :// .example.com/ , ); unpacked load; startbackground degrades cleanly without the vm s2 chrome.storage.local persists via localstorage, incl. across a simulated page reload s3 chrome.alarms fires on page timers s4 background service worker completes in the real merkava vm inside the sandbox; vm registered alarms fire; vm storage writes persist s5 content script executes in the vm with an observable dom effect, routed by match pattern s6 popup html renders through the real merkava engine (parse → paint → png) and decodes to real pixels (button 3aa757 and heading 123456 found in the pixel buffer) s7 real open source extension end to end: googlechrome/chrome extensions samples tutorial.getting started (apache 2.0) — manifest parses, service worker runs in the vm, runtime.oninstalled fires → chrome.storage.sync.color === \" 3aa757\", popup renders to non blank pixels s8 js/net.js provider interface (see networking.md) what the apk shell must provide the apk is a webview free canvas host : it does not need chromium, v8 guest execution, or node. it needs: 1. a js runtime (javascriptcore, hermes, or v8) running the page bundle: extensionhost.js + vmscriptrunner.js + the bundled merkava binary/ pipeline modules + the vm sources (merkava opcodes.js, merkava vm/ — plain scripts, no require). 2. window.merkavavmpipeline = { compilejstocode, createdefaulthost, decodesangartifact } and globalthis.merkavavm (load the vm sources into the page global before injecting the pipeline). 3. a localstorage implementation (or any storage shaped shim) — this is the extension storage persistence leg on mobile. 4. file access for unpacked extensions : a directory picker (android storage access framework) producing file bytes; loadunpacked() takes { name webkitrelativepath, arraybuffer() } shaped objects — no dom file api required, any native bridge that yields bytes works. 5. timers (settimeout/clearinterval) — alarms. 6. a buffer polyfill (or equivalent) for the vm pipeline's sang artifact path. vmscriptrunner degrades without it, but artifact decode is cleaner with it. 7. canvas 2d (putimagedata) for popup rendering — the host paints popups on canvas from engine pixels; no dom rendering of popups needed. 8. png decode only for tests; production never decodes png. honest v1 limits (all documented in js/extensions host.js) unpacked extensions only. crx3 parsing needs buffer+zlib (node only today). extract on a server or via the tunnel, then load unpacked. extension files are session only (in memory); metadata + chrome.storage survive restarts via localstorage. a persistent file store (e.g. app private files dir via the native bridge) is the natural next step, not a redesign. popup scripts don't execute in v1 — popups render as static html+css through the engine to canvas. popup.js interactivity (like the getting started color button) is future work. chrome.tabs. is the host's virtual tab list until the tabs worker wires the real tabmanager. fetch() inside extension code is subject to the page cors policy (see networking.md); the tunnel relay is the unrestricted path. the render pipeline's png encoder uses zlib — the apk bundle needs a zlib/inflate polyfill (e.g. pako) for the test/screenshot path only. threat model note guest extension code never runs as host js: it is compiled to merkava bytecode and stepped by the vm with a bounded cycle budget (cycles: 60000 per background script). the chrome. api is the only host surface. content scripts run against a page provided document — on mobile that is the engine's virtual dom, not a webview dom.",
+		"page": "pages/geelooy-apps-merkava-extensions-mobile-md-9706e92fab.json"
+	},
+	{
+		"id": "geelooy-apps-merkava-networking-md-2fd335e1fd",
+		"title": "B\"H — Merkava browser networking",
+		"sourcePath": "geelooy/apps/merkava/NETWORKING.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Merkava browser networking",
+				"anchor": "b-h-merkava-browser-networking"
+			},
+			{
+				"level": 2,
+				"text": "v1: host fetch()",
+				"anchor": "v1-host-fetch"
+			},
+			{
+				"level": 2,
+				"text": "The CORS boundary (honest)",
+				"anchor": "the-cors-boundary-honest"
+			},
+			{
+				"level": 2,
+				"text": "The tunnel relay (Yaakov's standing directive — the unrestricted path)",
+				"anchor": "the-tunnel-relay-yaakov-s-standing-directive-the-unrestricted-path"
+			},
+			{
+				"level": 3,
+				"text": "The tunnel seam (exact contract the tunnel must expose)",
+				"anchor": "the-tunnel-seam-exact-contract-the-tunnel-must-expose"
+			},
+			{
+				"level": 3,
+				"text": "Security posture",
+				"anchor": "security-posture"
+			},
+			{
+				"level": 2,
+				"text": "What this means for page loads today",
+				"anchor": "what-this-means-for-page-loads-today"
+			}
+		],
+		"excerpt": "B\"H — Merkava browser networking How page loads fetch bytes in v1, where the CORS boundary actually is (stated honestly), the provider interface, and how the tunnel relay plugs in later for unrestricted fetching (Yaakov's standing directive). v1: host fetch() js/net.js defines the seam. Page loads go through a NetProvi",
+		"searchText": "b\"h — merkava browser networking how page loads fetch bytes in v1, where the cors boundary actually is (stated honestly), the provider interface, and how the tunnel relay plugs in later for unrestricted fetching (yaakov's standing directive). v1: host fetch() js/net.js defines the seam. page loads go through a netprovider: both methods reject (never fake success) with a neterror { code, message, url }. codes: fetch failed, http error, timeout, tunnel not configured, tunnel error. fetchnetprovider is the host fetch() (browser or node 18+). verified in tests/test extensions browser.mjs s8 (8/8): fetchdocument(\"data:text/html, hi \") → ok, status 200, text + contenttype. fetchasset(\"data:text/plain,hello\") → ok, 5 bytes. fetchdocument(\"https://invalid.invalid.nope/\") → rejects, code: \"fetch failed\". fetchdocument(\"http://256.256.256.256/\") → rejects with an honest code. the cors boundary (honest) the web hosted merkava page is a normal web page. its fetch() lives under the page origin's cors policy — the browser enforces it, we don't bypass it, and we don't claim to. what loads: same origin urls (the app's own static files, about: pages are internal). cross origin urls whose servers send access control allow origin (e.g. https://example.com, many cdns/apis). data: / blob: urls (extension assets, generated pages). what gets blocked, and why: cross origin pages without cors headers (most of the web: news sites, wikipedia html, etc.). the browser refuses the read; fetch() rejects with a typeerror. we surface it as neterror{fetch failed} — we do not distinguish \"cors blocked\" from \"dns failed\" because the browser deliberately hides the difference. the user sees an honest error notice, never a hang and never fabricated content. http:// urls from an https:// page (mixed content) — blocked by the browser. file:// urls — not fetchable from an https:// page. what the user sees: the address bar shows the url, the viewport shows a plain error card with the reason (fetch failed, http error 403, timeout). no spinners that never resolve. no cors mode is intentionally not used for documents: it returns opaque responses whose bodies javascript cannot read — useless for a browser that must parse the html. the tunnel relay (yaakov's standing directive — the unrestricted path) tunnelrelaynetprovider implements the same netprovider interface over the existing merkava browser/merkavatunnelclient.js (read 2026 10 09). today it is a stub : unconfigured it rejects every call with code: \"tunnel not configured\" (verified s8) — a greppable, honest signal, never a silent fallback to host fetch. the tunnel seam (exact contract the tunnel must expose) merkavatunnelclient today exposes: mydevice/discover/ensureroute, executeaction(action, params), commandrun, polljob, fslist/fsread/fswrite/fsmkdir, merkava(action, payload). there is no fetch relay action yet — this is the piece to build. wiring: tunnel.configure({ client, action }) where: client — a merkavatunnelclient with token + route (await client.ensureroute()). action — the tunnel action name the remote side implements, e.g. \"fetchurl\". the remote side (the user's own machine at the end of the tunnel, which has no cors restriction) must implement: notes: text for documents (decoded as utf 8 remotely); bytesbase64 for assets (json safe). net.js decodes base64 locally (atob in the page, buffer in node). timeouts: the client passes timeoutms + 30000 to executeaction so the pending envelope polling (max retries, retryaction) has room. redirects are followed remotely; finalurl is reported so the address bar stays truthful. security posture the relay gives a web page server side request capability through the user's own tunnel. v1 rule: the stub refuses to run unconfigured , and when configured it must sit behind an explicit per origin/extension user opt in (not yet built). never silently upgrade fetchnetprovider to the relay. what this means for page loads today navigator (sibling worker) uses fetchnetprovider: same origin and cors open pages load fully; the rest show the honest error card until the tunnel relay action exists. that is the complete, verified v1 story — no fake claims.",
+		"page": "pages/geelooy-apps-merkava-networking-md-2fd335e1fd.json"
+	},
+	{
+		"id": "geelooy-apps-mitzvah-pushkuh-documentation-md-a17a27d616",
+		"title": "Mitzvah Pushkuh Documentation",
+		"sourcePath": "geelooy/apps/mitzvah-pushkuh/DOCUMENTATION.md",
+		"category": "Apps",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Mitzvah Pushkuh Documentation",
+				"anchor": "mitzvah-pushkuh-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Mitzvah Pushkuh Documentation The Awtsmoos gives this substantial named project its own local doorway while human meaning stays grounded in its actual source; Awtsmoos.com links the app inventory and project chooser rather than inventing a narrower business story by force. Start with ../",
+		"searchText": "b\"h boruch hashem blessed is he mitzvah pushkuh documentation the awtsmoos gives this substantial named project its own local doorway while human meaning stays grounded in its actual source; awtsmoos.com links the app inventory and project chooser rather than inventing a narrower business story by force. start with ../../../docs/apps/readme.md, ../../../docs/how to choose a project.md, and this app's own entry/readme source.",
+		"page": "pages/geelooy-apps-mitzvah-pushkuh-documentation-md-a17a27d616.json"
+	}
+]

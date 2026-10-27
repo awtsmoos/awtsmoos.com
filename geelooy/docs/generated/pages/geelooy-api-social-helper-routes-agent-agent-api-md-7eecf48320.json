@@ -1,0 +1,204 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-social-helper-routes-agent-agent-api-md-7eecf48320",
+	"title": "B\"H — Awtsmoos Agent Translation API",
+	"sourcePath": "geelooy/api/social/helper/routes/agent/AGENT_API.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Awtsmoos Agent Translation API",
+			"anchor": "b-h-awtsmoos-agent-translation-api"
+		},
+		{
+			"level": 2,
+			"text": "Auth",
+			"anchor": "auth"
+		},
+		{
+			"level": 1,
+			"text": "-> {\"success\":{\"key\":\"awt...\",\"record\":{...}}}",
+			"anchor": "success-key-awt-record"
+		},
+		{
+			"level": 2,
+			"text": "Discover",
+			"anchor": "discover"
+		},
+		{
+			"level": 1,
+			"text": "endpoints, limits, engine mode (scaffold vs engine+scaffold)",
+			"anchor": "endpoints-limits-engine-mode-scaffold-vs-engine-scaffold"
+		},
+		{
+			"level": 2,
+			"text": "Translate text (sync)",
+			"anchor": "translate-text-sync"
+		},
+		{
+			"level": 1,
+			"text": "-> {\"success\":{\"engine\":\"scaffold\",\"sourceLang\":\"he\",\"segments\":[...],",
+			"anchor": "success-engine-scaffold-sourcelang-he-segments"
+		},
+		{
+			"level": 1,
+			"text": "\"alignment\":[...],\"glossaryHits\":[...],\"rateLimit\":{...}}}",
+			"anchor": "alignment-glossaryhits-ratelimit"
+		},
+		{
+			"level": 2,
+			"text": "Translate (SSE stream)",
+			"anchor": "translate-sse-stream"
+		},
+		{
+			"level": 1,
+			"text": "data: {\"type\":\"start\",\"engine\":\"scaffold\",...}",
+			"anchor": "data-type-start-engine-scaffold"
+		},
+		{
+			"level": 1,
+			"text": "data: {\"type\":\"segment\",\"index\":0,...}",
+			"anchor": "data-type-segment-index-0"
+		},
+		{
+			"level": 1,
+			"text": "data: {\"type\":\"done\",\"alignment\":[...]}",
+			"anchor": "data-type-done-alignment"
+		},
+		{
+			"level": 2,
+			"text": "Batch translate (async job)",
+			"anchor": "batch-translate-async-job"
+		},
+		{
+			"level": 1,
+			"text": "-> {\"success\":{\"jobId\":\"agentjob...\",\"status\":\"queued\",\"total\":2}}",
+			"anchor": "success-jobid-agentjob-status-queued-total-2"
+		},
+		{
+			"level": 1,
+			"text": "-> {\"success\":{\"status\":\"done\",\"done\":2,\"results\":[...]}}",
+			"anchor": "success-status-done-done-2-results"
+		},
+		{
+			"level": 2,
+			"text": "Submit your translation",
+			"anchor": "submit-your-translation"
+		},
+		{
+			"level": 1,
+			"text": "-> {\"success\":{\"submissionId\":\"agentsub...\",\"segmentCount\":1}}",
+			"anchor": "success-submissionid-agentsub-segmentcount-1"
+		},
+		{
+			"level": 2,
+			"text": "Companion endpoints",
+			"anchor": "companion-endpoints"
+		},
+		{
+			"level": 1,
+			"text": "List corpora (snapshot 2026-10-11; live + incoming books)",
+			"anchor": "list-corpora-snapshot-2026-10-11-live-incoming-books"
+		},
+		{
+			"level": 1,
+			"text": "Fetch a post (bounded preview)",
+			"anchor": "fetch-a-post-bounded-preview"
+		},
+		{
+			"level": 1,
+			"text": "Translation status for a post",
+			"anchor": "translation-status-for-a-post"
+		},
+		{
+			"level": 1,
+			"text": "Glossary: all terms, or one (?term=yackov)",
+			"anchor": "glossary-all-terms-or-one-term-yackov"
+		},
+		{
+			"level": 1,
+			"text": "Search agent translation memory + glossary (?scope=translations|glossary|all)",
+			"anchor": "search-agent-translation-memory-glossary-scope-translations-glossary-all"
+		},
+		{
+			"level": 2,
+			"text": "Limits & errors",
+			"anchor": "limits-errors"
+		},
+		{
+			"level": 2,
+			"text": "Agent-as-user transactions",
+			"anchor": "agent-as-user-transactions"
+		},
+		{
+			"level": 1,
+			"text": "Create a heichel",
+			"anchor": "create-a-heichel"
+		},
+		{
+			"level": 1,
+			"text": "-> {\"success\":{\"heichel\":{\"name\":\"My Sefer\",\"heichelId\":\"h...\"},...}}}",
+			"anchor": "success-heichel-name-my-sefer-heichelid-h"
+		},
+		{
+			"level": 1,
+			"text": "Edit a heichel (rename / new description)",
+			"anchor": "edit-a-heichel-rename-new-description"
+		},
+		{
+			"level": 1,
+			"text": "Delete a heichel (confirm:true required — this removes the whole heichel)",
+			"anchor": "delete-a-heichel-confirm-true-required-this-removes-the-whole-heichel"
+		},
+		{
+			"level": 1,
+			"text": "List your heichelos",
+			"anchor": "list-your-heichelos"
+		},
+		{
+			"level": 1,
+			"text": "Create a post (title required; content up to the platform limit)",
+			"anchor": "create-a-post-title-required-content-up-to-the-platform-limit"
+		},
+		{
+			"level": 1,
+			"text": "-> {\"success\":{\"post\":{\"id\":\"post...\",\"title\":\"Bereshis 1\",...}}}",
+			"anchor": "success-post-id-post-title-bereshis-1"
+		},
+		{
+			"level": 1,
+			"text": "Edit a post (title and/or content; edit titles ≤100 chars)",
+			"anchor": "edit-a-post-title-and-or-content-edit-titles-100-chars"
+		},
+		{
+			"level": 1,
+			"text": "Delete a post",
+			"anchor": "delete-a-post"
+		},
+		{
+			"level": 1,
+			"text": "Batch-import up to 25 posts in one idempotent call",
+			"anchor": "batch-import-up-to-25-posts-in-one-idempotent-call"
+		},
+		{
+			"level": 1,
+			"text": "-> {\"success\":{\"created\":[{\"postId\":\"...\",\"title\":\"Ch 1\"},...],\"failed\":[]}}",
+			"anchor": "success-created-postid-title-ch-1-failed"
+		},
+		{
+			"level": 1,
+			"text": "List your posts (?scope=heichel lists the whole heichel, needs authority)",
+			"anchor": "list-your-posts-scope-heichel-lists-the-whole-heichel-needs-authority"
+		},
+		{
+			"level": 2,
+			"text": "Translating at scale — the loop",
+			"anchor": "translating-at-scale-the-loop"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-social-helper-routes-agent-agent-api-md-7eecf48320-001.json"
+	]
+}

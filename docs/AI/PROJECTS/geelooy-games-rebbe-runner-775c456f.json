@@ -9,9 +9,10 @@
 		"id": "games",
 		"title": "Games and Worlds"
 	},
-	"title": "The Rebbe's Runner",
+	"title": "Rebbe Runner — Run Through Brooklyn",
 	"entries": [
-		"index.html"
+		"index.html",
+		"package.json"
 	],
 	"humanDocumentation": [
 		"docs/TUTORIALS/PROJECTS/GAMES.md",
@@ -21,32 +22,32 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-rebbe-runner-775c456f.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 4,
-		"tests": 0,
+		"source": 51,
+		"tests": 3,
 		"assets": 0,
 		"generated": 0,
 		"docs": 0,
 		"other": 0
 	},
-	"totalFiles": 4,
+	"totalFiles": 54,
 	"symbolSummary": {
-		"files": 2,
-		"classes": 3,
-		"functions": 9,
-		"exports": 0,
+		"files": 38,
+		"classes": 29,
+		"functions": 34,
+		"exports": 41,
 		"samples": [
-			"Player",
-			"Obstacle",
-			"Collectible",
-			"resizeCanvas",
-			"drawRoadLines",
-			"createBackground",
-			"init",
-			"drawBackground",
-			"animate",
-			"detectCollision",
-			"endGame",
-			"handleStart"
+			"NEFESH_VISUALS",
+			"KELIPOS",
+			"MITZVAH_VISUALS",
+			"SHEFA",
+			"MASLUL_SCENERY",
+			"OLAM",
+			"MASLULIM",
+			"CHESED_RUN_CATALOG",
+			"KelipahObstacle",
+			"MaslulState",
+			"MitzvahSpark",
+			"NefeshRunner"
 		]
 	},
 	"outgoingDependencies": [],
@@ -56,12 +57,12 @@
 		{
 			"url": "/games/rebbe-runner",
 			"file": "geelooy/games/rebbe-runner/index.html",
-			"title": "The Rebbe's Runner",
+			"title": "Rebbe Runner — Run Through Brooklyn",
 			"scripts": 2,
-			"styles": 1
+			"styles": 4
 		}
 	],
-	"requiresLocalDocumentation": false,
+	"requiresLocalDocumentation": true,
 	"documentationCovered": false,
 	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
 }

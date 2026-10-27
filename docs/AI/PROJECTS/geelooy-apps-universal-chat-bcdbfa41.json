@@ -24,19 +24,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-universal-chat-bcdbfa41.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 150,
-		"tests": 22,
+		"source": 184,
+		"tests": 38,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
 		"other": 0
 	},
-	"totalFiles": 173,
+	"totalFiles": 223,
 	"symbolSummary": {
-		"files": 85,
-		"classes": 47,
-		"functions": 141,
-		"exports": 120,
+		"files": 108,
+		"classes": 61,
+		"functions": 173,
+		"exports": 160,
 		"samples": [
 			"createActivityCard",
 			"chip",
@@ -59,15 +59,21 @@
 			"examples": "geelooy/apps/universal-chat/MessagingConversationActions.js"
 		}
 	],
-	"incomingDependencies": [],
+	"incomingDependencies": [
+		{
+			"project": "geelooy/social-hub",
+			"count": 3,
+			"examples": "geelooy/social-hub/js/messages/ConversationVoiceComposer.js; geelooy/social-hub/js/messages/ConversationVoiceView.js"
+		}
+	],
 	"externalDependencies": [],
 	"publicEntries": [
 		{
 			"url": "/apps/universal-chat",
 			"file": "geelooy/apps/universal-chat/index.html",
 			"title": "Messages & Torah Chat | Awtsmoos.com",
-			"scripts": 2,
-			"styles": 1
+			"scripts": 3,
+			"styles": 2
 		}
 	],
 	"requiresLocalDocumentation": true,

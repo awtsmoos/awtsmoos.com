@@ -1,198 +1,401 @@
 [
 	{
-		"id": "docs-websites-tunnel-agent-website-workflow-md-c88bf9055b",
-		"title": "Tunnel Agent Website Workflow",
-		"sourcePath": "docs/WEBSITES/TUNNEL_AGENT_WEBSITE_WORKFLOW.md",
-		"category": "Tunnel",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-games-sulam-ha-sod-626-f1c11f9ed6",
+		"title": "Project Tutorial: Sulam HaSod",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-sulam-ha-sod-6268c2f3.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Tunnel Agent Website Workflow",
-				"anchor": "tunnel-agent-website-workflow"
+				"text": "Project Tutorial: Sulam HaSod",
+				"anchor": "project-tutorial-sulam-hasod"
 			},
 			{
 				"level": 2,
-				"text": "The shortest safe flow",
-				"anchor": "the-shortest-safe-flow"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Publication protocol v1",
-				"anchor": "publication-protocol-v1"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Direct versus snapshot",
-				"anchor": "direct-versus-snapshot"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "Build from nothing",
-				"anchor": "build-from-nothing"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
 			},
 			{
 				"level": 2,
-				"text": "If automation is already inside Drive",
-				"anchor": "if-automation-is-already-inside-drive"
+				"text": "Depends on",
+				"anchor": "depends-on"
 			},
 			{
 				"level": 2,
-				"text": "Dynamic Node on the owner's machine",
-				"anchor": "dynamic-node-on-the-owner-s-machine"
+				"text": "Used by",
+				"anchor": "used-by"
 			},
 			{
 				"level": 2,
-				"text": "Custom domains",
-				"anchor": "custom-domains"
+				"text": "External packages",
+				"anchor": "external-packages"
 			},
 			{
 				"level": 2,
-				"text": "When a mutation result is uncertain",
-				"anchor": "when-a-mutation-result-is-uncertain"
-			},
-			{
-				"level": 2,
-				"text": "Completion testimony",
-				"anchor": "completion-testimony"
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Tunnel Agent Website Workflow The Awtsmoos renews creator, machine, source, and public request at every instant; Awtsmoos.com lets a trusted agent carry one owned folder through creation and publication while each success claim stays attached to the evidence that can actually support it.",
-		"searchText": "b\"h boruch hashem blessed is he tunnel agent website workflow the awtsmoos renews creator, machine, source, and public request at every instant; awtsmoos.com lets a trusted agent carry one owned folder through creation and publication while each success claim stays attached to the evidence that can actually support it. the shortest safe flow 1. inspect the requested project folder before writing. 2. create or rewrite ordinary index.html, css, javascript, markdown, images, and public assets. 3. confirm the intended public root contains index.html and relative asset paths resolve inside that root. 4. call sitepublishfolder with owned path, dns safe siteid, and mode=direct snapshot. 5. use the returned publication.canonicalurl; never derive a website url from an os or drive path. 6. inspect sourceavailable and entryready. 7. inspect canonicalverifiedlive. if delivery is uncertain or source changes later, call sitepublicationstatus. 8. open the canonical url and verify expected http, page content, assets, and relevant browser runtime behavior before reporting completion. publication protocol v1 tunnel control catalog 3.7.0 exposes a publication protocol without changing historical runtime result objects. mutation actions advertise reconcile before replay, reconcileaction: sitepublicationstatus, and idempotency: not provided. status reads advertise safe read. use the pure publication evidence interpreter when an agent needs lifecycle meaning from an existing result. a mutation remains acknowledged; a status read is observed. verified live is returned only when the real publication testimony explicitly carries canonicalverifiedlive: true. siteunpublish can prove server mapping removal as verified unmapped, but that does not claim dns caches or every external client have converged. direct versus snapshot use direct when publication should follow the owned hosted folder. use snapshot when publication should point at copied point in time source. the modes have different source lifecycles and should never be treated as aliases. build from nothing if the owner provides only an idea, create a small ordinary source tree first. keep it editable, prove the entry file, then publish the folder. drive website maker offers blank, landing, portfolio, and docs starters using the same source model. if automation is already inside drive use window.geelooysitebuilder instead of routing an in page agent back through tunnel or scraping dom controls. its v1.2 envelope separates client correlation, action contract, server facts, external verification, and transport lifecycle. see website maker agent api.md. dynamic node on the owner's machine static publication and connected node runtime are distinct powers. save a native compute recipe containing only cwd, a project relative entry, port, and public scalar arguments. in geelooy os choose a live owned tunnel machine, start the process, inspect logs, and prove the listening service before exposing it. a saved recipe is not a running process. custom domains first prove the canonical awtsmoos url. then claim the hostname, publish the ownership txt record at the current dns provider, verify ownership, and apply only server attested routing records. preserve mx, spf, dkim, dmarc, caa, srv, ns, vendor verification, and unrelated subdomains. dns verification, route activation, tls issuance, and browser health are separate witnesses. an api response can carry real resolver evidence for ownership without proving every other dns or tls gate. when a mutation result is uncertain do not replay blindly. reconcile first. a mutation receipt proves the mutation path completed; it is not a durable idempotency guarantee and does not automatically prove the public browser received the intended page. completion testimony a tunnel created website is complete only when source exists, canonical mapping exists, entry readiness is proven, the authoritative url is known, and live http/browser evidence matches the intended website.",
-		"page": "pages/docs-websites-tunnel-agent-website-workflow-md-c88bf9055b.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Sulam HaSod Path: geelooy/games/sulam ha sod · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or heal",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: sulam hasod path: geelooy/games/sulam ha sod · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, documentation.md local documentation: geelooy/games/sulam ha sod/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 161 15 0 0 1 0 177 public entry points /games/sulam ha sod → geelooy/games/sulam ha sod/index.html — sulam hasod symbol evidence source files: 145; classes: 28; functions: 161; exports: 243; samples: camerarig, game, inputvessel, renderer, lightningrenderer, physicsworld, canvasviewport, hardencampaign, hardenlevel, choosecruelx, rotate, fakecoin. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 15 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-sulam-ha-sod-626-f1c11f9ed6.json"
 	},
 	{
-		"id": "docs-websites-tutorial-index-md-1afbf05641",
-		"title": "Website Maker Tutorial Index",
-		"sourcePath": "docs/WEBSITES/TUTORIAL_INDEX.md",
-		"category": "General",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-games-tests-0a8f1d42-m-43b854c6bb",
+		"title": "Project Tutorial: geelooy/games/tests",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-tests-0a8f1d42.md",
+		"category": "Testing",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Website Maker Tutorial Index",
-				"anchor": "website-maker-tutorial-index"
+				"text": "Project Tutorial: geelooy/games/tests",
+				"anchor": "project-tutorial-geelooy-games-tests"
 			},
 			{
 				"level": 2,
-				"text": "I want to make a website from nothing",
-				"anchor": "i-want-to-make-a-website-from-nothing"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "I want an Awtsmoos Tunnel agent to make and publish it",
-				"anchor": "i-want-an-awtsmoos-tunnel-agent-to-make-and-publish-it"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "I want software inside Drive to control Website Maker",
-				"anchor": "i-want-software-inside-drive-to-control-website-maker"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "I want to connect my own domain",
-				"anchor": "i-want-to-connect-my-own-domain"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
 			},
 			{
 				"level": 2,
-				"text": "I want to move only the website and keep my existing email",
-				"anchor": "i-want-to-move-only-the-website-and-keep-my-existing-email"
+				"text": "Depends on",
+				"anchor": "depends-on"
 			},
 			{
 				"level": 2,
-				"text": "I want provider-specific DNS instructions",
-				"anchor": "i-want-provider-specific-dns-instructions"
+				"text": "Used by",
+				"anchor": "used-by"
 			},
 			{
 				"level": 2,
-				"text": "I want to change nameservers or move the whole DNS provider",
-				"anchor": "i-want-to-change-nameservers-or-move-the-whole-dns-provider"
+				"text": "External packages",
+				"anchor": "external-packages"
 			},
 			{
 				"level": 2,
-				"text": "I use DNSSEC",
-				"anchor": "i-use-dnssec"
-			},
-			{
-				"level": 2,
-				"text": "I want a Node website running on my connected machine",
-				"anchor": "i-want-a-node-website-running-on-my-connected-machine"
-			},
-			{
-				"level": 2,
-				"text": "Something does not load",
-				"anchor": "something-does-not-load"
-			},
-			{
-				"level": 2,
-				"text": "I am not sure whether it is finished",
-				"anchor": "i-am-not-sure-whether-it-is-finished"
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Website Maker Tutorial Index The Awtsmoos renews every question while Awtsmoos.com should let the owner begin from the thing they want to do, not from the internal name of a subsystem; choose the sentence that sounds like your goal and follow that path until evidence says the website is ",
-		"searchText": "b\"h boruch hashem blessed is he website maker tutorial index the awtsmoos renews every question while awtsmoos.com should let the owner begin from the thing they want to do, not from the internal name of a subsystem; choose the sentence that sounds like your goal and follow that path until evidence says the website is truly alive. i want to make a website from nothing start in drive → website maker → build . choose blank, landing, portfolio or docs. edit the ordinary html/css/js in code , inspect saved source in preview , then use publish to receive the canonical url. read: readme.md and troubleshooting.md. i want an awtsmoos tunnel agent to make and publish it let the agent inspect/create the source folder, call sitepublishfolder, inspect the returned publication evidence, reconcile uncertain delivery, and verify the canonical url in a real browser. read: tunnel agent website workflow.md and publish from tunnel.md. i want software inside drive to control website maker use the frozen window.geelooysitebuilder api instead of scraping dom buttons. source, preview, publication and domain actions return serializable result envelopes. read: website maker agent api.md. i want to connect my own domain first prove the canonical awtsmoos url. then claim the hostname, publish the ownership txt record at the existing dns provider, verify ownership, apply the server attested web route, activate when eligible, and verify tls/browser health. read: custom domains.md. i want to move only the website and keep my existing email keep the current authoritative nameservers. change only the server attested website a/aaaa/cname records. preserve mx, spf, dkim, dmarc, srv, vendor verification and unrelated subdomains. read: email dns.md, dns migration.md, and dns cutover checklist.md. i want provider specific dns instructions the current playbooks cover cloudflare, godaddy, namecheap, squarespace domains and amazon route 53, with a separate sheet of official provider references. read: dns provider playbooks.md and dns provider references.md. i want to change nameservers or move the whole dns provider inventory and rebuild the complete zone at the destination first. treat nameserver delegation as a separate cutover from record editing. preserve rollback capability, verify email/web/services, and check dnssec before retiring the old provider. read: dns migration.md, dns cutover checklist.md, and dnssec migration.md. i use dnssec do not assume copied records are sufficient. check the registrar/parent ds record, destination signing plan and provider specific trust chain sequence. read: dnssec migration.md. i want a node website running on my connected machine use a native compute project recipe containing only cwd, project relative entry, port, and public arguments. open connected node server in geelooy os, choose a live owned tunnel device, start the process, inspect logs and prove the listening port. read: readme.md and tunnel agent website workflow.md. something does not load debug in order: source → site mapping → canonical url → assets → browser console/network → domain ownership → dns routing → tls → connected runtime. do not debug all layers at once. read: troubleshooting.md. i am not sure whether it is finished look for separate readiness testimony. a saved configuration is not a live service. publication mapping is not browser verification. dns preservation is not provider application. ownership is not routing. routing is not tls. a native compute recipe is not a running process. the awtsmoos creates the question and the answer, yet awtsmoos.com keeps each finite gate honest; choose the path by intention, verify the result by evidence, and let no hidden subsystem turn a simple creative act into confusion.",
-		"page": "pages/docs-websites-tutorial-index-md-1afbf05641.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/games/tests Path: geelooy/games/tests · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or hea",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/games/tests path: geelooy/games/tests · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: documentation.md local documentation: geelooy/games/tests/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 0 100 0 0 1 0 101 public entry points /games/tests/1 → geelooy/games/tests/1/index.html /games/tests/2 → geelooy/games/tests/2/index.html — three.js webgpu compute particles rain /games/tests/3 → geelooy/games/tests/3/index.html /games/tests/tree → geelooy/games/tests/tree/index.html — three.js tree swaying symbol evidence no lexical symbol summary observed. depends on none observed. used by geelooy/browser test — 2 lexical references; examples: geelooy/browser test/mobile ui/routeaudit.mjs external packages none observed. verification clue observed test classified files: 100 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-tests-0a8f1d42-m-43b854c6bb.json"
 	},
 	{
-		"id": "docs-websites-website-maker-agent-api-md-5b85d9bf58",
-		"title": "Website Maker Agent API",
-		"sourcePath": "docs/WEBSITES/WEBSITE_MAKER_AGENT_API.md",
-		"category": "General",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-games-tetris-9e141667--72919d9370",
+		"title": "Project Tutorial: Tikkun HaOlam — Tetris",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-tetris-9e141667.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Website Maker Agent API",
-				"anchor": "website-maker-agent-api"
+				"text": "Project Tutorial: Tikkun HaOlam — Tetris",
+				"anchor": "project-tutorial-tikkun-haolam-tetris"
 			},
 			{
 				"level": 2,
-				"text": "Two automation planes",
-				"anchor": "two-automation-planes"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Browser API v1.2",
-				"anchor": "browser-api-v1-2"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Correlation is not idempotency",
-				"anchor": "correlation-is-not-idempotency"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "Lifecycle and replay law",
-				"anchor": "lifecycle-and-replay-law"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Result-derived evidence",
-				"anchor": "result-derived-evidence"
+				"text": "Depends on",
+				"anchor": "depends-on"
 			},
 			{
 				"level": 2,
-				"text": "Source and editor actions",
-				"anchor": "source-and-editor-actions"
+				"text": "Used by",
+				"anchor": "used-by"
 			},
 			{
 				"level": 2,
-				"text": "Preview and publication",
-				"anchor": "preview-and-publication"
+				"text": "External packages",
+				"anchor": "external-packages"
 			},
 			{
 				"level": 2,
-				"text": "Domain and DNS actions",
-				"anchor": "domain-and-dns-actions"
-			},
-			{
-				"level": 2,
-				"text": "Completion rule",
-				"anchor": "completion-rule"
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Website Maker Agent API The Awtsmoos renews the visible studio and the software that speaks to it in every instant; Awtsmoos.com gives automation a machine readable covenant where correlation, replay, server facts, and external verification remain different vessels instead of collapsing ",
-		"searchText": "b\"h boruch hashem blessed is he website maker agent api the awtsmoos renews the visible studio and the software that speaks to it in every instant; awtsmoos.com gives automation a machine readable covenant where correlation, replay, server facts, and external verification remain different vessels instead of collapsing into one vague success flag. two automation planes use tunnel control when automation begins from an owned device, virtual os, or an external agent editing source. use window.geelooysitebuilder when automation already runs inside the loaded drive website maker page. both converge on guarded drive/site/domain services, but neither impersonates the other. browser api v1.2 the installed object is frozen and exposes: version 1.2.0 uses response protocol 3. existing envelope keys remain first for compatibility: ok, data, error, message, capability, and affected. new testimony follows as invocation, contract, evidence, and lifecycle. correlation is not idempotency pass correlation beside action input: options.requestid is browser/client correlation only. it never becomes project data and is not a server idempotency key. mutation contracts currently report idempotency: \"not provided\"; uncertain mutations should therefore be reconciled before replay. lifecycle and replay law read success: lifecycle.phase = \"observed\". mutation success: lifecycle.phase = \"acknowledged\". failure: lifecycle.phase = \"failed\". reads normally advertise replay: \"safe read\". mutations advertise replay: \"reconcile before replay\" and the nearest reconcileaction. an acknowledgement proves the action call completed; it does not automatically prove dns propagation, tls issuance, a running node process, or a rendered public page. result derived evidence evidence.serverfacts contains facts returned or persisted by the server. evidence.externalverification is stronger and is upgraded only when the returned result actually contains an external witness. for example, site.domain.verify can return resolver evidence proving the ownership txt record. in that case the envelope may contain externalverification: \"dns ownership verified\". by contrast, site.domain.activate may report route:active and tls:pending as server facts while keeping external verification not implied. the safe nameserver plan action currently demonstrates the distinction: the live system currently returns serverfacts: [\"awtsmoos nameservers:unavailable\"], lifecycle observed, and external verification not implied. that is a real plan fact, not a promise that awtsmoos authoritative dns exists. source and editor actions site.project.describe, site.project.collect, site.project.setbrief site.files.list, site.files.read, site.files.write, site.files.create site.code.open, site.code.inspect, site.code.updatecurrent source mutations reconcile through the nearest file/editor read action. credentials, provider secrets, shell powers, and dom nodes are never returned. preview and publication site.preview.open, site.preview.refresh, site.preview.status site.publish.plan, site.publish.apply, site.publish.status preview is sandboxed source reflection, not public publication. browser site.publish.apply is acknowledged after the site mapping mutation but does not itself perform the tunnel style read after write live check. reconcile with site.publish.status, then verify the canonical url before claiming the site is live. domain and dns actions site.domain.plan, site.domain.claim, site.domain.verify site.domain.activate, site.domain.remove, site.domain.instructions site.nameservers.plan ownership, delegation, route state, tls state, dns provider state, and browser health remain independent gates. a route can be active while tls is pending. a stored dns worksheet is not live dns. a dns ownership verification does not prove mail records or every resolver have converged. completion rule an api envelope is testimony about one action. a finished website additionally needs valid source, canonical mapping, entry readiness, the authoritative url, and appropriate live http/browser evidence. use the strongest witness available, but never silently promote configuration into reality.",
-		"page": "pages/docs-websites-website-maker-agent-api-md-5b85d9bf58.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Tikkun HaOlam — Tetris Path: geelooy/games/tetris · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: tikkun haolam — tetris path: geelooy/games/tetris · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, main.js local documentation: no local documentation.md observed. local doc requirement: yes; covered: no symlink target: — file shape source tests assets generated docs other total 61 0 0 0 0 0 61 public entry points /games/tetris → geelooy/games/tetris/index.html — tikkun haolam — tetris symbol evidence source files: 52; classes: 18; functions: 89; exports: 103; samples: landingcandidate, evaluateboard, aiengine, cols, hidden rows, visible rows, logical rows, lock delay ms, max lock resets, colors, shapes, line scores. depends on geelooy/games/scripts — 1 lexical reference; examples: geelooy/games/tetris/game/render primitives.js used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-tetris-9e141667--72919d9370.json"
+	},
+	{
+		"id": "docs-generated-project-tutorials-projects-geelooy-geelooy-53e795fd-md-39fa04ba1d",
+		"title": "Project Tutorial: geelooy/geelooy",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-geelooy-53e795fd.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: geelooy/geelooy",
+				"anchor": "project-tutorial-geelooy-geelooy"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/geelooy Path: geelooy/geelooy · Type: project · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/geelooy path: geelooy/geelooy · type: project · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: — local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 1 3 0 0 0 1 5 public entry points none observed. symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 3 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-geelooy-53e795fd-md-39fa04ba1d.json"
+	},
+	{
+		"id": "docs-generated-project-tutorials-projects-geelooy-git-8c62b485-md-037e141f62",
+		"title": "Project Tutorial: geelooy/git",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-git-8c62b485.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: geelooy/git",
+				"anchor": "project-tutorial-geelooy-git"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/git Path: geelooy/git · Type: project · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownersh",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/git path: geelooy/git · type: project · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: awtsmoos.derech.js local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 1 0 0 0 0 0 1 public entry points none observed. symbol evidence source files: 1; classes: 0; functions: 3; exports: 0; samples: handlegit, querystringof, giterrorresponse. depends on geelooy/api/social — 1 lexical reference; examples: geelooy/git/ awtsmoos.derech.js used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-git-8c62b485-md-037e141f62.json"
+	},
+	{
+		"id": "docs-generated-project-tutorials-projects-geelooy-heichel-bad58b8e-md-44ec6a5c8b",
+		"title": "Project Tutorial: geelooy/heichel",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-heichel-bad58b8e.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: geelooy/heichel",
+				"anchor": "project-tutorial-geelooy-heichel"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/heichel Path: geelooy/heichel · Type: project · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/heichel path: geelooy/heichel · type: project · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: — local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 1 0 0 0 0 0 1 public entry points none observed. symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-heichel-bad58b8e-md-44ec6a5c8b.json"
+	},
+	{
+		"id": "docs-generated-project-tutorials-projects-geelooy-heichel-editor-7b657ff-972d285c27",
+		"title": "Project Tutorial: Heichel Editor — Geelooy",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-heichel-editor-7b657ffd.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: Heichel Editor — Geelooy",
+				"anchor": "project-tutorial-heichel-editor-geelooy"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Heichel Editor — Geelooy Path: geelooy/heichel editor · Type: public · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observatio",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: heichel editor — geelooy path: geelooy/heichel editor · type: public · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, app.js, documentation.md local documentation: geelooy/heichel editor/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 16 2 0 0 1 0 19 public entry points /heichel editor → geelooy/heichel editor/index.html — heichel editor — geelooy symbol evidence source files: 15; classes: 0; functions: 24; exports: 14; samples: async, posteditorrequest, readeditorconfig, clean, el, field, formshell, submitform, inviteform, settingsfields, settingsform, advancedsettings. depends on geelooy/scripts — 1 lexical reference; examples: geelooy/heichel editor/app.js used by none observed. external packages none observed. verification clue observed test classified files: 2 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-heichel-editor-7b657ff-972d285c27.json"
 	}
 ]

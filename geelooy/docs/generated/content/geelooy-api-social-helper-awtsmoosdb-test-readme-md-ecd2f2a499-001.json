@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — AwtsmoosDb Tests (geelooy/api/social/helper/awtsmoosDb/test/)\n\nTests for the AwtsmoosDb shard engine.\n\n- `shardRoot.test.js` — shard-root resolution.\n- `shardStore.test.js` — store read/write over shards.\n"
+}

@@ -1,0 +1,955 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-scripts-awtsmoos-compiling-native-runtime-audit-md-fca67a82b8",
+	"title": "Emulator ↔ Compiler Audit — 2026-10-09",
+	"sourcePath": "geelooy/scripts/awtsmoos/compiling/native/runtime/AUDIT.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Emulator ↔ Compiler Audit — 2026-10-09",
+			"anchor": "emulator-compiler-audit-2026-10-09"
+		},
+		{
+			"level": 2,
+			"text": "Status legend",
+			"anchor": "status-legend"
+		},
+		{
+			"level": 3,
+			"text": "🔌 NEEDS-HOST-BINDING Landroid/app/Activity;",
+			"anchor": "needs-host-binding-landroid-app-activity"
+		},
+		{
+			"level": 3,
+			"text": "🔌 NEEDS-HOST-BINDING Landroid/app/ActivityManager;",
+			"anchor": "needs-host-binding-landroid-app-activitymanager"
+		},
+		{
+			"level": 3,
+			"text": "🔌 NEEDS-HOST-BINDING Landroid/app/Application;",
+			"anchor": "needs-host-binding-landroid-app-application"
+		},
+		{
+			"level": 3,
+			"text": "🔌 NEEDS-HOST-BINDING Landroid/app/Fragment;",
+			"anchor": "needs-host-binding-landroid-app-fragment"
+		},
+		{
+			"level": 3,
+			"text": "🔌 NEEDS-HOST-BINDING Landroid/app/FragmentManager;",
+			"anchor": "needs-host-binding-landroid-app-fragmentmanager"
+		},
+		{
+			"level": 3,
+			"text": "🔌 NEEDS-HOST-BINDING Landroid/app/FragmentTransaction;",
+			"anchor": "needs-host-binding-landroid-app-fragmenttransaction"
+		},
+		{
+			"level": 3,
+			"text": "🔌 NEEDS-HOST-BINDING Landroid/app/Service;",
+			"anchor": "needs-host-binding-landroid-app-service"
+		},
+		{
+			"level": 3,
+			"text": "🔌 NEEDS-HOST-BINDING Landroid/app/UiModeManager;",
+			"anchor": "needs-host-binding-landroid-app-uimodemanager"
+		},
+		{
+			"level": 3,
+			"text": "🔌 NEEDS-HOST-BINDING Landroid/content/BroadcastReceiver;",
+			"anchor": "needs-host-binding-landroid-content-broadcastreceiver"
+		},
+		{
+			"level": 3,
+			"text": "🔌 NEEDS-HOST-BINDING Landroid/content/ClipboardManager;",
+			"anchor": "needs-host-binding-landroid-content-clipboardmanager"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Landroid/content/ComponentCallbacks;",
+			"anchor": "blocked-on-compiler-landroid-content-componentcallbacks"
+		},
+		{
+			"level": 3,
+			"text": "🔌 NEEDS-HOST-BINDING Landroid/content/ComponentName;",
+			"anchor": "needs-host-binding-landroid-content-componentname"
+		},
+		{
+			"level": 3,
+			"text": "🔌 NEEDS-HOST-BINDING Landroid/content/ContentProvider;",
+			"anchor": "needs-host-binding-landroid-content-contentprovider"
+		},
+		{
+			"level": 3,
+			"text": "🔌 NEEDS-HOST-BINDING Landroid/content/ContentResolver;",
+			"anchor": "needs-host-binding-landroid-content-contentresolver"
+		},
+		{
+			"level": 3,
+			"text": "🔌 NEEDS-HOST-BINDING Landroid/content/Context;",
+			"anchor": "needs-host-binding-landroid-content-context"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Landroid/content/ContextWrapper;",
+			"anchor": "blocked-on-compiler-landroid-content-contextwrapper"
+		},
+		{
+			"level": 3,
+			"text": "🔌 NEEDS-HOST-BINDING Landroid/content/Intent;",
+			"anchor": "needs-host-binding-landroid-content-intent"
+		},
+		{
+			"level": 3,
+			"text": "🔌 NEEDS-HOST-BINDING Landroid/content/SharedPreferences;",
+			"anchor": "needs-host-binding-landroid-content-sharedpreferences"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Landroid/content/pm/ActivityInfo;",
+			"anchor": "blocked-on-compiler-landroid-content-pm-activityinfo"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Landroid/content/pm/ApplicationInfo;",
+			"anchor": "blocked-on-compiler-landroid-content-pm-applicationinfo"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Landroid/content/pm/ComponentInfo;",
+			"anchor": "blocked-on-compiler-landroid-content-pm-componentinfo"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Landroid/content/pm/PackageInfo;",
+			"anchor": "blocked-on-compiler-landroid-content-pm-packageinfo"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Landroid/content/pm/PackageItemInfo;",
+			"anchor": "blocked-on-compiler-landroid-content-pm-packageiteminfo"
+		},
+		{
+			"level": 3,
+			"text": "🔌 NEEDS-HOST-BINDING Landroid/content/pm/PackageManager;",
+			"anchor": "needs-host-binding-landroid-content-pm-packagemanager"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Landroid/content/pm/ProviderInfo;",
+			"anchor": "blocked-on-compiler-landroid-content-pm-providerinfo"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Landroid/content/pm/ServiceInfo;",
+			"anchor": "blocked-on-compiler-landroid-content-pm-serviceinfo"
+		},
+		{
+			"level": 3,
+			"text": "🔌 NEEDS-HOST-BINDING Landroid/content/res/AssetManager;",
+			"anchor": "needs-host-binding-landroid-content-res-assetmanager"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Landroid/content/res/ColorStateList;",
+			"anchor": "blocked-on-compiler-landroid-content-res-colorstatelist"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Landroid/content/res/Configuration;",
+			"anchor": "blocked-on-compiler-landroid-content-res-configuration"
+		},
+		{
+			"level": 3,
+			"text": "🔌 NEEDS-HOST-BINDING Landroid/content/res/Resources;",
+			"anchor": "needs-host-binding-landroid-content-res-resources"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Landroid/content/res/TypedArray;",
+			"anchor": "blocked-on-compiler-landroid-content-res-typedarray"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Landroid/database/ContentObserver;",
+			"anchor": "blocked-on-compiler-landroid-database-contentobserver"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Landroid/graphics/Bitmap;",
+			"anchor": "blocked-on-compiler-landroid-graphics-bitmap"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Landroid/graphics/Matrix;",
+			"anchor": "blocked-on-compiler-landroid-graphics-matrix"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Landroid/graphics/Paint;",
+			"anchor": "blocked-on-compiler-landroid-graphics-paint"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Landroid/graphics/Point;",
+			"anchor": "blocked-on-compiler-landroid-graphics-point"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Landroid/graphics/Rect;",
+			"anchor": "blocked-on-compiler-landroid-graphics-rect"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Landroid/graphics/RectF;",
+			"anchor": "blocked-on-compiler-landroid-graphics-rectf"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Landroid/graphics/drawable/Drawable;",
+			"anchor": "blocked-on-compiler-landroid-graphics-drawable-drawable"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Landroid/hardware/HardwareBuffer;",
+			"anchor": "blocked-on-compiler-landroid-hardware-hardwarebuffer"
+		},
+		{
+			"level": 3,
+			"text": "🔌 NEEDS-HOST-BINDING Landroid/hardware/display/DisplayManager;",
+			"anchor": "needs-host-binding-landroid-hardware-display-displaymanager"
+		},
+		{
+			"level": 3,
+			"text": "🔌 NEEDS-HOST-BINDING Landroid/hardware/display/VirtualDisplay;",
+			"anchor": "needs-host-binding-landroid-hardware-display-virtualdisplay"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Landroid/media/Image;",
+			"anchor": "blocked-on-compiler-landroid-media-image"
+		},
+		{
+			"level": 3,
+			"text": "🔌 NEEDS-HOST-BINDING Landroid/media/ImageReader;",
+			"anchor": "needs-host-binding-landroid-media-imagereader"
+		},
+		{
+			"level": 3,
+			"text": "🔌 NEEDS-HOST-BINDING Landroid/net/ConnectivityManager;",
+			"anchor": "needs-host-binding-landroid-net-connectivitymanager"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Landroid/net/Uri;",
+			"anchor": "blocked-on-compiler-landroid-net-uri"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Landroid/os/BaseBundle;",
+			"anchor": "blocked-on-compiler-landroid-os-basebundle"
+		},
+		{
+			"level": 3,
+			"text": "✅ COMPILABLE-TODAY Landroid/os/Build;",
+			"anchor": "compilable-today-landroid-os-build"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Landroid/os/Bundle;",
+			"anchor": "blocked-on-compiler-landroid-os-bundle"
+		},
+		{
+			"level": 3,
+			"text": "🔌 NEEDS-HOST-BINDING Landroid/os/Handler;",
+			"anchor": "needs-host-binding-landroid-os-handler"
+		},
+		{
+			"level": 3,
+			"text": "🔌 NEEDS-HOST-BINDING Landroid/os/Looper;",
+			"anchor": "needs-host-binding-landroid-os-looper"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Landroid/os/Message;",
+			"anchor": "blocked-on-compiler-landroid-os-message"
+		},
+		{
+			"level": 3,
+			"text": "🔌 NEEDS-HOST-BINDING Landroid/os/PowerManager;",
+			"anchor": "needs-host-binding-landroid-os-powermanager"
+		},
+		{
+			"level": 3,
+			"text": "✅ COMPILABLE-TODAY Landroid/os/SystemClock;",
+			"anchor": "compilable-today-landroid-os-systemclock"
+		},
+		{
+			"level": 3,
+			"text": "✅ COMPILABLE-TODAY Landroid/os/Trace;",
+			"anchor": "compilable-today-landroid-os-trace"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Landroid/text/SpannableStringBuilder;",
+			"anchor": "blocked-on-compiler-landroid-text-spannablestringbuilder"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Landroid/text/TextPaint;",
+			"anchor": "blocked-on-compiler-landroid-text-textpaint"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Landroid/text/format/DateFormat;",
+			"anchor": "blocked-on-compiler-landroid-text-format-dateformat"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Landroid/util/DisplayMetrics;",
+			"anchor": "blocked-on-compiler-landroid-util-displaymetrics"
+		},
+		{
+			"level": 3,
+			"text": "✅ COMPILABLE-TODAY Landroid/util/Log;",
+			"anchor": "compilable-today-landroid-util-log"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Landroid/util/LongArray;",
+			"anchor": "blocked-on-compiler-landroid-util-longarray"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Landroid/util/LongSparseArray;",
+			"anchor": "blocked-on-compiler-landroid-util-longsparsearray"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Landroid/util/SparseArray;",
+			"anchor": "blocked-on-compiler-landroid-util-sparsearray"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Landroid/util/TypedValue;",
+			"anchor": "blocked-on-compiler-landroid-util-typedvalue"
+		},
+		{
+			"level": 3,
+			"text": "🔌 NEEDS-HOST-BINDING Landroid/view/Choreographer;",
+			"anchor": "needs-host-binding-landroid-view-choreographer"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Landroid/view/ContextThemeWrapper;",
+			"anchor": "blocked-on-compiler-landroid-view-contextthemewrapper"
+		},
+		{
+			"level": 3,
+			"text": "🔌 NEEDS-HOST-BINDING Landroid/view/Display;",
+			"anchor": "needs-host-binding-landroid-view-display"
+		},
+		{
+			"level": 3,
+			"text": "🔌 NEEDS-HOST-BINDING Landroid/view/Surface;",
+			"anchor": "needs-host-binding-landroid-view-surface"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Landroid/view/SurfaceHolder;",
+			"anchor": "blocked-on-compiler-landroid-view-surfaceholder"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Landroid/view/SurfaceView;",
+			"anchor": "blocked-on-compiler-landroid-view-surfaceview"
+		},
+		{
+			"level": 3,
+			"text": "🔌 NEEDS-HOST-BINDING Landroid/view/View;",
+			"anchor": "needs-host-binding-landroid-view-view"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Landroid/view/ViewConfiguration;",
+			"anchor": "blocked-on-compiler-landroid-view-viewconfiguration"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Landroid/view/ViewTreeObserver;",
+			"anchor": "blocked-on-compiler-landroid-view-viewtreeobserver"
+		},
+		{
+			"level": 3,
+			"text": "🔌 NEEDS-HOST-BINDING Landroid/view/Window;",
+			"anchor": "needs-host-binding-landroid-view-window"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Landroid/view/WindowInsets;",
+			"anchor": "blocked-on-compiler-landroid-view-windowinsets"
+		},
+		{
+			"level": 3,
+			"text": "🔌 NEEDS-HOST-BINDING Landroid/view/WindowManager;",
+			"anchor": "needs-host-binding-landroid-view-windowmanager"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Landroid/view/WindowMetrics;",
+			"anchor": "blocked-on-compiler-landroid-view-windowmetrics"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Landroid/view/accessibility/AccessibilityManager;",
+			"anchor": "blocked-on-compiler-landroid-view-accessibility-accessibilitymanager"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Landroid/view/accessibility/AccessibilityNodeInfo;",
+			"anchor": "blocked-on-compiler-landroid-view-accessibility-accessibilitynodeinfo"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Landroid/view/accessibility/AccessibilityRecord;",
+			"anchor": "blocked-on-compiler-landroid-view-accessibility-accessibilityrecord"
+		},
+		{
+			"level": 3,
+			"text": "🔌 NEEDS-HOST-BINDING Landroid/view/inputmethod/InputMethodManager;",
+			"anchor": "needs-host-binding-landroid-view-inputmethod-inputmethodmanager"
+		},
+		{
+			"level": 3,
+			"text": "🔌 NEEDS-HOST-BINDING Landroid/webkit/WebSettings;",
+			"anchor": "needs-host-binding-landroid-webkit-websettings"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/io/File;",
+			"anchor": "blocked-on-compiler-ljava-io-file"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/io/InputStream;",
+			"anchor": "blocked-on-compiler-ljava-io-inputstream"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/io/ObjectStreamField;",
+			"anchor": "blocked-on-compiler-ljava-io-objectstreamfield"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/io/Serializable;",
+			"anchor": "blocked-on-compiler-ljava-io-serializable"
+		},
+		{
+			"level": 3,
+			"text": "✅ COMPILABLE-TODAY Ljava/lang/Boolean;",
+			"anchor": "compilable-today-ljava-lang-boolean"
+		},
+		{
+			"level": 3,
+			"text": "✅ COMPILABLE-TODAY Ljava/lang/Byte;",
+			"anchor": "compilable-today-ljava-lang-byte"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/lang/CharSequence;",
+			"anchor": "blocked-on-compiler-ljava-lang-charsequence"
+		},
+		{
+			"level": 3,
+			"text": "✅ COMPILABLE-TODAY Ljava/lang/Character;",
+			"anchor": "compilable-today-ljava-lang-character"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/lang/Class;",
+			"anchor": "blocked-on-compiler-ljava-lang-class"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/lang/ClassLoader;",
+			"anchor": "blocked-on-compiler-ljava-lang-classloader"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/lang/Cloneable;",
+			"anchor": "blocked-on-compiler-ljava-lang-cloneable"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/lang/Comparable;",
+			"anchor": "blocked-on-compiler-ljava-lang-comparable"
+		},
+		{
+			"level": 3,
+			"text": "✅ COMPILABLE-TODAY Ljava/lang/Double;",
+			"anchor": "compilable-today-ljava-lang-double"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/lang/Enum;",
+			"anchor": "blocked-on-compiler-ljava-lang-enum"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/lang/Exception;",
+			"anchor": "blocked-on-compiler-ljava-lang-exception"
+		},
+		{
+			"level": 3,
+			"text": "✅ COMPILABLE-TODAY Ljava/lang/Float;",
+			"anchor": "compilable-today-ljava-lang-float"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/lang/IllegalStateException;",
+			"anchor": "blocked-on-compiler-ljava-lang-illegalstateexception"
+		},
+		{
+			"level": 3,
+			"text": "✅ COMPILABLE-TODAY Ljava/lang/Integer;",
+			"anchor": "compilable-today-ljava-lang-integer"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/lang/Iterable;",
+			"anchor": "blocked-on-compiler-ljava-lang-iterable"
+		},
+		{
+			"level": 3,
+			"text": "✅ COMPILABLE-TODAY Ljava/lang/Long;",
+			"anchor": "compilable-today-ljava-lang-long"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/lang/Number;",
+			"anchor": "blocked-on-compiler-ljava-lang-number"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/lang/Object;",
+			"anchor": "blocked-on-compiler-ljava-lang-object"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/lang/Package;",
+			"anchor": "blocked-on-compiler-ljava-lang-package"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/lang/Runnable;",
+			"anchor": "blocked-on-compiler-ljava-lang-runnable"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/lang/Runtime;",
+			"anchor": "blocked-on-compiler-ljava-lang-runtime"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/lang/RuntimeException;",
+			"anchor": "blocked-on-compiler-ljava-lang-runtimeexception"
+		},
+		{
+			"level": 3,
+			"text": "✅ COMPILABLE-TODAY Ljava/lang/Short;",
+			"anchor": "compilable-today-ljava-lang-short"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/lang/String;",
+			"anchor": "blocked-on-compiler-ljava-lang-string"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/lang/StringBuffer;",
+			"anchor": "blocked-on-compiler-ljava-lang-stringbuffer"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/lang/StringBuilder;",
+			"anchor": "blocked-on-compiler-ljava-lang-stringbuilder"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/lang/System;",
+			"anchor": "blocked-on-compiler-ljava-lang-system"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/lang/Thread;",
+			"anchor": "blocked-on-compiler-ljava-lang-thread"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/lang/ThreadGroup;",
+			"anchor": "blocked-on-compiler-ljava-lang-threadgroup"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/lang/ThreadLocal;",
+			"anchor": "blocked-on-compiler-ljava-lang-threadlocal"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/lang/Throwable;",
+			"anchor": "blocked-on-compiler-ljava-lang-throwable"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/lang/Void;",
+			"anchor": "blocked-on-compiler-ljava-lang-void"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/lang/ref/PhantomReference;",
+			"anchor": "blocked-on-compiler-ljava-lang-ref-phantomreference"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/lang/ref/Reference;",
+			"anchor": "blocked-on-compiler-ljava-lang-ref-reference"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/lang/ref/ReferenceQueue;",
+			"anchor": "blocked-on-compiler-ljava-lang-ref-referencequeue"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/lang/ref/SoftReference;",
+			"anchor": "blocked-on-compiler-ljava-lang-ref-softreference"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/lang/ref/WeakReference;",
+			"anchor": "blocked-on-compiler-ljava-lang-ref-weakreference"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/lang/reflect/AccessibleObject;",
+			"anchor": "blocked-on-compiler-ljava-lang-reflect-accessibleobject"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/lang/reflect/Constructor;",
+			"anchor": "blocked-on-compiler-ljava-lang-reflect-constructor"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/lang/reflect/Field;",
+			"anchor": "blocked-on-compiler-ljava-lang-reflect-field"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/lang/reflect/Method;",
+			"anchor": "blocked-on-compiler-ljava-lang-reflect-method"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/math/BigInteger;",
+			"anchor": "blocked-on-compiler-ljava-math-biginteger"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/net/URI;",
+			"anchor": "blocked-on-compiler-ljava-net-uri"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/nio/Buffer;",
+			"anchor": "blocked-on-compiler-ljava-nio-buffer"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/nio/ByteBuffer;",
+			"anchor": "blocked-on-compiler-ljava-nio-bytebuffer"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/nio/ByteOrder;",
+			"anchor": "blocked-on-compiler-ljava-nio-byteorder"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/nio/charset/Charset;",
+			"anchor": "blocked-on-compiler-ljava-nio-charset-charset"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/nio/file/Path;",
+			"anchor": "blocked-on-compiler-ljava-nio-file-path"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/util/AbstractCollection;",
+			"anchor": "blocked-on-compiler-ljava-util-abstractcollection"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/util/AbstractMap;",
+			"anchor": "blocked-on-compiler-ljava-util-abstractmap"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/util/ArrayDeque;",
+			"anchor": "blocked-on-compiler-ljava-util-arraydeque"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/util/ArrayList;",
+			"anchor": "blocked-on-compiler-ljava-util-arraylist"
+		},
+		{
+			"level": 3,
+			"text": "✅ COMPILABLE-TODAY Ljava/util/Arrays;",
+			"anchor": "compilable-today-ljava-util-arrays"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/util/Collection;",
+			"anchor": "blocked-on-compiler-ljava-util-collection"
+		},
+		{
+			"level": 3,
+			"text": "✅ COMPILABLE-TODAY Ljava/util/Collections;",
+			"anchor": "compilable-today-ljava-util-collections"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/util/Comparator;",
+			"anchor": "blocked-on-compiler-ljava-util-comparator"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/util/Enumeration;",
+			"anchor": "blocked-on-compiler-ljava-util-enumeration"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/util/HashMap;",
+			"anchor": "blocked-on-compiler-ljava-util-hashmap"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/util/HashSet;",
+			"anchor": "blocked-on-compiler-ljava-util-hashset"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/util/Iterator;",
+			"anchor": "blocked-on-compiler-ljava-util-iterator"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/util/LinkedHashMap;",
+			"anchor": "blocked-on-compiler-ljava-util-linkedhashmap"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/util/LinkedHashSet;",
+			"anchor": "blocked-on-compiler-ljava-util-linkedhashset"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/util/LinkedList;",
+			"anchor": "blocked-on-compiler-ljava-util-linkedlist"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/util/List;",
+			"anchor": "blocked-on-compiler-ljava-util-list"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/util/Locale;",
+			"anchor": "blocked-on-compiler-ljava-util-locale"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/util/Map;",
+			"anchor": "blocked-on-compiler-ljava-util-map"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/util/PriorityQueue;",
+			"anchor": "blocked-on-compiler-ljava-util-priorityqueue"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/util/Set;",
+			"anchor": "blocked-on-compiler-ljava-util-set"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/util/SortedMap;",
+			"anchor": "blocked-on-compiler-ljava-util-sortedmap"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/util/SortedSet;",
+			"anchor": "blocked-on-compiler-ljava-util-sortedset"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/util/WeakHashMap;",
+			"anchor": "blocked-on-compiler-ljava-util-weakhashmap"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/util/concurrent/AbstractExecutorService;",
+			"anchor": "blocked-on-compiler-ljava-util-concurrent-abstractexecutorservice"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/util/concurrent/Callable;",
+			"anchor": "blocked-on-compiler-ljava-util-concurrent-callable"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/util/concurrent/ConcurrentLinkedQueue;",
+			"anchor": "blocked-on-compiler-ljava-util-concurrent-concurrentlinkedqueue"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/util/concurrent/CopyOnWriteArrayList;",
+			"anchor": "blocked-on-compiler-ljava-util-concurrent-copyonwritearraylist"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/util/concurrent/CopyOnWriteArraySet;",
+			"anchor": "blocked-on-compiler-ljava-util-concurrent-copyonwritearrayset"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/util/concurrent/Executor;",
+			"anchor": "blocked-on-compiler-ljava-util-concurrent-executor"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/util/concurrent/ExecutorService;",
+			"anchor": "blocked-on-compiler-ljava-util-concurrent-executorservice"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/util/concurrent/Executors;",
+			"anchor": "blocked-on-compiler-ljava-util-concurrent-executors"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/util/concurrent/Future;",
+			"anchor": "blocked-on-compiler-ljava-util-concurrent-future"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/util/concurrent/FutureTask;",
+			"anchor": "blocked-on-compiler-ljava-util-concurrent-futuretask"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/util/concurrent/LinkedBlockingQueue;",
+			"anchor": "blocked-on-compiler-ljava-util-concurrent-linkedblockingqueue"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/util/concurrent/RunnableFuture;",
+			"anchor": "blocked-on-compiler-ljava-util-concurrent-runnablefuture"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/util/concurrent/ScheduledExecutorService;",
+			"anchor": "blocked-on-compiler-ljava-util-concurrent-scheduledexecutorservice"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/util/concurrent/ScheduledThreadPoolExecutor;",
+			"anchor": "blocked-on-compiler-ljava-util-concurrent-scheduledthreadpoolexecutor"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/util/concurrent/ThreadFactory;",
+			"anchor": "blocked-on-compiler-ljava-util-concurrent-threadfactory"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/util/concurrent/ThreadPoolExecutor;",
+			"anchor": "blocked-on-compiler-ljava-util-concurrent-threadpoolexecutor"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/util/concurrent/atomic/AtomicBoolean;",
+			"anchor": "blocked-on-compiler-ljava-util-concurrent-atomic-atomicboolean"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/util/concurrent/atomic/AtomicInteger;",
+			"anchor": "blocked-on-compiler-ljava-util-concurrent-atomic-atomicinteger"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/util/concurrent/atomic/AtomicLong;",
+			"anchor": "blocked-on-compiler-ljava-util-concurrent-atomic-atomiclong"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/util/concurrent/atomic/AtomicReference;",
+			"anchor": "blocked-on-compiler-ljava-util-concurrent-atomic-atomicreference"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/util/concurrent/atomic/AtomicReferenceFieldUpdater;",
+			"anchor": "blocked-on-compiler-ljava-util-concurrent-atomic-atomicreferencefieldupdater"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/util/concurrent/locks/Lock;",
+			"anchor": "blocked-on-compiler-ljava-util-concurrent-locks-lock"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/util/concurrent/locks/LockSupport;",
+			"anchor": "blocked-on-compiler-ljava-util-concurrent-locks-locksupport"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/util/concurrent/locks/ReadWriteLock;",
+			"anchor": "blocked-on-compiler-ljava-util-concurrent-locks-readwritelock"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/util/concurrent/locks/ReentrantLock;",
+			"anchor": "blocked-on-compiler-ljava-util-concurrent-locks-reentrantlock"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/util/concurrent/locks/ReentrantReadWriteLock;",
+			"anchor": "blocked-on-compiler-ljava-util-concurrent-locks-reentrantreadwritelock"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/util/regex/Matcher;",
+			"anchor": "blocked-on-compiler-ljava-util-regex-matcher"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/util/regex/Pattern;",
+			"anchor": "blocked-on-compiler-ljava-util-regex-pattern"
+		},
+		{
+			"level": 3,
+			"text": "🔧 BLOCKED-ON-COMPILER Ljava/util/stream/IntStream;",
+			"anchor": "blocked-on-compiler-ljava-util-stream-intstream"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-scripts-awtsmoos-compiling-native-runtime-audit-md-fca67a82b8-001.json",
+		"content/geelooy-scripts-awtsmoos-compiling-native-runtime-audit-md-fca67a82b8-002.json"
+	]
+}

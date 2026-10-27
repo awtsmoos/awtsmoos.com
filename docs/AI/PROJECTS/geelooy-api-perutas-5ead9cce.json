@@ -12,7 +12,9 @@
 	"title": "geelooy/api/perutas",
 	"entries": [
 		"index.js",
-		"DOCUMENTATION.md"
+		"DOCUMENTATION.md",
+		"README.md",
+		"readme.md"
 	],
 	"humanDocumentation": [
 		"geelooy/api/perutas/DOCUMENTATION.md",
@@ -23,19 +25,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-perutas-5ead9cce.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 32,
+		"source": 33,
 		"tests": 0,
 		"assets": 0,
 		"generated": 0,
-		"docs": 1,
+		"docs": 10,
 		"other": 0
 	},
-	"totalFiles": 33,
+	"totalFiles": 43,
 	"symbolSummary": {
-		"files": 32,
+		"files": 33,
 		"classes": 0,
-		"functions": 194,
-		"exports": 138,
+		"functions": 199,
+		"exports": 145,
 		"samples": [
 			"accountFor",
 			"addCredits",

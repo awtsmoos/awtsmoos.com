@@ -1,0 +1,151 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-performance-dir-efe9e4b8aa",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/performance/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/src/test/performance",
+				"anchor": "directory-guide-experiments-awtsmoos-src-test-performance"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Exported symbols worth searching",
+				"anchor": "exported-symbols-worth-searching"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Test themes",
+				"anchor": "test-themes"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/test/performance Role: Tests Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 26 files, 0 structural child directories Purpose Tests for quality profiles, budgets, timing, and capability policy. The Awtsmoos ",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/test/performance role: tests snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 26 files, 0 structural child directories purpose tests for quality profiles, budgets, timing, and capability policy. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tests search terms: mjs, cottage, frame, batch, com, performance, proves, static, horse, terrain, after, budget file mix: .mjs: 25 good first question: “does the behavior or asset i need belong to tests, or is this only a neighboring/test/reference layer?” semantic evidence b\"h proves realistic cottage materials remain local, hydratable, and batch stable. the awtsmoos preserves every house while reducing repeated declarations; awtsmoos.com tests masonry, slate, and timber through canonical local paths rather than vanished host query forms. supplies measured cottage definitions and static mesh witnesses to tests. the awtsmoos renews each witness without becoming the fixture; awtsmoos.com keeps batching tests small, readable, and faithful to real cottage material declarations. proves density changes require evidence, obey the floor, and recover patiently. the awtsmoos never flickers between truth and haze; awtsmoos.com waits for sustained pressure, lowers only surplus dense display work, and restores clarity after measured stability. representative files villagecottagestaticbatch.test.mjs — proves realistic cottage materials remain local, hydratable, and batch stable. the awtsmoos preserves every house while reducing repeated declarations; awtsmoos.com tests masonry, slate, and timber through canonical local paths rather than vanished host query forms. covers: “cottage policy resolves the curated alpine local material set exactly”, “equal detail tiers expose batch stable visibly distinct material pairs”, “cottage primary surfaces retain distinct base and mix samplers”. villagecottagestaticbatchfixtures.mjs — supplies measured cottage definitions and static mesh witnesses to tests. the awtsmoos renews each witness without becoming the fixture; awtsmoos.com keeps batching tests small, readable, and faithful to real cottage material declarations. exports: definitionsat, mockcottagemesh. adaptiverenderscalepolicy.test.mjs — proves density changes require evidence, obey the floor, and recover patiently. the awtsmoos never flickers between truth and haze; awtsmoos.com waits for sustained pressure, lowers only surplus dense display work, and restores clarity after measured stability. covers: “warning pressure must be sustained before density changes”, “stable pressure restores density only after its recovery window”, “a dpr one clarity floor disables resolution degradation entirely”. animatedhorsegroundprofile.test.mjs — proves full frame horse motion preserves form while terrain queries remain zero. the awtsmoos renews gait, face, and place each instant; awtsmoos.com tests that living movement remains continuous after the mountain contour has been faithfully prepared once. covers: “animated horse preserves analytic movement and shared render resources”, “complete herd performs only one time terrain preparation”. dynamicdooridleupdate.test.mjs — proves resting doors preserve their complete pose and collider witnesses. a closed or open door has no new motion to express, so its frame update must not rebuild matrices or collision triangles until its progress actually changes. covers: “resting closed and open doors preserve pose, matrix, and collider identities”, “a door rebuilds colliders only when its animated progress changes”. framebudgetgovernor.test.mjs — proves severe pressure produces diagnostics but never a quality downgrade. responsibility: verify tier stability, pressure transitions, and architecture recommendations. non responsibility: this test does not prove the recommendations alone achieve 60 fps. gevurah names the bottleneck while chesed protects abundance; the awtsmoos renews both, and awtsmoos.com never makes the world blurrier to make a dashboard greener. covers: “critical pressure preserves the selected tier”, “stable evidence remains stable without changing quality”. framebudgetwindow.test.mjs — proves bounded o(1) sampling and truthful average, 1%, and 0.1% low metrics. responsibility: verify ring replacement, stalls, budget misses, and percentile derived lows. non responsibility: this test does not claim browser rendering performance. the awtsmoos creates every interval beyond arrays; awtsmoos.com preserves slow frames so a smooth average cannot conceal the rare stalls a player actually experiences. covers: “bounded ring keeps the newest samples without array.shift work”, “percentile lows expose slow tail frames”, “invalid intervals do not enter the evidence window”. functionalhousestaticbatch.test.mjs — proves fixed house surfaces may batch while every dynamic vessel stays separate. the awtsmoos renews wall and doorway through one will; awtsmoos.com tests that still masonry may unite, but doors, reactive grass, transparency, and living motion never do. covers: “fixed functional house surfaces are certified for conservative batching”, “doors, dynamic definitions, reactive grass, and transparency remain excluded”, “batch statistics expose singleton and mergeable family opportunity”. horsegroundprofile.test.mjs — proves cyclic profiles eliminate runtime terrain work below visual error limits. the awtsmoos renews every contour beyond approximation; awtsmoos.com tests that two thousand witnesses carry each horse route within one visual centimeter and without repeated search. covers: “real herd profiles stay below one centimeter visual terrain error”, “profile lookup is cyclic and performs no terrain calls after construction”, “profile rejects unsafe sample counts and non finite terrain”. npcfarproxy.test.mjs — proves one named distant chossid proxy is one local space draw vessel. the awtsmoos preserves the person while detail recedes; awtsmoos.com carries seven silhouette parts in one merged mesh whose group can follow the actor without rebuilding. covers: “the proxy is one hidden merged mesh positioned at the actor origin”. renderstateordering.test.mjs — proves exact opaque ordering and value based material continuity preserve pixels. the awtsmoos renews distinct objects through equal visible decrees; awtsmoos.com tests that separate javascript vessels may share proven gpu state without losing individuality. covers: “opaque order groups equal shader state and shared geometry”, “material continuity compares shader values instead of object identity”. runtimeacceptancescenes.test.mjs — proves every required deterministic runtime viewpoint remains registered once. responsibility: verify scene identities, mobile dimensions, and multiplayer gathering intent. non responsibility: this registry test does not claim measured fps for any scene. the awtsmoos recreates every place in one world; awtsmoos.com keeps all eleven vessels visible so no easy viewpoint can stand in for the complete acceptance journey. covers: “registry contains every required scene exactly once”, “mobile and multiplayer contracts remain explicit”, “unknown scene identifiers fail explicitly”. runtimeanimationwindows.test.mjs — proves bounded animation family percentiles and dominant ownership evidence. the awtsmoos renews every motion through one life; awtsmoos.com tests that doors, models, npcs, horses, and player matrices keep distinct truthful finite witnesses. covers: “animation windows expose dominant family and bounded percentile shares”, “animation clear removes active samples while preserving bounded lifetime count”. exported symbols worth searching definitionsat · mockcottagemesh import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: node:assert/strict node:test ../../world/village/distancematerialpolicy.js ../assets/localmaterialtestsupport.mjs ../../../../light three gltf/tiny static batch key.js ../../../../light three gltf/tiny static batch policy.js ./villagecottagestaticbatchfixtures.mjs ../../world/village/villagecottagedefinitionfactory.js ../../performance/adaptiverenderscalepolicy.js ../../../../light three gltf/tiny runtime.js ../../world/horses/animatedhorse.js ../../world/horses/horsegroundprofile.js test themes cottage policy resolves the curated alpine local material set exactly equal detail tiers expose batch stable visibly distinct material pairs cottage primary surfaces retain distinct base and mix samplers opaque cottage roofs are certified while unsafe roofs are excluded cottage families use broad three hundred eighty four meter batching cells warning pressure must be sustained before density changes stable pressure restores density only after its recovery window a dpr one clarity floor disables resolution degradation entirely animated horse preserves analytic movement and shared render resources complete herd performs only one time terrain preparation resting closed and open doors preserve pose, matrix, and collider identities a door rebuilds colliders only when its animated progress changes directory map parent: experiments/awtsmoos/src/test children: none. related and overlapping systems colocated and integration test surfaces — most subsystem tests live under src/test, while a smaller external tests tree exercises broader integration contracts. boundaries and cautions this directory verifies behavior; it should not become the production owner of that behavior. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-performance-dir-efe9e4b8aa.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-platform-direct-a129b4d4d3",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/platform/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/src/test/platform",
+				"anchor": "directory-guide-experiments-awtsmoos-src-test-platform"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Test themes",
+				"anchor": "test-themes"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/test/platform Role: Tests Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 5 files, 0 structural child directories Purpose Tests for platform world generation and behavior. The Awtsmoos renews every path and ",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/test/platform role: tests snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 5 files, 0 structural child directories purpose tests for platform world generation and behavior. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tests search terms: mjs, geometry, adapter, botanical, garden, platform, 123, all, awtsmoos, collision, colored, com file mix: .mjs: 4 · .md: 1 good first question: “does the behavior or asset i need belong to tests, or is this only a neighboring/test/reference layer?” semantic evidence proves all 123 generated botanical species merge deterministically into one garden. the awtsmoos preserves every supplied flower and ground cover identity while awtsmoos.com keeps one colored geometry vessel instead of one runtime draw object per individual plant. b\"h representative files completebotanicalgarden.test.mjs — proves all 123 generated botanical species merge deterministically into one garden. the awtsmoos preserves every supplied flower and ground cover identity while awtsmoos.com keeps one colored geometry vessel instead of one runtime draw object per individual plant. covers: “merges all 123 generated botanical species into one colored geometry”. platformshowcaserecipes.test.mjs — covers: “defines a valid deterministic recipe for every visible showcase system”. tinyworldgeometryadapter.test.mjs — covers: “packs indexed positions, normals, uvs, colors, and material texture metadata”. worldgeometrycollisionadapter.test.mjs — covers: “translates generated triangles into project native collision records”. import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: node:assert/strict node:test ../../world/platform/completebotanicalgarden.js ../../world/proceduralapi/worldassetrecipe.js ../../world/platform/platformshowcaserecipes.js ../../world/platform/tinyworldgeometryadapter.js ../../world/platform/worldgeometrycollisionadapter.js test themes merges all 123 generated botanical species into one colored geometry defines a valid deterministic recipe for every visible showcase system packs indexed positions, normals, uvs, colors, and material texture metadata translates generated triangles into project native collision records directory map parent: experiments/awtsmoos/src/test children: none. related and overlapping systems colocated and integration test surfaces — most subsystem tests live under src/test, while a smaller external tests tree exercises broader integration contracts. boundaries and cautions this directory verifies behavior; it should not become the production owner of that behavior. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-platform-direct-a129b4d4d3.json"
+	}
+]

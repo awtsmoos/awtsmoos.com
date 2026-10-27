@@ -23,19 +23,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-code-e6aec26f.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 1078,
-		"tests": 44,
+		"source": 1139,
+		"tests": 54,
 		"assets": 0,
 		"generated": 0,
 		"docs": 2,
 		"other": 1
 	},
-	"totalFiles": 1125,
+	"totalFiles": 1196,
 	"symbolSummary": {
-		"files": 976,
-		"classes": 133,
-		"functions": 1048,
-		"exports": 1195,
+		"files": 1018,
+		"classes": 134,
+		"functions": 1246,
+		"exports": 1274,
 		"samples": [
 			"htmlContentSecurityPolicy",
 			"serveVirtualAsset",
@@ -59,8 +59,8 @@
 		},
 		{
 			"project": "geelooy/apps/android-emulator",
-			"count": 4,
-			"examples": "geelooy/apps/code/js/actions/commands/build-android-apk.js; geelooy/apps/code/js/actions/commands/build-rebbe-apk.js"
+			"count": 6,
+			"examples": "geelooy/apps/code/js/actions/commands/build-android-apk.js; geelooy/apps/code/js/android/run-imported-apk.js"
 		},
 		{
 			"project": "geelooy/ai",
@@ -86,7 +86,7 @@
 			"file": "geelooy/apps/code/index.html",
 			"title": "Awtsmoos Code",
 			"scripts": 2,
-			"styles": 4
+			"styles": 2
 		}
 	],
 	"requiresLocalDocumentation": true,

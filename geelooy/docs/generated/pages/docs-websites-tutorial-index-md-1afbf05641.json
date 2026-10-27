@@ -19,8 +19,13 @@
 		},
 		{
 			"level": 2,
-			"text": "I want an Awtsmoos Tunnel agent to make and publish it",
-			"anchor": "i-want-an-awtsmoos-tunnel-agent-to-make-and-publish-it"
+			"text": "I want a Tunnel agent to make and publish it",
+			"anchor": "i-want-a-tunnel-agent-to-make-and-publish-it"
+		},
+		{
+			"level": 2,
+			"text": "I need advanced direct/snapshot site mapping",
+			"anchor": "i-need-advanced-direct-snapshot-site-mapping"
 		},
 		{
 			"level": 2,
@@ -34,8 +39,8 @@
 		},
 		{
 			"level": 2,
-			"text": "I want to move only the website and keep my existing email",
-			"anchor": "i-want-to-move-only-the-website-and-keep-my-existing-email"
+			"text": "I want to move only the website and keep email",
+			"anchor": "i-want-to-move-only-the-website-and-keep-email"
 		},
 		{
 			"level": 2,
@@ -44,28 +49,18 @@
 		},
 		{
 			"level": 2,
-			"text": "I want to change nameservers or move the whole DNS provider",
-			"anchor": "i-want-to-change-nameservers-or-move-the-whole-dns-provider"
+			"text": "I want to move the whole DNS provider",
+			"anchor": "i-want-to-move-the-whole-dns-provider"
 		},
 		{
 			"level": 2,
-			"text": "I use DNSSEC",
-			"anchor": "i-use-dnssec"
-		},
-		{
-			"level": 2,
-			"text": "I want a Node website running on my connected machine",
-			"anchor": "i-want-a-node-website-running-on-my-connected-machine"
+			"text": "I want a Node website on my connected machine",
+			"anchor": "i-want-a-node-website-on-my-connected-machine"
 		},
 		{
 			"level": 2,
 			"text": "Something does not load",
 			"anchor": "something-does-not-load"
-		},
-		{
-			"level": 2,
-			"text": "I am not sure whether it is finished",
-			"anchor": "i-am-not-sure-whether-it-is-finished"
 		}
 	],
 	"markdownParts": [

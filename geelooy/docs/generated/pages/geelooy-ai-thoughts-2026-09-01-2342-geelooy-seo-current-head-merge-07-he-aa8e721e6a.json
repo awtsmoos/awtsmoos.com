@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-07-he-aa8e721e6a",
+	"title": "Heichel Discovery Fix Plan",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-01-2342-geelooy-seo-current-head-merge/07-heichel-discovery-fix-plan.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Heichel Discovery Fix Plan",
+			"anchor": "heichel-discovery-fix-plan"
+		},
+		{
+			"level": 2,
+			"text": "Single-file correction",
+			"anchor": "single-file-correction"
+		},
+		{
+			"level": 2,
+			"text": "Proof before broader crawl work",
+			"anchor": "proof-before-broader-crawl-work"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-07-he-aa8e721e6a-001.json"
+	]
+}

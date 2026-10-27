@@ -6,7 +6,7 @@ Loads AFTER base.css / components.css; additive only, never restates layout.
 Dream tokens only: home-tokens.css + law8-cosmic.css + local --polish-* aliases.
 No !important. Every interactive element carries :hover / :focus-visible /
 :active; every text rule declares an explicit theme-safe color.
-Reference: geelooy/design-refs/law8/homepage-uiux-ref.webp
+Reference: https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo-image-mirror/geelooy/design-refs/law8/homepage-uiux-ref.webp
 */
 
 /* ============ 0. Polish tokens ============ */

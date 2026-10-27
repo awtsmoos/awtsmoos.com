@@ -1,0 +1,104 @@
+[
+	{
+		"id": "scripts-tunnel-evidence-20261005-command-emergency-md-bd36d6580e",
+		"title": "Awtsmoos command emergency, 2026-10-05",
+		"sourcePath": "scripts/tunnel/evidence/20261005/command-emergency.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos command emergency, 2026-10-05",
+				"anchor": "awtsmoos-command-emergency-2026-10-05"
+			}
+		],
+		"excerpt": "Awtsmoos command emergency, 2026 10 05 Production treated job lifecycle text such as spawning as an HTTP status, raising ERR HTTP INVALID STATUS CODE. The response normalizer now distinguishes domain JSON from transport envelopes and validates numeric HTTP codes. The legacy GPT filesystem route also validates and conve",
+		"searchText": "awtsmoos command emergency, 2026 10 05 production treated job lifecycle text such as spawning as an http status, raising err http invalid status code. the response normalizer now distinguishes domain json from transport envelopes and validates numeric http codes. the legacy gpt filesystem route also validates and converts transport status rather than assigning lifecycle text. deployed production fixes: 5e0688737, 6ec509dca. bounded server side stack diagnostics: 732760e61; no packet contents are logged. real mac localhost verification: command, commandrun, and commandstart each completed with exit code zero and exact stdout. a further nine jobs at concurrency three completed with correct output in 2110 ms; acceptance p50 425 ms, p95 540 ms. a twelve job burst encountered explicit owner command queue full admission control. these measurements are not public relay latency. public https status returned 200 with the paired tunnel id registered. the mac connection receipt reported registered, runtime 1.0.641, and a fresh server message. the most recent eight minute journal sample contained zero websocket parsing errors and zero invalid http status errors. absence in one sample does not prove permanence. nine focused http/control tests passed. a legacy route regression test covers spawning, queued, completed, numeric 401, and string 429 while preserving job json. its authorization and relay dependencies are fixtures, not live authenticated oauth calls. limit: this chatgpt session exposes remote desktop commander but no callable awtsmoos mcp action. therefore authenticated chatgpt to public relay to mac command execution has not been independently verified from this session. no broad authentication token was minted or borrowed. separate continuation work passes twelve isolated filesystem, subprocess, and browser fixture tests. it is not part of this deployed emergency fix and has not been validated against a real chatgpt conversation.",
+		"page": "pages/scripts-tunnel-evidence-20261005-command-emergency-md-bd36d6580e.json"
+	},
+	{
+		"id": "scripts-tunnel-evidence-20261005-command-relay-followup-md-9a89fd1e29",
+		"title": "Awtsmoos real relay follow-up — October 5, 2026",
+		"sourcePath": "scripts/tunnel/evidence/20261005/command-relay-followup.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos real relay follow-up — October 5, 2026",
+				"anchor": "awtsmoos-real-relay-follow-up-october-5-2026"
+			}
+		],
+		"excerpt": "Awtsmoos real relay follow up — October 5, 2026 At 15:45 New York time, the Mac local commandStart test completed with exit code zero and exact stdout while running split agent 2.0.0 / runtime 1.0.641. This disproves the claim that the version label alone establishes a universally failing local command runner. It does ",
+		"searchText": "awtsmoos real relay follow up — october 5, 2026 at 15:45 new york time, the mac local commandstart test completed with exit code zero and exact stdout while running split agent 2.0.0 / runtime 1.0.641. this disproves the claim that the version label alone establishes a universally failing local command runner. it does not disprove failures through external clients. two additional defects were found and fixed: 1. protectedfs passed response.status (including spawning) into the control json http status helper. the outer dynamic wrapper therefore exposed a nonnumeric transport status. the helper now converts valid http codes and keeps lifecycle text in the json body with http 200. numeric 401 and string 429 remain intact. commit cf8e2c19f. 2. the actual parent proxy emits connection.send with an envelope field, while the connection child read message.payload. production diagnostic metadata confirmed the paired mac was sending the nine byte text undefined. the child now consumes envelope, retains legacy payload compatibility, and rejects missing or malformed packets; safesend also rejects absent objects before serialization. commit 0993591a1. release 1.0.642: 3abf0704b. canonical production deployment completed. published bundle manifest returned 1.0.642. the official identity preserving transactional installer passed checksum, isolated candidate registration/action readiness, activation, launchd supervision, and live registration. the physical tunnel id was retained. active main pid 48830; connection pid 48994; supervisor pid 48578 at verification. after activation, command, commandrun, and commandstart each completed with exit code zero and exact stdout awtsmoos repaired relay witness. acceptance measured 414, 215, and 200 ms on localhost. the real instructionresolve action through /fs returned http 200, ok true, and serveravailable true in 444 ms, exercising the repaired authenticated device to server instruction bridge. a mistakenly attempted /command instructionresolve request correctly returned unknown command action; /fs is the correct route. production journal sample starting 19:53:30 utc contained zero json parsing errors, zero undefined payload witnesses, and zero invalid http status errors. this is a bounded post activation sample, not an indefinite stability guarantee. validation: all 34 connection vessel tests passed, including the real proxy child router safe sender contract. five http wrapper/router tests passed locally; the two control response tests also passed on production. the wrapper tests use a fixture handler, not a live user oauth session. remaining verification: this session has no exposed awtsmoos shliach mcp tool. external meta muse and chatgpt shliach clients must issue fresh authenticated calls to confirm their own end to end path. user oauth credentials were neither borrowed nor minted. the real mac runner and device to server instruction bridge were tested directly.",
+		"page": "pages/scripts-tunnel-evidence-20261005-command-relay-followup-md-9a89fd1e29.json"
+	},
+	{
+		"id": "scripts-tunnel-evidence-20261005-readme-md-9d291916b2",
+		"title": "Awtsmoos tunnel verification — 2026-10-05",
+		"sourcePath": "scripts/tunnel/evidence/20261005/README.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos tunnel verification — 2026-10-05",
+				"anchor": "awtsmoos-tunnel-verification-2026-10-05"
+			}
+		],
+		"excerpt": "Awtsmoos tunnel verification — 2026 10 05 The Awtsmoos accompanies this factual record. The source suite tests contracts, isolation, routing, recovery and registries; it does not execute every registered action on a production account. The live Mac soak completed 3,637 requests in 180.7 seconds at concurrency eight wit",
+		"searchText": "awtsmoos tunnel verification — 2026 10 05 the awtsmoos accompanies this factual record. the source suite tests contracts, isolation, routing, recovery and registries; it does not execute every registered action on a production account. the live mac soak completed 3,637 requests in 180.7 seconds at concurrency eight with no failed requests. median latency was 84 ms; p95 was 338 ms. it verified a 256 kib binary transfer with disordered chunks and final disk checksum, four concurrent owned asynchronous commands, filesystem reads/lists and health checks. latency is local api latency, not internet or chatgpt latency. an earlier run stopped after its disposable fixture disappeared from the shared temporary area. the api remained healthy. that failure is retained; cleanup is suspected, not established. the successful rerun used a separate evidence fixture. the canonical production deployment activated commit 1a40592bd149c6c075b3b35f4781741b33943f1a. discovery/openapi returned 200. protected routes returned 401 without credentials; mcp get returned 405 and mcp post initialize returned a 401 authentication challenge. these prove routing and authentication enforcement, not a signed in end to end plugin invocation. the official transactional installer refreshed the mac with source 1a40592, preserved its identity and root, proved candidate startup, promoted it and verified registration/guardian readiness. running instructionget returned shliach.tunnel native workflow version 2. shliach plugin 0.86.0 was saved and its changed skills read back. public publication and a fresh user oauth invocation remain separate checks. virtual os was covered by source contract tests; authenticated production virtual os operations were not available in this session. do not commit live fixtures, credentials or private instruction bodies. the two harnesses are repeatable local test scripts; run from the repository root. the soak deliberately writes only its own fixture. final code deployment: 02385eaaddb6069729204062d2f6c6b75591651a. after transactional refresh, another 60 second live run completed 1,398 requests with zero failures (median 64 ms, p95 226 ms), including another verified transfer and four owned command jobs. live server instructions remained available at workflow version 2 and the mac remained registered.",
+		"page": "pages/scripts-tunnel-evidence-20261005-readme-md-9d291916b2.json"
+	},
+	{
+		"id": "scripts-tunnel-evidence-20261005-stability-controls-md-193fab2f8a",
+		"title": "Awtsmoos bounded stability controls",
+		"sourcePath": "scripts/tunnel/evidence/20261005/stability-controls.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos bounded stability controls",
+				"anchor": "awtsmoos-bounded-stability-controls"
+			}
+		],
+		"excerpt": "Awtsmoos bounded stability controls The live baseline tests real localhost Mac actions and the authenticated device instruction bridge. It does not invoke ChatGPT user OAuth MCP tools. Health liveness alone is not command execution proof. GET /healthz remains lightweight process liveness. GET /readyz reports HTTP 200 o",
+		"searchText": "awtsmoos bounded stability controls the live baseline tests real localhost mac actions and the authenticated device instruction bridge. it does not invoke chatgpt user oauth mcp tools. health liveness alone is not command execution proof. get /healthz remains lightweight process liveness. get /readyz reports http 200 only when the connection receipt is registered, parent and child pids are alive, and server testimony is no older than 90 seconds. otherwise it reports 503 with a specific reason. its commandexecution field remains not probed; run an owned harmless command for execution proof. the awtsmoos action schema mcp tool accepts targetaction or targetactions (1–16 exact names). generic tunnel action actionschematrace accepts the same bounded array. duplicate names are removed. these schemas preserve existing generic fallback behavior: obtaining a schema is not proof that an action is registered. consult the catalog for registered names. batching performs discovery only and reduces serial round trips. mcp route failures identify requested action, actual api error, and http status instead of a generic server error. authentication and scope checks remain in the existing routes. instructionresolve retries one lost response only while the same websocket remains open. it does not retry mutations, retry indefinitely, or claim remote instructions exist while offline. a server restart can still produce an explicit local only result during reconnect. a write can opt into performancediagnostics:true. timingms separates preparation, execution, and durable provenance. default response identity remains unchanged. durability, integrity verification, operation transitions, and outbox delivery remain enabled. the stress harness uses owned fixtures, independent completion driven loops, bounded request deadlines, exact stdout and file hashes, out of order and duplicate chunks, commit replay, and cancellation of only its own jobs. it removes only its owned fixture directory.",
+		"page": "pages/scripts-tunnel-evidence-20261005-stability-controls-md-193fab2f8a.json"
+	},
+	{
+		"id": "scripts-tunnel-evidence-20261005-work-verification-1-0-645-md-0d66df24a2",
+		"title": "Awtsmoos installed stability and work verification",
+		"sourcePath": "scripts/tunnel/evidence/20261005/work-verification-1.0.645.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos installed stability and work verification",
+				"anchor": "awtsmoos-installed-stability-and-work-verification"
+			}
+		],
+		"excerpt": "Awtsmoos installed stability and work verification Production and the Mac were upgraded to runtime 1.0.645. The public /api/release/ endpoint confirmed running source commit 575cfecf629662fc99f93311f03779e4dd26fb52. Final installed probes passed: 12 concurrent owned commands with exact stdout, exact file write/readback",
+		"searchText": "awtsmoos installed stability and work verification production and the mac were upgraded to runtime 1.0.645. the public /api/release/ endpoint confirmed running source commit 575cfecf629662fc99f93311f03779e4dd26fb52. final installed probes passed: 12 concurrent owned commands with exact stdout, exact file write/readback, eight concurrent server instruction resolutions, five new action schemas, durable checkpoint revision 2, and fresh instruction aware resume. real installed chrome verification passed at 390, 768 and 1440 pixels with click/assert visible and computed css checks. deliberately missing css and a stale release were rejected; committed css bytes matched served asset hashes. the work release gate correctly refused repository dirty in the shared mac checkout. no unrelated agent changes were discarded. focused final suite: 11 tests passed. canonical activation/protocol/rollback fixture passed. prior broader instruction/browser queue suite: 17 tests passed. an initial installed test exposed worker isolation losing the instruction broker. work actions now stay beside the authenticated parent bridge; regression and installed probes passed after that correction. limits: browser checks above use an owned fixture, not every website page. user authenticated chatgpt mcp access remains unverified in this session. durable continuation does not mean indefinite unattended chatgpt execution. the initial promotion lost readiness during startup; final 1.0.645 candidate/promotion and installed probes passed. see ../../workverificationguide.md for the required workflow and frontend release receipt procedure.",
+		"page": "pages/scripts-tunnel-evidence-20261005-work-verification-1-0-645-md-0d66df24a2.json"
+	},
+	{
+		"id": "scripts-tunnel-reliablecommandclientguide-md-f46c65686c",
+		"title": "Reliable Awtsmoos command clients",
+		"sourcePath": "scripts/tunnel/reliableCommandClientGuide.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Reliable Awtsmoos command clients",
+				"anchor": "reliable-awtsmoos-command-clients"
+			}
+		],
+		"excerpt": "Reliable Awtsmoos command clients Use scripts/tunnel/reliableCommandClient.cjs with the authorized HTTPS filesystem endpoint, command and optional cwd as positional arguments. Set AWTSMOOS TUNNEL TOKEN outside source control. Set AWTSMOOS COMMAND CHECKPOINT to a private per command path outside Git for durable resume. ",
+		"searchText": "reliable awtsmoos command clients use scripts/tunnel/reliablecommandclient.cjs with the authorized https filesystem endpoint, command and optional cwd as positional arguments. set awtsmoos tunnel token outside source control. set awtsmoos command checkpoint to a private per command path outside git for durable resume. reuse that path with the same endpoint, command and cwd to continue. use a different path for a new command. the awtsmoos preserves one execution through inline results, durable jobs and pending receipts. the client copies complete observation identity, never redispatches uncertain commands, waits for integer terminal exit status and reads both output streams through advancing pages. early stdout is not success; empty output with zero exit is success. partial retained output fails explicitly. checkpoints bind command/cwd/endpoint/action, use atomic fsynced writes and 0600 files, and admit one living client process. a dead owner's lock can be reclaimed; a living or uncertain owner blocks. corrupt state blocks instead of resetting. output cursor and already committed content resume together; each stream is bounded to 16 mi characters, the json checkpoint to 32 mib. private checkpoints contain command and output, so keep their directory private and outside git. bearer tokens are never written into checkpoints. a completed checkpoint returns the stored result and does not execute again. trace records are bounded to 128 events and contain action, receipt/job ids, traceid, returned progress/acceptance and timestamps; no command/output bodies. the reusable runcommand(api,command,options) supports checkpointfile, endpoint, logicalagentid, action and ontrace. the same logical owner and traceid survive resume. the transport uses bounded https requests; a network/deadline error does not cancel a remote command. it reports the saved reconciliation ids. run node test scripts/tunnel/reliablecommandclient.test.cjs scripts/tunnel/commandclientresume.test.cjs for lifecycle and recovery regressions. run node scripts/tunnel/liveclientrecoveryprobe.cjs for the authorized mac's owned client death/resume and four command/control health test. that probe kills only its own client, preserves the installed runtime, and removes its own temporary repository fixture. local proof is distinct from authenticated external relay/mcp proof. the external metamuse bearer token was not available in this host. run an authorized external test before claiming that route healthy. runtime queue, promotion, transfer recovery and frontend gates use their existing production mechanisms; this client adds no competing scheduler, watchdog or background prompting loop.",
+		"page": "pages/scripts-tunnel-reliablecommandclientguide-md-f46c65686c.json"
+	}
+]

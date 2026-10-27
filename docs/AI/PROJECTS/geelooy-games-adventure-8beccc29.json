@@ -9,9 +9,10 @@
 		"id": "games",
 		"title": "Games and Worlds"
 	},
-	"title": "Adventure Game",
+	"title": "Adventure · Chambers of Light",
 	"entries": [
-		"index.html"
+		"index.html",
+		"package.json"
 	],
 	"humanDocumentation": [
 		"docs/TUTORIALS/PROJECTS/GAMES.md",
@@ -21,15 +22,34 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-adventure-8beccc29.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 1,
-		"tests": 0,
+		"source": 30,
+		"tests": 4,
 		"assets": 0,
 		"generated": 0,
 		"docs": 0,
 		"other": 0
 	},
-	"totalFiles": 1,
-	"symbolSummary": null,
+	"totalFiles": 34,
+	"symbolSummary": {
+		"files": 18,
+		"classes": 9,
+		"functions": 3,
+		"exports": 22,
+		"samples": [
+			"AdventureRuntime",
+			"adventureRuntime",
+			"ADVENTURE_CONFIG",
+			"ADVENTURE_COLORS",
+			"overlaps",
+			"clamp",
+			"cloneRect",
+			"AdventureInput",
+			"CHAMBER_FIVE",
+			"CHAMBER_FOUR",
+			"CHAMBER_ONE",
+			"CHAMBER_SIX"
+		]
+	},
 	"outgoingDependencies": [],
 	"incomingDependencies": [],
 	"externalDependencies": [],
@@ -37,12 +57,12 @@
 		{
 			"url": "/games/adventure",
 			"file": "geelooy/games/adventure/index.html",
-			"title": "Adventure Game",
-			"scripts": 0,
-			"styles": 0
+			"title": "Adventure · Chambers of Light",
+			"scripts": 3,
+			"styles": 3
 		}
 	],
-	"requiresLocalDocumentation": false,
+	"requiresLocalDocumentation": true,
 	"documentationCovered": false,
 	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
 }

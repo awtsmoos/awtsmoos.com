@@ -1,19 +1,19 @@
 [
 	{
-		"id": "api-youtube-auth-start-c2f5a58fbd",
-		"route": "/api/youtube/auth/start",
-		"source": "geelooy/api/youtube/routes/table.js",
+		"id": "api-wallet-commerce-entitlements-31c234acf1",
+		"route": "/api/wallet/commerce/entitlements",
+		"source": "geelooy/api/wallet/routes/table.js",
 		"discoveryKind": "route-table",
 		"family": {
-			"mount": "/api/youtube",
-			"title": "YouTube",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md"
+			"mount": "/api/wallet",
+			"title": "Wallet",
+			"manual": "docs/TUTORIALS/API/WALLET.md"
 		},
 		"derech": {
-			"source": "geelooy/api/youtube/_awtsmoos.derech.js",
+			"source": "geelooy/api/wallet/_awtsmoos.derech.js",
 			"status": "OK",
 			"issue": "—",
-			"mount": "/api/youtube"
+			"mount": "/api/wallet"
 		},
 		"dynamic": false,
 		"pathParameters": [],
@@ -24,81 +24,101 @@
 		"headers": [],
 		"callers": [
 			{
-				"literal": "/api/youtube/auth/start",
-				"source": "geelooy/apps/nesher-studio/modules/streaming/youtubeControl.js",
+				"literal": "/api/wallet/commerce/entitlements",
+				"source": "geelooy/apps/wallet/scripts/commerce.js",
 				"kind": "runtime"
 			},
 			{
-				"literal": "/api/youtube/auth/start?mode=manage&returnTo=/youtube/",
-				"source": "geelooy/youtube/index.html",
+				"literal": "/api/wallet/commerce/entitlements",
+				"source": "geelooy/apps/wallet/scripts/creditPortfolio.js",
 				"kind": "runtime"
 			},
 			{
-				"literal": "/api/youtube/auth/start?mode=read&returnTo=/youtube/",
-				"source": "geelooy/youtube/index.html",
+				"literal": "/api/wallet/commerce/entitlements",
+				"source": "geelooy/cloud/cloudData.js",
 				"kind": "runtime"
 			},
 			{
-				"literal": "/api/youtube/auth/start?mode=upload&returnTo=/youtube/",
-				"source": "geelooy/youtube/index.html",
+				"literal": "/api/wallet/commerce/entitlements",
+				"source": "geelooy/drive/ui/builderStarterAccess.js",
+				"kind": "runtime"
+			},
+			{
+				"literal": "/api/wallet/commerce/entitlements",
+				"source": "geelooy/games/Merkava/src/commerce/CommanderSigilClient.js",
+				"kind": "runtime"
+			},
+			{
+				"literal": "/api/wallet/commerce/entitlements",
+				"source": "geelooy/games/sefira-clash/js/commerce/ArenaThemeClient.js",
+				"kind": "runtime"
+			},
+			{
+				"literal": "/api/wallet/commerce/entitlements",
+				"source": "geelooy/shared/commerce/controller.js",
+				"kind": "runtime"
+			},
+			{
+				"literal": "/api/wallet/commerce/entitlements",
+				"source": "geelooy/shared/commerce/radianceClient.js",
 				"kind": "runtime"
 			}
 		],
-		"callerCount": 4,
+		"callerCount": 8,
 		"tests": [],
 		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-auth-start-c2f5a58fbd.md",
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-commerce-entitlements-31c234acf1.md",
 		"confidence": "unknown-method",
 		"related": [
 			{
-				"id": "api-youtube-44e720e9a3",
-				"route": "/api/youtube"
+				"id": "api-wallet-balance-59097f364b",
+				"route": "/api/wallet/balance"
 			},
 			{
-				"id": "api-youtube-a-8c1cdc043d",
-				"route": "/api/youtube/:a"
+				"id": "api-wallet-buy-mock-45ef52f2b5",
+				"route": "/api/wallet/buy/mock"
 			},
 			{
-				"id": "api-youtube-a-b-0f1bfdc710",
-				"route": "/api/youtube/:a/:b"
+				"id": "api-wallet-commerce-actions-8e2f72034a",
+				"route": "/api/wallet/commerce/actions"
 			},
 			{
-				"id": "api-youtube-a-b-c-02c6f58285",
-				"route": "/api/youtube/:a/:b/:c"
+				"id": "api-wallet-commerce-actions-execute-1b212726d5",
+				"route": "/api/wallet/commerce/actions/execute"
 			},
 			{
-				"id": "api-youtube-auth-callback-9c2556106d",
-				"route": "/api/youtube/auth/callback"
+				"id": "api-wallet-commerce-catalog-f9d5b627eb",
+				"route": "/api/wallet/commerce/catalog"
 			},
 			{
-				"id": "api-youtube-auth-logout-e16d771492",
-				"route": "/api/youtube/auth/logout"
+				"id": "api-wallet-commerce-credits-commit-514993bf32",
+				"route": "/api/wallet/commerce/credits/commit"
 			},
 			{
-				"id": "api-youtube-auth-status-10475f963f",
-				"route": "/api/youtube/auth/status"
+				"id": "api-wallet-commerce-credits-consume-6e724abb1d",
+				"route": "/api/wallet/commerce/credits/consume"
 			},
 			{
-				"id": "api-youtube-channel-8bfe604f4c",
-				"route": "/api/youtube/channel"
+				"id": "api-wallet-commerce-credits-release-01fbab351a",
+				"route": "/api/wallet/commerce/credits/release"
 			}
 		]
 	},
 	{
-		"id": "api-youtube-auth-status-10475f963f",
-		"route": "/api/youtube/auth/status",
-		"source": "geelooy/api/youtube/routes/table.js",
+		"id": "api-wallet-commerce-products-b037f2b7a5",
+		"route": "/api/wallet/commerce/products",
+		"source": "geelooy/api/wallet/routes/table.js",
 		"discoveryKind": "route-table",
 		"family": {
-			"mount": "/api/youtube",
-			"title": "YouTube",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md"
+			"mount": "/api/wallet",
+			"title": "Wallet",
+			"manual": "docs/TUTORIALS/API/WALLET.md"
 		},
 		"derech": {
-			"source": "geelooy/api/youtube/_awtsmoos.derech.js",
+			"source": "geelooy/api/wallet/_awtsmoos.derech.js",
 			"status": "OK",
 			"issue": "—",
-			"mount": "/api/youtube"
+			"mount": "/api/wallet"
 		},
 		"dynamic": false,
 		"pathParameters": [],
@@ -109,392 +129,66 @@
 		"headers": [],
 		"callers": [
 			{
-				"literal": "/api/youtube/auth/status",
-				"source": "geelooy/apps/nesher-studio/modules/streaming/youtubeControl.js",
-				"kind": "runtime"
-			}
-		],
-		"callerCount": 1,
-		"tests": [],
-		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-auth-status-10475f963f.md",
-		"confidence": "unknown-method",
-		"related": [
-			{
-				"id": "api-youtube-44e720e9a3",
-				"route": "/api/youtube"
-			},
-			{
-				"id": "api-youtube-a-8c1cdc043d",
-				"route": "/api/youtube/:a"
-			},
-			{
-				"id": "api-youtube-a-b-0f1bfdc710",
-				"route": "/api/youtube/:a/:b"
-			},
-			{
-				"id": "api-youtube-a-b-c-02c6f58285",
-				"route": "/api/youtube/:a/:b/:c"
-			},
-			{
-				"id": "api-youtube-auth-callback-9c2556106d",
-				"route": "/api/youtube/auth/callback"
-			},
-			{
-				"id": "api-youtube-auth-logout-e16d771492",
-				"route": "/api/youtube/auth/logout"
-			},
-			{
-				"id": "api-youtube-auth-start-c2f5a58fbd",
-				"route": "/api/youtube/auth/start"
-			},
-			{
-				"id": "api-youtube-channel-8bfe604f4c",
-				"route": "/api/youtube/channel"
-			}
-		]
-	},
-	{
-		"id": "api-youtube-channel-8bfe604f4c",
-		"route": "/api/youtube/channel",
-		"source": "geelooy/api/youtube/routes/table.js",
-		"discoveryKind": "route-table",
-		"family": {
-			"mount": "/api/youtube",
-			"title": "YouTube",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md"
-		},
-		"derech": {
-			"source": "geelooy/api/youtube/_awtsmoos.derech.js",
-			"status": "OK",
-			"issue": "—",
-			"mount": "/api/youtube"
-		},
-		"dynamic": false,
-		"pathParameters": [],
-		"methods": [],
-		"methodEvidence": "unknown",
-		"vessels": [],
-		"statuses": [],
-		"headers": [],
-		"callers": [],
-		"callerCount": 0,
-		"tests": [],
-		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-channel-8bfe604f4c.md",
-		"confidence": "unknown-method",
-		"related": [
-			{
-				"id": "api-youtube-44e720e9a3",
-				"route": "/api/youtube"
-			},
-			{
-				"id": "api-youtube-a-8c1cdc043d",
-				"route": "/api/youtube/:a"
-			},
-			{
-				"id": "api-youtube-a-b-0f1bfdc710",
-				"route": "/api/youtube/:a/:b"
-			},
-			{
-				"id": "api-youtube-a-b-c-02c6f58285",
-				"route": "/api/youtube/:a/:b/:c"
-			},
-			{
-				"id": "api-youtube-auth-callback-9c2556106d",
-				"route": "/api/youtube/auth/callback"
-			},
-			{
-				"id": "api-youtube-auth-logout-e16d771492",
-				"route": "/api/youtube/auth/logout"
-			},
-			{
-				"id": "api-youtube-auth-start-c2f5a58fbd",
-				"route": "/api/youtube/auth/start"
-			},
-			{
-				"id": "api-youtube-auth-status-10475f963f",
-				"route": "/api/youtube/auth/status"
-			}
-		]
-	},
-	{
-		"id": "api-youtube-channel-mine-662381827e",
-		"route": "/api/youtube/channel/mine",
-		"source": "geelooy/api/youtube/routes/table.js",
-		"discoveryKind": "route-table",
-		"family": {
-			"mount": "/api/youtube",
-			"title": "YouTube",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md"
-		},
-		"derech": {
-			"source": "geelooy/api/youtube/_awtsmoos.derech.js",
-			"status": "OK",
-			"issue": "—",
-			"mount": "/api/youtube"
-		},
-		"dynamic": false,
-		"pathParameters": [],
-		"methods": [],
-		"methodEvidence": "unknown",
-		"vessels": [],
-		"statuses": [],
-		"headers": [],
-		"callers": [],
-		"callerCount": 0,
-		"tests": [],
-		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-channel-mine-662381827e.md",
-		"confidence": "unknown-method",
-		"related": [
-			{
-				"id": "api-youtube-44e720e9a3",
-				"route": "/api/youtube"
-			},
-			{
-				"id": "api-youtube-a-8c1cdc043d",
-				"route": "/api/youtube/:a"
-			},
-			{
-				"id": "api-youtube-a-b-0f1bfdc710",
-				"route": "/api/youtube/:a/:b"
-			},
-			{
-				"id": "api-youtube-a-b-c-02c6f58285",
-				"route": "/api/youtube/:a/:b/:c"
-			},
-			{
-				"id": "api-youtube-auth-callback-9c2556106d",
-				"route": "/api/youtube/auth/callback"
-			},
-			{
-				"id": "api-youtube-auth-logout-e16d771492",
-				"route": "/api/youtube/auth/logout"
-			},
-			{
-				"id": "api-youtube-auth-start-c2f5a58fbd",
-				"route": "/api/youtube/auth/start"
-			},
-			{
-				"id": "api-youtube-auth-status-10475f963f",
-				"route": "/api/youtube/auth/status"
-			}
-		]
-	},
-	{
-		"id": "api-youtube-live-3810f27141",
-		"route": "/api/youtube/live",
-		"source": "geelooy/api/youtube/routes/table.js",
-		"discoveryKind": "route-table",
-		"family": {
-			"mount": "/api/youtube",
-			"title": "YouTube",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md"
-		},
-		"derech": {
-			"source": "geelooy/api/youtube/_awtsmoos.derech.js",
-			"status": "OK",
-			"issue": "—",
-			"mount": "/api/youtube"
-		},
-		"dynamic": false,
-		"pathParameters": [],
-		"methods": [],
-		"methodEvidence": "unknown",
-		"vessels": [],
-		"statuses": [],
-		"headers": [],
-		"callers": [],
-		"callerCount": 0,
-		"tests": [],
-		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-live-3810f27141.md",
-		"confidence": "unknown-method",
-		"related": [
-			{
-				"id": "api-youtube-44e720e9a3",
-				"route": "/api/youtube"
-			},
-			{
-				"id": "api-youtube-a-8c1cdc043d",
-				"route": "/api/youtube/:a"
-			},
-			{
-				"id": "api-youtube-a-b-0f1bfdc710",
-				"route": "/api/youtube/:a/:b"
-			},
-			{
-				"id": "api-youtube-a-b-c-02c6f58285",
-				"route": "/api/youtube/:a/:b/:c"
-			},
-			{
-				"id": "api-youtube-auth-callback-9c2556106d",
-				"route": "/api/youtube/auth/callback"
-			},
-			{
-				"id": "api-youtube-auth-logout-e16d771492",
-				"route": "/api/youtube/auth/logout"
-			},
-			{
-				"id": "api-youtube-auth-start-c2f5a58fbd",
-				"route": "/api/youtube/auth/start"
-			},
-			{
-				"id": "api-youtube-auth-status-10475f963f",
-				"route": "/api/youtube/auth/status"
-			}
-		]
-	},
-	{
-		"id": "api-youtube-live-create-ed8850fb7e",
-		"route": "/api/youtube/live/create",
-		"source": "geelooy/api/youtube/routes/table.js",
-		"discoveryKind": "route-table",
-		"family": {
-			"mount": "/api/youtube",
-			"title": "YouTube",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md"
-		},
-		"derech": {
-			"source": "geelooy/api/youtube/_awtsmoos.derech.js",
-			"status": "OK",
-			"issue": "—",
-			"mount": "/api/youtube"
-		},
-		"dynamic": false,
-		"pathParameters": [],
-		"methods": [],
-		"methodEvidence": "unknown",
-		"vessels": [],
-		"statuses": [],
-		"headers": [],
-		"callers": [
-			{
-				"literal": "/api/youtube/live/create",
-				"source": "geelooy/apps/nesher-studio/modules/streaming/youtubeControl.js",
+				"literal": "/api/wallet/commerce/products",
+				"source": "geelooy/apps/wallet/scripts/creditPortfolio.js",
 				"kind": "runtime"
 			}
 		],
 		"callerCount": 1,
 		"tests": [],
 		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-live-create-ed8850fb7e.md",
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-commerce-products-b037f2b7a5.md",
 		"confidence": "unknown-method",
 		"related": [
 			{
-				"id": "api-youtube-44e720e9a3",
-				"route": "/api/youtube"
+				"id": "api-wallet-balance-59097f364b",
+				"route": "/api/wallet/balance"
 			},
 			{
-				"id": "api-youtube-a-8c1cdc043d",
-				"route": "/api/youtube/:a"
+				"id": "api-wallet-buy-mock-45ef52f2b5",
+				"route": "/api/wallet/buy/mock"
 			},
 			{
-				"id": "api-youtube-a-b-0f1bfdc710",
-				"route": "/api/youtube/:a/:b"
+				"id": "api-wallet-commerce-actions-8e2f72034a",
+				"route": "/api/wallet/commerce/actions"
 			},
 			{
-				"id": "api-youtube-a-b-c-02c6f58285",
-				"route": "/api/youtube/:a/:b/:c"
+				"id": "api-wallet-commerce-actions-execute-1b212726d5",
+				"route": "/api/wallet/commerce/actions/execute"
 			},
 			{
-				"id": "api-youtube-auth-callback-9c2556106d",
-				"route": "/api/youtube/auth/callback"
+				"id": "api-wallet-commerce-catalog-f9d5b627eb",
+				"route": "/api/wallet/commerce/catalog"
 			},
 			{
-				"id": "api-youtube-auth-logout-e16d771492",
-				"route": "/api/youtube/auth/logout"
+				"id": "api-wallet-commerce-credits-commit-514993bf32",
+				"route": "/api/wallet/commerce/credits/commit"
 			},
 			{
-				"id": "api-youtube-auth-start-c2f5a58fbd",
-				"route": "/api/youtube/auth/start"
+				"id": "api-wallet-commerce-credits-consume-6e724abb1d",
+				"route": "/api/wallet/commerce/credits/consume"
 			},
 			{
-				"id": "api-youtube-auth-status-10475f963f",
-				"route": "/api/youtube/auth/status"
+				"id": "api-wallet-commerce-credits-release-01fbab351a",
+				"route": "/api/wallet/commerce/credits/release"
 			}
 		]
 	},
 	{
-		"id": "api-youtube-live-list-ead6bdc367",
-		"route": "/api/youtube/live/list",
-		"source": "geelooy/api/youtube/routes/table.js",
+		"id": "api-wallet-commerce-purchase-762f54f3a2",
+		"route": "/api/wallet/commerce/purchase",
+		"source": "geelooy/api/wallet/routes/table.js",
 		"discoveryKind": "route-table",
 		"family": {
-			"mount": "/api/youtube",
-			"title": "YouTube",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md"
+			"mount": "/api/wallet",
+			"title": "Wallet",
+			"manual": "docs/TUTORIALS/API/WALLET.md"
 		},
 		"derech": {
-			"source": "geelooy/api/youtube/_awtsmoos.derech.js",
+			"source": "geelooy/api/wallet/_awtsmoos.derech.js",
 			"status": "OK",
 			"issue": "—",
-			"mount": "/api/youtube"
-		},
-		"dynamic": false,
-		"pathParameters": [],
-		"methods": [],
-		"methodEvidence": "unknown",
-		"vessels": [],
-		"statuses": [],
-		"headers": [],
-		"callers": [],
-		"callerCount": 0,
-		"tests": [],
-		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-live-list-ead6bdc367.md",
-		"confidence": "unknown-method",
-		"related": [
-			{
-				"id": "api-youtube-44e720e9a3",
-				"route": "/api/youtube"
-			},
-			{
-				"id": "api-youtube-a-8c1cdc043d",
-				"route": "/api/youtube/:a"
-			},
-			{
-				"id": "api-youtube-a-b-0f1bfdc710",
-				"route": "/api/youtube/:a/:b"
-			},
-			{
-				"id": "api-youtube-a-b-c-02c6f58285",
-				"route": "/api/youtube/:a/:b/:c"
-			},
-			{
-				"id": "api-youtube-auth-callback-9c2556106d",
-				"route": "/api/youtube/auth/callback"
-			},
-			{
-				"id": "api-youtube-auth-logout-e16d771492",
-				"route": "/api/youtube/auth/logout"
-			},
-			{
-				"id": "api-youtube-auth-start-c2f5a58fbd",
-				"route": "/api/youtube/auth/start"
-			},
-			{
-				"id": "api-youtube-auth-status-10475f963f",
-				"route": "/api/youtube/auth/status"
-			}
-		]
-	},
-	{
-		"id": "api-youtube-live-transition-ae1a4cbf7f",
-		"route": "/api/youtube/live/transition",
-		"source": "geelooy/api/youtube/routes/table.js",
-		"discoveryKind": "route-table",
-		"family": {
-			"mount": "/api/youtube",
-			"title": "YouTube",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md"
-		},
-		"derech": {
-			"source": "geelooy/api/youtube/_awtsmoos.derech.js",
-			"status": "OK",
-			"issue": "—",
-			"mount": "/api/youtube"
+			"mount": "/api/wallet"
 		},
 		"dynamic": false,
 		"pathParameters": [],
@@ -505,66 +199,370 @@
 		"headers": [],
 		"callers": [
 			{
-				"literal": "/api/youtube/live/transition",
-				"source": "geelooy/apps/nesher-studio/modules/streaming/youtubeControl.js",
+				"literal": "/api/wallet/commerce/purchase",
+				"source": "geelooy/apps/wallet/scripts/commercePurchase.js",
+				"kind": "runtime"
+			},
+			{
+				"literal": "/api/wallet/commerce/purchase",
+				"source": "geelooy/cloud/cloudData.js",
+				"kind": "runtime"
+			},
+			{
+				"literal": "/api/wallet/commerce/purchase",
+				"source": "geelooy/games/Merkava/src/commerce/CommanderSigilClient.js",
+				"kind": "runtime"
+			},
+			{
+				"literal": "/api/wallet/commerce/purchase",
+				"source": "geelooy/games/sefira-clash/js/commerce/ArenaThemeClient.js",
+				"kind": "runtime"
+			},
+			{
+				"literal": "/api/wallet/commerce/purchase",
+				"source": "geelooy/shared/commerce/controller.js",
+				"kind": "runtime"
+			}
+		],
+		"callerCount": 5,
+		"tests": [],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-commerce-purchase-762f54f3a2.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-wallet-balance-59097f364b",
+				"route": "/api/wallet/balance"
+			},
+			{
+				"id": "api-wallet-buy-mock-45ef52f2b5",
+				"route": "/api/wallet/buy/mock"
+			},
+			{
+				"id": "api-wallet-commerce-actions-8e2f72034a",
+				"route": "/api/wallet/commerce/actions"
+			},
+			{
+				"id": "api-wallet-commerce-actions-execute-1b212726d5",
+				"route": "/api/wallet/commerce/actions/execute"
+			},
+			{
+				"id": "api-wallet-commerce-catalog-f9d5b627eb",
+				"route": "/api/wallet/commerce/catalog"
+			},
+			{
+				"id": "api-wallet-commerce-credits-commit-514993bf32",
+				"route": "/api/wallet/commerce/credits/commit"
+			},
+			{
+				"id": "api-wallet-commerce-credits-consume-6e724abb1d",
+				"route": "/api/wallet/commerce/credits/consume"
+			},
+			{
+				"id": "api-wallet-commerce-credits-release-01fbab351a",
+				"route": "/api/wallet/commerce/credits/release"
+			}
+		]
+	},
+	{
+		"id": "api-wallet-commerce-reconciliation-health-501ef1b5b9",
+		"route": "/api/wallet/commerce/reconciliation/health",
+		"source": "geelooy/api/wallet/routes/table.js",
+		"discoveryKind": "route-table",
+		"family": {
+			"mount": "/api/wallet",
+			"title": "Wallet",
+			"manual": "docs/TUTORIALS/API/WALLET.md"
+		},
+		"derech": {
+			"source": "geelooy/api/wallet/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/wallet"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [],
+		"statuses": [],
+		"headers": [],
+		"callers": [],
+		"callerCount": 0,
+		"tests": [],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-commerce-reconciliation-health-501ef1b5b9.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-wallet-balance-59097f364b",
+				"route": "/api/wallet/balance"
+			},
+			{
+				"id": "api-wallet-buy-mock-45ef52f2b5",
+				"route": "/api/wallet/buy/mock"
+			},
+			{
+				"id": "api-wallet-commerce-actions-8e2f72034a",
+				"route": "/api/wallet/commerce/actions"
+			},
+			{
+				"id": "api-wallet-commerce-actions-execute-1b212726d5",
+				"route": "/api/wallet/commerce/actions/execute"
+			},
+			{
+				"id": "api-wallet-commerce-catalog-f9d5b627eb",
+				"route": "/api/wallet/commerce/catalog"
+			},
+			{
+				"id": "api-wallet-commerce-credits-commit-514993bf32",
+				"route": "/api/wallet/commerce/credits/commit"
+			},
+			{
+				"id": "api-wallet-commerce-credits-consume-6e724abb1d",
+				"route": "/api/wallet/commerce/credits/consume"
+			},
+			{
+				"id": "api-wallet-commerce-credits-release-01fbab351a",
+				"route": "/api/wallet/commerce/credits/release"
+			}
+		]
+	},
+	{
+		"id": "api-wallet-currency-8de1c94e4f",
+		"route": "/api/wallet/currency",
+		"source": "geelooy/api/wallet/routes/table.js",
+		"discoveryKind": "route-table",
+		"family": {
+			"mount": "/api/wallet",
+			"title": "Wallet",
+			"manual": "docs/TUTORIALS/API/WALLET.md"
+		},
+		"derech": {
+			"source": "geelooy/api/wallet/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/wallet"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [],
+		"statuses": [],
+		"headers": [],
+		"callers": [
+			{
+				"literal": "/api/wallet/currency",
+				"source": "geelooy/apps/wallet/scripts/pricingPreview.js",
+				"kind": "runtime"
+			},
+			{
+				"literal": "/api/wallet/currency",
+				"source": "geelooy/cloud/cloudData.js",
+				"kind": "runtime"
+			}
+		],
+		"callerCount": 2,
+		"tests": [],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-currency-8de1c94e4f.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-wallet-balance-59097f364b",
+				"route": "/api/wallet/balance"
+			},
+			{
+				"id": "api-wallet-buy-mock-45ef52f2b5",
+				"route": "/api/wallet/buy/mock"
+			},
+			{
+				"id": "api-wallet-commerce-actions-8e2f72034a",
+				"route": "/api/wallet/commerce/actions"
+			},
+			{
+				"id": "api-wallet-commerce-actions-execute-1b212726d5",
+				"route": "/api/wallet/commerce/actions/execute"
+			},
+			{
+				"id": "api-wallet-commerce-catalog-f9d5b627eb",
+				"route": "/api/wallet/commerce/catalog"
+			},
+			{
+				"id": "api-wallet-commerce-credits-commit-514993bf32",
+				"route": "/api/wallet/commerce/credits/commit"
+			},
+			{
+				"id": "api-wallet-commerce-credits-consume-6e724abb1d",
+				"route": "/api/wallet/commerce/credits/consume"
+			},
+			{
+				"id": "api-wallet-commerce-credits-release-01fbab351a",
+				"route": "/api/wallet/commerce/credits/release"
+			}
+		]
+	},
+	{
+		"id": "api-wallet-game-rewards-claim-abc370c4e1",
+		"route": "/api/wallet/game-rewards/claim",
+		"source": "geelooy/api/wallet/routes/table.js",
+		"discoveryKind": "route-table",
+		"family": {
+			"mount": "/api/wallet",
+			"title": "Wallet",
+			"manual": "docs/TUTORIALS/API/WALLET.md"
+		},
+		"derech": {
+			"source": "geelooy/api/wallet/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/wallet"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [],
+		"statuses": [],
+		"headers": [],
+		"callers": [
+			{
+				"literal": "/api/wallet/game-rewards/claim",
+				"source": "geelooy/games/scripts/wallet-rewards/transport/YesodWalletRewardGateway.mjs",
+				"kind": "runtime"
+			},
+			{
+				"literal": "/api/wallet/game-rewards/claim",
+				"source": "geelooy/games/tests/wallet-rewards.test.mjs",
+				"kind": "test"
+			}
+		],
+		"callerCount": 2,
+		"tests": [],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-game-rewards-claim-abc370c4e1.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-wallet-balance-59097f364b",
+				"route": "/api/wallet/balance"
+			},
+			{
+				"id": "api-wallet-buy-mock-45ef52f2b5",
+				"route": "/api/wallet/buy/mock"
+			},
+			{
+				"id": "api-wallet-commerce-actions-8e2f72034a",
+				"route": "/api/wallet/commerce/actions"
+			},
+			{
+				"id": "api-wallet-commerce-actions-execute-1b212726d5",
+				"route": "/api/wallet/commerce/actions/execute"
+			},
+			{
+				"id": "api-wallet-commerce-catalog-f9d5b627eb",
+				"route": "/api/wallet/commerce/catalog"
+			},
+			{
+				"id": "api-wallet-commerce-credits-commit-514993bf32",
+				"route": "/api/wallet/commerce/credits/commit"
+			},
+			{
+				"id": "api-wallet-commerce-credits-consume-6e724abb1d",
+				"route": "/api/wallet/commerce/credits/consume"
+			},
+			{
+				"id": "api-wallet-commerce-credits-release-01fbab351a",
+				"route": "/api/wallet/commerce/credits/release"
+			}
+		]
+	},
+	{
+		"id": "api-wallet-marketplace-36e8a8a8dc",
+		"route": "/api/wallet/marketplace",
+		"source": "geelooy/api/wallet/routes/table.js",
+		"discoveryKind": "route-table",
+		"family": {
+			"mount": "/api/wallet",
+			"title": "Wallet",
+			"manual": "docs/TUTORIALS/API/WALLET.md"
+		},
+		"derech": {
+			"source": "geelooy/api/wallet/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/wallet"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [],
+		"statuses": [],
+		"headers": [],
+		"callers": [
+			{
+				"literal": "/api/wallet/marketplace",
+				"source": "geelooy/cloud/agency/data.js",
 				"kind": "runtime"
 			}
 		],
 		"callerCount": 1,
 		"tests": [],
 		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-live-transition-ae1a4cbf7f.md",
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-marketplace-36e8a8a8dc.md",
 		"confidence": "unknown-method",
 		"related": [
 			{
-				"id": "api-youtube-44e720e9a3",
-				"route": "/api/youtube"
+				"id": "api-wallet-balance-59097f364b",
+				"route": "/api/wallet/balance"
 			},
 			{
-				"id": "api-youtube-a-8c1cdc043d",
-				"route": "/api/youtube/:a"
+				"id": "api-wallet-buy-mock-45ef52f2b5",
+				"route": "/api/wallet/buy/mock"
 			},
 			{
-				"id": "api-youtube-a-b-0f1bfdc710",
-				"route": "/api/youtube/:a/:b"
+				"id": "api-wallet-commerce-actions-8e2f72034a",
+				"route": "/api/wallet/commerce/actions"
 			},
 			{
-				"id": "api-youtube-a-b-c-02c6f58285",
-				"route": "/api/youtube/:a/:b/:c"
+				"id": "api-wallet-commerce-actions-execute-1b212726d5",
+				"route": "/api/wallet/commerce/actions/execute"
 			},
 			{
-				"id": "api-youtube-auth-callback-9c2556106d",
-				"route": "/api/youtube/auth/callback"
+				"id": "api-wallet-commerce-catalog-f9d5b627eb",
+				"route": "/api/wallet/commerce/catalog"
 			},
 			{
-				"id": "api-youtube-auth-logout-e16d771492",
-				"route": "/api/youtube/auth/logout"
+				"id": "api-wallet-commerce-credits-commit-514993bf32",
+				"route": "/api/wallet/commerce/credits/commit"
 			},
 			{
-				"id": "api-youtube-auth-start-c2f5a58fbd",
-				"route": "/api/youtube/auth/start"
+				"id": "api-wallet-commerce-credits-consume-6e724abb1d",
+				"route": "/api/wallet/commerce/credits/consume"
 			},
 			{
-				"id": "api-youtube-auth-status-10475f963f",
-				"route": "/api/youtube/auth/status"
+				"id": "api-wallet-commerce-credits-release-01fbab351a",
+				"route": "/api/wallet/commerce/credits/release"
 			}
 		]
 	},
 	{
-		"id": "api-youtube-oauth-callback-77ef36bff2",
-		"route": "/api/youtube/oauth/callback",
-		"source": "geelooy/api/youtube/routes/table.js",
+		"id": "api-wallet-marketplace-action-92bf1736c6",
+		"route": "/api/wallet/marketplace/action",
+		"source": "geelooy/api/wallet/routes/table.js",
 		"discoveryKind": "route-table",
 		"family": {
-			"mount": "/api/youtube",
-			"title": "YouTube",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md"
+			"mount": "/api/wallet",
+			"title": "Wallet",
+			"manual": "docs/TUTORIALS/API/WALLET.md"
 		},
 		"derech": {
-			"source": "geelooy/api/youtube/_awtsmoos.derech.js",
+			"source": "geelooy/api/wallet/_awtsmoos.derech.js",
 			"status": "OK",
 			"issue": "—",
-			"mount": "/api/youtube"
+			"mount": "/api/wallet"
 		},
 		"dynamic": false,
 		"pathParameters": [],
@@ -573,172 +571,50 @@
 		"vessels": [],
 		"statuses": [],
 		"headers": [],
-		"callers": [],
-		"callerCount": 0,
-		"tests": [],
-		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-oauth-callback-77ef36bff2.md",
-		"confidence": "unknown-method",
-		"related": [
+		"callers": [
 			{
-				"id": "api-youtube-44e720e9a3",
-				"route": "/api/youtube"
-			},
-			{
-				"id": "api-youtube-a-8c1cdc043d",
-				"route": "/api/youtube/:a"
-			},
-			{
-				"id": "api-youtube-a-b-0f1bfdc710",
-				"route": "/api/youtube/:a/:b"
-			},
-			{
-				"id": "api-youtube-a-b-c-02c6f58285",
-				"route": "/api/youtube/:a/:b/:c"
-			},
-			{
-				"id": "api-youtube-auth-callback-9c2556106d",
-				"route": "/api/youtube/auth/callback"
-			},
-			{
-				"id": "api-youtube-auth-logout-e16d771492",
-				"route": "/api/youtube/auth/logout"
-			},
-			{
-				"id": "api-youtube-auth-start-c2f5a58fbd",
-				"route": "/api/youtube/auth/start"
-			},
-			{
-				"id": "api-youtube-auth-status-10475f963f",
-				"route": "/api/youtube/auth/status"
+				"literal": "/api/wallet/marketplace/action",
+				"source": "geelooy/cloud/agency/data.js",
+				"kind": "runtime"
 			}
-		]
-	},
-	{
-		"id": "api-youtube-oauth-logout-b12d002f1f",
-		"route": "/api/youtube/oauth/logout",
-		"source": "geelooy/api/youtube/routes/table.js",
-		"discoveryKind": "route-table",
-		"family": {
-			"mount": "/api/youtube",
-			"title": "YouTube",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md"
-		},
-		"derech": {
-			"source": "geelooy/api/youtube/_awtsmoos.derech.js",
-			"status": "OK",
-			"issue": "—",
-			"mount": "/api/youtube"
-		},
-		"dynamic": false,
-		"pathParameters": [],
-		"methods": [],
-		"methodEvidence": "unknown",
-		"vessels": [],
-		"statuses": [],
-		"headers": [],
-		"callers": [],
-		"callerCount": 0,
+		],
+		"callerCount": 1,
 		"tests": [],
 		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-oauth-logout-b12d002f1f.md",
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-marketplace-action-92bf1736c6.md",
 		"confidence": "unknown-method",
 		"related": [
 			{
-				"id": "api-youtube-44e720e9a3",
-				"route": "/api/youtube"
+				"id": "api-wallet-balance-59097f364b",
+				"route": "/api/wallet/balance"
 			},
 			{
-				"id": "api-youtube-a-8c1cdc043d",
-				"route": "/api/youtube/:a"
+				"id": "api-wallet-buy-mock-45ef52f2b5",
+				"route": "/api/wallet/buy/mock"
 			},
 			{
-				"id": "api-youtube-a-b-0f1bfdc710",
-				"route": "/api/youtube/:a/:b"
+				"id": "api-wallet-commerce-actions-8e2f72034a",
+				"route": "/api/wallet/commerce/actions"
 			},
 			{
-				"id": "api-youtube-a-b-c-02c6f58285",
-				"route": "/api/youtube/:a/:b/:c"
+				"id": "api-wallet-commerce-actions-execute-1b212726d5",
+				"route": "/api/wallet/commerce/actions/execute"
 			},
 			{
-				"id": "api-youtube-auth-callback-9c2556106d",
-				"route": "/api/youtube/auth/callback"
+				"id": "api-wallet-commerce-catalog-f9d5b627eb",
+				"route": "/api/wallet/commerce/catalog"
 			},
 			{
-				"id": "api-youtube-auth-logout-e16d771492",
-				"route": "/api/youtube/auth/logout"
+				"id": "api-wallet-commerce-credits-commit-514993bf32",
+				"route": "/api/wallet/commerce/credits/commit"
 			},
 			{
-				"id": "api-youtube-auth-start-c2f5a58fbd",
-				"route": "/api/youtube/auth/start"
+				"id": "api-wallet-commerce-credits-consume-6e724abb1d",
+				"route": "/api/wallet/commerce/credits/consume"
 			},
 			{
-				"id": "api-youtube-auth-status-10475f963f",
-				"route": "/api/youtube/auth/status"
-			}
-		]
-	},
-	{
-		"id": "api-youtube-oauth-start-0855498762",
-		"route": "/api/youtube/oauth/start",
-		"source": "geelooy/api/youtube/routes/table.js",
-		"discoveryKind": "route-table",
-		"family": {
-			"mount": "/api/youtube",
-			"title": "YouTube",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md"
-		},
-		"derech": {
-			"source": "geelooy/api/youtube/_awtsmoos.derech.js",
-			"status": "OK",
-			"issue": "—",
-			"mount": "/api/youtube"
-		},
-		"dynamic": false,
-		"pathParameters": [],
-		"methods": [],
-		"methodEvidence": "unknown",
-		"vessels": [],
-		"statuses": [],
-		"headers": [],
-		"callers": [],
-		"callerCount": 0,
-		"tests": [],
-		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-oauth-start-0855498762.md",
-		"confidence": "unknown-method",
-		"related": [
-			{
-				"id": "api-youtube-44e720e9a3",
-				"route": "/api/youtube"
-			},
-			{
-				"id": "api-youtube-a-8c1cdc043d",
-				"route": "/api/youtube/:a"
-			},
-			{
-				"id": "api-youtube-a-b-0f1bfdc710",
-				"route": "/api/youtube/:a/:b"
-			},
-			{
-				"id": "api-youtube-a-b-c-02c6f58285",
-				"route": "/api/youtube/:a/:b/:c"
-			},
-			{
-				"id": "api-youtube-auth-callback-9c2556106d",
-				"route": "/api/youtube/auth/callback"
-			},
-			{
-				"id": "api-youtube-auth-logout-e16d771492",
-				"route": "/api/youtube/auth/logout"
-			},
-			{
-				"id": "api-youtube-auth-start-c2f5a58fbd",
-				"route": "/api/youtube/auth/start"
-			},
-			{
-				"id": "api-youtube-auth-status-10475f963f",
-				"route": "/api/youtube/auth/status"
+				"id": "api-wallet-commerce-credits-release-01fbab351a",
+				"route": "/api/wallet/commerce/credits/release"
 			}
 		]
 	}

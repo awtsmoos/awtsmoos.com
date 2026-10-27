@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Guarded Fetch Proxy (geelooy/api/fetch/)\n\nLets remote bytes pass through a guarded server vessel instead of an unbounded\nproxy: authenticated, origin-checked, size- and rate-limited remote fetching for\ntext or binary data.\n\n## Contents\n- `_awtsmoos.derech.js` — whole API: route `/`.\n- `DOCUMENTATION.md` — auth, origin, limits, binary handling, caller evidence.\n\n## Endpoint\n- `/` — fetch a remote URL server-side. Requires login (401 otherwise) and an\n  origin/referer on awtsmoos.com (403 otherwise). Limits: 30 requests/min and\n  50 MB/min per user.\n\n## Guards\nOrigin allow-listing plus per-user request and byte budgets keep the proxy\ndeliberate; see `DOCUMENTATION.md` for the auth/limits contract.\n"
+}

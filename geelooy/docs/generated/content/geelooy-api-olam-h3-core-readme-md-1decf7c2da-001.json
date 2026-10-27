@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Olam H3 Core (geelooy/api/olam-h3/core/)\n\nInternals behind the H3 API (see `../README.md`).\n\n## Files\n- `handlers.js` — `ChesedH3Handlers`: orchestrates status, create, and task\n  routes without growing another backend.\n- `body.js` — `MalchusBodyReader`: request body parsing.\n- `validation.js` — `GevurahH3Validator` + `H3CombinationValidation`: input guards.\n- `mapper.js` — `TiferesH3Mapper`: request-to-upstream mapping.\n- `client.js` — `NetzachMiniMaxClient`: credentialed server-side transport to\n  `https://api.minimax.io` (key stays in `MINIMAX_API_KEY` env, never in browser).\n"
+}

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Contact services (`/api/contact/services/`)\n\nValidation, delivery, and rate-gating for contact signals.\n\n- `MalchusContactService.js` — Main orchestration: validate → gate → deliver.\n- `TiferesContactDelivery.js` — Mail transport delivery.\n- `YesodSignalGate.js` — Per-client rate limiting.\n- `GevurahInputPolicy.js` — Input validation policy.\n- `ContactSignalPolicy.js` — Signal policy (kinds, limits).\n"
+}

@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-design-os-constraints-readme-md-56c7c4fecd",
+	"title": "Awtsmoos Design OS — Constraint Language",
+	"sourcePath": "geelooy/apps/tunnel/design-os/constraints/README.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Awtsmoos Design OS — Constraint Language",
+			"anchor": "awtsmoos-design-os-constraint-language"
+		},
+		{
+			"level": 2,
+			"text": "Quick start",
+			"anchor": "quick-start"
+		},
+		{
+			"level": 2,
+			"text": "Syntax",
+			"anchor": "syntax"
+		},
+		{
+			"level": 2,
+			"text": "Pipeline",
+			"anchor": "pipeline"
+		},
+		{
+			"level": 2,
+			"text": "Built-in functions",
+			"anchor": "built-in-functions"
+		},
+		{
+			"level": 2,
+			"text": "Constraint library",
+			"anchor": "constraint-library"
+		},
+		{
+			"level": 2,
+			"text": "Design principles",
+			"anchor": "design-principles"
+		},
+		{
+			"level": 2,
+			"text": "Files",
+			"anchor": "files"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-design-os-constraints-readme-md-56c7c4fecd-001.json"
+	]
+}

@@ -10,18 +10,18 @@
  * tokens — never a raw color literal.
  *
  * Texture / ornament assets (served live from the repo):
- *   ../../design-refs/law8/heichel/<name>.webp
+ *   https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo-image-mirror/geelooy/design-refs/law8/heichel/<name>.webp
  * relative to geelooy/heichelos/styles/.
  */
 
 /* ============ 1. Assets ============ */
 :root {
-	--heichel-img-parchment-light: url("../../design-refs/law8/heichel/parchment-light.webp");
-	--heichel-img-parchment-dark: url("../../design-refs/law8/heichel/parchment-dark.webp");
-	--heichel-img-gold-seal: url("../../design-refs/law8/heichel/gold-seal.webp");
-	--heichel-img-divider: url("../../design-refs/law8/heichel/divider-ornament.webp");
-	--heichel-img-corner: url("../../design-refs/law8/heichel/corner-ornament.webp");
-	--heichel-img-button-glow: url("../../design-refs/law8/heichel/button-glow.webp");
+	--heichel-img-parchment-light: url("https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo-image-mirror/geelooy/design-refs/law8/heichel/parchment-light.webp");
+	--heichel-img-parchment-dark: url("https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo-image-mirror/geelooy/design-refs/law8/heichel/parchment-dark.webp");
+	--heichel-img-gold-seal: url("https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo-image-mirror/geelooy/design-refs/law8/heichel/gold-seal.webp");
+	--heichel-img-divider: url("https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo-image-mirror/geelooy/design-refs/law8/heichel/divider-ornament.webp");
+	--heichel-img-corner: url("https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo-image-mirror/geelooy/design-refs/law8/heichel/corner-ornament.webp");
+	--heichel-img-button-glow: url("https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo-image-mirror/geelooy/design-refs/law8/heichel/button-glow.webp");
 
 	color-scheme: light;
 

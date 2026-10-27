@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-01-0310-native-chitas-reader-01-phase-two-ar-a80253bf70",
+	"title": "Phase Two — Architecture, File Map, and Twenty Improvements",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-01-0310-native-chitas-reader/01-phase-two-architecture-and-20-improvements.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase Two — Architecture, File Map, and Twenty Improvements",
+			"anchor": "phase-two-architecture-file-map-and-twenty-improvements"
+		},
+		{
+			"level": 2,
+			"text": "Observed code facts",
+			"anchor": "observed-code-facts"
+		},
+		{
+			"level": 2,
+			"text": "Proposed module graph",
+			"anchor": "proposed-module-graph"
+		},
+		{
+			"level": 2,
+			"text": "Exact likely touched files",
+			"anchor": "exact-likely-touched-files"
+		},
+		{
+			"level": 2,
+			"text": "Twenty-plus concrete improvements over phase one",
+			"anchor": "twenty-plus-concrete-improvements-over-phase-one"
+		},
+		{
+			"level": 2,
+			"text": "Dependency graph",
+			"anchor": "dependency-graph"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-01-0310-native-chitas-reader-01-phase-two-ar-a80253bf70-001.json"
+	]
+}

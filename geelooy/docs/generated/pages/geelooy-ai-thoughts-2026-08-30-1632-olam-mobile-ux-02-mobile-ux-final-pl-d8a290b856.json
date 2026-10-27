@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-30-1632-olam-mobile-ux-02-mobile-ux-final-pl-d8a290b856",
+	"title": "Final Mobile UX Plan",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-30-1632-olam-mobile-ux/02-mobile-ux-final-plan.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Final Mobile UX Plan",
+			"anchor": "final-mobile-ux-plan"
+		},
+		{
+			"level": 2,
+			"text": "Implementation order",
+			"anchor": "implementation-order"
+		},
+		{
+			"level": 2,
+			"text": "Acceptance",
+			"anchor": "acceptance"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-30-1632-olam-mobile-ux-02-mobile-ux-final-pl-d8a290b856-001.json"
+	]
+}

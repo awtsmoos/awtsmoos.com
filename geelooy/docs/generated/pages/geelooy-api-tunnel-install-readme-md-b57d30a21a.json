@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-tunnel-install-readme-md-b57d30a21a",
+	"title": "B\"H — Tunnel Installer (Yaakov 2026-10-15)",
+	"sourcePath": "geelooy/api/tunnel/install/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Tunnel Installer (Yaakov 2026-10-15)",
+			"anchor": "b-h-tunnel-installer-yaakov-2026-10-15"
+		},
+		{
+			"level": 2,
+			"text": "Endpoints",
+			"anchor": "endpoints"
+		},
+		{
+			"level": 2,
+			"text": "Installer Menu (7 Choices)",
+			"anchor": "installer-menu-7-choices"
+		},
+		{
+			"level": 2,
+			"text": "Agent Bundle",
+			"anchor": "agent-bundle"
+		},
+		{
+			"level": 2,
+			"text": "Key Files",
+			"anchor": "key-files"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-tunnel-install-readme-md-b57d30a21a-001.json"
+	]
+}

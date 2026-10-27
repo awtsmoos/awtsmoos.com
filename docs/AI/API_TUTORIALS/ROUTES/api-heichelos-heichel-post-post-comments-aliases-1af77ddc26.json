@@ -1,0 +1,104 @@
+{
+	"schema": "awtsmoos-api-tutorial-v1",
+	"id": "api-heichelos-heichel-post-post-comments-aliases-1af77ddc26",
+	"route": "/api/heichelos/:heichel/post/:post/comments/aliases",
+	"source": "geelooy/api/social-legacy-archive/old/_awtsmoos.comments-old.js",
+	"discoveryKind": "static-literal",
+	"family": {
+		"mount": "/api",
+		"title": "API Root",
+		"manual": "docs/TUTORIALS/API/ROOT_API.md"
+	},
+	"derech": {
+		"source": "geelooy/api/_awtsmoos.derech.js",
+		"status": "OK",
+		"issue": "—",
+		"mount": "/api"
+	},
+	"dynamic": true,
+	"pathParameters": [
+		{
+			"name": "heichel",
+			"catchAll": false
+		},
+		{
+			"name": "post",
+			"catchAll": false
+		}
+	],
+	"methods": [
+		"GET",
+		"POST",
+		"PUT",
+		"DELETE"
+	],
+	"methodEvidence": "GET, POST, PUT, DELETE",
+	"vessels": [
+		"$_GET",
+		"$_POST",
+		"route-vars",
+		"identity"
+	],
+	"statuses": [],
+	"headers": [],
+	"callers": [],
+	"callerCount": 0,
+	"tests": [
+		{
+			"name": "test",
+			"command": "npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported-style-ownership && npm run test:css-quality && npm run test:heichelos-quality && npm run test:heichel-cache-scale && npm run test:profile-menu && npm run test:heichel-governance && npm run test:post-submissions && npm run test:comments && npm run test:api-keys && npm run test:graph && npm run test:social-content && npm run test:notifications && npm run test:social-packed && npm run test:packed-engine && npm run test:platform-ops && npm run test:platform-execution && npm run test:node-client && npm run test:dayuh-cutover"
+		},
+		{
+			"name": "test:dayuh-release",
+			"command": "npm run test:routes && npm run test:comments && npm run test:social-content && npm run test:social-packed && npm run test:packed-engine && node --test tools/dayuhChadashMaintenance/test/*.test.js && npm run test:dayuh-cutover"
+		},
+		{
+			"name": "test:routes",
+			"command": "node geelooy/api/social/test/routeCoverage.test.js"
+		}
+	],
+	"examples": [
+		{
+			"method": "GET",
+			"warning": "Starter only: method evidence is lexical at the source-file level; inspect the handler before relying on payload or response shape.",
+			"curl": "curl -X GET 'https://awtsmoos.com/api/heichelos/{heichel}/post/{post}/comments/aliases'",
+			"fetch": "const response = await fetch(\"/api/heichelos/{heichel}/post/{post}/comments/aliases\", {\n\tmethod: \"GET\"\n});\nconst result = await response.json();"
+		}
+	],
+	"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-heichelos-heichel-post-post-comments-aliases-1af77ddc26.md",
+	"confidence": "source-lexical",
+	"related": [
+		{
+			"id": "api-caf1672720",
+			"route": "/api"
+		},
+		{
+			"id": "api-asdfg-9e43b7d9e7",
+			"route": "/api/asdfg"
+		},
+		{
+			"id": "api-catalog-80c2586373",
+			"route": "/api/catalog"
+		},
+		{
+			"id": "api-even-asd-more-rt-k-feb231eb24",
+			"route": "/api/even/:asd/more/:rt/k"
+		},
+		{
+			"id": "api-heichelos-heichel-addcontenttoseries-cda5c16063",
+			"route": "/api/heichelos/:heichel/addContentToSeries"
+		},
+		{
+			"id": "api-heichelos-heichel-addnewseries-6c167f7390",
+			"route": "/api/heichelos/:heichel/addNewSeries"
+		},
+		{
+			"id": "api-heichelos-heichel-aliases-alias-commentsactions-addcommentin-4141eb36ea",
+			"route": "/api/heichelos/:heichel/aliases/:alias/commentsActions/addCommentIndexToAlias/comment/:comment"
+		},
+		{
+			"id": "api-heichelos-heichel-aliases-alias-commentsactions-updateallcom-a68539ccb3",
+			"route": "/api/heichelos/:heichel/aliases/:alias/commentsActions/updateAllCommentIndexes"
+		}
+	]
+}

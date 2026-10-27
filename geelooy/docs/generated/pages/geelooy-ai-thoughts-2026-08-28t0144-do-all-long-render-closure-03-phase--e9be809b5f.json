@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-28t0144-do-all-long-render-closure-03-phase--e9be809b5f",
+	"title": "Phase Three — Tiferes: Final Execution Graph",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0144-do-all-long-render-closure/03_PHASE_THREE_TIFERES_FINAL_PLAN.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase Three — Tiferes: Final Execution Graph",
+			"anchor": "phase-three-tiferes-final-execution-graph"
+		},
+		{
+			"level": 2,
+			"text": "Wave 1 — Diagnose and repair encoder flow",
+			"anchor": "wave-1-diagnose-and-repair-encoder-flow"
+		},
+		{
+			"level": 2,
+			"text": "Wave 2 — Source freeze and tests",
+			"anchor": "wave-2-source-freeze-and-tests"
+		},
+		{
+			"level": 2,
+			"text": "Wave 3 — Runtime proof",
+			"anchor": "wave-3-runtime-proof"
+		},
+		{
+			"level": 2,
+			"text": "Wave 4 — UX and architecture closure",
+			"anchor": "wave-4-ux-and-architecture-closure"
+		},
+		{
+			"level": 2,
+			"text": "Completion gate",
+			"anchor": "completion-gate"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-28t0144-do-all-long-render-closure-03-phase--e9be809b5f-001.json"
+	]
+}

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — GPT core (`/api/gpt/core/`)\n\nChat pipeline internals.\n\n- `handlers.js` — Route handlers (health, capability, chat, reset).\n- `auth.js` — Request authentication.\n- `body.js` — Request body parsing/validation.\n- `methodPolicy.js` — Allowed methods per route.\n- `conversationMode.js` — Conversation mode handling.\n- `transportStrategy.js`, `browserTransport.js`, `relayClient.js`, `relayPolicy.js` — Model transports and relay.\n"
+}

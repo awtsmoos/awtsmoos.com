@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-28t0310-geelooy-social-mobile-09-routewide-q-ca12dbe9d6",
+	"title": "Phase Three — Route-Wide Mobile Quality Execution Plan",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0310-geelooy-social-mobile/09_ROUTEWIDE_QUALITY_EXECUTION.md",
+	"category": "Routes",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase Three — Route-Wide Mobile Quality Execution Plan",
+			"anchor": "phase-three-route-wide-mobile-quality-execution-plan"
+		},
+		{
+			"level": 2,
+			"text": "Production-first rule for this discovered mission",
+			"anchor": "production-first-rule-for-this-discovered-mission"
+		},
+		{
+			"level": 2,
+			"text": "Files to create",
+			"anchor": "files-to-create"
+		},
+		{
+			"level": 3,
+			"text": "tests/BrowserSurfaceQualityInspector.mjs",
+			"anchor": "tests-browsersurfacequalityinspector-mjs"
+		},
+		{
+			"level": 3,
+			"text": "tests/BrowserRouteQualityJourney.mjs",
+			"anchor": "tests-browserroutequalityjourney-mjs"
+		},
+		{
+			"level": 2,
+			"text": "Existing file to rewrite only after focused audit proves stable",
+			"anchor": "existing-file-to-rewrite-only-after-focused-audit-proves-stable"
+		},
+		{
+			"level": 3,
+			"text": "tests/browserSmoke.test.mjs",
+			"anchor": "tests-browsersmoke-test-mjs"
+		},
+		{
+			"level": 2,
+			"text": "Objective quality rules",
+			"anchor": "objective-quality-rules"
+		},
+		{
+			"level": 2,
+			"text": "Repair protocol if failures appear",
+			"anchor": "repair-protocol-if-failures-appear"
+		},
+		{
+			"level": 2,
+			"text": "Verification and closure",
+			"anchor": "verification-and-closure"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-28t0310-geelooy-social-mobile-09-routewide-q-ca12dbe9d6-001.json"
+	]
+}

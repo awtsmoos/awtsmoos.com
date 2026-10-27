@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-26t134731-portal-universal-ui-resource-platf-d96e8ad831",
+	"title": "Second Implementation Delta — Structural Reconciliation",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-26T134731-portal-universal-ui-resource-platform/09_SECOND_IMPLEMENTATION_DELTA.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Second Implementation Delta — Structural Reconciliation",
+			"anchor": "second-implementation-delta-structural-reconciliation"
+		},
+		{
+			"level": 2,
+			"text": "Second-Pass Work Completed",
+			"anchor": "second-pass-work-completed"
+		},
+		{
+			"level": 2,
+			"text": "Mechanical Line-Count Evidence",
+			"anchor": "mechanical-line-count-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Full Second Readback",
+			"anchor": "full-second-readback"
+		},
+		{
+			"level": 2,
+			"text": "Closed First-Pass Deltas",
+			"anchor": "closed-first-pass-deltas"
+		},
+		{
+			"level": 2,
+			"text": "Remaining Architectural Extension Point",
+			"anchor": "remaining-architectural-extension-point"
+		},
+		{
+			"level": 2,
+			"text": "Newly Discovered Delta — Cache Version Coherence",
+			"anchor": "newly-discovered-delta-cache-version-coherence"
+		},
+		{
+			"level": 3,
+			"text": "Required third write pass",
+			"anchor": "required-third-write-pass"
+		},
+		{
+			"level": 2,
+			"text": "Verification Gate After Third Pass",
+			"anchor": "verification-gate-after-third-pass"
+		},
+		{
+			"level": 2,
+			"text": "NEXTACTION",
+			"anchor": "nextaction"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-26t134731-portal-universal-ui-resource-platf-d96e8ad831-001.json"
+	]
+}

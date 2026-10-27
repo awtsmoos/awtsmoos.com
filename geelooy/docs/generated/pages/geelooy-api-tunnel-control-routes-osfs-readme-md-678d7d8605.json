@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-tunnel-control-routes-osfs-readme-md-678d7d8605",
+	"title": "osFs - Tunnel Virtual OS Filesystem Routes",
+	"sourcePath": "geelooy/api/tunnel/control/routes/osFs/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "osFs - Tunnel Virtual OS Filesystem Routes",
+			"anchor": "osfs-tunnel-virtual-os-filesystem-routes"
+		},
+		{
+			"level": 2,
+			"text": "Modules",
+			"anchor": "modules"
+		},
+		{
+			"level": 2,
+			"text": "The coding-law guard (lineLimitGuard.js)",
+			"anchor": "the-coding-law-guard-linelimitguard-js"
+		},
+		{
+			"level": 2,
+			"text": "AI safeguards",
+			"anchor": "ai-safeguards"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-tunnel-control-routes-osfs-readme-md-678d7d8605-001.json"
+	]
+}

@@ -2,7 +2,7 @@ B"H
 Boruch Hashem
 Blessed is He
 
-# Project Tutorial: geelooy/apps/android-emulator
+# Project Tutorial: Android Emulator Engine — Awtsmoos
 
 **Path:** `geelooy/apps/android-emulator` · **Type:** app · **Family:** Applications
 
@@ -12,7 +12,7 @@ Blessed is He
 
 ## Entry and documentation evidence
 
-- Entry files: `DOCUMENTATION.md`
+- Entry files: `index.html`, `DOCUMENTATION.md`
 - Local documentation: `geelooy/apps/android-emulator/DOCUMENTATION.md`
 - Local-doc requirement: yes; covered: yes
 - Symlink target: —
@@ -21,23 +21,25 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 926 | 566 | 0 | 0 | 1 | 2 | 1495 |
+| 2163 | 850 | 0 | 0 | 2 | 1154 | 4169 |
 
 ## Public entry points
 
-None observed.
+- `/apps/android-emulator` → `geelooy/apps/android-emulator/index.html` — Android Emulator Engine — Awtsmoos
 
 ## Symbol evidence
 
-Source files: 922; classes: 64; functions: 3825; exports: 2047; samples: async, launchInitialActivity, dispatchActivityLifecycleCallbacks, callbackError, resolveLauncherMethods, lifecycleArguments, findInheritedMethod, findDirectMethod, activityError, registerActivityLifecycleCallback, unregisterActivityLifecycleCallback, snapshotActivityLifecycleCallbacks.
+Source files: 1973; classes: 96; functions: 7152; exports: 3510; samples: tiferesEnrichActivityCapabilities, buildActivityCapabilityCode, chesedActivityCapabilityPrototypes, chesedActivityCapabilityTypes, netzachActivityCapabilityMethods, buildActivityViewCode, createRuntime, record, definition, tiferesAuthenticOverlapOwnersTest, tiferesRegisteredBeforeBootstrapTest, netzachOwnerIndexes.
 
 ## Depends on
 
-None observed.
+- `ai_thoughts` — 54 lexical references; examples: geelooy/apps/android-emulator/ai_thoughts/2026-08-31_global_origin_merge_and_rebbe_runtime/103_fresh_authentic_checkpoint_writer.mjs; geelooy/apps/android-emulator/ai_thoughts/2026-08-31_global_origin_merge_and_rebbe_runtime/104_fresh_authentic_run.mjs; geelooy/apps/android-emulator/ai_thoughts/2026-08-31_global_origin_merge_and_rebbe_runtime/138_post_ucvtf_authentic_run.mjs
+- `ayzarim/awtsmoosDynamicServer` — 6 lexical references; examples: geelooy/apps/android-emulator/node/localTcpRelay/clientSession.cjs; geelooy/apps/android-emulator/node/localTcpRelay/frameHandling.cjs; geelooy/apps/android-emulator/node/localTcpRelay/server.cjs
+- `geelooy/scripts` — 1 lexical reference; examples: geelooy/apps/android-emulator/core/browser/nativeBrowserRemoteSocketAdapter.js
 
 ## Used by
 
-- `geelooy/apps/code` — 4 lexical references; examples: geelooy/apps/code/js/actions/commands/build-android-apk.js; geelooy/apps/code/js/actions/commands/build-rebbe-apk.js
+- `geelooy/apps/code` — 6 lexical references; examples: geelooy/apps/code/js/actions/commands/build-android-apk.js; geelooy/apps/code/js/android/run-imported-apk.js
 - `geelooy/scripts` — 3 lexical references; examples: geelooy/scripts/awtsmoos/compiling/android/apk/zipWriter.js; geelooy/scripts/awtsmoos/extracting/webview-apk/extract.js
 - `geelooy/os` — 2 lexical references; examples: geelooy/os/programs/awtsmoos-executable/android-web/apkWebDocument.js; geelooy/os/programs/awtsmoos-executable/browserRuntime.js
 - `geelooy/apps/exe-emulator` — 1 lexical reference; examples: geelooy/apps/exe-emulator/source/runSourceArtifact.js
@@ -49,4 +51,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **566**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **850**. Treat this as file evidence, not proof of behavioral coverage.

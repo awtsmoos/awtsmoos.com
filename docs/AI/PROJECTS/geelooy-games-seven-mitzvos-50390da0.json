@@ -24,19 +24,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-seven-mitzvos-50390da0.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 530,
-		"tests": 66,
+		"source": 547,
+		"tests": 71,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
 		"other": 0
 	},
-	"totalFiles": 597,
+	"totalFiles": 619,
 	"symbolSummary": {
-		"files": 454,
-		"classes": 281,
-		"functions": 597,
-		"exports": 659,
+		"files": 471,
+		"classes": 285,
+		"functions": 642,
+		"exports": 687,
 		"samples": [
 			"AccessibilityProfileService",
 			"AccessibleStateProjector",
@@ -49,19 +49,14 @@
 			"createState",
 			"applyPose",
 			"required",
-			"appTemplate"
+			"AppRouteServices"
 		]
 	},
 	"outgoingDependencies": [
 		{
-			"project": "geelooy/games/scripts",
-			"count": 16,
-			"examples": "geelooy/games/seven-mitzvos/js/assets/advanced-model-hydrator.js; geelooy/games/seven-mitzvos/js/assets/gltf-model-library.js; geelooy/games/seven-mitzvos/js/city/city-district-builder.js"
-		},
-		{
 			"project": "geelooy/libs",
-			"count": 12,
-			"examples": "geelooy/games/seven-mitzvos/js/materials/firebase-material-manifest.js; geelooy/games/seven-mitzvos/js/materials/seven-material-runtime.js; geelooy/games/seven-mitzvos/js/materials/stage-material-runtime.js"
+			"count": 23,
+			"examples": "geelooy/games/seven-mitzvos/js/assets/gltf-model-library.js; geelooy/games/seven-mitzvos/js/city/city-district-builder.js; geelooy/games/seven-mitzvos/js/games3d/world-label.js"
 		}
 	],
 	"incomingDependencies": [],
@@ -71,8 +66,8 @@
 			"url": "/games/seven-mitzvos",
 			"file": "geelooy/games/seven-mitzvos/index.html",
 			"title": "Seven Mitzvos · Living Material Worlds",
-			"scripts": 1,
-			"styles": 8
+			"scripts": 5,
+			"styles": 11
 		}
 	],
 	"requiresLocalDocumentation": true,

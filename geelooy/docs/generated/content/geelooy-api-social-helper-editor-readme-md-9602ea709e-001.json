@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Editor (geelooy/api/social/helper/editor/)\n\nPost editor support: drafts, schema validation, and structural deletion.\n\n## Files\n- `postDrafts.js` — draft create/read/update for posts.\n- `postSchema.js` — post schema validation.\n- `postStructureDeletion.js` — deletion of post structures (sections/sub-posts).\n"
+}

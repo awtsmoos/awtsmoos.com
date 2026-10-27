@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Social Kernel Deep Links (geelooy/api/social/helper/socialKernel/deepLinks/)\n\n- `SocialDeepLink.js` — builds/parses deep links into social entities.\n"
+}

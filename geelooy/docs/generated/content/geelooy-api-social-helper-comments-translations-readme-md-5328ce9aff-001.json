@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Comment Translations (geelooy/api/social/helper/comments/translations/)\n\nTranslation bundles for comments: cataloging, storing, reading, searching translations, and measuring coverage.\n\n## Files\n- `catalog.js` — translation bundle catalog.\n- `corpusStore.js` — storage of translation corpora.\n- `reader.js` — reads translations for comments.\n- `search.js` — searches within translations.\n- `coverage.js` — measures translation coverage per series/post.\n\nServes the `.../translations`, `.../translations/coverage`, and `.../translations/search` routes.\n"
+}

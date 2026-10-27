@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-01-0134-chitas-release-ui-final-02-phase-thr-ae98e0dc53",
+	"title": "Phase Three — Critique and Improvement Ledger",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-01-0134-chitas-release-ui-final/02-phase-three-critique.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase Three — Critique and Improvement Ledger",
+			"anchor": "phase-three-critique-and-improvement-ledger"
+		},
+		{
+			"level": 2,
+			"text": "Improvements over the prior release plan",
+			"anchor": "improvements-over-the-prior-release-plan"
+		},
+		{
+			"level": 2,
+			"text": "Things deliberately not changed",
+			"anchor": "things-deliberately-not-changed"
+		},
+		{
+			"level": 2,
+			"text": "Third-pass completion challenge",
+			"anchor": "third-pass-completion-challenge"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-01-0134-chitas-release-ui-final-02-phase-thr-ae98e0dc53-001.json"
+	]
+}

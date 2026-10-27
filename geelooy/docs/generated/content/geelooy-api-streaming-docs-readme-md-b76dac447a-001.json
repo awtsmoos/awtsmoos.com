@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Streaming Docs (geelooy/api/streaming/docs/)\n\nDesign notes for the streaming family.\n\n- `ARCHITECTURE.md` — control plane vs media plane, connector capabilities,\n  three data paths (direct-to-platform, Awtsmoos hosted relay, manual ingest),\n  and the known gap: the mux/protocol adapter\n- `LOCAL_TUNNEL_MEDIA_PLANE.md` — why the local tunnel carries media bytes\n  (browser JS can't cleanly push RTMP), session/counter transport, HLS\n  segment metadata and playlist generation\n"
+}

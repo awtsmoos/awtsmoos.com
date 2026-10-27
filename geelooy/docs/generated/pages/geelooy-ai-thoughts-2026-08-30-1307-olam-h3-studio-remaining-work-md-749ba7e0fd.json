@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-30-1307-olam-h3-studio-remaining-work-md-749ba7e0fd",
+	"title": "REMAINING WORK",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-30-1307-olam-h3-studio/REMAINING_WORK.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "REMAINING WORK",
+			"anchor": "remaining-work"
+		},
+		{
+			"level": 2,
+			"text": "Completion state",
+			"anchor": "completion-state"
+		},
+		{
+			"level": 2,
+			"text": "Completed Director experience",
+			"anchor": "completed-director-experience"
+		},
+		{
+			"level": 2,
+			"text": "Completed verification",
+			"anchor": "completed-verification"
+		},
+		{
+			"level": 2,
+			"text": "Current release lineage",
+			"anchor": "current-release-lineage"
+		},
+		{
+			"level": 2,
+			"text": "External blocker",
+			"anchor": "external-blocker"
+		},
+		{
+			"level": 2,
+			"text": "NEXTACTION after credential configuration",
+			"anchor": "nextaction-after-credential-configuration"
+		},
+		{
+			"level": 2,
+			"text": "Hard-stop justification",
+			"anchor": "hard-stop-justification"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-30-1307-olam-h3-studio-remaining-work-md-749ba7e0fd-001.json"
+	]
+}

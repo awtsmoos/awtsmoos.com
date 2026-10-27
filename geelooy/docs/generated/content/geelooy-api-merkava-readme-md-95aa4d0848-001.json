@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Merkava Page-Run API (geelooy/api/merkava/)\n\nRuns any page's JavaScript through the real Merkava browser engine (virtual DOM +\nfetch) and returns genuine runtime results: base64 screenshot, console logs,\nJS errors, final DOM state, assertions, and timings.\n\n## Contents\n- `_awtsmoos.derech.js` — routes `/`, `/devices`, `/download-bundle`,\n  `/download-installer`, `/run-js`, `/run`\n- `AGENT_SDK.md` — one-command agent SDK usage (`merkava run-js <url>`)\n- `dist/` — `install.sh` + `merkava.mjs` standalone installable bundle\n\n## Endpoints\n- `/run` — POST `{html|url, css, js, viewport|device, actions}` → screenshot,\n  console logs, errors, DOM state, timings. Rate-limited per IP, bounded input\n  sizes and renderer timeout.\n- `/run-js` — run a JS snippet/HTML string/file, print every runtime error.\n- `/download-bundle` / `/download-installer` — fetch the standalone agent bundle.\n- `/devices` — available device/viewport presets.\n"
+}

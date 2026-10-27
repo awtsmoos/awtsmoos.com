@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Series Routes Tests (geelooy/api/social/helper/routes/series/test/)\n\nSeries route tests.\n\n- `readRoutesStatus.test.js` — read-route statuses.\n- `seriesPostMerge.test.js` — series/post merge logic.\n- `subSeriesSummaries.test.js` — sub-series summaries.\n"
+}

@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-master-execution-plan-01-world-selection-boot-2263bec864",
+	"title": "01 — World Selection, Boot, Saves, and Streaming",
+	"sourcePath": "geelooy/games/mitzvahWorld/MASTER_EXECUTION_PLAN/01_WORLD_SELECTION_BOOT.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "01 — World Selection, Boot, Saves, and Streaming",
+			"anchor": "01-world-selection-boot-saves-and-streaming"
+		},
+		{
+			"level": 2,
+			"text": "Required official worlds",
+			"anchor": "required-official-worlds"
+		},
+		{
+			"level": 2,
+			"text": "Existing launcher foundation to extend",
+			"anchor": "existing-launcher-foundation-to-extend"
+		},
+		{
+			"level": 2,
+			"text": "World manifest contract",
+			"anchor": "world-manifest-contract"
+		},
+		{
+			"level": 2,
+			"text": "Critical feature-policy work",
+			"anchor": "critical-feature-policy-work"
+		},
+		{
+			"level": 2,
+			"text": "Boot acceptance",
+			"anchor": "boot-acceptance"
+		},
+		{
+			"level": 2,
+			"text": "Saves and world switching",
+			"anchor": "saves-and-world-switching"
+		},
+		{
+			"level": 2,
+			"text": "Official-world release ladder",
+			"anchor": "official-world-release-ladder"
+		},
+		{
+			"level": 2,
+			"text": "Rule",
+			"anchor": "rule"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-master-execution-plan-01-world-selection-boot-2263bec864-001.json"
+	]
+}

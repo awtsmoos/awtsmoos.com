@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-14-main-only-convergence-04-final-execution--e81dec65a8",
+	"title": "Final Execution Plan",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-14-main-only-convergence/04-final-execution-plan.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Final Execution Plan",
+			"anchor": "final-execution-plan"
+		},
+		{
+			"level": 2,
+			"text": "Wave A — Evidence",
+			"anchor": "wave-a-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Wave B — Canonical durability",
+			"anchor": "wave-b-canonical-durability"
+		},
+		{
+			"level": 2,
+			"text": "Wave C — Remote integration",
+			"anchor": "wave-c-remote-integration"
+		},
+		{
+			"level": 2,
+			"text": "Wave D — Side branch/worktree harvest",
+			"anchor": "wave-d-side-branch-worktree-harvest"
+		},
+		{
+			"level": 2,
+			"text": "Wave E — Main-only product work",
+			"anchor": "wave-e-main-only-product-work"
+		},
+		{
+			"level": 2,
+			"text": "Completion gates",
+			"anchor": "completion-gates"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-14-main-only-convergence-04-final-execution--e81dec65a8-001.json"
+	]
+}

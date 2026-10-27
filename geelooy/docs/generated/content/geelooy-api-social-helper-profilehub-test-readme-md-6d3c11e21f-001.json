@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — ProfileHub Tests (geelooy/api/social/helper/profileHub/test/)\n\nProfileHub route tests.\n\n- `routes.test.js` — profile-hub route behavior (`/unified-social/profile-hub/:alias` and references).\n"
+}

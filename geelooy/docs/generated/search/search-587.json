@@ -1,0 +1,178 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-master-execution-plan-status-checklist-md-e8b84a0740",
+		"title": "Current Status / Session Pickup Checklist",
+		"sourcePath": "geelooy/games/mitzvahWorld/MASTER_EXECUTION_PLAN/STATUS_CHECKLIST.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Current Status / Session Pickup Checklist",
+				"anchor": "current-status-session-pickup-checklist"
+			},
+			{
+				"level": 2,
+				"text": "Before doing any work",
+				"anchor": "before-doing-any-work"
+			},
+			{
+				"level": 2,
+				"text": "Known locally implemented / partially implemented work to preserve",
+				"anchor": "known-locally-implemented-partially-implemented-work-to-preserve"
+			},
+			{
+				"level": 2,
+				"text": "Highest-priority execution order",
+				"anchor": "highest-priority-execution-order"
+			},
+			{
+				"level": 2,
+				"text": "Never overclaim",
+				"anchor": "never-overclaim"
+			},
+			{
+				"level": 2,
+				"text": "Immediate verification commands",
+				"anchor": "immediate-verification-commands"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed be He Current Status / Session Pickup Checklist Last handbook write observed canonical main at b63562832, main...origin/main [ahead 39, behind 5]. This is only a snapshot: re check before acting. Before doing any work [ ] git fetch origin main. [ ] Inspect canonical status, HEAD, origin/main, ",
+		"searchText": "b\"h boruch hashem blessed be he current status / session pickup checklist last handbook write observed canonical main at b63562832, main...origin/main [ahead 39, behind 5]. this is only a snapshot: re check before acting. before doing any work [ ] git fetch origin main. [ ] inspect canonical status, head, origin/main, recent log/reflog, worktrees, and stashes. [ ] inspect the relevant isolated lane before creating another implementation. [ ] search for concurrent edits to the exact files you plan to touch. [ ] read the relevant domain plan in this folder. [ ] create/choose a narrow owned lane if canonical is dirty in overlapping paths. known locally implemented / partially implemented work to preserve [ ] tree lane: stratified/permuted attachments, interpolated positions, foliage twigs, twig budget fallback, pipe model conservation, radius scaled bark uvs, rounded foliage normals, same skeleton lod, billboard overrides, renderer neutral wind work, ez tree parity tests/work, and new reproductive primitive work. re run tests before trusting newest changes. [ ] weather lane: renderer neutral weather state, spatial fronts, presets, realtime observation assimilation contract, surface memory, hazards, coupling, vertical profile, terrain coupling, cloud layers, lightning/thunder, forecasting. re run all weather tests before merging. [ ] world selector lane: audit completed; existing selector has simple meadow and local reference village; boot path traced. feature manifest rewrite still needs implementation/testing. [ ] transparent botany: recovered/generated alpha tree foliage exists locally; publication/live verification still needs finishing. [ ] semantic texture catalog: local material catalog and semantic classification were expanded; production catalog publication may still lag local state and must be re verified. highest priority execution order 1. [ ] make official world profiles truthful: blank meadow, living village, great valley. do not expose fake city until it has its own authority. 2. [ ] finish tree lane tests, strict ez tree superset proof, species materials, no three extraction, and foliage publication. 3. [ ] finish weather lane tests and connect weather into hydrology, materials, vegetation, audio, npc behavior, persistence, and mitzvahworld rendering. 4. [ ] reconcile terrain/hydrology/architecture/npc work already active on canonical instead of replacing it. 5. [ ] build the creator/api discovery layer so capabilities are easy to find and use. 6. [ ] build deterministic persistence, world switching cleanup, cancellation, worker scheduling, and resource budget authorities. 7. [ ] complete ux/art/audio/accessibility passes against the reference image quality target. 8. [ ] execute release, load, outage, soak, scale, canary, rollback, and live verification gates. never overclaim use three distinct statuses in reports: local: implemented/tested only on a worktree or machine. main: reconciled, committed, and present on canonical main/origin. live: deployed and independently verified from production urls/runtime. immediate verification commands if any exact path is concurrently dirty, do not overwrite it. rebase/merge only after understanding ownership and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-master-execution-plan-status-checklist-md-e8b84a0740.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-mission-plan-2026-10-12-md-03576a8197",
+		"title": "B\"H — MitzvahWorld / Reality Engine Mission Plan",
+		"sourcePath": "geelooy/games/mitzvahWorld/MISSION_PLAN_2026-10-12.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — MitzvahWorld / Reality Engine Mission Plan",
+				"anchor": "b-h-mitzvahworld-reality-engine-mission-plan"
+			},
+			{
+				"level": 2,
+				"text": "Non-negotiable constraints",
+				"anchor": "non-negotiable-constraints"
+			},
+			{
+				"level": 2,
+				"text": "Phase order",
+				"anchor": "phase-order"
+			},
+			{
+				"level": 3,
+				"text": "Phase 1 — Reality Engine realism upgrade (photoreal/, meadow slice)",
+				"anchor": "phase-1-reality-engine-realism-upgrade-photoreal-meadow-slice"
+			},
+			{
+				"level": 3,
+				"text": "Phase 2 — Coin collection + movement polish (experiments/Awtsmoos)",
+				"anchor": "phase-2-coin-collection-movement-polish-experiments-awtsmoos"
+			},
+			{
+				"level": 3,
+				"text": "Phase 3 — Built-in obstacle courses (new: experiments/Awtsmoos/src/courses/)",
+				"anchor": "phase-3-built-in-obstacle-courses-new-experiments-awtsmoos-src-courses"
+			},
+			{
+				"level": 3,
+				"text": "Phase 4 — Player-built courses + front page",
+				"anchor": "phase-4-player-built-courses-front-page"
+			},
+			{
+				"level": 3,
+				"text": "Phase 5 — MMORPG multiplayer networking",
+				"anchor": "phase-5-mmorpg-multiplayer-networking"
+			},
+			{
+				"level": 3,
+				"text": "Phase 6 — Integration + publish",
+				"anchor": "phase-6-integration-publish"
+			},
+			{
+				"level": 2,
+				"text": "Dependencies",
+				"anchor": "dependencies"
+			},
+			{
+				"level": 2,
+				"text": "Current state (2026-10-12 03:45 EDT)",
+				"anchor": "current-state-2026-10-12-03-45-edt"
+			}
+		],
+		"excerpt": "B\"H — MitzvahWorld / Reality Engine Mission Plan Date: 2026 10 12 · Authority: Yaakov (direct order, evening push) Scope: MMORPG multiplayer, obstacle courses (built in + player built), realism upgrades, particles + coins — on top of the 4 standing repair tasks (Task 1 done; Tasks 2/3/4 must keep working). Non negotiab",
+		"searchText": "b\"h — mitzvahworld / reality engine mission plan date: 2026 10 12 · authority: yaakov (direct order, evening push) scope: mmorpg multiplayer, obstacle courses (built in + player built), realism upgrades, particles + coins — on top of the 4 standing repair tasks (task 1 done; tasks 2/3/4 must keep working). non negotiable constraints 1. do not revert task 1 (renderer contract + 60fps baseline) or task 2 (instant start meadow slice). all new work extends buildrealityscene() / experiments/awtsmoos — never replaces. 2. render bar: full first render (first meaningful frame) must complete in a few seconds. every realism improvement must be measured against ?fast=1 timing; anything that breaks the budget gets split to progressive load or killed. 3. no blocky/minecraft like output. all new meshes use the procedural generator or real textures. 4. never fake tests. every claim below must be verified against the actually running game (browser render / node test with real output). screenshots over assertions. 5. css law 1–8: no !important, full states, light/dark explicit colors, token only colors, zero validator errors, reference image first (law 8). phase order phase 1 — reality engine realism upgrade (photoreal/, meadow slice) volumetric ish sun god rays (cheap shader, no postprocessing chain), time of day lighting presets, sky dome gradient, ground fog density zones. richer particles: rain/spray near river, wind gusts on pollen/leaves, firefly swarm density doubling at dusk; keep total draw calls ≤ budget. acceptance: reality.html?view=forest&fast=1 first frame ≤ 3 s on vm; screenshot review at full res shows no regression, visible atmosphere improvement; existing particle test suite still green. phase 2 — coin collection + movement polish (experiments/awtsmoos) coin pickups (spinning meshes, magnet radius, hud counter, save to player profile), jump/glide physics tuning, camera follow smoothing. acceptance: headless gameplay test — spawn, collect 10 coins via simulated input, counter = 10, positions deterministic from seed; fps counter stays ≥ 55 during collection burst. phase 3 — built in obstacle courses (new: experiments/awtsmoos/src/courses/) course system: checkpoints, timer, respawn, moving platforms (sinusoidal + path following movers with carry physics), rotating hazards, realistic surface friction. ship 3 built in courses: meadow dash (easy), river gap (medium, moving platforms over water), canopy climb (hard, vertical + rotating arms). acceptance: each course completable by the auto playtest bot in < par time; no physics tunneling through platforms (swept collision check); checkpoint respawn ≤ 250 ms. phase 4 — player built courses + front page builder mode: place platforms/movers/checkpoints/coins from palette, drag on grid, save course json to server (/api/courses), play instantly. front page (courses/index.html): card grid of all published courses (built in + player made), filter/search, \"play\" and \"remix\" buttons, law 8 reference image. acceptance: create → save → reload → play flow works in live browser without dev tools; course json round trips byte identical; front page loads in < 2 s with 100+ courses listed. phase 5 — mmorpg multiplayer networking authoritative lite: node websocket server (server/mp net/), 20 hz snapshot broadcast, client prediction + reconciliation, player avatar replication (head coverings on all humans), lobby/zone shards of ≤ 24 players. security: rate limit movement packets, server clamps positions, no raw eval. acceptance (verified, not claimed): two real browser clients + n bots in one zone; measured: tick 20 hz ± 2 hz, p99 update to render latency < 120 ms on lan, 0 desyncs over 5 minute soak, ≥ 55 fps on client with 24 avatars; soak log saved to proof/. phase 6 — integration + publish merge courses + coins + multiplayer into the meadow build, law 8 ui pass on hud/menus, production build, deploy, live verification. dependencies phase 2 needs phase 1's particle budget locked (draw call ceiling). phase 4 needs phase 3's course format (json schema frozen in phase 3). phase 5 needs phase 2's player physics (single player movement must be solid first) and phase 4's course loader (multiplayer runs in courses). task 3/4 repairs (gen loop budget, grass) land independently but must not change the course/platform physics api once frozen. current state (2026 10 12 03:45 edt) task 1 done (.task1 done). no multiplayer code exists anywhere in the tree (verified: no websocket/rtcpeerconnection/server code). reality engine: buildrealityscene() in photoreal/js/; particles in reality particles.mjs; character in reality character.mjs. phase 1 started: lighting/atmosphere work on reality scene.mjs.",
+		"page": "pages/geelooy-games-mitzvahworld-mission-plan-2026-10-12-md-03576a8197.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-movie-maker-audit-md-555789cc24",
+		"title": "B\"H — Mitzvah World Movie Maker Audit",
+		"sourcePath": "geelooy/games/mitzvahWorld/MOVIE_MAKER_AUDIT.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Mitzvah World Movie Maker Audit",
+				"anchor": "b-h-mitzvah-world-movie-maker-audit"
+			},
+			{
+				"level": 2,
+				"text": "Recovered systems",
+				"anchor": "recovered-systems"
+			},
+			{
+				"level": 2,
+				"text": "Launcher",
+				"anchor": "launcher"
+			},
+			{
+				"level": 2,
+				"text": "Runtime architecture",
+				"anchor": "runtime-architecture"
+			},
+			{
+				"level": 2,
+				"text": "AI project contract",
+				"anchor": "ai-project-contract"
+			},
+			{
+				"level": 2,
+				"text": "NLE",
+				"anchor": "nle"
+			},
+			{
+				"level": 2,
+				"text": "Thirty-second film",
+				"anchor": "thirty-second-film"
+			},
+			{
+				"level": 2,
+				"text": "Floor correction",
+				"anchor": "floor-correction"
+			},
+			{
+				"level": 2,
+				"text": "Final media",
+				"anchor": "final-media"
+			},
+			{
+				"level": 2,
+				"text": "Regression proof",
+				"anchor": "regression-proof"
+			},
+			{
+				"level": 2,
+				"text": "Honest limitations",
+				"anchor": "honest-limitations"
+			}
+		],
+		"excerpt": "B\"H — Mitzvah World Movie Maker Audit Recovered systems The repository did not contain an older Mitzvah World movie maker, but it did contain the two required foundations. geelooy/apps/animator supplied NLE track, camera shot, scene, performance, and export architecture. geelooy/apps/piano supplied ordered browser reco",
+		"searchText": "b\"h — mitzvah world movie maker audit recovered systems the repository did not contain an older mitzvah world movie maker, but it did contain the two required foundations. geelooy/apps/animator supplied nle track, camera shot, scene, performance, and export architecture. geelooy/apps/piano supplied ordered browser recording, audio stream, worker, finalization, and download patterns. the new system adapts those ideas to the real mitzvah world runtime rather than creating a disconnected renderer. launcher the game no longer boots invisibly underneath its opening screen. the short main menu offers: enter world movie maker mode=world bypasses the menu for normal gameplay. movie get parameters bypass the menu and open the studio. runtime architecture ai project contract projects may arrive through encoded get json, raw get json, fetched json, pasted editor json, or the included sample. tracks support scene changes and visibility, actor motion and animation, door motion, eased cinematic cameras, dialogue, and audio. the complete machine readable contract is movies/movie project.schema.json. nle the visible studio provides track lanes, colored clips, ruler, scrub playhead, live preview, json editor, apply json, get url generation, play/stop, render progress, and browser download. the source webgl canvas remains active but hidden. the output canvas composites real world frames with scene grades, transitions, titles, camera shot names, and dialogue subtitles. thirty second film project: movies/projects/chossid journey 30s.json. the film uses seven tracks and thirty three clips. the chossid walks, runs, speaks with another character, approaches the real main house door, passes through it after it opens, runs inside, jumps, and completes the journey. eight camera shots include establishing, side tracking, two shot, low angle hero, doorway follow, interior tracking, jump low angle, and crane ending. floor correction the first rendered candidate was rejected after evidence showed the general collision ground sampler was striking the house roof overhang. movie actors now use terrain height outdoors and explicit rotated house floor metadata indoors. verified heights: outdoor approach: approximately 0.52 m interior floor: approximately 0.77 m interior jump apex: approximately 3.02 m grounded interior ending: approximately 0.77 m the rejected evidence was deleted and the entire movie was rerendered. final media accepted final: movies/chossid journey 30s.mp4. browser master: movies/chossid journey 30s browser master.webm. poster: movies/chossid journey 30s poster.jpg. final format: h.264 video 960 × 540 24 fps 720 frames 30.000 seconds aac stereo 48 khz 13,794,089 bytes sha 256 0eb45182641022bfc51d17030aafc341dd8c55be1d7c36e867671ebaab2e9c8a full video and audio decode completed without errors. audio measures approximately −23.0 db mean and −2.1 db peak. regression proof movie project and floor resolver tests pass. the original forest still contains fifty four trees and all thirty six presets. the prior geometry suite still reports five houses, fourteen doors and mezuzahs, four staircases, zero stair penetrations, and zero road gaps or intersections. honest limitations browser live webaudio depends on trusted playback permissions. the accepted render obtained a running live audio context, and the finalizer always adds timed spoken dialogue from the same json before mp4 verification. the nle is json first: clips can be scrubbed and projects rebuilt, but drag resize editing is not yet implemented.",
+		"page": "pages/geelooy-games-mitzvahworld-movie-maker-audit-md-555789cc24.json"
+	}
+]

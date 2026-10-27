@@ -1,0 +1,62 @@
+{
+	"schema": "awtsmoos-api-tutorial-v1",
+	"id": "api-client-errors-recent-70eff70cb6",
+	"route": "/api/client-errors/recent",
+	"source": "geelooy/api/client-errors/_awtsmoos.derech.js",
+	"discoveryKind": "static-literal",
+	"family": {
+		"mount": "/api/client-errors",
+		"title": "/api/client-errors",
+		"manual": "docs/API/README.md"
+	},
+	"derech": {
+		"source": "geelooy/api/client-errors/_awtsmoos.derech.js",
+		"status": "OK",
+		"issue": "—",
+		"mount": "/api/client-errors"
+	},
+	"dynamic": false,
+	"pathParameters": [],
+	"methods": [
+		"POST"
+	],
+	"methodEvidence": "POST",
+	"vessels": [
+		"$_POST",
+		"headers"
+	],
+	"statuses": [
+		"400",
+		"429",
+		"500"
+	],
+	"headers": [],
+	"callers": [],
+	"callerCount": 0,
+	"tests": [
+		{
+			"name": "test",
+			"command": "npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported-style-ownership && npm run test:css-quality && npm run test:heichelos-quality && npm run test:heichel-cache-scale && npm run test:profile-menu && npm run test:heichel-governance && npm run test:post-submissions && npm run test:comments && npm run test:api-keys && npm run test:graph && npm run test:social-content && npm run test:notifications && npm run test:social-packed && npm run test:packed-engine && npm run test:platform-ops && npm run test:platform-execution && npm run test:node-client && npm run test:dayuh-cutover"
+		},
+		{
+			"name": "test:node-client",
+			"command": "node --check geelooy/scripts/awtsmoos/api/social/nodeClient.mjs"
+		}
+	],
+	"examples": [
+		{
+			"method": "POST",
+			"warning": "Starter only: method evidence is lexical at the source-file level; inspect the handler before relying on payload or response shape.",
+			"curl": "curl -X POST 'https://awtsmoos.com/api/client-errors/recent' \\\n  -H 'content-type: application/json' \\\n  --data '{}'",
+			"fetch": "const response = await fetch(\"/api/client-errors/recent\", {\n\tmethod: \"POST\"\n\theaders: { \"content-type\": \"application/json\" },\n\tbody: JSON.stringify({})\n});\nconst result = await response.json();"
+		}
+	],
+	"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-client-errors-recent-70eff70cb6.md",
+	"confidence": "source-lexical",
+	"related": [
+		{
+			"id": "api-client-errors-8db468b3a0",
+			"route": "/api/client-errors"
+		}
+	]
+}

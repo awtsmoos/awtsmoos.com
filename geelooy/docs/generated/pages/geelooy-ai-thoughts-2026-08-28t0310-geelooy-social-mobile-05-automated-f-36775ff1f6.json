@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-28t0310-geelooy-social-mobile-05-automated-f-36775ff1f6",
+	"title": "Automated Verification Failure and Repair",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0310-geelooy-social-mobile/05_AUTOMATED_FAILURE_REPAIR.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Automated Verification Failure and Repair",
+			"anchor": "automated-verification-failure-and-repair"
+		},
+		{
+			"level": 2,
+			"text": "Observed failure",
+			"anchor": "observed-failure"
+		},
+		{
+			"level": 2,
+			"text": "Live architecture evidence",
+			"anchor": "live-architecture-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Diagnosis",
+			"anchor": "diagnosis"
+		},
+		{
+			"level": 2,
+			"text": "Repair plan",
+			"anchor": "repair-plan"
+		},
+		{
+			"level": 2,
+			"text": "NEXTACTION",
+			"anchor": "nextaction"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-28t0310-geelooy-social-mobile-05-automated-f-36775ff1f6-001.json"
+	]
+}

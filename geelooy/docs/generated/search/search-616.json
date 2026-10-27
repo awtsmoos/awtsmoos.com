@@ -1,0 +1,299 @@
+[
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-docs-textures-trees-md-ab901587d6",
+		"title": "Trees Remote Texture Catalog",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/textures/TREES.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Trees Remote Texture Catalog",
+				"anchor": "trees-remote-texture-catalog"
+			},
+			{
+				"level": 2,
+				"text": "Exact filenames",
+				"anchor": "exact-filenames"
+			}
+		],
+		"excerpt": "B\"H Trees Remote Texture Catalog The Awtsmoos renews each photographed surface, leaf, and stone in light; Awtsmoos.com keeps every filename discoverable so future agents can choose the vessel right. Canonical production root: https://awtsmoos.com/sites/firebase drive migration/ Canonical source: geelooy/games/mitzvahWo",
+		"searchText": "b\"h trees remote texture catalog the awtsmoos renews each photographed surface, leaf, and stone in light; awtsmoos.com keeps every filename discoverable so future agents can choose the vessel right. canonical production root: https://awtsmoos.com/sites/firebase drive migration/ canonical source: geelooy/games/mitzvahworld/experiments/awtsmoos/src/assets/remotetexturetreenames.js exact filenames acacia bark.png acacia compound leaf.png apple leaf.png apple tree bark.png ash bark.png ash leaf.png aspen bark.png aspen leaf.png baobab bark.png baobab leaf.png birch bark.png birtch leaf.png cedar spray.png cypress bark.png cypress scale leaf.png mangrove leaf.png mangrove tree bark.png maple leaf 2.png maple leaf.png oak leaf.png olive leaf.png olive tree bark.png palm bark 2.png palm bark.png palm frond.png pine needles.png poplar bark.png poplar leaf.png redwood bark.png redwood needles.png sakura petal.png willow bark.png willow leaf.png total: 33 filenames.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-docs-textures-trees-md-ab901587d6.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-docs-transactions-and-dry-runs-md-01f8645243",
+		"title": "B\"H",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/TRANSACTIONS_AND_DRY_RUNS.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 2,
+				"text": "Boruch Hashem",
+				"anchor": "boruch-hashem"
+			},
+			{
+				"level": 2,
+				"text": "Blessed is He",
+				"anchor": "blessed-is-he"
+			},
+			{
+				"level": 1,
+				"text": "Transactions and Dry Runs",
+				"anchor": "transactions-and-dry-runs"
+			},
+			{
+				"level": 2,
+				"text": "Dry run",
+				"anchor": "dry-run"
+			},
+			{
+				"level": 2,
+				"text": "Atomic batch",
+				"anchor": "atomic-batch"
+			},
+			{
+				"level": 2,
+				"text": "Revision control",
+				"anchor": "revision-control"
+			},
+			{
+				"level": 2,
+				"text": "Runtime adapters",
+				"anchor": "runtime-adapters"
+			},
+			{
+				"level": 2,
+				"text": "Undo",
+				"anchor": "undo"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He The Awtsmoos renews every contract in ordered light; Awtsmoos.com keeps exact creation editable and right. Transactions and Dry Runs Dry run Set options.dryRun or call api.dryRun(command). The executor clones the document, validates and executes the method, and returns would create/updat",
+		"searchText": "b\"h boruch hashem blessed is he the awtsmoos renews every contract in ordered light; awtsmoos.com keeps exact creation editable and right. transactions and dry runs dry run set options.dryrun or call api.dryrun(command). the executor clones the document, validates and executes the method, and returns would create/update/delete sets without changing revision, history, runtime, autosave, or ui selection. atomic batch api.batch(operations) evaluates every operation against one detached draft. earlier results may be referenced with $operations. .result. . failure returns batch failed with the failed index and leaves the authoritative document untouched. revision control set options.expectedrevision. a stale value returns revision conflict with expected and current revisions. runtime adapters adapters implement prepare, apply, commit, and rollback. a document is committed only after the runtime stage succeeds. undo each successful mutating command or atomic batch creates exactly one snapshot history entry.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-docs-transactions-and-dry-runs-md-01f8645243.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-docs-ui-api-parity-md-0e65001502",
+		"title": "B\"H",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/UI_API_PARITY.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 2,
+				"text": "Boruch Hashem",
+				"anchor": "boruch-hashem"
+			},
+			{
+				"level": 2,
+				"text": "Blessed is He",
+				"anchor": "blessed-is-he"
+			},
+			{
+				"level": 1,
+				"text": "UI and API Parity",
+				"anchor": "ui-and-api-parity"
+			},
+			{
+				"level": 2,
+				"text": "Generated explorer",
+				"anchor": "generated-explorer"
+			},
+			{
+				"level": 2,
+				"text": "MitzvahWorld integration",
+				"anchor": "mitzvahworld-integration"
+			},
+			{
+				"level": 2,
+				"text": "Runtime events",
+				"anchor": "runtime-events"
+			},
+			{
+				"level": 2,
+				"text": "Mobile",
+				"anchor": "mobile"
+			},
+			{
+				"level": 2,
+				"text": "Stability",
+				"anchor": "stability"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He The Awtsmoos renews every contract in ordered light; Awtsmoos.com keeps exact creation editable and right. UI and API Parity Generated explorer createApiExplorerModel() groups methods by their definition ui.panel. mountApiExplorer() creates forms, raw JSON editors, dry run buttons, execu",
+		"searchText": "b\"h boruch hashem blessed is he the awtsmoos renews every contract in ordered light; awtsmoos.com keeps exact creation editable and right. ui and api parity generated explorer createapiexplorermodel() groups methods by their definition ui.panel. mountapiexplorer() creates forms, raw json editors, dry run buttons, execute buttons, and result viewers. mitzvahworld integration minimaluniversalapiexplorer.js mounts the explorer and exposes the same api at window.awtsmoos.universal, with non destructive namespace aliases where available. runtime events the initial mitzvahworld adapter emits awtsmoos:universal transaction after commit. existing scene systems can subscribe and rebuild affected resources without creating a second command implementation. mobile the explorer becomes full width below 48rem and uses bounded overflow. stability schema generated controls are experimental. the shared executor path is stable.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-docs-ui-api-parity-md-0e65001502.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-docs-universal-awtsmoos-api-md-4c0ca27b14",
+		"title": "B\"H",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/UNIVERSAL_AWTSMOOS_API.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Universal Awtsmoos API",
+				"anchor": "universal-awtsmoos-api"
+			},
+			{
+				"level": 2,
+				"text": "Composition decision",
+				"anchor": "composition-decision"
+			},
+			{
+				"level": 2,
+				"text": "Five verbs",
+				"anchor": "five-verbs"
+			},
+			{
+				"level": 2,
+				"text": "Lightweight namespaces",
+				"anchor": "lightweight-namespaces"
+			},
+			{
+				"level": 2,
+				"text": "Full namespaces",
+				"anchor": "full-namespaces"
+			},
+			{
+				"level": 2,
+				"text": "Default compiler policy",
+				"anchor": "default-compiler-policy"
+			},
+			{
+				"level": 2,
+				"text": "Modeling example",
+				"anchor": "modeling-example"
+			},
+			{
+				"level": 2,
+				"text": "Planning and support truth",
+				"anchor": "planning-and-support-truth"
+			},
+			{
+				"level": 2,
+				"text": "Browser dependency evidence",
+				"anchor": "browser-dependency-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Compatibility",
+				"anchor": "compatibility"
+			}
+		],
+		"excerpt": "B\"H Universal Awtsmoos API The Awtsmoos renews one semantic truth through focused and world sized vessels; Awtsmoos.com lets callers choose the composition they need without inventing a second engine. Composition decision Need Recommended factory define / validate / plan / explain / compile createAwtsmoosLifecycle() co",
+		"searchText": "b\"h universal awtsmoos api the awtsmoos renews one semantic truth through focused and world sized vessels; awtsmoos.com lets callers choose the composition they need without inventing a second engine. composition decision need recommended factory define / validate / plan / explain / compile createawtsmooslifecycle() compiler plugins, constraints, cache, pipeline createawtsmooslifecycle() direct browser or compile only service createawtsmooslifecycle() procedural portal orchestration createawtsmoos() transactional world/history/runtime createawtsmoos() both factories use the same procedural language, universal semantic kernel, compiler federation, constraint registry, cache identity, provenance, and five lifecycle verbs. five verbs define(input) canonicalizes ergonomic authored truth without mutating caller data. validate(input, options) validates without planning, solving, or compiling. plan(input, request, options) resolves artifact intent, constraints, and compiler coverage without executor side effects. explain(input, request, options) returns serializable compiler, constraint, pipeline, and support evidence. compile(input, request, options) validates, resolves constraints, applies cache policy, executes eligible compilers, and attaches provenance. lightweight namespaces createawtsmooslifecycle() exposes semantic, compilers, constraints, cache, and pipeline. it deliberately does not create or claim portal or world properties. full namespaces createawtsmoos() extends the same lifecycle authority composer with: portal — procedural portal world/project orchestration; world — transactional world/history/runtime api. this layering prevents compiler, constraint, cache, and lifecycle semantics from drifting between composition modes. default compiler policy an internally created high level factory installs the existing modelingdocument compiler bridge. a caller supplied semantic kernel stays untouched unless installdefaultcompilers:true is explicit. use installdefaultcompilers:false for an intentionally empty internally owned compiler registry. modeling example the bridge lowers through existing modelingdocument → proceduralobject authority rather than introducing a competing geometry schema. planning and support truth compiler manifests are serializable data. native/adapter capabilities execute only through trusted private executors. deferred compilers may describe future coverage but do not execute. unsupported compilers do not satisfy channel coverage. constraint solvers use the same native/adapter/deferred/unsupported truth model. browser dependency evidence a current recursive static import measurement found 1,538 modules reachable from full createawtsmoos.js versus 133 from createawtsmooslifecycle.js: 1,406 avoided, a 91.4% reduction for this repository state. treat the exact counts as point in time evidence, not a semver promise. compatibility the lifecycle factory is additive. existing creation portal verbs, procedural portal behavior, createuniversalawtsmoosapi(), createuniversalsemantickernel(), modelingdocument, nature, reality, material systems, and renderer adapters remain their existing expert authorities.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-docs-universal-awtsmoos-api-md-4c0ca27b14.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-docs-universal-awtsmoos-compilers--ef7102f2a3",
+		"title": "B\"H",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/UNIVERSAL_AWTSMOOS_COMPILERS.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Universal Compiler Federation",
+				"anchor": "universal-compiler-federation"
+			},
+			{
+				"level": 2,
+				"text": "Compiler manifest",
+				"anchor": "compiler-manifest"
+			},
+			{
+				"level": 2,
+				"text": "Support-state truth",
+				"anchor": "support-state-truth"
+			},
+			{
+				"level": 2,
+				"text": "Registration",
+				"anchor": "registration"
+			},
+			{
+				"level": 2,
+				"text": "Built-in Modeling bridge",
+				"anchor": "built-in-modeling-bridge"
+			},
+			{
+				"level": 2,
+				"text": "Adapters and deferred work",
+				"anchor": "adapters-and-deferred-work"
+			}
+		],
+		"excerpt": "B\"H Universal Compiler Federation The Awtsmoos renews one semantic intention through many specialist vessels; Awtsmoos.com lets compilers declare their power openly while private executors remain guarded and trusted. Compiler manifest A public compiler capability is serializable and executor free. It may declare: id, c",
+		"searchText": "b\"h universal compiler federation the awtsmoos renews one semantic intention through many specialist vessels; awtsmoos.com lets compilers declare their power openly while private executors remain guarded and trusted. compiler manifest a public compiler capability is serializable and executor free. it may declare: id, compilerversion; semantic kinds; structured requires, plus requiredtraits and optionaltraits authoring aliases; providestraits, semantic supports, and supportpolicy; artifact channels; inputschema and compiler dependencies; execution mechanism and executiontier; supportstate: native, adapter, deferred, or unsupported; determinism: deterministic, seeded, or environment dependent; adapters, cost hints, lod policy, quality policies; examples, diagnostic codes, stability, description, metadata. trusted executor functions are stored privately in the registry and never returned from capability discovery. support state truth support state changes planning and execution, not just documentation: native and adapter capabilities can satisfy channel coverage and execute when a trusted executor exists. deferred capabilities can describe future/planned channel coverage, but their executor is never invoked even if one was accidentally registered. unsupported capabilities cannot satisfy requested channel coverage and are rejected from accepted compiler chains. this distinction makes plans useful for ai/rag and human diagnostics without turning capability metadata into a false promise. registration built in modeling bridge the high level facade installs awtsmoos.modeling document.core bridge by default. it accepts the explicit semantic kind modeling.document and lowers through the pre existing modelingdocument/proceduralobject authority. low level semantic kernels remain compiler empty until an installer or caller registers capabilities. adapters and deferred work three.js, blender, mitzvahworld, remote texture/material systems, and other renderer/domain integrations remain specialist authorities. the federation describes adapters and channels without pretending every host integration is universally native.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-docs-universal-awtsmoos-compilers--ef7102f2a3.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-docs-universal-awtsmoos-constraint-c72ca30fcb",
+		"title": "B\"H",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/UNIVERSAL_AWTSMOOS_CONSTRAINTS_CACHE.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Constraints, Provenance, and Cache",
+				"anchor": "constraints-provenance-and-cache"
+			},
+			{
+				"level": 2,
+				"text": "Generic constraint vocabulary",
+				"anchor": "generic-constraint-vocabulary"
+			},
+			{
+				"level": 2,
+				"text": "Solver capability truth",
+				"anchor": "solver-capability-truth"
+			},
+			{
+				"level": 2,
+				"text": "Registration example",
+				"anchor": "registration-example"
+			},
+			{
+				"level": 2,
+				"text": "Compilation cache",
+				"anchor": "compilation-cache"
+			},
+			{
+				"level": 2,
+				"text": "Provenance",
+				"anchor": "provenance"
+			}
+		],
+		"excerpt": "B\"H Constraints, Provenance, and Cache The Awtsmoos renews boundary, artifact, and memory before finite time can divide; Awtsmoos.com records what was solved, deferred, reused, or denied. Generic constraint vocabulary The built in noun neutral vocabulary currently names: minClearance, maxSlope, mustTouch, mustNotInters",
+		"searchText": "b\"h constraints, provenance, and cache the awtsmoos renews boundary, artifact, and memory before finite time can divide; awtsmoos.com records what was solved, deferred, reused, or denied. generic constraint vocabulary the built in noun neutral vocabulary currently names: minclearance, maxslope, musttouch, mustnotintersect, supportload, preservevolume, withinregion, preservesilhouette, biologicalproportion, structurallimit, performancelimit, and semanticexclusion. vocabulary does not imply a universal solver exists. it gives domains a portable semantic name that specialist solvers can claim. solver capability truth a solver manifest declares supported constraint types and semantic kinds, support state, execution tier, determinism, adapters, input/output schemas, examples, diagnostics, and metadata. solver functions remain private. planning outcomes are explicit: known constraint with no solver → deferred; unknown constraint → unsupported; manifest says native/adapter but no private executor exists → downgraded to deferred with constraint executor unavailable; registered native/adapter solver → executable. default compile mode records unresolved constraints but may continue. {strictconstraints:true} rejects unresolved or unsatisfied work before compiler execution. registration example solvers return receipts and do not mutate canonical definitions. compilation cache the facade reuses the existing bounded proceduralcompilationcache; it does not create a second cache subsystem. cache identity incorporates semantic definition data, artifact request, compiler chain, constraint plan/resolution, and selected compiler versions/support states. deterministic and seeded compiler paths may reuse cached compile output. environment dependent compiler or solver paths bypass cache. semantic or artifact request changes produce a new key. the expert cache namespace intentionally exposes only: cached artifact values are not exposed for arbitrary mutation or insertion. provenance compile receipts identify semantic content hash/seed, requested channels and quality, compiler ids/versions/support/execution tiers/adapters/dependencies, constraint resolution, execution coverage, and cache evidence. this data is suitable for reproducibility diagnostics and downstream ai retrieval.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-docs-universal-awtsmoos-constraint-c72ca30fcb.json"
+	}
+]

@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-26t0154-social-relationships-04-exact-implem-321750f9ef",
+	"title": "Exact Relationship Implementation Plan",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-26T0154-social-relationships/04_EXACT_IMPLEMENTATION_PLAN.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Exact Relationship Implementation Plan",
+			"anchor": "exact-relationship-implementation-plan"
+		},
+		{
+			"level": 2,
+			"text": "Read before production write",
+			"anchor": "read-before-production-write"
+		},
+		{
+			"level": 2,
+			"text": "Production targets",
+			"anchor": "production-targets"
+		},
+		{
+			"level": 2,
+			"text": "Verification after code-first",
+			"anchor": "verification-after-code-first"
+		},
+		{
+			"level": 2,
+			"text": "NEXTACTION",
+			"anchor": "nextaction"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-26t0154-social-relationships-04-exact-implem-321750f9ef-001.json"
+	]
+}

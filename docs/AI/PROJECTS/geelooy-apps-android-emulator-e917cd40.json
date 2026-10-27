@@ -9,8 +9,9 @@
 		"id": "apps",
 		"title": "Applications"
 	},
-	"title": "geelooy/apps/android-emulator",
+	"title": "Android Emulator Engine — Awtsmoos",
 	"entries": [
+		"index.html",
 		"DOCUMENTATION.md"
 	],
 	"humanDocumentation": [
@@ -22,40 +23,56 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-android-emulator-e917cd40.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 926,
-		"tests": 566,
+		"source": 2163,
+		"tests": 850,
 		"assets": 0,
 		"generated": 0,
-		"docs": 1,
-		"other": 2
+		"docs": 2,
+		"other": 1154
 	},
-	"totalFiles": 1495,
+	"totalFiles": 4169,
 	"symbolSummary": {
-		"files": 922,
-		"classes": 64,
-		"functions": 3825,
-		"exports": 2047,
+		"files": 1973,
+		"classes": 96,
+		"functions": 7152,
+		"exports": 3510,
 		"samples": [
-			"async",
-			"launchInitialActivity",
-			"dispatchActivityLifecycleCallbacks",
-			"callbackError",
-			"resolveLauncherMethods",
-			"lifecycleArguments",
-			"findInheritedMethod",
-			"findDirectMethod",
-			"activityError",
-			"registerActivityLifecycleCallback",
-			"unregisterActivityLifecycleCallback",
-			"snapshotActivityLifecycleCallbacks"
+			"tiferesEnrichActivityCapabilities",
+			"buildActivityCapabilityCode",
+			"chesedActivityCapabilityPrototypes",
+			"chesedActivityCapabilityTypes",
+			"netzachActivityCapabilityMethods",
+			"buildActivityViewCode",
+			"createRuntime",
+			"record",
+			"definition",
+			"tiferesAuthenticOverlapOwnersTest",
+			"tiferesRegisteredBeforeBootstrapTest",
+			"netzachOwnerIndexes"
 		]
 	},
-	"outgoingDependencies": [],
+	"outgoingDependencies": [
+		{
+			"project": "ai_thoughts",
+			"count": 54,
+			"examples": "geelooy/apps/android-emulator/ai_thoughts/2026-08-31_global_origin_merge_and_rebbe_runtime/103_fresh_authentic_checkpoint_writer.mjs; geelooy/apps/android-emulator/ai_thoughts/2026-08-31_global_origin_merge_and_rebbe_runtime/104_fresh_authentic_run.mjs; geelooy/apps/android-emulator/ai_thoughts/2026-08-31_global_origin_merge_and_rebbe_runtime/138_post_ucvtf_authentic_run.mjs"
+		},
+		{
+			"project": "ayzarim/awtsmoosDynamicServer",
+			"count": 6,
+			"examples": "geelooy/apps/android-emulator/node/localTcpRelay/clientSession.cjs; geelooy/apps/android-emulator/node/localTcpRelay/frameHandling.cjs; geelooy/apps/android-emulator/node/localTcpRelay/server.cjs"
+		},
+		{
+			"project": "geelooy/scripts",
+			"count": 1,
+			"examples": "geelooy/apps/android-emulator/core/browser/nativeBrowserRemoteSocketAdapter.js"
+		}
+	],
 	"incomingDependencies": [
 		{
 			"project": "geelooy/apps/code",
-			"count": 4,
-			"examples": "geelooy/apps/code/js/actions/commands/build-android-apk.js; geelooy/apps/code/js/actions/commands/build-rebbe-apk.js"
+			"count": 6,
+			"examples": "geelooy/apps/code/js/actions/commands/build-android-apk.js; geelooy/apps/code/js/android/run-imported-apk.js"
 		},
 		{
 			"project": "geelooy/scripts",
@@ -79,7 +96,15 @@
 		}
 	],
 	"externalDependencies": [],
-	"publicEntries": [],
+	"publicEntries": [
+		{
+			"url": "/apps/android-emulator",
+			"file": "geelooy/apps/android-emulator/index.html",
+			"title": "Android Emulator Engine — Awtsmoos",
+			"scripts": 0,
+			"styles": 0
+		}
+	],
 	"requiresLocalDocumentation": true,
 	"documentationCovered": true,
 	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."

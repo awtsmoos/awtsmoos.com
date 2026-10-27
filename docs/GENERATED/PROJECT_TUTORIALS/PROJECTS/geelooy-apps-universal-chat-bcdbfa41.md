@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 150 | 22 | 0 | 0 | 1 | 0 | 173 |
+| 184 | 38 | 0 | 0 | 1 | 0 | 223 |
 
 ## Public entry points
 
@@ -29,7 +29,7 @@ Blessed is He
 
 ## Symbol evidence
 
-Source files: 85; classes: 47; functions: 141; exports: 120; samples: createActivityCard, chip, humanAction, safeClass, eventDate, MessagingActivityClient, groupActivityByDay, safeActivityHref, activityDuration, activityPreferenceLabels, activityDate, activityDayLabel.
+Source files: 108; classes: 61; functions: 173; exports: 160; samples: createActivityCard, chip, humanAction, safeClass, eventDate, MessagingActivityClient, groupActivityByDay, safeActivityHref, activityDuration, activityPreferenceLabels, activityDate, activityDayLabel.
 
 ## Depends on
 
@@ -37,7 +37,7 @@ Source files: 85; classes: 47; functions: 141; exports: 120; samples: createActi
 
 ## Used by
 
-None observed.
+- `geelooy/social-hub` — 3 lexical references; examples: geelooy/social-hub/js/messages/ConversationVoiceComposer.js; geelooy/social-hub/js/messages/ConversationVoiceView.js
 
 ## External packages
 
@@ -45,4 +45,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **22**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **38**. Treat this as file evidence, not proof of behavioral coverage.

@@ -1,0 +1,69 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-oros-ha-kelim-docs-remote-texture-realism-md-b5216d55f6",
+	"title": "B\"H",
+	"sourcePath": "geelooy/games/oros-ha-kelim/docs/REMOTE_TEXTURE_REALISM.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Oros HaKelim — Remote Texture Realism",
+			"anchor": "oros-hakelim-remote-texture-realism"
+		},
+		{
+			"level": 2,
+			"text": "Renderer boundary",
+			"anchor": "renderer-boundary"
+		},
+		{
+			"level": 2,
+			"text": "Remote-only asset law",
+			"anchor": "remote-only-asset-law"
+		},
+		{
+			"level": 2,
+			"text": "Material profiles",
+			"anchor": "material-profiles"
+		},
+		{
+			"level": 2,
+			"text": "Bounded texture page",
+			"anchor": "bounded-texture-page"
+		},
+		{
+			"level": 2,
+			"text": "Blend mathematics",
+			"anchor": "blend-mathematics"
+		},
+		{
+			"level": 2,
+			"text": "Diagnostics",
+			"anchor": "diagnostics"
+		},
+		{
+			"level": 2,
+			"text": "Tests",
+			"anchor": "tests"
+		},
+		{
+			"level": 2,
+			"text": "Browser completion gate",
+			"anchor": "browser-completion-gate"
+		},
+		{
+			"level": 2,
+			"text": "Discovery",
+			"anchor": "discovery"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-oros-ha-kelim-docs-remote-texture-realism-md-b5216d55f6-001.json"
+	]
+}

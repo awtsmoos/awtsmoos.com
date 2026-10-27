@@ -18,17 +18,23 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ai-thoughts-e431fde4.md",
 	"symlinkTarget": "/Users/awtsmoos/work/Awtsmoos.com-artifacts/ai_thoughts",
 	"counts": {
-		"source": 5733,
-		"tests": 100,
-		"assets": 0,
+		"source": 5817,
+		"tests": 107,
+		"assets": 1,
 		"generated": 0,
 		"docs": 60,
-		"other": 2770
+		"other": 2989
 	},
-	"totalFiles": 8663,
+	"totalFiles": 8974,
 	"symbolSummary": null,
 	"outgoingDependencies": [],
-	"incomingDependencies": [],
+	"incomingDependencies": [
+		{
+			"project": "geelooy/apps/android-emulator",
+			"count": 54,
+			"examples": "geelooy/apps/android-emulator/ai_thoughts/2026-08-31_global_origin_merge_and_rebbe_runtime/103_fresh_authentic_checkpoint_writer.mjs; geelooy/apps/android-emulator/ai_thoughts/2026-08-31_global_origin_merge_and_rebbe_runtime/104_fresh_authentic_run.mjs; geelooy/apps/android-emulator/ai_thoughts/2026-08-31_global_origin_merge_and_rebbe_runtime/138_post_ucvtf_authentic_run.mjs"
+		}
+	],
 	"externalDependencies": [],
 	"publicEntries": [],
 	"requiresLocalDocumentation": false,

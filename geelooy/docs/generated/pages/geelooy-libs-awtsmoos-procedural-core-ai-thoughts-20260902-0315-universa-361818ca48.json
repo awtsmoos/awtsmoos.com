@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-361818ca48",
+	"title": "Phase One — Five Competing Designs",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/.ai-thoughts/20260902_0315-universal-procedural-api/02_FIVE_COMPETING_DESIGNS.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase One — Five Competing Designs",
+			"anchor": "phase-one-five-competing-designs"
+		},
+		{
+			"level": 2,
+			"text": "A — Replace everything with a new Definition Graph",
+			"anchor": "a-replace-everything-with-a-new-definition-graph"
+		},
+		{
+			"level": 2,
+			"text": "B — Expand Creation Portal from six verbs to the whole universe",
+			"anchor": "b-expand-creation-portal-from-six-verbs-to-the-whole-universe"
+		},
+		{
+			"level": 2,
+			"text": "C — Make Procedural Portal the only public API",
+			"anchor": "c-make-procedural-portal-the-only-public-api"
+		},
+		{
+			"level": 2,
+			"text": "D — Add an unrelated new top-level package/folder",
+			"anchor": "d-add-an-unrelated-new-top-level-package-folder"
+		},
+		{
+			"level": 2,
+			"text": "E — Additive convergence inside existing core/universalApi",
+			"anchor": "e-additive-convergence-inside-existing-core-universalapi"
+		},
+		{
+			"level": 2,
+			"text": "Winner constraints",
+			"anchor": "winner-constraints"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-ai-thoughts-20260902-0315-universa-361818ca48-001.json"
+	]
+}

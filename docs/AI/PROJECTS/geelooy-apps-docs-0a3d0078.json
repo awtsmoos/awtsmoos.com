@@ -27,10 +27,10 @@
 		"tests": 0,
 		"assets": 0,
 		"generated": 0,
-		"docs": 194,
+		"docs": 204,
 		"other": 0
 	},
-	"totalFiles": 194,
+	"totalFiles": 204,
 	"symbolSummary": null,
 	"outgoingDependencies": [],
 	"incomingDependencies": [],
@@ -41,7 +41,7 @@
 			"file": "geelooy/apps/docs/index.html",
 			"title": "Awtsmoos Docs",
 			"scripts": 1,
-			"styles": 12
+			"styles": 13
 		},
 		{
 			"url": "/apps/docs/view",

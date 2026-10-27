@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Release Brainstorm\n\nPossible release risks: concurrent worktrees, uncommitted unrelated files, remote divergence, hidden branch-only commits, generated proofs too large for GitHub, deployment secrets unavailable, CI failures, stale deploy workflow, merge conflicts, local-only test artifacts, and a main push that does not actually deploy.\n\nPreferred principle: inspect provenance first; include only release-relevant files; fetch before integration; never force-push; preserve unrelated modifications; run focused and repository-prescribed verification; push one `main`; observe CI/deployment; verify public runtime.\n"
+}

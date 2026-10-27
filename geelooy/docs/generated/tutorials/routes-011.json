@@ -1,442 +1,663 @@
 [
 	{
-		"id": "api-social-aliases-alias-filesystem-moveentry-5b34fd1a51",
-		"route": "/api/social/aliases/:alias/fileSystem/moveEntry",
-		"source": "geelooy/api/social/_awtsmoos.fileSystem.js",
+		"id": "api-olam-h3-status-cac8d0a010",
+		"route": "/api/olam-h3/status",
+		"source": "geelooy/api/olam-h3/_awtsmoos.derech.js",
 		"discoveryKind": "static-literal",
 		"family": {
-			"mount": "/api/social",
-			"title": "Social",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md"
+			"mount": "/api/olam-h3",
+			"title": "/api/olam-h3",
+			"manual": "docs/API/README.md"
 		},
 		"derech": {
-			"source": "geelooy/api/social/_awtsmoos.derech.js",
+			"source": "geelooy/api/olam-h3/_awtsmoos.derech.js",
 			"status": "OK",
 			"issue": "—",
-			"mount": "/api/social"
+			"mount": "/api/olam-h3"
 		},
-		"dynamic": true,
-		"pathParameters": [
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [],
+		"statuses": [],
+		"headers": [],
+		"callers": [
 			{
-				"name": "alias",
-				"catchAll": false
+				"literal": "/api/olam-h3/status",
+				"source": "geelooy/apps/olam-h3/tests/proxy-browser-client.test.mjs",
+				"kind": "test"
 			}
 		],
+		"callerCount": 1,
+		"tests": [],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-olam-h3-status-cac8d0a010.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-olam-h3-4e998afd7f",
+				"route": "/api/olam-h3"
+			},
+			{
+				"id": "api-olam-h3-create-cb86a5dbff",
+				"route": "/api/olam-h3/create"
+			},
+			{
+				"id": "api-olam-h3-task-17b79454b5",
+				"route": "/api/olam-h3/task"
+			}
+		]
+	},
+	{
+		"id": "api-olam-h3-task-17b79454b5",
+		"route": "/api/olam-h3/task",
+		"source": "geelooy/api/olam-h3/_awtsmoos.derech.js",
+		"discoveryKind": "static-literal",
+		"family": {
+			"mount": "/api/olam-h3",
+			"title": "/api/olam-h3",
+			"manual": "docs/API/README.md"
+		},
+		"derech": {
+			"source": "geelooy/api/olam-h3/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/olam-h3"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [],
+		"statuses": [],
+		"headers": [],
+		"callers": [
+			{
+				"literal": "/api/olam-h3/task",
+				"source": "geelooy/apps/olam-h3/tests/proxy-browser-client.test.mjs",
+				"kind": "test"
+			}
+		],
+		"callerCount": 1,
+		"tests": [],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-olam-h3-task-17b79454b5.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-olam-h3-4e998afd7f",
+				"route": "/api/olam-h3"
+			},
+			{
+				"id": "api-olam-h3-create-cb86a5dbff",
+				"route": "/api/olam-h3/create"
+			},
+			{
+				"id": "api-olam-h3-status-cac8d0a010",
+				"route": "/api/olam-h3/status"
+			}
+		]
+	},
+	{
+		"id": "api-platform-manifest-5bde11a4af",
+		"route": "/api/platform/manifest",
+		"source": "geelooy/api/platform/_awtsmoos.derech.js",
+		"discoveryKind": "static-literal",
+		"family": {
+			"mount": "/api/platform",
+			"title": "/api/platform",
+			"manual": "docs/API/README.md"
+		},
+		"derech": {
+			"source": "geelooy/api/platform/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/platform"
+		},
+		"dynamic": false,
+		"pathParameters": [],
 		"methods": [],
 		"methodEvidence": "unknown",
 		"vessels": [
-			"$_POST",
-			"$_DELETE",
-			"route-vars"
+			"$_GET"
 		],
-		"statuses": [],
+		"statuses": [
+			"200",
+			"404"
+		],
 		"headers": [],
 		"callers": [],
 		"callerCount": 0,
 		"tests": [
 			{
 				"name": "test",
-				"command": "npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported-style-ownership && npm run test:css-quality && npm run test:heichelos-quality && npm run test:profile-menu && npm run test:heichel-governance && npm run test:post-submissions && npm run test:comments && npm run test:api-keys && npm run test:graph && npm run test:social-content && npm run test:notifications && npm run test:social-packed && npm run test:packed-engine && npm run test:platform-ops && npm run test:platform-execution && npm run test:node-client && npm run test:dayuh-cutover"
+				"command": "npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported-style-ownership && npm run test:css-quality && npm run test:heichelos-quality && npm run test:heichel-cache-scale && npm run test:profile-menu && npm run test:heichel-governance && npm run test:post-submissions && npm run test:comments && npm run test:api-keys && npm run test:graph && npm run test:social-content && npm run test:notifications && npm run test:social-packed && npm run test:packed-engine && npm run test:platform-ops && npm run test:platform-execution && npm run test:node-client && npm run test:dayuh-cutover"
 			},
 			{
-				"name": "test:api-keys",
-				"command": "node geelooy/api/social/helper/test/apiKeys.test.js"
+				"name": "test:platform-execution",
+				"command": "node geelooy/api/social/helper/test/platformExecution.test.js"
 			},
 			{
-				"name": "test:comments",
-				"command": "node geelooy/api/social/helper/comments/test/runAllCommentsTests.js"
+				"name": "test:platform-ops",
+				"command": "node geelooy/api/social/helper/test/platformOps.test.js"
 			},
 			{
-				"name": "test:concurrency-failure",
-				"command": "node geelooy/api/social/test/concurrencyFailureStress.test.mjs"
-			},
-			{
-				"name": "test:dayuh-release",
-				"command": "npm run test:routes && npm run test:comments && npm run test:social-content && npm run test:social-packed && npm run test:packed-engine && node --test tools/dayuhChadashMaintenance/test/*.test.js && npm run test:dayuh-cutover"
-			},
-			{
-				"name": "test:graph",
-				"command": "node geelooy/api/social/helper/test/socialGraph.test.js"
-			},
-			{
-				"name": "test:heichel-governance",
-				"command": "node geelooy/heichelos/heichel/modules/test/editorManagement.test.mjs && node geelooy/api/social/helper/test/heichelRoles.test.js"
-			},
-			{
-				"name": "test:live-smoke",
-				"command": "node geelooy/heichelos/heichel/modules/test/socialLiveSmoke.test.mjs"
+				"name": "test:platform-ui",
+				"command": "node geelooy/heichelos/heichel/modules/test/platformPanelNodeSimulation.test.mjs && node geelooy/heichelos/heichel/modules/test/notificationsPanelNodeSimulation.test.mjs && node geelooy/heichelos/heichel/modules/test/platformCoverageStatic.test.mjs && node geelooy/heichelos/heichel/modules/test/browserApiSurfaceStatic.test.mjs && node geelooy/heichelos/heichel/modules/test/browserApiRequestShapes.test.mjs && node geelooy/heichelos/heichel/modules/test/platformOpsApi.test.mjs && node geelooy/heichelos/heichel/modules/test/socialGraphFoundation.test.mjs && node geelooy/heichelos/heichel/modules/test/recursiveSocialLayer.test.mjs"
 			}
 		],
 		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-aliases-alias-filesystem-moveentry-5b34fd1a51.md",
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-platform-manifest-5bde11a4af.md",
+		"confidence": "unknown-method",
+		"related": []
+	},
+	{
+		"id": "api-portal-3392c8d0f2",
+		"route": "/api/portal",
+		"source": "geelooy/api/portal/_awtsmoos.derech.js",
+		"discoveryKind": "static-literal",
+		"family": {
+			"mount": "/api/portal",
+			"title": "/api/portal",
+			"manual": "docs/API/README.md"
+		},
+		"derech": {
+			"source": "geelooy/api/portal/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/portal"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [],
+		"statuses": [],
+		"headers": [],
+		"callers": [
+			{
+				"literal": "/api/portal",
+				"source": "geelooy/scripts/awtsmoos/portal/PortalApiClient.js",
+				"kind": "runtime"
+			}
+		],
+		"callerCount": 1,
+		"tests": [],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-portal-3392c8d0f2.md",
 		"confidence": "unknown-method",
 		"related": [
 			{
-				"id": "api-social-9fa4891e88",
-				"route": "/api/social"
+				"id": "api-portal-api-families-7af93e2f88",
+				"route": "/api/portal/api-families"
 			},
 			{
-				"id": "api-social-abuse-ratelimit-check-0a30b621f8",
-				"route": "/api/social/abuse/rateLimit/check"
+				"id": "api-portal-api-family-cf29681266",
+				"route": "/api/portal/api-family"
 			},
 			{
-				"id": "api-social-alias-alias-2cc6a9ba6e",
-				"route": "/api/social/alias/:alias"
+				"id": "api-portal-type-1810bf410f",
+				"route": "/api/portal/type"
 			},
 			{
-				"id": "api-social-alias-alias-details-7e4136898b",
-				"route": "/api/social/alias/:alias/details"
-			},
-			{
-				"id": "api-social-alias-alias-heichelos-34bfb8e313",
-				"route": "/api/social/alias/:alias/heichelos"
-			},
-			{
-				"id": "api-social-alias-alias-heichelos-heichel-4c7f5ddd08",
-				"route": "/api/social/alias/:alias/heichelos/:heichel"
-			},
-			{
-				"id": "api-social-alias-alias-heichelos-heichel-ownership-c2e6e8e020",
-				"route": "/api/social/alias/:alias/heichelos/:heichel/ownership"
-			},
-			{
-				"id": "api-social-alias-alias-heichelos-details-75a049464f",
-				"route": "/api/social/alias/:alias/heichelos/details"
+				"id": "api-portal-types-8127a50268",
+				"route": "/api/portal/types"
 			}
 		]
 	},
 	{
-		"id": "api-social-aliases-alias-filesystem-readfile-09ec99bf76",
-		"route": "/api/social/aliases/:alias/fileSystem/readFile",
-		"source": "geelooy/api/social/_awtsmoos.fileSystem.js",
+		"id": "api-portal-api-families-7af93e2f88",
+		"route": "/api/portal/api-families",
+		"source": "geelooy/api/portal/_awtsmoos.derech.js",
 		"discoveryKind": "static-literal",
 		"family": {
-			"mount": "/api/social",
-			"title": "Social",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md"
+			"mount": "/api/portal",
+			"title": "/api/portal",
+			"manual": "docs/API/README.md"
 		},
 		"derech": {
-			"source": "geelooy/api/social/_awtsmoos.derech.js",
+			"source": "geelooy/api/portal/_awtsmoos.derech.js",
 			"status": "OK",
 			"issue": "—",
-			"mount": "/api/social"
+			"mount": "/api/portal"
 		},
-		"dynamic": true,
-		"pathParameters": [
-			{
-				"name": "alias",
-				"catchAll": false
-			}
-		],
+		"dynamic": false,
+		"pathParameters": [],
 		"methods": [],
 		"methodEvidence": "unknown",
-		"vessels": [
-			"$_POST",
-			"$_DELETE",
-			"route-vars"
-		],
+		"vessels": [],
 		"statuses": [],
 		"headers": [],
 		"callers": [],
 		"callerCount": 0,
-		"tests": [
-			{
-				"name": "test",
-				"command": "npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported-style-ownership && npm run test:css-quality && npm run test:heichelos-quality && npm run test:profile-menu && npm run test:heichel-governance && npm run test:post-submissions && npm run test:comments && npm run test:api-keys && npm run test:graph && npm run test:social-content && npm run test:notifications && npm run test:social-packed && npm run test:packed-engine && npm run test:platform-ops && npm run test:platform-execution && npm run test:node-client && npm run test:dayuh-cutover"
-			},
-			{
-				"name": "test:api-keys",
-				"command": "node geelooy/api/social/helper/test/apiKeys.test.js"
-			},
-			{
-				"name": "test:comments",
-				"command": "node geelooy/api/social/helper/comments/test/runAllCommentsTests.js"
-			},
-			{
-				"name": "test:concurrency-failure",
-				"command": "node geelooy/api/social/test/concurrencyFailureStress.test.mjs"
-			},
-			{
-				"name": "test:dayuh-release",
-				"command": "npm run test:routes && npm run test:comments && npm run test:social-content && npm run test:social-packed && npm run test:packed-engine && node --test tools/dayuhChadashMaintenance/test/*.test.js && npm run test:dayuh-cutover"
-			},
-			{
-				"name": "test:graph",
-				"command": "node geelooy/api/social/helper/test/socialGraph.test.js"
-			},
-			{
-				"name": "test:heichel-governance",
-				"command": "node geelooy/heichelos/heichel/modules/test/editorManagement.test.mjs && node geelooy/api/social/helper/test/heichelRoles.test.js"
-			},
-			{
-				"name": "test:live-smoke",
-				"command": "node geelooy/heichelos/heichel/modules/test/socialLiveSmoke.test.mjs"
-			}
-		],
+		"tests": [],
 		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-aliases-alias-filesystem-readfile-09ec99bf76.md",
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-portal-api-families-7af93e2f88.md",
 		"confidence": "unknown-method",
 		"related": [
 			{
-				"id": "api-social-9fa4891e88",
-				"route": "/api/social"
+				"id": "api-portal-3392c8d0f2",
+				"route": "/api/portal"
 			},
 			{
-				"id": "api-social-abuse-ratelimit-check-0a30b621f8",
-				"route": "/api/social/abuse/rateLimit/check"
+				"id": "api-portal-api-family-cf29681266",
+				"route": "/api/portal/api-family"
 			},
 			{
-				"id": "api-social-alias-alias-2cc6a9ba6e",
-				"route": "/api/social/alias/:alias"
+				"id": "api-portal-type-1810bf410f",
+				"route": "/api/portal/type"
 			},
 			{
-				"id": "api-social-alias-alias-details-7e4136898b",
-				"route": "/api/social/alias/:alias/details"
-			},
-			{
-				"id": "api-social-alias-alias-heichelos-34bfb8e313",
-				"route": "/api/social/alias/:alias/heichelos"
-			},
-			{
-				"id": "api-social-alias-alias-heichelos-heichel-4c7f5ddd08",
-				"route": "/api/social/alias/:alias/heichelos/:heichel"
-			},
-			{
-				"id": "api-social-alias-alias-heichelos-heichel-ownership-c2e6e8e020",
-				"route": "/api/social/alias/:alias/heichelos/:heichel/ownership"
-			},
-			{
-				"id": "api-social-alias-alias-heichelos-details-75a049464f",
-				"route": "/api/social/alias/:alias/heichelos/details"
+				"id": "api-portal-types-8127a50268",
+				"route": "/api/portal/types"
 			}
 		]
 	},
 	{
-		"id": "api-social-aliases-alias-filesystem-readfolder-3e96ad8cd6",
-		"route": "/api/social/aliases/:alias/fileSystem/readFolder",
-		"source": "geelooy/api/social/_awtsmoos.fileSystem.js",
+		"id": "api-portal-api-family-cf29681266",
+		"route": "/api/portal/api-family",
+		"source": "geelooy/api/portal/_awtsmoos.derech.js",
 		"discoveryKind": "static-literal",
 		"family": {
-			"mount": "/api/social",
-			"title": "Social",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md"
+			"mount": "/api/portal",
+			"title": "/api/portal",
+			"manual": "docs/API/README.md"
 		},
 		"derech": {
-			"source": "geelooy/api/social/_awtsmoos.derech.js",
+			"source": "geelooy/api/portal/_awtsmoos.derech.js",
 			"status": "OK",
 			"issue": "—",
-			"mount": "/api/social"
+			"mount": "/api/portal"
 		},
-		"dynamic": true,
-		"pathParameters": [
-			{
-				"name": "alias",
-				"catchAll": false
-			}
-		],
+		"dynamic": false,
+		"pathParameters": [],
 		"methods": [],
 		"methodEvidence": "unknown",
-		"vessels": [
-			"$_POST",
-			"$_DELETE",
-			"route-vars"
-		],
+		"vessels": [],
 		"statuses": [],
 		"headers": [],
 		"callers": [],
 		"callerCount": 0,
-		"tests": [
-			{
-				"name": "test",
-				"command": "npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported-style-ownership && npm run test:css-quality && npm run test:heichelos-quality && npm run test:profile-menu && npm run test:heichel-governance && npm run test:post-submissions && npm run test:comments && npm run test:api-keys && npm run test:graph && npm run test:social-content && npm run test:notifications && npm run test:social-packed && npm run test:packed-engine && npm run test:platform-ops && npm run test:platform-execution && npm run test:node-client && npm run test:dayuh-cutover"
-			},
-			{
-				"name": "test:api-keys",
-				"command": "node geelooy/api/social/helper/test/apiKeys.test.js"
-			},
-			{
-				"name": "test:comments",
-				"command": "node geelooy/api/social/helper/comments/test/runAllCommentsTests.js"
-			},
-			{
-				"name": "test:concurrency-failure",
-				"command": "node geelooy/api/social/test/concurrencyFailureStress.test.mjs"
-			},
-			{
-				"name": "test:dayuh-release",
-				"command": "npm run test:routes && npm run test:comments && npm run test:social-content && npm run test:social-packed && npm run test:packed-engine && node --test tools/dayuhChadashMaintenance/test/*.test.js && npm run test:dayuh-cutover"
-			},
-			{
-				"name": "test:graph",
-				"command": "node geelooy/api/social/helper/test/socialGraph.test.js"
-			},
-			{
-				"name": "test:heichel-governance",
-				"command": "node geelooy/heichelos/heichel/modules/test/editorManagement.test.mjs && node geelooy/api/social/helper/test/heichelRoles.test.js"
-			},
-			{
-				"name": "test:live-smoke",
-				"command": "node geelooy/heichelos/heichel/modules/test/socialLiveSmoke.test.mjs"
-			}
-		],
+		"tests": [],
 		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-aliases-alias-filesystem-readfolder-3e96ad8cd6.md",
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-portal-api-family-cf29681266.md",
 		"confidence": "unknown-method",
 		"related": [
 			{
-				"id": "api-social-9fa4891e88",
-				"route": "/api/social"
+				"id": "api-portal-3392c8d0f2",
+				"route": "/api/portal"
 			},
 			{
-				"id": "api-social-abuse-ratelimit-check-0a30b621f8",
-				"route": "/api/social/abuse/rateLimit/check"
+				"id": "api-portal-api-families-7af93e2f88",
+				"route": "/api/portal/api-families"
 			},
 			{
-				"id": "api-social-alias-alias-2cc6a9ba6e",
-				"route": "/api/social/alias/:alias"
+				"id": "api-portal-type-1810bf410f",
+				"route": "/api/portal/type"
 			},
 			{
-				"id": "api-social-alias-alias-details-7e4136898b",
-				"route": "/api/social/alias/:alias/details"
-			},
-			{
-				"id": "api-social-alias-alias-heichelos-34bfb8e313",
-				"route": "/api/social/alias/:alias/heichelos"
-			},
-			{
-				"id": "api-social-alias-alias-heichelos-heichel-4c7f5ddd08",
-				"route": "/api/social/alias/:alias/heichelos/:heichel"
-			},
-			{
-				"id": "api-social-alias-alias-heichelos-heichel-ownership-c2e6e8e020",
-				"route": "/api/social/alias/:alias/heichelos/:heichel/ownership"
-			},
-			{
-				"id": "api-social-alias-alias-heichelos-details-75a049464f",
-				"route": "/api/social/alias/:alias/heichelos/details"
+				"id": "api-portal-types-8127a50268",
+				"route": "/api/portal/types"
 			}
 		]
 	},
 	{
-		"id": "api-social-aliases-alias-ownership-a4efccee3e",
-		"route": "/api/social/aliases/:alias/ownership",
-		"source": "geelooy/api/social/_awtsmoos.alias.js",
+		"id": "api-portal-type-1810bf410f",
+		"route": "/api/portal/type",
+		"source": "geelooy/api/portal/_awtsmoos.derech.js",
 		"discoveryKind": "static-literal",
 		"family": {
-			"mount": "/api/social",
-			"title": "Social",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md"
+			"mount": "/api/portal",
+			"title": "/api/portal",
+			"manual": "docs/API/README.md"
 		},
 		"derech": {
-			"source": "geelooy/api/social/_awtsmoos.derech.js",
+			"source": "geelooy/api/portal/_awtsmoos.derech.js",
 			"status": "OK",
 			"issue": "—",
-			"mount": "/api/social"
+			"mount": "/api/portal"
 		},
-		"dynamic": true,
-		"pathParameters": [
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [],
+		"statuses": [],
+		"headers": [],
+		"callers": [],
+		"callerCount": 0,
+		"tests": [],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-portal-type-1810bf410f.md",
+		"confidence": "unknown-method",
+		"related": [
 			{
-				"name": "alias",
-				"catchAll": false
+				"id": "api-portal-3392c8d0f2",
+				"route": "/api/portal"
+			},
+			{
+				"id": "api-portal-api-families-7af93e2f88",
+				"route": "/api/portal/api-families"
+			},
+			{
+				"id": "api-portal-api-family-cf29681266",
+				"route": "/api/portal/api-family"
+			},
+			{
+				"id": "api-portal-types-8127a50268",
+				"route": "/api/portal/types"
+			}
+		]
+	},
+	{
+		"id": "api-portal-types-8127a50268",
+		"route": "/api/portal/types",
+		"source": "geelooy/api/portal/_awtsmoos.derech.js",
+		"discoveryKind": "static-literal",
+		"family": {
+			"mount": "/api/portal",
+			"title": "/api/portal",
+			"manual": "docs/API/README.md"
+		},
+		"derech": {
+			"source": "geelooy/api/portal/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/portal"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [],
+		"statuses": [],
+		"headers": [],
+		"callers": [],
+		"callerCount": 0,
+		"tests": [],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-portal-types-8127a50268.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-portal-3392c8d0f2",
+				"route": "/api/portal"
+			},
+			{
+				"id": "api-portal-api-families-7af93e2f88",
+				"route": "/api/portal/api-families"
+			},
+			{
+				"id": "api-portal-api-family-cf29681266",
+				"route": "/api/portal/api-family"
+			},
+			{
+				"id": "api-portal-type-1810bf410f",
+				"route": "/api/portal/type"
+			}
+		]
+	},
+	{
+		"id": "api-projecthosting-827e82a6c0",
+		"route": "/api/projectHosting",
+		"source": "geelooy/api/projectHosting/_awtsmoos.derech.js",
+		"discoveryKind": "static-literal",
+		"family": {
+			"mount": "/api/projectHosting",
+			"title": "/api/projectHosting",
+			"manual": "docs/API/README.md"
+		},
+		"derech": {
+			"source": "geelooy/api/projectHosting/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/projectHosting"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [],
+		"statuses": [],
+		"headers": [],
+		"callers": [
+			{
+				"literal": "/api/projectHosting/?${query}",
+				"source": "geelooy/drive/services/projectHostingService.js",
+				"kind": "runtime"
 			}
 		],
-		"methods": [
-			"GET",
-			"POST",
-			"PUT",
-			"DELETE"
-		],
-		"methodEvidence": "GET, POST, PUT, DELETE",
+		"callerCount": 1,
+		"tests": [],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-projecthosting-827e82a6c0.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-projecthosting-activity-685d6a80bb",
+				"route": "/api/projectHosting/activity"
+			},
+			{
+				"id": "api-projecthosting-cleanup-86c3f103e2",
+				"route": "/api/projectHosting/cleanup"
+			},
+			{
+				"id": "api-projecthosting-materialize-04d0cae6e7",
+				"route": "/api/projectHosting/materialize"
+			},
+			{
+				"id": "api-projecthosting-restart-3328768971",
+				"route": "/api/projectHosting/restart"
+			},
+			{
+				"id": "api-projecthosting-start-15affd017d",
+				"route": "/api/projectHosting/start"
+			},
+			{
+				"id": "api-projecthosting-status-e49bd88d04",
+				"route": "/api/projectHosting/status"
+			},
+			{
+				"id": "api-projecthosting-stop-7e644b25e9",
+				"route": "/api/projectHosting/stop"
+			}
+		]
+	},
+	{
+		"id": "api-projecthosting-activity-685d6a80bb",
+		"route": "/api/projectHosting/activity",
+		"source": "geelooy/api/projectHosting/runtimeRoutes.js",
+		"discoveryKind": "static-literal",
+		"family": {
+			"mount": "/api/projectHosting",
+			"title": "/api/projectHosting",
+			"manual": "docs/API/README.md"
+		},
+		"derech": {
+			"source": "geelooy/api/projectHosting/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/projectHosting"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
 		"vessels": [
-			"route-vars",
-			"identity"
+			"$_GET"
 		],
 		"statuses": [],
 		"headers": [],
 		"callers": [
 			{
-				"literal": "/api/social/aliases/${aliasId}/ownership",
-				"source": "geelooy/heichelos/_awtsmoos.derech.js",
-				"kind": "runtime"
+				"literal": "/api/projectHosting/activity?projectId=drive-site&limit=3",
+				"source": "geelooy/drive/test/projectRuntimeClient.test.mjs",
+				"kind": "test"
+			},
+			{
+				"literal": "/api/projectHosting/activity?projectId=drive-site&limit=8",
+				"source": "geelooy/drive/test/projectRuntimeClient.test.mjs",
+				"kind": "test"
 			}
 		],
-		"callerCount": 1,
-		"tests": [
-			{
-				"name": "test",
-				"command": "npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported-style-ownership && npm run test:css-quality && npm run test:heichelos-quality && npm run test:profile-menu && npm run test:heichel-governance && npm run test:post-submissions && npm run test:comments && npm run test:api-keys && npm run test:graph && npm run test:social-content && npm run test:notifications && npm run test:social-packed && npm run test:packed-engine && npm run test:platform-ops && npm run test:platform-execution && npm run test:node-client && npm run test:dayuh-cutover"
-			},
-			{
-				"name": "test:api-keys",
-				"command": "node geelooy/api/social/helper/test/apiKeys.test.js"
-			},
-			{
-				"name": "test:comments",
-				"command": "node geelooy/api/social/helper/comments/test/runAllCommentsTests.js"
-			},
-			{
-				"name": "test:concurrency-failure",
-				"command": "node geelooy/api/social/test/concurrencyFailureStress.test.mjs"
-			},
-			{
-				"name": "test:dayuh-release",
-				"command": "npm run test:routes && npm run test:comments && npm run test:social-content && npm run test:social-packed && npm run test:packed-engine && node --test tools/dayuhChadashMaintenance/test/*.test.js && npm run test:dayuh-cutover"
-			},
-			{
-				"name": "test:graph",
-				"command": "node geelooy/api/social/helper/test/socialGraph.test.js"
-			},
-			{
-				"name": "test:heichel-governance",
-				"command": "node geelooy/heichelos/heichel/modules/test/editorManagement.test.mjs && node geelooy/api/social/helper/test/heichelRoles.test.js"
-			},
-			{
-				"name": "test:live-smoke",
-				"command": "node geelooy/heichelos/heichel/modules/test/socialLiveSmoke.test.mjs"
-			}
-		],
-		"examples": [
-			{
-				"method": "GET",
-				"warning": "Starter only: method evidence is lexical at the source-file level; inspect the handler before relying on payload or response shape.",
-				"curl": "curl -X GET 'https://awtsmoos.com/api/social/aliases/{alias}/ownership'",
-				"fetch": "const response = await fetch(\"/api/social/aliases/{alias}/ownership\", {\n\tmethod: \"GET\"\n});\nconst result = await response.json();"
-			}
-		],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-aliases-alias-ownership-a4efccee3e.md",
-		"confidence": "source-lexical",
+		"callerCount": 2,
+		"tests": [],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-projecthosting-activity-685d6a80bb.md",
+		"confidence": "unknown-method",
 		"related": [
 			{
-				"id": "api-social-9fa4891e88",
-				"route": "/api/social"
+				"id": "api-projecthosting-827e82a6c0",
+				"route": "/api/projectHosting"
 			},
 			{
-				"id": "api-social-abuse-ratelimit-check-0a30b621f8",
-				"route": "/api/social/abuse/rateLimit/check"
+				"id": "api-projecthosting-cleanup-86c3f103e2",
+				"route": "/api/projectHosting/cleanup"
 			},
 			{
-				"id": "api-social-alias-alias-2cc6a9ba6e",
-				"route": "/api/social/alias/:alias"
+				"id": "api-projecthosting-materialize-04d0cae6e7",
+				"route": "/api/projectHosting/materialize"
 			},
 			{
-				"id": "api-social-alias-alias-details-7e4136898b",
-				"route": "/api/social/alias/:alias/details"
+				"id": "api-projecthosting-restart-3328768971",
+				"route": "/api/projectHosting/restart"
 			},
 			{
-				"id": "api-social-alias-alias-heichelos-34bfb8e313",
-				"route": "/api/social/alias/:alias/heichelos"
+				"id": "api-projecthosting-start-15affd017d",
+				"route": "/api/projectHosting/start"
 			},
 			{
-				"id": "api-social-alias-alias-heichelos-heichel-4c7f5ddd08",
-				"route": "/api/social/alias/:alias/heichelos/:heichel"
+				"id": "api-projecthosting-status-e49bd88d04",
+				"route": "/api/projectHosting/status"
 			},
 			{
-				"id": "api-social-alias-alias-heichelos-heichel-ownership-c2e6e8e020",
-				"route": "/api/social/alias/:alias/heichelos/:heichel/ownership"
+				"id": "api-projecthosting-stop-7e644b25e9",
+				"route": "/api/projectHosting/stop"
+			}
+		]
+	},
+	{
+		"id": "api-projecthosting-cleanup-86c3f103e2",
+		"route": "/api/projectHosting/cleanup",
+		"source": "geelooy/api/projectHosting/runtimeRoutes.js",
+		"discoveryKind": "static-literal",
+		"family": {
+			"mount": "/api/projectHosting",
+			"title": "/api/projectHosting",
+			"manual": "docs/API/README.md"
+		},
+		"derech": {
+			"source": "geelooy/api/projectHosting/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/projectHosting"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [
+			"$_GET"
+		],
+		"statuses": [],
+		"headers": [],
+		"callers": [],
+		"callerCount": 0,
+		"tests": [],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-projecthosting-cleanup-86c3f103e2.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-projecthosting-827e82a6c0",
+				"route": "/api/projectHosting"
 			},
 			{
-				"id": "api-social-alias-alias-heichelos-details-75a049464f",
-				"route": "/api/social/alias/:alias/heichelos/details"
+				"id": "api-projecthosting-activity-685d6a80bb",
+				"route": "/api/projectHosting/activity"
+			},
+			{
+				"id": "api-projecthosting-materialize-04d0cae6e7",
+				"route": "/api/projectHosting/materialize"
+			},
+			{
+				"id": "api-projecthosting-restart-3328768971",
+				"route": "/api/projectHosting/restart"
+			},
+			{
+				"id": "api-projecthosting-start-15affd017d",
+				"route": "/api/projectHosting/start"
+			},
+			{
+				"id": "api-projecthosting-status-e49bd88d04",
+				"route": "/api/projectHosting/status"
+			},
+			{
+				"id": "api-projecthosting-stop-7e644b25e9",
+				"route": "/api/projectHosting/stop"
+			}
+		]
+	},
+	{
+		"id": "api-projecthosting-materialize-04d0cae6e7",
+		"route": "/api/projectHosting/materialize",
+		"source": "geelooy/api/projectHosting/runtimeRoutes.js",
+		"discoveryKind": "static-literal",
+		"family": {
+			"mount": "/api/projectHosting",
+			"title": "/api/projectHosting",
+			"manual": "docs/API/README.md"
+		},
+		"derech": {
+			"source": "geelooy/api/projectHosting/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/projectHosting"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [
+			"$_GET"
+		],
+		"statuses": [],
+		"headers": [],
+		"callers": [],
+		"callerCount": 0,
+		"tests": [],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-projecthosting-materialize-04d0cae6e7.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-projecthosting-827e82a6c0",
+				"route": "/api/projectHosting"
+			},
+			{
+				"id": "api-projecthosting-activity-685d6a80bb",
+				"route": "/api/projectHosting/activity"
+			},
+			{
+				"id": "api-projecthosting-cleanup-86c3f103e2",
+				"route": "/api/projectHosting/cleanup"
+			},
+			{
+				"id": "api-projecthosting-restart-3328768971",
+				"route": "/api/projectHosting/restart"
+			},
+			{
+				"id": "api-projecthosting-start-15affd017d",
+				"route": "/api/projectHosting/start"
+			},
+			{
+				"id": "api-projecthosting-status-e49bd88d04",
+				"route": "/api/projectHosting/status"
+			},
+			{
+				"id": "api-projecthosting-stop-7e644b25e9",
+				"route": "/api/projectHosting/stop"
 			}
 		]
 	}

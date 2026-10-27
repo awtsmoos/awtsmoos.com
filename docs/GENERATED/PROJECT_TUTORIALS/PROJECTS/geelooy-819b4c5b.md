@@ -14,14 +14,14 @@ Blessed is He
 
 - Entry files: `_awtsmoos.derech.js`
 - Local documentation: No local `DOCUMENTATION.md` observed.
-- Local-doc requirement: no; covered: no
+- Local-doc requirement: yes; covered: no
 - Symlink target: —
 
 ## File shape
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 3 | 0 | 0 | 0 | 0 | 0 | 3 |
+| 10 | 0 | 0 | 0 | 0 | 0 | 10 |
 
 ## Public entry points
 
@@ -29,11 +29,12 @@ None observed.
 
 ## Symbol evidence
 
-Source files: 1; classes: 0; functions: 2; exports: 2; samples: dynamicRoutes, response, safeAlias, makeAliasShell.
+Source files: 8; classes: 0; functions: 29; exports: 21; samples: dynamicRoutes, registerRoutes, renderAliasSitemap, renderAliasSitemapShard, renderAliasComments, renderAlias, PAGE_SIZE, renderAliasCommentsPage, pageNumber, navigation, AUTHORED_POST_LIMIT, commentUrl.
 
 ## Depends on
 
-None observed.
+- `geelooy/seo` — 8 lexical references; examples: geelooy/@/seo/aliasCommentsPage.js; geelooy/@/seo/aliasData.js; geelooy/@/seo/aliasPage.js
+- `geelooy/api/social` — 6 lexical references; examples: geelooy/@/seo/aliasData.js; geelooy/@/seo/aliasSitemap.js; geelooy/@/seo/aliasSites.js
 
 ## Used by
 

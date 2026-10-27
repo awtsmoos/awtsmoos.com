@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-templerunner-docs-textures-readme-md-5326e8e915",
+	"title": "Temple Runner Remote Texture Discovery",
+	"sourcePath": "geelooy/games/mitzvahWorld/templeRunner/docs/textures/README.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Temple Runner Remote Texture Discovery",
+			"anchor": "temple-runner-remote-texture-discovery"
+		},
+		{
+			"level": 2,
+			"text": "Canonical authority",
+			"anchor": "canonical-authority"
+		},
+		{
+			"level": 2,
+			"text": "Discovery API",
+			"anchor": "discovery-api"
+		},
+		{
+			"level": 2,
+			"text": "Catalog evidence",
+			"anchor": "catalog-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Temple material pipeline",
+			"anchor": "temple-material-pipeline"
+		},
+		{
+			"level": 2,
+			"text": "Agent rules",
+			"anchor": "agent-rules"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-templerunner-docs-textures-readme-md-5326e8e915-001.json"
+	]
+}

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Radiance Tests (geelooy/api/social/helper/radiance/test/)\n\nRadiance tests.\n\n- `radianceDiscovery.test.js` — radiance-ranked discovery behavior.\n"
+}

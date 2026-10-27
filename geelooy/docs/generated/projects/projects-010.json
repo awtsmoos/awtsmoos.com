@@ -1,130 +1,217 @@
 [
 	{
-		"projectId": "geelooy-donate-1d0f6b9f",
-		"path": "geelooy/donate",
-		"type": "public",
+		"projectId": "geelooy-apps-olam-h3-fae18c72",
+		"path": "geelooy/apps/olam-h3",
+		"type": "app",
 		"family": {
-			"id": "public",
-			"title": "Public and Other Boundaries"
+			"id": "apps",
+			"title": "Applications"
 		},
-		"title": "geelooy/donate",
+		"title": "Olam H3 Studio · Awtsmoos",
 		"entries": [
-			"index.html"
+			"index.html",
+			"README.md",
+			"readme.md"
 		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-donate-1d0f6b9f.md",
+		"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-olam-h3-fae18c72.md",
 		"documentation": [
 			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+				"sourcePath": "docs/TUTORIALS/PROJECTS/APPS.md",
+				"documentId": "docs-tutorials-projects-apps-md-cc69985cf2"
+			},
+			{
+				"sourcePath": "docs/APPS/README.md",
+				"documentId": "docs-apps-readme-md-0951719bae"
 			}
 		],
 		"symlinkTarget": null,
 		"counts": {
-			"source": 1,
+			"source": 129,
+			"tests": 17,
+			"assets": 0,
+			"generated": 0,
+			"docs": 3,
+			"other": 0
+		},
+		"totalFiles": 149,
+		"symbolSummary": {
+			"files": 84,
+			"classes": 79,
+			"functions": 3,
+			"exports": 86,
+			"samples": [
+				"MinimaxProxyClient",
+				"H3_CAPABILITIES",
+				"ratiosForMode",
+				"MINIMAX_LINKS",
+				"PRICING",
+				"OlamDatabase",
+				"OlamRepositories",
+				"OLAM_DB",
+				"DEFAULT_PREFERENCES",
+				"AssetService",
+				"AssetValidation",
+				"BackupValidator"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/apps/olam-h3",
+				"file": "geelooy/apps/olam-h3/index.html",
+				"title": "Olam H3 Studio · Awtsmoos",
+				"scripts": 1,
+				"styles": 25
+			}
+		],
+		"requiresLocalDoc": true,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-apps-pdf-to-img-9743af94",
+		"path": "geelooy/apps/pdf-to-img",
+		"type": "app",
+		"family": {
+			"id": "apps",
+			"title": "Applications"
+		},
+		"title": "High-Res PDF to Image Converter",
+		"entries": [
+			"index.html",
+			"app.js"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-pdf-to-img-9743af94.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/APPS.md",
+				"documentId": "docs-tutorials-projects-apps-md-cc69985cf2"
+			},
+			{
+				"sourcePath": "docs/APPS/README.md",
+				"documentId": "docs-apps-readme-md-0951719bae"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 17,
 			"tests": 0,
 			"assets": 0,
 			"generated": 0,
 			"docs": 0,
 			"other": 0
 		},
-		"totalFiles": 1,
-		"symbolSummary": null,
+		"totalFiles": 17,
+		"symbolSummary": {
+			"files": 10,
+			"classes": 0,
+			"functions": 32,
+			"exports": 13,
+			"samples": [
+				"mountPdfConverter",
+				"async",
+				"updateControls",
+				"createCard",
+				"info",
+				"metadata",
+				"startConversion",
+				"convertPage",
+				"canvasBlob",
+				"setWorking",
+				"revealProgress",
+				"revealDone"
+			]
+		},
 		"outgoing": [],
 		"incoming": [],
 		"externalDependencies": [],
 		"publicEntries": [
 			{
-				"url": "/donate",
-				"file": "geelooy/donate/index.html",
-				"title": "",
-				"scripts": 0,
-				"styles": 0
+				"url": "/apps/pdf-to-img",
+				"file": "geelooy/apps/pdf-to-img/index.html",
+				"title": "High-Res PDF to Image Converter",
+				"scripts": 1,
+				"styles": 3
 			}
 		],
-		"requiresLocalDoc": false,
+		"requiresLocalDoc": true,
 		"documentationCovered": false,
 		"provenance": "generated-from-local-source"
 	},
 	{
-		"projectId": "geelooy-drive-e908c403",
-		"path": "geelooy/drive",
-		"type": "public",
+		"projectId": "geelooy-apps-piano-3e6c62e2",
+		"path": "geelooy/apps/piano",
+		"type": "app",
 		"family": {
-			"id": "public",
-			"title": "Public and Other Boundaries"
+			"id": "apps",
+			"title": "Applications"
 		},
-		"title": "Geelooy Sites · Awtsmoos",
+		"title": "Awtsmoos Web Synthesizer - Ultimate",
 		"entries": [
 			"index.html",
-			"app.js",
-			"DOCUMENTATION.md",
-			"README.md",
-			"readme.md"
+			"main.js",
+			"DOCUMENTATION.md"
 		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-drive-e908c403.md",
+		"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-piano-3e6c62e2.md",
 		"documentation": [
 			{
-				"sourcePath": "geelooy/drive/DOCUMENTATION.md",
-				"documentId": "geelooy-drive-documentation-md-27fd60aedc"
+				"sourcePath": "geelooy/apps/piano/DOCUMENTATION.md",
+				"documentId": "geelooy-apps-piano-documentation-md-c6f560e2e1"
 			},
 			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+				"sourcePath": "docs/TUTORIALS/PROJECTS/APPS.md",
+				"documentId": "docs-tutorials-projects-apps-md-cc69985cf2"
+			},
+			{
+				"sourcePath": "docs/APPS/README.md",
+				"documentId": "docs-apps-readme-md-0951719bae"
 			}
 		],
 		"symlinkTarget": null,
 		"counts": {
-			"source": 159,
-			"tests": 52,
+			"source": 342,
+			"tests": 34,
 			"assets": 0,
 			"generated": 0,
-			"docs": 2,
+			"docs": 1,
 			"other": 0
 		},
-		"totalFiles": 213,
+		"totalFiles": 377,
 		"symbolSummary": {
-			"files": 132,
-			"classes": 30,
-			"functions": 448,
-			"exports": 222,
+			"files": 324,
+			"classes": 20,
+			"functions": 923,
+			"exports": 633,
 			"samples": [
-				"initializeBuilder",
-				"installKeyboardCommands",
-				"installUnloadGuard",
-				"installTransportCleanup",
-				"builderAgentActions",
-				"builderAgentAction",
-				"action",
-				"capabilityStatusFor",
-				"reasonFor",
-				"GeelooyWebsiteBuilderApi",
-				"installWebsiteBuilderApi",
-				"unknownActionError"
+				"initializePianoShell",
+				"handleStartClick",
+				"handleMicClick",
+				"startAccompaniment",
+				"stopAccompaniment",
+				"setAccompanimentBpm",
+				"getAccompanimentBpm",
+				"playAccompanimentBeat",
+				"restartActiveClock",
+				"releaseCurrentBassVoices",
+				"beatTimeMilliseconds",
+				"findLowestActiveNote"
 			]
 		},
-		"outgoing": [
-			{
-				"project": "geelooy/os",
-				"count": 4,
-				"examples": "geelooy/drive/transport/credentialedFs.js; geelooy/drive/transport/tunnelDiscovery.js; geelooy/drive/transport/tunnelPublishing.js"
-			},
-			{
-				"project": "geelooy/shared",
-				"count": 3,
-				"examples": "geelooy/drive/core/platformCapabilityBridge.js; geelooy/drive/transport/osWorkspace.js; geelooy/drive/ui/platformJourney.js"
-			}
-		],
+		"outgoing": [],
 		"incoming": [],
 		"externalDependencies": [],
 		"publicEntries": [
 			{
-				"url": "/drive",
-				"file": "geelooy/drive/index.html",
-				"title": "Geelooy Sites · Awtsmoos",
-				"scripts": 1,
-				"styles": 25
+				"url": "/apps/piano",
+				"file": "geelooy/apps/piano/index.html",
+				"title": "Awtsmoos Web Synthesizer - Ultimate",
+				"scripts": 2,
+				"styles": 1
 			}
 		],
 		"requiresLocalDoc": true,
@@ -132,123 +219,86 @@
 		"provenance": "generated-from-local-source"
 	},
 	{
-		"projectId": "geelooy-editor-91ac0b60",
-		"path": "geelooy/editor",
-		"type": "public",
+		"projectId": "geelooy-apps-rebbe-d2246f9f",
+		"path": "geelooy/apps/rebbe",
+		"type": "app",
 		"family": {
-			"id": "public",
-			"title": "Public and Other Boundaries"
+			"id": "apps",
+			"title": "Applications"
 		},
-		"title": "geelooy/editor",
-		"entries": [
-			"index.html"
-		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-editor-91ac0b60.md",
-		"documentation": [
-			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
-			}
-		],
-		"symlinkTarget": null,
-		"counts": {
-			"source": 1,
-			"tests": 0,
-			"assets": 0,
-			"generated": 0,
-			"docs": 0,
-			"other": 0
-		},
-		"totalFiles": 1,
-		"symbolSummary": null,
-		"outgoing": [],
-		"incoming": [],
-		"externalDependencies": [],
-		"publicEntries": [
-			{
-				"url": "/editor",
-				"file": "geelooy/editor/index.html",
-				"title": "",
-				"scripts": 2,
-				"styles": 0
-			}
-		],
-		"requiresLocalDoc": false,
-		"documentationCovered": false,
-		"provenance": "generated-from-local-source"
-	},
-	{
-		"projectId": "geelooy-email-5712a013",
-		"path": "geelooy/email",
-		"type": "public",
-		"family": {
-			"id": "public",
-			"title": "Public and Other Boundaries"
-		},
-		"title": "Awtsmoos Quantum Mail",
+		"title": "AWTSMOOS ARCHIVE // OMEGA",
 		"entries": [
 			"index.html",
-			"index.js",
+			"main.js",
 			"DOCUMENTATION.md"
 		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-email-5712a013.md",
+		"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-rebbe-d2246f9f.md",
 		"documentation": [
 			{
-				"sourcePath": "geelooy/email/DOCUMENTATION.md",
-				"documentId": "geelooy-email-documentation-md-ba2042cc9d"
+				"sourcePath": "geelooy/apps/rebbe/DOCUMENTATION.md",
+				"documentId": "geelooy-apps-rebbe-documentation-md-e77410fce1"
 			},
 			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+				"sourcePath": "docs/TUTORIALS/PROJECTS/APPS.md",
+				"documentId": "docs-tutorials-projects-apps-md-cc69985cf2"
+			},
+			{
+				"sourcePath": "docs/APPS/README.md",
+				"documentId": "docs-apps-readme-md-0951719bae"
 			}
 		],
 		"symlinkTarget": null,
 		"counts": {
-			"source": 151,
-			"tests": 4,
-			"assets": 10,
+			"source": 222,
+			"tests": 33,
+			"assets": 0,
 			"generated": 0,
 			"docs": 1,
-			"other": 1
+			"other": 0
 		},
-		"totalFiles": 167,
+		"totalFiles": 256,
 		"symbolSummary": {
-			"files": 54,
-			"classes": 5,
-			"functions": 228,
-			"exports": 131,
+			"files": 181,
+			"classes": 37,
+			"functions": 730,
+			"exports": 355,
 			"samples": [
-				"smartParse",
-				"markdownToHtml",
-				"htmlToMarkdown",
-				"formatTime",
-				"bootMail",
-				"renderBootFailure",
+				"RuntimeStyleYesod",
 				"async",
-				"connectSocket",
-				"broadcastTyping",
-				"publishSocialMailEvent",
-				"threadKey",
-				"firstText"
+				"collectRebbeAssets",
+				"collectDirectory",
+				"boundedNumber",
+				"assetError",
+				"buildRebbeResponsaApk",
+				"generateRebbeResponsaApk",
+				"REBBE_ANDROID_SOURCE",
+				"MainActivity",
+				"startApplication",
+				"waitForTimeline"
 			]
 		},
 		"outgoing": [
 			{
 				"project": "geelooy/scripts",
-				"count": 1,
-				"examples": "geelooy/email/index.js"
+				"count": 2,
+				"examples": "geelooy/apps/rebbe/android/build.js; geelooy/apps/rebbe/boot-entry.js"
 			}
 		],
-		"incoming": [],
+		"incoming": [
+			{
+				"project": "geelooy/api/compiler",
+				"count": 1,
+				"examples": "geelooy/api/compiler/core/rebbeApkHandler.js"
+			}
+		],
 		"externalDependencies": [],
 		"publicEntries": [
 			{
-				"url": "/email",
-				"file": "geelooy/email/index.html",
-				"title": "Awtsmoos Quantum Mail",
-				"scripts": 2,
+				"url": "/apps/rebbe",
+				"file": "geelooy/apps/rebbe/index.html",
+				"title": "AWTSMOOS ARCHIVE // OMEGA",
+				"scripts": 1,
 				"styles": 6
 			}
 		],
@@ -257,371 +307,290 @@
 		"provenance": "generated-from-local-source"
 	},
 	{
-		"projectId": "geelooy-entity-view-ee684da8",
-		"path": "geelooy/entity-view",
-		"type": "public",
+		"projectId": "geelooy-apps-scripts-e21af555",
+		"path": "geelooy/apps/scripts",
+		"type": "app",
 		"family": {
-			"id": "public",
-			"title": "Public and Other Boundaries"
+			"id": "apps",
+			"title": "Applications"
 		},
-		"title": "Entity Universe",
+		"title": "geelooy/apps/scripts",
 		"entries": [
-			"index.html",
-			"app.js"
-		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-entity-view-ee684da8.md",
-		"documentation": [
-			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
-			}
-		],
-		"symlinkTarget": null,
-		"counts": {
-			"source": 2,
-			"tests": 0,
-			"assets": 0,
-			"generated": 0,
-			"docs": 0,
-			"other": 0
-		},
-		"totalFiles": 2,
-		"symbolSummary": {
-			"files": 1,
-			"classes": 0,
-			"functions": 12,
-			"exports": 0,
-			"samples": [
-				"el",
-				"getJson",
-				"nodeView",
-				"entityCard",
-				"rowCard",
-				"listCard",
-				"dnaCard",
-				"hero",
-				"snapshot",
-				"fork",
-				"load",
-				"render"
-			]
-		},
-		"outgoing": [],
-		"incoming": [],
-		"externalDependencies": [],
-		"publicEntries": [
-			{
-				"url": "/entity-view",
-				"file": "geelooy/entity-view/index.html",
-				"title": "Entity Universe",
-				"scripts": 1,
-				"styles": 2
-			}
-		],
-		"requiresLocalDoc": false,
-		"documentationCovered": false,
-		"provenance": "generated-from-local-source"
-	},
-	{
-		"projectId": "geelooy-fetch-3a6afc54",
-		"path": "geelooy/fetch",
-		"type": "public",
-		"family": {
-			"id": "public",
-			"title": "Public and Other Boundaries"
-		},
-		"title": "geelooy/fetch",
-		"entries": [
-			"index.html"
-		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-fetch-3a6afc54.md",
-		"documentation": [
-			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
-			}
-		],
-		"symlinkTarget": null,
-		"counts": {
-			"source": 1,
-			"tests": 0,
-			"assets": 0,
-			"generated": 0,
-			"docs": 0,
-			"other": 0
-		},
-		"totalFiles": 1,
-		"symbolSummary": null,
-		"outgoing": [],
-		"incoming": [],
-		"externalDependencies": [],
-		"publicEntries": [
-			{
-				"url": "/fetch",
-				"file": "geelooy/fetch/index.html",
-				"title": "",
-				"scripts": 0,
-				"styles": 0
-			}
-		],
-		"requiresLocalDoc": false,
-		"documentationCovered": false,
-		"provenance": "generated-from-local-source"
-	},
-	{
-		"projectId": "geelooy-game-52a2ee21",
-		"path": "geelooy/game",
-		"type": "public",
-		"family": {
-			"id": "public",
-			"title": "Public and Other Boundaries"
-		},
-		"title": "Opening Mitzvah World…",
-		"entries": [
-			"index.html"
-		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-game-52a2ee21.md",
-		"documentation": [
-			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
-			}
-		],
-		"symlinkTarget": null,
-		"counts": {
-			"source": 1,
-			"tests": 0,
-			"assets": 0,
-			"generated": 0,
-			"docs": 0,
-			"other": 0
-		},
-		"totalFiles": 1,
-		"symbolSummary": null,
-		"outgoing": [],
-		"incoming": [],
-		"externalDependencies": [],
-		"publicEntries": [
-			{
-				"url": "/game",
-				"file": "geelooy/game/index.html",
-				"title": "Opening Mitzvah World…",
-				"scripts": 0,
-				"styles": 0
-			}
-		],
-		"requiresLocalDoc": false,
-		"documentationCovered": false,
-		"provenance": "generated-from-local-source"
-	},
-	{
-		"projectId": "geelooy-games-16336109",
-		"path": "geelooy/games",
-		"type": "public",
-		"family": {
-			"id": "public",
-			"title": "Public and Other Boundaries"
-		},
-		"title": "Awtsmoos Games — 25 Playable Worlds",
-		"entries": [
-			"index.html",
 			"DOCUMENTATION.md"
 		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-16336109.md",
+		"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-scripts-e21af555.md",
 		"documentation": [
 			{
-				"sourcePath": "geelooy/games/DOCUMENTATION.md",
-				"documentId": "geelooy-games-documentation-md-91efed5ea4"
+				"sourcePath": "geelooy/apps/scripts/DOCUMENTATION.md",
+				"documentId": "geelooy-apps-scripts-documentation-md-598e560db6"
 			},
 			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+				"sourcePath": "docs/TUTORIALS/PROJECTS/APPS.md",
+				"documentId": "docs-tutorials-projects-apps-md-cc69985cf2"
+			},
+			{
+				"sourcePath": "docs/APPS/README.md",
+				"documentId": "docs-apps-readme-md-0951719bae"
 			}
 		],
 		"symlinkTarget": null,
 		"counts": {
-			"source": 6819,
-			"tests": 1469,
-			"assets": 0,
-			"generated": 58,
-			"docs": 36,
-			"other": 137
-		},
-		"totalFiles": 8519,
-		"symbolSummary": null,
-		"outgoing": [],
-		"incoming": [],
-		"externalDependencies": [],
-		"publicEntries": [
-			{
-				"url": "/games",
-				"file": "geelooy/games/index.html",
-				"title": "Awtsmoos Games — 25 Playable Worlds",
-				"scripts": 3,
-				"styles": 2
-			}
-		],
-		"requiresLocalDoc": true,
-		"documentationCovered": true,
-		"provenance": "generated-from-local-source"
-	},
-	{
-		"projectId": "geelooy-games-kavanah-e1949492",
-		"path": "geelooy/games/KAVANAH",
-		"type": "game",
-		"family": {
-			"id": "games",
-			"title": "Games and Worlds"
-		},
-		"title": "KAVANAH",
-		"entries": [
-			"index.html",
-			"DOCUMENTATION.md"
-		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-kavanah-e1949492.md",
-		"documentation": [
-			{
-				"sourcePath": "geelooy/games/KAVANAH/DOCUMENTATION.md",
-				"documentId": "geelooy-games-kavanah-documentation-md-adf23132c3"
-			},
-			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
-				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
-			},
-			{
-				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
-				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
-			}
-		],
-		"symlinkTarget": null,
-		"counts": {
-			"source": 15,
-			"tests": 0,
+			"source": 27,
+			"tests": 6,
 			"assets": 0,
 			"generated": 0,
 			"docs": 1,
 			"other": 0
 		},
-		"totalFiles": 16,
+		"totalFiles": 34,
 		"symbolSummary": {
-			"files": 13,
-			"classes": 8,
-			"functions": 47,
-			"exports": 51,
+			"files": 27,
+			"classes": 9,
+			"functions": 19,
+			"exports": 35,
 			"samples": [
-				"Otiot",
-				"Tzomeach",
-				"Chai",
-				"and",
-				"Entity",
-				"Particle",
-				"HEBREW_LETTERS",
-				"PLANT_EMOJIS",
-				"ANIMAL_EMOJIS",
-				"getPointerState",
-				"setupControls",
-				"clearPointer"
+				"PRIMARY_APPS_RUNTIME_URL",
+				"createAppsRuntimeRecoveryUrl",
+				"async",
+				"importAppsFilterRuntime",
+				"defaultRecoveryNonce",
+				"appsFilterRuntimeReady",
+				"revealAppsFilterTiferes",
+				"startAppsBuildFreshness",
+				"defineApp",
+				"commerceLabelFor",
+				"AI_CREATION_APPS",
+				"CREATION_APPS"
 			]
 		},
-		"outgoing": [],
-		"incoming": [],
-		"externalDependencies": [],
-		"publicEntries": [
+		"outgoing": [
 			{
-				"url": "/games/KAVANAH",
-				"file": "geelooy/games/KAVANAH/index.html",
-				"title": "KAVANAH",
-				"scripts": 1,
-				"styles": 2
+				"project": "geelooy/scripts",
+				"count": 6,
+				"examples": "geelooy/apps/scripts/apps-filter.v2.js; geelooy/apps/scripts/filter/AppsFilterMalchusView.js; geelooy/apps/scripts/filter/AppsFilterTiferesRuntime.js"
+			},
+			{
+				"project": "geelooy/games/scripts",
+				"count": 1,
+				"examples": "geelooy/apps/scripts/catalog/games.mjs"
 			}
 		],
+		"incoming": [
+			{
+				"project": "geelooy/scripts",
+				"count": 4,
+				"examples": "geelooy/scripts/commerce/install-product-commerce.mjs; geelooy/scripts/home-simple/constellation-catalog.js; geelooy/scripts/seo/audit/run.mjs"
+			},
+			{
+				"project": "geelooy/os",
+				"count": 1,
+				"examples": "geelooy/os/shell/appCatalogPublicProducts.js"
+			},
+			{
+				"project": "geelooy/seo",
+				"count": 1,
+				"examples": "geelooy/seo/generatePublicCatalog.mjs"
+			}
+		],
+		"externalDependencies": [],
+		"publicEntries": [],
 		"requiresLocalDoc": true,
 		"documentationCovered": true,
 		"provenance": "generated-from-local-source"
 	},
 	{
-		"projectId": "geelooy-games-merkava-6e442b98",
-		"path": "geelooy/games/Merkava",
-		"type": "game",
+		"projectId": "geelooy-apps-shared-c1cebb2b",
+		"path": "geelooy/apps/shared",
+		"type": "app",
 		"family": {
-			"id": "games",
-			"title": "Games and Worlds"
+			"id": "apps",
+			"title": "Applications"
 		},
-		"title": "Merkava — War of the Sparks",
-		"entries": [
-			"index.html",
-			"package.json",
-			"DOCUMENTATION.md",
-			"README.md",
-			"readme.md"
-		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-merkava-6e442b98.md",
+		"title": "geelooy/apps/shared",
+		"entries": [],
+		"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-shared-c1cebb2b.md",
 		"documentation": [
 			{
-				"sourcePath": "geelooy/games/Merkava/DOCUMENTATION.md",
-				"documentId": "geelooy-games-merkava-documentation-md-04dac7a852"
+				"sourcePath": "docs/TUTORIALS/PROJECTS/APPS.md",
+				"documentId": "docs-tutorials-projects-apps-md-cc69985cf2"
 			},
 			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
-				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
-			},
-			{
-				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
-				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
+				"sourcePath": "docs/APPS/README.md",
+				"documentId": "docs-apps-readme-md-0951719bae"
 			}
 		],
 		"symlinkTarget": null,
 		"counts": {
-			"source": 93,
-			"tests": 32,
+			"source": 100,
+			"tests": 15,
 			"assets": 0,
 			"generated": 0,
-			"docs": 2,
-			"other": 1
+			"docs": 0,
+			"other": 0
 		},
-		"totalFiles": 128,
+		"totalFiles": 115,
 		"symbolSummary": {
-			"files": 82,
-			"classes": 41,
-			"functions": 177,
-			"exports": 140,
+			"files": 92,
+			"classes": 13,
+			"functions": 217,
+			"exports": 151,
 			"samples": [
-				"appDiagnostics",
-				"createDiagnosticControls",
-				"checkpoint",
-				"setLane",
-				"chargeAbility",
-				"advanceLevel",
-				"setWorld",
-				"setLevel",
-				"grantPrutahs",
-				"defeatBoss",
-				"completeWorldRotation",
-				"clampIndex"
+				"aiMovieContract",
+				"movieCapabilities",
+				"allMovieCapabilities",
+				"recommendMovieCapabilities",
+				"MovieCapabilities",
+				"profile",
+				"recommendMovieApps",
+				"movieRequirements",
+				"scoreProfile",
+				"sampleMovie",
+				"sceneAt",
+				"frameAt"
 			]
 		},
 		"outgoing": [
 			{
 				"project": "geelooy/libs",
+				"count": 1,
+				"examples": "geelooy/apps/shared/movie/compat/SharedToCoreMovie.js"
+			}
+		],
+		"incoming": [
+			{
+				"project": "geelooy/apps/awtsmoos-studio",
+				"count": 26,
+				"examples": "geelooy/apps/awtsmoos-studio/src/StudioSharedMovieContract.js; geelooy/apps/awtsmoos-studio/src/StudioShowcaseMovie.js; geelooy/apps/awtsmoos-studio/src/ai/StudioPromptContentPolicy.js"
+			},
+			{
+				"project": "geelooy/apps/animator",
+				"count": 13,
+				"examples": "geelooy/apps/animator/src/movie/AnimatorMovieAdapter.js; geelooy/apps/animator/src/scenes/AwtsmoosThreeMinuteMovie.js; geelooy/apps/animator/src/scenes/awtsmoosThreeMinute/AwtsmoosThreeMinuteData.js"
+			},
+			{
+				"project": "geelooy/showcase",
+				"count": 4,
+				"examples": "geelooy/showcase/unified-movie-180/ShowcaseController.js; geelooy/showcase/unified-movie-180/ShowcaseEvidence.js; geelooy/showcase/unified-movie-180/showcase.js"
+			},
+			{
+				"project": "geelooy/apps/captions",
 				"count": 2,
-				"examples": "geelooy/games/Merkava/src/render/createCoreMeshes.js; geelooy/games/Merkava/src/render/createEnemyMeshes.js"
+				"examples": "geelooy/apps/captions/js/movie/installMovieAi.js; geelooy/apps/captions/video/modules/movie/CaptionMovieAdapter.js"
+			},
+			{
+				"project": "geelooy/apps/mitzvah-studio",
+				"count": 2,
+				"examples": "geelooy/apps/mitzvah-studio/modules/movie/MitzvahMovieAdapter.js; geelooy/apps/mitzvah-studio/modules/movie/installMovieAi.js"
+			},
+			{
+				"project": "geelooy/apps/nesher-studio",
+				"count": 2,
+				"examples": "geelooy/apps/nesher-studio/modules/movie/NesherMovieAdapter.js; geelooy/apps/nesher-studio/modules/movie/installMovieAi.js"
+			},
+			{
+				"project": "geelooy/apps/video-editor",
+				"count": 2,
+				"examples": "geelooy/apps/video-editor/js/movie/VideoEditorMovieAdapter.js; geelooy/apps/video-editor/js/movie/installMovieAi.js"
+			},
+			{
+				"project": "geelooy/apps/forms",
+				"count": 1,
+				"examples": "geelooy/apps/forms/js/main.js"
+			},
+			{
+				"project": "geelooy/apps/sheets",
+				"count": 1,
+				"examples": "geelooy/apps/sheets/js/app/powerUiComposition.js"
+			},
+			{
+				"project": "geelooy/apps/slides",
+				"count": 1,
+				"examples": "geelooy/apps/slides/src/movie/SlidesMovieAdapter.js"
+			}
+		],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": true,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-apps-sheets-95681150",
+		"path": "geelooy/apps/sheets",
+		"type": "app",
+		"family": {
+			"id": "apps",
+			"title": "Applications"
+		},
+		"title": "Awtsmoos Sheets",
+		"entries": [
+			"index.html",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-sheets-95681150.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/apps/sheets/DOCUMENTATION.md",
+				"documentId": "geelooy-apps-sheets-documentation-md-376db4ec7e"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/APPS.md",
+				"documentId": "docs-tutorials-projects-apps-md-cc69985cf2"
+			},
+			{
+				"sourcePath": "docs/APPS/README.md",
+				"documentId": "docs-apps-readme-md-0951719bae"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 165,
+			"tests": 4,
+			"assets": 0,
+			"generated": 0,
+			"docs": 1,
+			"other": 0
+		},
+		"totalFiles": 170,
+		"symbolSummary": {
+			"files": 131,
+			"classes": 52,
+			"functions": 334,
+			"exports": 242,
+			"samples": [
+				"GevurahWorkbookActions",
+				"applyDocumentOperation",
+				"applyShareState",
+				"applyValuePatches",
+				"applyStylePatches",
+				"applyExtensionSave",
+				"applyExtensionRemove",
+				"async",
+				"MalchusChromeState",
+				"selectedTsv",
+				"parseClipboardMatrix",
+				"matrixPatches"
+			]
+		},
+		"outgoing": [
+			{
+				"project": "geelooy/apps/shared",
+				"count": 1,
+				"examples": "geelooy/apps/sheets/js/app/powerUiComposition.js"
 			}
 		],
 		"incoming": [],
 		"externalDependencies": [],
 		"publicEntries": [
 			{
-				"url": "/games/Merkava",
-				"file": "geelooy/games/Merkava/index.html",
-				"title": "Merkava — War of the Sparks",
+				"url": "/apps/sheets",
+				"file": "geelooy/apps/sheets/index.html",
+				"title": "Awtsmoos Sheets",
 				"scripts": 1,
-				"styles": 2
+				"styles": 3
 			}
 		],
 		"requiresLocalDoc": true,
@@ -629,123 +598,129 @@
 		"provenance": "generated-from-local-source"
 	},
 	{
-		"projectId": "geelooy-games-nachash-85ff920d",
-		"path": "geelooy/games/Nachash",
-		"type": "game",
+		"projectId": "geelooy-apps-slides-31197e15",
+		"path": "geelooy/apps/slides",
+		"type": "app",
 		"family": {
-			"id": "games",
-			"title": "Games and Worlds"
+			"id": "apps",
+			"title": "Applications"
 		},
-		"title": "Tikkun HaNachash",
+		"title": "Awtsmoos Slides",
 		"entries": [
 			"index.html",
-			"main.js"
+			"package.json",
+			"DOCUMENTATION.md"
 		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-nachash-85ff920d.md",
+		"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-slides-31197e15.md",
 		"documentation": [
 			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
-				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
+				"sourcePath": "geelooy/apps/slides/DOCUMENTATION.md",
+				"documentId": "geelooy-apps-slides-documentation-md-d31dbecf91"
 			},
 			{
-				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
-				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
+				"sourcePath": "docs/TUTORIALS/PROJECTS/APPS.md",
+				"documentId": "docs-tutorials-projects-apps-md-cc69985cf2"
+			},
+			{
+				"sourcePath": "docs/APPS/README.md",
+				"documentId": "docs-apps-readme-md-0951719bae"
 			}
 		],
 		"symlinkTarget": null,
 		"counts": {
-			"source": 5,
-			"tests": 0,
+			"source": 72,
+			"tests": 10,
 			"assets": 0,
 			"generated": 0,
-			"docs": 0,
-			"other": 0
+			"docs": 1,
+			"other": 1
 		},
-		"totalFiles": 5,
+		"totalFiles": 84,
 		"symbolSummary": {
-			"files": 3,
-			"classes": 8,
-			"functions": 31,
-			"exports": 0,
+			"files": 56,
+			"classes": 32,
+			"functions": 93,
+			"exports": 91,
 			"samples": [
-				"onPointerDown",
-				"onPointerMove",
-				"onPointerUp",
-				"updateKeyboardDirection",
-				"handleKeyDown",
-				"handleKeyUp",
-				"handleResize",
-				"startGame",
-				"endGame",
-				"createAndShowGameOverScreen",
-				"handleWorkerMessage",
-				"init"
+				"COLLAB_VERSION",
+				"SYNC_EVENT",
+				"REQUEST_EVENT",
+				"createPublishMessage",
+				"parseCollaborationEvent",
+				"createRoomId",
+				"createClientId",
+				"PresenceSlidesTransport",
+				"PresentationCollaboration",
+				"placeRoomInUrl",
+				"async",
+				"copyShareLink"
 			]
 		},
-		"outgoing": [],
+		"outgoing": [
+			{
+				"project": "geelooy/apps/shared",
+				"count": 1,
+				"examples": "geelooy/apps/slides/src/movie/SlidesMovieAdapter.js"
+			},
+			{
+				"project": "geelooy/scripts",
+				"count": 1,
+				"examples": "geelooy/apps/slides/src/collab/PresenceSlidesTransport.js"
+			}
+		],
 		"incoming": [],
 		"externalDependencies": [],
 		"publicEntries": [
 			{
-				"url": "/games/Nachash",
-				"file": "geelooy/games/Nachash/index.html",
-				"title": "Tikkun HaNachash",
-				"scripts": 2,
-				"styles": 2
+				"url": "/apps/slides",
+				"file": "geelooy/apps/slides/index.html",
+				"title": "Awtsmoos Slides",
+				"scripts": 1,
+				"styles": 15
 			}
 		],
-		"requiresLocalDoc": false,
-		"documentationCovered": false,
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
 		"provenance": "generated-from-local-source"
 	},
 	{
-		"projectId": "geelooy-games-adventure-8beccc29",
-		"path": "geelooy/games/adventure",
-		"type": "game",
+		"projectId": "geelooy-apps-styles-c794a9eb",
+		"path": "geelooy/apps/styles",
+		"type": "app",
 		"family": {
-			"id": "games",
-			"title": "Games and Worlds"
+			"id": "apps",
+			"title": "Applications"
 		},
-		"title": "Adventure Game",
-		"entries": [
-			"index.html"
-		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-adventure-8beccc29.md",
+		"title": "geelooy/apps/styles",
+		"entries": [],
+		"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-styles-c794a9eb.md",
 		"documentation": [
 			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
-				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
+				"sourcePath": "docs/TUTORIALS/PROJECTS/APPS.md",
+				"documentId": "docs-tutorials-projects-apps-md-cc69985cf2"
 			},
 			{
-				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
-				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
+				"sourcePath": "docs/APPS/README.md",
+				"documentId": "docs-apps-readme-md-0951719bae"
 			}
 		],
 		"symlinkTarget": null,
 		"counts": {
-			"source": 1,
+			"source": 9,
 			"tests": 0,
 			"assets": 0,
 			"generated": 0,
 			"docs": 0,
 			"other": 0
 		},
-		"totalFiles": 1,
+		"totalFiles": 9,
 		"symbolSummary": null,
 		"outgoing": [],
 		"incoming": [],
 		"externalDependencies": [],
-		"publicEntries": [
-			{
-				"url": "/games/adventure",
-				"file": "geelooy/games/adventure/index.html",
-				"title": "Adventure Game",
-				"scripts": 0,
-				"styles": 0
-			}
-		],
+		"publicEntries": [],
 		"requiresLocalDoc": false,
 		"documentationCovered": false,
 		"provenance": "generated-from-local-source"

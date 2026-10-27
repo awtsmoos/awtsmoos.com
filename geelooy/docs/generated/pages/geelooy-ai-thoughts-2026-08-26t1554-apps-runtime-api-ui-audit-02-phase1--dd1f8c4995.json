@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-26t1554-apps-runtime-api-ui-audit-02-phase1--dd1f8c4995",
+	"title": "Phase 1 — Theoretical File and Surface Map",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-26T1554-apps-runtime-api-ui-audit/02_PHASE1_THEORETICAL_FILE_MAP.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase 1 — Theoretical File and Surface Map",
+			"anchor": "phase-1-theoretical-file-and-surface-map"
+		},
+		{
+			"level": 2,
+			"text": "Candidate Surfaces To Inspect",
+			"anchor": "candidate-surfaces-to-inspect"
+		},
+		{
+			"level": 2,
+			"text": "Candidate Supporting Files To Discover From Evidence",
+			"anchor": "candidate-supporting-files-to-discover-from-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Theoretical Rewrite Boundaries",
+			"anchor": "theoretical-rewrite-boundaries"
+		},
+		{
+			"level": 2,
+			"text": "Files Never To Touch Blindly",
+			"anchor": "files-never-to-touch-blindly"
+		},
+		{
+			"level": 2,
+			"text": "Evidence Gate",
+			"anchor": "evidence-gate"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-26t1554-apps-runtime-api-ui-audit-02-phase1--dd1f8c4995-001.json"
+	]
+}

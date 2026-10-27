@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\n\n# Pass Two — Gevurah\n\nBoruch Hashem. Blessed is He.\n\nThe Awtsmoos measures each vessel with restraint; Awtsmoos.com should change only the files proven to own this failure before broader crawl work begins.\n\n## First implementation boundary\n\nTouch only:\n\n1. `heichelos/routes/heichel/postReader.js`\n2. `heichelos/routes/heichel/readerData.js`\n3. `heichelos/post/_awtsmoos.post.html`\n4. `heichelos/post/initial-content.html`\n5. new `heichelos/post/reader-settings.html`\n\nDo not yet touch robots, sitemap, Heichel discovery, client reader modules, Chitas modules, or unrelated current work.\n\n## Preservation requirements\n\n- Preserve `reader-calm-001` asset versions.\n- Preserve `mobile-reading.css`.\n- Preserve all current control IDs/classes.\n- Preserve current `postLogic.js?v=reader-calm-001` client boot.\n- Do not modify existing client logic in this pass.\n"
+}

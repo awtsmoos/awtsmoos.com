@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-30-2036-heichel-mobile-ui-repair-00-phase-on-60e63116cb",
+	"title": "Phase One — Broad Mobile Heichel Brainstorm",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-30-2036-heichel-mobile-ui-repair/00-phase-one-broad-brainstorm.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase One — Broad Mobile Heichel Brainstorm",
+			"anchor": "phase-one-broad-mobile-heichel-brainstorm"
+		},
+		{
+			"level": 2,
+			"text": "Mission",
+			"anchor": "mission"
+		},
+		{
+			"level": 2,
+			"text": "Every plausible failure surface",
+			"anchor": "every-plausible-failure-surface"
+		},
+		{
+			"level": 2,
+			"text": "Ideal outcome",
+			"anchor": "ideal-outcome"
+		},
+		{
+			"level": 2,
+			"text": "Architecture candidates",
+			"anchor": "architecture-candidates"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-30-2036-heichel-mobile-ui-repair-00-phase-on-60e63116cb-001.json"
+	]
+}

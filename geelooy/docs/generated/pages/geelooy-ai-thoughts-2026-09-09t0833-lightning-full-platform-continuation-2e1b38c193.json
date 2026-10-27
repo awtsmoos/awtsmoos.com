@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-09t0833-lightning-full-platform-continuation-2e1b38c193",
+	"title": "Final Wave Two Write Plan — Paid Action Covenant",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-09T0833-lightning-full-platform-continuation/05-final-wave2-write-plan.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Final Wave Two Write Plan — Paid Action Covenant",
+			"anchor": "final-wave-two-write-plan-paid-action-covenant"
+		},
+		{
+			"level": 2,
+			"text": "Exact New Files",
+			"anchor": "exact-new-files"
+		},
+		{
+			"level": 2,
+			"text": "Existing Whole-File Rewrite",
+			"anchor": "existing-whole-file-rewrite"
+		},
+		{
+			"level": 2,
+			"text": "State Invariants",
+			"anchor": "state-invariants"
+		},
+		{
+			"level": 2,
+			"text": "Browser Covenant",
+			"anchor": "browser-covenant"
+		},
+		{
+			"level": 2,
+			"text": "Verification",
+			"anchor": "verification"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-09t0833-lightning-full-platform-continuation-2e1b38c193-001.json"
+	]
+}

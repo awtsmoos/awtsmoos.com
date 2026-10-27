@@ -29,11 +29,7 @@ No executable starter is generated because method evidence is unknown. Inspect t
 
 ## Observed callers
 
-Pattern-compatible evidence only; it does not prove runtime dispatch.
-
-| Literal | Source | Kind |
-| --- | --- | --- |
-| `/api/compiler/android/rebbe` | `geelooy/apps/code/js/android/rebbe-apk-client.js` | runtime |
+No matching literal caller evidence was found.
 
 ## Related tests
 

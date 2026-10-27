@@ -18,18 +18,18 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-awtsmoos-agent-thoughts-250aba07.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 21,
+		"source": 41,
 		"tests": 0,
-		"assets": 0,
+		"assets": 20,
 		"generated": 0,
 		"docs": 0,
-		"other": 179
+		"other": 434
 	},
-	"totalFiles": 200,
+	"totalFiles": 495,
 	"symbolSummary": {
-		"files": 20,
+		"files": 21,
 		"classes": 1,
-		"functions": 48,
+		"functions": 52,
 		"exports": 0,
 		"samples": [
 			"revealRepairedSearch",

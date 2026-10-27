@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 21 | 0 | 0 | 0 | 0 | 179 | 200 |
+| 41 | 0 | 20 | 0 | 0 | 434 | 495 |
 
 ## Public entry points
 
@@ -29,7 +29,7 @@ Blessed is He
 
 ## Symbol evidence
 
-Source files: 20; classes: 1; functions: 48; exports: 0; samples: revealRepairedSearch, search, revealMoveCommand, historyHashes, legalBookChoice, handleCalculateMove, revealRootSearch, prepareHeuristics, searchRoot, revealSearchSupport, checkTime, isThreefold.
+Source files: 21; classes: 1; functions: 52; exports: 0; samples: revealRepairedSearch, search, revealMoveCommand, historyHashes, legalBookChoice, handleCalculateMove, revealRootSearch, prepareHeuristics, searchRoot, revealSearchSupport, checkTime, isThreefold.
 
 ## Depends on
 

@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 22 | 5 | 0 | 0 | 2 | 1 | 30 |
+| 23 | 5 | 0 | 0 | 4 | 1 | 33 |
 
 ## Public entry points
 
@@ -29,7 +29,7 @@ None observed.
 
 ## Symbol evidence
 
-Source files: 22; classes: 0; functions: 58; exports: 36; samples: dynamicRoutes, calculateComparison, comparisonEnvelope, comparisonQuery, requestedOpinions, calculateDay, opinionIds, loadCore, loadEmbedPresets, loadNetworkServices, loadPresentation, zmanimModule.
+Source files: 23; classes: 0; functions: 63; exports: 37; samples: dynamicRoutes, calculateCalendar, validateDate, hebrewParts, loadEnrichment, emptyEnrichment, calculateComparison, comparisonEnvelope, comparisonQuery, requestedOpinions, calculateDay, opinionIds.
 
 ## Depends on
 

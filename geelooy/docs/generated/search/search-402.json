@@ -1,0 +1,156 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-09-03-2141-olam-api-finalization-04-image-lifec-1c08d347f4",
+		"title": "Image Lifecycle Gap and Implementation",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-03-2141-olam-api-finalization/04-image-lifecycle-gap-and-write.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Image Lifecycle Gap and Implementation",
+				"anchor": "image-lifecycle-gap-and-implementation"
+			},
+			{
+				"level": 2,
+				"text": "Discovered gap",
+				"anchor": "discovered-gap"
+			},
+			{
+				"level": 2,
+				"text": "Added witness",
+				"anchor": "added-witness"
+			}
+		],
+		"excerpt": "Image Lifecycle Gap and Implementation Discovered gap Existing unit tests separately prove stable asset identity, new transport bytes, and preview cache invalidation. No existing browser test proved the complete visible lifecycle in one continuous user flow. Added witness tests/image lifecycle smoke.cjs now exercises t",
+		"searchText": "image lifecycle gap and implementation discovered gap existing unit tests separately prove stable asset identity, new transport bytes, and preview cache invalidation. no existing browser test proved the complete visible lifecycle in one continuous user flow. added witness tests/image lifecycle smoke.cjs now exercises the real app runtime: visible reference mode; visible add image file input; stable assigned asset id; preview url capture; real generationtransport build; visible replace with a second local image; same id + changed preview + changed outgoing data url + changed signature; visible remove + empty outgoing image payload; reload + durable replacement record under the same indexeddb asset id; zero console/network failures. the unsent draft itself is intentionally in memory and is not falsely asserted to survive reload. the reusable asset replacement is the durable contract. next action: generate two valid 512x512 png fixtures outside the repo and run this browser witness against the local current main app.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-03-2141-olam-api-finalization-04-image-lifec-1c08d347f4.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-03-2141-olam-api-finalization-07-hod-malchus-e7eee5b9e8",
+		"title": "Hod / Malchus Resolution",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-03-2141-olam-api-finalization/07-hod-malchus-resolution.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Hod / Malchus Resolution",
+				"anchor": "hod-malchus-resolution"
+			}
+		],
+		"excerpt": "Hod / Malchus Resolution Exact line pressure proved Malchus remained 134 lines. The witness was rewritten in full and evidence responsibilities moved into image lifecycle evidence.cjs. Final inheritance: YesodBrowserVessel → HodLifecycleEvidence → MalchusImageLifecycleWitness. The runner remains independent. All four m",
+		"searchText": "hod / malchus resolution exact line pressure proved malchus remained 134 lines. the witness was rewritten in full and evidence responsibilities moved into image lifecycle evidence.cjs. final inheritance: yesodbrowservessel → hodlifecycleevidence → malchusimagelifecyclewitness. the runner remains independent. all four modules are independently syntax/indent/diff/line gated. next action: generate two valid external 512x512 png fixtures, start an isolated local static server and chrome profile, and execute the lifecycle smoke.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-03-2141-olam-api-finalization-07-hod-malchus-e7eee5b9e8.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-03-2141-olam-api-finalization-remaining-work-1ced943a8f",
+		"title": "REMAININGWORK — Olam API + Better V2 Finalization",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-03-2141-olam-api-finalization/REMAINING_WORK.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "REMAININGWORK — Olam API + Better V2 Finalization",
+				"anchor": "remainingwork-olam-api-better-v2-finalization"
+			}
+		],
+		"excerpt": "REMAINING WORK — Olam API + Better V2 Finalization [x] Prove current main contains Better V2 and no Olam changes followed it. [x] Enumerate current Olam API routes and browser call sites. [x] Inspect current asset replace/cache/persistence implementation and test coverage. [x] Pass current deterministic 43/43 suite. [x",
+		"searchText": "remaining work — olam api + better v2 finalization [x] prove current main contains better v2 and no olam changes followed it. [x] enumerate current olam api routes and browser call sites. [x] inspect current asset replace/cache/persistence implementation and test coverage. [x] pass current deterministic 43/43 suite. [x] add modular browser image lifecycle witness. [x] pass focused add → replace → stable id/new preview/new transport → remove → reload persistence lifecycle. [ ] pass definitive local source + 43/43 + image lifecycle + five ui browser suites together. [ ] re read all four new test files fully and resolve planned vs actual delta. [ ] refresh origin/main and reconcile olam/test race window. [ ] commit only the four new image lifecycle test modules. [ ] move onto latest remote and rerun full gate if parent changes. [ ] fast forward push and canonical exact sha deploy. [ ] run public image lifecycle + five public ui browser suites. [ ] run safe public api/error/no secret probes. [ ] prove production git sha / clean status / active service. [ ] clean owned temporary olam processes/worktrees/ports. [ ] write final release/api evidence. [ ] leave only real paid minimax upstream success blocked if production remains configured:false. next action: execute the definitive local regression universe on the current candidate.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-03-2141-olam-api-finalization-remaining-work-1ced943a8f.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-04-0116-generation-7-custom-domain-comment-c-a91a084e39",
+		"title": "Generation 7 — Chesed Brainstorm",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-04-0116-generation-7-custom-domain-comment-consistency/00-chesed-brainstorm.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Generation 7 — Chesed Brainstorm",
+				"anchor": "generation-7-chesed-brainstorm"
+			},
+			{
+				"level": 2,
+				"text": "Infinite possibility field",
+				"anchor": "infinite-possibility-field"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generation 7 — Chesed Brainstorm The Awtsmoos renews every public road while mutable worlds appear and flee; Awtsmoos.com should reveal truthful SEO on every trusted domain without letting forged Hosts decree. Infinite possibility field 1. Record which exact sitemap advertised every craw",
+		"searchText": "b\"h boruch hashem blessed is he generation 7 — chesed brainstorm the awtsmoos renews every public road while mutable worlds appear and flee; awtsmoos.com should reveal truthful seo on every trusted domain without letting forged hosts decree. infinite possibility field 1. record which exact sitemap advertised every crawled url. 2. when an advertised page returns 404, refetch that exact source sitemap. 3. if the url disappeared, classify it as crawl time churn rather than a broken indexed road. 4. if the url remains advertised, keep the 404 as a hard release failure. 5. report churn separately so mutable data remains visible rather than silently ignored. 6. keep transport retry semantics separate from http verdicts. 7. preserve full sitemap provenance across nested sitemap indexes. 8. add deterministic fixtures for disappearing versus persistent 404 urls. 9. make tenant html seo trust a server side host policy instead of arbitrary host headers. 10. trust awtsmoos owned domains by suffix and exact root. 11. trust localhost/127.x only for local development and verification. 12. trust custom domains only when explicitly configured by deployment/hosting authority. 13. never accept wildcard custom host configuration from a request. 14. strip/normalize host ports safely so custom domain canonical identity is stable. 15. unknown host responses must not emit forged canonical, opengraph, twitter, or json ld urls. 16. prefer noindex for unknown unregistered hosts so mirrors cannot accidentally create duplicate indexed worlds. 17. preserve authored metadata on trusted creator sites. 18. fill only missing title/description/canonical/robots/social/schema vessels. 19. keep private/edit/admin/query pages noindex. 20. keep registered awtsmoos pages on their fixed canonical metadata regardless of request host. 21. add security regressions proving attacker.example cannot mint canonical authority. 22. add custom domain regressions proving an explicitly trusted example domain gets its own https canonical. 23. add awtsmoos subdomain regressions. 24. add localhost with port regressions for runtime verification. 25. keep dns/tls ownership outside html seo; never pretend a domain is connected merely because a host header arrived. 26. document the hosting contract: custom dns/tls adapter binds the domain, then the seo allowlist activates host aware metadata automatically. 27. later expose this host binding through a durable project publication registry rather than an environment string. 28. later generate tenant specific robots/sitemaps from the project publication graph once a public domain adapter exists. 29. keep all new modules under 120 lines, tab indented, readable, and split by responsibility. 30. rerun full seo, heichel, route, manifest, runtime, public crawl, guarded release, exact sha activation, and public verification.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-04-0116-generation-7-custom-domain-comment-c-a91a084e39.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-04-0116-generation-7-custom-domain-comment-c-19cf1b2df9",
+		"title": "Generation 7 — Gevurah Risk Map",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-04-0116-generation-7-custom-domain-comment-consistency/01-gevurah-risk-map.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Generation 7 — Gevurah Risk Map",
+				"anchor": "generation-7-gevurah-risk-map"
+			},
+			{
+				"level": 2,
+				"text": "Risks and restraints",
+				"anchor": "risks-and-restraints"
+			},
+			{
+				"level": 2,
+				"text": "Selected architecture",
+				"anchor": "selected-architecture"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generation 7 — Gevurah Risk Map The Awtsmoos gives every generous light a boundary where truth may stay; Awtsmoos.com must distinguish living mutation from broken promise, and trusted domain from Host header play. Risks and restraints Do not resurrect comments that no longer exist or no ",
+		"searchText": "b\"h boruch hashem blessed is he generation 7 — gevurah risk map the awtsmoos gives every generous light a boundary where truth may stay; awtsmoos.com must distinguish living mutation from broken promise, and trusted domain from host header play. risks and restraints do not resurrect comments that no longer exist or no longer qualify as public. do not suppress a persistent sitemap advertised 404. do not suppress non 404 server failures or transport failures through churn logic. do not revalidate against the root sitemap when the exact child sitemap provenance is known. do not let arbitrary host values become canonical authority. do not infer dns ownership from dns syntax alone. do not implement fake tls/dns automation where no publication adapter exists. do not hard code one user's custom domain. do not overwrite authored canonical/meta/schema on registered awtsmoos pages. do not index private/admin/edit/query surfaces. do not mutate the shared dirty canonical checkout or old dirty integration worktree. do not deploy from a worktree whose base is stale or whose path set overlaps concurrent upstream work. selected architecture crawler provenance is carried by sitemapwalker; a dedicated revalidation module owns exact source sitemap membership; crawl owns row/error classification only. tenant domain trust is carried by a dedicated host policy module. publichtmlseorequest consumes that policy; publichtmlseo treats an untrusted host as noindex only and enriches only trusted tenant origins. custom dns activation remains an infrastructure responsibility. awtsmoos public custom hosts is the immediate server side bridge until the project hosting publication adapter gains a durable domain registry.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-04-0116-generation-7-custom-domain-comment-c-19cf1b2df9.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-04-0116-generation-7-custom-domain-comment-c-cb1a77b6b4",
+		"title": "Generation 7 — Tiferes Final Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-04-0116-generation-7-custom-domain-comment-consistency/02-tiferes-final-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Generation 7 — Tiferes Final Plan",
+				"anchor": "generation-7-tiferes-final-plan"
+			},
+			{
+				"level": 2,
+				"text": "Files planned",
+				"anchor": "files-planned"
+			},
+			{
+				"level": 2,
+				"text": "Verification",
+				"anchor": "verification"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generation 7 — Tiferes Final Plan The Awtsmoos joins Chesed and Gevurah until a safe public name can shine; Awtsmoos.com will verify mutable roads and trusted custom domains through one measured line. Files planned ayzarim/awtsmoosDynamicServer/static/PublicHtmlSeoHostPolicy.js — trusted",
+		"searchText": "b\"h boruch hashem blessed is he generation 7 — tiferes final plan the awtsmoos joins chesed and gevurah until a safe public name can shine; awtsmoos.com will verify mutable roads and trusted custom domains through one measured line. files planned ayzarim/awtsmoosdynamicserver/static/publichtmlseohostpolicy.js — trusted host normalization/configuration. ayzarim/awtsmoosdynamicserver/static/publichtmlseorequest.js — request identity consumes trusted host policy. ayzarim/awtsmoosdynamicserver/static/publichtmlseo.js — unknown host noindex boundary, trusted creator enrichment. geelooy/scripts/seo/runtimeaudit/sitemapwalker.mjs — carry exact source sitemap provenance. geelooy/scripts/seo/runtimeaudit/sitemaprevalidation.mjs — exact live membership recheck. geelooy/scripts/seo/runtimeaudit/crawl.mjs — classify disappeared during crawl rows distinctly. geelooy/scripts/seo/runtimeaudit/run.mjs — report churn count/rows. focused seo/runtime regression tests, split if necessary to remain under 120 lines. project hosting publication plan docs/tests only if latest source exposes a safe place to document the custom domain handoff. verification 1. re read latest origin versions before write. 2. whole file rewrite only. 3. source law and line count checks. 4. host security unit regressions. 5. mutable sitemap deterministic fixture regressions. 6. all seo tests/static audit/idempotence/xml/diff. 7. heichel quality and route coverage. 8. tunnel manifest exact closure; regenerate only if new runtime module requires it. 9. start clean runtime with canonical dosdb. 10. test attacker host, allowed custom host, awtsmoos host, private path, registered page. 11. local strict crawl. 12. fresh origin/main race check. 13. exact stage/dry run/prepare/push. 14. exact sha activate. 15. public robots/xml/semantic checks and public runtime crawl. 16. final planned vs actual readback and remaining work closure.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-04-0116-generation-7-custom-domain-comment-c-cb1a77b6b4.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-04-0116-generation-7-custom-domain-comment-c-d861e4fb8c",
+		"title": "REMAININGWORK — Generation 7",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-04-0116-generation-7-custom-domain-comment-consistency/REMAINING_WORK.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "REMAININGWORK — Generation 7",
+				"anchor": "remainingwork-generation-7"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He REMAINING WORK — Generation 7 [ ] Recover/create pristine latest origin implementation worktree. [ ] Copy this plan folder into the clean worktree. [ ] Re read latest target files and tests there. [ ] Implement sitemap provenance + exact membership revalidation. [ ] Add deterministic chu",
+		"searchText": "b\"h boruch hashem blessed is he remaining work — generation 7 [ ] recover/create pristine latest origin implementation worktree. [ ] copy this plan folder into the clean worktree. [ ] re read latest target files and tests there. [ ] implement sitemap provenance + exact membership revalidation. [ ] add deterministic churn and persistent 404 regression tests. [ ] implement trusted custom host policy. [ ] harden request identity and unknown host indexing behavior. [ ] add custom domain/host poisoning regressions. [ ] document custom dns/tls handoff if architecture supports it safely. [ ] run source law and focused tests. [ ] run complete seo/static/idempotence/xml/diff gates. [ ] run heichel and route suites. [ ] prove tunnel manifest closure/regenerate natively if required. [ ] run clean runtime with canonical dosdb. [ ] verify host policy behavior over http. [ ] run strict local crawl. [ ] fresh fetch and reconcile current origin/main. [ ] exact stage and guarded prepare/push. [ ] activate exact sha. [ ] run public semantic/xml/crawl verification. [ ] re read all touched files and compare planned versus actual. [ ] search shadow work and close only when safe relevant work is empty. next action: finish pristine worktree creation, copy plans, and re read latest target source before any code write.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-04-0116-generation-7-custom-domain-comment-c-d861e4fb8c.json"
+	}
+]

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — SSH Virtual Tests (geelooy/api/ssh/virtual/test/)\n\nNode tests for the virtual world boot lifecycle (see `../README.md`).\n\n- `bootLifecycle.test.cjs` — verifies the virtual backend boots and shuts\n  down cleanly through its lifecycle.\n"
+}

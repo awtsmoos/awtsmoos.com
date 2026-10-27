@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-social-helper-routes-packed-shardswapsafety-readme-md-bc98f3092c",
+	"title": "Shard Swap Safety",
+	"sourcePath": "geelooy/api/social/helper/routes/packed/shardSwapSafety/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Shard Swap Safety",
+			"anchor": "shard-swap-safety"
+		},
+		{
+			"level": 2,
+			"text": "Why this directory exists",
+			"anchor": "why-this-directory-exists"
+		},
+		{
+			"level": 2,
+			"text": "The protocol (every step, in order)",
+			"anchor": "the-protocol-every-step-in-order"
+		},
+		{
+			"level": 2,
+			"text": "Files",
+			"anchor": "files"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-social-helper-routes-packed-shardswapsafety-readme-md-bc98f3092c-001.json"
+	]
+}

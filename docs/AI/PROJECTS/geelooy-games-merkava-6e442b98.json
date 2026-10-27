@@ -26,19 +26,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-merkava-6e442b98.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 93,
-		"tests": 32,
+		"source": 104,
+		"tests": 39,
 		"assets": 0,
 		"generated": 0,
-		"docs": 2,
+		"docs": 8,
 		"other": 1
 	},
-	"totalFiles": 128,
+	"totalFiles": 152,
 	"symbolSummary": {
-		"files": 82,
-		"classes": 41,
-		"functions": 177,
-		"exports": 140,
+		"files": 90,
+		"classes": 47,
+		"functions": 176,
+		"exports": 148,
 		"samples": [
 			"appDiagnostics",
 			"createDiagnosticControls",
@@ -68,8 +68,8 @@
 			"url": "/games/Merkava",
 			"file": "geelooy/games/Merkava/index.html",
 			"title": "Merkava — War of the Sparks",
-			"scripts": 1,
-			"styles": 2
+			"scripts": 3,
+			"styles": 3
 		}
 	],
 	"requiresLocalDocumentation": true,

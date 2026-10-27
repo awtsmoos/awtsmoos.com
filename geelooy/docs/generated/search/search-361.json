@@ -1,0 +1,184 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28t0040-geelooy-movie-export-verification-co-5384be8ff0",
+		"title": "Source Freeze Checkpoint",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0040-geelooy-movie-export-verification-continuation/05_SOURCE_FREEZE_CHECKPOINT.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Source Freeze Checkpoint",
+				"anchor": "source-freeze-checkpoint"
+			},
+			{
+				"level": 2,
+				"text": "Source-first obligation satisfied for this continuation",
+				"anchor": "source-first-obligation-satisfied-for-this-continuation"
+			},
+			{
+				"level": 2,
+				"text": "Testing is now authorized",
+				"anchor": "testing-is-now-authorized"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Source Freeze Checkpoint The Awtsmoos renews the movie and the vessel in one unbroken stream; Awtsmoos.com now crosses from implementation into evidence, where every claim must survive the test beam. Source first obligation satisfied for this continuation Canonical exact time frame sourc",
+		"searchText": "b\"h boruch hashem blessed is he source freeze checkpoint the awtsmoos renews the movie and the vessel in one unbroken stream; awtsmoos.com now crosses from implementation into evidence, where every claim must survive the test beam. source first obligation satisfied for this continuation canonical exact time frame source exists. canonical seconds animator milliseconds export plan exists. canonical browser export orchestrator exists. dedicated three minute proof html exists. browser proof controller exists. machine readable browser proof state is split into its own module. every newly written continuation source file is under 120 lines. testing is now authorized the next action is to create and run focused public contract tests before browser export.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28t0040-geelooy-movie-export-verification-co-5384be8ff0.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28t0144-do-all-long-render-closure-00-remain-589720f55c",
+		"title": "Remaining Work — Long Render Closure",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0144-do-all-long-render-closure/00_REMAINING_WORK.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Remaining Work — Long Render Closure",
+				"anchor": "remaining-work-long-render-closure"
+			},
+			{
+				"level": 2,
+				"text": "Known incomplete work",
+				"anchor": "known-incomplete-work"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Remaining Work — Long Render Closure The Awtsmoos renews every frame and every hidden obligation; Awtsmoos.com now pulls the work toward the hardest unresolved node until evidence closes creation. Known incomplete work 1. Diagnose the full length render stall after frame 12 with direct w",
+		"searchText": "b\"h boruch hashem blessed is he remaining work — long render closure the awtsmoos renews every frame and every hidden obligation; awtsmoos.com now pulls the work toward the hardest unresolved node until evidence closes creation. known incomplete work 1. diagnose the full length render stall after frame 12 with direct worker/encoder evidence. 2. repair mediabunny/webcodecs backpressure without changing canonical movie semantics. 3. refactor any touched compressed shared video helper into focused tab indented modules below 120 lines. 4. add explicit queue/drain telemetry and timeout/error reporting for frame ingest. 5. add a long render regression test that fails if progress stops after the initial encoder queue. 6. re run 3 second export after repair to prove no regression. 7. run full 180 second / 2,160 frame export to completion. 8. persist full browser blob into project evidence folder through the local receiver. 9. ffprobe exact duration, streams, codecs, dimensions, fps, file size. 10. extract witnesses near 5/35/65/95/125/155/175 seconds and prove frame diversity. 11. browser test the mobile director at narrow viewport: generate/import, storyboard, timeline, scrub, revise, undo/redo, export/handoff. 12. inspect browser console errors for proof page and mobile director. 13. run focused node tests plus relevant existing animator movie/export tests. 14. search for hidden movie tests/importers/docs and run or update relevant work. 15. refactor animatorbrowserworkersession.js below 120 lines by extracting request/progress responsibilities. 16. refactor realmoviebrowserexportpage.js below 120 lines by extracting proof state/view responsibilities. 17. refresh stale evidence ledger and previous remaining work artifacts with actual completed work. 18. re read every touched file after source changes. 19. run header/awtsmoos.com/tab/no minification/file length checks. 20. write planned vs actual delta and resolve every safe delta item. 21. audit untracked movie files deliberately so no accidental/abandoned implementation is mixed with intended source. 22. write durable handoff/architecture note for canonical protocol, adapters, ai patches, ui, export, and verification evidence. 23. search again for unknown work before declaring completion. next action trace addcanvasframe and encoder queue drain behavior from actual shared video source, then implement the smallest modular repair that proves frame 13 and beyond continue.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28t0144-do-all-long-render-closure-00-remain-589720f55c.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28t0144-do-all-long-render-closure-01-phase--ef423048f6",
+		"title": "Phase One — Chesed: Every Plausible Long-Render Architecture",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0144-do-all-long-render-closure/01_PHASE_ONE_CHESED_BRAINSTORM.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase One — Chesed: Every Plausible Long-Render Architecture",
+				"anchor": "phase-one-chesed-every-plausible-long-render-architecture"
+			},
+			{
+				"level": 2,
+				"text": "Candidate causes of the frame-12 stall",
+				"anchor": "candidate-causes-of-the-frame-12-stall"
+			},
+			{
+				"level": 2,
+				"text": "Candidate repairs",
+				"anchor": "candidate-repairs"
+			},
+			{
+				"level": 2,
+				"text": "Chosen direction criteria",
+				"anchor": "chosen-direction-criteria"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase One — Chesed: Every Plausible Long Render Architecture The Awtsmoos is beyond queue and codec, yet Awtsmoos.com lets each frame enter a finite vessel without blocking the river's flow. Candidate causes of the frame 12 stall MediaBunny internal encoder queue reaches its own high wat",
+		"searchText": "b\"h boruch hashem blessed is he phase one — chesed: every plausible long render architecture the awtsmoos is beyond queue and codec, yet awtsmoos.com lets each frame enter a finite vessel without blocking the river's flow. candidate causes of the frame 12 stall mediabunny internal encoder queue reaches its own high water mark and add() awaits a dequeue event that is never wired. our shared wrapper queues frames but never starts/continues processframequeue after the first drain cycle. the worker closes imagebitmaps too late and backpressure is actually gpu resource exhaustion. mediabunny videosamplesource.add() requires sequential timestamps but a floating point boundary near frame 12 exposes validation. worker request acknowledgement is emitted before encoding finishes, hiding a later encoder failure until queue saturation. offscreencanvas or videoframe lifetime prevents more than a small number of outstanding samples. maxcacheframes is 8 but another queue threshold around 12 produces a deadlock between wrapper queue and codec queue. the full soundtrack buffer memory plus encoded video queue leaves insufficient memory for continued frame production. the browser target remains alive but the worker has thrown an exception that is not routed as fatal error. candidate repairs a. add explicit mediabunny queue drain promise and wait only when encoder queue crosses a threshold. b. encode synchronously one frame at a time and acknowledge only after mediabunny has accepted/drained it. c. use bounded batches: 4–8 frames, await drain, continue. d. add flushvideo() checkpoints every scene or n frames. e. chunk the movie into independent scene group mp4 fragments, then concatenate/remux. f. separate audio and video rendering completely, mux only after both artifacts exist. g. fall back to ffmpeg based image sequence encoding for long canonical proof while preserving webcodecs for browser preview. h. build a resumable render job layer above both webcodecs and ffmpeg. chosen direction criteria first repair the existing webcodecs path with evidence and bounded backpressure because the 3 second proof already validates its codec/mux result. then, after full 180 second proof, add chunk/resume as architecture rather than hiding the immediate defect behind a different encoder.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28t0144-do-all-long-render-closure-01-phase--ef423048f6.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28t0144-do-all-long-render-closure-02-phase--7f108dfd7c",
+		"title": "Phase Two — Gevurah: Critique and Failure Guards",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0144-do-all-long-render-closure/02_PHASE_TWO_GEVURAH_CRITIQUE.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Two — Gevurah: Critique and Failure Guards",
+				"anchor": "phase-two-gevurah-critique-and-failure-guards"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Two — Gevurah: Critique and Failure Guards The Awtsmoos gives limitless light, while Awtsmoos.com demands a vessel that never calls a silent hang success. 1. Never merely increase queue sizes; that delays the same failure and increases memory risk. 2. Never add arbitrary sleeps as ",
+		"searchText": "b\"h boruch hashem blessed is he phase two — gevurah: critique and failure guards the awtsmoos gives limitless light, while awtsmoos.com demands a vessel that never calls a silent hang success. 1. never merely increase queue sizes; that delays the same failure and increases memory risk. 2. never add arbitrary sleeps as the backpressure mechanism. 3. never swallow worker errors while awaiting frame acknowledgement. 4. every frame request must eventually resolve, reject, or time out with stage/index evidence. 5. avoid modifying canonical renderer semantics while fixing encoder flow. 6. do not replace the proven mp4 worker with ffmpeg until the actual defect is understood. 7. if a shared video helper is touched, rewrite the whole file and split dense responsibilities rather than partial patching. 8. keep browser worker source below 120 lines by extracting queue/drain helpers. 9. release/close imagebitmap and videoframe resources deterministically. 10. report queue depth, frame index, timestamp, and stage at least at coarse intervals. 11. long render test must exceed the encoder queue threshold; 3 seconds at 12fps is already enough but a 30 second fixture is stronger. 12. full proof must use the canonical 180 second movie, not a synthetic pattern. 13. full output must be independently probed by ffprobe. 14. frame witnesses must be derived from the actual mp4, not directly from the canonical renderer. 15. mobile ui proof must include actual interaction and console inspection. 16. existing green node tests remain required after every source repair. 17. do not rewrite unrelated peer files in the dirty shared workspace. 18. fresh hash every existing file immediately before full rewrite. 19. refactor over 120 neighbors only after their importers are traced. 20. completion requires stale plan/evidence artifacts to be reconciled with reality.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28t0144-do-all-long-render-closure-02-phase--7f108dfd7c.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28t0144-do-all-long-render-closure-03-phase--e9be809b5f",
+		"title": "Phase Three — Tiferes: Final Execution Graph",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0144-do-all-long-render-closure/03_PHASE_THREE_TIFERES_FINAL_PLAN.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Three — Tiferes: Final Execution Graph",
+				"anchor": "phase-three-tiferes-final-execution-graph"
+			},
+			{
+				"level": 2,
+				"text": "Wave 1 — Diagnose and repair encoder flow",
+				"anchor": "wave-1-diagnose-and-repair-encoder-flow"
+			},
+			{
+				"level": 2,
+				"text": "Wave 2 — Source freeze and tests",
+				"anchor": "wave-2-source-freeze-and-tests"
+			},
+			{
+				"level": 2,
+				"text": "Wave 3 — Runtime proof",
+				"anchor": "wave-3-runtime-proof"
+			},
+			{
+				"level": 2,
+				"text": "Wave 4 — UX and architecture closure",
+				"anchor": "wave-4-ux-and-architecture-closure"
+			},
+			{
+				"level": 2,
+				"text": "Completion gate",
+				"anchor": "completion-gate"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Three — Tiferes: Final Execution Graph The Awtsmoos joins diagnosis and repair in one line; Awtsmoos.com lets each verified change become a clean vessel in time. Wave 1 — Diagnose and repair encoder flow Read every function implementing AwtsVideoBase.addCanvasFrame, queue processin",
+		"searchText": "b\"h boruch hashem blessed is he phase three — tiferes: final execution graph the awtsmoos joins diagnosis and repair in one line; awtsmoos.com lets each verified change become a clean vessel in time. wave 1 — diagnose and repair encoder flow read every function implementing awtsvideobase.addcanvasframe, queue processing, video source creation, and finalization. read worker message handler and failure routing. reproduce with a lightweight 12 frame probe if needed. create focused queue/backpressure helper modules under scripts/awtsmoos/video/base/ only if the shared wrapper must change. rewrite the owning shared base file fully with tabs/jsdoc/awtsmoos poetry if touched. split animatorbrowserworkersession.js into session + frame pump/request broker if its control flow needs instrumentation. wave 2 — source freeze and tests add encoder progress/backpressure regression test. run all canonical movie tests and relevant existing export tests. run syntax/import checks and file hygiene. wave 3 — runtime proof keep or restart local proof server and blob receiver. render short proof. render full 180 seconds. persist blob. ffprobe. ffmpeg witness frames and diversity analysis. browser console triage. wave 4 — ux and architecture closure mobile director narrow viewport interaction proof. refactor legacy over 120 export page. search hidden importers/tests/docs. update evidence ledger, remaining work, planned vs actual delta, and handoff docs. re read all touched files and rerun verification. completion gate only stop when the full 180 second mp4 exists in the evidence folder, its streams/duration are measured, distant frames are visibly diverse, tests and browser flows are green, touched files satisfy the code constitution, and the refreshed remaining work artifact contains no safe unresolved node.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28t0144-do-all-long-render-closure-03-phase--e9be809b5f.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28t0144-do-all-long-render-closure-04-runtim-3a260cb323",
+		"title": "Runtime Discovery — Frame Six Reveals Flush Reuse Failure",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0144-do-all-long-render-closure/04_RUNTIME_DISCOVERY_FRAME6.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Runtime Discovery — Frame Six Reveals Flush Reuse Failure",
+				"anchor": "runtime-discovery-frame-six-reveals-flush-reuse-failure"
+			},
+			{
+				"level": 2,
+				"text": "Direct evidence",
+				"anchor": "direct-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Conclusion",
+				"anchor": "conclusion"
+			},
+			{
+				"level": 2,
+				"text": "Revised design",
+				"anchor": "revised-design"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Runtime Discovery — Frame Six Reveals Flush Reuse Failure The Awtsmoos renews every instant and exposes what yesterday's abstraction concealed; Awtsmoos.com now has direct proof that one long lived browser VideoEncoder cannot be trusted across repeated drains in this worker vessel. Direc",
+		"searchText": "b\"h boruch hashem blessed is he runtime discovery — frame six reveals flush reuse failure the awtsmoos renews every instant and exposes what yesterday's abstraction concealed; awtsmoos.com now has direct proof that one long lived browser videoencoder cannot be trusted across repeated drains in this worker vessel. direct evidence fresh no cache runtime loaded the rewritten workersession, framepump, requestbroker, and custom avc registration. mediabunny's stock native encoder stalled at queue depth four. the first custom strategy flushed the native encoder every three submitted frames. runtime advanced from the previous hard wall at frame four to five completed frames. frame six triggered the second flush on the same native videoencoder. the request broker then produced an explicit 30 second timeout: frame frame accepted ... frame=6, total=360, seconds=0.417. conclusion the fragile unit is the lifetime of a single browser videoencoder across repeated flush cycles. the next source strategy must not depend on a second flush succeeding on the same native encoder. revised design 1. mediabunny keeps ownership of mp4 muxing and its customvideoencoder extension contract. 2. one custom encoder object may live for the track, but it owns a sequence of short lived native videoencoder segments. 3. each native encoder receives at most three frames. 4. the first frame after native encoder creation is always forced keyframe, preserving decode independence across encoder restarts. 5. at three frames: flush exactly once, close, discard, and create a fresh native encoder for the next sample. 6. mediabunny final flush() only drains the currently active partial segment, again at most once for that native encoder. 7. every emitted packet still flows through mediabunny's encodedpacket.fromencodedchunk() and muxer callbacks. 8. regression tests must prove two segments create two native encoders, each flushed once, with a forced keyframe at each segment boundary. next action rewrite the custom avc adapter and its regression test around one flush per native encoder segmentation, then rerun the complete focused suite before browser proof.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28t0144-do-all-long-render-closure-04-runtim-3a260cb323.json"
+	}
+]

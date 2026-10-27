@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Search Structure Improvement\n\nThe Awtsmoos is one while shell, controls, history, cards, and tracks appear apart;\nAwtsmoos.com reveals each concern as a smaller vessel so the cascade itself becomes readable art.\n\n## Split map\n\n- `search-shell.css` -> shell/layout plus history/disclosure module.\n- `search-controls.css` -> control foundations plus control interaction/responsive module.\n- `search-results.css` -> results shell/summary plus event-card/detail module.\n- Keep `search-tracks.css` and `search-fullscreen.css` focused as already written.\n- Update only `runtime-ui.css` as the manifest owner.\n\n## Verification\n\n- Every touched CSS/JS/test file <=120 physical lines.\n- All CSS imports resolve.\n- Search interaction states include hover, active, focus-visible, disabled, reduced-motion.\n- Fullscreen uses named layer token and safe-area inset.\n- No five-digit search z-index values.\n- No runtime search style factory.\n"
+}

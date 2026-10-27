@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Compiler API (geelooy/api/compiler/)\n\nServer-side build API: turns source into artifacts through authenticated,\nrate-limited backend vessels. Never emits placeholder bytes for unavailable\nbackends or artifacts.\n\n## Contents\n- `_awtsmoos.derech.js` — routes: `/android/rebbe`, `/backends`, `/build`\n- `DOCUMENTATION.md` — full docs + pointers to `docs/API/OTHER_FAMILIES.md`\n- `core/` — auth, body parsing, handlers, build-lease limiter, service loader,\n  serializer, and the source-owned Rebbe Responsa APK builder.\n\n## Endpoints\n- `/build` — guarded native build (auth + build lease required).\n- `/backends` — authenticated compiler backend discovery.\n- `/android/rebbe` — build the source-owned Rebbe Android package.\n\nSee also `core/README.md`.\n"
+}

@@ -1,0 +1,121 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28-1318-geelooy-better-render-ai-00-phase-on-a88465db36",
+		"title": "Phase One — Boundless Better Brainstorm",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28-1318-geelooy-better-render-ai/00_PHASE_ONE_BOUNDLESS_BRAINSTORM.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase One — Boundless Better Brainstorm",
+				"anchor": "phase-one-boundless-better-brainstorm"
+			},
+			{
+				"level": 2,
+				"text": "Mission Surface",
+				"anchor": "mission-surface"
+			},
+			{
+				"level": 2,
+				"text": "Unlimited Improvement Universe",
+				"anchor": "unlimited-improvement-universe"
+			},
+			{
+				"level": 2,
+				"text": "Competing Architectures",
+				"anchor": "competing-architectures"
+			},
+			{
+				"level": 3,
+				"text": "A — Micro-optimize the Current Single Process",
+				"anchor": "a-micro-optimize-the-current-single-process"
+			},
+			{
+				"level": 3,
+				"text": "B — Child-Process Frame Farm",
+				"anchor": "b-child-process-frame-farm"
+			},
+			{
+				"level": 3,
+				"text": "C — Worker-Thread Frame Farm",
+				"anchor": "c-worker-thread-frame-farm"
+			},
+			{
+				"level": 3,
+				"text": "D — Scene-Chunks to Independent Video Segments",
+				"anchor": "d-scene-chunks-to-independent-video-segments"
+			},
+			{
+				"level": 3,
+				"text": "E — GPU/WebGL Offline Renderer",
+				"anchor": "e-gpu-webgl-offline-renderer"
+			},
+			{
+				"level": 2,
+				"text": "First-Pass Preference",
+				"anchor": "first-pass-preference"
+			}
+		],
+		"excerpt": "B\"H Phase One — Boundless Better Brainstorm The Awtsmoos creates the possible before the vessel chooses its wall; Awtsmoos.com asks what movie making could become if speed, intelligence, and clarity answered the call. Mission Surface The previous unification mission is accepted and closed. This pass deliberately reopen",
+		"searchText": "b\"h phase one — boundless better brainstorm the awtsmoos creates the possible before the vessel chooses its wall; awtsmoos.com asks what movie making could become if speed, intelligence, and clarity answered the call. mission surface the previous unification mission is accepted and closed. this pass deliberately reopens the system only because the user asked for a better result. the strongest known weakness is export throughput: a full 12 fps / 2,160 frame cinematic proof was too slow for bounded execution on the available mac. the strongest opportunity is richer ai direction: the director is already thin, so generative quality belongs in prompt analysis, beat planning, semantic layer composition, and camera grammar rather than more orchestration glue. unlimited improvement universe 1. parallelize independent offline frame rendering across cpu workers. 2. preserve deterministic output order with bounded reorder buffers. 3. benchmark per frame latency before and after every optimization. 4. separate render quality presets from canonical movie semantics. 5. add adaptive worker counts based on measured cpu/memory pressure. 6. cache immutable scene resources across frames. 7. pre index segment and feature beat lookup rather than searching arrays every frame. 8. precompute static backgrounds where possible. 9. separate static and dynamic canvas layers. 10. avoid redundant buffer conversions/copies. 11. add renderer profiling counters by paint stage. 12. add a small benchmark fixture runnable in seconds. 13. let production export target higher fps while acceptance exports remain bounded. 14. allow distributed or child process rendering without changing movie semantics. 15. make ai prompts understand narrative genres: tutorial, explainer, infographic, character story, product walkthrough, cinematic short. 16. parse explicit requested entities, counts, durations, camera styles, text, charts, particles, 2d, 3d, and hybrid intent. 17. turn inferred features into a coverage plan instead of one generic scene recipe. 18. give every scene a narrative purpose: hook, context, demonstration, contrast, escalation, synthesis, cta/conclusion. 19. add camera grammar driven by scene purpose. 20. add infographic grammar: axes, bars, counters, diagrams, callouts, labels, transitions. 21. add tutorial grammar: focus highlight, cursor/path, step number, annotation, before/after state. 22. add character grammar: entrances, gestures, reactions, dialogue beats, spatial blocking. 23. add particle grammar: ambience, emphasis, transition, scientific visualization, celebration. 24. add world grammar: establishing environment, hero object, lighting, orbit/dolly/parallax. 25. guarantee requested semantic features appear rather than being merely mentioned in metadata. 26. add semantic richness scoring to ai output. 27. add capability/fidelity feedback before export. 28. let studio display which layers are native, fallback, or deferred for each target app. 29. let studio show scene richness/camera mode/2d vs 3d mix visually. 30. add render quality controls designed for phones rather than desktop only settings. 31. add quick preview, balanced, high quality, and production profiles. 32. predict render cost from duration × fps × dimensions × historical benchmark. 33. expose projected frame count and rough relative cost without false wall clock promises. 34. add an ai “improve this scene” flow producing canonical patches rather than regenerating the entire movie. 35. add ai “make it more cinematic / clearer / more educational / more energetic” semantic patches. 36. add canonical scene templates without trapping output in fixed templates. 37. let procedural core generate visual assets from semantic layer recipes. 38. expand native procedural generation beyond particles into characters, text, creatures, rocks, buildings, and textures where renderer capable. 39. add deterministic seeds per scene/entity so edits remain reproducible. 40. add project level style bible: palette, typography, lighting, motion language, particle motifs. 41. add accessibility aware captions and readable text safe zones. 42. add mobile safe area composition guidance to the canonical movie. 43. add export validation for text legibility and missing assets. 44. add multi target fidelity reports comparing animator/nesher/mitzvah/video editor/slides. 45. add better debug receipts around renderer stage timing and ai planner decisions. 46. add worker fault isolation so one failed frame can be retried without losing the full export. 47. add cancellation/progress semantics for long exports. 48. stream workers directly into ordered ffmpeg input rather than temporary full frame files where safe. 49. make tests compare sequential vs parallel frame hashes. 50. preserve the already verified 180 second movie as regression truth while building faster render infrastructure beneath it. competing architectures a — micro optimize the current single process cache scene lookup, static drawing, resource objects, and buffer conversions inside cinematicframerenderer. lowest complexity, but limited by one javascript thread and may not deliver transformative gains. b — child process frame farm each child process owns its own renderer instance and produces requested rgb frames. parent schedules frame indices, reorders bounded results, and streams them to ffmpeg. strong isolation and uses multiple cpu cores; serialization cost must be measured. c — worker thread frame farm worker threads render independent frames with lower startup cost. potentially efficient, but native canvas bindings may not be worker safe; must be proven before adoption. d — scene chunks to independent video segments render scenes/segments concurrently to temporary h.264 files, then concatenate. reduces raw buffer ipc and permits easy retries, but video encoder boundaries/pts/audio mux complexity increase. e — gpu/webgl offline renderer move proof rendering to webgl/headless browser gpu composition. highest ceiling and strongest future 3d story, but largest architectural change and most risk for the immediate mission. first pass preference do not choose yet. benchmark the real cinematicframerenderer and inspect its dependencies first. if canvas/native state can safely be isolated per child, architecture b is the strongest practical candidate because it changes export orchestration rather than cinematic semantics. ai richness should proceed independently through new small compiler submodules after current compiler inspection.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28-1318-geelooy-better-render-ai-00-phase-on-a88465db36.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28-1318-geelooy-better-render-ai-01-phase-tw-ccffc31df2",
+		"title": "Phase Two — Gevurah Architecture and Critique",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28-1318-geelooy-better-render-ai/01_PHASE_TWO_ARCHITECTURE_CRITIQUE.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Two — Gevurah Architecture and Critique",
+				"anchor": "phase-two-gevurah-architecture-and-critique"
+			},
+			{
+				"level": 2,
+				"text": "Evidence-Driven Architecture Direction",
+				"anchor": "evidence-driven-architecture-direction"
+			},
+			{
+				"level": 2,
+				"text": "Proposed Workstreams",
+				"anchor": "proposed-workstreams"
+			},
+			{
+				"level": 3,
+				"text": "Workstream A — Measured Render Acceleration",
+				"anchor": "workstream-a-measured-render-acceleration"
+			},
+			{
+				"level": 3,
+				"text": "Workstream B — Richer Deterministic AI Direction",
+				"anchor": "workstream-b-richer-deterministic-ai-direction"
+			},
+			{
+				"level": 3,
+				"text": "Workstream C — Studio Capability and Quality UX",
+				"anchor": "workstream-c-studio-capability-and-quality-ux"
+			},
+			{
+				"level": 2,
+				"text": "24 Critiques / Improvements to Phase One",
+				"anchor": "24-critiques-improvements-to-phase-one"
+			},
+			{
+				"level": 2,
+				"text": "Failure Map",
+				"anchor": "failure-map"
+			},
+			{
+				"level": 2,
+				"text": "Phase-Two File Touch Policy",
+				"anchor": "phase-two-file-touch-policy"
+			}
+		],
+		"excerpt": "B\"H Phase Two — Gevurah Architecture and Critique The Awtsmoos gives infinite light, yet Gevurah asks which vessels can carry it without break; Awtsmoos.com turns possibility into measured architecture, where every gain must survive the test we make. Evidence Driven Architecture Direction The prior phase generated many",
+		"searchText": "b\"h phase two — gevurah architecture and critique the awtsmoos gives infinite light, yet gevurah asks which vessels can carry it without break; awtsmoos.com turns possibility into measured architecture, where every gain must survive the test we make. evidence driven architecture direction the prior phase generated many possibilities. current evidence eliminates several premature choices: threeminuteshowcaserenderer is already a small coordinator. do not bloat it with optimization logic. tiferesmoviedirector is already a small coordinator. do not bloat it with feature generation logic. therefore rendering improvements belong below/around cinematicframerenderer or in export orchestration, while ai richness belongs below director in prompt/intent/beat/layer planners. the five adapters and canonical movie schema are already verified. do not destabilize them for unrelated speed work. a 2 fps acceptance render proved media correctness; improvement work must target the gap between that proof sampling and practical higher fps production export. proposed workstreams workstream a — measured render acceleration before implementation: 1. read cinematicframerenderer.js and its immediate renderer dependencies. 2. benchmark representative frame times at 0s, 10s, 30s, and 55s for each minute plan. 3. measure memory and buffer sizes. 4. determine whether rendering is deterministic when separate renderer instances render the same timestamp. 5. determine whether multiple renderer instances can execute concurrently in child processes without native canvas conflicts. if isolation passes, implement a child process frame farm as new modules rather than rewriting the cinematic renderer immediately. potential files: apps/animator/tools/render/parallel/tiferesrenderworkerpool.js apps/animator/tools/render/parallel/malchusframeworker.js apps/animator/tools/render/parallel/yesodorderedframebuffer.js apps/animator/tools/render/parallel/parallelframeprotocol.js apps/animator/tools/render/threeminute/threeminuteparallelexporter.js apps/animator/tools/render/bench/threeminuterenderbenchmark.js workstream b — richer deterministic ai direction before implementation: 1. read movieintentcompiler.js, moviepromptintent.js, and moviedirectoroutline.js fully. 2. record current output for at least five prompts: character story, tutorial, infographic, 3d cinematic product demo, mixed 2d/3d explainer. 3. score current semantic kinds, camera variety, scene purposes, text/chart/character/particle/world coverage. then split new planning responsibilities into small modules rather than growing one compiler: prompt vocabulary/feature extraction; scene purpose planner; semantic layer composer; camera grammar; infographic/tutorial grammar; deterministic style/seed planner; richness/coverage report. workstream c — studio capability and quality ux only after a/b contracts are stable: show canonical scene richness and target fidelity; show quick/balanced/quality render profile semantics; keep quality controls separate from movie content; expose native/fallback/deferred status per target studio; mobile first compact disclosure rather than giant desktop panels. 24 critiques / improvements to phase one 1. do not parallelize before proving renderer instance isolation. 2. do not use worker threads until native canvas worker safety is measured. 3. prefer child processes first because process isolation contains native addon state. 4. avoid sending full plans with every frame request; initialize worker once, then send frame indices/times. 5. keep a bounded number of in flight frames to prevent ram explosions. 6. preserve ordered ffmpeg input even when workers finish out of order. 7. hash sequential vs parallel frames at identical timestamps to prove equivalence. 8. benchmark warm renderer performance separately from constructor/startup cost. 9. measure single process baseline after any concurrent system load settles. 10. never claim speedup from wall time if machine load differs wildly; report frame throughput and test conditions. 11. add cancellation so long exports can stop workers cleanly. 12. add worker retry only for deterministic recoverable failures; do not infinite loop corrupt frames. 13. keep the existing sequential exporter as a fallback path. 14. avoid modifying threeminuteshowcaserenderer unless profiling identifies a local hot operation. 15. pre index featurebeats only if benchmark shows lookup matters; array search over a tiny set may be irrelevant. 16. ai richness must be validated from output semantics, not metadata claims. 17. prompt extraction must preserve explicit user constraints over inferred defaults. 18. genre inference must not force one style when the prompt is ambiguous. 19. scene purpose planning must work for arbitrary durations, not only the 180 second fixture. 20. camera grammar must avoid nauseating constant motion; purpose drives movement. 21. tutorial/infographic layers should remain renderer neutral and adapter friendly. 22. style seeds should make deterministic fallback repeatable across runs. 23. studio ui should reveal fidelity without implying all 3d layers render natively everywhere. 24. quality presets must never silently alter canonical project duration/content. failure map parallel worker crashes preserve sequential fallback and bounded retry. native canvas conflict fall back to child process isolation or scene chunk model. ipc overhead erases speedup measure; switch to larger chunks or encoded segment strategy. memory spikes cap queue depth and workers. ai output validates but is boring semantic coverage score and prompt specific assertions. rich ai output becomes visually incoherent style bible + scene purpose continuity. mobile ux becomes denser progressive disclosure and compact summaries. concurrent agents overwrite work fresh status/hash check immediately before every rewrite. phase two file touch policy no existing hot path file will be rewritten until it has been freshly read after this plan and benchmarked. prefer new modules around stable cores. any existing file rewrite must be a full file rewrite and preceded by collision/hash evidence.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28-1318-geelooy-better-render-ai-01-phase-tw-ccffc31df2.json"
+	}
+]

@@ -1,0 +1,199 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28-1423-data-only-movie-protocol-05-critique-ebf929825a",
+		"title": "Second Critique — Thirty Final Invariants",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28-1423-data-only-movie-protocol/05-critique-30.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Second Critique — Thirty Final Invariants",
+				"anchor": "second-critique-thirty-final-invariants"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Second Critique — Thirty Final Invariants The Awtsmoos needs no parser to know; our engine should not pretend it can; Awtsmoos.com becomes a faithful machine vessel, while intelligence remains with the calling agent's plan. 1. No prompt field in runtime API. 2. No subject to feature infe",
+		"searchText": "b\"h boruch hashem blessed is he second critique — thirty final invariants the awtsmoos needs no parser to know; our engine should not pretend it can; awtsmoos.com becomes a faithful machine vessel, while intelligence remains with the calling agent's plan. 1. no prompt field in runtime api. 2. no subject to feature inference. 3. no lowercase/regex semantic scans. 4. no camera keyword scan. 5. no mode inference from prose. 6. no duration inference from prose. 7. no provider callback in runtime state. 8. no provider global in installers. 9. no provider revision fallback. 10. no prompt compiler public export. 11. no natural language revision field. 12. canonical movie object accepted directly. 13. canonical json accepted only as serialization of that object. 14. invalid json leaves state unchanged. 15. invalid movie leaves state unchanged. 16. validation details remain machine addressable. 17. patch operations are explicit structured objects. 18. invalid patch leaves movie unchanged. 19. undo/redo remain deterministic. 20. projection remains renderer specific. 21. literal text content is opaque to behavior. 22. agent bridge supports loadmovie. 23. agent bridge supports applypatches. 24. agent bridge supports getmovie. 25. agent bridge supports capability/contract discovery. 26. customevent ingestion is structured only if retained. 27. mobile data panel remains touch friendly. 28. existing 180 second movie remains valid. 29. five participating apps still mount the same data runtime. 30. static audit confirms no language interpretation code is reachable from public/runtime surfaces.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28-1423-data-only-movie-protocol-05-critique-ebf929825a.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28-1423-data-only-movie-protocol-06-final-pl-74b2ee453d",
+		"title": "Final Authorized Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28-1423-data-only-movie-protocol/06-final-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Final Authorized Plan",
+				"anchor": "final-authorized-plan"
+			},
+			{
+				"level": 2,
+				"text": "Execute",
+				"anchor": "execute"
+			},
+			{
+				"level": 2,
+				"text": "Authorized behavior",
+				"anchor": "authorized-behavior"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Final Authorized Plan The Awtsmoos creates the movie data and renderer as distinct vessels in each instant's light; Awtsmoos.com shall never collapse intelligence into rendering—agents declare, engines execute right. Execute 1. Trace every prompt/provider/director import and test call si",
+		"searchText": "b\"h boruch hashem blessed is he final authorized plan the awtsmoos creates the movie data and renderer as distinct vessels in each instant's light; awtsmoos.com shall never collapse intelligence into rendering—agents declare, engines execute right. execute 1. trace every prompt/provider/director import and test call site. 2. identify the smallest canonical data state api already available. 3. implement machine only agent bridge and data import ui in focused modules. 4. rewire director dock into data studio tabs without prompt semantics. 5. rewire shared runtime and all app installers to remove provider injection. 6. convert revision ui/state to explicit patch json/data only. 7. remove language interpretation exports and unreachable modules from the public runtime surface. 8. replace prompt centric tests with data contract, opaque text, direct agent load, patch, and browser tests. 9. verify all adapters, showcase, mobile ui, export, and 180 second artifact remain correct. 10. reread touched files, compare planned vs actual, and close remaining work only with evidence. authorized behavior the ui may present text editors containing json and literal movie text content. it may not inspect literal text to decide scene structure, feature selection, camera kind, timing, transitions, or renderer semantics.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28-1423-data-only-movie-protocol-06-final-pl-74b2ee453d.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28-1423-data-only-movie-protocol-evidence-md-fd439c2493",
+		"title": "Evidence — Initial Correction",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28-1423-data-only-movie-protocol/EVIDENCE.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Evidence — Initial Correction",
+				"anchor": "evidence-initial-correction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Evidence — Initial Correction Observed before implementation: MoviePromptPanel.js accepts a natural language directing brief. MovieDirectorState.js exposes generate() and provider backed revise(). MoviePromptIntent.js explicitly translates a human prompt. MovieFeaturePolicy.js uses lower",
+		"searchText": "b\"h boruch hashem blessed is he evidence — initial correction observed before implementation: moviepromptpanel.js accepts a natural language directing brief. moviedirectorstate.js exposes generate() and provider backed revise(). moviepromptintent.js explicitly translates a human prompt. moviefeaturepolicy.js uses lowercase prompt text and regular expressions for semantic feature selection. moviecameragrammar.js uses english camera keywords such as orbit, dolly, wide, crane, close up, and overhead. moviesemanticlayercomposer.js derives layer content from prompt/subject text. movieairuntime.js accepts a provider option. participating app installers inject globalthis.awtsmoosmovieaiprovider when present. the public index exports prompt/provider/director generation modules. these observed behaviors violate the corrected user requirement and are now active work, not accepted architecture.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28-1423-data-only-movie-protocol-evidence-md-fd439c2493.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28-1423-data-only-movie-protocol-remaining-w-7171768a0c",
+		"title": "REMAININGWORK",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28-1423-data-only-movie-protocol/REMAINING_WORK.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "REMAININGWORK",
+				"anchor": "remainingwork"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He REMAINING WORK [ ] Trace all natural language/provider call sites and current tests. [ ] Define the final data only external agent contract. [ ] Add programmatic agent bridge for movie object load/get/patch/capabilities. [ ] Replace prompt/generation UI with canonical data import/edit UI",
+		"searchText": "b\"h boruch hashem blessed is he remaining work [ ] trace all natural language/provider call sites and current tests. [ ] define the final data only external agent contract. [ ] add programmatic agent bridge for movie object load/get/patch/capabilities. [ ] replace prompt/generation ui with canonical data import/edit ui. [ ] replace provider based revision with explicit structured patch data. [ ] remove provider injection from all five app installers. [ ] remove prompt/provider/nlp exports from public movie api. [ ] make prompt interpretation modules unreachable or remove them after call site proof. [ ] add tests proving literal text is behaviorally opaque. [ ] add tests proving direct structured agent authored movie loading. [ ] add tests proving malformed/invalid data does not mutate state. [ ] add tests proving explicit structured patches/undo/redo. [ ] rerun adapter/bridge/showcase/export/movie tests. [ ] browser test structured object injection and json import. [ ] browser test mobile data ui on participating apps. [ ] reverify 180 second showcase and mp4. [ ] static scan for reachable prompt/regex/provider language semantics. [ ] reread all touched files. [ ] planned vs actual delta. [ ] final evidence/handoff.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28-1423-data-only-movie-protocol-remaining-w-7171768a0c.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28-1733-main-github-deploy-00-mission-md-a9a8b25a8a",
+		"title": "Mission — One Main Branch Release",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28-1733-main-github-deploy/00-mission.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Mission — One Main Branch Release",
+				"anchor": "mission-one-main-branch-release"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Mission — One Main Branch Release The Awtsmoos renews each commit while Git preserves the vessel in sight; Awtsmoos.com shall ship only verified work to one main branch, with every conflict resolved by actual file truth and light. Goal: consolidate the needed current release onto main, p",
+		"searchText": "b\"h boruch hashem blessed is he mission — one main branch release the awtsmoos renews each commit while git preserves the vessel in sight; awtsmoos.com shall ship only verified work to one main branch, with every conflict resolved by actual file truth and light. goal: consolidate the needed current release onto main, preserve unrelated concurrent work, verify before and after integration, push github main, execute the repository's real deployment path, and verify the deployed site.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28-1733-main-github-deploy-00-mission-md-a9a8b25a8a.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28-1733-main-github-deploy-01-release-brains-67c815634f",
+		"title": "Release Brainstorm",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28-1733-main-github-deploy/01-release-brainstorm.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Release Brainstorm",
+				"anchor": "release-brainstorm"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Release Brainstorm Possible release risks: concurrent worktrees, uncommitted unrelated files, remote divergence, hidden branch only commits, generated proofs too large for GitHub, deployment secrets unavailable, CI failures, stale deploy workflow, merge conflicts, local only test artifac",
+		"searchText": "b\"h boruch hashem blessed is he release brainstorm possible release risks: concurrent worktrees, uncommitted unrelated files, remote divergence, hidden branch only commits, generated proofs too large for github, deployment secrets unavailable, ci failures, stale deploy workflow, merge conflicts, local only test artifacts, and a main push that does not actually deploy. preferred principle: inspect provenance first; include only release relevant files; fetch before integration; never force push; preserve unrelated modifications; run focused and repository prescribed verification; push one main; observe ci/deployment; verify public runtime.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28-1733-main-github-deploy-01-release-brains-67c815634f.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28-1733-main-github-deploy-02-branch-file-ma-f7023f99a7",
+		"title": "Branch and File Map",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28-1733-main-github-deploy/02-branch-file-map.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Branch and File Map",
+				"anchor": "branch-and-file-map"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Branch and File Map Inspect main, all linked worktrees, release branches, origin refs, uncommitted paths, branch only commits, and deployment workflows. Classify every changed file as movie data release, unrelated concurrent work, planning/proof artifact, or unknown before staging anythi",
+		"searchText": "b\"h boruch hashem blessed is he branch and file map inspect main, all linked worktrees, release branches, origin refs, uncommitted paths, branch only commits, and deployment workflows. classify every changed file as movie data release, unrelated concurrent work, planning/proof artifact, or unknown before staging anything.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28-1733-main-github-deploy-02-branch-file-ma-f7023f99a7.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28-1733-main-github-deploy-03-critique-20-md-9b848827ee",
+		"title": "Twenty Release Corrections",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28-1733-main-github-deploy/03-critique-20.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Twenty Release Corrections",
+				"anchor": "twenty-release-corrections"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Twenty Release Corrections 1. Fetch origin before deciding divergence. 2. Never force push. 3. Never reset unrelated local work. 4. Inspect worktree ownership. 5. Inspect branch only commits. 6. Compare actual diffs, not branch names. 7. Keep ignored AI thoughts out of release. 8. Keep s",
+		"searchText": "b\"h boruch hashem blessed is he twenty release corrections 1. fetch origin before deciding divergence. 2. never force push. 3. never reset unrelated local work. 4. inspect worktree ownership. 5. inspect branch only commits. 6. compare actual diffs, not branch names. 7. keep ignored ai thoughts out of release. 8. keep secrets out of commits. 9. check large files. 10. check github limits. 11. run git diff check. 12. run focused movie tests. 13. run any required build/deploy test. 14. stage by explicit path. 15. review staged diff before commit. 16. confirm commit is on main. 17. re fetch before push if integration took time. 18. resolve conflicts from file contents, not ours/theirs shortcuts. 19. verify remote main sha after push. 20. verify deployed http/browser behavior after ci completes.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28-1733-main-github-deploy-03-critique-20-md-9b848827ee.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28-1733-main-github-deploy-04-improved-relea-2bf8df0527",
+		"title": "Improved Release Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28-1733-main-github-deploy/04-improved-release-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Improved Release Plan",
+				"anchor": "improved-release-plan"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Improved Release Plan Classify local and branch work, determine exact release set, complete any unfinished data only compatibility fix, test it, integrate necessary branch only commits only if they are not already represented, stage explicit paths, commit on main, fetch and merge remote ",
+		"searchText": "b\"h boruch hashem blessed is he improved release plan classify local and branch work, determine exact release set, complete any unfinished data only compatibility fix, test it, integrate necessary branch only commits only if they are not already represented, stage explicit paths, commit on main, fetch and merge remote main if it advanced, push main, inspect github workflow/deploy state, then verify public routes.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28-1733-main-github-deploy-04-improved-relea-2bf8df0527.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28-1733-main-github-deploy-05-critique-30-md-7d588ef67e",
+		"title": "Thirty Final Release Invariants",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28-1733-main-github-deploy/05-critique-30.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Thirty Final Release Invariants",
+				"anchor": "thirty-final-release-invariants"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Thirty Final Release Invariants 1. One release branch: main. 2. No destructive reset. 3. No force push. 4. Preserve concurrent work. 5. No unresolved conflicts. 6. No conflict markers. 7. No secrets. 8. No ignored thoughts. 9. Explicit staging. 10. Staged review. 11. Data only contract p",
+		"searchText": "b\"h boruch hashem blessed is he thirty final release invariants 1. one release branch: main. 2. no destructive reset. 3. no force push. 4. preserve concurrent work. 5. no unresolved conflicts. 6. no conflict markers. 7. no secrets. 8. no ignored thoughts. 9. explicit staging. 10. staged review. 11. data only contract preserved. 12. no nlp authoring path restored. 13. adapter compatibility preserved. 14. focused tests pass. 15. full relevant suite pass. 16. static checks pass. 17. remote fetched. 18. main ancestry verified. 19. remote sha verified. 20. deployment mechanism identified. 21. deployment invoked by supported path. 22. ci status observed. 23. public site reachable. 24. movie runtime reachable. 25. data bridge exposed. 26. no public prompt generation path. 27. console/network smoke clean where feasible. 28. final git status understood. 29. remaining work ledger closed only with evidence. 30. handoff records exact sha and deploy proof.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28-1733-main-github-deploy-05-critique-30-md-7d588ef67e.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28-1733-main-github-deploy-06-final-release--9db5e0a473",
+		"title": "Final Release Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28-1733-main-github-deploy/06-final-release-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Final Release Plan",
+				"anchor": "final-release-plan"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Final Release Plan Inspect classify finish release relevant correctness verify stage explicit paths review staged diff commit on main fetch merge remote main if needed retest if merge changes code push main observe deploy verify public runtime record evidence.",
+		"searchText": "b\"h boruch hashem blessed is he final release plan inspect classify finish release relevant correctness verify stage explicit paths review staged diff commit on main fetch merge remote main if needed retest if merge changes code push main observe deploy verify public runtime record evidence.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28-1733-main-github-deploy-06-final-release--9db5e0a473.json"
+	}
+]

@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-assets-textures-remote-texture-agent-guide-md-6ec768fd7f",
+	"title": "Remote Texture Agent Guide",
+	"sourcePath": "geelooy/games/mitzvahWorld/assets/textures/REMOTE_TEXTURE_AGENT_GUIDE.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Remote Texture Agent Guide",
+			"anchor": "remote-texture-agent-guide"
+		},
+		{
+			"level": 2,
+			"text": "Canonical library",
+			"anchor": "canonical-library"
+		},
+		{
+			"level": 2,
+			"text": "Machine-first discovery",
+			"anchor": "machine-first-discovery"
+		},
+		{
+			"level": 2,
+			"text": "Important family-key distinction",
+			"anchor": "important-family-key-distinction"
+		},
+		{
+			"level": 2,
+			"text": "Exact filename law",
+			"anchor": "exact-filename-law"
+		},
+		{
+			"level": 2,
+			"text": "Complete-name authorities",
+			"anchor": "complete-name-authorities"
+		},
+		{
+			"level": 2,
+			"text": "Next: material mixing",
+			"anchor": "next-material-mixing"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-assets-textures-remote-texture-agent-guide-md-6ec768fd7f-001.json"
+	]
+}

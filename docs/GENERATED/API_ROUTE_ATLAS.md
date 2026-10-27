@@ -4,7 +4,7 @@ Blessed is He
 
 # Generated API Route Atlas
 
-Complete index for **634** source-to-route rows.
+Complete index for **687** source-to-route rows.
 
 | Chunk | Rows | Count |
 | --- | --- | --- |
@@ -15,4 +15,5 @@ Complete index for **634** source-to-route rows.
 | [api-routes-005.md](API_ROUTES/api-routes-005.md) | 341–425 | 85 |
 | [api-routes-006.md](API_ROUTES/api-routes-006.md) | 426–510 | 85 |
 | [api-routes-007.md](API_ROUTES/api-routes-007.md) | 511–595 | 85 |
-| [api-routes-008.md](API_ROUTES/api-routes-008.md) | 596–634 | 39 |
+| [api-routes-008.md](API_ROUTES/api-routes-008.md) | 596–680 | 85 |
+| [api-routes-009.md](API_ROUTES/api-routes-009.md) | 681–687 | 7 |

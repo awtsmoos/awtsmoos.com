@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-design-os-yom-tov-modes-readme-md-283ad8f8b8",
+	"title": "Yom Tov Modes",
+	"sourcePath": "geelooy/apps/tunnel/design-os/yom-tov-modes/README.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Yom Tov Modes",
+			"anchor": "yom-tov-modes"
+		},
+		{
+			"level": 2,
+			"text": "The modes",
+			"anchor": "the-modes"
+		},
+		{
+			"level": 2,
+			"text": "The calendar",
+			"anchor": "the-calendar"
+		},
+		{
+			"level": 2,
+			"text": "Usage",
+			"anchor": "usage"
+		},
+		{
+			"level": 2,
+			"text": "Design principle",
+			"anchor": "design-principle"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-design-os-yom-tov-modes-readme-md-283ad8f8b8-001.json"
+	]
+}

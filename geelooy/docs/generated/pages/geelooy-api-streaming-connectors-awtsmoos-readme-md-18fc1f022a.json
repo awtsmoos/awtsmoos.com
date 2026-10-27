@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-streaming-connectors-awtsmoos-readme-md-18fc1f022a",
+	"title": "B\"H — Awtsmoos Streaming Connector (geelooy/api/streaming/connectors/awtsmoos/)",
+	"sourcePath": "geelooy/api/streaming/connectors/awtsmoos/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Awtsmoos Streaming Connector (geelooy/api/streaming/connectors/awtsmoos/)",
+			"anchor": "b-h-awtsmoos-streaming-connector-geelooy-api-streaming-connectors-awtsmoos"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-streaming-connectors-awtsmoos-readme-md-18fc1f022a-001.json"
+	]
+}

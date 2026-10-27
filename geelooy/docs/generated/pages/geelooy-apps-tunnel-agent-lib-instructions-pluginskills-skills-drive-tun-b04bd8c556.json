@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-drive-tun-b04bd8c556",
+	"title": "Drive Upload via Tunnel Service Auth",
+	"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/drive-tunnel-upload/SKILL.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Drive Upload via Tunnel Service Auth",
+			"anchor": "drive-upload-via-tunnel-service-auth"
+		},
+		{
+			"level": 2,
+			"text": "Quick upload (one command)",
+			"anchor": "quick-upload-one-command"
+		},
+		{
+			"level": 2,
+			"text": "How it works",
+			"anchor": "how-it-works"
+		},
+		{
+			"level": 2,
+			"text": "Options",
+			"anchor": "options"
+		},
+		{
+			"level": 2,
+			"text": "Verify the upload",
+			"anchor": "verify-the-upload"
+		},
+		{
+			"level": 2,
+			"text": "Security notes",
+			"anchor": "security-notes"
+		},
+		{
+			"level": 2,
+			"text": "Troubleshooting",
+			"anchor": "troubleshooting"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-drive-tun-b04bd8c556-001.json"
+	]
+}

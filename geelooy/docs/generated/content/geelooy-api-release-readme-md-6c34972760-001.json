@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Release Identity API (geelooy/api/release/)\n\nReports the identity of the loaded service release — the release is named by\nthe running process, never merely the Git directory.\n\n## Contents\n- `_awtsmoos.derech.js` — whole API: route `/`.\n\n## Endpoint\n- `GET /` — returns `{ok, releaseSha, evidence: \"running_process_environment\"}`\n  where `releaseSha` is `AWTSMOOS_RELEASE_SHA` only if it is a valid 40-char\n  hex SHA (HTTP 200), otherwise 503 with an empty SHA. `Cache-Control: no-store`.\n"
+}

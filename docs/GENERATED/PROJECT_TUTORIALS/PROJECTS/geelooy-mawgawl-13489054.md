@@ -2,7 +2,7 @@ B"H
 Boruch Hashem
 Blessed is He
 
-# Project Tutorial: geelooy/mawgawl
+# Project Tutorial: Mawgawl · Booking Calendar
 
 **Path:** `geelooy/mawgawl` · **Type:** public · **Family:** Public and Other Boundaries
 
@@ -21,20 +21,20 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 65 | 14 | 0 | 0 | 1 | 0 | 80 |
+| 84 | 20 | 0 | 0 | 1 | 0 | 105 |
 
 ## Public entry points
 
-- `/mawgawl` → `geelooy/mawgawl/index.html`
+- `/mawgawl` → `geelooy/mawgawl/index.html` — Mawgawl · Booking Calendar
 - `/mawgawl/sefarim` → `geelooy/mawgawl/sefarim/index.html` — Search the Living Library — Geelooy
 
 ## Symbol evidence
 
-Source files: 30; classes: 3; functions: 129; exports: 71; samples: from, showMessage, showDivInModal, updateDivInModal, closeModal, createCalendar, resetMinutes, createCalendarWithMonth, addBooking, displayHours, minuteClickHandler, displayMinutes.
+Source files: 42; classes: 8; functions: 148; exports: 92; samples: from, showMessage, showDivInModal, updateDivInModal, closeModal, createCalendar, resetMinutes, createCalendarWithMonth, addBooking, displayHours, minuteClickHandler, displayMinutes.
 
 ## Depends on
 
-- `geelooy/shared` — 1 lexical reference; examples: geelooy/mawgawl/sefarim/searchHistory.js
+- `geelooy/shared` — 4 lexical references; examples: geelooy/mawgawl/sefarim/exactApi.js; geelooy/mawgawl/sefarim/searchApi.js; geelooy/mawgawl/sefarim/searchHistory.js
 
 ## Used by
 
@@ -46,4 +46,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **14**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **20**. Treat this as file evidence, not proof of behavioral coverage.

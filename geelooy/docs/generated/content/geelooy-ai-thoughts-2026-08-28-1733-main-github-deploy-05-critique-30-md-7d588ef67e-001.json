@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Thirty Final Release Invariants\n\n1. One release branch: main. 2. No destructive reset. 3. No force push. 4. Preserve concurrent work. 5. No unresolved conflicts. 6. No conflict markers. 7. No secrets. 8. No ignored thoughts. 9. Explicit staging. 10. Staged review. 11. Data-only contract preserved. 12. No NLP authoring path restored. 13. Adapter compatibility preserved. 14. Focused tests pass. 15. Full relevant suite pass. 16. Static checks pass. 17. Remote fetched. 18. Main ancestry verified. 19. Remote SHA verified. 20. Deployment mechanism identified. 21. Deployment invoked by supported path. 22. CI status observed. 23. Public site reachable. 24. Movie runtime reachable. 25. Data bridge exposed. 26. No public prompt-generation path. 27. Console/network smoke clean where feasible. 28. Final git status understood. 29. Remaining work ledger closed only with evidence. 30. Handoff records exact SHA and deploy proof.\n"
+}

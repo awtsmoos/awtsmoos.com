@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Twenty Release Corrections\n\n1. Fetch origin before deciding divergence.\n2. Never force-push.\n3. Never reset unrelated local work.\n4. Inspect worktree ownership.\n5. Inspect branch-only commits.\n6. Compare actual diffs, not branch names.\n7. Keep ignored AI thoughts out of release.\n8. Keep secrets out of commits.\n9. Check large files.\n10. Check GitHub limits.\n11. Run `git diff --check`.\n12. Run focused movie tests.\n13. Run any required build/deploy test.\n14. Stage by explicit path.\n15. Review staged diff before commit.\n16. Confirm commit is on main.\n17. Re-fetch before push if integration took time.\n18. Resolve conflicts from file contents, not ours/theirs shortcuts.\n19. Verify remote main SHA after push.\n20. Verify deployed HTTP/browser behavior after CI completes.\n"
+}

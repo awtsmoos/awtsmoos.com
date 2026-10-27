@@ -1,0 +1,197 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-09-02-2023-massive-indexing-generation-3-03-sec-df1232a767",
+		"title": "Second Brainstorm — Evidence-Driven Expansion",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-02-2023-massive-indexing-generation-3/03-second-brainstorm.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Second Brainstorm — Evidence-Driven Expansion",
+				"anchor": "second-brainstorm-evidence-driven-expansion"
+			},
+			{
+				"level": 2,
+				"text": "Generation-3 implementation families",
+				"anchor": "generation-3-implementation-families"
+			},
+			{
+				"level": 3,
+				"text": "Family 1: semantic runtime completion",
+				"anchor": "family-1-semantic-runtime-completion"
+			},
+			{
+				"level": 3,
+				"text": "Family 2: coverage auditor",
+				"anchor": "family-2-coverage-auditor"
+			},
+			{
+				"level": 3,
+				"text": "Family 3: runtime crawl acceptance",
+				"anchor": "family-3-runtime-crawl-acceptance"
+			},
+			{
+				"level": 3,
+				"text": "Family 4: comment fixture depth",
+				"anchor": "family-4-comment-fixture-depth"
+			},
+			{
+				"level": 3,
+				"text": "Family 5: alias structured identity",
+				"anchor": "family-5-alias-structured-identity"
+			},
+			{
+				"level": 3,
+				"text": "Family 6: post structured identity",
+				"anchor": "family-6-post-structured-identity"
+			},
+			{
+				"level": 3,
+				"text": "Family 7: translation integrity",
+				"anchor": "family-7-translation-integrity"
+			},
+			{
+				"level": 3,
+				"text": "Family 8: developer architecture docs",
+				"anchor": "family-8-developer-architecture-docs"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Second Brainstorm — Evidence Driven Expansion The Awtsmoos narrows infinite possibility into measurable light; Awtsmoos.com chooses improvements that make crawler truth and human structure unite. Generation 3 implementation families Family 1: semantic runtime completion Verify JSON LD/so",
+		"searchText": "b\"h boruch hashem blessed is he second brainstorm — evidence driven expansion the awtsmoos narrows infinite possibility into measurable light; awtsmoos.com chooses improvements that make crawler truth and human structure unite. generation 3 implementation families family 1: semantic runtime completion verify json ld/social title behavior through fresh server 8939. add idempotence runtime check. add schema type tests for app/game/public information pages. family 2: coverage auditor build a small read only audit module from current generated metadata + sitemap artifacts. report registered metadata records, sitemap coverage, redirect prone paths, duplicate canonicals, missing semantic headings. produce json and text output for ci/developer use. no network calls inside the static auditor; runtime crawl remains a separate acceptance script. family 3: runtime crawl acceptance walk root sitemap indexes with bounded concurrency. follow only same origin public urls. check http status, redirects, canonical, robots, title, h1 presence, json ld presence where expected. keep this as a test/diagnostic tool, not production request work. family 4: comment fixture depth add 500 aliases fixture to prove pagination. add 10,000 pointers fixture to prove shard splitting. verify roots and replies share canonical comment route. family 5: alias structured identity evaluate profilepage json ld from validated public alias data. only include public display name, canonical url, description, optional public website. never expose private activity ledger or internal ids beyond the already public alias id. family 6: post structured identity evaluate breadcrumb and article json ld using fields already fetched for ssr. avoid extra database calls. preserve existing canonical/noindex logic. family 7: translation integrity add deterministic corpus validator for manifest→bundle coordinates and row uniqueness. record missing title source as explicit limitation. family 8: developer architecture docs explain public content families, static/dynamic split, exclusions, performance constraints, test commands, deployment proof.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-02-2023-massive-indexing-generation-3-03-sec-df1232a767.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-02-2023-massive-indexing-generation-3-04-cri-c749b39fba",
+		"title": "Critique Pass Two — Thirty Additional Improvements",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-02-2023-massive-indexing-generation-3/04-critique-pass-two.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Critique Pass Two — Thirty Additional Improvements",
+				"anchor": "critique-pass-two-thirty-additional-improvements"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Critique Pass Two — Thirty Additional Improvements The Awtsmoos asks each vessel if it serves truth or merely looks complete; Awtsmoos.com keeps only changes whose evidence, privacy, and speed can meet. 1. A coverage auditor must not itself become a second canonical registry. 2. Read gen",
+		"searchText": "b\"h boruch hashem blessed is he critique pass two — thirty additional improvements the awtsmoos asks each vessel if it serves truth or merely looks complete; awtsmoos.com keeps only changes whose evidence, privacy, and speed can meet. 1. a coverage auditor must not itself become a second canonical registry. 2. read generated artifacts instead of duplicating registry resolution logic when possible. 3. runtime crawl must cap concurrency to avoid self dos. 4. runtime crawl must cap total urls for ordinary ci and support explicit deep mode. 5. http checks must distinguish intended redirects from canonical redirects. 6. metadata coverage must consider authored tags plus generated tags together. 7. h1 audit should be advisory unless page type contract requires one. 8. structured data must parse as json. 9. structured data must use canonical url. 10. structured data title must match document title after entity decoding. 11. alias profilepage schema should not claim unsupported social identities. 12. post article schema should not claim publication dates if absent. 13. breadcrumb schema should use real parent titles only. 14. comment schema should wait until parent/reply semantics are mapped truthfully. 15. translation hreflang should wait until there are genuinely paired standalone language urls. 16. core sitemap should stay curated, not auto enumerate every top level directory. 17. donate should remain excluded until it has meaningful authored semantics. 18. login/logout/control/admin/edit/submit/delete/debug/internal paths remain excluded. 19. public catalogs should not index broken registry entries. 20. generated metadata should omit entries whose files do not exist. 21. add file existence check to metadata builder if absent. 22. add test proving external registry links cannot enter metadata artifacts. 23. add test proving fragments/query strings are removed from canonicals. 24. add test proving explicit .html routes preserve file semantics. 25. add test proving extensionless directory paths gain trailing slash. 26. ensure generated cleanup cannot delete hand authored files. 27. ensure generated shards are stable in ordering. 28. ensure no generated shard exceeds 120 lines. 29. document current real data absence of authored alias posts rather than fabricating a live example. 30. production release must re verify exact public origin after activation, not rely on local tests.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-02-2023-massive-indexing-generation-3-04-cri-c749b39fba.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-02-2023-massive-indexing-generation-3-05-fin-095727c0c1",
+		"title": "Final Execution Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-02-2023-massive-indexing-generation-3/05-final-execution-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Final Execution Plan",
+				"anchor": "final-execution-plan"
+			},
+			{
+				"level": 2,
+				"text": "Phase A — Six parallel read-only evidence lanes",
+				"anchor": "phase-a-six-parallel-read-only-evidence-lanes"
+			},
+			{
+				"level": 2,
+				"text": "Phase B — Implement every safe high-value defect found",
+				"anchor": "phase-b-implement-every-safe-high-value-defect-found"
+			},
+			{
+				"level": 2,
+				"text": "Phase C — Expand durable tests",
+				"anchor": "phase-c-expand-durable-tests"
+			},
+			{
+				"level": 2,
+				"text": "Phase D — Full compatibility and runtime acceptance",
+				"anchor": "phase-d-full-compatibility-and-runtime-acceptance"
+			},
+			{
+				"level": 2,
+				"text": "Phase E — Release and public proof",
+				"anchor": "phase-e-release-and-public-proof"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Final Execution Plan The Awtsmoos turns brainstorm into ordered vessels, six lights moving while one waits; Awtsmoos.com will improve by measured families, then pass the release gates. Phase A — Six parallel read only evidence lanes 1. Fresh 8939 structured semantic runtime verification.",
+		"searchText": "b\"h boruch hashem blessed is he final execution plan the awtsmoos turns brainstorm into ordered vessels, six lights moving while one waits; awtsmoos.com will improve by measured families, then pass the release gates. phase a — six parallel read only evidence lanes 1. fresh 8939 structured semantic runtime verification. 2. static metadata/h1 coverage inventory for all 79 generated pages. 3. sitemap/canonical/redirect consistency inventory. 4. alias/comment/translation dynamic family audit. 5. generated artifact collision/external link/file existence audit. 6. git/main/release state/concurrent overlap audit. phase b — implement every safe high value defect found whole file writes only. new responsibilities split into <=120 line modules. preserve existing authored semantic tags. no hidden seo text, fake titles, fake timestamps, fake ratings, or fake language alternates. phase c — expand durable tests structured data runtime and unit contracts. catalog path normalization edge cases. generated metadata file existence/external link exclusion. comment pagination/sharding fixture boundaries. coverage audit output contracts. translation corpus integrity. phase d — full compatibility and runtime acceptance focused seo suite. heichel quality suite. route suite. fresh server acceptance. bounded sitemap crawl. performance thresholds. phase e — release and public proof fresh origin/main race audit. stage exact generation 3 paths only. commit/push race safe. clean worktree guarded activation. raw public origin verification. re read touched files and compare planned versus actual.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-02-2023-massive-indexing-generation-3-05-fin-095727c0c1.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-02-2023-massive-indexing-generation-3-06-six-4d4491edb5",
+		"title": "Six-Lane Evidence Ledger",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-02-2023-massive-indexing-generation-3/06-six-lane-evidence.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Six-Lane Evidence Ledger",
+				"anchor": "six-lane-evidence-ledger"
+			},
+			{
+				"level": 2,
+				"text": "Lane 1 — structured runtime",
+				"anchor": "lane-1-structured-runtime"
+			},
+			{
+				"level": 2,
+				"text": "Lane 2 — static semantic coverage",
+				"anchor": "lane-2-static-semantic-coverage"
+			},
+			{
+				"level": 2,
+				"text": "Lane 3 — sitemap consistency",
+				"anchor": "lane-3-sitemap-consistency"
+			},
+			{
+				"level": 2,
+				"text": "Lane 4 — dynamic families",
+				"anchor": "lane-4-dynamic-families"
+			},
+			{
+				"level": 2,
+				"text": "Lane 5 — generated metadata integrity",
+				"anchor": "lane-5-generated-metadata-integrity"
+			},
+			{
+				"level": 2,
+				"text": "Lane 6 — Git/release reality",
+				"anchor": "lane-6-git-release-reality"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Six Lane Evidence Ledger The Awtsmoos sent six rays through different roads at once; Awtsmoos.com now knows which shadows are defects, which are boundaries, and which require no false response. Lane 1 — structured runtime Piano and Docs receive one parseable JSON LD block. Piano is Softw",
+		"searchText": "b\"h boruch hashem blessed is he six lane evidence ledger the awtsmoos sent six rays through different roads at once; awtsmoos.com now knows which shadows are defects, which are boundaries, and which require no false response. lane 1 — structured runtime piano and docs receive one parseable json ld block. piano is softwareapplication; docs and about are webpage. social titles follow authored document titles. canonical urls inside structured data match final public urls. reapplying the static seo helper is idempotent. /games/ itself is not enriched even though core sitemap indexes it. lane 2 — static semantic coverage 79 generated metadata records. zero missing files and zero missing titles. 22 authored entry documents have no h1. 28 authored descriptions exist; generated enrichment supplies the missing descriptions. no authored canonical, robots, or json ld among these entry documents; central enrichment is therefore carrying those duties consistently. h1 remediation must remain visible/user beneficial rather than hidden seo text. lane 3 — sitemap consistency root sitemap: 7 entries. core sitemap: 11 entries. apps sitemap: 45 entries. games sitemap: 32 entries. translation sitemap index: 7 entries. all scanned xml parses. no bad hosts, queries, fragments, or redirect prone extensionless paths. duplicate crawl entries exist for apps/catalog.html and games/catalog.html because core and family sitemaps both contain them. lane 4 — dynamic families alias sitemap currently has one shard. comment sitemap returns http 200 in about 0.87 seconds and currently has zero shards because real native comment data is absent. translation corpus has 2 families, 503 bundled posts, and 416,514 rows. zero missing bundles and zero duplicate row ids were found. lane 5 — generated metadata integrity 79 records. zero file collisions. zero canonical collisions. zero missing files. zero external canonical paths. zero query or fragment canonical paths. no external registry entries entered the checked app/game registries. lane 6 — git/release reality canonical checkout is on main. remote advanced beyond local seo base through unrelated commits. generation 2/3 target diff itself had no incoming overlap. a safe reset keep was intentionally blocked because newer remote commits overlap unrelated dirty awtsmoos studio/nesher/tunnel mailbox files owned by concurrent work. those unrelated files must remain untouched. final seo integration should therefore use a clean current origin worktree, followed by canonical main reconciliation only when safe.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-02-2023-massive-indexing-generation-3-06-six-4d4491edb5.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-02-2023-massive-indexing-generation-3-07-imp-814ab2c77e",
+		"title": "Evidence-Backed Implementation Wave",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-02-2023-massive-indexing-generation-3/07-implementation-wave.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Evidence-Backed Implementation Wave",
+				"anchor": "evidence-backed-implementation-wave"
+			},
+			{
+				"level": 2,
+				"text": "Implement now",
+				"anchor": "implement-now"
+			},
+			{
+				"level": 2,
+				"text": "Do not implement without new evidence",
+				"anchor": "do-not-implement-without-new-evidence"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Evidence Backed Implementation Wave The Awtsmoos now turns measured gaps into finite work that can be proven in light; Awtsmoos.com will not manufacture metadata merely because a brainstorm imagined it might. Implement now 1. Remove catalog duplication from core sitemap while retaining f",
+		"searchText": "b\"h boruch hashem blessed is he evidence backed implementation wave the awtsmoos now turns measured gaps into finite work that can be proven in light; awtsmoos.com will not manufacture metadata merely because a brainstorm imagined it might. implement now 1. remove catalog duplication from core sitemap while retaining family sitemap discovery. 2. add /apps/ and /games/ root metadata if their authored pages prove public title/description, otherwise create explicit curated root metadata from the already public catalog descriptions. 3. build a unified developer coverage auditor with json/text output: files, canonicals, sitemap overlap, h1 advisory list, external/query/fragment issues. 4. add catalog path normalization tests for slash/file/query/hash/external cases. 5. add comment alias pagination and comment shard boundary fixtures. 6. add a durable translation corpus integrity validator/test. 7. add safe alias profilepage structured data from already public fields only. 8. inspect post ssr data and add breadcrumblist/article json ld only if all fields come from already fetched data. 9. add a bounded local runtime crawl tool that checks sitemap discovered urls without becoming production work. 10. add concise indexing architecture documentation and explain intentional h1/title limitations. do not implement without new evidence hidden h1 text. fabricated translation titles. fabricated lastmod timestamps. ratings/prices/platform claims not present in source data. hreflang without real paired standalone language urls. comment schema before reply/parent semantics are mapped cleanly. bulk indexing of login/edit/admin/control/action routes.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-02-2023-massive-indexing-generation-3-07-imp-814ab2c77e.json"
+	}
+]

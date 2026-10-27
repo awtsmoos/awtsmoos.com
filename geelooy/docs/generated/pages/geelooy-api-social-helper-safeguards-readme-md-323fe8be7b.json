@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-social-helper-safeguards-readme-md-323fe8be7b",
+	"title": "B\"H — safeguards/",
+	"sourcePath": "geelooy/api/social/helper/safeguards/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — safeguards/",
+			"anchor": "b-h-safeguards"
+		},
+		{
+			"level": 2,
+			"text": "Modules",
+			"anchor": "modules"
+		},
+		{
+			"level": 2,
+			"text": "State dir",
+			"anchor": "state-dir"
+		},
+		{
+			"level": 2,
+			"text": "AI safeguard rules for this directory",
+			"anchor": "ai-safeguard-rules-for-this-directory"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-social-helper-safeguards-readme-md-323fe8be7b-001.json"
+	]
+}

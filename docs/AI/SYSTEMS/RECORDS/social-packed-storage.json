@@ -42,6 +42,12 @@
 			"exampleSources": "geelooy/api/social/helper/search/rag/paths.js; geelooy/api/social/helper/search/rag/test/catalogAndSidecar.test.js; geelooy/api/social/helper/search/rag/test/liveSearchProbe.js"
 		},
 		{
+			"name": "AWTS_RAG_SEMANTIC_WARMUP",
+			"classification": "runtime-config",
+			"sources": 2,
+			"exampleSources": "geelooy/api/social/helper/search/rag/ragStartupWarmup.js; geelooy/api/social/helper/search/rag/test/ragStartupWarmup.test.js"
+		},
+		{
 			"name": "AWTS_RAG_STARTUP_WARMUP",
 			"classification": "runtime-config",
 			"sources": 2,
@@ -52,6 +58,24 @@
 			"classification": "path/storage",
 			"sources": 1,
 			"exampleSources": "geelooy/api/social/helper/search/rag/paths.js"
+		},
+		{
+			"name": "AWTSMOOS_ALLOW_LEGACY_RICH_MIGRATION",
+			"classification": "runtime-config",
+			"sources": 2,
+			"exampleSources": "geelooy/api/social/helper/comments/richDb/PackedStoreGuard.js; geelooy/api/social/helper/comments/test/legacyMigrationGuard.test.js"
+		},
+		{
+			"name": "AWTSMOOS_BGE_MODEL_PATH",
+			"classification": "path/storage",
+			"sources": 1,
+			"exampleSources": "geelooy/api/social/helper/search/rag/bgeRuntime.js"
+		},
+		{
+			"name": "AWTSMOOS_BGE_PYTHON",
+			"classification": "runtime-config",
+			"sources": 1,
+			"exampleSources": "geelooy/api/social/helper/search/rag/bgeRuntime.js"
 		},
 		{
 			"name": "AWTSMOOS_BOOK_EXPORT_ROOT",
@@ -78,10 +102,28 @@
 			"exampleSources": "geelooy/api/social/helper/drive/browser/interactiveProfileStore.js"
 		},
 		{
-			"name": "AWTSMOOS_DB_PATH",
+			"name": "AWTSMOOS_BULK_IMPORT_KEY",
+			"classification": "secret-name",
+			"sources": 1,
+			"exampleSources": "geelooy/api/social/helper/routes/packed/bulkImportRoutesClass.js"
+		},
+		{
+			"name": "AWTSMOOS_DATA_ROOT",
 			"classification": "path/storage",
 			"sources": 1,
-			"exampleSources": "geelooy/api/social/helper/series/directSeriesPrateem.js"
+			"exampleSources": "geelooy/api/social/helper/safeguards/shapeAudit.js"
+		},
+		{
+			"name": "AWTSMOOS_DBROOT",
+			"classification": "path/storage",
+			"sources": 10,
+			"exampleSources": "geelooy/api/social/helper/routes/packed/bulkImportRoutesClass.js; geelooy/api/social/helper/routes/packed/bulkImportRoutesGuards.js; geelooy/api/social/helper/routes/packed/bulkPublishAllRoutesPaths.js"
+		},
+		{
+			"name": "AWTSMOOS_DEPLOY_KEY",
+			"classification": "secret-name",
+			"sources": 1,
+			"exampleSources": "geelooy/api/social/helper/routes/packed/bulkImportRoutesClass.js"
 		},
 		{
 			"name": "AWTSMOOS_DRIVE_ADMIN_USER_IDS",
@@ -93,7 +135,7 @@
 			"name": "AWTSMOOS_ENABLE_COMMENT_BREADCRUMB_INDEX",
 			"classification": "path/storage",
 			"sources": 1,
-			"exampleSources": "geelooy/api/social/helper/comments/commentCreation.js"
+			"exampleSources": "geelooy/api/social/helper/comments/creation/HodAliasCommentIndex.js"
 		},
 		{
 			"name": "AWTSMOOS_GIT_BIN",
@@ -108,76 +150,34 @@
 			"exampleSources": "geelooy/api/social/helper/repositories/gitProcess.js"
 		},
 		{
+			"name": "AWTSMOOS_IMPORT_KEY",
+			"classification": "secret-name",
+			"sources": 3,
+			"exampleSources": "geelooy/api/social/helper/routes/packed/authCoreMixin.js; geelooy/api/social/helper/routes/packed/notesMixin.js; geelooy/api/social/helper/routes/packed/submissionsMixin.js"
+		},
+		{
+			"name": "AWTSMOOS_IMPORT_LANES",
+			"classification": "runtime-config",
+			"sources": 2,
+			"exampleSources": "geelooy/api/social/helper/routes/packed/importLaneScheduler.integration.test.cjs; geelooy/api/social/helper/routes/packed/importLaneScheduler.js"
+		},
+		{
+			"name": "AWTSMOOS_IMPORT_WORKERS",
+			"classification": "runtime-config",
+			"sources": 1,
+			"exampleSources": "geelooy/api/social/helper/routes/packed/runJobContext.js"
+		},
+		{
 			"name": "AWTSMOOS_IMPORTED_COMMENT_DATA_ROOT",
 			"classification": "path/storage",
 			"sources": 3,
-			"exampleSources": "geelooy/api/social/helper/comments/imported/bundleStore.js; geelooy/api/social/helper/comments/test/richImportedRoute.test.js; geelooy/api/social/helper/comments/test/translationBundles.test.js"
+			"exampleSources": "geelooy/api/social/helper/comments/imported/bundleStoreRead.js; geelooy/api/social/helper/comments/test/richImportedRoute.test.js; geelooy/api/social/helper/comments/test/translationBundles.test.js"
 		},
 		{
-			"name": "AWTSMOOS_LIKKUTEI_SICHOS_RAG_ROOT",
+			"name": "AWTSMOOS_LEXICON_ROOT",
 			"classification": "path/storage",
-			"sources": 1,
-			"exampleSources": "geelooy/api/social/helper/search/rag/paths.js"
-		},
-		{
-			"name": "AWTSMOOS_PUBLIC_ORIGIN",
-			"classification": "runtime-config",
-			"sources": 3,
-			"exampleSources": "geelooy/api/social/helper/drive/siteCanonicalUrl.js; geelooy/api/social/helper/repositories/gitCloneService.js; geelooy/api/wallet/routes/paypalCreate.js"
-		},
-		{
-			"name": "AWTSMOOS_RAG_ROOT",
-			"classification": "path/storage",
-			"sources": 1,
-			"exampleSources": "geelooy/api/social/helper/search/rag/paths.js"
-		},
-		{
-			"name": "AWTSMOOS_REAL_SMOKE_DEBUG",
-			"classification": "test/tuning",
-			"sources": 1,
-			"exampleSources": "geelooy/api/social/helper/apiKeys.js"
-		},
-		{
-			"name": "AWTSMOOS_SICHOS_KODESH_RAG_ROOT",
-			"classification": "test/tuning",
-			"sources": 1,
-			"exampleSources": "geelooy/api/social/helper/search/rag/test/sichosKodeshCommentRows.test.js"
-		},
-		{
-			"name": "AWTSMOOS_SOCIAL_AWTSDB",
-			"classification": "test/tuning",
-			"sources": 2,
-			"exampleSources": "geelooy/api/social/helper/assets/test/assetCopy.test.mjs; geelooy/api/social/helper/awtsmoosDb/test/shardStore.test.js"
-		},
-		{
-			"name": "AWTSMOOS_TANACH_EMBED_PYTHON",
-			"classification": "runtime-config",
-			"sources": 1,
-			"exampleSources": "geelooy/api/social/helper/search/rag/multilingualEmbedder.js"
-		},
-		{
-			"name": "AWTSMOOS_TANACH_INDEX",
-			"classification": "path/storage",
-			"sources": 3,
-			"exampleSources": "geelooy/api/social/helper/search/rag/storageInvariant.js; geelooy/api/social/helper/search/rag/test/storageInvariant.test.js; geelooy/api/social/helper/search/tanach/paths.js"
-		},
-		{
-			"name": "AWTSMOOS_TANACH_MODEL_PATH",
-			"classification": "path/storage",
-			"sources": 1,
-			"exampleSources": "geelooy/api/social/helper/search/rag/multilingualEmbedder.js"
-		},
-		{
-			"name": "CHROME_PATH",
-			"classification": "path/storage",
-			"sources": 1,
-			"exampleSources": "geelooy/api/social/helper/drive/browser/interactiveChromeLauncher.js"
-		},
-		{
-			"name": "EXACT_HEBREW_INDEX_DB",
-			"classification": "path/storage",
-			"sources": 1,
-			"exampleSources": "geelooy/api/social/helper/search/exactHebrewPaths.js"
+			"sources": 5,
+			"exampleSources": "geelooy/api/social/helper/search/lexicon/paths.js; geelooy/api/social/helper/search/lexicon/test/browse.test.js; geelooy/api/social/helper/search/lexicon/test/builder.test.js"
 		}
 	],
 	"realtimeApplications": [],

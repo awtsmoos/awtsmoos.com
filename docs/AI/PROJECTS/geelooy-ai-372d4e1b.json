@@ -23,19 +23,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-ai-372d4e1b.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 671,
-		"tests": 165,
+		"source": 699,
+		"tests": 187,
 		"assets": 0,
 		"generated": 0,
 		"docs": 4,
 		"other": 44
 	},
-	"totalFiles": 884,
+	"totalFiles": 934,
 	"symbolSummary": {
-		"files": 484,
-		"classes": 152,
-		"functions": 1769,
-		"exports": 883,
+		"files": 512,
+		"classes": 154,
+		"functions": 1921,
+		"exports": 992,
 		"samples": [
 			"AwtsmoosGPTify",
 			"IndexedDBHandler",

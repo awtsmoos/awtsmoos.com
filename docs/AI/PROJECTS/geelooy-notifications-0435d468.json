@@ -23,35 +23,41 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-notifications-0435d468.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 31,
-		"tests": 2,
+		"source": 32,
+		"tests": 3,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
 		"other": 0
 	},
-	"totalFiles": 34,
+	"totalFiles": 36,
 	"symbolSummary": {
 		"files": 15,
 		"classes": 0,
-		"functions": 53,
-		"exports": 27,
+		"functions": 56,
+		"exports": 32,
 		"samples": [
+			"async",
+			"bootNotificationSocialOs",
 			"createNotificationActions",
 			"markButton",
 			"safeActionLink",
 			"actionLabel",
+			"secondaryReadDisclosure",
 			"revealBinahNotificationContext",
 			"humanize",
 			"groupLabel",
 			"contextChips",
-			"entityKey",
-			"shorten",
-			"clean",
-			"findOrCreateNotificationGroup"
+			"entityKey"
 		]
 	},
-	"outgoingDependencies": [],
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/shared",
+			"count": 2,
+			"examples": "geelooy/notifications/app.js; geelooy/notifications/modules/NotificationActions.js"
+		}
+	],
 	"incomingDependencies": [],
 	"externalDependencies": [],
 	"publicEntries": [

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Profile Pagination (geelooy/api/social/helper/profile/pagination/)\n\nChronological pagination for profile feeds.\n\n- `ChronologicalPagination.js` — cursor-based chronological pagination.\n- `test/` — `ChronologicalPagination.test.js`.\n"
+}

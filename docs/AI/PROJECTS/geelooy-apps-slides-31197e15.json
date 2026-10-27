@@ -24,19 +24,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-slides-31197e15.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 70,
+		"source": 72,
 		"tests": 10,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
 		"other": 1
 	},
-	"totalFiles": 82,
+	"totalFiles": 84,
 	"symbolSummary": {
-		"files": 54,
-		"classes": 31,
-		"functions": 89,
-		"exports": 88,
+		"files": 56,
+		"classes": 32,
+		"functions": 93,
+		"exports": 91,
 		"samples": [
 			"COLLAB_VERSION",
 			"SYNC_EVENT",
@@ -53,6 +53,11 @@
 		]
 	},
 	"outgoingDependencies": [
+		{
+			"project": "geelooy/apps/shared",
+			"count": 1,
+			"examples": "geelooy/apps/slides/src/movie/SlidesMovieAdapter.js"
+		},
 		{
 			"project": "geelooy/scripts",
 			"count": 1,

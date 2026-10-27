@@ -12,7 +12,9 @@
 	"title": "geelooy/api",
 	"entries": [
 		"_awtsmoos.derech.js",
-		"DOCUMENTATION.md"
+		"DOCUMENTATION.md",
+		"README.md",
+		"readme.md"
 	],
 	"humanDocumentation": [
 		"geelooy/api/DOCUMENTATION.md",
@@ -22,14 +24,14 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-79ca3287.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 1797,
-		"tests": 399,
+		"source": 2921,
+		"tests": 699,
 		"assets": 0,
 		"generated": 0,
-		"docs": 43,
-		"other": 3
+		"docs": 294,
+		"other": 13
 	},
-	"totalFiles": 2242,
+	"totalFiles": 3927,
 	"symbolSummary": null,
 	"outgoingDependencies": [],
 	"incomingDependencies": [],

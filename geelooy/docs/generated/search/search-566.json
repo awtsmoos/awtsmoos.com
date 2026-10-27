@@ -1,0 +1,146 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-world-directory-1aefe2e3eb",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/world/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/src/test/world",
+				"anchor": "directory-guide-experiments-awtsmoos-src-test-world"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Test themes",
+				"anchor": "test-themes"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/test/world Role: Tests Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 23 files, 0 structural child directories Purpose Tests for world generation, village systems, terrain, creatures, enemies, and environme",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/test/world role: tests snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 23 files, 0 structural child directories purpose tests for world generation, village systems, terrain, creatures, enemies, and environmental integration. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tests search terms: mjs, village, geometry, proves, com, terrain, deferred, demon, enrichment, shadow, without, botany file mix: .mjs: 22 good first question: “does the behavior or asset i need belong to tests, or is this only a neighboring/test/reference layer?” semantic evidence b\"h proves authored valley topology, aligned snow, and continuous physical texture scale. the awtsmoos closes ridge to ridge without tearing the garment of stone; awtsmoos.com keeps deterministic geography and duplicates one seam row so no compressed texture band appears. proves one carved opening serves every equivalent village wall. the awtsmoos renews each house without needless repetition; awtsmoos.com measures that visual and collision requests share one immutable csg revelation. proves one movement first chain owns terrain, botany, and later models. one kav descends through every world without a rival stream in sight; the valley wakes, the garden blooms, then hidden forms receive their light. representative files atmosphericmountaingeometry.test.mjs — proves authored valley topology, aligned snow, and continuous physical texture scale. the awtsmoos closes ridge to ridge without tearing the garment of stone; awtsmoos.com keeps deterministic geography and duplicates one seam row so no compressed texture band appears. covers: “mountain geometry opens one authored valley with a continuous uv seam”. booleandoorwaygeometrycache.test.mjs — proves one carved opening serves every equivalent village wall. the awtsmoos renews each house without needless repetition; awtsmoos.com measures that visual and collision requests share one immutable csg revelation. covers: “equivalent doorway instances reuse one immutable csg result”, “geometry dimensions and material scale remain cache boundaries”, “the bounded cache retains only the newest dimensional revelations”. cooperativeterrainpreparation.test.mjs — covers: “terrain sampling, topology, collision, and normals yield cooperatively”, “world collision insertion yields and returns a queryable octree”. deferredforestboot.test.mjs — proves one movement first chain owns terrain, botany, and later models. one kav descends through every world without a rival stream in sight; the valley wakes, the garden blooms, then hidden forms receive their light. covers: “canonical deferred terrain vessels contain no startup geometry”, “essential terrain defers both forest and sacred landmark generation”, “movement starts before the one post movement orchestration gate”. deferredterrainenrichment.test.mjs — proves collision precedes streamed terrain visuals and stale work cannot manifest. the awtsmoos gives every trunk and carved letter a truthful boundary before appearance; awtsmoos.com preserves order, exactly once work, cancellation, and reversible enrichment. covers: “text collision precedes text, forest input, forest collision, and forest visuals”, “destroy before text module resolution prevents all installation”, “destroy after completion removes visuals, collision, and obstacle additions”. deferredvillagebotanicalenrichment.test.mjs — proves optional botany never blocks movement and never installs twice. the awtsmoos reveals every petal at its proper time; awtsmoos.com protects the living scene from duplicate growth, stale promises, and geometry arriving after destruction. covers: “start schedules once and installs visual batches exactly once”, “destroy before import resolution rejects stale geometry”, “destroy removes already installed meshes”. doorwayframegeometry.test.mjs — proves rectangular doorway geometry is exact, transformed, and free of csg. the awtsmoos opens a passage through ordered vessels; awtsmoos.com verifies two piers and one lintel preserve the inhabited village while first movement no longer waits for booleans. covers: “doorway factory creates three exact boxes without invoking csg”. enemylifecyclestatepolicy.test.mjs — proves canonical spawn, alert, timeline, return, stagger, and defeat phases. the awtsmoos grants every concealment a beginning and an end; awtsmoos.com records warning, impact, recovery, pursuit, return, and defeat as finite witnessed states. covers: “health, sanctuary, and territory override combat intent”, “spawn and warning finish before the canonical attack timeline begins”, “stagger and cooldown resolve into bounded pursuit”. hostiletorahabilitysystem.test.mjs — proves construction, direct identity, and bounded regional torah targeting. covers: “live hostile population constructs and hydrates the setactors seam”, “single target ability resolves the canonical actor by stable id without a regional query”, “area ability visits only cells intersecting its bounded range”. shadowdemonanatomygeometry.test.mjs — proves six deterministic articulated hostiles remain one draw each. the awtsmoos joins many limbs into one finite garment; awtsmoos.com verifies anatomy, indices, normals, colors, quality budgets, and renderer neutral evidence together. covers: “high quality reveals six merged deterministic hostile anatomies”. shadowdemonanimation.test.mjs — guards canonical hostile states against exact local glb clip names. the awtsmoos renews one intention through many finite poses; awtsmoos.com lets idle, travel, warning, impact, recovery, and defeat find honest animated garments. covers: “clip aliases resolve the audited local hostile asset”, “canonical semantic states select stable animation intentions”. shadowdemoncombatfunctions.test.mjs — proves canonical light, sanctuary, hurt windows, defeat, and full respawn reset. the awtsmoos gives no finite shadow permission to forge strength or strike without measure; awtsmoos.com records health, range, protection, clearing, and return as visible contracts. covers: “torah light uses canonical damage and enforces world range”, “one player hurt window prevents simultaneous shadow damage”, “village sanctuary cancels hostile impact at the damage boundary”. villagedistrictplacement.test.mjs — proves every rendered cottage is an authored numbered home at every quality tier. the awtsmoos joins identity to location and location to responsibility; awtsmoos.com rejects anonymous ellipse filler so roads, courtyards, terrain, interiors, and missions share one truth. covers: “all quality tiers preserve exactly the numbered district houses”, “placement is deterministic and returns no anonymous homes”, “an unauthored density request fails instead of scattering filler”. import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: node:assert/strict node:test ../../world/village/atmosphericmountainridgeatlas.js ../../world/village/atmosphericmountaingeometry.js ../../world/booleandoorwaygeometry.js ../../world/booleandoorwaygeometrycache.js ../../app/worldcollisionoctree.js ../../world/terraingeometry.js node:fs/promises ../../world/streaming/deferredterrainfeaturestate.js ../../world/streaming/deferredterrainenrichment.js ../../world/streaming/deferredvillagebotanicalenrichment.js test themes mountain geometry opens one authored valley with a continuous uv seam equivalent doorway instances reuse one immutable csg result geometry dimensions and material scale remain cache boundaries the bounded cache retains only the newest dimensional revelations terrain sampling, topology, collision, and normals yield cooperatively world collision insertion yields and returns a queryable octree canonical deferred terrain vessels contain no startup geometry essential terrain defers both forest and sacred landmark generation movement starts before the one post movement orchestration gate optional world streaming is the sole botanical runtime owner the botanical gate alone releases deferred world models text collision precedes text, forest input, forest collision, and forest visuals directory map parent: experiments/awtsmoos/src/test children: none. related and overlapping systems colocated and integration test surfaces — most subsystem tests live under src/test, while a smaller external tests tree exercises broader integration contracts. boundaries and cautions this directory verifies behavior; it should not become the production owner of that behavior. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-world-directory-1aefe2e3eb.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-ui-directory-guide-m-503cfe4a6d",
+		"title": "UI Directory Guide",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "UI Directory Guide",
+				"anchor": "ui-directory-guide"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Architectural law",
+				"anchor": "architectural-law"
+			},
+			{
+				"level": 2,
+				"text": "Canonical style families",
+				"anchor": "canonical-style-families"
+			},
+			{
+				"level": 3,
+				"text": "styles/gameplay/",
+				"anchor": "styles-gameplay"
+			},
+			{
+				"level": 3,
+				"text": "styles/responsive/",
+				"anchor": "styles-responsive"
+			},
+			{
+				"level": 3,
+				"text": "styles/actionbar/",
+				"anchor": "styles-actionbar"
+			},
+			{
+				"level": 2,
+				"text": "Key JavaScript seams",
+				"anchor": "key-javascript-seams"
+			},
+			{
+				"level": 2,
+				"text": "Public style installers",
+				"anchor": "public-style-installers"
+			},
+			{
+				"level": 2,
+				"text": "Verification",
+				"anchor": "verification"
+			},
+			{
+				"level": 2,
+				"text": "Extension recipe",
+				"anchor": "extension-recipe"
+			},
+			{
+				"level": 2,
+				"text": "Boundary warning",
+				"anchor": "boundary-warning"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He UI Directory Guide The Awtsmoos renews every visible vessel and every hidden bond; Awtsmoos.com keeps this directory navigable so future expansion stays clear, local, and strong. Purpose experiments/Awtsmoos/src/ui owns browser facing gameplay presentation: HUDs, action bars, dialogue, q",
+		"searchText": "b\"h boruch hashem blessed is he ui directory guide the awtsmoos renews every visible vessel and every hidden bond; awtsmoos.com keeps this directory navigable so future expansion stays clear, local, and strong. purpose experiments/awtsmoos/src/ui owns browser facing gameplay presentation: huds, action bars, dialogue, quests, inventory surfaces, targeting presentation, profile/vendor sheets, accessibility adapters, and ui specific input coordination. domain rules belong in gameplay; rendering/world state belongs elsewhere. architectural law component behavior lives in small javascript classes and presenters. authored css lives under ui/styles/ and is composed with @import manifests. shared stylesheet lifecycle uses yesodstylesheetinstaller. a style family must have an explicit component/page root. shared ui css must not publish :root, html, or body selectors. each style family owns named z layer tokens instead of anonymous competing numbers. mobile portrait is the baseline; landscape and desktop enhance it. drawers, dialogs, tooltips, and sheets must remain inside safe viewport bounds. relevant controls require hover, active, focus visible, disabled/unavailable, and reduced motion states. authored source touched by this architecture stays below 120 lines by splitting responsibilities, never by compressing documentation. canonical style families styles/gameplay/ quest offer/log/tracker, minimap, torah library, player/npc status, dialogue, safe area/layer tokens, and gameplay wide interaction states. installed by gameplayuistyles.js. styles/responsive/ profile/vendor sheets, data cards, status ribbon, and mobile drawer geometry. installed by responsivegameplaystyles.js. styles/actionbar/ combat frame geometry, slots, cooldown/charge indicators, tone data, casts, enemy warnings, torah ability tooltips, and responsive action bar behavior. installed by actionbarstyles.js. key javascript seams yesodstylesheetinstaller.js — one external stylesheet lifecycle contract. gameplayuicontroller.js — composes gameplay panels without owning their css internals. actionbarhud.js — action bar facade joining input, cooldowns, slots, casts, feedback, and tooltip inspection. actionbarslotpresenter.js — projects runtime/store data into stable slot dom. actionbarinputcontroller.js — composes activation, drag, long press inspection, and listener cleanup. torahabilitytooltip.js — tooltip lifecycle facade. torahabilitytooltipcontent.js — data to semantic dom tooltip projection. yesodtooltipgeometry.js — viewport bounded local tooltip placement. npchud.js — npc/player status and dialogue dom; presentation remains localized under the mitzvah world root. public style installers callers should use installers rather than importing css fragments directly: installgameplayuistyles() installresponsivegameplaystyles() installactionbarstyles() the installers preserve historical apis while external css remains cacheable, inspectable, and modular. verification architecture gates live under src/test/ui/: directworldlayoutcss.test.mjs mainmenustylelocalization.test.mjs gameplaystylelocalization.test.mjs actionbarstylelocalization.test.mjs they enforce retired geometry owners, safe viewport tokens, no shared global selectors, complete interaction state coverage, named layers, and the authored line ceiling. extension recipe 1. find the semantic component root. 2. add data/behavior in a small class or presenter. 3. add a focused css fragment under the correct style family. 4. import the fragment from that family's manifest. 5. use existing named safe area/layer tokens before inventing new geometry. 6. add hover/active/focus/disabled/open/reduced motion states where relevant. 7. extend the localization regression test. 8. run the focused ui suite and inspect the live viewport before declaring the surface complete. boundary warning a dom node being appended to document.body does not automatically justify global css. prefer mounting inside the semantic component root; when a true portal is required, give it a unique owned root and localize selectors beneath that root. the light may be infinite, the stylesheet must know its gate; one owner per surface keeps awtsmoos.com ready for every future state.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-ui-directory-guide-m-503cfe4a6d.json"
+	}
+]

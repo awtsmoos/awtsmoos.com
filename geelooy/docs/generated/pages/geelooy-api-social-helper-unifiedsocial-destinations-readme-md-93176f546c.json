@@ -1,0 +1,24 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-social-helper-unifiedsocial-destinations-readme-md-93176f546c",
+	"title": "B\"H — Unified Social Destinations (geelooy/api/social/helper/unifiedSocial/destinations/)",
+	"sourcePath": "geelooy/api/social/helper/unifiedSocial/destinations/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Unified Social Destinations (geelooy/api/social/helper/unifiedSocial/destinations/)",
+			"anchor": "b-h-unified-social-destinations-geelooy-api-social-helper-unifiedsocial-destinations"
+		},
+		{
+			"level": 2,
+			"text": "Files",
+			"anchor": "files"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-social-helper-unifiedsocial-destinations-readme-md-93176f546c-001.json"
+	]
+}

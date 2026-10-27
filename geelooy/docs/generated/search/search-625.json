@@ -1,0 +1,167 @@
+[
+	{
+		"id": "geelooy-public-virtual-os-games-crystal-1780374112967-clean-mobile-readm-347a74946a",
+		"title": "Crystal Critters Clean Mobile",
+		"sourcePath": "geelooy/public/virtual-os-games/crystal-1780374112967-clean-mobile/README.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Crystal Critters Clean Mobile",
+				"anchor": "crystal-critters-clean-mobile"
+			}
+		],
+		"excerpt": "B'H Crystal Critters Clean Mobile Local: http://localhost:8080/public/virtual os games/crystal 1780374112967 clean mobile/ Public: https://awtsmoos.com/public/virtual os games/crystal 1780374112967 clean mobile/ Agent: gameAgent 1780374067939 oe41vx ui: done round 8 ui round 4: Shrink controls, restore readable cave, u",
+		"searchText": "b'h crystal critters clean mobile local: http://localhost:8080/public/virtual os games/crystal 1780374112967 clean mobile/ public: https://awtsmoos.com/public/virtual os games/crystal 1780374112967 clean mobile/ agent: gameagent 1780374067939 oe41vx ui: done round 8 ui round 4: shrink controls, restore readable cave, use compact floating controls, keep browser chrome clear. ui round 5: shrink controls, restore readable cave, use compact floating controls, keep browser chrome clear. ui round 7: shrink controls, restore readable cave, use compact floating controls, keep browser chrome clear. ui round 8: shrink controls, restore readable cave, use compact floating controls, keep browser chrome clear. controls: failed round 7 controls round 4: prefer swipe/tap canvas first, make buttons small backup only, no huge dock covering playfield. controls round 5: prefer swipe/tap canvas first, make buttons small backup only, no huge dock covering playfield. controls round 6: prefer swipe/tap canvas first, make buttons small backup only, no huge dock covering playfield. controls round 7: prefer swipe/tap canvas first, make buttons small backup only, no huge dock covering playfield. levels: done round 8 levels round 5: add lots of varied levels while keeping early levels readable on mobile. levels round 6: add lots of varied levels while keeping early levels readable on mobile. levels round 7: add lots of varied levels while keeping early levels readable on mobile. levels round 8: add lots of varied levels while keeping early levels readable on mobile. animation: done round 8 animation round 5: add walking frames, easing, hit flash, crystal pickup bursts, and critter idle pulses. animation round 6: add walking frames, easing, hit flash, crystal pickup bursts, and critter idle pulses. animation round 7: add walking frames, easing, hit flash, crystal pickup bursts, and critter idle pulses. animation round 8: add walking frames, easing, hit flash, crystal pickup bursts, and critter idle pulses. help: done round 8 help round 5: move instructions into a compact pop up and keep notes collapsed by default. help round 6: move instructions into a compact pop up and keep notes collapsed by default. help round 7: move instructions into a compact pop up and keep notes collapsed by default. help round 8: move instructions into a compact pop up and keep notes collapsed by default. api: done round 8 api round 5: design spawn/status/watch commands: spawn returns agentid immediately; parent polls until done. api round 6: design spawn/status/watch commands: spawn returns agentid immediately; parent polls until done. api round 7: design spawn/status/watch commands: spawn returns agentid immediately; parent polls until done. api round 8: design spawn/status/watch commands: spawn returns agentid immediately; parent polls until done.",
+		"page": "pages/geelooy-public-virtual-os-games-crystal-1780374112967-clean-mobile-readm-347a74946a.json"
+	},
+	{
+		"id": "geelooy-recorder-documentation-md-f7f6cc416c",
+		"title": "Local Recorder",
+		"sourcePath": "geelooy/recorder/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Local Recorder",
+				"anchor": "local-recorder"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Local Recorder The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Public media utility. Observed entry: index.html; observed title: “Local Recorder — Geelooy”. Start here Read docs/APPS/MEDIA TOOL",
+		"searchText": "b\"h boruch hashem blessed is he local recorder the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role public media utility. observed entry: index.html; observed title: “local recorder — geelooy”. start here read docs/apps/media tools.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes recorder changes can involve browser media permissions, local blobs/files and shared media utilities; verify the actual source surface involved.",
+		"page": "pages/geelooy-recorder-documentation-md-f7f6cc416c.json"
+	},
+	{
+		"id": "geelooy-scripts-awtai-db-readme-md-30b23c94e4",
+		"title": "AWTAI-DB Engine Prototype",
+		"sourcePath": "geelooy/scripts/awtai-db/README.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "AWTAI-DB Engine Prototype",
+				"anchor": "awtai-db-engine-prototype"
+			},
+			{
+				"level": 2,
+				"text": "Convert",
+				"anchor": "convert"
+			},
+			{
+				"level": 2,
+				"text": "Inspect",
+				"anchor": "inspect"
+			},
+			{
+				"level": 2,
+				"text": "Fastest measured low-RAM chat path",
+				"anchor": "fastest-measured-low-ram-chat-path"
+			},
+			{
+				"level": 2,
+				"text": "Optional pure-JS generated LM-head kernel",
+				"anchor": "optional-pure-js-generated-lm-head-kernel"
+			},
+			{
+				"level": 2,
+				"text": "Benchmark",
+				"anchor": "benchmark"
+			},
+			{
+				"level": 2,
+				"text": "JS-only tests",
+				"anchor": "js-only-tests"
+			}
+		],
+		"excerpt": "B\"H AWTAI DB Engine Prototype This runner is disk first: model bytes live in .awtai db, tensor reads are range based, and the low RAM chat path avoids a full F32 LM head slab. Convert node geelooy/scripts/awtai db/bin/convert.js model.gguf model.awtai db Inspect node geelooy/scripts/awtai db/tests/test model inspect.js",
+		"searchText": "b\"h awtai db engine prototype this runner is disk first: model bytes live in .awtai db, tensor reads are range based, and the low ram chat path avoids a full f32 lm head slab. convert node geelooy/scripts/awtai db/bin/convert.js model.gguf model.awtai db inspect node geelooy/scripts/awtai db/tests/test model inspect.js model.awtai db fastest measured low ram chat path use the generic direct quantized lm head scanner. it does not build the old f32 slab and keeps tensor byte cache at zero: optional pure js generated lm head kernel the repo can generate a deterministic commonjs q6 k lm head scanner with node built ins only. no c compiler, npm package, or native build is used. current measurement on the tinyllama q2 k .awtai db: the generated q6 k scanner matched direct top k parity and reduced rss/read event count in an isolated 1 token benchmark, but it was slower than the generic direct scanner. therefore it is opt in, not the default fastest path. benchmark js only tests",
+		"page": "pages/geelooy-scripts-awtai-db-readme-md-30b23c94e4.json"
+	},
+	{
+		"id": "geelooy-scripts-awtai-db-was-readme-md-ee3ff2ac87",
+		"title": "WAS Chat Conversations",
+		"sourcePath": "geelooy/scripts/awtai-db/was/README.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "WAS Chat Conversations",
+				"anchor": "was-chat-conversations"
+			}
+		],
+		"excerpt": "B\"H WAS Chat Conversations bin/was chat.js creates persisted chat conversation JSON files and uses AWTAI DB disk first inference with temp heavy scratch/KV spill. Conversation root defaults to /Documents/awtai db chats.",
+		"searchText": "b\"h was chat conversations bin/was chat.js creates persisted chat conversation json files and uses awtai db disk first inference with temp heavy scratch/kv spill. conversation root defaults to /documents/awtai db chats.",
+		"page": "pages/geelooy-scripts-awtai-db-was-readme-md-ee3ff2ac87.json"
+	},
+	{
+		"id": "geelooy-scripts-awtsmoos-compiling-js-native-v2-signoff-md-ce88df03f6",
+		"title": "B\"H — NATIVE TIER v2 VERIFICATION SIGN-OFF (stream 8/8, the gatekeeper)",
+		"sourcePath": "geelooy/scripts/awtsmoos/compiling/js/NATIVE_V2_SIGNOFF.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — NATIVE TIER v2 VERIFICATION SIGN-OFF (stream 8/8, the gatekeeper)",
+				"anchor": "b-h-native-tier-v2-verification-sign-off-stream-8-8-the-gatekeeper"
+			},
+			{
+				"level": 2,
+				"text": "Per-stream sign-off table",
+				"anchor": "per-stream-sign-off-table"
+			},
+			{
+				"level": 2,
+				"text": "🔴 S1 — why it goes back (2 confirmed bugs, both reproduced)",
+				"anchor": "s1-why-it-goes-back-2-confirmed-bugs-both-reproduced"
+			},
+			{
+				"level": 2,
+				"text": "🔴 S3 / S5 — why they go back (object-model contract drift)",
+				"anchor": "s3-s5-why-they-go-back-object-model-contract-drift"
+			},
+			{
+				"level": 2,
+				"text": "Independent edge suites (all new, seeded, vs V8)",
+				"anchor": "independent-edge-suites-all-new-seeded-vs-v8"
+			},
+			{
+				"level": 2,
+				"text": "Benchmark gate",
+				"anchor": "benchmark-gate"
+			},
+			{
+				"level": 2,
+				"text": "What \"green\" requires (per stream, before it ships)",
+				"anchor": "what-green-requires-per-stream-before-it-ships"
+			}
+		],
+		"excerpt": "B\"H — NATIVE TIER v2 VERIFICATION SIGN OFF (stream 8/8, the gatekeeper) Date: 2026 10 09 13:32 EDT (matrix t0 17:32:29Z) Oracle: V8 (new Function) — always. Never a stream's own claims. Machine load at measurement: 17:32:29 up 30 min, load average: 7.73, 8.51, 7.97 Matrix: native v2 matrix.mjs → native v2 matrix report",
+		"searchText": "b\"h — native tier v2 verification sign off (stream 8/8, the gatekeeper) date: 2026 10 09 13:32 edt (matrix t0 17:32:29z) oracle: v8 (new function) — always. never a stream's own claims. machine load at measurement: 17:32:29 up 30 min, load average: 7.73, 8.51, 7.97 matrix: native v2 matrix.mjs → native v2 matrix report.json verdict: 🔴 red — nothing ships. s1 goes back with 2 confirmed bugs; s3 and s5 go back for object model contract drift. details below. byte identical required: any mismatch = stream goes back, no exceptions. per stream sign off table stream feature status tests passed independent fuzz (vs v8) chrome ratio load at measurement s1 object model (value model.js + object model.md) 🔴 goes back — 2 bugs own: 212/212 ✅; mine: 22,501 pass / 2,007 fail ❌ 12,000 seeded cases (round trip, truthiness, ===, typeof, fixnum boundaries, holes) n/a (spec + js helpers, no codegen) 7.73 s2 heap/gc (heap.js) 🟡 library — landed, not wired into asm.js none (no test file) n/a (not wired) pending (not wired) 7.73 s3 string codegen (codegen strings.js) 🔴 goes back — contract drift none (no test file) 34,524 pass ✅ (unicode torture at model level; s3 native section pending wire up) pending (not wired) 7.73 s4 array codegen (codegen arrays.js) 🟡 library — landed, not wired none (no test file) 22,525 pass ✅ (sparse/hole arrays at model level; s4 native section pending) pending (not wired) 7.73 s5 object codegen (codegen objects.js) 🔴 goes back — contract drift none (no test file) 41,503 pass ✅ (shape transitions at model level + 1,500 native v1 fixed shape object programs byte identical vs v8 ) pending (not wired) 7.73 s6 json codegen ⚪ pending — nothing landed — 40,000 pass ✅ (corpus validation at model level; 1,000 case corpus saved to native v2 json corpus.json for s6's arrival) pending 7.73 s7 tiering ⚪ pending — nothing landed — — pending 7.73 — v1 baseline differential ✅ green barrett/obj/lea all pass 164 + 7 + 7 cases vs v8 — 7.73 — stress 340, native on ✅ green 28/28 byte identical vs live v8, 0 mismatch (312 skipped: unsupported subset / non integer) — — 7.73 — stress 340, native off ✅ green 340/340 pass through the interpreter (independent runner, same budgets as the suite's own) — — 9.22 — benchmark gate (v1 kernels, informational) ✅ measured fib/arith/props compile+run — native vs v8: fib 0.63x, arith 0.04x, props 0.14x (v8 wins; v1 tier, high variance under load — not sign off data) 8.72 🔴 s1 — why it goes back (2 confirmed bugs, both reproduced) bug 1 — strictequal violates spec §12 rule 6 (cross tag numerics). spec: \"cross tag number compare beyond rule 3 (e.g. fixnum(5) vs boxed 5.0): compare number(fixnum) with the double bits; nan → false.\" differential tested vs v8. implementation only handles the fixnum 0 vs ±0 sub case and returns false for everything else: strictequal(fixnum(5), boxed 5.0) → false; v8 5 === 5.0 → true ❌ strictequal(fixnum( 7), boxed 7.0) → false; v8 → true ❌ strictequal(fixnum(2 40), boxed 2 40) → false; v8 → true ❌ (5 vs 5.5 → false ✅, 5 vs nan → false ✅, 0 vs ±0 ✅ — those are correct.) this will arise in real codegen: any arithmetic stream result that is an integer valued double (e.g. 2 2.5) compared against a fixnum. fix: implement rule 6 fully. bug 2 — encodevalue throws rangeerror on the double 2 60 instead of boxing it. guard: js fixnum max → throws . per spec §3 (\"any integer op whose true result leaves the range boxes a double\"), 2 60 must encode as a boxed double, never throw. any js program computing 2 60 crashes the encoder. fix: the guard must be js < 2 60 (strict), not js <= number(fixnum max). blast radius in the fuzz: 2,003 of 2,007 failures trace to this throw (roundtrip 370, truthy 159, stricteq 1369, typeof 105). s1 re entry criteria: both fixed, then native v2 edge valuemodel.mjs (12k cases) exits 0 and value model.test.mjs still 212/212. 🔴 s3 / s5 — why they go back (object model contract drift) value model.js is the declared single source of truth (\"every stream (codegen, gc, runtime, harness) imports tag constants, header layouts, and these encode/decode helpers from this file\"). s3 and s5 do not conform: s3 (codegen strings.js): 1. await import(\"../value model.js\") — wrong path (file lives in the same directory; needs \"./\"). the import always fails and the module silently falls back to local vm (valuemodelsource() returns \"local fallback\"). the \"prefer the authoritative module\" logic never runs. 2. htype cons = 8 collides with s1 type shape = 8. a gc walking the heap cannot distinguish an s3 cons string from an s1 shape. 3. header is 8 bytes (bits[7:0] = type, bits[63:8] = meta) vs s1's 16 byte [type u32, flags u32, meta u64] — gc header parsing is incompatible. s5 (codegen objects.js): 1. never imports value model.js at all — a parallel model. 2. own heap type ids: 3=object, 4=array, 5=string, 6=function, 7=undefined vs s1 1=string, 2=array, 3=object, 4=double, 5=closure. 3. own layout [type, shapeptr, protoptr, valuesptr] vs s1's 16 byte header + payload at +16. an s1 built heap is unreadable to s5 codegen and vice versa. re entry criteria: import tag/type/header constants from value model.js (no silent fallbacks — fail loud if the import misses), use s1 header layout and type ids, resolve the htype cons/type shape collision with s1. s2 note (not red, but must reconcile before integration): heap.js constant ids conform (1=string, 2=array, 3=object; 16 byte header), but the meta packing differs : s1 array meta = length(high32) capacity(low32), heap.js = len(low32) cap(high32) (halves swapped); s1 string meta = length in utf 16 units, heap.js = used byte len (capacity bytes << 32). pick one; s1 is the contract. s4 note: constants conform via the correct ./value model.js import, but it defines its own 24 byte header (off type=0, off length=8, off capacity=16, off elems=24) vs s1's 16 byte header — reconcile before integration. independent edge suites (all new, seeded, vs v8) suite cases result native v2 edge valuemodel.mjs 12,000 ❌ 22,501 pass / 2,007 fail (the 2 s1 bugs) native v2 edge unicode.mjs 10,000 strings (+1,500 unit/slice checks) ✅ 34,524 pass native v2 edge sparse.mjs 10,000 ✅ 22,525 pass native v2 edge shapes.mjs 10,000 + 1,500 native ✅ 41,503 pass (1,500 native v1 object programs byte identical vs v8) native v2 edge json.mjs 10,000 ✅ 40,000 pass; corpus saved shared native v2 prng.mjs (seeded xorshift128+) failures reproduce with seed each suite has a probe gated native sn section that activates automatically when the corresponding stream wires into asm.js — the differential coverage is already written for s3/s4/s5/s6's arrival. benchmark gate per stream chrome vs native ratios: not yet measurable — no stream with codegen is wired end to end (s2–s5 are libraries; s6/s7 pending). ratios will be recorded per stream on wire up, each with uptime at measurement; any ratio taken at 1 min load ≥ 12 is rejected and re run (matrix enforces this). v8 here = chrome's js engine, measured in process; true browser chrome numbers come from the chrome vs merkava benchmark cron. v1 kernel informational ratios (official benchmarks/merkava js.mjs, load 8.72, best of 7 v8 in process, median of 3 runs): kernel native v8 interpreter v8/native fib(22) 0.69ms 0.438ms 465.2ms 0.63x (v8 wins) arith 200k 14.43ms 0.544ms 608.6ms 0.04x (v8 wins) props 100k 1.87ms 0.26ms 6334.7ms 0.14x (v8 wins) these describe the v1 integer tier, not any v2 stream — they are baseline context only, not sign off data. high run to run variance under machine load; re measure on quiet machine before quoting. gate integrity note (2026 10 09 13:34 edt): one benchmark invocation returned n:0/null medians (interpreter flaked under load 9.91) while the matrix initially recorded unexplained non null rows. root causes fixed in the matrix: (1) benchgate no longer imports merkava js.mjs for its scripts (the import executed the whole benchmark as a side effect) — it now reads the generated js scripts.json; (2) any null median/flaked run is rejected, never converted to rows. the numbers above are from a clean re run through the validated path. what \"green\" requires (per stream, before it ships) 1. stream's own tests pass (spawned by the matrix, never edited). 2. the independent edge suite for that stream exits 0 (≥10k seeded cases vs v8). 3. contract check vs value model.js conforms (no drift). 4. applicable stress 340 subset byte identical vs live v8 in native on mode. 5. benchmark ratio recorded with load < 12 (or re run note). current state: 1 of 7 streams complete (s1), and it goes back. 4 streams are libraries awaiting wire up + contract reconciliation. 2 not started.",
+		"page": "pages/geelooy-scripts-awtsmoos-compiling-js-native-v2-signoff-md-ce88df03f6.json"
+	}
+]

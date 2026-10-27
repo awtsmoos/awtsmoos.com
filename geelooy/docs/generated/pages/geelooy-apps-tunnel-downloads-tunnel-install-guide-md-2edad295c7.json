@@ -1,0 +1,89 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-downloads-tunnel-install-guide-md-2edad295c7",
+	"title": "B\"H",
+	"sourcePath": "geelooy/apps/tunnel/downloads/TUNNEL_INSTALL_GUIDE.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Awtsmoos Tunnel — Installation and Recovery Guide",
+			"anchor": "awtsmoos-tunnel-installation-and-recovery-guide"
+		},
+		{
+			"level": 2,
+			"text": "Install from a terminal",
+			"anchor": "install-from-a-terminal"
+		},
+		{
+			"level": 2,
+			"text": "Installation options",
+			"anchor": "installation-options"
+		},
+		{
+			"level": 2,
+			"text": "Approve the device on your phone",
+			"anchor": "approve-the-device-on-your-phone"
+		},
+		{
+			"level": 2,
+			"text": "Read the installer's diagnostics",
+			"anchor": "read-the-installer-s-diagnostics"
+		},
+		{
+			"level": 2,
+			"text": "Troubleshooting",
+			"anchor": "troubleshooting"
+		},
+		{
+			"level": 3,
+			"text": "invaliddevicecredential",
+			"anchor": "invaliddevicecredential"
+		},
+		{
+			"level": 3,
+			"text": "Paired candidate fails after promotion",
+			"anchor": "paired-candidate-fails-after-promotion"
+		},
+		{
+			"level": 3,
+			"text": "Code appears unknown or expired immediately",
+			"anchor": "code-appears-unknown-or-expired-immediately"
+		},
+		{
+			"level": 3,
+			"text": "Waiting at candidate probe",
+			"anchor": "waiting-at-candidate-probe"
+		},
+		{
+			"level": 3,
+			"text": "Verify the final machine",
+			"anchor": "verify-the-final-machine"
+		},
+		{
+			"level": 3,
+			"text": "Old traces and authorizations",
+			"anchor": "old-traces-and-authorizations"
+		},
+		{
+			"level": 2,
+			"text": "API and agent access",
+			"anchor": "api-and-agent-access"
+		},
+		{
+			"level": 2,
+			"text": "Verified artifact transport (native browser and files)",
+			"anchor": "verified-artifact-transport-native-browser-and-files"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-downloads-tunnel-install-guide-md-2edad295c7-001.json"
+	]
+}

@@ -23,18 +23,18 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-sulam-ha-sod-6268c2f3.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 152,
-		"tests": 14,
+		"source": 161,
+		"tests": 15,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
 		"other": 0
 	},
-	"totalFiles": 167,
+	"totalFiles": 177,
 	"symbolSummary": {
-		"files": 144,
+		"files": 145,
 		"classes": 28,
-		"functions": 157,
+		"functions": 161,
 		"exports": 243,
 		"samples": [
 			"CameraRig",
@@ -59,8 +59,8 @@
 			"url": "/games/sulam-ha-sod",
 			"file": "geelooy/games/sulam-ha-sod/index.html",
 			"title": "Sulam HaSod",
-			"scripts": 1,
-			"styles": 1
+			"scripts": 5,
+			"styles": 4
 		}
 	],
 	"requiresLocalDocumentation": true,

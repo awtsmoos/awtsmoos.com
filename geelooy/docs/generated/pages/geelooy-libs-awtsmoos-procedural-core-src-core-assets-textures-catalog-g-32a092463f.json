@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-src-core-assets-textures-catalog-g-32a092463f",
+	"title": "B\"H",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/src/core/assets/textures/CATALOG_GROUND_ARCHITECTURE.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Awtsmoos Drive Catalog — Ground + Architecture",
+			"anchor": "awtsmoos-drive-catalog-ground-architecture"
+		},
+		{
+			"level": 2,
+			"text": "Ground — 35",
+			"anchor": "ground-35"
+		},
+		{
+			"level": 2,
+			"text": "Architecture — 33",
+			"anchor": "architecture-33"
+		},
+		{
+			"level": 2,
+			"text": "Useful restrained pairs",
+			"anchor": "useful-restrained-pairs"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-src-core-assets-textures-catalog-g-32a092463f-001.json"
+	]
+}

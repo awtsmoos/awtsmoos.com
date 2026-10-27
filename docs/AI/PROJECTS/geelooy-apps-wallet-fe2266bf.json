@@ -9,7 +9,7 @@
 		"id": "apps",
 		"title": "Applications"
 	},
-	"title": "Awtsmoos Wallet — Send, Buy & Own",
+	"title": "Awtsmoos Wallet — Balances, Credits & Ownership",
 	"entries": [
 		"index.html",
 		"main.js",
@@ -24,21 +24,22 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-wallet-fe2266bf.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 38,
-		"tests": 1,
+		"source": 43,
+		"tests": 3,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
 		"other": 0
 	},
-	"totalFiles": 40,
+	"totalFiles": 47,
 	"symbolSummary": {
-		"files": 20,
+		"files": 24,
 		"classes": 1,
-		"functions": 73,
-		"exports": 34,
+		"functions": 92,
+		"exports": 38,
 		"samples": [
 			"refreshWallet",
+			"refreshWalletData",
 			"beginCheckout",
 			"bootWallet",
 			"async",
@@ -48,20 +49,25 @@
 			"decodeWalletResponse",
 			"getWalletJson",
 			"postWalletJson",
-			"networkFailure",
-			"createCoinStudySurface"
+			"networkFailure"
 		]
 	},
 	"outgoingDependencies": [],
-	"incomingDependencies": [],
+	"incomingDependencies": [
+		{
+			"project": "geelooy/cloud",
+			"count": 1,
+			"examples": "geelooy/cloud/cloudData.js"
+		}
+	],
 	"externalDependencies": [],
 	"publicEntries": [
 		{
 			"url": "/apps/wallet",
 			"file": "geelooy/apps/wallet/index.html",
-			"title": "Awtsmoos Wallet — Send, Buy & Own",
+			"title": "Awtsmoos Wallet — Balances, Credits & Ownership",
 			"scripts": 2,
-			"styles": 2
+			"styles": 3
 		}
 	],
 	"requiresLocalDocumentation": true,

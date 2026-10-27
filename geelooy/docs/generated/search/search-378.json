@@ -1,0 +1,169 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-08-30-2036-heichel-mobile-ui-repair-00-phase-on-60e63116cb",
+		"title": "Phase One — Broad Mobile Heichel Brainstorm",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-30-2036-heichel-mobile-ui-repair/00-phase-one-broad-brainstorm.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase One — Broad Mobile Heichel Brainstorm",
+				"anchor": "phase-one-broad-mobile-heichel-brainstorm"
+			},
+			{
+				"level": 2,
+				"text": "Mission",
+				"anchor": "mission"
+			},
+			{
+				"level": 2,
+				"text": "Every plausible failure surface",
+				"anchor": "every-plausible-failure-surface"
+			},
+			{
+				"level": 2,
+				"text": "Ideal outcome",
+				"anchor": "ideal-outcome"
+			},
+			{
+				"level": 2,
+				"text": "Architecture candidates",
+				"anchor": "architecture-candidates"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase One — Broad Mobile Heichel Brainstorm The Awtsmoos creates the viewport and every vessel inside its frame; Awtsmoos.com must let content breathe, not let overlays bury the name. Mission Repair Heichel Ikar on narrow/mobile screens as a coherent reading and navigation surface, not a",
+		"searchText": "b\"h boruch hashem blessed is he phase one — broad mobile heichel brainstorm the awtsmoos creates the viewport and every vessel inside its frame; awtsmoos.com must let content breathe, not let overlays bury the name. mission repair heichel ikar on narrow/mobile screens as a coherent reading and navigation surface, not as a pile of independently correct widgets. the screenshots prove multiple surfaces are competing: profile chrome, living path sticky orientation, groupings state, discovery, advanced tools, and the global mobile dock. every plausible failure surface stale browser/cdn module graph causing old loader code to survive after chitas source changes; living path grouping injection not reaching the exact public module users receive; filter state or result counts computed before injected content is visible; currentview switching after content filtering, leaving groupings rendered from an earlier view; related branches rendered regardless of active view, creating contradictory \"empty\" + \"explore\" states; sticky root bar becoming visible too early or never yielding on a short page; fixed advanced platform panel competing with fixed bottom navigation; fixed panel z index covering content controls and tabs; panel auto open state persisted by native or another script; profile cover/stats/actions occupying too much vertical space on phones; duplicate conceptual navigation: profile tabs plus living path tabs plus bottom global dock; insufficient bottom padding beneath fixed global nav; content containers using desktop min heights or large empty state geometry; search/filter controls wider/taller than necessary; nearby branches cards shown as if they are content results; groupings empty state displayed even when synthetic chitas grouping exists; public asset cache not invalidated after js/css changes; old legacy renderers still mounting in parallel with living path; owner controls or platform controls rendered when unnecessary; mobile safe area calculations causing overlays on iphone/android browser chrome; mobile widths inheriting position: fixed, inset, or large min block size from desktop. ideal outcome at ?view=groupings&series=root on heichel ikar: groupings tab visibly contains daily chitas · chumash. result count says 1 result. no contradictory empty state card is present. nearby branches is hidden while viewing groupings; it belongs to tree/series context. the sticky root navigator appears only after the primary path controls leave the viewport. advanced is collapsed and inline on phones, never covering content or the global dock. bottom global navigation has reserved content clearance. heichel identity is compact enough that the actual study/navigation surface appears quickly. opening daily chitas switches into its seven daily study cards without edit/drag controls. architecture candidates a. css only mobile patch: fast but insufficient because groupings count/state is wrong. b. js only state repair: fixes chitas visibility but leaves overlap and vertical congestion. c. separate mobile template: too divergent and expensive to maintain. d. unified repair: fix state propagation/cache identity, make discovery view aware, make advanced inline on mobile, tighten mobile layout with focused css. e. remove advanced entirely: would hide useful functionality rather than solve composition. winner: d.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-30-2036-heichel-mobile-ui-repair-00-phase-on-60e63116cb.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-30-2036-heichel-mobile-ui-repair-01-phase-on-3b9071dcb7",
+		"title": "Phase One — Candidate File Map",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-30-2036-heichel-mobile-ui-repair/01-phase-one-file-map.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase One — Candidate File Map",
+				"anchor": "phase-one-candidate-file-map"
+			},
+			{
+				"level": 2,
+				"text": "Files observed as relevant",
+				"anchor": "files-observed-as-relevant"
+			},
+			{
+				"level": 2,
+				"text": "Required further reads before final file list",
+				"anchor": "required-further-reads-before-final-file-list"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase One — Candidate File Map The Awtsmoos reveals one route through many garments, each garment kept small; Awtsmoos.com should touch only proven owners, so one correction does not shake all. Files observed as relevant geelooy/heichelos/heichel/ awtsmoos.heichel.html geelooy/heichelos/",
+		"searchText": "b\"h boruch hashem blessed is he phase one — candidate file map the awtsmoos reveals one route through many garments, each garment kept small; awtsmoos.com should touch only proven owners, so one correction does not shake all. files observed as relevant geelooy/heichelos/heichel/ awtsmoos.heichel.html geelooy/heichelos/heichel/modules/navigator/loader.js geelooy/heichelos/heichel/modules/living path/filter controller.js geelooy/heichelos/heichel/modules/living path/context controller.js geelooy/heichelos/heichel/modules/ui/render/living path/discovery renderer.js geelooy/heichelos/heichel/modules/ui/render/living path/groupings.js geelooy/heichelos/heichel/modules/ui/render state.js geelooy/heichelos/heichel/modules/ui/platform/platformpanelview.js geelooy/heichelos/heichel/modules/ui/platformpanel.js geelooy/heichelos/heichel/styles/platform panel v3.css mobile series css under geelooy/style/heichelos/heichel/cosmic profile/mobile series/ required further reads before final file list app/module boot path and cache query strings; exact platform panel mount location; sticky path observer/visibility owner; full mobile living path index import graph; root profile and path detail blueprint composition; existing mobile acceptance/static tests. no source file is authorized for rewrite until these reads resolve ownership.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-30-2036-heichel-mobile-ui-repair-01-phase-on-3b9071dcb7.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-30-2036-heichel-mobile-ui-repair-02-phase-tw-f4bdf45911",
+		"title": "Phase Two — Critique and Twenty Improvements",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-30-2036-heichel-mobile-ui-repair/02-phase-two-critique-and-improvements.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Two — Critique and Twenty Improvements",
+				"anchor": "phase-two-critique-and-twenty-improvements"
+			},
+			{
+				"level": 2,
+				"text": "Revised direction",
+				"anchor": "revised-direction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Two — Critique and Twenty Improvements The Awtsmoos breaks the easy answer before the easy answer breaks the page; Awtsmoos.com turns each critique into a smaller, truer, testable stage. 1. Verify public JS bytes, not merely local disk presence. 2. Compare local loader hash to publ",
+		"searchText": "b\"h boruch hashem blessed is he phase two — critique and twenty improvements the awtsmoos breaks the easy answer before the easy answer breaks the page; awtsmoos.com turns each critique into a smaller, truer, testable stage. 1. verify public js bytes, not merely local disk presence. 2. compare local loader hash to public loader hash. 3. find whether app.js has a cache busting version. 4. verify css import version chains on mobile series modules. 5. make groupings state contract test assert synthetic chitas survives filtering. 6. make result count contract assert one grouping at ikar root. 7. keep synthetic groupings immutable and free from owner controls. 8. render discovery by active view rather than branch data alone. 9. do not show nearby branches beneath a groupings empty state. 10. keep related/explore available in tree/series view where it is semantically useful. 11. ensure view changes repaint context discovery, not only content grids. 12. prevent advanced from fixed positioning at mobile widths. 13. keep advanced collapsed by default and avoid automatic open behavior. 14. preserve desktop fixed utility behavior only if it does not obscure content. 15. reserve mobile bottom nav clearance in the main stage. 16. avoid stacking two fixed elements above the same bottom inset. 17. reduce root profile vertical footprint without deleting identity. 18. avoid giant empty state minimum heights on small screens. 19. test at 360px, 390px, 430px widths with static css contracts. 20. preserve all pre existing unrelated work and rewrite only whole owned files. revised direction the primary bug is not \"make cards prettier.\" it is state/composition coherence. the repair should prioritize semantic visibility and non overlap first, then density.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-30-2036-heichel-mobile-ui-repair-02-phase-tw-f4bdf45911.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-30-2036-heichel-mobile-ui-repair-03-phase-tw-c996ed1ff3",
+		"title": "Phase Two — Improved Brainstorm",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-30-2036-heichel-mobile-ui-repair/03-phase-two-improved-brainstorm.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Two — Improved Brainstorm",
+				"anchor": "phase-two-improved-brainstorm"
+			},
+			{
+				"level": 2,
+				"text": "Improved model",
+				"anchor": "improved-model"
+			},
+			{
+				"level": 2,
+				"text": "State rule",
+				"anchor": "state-rule"
+			},
+			{
+				"level": 2,
+				"text": "Cache rule",
+				"anchor": "cache-rule"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Two — Improved Brainstorm The Awtsmoos gives every layer its proper border, neither swallowing nor fleeing; Awtsmoos.com should let the user see one current purpose, not five panels competing to be seen. Improved model Treat mobile Heichel as four vertical strata: 1. compact Heiche",
+		"searchText": "b\"h boruch hashem blessed is he phase two — improved brainstorm the awtsmoos gives every layer its proper border, neither swallowing nor fleeing; awtsmoos.com should let the user see one current purpose, not five panels competing to be seen. improved model treat mobile heichel as four vertical strata: 1. compact heichel identity; 2. living path orientation and current view controls; 3. current view content only; 4. optional contextual utilities after content. global navigation is a fixed fifth stratum outside the document flow and receives explicit clearance. advanced platform becomes an inline optional utility on mobile, after the content context, so it cannot cover strata 1–3. state rule appstate.currentcontent is canonical loaded content. every synthetic record must be inserted there before livingpathfiltercontroller.rendercommitted(). the active view determines not only which viewport is visible, but also which contextual discovery modules may appear. cache rule any source fix that users must receive immediately needs a module entry cache version change. version only at a stable entrypoint so internal module urls inherit a fresh import graph through the new top level request when browser/module caching permits; if imports are absolute unversioned, introduce explicit version query where necessary rather than trusting stale cache invalidation.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-30-2036-heichel-mobile-ui-repair-03-phase-tw-c996ed1ff3.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-30-2036-heichel-mobile-ui-repair-04-phase-th-978b2b60eb",
+		"title": "Phase Three — Thirty Additional Improvements",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-30-2036-heichel-mobile-ui-repair/04-phase-three-thirty-additional-improvements.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Three — Thirty Additional Improvements",
+				"anchor": "phase-three-thirty-additional-improvements"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Three — Thirty Additional Improvements The Awtsmoos renews the plan when the plan thinks itself complete; Awtsmoos.com asks one more time what could fail beneath the user's feet. 1. Verify whether Groupings uses groupingsList or a legacy container. 2. Verify showLoading() cannot er",
+		"searchText": "b\"h boruch hashem blessed is he phase three — thirty additional improvements the awtsmoos renews the plan when the plan thinks itself complete; awtsmoos.com asks one more time what could fail beneath the user's feet. 1. verify whether groupings uses groupingslist or a legacy container. 2. verify showloading() cannot erase synthetic content after rendering. 3. verify hideloading() does not change visibility. 4. verify switchview(..., render=false) is followed by exactly one committed render. 5. verify current view is synchronized before aftercontentloaded. 6. verify root series detail object does not trigger non root profile cards. 7. verify chitas grouping card normalization recognizes name/description. 8. verify click navigation treats virtual grouping as series route deliberately. 9. verify groupings renderer does not filter virtual records itself. 10. verify related section is hidden when switching away from series. 11. verify result status changes after switchview. 12. verify search placeholder matches current active view. 13. verify sticky bar observer starts from the intended anchor. 14. verify sticky bar hides when at root/top. 15. verify sticky bar does not duplicate root when no parent exists. 16. verify fixed global dock uses the highest needed z index only. 17. lower advanced layering instead of escalating z index wars. 18. ensure inline advanced width is 100% and no horizontal overflow. 19. cap advanced output height on mobile but allow internal scroll when opened. 20. keep touch targets at least 44px. 21. preserve safe area bottom padding. 22. reduce empty state min height below current 11rem on narrow phones. 23. avoid hiding meaningful text solely to gain space. 24. keep profile description at two lines maximum on phone. 25. consider hiding profile stats if all are zero, but only if current dom supports truthful dynamic state. 26. keep search + filter in one compact row when width allows. 27. preserve rtl/hebrew layout. 28. add tests for 0 post/2 series/1 grouping ikar root data shape. 29. run all existing living path tests after focused tests. 30. verify public hashes after deploy, not just local syntax.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-30-2036-heichel-mobile-ui-repair-04-phase-th-978b2b60eb.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-30-2036-heichel-mobile-ui-repair-05-phase-th-5b6a37fab7",
+		"title": "Phase Three — Final Plan Before Source Writes",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-30-2036-heichel-mobile-ui-repair/05-phase-three-final-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Three — Final Plan Before Source Writes",
+				"anchor": "phase-three-final-plan-before-source-writes"
+			},
+			{
+				"level": 2,
+				"text": "Next reads",
+				"anchor": "next-reads"
+			},
+			{
+				"level": 2,
+				"text": "Expected source changes, pending those reads",
+				"anchor": "expected-source-changes-pending-those-reads"
+			},
+			{
+				"level": 2,
+				"text": "Verification order",
+				"anchor": "verification-order"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Three — Final Plan Before Source Writes The Awtsmoos makes the final plan a covenant of evidence, not a guess in disguise; Awtsmoos.com will rewrite only files whose runtime ownership is proven before our eyes. Next reads boot/cache entrypoint; sticky visibility controller; mobile ",
+		"searchText": "b\"h boruch hashem blessed is he phase three — final plan before source writes the awtsmoos makes the final plan a covenant of evidence, not a guess in disguise; awtsmoos.com will rewrite only files whose runtime ownership is proven before our eyes. next reads boot/cache entrypoint; sticky visibility controller; mobile import graph; platform mount caller; tests covering living path and mobile shell. expected source changes, pending those reads 1. cache/version entrypoint: guarantee users receive the current living path/chitas module graph. 2. living path context controller/discovery renderer: make nearby branches active view aware and repaint on view changes. 3. platform mobile css: inline collapsed advanced on narrow screens instead of fixed overlay. 4. mobile shell/living path css: reduce empty space geometry and reserve one clean bottom nav clearance. 5. focused regression tests: chitas grouping visibility/count, discovery view policy, mobile non fixed advanced contract, and source line limits. verification order focused node tests; existing living path/module tests; node check on every touched js; css static contract checks; git diff check; full readback of every touched file; public http/hash check of entrypoint and changed modules; browser level verification if browser control becomes available; otherwise public html/module evidence plus user visible test url.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-30-2036-heichel-mobile-ui-repair-05-phase-th-5b6a37fab7.json"
+	}
+]

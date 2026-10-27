@@ -1,0 +1,74 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-ohrfront-docs-ecology-and-realism-md-fef7ee68ad",
+	"title": "Ecology and Realtime Realism",
+	"sourcePath": "geelooy/games/ohrfront/docs/ECOLOGY_AND_REALISM.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Ecology and Realtime Realism",
+			"anchor": "ecology-and-realtime-realism"
+		},
+		{
+			"level": 2,
+			"text": "Ecology architecture",
+			"anchor": "ecology-architecture"
+		},
+		{
+			"level": 2,
+			"text": "Tree usage",
+			"anchor": "tree-usage"
+		},
+		{
+			"level": 2,
+			"text": "Botanical usage",
+			"anchor": "botanical-usage"
+		},
+		{
+			"level": 2,
+			"text": "Collision policy",
+			"anchor": "collision-policy"
+		},
+		{
+			"level": 2,
+			"text": "Realtime realism",
+			"anchor": "realtime-realism"
+		},
+		{
+			"level": 2,
+			"text": "Performance law",
+			"anchor": "performance-law"
+		},
+		{
+			"level": 2,
+			"text": "Determinism",
+			"anchor": "determinism"
+		},
+		{
+			"level": 2,
+			"text": "Visual direction",
+			"anchor": "visual-direction"
+		},
+		{
+			"level": 2,
+			"text": "Validation",
+			"anchor": "validation"
+		},
+		{
+			"level": 2,
+			"text": "Diagnostics",
+			"anchor": "diagnostics"
+		},
+		{
+			"level": 2,
+			"text": "Verification",
+			"anchor": "verification"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-ohrfront-docs-ecology-and-realism-md-fef7ee68ad-001.json"
+	]
+}

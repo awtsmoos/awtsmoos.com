@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-ohr-hagnuz-readme-md-0e8110ad4a",
+	"title": "B\"H — Ohr HaGnuz API (geelooy/api/ohr-hagnuz/)",
+	"sourcePath": "geelooy/api/ohr-hagnuz/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Ohr HaGnuz API (geelooy/api/ohr-hagnuz/)",
+			"anchor": "b-h-ohr-hagnuz-api-geelooy-api-ohr-hagnuz"
+		},
+		{
+			"level": 2,
+			"text": "Contents",
+			"anchor": "contents"
+		},
+		{
+			"level": 2,
+			"text": "Endpoints",
+			"anchor": "endpoints"
+		},
+		{
+			"level": 2,
+			"text": "Security",
+			"anchor": "security"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-ohr-hagnuz-readme-md-0e8110ad4a-001.json"
+	]
+}

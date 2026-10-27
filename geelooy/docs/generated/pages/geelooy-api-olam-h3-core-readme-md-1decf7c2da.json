@@ -1,0 +1,24 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-olam-h3-core-readme-md-1decf7c2da",
+	"title": "B\"H — Olam H3 Core (geelooy/api/olam-h3/core/)",
+	"sourcePath": "geelooy/api/olam-h3/core/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Olam H3 Core (geelooy/api/olam-h3/core/)",
+			"anchor": "b-h-olam-h3-core-geelooy-api-olam-h3-core"
+		},
+		{
+			"level": 2,
+			"text": "Files",
+			"anchor": "files"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-olam-h3-core-readme-md-1decf7c2da-001.json"
+	]
+}

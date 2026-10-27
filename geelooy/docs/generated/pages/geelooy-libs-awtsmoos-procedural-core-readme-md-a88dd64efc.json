@@ -14,18 +14,63 @@
 		},
 		{
 			"level": 2,
-			"text": "Core usage",
-			"anchor": "core-usage"
+			"text": "Nature — recommended doorway",
+			"anchor": "nature-recommended-doorway"
 		},
 		{
 			"level": 2,
-			"text": "Three.js usage",
-			"anchor": "three-js-usage"
+			"text": "Geology-first natural stone",
+			"anchor": "geology-first-natural-stone"
 		},
 		{
 			"level": 2,
-			"text": "Folder contract",
-			"anchor": "folder-contract"
+			"text": "Materials and optional generated textures",
+			"anchor": "materials-and-optional-generated-textures"
+		},
+		{
+			"level": 2,
+			"text": "Declarative recipes",
+			"anchor": "declarative-recipes"
+		},
+		{
+			"level": 2,
+			"text": "Discover capabilities instead of probing by failure",
+			"anchor": "discover-capabilities-instead-of-probing-by-failure"
+		},
+		{
+			"level": 2,
+			"text": "Specialist domains",
+			"anchor": "specialist-domains"
+		},
+		{
+			"level": 2,
+			"text": "Documentation path",
+			"anchor": "documentation-path"
+		},
+		{
+			"level": 2,
+			"text": "Low-level package surfaces",
+			"anchor": "low-level-package-surfaces"
+		},
+		{
+			"level": 2,
+			"text": "Low-level procedural geometry",
+			"anchor": "low-level-procedural-geometry"
+		},
+		{
+			"level": 2,
+			"text": "Host adapters",
+			"anchor": "host-adapters"
+		},
+		{
+			"level": 2,
+			"text": "Test lanes",
+			"anchor": "test-lanes"
+		},
+		{
+			"level": 2,
+			"text": "Architecture covenant",
+			"anchor": "architecture-covenant"
 		}
 	],
 	"markdownParts": [

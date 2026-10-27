@@ -1,0 +1,69 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-28t0310-geelooy-social-mobile-02-architectur-7b86123169",
+	"title": "Phase Two — Architecture, Five Alternatives, and Critique",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0310-geelooy-social-mobile/02_ARCHITECTURE_CRITIQUE.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase Two — Architecture, Five Alternatives, and Critique",
+			"anchor": "phase-two-architecture-five-alternatives-and-critique"
+		},
+		{
+			"level": 2,
+			"text": "Five competing architectures",
+			"anchor": "five-competing-architectures"
+		},
+		{
+			"level": 3,
+			"text": "A — Put Create into the route registry",
+			"anchor": "a-put-create-into-the-route-registry"
+		},
+		{
+			"level": 3,
+			"text": "B — Floating action disconnected from app state",
+			"anchor": "b-floating-action-disconnected-from-app-state"
+		},
+		{
+			"level": 3,
+			"text": "C — Persistent internal creator action owned by Social Creation",
+			"anchor": "c-persistent-internal-creator-action-owned-by-social-creation"
+		},
+		{
+			"level": 3,
+			"text": "D — Embed the full composer inside Social Hub",
+			"anchor": "d-embed-the-full-composer-inside-social-hub"
+		},
+		{
+			"level": 3,
+			"text": "E — Move the entire deep creator rail to Home",
+			"anchor": "e-move-the-entire-deep-creator-rail-to-home"
+		},
+		{
+			"level": 2,
+			"text": "Chosen shape",
+			"anchor": "chosen-shape"
+		},
+		{
+			"level": 2,
+			"text": "Twenty-five improvements over phase one",
+			"anchor": "twenty-five-improvements-over-phase-one"
+		},
+		{
+			"level": 2,
+			"text": "Risk graph",
+			"anchor": "risk-graph"
+		},
+		{
+			"level": 2,
+			"text": "Architectural principle",
+			"anchor": "architectural-principle"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-28t0310-geelooy-social-mobile-02-architectur-7b86123169-001.json"
+	]
+}

@@ -12,7 +12,7 @@ Blessed is He
 
 ## Entry and documentation evidence
 
-- Entry files: `index.html`
+- Entry files: `index.html`, `app.js`
 - Local documentation: No local `DOCUMENTATION.md` observed.
 - Local-doc requirement: no; covered: no
 - Symlink target: —
@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 1 | 0 | 0 | 0 | 0 | 0 | 1 |
+| 3 | 0 | 0 | 0 | 0 | 0 | 3 |
 
 ## Public entry points
 
@@ -29,7 +29,7 @@ Blessed is He
 
 ## Symbol evidence
 
-No lexical symbol summary observed.
+Source files: 1; classes: 0; functions: 2; exports: 0; samples: growPulse, resetGarden.
 
 ## Depends on
 

@@ -1,0 +1,222 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-0847-geelooy-google-indexing-remaining-wo-5546ef4c28",
+		"title": "REMAININGWORK",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-0847-geelooy-google-indexing/REMAINING_WORK.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "REMAININGWORK",
+				"anchor": "remainingwork"
+			}
+		],
+		"excerpt": "B\"H REMAINING WORK Boruch Hashem. Blessed is He. [ ] Map project runtime and server entry point. [ ] Trace Heichel/Road routes and dynamic fetches. [ ] Audit existing SEO, robots, sitemap, metadata, and structured data support. [ ] Determine public/private visibility rules. [ ] Select evidence backed rendering architec",
+		"searchText": "b\"h remaining work boruch hashem. blessed is he. [ ] map project runtime and server entry point. [ ] trace heichel/road routes and dynamic fetches. [ ] audit existing seo, robots, sitemap, metadata, and structured data support. [ ] determine public/private visibility rules. [ ] select evidence backed rendering architecture. [ ] record exact files to rewrite. [ ] implement initial response indexable html and metadata. [ ] implement or repair sitewide crawl discovery as needed. [ ] verify syntax/tests. [ ] verify direct http html without javascript. [ ] verify browser hydration/interactivity. [ ] re read touched files and close plan/actual delta.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-0847-geelooy-google-indexing-remaining-wo-5546ef4c28.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-1150-olam-better-v2-00-chesed-possibility-46e0ca55c7",
+		"title": "Chesed Pass — Every Better Possibility",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-1150-olam-better-v2/00-chesed-possibility.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Chesed Pass — Every Better Possibility",
+				"anchor": "chesed-pass-every-better-possibility"
+			}
+		],
+		"excerpt": "Chesed Pass — Every Better Possibility The user wants the interface better still. The next level is not more controls or more decoration. It is stronger choreography. Possibilities: Reduce the visual count of separate boxes by letting adjacent sections share one ambient glass field. Make Prompt + Mode feel like one con",
+		"searchText": "chesed pass — every better possibility the user wants the interface better still. the next level is not more controls or more decoration. it is stronger choreography. possibilities: reduce the visual count of separate boxes by letting adjacent sections share one ambient glass field. make prompt + mode feel like one continuous command deck with a subtle internal seam instead of separate cards. introduce a low cost aurora depth layer behind the command deck using pseudo elements and transformed gradients. add focus responsive glass: prompt focus wakes the edge light; idle surfaces become quieter. use tiny status glyphs and concise labels instead of explanatory sentences where meaning is obvious. turn quick start templates into cinematic “capsules” with one line labels and soft moving preview light, not cards. make mode buttons feel like physical tabs cut into glass rather than generic segmented controls. add a single action path progress whisper: prompt → guide → generate, but avoid a literal wizard. reduce top level vertical gaps so the first screen shows more of the action path. allow optional panels to visually recede to near background until opened. give generate a stronger “ignition” treatment when ready and a calmer locked treatment when provider is unavailable. improve bottom nav with a thin active light rail and less text/visual noise. add touch feedback that uses transform and luminance, never layout heavy animation. add a very subtle perspective sheen following focus state, not mouse tracking. keep motion off under prefers reduced motion. preserve every current working selector and api behavior. ideal result: one black glass film console, not a dashboard. calm, fast, obvious, futuristic.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-1150-olam-better-v2-00-chesed-possibility-46e0ca55c7.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-1150-olam-better-v2-01-gevurah-realistic--f648b5363f",
+		"title": "Gevurah Pass — Realistic Scope",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-1150-olam-better-v2/01-gevurah-realistic.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Gevurah Pass — Realistic Scope",
+				"anchor": "gevurah-pass-realistic-scope"
+			}
+		],
+		"excerpt": "Gevurah Pass — Realistic Scope Keep this pass presentation focused. No MiniMax contract or persistence changes unless runtime inspection proves a dependency. Likely targets after inspection: one or two existing Create view modules only if structural markup needs a small full file rewrite; new small CSS modules loaded l",
+		"searchText": "gevurah pass — realistic scope keep this pass presentation focused. no minimax contract or persistence changes unless runtime inspection proves a dependency. likely targets after inspection: one or two existing create view modules only if structural markup needs a small full file rewrite; new small css modules loaded last through directorstyles.js; one focused browser smoke regression measuring reduced visual fragmentation and first screen geometry. avoid: new dependencies; canvas/webgl; continuous js animation loops; pointer tracking effects; layout animation; extra always visible education; hidden essential controls. performance budget: transforms/opacity/background position only for ambient motion; no animated blur; no giant box shadow pulses; no additional network assets.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-1150-olam-better-v2-01-gevurah-realistic--f648b5363f.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-1150-olam-better-v2-02-critique-20-md-e0eac4fad2",
+		"title": "Critique — Twenty Improvements to the Improvement",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-1150-olam-better-v2/02-critique-20.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Critique — Twenty Improvements to the Improvement",
+				"anchor": "critique-twenty-improvements-to-the-improvement"
+			}
+		],
+		"excerpt": "Critique — Twenty Improvements to the Improvement 1. Fewer borders matters more than brighter borders. 2. Prompt must remain the dominant surface. 3. Mode must stay visible in the first mobile viewport. 4. Optional intelligence must remain collapsed. 5. Generate readiness must remain obvious. 6. Avoid making inactive c",
+		"searchText": "critique — twenty improvements to the improvement 1. fewer borders matters more than brighter borders. 2. prompt must remain the dominant surface. 3. mode must stay visible in the first mobile viewport. 4. optional intelligence must remain collapsed. 5. generate readiness must remain obvious. 6. avoid making inactive controls too low contrast. 7. do not add animations to every component. 8. reuse one ambient motion language across surfaces. 9. keep motion compositor friendly. 10. preserve reduced motion behavior. 11. preserve textarea node identity and focus. 12. preserve template click behavior. 13. preserve reference mode discoverability. 14. preserve settings/api key guidance. 15. preserve bottom nav thumb reach. 16. keep all new source files under 120 lines. 17. do not create css specificity wars. 18. measure actual computed styles after change. 19. verify public production after exact sha deploy. 20. stop adding style only when the screen is calmer and more legible, not merely richer.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-1150-olam-better-v2-02-critique-20-md-e0eac4fad2.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-1150-olam-better-v2-03-final-precode-plan-2418b8f05b",
+		"title": "Final Pre-Code Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-1150-olam-better-v2/03-final-precode-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Final Pre-Code Plan",
+				"anchor": "final-pre-code-plan"
+			}
+		],
+		"excerpt": "Final Pre Code Plan 1. Finish prior release proof and cleanup. 2. Capture current live mobile screenshot/DOM geometry and computed style evidence. 3. Inspect the exact current Create markup and late loaded style modules from deployed SHA. 4. Choose the smallest whole file touch set. 5. Rewrite all touched files complet",
+		"searchText": "final pre code plan 1. finish prior release proof and cleanup. 2. capture current live mobile screenshot/dom geometry and computed style evidence. 3. inspect the exact current create markup and late loaded style modules from deployed sha. 4. choose the smallest whole file touch set. 5. rewrite all touched files completely; create small css modules instead of inflating old ones. 6. add one browser regression for visual fragmentation, unified deck geometry, focus state, reduced motion, and overflow. 7. run syntax, file size, diff, deterministic, and all browser regressions. 8. re read every touched file and compare planned vs actual. 9. reconcile newest origin/main race window. 10. commit only intended olam paths, fast forward push, exact sha canonical deploy. 11. verify public http, chrome, production sha/service. 12. clean temporary worktrees/processes and write final evidence.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-1150-olam-better-v2-03-final-precode-plan-2418b8f05b.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-1150-olam-better-v2-04-exact-touch-plan-m-e7edba656c",
+		"title": "Exact Better V2 Touch Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-1150-olam-better-v2/04-exact-touch-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Exact Better V2 Touch Plan",
+				"anchor": "exact-better-v2-touch-plan"
+			},
+			{
+				"level": 2,
+				"text": "Observed live evidence",
+				"anchor": "observed-live-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Exact intended source touch set",
+				"anchor": "exact-intended-source-touch-set"
+			}
+		],
+		"excerpt": "Exact Better V2 Touch Plan Observed live evidence Three bordered surfaces remain visible above the fold. Prompt and Mode are separated by 23px of combined spacing. Quick start controls render at 139px each and still read like cards. Prompt and Mode each carry an 8px standalone radius. Glass is already 13px and healthy;",
+		"searchText": "exact better v2 touch plan observed live evidence three bordered surfaces remain visible above the fold. prompt and mode are separated by 23px of combined spacing. quick start controls render at 139px each and still read like cards. prompt and mode each carry an 8px standalone radius. glass is already 13px and healthy; no heavier blur is needed. navigation is quiet at 0.52 opacity for inactive tabs, but lacks a single active light rail. no horizontal overflow, console errors, or failed public requests were observed. exact intended source touch set scripts/ui/directorstyles.js — full rewrite only to load better v2 layers last. styles/unified deck.css — new: visually fuse prompt and mode, reduce seams and framing. styles/cinematic controls.css — new: thinner quick start capsules and stronger physical mode tabs. styles/ignition nav.css — new: generate readiness treatment and bottom nav active rail. styles/aurora depth.css — new: low cost focus responsive spectral depth using pseudo elements. tests/better v2 smoke.cjs — new: measured browser regression for fusion, capsules, motion, focus, nav, generate, overflow. no api, persistence, generation, asset, pricing, or provider files should change.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-1150-olam-better-v2-04-exact-touch-plan-m-e7edba656c.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-1150-olam-better-v2-05-first-verification-0f4f688c3c",
+		"title": "First Verification Delta",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-1150-olam-better-v2/05-first-verification-delta.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "First Verification Delta",
+				"anchor": "first-verification-delta"
+			},
+			{
+				"level": 2,
+				"text": "Planned",
+				"anchor": "planned"
+			},
+			{
+				"level": 2,
+				"text": "Actual",
+				"anchor": "actual"
+			},
+			{
+				"level": 2,
+				"text": "Delta",
+				"anchor": "delta"
+			},
+			{
+				"level": 2,
+				"text": "Resolution",
+				"anchor": "resolution"
+			}
+		],
+		"excerpt": "First Verification Delta Planned Prompt and Mode should read as one continuous deck. Browser seam target: at most 1.1px. Actual Source, syntax, line size, and deterministic gates passed. Deterministic suite: 43/43. Better V2 Chrome measured a 1.637451171875px Prompt/Mode seam and failed before later assertions. Delta u",
+		"searchText": "first verification delta planned prompt and mode should read as one continuous deck. browser seam target: at most 1.1px. actual source, syntax, line size, and deterministic gates passed. deterministic suite: 43/43. better v2 chrome measured a 1.637451171875px prompt/mode seam and failed before later assertions. delta unified deck.css needed one additional pixel of overlap because browser subpixel geometry left a visible 1.64px seam with margin top: 1px. resolution full file rewrite changes mode margin to 2px. test threshold remains unchanged; the product must satisfy the proof. next action: rerun better v2 browser smoke alone; if green, rerun the full regression graph.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-1150-olam-better-v2-05-first-verification-0f4f688c3c.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-1150-olam-better-v2-06-regression-contrac-93f1ed160a",
+		"title": "Regression Contract Delta",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-1150-olam-better-v2/06-regression-contract-delta.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Regression Contract Delta",
+				"anchor": "regression-contract-delta"
+			},
+			{
+				"level": 2,
+				"text": "Observed",
+				"anchor": "observed"
+			},
+			{
+				"level": 2,
+				"text": "Decision rule",
+				"anchor": "decision-rule"
+			}
+		],
+		"excerpt": "Regression Contract Delta Observed Better V2 focused browser smoke passes at seam 0.637451171875px. Source gates and 43/43 deterministic tests pass. The older intuitive create smoke.cjs fails at Mode does not follow Prompt. Better V2 intentionally uses a tiny negative margin to visually fuse Prompt and Mode into one co",
+		"searchText": "regression contract delta observed better v2 focused browser smoke passes at seam 0.637451171875px. source gates and 43/43 deterministic tests pass. the older intuitive create smoke.cjs fails at mode does not follow prompt. better v2 intentionally uses a tiny negative margin to visually fuse prompt and mode into one continuous command deck. decision rule do not weaken the regression blindly. first inspect the exact old assertion. if it encodes strict geometric non overlap rather than semantic dom order, replace that outdated geometry contract with two stronger truths: 1. mode must follow prompt in document order. 2. prompt/mode visual seam magnitude must remain tightly bounded. all other old intuitive assertions must remain intact. next action: inspect the test body; if confirmed, rewrite the whole test file with semantic order + bounded seam assertions, then rerun that smoke alone before the full regression graph.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-1150-olam-better-v2-06-regression-contrac-93f1ed160a.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-1150-olam-better-v2-07-regression-contrac-b0de233119",
+		"title": "Regression Contract Resolution",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-1150-olam-better-v2/07-regression-contract-resolution.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Regression Contract Resolution",
+				"anchor": "regression-contract-resolution"
+			}
+		],
+		"excerpt": "Regression Contract Resolution The old intuitive regression used geometric non overlap as a proxy for semantic order. Better V2 intentionally creates a subpixel overlap to fuse Prompt and Mode into one deck. The rewritten test now proves both independent truths: Prompt precedes Mode in DOM order via compareDocumentPosi",
+		"searchText": "regression contract resolution the old intuitive regression used geometric non overlap as a proxy for semantic order. better v2 intentionally creates a subpixel overlap to fuse prompt and mode into one deck. the rewritten test now proves both independent truths: prompt precedes mode in dom order via comparedocumentposition. the visual seam magnitude is bounded to at most 2px. all other intuitive smoke coverage remains: viewport placement, collapsed optional intelligence, starter count, no overflow, 13px glass, active nav dominance, template focus/node identity, reduced motion, and zero browser/network errors. next action: run the rewritten intuitive smoke alone, then rerun the complete better v2 regression graph.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-1150-olam-better-v2-07-regression-contrac-b0de233119.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-1150-olam-better-v2-08-director-failure-a-798c100435",
+		"title": "Director Failure Analysis",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-1150-olam-better-v2/08-director-failure-analysis.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Director Failure Analysis",
+				"anchor": "director-failure-analysis"
+			},
+			{
+				"level": 2,
+				"text": "Verified green before failure",
+				"anchor": "verified-green-before-failure"
+			},
+			{
+				"level": 2,
+				"text": "Failure shape",
+				"anchor": "failure-shape"
+			}
+		],
+		"excerpt": "Director Failure Analysis Verified green before failure Better V2 source gates. 43/43 deterministic tests. Better V2 browser smoke. Updated intuitive browser smoke. Future HUD browser smoke. Failure shape Director regression threw inside its browser evaluator at line 56 before its normal assertion report. This is not y",
+		"searchText": "director failure analysis verified green before failure better v2 source gates. 43/43 deterministic tests. better v2 browser smoke. updated intuitive browser smoke. future hud browser smoke. failure shape director regression threw inside its browser evaluator at line 56 before its normal assertion report. this is not yet classified as product or test failure. next action: inspect the exact line and browser expression; reproduce director alone on fresh ports with targeted evidence; change only the proven source or test contract.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-1150-olam-better-v2-08-director-failure-a-798c100435.json"
+	}
+]

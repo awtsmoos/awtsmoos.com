@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 375 | 99 | 0 | 0 | 1 | 1 | 476 |
+| 384 | 486 | 0 | 0 | 1 | 1 | 872 |
 
 ## Public entry points
 
@@ -29,7 +29,7 @@ Blessed is He
 
 ## Symbol evidence
 
-Source files: 362; classes: 12; functions: 551; exports: 536; samples: amalekBeasts, binahBeasts, campaignBeasts, campaignChesedBinahBeasts, campaignChokhmahKeterBeasts, createCampaignMusag, createCampaignRoster, campaignHodNetzachBeasts, campaignMalkuthFinaleBeasts, campaignMalkuthYesodBeasts, campaignPostgameBeasts, campaignTiferetGevurahBeasts.
+Source files: 370; classes: 12; functions: 558; exports: 543; samples: awakenScribeJourney, revealAwakeningFailure, escapeChronicleText, amalekBeasts, binahBeasts, campaignBeasts, campaignChesedBinahBeasts, campaignChokhmahKeterBeasts, createCampaignMusag, createCampaignRoster, campaignHodNetzachBeasts, campaignMalkuthFinaleBeasts.
 
 ## Depends on
 
@@ -45,4 +45,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **99**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **486**. Treat this as file evidence, not proof of behavioral coverage.

@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-plans-awtsmoos-cloud-phase-02-prompt-publish-md-4bfa363bbb",
+	"title": "Phase 02 — One Prompt to a Production Website or App",
+	"sourcePath": "docs/PLANS/AWTSMOOS_CLOUD/PHASE_02_PROMPT_PUBLISH.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase 02 — One Prompt to a Production Website or App",
+			"anchor": "phase-02-one-prompt-to-a-production-website-or-app"
+		},
+		{
+			"level": 2,
+			"text": "Product promise",
+			"anchor": "product-promise"
+		},
+		{
+			"level": 2,
+			"text": "Canonical flow",
+			"anchor": "canonical-flow"
+		},
+		{
+			"level": 2,
+			"text": "Prompt specification must be explicit",
+			"anchor": "prompt-specification-must-be-explicit"
+		},
+		{
+			"level": 2,
+			"text": "Business archetypes",
+			"anchor": "business-archetypes"
+		},
+		{
+			"level": 2,
+			"text": "Import/export",
+			"anchor": "import-export"
+		},
+		{
+			"level": 2,
+			"text": "Acceptance gate",
+			"anchor": "acceptance-gate"
+		}
+	],
+	"markdownParts": [
+		"content/docs-plans-awtsmoos-cloud-phase-02-prompt-publish-md-4bfa363bbb-001.json"
+	]
+}

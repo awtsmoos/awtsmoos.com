@@ -1,0 +1,94 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-26-2241-geelooy-revival-02-phase-one-surface-2391ff7c53",
+	"title": "Phase One — Surface and Theoretical File Map",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-26-2241-geelooy-revival/02_PHASE_ONE_SURFACE_AND_FILE_MAP.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase One — Surface and Theoretical File Map",
+			"anchor": "phase-one-surface-and-theoretical-file-map"
+		},
+		{
+			"level": 2,
+			"text": "Public Surface Graph",
+			"anchor": "public-surface-graph"
+		},
+		{
+			"level": 3,
+			"text": "Screenshot Families",
+			"anchor": "screenshot-families"
+		},
+		{
+			"level": 2,
+			"text": "Existing Runtime Quality Infrastructure — Read/Run Only",
+			"anchor": "existing-runtime-quality-infrastructure-read-run-only"
+		},
+		{
+			"level": 2,
+			"text": "Sefarim Owners To Inspect Before Choosing Writes",
+			"anchor": "sefarim-owners-to-inspect-before-choosing-writes"
+		},
+		{
+			"level": 3,
+			"text": "Entry and orchestration",
+			"anchor": "entry-and-orchestration"
+		},
+		{
+			"level": 3,
+			"text": "Visible rendering and state",
+			"anchor": "visible-rendering-and-state"
+		},
+		{
+			"level": 3,
+			"text": "CSS currently linked by the entry",
+			"anchor": "css-currently-linked-by-the-entry"
+		},
+		{
+			"level": 3,
+			"text": "Existing CSS not directly linked by the entry — investigate before inventing replacements",
+			"anchor": "existing-css-not-directly-linked-by-the-entry-investigate-before-inventing-replacements"
+		},
+		{
+			"level": 2,
+			"text": "Existing Regression Contracts To Preserve",
+			"anchor": "existing-regression-contracts-to-preserve"
+		},
+		{
+			"level": 2,
+			"text": "Theoretical Rewrite Shapes",
+			"anchor": "theoretical-rewrite-shapes"
+		},
+		{
+			"level": 3,
+			"text": "Shape A — Markup/CSS-only reconstruction",
+			"anchor": "shape-a-markup-css-only-reconstruction"
+		},
+		{
+			"level": 3,
+			"text": "Shape B — Markup/CSS + existing disclosure controller",
+			"anchor": "shape-b-markup-css-existing-disclosure-controller"
+		},
+		{
+			"level": 3,
+			"text": "Shape C — New context coordinator",
+			"anchor": "shape-c-new-context-coordinator"
+		},
+		{
+			"level": 2,
+			"text": "Mutation Boundary",
+			"anchor": "mutation-boundary"
+		},
+		{
+			"level": 2,
+			"text": "NEXTACTION",
+			"anchor": "nextaction"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-26-2241-geelooy-revival-02-phase-one-surface-2391ff7c53-001.json"
+	]
+}

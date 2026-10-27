@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-master-execution-plan-status-checklist-md-e8b84a0740",
+	"title": "Current Status / Session Pickup Checklist",
+	"sourcePath": "geelooy/games/mitzvahWorld/MASTER_EXECUTION_PLAN/STATUS_CHECKLIST.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Current Status / Session Pickup Checklist",
+			"anchor": "current-status-session-pickup-checklist"
+		},
+		{
+			"level": 2,
+			"text": "Before doing any work",
+			"anchor": "before-doing-any-work"
+		},
+		{
+			"level": 2,
+			"text": "Known locally implemented / partially implemented work to preserve",
+			"anchor": "known-locally-implemented-partially-implemented-work-to-preserve"
+		},
+		{
+			"level": 2,
+			"text": "Highest-priority execution order",
+			"anchor": "highest-priority-execution-order"
+		},
+		{
+			"level": 2,
+			"text": "Never overclaim",
+			"anchor": "never-overclaim"
+		},
+		{
+			"level": 2,
+			"text": "Immediate verification commands",
+			"anchor": "immediate-verification-commands"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-master-execution-plan-status-checklist-md-e8b84a0740-001.json"
+	]
+}

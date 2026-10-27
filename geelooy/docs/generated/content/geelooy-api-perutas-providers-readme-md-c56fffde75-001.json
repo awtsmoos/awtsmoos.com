@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Perutas Providers (geelooy/api/perutas/providers/)\n\nSingle module: `providerMarginService.js`. Provider margin accounting —\ntracking margins for external providers paid in perutas (alongside\n`../providerService.js` and `../providerSandbox.js`). Aggregated as\n`providerMargins` in `../index.js`.\n"
+}

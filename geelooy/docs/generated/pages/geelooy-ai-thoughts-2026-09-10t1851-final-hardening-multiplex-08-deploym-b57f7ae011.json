@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-10t1851-final-hardening-multiplex-08-deploym-b57f7ae011",
+	"title": "Deployment Status",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-10T1851-final-hardening-multiplex/08-deployment-status.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Deployment Status",
+			"anchor": "deployment-status"
+		},
+		{
+			"level": 2,
+			"text": "Public production exists and is live",
+			"anchor": "public-production-exists-and-is-live"
+		},
+		{
+			"level": 2,
+			"text": "Canonical production mechanism",
+			"anchor": "canonical-production-mechanism"
+		},
+		{
+			"level": 2,
+			"text": "Current local release safety",
+			"anchor": "current-local-release-safety"
+		},
+		{
+			"level": 2,
+			"text": "Hardened local graph versus origin/main",
+			"anchor": "hardened-local-graph-versus-origin-main"
+		},
+		{
+			"level": 2,
+			"text": "Deployment decision",
+			"anchor": "deployment-decision"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-10t1851-final-hardening-multiplex-08-deploym-b57f7ae011-001.json"
+	]
+}

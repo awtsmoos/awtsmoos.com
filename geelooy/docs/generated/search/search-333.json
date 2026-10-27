@@ -1,0 +1,170 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27-2150-geelooy-movie-unification-evidence-m-a49a94bea9",
+		"title": "Evidence Ledger — Final",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27-2150-geelooy-movie-unification/EVIDENCE.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Evidence Ledger — Final",
+				"anchor": "evidence-ledger-final"
+			},
+			{
+				"level": 2,
+				"text": "Architecture observed",
+				"anchor": "architecture-observed"
+			},
+			{
+				"level": 2,
+				"text": "Implementation evidence",
+				"anchor": "implementation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Automated verification",
+				"anchor": "automated-verification"
+			},
+			{
+				"level": 2,
+				"text": "Live AI Director evidence",
+				"anchor": "live-ai-director-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Live 180-second showcase evidence",
+				"anchor": "live-180-second-showcase-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Media evidence",
+				"anchor": "media-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Final static audit",
+				"anchor": "final-static-audit"
+			},
+			{
+				"level": 2,
+				"text": "Reviewed non-blocking repository warning",
+				"anchor": "reviewed-non-blocking-repository-warning"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Evidence Ledger — Final The Awtsmoos creates the instant anew; evidence records what the vessels truly showed; Awtsmoos.com carries no phantom success—only files, tests, media, and browser paths that actually flowed. Architecture observed Shared canonical movie system: apps/shared/movie/",
+		"searchText": "b\"h boruch hashem blessed is he evidence ledger — final the awtsmoos creates the instant anew; evidence records what the vessels truly showed; awtsmoos.com carries no phantom success—only files, tests, media, and browser paths that actually flowed. architecture observed shared canonical movie system: apps/shared/movie/. deterministic movie core: libs/awtsmoos movie core/. long form live showcase: showcase/unified movie 180/. product specific movie adapters/installers exist for animator, nesher studio, video editor, mitzvah studio, and captions. shared ai director includes prompt generation, validation, revisions, storyboard, timeline, canvas preview, export oriented surfaces, and product projection through adapters. implementation evidence every requested movie capable product surface now mounts the canonical ai director without erasing its own renderer/editor personality. animator startup was made independent of requestanimationframe visibility throttling and a lost stylesheet load event. nesher native nle boot and ai director boot now run independently. mitzvah native spatial boot and ai director boot now run independently. mitzvah studio no longer imports libs/awtsmoos procedural core/src/index.js; geometry, placement, and history use narrow defining modules. captions has its own canonical movie installer using the caption focused adapter. automated verification final command: node test apps/shared/movie/tests/ .test.mjs apps/animator/tests/sharedmovie/ .test.mjs result: 46 tests, 46 pass, 0 fail, 0 cancelled, 0 skipped, 0 todo. regression coverage includes entrypoint wiring, installer module graphs, mitzvah dependency boundaries, exact 180 second duration, eighteen ten second scenes, major semantic kinds, deterministic timeline behavior, adapters, revision/patch behavior, dialogue/audio, ffmpeg/webcodecs/frame pumping, renderer paths, and showcase terminal playback behavior. live ai director evidence a fresh video editor browser target submitted a real 30 second hybrid directing brief requesting recurring characters, animated 2d labels/shapes/text, 3d camera orbit, particles, infographic comparison, and tutorial arrows. observed result: status: movie generated and validated. 3 scenes spanning 0–10s, 10–20s, and 20–30s. storyboard showed orbit cameras with 3d world/light/models and 2d shape/path/text layers. timeline showed exact 0→30 second coverage. canvas scrubbed to 15s and rendered a non empty 1280×720 frame. browser exceptions and warning/error logs: none. live 180 second showcase evidence correct readiness required window.awtsmoosmovieshowcase plus settled evidence badges. observed result: evidence badges: shared pass, core pass, bridge pass, 18 shared / 18 core, mode hybrid. seek to 175s produced 2:55 / 3:00, scene the movie keeps becoming, and a non empty rendered canvas sample. play advanced from 175s to approximately 176.3s and changed the control to pause. pause stopped playback and restored play. 390×844 emulation had no horizontal overflow; play control measured approximately 44.8px high. final showcase witness had no 4xx responses, failed requests, warning/error logs, or exceptions. media evidence canonical final file: apps/animator/proofs/three minute unified showcase/awtsmoos unified three minute showcase.mp4 ffprobe observed h.264 video + aac audio, 640×360, 12 fps, duration exactly 180.000000 seconds, size 9,887,593 bytes. a second 2 fps proof artifact is also exactly 180.000000 seconds. final static audit every touched/new source file parsed with node check. every touched/new source file remained at or below 120 lines. no touched source file had four space leading indentation; tab policy passed. git diff check passed on the relevant touched paths. no todo/fixme/hack/xxx markers were found in the relevant movie surfaces. no procedural core root barrel import remains under apps/mitzvah studio. reviewed non blocking repository warning node emits module typeless package json performance warnings for existing .js esm because the repository level package does not declare type: module. browser witnesses are clean and functional. changing the root package module type would have a broad unrelated blast radius, so that repository wide packaging choice was intentionally not changed as part of this movie system mission.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27-2150-geelooy-movie-unification-evidence-m-a49a94bea9.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27-2150-geelooy-movie-unification-remaining--e2def32034",
+		"title": "REMAININGWORK — Completion Gate Closed",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27-2150-geelooy-movie-unification/REMAINING_WORK.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "REMAININGWORK — Completion Gate Closed",
+				"anchor": "remainingwork-completion-gate-closed"
+			},
+			{
+				"level": 2,
+				"text": "Open user-scope work",
+				"anchor": "open-user-scope-work"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He REMAINING WORK — Completion Gate Closed The Awtsmoos renews each frame, while evidence makes the vessel bright; Awtsmoos.com closes work not by feeling done, but when every promised gate is shown in light. [x] Discover every movie/animation capable app and route in the requested surface.",
+		"searchText": "b\"h boruch hashem blessed is he remaining work — completion gate closed the awtsmoos renews each frame, while evidence makes the vessel bright; awtsmoos.com closes work not by feeling done, but when every promised gate is shown in light. [x] discover every movie/animation capable app and route in the requested surface. [x] trace shared movie libraries, deterministic core, adapters, installers, and renderer dependencies. [x] record the actual architecture and affected runtime paths. [x] unify ai authorable movie direction across animator, nesher studio, video editor, mitzvah studio, and captions. [x] preserve distinct 2d, 3d, hybrid, nle, spatial, and caption oriented product personalities through adapters. [x] verify mobile first director ux with viewport safe bottom sheet behavior and 44px visible controls. [x] verify canonical scene vocabulary covering characters, text, 2d shapes/paths, infographics/tutorial semantics, particles, cameras, transitions, dialogue, and layered 2d/3d content. [x] produce and retain a real 180 second multi scene movie artifact. [x] verify exact movie duration, codecs, dimensions, frame rate, and feature coverage programmatically. [x] run the complete focused movie verification universe after final fixes. [x] browser test the affected movie apps through fresh foreground devtools targets. [x] verify 390×844 mobile behavior and desktop geometry. [x] inspect runtime exceptions, console warnings/errors, failed requests, and 4xx responses in final clean witnesses. [x] submit a real ai director prompt and verify storyboard, timeline, and deterministic canvas output. [x] seek the real 180 second showcase to 175s, play forward, pause, and verify late scene rendering. [x] remove mitzvah studio's procedural core root barrel imports and protect the boundary with regression tests. [x] decouple heavy native boot graphs from ai director mounting where needed. [x] re read and statically audit every touched/new source file. [x] compare original plan against actual implementation and resolve required scope delta. [x] update durable evidence and handoff material. open user scope work none discovered after the final implementation, runtime, dependency, mobile, media, static, and takeover audits.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27-2150-geelooy-movie-unification-remaining--e2def32034.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27-2150-unified-movie-revelation-00-mission--a2ab963175",
+		"title": "Unified Movie Revelation Mission",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27-2150-unified-movie-revelation/00_MISSION.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Unified Movie Revelation Mission",
+				"anchor": "unified-movie-revelation-mission"
+			},
+			{
+				"level": 2,
+				"text": "User outcome",
+				"anchor": "user-outcome"
+			},
+			{
+				"level": 2,
+				"text": "Completion evidence",
+				"anchor": "completion-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Guardrails",
+				"anchor": "guardrails"
+			},
+			{
+				"level": 2,
+				"text": "Work graph",
+				"anchor": "work-graph"
+			},
+			{
+				"level": 2,
+				"text": "Remaining-work rule",
+				"anchor": "remaining-work-rule"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Unified Movie Revelation Mission The Awtsmoos renews every frame from no prior claim, so this mission seeks one living engine beneath each different name. Awtsmoos.com may present many studios with distinct delight, while shared movie truth keeps their timelines, scenes, and renders righ",
+		"searchText": "b\"h boruch hashem blessed is he unified movie revelation mission the awtsmoos renews every frame from no prior claim, so this mission seeks one living engine beneath each different name. awtsmoos.com may present many studios with distinct delight, while shared movie truth keeps their timelines, scenes, and renders right. user outcome discover every app under work/awtsmoos.com/geelooy with real 2d, 3d, animation, scene, movie, compositing, or cinematic authoring capability. repair broken or incomplete movie making paths rather than only polishing labels. unify common data contracts and runtime behavior while preserving each app's distinct personality, purpose, and visual identity. make ai authored projects capable of expressing arbitrary cinematic programs: characters, dialogue cues, animated text, shapes, charts, tutorials, infographics, particles, 2d layers, 3d actors, cameras, lights, transitions, and timed scenes. make authoring mobile first and touch usable without weakening desktop workflows. produce a real approximately 180 second showcase movie using many scenes, angles, people, shapes, particles, text systems, and both 2d and 3d animation features. test the generation pipeline, editor runtime, timeline math, scene switching, and browser visible result. completion evidence 1. movie capable surfaces are enumerated from repository evidence. 2. a shared canonical movie schema/runtime exists or an existing shared core is proven sufficient and extended. 3. each discovered app either adopts the shared core or has an explicit compatibility adapter. 4. ai input can produce structured movie programs instead of hard coded demo only scenes. 5. mobile ui exposes prompt to movie, scene/timeline navigation, playback, and editing controls. 6. a 180 second authored showcase is stored in the repo and loads through the real runtime. 7. static checks and runtime/browser checks pass for the touched paths. 8. changed files are re read and compared to the plan before completion. guardrails never partially patch a file; every modified file is rewritten as a complete file. split oversized touched source into focused modules rather than compressing it. use tab indentation in touched source where the format permits tabs. preserve public contracts unless every consumer is traced and migrated. do not overwrite unrelated concurrent work; inspect git/worktree state and re read files before writing. keep source modules small, documented, and composable. work graph discovery architecture shared schema runtime primitives ai compiler app adapters mobile ui 180s showcase static tests browser tests delta audit handoff remaining work rule this mission is incomplete while any required node above lacks direct evidence.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27-2150-unified-movie-revelation-00-mission--a2ab963175.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27-2150-unified-movie-revelation-01-pass-one-79c71131e8",
+		"title": "Pass One — Chessed Brainstorm: The Full Movie Universe",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27-2150-unified-movie-revelation/01_PASS_ONE_BRAINSTORM.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Pass One — Chessed Brainstorm: The Full Movie Universe",
+				"anchor": "pass-one-chessed-brainstorm-the-full-movie-universe"
+			},
+			{
+				"level": 2,
+				"text": "Ideal capability universe",
+				"anchor": "ideal-capability-universe"
+			},
+			{
+				"level": 2,
+				"text": "UX universe",
+				"anchor": "ux-universe"
+			},
+			{
+				"level": 2,
+				"text": "Candidate shared architecture",
+				"anchor": "candidate-shared-architecture"
+			},
+			{
+				"level": 2,
+				"text": "Possible app personalities",
+				"anchor": "possible-app-personalities"
+			},
+			{
+				"level": 2,
+				"text": "Failure map",
+				"anchor": "failure-map"
+			},
+			{
+				"level": 2,
+				"text": "What this pass intentionally does not decide",
+				"anchor": "what-this-pass-intentionally-does-not-decide"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Pass One — Chessed Brainstorm: The Full Movie Universe The Awtsmoos gives every instant a frame and every frame a door, so the first pass names the broadest useful movie world before choosing the core. Ideal capability universe One canonical movie document containing metadata, duration, ",
+		"searchText": "b\"h boruch hashem blessed is he pass one — chessed brainstorm: the full movie universe the awtsmoos gives every instant a frame and every frame a door, so the first pass names the broadest useful movie world before choosing the core. ideal capability universe one canonical movie document containing metadata, duration, frame rate, aspect ratio, tracks, scenes, assets, actors, cameras, lights, audio cues, transitions, and render directives. scene graphs for 2d and 3d objects with stable ids so ai can reference and animate prior objects across time. keyframes with easing, spring, path, morph, opacity, transform, color, material, camera, and text property animation. procedural animation primitives: orbit, follow, pulse, float, shake, draw on, typewriter, count up, reveal, wipe, stagger, parallax, explode, implode, flow, bounce, and particle emitters. character primitives: silhouette people, rigged/basic 3d people where available, sprites, labels, speech bubbles, entrances, exits, gestures, look at, walk paths, grouping, and reusable cast ids. 2d educational visuals: rectangles, circles, arrows, connectors, timelines, diagrams, callouts, progress meters, bar/line/pie charts, counters, grids, icons, equations, highlighted text, and step by step tutorial overlays. 3d visuals: boxes, spheres, cylinders, planes, text meshes, groups, lights, particles, camera rigs, environment colors, and procedural geometric assemblies. camera language: wide, medium, close, over shoulder like framing, top down, orbit, dolly, truck, pedestal, zoom/fov, rack like focus approximation, handheld jitter, and cuts between named cameras. scene language: cold open, title, explainer, montage, data section, character section, demonstration, climax, recap, credits. ai compiler that turns natural language or structured json into deterministic movie operations with schema validation and repairable errors. asset references that accept existing urls/data assets without requiring media generation to demonstrate animation capability. audio timeline metadata for narration/music/sfx even when the current runtime cannot synthesize audio itself. export oriented deterministic timeline stepping so future video capture/rendering can reproduce exact frames. ux universe mobile first: bottom action rail, large touch targets, single column prompt/editor mode, swipeable scene strip, full screen preview, collapsible inspector. desktop: split preview/timeline/inspector while sharing the same semantic controls. ai entry: one prominent “describe your movie” control plus advanced json/spec import. scene cards: duration, type, thumbnail/preview color, object count, quick duplicate/remove/reorder. timeline: scrub, play/pause, jump scene, loop, fit, current time, total duration. object editing: tap/select, transform, visibility, timing, motion preset, style/material, text. safety: clamp invalid durations, missing ids, nan transforms, impossible camera targets, and unsupported object kinds into explainable validation errors. candidate shared architecture 1. apps/shared/movie/ as the engine neutral canonical movie package. 2. data model and validators independent of dom/three.js. 3. a 2d renderer adapter for canvas/svg/dom. 4. a 3d renderer adapter for three.js when available. 5. a timeline evaluator shared by both modes. 6. a command/program compiler used by ai facing surfaces. 7. per app persona presets so animator, video editor, mitzvah studio, and nesher studio can feel different while speaking the same movie language. possible app personalities animator: direct animation playground, object/timeline centric. video editor: composition/timeline/media centric. mitzvah studio: guided story/explainer/educational preset centric. nesher studio: cinematic 3d/camera/scene centric. failure map duplicate movie schemas drifting across apps. demo data hard coded into runtimes with no ai programmable path. timeline calculations diverging between 2d and 3d. browser runtime assuming desktop dimensions or mouse only input. three.js dependency loaded inconsistently or missing on a route. ai output trusted without schema repair/validation. scene changes leaking objects or event listeners. 180 second demo existing only as documentation rather than runnable data. concurrent agent overwrites causing regressions. what this pass intentionally does not decide exact files, exact compatibility strategy, and exact renderer ownership remain subject to repository inspection.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27-2150-unified-movie-revelation-01-pass-one-79c71131e8.json"
+	}
+]

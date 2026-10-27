@@ -1,0 +1,173 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-0310-native-chitas-reader-03-final-implem-f0b35c50f8",
+		"title": "Final Implementation Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-0310-native-chitas-reader/03-final-implementation-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Final Implementation Plan",
+				"anchor": "final-implementation-plan"
+			},
+			{
+				"level": 2,
+				"text": "Before source mutation",
+				"anchor": "before-source-mutation"
+			},
+			{
+				"level": 2,
+				"text": "Generic reference system files",
+				"anchor": "generic-reference-system-files"
+			},
+			{
+				"level": 2,
+				"text": "Chitas files",
+				"anchor": "chitas-files"
+			},
+			{
+				"level": 2,
+				"text": "Existing reader/navigation integration",
+				"anchor": "existing-reader-navigation-integration"
+			},
+			{
+				"level": 2,
+				"text": "Week and language UX",
+				"anchor": "week-and-language-ux"
+			},
+			{
+				"level": 2,
+				"text": "Reader UX",
+				"anchor": "reader-ux"
+			},
+			{
+				"level": 2,
+				"text": "Tests to write/update",
+				"anchor": "tests-to-write-update"
+			},
+			{
+				"level": 2,
+				"text": "Verification / deployment",
+				"anchor": "verification-deployment"
+			},
+			{
+				"level": 2,
+				"text": "Completion invariant",
+				"anchor": "completion-invariant"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Final Implementation Plan The Awtsmoos now binds Chessed of possibility to Gevurah of exact files and tests; Awtsmoos.com will change only after each dependency has shown the shape in which it rests. Before source mutation 1. Fetch origin/main and verify current root/relevant file concur",
+		"searchText": "b\"h boruch hashem blessed is he final implementation plan the awtsmoos now binds chessed of possibility to gevurah of exact files and tests; awtsmoos.com will change only after each dependency has shown the shape in which it rests. before source mutation 1. fetch origin/main and verify current root/relevant file concurrency. 2. read the exact current chitas files in full. 3. locate and read the normal post reader route/loader in full using narrow file discovery. 4. read the internal tanach source adapter/payload in full. 5. freeze exact touched file list. generic reference system files create small modules under geelooy/heichelos/heichel/modules/dynamic reference/: reference contract.js: validate typed ordered references; no ui or network. reference id.js: stable url safe dynamic post identity helpers. reference registry.js: adapter registration and dispatch. post composer.js: resolve ordered references into one normal post reader model. if the existing reader already exposes equivalent composition primitives, reduce this set rather than duplicate them. chitas files chitas/range reference.js: translate schedule aliyah boundaries to the chosen internal tanach/post range model. chitas/week state.js: parse/serialize date, language, israel/diaspora and week navigation. chitas/dynamic post.js: reconstruct chitas yyyy mm dd from url state and resolve selected torah range. chitas/week controls.js: pure ui model for selector labels and actions. rewrite schedule.js only if needed to output structured boundaries in addition to display labels. rewrite virtual series.js so cards are ordinary internal posts with no externalhref and no social suppression marker. existing reader/navigation integration fully rewrite the located post loader/router so seriesid === daily chitas + postid === chitas yyyy mm dd resolves through chitas/dynamic post.js; ordinary persisted posts retain existing path. keep the existing native post/tanach reader and comments/social components. add a small chitas masthead module/style rather than fork the reader. rewrite living path/cards.js to remove chabad allowlist/external navigation and make chitas cards follow the ordinary internal post route. week and language ux segmented hebrew / english selector. previous week, today, next week buttons. date input allowing any selected week/day. english + hebrew parsha title. sunday→shabbos cards with selected/today states. url query is the source of truth and supports hard reload/back/forward. minimum 48px mobile actions where practical. reader ux chitas masthead: weekday, aliyah, selected date, parsha, canonical range. native torah typography/body. rtl hebrew and ltr english scoped to text. normal comments/social/share controls. verse comments retain canonical versesection. no external torah study navigation. tests to write/update 1. dynamic reference contract parse/validate/serialize tests. 2. range parser tests for same chapter and cross chapter aliyos. 3. stable dynamic post id and reload reconstruction tests. 4. week state tests: any date, previous/next/today, hebrew/english, israel/diaspora. 5. existing chitas schedule tests including festival deferral, simchas torah, isru chag. 6. living path contract: chitas cards have internal ids and no externalhref/chabad host. 7. normal post card regression: ordinary internal navigation/social remains intact. 8. reader integration: direct daily chitas url resolves internal torah text. 9. comment integration: comments ui exists; versesection source identity is stable. 10. browser 320/375/390/430: no horizontal overflow, no dock overlap, selectors usable, language/date/week state correct, hostname remains awtsmoos.com. 11. browser hard reload of a selected hebrew week/post. 12. search changed subtree for chabad.org, externalhref, virtualstudy. verification / deployment read back every touched file completely. compare this plan against actual implementation and write a new non overwriting delta file. if anything is missing, perform a second complete file write pass. re read all touched files again and write final plan vs actual audit. run node syntax/tests, line ceiling, tab indentation checks, prologues, git diff check. fetch newest origin, integrate concurrent canonical work, rerun affected gates. commit and push exact sha without force. activate through the repository production release path. verify public bytes and real ikar mobile flow from grouping → selected week → chitas post → torah text/comments. completion invariant the task is not complete merely when a card opens. completion means the current screenshot failure is impossible: clicking chitas remains on awtsmoos, resolves our torah source, preserves normal comments/social, supports arbitrary week and hebrew/english state, formats correctly on mobile, survives hard reload, and is live in production.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-0310-native-chitas-reader-03-final-implem-f0b35c50f8.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-0310-native-chitas-reader-04-range-refere-2b87c73b17",
+		"title": "Native Tanach + Existing Range-Reference Revelation",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-0310-native-chitas-reader/04-range-reference-native-tanach-revelation.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Native Tanach + Existing Range-Reference Revelation",
+				"anchor": "native-tanach-existing-range-reference-revelation"
+			},
+			{
+				"level": 2,
+				"text": "New hard evidence",
+				"anchor": "new-hard-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Revised architecture",
+				"anchor": "revised-architecture"
+			},
+			{
+				"level": 2,
+				"text": "Exact first implementation files",
+				"anchor": "exact-first-implementation-files"
+			},
+			{
+				"level": 2,
+				"text": "Completion proof",
+				"anchor": "completion-proof"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Native Tanach + Existing Range Reference Revelation The Awtsmoos has revealed that the missing Chitas reader does not require another Torah store; Awtsmoos.com already keeps the Written Torah as book series, chapter posts, and one pasuk per section at the native reader's door. New hard e",
+		"searchText": "b\"h boruch hashem blessed is he native tanach + existing range reference revelation the awtsmoos has revealed that the missing chitas reader does not require another torah store; awtsmoos.com already keeps the written torah as book series, chapter posts, and one pasuk per section at the native reader's door. new hard evidence thewrittentorah contains the canonical tanach book series, including bereishis, shemos, vayikra, bamidbar, and devarim. devarim contains 34 posts, exactly its 34 chapters; bereishis contains 50 posts, exactly its 50 chapters. devarim chapter 31 is the 31st post in the series and its dayuh.sections contains one hebrew pasuk per array entry. bereishis chapter 1 has the same shape. the post metadata records canonical provenance such as sourcebooktitle, sourcechapter, and canonicalhebrew. the entity universe range reference engine already models living source windows and source comment pointers, but its entity store is currently empty and its two end selector does not yet select an ordered contiguous span. the unfinished torah library /search/library/browse client is not backed by the currently running local api and must not become a chitas dependency. native post reader bootstrap loads a post object, manifests it, then starts normal comments/discussion/translation. therefore a synthetic chitas post should enter at coordinates.js, not fork the reader. revised architecture 1. keep the existing entity range reference engine and improve contiguous range semantics generically. 2. add a browser side post range compositor that treats ordinary persisted posts as canonical range sources without copying them into entity storage. 3. a tanach reference such as deuteronomy 31:20 31:30 maps deterministically to devarim, chapter indexes 31→31, and verse indexes 20→30. 4. cross chapter references fetch only the required chapter posts and concatenate only the required section slices. 5. each composed section carries source metadata: heichel, series, source post id, chapter, verse, and stable versesection. 6. coordinates.js intercepts only seriesid === daily chitas + postid === chitas yyyy mm dd, synthesizes a normal post, then the existing reader/comments pipeline continues unchanged. 7. chitas list cards become ordinary internal post cards. externalhref, chabad host allowlisting, and virtualstudy social suppression disappear. 8. week/date/language state is url addressable. the canonical torah source remains hebrew; english ui is supported immediately, while actual english torah text may use the existing reader translation layer when available rather than fabricating a translation. 9. a chitas masthead is a small reader extension above native torah text, not a parallel page. 10. comments for the dynamic post remain normal awtsmoos comments; source verse metadata is retained so a future source comment jump can reuse the existing range reference comment pointer model. exact first implementation files new small modules under geelooy/heichelos/post/logic/chitas/: books.js, rangeparser.js, postrangeloader.js, dynamicpost.js, weekstate.js, masthead.js. rewrite current coordinates.js to delegate daily chitas resolution before persisted series/post fetch. rewrite chitas schedule.js, hebcal provider.js, virtual series.js, and living path cards.js as complete files. rewrite postmanifest.js only to call the masthead extension before ordinary post body rendering. extend server rangereferences.js as a complete file rewrite so start+end selects the real contiguous flattened span. completion proof a chitas click must remain on awtsmoos, render the exact native hebrew pesukim from canonical chapter posts, show the ordinary reader/comments chrome, support arbitrary selected week/date, survive hard reload, and contain zero chabad.org/externalhref/virtualstudy behavior in the active chitas path.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-0310-native-chitas-reader-04-range-refere-2b87c73b17.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-0310-native-chitas-reader-05-post-write-d-f99afccb99",
+		"title": "Post-Write Delta and Second Pass",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-0310-native-chitas-reader/05-post-write-delta-and-second-pass.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Post-Write Delta and Second Pass",
+				"anchor": "post-write-delta-and-second-pass"
+			},
+			{
+				"level": 2,
+				"text": "Original plan remembered",
+				"anchor": "original-plan-remembered"
+			},
+			{
+				"level": 2,
+				"text": "What the first implementation actually wrote",
+				"anchor": "what-the-first-implementation-actually-wrote"
+			},
+			{
+				"level": 2,
+				"text": "Readback discoveries",
+				"anchor": "readback-discoveries"
+			},
+			{
+				"level": 3,
+				"text": "Delta 1 — stale module-generation URLs",
+				"anchor": "delta-1-stale-module-generation-urls"
+			},
+			{
+				"level": 3,
+				"text": "Delta 2 — suspected reader navigation bug disproved",
+				"anchor": "delta-2-suspected-reader-navigation-bug-disproved"
+			},
+			{
+				"level": 3,
+				"text": "Delta 3 — global cache-bust churn disproved",
+				"anchor": "delta-3-global-cache-bust-churn-disproved"
+			},
+			{
+				"level": 3,
+				"text": "Delta 4 — synthetic comments verified",
+				"anchor": "delta-4-synthetic-comments-verified"
+			},
+			{
+				"level": 3,
+				"text": "Delta 5 — English Torah translation remains unavailable",
+				"anchor": "delta-5-english-torah-translation-remains-unavailable"
+			},
+			{
+				"level": 2,
+				"text": "Second-pass files to rewrite completely",
+				"anchor": "second-pass-files-to-rewrite-completely"
+			},
+			{
+				"level": 2,
+				"text": "What will not be rewritten",
+				"anchor": "what-will-not-be-rewritten"
+			},
+			{
+				"level": 2,
+				"text": "Verification after second pass",
+				"anchor": "verification-after-second-pass"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Post Write Delta and Second Pass The Awtsmoos lets green tests stand before a harsher mirror, where hidden generations and false fears are tried; Awtsmoos.com keeps only evidence born corrections, so no needless rewrite can masquerade as a deeper guide. Original plan remembered The origi",
+		"searchText": "b\"h boruch hashem blessed is he post write delta and second pass the awtsmoos lets green tests stand before a harsher mirror, where hidden generations and false fears are tried; awtsmoos.com keeps only evidence born corrections, so no needless rewrite can masquerade as a deeper guide. original plan remembered the original plan required a reusable dynamic reference post abstraction, native ikar tanach source resolution, daily chitas as a virtual grouping, normal post reader manifestation, native comments/social behavior, arbitrary week/date navigation, mobile first controls, honest hebrew/english semantics, no chabad redirect, full regression coverage, readback, integration with current upstream, deployment, and public verification. what the first implementation actually wrote native post range references and resolver over persisted ikar chapter posts. chumash book name adapter and aliyah range parser. dynamic chitas yyyy mm dd synthetic posts loaded before persisted post lookup. canonical hebrew source sections from ikar with source post/section provenance. daily chitas schedule with ordinary aliyos, festival deferral, diaspora/israel cycle turn behavior. internal living path card routes with no chabad.org, externalhref, or virtualstudy. native reader masthead with week/date and hebrew/english interface controls. chitas only sunday through shabbos week panel instead of generic today timeline buckets. native comment identity through post.heichel.id; the actual comment tree endpoint returns http 200. honest translation status: english interface only because current native tanach source/translation subsystem does not materialize an english tanach body. tests proving live devarim 31:20–31:30 resolves exactly eleven canonical ikar pesukim. readback discoveries delta 1 — stale module generation urls several files changed after their first native chitas 001 publication shaped import was written. local node tests read disk directly and cannot expose this browser module graph mismatch. the stale edges are: virtual series.js → provider/schedule/week state v001. coordinates.js → dynamicpost v001. postmanifest.js → masthead v001. dynamicpost.js → rangeparser v001. rangeparser.js → books v001. changed date policy dependencies imported without the chitas generation marker. second pass: normalize changed chitas edges to native chitas 002. keep the stable reference post engine at native reference post 001. delta 2 — suspected reader navigation bug disproved readback of functions/ui/nav.js proves the current native reader already has chitas aware navigation. it resolves target post ids from series.posts, produces canonical /series/daily chitas/post/chitas yyyy mm dd links, updates chitasdate, and localizes day navigation. no rewrite is justified. delta 3 — global cache bust churn disproved local javascript responses include cache control: public, max age=0, must revalidate, etags, and last modified. reloaded module urls revalidate. the global heichel mobile 007 entry does not require a speculative bump merely because chitas descendants changed. keep the global cache covenant stable and correct only explicit stale chitas descendant generation markers. delta 4 — synthetic comments verified /api/social/heichelos/ikar/posts/chitas 2026 09 05/comment tree returns http 200 with the ordinary empty thread structure. no special comments backend and no persisted duplicate torah post are needed. delta 5 — english torah translation remains unavailable the canonical ikar tanach chapter posts expose hebrew pasuk sections. the existing native translation client intentionally supports sichos/meluket style series and returns early for tanach book series. the interface must not claim translated torah exists. keep translationstatus: canonical hebrew only and label the control english ui. second pass files to rewrite completely 1. heichel/modules/chitas/week state.js — version date policy import. 2. heichel/modules/chitas/hebcal provider.js — version date policy import. 3. heichel/modules/chitas/schedule.js — version constants/date policy imports. 4. heichel/modules/chitas/virtual series.js — use v002 provider/schedule/week state. 5. post/logic/chitas/rangeparser.js — use v002 books adapter. 6. post/logic/chitas/dynamicpost.js — use v002 range parser. 7. post/logic/initialization/coordinates.js — use v002 dynamic post. 8. post/logic/initialization/postmanifest.js — use v002 masthead. 9. tests/geelooy/chitaslivingpathcontract.test.mjs — add a static generation coherence contract over browser facing chitas owners. what will not be rewritten functions/ui/nav.js: already correct and owned by a broader reader navigation change. global heichel script versions: revalidation evidence removes the need. torah source posts/database: canonical source must remain singular. comments apis: ordinary synthetic id flow is already accepted. external study redirects: already removed and must remain absent. verification after second pass run syntax, <=120 line contract, schedule tests, native range live resolution, living path contract, ux contract, comment tree http witness, generation coherence grep, git diff check, then re read every rewritten file. write a fresh 06 ... final plan vs actual audit. if that audit discovers any source delta, perform another complete file pass before integration. the awtsmoos does not ask a passing test to carry what only readback can reveal; awtsmoos.com lets evidence prune false branches, until one coherent browser generation remains real.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-0310-native-chitas-reader-05-post-write-d-f99afccb99.json"
+	}
+]

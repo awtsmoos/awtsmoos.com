@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-26-0918-rebbe-search-proof-02-structure-impr-7101d465c2",
+	"title": "Search Structure Improvement",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-26-0918-rebbe-search-proof/02-structure-improvement.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Search Structure Improvement",
+			"anchor": "search-structure-improvement"
+		},
+		{
+			"level": 2,
+			"text": "Split map",
+			"anchor": "split-map"
+		},
+		{
+			"level": 2,
+			"text": "Verification",
+			"anchor": "verification"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-26-0918-rebbe-search-proof-02-structure-impr-7101d465c2-001.json"
+	]
+}

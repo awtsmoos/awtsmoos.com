@@ -1,0 +1,104 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-16-2300-insane-seo-ui-ux-04-phase-two-file-p-388358ed75",
+	"title": "Phase Two — Concrete File Plan",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-16-2300-insane-seo-ui-ux/04-phase-two-file-plan.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase Two — Concrete File Plan",
+			"anchor": "phase-two-concrete-file-plan"
+		},
+		{
+			"level": 2,
+			"text": "Planned new implementation files",
+			"anchor": "planned-new-implementation-files"
+		},
+		{
+			"level": 3,
+			"text": "ayzarim/awtsmoosDynamicServer/static/HtmlDocumentViewport.js",
+			"anchor": "ayzarim-awtsmoosdynamicserver-static-htmldocumentviewport-js"
+		},
+		{
+			"level": 3,
+			"text": "ayzarim/awtsmoosDynamicServer/static/HtmlSkipNavigation.js",
+			"anchor": "ayzarim-awtsmoosdynamicserver-static-htmlskipnavigation-js"
+		},
+		{
+			"level": 3,
+			"text": "ayzarim/awtsmoosDynamicServer/static/HtmlDocumentEssentials.js",
+			"anchor": "ayzarim-awtsmoosdynamicserver-static-htmldocumentessentials-js"
+		},
+		{
+			"level": 3,
+			"text": "ayzarim/awtsmoosDynamicServer/static/PublicHtmlStructuredDataEvidence.js",
+			"anchor": "ayzarim-awtsmoosdynamicserver-static-publichtmlstructureddataevidence-js"
+		},
+		{
+			"level": 3,
+			"text": "geelooy/style/universal-ui/accessibility.css",
+			"anchor": "geelooy-style-universal-ui-accessibility-css"
+		},
+		{
+			"level": 2,
+			"text": "Planned complete rewrites of existing implementation files",
+			"anchor": "planned-complete-rewrites-of-existing-implementation-files"
+		},
+		{
+			"level": 3,
+			"text": "ayzarim/awtsmoosDynamicServer/static/FileResponseContent.js",
+			"anchor": "ayzarim-awtsmoosdynamicserver-static-fileresponsecontent-js"
+		},
+		{
+			"level": 3,
+			"text": "ayzarim/awtsmoosDynamicServer/static/PublicHtmlSeoDocument.js",
+			"anchor": "ayzarim-awtsmoosdynamicserver-static-publichtmlseodocument-js"
+		},
+		{
+			"level": 3,
+			"text": "ayzarim/awtsmoosDynamicServer/static/PublicHtmlStructuredData.js",
+			"anchor": "ayzarim-awtsmoosdynamicserver-static-publichtmlstructureddata-js"
+		},
+		{
+			"level": 3,
+			"text": "geelooy/style/universal-ui.css",
+			"anchor": "geelooy-style-universal-ui-css"
+		},
+		{
+			"level": 2,
+			"text": "Planned tests after code is written",
+			"anchor": "planned-tests-after-code-is-written"
+		},
+		{
+			"level": 3,
+			"text": "New ayzarim/awtsmoosDynamicServer/static/HtmlDocumentEssentials.test.js",
+			"anchor": "new-ayzarim-awtsmoosdynamicserver-static-htmldocumentessentials-test-js"
+		},
+		{
+			"level": 3,
+			"text": "Rewrite ayzarim/awtsmoosDynamicServer/static/PublicHtmlSeo.test.js",
+			"anchor": "rewrite-ayzarim-awtsmoosdynamicserver-static-publichtmlseo-test-js"
+		},
+		{
+			"level": 2,
+			"text": "Verification after implementation",
+			"anchor": "verification-after-implementation"
+		},
+		{
+			"level": 2,
+			"text": "Files explicitly NOT planned for rewrite",
+			"anchor": "files-explicitly-not-planned-for-rewrite"
+		},
+		{
+			"level": 2,
+			"text": "NEXTACTION",
+			"anchor": "nextaction"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-16-2300-insane-seo-ui-ux-04-phase-two-file-p-388358ed75-001.json"
+	]
+}

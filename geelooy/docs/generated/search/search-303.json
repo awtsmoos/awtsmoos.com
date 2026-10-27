@@ -1,163 +1,224 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-references-directory-guide-md-5e8b7c2889",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/references/DIRECTORY_GUIDE.md",
-		"category": "Games",
+		"id": "geelooy-ai-thoughts-2026-08-25t2250-reader-revelation-05-runtime-evidenc-0a28a72d9c",
+		"title": "Runtime Evidence Delta",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25T2250-reader-revelation/05_RUNTIME_EVIDENCE_DELTA.md",
+		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: references",
-				"anchor": "directory-guide-references"
+				"text": "Runtime Evidence Delta",
+				"anchor": "runtime-evidence-delta"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Measured browser evidence",
+				"anchor": "measured-browser-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Proven root cause",
+				"anchor": "proven-root-cause"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Secondary contract failure",
+				"anchor": "secondary-contract-failure"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "UX consequence",
+				"anchor": "ux-consequence"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: references Role: References Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 1 files, 1 structural child directories Purpose Reference snapshots retained for comparison and reconstruction. The Awtsmoos renews every path and every art",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: references role: references snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 1 files, 1 structural child directories purpose reference snapshots retained for comparison and reconstruction. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: references search terms: guide, references file mix: .md: 1 good first question: “does the behavior or asset i need belong to references, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files no immediate files. this directory is an organizational parent; follow the child guides below. directory map parent: . children: references/canonical procedural village related and overlapping systems procedural world and village generation — village, road, house, primitive, text driven, and public api systems collaborate but are maintained in separate directories. boundaries and cautions reference files are evidence and comparison material; they are not automatically part of the live runtime. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-references-directory-guide-md-5e8b7c2889.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Runtime Evidence Delta The Awtsmoos renews the reader beneath every passing test and visible frame; Awtsmoos.com accepts no false green when the living browser reveals a different name. Measured browser evidence The ten contract Node/style reader universe passed, but CDP BrowserHarness e",
+		"searchText": "b\"h boruch hashem blessed is he runtime evidence delta the awtsmoos renews the reader beneath every passing test and visible frame; awtsmoos.com accepts no false green when the living browser reveals a different name. measured browser evidence the ten contract node/style reader universe passed, but cdp browserharness exposed a real runtime rupture on the canonical local reader route. observed state after boot settled: readerbootstarted = \"true\" readerbootcompleted = \"true\" socialreaderready absent readerbootfailed absent visible typography remained inert realpost rendered system rupture: illegal invocation captured browser stack: netzachgeometrygate.schedule schedulegeometrycheck gevurahsidebargate.setopen togglesidebar setupuilisteners preparereaderbehavior ignite performreaderboot. proven root cause geometrygate.js stores globalthis.requestanimationframe as a detached function and later invokes it as a method of the geometry gate. browser native animation scheduling requires the window receiver, producing typeerror: illegal invocation. secondary contract failure ignite() catches all bootstrap errors, writes a fatal placeholder, logs the rupture, and then returns normally. postlogic.js therefore marks boot completed even though the canonical reader never becomes ready. ux consequence visible shell controls depend on setupuilisteners(), which currently runs after initial data and identity hydration. the interface can therefore display controls before their interaction layer exists.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25t2250-reader-revelation-05-runtime-evidenc-0a28a72d9c.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-remaining-work-md-5cf1d82fed",
-		"title": "Mitzvah World — Closed Work Ledger",
-		"sourcePath": "geelooy/games/mitzvahWorld/REMAINING_WORK.md",
-		"category": "Games",
+		"id": "geelooy-ai-thoughts-2026-08-25t2250-reader-revelation-06-runtime-archite-b70b87fd78",
+		"title": "Runtime Architecture — Truth Before Decoration",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25T2250-reader-revelation/06_RUNTIME_ARCHITECTURE.md",
+		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Mitzvah World — Closed Work Ledger",
-				"anchor": "mitzvah-world-closed-work-ledger"
+				"text": "Runtime Architecture — Truth Before Decoration",
+				"anchor": "runtime-architecture-truth-before-decoration"
 			},
 			{
 				"level": 2,
-				"text": "Requested Repair Scope",
-				"anchor": "requested-repair-scope"
+				"text": "Chosen architecture",
+				"anchor": "chosen-architecture"
+			},
+			{
+				"level": 3,
+				"text": "1. Bound timing collaborators",
+				"anchor": "1-bound-timing-collaborators"
+			},
+			{
+				"level": 3,
+				"text": "2. Immediate shell-control boot",
+				"anchor": "2-immediate-shell-control-boot"
+			},
+			{
+				"level": 3,
+				"text": "3. Truthful fatal propagation",
+				"anchor": "3-truthful-fatal-propagation"
+			},
+			{
+				"level": 3,
+				"text": "4. Explicit boot-state invariant",
+				"anchor": "4-explicit-boot-state-invariant"
 			},
 			{
 				"level": 2,
-				"text": "Verified Production State — 2026-08-02",
-				"anchor": "verified-production-state-2026-08-02"
-			},
-			{
-				"level": 2,
-				"text": "Durable Evidence",
-				"anchor": "durable-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Remaining Task-Scoped Work",
-				"anchor": "remaining-task-scoped-work"
+				"text": "Compatibility laws",
+				"anchor": "compatibility-laws"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Mitzvah World — Closed Work Ledger The Awtsmoos renews the evidence until every requested vessel answers true; Awtsmoos.com keeps the completed graph visible for whoever continues anew. Requested Repair Scope [x] Restore playable Mitzvah World boot. [x] Make the CompactJS generated runti",
-		"searchText": "b\"h boruch hashem blessed is he mitzvah world — closed work ledger the awtsmoos renews the evidence until every requested vessel answers true; awtsmoos.com keeps the completed graph visible for whoever continues anew. requested repair scope [x] restore playable mitzvah world boot. [x] make the compactjs generated runtime work from the public route. [x] resolve essential readiness without awaiting rich hydration. [x] preserve compact safe dynamic imports. [x] restore canonical chossid and reference world glbs. [x] verify all nineteen drive objects by byte count and sha 256. [x] verify inventory, equipment, combat, quests, recovery, and streaming. [x] verify real browser movement input. [x] deploy through the immutable production release system. [x] preserve unrelated local working tree changes. verified production state — 2026 08 02 public route reached awtsmoosruntimestate=\"playable\". essential feature stage reached ready. public compact bundle: 5,270,667 bytes. compact sha 256: 8b48043f1342856772d8c96b61d410aa2b86c47a77b17fc3736b939b1cd0b5f3. nineteen canonical glbs: 4,752,884 total bytes. chossid model: http 200 and 2,027,368 exact bytes. fatal console errors: none. relevant http errors: none. failed requests: none after the route icon hardening pass is deployed. real keyw movement: 1.89 world units. durable evidence .ai thoughts/2026 07 31 0018 mitzvah world compactjs recovery/14 final completion evidence.md .ai thoughts/2026 07 31 0018 mitzvah world compactjs recovery/15 completion gate closed.md .ai thoughts/2026 07 31 0018 mitzvah world compactjs recovery/19 post completion final plan.md remaining task scoped work none. remaining work = [] future visual, narrative, content, or world expansion ideas are new missions rather than unfinished repair work.",
-		"page": "pages/geelooy-games-mitzvahworld-remaining-work-md-5cf1d82fed.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Runtime Architecture — Truth Before Decoration The Awtsmoos is beyond scheduler, network, and shell, yet each vessel must tell truth in time; Awtsmoos.com lets immediate controls, canonical hydration, and completion state become separate lines that rhyme. Chosen architecture 1. Bound tim",
+		"searchText": "b\"h boruch hashem blessed is he runtime architecture — truth before decoration the awtsmoos is beyond scheduler, network, and shell, yet each vessel must tell truth in time; awtsmoos.com lets immediate controls, canonical hydration, and completion state become separate lines that rhyme. chosen architecture 1. bound timing collaborators netzachgeometrygate will resolve native timing methods with their original runtime receiver. injected test collaborators remain supported. 2. immediate shell control boot create keterreadershellcontrolsboot as a small initialization vessel. it binds typography/commentary transient surface routing as soon as the document body exists, before slow post loading or identity hydration. it is idempotent, preserves the existing setupglobalclicks() and togglesidebar() contracts, and marks readershellcontrolsready only after binding. later setupuilisteners() may safely call the same popover setup again because medaberpopovergate already prevents duplicate global listener attachment. 3. truthful fatal propagation ignite() may render the fatal reader placeholder, but fatal canonical bootstrap errors must be rethrown. postlogic alone owns the top level boot failure state. 4. explicit boot state invariant create a small tiferesreaderbootstate state vessel. completion is legal only when socialreaderready === \"true\". failure clears any completed marker and records the error message. this prevents future false success regressions even if another inner module accidentally returns after a rupture. compatibility laws existing ids remain unchanged. existing togglesidebar, setupglobalclicks, ignite, and post boot entry remain callable. no html rewrite is necessary for this tranche. shell interaction never waits on alias, heichel, comments, translations, or post network work. optional post ready systems remain optional.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25t2250-reader-revelation-06-runtime-archite-b70b87fd78.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-styles-directory-guide-md-2fe6082468",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/styles/DIRECTORY_GUIDE.md",
-		"category": "Games",
+		"id": "geelooy-ai-thoughts-2026-08-25t2250-reader-revelation-07-runtime-executi-ca01f25a3a",
+		"title": "Runtime Execution Gate",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25T2250-reader-revelation/07_RUNTIME_EXECUTION_GATE.md",
+		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: styles",
-				"anchor": "directory-guide-styles"
+				"text": "Runtime Execution Gate",
+				"anchor": "runtime-execution-gate"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Production rewrite set",
+				"anchor": "production-rewrite-set"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Verification universe",
+				"anchor": "verification-universe"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Closure rule",
+				"anchor": "closure-rule"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: styles Role: Styles Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 15 files, 0 structural child directories Purpose CSS for loading, meadow HUD, menus, mobile controls, combat, game rails, and shell visibility. The Awtsmoos renews ",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: styles role: styles snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 15 files, 0 structural child directories purpose css for loading, meadow hud, menus, mobile controls, combat, game rails, and shell visibility. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: styles search terms: css, mitzvah, com, meadow, actions, combat, inventory, measured, menu, places, rail, retractable file mix: .css: 14 good first question: “does the behavior or asset i need belong to styles, or is this only a neighboring/test/reference layer?” semantic evidence b\"h the awtsmoos reveals many actions inside one narrow line. these direct dimensions replace scale transforms, preserve sharp text, and let awtsmoos.com keep the valley visible behind play. the awtsmoos measures charge and target truth; awtsmoos.com keeps combat safe, readable, and retractable. the awtsmoos places optional menus at the right boundary; awtsmoos.com makes every rail retractable. representative files mitzvah world actions.css — the awtsmoos reveals many actions inside one narrow line. these direct dimensions replace scale transforms, preserve sharp text, and let awtsmoos.com keep the valley visible behind play. mitzvah world combat.css — the awtsmoos measures charge and target truth; awtsmoos.com keeps combat safe, readable, and retractable. mitzvah world game rail.css — the awtsmoos places optional menus at the right boundary; awtsmoos.com makes every rail retractable. mitzvah world inventory.css — the awtsmoos places each carried object in a clear measured vessel. awtsmoos.com keeps the bag scrollable and compact so inventory never becomes a second blurry world above the first. mitzvah world loading.css — the awtsmoos gives measured progress a calm luminous vessel. awtsmoos.com shows completed work clearly while the already rendered meadow waits beneath. mitzvah world meadow hud.css — the awtsmoos keeps only one small desktop control receipt; awtsmoos.com leaves combat and menus separate. mitzvah world meadow menu.css — the awtsmoos gathers optional knowledge into one temporary chamber. awtsmoos.com lets menu, profile, map, torah, and quests share one light modal instead of five overlays. mitzvah world menu shell.css — the awtsmoos renews the first threshold and gives the webgl vessel its whole horizon. awtsmoos.com lets the meadow fill every finite pixel while menus and honest failures remain above it; no hidden default canvas size may conceal the world that is being created now. mitzvah world mobile.css — the awtsmoos receives touch without stealing target or cast sight; awtsmoos.com keeps mobile travel retractable. mitzvah world panels.css — dialogue is a finite chamber for an infinite meeting. the awtsmoos gives each word room while awtsmoos.com keeps the chamber bounded, readable, and free from permanent compositor blur. mitzvah world responsive.css — one world enters both broad glass and narrow glass. the awtsmoos reveals the same purpose in distinct measured layouts; awtsmoos.com keeps touch targets usable without covering the scene. mitzvah world shell.css — the awtsmoos recreates every visible frame without haze. this shell gives the world one exact canvas, calm page geometry, and direct css pixels instead of scaled or blurred vessels. awtsmoos.com is named here as the source whose interface should reveal rather than obscure. emergency meadow.css — a .css artifact in this directory. directory map parent: . children: none. related and overlapping systems combat domain, action bars, targeting, and hud — domain rules live under gameplay while browser widgets and target presentation live under ui and styles. boundaries and cautions css owns presentation and visibility, not gameplay state or domain rules. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-styles-directory-guide-md-2fe6082468.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Runtime Execution Gate The Awtsmoos renews every dependency before a click can cross the seam; Awtsmoos.com closes this gate only when source, tests, and the living browser agree on the same dream. Production rewrite set 1. Rewrite logic/listeners/GeometryGate.js with receiver safe nativ",
+		"searchText": "b\"h boruch hashem blessed is he runtime execution gate the awtsmoos renews every dependency before a click can cross the seam; awtsmoos.com closes this gate only when source, tests, and the living browser agree on the same dream. production rewrite set 1. rewrite logic/listeners/geometrygate.js with receiver safe native timing resolution. 2. add logic/initialization/readershellcontrolsboot.js for immediate idempotent shell interaction. 3. add logic/initialization/readerbootstate.js for explicit start/ready/completed/failed state law. 4. rewrite logic/initialization/bootstrap.js so fatal canonical errors render evidence and rethrow. 5. rewrite postlogic.js to awaken shell controls immediately and delegate state truth to tiferesreaderbootstate. verification universe all touched executable files <=120 lines tabs only source indentation no compressed meaningful logic node syntax/import safety existing ten reader contracts remain green new geometry native receiver regression new shell boot idempotence/state regression new boot state invariant regression browserharness proves typography works before canonical hydration completes browserharness proves canonical ready/completed truth browserharness proves desktop/mobile overflow and typography/commentary mutual exclusion closure rule only after every browser assertion passes may the reader runtime tranche move to the legacy sidebar css split.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25t2250-reader-revelation-07-runtime-executi-ca01f25a3a.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-25t2250-reader-revelation-08-chesed-sidebar--9fe1f97f36",
+		"title": "Chesed — Sidebar Style Revelation",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25T2250-reader-revelation/08_CHESED_SIDEBAR_STYLE_VISION.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Chesed — Sidebar Style Revelation",
+				"anchor": "chesed-sidebar-style-revelation"
+			},
+			{
+				"level": 2,
+				"text": "Observed reality",
+				"anchor": "observed-reality"
+			},
+			{
+				"level": 2,
+				"text": "Experience target",
+				"anchor": "experience-target"
+			},
+			{
+				"level": 2,
+				"text": "Visual language",
+				"anchor": "visual-language"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Chesed — Sidebar Style Revelation The Awtsmoos renews the hidden chamber before a reader asks it to appear; Awtsmoos.com should make commentary feel immediate, bounded, luminous, and clear. Observed reality sidebar.css mixes shell, chrome, controls, breadcrumbs, and responsive geometry. ",
+		"searchText": "b\"h boruch hashem blessed is he chesed — sidebar style revelation the awtsmoos renews the hidden chamber before a reader asks it to appear; awtsmoos.com should make commentary feel immediate, bounded, luminous, and clear. observed reality sidebar.css mixes shell, chrome, controls, breadcrumbs, and responsive geometry. panels.css is 135 lines and owns viewport, panel visibility, content flow, and mobile behavior. live mobile corrections.css is 343 lines and mixes at least six unrelated ui domains. hidden mobile sidebar behavior is duplicated with 9999px, 120vw, 140vw, and negative z index escape tactics. sidebar fullscreen.css uses 100vw and z index:2147483000. context menu.css and late correction rules use global id selectors and z index:2147483647. reader tokens already provide a local layer ladder through z sidebar, z popover, and z modal. reader beauty commentary contains two active global .sidebar selectors. experience target the reader text remains visually sovereign. commentary appears as one deliberate bounded chamber with safe area geometry and internal scrolling. advanced controls remain retractable. mobile closure means semantic absence through display:none and state truth, not teleporting elements thousands of pixels away. visual language dark glass surfaces with restrained gold/cyan edge light mobile first logical sizing using dvi, percentages, min(), and safe area variables motion limited to opacity/transform where state changes benefit from continuity every button/input receives hover capable hover, tactile active, focus visible, disabled, and reduced motion treatment one local z ladder; no giant integer layers one selector root: .post reader localized context with .awtsmoos reader vision where the reborn contract is required",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25t2250-reader-revelation-08-chesed-sidebar--9fe1f97f36.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-25t2250-reader-revelation-09-gevurah-sidebar-60c0633ce6",
+		"title": "Gevurah — Sidebar Ownership Boundaries",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25T2250-reader-revelation/09_GEVURAH_SIDEBAR_OWNERSHIP.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Gevurah — Sidebar Ownership Boundaries",
+				"anchor": "gevurah-sidebar-ownership-boundaries"
+			},
+			{
+				"level": 2,
+				"text": "Winning ownership graph",
+				"anchor": "winning-ownership-graph"
+			},
+			{
+				"level": 3,
+				"text": "Sidebar manifest",
+				"anchor": "sidebar-manifest"
+			},
+			{
+				"level": 3,
+				"text": "Panel manifest",
+				"anchor": "panel-manifest"
+			},
+			{
+				"level": 3,
+				"text": "Correction manifest",
+				"anchor": "correction-manifest"
+			},
+			{
+				"level": 3,
+				"text": "Context menu",
+				"anchor": "context-menu"
+			},
+			{
+				"level": 3,
+				"text": "Fullscreen",
+				"anchor": "fullscreen"
+			},
+			{
+				"level": 3,
+				"text": "Beauty layer",
+				"anchor": "beauty-layer"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Gevurah — Sidebar Ownership Boundaries The Awtsmoos has no boundary, yet each stylesheet must guard one shore; Awtsmoos.com becomes easier to extend when no selector fights another anymore. Winning ownership graph Sidebar manifest ideal/reborn/sidebar.css becomes import only and owns no ",
+		"searchText": "b\"h boruch hashem blessed is he gevurah — sidebar ownership boundaries the awtsmoos has no boundary, yet each stylesheet must guard one shore; awtsmoos.com becomes easier to extend when no selector fights another anymore. winning ownership graph sidebar manifest ideal/reborn/sidebar.css becomes import only and owns no declarations. it imports, in order: 1. sidebar/shell.css — fixed/open/hidden shell geometry and safe areas. 2. sidebar/chrome.css — title row, close/fullscreen/back controls, and interaction states. 3. sidebar/breadcrumbs.css — breadcrumb flow and states. 4. sidebar/containment.css — local box sizing, overflow containment, placeholders, and tabs. 5. sidebar/responsive.css — mobile/desktop size transitions only. panel manifest ideal/reborn/panels.css becomes import only. it imports: 1. panels/viewport.css — slide viewport/view visibility and transition model. 2. panels/content.css — content scrolling, headings, grids, panel flow. 3. panels/responsive.css — narrow screen panel layout. correction manifest live mobile corrections.css becomes an import only compatibility manifest rather than a 343 line dumping ground. its rules move to focused domains: corrections/inline shell.css corrections/comment card.css corrections/comment composer.css corrections/details.css corrections/mobile layout.css sidebar/chrome/panel/context menu rules do not remain there; their canonical owners absorb them. context menu context menu.css remains canonical but becomes locally rooted and uses z modal. width uses dvi, not vw. it owns both custom context menu and insane verse menu where both are real reader action sheets. fullscreen sidebar fullscreen.css remains focused but uses 100dvi and a reader local derived modal layer instead of literal integers. beauty layer commentary beauty selectors are rewritten under the reader root. beauty decorates; it does not own layout geometry.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25t2250-reader-revelation-09-gevurah-sidebar-60c0633ce6.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-25t2250-reader-revelation-10-tiferes-sidebar-050df76fc9",
+		"title": "Tiferes — Sidebar Cascade Critique",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25T2250-reader-revelation/10_TIFERES_SIDEBAR_CRITIQUE.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Tiferes — Sidebar Cascade Critique",
+				"anchor": "tiferes-sidebar-cascade-critique"
+			},
+			{
+				"level": 2,
+				"text": "Safeguards",
+				"anchor": "safeguards"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Tiferes — Sidebar Cascade Critique The Awtsmoos joins restraint with revelation until neither steals the other's place; Awtsmoos.com needs one cascade whose authority can be understood by reading its face. Safeguards 1. Preserve every existing public class and ID consumed by JavaScript. ",
+		"searchText": "b\"h boruch hashem blessed is he tiferes — sidebar cascade critique the awtsmoos joins restraint with revelation until neither steals the other's place; awtsmoos.com needs one cascade whose authority can be understood by reading its face. safeguards 1. preserve every existing public class and id consumed by javascript. 2. do not change markup unless css evidence proves it necessary. 3. keep every active selector under .post reader localized context. 4. never use unscoped custom context menu or insane verse menu. 5. never use unscoped .sidebar in active reader styles. 6. eliminate z index:2147483647 and 2147483000. 7. use the local token ladder for sidebar, popover, and modal surfaces. 8. use dvi rather than component vw sizing. 9. never hide mobile ui using left: 9999px. 10. never hide mobile ui using translate( 120vw) or translate( 140vw). 11. never use negative z index as a visibility mechanism. 12. one hidden sidebar rule owns mobile absence. 13. one open sidebar rule owns mobile bounded geometry. 14. one desktop rule owns edge docked geometry. 15. keep safe area insets in all fixed mobile surfaces. 16. keep sidebar internal content independently scrollable. 17. avoid body/document overflow changes from sidebar styles. 18. preserve reduced motion users from unnecessary transform transitions. 19. hover states apply only when hover is supported. 20. focus visible must remain obvious even without hover. 21. active states must not cause layout shift. 22. disabled controls must communicate disabled interaction. 23. breadcrumb links retain wrapping and touch sizing. 24. chrome controls retain minimum touch target sizing. 25. fullscreen mode must suppress competing floating controls. 26. fullscreen uses 100dvi/100dvh, not 100vw. 27. context action sheets remain inside safe horizontal and vertical viewport bounds. 28. context menu items receive hover, active, focus visible, and disabled states. 29. keep reader beauty decorative only; no global layout ownership. 30. split every touched stylesheet beyond 120 lines by responsibility. 31. do not shorten comments to satisfy the line limit. 32. do not compress selector blocks to satisfy the line limit. 33. preserve the current successful desktop/mobile reader geometry contract. 34. run selector ownership tests after the rewrite. 35. run the 13 reader contract universe after the rewrite. 36. re run cache disabled browserharness after all css changes. 37. treat any document overflow above 1px as a failure. 38. treat any sidebar/settings surface outside viewport bounds as a failure. 39. verify the hidden sidebar cannot receive pointer events. 40. record dead historical sidebar styles separately instead of deleting them without import proof.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25t2250-reader-revelation-10-tiferes-sidebar-050df76fc9.json"
 	}
 ]

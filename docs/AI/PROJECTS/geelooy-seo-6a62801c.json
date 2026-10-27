@@ -1,0 +1,101 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-seo-6a62801c",
+	"path": "geelooy/seo",
+	"type": "project",
+	"family": {
+		"id": "public",
+		"title": "Public and Other Boundaries"
+	},
+	"title": "geelooy/seo",
+	"entries": [
+		"README.md",
+		"readme.md"
+	],
+	"humanDocumentation": [
+		"docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-seo-6a62801c.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 7,
+		"tests": 12,
+		"assets": 0,
+		"generated": 29,
+		"docs": 1,
+		"other": 0
+	},
+	"totalFiles": 49,
+	"symbolSummary": {
+		"files": 7,
+		"classes": 0,
+		"functions": 29,
+		"exports": 18,
+		"samples": [
+			"generatePublicCatalog",
+			"publicCatalogRecords",
+			"shardRecords",
+			"writeShard",
+			"sitemapPaths",
+			"addPublicPath",
+			"normalizePath",
+			"renderSitemap",
+			"escapeXml",
+			"generateSitemap",
+			"cleanPlain",
+			"encodeSegment"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/api/social",
+			"count": 1,
+			"examples": "geelooy/seo/publicAliasValidity.js"
+		},
+		{
+			"project": "geelooy/apps/scripts",
+			"count": 1,
+			"examples": "geelooy/seo/generatePublicCatalog.mjs"
+		},
+		{
+			"project": "geelooy/games/scripts",
+			"count": 1,
+			"examples": "geelooy/seo/generatePublicCatalog.mjs"
+		}
+	],
+	"incomingDependencies": [
+		{
+			"project": "geelooy/@",
+			"count": 8,
+			"examples": "geelooy/@/seo/aliasCommentsPage.js; geelooy/@/seo/aliasData.js; geelooy/@/seo/aliasPage.js"
+		},
+		{
+			"project": "geelooy/heichelos",
+			"count": 7,
+			"examples": "geelooy/heichelos/routes/heichel/comments/commentHtml.js; geelooy/heichelos/routes/heichel/comments/commentPage.js; geelooy/heichelos/routes/heichel/comments/commentText.js"
+		},
+		{
+			"project": "ayzarim/awtsmoosDynamicServer",
+			"count": 3,
+			"examples": "ayzarim/awtsmoosDynamicServer/static/PublicCatalogInventoryRecords.js; ayzarim/awtsmoosDynamicServer/static/PublicCatalogSeoMetadata.js; ayzarim/awtsmoosDynamicServer/static/PublicHtmlSeo.js"
+		},
+		{
+			"project": "geelooy/comments",
+			"count": 3,
+			"examples": "geelooy/comments/sitemap/commentSitemapDataFactory.js; geelooy/comments/sitemap/data.js; geelooy/comments/sitemap/routes.js"
+		},
+		{
+			"project": "geelooy/scripts",
+			"count": 2,
+			"examples": "geelooy/scripts/seo/artifactPlan.mjs; geelooy/scripts/seo/translationPaths.mjs"
+		}
+	],
+	"externalDependencies": [],
+	"publicEntries": [],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": false,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

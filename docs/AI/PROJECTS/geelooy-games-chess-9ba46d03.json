@@ -24,19 +24,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-chess-9ba46d03.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 74,
-		"tests": 22,
+		"source": 233,
+		"tests": 48,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
 		"other": 0
 	},
-	"totalFiles": 97,
+	"totalFiles": 282,
 	"symbolSummary": {
-		"files": 62,
-		"classes": 23,
-		"functions": 162,
-		"exports": 51,
+		"files": 211,
+		"classes": 50,
+		"functions": 597,
+		"exports": 290,
 		"samples": [
 			"evaluate",
 			"orderMoves",
@@ -60,8 +60,8 @@
 			"url": "/games/chess",
 			"file": "geelooy/games/chess/index.html",
 			"title": "Ultimate Chess AI",
-			"scripts": 6,
-			"styles": 7
+			"scripts": 9,
+			"styles": 10
 		},
 		{
 			"url": "/games/chess/debug",

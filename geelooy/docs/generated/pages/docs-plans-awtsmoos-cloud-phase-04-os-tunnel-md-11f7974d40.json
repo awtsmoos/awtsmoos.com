@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-plans-awtsmoos-cloud-phase-04-os-tunnel-md-11f7974d40",
+	"title": "Phase 04 — Geelooy OS and Tunnel Control Plane",
+	"sourcePath": "docs/PLANS/AWTSMOOS_CLOUD/PHASE_04_OS_TUNNEL.md",
+	"category": "Tunnel",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase 04 — Geelooy OS and Tunnel Control Plane",
+			"anchor": "phase-04-geelooy-os-and-tunnel-control-plane"
+		},
+		{
+			"level": 2,
+			"text": "Existing foundation",
+			"anchor": "existing-foundation"
+		},
+		{
+			"level": 2,
+			"text": "Next graph objects",
+			"anchor": "next-graph-objects"
+		},
+		{
+			"level": 2,
+			"text": "Native management windows",
+			"anchor": "native-management-windows"
+		},
+		{
+			"level": 2,
+			"text": "Universal workflows",
+			"anchor": "universal-workflows"
+		},
+		{
+			"level": 2,
+			"text": "Tunnel authority",
+			"anchor": "tunnel-authority"
+		},
+		{
+			"level": 2,
+			"text": "Completion test",
+			"anchor": "completion-test"
+		}
+	],
+	"markdownParts": [
+		"content/docs-plans-awtsmoos-cloud-phase-04-os-tunnel-md-11f7974d40-001.json"
+	]
+}

@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-30-1307-olam-h3-studio-09-favicon-console-cl-a5989cf526",
+	"title": "Favicon Console Cleanup",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-30-1307-olam-h3-studio/09-favicon-console-cleanup.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Favicon Console Cleanup",
+			"anchor": "favicon-console-cleanup"
+		},
+		{
+			"level": 2,
+			"text": "Observed defect",
+			"anchor": "observed-defect"
+		},
+		{
+			"level": 2,
+			"text": "Fix plan",
+			"anchor": "fix-plan"
+		},
+		{
+			"level": 2,
+			"text": "Failure rule",
+			"anchor": "failure-rule"
+		},
+		{
+			"level": 2,
+			"text": "NEXTACTION",
+			"anchor": "nextaction"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-30-1307-olam-h3-studio-09-favicon-console-cl-a5989cf526-001.json"
+	]
+}

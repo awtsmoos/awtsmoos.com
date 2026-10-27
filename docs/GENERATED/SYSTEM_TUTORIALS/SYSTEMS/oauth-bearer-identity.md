@@ -41,6 +41,8 @@ Token validation, expiry, issuer/subject, scope, or CORS behavior is security-se
 
 | Name | Class | Source refs | Example sources |
 | --- | --- | --- | --- |
+| `AWTSMOOS_ARTIFACT_STORAGE_ROOT` | path/storage | 6 | `geelooy/api/tunnel/control/core/artifactPublicationStore.js; geelooy/api/tunnel/control/core/binaryArtifactPublication.js; geelooy/api/tunnel/control/core/binaryArtifactPublication.test.cjs` |
+| `AWTSMOOS_BINARY_ARTIFACT_ROOT` | path/storage | 6 | `geelooy/api/tunnel/control/core/binaryArtifactVault.js; geelooy/api/tunnel/control/routes/test/artifactBinaryHttp.test.cjs; geelooy/api/tunnel/control/routes/test/artifactBinaryPrivateRangeHttp.test.cjs` |
 | `AWTSMOOS_BINDING_HISTORY_PER_IDENTITY` | runtime-config | 1 | `geelooy/api/tunnel/control/core/tunnelSecurity/bindingRetentionPolicy.js` |
 | `AWTSMOOS_BINDING_RETENTION_MS` | tuning | 1 | `geelooy/api/tunnel/control/core/tunnelSecurity/bindingRetentionPolicy.js` |
 | `AWTSMOOS_DIR` | path/storage | 1 | `geelooy/api/oauth/core/serverSecret.js` |

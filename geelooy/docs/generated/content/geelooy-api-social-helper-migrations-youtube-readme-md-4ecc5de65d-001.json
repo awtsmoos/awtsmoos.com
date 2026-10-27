@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — YouTube Migration (geelooy/api/social/helper/migrations/youtube/)\n\nImporter for migrating YouTube content (captions, manifests) into Awtsmoos.\n\n## Files\n- `YouTubeManifest.js`, `ManifestGuard.js` — migration manifest and validation guard.\n- `YouTubeCaptionAssets.js` — caption asset handling.\n- `YouTubeMigrationPlan.js`, `YouTubeMigrationRoutes.js` — migration planning and HTTP routes.\n- `SourceProvenance.js` — provenance tracking.\n- `test/` — `ManifestGuard.test.js`, `YouTubeManifest.test.js`.\n"
+}

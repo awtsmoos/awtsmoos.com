@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-27t21-50-geelooy-movie-unification-02-phase--5a14a5210e",
+	"title": "Phase Two — Realistic Architecture and File Map",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-27T21-50-geelooy-movie-unification/02_PHASE_TWO_ARCHITECTURE_AND_FILE_MAP.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase Two — Realistic Architecture and File Map",
+			"anchor": "phase-two-realistic-architecture-and-file-map"
+		},
+		{
+			"level": 2,
+			"text": "Shared Core — New Files",
+			"anchor": "shared-core-new-files"
+		},
+		{
+			"level": 2,
+			"text": "Adapter Targets — Prefer New Files",
+			"anchor": "adapter-targets-prefer-new-files"
+		},
+		{
+			"level": 2,
+			"text": "Mobile AI Surface — Conditional",
+			"anchor": "mobile-ai-surface-conditional"
+		},
+		{
+			"level": 2,
+			"text": "Showcase — New Files",
+			"anchor": "showcase-new-files"
+		},
+		{
+			"level": 2,
+			"text": "Verification — New Files",
+			"anchor": "verification-new-files"
+		},
+		{
+			"level": 2,
+			"text": "Integration Rule",
+			"anchor": "integration-rule"
+		},
+		{
+			"level": 2,
+			"text": "Data Shape",
+			"anchor": "data-shape"
+		},
+		{
+			"level": 2,
+			"text": "Verification Graph",
+			"anchor": "verification-graph"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-27t21-50-geelooy-movie-unification-02-phase--5a14a5210e-001.json"
+	]
+}

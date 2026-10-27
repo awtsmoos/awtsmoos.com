@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-release-readme-md-6c34972760",
+	"title": "B\"H — Release Identity API (geelooy/api/release/)",
+	"sourcePath": "geelooy/api/release/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Release Identity API (geelooy/api/release/)",
+			"anchor": "b-h-release-identity-api-geelooy-api-release"
+		},
+		{
+			"level": 2,
+			"text": "Contents",
+			"anchor": "contents"
+		},
+		{
+			"level": 2,
+			"text": "Endpoint",
+			"anchor": "endpoint"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-release-readme-md-6c34972760-001.json"
+	]
+}

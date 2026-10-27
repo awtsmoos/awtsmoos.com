@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Ohr HaGnuz Auth (geelooy/api/ohr-hagnuz/auth/)\n\nGame ticket authentication internals (see `../README.md`).\n\n## Files\n- `GameTicketIssuer.js` — mints a one-use online-journey ticket for an\n  authenticated account once identity, origin, slot, and protocol agree.\n- `GameTicketClaims.js` — claim shapes and the game protocol version.\n- `GameTicketStore.js` — ticket persistence (issue, spend-once semantics).\n- `GameTicketStore.test.cjs` — node test for the ticket store.\n"
+}

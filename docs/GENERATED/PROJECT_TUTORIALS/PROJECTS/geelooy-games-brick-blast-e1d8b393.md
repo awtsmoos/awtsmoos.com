@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 79 | 0 | 0 | 0 | 1 | 0 | 80 |
+| 88 | 0 | 0 | 0 | 1 | 0 | 89 |
 
 ## Public entry points
 
@@ -29,11 +29,11 @@ Blessed is He
 
 ## Symbol evidence
 
-Source files: 75; classes: 17; functions: 93; exports: 86; samples: PROVIDERS, async, fetchModels, generateLevel, handleFetchError, initAudio, playNote, playNextNote, playVictoryFanfare, playStarPing, getFrequency, playFrequency.
+Source files: 84; classes: 17; functions: 104; exports: 96; samples: awakenBrickBlast, revealFailure, escapeText, PROVIDERS, async, fetchModels, generateLevel, handleFetchError, initAudio, playNote, playNextNote, playVictoryFanfare.
 
 ## Depends on
 
-None observed.
+- `geelooy/games/scripts` — 1 lexical reference; examples: geelooy/games/brick-blast/js/levels/brick.js
 
 ## Used by
 

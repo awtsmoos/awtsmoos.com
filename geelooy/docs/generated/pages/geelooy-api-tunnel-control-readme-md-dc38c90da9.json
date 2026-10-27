@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-tunnel-control-readme-md-dc38c90da9",
+	"title": "B\"H — Tunnel Control API (Yaakov 2026-10-15)",
+	"sourcePath": "geelooy/api/tunnel/control/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Tunnel Control API (Yaakov 2026-10-15)",
+			"anchor": "b-h-tunnel-control-api-yaakov-2026-10-15"
+		},
+		{
+			"level": 2,
+			"text": "Routes",
+			"anchor": "routes"
+		},
+		{
+			"level": 2,
+			"text": "Pairing Flow",
+			"anchor": "pairing-flow"
+		},
+		{
+			"level": 2,
+			"text": "Simple Tunnel Flow",
+			"anchor": "simple-tunnel-flow"
+		},
+		{
+			"level": 2,
+			"text": "Core Modules",
+			"anchor": "core-modules"
+		},
+		{
+			"level": 2,
+			"text": "Critical Bugs Fixed (2026-10-15)",
+			"anchor": "critical-bugs-fixed-2026-10-15"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-tunnel-control-readme-md-dc38c90da9-001.json"
+	]
+}

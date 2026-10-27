@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-docs-production-roadmap-03-gameplay-content-m-65c1464bd0",
+	"title": "Gameplay, Quests, Creator, and Persistence",
+	"sourcePath": "geelooy/games/mitzvahWorld/docs/production-roadmap/03-gameplay-content.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Gameplay, Quests, Creator, and Persistence",
+			"anchor": "gameplay-quests-creator-and-persistence"
+		},
+		{
+			"level": 2,
+			"text": "Bridge vertical slice",
+			"anchor": "bridge-vertical-slice"
+		},
+		{
+			"level": 2,
+			"text": "Quest architecture",
+			"anchor": "quest-architecture"
+		},
+		{
+			"level": 2,
+			"text": "Content loops",
+			"anchor": "content-loops"
+		},
+		{
+			"level": 2,
+			"text": "Torah and mitzvah systems",
+			"anchor": "torah-and-mitzvah-systems"
+		},
+		{
+			"level": 2,
+			"text": "Creator",
+			"anchor": "creator"
+		},
+		{
+			"level": 2,
+			"text": "Persistence",
+			"anchor": "persistence"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-docs-production-roadmap-03-gameplay-content-m-65c1464bd0-001.json"
+	]
+}

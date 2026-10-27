@@ -12,7 +12,9 @@
 	"title": "geelooy/api/gpt",
 	"entries": [
 		"_awtsmoos.derech.js",
-		"DOCUMENTATION.md"
+		"DOCUMENTATION.md",
+		"README.md",
+		"readme.md"
 	],
 	"humanDocumentation": [
 		"geelooy/api/gpt/DOCUMENTATION.md",
@@ -27,10 +29,10 @@
 		"tests": 3,
 		"assets": 0,
 		"generated": 0,
-		"docs": 1,
+		"docs": 3,
 		"other": 0
 	},
-	"totalFiles": 14,
+	"totalFiles": 16,
 	"symbolSummary": {
 		"files": 10,
 		"classes": 1,

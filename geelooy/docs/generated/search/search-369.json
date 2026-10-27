@@ -1,0 +1,203 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28t0310-geelooy-social-mobile-03-final-execu-e0f5087454",
+		"title": "Phase Three — Final Mobile-First Execution Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0310-geelooy-social-mobile/03_FINAL_EXECUTION_PLAN.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Three — Final Mobile-First Execution Plan",
+				"anchor": "phase-three-final-mobile-first-execution-plan"
+			},
+			{
+				"level": 2,
+				"text": "Final architecture",
+				"anchor": "final-architecture"
+			},
+			{
+				"level": 2,
+				"text": "Files expected to create",
+				"anchor": "files-expected-to-create"
+			},
+			{
+				"level": 3,
+				"text": "js/interactions/PersistentCreatorView.js",
+				"anchor": "js-interactions-persistentcreatorview-js"
+			},
+			{
+				"level": 3,
+				"text": "js/interactions/PersistentCreator.js",
+				"anchor": "js-interactions-persistentcreator-js"
+			},
+			{
+				"level": 3,
+				"text": "styles/persistent-creator.css",
+				"anchor": "styles-persistent-creator-css"
+			},
+			{
+				"level": 3,
+				"text": "styles/persistent-creator-surface.css",
+				"anchor": "styles-persistent-creator-surface-css"
+			},
+			{
+				"level": 3,
+				"text": "styles/persistent-creator-mobile.css",
+				"anchor": "styles-persistent-creator-mobile-css"
+			},
+			{
+				"level": 3,
+				"text": "Focused tests",
+				"anchor": "focused-tests"
+			},
+			{
+				"level": 2,
+				"text": "Files expected to rewrite in full",
+				"anchor": "files-expected-to-rewrite-in-full"
+			},
+			{
+				"level": 3,
+				"text": "js/ui/shell/HomePanelTemplate.js",
+				"anchor": "js-ui-shell-homepaneltemplate-js"
+			},
+			{
+				"level": 3,
+				"text": "js/ui/shell/SocialHubChromeTemplate.js",
+				"anchor": "js-ui-shell-socialhubchrometemplate-js"
+			},
+			{
+				"level": 3,
+				"text": "js/assembly/SocialCreationAssembly.js",
+				"anchor": "js-assembly-socialcreationassembly-js"
+			},
+			{
+				"level": 3,
+				"text": "js/HubApp.js or lifecycle/presenter owner only if inspection proves registration/rendering is explicit there",
+				"anchor": "js-hubapp-js-or-lifecycle-presenter-owner-only-if-inspection-proves-registration-rendering-is-explicit-there"
+			},
+			{
+				"level": 3,
+				"text": "js/ui/HubSurfacePresenter.js only if persistent creator needs snapshot rendering through the established presenter",
+				"anchor": "js-ui-hubsurfacepresenter-js-only-if-persistent-creator-needs-snapshot-rendering-through-the-established-presenter"
+			},
+			{
+				"level": 3,
+				"text": "style.css",
+				"anchor": "style-css"
+			},
+			{
+				"level": 2,
+				"text": "Files protected from change",
+				"anchor": "files-protected-from-change"
+			},
+			{
+				"level": 2,
+				"text": "Thirty final refinements",
+				"anchor": "thirty-final-refinements"
+			},
+			{
+				"level": 2,
+				"text": "Verification order",
+				"anchor": "verification-order"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Three — Final Mobile First Execution Plan Final architecture Keep the established route system, creation assembly, and canonical composer. Add a compact persistent standard post launcher to the stable shell and strengthen the Home creation surface. The launcher is rendered from the",
+		"searchText": "b\"h boruch hashem blessed is he phase three — final mobile first execution plan final architecture keep the established route system, creation assembly, and canonical composer. add a compact persistent standard post launcher to the stable shell and strengthen the home creation surface. the launcher is rendered from the same state snapshot and canonical creatorurl() model used by advanced creator intents. external network linking remains absent. files expected to create js/interactions/persistentcreatorview.js small dom view owning only the always available standard post link and its compact alias/destination chips. it discovers stable shell/home mount points, never owns state, never owns navigation, and exposes mount() plus render(snapshot, urlfor). js/interactions/persistentcreator.js small controller owning state subscription/render lifecycle for the persistent view, parallel to existing creatorlaunch. styles/persistent creator.css import garment only, splitting surface/mobile concerns. styles/persistent creator surface.css home/desktop creation surface: bounded card, primary cta, context chips, no loose labels. styles/persistent creator mobile.css safe area aware fixed mobile action, dock avoidance, touch target, focus, reduced motion, and phone width overflow rules. focused tests create new contract tests rather than inflate existing large tests. they should prove shell markup/mount points, canonical creator url context, style ownership, and mobile containment. files expected to rewrite in full js/ui/shell/homepaneltemplate.js move the creation doorway to the top of home and make it visually/semantically primary while preserving existing ids (quickpost, pulse ids, quick action ids) used by controllers/tests. js/ui/shell/socialhubchrometemplate.js add a dedicated persistent creator mount/action vessel adjacent to mobile navigation, not inside route navigation. js/assembly/socialcreationassembly.js construct the persistent creator controller beside existing creatorlaunch and quickactions. js/hubapp.js or lifecycle/presenter owner only if inspection proves registration/rendering is explicit there do not touch unless actual assembly/presenter contracts require it. js/ui/hubsurfacepresenter.js only if persistent creator needs snapshot rendering through the established presenter prefer existing central render path rather than an independent state subscription if that is the project convention. style.css add one import for the new persistent creator stylesheet and advance local cache key consistently. no unrelated cascade changes. files protected from change mobilenavigationpolicy.js: primary routes stay home/inbox/messages/spaces. external oauth/provider/network code. social composer internals already verified in the previous gate. messaging/profile/people/spaces apis unless browser evidence shows a regression caused by shell geometry. thirty final refinements 1. create is an action, never a route. 2. standard post is the default persistent intent. 3. advanced intents remain in the deep creator rail. 4. context url comes from creatorurl(). 5. no alias requirement blocks access to composer. 6. no external platform names appear in new ui. 7. persistent mobile action uses text plus icon. 8. minimum touch area is visually and geometrically generous. 9. fixed action clears bottom safe area. 10. workspace bottom padding clears both action and dock. 11. no horizontal overflow at narrow widths. 12. long alias wraps/clamps inside chips. 13. long destination wraps/clamps inside chips. 14. all context text sits inside styled chips. 15. home cta sits inside a styled creation card. 16. quick secondary actions remain styled tiles/buttons. 17. existing pulse values remain in styled metric cards. 18. existing login/select controls remain inside header/field vessels. 19. focus visible outline is never clipped. 20. hover styling remains progressive enhancement only. 21. reduced motion removes creator movement. 22. desktop avoids redundant fixed floating controls. 23. tablet geometry transitions cleanly. 24. existing route more sheet remains unchanged. 25. shell mount is idempotent. 26. creator view mount is idempotent. 27. rendering updates href/context without remounting dom. 28. existing quickactions tracking still sees home quick links. 29. test class ownership so no new element ships unstyled. 30. browser witness must confirm no overlap, no horizontal overflow, visible create, and correct href without navigating away. verification order 1. baseline existing tests/browser before source writes if practical. 2. write all production code first. 3. read every touched production file in full. 4. write delta plan; fix only discovered source issues by full file rewrite. 5. create tests. 6. run syntax/line count checks. 7. run focused contracts. 8. run npm test and browser suite. 9. load live local social hub at phone geometry and inspect dom/console/screenshot. 10. re read changed files and close remaining work only with evidence. the awtsmoos gives one deed a clear doorway and many deeper chambers behind it; awtsmoos.com will let the thumb reach creation immediately, while route, identity, conversation, and destination each remain within their truthful vessel.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28t0310-geelooy-social-mobile-03-final-execu-e0f5087454.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28t0310-geelooy-social-mobile-04-source-read-d67cea92d7",
+		"title": "Source Readback Delta — Mobile Social Hub",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0310-geelooy-social-mobile/04_SOURCE_READBACK_DELTA.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Source Readback Delta — Mobile Social Hub",
+				"anchor": "source-readback-delta-mobile-social-hub"
+			},
+			{
+				"level": 2,
+				"text": "Original plan",
+				"anchor": "original-plan"
+			},
+			{
+				"level": 2,
+				"text": "Actual first pass",
+				"anchor": "actual-first-pass"
+			},
+			{
+				"level": 2,
+				"text": "Full readback evidence",
+				"anchor": "full-readback-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Proven delta",
+				"anchor": "proven-delta"
+			},
+			{
+				"level": 2,
+				"text": "Second-pass correction",
+				"anchor": "second-pass-correction"
+			},
+			{
+				"level": 2,
+				"text": "Remaining uncertainty to verify later",
+				"anchor": "remaining-uncertainty-to-verify-later"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Source Readback Delta — Mobile Social Hub Original plan The first production pass was intended to add one persistent internal post action, strengthen Home creation hierarchy, reuse canonical creator context, preserve route semantics, and style every new visible word/action inside owned v",
+		"searchText": "b\"h boruch hashem blessed is he source readback delta — mobile social hub original plan the first production pass was intended to add one persistent internal post action, strengthen home creation hierarchy, reuse canonical creator context, preserve route semantics, and style every new visible word/action inside owned vessels. all source files were required to remain at or below 120 lines. actual first pass the implementation created the persistent creator controller/view, rewrote home and stable chrome, wired creation through the existing assembly/presenter/lifecycle, added split creator style ownership, and imported the new style garment. no external provider linking, oauth, or auto posting code was introduced. full readback evidence the completed immutable readback job returned all touched production files with these line counts: persistentcreatorview.js — 66 persistentcreator.js — 35 homepaneltemplate.js — 66 socialhubchrometemplate.js — 69 socialcreationassembly.js — 59 hubsurfacepresenter.js — 34 hubapp.js — 65 hubinitializationcoordinator.js — 67 persistent creator.css — 8 persistent creator surface.css — 140 persistent creator mobile.css — 108 style.css — 88 proven delta persistent creator surface.css violates the 120 line source ceiling at 140 lines. its responsibilities are also naturally divisible: home creation context/surface is one vessel, and the primary home creation action is another. no other definite source defect was discovered in readback. the js integration remains focused: creation is not a route, appassembly needs no change, the central presenter owns rendering, and the lifecycle initializes the new controller once. second pass correction 1. create styles/persistent creator action.css containing only home primary action styles. 2. rewrite styles/persistent creator surface.css in full so it owns only the home creation card, copy, context, and chips. 3. rewrite styles/persistent creator.css in full to import surface, action, and mobile garments. 4. preserve all comments and readable formatting; do not compress to satisfy the ceiling. 5. read back all three corrected style files completely and re count them. remaining uncertainty to verify later the mobile creator intentionally increases .social hub document bottom padding and positions itself above hub mobile dock clearance. static source structure is correct, but only responsive/browser geometry can prove that the button neither overlaps the dock nor creates horizontal overflow. that remains test/browser work, not a reason to alter source speculatively. next action perform the three file css split, reread it in full, then create focused contract tests. the awtsmoos reveals division without division: one light may need several vessels so each remains clear. awtsmoos.com will not crush a garment to fit a number; it will reveal the action and the surface as distinct forms that still sing together.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28t0310-geelooy-social-mobile-04-source-read-d67cea92d7.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28t0310-geelooy-social-mobile-05-automated-f-36775ff1f6",
+		"title": "Automated Verification Failure and Repair",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0310-geelooy-social-mobile/05_AUTOMATED_FAILURE_REPAIR.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Automated Verification Failure and Repair",
+				"anchor": "automated-verification-failure-and-repair"
+			},
+			{
+				"level": 2,
+				"text": "Observed failure",
+				"anchor": "observed-failure"
+			},
+			{
+				"level": 2,
+				"text": "Live architecture evidence",
+				"anchor": "live-architecture-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Diagnosis",
+				"anchor": "diagnosis"
+			},
+			{
+				"level": 2,
+				"text": "Repair plan",
+				"anchor": "repair-plan"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Automated Verification Failure and Repair Observed failure The first full Social Hub verification run reached test:surface after syntax, state, comment, and legal checks passed. It failed because tests/surfaceContract.test.mjs asserted that static index.html contains social/shell/boot.js",
+		"searchText": "b\"h boruch hashem blessed is he automated verification failure and repair observed failure the first full social hub verification run reached test:surface after syntax, state, comment, and legal checks passed. it failed because tests/surfacecontract.test.mjs asserted that static index.html contains social/shell/boot.js, .hubheader, .fieldlabeltext, and .identityportal. live architecture evidence no social/shell/boot.js file or reference exists in social hub, social, or shared. social hub/index.html intentionally owns only accessible first paint fallback content and loads ./js/main.js. js/main.js imports ketersocialhubshell, mounts it before controller initialization, then creates the social hub application. js/ui/shell/socialhubshell.js purely composes revealketerchrome() plus revealmalchusworkspace(revealsocialhubpanels()) and mounts that markup into socialhubmount exactly once. therefore header, identity field, portal, navigation, panels, and the new persistent creator belong to generated shell markup, not static fallback html. diagnosis the surface test is stale. changing production back to a nonexistent boot file would contradict the current source graph and regress the explicit bootstrap responsibility documented in main.js and socialhubshell.js. repair plan 1. rewrite tests/surfacecontract.test.mjs completely. 2. keep the valuable cache generation, local style ownership, and line budget assertions. 3. assert static index.html owns the route class, first paint mount, and ./js/main.js module entrypoint. 4. assert main.js imports and mounts ketersocialhubshell before app initialization. 5. import and execute revealsocialhubmarkup() to prove generated shell markup owns .hubheader, .fieldlabeltext, .identityportal, mobile creator, and route navigation. 6. assert the obsolete social/shell/boot.js path is absent from the page contract. 7. keep the rewritten test below 120 lines without compressed code or reduced comments. 8. rerun surface test, creator test, then full normal suite before browser verification. next action rewrite the stale surface contract in full, read it back, and run the focused test pair. the awtsmoos does not ask the static stone to pretend it is the living flow; awtsmoos.com lets fallback, bootstrap, shell, and behavior each inhabit the vessel that truth already reveals, and the test must follow that real light rather than an abandoned road.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28t0310-geelooy-social-mobile-05-automated-f-36775ff1f6.json"
+	}
+]

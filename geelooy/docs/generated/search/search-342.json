@@ -1,0 +1,129 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27t2150-geelooy-movie-unification-07-final-r-81bf1e7025",
+		"title": "Phase 7 — Final Revelation Plan: Thirty Additional Refinements",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27T2150-geelooy-movie-unification/07_FINAL_REVELATION_PLAN.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase 7 — Final Revelation Plan: Thirty Additional Refinements",
+				"anchor": "phase-7-final-revelation-plan-thirty-additional-refinements"
+			}
+		],
+		"excerpt": "B\"H Phase 7 — Final Revelation Plan: Thirty Additional Refinements The final plan is not a frozen stone; the Awtsmoos renews it as evidence grows; each verified boundary becomes a stronger vessel, and the living movie flows. 1. Use milliseconds at the canonical boundary. 2. Normalize width/height/fps in project setting",
+		"searchText": "b\"h phase 7 — final revelation plan: thirty additional refinements the final plan is not a frozen stone; the awtsmoos renews it as evidence grows; each verified boundary becomes a stronger vessel, and the living movie flows. 1. use milliseconds at the canonical boundary. 2. normalize width/height/fps in project settings. 3. require total duration 0. 4. require scenes to remain within project duration. 5. give every scene a dimensional mode: 2d, 3d, or hybrid. 6. give every entity a semantic kind. 7. include people/characters separately from generic shapes. 8. include text blocks with semantic roles. 9. include chart entities with data payloads. 10. include arrow/callout entities for tutorials. 11. include particle entities with deterministic seeds. 12. include camera shots with size/angle/motion intent. 13. include transitions between scenes. 14. include keyframes as generic property animation records. 15. keep audio/narration metadata optional. 16. let ai intent specify audience and teaching goal. 17. let ai intent specify desired duration and scene cadence. 18. expand sparse intent into multiple scene archetypes. 19. guarantee a cinematic opening and composite finale in showcase mode. 20. alternate 2d, 3d, hybrid, tutorial, and infographic scenes. 21. preserve adapter source references for debugging. 22. return unsupported kinds instead of dropping them invisibly. 23. provide target app recommendation by capabilities. 24. test all four projections from one canonical project. 25. test that 180000ms is preserved exactly. 26. test at least ten scenes. 27. test multiple camera angles and camera motions. 28. test multiple character entities. 29. test many shape/text/effect entities and keyframes. 30. test mobile browser surfaces only after real integration is present. 31. re read every generated source file after writing. 32. run line count checks on all touched code. 33. run tab indentation/style checks where meaningful. 34. run node syntax/import tests before render. 35. render using the repository's existing animator path rather than a fake isolated canvas. 36. inspect render duration/frames/output metadata. 37. re run adapters after render changes. 38. record console/runtime failures verbatim in verification notes. 39. resolve every discovered delta before closure. 40. keep app identities visually and architecturally distinct.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27t2150-geelooy-movie-unification-07-final-r-81bf1e7025.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27t2150-geelooy-movie-unification-remaining--1370a0928f",
+		"title": "REMAININGWORK",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27T2150-geelooy-movie-unification/REMAINING_WORK.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "REMAININGWORK",
+				"anchor": "remainingwork"
+			},
+			{
+				"level": 2,
+				"text": "Open",
+				"anchor": "open"
+			},
+			{
+				"level": 2,
+				"text": "Completion gate",
+				"anchor": "completion-gate"
+			}
+		],
+		"excerpt": "B\"H REMAINING WORK What remains has gravity; the Awtsmoos turns gravity into clarity. Open [ ] Inventory every app with movie, animation, timeline, 2D, 3D, canvas, WebGL, or renderer capabilities. [ ] Trace imports, routes, saved data formats, AI hooks, and render/runtime dependencies. [ ] Select the shared core archit",
+		"searchText": "b\"h remaining work what remains has gravity; the awtsmoos turns gravity into clarity. open [ ] inventory every app with movie, animation, timeline, 2d, 3d, canvas, webgl, or renderer capabilities. [ ] trace imports, routes, saved data formats, ai hooks, and render/runtime dependencies. [ ] select the shared core architecture from evidence. [ ] identify exact files to rewrite and split. [ ] implement unified movie contracts and 2d/3d backends/adapters. [ ] integrate each applicable app while preserving distinct product personality. [ ] build mobile first controls and responsive stage behavior. [ ] author an approximately 180 second showcase using broad engine capabilities. [ ] run syntax/static tests. [ ] run runtime/unit/integration tests. [ ] run browser tests on real routes with console inspection. [ ] verify timeline completion and scene transitions. [ ] re read all touched files and compare planned vs actual. [ ] resolve discovered deltas and shadow work. [ ] record final verification evidence. completion gate this file may become empty only when implementation, verification, discovered work, critical risk review, and handoff evidence are all complete.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27t2150-geelooy-movie-unification-remaining--1370a0928f.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27t2156-geelooy-movie-studio-unification-00--b712ddf60f",
+		"title": "Remaining Work",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27T2156-geelooy-movie-studio-unification/00_REMAINING_WORK.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Remaining Work",
+				"anchor": "remaining-work"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Remaining Work The Awtsmoos renews every frame from no prior clay; Awtsmoos.com joins many studios without taking their distinct gifts away. Preserve concurrent work and never overwrite peer owned movie core files. Build AwtsmoosUI as a small declarative JSON/JS to DOM library. Build a r",
+		"searchText": "b\"h boruch hashem blessed is he remaining work the awtsmoos renews every frame from no prior clay; awtsmoos.com joins many studios without taking their distinct gifts away. preserve concurrent work and never overwrite peer owned movie core files. build awtsmoosui as a small declarative json/js to dom library. build a renderer neutral procedural movie asset domain inside awtsmoos procedural core. build awtsmoos studio as an umbrella authoring surface using the shared movie core and specialized app launchers. add ai first structured movie composition with 2d, 3d, hybrid, character, shape, text, infographic, tutorial, particle, patch, and camera semantics. add a production 180 second animator showcase using the proven cinematicframerenderer/ffmpeg path. render, probe, sample, browser test, and regression test. re read every touched file and close planned vs actual delta. next action write only currently free new modules, then test after the code first pass is complete.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27t2156-geelooy-movie-studio-unification-00--b712ddf60f.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27t2156-geelooy-movie-studio-unification-01--a3f91ae643",
+		"title": "Chesed Brainstorm",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27T2156-geelooy-movie-studio-unification/01_CHESED_BRAINSTORM.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Chesed Brainstorm",
+				"anchor": "chesed-brainstorm"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Chesed Brainstorm The Awtsmoos gives boundless creative light its birth; Awtsmoos.com lets an AI describe a whole movie before touching every keyframe on earth. Possible unified language: projects, scenes, shots, cameras, characters, meshes, shapes, kinetic text, diagrams, particles, aud",
+		"searchText": "b\"h boruch hashem blessed is he chesed brainstorm the awtsmoos gives boundless creative light its birth; awtsmoos.com lets an ai describe a whole movie before touching every keyframe on earth. possible unified language: projects, scenes, shots, cameras, characters, meshes, shapes, kinetic text, diagrams, particles, audio cues, transitions, tutorials, charts, patches, procedural assets, and semantic animation tracks. keep 2d and 3d renderers different while the document and authoring verbs become shared. a studio should be able to generate an outline, turn it into mixed mode scenes, patch one scene without destabilizing others, preview it, then dispatch specialized editing to animator, mitzvah studio, nesher studio, or video editor. awtsmoosui should express responsive layout, semantic elements, classes, attributes, text, children, actions, accessibility, tokens, and mobile transformations as data. procedural core should own deterministic movie asset recipes and receipts so app local generators become adapters instead of competing sources of truth. the 180 second proof should include varied camera grammar, recurring people, props, environments, particles, animated graphic overlays, title/text beats, infographic/tutorial moments, and visible scene transitions.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27t2156-geelooy-movie-studio-unification-01--a3f91ae643.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27t2156-geelooy-movie-studio-unification-02--aa17c9fc78",
+		"title": "Gevurah Critique",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27T2156-geelooy-movie-studio-unification/02_GEVURAH_CRITIQUE.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Gevurah Critique",
+				"anchor": "gevurah-critique"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Gevurah Critique The Awtsmoos gives every infinite possibility a truthful shore; Awtsmoos.com gains strength when one reusable seam replaces duplicated code at the core. 1. Do not replace Animator's real renderer. 2. Do not replace Nesher's mature NLE. 3. Do not flatten 2D and 3D into on",
+		"searchText": "b\"h boruch hashem blessed is he gevurah critique the awtsmoos gives every infinite possibility a truthful shore; awtsmoos.com gains strength when one reusable seam replaces duplicated code at the core. 1. do not replace animator's real renderer. 2. do not replace nesher's mature nle. 3. do not flatten 2d and 3d into one rendering implementation. 4. preserve peer owned movie core. 5. reuse its seconds based timing consistently in awtsmoos studio. 6. keep animator production plans in milliseconds because its renderer already expects them. 7. convert only at adapter boundaries. 8. make ai output serializable and deterministic. 9. give every scene/entity stable ids. 10. expose capabilities before composition. 11. make unsupported features diagnosable. 12. keep ui dom safe by default; textcontent, not raw html. 13. bind semantic action names instead of inline handlers. 14. make responsive behavior data driven. 15. keep mobile canvas usable by collapsing side panels. 16. separate canonical procedural recipes from renderer objects. 17. give generated assets receipts with seed/provenance/quality. 18. avoid modifying hot legacy procedural wrappers during concurrent work. 19. demonstrate reuse from the new studio immediately. 20. produce a short syntax/plan proof before long render. 21. verify final duration with ffprobe. 22. sample early/middle/late frames. 23. browser test narrow and wide layouts. 24. re read every written source. 25. never call planning or json compilation a finished movie.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27t2156-geelooy-movie-studio-unification-02--aa17c9fc78.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-27t2156-geelooy-movie-studio-unification-03--58678a0443",
+		"title": "Tiferes Final Execution Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-27T2156-geelooy-movie-studio-unification/03_TIFERES_FINAL_PLAN.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Tiferes Final Execution Plan",
+				"anchor": "tiferes-final-execution-plan"
+			},
+			{
+				"level": 2,
+				"text": "Files to create",
+				"anchor": "files-to-create"
+			},
+			{
+				"level": 2,
+				"text": "Verification",
+				"anchor": "verification"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Tiferes Final Execution Plan The Awtsmoos joins ohr and keli, imagination and proof; Awtsmoos.com will share a creative grammar while every specialist studio keeps its roof. Files to create geelooy/libs/AwtsmoosUI/: node normalization, action registry, accessibility, renderer, responsive",
+		"searchText": "b\"h boruch hashem blessed is he tiferes final execution plan the awtsmoos joins ohr and keli, imagination and proof; awtsmoos.com will share a creative grammar while every specialist studio keeps its roof. files to create geelooy/libs/awtsmoosui/: node normalization, action registry, accessibility, renderer, responsive tokens, default components, public index. geelooy/libs/awtsmoos procedural core/src/core/movieassets/: semantic seed, normalized recipes, generation receipt, canonical generator, public index. geelooy/apps/awtsmoos studio/: mobile first app shell, ai composer, capability catalog, controller, canvas preview, shared ui descriptor, styles, tests. geelooy/apps/animator/src/scenes/threeminute/: 180 second production plan assembled from proven cinematic material plus unified feature declarations. geelooy/apps/animator/tools/render/threeminute/: production exporter, paths, proof frames, artifact receipt; tiny entry command. verification after code: node syntax/import checks, deterministic recipe tests, movie validation tests, preview/browser smoke, 180 second ffmpeg export, ffprobe duration/dimensions/codec, sampled frames, targeted existing animator/nesher regression where relevant, complete readback, line/tab checks, and planned vs actual closure.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-27t2156-geelooy-movie-studio-unification-03--58678a0443.json"
+	}
+]

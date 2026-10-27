@@ -12,6 +12,7 @@
 const MIN_BASE64_BODY = 32;
 const MIN_SVG_BODY = 64;
 const URI_PATTERN = /data:image\/([a-z0-9.+-]+)([^,]*),/gi;
+const ENCODED_SVG_CLOSE = "%3c/svg%3e";
 
 function compactBodyAfter(text, start) {
 	let end = start;
@@ -26,18 +27,28 @@ function base64Length(body) {
 	return match ? match[0].length : 0;
 }
 
-function svgBodyLength(text, start) {
+function encodedSvgBodyLength(text, start) {
 	const remainder = text.slice(start);
 	const lower = remainder.toLowerCase();
-	if (lower.startsWith("%3csvg")) {
-		const compact = compactBodyAfter(text, start);
-		return compact.toLowerCase().includes("%3c/svg%3e") ? compact.length : 0;
+	if (!lower.startsWith("%3csvg")) {
+		return 0;
 	}
+	const closing = lower.indexOf(ENCODED_SVG_CLOSE);
+	return closing >= 0 ? closing + ENCODED_SVG_CLOSE.length : 0;
+}
+
+function rawSvgBodyLength(text, start) {
+	const remainder = text.slice(start);
+	const lower = remainder.toLowerCase();
 	if (!lower.startsWith("<svg")) {
 		return 0;
 	}
 	const closing = lower.indexOf("</svg>");
 	return closing >= 0 ? closing + "</svg>".length : 0;
+}
+
+function svgBodyLength(text, start) {
+	return encodedSvgBodyLength(text, start) || rawSvgBodyLength(text, start);
 }
 
 /**

@@ -1,146 +1,143 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-npc-directory--c4ba43ee30",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/npc/DIRECTORY_GUIDE.md",
-		"category": "Games",
+		"id": "geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-36-video-editor-m-315fbef02d",
+		"title": "Video Editor Mobile — Phase Three Final Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-21-geelooy-uiux-revelation/36-video-editor-mobile-phase-three.md",
+		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/world/npc",
-				"anchor": "directory-guide-experiments-awtsmoos-src-world-npc"
+				"text": "Video Editor Mobile — Phase Three Final Plan",
+				"anchor": "video-editor-mobile-phase-three-final-plan"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Files to touch",
+				"anchor": "files-to-touch"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Verification",
+				"anchor": "verification"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Exported symbols worth searching",
-				"anchor": "exported-symbols-worth-searching"
-			},
-			{
-				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Completion threshold",
+				"anchor": "completion-threshold"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/world/npc Role: World systems Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 21 files, 0 structural child directories Purpose NPC actors, behavior, dialogue, population, and world integration. The Awtsmoos ",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/world/npc role: world systems snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 21 files, 0 structural child directories purpose npc actors, behavior, dialogue, population, and world integration. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: world systems search terms: npc, friendly, schedule, road, chossid, create, journey, cadence, profiles, reaction, advance, animation file mix: .js: 20 good first question: “does the behavior or asset i need belong to world systems, or is this only a neighboring/test/reference layer?” semantic evidence b\"h resolves one friendly conversation radius without querying the population. the awtsmoos is infinitely near while created people still meet through honest distance; awtsmoos.com turns one cached player position into deterministic, accessible interaction truth. defines stable social identity, places, dialogue, and daily anchors for village npcs. owns canonical friendly actors, one shared clock, and allocation light targeting. the awtsmoos renews every neighbor beneath one sun; awtsmoos.com lets each chossid keep his mission, road, and hour while one coordinator resolves the nearest intentional touch. representative files friendlynpcinteractionrules.js — resolves one friendly conversation radius without querying the population. the awtsmoos is infinitely near while created people still meet through honest distance; awtsmoos.com turns one cached player position into deterministic, accessible interaction truth. exports: friendlynpcinteractiondecision, copyplanarposition. friendlynpclifecatalog.js — defines stable social identity, places, dialogue, and daily anchors for village npcs. exports: friendlynpclifemetadata. friendlynpcpopulation.js — owns canonical friendly actors, one shared clock, and allocation light targeting. the awtsmoos renews every neighbor beneath one sun; awtsmoos.com lets each chossid keep his mission, road, and hour while one coordinator resolves the nearest intentional touch. exports: friendlynpcpopulation. friendlynpcprofiles.js — builds quality bounded friendly profiles with canonical village life metadata. exports: friendlynpcprofiles, allfriendlynpcprofiles, friendlynpcprofilecount. friendlynpcschedulerules.js — pure rules for deterministic friendly npc day phases and route anchors. exports: friendlynpcdailyperiod, friendlynpcscheduleat, advancefriendlynpcworldhour, normalizefriendlynpchour, friendlynpcschedulesnapshot. friendlynpcscheduleruntime.js — joins immutable daily anchors to one actor's bounded route center. the awtsmoos renews morning, labor, gathering, and rest as one living current; awtsmoos.com lets each neighbor travel by measured steps instead of teleporting. exports: advancefriendlynpcschedule. friendlynpcworldclock.js — advances one shared village hour for every friendly inhabitant. the awtsmoos renews a single sun above many lives; awtsmoos.com lets prayer, labor, gathering, and rest share one measured time instead of drifting apart. exports: friendlynpcworldclock. npcanimationcadence.js — staggers complete chossid skeletal updates while preserving elapsed animation time. responsibility: assign deterministic phases and release accumulated time when an actor is due. non responsibility: this scheduler never changes model, clip, distance tier, or visual quality. architecture: gevurah distributes costly moments while netzach preserves continuous motion. oros and keilim: living animation is ohr; phase, interval, and accumulated seconds are keilim. the awtsmoos renews every chossid in one present without forcing every skeleton through one cpu instant; awtsmoos.com preserves the whole body while smoothing when its bones are sampled. exports: npcanimationcadence, deterministicnpcanimationphase. npcchossidmotion.js — advances road bound schedules while preserving relevance and animation cadence. the awtsmoos renews one neighbor through distance, duty, and return; awtsmoos.com keeps logical life continuous while bones, ground samples, and visible vessels obey the frame budget. exports: updatenpcchossidmotion. npcchossidvisual.js — builds one animated chossid, quest marker, and one draw distance vessel. the awtsmoos renews one complete person through near and distant garments; awtsmoos.com preserves animated human detail nearby while a named silhouette carries identity afar. exports: createnpcchossidvisual, facenpcmodeltoplayer, facenpcmodelalongpath. npcdangerreactionpolicy.js — lets friendly neighbors notice danger, flee briefly, and later offer support. the awtsmoos renews every person as a whole; awtsmoos.com keeps fear temporary, dialogue resumable, and community response separate from hostile combat machinery. exports: createnpcdangerreaction, createnpcsupportreaction, advancenpcdangermotion, npcreactionstate. npcfarproxy.js — builds one local space, single draw silhouette for a distant named npc. the awtsmoos renews the complete person beyond visible detail; awtsmoos.com preserves identity, place, coat, head, hat, arms, and legs in one quiet renderer vessel. exports: createnpcfarproxy. npclodpolicy.js — selects animated body, one draw proxy, cadence, and dormancy by relevance. the awtsmoos renews every distant soul without demanding invisible detail; awtsmoos.com restores the complete chossid immediately for nearness, selection, dialogue, and shlichus. exports: resolvenpclod, npcdistancetoplayer, npclodtiers. exported symbols worth searching friendlynpcinteractiondecision · copyplanarposition · friendlynpclifemetadata · friendlynpcpopulation · friendlynpcprofiles · allfriendlynpcprofiles · friendlynpcprofilecount · friendlynpcdailyperiod · friendlynpcscheduleat · advancefriendlynpcworldhour · normalizefriendlynpchour · friendlynpcschedulesnapshot · advancefriendlynpcschedule · friendlynpcworldclock · npcanimationcadence · deterministicnpcanimationphase import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ../village/canonicalvillagehouses.js ../../../../light three gltf/tiny runtime.js ../npcchossid.js ./friendlynpcworldclock.js ../../assets/chossidoutfitcatalog.js ../../gameplay/adventurecatalog.js ./friendlynpclifecatalog.js ./friendlynpcschedulerules.js ./npclodpolicy.js ./npcquestmarker.js ./npcschedulefacing.js ./npcschedulejourney.js directory map parent: experiments/awtsmoos/src/world children: none. related and overlapping systems see the system overlap map before creating a similarly named subsystem elsewhere. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-npc-directory--c4ba43ee30.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Video Editor Mobile — Phase Three Final Plan The Awtsmoos lets a short screen remain a complete vessel rather than a diminished one; Awtsmoos.com will save space through hierarchy and retraction, never by shrinking the action beneath the thumb. Files to touch 1. apps/video editor/css/ada",
+		"searchText": "b\"h boruch hashem blessed is he video editor mobile — phase three final plan the awtsmoos lets a short screen remain a complete vessel rather than a diminished one; awtsmoos.com will save space through hierarchy and retraction, never by shrinking the action beneath the thumb. files to touch 1. apps/video editor/css/adaptive motion.css keep the short height grid and safe area transport padding; change short height transport minimum from 40px to 44px; preserve reduced motion rules. 2. apps/video editor/css/controls.css preserve the existing 44px control floor, palette, spacing, backdrop, and universal :active press; give the three interactive control families one short transition for border/background/transform; move hover styling into (hover:hover) and (pointer:fine) so touch does not inherit sticky hover presentation; preserve the active state on every pointer type. 3. apps/video editor/index.html, only after targeted compactjs compile passes for js/app.js. preserve all markup exactly; change only module entry to ./js/app.js?compact=true. verification targeted compactjs compile + node syntax check before changing the html entry; source 160 character lines, diff check clean; rerun 320×568 and 390×560 real controller probe; require transport buttons =44px; require overflowx/y 0; require drawer fully contained open and fully off canvas closed; require timeline retract=54px and minimize=150px with no raw tail; require no runtime exceptions. completion threshold if those exact measurements pass, do not redesign the editor further. the drawer, preview/timeline split, horizontal timeline scroll, and retract/minimize architecture are already evidence proven and should remain simple rather than accumulating unnecessary visual machinery.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-36-video-editor-m-315fbef02d.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-platform-direc-bddd03d9f9",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/platform/DIRECTORY_GUIDE.md",
-		"category": "Games",
+		"id": "geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-37-video-editor-m-ef2d8818ee",
+		"title": "Video Editor — Mobile and Compact Entry Proof",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-21-geelooy-uiux-revelation/37-video-editor-mobile-proof.md",
+		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/world/platform",
-				"anchor": "directory-guide-experiments-awtsmoos-src-world-platform"
+				"text": "Video Editor — Mobile and Compact Entry Proof",
+				"anchor": "video-editor-mobile-and-compact-entry-proof"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Original measured defect",
+				"anchor": "original-measured-defect"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Preserved working architecture",
+				"anchor": "preserved-working-architecture"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "UI correction",
+				"anchor": "ui-correction"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
+				"text": "Final mobile measurements",
+				"anchor": "final-mobile-measurements"
 			},
 			{
 				"level": 2,
-				"text": "Exported symbols worth searching",
-				"anchor": "exported-symbols-worth-searching"
+				"text": "CompactJS proof",
+				"anchor": "compactjs-proof"
 			},
 			{
 				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
+				"text": "Source gates",
+				"anchor": "source-gates"
 			},
 			{
 				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/world/platform Role: World systems Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 11 files, 0 structural child directories Purpose Platform world geometry and platform gameplay support. The Awtsmoos renews ",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/world/platform role: world systems snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 11 files, 0 structural child directories purpose platform world geometry and platform gameplay support. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: world systems search terms: platform, showcase, geometry, tiny, create, garden, generated, mesh, adapter, botanical, colliders, colored file mix: .js: 10 good first question: “does the behavior or asset i need belong to world systems, or is this only a neighboring/test/reference layer?” semantic evidence merges every one of the 113 procedural species into one colored garden mesh. the garden does not confuse a catalog name with a plant: each entry is generated, indexed, translated, colored, and preserved in its own evidence row. b\"h measured styles for generated semantic parts. shared placement and visible mesh measurements. representative files completebotanicalgarden.js — merges every one of the 113 procedural species into one colored garden mesh. the garden does not confuse a catalog name with a plant: each entry is generated, indexed, translated, colored, and preserved in its own evidence row. exports: createcompletebotanicalgarden. platformmaterialpalette.js — measured styles for generated semantic parts. exports: platformpartstyle, platformterrainstyle. platformsceneutilities.js — shared placement and visible mesh measurements. exports: platformgroundposition, countplatformmeshes. platformshowcasehud.js — visible evidence for the extreme platform mode. exports: installplatformshowcasehud. platformshowcasemode.js — launches the normal world plus the verified generated showcase. exports: launchplatformshowcase. platformshowcaserecipes.js — the deterministic visible platform recipe set. exports: platformshowcaserecipes. platformshowcasescene.js — places generated assets, all 113 plants, public water, and collision in the live world. exports: createplatformshowcase. tinygeometrypacking.js — packs inspectable world geometry into deterministic typed arrays. every loose point is gathered into one renderable vessel while the awtsmoos remains beyond point, face, normal, color, and the unity they reveal. exports: packtinygeometry. tinyworldgeometryadapter.js — manifests procedural world geometry through the production tiny runtime. exports: createtinyworldmesh, createtinyworldpartgroup. worldgeometrycollisionadapter.js — gives generated surfaces exact project native triangle boundaries. exports: worldgeometrycolliders, insertworldgeometrycolliders. exported symbols worth searching createcompletebotanicalgarden · platformpartstyle · platformterrainstyle · platformgroundposition · countplatformmeshes · installplatformshowcasehud · launchplatformshowcase · platformshowcaserecipes · createplatformshowcase · packtinygeometry · createtinyworldmesh · createtinyworldpartgroup · worldgeometrycolliders · insertworldgeometrycolliders import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ../../../../../../../libs/awtsmoos procedural core/src/index.js ../../app/createeretzruntime.js ./platformshowcasehud.js ./platformshowcasescene.js ../../../../light three gltf/tiny runtime.js ../../assets/publicmaterialimageloader.js ../proceduralapi/index.js ../proceduraltext/textmeshcollisionadapter.js ../proceduraltext/tinytextmeshgeometryadapter.js ./completebotanicalgarden.js ./platformmaterialpalette.js ./platformsceneutilities.js directory map parent: experiments/awtsmoos/src/world children: none. related and overlapping systems see the system overlap map before creating a similarly named subsystem elsewhere. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-platform-direc-bddd03d9f9.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Video Editor — Mobile and Compact Entry Proof The Awtsmoos keeps media, preview, timeline, and transport inside one living vessel; Awtsmoos.com now preserves full thumb intent even when height is scarce, while deeper controls retract instead of becoming visual wrestle. Original measured ",
+		"searchText": "b\"h boruch hashem blessed is he video editor — mobile and compact entry proof the awtsmoos keeps media, preview, timeline, and transport inside one living vessel; awtsmoos.com now preserves full thumb intent even when height is scarce, while deeper controls retract instead of becoming visual wrestle. original measured defect before the correction, real controller driven probes at 320×568 and 390×560 measured play, pause, and cut at exactly 40px high. this came from the short height rule in adaptive motion.css, not from the main control token. all other major mobile geometry was already clean. preserved working architecture no javascript controller logic, drawer state, timeline math, dom structure, or timeline scrolling model was changed. runtime already proved and the final run re proved: document overflowx = 0; document overflowy = 0; mobile media drawer opens fully inside the viewport; closing moves the drawer completely off canvas rather than leaving a visible sliver; backdrop covers the viewport while the drawer is open; timeline retract resolves to a clean 54px header only vessel; timeline minimize resolves to a coherent 150px vessel; no transport control leaves a side edge; no runtime exceptions are captured. ui correction css/adaptive motion.css now keeps short height transport controls at a 44px minimum instead of 40px while preserving the compact transport padding and short height grid. css/controls.css now keeps universal :active press behavior while placing hover lift/color feedback behind (hover:hover) and (pointer:fine). short professional transitions connect press/hover state without leaving touch browsers with sticky hover presentation. a first post write probe still measured 40px because the isolated chrome profile reused the old stylesheet cache. a cache disabled proof then showed: measured height = 44px; computed min height = 44px; loaded cssom contains the 44px rule and no 40px rule; a no store fetch of adaptive motion.css contains 44px and no 40px; overflowx remains 0; runtime errors remain empty. final mobile measurements 320×568: module entry: ./js/app.js?compact=true; overflowx/y: 0/0; play/pause/cut: 97×44 each; drawer open: x=0..282, full 568px height; drawer closed: x= 296.. 14, fully off screen; timeline retracted: 54px; timeline minimized: 150px; tiny critical controls: none; off screen transport controls: none. 390×560: module entry: ./js/app.js?compact=true; overflowx/y: 0/0; play/pause/cut: 121×44 each; drawer open: x=0..320; drawer closed: x= 336.. 16, fully off screen; timeline retracted: 54px; timeline minimized: 150px; tiny critical controls: none; off screen transport controls: none. compactjs proof the real awtsmoos dynamic server compactjs compiler produced a 28,090 byte bundle from apps/video editor/js/app.js. the generated module passes node syntax checking. only after that proof was the html entry rewritten to ./js/app.js?compact=true. source gates index.html: 89 lines. adaptive motion.css: 37 lines. controls.css: 92 lines. javascript entry passes node check. git diff check apps/video editor passes. next action run a lightweight global css/html risk rank across remaining public apps/games. prioritize clean surfaces with fixed/viewport geometry, mobile menus/dialogs/drawers, fixed desktop widths, hover without active states, or likely unstyled trailing sections. runtime probe the highest clean candidates at 390×844 and 320×568 before any rewrite.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-37-video-editor-m-ef2d8818ee.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-25-1237-geelooy-massive-revelation-01-phase--8d74765dce",
+		"title": "Phase One — Boundless Geelooy Brainstorm",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25-1237-geelooy-massive-revelation/01-phase-one-boundless-brainstorm.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase One — Boundless Geelooy Brainstorm",
+				"anchor": "phase-one-boundless-geelooy-brainstorm"
+			},
+			{
+				"level": 2,
+				"text": "North star",
+				"anchor": "north-star"
+			},
+			{
+				"level": 2,
+				"text": "Interface universe",
+				"anchor": "interface-universe"
+			},
+			{
+				"level": 2,
+				"text": "JavaScript architecture universe",
+				"anchor": "javascript-architecture-universe"
+			},
+			{
+				"level": 2,
+				"text": "Universal agent API universe",
+				"anchor": "universal-agent-api-universe"
+			},
+			{
+				"level": 2,
+				"text": "Advanced 2D cartoon universe",
+				"anchor": "advanced-2d-cartoon-universe"
+			},
+			{
+				"level": 2,
+				"text": "Documentation universe",
+				"anchor": "documentation-universe"
+			},
+			{
+				"level": 2,
+				"text": "Verification universe",
+				"anchor": "verification-universe"
+			},
+			{
+				"level": 2,
+				"text": "Architectural restraint",
+				"anchor": "architectural-restraint"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase One — Boundless Geelooy Brainstorm The Awtsmoos reveals a thousand doors yet leaves the hallway still and clear; Awtsmoos.com should feel like tomorrow arrived, while every hidden power stays calmly near. North star Turn geelooy into a coherent product system: every public page fee",
+		"searchText": "b\"h boruch hashem blessed is he phase one — boundless geelooy brainstorm the awtsmoos reveals a thousand doors yet leaves the hallway still and clear; awtsmoos.com should feel like tomorrow arrived, while every hidden power stays calmly near. north star turn geelooy into a coherent product system: every public page feels related, every advanced surface expands only when requested, every ai facing contract is discoverable from data, every animation has purpose, and every mobile viewport remains contained. interface universe 1. mobile first layouts with one column defaults and progressive multi column expansion. 2. retractable navigation, inspectors, metadata, logs, toolbars, and secondary actions. 3. surface local css only: every selector anchored to a page/component root attribute or class. 4. no unscoped body, html, button, a, input, , or generic utility selectors in new style modules. 5. page owned @import chains so dependencies are explicit and collision risk is inspectable. 6. fluid type and spacing via bounded clamp() values, never fragile fixed desktop assumptions. 7. container queries for reusable components where viewport media queries would couple unrelated pages. 8. safe stacking tokens inside isolated stacking contexts rather than arbitrary four digit z index wars. 9. overlay geometry using inset safe sheets, maximum block sizes, scroll containment, and viewport safe padding. 10. interaction states for every relevant control: hover, active, focus visible, disabled, busy, selected, expanded. 11. reduced motion behavior that preserves state meaning without decorative movement. 12. futuristic motion from opacity, transform, filter, and subtle depth rather than layout thrashing animation. 13. touch targets sized for thumbs, with no hover only affordances. 14. keyboard navigation, semantic labels, focus restoration, escape behavior, and dialog boundaries. 15. skeleton/empty/error/success/offline states treated as designed states, not afterthoughts. 16. overflow sentinels in testing to catch horizontal spill at 320, 390, 768, and desktop widths. 17. theme values exposed through local custom properties on the component root, never global root mutation. 18. cards that reveal dense metadata through , drawers, tabs, or explicit advanced toggles. 19. consistent compact command bars with search first, advanced filters second. 20. a visual language of luminous edges, restrained glass, crisp typography, and minimal chromatic noise. javascript architecture universe 21. data first: route/product/tool definitions live in small immutable registry modules. 22. class boundaries only where lifecycle/state/extension semantics are real, never ceremony for its own sake. 23. named base contracts that can be extended by specialized adapters without branching everywhere. 24. kabbalistic naming as a semantic layer: keli for bounded containers/adapters, ohr for emitted data/events, sefirah for capability records, merkava for composed systems, while public api names remain predictable. 25. extensive jsdoc on every exported function/class plus meaningful private behavior. 26. event and data payloads documented as schemas instead of implicit object folklore. 27. abortable async work, deterministic cleanup, and explicit error boundaries. 28. feature detection before optional browser apis. 29. no hidden mutation across modules; state ownership must be obvious. 30. stable public contracts wrapped around internal poetic architecture so third party agents do not need project lore. universal agent api universe 31. one machine readable capability manifest describing auth, installation, tools, routes, versions, examples, and schemas. 32. one human quickstart that mirrors the manifest exactly. 33. copy safe install flows for terminal agents and browser/headless agents. 34. oauth/pkce and device authorization documented as first class paths with immutable route identifiers. 35. agent bootstrap endpoint returning the minimum next actions instead of forcing documentation scraping. 36. versioned json schemas for requests, responses, scene descriptions, errors, and capability discovery. 37. idempotency/request identity guidance encoded in examples so agents avoid duplicate mutations. 38. dry run/preview semantics for destructive or expensive actions when supported. 39. structured errors with machine readable codes, retryability, and next step hints. 40. api examples in curl, javascript, and generic agent pseudocode generated from one source of truth. advanced 2d cartoon universe 41. a data driven scene graph where an ai can describe characters, props, backgrounds, poses, dialogue, camera, timing, and transitions in json. 42. merkavascene composition from small layers: background, actor, prop, text, effect, camera, audio cue. 43. reusable character rigs with expressions, pose presets, anchor points, and palette tokens. 44. timeline primitives for entrance, exit, tween, blink, lip cue, camera pan, cut, and speech bubble. 45. constraint based placement so agents specify intent such as leftof, lookat, safearea, not fragile pixels. 46. responsive scene fitting and letterboxing with no clipping on mobile canvases. 47. deterministic seeded rendering for reproducible agent output. 48. preview first generation where an agent can validate a scene schema before rendering. 49. export adapters for canvas, svg where suitable, image sequences, and compact scene json. 50. example recipes: two character dialogue, explainer panel, comic strip, animated product walkthrough. documentation universe 51. /docs becomes a progressive disclosure hub: start, build, api, agents, 2d scenes, reference, troubleshooting. 52. every api concept includes the shortest working example first, then advanced details collapsed below. 53. architecture diagrams rendered from small data descriptions, not hand maintained contradictory prose. 54. search and deep links for every capability and error code. 55. “copy for agent” blocks that contain only executable context and contract facts. 56. changelog/version compatibility notes close to affected apis. 57. accessibility and mobile behavior documented as part of component contracts. verification universe 58. static scans for global selectors, oversized fixed widths, dangerous viewport units, unexplained z index values, and missing interaction states. 59. dom overflow probes at small mobile widths. 60. keyboard only navigation probes for dialogs, menus, tabs, and drawers. 61. reduced motion and focus visible checks. 62. api schema round trips and example validation. 63. scene json validation and deterministic render smoke tests. 64. route catalog checks for missing/dead products. 65. readback of every touched file, syntax checks, targeted runtime checks, then planned versus actual delta review. architectural restraint the ideal is not one global framework poured over every page. the ideal is a family of small local foundations, imported explicitly by each surface, sharing data contracts and design principles without sharing unsafe selector scope. power should be everywhere; clutter should be nowhere.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25-1237-geelooy-massive-revelation-01-phase--8d74765dce.json"
 	}
 ]

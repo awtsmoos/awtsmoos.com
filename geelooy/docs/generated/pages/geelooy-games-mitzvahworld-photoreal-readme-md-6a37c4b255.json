@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-photoreal-readme-md-6a37c4b255",
+	"title": "B\"H — Reality Engine Photorealism Scene",
+	"sourcePath": "geelooy/games/mitzvahWorld/photoreal/README.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Reality Engine Photorealism Scene",
+			"anchor": "b-h-reality-engine-photorealism-scene"
+		},
+		{
+			"level": 2,
+			"text": "Run",
+			"anchor": "run"
+		},
+		{
+			"level": 2,
+			"text": "Textures (NOT in git — repo is code-only)",
+			"anchor": "textures-not-in-git-repo-is-code-only"
+		},
+		{
+			"level": 2,
+			"text": "Provenance notes",
+			"anchor": "provenance-notes"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-photoreal-readme-md-6a37c4b255-001.json"
+	]
+}

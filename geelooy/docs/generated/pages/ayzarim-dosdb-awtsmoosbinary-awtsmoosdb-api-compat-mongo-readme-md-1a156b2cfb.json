@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-api-compat-mongo-readme-md-1a156b2cfb",
+	"title": "AwtsmoosDB — MongoDB Compatibility Layer",
+	"sourcePath": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/compat/mongo/README.md",
+	"category": "Data",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "AwtsmoosDB — MongoDB Compatibility Layer",
+			"anchor": "awtsmoosdb-mongodb-compatibility-layer"
+		},
+		{
+			"level": 2,
+			"text": "Connection URL",
+			"anchor": "connection-url"
+		},
+		{
+			"level": 2,
+			"text": "API surface (mirrors the mongodb npm driver)",
+			"anchor": "api-surface-mirrors-the-mongodb-npm-driver"
+		},
+		{
+			"level": 2,
+			"text": "Storage",
+			"anchor": "storage"
+		},
+		{
+			"level": 2,
+			"text": "Honest limitations (v1)",
+			"anchor": "honest-limitations-v1"
+		},
+		{
+			"level": 2,
+			"text": "Test",
+			"anchor": "test"
+		}
+	],
+	"markdownParts": [
+		"content/ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-api-compat-mongo-readme-md-1a156b2cfb-001.json"
+	]
+}

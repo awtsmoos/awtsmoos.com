@@ -9,7 +9,7 @@
 		"id": "games",
 		"title": "Games and Worlds"
 	},
-	"title": "Migdol - Kabbalah Tower Defense",
+	"title": "Migdol — Tower Defense",
 	"entries": [
 		"index.html",
 		"DOCUMENTATION.md"
@@ -23,19 +23,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-migdol-2c237fda.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 11,
+		"source": 28,
 		"tests": 0,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
 		"other": 0
 	},
-	"totalFiles": 12,
+	"totalFiles": 29,
 	"symbolSummary": {
-		"files": 9,
-		"classes": 7,
-		"functions": 9,
-		"exports": 12,
+		"files": 21,
+		"classes": 13,
+		"functions": 41,
+		"exports": 36,
 		"samples": [
 			"TILE_SIZE",
 			"MAPS",
@@ -45,10 +45,10 @@
 			"LetterParticle",
 			"Enemy",
 			"Projectile",
-			"Game",
-			"initializeMainMenu",
-			"startGame",
-			"returnToMainMenu"
+			"placeTower",
+			"towerAt",
+			"upgradeTower",
+			"sellTower"
 		]
 	},
 	"outgoingDependencies": [],
@@ -58,9 +58,9 @@
 		{
 			"url": "/games/migdol",
 			"file": "geelooy/games/migdol/index.html",
-			"title": "Migdol - Kabbalah Tower Defense",
-			"scripts": 1,
-			"styles": 1
+			"title": "Migdol — Tower Defense",
+			"scripts": 4,
+			"styles": 8
 		}
 	],
 	"requiresLocalDocumentation": true,

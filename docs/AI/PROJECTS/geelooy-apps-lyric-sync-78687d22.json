@@ -21,14 +21,14 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-lyric-sync-78687d22.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 4,
+		"source": 5,
 		"tests": 0,
 		"assets": 0,
 		"generated": 0,
 		"docs": 0,
 		"other": 0
 	},
-	"totalFiles": 4,
+	"totalFiles": 5,
 	"symbolSummary": {
 		"files": 2,
 		"classes": 2,
@@ -58,7 +58,7 @@
 			"file": "geelooy/apps/lyric-sync/index.html",
 			"title": "Lyric Sync Engine",
 			"scripts": 2,
-			"styles": 3
+			"styles": 2
 		}
 	],
 	"requiresLocalDocumentation": false,

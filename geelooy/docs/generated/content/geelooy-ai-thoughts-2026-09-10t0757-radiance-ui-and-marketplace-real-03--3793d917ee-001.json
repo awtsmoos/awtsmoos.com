@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "<!-- B\"H -->\n<!-- Boruch Hashem -->\n<!-- Blessed be He -->\n\n# REMAINING_WORK\n\n- [ ] Pass full Radiance backend structure + behavior suite.\n- [ ] Surface live paid-action testimony to shared commerce.\n- [ ] Show unlock/owned state and server cost.\n- [ ] Execute Radiance unlock through the server action endpoint.\n- [ ] Apply owned Radiance theme globally with accessibility fallbacks.\n- [ ] Verify reload/replay/mobile/focus/error states.\n- [ ] Generate crawlable Apps/Games catalog HTML.\n- [ ] Generate SEO/OpenGraph/JSON-LD/sitemap metadata from canonical products.\n- [ ] Add readiness tests for route/action/handler/entitlement/UI truth.\n- [ ] Re-read every touched file and update planned-vs-actual handoff.\n"
+}

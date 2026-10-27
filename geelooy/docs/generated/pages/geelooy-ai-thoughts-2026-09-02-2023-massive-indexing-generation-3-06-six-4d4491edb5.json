@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-02-2023-massive-indexing-generation-3-06-six-4d4491edb5",
+	"title": "Six-Lane Evidence Ledger",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-02-2023-massive-indexing-generation-3/06-six-lane-evidence.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Six-Lane Evidence Ledger",
+			"anchor": "six-lane-evidence-ledger"
+		},
+		{
+			"level": 2,
+			"text": "Lane 1 — structured runtime",
+			"anchor": "lane-1-structured-runtime"
+		},
+		{
+			"level": 2,
+			"text": "Lane 2 — static semantic coverage",
+			"anchor": "lane-2-static-semantic-coverage"
+		},
+		{
+			"level": 2,
+			"text": "Lane 3 — sitemap consistency",
+			"anchor": "lane-3-sitemap-consistency"
+		},
+		{
+			"level": 2,
+			"text": "Lane 4 — dynamic families",
+			"anchor": "lane-4-dynamic-families"
+		},
+		{
+			"level": 2,
+			"text": "Lane 5 — generated metadata integrity",
+			"anchor": "lane-5-generated-metadata-integrity"
+		},
+		{
+			"level": 2,
+			"text": "Lane 6 — Git/release reality",
+			"anchor": "lane-6-git-release-reality"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-02-2023-massive-indexing-generation-3-06-six-4d4491edb5-001.json"
+	]
+}

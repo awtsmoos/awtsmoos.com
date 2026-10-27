@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-30-1748-daily-chitas-heichel-ikar-03-final-i-56afb1aed0",
+	"title": "Final Implementation Plan — Daily Chitas in Living Path",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-30-1748-daily-chitas-heichel-ikar/03-final-implementation-plan.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Final Implementation Plan — Daily Chitas in Living Path",
+			"anchor": "final-implementation-plan-daily-chitas-in-living-path"
+		},
+		{
+			"level": 2,
+			"text": "Exact source files to create",
+			"anchor": "exact-source-files-to-create"
+		},
+		{
+			"level": 2,
+			"text": "Exact existing files to rewrite completely",
+			"anchor": "exact-existing-files-to-rewrite-completely"
+		},
+		{
+			"level": 2,
+			"text": "Exact tests to create",
+			"anchor": "exact-tests-to-create"
+		},
+		{
+			"level": 2,
+			"text": "Thirty final refinements before writing",
+			"anchor": "thirty-final-refinements-before-writing"
+		},
+		{
+			"level": 2,
+			"text": "Calculation contract",
+			"anchor": "calculation-contract"
+		},
+		{
+			"level": 2,
+			"text": "Completion evidence required",
+			"anchor": "completion-evidence-required"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-30-1748-daily-chitas-heichel-ikar-03-final-i-56afb1aed0-001.json"
+	]
+}

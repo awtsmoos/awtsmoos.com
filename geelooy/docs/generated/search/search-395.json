@@ -1,0 +1,184 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-09-02-0340-sitewide-public-indexing-03-final-di-da60f70812",
+		"title": "Final Discovery Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-02-0340-sitewide-public-indexing/03-final-discovery-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Final Discovery Plan",
+				"anchor": "final-discovery-plan"
+			},
+			{
+				"level": 2,
+				"text": "Atomic discovery",
+				"anchor": "atomic-discovery"
+			},
+			{
+				"level": 2,
+				"text": "Decision gates",
+				"anchor": "decision-gates"
+			},
+			{
+				"level": 2,
+				"text": "Completion target",
+				"anchor": "completion-target"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Final Discovery Plan The Awtsmoos now demands the buried route graph be seen before any file is reshaped; Awtsmoos.com will index reality as implemented, not a fantasy sitemap draped. Atomic discovery A. Root routing and public catalog B. Alias routing/profile publication C. Comment/repl",
+		"searchText": "b\"h boruch hashem blessed is he final discovery plan the awtsmoos now demands the buried route graph be seen before any file is reshaped; awtsmoos.com will index reality as implemented, not a fantasy sitemap draped. atomic discovery a. root routing and public catalog b. alias routing/profile publication c. comment/reply data flow, translation fields, author alias resolution d. app registry and app landing routes e. game registry and game landing routes f. existing robots/sitemap architecture g. dynamic/static server behavior for direct files and route templates h. privacy/auth/admin exclusions i. representative current public raw html j. existing tests around each route family decision gates dedicated comment page vs parent page anchors is decided only after route inspection. dynamic vs generated sitemap family is decided after enumeration cost inspection. alias/apps/games ssr changes are decided after raw html inspection. completion target a crawler starting at /robots.txt must be able to discover every stable public resource through valid sitemap families and ordinary semantic links, and every discovered resource must expose meaningful text/metadata without requiring javascript.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-02-0340-sitewide-public-indexing-03-final-di-da60f70812.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-02-0340-sitewide-public-indexing-04-final-im-1a25a6834d",
+		"title": "Final Implementation Architecture",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-02-0340-sitewide-public-indexing/04-final-implementation-architecture.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Final Implementation Architecture",
+				"anchor": "final-implementation-architecture"
+			},
+			{
+				"level": 2,
+				"text": "Discovery topology",
+				"anchor": "discovery-topology"
+			},
+			{
+				"level": 2,
+				"text": "Alias family",
+				"anchor": "alias-family"
+			},
+			{
+				"level": 2,
+				"text": "Comment family",
+				"anchor": "comment-family"
+			},
+			{
+				"level": 2,
+				"text": "Translation family",
+				"anchor": "translation-family"
+			},
+			{
+				"level": 2,
+				"text": "App and game families",
+				"anchor": "app-and-game-families"
+			},
+			{
+				"level": 2,
+				"text": "Root sitemap",
+				"anchor": "root-sitemap"
+			},
+			{
+				"level": 2,
+				"text": "Existing files to rewrite completely",
+				"anchor": "existing-files-to-rewrite-completely"
+			},
+			{
+				"level": 2,
+				"text": "Generated outputs / new files",
+				"anchor": "generated-outputs-new-files"
+			},
+			{
+				"level": 2,
+				"text": "Safety and performance",
+				"anchor": "safety-and-performance"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Final Implementation Architecture The Awtsmoos gathers many public worlds into one discoverable sky; Awtsmoos.com gives each family its own bounded gate, then ordinary links let crawlers travel deeper without asking JavaScript why. Discovery topology /robots.txt → /sitemap.xml sitemap in",
+		"searchText": "b\"h boruch hashem blessed is he final implementation architecture the awtsmoos gathers many public worlds into one discoverable sky; awtsmoos.com gives each family its own bounded gate, then ordinary links let crawlers travel deeper without asking javascript why. discovery topology /robots.txt → /sitemap.xml sitemap index → heichel / alias / comments / translations / apps / games sitemap families → canonical public documents → ordinary semantic links among aliases, teachings, comments, replies, translations, apps, and games. alias family new focused modules under geelooy/@/seo/: escape.js — html/xml safe identity text and encoded paths. aliasdata.js — direct public profile identity plus canonical native comment pointers. aliaspage.js — ssr profile document with name, bio, canonical metadata, and crawlable comment contribution links. aliassitemap.js — bounded public alias sitemap, sharded by page when necessary. rewrite geelooy/@/ awtsmoos.derech.js as a small route composer. preserve the existing browser hydrator after useful ssr exists. comment family new focused modules under geelooy/heichelos/routes/heichel/comments/: commenttext.js — safe complete visible body extraction from content, sections, audio transcript, and links. commentpage.js — real page for the already defined canonical url /heichelos/:heichel/posts/:post/comments/:comment. postannotations.js — bounded native comment preview for parent teachings, with canonical links to each comment. commenthtml.js — recursive semantic rendering shared by post preview and comment page. new geelooy/comments/ awtsmoos.derech.js plus small sitemap modules: /comments/sitemap.xml indexes per alias comment sitemap shards. /comments/by alias/:alias.xml emits every current native rich comment url from the compact alias pointer index. replies are independently indexed because every native reply receives its own stable comment id and pointer. translation family new translationpage.js under heichel routes renders the existing public posttranslations() rows as full semantic english html with source hebrew context and a self canonical. public route: /heichelos/:heichel/series/:series/post/:post/translations a generated static /translations sitemap.xml lists every known imported public translation post surface from the corpus files. parent teachings receive a translation preview/link through postannotations.js. app and game families do not rewrite 75 mature interactive applications merely to duplicate catalog prose. use the authoritative catalogs to generate: /apps/catalog.html with all public non game applications, titles, descriptions, and ordinary links; /apps/sitemap.xml with every public application url; /games/catalog.html with all games, titles, descriptions, and ordinary links; /games/sitemap.xml with every public game url. all 44 non game application routes and all 31 game routes were proven to exist and already contain document titles. the catalog documents provide the missing centralized semantic descriptions and crawl graph. root sitemap rewrite /sitemap.xml as a sitemap index referencing: /sitemaps/core.xml /heichelos/sitemap.xml /@/sitemap.xml /comments/sitemap.xml /translations sitemap.xml /apps/sitemap.xml /games/sitemap.xml rewrite /robots.txt to advertise the root sitemap index only plus explicit allow. /sitemaps/core.xml contains stable public top level discovery hubs. existing files to rewrite completely geelooy/@/ awtsmoos.derech.js geelooy/heichelos/routes/heichel/createroutes.js geelooy/heichelos/routes/heichel/postreader.js geelooy/heichelos/post/ awtsmoos.post.html geelooy/robots.txt geelooy/sitemap.xml generated outputs / new files alias seo modules; comment seo modules; comments sitemap router/modules; translation page renderer; site index generator under geelooy/scripts/seo/; apps/games catalog html and sitemap xml; translation sitemap xml; core sitemap xml; focused site wide seo tests. safety and performance no synchronous whole site recursive sitemap traversal. public alias enumeration is bounded/paged. comment sitemap work is isolated per alias. parent post comment preview is bounded. full comment bodies remain individually indexable through stable urls. full translation text is indexable through dedicated translation pages. private/submitted/deleted content is excluded or noindexed.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-02-0340-sitewide-public-indexing-04-final-im-1a25a6834d.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-02-0340-sitewide-public-indexing-05-prewrite-5984fbe7c5",
+		"title": "Prewrite Critique",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-02-0340-sitewide-public-indexing/05-prewrite-critique.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Prewrite Critique",
+				"anchor": "prewrite-critique"
+			},
+			{
+				"level": 2,
+				"text": "Thirty final improvements/checks",
+				"anchor": "thirty-final-improvements-checks"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Prewrite Critique The Awtsmoos asks one last time whether the vessel leaks, duplicates, or slows; Awtsmoos.com answers by separating discovery families and indexing only what public truth already shows. Thirty final improvements/checks 1. Work from fresh origin/main, not stale shared HEA",
+		"searchText": "b\"h boruch hashem blessed is he prewrite critique the awtsmoos asks one last time whether the vessel leaks, duplicates, or slows; awtsmoos.com answers by separating discovery families and indexing only what public truth already shows. thirty final improvements/checks 1. work from fresh origin/main, not stale shared head. 2. do not stage .ai thoughts. 3. preserve current road ssr exactly. 4. put new specific comment/translation routes before generic post routes. 5. return noindex for missing comments/translations. 6. escape comment html and urls. 7. preserve line breaks as paragraphs, never trust comment html fields as markup. 8. index audio transcript text when present. 9. index structured comment section text. 10. link comment author to real alias route only when alias id exists. 11. link comments back to canonical parent teaching. 12. render replies on comment pages with canonical links. 13. keep parent preview bounded. 14. let comment sitemap carry depth beyond preview. 15. ignore deleted native pointers. 16. alias sitemap uses real public alias registry, not imported attribution ids. 17. alias profile missing → noindex page. 18. alias canonical encoding must be stable. 19. app catalog filters duplicate game category cards. 20. deduplicate app/game urls before sitemap generation. 21. keep only same origin public urls in generated sitemaps. 22. generated html must escape catalog prose. 23. translation pages use public translation reader, not internal summary records. 24. translation sitemap derives from actual imported post files. 25. root sitemap index stays under protocol limits. 26. core sitemap contains only stable hubs. 27. tests assert catalog freshness against registries. 28. tests assert sitemap family references. 29. raw runtime tests verify ssr, noindex, and real data. 30. deploy exact tested sha and verify every family publicly.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-02-0340-sitewide-public-indexing-05-prewrite-5984fbe7c5.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-02-0340-sitewide-public-indexing-06-release--13f674294a",
+		"title": "Release Manifest Blocker and Public Proof",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-02-0340-sitewide-public-indexing/06-release-manifest-blocker-and-public-proof.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Release Manifest Blocker and Public Proof",
+				"anchor": "release-manifest-blocker-and-public-proof"
+			},
+			{
+				"level": 2,
+				"text": "Observed public proof",
+				"anchor": "observed-public-proof"
+			},
+			{
+				"level": 2,
+				"text": "Release verifier blocker",
+				"anchor": "release-verifier-blocker"
+			},
+			{
+				"level": 2,
+				"text": "Repair strategy",
+				"anchor": "repair-strategy"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Release Manifest Blocker and Public Proof The Awtsmoos opened the public roads before the release court finished its final song; Awtsmoos.com is serving the site wide SEO, yet the verifier exposed a manifest vessel that remained two runtime paths wrong. Observed public proof Production a",
+		"searchText": "b\"h boruch hashem blessed is he release manifest blocker and public proof the awtsmoos opened the public roads before the release court finished its final song; awtsmoos.com is serving the site wide seo, yet the verifier exposed a manifest vessel that remained two runtime paths wrong. observed public proof production activation printed canonical server sha 22b97234166d223369a9284ade3534c80eb421a9. raw origin http after activation returns http 200 for robots, root sitemap, alias sitemap, translations catalog, apps catalog, games catalog, and the ikar road. root sitemap contains comment and translation sitemap families. apps, games, and translations expose the semantic catalog marker. the road exposes the server rendered initial article and no longer contains the earlier $$sd template error. release verifier blocker verifytunnelpublicrelease.mjs rejected the release because the committed tunnel manifest.txt omitted: lib/connection vessel/child runtime state.js lib/connection vessel/controller child liveness policy.js both source files exist. the shared canonical working tree currently has a local modified manifest containing the two paths, but neither head nor origin/main contains them. that local modification must not be claimed or overwritten. repair strategy 1. create a clean worktree from latest origin/main. 2. run the repository's own manifest generator there. 3. verify the generated manifest differs only as legitimately required by current runtime inventory. 4. run manifest freshness, release closure, tunnel release, and public release verifier tests. 5. commit only the reproducible manifest/release artifact changes. 6. push with a fresh main race check. 7. fast forward the clean activation vessel and rerun guarded production activation until it exits zero. 8. re verify the public seo graph and then continue the post live shadow work audit.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-02-0340-sitewide-public-indexing-06-release--13f674294a.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-02-0340-sitewide-public-indexing-remaining-w-0e8db1bc38",
+		"title": "REMAININGWORK-02",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-02-0340-sitewide-public-indexing/REMAINING_WORK-02.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "REMAININGWORK-02",
+				"anchor": "remainingwork-02"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He REMAINING WORK 02 [x] Push tested site wide SEO commit to main. [x] Activate canonical production server at a SHA containing site wide SEO. [x] Prove raw public robots, sitemap, aliases, translations, apps, games, and Road return 200. [x] Prove old Road $$sd template error is absent afte",
+		"searchText": "b\"h boruch hashem blessed is he remaining work 02 [x] push tested site wide seo commit to main. [x] activate canonical production server at a sha containing site wide seo. [x] prove raw public robots, sitemap, aliases, translations, apps, games, and road return 200. [x] prove old road $$sd template error is absent after activation. [ ] repair tunnel release manifest omission reproducibly in a clean worktree. [ ] pass tunnel manifest freshness and release closure tests. [ ] pass test:tunnel release and verifytunnelpublicrelease.mjs. [ ] commit/push the manifest repair without consuming another agent's local manifest edit. [ ] rerun guarded bhrelease phase activate and require exit 0. [ ] run full real public seo acceptance after clean release completion. [ ] audit individual app/game pages for central metadata/canonical enrichment opportunities. [ ] improve translation discovery titles from raw post ids when reliable title metadata exists. [ ] audit alias pages for additional public authored content/activity links without expensive n+1 reads. [ ] audit stable public top level route families missing from core discovery. [ ] verify future native comment sitemap behavior through deterministic fixtures/tests. [ ] write final public evidence, planned vs actual delta, and remaining work closure.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-02-0340-sitewide-public-indexing-remaining-w-0e8db1bc38.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-02-0340-sitewide-public-indexing-remaining-w-f12df7db6d",
+		"title": "REMAININGWORK",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-02-0340-sitewide-public-indexing/REMAINING_WORK.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "REMAININGWORK",
+				"anchor": "remainingwork"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He REMAINING WORK [x] Define site wide indexing mission. [x] Brainstorm competing architectures. [x] Critique privacy/scale/duplicate route risks. [ ] Inventory root/public route families. [ ] Trace alias publication, metadata, and routes. [ ] Trace comments/replies/translations/alias attri",
+		"searchText": "b\"h boruch hashem blessed is he remaining work [x] define site wide indexing mission. [x] brainstorm competing architectures. [x] critique privacy/scale/duplicate route risks. [ ] inventory root/public route families. [ ] trace alias publication, metadata, and routes. [ ] trace comments/replies/translations/alias attribution. [ ] trace apps registry and public app pages. [ ] trace games registry and public game pages. [ ] trace other stable public pages and exclusions. [ ] measure representative raw public html for each family. [ ] design final site wide sitemap/crawl graph. [ ] implement modular site wide seo architecture. [ ] server render public comments/replies/translations where appropriate. [ ] server render alias/app/game metadata and semantic content where missing. [ ] add bounded sitemap families/shards. [ ] add/update tests. [ ] run static, route, raw html, privacy, performance, hydration tests. [ ] update main safely around concurrent work. [ ] deploy exact tested main sha. [ ] verify real public urls across every surface family. [ ] final planned vs actual, hidden work search, and completion gate.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-02-0340-sitewide-public-indexing-remaining-w-f12df7db6d.json"
+	}
+]

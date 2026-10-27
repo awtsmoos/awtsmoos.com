@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-17fbe0c7cb",
+	"title": "Login and access router",
+	"sourcePath": "geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/references/LOGIN_AND_ACCESS_ROUTER.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 2,
+			"text": "Current tunnel integration takes precedence",
+			"anchor": "current-tunnel-integration-takes-precedence"
+		},
+		{
+			"level": 1,
+			"text": "Login and access router",
+			"anchor": "login-and-access-router"
+		},
+		{
+			"level": 2,
+			"text": "Choose the shortest real route",
+			"anchor": "choose-the-shortest-real-route"
+		},
+		{
+			"level": 2,
+			"text": "OAuth principles",
+			"anchor": "oauth-principles"
+		},
+		{
+			"level": 2,
+			"text": "After login",
+			"anchor": "after-login"
+		},
+		{
+			"level": 2,
+			"text": "Other plugins",
+			"anchor": "other-plugins"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-agent-lib-instructions-pluginskills-skills-instructi-17fbe0c7cb-001.json"
+	]
+}

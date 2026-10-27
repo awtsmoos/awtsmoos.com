@@ -1,232 +1,344 @@
 [
 	{
-		"id": "docs-websites-dnssec-migration-md-743ddd21ca",
-		"title": "DNSSEC During a DNS Provider Migration",
-		"sourcePath": "docs/WEBSITES/DNSSEC_MIGRATION.md",
-		"category": "General",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-games-sefira-clash-94c-54eaa59ef7",
+		"title": "Project Tutorial: Sefira Clash · Open World, Expedition, Co-op, Adventure &amp; VS",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-sefira-clash-94c3f01f.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "DNSSEC During a DNS Provider Migration",
-				"anchor": "dnssec-during-a-dns-provider-migration"
+				"text": "Project Tutorial: Sefira Clash · Open World, Expedition, Co-op, Adventure &amp; VS",
+				"anchor": "project-tutorial-sefira-clash-open-world-expedition-co-op-adventure-amp-vs"
 			},
 			{
 				"level": 2,
-				"text": "Why DNSSEC can break an otherwise correct migration",
-				"anchor": "why-dnssec-can-break-an-otherwise-correct-migration"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Website-only move while keeping the current DNS provider",
-				"anchor": "website-only-move-while-keeping-the-current-dns-provider"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Full nameserver/provider migration",
-				"anchor": "full-nameserver-provider-migration"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "Route 53 pattern",
-				"anchor": "route-53-pattern"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Squarespace Domains pattern",
-				"anchor": "squarespace-domains-pattern"
+				"text": "Depends on",
+				"anchor": "depends-on"
 			},
 			{
 				"level": 2,
-				"text": "Awtsmoos Website Maker rule",
-				"anchor": "awtsmoos-website-maker-rule"
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He DNSSEC During a DNS Provider Migration The Awtsmoos renews every answer and every chain of trust while Awtsmoos.com refuses to let a secure domain become unreachable because a registrar still trusts a key that the new authoritative provider no longer holds. DNSSEC is not an ordinary A, M",
-		"searchText": "b\"h boruch hashem blessed is he dnssec during a dns provider migration the awtsmoos renews every answer and every chain of trust while awtsmoos.com refuses to let a secure domain become unreachable because a registrar still trusts a key that the new authoritative provider no longer holds. dnssec is not an ordinary a, mx or txt record migration; it joins the parent zone to the child zone through delegation signing testimony and therefore needs its own cutover plan. why dnssec can break an otherwise correct migration when dnssec is enabled, the registrar or parent zone may publish a ds record that says which key should authenticate the child zone. if you move authoritative nameservers to a provider using different signing keys while the old ds record remains, validating resolvers can reject the new dns answers. to the owner, this can look like a complete outage even though the a, mx, txt and other records were copied correctly. website only move while keeping the current dns provider usually do not change dnssec. if nameservers and authoritative dns remain where they are and you are only changing the website's a/aaaa/cname route, preserve the existing dnssec configuration. the web host move and the dnssec trust chain are separate concerns. full nameserver/provider migration before changing nameservers: 1. determine whether dnssec is currently enabled at the registrar/parent. 2. record the current ds information and the current dns provider's signing state. 3. read the destination provider's dnssec migration procedure. 4. reproduce and verify all ordinary dns records in the destination zone. 5. follow the provider specific sequence for removing, replacing or re establishing ds trust. 6. do not improvise ds values from dnskey output unless the provider's documented procedure requires it. 7. verify signed dns responses through the new authority before considering the migration complete. route 53 pattern aws's current migration documentation treats dnssec as an explicit migration stage. for a domain in use, aws documents removing the parent ds record when required before switching authoritative nameservers, then re enabling signing and re establishing the chain of trust after the migration. follow the current aws procedure for the specific zone rather than copying ds values from an old hosted zone. squarespace domains pattern squarespace domains currently enables dnssec automatically for supported squarespace managed domains. a move to custom nameservers or another authoritative provider therefore requires checking how that provider and the registrar manage the dnssec chain rather than assuming nameserver replacement alone is enough. awtsmoos website maker rule the future dns migration cockpit should display dnssec as its own readiness gate whenever a full authoritative migration is requested: current dnssec state known. parent ds state known. destination signing plan known. provider specific cutover instructions acknowledged. new authoritative dns validated. new chain of trust validated when dnssec is re enabled. the awtsmoos is beyond every key and signature while finite dns security depends on an exact chain; awtsmoos.com therefore treats dnssec not as a decorative checkbox but as a separate trust migration whose evidence must remain plain.",
-		"page": "pages/docs-websites-dnssec-migration-md-743ddd21ca.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Sefira Clash · Open World, Expedition, Co op, Adventure &amp; VS Path: geelooy/games/sefira clash · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries ar",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: sefira clash · open world, expedition, co op, adventure &amp; vs path: geelooy/games/sefira clash · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, package.json, documentation.md local documentation: geelooy/games/sefira clash/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 1354 41 0 0 1 2 1398 public entry points /games/sefira clash → geelooy/games/sefira clash/index.html — sefira clash · open world, expedition, co op, adventure &amp; vs symbol evidence source files: 1300; classes: 61; functions: 2799; exports: 1947; samples: neutralinput, botreport, finitefighter, summarizespectacle, round, assert, snap, sumdamage, alivecount, summarize, length, checkcase. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 41 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-sefira-clash-94c-54eaa59ef7.json"
 	},
 	{
-		"id": "docs-websites-email-dns-md-b2d553505f",
-		"title": "Preserve Email DNS During a Website Move",
-		"sourcePath": "docs/WEBSITES/EMAIL_DNS.md",
-		"category": "General",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-games-seven-mitzvos-50-42a4ed3174",
+		"title": "Project Tutorial: Seven Mitzvos · Living Material Worlds",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-seven-mitzvos-50390da0.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Preserve Email DNS During a Website Move",
-				"anchor": "preserve-email-dns-during-a-website-move"
+				"text": "Project Tutorial: Seven Mitzvos · Living Material Worlds",
+				"anchor": "project-tutorial-seven-mitzvos-living-material-worlds"
 			},
 			{
 				"level": 2,
-				"text": "MX records",
-				"anchor": "mx-records"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "SPF",
-				"anchor": "spf"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "DKIM",
-				"anchor": "dkim"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "DMARC",
-				"anchor": "dmarc"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Other mail-related records",
-				"anchor": "other-mail-related-records"
+				"text": "Depends on",
+				"anchor": "depends-on"
 			},
 			{
 				"level": 2,
-				"text": "Safe website-only migration",
-				"anchor": "safe-website-only-migration"
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Preserve Email DNS During a Website Move The Awtsmoos joins communication and creation without confusing their vessels; Awtsmoos.com can move web routing while your mail records remain exactly where the mail provider requires. MX records MX controls where inbound mail is delivered. Each ",
-		"searchText": "b\"h boruch hashem blessed is he preserve email dns during a website move the awtsmoos joins communication and creation without confusing their vessels; awtsmoos.com can move web routing while your mail records remain exactly where the mail provider requires. mx records mx controls where inbound mail is delivered. each mx record has a priority and hostname, for example: lower priority numbers are preferred. copy every mx record exactly unless your mail provider explicitly tells you to change them. spf spf is normally a txt record at the zone root. preserve the complete value, including all include:, ip4:, ip6:, and final policy mechanisms. do not create multiple unrelated spf records at the same owner unless your mail provider documents that design. dkim dkim is usually txt at a selector such as selector1. domainkey. the value may be long. preserve the selector name and entire public key exactly. never copy a private signing key into project dns state. dmarc dmarc is usually txt at dmarc. preserve policy, reporting addresses, alignment and percentage settings. example structure: other mail related records also inventory provider verification txt/cname records, autodiscover/autoconfig records, mta sts/tls reporting records, srv records, and any delegated mail subdomains. safe website only migration when you are only moving the website to awtsmoos, the safest default is to change only the web routing a/aaaa/cname records specified by the server attested hosting plan. leave mail records alone, then test sending and receiving mail after the web change.",
-		"page": "pages/docs-websites-email-dns-md-b2d553505f.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Seven Mitzvos · Living Material Worlds Path: geelooy/games/seven mitzvos · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, n",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: seven mitzvos · living material worlds path: geelooy/games/seven mitzvos · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, package.json, documentation.md local documentation: geelooy/games/seven mitzvos/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 547 71 0 0 1 0 619 public entry points /games/seven mitzvos → geelooy/games/seven mitzvos/index.html — seven mitzvos · living material worlds symbol evidence source files: 471; classes: 285; functions: 642; exports: 687; samples: accessibilityprofileservice, accessiblestateprojector, population, describealert, inputbindingservice, setpersonaction, updatepersonaction, personactionname, createstate, applypose, required, approuteservices. depends on geelooy/libs — 23 lexical references; examples: geelooy/games/seven mitzvos/js/assets/gltf model library.js; geelooy/games/seven mitzvos/js/city/city district builder.js; geelooy/games/seven mitzvos/js/games3d/world label.js used by none observed. external packages none observed. verification clue observed test classified files: 71 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-seven-mitzvos-50-42a4ed3174.json"
 	},
 	{
-		"id": "docs-websites-publish-from-tunnel-md-2ed4a3d6a4",
-		"title": "Publish a Website from an Awtsmoos Tunnel",
-		"sourcePath": "docs/WEBSITES/PUBLISH_FROM_TUNNEL.md",
-		"category": "Tunnel",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-games-shared-f9bcc76f--37c1d6b695",
+		"title": "Project Tutorial: geelooy/games/shared",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-shared-f9bcc76f.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Publish a Website from an Awtsmoos Tunnel",
-				"anchor": "publish-a-website-from-an-awtsmoos-tunnel"
+				"text": "Project Tutorial: geelooy/games/shared",
+				"anchor": "project-tutorial-geelooy-games-shared"
 			},
 			{
 				"level": 2,
-				"text": "Fastest folder publication",
-				"anchor": "fastest-folder-publication"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Publishing generated source",
-				"anchor": "publishing-generated-source"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Unpublish without deleting source",
-				"anchor": "unpublish-without-deleting-source"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "Node on the connected device",
-				"anchor": "node-on-the-connected-device"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Publish a Website from an Awtsmoos Tunnel The Awtsmoos lets your own machine remain the workshop while Awtsmoos.com provides a guarded publication doorway; the Tunnel carries explicit source intention without turning your whole device into public storage. Fastest folder publication Use t",
-		"searchText": "b\"h boruch hashem blessed is he publish a website from an awtsmoos tunnel the awtsmoos lets your own machine remain the workshop while awtsmoos.com provides a guarded publication doorway; the tunnel carries explicit source intention without turning your whole device into public storage. fastest folder publication use the tunnel action sitepublishfolder. supply: path: folder on the owned device or virtual os; siteid: dns safe public site identity; mode: direct or snapshot. choose direct when the published site should follow the hosted folder. choose snapshot when you want the publication to preserve a copied point in time source. example intent: after publication, read publication.canonicalurl from the result and open that exact url. also inspect sourceavailable, entryready, and canonicalverifiedlive rather than treating a successful mutation alone as proof that the website renders. publishing generated source agents may use sitepublishbootstrap when they already have an explicit bounded file manifest. this is useful when an agent creates html/css/js/markdown source and wants publication to be one guarded operation. unpublish without deleting source siteunpublish removes the canonical mapping while leaving the source bytes alone. this separation is intentional: publication is reversible and source ownership remains independent. node on the connected device for dynamic node development, save a native compute project recipe with cwd, relative entry, port, and public arguments. in geelooy os, open connected node server from the saved project. choose a currently connected owned machine there; no tunnel machine identity belongs in the portable project file.",
-		"page": "pages/docs-websites-publish-from-tunnel-md-2ed4a3d6a4.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/games/shared Path: geelooy/games/shared · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or h",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/games/shared path: geelooy/games/shared · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: — local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 1 0 0 0 0 0 1 public entry points none observed. symbol evidence source files: 1; classes: 0; functions: 8; exports: 0; samples: data, render, setprogress, rotatetip, finish, bump, watch, scan. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-shared-f9bcc76f--37c1d6b695.json"
 	},
 	{
-		"id": "docs-websites-readme-md-6ea49edbc4",
-		"title": "Websites on Awtsmoos",
-		"sourcePath": "docs/WEBSITES/README.md",
-		"category": "General",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-games-shema-strike-fd5-bad04a6396",
+		"title": "Project Tutorial: Shema Strike — 2D Platformer",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-shema-strike-fd59d11a.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Websites on Awtsmoos",
-				"anchor": "websites-on-awtsmoos"
+				"text": "Project Tutorial: Shema Strike — 2D Platformer",
+				"anchor": "project-tutorial-shema-strike-2d-platformer"
 			},
 			{
 				"level": 2,
-				"text": "The shortest human path",
-				"anchor": "the-shortest-human-path"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "The shortest Tunnel path",
-				"anchor": "the-shortest-tunnel-path"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Choose your tutorial",
-				"anchor": "choose-your-tutorial"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "DNS migration worksheet",
-				"anchor": "dns-migration-worksheet"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Two automation planes",
-				"anchor": "two-automation-planes"
+				"text": "Depends on",
+				"anchor": "depends-on"
 			},
 			{
 				"level": 2,
-				"text": "Static versus connected Node",
-				"anchor": "static-versus-connected-node"
+				"text": "Used by",
+				"anchor": "used-by"
 			},
 			{
 				"level": 2,
-				"text": "Current DNS boundary",
-				"anchor": "current-dns-boundary"
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Websites on Awtsmoos The Awtsmoos renews every file and every request; Awtsmoos.com lets an ordinary folder become a public world while keeping source, publication, runtime, DNS, provider authority, DNSSEC trust, and browser evidence as separate truthful vessels. The shortest human path ",
-		"searchText": "b\"h boruch hashem blessed is he websites on awtsmoos the awtsmoos renews every file and every request; awtsmoos.com lets an ordinary folder become a public world while keeping source, publication, runtime, dns, provider authority, dnssec trust, and browser evidence as separate truthful vessels. the shortest human path 1. open /apps/drive/ and connect an alias. 2. use website maker → build to create ordinary editable source, or upload an existing folder. 3. use preview to inspect saved source. 4. use publish to map the current folder to a named site. 5. open the exact canonical url returned by publication. 6. add a custom domain only after the canonical site itself is proven healthy. the shortest tunnel path 1. create or inspect the owned source folder. 2. call sitepublishfolder(path, siteid, mode) using direct or snapshot. 3. inspect publication.canonicalurl, sourceavailable, entryready, and canonicalverifiedlive. 4. reconcile with sitepublicationstatus after uncertain delivery or source changes. 5. open the canonical url and inspect http, expected assets, and relevant browser failures before reporting success. choose your tutorial publish from an awtsmoos tunnel tunnel agent: create, publish, reconcile, verify website maker in page agent api connect a custom domain move dns safely dns provider playbooks official dns provider references dns cutover checklist dnssec during a provider migration preserve email: mx, spf, dkim, dmarc troubleshoot a website that does not load dns migration worksheet project settings preserves a portable worksheet for a, aaaa, cname, txt, mx, caa, srv, and ns records. the worksheet is configuration intent, not live dns. use it to inventory and carry the whole zone safely; then apply server attested routing changes at the current provider or through a real attached provider adapter. the provider playbooks cover cloudflare, godaddy, namecheap, squarespace domains, and amazon route 53. the cutover checklist separates a website only move from a full authoritative nameserver migration. the dnssec guide covers the parent zone trust edge case that can break an otherwise correct nameserver migration. two automation planes tunnel control is for owned device and virtual os automation. window.geelooysitebuilder is for software already running inside the drive website maker page. both converge on guarded drive/site/domain services, but one does not impersonate the other. static versus connected node static publication serves ordinary owned files through the sites gateway. for a node project on an owned connected machine, choose native compute, save the portable recipe, then use open on connected machine inside geelooy os. the live tunnel device is chosen at launch time and is not stored in portable project state. current dns boundary awtsmoos custom domain hosting supports external dns instructions and server attested ownership/routing plans. awtsmoos authoritative nameservers are not advertised as deployed unless the live hosting plan explicitly says otherwise. keep dns at the current provider by default, preserve mail/service records, and treat dnssec as a separate trust migration before any provider or registrar change.",
-		"page": "pages/docs-websites-readme-md-6ea49edbc4.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Shema Strike — 2D Platformer Path: geelooy/games/shema strike · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: shema strike — 2d platformer path: geelooy/games/shema strike · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, package.json, documentation.md local documentation: geelooy/games/shema strike/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 173 23 0 0 1 2 199 public entry points /games/shema strike → geelooy/games/shema strike/index.html — shema strike — 2d platformer symbol evidence source files: 151; classes: 71; functions: 56; exports: 202; samples: accessibilityprofile, copy, objectivecopy, kesercampaigngate, malchusbootfailure, yesodoptionalarena, checkpointmanager, entitystate, restoreentities, componentsnapshots, createcomponent, component kinds. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 23 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-shema-strike-fd5-bad04a6396.json"
 	},
 	{
-		"id": "docs-websites-troubleshooting-md-5c12a853d1",
-		"title": "Website Maker Troubleshooting",
-		"sourcePath": "docs/WEBSITES/TROUBLESHOOTING.md",
-		"category": "General",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-games-soul-jump-0c3378-60e2433b97",
+		"title": "Project Tutorial: Ein Sof Ascent · Soul Jump",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-soul-jump-0c3378cb.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Website Maker Troubleshooting",
-				"anchor": "website-maker-troubleshooting"
+				"text": "Project Tutorial: Ein Sof Ascent · Soul Jump",
+				"anchor": "project-tutorial-ein-sof-ascent-soul-jump"
 			},
 			{
 				"level": 2,
-				"text": "Canonical site does not open",
-				"anchor": "canonical-site-does-not-open"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "CSS or JavaScript is missing",
-				"anchor": "css-or-javascript-is-missing"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Custom domain fails but canonical URL works",
-				"anchor": "custom-domain-fails-but-canonical-url-works"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "Email broke after a domain change",
-				"anchor": "email-broke-after-a-domain-change"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Connected Node server fails",
-				"anchor": "connected-node-server-fails"
+				"text": "Depends on",
+				"anchor": "depends-on"
 			},
 			{
 				"level": 2,
-				"text": "For agents",
-				"anchor": "for-agents"
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Website Maker Troubleshooting The Awtsmoos recreates every request while debugging asks which finite vessel failed; Awtsmoos.com keeps source, mapping, domain, runtime, and browser testimony separate so the broken edge can be found. Canonical site does not open Check in this order: 1. Th",
-		"searchText": "b\"h boruch hashem blessed is he website maker troubleshooting the awtsmoos recreates every request while debugging asks which finite vessel failed; awtsmoos.com keeps source, mapping, domain, runtime, and browser testimony separate so the broken edge can be found. canonical site does not open check in this order: 1. the source folder contains a public index.html. 2. the site mapping points at the intended root path. 3. the publication status says the source is available and the entry is ready. 4. open the exact canonicalurl returned by publication. 5. inspect http status and browser console/network errors. css or javascript is missing use relative asset paths such as assets/app.js and styles/site.css. verify files are public and paths match case exactly. avoid hard coding a drive or os pathname into website source. custom domain fails but canonical url works the source publication is probably healthy. check ownership txt, routing eligibility, the configured a/aaaa/cname record, public dns resolution, ingress health and tls separately. email broke after a domain change compare mx and txt records against the pre migration inventory immediately. restore missing mx, spf, dkim and dmarc records before making additional web routing changes. connected node server fails confirm a live account owned tunnel is connected, the saved cwd exists on that machine, entry is project relative, the selected port is free, and the node process actually listens on that port. inspect process logs before exposing the preview. for agents use sitepublicationstatus after every publish/reconcile operation. a mutation receipt proves the mutation happened; it does not by itself prove the public page rendered correctly.",
-		"page": "pages/docs-websites-troubleshooting-md-5c12a853d1.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Ein Sof Ascent · Soul Jump Path: geelooy/games/soul jump · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime owner",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: ein sof ascent · soul jump path: geelooy/games/soul jump · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, main.js, package.json local documentation: no local documentation.md observed. local doc requirement: yes; covered: no symlink target: — file shape source tests assets generated docs other total 30 3 0 0 0 0 33 public entry points /games/soul jump → geelooy/games/soul jump/index.html — ein sof ascent · soul jump symbol evidence source files: 22; classes: 19; functions: 1; exports: 23; samples: verticalcamera, soul config, soul glyphs, backgroundparticle, enemy, particle, platform, player, powerup, draginput, overlayrenderer, worldrenderer. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 3 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-soul-jump-0c3378-60e2433b97.json"
+	},
+	{
+		"id": "docs-generated-project-tutorials-projects-geelooy-games-styles-f4b1fa78--4372ed3e74",
+		"title": "Project Tutorial: geelooy/games/styles",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-styles-f4b1fa78.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: geelooy/games/styles",
+				"anchor": "project-tutorial-geelooy-games-styles"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/games/styles Path: geelooy/games/styles · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or h",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/games/styles path: geelooy/games/styles · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: documentation.md local documentation: geelooy/games/styles/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 48 0 0 0 1 0 49 public entry points none observed. symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-styles-f4b1fa78--4372ed3e74.json"
 	}
 ]

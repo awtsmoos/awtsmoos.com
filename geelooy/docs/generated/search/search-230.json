@@ -1,315 +1,344 @@
 [
 	{
-		"id": "docs-tutorials-projects-readme-md-ef98756543",
-		"title": "Project and System Tutorials",
-		"sourcePath": "docs/TUTORIALS/PROJECTS/README.md",
+		"id": "docs-generated-project-tutorials-projects-geelooy-games-kabbalah-shooter-4073f72e16",
+		"title": "Project Tutorial: Kabbalah Infinite — The Breaking of Vessels",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-kabbalah-shooter-5fd11ab3.md",
 		"category": "Projects",
-		"provenance": "manual",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project and System Tutorials",
-				"anchor": "project-and-system-tutorials"
+				"text": "Project Tutorial: Kabbalah Infinite — The Breaking of Vessels",
+				"anchor": "project-tutorial-kabbalah-infinite-the-breaking-of-vessels"
 			},
 			{
 				"level": 2,
-				"text": "Human guides",
-				"anchor": "human-guides"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Generated project teaching",
-				"anchor": "generated-project-teaching"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Evidence rule",
-				"anchor": "evidence-rule"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project and System Tutorials A project boundary is a discovery vessel, not a guarantee of runtime isolation. Use these manuals to understand how to investigate each kind of boundary, then use generated project tutorials for current evidence. Human guides Applications API Projects Games a",
-		"searchText": "b\"h boruch hashem blessed is he project and system tutorials a project boundary is a discovery vessel, not a guarantee of runtime isolation. use these manuals to understand how to investigate each kind of boundary, then use generated project tutorials for current evidence. human guides applications api projects games and worlds runtime and infrastructure libraries and tooling public and other boundaries generated project teaching project tutorial index gives one generated tutorial for every current project boundary. each project tutorial joins file shape, entries, local docs, public urls, lexical symbol summaries, incoming/outgoing dependencies, external packages, and test file evidence. evidence rule imports are lexical dependency evidence, not runtime call graphs. index.html means a public entry file was found, not that the application is healthy. test file counts are not behavioral coverage scores. generated packets point you toward source and verification; they do not replace either.",
-		"page": "pages/docs-tutorials-projects-readme-md-ef98756543.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Kabbalah Infinite — The Breaking of Vessels Path: geelooy/games/kabbalah shooter · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observa",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: kabbalah infinite — the breaking of vessels path: geelooy/games/kabbalah shooter · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, main.js, package.json, documentation.md local documentation: geelooy/games/kabbalah shooter/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 61 0 0 0 1 0 62 public entry points /games/kabbalah shooter → geelooy/games/kabbalah shooter/index.html — kabbalah infinite — the breaking of vessels symbol evidence source files: 55; classes: 40; functions: 75; exports: 93; samples: config, hebrew letters, colors, sprites, audiosynth, settings, weapons, sounds, scales, sefirot, traits, spells. depends on geelooy/libs — 7 lexical references; examples: geelooy/games/kabbalah shooter/js/runtime/kabbalahnative3drenderer.js; geelooy/games/kabbalah shooter/js/runtime/kabbalah native 3d meshes.js; geelooy/games/kabbalah shooter/js/runtime/kabbalah native 3d pool.js used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-kabbalah-shooter-4073f72e16.json"
 	},
 	{
-		"id": "docs-tutorials-projects-runtime-and-infrastructure-md-1e31989624",
-		"title": "Runtime and Infrastructure",
-		"sourcePath": "docs/TUTORIALS/PROJECTS/RUNTIME_AND_INFRASTRUCTURE.md",
+		"id": "docs-generated-project-tutorials-projects-geelooy-games-kavanah-e1949492-608e7677a1",
+		"title": "Project Tutorial: KAVANAH — Four Worlds Ascent",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-kavanah-e1949492.md",
 		"category": "Projects",
-		"provenance": "manual",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Runtime and Infrastructure",
-				"anchor": "runtime-and-infrastructure"
+				"text": "Project Tutorial: KAVANAH — Four Worlds Ascent",
+				"anchor": "project-tutorial-kavanah-four-worlds-ascent"
 			},
 			{
 				"level": 2,
-				"text": "Investigate runtime code",
-				"anchor": "investigate-runtime-code"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Caveats",
-				"anchor": "caveats"
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Runtime and Infrastructure Runtime/infrastructure boundaries include the dynamic server, persistence machinery, operations roots, and other server side vessels whose public surface may be indirect or absent. Investigate runtime code 1. Start with central architecture/system manuals and t",
-		"searchText": "b\"h boruch hashem blessed is he runtime and infrastructure runtime/infrastructure boundaries include the dynamic server, persistence machinery, operations roots, and other server side vessels whose public surface may be indirect or absent. investigate runtime code 1. start with central architecture/system manuals and the generated project tutorial. 2. follow source entry files and symbols rather than looking for index.html. 3. trace incoming dependencies to understand who relies on the subsystem. 4. treat database paths, process boundaries, environment names, and transport protocols as compatibility/security contracts. 5. use focused server/realtime/data tests before changing behavior. caveats no public entry is normal for infrastructure. lexical incoming edges do not enumerate dynamic requires, runtime registration, or process level coupling. configuration documentation exposes names and precedence—not secret values.",
-		"page": "pages/docs-tutorials-projects-runtime-and-infrastructure-md-1e31989624.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: KAVANAH — Four Worlds Ascent Path: geelooy/games/KAVANAH · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime owner",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: kavanah — four worlds ascent path: geelooy/games/kavanah · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, documentation.md local documentation: geelooy/games/kavanah/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 20 0 0 0 1 0 21 public entry points /games/kavanah → geelooy/games/kavanah/index.html — kavanah — four worlds ascent symbol evidence source files: 17; classes: 10; functions: 54; exports: 57; samples: otiot, tzomeach, chai, and, entity, particle, hebrew letters, plant emojis, animal emojis, getpointerstate, setupcontrols, clearpointer. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-kavanah-e1949492-608e7677a1.json"
 	},
 	{
-		"id": "docs-tutorials-readme-md-63e5ec071c",
-		"title": "Awtsmoos.com Tutorials",
-		"sourcePath": "docs/TUTORIALS/README.md",
-		"category": "General",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-games-merkava-6e442b98-cf2799587a",
+		"title": "Project Tutorial: Merkava — War of the Sparks",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-merkava-6e442b98.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Awtsmoos.com Tutorials",
-				"anchor": "awtsmoos-com-tutorials"
+				"text": "Project Tutorial: Merkava — War of the Sparks",
+				"anchor": "project-tutorial-merkava-war-of-the-sparks"
 			},
 			{
 				"level": 2,
-				"text": "API families",
-				"anchor": "api-families"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Server and runtime",
-				"anchor": "server-and-runtime"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Content platform",
-				"anchor": "content-platform"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "Foundation curriculum",
-				"anchor": "foundation-curriculum"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Evidence rule",
-				"anchor": "evidence-rule"
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos.com Tutorials The Awtsmoos lets a tutorial explain why and how while generated evidence answers which files and routes exist right now . API families TUTORIALS/API/ contains one manual for every currently cataloged derech family. These pages explain ownership, trust boundaries, ",
-		"searchText": "b\"h boruch hashem blessed is he awtsmoos.com tutorials the awtsmoos lets a tutorial explain why and how while generated evidence answers which files and routes exist right now . api families tutorials/api/ contains one manual for every currently cataloged derech family. these pages explain ownership, trust boundaries, interpretation, and how to descend into the generated route tutorials without copying volatile route tables by hand. use ../generated/api family tutorials.md for regenerated family counts/health and ../generated/api tutorial index.md for every route. server and runtime tutorials/systems/ teaches server boot, request pipeline, dynamic routing, identity/authorization, dosdb runtime, realtime runtime, and the documentation runtime itself. content platform tutorials/content/ teaches the social content model, heichel governance, posts/series, comments, aliases/api keys, moderation, search/graph/discovery, mail/notifications/drive, and migrations. foundation curriculum if the repository is unfamiliar, start with ../learn/readme.md rather than entering a specialist tutorial in the middle. evidence rule manual tutorials describe inspected meaning and workflows. generated tutorials describe source derived evidence. neither replaces current implementation/tests when exact runtime behavior matters.",
-		"page": "pages/docs-tutorials-readme-md-63e5ec071c.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Merkava — War of the Sparks Path: geelooy/games/Merkava · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime owners",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: merkava — war of the sparks path: geelooy/games/merkava · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, package.json, documentation.md, readme.md, readme.md local documentation: geelooy/games/merkava/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 104 39 0 0 8 1 152 public entry points /games/merkava → geelooy/games/merkava/index.html — merkava — war of the sparks symbol evidence source files: 90; classes: 47; functions: 176; exports: 148; samples: appdiagnostics, creatediagnosticcontrols, checkpoint, setlane, chargeability, advancelevel, setworld, setlevel, grantprutahs, defeatboss, completeworldrotation, clampindex. depends on geelooy/libs — 2 lexical references; examples: geelooy/games/merkava/src/render/createcoremeshes.js; geelooy/games/merkava/src/render/createenemymeshes.js used by none observed. external packages none observed. verification clue observed test classified files: 39 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-merkava-6e442b98-cf2799587a.json"
 	},
 	{
-		"id": "docs-tutorials-systems-documentation-runtime-md-74eedfd291",
-		"title": "Tutorial: Documentation Runtime",
-		"sourcePath": "docs/TUTORIALS/SYSTEMS/DOCUMENTATION_RUNTIME.md",
-		"category": "Systems",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-games-migdol-2c237fda--87914ace9d",
+		"title": "Project Tutorial: Migdol — Tower Defense",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-migdol-2c237fda.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Tutorial: Documentation Runtime",
-				"anchor": "tutorial-documentation-runtime"
+				"text": "Project Tutorial: Migdol — Tower Defense",
+				"anchor": "project-tutorial-migdol-tower-defense"
 			},
 			{
 				"level": 2,
-				"text": "Layers",
-				"anchor": "layers"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Why publication is sharded",
-				"anchor": "why-publication-is-sharded"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Regeneration",
-				"anchor": "regeneration"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "Verification",
-				"anchor": "verification"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Tutorial: Documentation Runtime The documentation system is itself a generated/public runtime surface. Layers Manual Markdown → generated evidence/tutorials → AI records → transport bounded public publication → /docs/ frontend. Why publication is sharded Real server/browser testing disco",
-		"searchText": "b\"h boruch hashem blessed is he tutorial: documentation runtime the documentation system is itself a generated/public runtime surface. layers manual markdown → generated evidence/tutorials → ai records → transport bounded public publication → /docs/ frontend. why publication is sharded real server/browser testing discovered static json response size limits. the publisher keeps search/project/page/content data below a conservative transport ceiling and losslessly reconstructs markdown. regeneration node scripts/docs/generate docs.js must become the one authoritative rebuild after tutorial integration. verification search/tutorial tests, unified validator, public response sweep, and real browser smoke protect different failure classes. read docs/interactive documentation.md.",
-		"page": "pages/docs-tutorials-systems-documentation-runtime-md-74eedfd291.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Migdol — Tower Defense Path: geelooy/games/migdol · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: migdol — tower defense path: geelooy/games/migdol · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, documentation.md local documentation: geelooy/games/migdol/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 28 0 0 0 1 0 29 public entry points /games/migdol → geelooy/games/migdol/index.html — migdol — tower defense symbol evidence source files: 21; classes: 13; functions: 41; exports: 36; samples: tile size, maps, tower types, enemy types, groundeffect, letterparticle, enemy, projectile, placetower, towerat, upgradetower, selltower. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-migdol-2c237fda--87914ace9d.json"
 	},
 	{
-		"id": "docs-tutorials-systems-dosdb-runtime-md-8cb27ff28a",
-		"title": "Tutorial: DosDB Runtime",
-		"sourcePath": "docs/TUTORIALS/SYSTEMS/DOSDB_RUNTIME.md",
-		"category": "Data",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-games-mitzvahworld-e62-103631907b",
+		"title": "Project Tutorial: Mitzvah World · Awtsmoos",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-mitzvahworld-e62d44db.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Tutorial: DosDB Runtime",
-				"anchor": "tutorial-dosdb-runtime"
+				"text": "Project Tutorial: Mitzvah World · Awtsmoos",
+				"anchor": "project-tutorial-mitzvah-world-awtsmoos"
 			},
 			{
 				"level": 2,
-				"text": "Root selection",
-				"anchor": "root-selection"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Why runtime paths matter",
-				"anchor": "why-runtime-paths-matter"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Safe changes",
-				"anchor": "safe-changes"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Tutorial: DosDB Runtime The dynamic server initializes DosDB once and shares the instance through request/server context. Root selection Environment overrides and local/tracked configuration participate in DB root selection before repository fallback. Inspect server/initDb.js for current",
-		"searchText": "b\"h boruch hashem blessed is he tutorial: dosdb runtime the dynamic server initializes dosdb once and shares the instance through request/server context. root selection environment overrides and local/tracked configuration participate in db root selection before repository fallback. inspect server/initdb.js for current precedence. why runtime paths matter many apis encode compatibility in database path shapes. sefarim reads directly from the shared db; social has multiple generations/adapters/migrations. safe changes trace every writer/reader, migration, and fallback before changing a persisted path. tests should cover old and new forms when compatibility is promised. read docs/data/readme.md and docs/data/path contracts.md.",
-		"page": "pages/docs-tutorials-systems-dosdb-runtime-md-8cb27ff28a.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Mitzvah World · Awtsmoos Path: geelooy/games/mitzvahWorld · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime owne",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: mitzvah world · awtsmoos path: geelooy/games/mitzvahworld · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, documentation.md local documentation: geelooy/games/mitzvahworld/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 3899 1421 36 95 44 716 6211 public entry points /games/mitzvahworld → geelooy/games/mitzvahworld/index.html — mitzvah world · awtsmoos /games/mitzvahworld/subwaysurfer → geelooy/games/mitzvahworld/subwaysurfer/index.html — peruta run — native awtsmoos runner /games/mitzvahworld/templerunner → geelooy/games/mitzvahworld/templerunner/index.html — awtsmoos temple runner symbol evidence source files: 3587; classes: 941; functions: 10513; exports: 6675; samples: async, sleep, connectmitzvahchrome, ready, probemitzvahworld, cdpclient, waitforwitness, holdcdpkey, keypayload, assertfivemilestones, measurehiddenframeprogress, calculatedisplacement. depends on geelooy/libs — 174 lexical references; examples: geelooy/games/mitzvahworld/experiments/awtsmoos/src/api/portal/mitzvahworlddoorwayportalfields.js; geelooy/games/mitzvahworld/experiments/awtsmoos/src/api/portal/mitzvahworldhouseportalfields.js; geelooy/games/mitzvahworld/experiments/awtsmoos/src/api/portal/mitzvahworldportalfactory.js geelooy/games/scripts — 5 lexical references; examples: geelooy/games/mitzvahworld/photoreal/js/reality character.mjs; geelooy/games/mitzvahworld/photoreal/js/reality particles.mjs; geelooy/games/mitzvahworld/photoreal/js/reality scene.mjs libs — 4 lexical references; examples: geelooy/games/mitzvahworld/experiments/awtsmoos/src/app/minimalmeadowtreecorefacade.js; geelooy/games/mitzvahworld/movies/unified/mitzvahworldmovieadapter.js; geelooy/games/mitzvahworld/photoreal/js/reality scene.mjs geelooy/zmanim — 1 lexical reference; examples: geelooy/games/mitzvahworld/shared/gametimeofday.js used by geelooy/social composer — 9 lexical references; examples: geelooy/social composer/reel studio/nle/nleaiprojectcodec.js; geelooy/social composer/reel studio/nle/nlemoviepackage.js; geelooy/social composer/reel studio/nle/nlemoviesimplemutations.js geelooy/apps/awtsmoos studio — 1 lexical reference; examples: geelooy/apps/awtsmoos studio/src/backends/studiomitzvahworldbackend.js geelooy/apps/mitzvah studio — 1 lexical reference; examples: geelooy/apps/mitzvah studio/modules/catalog/mitzvahstudiocatalog.js geelooy/games/cobyk — 1 lexical reference; examples: geelooy/games/cobyk/src/main.js external packages three — 4 lexical references ws — 2 lexical references postcss — 1 lexical reference verification clue observed test classified files: 1421 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-mitzvahworld-e62-103631907b.json"
 	},
 	{
-		"id": "docs-tutorials-systems-dynamic-routing-md-dae34a1cb8",
-		"title": "Tutorial: Dynamic Routing",
-		"sourcePath": "docs/TUTORIALS/SYSTEMS/DYNAMIC_ROUTING.md",
-		"category": "Systems",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-games-nachash-85ff920d-df1bb0fc3e",
+		"title": "Project Tutorial: Tikkun HaNachash",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-nachash-85ff920d.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Tutorial: Dynamic Routing",
-				"anchor": "tutorial-dynamic-routing"
+				"text": "Project Tutorial: Tikkun HaNachash",
+				"anchor": "project-tutorial-tikkun-hanachash"
 			},
 			{
 				"level": 2,
-				"text": "Ownership",
-				"anchor": "ownership"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Match forms",
-				"anchor": "match-forms"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Generated route tutorials",
-				"anchor": "generated-route-tutorials"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "Important caveat",
-				"anchor": "important-caveat"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Maintainability",
-				"anchor": "maintainability"
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Tutorial: Dynamic Routing Ownership awtsmoos.derech.js is discovered by walking ancestor directories from the requested source path. This permits one derech to own a subtree. Match forms Exact → named :segment → terminal :segment patterns. A catch all is terminal because it consumes the ",
-		"searchText": "b\"h boruch hashem blessed is he tutorial: dynamic routing ownership awtsmoos.derech.js is discovered by walking ancestor directories from the requested source path. this permits one derech to own a subtree. match forms exact → named :segment → terminal :segment patterns. a catch all is terminal because it consumes the remaining path. generated route tutorials docs/generated/api tutorial index.md gives one teaching page per discovered route row with the owning source/derech evidence. important caveat route extraction is source analysis. a syntactically invalid derech can still contain extractable strings; use generated derech health before claiming runtime reachability. maintainability prefer named route tables/focused handlers over giant derech bodies; keep auth/resource ownership close enough to the route to be traceable.",
-		"page": "pages/docs-tutorials-systems-dynamic-routing-md-dae34a1cb8.json"
-	},
-	{
-		"id": "docs-tutorials-systems-identity-and-auth-md-e15c8d2493",
-		"title": "Tutorial: Identity and Authorization",
-		"sourcePath": "docs/TUTORIALS/SYSTEMS/IDENTITY_AND_AUTH.md",
-		"category": "Security",
-		"provenance": "manual",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Tutorial: Identity and Authorization",
-				"anchor": "tutorial-identity-and-authorization"
-			},
-			{
-				"level": 2,
-				"text": "Trusted identity evidence",
-				"anchor": "trusted-identity-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Resource authority",
-				"anchor": "resource-authority"
-			},
-			{
-				"level": 2,
-				"text": "Client fields are not identity",
-				"anchor": "client-fields-are-not-identity"
-			},
-			{
-				"level": 2,
-				"text": "Review sequence",
-				"anchor": "review-sequence"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Tutorial: Identity and Authorization Identity answers “who is making the request?” Authorization answers “may that trusted identity perform this operation here?” Trusted identity evidence Sessions, verified API keys, OAuth bearer evidence, and specialized realtime admission all appear in",
-		"searchText": "b\"h boruch hashem blessed is he tutorial: identity and authorization identity answers “who is making the request?” authorization answers “may that trusted identity perform this operation here?” trusted identity evidence sessions, verified api keys, oauth bearer evidence, and specialized realtime admission all appear in the current system. resource authority social heichel/content routes can require owner/editor/member/moderation relationships after login. tunnel scopes/grants similarly constrain trusted account actions. client fields are not identity treat owner, userid, alias, or account like body/query values as data unless server auth explicitly verifies/derives them. review sequence transport/origin → identity → scope/role → resource ownership → method/action → persistence/provider side effect. read docs/learn/authentication 101.md and docs/security/trust boundaries.md.",
-		"page": "pages/docs-tutorials-systems-identity-and-auth-md-e15c8d2493.json"
-	},
-	{
-		"id": "docs-tutorials-systems-readme-md-9a71acf8f1",
-		"title": "Data, Security, and Realtime System Tutorials",
-		"sourcePath": "docs/TUTORIALS/SYSTEMS/README.md",
-		"category": "Systems",
-		"provenance": "manual",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Data, Security, and Realtime System Tutorials",
-				"anchor": "data-security-and-realtime-system-tutorials"
-			},
-			{
-				"level": 2,
-				"text": "Three districts",
-				"anchor": "three-districts"
-			},
-			{
-				"level": 2,
-				"text": "Workflow tutorials",
-				"anchor": "workflow-tutorials"
-			},
-			{
-				"level": 2,
-				"text": "Evidence rule",
-				"anchor": "evidence-rule"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Data, Security, and Realtime System Tutorials These tutorials teach how to reason across subsystem boundaries that cannot be understood from one route or one project directory alone. Three districts Data and Persistence — storage roots, DosDB, AwtsmoosBinaryJSON, AwtsmoosDB/VirtualFs, So",
-		"searchText": "b\"h boruch hashem blessed is he data, security, and realtime system tutorials these tutorials teach how to reason across subsystem boundaries that cannot be understood from one route or one project directory alone. three districts data and persistence — storage roots, dosdb, awtsmoosbinaryjson, awtsmoosdb/virtualfs, social packed storage, path contracts, and migration risk. security and trust — sessions, oauth/api key identity, authorization, ownership/grants, secret/config names, and realtime admission. realtime and websockets — socket upgrade/session, application routing, mission rooms, tunnel relay, and lexical application/event evidence. use /docs/?view=systems for the interactive evidence map and generated system tutorial index for one generated packet per stable system concept. workflow tutorials trace a database change safely trace trusted identity trace realtime admission realtime runtime identity and authentication dosdb runtime evidence rule generated environment evidence contains variable names , classifications, source reference counts, and example source paths only. it never reads values. websocket event strings are lexical search clues, not protocol schemas. security packets are navigation aids, not security audit findings.",
-		"page": "pages/docs-tutorials-systems-readme-md-9a71acf8f1.json"
-	},
-	{
-		"id": "docs-tutorials-systems-realtime-runtime-md-4c3f616442",
-		"title": "Tutorial: Realtime Runtime",
-		"sourcePath": "docs/TUTORIALS/SYSTEMS/REALTIME_RUNTIME.md",
-		"category": "Realtime",
-		"provenance": "manual",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Tutorial: Realtime Runtime",
-				"anchor": "tutorial-realtime-runtime"
-			},
-			{
-				"level": 2,
-				"text": "Layers",
-				"anchor": "layers"
-			},
-			{
-				"level": 2,
-				"text": "Specialized systems",
-				"anchor": "specialized-systems"
-			},
-			{
-				"level": 2,
-				"text": "Evidence",
-				"anchor": "evidence"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Tutorial: Realtime Runtime Awtsmoos WebSocket traffic is application routed rather than merely “HTTP over a socket.” Layers WebSocket upgrade → trusted client identity/admission → realtime platform → application registry/version → application message routing. Specialized systems Mission ",
-		"searchText": "b\"h boruch hashem blessed is he tutorial: realtime runtime awtsmoos websocket traffic is application routed rather than merely “http over a socket.” layers websocket upgrade → trusted client identity/admission → realtime platform → application registry/version → application message routing. specialized systems mission rooms enforce ticket/current authority/protocol admission. tunnel relay manages account bound registrations, generations, replacement/fencing, acknowledgements, and request lifecycle. evidence use generated application/event indexes for discovery, then read the named application source. event strings alone do not prove payload schemas. read docs/websockets/readme.md, mission rooms.md, and tunnel relay.md.",
-		"page": "pages/docs-tutorials-systems-realtime-runtime-md-4c3f616442.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Tikkun HaNachash Path: geelooy/games/Nachash · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or heal",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: tikkun hanachash path: geelooy/games/nachash · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, main.js local documentation: no local documentation.md observed. local doc requirement: yes; covered: no symlink target: — file shape source tests assets generated docs other total 24 0 0 0 0 0 24 public entry points /games/nachash → geelooy/games/nachash/index.html — tikkun hanachash symbol evidence source files: 19; classes: 16; functions: 43; exports: 12; samples: bindboost, nachashkeyboardinput, editable, nachashpointerinput, nachashaudio, nachashpausestate, loadnachashpreferences, savenachashpreferences, recordnachashscore, read, safenumber, nachashresultreporter. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-nachash-85ff920d-df1bb0fc3e.json"
 	}
 ]

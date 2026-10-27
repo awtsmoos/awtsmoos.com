@@ -12,7 +12,9 @@
 	"title": "geelooy/api/ohr-hagnuz",
 	"entries": [
 		"_awtsmoos.derech.js",
-		"DOCUMENTATION.md"
+		"DOCUMENTATION.md",
+		"README.md",
+		"readme.md"
 	],
 	"humanDocumentation": [
 		"geelooy/api/ohr-hagnuz/DOCUMENTATION.md",
@@ -27,10 +29,10 @@
 		"tests": 1,
 		"assets": 0,
 		"generated": 0,
-		"docs": 1,
+		"docs": 4,
 		"other": 0
 	},
-	"totalFiles": 8,
+	"totalFiles": 11,
 	"symbolSummary": {
 		"files": 6,
 		"classes": 0,
@@ -67,7 +69,7 @@
 	],
 	"externalDependencies": [],
 	"publicEntries": [],
-	"requiresLocalDocumentation": false,
+	"requiresLocalDocumentation": true,
 	"documentationCovered": true,
 	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
 }

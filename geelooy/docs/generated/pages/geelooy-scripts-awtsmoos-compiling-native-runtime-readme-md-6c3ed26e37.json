@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-scripts-awtsmoos-compiling-native-runtime-readme-md-6c3ed26e37",
+	"title": "Awtsmoos Native Runtime — Single Source of Truth",
+	"sourcePath": "geelooy/scripts/awtsmoos/compiling/native/runtime/README.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Awtsmoos Native Runtime — Single Source of Truth",
+			"anchor": "awtsmoos-native-runtime-single-source-of-truth"
+		},
+		{
+			"level": 2,
+			"text": "Purpose",
+			"anchor": "purpose"
+		},
+		{
+			"level": 2,
+			"text": "Layout",
+			"anchor": "layout"
+		},
+		{
+			"level": 2,
+			"text": "Rules",
+			"anchor": "rules"
+		},
+		{
+			"level": 2,
+			"text": "Current compiler capability (2026-10-09)",
+			"anchor": "current-compiler-capability-2026-10-09"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-scripts-awtsmoos-compiling-native-runtime-readme-md-6c3ed26e37-001.json"
+	]
+}

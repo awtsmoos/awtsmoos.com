@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Platform API (geelooy/api/platform/)\n\nRead-only platform-level product metadata. Manifest responses are built only\nfrom verified server products — no account state, no mutation capability, and\nno browser-authored pricing or identity testimony.\n\n## Contents\n- `_awtsmoos.derech.js` — route: `/manifest` (GET parameters projected from query).\n- `productManifest.js` — builds the standards-shaped install metadata response.\n- `installableProductDirectory.js` — the shared directory of routes proven to\n  be installable products.\n- `productManifest.test.js` — node test for the manifest builder.\n"
+}

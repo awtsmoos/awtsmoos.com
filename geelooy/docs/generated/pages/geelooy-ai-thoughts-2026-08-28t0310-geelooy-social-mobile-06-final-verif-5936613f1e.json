@@ -1,0 +1,69 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-28t0310-geelooy-social-mobile-06-final-verif-5936613f1e",
+	"title": "Final Verification — Mobile-First Geelooy Social Hub",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0310-geelooy-social-mobile/06_FINAL_VERIFICATION.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Final Verification — Mobile-First Geelooy Social Hub",
+			"anchor": "final-verification-mobile-first-geelooy-social-hub"
+		},
+		{
+			"level": 2,
+			"text": "Scope actually completed",
+			"anchor": "scope-actually-completed"
+		},
+		{
+			"level": 2,
+			"text": "Planned vs actual",
+			"anchor": "planned-vs-actual"
+		},
+		{
+			"level": 3,
+			"text": "Planned",
+			"anchor": "planned"
+		},
+		{
+			"level": 3,
+			"text": "Actual",
+			"anchor": "actual"
+		},
+		{
+			"level": 2,
+			"text": "Defects discovered and repaired during verification",
+			"anchor": "defects-discovered-and-repaired-during-verification"
+		},
+		{
+			"level": 2,
+			"text": "Automated evidence",
+			"anchor": "automated-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Living Chrome evidence at 390px",
+			"anchor": "living-chrome-evidence-at-390px"
+		},
+		{
+			"level": 2,
+			"text": "Final source audit",
+			"anchor": "final-source-audit"
+		},
+		{
+			"level": 2,
+			"text": "Working-tree note",
+			"anchor": "working-tree-note"
+		},
+		{
+			"level": 2,
+			"text": "Completion decision",
+			"anchor": "completion-decision"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-28t0310-geelooy-social-mobile-06-final-verif-5936613f1e-001.json"
+	]
+}

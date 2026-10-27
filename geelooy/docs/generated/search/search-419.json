@@ -1,0 +1,158 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-09-16-2300-insane-seo-ui-ux-01-phase-one-chesed-c5ccf8ba62",
+		"title": "Phase One — Chesed: Unlimited SEO and UX Brainstorm",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-16-2300-insane-seo-ui-ux/01-phase-one-chesed-brainstorm.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase One — Chesed: Unlimited SEO and UX Brainstorm",
+				"anchor": "phase-one-chesed-unlimited-seo-and-ux-brainstorm"
+			},
+			{
+				"level": 2,
+				"text": "Search discovery possibilities",
+				"anchor": "search-discovery-possibilities"
+			},
+			{
+				"level": 2,
+				"text": "UX simplicity possibilities",
+				"anchor": "ux-simplicity-possibilities"
+			},
+			{
+				"level": 2,
+				"text": "Complexity underneath",
+				"anchor": "complexity-underneath"
+			},
+			{
+				"level": 2,
+				"text": "Five competing architectures",
+				"anchor": "five-competing-architectures"
+			},
+			{
+				"level": 3,
+				"text": "A — Per-page hand tuning",
+				"anchor": "a-per-page-hand-tuning"
+			},
+			{
+				"level": 3,
+				"text": "B — Central client-side SEO injector",
+				"anchor": "b-central-client-side-seo-injector"
+			},
+			{
+				"level": 3,
+				"text": "C — Central server/static route metadata registry",
+				"anchor": "c-central-server-static-route-metadata-registry"
+			},
+			{
+				"level": 3,
+				"text": "D — Template-owned metadata factories",
+				"anchor": "d-template-owned-metadata-factories"
+			},
+			{
+				"level": 3,
+				"text": "E — Hybrid registry plus template factories",
+				"anchor": "e-hybrid-registry-plus-template-factories"
+			},
+			{
+				"level": 2,
+				"text": "First-pass preference",
+				"anchor": "first-pass-preference"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase One — Chesed: Unlimited SEO and UX Brainstorm The Awtsmoos pours possibility like an endless living sea, Awtsmoos.com may hide immense machinery beneath a surface plain and free. This pass refuses premature restraint and maps the fullest field in sight, Then Gevurah will measure ev",
+		"searchText": "b\"h boruch hashem blessed is he phase one — chesed: unlimited seo and ux brainstorm the awtsmoos pours possibility like an endless living sea, awtsmoos.com may hide immense machinery beneath a surface plain and free. this pass refuses premature restraint and maps the fullest field in sight, then gevurah will measure every vessel so abundance becomes usable light. search discovery possibilities central metadata registry keyed by canonical route families. initial html titles, descriptions, canonicals, robots, open graph, twitter cards, and language metadata. valid route aware json ld builders: website, organization, webpage, collectionpage, itemlist, breadcrumblist, article, profilepage, softwareapplication, videogame, and discussion types only where visible content supports them. one canonical url normalizer stripping tracking noise while preserving meaningful identity. semantic breadcrumbs from route meaning rather than raw path segments. human discovery hubs linking apps, games, torah, heichelos, docs, and other public districts. sitemap coverage derived from a safe public route catalog rather than hand maintained drift. explicit noindex policy for auth, mutation, private workspace, ephemeral state, and internal tooling. deterministic social card fallbacks and real hreflang only where translations exist. one meaningful h1, html landmarks, descriptive anchors, crawlable summaries, useful 404 recovery, and real freshness metadata only where timestamps exist. image alt text, dimensions, lazy loading, and priority hints based on actual importance. canonical pagination, stable public content identities, crawler readable ssr, and crawl budget protection from parameter explosions. ux simplicity possibilities one obvious primary action per public surface. compact shared navigation with a few top level destinations. search as the universal discovery affordance, backed by rich route/content knowledge underneath. progressive disclosure for advanced controls. consistent content width, spacing, typography, focus states, and tap targets. reusable public page shell: skip link, header, breadcrumbs, main landmark, related links, footer. mobile first navigation with one simple disclosure instead of dense menus. less visual chrome and fewer competing cards above the fold. content first pages, explicit loading/empty/error states, keyboard first focus, reduced motion, predictable back/home paths, and simple cards with title/purpose/one action. complexity underneath seo domain layer: route classifier, metadata resolver, structured data resolver, canonical resolver, renderer. ui domain layer: route taxonomy, primary action model, navigation registry, related content resolver. semantic contracts independent of styling. raw response crawler checks before hydration. desktop/tablet/mobile browser matrix and performance budgets. accessibility contracts for landmarks, heading order, labels, focus, and touch targets. a public route manifest reused by sitemap, navigation, seo, docs, and tests. five competing architectures a — per page hand tuning maximum specificity; maximum drift. reserve for exceptional pages only. b — central client side seo injector easy retrofit; too weak as primary crawler strategy because metadata arrives after initial html. c — central server/static route metadata registry strong default: one source can serve head output, sitemap seeds, breadcrumbs, and tests. d — template owned metadata factories strong semantic locality: templates own dynamic facts while a shared renderer owns mechanics. e — hybrid registry plus template factories likely strongest: registry owns taxonomy/crawl policy; templates own dynamic content facts; shared renderers output metadata and structured data. first pass preference architecture e best matches \"simple surface, complexity underneath,\" but no commitment is valid until route and template archaeology proves the integration points.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-16-2300-insane-seo-ui-ux-01-phase-one-chesed-c5ccf8ba62.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-16-2300-insane-seo-ui-ux-02-work-graph-and-u-2bfa5de7ab",
+		"title": "Work Graph and Unknowns Map",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-16-2300-insane-seo-ui-ux/02-work-graph-and-unknowns.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Work Graph and Unknowns Map",
+				"anchor": "work-graph-and-unknowns-map"
+			},
+			{
+				"level": 2,
+				"text": "Work graph",
+				"anchor": "work-graph"
+			},
+			{
+				"level": 2,
+				"text": "Route-map branches",
+				"anchor": "route-map-branches"
+			},
+			{
+				"level": 2,
+				"text": "SEO-map branches",
+				"anchor": "seo-map-branches"
+			},
+			{
+				"level": 2,
+				"text": "UI-map branches",
+				"anchor": "ui-map-branches"
+			},
+			{
+				"level": 2,
+				"text": "Unknowns to discover automatically",
+				"anchor": "unknowns-to-discover-automatically"
+			},
+			{
+				"level": 2,
+				"text": "Assumptions — unproven until inspected",
+				"anchor": "assumptions-unproven-until-inspected"
+			},
+			{
+				"level": 2,
+				"text": "Blockers",
+				"anchor": "blockers"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Work Graph and Unknowns Map The Awtsmoos binds every cause to consequence in a hidden chain of light, Awtsmoos.com must map the edges before rewriting vessels in the night. A route without an owner is unknown; a claim without a test is mist, So hidden dependencies join the graph before t",
+		"searchText": "b\"h boruch hashem blessed is he work graph and unknowns map the awtsmoos binds every cause to consequence in a hidden chain of light, awtsmoos.com must map the edges before rewriting vessels in the night. a route without an owner is unknown; a claim without a test is mist, so hidden dependencies join the graph before the final files exist. work graph user goal → public route map → seo ownership map → ui ownership map → architecture decision → file rewrite plan → implementation → static verification → runtime html verification → browser ux verification → delta review → completion gate route map branches static html entries dynamic derech/router entries social and heichel ssr routes app catalog routes game catalog routes docs and torah routes auth/private/internal exclusions seo map branches initial output canonical output social preview metadata robots policy sitemap policy structured data semantic headings and internal links ui map branches global home shell public catalogs nested content templates mobile navigation shared visual tokens accessibility states unknowns to discover automatically what code serves geelooy/index.html in production? which public routes are static files versus server templates? is there already a head/seo helper that should be extended? which dynamic templates emit initial html for heichel/series/post content? which route families are intentionally indexable versus merely reachable? how does the current home expose apps, games, social content, torah, and docs? which modified shared styles are active user work and dangerous to rewrite? what do existing seo audits actually assert? what browser/runtime harness can inspect raw response html and mobile ui? which sitemap urls are stale, missing, or noncanonical today? assumptions — unproven until inspected geelooy/ is the primary public web root. existing public social ssr can be reused for richer metadata. a central route catalog can fit the custom server architecture. major ux simplification can be delivered through shared shells/tokens rather than flattening every feature. blockers none require the user. files, tests, routes, runtime, and browser inspection can resolve the material unknowns. next action trace route ownership, head/seo symbols, public entry files, existing audits, and active diffs.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-16-2300-insane-seo-ui-ux-02-work-graph-and-u-2bfa5de7ab.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-16-2300-insane-seo-ui-ux-03-phase-two-gevura-368d40bc0e",
+		"title": "Phase Two — Gevurah Critique: Twenty-Two Corrections",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-16-2300-insane-seo-ui-ux/03-phase-two-gevurah-critique.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Two — Gevurah Critique: Twenty-Two Corrections",
+				"anchor": "phase-two-gevurah-critique-twenty-two-corrections"
+			},
+			{
+				"level": 2,
+				"text": "Twenty-two improvements to the first plan",
+				"anchor": "twenty-two-improvements-to-the-first-plan"
+			},
+			{
+				"level": 2,
+				"text": "Architecture after critique",
+				"anchor": "architecture-after-critique"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Two — Gevurah Critique: Twenty Two Corrections The Awtsmoos gives measure to abundance so the vessel does not break, Awtsmoos.com must turn a million bright ideas into changes users safely take. The first brainstorm sought every horizon; this pass removes the tempting excess, So SE",
+		"searchText": "b\"h boruch hashem blessed is he phase two — gevurah critique: twenty two corrections the awtsmoos gives measure to abundance so the vessel does not break, awtsmoos.com must turn a million bright ideas into changes users safely take. the first brainstorm sought every horizon; this pass removes the tempting excess, so seo becomes truthful architecture and ux becomes clarity rather than dress. twenty two improvements to the first plan 1. do not create a second seo framework. extend the production wired publichtmlseo pipeline already serving exact generated metadata. 2. do not hand edit 100+ html entries. improve shared server transforms and generated truth sources so coverage scales with the catalog. 3. preserve the repo's deliberate generated rdfa contract; do not replace it with json ld merely for fashion. 4. detect authored json ld, microdata, and rdfa before adding generated primary structured data so authored truth remains sovereign. 5. keep generated schema factual: no fabricated ratings, prices, dates, authors, images, or freshness. 6. strengthen the schema graph with a typed website relationship rather than only a bare ispartof url. 7. add hierarchy only where it is certain. apps and games have stable parent hubs; arbitrary path segment breadcrumbs could invent meaning. 8. avoid forced global headers. full screen apps and games have specialist layouts that a generic header could damage. 9. improve missing keyboard escape routes instead: conditional skip to main enhancement is nearly invisible visually and high value ergonomically. 10. preserve every authored skip link. generated accessibility must fill gaps, never replace page specific wording or targets. 11. add missing viewport metadata centrally for complete html documents; mobile usability should not depend on each legacy page remembering it. 12. never assume a language globally. translation routes and mixed language torah content make a forced lang=en unsafe. 13. keep universal css low specificity and semantic. do not repaint classed specialist components. 14. add global focus visibility carefully so classed custom controls remain operable even when their local css forgot keyboard states. 15. add high contrast/forced color fallbacks rather than increasing decoration or visual noise. 16. preserve the modular css source tree. production compact=true already folds imports into one dependency aware response, so source modularity does not imply a request waterfall. 17. do not rewrite the actively modified home, apps, or games html unless a verified central mechanism cannot solve the issue. 18. keep unknown html pass through semantics in the seo transformer; private/internal pages must not accidentally become indexable because they are reachable. 19. add tests only after implementation, matching the repository's code first contract. 20. verify both raw transformed html and browser behavior; hydration success alone cannot prove crawlable head/body semantics. 21. re run generated metadata/sitemap coverage after code changes even if no generator source changes, because central semantics can expose assumptions the existing audit missed. 22. measure touched file size before finalizing; any file that crosses the project's modularity ceiling must split instead of compressing comments or functions. architecture after critique keep the existing production graph and add three narrow layers: seo evidence layer: robust authored structured data recognition plus a richer truthful site graph. html essentials layer: viewport and conditional skip navigation for every complete non raw document. universal usability layer: one small low specificity accessibility stylesheet imported by the existing compact universal bundle. no page by page rewrite is justified at this stage. next action map exact affected modules, inspect existing document transform helpers/tests, and produce a second file level plan before the third critique.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-16-2300-insane-seo-ui-ux-03-phase-two-gevura-368d40bc0e.json"
+	}
+]

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Unified Social Permissions (geelooy/api/social/helper/unifiedSocial/permissions/)\n\nActing-alias authorization for unified social: compiled capabilities, governance, roles, invitations, and route authorization — all fail-closed.\n\n## Files\n- `ActorAuthorization.js` — acting-alias authorization (adapts native `verifyAliasOwnership`).\n- `PermissionCompiler.js`, `CapabilityCatalog.js`, `PolicyResolver.js` — compile effective roles into capabilities.\n- `RouteAuthorization.js` — per-route authorization.\n- `RoleIndexes.js`, `RoleMutationSchema.js`, `RoleMutationService.js` — role storage and hierarchy-safe mutations.\n- `RoleInvitationService.js`, `RoleInvitationStore.js` — seven-day invitations with explicit consent.\n- `LegacyRoleReader.js` — dual-reads legacy editors/moderators/contributors/followers.\n- `MemberGovernanceHandlers.js`, `GovernanceAudit.js`, `GovernanceNotifications.js` — member governance, audit records, notifications.\n"
+}

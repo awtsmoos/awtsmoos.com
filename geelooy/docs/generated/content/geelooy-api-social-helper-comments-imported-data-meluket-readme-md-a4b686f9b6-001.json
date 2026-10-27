@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Meluket Imported Posts (geelooy/api/social/helper/comments/imported/data/meluket/)\n\nThe Meluket imported corpus data.\n\n- `manifest.json` — index of the corpus.\n- `posts/` — 218 JSON files, one per imported post (hash-named).\n\nConsumed by `../adapters/corpusAdapter.js`, `../postResolver.js`, and `../meluketMap.js` to serve imported comment trees through the normal comment routes.\n"
+}

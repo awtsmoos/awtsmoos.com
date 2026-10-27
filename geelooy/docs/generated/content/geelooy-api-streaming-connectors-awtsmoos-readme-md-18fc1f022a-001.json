@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Awtsmoos Streaming Connector (geelooy/api/streaming/connectors/awtsmoos/)\n\nOptional hosted relay/record/multicast path where video bytes intentionally\npass through Awtsmoos, instead of going direct-to-platform from the browser.\n\nSingle module: `index.js`. Activated via `/api/streaming/awtsmoos/:action`\nthrough the connector dispatch in `../core/router.js`.\n"
+}

@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 700 | 89 | 0 | 0 | 1 | 3 | 793 |
+| 715 | 94 | 0 | 2 | 1 | 4 | 816 |
 
 ## Public entry points
 
@@ -29,7 +29,7 @@ Blessed is He
 
 ## Symbol evidence
 
-Source files: 671; classes: 189; functions: 195; exports: 1124; samples: CollisionMatrix, validates, EncounterValidator, InteractionValidator, OverworldLogic, PortalValidator, WorldMapAssembler, takes, EncounterGenerator, MovementLogic, PathLogic, DivineWill.
+Source files: 685; classes: 198; functions: 203; exports: 1144; samples: CollisionMatrix, validates, EncounterValidator, InteractionValidator, OverworldLogic, PortalValidator, WorldMapAssembler, takes, EncounterGenerator, MovementLogic, PathLogic, DivineWill.
 
 ## Depends on
 
@@ -45,4 +45,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **89**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **94**. Treat this as file evidence, not proof of behavioral coverage.

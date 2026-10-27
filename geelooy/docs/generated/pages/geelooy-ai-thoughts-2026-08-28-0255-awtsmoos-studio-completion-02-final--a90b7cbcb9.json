@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-28-0255-awtsmoos-studio-completion-02-final--a90b7cbcb9",
+	"title": "Final File Plan",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-28-0255-awtsmoos-studio-completion/02_FINAL_FILE_PLAN.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Final File Plan",
+			"anchor": "final-file-plan"
+		},
+		{
+			"level": 2,
+			"text": "Files to Re-read Before Any Rewrite",
+			"anchor": "files-to-re-read-before-any-rewrite"
+		},
+		{
+			"level": 2,
+			"text": "Planned New Small Modules",
+			"anchor": "planned-new-small-modules"
+		},
+		{
+			"level": 2,
+			"text": "Planned Full Rewrites Only Where Necessary",
+			"anchor": "planned-full-rewrites-only-where-necessary"
+		},
+		{
+			"level": 2,
+			"text": "Verification",
+			"anchor": "verification"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-28-0255-awtsmoos-studio-completion-02-final--a90b7cbcb9-001.json"
+	]
+}

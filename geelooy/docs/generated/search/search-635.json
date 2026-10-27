@@ -1,0 +1,212 @@
+[
+	{
+		"id": "scripts-documentation-md-952eed8356",
+		"title": "Repository Scripts",
+		"sourcePath": "scripts/DOCUMENTATION.md",
+		"category": "Operations",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Repository Scripts",
+				"anchor": "repository-scripts"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Repository Scripts The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Repository automation/maintenance root. This is distinct from browser side geelooy/scripts/. Start here Read docs/OPERATIONS A",
+		"searchText": "b\"h boruch hashem blessed is he repository scripts the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role repository automation/maintenance root. this is distinct from browser side geelooy/scripts/. start here read docs/operations and tooling.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes the documentation generator lives under scripts/docs/; do not run mutation/release scripts without inspecting their side effects and environment assumptions.",
+		"page": "pages/scripts-documentation-md-952eed8356.json"
+	},
+	{
+		"id": "scripts-ikar-hebrew-index-super-packed-spec-md-392d43be63",
+		"title": "Ikar Hebrew Super-Packed Index v1",
+		"sourcePath": "scripts/ikar_hebrew_index/super_packed_spec.md",
+		"category": "Operations",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Ikar Hebrew Super-Packed Index v1",
+				"anchor": "ikar-hebrew-super-packed-index-v1"
+			},
+			{
+				"level": 2,
+				"text": "Problem with the old temp shards",
+				"anchor": "problem-with-the-old-temp-shards"
+			},
+			{
+				"level": 2,
+				"text": "New shape",
+				"anchor": "new-shape"
+			},
+			{
+				"level": 2,
+				"text": "Dictionaries",
+				"anchor": "dictionaries"
+			},
+			{
+				"level": 2,
+				"text": "Segment rows",
+				"anchor": "segment-rows"
+			},
+			{
+				"level": 2,
+				"text": "Postings",
+				"anchor": "postings"
+			},
+			{
+				"level": 2,
+				"text": "Retrieval",
+				"anchor": "retrieval"
+			},
+			{
+				"level": 2,
+				"text": "Why this is smaller",
+				"anchor": "why-this-is-smaller"
+			}
+		],
+		"excerpt": "B\"H Ikar Hebrew Super Packed Index v1 This is a new experimental format. It does not replace the existing builder. Problem with the old temp shards Old token shards repeated objects like: That repeats post/title/path/preview thousands or millions of times. New shape Output directory: Files: Dictionaries Strings are sto",
+		"searchText": "b\"h ikar hebrew super packed index v1 this is a new experimental format. it does not replace the existing builder. problem with the old temp shards old token shards repeated objects like: that repeats post/title/path/preview thousands or millions of times. new shape output directory: files: dictionaries strings are stored once: series.dict.json: index seriesid posts.dict.json: index postid paths.dict.json: index segmentpath tokens.dict.json: index token segment rows segments.rows.bin is a varint stream of fixed width rows: no hebrew text. no token arrays. no previews. postings postings.index.json maps tokenindex to byte offset/length/count inside postings.bin. each posting list is sorted segment ids encoded as delta varints. example concept: retrieval 1. find token in tokens.dict.json. 2. read byte slice from postings.bin using postings.index.json. 3. delta decode segment ids. 4. look up segment rows. 5. resolve series/post/path via dictionaries. 6. fetch actual post content from source db only when displaying result. why this is smaller it stores references, not content. actual hebrew content remains in the original post db/files. the index only knows where a match lives.",
+		"page": "pages/scripts-ikar-hebrew-index-super-packed-spec-md-392d43be63.json"
+	},
+	{
+		"id": "scripts-readme-md-25b96aa16f",
+		"title": "Scripts — Deploy & Import Clients (Agent Handoff)",
+		"sourcePath": "scripts/README.md",
+		"category": "Operations",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Scripts — Deploy & Import Clients (Agent Handoff)",
+				"anchor": "scripts-deploy-import-clients-agent-handoff"
+			},
+			{
+				"level": 2,
+				"text": "1. Deploy — vmDeploySigned.mjs",
+				"anchor": "1-deploy-vmdeploysigned-mjs"
+			},
+			{
+				"level": 1,
+				"text": "Health / config (unauthenticated):",
+				"anchor": "health-config-unauthenticated"
+			},
+			{
+				"level": 1,
+				"text": "Single file:",
+				"anchor": "single-file"
+			},
+			{
+				"level": 1,
+				"text": "Multiple files:",
+				"anchor": "multiple-files"
+			},
+			{
+				"level": 1,
+				"text": "Everything git shows as changed:",
+				"anchor": "everything-git-shows-as-changed"
+			},
+			{
+				"level": 1,
+				"text": ">50 files: split into ≤50-file chunks:",
+				"anchor": "50-files-split-into-50-file-chunks"
+			},
+			{
+				"level": 1,
+				"text": "Signed service restart (needed after server-side Node changes):",
+				"anchor": "signed-service-restart-needed-after-server-side-node-changes"
+			},
+			{
+				"level": 2,
+				"text": "2. Import — vmImportStaged.mjs",
+				"anchor": "2-import-vmimportstaged-mjs"
+			},
+			{
+				"level": 1,
+				"text": "Full run: stage → chunked upload → import job → poll → byte-exact verify",
+				"anchor": "full-run-stage-chunked-upload-import-job-poll-byte-exact-verify"
+			},
+			{
+				"level": 1,
+				"text": "Resume / verify-only / dry-run",
+				"anchor": "resume-verify-only-dry-run"
+			},
+			{
+				"level": 2,
+				"text": "3. Production shell — hetznerTunnel.mjs",
+				"anchor": "3-production-shell-hetznertunnel-mjs"
+			},
+			{
+				"level": 2,
+				"text": "4. Verify tooling (/workspace/bulk-import-fix/, outside the repo)",
+				"anchor": "4-verify-tooling-workspace-bulk-import-fix-outside-the-repo"
+			},
+			{
+				"level": 2,
+				"text": "5. Common errors",
+				"anchor": "5-common-errors"
+			}
+		],
+		"excerpt": "B\"H Scripts — Deploy & Import Clients (Agent Handoff) VM side tooling for the two things agents do most: deploy code and import content . No Mac, no SSH, no GitHub credentials needed — everything goes over Ed25519 signed HTTPS. Stale doc warning: VM DEPLOY API.md describes the OLD shared secret scheme (vmDeploy.mjs, AW",
+		"searchText": "b\"h scripts — deploy & import clients (agent handoff) vm side tooling for the two things agents do most: deploy code and import content . no mac, no ssh, no github credentials needed — everything goes over ed25519 signed https. stale doc warning: vm deploy api.md describes the old shared secret scheme (vmdeploy.mjs, awtsmoos deploy key). that path is gone — the code now uses vmdeploysigned.mjs + ed25519 only. its \"what needs a restart\" section is still accurate. 1. deploy — vmdeploysigned.mjs pushes repo files straight to production over signed https. signing: private key /.awtsmoos/secure/deploy signing key (ed25519, chmod 600; override awtsmoos signing key file). public key baked into geelooy/api/social/helper/routes/packed/deploysign.js. signature covers canonical {v:1, ts, message, files}; ±300s freshness; replay protected. endpoint default https://awtsmoos.com/api/social (override awtsmoos deploy api). deployable roots (geelooy/api/social/helper/routes/packed/deployroutes.js): geelooy/, scripts/, ops/, index.js, index.html. ayzarim/ is not deployable via this route (\"path not in deployable roots\"). blocked segments anywhere in a path: .git, node modules, .awtsmoos, .ssh, .env . caps: 5mb/file, 50 files per push (client does not chunk — you must). do you need restart? html/css/client js/templates are picked up on the next request — no restart . server side node (geelooy/api/..., including the deploy routes themselves) requires a restart. during restart nginx returns 502 — expected; poll status until the api answers. never restart during a bulk import finalize (the deploy route refuses with import in progress; the client auto retries 8× with backoff on 502/503/504 and on import in progress). per file results: if some files succeed the response is success:true with an errors[] list; all failed only when zero wrote. audit trail: /socialpacked/deploy api.log on production. typical route change flow: 2. import — vmimportstaged.mjs the standard bulk import client. full docs in geelooy/api/social/helper/routes/packed/readme.md §3. ⚠️ heichel must equal the heichelid inside your post jsons or verification fails with packed hash mismatch (see packed readme §7). signing key: /.awtsmoos/secure/import signing key (awtsmoos import key file). 3. production shell — hetznertunnel.mjs run commands and read logs on the production box over signed https (uses the import signing key, not the deploy key). exec returns stdout/stderr/exitcode/timedout/durationms and exits with the command's exit code. 4. verify tooling ( /workspace/bulk import fix/, outside the repo) script purpose vmverifysigned.mjs poll signed /packed/import/posts/verify + poll vmverifyfull.mjs byte exact: normalizepost/contenthash vs live bodies (adapt src per corpus) vmdryrunverify.mjs dry run import: re hashes live, reports skipped vs wrote polljob.mjs poll an import job to terminal state retrystart.mjs [heichelid] re issue posts/start for an already staged upload ( pass heichelid explicitly — default is ikar) vmbacklinkssigned.mjs run ensure backlinks for an upload 5. common errors error fix signing key not found restore the key at /.awtsmoos/secure/ (chmod 600) or set the key file env var stale timestamp / forbidden vm clock skew — sync ntp (±300s window) bad signature keypair mismatch — verify against the baked in public key replayed signature fresh request, new ts path not in deployable roots only geelooy/, scripts/, ops/, index.js, index.html are deployable too many files split into ≤50 file pushes file exceeds ... bytes 5mb/file cap import in progress bulk import finalize holds the lock — wait; client auto retries 502/503/504 restarting or nginx blip — client retries; poll status restart failed diagnose via hetznertunnel.mjs exec \"systemctl user status awtsmoos\" deployed but server change not live server side node needs restart after the push",
+		"page": "pages/scripts-readme-md-25b96aa16f.json"
+	},
+	{
+		"id": "scripts-tunnel-connectionstabilityguide-md-6a2b6ed414",
+		"title": "Awtsmoos connection stability and shared plugin instructions",
+		"sourcePath": "scripts/tunnel/connectionStabilityGuide.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos connection stability and shared plugin instructions",
+				"anchor": "awtsmoos-connection-stability-and-shared-plugin-instructions"
+			}
+		],
+		"excerpt": "Awtsmoos connection stability and shared plugin instructions The connection parent records bounded transitions in durable connection flight.json. tunnelConnectionDiagnostics reports retained transitions, registration duration, reconnect pressure and recorded outages. Logs omit request bodies and credentials. Wake/sched",
+		"searchText": "awtsmoos connection stability and shared plugin instructions the connection parent records bounded transitions in durable connection flight.json. tunnelconnectiondiagnostics reports retained transitions, registration duration, reconnect pressure and recorded outages. logs omit request bodies and credentials. wake/scheduler gaps are observations, not automatic restart orders. bootstrap has a 45 second default deadline. once an open transport is observed, registration receives a separate 30 second bound, within a finite startup window. a delayed parent scheduler receives only one five second grace. exact child and timer generations fence old callbacks. brief registration does not reset reconnect pressure. one minute of sustained registration resets it. child restart delay is jittered and capped; the existing one timer websocket reconnect policy remains authoritative. shared recovery lease actors defer to a verified living installer owner using root, pid and process start signature. service repair is bounded to 15 seconds and 128 kib output; existing os supervisor ownership and emergency fallback are preserved. candidate install readiness defaults to eight samples and at least 15 seconds, retaining local action, registration, identity and version checks. overrides exist for controlled test fixtures. this is not an overnight endurance proof. all four plugin skills are exact instruction bodies under shliach.skill.instructions, shliach.skill.tunnel workflow, shliach.skill.novel voice and shliach.skill.poetic code. instructioncatalog names resource discovery. instructionresourcecatalog paginates all skill resources; instructionresourceget requires an exact cataloged path and supports expectedhash, offset and maxchars. continue until nextoffset is null. offsets are utf 16 code units, not bytes. legacy originals remain archival and never override modern transport contracts. plugin source is preserved under plugins/awtsmoos shliach. released native skill mirrors live under agent/lib/instructions/pluginskills. their index contains sha256 for every resource; tests compare exact skill bodies and reconstruct paginated originals. update both sources together and regenerate the resource index. tunnelworkfailure records an explicit failed attempt under optimistic revision. default retry budget is three; exhaustion blocks the work record and names inspection as the next action. it never retries a command automatically. preserve job/receipt ids and observe uncertain mutation outcomes before any resend. existing reserved scheduler lanes, bounded worker/browser queues, durable command/transfer identities, stale child fences and frontend release evidence are retained. local, server, authenticated client and rendered frontend checks are separate evidence boundaries. before releasing changed plugin skills, run node scripts/tunnel/syncplugininstructionmirror.cjs write, review the generated source, and build a new native release. this regenerates discovery for every skill, including newly added ones. production activation checks mirror consistency and refuses divergence.",
+		"page": "pages/scripts-tunnel-connectionstabilityguide-md-6a2b6ed414.json"
+	},
+	{
+		"id": "scripts-tunnel-evidence-20261005-15minute-live-soak-md-c38d88159d",
+		"title": "Awtsmoos live stability witness",
+		"sourcePath": "scripts/tunnel/evidence/20261005/15minute-live-soak.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos live stability witness",
+				"anchor": "awtsmoos-live-stability-witness"
+			},
+			{
+				"level": 2,
+				"text": "Deployed release witness",
+				"anchor": "deployed-release-witness"
+			}
+		],
+		"excerpt": "Awtsmoos live stability witness Baseline runtime 1.0.642 ran for 15.49 minutes beginning 2026 10 05T20:07:22.013Z. 6144 real HTTP requests completed with 0 HTTP failures. One instruction round explicitly returned local only instructions during a real server websocket close (1012) at 20:12:52 UTC; reconnect recovered wi",
+		"searchText": "awtsmoos live stability witness baseline runtime 1.0.642 ran for 15.49 minutes beginning 2026 10 05t20:07:22.013z. 6144 real http requests completed with 0 http failures. one instruction round explicitly returned local only instructions during a real server websocket close (1012) at 20:12:52 utc; reconnect recovered without manual intervention. this is recorded as a failed server availability assertion, not hidden as success. action requests p50 ms p95 ms : : : /healthz 4276 4 21 instructionresolve 215 139 509 write 636 638 1005 filetransfercreate 15 308 1742 commandstart 59 57 375 read 636 12 34 commandstatus 128 10 36 filetransferwritechunk 75 139 419 commandjoboutputpage 45 8 20 filetransfercommit 30 132 365 filetransferreadchunk 15 94 398 commandcancel 14 163 429 59 owned command jobs completed, including 14 cancellations. 15 1 mib transfers passed whole file sha 256, out of order chunks, duplicate chunks, commit replay, and download hash verification. 636 text mutations matched exact readback. a separate live negative test rejected transfer chunk hash mismatch, accepted the corrected chunk, and committed the expected hash. its first fixture attempt used a too small chunk size and was rejected before transfer creation; the corrected valid fixture then passed. 62 focused regression tests passed across api schemas/errors/authentication, readiness, bounded read only retry, durable mutation timing, connection fencing/replay, transfer recovery, cancellation truth, and scheduler fairness. two older test expectations were updated to match current generation deduplication and registration dial backoff behavior, retaining independent action acceptance proof. scope: actual mac localhost actions and authenticated device to server instruction bridge. chatgpt user oauth mcp to server to mac execution was not invoked by this session. a fifteen minute soak cannot establish indefinite reliability or a memory leak free overnight run. latency percentiles use at most the first 4,000 samples per group; /healthz had 4,276 requests. counts include every request, not double counted operation rounds. mean text write latency was 697 ms; durability has not been stripped to produce a speed claim. the new readiness response also passed a real http handler test against the living 1.0.642 connection receipt before installation. deployed release witness canonical server deployment completed at source cd1c26efd. the official transactional installer verified and promoted runtime 1.0.643, preserved tunnel identity tun rc99m5wz75o789hz0pisay5p, and confirmed launchd supervision plus independent recovery lanes. a registered receipt names both live parent and connection processes. the installed /readyz returned http 200 with relayready:true and runtimeversion:1.0.643. a four action schema batch succeeded. twelve actual command jobs, in three batches of four, returned exact independent stdout in 328–436 ms. eight concurrent instructionresolve calls all returned serveravailable:true. a timed durable write passed exact readback: prepare 282 ms, execute 39 ms, provenance 488 ms, total 809 ms. this supports investigating provenance overhead, not removing durability blindly. a real public mcp initialize request without credentials returned http 401. this proves the authentication boundary responds; it is not an authenticated chatgpt action invocation. the production journal search after deployment found no matching undefined payload parse witness or invalid http status code errors. the 15 minute soak was against baseline 1.0.642; the new 1.0.643 received the separate post installation checks described above, not a second 15 minute soak. the read only retry is regression tested, but the interrupted baseline lookup happened before that retry was installed.",
+		"page": "pages/scripts-tunnel-evidence-20261005-15minute-live-soak-md-c38d88159d.json"
+	}
+]

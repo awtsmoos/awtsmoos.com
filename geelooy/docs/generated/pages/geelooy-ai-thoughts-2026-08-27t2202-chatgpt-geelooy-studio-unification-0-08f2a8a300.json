@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-27t2202-chatgpt-geelooy-studio-unification-0-08f2a8a300",
+	"title": "Phase One — Theoretical File and Dependency Graph",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-27T2202-chatgpt-geelooy-studio-unification/02_PHASE_ONE_THEORETICAL_FILE_GRAPH.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase One — Theoretical File and Dependency Graph",
+			"anchor": "phase-one-theoretical-file-and-dependency-graph"
+		},
+		{
+			"level": 2,
+			"text": "Shared movie core — preferred new namespace",
+			"anchor": "shared-movie-core-preferred-new-namespace"
+		},
+		{
+			"level": 2,
+			"text": "Existing procedural systems to depend on, not duplicate",
+			"anchor": "existing-procedural-systems-to-depend-on-not-duplicate"
+		},
+		{
+			"level": 2,
+			"text": "Shared Awtsmoos UI — theoretical new library",
+			"anchor": "shared-awtsmoos-ui-theoretical-new-library"
+		},
+		{
+			"level": 2,
+			"text": "Flagship app — entirely new if still absent at source-write time",
+			"anchor": "flagship-app-entirely-new-if-still-absent-at-source-write-time"
+		},
+		{
+			"level": 2,
+			"text": "Three-minute proof structure",
+			"anchor": "three-minute-proof-structure"
+		},
+		{
+			"level": 2,
+			"text": "Thin existing-app integrations — only if current live code lacks them",
+			"anchor": "thin-existing-app-integrations-only-if-current-live-code-lacks-them"
+		},
+		{
+			"level": 2,
+			"text": "Dependency graph",
+			"anchor": "dependency-graph"
+		},
+		{
+			"level": 2,
+			"text": "Collision policy",
+			"anchor": "collision-policy"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-27t2202-chatgpt-geelooy-studio-unification-0-08f2a8a300-001.json"
+	]
+}

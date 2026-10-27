@@ -12,7 +12,9 @@
 	"title": "geelooy/api/email",
 	"entries": [
 		"_awtsmoos.derech.js",
-		"DOCUMENTATION.md"
+		"DOCUMENTATION.md",
+		"README.md",
+		"readme.md"
 	],
 	"humanDocumentation": [
 		"geelooy/api/email/DOCUMENTATION.md",
@@ -23,23 +25,27 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-email-25d83d80.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 1,
+		"source": 3,
 		"tests": 0,
 		"assets": 0,
 		"generated": 0,
-		"docs": 1,
+		"docs": 2,
 		"other": 0
 	},
-	"totalFiles": 2,
+	"totalFiles": 5,
 	"symbolSummary": {
-		"files": 1,
-		"classes": 0,
+		"files": 3,
+		"classes": 1,
 		"functions": 3,
-		"exports": 0,
+		"exports": 5,
 		"samples": [
-			"getUserId",
-			"withoutMailPrefix",
-			"status"
+			"MailApiGateway",
+			"revealEmailAliases",
+			"buildCapabilityManifest",
+			"yesodCapabilities",
+			"buildSettingsSchema",
+			"malchusFields",
+			"tiferesSections"
 		]
 	},
 	"outgoingDependencies": [

@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-cobyk-docs-original-lineage-md-7123510f7c",
+	"title": "CobyK Original Lineage",
+	"sourcePath": "geelooy/games/cobyk/docs/original-lineage.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "CobyK Original Lineage",
+			"anchor": "cobyk-original-lineage"
+		},
+		{
+			"level": 2,
+			"text": "Preserved source",
+			"anchor": "preserved-source"
+		},
+		{
+			"level": 2,
+			"text": "Original gameplay identity",
+			"anchor": "original-gameplay-identity"
+		},
+		{
+			"level": 2,
+			"text": "Original texture identity",
+			"anchor": "original-texture-identity"
+		},
+		{
+			"level": 2,
+			"text": "What is modernized",
+			"anchor": "what-is-modernized"
+		},
+		{
+			"level": 2,
+			"text": "Separate descendant",
+			"anchor": "separate-descendant"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-cobyk-docs-original-lineage-md-7123510f7c-001.json"
+	]
+}

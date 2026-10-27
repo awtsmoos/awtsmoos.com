@@ -1,0 +1,74 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-01-0310-native-chitas-reader-05-post-write-d-f99afccb99",
+	"title": "Post-Write Delta and Second Pass",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-01-0310-native-chitas-reader/05-post-write-delta-and-second-pass.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Post-Write Delta and Second Pass",
+			"anchor": "post-write-delta-and-second-pass"
+		},
+		{
+			"level": 2,
+			"text": "Original plan remembered",
+			"anchor": "original-plan-remembered"
+		},
+		{
+			"level": 2,
+			"text": "What the first implementation actually wrote",
+			"anchor": "what-the-first-implementation-actually-wrote"
+		},
+		{
+			"level": 2,
+			"text": "Readback discoveries",
+			"anchor": "readback-discoveries"
+		},
+		{
+			"level": 3,
+			"text": "Delta 1 — stale module-generation URLs",
+			"anchor": "delta-1-stale-module-generation-urls"
+		},
+		{
+			"level": 3,
+			"text": "Delta 2 — suspected reader navigation bug disproved",
+			"anchor": "delta-2-suspected-reader-navigation-bug-disproved"
+		},
+		{
+			"level": 3,
+			"text": "Delta 3 — global cache-bust churn disproved",
+			"anchor": "delta-3-global-cache-bust-churn-disproved"
+		},
+		{
+			"level": 3,
+			"text": "Delta 4 — synthetic comments verified",
+			"anchor": "delta-4-synthetic-comments-verified"
+		},
+		{
+			"level": 3,
+			"text": "Delta 5 — English Torah translation remains unavailable",
+			"anchor": "delta-5-english-torah-translation-remains-unavailable"
+		},
+		{
+			"level": 2,
+			"text": "Second-pass files to rewrite completely",
+			"anchor": "second-pass-files-to-rewrite-completely"
+		},
+		{
+			"level": 2,
+			"text": "What will not be rewritten",
+			"anchor": "what-will-not-be-rewritten"
+		},
+		{
+			"level": 2,
+			"text": "Verification after second pass",
+			"anchor": "verification-after-second-pass"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-01-0310-native-chitas-reader-05-post-write-d-f99afccb99-001.json"
+	]
+}

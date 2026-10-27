@@ -23,20 +23,23 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-scribe-journey-e49e326e.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 375,
-		"tests": 99,
+		"source": 384,
+		"tests": 486,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
 		"other": 1
 	},
-	"totalFiles": 476,
+	"totalFiles": 872,
 	"symbolSummary": {
-		"files": 362,
+		"files": 370,
 		"classes": 12,
-		"functions": 551,
-		"exports": 536,
+		"functions": 558,
+		"exports": 543,
 		"samples": [
+			"awakenScribeJourney",
+			"revealAwakeningFailure",
+			"escapeChronicleText",
 			"amalekBeasts",
 			"binahBeasts",
 			"campaignBeasts",
@@ -45,10 +48,7 @@
 			"createCampaignMusag",
 			"createCampaignRoster",
 			"campaignHodNetzachBeasts",
-			"campaignMalkuthFinaleBeasts",
-			"campaignMalkuthYesodBeasts",
-			"campaignPostgameBeasts",
-			"campaignTiferetGevurahBeasts"
+			"campaignMalkuthFinaleBeasts"
 		]
 	},
 	"outgoingDependencies": [],
@@ -59,8 +59,8 @@
 			"url": "/games/scribe-journey",
 			"file": "geelooy/games/scribe-journey/index.html",
 			"title": "The Scribe's Journey: Echoes of Ein Sof",
-			"scripts": 1,
-			"styles": 2
+			"scripts": 5,
+			"styles": 6
 		}
 	],
 	"requiresLocalDocumentation": true,

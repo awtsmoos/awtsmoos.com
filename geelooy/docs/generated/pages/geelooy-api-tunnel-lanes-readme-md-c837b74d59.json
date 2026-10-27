@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-tunnel-lanes-readme-md-c837b74d59",
+	"title": "B\"H — Simple Tunnel Lanes (Yaakov 2026-10-15)",
+	"sourcePath": "geelooy/api/tunnel/lanes/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Simple Tunnel Lanes (Yaakov 2026-10-15)",
+			"anchor": "b-h-simple-tunnel-lanes-yaakov-2026-10-15"
+		},
+		{
+			"level": 2,
+			"text": "Lanes",
+			"anchor": "lanes"
+		},
+		{
+			"level": 3,
+			"text": "1. Poll (agent-poll.js)",
+			"anchor": "1-poll-agent-poll-js"
+		},
+		{
+			"level": 3,
+			"text": "2. Approval (agent-approval.js)",
+			"anchor": "2-approval-agent-approval-js"
+		},
+		{
+			"level": 3,
+			"text": "3. WebSocket (agent-websocket.js)",
+			"anchor": "3-websocket-agent-websocket-js"
+		},
+		{
+			"level": 3,
+			"text": "4. File (agent-file.js)",
+			"anchor": "4-file-agent-file-js"
+		},
+		{
+			"level": 3,
+			"text": "5. Resilient (agent-resilient.js)",
+			"anchor": "5-resilient-agent-resilient-js"
+		},
+		{
+			"level": 2,
+			"text": "Tools",
+			"anchor": "tools"
+		},
+		{
+			"level": 2,
+			"text": "Tunnel Selection",
+			"anchor": "tunnel-selection"
+		},
+		{
+			"level": 2,
+			"text": "Documentation",
+			"anchor": "documentation"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-tunnel-lanes-readme-md-c837b74d59-001.json"
+	]
+}

@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-31t0006-social-hub-simple-retractable-05-fin-bcbcb8e32d",
+	"title": "Final Release Verification",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-31T0006-social-hub-simple-retractable/05_FINAL_RELEASE_VERIFICATION.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Final Release Verification",
+			"anchor": "final-release-verification"
+		},
+		{
+			"level": 2,
+			"text": "Final covenant",
+			"anchor": "final-covenant"
+		},
+		{
+			"level": 2,
+			"text": "Source hygiene",
+			"anchor": "source-hygiene"
+		},
+		{
+			"level": 2,
+			"text": "Release state",
+			"anchor": "release-state"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-31t0006-social-hub-simple-retractable-05-fin-bcbcb8e32d-001.json"
+	]
+}

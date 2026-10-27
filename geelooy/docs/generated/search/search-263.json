@@ -1,136 +1,143 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-directory-guide-md-8e008f33f8",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-plans-awtsmoos-cloud-task-ledger-md-eb82c0f6e1",
+		"title": "Durable Task Ledger",
+		"sourcePath": "docs/PLANS/AWTSMOOS_CLOUD/TASK_LEDGER.md",
+		"category": "General",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src",
-				"anchor": "directory-guide-experiments-awtsmoos-src"
+				"text": "Durable Task Ledger",
+				"anchor": "durable-task-ledger"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Phase 00 — load truth and directory AI creation",
+				"anchor": "phase-00-load-truth-and-directory-ai-creation"
+			},
+			{
+				"level": 3,
+				"text": "Built-in Geelooy Browser",
+				"anchor": "built-in-geelooy-browser"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Phase 01 — immutable hosting deployments",
+				"anchor": "phase-01-immutable-hosting-deployments"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Phase 02 — one-prompt website/application publishing",
+				"anchor": "phase-02-one-prompt-website-application-publishing"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
+				"text": "Phase 03 — cloud primitives",
+				"anchor": "phase-03-cloud-primitives"
 			},
 			{
 				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
+				"text": "Phase 04 — Geelooy OS and Tunnel control plane",
+				"anchor": "phase-04-geelooy-os-and-tunnel-control-plane"
 			},
 			{
 				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
+				"text": "Phase 05 — commerce, security, observability, scale",
+				"anchor": "phase-05-commerce-security-observability-scale"
 			},
 			{
 				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Phase 06 — validation and release",
+				"anchor": "phase-06-validation-and-release"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src Role: Experiments Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 1 files, 19 structural child directories Purpose Subsystem root for the modular game runtime. The Awtsmoos renews every path and every artifa",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src role: experiments snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 1 files, 19 structural child directories purpose subsystem root for the modular game runtime. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: experiments search terms: awtsmoos, experiments, guide, src file mix: .md: 1 good first question: “does the behavior or asset i need belong to experiments, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files no immediate files. this directory is an organizational parent; follow the child guides below. directory map parent: experiments/awtsmoos children: experiments/awtsmoos/src/app experiments/awtsmoos/src/assets experiments/awtsmoos/src/bundles experiments/awtsmoos/src/camera experiments/awtsmoos/src/collision experiments/awtsmoos/src/diagnostics experiments/awtsmoos/src/gameplay experiments/awtsmoos/src/input experiments/awtsmoos/src/launcher experiments/awtsmoos/src/lod experiments/awtsmoos/src/math experiments/awtsmoos/src/motion experiments/awtsmoos/src/movie experiments/awtsmoos/src/network experiments/awtsmoos/src/performance experiments/awtsmoos/src/render experiments/awtsmoos/src/test experiments/awtsmoos/src/ui experiments/awtsmoos/src/world related and overlapping systems meadow and fallback runtimes — the former basic and emergency meadow systems were consolidated into the live app stack. the app runtime and launcher now form the single meadow ownership path. rendering stacks — the project contains a lightweight scene/gltf library, the canonical app level progressive renderer, and focused render helpers. emergency fallback visuals were absorbed into the app renderer. terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. procedural world and village generation — village, road, house, primitive, text driven, and public api systems collaborate but are maintained in separate directories. vegetation, trees, and forest systems — botany rules, tree generation, forest composition, grass, and source texture libraries overlap semantically but own different layers. combat domain, action bars, targeting, and hud — domain rules live under gameplay while browser widgets and target presentation live under ui and styles. colocated and integration test surfaces — most subsystem tests live under src/test, while a smaller external tests tree exercises broader integration contracts. movie runtime, projects, tools, and evidence — runtime movie logic is separated from authored projects, exact generation tools, and captured evidence. diagnostics, logs, tools, and root audits — live diagnostics, captured logs, offline tools, and root audit reports describe different stages of observability. player, creature, horse, enemy, and experimental mesh systems — actor assets and world side populations span player hydration, creature generators, enemies, horses, and experimental animal meshes. streaming, lod, visibility, and performance policy — large world loading and frame budget concerns are separated into streaming, lod, visibility, and performance modules. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-directory-guide-md-8e008f33f8.json"
+		"excerpt": "Durable Task Ledger Complete tasks in dependency order. A task becomes [x] only after its phase file verification gate passes. Phase 00 — load truth and directory AI creation [ ] LOAD 000 Prove critical routes in real Chrome; OS application module must execute, not only shell HTML. [ ] LOAD 001 Fix authored versus serv",
+		"searchText": "durable task ledger complete tasks in dependency order. a task becomes [x] only after its phase file verification gate passes. phase 00 — load truth and directory ai creation [ ] load 000 prove critical routes in real chrome; os application module must execute, not only shell html. [ ] load 001 fix authored versus served esm transformation/compaction failures. [ ] load 002 make usable shell independent from optional account/tunnel/social/ai hydration. [ ] load 003 add startup timeout/retry/degraded state contracts. [ ] load 004 add permanent multi viewport browser smoke ci. [ ] ai create 001 add shared awtsmoos shliach prompt url builder. [ ] ai create 002 define canonical safe directory/project prompt envelope. [ ] ai create 003 add professional “ask ai to create here” to writable directory surfaces. [ ] ai create 004 add creation/improvement/debug prompt presets and advanced prompt composer. [ ] ai create 005 add clipboard fallback, mobile sheet, keyboard/command palette, and tests. [ ] ai create 006 wire drive, file explorer, project command center, and context menus. [ ] ai create 007 connect shliach result flow back to preview/test/publish capabilities. built in geelooy browser [ ] browser 001 make real chromium the default live external browsing engine; no external iframe path. [ ] browser 002 auto resolve the signed in owned/default alias and private browser profile. [ ] browser 003 open awtsmoos shliach inside geelooy browser with encoded ?prompt= context. [ ] browser 004 persist user controlled provider login state privately and expose clear profile controls. [ ] browser 005 preserve oauth/new window lineage as trusted geelooy browser child windows. [ ] browser 006 real browser smoke: ordinary public site + shliach/login surface + input/history/popup. [ ] browser 007 professional tabs/bookmarks/history/download/session ux. [ ] browser 008 direct/relay/remote engine testimony and graceful compatibility fallbacks. [ ] browser 009 streaming/damage transport replacing high frequency full jpeg polling. [ ] browser 010 clipboard/download/file picker/audio/permission bridges. [ ] browser 011 session/bandwidth/cpu quotas, ssrf boundaries, abuse controls, metering. [ ] browser 012 provider safe failure ux with no anti bot/captcha/access control bypass. phase 01 — immutable hosting deployments [x] dep 001 wire deployment routes into drive route composition; syntax + route registration green. [x] dep 002 test state v7 normalization, deployment policy validation, private file exclusion, manifest bounds. [x] dep 003 test publish/list/get/rollback service behavior and audit events. [x] dep 004 prove production serves immutable hashes after editable files change; test directories, 404, etag, ranges. [x] dep 005 add publish idempotency fingerprint/replay semantics. [x] dep 006 add optimistic active revision guard and concurrent publish/rollback tests. [ ] dep 007 add preview deployments/environments distinct from production. [ ] dep 008 add post publish health verification and external http testimony. [ ] dep 009 expose deployments through website maker agent api. [ ] dep 010 expose deployments through tunnel account actions and virtual os graph. [ ] dep 011 build professional deployments ui: history, preview, publish, rollback, health. [ ] dep 012 make retention/limits plan aware; add safe manifest/object garbage collection accounting. phase 02 — one prompt website/application publishing [ ] prompt 001 make project bootstrap idempotent and revision aware. [ ] prompt 002 define one canonical prompt to project request/response contract. [ ] prompt 003 generate into isolated preview source; never mutate production directly. [ ] prompt 004 add explicit preview approval and atomic production publish workflow. [ ] prompt 005 add custom domain connect/verify/activate flow to the prompt workflow. [ ] prompt 006 let prompts request bounded db, auth, api/function, storage, secret binding capabilities. [ ] prompt 007 add project activity timeline, deployment logs, generation testimony, and error explanations. [ ] prompt 008 add production business archetypes: contractor, restaurant, creator, synagogue, consultant, store. [ ] prompt 009 add import from zip/git/html and reconcile into normal projects. [ ] prompt 010 add complete code/data export so hosting remains portable. phase 03 — cloud primitives [ ] cloud 001 canonical cloud resource graph for projects, deployments, domains, dbs, functions, secrets, jobs, compute. [ ] cloud 002 harden object storage lifecycle, quotas, immutable objects, signed/private access, cdn integration. [ ] cloud 003 static hosting/cdn cache/version/purge controls and origin health metrics. [ ] cloud 004 serverless js functions with scoped project identity, limits, logs, secrets, and metering. [ ] cloud 005 managed project database with transactions, indexes, backups, quotas, and migration/version apis. [ ] cloud 006 managed project authentication/session/roles without exposing platform account authority. [ ] cloud 007 project secrets vault with versioning, rotation, capability scoped injection, and audit. [ ] cloud 008 durable queues/background jobs with leases, retry, dead letter, cancellation, and usage testimony. [ ] cloud 009 cron/events/workflows using the same job substrate. [ ] cloud 010 managed node/container compute with health, restart, isolation, resource limits, deployments, logs. [ ] cloud 011 domains/dns/tls automation including ownership proof, renewal, safe cutover, and status testimony. [ ] cloud 012 transactional email service/provider abstraction with domain verification and abuse controls. [ ] cloud 013 automatic backups and tested restore workflows for project data/configuration. [ ] cloud 014 host scheduler, capacity registry, draining, placement, failover, and later multi region support. [ ] cloud 015 bring your own server/tunnel compute as a first class placement target. [ ] cloud 016 unified health model and self healing actions with safe rollback/restart boundaries. phase 04 — geelooy os and tunnel control plane [ ] os 001 add account graph refresh/diff so repeated snapshots update instead of duplicate. [ ] os 002 add first class graph types for project, deployment, domain, database, function, secret, job, service. [ ] os 003 add native os management windows for sites, projects, deployments, domains, databases, functions, jobs. [ ] os 004 universal open with / send to across compatible products and project assets. [ ] os 005 global background job center with progress, cost, retry, cancel, logs. [ ] os 006 universal command palette/search over products, projects, cloud resources, account objects, commands. [ ] os 007 capability/permission/audit inspector for agents, users, projects, and connected devices. [ ] os 008 recent/pinned projects and personalized workspace restoration. [ ] os 009 mobile/keyboard/safe area/accessibility hardening for every cloud control surface. phase 05 — commerce, security, observability, scale [ ] bill 001 meter hosting bandwidth, storage, requests, db, functions, compute, ai, mail, jobs into server authoritative usage. [ ] bill 002 define free/launch/creator/business/agency/scale plan entitlements with hard spending caps. [ ] bill 003 add usage quote/reserve/finalize/release semantics and automatic failed work refunds. [ ] bill 004 complete paypal webhook signature verification, replay protection, reconciliation, refund/reversal apis. [ ] bill 005 product scoped catalog endpoints, catalog revisions, pricing history, bundle/upgrade semantics. [ ] sec 001 harden authenticated origin/cors/csrf, samesite/session rotation, csp, secret leakage prevention. [ ] sec 002 add independent financial/compute/upload/auth rate limits and abuse/fraud signals. [ ] sec 003 add phishing/malware/spam/crypto mining hosting abuse detection and suspension appeals workflow. [ ] sec 004 add project sandbox/isolation and capability scoped agent/extension permissions. [ ] obs 001 structured logs, request ids, deploy ids, release sha, metrics, traces, privacy scrubbing. [ ] obs 002 product/service slos, uptime/error budgets, provider latency, queue wait, capacity and cost dashboards. [ ] obs 003 status page, incident banners, health notifications, and copy diagnostics workflows. [ ] scale 001 migrate hot financial/cloud control state toward acid transactional persistence before high concurrency. [ ] scale 002 cdn/static fingerprinting, pagination, etags, caching rules, backpressure, performance budgets. [ ] scale 003 backup/dr drills, secret rotation, dependency/security scanning, fuzz/property/concurrency tests. phase 06 — validation and release [ ] rel 001 add automatic source law validator: blessing header, <120 js lines, tabs, jsdoc/export docs, no compressed/minified source. [ ] rel 002 run full drive/sites/domains/runtime/tunnel/os/wallet/commerce regressions and browser smoke suites. [ ] rel 003 regenerate and verify seo catalogs/sitemaps for all 80 canonical products. [ ] rel 004 run syntax checks, source law checks, git diff check, route/catalog parity, deployment invariants. [ ] rel 005 review concurrent agent diffs; selectively stage only coherent verified files. [ ] rel 006 create isolated integration commit and staging/preview release manifest. [ ] rel 007 verify staging with real http/browser/payment sandbox/rollback/domain checks. [ ] rel 008 deploy production only after all release gates are green. [ ] rel 009 verify production urls/apis/health/deployments/rollback and record exact release sha.",
+		"page": "pages/docs-plans-awtsmoos-cloud-task-ledger-md-eb82c0f6e1.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-gameplay-actionbar-d-399343a7ae",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/actionbar/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-projects-awtsmoos-ai-md-3ab2bfe677",
+		"title": "Awtsmoos AI",
+		"sourcePath": "docs/PROJECTS/AWTSMOOS_AI.md",
+		"category": "Projects",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/gameplay/actionbar",
-				"anchor": "directory-guide-experiments-awtsmoos-src-gameplay-actionbar"
+				"text": "Awtsmoos AI",
+				"anchor": "awtsmoos-ai"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Primary source areas",
+				"anchor": "primary-source-areas"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Do not flatten AI into one backend",
+				"anchor": "do-not-flatten-ai-into-one-backend"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Generated evidence",
+				"anchor": "generated-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
+				"text": "Human manuals",
+				"anchor": "human-manuals"
 			},
 			{
 				"level": 2,
-				"text": "Exported symbols worth searching",
-				"anchor": "exported-symbols-worth-searching"
-			},
-			{
-				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Change strategy",
+				"anchor": "change-strategy"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/gameplay/actionbar Role: Gameplay Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 10 files, 0 structural child directories Purpose Action bar slot models, commands, activation rules, and presentation neutral",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/gameplay/actionbar role: gameplay snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 10 files, 0 structural child directories purpose action bar slot models, commands, activation rules, and presentation neutral action selection. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: gameplay search terms: action, bar, slot, store, com, combat, default, layout, physical, through, controller, coordinator file mix: .js: 9 good first question: “does the behavior or asset i need belong to gameplay, or is this only a neighboring/test/reference layer?” semantic evidence unifies torah abilities and physical actions beneath one authoritative hotbar identity. the awtsmoos is one beyond division, yet each revealed action bears its measured name; awtsmoos.com binds sefer light and staff strike in one bar, one store, one cooldown truth. pure keyboard and gamepad mappings for twelve readable action slots per row. joins physical and torah execution without creating a second combat authority. the awtsmoos shines through distinct vessels yet remains indivisibly one; staff and sefer rhyme, while awtsmoos.com routes both through the same target, turn, stores, events, and measured time. resolves library, slot, and removal drags through deterministic store transitions. representative files actionbaractioncatalog.js — unifies torah abilities and physical actions beneath one authoritative hotbar identity. the awtsmoos is one beyond division, yet each revealed action bears its measured name; awtsmoos.com binds sefer light and staff strike in one bar, one store, one cooldown truth. exports: default melee action id, actionbaractiondefinition, isphysicalaction, integrateddefaultactionbarlayout. actionbarbindingrules.js — pure keyboard and gamepad mappings for twelve readable action slots per row. exports: default action bar bindings, keyboardactionslot, gamepadactionslot, actionbarkeylabel. actionbarcombatgateway.js — joins physical and torah execution without creating a second combat authority. the awtsmoos shines through distinct vessels yet remains indivisibly one; staff and sefer rhyme, while awtsmoos.com routes both through the same target, turn, stores, events, and measured time. exports: actionbarcombatgateway. actionbardragcontroller.js — resolves library, slot, and removal drags through deterministic store transitions. exports: actionbardragcontroller. actionbarlayoutrules.js — reveals small deterministic laws for the one canonical hotbar layout. the awtsmoos grants each deed a waiting vessel, neither crowded nor astray; awtsmoos.com finds the first open chamber without searching the world each frame or day. exports: firstavailableactionslot. actionbarpersistence.js — restores and writes compact action bar layouts only on state transitions. exports: actionbarpersistence. actionbarruntimeassembly.js — assembles the one canonical hotbar runtime from focused existing authorities. the awtsmoos pours one intent through many faithful vessels, each bounded, named, and clear; awtsmoos.com joins store, timeline, status, drag, and persistence without a rival sphere. exports: assembleactionbarruntime. actionbarruntimecoordinator.js — governs one persistent two row bar after focused collaborators are assembled. the awtsmoos unites the deed without confusing its vessels; chesed heals and gevurah may strike, while awtsmoos.com keeps one public covenant for layout, cooldown, target, and input alike. exports: actionbarruntimecoordinator. actionbarstore.js — owns a bounded, persistent ready torah ability layout without frame work or dom state. exports: actionbarstore, action bar limits. exported symbols worth searching default melee action id · actionbaractiondefinition · isphysicalaction · integrateddefaultactionbarlayout · default action bar bindings · keyboardactionslot · gamepadactionslot · actionbarkeylabel · actionbarcombatgateway · actionbardragcontroller · firstavailableactionslot · actionbarpersistence · assembleactionbarruntime · actionbarruntimecoordinator · actionbarstore · action bar limits import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ../combat/torahabilitycatalog.js ./actionbaractioncatalog.js ../combat/torahabilitystatusgateway.js ../combat/torahabilitytimeline.js ../combat/torahstatuseffectstore.js ./actionbarcombatgateway.js ./actionbardragcontroller.js ./actionbarpersistence.js ./actionbarstore.js ./actionbarlayoutrules.js ./actionbarruntimeassembly.js directory map parent: experiments/awtsmoos/src/gameplay children: none. related and overlapping systems combat domain, action bars, targeting, and hud — domain rules live under gameplay while browser widgets and target presentation live under ui and styles. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-gameplay-actionbar-d-399343a7ae.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos AI The Awtsmoos lets language and model computation enter many vessels while Awtsmoos.com keeps browser AI, server APIs, local model work, search and developer integrations distinct enough to reason about safely. Primary source areas geelooy/ai/ — large browser facing AI project",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos ai the awtsmoos lets language and model computation enter many vessels while awtsmoos.com keeps browser ai, server apis, local model work, search and developer integrations distinct enough to reason about safely. primary source areas geelooy/ai/ — large browser facing ai project. geelooy/api/gpt/ — gpt health/capability/chat/reset http family. geelooy/apps/awtsmoos gguf/ — local/gguf model tooling. awtsmoos code ai integrations — developer workflows. dynamic server ai helpers — server side model/provider plumbing where imported. search/vector/graph systems — related data systems, not automatically the same api contract. do not flatten ai into one backend a local gguf app, browser chat page, provider backed gpt api, embedding/search pipeline and code ai feature can share concepts without sharing credentials, model format, request schema or lifecycle. begin from the concrete caller/source pair. generated evidence use project atlas.md for ai project boundaries, project symbol summary.md for lexical symbol summaries, project dependencies.md for cross project imports, api route contract atlas.md for gpt routes, api caller index.md for browser callers and environment variables.md for configuration names without values. human manuals docs/systems/ai.md docs/api/other families.md docs/configuration.md docs/integrations.md docs/security/secrets and config.md change strategy for model/provider/api changes, trace the exact caller, configuration source, failure shape and tests. for local models, inspect model file/runtime assumptions. for search/embedding changes, treat index/data paths as persistence contracts. verify only the layers actually involved rather than assuming every ai labelled feature shares one runtime.",
+		"page": "pages/docs-projects-awtsmoos-ai-md-3ab2bfe677.json"
+	},
+	{
+		"id": "docs-projects-code-md-43fa7863f7",
+		"title": "Awtsmoos Code",
+		"sourcePath": "docs/PROJECTS/CODE.md",
+		"category": "Projects",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos Code",
+				"anchor": "awtsmoos-code"
+			},
+			{
+				"level": 2,
+				"text": "Canonical source",
+				"anchor": "canonical-source"
+			},
+			{
+				"level": 2,
+				"text": "Surrounding systems",
+				"anchor": "surrounding-systems"
+			},
+			{
+				"level": 2,
+				"text": "Generated evidence",
+				"anchor": "generated-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Human manuals",
+				"anchor": "human-manuals"
+			},
+			{
+				"level": 2,
+				"text": "Change strategy",
+				"anchor": "change-strategy"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos Code The Awtsmoos lets source become an interactive developer world while Awtsmoos.com connects browser editing, compiler/runtime services, AI assistance, shared platform code and project previews. Canonical source geelooy/apps/code/ This is one of the largest application projec",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos code the awtsmoos lets source become an interactive developer world while awtsmoos.com connects browser editing, compiler/runtime services, ai assistance, shared platform code and project previews. canonical source geelooy/apps/code/ this is one of the largest application projects in the repository. its local documentation.md is the in tree entry point; central developer docs explain how it connects to the rest of awtsmoos.com. surrounding systems compiler api and compiler application behavior. native/runtime apis and platform execution. shared browser/platform modules. ai/model assistance and provider configuration where enabled. tunnel/native preview workflows where remote execution is involved. generated evidence use project symbol summary.md for lexical symbol scale, project dependencies.md for cross project source references, external dependencies.md for package imports, public entry points.md for the browser entry and test ownership.md for test neighborhoods. human manuals docs/apps/developer tools.md docs/systems/geelooy os.md docs/systems/ai.md docs/api/other families.md docs/development/readme.md change strategy a ui only editor change may remain local, but compiler, native execution, ai orchestration, filesystem/project loading or shared platform changes can cross multiple projects. trace generated dependency edges, inspect the owning backend contract and run code specific plus shared platform tests when those boundaries move.",
+		"page": "pages/docs-projects-code-md-43fa7863f7.json"
 	}
 ]

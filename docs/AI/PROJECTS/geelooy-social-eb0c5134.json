@@ -22,19 +22,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-social-eb0c5134.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 52,
-		"tests": 7,
+		"source": 59,
+		"tests": 13,
 		"assets": 0,
 		"generated": 0,
 		"docs": 2,
 		"other": 1
 	},
-	"totalFiles": 62,
+	"totalFiles": 75,
 	"symbolSummary": {
-		"files": 41,
-		"classes": 23,
-		"functions": 50,
-		"exports": 56,
+		"files": 44,
+		"classes": 26,
+		"functions": 51,
+		"exports": 59,
 		"samples": [
 			"MigrationController",
 			"MigrationRecoveryController",
@@ -50,7 +50,13 @@
 			"matchesMigrationFilters"
 		]
 	},
-	"outgoingDependencies": [],
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/shared",
+			"count": 4,
+			"examples": "geelooy/social/migrate/js/main.js; geelooy/social/migrate/js/publish/ManifestBuilder.js; geelooy/social/migrate/js/upload/ArchiveOrgVideoUploader.js"
+		}
+	],
 	"incomingDependencies": [],
 	"externalDependencies": [],
 	"publicEntries": [
@@ -59,7 +65,7 @@
 			"file": "geelooy/social/index.html",
 			"title": "Awtsmoos Social Observatory",
 			"scripts": 1,
-			"styles": 4
+			"styles": 10
 		},
 		{
 			"url": "/social/migrate",

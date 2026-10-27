@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-ssh-readme-md-f69339a370",
+	"title": "B\"H — SSH API (geelooy/api/ssh/)",
+	"sourcePath": "geelooy/api/ssh/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — SSH API (geelooy/api/ssh/)",
+			"anchor": "b-h-ssh-api-geelooy-api-ssh"
+		},
+		{
+			"level": 2,
+			"text": "Contents",
+			"anchor": "contents"
+		},
+		{
+			"level": 2,
+			"text": "Route families",
+			"anchor": "route-families"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-ssh-readme-md-f69339a370-001.json"
+	]
+}

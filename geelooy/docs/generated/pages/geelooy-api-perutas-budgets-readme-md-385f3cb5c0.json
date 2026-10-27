@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-perutas-budgets-readme-md-385f3cb5c0",
+	"title": "B\"H — Perutas Budgets (geelooy/api/perutas/budgets/)",
+	"sourcePath": "geelooy/api/perutas/budgets/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Perutas Budgets (geelooy/api/perutas/budgets/)",
+			"anchor": "b-h-perutas-budgets-geelooy-api-perutas-budgets"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-perutas-budgets-readme-md-385f3cb5c0-001.json"
+	]
+}

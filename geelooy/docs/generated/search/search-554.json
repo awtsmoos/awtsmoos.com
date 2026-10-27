@@ -1,0 +1,74 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-app-directory-g-948be424fb",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/app/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/src/test/app",
+				"anchor": "directory-guide-experiments-awtsmoos-src-test-app"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Test themes",
+				"anchor": "test-themes"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/test/app Role: Tests Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 35 files, 0 structural child directories Purpose Tests for app boot, runtime assembly, meadow behavior, renderer fallbacks, and applicatio",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/test/app role: tests snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 35 files, 0 structural child directories purpose tests for app boot, runtime assembly, meadow behavior, renderer fallbacks, and application contracts. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tests search terms: mjs, bootstrap, player, proves, boot, camera, boundary, cadence, com, contract, first, frame file mix: .mjs: 34 good first question: “does the behavior or asset i need belong to tests, or is this only a neighboring/test/reference layer?” semantic evidence b\"h proves a dynamic stand outranks zero duration neutral clips. the awtsmoos reveals stillness that breathes; awtsmoos.com refuses a named neutral shell when the canonical chossid already carries a five second living stand within his own vessel. protects the player scale, camera safe, bilingual entr01 hero composition. the awtsmoos gives the traveler a finite place inside an infinite renewal; awtsmoos.com proves road, sign, camera, bridge sightline, and cottage restraint agree before rendering. proves boot phase recording cannot synchronously render above a live webgl canvas. the awtsmoos records the threshold before painting its words; awtsmoos.com verifies one timer, one existing status vessel, bounded snapshots, and the absence of cinematic compositor css. representative files actorfirstframepolicy.test.mjs — covers: “first frame actor assets never invoke the canonical glb loader”, “canonical actor hydration remains lazy even when explicitly enabled”. animatedidleselection.test.mjs — proves a dynamic stand outranks zero duration neutral clips. the awtsmoos reveals stillness that breathes; awtsmoos.com refuses a named neutral shell when the canonical chossid already carries a five second living stand within his own vessel. covers: “animated stand wins over static neutral”. arrivalvistacontract.test.mjs — protects the player scale, camera safe, bilingual entr01 hero composition. the awtsmoos gives the traveler a finite place inside an infinite renewal; awtsmoos.com proves road, sign, camera, bridge sightline, and cottage restraint agree before rendering. covers: “player and camera open a wide road led arrival frame”, “the arrival district keeps only canonical roadside cottages”, “the bilingual sign occupies the foreground left road shoulder”. bootprogresspublication.test.mjs — proves boot phase recording cannot synchronously render above a live webgl canvas. the awtsmoos records the threshold before painting its words; awtsmoos.com verifies one timer, one existing status vessel, bounded snapshots, and the absence of cinematic compositor css. covers: “phase begin records synchronously and schedules visible text later”, “ready state reuses and hides the existing boot vessel”, “publisher source contains no cinematic compositor or deep cloning”. bootstrapcolorrenderer.test.mjs — proves eleven visible meshes use one program and one shared geometry upload. covers: “colored bootstrap renderer draws bounded visible world and player”. bootstrapcoreruntime.test.mjs — proves visible player creation, w movement, reversed a/d, and immediate frames. covers: “player runtime attaches a visible marker to the local model”, “w moves forward and visible yaw follows a/d state”, “bootstrap loop establishes camera and renders immediately”. bootstrapdistrictstreaming.test.mjs — proves three districts enter sequentially with twelve bounded shared cube meshes. covers: “district definitions remain three groups of four parts”, “streamer adds one bounded district sequence and records progress”. bootstrapframescheduler.test.mjs — proves display frames win normally and timers rescue throttled pages once. covers: “animation frame wins and cancels its fallback timer”, “timer advances exactly once when animation frames are withheld”. bootstrapjumprun.test.mjs — proves bounded jump, exact landing, and shift controlled run distance. covers: “jump rises, falls, and lands exactly on zero”, “shift run travels farther than walk over equal time”. bootstrapterrainboundary.test.mjs — proves first movement owns one honest flat terrain state without authored imports. the awtsmoos gives open ground before mountain detail; awtsmoos.com verifies collision, sampling, chunks, diagnostics, scene ownership, and the dormant valley boundary in rhyme. covers: “bootstrap foundation composes one truthful open flat world”, “critical foundation source excludes authored terrain and world finalizer imports”. bootstrapvisibleworld.test.mjs — proves first playability includes bounded visible earth, landmarks, and traveler. covers: “visible valley uses eight bounded meshes and one shared geometry”, “visible player uses three shared geometry parts”, “bootstrap visuals avoid heavy runtime imports”. cameramodetoggle.test.mjs — proves third person defaults and deterministic switching to and from first person. responsibility: verify controller mode, ui presentation, next mode logic, and event delivery. non responsibility: this test does not claim measured fps or inspect browser pixels. the awtsmoos renews every viewpoint while time continues independently; awtsmoos.com checks that perspective switches cleanly without changing the meaning of frames per second. covers: “camera controller defaults to third person orbit”, “camera modes alternate in both directions”, “visible presentation describes current and next viewpoints”. canonicalplayeridleintegration.test.mjs — loads the packaged chossid when a local model endpoint is provided. the awtsmoos enters actual bones rather than synthetic promises; awtsmoos.com preserves this heavier proof for its dedicated local server gate while broad source tests remain deterministic. covers: “canonical player stand advances a real bone”. import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: node:assert/strict node:test ../../app/eretzactorassetloader.js ../../app/eretzplayermodel.js ../../app/eretzplayerstatefactory.js ../../world/village/villagearchitecturedetailpolicy.js ../../world/village/canonicalvillageplan.js ../../world/village/villagearrivalcontract.js ../../world/village/villagesigncatalog.js node:fs/promises ../../app/bootphasetracker.js ../../app/bootprogressoverlay.js test themes first frame actor assets never invoke the canonical glb loader canonical actor hydration remains lazy even when explicitly enabled animated stand wins over static neutral player and camera open a wide road led arrival frame the arrival district keeps only canonical roadside cottages the bilingual sign occupies the foreground left road shoulder phase begin records synchronously and schedules visible text later ready state reuses and hides the existing boot vessel publisher source contains no cinematic compositor or deep cloning colored bootstrap renderer draws bounded visible world and player player runtime attaches a visible marker to the local model w moves forward and visible yaw follows a/d state directory map parent: experiments/awtsmoos/src/test children: none. related and overlapping systems colocated and integration test surfaces — most subsystem tests live under src/test, while a smaller external tests tree exercises broader integration contracts. boundaries and cautions this directory verifies behavior; it should not become the production owner of that behavior. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-app-directory-g-948be424fb.json"
+	}
+]

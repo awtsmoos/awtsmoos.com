@@ -25,32 +25,32 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-tunnel-control-86d0949a.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 426,
-		"tests": 57,
+		"source": 486,
+		"tests": 72,
 		"assets": 0,
 		"generated": 0,
 		"docs": 2,
 		"other": 5
 	},
-	"totalFiles": 490,
+	"totalFiles": 565,
 	"symbolSummary": {
-		"files": 335,
-		"classes": 11,
-		"functions": 1444,
-		"exports": 709,
+		"files": 387,
+		"classes": 14,
+		"functions": 1639,
+		"exports": 829,
 		"samples": [
 			"TARGETS",
 			"regenerateDocument",
 			"regenerateTarget",
 			"renderScopeTail",
 			"run",
+			"identity",
 			"async",
-			"detectLogin",
-			"me",
-			"device",
-			"myDevice",
-			"devices",
-			"activeDevice"
+			"readRoom",
+			"writeRoom",
+			"refresh",
+			"joinRoom",
+			"displayRoom"
 		]
 	},
 	"outgoingDependencies": [

@@ -1,0 +1,173 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28t0310-geelooy-social-mobile-06-final-verif-5936613f1e",
+		"title": "Final Verification — Mobile-First Geelooy Social Hub",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0310-geelooy-social-mobile/06_FINAL_VERIFICATION.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Final Verification — Mobile-First Geelooy Social Hub",
+				"anchor": "final-verification-mobile-first-geelooy-social-hub"
+			},
+			{
+				"level": 2,
+				"text": "Scope actually completed",
+				"anchor": "scope-actually-completed"
+			},
+			{
+				"level": 2,
+				"text": "Planned vs actual",
+				"anchor": "planned-vs-actual"
+			},
+			{
+				"level": 3,
+				"text": "Planned",
+				"anchor": "planned"
+			},
+			{
+				"level": 3,
+				"text": "Actual",
+				"anchor": "actual"
+			},
+			{
+				"level": 2,
+				"text": "Defects discovered and repaired during verification",
+				"anchor": "defects-discovered-and-repaired-during-verification"
+			},
+			{
+				"level": 2,
+				"text": "Automated evidence",
+				"anchor": "automated-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Living Chrome evidence at 390px",
+				"anchor": "living-chrome-evidence-at-390px"
+			},
+			{
+				"level": 2,
+				"text": "Final source audit",
+				"anchor": "final-source-audit"
+			},
+			{
+				"level": 2,
+				"text": "Working-tree note",
+				"anchor": "working-tree-note"
+			},
+			{
+				"level": 2,
+				"text": "Completion decision",
+				"anchor": "completion-decision"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Final Verification — Mobile First Geelooy Social Hub Scope actually completed The internal Geelooy Social Hub was improved mobile first with one dominant, context aware post doorway. External YouTube, Facebook, Instagram, OAuth, account linking, and external auto posting were intentional",
+		"searchText": "b\"h boruch hashem blessed is he final verification — mobile first geelooy social hub scope actually completed the internal geelooy social hub was improved mobile first with one dominant, context aware post doorway. external youtube, facebook, instagram, oauth, account linking, and external auto posting were intentionally excluded by the user's explicit scope change. planned vs actual planned make post creation one clear mobile thumb action. keep create separate from route semantics. make home creation visually dominant and fully styled. keep every new visible label inside a deliberate card, chip, button, or status vessel. reuse canonical alias/heichel/series composer context. protect narrow widths, safe areas, keyboard focus, reduced motion, and dock clearance. preserve advanced creator intents deeper in the existing interaction surface. add focused regression and real browser evidence. actual persistent create post is rendered outside route navigation through mobilecreatorportal and mobilequickpost. home begins with a styled homecreationcard, contextual alias/destination chips, and a primary quickpost composer action. persistentcreator and persistentcreatorview reuse creatorurl(snapshot, 'post'); home and mobile therefore share one contextual internal composer url. existing home/inbox/messages/spaces primary mobile routes remain unchanged. the persistent creator participates in the established creation assembly, lifecycle, and central surface presenter rather than creating another observer. creator css is split into surface, action, and mobile garments; all touched source/test files remain below 120 lines. mobile creator styling uses the existing hub mobile dock clearance, extra document bottom clearance, focus visible treatment, narrow phone behavior, and reduced motion behavior. defects discovered and repaired during verification 1. the first home creator stylesheet reached 140 lines. it was split into separate surface and action modules rather than compressed. 2. root style.css mixed cache generations. all 80 imports now use hub local 021. 3. surfacecontract.test.mjs asserted a nonexistent social/shell/boot.js path and expected generated shell markup in static html. live tracing proved index.html → js/main.js → ketersocialhubshell → generated chrome/panels; the stale contract was fully rewritten to verify that real architecture. 4. the first takeover screenshot audit used the wrong relative evidence directory. the audit command was corrected; this was an audit path error, not a product failure. automated evidence npm run test:all completed with exit code 0 on the final tree. its transcript proves: stateroute.test passed. commentpayload.test passed. legalentry.test passed. surface contract passed with hub local 021 across 80 imports. persistent creator contract passed. real chrome browsersmoke.test passed. living chrome evidence at 390px the strengthened browser journey proves without clicking/publishing: mobile creator portal is visible and fixed. create points to /social composer/. alias=teacher, heichel=study, series=lessons, creator=post survive into the url. home and mobile creator hrefs match. create stays inside the 390px viewport. touch height is at least 44px. create remains separated from the mobile dock. body bottom clearance exceeds dock height. home creator card and action stay within the viewport/card. document horizontal overflow is zero. no youtube/facebook/instagram/oauth language appears in the creator surface. harness captured browser errors remain empty. the browser journey also wrote social hub mobile creator.png; final audit verified the artifact exists at 772,329 bytes. final source audit every scoped touched source/test file is <=120 lines. every root style import uses hub local 021 (80/80). no external provider terms appear in new creator production surfaces. no todo/fixme/xxx/hack markers remain in scoped creator files/tests. node check passes for all touched javascript/test modules. git diff check and git diff cached check are clean. no public post was created as part of verification. working tree note the repository still contains staged/unstaged/untracked changes according to git status. this mission did not change staging state or create a commit because the user did not request source control operations. working tree state is not a product defect and should be preserved for the user's existing workflow. completion decision within the requested internal social scope, implementation, regression verification, mobile browser geometry, provider exclusion, code hygiene, and handoff evidence are complete. external account linking and cross posting are excluded rather than unfinished. the awtsmoos gives one light many truthful vessels; awtsmoos.com now lets creation rise near the thumb without stealing the name of navigation. the deed is near, the routes remain clear, the labels wear garments, and the evidence closes the circle here.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28t0310-geelooy-social-mobile-06-final-verif-5936613f1e.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28t0310-geelooy-social-mobile-07-routewide-q-07dfb7e33f",
+		"title": "Phase One — Route-Wide Mobile Surface Quality Brainstorm",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0310-geelooy-social-mobile/07_ROUTEWIDE_QUALITY_BRAINSTORM.md",
+		"category": "Routes",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase One — Route-Wide Mobile Surface Quality Brainstorm",
+				"anchor": "phase-one-route-wide-mobile-surface-quality-brainstorm"
+			},
+			{
+				"level": 2,
+				"text": "Hidden work reopened",
+				"anchor": "hidden-work-reopened"
+			},
+			{
+				"level": 2,
+				"text": "Live route universe",
+				"anchor": "live-route-universe"
+			},
+			{
+				"level": 2,
+				"text": "Every useful audit idea",
+				"anchor": "every-useful-audit-idea"
+			},
+			{
+				"level": 2,
+				"text": "Failure map",
+				"anchor": "failure-map"
+			},
+			{
+				"level": 2,
+				"text": "First principle",
+				"anchor": "first-principle"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase One — Route Wide Mobile Surface Quality Brainstorm Hidden work reopened The creation specific gate passed, but the original user requirement is broader: the internal Social Hub should be mobile first, every visible element should be intentionally styled, and labels/text should not ",
+		"searchText": "b\"h boruch hashem blessed is he phase one — route wide mobile surface quality brainstorm hidden work reopened the creation specific gate passed, but the original user requirement is broader: the internal social hub should be mobile first, every visible element should be intentionally styled, and labels/text should not drift loose. the live routemodel exposes twelve social chambers, so a skeptical completion test must traverse all twelve rather than infer route wide quality from home and interact alone. live route universe home — social pulse inbox — communications inbox messages — private messages spaces — communities and channels people — discover people profile — public profile chat — live torah chat interact — interaction studio activity — activity ledger network — public network references — reference graph privacy — privacy controls every useful audit idea 1. open every route at the real mobile fixture width. 2. prove the route panel becomes visible after navigation. 3. measure document horizontal overflow after every route settles. 4. walk visible text nodes and detect text whose parent has no visible styling/semantic vessel. 5. detect text elements with transparent/invisible color or zero font size. 6. detect visible elements whose rectangles escape the viewport horizontally. 7. detect buttons/links/selects/inputs/textarea that collapse to unusable geometry. 8. treat checkboxes/radios and explicitly hidden controls separately from ordinary touch targets. 9. record route name with every defect so fixes are localized. 10. avoid judging aesthetic taste through brittle color equality. 11. prefer computed style/geometry facts over class name guesses. 12. preserve intentionally text like links that are styled through ancestor rules. 13. do not require every word to have its own class if its semantic/styled parent is the vessel. 14. flag direct non whitespace text nodes under unstyled generic containers as truly loose text. 15. audit headings, paragraphs, labels, badges, empty states, cards, controls, and navigation triggered panels. 16. keep persistent create and mobile dock in the global geometry audit while route panel quality is measured separately. 17. do not click destructive/posting controls. 18. do not mutate server data. 19. use the existing deterministic browser fixture. 20. capture defect evidence before touching production. 21. if a route fails, trace its actual template/style owner before rewriting anything. 22. add the route wide quality audit to browser smoke so future changes cannot reintroduce naked/overflowing surfaces. 23. keep new test helper files below 120 lines by splitting dom inspection from route orchestration. 24. maintain the existing one cache generation and local style contracts. 25. keep external network linking completely absent. failure map a route can look acceptable at desktop width yet overflow at 390px. a text node can inherit typography yet still float inside an unbounded generic container. a button can be visible but too small to touch. a hidden panel can pollute an audit if visibility is not checked. dynamic route content can settle after hash navigation, so the audit must wait for active panel visibility before sampling. first principle the awtsmoos gives every revealed word a vessel and every vessel a boundary; awtsmoos.com should let no social chamber spill beyond the hand sized world that contains it. the browser, not confidence, will decide which chambers still need garments.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28t0310-geelooy-social-mobile-07-routewide-q-07dfb7e33f.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28t0310-geelooy-social-mobile-08-routewide-q-e01894fbc6",
+		"title": "Phase Two — Route-Wide Quality Architecture and Critique",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0310-geelooy-social-mobile/08_ROUTEWIDE_QUALITY_CRITIQUE.md",
+		"category": "Routes",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Two — Route-Wide Quality Architecture and Critique",
+				"anchor": "phase-two-route-wide-quality-architecture-and-critique"
+			},
+			{
+				"level": 2,
+				"text": "Five audit architectures",
+				"anchor": "five-audit-architectures"
+			},
+			{
+				"level": 3,
+				"text": "A — Source grep only",
+				"anchor": "a-source-grep-only"
+			},
+			{
+				"level": 3,
+				"text": "B — Screenshot-only visual review",
+				"anchor": "b-screenshot-only-visual-review"
+			},
+			{
+				"level": 3,
+				"text": "C — Browser DOM computed-style audit across all twelve routes",
+				"anchor": "c-browser-dom-computed-style-audit-across-all-twelve-routes"
+			},
+			{
+				"level": 3,
+				"text": "D — Rewrite every route proactively",
+				"anchor": "d-rewrite-every-route-proactively"
+			},
+			{
+				"level": 3,
+				"text": "E — Require a class on every text element",
+				"anchor": "e-require-a-class-on-every-text-element"
+			},
+			{
+				"level": 2,
+				"text": "Chosen quality contract",
+				"anchor": "chosen-quality-contract"
+			},
+			{
+				"level": 2,
+				"text": "Critique improvements",
+				"anchor": "critique-improvements"
+			},
+			{
+				"level": 2,
+				"text": "Architectural boundary",
+				"anchor": "architectural-boundary"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Two — Route Wide Quality Architecture and Critique Five audit architectures A — Source grep only Fast, but cannot prove inherited styling, visibility, mobile geometry, or dynamic content. Rejected as primary evidence. B — Screenshot only visual review Useful for aesthetics, but wea",
+		"searchText": "b\"h boruch hashem blessed is he phase two — route wide quality architecture and critique five audit architectures a — source grep only fast, but cannot prove inherited styling, visibility, mobile geometry, or dynamic content. rejected as primary evidence. b — screenshot only visual review useful for aesthetics, but weak for hidden overflow, touch target dimensions, and deterministic regression. rejected as sole gate. c — browser dom computed style audit across all twelve routes measures the actual rendered mobile surface, can localize defects by route, and can become a durable regression. chosen. d — rewrite every route proactively would create massive unnecessary churn before evidence. rejected. e — require a class on every text element too brittle: many elements are intentionally styled through semantic or ancestor rules. rejected. chosen quality contract use the existing deterministic browser fixture at 390px. iterate every routemodel.routes destination by hash. wait for its [data panel] surface to become active, then collect computed evidence from visible descendants. a defect is objective when one of these occurs: document scroll width exceeds viewport width; a visible descendant horizontally escapes the viewport beyond a tiny rounding tolerance; a visible textual leaf has zero/invisible typography; a non whitespace direct text node sits under a generic unstyled container without a semantic/styled vessel; an ordinary visible interactive control collapses beneath a practical mobile touch size without being a compact native exception; route panel itself has zero geometry when active. critique improvements 1. test all twelve routes, not only the four primary dock items. 2. obtain route ids from routemodel, not duplicated handwritten names where practical. 3. keep inspection logic separate from journey orchestration. 4. exclude script/style/template and hidden descendants. 5. allow native checkbox/radio controls to remain compact. 6. allow text links inside deliberately styled navigation/card ancestors while still measuring their geometry. 7. detect direct text nodes only when meaningful text exists. 8. treat inherited nontransparent color/font as styled evidence. 9. report selectors/tag/text snippets for repair localization. 10. never click destructive or publishing actions. 11. navigate through hash/location and established route controller. 12. wait for visible active panel before measuring. 13. keep global dock/create visible during every route audit to catch collisions. 14. recheck document overflow after every route. 15. add screenshots only for actual failures or representative final state. 16. if defects appear, trace their exact template and css owner before source mutation. 17. use full file rewrites for every production correction. 18. keep each test/helper below 120 lines by splitting geometry and route flow. 19. rerun focused route wide test first after fixes. 20. then rerun npm run test:all to preserve creation, navigation, privacy, media, and browser behavior. 21. preserve the user's external linking exclusion. 22. do not alter data or publish content. 23. keep cache generation coherent after any new stylesheet import. 24. update remaining work with every real route defect. 25. close only when the route wide browser report is clean. architectural boundary this pass is primarily a verification/discovery pass. production should change only when the browser names a concrete route defect. the awtsmoos is not revealed by unnecessary motion; awtsmoos.com should repair what evidence exposes and leave truthful vessels undisturbed.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28t0310-geelooy-social-mobile-08-routewide-q-e01894fbc6.json"
+	}
+]

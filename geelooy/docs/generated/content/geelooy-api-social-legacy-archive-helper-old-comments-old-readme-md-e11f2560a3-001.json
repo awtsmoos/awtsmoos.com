@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Legacy Comments Old (geelooy/api/social/helper/old/comments-old/)\n\nThe old comment implementation (pre-rewrite), kept for reference.\n\n## Files\n- `index.js` — module entry.\n- `commentCreation.js`, `commentDeletion.js`, `commentModeration.js`, `commentModification.js` — legacy mutation operations.\n- `commentPaths.js`, `commentRetrieval.js` — legacy paths and reads.\n- `post/`, `series.js` — legacy post/series comment helpers.\n"
+}

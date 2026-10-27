@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-27-2150-unified-movie-revelation-07c-verific-0e64fa8630",
+	"title": "Verification Ledger — 2026-08-28 Closure",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-27-2150-unified-movie-revelation/07C_VERIFICATION_LEDGER_2026-08-28.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Verification Ledger — 2026-08-28 Closure",
+			"anchor": "verification-ledger-2026-08-28-closure"
+		},
+		{
+			"level": 2,
+			"text": "Architecture verified",
+			"anchor": "architecture-verified"
+		},
+		{
+			"level": 2,
+			"text": "Correctness defects repaired",
+			"anchor": "correctness-defects-repaired"
+		},
+		{
+			"level": 2,
+			"text": "Regression evidence",
+			"anchor": "regression-evidence"
+		},
+		{
+			"level": 2,
+			"text": "AI generation evidence",
+			"anchor": "ai-generation-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Browser and mobile evidence",
+			"anchor": "browser-and-mobile-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Real encoded movie evidence",
+			"anchor": "real-encoded-movie-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Source readback and style evidence",
+			"anchor": "source-readback-and-style-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Non-blocking technical debt",
+			"anchor": "non-blocking-technical-debt"
+		},
+		{
+			"level": 2,
+			"text": "Completion verdict",
+			"anchor": "completion-verdict"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-27-2150-unified-movie-revelation-07c-verific-0e64fa8630-001.json"
+	]
+}

@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-social-helper-socialkernel-readme-md-257c782d98",
+	"title": "B\"H — Social Kernel (geelooy/api/social/helper/socialKernel/)",
+	"sourcePath": "geelooy/api/social/helper/socialKernel/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Social Kernel (geelooy/api/social/helper/socialKernel/)",
+			"anchor": "b-h-social-kernel-geelooy-api-social-helper-socialkernel"
+		},
+		{
+			"level": 2,
+			"text": "Files",
+			"anchor": "files"
+		},
+		{
+			"level": 2,
+			"text": "Subdirectories",
+			"anchor": "subdirectories"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-social-helper-socialkernel-readme-md-257c782d98-001.json"
+	]
+}

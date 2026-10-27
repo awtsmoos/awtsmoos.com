@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-downloads-artifact-transport-md-a3fbab9d83",
+	"title": "B\"H",
+	"sourcePath": "geelooy/apps/tunnel/downloads/ARTIFACT_TRANSPORT.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Awtsmoos Tunnel Artifacts — Native Browser Capture and Stored Sharing",
+			"anchor": "awtsmoos-tunnel-artifacts-native-browser-capture-and-stored-sharing"
+		},
+		{
+			"level": 2,
+			"text": "1. Exact-target browser screenshot",
+			"anchor": "1-exact-target-browser-screenshot"
+		},
+		{
+			"level": 2,
+			"text": "2. Built-in image conversion",
+			"anchor": "2-built-in-image-conversion"
+		},
+		{
+			"level": 2,
+			"text": "3. Controller-hosted temporary URL",
+			"anchor": "3-controller-hosted-temporary-url"
+		},
+		{
+			"level": 2,
+			"text": "4. Important current limitations",
+			"anchor": "4-important-current-limitations"
+		},
+		{
+			"level": 2,
+			"text": "5. Verification",
+			"anchor": "5-verification"
+		},
+		{
+			"level": 2,
+			"text": "6. First-class Shliach MCP artifact tools (0.91.0 packaging)",
+			"anchor": "6-first-class-shliach-mcp-artifact-tools-0-91-0-packaging"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-downloads-artifact-transport-md-a3fbab9d83-001.json"
+	]
+}

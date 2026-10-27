@@ -1,0 +1,69 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-28-0255-awtsmoos-studio-completion-03-implem-912e5857ca",
+	"title": "Implementation Delta — Planned vs Actual",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-28-0255-awtsmoos-studio-completion/03_IMPLEMENTATION_DELTA.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Implementation Delta — Planned vs Actual",
+			"anchor": "implementation-delta-planned-vs-actual"
+		},
+		{
+			"level": 2,
+			"text": "Planned",
+			"anchor": "planned"
+		},
+		{
+			"level": 2,
+			"text": "Actual Implementation",
+			"anchor": "actual-implementation"
+		},
+		{
+			"level": 2,
+			"text": "Important Deltas Discovered During Verification",
+			"anchor": "important-deltas-discovered-during-verification"
+		},
+		{
+			"level": 3,
+			"text": "Delta 1 — Historical proof was false evidence",
+			"anchor": "delta-1-historical-proof-was-false-evidence"
+		},
+		{
+			"level": 3,
+			"text": "Delta 2 — 12 FPS completion render was computationally impractical",
+			"anchor": "delta-2-12-fps-completion-render-was-computationally-impractical"
+		},
+		{
+			"level": 3,
+			"text": "Delta 3 — Media verifier contained a magic 12 FPS assumption",
+			"anchor": "delta-3-media-verifier-contained-a-magic-12-fps-assumption"
+		},
+		{
+			"level": 3,
+			"text": "Delta 4 — Export receipt hardcoded 2,160 frames",
+			"anchor": "delta-4-export-receipt-hardcoded-2-160-frames"
+		},
+		{
+			"level": 3,
+			"text": "Delta 5 — Completion receipt name became misleading after the fix",
+			"anchor": "delta-5-completion-receipt-name-became-misleading-after-the-fix"
+		},
+		{
+			"level": 2,
+			"text": "What Was Not Reduced",
+			"anchor": "what-was-not-reduced"
+		},
+		{
+			"level": 2,
+			"text": "Final Delta State",
+			"anchor": "final-delta-state"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-28-0255-awtsmoos-studio-completion-03-implem-912e5857ca-001.json"
+	]
+}

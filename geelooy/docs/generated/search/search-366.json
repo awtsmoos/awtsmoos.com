@@ -1,0 +1,156 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28t0237-geelooy-social-posting-02-architectu-7bce895d48",
+		"title": "Phase Two — Architecture Comparison and Critique",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0237-geelooy-social-posting/02_ARCHITECTURE_CRITIQUE.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Two — Architecture Comparison and Critique",
+				"anchor": "phase-two-architecture-comparison-and-critique"
+			},
+			{
+				"level": 2,
+				"text": "Observed execution graph",
+				"anchor": "observed-execution-graph"
+			},
+			{
+				"level": 2,
+				"text": "Proven healthy seams",
+				"anchor": "proven-healthy-seams"
+			},
+			{
+				"level": 2,
+				"text": "Proven gap",
+				"anchor": "proven-gap"
+			},
+			{
+				"level": 2,
+				"text": "Competing architectures",
+				"anchor": "competing-architectures"
+			},
+			{
+				"level": 3,
+				"text": "A — Archive-specific fields directly on every attachment",
+				"anchor": "a-archive-specific-fields-directly-on-every-attachment"
+			},
+			{
+				"level": 3,
+				"text": "B — Generic attachment storage provenance object",
+				"anchor": "b-generic-attachment-storage-provenance-object"
+			},
+			{
+				"level": 3,
+				"text": "C — Public URL only",
+				"anchor": "c-public-url-only"
+			},
+			{
+				"level": 3,
+				"text": "D — Reuse post-level sourceProvenance",
+				"anchor": "d-reuse-post-level-sourceprovenance"
+			},
+			{
+				"level": 3,
+				"text": "E — Separate durable asset registry referenced only by ID",
+				"anchor": "e-separate-durable-asset-registry-referenced-only-by-id"
+			},
+			{
+				"level": 2,
+				"text": "Twenty-five improvements over the first brainstorm",
+				"anchor": "twenty-five-improvements-over-the-first-brainstorm"
+			},
+			{
+				"level": 2,
+				"text": "Phase-two conclusion",
+				"anchor": "phase-two-conclusion"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Two — Architecture Comparison and Critique Observed execution graph ComposerWorkflow → SocialComposerApi.publish() → /api/social/unified social/publish → PublicationRouteHandlers.execute() → PublicationExecutor.executePublication() → ContentPublisher.publishCanonical() → RichPostSe",
+		"searchText": "b\"h boruch hashem blessed is he phase two — architecture comparison and critique observed execution graph composerworkflow → socialcomposerapi.publish() → /api/social/unified social/publish → publicationroutehandlers.execute() → publicationexecutor.executepublication() → contentpublisher.publishcanonical() → richpostservice.createpost() → native socialcontent.createpost(). video media follows a second path before that graph: mediauploader → archiveorguploadservice.uploadvideo() → fingerprint + deterministic identifier + retry + receipt ledger + public verification → archive attachment returned to attachmentstore → postpayloadparts.attachmentpayload() → server attachmentschema.normalizeattachment() → canonical post. proven healthy seams client and server agree on post payload shape { contentpayload, publicationplan }. apitransport unwraps the server { success: ... } garment before workflow status handling. seriesid survives client payload, rich post normalization, and native body conversion. canonical awtsmoos publication executes before secondary placements. publication executor already models idempotency and partial secondary placement failure. archive upload already fingerprints, deduplicates, rate checks, retries, journals receipts, and verifies public evidence. proven gap archive media returns archiveidentifier, archivefilename, archivedetailsurl, archivehistoryurl, filefingerprint, archivestate, upload/verification timestamps, etag, and bytes. the client canonical attachment mapper retains only the public url and omits these fields; it also reads size but not archive's bytes. the server attachment schema strips any such fields again. a successfully uploaded internet archive video therefore remains playable, but its durable storage evidence is not part of the canonical awtsmoos post. competing architectures a — archive specific fields directly on every attachment simple, but couples the canonical social schema to one vendor and makes future storage providers awkward. rejected. b — generic attachment storage provenance object each attachment may carry a bounded, sanitized storage descriptor: provider, external identifier, filename, details/history urls, fingerprint, state, timestamps, etag. archive.org fills it now; future durable storage can use the same contract. chosen. c — public url only current behavior. smallest data shape, but destroys recovery/debug/audit evidence. rejected. d — reuse post level sourceprovenance existing sourceprovenance describes where an imported post originated (youtube/facebook/instagram/etc.). storage location is a different truth and can vary per attachment. rejected to avoid semantic collision. e — separate durable asset registry referenced only by id architecturally strong for a large media platform, but too broad for finishing this posting seam. defer until evidence requires a central asset registry. twenty five improvements over the first brainstorm 1. separate post origin provenance from media storage provenance. 2. preserve archive byte count by mapping bytes into canonical size. 3. never carry ia s3 access/secret keys into payloads or storage descriptors. 4. whitelist storage fields server side instead of copying arbitrary nested objects. 5. bound provider, identifier, filename, fingerprint, state, etag, and timestamp lengths. 6. sanitize only https evidence links for external storage metadata. 7. keep storage metadata optional so all legacy attachments normalize unchanged. 8. keep publicpath as the actual playback address; storage metadata must not become a second source of truth for rendering. 9. use one tiny server schema module so attachmentschema remains focused. 10. use one tiny client mapper module so postpayloadparts remains below the repository size law. 11. preserve current attachment ids and roles. 12. preserve sourceprovenance behavior at post level without modification. 13. preserve clone ownership behavior without modification. 14. ensure malformed storage metadata degrades to a safe empty descriptor, never a publication failure. 15. ensure unknown storage fields are dropped. 16. ensure unsafe url schemes are dropped. 17. ensure excessive sizes remain bounded by the existing attachment size policy. 18. add a client contract witness for archive receipt → canonical attachment payload. 19. add a server contract witness for canonical attachment → normalized persisted attachment. 20. add a negative witness proving credentials/private fields are discarded. 21. run pre existing rich social schema tests after the new contract tests. 22. run composer publication tests after client mapping changes. 23. read every touched source file back in full before test execution. 24. verify the unified publish route still creates canonical content independently of secondary placements. 25. only after this seam closes, begin the mobile first social hub redesign and external provider account linking work. phase two conclusion the awtsmoos reveals one light through many vessels: upload truth must not evaporate when it crosses a module boundary. awtsmoos.com should remember enough public evidence to recover what it has published, while private credentials remain entirely outside the canonical post.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28t0237-geelooy-social-posting-02-architectu-7bce895d48.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28t0237-geelooy-social-posting-03-final-exec-2c0a2e044b",
+		"title": "Phase Three — Final Execution Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0237-geelooy-social-posting/03_FINAL_EXECUTION_PLAN.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Three — Final Execution Plan",
+				"anchor": "phase-three-final-execution-plan"
+			},
+			{
+				"level": 2,
+				"text": "Final decision",
+				"anchor": "final-decision"
+			},
+			{
+				"level": 2,
+				"text": "Canonical storage shape",
+				"anchor": "canonical-storage-shape"
+			},
+			{
+				"level": 2,
+				"text": "Files to create",
+				"anchor": "files-to-create"
+			},
+			{
+				"level": 3,
+				"text": "social-composer/js/model/AttachmentStorage.js",
+				"anchor": "social-composer-js-model-attachmentstorage-js"
+			},
+			{
+				"level": 3,
+				"text": "api/social/helper/richSocial/AttachmentStorageSchema.js",
+				"anchor": "api-social-helper-richsocial-attachmentstorageschema-js"
+			},
+			{
+				"level": 3,
+				"text": "social-composer/js/model/test/AttachmentStorage.test.mjs",
+				"anchor": "social-composer-js-model-test-attachmentstorage-test-mjs"
+			},
+			{
+				"level": 3,
+				"text": "api/social/helper/richSocial/test/attachmentStorage.test.js",
+				"anchor": "api-social-helper-richsocial-test-attachmentstorage-test-js"
+			},
+			{
+				"level": 2,
+				"text": "Files to rewrite in full",
+				"anchor": "files-to-rewrite-in-full"
+			},
+			{
+				"level": 3,
+				"text": "social-composer/js/model/PostPayloadParts.js",
+				"anchor": "social-composer-js-model-postpayloadparts-js"
+			},
+			{
+				"level": 3,
+				"text": "api/social/helper/richSocial/AttachmentSchema.js",
+				"anchor": "api-social-helper-richsocial-attachmentschema-js"
+			},
+			{
+				"level": 2,
+				"text": "Files explicitly protected in this pass",
+				"anchor": "files-explicitly-protected-in-this-pass"
+			},
+			{
+				"level": 2,
+				"text": "Thirty final checks and improvements",
+				"anchor": "thirty-final-checks-and-improvements"
+			},
+			{
+				"level": 2,
+				"text": "Final file graph",
+				"anchor": "final-file-graph"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Three — Final Execution Plan Final decision Finish the current Internet facing posting seam before redesigning Social Hub. Preserve public Archive.org storage evidence on each canonical media attachment through a generic optional storage object. Do not modify post level sourceProve",
+		"searchText": "b\"h boruch hashem blessed is he phase three — final execution plan final decision finish the current internet facing posting seam before redesigning social hub. preserve public archive.org storage evidence on each canonical media attachment through a generic optional storage object. do not modify post level sourceprovenance; it continues to describe imported post origin. do not implement youtube/facebook/instagram apis in this pass. canonical storage shape the attachment may optionally contain: provider externalid filename detailsurl historyurl fingerprint state uploadedat verifiedat etag no credential fields are accepted. publicpath remains the playback url. size remains the canonical byte size field. files to create social composer/js/model/attachmentstorage.js a tiny client mapper that converts a manifest's generic storage object or current archive receipt fields into the bounded canonical storage descriptor. it also gives the post payload layer one single responsibility for recognizing durable storage evidence. api/social/helper/richsocial/attachmentstorageschema.js a tiny server sanitizer for optional storage descriptors. it will whitelist fields, bound text, accept only https evidence urls, and return no private/unrecognized fields. social composer/js/model/test/attachmentstorage.test.mjs a focused client witness: archive receipt → canonical storage object; existing generic storage passes through; credentials/unknown matter are not emitted; archive bytes is available for size mapping through the parent mapper contract. api/social/helper/richsocial/test/attachmentstorage.test.js a focused server witness: storage fields normalize, unsafe urls and unknown/private fields disappear, ordinary legacy attachments remain valid. files to rewrite in full social composer/js/model/postpayloadparts.js preserve its existing exports and behavior. import the new storage mapper. attachmentpayload() will: preserve the current canonical attachment fields, map manifest.size item.size manifest.bytes item.bytes into size, include optional storage only when public storage evidence exists. api/social/helper/richsocial/attachmentschema.js preserve current exports/types/roles/normalization behavior. delegate optional storage normalization to attachmentstorageschema. keep legacy attachment compatibility and current size ceiling. files explicitly protected in this pass social composer/js/model/postpayload.js sourceprovenanceschema.js richpostoptions.js publicationexecutor.js contentpublisher.js socialcontent.js social hub/index.html external provider/oauth code they have no proven defect required by this seam. thirty final checks and improvements 1. full file writes only. 2. every source file starts with b\"h / boruch hashem / blessed is he. 3. tabs for all source indentation. 4. no touched source file should exceed the repository's 120 line ideal. 5. keep functions readable and multiline. 6. keep public exports unchanged unless adding a strictly internal helper. 7. do not move or rename existing modules. 8. keep publicpath as renderer truth. 9. keep size numeric and backward compatible. 10. convert archive bytes to canonical size without duplicating bytes in stored posts. 11. keep storage optional. 12. do not manufacture storage metadata for native uploads that do not provide it. 13. map archive archiveidentifier → storage.externalid. 14. map archive archivefilename → storage.filename. 15. map archive details/history links only as https urls. 16. map fingerprint/state/timestamps/etag as bounded text. 17. do not carry archivedetailsurl et al as duplicate top level attachment keys. 18. drop ia s3 access keys even if malicious input attempts to put them into storage. 19. drop arbitrary extra storage properties. 20. existing image/audio attachments must normalize exactly as before except optional absence of storage. 21. existing clone media paths must remain intact. 22. existing root/section/subsection media mapping must use the same attachment contract. 23. client tests run only after code is fully written and reread. 24. server tests run only after code is fully written and reread. 25. run current rich social schema/service tests after focused storage tests. 26. run current composer publication truth tests after focused client tests. 27. run syntax checks on every touched source/test file. 28. trace one representative archive asset through client payload and server normalization with actual executable evidence. 29. inspect runtime/browser publication surface after unit/contract tests, without silently creating a surprise public test post. 30. record planned vs actual delta and leave the next social hub/mobile/provider phase as explicit remaining work only after this gate is closed. final file graph archiveorgreceiptasset → mediauploader → attachment manifest → attachmentstorage.js → postpayloadparts.js → unified publish api → attachmentstorageschema.js → attachmentschema.js → rich post → native post. the awtsmoos is one while the vessels are many; awtsmoos.com must let durable public evidence cross each boundary cleanly, with no secret following behind. when this path is true, the next revelation can make the social surface swift on mobile and ready for many networks without confusing their identities.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28t0237-geelooy-social-posting-03-final-exec-2c0a2e044b.json"
+	}
+]

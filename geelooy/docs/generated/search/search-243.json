@@ -1,264 +1,401 @@
 [
 	{
-		"id": "geelooy-apps-nesher-studio-docs-long-recording-design-md-c255980439",
-		"title": "Long Recording Design",
-		"sourcePath": "geelooy/apps/nesher-studio/docs/LONG_RECORDING_DESIGN.md",
-		"category": "Apps",
-		"provenance": "project",
+		"id": "docs-generated-project-tutorials-projects-geelooy-tmp-39336fb9-md-447b7d48be",
+		"title": "Project Tutorial: geelooy/tmp",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-tmp-39336fb9.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Long Recording Design",
-				"anchor": "long-recording-design"
+				"text": "Project Tutorial: geelooy/tmp",
+				"anchor": "project-tutorial-geelooy-tmp"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Long Recording Design Current Nesher behavior: Video frames are sent one at a time to the existing MediaBunnyBase worker. MediaBunnyBase keeps only a small frame queue. Final MP4 bytes are written through an IndexedDB range target in the shared video library. Captured tab audio is stored as PCM packets in IndexedDB",
-		"searchText": "b\"h long recording design current nesher behavior: video frames are sent one at a time to the existing mediabunnybase worker. mediabunnybase keeps only a small frame queue. final mp4 bytes are written through an indexeddb range target in the shared video library. captured tab audio is stored as pcm packets in indexeddb while recording. this avoids the main ram traps during recording. remaining limitation: the current shared finalize api expects one audiobuffer like shim, so final muxing materializes audio once at the end. future true segment mode: finalize a fragment every 30 120 seconds. store fragments in indexeddb. stitch using a same codec fragmented mp4 concat action, not by decoding/re encoding. this belongs in /scripts/awtsmoos/video, so all apps benefit.",
-		"page": "pages/geelooy-apps-nesher-studio-docs-long-recording-design-md-c255980439.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/tmp Path: geelooy/tmp · Type: project · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownersh",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/tmp path: geelooy/tmp · type: project · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: — local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 3 0 0 0 0 6 9 public entry points none observed. symbol evidence source files: 1; classes: 0; functions: 3; exports: 0; samples: send, capturebrowserevent, readpagestate. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-tmp-39336fb9-md-447b7d48be.json"
 	},
 	{
-		"id": "geelooy-apps-nesher-studio-docs-monitor-sources-md-a25532b5cd",
-		"title": "Monitor Sources",
-		"sourcePath": "geelooy/apps/nesher-studio/docs/MONITOR_SOURCES.md",
-		"category": "Apps",
-		"provenance": "project",
+		"id": "docs-generated-project-tutorials-projects-geelooy-tools-3e61fa29-md-28c9b84009",
+		"title": "Project Tutorial: geelooy/tools",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-tools-3e61fa29.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Monitor Sources",
-				"anchor": "monitor-sources"
+				"text": "Project Tutorial: geelooy/tools",
+				"anchor": "project-tutorial-geelooy-tools"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Monitor Sources Nesher now exposes monitor capture as a first class source. Implementation details: Add Monitor calls getDisplayMedia() with monitor oriented hints. Browser permission still controls the final picker choice. The chosen display surface is read from track.getSettings().displaySurface. The monitor sour",
-		"searchText": "b\"h monitor sources nesher now exposes monitor capture as a first class source. implementation details: add monitor calls getdisplaymedia() with monitor oriented hints. browser permission still controls the final picker choice. the chosen display surface is read from track.getsettings().displaysurface. the monitor source is a normal video source, so scenes, dragging, resizing, audio capture, and recording use the same stable path. important browser fact: a web page cannot silently select a monitor. the user must choose the screen/window/tab in the picker. the app can request and label monitor capture, but chrome owns permission and selection.",
-		"page": "pages/geelooy-apps-nesher-studio-docs-monitor-sources-md-a25532b5cd.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/tools Path: geelooy/tools · Type: project · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime own",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/tools path: geelooy/tools · type: project · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: — local documentation: no local documentation.md observed. local doc requirement: yes; covered: no symlink target: — file shape source tests assets generated docs other total 19 2 0 0 0 0 21 public entry points none observed. symbol evidence source files: 19; classes: 3; functions: 23; exports: 25; samples: scanperformancerisks, scanreferencecandidates, buildreferenceindex, isreferenced, scansourcequality, trackedfiles, trackedsourcefiles, isprotectedpath, classifyproductevidence, classifyauditerror, argumentvalue, default base url. depends on none observed. used by none observed. external packages ws — 1 lexical reference verification clue observed test classified files: 2 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-tools-3e61fa29-md-28c9b84009.json"
 	},
 	{
-		"id": "geelooy-apps-nesher-studio-docs-tab-capture-roadmap-md-169ad3a82d",
-		"title": "Nesher Studio Tab Capture Roadmap",
-		"sourcePath": "geelooy/apps/nesher-studio/docs/TAB_CAPTURE_ROADMAP.md",
-		"category": "Apps",
-		"provenance": "project",
+		"id": "docs-generated-project-tutorials-projects-geelooy-translations-46cd7ed4--bc2a5647dc",
+		"title": "Project Tutorial: English Torah Translations | Awtsmoos",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-translations-46cd7ed4.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Nesher Studio Tab Capture Roadmap",
-				"anchor": "nesher-studio-tab-capture-roadmap"
+				"text": "Project Tutorial: English Torah Translations | Awtsmoos",
+				"anchor": "project-tutorial-english-torah-translations-awtsmoos"
 			},
 			{
 				"level": 2,
-				"text": "What works inside a normal page",
-				"anchor": "what-works-inside-a-normal-page"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "What cannot be done by a normal page",
-				"anchor": "what-cannot-be-done-by-a-normal-page"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Best extension route",
-				"anchor": "best-extension-route"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "Best tunnel route",
-				"anchor": "best-tunnel-route"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Nesher Studio Tab Capture Roadmap What works inside a normal page Use navigator.mediaDevices.getDisplayMedia({ video: true }). The user chooses a tab, window, or screen. The returned MediaStream can be drawn as a video source into the Nesher canvas and encoded like webcam. This is now represented as a display sourc",
-		"searchText": "b\"h nesher studio tab capture roadmap what works inside a normal page use navigator.mediadevices.getdisplaymedia({ video: true }). the user chooses a tab, window, or screen. the returned mediastream can be drawn as a video source into the nesher canvas and encoded like webcam. this is now represented as a display source route in modules/tabcaptureideas.js and makedisplaysource(). what cannot be done by a normal page a web page cannot silently pick and record an arbitrary chrome tab. browser security requires user permission. an iframe source also cannot be pixel captured if cross origin; nesher records a safe iframe plate unless capture is done through display media or an extension. best extension route build a chrome extension with: tabcapture permission activetab permission offscreen document permission if needed a content/control page that calls chrome.tabcapture.capture stream handoff to nesher through a controlled extension page or webrtc/messagechannel bridge best tunnel route do not bypass browser consent. instead, add tunnel actions: chrometabslist chrometabfocus chromeextensioninstalldev chromecaptureworkflowstart chromecaptureworkflowstatus chromeprofilelaunchwithextension these make the agent able to prepare and test the capture workflow while the extension/browser still owns real capture permission.",
-		"page": "pages/geelooy-apps-nesher-studio-docs-tab-capture-roadmap-md-169ad3a82d.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: English Torah Translations Awtsmoos Path: geelooy/translations · Type: public · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical o",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: english torah translations awtsmoos path: geelooy/translations · type: public · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html local documentation: no local documentation.md observed. local doc requirement: yes; covered: no symlink target: — file shape source tests assets generated docs other total 294 0 0 0 0 88 382 public entry points /translations → geelooy/translations/index.html — english torah translations awtsmoos symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-translations-46cd7ed4--bc2a5647dc.json"
 	},
 	{
-		"id": "geelooy-apps-nesher-studio-documentation-md-7f2998fccb",
-		"title": "Nesher Studio Documentation",
-		"sourcePath": "geelooy/apps/nesher-studio/DOCUMENTATION.md",
-		"category": "Apps",
-		"provenance": "breadcrumb",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Nesher Studio Documentation",
-				"anchor": "nesher-studio-documentation"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Nesher Studio Documentation The Awtsmoos lets a large studio project reveal creative structure through hundreds of files without being flattened into a generic editor name; Awtsmoos.com maps this app beside creative tools and asks maintainers to begin from its own entry/README before cha",
-		"searchText": "b\"h boruch hashem blessed is he nesher studio documentation the awtsmoos lets a large studio project reveal creative structure through hundreds of files without being flattened into a generic editor name; awtsmoos.com maps this app beside creative tools and asks maintainers to begin from its own entry/readme before changing the frame. read ../../../docs/apps/creative tools.md and ../../../docs/generated/app inventory.md.",
-		"page": "pages/geelooy-apps-nesher-studio-documentation-md-7f2998fccb.json"
-	},
-	{
-		"id": "geelooy-apps-nesher-studio-modules-streaming-local-tunnel-streaming-md-9eca256443",
-		"title": "Nesher Local Tunnel Streaming",
-		"sourcePath": "geelooy/apps/nesher-studio/modules/streaming/LOCAL_TUNNEL_STREAMING.md",
+		"id": "docs-generated-project-tutorials-projects-geelooy-tunnel-6ffd6bdc-md-09cdbfb78e",
+		"title": "Project Tutorial: geelooy/tunnel",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-tunnel-6ffd6bdc.md",
 		"category": "Tunnel",
-		"provenance": "project",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Nesher Local Tunnel Streaming",
-				"anchor": "nesher-local-tunnel-streaming"
+				"text": "Project Tutorial: geelooy/tunnel",
+				"anchor": "project-tutorial-geelooy-tunnel"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Nesher Local Tunnel Streaming localTunnelStreaming.js talks to the local tunnel API. hlsTunnelSession.js wraps start enqueue segment flush stop. segmentQueue.js prevents unbounded browser side memory growth while muxers emit media segments. Current implemented browser mux path: mediabunnyFmp4Stream.js imports Media",
-		"searchText": "b\"h nesher local tunnel streaming localtunnelstreaming.js talks to the local tunnel api. hlstunnelsession.js wraps start enqueue segment flush stop. segmentqueue.js prevents unbounded browser side memory growth while muxers emit media segments. current implemented browser mux path: mediabunnyfmp4stream.js imports mediabunny 1.46 from https://esm.sh/mediabunny@1.46.0?bundle. it uses mp4outputformat({ faststart:'fragmented' }) with onftyp, onmoov, onmoof, and onmdat callbacks. it captures the composed nesher canvas through canvassource and pushes init.mp4 plus real moof+mdat .m4s fragments into the local tunnel session. media path: nesher scene canvas mediabunny canvassource h.264 fragmented mp4 local tunnel platform ingest or relay. control path: /api/streaming creates or configures connector metadata. it does not receive video bytes unless the user chooses the awtsmoos hosted connector. activation warning: the repository contains the streaming local api route, but the currently running installed tunnel may be older. if /streaming/start returns a filesystem list response, restart/reinstall the awtsmoos tunnel agent so the installed local api exposes the streaming routes.",
-		"page": "pages/geelooy-apps-nesher-studio-modules-streaming-local-tunnel-streaming-md-9eca256443.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/tunnel Path: geelooy/tunnel · Type: project · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime o",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/tunnel path: geelooy/tunnel · type: project · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: — local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 3 0 0 0 0 0 3 public entry points /tunnel/connect → geelooy/tunnel/connect/index.html — connect an agent — awtsmoos tunnel /tunnel/device → geelooy/tunnel/device/index.html — approve a device — awtsmoos tunnel symbol evidence source files: 1; classes: 0; functions: 7; exports: 1; samples: dynamicroutes, escapehtml, pageshell, machinejson, ownersection, guestsection, redeemsection, connectpage. depends on geelooy/api/tunnel — 2 lexical references; examples: geelooy/tunnel/connect/ awtsmoos.derech.js used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-tunnel-6ffd6bdc-md-09cdbfb78e.json"
 	},
 	{
-		"id": "geelooy-apps-nesher-studio-modules-streaming-readme-md-a90377763f",
-		"title": "Nesher YouTube Streaming Modules",
-		"sourcePath": "geelooy/apps/nesher-studio/modules/streaming/README.md",
-		"category": "Apps",
-		"provenance": "project",
+		"id": "docs-generated-project-tutorials-projects-geelooy-view-c3c15515-md-4a7be07b31",
+		"title": "Project Tutorial: geelooy/view",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-view-c3c15515.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Nesher YouTube Streaming Modules",
-				"anchor": "nesher-youtube-streaming-modules"
+				"text": "Project Tutorial: geelooy/view",
+				"anchor": "project-tutorial-geelooy-view"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Nesher YouTube Streaming Modules youtubeControl.js talks to /api/youtube for OAuth/control metadata. hlsUploader.js is the direct to YouTube byte path. Still needed for actual live streaming: WebCodecs H.264/AAC encoder settings finalized. Browser JS muxer that emits YouTube compatible HLS media segments and playli",
-		"searchText": "b\"h nesher youtube streaming modules youtubecontrol.js talks to /api/youtube for oauth/control metadata. hlsuploader.js is the direct to youtube byte path. still needed for actual live streaming: webcodecs h.264/aac encoder settings finalized. browser js muxer that emits youtube compatible hls media segments and playlists. a segment scheduler that sends those bytes through hlsuploader. this intentionally avoids ffmpeg and avoids sending video bytes through awtsmoos.com.",
-		"page": "pages/geelooy-apps-nesher-studio-modules-streaming-readme-md-a90377763f.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/view Path: geelooy/view · Type: project · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime owner",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/view path: geelooy/view · type: project · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: awtsmoos.derech.js local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 1 0 0 0 0 0 1 public entry points none observed. symbol evidence source files: 1; classes: 0; functions: 0; exports: 1; samples: dynamicroutes. depends on geelooy/api/tunnel — 1 lexical reference; examples: geelooy/view/ awtsmoos.derech.js used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-view-c3c15515-md-4a7be07b31.json"
 	},
 	{
-		"id": "geelooy-apps-piano-documentation-md-c6f560e2e1",
-		"title": "Piano App Documentation",
-		"sourcePath": "geelooy/apps/piano/DOCUMENTATION.md",
-		"category": "Apps",
-		"provenance": "breadcrumb",
+		"id": "docs-generated-project-tutorials-projects-geelooy-webscrapers-1466bc35-m-34cdaf1b4f",
+		"title": "Project Tutorial: geelooy/webScrapers",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-webscrapers-1466bc35.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Piano App Documentation",
-				"anchor": "piano-app-documentation"
+				"text": "Project Tutorial: geelooy/webScrapers",
+				"anchor": "project-tutorial-geelooy-webscrapers"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Piano App Documentation The Awtsmoos lets sound become interactive through keys, timing, browser input, and musical state; Awtsmoos.com maps this app within creative tools while its own source remains authority for implementation fate. Read ../../../docs/APPS/CREATIVE TOOLS.md and ../../",
-		"searchText": "b\"h boruch hashem blessed is he piano app documentation the awtsmoos lets sound become interactive through keys, timing, browser input, and musical state; awtsmoos.com maps this app within creative tools while its own source remains authority for implementation fate. read ../../../docs/apps/creative tools.md and ../../../docs/apps/media tools.md.",
-		"page": "pages/geelooy-apps-piano-documentation-md-c6f560e2e1.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/webScrapers Path: geelooy/webScrapers · Type: project · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/webscrapers path: geelooy/webscrapers · type: project · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: — local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 5 0 0 0 0 0 5 public entry points none observed. symbol evidence source files: 5; classes: 0; functions: 30; exports: 0; samples: processgemarajson, processchabadonetext, doall, getfilesindirectory, formatpage, getdafdata, getpage, getentirechabadlibrarybooksequential, processitemsequential, getentirechabadlibrarybook, downloadj, getdata. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-webscrapers-1466bc35-m-34cdaf1b4f.json"
 	},
 	{
-		"id": "geelooy-apps-rebbe-documentation-md-e77410fce1",
-		"title": "Rebbe App Documentation",
-		"sourcePath": "geelooy/apps/rebbe/DOCUMENTATION.md",
-		"category": "Apps",
-		"provenance": "breadcrumb",
+		"id": "docs-generated-project-tutorials-projects-geelooy-well-known-9a764220-md-4cf7b72b3e",
+		"title": "Project Tutorial: geelooy/.well-known",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-well-known-9a764220.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Rebbe App Documentation",
-				"anchor": "rebbe-app-documentation"
+				"text": "Project Tutorial: geelooy/.well-known",
+				"anchor": "project-tutorial-geelooy-well-known"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Rebbe App Documentation The Awtsmoos gives this substantial named app a local map while compiler evidence shows backend relationships that must be traced; Awtsmoos.com links developer and creative documentation without inventing contracts not actually written in source. Read ../../../doc",
-		"searchText": "b\"h boruch hashem blessed is he rebbe app documentation the awtsmoos gives this substantial named app a local map while compiler evidence shows backend relationships that must be traced; awtsmoos.com links developer and creative documentation without inventing contracts not actually written in source. read ../../../docs/apps/creative tools.md, ../../../docs/apps/developer tools.md, and ../../../docs/api/other families.md.",
-		"page": "pages/geelooy-apps-rebbe-documentation-md-e77410fce1.json"
-	},
-	{
-		"id": "geelooy-apps-scripts-documentation-md-598e560db6",
-		"title": "App Script Catalog Helpers",
-		"sourcePath": "geelooy/apps/scripts/DOCUMENTATION.md",
-		"category": "Apps",
-		"provenance": "breadcrumb",
-		"headings": [
-			{
-				"level": 1,
-				"text": "App Script Catalog Helpers",
-				"anchor": "app-script-catalog-helpers"
-			},
-			{
-				"level": 2,
-				"text": "Boundary",
-				"anchor": "boundary"
-			},
-			{
-				"level": 2,
-				"text": "Change rule",
-				"anchor": "change-rule"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He App Script Catalog Helpers The Awtsmoos lets application discovery become a small reusable browser vessel; Awtsmoos.com keeps catalog filtering separate from individual app implementations. Boundary geelooy/apps/scripts/ contains apps filter.js and the catalog/ modules used by applicatio",
-		"searchText": "b\"h boruch hashem blessed is he app script catalog helpers the awtsmoos lets application discovery become a small reusable browser vessel; awtsmoos.com keeps catalog filtering separate from individual app implementations. boundary geelooy/apps/scripts/ contains apps filter.js and the catalog/ modules used by application discovery/catalog surfaces. it is shared app listing support, not a standalone product runtime. change rule trace consumers before changing filtering or catalog semantics because multiple application surfaces may depend on the same shared discovery behavior.",
-		"page": "pages/geelooy-apps-scripts-documentation-md-598e560db6.json"
-	},
-	{
-		"id": "geelooy-apps-sheets-documentation-md-376db4ec7e",
-		"title": "Awtsmoos Sheets",
-		"sourcePath": "geelooy/apps/sheets/DOCUMENTATION.md",
-		"category": "Apps",
-		"provenance": "breadcrumb",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Awtsmoos Sheets",
-				"anchor": "awtsmoos-sheets"
-			},
-			{
-				"level": 2,
-				"text": "Entry point",
-				"anchor": "entry-point"
-			},
-			{
-				"level": 2,
-				"text": "Boundary",
-				"anchor": "boundary"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos Sheets The Awtsmoos lets formulas, commands, collaborators, and cells move through one precise grid while Awtsmoos.com keeps their roles explicit and inspectable. Entry point index.html is the browser shell. js/ contains workbook/grid/application behavior and css/ contains focus",
-		"searchText": "b\"h boruch hashem blessed is he awtsmoos sheets the awtsmoos lets formulas, commands, collaborators, and cells move through one precise grid while awtsmoos.com keeps their roles explicit and inspectable. entry point index.html is the browser shell. js/ contains workbook/grid/application behavior and css/ contains focused tokens, shell, controls, menus, dialogs, panels, grid, presence, tabs, responsive, motion, and futuristic presentation modules. boundary this directory owns the sheets client experience. realtime authority and persistence must be traced to the corresponding server/websocket application before changing protocol or storage semantics.",
-		"page": "pages/geelooy-apps-sheets-documentation-md-376db4ec7e.json"
-	},
-	{
-		"id": "geelooy-apps-slides-agents-md-d6e5531731",
-		"title": "Awtsmoos Slides — AI and Agent Instructions",
-		"sourcePath": "geelooy/apps/slides/AGENTS.md",
-		"category": "Apps",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Awtsmoos Slides — AI and Agent Instructions",
-				"anchor": "awtsmoos-slides-ai-and-agent-instructions"
-			},
-			{
-				"level": 2,
-				"text": "Canonical file format",
-				"anchor": "canonical-file-format"
-			},
-			{
-				"level": 2,
-				"text": "Root document",
-				"anchor": "root-document"
-			},
-			{
-				"level": 2,
-				"text": "Supported elements",
-				"anchor": "supported-elements"
-			},
-			{
-				"level": 2,
-				"text": "Generation rules",
-				"anchor": "generation-rules"
-			},
-			{
-				"level": 2,
-				"text": "Minimal generated slide",
-				"anchor": "minimal-generated-slide"
-			},
-			{
-				"level": 2,
-				"text": "Direct opening in Geelooy OS",
-				"anchor": "direct-opening-in-geelooy-os"
-			},
-			{
-				"level": 2,
-				"text": "Export surfaces",
-				"anchor": "export-surfaces"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos Slides — AI and Agent Instructions The Awtsmoos lets thought become a portable presentation vessel. Awtsmoos Slides deliberately uses a human readable JSON file format so an AI agent, script, Geelooy OS program, or person can generate an entire presentation without reverse engin",
-		"searchText": "b\"h boruch hashem blessed is he awtsmoos slides — ai and agent instructions the awtsmoos lets thought become a portable presentation vessel. awtsmoos slides deliberately uses a human readable json file format so an ai agent, script, geelooy os program, or person can generate an entire presentation without reverse engineering the editor. canonical file format use the .awtslides extension. the file contents are one json object. the editor normalizes imported data through the same presentation model used for local persistence and collaboration. public discovery files: /apps/slides/ai/manifest.json — machine readable capabilities and schema summary. /apps/slides/ai/example.awtslides — directly openable generated example. /apps/slides/agents.md — this guide. root document supported themes: midnight, dawn, forest, paper, neon. each slide supports name, background, notes, and elements. ids and revision are optional for generated documents because the editor can normalize missing values. supported elements text and headings support percentage geometry plus text, fontsize, fontweight, fontfamily, color, align, rotation, and opacity. shapes use type: \"shape\", shape: \"rect\" \"circle\", percentage geometry, fill, bordercolor, borderwidth, radius, rotation, and opacity. images use type: \"image\", percentage geometry, src, alt, fit, rotation, and opacity. prefer safe https urls or data:image/... urls when generating portable decks. generation rules 1. output one valid json object, not markdown. 2. keep visible text concise and put extra narration in slide notes. 3. compose for a 16:9 stage using x/y/width/height percentages. 4. leave visual margins; do not place every element at the edges. 5. use css hex colors such as f7f7fb. 6. keep slides visually hierarchical: one dominant idea, supporting text, and purposeful shapes/media. 7. do not invent unsupported element types when direct opening is required. 8. save generated json as something.awtslides, paste it into the ai studio, or deliver it to the geelooy os opener. minimal generated slide direct opening in geelooy os .awtslides is registered with awtsmoos slides. a geelooy file opener can pass the file contents to the presenter program as options.content; the presenter host transfers that content to the embedded slides application through the same origin deck bridge. export surfaces awtsmoos slides supports its native .awtslides json, standalone playable html, embeddable iframe markup, and dependency free .pptx powerpoint export for the supported presentation subset. the awtsmoos gives the agent a clear covenant: generate one normalized deck, and let every other surface—editor, os, embed, html, collaboration, powerpoint—flow from that same truth.",
-		"page": "pages/geelooy-apps-slides-agents-md-d6e5531731.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/.well known Path: geelooy/.well known · Type: project · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/.well known path: geelooy/.well known · type: project · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: awtsmoos.derech.js local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 1 0 0 0 0 0 1 public entry points none observed. symbol evidence source files: 1; classes: 0; functions: 0; exports: 1; samples: dynamicroutes. depends on geelooy/api/tunnel — 2 lexical references; examples: geelooy/.well known/ awtsmoos.derech.js geelooy/api/oauth — 1 lexical reference; examples: geelooy/.well known/ awtsmoos.derech.js used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-well-known-9a764220-md-4cf7b72b3e.json"
 	}
 ]

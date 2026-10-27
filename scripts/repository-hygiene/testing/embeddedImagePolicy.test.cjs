@@ -29,6 +29,11 @@ test("percent encoded substantial SVG bodies are detected", () => {
 	assert.equal(findings[0].encoding, "svg-uri");
 });
 
+test("percent encoded SVG remains detectable with literal apostrophes", () => {
+	const body = "%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M0 0h20v20H0z'/%3E%3C/svg%3E";
+	assert.equal(Policy.containsEmbeddedImage(`url(\"data:image/svg+xml,${body}\")`), true);
+});
+
 test("raw substantial SVG data bodies are detected", () => {
 	const body = "<svg xmlns=http://www.w3.org/2000/svg viewBox=0,0,10,10><path d=M0,0h10v10z/></svg>";
 	assert.equal(Policy.containsEmbeddedImage(`data:image/svg+xml,${body}`), true);

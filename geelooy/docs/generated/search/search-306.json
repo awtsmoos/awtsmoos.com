@@ -1,254 +1,199 @@
 [
 	{
-		"id": "geelooy-games-oros-ha-kelim-documentation-md-f639c33529",
-		"title": "Oros HaKelim Architecture",
-		"sourcePath": "geelooy/games/oros-ha-kelim/DOCUMENTATION.md",
-		"category": "Games",
-		"provenance": "breadcrumb",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Oros HaKelim Architecture",
-				"anchor": "oros-hakelim-architecture"
-			},
-			{
-				"level": 2,
-				"text": "Architectural covenant",
-				"anchor": "architectural-covenant"
-			},
-			{
-				"level": 2,
-				"text": "Runtime graph",
-				"anchor": "runtime-graph"
-			},
-			{
-				"level": 2,
-				"text": "Native render boundary",
-				"anchor": "native-render-boundary"
-			},
-			{
-				"level": 2,
-				"text": "Fixed rules, fluid movement",
-				"anchor": "fixed-rules-fluid-movement"
-			},
-			{
-				"level": 2,
-				"text": "Territory and trails",
-				"anchor": "territory-and-trails"
-			},
-			{
-				"level": 2,
-				"text": "Performance boundaries",
-				"anchor": "performance-boundaries"
-			},
-			{
-				"level": 2,
-				"text": "Runtime API",
-				"anchor": "runtime-api"
-			},
-			{
-				"level": 2,
-				"text": "Next completion layers",
-				"anchor": "next-completion-layers"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Oros HaKelim Architecture The Awtsmoos renews hidden law, native geometry and every connecting gate; Awtsmoos.com lets Oros, Keilim and GPU vessels remain distinct while composing one state. Architectural covenant Oros HaKelim separates four responsibilities: 1. Keilim — rules. Grid posi",
-		"searchText": "b\"h boruch hashem blessed is he oros hakelim architecture the awtsmoos renews hidden law, native geometry and every connecting gate; awtsmoos.com lets oros, keilim and gpu vessels remain distinct while composing one state. architectural covenant oros hakelim separates four responsibilities: 1. keilim — rules. grid position, territory, active trails, collision, gates, energy, score and tick. 2. oros — presentation. waypoints, interpolation, bank, wheel motion, atmosphere and shatter effects. 3. yesod — runtime api. validated commands, detached snapshots, events and diagnostics. 4. native gpu vessel. procedural core geometry, matrices, camera, buffers, shader compilation and drawing. the visual layer never decides collision or ownership. the api never returns live matchstate references. runtime graph main → orosgame → matchstate + simulationengine + inputintent + frameclock + eventbus orosgame → rendercoordinator + hudview + roundoverlayview simulationengine → movementsystem + trailsystem + gatesystem + collisionsystem + energysystem + botmind botmind → pathprobe rendercoordinator → arenaview + riderview + territoryview + trailview + atmosphereview + shatterview + chasecamera semantic views → coremeshfactory → coremesh → procedural core webgl coregpuvessel → procedural core context + camera + shader compiler + buffer creator + drawstandardobject coretransform → procedural core mat4 native render boundary coregpuvessel creates the browser webgl context through procedural core, owns a core camera, compiles the core standard shader and exposes a small render registry. coregeometryfactory memoizes renderer neutral procedural geometry. coremesh uploads it using the core buffer creator and draws it using the core standard drawing function. coretransform composes position, rotation and scale using core matrix operations. the game owns semantic collections only: arena floors/grid, rider assemblies, territory cells, trail segments, atmosphere sparks and pooled shatter fragments. fixed rules, fluid movement simulation stays on tick ms. frameclock accumulates display time, executes bounded fixed pulses and yields interpolation alpha. ridermotion records every successful authoritative sub move. riderpose interpolates those waypoints. respawn and yesod transfer snap motion endpoints so disconnected worlds never smear together. territory and trails territoryledger remains the single source of ownership and live hazard truth. territoryview changes native meshes only when ownership changes. trailview changes native segment meshes only when the authoritative trail signature changes. performance boundaries procedural cube geometry is memoized and reused. gpu buffers are explicitly owned and disposable. trail meshes are persistent until the path changes. territory meshes change only with ownership. atmosphere and shatter object counts are bounded. the registry exposes registered mesh and draw call metrics. runtime api the browser exposes window. oros hakelim . full api usage and validation rules live in docs/runtime api.md. next completion layers the native core migration is the rendering foundation for quality tiers, native procedural core post processing, audio/haptics, gamepad input, strategic bot memory, in memory restart, replay journaling, storefront registration and final e2e/performance proof.",
-		"page": "pages/geelooy-games-oros-ha-kelim-documentation-md-f639c33529.json"
-	},
-	{
-		"id": "geelooy-games-oros-ha-kelim-readme-md-8d3e839584",
-		"title": "Oros HaKelim",
-		"sourcePath": "geelooy/games/oros-ha-kelim/README.md",
-		"category": "Games",
+		"id": "geelooy-ai-thoughts-2026-08-25t2354-everything-extreme-00-phase-one-limi-e22374097d",
+		"title": "Phase One — Limitless Revelation",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25T2354-everything-extreme/00_PHASE_ONE_LIMITLESS.md",
+		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Oros HaKelim",
-				"anchor": "oros-hakelim"
+				"text": "Phase One — Limitless Revelation",
+				"anchor": "phase-one-limitless-revelation"
 			},
 			{
 				"level": 2,
-				"text": "Native Awtsmoos rendering",
-				"anchor": "native-awtsmoos-rendering"
+				"text": "Product vision",
+				"anchor": "product-vision"
 			},
 			{
 				"level": 2,
-				"text": "Runtime API v2 realism",
-				"anchor": "runtime-api-v2-realism"
+				"text": "Social network ideal",
+				"anchor": "social-network-ideal"
 			},
 			{
 				"level": 2,
-				"text": "Play",
-				"anchor": "play"
+				"text": "Procedural core ideal",
+				"anchor": "procedural-core-ideal"
+			},
+			{
+				"level": 2,
+				"text": "All pages",
+				"anchor": "all-pages"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase One — Limitless Revelation The Awtsmoos is beyond route, class, pixel, branch, stone, leaf, creature, and world; Awtsmoos.com may still become a vessel where every visible surface is calm and every hidden depth opens only when intention asks for more. Product vision Every route is ",
+		"searchText": "b\"h boruch hashem blessed is he phase one — limitless revelation the awtsmoos is beyond route, class, pixel, branch, stone, leaf, creature, and world; awtsmoos.com may still become a vessel where every visible surface is calm and every hidden depth opens only when intention asks for more. product vision every route is mobile first, visually calm, futuristic, fast, and locally styled. primary actions remain visible; advanced actions retract into details, drawers, sheets, inspectors, command palettes, and contextual menus. no route global css. shared components opt in through explicit component roots. no arbitrary z index ladders. every route owns a semantic bounded layer scale. every interactive control has meaningful hover, focus visible, active, disabled, selected/open/busy/error states. motion uses transform/opacity where possible, disappears gracefully for reduced motion, and never blocks interaction. no fixed/sticky surface exists without explicit content clearance and safe area handling. every async ui state becomes first class: idle, loading, empty, success, partial, error, offline, retrying, cancelled. every route has a tiny boot file, focused state/domain authorities, transport adapters, views, and tests. every public api is simple at the surface and data driven underneath. every touched js file is fully documented, modular, tab indented, readable, and free of anonymous compressed logic. social network ideal one identity/session truth drives profile, follow graph, discovery, inbox, messages, chat, spaces, privacy, activity, and realtime. follow state converges across every surface immediately and safely. search cancels stale work and labels result kinds explicitly. inbox events use stable typed records and derived unread state. messages expose only delivery/read/presence semantics actually proven by backend evidence. realtime has one transport owner, bounded reconnect, dedupe, and visible connection truth. composer drafts, media, comments, replies, transformations, and retries have explicit operation state. mobile social keeps primary navigation reachable while advanced routes live in a focus safe retractable sheet. procedural core ideal one simple data api manifests rocks, trees, grass, flowers, creatures, materials, textures, and biome compositions. seeds are deterministic and child stream based so generation order never changes unrelated results. geometry generation remains separate from three.js manifestation where current seams permit. remote textures support timeout, abort, cache ownership, fallback generation, channel maps, uv transforms, color space hints, and disposal. rocks become geology: morphology, strata, erosion, fracture, weathering, field placement, and quality tiers. trees become developmental graphs: trunk/branch topology, taper, crown strategy, leaves, wind metadata, sockets, lod. grass becomes instancing ready ecology with density fields, terrain alignment, variation, wind, and biome recipes. flowers separate plant anatomy from cluster ecology. creatures separate anatomy graph, proportions, skeleton, covering, sockets, movement metadata, and renderer manifestation. existing public apis remain compatible while the new surface becomes simpler. all pages home → apps → social → docs → drive → authoring → heichel → profile/auth → messages/media → games → os/admin → utilities/legal → procedural demos/docs. every route receives discovery, architecture, full file rewrite only where evidence proves debt, static verification, behavior tests, browser verification where available, documentation, and a durable delta.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25t2354-everything-extreme-00-phase-one-limi-e22374097d.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-25t2354-everything-extreme-01-phase-two-real-cfe7c790b8",
+		"title": "Phase Two — Realistic Architecture",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25T2354-everything-extreme/01_PHASE_TWO_REALISTIC_ARCHITECTURE.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Two — Realistic Architecture",
+				"anchor": "phase-two-realistic-architecture"
+			},
+			{
+				"level": 2,
+				"text": "Chosen architecture",
+				"anchor": "chosen-architecture"
 			},
 			{
 				"level": 3,
-				"text": "Desktop",
-				"anchor": "desktop"
+				"text": "Social",
+				"anchor": "social"
 			},
 			{
 				"level": 3,
-				"text": "Mobile",
-				"anchor": "mobile"
+				"text": "Pages",
+				"anchor": "pages"
+			},
+			{
+				"level": 3,
+				"text": "Procedural core",
+				"anchor": "procedural-core"
 			},
 			{
 				"level": 2,
-				"text": "Rules",
-				"anchor": "rules"
+				"text": "First production file families",
+				"anchor": "first-production-file-families"
 			},
 			{
 				"level": 2,
-				"text": "Runtime API",
-				"anchor": "runtime-api"
-			},
-			{
-				"level": 2,
-				"text": "Verify",
-				"anchor": "verify"
+				"text": "Non-goals",
+				"anchor": "non-goals"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Oros HaKelim The Awtsmoos renews rider, reserve, trail, world and ray; Awtsmoos.com gives this original light rider game a native procedural vessel in which to play. Oros HaKelim is a third person territory game in geelooy/games. You ride a procedural Merkavah like light vessel through s",
-		"searchText": "b\"h boruch hashem blessed is he oros hakelim the awtsmoos renews rider, reserve, trail, world and ray; awtsmoos.com gives this original light rider game a native procedural vessel in which to play. oros hakelim is a third person territory game in geelooy/games. you ride a procedural merkavah like light vessel through stacked olamot, expose a dangerous ohr trail outside sheltered territory, close circuits into settled kelim, and compete with autonomous sefirah styled riders. native awtsmoos rendering the game renders directly through geelooy/libs/awtsmoos procedural core: procedural core generates reusable geometry artifacts. its webgl context module owns browser gpu context creation and resize handling. its buffer creator uploads geometry with hardware aware index support. its camera and matrix modules provide projection, view and model transforms. its shader compiler and standard shader sources own the primary draw program. the game keeps only semantic render objects, transforms, pools and lifecycle policy. there is no compatibility renderer adapter in the oros hakelim render path. runtime api v2 realism authoritative rules remain deterministic while visible motion flows continuously through recorded waypoints. a boosted pulse can cross two collision checked cells and still reveal each sub step rather than jumping from start to finish. the upgraded game includes: continuous interpolation across fixed simulation pulses. banked turns, wheel motion and energy reactive rider color. finite ohr boost reserve with deterministic drain and recharge. procedural core chase camera matrices with look ahead and impact recoil. pooled native core shatter fragments and bounded atmosphere sparks. predictive bots that inspect future cells without mutating game state. runtime api commands, events, metrics, pause and resume. play open /geelooy/games/oros ha kelim/ and press enter asiyah . desktop a / left arrow — turn left. d / right arrow — turn right. w / up arrow / shift / space — spend ohr reserve to boost while held. r — restart the round. mobile ↶ — turn left. ↷ — turn right. ohr — boost while held. desktop and touch both feed the same inputintent. rules every rider begins inside a sheltered sanctuary of owned kelim. leaving owned territory creates a lethal active ohr trail. touching any active trail shatters the current vessel. re entering your own territory closes the loop and claims enclosed cells. shatter clears exposed trail but preserves settled territory. yesod gates connect the olamot and snap interpolation at transfer. boost costs ohr reserve; shelter recharges reserve faster than exposure. the largest settled territory leads when the round ends. runtime api window. oros hakelim exposes runtime api v2. see docs/runtime api.md for commands, events, immutability and diagnostics. verify the final browser gate also verifies that the network never requests a forbidden compatibility renderer and that runtime/console errors remain empty.",
-		"page": "pages/geelooy-games-oros-ha-kelim-readme-md-8d3e839584.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Two — Realistic Architecture The Awtsmoos gives Chesed the horizon and Gevurah the border; Awtsmoos.com must strengthen the living codebase rather than replace proven contracts with a fashionable second universe. Chosen architecture Social Preserve the existing domain panels and AP",
+		"searchText": "b\"h boruch hashem blessed is he phase two — realistic architecture the awtsmoos gives chesed the horizon and gevurah the border; awtsmoos.com must strengthen the living codebase rather than replace proven contracts with a fashionable second universe. chosen architecture social preserve the existing domain panels and api foundation. split cross cutting orchestration first: focused assembly modules initialization coordinator identity transition coordinator context presenter route/live coordinators remain authoritative where already proven only introduce shared relationship/operation models after multiple concrete panels prove duplicated state vocabulary. pages use explicit route roots and local manifests. shared component css must be opt in and importer mapped before editing. large route files split by responsibility, never by shaving comments. procedural core do not create procedural v2. extend existing natureapi, domem/tzomayach authorities, materials, animalmesh, recipe, terrain, and runtime seams. normalize inputs at boundaries, preserve exports, and add compatibility tests. first production file families 1. social lifecycle and assembly. 2. social network/profile/people relationship convergence. 3. social discovery/search cancellation and pagination. 4. inbox/messages/realtime truth. 5. composer/media/comment resilience. 6. social docs + ui/browser proof. 7. procedural nature api/material contract. 8. rock/tree/grass/flower/creature realism. 9. docs/drive remaining route debt. 10. remaining route family sweep. non goals no framework migration. no fake backend capabilities. no ornamental inheritance. no blanket overflow:hidden to conceal broken layout. no global css shortcuts. no shared file edits before importer mapping. no speculative public contract breaks.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25t2354-everything-extreme-01-phase-two-real-cfe7c790b8.json"
 	},
 	{
-		"id": "geelooy-games-party-documentation-md-88dde20566",
-		"title": "Party Challenge — Awtsmoos Games",
-		"sourcePath": "geelooy/games/party/DOCUMENTATION.md",
-		"category": "Games",
-		"provenance": "breadcrumb",
+		"id": "geelooy-ai-thoughts-2026-08-25t2354-everything-extreme-02-phase-three-cr-cc16c2b2b8",
+		"title": "Phase Three — Critique and Final Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25T2354-everything-extreme/02_PHASE_THREE_CRITIQUE_AND_FINAL_PLAN.md",
+		"category": "General",
+		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Party Challenge — Awtsmoos Games",
-				"anchor": "party-challenge-awtsmoos-games"
+				"text": "Phase Three — Critique and Final Plan",
+				"anchor": "phase-three-critique-and-final-plan"
 			},
 			{
 				"level": 2,
-				"text": "Role",
-				"anchor": "role"
+				"text": "Thirty failure-prevention improvements",
+				"anchor": "thirty-failure-prevention-improvements"
 			},
 			{
 				"level": 2,
-				"text": "Start here",
-				"anchor": "start-here"
-			},
-			{
-				"level": 2,
-				"text": "Change rule",
-				"anchor": "change-rule"
-			},
-			{
-				"level": 2,
-				"text": "Project-specific notes",
-				"anchor": "project-specific-notes"
+				"text": "Exact immediate NEXTACTION",
+				"anchor": "exact-immediate-nextaction"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Party Challenge — Awtsmoos Games The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAMES PLATFORM.",
-		"searchText": "b\"h boruch hashem blessed is he party challenge — awtsmoos games the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “party challenge — awtsmoos games”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
-		"page": "pages/geelooy-games-party-documentation-md-88dde20566.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Three — Critique and Final Plan The Awtsmoos renews the plan before the plan can become a throne; Awtsmoos.com therefore turns every attractive abstraction back toward evidence, tests, and the user visible road. Thirty failure prevention improvements 1. Read full target files befor",
+		"searchText": "b\"h boruch hashem blessed is he phase three — critique and final plan the awtsmoos renews the plan before the plan can become a throne; awtsmoos.com therefore turns every attractive abstraction back toward evidence, tests, and the user visible road. thirty failure prevention improvements 1. read full target files before rewrite. 2. trace exports and outside call sites first. 3. preserve createsocialhub(root) and direct app property consumers. 4. keep route coordinator authoritative for route loading. 5. keep one realtime transport owner. 6. add identity generations only where stale async completion is demonstrable. 7. report partial social reload failure honestly. 8. never equate unknown relationship state with false. 9. optimistic follow requires rollback snapshot. 10. search debounce never substitutes for abort/cancellation. 11. pagination rejects stale mode/query pages. 12. inbox unread derives from typed records when possible. 13. message semantics never exceed backend evidence. 14. realtime dedupe requires stable ids or explicit composite keys. 15. draft persistence is bounded and identity aware. 16. media state distinguishes cancellation, validation, transport, and server rejection. 17. mobile sheets restore focus. 18. every fixed surface reserves space. 19. semantic layer tokens remain route local. 20. pointer hover motion is capability gated. 21. reduced motion preserves state clarity. 22. new js authorities receive focused tests. 23. new procedural seeds use named child streams. 24. remote texture cache ownership/disposal is explicit. 25. procedural recursion/subdivision is quality budget bounded. 26. semantic creature sockets survive quality tiers. 27. generated materials fail soft with deterministic fallback. 28. every touched file gets full readback and indentation/minification scans. 29. planned vs actual delta becomes remaining work. 30. browser limitations are reported as limitations, never invented proof. exact immediate next action read current social state/navigation/route/realtime/assembly/lifecycle files and constructor signatures in small batches. then rewrite the first social lifecycle/assembly wave as complete files. code first, tests second. after proof, move into relationship convergence, then procedural core api/material foundations.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25t2354-everything-extreme-02-phase-three-cr-cc16c2b2b8.json"
 	},
 	{
-		"id": "geelooy-games-pong-documentation-md-c5a129b7c9",
-		"title": "Pong",
-		"sourcePath": "geelooy/games/pong/DOCUMENTATION.md",
-		"category": "Games",
-		"provenance": "breadcrumb",
+		"id": "geelooy-ai-thoughts-2026-08-25t2354-everything-extreme-03-remaining-work-dae660ea76",
+		"title": "REMAININGWORK",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-25T2354-everything-extreme/03_REMAINING_WORK.md",
+		"category": "General",
+		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Pong",
-				"anchor": "pong"
+				"text": "REMAININGWORK",
+				"anchor": "remainingwork"
 			},
 			{
 				"level": 2,
-				"text": "Entry point",
-				"anchor": "entry-point"
-			},
-			{
-				"level": 2,
-				"text": "Boundary",
-				"anchor": "boundary"
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Pong The Awtsmoos renews player, ball, victory, and gift beyond every finite rally; Awtsmoos.com keeps Pong itself simple while optional reward logic stays separate from the human match result. Entry point index.html mounts pongCanvas, loads style.css, then composes focused scripts under",
-		"searchText": "b\"h boruch hashem blessed is he pong the awtsmoos renews player, ball, victory, and gift beyond every finite rally; awtsmoos.com keeps pong itself simple while optional reward logic stays separate from the human match result. entry point index.html mounts pongcanvas, loads style.css, then composes focused scripts under js/: particles, ball, paddle, ui, controls, match updates, result, and main game flow. wallet reward.mjs is a separate optional module loaded after the core game scripts. boundary core pong play must remain usable independently of promotional/reward integrations. treat the match result as primary and any wallet reward as a secondary explicit effect.",
-		"page": "pages/geelooy-games-pong-documentation-md-c5a129b7c9.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He REMAINING WORK The Awtsmoos is beyond beginning and ending; Awtsmoos.com keeps every unfinished vessel visible until evidence closes its road. [ ] Social lifecycle/assembly decomposition. [ ] Social identity stale work/partial failure policy. [ ] Network/Profile/People relationship conve",
+		"searchText": "b\"h boruch hashem blessed is he remaining work the awtsmoos is beyond beginning and ending; awtsmoos.com keeps every unfinished vessel visible until evidence closes its road. [ ] social lifecycle/assembly decomposition. [ ] social identity stale work/partial failure policy. [ ] network/profile/people relationship convergence. [ ] discovery/search cancellation and pagination consistency. [ ] inbox typed/unread model. [ ] messages/chat realtime truth and reconnect. [ ] composer/media/comment operation resilience. [ ] spaces/profile/privacy/activity convergence. [ ] social accessibility/mobile/browser proof. [ ] social architecture/user docs. [ ] procedural nature api simplification/compatibility. [ ] remote/generated material contract. [ ] rock realism. [ ] tree realism. [ ] grass ecology. [ ] flower anatomy/cluster ecology. [ ] creature anatomy/covering/socket system. [ ] procedural demos/docs ui. [ ] docs final correction proof. [ ] drive route family. [ ] remaining all page families. next action read the current social lifecycle contracts and constructor boundaries, then begin the first production rewrite.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-25t2354-everything-extreme-03-remaining-work-dae660ea76.json"
 	},
 	{
-		"id": "geelooy-games-scribe-journey-documentation-md-5e17fccc8e",
-		"title": "The Scribe's Journey: Echoes of Ein Sof",
-		"sourcePath": "geelooy/games/scribe-journey/DOCUMENTATION.md",
-		"category": "Games",
-		"provenance": "breadcrumb",
+		"id": "geelooy-ai-thoughts-2026-08-26-0159-api-production-wave-00-checkpoint-md-4b211ad7b7",
+		"title": "API Production Wave Checkpoint",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26-0159-api-production-wave/00_CHECKPOINT.md",
+		"category": "General",
+		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "The Scribe's Journey: Echoes of Ein Sof",
-				"anchor": "the-scribe-s-journey-echoes-of-ein-sof"
+				"text": "API Production Wave Checkpoint",
+				"anchor": "api-production-wave-checkpoint"
 			},
 			{
 				"level": 2,
-				"text": "Role",
-				"anchor": "role"
+				"text": "Verified before local merge",
+				"anchor": "verified-before-local-merge"
 			},
 			{
 				"level": 2,
-				"text": "Start here",
-				"anchor": "start-here"
-			},
-			{
-				"level": 2,
-				"text": "Change rule",
-				"anchor": "change-rule"
-			},
-			{
-				"level": 2,
-				"text": "Project-specific notes",
-				"anchor": "project-specific-notes"
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He The Scribe's Journey: Echoes of Ein Sof The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAMES PL",
-		"searchText": "b\"h boruch hashem blessed is he the scribe's journey: echoes of ein sof the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “the scribe's journey: echoes of ein sof”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
-		"page": "pages/geelooy-games-scribe-journey-documentation-md-5e17fccc8e.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Production Wave Checkpoint The Awtsmoos renews every byte before a filesystem calls it durable, and Awtsmoos.com keeps this checkpoint as a finite witness of the current vessel. Verified before local merge Production shaped candidate contains 42 JavaScript source files. node check pa",
+		"searchText": "b\"h boruch hashem blessed is he api production wave checkpoint the awtsmoos renews every byte before a filesystem calls it durable, and awtsmoos.com keeps this checkpoint as a finite witness of the current vessel. verified before local merge production shaped candidate contains 42 javascript source files. node check passed all 42 candidate javascript files. focused behavioral and source invariant suite passed 22/22 tests. the operation catalog has 32 unique semantic operations: 27 reads and 5 mutations. trending feed is a first class read operation. agent mutations require explicit opt in. every candidate source file remains within the 120 line modular ceiling after responsibility splits. current local api.js, operation policy, operation groups, request factory, request context, and render config were reread before production replacement. next action after this exact file is read back, create all new api/operation/agent modules as whole files, verify their bytes, then rewrite existing compatibility files as whole files against the refreshed contracts.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26-0159-api-production-wave-00-checkpoint-md-4b211ad7b7.json"
 	},
 	{
-		"id": "geelooy-games-scripts-documentation-md-c1bcde5503",
-		"title": "Shared Game Scripts",
-		"sourcePath": "geelooy/games/scripts/DOCUMENTATION.md",
-		"category": "Games",
-		"provenance": "breadcrumb",
+		"id": "geelooy-ai-thoughts-2026-08-26-0159-api-production-wave-01-ui-chesed-pla-83fc2df6e1",
+		"title": "UI Chesed — Clean Futuristic Observatory",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-26-0159-api-production-wave/01_UI_CHESED_PLAN.md",
+		"category": "General",
+		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Shared Game Scripts",
-				"anchor": "shared-game-scripts"
+				"text": "UI Chesed — Clean Futuristic Observatory",
+				"anchor": "ui-chesed-clean-futuristic-observatory"
 			},
 			{
 				"level": 2,
-				"text": "Role",
-				"anchor": "role"
+				"text": "Product intent",
+				"anchor": "product-intent"
 			},
 			{
 				"level": 2,
-				"text": "Start here",
-				"anchor": "start-here"
+				"text": "Visual obligations",
+				"anchor": "visual-obligations"
 			},
 			{
 				"level": 2,
-				"text": "Change rule",
-				"anchor": "change-rule"
+				"text": "UX obligations",
+				"anchor": "ux-obligations"
 			},
 			{
 				"level": 2,
-				"text": "Project-specific notes",
-				"anchor": "project-specific-notes"
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Shared Game Scripts The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Shared game runtime/browser scripts used across multiple game projects; this is support infrastructure, not a standalone game",
-		"searchText": "b\"h boruch hashem blessed is he shared game scripts the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role shared game runtime/browser scripts used across multiple game projects; this is support infrastructure, not a standalone game. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes use generated cross project dependency evidence to identify every game that imports shared script code before making breaking changes.",
-		"page": "pages/geelooy-games-scripts-documentation-md-c1bcde5503.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He UI Chesed — Clean Futuristic Observatory The Awtsmoos renews the visible vessel before the eye can call it interface; Awtsmoos.com should reveal enormous capability through calm hierarchy, air, and grace. Product intent The Observatory is an expert instrument, not the human social networ",
+		"searchText": "b\"h boruch hashem blessed is he ui chesed — clean futuristic observatory the awtsmoos renews the visible vessel before the eye can call it interface; awtsmoos.com should reveal enormous capability through calm hierarchy, air, and grace. product intent the observatory is an expert instrument, not the human social network itself. the ui must make that distinction obvious while remaining inviting: one primary path into social hub, one compact expert workspace, advanced context only when requested, safe reads visually dominant, mutations visibly guarded, exact evidence retractable. visual obligations scope every observatory selector beneath .social hub document. no bare .hub selector may remain in the observatory style modules. no 100vw, fixed content widths, accidental horizontal overflow, or uncontrolled preformatted blocks. keep the existing dark professional palette but increase depth through restrained surfaces, not decorative noise. use mobile first layout and progressive desktop enhancement. preserve 44–48px touch targets. add hover only for hover capable pointers; add :active for actual press feedback everywhere relevant. keep :focus visible high contrast and separate from hover. respect reduced motion and forced colors. avoid high z index escalation; presence remains a bounded separate component. ux obligations make request context retractable with native semantics. summary must explain that context changes inspection, not data. keep all five fields reachable and labeled when expanded. make the human destination read “open social hub”, not the more ambiguous “interaction studio”. show semantic capability reality in the hero: 27 safe reads and 5 guarded actions. keep explore current panel as the primary action and explore all reads as secondary. keep raw api evidence under advanced disclosure. keep mutations in a separate act region with explicit consequence language. next action write the gevurah ownership map, then the tiferes final file plan before changing markup or css.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-26-0159-api-production-wave-01-ui-chesed-pla-83fc2df6e1.json"
 	}
 ]

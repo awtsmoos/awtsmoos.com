@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 67 | 11 | 0 | 0 | 2 | 0 | 80 |
+| 68 | 18 | 0 | 0 | 2 | 0 | 88 |
 
 ## Public entry points
 
@@ -29,7 +29,7 @@ Blessed is He
 
 ## Symbol evidence
 
-Source files: 54; classes: 28; functions: 76; exports: 96; samples: ABILITIES, abilityById, abilityList, ability, CAMPAIGN_CHAPTERS, chapterByNumber, chapterById, chapterPresentation, chaptersUnlockedThrough, CampaignProgress, clampChapter, nonNegative.
+Source files: 55; classes: 29; functions: 76; exports: 97; samples: ABILITIES, abilityById, abilityList, ability, CAMPAIGN_CHAPTERS, chapterByNumber, chapterById, chapterPresentation, chaptersUnlockedThrough, CampaignProgress, clampChapter, nonNegative.
 
 ## Depends on
 
@@ -45,4 +45,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **11**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **18**. Treat this as file evidence, not proof of behavioral coverage.

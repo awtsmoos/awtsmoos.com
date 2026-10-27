@@ -1,0 +1,109 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "scripts-vm-deploy-api-md-bd0d9c1a74",
+	"title": "B\"H — VM-Direct Deploy API",
+	"sourcePath": "scripts/VM_DEPLOY_API.md",
+	"category": "Operations",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — VM-Direct Deploy API",
+			"anchor": "b-h-vm-direct-deploy-api"
+		},
+		{
+			"level": 2,
+			"text": "How it works",
+			"anchor": "how-it-works"
+		},
+		{
+			"level": 2,
+			"text": "One-time setup",
+			"anchor": "one-time-setup"
+		},
+		{
+			"level": 3,
+			"text": "1. Production: set the deploy key",
+			"anchor": "1-production-set-the-deploy-key"
+		},
+		{
+			"level": 1,
+			"text": "On production as root:",
+			"anchor": "on-production-as-root"
+		},
+		{
+			"level": 1,
+			"text": "Generate a strong key:",
+			"anchor": "generate-a-strong-key"
+		},
+		{
+			"level": 3,
+			"text": "2. VM: store the deploy key",
+			"anchor": "2-vm-store-the-deploy-key"
+		},
+		{
+			"level": 1,
+			"text": "Paste the key when prompted. It is encrypted with the in-repo",
+			"anchor": "paste-the-key-when-prompted-it-is-encrypted-with-the-in-repo"
+		},
+		{
+			"level": 1,
+			"text": "PasswordBox and stored at /.awtsmoos/secure/deploy/ (chmod 600),",
+			"anchor": "passwordbox-and-stored-at-awtsmoos-secure-deploy-chmod-600"
+		},
+		{
+			"level": 1,
+			"text": "outside git. Never printed, never logged.",
+			"anchor": "outside-git-never-printed-never-logged"
+		},
+		{
+			"level": 3,
+			"text": "3. Deploy the API itself (first time only)",
+			"anchor": "3-deploy-the-api-itself-first-time-only"
+		},
+		{
+			"level": 2,
+			"text": "Usage",
+			"anchor": "usage"
+		},
+		{
+			"level": 1,
+			"text": "Deploy specific files:",
+			"anchor": "deploy-specific-files"
+		},
+		{
+			"level": 1,
+			"text": "Deploy all git-modified files:",
+			"anchor": "deploy-all-git-modified-files"
+		},
+		{
+			"level": 1,
+			"text": "Check the API:",
+			"anchor": "check-the-api"
+		},
+		{
+			"level": 1,
+			"text": "Rotate the key:",
+			"anchor": "rotate-the-key"
+		},
+		{
+			"level": 2,
+			"text": "Security",
+			"anchor": "security"
+		},
+		{
+			"level": 2,
+			"text": "What needs a restart",
+			"anchor": "what-needs-a-restart"
+		},
+		{
+			"level": 2,
+			"text": "Files",
+			"anchor": "files"
+		}
+	],
+	"markdownParts": [
+		"content/scripts-vm-deploy-api-md-bd0d9c1a74-001.json"
+	]
+}

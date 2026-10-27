@@ -1,0 +1,225 @@
+[
+	{
+		"id": "geelooy-games-ohrfront-docs-ecology-and-realism-md-fef7ee68ad",
+		"title": "Ecology and Realtime Realism",
+		"sourcePath": "geelooy/games/ohrfront/docs/ECOLOGY_AND_REALISM.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Ecology and Realtime Realism",
+				"anchor": "ecology-and-realtime-realism"
+			},
+			{
+				"level": 2,
+				"text": "Ecology architecture",
+				"anchor": "ecology-architecture"
+			},
+			{
+				"level": 2,
+				"text": "Tree usage",
+				"anchor": "tree-usage"
+			},
+			{
+				"level": 2,
+				"text": "Botanical usage",
+				"anchor": "botanical-usage"
+			},
+			{
+				"level": 2,
+				"text": "Collision policy",
+				"anchor": "collision-policy"
+			},
+			{
+				"level": 2,
+				"text": "Realtime realism",
+				"anchor": "realtime-realism"
+			},
+			{
+				"level": 2,
+				"text": "Performance law",
+				"anchor": "performance-law"
+			},
+			{
+				"level": 2,
+				"text": "Determinism",
+				"anchor": "determinism"
+			},
+			{
+				"level": 2,
+				"text": "Visual direction",
+				"anchor": "visual-direction"
+			},
+			{
+				"level": 2,
+				"text": "Validation",
+				"anchor": "validation"
+			},
+			{
+				"level": 2,
+				"text": "Diagnostics",
+				"anchor": "diagnostics"
+			},
+			{
+				"level": 2,
+				"text": "Verification",
+				"anchor": "verification"
+			}
+		],
+		"excerpt": "B\"H Ecology and Realtime Realism The Awtsmoos renews root, branch, leaf, liquid, dust, light, and motion while Awtsmoos.com lets those finite wonders deepen Har HaOhr without burying combat beneath decorative weight. Ecology architecture Ohrfront will adopt shared core vegetation through five bounded authorities: Choch",
+		"searchText": "b\"h ecology and realtime realism the awtsmoos renews root, branch, leaf, liquid, dust, light, and motion while awtsmoos.com lets those finite wonders deepen har haohr without burying combat beneath decorative weight. ecology architecture ohrfront will adopt shared core vegetation through five bounded authorities: chochmahecologyrecipe: deterministic ecological intent, tzomayachtreeauthority: tree skeleton/species/material manifestation, tzomayachbotanicalauthority: smaller botanical systems, netzachecologylod: shared core tree lod/runtime profile decisions, gevurahecologyvalidation: generated data validation before scene insertion. tree usage core tree species, skeleton, lod planning, runtime profiles, growth and trellis force apis are used as data/assembly law rather than per frame regeneration. high quality tiers may reveal: richer branch skeletons, additional leaf/needle detail, closer lod transition distances, greater species variation. lower tiers preserve recognizable trunks/silhouettes while reducing decorative detail. botanical usage phyllotaxis, species catalogs, vascular/environment models and botanical realism are bounded to authored clusters. thousands of decorative instances never run independent vascular simulations every rendered frame. collision policy only sufficiently large authored trunks or obvious structural plants may become collision/tactical objects. cosmetic stems, leaves and ground vegetation remain visual only so culling cannot create invisible collision. realtime realism shared core realtime realism will be concentrated into selected marsh, water, impact, energy and environmental sites. potential systems: liquid optics, secondary particles, trails, persistent liquid artifacts, deterministic stepping, bounded native node graph evaluation. performance law realtime realism consumes an explicit budget. under pressure: 1. secondary particles fall first, 2. trail density falls, 3. persistent cosmetic artifacts fall, 4. complex liquid detail simplifies, 5. gameplay readability remains unchanged. determinism environmental seeds and stable recipes ensure repeated map generation creates reproducible evidence. decorative randomness may vary only when intentionally derived from a documented stable seed. visual direction the ecology should make har haohr feel physically inhabited rather than fantastical clutter: dry grasses, scrub, resilient trees, marsh growth, weathered stone, disturbed earth, smoke/dust traces and restrained luminous phenomena. hebrew/kabbalistic energy remains exceptional. it should not coat every plant with glow or turn realism into constant spectacle. validation generated vegetation and realism data must be validated before manifestation. a failed optional ecological object is skipped or replaced with a simpler fallback instead of aborting runtime assembly. diagnostics the advanced disclosure may expose ecology tier, visible tree count, deferred detail count, realism tier and bounded effect counts. no such values belong permanently in the combat hud. verification deterministic ecology counts for a known seed, tree lod plan changes with distance/profile, invalid generated vegetation is rejected safely, visual only plants never create hidden colliders, performance pressure reduces secondary realism first, low tier retains environmental readability, high tier enriches ecology without changing gameplay outcome.",
+		"page": "pages/geelooy-games-ohrfront-docs-ecology-and-realism-md-fef7ee68ad.json"
+	},
+	{
+		"id": "geelooy-games-ohrfront-docs-performance-and-visibility-md-553bdbd981",
+		"title": "Performance and Visibility",
+		"sourcePath": "geelooy/games/ohrfront/docs/PERFORMANCE_AND_VISIBILITY.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Performance and Visibility",
+				"anchor": "performance-and-visibility"
+			},
+			{
+				"level": 2,
+				"text": "Root invariant",
+				"anchor": "root-invariant"
+			},
+			{
+				"level": 2,
+				"text": "Evidence pipeline",
+				"anchor": "evidence-pipeline"
+			},
+			{
+				"level": 2,
+				"text": "Framebuffer scaling contract",
+				"anchor": "framebuffer-scaling-contract"
+			},
+			{
+				"level": 2,
+				"text": "Named frame costs",
+				"anchor": "named-frame-costs"
+			},
+			{
+				"level": 2,
+				"text": "Visibility contract",
+				"anchor": "visibility-contract"
+			},
+			{
+				"level": 2,
+				"text": "Hysteresis law",
+				"anchor": "hysteresis-law"
+			},
+			{
+				"level": 2,
+				"text": "Quality degradation order",
+				"anchor": "quality-degradation-order"
+			},
+			{
+				"level": 2,
+				"text": "Diagnostics",
+				"anchor": "diagnostics"
+			},
+			{
+				"level": 2,
+				"text": "Verification",
+				"anchor": "verification"
+			}
+		],
+		"excerpt": "B\"H Performance and Visibility The Awtsmoos renews every frame and every hidden object before either can claim duration or place; Awtsmoos.com lets Ohrfront spend visual light according to measured need while gameplay truth remains whole. Root invariant Render pressure may change visual cost. It may not change fixed st",
+		"searchText": "b\"h performance and visibility the awtsmoos renews every frame and every hidden object before either can claim duration or place; awtsmoos.com lets ohrfront spend visual light according to measured need while gameplay truth remains whole. root invariant render pressure may change visual cost. it may not change fixed step simulation cadence, npc cognition, projectile integration, objective timing, collision truth, or weapon mechanics. evidence pipeline netzachframeevidence records: bounded raf intervals, per frame named cpu costs, suspension gaps excluded from active evidence. gevurahqualitypolicy delegates classification and hysteresis to shared core: framebudgetgovernor, adaptiverenderscalepolicy. keserperformanceauthority composes evidence and policy, then applies only a requested visual scale through yesodnativerenderscale. framebuffer scaling contract the css canvas remains the full viewport size. only renderer framebuffer width/height are scaled. camera aspect is computed from css viewport dimensions, not scaled pixel dimensions. this preserves pointer geometry, hud layout, and world projection while lowering fill cost. named frame costs runtime currently measures: simulation, emitter, render. the dominant measured cost is diagnostic evidence, not an automatic gameplay switch. visibility contract shared core spatialvisibilitypolicy will own hysteretic decorative visibility decisions. ohrfront will register only explicitly non critical visual objects. eligible visual families: distant geology, ruin decoration not used for collision, vegetation detail, optional particles and realism artifacts, distant cosmetic props. protected families: terrain collision, tactical cover colliders, objectives, player, hostile combatants, projectiles, gameplay readable major structures. hysteresis law visibility requires separate enter/leave thresholds or equivalent shared core state so objects do not flicker around a single distance boundary. camera yaw sector or stable spatial keys may be used only through the core's public visibility api. quality degradation order 1. reduce optional secondary particles, 2. reduce distant vegetation detail, 3. reduce decorative visibility radius, 4. reduce framebuffer scale, 5. preserve gameplay geometry and simulation. the exact order may be refined by measured cost, but no lower step may compromise gameplay truth. diagnostics advanced telemetry may report pressure, render scale, fps evidence, p95 frame duration, visible/deferred decorative counts, and current visual policy tier. these remain hidden unless the advanced disclosure is explicitly opened. verification sustained high frame cost eventually reduces scale, stable evidence does not flap scale continuously, css viewport remains unchanged by framebuffer scale, fixed step delta remains independent, decorative objects use hysteresis, collision critical objects never enter optional visibility registration, browser proof covers desktop, portrait, and landscape mobile.",
+		"page": "pages/geelooy-games-ohrfront-docs-performance-and-visibility-md-553bdbd981.json"
+	},
+	{
+		"id": "geelooy-games-ohrfront-docs-procedural-core-integration-md-e7c315c0b6",
+		"title": "Ohrfront Procedural Core Integration",
+		"sourcePath": "geelooy/games/ohrfront/docs/PROCEDURAL_CORE_INTEGRATION.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Ohrfront Procedural Core Integration",
+				"anchor": "ohrfront-procedural-core-integration"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Integration law",
+				"anchor": "integration-law"
+			},
+			{
+				"level": 2,
+				"text": "Feature-family matrix",
+				"anchor": "feature-family-matrix"
+			},
+			{
+				"level": 2,
+				"text": "Runtime dependency order",
+				"anchor": "runtime-dependency-order"
+			},
+			{
+				"level": 2,
+				"text": "Public API philosophy",
+				"anchor": "public-api-philosophy"
+			},
+			{
+				"level": 2,
+				"text": "Diagnostics philosophy",
+				"anchor": "diagnostics-philosophy"
+			},
+			{
+				"level": 2,
+				"text": "Compatibility",
+				"anchor": "compatibility"
+			}
+		],
+		"excerpt": "B\"H Ohrfront Procedural Core Integration The Awtsmoos renews every finite mesh, material, frame, branch, and sign while Awtsmoos.com lets Ohrfront receive those powers through small explicit vessels of light. Purpose Ohrfront is not a loose collection of local procedural tricks. It is becoming a reference quality brows",
+		"searchText": "b\"h ohrfront procedural core integration the awtsmoos renews every finite mesh, material, frame, branch, and sign while awtsmoos.com lets ohrfront receive those powers through small explicit vessels of light. purpose ohrfront is not a loose collection of local procedural tricks. it is becoming a reference quality browser client of geelooy/libs/awtsmoos procedural core, with each core feature family assigned a real runtime, authoring, diagnostic, or offline validation responsibility. integration law runtime browser paths enter the shared library only through canonical /geelooy/libs/awtsmoos procedural core/... facades. game policy remains in ohrfront; generic reusable law remains in shared core. no three.js runtime dependency is permitted. optional systems fail downward toward simpler geometry/material/effects instead of aborting battle startup. every authority exposes plain data outward; live core objects do not leak into ui. feature family matrix core family ohrfront role runtime status native adapters renderer/object manifestation runtime critical blender adapter parity/export evidence offline only animation / skeleton / ccd ik combatant embodiment planned runtime, fallback safe geometry / modifiers / csg ruins, cuts, props, authored forms assembly time primitive geometry fast simple forms runtime assembly meshtext compact procedural authoring tooling modeling language declarative battlefield authoring tooling / build recipes / stable hashes deterministic world assets and evidence runtime + tooling materials / hydration / stacks physical terrain and prop surfaces runtime critical texture catalog / transport semantic remote material discovery runtime + tooling performance governor visual pressure authority runtime critical visibility policy decorative hysteretic culling runtime vegetation / tree lod ecology manifestation planned runtime botanical realism bounded environmental detail planned tiered runtime realtime realism liquid/particle/trail effects planned tiered runtime native node graph recipe execution / bounded procedural effects runtime + tooling blender node parity authoring validation offline only runtime dependency order 1. tiny ui host and synchronous shell. 2. native renderer and core geometry/material doorway. 3. deterministic fixed step gameplay. 4. shared core frame evidence and quality policy. 5. decorative visibility. 6. material/texture hydration and cache evidence. 7. ecology and lod. 8. recipe driven world forms. 9. bounded realtime realism. 10. rigging/animation/ik embodiment. public api philosophy a public ohrfront subsystem should accept a small record, provide one narrow capability, and preserve a stable facade even when its implementation becomes deeper. advanced options belong in constructor/config records; the common path remains short. diagnostics philosophy player hud remains sparse. core internals such as render pressure, cache statistics, visibility counts, recipe hashes, and ecology tier belong behind an explicitly opened advanced disclosure or debug surface. compatibility if shared core generic behavior must change, mitzvah world compatibility facades and relevant shared tests must run before that change is considered stable.",
+		"page": "pages/geelooy-games-ohrfront-docs-procedural-core-integration-md-e7c315c0b6.json"
+	},
+	{
+		"id": "geelooy-games-ohrfront-docs-remote-textures-md-ea8282c1e6",
+		"title": "Ohrfront Remote Texture and Blending Map",
+		"sourcePath": "geelooy/games/ohrfront/docs/REMOTE_TEXTURES.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Ohrfront Remote Texture and Blending Map",
+				"anchor": "ohrfront-remote-texture-and-blending-map"
+			},
+			{
+				"level": 2,
+				"text": "Shared source of truth",
+				"anchor": "shared-source-of-truth"
+			},
+			{
+				"level": 2,
+				"text": "Ohrfront terrain recipe",
+				"anchor": "ohrfront-terrain-recipe"
+			},
+			{
+				"level": 2,
+				"text": "Procedural realism recipe",
+				"anchor": "procedural-realism-recipe"
+			},
+			{
+				"level": 2,
+				"text": "Agent discovery rule",
+				"anchor": "agent-discovery-rule"
+			}
+		],
+		"excerpt": "B\"H Ohrfront Remote Texture and Blending Map The Awtsmoos renews photographed earth and generated form in one field of light; Awtsmoos.com lets future agents trace every semantic material to shared documentation without repeating archaeology each night. Shared source of truth Ohrfront does not own production texture UR",
+		"searchText": "b\"h ohrfront remote texture and blending map the awtsmoos renews photographed earth and generated form in one field of light; awtsmoos.com lets future agents trace every semantic material to shared documentation without repeating archaeology each night. shared source of truth ohrfront does not own production texture urls. shared discovery and the complete 125 name mitzvah world catalog live at: ../../libs/awtsmoos procedural core/docs/textures/readme.md ../../libs/awtsmoos procedural core/docs/textures/architecture.md ../../libs/awtsmoos procedural core/docs/textures/craft.md ../../libs/awtsmoos procedural core/docs/textures/ground.md ../../libs/awtsmoos procedural core/docs/textures/trees.md ../../libs/awtsmoos procedural core/docs/native material blending.md canonical production root: https://awtsmoos.com/sites/firebase drive migration/ ohrfront terrain recipe src/render/ohrfrontmaterialrecipes.js uses shared semantic roles, never copied urls: meadowlushgrass → full resolution/grass 4.png meadowdrygrass → full resolution/grass 8.png darksoil → full resolution/dirt 1.png weatheredrock → full resolution/weathered fieldstone rock 1.png marshgrass → full resolution/marsh grass.png roadstone → full resolution/cobblestone.png base macro mix: dirt → full resolution/dirt 2.png the native material combines base/mix photographs with ecological texturelayers controlled by slope, height, wetness, zones, repeat, rotation, and strength. procedural realism recipe barricades are not single cubes. proceduralformfactory.createbattlefieldbarricade() constructs body, footing, cap, ribs, and an energy inset. the main material combines real retaining wall masonry with weathered fieldstone. bot armor and the first person emitter use the real iron material with restrained secondary variation. agent discovery rule search the shared core texture docs first. add a semantic material record to awtsmoosremotematerialrecords.js when a filename becomes a reusable role. game modules should call semantic roles through remotemateriallibrary; never duplicate the production root or raw filename throughout gameplay.",
+		"page": "pages/geelooy-games-ohrfront-docs-remote-textures-md-ea8282c1e6.json"
+	}
+]

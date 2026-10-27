@@ -1,0 +1,223 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-1150-olam-better-v2-09-director-readiness-0f3ec2ea70",
+		"title": "Director Readiness Resolution",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-1150-olam-better-v2/09-director-readiness-resolution.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Director Readiness Resolution",
+				"anchor": "director-readiness-resolution"
+			},
+			{
+				"level": 2,
+				"text": "Evidence",
+				"anchor": "evidence"
+			},
+			{
+				"level": 2,
+				"text": "Resolution",
+				"anchor": "resolution"
+			}
+		],
+		"excerpt": "Director Readiness Resolution Evidence The final matrix passed Better V2, intuitive, future HUD, source gates, and 43/43 deterministic tests, then Director threw inside its first interactive browser expression. The Director test uniquely relied on a fixed 850ms sleep before querying controls. Newer Olam browser tests a",
+		"searchText": "director readiness resolution evidence the final matrix passed better v2, intuitive, future hud, source gates, and 43/43 deterministic tests, then director threw inside its first interactive browser expression. the director test uniquely relied on a fixed 850ms sleep before querying controls. newer olam browser tests already use browserwaits for concrete dom readiness. resolution director intelligence smoke.cjs was rewritten in full to use browserwaits and wait for: prompt section; camera suggestion; golden style lane; frame recipe trigger; live 100% coverage update; frames mode activation; contextual recipe rendering. all prior assertions remain: geometry, collapsed guide, initial coverage, suggestion content, focus/node identity, ingredient state, style append, reference mode transition, overflow, console errors, network failures. next action: run director alone on fresh ports. if green, rerun the complete five browser release graph including legacy.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-1150-olam-better-v2-09-director-readiness-0f3ec2ea70.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-1150-olam-better-v2-11-release-audit-md-9c27c2df72",
+		"title": "Better V2 Release Audit",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-1150-olam-better-v2/11-release-audit.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Better V2 Release Audit",
+				"anchor": "better-v2-release-audit"
+			},
+			{
+				"level": 2,
+				"text": "Planned",
+				"anchor": "planned"
+			},
+			{
+				"level": 2,
+				"text": "Actual",
+				"anchor": "actual"
+			},
+			{
+				"level": 2,
+				"text": "Resolved delta",
+				"anchor": "resolved-delta"
+			},
+			{
+				"level": 2,
+				"text": "Race window",
+				"anchor": "race-window"
+			}
+		],
+		"excerpt": "Better V2 Release Audit Planned Fuse Prompt and Mode into one cinematic deck. Shrink starter controls and reduce card fragmentation. Add focus responsive aurora depth with reduced motion fallback. Improve mode, Generate, and navigation hierarchy without changing generation logic. Preserve all previous behavior contract",
+		"searchText": "better v2 release audit planned fuse prompt and mode into one cinematic deck. shrink starter controls and reduce card fragmentation. add focus responsive aurora depth with reduced motion fallback. improve mode, generate, and navigation hierarchy without changing generation logic. preserve all previous behavior contracts. actual prompt/mode seam measured at 0.64px. mode measured at 662px on 390x844. starter capsules measured at 103px. page height measured at 1694px. better v2, intuitive, future hud, patient director, and legacy browser suites passed together. deterministic suite passed 43/43. all eight release files were reread fully in this audit and remain at or below 120 lines. js syntax, indentation, and git diff hygiene passed. resolved delta product seam tightened after chrome measured 1.64px. intuitive regression now proves dom order plus a bounded visual seam. director regression now waits for concrete dom readiness instead of a fixed sleep. race window candidate base: c3d150ba292aadd91525777ecbd190ce47849fb0 current origin/main: c3d150ba292aadd91525777ecbd190ce47849fb0 exact eight path target delta: empty next action: commit exactly the eight intended olam paths. if origin/main moved outside those paths, rebase the commit onto current origin/main and rerun the complete release gate before push.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-1150-olam-better-v2-11-release-audit-md-9c27c2df72.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-1150-olam-better-v2-remaining-work-md-88569682c4",
+		"title": "REMAININGWORK — Olam Better V2",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-1150-olam-better-v2/REMAINING_WORK.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "REMAININGWORK — Olam Better V2",
+				"anchor": "remainingwork-olam-better-v2"
+			}
+		],
+		"excerpt": "REMAINING WORK — Olam Better V2 [x] Complete Better V2 implementation and definitive local verification. [x] Commit exactly eight intended Olam paths as 35e42eb7f5164233b6938715e7824b2696fc1ad6. [x] Fast forward push 35e42eb7f5164233b6938715e7824b2696fc1ad6 to origin/main. [x] Canonically deploy exact SHA 35e42eb7f5164",
+		"searchText": "remaining work — olam better v2 [x] complete better v2 implementation and definitive local verification. [x] commit exactly eight intended olam paths as 35e42eb7f5164233b6938715e7824b2696fc1ad6. [x] fast forward push 35e42eb7f5164233b6938715e7824b2696fc1ad6 to origin/main. [x] canonically deploy exact sha 35e42eb7f5164233b6938715e7824b2696fc1ad6 with server active and deploy ok markers. [ ] verify public app and all four better v2 css assets return http 200. [ ] verify public better v2 + intuitive + future hud + patient director + legacy chrome suites. [ ] prove production repo sha 35e42eb7f5164233b6938715e7824b2696fc1ad6 / clean status / awtsmoos.service active. [ ] cleanup better v2 and prior temporary olam worktrees/processes/ports. [ ] write final release evidence and close the ui release graph. next action: run the public http, five browser, and production runtime proof against the deployed sha.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-1150-olam-better-v2-remaining-work-md-88569682c4.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-1331-geelooy-seo-continuation-00-mission--9a013df501",
+		"title": "Geelooy SEO Continuation Mission",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-1331-geelooy-seo-continuation/00-mission.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Geelooy SEO Continuation Mission",
+				"anchor": "geelooy-seo-continuation-mission"
+			},
+			{
+				"level": 2,
+				"text": "Mission",
+				"anchor": "mission"
+			},
+			{
+				"level": 2,
+				"text": "Non-negotiable evidence gates",
+				"anchor": "non-negotiable-evidence-gates"
+			}
+		],
+		"excerpt": "B\"H Geelooy SEO Continuation Mission Boruch Hashem. Blessed is He. The Awtsmoos renews every path from nothing each instant; this continuation treats the current repository as the only trustworthy vessel and verifies every search facing claim anew on Awtsmoos.com. Mission Complete server visible indexing for public Gee",
+		"searchText": "b\"h geelooy seo continuation mission boruch hashem. blessed is he. the awtsmoos renews every path from nothing each instant; this continuation treats the current repository as the only trustworthy vessel and verifies every search facing claim anew on awtsmoos.com. mission complete server visible indexing for public geelooy content, especially ikar road/heichel routes, while preserving interactive javascript behavior and avoiding crawler only rendering. non negotiable evidence gates 1. current head and current working tree must be reconciled before any source write. 2. numeric road urls must resolve real post data before template rendering. 3. initial html must include real title, canonical url, description, and torah body without client javascript. 4. heichel/series pages must expose ordinary crawlable public links. 5. missing/private content must never be accidentally indexable. 6. robots and sitemap discovery must use server native responses and public data only. 7. a fresh isolated local server must prove source behavior independently of long lived process caches. 8. browser verification must prove client enhancement still works after server rendering. 9. every touched source file must remain modular, tab indented, documented, and below the project line ceiling. 10. final completion requires re reading the changed files and comparing planned versus actual behavior.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-1331-geelooy-seo-continuation-00-mission--9a013df501.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-1331-geelooy-seo-continuation-01-discover-3f1a9452ee",
+		"title": "Discovery and Risk Map",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-1331-geelooy-seo-continuation/01-discovery-and-risk-map.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Discovery and Risk Map",
+				"anchor": "discovery-and-risk-map"
+			},
+			{
+				"level": 2,
+				"text": "Known evidence from prior pass",
+				"anchor": "known-evidence-from-prior-pass"
+			},
+			{
+				"level": 2,
+				"text": "Current unknowns to resolve",
+				"anchor": "current-unknowns-to-resolve"
+			},
+			{
+				"level": 2,
+				"text": "Failure risks",
+				"anchor": "failure-risks"
+			}
+		],
+		"excerpt": "B\"H Discovery and Risk Map Boruch Hashem. Blessed is He. The Awtsmoos is not revealed through assumption but through evidence; this map names the remaining shadows so Awtsmoos.com can become searchable without sacrificing truth or privacy. Known evidence from prior pass Numeric Road URLs historically returned a loading",
+		"searchText": "b\"h discovery and risk map boruch hashem. blessed is he. the awtsmoos is not revealed through assumption but through evidence; this map names the remaining shadows so awtsmoos.com can become searchable without sacrificing truth or privacy. known evidence from prior pass numeric road urls historically returned a loading shell before javascript. the public series details api contains ordered post ids. the series scoped singular post api returns full public torah content. the old root level singular post api is not a valid production route. production previously returned 404 for robots.txt and common sitemap paths. existing long lived local servers had stale module state during the earlier pass. current unknowns to resolve whether current head already contains the entire seo pass. whether any new commits changed route/api contracts after the earlier pass. whether current long lived processes have reloaded the seo modules. exact local server port/configuration for an isolated fresh verification process. whether the dynamic response router supports a root robots endpoint cleanly or a static file is preferable. whether heichel discovery returns enough public entities for a live sitemap without expensive recursion. whether direct /post/:post should remain indexable, redirect, or noindex when root series lookup fails. whether initial content rendering escapes or preserves rich torah markup safely. failure risks duplicate canonical identities between numeric road and named post urls. 200 loading shells for missing posts. canonical urls pointing to non resolving paths. sitemap inclusion of drafts/private/editor routes. runtime fetch recursion against the same local server. slow server rendering caused by many serial discovery requests. broken client initialization when the post is already present in html. stale process verification falsely representing current source.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-1331-geelooy-seo-continuation-01-discover-3f1a9452ee.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-1331-geelooy-seo-continuation-02-executio-59935b3b37",
+		"title": "Evidence-Gated Execution Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-1331-geelooy-seo-continuation/02-execution-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Evidence-Gated Execution Plan",
+				"anchor": "evidence-gated-execution-plan"
+			},
+			{
+				"level": 2,
+				"text": "Phase A — Current reality",
+				"anchor": "phase-a-current-reality"
+			},
+			{
+				"level": 2,
+				"text": "Phase B — Resolve implementation delta",
+				"anchor": "phase-b-resolve-implementation-delta"
+			},
+			{
+				"level": 2,
+				"text": "Phase C — Verification",
+				"anchor": "phase-c-verification"
+			},
+			{
+				"level": 2,
+				"text": "Phase D — Completion",
+				"anchor": "phase-d-completion"
+			}
+		],
+		"excerpt": "B\"H Evidence Gated Execution Plan Boruch Hashem. Blessed is He. The Awtsmoos joins Chesed and Gevurah: reveal as much public Torah as search can receive, while bounding every doorway by canonical identity, status, and public visibility. Phase A — Current reality Inspect recent Git history affecting Geelooy route/SEO fi",
+		"searchText": "b\"h evidence gated execution plan boruch hashem. blessed is he. the awtsmoos joins chesed and gevurah: reveal as much public torah as search can receive, while bounding every doorway by canonical identity, status, and public visibility. phase a — current reality inspect recent git history affecting geelooy route/seo files. read current route modules and dynamic response contracts. probe current production and local html without javascript. identify the current server startup/environment contract. phase b — resolve implementation delta fix only evidenced defects in current head. keep road resolution server side and public api backed. normalize direct/root post behavior onto the valid series scoped api. add or repair robots and sitemap routes if still absent. ensure heichel/series fallback links are public and crawlable. keep page canonical metadata aligned with the same resolved entity data. phase c — verification run syntax/import checks for all touched javascript. run focused resolver tests using deterministic mock fixtures. start a separate isolated server process from current checkout. curl road, named post, heichel, robots, and sitemap endpoints. assert initial html contains torah text and metadata without js execution. use browser control against the fresh server to verify client hydration/navigation. re read all touched files and inspect the final diff. phase d — completion update remaining work with evidence backed completion states. record plan versus actual delta and any intentionally deferred work. do not call complete while any safe verification or crawl discovery obligation remains.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-1331-geelooy-seo-continuation-02-executio-59935b3b37.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-1331-geelooy-seo-continuation-remaining-w-d42bf3808c",
+		"title": "REMAININGWORK — Continuation",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-1331-geelooy-seo-continuation/REMAINING_WORK.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "REMAININGWORK — Continuation",
+				"anchor": "remainingwork-continuation"
+			}
+		],
+		"excerpt": "B\"H REMAINING WORK — Continuation Boruch Hashem. Blessed is He. [ ] Reconcile current HEAD and SEO commit history. [ ] Re probe Road/Heichel initial HTML on current runtime. [ ] Verify direct/root post canonical behavior. [ ] Verify public discovery response shape. [ ] Implement any current source delta with whole file",
+		"searchText": "b\"h remaining work — continuation boruch hashem. blessed is he. [ ] reconcile current head and seo commit history. [ ] re probe road/heichel initial html on current runtime. [ ] verify direct/root post canonical behavior. [ ] verify public discovery response shape. [ ] implement any current source delta with whole file writes only. [ ] add/repair robots discovery if absent. [ ] add/repair sitemap discovery if absent. [ ] run syntax/import/unit style resolver checks. [ ] start an isolated fresh server from current checkout. [ ] verify road html without javascript on fresh server. [ ] verify heichel discovery links without javascript. [ ] verify robots and sitemap response headers/content. [ ] verify browser hydration/interactivity on fresh server. [ ] re read every touched file. [ ] record planned versus actual delta. [ ] close all safe remaining work.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-1331-geelooy-seo-continuation-remaining-w-d42bf3808c.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-01-1854-geelooy-seo-continuation-00-reality--9c316f264b",
+		"title": "Reality and Mission",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-01-1854-geelooy-seo-continuation/00-reality-and-mission.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Reality and Mission",
+				"anchor": "reality-and-mission"
+			},
+			{
+				"level": 2,
+				"text": "Direct evidence",
+				"anchor": "direct-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Mission order",
+				"anchor": "mission-order"
+			}
+		],
+		"excerpt": "B\"H Reality and Mission Boruch Hashem. Blessed is He. The Awtsmoos renews every page in every instant; therefore Awtsmoos.com must reveal one truthful public Torah page in the first response, not a shell whose meaning exists only after JavaScript awakens. Direct evidence Current HEAD is df954de06. SEO route files are c",
+		"searchText": "b\"h reality and mission boruch hashem. blessed is he. the awtsmoos renews every page in every instant; therefore awtsmoos.com must reveal one truthful public torah page in the first response, not a shell whose meaning exists only after javascript awakens. direct evidence current head is df954de06. seo route files are clean in git at the start of this continuation. production road /heichelos/ikar/series/bh likkuteitorah שלח/4 resolves server side far enough to enter the post template. production then leaks a dynamic template error because initial content.html dereferences $$sd, which is not defined in that child template scope. the active parent is heichelos/post/ awtsmoos.post.html, not the similarly named root shell. the parent already receives post/heichel/alias/semantic locals from postreader.js. the parent currently ignores postsemantichead and hardcodes awtsmoos torah revelation. sibling semantic child templates consume injected locals directly by name. readerdata.loaddirect() still calls the obsolete non series public post endpoint. mission order 1. repair the active sibling post template handoff. 2. repair initial content local consumption. 3. surface the already generated semantic head in the active shell. 4. normalize direct/root post lookup onto the valid series scoped api. 5. prove road html on a fresh server before adding crawl map breadth. 6. only then finish robots, sitemap, and sitewide discovery.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-01-1854-geelooy-seo-continuation-00-reality--9c316f264b.json"
+	}
+]

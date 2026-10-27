@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-18-1624-shliach-homepage-campaign-02-phase-o-48296c8dab",
+	"title": "Phase One — Theoretical File Constellation",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-18_1624_shliach-homepage-campaign/02_PHASE_ONE_FILE_MAP.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase One — Theoretical File Constellation",
+			"anchor": "phase-one-theoretical-file-constellation"
+		},
+		{
+			"level": 2,
+			"text": "Existing file to rewrite fully",
+			"anchor": "existing-file-to-rewrite-fully"
+		},
+		{
+			"level": 2,
+			"text": "New public HTML pages",
+			"anchor": "new-public-html-pages"
+		},
+		{
+			"level": 2,
+			"text": "New shared style vessels",
+			"anchor": "new-shared-style-vessels"
+		},
+		{
+			"level": 2,
+			"text": "New shared browser modules",
+			"anchor": "new-shared-browser-modules"
+		},
+		{
+			"level": 2,
+			"text": "Deferred until all source code exists",
+			"anchor": "deferred-until-all-source-code-exists"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-18-1624-shliach-homepage-campaign-02-phase-o-48296c8dab-001.json"
+	]
+}

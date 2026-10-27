@@ -12,7 +12,7 @@ Blessed is He
 
 ## Entry and documentation evidence
 
-- Entry files: `_awtsmoos.derech.js`, `DOCUMENTATION.md`
+- Entry files: `_awtsmoos.derech.js`, `DOCUMENTATION.md`, `README.md`, `readme.md`
 - Local documentation: `geelooy/api/email/DOCUMENTATION.md`
 - Local-doc requirement: no; covered: yes
 - Symlink target: —
@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 1 | 0 | 0 | 0 | 1 | 0 | 2 |
+| 3 | 0 | 0 | 0 | 2 | 0 | 5 |
 
 ## Public entry points
 
@@ -29,7 +29,7 @@ None observed.
 
 ## Symbol evidence
 
-Source files: 1; classes: 0; functions: 3; exports: 0; samples: getUserId, withoutMailPrefix, status.
+Source files: 3; classes: 1; functions: 3; exports: 5; samples: MailApiGateway, revealEmailAliases, buildCapabilityManifest, yesodCapabilities, buildSettingsSchema, malchusFields, tiferesSections.
 
 ## Depends on
 

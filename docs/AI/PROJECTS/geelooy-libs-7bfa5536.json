@@ -21,75 +21,107 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-libs-7bfa5536.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 2098,
-		"tests": 138,
+		"source": 3937,
+		"tests": 298,
 		"assets": 0,
 		"generated": 0,
-		"docs": 20,
-		"other": 12
+		"docs": 45,
+		"other": 538
 	},
-	"totalFiles": 2268,
+	"totalFiles": 4818,
 	"symbolSummary": {
-		"files": 2093,
-		"classes": 458,
-		"functions": 2951,
-		"exports": 2782,
+		"files": 3910,
+		"classes": 843,
+		"functions": 7426,
+		"exports": 5580,
 		"samples": [
-			"makeGoldenProbe",
-			"inspectMesh",
-			"hashSeed",
-			"createRng",
-			"range",
-			"rng",
-			"v3",
-			"sub",
-			"cross",
-			"length",
-			"normalize",
-			"isFiniteVec3"
+			"AwtsmoosUiActions",
+			"AwtsmoosUiStore",
+			"UI",
+			"bind",
+			"when",
+			"each",
+			"element",
+			"buildElement",
+			"AwtsmoosUiElement",
+			"AwtsmoosUiRenderer",
+			"normalizeUiNode",
+			"collectDomProps"
 		]
 	},
-	"outgoingDependencies": [
-		{
-			"project": "geelooy/games/mitzvahWorld",
-			"count": 5,
-			"examples": "geelooy/libs/awtsmoos-procedural-core/src/adapters/mitzvahWorld/modelAssets.js; geelooy/libs/awtsmoos-procedural-core/src/adapters/mitzvahWorld/nativeRuntime.js; geelooy/libs/awtsmoos-procedural-core/src/adapters/mitzvahWorld/renderer.js"
-		}
-	],
+	"outgoingDependencies": [],
 	"incomingDependencies": [
 		{
 			"project": "geelooy/games/mitzvahWorld",
-			"count": 47,
-			"examples": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowCreatureMesh.js; geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseAssembly.js; geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseDimensionPolicy.js"
+			"count": 174,
+			"examples": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/api/portal/MitzvahWorldDoorwayPortalFields.js; geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/api/portal/MitzvahWorldHousePortalFields.js; geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/api/portal/MitzvahWorldPortalFactory.js"
+		},
+		{
+			"project": "geelooy/apps/awtsmoos-studio",
+			"count": 65,
+			"examples": "geelooy/apps/awtsmoos-studio/src/AwtsmoosStudioApp.js; geelooy/apps/awtsmoos-studio/src/StudioLayout.js; geelooy/apps/awtsmoos-studio/src/StudioMovieBridge.js"
 		},
 		{
 			"project": "geelooy/games/seven-mitzvos",
-			"count": 12,
-			"examples": "geelooy/games/seven-mitzvos/js/materials/firebase-material-manifest.js; geelooy/games/seven-mitzvos/js/materials/seven-material-runtime.js; geelooy/games/seven-mitzvos/js/materials/stage-material-runtime.js"
+			"count": 23,
+			"examples": "geelooy/games/seven-mitzvos/js/assets/gltf-model-library.js; geelooy/games/seven-mitzvos/js/city/city-district-builder.js; geelooy/games/seven-mitzvos/js/games3d/world-label.js"
 		},
 		{
 			"project": "geelooy/games/oros-ha-kelim",
-			"count": 11,
-			"examples": "geelooy/games/oros-ha-kelim/src/render/core/CoreGeometryFactory.js; geelooy/games/oros-ha-kelim/src/render/core/CoreGpuVessel.js; geelooy/games/oros-ha-kelim/src/render/core/CoreMesh.js"
+			"count": 14,
+			"examples": "geelooy/games/oros-ha-kelim/src/render/core/CoreGeometryFactory.js; geelooy/games/oros-ha-kelim/src/render/core/CoreGpuGeometryPool.js; geelooy/games/oros-ha-kelim/src/render/core/CoreGpuVessel.js"
 		},
 		{
-			"project": "geelooy/games/Merkava",
-			"count": 2,
-			"examples": "geelooy/games/Merkava/src/render/createCoreMeshes.js; geelooy/games/Merkava/src/render/createEnemyMeshes.js"
+			"project": "geelooy/games/ohrbound",
+			"count": 13,
+			"examples": "geelooy/games/ohrbound/src/nature/OhrboundNatureDirector.js; geelooy/games/ohrbound/src/render/AmbientParticleField.js; geelooy/games/ohrbound/src/render/CoreBufferAtlas.js"
 		},
 		{
 			"project": "geelooy/games/nitzotz-io",
-			"count": 2,
-			"examples": "geelooy/games/nitzotz-io/js/procedural/localMeshes.js; geelooy/games/nitzotz-io/js/webgl/meshUpload.js"
+			"count": 11,
+			"examples": "geelooy/games/nitzotz-io/js/procedural/cityRoad.js; geelooy/games/nitzotz-io/js/procedural/localMeshes.js; geelooy/games/nitzotz-io/js/procedural/realityHouses.js"
 		},
 		{
-			"project": "geelooy/zmanim",
+			"project": "geelooy/games/ohrfront",
+			"count": 11,
+			"examples": "geelooy/games/ohrfront/src/core/AwtsmoosNativeApi.js; geelooy/games/ohrfront/src/core/api/AwtsmoosMaterialApi.js; geelooy/games/ohrfront/src/core/api/AwtsmoosPerformanceApi.js"
+		},
+		{
+			"project": "geelooy/games/kabbalah-shooter",
+			"count": 7,
+			"examples": "geelooy/games/kabbalah-shooter/js/runtime/KabbalahNative3DRenderer.js; geelooy/games/kabbalah-shooter/js/runtime/kabbalah-native-3d-meshes.js; geelooy/games/kabbalah-shooter/js/runtime/kabbalah-native-3d-pool.js"
+		},
+		{
+			"project": "geelooy/apps/mitzvah-studio",
+			"count": 5,
+			"examples": "geelooy/apps/mitzvah-studio/modules/catalog/MitzvahStudioCatalog.js; geelooy/apps/mitzvah-studio/modules/generate/GeometryGenerators.js; geelooy/apps/mitzvah-studio/modules/state/StudioDocumentMutations.js"
+		},
+		{
+			"project": "geelooy/games/scripts",
+			"count": 5,
+			"examples": "geelooy/games/scripts/runtime/native-3d/SemanticMeshPool.js; geelooy/games/scripts/runtime/native-3d/SemanticNative3DStage.js; geelooy/games/scripts/runtime/native-3d/StateSparks.js"
+		},
+		{
+			"project": "geelooy/apps/animator",
+			"count": 4,
+			"examples": "geelooy/apps/animator/src/scenes/showcase/UnifiedShowcaseCanonicalMovie.js; geelooy/apps/animator/src/unified-movie/AnimatorMovieAdapter.js; geelooy/apps/animator/tools/render/threeMinute/ThreeMinuteFeatureOverlay.js"
+		},
+		{
+			"project": "geelooy/games/cobyk",
 			"count": 2,
-			"examples": "geelooy/zmanim/js/components/celestial-webgl.js; geelooy/zmanim/js/domain/celestial-zmanim.js"
+			"examples": "geelooy/games/cobyk/src/render/performance/HodFrameDiagnostics.js; geelooy/games/cobyk/src/render/performance/NetzachFramePerformanceVessel.js"
 		}
 	],
 	"externalDependencies": [],
-	"publicEntries": [],
+	"publicEntries": [
+		{
+			"url": "/libs/awtsmoos-procedural-core/demo/selective-artifact-lineage/public",
+			"file": "geelooy/libs/awtsmoos-procedural-core/demo/selective-artifact-lineage/public/index.html",
+			"title": "Awtsmoos Selective Artifact Lineage",
+			"scripts": 0,
+			"styles": 0
+		}
+	],
 	"requiresLocalDocumentation": true,
 	"documentationCovered": true,
 	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."

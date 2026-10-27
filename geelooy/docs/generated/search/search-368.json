@@ -1,0 +1,116 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28t0310-geelooy-social-mobile-01-discovery-b-24c4f77f80",
+		"title": "Phase One — Mobile Social Revelation Brainstorm",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0310-geelooy-social-mobile/01_DISCOVERY_BRAINSTORM.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase One — Mobile Social Revelation Brainstorm",
+				"anchor": "phase-one-mobile-social-revelation-brainstorm"
+			},
+			{
+				"level": 2,
+				"text": "User mission",
+				"anchor": "user-mission"
+			},
+			{
+				"level": 2,
+				"text": "Evidence from the live repository",
+				"anchor": "evidence-from-the-live-repository"
+			},
+			{
+				"level": 2,
+				"text": "Unlimited possibility field",
+				"anchor": "unlimited-possibility-field"
+			},
+			{
+				"level": 2,
+				"text": "Work graph",
+				"anchor": "work-graph"
+			},
+			{
+				"level": 2,
+				"text": "Failure map",
+				"anchor": "failure-map"
+			},
+			{
+				"level": 2,
+				"text": "First-pass principle",
+				"anchor": "first-pass-principle"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase One — Mobile Social Revelation Brainstorm User mission Improve the Geelooy social network comprehensively, mobile first, with every visible element intentionally styled, no loose labels or orphaned text, and a dramatically easier path to create a post. External YouTube/Facebook/Ins",
+		"searchText": "b\"h boruch hashem blessed is he phase one — mobile social revelation brainstorm user mission improve the geelooy social network comprehensively, mobile first, with every visible element intentionally styled, no loose labels or orphaned text, and a dramatically easier path to create a post. external youtube/facebook/instagram linking and auto posting are explicitly excluded from this mission. evidence from the live repository social hub is already modular across navigation, activity, people, profile, messaging, spaces, creation, and ui layers. home currently contains a quickpost link to /social composer/, but post creation is not persistent on mobile. mobile navigation intentionally reserves four primary route slots: home, inbox, messages, spaces. creation is an action, not a route. creatorlaunchmodel.creatorurl() already carries alias, heichel, series, presentation, creator intent, and return destination into the canonical composer. exact interaction already contains a styled creator rail for post/video/voice/verse/branch style intents. existing creator styles are mobile first, but the richer launcher is buried inside the interaction panel. the project already has surface contract, mobile, accessibility, local style ownership, and browser tests. unlimited possibility field 1. a persistent one thumb create control above or beside the mobile dock. 2. a home “share something” card that feels like the obvious first action rather than one equal tile among five. 3. context chips inside the create surface showing current alias and destination instead of loose status prose. 4. one simple primary action opening a standard post; richer content types remain progressively disclosed in exact interaction. 5. every navigation/status/identity string placed inside a chip, card, field shell, button, badge, or dedicated status vessel. 6. a mobile safe area aware floating create control that never collides with the bottom dock. 7. a larger desktop create prompt integrated naturally with the home hierarchy. 8. touch targets at least hand sized and focus visible for keyboard users. 9. text wrapping and min width protections for long aliases and heichel ids. 10. reduced motion behavior for launch transitions. 11. no external network icons or provider promises in the ui during this mission. 12. internal composer links always derive from canonical creator url semantics. 13. a user with no alias should still reach the composer, where alias choice can continue safely. 14. current route navigation must stay pure; create should never acquire fake active route semantics. 15. home pulse metrics can remain, but their hierarchy should be secondary to the creation doorway. 16. quick actions should become visually grouped intents, not floating naked anchors. 17. login/alias selection remains explicit and visually bounded. 18. the context ribbon should read like compact chips, not loose diagnostic text. 19. public discovery/feed cards should inherit stable spacing/overflow contracts rather than route specific hacks. 20. existing deep creator rail remains available for advanced content creation without crowding the mobile first glance. work graph user thumb → persistent create action → existing creation controller → canonical creatorurl() → /social composer/ → already verified internal publish flow. home route → creation surface → simple post cta + compact secondary actions → canonical composer/review/interact destinations. shell → mobile dock + persistent action → safe area styles → responsive/browser contracts. failure map create overlaps dock or browser safe area. create is treated as a route and breaks navigation state. alias/destination context duplicates url logic and drifts. new styles conflict with existing v2/v3 mobile layers. “no loose text” becomes excessive chrome that hurts readability. new home hierarchy hides useful pulse/navigation tools. long identity/context values overflow phone widths. keyboard focus becomes obscured by fixed bottom ui. tests only inspect strings while real browser geometry still collides. first pass principle the awtsmoos contains every path without confusion; awtsmoos.com should reveal one clear deed beneath the thumb while deeper powers wait in their proper chamber. the first screen should feel composed, not scattered: every word belongs to a vessel, every action has a boundary, and creation is never more than one deliberate touch away.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28t0310-geelooy-social-mobile-01-discovery-b-24c4f77f80.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28t0310-geelooy-social-mobile-02-architectur-7b86123169",
+		"title": "Phase Two — Architecture, Five Alternatives, and Critique",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0310-geelooy-social-mobile/02_ARCHITECTURE_CRITIQUE.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Two — Architecture, Five Alternatives, and Critique",
+				"anchor": "phase-two-architecture-five-alternatives-and-critique"
+			},
+			{
+				"level": 2,
+				"text": "Five competing architectures",
+				"anchor": "five-competing-architectures"
+			},
+			{
+				"level": 3,
+				"text": "A — Put Create into the route registry",
+				"anchor": "a-put-create-into-the-route-registry"
+			},
+			{
+				"level": 3,
+				"text": "B — Floating action disconnected from app state",
+				"anchor": "b-floating-action-disconnected-from-app-state"
+			},
+			{
+				"level": 3,
+				"text": "C — Persistent internal creator action owned by Social Creation",
+				"anchor": "c-persistent-internal-creator-action-owned-by-social-creation"
+			},
+			{
+				"level": 3,
+				"text": "D — Embed the full composer inside Social Hub",
+				"anchor": "d-embed-the-full-composer-inside-social-hub"
+			},
+			{
+				"level": 3,
+				"text": "E — Move the entire deep creator rail to Home",
+				"anchor": "e-move-the-entire-deep-creator-rail-to-home"
+			},
+			{
+				"level": 2,
+				"text": "Chosen shape",
+				"anchor": "chosen-shape"
+			},
+			{
+				"level": 2,
+				"text": "Twenty-five improvements over phase one",
+				"anchor": "twenty-five-improvements-over-phase-one"
+			},
+			{
+				"level": 2,
+				"text": "Risk graph",
+				"anchor": "risk-graph"
+			},
+			{
+				"level": 2,
+				"text": "Architectural principle",
+				"anchor": "architectural-principle"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Two — Architecture, Five Alternatives, and Critique Five competing architectures A — Put Create into the route registry Pros: visible in every mobile dock. Cons: creation is not a destination, active route semantics become false, history/back behavior becomes confused. Rejected. B ",
+		"searchText": "b\"h boruch hashem blessed is he phase two — architecture, five alternatives, and critique five competing architectures a — put create into the route registry pros: visible in every mobile dock. cons: creation is not a destination, active route semantics become false, history/back behavior becomes confused. rejected. b — floating action disconnected from app state pros: easy markup. cons: loses alias/heichel/series context and duplicates url logic. rejected. c — persistent internal creator action owned by social creation pros: reuses creatorurl(), keeps route model pure, can render both mobile and home launchers from one state snapshot, remains internal only. chosen. d — embed the full composer inside social hub pros: fewer page transitions. cons: duplicates a mature composer, creates a huge scope explosion, breaks ownership boundaries. rejected. e — move the entire deep creator rail to home pros: all options visible. cons: overwhelms phone first paint and removes progressive disclosure. rejected. chosen shape extend the existing creator launch domain with a small persistent launcher view/controller. it owns a standard post doorway on the shell and can strengthen home without altering navigation route semantics. the existing deep creator rail remains in exact interaction for advanced intents. styling is split into mobile launcher, home creation surface, and context chips so no single stylesheet becomes a dumping ground. twenty five improvements over phase one 1. reuse creatorurl() instead of quickactions string construction for standard posts where possible. 2. keep create outside mobilenavigationpolicy. 3. keep the four mobile primary routes unchanged. 4. add one persistent shell anchor with a stable id and data quick action/creator semantics. 5. make the persistent launcher hidden on wide desktop when home already provides the prominent surface, unless geometry proves otherwise. 6. reserve bottom safe area space so content cannot hide behind fixed controls. 7. give create a text label, not icon only ambiguity. 8. put icon and label inside one bounded action vessel. 9. ensure focus visible outline sits above fixed ui. 10. use aria label or semantic text where the visual icon is decorative. 11. preserve a no alias path to composer instead of disabling create. 12. represent current context as styled chips rather than loose diagnostic strings. 13. use overflow wrap/min inline size protections on long context values. 14. make home creation surface visually primary before pulse metrics. 15. keep metrics grouped in cards and never turn their labels into naked text. 16. keep secondary quick actions visually subordinate to the post cta. 17. preserve ask question and exact interaction paths. 18. avoid any external provider names, icons, toggles, promises, or settings. 19. add structural contract tests for persistent creator markup. 20. add creator url/state contract tests for shell launcher context. 21. add style ownership tests for every new class. 22. add mobile geometry/browser witness for dock/launcher overlap. 23. add focus/keyboard witness where browser tooling supports it. 24. run the existing social hub test suite before and after implementation. 25. read all touched files in full and compare planned vs actual before declaring completion. risk graph persistent launcher → fixed positioning → safe area collision risk → mobile geometry test. persistent launcher → canonical creator url → state render timing risk → existing creation assembly/presenter integration. home redesign → existing dom ids → controller compatibility risk → preserve ids + shell contract tests. new classes → local style ownership → style contract tests. responsive hierarchy → legacy v2/v3 css → specificity/cascade risk → inspect browser computed geometry and use narrow owner specific selectors. architectural principle the awtsmoos is one while routes and deeds are distinct vessels; awtsmoos.com should never lie by calling a deed a destination. creation will hover near the thumb as an action, home will invite it clearly, and the deeper creator rail will remain the chamber for richer forms.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28t0310-geelooy-social-mobile-02-architectur-7b86123169.json"
+	}
+]

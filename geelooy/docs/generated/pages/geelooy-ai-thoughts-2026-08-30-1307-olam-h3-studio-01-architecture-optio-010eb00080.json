@@ -1,0 +1,69 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-30-1307-olam-h3-studio-01-architecture-optio-010eb00080",
+	"title": "Architecture Pass Two — Options, Critique, Improvements",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-30-1307-olam-h3-studio/01-architecture-options-and-critique.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Architecture Pass Two — Options, Critique, Improvements",
+			"anchor": "architecture-pass-two-options-critique-improvements"
+		},
+		{
+			"level": 2,
+			"text": "Competing shapes",
+			"anchor": "competing-shapes"
+		},
+		{
+			"level": 3,
+			"text": "A. One static app + direct MiniMax calls",
+			"anchor": "a-one-static-app-direct-minimax-calls"
+		},
+		{
+			"level": 3,
+			"text": "B. One static app + tiny same-project proxy + IndexedDB domain layer",
+			"anchor": "b-one-static-app-tiny-same-project-proxy-indexeddb-domain-layer"
+		},
+		{
+			"level": 3,
+			"text": "C. Full server database for generations/assets",
+			"anchor": "c-full-server-database-for-generations-assets"
+		},
+		{
+			"level": 3,
+			"text": "D. Service-worker-first offline application",
+			"anchor": "d-service-worker-first-offline-application"
+		},
+		{
+			"level": 3,
+			"text": "E. Framework migration inside /apps",
+			"anchor": "e-framework-migration-inside-apps"
+		},
+		{
+			"level": 2,
+			"text": "Selected architecture",
+			"anchor": "selected-architecture"
+		},
+		{
+			"level": 2,
+			"text": "Improvement ledger",
+			"anchor": "improvement-ledger"
+		},
+		{
+			"level": 2,
+			"text": "Failure map",
+			"anchor": "failure-map"
+		},
+		{
+			"level": 2,
+			"text": "Completion principle",
+			"anchor": "completion-principle"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-30-1307-olam-h3-studio-01-architecture-optio-010eb00080-001.json"
+	]
+}

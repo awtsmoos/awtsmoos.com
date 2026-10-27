@@ -24,19 +24,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-ohr-hagnuz-e946b787.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 700,
-		"tests": 89,
+		"source": 715,
+		"tests": 94,
 		"assets": 0,
-		"generated": 0,
+		"generated": 2,
 		"docs": 1,
-		"other": 3
+		"other": 4
 	},
-	"totalFiles": 793,
+	"totalFiles": 816,
 	"symbolSummary": {
-		"files": 671,
-		"classes": 189,
-		"functions": 195,
-		"exports": 1124,
+		"files": 685,
+		"classes": 198,
+		"functions": 203,
+		"exports": 1144,
 		"samples": [
 			"CollisionMatrix",
 			"validates",
@@ -60,8 +60,8 @@
 			"url": "/games/ohr-hagnuz",
 			"file": "geelooy/games/ohr-hagnuz/index.html",
 			"title": "B&quot;H — Ohr HaGnuz: The Concealed Frontier",
-			"scripts": 1,
-			"styles": 7
+			"scripts": 6,
+			"styles": 10
 		}
 	],
 	"requiresLocalDocumentation": true,

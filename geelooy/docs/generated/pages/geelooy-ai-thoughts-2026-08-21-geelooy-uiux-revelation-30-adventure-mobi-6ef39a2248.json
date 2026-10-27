@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-30-adventure-mobi-6ef39a2248",
+	"title": "Adventure — Narrow-Phone Containment Proof",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-21-geelooy-uiux-revelation/30-adventure-mobile-proof.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Adventure — Narrow-Phone Containment Proof",
+			"anchor": "adventure-narrow-phone-containment-proof"
+		},
+		{
+			"level": 2,
+			"text": "Original defect",
+			"anchor": "original-defect"
+		},
+		{
+			"level": 2,
+			"text": "Isolated implementation",
+			"anchor": "isolated-implementation"
+		},
+		{
+			"level": 2,
+			"text": "Final runtime evidence on healthy HTTP server",
+			"anchor": "final-runtime-evidence-on-healthy-http-server"
+		},
+		{
+			"level": 2,
+			"text": "Source hygiene",
+			"anchor": "source-hygiene"
+		},
+		{
+			"level": 2,
+			"text": "NEXTACTION",
+			"anchor": "nextaction"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-21-geelooy-uiux-revelation-30-adventure-mobi-6ef39a2248-001.json"
+	]
+}

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Wallet Organizations (geelooy/api/wallet/core/organizations/)\n\nOrganization treasuries: org creation, funding, budgets, member management, and\nconsumption rules — behind the `organizations` and `organizations/action` routes.\n\nFiles:\n- `organizationCreate.js`, `organizationFund.js`, `organizationConsume.js` — lifecycle\n- `organizationBudget.js`, `organizationState.js`, `organizationEvents.js` — budgets/state\n- `organizationMembers.js`, `organizationMemberService.js` — membership\n- `organizationPolicy.js`, `organizationService.js` — policy/service orchestration\n\nRoute helpers in `routes/organizationActionSupport.js`; tested in\n`tests/business/organization{Members,Treasury}.test.js`.\n"
+}

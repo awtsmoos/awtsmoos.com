@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-28-1318-geelooy-better-render-ai-04-release--21a7c5af8e",
+	"title": "Release and Improvement Evidence",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-28-1318-geelooy-better-render-ai/04_RELEASE_AND_IMPROVEMENT_EVIDENCE.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Release and Improvement Evidence",
+			"anchor": "release-and-improvement-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Render Improvement",
+			"anchor": "render-improvement"
+		},
+		{
+			"level": 2,
+			"text": "AI Improvement",
+			"anchor": "ai-improvement"
+		},
+		{
+			"level": 2,
+			"text": "Release Hardening",
+			"anchor": "release-hardening"
+		},
+		{
+			"level": 2,
+			"text": "Repository-Wide Evidence",
+			"anchor": "repository-wide-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Deployment Rule",
+			"anchor": "deployment-rule"
+		},
+		{
+			"level": 2,
+			"text": "Current Release Boundary",
+			"anchor": "current-release-boundary"
+		},
+		{
+			"level": 2,
+			"text": "Post-Deploy Improvement Frontier",
+			"anchor": "post-deploy-improvement-frontier"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-28-1318-geelooy-better-render-ai-04-release--21a7c5af8e-001.json"
+	]
+}

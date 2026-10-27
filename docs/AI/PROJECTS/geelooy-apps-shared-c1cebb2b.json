@@ -1,0 +1,114 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-apps-shared-c1cebb2b",
+	"path": "geelooy/apps/shared",
+	"type": "app",
+	"family": {
+		"id": "apps",
+		"title": "Applications"
+	},
+	"title": "geelooy/apps/shared",
+	"entries": [],
+	"humanDocumentation": [
+		"docs/TUTORIALS/PROJECTS/APPS.md",
+		"docs/APPS/README.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-shared-c1cebb2b.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 100,
+		"tests": 15,
+		"assets": 0,
+		"generated": 0,
+		"docs": 0,
+		"other": 0
+	},
+	"totalFiles": 115,
+	"symbolSummary": {
+		"files": 92,
+		"classes": 13,
+		"functions": 217,
+		"exports": 151,
+		"samples": [
+			"aiMovieContract",
+			"movieCapabilities",
+			"allMovieCapabilities",
+			"recommendMovieCapabilities",
+			"MovieCapabilities",
+			"profile",
+			"recommendMovieApps",
+			"movieRequirements",
+			"scoreProfile",
+			"sampleMovie",
+			"sceneAt",
+			"frameAt"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/libs",
+			"count": 1,
+			"examples": "geelooy/apps/shared/movie/compat/SharedToCoreMovie.js"
+		}
+	],
+	"incomingDependencies": [
+		{
+			"project": "geelooy/apps/awtsmoos-studio",
+			"count": 26,
+			"examples": "geelooy/apps/awtsmoos-studio/src/StudioSharedMovieContract.js; geelooy/apps/awtsmoos-studio/src/StudioShowcaseMovie.js; geelooy/apps/awtsmoos-studio/src/ai/StudioPromptContentPolicy.js"
+		},
+		{
+			"project": "geelooy/apps/animator",
+			"count": 13,
+			"examples": "geelooy/apps/animator/src/movie/AnimatorMovieAdapter.js; geelooy/apps/animator/src/scenes/AwtsmoosThreeMinuteMovie.js; geelooy/apps/animator/src/scenes/awtsmoosThreeMinute/AwtsmoosThreeMinuteData.js"
+		},
+		{
+			"project": "geelooy/showcase",
+			"count": 4,
+			"examples": "geelooy/showcase/unified-movie-180/ShowcaseController.js; geelooy/showcase/unified-movie-180/ShowcaseEvidence.js; geelooy/showcase/unified-movie-180/showcase.js"
+		},
+		{
+			"project": "geelooy/apps/captions",
+			"count": 2,
+			"examples": "geelooy/apps/captions/js/movie/installMovieAi.js; geelooy/apps/captions/video/modules/movie/CaptionMovieAdapter.js"
+		},
+		{
+			"project": "geelooy/apps/mitzvah-studio",
+			"count": 2,
+			"examples": "geelooy/apps/mitzvah-studio/modules/movie/MitzvahMovieAdapter.js; geelooy/apps/mitzvah-studio/modules/movie/installMovieAi.js"
+		},
+		{
+			"project": "geelooy/apps/nesher-studio",
+			"count": 2,
+			"examples": "geelooy/apps/nesher-studio/modules/movie/NesherMovieAdapter.js; geelooy/apps/nesher-studio/modules/movie/installMovieAi.js"
+		},
+		{
+			"project": "geelooy/apps/video-editor",
+			"count": 2,
+			"examples": "geelooy/apps/video-editor/js/movie/VideoEditorMovieAdapter.js; geelooy/apps/video-editor/js/movie/installMovieAi.js"
+		},
+		{
+			"project": "geelooy/apps/forms",
+			"count": 1,
+			"examples": "geelooy/apps/forms/js/main.js"
+		},
+		{
+			"project": "geelooy/apps/sheets",
+			"count": 1,
+			"examples": "geelooy/apps/sheets/js/app/powerUiComposition.js"
+		},
+		{
+			"project": "geelooy/apps/slides",
+			"count": 1,
+			"examples": "geelooy/apps/slides/src/movie/SlidesMovieAdapter.js"
+		}
+	],
+	"externalDependencies": [],
+	"publicEntries": [],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": false,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

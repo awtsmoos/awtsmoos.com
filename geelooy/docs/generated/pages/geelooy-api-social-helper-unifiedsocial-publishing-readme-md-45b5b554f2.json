@@ -1,0 +1,24 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-social-helper-unifiedsocial-publishing-readme-md-45b5b554f2",
+	"title": "B\"H — Unified Social Publishing (geelooy/api/social/helper/unifiedSocial/publishing/)",
+	"sourcePath": "geelooy/api/social/helper/unifiedSocial/publishing/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Unified Social Publishing (geelooy/api/social/helper/unifiedSocial/publishing/)",
+			"anchor": "b-h-unified-social-publishing-geelooy-api-social-helper-unifiedsocial-publishing"
+		},
+		{
+			"level": 2,
+			"text": "Files",
+			"anchor": "files"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-social-helper-unifiedsocial-publishing-readme-md-45b5b554f2-001.json"
+	]
+}

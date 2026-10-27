@@ -1,0 +1,277 @@
+[
+	{
+		"id": "geelooy-ai-relay-split-browser-commands-readme-md-e58b419ca4",
+		"title": "ChatGPT Website Commands",
+		"sourcePath": "geelooy/ai/relay/split-browser/commands/README.md",
+		"category": "AI",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "ChatGPT Website Commands",
+				"anchor": "chatgpt-website-commands"
+			},
+			{
+				"level": 2,
+				"text": "Manual login",
+				"anchor": "manual-login"
+			},
+			{
+				"level": 2,
+				"text": "Website capability",
+				"anchor": "website-capability"
+			},
+			{
+				"level": 2,
+				"text": "Website stress",
+				"anchor": "website-stress"
+			},
+			{
+				"level": 2,
+				"text": "Optional environment variables",
+				"anchor": "optional-environment-variables"
+			}
+		],
+		"excerpt": "B\"H ChatGPT Website Commands The relay uses only the authenticated ChatGPT website. There is no local model, local inference server, API key, or alternate provider. Manual login A normal visible ChatGPT window opens. Sign in manually. The command detects the redacted authenticated status, saves the browser profile, and",
+		"searchText": "b\"h chatgpt website commands the relay uses only the authenticated chatgpt website. there is no local model, local inference server, api key, or alternate provider. manual login a normal visible chatgpt window opens. sign in manually. the command detects the redacted authenticated status, saves the browser profile, and closes the login window. it never types credentials or clicks login controls. website capability this checks whether the dedicated profile is authenticated. it does not send a conversation message. website stress the stress runner creates and continues chatgpt website conversations sequentially, with one global minimum ten second interval between turn starts. every real prompt enters the ordinary chatgpt composer and uses the site's own send control. optional environment variables awtsmoos stress conversations awtsmoos stress messages awtsmoos direct interval ms — values below 10000 are raised to 10000. awtsmoos chrome debug port awtsmoos login timeout ms awtsmoos login poll ms",
+		"page": "pages/geelooy-ai-relay-split-browser-commands-readme-md-e58b419ca4.json"
+	},
+	{
+		"id": "geelooy-ai-streaming-automation-limits-md-3fcdc7ed55",
+		"title": "B\"H — Awtsmoos AI Streaming, Relay, and Automation Guarantees",
+		"sourcePath": "geelooy/ai/STREAMING_AUTOMATION_LIMITS.md",
+		"category": "AI",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Awtsmoos AI Streaming, Relay, and Automation Guarantees",
+				"anchor": "b-h-awtsmoos-ai-streaming-relay-and-automation-guarantees"
+			},
+			{
+				"level": 2,
+				"text": "Verified by harness",
+				"anchor": "verified-by-harness"
+			},
+			{
+				"level": 2,
+				"text": "Survival matrix",
+				"anchor": "survival-matrix"
+			},
+			{
+				"level": 2,
+				"text": "Remaining non-faked upgrades",
+				"anchor": "remaining-non-faked-upgrades"
+			},
+			{
+				"level": 2,
+				"text": "Safety notes",
+				"anchor": "safety-notes"
+			}
+		],
+		"excerpt": "B\"H — Awtsmoos AI Streaming, Relay, and Automation Guarantees Run npm run test:ai or npm run test:ai:stress from the repo root. Direct harness: Verified by harness CSS import structure and mobile last cascade. No raw sidebar .hidden toggles. Exactly one extension fetch, fetch body, and resume stream handler. Extension ",
+		"searchText": "b\"h — awtsmoos ai streaming, relay, and automation guarantees run npm run test:ai or npm run test:ai:stress from the repo root. direct harness: verified by harness css import structure and mobile last cascade. no raw sidebar .hidden toggles. exactly one extension fetch, fetch body, and resume stream handler. extension stream ledger with many concurrent streams. durable stream resume state in localstorage. multi tab stream identity and claim metadata. per conversation automation state. hidden chat automation continuation path. node relay post body preservation. node relay redirect mapping. node relay multiple concurrent stream ids and bodies. browser url rewriting for target, localhost, and login/auth origins. puppeteer style debug queue endpoints: session, goto, evaluate, click, type, screenshot placeholder, commands, result. auto login click injector compiles and is included in javascript responses. debug browser command poller compiles and is included in javascript responses. normal relay request logging is quiet by default; errors still log. auto login click injector compiles and is included in javascript responses. debug browser command poller compiles and is included in javascript responses. normal relay request logging is quiet by default; errors still log. browser url rewriting for target, localhost, and login/auth origins. puppeteer style debug queue endpoints: session, goto, evaluate, click, type, screenshot placeholder, commands, result. survival matrix situation expected behavior reload same page resume from stored cursor while extension/relay stream exists. close tab then reopen stream ids/cursors are rediscovered from localstorage if the extension worker or node relay still has the stream. multiple tabs open tabs get session ids; visible resume uses a short claim lease. switch chats while streaming hidden stream stays tracked; visible renderer only paints active conversation. node relay still running multiple in memory streams stay readable. node relay restarted in memory stream bodies are gone; old ids become not found. chrome mv3 worker stays alive extension ledger can keep pumping and resume chunks. chrome kills mv3 worker extension held streams can die. browser fully closed page ledger persists; extension worker state is not guaranteed. remaining non faked upgrades 1. persistent extension/node job queue with safe request metadata. 2. disk persistence for node relay stream bodies or replayable upstream requests. 3. real chrome/playwright mobile and desktop viewport tests. 4. ui controls for cancel, pause, retry, inspect per stream/job. 5. rate limit and auth error classification badges. 6. mv3 keepalive strategy using ports, alarms, or offscreen document where appropriate. safety notes do not persist bearer tokens, cookies, or sensitive headers in page visible storage. current durable stream ledger stores stream ids, cursors, and conversation metadata, not auth tokens. fully page closed autonomous automation requires a safer background job queue design.",
+		"page": "pages/geelooy-ai-streaming-automation-limits-md-3fcdc7ed55.json"
+	},
+	{
+		"id": "geelooy-api-admin-documentation-md-9fd7e84668",
+		"title": "Admin API Documentation",
+		"sourcePath": "geelooy/api/admin/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Admin API Documentation",
+				"anchor": "admin-api-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Admin API Documentation The Awtsmoos reveals privileged power only through an explicit gate; Awtsmoos.com maps this administrative source so dangerous capability is never mistaken for ordinary state. Read ../../../docs/API/OTHER FAMILIES.md, ../../../docs/API/AUTHENTICATION.md, and ../..",
+		"searchText": "b\"h boruch hashem blessed is he admin api documentation the awtsmoos reveals privileged power only through an explicit gate; awtsmoos.com maps this administrative source so dangerous capability is never mistaken for ordinary state. read ../../../docs/api/other families.md, ../../../docs/api/authentication.md, and ../../../docs/health.md. generated evidence: ../../../docs/generated/api route atlas.md.",
+		"page": "pages/geelooy-api-admin-documentation-md-9fd7e84668.json"
+	},
+	{
+		"id": "geelooy-api-admin-readme-md-fdc43fa81f",
+		"title": "B\"H — Admin API (/api/admin/)",
+		"sourcePath": "geelooy/api/admin/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Admin API (/api/admin/)",
+				"anchor": "b-h-admin-api-api-admin"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			},
+			{
+				"level": 2,
+				"text": "Routes",
+				"anchor": "routes"
+			},
+			{
+				"level": 2,
+				"text": "See also",
+				"anchor": "see-also"
+			}
+		],
+		"excerpt": "B\"H — Admin API (/api/admin/) Privileged administrative operations. Dangerous capabilities are gated behind explicit auth checks — never mistaken for ordinary state. Files awtsmoos.derech.js — Route registration. DOCUMENTATION.md — Full admin API documentation. Routes Method Path Purpose POST /api/admin/code Execute JS",
+		"searchText": "b\"h — admin api (/api/admin/) privileged administrative operations. dangerous capabilities are gated behind explicit auth checks — never mistaken for ordinary state. files awtsmoos.derech.js — route registration. documentation.md — full admin api documentation. routes method path purpose post /api/admin/code execute js in a sandbox (restricted to account asdf only). the /code route runs submitted code via vm with a timeout. any other account gets {\"er\": \"no auth\"}. see also ../../../docs/api/other families.md ../../../docs/api/authentication.md ../../../docs/health.md",
+		"page": "pages/geelooy-api-admin-readme-md-fdc43fa81f.json"
+	},
+	{
+		"id": "geelooy-api-apk-web-core-readme-md-e9b56313e6",
+		"title": "B\"H — APK Web Core (geelooy/api/apk-web/core/)",
+		"sourcePath": "geelooy/api/apk-web/core/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — APK Web Core (geelooy/api/apk-web/core/)",
+				"anchor": "b-h-apk-web-core-geelooy-api-apk-web-core"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "B\"H — APK Web Core (geelooy/api/apk web/core/) Internal machinery behind the APK web publication gate (see ../README.md). Files handlers.js — publishApkWebBundle / serveApkWebAsset used by the route mount. mime.js — content type mapping for served bundle assets. store.js — persistence of published bundles and their ass",
+		"searchText": "b\"h — apk web core (geelooy/api/apk web/core/) internal machinery behind the apk web publication gate (see ../readme.md). files handlers.js — publishapkwebbundle / serveapkwebasset used by the route mount. mime.js — content type mapping for served bundle assets. store.js — persistence of published bundles and their asset tokens. validation.js — bundle shape and token validation before anything is served.",
+		"page": "pages/geelooy-api-apk-web-core-readme-md-e9b56313e6.json"
+	},
+	{
+		"id": "geelooy-api-apk-web-readme-md-bec2ae650b",
+		"title": "B\"H — APK Web API (geelooy/api/apk-web/)",
+		"sourcePath": "geelooy/api/apk-web/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — APK Web API (geelooy/api/apk-web/)",
+				"anchor": "b-h-apk-web-api-geelooy-api-apk-web"
+			},
+			{
+				"level": 2,
+				"text": "Contents",
+				"anchor": "contents"
+			},
+			{
+				"level": 2,
+				"text": "What it does",
+				"anchor": "what-it-does"
+			},
+			{
+				"level": 2,
+				"text": "Endpoints",
+				"anchor": "endpoints"
+			}
+		],
+		"excerpt": "B\"H — APK Web API (geelooy/api/apk web/) Generic APK web publication gate. Contents awtsmoos.derech.js — route mount: publish, asset/:token/:path core/ — internal helpers: handlers.js, mime.js, store.js, validation.js What it does Publishes an APK's web bundle through a measured, validated gate and then serves its asse",
+		"searchText": "b\"h — apk web api (geelooy/api/apk web/) generic apk web publication gate. contents awtsmoos.derech.js — route mount: publish, asset/:token/:path core/ — internal helpers: handlers.js, mime.js, store.js, validation.js what it does publishes an apk's web bundle through a measured, validated gate and then serves its assets back out under signed token urls (asset/:token/:path ), keeping app identity outside the scheme. endpoints publish — accept and validate an apk web bundle for publication. asset/:token/:path — serve a published bundle asset for a valid token.",
+		"page": "pages/geelooy-api-apk-web-readme-md-bec2ae650b.json"
+	},
+	{
+		"id": "geelooy-api-client-errors-readme-md-3f7d1591b8",
+		"title": "B\"H — Client Error Intake (geelooy/api/client-errors/)",
+		"sourcePath": "geelooy/api/client-errors/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Client Error Intake (geelooy/api/client-errors/)",
+				"anchor": "b-h-client-error-intake-geelooy-api-client-errors"
+			},
+			{
+				"level": 2,
+				"text": "Contents",
+				"anchor": "contents"
+			},
+			{
+				"level": 2,
+				"text": "Endpoints",
+				"anchor": "endpoints"
+			},
+			{
+				"level": 2,
+				"text": "Law",
+				"anchor": "law"
+			}
+		],
+		"excerpt": "B\"H — Client Error Intake (geelooy/api/client errors/) Client error intake for the Awtsmoos reader. Post pages report window.onerror / unhandledrejection payloads here so client side failures can be read from the server side (browser automation has no DevTools access). Contents awtsmoos.derech.js — whole API: routes / ",
+		"searchText": "b\"h — client error intake (geelooy/api/client errors/) client error intake for the awtsmoos reader. post pages report window.onerror / unhandledrejection payloads here so client side failures can be read from the server side (browser automation has no devtools access). contents awtsmoos.derech.js — whole api: routes / and /recent. endpoints post / — append one error entry (message, file, line, col, stack, url, useragent, kind) as jsonl to geelooy/.data/client errors.log. per ip rate limit (60/min); log rotates at 5 mb; input fields truncated and sanitized. get /recent — newest entries, newest first, ?limit= (1–200, default 50). law no single js failure may blank the reader, and no failure may stay invisible.",
+		"page": "pages/geelooy-api-client-errors-readme-md-3f7d1591b8.json"
+	},
+	{
+		"id": "geelooy-api-compiler-core-readme-md-70aabef30f",
+		"title": "B\"H — Compiler Core (geelooy/api/compiler/core/)",
+		"sourcePath": "geelooy/api/compiler/core/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Compiler Core (geelooy/api/compiler/core/)",
+				"anchor": "b-h-compiler-core-geelooy-api-compiler-core"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "B\"H — Compiler Core (geelooy/api/compiler/core/) Internals behind the compiler API (see ../README.md). Files handlers.js — joins auth, build discovery, guarded builds, and the Rebbe APK into one boundary. auth.js / body.js — request authorization and body parsing. limiter.js — build leases / concurrency limits so build",
+		"searchText": "b\"h — compiler core (geelooy/api/compiler/core/) internals behind the compiler api (see ../readme.md). files handlers.js — joins auth, build discovery, guarded builds, and the rebbe apk into one boundary. auth.js / body.js — request authorization and body parsing. limiter.js — build leases / concurrency limits so builds can't stampede. serviceloader.js — loads the compiler backend services. serializer.js — build result response shaping. rebbeapkhandler.js — builds the source owned rebbe responsa apk behind compiler security. rebbeapkhandler.test.mjs — node test for the rebbe apk handler.",
+		"page": "pages/geelooy-api-compiler-core-readme-md-70aabef30f.json"
+	},
+	{
+		"id": "geelooy-api-compiler-documentation-md-a537b816c5",
+		"title": "Compiler API Documentation",
+		"sourcePath": "geelooy/api/compiler/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Compiler API Documentation",
+				"anchor": "compiler-api-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Compiler API Documentation The Awtsmoos lets source become artifact through build and backend vessels aligned; Awtsmoos.com maps this API to the Compiler app so calling code and implementation can both be found in time. Read ../../../docs/API/OTHER FAMILIES.md and ../../../docs/APPS/DEVE",
+		"searchText": "b\"h boruch hashem blessed is he compiler api documentation the awtsmoos lets source become artifact through build and backend vessels aligned; awtsmoos.com maps this api to the compiler app so calling code and implementation can both be found in time. read ../../../docs/api/other families.md and ../../../docs/apps/developer tools.md. contracts: ../../../docs/generated/api source contracts.md.",
+		"page": "pages/geelooy-api-compiler-documentation-md-a537b816c5.json"
+	},
+	{
+		"id": "geelooy-api-compiler-readme-md-47ae7776d3",
+		"title": "B\"H — Compiler API (geelooy/api/compiler/)",
+		"sourcePath": "geelooy/api/compiler/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Compiler API (geelooy/api/compiler/)",
+				"anchor": "b-h-compiler-api-geelooy-api-compiler"
+			},
+			{
+				"level": 2,
+				"text": "Contents",
+				"anchor": "contents"
+			},
+			{
+				"level": 2,
+				"text": "Endpoints",
+				"anchor": "endpoints"
+			}
+		],
+		"excerpt": "B\"H — Compiler API (geelooy/api/compiler/) Server side build API: turns source into artifacts through authenticated, rate limited backend vessels. Never emits placeholder bytes for unavailable backends or artifacts. Contents awtsmoos.derech.js — routes: /android/rebbe, /backends, /build DOCUMENTATION.md — full docs + p",
+		"searchText": "b\"h — compiler api (geelooy/api/compiler/) server side build api: turns source into artifacts through authenticated, rate limited backend vessels. never emits placeholder bytes for unavailable backends or artifacts. contents awtsmoos.derech.js — routes: /android/rebbe, /backends, /build documentation.md — full docs + pointers to docs/api/other families.md core/ — auth, body parsing, handlers, build lease limiter, service loader, serializer, and the source owned rebbe responsa apk builder. endpoints /build — guarded native build (auth + build lease required). /backends — authenticated compiler backend discovery. /android/rebbe — build the source owned rebbe android package. see also core/readme.md.",
+		"page": "pages/geelooy-api-compiler-readme-md-47ae7776d3.json"
+	}
+]

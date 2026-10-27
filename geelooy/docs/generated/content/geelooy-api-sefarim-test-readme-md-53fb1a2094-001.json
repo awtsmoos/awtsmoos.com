@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Sefarim Tests (geelooy/api/sefarim/test/)\n\nNode tests for the Sefarim API (see `../README.md`).\n\n- `sefarimRoute.test.js` — tests both the empty chamber (missing legacy\n  Sefarim data) and the filled one, proving the API answers gracefully instead\n  of crashing.\n"
+}

@@ -1,0 +1,307 @@
+[
+	{
+		"id": "geelooy-api-ohrbound-services-readme-md-981d760f5c",
+		"title": "B\"H — Ohrbound Services (geelooy/api/ohrbound/services/)",
+		"sourcePath": "geelooy/api/ohrbound/services/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Ohrbound Services (geelooy/api/ohrbound/services/)",
+				"anchor": "b-h-ohrbound-services-geelooy-api-ohrbound-services"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "B\"H — Ohrbound Services (geelooy/api/ohrbound/services/) Service layer behind the Ohrbound routes (see ../README.md). Files authorization.js — who may read/mutate progress and publish levels. levelPolicy.js — enforces the community level policy contract. objectGateway.js — object store access for progress docs and leve",
+		"searchText": "b\"h — ohrbound services (geelooy/api/ohrbound/services/) service layer behind the ohrbound routes (see ../readme.md). files authorization.js — who may read/mutate progress and publish levels. levelpolicy.js — enforces the community level policy contract. objectgateway.js — object store access for progress docs and level objects. malchusapiresponse.js — canonical api response envelope builder.",
+		"page": "pages/geelooy-api-ohrbound-services-readme-md-981d760f5c.json"
+	},
+	{
+		"id": "geelooy-api-ohrbound-test-readme-md-6a4318ad58",
+		"title": "B\"H — Ohrbound Tests (geelooy/api/ohrbound/test/)",
+		"sourcePath": "geelooy/api/ohrbound/test/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Ohrbound Tests (geelooy/api/ohrbound/test/)",
+				"anchor": "b-h-ohrbound-tests-geelooy-api-ohrbound-test"
+			}
+		],
+		"excerpt": "B\"H — Ohrbound Tests (geelooy/api/ohrbound/test/) Node tests for the Ohrbound API services (see ../README.md). authorization.test.cjs — verifies who may read/mutate progress and levels. levelPolicy.test.cjs — verifies level policy enforcement against the contract.",
+		"searchText": "b\"h — ohrbound tests (geelooy/api/ohrbound/test/) node tests for the ohrbound api services (see ../readme.md). authorization.test.cjs — verifies who may read/mutate progress and levels. levelpolicy.test.cjs — verifies level policy enforcement against the contract.",
+		"page": "pages/geelooy-api-ohrbound-test-readme-md-6a4318ad58.json"
+	},
+	{
+		"id": "geelooy-api-olam-h3-core-readme-md-1decf7c2da",
+		"title": "B\"H — Olam H3 Core (geelooy/api/olam-h3/core/)",
+		"sourcePath": "geelooy/api/olam-h3/core/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Olam H3 Core (geelooy/api/olam-h3/core/)",
+				"anchor": "b-h-olam-h3-core-geelooy-api-olam-h3-core"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "B\"H — Olam H3 Core (geelooy/api/olam h3/core/) Internals behind the H3 API (see ../README.md). Files handlers.js — ChesedH3Handlers: orchestrates status, create, and task routes without growing another backend. body.js — MalchusBodyReader: request body parsing. validation.js — GevurahH3Validator + H3CombinationValidati",
+		"searchText": "b\"h — olam h3 core (geelooy/api/olam h3/core/) internals behind the h3 api (see ../readme.md). files handlers.js — chesedh3handlers: orchestrates status, create, and task routes without growing another backend. body.js — malchusbodyreader: request body parsing. validation.js — gevurahh3validator + h3combinationvalidation: input guards. mapper.js — tiferesh3mapper: request to upstream mapping. client.js — netzachminimaxclient: credentialed server side transport to https://api.minimax.io (key stays in minimax api key env, never in browser).",
+		"page": "pages/geelooy-api-olam-h3-core-readme-md-1decf7c2da.json"
+	},
+	{
+		"id": "geelooy-api-olam-h3-readme-md-9081374b81",
+		"title": "B\"H — Olam H3 API (geelooy/api/olam-h3/)",
+		"sourcePath": "geelooy/api/olam-h3/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Olam H3 API (geelooy/api/olam-h3/)",
+				"anchor": "b-h-olam-h3-api-geelooy-api-olam-h3"
+			},
+			{
+				"level": 2,
+				"text": "Contents",
+				"anchor": "contents"
+			},
+			{
+				"level": 2,
+				"text": "Endpoints",
+				"anchor": "endpoints"
+			},
+			{
+				"level": 2,
+				"text": "Flow",
+				"anchor": "flow"
+			}
+		],
+		"excerpt": "B\"H — Olam H3 API (geelooy/api/olam h3/) The smallest possible H3 (MiniMax) AI server doorway: validation, mapping, and credentialed transport kept server side, with the API key never reaching the browser. Contents awtsmoos.derech.js — routes: /, /status, /create, /task core/ — body reader, validator, mapper, MiniMax c",
+		"searchText": "b\"h — olam h3 api (geelooy/api/olam h3/) the smallest possible h3 (minimax) ai server doorway: validation, mapping, and credentialed transport kept server side, with the api key never reaching the browser. contents awtsmoos.derech.js — routes: /, /status, /create, /task core/ — body reader, validator, mapper, minimax client, handlers. endpoints / and /status — connection capability, no secret disclosure. /create — create an h3 task through the validated pipeline. /task — query task state. flow body.js → validation.js (h3combinationvalidation) → mapper.js → client.js (netzachminimaxclient → https://api.minimax.io). see core/readme.md.",
+		"page": "pages/geelooy-api-olam-h3-readme-md-9081374b81.json"
+	},
+	{
+		"id": "geelooy-api-perutas-advisor-readme-md-49f574242f",
+		"title": "B\"H — Perutas Advisor (geelooy/api/perutas/advisor/)",
+		"sourcePath": "geelooy/api/perutas/advisor/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Perutas Advisor (geelooy/api/perutas/advisor/)",
+				"anchor": "b-h-perutas-advisor-geelooy-api-perutas-advisor"
+			}
+		],
+		"excerpt": "B\"H — Perutas Advisor (geelooy/api/perutas/advisor/) Single module: advisorService.js. Advisory logic over the peruta economy — spending guidance built on account/ledger state. Aggregated as advisor in ../index.js.",
+		"searchText": "b\"h — perutas advisor (geelooy/api/perutas/advisor/) single module: advisorservice.js. advisory logic over the peruta economy — spending guidance built on account/ledger state. aggregated as advisor in ../index.js.",
+		"page": "pages/geelooy-api-perutas-advisor-readme-md-49f574242f.json"
+	},
+	{
+		"id": "geelooy-api-perutas-agents-readme-md-ce86fd05b7",
+		"title": "B\"H — Perutas Agents (geelooy/api/perutas/agents/)",
+		"sourcePath": "geelooy/api/perutas/agents/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Perutas Agents (geelooy/api/perutas/agents/)",
+				"anchor": "b-h-perutas-agents-geelooy-api-perutas-agents"
+			}
+		],
+		"excerpt": "B\"H — Perutas Agents (geelooy/api/perutas/agents/) Single module: agentProfitService.js. Agent economy accounting: tracking profits earned by AI agents operating within the peruta economy (alongside ../agentEconomyService.js). Aggregated as agentProfit in ../index.js.",
+		"searchText": "b\"h — perutas agents (geelooy/api/perutas/agents/) single module: agentprofitservice.js. agent economy accounting: tracking profits earned by ai agents operating within the peruta economy (alongside ../agenteconomyservice.js). aggregated as agentprofit in ../index.js.",
+		"page": "pages/geelooy-api-perutas-agents-readme-md-ce86fd05b7.json"
+	},
+	{
+		"id": "geelooy-api-perutas-analytics-readme-md-e1b36d1182",
+		"title": "B\"H — Perutas Analytics (geelooy/api/perutas/analytics/)",
+		"sourcePath": "geelooy/api/perutas/analytics/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Perutas Analytics (geelooy/api/perutas/analytics/)",
+				"anchor": "b-h-perutas-analytics-geelooy-api-perutas-analytics"
+			}
+		],
+		"excerpt": "B\"H — Perutas Analytics (geelooy/api/perutas/analytics/) Single module: treasuryGraphService.js. Treasury graph analytics over the peruta economy — flow/relationship views across accounts and value movement. Aggregated as treasuryGraph in ../index.js.",
+		"searchText": "b\"h — perutas analytics (geelooy/api/perutas/analytics/) single module: treasurygraphservice.js. treasury graph analytics over the peruta economy — flow/relationship views across accounts and value movement. aggregated as treasurygraph in ../index.js.",
+		"page": "pages/geelooy-api-perutas-analytics-readme-md-e1b36d1182.json"
+	},
+	{
+		"id": "geelooy-api-perutas-budgets-readme-md-385f3cb5c0",
+		"title": "B\"H — Perutas Budgets (geelooy/api/perutas/budgets/)",
+		"sourcePath": "geelooy/api/perutas/budgets/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Perutas Budgets (geelooy/api/perutas/budgets/)",
+				"anchor": "b-h-perutas-budgets-geelooy-api-perutas-budgets"
+			}
+		],
+		"excerpt": "B\"H — Perutas Budgets (geelooy/api/perutas/budgets/) Budget management for peruta denominated accounts. budgetService.js — budget lifecycle budgetGuardService.js — spend guards enforcing budget limits Aggregated as budgets / budgetGuard in ../index.js.",
+		"searchText": "b\"h — perutas budgets (geelooy/api/perutas/budgets/) budget management for peruta denominated accounts. budgetservice.js — budget lifecycle budgetguardservice.js — spend guards enforcing budget limits aggregated as budgets / budgetguard in ../index.js.",
+		"page": "pages/geelooy-api-perutas-budgets-readme-md-385f3cb5c0.json"
+	},
+	{
+		"id": "geelooy-api-perutas-documentation-md-7c96629456",
+		"title": "Perutas API",
+		"sourcePath": "geelooy/api/perutas/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Perutas API",
+				"anchor": "perutas-api"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Perutas API The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role API family source related to Perutas/value/accounting behavior. Route and caller evidence should be read before assuming overlap with",
+		"searchText": "b\"h boruch hashem blessed is he perutas api the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role api family source related to perutas/value/accounting behavior. route and caller evidence should be read before assuming overlap with wallet or tunnel treasury semantics. start here read docs/api/other families.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes also inspect docs/apps/commerce and wallet.md, docs/api/wallet.md and generated route contract evidence.",
+		"page": "pages/geelooy-api-perutas-documentation-md-7c96629456.json"
+	},
+	{
+		"id": "geelooy-api-perutas-forecasting-readme-md-22dc7cbf34",
+		"title": "B\"H — Perutas Forecasting (geelooy/api/perutas/forecasting/)",
+		"sourcePath": "geelooy/api/perutas/forecasting/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Perutas Forecasting (geelooy/api/perutas/forecasting/)",
+				"anchor": "b-h-perutas-forecasting-geelooy-api-perutas-forecasting"
+			}
+		],
+		"excerpt": "B\"H — Perutas Forecasting (geelooy/api/perutas/forecasting/) Single module: forecastService.js. Forecasting over peruta economy data — projected flows/balances from ledger and usage history. Aggregated as forecasting in ../index.js.",
+		"searchText": "b\"h — perutas forecasting (geelooy/api/perutas/forecasting/) single module: forecastservice.js. forecasting over peruta economy data — projected flows/balances from ledger and usage history. aggregated as forecasting in ../index.js.",
+		"page": "pages/geelooy-api-perutas-forecasting-readme-md-22dc7cbf34.json"
+	},
+	{
+		"id": "geelooy-api-perutas-marketplace-readme-md-9ac766f944",
+		"title": "B\"H — Perutas Marketplace (geelooy/api/perutas/marketplace/)",
+		"sourcePath": "geelooy/api/perutas/marketplace/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Perutas Marketplace (geelooy/api/perutas/marketplace/)",
+				"anchor": "b-h-perutas-marketplace-geelooy-api-perutas-marketplace"
+			}
+		],
+		"excerpt": "B\"H — Perutas Marketplace (geelooy/api/perutas/marketplace/) Single module: commissionService.js. Marketplace commission accounting for the peruta economy — computing and tracking commissions on marketplace transactions (alongside ../marketplaceService.js). Aggregated as commissions in ../index.js.",
+		"searchText": "b\"h — perutas marketplace (geelooy/api/perutas/marketplace/) single module: commissionservice.js. marketplace commission accounting for the peruta economy — computing and tracking commissions on marketplace transactions (alongside ../marketplaceservice.js). aggregated as commissions in ../index.js.",
+		"page": "pages/geelooy-api-perutas-marketplace-readme-md-9ac766f944.json"
+	},
+	{
+		"id": "geelooy-api-perutas-providers-readme-md-c56fffde75",
+		"title": "B\"H — Perutas Providers (geelooy/api/perutas/providers/)",
+		"sourcePath": "geelooy/api/perutas/providers/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Perutas Providers (geelooy/api/perutas/providers/)",
+				"anchor": "b-h-perutas-providers-geelooy-api-perutas-providers"
+			}
+		],
+		"excerpt": "B\"H — Perutas Providers (geelooy/api/perutas/providers/) Single module: providerMarginService.js. Provider margin accounting — tracking margins for external providers paid in perutas (alongside ../providerService.js and ../providerSandbox.js). Aggregated as providerMargins in ../index.js.",
+		"searchText": "b\"h — perutas providers (geelooy/api/perutas/providers/) single module: providermarginservice.js. provider margin accounting — tracking margins for external providers paid in perutas (alongside ../providerservice.js and ../providersandbox.js). aggregated as providermargins in ../index.js.",
+		"page": "pages/geelooy-api-perutas-providers-readme-md-c56fffde75.json"
+	},
+	{
+		"id": "geelooy-api-perutas-readme-md-e884cc32eb",
+		"title": "B\"H — Perutas API (geelooy/api/perutas/)",
+		"sourcePath": "geelooy/api/perutas/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Perutas API (geelooy/api/perutas/)",
+				"anchor": "b-h-perutas-api-geelooy-api-perutas"
+			}
+		],
+		"excerpt": "B\"H — Perutas API (geelooy/api/perutas/) The peruta economy: Awtsmoos's base unit value/accounting layer. Every amount is reckoned in perutas and spoken in Talmudic coins (talmudicCoins.js: peruta → issar → pundyon → me'ah → dinar/zuz → shekel → maneh → kikar). Root services: accountService.js, ledgerService.js, econom",
+		"searchText": "b\"h — perutas api (geelooy/api/perutas/) the peruta economy: awtsmoos's base unit value/accounting layer. every amount is reckoned in perutas and spoken in talmudic coins (talmudiccoins.js: peruta → issar → pundyon → me'ah → dinar/zuz → shekel → maneh → kikar). root services: accountservice.js, ledgerservice.js, economymath.js, flowservice.js, purchaseservice.js, receiptservice.js, refundservice.js, usageservice.js, tierservice.js, subscriptionservice.js, marketplaceservice.js, organizationservice.js, providerservice.js + providersandbox.js, adminservice.js, adminvaultservice.js, identityservice.js, fraudsignalservice.js, devicegraphservice.js, resourceaccountingservice.js, resourceworldservice.js, agenteconomyservice.js. index.js aggregates every service for import. subdirectories: advisor/, agents/, analytics/, budgets/, forecasting/, marketplace/, providers/, reputation/ see documentation.md (points to docs/api/other families.md, docs/api/wallet.md, docs/apps/commerce and wallet.md). distinct from the wallet family: this is the peruta denominated accounting/economy layer, not the paypal/commerce checkout path.",
+		"page": "pages/geelooy-api-perutas-readme-md-e884cc32eb.json"
+	},
+	{
+		"id": "geelooy-api-perutas-reputation-readme-md-c67cf0bb05",
+		"title": "B\"H — Perutas Reputation (geelooy/api/perutas/reputation/)",
+		"sourcePath": "geelooy/api/perutas/reputation/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Perutas Reputation (geelooy/api/perutas/reputation/)",
+				"anchor": "b-h-perutas-reputation-geelooy-api-perutas-reputation"
+			}
+		],
+		"excerpt": "B\"H — Perutas Reputation (geelooy/api/perutas/reputation/) Single module: reputationService.js. Reputation scoring within the peruta economy — standing derived from account/transaction history (fraud signals, ledgers, receipts). Aggregated as reputation in ../index.js.",
+		"searchText": "b\"h — perutas reputation (geelooy/api/perutas/reputation/) single module: reputationservice.js. reputation scoring within the peruta economy — standing derived from account/transaction history (fraud signals, ledgers, receipts). aggregated as reputation in ../index.js.",
+		"page": "pages/geelooy-api-perutas-reputation-readme-md-c67cf0bb05.json"
+	},
+	{
+		"id": "geelooy-api-platform-readme-md-04cc1185aa",
+		"title": "B\"H — Platform API (geelooy/api/platform/)",
+		"sourcePath": "geelooy/api/platform/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Platform API (geelooy/api/platform/)",
+				"anchor": "b-h-platform-api-geelooy-api-platform"
+			},
+			{
+				"level": 2,
+				"text": "Contents",
+				"anchor": "contents"
+			}
+		],
+		"excerpt": "B\"H — Platform API (geelooy/api/platform/) Read only platform level product metadata. Manifest responses are built only from verified server products — no account state, no mutation capability, and no browser authored pricing or identity testimony. Contents awtsmoos.derech.js — route: /manifest (GET parameters projecte",
+		"searchText": "b\"h — platform api (geelooy/api/platform/) read only platform level product metadata. manifest responses are built only from verified server products — no account state, no mutation capability, and no browser authored pricing or identity testimony. contents awtsmoos.derech.js — route: /manifest (get parameters projected from query). productmanifest.js — builds the standards shaped install metadata response. installableproductdirectory.js — the shared directory of routes proven to be installable products. productmanifest.test.js — node test for the manifest builder.",
+		"page": "pages/geelooy-api-platform-readme-md-04cc1185aa.json"
+	}
+]

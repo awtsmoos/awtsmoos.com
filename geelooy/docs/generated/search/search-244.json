@@ -1,195 +1,418 @@
 [
 	{
-		"id": "geelooy-apps-slides-documentation-md-d31dbecf91",
-		"title": "Awtsmoos Slides",
-		"sourcePath": "geelooy/apps/slides/DOCUMENTATION.md",
-		"category": "Apps",
-		"provenance": "breadcrumb",
+		"id": "docs-generated-project-tutorials-projects-geelooy-youtube-c14506c7-md-662d8c3ffa",
+		"title": "Project Tutorial: Awtsmoos YouTube Manager",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-youtube-c14506c7.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Awtsmoos Slides",
-				"anchor": "awtsmoos-slides"
+				"text": "Project Tutorial: Awtsmoos YouTube Manager",
+				"anchor": "project-tutorial-awtsmoos-youtube-manager"
 			},
 			{
 				"level": 2,
-				"text": "Authoring",
-				"anchor": "authoring"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Mobile command system",
-				"anchor": "mobile-command-system"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Direct interaction integrity",
-				"anchor": "direct-interaction-integrity"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "Presentation mode",
-				"anchor": "presentation-mode"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Speaker notes",
-				"anchor": "speaker-notes"
+				"text": "Depends on",
+				"anchor": "depends-on"
 			},
 			{
 				"level": 2,
-				"text": "Persistence and portability",
-				"anchor": "persistence-and-portability"
+				"text": "Used by",
+				"anchor": "used-by"
 			},
 			{
 				"level": 2,
-				"text": "Collaboration",
-				"anchor": "collaboration"
+				"text": "External packages",
+				"anchor": "external-packages"
 			},
 			{
 				"level": 2,
-				"text": "Architecture",
-				"anchor": "architecture"
-			},
-			{
-				"level": 2,
-				"text": "Verification",
-				"anchor": "verification"
-			},
-			{
-				"level": 2,
-				"text": "Deliberate boundaries",
-				"anchor": "deliberate-boundaries"
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos Slides Awtsmoos Slides is a mobile first presentation editor for Geelooy. It runs at /apps/slides/ and as awtsmoosPresenter inside Geelooy OS. The Awtsmoos renews every visible slide while Awtsmoos.com keeps editing, presentation, persistence, collaboration, and export as inspec",
-		"searchText": "b\"h boruch hashem blessed is he awtsmoos slides awtsmoos slides is a mobile first presentation editor for geelooy. it runs at /apps/slides/ and as awtsmoospresenter inside geelooy os. the awtsmoos renews every visible slide while awtsmoos.com keeps editing, presentation, persistence, collaboration, and export as inspectable vessels. authoring create, select, duplicate, reorder, and delete slides. insert headings, text, rectangles, circles, and local images. drag with mouse/touch pointer input and snap to slide/peer edges and centers. resize from corner handles with coarse pointer targets. double click text for direct editing and nudge selections with arrow keys. copy, cut, paste, duplicate, delete, and change z order through store commands. edit geometry, opacity, rotation, typography, colors, borders, and image fit. apply midnight, dawn, forest, paper, and neon themes. keep per slide speaker notes outside presented/exported canvas. undo and redo history aware mutations. mobile command system below 900px the editor becomes a phone native command surface. a safe area aware bottom bar exposes slides, insert, design, and more. selected elements gain a contextual ribbon for style, copy, duplicate, arrange, and delete. arrange exposes front/forward/backward/back layering. bars and sheets share one action registry and trusted inline svg icon renderer. only one command sheet opens at a time; backdrop, close button, escape, and successful commands dismiss it. presentation mode suppresses all authoring chrome. the stage reserves bottom space for fixed mobile chrome. panels and sheets preserve a 390px document width without horizontal overflow. direct interaction integrity pointer cancellation and window blur terminate drags and clear snap guides. pointer capture is attempted safely, so synthetic pointers cannot throw browser owned capture errors. slide order arrows disable at deck boundaries, panels stay mutually exclusive, resize handles enlarge for coarse pointers, and notes stay collapsed until requested. presentation mode presentation includes previous/next, slide position, exit, swipe navigation, and keyboard support for arrows, page up/down, space, and escape. boundary controls disable on first/final slides. speaker notes pending notes remain bound to the slide where they were typed. they flush on blur, page hide, visibility loss, and slide transitions through targeted slide updates. notes remain in deck json but never enter rendered slides or standalone html output. persistence and portability room scoped localstorage autosave. versioned .awtslides json import/export. hardened import normalization for enums, colors, image schemes, geometry, typography, and payload sizes. dependency free html export with escaped user text, keyboard playback, and swipe navigation. theme colors resolve into canonical slide/element data so exported html has no runtime theme dependency. collaboration rooms use slides: . the app reuses the geelooy page presence websocket. social publish carries slides.sync.request and slides.sync through the existing social event path. messages include protocol version and per tab client id; echoes are ignored and older revisions cannot overwrite newer local state. synchronization is last revision wins snapshots, not character level crdt merging. connectivity labels remain literal: connecting, live · n, reconnecting, or offline. architecture src/model/ — document factories, themes, sanitization, normalization. src/state/ — deck state, history, slide lifecycle/order, targeted updates, element mutations. src/render/ — stage, thumbnails, selection handles, snap guides, presentation rendering. src/ui/icons/ — dependency free inline svg icons. src/ui/menus/ — shared action registry and command sheet controller. src/ui/ — panels, inspector, drag/text/resize/keyboard/clipboard/mobile/notes/themes/playback. src/persistence/ — local drafts and .awtslides transfer. src/export/ — standalone html generation/player assets. src/collab/ — collaboration policy and presence adapter. geelooy/os/programs/awtsmoos presenter/ — thin os host for the same app. verification the focused suite documents 33 passing tests covering normalization/security, notes, targeted slide updates, ordering, element mutation/z order, html escaping, collaboration envelopes, resize geometry, theme resolution, snapping, presenter navigation, and mobile command/theme mapping. browser verification uses an isolated chrome profile at 390×844 and checks width/overflow, mobile commands, insert/design/arrange/more actions, dawn theme rendering, presentation chrome suppression, footer/notes overlap, and runtime exceptions. the architecture audit keeps slides js, mjs, css, html, and this handoff under the 120 line source/document ceiling. deliberate boundaries binary pptx import/export is not implemented. collaboration is snapshot/revision based, not crdt character merging. drive backed persistence is intentionally decoupled from slides. shared os registry files may contain unrelated application registrations and should not be cleaned up as part of slides work.",
-		"page": "pages/geelooy-apps-slides-documentation-md-d31dbecf91.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Awtsmoos YouTube Manager Path: geelooy/youtube · Type: public · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: awtsmoos youtube manager path: geelooy/youtube · type: public · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, documentation.md local documentation: geelooy/youtube/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 34 1 0 0 1 0 36 public entry points /youtube → geelooy/youtube/index.html — awtsmoos youtube manager /youtube/migrate → geelooy/youtube/migrate/index.html — youtube migration studio · awtsmoos symbol evidence source files: 16; classes: 9; functions: 44; exports: 17; samples: hodcommandquoter, yesodlocalsecretvault, async, videofile, sidecarfile, videoidfromname, isodate, fallbackitem, itemfrominfo, metadatabyid, readlocalyoutubebundle, youtubearchivecheckpoint. depends on geelooy/shared — 11 lexical references; examples: geelooy/youtube/migrate/js/localsecretvault.js; geelooy/youtube/migrate/js/localyoutubebundle.js; geelooy/youtube/migrate/js/youtubearchivecheckpoint.js used by none observed. external packages none observed. verification clue observed test classified files: 1 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-youtube-c14506c7-md-662d8c3ffa.json"
 	},
 	{
-		"id": "geelooy-apps-tunnel-control-agents-md-f12beaa35d",
-		"title": "Awtsmoos Tunnel Control — Universal AI Agent Instructions",
-		"sourcePath": "geelooy/apps/tunnel-control/agents.md",
-		"category": "Tunnel",
-		"provenance": "project",
+		"id": "docs-generated-project-tutorials-projects-geelooy-zmanim-3ad5830d-md-9b3032a14e",
+		"title": "Project Tutorial: Halachic Zmanim · Awtsmoos",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-zmanim-3ad5830d.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Awtsmoos Tunnel Control — Universal AI Agent Instructions",
-				"anchor": "awtsmoos-tunnel-control-universal-ai-agent-instructions"
+				"text": "Project Tutorial: Halachic Zmanim · Awtsmoos",
+				"anchor": "project-tutorial-halachic-zmanim-awtsmoos"
 			},
 			{
 				"level": 2,
-				"text": "Canonical discovery",
-				"anchor": "canonical-discovery"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Mode A — PKCE callback authorization",
-				"anchor": "mode-a-pkce-callback-authorization"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Mode B — Headless Device Authorization",
-				"anchor": "mode-b-headless-device-authorization"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "Compatibility clients",
-				"anchor": "compatibility-clients"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
 			},
 			{
 				"level": 2,
-				"text": "After either OAuth mode",
-				"anchor": "after-either-oauth-mode"
+				"text": "Depends on",
+				"anchor": "depends-on"
 			},
 			{
 				"level": 2,
-				"text": "Start or refresh the local tunnel",
-				"anchor": "start-or-refresh-the-local-tunnel"
+				"text": "Used by",
+				"anchor": "used-by"
 			},
 			{
 				"level": 2,
-				"text": "Action discipline",
-				"anchor": "action-discipline"
+				"text": "External packages",
+				"anchor": "external-packages"
 			},
 			{
 				"level": 2,
-				"text": "Security boundary",
-				"anchor": "security-boundary"
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos Tunnel Control — Universal AI Agent Instructions The Awtsmoos renews visible browsers and silent daemons alike; Awtsmoos.com therefore teaches two consent paths, one token authority, and one immutable tunnel route, so no model confuses headless convenience with permission. These",
-		"searchText": "b\"h boruch hashem blessed is he awtsmoos tunnel control — universal ai agent instructions the awtsmoos renews visible browsers and silent daemons alike; awtsmoos.com therefore teaches two consent paths, one token authority, and one immutable tunnel route, so no model confuses headless convenience with permission. these instructions govern any external ai client using tunnel control, oauth, the action api, or openapi. new clients should use client id=external agent. canonical discovery oauth metadata: agent manifest: device authorization endpoint: human device verification: agent bootstrap: human docs: openapi: device discovery: read live metadata, manifest, or openapi whenever payload shape is uncertain. do not infer unsupported fields from memory. mode a — pkce callback authorization prefer this when the ai can retain pkce/state and receive or relay the browser callback code. 1. generate and retain high entropy code verifier and state. 2. derive the s256 code challenge. 3. open /api/oauth/authorize with client id=external agent, the fixed callback, scope, state, challenge, and code challenge method=s256. 4. the first party callback displays only authorization code and state. 5. reject the flow unless returned state exactly matches retained state. 6. exchange at /api/oauth/token with the original verifier and fixed callback. 7. store access/refresh tokens only in the ai client's secure credential store. mode b — headless device authorization use this when the ai cannot receive or relay the callback code. 1. post client id=external agent and optional scope to /api/oauth/device authorization. 2. retain device code, expires in, and interval. show the human verification uri + user code, or verification uri complete. 3. poll /api/oauth/token with: grant type=urn:ietf:params:oauth:grant type:device code the returned device code explicit client id=external agent 4. never poll faster than the current permitted interval. 5. on authorization pending, wait the interval and continue. 6. on slow down, honor the larger server delay before every subsequent poll. 7. on access denied, expired token, invalid grant, or another terminal oauth error, stop polling. 8. on success, store the returned access/refresh tokens securely and discard the device code. the human verification page requires awtsmoos login, displays the short user code, client name, and scopes, and requires explicit approve/deny. it never receives or renders the machine device code, access token, or refresh token. compatibility clients grok remains a public agent compatibility client with pkce callback and device authorization capability. chatgpt retains its registered callback patterns and legacy behavior; device authorization is not silently enabled for it. named clients are compatibility garments, not requirements for new integrations. after either oauth mode 1. call /api/tunnel/control/my device with authorization: bearer . 2. use routereference; if absent, use tunnelid. 3. pass that immutable value in the action schema field named tunnelname. 4. treat friendly tunnelname as display metadata only. 5. if no tunnel is connected, ask the user to start/refresh the local agent and retry. 6. if multiple tunnels are live, present immutable ids plus labels and ask which one to use. 7. never fabricate a route, project root, worker, receipt, job, or action result. start or refresh the local tunnel running the same installer again refreshes and starts an existing agent while preserving saved identity. action discipline after discovery, call list p=., then tree p=. depth=2 limit=150, then read real files before mutation. verify immutable route and project root before writes or commands. grant/use only required oauth scopes. treat filesystem, shell, browser automation, and local proxy access as access to the connected user's machine. a durable command with pending: true is still alive: preserve its receipt and continue it instead of resubmitting the original command. verify results from actual files, commands, browser state, and tunnel responses. security boundary universal support never means arbitrary redirect uris or invisible device approval. callback mode is bound by state + pkce; headless mode is bound by short lived device state, human login/consent, server poll cadence, expiry, denial, and one time redemption. both modes end at the same scoped oauth token authority.",
-		"page": "pages/geelooy-apps-tunnel-control-agents-md-f12beaa35d.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Halachic Zmanim · Awtsmoos Path: geelooy/zmanim · Type: public · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, no",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: halachic zmanim · awtsmoos path: geelooy/zmanim · type: public · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, package.json, documentation.md, readme.md, readme.md local documentation: geelooy/zmanim/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 115 17 0 0 2 0 134 public entry points /zmanim → geelooy/zmanim/index.html — halachic zmanim · awtsmoos symbol evidence source files: 67; classes: 35; functions: 116; exports: 121; samples: zmanimapp, awtsmooszmanimcalendar, malchus calendar day styles, parseisodate, toisodate, shiftdays, shiftmonths, monthlabel, monthgrid, iscurrentmonth, binahcalendarrenderer, malchustodayisodate. depends on geelooy/libs — 2 lexical references; examples: geelooy/zmanim/js/components/celestial webgl.js; geelooy/zmanim/js/domain/celestial zmanim.js used by geelooy/heichelos — 2 lexical references; examples: geelooy/heichelos/post/logic/dreamcelestial.js geelooy/games/mitzvahworld — 1 lexical reference; examples: geelooy/games/mitzvahworld/shared/gametimeofday.js external packages none observed. verification clue observed test classified files: 17 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-zmanim-3ad5830d-md-9b3032a14e.json"
 	},
 	{
-		"id": "geelooy-apps-tunnel-control-documentation-md-ffc8df0163",
-		"title": "Tunnel Control App Documentation",
-		"sourcePath": "geelooy/apps/tunnel-control/DOCUMENTATION.md",
-		"category": "Tunnel",
-		"provenance": "breadcrumb",
+		"id": "docs-generated-project-tutorials-projects-ops-a92c36e6-md-06df9c9f0f",
+		"title": "Project Tutorial: ops",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ops-a92c36e6.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Tunnel Control App Documentation",
-				"anchor": "tunnel-control-app-documentation"
+				"text": "Project Tutorial: ops",
+				"anchor": "project-tutorial-ops"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Tunnel Control App Documentation The Awtsmoos gives remote action a control vessel where identity, grant, preview, compute, and mission align; Awtsmoos.com maps this UI to the 79 key control API so browser behavior and backend authority remain combined. Read ../../../docs/API/TUNNEL CONT",
-		"searchText": "b\"h boruch hashem blessed is he tunnel control app documentation the awtsmoos gives remote action a control vessel where identity, grant, preview, compute, and mission align; awtsmoos.com maps this ui to the 79 key control api so browser behavior and backend authority remain combined. read ../../../docs/api/tunnel control.md and ../../../docs/systems/tunnel.md.",
-		"page": "pages/geelooy-apps-tunnel-control-documentation-md-ffc8df0163.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: ops Path: ops · Type: operations · Family: Runtime and Infrastructure Read the human Runtime and Infrastructure guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health gu",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: ops path: ops · type: operations · family: runtime and infrastructure read the human runtime and infrastructure guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: documentation.md local documentation: ops/documentation.md local doc requirement: no; covered: yes symlink target: — file shape source tests assets generated docs other total 0 0 0 0 1 6 7 public entry points none observed. symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-ops-a92c36e6-md-06df9c9f0f.json"
 	},
 	{
-		"id": "geelooy-apps-tunnel-control-readme-md-36047e4064",
-		"title": "Awtsmoos Tunnel Control — Universal AI Guide",
-		"sourcePath": "geelooy/apps/tunnel-control/README.md",
-		"category": "Tunnel",
-		"provenance": "project",
+		"id": "docs-generated-project-tutorials-projects-scripts-8c5967fd-md-7358aaef31",
+		"title": "Project Tutorial: scripts",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/scripts-8c5967fd.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Awtsmoos Tunnel Control — Universal AI Guide",
-				"anchor": "awtsmoos-tunnel-control-universal-ai-guide"
+				"text": "Project Tutorial: scripts",
+				"anchor": "project-tutorial-scripts"
 			},
 			{
 				"level": 2,
-				"text": "Canonical discovery",
-				"anchor": "canonical-discovery"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Mode A — PKCE callback authorization",
-				"anchor": "mode-a-pkce-callback-authorization"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Mode B — Headless Device Authorization",
-				"anchor": "mode-b-headless-device-authorization"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "Compatibility clients",
-				"anchor": "compatibility-clients"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Start or refresh the local tunnel",
-				"anchor": "start-or-refresh-the-local-tunnel"
+				"text": "Depends on",
+				"anchor": "depends-on"
 			},
 			{
 				"level": 2,
-				"text": "After either OAuth mode",
-				"anchor": "after-either-oauth-mode"
+				"text": "Used by",
+				"anchor": "used-by"
 			},
 			{
 				"level": 2,
-				"text": "Security",
-				"anchor": "security"
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos Tunnel Control — Universal AI Guide The Awtsmoos renews every machine and every route in each instant; Awtsmoos.com gives the human one guarded control room while callback capable and headless AIs ask through distinct OAuth garments that converge on the same authorized tunnel. T",
-		"searchText": "b\"h boruch hashem blessed is he awtsmoos tunnel control — universal ai guide the awtsmoos renews every machine and every route in each instant; awtsmoos.com gives the human one guarded control room while callback capable and headless ais ask through distinct oauth garments that converge on the same authorized tunnel. tunnel control is the browser and api interface for connected awtsmoos tunnel devices. new integrations should use the provider neutral external agent identity rather than requiring a provider specific registration. canonical discovery control panel: oauth authorization server metadata: oauth metadata alias: agent manifest: enter device code: human api docs: machine docs: openapi: agent bootstrap: device discovery: mode a — pkce callback authorization prefer this mode when the ai can retain pkce/state and receive or relay the browser callback code. 1. generate a high entropy code verifier, s256 code challenge, and state. 2. open /api/oauth/authorize with client id=external agent, response type=code, the fixed callback, scope, state, challenge, and code challenge method=s256. 3. the first party callback displays only the short lived authorization code and state. 4. reject the callback unless state exactly matches the retained state. 5. exchange the code at /api/oauth/token using the same client id, callback, and original verifier. 6. store returned credentials securely. mode b — headless device authorization use this mode when the ai cannot receive or relay the oauth callback code. 1. post client id=external agent and optional scope to /api/oauth/device authorization. 2. the response contains a high entropy device code, short user code, verification uri, verification uri complete, expires in, and interval. 3. show the human the verification url and user code. the human signs in, reviews the client/scopes/code, then explicitly approves or denies. 4. poll /api/oauth/token with grant type urn:ietf:params:oauth:grant type:device code, the returned device code, and explicit client id=external agent. 5. on authorization pending, wait at least the permitted interval and continue. 6. on slow down, increase the delay according to the server response before subsequent polls. 7. stop on access denied, expired token, invalid grant, or another terminal oauth error. 8. on success, store the same access/refresh token format used by callback mode. the browser verification page never receives or displays the machine device code, access token, or refresh token. compatibility clients grok remains a secretless pkce/device capable compatibility client built from the same public agent policy. chatgpt retains its existing registered chatgpt callback patterns and legacy behavior. new clients should prefer external agent. start or refresh the local tunnel running the same installer again refreshes and starts an existing agent while preserving its saved identity. after either oauth mode call /api/tunnel/control/my device with authorization: bearer . use routereference, or tunnelid if no route reference exists, as the immutable routing value in the action schema field named tunnelname. friendly tunnel names are display metadata only. begin with list p=., then tree p=. depth=2 limit=150, then read real files before mutation. a durable command response with pending: true is still alive: preserve its receipt and continue it rather than submitting the original command again. security universal support never means arbitrary redirect registration. device authorization never skips human login or explicit consent. do not poll faster than the returned interval. do not embed provider api keys or oauth secrets in frontend source. keep callback state verification even though pkce is required. never store oauth tokens in callback or device verification pages. grant only scopes required for the task. treat filesystem, shell, browser, and local proxy capabilities as access to the connected user's machine.",
-		"page": "pages/geelooy-apps-tunnel-control-readme-md-36047e4064.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: scripts Path: scripts · Type: tooling · Family: Libraries and Tooling Read the human Libraries and Tooling guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarant",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: scripts path: scripts · type: tooling · family: libraries and tooling read the human libraries and tooling guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: documentation.md, readme.md, readme.md local documentation: scripts/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 584 119 0 0 65 77 845 public entry points none observed. symbol evidence no lexical symbol summary observed. depends on none observed. used by geelooy/apps/code — 3 lexical references; examples: geelooy/apps/code/js/android/android source builder.js geelooy/apps/tunnel — 1 lexical reference; examples: geelooy/apps/tunnel/agent/rebuild manifest.cjs external packages none observed. verification clue observed test classified files: 119 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-scripts-8c5967fd-md-7358aaef31.json"
+	},
+	{
+		"id": "docs-generated-project-tutorials-projects-templates-9c6641c1-md-b048d9d340",
+		"title": "Project Tutorial: templates",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/templates-9c6641c1.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: templates",
+				"anchor": "project-tutorial-templates"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: templates Path: templates · Type: tooling · Family: Libraries and Tooling Read the human Libraries and Tooling guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health gua",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: templates path: templates · type: tooling · family: libraries and tooling read the human libraries and tooling guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: documentation.md local documentation: templates/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 19 1 0 0 1 0 21 public entry points none observed. symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 1 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-templates-9c6641c1-md-b048d9d340.json"
+	},
+	{
+		"id": "docs-generated-project-tutorials-projects-tests-59830ebc-md-cc4ad2563e",
+		"title": "Project Tutorial: tests",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/tests-59830ebc.md",
+		"category": "Testing",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: tests",
+				"anchor": "project-tutorial-tests"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: tests Path: tests · Type: test · Family: Libraries and Tooling Read the human Libraries and Tooling guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. En",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: tests path: tests · type: test · family: libraries and tooling read the human libraries and tooling guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: documentation.md local documentation: tests/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 0 105 0 0 1 0 106 public entry points none observed. symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 105 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-tests-59830ebc-md-cc4ad2563e.json"
+	},
+	{
+		"id": "docs-generated-project-tutorials-projects-tools-f9d35d43-md-67265bc906",
+		"title": "Project Tutorial: tools",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/tools-f9d35d43.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: tools",
+				"anchor": "project-tutorial-tools"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: tools Path: tools · Type: tooling · Family: Libraries and Tooling Read the human Libraries and Tooling guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees.",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: tools path: tools · type: tooling · family: libraries and tooling read the human libraries and tooling guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: documentation.md local documentation: tools/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 113 30 0 0 3 56 202 public entry points none observed. symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 30 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-tools-f9d35d43-md-67265bc906.json"
+	},
+	{
+		"id": "docs-generated-project-type-summary-md-dbfa69a736",
+		"title": "Project Type Summary",
+		"sourcePath": "docs/GENERATED/PROJECT_TYPE_SUMMARY.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Type Summary",
+				"anchor": "project-type-summary"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Type Summary Type Projects Files Tests Public entries alias 1 8974 107 0 api 33 3922 699 0 app 46 17636 2744 53 data 1 1072 178 0 evidence 2 1070 0 1 game 41 13712 2594 41 infrastructure 6 118 9 0 library 4 8705 586 10 operations 1 7 0 0 project 37 8571 1021 22 public 58 39665 59",
+		"searchText": "b\"h boruch hashem blessed is he project type summary type projects files tests public entries alias 1 8974 107 0 api 33 3922 699 0 app 46 17636 2744 53 data 1 1072 178 0 evidence 2 1070 0 1 game 41 13712 2594 41 infrastructure 6 118 9 0 library 4 8705 586 10 operations 1 7 0 0 project 37 8571 1021 22 public 58 39665 5921 76 public root 1 57567 7661 1 runtime 1 1305 306 0 runtime root 1 2498 493 0 test 2 242 238 1 tooling 3 1068 150 0",
+		"page": "pages/docs-generated-project-type-summary-md-dbfa69a736.json"
 	}
 ]

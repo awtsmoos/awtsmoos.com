@@ -1,0 +1,106 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-08-30-1307-olam-h3-studio-02-third-pass-test-un-9a7b1626ad",
+		"title": "Third Pass — Test Universe and Final Pre-Code Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-30-1307-olam-h3-studio/02-third-pass-test-universe-and-final-precode-plan.md",
+		"category": "Testing",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Third Pass — Test Universe and Final Pre-Code Plan",
+				"anchor": "third-pass-test-universe-and-final-pre-code-plan"
+			},
+			{
+				"level": 2,
+				"text": "Additional refinements after critique",
+				"anchor": "additional-refinements-after-critique"
+			},
+			{
+				"level": 2,
+				"text": "Expected implementation families",
+				"anchor": "expected-implementation-families"
+			},
+			{
+				"level": 3,
+				"text": "Static application",
+				"anchor": "static-application"
+			},
+			{
+				"level": 3,
+				"text": "Existing app catalog",
+				"anchor": "existing-app-catalog"
+			},
+			{
+				"level": 3,
+				"text": "Existing server",
+				"anchor": "existing-server"
+			},
+			{
+				"level": 2,
+				"text": "Test universe",
+				"anchor": "test-universe"
+			},
+			{
+				"level": 2,
+				"text": "Stop gate",
+				"anchor": "stop-gate"
+			}
+		],
+		"excerpt": "Third Pass — Test Universe and Final Pre Code Plan Additional refinements after critique 1. Read the actual app registry import path before registering Olam H3 Studio. 2. Read the actual server bootstrap and route conventions before choosing proxy filenames. 3. Inspect an existing same project API proxy for response/er",
+		"searchText": "third pass — test universe and final pre code plan additional refinements after critique 1. read the actual app registry import path before registering olam h3 studio. 2. read the actual server bootstrap and route conventions before choosing proxy filenames. 3. inspect an existing same project api proxy for response/error conventions. 4. inspect how static /geelooy maps to public /apps so urls are not guessed. 5. confirm whether the project already exposes multipart/body parsing helpers. 6. prefer minimax public urls for large reference media; support browser local media only through a verified transport path. 7. if minimax accepts data urls, enforce strict mime and size validation before forwarding. 8. if it does not, use a tiny temporary server upload route with explicit expiry rather than fake browser blob urls. 9. verify h3 pricing from the official pricing page and version it by verification date. 10. do not include h3 max unless its capabilities and pricing are both verified. 11. store pricingversion and estimatedcost on submit. 12. if minimax exposes billed usage but not money, preserve usage metadata without falsely calling it authoritative currency billing. 13. allow actualcostifknown to remain null. 14. derive local recorded spend from submitted/succeeded records according to explicit accounting semantics. 15. distinguish failed before submit from upstream failed tasks so cost accounting can evolve later. 16. persist the exact structured generation request snapshot used for each job. 17. use schema validation that strips unknown client fields before the proxy calls minimax. 18. constrain task lookup to ids recorded by the client request rather than accepting arbitrary proxy urls. 19. add no server side api key setter endpoint; deployment secret stays an environment concern. 20. make connection status endpoint reveal only configured/not configured, never the secret. 21. use a single object url service for local asset/video previews. 22. make url expiry fallback switch to cached blob without user intervention when cache exists. 23. provide a manual cache button even when auto cache is disabled. 24. treat storage quota errors as scoped warnings, not database wide fatal errors. 25. make delete generation leave shared assets intact unless the user separately deletes them. 26. build from this restores prompt/settings/reference ids without cloning asset blobs. 27. duplicate creates a new draft identity, never reuses the old generation id/task id. 28. copy/reuse operations update prompt/asset recent use timestamps for fast picker ranking. 29. filter/search in memory only after bounded indexeddb retrieval appropriate for a local personal library. 30. make all navigation state url/hash safe enough that browser back does not trap the user in a sheet. 31. restore active queue before rendering a false idle state. 32. use navigator.online only as a hint; real network errors remain authoritative. 33. keep animations to transform/opacity and honor reduced motion preference. 34. ensure 44px equivalent touch targets at phone widths. 35. make the generate footer safe area aware. 36. add visible focus treatment independently of hover. 37. keep native file input visually hidden but fully associated with intentional asset buttons. 38. use accept filters per asset role while still validating actual mime. 39. guard media metadata extraction failures without losing the original asset. 40. never cache duplicate completed videos if a cache record already exists. 41. export metadata as json with a schema/version header. 42. import inside a transaction like validation pass before mutating stores. 43. exclude large blob payloads from ordinary json export and state this clearly. 44. provide storage usage reporting from browser quota estimates plus known cached blob sizes. 45. add a minimal readme inside the app with deployment/api key instructions. 46. add server side tests for request translation and error mapping where the repo test setup permits. 47. add client unit checks for pricing and capability conflict logic. 48. add browser smoke checks for create/history/assets/usage/settings navigation. 49. re test /apps after catalog registration with console capture. 50. re read every touched source file and verify no source file exceeds the project’s practical small module limit. expected implementation families static application geelooy/apps/olam h3/ index.html — semantic shell and loading surface. styles/ — tokens, shell, components, responsive rules split by stable responsibility. scripts/main.js — boot only. scripts/config/ — h3 capabilities and pricing. scripts/db/ — indexeddb opening and domain repositories. scripts/api/ — same origin proxy adapter and minimax request translator. scripts/generation/ — validation, queue, polling, pricing estimate. scripts/ui/ — navigation, create screen, libraries, usage, settings, sheets/toasts. readme.md — exact use/security limitations. existing app catalog touch only the actual registry source consumed by /apps, rewriting that file in full if needed. do not edit apps/index.html unless inspection proves the registry architecture requires it. existing server add only the smallest route/controller/helper set required by the repository’s native server architecture. the minimax api key is read from process.env.minimax api key. no second server application is created. test universe 1. static js syntax/import graph. 2. fresh indexeddb creation. 3. indexeddb reopen and schema persistence. 4. prompt creation/dedupe/search. 5. asset store/reuse/delete safety. 6. price 768p × durations. 7. price 2k × durations. 8. extra reference image pricing after free tier. 9. reference video duration pricing. 10. text only validation. 11. first frame validation. 12. last frame validation. 13. first+last validation. 14. reference image validation. 15. multi image maximum validation. 16. reference video/audio rule validation. 17. incompatible i2v/reference auto switch behavior. 18. real proxy create request with configured key. 19. invalid key normalization. 20. insufficient balance normalization when observable. 21. rate limit normalization when observable/simulated at adapter boundary. 22. poll queued/running/succeeded/failed response shapes. 23. persist task before/after reload. 24. restore queue after reload. 25. persist remote result url. 26. cache completed video blob when chosen. 27. remote expiry fallback to cached blob. 28. build from this restores exact reusable material. 29. duplicate strips previous task/result identity. 30. search/filter creations. 31. usage totals by date/model/resolution/status. 32. export/import metadata round trip. 33. quota/storage error handling at repository boundary. 34. 360px phone layout. 35. tablet layout. 36. desktop layout. 37. keyboard/focus navigation. 38. reduced motion behavior. 39. offline status/error recovery. 40. /apps page startup and new card route. stop gate implementation does not begin until the server bootstrap, registry source, and one analogous app/api integration are read. after those reads, any changed file list is recorded in a new non overwriting plan delta file before implementation.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-30-1307-olam-h3-studio-02-third-pass-test-un-9a7b1626ad.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-30-1307-olam-h3-studio-03-observed-delta-and-dff5250c3a",
+		"title": "Observed Delta and Exact Touch Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-30-1307-olam-h3-studio/03-observed-delta-and-exact-touch-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Observed Delta and Exact Touch Plan",
+				"anchor": "observed-delta-and-exact-touch-plan"
+			},
+			{
+				"level": 2,
+				"text": "New evidence since the three planning passes",
+				"anchor": "new-evidence-since-the-three-planning-passes"
+			},
+			{
+				"level": 2,
+				"text": "Exact existing file rewritten in full",
+				"anchor": "exact-existing-file-rewritten-in-full"
+			},
+			{
+				"level": 2,
+				"text": "Exact new server files",
+				"anchor": "exact-new-server-files"
+			},
+			{
+				"level": 2,
+				"text": "Exact new application files",
+				"anchor": "exact-new-application-files"
+			},
+			{
+				"level": 2,
+				"text": "Test files created after first code pass",
+				"anchor": "test-files-created-after-first-code-pass"
+			},
+			{
+				"level": 2,
+				"text": "Deliberate exclusions",
+				"anchor": "deliberate-exclusions"
+			},
+			{
+				"level": 2,
+				"text": "Implementation order",
+				"anchor": "implementation-order"
+			}
+		],
+		"excerpt": "Observed Delta and Exact Touch Plan New evidence since the three planning passes /apps renders from apps/scripts/catalog/index.mjs, which composes creation.mjs; therefore only creation.mjs needs existing catalog modification. geelooy/api/ / awtsmoos.derech.js folders are automatically mounted by the existing dynamic se",
+		"searchText": "observed delta and exact touch plan new evidence since the three planning passes /apps renders from apps/scripts/catalog/index.mjs, which composes creation.mjs; therefore only creation.mjs needs existing catalog modification. geelooy/api/ / awtsmoos.derech.js folders are automatically mounted by the existing dynamic server. the server composition root does not need modification. dynamic routes register with $i.use({...}); raw json bodies may arrive under $i.$ post. raw body . node runtime is v24.17.0 and server default is port 8080. minimax api key is currently missing from the observed runtime, creating an external credential boundary for a paid live h3 success test. official h3 docs permit json multimodal url/data input under a 64 mb total body and explicitly advise public urls for large files and avoiding base64; the client will use base64 only for bounded local assets and will also support direct public url references. official current h3 pricing is $0.08/output second at 768p, $0.13/output second at 2k, audio input free, first five images free then $0.04/image, and reference video input billed per input second at the selected output resolution rate. exact existing file rewritten in full geelooy/apps/scripts/catalog/creation.mjs — preserve every current entry and add olam h3 studio. exact new server files geelooy/api/olam h3/ awtsmoos.derech.js — route facade only. geelooy/api/olam h3/core/body.js — json body extraction. geelooy/api/olam h3/core/validation.js — server trust boundary for h3 structured requests. geelooy/api/olam h3/core/mapper.js — internal generation → exact minimax v2 payload. geelooy/api/olam h3/core/client.js — bearer auth fetch to minimax create/query endpoints. geelooy/api/olam h3/core/handlers.js — status/create/task route orchestration and meaningful normalized errors. exact new application files geelooy/apps/olam h3/index.html geelooy/apps/olam h3/readme.md geelooy/apps/olam h3/styles/tokens.css geelooy/apps/olam h3/styles/layout.css geelooy/apps/olam h3/styles/components.css geelooy/apps/olam h3/styles/responsive.css geelooy/apps/olam h3/scripts/main.js geelooy/apps/olam h3/scripts/config/h3.js geelooy/apps/olam h3/scripts/config/pricing.js geelooy/apps/olam h3/scripts/db/schema.js geelooy/apps/olam h3/scripts/db/olamdatabase.js geelooy/apps/olam h3/scripts/db/olamrepositories.js geelooy/apps/olam h3/scripts/domain/pricingservice.js geelooy/apps/olam h3/scripts/domain/generationdraft.js geelooy/apps/olam h3/scripts/domain/assetservice.js geelooy/apps/olam h3/scripts/domain/usageservice.js geelooy/apps/olam h3/scripts/api/minimaxproxyclient.js geelooy/apps/olam h3/scripts/generation/generationqueue.js geelooy/apps/olam h3/scripts/generation/videocache.js geelooy/apps/olam h3/scripts/ui/appshell.js geelooy/apps/olam h3/scripts/ui/createview.js geelooy/apps/olam h3/scripts/ui/createassets.js geelooy/apps/olam h3/scripts/ui/creationsview.js geelooy/apps/olam h3/scripts/ui/assetsview.js geelooy/apps/olam h3/scripts/ui/usageview.js geelooy/apps/olam h3/scripts/ui/settingsview.js geelooy/apps/olam h3/scripts/ui/sheets.js geelooy/apps/olam h3/scripts/ui/dom.js test files created after first code pass geelooy/apps/olam h3/test/domain.test.mjs geelooy/api/olam h3/test/server.test.cjs geelooy/apps/olam h3/test/static.test.mjs deliberate exclusions no second backend application. no h3 max ui until its pricing and model specific experience are intentionally added; the provider/model registry is ready for it later. no full api key display or browser storage. no claim of authoritative minimax billing; all cost analytics are explicitly app recorded estimates unless minimax returns an authoritative money field in the future. no automatic large file upload host is invented. local blobs use bounded base64; large assets can be stored locally for reuse but must have/use a public source url for generation when the encoded request would cross the safe body ceiling. implementation order 1. write all new server and client production code, plus the full catalog rewrite. 2. read every touched production file and inspect line/format boundaries. 3. write tests. 4. run syntax, isolated contract, server runtime, browser, persistence, responsive, and /apps regression checks. 5. write a first pass planned vs actual delta and resolve all actionable findings.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-30-1307-olam-h3-studio-03-observed-delta-and-dff5250c3a.json"
+	}
+]

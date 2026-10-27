@@ -4,7 +4,7 @@ Blessed is He
 
 # Generated API Caller Index
 
-Literal `/api/` references found outside the API source tree; test callers are labeled. **475 rows.**
+Literal `/api/` references found outside the API source tree; test callers are labeled. **701 rows.**
 
 | Chunk | Rows | Count |
 | --- | --- | --- |
@@ -13,4 +13,7 @@ Literal `/api/` references found outside the API source tree; test callers are l
 | [api-callers-003.md](API_CALLERS/api-callers-003.md) | 161–240 | 80 |
 | [api-callers-004.md](API_CALLERS/api-callers-004.md) | 241–320 | 80 |
 | [api-callers-005.md](API_CALLERS/api-callers-005.md) | 321–400 | 80 |
-| [api-callers-006.md](API_CALLERS/api-callers-006.md) | 401–475 | 75 |
+| [api-callers-006.md](API_CALLERS/api-callers-006.md) | 401–480 | 80 |
+| [api-callers-007.md](API_CALLERS/api-callers-007.md) | 481–560 | 80 |
+| [api-callers-008.md](API_CALLERS/api-callers-008.md) | 561–640 | 80 |
+| [api-callers-009.md](API_CALLERS/api-callers-009.md) | 641–701 | 61 |

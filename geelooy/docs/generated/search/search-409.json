@@ -1,0 +1,240 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-09-10t0533-make-it-real-capability-wave-02-phas-84033c39d1",
+		"title": "Phase Three — Tiferes: Exact File Intent",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-10T0533-make-it-real-capability-wave/02-phase-three-file-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Three — Tiferes: Exact File Intent",
+				"anchor": "phase-three-tiferes-exact-file-intent"
+			},
+			{
+				"level": 2,
+				"text": "Read/Reconcile First",
+				"anchor": "read-reconcile-first"
+			},
+			{
+				"level": 2,
+				"text": "Preferred New Small Modules",
+				"anchor": "preferred-new-small-modules"
+			},
+			{
+				"level": 2,
+				"text": "Rewrite Law",
+				"anchor": "rewrite-law"
+			}
+		],
+		"excerpt": "Phase Three — Tiferes: Exact File Intent Read/Reconcile First api/wallet/core/commerce/paidActionCatalog.js api/wallet/core/commerce/paidActionExecution .js api/wallet/core/commerce/paidActionHandler .js api/wallet/core/commerce/paidActionParameters.js api/wallet/routes/commerceActionExecute.js api/wallet/tests/paidAct",
+		"searchText": "phase three — tiferes: exact file intent read/reconcile first api/wallet/core/commerce/paidactioncatalog.js api/wallet/core/commerce/paidactionexecution .js api/wallet/core/commerce/paidactionhandler .js api/wallet/core/commerce/paidactionparameters.js api/wallet/routes/commerceactionexecute.js api/wallet/tests/paidaction .test.js api/wallet/core/commerce/entitlement.js shared/commerce/model.js shared/commerce/render.js scripts/awtsmoos/ui/productcommerce.js scripts/awtsmoos/ui/foundation.js preferred new small modules universal capability definitions separated by product family concern. a radiance handler/fulfillment module if existing handler registry supports server owned actions. a shared radiance ownership/theme projector. focused tests for atomic grant, replay safety, catalog coverage, and ui model state. static catalog generator modules rather than inflating apps/games runtime renderers. rewrite law any existing file that must change will be rewritten completely after full readback. js/mjs touched files start with exact required three line b\"h prologue, use tabs, contain extensive jsdoc, never minify statements, and stay under 120 lines by splitting responsibilities.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-10t0533-make-it-real-capability-wave-02-phas-84033c39d1.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-10t0533-make-it-real-capability-wave-03-rema-89e4e7360a",
+		"title": "REMAININGWORK",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-10T0533-make-it-real-capability-wave/03-remaining-work.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "REMAININGWORK",
+				"anchor": "remainingwork"
+			},
+			{
+				"level": 2,
+				"text": "Immediate",
+				"anchor": "immediate"
+			},
+			{
+				"level": 2,
+				"text": "Marketplace / Discovery",
+				"anchor": "marketplace-discovery"
+			},
+			{
+				"level": 2,
+				"text": "Product Adoption",
+				"anchor": "product-adoption"
+			},
+			{
+				"level": 2,
+				"text": "Operations / Quality",
+				"anchor": "operations-quality"
+			}
+		],
+		"excerpt": "REMAINING WORK Immediate [ ] Reconcile the existing paid action execution tree and identify its authoritative fulfillment contract. [ ] Implement one universal server authoritative permanent cosmetic capability for every canonical product. [ ] Guarantee atomic credit consumption + entitlement grant + replay safety. [ ]",
+		"searchText": "remaining work immediate [ ] reconcile the existing paid action execution tree and identify its authoritative fulfillment contract. [ ] implement one universal server authoritative permanent cosmetic capability for every canonical product. [ ] guarantee atomic credit consumption + entitlement grant + replay safety. [ ] expose capability/ownership testimony to shared commerce ui. [ ] apply owned radiance presentation through the global product shell with accessibility fallbacks. [ ] add capability/readiness tests across the 80 product graph. [ ] re run all commerce, reservation, paid action, manifest, and catalog tests. marketplace / discovery [ ] generate crawler visible apps inventory from canonical registries. [ ] generate crawler visible games inventory from canonical registries. [ ] generate canonical/og/json ld/sitemap product metadata. [ ] add product detail metadata and related product/workflow graph. [ ] add universal search, recents, favorites, and continue surfaces. product adoption [ ] add meaningful product specific premium actions where real incremental value exists. [ ] keep basic utilities free; split legacy monoliths before product specific monetization. [ ] add hosted transcribe only after a server side provider gateway and cost model exist. [ ] add non pay to win game cosmetics/content packs and achievement progression. operations / quality [ ] stale reservation sweeper and reconciliation report. [ ] economy health metrics for credits purchased, reserved, released, consumed, and unused. [ ] 360px/390px/tablet/desktop browser matrix. [ ] accessibility, rtl/hebrew, reduced motion, high contrast, keyboard/focus audit. [ ] performance budgets, pwa/offline readiness, visual regression, and interaction e2e.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-10t0533-make-it-real-capability-wave-03-rema-89e4e7360a.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-10t0533-make-it-real-capability-wave-04-next-85367e445a",
+		"title": "NEXTACTION",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-10T0533-make-it-real-capability-wave/04-next-action.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "NEXT ACTION Read the current dirty paid action catalog/execution/handler modules in full, compare them against the existing reservation system, and implement the universal permanent Radiance capability only through the already authoritative server execution contract. Then verify atomic debit/grant, idempotency, all sou",
+		"searchText": "next action read the current dirty paid action catalog/execution/handler modules in full, compare them against the existing reservation system, and implement the universal permanent radiance capability only through the already authoritative server execution contract. then verify atomic debit/grant, idempotency, all source format laws, and 80 product capability coverage before moving to crawlable marketplace generation.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-10t0533-make-it-real-capability-wave-04-next-85367e445a.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-10t0533-make-it-real-capability-wave-05-fina-bfa337c8fd",
+		"title": "Final Radiance Implementation Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-10T0533-make-it-real-capability-wave/05-final-radiance-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Final Radiance Implementation Plan",
+				"anchor": "final-radiance-implementation-plan"
+			},
+			{
+				"level": 2,
+				"text": "Server Truth",
+				"anchor": "server-truth"
+			},
+			{
+				"level": 2,
+				"text": "Exactly-Once Ownership",
+				"anchor": "exactly-once-ownership"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			},
+			{
+				"level": 2,
+				"text": "Immediate Follow-On",
+				"anchor": "immediate-follow-on"
+			}
+		],
+		"excerpt": "Final Radiance Implementation Plan The Awtsmoos is beyond ownership and adornment; Awtsmoos.com will make one optional finite Radiance unlock truthful, permanent, account bound, and incapable of double charging. Server Truth Generate one Radiance paid action for every canonical product discovered by the existing produc",
+		"searchText": "final radiance implementation plan the awtsmoos is beyond ownership and adornment; awtsmoos.com will make one optional finite radiance unlock truthful, permanent, account bound, and incapable of double charging. server truth generate one radiance paid action for every canonical product discovered by the existing product graph. cost is server owned and browser code may only name the action. a production radiance handler is deterministic, bounded, and contains no external provider dependency. credit packs become live because every product now has at least one real handler backed paid capability. exactly once ownership existing execution replay remains highest priority idempotency testimony. fresh action keys check durable entitlement ownership before creating a reservation. successful settlement re checks ownership inside the final wallet transaction. if a concurrent execution already granted ownership, the second reservation is released instead of consumed. otherwise commit and entitlement grant happen in one transaction before persistence. files new paidactionradiancecatalog.js for generated universal action definitions. new paidactionplannedcatalog.js and paidactiontestcatalog.js to keep the main catalog small and readable. whole rewrite paidactioncatalog.js as the authority aggregator. new radiancepaidactionhandler.js and whole rewrite paidactionhandlerregistry.js. new paidactionentitlement.js, paidactionsuccesssettlement.js, and paidactionfailuresettlement.js. whole rewrite paidactionexecutionstart.js and paidactionexecutionfinish.js to compose ownership safely. new focused radiance tests for 80 product coverage, server authority, fresh key dedupe, concurrent ownership, and credit pack availability. immediate follow on after server tests pass, expose radiance through shared commerce ui, apply owned presentation through the global foundation with reduced motion/high contrast fallbacks, then move directly to crawler visible apps/games inventory and generated seo metadata.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-10t0533-make-it-real-capability-wave-05-fina-bfa337c8fd.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-10t0757-radiance-ui-and-marketplace-real-00--e9aaf8997f",
+		"title": "Phase One — Make Radiance Tangible",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-10T0757-radiance-ui-and-marketplace-real/00-phase-one-unbounded.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase One — Make Radiance Tangible",
+				"anchor": "phase-one-make-radiance-tangible"
+			},
+			{
+				"level": 2,
+				"text": "Parallel Rivers",
+				"anchor": "parallel-rivers"
+			}
+		],
+		"excerpt": "Phase One — Make Radiance Tangible The Awtsmoos renews every vessel; this continuation turns server capability truth into visible, owned, accessible product experience. Parallel Rivers 1. Prove Radiance backend behavior and structure. 2. Expose server owned action testimony to product commerce UI. 3. Add purchase/unloc",
+		"searchText": "phase one — make radiance tangible the awtsmoos renews every vessel; this continuation turns server capability truth into visible, owned, accessible product experience. parallel rivers 1. prove radiance backend behavior and structure. 2. expose server owned action testimony to product commerce ui. 3. add purchase/unlock/owned states without client authored pricing. 4. apply accessible global radiance styling only for owned products. 5. verify mobile, focus, reduced motion, high contrast, reload and replay behavior. 6. generate crawler visible apps/games inventory and product metadata. 7. add readiness tests so marketed capabilities cannot drift from backend truth.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-10t0757-radiance-ui-and-marketplace-real-00--e9aaf8997f.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-10t0757-radiance-ui-and-marketplace-real-01--24e7b8c9e5",
+		"title": "Phase Two — Failure Boundaries",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-10T0757-radiance-ui-and-marketplace-real/01-phase-two-critique.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Two — Failure Boundaries",
+				"anchor": "phase-two-failure-boundaries"
+			}
+		],
+		"excerpt": "Phase Two — Failure Boundaries UI must not show Radiance if the server action is unavailable. UI must not invent its 25 credit cost; server testimony owns cost. Already owned state must come from account entitlement testimony. Unlock button must preserve idempotency across retries. Successful unlock must refresh owners",
+		"searchText": "phase two — failure boundaries ui must not show radiance if the server action is unavailable. ui must not invent its 25 credit cost; server testimony owns cost. already owned state must come from account entitlement testimony. unlock button must preserve idempotency across retries. successful unlock must refresh ownership and credit balance visibly. failed unlock must not leave a false owned state. theme application must remain readable in high contrast and reduced motion. global styling must not break games/editors. crawlable catalog generation must not replace runtime filtering/search. every touched source remains exact header, tab indented, fully documented and <120 lines.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-10t0757-radiance-ui-and-marketplace-real-01--24e7b8c9e5.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-10t0757-radiance-ui-and-marketplace-real-02--17afa3dca9",
+		"title": "Phase Three — Exact First Files",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-10T0757-radiance-ui-and-marketplace-real/02-phase-three-file-plan.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Three — Exact First Files",
+				"anchor": "phase-three-exact-first-files"
+			},
+			{
+				"level": 2,
+				"text": "Verify First",
+				"anchor": "verify-first"
+			},
+			{
+				"level": 2,
+				"text": "Read Before Rewrite",
+				"anchor": "read-before-rewrite"
+			},
+			{
+				"level": 2,
+				"text": "Preferred New Modules",
+				"anchor": "preferred-new-modules"
+			}
+		],
+		"excerpt": "Phase Three — Exact First Files Verify First Radiance catalog, handler, start/finish settlement, entitlement bridge and tests. Read Before Rewrite api/wallet/routes/commerceProducts.js shared/commerce/model.js shared/commerce/render.js shared/commerce/surface.js shared/commerce/controller.js scripts/awtsmoos/ui/product",
+		"searchText": "phase three — exact first files verify first radiance catalog, handler, start/finish settlement, entitlement bridge and tests. read before rewrite api/wallet/routes/commerceproducts.js shared/commerce/model.js shared/commerce/render.js shared/commerce/surface.js shared/commerce/controller.js scripts/awtsmoos/ui/productcommerce.js scripts/awtsmoos/ui/foundation.js product commerce css modules. preferred new modules capability client/model/render helpers. radiance theme projector. focused ui/model tests. static marketplace generator modules.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-10t0757-radiance-ui-and-marketplace-real-02--17afa3dca9.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-10t0757-radiance-ui-and-marketplace-real-03--3793d917ee",
+		"title": "REMAININGWORK",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-10T0757-radiance-ui-and-marketplace-real/03-remaining-work.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "REMAININGWORK",
+				"anchor": "remainingwork"
+			}
+		],
+		"excerpt": "REMAINING WORK [ ] Pass full Radiance backend structure + behavior suite. [ ] Surface live paid action testimony to shared commerce. [ ] Show unlock/owned state and server cost. [ ] Execute Radiance unlock through the server action endpoint. [ ] Apply owned Radiance theme globally with accessibility fallbacks. [ ] Veri",
+		"searchText": "remaining work [ ] pass full radiance backend structure + behavior suite. [ ] surface live paid action testimony to shared commerce. [ ] show unlock/owned state and server cost. [ ] execute radiance unlock through the server action endpoint. [ ] apply owned radiance theme globally with accessibility fallbacks. [ ] verify reload/replay/mobile/focus/error states. [ ] generate crawlable apps/games catalog html. [ ] generate seo/opengraph/json ld/sitemap metadata from canonical products. [ ] add readiness tests for route/action/handler/entitlement/ui truth. [ ] re read every touched file and update planned vs actual handoff.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-10t0757-radiance-ui-and-marketplace-real-03--3793d917ee.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-09-10t0805-revenue-engineering-wave-00-phase-on-c02eca8907",
+		"title": "Phase One — Revenue Engineering Without Fantasy",
+		"sourcePath": "geelooy/.ai-thoughts/2026-09-10T0805-revenue-engineering-wave/00-phase-one-unbounded.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase One — Revenue Engineering Without Fantasy",
+				"anchor": "phase-one-revenue-engineering-without-fantasy"
+			},
+			{
+				"level": 2,
+				"text": "Seven Revenue Rivers",
+				"anchor": "seven-revenue-rivers"
+			},
+			{
+				"level": 2,
+				"text": "Beyond The Immediate Seven",
+				"anchor": "beyond-the-immediate-seven"
+			}
+		],
+		"excerpt": "Phase One — Revenue Engineering Without Fantasy The Awtsmoos is beyond gain and measure; Awtsmoos.com should nevertheless build honest finite systems that increase the probability of sustainable revenue through real customer value. Seven Revenue Rivers 1. Acquisition: make every product crawlable, indexable, shareable,",
+		"searchText": "phase one — revenue engineering without fantasy the awtsmoos is beyond gain and measure; awtsmoos.com should nevertheless build honest finite systems that increase the probability of sustainable revenue through real customer value. seven revenue rivers 1. acquisition: make every product crawlable, indexable, shareable, and understandable before javascript. 2. activation: deep link users directly into a useful example or workflow instead of a generic homepage. 3. conversion: show live server owned prices/capabilities with preserved work context through sign in and checkout. 4. paid value: make credits purchase durable delight or expensive incremental outcomes, never cripple basic usefulness. 5. retention: recents, favorites, continue working, saved projects, owned capabilities, and cross product workflows. 6. trust: receipts, reconciliation, accessibility, performance, privacy, failure recovery, and transparent cost testimony. 7. measurement: privacy safe funnel events and readiness scores so product decisions are based on evidence. beyond the immediate seven workflow bundles, team wallets, creator products, api/automation capacity, giftable value, seasonal cosmetic collections, referral attribution, and enterprise plans only after core reconciliation and observability are mature.",
+		"page": "pages/geelooy-ai-thoughts-2026-09-10t0805-revenue-engineering-wave-00-phase-on-c02eca8907.json"
+	}
+]

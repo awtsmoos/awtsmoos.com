@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-scripts-awtsmoos-compiling-native-runtime-include-readme-md-1b29ad9c58",
+	"title": "Awtsmoos Android NDK ABI Headers",
+	"sourcePath": "geelooy/scripts/awtsmoos/compiling/native/runtime/include/README.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Awtsmoos Android NDK ABI Headers",
+			"anchor": "awtsmoos-android-ndk-abi-headers"
+		},
+		{
+			"level": 2,
+			"text": "What this directory is",
+			"anchor": "what-this-directory-is"
+		},
+		{
+			"level": 2,
+			"text": "What these headers are NOT",
+			"anchor": "what-these-headers-are-not"
+		},
+		{
+			"level": 2,
+			"text": "How binding works",
+			"anchor": "how-binding-works"
+		},
+		{
+			"level": 2,
+			"text": "Adding a new header",
+			"anchor": "adding-a-new-header"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-scripts-awtsmoos-compiling-native-runtime-include-readme-md-1b29ad9c58-001.json"
+	]
+}

@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-01-0134-chitas-release-ui-final-03-final-exe-597c5f96f9",
+	"title": "Final Execution Plan",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-01-0134-chitas-release-ui-final/03-final-execution-plan.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Final Execution Plan",
+			"anchor": "final-execution-plan"
+		},
+		{
+			"level": 2,
+			"text": "Execution sequence",
+			"anchor": "execution-sequence"
+		},
+		{
+			"level": 2,
+			"text": "Completion gate",
+			"anchor": "completion-gate"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-01-0134-chitas-release-ui-final-03-final-exe-597c5f96f9-001.json"
+	]
+}

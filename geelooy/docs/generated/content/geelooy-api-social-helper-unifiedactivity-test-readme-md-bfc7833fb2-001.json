@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Unified Activity Tests (geelooy/api/social/helper/unifiedActivity/test/)\n\nUnified activity tests.\n\n- `capturePreferences.test.js` — activity capture preferences.\n- `privacy.test.js` — activity privacy rules.\n- `schema.test.js`, `store.test.js` — activity schema and store.\n"
+}

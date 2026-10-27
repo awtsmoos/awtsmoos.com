@@ -2,7 +2,7 @@ B"H
 Boruch Hashem
 Blessed is He
 
-# Project Tutorial: Light Counter
+# Project Tutorial: Light Counter · Awtsmoos
 
 **Path:** `geelooy/apps/virtual-os-stress-light-counter` · **Type:** app · **Family:** Applications
 
@@ -21,15 +21,15 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 1 | 0 | 0 | 0 | 0 | 0 | 1 |
+| 8 | 0 | 0 | 0 | 0 | 0 | 8 |
 
 ## Public entry points
 
-- `/apps/virtual-os-stress-light-counter` → `geelooy/apps/virtual-os-stress-light-counter/index.html` — Light Counter
+- `/apps/virtual-os-stress-light-counter` → `geelooy/apps/virtual-os-stress-light-counter/index.html` — Light Counter · Awtsmoos
 
 ## Symbol evidence
 
-No lexical symbol summary observed.
+Source files: 4; classes: 3; functions: 0; exports: 3; samples: MalchusLightCounterView, OhrLightCounterState, TiferesLightCounterController.
 
 ## Depends on
 

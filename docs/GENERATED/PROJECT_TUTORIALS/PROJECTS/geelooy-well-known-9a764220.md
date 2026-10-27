@@ -33,6 +33,7 @@ Source files: 1; classes: 0; functions: 0; exports: 1; samples: dynamicRoutes.
 
 ## Depends on
 
+- `geelooy/api/tunnel` — 2 lexical references; examples: geelooy/.well-known/_awtsmoos.derech.js
 - `geelooy/api/oauth` — 1 lexical reference; examples: geelooy/.well-known/_awtsmoos.derech.js
 
 ## Used by

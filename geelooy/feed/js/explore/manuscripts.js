@@ -7,8 +7,8 @@
  * zoom and pan via simple CSS transforms, page navigation, and a graceful
  * "manuscript coming soon" state when a text has no scanned pages yet.
  *
- * LOCAL ASSETS ONLY — the viewer never hotlinks external manuscript images.
- * Scanned pages belong under geelooy/feed/assets/manuscripts/<text-id>/ and
+ * VERIFIED DRIVE ASSETS ONLY — the viewer never hotlinks external manuscript images.
+ * Scanned pages belong under https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo-image-mirror/geelooy/feed/assets/manuscripts/<text-id>/ and
  * are registered in MANUSCRIPT_REGISTRY below (page files in reading order).
  * The registry is intentionally empty at ship time: every text shows the
  * honest coming-soon state until its pages are scanned and registered.
@@ -20,7 +20,7 @@ import { icon, escapeHtml, escapeAttr } from '../icons.js';
 
 /* ------------------------------------------------------------------ */
 /* Registry: textId -> { title, pages: [relative paths] }               */
-/* Paths are relative to geelooy/feed/assets/manuscripts/.              */
+/* Paths are relative to https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo-image-mirror/geelooy/feed/assets/manuscripts/.              */
 /* ------------------------------------------------------------------ */
 /** @type {Record<string, { title: string, pages: string[] }>} */
 const MANUSCRIPT_REGISTRY = {
@@ -51,7 +51,7 @@ function comingSoon(el, textLabel) {
 		<p>${textLabel
 			? `No handwritten pages have been scanned for <strong>${escapeHtml(textLabel)}</strong> yet.`
 			: 'Pick a text above to look for its handwritten manuscript.'}
-			Scans are added as local assets only — this viewer never pulls
+			Scans are served from verified Awtsmoos Drive custody — this viewer never pulls
 			manuscript images from external sites.</p>
 	</div>`;
 }
@@ -110,7 +110,7 @@ export function mount(el, ctx = {}) {
 		if (!entry || !entry.pages.length) return;
 		page = Math.max(0, Math.min(entry.pages.length - 1, page));
 		zoom = 1; panX = 0; panY = 0;
-		const src = `/feed/assets/manuscripts/${entry.pages[page]}`;
+		const src = `https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo-image-mirror/geelooy/feed/assets/manuscripts/${entry.pages[page]}`;
 		stage.innerHTML = `<img src="${escapeAttr(src)}" alt="Manuscript page ${page + 1} of ${entry.pages.length}: ${escapeAttr(entry.title)}" draggable="false">`;
 		const img = stage.querySelector('img');
 		img.addEventListener('error', () => {

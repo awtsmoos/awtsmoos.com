@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-09-ro-523d07b557",
+	"title": "Robots and Sitemap Implementation Plan",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-01-2342-geelooy-seo-current-head-merge/09-robots-sitemap-implementation-plan.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Robots and Sitemap Implementation Plan",
+			"anchor": "robots-and-sitemap-implementation-plan"
+		},
+		{
+			"level": 2,
+			"text": "New modules",
+			"anchor": "new-modules"
+		},
+		{
+			"level": 2,
+			"text": "Existing file rewrite",
+			"anchor": "existing-file-rewrite"
+		},
+		{
+			"level": 2,
+			"text": "Static root files",
+			"anchor": "static-root-files"
+		},
+		{
+			"level": 2,
+			"text": "Safety ceilings",
+			"anchor": "safety-ceilings"
+		},
+		{
+			"level": 2,
+			"text": "Verification order",
+			"anchor": "verification-order"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-01-2342-geelooy-seo-current-head-merge-09-ro-523d07b557-001.json"
+	]
+}

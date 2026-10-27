@@ -21,19 +21,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-scripts-1d55a5b0.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 1431,
-		"tests": 113,
+		"source": 1962,
+		"tests": 179,
 		"assets": 0,
 		"generated": 0,
-		"docs": 6,
-		"other": 37
+		"docs": 11,
+		"other": 69
 	},
-	"totalFiles": 1587,
+	"totalFiles": 2221,
 	"symbolSummary": {
-		"files": 1375,
-		"classes": 389,
-		"functions": 4857,
-		"exports": 1925,
+		"files": 1889,
+		"classes": 619,
+		"functions": 7459,
+		"exports": 2976,
 		"samples": [
 			"AwtsmoosAPI",
 			"for",
@@ -52,13 +52,28 @@
 	"outgoingDependencies": [
 		{
 			"project": "geelooy/shared",
-			"count": 38,
+			"count": 46,
 			"examples": "geelooy/scripts/awtsmoos/compiling/native/asmImage.js; geelooy/scripts/awtsmoos/compiling/native/asmObjectData.js; geelooy/scripts/awtsmoos/compiling/native/c/frame.js"
+		},
+		{
+			"project": "geelooy/api/wallet",
+			"count": 5,
+			"examples": "geelooy/scripts/production-covenant/productLaunchPaths.cjs; geelooy/scripts/production-covenant/productRules.cjs"
 		},
 		{
 			"project": "geelooy/apps/tunnel",
 			"count": 5,
 			"examples": "geelooy/scripts/awtsmoos/MerkavaExecutor/.test-tunnel-directory-entry-env.cjs; geelooy/scripts/awtsmoos/MerkavaExecutor/.test-tunnel-simulate-runtime-helpers.cjs; geelooy/scripts/awtsmoos/MerkavaExecutor/.test-tunnel-simulate-runtime-url-puppeteer.cjs"
+		},
+		{
+			"project": "geelooy/apps/scripts",
+			"count": 4,
+			"examples": "geelooy/scripts/commerce/install-product-commerce.mjs; geelooy/scripts/home-simple/constellation-catalog.js; geelooy/scripts/seo/audit/run.mjs"
+		},
+		{
+			"project": "geelooy/games/scripts",
+			"count": 4,
+			"examples": "geelooy/scripts/commerce/install-product-commerce.mjs; geelooy/scripts/home-simple/constellation-catalog.js; geelooy/scripts/seo/audit/run.mjs"
 		},
 		{
 			"project": "geelooy/apps/android-emulator",
@@ -69,6 +84,11 @@
 			"project": "geelooy/apps/compiler",
 			"count": 3,
 			"examples": "geelooy/scripts/awtsmoos/compiling/cpp/compiler.js"
+		},
+		{
+			"project": "geelooy/seo",
+			"count": 2,
+			"examples": "geelooy/scripts/seo/artifactPlan.mjs; geelooy/scripts/seo/translationPaths.mjs"
 		},
 		{
 			"project": "ayzarim/DosDB",
@@ -103,9 +123,34 @@
 			"examples": "geelooy/apps/exe-emulator/examples/progressive/generatedArtifacts.mjs; geelooy/apps/exe-emulator/source/compileSourceArtifact.js; geelooy/apps/exe-emulator/source/nativeContainers.js"
 		},
 		{
+			"project": "geelooy/apps/scripts",
+			"count": 6,
+			"examples": "geelooy/apps/scripts/apps-filter.v2.js; geelooy/apps/scripts/filter/AppsFilterMalchusView.js; geelooy/apps/scripts/filter/AppsFilterTiferesRuntime.js"
+		},
+		{
 			"project": "geelooy/apps/compiler",
 			"count": 3,
 			"examples": "geelooy/apps/compiler/compiler.js; geelooy/apps/compiler/compiler_c.js; geelooy/apps/compiler/ui/browserArtifactBuilders.js"
+		},
+		{
+			"project": "geelooy/apps/drive",
+			"count": 2,
+			"examples": "geelooy/apps/drive/js/app.js; geelooy/apps/drive/js/driveIdentity.js"
+		},
+		{
+			"project": "geelooy/apps/rebbe",
+			"count": 2,
+			"examples": "geelooy/apps/rebbe/android/build.js; geelooy/apps/rebbe/boot-entry.js"
+		},
+		{
+			"project": "geelooy/games/scripts",
+			"count": 2,
+			"examples": "geelooy/games/scripts/storefront/orchestration/TiferesStorefrontProjectionService.js; geelooy/games/scripts/storefront/presentation/MalchusStorefrontCatalogView.js"
+		},
+		{
+			"project": "geelooy/heichelos",
+			"count": 2,
+			"examples": "geelooy/heichelos/heichel/modules/app/post-ready-experience.js; geelooy/heichelos/heichel/modules/ui/blueprints/pending-profile-context.js"
 		},
 		{
 			"project": "geelooy/ai",
@@ -113,9 +158,9 @@
 			"examples": "geelooy/ai/js/render/event-ui/codeHighlight.js"
 		},
 		{
-			"project": "geelooy/apps/rebbe",
+			"project": "geelooy/apps/android-emulator",
 			"count": 1,
-			"examples": "geelooy/apps/rebbe/android/build.js"
+			"examples": "geelooy/apps/android-emulator/core/browser/nativeBrowserRemoteSocketAdapter.js"
 		},
 		{
 			"project": "geelooy/apps/slides",
@@ -123,37 +168,17 @@
 			"examples": "geelooy/apps/slides/src/collab/PresenceSlidesTransport.js"
 		},
 		{
-			"project": "geelooy/apps/tunnel",
-			"count": 1,
-			"examples": "geelooy/apps/tunnel/agent/tools/fs/jsWriteVerifier.js"
-		},
-		{
 			"project": "geelooy/apps/universal-chat",
 			"count": 1,
 			"examples": "geelooy/apps/universal-chat/MessagingConversationActions.js"
-		},
-		{
-			"project": "geelooy/awtai-db",
-			"count": 1,
-			"examples": "geelooy/awtai-db/app.js"
-		},
-		{
-			"project": "geelooy/email",
-			"count": 1,
-			"examples": "geelooy/email/index.js"
-		},
-		{
-			"project": "geelooy/heichel-editor",
-			"count": 1,
-			"examples": "geelooy/heichel-editor/app.js"
-		},
-		{
-			"project": "geelooy/heichelos",
-			"count": 1,
-			"examples": "geelooy/heichelos/heichel/modules/ui/blueprints/pending-profile-context.js"
 		}
 	],
 	"externalDependencies": [
+		{
+			"dependency": "s",
+			"count": 3,
+			"examples": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-service/snapshots/jsPageRunner.js"
+		},
 		{
 			"dependency": "react",
 			"count": 1,

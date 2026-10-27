@@ -26,39 +26,39 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-oros-ha-kelim-070ea630.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 59,
-		"tests": 14,
+		"source": 142,
+		"tests": 49,
 		"assets": 0,
 		"generated": 0,
-		"docs": 3,
+		"docs": 4,
 		"other": 0
 	},
-	"totalFiles": 76,
+	"totalFiles": 195,
 	"symbolSummary": {
-		"files": 54,
-		"classes": 49,
-		"functions": 3,
-		"exports": 68,
+		"files": 125,
+		"classes": 93,
+		"functions": 57,
+		"exports": 181,
 		"samples": [
 			"installDebugBridge",
 			"collectRuntimeErrors",
+			"FrameCadence",
 			"FrameConductor",
 			"createGameFrameAssembly",
+			"GameRuntimeControl",
+			"GameServices",
 			"MatchSession",
 			"OrosGame",
 			"RenderCoordinator",
 			"GRID_SIZE",
-			"CELL_SIZE",
-			"TICK_MS",
-			"ROUND_SECONDS",
-			"RESPAWN_TICKS"
+			"CELL_SIZE"
 		]
 	},
 	"outgoingDependencies": [
 		{
 			"project": "geelooy/libs",
-			"count": 11,
-			"examples": "geelooy/games/oros-ha-kelim/src/render/core/CoreGeometryFactory.js; geelooy/games/oros-ha-kelim/src/render/core/CoreGpuVessel.js; geelooy/games/oros-ha-kelim/src/render/core/CoreMesh.js"
+			"count": 14,
+			"examples": "geelooy/games/oros-ha-kelim/src/render/core/CoreGeometryFactory.js; geelooy/games/oros-ha-kelim/src/render/core/CoreGpuGeometryPool.js; geelooy/games/oros-ha-kelim/src/render/core/CoreGpuVessel.js"
 		}
 	],
 	"incomingDependencies": [],
@@ -68,8 +68,8 @@
 			"url": "/games/oros-ha-kelim",
 			"file": "geelooy/games/oros-ha-kelim/index.html",
 			"title": "Oros HaKelim · Awtsmoos.com",
-			"scripts": 1,
-			"styles": 3
+			"scripts": 6,
+			"styles": 6
 		}
 	],
 	"requiresLocalDocumentation": true,

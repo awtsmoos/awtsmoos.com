@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 125 | 0 | 0 | 0 | 1 | 0 | 126 |
+| 222 | 33 | 0 | 0 | 1 | 0 | 256 |
 
 ## Public entry points
 
@@ -29,11 +29,11 @@ Blessed is He
 
 ## Symbol evidence
 
-Source files: 117; classes: 8; functions: 588; exports: 261; samples: async, collectRebbeAssets, collectDirectory, boundedNumber, assetError, buildRebbeResponsaApk, generateRebbeResponsaApk, REBBE_ANDROID_SOURCE, MainActivity, handleBack, handleNext, handlePrev.
+Source files: 181; classes: 37; functions: 730; exports: 355; samples: RuntimeStyleYesod, async, collectRebbeAssets, collectDirectory, boundedNumber, assetError, buildRebbeResponsaApk, generateRebbeResponsaApk, REBBE_ANDROID_SOURCE, MainActivity, startApplication, waitForTimeline.
 
 ## Depends on
 
-- `geelooy/scripts` — 1 lexical reference; examples: geelooy/apps/rebbe/android/build.js
+- `geelooy/scripts` — 2 lexical references; examples: geelooy/apps/rebbe/android/build.js; geelooy/apps/rebbe/boot-entry.js
 
 ## Used by
 
@@ -45,4 +45,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **0**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **33**. Treat this as file evidence, not proof of behavioral coverage.

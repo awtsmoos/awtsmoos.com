@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 10 | 0 | 0 | 0 | 1 | 0 | 11 |
+| 19 | 0 | 0 | 0 | 1 | 0 | 20 |
 
 ## Public entry points
 
@@ -29,11 +29,11 @@ Blessed is He
 
 ## Symbol evidence
 
-Source files: 5; classes: 4; functions: 4; exports: 5; samples: BlackjackAI, createDeck, shuffleDeck, Renderer, BlackjackGame, orchestrates, initializeMenu, beginExperience.
+Source files: 13; classes: 8; functions: 16; exports: 16; samples: BlackjackAI, createDeck, shuffleDeck, Renderer, ResponsiveRenderer, BLACKJACK_STAKES, BlackjackBankroll, normalizeStake, blackjackHandValue, isNaturalBlackjack, evaluateBlackjackOutcome, createBlackjackPlayers.
 
 ## Depends on
 
-None observed.
+- `geelooy/games/scripts` — 1 lexical reference; examples: geelooy/games/cards/js/engine/renderer.js
 
 ## Used by
 

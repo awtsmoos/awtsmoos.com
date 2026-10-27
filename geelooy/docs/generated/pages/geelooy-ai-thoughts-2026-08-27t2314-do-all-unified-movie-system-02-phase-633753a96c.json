@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-27t2314-do-all-unified-movie-system-02-phase-633753a96c",
+	"title": "Phase One — Theoretical File Graph",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-27T2314-do-all-unified-movie-system/02_PHASE_ONE_THEORETICAL_FILE_GRAPH.md",
+	"category": "Systems",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase One — Theoretical File Graph",
+			"anchor": "phase-one-theoretical-file-graph"
+		},
+		{
+			"level": 2,
+			"text": "Canonical domain",
+			"anchor": "canonical-domain"
+		},
+		{
+			"level": 2,
+			"text": "AI and revisions",
+			"anchor": "ai-and-revisions"
+		},
+		{
+			"level": 2,
+			"text": "Assets and characters",
+			"anchor": "assets-and-characters"
+		},
+		{
+			"level": 2,
+			"text": "Renderer/export contracts",
+			"anchor": "renderer-export-contracts"
+		},
+		{
+			"level": 2,
+			"text": "App bridge contract",
+			"anchor": "app-bridge-contract"
+		},
+		{
+			"level": 2,
+			"text": "UX",
+			"anchor": "ux"
+		},
+		{
+			"level": 2,
+			"text": "Tests",
+			"anchor": "tests"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-27t2314-do-all-unified-movie-system-02-phase-633753a96c-001.json"
+	]
+}

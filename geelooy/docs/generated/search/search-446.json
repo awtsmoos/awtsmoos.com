@@ -1,0 +1,291 @@
+[
+	{
+		"id": "geelooy-api-social-helper-migrations-meta-readme-md-c8107a52a6",
+		"title": "B\"H — Meta Migration (geelooy/api/social/helper/migrations/meta/)",
+		"sourcePath": "geelooy/api/social/helper/migrations/meta/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Meta Migration (geelooy/api/social/helper/migrations/meta/)",
+				"anchor": "b-h-meta-migration-geelooy-api-social-helper-migrations-meta"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "B\"H — Meta Migration (geelooy/api/social/helper/migrations/meta/) Importer for migrating Meta (Facebook/Instagram) assets and content into Awtsmoos. Files MetaManifest.js, MetaManifestGuard.js — migration manifest and validation guard. MetaAssetGuard.js, MetaContentKind.js — asset validation and content kind mapping. M",
+		"searchText": "b\"h — meta migration (geelooy/api/social/helper/migrations/meta/) importer for migrating meta (facebook/instagram) assets and content into awtsmoos. files metamanifest.js, metamanifestguard.js — migration manifest and validation guard. metaassetguard.js, metacontentkind.js — asset validation and content kind mapping. metamigrationplan.js, metamigrationroutes.js — migration planning and http routes. metamigrationcapabilities.js, metamigrationdiagnostics.js — capability checks and diagnostics. metasourceprovenance.js, secretfieldguard.js — provenance tracking and secret field scrubbing.",
+		"page": "pages/geelooy-api-social-helper-migrations-meta-readme-md-c8107a52a6.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-migrations-readme-md-f8a15122a9",
+		"title": "B\"H — Migrations (geelooy/api/social/helper/migrations/)",
+		"sourcePath": "geelooy/api/social/helper/migrations/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Migrations (geelooy/api/social/helper/migrations/)",
+				"anchor": "b-h-migrations-geelooy-api-social-helper-migrations"
+			},
+			{
+				"level": 2,
+				"text": "Subdirectories",
+				"anchor": "subdirectories"
+			}
+		],
+		"excerpt": "B\"H — Migrations (geelooy/api/social/helper/migrations/) External platform migration importers: Meta assets/content and YouTube captions/manifests. Subdirectories meta/ — Meta migration: manifest + guards, content kinds, plan, routes, diagnostics, capabilities, source provenance, secret field guarding. youtube/ — YouTu",
+		"searchText": "b\"h — migrations (geelooy/api/social/helper/migrations/) external platform migration importers: meta assets/content and youtube captions/manifests. subdirectories meta/ — meta migration: manifest + guards, content kinds, plan, routes, diagnostics, capabilities, source provenance, secret field guarding. youtube/ — youtube migration: caption assets, manifest + guard, migration plan/routes, source provenance, plus test/. archiveorgpublicasset.js — archive.org public asset migration helper.",
+		"page": "pages/geelooy-api-social-helper-migrations-readme-md-f8a15122a9.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-migrations-youtube-readme-md-4ecc5de65d",
+		"title": "B\"H — YouTube Migration (geelooy/api/social/helper/migrations/youtube/)",
+		"sourcePath": "geelooy/api/social/helper/migrations/youtube/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — YouTube Migration (geelooy/api/social/helper/migrations/youtube/)",
+				"anchor": "b-h-youtube-migration-geelooy-api-social-helper-migrations-youtube"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "B\"H — YouTube Migration (geelooy/api/social/helper/migrations/youtube/) Importer for migrating YouTube content (captions, manifests) into Awtsmoos. Files YouTubeManifest.js, ManifestGuard.js — migration manifest and validation guard. YouTubeCaptionAssets.js — caption asset handling. YouTubeMigrationPlan.js, YouTubeMigr",
+		"searchText": "b\"h — youtube migration (geelooy/api/social/helper/migrations/youtube/) importer for migrating youtube content (captions, manifests) into awtsmoos. files youtubemanifest.js, manifestguard.js — migration manifest and validation guard. youtubecaptionassets.js — caption asset handling. youtubemigrationplan.js, youtubemigrationroutes.js — migration planning and http routes. sourceprovenance.js — provenance tracking. test/ — manifestguard.test.js, youtubemanifest.test.js.",
+		"page": "pages/geelooy-api-social-helper-migrations-youtube-readme-md-4ecc5de65d.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-migrations-youtube-test-readme-md-56dbe1df91",
+		"title": "B\"H — YouTube Migration Tests (geelooy/api/social/helper/migrations/youtube/test/)",
+		"sourcePath": "geelooy/api/social/helper/migrations/youtube/test/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — YouTube Migration Tests (geelooy/api/social/helper/migrations/youtube/test/)",
+				"anchor": "b-h-youtube-migration-tests-geelooy-api-social-helper-migrations-youtube-test"
+			}
+		],
+		"excerpt": "B\"H — YouTube Migration Tests (geelooy/api/social/helper/migrations/youtube/test/) YouTube migration tests. ManifestGuard.test.js — manifest validation guard. YouTubeManifest.test.js — manifest behavior.",
+		"searchText": "b\"h — youtube migration tests (geelooy/api/social/helper/migrations/youtube/test/) youtube migration tests. manifestguard.test.js — manifest validation guard. youtubemanifest.test.js — manifest behavior.",
+		"page": "pages/geelooy-api-social-helper-migrations-youtube-test-readme-md-56dbe1df91.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-nodeos-readme-md-20bb573f1d",
+		"title": "B\"H — Node OS (geelooy/api/social/helper/nodeOs/)",
+		"sourcePath": "geelooy/api/social/helper/nodeOs/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Node OS (geelooy/api/social/helper/nodeOs/)",
+				"anchor": "b-h-node-os-geelooy-api-social-helper-nodeos"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "B\"H — Node OS (geelooy/api/social/helper/nodeOs/) Node OS storage layer: schema, paths, store, and migration for the node OS data domain. Files nodeOsSchema.js, nodeOsPaths.js, nodeOsStore.js — schema, storage paths, store. migration.js — node OS migration. test/ — nodeOsMigration.test.mjs.",
+		"searchText": "b\"h — node os (geelooy/api/social/helper/nodeos/) node os storage layer: schema, paths, store, and migration for the node os data domain. files nodeosschema.js, nodeospaths.js, nodeosstore.js — schema, storage paths, store. migration.js — node os migration. test/ — nodeosmigration.test.mjs.",
+		"page": "pages/geelooy-api-social-helper-nodeos-readme-md-20bb573f1d.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-nodeos-test-readme-md-c9b99d6905",
+		"title": "B\"H — Node OS Tests (geelooy/api/social/helper/nodeOs/test/)",
+		"sourcePath": "geelooy/api/social/helper/nodeOs/test/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Node OS Tests (geelooy/api/social/helper/nodeOs/test/)",
+				"anchor": "b-h-node-os-tests-geelooy-api-social-helper-nodeos-test"
+			}
+		],
+		"excerpt": "B\"H — Node OS Tests (geelooy/api/social/helper/nodeOs/test/) Node OS tests. nodeOsMigration.test.mjs — node OS migration behavior.",
+		"searchText": "b\"h — node os tests (geelooy/api/social/helper/nodeos/test/) node os tests. nodeosmigration.test.mjs — node os migration behavior.",
+		"page": "pages/geelooy-api-social-helper-nodeos-test-readme-md-c9b99d6905.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-notifications-readme-md-13aeb91daa",
+		"title": "B\"H — Notifications (geelooy/api/social/helper/notifications/)",
+		"sourcePath": "geelooy/api/social/helper/notifications/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Notifications (geelooy/api/social/helper/notifications/)",
+				"anchor": "b-h-notifications-geelooy-api-social-helper-notifications"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "B\"H — Notifications (geelooy/api/social/helper/notifications/) Notification domain model: types, storage, mutations, queries, preferences, and mirroring. Files NotificationModel.js, NotificationTypes.js — model and notification types. NotificationMutations.js, NotificationQueries.js — write/read operations. Notificatio",
+		"searchText": "b\"h — notifications (geelooy/api/social/helper/notifications/) notification domain model: types, storage, mutations, queries, preferences, and mirroring. files notificationmodel.js, notificationtypes.js — model and notification types. notificationmutations.js, notificationqueries.js — write/read operations. notificationpreferences.js — per user preferences. notificationmirror.js — mirrors notifications to other stores/surfaces.",
+		"page": "pages/geelooy-api-social-helper-notifications-readme-md-13aeb91daa.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-objects-readme-md-6da7733683",
+		"title": "B\"H — Objects (geelooy/api/social/helper/objects/)",
+		"sourcePath": "geelooy/api/social/helper/objects/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Objects (geelooy/api/social/helper/objects/)",
+				"anchor": "b-h-objects-geelooy-api-social-helper-objects"
+			},
+			{
+				"level": 2,
+				"text": "Files",
+				"anchor": "files"
+			}
+		],
+		"excerpt": "B\"H — Objects (geelooy/api/social/helper/objects/) Object registry for social objects: schema, store, search, relationships, timeline, cards, health, and metrics. Mounted via awtsmoos.objects.js. Files index.js — module entry; registry.js — object registry. schema.js, store.js — object schema and store. search.js, rela",
+		"searchText": "b\"h — objects (geelooy/api/social/helper/objects/) object registry for social objects: schema, store, search, relationships, timeline, cards, health, and metrics. mounted via awtsmoos.objects.js. files index.js — module entry; registry.js — object registry. schema.js, store.js — object schema and store. search.js, relationships.js, timeline.js — search, relations, timeline views. cards.js, inspector.js — card rendering and object inspection. health.js, metrics.js — health checks and metrics. adapters.js — storage/source adapters.",
+		"page": "pages/geelooy-api-social-helper-objects-readme-md-6da7733683.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-packed-citationindexes-readme-md-4450d498e6",
+		"title": "Citation indexes — reader \"Connections\" data",
+		"sourcePath": "geelooy/api/social/helper/packed/citationIndexes/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Citation indexes — reader \"Connections\" data",
+				"anchor": "citation-indexes-reader-connections-data"
+			},
+			{
+				"level": 2,
+				"text": "Format",
+				"anchor": "format"
+			},
+			{
+				"level": 2,
+				"text": "Adding new indexes",
+				"anchor": "adding-new-indexes"
+			},
+			{
+				"level": 2,
+				"text": "Matching (incoming)",
+				"anchor": "matching-incoming"
+			},
+			{
+				"level": 2,
+				"text": "Snapshot note",
+				"anchor": "snapshot-note"
+			}
+		],
+		"excerpt": "Citation indexes — reader \"Connections\" data B\"H This directory holds the reverse/forward citation indexes that power GET /api/social/packed/connections (the reader \"Connections\" section). Format forward .json: { BH, files, postsWithCitations, forward: { postId: [{key, para, raw, kind}] } } — citations each post makes ",
+		"searchText": "citation indexes — reader \"connections\" data b\"h this directory holds the reverse/forward citation indexes that power get /api/social/packed/connections (the reader \"connections\" section). format forward .json: { bh, files, postswithcitations, forward: { postid: [{key, para, raw, kind}] } } — citations each post makes (outgoing). reverse .json: { bh, uniquekeys, index: { citationkey: [{post, para, raw}] } } — posts citing each reference key (incoming). adding new indexes drop in another reverse .json / forward .json pair (same shape) and commit. the server loader (../connectionsindex.js) scans this directory on every request and rebuilds its in memory cache whenever file mtimes/sizes change — no restart or deploy of code is needed for new data, only the data commit itself. files that fail to parse (e.g. still being written) are skipped and retried on the next scan instead of failing the endpoint. matching (incoming) ../connectionsmatch.js attributes reverse keys to posts with a precision first heuristic: sefer kind keys only, standalone sefer name match, explicit chapter/siman number markers, plus parsha (likkutei torah) or section (halachah) scoping. see that module's docblock for the full rules and honest limitations. snapshot note files here are a point in time copy of /workspace/citation audit/ (snapshotted 2026 10 13 02:00 edt). sibling index builders: prefer adding new reverse /forward files over editing these in place.",
+		"page": "pages/geelooy-api-social-helper-packed-citationindexes-readme-md-4450d498e6.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-packed-readme-md-4476d9f26a",
+		"title": "Packed Storage Model — Agent Handoff",
+		"sourcePath": "geelooy/api/social/helper/packed/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Packed Storage Model — Agent Handoff",
+				"anchor": "packed-storage-model-agent-handoff"
+			},
+			{
+				"level": 2,
+				"text": "Logical keys (shardPaths.js)",
+				"anchor": "logical-keys-shardpaths-js"
+			},
+			{
+				"level": 2,
+				"text": "Shards",
+				"anchor": "shards"
+			},
+			{
+				"level": 2,
+				"text": "Writers (socialPacked.js)",
+				"anchor": "writers-socialpacked-js"
+			},
+			{
+				"level": 2,
+				"text": "Reads",
+				"anchor": "reads"
+			},
+			{
+				"level": 2,
+				"text": "Record envelope (recordEnvelope.js)",
+				"anchor": "record-envelope-recordenvelope-js"
+			},
+			{
+				"level": 2,
+				"text": "Tombstones (deletion)",
+				"anchor": "tombstones-deletion"
+			},
+			{
+				"level": 2,
+				"text": "Files map",
+				"anchor": "files-map"
+			}
+		],
+		"excerpt": "B\"H Packed Storage Model — Agent Handoff The append only JSONL / AwtsmoosDB shard layer that mirrors native records for readers. Native records (/social/heichelos/... via $i.db) are the system of record; the packed shards are what readers serve. Logical keys (shardPaths.js) Segments are slash stripped and joined with /",
+		"searchText": "b\"h packed storage model — agent handoff the append only jsonl / awtsmoosdb shard layer that mirrors native records for readers. native records (/social/heichelos/... via $i.db) are the system of record; the packed shards are what readers serve. logical keys (shardpaths.js) segments are slash stripped and joined with /. shards shard file ( /socialpacked/) key pattern core social.core.awtsdb /posts/ / — full post json allposts social.allposts.awtsdb /allposts/ / — 280 char excerpt card meta social.meta.awtsdb entity + migration manifests search social.search.awtsdb /indexes/postsbyheichel/ / , postsbyalias, postsbytype, graph indexes graph social.graph.awtsdb /graph/ / notify social.notify.awtsdb /notifications/ / audit social.audit.awtsdb /events/ / feed social.feed.awtsdb feed records writers (socialpacked.js) post must carry id (or postid) and heichelid. postid = post.id post.postid. the allposts value is a card: {postid, heichelid, seriesid, aliasid, type, title, excerpt(280ch), connected:true, updatedat}. reads jsonl mode (tests / request local $i.db.directory): append only lines per shard file; latestfilerecords replays the whole file into a map keyed by record.key — last line wins . awtsmoosdb mode (production): store.get({shard, parts:['records', key]})?.value — key addressed. readpacked({$i, shard, key}) returns the latest record or null. record envelope (recordenvelope.js) recordtype: jsonobject jsonbusyobject (≥8 nodes, ≥2 arrays, or depth ≥4) graphedge notification migrationmanifest tombstone. tombstones (deletion) /packed/import/posts/remove appends {op:'del', key:'/posts/ / ', value:null, meta:{kind:'posttombstone'}} to the core shard. append only means the tombstone becomes the latest record for that key. notes: the tombstone check lives at the import tool layer; /packed/read returns the tombstone record itself — callers must inspect op. the front end post reader reads the native db (where the record is actually deleted), not the shard. files map geelooy/api/social/helper/packed/{socialpacked.js,packedreader.js,recordenvelope.js,shardpaths.js} read routes: ../routes/packed/readroutes.js import routes: ../routes/packed/postimportroutes.js",
+		"page": "pages/geelooy-api-social-helper-packed-readme-md-4476d9f26a.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-packed-scripts-readme-md-cc138c374c",
+		"title": "B\"H — Packed Migration Scripts (geelooy/api/social/helper/packed/scripts/)",
+		"sourcePath": "geelooy/api/social/helper/packed/scripts/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Packed Migration Scripts (geelooy/api/social/helper/packed/scripts/)",
+				"anchor": "b-h-packed-migration-scripts-geelooy-api-social-helper-packed-scripts"
+			}
+		],
+		"excerpt": "B\"H — Packed Migration Scripts (geelooy/api/social/helper/packed/scripts/) One off migration scripts that move packed social data into real AwtsmoosDB (run manually). migrateConnectedPostsToAwtsdb.js — connected posts → AwtsmoosDB. migrateHeichelFamiliesToRealAwtsmoosDbFs.js — Heichel families → AwtsmoosDB FS. migrateH",
+		"searchText": "b\"h — packed migration scripts (geelooy/api/social/helper/packed/scripts/) one off migration scripts that move packed social data into real awtsmoosdb (run manually). migrateconnectedpoststoawtsdb.js — connected posts → awtsmoosdb. migrateheichelfamiliestorealawtsmoosdbfs.js — heichel families → awtsmoosdb fs. migrateheicheltorealawtsmoosdbfs.js — heichel data → awtsmoosdb fs. migrateikarallseriestoallposts.js — all ikar series → all posts index. migrateikarpoststorealawtsmoosdb.js — ikar posts → awtsmoosdb.",
+		"page": "pages/geelooy-api-social-helper-packed-scripts-readme-md-cc138c374c.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-packed-test-readme-md-7c6c6836b0",
+		"title": "B\"H — Packed Tests (geelooy/api/social/helper/packed/test/)",
+		"sourcePath": "geelooy/api/social/helper/packed/test/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Packed Tests (geelooy/api/social/helper/packed/test/)",
+				"anchor": "b-h-packed-tests-geelooy-api-social-helper-packed-test"
+			}
+		],
+		"excerpt": "B\"H — Packed Tests (geelooy/api/social/helper/packed/test/) Tests for the packed social storage layer. connectedPostMigration.test.mjs — connected post migration into AwtsmoosDB. keyIndex.test.js — packed key index behavior.",
+		"searchText": "b\"h — packed tests (geelooy/api/social/helper/packed/test/) tests for the packed social storage layer. connectedpostmigration.test.mjs — connected post migration into awtsmoosdb. keyindex.test.js — packed key index behavior.",
+		"page": "pages/geelooy-api-social-helper-packed-test-readme-md-7c6c6836b0.json"
+	}
+]

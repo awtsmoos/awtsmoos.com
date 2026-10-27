@@ -2,7 +2,7 @@ B"H
 Boruch Hashem
 Blessed is He
 
-# Project Tutorial: AssemblyAI Transcription
+# Project Tutorial: Awtsmoos Transcription Studio
 
 **Path:** `geelooy/apps/transcribe` · **Type:** app · **Family:** Applications
 
@@ -14,22 +14,22 @@ Blessed is He
 
 - Entry files: `index.html`
 - Local documentation: No local `DOCUMENTATION.md` observed.
-- Local-doc requirement: no; covered: no
+- Local-doc requirement: yes; covered: no
 - Symlink target: —
 
 ## File shape
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 2 | 0 | 0 | 0 | 0 | 0 | 2 |
+| 12 | 1 | 0 | 0 | 0 | 0 | 13 |
 
 ## Public entry points
 
-- `/apps/transcribe` → `geelooy/apps/transcribe/index.html` — AssemblyAI Transcription
+- `/apps/transcribe` → `geelooy/apps/transcribe/index.html` — Awtsmoos Transcription Studio
 
 ## Symbol evidence
 
-Source files: 1; classes: 0; functions: 4; exports: 0; samples: uploadAudio, requestTranscription, pollTranscription, displayTranscription.
+Source files: 6; classes: 4; functions: 0; exports: 4; samples: ChochmahTranscriptionApi, TiferesTranscriptionController, NetzachTranscriptionPoller, MalchusTranscriptionView.
 
 ## Depends on
 
@@ -45,4 +45,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **0**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **1**. Treat this as file evidence, not proof of behavioral coverage.

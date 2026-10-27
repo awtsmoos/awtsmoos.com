@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Zmanimms Alias (geelooy/api/zmanimms/)\n\n`/api/zmanimms` is a faithful alias of `/api/zmanim` — same routes, same logic,\nno duplication. The Awtsmoos is one though people spell the path more than one\nhuman way.\n\n## Contents\n- `_awtsmoos.derech.js` — re-exports `../zmanim/_awtsmoos.derech.js`.\n\nSee `../zmanim/README.md` for the full API documentation.\n"
+}

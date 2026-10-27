@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-email-readme-md-e423390838",
+	"title": "B\"H — Email API (/api/email/)",
+	"sourcePath": "geelooy/api/email/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Email API (/api/email/)",
+			"anchor": "b-h-email-api-api-email"
+		},
+		{
+			"level": 2,
+			"text": "Files",
+			"anchor": "files"
+		},
+		{
+			"level": 2,
+			"text": "Discovery",
+			"anchor": "discovery"
+		},
+		{
+			"level": 2,
+			"text": "Operations",
+			"anchor": "operations"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-email-readme-md-e423390838-001.json"
+	]
+}

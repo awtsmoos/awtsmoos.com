@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Wallet Tests (geelooy/api/wallet/tests/)\n\nNode test suite for the wallet family (`*.test.js`), covering currency,\nbalances, PayPal, game rewards, commerce engine + routes, paid-action\nexecution, idempotency, monetization, and product-credit reconciliation.\n\n- `commerceRouteFixture.js`, `productCreditReconciliationFixtures.js` — shared fixtures\n- `business/` — economics-level tests (marketplace, org treasury, resource quotes)\n\nRun with Node's built-in test runner against the local checkout.\n"
+}

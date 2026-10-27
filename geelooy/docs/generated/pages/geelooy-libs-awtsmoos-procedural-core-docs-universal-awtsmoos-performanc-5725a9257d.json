@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-docs-universal-awtsmoos-performanc-5725a9257d",
+	"title": "B\"H",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/UNIVERSAL_AWTSMOOS_PERFORMANCE.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Universal Lifecycle Performance Evidence",
+			"anchor": "universal-lifecycle-performance-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Static dependency graph",
+			"anchor": "static-dependency-graph"
+		},
+		{
+			"level": 2,
+			"text": "Real browser proof before the latest UX wave",
+			"anchor": "real-browser-proof-before-the-latest-ux-wave"
+		},
+		{
+			"level": 2,
+			"text": "Deterministic cache microbenchmark",
+			"anchor": "deterministic-cache-microbenchmark"
+		},
+		{
+			"level": 2,
+			"text": "Stable cache contracts",
+			"anchor": "stable-cache-contracts"
+		},
+		{
+			"level": 2,
+			"text": "Responsive/browser performance principle",
+			"anchor": "responsive-browser-performance-principle"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-docs-universal-awtsmoos-performanc-5725a9257d-001.json"
+	]
+}

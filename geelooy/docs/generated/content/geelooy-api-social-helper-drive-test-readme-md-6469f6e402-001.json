@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Drive Tests (geelooy/api/social/helper/drive/test/)\n\nThe Drive test suite: credentials, deployments, domains, jobs, CRUD, HTTP, and the migration sub-suite.\n\n- Credential core/routes; deployment concurrency, idempotency, policy, preview, publish/rollback race, route registration, service.\n- Domain challenge/claims/policy/routes/verification/host-resolver/hosting-plan/ingress/routing (`domainTestHarness.js`).\n- `driveCrud.test.js`, `driveHttp.test.js`, `pathAndRouter.test.js`.\n- `jobRoutes.test.js`, `managerRoutes.test.js`, `managerClientContract.test.js`, `nativeAliasGateway.test.js`.\n- Project: attachment evidence, automation policy, database batch/capabilities/documents/query/service, DNS policy, domain evidence.\n- `migration/` — migration accounting, importer, manifest, rate controller/recovery, receipt repository, rollback, hasher, path policy, tree scanner (`testHelpers.js`).\n"
+}

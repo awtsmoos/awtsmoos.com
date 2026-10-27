@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-10t1851-final-hardening-multiplex-03-final-p-76a717025c",
+	"title": "Final Implementation Plan",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-10T1851-final-hardening-multiplex/03-final-plan.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Final Implementation Plan",
+			"anchor": "final-implementation-plan"
+		},
+		{
+			"level": 2,
+			"text": "A. Finish commerce focus lifecycle",
+			"anchor": "a-finish-commerce-focus-lifecycle"
+		},
+		{
+			"level": 2,
+			"text": "B. Extend existing workflow continuity only where missing",
+			"anchor": "b-extend-existing-workflow-continuity-only-where-missing"
+		},
+		{
+			"level": 2,
+			"text": "C. Product quality rails",
+			"anchor": "c-product-quality-rails"
+		},
+		{
+			"level": 2,
+			"text": "D. Performance truth",
+			"anchor": "d-performance-truth"
+		},
+		{
+			"level": 2,
+			"text": "E. Final proof",
+			"anchor": "e-final-proof"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-10t1851-final-hardening-multiplex-03-final-p-76a717025c-001.json"
+	]
+}

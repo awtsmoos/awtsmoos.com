@@ -1,0 +1,221 @@
+[
+	{
+		"id": "geelooy-api-tunnel-lanes-readme-md-c837b74d59",
+		"title": "B\"H — Simple Tunnel Lanes (Yaakov 2026-10-15)",
+		"sourcePath": "geelooy/api/tunnel/lanes/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Simple Tunnel Lanes (Yaakov 2026-10-15)",
+				"anchor": "b-h-simple-tunnel-lanes-yaakov-2026-10-15"
+			},
+			{
+				"level": 2,
+				"text": "Lanes",
+				"anchor": "lanes"
+			},
+			{
+				"level": 3,
+				"text": "1. Poll (agent-poll.js)",
+				"anchor": "1-poll-agent-poll-js"
+			},
+			{
+				"level": 3,
+				"text": "2. Approval (agent-approval.js)",
+				"anchor": "2-approval-agent-approval-js"
+			},
+			{
+				"level": 3,
+				"text": "3. WebSocket (agent-websocket.js)",
+				"anchor": "3-websocket-agent-websocket-js"
+			},
+			{
+				"level": 3,
+				"text": "4. File (agent-file.js)",
+				"anchor": "4-file-agent-file-js"
+			},
+			{
+				"level": 3,
+				"text": "5. Resilient (agent-resilient.js)",
+				"anchor": "5-resilient-agent-resilient-js"
+			},
+			{
+				"level": 2,
+				"text": "Tools",
+				"anchor": "tools"
+			},
+			{
+				"level": 2,
+				"text": "Tunnel Selection",
+				"anchor": "tunnel-selection"
+			},
+			{
+				"level": 2,
+				"text": "Documentation",
+				"anchor": "documentation"
+			}
+		],
+		"excerpt": "B\"H — Simple Tunnel Lanes (Yaakov 2026 10 15) PERMANENT BASELINE — Never remove. These are the foundational tunnel lanes. Lanes 1. Poll (agent poll.js) HTTP polling, no approval. For trusted environments. Agent polls GET /simple/poll?agentId=... Server queues via POST /simple/cmd (supports agentId targeting) Tested: ✅ ",
+		"searchText": "b\"h — simple tunnel lanes (yaakov 2026 10 15) permanent baseline — never remove. these are the foundational tunnel lanes. lanes 1. poll (agent poll.js) http polling, no approval. for trusted environments. agent polls get /simple/poll?agentid=... server queues via post /simple/cmd (supports agentid targeting) tested: ✅ commands work bidirectionally 2. approval (agent approval.js) file based approval. for semi trusted environments. agent requests approval, waits for .approved file server endpoints: post /simple/request, get /simple/approved tested: ✅ full flow works (request → approve → command) 3. websocket (agent websocket.js) real time lane using the awtsmoossocket infrastructure. connects to wss://awtsmoos.com (no path, upgrade at root) sends { type: \"login\", aliasid: \"tunnel: \" } server routes commands via sendtoalias falls back to polling if ws unavailable architecture: uses ayzarim/awtsmoosdynamicserver/awtsmoossocket.js + websocket/apps/tunnelrelay/ tested: ✅ commands work via polling transport; native ws path uses same relay 4. file (agent file.js) pure file, zero http. for air gapped environments. agent watches /tmp/simple tunnel commands/ .json writes results to /tmp/simple tunnel results/ / .json tested: ✅ file based execution works 5. resilient (agent resilient.js) wrapper that auto restarts any agent on crash. usage: tunnel agent file=agent poll.js node agent resilient.js tools install lane.js — beautiful installer with lane picker verify lanes.js — beautiful verification script (5/5 tests pass) simple tunnel agent.service — systemd unit for background operation tunnel selection commands can target specific agents via agentid: agents identify via tunnel agent id env var (defaults to hostname). documentation how to run commands.md — complete guide for each lane readme.md — this file",
+		"page": "pages/geelooy-api-tunnel-lanes-readme-md-c837b74d59.json"
+	},
+	{
+		"id": "geelooy-api-tunnel-lanes-simple-readme-md-96ee0e4ff7",
+		"title": "B\"H — Simple Tunnel: authenticated limited transport",
+		"sourcePath": "geelooy/api/tunnel/lanes/simple/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Simple Tunnel: authenticated limited transport",
+				"anchor": "b-h-simple-tunnel-authenticated-limited-transport"
+			},
+			{
+				"level": 2,
+				"text": "Production security",
+				"anchor": "production-security"
+			},
+			{
+				"level": 2,
+				"text": "API",
+				"anchor": "api"
+			},
+			{
+				"level": 3,
+				"text": "Restart and retention",
+				"anchor": "restart-and-retention"
+			},
+			{
+				"level": 3,
+				"text": "Lanes",
+				"anchor": "lanes"
+			},
+			{
+				"level": 3,
+				"text": "Limitations",
+				"anchor": "limitations"
+			}
+		],
+		"excerpt": "B\"H — Simple Tunnel: authenticated limited transport The Simple Tunnel is not the advanced native agent or an administrative shell. It is a credential bound, per device lightweight command queue with GET compatible client calls, authenticated agent polling and HTTP POST result delivery. The authenticated advanced tunne",
+		"searchText": "b\"h — simple tunnel: authenticated limited transport the simple tunnel is not the advanced native agent or an administrative shell. it is a credential bound, per device lightweight command queue with get compatible client calls, authenticated agent polling and http post result delivery. the authenticated advanced tunnel remains the normal choice for richer filesystem, git, browser, persistent websocket, cancellation and mission room actions. production security two independent high entropy private keys must be configured on the server, never committed: /etc/awtsmoos/simple client.key: authorizes a client to enqueue, observe and check queue status; also signs five minute get urls. /etc/awtsmoos/simple agent.key: a private master deriving an independent agent key per agentid by hmac sha256 over awtsmoos simple agent:${agentid}. agents receive only their derived key, never the master. the systemd override sets awtsmoos simple tunnel client key file and awtsmoos simple tunnel agent key file. if either is absent, the corresponding operations fail closed with simple tunnel not configured. the previously hard coded credential was retired and must not be reused. keep the key files readable only by the server owner. rotate both keys if any earlier credentials were exposed. native polling agents receive their derived key through tunnel agent key file (or systemd loadcredential=). no secret belongs in a command url, a service unit's plain text environment, or the repository. default agent command profile is safe: pwd, whoami, uname, date, read only git status, git version, node and npm version reports, and literal alphanumeric echo. it uses execfile, not a shell. tunnel simple command profile=advanced is explicitly opt in on an owner controlled native machine and unlocks shell execution; never set it on a shared server or with a broad credential. api the client prefers the private x awtsmoos simple client key header. agents send a derived x awtsmoos simple agent key header. public command/result/status routes: get /api/tunnel/control/simple/cmd?agentid=mac 1&command=pwd queues a bounded request and returns an opaque id. get /api/tunnel/control/simple/result?id=returned id responds {ok:true,done:false} until completed, then returns {ok:true,done:true,output,exitcode,truncated} once. get /api/tunnel/control/simple/status returns aggregate queue counts without exposing commands or secrets. get /api/tunnel/control/simple/poll?agentid=mac 1 authenticates the agent and delivers only commands intended for that agent. post /api/tunnel/control/simple/result accepts {id,agentid,output,exitcode} only from the authenticated correct agent with an active job. old get ?secret= is tolerated for authorized clients but should be migrated because urls are logged and leaked. for get only clients, use an expiring signed url instead. canonical signature input is the newline joined utf 8 tuple (purpose, agentid, id, sha256(command), expires, nonce), signed by hmac sha256 with the client key; use query expires (epoch milliseconds, within five minutes), nonce (16–96 url safe random characters), and sig (lowercase hex). purpose is cmd for queue or result for result read. commands are bound to an explicit agent id. signed enqueue and completed result reads consume the nonce; pending result polls may reuse the same signed url until completion. no user secrets are returned by status. example with a configured client key in tunnel client key (do not print it): restart and retention the file backed queue is stored at /var/lib/awtsmoos/simple tunnel queue.json (or the private configured path), protected by a cross worker lock, private mode, and atomic rename. pending requests expire after five minutes; active jobs/results expire after thirty minutes. the agent sends output to the server before declaring delivery. an accepted command isn't silently redispatched after reconnect because that could duplicate side effects; return done:false and investigate an abandoned job. lanes agent poll.js — authenticated https polling; agent approval.js — same authentication plus manual approval; agent file.js — air gapped local safe policy execution. the insecure hand written websocket prototype has been disabled; use the authenticated advanced tunnel native agent for persistent websocket. limitations simple tunnel is a compatibility protocol, not complete per user oauth authorization, full durable queue system, native command cancellation, or a mission room. for long running or high privilege actions, use the advanced authenticated tunnel with scoped permissions. do not advertise capabilities that the active agent does not implement.",
+		"page": "pages/geelooy-api-tunnel-lanes-simple-readme-md-96ee0e4ff7.json"
+	},
+	{
+		"id": "geelooy-api-tunnel-readme-md-f4feb86c82",
+		"title": "B\"H — Awtsmoos Tunnel API (Yaakov 2026-10-15)",
+		"sourcePath": "geelooy/api/tunnel/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Awtsmoos Tunnel API (Yaakov 2026-10-15)",
+				"anchor": "b-h-awtsmoos-tunnel-api-yaakov-2026-10-15"
+			},
+			{
+				"level": 2,
+				"text": "Directory Structure",
+				"anchor": "directory-structure"
+			},
+			{
+				"level": 2,
+				"text": "Quick Start",
+				"anchor": "quick-start"
+			},
+			{
+				"level": 1,
+				"text": "Choose 1-7 for tunnel type",
+				"anchor": "choose-1-7-for-tunnel-type"
+			},
+			{
+				"level": 2,
+				"text": "Key Concepts",
+				"anchor": "key-concepts"
+			},
+			{
+				"level": 2,
+				"text": "Critical Files",
+				"anchor": "critical-files"
+			},
+			{
+				"level": 2,
+				"text": "Lessons Learned (2026-10-15)",
+				"anchor": "lessons-learned-2026-10-15"
+			}
+		],
+		"excerpt": "B\"H — Awtsmoos Tunnel API (Yaakov 2026 10 15) The tunnel system provides secure remote command execution and device management. Directory Structure control/ — Main tunnel control API (pairing, commands, WebSocket) install/ — Installer scripts and agent bundles lanes/ — Simple tunnel lanes (file based, permanent baselin",
+		"searchText": "b\"h — awtsmoos tunnel api (yaakov 2026 10 15) the tunnel system provides secure remote command execution and device management. directory structure control/ — main tunnel control api (pairing, commands, websocket) install/ — installer scripts and agent bundles lanes/ — simple tunnel lanes (file based, permanent baseline) shared/ — shared utilities hetzner/ — hetzner specific configuration quick start standard install (full tunnel with pairing): simple tunnel (no pairing, for trusted environments): see lanes/how to run commands.md for details. key concepts 1. full tunnel — rsa paired, websocket based. requires browser approval. 2. simple tunnel — file based, no pairing. permanent baseline. never remove. 3. recovery lanes — emergency infrastructure (not for commands). critical files control/routes/pairing.js — pairing endpoints (request, state, approve, status) control/routes/simpletunnel.js — simple tunnel endpoints (cmd, poll, result) control/core/tunnelsecurity/ — authentication and binding logic install/ awtsmoos.derech.js — installer routes lanes/simple/ — simple tunnel agent implementations lessons learned (2026 10 15) 1. pairing/state must handle both get (query) and post (body) 2. verifyregistration must handle empty tunnelid via deviceid+digest fallback 3. agent bundles are cached — bump manifest version to force rebuild 4. simple tunnel is the permanent baseline — never remove it 5. always save pairing credentials (requestsecret) immediately",
+		"page": "pages/geelooy-api-tunnel-readme-md-f4feb86c82.json"
+	},
+	{
+		"id": "geelooy-api-wallet-core-commerce-buildertemplates-readme-md-7e165fc193",
+		"title": "B\"H — Builder Templates (geelooy/api/wallet/core/commerce/builderTemplates/)",
+		"sourcePath": "geelooy/api/wallet/core/commerce/builderTemplates/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Builder Templates (geelooy/api/wallet/core/commerce/builderTemplates/)",
+				"anchor": "b-h-builder-templates-geelooy-api-wallet-core-commerce-buildertemplates"
+			}
+		],
+		"excerpt": "B\"H — Builder Templates (geelooy/api/wallet/core/commerce/builderTemplates/) Commerce data for app builder templates sold/purchased through the wallet. Files: catalog.js — builder template catalog (what's purchasable) markup.js, script.js, style.js — template content assets Backed by commerce/builderTemplate{Access,Del",
+		"searchText": "b\"h — builder templates (geelooy/api/wallet/core/commerce/buildertemplates/) commerce data for app builder templates sold/purchased through the wallet. files: catalog.js — builder template catalog (what's purchasable) markup.js, script.js, style.js — template content assets backed by commerce/buildertemplate{access,delivery,skus}.js; covered by tests/buildertemplatecommerce.test.js.",
+		"page": "pages/geelooy-api-wallet-core-commerce-buildertemplates-readme-md-7e165fc193.json"
+	},
+	{
+		"id": "geelooy-api-wallet-core-commerce-platform-readme-md-ae836b921d",
+		"title": "B\"H — Commerce Platform (geelooy/api/wallet/core/commerce/platform/)",
+		"sourcePath": "geelooy/api/wallet/core/commerce/platform/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Commerce Platform (geelooy/api/wallet/core/commerce/platform/)",
+				"anchor": "b-h-commerce-platform-geelooy-api-wallet-core-commerce-platform"
+			}
+		],
+		"excerpt": "B\"H — Commerce Platform (geelooy/api/wallet/core/commerce/platform/) Product directory and route manifests for apps/games sold through commerce. Files: productDirectory.js, productDiscovery.js — listing and discovering products productManifest.js, productRouteManifest.js — product + route manifests productAppRoutes.js,",
+		"searchText": "b\"h — commerce platform (geelooy/api/wallet/core/commerce/platform/) product directory and route manifests for apps/games sold through commerce. files: productdirectory.js, productdiscovery.js — listing and discovering products productmanifest.js, productroutemanifest.js — product + route manifests productapproutes.js, productgameroutes.js — app/game specific route tables feeds the commerce/products route and platform readiness checks (tests/platformcommercecoverage.test.js, tests/platformreadiness.test.js).",
+		"page": "pages/geelooy-api-wallet-core-commerce-platform-readme-md-ae836b921d.json"
+	},
+	{
+		"id": "geelooy-api-wallet-core-commerce-readme-md-c05bc00400",
+		"title": "B\"H — Wallet Commerce Core (geelooy/api/wallet/core/commerce/)",
+		"sourcePath": "geelooy/api/wallet/core/commerce/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Wallet Commerce Core (geelooy/api/wallet/core/commerce/)",
+				"anchor": "b-h-wallet-commerce-core-geelooy-api-wallet-core-commerce"
+			}
+		],
+		"excerpt": "B\"H — Wallet Commerce Core (geelooy/api/wallet/core/commerce/) The commerce engine behind the commerce/ routes: catalogs, paid actions with reversible execution, entitlements, purchase engine, product credits, receipts, and SKUs. Key files: catalog.js, paidActionCatalog.js, creditPackCatalog.js, foundingServiceCatalog.",
+		"searchText": "b\"h — wallet commerce core (geelooy/api/wallet/core/commerce/) the commerce engine behind the commerce/ routes: catalogs, paid actions with reversible execution, entitlements, purchase engine, product credits, receipts, and skus. key files: catalog.js, paidactioncatalog.js, creditpackcatalog.js, foundingservicecatalog.js, supportercatalog.js — product/service catalogs paidactionexecution{start,finish,replay,service,store}.js — reversible paid action execution purchaseengine.js, purchase{debit,commit,mutation,validation}.js — purchase flow entitlement.js, paidactionentitlement.js — entitlements productcredit .js — product credit reserve/consume/commit/release sku.js, receipt.js, resourcequotepolicy.js — skus, receipts, quotes app services.js, app creator services.js, app system services.js, app utility services.js, flagship — app/flagship commerce services subdirectories: buildertemplates/ — builder template catalog/markup/script/style platform/ — product app/game routes, directory, discovery, manifests includes foundingservicecatalog.test.js (catalog test).",
+		"page": "pages/geelooy-api-wallet-core-commerce-readme-md-c05bc00400.json"
+	},
+	{
+		"id": "geelooy-api-wallet-core-currency-readme-md-66cc8d7703",
+		"title": "B\"H — Wallet Currency (geelooy/api/wallet/core/currency/)",
+		"sourcePath": "geelooy/api/wallet/core/currency/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Wallet Currency (geelooy/api/wallet/core/currency/)",
+				"anchor": "b-h-wallet-currency-geelooy-api-wallet-core-currency"
+			}
+		],
+		"excerpt": "B\"H — Wallet Currency (geelooy/api/wallet/core/currency/) Currency math for the wallet: denominations, conversion, and decomposition of amounts across currencies. Files: denominations.js — currency denominations conversion.js — cross currency conversion decompose.js — breaking amounts into denomination units sources.js",
+		"searchText": "b\"h — wallet currency (geelooy/api/wallet/core/currency/) currency math for the wallet: denominations, conversion, and decomposition of amounts across currencies. files: denominations.js — currency denominations conversion.js — cross currency conversion decompose.js — breaking amounts into denomination units sources.js — rate/source providers exposed via the currency route (routes/currencyinfo.js); tested by tests/currency.test.js and tests/currencyroute.test.js.",
+		"page": "pages/geelooy-api-wallet-core-currency-readme-md-66cc8d7703.json"
+	}
+]

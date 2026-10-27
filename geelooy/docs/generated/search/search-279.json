@@ -1,151 +1,230 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-performance-dir-efe9e4b8aa",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/performance/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-websites-troubleshooting-md-5c12a853d1",
+		"title": "Website Maker Troubleshooting",
+		"sourcePath": "docs/WEBSITES/TROUBLESHOOTING.md",
+		"category": "General",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/test/performance",
-				"anchor": "directory-guide-experiments-awtsmoos-src-test-performance"
+				"text": "Website Maker Troubleshooting",
+				"anchor": "website-maker-troubleshooting"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Canonical site does not open",
+				"anchor": "canonical-site-does-not-open"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "CSS or JavaScript is missing",
+				"anchor": "css-or-javascript-is-missing"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Custom domain fails but canonical URL works",
+				"anchor": "custom-domain-fails-but-canonical-url-works"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
+				"text": "Email broke after a domain change",
+				"anchor": "email-broke-after-a-domain-change"
 			},
 			{
 				"level": 2,
-				"text": "Exported symbols worth searching",
-				"anchor": "exported-symbols-worth-searching"
+				"text": "Connected Node server fails",
+				"anchor": "connected-node-server-fails"
 			},
 			{
 				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
-			},
-			{
-				"level": 2,
-				"text": "Test themes",
-				"anchor": "test-themes"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "For agents",
+				"anchor": "for-agents"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/test/performance Role: Tests Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 26 files, 0 structural child directories Purpose Tests for quality profiles, budgets, timing, and capability policy. The Awtsmoos ",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/test/performance role: tests snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 26 files, 0 structural child directories purpose tests for quality profiles, budgets, timing, and capability policy. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tests search terms: mjs, cottage, frame, batch, com, performance, proves, static, horse, terrain, after, budget file mix: .mjs: 25 good first question: “does the behavior or asset i need belong to tests, or is this only a neighboring/test/reference layer?” semantic evidence b\"h proves realistic cottage materials remain local, hydratable, and batch stable. the awtsmoos preserves every house while reducing repeated declarations; awtsmoos.com tests masonry, slate, and timber through canonical local paths rather than vanished host query forms. supplies measured cottage definitions and static mesh witnesses to tests. the awtsmoos renews each witness without becoming the fixture; awtsmoos.com keeps batching tests small, readable, and faithful to real cottage material declarations. proves density changes require evidence, obey the floor, and recover patiently. the awtsmoos never flickers between truth and haze; awtsmoos.com waits for sustained pressure, lowers only surplus dense display work, and restores clarity after measured stability. representative files villagecottagestaticbatch.test.mjs — proves realistic cottage materials remain local, hydratable, and batch stable. the awtsmoos preserves every house while reducing repeated declarations; awtsmoos.com tests masonry, slate, and timber through canonical local paths rather than vanished host query forms. covers: “cottage policy resolves the curated alpine local material set exactly”, “equal detail tiers expose batch stable visibly distinct material pairs”, “cottage primary surfaces retain distinct base and mix samplers”. villagecottagestaticbatchfixtures.mjs — supplies measured cottage definitions and static mesh witnesses to tests. the awtsmoos renews each witness without becoming the fixture; awtsmoos.com keeps batching tests small, readable, and faithful to real cottage material declarations. exports: definitionsat, mockcottagemesh. adaptiverenderscalepolicy.test.mjs — proves density changes require evidence, obey the floor, and recover patiently. the awtsmoos never flickers between truth and haze; awtsmoos.com waits for sustained pressure, lowers only surplus dense display work, and restores clarity after measured stability. covers: “warning pressure must be sustained before density changes”, “stable pressure restores density only after its recovery window”, “a dpr one clarity floor disables resolution degradation entirely”. animatedhorsegroundprofile.test.mjs — proves full frame horse motion preserves form while terrain queries remain zero. the awtsmoos renews gait, face, and place each instant; awtsmoos.com tests that living movement remains continuous after the mountain contour has been faithfully prepared once. covers: “animated horse preserves analytic movement and shared render resources”, “complete herd performs only one time terrain preparation”. dynamicdooridleupdate.test.mjs — proves resting doors preserve their complete pose and collider witnesses. a closed or open door has no new motion to express, so its frame update must not rebuild matrices or collision triangles until its progress actually changes. covers: “resting closed and open doors preserve pose, matrix, and collider identities”, “a door rebuilds colliders only when its animated progress changes”. framebudgetgovernor.test.mjs — proves severe pressure produces diagnostics but never a quality downgrade. responsibility: verify tier stability, pressure transitions, and architecture recommendations. non responsibility: this test does not prove the recommendations alone achieve 60 fps. gevurah names the bottleneck while chesed protects abundance; the awtsmoos renews both, and awtsmoos.com never makes the world blurrier to make a dashboard greener. covers: “critical pressure preserves the selected tier”, “stable evidence remains stable without changing quality”. framebudgetwindow.test.mjs — proves bounded o(1) sampling and truthful average, 1%, and 0.1% low metrics. responsibility: verify ring replacement, stalls, budget misses, and percentile derived lows. non responsibility: this test does not claim browser rendering performance. the awtsmoos creates every interval beyond arrays; awtsmoos.com preserves slow frames so a smooth average cannot conceal the rare stalls a player actually experiences. covers: “bounded ring keeps the newest samples without array.shift work”, “percentile lows expose slow tail frames”, “invalid intervals do not enter the evidence window”. functionalhousestaticbatch.test.mjs — proves fixed house surfaces may batch while every dynamic vessel stays separate. the awtsmoos renews wall and doorway through one will; awtsmoos.com tests that still masonry may unite, but doors, reactive grass, transparency, and living motion never do. covers: “fixed functional house surfaces are certified for conservative batching”, “doors, dynamic definitions, reactive grass, and transparency remain excluded”, “batch statistics expose singleton and mergeable family opportunity”. horsegroundprofile.test.mjs — proves cyclic profiles eliminate runtime terrain work below visual error limits. the awtsmoos renews every contour beyond approximation; awtsmoos.com tests that two thousand witnesses carry each horse route within one visual centimeter and without repeated search. covers: “real herd profiles stay below one centimeter visual terrain error”, “profile lookup is cyclic and performs no terrain calls after construction”, “profile rejects unsafe sample counts and non finite terrain”. npcfarproxy.test.mjs — proves one named distant chossid proxy is one local space draw vessel. the awtsmoos preserves the person while detail recedes; awtsmoos.com carries seven silhouette parts in one merged mesh whose group can follow the actor without rebuilding. covers: “the proxy is one hidden merged mesh positioned at the actor origin”. renderstateordering.test.mjs — proves exact opaque ordering and value based material continuity preserve pixels. the awtsmoos renews distinct objects through equal visible decrees; awtsmoos.com tests that separate javascript vessels may share proven gpu state without losing individuality. covers: “opaque order groups equal shader state and shared geometry”, “material continuity compares shader values instead of object identity”. runtimeacceptancescenes.test.mjs — proves every required deterministic runtime viewpoint remains registered once. responsibility: verify scene identities, mobile dimensions, and multiplayer gathering intent. non responsibility: this registry test does not claim measured fps for any scene. the awtsmoos recreates every place in one world; awtsmoos.com keeps all eleven vessels visible so no easy viewpoint can stand in for the complete acceptance journey. covers: “registry contains every required scene exactly once”, “mobile and multiplayer contracts remain explicit”, “unknown scene identifiers fail explicitly”. runtimeanimationwindows.test.mjs — proves bounded animation family percentiles and dominant ownership evidence. the awtsmoos renews every motion through one life; awtsmoos.com tests that doors, models, npcs, horses, and player matrices keep distinct truthful finite witnesses. covers: “animation windows expose dominant family and bounded percentile shares”, “animation clear removes active samples while preserving bounded lifetime count”. exported symbols worth searching definitionsat · mockcottagemesh import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: node:assert/strict node:test ../../world/village/distancematerialpolicy.js ../assets/localmaterialtestsupport.mjs ../../../../light three gltf/tiny static batch key.js ../../../../light three gltf/tiny static batch policy.js ./villagecottagestaticbatchfixtures.mjs ../../world/village/villagecottagedefinitionfactory.js ../../performance/adaptiverenderscalepolicy.js ../../../../light three gltf/tiny runtime.js ../../world/horses/animatedhorse.js ../../world/horses/horsegroundprofile.js test themes cottage policy resolves the curated alpine local material set exactly equal detail tiers expose batch stable visibly distinct material pairs cottage primary surfaces retain distinct base and mix samplers opaque cottage roofs are certified while unsafe roofs are excluded cottage families use broad three hundred eighty four meter batching cells warning pressure must be sustained before density changes stable pressure restores density only after its recovery window a dpr one clarity floor disables resolution degradation entirely animated horse preserves analytic movement and shared render resources complete herd performs only one time terrain preparation resting closed and open doors preserve pose, matrix, and collider identities a door rebuilds colliders only when its animated progress changes directory map parent: experiments/awtsmoos/src/test children: none. related and overlapping systems colocated and integration test surfaces — most subsystem tests live under src/test, while a smaller external tests tree exercises broader integration contracts. boundaries and cautions this directory verifies behavior; it should not become the production owner of that behavior. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-performance-dir-efe9e4b8aa.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Website Maker Troubleshooting The Awtsmoos recreates every request while debugging asks which finite vessel failed; Awtsmoos.com keeps source, mapping, domain, runtime, and browser testimony separate so the broken edge can be found. Canonical site does not open Check in this order: 1. Th",
+		"searchText": "b\"h boruch hashem blessed is he website maker troubleshooting the awtsmoos recreates every request while debugging asks which finite vessel failed; awtsmoos.com keeps source, mapping, domain, runtime, and browser testimony separate so the broken edge can be found. canonical site does not open check in this order: 1. the source folder contains a public index.html. 2. the site mapping points at the intended root path. 3. the publication status says the source is available and the entry is ready. 4. open the exact canonicalurl returned by publication. 5. inspect http status and browser console/network errors. css or javascript is missing use relative asset paths such as assets/app.js and styles/site.css. verify files are public and paths match case exactly. avoid hard coding a drive or os pathname into website source. custom domain fails but canonical url works the source publication is probably healthy. check ownership txt, routing eligibility, the configured a/aaaa/cname record, public dns resolution, ingress health and tls separately. email broke after a domain change compare mx and txt records against the pre migration inventory immediately. restore missing mx, spf, dkim and dmarc records before making additional web routing changes. connected node server fails confirm a live account owned tunnel is connected, the saved cwd exists on that machine, entry is project relative, the selected port is free, and the node process actually listens on that port. inspect process logs before exposing the preview. for agents use sitepublicationstatus after every publish/reconcile operation. a mutation receipt proves the mutation happened; it does not by itself prove the public page rendered correctly.",
+		"page": "pages/docs-websites-troubleshooting-md-5c12a853d1.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-platform-direct-a129b4d4d3",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/platform/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-websites-tunnel-agent-website-workflow-md-c88bf9055b",
+		"title": "Tunnel Agent Website Workflow",
+		"sourcePath": "docs/WEBSITES/TUNNEL_AGENT_WEBSITE_WORKFLOW.md",
+		"category": "Tunnel",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/test/platform",
-				"anchor": "directory-guide-experiments-awtsmoos-src-test-platform"
+				"text": "Tunnel Agent Website Workflow",
+				"anchor": "tunnel-agent-website-workflow"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Shortest safe flow",
+				"anchor": "shortest-safe-flow"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Source paths are not website URLs",
+				"anchor": "source-paths-are-not-website-urls"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Large websites and batches",
+				"anchor": "large-websites-and-batches"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
+				"text": "Advanced Drive/Sites mapping",
+				"anchor": "advanced-drive-sites-mapping"
 			},
 			{
 				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
+				"text": "In-page Drive automation",
+				"anchor": "in-page-drive-automation"
 			},
 			{
 				"level": 2,
-				"text": "Test themes",
-				"anchor": "test-themes"
+				"text": "Dynamic Node and custom domains",
+				"anchor": "dynamic-node-and-custom-domains"
 			},
 			{
 				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Completion testimony",
+				"anchor": "completion-testimony"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/test/platform Role: Tests Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 5 files, 0 structural child directories Purpose Tests for platform world generation and behavior. The Awtsmoos renews every path and ",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/test/platform role: tests snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 5 files, 0 structural child directories purpose tests for platform world generation and behavior. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tests search terms: mjs, geometry, adapter, botanical, garden, platform, 123, all, awtsmoos, collision, colored, com file mix: .mjs: 4 · .md: 1 good first question: “does the behavior or asset i need belong to tests, or is this only a neighboring/test/reference layer?” semantic evidence proves all 123 generated botanical species merge deterministically into one garden. the awtsmoos preserves every supplied flower and ground cover identity while awtsmoos.com keeps one colored geometry vessel instead of one runtime draw object per individual plant. b\"h representative files completebotanicalgarden.test.mjs — proves all 123 generated botanical species merge deterministically into one garden. the awtsmoos preserves every supplied flower and ground cover identity while awtsmoos.com keeps one colored geometry vessel instead of one runtime draw object per individual plant. covers: “merges all 123 generated botanical species into one colored geometry”. platformshowcaserecipes.test.mjs — covers: “defines a valid deterministic recipe for every visible showcase system”. tinyworldgeometryadapter.test.mjs — covers: “packs indexed positions, normals, uvs, colors, and material texture metadata”. worldgeometrycollisionadapter.test.mjs — covers: “translates generated triangles into project native collision records”. import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: node:assert/strict node:test ../../world/platform/completebotanicalgarden.js ../../world/proceduralapi/worldassetrecipe.js ../../world/platform/platformshowcaserecipes.js ../../world/platform/tinyworldgeometryadapter.js ../../world/platform/worldgeometrycollisionadapter.js test themes merges all 123 generated botanical species into one colored geometry defines a valid deterministic recipe for every visible showcase system packs indexed positions, normals, uvs, colors, and material texture metadata translates generated triangles into project native collision records directory map parent: experiments/awtsmoos/src/test children: none. related and overlapping systems colocated and integration test surfaces — most subsystem tests live under src/test, while a smaller external tests tree exercises broader integration contracts. boundaries and cautions this directory verifies behavior; it should not become the production owner of that behavior. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-platform-direct-a129b4d4d3.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Tunnel Agent Website Workflow The Awtsmoos renews creator, source, publisher, and browser at every instant; Awtsmoos.com keeps each gate explicit so an agent never mistakes a filesystem path, mutation receipt, or guessed URL for a live website. Shortest safe flow 1. Inspect the owned pro",
+		"searchText": "b\"h boruch hashem blessed is he tunnel agent website workflow the awtsmoos renews creator, source, publisher, and browser at every instant; awtsmoos.com keeps each gate explicit so an agent never mistakes a filesystem path, mutation receipt, or guessed url for a live website. shortest safe flow 1. inspect the owned project folder before writing. 2. create or rewrite ordinary index.html, css, javascript, markdown, images, and public assets. 3. confirm index.html is at the intended public root and relative dependencies stay inside that root. 4. call publishwebsite with the owned folder path and verification enabled. 5. read publication.canonicalurl; never derive a public website address from the virtual os path. 6. require publication.canonicalverifiedlive === true, verification.entrystatus === 200, and complete dependency closure. 7. open that exact canonical url in a real browser and inspect expected dom/assets plus relevant console/network failures. 8. only then report the website as working. example: if the caller's static enum does not expose publishwebsite, invoke it as one nested actionbatch item. source paths are not website urls virtual os write receipts may include navigation candidates such as /geelooy/os/..., /apps/..., or /u/.... they help locate files but are not publication testimony. a normal static website published from asdf/projects/my site receives a server returned canonical address under /web/asdf/ /. a 404 on a guessed vos navigation path does not prove publication failed. conversely, a successful mutation does not prove the canonical website renders. trust the publisher receipt, then browser test its exact url. large websites and batches use bulkwrite for batches. oversized tunnel control writes and oversized transactional batches are promoted into resumable get transfer staging, then committed atomically. agents should not manually force multi megabyte text or binary source into one query uri. advanced drive/sites mapping use sitepublishfolder only when the project intentionally needs the drive/sites mapping plane with explicit siteid and direct versus snapshot lifecycle semantics. reconcile uncertain mapping mutations with sitepublicationstatus before replaying them. in page drive automation software already running inside website maker should use window.geelooysitebuilder rather than scraping buttons. the in page api and tunnel publication are separate automation surfaces that converge on guarded hosting services. dynamic node and custom domains static publication is not a running native process. for connected node development, save a native compute recipe and choose a currently connected owned tunnel device at launch time. first prove the canonical awtsmoos static url. custom domain ownership, dns routing, tls issuance, and external browser health are separate later witnesses. preserve mail and unrelated service records during dns work. completion testimony a tunnel created static website is complete when owned source exists, publication returned a canonical url, canonical verification is live, dependency closure is complete, and a real browser loaded the intended page and assets without a relevant runtime failure.",
+		"page": "pages/docs-websites-tunnel-agent-website-workflow-md-c88bf9055b.json"
+	},
+	{
+		"id": "docs-websites-tutorial-index-md-1afbf05641",
+		"title": "Website Maker Tutorial Index",
+		"sourcePath": "docs/WEBSITES/TUTORIAL_INDEX.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Website Maker Tutorial Index",
+				"anchor": "website-maker-tutorial-index"
+			},
+			{
+				"level": 2,
+				"text": "I want to make a website from nothing",
+				"anchor": "i-want-to-make-a-website-from-nothing"
+			},
+			{
+				"level": 2,
+				"text": "I want a Tunnel agent to make and publish it",
+				"anchor": "i-want-a-tunnel-agent-to-make-and-publish-it"
+			},
+			{
+				"level": 2,
+				"text": "I need advanced direct/snapshot site mapping",
+				"anchor": "i-need-advanced-direct-snapshot-site-mapping"
+			},
+			{
+				"level": 2,
+				"text": "I want software inside Drive to control Website Maker",
+				"anchor": "i-want-software-inside-drive-to-control-website-maker"
+			},
+			{
+				"level": 2,
+				"text": "I want to connect my own domain",
+				"anchor": "i-want-to-connect-my-own-domain"
+			},
+			{
+				"level": 2,
+				"text": "I want to move only the website and keep email",
+				"anchor": "i-want-to-move-only-the-website-and-keep-email"
+			},
+			{
+				"level": 2,
+				"text": "I want provider-specific DNS instructions",
+				"anchor": "i-want-provider-specific-dns-instructions"
+			},
+			{
+				"level": 2,
+				"text": "I want to move the whole DNS provider",
+				"anchor": "i-want-to-move-the-whole-dns-provider"
+			},
+			{
+				"level": 2,
+				"text": "I want a Node website on my connected machine",
+				"anchor": "i-want-a-node-website-on-my-connected-machine"
+			},
+			{
+				"level": 2,
+				"text": "Something does not load",
+				"anchor": "something-does-not-load"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Website Maker Tutorial Index The Awtsmoos renews every question while Awtsmoos.com should let the owner begin from the thing they want to do, not from an internal subsystem name. I want to make a website from nothing Start in Drive → Website Maker → Build . Choose a starter or blank sour",
+		"searchText": "b\"h boruch hashem blessed is he website maker tutorial index the awtsmoos renews every question while awtsmoos.com should let the owner begin from the thing they want to do, not from an internal subsystem name. i want to make a website from nothing start in drive → website maker → build . choose a starter or blank source, edit ordinary html/css/js in code , inspect saved source in preview , then use publish . open only the canonical url returned by the publisher. read: readme.md and troubleshooting.md. i want a tunnel agent to make and publish it let the agent create or inspect the owned source folder, call publishwebsite, require live canonical verification, then open the returned publication.canonicalurl in a real browser. never derive a website url from a virtual os path or file write navigation candidate. read: tunnel agent website workflow.md and publish from tunnel.md. i need advanced direct/snapshot site mapping use sitepublishfolder only when you intentionally need the drive/sites mapping plane with a named siteid and direct versus snapshot lifecycle semantics. for an ordinary static owned folder, prefer publishwebsite. i want software inside drive to control website maker use the frozen window.geelooysitebuilder api instead of scraping dom buttons. source, preview, publication, and domain actions return serializable result envelopes. read: website maker agent api.md. i want to connect my own domain first prove the canonical awtsmoos url. then claim the hostname, publish the ownership txt record at the existing dns provider, verify ownership, apply the server attested web route, and verify tls/browser health. read: custom domains.md. i want to move only the website and keep email keep current authoritative nameservers. change only server attested website a/aaaa/cname records. preserve mx, spf, dkim, dmarc, srv, vendor verification records, and unrelated subdomains. read: email dns.md, dns migration.md, and dns cutover checklist.md. i want provider specific dns instructions read dns provider playbooks.md and dns provider references.md for cloudflare, godaddy, namecheap, squarespace domains, and route 53 guidance. i want to move the whole dns provider inventory and rebuild the complete zone first. treat nameserver delegation separately from record editing, preserve rollback capability, and check dnssec before retiring the old provider. read: dns migration.md, dns cutover checklist.md, and dnssec migration.md. i want a node website on my connected machine use a native compute recipe with cwd, project relative entry, port, and public arguments. choose a currently live owned tunnel device at launch time and prove the listening service. something does not load debug in order: source → publication receipt → returned canonical url → assets → browser console/network → optional domain ownership → dns → tls → connected runtime. a 404 on /geelooy/os/..., /apps/..., or /u/... may simply mean a source navigation candidate was mistaken for a published website. read: troubleshooting.md.",
+		"page": "pages/docs-websites-tutorial-index-md-1afbf05641.json"
+	},
+	{
+		"id": "docs-websites-website-maker-agent-api-md-5b85d9bf58",
+		"title": "Website Maker Agent API",
+		"sourcePath": "docs/WEBSITES/WEBSITE_MAKER_AGENT_API.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Website Maker Agent API",
+				"anchor": "website-maker-agent-api"
+			},
+			{
+				"level": 2,
+				"text": "Two automation planes",
+				"anchor": "two-automation-planes"
+			},
+			{
+				"level": 2,
+				"text": "Browser API v1.2",
+				"anchor": "browser-api-v1-2"
+			},
+			{
+				"level": 2,
+				"text": "Correlation is not idempotency",
+				"anchor": "correlation-is-not-idempotency"
+			},
+			{
+				"level": 2,
+				"text": "Lifecycle and replay law",
+				"anchor": "lifecycle-and-replay-law"
+			},
+			{
+				"level": 2,
+				"text": "Result-derived evidence",
+				"anchor": "result-derived-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Source and editor actions",
+				"anchor": "source-and-editor-actions"
+			},
+			{
+				"level": 2,
+				"text": "Preview and publication",
+				"anchor": "preview-and-publication"
+			},
+			{
+				"level": 2,
+				"text": "Domain and DNS actions",
+				"anchor": "domain-and-dns-actions"
+			},
+			{
+				"level": 2,
+				"text": "Completion rule",
+				"anchor": "completion-rule"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Website Maker Agent API The Awtsmoos renews the visible studio and the software that speaks to it in every instant; Awtsmoos.com gives automation a machine readable covenant where correlation, replay, server facts, and external verification remain different vessels instead of collapsing ",
+		"searchText": "b\"h boruch hashem blessed is he website maker agent api the awtsmoos renews the visible studio and the software that speaks to it in every instant; awtsmoos.com gives automation a machine readable covenant where correlation, replay, server facts, and external verification remain different vessels instead of collapsing into one vague success flag. two automation planes use tunnel control when automation begins from an owned device, virtual os, or an external agent editing source. use window.geelooysitebuilder when automation already runs inside the loaded drive website maker page. both converge on guarded drive/site/domain services, but neither impersonates the other. browser api v1.2 the installed object is frozen and exposes: version 1.2.0 uses response protocol 3. existing envelope keys remain first for compatibility: ok, data, error, message, capability, and affected. new testimony follows as invocation, contract, evidence, and lifecycle. correlation is not idempotency pass correlation beside action input: options.requestid is browser/client correlation only. it never becomes project data and is not a server idempotency key. mutation contracts currently report idempotency: \"not provided\"; uncertain mutations should therefore be reconciled before replay. lifecycle and replay law read success: lifecycle.phase = \"observed\". mutation success: lifecycle.phase = \"acknowledged\". failure: lifecycle.phase = \"failed\". reads normally advertise replay: \"safe read\". mutations advertise replay: \"reconcile before replay\" and the nearest reconcileaction. an acknowledgement proves the action call completed; it does not automatically prove dns propagation, tls issuance, a running node process, or a rendered public page. result derived evidence evidence.serverfacts contains facts returned or persisted by the server. evidence.externalverification is stronger and is upgraded only when the returned result actually contains an external witness. for example, site.domain.verify can return resolver evidence proving the ownership txt record. in that case the envelope may contain externalverification: \"dns ownership verified\". by contrast, site.domain.activate may report route:active and tls:pending as server facts while keeping external verification not implied. the safe nameserver plan action currently demonstrates the distinction: the live system currently returns serverfacts: [\"awtsmoos nameservers:unavailable\"], lifecycle observed, and external verification not implied. that is a real plan fact, not a promise that awtsmoos authoritative dns exists. source and editor actions site.project.describe, site.project.collect, site.project.setbrief site.files.list, site.files.read, site.files.write, site.files.create site.code.open, site.code.inspect, site.code.updatecurrent source mutations reconcile through the nearest file/editor read action. credentials, provider secrets, shell powers, and dom nodes are never returned. preview and publication site.preview.open, site.preview.refresh, site.preview.status site.publish.plan, site.publish.apply, site.publish.status preview is sandboxed source reflection, not public publication. browser site.publish.apply is acknowledged after the site mapping mutation but does not itself perform the tunnel style read after write live check. reconcile with site.publish.status, then verify the canonical url before claiming the site is live. domain and dns actions site.domain.plan, site.domain.claim, site.domain.verify site.domain.activate, site.domain.remove, site.domain.instructions site.nameservers.plan ownership, delegation, route state, tls state, dns provider state, and browser health remain independent gates. a route can be active while tls is pending. a stored dns worksheet is not live dns. a dns ownership verification does not prove mail records or every resolver have converged. completion rule an api envelope is testimony about one action. a finished website additionally needs valid source, canonical mapping, entry readiness, the authoritative url, and appropriate live http/browser evidence. use the strongest witness available, but never silently promote configuration into reality.",
+		"page": "pages/docs-websites-website-maker-agent-api-md-5b85d9bf58.json"
 	}
 ]

@@ -1,0 +1,94 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-26t134731-portal-universal-ui-resource-platf-489672c87f",
+	"title": "Phase 1 — Five Competing Architectures + Theoretical File Map",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-26T134731-portal-universal-ui-resource-platform/02_PHASE1_FIVE_ARCHITECTURES_AND_FILE_MAP.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase 1 — Five Competing Architectures + Theoretical File Map",
+			"anchor": "phase-1-five-competing-architectures-theoretical-file-map"
+		},
+		{
+			"level": 2,
+			"text": "Architecture A — New Monolithic Portal API",
+			"anchor": "architecture-a-new-monolithic-portal-api"
+		},
+		{
+			"level": 2,
+			"text": "Architecture B — Resource Envelope Wrapper Around Existing APIs",
+			"anchor": "architecture-b-resource-envelope-wrapper-around-existing-apis"
+		},
+		{
+			"level": 2,
+			"text": "Architecture C — Hypermedia Capability Registry",
+			"anchor": "architecture-c-hypermedia-capability-registry"
+		},
+		{
+			"level": 2,
+			"text": "Architecture D — Event/Graph-Centric Everything",
+			"anchor": "architecture-d-event-graph-centric-everything"
+		},
+		{
+			"level": 2,
+			"text": "Architecture E — Schema/Renderer Plugin Platform",
+			"anchor": "architecture-e-schema-renderer-plugin-platform"
+		},
+		{
+			"level": 2,
+			"text": "Chosen Composite",
+			"anchor": "chosen-composite"
+		},
+		{
+			"level": 2,
+			"text": "Theoretical Server File Families To Inspect",
+			"anchor": "theoretical-server-file-families-to-inspect"
+		},
+		{
+			"level": 2,
+			"text": "Theoretical Client/UI File Families To Inspect",
+			"anchor": "theoretical-client-ui-file-families-to-inspect"
+		},
+		{
+			"level": 2,
+			"text": "Theoretical New Modules If Evidence Confirms The Need",
+			"anchor": "theoretical-new-modules-if-evidence-confirms-the-need"
+		},
+		{
+			"level": 3,
+			"text": "Server contracts",
+			"anchor": "server-contracts"
+		},
+		{
+			"level": 3,
+			"text": "Server registry/adapters",
+			"anchor": "server-registry-adapters"
+		},
+		{
+			"level": 3,
+			"text": "Client universal UI",
+			"anchor": "client-universal-ui"
+		},
+		{
+			"level": 3,
+			"text": "Tests",
+			"anchor": "tests"
+		},
+		{
+			"level": 2,
+			"text": "Theoretical Migration Sequence",
+			"anchor": "theoretical-migration-sequence"
+		},
+		{
+			"level": 2,
+			"text": "Gate",
+			"anchor": "gate"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-26t134731-portal-universal-ui-resource-platf-489672c87f-001.json"
+	]
+}

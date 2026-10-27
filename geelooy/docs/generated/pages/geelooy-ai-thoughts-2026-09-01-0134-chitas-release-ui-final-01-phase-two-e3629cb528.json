@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-09-01-0134-chitas-release-ui-final-01-phase-two-e3629cb528",
+	"title": "Phase Two — Integration and File Map",
+	"sourcePath": "geelooy/.ai-thoughts/2026-09-01-0134-chitas-release-ui-final/01-phase-two-integration-map.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase Two — Integration and File Map",
+			"anchor": "phase-two-integration-and-file-map"
+		},
+		{
+			"level": 2,
+			"text": "Clean integration strategy",
+			"anchor": "clean-integration-strategy"
+		},
+		{
+			"level": 2,
+			"text": "Release files",
+			"anchor": "release-files"
+		},
+		{
+			"level": 3,
+			"text": "Heichel Chitas",
+			"anchor": "heichel-chitas"
+		},
+		{
+			"level": 3,
+			"text": "Native reader",
+			"anchor": "native-reader"
+		},
+		{
+			"level": 3,
+			"text": "Tests",
+			"anchor": "tests"
+		},
+		{
+			"level": 2,
+			"text": "Clean-tree checks before UX edits",
+			"anchor": "clean-tree-checks-before-ux-edits"
+		},
+		{
+			"level": 2,
+			"text": "UX owner boundaries",
+			"anchor": "ux-owner-boundaries"
+		},
+		{
+			"level": 2,
+			"text": "Release owner boundaries",
+			"anchor": "release-owner-boundaries"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-09-01-0134-chitas-release-ui-final-01-phase-two-e3629cb528-001.json"
+	]
+}

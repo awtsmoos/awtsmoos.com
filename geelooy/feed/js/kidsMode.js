@@ -26,7 +26,7 @@ const STORE_KEY = 'awtsmoos-feed-kids';
 const STAR_COUNT_KEY = 'awtsmoos-kids-stars';
 const STAR_READ_KEY = 'awtsmoos-kids-stars-read';
 
-const EMOJI_BASE = '/feed/assets/emojis';
+const EMOJI_BASE = 'https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo-image-mirror/geelooy/feed/assets/emojis';
 /* Section markers cycle through the yarmulke emoji set. */
 const MARKERS = ['star-eyes', 'tada', 'crown', 'partying-face', 'bulb', 'clapping'];
 

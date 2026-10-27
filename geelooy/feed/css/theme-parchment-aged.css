@@ -22,7 +22,7 @@
 
 	color: var(--aw-text);
 	background:
-		url("/feed/assets/parchment/parchment-aged-3.webp"),
+		url("https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo-image-mirror/geelooy/feed/assets/parchment/parchment-aged-3.webp"),
 		radial-gradient(1100px 560px at 8% -8%, rgba(122, 90, 26, 0.16), transparent 62%),
 		radial-gradient(900px 600px at 92% 24%, rgba(122, 90, 26, 0.10), transparent 62%),
 		radial-gradient(700px 500px at 50% 108%, rgba(90, 60, 15, 0.14), transparent 60%),

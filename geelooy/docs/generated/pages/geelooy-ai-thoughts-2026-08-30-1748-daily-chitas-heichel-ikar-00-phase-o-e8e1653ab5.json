@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-30-1748-daily-chitas-heichel-ikar-00-phase-o-e8e1653ab5",
+	"title": "Phase One — Revelation Map",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-30-1748-daily-chitas-heichel-ikar/00-phase-one-revelation.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase One — Revelation Map",
+			"anchor": "phase-one-revelation-map"
+		},
+		{
+			"level": 2,
+			"text": "Mission",
+			"anchor": "mission"
+		},
+		{
+			"level": 2,
+			"text": "Facts already observed",
+			"anchor": "facts-already-observed"
+		},
+		{
+			"level": 2,
+			"text": "Unknowns to resolve from code",
+			"anchor": "unknowns-to-resolve-from-code"
+		},
+		{
+			"level": 2,
+			"text": "Research target",
+			"anchor": "research-target"
+		},
+		{
+			"level": 2,
+			"text": "Evidence gate",
+			"anchor": "evidence-gate"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-30-1748-daily-chitas-heichel-ikar-00-phase-o-e8e1653ab5-001.json"
+	]
+}

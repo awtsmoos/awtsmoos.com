@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-merkava-docs-architecture-md-9dac757519",
+	"title": "Merkava Architecture",
+	"sourcePath": "geelooy/games/Merkava/docs/architecture.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Merkava Architecture",
+			"anchor": "merkava-architecture"
+		},
+		{
+			"level": 2,
+			"text": "Composition law",
+			"anchor": "composition-law"
+		},
+		{
+			"level": 2,
+			"text": "Domain map",
+			"anchor": "domain-map"
+		},
+		{
+			"level": 2,
+			"text": "Dependency direction",
+			"anchor": "dependency-direction"
+		},
+		{
+			"level": 2,
+			"text": "Extension rule",
+			"anchor": "extension-rule"
+		},
+		{
+			"level": 2,
+			"text": "Stable browser contracts",
+			"anchor": "stable-browser-contracts"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-merkava-docs-architecture-md-9dac757519-001.json"
+	]
+}

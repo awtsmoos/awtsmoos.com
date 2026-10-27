@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-27-2150-unified-movie-revelation-verificatio-a89cd21587",
+	"title": "Verification Ledger",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-27-2150-unified-movie-revelation/VERIFICATION_LEDGER.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Verification Ledger",
+			"anchor": "verification-ledger"
+		},
+		{
+			"level": 2,
+			"text": "Evidence hierarchy",
+			"anchor": "evidence-hierarchy"
+		},
+		{
+			"level": 2,
+			"text": "Current observations",
+			"anchor": "current-observations"
+		},
+		{
+			"level": 2,
+			"text": "Verification not yet earned",
+			"anchor": "verification-not-yet-earned"
+		},
+		{
+			"level": 2,
+			"text": "Test receipts",
+			"anchor": "test-receipts"
+		},
+		{
+			"level": 2,
+			"text": "Final closure format",
+			"anchor": "final-closure-format"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-27-2150-unified-movie-revelation-verificatio-a89cd21587-001.json"
+	]
+}

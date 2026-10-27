@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-animator-proofs-three-minute-unified-showcase-completion-ve-f6a4587251",
+	"title": "Three-Minute Unified Showcase — Completion Verification",
+	"sourcePath": "geelooy/apps/animator/proofs/three-minute-unified-showcase/completion-verification.md",
+	"category": "Apps",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Three-Minute Unified Showcase — Completion Verification",
+			"anchor": "three-minute-unified-showcase-completion-verification"
+		},
+		{
+			"level": 2,
+			"text": "Final Media",
+			"anchor": "final-media"
+		},
+		{
+			"level": 2,
+			"text": "Why Completion Sampling Is 2 FPS",
+			"anchor": "why-completion-sampling-is-2-fps"
+		},
+		{
+			"level": 2,
+			"text": "Temporal Diversity Evidence",
+			"anchor": "temporal-diversity-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Audio Evidence",
+			"anchor": "audio-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Project Feature Evidence",
+			"anchor": "project-feature-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Browser / Mobile Evidence",
+			"anchor": "browser-mobile-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Final Automated Gates",
+			"anchor": "final-automated-gates"
+		},
+		{
+			"level": 2,
+			"text": "Verifier Defect Found and Closed",
+			"anchor": "verifier-defect-found-and-closed"
+		},
+		{
+			"level": 2,
+			"text": "Completion Meaning",
+			"anchor": "completion-meaning"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-animator-proofs-three-minute-unified-showcase-completion-ve-f6a4587251-001.json"
+	]
+}

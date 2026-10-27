@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# REMAINING_WORK\n\n- [ ] Fetch and inspect remote/main divergence.\n- [ ] Inspect linked worktrees and release-branch-only commits.\n- [ ] Classify every local changed/untracked path.\n- [ ] Complete any known unfinished movie data-only compatibility fix.\n- [ ] Run focused and full relevant verification.\n- [ ] Inspect deployment mechanism and GitHub auth/workflows.\n- [ ] Stage only needed release paths.\n- [ ] Review staged diff and conflict-marker/secret/large-file risks.\n- [ ] Commit on main.\n- [ ] Integrate any remote main advancement without losing local work.\n- [ ] Push GitHub main.\n- [ ] Verify remote main SHA.\n- [ ] Observe/trigger deployment through repository-supported path.\n- [ ] Verify deployed public site and movie runtime.\n- [ ] Record final evidence and close remaining work.\n"
+}

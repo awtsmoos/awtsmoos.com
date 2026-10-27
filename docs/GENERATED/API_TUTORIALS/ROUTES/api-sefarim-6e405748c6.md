@@ -29,7 +29,12 @@ No executable starter is generated because method evidence is unknown. Inspect t
 
 ## Observed callers
 
-No matching literal caller evidence was found.
+Pattern-compatible evidence only; it does not prove runtime dispatch.
+
+| Literal | Source | Kind |
+| --- | --- | --- |
+| `/api/sefarim` | `geelooy/reeyuh/js/ReeyuhSefarimRepository.js` | runtime |
+| `/api/sefarim` | `geelooy/reeyuh/reeyuhContract.test.mjs` | test |
 
 ## Related tests
 
@@ -40,3 +45,4 @@ No package-script heuristic match was found.
 - [`/api/sefarim/:sefer`](./api-sefarim-sefer-2e1687688f.md)
 - [`/api/sefarim/:sefer/section/:section`](./api-sefarim-sefer-section-section-b464ddf1a3.md)
 - [`/api/sefarim/:sefer/section/:section/sub/:sub`](./api-sefarim-sefer-section-section-sub-sub-8bc044022c.md)
+- [`/api/sefarim/write/batch`](./api-sefarim-write-batch-1891bada35.md)

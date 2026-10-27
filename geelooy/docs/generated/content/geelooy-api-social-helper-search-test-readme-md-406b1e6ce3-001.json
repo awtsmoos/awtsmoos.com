@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Search Tests (geelooy/api/social/helper/search/test/)\n\nTop-level search tests.\n\n- `exactHebrewPublic.test.js`, `exactHebrewShape.test.js` — exact Hebrew public surface and shape.\n- `searchResponseStatus.test.js`, `searchRouteSafety.test.js` — response statuses and route safety.\n- `tanachSearch.test.js`, `tanachMetadata.test.js` — Tanach search and metadata.\n"
+}

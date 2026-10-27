@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-src-core-modelinglanguage-readme-m-05d28a18f6",
+	"title": "B\"H",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/src/core/modelingLanguage/README.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Awtsmoos Modeling Language",
+			"anchor": "awtsmoos-modeling-language"
+		},
+		{
+			"level": 2,
+			"text": "Tiny public API",
+			"anchor": "tiny-public-api"
+		},
+		{
+			"level": 2,
+			"text": "MeshScript",
+			"anchor": "meshscript"
+		},
+		{
+			"level": 2,
+			"text": "JSON / data",
+			"anchor": "json-data"
+		},
+		{
+			"level": 2,
+			"text": "Real texture / RAG discovery",
+			"anchor": "real-texture-rag-discovery"
+		},
+		{
+			"level": 2,
+			"text": "Native execution today",
+			"anchor": "native-execution-today"
+		},
+		{
+			"level": 2,
+			"text": "Why a semantic document exists",
+			"anchor": "why-a-semantic-document-exists"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-src-core-modelinglanguage-readme-m-05d28a18f6-001.json"
+	]
+}

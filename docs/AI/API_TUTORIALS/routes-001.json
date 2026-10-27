@@ -2,6 +2,15 @@
 	"BH": "B\"H",
 	"routes": [
 		{
+			"id": "api-caf1672720",
+			"route": "/api",
+			"family": "/api",
+			"source": "geelooy/api/_awtsmoos.derech.js",
+			"manual": "docs/TUTORIALS/API/ROOT_API.md",
+			"record": "ROUTES/api-caf1672720.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-caf1672720.md"
+		},
+		{
 			"id": "api-admin-code-932e02a2cc",
 			"route": "/api/admin/code",
 			"family": "/api/admin",
@@ -9,6 +18,51 @@
 			"manual": "docs/TUTORIALS/API/ADMIN.md",
 			"record": "ROUTES/api-admin-code-932e02a2cc.json",
 			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-admin-code-932e02a2cc.md"
+		},
+		{
+			"id": "api-apk-web-asset-token-path-49c0866383",
+			"route": "/api/apk-web/asset/:token/:path*",
+			"family": "/api/apk-web",
+			"source": "geelooy/api/apk-web/_awtsmoos.derech.js",
+			"manual": "docs/API/README.md",
+			"record": "ROUTES/api-apk-web-asset-token-path-49c0866383.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-apk-web-asset-token-path-49c0866383.md"
+		},
+		{
+			"id": "api-asdfg-9e43b7d9e7",
+			"route": "/api/asdfg",
+			"family": "/api",
+			"source": "geelooy/api/social-legacy-archive/old/_awtsmoos.posts.js",
+			"manual": "docs/TUTORIALS/API/ROOT_API.md",
+			"record": "ROUTES/api-asdfg-9e43b7d9e7.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-asdfg-9e43b7d9e7.md"
+		},
+		{
+			"id": "api-catalog-80c2586373",
+			"route": "/api/catalog",
+			"family": "/api",
+			"source": "geelooy/api/_awtsmoos.derech.js",
+			"manual": "docs/TUTORIALS/API/ROOT_API.md",
+			"record": "ROUTES/api-catalog-80c2586373.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-catalog-80c2586373.md"
+		},
+		{
+			"id": "api-client-errors-8db468b3a0",
+			"route": "/api/client-errors",
+			"family": "/api/client-errors",
+			"source": "geelooy/api/client-errors/_awtsmoos.derech.js",
+			"manual": "docs/API/README.md",
+			"record": "ROUTES/api-client-errors-8db468b3a0.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-client-errors-8db468b3a0.md"
+		},
+		{
+			"id": "api-client-errors-recent-70eff70cb6",
+			"route": "/api/client-errors/recent",
+			"family": "/api/client-errors",
+			"source": "geelooy/api/client-errors/_awtsmoos.derech.js",
+			"manual": "docs/API/README.md",
+			"record": "ROUTES/api-client-errors-recent-70eff70cb6.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-client-errors-recent-70eff70cb6.md"
 		},
 		{
 			"id": "api-compiler-android-rebbe-8d84cca1d6",
@@ -65,22 +119,31 @@
 			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-email-f77f0430fe.md"
 		},
 		{
-			"id": "api-email-email-21dde810a8",
-			"route": "/api/email/email",
+			"id": "api-email-capabilities-f24a8a356b",
+			"route": "/api/email/capabilities",
 			"family": "/api/email",
 			"source": "geelooy/api/email/_awtsmoos.derech.js",
 			"manual": "docs/TUTORIALS/API/EMAIL.md",
-			"record": "ROUTES/api-email-email-21dde810a8.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-email-email-21dde810a8.md"
+			"record": "ROUTES/api-email-capabilities-f24a8a356b.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-email-capabilities-f24a8a356b.md"
 		},
 		{
-			"id": "api-even-asd-more-rt-k-0e23c6ff58",
+			"id": "api-email-settings-schema-059e1193b6",
+			"route": "/api/email/settings/schema",
+			"family": "/api/email",
+			"source": "geelooy/api/email/_awtsmoos.derech.js",
+			"manual": "docs/TUTORIALS/API/EMAIL.md",
+			"record": "ROUTES/api-email-settings-schema-059e1193b6.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-email-settings-schema-059e1193b6.md"
+		},
+		{
+			"id": "api-even-asd-more-rt-k-feb231eb24",
 			"route": "/api/even/:asd/more/:rt/k",
 			"family": "/api",
-			"source": "geelooy/api/_awtsmoos.derech.js",
+			"source": "geelooy/api/core/LegacyApiDemoRoutes.js",
 			"manual": "docs/TUTORIALS/API/ROOT_API.md",
-			"record": "ROUTES/api-even-asd-more-rt-k-0e23c6ff58.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-even-asd-more-rt-k-0e23c6ff58.md"
+			"record": "ROUTES/api-even-asd-more-rt-k-feb231eb24.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-even-asd-more-rt-k-feb231eb24.md"
 		},
 		{
 			"id": "api-fetch-9837786494",
@@ -137,364 +200,301 @@
 			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-gpt-reset-cde51acb79.md"
 		},
 		{
-			"id": "api-oauth-route-99d253c847",
-			"route": "/api/oauth/:route",
-			"family": "/api/oauth",
-			"source": "geelooy/api/oauth/_awtsmoos.derech.js",
-			"manual": "docs/TUTORIALS/API/OAUTH.md",
-			"record": "ROUTES/api-oauth-route-99d253c847.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-oauth-route-99d253c847.md"
+			"id": "api-heichelos-heichel-addcontenttoseries-cda5c16063",
+			"route": "/api/heichelos/:heichel/addContentToSeries",
+			"family": "/api",
+			"source": "geelooy/api/social-legacy-archive/old/_awtsmoos.series.js",
+			"manual": "docs/TUTORIALS/API/ROOT_API.md",
+			"record": "ROUTES/api-heichelos-heichel-addcontenttoseries-cda5c16063.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-heichelos-heichel-addcontenttoseries-cda5c16063.md"
 		},
 		{
-			"id": "api-oauth-agent-callback-b4e6bf1061",
-			"route": "/api/oauth/agent-callback",
-			"family": "/api/oauth",
-			"source": "geelooy/api/oauth/routes/table.js",
-			"manual": "docs/TUTORIALS/API/OAUTH.md",
-			"record": "ROUTES/api-oauth-agent-callback-b4e6bf1061.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-oauth-agent-callback-b4e6bf1061.md"
+			"id": "api-heichelos-heichel-addnewseries-6c167f7390",
+			"route": "/api/heichelos/:heichel/addNewSeries",
+			"family": "/api",
+			"source": "geelooy/api/social-legacy-archive/old/_awtsmoos.series.js",
+			"manual": "docs/TUTORIALS/API/ROOT_API.md",
+			"record": "ROUTES/api-heichelos-heichel-addnewseries-6c167f7390.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-heichelos-heichel-addnewseries-6c167f7390.md"
 		},
 		{
-			"id": "api-oauth-authorize-bdf605a5c6",
-			"route": "/api/oauth/authorize",
-			"family": "/api/oauth",
-			"source": "geelooy/api/oauth/routes/table.js",
-			"manual": "docs/TUTORIALS/API/OAUTH.md",
-			"record": "ROUTES/api-oauth-authorize-bdf605a5c6.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-oauth-authorize-bdf605a5c6.md"
+			"id": "api-heichelos-heichel-aliases-alias-commentsactions-addcommentin-4141eb36ea",
+			"route": "/api/heichelos/:heichel/aliases/:alias/commentsActions/addCommentIndexToAlias/comment/:comment",
+			"family": "/api",
+			"source": "geelooy/api/social-legacy-archive/old/_awtsmoos.comments-old.js",
+			"manual": "docs/TUTORIALS/API/ROOT_API.md",
+			"record": "ROUTES/api-heichelos-heichel-aliases-alias-commentsactions-addcommentin-4141eb36ea.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-heichelos-heichel-aliases-alias-commentsactions-addcommentin-4141eb36ea.md"
 		},
 		{
-			"id": "api-oauth-device-ff7c9e5d87",
-			"route": "/api/oauth/device",
-			"family": "/api/oauth",
-			"source": "geelooy/api/oauth/routes/table.js",
-			"manual": "docs/TUTORIALS/API/OAUTH.md",
-			"record": "ROUTES/api-oauth-device-ff7c9e5d87.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-oauth-device-ff7c9e5d87.md"
+			"id": "api-heichelos-heichel-aliases-alias-commentsactions-updateallcom-a68539ccb3",
+			"route": "/api/heichelos/:heichel/aliases/:alias/commentsActions/updateAllCommentIndexes",
+			"family": "/api",
+			"source": "geelooy/api/social-legacy-archive/old/_awtsmoos.comments-old.js",
+			"manual": "docs/TUTORIALS/API/ROOT_API.md",
+			"record": "ROUTES/api-heichelos-heichel-aliases-alias-commentsactions-updateallcom-a68539ccb3.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-heichelos-heichel-aliases-alias-commentsactions-updateallcom-a68539ccb3.md"
 		},
 		{
-			"id": "api-oauth-device-authorization-c8c90e0df0",
-			"route": "/api/oauth/device-authorization",
-			"family": "/api/oauth",
-			"source": "geelooy/api/oauth/routes/table.js",
-			"manual": "docs/TUTORIALS/API/OAUTH.md",
-			"record": "ROUTES/api-oauth-device-authorization-c8c90e0df0.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-oauth-device-authorization-c8c90e0df0.md"
+			"id": "api-heichelos-heichel-comment-comment-e9e27fc087",
+			"route": "/api/heichelos/:heichel/comment/:comment",
+			"family": "/api",
+			"source": "geelooy/api/social-legacy-archive/old/_awtsmoos.comments-old.js",
+			"manual": "docs/TUTORIALS/API/ROOT_API.md",
+			"record": "ROUTES/api-heichelos-heichel-comment-comment-e9e27fc087.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-heichelos-heichel-comment-comment-e9e27fc087.md"
 		},
 		{
-			"id": "api-oauth-metadata-323cb59001",
-			"route": "/api/oauth/metadata",
-			"family": "/api/oauth",
-			"source": "geelooy/api/oauth/routes/table.js",
-			"manual": "docs/TUTORIALS/API/OAUTH.md",
-			"record": "ROUTES/api-oauth-metadata-323cb59001.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-oauth-metadata-323cb59001.md"
+			"id": "api-heichelos-heichel-comments-ab5163321b",
+			"route": "/api/heichelos/:heichel/comments",
+			"family": "/api",
+			"source": "geelooy/api/social-legacy-archive/old/_awtsmoos.comments-old.js",
+			"manual": "docs/TUTORIALS/API/ROOT_API.md",
+			"record": "ROUTES/api-heichelos-heichel-comments-ab5163321b.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-heichelos-heichel-comments-ab5163321b.md"
 		},
 		{
-			"id": "api-oauth-start-7c94ba48c1",
-			"route": "/api/oauth/start",
-			"family": "/api/oauth",
-			"source": "geelooy/api/oauth/routes/table.js",
-			"manual": "docs/TUTORIALS/API/OAUTH.md",
-			"record": "ROUTES/api-oauth-start-7c94ba48c1.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-oauth-start-7c94ba48c1.md"
+			"id": "api-heichelos-heichel-deletecontentfromseries-393df36dd9",
+			"route": "/api/heichelos/:heichel/deleteContentFromSeries",
+			"family": "/api",
+			"source": "geelooy/api/social-legacy-archive/old/_awtsmoos.series.js",
+			"manual": "docs/TUTORIALS/API/ROOT_API.md",
+			"record": "ROUTES/api-heichelos-heichel-deletecontentfromseries-393df36dd9.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-heichelos-heichel-deletecontentfromseries-393df36dd9.md"
 		},
 		{
-			"id": "api-oauth-token-037d29e842",
-			"route": "/api/oauth/token",
-			"family": "/api/oauth",
-			"source": "geelooy/api/oauth/routes/table.js",
-			"manual": "docs/TUTORIALS/API/OAUTH.md",
-			"record": "ROUTES/api-oauth-token-037d29e842.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-oauth-token-037d29e842.md"
+			"id": "api-heichelos-heichel-deleteseriesfromheichel-seriesid-b493b7192a",
+			"route": "/api/heichelos/:heichel/deleteSeriesFromHeichel/:seriesId",
+			"family": "/api",
+			"source": "geelooy/api/social-legacy-archive/old/_awtsmoos.series.js",
+			"manual": "docs/TUTORIALS/API/ROOT_API.md",
+			"record": "ROUTES/api-heichelos-heichel-deleteseriesfromheichel-seriesid-b493b7192a.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-heichelos-heichel-deleteseriesfromheichel-seriesid-b493b7192a.md"
 		},
 		{
-			"id": "api-ohr-hagnuz-realtime-ticket-b6af2537a2",
-			"route": "/api/ohr-hagnuz/realtime-ticket",
-			"family": "/api/ohr-hagnuz",
-			"source": "geelooy/api/ohr-hagnuz/routes/table.js",
-			"manual": "docs/TUTORIALS/API/OHR_HAGNUZ.md",
-			"record": "ROUTES/api-ohr-hagnuz-realtime-ticket-b6af2537a2.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-ohr-hagnuz-realtime-ticket-b6af2537a2.md"
+			"id": "api-heichelos-heichel-post-post-bdb56ee4c2",
+			"route": "/api/heichelos/:heichel/post/:post",
+			"family": "/api",
+			"source": "geelooy/api/social-legacy-archive/old/_awtsmoos.posts.js",
+			"manual": "docs/TUTORIALS/API/ROOT_API.md",
+			"record": "ROUTES/api-heichelos-heichel-post-post-bdb56ee4c2.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-heichelos-heichel-post-post-bdb56ee4c2.md"
 		},
 		{
-			"id": "api-projecthosting-827e82a6c0",
-			"route": "/api/projectHosting",
-			"family": "/api/projectHosting",
-			"source": "geelooy/api/projectHosting/_awtsmoos.derech.js",
-			"manual": "docs/API/README.md",
-			"record": "ROUTES/api-projecthosting-827e82a6c0.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-projecthosting-827e82a6c0.md"
+			"id": "api-heichelos-heichel-post-post-comments-026ac152d6",
+			"route": "/api/heichelos/:heichel/post/:post/comments",
+			"family": "/api",
+			"source": "geelooy/api/social-legacy-archive/old/_awtsmoos.comments-old.js",
+			"manual": "docs/TUTORIALS/API/ROOT_API.md",
+			"record": "ROUTES/api-heichelos-heichel-post-post-comments-026ac152d6.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-heichelos-heichel-post-post-comments-026ac152d6.md"
 		},
 		{
-			"id": "api-projecthosting-activity-685d6a80bb",
-			"route": "/api/projectHosting/activity",
-			"family": "/api/projectHosting",
-			"source": "geelooy/api/projectHosting/runtimeRoutes.js",
-			"manual": "docs/API/README.md",
-			"record": "ROUTES/api-projecthosting-activity-685d6a80bb.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-projecthosting-activity-685d6a80bb.md"
+			"id": "api-heichelos-heichel-post-post-comments-aliases-1af77ddc26",
+			"route": "/api/heichelos/:heichel/post/:post/comments/aliases",
+			"family": "/api",
+			"source": "geelooy/api/social-legacy-archive/old/_awtsmoos.comments-old.js",
+			"manual": "docs/TUTORIALS/API/ROOT_API.md",
+			"record": "ROUTES/api-heichelos-heichel-post-post-comments-aliases-1af77ddc26.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-heichelos-heichel-post-post-comments-aliases-1af77ddc26.md"
 		},
 		{
-			"id": "api-projecthosting-cleanup-86c3f103e2",
-			"route": "/api/projectHosting/cleanup",
-			"family": "/api/projectHosting",
-			"source": "geelooy/api/projectHosting/runtimeRoutes.js",
-			"manual": "docs/API/README.md",
-			"record": "ROUTES/api-projecthosting-cleanup-86c3f103e2.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-projecthosting-cleanup-86c3f103e2.md"
+			"id": "api-heichelos-heichel-post-post-comments-aliases-alias-b9d4490c27",
+			"route": "/api/heichelos/:heichel/post/:post/comments/aliases/:alias",
+			"family": "/api",
+			"source": "geelooy/api/social-legacy-archive/old/_awtsmoos.comments-old.js",
+			"manual": "docs/TUTORIALS/API/ROOT_API.md",
+			"record": "ROUTES/api-heichelos-heichel-post-post-comments-aliases-alias-b9d4490c27.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-heichelos-heichel-post-post-comments-aliases-alias-b9d4490c27.md"
 		},
 		{
-			"id": "api-projecthosting-materialize-04d0cae6e7",
-			"route": "/api/projectHosting/materialize",
-			"family": "/api/projectHosting",
-			"source": "geelooy/api/projectHosting/runtimeRoutes.js",
-			"manual": "docs/API/README.md",
-			"record": "ROUTES/api-projecthosting-materialize-04d0cae6e7.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-projecthosting-materialize-04d0cae6e7.md"
+			"id": "api-heichelos-heichel-post-post-delete-2157568ffc",
+			"route": "/api/heichelos/:heichel/post/:post/delete",
+			"family": "/api",
+			"source": "geelooy/api/social-legacy-archive/old/_awtsmoos.posts.js",
+			"manual": "docs/TUTORIALS/API/ROOT_API.md",
+			"record": "ROUTES/api-heichelos-heichel-post-post-delete-2157568ffc.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-heichelos-heichel-post-post-delete-2157568ffc.md"
 		},
 		{
-			"id": "api-projecthosting-restart-3328768971",
-			"route": "/api/projectHosting/restart",
-			"family": "/api/projectHosting",
-			"source": "geelooy/api/projectHosting/runtimeRoutes.js",
-			"manual": "docs/API/README.md",
-			"record": "ROUTES/api-projecthosting-restart-3328768971.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-projecthosting-restart-3328768971.md"
+			"id": "api-heichelos-heichel-posts-83a4296e6d",
+			"route": "/api/heichelos/:heichel/posts",
+			"family": "/api",
+			"source": "geelooy/api/social-legacy-archive/old/_awtsmoos.posts.js",
+			"manual": "docs/TUTORIALS/API/ROOT_API.md",
+			"record": "ROUTES/api-heichelos-heichel-posts-83a4296e6d.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-heichelos-heichel-posts-83a4296e6d.md"
 		},
 		{
-			"id": "api-projecthosting-start-15affd017d",
-			"route": "/api/projectHosting/start",
-			"family": "/api/projectHosting",
-			"source": "geelooy/api/projectHosting/runtimeRoutes.js",
-			"manual": "docs/API/README.md",
-			"record": "ROUTES/api-projecthosting-start-15affd017d.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-projecthosting-start-15affd017d.md"
+			"id": "api-heichelos-heichel-posts-details-42ef7d9e11",
+			"route": "/api/heichelos/:heichel/posts/details",
+			"family": "/api",
+			"source": "geelooy/api/social-legacy-archive/old/_awtsmoos.posts.js",
+			"manual": "docs/TUTORIALS/API/ROOT_API.md",
+			"record": "ROUTES/api-heichelos-heichel-posts-details-42ef7d9e11.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-heichelos-heichel-posts-details-42ef7d9e11.md"
 		},
 		{
-			"id": "api-projecthosting-status-e49bd88d04",
-			"route": "/api/projectHosting/status",
-			"family": "/api/projectHosting",
-			"source": "geelooy/api/projectHosting/runtimeRoutes.js",
-			"manual": "docs/API/README.md",
-			"record": "ROUTES/api-projecthosting-status-e49bd88d04.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-projecthosting-status-e49bd88d04.md"
+			"id": "api-heichelos-heichel-series-a202472ff8",
+			"route": "/api/heichelos/:heichel/series",
+			"family": "/api",
+			"source": "geelooy/api/social-legacy-archive/old/_awtsmoos.series.js",
+			"manual": "docs/TUTORIALS/API/ROOT_API.md",
+			"record": "ROUTES/api-heichelos-heichel-series-a202472ff8.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-heichelos-heichel-series-a202472ff8.md"
 		},
 		{
-			"id": "api-projecthosting-stop-7e644b25e9",
-			"route": "/api/projectHosting/stop",
-			"family": "/api/projectHosting",
-			"source": "geelooy/api/projectHosting/runtimeRoutes.js",
-			"manual": "docs/API/README.md",
-			"record": "ROUTES/api-projecthosting-stop-7e644b25e9.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-projecthosting-stop-7e644b25e9.md"
+			"id": "api-heichelos-heichel-series-series-d055c1d1d3",
+			"route": "/api/heichelos/:heichel/series/:series",
+			"family": "/api",
+			"source": "geelooy/api/social-legacy-archive/old/_awtsmoos.series.js",
+			"manual": "docs/TUTORIALS/API/ROOT_API.md",
+			"record": "ROUTES/api-heichelos-heichel-series-series-d055c1d1d3.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-heichelos-heichel-series-series-d055c1d1d3.md"
 		},
 		{
-			"id": "api-public-97cc9d947c",
-			"route": "/api/public",
-			"family": "/api/public",
-			"source": "geelooy/api/public/_awtsmoos.derech.js",
-			"manual": "docs/TUTORIALS/API/PUBLIC.md",
-			"record": "ROUTES/api-public-97cc9d947c.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-public-97cc9d947c.md"
+			"id": "api-heichelos-heichel-series-series-breadcrumb-637af34fba",
+			"route": "/api/heichelos/:heichel/series/:series/breadcrumb",
+			"family": "/api",
+			"source": "geelooy/api/social-legacy-archive/old/_awtsmoos.series.js",
+			"manual": "docs/TUTORIALS/API/ROOT_API.md",
+			"record": "ROUTES/api-heichelos-heichel-series-series-breadcrumb-637af34fba.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-heichelos-heichel-series-series-breadcrumb-637af34fba.md"
 		},
 		{
-			"id": "api-runtime-native-capabilities-7b0ee881a8",
-			"route": "/api/runtime/native/capabilities",
-			"family": "/api/runtime",
-			"source": "geelooy/api/runtime/_awtsmoos.derech.js",
-			"manual": "docs/TUTORIALS/API/RUNTIME.md",
-			"record": "ROUTES/api-runtime-native-capabilities-7b0ee881a8.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-runtime-native-capabilities-7b0ee881a8.md"
+			"id": "api-heichelos-heichel-series-series-changepostsinseries-ba0a2f48c4",
+			"route": "/api/heichelos/:heichel/series/:series/changePostsInSeries",
+			"family": "/api",
+			"source": "geelooy/api/social-legacy-archive/old/_awtsmoos.series.js",
+			"manual": "docs/TUTORIALS/API/ROOT_API.md",
+			"record": "ROUTES/api-heichelos-heichel-series-series-changepostsinseries-ba0a2f48c4.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-heichelos-heichel-series-series-changepostsinseries-ba0a2f48c4.md"
 		},
 		{
-			"id": "api-runtime-native-launch-00685c52f8",
-			"route": "/api/runtime/native/launch",
-			"family": "/api/runtime",
-			"source": "geelooy/api/runtime/_awtsmoos.derech.js",
-			"manual": "docs/TUTORIALS/API/RUNTIME.md",
-			"record": "ROUTES/api-runtime-native-launch-00685c52f8.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-runtime-native-launch-00685c52f8.md"
+			"id": "api-heichelos-heichel-series-series-changesubseriesfromoneseries-2df30fb0d3",
+			"route": "/api/heichelos/:heichel/series/:series/changeSubSeriesFromOneSeriesToAnother/:toSeries",
+			"family": "/api",
+			"source": "geelooy/api/social-legacy-archive/old/_awtsmoos.series.js",
+			"manual": "docs/TUTORIALS/API/ROOT_API.md",
+			"record": "ROUTES/api-heichelos-heichel-series-series-changesubseriesfromoneseries-2df30fb0d3.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-heichelos-heichel-series-series-changesubseriesfromoneseries-2df30fb0d3.md"
 		},
 		{
-			"id": "api-runtime-native-status-71d1b10724",
-			"route": "/api/runtime/native/status",
-			"family": "/api/runtime",
-			"source": "geelooy/api/runtime/_awtsmoos.derech.js",
-			"manual": "docs/TUTORIALS/API/RUNTIME.md",
-			"record": "ROUTES/api-runtime-native-status-71d1b10724.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-runtime-native-status-71d1b10724.md"
+			"id": "api-heichelos-heichel-series-series-changesubseriesinseries-cc2ebf9d5e",
+			"route": "/api/heichelos/:heichel/series/:series/changeSubSeriesInSeries",
+			"family": "/api",
+			"source": "geelooy/api/social-legacy-archive/old/_awtsmoos.series.js",
+			"manual": "docs/TUTORIALS/API/ROOT_API.md",
+			"record": "ROUTES/api-heichelos-heichel-series-series-changesubseriesinseries-cc2ebf9d5e.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-heichelos-heichel-series-series-changesubseriesinseries-cc2ebf9d5e.md"
 		},
 		{
-			"id": "api-runtime-native-stop-8d06fff18a",
-			"route": "/api/runtime/native/stop",
-			"family": "/api/runtime",
-			"source": "geelooy/api/runtime/_awtsmoos.derech.js",
-			"manual": "docs/TUTORIALS/API/RUNTIME.md",
-			"record": "ROUTES/api-runtime-native-stop-8d06fff18a.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-runtime-native-stop-8d06fff18a.md"
+			"id": "api-heichelos-heichel-series-series-details-149badbd2c",
+			"route": "/api/heichelos/:heichel/series/:series/details",
+			"family": "/api",
+			"source": "geelooy/api/social-legacy-archive/old/_awtsmoos.series.js",
+			"manual": "docs/TUTORIALS/API/ROOT_API.md",
+			"record": "ROUTES/api-heichelos-heichel-series-series-details-149badbd2c.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-heichelos-heichel-series-series-details-149badbd2c.md"
 		},
 		{
-			"id": "api-sefarim-6e405748c6",
-			"route": "/api/sefarim",
-			"family": "/api/sefarim",
-			"source": "geelooy/api/sefarim/_awtsmoos.derech.js",
-			"manual": "docs/TUTORIALS/API/SEFARIM.md",
-			"record": "ROUTES/api-sefarim-6e405748c6.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-sefarim-6e405748c6.md"
+			"id": "api-heichelos-heichel-series-series-editseriesdetails-97c1453329",
+			"route": "/api/heichelos/:heichel/series/:series/editSeriesDetails",
+			"family": "/api",
+			"source": "geelooy/api/social-legacy-archive/old/_awtsmoos.series.js",
+			"manual": "docs/TUTORIALS/API/ROOT_API.md",
+			"record": "ROUTES/api-heichelos-heichel-series-series-editseriesdetails-97c1453329.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-heichelos-heichel-series-series-editseriesdetails-97c1453329.md"
 		},
 		{
-			"id": "api-sefarim-sefer-2e1687688f",
-			"route": "/api/sefarim/:sefer",
-			"family": "/api/sefarim",
-			"source": "geelooy/api/sefarim/_awtsmoos.derech.js",
-			"manual": "docs/TUTORIALS/API/SEFARIM.md",
-			"record": "ROUTES/api-sefarim-sefer-2e1687688f.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-sefarim-sefer-2e1687688f.md"
+			"id": "api-heichelos-heichel-series-series-filterpostsby-propkey-propva-b8a1493b51",
+			"route": "/api/heichelos/:heichel/series/:series/filterPostsBy/:propKey/:propVal",
+			"family": "/api",
+			"source": "geelooy/api/social-legacy-archive/old/_awtsmoos.series.js",
+			"manual": "docs/TUTORIALS/API/ROOT_API.md",
+			"record": "ROUTES/api-heichelos-heichel-series-series-filterpostsby-propkey-propva-b8a1493b51.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-heichelos-heichel-series-series-filterpostsby-propkey-propva-b8a1493b51.md"
 		},
 		{
-			"id": "api-sefarim-sefer-section-section-b464ddf1a3",
-			"route": "/api/sefarim/:sefer/section/:section",
-			"family": "/api/sefarim",
-			"source": "geelooy/api/sefarim/_awtsmoos.derech.js",
-			"manual": "docs/TUTORIALS/API/SEFARIM.md",
-			"record": "ROUTES/api-sefarim-sefer-section-section-b464ddf1a3.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-sefarim-sefer-section-section-b464ddf1a3.md"
+			"id": "api-heichelos-heichel-series-series-filterseriesby-propkey-propv-3571a478fa",
+			"route": "/api/heichelos/:heichel/series/:series/filterSeriesBy/:propKey/:propVal",
+			"family": "/api",
+			"source": "geelooy/api/social-legacy-archive/old/_awtsmoos.series.js",
+			"manual": "docs/TUTORIALS/API/ROOT_API.md",
+			"record": "ROUTES/api-heichelos-heichel-series-series-filterseriesby-propkey-propv-3571a478fa.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-heichelos-heichel-series-series-filterseriesby-propkey-propv-3571a478fa.md"
 		},
 		{
-			"id": "api-sefarim-sefer-section-section-sub-sub-8bc044022c",
-			"route": "/api/sefarim/:sefer/section/:section/sub/:sub",
-			"family": "/api/sefarim",
-			"source": "geelooy/api/sefarim/_awtsmoos.derech.js",
-			"manual": "docs/TUTORIALS/API/SEFARIM.md",
-			"record": "ROUTES/api-sefarim-sefer-section-section-sub-sub-8bc044022c.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-sefarim-sefer-section-section-sub-sub-8bc044022c.md"
+			"id": "api-heichelos-heichel-series-series-parent-c6c26f9f2e",
+			"route": "/api/heichelos/:heichel/series/:series/parent",
+			"family": "/api",
+			"source": "geelooy/api/social-legacy-archive/old/_awtsmoos.series.js",
+			"manual": "docs/TUTORIALS/API/ROOT_API.md",
+			"record": "ROUTES/api-heichelos-heichel-series-series-parent-c6c26f9f2e.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-heichelos-heichel-series-series-parent-c6c26f9f2e.md"
 		},
 		{
-			"id": "api-social-9fa4891e88",
-			"route": "/api/social",
-			"family": "/api/social",
-			"source": "geelooy/api/social/_awtsmoos.derech.js",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md",
-			"record": "ROUTES/api-social-9fa4891e88.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-9fa4891e88.md"
+			"id": "api-heichelos-heichel-series-series-posts-0ace62e7f1",
+			"route": "/api/heichelos/:heichel/series/:series/posts",
+			"family": "/api",
+			"source": "geelooy/api/social-legacy-archive/old/_awtsmoos.series.js",
+			"manual": "docs/TUTORIALS/API/ROOT_API.md",
+			"record": "ROUTES/api-heichelos-heichel-series-series-posts-0ace62e7f1.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-heichelos-heichel-series-series-posts-0ace62e7f1.md"
 		},
 		{
-			"id": "api-social-abuse-ratelimit-check-0a30b621f8",
-			"route": "/api/social/abuse/rateLimit/check",
-			"family": "/api/social",
-			"source": "geelooy/api/social/_awtsmoos.platform.js",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md",
-			"record": "ROUTES/api-social-abuse-ratelimit-check-0a30b621f8.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-abuse-ratelimit-check-0a30b621f8.md"
+			"id": "api-heichelos-heichel-series-series-posts-details-8c0c0e6216",
+			"route": "/api/heichelos/:heichel/series/:series/posts/details",
+			"family": "/api",
+			"source": "geelooy/api/social-legacy-archive/old/_awtsmoos.series.js",
+			"manual": "docs/TUTORIALS/API/ROOT_API.md",
+			"record": "ROUTES/api-heichelos-heichel-series-series-posts-details-8c0c0e6216.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-heichelos-heichel-series-series-posts-details-8c0c0e6216.md"
 		},
 		{
-			"id": "api-social-alias-alias-2cc6a9ba6e",
-			"route": "/api/social/alias/:alias",
-			"family": "/api/social",
-			"source": "geelooy/api/social/_awtsmoos.alias.js",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md",
-			"record": "ROUTES/api-social-alias-alias-2cc6a9ba6e.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-alias-alias-2cc6a9ba6e.md"
+			"id": "api-heichelos-heichel-series-series-series-17d1c7a6b3",
+			"route": "/api/heichelos/:heichel/series/:series/series",
+			"family": "/api",
+			"source": "geelooy/api/social-legacy-archive/old/_awtsmoos.series.js",
+			"manual": "docs/TUTORIALS/API/ROOT_API.md",
+			"record": "ROUTES/api-heichelos-heichel-series-series-series-17d1c7a6b3.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-heichelos-heichel-series-series-series-17d1c7a6b3.md"
 		},
 		{
-			"id": "api-social-alias-alias-details-7e4136898b",
-			"route": "/api/social/alias/:alias/details",
-			"family": "/api/social",
-			"source": "geelooy/api/social/_awtsmoos.alias.js",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md",
-			"record": "ROUTES/api-social-alias-alias-details-7e4136898b.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-alias-alias-details-7e4136898b.md"
+			"id": "api-heichelos-heichel-series-series-subseries-d0877ba4e2",
+			"route": "/api/heichelos/:heichel/series/:series/subSeries",
+			"family": "/api",
+			"source": "geelooy/api/social-legacy-archive/old/_awtsmoos.series.js",
+			"manual": "docs/TUTORIALS/API/ROOT_API.md",
+			"record": "ROUTES/api-heichelos-heichel-series-series-subseries-d0877ba4e2.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-heichelos-heichel-series-series-subseries-d0877ba4e2.md"
 		},
 		{
-			"id": "api-social-alias-alias-heichelos-34bfb8e313",
-			"route": "/api/social/alias/:alias/heichelos",
-			"family": "/api/social",
-			"source": "geelooy/api/social/_awtsmoos.heichel.js",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md",
-			"record": "ROUTES/api-social-alias-alias-heichelos-34bfb8e313.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-alias-alias-heichelos-34bfb8e313.md"
+			"id": "api-heichelos-heichel-series-series-subseries-details-c5ab123206",
+			"route": "/api/heichelos/:heichel/series/:series/subSeries/details",
+			"family": "/api",
+			"source": "geelooy/api/social-legacy-archive/old/_awtsmoos.series.js",
+			"manual": "docs/TUTORIALS/API/ROOT_API.md",
+			"record": "ROUTES/api-heichelos-heichel-series-series-subseries-details-c5ab123206.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-heichelos-heichel-series-series-subseries-details-c5ab123206.md"
 		},
 		{
-			"id": "api-social-alias-alias-heichelos-heichel-4c7f5ddd08",
-			"route": "/api/social/alias/:alias/heichelos/:heichel",
-			"family": "/api/social",
-			"source": "geelooy/api/social/_awtsmoos.heichel.js",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md",
-			"record": "ROUTES/api-social-alias-alias-heichelos-heichel-4c7f5ddd08.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-alias-alias-heichelos-heichel-4c7f5ddd08.md"
+			"id": "api-heichelos-heichel-submittedcomments-2954ba5a0b",
+			"route": "/api/heichelos/:heichel/submittedComments",
+			"family": "/api",
+			"source": "geelooy/api/social-legacy-archive/old/_awtsmoos.comments-old.js",
+			"manual": "docs/TUTORIALS/API/ROOT_API.md",
+			"record": "ROUTES/api-heichelos-heichel-submittedcomments-2954ba5a0b.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-heichelos-heichel-submittedcomments-2954ba5a0b.md"
 		},
 		{
-			"id": "api-social-alias-alias-heichelos-heichel-ownership-c2e6e8e020",
-			"route": "/api/social/alias/:alias/heichelos/:heichel/ownership",
-			"family": "/api/social",
-			"source": "geelooy/api/social/_awtsmoos.heichel.js",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md",
-			"record": "ROUTES/api-social-alias-alias-heichelos-heichel-ownership-c2e6e8e020.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-alias-alias-heichelos-heichel-ownership-c2e6e8e020.md"
-		},
-		{
-			"id": "api-social-alias-alias-heichelos-details-75a049464f",
-			"route": "/api/social/alias/:alias/heichelos/details",
-			"family": "/api/social",
-			"source": "geelooy/api/social/_awtsmoos.heichel.js",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md",
-			"record": "ROUTES/api-social-alias-alias-heichelos-details-75a049464f.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-alias-alias-heichelos-details-75a049464f.md"
-		},
-		{
-			"id": "api-social-alias-alias-history-8037d82347",
-			"route": "/api/social/alias/:alias/history",
-			"family": "/api/social",
-			"source": "geelooy/api/social/_awtsmoos.profile.js",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md",
-			"record": "ROUTES/api-social-alias-alias-history-8037d82347.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-alias-alias-history-8037d82347.md"
-		},
-		{
-			"id": "api-social-alias-alias-ownership-6fdd6abb36",
-			"route": "/api/social/alias/:alias/ownership",
-			"family": "/api/social",
-			"source": "geelooy/api/social/_awtsmoos.alias.js",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md",
-			"record": "ROUTES/api-social-alias-alias-ownership-6fdd6abb36.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-alias-alias-ownership-6fdd6abb36.md"
-		},
-		{
-			"id": "api-social-alias-alias-profile-e5cf035cee",
-			"route": "/api/social/alias/:alias/profile",
-			"family": "/api/social",
-			"source": "geelooy/api/social/_awtsmoos.profile.js",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md",
-			"record": "ROUTES/api-social-alias-alias-profile-e5cf035cee.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-alias-alias-profile-e5cf035cee.md"
-		},
-		{
-			"id": "api-social-alias-alias-profile-template-3c18aad6f5",
-			"route": "/api/social/alias/:alias/profile/template",
-			"family": "/api/social",
-			"source": "geelooy/api/social/_awtsmoos.profile.js",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md",
-			"record": "ROUTES/api-social-alias-alias-profile-template-3c18aad6f5.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-alias-alias-profile-template-3c18aad6f5.md"
-		},
-		{
-			"id": "api-social-alias-default-ae31f7a332",
-			"route": "/api/social/alias/default",
-			"family": "/api/social",
-			"source": "geelooy/api/social/_awtsmoos.alias.js",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md",
-			"record": "ROUTES/api-social-alias-default-ae31f7a332.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-alias-default-ae31f7a332.md"
-		},
-		{
-			"id": "api-social-aliases-7d87f1bf35",
-			"route": "/api/social/aliases",
-			"family": "/api/social",
-			"source": "geelooy/api/social/_awtsmoos.alias.js",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md",
-			"record": "ROUTES/api-social-aliases-7d87f1bf35.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-aliases-7d87f1bf35.md"
+			"id": "api-heichelos-heichel-submittedcomments-approve-9da4794d03",
+			"route": "/api/heichelos/:heichel/submittedComments/approve",
+			"family": "/api",
+			"source": "geelooy/api/social-legacy-archive/old/_awtsmoos.comments-old.js",
+			"manual": "docs/TUTORIALS/API/ROOT_API.md",
+			"record": "ROUTES/api-heichelos-heichel-submittedcomments-approve-9da4794d03.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-heichelos-heichel-submittedcomments-approve-9da4794d03.md"
 		}
 	]
 }

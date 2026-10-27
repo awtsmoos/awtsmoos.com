@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-25-geelooy-futuristic-revelation-02-feasibil-abd3503365",
+	"title": "Phase Two — Feasibility and Risk Map",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-25-geelooy-futuristic-revelation/02_FEASIBILITY_AND_RISK_MAP.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase Two — Feasibility and Risk Map",
+			"anchor": "phase-two-feasibility-and-risk-map"
+		},
+		{
+			"level": 2,
+			"text": "Practical Architecture Direction",
+			"anchor": "practical-architecture-direction"
+		},
+		{
+			"level": 3,
+			"text": "Styling",
+			"anchor": "styling"
+		},
+		{
+			"level": 3,
+			"text": "Layout",
+			"anchor": "layout"
+		},
+		{
+			"level": 3,
+			"text": "Interaction",
+			"anchor": "interaction"
+		},
+		{
+			"level": 3,
+			"text": "JavaScript",
+			"anchor": "javascript"
+		},
+		{
+			"level": 3,
+			"text": "API",
+			"anchor": "api"
+		},
+		{
+			"level": 2,
+			"text": "Primary Risks and Controls",
+			"anchor": "primary-risks-and-controls"
+		},
+		{
+			"level": 2,
+			"text": "Migration Order",
+			"anchor": "migration-order"
+		},
+		{
+			"level": 2,
+			"text": "Gate",
+			"anchor": "gate"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-25-geelooy-futuristic-revelation-02-feasibil-abd3503365-001.json"
+	]
+}

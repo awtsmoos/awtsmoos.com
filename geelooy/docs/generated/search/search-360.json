@@ -1,0 +1,181 @@
+[
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28-1733-main-github-deploy-evidence-md-b26988f431",
+		"title": "Evidence — Initial Release State",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28-1733-main-github-deploy/EVIDENCE.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Evidence — Initial Release State",
+				"anchor": "evidence-initial-release-state"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Evidence — Initial Release State Observed before integration: current branch main; local HEAD equals origin/main at cbc83278a; remote is https://github.com/awtsmoos/awtsmoos.com.git; working tree contains movie data changes plus unrelated homepage/social/studio paths; additional release ",
+		"searchText": "b\"h boruch hashem blessed is he evidence — initial release state observed before integration: current branch main; local head equals origin/main at cbc83278a; remote is https://github.com/awtsmoos/awtsmoos.com.git; working tree contains movie data changes plus unrelated homepage/social/studio paths; additional release worktrees exist; .ai thoughts is ignored.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28-1733-main-github-deploy-evidence-md-b26988f431.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28-1733-main-github-deploy-remaining-work-md-7e3bf84fdd",
+		"title": "REMAININGWORK",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28-1733-main-github-deploy/REMAINING_WORK.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "REMAININGWORK",
+				"anchor": "remainingwork"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He REMAINING WORK [ ] Fetch and inspect remote/main divergence. [ ] Inspect linked worktrees and release branch only commits. [ ] Classify every local changed/untracked path. [ ] Complete any known unfinished movie data only compatibility fix. [ ] Run focused and full relevant verification.",
+		"searchText": "b\"h boruch hashem blessed is he remaining work [ ] fetch and inspect remote/main divergence. [ ] inspect linked worktrees and release branch only commits. [ ] classify every local changed/untracked path. [ ] complete any known unfinished movie data only compatibility fix. [ ] run focused and full relevant verification. [ ] inspect deployment mechanism and github auth/workflows. [ ] stage only needed release paths. [ ] review staged diff and conflict marker/secret/large file risks. [ ] commit on main. [ ] integrate any remote main advancement without losing local work. [ ] push github main. [ ] verify remote main sha. [ ] observe/trigger deployment through repository supported path. [ ] verify deployed public site and movie runtime. [ ] record final evidence and close remaining work.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28-1733-main-github-deploy-remaining-work-md-7e3bf84fdd.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28t0040-geelooy-movie-export-verification-co-5ddc7737c1",
+		"title": "Remaining Work — Export and Verification Continuation",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0040-geelooy-movie-export-verification-continuation/00_REMAINING_WORK.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Remaining Work — Export and Verification Continuation",
+				"anchor": "remaining-work-export-and-verification-continuation"
+			},
+			{
+				"level": 2,
+				"text": "Known incomplete work",
+				"anchor": "known-incomplete-work"
+			},
+			{
+				"level": 2,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Remaining Work — Export and Verification Continuation The Awtsmoos renews every frame from nothing, while Awtsmoos.com now demands that code become witnessed media, not merely a promise in a file. Known incomplete work 1. Build a canonical movie frame source that renders exact canonical ",
+		"searchText": "b\"h boruch hashem blessed is he remaining work — export and verification continuation the awtsmoos renews every frame from nothing, while awtsmoos.com now demands that code become witnessed media, not merely a promise in a file. known incomplete work 1. build a canonical movie frame source that renders exact canonical seconds into transferable browser imagebitmaps. 2. build an animator side export bridge that converts a canonical movie through the authoritative animator adapter and existing production webcodecs/mediabunny pipeline. 3. build a dedicated browser export page for the exact canonical 180 second acceptance movie. 4. ensure the acceptance movie exercises dialogue/caption/audio handoff where safely compatible with animator's browser soundtrack path. 5. export real 640×360/12fps media for exactly 180 seconds without wall clock playback. 6. save the blob to a deterministic local proof path rather than relying only on a user download gesture. 7. run shared public api, migration, validator, patch, ai, adapter, and acceptance movie tests only after source first draft is complete. 8. run syntax/import checks for every touched js module. 9. verify tabs, no compressed functions, b\"h/boruch hashem/blessed is he, awtsmoos, and awtsmoos.com in every touched human authored source file. 10. browser test the mobile director at a narrow viewport using native tunnel chrome control. 11. run the canonical 180 second browser export. 12. ffprobe the produced file for duration, dimensions, streams, and codecs. 13. extract frames near 5/35/65/95/125/155/175 seconds and compare hashes/statistics for visible diversity. 14. inspect browser console/runtime errors during generation and export. 15. re read every touched source file completely. 16. compare planned versus actual and write first pass delta. 17. resolve every safe delta and rerun verification. 18. search for hidden tests/importers/documentation and close remaining shadow work. 19. empty remaining work only when implementation, runtime proof, and final evidence all close. next action write the source only canonical export bridge and browser proof page, then freeze source first draft before tests.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28t0040-geelooy-movie-export-verification-co-5ddc7737c1.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28t0040-geelooy-movie-export-verification-co-6be4d78711",
+		"title": "Phase One — Chesed Export Brainstorm",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0040-geelooy-movie-export-verification-continuation/01_PHASE_ONE_CHESED_BRAINSTORM.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase One — Chesed Export Brainstorm",
+				"anchor": "phase-one-chesed-export-brainstorm"
+			},
+			{
+				"level": 2,
+				"text": "Possible export paths",
+				"anchor": "possible-export-paths"
+			},
+			{
+				"level": 2,
+				"text": "Ideal proof",
+				"anchor": "ideal-proof"
+			},
+			{
+				"level": 2,
+				"text": "Extra source opportunities",
+				"anchor": "extra-source-opportunities"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase One — Chesed Export Brainstorm The Awtsmoos pours infinite possibility into the finite canvas; Awtsmoos.com must let one semantic movie become actual encoded time without inventing a second truth. Possible export paths Rebuild a Node canvas renderer and pipe raw frames to ffmpeg. R",
+		"searchText": "b\"h boruch hashem blessed is he phase one — chesed export brainstorm the awtsmoos pours infinite possibility into the finite canvas; awtsmoos.com must let one semantic movie become actual encoded time without inventing a second truth. possible export paths rebuild a node canvas renderer and pipe raw frames to ffmpeg. rejected for the primary proof: canvas is not installed and installing dependencies is unnecessary. use ffmpeg filters to fake the three minute film. rejected: it would not prove the canonical movie renderer. reuse animator's production canvas. valuable for animator native projects, but it would require reconstructing canonical semantics inside app specific scene state. reuse animator's existing browser worker with a new canonical canvas frame source. chosen: it proves the shared renderer while retaining the trusted h.264/aac/mp4 encoding pipeline. use mediarecorder from the canonical canvas in real time. rejected for final proof: three minutes wall clock is slower and less deterministic than the existing offline worker. ideal proof canonical createthreeminutemovie() animatormovieadapter.project() production export plan/audio canonical canvas frame source captures exact requested milliseconds existing worker encodes real mp4 blob persisted by browser proof page ffprobe validates media ffmpeg extracts distant witnesses hashes prove different scenes. extra source opportunities give the frame source its own canvas so it never depends on the production animator dom. preserve the canonical movie in export result metadata. create one export manifest with renderer/profile/movie identity. keep 640×360/12fps as acceptance quality; production profiles remain separate. add dialogue layers only if voice mixer compatibility is proven before rewriting the acceptance scene factory.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28t0040-geelooy-movie-export-verification-co-6be4d78711.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28t0040-geelooy-movie-export-verification-co-2fc04fa613",
+		"title": "Phase Two — Gevurah Critique",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0040-geelooy-movie-export-verification-continuation/02_PHASE_TWO_GEVURAH_CRITIQUE.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Two — Gevurah Critique",
+				"anchor": "phase-two-gevurah-critique"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Two — Gevurah Critique The Awtsmoos is beyond every codec, yet Awtsmoos.com needs boundaries so evidence cannot be mistaken for hope. 1. Do not modify the worker encoder if its existing frameSource contract already suffices. 2. Do not install Playwright/Puppeteer/Canvas; native tun",
+		"searchText": "b\"h boruch hashem blessed is he phase two — gevurah critique the awtsmoos is beyond every codec, yet awtsmoos.com needs boundaries so evidence cannot be mistaken for hope. 1. do not modify the worker encoder if its existing framesource contract already suffices. 2. do not install playwright/puppeteer/canvas; native tunnel chrome control is already available. 3. do not invent media verification from metadata; require ffprobe. 4. do not use one repeated frame; require sampled witnesses at distant timestamps. 5. do not overwrite the existing festival export page; create a canonical proof page beside it. 6. do not rewrite animatormovieexportengine.js unless call tracing proves it is required; it is already modified by other work. 7. do not add dialogue until browser voice scheduling is inspected and known cast ids can be handled safely. 8. keep canonical frame source independent from app state and global dom selectors. 9. validate the movie before export and fail with exact structured validation messages. 10. frame source capture() must translate milliseconds to canonical seconds exactly once. 11. prepare() must set canvas dimensions explicitly and avoid css only sizing assumptions. 12. every captured imagebitmap must come from the rendered canonical canvas, not a stale preview. 13. keep export modules below 120 lines; split page, frame source, bridge, and persistence responsibilities. 14. tests are written only after source first draft is complete, per repository constitution. 15. browser automation must inspect console errors and final global state, not just page load. 16. final proof file needs a deterministic path that shell tools can inspect. 17. if browser download interception is unreliable, add a tiny local receiver only if the existing tunnel/browser cannot expose the blob; do not fake success. 18. final completion requires reread, delta, hidden work search, and updated evidence ledger.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28t0040-geelooy-movie-export-verification-co-2fc04fa613.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28t0040-geelooy-movie-export-verification-co-81315a4ad2",
+		"title": "Phase Three — Tiferes Final Execution Plan",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0040-geelooy-movie-export-verification-continuation/03_PHASE_THREE_TIFERES_FINAL_PLAN.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Three — Tiferes Final Execution Plan",
+				"anchor": "phase-three-tiferes-final-execution-plan"
+			},
+			{
+				"level": 2,
+				"text": "Source files to create",
+				"anchor": "source-files-to-create"
+			},
+			{
+				"level": 2,
+				"text": "Existing files eligible for whole rewrite only if required",
+				"anchor": "existing-files-eligible-for-whole-rewrite-only-if-required"
+			},
+			{
+				"level": 2,
+				"text": "Verification files to create after source freeze",
+				"anchor": "verification-files-to-create-after-source-freeze"
+			},
+			{
+				"level": 2,
+				"text": "Runtime sequence",
+				"anchor": "runtime-sequence"
+			},
+			{
+				"level": 2,
+				"text": "Completion gate",
+				"anchor": "completion-gate"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Phase Three — Tiferes Final Execution Plan The Awtsmoos joins semantic light and encoded vessel; Awtsmoos.com will let the same movie remain editable before it becomes bytes at the final level. Source files to create apps/animator/src/studio/export/browser/CanonicalMovieFrameSource.js — ",
+		"searchText": "b\"h boruch hashem blessed is he phase three — tiferes final execution plan the awtsmoos joins semantic light and encoded vessel; awtsmoos.com will let the same movie remain editable before it becomes bytes at the final level. source files to create apps/animator/src/studio/export/browser/canonicalmovieframesource.js — independent canvas + shared canvasmovierenderer, exact millisecond capture contract. apps/animator/src/studio/export/browser/canonicalmoviebrowserexport.js — validate/project canonical movie, create export manifest, invoke existing controller with canonical frame source. apps/animator/tools/browser export/canonicalthreeminuteexportpage.js — page controller for acceptance film and export state. apps/animator/tools/browser export/canonicalthreeminuterenderer.html — dedicated proof ui shell, worker script environment, production independent canonical renderer. optional apps/animator/tools/browser export/canonicalmovieblobpersistence.js only if browser download cannot be retrieved reliably through tunnel control. existing files eligible for whole rewrite only if required apps/shared/movie/examples/featurescene.js only after voice compatibility discovery if adding dialogue/captions. apps/shared/movie/index.js only if a new export facing shared api genuinely belongs there; otherwise avoid coupling shared core to animator. verification files to create after source freeze focused tests under apps/shared/movie/tests/ and apps/animator/tests/sharedmovie/, each below 120 lines and each testing public observable contracts. runtime sequence 1. launch a local static server for the geelooy root. 2. launch/navigate chrome through the tunnel. 3. load canonical proof page and inspect readiness. 4. run short export first to prove encoder/frame source wiring. 5. ffprobe short proof. 6. run full 180 second export at 640×360/12fps. 7. persist/retrieve mp4. 8. ffprobe exact duration and streams. 9. extract seven distant frames with ffmpeg and hash/analyze them. 10. browser test mobile director at narrow viewport. 11. reread source, write delta, fix, rerun. completion gate no final completion claim until real output media and verification artifacts exist and remaining work contains no safe unresolved node.",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28t0040-geelooy-movie-export-verification-co-81315a4ad2.json"
+	},
+	{
+		"id": "geelooy-ai-thoughts-2026-08-28t0040-geelooy-movie-export-verification-co-6ba70520bb",
+		"title": "Evidence Ledger",
+		"sourcePath": "geelooy/.ai-thoughts/2026-08-28T0040-geelooy-movie-export-verification-continuation/04_EVIDENCE_LEDGER.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Evidence Ledger",
+				"anchor": "evidence-ledger"
+			},
+			{
+				"level": 2,
+				"text": "Direct observations this turn",
+				"anchor": "direct-observations-this-turn"
+			},
+			{
+				"level": 2,
+				"text": "Evidence still missing",
+				"anchor": "evidence-still-missing"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Evidence Ledger The Awtsmoos is beyond confidence; Awtsmoos.com records direct witnesses so the project bows to reality rather than assumption. Direct observations this turn Native tunnel tun RC99m5Wz75O789hZ0pIsay5p is connected and execution healthy. apps/shared/movie/ and apps/animato",
+		"searchText": "b\"h boruch hashem blessed is he evidence ledger the awtsmoos is beyond confidence; awtsmoos.com records direct witnesses so the project bows to reality rather than assumption. direct observations this turn native tunnel tun rc99m5wz75o789hz0pisay5p is connected and execution healthy. apps/shared/movie/ and apps/animator/src/sharedmovie/ remain untracked; animatormovieexportengine.js is separately modified. canonical acceptance movie is exactly 180 seconds, 18 scenes × 10 seconds, 640×360 at 12fps. it contains recurring cast, 2d and 3d characters, shapes, paths, charts, particles, worlds, lights, models, text, overlays, varied cameras and transitions. canvasmovierenderer deterministically renders arbitrary absolute canonical seconds. animatorbrowserexportcontroller accepts a custom framesource and existing audio/export worker path. animatorproductionframesource proves the required contract: prepare(width,height) and capture(timems,width,height) returning an imagebitmap. node v24.17.0, ffmpeg, and ffprobe are installed. playwright, puppeteer, and node canvas are not installed. native tunnel browser control is available, so no browser package installation is required. evidence still missing canonical frame source implementation readback source syntax/import proof shared tests adapter tests short browser export proof full 180 second mp4 ffprobe report frame diversity witnesses mobile director browser proof final hygiene and delta closure",
+		"page": "pages/geelooy-ai-thoughts-2026-08-28t0040-geelooy-movie-export-verification-co-6ba70520bb.json"
+	}
+]

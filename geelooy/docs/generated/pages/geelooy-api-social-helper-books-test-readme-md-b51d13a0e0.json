@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-social-helper-books-test-readme-md-b51d13a0e0",
+	"title": "B\"H — Books Tests (geelooy/api/social/helper/books/test/)",
+	"sourcePath": "geelooy/api/social/helper/books/test/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Books Tests (geelooy/api/social/helper/books/test/)",
+			"anchor": "b-h-books-tests-geelooy-api-social-helper-books-test"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-social-helper-books-test-readme-md-b51d13a0e0-001.json"
+	]
+}

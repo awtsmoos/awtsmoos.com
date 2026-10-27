@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-27t2150-geelooy-movie-unification-05-archite-e4e2ecf39e",
+	"title": "Phase 5 — Architecture Critique: Twenty-Four Corrections Before Code",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-27T2150-geelooy-movie-unification/05_ARCHITECTURE_CRITIQUE.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Phase 5 — Architecture Critique: Twenty-Four Corrections Before Code",
+			"anchor": "phase-5-architecture-critique-twenty-four-corrections-before-code"
+		},
+		{
+			"level": 2,
+			"text": "Improvements over the first brainstorm",
+			"anchor": "improvements-over-the-first-brainstorm"
+		},
+		{
+			"level": 2,
+			"text": "Failure map",
+			"anchor": "failure-map"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-27t2150-geelooy-movie-unification-05-archite-e4e2ecf39e-001.json"
+	]
+}

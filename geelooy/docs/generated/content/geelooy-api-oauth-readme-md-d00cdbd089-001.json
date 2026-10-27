@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — OAuth API (`/api/oauth/`)\n\nDelegated authorization: clients, tokens, device flow, and agent handoff.\nTrust enters by explicit authorization, never by client-declared identity.\n\n## Subdirectories\n\n- `core/` — Token, client, device-code, scope, and PKCE logic.\n- `routes/` — HTTP route handlers (authorize, token, device, agent links).\n- `views/` — Approval and login page renderers.\n- `tools/` — Body parsing, HTML helpers, URL builders, responders.\n- `data/` — Seed data (clients, public agent policy).\n\n## Files\n\n- `_awtsmoos.derech.js` — Route registration.\n- `DOCUMENTATION.md` — Full OAuth documentation.\n\n## Main routes\n\n- `authorize` / `start` — Begin the authorization flow.\n- `token` — Exchange codes for tokens (see `routes/`).\n- `deviceAuthorization` / `deviceVerification` — Device flow.\n- `me` — Current user info. `logout` — End session.\n- `agentLinks` / `agentHandoff` — Agent delegation.\n\n## See also\n\n- `../../../docs/API/OAUTH.md`\n- `../../../docs/API/AUTHENTICATION.md`\n- `../../../docs/SYSTEMS/AUTH_AND_IDENTITY.md`\n"
+}

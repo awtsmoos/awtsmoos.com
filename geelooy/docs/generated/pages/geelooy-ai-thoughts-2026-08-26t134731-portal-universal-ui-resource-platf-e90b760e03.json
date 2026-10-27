@@ -1,0 +1,74 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-2026-08-26t134731-portal-universal-ui-resource-platf-e90b760e03",
+	"title": "REMAINING WORK — Universal Portal + Stable UI + Production Repair",
+	"sourcePath": "geelooy/.ai-thoughts/2026-08-26T134731-portal-universal-ui-resource-platform/00_REMAINING_WORK.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "REMAINING WORK — Universal Portal + Stable UI + Production Repair",
+			"anchor": "remaining-work-universal-portal-stable-ui-production-repair"
+		},
+		{
+			"level": 2,
+			"text": "Current Mission State",
+			"anchor": "current-mission-state"
+		},
+		{
+			"level": 3,
+			"text": "Completed Architecture / Source Foundations",
+			"anchor": "completed-architecture-source-foundations"
+		},
+		{
+			"level": 2,
+			"text": "Production Blockers — Highest Priority",
+			"anchor": "production-blockers-highest-priority"
+		},
+		{
+			"level": 2,
+			"text": "Universal UI Work Still Required",
+			"anchor": "universal-ui-work-still-required"
+		},
+		{
+			"level": 2,
+			"text": "Portal Client / UX Work Still Required",
+			"anchor": "portal-client-ux-work-still-required"
+		},
+		{
+			"level": 2,
+			"text": "API / Data Platform Work Still Required",
+			"anchor": "api-data-platform-work-still-required"
+		},
+		{
+			"level": 2,
+			"text": "Whole-Site UI / Runtime Work",
+			"anchor": "whole-site-ui-runtime-work"
+		},
+		{
+			"level": 2,
+			"text": "Mandatory Readback / Delta",
+			"anchor": "mandatory-readback-delta"
+		},
+		{
+			"level": 2,
+			"text": "Verification",
+			"anchor": "verification"
+		},
+		{
+			"level": 2,
+			"text": "Git / Deployment",
+			"anchor": "git-deployment"
+		},
+		{
+			"level": 2,
+			"text": "NEXTACTION",
+			"anchor": "nextaction"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-2026-08-26t134731-portal-universal-ui-resource-platf-e90b760e03-001.json"
+	]
+}

@@ -2,7 +2,7 @@ B"H
 Boruch Hashem
 Blessed is He
 
-# Project Tutorial: Shema Strike: Gates of Light
+# Project Tutorial: Shema Strike — 2D Platformer
 
 **Path:** `geelooy/games/shema-strike` · **Type:** game · **Family:** Games and Worlds
 
@@ -21,15 +21,15 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 149 | 21 | 0 | 0 | 1 | 2 | 173 |
+| 173 | 23 | 0 | 0 | 1 | 2 | 199 |
 
 ## Public entry points
 
-- `/games/shema-strike` → `geelooy/games/shema-strike/index.html` — Shema Strike: Gates of Light
+- `/games/shema-strike` → `geelooy/games/shema-strike/index.html` — Shema Strike — 2D Platformer
 
 ## Symbol evidence
 
-Source files: 140; classes: 66; functions: 13; exports: 192; samples: AccessibilityProfile, copy, objectiveCopy, CheckpointManager, entityState, restoreEntities, componentSnapshots, createComponent, COMPONENT_KINDS, CycleComponent, EscortComponent, GuardianComponent.
+Source files: 151; classes: 71; functions: 56; exports: 202; samples: AccessibilityProfile, copy, objectiveCopy, KeserCampaignGate, MalchusBootFailure, YesodOptionalArena, CheckpointManager, entityState, restoreEntities, componentSnapshots, createComponent, COMPONENT_KINDS.
 
 ## Depends on
 
@@ -45,4 +45,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **21**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **23**. Treat this as file evidence, not proof of behavioral coverage.

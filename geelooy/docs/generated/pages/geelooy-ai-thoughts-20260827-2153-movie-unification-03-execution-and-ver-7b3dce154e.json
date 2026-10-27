@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-thoughts-20260827-2153-movie-unification-03-execution-and-ver-7b3dce154e",
+	"title": "Execution and Verification Pass",
+	"sourcePath": "geelooy/.ai-thoughts/20260827-2153-movie-unification/03_EXECUTION_AND_VERIFICATION_PASS.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Execution and Verification Pass",
+			"anchor": "execution-and-verification-pass"
+		},
+		{
+			"level": 2,
+			"text": "Execution order",
+			"anchor": "execution-order"
+		},
+		{
+			"level": 2,
+			"text": "Completion gate",
+			"anchor": "completion-gate"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-thoughts-20260827-2153-movie-unification-03-execution-and-ver-7b3dce154e-001.json"
+	]
+}

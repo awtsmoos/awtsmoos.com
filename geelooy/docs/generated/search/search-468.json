@@ -1,0 +1,186 @@
+[
+	{
+		"id": "geelooy-apps-merkava-native-browser-merkava-unique-features-md-8ea4244acc",
+		"title": "Merkava Browser — Features No Other Browser Has",
+		"sourcePath": "geelooy/apps/merkava-native-browser/MERKAVA_UNIQUE_FEATURES.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Merkava Browser — Features No Other Browser Has",
+				"anchor": "merkava-browser-features-no-other-browser-has"
+			},
+			{
+				"level": 2,
+				"text": "1. Bytecode Page Cache — visit once, instant forever [PARTIAL]",
+				"anchor": "1-bytecode-page-cache-visit-once-instant-forever-partial"
+			},
+			{
+				"level": 2,
+				"text": "2. Offline-First Browsing — every page you viewed works without internet [NEW]",
+				"anchor": "2-offline-first-browsing-every-page-you-viewed-works-without-internet-new"
+			},
+			{
+				"level": 2,
+				"text": "3. Time-Travel Browsing — see any page as it was on any date [NEW]",
+				"anchor": "3-time-travel-browsing-see-any-page-as-it-was-on-any-date-new"
+			},
+			{
+				"level": 2,
+				"text": "4. Hebrew/RTL-First Rendering [BUILT]",
+				"anchor": "4-hebrew-rtl-first-rendering-built"
+			},
+			{
+				"level": 2,
+				"text": "5. Bytecode-Level Ad & Tracker Blocking [NEW]",
+				"anchor": "5-bytecode-level-ad-tracker-blocking-new"
+			},
+			{
+				"level": 2,
+				"text": "6. P2P Tab Sync — no cloud [NEW]",
+				"anchor": "6-p2p-tab-sync-no-cloud-new"
+			},
+			{
+				"level": 2,
+				"text": "7. On-Device AI Reader Mode [NEW]",
+				"anchor": "7-on-device-ai-reader-mode-new"
+			},
+			{
+				"level": 2,
+				"text": "8. Split-View with Shared JS Context [NEW]",
+				"anchor": "8-split-view-with-shared-js-context-new"
+			},
+			{
+				"level": 2,
+				"text": "9. Voice-Controlled Navigation [NEW]",
+				"anchor": "9-voice-controlled-navigation-new"
+			},
+			{
+				"level": 2,
+				"text": "10. Instant Full-Text Search Over Everything You Visited [NEW]",
+				"anchor": "10-instant-full-text-search-over-everything-you-visited-new"
+			},
+			{
+				"level": 2,
+				"text": "11. Session Replay [NEW]",
+				"anchor": "11-session-replay-new"
+			},
+			{
+				"level": 2,
+				"text": "12. Predictive Bytecode Prefetch [NEW]",
+				"anchor": "12-predictive-bytecode-prefetch-new"
+			},
+			{
+				"level": 2,
+				"text": "13. Page-Change Watcher [NEW]",
+				"anchor": "13-page-change-watcher-new"
+			},
+			{
+				"level": 2,
+				"text": "14. Extensions as Bytecode — Mobile Extension System [PARTIAL]",
+				"anchor": "14-extensions-as-bytecode-mobile-extension-system-partial"
+			},
+			{
+				"level": 2,
+				"text": "15. Full PWA + Service Worker — Better Than Desktop Chrome [PARTIAL]",
+				"anchor": "15-full-pwa-service-worker-better-than-desktop-chrome-partial"
+			},
+			{
+				"level": 2,
+				"text": "16. Unified History = Cache [NEW]",
+				"anchor": "16-unified-history-cache-new"
+			},
+			{
+				"level": 2,
+				"text": "17. Bandwidth Saver Sync [NEW]",
+				"anchor": "17-bandwidth-saver-sync-new"
+			},
+			{
+				"level": 2,
+				"text": "18. Provable Zero Telemetry [NEW]",
+				"anchor": "18-provable-zero-telemetry-new"
+			},
+			{
+				"level": 2,
+				"text": "19. Per-Site Focus Profiles [NEW]",
+				"anchor": "19-per-site-focus-profiles-new"
+			},
+			{
+				"level": 2,
+				"text": "20. Built-in Screenshot + Annotate [BUILT]",
+				"anchor": "20-built-in-screenshot-annotate-built"
+			},
+			{
+				"level": 2,
+				"text": "21. Developer Time Machine [NEW]",
+				"anchor": "21-developer-time-machine-new"
+			},
+			{
+				"level": 2,
+				"text": "22. One-Click Native App Export [PARTIAL]",
+				"anchor": "22-one-click-native-app-export-partial"
+			},
+			{
+				"level": 2,
+				"text": "Implementation priority (Yaakov's order)",
+				"anchor": "implementation-priority-yaakov-s-order"
+			}
+		],
+		"excerpt": "Merkava Browser — Features No Other Browser Has Yaakov's directive: brainstorm what makes Merkava uniquely better than every other browser. Each feature below has an implementation sketch tied to the real Merkava architecture (geelooy/scripts/awtsmoos/MerkavaExecutor/). Status legend: [BUILT] exists · [PARTIAL] partly ",
+		"searchText": "merkava browser — features no other browser has yaakov's directive: brainstorm what makes merkava uniquely better than every other browser. each feature below has an implementation sketch tied to the real merkava architecture (geelooy/scripts/awtsmoos/merkavaexecutor/). status legend: [built] exists · [partial] partly implemented · [new] proposed here. 1. bytecode page cache — visit once, instant forever [partial] what: the first visit compiles html+css+js to merkava bytecode (mapp/md2). every revisit executes the cached bytecode directly — no parsing, no cascade, no layout. chrome re parses html on every load. merkava never does. sketch: merkava binary/unifiedappbinary.js already compiles pages to .mapp. add bytecodepagecache: sha256(url + etag) → .mapp bytes on disk. navigation checks cache first; on hit, runnativeapp(bytes) skips the entire html→dom→cascade→layout pipeline. invalidation: etag/last modified revalidation, or explicit version bump. 2. offline first browsing — every page you viewed works without internet [new] what: yaakov: \"when visiting directly should have default offline... the page you viewed before should be kept.\" every fetched resource (html, css, js, fonts, images) is stored in a local content addressed cache. airplane mode? every page you've ever visited still opens, fully interactive. sketch: new module merkava browser/offlinepagecache.js (built in this pass): fetchwithofflinefallback() wraps virtualfastfetch; on network failure serves the last known good snapshot. lru eviction, disk persistence, per origin quotas. service worker style: the cache, not the network, is the default source of truth; network is a background refresh. 3. time travel browsing — see any page as it was on any date [new] what: the offline cache is versioned. pick a date in history → the page renders exactly as it looked then (bytecode snapshots are immutable). no wayback machine, no network — it's your own local archive. sketch: offlinepagecache stores (url, timestamp) → snapshot instead of just url → snapshot. history ui gains a date scrubber; selecting a date loads that snapshot's bytecode. storage: snapshots dedup by content hash, so 100 visits to one page cost 1 page. 4. hebrew/rtl first rendering [built] what: no other browser prioritizes hebrew. merkava has native bidi, nikkud positioning, hebrew first font fallback (notoserifhebrew bundled), rtl aware logical properties. a hebrew page renders correctly in merkava before any other engine even finishes font discovery. sketch: already in merkava service/snapshots/software/ (bidi, nikkud, fallbackfor, logical properties). keep expanding: full unicode bidi algorithm, gpos kerning for hebrew, cantillation marks. 5. bytecode level ad & tracker blocking [new] what: chrome blocks ads with extensions that run on every page load (slow). merkava strips ad/tracker dom subtrees and network requests at compile time — the bytecode simply never contains them. zero runtime cost, and pages are smaller. sketch: during sourcehtmlircompiler ir pass, match subtrees against filter lists (easylist compiled to a trie). drop matching nodes + their resource fetches before bytecode emission. counter in the ui: \"37 trackers never compiled.\" 6. p2p tab sync — no cloud [new] what: tabs, history, and bytecode cache sync directly between your devices over the local network (mdns discovery + encrypted sync). no google/firefox account, no cloud server ever sees your browsing. sketch: merkava browser/p2psync.js: websocket over lan, nacl box encryption, crdt for tab state. bytecode cache syncs by content hash — devices exchange only what the other lacks. 7. on device ai reader mode [new] what: reader mode that actually understands: extracts the article, then summarizes, answers questions, and translates — all with a local gguf model (geelooy/apps/awtsmoos gguf/ already exists in repo). no text leaves the device. sketch: readability style extraction on the layout tree (already have full layout). pipe extracted text to the local gguf runner; render summary as a native panel. hebrew↔english translation tuned for torah/chassidus vocabulary. 8. split view with shared js context [new] what: two pages side by side sharing one js context — a docs page and its live demo stay in sync because they literally share variables. impossible in chrome's process per tab model. sketch: nestedbrowserruntime.js already supports nested runtimes; add shared context mode where two merkavavm threads share one memory.globals. ui: drag a tab to the edge → split; toggle \"link contexts.\" 9. voice controlled navigation [new] what: \"go back,\" \"scroll down,\" \"click the third link,\" \"read this article\" — full hands free browsing with on device speech recognition. built for accessibility first, convenience second. sketch: virtualaudiodevices.js exists; add a speech command grammar mapped to navigation/input simulator actions (navigationsimulator.js, inputsimulator.js already expose the primitives). on device stt via gguf whisper style model; no audio leaves the device. 10. instant full text search over everything you visited [new] what: every page you've visited is indexed locally (text extracted at render time). search \"that article about rambam\" → instant results, offline, private. chrome history search is title/url only. sketch: at paint time, the text runs are already laid out — feed them to a local inverted index (awtsmoosdb, already in repo). search ui: ctrl+k → results with screenshots as thumbnails (we already screenshot every render). 11. session replay [new] what: the input simulator already records every event. save a browsing session (clicks, typing, navigation) and replay it exactly — for testing, demos, or \"show me how you did that.\" sketch: inputsimulator.js event log → serialize to json. replay: feed events back through the simulator with original timing. export as a shareable .merkava session file. 12. predictive bytecode prefetch [new] what: on device model predicts which link you'll click next (based on your history) and pre compiles its bytecode in the background. clicks feel instant because the page was already compiled. sketch: hover intent (mouse dwell 300ms) triggers prefetch — simpler and more reliable than ml; upgrade to a tiny on device model later. prefetch budget: only on idle, capped ram, lru'd. 13. page change watcher [new] what: \"tell me when this price drops / this article updates.\" merkava re renders watched pages on a schedule, diffs the layout trees, and notifies on meaningful change (ignoring ads/timestamps via the ad block ir pass). sketch: cron + headless render → layout tree hash diff. notification through the tunnel or os notification api. 14. extensions as bytecode — mobile extension system [partial] what: yaakov: \"make sure it can easily load chrome extensions on mobile with full extension system.\" chrome extensions on mobile don't exist. merkava compiles extension content scripts to bytecode and runs them in the vm sandbox — faster and safer than chrome's extension host. sketch: parse manifest.json; compile content scripts via merkavajscompiler. implement chrome. apis needed (storage, tabs, runtime messaging) on the vm host bridge. permissions enforced at the bytecode level (capability allowlist). 15. full pwa + service worker — better than desktop chrome [partial] what: yaakov: \"full service worker support and full pwa coverage like desktop chrome but better.\" install any pwa; service workers run as merkava bytecode (persistent, low ram). offline first is the default, not an opt in. sketch: service worker script → compile to bytecode, run in a persistent vm thread (persistentbrowserruntime.js exists). offlinepagecache is the cachestorage backend — \"better\" because the cache stores bytecode, not just bytes. 16. unified history = cache [new] what: in chrome, history is a list of urls you must re download. in merkava, every history entry is its cached bytecode — clicking history loads instantly, offline, exactly as you saw it. sketch: history db stores (url, timestamp, bytecodehash); the bytecode cache is the backing store. one system, not two. 17. bandwidth saver sync [new] what: syncing between devices (feature 6) transfers bytecode, not html — 2–30% of the size (measured: md2 hit 1.9% on structured pages). roaming with a full browsing archive costs almost nothing. sketch: p2p sync exchanges content hashes first, then only missing bytecode blobs. 18. provable zero telemetry [new] what: chrome phones home constantly. merkava's network layer is auditable: a \"telemetry firewall\" mode blocks every non page initiated request and shows you the log. privacy you can verify, not just trust. sketch: virtualfastfetch gains an allowlist mode; all requests logged to a local audit view. default deny for anything not initiated by page or user. 19. per site focus profiles [new] what: distraction free modes per site: news sites open in reader mode by default, social sites get a time budget with gentle warnings, work sites get ad block max. profiles sync via p2p. sketch: origin → profile map in browser settings; enforced at navigation time (reader transform, timer overlay). 20. built in screenshot + annotate [built] what: every merkava render already produces a png (autoscreenshot.js). one keypress captures, annotates (arrows, text, blur), and shares — no extension. sketch: exists at the engine level; needs browser chrome ui wiring. 21. developer time machine [new] what: debug any past page state: the versioned bytecode cache + recorded inputs (feature 11) let you rewind a page to any moment and inspect dom/js state. chrome devtools can't do this. sketch: snapshot vm heap at intervals during replayable sessions; debugger attaches to any snapshot. 22. one click native app export [partial] what: any website → real native app: .apk, .exe, .app, linux elf — compiled from the same bytecode the browser runs (the merkavacompileapk tunnel action, in progress). no other browser ships \"save as native app.\" sketch: in progress via the native app compiler worker; browser ui adds \"install as app\" per pwa flow but producing true native binaries. implementation priority (yaakov's order) 1. offline first cache ( 2) — built this pass (offlinepagecache.js) 2. bytecode page cache ( 1) — wire existing compiler to navigation 3. extension system ( 14) + pwa/service worker ( 15) 4. ad block at compile time ( 5) 5. the rest in demand order.",
+		"page": "pages/geelooy-apps-merkava-native-browser-merkava-unique-features-md-8ea4244acc.json"
+	},
+	{
+		"id": "geelooy-apps-merkava-native-browser-roadmap-native-runtime-md-f3c979e055",
+		"title": "B\"H",
+		"sourcePath": "geelooy/apps/merkava-native-browser/ROADMAP_NATIVE_RUNTIME.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Merkava Native Browser Reality Map",
+				"anchor": "merkava-native-browser-reality-map"
+			},
+			{
+				"level": 2,
+				"text": "Proven now",
+				"anchor": "proven-now"
+			},
+			{
+				"level": 2,
+				"text": "Architectural correction",
+				"anchor": "architectural-correction"
+			},
+			{
+				"level": 2,
+				"text": "Startup target",
+				"anchor": "startup-target"
+			},
+			{
+				"level": 2,
+				"text": "Forbidden architecture",
+				"anchor": "forbidden-architecture"
+			},
+			{
+				"level": 2,
+				"text": "Immediate pressure points",
+				"anchor": "immediate-pressure-points"
+			},
+			{
+				"level": 2,
+				"text": "Rule",
+				"anchor": "rule"
+			}
+		],
+		"excerpt": "B\"H Merkava Native Browser Reality Map This file is intentionally blunt. It prevents the native browser from becoming a fake C browser. The correct vessel is smaller, sharper, and more truthful: Proven now merkavaapp.exe is a real Windows executable. It loads .merkava bytecode headers. It creates a real Win32 OpenGL co",
+		"searchText": "b\"h merkava native browser reality map this file is intentionally blunt. it prevents the native browser from becoming a fake c browser. the correct vessel is smaller, sharper, and more truthful: proven now merkavaapp.exe is a real windows executable. it loads .merkava bytecode headers. it creates a real win32 opengl context. it decodes md2 node/program records partially. it maps the verified op.js kind=2 smoke path into native render ops. it accepts basic cli / smoke / navigation test surfaces. it compiles sample html/js through the existing merkava bytecode path. architectural correction c must not become a traditional browser engine. c owns only host responsibilities: bytecode vm/interpreter dispatch value/object/function/module machinery required by the bytecode opengl backend operations requested by bytecode win32/window/input/filesystem/network/timer/thread primitives font loading, glyph measurement/rasterization, and atlas uploads host binding tables exposed to merkavaexecutor bytecode merkavaexecutor bytecode owns browser intelligence: html parsing css parsing and selector matching javascript parsing and compilation dom/cssom/event/layout/render tree behavior module graph resolution webgl api lowering into bytecode host operations browser lifecycle orchestration startup target forbidden architecture do not add long term c implementations for: html scanning css rule evaluation dom behavior browser layout policy event propagation policy javascript source scanning for webgl json render model execution as a production path temporary diagnostics may exist only when named as diagnostics and covered by a migration note back to raw .merkava bytecode. immediate pressure points 1. replace build time js/webgl regex render model extraction with bytecode ops. 2. add a small embedded executor build target beside sample app bytecode. 3. grow the c vm around dispatch, values, frames, scopes, host bindings, and modules. 4. move browser rules into merkavaexecutor modules, not c native files. 5. keep every new claim paired with an executable smoke/check command. rule every new native feature must answer this question: is this c becoming a browser, or is c merely obeying merkavaexecutor bytecode? only the second answer belongs here.",
+		"page": "pages/geelooy-apps-merkava-native-browser-roadmap-native-runtime-md-f3c979e055.json"
+	}
+]
