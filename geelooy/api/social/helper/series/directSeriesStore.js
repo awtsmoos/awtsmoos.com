@@ -1,4 +1,4 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
@@ -17,27 +17,18 @@ const { resolveSocialDataRoot } = require('../dataRoot.js');
 
 const seriesDbCache = new Map();
 
-/**
- * Resolves the authoritative data root shared by social readers.
- * @param {object} $i Request context containing the public DB adapter.
- * @returns {string} Absolute data root.
- */
+/** Resolves the authoritative data root shared by social readers. */
 function rootDirectory($i = {}) {
 	const base = resolveSocialDataRoot($i);
 	if (path.basename(base) === 'dayuhChadash') return base;
 	const withDayuh = path.join(base, 'dayuhChadash');
 	try {
 		if (fs.existsSync(path.join(withDayuh, 'socialPacked'))) return withDayuh;
-	} catch (_e) {}
+	} catch (_error) {}
 	return base;
 }
 
-/**
- * Builds the packed series database path for one Heichel.
- * @param {object} $i Request context.
- * @param {string} heichelId Heichel identity.
- * @returns {string} Absolute packed database filename.
- */
+/** Builds the packed series database path for one Heichel. */
 function seriesDbFile($i, heichelId) {
 	return path.join(
 		rootDirectory($i),
@@ -107,4 +98,3 @@ module.exports = {
 	rootDirectory,
 	seriesDbFile
 };
-
