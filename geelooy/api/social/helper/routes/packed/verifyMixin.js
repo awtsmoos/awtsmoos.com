@@ -17,6 +17,13 @@ const { jobStateShape, saveJobState, getJobView } = require('./jobState.js');
 const { setJob } = require('./jobStore.js');
 const { UPLOAD_ID_RE } = require('./importBounds.js');
 const { normalizePost } = require('./postValidate.js');
+const ownership = require('./ownership.js');
+
+// B"H 2026-10-26 (account-auth import): verify used operator-grade
+// checkAuth() only. It now uses the detailed form like posts/start,
+// and a non-admin caller may only verify under their own import alias
+// (heichelId + '-import'). Verify-status likewise hides other
+// callers' verify jobs as VERIFY_NOT_FOUND.
 
 module.exports = {
 
@@ -36,8 +43,11 @@ module.exports = {
 	async verify() {
 		const bad = requireMethod(this.$i, 'POST');
 		if (bad) return bad;
-		const auth = this.checkAuth();
-		if (auth) return auth;
+		const detailed = typeof this.checkAuthDetailed === 'function' ? this.checkAuthDetailed() : null;
+		if (!detailed) {
+			const auth = this.checkAuth();
+			if (auth) return auth;
+		} else if (detailed.authError) return detailed.authError;
 		const body = this.$i?.body || {};
 		const uploadId = String(body.uploadId || requestValue(this.$i, 'uploadId') || '');
 		if (!UPLOAD_ID_RE.test(uploadId)) {
@@ -64,6 +74,10 @@ module.exports = {
 		const heichelId = String((files[0] && files[0].heichelId) || 'tanach');
 		const jobAliasId = heichelId + '-import';
 		const jobAliasName = heichelId + ' Import';
+		if (detailed && detailed.caller && !detailed.caller.isAdmin) {
+			const scope = await ownership.callerAliasSet(this.$i, detailed.caller);
+			if (!scope.has(String(jobAliasId))) return { success: false, error: 'FORBIDDEN', message: 'Verify alias ' + jobAliasId + ' is not one of your aliases.' };
+		}
 		const v = {
 			id: 'verify_' + Date.now().toString(36) + '_' + crypto.randomBytes(4).toString('hex'),
 			status: 'queued', uploadId, heichelId, aliasId: jobAliasId, aliasName: jobAliasName,
@@ -86,11 +100,19 @@ module.exports = {
 	async verifyStatus() {
 		const bad = requireMethod(this.$i, 'GET');
 		if (bad) return bad;
-		const auth = this.checkAuth();
-		if (auth) return auth;
+		const detailed = typeof this.checkAuthDetailed === 'function' ? this.checkAuthDetailed() : null;
+		if (!detailed) {
+			const auth = this.checkAuth();
+			if (auth) return auth;
+		} else if (detailed.authError) return detailed.authError;
 		const verifyId = requestValue(this.$i, 'verify') || requestValue(this.$i, 'verifyId') || requestValue(this.$i, 'jobId') || requestValue(this.$i, 'job') || requestValue(this.$i, 'id'); // Worker A 2026-10-21: accept jobId-style aliases, same defect class as status
 		const found = getJobView(this.$i, verifyId);
 		if (!found) return { success: false, error: 'VERIFY_NOT_FOUND', verifyId };
+		if (detailed && detailed.caller && !detailed.caller.isAdmin) {
+			const scope = await ownership.callerAliasSet(this.$i, detailed.caller);
+			const alias = found.view?.aliasId || found.job?.aliasId || found.view?.spec?.aliasId;
+			if (!alias || !scope.has(String(alias))) return { success: false, error: 'VERIFY_NOT_FOUND', verifyId };
+		}
 		const v = found.view;
 		return {
 			success: {

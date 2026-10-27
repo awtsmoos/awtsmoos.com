@@ -15,9 +15,21 @@ class BulkPublishAllRoutes extends PackedBulkImportRoutes {
 	// chunk (op 'bulk/stage', payloadHash binds the exact chunk bytes via
 	// sha256hex(uploadId:chunkIndex:dataB64)); other routes fall back to the
 	// parent operator-key check. Fail closed on any bad signature.
+	// B"H 2026-10-26 (account-auth import): with no signature, an
+	// authenticated Awtsmoos user may stage chunks too. Staging writes
+	// only chunk files for a client-chosen uploadId — nothing goes live
+	// there; the live write is still gated by posts/start ownership.
+	// Clients must use an unguessable random uploadId (32 chars), since
+	// a guessed uploadId could overwrite another uploader's chunks.
 	checkAuth() {
 		const sig = requestValue(this.$i, 'sig');
-		if (!sig) return super.checkAuth();
+		if (!sig) {
+			try {
+				const ownership = require('./ownership.js');
+				if (ownership.authenticate(this.$i)) return null;
+			} catch (_) { /* fall through to operator-key check */ }
+			return super.checkAuth();
+		}
 		const ts = requestValue(this.$i, 'ts');
 		const op = String(requestValue(this.$i, 'op') || '');
 		const heichelId = String(requestValue(this.$i, 'heichelId') || '');

@@ -1,0 +1,102 @@
+/* B"H
+ * Reader containment fix (2026-10-26, from phone screenshots).
+ *
+ * What was wrong: on a phone the reader text ran past the right edge and
+ * was clipped mid-word, because the shell is a fixed 100vw frame with
+ * overflow hidden on its ancestors, while layered reader rules keep
+ * re-asserting 100vw widths. Any inner element that grew wider than the
+ * viewport was therefore cut off instead of wrapping, and the floating
+ * Aa / Sources dock could also cover the last lines.
+ *
+ * This file loads LAST in _awtsmoos.post.html, so it wins the cascade
+ * for containment only. It deliberately does NOT restyle type, colour,
+ * or spacing: it only guarantees that no reader element can be wider
+ * than the screen, that text wraps, and that the dock never covers text.
+ * It must stay small and boring. If a future reader variant needs a
+ * wider element (a table, a wide image), that variant must opt out
+ * explicitly with .reader-allow-wide, not by weakening this file.
+ */
+
+.post-reader-localized-context,
+.post-reader-localized-context .main,
+.post-reader-localized-context .scroll-view-wrapper {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+}
+
+.post-reader-localized-context {
+  overflow-x: clip !important;
+}
+
+.post-reader-localized-context .scroll-view-wrapper {
+  overflow-x: clip !important;
+  overflow-y: auto !important;
+}
+
+.post-reader-localized-context #realPost,
+.post-reader-localized-context #realPost.content,
+.post-reader-localized-context .content,
+.post-reader-localized-context .awtsmoos-reader-content,
+.post-reader-localized-context .awtsmoos-initial-post-body,
+.post-reader-localized-context .awtsmoos-initial-post {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+  overflow-wrap: anywhere !important;
+  word-break: normal !important;
+}
+
+/* The reading column itself keeps its comfortable measure, but the
+ * measure can never exceed the screen minus real padding. */
+.post-reader-localized-context #realPost {
+  max-width: min(68ch, calc(100% - 2rem)) !important;
+  margin-inline: auto !important;
+  /* Room for the floating Aa / Sources dock so the last lines are
+   * never hidden underneath it. */
+  padding-bottom: calc(8rem + env(safe-area-inset-bottom)) !important;
+}
+
+.post-reader-localized-context #realPost p,
+.post-reader-localized-context #realPost .awtsmoos-rich-block--paragraph,
+.post-reader-localized-context #realPost .sub-awtsmoos,
+.post-reader-localized-context #realPost .sub-toichen,
+.post-reader-localized-context #realPost .awtsmoos-plain-post-content,
+.post-reader-localized-context #realPost .awtsmoos-translation-block,
+.post-reader-localized-context #realPost li,
+.post-reader-localized-context #realPost blockquote,
+.post-reader-localized-context #realPost aside {
+  max-width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+  overflow-wrap: anywhere !important;
+  white-space: normal !important;
+}
+
+/* Plain post content keeps its line breaks (pre-wrap still wraps). */
+.post-reader-localized-context #realPost .awtsmoos-plain-post-content {
+  white-space: pre-wrap !important;
+}
+
+/* The active-section nudge pushed content 10px to the right, straight
+ * into the clipped edge. It is not worth a clipped line. */
+.post-reader-localized-context .active-reading-sub {
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Media and tables inside a post must shrink to the column, never
+ * stretch it. */
+.post-reader-localized-context #realPost img,
+.post-reader-localized-context #realPost video,
+.post-reader-localized-context #realPost iframe,
+.post-reader-localized-context #realPost table {
+  max-width: 100% !important;
+  height: auto;
+}
+
+.post-reader-localized-context #realPost table {
+  display: block;
+  overflow-x: auto;
+}

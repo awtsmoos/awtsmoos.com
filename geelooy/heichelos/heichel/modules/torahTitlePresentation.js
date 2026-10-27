@@ -32,6 +32,39 @@ const RTL_OPEN = '\u2067';
 const LTR_OPEN = '\u2066';
 const ISOLATE_CLOSE = '\u2069';
 
+/**
+ * What each Likkutei Sichos volume covers, in the book's own terms.
+ * Mirror of the mapping in geelooy/api/social/helper/books/seriesTree.js
+ * (that helper is CommonJS for the social books feature and cannot be
+ * imported by this shared browser/server module, so the mapping lives
+ * here too — keep the two in sync). Volumes 1 and 3 each carry one
+ * talk per parsha for Bereishis, Shemos and Vayikra; volumes 2 and 4
+ * do the same for Bamidbar and Devarim. From volume 5 on, each volume
+ * covers a single Chumash, cycling Bereishis, Shemos, Vayikra,
+ * Bamidbar, Devarim.
+ */
+const LIKKUTEI_SICHOS_BOOKS = [
+	'Bereishis', 'Shemos', 'Vayikra', 'Bamidbar', 'Devarim'
+];
+
+function likkuteiSichosSubtitle(volume) {
+	if (volume === 1 || volume === 3) return 'Bereishis–Vayikra';
+	if (volume === 2 || volume === 4) return 'Bamidbar–Devarim';
+	if (volume >= 5) return LIKKUTEI_SICHOS_BOOKS[(volume - 5) % 5];
+	return null;
+}
+
+/** Appends the covered books to a Likkutei Sichos volume's English title. */
+function withLikkuteiSichosBooks(key, raw, en) {
+	if (!en || en.includes('(')) return en;
+	const match = String(key || '').match(/^likkuteiSichosVolume(\d+)$/i)
+		|| String(raw || '').match(/Likkutei Sichos,?\s+Volume\s+(\d+)/i)
+		|| String(raw || '').match(/Likkutei Sichos,?\s+Vol\.?\s+(\d+)/i);
+	if (!match) return en;
+	const subtitle = likkuteiSichosSubtitle(Number(match[1]));
+	return subtitle ? `${en} (${subtitle})` : en;
+}
+
 /** Resolves canonical Hebrew, English, display, and provenance kind for one Torah title source. */
 export function torahTitlePair(source = {}) {
 	const record = typeof source === 'string' ? { name: source } : source || {};
@@ -62,10 +95,10 @@ export function torahTitlePair(source = {}) {
 	// carries its own English head; it outranks a machine transliteration
 	// of the Hebrew, which is only a last resort.
 	const compositeEnglish = compositeEnglishHead(raw);
-	const en = explicitEnglish
+	const en = withLikkuteiSichosBooks(key, raw, explicitEnglish
 		|| curatedEnglish
 		|| compositeEnglish
-		|| (he ? parshaEnglishForHebrew(he) || transliterateTorahTitle(he) : fallbackEnglish || 'Torah');
+		|| (he ? parshaEnglishForHebrew(he) || transliterateTorahTitle(he) : fallbackEnglish || 'Torah'));
 	return {
 		he,
 		en,

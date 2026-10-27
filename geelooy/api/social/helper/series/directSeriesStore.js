@@ -23,7 +23,13 @@ const seriesDbCache = new Map();
  * @returns {string} Absolute data root.
  */
 function rootDirectory($i = {}) {
-	return resolveSocialDataRoot($i);
+	const base = resolveSocialDataRoot($i);
+	if (path.basename(base) === 'dayuhChadash') return base;
+	const withDayuh = path.join(base, 'dayuhChadash');
+	try {
+		if (fs.existsSync(path.join(withDayuh, 'socialPacked'))) return withDayuh;
+	} catch (_e) {}
+	return base;
 }
 
 /**
@@ -101,3 +107,4 @@ module.exports = {
 	rootDirectory,
 	seriesDbFile
 };
+

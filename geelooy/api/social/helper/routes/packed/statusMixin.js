@@ -25,6 +25,32 @@
 const { requireMethod, requestValue } = require('./requestValues.js');
 const { getJobViewAsync, jobStateShape, listJobStatesAsync } = require('./jobState.js');
 const { jobs } = require('./jobStore.js');
+const ownership = require('./ownership.js');
+
+// B"H 2026-10-26 (account-auth import): status/list used operator-grade
+// checkAuth(), so a logged-in user who started a job could not poll it
+// — that is why the Mac operator key was needed to finish anything.
+// These routes now use the detailed form (any authenticated Awtsmoos
+// user, admin or not) and scope non-admin callers to jobs whose aliasId
+// is one of their own aliases. A job with no aliasId, or an alias
+// outside the caller's set, reads as JOB_NOT_FOUND: existence is never
+// leaked to a caller who may not see it.
+async function accountScope(route) {
+	if (typeof route.checkAuthDetailed !== 'function') {
+		const auth = route.checkAuth();
+		return auth ? { authError: auth, caller: null, scope: null } : { authError: null, caller: null, scope: null, legacyAdmin: true };
+	}
+	const detailed = route.checkAuthDetailed();
+	if (detailed.authError) return { authError: detailed.authError, caller: null, scope: null };
+	const caller = detailed.caller;
+	if (!caller || caller.isAdmin) return { authError: null, caller, scope: null };
+	const scope = await ownership.callerAliasSet(route.$i, caller);
+	return { authError: null, caller, scope };
+}
+
+function jobAliasOf(found) {
+	return found?.job?.spec?.aliasId || found?.view?.aliasId || found?.job?.aliasId || null;
+}
 
 const DONE_IDS_CAP = 1000;
 
@@ -39,8 +65,8 @@ module.exports = {
 	async status() {
 		const bad = requireMethod(this.$i, 'GET');
 		if (bad) return bad;
-		const auth = this.checkAuth();
-		if (auth) return auth;
+		const account = await accountScope(this);
+		if (account.authError) return account.authError;
 		// AGENT IDENTITY 2026-10-19
 		try{const _h=(this.$i&&this.$i.headers)||{};console.log("[AGENT-OP] id="+(_h["x-agent-identity"]||"UNIDENTIFIED")+" kind="+(_h["x-agent-kind"]||"UNKNOWN"));}catch(_){}
 		const jobId = requestValue(this.$i, 'job') || requestValue(this.$i, 'jobId') || requestValue(this.$i, 'id');
@@ -61,6 +87,10 @@ module.exports = {
 		}
 		const found = await getJobViewAsync(this.$i, jobId);
 		if (!found) return { success: false, error: 'JOB_NOT_FOUND', jobId };
+		if (account.scope) {
+			const alias = jobAliasOf(found);
+			if (!alias || !account.scope.has(String(alias))) return { success: false, error: 'JOB_NOT_FOUND', jobId };
+		}
 		const v = found.view;
 		const allDoneIds = v.donePostIds || [];
 		return {
@@ -88,8 +118,8 @@ module.exports = {
 	async list() {
 		const bad = requireMethod(this.$i, 'GET');
 		if (bad) return bad;
-		const auth = this.checkAuth();
-		if (auth) return auth;
+		const account = await accountScope(this);
+		if (account.authError) return account.authError;
 		// AGENT IDENTITY 2026-10-19
 		try{const _h=(this.$i&&this.$i.headers)||{};console.log("[AGENT-OP] id="+(_h["x-agent-identity"]||"UNIDENTIFIED")+" kind="+(_h["x-agent-kind"]||"UNKNOWN"));}catch(_){}
 		const byId = new Map();
@@ -97,8 +127,14 @@ module.exports = {
 		for (const d of await listJobStatesAsync(this.$i, 50)) {
 			if (d && d.id && !byId.has(d.id)) byId.set(d.id, { ...d, live: false });
 		}
+		const visible = account.scope
+			? [...byId.values()].filter(j => {
+				const alias = j.aliasId || j.spec?.aliasId;
+				return alias && account.scope.has(String(alias));
+			})
+			: [...byId.values()];
 		return {
-			success: [...byId.values()]
+			success: visible
 				.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0))
 				.slice(0, 50)
 				.map(j => ({

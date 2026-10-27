@@ -11,9 +11,36 @@ const MONTHS = new Map([
 	['סיון', 'Sivan'], ['תמוז', 'Tammuz'], ['מנחם אב', 'Menachem Av'], ['אלול', 'Elul']
 ]);
 
+/**
+ * What each Likkutei Sichos volume covers, in the book's own terms.
+ * Volumes 1 and 3 each carry one talk per parsha for Bereishis, Shemos
+ * and Vayikra; volumes 2 and 4 do the same for Bamidbar and Devarim.
+ * From volume 5 on, each volume covers a single Chumash, cycling
+ * Bereishis, Shemos, Vayikra, Bamidbar, Devarim (volumes 10-14 and
+ * 15 confirm the cycle: 10 Bereishis, 11 Shemos, 12 Vayikra,
+ * 13 Bamidbar, 14 Devarim, 15 Bereishis again). A volume name without
+ * its books is why the list read as a bare number; the subtitle is
+ * part of the name now, not decoration.
+ */
+const LIKKUTEI_SICHOS_BOOKS = [
+	'Bereishis', 'Shemos', 'Vayikra', 'Bamidbar', 'Devarim'
+];
+
+function likkuteiSichosSubtitle(volume) {
+	if (volume === 1 || volume === 3) return 'Bereishis–Vayikra';
+	if (volume === 2 || volume === 4) return 'Bamidbar–Devarim';
+	if (volume >= 5) return LIKKUTEI_SICHOS_BOOKS[(volume - 5) % 5];
+	return null;
+}
+
 function fallbackName(seriesId) {
 	let match = String(seriesId).match(/^likkuteiSichosVolume(\d+)$/i);
-	if (match) return `Likkutei Sichos — Volume ${match[1]}`;
+	if (match) {
+		const subtitle = likkuteiSichosSubtitle(Number(match[1]));
+		return subtitle
+			? `Likkutei Sichos — Volume ${match[1]} (${subtitle})`
+			: `Likkutei Sichos — Volume ${match[1]}`;
+	}
 	match = String(seriesId).match(/^seferHaSichos(\d+)$/i);
 	if (match) return `Sefer HaSichos ${match[1]}`;
 	match = String(seriesId).match(/^sichosKodesh(\d+)$/i);
@@ -72,6 +99,7 @@ module.exports = {
 	fallbackName,
 	flatten,
 	leafNodes,
+	likkuteiSichosSubtitle,
 	readNode,
 	seriesName,
 	targetNodes,

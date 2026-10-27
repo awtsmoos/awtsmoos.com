@@ -64,6 +64,10 @@ module.exports = {
 			const fbBody = this.$i?.body || {};
 			const fbJob = fbBody.job || requestValue(this.$i, 'job');
 			expectedHash = importSign.sha256hex('flush-backlinks:' + String(fbJob || ''));
+		} else if (op === 'posts/update') {
+			const updBody = this.$i?.body || {};
+			const updVal = updBody.updates ?? requestValue(this.$i, 'updates');
+			expectedHash = importSign.sha256hex(JSON.stringify(updVal));
 		} else if (op === 'posts/remove') {
 			const rmBody = this.$i?.body || {};
 			const rmH = rmBody.heichelId || requestValue(this.$i, 'heichelId');
