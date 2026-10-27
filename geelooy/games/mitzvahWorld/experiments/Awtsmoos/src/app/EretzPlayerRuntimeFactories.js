@@ -4,9 +4,9 @@
 
 /**
  * @file EretzPlayerRuntimeFactories.js
- * @description Creates grounded player roots and movement vessels that honor their soles.
- * The Awtsmoos joins measured form to lawful earth while every instant becomes new;
- * Awtsmoos.com keeps pivot, shadow, collision, and ascent within one truthful view.
+ * @description Grounds the canonical Chossid without resurrecting hidden outfit meshes.
+ * The Awtsmoos guards each chosen garment in the living light;
+ * Awtsmoos.com keeps an unchosen hat outside the traveler's sight.
  */
 
 import { Group } from '../../../light-three-gltf/tiny-runtime.js';
@@ -24,18 +24,14 @@ import {
 } from './EretzPlayerStateFactory.js?v=20260720-canonical-valley-pass-04';
 
 export { createEretzPlayerState, createEretzPlayerStats };
-
 export const CANONICAL_PLAYER_SCALE = 1.52;
 
+/** Grounds the authored GLB while retaining all garment visibility choices. */
 export function createGroundedCanonicalPlayer(scene, state) {
 	scene.name = 'Awtsmoos_canonical_chossid_glb_scene';
 	scene.visible = true;
 	scene.position.set(0, 0, 0);
-	scene.scale.set(
-		CANONICAL_PLAYER_SCALE,
-		CANONICAL_PLAYER_SCALE,
-		CANONICAL_PLAYER_SCALE
-	);
+	scene.scale.set(CANONICAL_PLAYER_SCALE, CANONICAL_PLAYER_SCALE, CANONICAL_PLAYER_SCALE);
 	scene.updateWorldMatrix?.();
 	const measuredMinY = findMinWorldY(scene);
 	const feetOffset = Number.isFinite(measuredMinY) ? -measuredMinY : 0;
@@ -44,17 +40,9 @@ export function createGroundedCanonicalPlayer(scene, state) {
 	const model = new Group();
 	model.name = 'Awtsmoos_grounded_canonical_chossid';
 	model.userData = { canonicalPlayerRoot: true, feetOffset };
-	model.position.set(
-		state.x || 0,
-		state.renderY ?? state.y ?? 0,
-		state.z || 0
-	);
-	model.quaternion.set(
-		0,
-		Math.sin((state.facing || 0) / 2),
-		0,
-		Math.cos((state.facing || 0) / 2)
-	);
+	model.position.set(state.x || 0, state.renderY ?? state.y ?? 0, state.z || 0);
+	model.quaternion.set(0, Math.sin((state.facing || 0) / 2), 0,
+		Math.cos((state.facing || 0) / 2));
 	model.add(scene);
 	model.setBaseTransform?.();
 	return {
@@ -64,20 +52,29 @@ export function createGroundedCanonicalPlayer(scene, state) {
 	};
 }
 
+/** Prepares shadow flags without changing GLB outfit or ancestor visibility. */
 export function prepareCanonicalPlayerMeshes(model) {
-	let count = 0;
+	let visibleMeshes = 0;
 	model.traverse?.(object => {
 		if (!object.isMesh && !object.isSkinnedMesh) return;
 		object.castShadow = true;
 		object.receiveShadow = true;
-		object.visible = true;
 		object.userData ||= {};
 		object.userData.realChossid = true;
-		count += 1;
+		if (isVisibleThroughParents(object)) visibleMeshes += 1;
 	});
-	return count;
+	return visibleMeshes;
 }
 
+/** Descendant meshes cannot override their hidden clothing parent. */
+function isVisibleThroughParents(object) {
+	for (let current = object; current; current = current.parent) {
+		if (current.visible === false) return false;
+	}
+	return true;
+}
+
+/** Constructs the same collision and jump vessels without changing player movement. */
 export function createBootstrapPlayerVessels(foundation) {
 	const playerModel = { footOffset: 0 };
 	const collisionMover = foundation.collisionQuery
@@ -93,6 +90,7 @@ export function createBootstrapPlayerVessels(foundation) {
 	};
 }
 
+/** Preserves the existing actor capsule and octree collision. */
 export function createEretzMover(foundation, playerModel) {
 	return new AwtsmoosCollisionMover({
 		footOffset: playerModel.footOffset,
@@ -102,6 +100,7 @@ export function createEretzMover(foundation, playerModel) {
 	});
 }
 
+/** Retains the same ground and slope logic for jump physics. */
 export function createEretzJumpPhysics(foundation, playerModel) {
 	return new JumpPhysics({
 		footOffset: playerModel.footOffset,
