@@ -26,6 +26,14 @@ function jobStateShape(job) {
 	return {
 		...rest,
 		heichelId: spec?.heichelId || job?.heichelId,
+		// B"H 2026-10-26 (account-auth import): the job's alias is the
+		// ownership scope for status/verify polls. It lived only in
+		// spec.aliasId, which this shape dropped, so a non-admin caller
+		// could never be scoped to their own jobs. Keep it on the view;
+		// jobs persisted before this change have no aliasId and are
+		// therefore invisible to non-admin callers (fail closed).
+		aliasId: spec?.aliasId || job?.aliasId,
+		aliasName: spec?.aliasName || job?.aliasName,
 		source: spec?.source,
 		donePostIds: Object.keys(doneHashes || {}),
 		backlinkQueue: backlinkQueue && backlinkQueue.size

@@ -1,6 +1,6 @@
-//B"H
-//Boruch Hashem
-//Blessed be He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
@@ -9,8 +9,8 @@ import { torahTitlePair } from '../torahTitlePresentation.js';
 
 /**
  * @file Canonical bilingual Torah-title presentation tests.
- * @description The Awtsmoos lets Awtsmoos.com clothe stable Torah identities canonically,
- * so malformed stored labels, internal IDs, and glued numbered families never become the learner's public title.
+ * @description The Awtsmoos lets Awtsmoos.com clothe stable Torah identities canonically;
+ * Likkutei Sichos volumes also reveal their preserved Chumash coverage without leaking internal route names.
  */
 function visible(value) {
 	return String(value).replace(/[\u2066\u2067\u2069]/g, '');
@@ -27,14 +27,14 @@ test('all persisted Bavli tractate IDs resolve to canonical bilingual titles', (
 	}
 });
 
-test('numbered Torah families resolve without glued internal route names', () => {
+test('numbered Torah families resolve with canonical Likkutei Sichos coverage', () => {
 	const first = torahTitlePair({ id: 'likkuteiSichosVolume1', name: 'likkuteiSichosVolume1' });
 	const last = torahTitlePair({ id: 'likkuteiSichosVolume39', name: 'likkuteiSichosVolume39' });
 	const sefer = torahTitlePair({ id: 'seferHaSichos5752', name: 'seferHaSichos5752' });
 	const kodesh = torahTitlePair({ id: 'sichosKodesh5741', name: 'sichosKodesh5741' });
 	assert.equal(first.he, 'לקוטי שיחות חלק 1');
-	assert.equal(first.en, 'Likkutei Sichos, Vol. 1');
-	assert.equal(last.en, 'Likkutei Sichos, Vol. 39');
+	assert.equal(first.en, 'Likkutei Sichos, Vol. 1 (Bereishis–Vayikra)');
+	assert.equal(last.en, 'Likkutei Sichos, Vol. 39 (Devarim)');
 	assert.equal(sefer.en, 'Sefer HaSichos 5752');
 	assert.equal(kodesh.en, 'Sichos Kodesh 5741');
 	for (const pair of [first, last, sefer, kodesh]) {
@@ -48,7 +48,7 @@ test('stable IDs override historically bad stored public labels', () => {
 		[{ id: 'mishnehTorah', name: 'Book of the Love of the Awtsmoos' }, 'משנה תורה', 'Mishneh Torah'],
 		[{ id: 'seferHatanya', name: 'Sefer Hatanya - rough transliteration' }, 'ספר התניא', 'Tanya'],
 		[{ id: 'mishnah', name: 'mishnah' }, 'משנה', 'Mishnah'],
-		[{ id: 'likkuteiSichosVolume10', name: 'Ikar' }, 'לקוטי שיחות חלק 10', 'Likkutei Sichos, Vol. 10'],
+		[{ id: 'likkuteiSichosVolume10', name: 'Ikar' }, 'לקוטי שיחות חלק 10', 'Likkutei Sichos, Vol. 10 (Bereishis)'],
 		[{ id: 'seferHaSichos5752', name: 'BH_INTERNAL_RAW_ID' }, 'ספר השיחות 5752', 'Sefer HaSichos 5752']
 	];
 	for (const [input, he, en] of cases) {
