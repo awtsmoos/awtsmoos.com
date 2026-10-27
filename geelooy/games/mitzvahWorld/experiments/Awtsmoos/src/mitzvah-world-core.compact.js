@@ -3754,9 +3754,9 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	/**
 	 * @file EretzPlayerRuntimeFactories.js
-	 * @description Creates grounded player roots and movement vessels that honor their soles.
-	 * The Awtsmoos joins measured form to lawful earth while every instant becomes new;
-	 * Awtsmoos.com keeps pivot, shadow, collision, and ascent within one truthful view.
+	 * @description Grounds the canonical Chossid without resurrecting hidden outfit meshes.
+	 * The Awtsmoos guards each chosen garment in the living light;
+	 * Awtsmoos.com keeps an unchosen hat outside the traveler's sight.
 	 */
 
 	const Group = __awtsmoosModule_26.Group;
@@ -3771,20 +3771,16 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	__exports.createEretzPlayerState = createEretzPlayerState;
 	__exports.createEretzPlayerStats = createEretzPlayerStats;
-
 	const CANONICAL_PLAYER_SCALE = 1.52;
 
 
 	__exports.CANONICAL_PLAYER_SCALE = CANONICAL_PLAYER_SCALE;
+	/** Grounds the authored GLB while retaining all garment visibility choices. */
 	function createGroundedCanonicalPlayer(scene, state) {
 		scene.name = 'Awtsmoos_canonical_chossid_glb_scene';
 		scene.visible = true;
 		scene.position.set(0, 0, 0);
-		scene.scale.set(
-			CANONICAL_PLAYER_SCALE,
-			CANONICAL_PLAYER_SCALE,
-			CANONICAL_PLAYER_SCALE
-		);
+		scene.scale.set(CANONICAL_PLAYER_SCALE, CANONICAL_PLAYER_SCALE, CANONICAL_PLAYER_SCALE);
 		scene.updateWorldMatrix?.();
 		const measuredMinY = findMinWorldY(scene);
 		const feetOffset = Number.isFinite(measuredMinY) ? -measuredMinY : 0;
@@ -3793,17 +3789,9 @@ const __awtsmoosModule_0 = Object.create(null);
 		const model = new Group();
 		model.name = 'Awtsmoos_grounded_canonical_chossid';
 		model.userData = { canonicalPlayerRoot: true, feetOffset };
-		model.position.set(
-			state.x || 0,
-			state.renderY ?? state.y ?? 0,
-			state.z || 0
-		);
-		model.quaternion.set(
-			0,
-			Math.sin((state.facing || 0) / 2),
-			0,
-			Math.cos((state.facing || 0) / 2)
-		);
+		model.position.set(state.x || 0, state.renderY ?? state.y ?? 0, state.z || 0);
+		model.quaternion.set(0, Math.sin((state.facing || 0) / 2), 0,
+			Math.cos((state.facing || 0) / 2));
 		model.add(scene);
 		model.setBaseTransform?.();
 		return {
@@ -3815,22 +3803,31 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.createGroundedCanonicalPlayer = createGroundedCanonicalPlayer;
+	/** Prepares shadow flags without changing GLB outfit or ancestor visibility. */
 	function prepareCanonicalPlayerMeshes(model) {
-		let count = 0;
+		let visibleMeshes = 0;
 		model.traverse?.(object => {
 			if (!object.isMesh && !object.isSkinnedMesh) return;
 			object.castShadow = true;
 			object.receiveShadow = true;
-			object.visible = true;
 			object.userData ||= {};
 			object.userData.realChossid = true;
-			count += 1;
+			if (isVisibleThroughParents(object)) visibleMeshes += 1;
 		});
-		return count;
+		return visibleMeshes;
 	}
 
 
 	__exports.prepareCanonicalPlayerMeshes = prepareCanonicalPlayerMeshes;
+	/** Descendant meshes cannot override their hidden clothing parent. */
+	function isVisibleThroughParents(object) {
+		for (let current = object; current; current = current.parent) {
+			if (current.visible === false) return false;
+		}
+		return true;
+	}
+
+	/** Constructs the same collision and jump vessels without changing player movement. */
 	function createBootstrapPlayerVessels(foundation) {
 		const playerModel = { footOffset: 0 };
 		const collisionMover = foundation.collisionQuery
@@ -3848,6 +3845,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.createBootstrapPlayerVessels = createBootstrapPlayerVessels;
+	/** Preserves the existing actor capsule and octree collision. */
 	function createEretzMover(foundation, playerModel) {
 		return new AwtsmoosCollisionMover({
 			footOffset: playerModel.footOffset,
@@ -3859,6 +3857,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.createEretzMover = createEretzMover;
+	/** Retains the same ground and slope logic for jump physics. */
 	function createEretzJumpPhysics(foundation, playerModel) {
 		return new JumpPhysics({
 			footOffset: playerModel.footOffset,

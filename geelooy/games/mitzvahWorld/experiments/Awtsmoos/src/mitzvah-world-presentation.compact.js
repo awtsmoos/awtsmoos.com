@@ -17630,53 +17630,54 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	/**
 	 * @file RemoteTextureTransport.js
-	 * @description Owns the single HTTPS origin through which every texture travels.
-	 * The Awtsmoos sends each finite color from one documented spring;
-	 * Awtsmoos.com rejects inline shadows, model paths, traversal, and foreign hosts.
+	 * @description Owns the documented HTTPS Drive roots through which every texture travels.
+	 * The Awtsmoos reveals one origin through multiple named wells; Awtsmoos.com trusts only those wells,
+	 * rejecting inline shadows, model paths, encoded traversal, query drift, and foreign hosts.
 	 */
 
 	const REMOTE_TEXTURE_ROOT = 'https://awtsmoos.com/api/social/drive/public/awtsmoos/';
 
 	__exports.REMOTE_TEXTURE_ROOT = REMOTE_TEXTURE_ROOT;
-	const REMOTE_ROOT_URL = new URL(REMOTE_TEXTURE_ROOT);
-	const REMOTE_ROOT_PATH = REMOTE_ROOT_URL.pathname;
+	const ORIGINAL_LIBRARY_ROOT = 'https://awtsmoos.com/api/social/drive/public/firebase_drive_migration/';
+
+	__exports.ORIGINAL_LIBRARY_ROOT = ORIGINAL_LIBRARY_ROOT;
+	const TRUSTED_TEXTURE_ROOTS = Object.freeze([
+		REMOTE_TEXTURE_ROOT,
+		ORIGINAL_LIBRARY_ROOT
+	]);
+
+
+	__exports.TRUSTED_TEXTURE_ROOTS = TRUSTED_TEXTURE_ROOTS;
+	const ROOT_URLS = TRUSTED_TEXTURE_ROOTS.map(root => new URL(root));
 	const FORBIDDEN_SCHEMES = /^(?:blob|data|file|javascript):/i;
+	const ENCODED_PATH_CONTROL = /%(?:2e|2f|5c)/i;
 	const MODEL_PATH_PREFIX = 'assets/mitzvah-world/models/';
 	const MODEL_EXTENSION = /\.(?:glb|gltf)$/i;
 
 	/** Builds one encoded remote URL from a canonical migration path. */
 	function remoteTexturePathUrl(path) {
 		const clean = cleanRemotePath(path);
-		if (isModelPath(clean)) {
-			throw new Error(`Texture transport rejects model paths: ${path}`);
-		}
+		if (isModelPath(clean)) throw new Error(`Texture transport rejects model paths: ${path}`);
 		return `${REMOTE_TEXTURE_ROOT}${encodePath(clean)}`;
 	}
 
 
 	__exports.remoteTexturePathUrl = remoteTexturePathUrl;
-	/** Builds a full-resolution texture URL. */
+	/** Builds a full-resolution texture URL from the intact original library. */
 	function fullResolutionTextureUrl(filename) {
-		// B"H — Yaakov 2026-10-13: FORENSICS VERDICT — nothing was ever deleted.
-		// The 1,141-image original library is live in the Drive alias
-		// firebase_drive_migration (all 200). The /sites/ root never served.
 		return `${ORIGINAL_LIBRARY_ROOT}full-resolution/${encodePath(cleanRemotePath(filename))}`;
 	}
 
 
 	__exports.fullResolutionTextureUrl = fullResolutionTextureUrl;
-	/** Builds a documented tree-texture URL. */
+	/** Builds a documented tree-texture URL from the intact original library. */
 	function treeTextureUrl(filename) {
-		// B"H — Yaakov 2026-10-13: same original-library restoration.
 		return `${ORIGINAL_LIBRARY_ROOT}awtsmoos-nature/ilanos/trees/${encodePath(cleanRemotePath(filename))}`;
 	}
 
 
 	__exports.treeTextureUrl = treeTextureUrl;
-	// B"H — the intact original texture library (1.4 GB, 1,141 images, all public).
-	const ORIGINAL_LIBRARY_ROOT = 'https://awtsmoos.com/api/social/drive/public/firebase_drive_migration/';
-
-	/** Reports whether a value is a safe non-model path beneath the migration root. */
+	/** Reports whether a value is a safe non-model path beneath a trusted root. */
 	function isRemoteTexturePath(path) {
 		try {
 			const clean = cleanRemotePath(path);
@@ -17688,19 +17689,17 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.isRemoteTexturePath = isRemoteTexturePath;
-	/** Accepts only HTTPS non-model URLs beneath the documented migration root. */
+	/** Resolves one trusted URL back to its canonical slash-prefixed source path. */
+	function trustedRemoteTextureSourcePath(value) {
+		const match = trustedTextureMatch(value);
+		return match ? `/${match.relative}` : null;
+	}
+
+
+	__exports.trustedRemoteTextureSourcePath = trustedRemoteTextureSourcePath;
+	/** Accepts only HTTPS non-model URLs beneath the roots emitted by this module. */
 	function isTrustedAwtsmoosMaterialUrl(value) {
-		try {
-			const parsed = new URL(String(value || ''));
-			if (parsed.protocol !== 'https:' || parsed.origin !== REMOTE_ROOT_URL.origin) {
-				return false;
-			}
-			if (!parsed.pathname.startsWith(REMOTE_ROOT_PATH)) return false;
-			const relative = decodeURIComponent(parsed.pathname.slice(REMOTE_ROOT_PATH.length));
-			return isRemoteTexturePath(relative);
-		} catch {
-			return false;
-		}
+		return Boolean(trustedTextureMatch(value));
 	}
 
 
@@ -17709,15 +17708,33 @@ const __awtsmoosModule_0 = Object.create(null);
 	function remoteTextureTransportEvidence() {
 		return Object.freeze({
 			cacheLayers: Object.freeze(['cache-storage', 'in-memory-image']),
-			origin: REMOTE_ROOT_URL.origin,
+			origin: ROOT_URLS[0].origin,
 			originCount: 1,
 			policy: 'remote-https-only-no-inline-local-or-model-textures',
-			root: REMOTE_TEXTURE_ROOT
+			roots: TRUSTED_TEXTURE_ROOTS
 		});
 	}
 
 
 	__exports.remoteTextureTransportEvidence = remoteTextureTransportEvidence;
+	function trustedTextureMatch(value) {
+		try {
+			const parsed = new URL(String(value || ''));
+			if (parsed.protocol !== 'https:' || parsed.origin !== ROOT_URLS[0].origin) return null;
+			if (parsed.search || parsed.hash) return null;
+			for (const root of ROOT_URLS) {
+				if (!parsed.pathname.startsWith(root.pathname)) continue;
+				const encodedRelative = parsed.pathname.slice(root.pathname.length);
+				const relative = decodeURIComponent(encodedRelative);
+				if (ENCODED_PATH_CONTROL.test(relative) || !isRemoteTexturePath(relative)) return null;
+				return { relative, root: root.href };
+			}
+			return null;
+		} catch {
+			return null;
+		}
+	}
+
 	function cleanRemotePath(path) {
 		const clean = String(path || '').trim().replace(/^\/+/, '').replace(/\\/g, '/');
 		if (!clean || FORBIDDEN_SCHEMES.test(clean) || clean.includes('?') || clean.includes('#')) {
