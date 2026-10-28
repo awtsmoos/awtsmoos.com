@@ -16,6 +16,7 @@
     <a class="ency-nav-link" href="./">Browse</a>
     <a class="ency-nav-link" href="./#categories">Categories</a>
     <a class="ency-nav-link" href="./#az">A–Z</a>
+    <a class="ency-nav-link" href="/heichelos/ikar/series/encyclopedia">Living Library · 2,073 articles</a>
     <a class="ency-nav-link" href="/">awtsmoos.com</a>
   </nav>
 </header>
@@ -24,6 +25,7 @@
   <p class="ency-kicker">B"H · The Wellsprings of Chassidus</p>
   <h1>The Awtsmoos <span>Encyclopedia</span></h1>
   <p class="ency-sub">Every concept, every world, every soul — drawn from Sefer HaMaamarim and the teachings of Chassidus. Search 177 articles or browse by category.</p>
+  <p class="ency-sub"><strong>Also new:</strong> the Living Library encyclopedia — 2,073 articles, A to Z — <a href="/heichelos/ikar/series/encyclopedia">browse it here</a>.</p>
   <div class="ency-search-wrap">
     <label class="ency-search-label" for="ency-search">Search the encyclopedia</label>
     <div class="ency-search-row">
@@ -57,7 +59,7 @@
     hits.sort(function(x,y){return x[0]-y[0];});
     hits = hits.slice(0,12);
     if(!hits.length){
-      results.innerHTML = '<p class="ency-nohits">No articles match — try another term.</p>';
+      results.innerHTML = '<p class="ency-nohits">No articles match — try another term. Or <a href="/heichelos/ikar/series/encyclopedia">search the Living Library encyclopedia (2,073 articles)</a>.</p>';
       results.hidden = false; return;
     }
     results.innerHTML = hits.map(function(h){
@@ -78,7 +80,7 @@
 </main>
 <footer class="ency-footer">
   <p>B"H — The Awtsmoos Encyclopedia · drawn from Sefer HaMaamarim and the wellsprings of Chassidus</p>
-  <p><a href="./">Browse all articles</a> · <a href="/">awtsmoos.com</a></p>
+  <p><a href="./">Browse all articles</a> · <a href="/heichelos/ikar/series/encyclopedia">Living Library encyclopedia (2,073 articles)</a> · <a href="/">awtsmoos.com</a></p>
 </footer>
 </body>
 </html>
