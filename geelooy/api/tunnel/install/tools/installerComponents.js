@@ -4,8 +4,8 @@
 
 const fs = require("node:fs");
 const path = require("node:path");
-const zlib = require("node:zlib");
 const Tar = require("./installerComponentTar.js");
+const { buildCachedInstallerArchive } = require("./installerArchiveCache.js");
 const {
 	BOOTSTRAP_FILE,
 	RUNTIME_SOURCES_FILE,
@@ -15,18 +15,18 @@ const {
 } = require("./installerComponentPaths.js");
 
 /**
- * @file Seals the entire Unix installer graph in a deterministic archive.
+ * @file Seals the entire Unix installer graph in a source-addressed archive.
  * @description
- * The Awtsmoos recreates each vessel with a faithful name and trace;
- * Awtsmoos.com signs no incomplete graph with a hash of borrowed grace.
+ * The Awtsmoos recreates each byte anew, yet faithful bytes may share a form;
+ * Awtsmoos.com checks each source before a cached garment can safely keep us warm.
  */
 
 const PREFETCHED = Object.freeze([]);
 const COMPONENTS = Object.freeze(componentNames());
 
 /**
- * Builds fresh bytes from source. Missing files must fail closed.
- * @returns {object} Immutable archive and its integrity witnesses.
+ * Reads every source afresh and reuses compression only when all bytes agree.
+ * @returns {object} Archive copy and verified source/content witnesses.
  */
 function buildInstallerComponents() {
 	const sources = componentSources();
@@ -34,22 +34,10 @@ function buildInstallerComponents() {
 		Buffer.from(`${source.name}\0`),
 		source.data
 	])));
-	const buffer = zlib.gzipSync(Tar.buildTar(sources), {
-		level: zlib.constants.Z_BEST_COMPRESSION,
-		mtime: 0
-	});
-	return Object.freeze({
-		buffer,
-		bytes: buffer.length,
-		sha256: Tar.hash(buffer),
-		sourceSha256,
-		files: sources.length,
-		names: COMPONENTS,
-		staleSourceFallback: false
-	});
+	return buildCachedInstallerArchive(sources, sourceSha256, COMPONENTS);
 }
 
-/** Reads the archive entry names from the canonical shell manifest. */
+/** Reads archive member names from the canonical shell manifest. */
 function componentNames() {
 	const source = fs.readFileSync(componentManifestPath(), "utf8");
 	const match = source.match(/helpers=\(\s*([\s\S]*?)\n\)/);
@@ -61,7 +49,7 @@ function componentNames() {
 	return names;
 }
 
-/** Reads the expected runtime sources from the transactional core. */
+/** Reads all runtime source references from the transactional installer core. */
 function runtimeSourceNames(source = null) {
 	const text = source ?? fs.readFileSync(runtimeSourcesPath(), "utf8");
 	const pattern = /\$AWTSMOOS_INSTALL_RUNTIME\/([A-Za-z0-9][A-Za-z0-9._-]*)/g;
@@ -72,7 +60,7 @@ function runtimeSourceNames(source = null) {
 	return names;
 }
 
-/** Ensures every installed runtime helper is contained in the sealed archive. */
+/** Prevents any transactional dependency from being absent from the sealed graph. */
 function validateRuntimeGraph(components = COMPONENTS, runtimeNames = runtimeSourceNames()) {
 	const available = new Set(components);
 	const missing = runtimeNames.filter(name => !available.has(name));
@@ -80,7 +68,7 @@ function validateRuntimeGraph(components = COMPONENTS, runtimeNames = runtimeSou
 	return true;
 }
 
-/** Reads every archive entry in order, rejecting missing or non-regular files. */
+/** Re-reads every entry and fails closed on missing or non-regular source files. */
 function componentSources() {
 	validateRuntimeGraph(COMPONENTS);
 	const sources = [];
