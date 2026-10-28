@@ -3,49 +3,54 @@
 //Blessed is He
 /**
  * @module ScrollTopology
- * The Awtsmoos gives two rails a faithful route across the keys;
- * Awtsmoos.com keeps their owners aligned in linked or independent degrees.
+ * The Awtsmoos carries two small rails, one above and one below the keys;
+ * Awtsmoos.com lets them travel together, or separately when the player agrees.
  */
 import { elements } from '../ui.js';
 
-/** @param {number} railIndex - Main rail zero, middle rail one. @returns {Object|null} Correct active scroll geometry. */
+/**
+ * Resolves physical rail 0 below and rail 1 above, with shared linked position.
+ * @param {number} railIndex - Zero for bottom, one for top.
+ * @returns {Object|null} The navigable keyboard and logical state.
+ */
 export function resolveScrollbarTopology(railIndex) {
-	const upper = document.getElementById('keyboard-top');
-	const lower = document.getElementById('keyboard-bottom');
-	const independent = Boolean(elements.independentScrollCheckbox?.checked);
 	if (railIndex !== 0 && railIndex !== 1) {
 		return null;
 	}
+	const lower = document.getElementById('keyboard-bottom');
+	const upper = document.getElementById('keyboard-top');
 	const container = railIndex === 0
 		? elements.customScrollbarContainer
 		: elements.customScrollbarContainerTop;
 	const thumb = railIndex === 0
 		? elements.customScrollbarThumb
 		: elements.customScrollbarThumbTop;
-	if (!container || !thumb || !lower) {
+	if (!container || !thumb || (!lower && !upper)) {
 		return null;
 	}
 	if (railIndex === 1 && !upper) {
 		return null;
 	}
-	// The main rail represents the upper strip when each strip is independent.
-	const upperOwner = railIndex === 0 && independent && upper;
-	const keyboard = upperOwner ? upper : lower;
-	const logicalIndex = upperOwner ? 1 : 0;
-	return { container, thumb, keyboard, logicalIndex };
+	const independent = Boolean(elements.independentScrollCheckbox?.checked && lower && upper);
+	return {
+		container,
+		thumb,
+		keyboard: railIndex === 1 && independent ? upper : (lower || upper),
+		logicalIndex: railIndex === 1 && independent ? 1 : 0
+	};
 }
 
-/** @param {HTMLElement} keyboard - Keyboard strip. @returns {number} Hidden travel. */
+/** @param {HTMLElement} keyboard - Keyboard strip. @returns {number} Available horizontal travel. */
 export function maximumKeyboardScroll(keyboard) {
-	return Math.max(0, keyboard.offsetWidth - elements.keyboardContainer.clientWidth);
+	return Math.max(0, (keyboard?.offsetWidth || 0) - (elements.keyboardContainer?.clientWidth || 0));
 }
 
-/** @returns {number} Small accessible keyboard step. */
+/** @returns {number} Small accessible horizontal step. */
 export function keyboardScrollStep() {
-	return elements.keyboardContainer.clientWidth * .12;
+	return (elements.keyboardContainer?.clientWidth || 0) * .12;
 }
 
-/** @returns {number} Large accessible keyboard step. */
+/** @returns {number} One near-viewport horizontal step. */
 export function keyboardScrollPage() {
-	return elements.keyboardContainer.clientWidth * .8;
+	return (elements.keyboardContainer?.clientWidth || 0) * .8;
 }

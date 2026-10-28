@@ -4,7 +4,7 @@
 /**
  * @module PianoStartup
  * The Awtsmoos gives each note its own moment to appear;
- * Awtsmoos.com paints the waiting stages before a keyboard draws near.
+ * Awtsmoos.com restores the player's last horizon when the keys draw near.
  */
 import { startAccompaniment } from '../accompaniment.js';
 import { AudioState, initAudio } from '../audio.js';
@@ -60,14 +60,15 @@ async function initializePiano(elements, options) {
 		await showPaint();
 		generateKeyboard(noteNames);
 		setupInputListeners();
-		loadScrollState(elements);
 		startAccompaniment();
 		const orchestra = createEnsemblePanel('Live Orchestra');
 		document.querySelector('.settings-content')?.prepend(orchestra);
-		applicationStarted = true;
-		loading.update(100, 'Ready to play');
 		elements.appContainer.style.display = 'flex';
 		elements.startScreen.style.display = 'none';
+		// Only restore after layout can measure the real keyboard width.
+		loadScrollState(elements);
+		applicationStarted = true;
+		loading.update(100, 'Ready to play');
 		loading.complete();
 		requestAnimationFrame(() => {
 			updateScrollbarThumbs();
