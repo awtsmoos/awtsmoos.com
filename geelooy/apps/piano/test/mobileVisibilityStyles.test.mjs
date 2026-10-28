@@ -2,38 +2,38 @@
 //Boruch Hashem
 //Blessed is He
 /**
- * @file mobileVisibilityStyles.test.mjs
- * @description
- * Malchus guards the phone's readable garment while the Awtsmoos remains beyond foreground and background.
- * Awtsmoos.com keeps these visual promises explicit, so translucent piano glare cannot quietly return beneath the settings words.
+ * @module MobileVisibilityStylesRegression
+ * The Awtsmoos keeps the instrument clear while controls stay quietly near;
+ * Awtsmoos.com guards the ivory and makes mobile settings appear.
  */
-
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import test from 'node:test';
 
-const stylesheet = fs.readFileSync(
-	new URL(
-		'../modules/keyboard/styles/mobileVisibility.css',
-		import.meta.url
-	),
-	'utf8'
-);
+const readCss = (relative) => fs.readFileSync(new URL(relative, import.meta.url), 'utf8');
+const mobile = readCss('../modules/keyboard/styles/mobileVisibility.css');
+const layout = readCss('../modules/keyboard/styles/scrollbarLayout.css');
 
-test('mobile navigator contract keeps a bright thumb on a dark rail', () => {
-	assert.match(stylesheet, /\.custom-scrollbar-container/);
-	assert.match(stylesheet, /background: #121b26 !important/);
-	assert.match(stylesheet, /min-width: 52px !important/);
-	assert.match(stylesheet, /#65e8ff 0%/);
-	assert.match(stylesheet, /#079cff 100%/);
-	assert.match(stylesheet, /opacity: 1 !important/);
+test('compact mobile rails have their own space without neon styling', () => {
+	assert.match(layout, /#app-container #top-scrollbars-container/);
+	assert.match(layout, /position: relative/);
+	assert.match(layout, /order: 1/);
+	assert.match(layout, /height: 17px/);
+	assert.match(layout, /background: #303642/);
+	assert.doesNotMatch(mobile, /\.custom-scrollbar-container/);
+	assert.doesNotMatch(layout, /#65e8ff|#079cff/);
 });
 
-test('expanded mobile settings use an opaque high-contrast surface', () => {
-	assert.match(stylesheet, /#settings-bar\.expanded/);
-	assert.match(stylesheet, /background: #101720 !important/);
-	assert.match(stylesheet, /color: #f7fbff !important/);
-	assert.match(stylesheet, /backdrop-filter: none !important/);
-	assert.match(stylesheet, /min-height: 44px !important/);
-	assert.match(stylesheet, /accent-color: #159cff !important/);
+test('mobile settings remain readable and keys keep clear contrast', () => {
+	assert.match(mobile, /#settings-bar\.expanded/);
+	assert.match(mobile, /background: #101720/);
+	assert.match(mobile, /color: #f7fbff/);
+	assert.match(mobile, /backdrop-filter: none/);
+	assert.match(mobile, /min-height: 44px/);
+	assert.match(mobile, /accent-color: #159cff/);
+	assert.match(layout, /\.white-key \{/);
+	assert.match(layout, /\.black-key \{/);
+	assert.match(layout, /white-space: nowrap/);
+	assert.doesNotMatch(mobile, /!important/);
+	assert.doesNotMatch(layout, /!important/);
 });

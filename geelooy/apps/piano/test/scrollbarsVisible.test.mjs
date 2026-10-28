@@ -2,9 +2,9 @@
 //Boruch Hashem
 //Blessed is He
 /**
- * @module ScrollbarsVisibleRegression
- * The Awtsmoos carries a hand along both rows without hiding either track;
- * Awtsmoos.com measures the first revealed width and brings the rails back.
+ * @module CompactScrollbarRegression
+ * The Awtsmoos opens every octave without laying rails across the keys;
+ * Awtsmoos.com shows a second guide only when separate motion is agreed.
  */
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -12,13 +12,12 @@ import { elements, scrollState } from '../modules/uiElements.js';
 import { updateScrollbarThumbs } from '../modules/uiScrollbar.js';
 import { resolveScrollbarTopology } from '../modules/keyboard/scrollTopology.js';
 
-/** @returns {Object} Two-row piano geometry and cleanup. */
+/** @returns {Object} Dual-row mock with reliable cleanup. */
 function createPiano() {
 	const originalDocument = globalThis.document;
 	const originalElements = { ...elements };
-	const strip = (width) => ({ offsetWidth: width, style: {} });
-	const upper = strip(1400);
-	const lower = strip(1200);
+	const upper = { offsetWidth: 1400, style: {} };
+	const lower = { offsetWidth: 1200, style: {} };
 	const nodes = { 'keyboard-top': upper, 'keyboard-bottom': lower };
 	const control = () => ({ style: {}, clientWidth: 330 });
 	Object.assign(elements, {
@@ -36,6 +35,7 @@ function createPiano() {
 	return {
 		upper,
 		lower,
+		nodes,
 		restore() {
 			globalThis.document = originalDocument;
 			for (const key of Object.keys(elements)) { delete elements[key]; }
@@ -44,18 +44,32 @@ function createPiano() {
 	};
 }
 
-test('both rails are visible at first layout without key resizing', () => {
+test('linked mode renders one compact navigation rail', () => {
 	const piano = createPiano();
 	try {
 		updateScrollbarThumbs();
-		assert.equal(elements.middleScrollbarContainer.style.display, 'block');
+		assert.equal(elements.middleScrollbarContainer.style.display, 'none');
 		assert.equal(elements.customScrollbarContainer.style.display, 'block');
-		assert.equal(elements.customScrollbarContainerTop.style.display, 'block');
-		assert.ok(parseFloat(elements.customScrollbarThumb.style.width) > 0);
+		assert.equal(elements.customScrollbarContainerTop.style.display, 'none');
+		assert.ok(parseFloat(elements.customScrollbarThumb.style.width) >= 42);
 	} finally { piano.restore(); }
 });
 
-test('rails remain visible through zero-width startup and update after reveal', () => {
+test('independent mode enables both mapped rails and separate thumbs', () => {
+	const piano = createPiano();
+	try {
+		elements.independentScrollCheckbox.checked = true;
+		updateScrollbarThumbs();
+		assert.equal(elements.middleScrollbarContainer.style.display, 'block');
+		assert.equal(elements.customScrollbarContainerTop.style.display, 'block');
+		assert.equal(resolveScrollbarTopology(0).keyboard, piano.upper);
+		assert.equal(resolveScrollbarTopology(0).logicalIndex, 1);
+		assert.equal(resolveScrollbarTopology(1).keyboard, piano.lower);
+		assert.equal(resolveScrollbarTopology(1).logicalIndex, 0);
+	} finally { piano.restore(); }
+});
+
+test('zero-width startup keeps linked rail ready, then sizes after reveal', () => {
 	const piano = createPiano();
 	try {
 		elements.keyboardContainer.clientWidth = 0;
@@ -70,15 +84,13 @@ test('rails remain visible through zero-width startup and update after reveal', 
 	} finally { piano.restore(); }
 });
 
-test('linked rails scroll together; independent main rail owns upper keyboard', () => {
+test('one keyboard row uses one rail even if independent is checked', () => {
 	const piano = createPiano();
 	try {
-		assert.equal(resolveScrollbarTopology(0).logicalIndex, 0);
-		assert.equal(resolveScrollbarTopology(1).logicalIndex, 0);
+		delete piano.nodes['keyboard-top'];
 		elements.independentScrollCheckbox.checked = true;
-		assert.equal(resolveScrollbarTopology(0).keyboard, piano.upper);
-		assert.equal(resolveScrollbarTopology(0).logicalIndex, 1);
-		assert.equal(resolveScrollbarTopology(1).keyboard, piano.lower);
-		assert.equal(resolveScrollbarTopology(1).logicalIndex, 0);
+		updateScrollbarThumbs();
+		assert.equal(elements.middleScrollbarContainer.style.display, 'none');
+		assert.equal(resolveScrollbarTopology(0).logicalIndex, 0);
 	} finally { piano.restore(); }
 });

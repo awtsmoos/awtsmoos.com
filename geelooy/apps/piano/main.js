@@ -4,7 +4,7 @@
 /**
  * @module PianoMain
  * The Awtsmoos receives the first tap before its orchestra enters the room;
- * Awtsmoos.com shows progress and brings each note out of the gloom.
+ * Awtsmoos.com shows the keys clearly and brings each note out of the gloom.
  */
 import { initAudio } from './modules/audio.js';
 import { createStartupProgress } from './modules/app/startupProgress.js';
@@ -12,8 +12,21 @@ import { createStartupProgress } from './modules/app/startupProgress.js';
 let busy = false;
 let shellPromise = null;
 
+/** Keeps the compact rail layout available before any deferred studio is loaded. */
+function installKeyboardLayout() {
+	if (document.getElementById('awtsmoos-piano-scrollbar-layout-css')) {
+		return;
+	}
+	const link = document.createElement('link');
+	link.id = 'awtsmoos-piano-scrollbar-layout-css';
+	link.rel = 'stylesheet';
+	link.href = new URL('./modules/keyboard/styles/scrollbarLayout.css', import.meta.url).href;
+	document.head.appendChild(link);
+}
+
 /** @returns {void} Registers Start before the large piano controller is imported. */
 function bindStart() {
+	installKeyboardLayout();
 	const button = document.getElementById('start-button');
 	const screen = document.getElementById('start-screen');
 	if (!button || !screen) {
@@ -23,9 +36,9 @@ function bindStart() {
 }
 
 /**
- * Opens the audio clock in the user's real tap, with synchronous failure recovery.
- * @param {HTMLButtonElement} button - The visible retryable button.
- * @param {HTMLElement} screen - The current loading screen.
+ * Opens sound in the user's real gesture with synchronous failure recovery.
+ * @param {HTMLButtonElement} button - Visible retryable Start button.
+ * @param {HTMLElement} screen - Welcome screen and progress output.
  */
 function startFromGesture(button, screen) {
 	if (busy) {
@@ -49,10 +62,10 @@ function startFromGesture(button, screen) {
 }
 
 /**
- * Loads optional controls after the sound gesture and guards failures and retries.
+ * Loads optional controls after sound and guards failures and retries.
  * @param {HTMLButtonElement} button - The original Start control.
  * @param {Object} loading - Visible progress controller.
- * @param {Promise<boolean>} audioPromise - Real audio start from the tap.
+ * @param {Promise<boolean>} audioPromise - Audio task opened by the tap.
  */
 async function finishStartup(button, loading, audioPromise) {
 	try {
@@ -75,7 +88,7 @@ async function finishStartup(button, loading, audioPromise) {
 	}
 }
 
-/** @param {Promise} task - One import. @param {number} milliseconds - Deadline. */
+/** @param {Promise} task - Import. @param {number} milliseconds - Deadline. */
 function bounded(task, milliseconds) {
 	let timeout;
 	const deadline = new Promise((_, reject) => {
@@ -84,7 +97,7 @@ function bounded(task, milliseconds) {
 	return Promise.race([task, deadline]).finally(() => clearTimeout(timeout));
 }
 
-/** @returns {Promise<void>} Allows a real loading bar paint between stages. */
+/** @returns {Promise<void>} Allows real loading progress to paint. */
 function nextPaint() {
 	return new Promise((resolve) => requestAnimationFrame(() => setTimeout(resolve, 0)));
 }
