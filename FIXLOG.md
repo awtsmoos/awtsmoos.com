@@ -2,67 +2,68 @@ B"H
 Boruch Hashem
 Blessed is He
 
-# Awtsmoos.com Issue Fix Log
+# Awtsmoos.com — Verified Issues and Release Gates
 
-The Awtsmoos renews each instant; this ledger names what the tests truly show, without mistaking a bright entrance for the whole journey. Evidence last refreshed October 28, 2026. The original issue IDs and non-defect protections remain authoritative. “Open” includes anything that still lacks a complete, passing acceptance test.
+The Awtsmoos renews every instant; Awtsmoos.com records only testable evidence. Updated October 28, 2026. **Partial is not complete.** Original issue IDs and protected non-defects retained.
 
 ## Verified releases
 
-- DEPLOY — verified — secured Unix installer public contract corrected in `77709e630b33bd5b1e6dcdf95939ef415bfccaa8`; GitHub Actions run 40726010339 succeeded, production SHA and public assets matched.
-- HDR-CSS — verified — search theme variables split from result cards in `be423faebfd7c3bb5ebf4b41aa709b84ad4383c9` without changing CSS declarations; header contract tests passed and GitHub Actions run 40726893755 succeeded.
-- READER-MOBILE — verified within tested scope — fixed bilingual typography, `Aa` font adjustment, navigation, lightweight pair highlighting, portrait/landscape Chrome emulation and no unintended layout shift. Real Android/iOS hardware acceptance is still outstanding.
-- DRIVE-ARCHIVE — verified bytes, NOT cleanup — all 92 physical and 36 embedded Drive replacements returned byte-exact manifest hashes/sizes; all 92 remaining production files matched original hashes and sizes. No image files were deleted.
+- DEPLOY — secured Unix installer verification repaired `77709e630b33bd5b1e6dcdf95939ef415bfccaa8`; Actions 40726010339 passed.
+- HDR-CSS — scoped header search CSS repair `be423faebfd7c3bb5ebf4b41aa709b84ad4383c9`; Actions 40726893755 passed.
+- READER-MOBILE — Hebrew/English pairing, Aa scale, i menu and paint-only scroll highlight passed simulated mobile checks; `b34350ef8a1c7c7dbf14682ae49f6c4f17972b88`. Physical hardware pending.
+- DRIVE-ARCHIVE — all 92 physical and 36 embedded Drive replacements verified by SHA-256 and size; all 92 production originals retained and match manifest. **Deletion not authorized by hashes alone.**
+- PROD-OWNER — two staged Encyclopedia/Sefarim files preserved byte-for-byte in `57305818b90dac23ee68456db500e4aa21a2c5cc`; merged into `ea89448e5ad418845f34bdad8230296db3942cc2`. Production clean/active, Actions 40789095796 passed.
+- MIGDOL-START — new primary button visible at opacity 1; live 390x844 Chrome click opens battlefield with canvas, waves, coins, health. No uncaught errors. Full play/pause/restart not accepted.
+- CONTRACTS — 28/28 Node regression tests passed across reader, Heichel/post editors, composer, header, Apps catalog and Migdol.
 
-## Original critical-path issue IDs
+## Historical critical-path issue IDs
 
-- RC-1 — partially verified — code removed CWD-derived social roots in `c3e370a19`; complete live data-root regression and auth provenance remain to be certified.
-- API-1 — partially verified — old stray-root inventory reported no orphan records; canonical read/write continuity and permissions remain to be proven.
-- ENG-1 — open for full scope — historical mode-0600 static file failure; tested current public routes return 200, but the complete historical 244-file permission census has not been repeated.
-- API-2 — resolved for public GET — `/api/social/feed/posts` now returns HTTP 200 and `ok: true`; authenticated mutations are tracked by PUB/SER, not this read-only result.
-- APP-1 — partially verified — `/apps/` and `/apps/awtsmoos-gguf/` return HTTP 200; catalog launch, filtering and authentication require functional browser acceptance.
-- PUB-1 — open — canonical production create/publish/read/edit/delete TEST flow not verified.
-- PUB-2 — open — post-editor Save/Publish behavior not proven against authenticated production storage.
-- SER-1 — open — signed-in write permissions and alias ActorAuthorization positive/negative tests remain.
-- POST-1 — partially verified — live canonical Likkutei Sichos reader and sampled routes render; full post-type matrix remains.
-- POST-2 — partially verified — old Ikar data visible in the live reader; historical root-split recovery requires wider storage validation.
-- POST-7 — partially verified — tested reader recovery and missing-route behavior; destructive retry/fallback possibilities need final negative tests.
-- EDT-ROOT — open — complete authenticated Heichel and post-editor persistence and ownership test.
-- HEC-ROUTE — partially verified — Ikar Heichel/series/post routes work; aliases, nested relations, permission boundaries need complete acceptance.
-- FORM-1 — open — authenticated forms and failed-save feedback not fully verified.
-- CMP-1 — open — composer mocked browser fixture and production authenticated publication are separate gates; full live lifecycle not proven.
-- EMU-403 — resolved for entry routes — former missing-index claim is outdated: Apps and GGUF entry URLs now return 200; functional acceptance remains under APP/GGUF.
-- GGUF-1 — open — real GGUF model parsing, memory and failure states have not been accepted.
-- HDR-1 — partially verified — header search and shared header contracts pass; mobile keyboard/focus and signed-in navigation require broader browser acceptance.
+- RC-1 — partial — CWD social roots removed in `c3e370a19`; live continuity and negative tests outstanding.
+- API-1 — partial — historic orphan-root inventory clean; canonical authenticated writes unproven.
+- ENG-1 — partial — sampled routes return 200; old mode-0600 static file census not repeated.
+- API-2 — GET resolved — `/api/social/feed/posts` returns 200 with `ok:true`; writes are different.
+- APP-1 — partial — Apps/GGUF entry routes and catalog contracts work; launch/filter acceptance pending.
+- PUB-1 — open — TEST create/save/publish/read/edit/delete production cycle absent.
+- PUB-2 — open — authenticated post-editor Save/Publish persistence unproven.
+- SER-1 — open — actor/alias authorization positive and negative writes unproven.
+- POST-1 — partial — Likkutei Sichos reader verified; exhaustive post formats outstanding.
+- POST-2 — partial — historical Ikar data visible; root-split recovery requires wider evidence.
+- POST-7 — partial — reader retry/recovery tested; destructive fallback negative tests needed.
+- EDT-ROOT — open — complete authenticated Heichel/post editor lifecycle absent.
+- HEC-ROUTE — partial — Ikar Heichel/series/posts work; nested ownership/aliases outstanding.
+- FORM-1 — open — authenticated form persistence and failure feedback pending.
+- CMP-1 — open — composer contract tests green; browser fixture and live TEST publishing not conclusively passed.
+- EMU-403 — entry route resolved — old missing-index diagnosis obsolete; Apps/GGUF behavior under APP/GGUF.
+- GGUF-1 — open — real model loading, parser, memory limits and error recovery unverified.
+- HDR-1 — partial — header/search tests green; keyboard/accessibility and signed-in paths pending.
 
-## Games: public routes exist; playability remains open
+## Ten games: loading is not a complete playthrough
 
-- KAV-1 — open — `/games/KAVANAH/` HTTP 200; gameplay acceptance pending.
-- ADV-1 — open — `/games/adventure/` HTTP 200; gameplay acceptance pending.
-- BRK-1 — open — `/games/brick-blast/` HTTP 200; gameplay acceptance pending.
-- COL-1 — open — `/games/connect4/` HTTP 200; gameplay acceptance pending.
-- MIT-2 — open — `/games/mitzvahWorld/` HTTP 200; gameplay acceptance pending.
-- MIG-1 — open — `/games/migdol/` HTTP 200; gameplay acceptance pending.
-- OHB-1 — open — `/games/ohrbound/` HTTP 200; gameplay acceptance pending.
-- NES-1 — open — `/games/neshama-quest/` HTTP 200; gameplay acceptance pending.
-- SHS-1 — open — `/games/shema-strike/` HTTP 200; gameplay acceptance pending.
-- GAMES-OTHER — open — `/games/ohr-hagnuz/` HTTP 200; gameplay acceptance pending.
+- KAV-1 — partial — `/games/KAVANAH/` Chrome entry works; start/play/restart unverified.
+- ADV-1 — partial — `/games/adventure/` Chrome entry works; full play unverified.
+- BRK-1 — partial — `/games/brick-blast/` Chrome entry works; full play unverified.
+- COL-1 — partial — `/games/connect4/` Chrome entry works; full play unverified.
+- MIT-2 — partial — `/games/mitzvahWorld/` loads after animation; full play unverified.
+- MIG-1 — start fixed and verified — `/games/migdol/` battlefield opens; gameplay/restart open.
+- OHB-1 — partial — `/games/ohrbound/` Chrome entry works; full play unverified.
+- NES-1 — partial — `/games/neshama-quest/` Chrome entry works; full play unverified.
+- SHS-1 — partial — `/games/shema-strike/` Chrome entry works; full play unverified.
+- GAMES-OTHER — partial — `/games/ohr-hagnuz/` Chrome entry works; full play unverified.
 
-## Remaining release gates
+## Open release and safety gates
 
-- IMAGE-CONSUMERS — open — verify no active code, saved posts or user-generated content references old physical URLs before deleting any of the 92 files.
-- AUTH-PUBLISH — open — TEST actor authorization, actual Save/Publish/Read/Edit/Delete and exact cleanup verification required.
-- GAME-ACCEPTANCE — open — start/play/pause/restart on ten games, touch and keyboard on mobile.
-- GGUF-ACCEPTANCE — open — real model parser and bounded error/memory recovery.
-- GIT-LOCAL — open — local Mac main diverges from origin/main, with piano, composer, game and tunnel owner edits preserved. Do not reset or bulk-stage.
-- DEVICE-ACCEPTANCE — open — physical Android/iOS reader and app testing.
-- M/m INVENTORY — open pending owner ISSUES.md per-section reproduction. Historical issue labels alone are not proof of a current regression.
+- LINUX-TUNNEL — `awt-root-73967` connects/heartbeats but normal commands report `consumer_stalled`, unowned ingress and connection-authority fencing; supervisor restart did not fix. Backup `/root/awtsmoos-tunnel-evidence-20261028-2302/` preserved. Mac tunnel works; never bypass ownership or replay unknown accepted work.
+- IMAGE-CONSUMERS — 92 physical entries have 90 distinct basenames; broad code reference scan timed out and scoped scan lacked `rg`. Saved social content not examined. No deletion.
+- AUTH-PUBLISH — disposable TEST identity, exact ID, write permissions and cleanup not proven; no public test post mutated.
+- GAME-ACCEPTANCE — ten complete play/pause/restart loops, keyboard and touch tests required.
+- GGUF-ACCEPTANCE — real model parsing and recovery required.
+- GIT-LOCAL — Mac main diverges from origin/main; owner piano, game, composer and tunnel work preserved, not reset.
+- DEVICE-ACCEPTANCE — physical Android/iOS reader and accessibility remain.
+- M/m INVENTORY — historical owner `ISSUES.md` requires separate issue-by-issue acceptance.
 
-## Explicit non-defects / preserved behavior
+## Explicit non-defects and invariants
 
-- ENG-5 — refuted by prior inventory; do not rewrite fallback rendering without contradictory evidence.
-- FILM-1 — “still arriving” modal is intentional behavior.
-- `/apps/tunnel-control/` authentication/root gating is intentional, not a bug.
-
-## Production safety gates
-
-The owner authorized full deployment on October 26. Every later release must still preserve existing data and owner work, require an exact Git SHA, pass automated and live checks, and never delete old physical image files based only on successful Drive uploads. HTTP 200 is a route check, not proof of successful gameplay, saved edits, or publication.
+- ENG-5 — refuted by earlier inventory; do not rewrite fallback without new evidence.
+- FILM-1 — designed “still arriving” modal, not a defect.
+- `/apps/tunnel-control/` authentication/root gating is intentional.
+- Never remove unverified legacy assets, overwrite owner work, bypass tunnel authority, or confuse HTTP 200 with a working user workflow.
