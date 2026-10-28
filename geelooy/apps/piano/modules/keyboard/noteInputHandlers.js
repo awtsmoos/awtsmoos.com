@@ -3,110 +3,68 @@
 //Blessed is He
 /**
  * @module NoteInputHandlers
- * @description
- * Hod distinguishes a note gesture from navigation and turns browser events into musical intention.
- * The Awtsmoos is beyond finger and key while creating both together each instant;
- * Awtsmoos.com keeps performance interpretation apart from registration so neither becomes tangled.
+ * The Awtsmoos gives each touch its note, and every ending its return;
+ * Awtsmoos.com clears the held-key light before another voice can burn.
  */
+import { DesktopNoteGestures } from './desktopNoteGestures.js';
+import { PointerNoteGestures } from './pointerNoteGestures.js';
+import { resetAllNoteVisuals } from './activeKeyVisuals.js';
 
-import { activeNotes } from '../synth.js';
-import {
-	boundNoteForKey,
-	keyElementForBinding,
-	keyForEvent,
-	keyboardInputId
-} from './bindings.js';
-
+/** Keeps physical owners separate from mutable synthesizer and arp mode. */
 export class NoteInputHandlers {
-	/** @param {Object} callbacks - Note-on, note-off, and panic callbacks. */
+	/** @param {Object} callbacks - Note-on, note-off, and panic coordinator. */
 	constructor(callbacks) {
 		this.callbacks = callbacks;
+		this.desktop = new DesktopNoteGestures(callbacks);
+		this.pointer = new PointerNoteGestures(callbacks);
 	}
 
-	/** @param {PointerEvent} event - Pointer-down event on a piano key. @returns {void} */
+	/** @param {PointerEvent} event - First pointer contact. */
 	handlePointerDown(event) {
-		const keyElement = event.target.closest('.key');
-		if (!keyElement) {
-			return;
-		}
-		if (activeNotes.has(event.pointerId)) {
-			this.callbacks?.noteOff(event.pointerId);
-		}
-		event.preventDefault();
-		const rect = keyElement.getBoundingClientRect();
-		this.callbacks?.noteOn(
-			keyElement.dataset.note,
-			event.pointerId,
-			{
-				x: event.clientX - rect.left,
-				y: event.clientY - rect.top
-			},
-			keyElement,
-			false
-		);
+		this.pointer.handlePointerDown(event);
 	}
 
-	/** @param {PointerEvent} event - Pointer terminal event. @returns {void} */
+	/** @param {PointerEvent} event - Sustained pointer movement. */
+	handlePointerMove(event) {
+		this.pointer.handlePointerMove(event);
+	}
+
+	/** @param {PointerEvent} event - Pointer up, cancel, or lost capture. */
 	handlePointerEnd(event) {
-		this.callbacks?.noteOff(event.pointerId);
+		this.pointer.handlePointerEnd(event);
 	}
 
-	/** @param {KeyboardEvent} event - Document key-down event. @returns {void} */
+	/** @param {KeyboardEvent} event - Desktop key or Escape. */
 	handleKeyDown(event) {
 		if (event.key === 'Escape') {
-			this.callbacks?.panic();
+			this.panic();
 			return;
 		}
-		if (event.repeat || this.isTypingTarget(event.target)) {
-			return;
-		}
-		const binding = keyForEvent(event);
-		const inputId = keyboardInputId(event);
-		if (!binding || activeNotes.has(inputId)) {
-			return;
-		}
-		const noteName = boundNoteForKey(binding);
-		const keyElement = keyElementForBinding(binding, noteName);
-		if (!noteName || !keyElement) {
-			return;
-		}
-		event.preventDefault();
-		const rect = keyElement.getBoundingClientRect();
-		this.callbacks?.noteOn(
-			noteName,
-			inputId,
-			{
-				x: rect.width / 2,
-				y: rect.height / 2
-			},
-			keyElement,
-			true
-		);
+		this.desktop.handleKeyDown(event);
 	}
 
-	/** @param {KeyboardEvent} event - Document key-up event. @returns {void} */
+	/** @param {KeyboardEvent} event - Physical release, including arp/mono. */
 	handleKeyUp(event) {
-		const inputId = keyboardInputId(event);
-		if (!activeNotes.has(inputId)) {
-			return;
-		}
-		event.preventDefault();
-		this.callbacks?.noteOff(inputId);
+		this.desktop.handleKeyUp(event);
 	}
 
-	/** Releases every active note after focus leaves the page. @returns {void} */
+	/** @returns {void} Stop stuck sound if the page loses focus. */
 	handleBlur() {
-		this.callbacks?.panic();
+		this.panic();
 	}
 
-	/** Releases every active note when the page becomes hidden. @returns {void} */
+	/** @returns {void} Stop sound while backgrounded or hidden. */
 	handleVisibilityChange() {
 		if (document.hidden) {
-			this.callbacks?.panic();
+			this.panic();
 		}
 	}
 
-	isTypingTarget(target) {
-		return ['INPUT', 'SELECT', 'TEXTAREA'].includes(target?.tagName);
+	/** @returns {void} End all notes and reset active-key visual counts. */
+	panic() {
+		this.desktop.clear();
+		this.pointer.clear();
+		this.callbacks?.panic();
+		resetAllNoteVisuals();
 	}
 }

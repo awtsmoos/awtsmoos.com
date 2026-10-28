@@ -2,59 +2,62 @@
 //Boruch Hashem
 //Blessed is He
 /**
- * One played note may wear two visible keyboards, yet its sound remains one.
- * The Awtsmoos shines through every matching vessel; Awtsmoos.com lets upper and lower keys answer as one.
+ * @module PianoActiveKeyVisuals
+ * The Awtsmoos gives one key a light for each musician's hand;
+ * Awtsmoos.com leaves it glowing until all fingers leave the land.
  */
+let activeCounts = new WeakMap();
 
 /**
- * Collects every rendered key that represents the same musical note.
- * A preferred clicked element is placed first so visual effects retain local coordinates.
- *
- * @param {string} noteName Exact note name such as C#4.
- * @param {HTMLElement|null} preferredElement Element that initiated the note, when known.
- * @param {Document|HTMLElement} root Search root.
- * @returns {HTMLElement[]} Every visible DOM copy of the note.
+ * @param {string} noteName - Full pitch identity.
+ * @param {HTMLElement|null} preferredElement - Directly played key.
+ * @param {Document|HTMLElement} root - Search vessel.
+ * @returns {HTMLElement[]} Existing visible copies in preferred-first order.
  */
 export function collectNoteVisuals(noteName, preferredElement = null, root = document) {
 	const matches = Array.from(root.querySelectorAll('.key[data-note]'))
 		.filter((element) => element.dataset.note === noteName);
-	if (preferredElement && !matches.includes(preferredElement)) {
-		matches.unshift(preferredElement);
-	}
-	if (preferredElement && matches[0] !== preferredElement) {
-		const ordered = matches.filter((element) => element !== preferredElement);
-		ordered.unshift(preferredElement);
-		return ordered;
+	if (preferredElement) {
+		return [preferredElement, ...matches.filter((element) => element !== preferredElement)];
 	}
 	return matches;
 }
 
-/** Activates every visible vessel associated with one sounding note. */
-export function activateNoteVisuals(elements) {
-	setVisualState(elements, true);
+/** @param {HTMLElement[]} elements - One independent sounding voice's keys. */
+export function activateNoteVisuals(elements = []) {
+	for (const element of elements) {
+		const count = activeCounts.get(element) || 0;
+		activeCounts.set(element, count + 1);
+		element.classList.add('active');
+	}
 }
 
-/** Deactivates every visible vessel associated with one released note. */
-export function deactivateNoteVisuals(elements) {
-	setVisualState(elements, false);
+/** @param {HTMLElement[]} elements - Keys released by only this voice. */
+export function deactivateNoteVisuals(elements = []) {
+	for (const element of elements) {
+		const remaining = Math.max(0, (activeCounts.get(element) || 0) - 1);
+		if (remaining) {
+			activeCounts.set(element, remaining);
+			continue;
+		}
+		activeCounts.delete(element);
+		element.classList.remove('active');
+	}
 }
 
-/**
- * Clears visual state from an active-note record, including legacy single-key records.
- *
- * @param {object|null} activeNote Synth input record.
- */
+/** @param {Object|null} activeNote - Optional stored legacy or polyphonic key record. */
 export function deactivateActiveNoteVisuals(activeNote) {
-	const elements = activeNote?.keyElements || (activeNote?.keyElement ? [activeNote.keyElement] : []);
+	const elements = activeNote?.keyElements
+		|| (activeNote?.keyElement ? [activeNote.keyElement] : []);
 	deactivateNoteVisuals(elements);
 }
 
-function setVisualState(elements = [], active) {
-	elements.forEach((element) => {
-		if (active) {
-			element.classList.add('active');
-		} else {
+/** @returns {void} Panic clears all visual counts and stuck key highlights. */
+export function resetAllNoteVisuals() {
+	activeCounts = new WeakMap();
+	if (typeof document !== 'undefined') {
+		for (const element of document.querySelectorAll('.key.active')) {
 			element.classList.remove('active');
 		}
-	});
+	}
 }
