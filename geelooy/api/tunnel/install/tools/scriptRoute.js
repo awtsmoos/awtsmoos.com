@@ -5,44 +5,71 @@
 const { sendText } = require("./respond.js");
 const { readTunnelDownload } = require("./sourceFile.js");
 const { buildInstallerComponents } = require("./installerComponents.js");
+const {
+	WINDOWS_BOOTSTRAP_HELPERS,
+	cleanDownloadText,
+	encodeBootstrapIntegrityCatalog
+} = require("./bootstrapIntegrity.js");
 
 /**
- * @file Lazy source-backed installer route registration.
+ * @file Renders public installer scripts with exact source-derived witnesses.
  * @description
- * The Awtsmoos keeps the rescue door outside the weight of the normal palace;
- * Awtsmoos.com reads or builds only after a route truly matches, preserving balance.
+ * The Awtsmoos restores each byte to the witness of its name;
+ * Awtsmoos.com admits no subsequent script until the first stage seals its flame.
  */
 
-/**
- * Registers one script route without eagerly constructing unrelated artifacts.
- * @param {object} $i route context
- * @param {string} routeName public route segment
- * @param {string} fileName source file inside tunnel downloads
- * @returns {Promise<void>}
- */
+const INTEGRITY_PLACEHOLDER = "__AWTSMOOS_BOOTSTRAP_INTEGRITY_BASE64__";
+const COMPONENTS_SHA_PLACEHOLDER = "__AWTSMOOS_INSTALLER_COMPONENTS_SHA256__";
+const COMPONENTS_BYTES_PLACEHOLDER = "__AWTSMOOS_INSTALLER_COMPONENTS_BYTES__";
+
+/** Registers a source-backed script route without side effects at registration time. */
 async function registerScriptRoute($i, routeName, fileName) {
 	await $i.use(routeName, async () => {
-		let text = clean(readTunnelDownload(fileName));
-		// Bind the public bootstrap to the exact verified component archive.
-		if (fileName === "unix.sh") {
-			text = text.replace(
-				"__AWTSMOOS_INSTALLER_COMPONENTS_SHA256__",
-				buildInstallerComponents().sha256
-			);
-		}
-		return sendText(
-			$i,
-			text,
-			"text/plain; charset=utf-8"
-		);
+		return sendText($i, renderScript(fileName), "text/plain; charset=utf-8");
 	});
 }
 
-/** Removes an optional BOM while preserving the script bytes otherwise. */
-function clean(text) {
-	return String(text || "").replace(/^\uFEFF/, "");
+/**
+ * Produces a bootstrap bound to the exact canonical helpers or archive.
+ * @param {string} fileName Registered source download name.
+ * @returns {string} Rendered public bootstrap.
+ */
+function renderScript(fileName) {
+	if (fileName === "unix.sh") {
+		return renderVerifiedUnix();
+	}
+	const text = cleanDownloadText(readTunnelDownload(fileName));
+	if (fileName === "windows.ps1") {
+		return injectWindowsIntegrity(text);
+	}
+	return text;
+}
+
+/** Renders the compact Unix stage zero bound to the complete sealed graph. */
+function renderVerifiedUnix() {
+	const bundle = buildInstallerComponents();
+	const text = cleanDownloadText(readTunnelDownload("unix-secure.sh"));
+	if (!text.includes(COMPONENTS_SHA_PLACEHOLDER) ||
+		!text.includes(COMPONENTS_BYTES_PLACEHOLDER)) {
+		throw new Error("unix_secure_bootstrap_integrity_placeholders_missing");
+	}
+	return text
+		.replace(COMPONENTS_SHA_PLACEHOLDER, bundle.sha256)
+		.replace(COMPONENTS_BYTES_PLACEHOLDER, String(bundle.bytes));
+}
+
+/** Authenticates the first executable Windows helper chain. */
+function injectWindowsIntegrity(text) {
+	if (!text.includes(INTEGRITY_PLACEHOLDER)) {
+		throw new Error("windows_bootstrap_integrity_placeholder_missing");
+	}
+	return text.replace(
+		INTEGRITY_PLACEHOLDER,
+		encodeBootstrapIntegrityCatalog(WINDOWS_BOOTSTRAP_HELPERS)
+	);
 }
 
 module.exports = {
-	registerScriptRoute
+	registerScriptRoute,
+	renderScript
 };

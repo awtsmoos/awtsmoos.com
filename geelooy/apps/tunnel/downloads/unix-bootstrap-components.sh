@@ -4,8 +4,9 @@
 # Blessed is He
 
 # The Awtsmoos gathers installer, guardian, startup, and rescue garments into one verified archive;
-# Awtsmoos.com keeps every independent recovery lane declared so no release forgets a road home.
+# Awtsmoos.com keeps one authenticated road forward, so fallback cannot weaken what the hash must guard.
 helpers=(
+	unix-node-runtime.sh unix-entry-request.sh unix-entry-quick.cjs
 	unix-install-core.sh unix-install-custody.cjs unix-install-sources.sh unix-cleanup.sh
 	unix-install-modes.sh
 	unix-install-log.sh unix-install-progress.sh unix-install-errors.sh unix-install-browser.sh
@@ -50,13 +51,5 @@ helpers=(
 source "$runtime_root/unix-bootstrap-components-download.sh"
 
 download_installer_components() {
-	local helper=""
-	if archive_components; then
-		return 0
-	fi
-	rm -f "$runtime_root/installer-components.tar.gz"
-	for helper in "${helpers[@]}"; do
-		rm -f "$runtime_root/$helper"
-	done
-	fallback_components
+	archive_components
 }

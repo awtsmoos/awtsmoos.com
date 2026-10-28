@@ -5,106 +5,102 @@
 import fs from "node:fs";
 import http from "node:http";
 import path from "node:path";
-import { renderInstallRoute } from "./install-route-fixture.mjs";
+import zlib from "node:zlib";
+import { createRequire } from "node:module";
 
+const require = createRequire(import.meta.url);
+const Tar = require("../tools/installerComponentTar.js");
 const downloadsRoot = path.resolve("geelooy/apps/tunnel/downloads");
 
 /**
- * @file Serves the real bootstrap with harmless current component fixtures.
+ * @file Serves a real digest-pinned yet harmless installer archive to isolation tests.
  * @description
- * The Awtsmoos renews installer custody together with shell and Node; Awtsmoos.com
- * therefore lets this isolated origin serve every bootstrap dependency the real flow
- * now requires, so tests follow living architecture instead of yesterday's choir.
+ * The Awtsmoos protects each boundary and keeps the test's small stage true;
+ * Awtsmoos.com proves identity survives the handoff without installing anew.
  */
 export async function startUnixBootstrapServer() {
-	const route = await renderInstallRoute("unix");
+	const archive = buildHarmlessArchive();
+	const bootstrap = renderFixtureBootstrap(archive);
 	const requests = [];
 	const server = http.createServer((request, response) => {
 		const pathname = new URL(request.url, "http://127.0.0.1").pathname;
 		requests.push(pathname);
 		if (pathname === "/api/tunnel/install/unix") {
-			return send(response, route.packet.response);
+			return send(response, bootstrap, "text/plain; charset=utf-8");
 		}
-		// The entry bootstrap still supports the static fetch-policy URL, while
-		// the current bootstrap engine and components come from the install API.
-		const prefix = pathname.startsWith("/api/tunnel/install/")
-			? "/api/tunnel/install/"
-			: "/apps/tunnel/downloads/";
-		if (!pathname.startsWith(prefix)) {
-			response.statusCode = 404;
-			return response.end("not found");
+		if (pathname === "/api/tunnel/install/installer-components.tar.gz") {
+			return send(response, archive, "application/gzip");
 		}
-		const fileName = path.basename(pathname.slice(prefix.length));
-		return send(response, helperBody(fileName));
+		response.writeHead(404);
+		response.end("not found");
 	});
 	await new Promise(resolve => server.listen(0, "127.0.0.1", resolve));
-	const address = server.address();
 	return {
-		origin: `http://127.0.0.1:${address.port}`,
+		origin: `http://127.0.0.1:${server.address().port}`,
 		requests,
 		close: () => new Promise(resolve => server.close(resolve))
 	};
 }
 
-function helperBody(fileName) {
-	if (fileName === "unix-bootstrap-fetch.sh" || fileName === "unix-bootstrap-run.sh") {
-		return fs.readFileSync(path.join(downloadsRoot, fileName), "utf8");
-	}
-	if (fileName === "unix-node-runtime.sh") return nodeRuntimeStub();
-	if (fileName === "unix-bootstrap-components.sh") return componentBootstrapStub();
-	if (fileName === "unix-install-core.sh") return installCoreStub();
-	if (fileName === "unix-install-custody.cjs") {
-		return fs.readFileSync(path.join(downloadsRoot, fileName), "utf8");
-	}
-	if (fileName === "unix-activation.sh") {
-		return fs.readFileSync(path.join(downloadsRoot, fileName), "utf8");
-	}
-	return "#!/usr/bin/env bash\n# B\"H\n:\n";
+/** Seals harmless runtime and custody stubs with the production tar encoder. */
+function buildHarmlessArchive() {
+	const files = [
+		{
+			name: "unix-entry-request.sh",
+			data: fs.readFileSync(path.join(downloadsRoot, "unix-entry-request.sh"))
+		},
+		{ name: "unix-node-runtime.sh", data: Buffer.from(nodeRuntimeStub()) },
+		{ name: "unix-install-custody.cjs", data: Buffer.from(custodyStub()) },
+		{ name: "unix-entry-quick.cjs", data: Buffer.from("// B\"H\n") },
+		{ name: "unix-install-core.sh", data: Buffer.from("#!/bin/bash\n# B\"H\n:\n") }
+	];
+	return zlib.gzipSync(Tar.buildTar(files), {
+		level: zlib.constants.Z_BEST_COMPRESSION,
+		mtime: 0
+	});
 }
 
+/** Binds the stage-zero test response to its own exact archive bytes. */
+function renderFixtureBootstrap(archive) {
+	const source = fs.readFileSync(path.join(downloadsRoot, "unix-secure.sh"), "utf8");
+	return source
+		.replace("__AWTSMOOS_INSTALLER_COMPONENTS_SHA256__", Tar.hash(archive))
+		.replace("__AWTSMOOS_INSTALLER_COMPONENTS_BYTES__", String(archive.length));
+}
+
+/** Supplies only local Node activation, without runtime installation. */
 function nodeRuntimeStub() {
-	return `#!/usr/bin/env bash
-# B"H
-activate_node_runtime() {
-	AWTSMOOS_NODE_BIN="${process.execPath}"
-	export AWTSMOOS_NODE_BIN
-	return 0
-}
-persist_node_runtime() { :; }
-`;
-}
-
-function componentBootstrapStub() {
-	return `#!/usr/bin/env bash
-# B"H
-# The Awtsmoos fixture models present custody without mutating a production archive.
-download_installer_components() {
-	bootstrap_progress 7 'Using isolated verified component fixture'
-	for component in unix-install-core.sh unix-install-custody.cjs unix-activation.sh; do
-		curl -fsSL "$origin/apps/tunnel/downloads/$component" -o "$runtime_root/$component"
-	done
-	chmod +x "$runtime_root/unix-install-core.sh" "$runtime_root/unix-activation.sh"
-	bootstrap_progress 18 'Verified reinstall components ready (fixture)'
-}
-`;
+	return [
+		"#!/usr/bin/env bash",
+		"# B\"H",
+		"activate_node_runtime() {",
+		`\tAWTSMOOS_NODE_BIN='${process.execPath}'`,
+		"\texport AWTSMOOS_NODE_BIN",
+		"}",
+		"run_node() { \"$AWTSMOOS_NODE_BIN\" \"$@\"; }",
+		""
+	].join("\n");
 }
 
-function installCoreStub() {
-	return `#!/usr/bin/env bash
-# B"H
-set -Eeuo pipefail
-test -n "\${AWTSMOOS_TEST_SENTINEL:-}"
-test -s "$AWTSMOOS_INSTALL_RUNTIME/unix-activation.sh"
-printf '%s\t%s\t%s\t%s\n' \
-	"$PWD" \
-	"$AWTSMOOS_INSTALL_CWD" \
-	"$AWTSMOOS_PROJECT_ROOT" \
-	"$AWTSMOOS_INSTALL_ROOT" > "$AWTSMOOS_TEST_SENTINEL"
-`;
+/** Captures actual arguments and inherited roots instead of modifying services. */
+function custodyStub() {
+	return [
+		"// B\"H",
+		"// Boruch Hashem",
+		"// Blessed is He",
+		"const fs = require('node:fs');",
+		"if (process.argv[2] !== 'delegate') process.exit(2);",
+		"if (!fs.existsSync(process.argv[3])) process.exit(3);",
+		"const names = ['AWTSMOOS_INSTALL_CWD', 'AWTSMOOS_PROJECT_ROOT', 'AWTSMOOS_INSTALL_ROOT'];",
+		"const values = [process.cwd(), ...names.map(name => process.env[name] || '')];",
+		"fs.writeFileSync(process.env.AWTSMOOS_TEST_SENTINEL, values.join('\\t') + '\\n');",
+		"console.log('Verified archive custody handoff complete');",
+		""
+	].join("\n");
 }
 
-function send(response, body) {
-	response.statusCode = 200;
-	response.setHeader("Content-Type", "text/plain; charset=utf-8");
+/** Sends one test asset with a truthful binary/text content type. */
+function send(response, body, contentType) {
+	response.writeHead(200, { "content-type": contentType, "cache-control": "no-store" });
 	response.end(body);
 }

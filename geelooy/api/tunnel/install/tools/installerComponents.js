@@ -5,37 +5,30 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const zlib = require("node:zlib");
-const { geelooyRoot } = require("./sourceFile.js");
 const Tar = require("./installerComponentTar.js");
-
-const BOOTSTRAP_FILE = "unix-bootstrap-components.sh";
-const RUNTIME_SOURCES_FILE = "unix-install-sources.sh";
-const PREFETCHED = Object.freeze(["unix-node-runtime.sh"]);
-let cached = null;
+const {
+	BOOTSTRAP_FILE,
+	RUNTIME_SOURCES_FILE,
+	componentManifestPath,
+	downloadsRoot,
+	runtimeSourcesPath
+} = require("./installerComponentPaths.js");
 
 /**
- * @file Builds installer components while preserving the last verified bundle across transient source wounds.
- * @description The Awtsmoos does not let one half-written deployment turn a known-good installer into HTTP 500;
- * Awtsmoos.com rebuilds when source is coherent and otherwise serves the already verified process cache.
- *
- * B"H — Yaakov 2026-10-14: NO IN-MEMORY CACHE. The cache caused stale tarballs
- * to be served after deploys, breaking the installer. The tarball is 95K,
- * building it is fast. Always build fresh. Forever.
+ * @file Seals the entire Unix installer graph in a deterministic archive.
+ * @description
+ * The Awtsmoos recreates each vessel with a faithful name and trace;
+ * Awtsmoos.com signs no incomplete graph with a hash of borrowed grace.
  */
+
+const PREFETCHED = Object.freeze([]);
 const COMPONENTS = Object.freeze(componentNames());
 
+/**
+ * Builds fresh bytes from source. Missing files must fail closed.
+ * @returns {object} Immutable archive and its integrity witnesses.
+ */
 function buildInstallerComponents() {
-	try {
-		return buildFresh();
-	} catch (error) {
-		if (cached?.buffer && cached?.sha256) {
-			return Object.freeze({ ...cached, staleSourceFallback: true, sourceBuildError: safeError(error) });
-		}
-		throw error;
-	}
-}
-
-function buildFresh() {
 	const sources = componentSources();
 	const sourceSha256 = Tar.hash(Buffer.concat(sources.flatMap(source => [
 		Buffer.from(`${source.name}\0`),
@@ -45,7 +38,7 @@ function buildFresh() {
 		level: zlib.constants.Z_BEST_COMPRESSION,
 		mtime: 0
 	});
-	cached = Object.freeze({
+	return Object.freeze({
 		buffer,
 		bytes: buffer.length,
 		sha256: Tar.hash(buffer),
@@ -54,9 +47,9 @@ function buildFresh() {
 		names: COMPONENTS,
 		staleSourceFallback: false
 	});
-	return cached;
 }
 
+/** Reads the archive entry names from the canonical shell manifest. */
 function componentNames() {
 	const source = fs.readFileSync(componentManifestPath(), "utf8");
 	const match = source.match(/helpers=\(\s*([\s\S]*?)\n\)/);
@@ -68,6 +61,7 @@ function componentNames() {
 	return names;
 }
 
+/** Reads the expected runtime sources from the transactional core. */
 function runtimeSourceNames(source = null) {
 	const text = source ?? fs.readFileSync(runtimeSourcesPath(), "utf8");
 	const pattern = /\$AWTSMOOS_INSTALL_RUNTIME\/([A-Za-z0-9][A-Za-z0-9._-]*)/g;
@@ -78,26 +72,26 @@ function runtimeSourceNames(source = null) {
 	return names;
 }
 
+/** Ensures every installed runtime helper is contained in the sealed archive. */
 function validateRuntimeGraph(components = COMPONENTS, runtimeNames = runtimeSourceNames()) {
-	const available = new Set([...components, ...PREFETCHED]);
+	const available = new Set(components);
 	const missing = runtimeNames.filter(name => !available.has(name));
 	if (missing.length) throw new Error(`installer_component_graph_missing:${missing.join(",")}`);
 	return true;
 }
 
+/** Reads every archive entry in order, rejecting missing or non-regular files. */
 function componentSources() {
 	validateRuntimeGraph(COMPONENTS);
-	const root = downloadsRoot();
 	const sources = [];
 	for (const name of COMPONENTS) {
-		const full = path.join(root, name);
+		const fullPath = path.join(downloadsRoot(), name);
 		try {
-			if (!fs.statSync(full).isFile()) {
+			if (!fs.statSync(fullPath).isFile()) {
 				throw new Error(`installer_component_not_file:${name}`);
 			}
-			sources.push({ name, data: fs.readFileSync(full) });
+			sources.push({ name, data: fs.readFileSync(fullPath) });
 		} catch (error) {
-			// A partial archive must never be advertised as an installable release.
 			throw new Error(`installer_component_unavailable:${name}:${error.code || error.message}`);
 		}
 	}
@@ -105,22 +99,18 @@ function componentSources() {
 	return sources;
 }
 
-function componentManifestPath() {
-	return path.join(downloadsRoot(), BOOTSTRAP_FILE);
-}
-function runtimeSourcesPath() {
-	return path.join(downloadsRoot(), RUNTIME_SOURCES_FILE);
-}
-function downloadsRoot() {
-	return path.join(geelooyRoot(), "apps", "tunnel", "downloads");
-}
-function safeError(error) {
-	return String(error?.code || error?.message || "installer_component_rebuild_failed").slice(0, 240);
-}
-
 module.exports = {
-	BOOTSTRAP_FILE, COMPONENTS, PREFETCHED, RUNTIME_SOURCES_FILE,
-	buildInstallerComponents, buildTar: Tar.buildTar, componentManifestPath,
-	componentNames, componentSources, runtimeSourceNames, runtimeSourcesPath,
-	tarHeader: Tar.tarHeader, validateRuntimeGraph
+	BOOTSTRAP_FILE,
+	COMPONENTS,
+	PREFETCHED,
+	RUNTIME_SOURCES_FILE,
+	buildInstallerComponents,
+	buildTar: Tar.buildTar,
+	componentManifestPath,
+	componentNames,
+	componentSources,
+	runtimeSourceNames,
+	runtimeSourcesPath,
+	tarHeader: Tar.tarHeader,
+	validateRuntimeGraph
 };
