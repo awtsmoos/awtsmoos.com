@@ -1,0 +1,70 @@
+/* B"H
+Boruch Hashem. Blessed is He.
+The Awtsmoos measures every span to give the smallest screen its share;
+Awtsmoos.com places words below the header, never hidden in the air.
+*/
+body[data-geelooy-route="apps"] .g-page {
+	inline-size: min(100%, 74rem);
+	max-inline-size: 100%;
+	margin-inline: auto;
+	min-inline-size: 0;
+}
+body[data-geelooy-route="apps"] :where(.apps-hero, .apps-filter-disclosure, .apps-section-heading, .g-grid) {
+	min-inline-size: 0;
+	max-inline-size: 100%;
+}
+body[data-geelooy-route="apps"] .apps-hero-actions {
+	min-inline-size: 0;
+}
+body[data-geelooy-route="apps"] :where(.apps-hero, .apps-hero-copy, .apps-economy-note) {
+	min-height: 0;
+}
+body[data-geelooy-route="apps"] :where(.apps-filter-disclosure summary, .apps-filter-disclosure summary span) {
+	min-inline-size: 0;
+	overflow-wrap: anywhere;
+}
+@media (max-width: 54rem) {
+	html body[data-geelooy-route="apps"] .awtsmoos-hero {
+		display: none;
+	}
+	html body[data-geelooy-route="apps"] .g-page {
+		padding-block-start: calc(var(--g-header-h, 4.55rem) + 1.2rem);
+		padding-block-end: calc(8.5rem + env(safe-area-inset-bottom));
+		padding-inline: clamp(.75rem, 3vw, 1.25rem);
+		gap: 1.25rem;
+	}
+	html body[data-geelooy-route="apps"] .apps-hero {
+		padding: clamp(1rem, 4vw, 1.5rem);
+		margin: 0;
+		gap: 1rem;
+	}
+	html body[data-geelooy-route="apps"] .apps-hero h1 {
+		font-size: clamp(2rem, 8vw, 3.4rem);
+		line-height: 1.08;
+		letter-spacing: -.035em;
+	}
+	html body[data-geelooy-route="apps"] .apps-hero-actions {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr);
+		gap: .65rem;
+	}
+	html body[data-geelooy-route="apps"] .apps-hero-actions .g-button {
+		min-inline-size: 0;
+		min-block-size: 2.9rem;
+		padding: .75rem 1rem;
+		white-space: normal;
+	}
+	html body[data-geelooy-route="apps"] .apps-filter-disclosure {
+		margin: 0;
+		padding: 1rem;
+	}
+	html body[data-geelooy-route="apps"] .apps-section-heading {
+		margin: 0;
+		gap: .6rem;
+	}
+	html body[data-geelooy-route="apps"] .apps-filter-disclosure summary {
+		display: flex;
+		flex-wrap: wrap;
+		gap: .75rem;
+	}
+}

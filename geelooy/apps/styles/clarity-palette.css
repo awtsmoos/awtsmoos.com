@@ -1,0 +1,66 @@
+/* B"H
+Boruch Hashem. Blessed is He.
+The Awtsmoos turns each doorway from cold haze to living gold;
+Awtsmoos.com keeps every button clear, and every name is told.
+*/
+html:has(body[data-geelooy-route="apps"]) {
+	background: #100f0d;
+}
+body[data-geelooy-route="apps"] {
+	--apps-surface: #100f0d;
+	--apps-ink: #f6f1e8;
+	--apps-ink-bright: #fffaf2;
+	--apps-ink-dim: #c5bbaa;
+	--apps-header-bg: #1b1915;
+	--apps-header-border: #625541;
+	--g-bg: #100f0d;
+	--g-surface: #211e19;
+	--g-surface-alt: #29251f;
+	--g-accent: #ebc98c;
+	--g-accent-2: #f8e1b9;
+	--g-border: #5b5144;
+	--awp-accent: #ebc98c;
+	--awp-muted: #c5bbaa;
+	--awp-glass-hi: #29251f;
+	--future-accent: 235 201 140;
+	--future-border: 91 81 68;
+	background: #100f0d;
+	background-image: none;
+	color: #f6f1e8;
+}
+body[data-geelooy-route="apps"] :where(.g-page, .awtsmoos-hero, .apps-hero, .g-panel, .g-app-card, .apps-filter-disclosure, .apps-economy-note) {
+	background-color: #211e19;
+	background-image: none;
+	border-color: #534a3d;
+	box-shadow: none;
+}
+body[data-geelooy-route="apps"] :where(.g-unusual-header, .g-dock, .g-header-actions, .g-header-actions > *, .g-dock > *, .g-dock a) {
+	background-image: none;
+	border-color: #625541;
+	box-shadow: none;
+}
+body[data-geelooy-route="apps"] :where(.g-unusual-header, .g-dock) {
+	background-color: #1b1915;
+	color: #f6f1e8;
+}
+body[data-geelooy-route="apps"] :where(.g-button, .awp-cta, .apps-result-pill, .g-app-chip, .g-app-badge) {
+	background: #302a22;
+	color: #f5ead7;
+	border-color: #78654d;
+	box-shadow: none;
+}
+body[data-geelooy-route="apps"] :where(.g-button-primary, .g-button.g-button-primary) {
+	background: #d9b779;
+	color: #19140e;
+	border-color: #d9b779;
+}
+body[data-geelooy-route="apps"] :where(.g-kicker, .awp-eyebrow, .apps-economy-note strong, .g-app-card h3) {
+	color: #efd09a;
+}
+body[data-geelooy-route="apps"] :where(.g-app-card p, .apps-section-heading > p, .apps-hero-copy > p, .apps-filter-disclosure small) {
+	color: #d4cab9;
+}
+body[data-geelooy-route="apps"] :where(a, button, input, select, summary):focus-visible {
+	outline: 2px solid #f5d59d;
+	outline-offset: 3px;
+}

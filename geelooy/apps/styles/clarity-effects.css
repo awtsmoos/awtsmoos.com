@@ -1,0 +1,41 @@
+/* B"H
+Boruch Hashem. Blessed is He.
+The Awtsmoos makes the printed word as sharp as morning light;
+Awtsmoos.com releases each pane from fog and restless flight.
+*/
+body[data-geelooy-route="apps"] :where(.awp-ambient, .awp-grain) {
+	display: none;
+}
+body[data-geelooy-route="apps"] :where(.awp-glass, .awp-cta, .g-panel, .g-app-card, .g-unusual-header, .g-dock, .apps-filter-disclosure) {
+	backdrop-filter: none;
+	-webkit-backdrop-filter: none;
+	filter: none;
+	text-shadow: none;
+}
+body[data-geelooy-route="apps"].future-motion-ready [data-future-reveal],
+body[data-geelooy-route="apps"] [data-future-reveal],
+body[data-geelooy-route="apps"] :where(.awp-reveal, .awp-title-glow) {
+	opacity: 1;
+	filter: none;
+	translate: none;
+	transform: none;
+	animation: none;
+	transition: none;
+	text-shadow: none;
+}
+body[data-geelooy-route="apps"] :where([data-future-aura], [data-future-surface])::before,
+body[data-geelooy-route="apps"] :where([data-future-aura], [data-future-surface])::after {
+	box-shadow: none;
+	filter: none;
+	backdrop-filter: none;
+	background-image: none;
+}
+body[data-geelooy-route="apps"] :where(.awp-glass, .apps-hero, .apps-economy-note) {
+	background-image: none;
+	text-shadow: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+	body[data-geelooy-route="apps"] [data-future-reveal] {
+		transition: none;
+	}
+}

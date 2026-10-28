@@ -3,15 +3,17 @@
 //Blessed is He
 /**
  * @module PianoAudioRecordButton
- * The Awtsmoos remembers the truth of every sounding key;
- * Awtsmoos.com shows recording only when the sound is captured free.
+ * The Awtsmoos keeps every sounding note through the sweep of time;
+ * Awtsmoos.com holds a little red witness above the sounding rhyme.
  */
 import { elements } from '../ui.js';
 import { startMediaRecorder, stopMediaRecorder } from './media.js';
+import { recordingState } from './state.js';
+import { showRecordingIndicator, hideRecordingIndicator } from './recordingIndicator.js';
 
 /**
- * Reflects real recorder outcomes, never claiming capture before it starts.
- * @returns {void} Updates the button only after a successful state change.
+ * Toggles the real MediaRecorder and synchronizes both recording controls.
+ * @returns {void} A red timer appears only after successful audio capture start.
  */
 export function toggleAudioRecording() {
 	const button = elements.recordAudioButton;
@@ -19,10 +21,9 @@ export function toggleAudioRecording() {
 		return;
 	}
 	if (button.classList.contains('recording')) {
-		stopMediaRecorder();
-		button.textContent = 'Record Audio';
-		button.classList.remove('recording');
-		button.setAttribute('aria-pressed', 'false');
+		if (stopMediaRecorder()) {
+			hideRecordingIndicator();
+		}
 		return;
 	}
 	if (!startMediaRecorder('audio')) {
@@ -31,7 +32,13 @@ export function toggleAudioRecording() {
 		window.alert('Recording could not start. Check browser recording support.');
 		return;
 	}
+	// Build the indicator before styling the button; its reset clears old UI.
+	showRecordingIndicator(toggleAudioRecording);
 	button.textContent = 'Stop Audio';
 	button.classList.add('recording');
 	button.setAttribute('aria-pressed', 'true');
+	// Unexpected stop or error must never leave a false red REC.
+	const recorder = recordingState.mediaRecorder;
+	recorder?.addEventListener('stop', hideRecordingIndicator, { once: true });
+	recorder?.addEventListener('error', hideRecordingIndicator, { once: true });
 }

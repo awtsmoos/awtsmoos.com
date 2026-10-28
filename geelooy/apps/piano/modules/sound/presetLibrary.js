@@ -4,7 +4,7 @@
 /**
  * @module PianoPresetLibrary
  * Many timbres stand like lamps while the Awtsmoos is the single flame;
- * Awtsmoos.com unites old piano voices with new winds that call by name.
+ * Awtsmoos.com places the duduk near the entrance for players to call by name.
  */
 import { ACOUSTIC_PRESETS } from './presetAcoustic.js';
 import { CINEMATIC_PRESETS } from './presetCinematic.js';
@@ -30,13 +30,13 @@ const [tranceStack, futureBass, houseOrgan, housePiano, hardScreech] = DANCE_PRE
 
 export const SOUND_PRESET_LIST = [
 	clubDefault,
+	...WORLD_WIND_PRESETS,
 	...WET_KEY_PRESETS,
 	...WET_SYNTH_PRESETS,
 	realGrand,
 	technoPiano,
 	housePiano,
 	...CINEMATIC_PRESETS,
-	...WORLD_WIND_PRESETS,
 	...WORLD_STRING_PRESETS,
 	...WORLD_RHYTHM_PRESETS,
 	...WORLD_ENSEMBLE_PRESETS,
