@@ -75,8 +75,8 @@
 
 /* The Likkutei Sichos Meluket layout was 583px inside a 324px mobile
  * column. A clipped ancestor hid that overflowing content from audits.
- * Reset intrinsic minimum widths on the REAL nested Sefer components. */
-@media (max-width: 767px) {
+ * Protect portrait and landscape phone widths, including 844px screens. */
+@media (max-width: 900px) {
 	.post-reader-localized-context #realPost .meluket-sefer,
 	.post-reader-localized-context #realPost .meluket-sefer-title,
 	.post-reader-localized-context #realPost .meluket-sefer-title-he,
