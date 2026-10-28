@@ -2,66 +2,50 @@
 //Boruch Hashem
 //Blessed is He
 /**
- * @file acousticPresets.test.mjs
- * @description
- * The Awtsmoos lets synthetic resilience, Wet invention, classic color, performance expression, texture, and recorded realism share one library without losing their names;
- * Awtsmoos.com tests stable IDs, complete family exposure, exact drums, and articulation-specific timing before the selector proclaims.
+ * @module PianoPresetRegistryRegression
+ * The Awtsmoos names each voice and keeps each sound unique;
+ * Awtsmoos.com grows its orchestra while preserving what we seek.
  */
-
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {
-	SOUND_PRESET_LIST,
-	SOUND_PRESETS
-} from '../modules/sound/presetLibrary.js';
-
-test(
-	'keeps preset identifiers unique while exposing acoustic and expanded synth families',
-	testPresetRegistry
-);
-test(
-	'encodes articulation-specific sample timing and transposition policy',
-	testAcousticPolicy
-);
+import { SOUND_PRESET_LIST, SOUND_PRESETS } from '../modules/sound/presetLibrary.js';
 
 /**
- * Proves the public registry contains the expanded intended library with unique stable IDs.
- *
- * @returns {void}
+ * Proves historical instruments persist and the expanded family is discoverable.
+ * @returns {void} Assert unique registry with orchestral additions.
  */
 function testPresetRegistry() {
-	const ids = SOUND_PRESET_LIST.map((preset) => {
-		return preset.id;
-	});
-
-	assert.equal(ids.length, 46);
+	const ids = SOUND_PRESET_LIST.map((preset) => preset.id);
+	assert.equal(ids.length, 49);
 	assert.equal(new Set(ids).size, ids.length);
-	assert.ok(SOUND_PRESETS['real-grand-piano']);
-	assert.ok(SOUND_PRESETS['real-alto-sax']);
-	assert.ok(SOUND_PRESETS['real-alto-sax-vibrato']);
-	assert.ok(SOUND_PRESETS['real-drum-kit']);
-	assert.ok(SOUND_PRESETS['wet-crystal-cathedral']);
-	assert.ok(SOUND_PRESETS['wet-space-lead']);
-	assert.ok(SOUND_PRESETS['classic-juno-chorus-pad']);
-	assert.ok(SOUND_PRESETS['performance-expressive-lead']);
-	assert.ok(SOUND_PRESETS['texture-cosmic-drone']);
-	assert.equal(
-		SOUND_PRESETS['awtsmoos-dream-electric'].sampleInstrument,
-		null
-	);
+	for (const id of [
+		'real-grand-piano',
+		'real-alto-sax',
+		'real-alto-sax-vibrato',
+		'real-drum-kit',
+		'wet-crystal-cathedral',
+		'wet-space-lead',
+		'classic-juno-chorus-pad',
+		'performance-expressive-lead',
+		'texture-cosmic-drone',
+		'cinematic-lyrical-violin',
+		'cinematic-warm-strings',
+		'cinematic-sweeping-orchestra'
+	]) {
+		assert.ok(SOUND_PRESETS[id], `Missing preset ${id}`);
+	}
+	assert.equal(SOUND_PRESETS['awtsmoos-dream-electric'].sampleInstrument, null);
 }
 
 /**
- * Proves piano and drum attacks stay tight, sax permits breath latency, and drums never transpose between one-shot keys.
- *
- * @returns {void}
+ * Confirms low-latency piano attacks and articulation-sensitive sample timing.
+ * @returns {void} Assert sample transposition and instrument policies.
  */
 function testAcousticPolicy() {
 	const piano = SOUND_PRESETS['real-grand-piano'];
 	const sax = SOUND_PRESETS['real-alto-sax'];
 	const vibrato = SOUND_PRESETS['real-alto-sax-vibrato'];
 	const drums = SOUND_PRESETS['real-drum-kit'];
-
 	assert.equal(piano.sampleInstrument, 'piano');
 	assert.equal(piano.sampleMaxLateStart, 0.07);
 	assert.equal(sax.sampleArticulation, 'no-vib');
@@ -70,3 +54,6 @@ function testAcousticPolicy() {
 	assert.equal(drums.sampleMaxTranspose, 0);
 	assert.equal(drums.sampleMaxLateStart, 0.055);
 }
+
+test('keeps preset identifiers unique while exposing acoustic and expanded synth families', testPresetRegistry);
+test('encodes articulation-specific sample timing and transposition policy', testAcousticPolicy);

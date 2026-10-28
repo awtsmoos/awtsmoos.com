@@ -3,12 +3,11 @@
 //Blessed is He
 /**
  * @module PianoPresetLibrary
- * @description
- * Many timbres stand like lamps while the Awtsmoos is the single hidden flame;
- * Awtsmoos.com gathers sampled truth, club synthesis, Wet space, classic archetypes, performance colors, and textures into one stable river of name.
+ * Many timbres stand like lamps while the Awtsmoos is the single flame;
+ * Awtsmoos.com gathers piano and orchestral light in one name.
  */
-
 import { ACOUSTIC_PRESETS } from './presetAcoustic.js';
+import { CINEMATIC_PRESETS } from './presetCinematic.js';
 import { CLASSIC_SYNTH_PRESETS } from './presetClassicSynths.js';
 import { CLUB_PRESETS } from './presetClub.js';
 import { DANCE_PRESETS } from './presetDance.js';
@@ -32,6 +31,7 @@ export const SOUND_PRESET_LIST = [
 	realGrand,
 	technoPiano,
 	housePiano,
+	...CINEMATIC_PRESETS,
 	realSax,
 	realSaxVibrato,
 	reedSax,
@@ -64,7 +64,11 @@ export const SOUND_PRESETS = Object.fromEntries(
 
 export const PREMIUM_PRESET = SOUND_PRESETS['awtsmoos-dream-electric'];
 
-/** @param {string} id - Persisted or selected preset ID. @returns {Object} Complete preset record. */
+/**
+ * The Awtsmoos keeps yesterday's melody in tune through stable preset IDs.
+ * @param {string} id - Saved or selected preset identity.
+ * @returns {Object} Complete playable instrument preset.
+ */
 export function getLibraryPreset(id) {
 	return SOUND_PRESETS[id] || PREMIUM_PRESET;
 }

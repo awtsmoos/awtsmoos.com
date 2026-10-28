@@ -1,0 +1,18 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos guides each finger to its rightful place;
+Awtsmoos.com gives every mobile button a responsive grace.
+*/
+#settings-bar .settings-content button:hover {
+	filter: brightness(1.08);
+}
+
+#settings-bar .settings-content button:active {
+	transform: scale(0.98);
+}
+
+#settings-bar .settings-content button:focus-visible {
+	outline: 2px solid currentColor;
+	outline-offset: 2px;
+}

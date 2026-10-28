@@ -1,43 +1,117 @@
-﻿/* B"H
-Media chunks are sparks: never hoard them in the king's chamber while the musician plays.
-They are written to IndexedDB during the song, then gathered only when the song is over.
-*/
+//B"H
+//Boruch Hashem
+//Blessed is He
+/**
+ * @module PianoMediaCapture
+ * The Awtsmoos holds each fleeting note through time's retreat;
+ * Awtsmoos.com gathers the whole performance, complete.
+ */
 import { AudioState } from '../audio.js';
 import { recordingState } from './state.js';
 import { downloadBlob } from './download.js';
+import { recordingExtension, selectRecordingMime } from './mediaFormats.js';
 import { finalizeVideoAudio } from './videoFinalize.js';
-const DB='BH_PIANO_RECORDING_CHUNKS', STORE='chunks';
-export async function startMediaRecorder(mode){
-    const mimeType=MediaRecorder.isTypeSupported('audio/webm')?'audio/webm':'audio/ogg';
-    const session={id:`${Date.now()}-${Math.random().toString(36).slice(2)}`,mode,mimeType,index:0};
-    recordingState.mediaSession=session; recordingState.audioChunks=[]; recordingState.mediaWriteChain=Promise.resolve();
-    await clearSession(session.id);
-    recordingState.mediaRecorder=new MediaRecorder(AudioState.mediaStreamDestination.stream,{mimeType});
-    recordingState.mediaRecorder.ondataavailable=e=>{ if(e.data?.size>0) queueChunk(session,e.data); };
-    recordingState.mediaRecorder.onstop=()=>finishSession(session);
-    recordingState.mediaRecorder.start(1000);
+import { storeRecordingChunk, readRecordingChunks, clearRecordingChunks } from './mediaStorage.js';
+
+/**
+ * Starts recording only when a live stream and the browser codec are ready.
+ * @param {'audio'|'video'} mode - Destination of the captured sound.
+ * @returns {boolean} True only after MediaRecorder.start succeeds.
+ */
+export function startMediaRecorder(mode) {
+	if (recordingState.mediaRecorder?.state !== undefined) {
+		return false;
+	}
+	try {
+		if (!globalThis.MediaRecorder || !AudioState.mediaStreamDestination?.stream) {
+			throw new Error('Audio recording is not supported by this browser');
+		}
+		const chosenMime = selectRecordingMime();
+		const options = chosenMime ? { mimeType: chosenMime } : undefined;
+		const recorder = new MediaRecorder(AudioState.mediaStreamDestination.stream, options);
+		const session = {
+			id: `${Date.now()}-${Math.random().toString(36).slice(2)}`,
+			mode,
+			mimeType: recorder.mimeType || chosenMime || 'audio/webm',
+			index: 0,
+			fallback: []
+		};
+		recorder.ondataavailable = (event) => {
+			if (event.data?.size > 0) {
+				queueRecordedChunk(session, event.data);
+			}
+		};
+		recorder.onerror = (event) => console.error('Recording error', event.error || event);
+		recorder.onstop = () => {
+			void finalizeRecording(session).catch(console.error);
+		};
+		recorder.start(1000);
+		recordingState.mediaRecorder = recorder;
+		recordingState.mediaSession = session;
+		recordingState.mediaWriteChain = Promise.resolve();
+		return true;
+	} catch (error) {
+		console.error('Could not start recording', error);
+		return false;
+	}
 }
-export function stopMediaRecorder(){ if(recordingState.mediaRecorder?.state!=='inactive') recordingState.mediaRecorder?.stop(); }
-function queueChunk(session,blob){
-    const row={sessionId:session.id,index:session.index++,blob,type:blob.type,size:blob.size};
-    recordingState.mediaWriteChain=recordingState.mediaWriteChain.then(()=>putRow(row)).catch(console.warn);
+
+/** @returns {boolean} True when a recording stop was actually requested. */
+export function stopMediaRecorder() {
+	const recorder = recordingState.mediaRecorder;
+	if (!recorder || recorder.state === 'inactive') {
+		return false;
+	}
+	recorder.stop();
+	return true;
 }
-async function finishSession(session){
-    await recordingState.mediaWriteChain;
-    const blobs=await readSession(session.id);
-    const blob=new Blob(blobs,{type:session.mimeType});
-    await clearSession(session.id);
-    recordingState.mediaSession=null; recordingState.mediaRecorder=null; recordingState.audioChunks=[];
-    if(session.mode==='audio') downloadBlob(blob,`BH-Audio-${Date.now()}.webm`);
-    if(session.mode==='video') finalizeVideoAudio(blob);
+
+/**
+ * Queues each captured sound chunk for durable storage or memory fallback.
+ * @param {Object} session - Stable capture session.
+ * @param {Blob} blob - Recorded one-second chunk.
+ */
+function queueRecordedChunk(session, blob) {
+	const row = { sessionId: session.id, index: session.index++, blob };
+	recordingState.mediaWriteChain = recordingState.mediaWriteChain
+		.then(() => storeRecordingChunk(row))
+		.catch((error) => {
+			console.warn('Recording chunk kept in memory after storage failure', error);
+			session.fallback.push(row);
+		});
 }
-function openDb(){
-    return new Promise((resolve,reject)=>{const r=indexedDB.open(DB,1); r.onupgradeneeded=()=>r.result.createObjectStore(STORE,{keyPath:['sessionId','index']}); r.onsuccess=()=>resolve(r.result); r.onerror=()=>reject(r.error);});
-}
-async function withStore(mode,fn){const db=await openDb(); return new Promise((resolve,reject)=>{const tx=db.transaction(STORE,mode); const store=tx.objectStore(STORE); const out=fn(store); tx.oncomplete=()=>{db.close(); resolve(out);}; tx.onerror=()=>{db.close(); reject(tx.error);};});}
-function putRow(row){return withStore('readwrite',s=>s.put(row));}
-function clearSession(sessionId){return withStore('readwrite',s=>{const range=IDBKeyRange.bound([sessionId,0],[sessionId,Number.MAX_SAFE_INTEGER]); s.delete(range);});}
-async function readSession(sessionId){
-    const rows=[]; await withStore('readonly',s=>{const range=IDBKeyRange.bound([sessionId,0],[sessionId,Number.MAX_SAFE_INTEGER]); const req=s.openCursor(range); req.onsuccess=()=>{const c=req.result; if(c){rows.push(c.value); c.continue();}};});
-    return rows.sort((a,b)=>a.index-b.index).map(r=>r.blob);
+
+/**
+ * Combines correctly ordered chunks and releases capture state after export.
+ * @param {Object} session - Recorder session to finalize.
+ * @returns {Promise<void>} Fully assembled audio saved or sent to video.
+ */
+async function finalizeRecording(session) {
+	try {
+		await recordingState.mediaWriteChain;
+		let stored = [];
+		try {
+			stored = await readRecordingChunks(session.id);
+		} catch (error) {
+			console.warn('Recorded chunks read from memory only', error);
+		}
+		const rows = [...stored, ...session.fallback].sort((a, b) => a.index - b.index);
+		const blob = new Blob(rows.map((row) => row.blob), { type: session.mimeType });
+		if (blob.size > 0) {
+			if (session.mode === 'audio') {
+				const extension = recordingExtension(session.mimeType);
+				downloadBlob(blob, `BH-Audio-${Date.now()}.${extension}`);
+			} else {
+				finalizeVideoAudio(blob);
+			}
+		} else {
+			console.warn('The recording contained no audio samples');
+		}
+		void clearRecordingChunks(session.id).catch(console.warn);
+	} finally {
+		if (recordingState.mediaSession === session) {
+			recordingState.mediaSession = null;
+			recordingState.mediaRecorder = null;
+		}
+	}
 }

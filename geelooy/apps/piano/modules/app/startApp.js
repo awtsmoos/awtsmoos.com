@@ -2,12 +2,10 @@
 //Boruch Hashem
 //Blessed is He
 /**
- * @module PianoAppStart
- * @description
- * The Awtsmoos gathers audio, keys, MIDI, memory, synthesis, Media Studio, Song Studio, accompaniment, and rhythm into one beginning.
- * Awtsmoos.com mounts each workstation through a small doorway so every finite editor may awaken in order while the One beyond order renews all time.
+ * @module PianoStartup
+ * The Awtsmoos calls each keyboard to life with an unbroken start;
+ * Awtsmoos.com keeps one engine and one listener for every heart.
  */
-
 import { startAccompaniment } from '../accompaniment.js';
 import { AudioState, initAudio } from '../audio.js';
 import { noteNames, setupInputListeners } from '../input.js';
@@ -19,62 +17,75 @@ import { initRhythmWorkstation } from '../workstation/rhythm/index.js';
 import { initSongStudioWorkstation } from '../workstation/song/index.js';
 import { initProSynthWorkstation } from '../workstation/synth/index.js';
 import { initializeMidiBridge } from './midiBridge.js';
-import {
-	refreshActiveSound,
-	warmCurrentAcousticPreset
-} from './presetEvents.js';
+import { refreshActiveSound, warmCurrentAcousticPreset } from './presetEvents.js';
 import { loadScrollState } from './scrollSettings.js';
 import { DEFAULT_PRESET_ID, populateSoundControls } from './selectSetup.js';
-import {
-	loadSettings,
-	saveSettings
-} from './settings.js';
+import { loadSettings, saveSettings } from './settings.js';
+
+let startupPromise = null;
+let applicationStarted = false;
 
 /**
- * Starts the complete Piano experience after one user gesture unlocks browser audio.
- *
- * @param {Object} elements Cached piano DOM registry.
- * @returns {Promise<void>} Resolves after startup wiring is complete.
+ * A single user gesture launches the piano; concurrent clicks share one result.
+ * @param {Object} elements - Connected piano DOM controls.
+ * @returns {Promise<boolean>} True after successful playable initialization.
  */
-export async function startPianoApp(elements) {
-	if (!initAudio()) {
-		alert('Audio Init Failed');
-		return;
+export function startPianoApp(elements) {
+	if (applicationStarted) {
+		return Promise.resolve(true);
 	}
-	populateSoundControls(elements);
-	createCustomWaves(AudioState.context);
-	elements.startScreen.style.display = 'none';
-	elements.appContainer.style.display = 'flex';
-	const proSynth = initProSynthWorkstation(elements, {
-		saveSettings,
-		refreshActiveSound
-	});
-	initMediaStudioWorkstation();
-	initSongStudioWorkstation();
-	loadSettings(elements);
-	reapplyCanonicalDefault(elements);
-	proSynth?.sync();
-	generateKeyboard(noteNames);
-	setupInputListeners();
-	initializeMidiBridge();
-	loadScrollState(elements);
-	startAccompaniment();
-	initRhythmWorkstation();
-	void warmCurrentAcousticPreset(elements);
+	if (!startupPromise) {
+		startupPromise = initializePiano(elements).finally(() => {
+			startupPromise = null;
+		});
+	}
+	return startupPromise;
 }
 
 /**
- * Reapplies the canonical default after stored settings load.
- *
- * @param {Object} elements Cached piano DOM registry.
- * @returns {void}
+ * Activates sound first, then wires interactive controls only once.
+ * @param {Object} elements - Connected piano interface elements.
+ * @returns {Promise<boolean>} Audio and interface readiness.
  */
+async function initializePiano(elements) {
+	if (!await initAudio()) {
+		window.alert('Audio could not start. Please tap Start again or check browser audio permissions.');
+		return false;
+	}
+	try {
+		populateSoundControls(elements);
+		createCustomWaves(AudioState.context);
+		const workstation = initProSynthWorkstation(elements, {
+			saveSettings,
+			refreshActiveSound
+		});
+		initMediaStudioWorkstation();
+		initSongStudioWorkstation();
+		loadSettings(elements);
+		reapplyCanonicalDefault(elements);
+		workstation?.sync();
+		generateKeyboard(noteNames);
+		setupInputListeners();
+		initializeMidiBridge();
+		loadScrollState(elements);
+		startAccompaniment();
+		initRhythmWorkstation();
+		applicationStarted = true;
+		elements.startScreen.style.display = 'none';
+		elements.appContainer.style.display = 'flex';
+		void warmCurrentAcousticPreset(elements);
+		return true;
+	} catch (error) {
+		console.error('Piano startup failed', error);
+		window.alert('Piano startup failed. Please reload and try again.');
+		return false;
+	}
+}
+
+/** Retains the familiar default sound after loading stored configuration. */
 function reapplyCanonicalDefault(elements) {
 	if (elements.soundPresetSelect?.value !== DEFAULT_PRESET_ID) {
 		return;
 	}
-	applyPresetToElements(
-		elements,
-		getSoundPreset(DEFAULT_PRESET_ID)
-	);
+	applyPresetToElements(elements, getSoundPreset(DEFAULT_PRESET_ID));
 }
