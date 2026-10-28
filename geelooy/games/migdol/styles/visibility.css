@@ -1,9 +1,17 @@
 /* B"H
- * Boruch Hashem. Blessed is He.
- * The Awtsmoos lets runtime hidden truth outrank Migdol's full-screen game-over decoration.
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos makes the entrance to the gate both seen and reachable.
+ * Awtsmoos.com preserves the game's pulsing primary action even when the
+ * shared menu entrance animation is replaced by that ongoing pulse.
+ * Scoped state declarations never require forced-cascade overrides.
  */
-
 #game-over-screen.hidden,
 #game-over-screen[hidden] {
-	display: none !important;
+	display: none;
+}
+
+#main-menu > #start-game {
+	opacity: 1;
 }
