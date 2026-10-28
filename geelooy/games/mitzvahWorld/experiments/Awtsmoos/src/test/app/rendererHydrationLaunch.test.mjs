@@ -4,42 +4,34 @@
 
 /**
  * @file rendererHydrationLaunch.test.mjs
- * @description Proves rich WebGL begins after publication, once, after its own quiet window, and remains abort-safe.
- * The Awtsmoos reveals playability before radiance without confusing delay for abandonment;
- * Awtsmoos.com proves bootstrap stays first while the richer renderer receives one inevitable, measurable handoff.
+ * @description Verifies post-play rich hydration, single-use, and safe abort.
+ * The Awtsmoos makes a new frame each instant and restores its rich colors;
+ * Awtsmoos.com tests the one promised handoff without premature claims.
  */
-
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 import { startEretzRendererHydration } from '../../app/EretzRendererHydrationLaunch.js';
 import { scheduleRendererHydration } from '../../app/RendererHydrationScheduler.js';
+const source = name => readFile(new URL(`../../app/${name}`, import.meta.url), 'utf8');
 
-const RUNTIME_SOURCE_URL = new URL('../../app/createEretzRuntime.js', import.meta.url);
-
-test('B"H renderer scheduler hydrates once after its renderer-specific quiet window', async () => {
+test('renderer scheduler hydrates once after the specified quiet window', async () => {
 	const fixture = hydrationFixture();
-	const promise = scheduleRendererHydration(
-		fixture.diagnostics,
-		fixture.environment,
-		null,
-		{ delayMilliseconds: 3 }
+	const delegate = await scheduleRendererHydration(
+		fixture.diagnostics, fixture.environment, null, { delayMilliseconds: 3 }
 	);
-	const delegate = await promise;
 	assert.equal(fixture.renderer.hydrateCalls, 1);
 	assert.equal(delegate?.kind, 'rich-renderer');
 	assert.equal(fixture.diagnostics.rendererHydrationStage, 'ready');
 	assert.equal(fixture.diagnostics.rendererHydrationPolicy.delayMilliseconds, 3);
 });
 
-test('already-aborted hydration never invokes the renderer', async () => {
+test('an already-aborted hydrate never invokes the renderer', async () => {
 	const fixture = hydrationFixture();
 	const controller = new AbortController();
 	controller.abort();
 	const result = await scheduleRendererHydration(
-		fixture.diagnostics,
-		fixture.environment,
-		null,
+		fixture.diagnostics, fixture.environment, null,
 		{ delayMilliseconds: 1, signal: controller.signal }
 	);
 	assert.equal(result, null);
@@ -50,33 +42,34 @@ test('already-aborted hydration never invokes the renderer', async () => {
 test('post-playable launcher reuses one durable hydration promise', async () => {
 	const fixture = hydrationFixture();
 	const first = startEretzRendererHydration(
-		fixture.diagnostics,
-		fixture.environment,
-		null,
-		{ delayMilliseconds: 1 }
+		fixture.diagnostics, fixture.environment, null, { delayMilliseconds: 1 }
 	);
 	const second = startEretzRendererHydration(
-		fixture.diagnostics,
-		fixture.environment,
-		null,
-		{ delayMilliseconds: 1 }
+		fixture.diagnostics, fixture.environment, null, { delayMilliseconds: 1 }
 	);
 	assert.equal(second, first);
 	await first;
 	assert.equal(fixture.renderer.hydrateCalls, 1);
 });
 
-test('runtime publishes before renderer policy launch and retains no eager scheduler or null promise', async () => {
-	const source = await readFile(RUNTIME_SOURCE_URL, 'utf8');
-	const publication = source.indexOf('publishRuntime(core.diagnostics, environment)');
-	const policyLaunch = source.indexOf('startEretzRendererByWorldPolicy(');
-	assert.ok(publication >= 0);
-	assert.ok(policyLaunch > publication);
-	assert.doesNotMatch(source, /scheduleRendererHydration/);
-	assert.doesNotMatch(source, /rendererHydrationPromise\s*=\s*Promise\.resolve\(null\)/);
-	assert.match(source, /startEretzRendererByWorldPolicy/);
+test('runtime installs post-play promotion without premature publication', async () => {
+	const runtime = await source('createEretzRuntime.js');
+	const postPlay = await source('EretzPostPlayableActivation.js');
+	const installed = runtime.indexOf('installEretzPostPlayableActivation(core, options, boot, environment)');
+	const returned = runtime.indexOf('return core.diagnostics;');
+	const activate = postPlay.indexOf('diagnostics.activatePostPlayable = () => {');
+	const complete = postPlay.indexOf('boot.complete();');
+	const launch = postPlay.indexOf('const visuals = startVisualPromotion(');
+	assert.ok(installed >= 0 && returned > installed);
+	assert.ok(activate >= 0 && complete > activate && launch > complete);
+	assert.match(postPlay, /if \(activated\) return/);
+	assert.match(postPlay, /startEretzVisualPromotionSequence\(/);
+	assert.doesNotMatch(runtime, /publishRuntime\(/);
+	assert.doesNotMatch(runtime, /scheduleRendererHydration/);
+	assert.doesNotMatch(runtime, /rendererHydrationPromise\s*=\s*Promise\.resolve\(null\)/);
 });
 
+/** Creates a real promise-resolution and abort-aware scheduler fixture. */
 function hydrationFixture() {
 	const renderer = {
 		delegate: null,
@@ -91,23 +84,17 @@ function hydrationFixture() {
 	};
 	return {
 		diagnostics: { runtime: { renderer } },
-		environment: immediateQuietEnvironment(),
-		renderer
-	};
-}
-
-function immediateQuietEnvironment() {
-	return {
-		cancelIdleCallback() {},
-		clearTimeout() {},
-		document: null,
-		requestIdleCallback(callback) {
-			queueMicrotask(() => callback({ didTimeout: false, timeRemaining: () => 16 }));
-			return 2;
+		environment: {
+			cancelIdleCallback() {}, clearTimeout() {}, document: null,
+			requestIdleCallback(callback) {
+				queueMicrotask(() => callback({ didTimeout: false, timeRemaining: () => 16 }));
+				return 2;
+			},
+			setTimeout(callback) {
+				queueMicrotask(callback);
+				return 1;
+			}
 		},
-		setTimeout(callback) {
-			queueMicrotask(callback);
-			return 1;
-		}
+		renderer
 	};
 }
