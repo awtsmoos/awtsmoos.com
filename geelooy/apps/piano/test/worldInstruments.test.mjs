@@ -21,7 +21,7 @@ const family = [
 	...WORLD_ENSEMBLE_PRESETS
 ];
 
-/** @returns {void} World sounds must be selectable without remote sample fetches. */
+/** @returns {void} World sounds must remain locally selectable. */
 test('world voices are registered with independent identities', () => {
 	assert.equal(family.length, 4);
 	for (const preset of family) {
@@ -31,28 +31,31 @@ test('world voices are registered with independent identities', () => {
 		assert.equal(preset.sampleInstrument, null);
 		assert.ok(preset.attack >= 0);
 		assert.ok(preset.release > 0);
-		assert.ok(preset.outputTrim > 0 && preset.outputTrim <= 0.8);
-		assert.ok(preset.reverbSend >= 0 && preset.reverbSend <= 0.6);
+		assert.ok(preset.outputTrim > 0 && preset.outputTrim <= .8);
+		assert.ok(preset.reverbSend >= 0 && preset.reverbSend <= .6);
 	}
 });
 
-/** @returns {void} Checks the contrasting breath, bowed sustain and drum hit. */
+/** @returns {void} Distinguishes the softened reed from strings and drum attacks. */
 test('duduk, erhu and frame drum preserve distinct articulations', () => {
 	const duduk = WORLD_WIND_PRESETS[0];
 	const erhu = WORLD_STRING_PRESETS[0];
 	const drum = WORLD_RHYTHM_PRESETS[0];
-	assert.equal(duduk.wave1, 'square');
+	assert.equal(duduk.wave1, 'triangle');
+	assert.match(duduk.label, /DUDUK.*synth/);
+	assert.ok(duduk.noiseGain >= 0 && duduk.noiseGain < .01);
+	assert.ok(duduk.filterCutoff < 2000);
+	assert.ok(duduk.attack > .08);
 	assert.equal(erhu.wave1, 'sawtooth');
-	assert.ok(duduk.noiseGain > erhu.noiseGain);
 	assert.ok(erhu.vibratoCents > duduk.vibratoCents);
-	assert.ok(erhu.sustain > 0.8);
-	assert.ok(drum.attack < 0.01);
+	assert.ok(erhu.sustain > .8);
+	assert.ok(drum.attack < .01);
 	assert.equal(drum.sustain, 0);
 	assert.equal(drum.vibratoCents, 0);
-	assert.ok(drum.decay < 0.2);
+	assert.ok(drum.decay < .2);
 });
 
-/** @returns {void} Ensemble must be a bounded original combined timbre. */
+/** @returns {void} Ensemble retains its distinct composite timbre. */
 test('reed and silk ensemble remains a light, playable synth patch', () => {
 	const preset = WORLD_ENSEMBLE_PRESETS[0];
 	assert.equal(preset.wave1, 'square');

@@ -3,91 +3,68 @@
 //Blessed is He
 /**
  * @module PianoUiScrollbar
- * @description
- * Malchus turns invisible keyboard distance into a visible thumb upon the rail while the Awtsmoos remains beyond distance and proportion.
- * Awtsmoos.com keeps projection separate from geometry, so the blue mobile sign remains readable while the measured scroll truth continues to sing.
+ * The Awtsmoos makes distant notes reachable without changing a key's width;
+ * Awtsmoos.com keeps both rails visible while the keyboard travels beneath.
  */
-
 import {
 	calculateScrollbarThumbLeft,
 	calculateScrollbarThumbWidth
 } from './keyboard/scrollThumbGeometry.js';
-import {
-	elements,
-	scrollState
-} from './uiElements.js';
+import { elements, scrollState } from './uiElements.js';
 
-/**
- * Returns the maximum legal horizontal scroll for one keyboard panel.
- *
- * @param {HTMLElement|null} keyboard Piano keyboard panel.
- * @returns {number} Maximum scroll distance in pixels.
- */
+/** @param {HTMLElement|null} keyboard - Piano strip. @returns {number} Legal horizontal travel. */
 export function keyboardMaximumScroll(keyboard) {
-	if (!keyboard) {
+	if (!keyboard || !elements.keyboardContainer) {
 		return 0;
 	}
-	return Math.max(
-		0,
-		keyboard.offsetWidth - elements.keyboardContainer.clientWidth
-	);
+	return Math.max(0, keyboard.offsetWidth - elements.keyboardContainer.clientWidth);
 }
 
-/** Projects the two logical scroll states onto the currently visible rail topology. */
+/**
+ * Project both rails whenever two rows exist, even in linked scrolling mode.
+ * An initial zero-width layout must never permanently hide a navigation rail.
+ */
 export function updateScrollbarThumbs() {
-	const bottom = document.getElementById('keyboard-bottom');
-	const top = document.getElementById('keyboard-top');
-	const independent = elements.independentScrollCheckbox.checked;
-	if (top && independent) {
-		elements.middleScrollbarContainer.style.display = 'block';
-		projectThumb(
-			bottom,
-			elements.customScrollbarContainerTop,
-			elements.customScrollbarThumbTop,
-			scrollState.x
-		);
-		projectThumb(
-			top,
-			elements.customScrollbarContainer,
-			elements.customScrollbarThumb,
-			scrollState.x2
-		);
+	const lower = document.getElementById('keyboard-bottom');
+	const upper = document.getElementById('keyboard-top');
+	const independent = Boolean(elements.independentScrollCheckbox?.checked);
+	if (upper && lower) {
+		if (elements.middleScrollbarContainer) {
+			elements.middleScrollbarContainer.style.display = 'block';
+		}
+		projectThumb(lower, elements.customScrollbarContainerTop,
+			elements.customScrollbarThumbTop, scrollState.x);
+		projectThumb(upper, elements.customScrollbarContainer,
+			elements.customScrollbarThumb, independent ? scrollState.x2 : scrollState.x);
 		return;
 	}
-	elements.middleScrollbarContainer.style.display = 'none';
-	projectThumb(
-		bottom,
-		elements.customScrollbarContainer,
-		elements.customScrollbarThumb,
-		scrollState.x
-	);
-	projectThumb(top, null, null, 0);
+	if (elements.middleScrollbarContainer) {
+		elements.middleScrollbarContainer.style.display = 'none';
+	}
+	projectThumb(lower || upper, elements.customScrollbarContainer,
+		elements.customScrollbarThumb, scrollState.x);
 }
 
+/** @param {HTMLElement|null} keyboard - Track's piano. @param {HTMLElement|null} container - Rail. @param {HTMLElement|null} thumb - Slider. @param {number} scrollValue - Offset. */
 function projectThumb(keyboard, container, thumb, scrollValue) {
-	if (!keyboard || !container || !thumb) {
-		if (container) {
-			container.style.display = 'none';
-		}
+	if (!container || !thumb) {
 		return;
 	}
-	const maximum = keyboardMaximumScroll(keyboard);
-	if (maximum <= 0) {
+	if (!keyboard) {
 		container.style.display = 'none';
 		return;
 	}
 	container.style.display = 'block';
-	const thumbWidth = calculateScrollbarThumbWidth(
-		elements.keyboardContainer.clientWidth,
-		keyboard.offsetWidth,
-		container.clientWidth
-	);
-	const thumbLeft = calculateScrollbarThumbLeft(
-		scrollValue,
-		maximum,
-		container.clientWidth,
-		thumbWidth
-	);
-	thumb.style.width = `${thumbWidth}px`;
-	thumb.style.left = `${thumbLeft}px`;
+	const trackWidth = Math.max(0, container.clientWidth);
+	const contentWidth = Math.max(0, keyboard.offsetWidth);
+	const viewportWidth = Math.max(0, elements.keyboardContainer?.clientWidth || 0);
+	const maximum = Math.max(0, contentWidth - viewportWidth);
+	if (trackWidth === 0 || contentWidth <= viewportWidth) {
+		thumb.style.width = '100%';
+		thumb.style.left = '0px';
+		return;
+	}
+	const width = calculateScrollbarThumbWidth(viewportWidth, contentWidth, trackWidth);
+	thumb.style.width = `${width}px`;
+	thumb.style.left = `${calculateScrollbarThumbLeft(scrollValue, maximum, trackWidth, width)}px`;
 }

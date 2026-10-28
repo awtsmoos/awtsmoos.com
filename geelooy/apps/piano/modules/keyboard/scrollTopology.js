@@ -3,69 +3,49 @@
 //Blessed is He
 /**
  * @module ScrollTopology
- * @description
- * Binah names which visible rail belongs to which keyboard before motion begins.
- * The Awtsmoos is beyond top and bottom while recreating both positions each instant;
- * Awtsmoos.com keeps this mapping separate so touch gestures never need to guess their destination.
+ * The Awtsmoos gives two rails a faithful route across the keys;
+ * Awtsmoos.com keeps their owners aligned in linked or independent degrees.
  */
-
 import { elements } from '../ui.js';
 
-/**
- * Resolves one physical rail into its current keyboard and logical scroll index.
- *
- * @param {number} railIndex - Zero for the primary rail, one for the secondary rail.
- * @returns {{container: HTMLElement, keyboard: HTMLElement, logicalIndex: number, thumb: HTMLElement}|null}
- */
+/** @param {number} railIndex - Main rail zero, middle rail one. @returns {Object|null} Correct active scroll geometry. */
 export function resolveScrollbarTopology(railIndex) {
-	const hasTopKeyboard = Boolean(document.getElementById('keyboard-top'));
+	const upper = document.getElementById('keyboard-top');
+	const lower = document.getElementById('keyboard-bottom');
 	const independent = Boolean(elements.independentScrollCheckbox?.checked);
-
-	if (railIndex === 1 && (!hasTopKeyboard || !independent)) {
+	if (railIndex !== 0 && railIndex !== 1) {
 		return null;
 	}
-
-	const logicalIndex = hasTopKeyboard && independent && railIndex === 0 ? 1 : 0;
-	const keyboardId = logicalIndex === 0 ? 'keyboard-bottom' : 'keyboard-top';
-	const keyboard = document.getElementById(keyboardId);
 	const container = railIndex === 0
 		? elements.customScrollbarContainer
 		: elements.customScrollbarContainerTop;
 	const thumb = railIndex === 0
 		? elements.customScrollbarThumb
 		: elements.customScrollbarThumbTop;
-
-	if (!keyboard || !container || !thumb) {
+	if (!container || !thumb || !lower) {
 		return null;
 	}
-
-	return {
-		container,
-		keyboard,
-		logicalIndex,
-		thumb
-	};
+	if (railIndex === 1 && !upper) {
+		return null;
+	}
+	// The main rail represents the upper strip when each strip is independent.
+	const upperOwner = railIndex === 0 && independent && upper;
+	const keyboard = upperOwner ? upper : lower;
+	const logicalIndex = upperOwner ? 1 : 0;
+	return { container, thumb, keyboard, logicalIndex };
 }
 
-/**
- * Measures the keyboard travel hidden outside the visible viewport.
- *
- * @param {HTMLElement} keyboard - Keyboard strip being navigated.
- * @returns {number} Maximum horizontal scroll distance in pixels.
- */
+/** @param {HTMLElement} keyboard - Keyboard strip. @returns {number} Hidden travel. */
 export function maximumKeyboardScroll(keyboard) {
-	return Math.max(
-		0,
-		keyboard.offsetWidth - elements.keyboardContainer.clientWidth
-	);
+	return Math.max(0, keyboard.offsetWidth - elements.keyboardContainer.clientWidth);
 }
 
-/** @returns {number} Arrow-key scroll step for the current viewport. */
+/** @returns {number} Small accessible keyboard step. */
 export function keyboardScrollStep() {
-	return elements.keyboardContainer.clientWidth * 0.12;
+	return elements.keyboardContainer.clientWidth * .12;
 }
 
-/** @returns {number} Page-key scroll distance for the current viewport. */
+/** @returns {number} Large accessible keyboard step. */
 export function keyboardScrollPage() {
-	return elements.keyboardContainer.clientWidth * 0.8;
+	return elements.keyboardContainer.clientWidth * .8;
 }

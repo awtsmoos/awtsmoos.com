@@ -3,8 +3,8 @@
 //Blessed is He
 /**
  * @module PianoStartup
- * The Awtsmoos awakens a chorus with the touch of one key;
- * Awtsmoos.com guards the original sound and each new harmony.
+ * The Awtsmoos makes the keys ready before revealing their hidden tools;
+ * Awtsmoos.com keeps the orchestra inside settings, away from the playing room.
  */
 import { startAccompaniment } from '../accompaniment.js';
 import { AudioState, initAudio } from '../audio.js';
@@ -12,85 +12,73 @@ import { noteNames, setupInputListeners } from '../input.js';
 import { createEnsemblePanel } from '../layers/ensemblePanel.js';
 import { loadEnsemble } from '../layers/ensembleModel.js';
 import { applyPresetToElements, getSoundPreset } from '../sound/presets.js';
-import { generateKeyboard } from '../ui.js';
+import { generateKeyboard, updateScrollbarThumbs } from '../ui.js';
 import { createCustomWaves } from '../waveforms.js';
-import { initMediaStudioWorkstation } from '../workstation/media/index.js';
-import { initRhythmWorkstation } from '../workstation/rhythm/index.js';
-import { initSongStudioWorkstation } from '../workstation/song/index.js';
-import { initProSynthWorkstation } from '../workstation/synth/index.js';
-import { initializeMidiBridge } from './midiBridge.js';
-import { refreshActiveSound, warmCurrentAcousticPreset } from './presetEvents.js';
+import { scheduleLazyStudios } from './lazyStudios.js';
 import { loadScrollState } from './scrollSettings.js';
 import { DEFAULT_PRESET_ID, populateSoundControls } from './selectSetup.js';
-import { loadSettings, saveSettings } from './settings.js';
+import { loadSettings } from './settings.js';
+import { createStartupProgress } from './startupProgress.js';
 
 let startupPromise = null;
 let applicationStarted = false;
 
-/**
- * A single user gesture launches the piano; concurrent clicks share one result.
- * @param {Object} elements - Connected piano DOM controls.
- * @returns {Promise<boolean>} True after successful playable initialization.
- */
+/** @param {Object} elements - Piano controls. @returns {Promise<boolean>} Ready state. */
 export function startPianoApp(elements) {
 	if (applicationStarted) {
 		return Promise.resolve(true);
 	}
 	if (!startupPromise) {
-		startupPromise = initializePiano(elements).finally(() => {
-			startupPromise = null;
-		});
+		startupPromise = initializePiano(elements).finally(() => { startupPromise = null; });
 	}
 	return startupPromise;
 }
 
-/**
- * Starts sound and links the live orchestra and Song Studio to the same state.
- * @param {Object} elements - Piano interface elements.
- * @returns {Promise<boolean>} Audio and interface readiness.
- */
+/** @param {Object} elements - Audio and keyboard interface. @returns {Promise<boolean>} Playable state. */
 async function initializePiano(elements) {
+	const loading = createStartupProgress(elements.startScreen);
+	loading.update(12, 'Starting audio…');
 	if (!await initAudio()) {
-		window.alert('Audio could not start. Please tap Start again or check browser audio permissions.');
+		loading.fail('Could not start audio. Tap Start again.');
 		return false;
 	}
 	try {
+		loading.update(36, 'Preparing instruments…');
 		populateSoundControls(elements);
 		createCustomWaves(AudioState.context);
-		const workstation = initProSynthWorkstation(elements, {
-			saveSettings,
-			refreshActiveSound
-		});
-		initMediaStudioWorkstation();
 		loadEnsemble();
-		initSongStudioWorkstation();
 		loadSettings(elements);
 		reapplyCanonicalDefault(elements);
-		workstation?.sync();
+		loading.update(66, 'Building your keyboard…');
 		generateKeyboard(noteNames);
 		setupInputListeners();
-		initializeMidiBridge();
 		loadScrollState(elements);
 		startAccompaniment();
-		initRhythmWorkstation();
 		const orchestra = createEnsemblePanel('Live Orchestra');
-		elements.appContainer.prepend(orchestra);
+		const settingsHost = document.querySelector('.settings-content');
+		settingsHost?.prepend(orchestra);
+		loading.update(100, 'Ready to play');
 		applicationStarted = true;
-		elements.startScreen.style.display = 'none';
 		elements.appContainer.style.display = 'flex';
-		void warmCurrentAcousticPreset(elements);
+		elements.startScreen.style.display = 'none';
+		loading.complete();
+		// Scroll geometry must be measured after the keyboard has a visible width.
+		requestAnimationFrame(() => {
+			updateScrollbarThumbs();
+			requestAnimationFrame(updateScrollbarThumbs);
+		});
+		scheduleLazyStudios(elements);
 		return true;
 	} catch (error) {
 		console.error('Piano startup failed', error);
-		window.alert('Piano startup failed. Please reload and try again.');
+		loading.fail('Piano could not finish starting. Reload to try again.');
 		return false;
 	}
 }
 
-/** Keeps the familiar piano patch after restoring old settings. */
+/** Restores the familiar default sound after saved settings are applied. */
 function reapplyCanonicalDefault(elements) {
-	if (elements.soundPresetSelect?.value !== DEFAULT_PRESET_ID) {
-		return;
+	if (elements.soundPresetSelect?.value === DEFAULT_PRESET_ID) {
+		applyPresetToElements(elements, getSoundPreset(DEFAULT_PRESET_ID));
 	}
-	applyPresetToElements(elements, getSoundPreset(DEFAULT_PRESET_ID));
 }
