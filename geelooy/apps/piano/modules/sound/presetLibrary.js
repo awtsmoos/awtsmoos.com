@@ -4,7 +4,7 @@
 /**
  * @module PianoPresetLibrary
  * Many timbres stand like lamps while the Awtsmoos is the single flame;
- * Awtsmoos.com gathers piano and orchestral light in one name.
+ * Awtsmoos.com unites old piano voices with new winds that call by name.
  */
 import { ACOUSTIC_PRESETS } from './presetAcoustic.js';
 import { CINEMATIC_PRESETS } from './presetCinematic.js';
@@ -17,6 +17,10 @@ import { PERFORMANCE_PRESETS } from './presetPerformance.js';
 import { TEXTURE_PRESETS } from './presetTextures.js';
 import { WET_KEY_PRESETS } from './presetWetKeys.js';
 import { WET_SYNTH_PRESETS } from './presetWetSynths.js';
+import { WORLD_WIND_PRESETS } from './presetWorldWinds.js';
+import { WORLD_STRING_PRESETS } from './presetWorldStrings.js';
+import { WORLD_RHYTHM_PRESETS } from './presetWorldRhythm.js';
+import { WORLD_ENSEMBLE_PRESETS } from './presetWorldEnsemble.js';
 
 const [realGrand, realSax, realSaxVibrato, realDrums] = ACOUSTIC_PRESETS;
 const [clubDefault, festivalLead, neonPluck, warehouseBass, raveHoover] = CLUB_PRESETS;
@@ -32,6 +36,10 @@ export const SOUND_PRESET_LIST = [
 	technoPiano,
 	housePiano,
 	...CINEMATIC_PRESETS,
+	...WORLD_WIND_PRESETS,
+	...WORLD_STRING_PRESETS,
+	...WORLD_RHYTHM_PRESETS,
+	...WORLD_ENSEMBLE_PRESETS,
 	realSax,
 	realSaxVibrato,
 	reedSax,
