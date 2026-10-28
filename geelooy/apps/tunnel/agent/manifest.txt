@@ -1,5 +1,5 @@
 B"H
-1.0.703
+1.0.704
 main.js
 ai/relay/direct/browser/ActiveTargetLease.mjs
 ai/relay/direct/browser/AgentTabCatalog.mjs
@@ -1084,6 +1084,7 @@ lib/config.js
 lib/connection-vessel/child-action-stream.js
 lib/connection-vessel/child-active-execution-grace.js
 lib/connection-vessel/child-custody-progress.js
+lib/connection-vessel/child-delivery-custody-gate.js
 lib/connection-vessel/child-delivery-replay.js
 lib/connection-vessel/child-delivery.js
 lib/connection-vessel/child-foundation.js
