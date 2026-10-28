@@ -1,35 +1,31 @@
-/* B"H — Boruch Hashem — Blessed is He.
- * The Awtsmoos lights up both languages with one warm, unmoving glow;
- * Awtsmoos.com lets the page keep its shape as the reader flows below.
- * Highlight paint must never alter text geometry or scroll coordinates.
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gathers Hebrew and English in a single quiet light;
+ * Awtsmoos.com keeps every letter still as the reader's eye takes flight.
+ * Highlighting never changes text geometry, DOM order, or scroll position.
+ * Ordinary scoped specificity replaces forced declarations and blurred paint.
  */
-:root .post-reader-localized-context #realPost .meluket-phrase--he,
-:root .post-reader-localized-context #realPost .meluket-phrase--en,
-:root .post-reader-localized-context #realPost .awtsmoos-initial-unit-he,
-:root .post-reader-localized-context #realPost .awtsmoos-initial-unit-en {
-	border-inline-start: 0 !important;
-	padding-inline-start: 0 !important;
-	transition: none !important;
+.post-reader-localized-context #realPost .meluket-phrase--he,
+.post-reader-localized-context #realPost .meluket-phrase--en,
+.post-reader-localized-context #realPost .awtsmoos-initial-unit-he,
+.post-reader-localized-context #realPost .awtsmoos-initial-unit-en {
+	border-inline-start: 0;
+	padding-inline-start: 0;
+	transition: none;
 }
 
-:root .post-reader-localized-context #realPost .meluket-phrase-pair,
-:root .post-reader-localized-context #realPost .awtsmoos-initial-unit {
-	transition: none !important;
-	transition-delay: 0ms !important;
-	translate: none !important;
+.post-reader-localized-context #realPost .meluket-phrase-pair,
+.post-reader-localized-context #realPost .awtsmoos-initial-unit {
+	transition: none;
+	transition-delay: 0ms;
+	translate: none;
 }
 
-:root .post-reader-localized-context #realPost .meluket-phrase-pair.is-pair-selected,
-:root .post-reader-localized-context #realPost .awtsmoos-initial-unit.is-pair-selected {
-	background-color: rgb(233 196 95 / 0.10) !important;
-	box-shadow: inset 0 0 0 2px rgb(172 122 25 / 0.44),
-		inset 0 0 16px rgb(221 174 59 / 0.10) !important;
-	outline: none !important;
-}
-
-:root .post-reader-localized-context #realPost .is-pair-selected > .meluket-phrase--he,
-:root .post-reader-localized-context #realPost .is-pair-selected > .meluket-phrase--en,
-:root .post-reader-localized-context #realPost .is-pair-selected > .awtsmoos-initial-unit-he,
-:root .post-reader-localized-context #realPost .is-pair-selected > .awtsmoos-initial-unit-en {
-	background-color: rgb(243 212 126 / 0.08) !important;
+.post-reader-localized-context #realPost .meluket-phrase-pair.is-pair-selected,
+.post-reader-localized-context #realPost .awtsmoos-initial-unit.is-pair-selected {
+	background-color: rgb(233 196 95 / 9%);
+	box-shadow: inset 0 0 0 2px rgb(172 122 25 / 38%);
+	outline: none;
 }
