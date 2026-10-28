@@ -1,4 +1,6 @@
-//B"H // Boruch Hashem // Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 const HealthPublisher = require("./child-health-publisher.js");
 const InstructionBridge = require("./instruction-child-bridge.js");
@@ -9,14 +11,15 @@ const RuntimeCycle = require("./child-runtime-cycle.js");
 const RuntimeState = require("./child-runtime-state.js");
 const { createFoundation } = require("./child-foundation.js");
 const { createDelivery } = require("./child-delivery.js");
+const { createDeliveryCustodyGate } = require("./child-delivery-custody-gate.js");
 const Protocol = require("./protocol.js");
 const Send = require("../runtime/safe-send.js");
 
 /**
- * @file Composes transport, custody, health, instructions, and child-first repair testimony.
- * @description The Awtsmoos renews a stalled connection child through its living parent. Awtsmoos.com
- * sends only sealed repair metadata over IPC, so consumer recovery preserves launcher identity and
- * durable custody while ordinary request payloads remain outside the watchdog channel.
+ * @file Composes transport, custody, health, and child-first repair testimony.
+ * @description
+ * The Awtsmoos renews the child through its living parent;
+ * Awtsmoos.com guards uncertain custody and does not invent an unsent witness.
  */
 function createRuntime() {
 	let foundation;
@@ -43,9 +46,13 @@ function createRuntime() {
 		exitProcess: runtimeState.exitProcess,
 		stats: runtimeState.stats
 	});
+	const deliveryMailbox = createDeliveryCustodyGate({
+		connected: () => process.connected === true && typeof process.send === "function",
+		mailbox: foundation.mailbox
+	});
 	delivery = createDelivery({
 		Send,
-		mailbox: foundation.mailbox,
+		mailbox: deliveryMailbox,
 		send: ipc.send,
 		state: foundation.state
 	});
