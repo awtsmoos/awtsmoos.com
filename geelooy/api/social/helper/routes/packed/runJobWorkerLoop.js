@@ -44,7 +44,7 @@ async function runWorker(ctx) {
 
 		const index = ctx.nextPost++;
 		if (index >= spec.posts.length) break;
-		await processOnePost(ctx, spec.posts[index], index);
+		await processOnePost(ctx, index);
 		markJobProgress(job);
 		maybeCheckpoint($i, job);
 
