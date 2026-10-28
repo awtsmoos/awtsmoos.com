@@ -1,12 +1,15 @@
-//B"H // Boruch Hashem // Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 const DEFAULT_INGRESS_STALE_MS = 7000;
 
 /**
- * @file Detects accepted ingress that never acquires current-generation parent custody.
- * @description The Awtsmoos lets a new deed breathe briefly, but not vanish behind a heartbeat.
- * Awtsmoos.com gives unowned ingress a short ownership deadline independent of the longer consumer
- * execution window, so accepted-not-consumed custody becomes actionable before relay exile.
+ * @file Distinguishes active ingress failure from detached historical attempts.
+ * @description
+ * The Awtsmoos recreates each living request without erasing the old deed;
+ * Awtsmoos.com reports detached testimony but does not freeze new work in need.
+ * A missing inbox count is never proof of an empty durable queue.
  */
 function inspect(mailbox = {}, options = {}) {
 	const inbox = mailbox.inbox || {};
@@ -22,10 +25,19 @@ function inspect(mailbox = {}, options = {}) {
 	const entryAgeMs = nonnegative(inbox.entryUnownedOldestAgeMs);
 	const unownedIngress = Math.max(attemptCount, entryCount);
 	const unownedIngressAgeMs = Math.max(attemptAgeMs, entryAgeMs);
-	const ingressStalled = unownedIngress > 0 && unownedIngressAgeMs >= staleMs;
+
+	// B"H: an explicitly empty durable inbox cannot be drained by replacing
+	// the consumer. Retain every historical witness for exact reconciliation.
+	const detachedAttemptDebt = attemptCount > 0 &&
+		inbox.count === 0 && inbox.entryUnownedCount === 0;
+	const ingressStalled = unownedIngress > 0 &&
+		unownedIngressAgeMs >= staleMs && !detachedAttemptDebt;
+
 	return {
 		ingressStaleMs: staleMs,
 		ingressStalled,
+		detachedAttemptDebt,
+		detachedAttemptCount: detachedAttemptDebt ? attemptCount : 0,
 		unownedIngress,
 		unownedIngressAgeMs,
 		unownedIngressSources: {
@@ -37,6 +49,7 @@ function inspect(mailbox = {}, options = {}) {
 	};
 }
 
+/** Bounds a noisy configuration without weakening the minimum ownership wait. */
 function bounded(value, fallback) {
 	const number = Number(value);
 	return Number.isFinite(number)
@@ -44,6 +57,7 @@ function bounded(value, fallback) {
 		: fallback;
 }
 
+/** Returns only finite nonnegative integer evidence. */
 function nonnegative(value) {
 	const number = Number(value);
 	return Number.isFinite(number) ? Math.max(0, Math.floor(number)) : 0;
