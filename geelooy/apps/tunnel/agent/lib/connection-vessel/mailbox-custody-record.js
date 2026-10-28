@@ -4,6 +4,7 @@
 
 const Identity = require("./mailbox-custody-identity.js");
 const PhasePolicy = require("./request-phase-policy.js");
+const UnownedWitness = require("./mailbox-unowned-witness.js");
 
 /**
  * @file Builds exact request-custody records whose leases move only with real request progress.
@@ -58,7 +59,7 @@ function progress(record, metadata = {}, observedAt = Date.now()) {
 
 /**
  * Decide whether testimony can legitimately extend one request's lease.
- * @param {object} record Existing custody record.
+ * @param {object} record Existing custody witness.
  * @param {string} phase Normalized incoming phase.
  * @param {string} workerId Normalized concrete worker identity, when present.
  * @param {string} resultState Normalized result testimony, when present.
@@ -70,6 +71,7 @@ function isMeaningful(record, phase, workerId, resultState) {
 	return Boolean(resultState && resultState !== record.resultState);
 }
 
+/** Preserves counts and custody while adding a bounded read-only unowned sample. */
 function snapshot(parent, attempts, observedAt = Date.now()) {
 	const values = Array.from(parent.values()).map(record => ({ ...record }));
 	const stale = values.filter(record => PhasePolicy.expired(record, observedAt));
@@ -85,7 +87,8 @@ function snapshot(parent, attempts, observedAt = Date.now()) {
 		parentCustodyRecords: values,
 		unownedCount: unowned.length,
 		unownedOldestAt,
-		unownedOldestAgeMs: age(unownedOldestAt, observedAt)
+		unownedOldestAgeMs: age(unownedOldestAt, observedAt),
+		...UnownedWitness.describe(unowned, observedAt)
 	};
 }
 
