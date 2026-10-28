@@ -1,0 +1,104 @@
+/* B"H — Boruch Hashem — Blessed is He.
+ * The Awtsmoos reveals each hidden control only when the reader invites it;
+ * Awtsmoos.com keeps the settings reachable and the sacred text unconflicted.
+ * No important declarations, and a closed Scribe's Lens stays closed.
+ */
+.post-reader-localized-context #typographyDetails:not(.hidden-details) {
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	width: min(100%, 36rem);
+	max-height: min(92dvh, 54rem);
+	min-height: 0;
+	padding-bottom: env(safe-area-inset-bottom, 0px);
+	overflow: hidden;
+	background: #f9f4ea;
+	color: #302315;
+}
+
+.post-reader-localized-context #typographyDetails .typography-content {
+	box-sizing: border-box;
+	display: block;
+	flex: 1 1 auto;
+	min-height: 0;
+	max-height: 100%;
+	padding: 12px 16px 20px;
+	overflow-y: auto;
+	overflow-x: hidden;
+	overscroll-behavior: contain;
+	-webkit-overflow-scrolling: touch;
+}
+
+.post-reader-localized-context #typographyDetails .reset-section {
+	box-sizing: border-box;
+	flex: 0 0 auto;
+	position: relative;
+	z-index: 1;
+	margin: 0;
+	padding: 10px 16px 12px;
+	background: #f9f4ea;
+	border-top: 1px solid #d1bd98;
+}
+
+.post-reader-localized-context #typographyDetails .settings-group {
+	box-sizing: border-box;
+	min-width: 0;
+	max-width: 100%;
+}
+
+.post-reader-localized-context #typographyDetails .setting-name,
+.post-reader-localized-context #typographyDetails .control-label,
+.post-reader-localized-context #typographyDetails h3,
+.post-reader-localized-context #typographyDetails label {
+	color: #4b3715;
+}
+
+.post-reader-localized-context #typographyDetails .language-option,
+.post-reader-localized-context #typographyDetails .lang-option,
+.post-reader-localized-context #typographyDetails .segmented-control button {
+	color: #493923;
+	text-shadow: none;
+}
+
+.post-reader-localized-context #typographyDetails .segmented-control button[aria-pressed="true"],
+.post-reader-localized-context #typographyDetails .language-option.active,
+.post-reader-localized-context #typographyDetails .lang-option.active {
+	background: #bd8f3f;
+	color: #211809;
+}
+
+.post-reader-localized-context #typographyDetails #resetDefaultsBtn {
+	color: #654313;
+	border-color: #ad8130;
+	background: #fdfaf2;
+}
+
+.post-reader-localized-context #realPost .meluket-post-summary p,
+.post-reader-localized-context #realPost .meluket-post-summary,
+.post-reader-localized-context #realPost .meluket-summary {
+	white-space: pre-wrap;
+	overflow-wrap: anywhere;
+}
+
+.post-reader-localized-context .reader-info-actions a {
+	box-sizing: border-box;
+	display: block;
+	width: 100%;
+	min-height: 44px;
+	padding: 10px 14px;
+	border: 1px solid #dbc9a5;
+	border-radius: 11px;
+	background: #fffdf7;
+	color: #302315;
+	font: 600 15px/1.4 system-ui, sans-serif;
+	text-decoration: none;
+}
+
+@media (max-width: 480px) {
+	.post-reader-localized-context #typographyDetails:not(.hidden-details) {
+		max-height: 93dvh;
+	}
+	.post-reader-localized-context #typographyDetails .typography-content {
+		padding-inline: 12px;
+	}
+}

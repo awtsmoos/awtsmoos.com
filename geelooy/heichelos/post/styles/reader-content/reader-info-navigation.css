@@ -1,0 +1,117 @@
+/* B"H — Boruch Hashem — Blessed is He.
+ * The Awtsmoos reveals each path within the living Torah without lifting the page;
+ * Awtsmoos.com holds its index in a quiet and accessible chamber.
+ * No forced declarations or global style collisions.
+ */
+.post-reader-localized-context #readerTopIndex {
+	box-sizing: border-box;
+	width: min(calc(100% - 20px), 58rem);
+	margin: 12px auto;
+	border: 1px solid #d6c296;
+	border-radius: 15px;
+	background: #fffaf0;
+	color: #382a19;
+	font: 500 16px/1.5 system-ui, sans-serif;
+}
+
+.post-reader-localized-context #readerTopIndex > summary {
+	padding: 14px 18px;
+	cursor: pointer;
+	font-weight: 750;
+}
+
+.post-reader-localized-context .reader-index-items {
+	display: grid;
+	gap: 5px;
+	padding: 12px;
+	max-height: 55dvh;
+	overflow-y: auto;
+	overscroll-behavior: contain;
+}
+
+.post-reader-localized-context .reader-index-items button,
+.post-reader-localized-context .reader-info-actions button,
+.post-reader-localized-context .reader-info-actions #commentaryBtn {
+	box-sizing: border-box;
+	display: block;
+	width: 100%;
+	min-height: 44px;
+	padding: 10px 14px;
+	border: 1px solid #dbc9a5;
+	border-radius: 11px;
+	background: #fffdf7;
+	color: #302315;
+	font: 600 15px/1.4 system-ui, sans-serif;
+	text-align: start;
+	cursor: pointer;
+}
+
+.post-reader-localized-context .reader-index-items button:focus-visible,
+.post-reader-localized-context .reader-info-actions button:focus-visible,
+.post-reader-localized-context #readerInfoBtn:focus-visible {
+	outline: 3px solid #946c23;
+	outline-offset: 2px;
+}
+
+.post-reader-localized-context .reader-info-backdrop {
+	position: fixed;
+	inset: 0;
+	z-index: 3150;
+	background: rgb(27 19 7 / 45%);
+}
+
+.post-reader-localized-context .reader-info-panel {
+	box-sizing: border-box;
+	position: fixed;
+	z-index: 3160;
+	inset: auto 8px max(8px, env(safe-area-inset-bottom, 0px));
+	max-height: min(80dvh, 680px);
+	padding: 16px;
+	border: 1px solid #c6ad76;
+	border-radius: 20px;
+	background: #fffaf0;
+	color: #302315;
+	box-shadow: 0 12px 38px rgb(20 14 5 / 30%);
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	font: 500 16px/1.5 system-ui, sans-serif;
+}
+
+.post-reader-localized-context .reader-info-panel[hidden],
+.post-reader-localized-context .reader-info-backdrop[hidden] {
+	display: none;
+}
+
+.post-reader-localized-context .reader-info-heading {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 12px;
+	margin-bottom: 12px;
+}
+
+.post-reader-localized-context .reader-info-heading h2 {
+	margin: 0;
+	font: 750 22px/1.3 system-ui, sans-serif;
+}
+
+.post-reader-localized-context .reader-info-actions {
+	display: grid;
+	gap: 8px;
+}
+
+.post-reader-localized-context .reader-info-panel details {
+	border-top: 1px solid #d6c296;
+	padding: 10px 0;
+}
+
+.post-reader-localized-context .reader-info-panel summary {
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.post-reader-localized-context #readerInfoBtn {
+	font: 750 22px/1 system-ui, sans-serif;
+	color: #3e2b12;
+	background: #fffaf0;
+}

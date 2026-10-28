@@ -1,24 +1,24 @@
-/* B"H
- * The Awtsmoos renews each word, Hebrew and English, inside its vessel.
- * Reader containment must make the printed Sefer actually fit a phone.
- * Hiding overflow alone conceals entire lines and is never a layout fix.
- * This stylesheet is loaded LAST by the Heichelos post shell.
+/* B"H — Boruch Hashem — Blessed is He.
+ * The Awtsmoos holds every Hebrew and English line inside its sacred vessel.
+ * Awtsmoos.com reflows each word without forcing scale, cropping, or collision.
+ * This stylesheet uses the normal cascade: never forced importance.
  */
 .post-reader-localized-context,
 .post-reader-localized-context .main,
 .post-reader-localized-context .scroll-view-wrapper {
-	width: 100% !important;
-	max-width: 100% !important;
-	min-width: 0 !important;
+	width: 100%;
+	max-width: 100%;
+	min-width: 0;
+	box-sizing: border-box;
 }
 
 .post-reader-localized-context {
-	overflow-x: clip !important;
+	overflow-x: clip;
 }
 
 .post-reader-localized-context .scroll-view-wrapper {
-	overflow-x: clip !important;
-	overflow-y: auto !important;
+	overflow-x: clip;
+	overflow-y: auto;
 }
 
 .post-reader-localized-context #realPost,
@@ -27,18 +27,18 @@
 .post-reader-localized-context .awtsmoos-reader-content,
 .post-reader-localized-context .awtsmoos-initial-post-body,
 .post-reader-localized-context .awtsmoos-initial-post {
-	width: 100% !important;
-	max-width: 100% !important;
-	min-width: 0 !important;
-	box-sizing: border-box !important;
-	overflow-wrap: anywhere !important;
-	word-break: normal !important;
+	width: 100%;
+	max-width: 100%;
+	min-width: 0;
+	box-sizing: border-box;
+	overflow-wrap: anywhere;
+	word-break: normal;
 }
 
 .post-reader-localized-context #realPost {
-	max-width: min(68ch, calc(100% - 1rem)) !important;
-	margin-inline: auto !important;
-	padding-bottom: calc(7rem + env(safe-area-inset-bottom)) !important;
+	max-width: min(68ch, calc(100% - 1rem));
+	margin-inline: auto;
+	padding-bottom: calc(7rem + env(safe-area-inset-bottom, 0px));
 }
 
 .post-reader-localized-context #realPost p,
@@ -49,34 +49,30 @@
 .post-reader-localized-context #realPost .sub-toichen,
 .post-reader-localized-context #realPost .awtsmoos-plain-post-content,
 .post-reader-localized-context #realPost .awtsmoos-translation-block {
-	max-width: 100% !important;
-	min-width: 0 !important;
-	box-sizing: border-box !important;
-	overflow-wrap: anywhere !important;
-	word-break: normal !important;
+	max-width: 100%;
+	min-width: 0;
+	box-sizing: border-box;
+	overflow-wrap: anywhere;
+	word-break: normal;
 }
 
 .post-reader-localized-context #realPost .awtsmoos-plain-post-content {
-	white-space: pre-wrap !important;
+	white-space: pre-wrap;
 }
 
 .post-reader-localized-context .active-reading-sub {
-	transform: none !important;
-	box-shadow: none !important;
+	transform: none;
 }
 
 .post-reader-localized-context #realPost img,
 .post-reader-localized-context #realPost video,
 .post-reader-localized-context #realPost iframe,
 .post-reader-localized-context #realPost table {
-	max-width: 100% !important;
+	max-width: 100%;
 	height: auto;
 }
 
-/* The Likkutei Sichos Meluket layout was 583px inside a 324px mobile
- * column. A clipped ancestor hid that overflowing content from audits.
- * Protect portrait and landscape phone widths, including 844px screens. */
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
 	.post-reader-localized-context #realPost .meluket-sefer,
 	.post-reader-localized-context #realPost .meluket-sefer-title,
 	.post-reader-localized-context #realPost .meluket-sefer-title-he,
@@ -89,48 +85,28 @@
 	.post-reader-localized-context #realPost .meluket-phrase--en,
 	.post-reader-localized-context #realPost .meluket-hebrew,
 	.post-reader-localized-context #realPost .meluket-english {
-		width: 100% !important;
-		max-width: 100% !important;
-		min-width: 0 !important;
-		box-sizing: border-box !important;
-		overflow-wrap: break-word !important;
-		word-break: normal !important;
+		max-width: 100%;
+		min-width: 0;
+		box-sizing: border-box;
+		overflow-wrap: break-word;
+		word-break: normal;
 	}
 
 	.post-reader-localized-context #realPost .meluket-sefer {
-		--sefer-phrase-size: clamp(23px, 7vw, 34px) !important;
-		--hebrew-optical: 1 !important;
-		margin-inline: 0 !important;
-		padding-inline: 0.25rem !important;
+		margin-inline: 0;
+		padding-inline: 0.25rem;
 	}
 
-	.post-reader-localized-context #realPost .meluket-sefer-title-he {
-		font-size: clamp(30px, 8vw, 40px) !important;
-		line-height: 1.4 !important;
-	}
-
+	.post-reader-localized-context #realPost .meluket-sefer-section,
 	.post-reader-localized-context #realPost .meluket-post-summary,
-	.post-reader-localized-context #realPost .meluket-qa,
-	.post-reader-localized-context #realPost .meluket-sefer-section {
-		padding-inline: 0.5rem !important;
+	.post-reader-localized-context #realPost .meluket-qa {
+		padding-inline: 0.5rem;
 	}
 
 	.post-reader-localized-context .awtsmoos-floating-controls {
-		inset-inline-end: 8px !important;
-		bottom: calc(8px + env(safe-area-inset-bottom)) !important;
-		min-height: 0 !important;
-		backdrop-filter: none !important;
-	}
-
-	.post-reader-localized-context #typographyBtn {
-		width: 48px !important;
-		height: 48px !important;
-		font-size: 18px !important;
-	}
-
-	.post-reader-localized-context #commentaryBtn {
-		width: 46px !important;
-		height: 46px !important;
-		font-size: 12px !important;
+		inset-inline-end: 8px;
+		bottom: calc(8px + env(safe-area-inset-bottom, 0px));
+		min-height: 0;
+		backdrop-filter: none;
 	}
 }

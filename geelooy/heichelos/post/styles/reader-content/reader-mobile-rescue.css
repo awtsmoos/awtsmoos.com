@@ -1,110 +1,119 @@
 /* B"H — Boruch Hashem — Blessed is He.
- * The Awtsmoos creates every Torah letter anew, legible in the light;
- * Awtsmoos.com keeps each phrase and control in the reader's sight.
- * Phone portrait and landscape only: never change desktop or editors.
+ * The Awtsmoos renews the Torah letter by letter, one infinitely generous light.
+ * Awtsmoos.com scales both languages from the same reader setting, never by force.
+ * No !important declarations: the reader's inline scale is the final authority.
  */
 @media (max-width: 1024px) {
-	.post-reader-localized-context.meluket-sefer-active,
-	.post-reader-localized-context.meluket-sefer-active .meluket-sefer,
-	.post-reader-localized-context #realPost.meluket-sefer-active,
-	.post-reader-localized-context #realPost .meluket-sefer {
-		--sefer-phrase-size: clamp(21px, 5.5vw, 30px) !important;
-		--hebrew-optical: 1.12 !important;
-	}
 	.post-reader-localized-context #realPost .meluket-sefer,
 	.post-reader-localized-context #realPost .meluket-sefer-section,
 	.post-reader-localized-context #realPost .meluket-phrase-pair,
 	.post-reader-localized-context #realPost .meluket-post-summary,
 	.post-reader-localized-context #realPost .meluket-summary,
 	.post-reader-localized-context #realPost .meluket-qa {
-		box-sizing: border-box !important;
-		inline-size: 100% !important;
-		max-inline-size: 100% !important;
-		min-inline-size: 0 !important;
-		margin-inline: 0 !important;
-		padding-inline: clamp(7px, 2vw, 14px) !important;
-		overflow-wrap: anywhere !important;
+		box-sizing: border-box;
+		max-inline-size: 100%;
+		min-inline-size: 0;
+		overflow-wrap: anywhere;
 	}
+
+	.post-reader-localized-context #realPost .meluket-sefer-section,
+	.post-reader-localized-context #realPost .meluket-phrase-pair {
+		inline-size: 100%;
+		margin-inline: 0;
+		padding-inline: clamp(7px, 2vw, 14px);
+	}
+
 	.post-reader-localized-context #realPost .meluket-phrase--he,
 	.post-reader-localized-context #realPost .meluket-hebrew {
-		font-size: clamp(23px, 6.4vw, 33px) !important;
-		line-height: 1.48 !important;
-		min-inline-size: 0 !important;
-		max-inline-size: 100% !important;
-		white-space: normal !important;
-		overflow-wrap: anywhere !important;
+		font-size: calc(var(--post-text-size, 48px) * 0.64);
+		line-height: 1.48;
+		min-inline-size: 0;
+		max-inline-size: 100%;
+		white-space: normal;
+		overflow-wrap: anywhere;
 	}
+
 	.post-reader-localized-context #realPost .meluket-phrase--en,
 	.post-reader-localized-context #realPost .meluket-english {
-		font-size: clamp(20px, 5.7vw, 29px) !important;
-		line-height: 1.48 !important;
-		min-inline-size: 0 !important;
-		max-inline-size: 100% !important;
-		white-space: normal !important;
-		overflow-wrap: anywhere !important;
+		font-size: calc(var(--post-text-size, 48px) * 0.57);
+		line-height: 1.48;
+		min-inline-size: 0;
+		max-inline-size: 100%;
+		white-space: normal;
+		overflow-wrap: anywhere;
 	}
+
 	.post-reader-localized-context #realPost .meluket-sefer-title-he {
-		font-size: clamp(28px, 7.2vw, 40px) !important;
-		line-height: 1.38 !important;
-		max-inline-size: 100% !important;
-		overflow-wrap: anywhere !important;
+		font-size: calc(var(--post-text-size, 48px) * 0.83);
+		line-height: 1.38;
+		max-inline-size: 100%;
+		overflow-wrap: anywhere;
 	}
+
 	.post-reader-localized-context #realPost .meluket-sefer-title {
-		padding: 16px 8px !important;
-		margin-bottom: 16px !important;
+		padding: 16px 8px;
+		margin-bottom: 16px;
 	}
+
 	.post-reader-localized-context #realPost .meluket-sefer-section {
-		padding-block: 16px !important;
-		margin-bottom: 18px !important;
-		border-radius: 8px !important;
+		padding-block: 16px;
+		margin-bottom: 18px;
+		border-radius: 8px;
 	}
+
 	.post-reader-localized-context #realPost .meluket-phrase-pair {
-		margin-bottom: 1.15em !important;
+		margin-bottom: 1.15em;
 	}
+
 	.post-reader-localized-context #realPost .meluket-summary,
 	.post-reader-localized-context #realPost .meluket-post-summary {
-		font-size: clamp(20px, 5.4vw, 28px) !important;
-		line-height: 1.52 !important;
+		font-size: calc(var(--post-text-size, 48px) * 0.53);
+		line-height: 1.52;
 	}
+
 	.post-reader-localized-context #realPost .meluket-section-number {
-		width: 42px !important;
-		height: 42px !important;
-		min-width: 42px !important;
-		padding: 0 !important;
-		border-width: 2px !important;
-		font-size: 20px !important;
+		width: 42px;
+		height: 42px;
+		min-width: 42px;
+		padding: 0;
+		border-width: 2px;
+		font-size: 20px;
 	}
+
 	.post-reader-localized-context .main,
 	.post-reader-localized-context .scroll-view-wrapper,
 	.post-reader-localized-context #realPost,
 	.post-reader-localized-context .meluket-sefer {
-		scroll-snap-type: none !important;
-		scroll-behavior: auto !important;
-		overscroll-behavior-x: none !important;
-		background-color: #fffdf7;
+		scroll-snap-type: none;
+		scroll-behavior: auto;
+		overscroll-behavior-x: none;
 	}
+
 	.post-reader-localized-context #realPost {
-		padding-bottom: calc(100px + env(safe-area-inset-bottom, 0px)) !important;
+		padding-bottom: calc(100px + env(safe-area-inset-bottom, 0px));
 	}
+
 	.post-reader-localized-context .awtsmoos-floating-controls {
-		position: fixed !important;
-		right: 8px !important;
-		left: auto !important;
-		bottom: calc(8px + env(safe-area-inset-bottom, 0px)) !important;
-		width: auto !important;
-		max-width: calc(100vw - 16px) !important;
-		padding: 4px !important;
-		gap: 5px !important;
-		min-height: 0 !important;
-		transform: none !important;
-		backdrop-filter: none !important;
+		position: fixed;
+		right: 8px;
+		left: auto;
+		bottom: calc(8px + env(safe-area-inset-bottom, 0px));
+		width: auto;
+		max-width: calc(100vw - 16px);
+		padding: 4px;
+		gap: 5px;
+		min-height: 0;
+		transform: none;
+		backdrop-filter: none;
 	}
+
 	.post-reader-localized-context #typographyBtn,
-	.post-reader-localized-context #commentaryBtn {
-		width: 48px !important;
-		height: 48px !important;
-		min-width: 48px !important;
-		min-height: 48px !important;
-		font-size: 13px !important;
+	.post-reader-localized-context #commentaryBtn,
+	.post-reader-localized-context #readerInfoBtn {
+		width: 48px;
+		height: 48px;
+		min-width: 48px;
+		min-height: 48px;
+		font-size: 13px;
 	}
 }

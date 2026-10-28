@@ -2,9 +2,7 @@
 <!-- B"H
 Boruch Hashem
 Blessed is He
-
-The Awtsmoos reveals Torah already clothed in its readable garments;
-Awtsmoos.com paints passive reading first, then awakens hidden chambers on intent.
+The Awtsmoos reveals readable Torah and a calm index for Awtsmoos.com.
 -->
 <html lang="en">
 <head>
@@ -37,9 +35,11 @@ Awtsmoos.com paints passive reading first, then awakens hidden chambers on inten
 	<link rel="stylesheet" href="/heichelos/post/styles/passive-reader.css?v=reader-passive-003">
 	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/mobile-layout-stability.css?v=reader-layout-001">
 	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/reader-visual-stability.css?v=reader-visual-001">
-	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/reader-containment-fix.css?v=reader-containment-001">
-	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/reader-mobile-rescue.css?v=reader-mobile-rescue-20261027-1">
+	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/reader-containment-fix.css?v=reader-containment-20261028-2">
+	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/reader-mobile-rescue.css?v=reader-mobile-rescue-20261028-2">
 	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/reader-pair-selection.css?v=reader-pairs-20261028-2">
+	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/reader-info-navigation.css?v=reader-info-20261028-1">
+	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/reader-settings-coherence.css?v=reader-settings-20261028-1">
 	<script>
 		try {
 			const theme = localStorage.getItem('awtsmoos-theme');
@@ -54,14 +54,36 @@ Awtsmoos.com paints passive reading first, then awakens hidden chambers on inten
 		<div class="awtsmoos-integrated-header"><?<script> return $a("nav/header.html") </script>?></div>
 		<div class="main">
 			<div class="scroll-view-wrapper">
+				<details id="readerTopIndex" aria-label="Complete reader index">
+					<summary>Contents · Jump to any section</summary>
+					<nav id="readerTopSections" class="reader-index-items" aria-label="Post sections"></nav>
+				</details>
 				<div class="content" id="realPost"><?<script> return typeof initialContentHtml === "string" ? initialContentHtml : ""; </script>?></div>
 			</div>
 			<div class="sidebar hidden-comments"></div>
 		</div>
 		<div class="awtsmoos-floating-controls" aria-label="Reader controls">
 			<button type="button" id="typographyBtn" title="Typography & Settings" aria-label="Typography and settings" aria-controls="typographyDetails" aria-expanded="false">Aa</button>
-			<button type="button" id="commentaryBtn" title="Community & Sources" aria-label="Open community and source sidebar">Sources</button>
+			<button type="button" id="commentaryBtn" title="Community & Sources" aria-label="Community and sources">Sources</button>
+			<button type="button" id="readerInfoBtn" title="Reader information" aria-label="Reader information and jump index" aria-controls="readerInfoPanel" aria-expanded="false">i</button>
 		</div>
+		<div id="readerInfoBackdrop" class="reader-info-backdrop" hidden></div>
+		<section id="readerInfoPanel" class="reader-info-panel" role="dialog" aria-modal="true" aria-label="Reader information and index" hidden>
+			<div class="reader-info-heading"><h2>Reading guide</h2><button id="readerInfoClose" type="button" data-reader-action="close">Close</button></div>
+			<div class="reader-info-actions">
+				<button type="button" data-reader-action="overview">Read the overview</button>
+				<button type="button" data-reader-action="sections">Full section index</button>
+				<button type="button" data-reader-action="current">Current Hebrew + English passage</button>
+				<button type="button" data-reader-action="top">Top of the post</button>
+				<div id="readerInfoSourcesHost"></div>
+				<a id="readerBrowseSeries" href="/heichelos/ikar/">Browse this series</a>
+				<a id="readerBrowseHeichel" href="/heichelos/ikar/">Browse this Heichel</a>
+			</div>
+			<details id="readerSubsectionDetails">
+				<summary>Jump to a precise Hebrew + English subsection</summary>
+				<nav id="readerInfoSubsections" class="reader-index-items" aria-label="Bilingual subsections"></nav>
+			</details>
+		</section>
 		<div id="scribeLensOverlay" class="scribe-lens-overlay"></div>
 		<?<script> return typeof readerSettingsHtml === "string" ? readerSettingsHtml : ""; </script>?>
 		<?<script> return typeof postAnnotationsHtml === "string" ? postAnnotationsHtml : ""; </script>?>
@@ -75,9 +97,10 @@ Awtsmoos.com paints passive reading first, then awakens hidden chambers on inten
 				registerScript.src = '/register.js?v=fcaa78a126';
 				registerScript.defer = true;
 				document.head.appendChild(registerScript);
+				import('/heichelos/post/logic/initialization/ReaderInfoNavigation.js?v=reader-info-20261028-1').catch(() => {});
 				import('/heichelos/post/logic/initialization/ReaderSectionHighlight.js?v=reader-pairs-20261028-2').catch(() => {});
 				import('/heichelos/post/postLogic.js?v=reader-passive-005');
-				import('/heichelos/post/rashi/rashi-controller.js?v=rashi-001').catch(()=>{});
+				import('/heichelos/post/rashi/rashi-controller.js?v=rashi-001').catch(() => {});
 			});
 		});
 	</script>
