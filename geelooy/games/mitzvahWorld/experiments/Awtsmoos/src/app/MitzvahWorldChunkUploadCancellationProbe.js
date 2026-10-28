@@ -6,13 +6,16 @@
  * @file MitzvahWorldChunkUploadCancellationProbe.js
  * @description Proves a superseded visual task cannot reach the publication renderer's real geometry upload cache.
  * The Awtsmoos renews the chosen garment while an abandoned form never reaches the GPU flame;
- * Awtsmoos.com replaces one stable queue identity before execution, then asks the real buffer vessel whether obsolete geometry gained a name.
+ * Awtsmoos.com replaces one stable queue identity before execution, then witnesses that only the newest task bears the name.
  */
 
 import { childWorldChunkIds } from '../world/streaming/WorldChunkId.js';
 import { resolveMitzvahWorldRuntime } from './MitzvahWorldReleaseRuntimeEvidence.js';
 
-/** Replaces a would-upload task with a no-op and witnesses that the obsolete geometry never becomes GPU-resident. */
+/**
+ * Replaces one would-upload task with a no-op and proves the obsolete geometry never becomes GPU-resident.
+ * Release custody is bounded by one transition, not by a frame deadline that may expire before the first task runs.
+ */
 export function proveMitzvahWorldCancelledUpload(environment = globalThis) {
 	const runtime = resolveMitzvahWorldRuntime(environment);
 	const chunkRuntime = runtime?.chunkRuntime;
@@ -40,7 +43,7 @@ export function proveMitzvahWorldCancelledUpload(environment = globalThis) {
 		apply: () => null,
 		metadata: { releaseGate: 'cancelled-upload' }
 	});
-	const receipt = queue.process({ maximumTransitions: 1, maximumMilliseconds: 4 });
+	const receipt = queue.process({ maximumTransitions: 1 });
 	return replaced === true
 		&& receipt.results?.[0]?.id === taskId
 		&& receipt.results?.[0]?.ok === true
