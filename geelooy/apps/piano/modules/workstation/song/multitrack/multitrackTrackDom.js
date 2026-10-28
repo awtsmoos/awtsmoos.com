@@ -3,20 +3,13 @@
 //Blessed is He
 /**
  * @module MultitrackTrackDom
- * @description
- * Tiferes gives each audio lane a name, mute, solo, gain, and pan beside the space where clips can move and overlap.
- * The Awtsmoos is beyond lane and balance; Awtsmoos.com makes every layer readable on a phone so power does not require a desktop throne.
+ * The Awtsmoos brings each lane to life, with knobs beside its rhyme;
+ * Awtsmoos.com lets us copy, color, balance, split and move in time.
  */
-
 import { createMultitrackClipDom } from './multitrackClipDom.js';
+import { MULTITRACK_TONES } from './multitrackTrackTone.js';
 
-/**
- * Builds one track row and its editable header controls.
- * @param {Object} track Track snapshot.
- * @param {Object} selection Editor selection.
- * @param {number} timelineWidth Timeline width in pixels.
- * @returns {Object} Track DOM registry.
- */
+/** @param {Object} track - Audio track. @param {Object} selection - Active clip. @param {number} timelineWidth - Display width. */
 export function createMultitrackTrackDom(track, selection, timelineWidth) {
 	const root = document.createElement('div');
 	root.className = 'multitrack-track';
@@ -34,6 +27,7 @@ export function createMultitrackTrackDom(track, selection, timelineWidth) {
 	return { root, lane };
 }
 
+/** @param {Object} track - Track values. @returns {HTMLElement} Interactive header. */
 function createTrackHeader(track) {
 	const root = document.createElement('div');
 	root.className = 'multitrack-track-header';
@@ -47,14 +41,18 @@ function createTrackHeader(track) {
 	switches.append(
 		createSwitch('mute', 'M', track.muted, 'Mute track'),
 		createSwitch('solo', 'S', track.solo, 'Solo track'),
+		createSwitch('duplicate-track', '⧉', false, 'Duplicate this track'),
+		createSwitch('normalize-track', 'Norm', false, 'Normalize track level'),
 		createSwitch('delete-track', '×', false, 'Delete track')
 	);
-	const gain = createRange('gain', 'Gain', track.gain, 0, 2, 0.05);
-	const pan = createRange('pan', 'Pan', track.pan, -1, 1, 0.05);
-	root.append(name, switches, gain, pan);
+	root.append(name, switches);
+	root.append(createRange('gain', 'Gain', track.gain, 0, 2, 0.05));
+	root.append(createRange('pan', 'Pan', track.pan, -1, 1, 0.05));
+	root.append(createToneSelector(track));
 	return root;
 }
 
+/** @param {string} action - Control key. @param {string} text - Icon. @param {boolean} active - Selected. @param {string} label - Description. */
 function createSwitch(action, text, active, label) {
 	const button = document.createElement('button');
 	button.type = 'button';
@@ -63,14 +61,16 @@ function createSwitch(action, text, active, label) {
 	button.className = 'multitrack-track-switch';
 	button.classList.toggle('multitrack-track-switch-active', active);
 	button.setAttribute('aria-label', label);
+	button.title = label;
 	return button;
 }
 
-function createRange(action, labelText, value, min, max, step) {
+/** @param {string} action - Key. @param {string} title - Caption. @param {number} value - Setting. @param {number} min - Lower bound. @param {number} max - Upper bound. @param {number} step - Resolution. */
+function createRange(action, title, value, min, max, step) {
 	const label = document.createElement('label');
 	label.className = 'multitrack-track-range';
 	const text = document.createElement('span');
-	text.textContent = labelText;
+	text.textContent = title;
 	const input = document.createElement('input');
 	input.type = 'range';
 	input.min = String(min);
@@ -79,5 +79,25 @@ function createRange(action, labelText, value, min, max, step) {
 	input.value = String(value);
 	input.dataset.trackControl = action;
 	label.append(text, input);
+	return label;
+}
+
+/** @param {Object} track - Current color. @returns {HTMLElement} Accessible timbre selector. */
+function createToneSelector(track) {
+	const label = document.createElement('label');
+	label.className = 'multitrack-track-range';
+	const caption = document.createElement('span');
+	caption.textContent = 'Sound color';
+	const select = document.createElement('select');
+	select.dataset.trackControl = 'instrument-color';
+	select.setAttribute('aria-label', `${track.name} audio sound color`);
+	MULTITRACK_TONES.forEach((tone) => {
+		const option = document.createElement('option');
+		option.value = tone.id;
+		option.textContent = tone.name;
+		select.appendChild(option);
+	});
+	select.value = track.instrumentColor || 'original';
+	label.append(caption, select);
 	return label;
 }

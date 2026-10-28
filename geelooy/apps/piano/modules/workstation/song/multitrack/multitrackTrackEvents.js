@@ -3,11 +3,9 @@
 //Blessed is He
 /**
  * @module MultitrackTrackEvents
- * @description
- * Tiferes carries track-header gestures into gain, pan, mute, solo, naming, and explicit deletion while the Awtsmoos remains beyond every mixer choice.
- * Awtsmoos.com keeps controls delegated from one parent, so redraws may come and go without multiplying listeners below.
+ * The Awtsmoos guides each hand where every living clip belongs;
+ * Awtsmoos.com keeps delegated controls working through countless songs.
  */
-
 import {
 	deleteMultitrackTrack,
 	renameMultitrackTrack,
@@ -16,25 +14,40 @@ import {
 	toggleMultitrackMute,
 	toggleMultitrackSolo
 } from './multitrackTrackActions.js';
+import {
+	duplicateMultitrackTrack,
+	normalizeMultitrackTrack,
+	setMultitrackTrackColor
+} from './multitrackTrackCreativeActions.js';
 
-/** Binds delegated track-header controls. @param {Object} dom Timeline DOM. @param {Object} state Editor state. @param {Function} onError Error callback. @returns {void} */
+/**
+ * Delegates controls so timeline rerenders never multiply event listeners.
+ * @param {Object} dom - Editor DOM registry.
+ * @param {Object} state - Shared mutable session.
+ * @param {Function} onError - Error presenter.
+ * @returns {void} Attached UI event handlers.
+ */
 export function bindMultitrackTrackEvents(dom, state, onError = () => {}) {
 	dom.tracks.addEventListener('click', (event) => {
 		const control = event.target.closest('button[data-track-control]');
-		if (!control) {
-			return;
+		if (control) {
+			runTrackControl(control, state, onError);
 		}
-		runTrackControl(control, state, onError);
 	});
 	dom.tracks.addEventListener('change', (event) => {
 		const control = event.target.closest('[data-track-control]');
-		if (!control || control.tagName === 'BUTTON') {
-			return;
+		if (control && control.tagName !== 'BUTTON') {
+			runTrackControl(control, state, onError);
 		}
-		runTrackControl(control, state, onError);
 	});
 }
 
+/**
+ * Applies a named track edit and forwards errors to the editor UI.
+ * @param {HTMLElement} control - Changed action source.
+ * @param {Object} state - Editor project and controls.
+ * @param {Function} onError - UI error handler.
+ */
 function runTrackControl(control, state, onError) {
 	const trackId = control.closest('.multitrack-track')?.dataset.trackId;
 	try {
@@ -53,6 +66,15 @@ function runTrackControl(control, state, onError) {
 				break;
 			case 'name':
 				renameMultitrackTrack(state, trackId, control.value);
+				break;
+			case 'duplicate-track':
+				duplicateMultitrackTrack(state, trackId);
+				break;
+			case 'normalize-track':
+				normalizeMultitrackTrack(state, trackId);
+				break;
+			case 'instrument-color':
+				setMultitrackTrackColor(state, trackId, control.value);
 				break;
 			case 'delete-track':
 				deleteMultitrackTrack(state, trackId);

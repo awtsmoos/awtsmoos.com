@@ -3,14 +3,12 @@
 //Blessed is He
 /**
  * @module MultitrackProject
- * @description
- * Malchus gives many audio layers one project-vessel while the Awtsmoos remains indivisible beyond every lane and clip.
- * Awtsmoos.com keeps edits as metadata rather than wounded sound, so each source may remain whole while arrangements unfold.
+ * The Awtsmoos keeps each note whole, each layer clear and bright;
+ * Awtsmoos.com protects its sound through edits in the light.
  */
-
 import { createMultitrackId } from './multitrackIds.js';
 
-/** Creates an empty multitrack project. @param {Object} input Project fields. @returns {Object} Project snapshot. */
+/** @param {Object} input - Project values. @returns {Object} Project snapshot. */
 export function createMultitrackProject(input = {}) {
 	return {
 		id: input.id || createMultitrackId('project'),
@@ -21,7 +19,7 @@ export function createMultitrackProject(input = {}) {
 	};
 }
 
-/** Creates one audio track. @param {Object} input Track fields. @returns {Object} Track snapshot. */
+/** @param {Object} input - Track data. @returns {Object} Audio track metadata. */
 export function createMultitrackTrack(input = {}) {
 	return {
 		id: input.id || createMultitrackId('track'),
@@ -30,11 +28,12 @@ export function createMultitrackTrack(input = {}) {
 		pan: clamp(input.pan ?? 0, -1, 1),
 		muted: Boolean(input.muted),
 		solo: Boolean(input.solo),
+		instrumentColor: String(input.instrumentColor || 'original'),
 		clips: (input.clips || []).map(createMultitrackClip)
 	};
 }
 
-/** Creates one non-destructive audio clip reference. @param {Object} input Clip fields. @returns {Object} Clip snapshot. */
+/** @param {Object} input - Clip region. @returns {Object} Non-destructive clip. */
 export function createMultitrackClip(input = {}) {
 	return {
 		id: input.id || createMultitrackId('clip'),
@@ -48,20 +47,22 @@ export function createMultitrackClip(input = {}) {
 	};
 }
 
-/** Replaces one track without mutating the project. @param {Object} project Project. @param {Object} track Updated track. @returns {Object} New project. */
+/** @param {Object} project - Existing project. @param {Object} track - Replacement. @returns {Object} New snapshot. */
 export function replaceMultitrackTrack(project, track) {
 	return {
 		...project,
-		tracks: project.tracks.map((candidate) => candidate.id === track.id ? track : candidate)
+		tracks: project.tracks.map((candidate) => {
+			return candidate.id === track.id ? track : candidate;
+		})
 	};
 }
 
-/** Finds a track by id. @param {Object} project Project. @param {string} trackId Track id. @returns {Object|null} Track. */
+/** @param {Object} project - Project. @param {string} trackId - Track identity. @returns {Object|null} Track. */
 export function findMultitrackTrack(project, trackId) {
 	return project.tracks.find((track) => track.id === trackId) || null;
 }
 
-/** Finds a clip and owning track. @param {Object} project Project. @param {string} clipId Clip id. @returns {Object|null} Match. */
+/** @param {Object} project - Project. @param {string} clipId - Clip identity. @returns {Object|null} Owning track and clip. */
 export function findMultitrackClip(project, clipId) {
 	for (const track of project.tracks) {
 		const clip = track.clips.find((candidate) => candidate.id === clipId);
@@ -72,24 +73,29 @@ export function findMultitrackClip(project, clipId) {
 	return null;
 }
 
-/** Returns project ending time in seconds. @param {Object} project Project. @returns {number} End time. */
+/** @param {Object} project - Project. @returns {number} Last clip ending time. */
 export function multitrackProjectDuration(project) {
 	return Math.max(
 		0,
-		...project.tracks.flatMap((track) => track.clips.map((clip) => clip.timelineStart + clip.duration))
+		...project.tracks.flatMap((track) => {
+			return track.clips.map((clip) => clip.timelineStart + clip.duration);
+		})
 	);
 }
 
+/** @param {number} value - Candidate. @param {number} fallback - Default. */
 function positive(value, fallback) {
 	const number = Number(value);
 	return Number.isFinite(number) && number > 0 ? number : fallback;
 }
 
+/** @param {number} value - Candidate. @param {number} fallback - Default. */
 function nonnegative(value, fallback) {
 	const number = Number(value);
 	return Number.isFinite(number) && number >= 0 ? number : fallback;
 }
 
+/** @param {number} value - Candidate. @param {number} minimum - Floor. @param {number} maximum - Ceiling. */
 function clamp(value, minimum, maximum) {
 	const number = Number(value);
 	return Math.max(minimum, Math.min(maximum, Number.isFinite(number) ? number : minimum));

@@ -3,52 +3,50 @@
 //Blessed is He
 /**
  * @module MultitrackTrackOutput
- * @description
- * Tiferes balances gain and left-right space while the Awtsmoos remains beyond louder, softer, left, and right.
- * Awtsmoos.com gives every lane its own audible vessel, so mute and solo may reveal one layer without confusing the source beneath the player.
+ * The Awtsmoos shapes each color through an undivided flame;
+ * Awtsmoos.com keeps recorded music while changing its tone, not name.
  */
+import { createMultitrackToneNode } from './multitrackTrackTone.js';
 
 /**
- * Creates one track gain/pan chain connected to the shared Piano master.
- * @param {BaseAudioContext} context Audio context.
- * @param {AudioNode} destination Shared Piano master node.
- * @param {Object} track Track snapshot.
- * @param {boolean} anySolo Whether any project track is soloed.
- * @returns {{input:AudioNode,gain:GainNode,panner:AudioNode,disconnect:Function}}
+ * Connects gain, optional tone color, and pan to the recording-enabled master.
+ * @param {BaseAudioContext} context - Running audio graph.
+ * @param {AudioNode} destination - Shared piano master.
+ * @param {Object} track - Per-track settings.
+ * @param {boolean} anySolo - Global solo state.
+ * @returns {Object} Track input and detachable audio nodes.
  */
 export function createMultitrackTrackOutput(context, destination, track, anySolo) {
 	const gain = context.createGain();
 	const panner = createPanner(context);
+	const tone = createMultitrackToneNode(context, track.instrumentColor);
 	gain.gain.value = effectiveTrackGain(track, anySolo);
 	if ('pan' in panner) {
 		panner.pan.value = track.pan;
 	}
-	gain.connect(panner);
+	gain.connect(tone || panner);
+	if (tone) {
+		tone.connect(panner);
+	}
 	panner.connect(destination);
 	return {
 		input: gain,
 		gain,
 		panner,
-		disconnect: () => disconnectTrackNodes(gain, panner)
+		tone,
+		disconnect: () => disconnectTrackNodes(gain, tone, panner)
 	};
 }
 
-/**
- * Calculates actual track gain after mute/solo policy.
- * @param {Object} track Track snapshot.
- * @param {boolean} anySolo Whether any track is soloed.
- * @returns {number} Effective gain.
- */
+/** @param {Object} track - Settings. @param {boolean} anySolo - Solo policy. @returns {number} Audible volume. */
 export function effectiveTrackGain(track, anySolo) {
-	if (track.muted) {
-		return 0;
-	}
-	if (anySolo && !track.solo) {
+	if (track.muted || (anySolo && !track.solo)) {
 		return 0;
 	}
 	return Math.max(0, Math.min(2, Number(track.gain) || 0));
 }
 
+/** @param {BaseAudioContext} context - Web Audio context. @returns {AudioNode} Stereo or fallback gain. */
 function createPanner(context) {
 	if (typeof context.createStereoPanner === 'function') {
 		return context.createStereoPanner();
@@ -56,15 +54,16 @@ function createPanner(context) {
 	return context.createGain();
 }
 
-function disconnectTrackNodes(gain, panner) {
-	try {
-		gain.disconnect();
-	} catch (_error) {
-		// A finished vessel may already be disconnected.
-	}
-	try {
-		panner.disconnect();
-	} catch (_error) {
-		// Cleanup remains best-effort after browser disposal.
+/** @param {...AudioNode} nodes - All track nodes to detach on stop. */
+function disconnectTrackNodes(...nodes) {
+	for (const node of nodes) {
+		if (!node) {
+			continue;
+		}
+		try {
+			node.disconnect();
+		} catch (_error) {
+			// The Awtsmoos returns a finished voice to silence gracefully.
+		}
 	}
 }
