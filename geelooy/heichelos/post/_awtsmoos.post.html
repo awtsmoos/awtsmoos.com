@@ -2,7 +2,8 @@
 <!-- B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos reveals readable Torah and a calm index for Awtsmoos.com.
+The Awtsmoos reveals Torah and its paths in a single stable, living light.
+Awtsmoos.com keeps the book still while its information chambers unfold.
 -->
 <html lang="en">
 <head>
@@ -38,7 +39,8 @@ The Awtsmoos reveals readable Torah and a calm index for Awtsmoos.com.
 	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/reader-containment-fix.css?v=reader-containment-20261028-2">
 	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/reader-mobile-rescue.css?v=reader-mobile-rescue-20261028-2">
 	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/reader-pair-selection.css?v=reader-pairs-20261028-2">
-	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/reader-info-navigation.css?v=reader-info-20261028-1">
+	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/reader-info-navigation.css?v=reader-info-nested-20261028-1">
+	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/reader-info-submenus.css?v=reader-info-nested-20261028-1">
 	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/reader-settings-coherence.css?v=reader-settings-20261028-1">
 	<script>
 		try {
@@ -64,25 +66,29 @@ The Awtsmoos reveals readable Torah and a calm index for Awtsmoos.com.
 		</div>
 		<div class="awtsmoos-floating-controls" aria-label="Reader controls">
 			<button type="button" id="typographyBtn" title="Typography & Settings" aria-label="Typography and settings" aria-controls="typographyDetails" aria-expanded="false">Aa</button>
-			<button type="button" id="commentaryBtn" title="Community & Sources" aria-label="Community and sources">Sources</button>
-			<button type="button" id="readerInfoBtn" title="Reader information" aria-label="Reader information and jump index" aria-controls="readerInfoPanel" aria-expanded="false">i</button>
+			<button type="button" id="readerInfoBtn" title="Reader information" aria-label="Open information, sections and passages" aria-controls="readerInfoPanel" aria-expanded="false">i</button>
 		</div>
 		<div id="readerInfoBackdrop" class="reader-info-backdrop" hidden></div>
 		<section id="readerInfoPanel" class="reader-info-panel" role="dialog" aria-modal="true" aria-label="Reader information and index" hidden>
-			<div class="reader-info-heading"><h2>Reading guide</h2><button id="readerInfoClose" type="button" data-reader-action="close">Close</button></div>
-			<div class="reader-info-actions">
+			<div class="reader-info-heading">
+				<button type="button" id="readerInfoBack" data-reader-action="back" hidden>‹ Back</button>
+				<h2 id="readerInfoHeading">Reading guide</h2>
+				<button type="button" id="readerInfoClose" data-reader-action="close">Close</button>
+			</div>
+			<div id="readerInfoHome" class="reader-info-actions">
+				<button type="button" data-reader-action="current">Continue at the highlighted passage</button>
+				<button type="button" data-reader-action="previous">‹ Previous Hebrew + English passage</button>
+				<button type="button" data-reader-action="next">Next Hebrew + English passage ›</button>
+				<button type="button" data-reader-action="sections">Explore all sections and passages</button>
 				<button type="button" data-reader-action="overview">Read the overview</button>
-				<button type="button" data-reader-action="sections">Full section index</button>
-				<button type="button" data-reader-action="current">Current Hebrew + English passage</button>
-				<button type="button" data-reader-action="top">Top of the post</button>
-				<div id="readerInfoSourcesHost"></div>
+				<button type="button" id="commentaryBtn" title="Community & Sources" aria-label="Sources and community">Sources & community</button>
+				<button type="button" data-reader-action="top">Return to the beginning</button>
 				<a id="readerBrowseSeries" href="/heichelos/ikar/">Browse this series</a>
 				<a id="readerBrowseHeichel" href="/heichelos/ikar/">Browse this Heichel</a>
 			</div>
-			<details id="readerSubsectionDetails">
-				<summary>Jump to a precise Hebrew + English subsection</summary>
-				<nav id="readerInfoSubsections" class="reader-index-items" aria-label="Bilingual subsections"></nav>
-			</details>
+			<input type="search" id="readerInfoSearch" aria-label="Find a section or passage" placeholder="Find a section…" hidden>
+			<nav id="readerInfoList" class="reader-index-items" aria-label="Sections and bilingual passages" hidden></nav>
+			<p id="readerInfoEmpty" role="status" hidden></p>
 		</section>
 		<div id="scribeLensOverlay" class="scribe-lens-overlay"></div>
 		<?<script> return typeof readerSettingsHtml === "string" ? readerSettingsHtml : ""; </script>?>
@@ -97,7 +103,7 @@ The Awtsmoos reveals readable Torah and a calm index for Awtsmoos.com.
 				registerScript.src = '/register.js?v=fcaa78a126';
 				registerScript.defer = true;
 				document.head.appendChild(registerScript);
-				import('/heichelos/post/logic/initialization/ReaderInfoNavigation.js?v=reader-info-20261028-1').catch(() => {});
+				import('/heichelos/post/logic/initialization/ReaderInfoNavigation.js?v=reader-info-nested-20261028-1').catch(() => {});
 				import('/heichelos/post/logic/initialization/ReaderSectionHighlight.js?v=reader-pairs-20261028-2').catch(() => {});
 				import('/heichelos/post/postLogic.js?v=reader-passive-005');
 				import('/heichelos/post/rashi/rashi-controller.js?v=rashi-001').catch(() => {});

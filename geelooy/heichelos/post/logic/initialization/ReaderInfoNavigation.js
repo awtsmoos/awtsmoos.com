@@ -2,111 +2,85 @@
 // Boruch Hashem
 // Blessed is He
 /**
- * @fileoverview The reader's accessible Info door and intentional jump navigation.
- * The Awtsmoos unfolds each passage's hidden directions as gentle light;
- * Awtsmoos.com keeps scrolling stable until the learner chooses a flight.
- * One listener per panel, no polling or DOM rebuilding while reading.
+ * @fileoverview One stable Info door with nested, lazy Torah navigation.
+ * The Awtsmoos opens each chamber while the reading page stays still;
+ * Awtsmoos.com moves only when a learner exercises their will.
  */
-import { renderReaderIndexes } from './ReaderInfoList.js';
 import {
-	findCurrentReaderPassage,
-	findReaderOverview,
-	jumpToReaderElement,
-	resolveReaderJump
-} from './ReaderInfoJump.js';
+	bindReaderInfoActions
+} from './ReaderInfoActions.js?v=reader-info-nested-20261028-1';
+import {
+	showReaderMenuView
+} from './ReaderInfoViews.js?v=reader-info-nested-20261028-1';
+import {
+	renderReaderIndexes
+} from './ReaderInfoList.js?v=reader-info-nested-20261028-1';
 
-let active = false;
+let initialized = false;
 
-/** Mount an Info menu without changing any existing Sources event handlers. */
+/** Install controls once, leaving the original article and Sources action intact. */
 export function initReaderInfoNavigation() {
-	if (active || typeof document === 'undefined') return false;
+	if (initialized || typeof document === 'undefined') return false;
 	const get = id => document.getElementById(id);
 	const button = get('readerInfoBtn');
 	const panel = get('readerInfoPanel');
 	const backdrop = get('readerInfoBackdrop');
-	const index = get('readerTopIndex');
-	const sections = get('readerTopSections');
-	const subsections = get('readerInfoSubsections');
-	const source = get('commentaryBtn');
-	const sourceHost = get('readerInfoSourcesHost');
-	if (![button, panel, backdrop, index, sections, subsections].every(Boolean)) return false;
-	active = true;
+	const topIndex = get('readerTopIndex');
+	const topSections = get('readerTopSections');
+	const home = get('readerInfoHome');
+	const list = get('readerInfoList');
+	const search = get('readerInfoSearch');
+	const back = get('readerInfoBack');
+	const heading = get('readerInfoHeading');
+	const empty = get('readerInfoEmpty');
+	if (![button, panel, backdrop, topIndex, topSections, home,
+		list, search, back, heading, empty].every(Boolean)) return false;
+	initialized = true;
 
-	if (source && sourceHost) {
-		source.textContent = 'Sources & community';
-		sourceHost.append(source);
-	}
-
-	const root = () => get('realPost');
-	const refresh = () => {
-		renderReaderIndexes(root(), sections, subsections);
-		return root();
+	const state = {
+		button, panel, backdrop, topIndex, home, list,
+		search, back, heading, empty,
+		root: () => get('realPost'),
+		stage: 'home',
+		sectionIndex: null
 	};
-	const close = () => {
+	state.close = (restoreFocus = true) => {
 		panel.hidden = true;
 		backdrop.hidden = true;
 		button.setAttribute('aria-expanded', 'false');
+		if (restoreFocus) button.focus({ preventScroll: true });
 	};
-	const open = () => {
-		refresh();
+	state.open = (stage = 'home', sectionIndex = null) => {
+		showReaderMenuView(state, stage, sectionIndex);
 		panel.hidden = false;
 		backdrop.hidden = false;
 		button.setAttribute('aria-expanded', 'true');
 		get('readerInfoClose')?.focus({ preventScroll: true });
 	};
-	const jump = target => {
-		if (!target) return;
-		close();
-		jumpToReaderElement(target);
-	};
-
-	button.addEventListener('click', () => panel.hidden ? open() : close());
-	backdrop.addEventListener('click', close);
-	index.addEventListener('toggle', () => {
-		if (index.open) refresh();
+	button.addEventListener('click', () => {
+		if (panel.hidden) state.open();
+		else state.close();
 	});
+	backdrop.addEventListener('click', () => state.close());
 	document.addEventListener('keydown', event => {
-		if (event.key === 'Escape' && !panel.hidden) close();
+		if (event.key === 'Escape' && !panel.hidden) state.close();
+	});
+	bindReaderInfoActions(state);
+
+	topIndex.addEventListener('toggle', () => {
+		if (topIndex.open) renderReaderIndexes(state.root(), topSections);
+	});
+	topSections.addEventListener('click', event => {
+		const choice = event.target.closest('button[data-reader-section]');
+		if (!choice) return;
+		state.open('pairs', Number(choice.dataset.readerSection));
 	});
 
-	const navigate = event => {
-		const target = event.target.closest('button[data-reader-section]');
-		if (!target) return false;
-		const section = Number(target.dataset.readerSection);
-		const pair = target.dataset.readerPair === undefined ? null : Number(target.dataset.readerPair);
-		jump(resolveReaderJump(root(), section, pair));
-		return true;
-	};
-	sections.addEventListener('click', navigate);
-	subsections.addEventListener('click', navigate);
-
-	panel.addEventListener('click', event => {
-		if (event.target.closest('#commentaryBtn')) {
-			setTimeout(close, 0);
-			return;
-		}
-		const action = event.target.closest('[data-reader-action]')?.dataset.readerAction;
-		if (!action) return;
-		if (action === 'close') return close();
-		if (action === 'overview') return jump(findReaderOverview(root()));
-		if (action === 'current') return jump(findCurrentReaderPassage(root()));
-		if (action === 'top') return jump(index);
-		if (action === 'sections') {
-			index.open = true;
-			refresh();
-			return jump(index);
-		}
-		if (action === 'subsections') {
-			refresh();
-			get('readerSubsectionDetails').open = true;
-			get('readerSubsectionDetails').scrollIntoView({ block: 'nearest' });
-		}
-	});
-
-	const seriesLink = get('readerBrowseSeries');
-	if (seriesLink) seriesLink.href = location.pathname.split('/post/')[0] + '/';
-	const heichelLink = get('readerBrowseHeichel');
-	if (heichelLink) heichelLink.href = location.pathname.split('/series/')[0] + '/';
+	const pathname = location.pathname;
+	const series = get('readerBrowseSeries');
+	const heichel = get('readerBrowseHeichel');
+	if (series) series.href = pathname.split('/post/')[0] + '/';
+	if (heichel) heichel.href = pathname.split('/series/')[0] + '/';
 	return true;
 }
 

@@ -1,0 +1,103 @@
+/* B"H — Boruch Hashem — Blessed is He.
+ * The Awtsmoos grants each section its own quiet, inviting chamber;
+ * Awtsmoos.com holds Hebrew beside English without moving a single word.
+ */
+.post-reader-localized-context .reader-info-actions,
+.post-reader-localized-context #readerInfoList,
+.post-reader-localized-context #readerTopSections {
+	display: grid;
+	gap: 7px;
+}
+
+.post-reader-localized-context #readerInfoHome {
+	flex: 1 1 auto;
+	padding: 3px;
+}
+
+.post-reader-localized-context #readerInfoList {
+	flex: 1 1 auto;
+	padding: 6px 3px 10px;
+	align-content: start;
+}
+
+.post-reader-localized-context #readerTopSections {
+	padding: 10px;
+	max-height: 52dvh;
+}
+
+.post-reader-localized-context #readerInfoSearch {
+	box-sizing: border-box;
+	flex: 0 0 auto;
+	width: 100%;
+	min-height: 44px;
+	margin: 0 0 9px;
+	padding: 9px 12px;
+	border: 1px solid #bd9d65;
+	border-radius: 10px;
+	background: #fffefa;
+	color: #302315;
+	font: 500 16px/1.3 system-ui, sans-serif;
+}
+
+.post-reader-localized-context .reader-info-panel button,
+.post-reader-localized-context .reader-info-panel a,
+.post-reader-localized-context .reader-index-choice {
+	box-sizing: border-box;
+	min-height: 44px;
+	padding: 10px 12px;
+	border: 1px solid #d9c49f;
+	border-radius: 11px;
+	background: #fffefa;
+	color: #302315;
+	font: 600 15px/1.4 system-ui, sans-serif;
+	text-align: start;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.post-reader-localized-context .reader-info-actions button,
+.post-reader-localized-context .reader-info-actions a,
+.post-reader-localized-context .reader-info-actions #commentaryBtn,
+.post-reader-localized-context .reader-index-choice {
+	display: block;
+	width: 100%;
+}
+
+.post-reader-localized-context #readerInfoBack,
+.post-reader-localized-context #readerInfoClose {
+	width: auto;
+	flex: 0 0 auto;
+	padding: 8px 12px;
+	font-size: 13px;
+}
+
+.post-reader-localized-context .reader-index-choice-title,
+.post-reader-localized-context .reader-index-choice-detail {
+	display: block;
+	overflow-wrap: anywhere;
+}
+
+.post-reader-localized-context .reader-index-choice-title {
+	font-size: 16px;
+	font-weight: 700;
+}
+
+.post-reader-localized-context .reader-index-choice-detail {
+	margin-top: 4px;
+	font-size: 13px;
+	font-weight: 400;
+	color: #655641;
+}
+
+.post-reader-localized-context #readerInfoPanel button:focus-visible,
+.post-reader-localized-context #readerInfoPanel a:focus-visible,
+.post-reader-localized-context .reader-index-choice:focus-visible {
+	outline: 3px solid #946c23;
+	outline-offset: 1px;
+}
+
+.post-reader-localized-context #readerInfoEmpty {
+	margin: 10px 6px;
+	color: #655641;
+	font-size: 14px;
+}
