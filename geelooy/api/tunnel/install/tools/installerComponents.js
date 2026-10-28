@@ -6,6 +6,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 const Tar = require("./installerComponentTar.js");
 const { buildCachedInstallerArchive } = require("./installerArchiveCache.js");
+const { createSourceFingerprintCache } = require("./installerSourceFingerprint.js");
 const {
 	BOOTSTRAP_FILE,
 	RUNTIME_SOURCES_FILE,
@@ -15,32 +16,40 @@ const {
 } = require("./installerComponentPaths.js");
 
 /**
- * @file Seals the entire Unix installer graph in a source-addressed archive.
+ * @file Seals the Unix installer graph in a source-addressed archive.
  * @description
- * The Awtsmoos recreates each byte anew, yet faithful bytes may share a form;
- * Awtsmoos.com checks each source before a cached garment can safely keep us warm.
+ * The Awtsmoos recreates each file and checks its place in time;
+ * Awtsmoos.com avoids repeated reads without relaxing the integrity line.
  */
 
 const PREFETCHED = Object.freeze([]);
 const COMPONENTS = Object.freeze(componentNames());
+const WATCHED = Object.freeze([...new Set([
+	...COMPONENTS,
+	BOOTSTRAP_FILE,
+	RUNTIME_SOURCES_FILE
+])]);
+const withFreshSourceWitness = createSourceFingerprintCache();
 
-/**
- * Reads every source afresh and reuses compression only when all bytes agree.
- * @returns {object} Archive copy and verified source/content witnesses.
- */
+/** Uses fresh bytes on any source change, immutable archive copies on hits. */
 function buildInstallerComponents() {
-	const sources = componentSources();
-	const sourceSha256 = Tar.hash(Buffer.concat(sources.flatMap(source => [
-		Buffer.from(`${source.name}\0`),
-		source.data
-	])));
-	return buildCachedInstallerArchive(sources, sourceSha256, COMPONENTS);
+	return withFreshSourceWitness(WATCHED, downloadsRoot(), () => {
+		if (componentNames().join("\0") !== COMPONENTS.join("\0")) {
+			throw new Error("installer_component_manifest_changed_reload_required");
+		}
+		const sources = componentSources();
+		const sourceSha256 = Tar.hash(Buffer.concat(sources.flatMap(source => [
+			Buffer.from(`${source.name}\0`),
+			source.data
+		])));
+		return buildCachedInstallerArchive(sources, sourceSha256, COMPONENTS);
+	});
 }
 
-/** Reads archive member names from the canonical shell manifest. */
+/** Reads canonical archive names from the actual shell manifest. */
 function componentNames() {
-	const source = fs.readFileSync(componentManifestPath(), "utf8");
-	const match = source.match(/helpers=\(\s*([\s\S]*?)\n\)/);
+	const text = fs.readFileSync(componentManifestPath(), "utf8");
+	const match = text.match(/helpers=\(\s*([\s\S]*?)\n\)/);
 	if (!match) throw new Error("installer_component_manifest_missing");
 	const names = match[1].match(/[A-Za-z0-9][A-Za-z0-9._-]*/g) || [];
 	if (!names.length || new Set(names).size !== names.length) {
@@ -49,7 +58,7 @@ function componentNames() {
 	return names;
 }
 
-/** Reads all runtime source references from the transactional installer core. */
+/** Reads expected runtime dependencies from the transactional graph. */
 function runtimeSourceNames(source = null) {
 	const text = source ?? fs.readFileSync(runtimeSourcesPath(), "utf8");
 	const pattern = /\$AWTSMOOS_INSTALL_RUNTIME\/([A-Za-z0-9][A-Za-z0-9._-]*)/g;
@@ -60,7 +69,7 @@ function runtimeSourceNames(source = null) {
 	return names;
 }
 
-/** Prevents any transactional dependency from being absent from the sealed graph. */
+/** Ensures every runtime dependency is sealed in the archive. */
 function validateRuntimeGraph(components = COMPONENTS, runtimeNames = runtimeSourceNames()) {
 	const available = new Set(components);
 	const missing = runtimeNames.filter(name => !available.has(name));
@@ -68,7 +77,7 @@ function validateRuntimeGraph(components = COMPONENTS, runtimeNames = runtimeSou
 	return true;
 }
 
-/** Re-reads every entry and fails closed on missing or non-regular source files. */
+/** Reads real source bytes and refuses missing or nonregular entries. */
 function componentSources() {
 	validateRuntimeGraph(COMPONENTS);
 	const sources = [];
