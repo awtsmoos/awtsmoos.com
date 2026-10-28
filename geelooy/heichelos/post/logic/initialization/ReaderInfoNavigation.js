@@ -2,23 +2,23 @@
 // Boruch Hashem
 // Blessed is He
 /**
- * @fileoverview One stable Info door with nested, lazy Torah navigation.
- * The Awtsmoos opens each chamber while the reading page stays still;
- * Awtsmoos.com moves only when a learner exercises their will.
+ * @fileoverview One stable Info door with page-sized Hebrew/English menus.
+ * The Awtsmoos holds the written Torah in one calm and still light;
+ * Awtsmoos.com opens only the rows the reader needs in sight.
  */
 import {
 	bindReaderInfoActions
-} from './ReaderInfoActions.js?v=reader-info-nested-20261028-1';
+} from './ReaderInfoActions.js?v=reader-smooth-20261028-1';
 import {
 	showReaderMenuView
-} from './ReaderInfoViews.js?v=reader-info-nested-20261028-1';
+} from './ReaderInfoViews.js?v=reader-smooth-20261028-1';
 import {
 	renderReaderIndexes
-} from './ReaderInfoList.js?v=reader-info-nested-20261028-1';
+} from './ReaderInfoList.js?v=reader-smooth-20261028-1';
 
 let initialized = false;
 
-/** Install controls once, leaving the original article and Sources action intact. */
+/** Keep one instance, no duplicate listeners or forced article scrolling. */
 export function initReaderInfoNavigation() {
 	if (initialized || typeof document === 'undefined') return false;
 	const get = id => document.getElementById(id);
@@ -33,13 +33,14 @@ export function initReaderInfoNavigation() {
 	const back = get('readerInfoBack');
 	const heading = get('readerInfoHeading');
 	const empty = get('readerInfoEmpty');
+	const more = get('readerInfoMore');
 	if (![button, panel, backdrop, topIndex, topSections, home,
-		list, search, back, heading, empty].every(Boolean)) return false;
+		list, search, back, heading, empty, more].every(Boolean)) return false;
 	initialized = true;
 
 	const state = {
 		button, panel, backdrop, topIndex, home, list,
-		search, back, heading, empty,
+		search, back, heading, empty, more,
 		root: () => get('realPost'),
 		stage: 'home',
 		sectionIndex: null

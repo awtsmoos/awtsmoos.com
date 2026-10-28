@@ -2,8 +2,8 @@
 <!-- B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos reveals Torah and its paths in a single stable, living light.
-Awtsmoos.com keeps the book still while its information chambers unfold.
+The Awtsmoos reveals Torah and its paths with a gentle and unbroken light.
+Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 -->
 <html lang="en">
 <head>
@@ -40,7 +40,7 @@ Awtsmoos.com keeps the book still while its information chambers unfold.
 	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/reader-mobile-rescue.css?v=reader-mobile-rescue-20261028-2">
 	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/reader-pair-selection.css?v=reader-pairs-20261028-2">
 	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/reader-info-navigation.css?v=reader-info-nested-20261028-1">
-	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/reader-info-submenus.css?v=reader-info-nested-20261028-1">
+	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/reader-info-submenus.css?v=reader-smooth-20261028-1">
 	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/reader-settings-coherence.css?v=reader-settings-20261028-1">
 	<script>
 		try {
@@ -88,6 +88,7 @@ Awtsmoos.com keeps the book still while its information chambers unfold.
 			</div>
 			<input type="search" id="readerInfoSearch" aria-label="Find a section or passage" placeholder="Find a section…" hidden>
 			<nav id="readerInfoList" class="reader-index-items" aria-label="Sections and bilingual passages" hidden></nav>
+			<button type="button" id="readerInfoMore" data-reader-action="more" hidden>Show more passages ↓</button>
 			<p id="readerInfoEmpty" role="status" hidden></p>
 		</section>
 		<div id="scribeLensOverlay" class="scribe-lens-overlay"></div>
@@ -103,8 +104,8 @@ Awtsmoos.com keeps the book still while its information chambers unfold.
 				registerScript.src = '/register.js?v=fcaa78a126';
 				registerScript.defer = true;
 				document.head.appendChild(registerScript);
-				import('/heichelos/post/logic/initialization/ReaderInfoNavigation.js?v=reader-info-nested-20261028-1').catch(() => {});
-				import('/heichelos/post/logic/initialization/ReaderSectionHighlight.js?v=reader-pairs-20261028-2').catch(() => {});
+				import('/heichelos/post/logic/initialization/ReaderInfoNavigation.js?v=reader-smooth-20261028-1').catch(() => {});
+				import('/heichelos/post/logic/initialization/ReaderSectionHighlight.js?v=reader-smooth-20261028-1').catch(() => {});
 				import('/heichelos/post/postLogic.js?v=reader-passive-005');
 				import('/heichelos/post/rashi/rashi-controller.js?v=rashi-001').catch(() => {});
 			});

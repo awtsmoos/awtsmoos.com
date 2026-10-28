@@ -2,12 +2,12 @@
 // Boruch Hashem
 // Blessed is He
 /**
- * @fileoverview One paint-only Hebrew/English pair follows the reading viewport.
- * The Awtsmoos illuminates each phrase and her translation as one living light;
- * Awtsmoos.com keeps every word unmoved while the reader scrolls through night.
- * One passive scroll signal, one animation frame, and no article reconstruction.
+ * @fileoverview Lightweight reading-line highlight for bilingual Torah.
+ * The Awtsmoos joins Hebrew and English as one and never moves the page;
+ * Awtsmoos.com grants native scrolling the full main-thread stage.
  */
 import { findReaderPairAtViewport } from './ReaderPairViewport.js';
+import { createReaderHighlightFrameGate } from './ReaderHighlightFrameGate.js?v=reader-smooth-20261028-1';
 
 const LANGUAGE_SELECTOR = [
 	'.meluket-phrase--he',
@@ -16,21 +16,14 @@ const LANGUAGE_SELECTOR = [
 	'.awtsmoos-initial-unit-en'
 ].join(', ');
 const INTERACTIVE_SELECTOR = [
-	'a',
-	'button',
-	'input',
-	'textarea',
-	'select',
-	'sup',
-	'[contenteditable]',
-	'[role="button"]',
-	'[data-action]'
+	'a', 'button', 'input', 'textarea', 'select', 'sup',
+	'[contenteditable]', '[role="button"]', '[data-action]'
 ].join(', ');
 let initialized = false;
-let frameScheduled = false;
+let frameGate = null;
 let selectedPair = null;
 
-/** Paint selection by class only; never touch scroll, text nodes, focus or geometry. */
+/** Toggle a single CSS class; no text, dimensions, scroll or focus changes. */
 function paintReaderPair(pair) {
 	if (selectedPair === pair) return pair;
 	selectedPair?.classList.remove('is-pair-selected');
@@ -39,7 +32,7 @@ function paintReaderPair(pair) {
 	return pair;
 }
 
-/** Select either language's shared pair, respecting links and native text selection. */
+/** Selecting either language highlights the exact same bilingual parent. */
 export function selectReaderPair(target, root) {
 	if (!target?.closest || !root?.contains?.(target)) return null;
 	if (target.closest(INTERACTIVE_SELECTOR)) return null;
@@ -49,52 +42,55 @@ export function selectReaderPair(target, root) {
 	return pair && root.contains(pair) ? paintReaderPair(pair) : null;
 }
 
-/** Locate the pair near the reading line with at most five point samples. */
+/** Preserve direct viewport tests and only repaint when pair identity changes. */
 export function selectReaderPairAtViewport(viewport, root) {
 	const pair = findReaderPairAtViewport(viewport, root);
 	if (pair) paintReaderPair(pair);
 	return pair;
 }
 
-/** One paint update at most per browser frame, regardless of scroll event count. */
-function queueViewportHighlight() {
-	if (frameScheduled) return;
-	frameScheduled = true;
-	requestAnimationFrame(() => {
-		frameScheduled = false;
-		if (window.getSelection?.()?.toString().trim()) return;
-		const root = document.getElementById('realPost');
-		if (!root) return;
-		if (selectedPair && !root.contains(selectedPair)) paintReaderPair(null);
-		selectReaderPairAtViewport({
-			width: window.innerWidth,
-			height: window.innerHeight,
-			elementFromPoint: document.elementFromPoint.bind(document)
-		}, root);
-	});
+/** Do nothing while an overlay covers the book or text is being selected. */
+function shouldPauseHighlight() {
+	if (document.hidden) return true;
+	const info = document.getElementById('readerInfoPanel');
+	if (info && !info.hidden) return true;
+	const settings = document.getElementById('typographyDetails');
+	if (settings && !settings.classList.contains('hidden-details')) return true;
+	return Boolean(window.getSelection?.()?.toString().trim());
 }
 
-/**
- * Install one delegated click and capture scroll listener for nested scrollers.
- * No observer per paragraph, timers while idle, or forced scroll position changes.
- */
+/** One sampled viewport lookup at most each 48ms; no article-wide scans. */
+function updateReaderHighlight() {
+	if (shouldPauseHighlight()) return;
+	const root = document.getElementById('realPost');
+	if (!root) return;
+	if (selectedPair && !root.contains(selectedPair)) paintReaderPair(null);
+	selectReaderPairAtViewport({
+		width: window.innerWidth,
+		height: window.innerHeight,
+		elementFromPoint: document.elementFromPoint.bind(document)
+	}, root);
+}
+
+/** One listener for nested scroll roots, with trailing paint after inertia. */
 export function initSectionHighlight() {
 	if (initialized || typeof document === 'undefined') return;
 	initialized = true;
+	frameGate = createReaderHighlightFrameGate(updateReaderHighlight);
 	document.addEventListener('click', event => {
 		const root = document.getElementById('realPost');
 		if (!root || window.getSelection?.()?.toString().trim()) return;
 		selectReaderPair(event.target, root);
 	}, { passive: true });
-	document.addEventListener('scroll', queueViewportHighlight, {
+	document.addEventListener('scroll', frameGate.queue, {
 		capture: true,
 		passive: true
 	});
-	window.addEventListener('resize', queueViewportHighlight, { passive: true });
-	queueViewportHighlight();
+	window.addEventListener('resize', frameGate.queue, { passive: true });
+	frameGate.queue();
 }
 
-/** Clear paint state without moving or rebuilding any article nodes. */
+/** Clear old paint while preserving the original Torah nodes. */
 export function clearReaderPairSelection() {
 	paintReaderPair(null);
 }

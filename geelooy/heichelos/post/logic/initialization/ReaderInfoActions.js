@@ -2,9 +2,9 @@
 // Boruch Hashem
 // Blessed is He
 /**
- * @fileoverview Explicit reader Info actions, never passive page jumps.
- * The Awtsmoos lets a learner choose when and where the page shall glow;
- * Awtsmoos.com moves only when the reader says to go.
+ * @fileoverview One delegated action handler for light bilingual navigation.
+ * The Awtsmoos opens new passages only when the learner chooses to see;
+ * Awtsmoos.com never scrolls the Torah as a hidden side effect of a key.
  */
 import {
 	adjacentReaderPair,
@@ -16,9 +16,12 @@ import {
 import {
 	showReaderMenuView,
 	filterReaderMenu
-} from './ReaderInfoViews.js?v=reader-info-nested-20261028-1';
+} from './ReaderInfoViews.js?v=reader-smooth-20261028-1';
+import {
+	appendReaderChoicePage
+} from './ReaderInfoChoices.js?v=reader-smooth-20261028-1';
 
-/** Resolve one deliberate destination, keeping ordinary reading motion alone. */
+/** Move only after a deliberate destination action from the fixed menu. */
 function executeReaderAction(state, action) {
 	const root = state.root();
 	const destinations = {
@@ -29,6 +32,7 @@ function executeReaderAction(state, action) {
 		top: () => state.topIndex
 	};
 	if (action === 'close') return state.close(true);
+	if (action === 'more') return appendReaderChoicePage(state);
 	if (action === 'sections') return showReaderMenuView(state, 'sections');
 	if (action === 'back') {
 		return showReaderMenuView(state, state.stage === 'pairs' ? 'sections' : 'home');
@@ -40,7 +44,7 @@ function executeReaderAction(state, action) {
 	jumpToReaderElement(target);
 }
 
-/** Delegate one listener across nested sections, paired passages and shortcuts. */
+/** Keep one input and one click listener for all submenu levels. */
 export function bindReaderInfoActions(state) {
 	state.panel.addEventListener('click', event => {
 		const button = event.target.closest('button');
