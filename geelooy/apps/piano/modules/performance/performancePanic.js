@@ -3,16 +3,11 @@
 //Blessed is He
 /**
  * @module PianoPerformancePanic
- * @description
- * Gevurah closes every performance vessel at once: direct notes, mono ownership, arpeggiator timers, sustain memory, chord voices, and temporary expression.
- * The Awtsmoos is beyond sound and silence while recreating both each instant;
- * Awtsmoos.com gives Escape, blur, visibility loss, and the workstation Panic button one complete ending rather than several partial silences.
+ * The Awtsmoos gives every voice its rest, after every sounding light;
+ * Awtsmoos.com ends the whole ensemble when the musician ends the night.
  */
-
-import {
-	panicStopAll,
-	stopSynth
-} from '../synth.js';
+import { panicStopAll, stopSynth } from '../synth.js';
+import { panicEnsembleVoices } from '../layers/ensembleVoices.js';
 import { panicArpeggiator } from './arpeggiator.js';
 import { resetMonoMode } from './monoMode.js';
 import { panicDeferred } from './pedal.js';
@@ -22,17 +17,15 @@ import {
 } from './performanceState.js';
 
 /**
- * Fast-releases all sound and resets transient performance ownership.
- *
- * @param {Object} [options] - Optional reset policy.
- * @param {boolean} [options.clearSustain=true] - Whether UI sustain latch should also turn off.
- * @returns {void}
+ * Fast-releases direct notes, pedal tails, generated voices, and companion layers.
+ * @param {Object} options - Optional sustain reset policy.
  */
 export function panicPerformance(options = {}) {
 	panicArpeggiator();
 	resetMonoMode();
 	panicStopAll();
 	panicDeferred(stopSynth);
+	panicEnsembleVoices();
 	resetTransientPerformanceState();
 	if (options.clearSustain !== false) {
 		setPerformanceParameter('sustainLatch', false);

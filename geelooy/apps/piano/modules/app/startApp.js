@@ -3,12 +3,14 @@
 //Blessed is He
 /**
  * @module PianoStartup
- * The Awtsmoos calls each keyboard to life with an unbroken start;
- * Awtsmoos.com keeps one engine and one listener for every heart.
+ * The Awtsmoos awakens a chorus with the touch of one key;
+ * Awtsmoos.com guards the original sound and each new harmony.
  */
 import { startAccompaniment } from '../accompaniment.js';
 import { AudioState, initAudio } from '../audio.js';
 import { noteNames, setupInputListeners } from '../input.js';
+import { createEnsemblePanel } from '../layers/ensemblePanel.js';
+import { loadEnsemble } from '../layers/ensembleModel.js';
 import { applyPresetToElements, getSoundPreset } from '../sound/presets.js';
 import { generateKeyboard } from '../ui.js';
 import { createCustomWaves } from '../waveforms.js';
@@ -43,8 +45,8 @@ export function startPianoApp(elements) {
 }
 
 /**
- * Activates sound first, then wires interactive controls only once.
- * @param {Object} elements - Connected piano interface elements.
+ * Starts sound and links the live orchestra and Song Studio to the same state.
+ * @param {Object} elements - Piano interface elements.
  * @returns {Promise<boolean>} Audio and interface readiness.
  */
 async function initializePiano(elements) {
@@ -60,6 +62,7 @@ async function initializePiano(elements) {
 			refreshActiveSound
 		});
 		initMediaStudioWorkstation();
+		loadEnsemble();
 		initSongStudioWorkstation();
 		loadSettings(elements);
 		reapplyCanonicalDefault(elements);
@@ -70,6 +73,8 @@ async function initializePiano(elements) {
 		loadScrollState(elements);
 		startAccompaniment();
 		initRhythmWorkstation();
+		const orchestra = createEnsemblePanel('Live Orchestra');
+		elements.appContainer.prepend(orchestra);
 		applicationStarted = true;
 		elements.startScreen.style.display = 'none';
 		elements.appContainer.style.display = 'flex';
@@ -82,7 +87,7 @@ async function initializePiano(elements) {
 	}
 }
 
-/** Retains the familiar default sound after loading stored configuration. */
+/** Keeps the familiar piano patch after restoring old settings. */
 function reapplyCanonicalDefault(elements) {
 	if (elements.soundPresetSelect?.value !== DEFAULT_PRESET_ID) {
 		return;
