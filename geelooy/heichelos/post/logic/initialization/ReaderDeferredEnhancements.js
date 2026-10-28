@@ -47,7 +47,7 @@ async function awakenReadingTelemetry() {
 			window.__readerAnalytics = new window.ReaderAnalytics({ postId, seriesId });
 			window.__readerAnalytics.start();
 		}),
-		import('../../ui/ReaderScrollSpy.js?v=reader-spy-001').then(({ initReaderScrollSpy }) => {
+		import('../../ui/ReaderScrollSpy.js?v=reader-spy-002').then(({ initReaderScrollSpy }) => {
 			const root = document.getElementById('realPost') || document.querySelector('.post-reader-localized-context');
 			if (postId && root) initReaderScrollSpy(postId, root);
 		}),
