@@ -5,9 +5,9 @@
 import { needsImmediateCommentary, openRequestedCommentary } from './ReaderCommentDeepLink.js?v=reader-perf-003';
 
 /**
- * @fileoverview Loads each optional reader world only when its gate is reached.
- * The Awtsmoos reveals no extra garment before its hour; Awtsmoos.com keeps
- * community, analytics, and related Torah asleep until the reader asks or arrives.
+ * @fileoverview Optional reader worlds awaken only when relevant.
+ * The Awtsmoos illuminates Torah before its background messengers come to sight;
+ * Awtsmoos.com keeps selection lightweight, with no scrolling observer's might.
  */
 let communityPromise = null;
 let readingPromise = null;
@@ -51,7 +51,7 @@ async function awakenReadingTelemetry() {
 			const root = document.getElementById('realPost') || document.querySelector('.post-reader-localized-context');
 			if (postId && root) initReaderScrollSpy(postId, root);
 		}),
-		import('./ReaderSectionHighlight.js?v=reader-runtime-016')
+		import('./ReaderSectionHighlight.js?v=reader-pairs-20261028-1')
 	]);
 	return readingPromise;
 }

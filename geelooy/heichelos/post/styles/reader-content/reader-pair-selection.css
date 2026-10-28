@@ -1,0 +1,33 @@
+/* B"H — Boruch Hashem — Blessed is He.
+ * As the Awtsmoos joins Hebrew and English in one light,
+ * the paint may change, but not a letter's place or height.
+ * No geometric border, padding, animation, scrolling, or layout work on selection.
+ */
+:root .post-reader-localized-context #realPost .meluket-phrase--he,
+:root .post-reader-localized-context #realPost .meluket-phrase--en,
+:root .post-reader-localized-context #realPost .awtsmoos-initial-unit-he,
+:root .post-reader-localized-context #realPost .awtsmoos-initial-unit-en {
+	border-inline-start: 0 !important;
+	padding-inline-start: 0 !important;
+	transition: none !important;
+}
+
+:root .post-reader-localized-context #realPost .meluket-phrase-pair {
+	transition: none !important;
+	transition-delay: 0ms !important;
+	translate: none !important;
+}
+
+:root .post-reader-localized-context #realPost .meluket-phrase-pair.is-pair-selected,
+:root .post-reader-localized-context #realPost .awtsmoos-initial-unit.is-pair-selected {
+	background-color: rgb(233 196 95 / 0.16) !important;
+	outline: 2px solid rgb(172 122 25 / 0.66);
+	outline-offset: -2px;
+}
+
+:root .post-reader-localized-context #realPost .is-pair-selected > .meluket-phrase--he,
+:root .post-reader-localized-context #realPost .is-pair-selected > .meluket-phrase--en,
+:root .post-reader-localized-context #realPost .is-pair-selected > .awtsmoos-initial-unit-he,
+:root .post-reader-localized-context #realPost .is-pair-selected > .awtsmoos-initial-unit-en {
+	background-color: rgb(243 212 126 / 0.11) !important;
+}
