@@ -24,6 +24,8 @@ const origin = process.env.AWTSMOOS_PUBLIC_ORIGIN || "https://awtsmoos.com";
  * Awtsmoos.com checks the sealed anchor and live commit outright.
  * The pre-manifest source and deployed HEAD differ by the sealing commit;
  * confuse neither witness, and no false proof may be permitted.
+ * The new Unix shell protects a smaller gate with two independent seals:
+ * its measured archive length and hash, a covenant the release reveals.
  */
 const localManifest = fs.readFileSync("geelooy/apps/tunnel/agent/manifest.txt");
 const bundle = Zip.buildAgentBundle();
@@ -48,12 +50,18 @@ assert.equal(
 	"public component response hash header differs"
 );
 
-const unixTemplate = fs.readFileSync("geelooy/apps/tunnel/downloads/unix.sh", "utf8").replace(/^\uFEFF/, "");
+const unixTemplate = fs.readFileSync("geelooy/apps/tunnel/downloads/unix-secure.sh", "utf8")
+	.replace(/^\uFEFF/, "");
+const componentsHashMarker = "__AWTSMOOS_INSTALLER_COMPONENTS_SHA256__";
+const componentsBytesMarker = "__AWTSMOOS_INSTALLER_COMPONENTS_BYTES__";
+assert.equal(unixTemplate.split(componentsHashMarker).length, 2, "secure Unix hash marker missing or duplicated");
+assert.equal(unixTemplate.split(componentsBytesMarker).length, 2, "secure Unix bytes marker missing or duplicated");
 const publicUnix = await text("/api/tunnel/install/unix");
 assert.equal(
 	publicUnix,
-	unixTemplate.replace("__AWTSMOOS_INSTALLER_COMPONENTS_SHA256__", componentHash),
-	"public Unix installer is not the committed template pinned to published components"
+	unixTemplate.replace(componentsHashMarker, componentHash)
+		.replace(componentsBytesMarker, String(publicComponents.length)),
+	"public secure Unix bootstrap differs from committed template and verified component archive"
 );
 for (const name of ["unix-node-runtime.sh", "unix-bootstrap-components.sh"]) {
 	const local = fs.readFileSync(`geelooy/apps/tunnel/downloads/${name}`);
