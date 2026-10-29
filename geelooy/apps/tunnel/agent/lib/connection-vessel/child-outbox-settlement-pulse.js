@@ -2,27 +2,15 @@
 // Boruch Hashem
 // Blessed is He
 
-const SettlementPolicy = require("./child-outbox-settlement-policy.js");
-const LaneTelemetry = require("./parent-consumer-lane-telemetry.js");
+const SettlementPolicy = require('./child-outbox-settlement-policy.js');
+const LaneTelemetry = require('./parent-consumer-lane-telemetry.js');
+const Protocol = require('./protocol.js');
+const MAX_RETRIES_PER_TICK = 8;
 
 /**
- * @file Retransmits durable terminal truth without scanning an outbox transport cannot yet use.
- * @description
- * The Awtsmoos preserves every completed deed while Awtsmoos.com refuses needless disk toil:
- * an unregistered socket cannot settle an ACK, so its pulse touches no outbox parchment at all.
- * When a caller already measured the outbox, that witness flows onward instead of another soil.
- *
- * DATA-PATH ADDENDUM — per-lane execution telemetry rides this same pulse.
- * When the child runtime supplies options.laneDataPath (a zero-arg provider or a
- * plain telemetry snapshot), every pulse snapshot carries laneDataPath:
- * { observedAt, lanes: { <lane>: { started, completed, oldestInFlightAgeMs,
- * lastProgressAt, lastDrainAt, wedgedEvictions } } }, validated and bounded by
- * parent-consumer-lane-telemetry.js. The provider resolves once per tick on the
- * existing publish cadence, so no new channel and no new chatter is ever opened.
- * WIRING CONTRACT (follow-up, one line in child-runtime-cycle.js): pass
- * laneDataPath into OutboxSettlementPulse.create, built from the scheduler's lane
- * state. Until wired, laneDataPath is null and the parent-side interpreter reports
- * every lane unknown — never stalled.
+ * @file Re-sends only durable terminal results, never the original command.
+ * @description The Awtsmoos renews each completed testimony through silence;
+ * Awtsmoos.com trusts the relay ACK, not a prior socket-send remembrance.
  */
 function create(options = {}) {
 	const now = options.now || Date.now;
@@ -32,36 +20,56 @@ function create(options = {}) {
 	let lastAttemptAt = 0;
 	let lastSent = 0;
 	let nextAttemptAt = 0;
-	let reason = "idle";
+	let cursor = 0;
+	let reason = 'idle';
 
-	/** Advances one ACK-seeking cycle while reusing a known outbox count when supplied. */
+	/** Preserves known-count fast paths until a real terminal retry is due. */
 	function tick(knownOutboxCount) {
 		const observedAt = now();
-		const registered = options.state?.registrationConfirmed === true;
-		if (!registered) {
-			reset("not_registered");
+		if (options.state?.registrationConfirmed !== true) {
+			reset('not_registered');
 			return snapshot(false, 0, observedAt);
 		}
 		const outboxCount = resolveOutboxCount(knownOutboxCount);
 		if (outboxCount === 0) {
-			reset("outbox_empty");
+			reset('outbox_empty');
 			return snapshot(true, 0, observedAt);
 		}
 		if (!nextAttemptAt) {
 			nextAttemptAt = observedAt + policy.initialRetryMs;
-			reason = "settlement_grace";
+			reason = 'settlement_grace';
 			return snapshot(true, outboxCount, observedAt);
 		}
 		if (observedAt < nextAttemptAt) {
-			reason = "settlement_cooldown";
+			reason = 'settlement_cooldown';
 			return snapshot(true, outboxCount, observedAt);
 		}
-		lastSent = Number(options.delivery.flush() || 0);
+		lastSent = retransmitExactResults();
 		attempts += 1;
 		lastAttemptAt = observedAt;
 		nextAttemptAt = observedAt + policy.retryDelay(attempts);
-		reason = lastSent > 0 ? "terminal_retransmitted" : "flush_already_active";
+		reason = lastSent > 0 ? 'terminal_retransmitted' : 'terminal_retry_unconfirmed';
 		return snapshot(true, outboxCount, observedAt);
+	}
+
+	/** Bypasses socket-send dedup with an exact durable network-response ID. */
+	function retransmitExactResults() {
+		const entries = options.mailbox.outbox();
+		if (!entries.length) return 0;
+		let sent = 0;
+		const batchSize = Math.min(MAX_RETRIES_PER_TICK, entries.length);
+		for (let index = 0; index < batchSize; index++) {
+			const position = (cursor + index) % entries.length;
+			const envelope = entries[position];
+			if (envelope?.type !== 'TUNNEL_RESPONSE') continue;
+			const receiptId = Protocol.requestId(envelope);
+			if (typeof receiptId !== 'string' || !receiptId.trim()) continue;
+			try {
+				if (options.delivery.flush(receiptId) > 0) sent++;
+			} catch { /* Preserve the durable result for the next bounded retry. */ }
+		}
+		cursor = (cursor + batchSize) % entries.length;
+		return sent;
 	}
 
 	function resolveOutboxCount(value) {
@@ -72,28 +80,18 @@ function create(options = {}) {
 
 	function snapshot(registered = false, outboxCount = 0, observedAt = now()) {
 		return {
-			attempts,
-			lastAttemptAt,
-			lastSent,
-			nextAttemptAt,
-			observedAt,
-			outboxCount,
-			reason,
-			registered,
-			laneDataPath: resolveLaneDataPath(observedAt)
+			attempts, lastAttemptAt, lastSent, nextAttemptAt, observedAt,
+			outboxCount, reason, registered, laneDataPath: resolveLaneDataPath(observedAt)
 		};
 	}
 
-	/** Resolves the injected per-lane telemetry without ever breaking the pulse. */
+	/** Lane telemetry cannot be allowed to interrupt result settlement. */
 	function resolveLaneDataPath(observedAt) {
 		try {
-			const raw = typeof laneDataPathSource === "function"
-				? laneDataPathSource()
-				: laneDataPathSource;
+			const raw = typeof laneDataPathSource === 'function'
+				? laneDataPathSource() : laneDataPathSource;
 			return LaneTelemetry.normalizeChildTelemetry(raw, observedAt);
-		} catch {
-			return null;
-		}
+		} catch { return null; }
 	}
 
 	function reset(nextReason) {
@@ -101,13 +99,11 @@ function create(options = {}) {
 		lastAttemptAt = 0;
 		lastSent = 0;
 		nextAttemptAt = 0;
+		cursor = 0;
 		reason = nextReason;
 	}
 
-	return {
-		snapshot,
-		tick
-	};
+	return { snapshot, tick };
 }
 
 module.exports = {
