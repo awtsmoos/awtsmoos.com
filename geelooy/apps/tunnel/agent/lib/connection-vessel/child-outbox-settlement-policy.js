@@ -2,23 +2,22 @@
 // Boruch Hashem
 // Blessed is He
 
-const DEFAULT_INITIAL_RETRY_MS = 2000;
-const DEFAULT_MAX_RETRY_MS = 30000;
+const DEFAULT_INITIAL_RETRY_MS = 750;
+const DEFAULT_MAX_RETRY_MS = 12000;
 
 /**
- * @file Defines bounded timing policy for durable terminal-response settlement retries.
- * @description
- * The Awtsmoos lets repeated testimony remain measured rather than frantic; Awtsmoos.com
- * gives each unacknowledged response a widening interval so reliability grows without
- * turning one lost ACK into a flood across the living socket.
+ * @file Bounds fast, durable terminal-response retries without command replay.
+ * @description The Awtsmoos sustains every saved result across a broken wire;
+ * Awtsmoos.com returns its testimony sooner yet never ignites a retry fire.
+ * The exponential cooldown survives, so a missing ACK cannot flood the relay.
  */
 
 /**
- * Builds one immutable retry policy from optional runtime timing configuration.
- * @param {object} [options={}] Settlement timing configuration.
- * @param {number} [options.initialRetryMs=2000] Grace period before the first same-generation retransmission.
- * @param {number} [options.maxRetryMs=30000] Maximum delay allowed between later retransmission attempts.
- * @returns {{initialRetryMs:number,maxRetryMs:number,retryDelay:(attemptCount:number)=>number}} Normalized retry policy and delay calculator.
+ * Builds an immutable retry policy from optional trusted runtime settings.
+ * @param {object} [options={}] Optional timings for an isolated test/runtime.
+ * @param {number} [options.initialRetryMs=750] Grace before first receipt retry.
+ * @param {number} [options.maxRetryMs=12000] Maximum later retry interval.
+ * @returns {{initialRetryMs:number,maxRetryMs:number,retryDelay:Function}}
  */
 function create(options = {}) {
 	const initialRetryMs = boundedDelay(
@@ -32,9 +31,9 @@ function create(options = {}) {
 	);
 
 	/**
-	 * Calculates exponential cooldown after a completed terminal-response retransmission.
-	 * @param {number} attemptCount Number of retransmission attempts already completed for the current unsettled outbox.
-	 * @returns {number} Milliseconds to wait before another safe retransmission, capped by `maxRetryMs`.
+	 * Doubles the interval after each saved-result resend, never a command.
+	 * @param {number} attemptCount Completed terminal resend attempts.
+	 * @returns {number} Bounded milliseconds before retrying the same receipt.
 	 */
 	function retryDelay(attemptCount) {
 		const normalizedAttempts = Math.max(0, Math.floor(Number(attemptCount) || 0));
@@ -49,11 +48,11 @@ function create(options = {}) {
 }
 
 /**
- * Normalizes configurable retry timing without allowing a zero-delay replay storm.
- * @param {*} value Candidate delay supplied by runtime configuration or a deterministic test harness.
- * @param {number} fallback Trusted delay used when the candidate cannot be represented as a finite number.
- * @param {number} minimum Lowest permitted millisecond delay for this timing boundary.
- * @returns {number} Safe integer millisecond delay at or above the requested minimum.
+ * Normalizes a duration while retaining a positive anti-storm lower bound.
+ * @param {*} value Candidate supplied by trusted runtime configuration.
+ * @param {number} fallback Default for missing or non-finite candidates.
+ * @param {number} minimum Lower bound for a safe terminal retry.
+ * @returns {number} Positive integer duration in milliseconds.
  */
 function boundedDelay(value, fallback, minimum) {
 	const number = Number(value);
