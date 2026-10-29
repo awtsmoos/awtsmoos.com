@@ -15,6 +15,9 @@ import {
 import {
 	renderReaderIndexes
 } from './ReaderInfoList.js?v=reader-smooth-20261028-1';
+import {
+	trapReaderDialogTab
+} from './ReaderInfoFocusTrap.js?v=reader-a11y-20261028-1';
 
 let initialized = false;
 
@@ -64,8 +67,10 @@ export function initReaderInfoNavigation() {
 	});
 	backdrop.addEventListener('click', () => state.close());
 	document.addEventListener('keydown', event => {
-		if (event.key === 'Escape' && !panel.hidden) state.close();
-	});
+		if (panel.hidden) return;
+		if (event.key === 'Escape') state.close();
+		else if (event.key === 'Tab') trapReaderDialogTab(panel, event);
+	}, true);
 	bindReaderInfoActions(state);
 
 	topIndex.addEventListener('toggle', () => {
