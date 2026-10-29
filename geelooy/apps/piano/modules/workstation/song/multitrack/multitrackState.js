@@ -3,80 +3,83 @@
 //Blessed is He
 /**
  * @module MultitrackState
- * @description
- * Daas remembers project, playhead, selection, zoom, and status while the Awtsmoos remains beyond memory and distinction.
- * Awtsmoos.com keeps one truthful editor state beneath every drag and tap, so the screen may redraw freely without becoming the source of the musical map.
+ * The Awtsmoos remembers each edit yet stands beyond the flow of time;
+ * Awtsmoos.com preserves the source while clips return to any rhyme.
  */
-
 import { createMultitrackProject } from './multitrackProject.js';
 import { MultitrackSelectionDaas } from './multitrackSelection.js';
+import { MultitrackEditHistory } from './multitrackEditHistory.js';
 
-/** Owns mutable editor-session references to immutable-style project snapshots. */
+/** Owns Studio project snapshots, selection and Undo/Redo history. */
 export class MultitrackStudioDaas {
 	constructor() {
 		this.project = createMultitrackProject();
 		this.selection = new MultitrackSelectionDaas();
-		this.status = 'Multitrack ready · import audio to add a layer.';
+		this.history = new MultitrackEditHistory();
+		this.status = 'Audio Editor ready · import sound to begin.';
 		this.playing = false;
 		this.listeners = new Set();
 	}
 
-	/** Replaces project snapshot and notifies views. @param {Object} project New project. @returns {Object} Stored project. */
+	/** @returns {Object} Safe immutable-style frame containing project and clip selection. */
+	snapshot() {
+		return { project: this.project, trackId: this.selection.trackId, clipId: this.selection.clipId };
+	}
+
+	/** @param {Object} project - New metadata project. @returns {Object} Updated project. */
 	setProject(project) {
+		this.history.record(this.snapshot(), project);
 		this.project = project;
 		this.emit();
 		return project;
 	}
 
-	/** Stores status text and notifies views. @param {string} message Human status. @returns {void} */
-	setStatus(message) {
-		this.status = String(message || 'Multitrack ready.');
+	/** Records one whole finished move or trim rather than every pointer frame. */
+	commitGesture(previous) {
+		this.history.record(previous, this.project);
 		this.emit();
 	}
 
-	/** Selects one clip and updates views. @param {string} trackId Track id. @param {string} clipId Clip id. @returns {void} */
-	selectClip(trackId, clipId) {
-		this.selection.selectClip(trackId, clipId);
+	/** @param {string} operation - undo or redo. @returns {boolean} Whether state changed. */
+	travelHistory(operation) {
+		const frame = this.history[operation]?.(this.snapshot());
+		if (!frame) return false;
+		this.project = frame.project;
+		if (frame.clipId) this.selection.selectClip(frame.trackId, frame.clipId);
+		else if (frame.trackId) this.selection.selectTrack(frame.trackId);
+		else this.selection.clearSelection();
+		this.status = operation === 'undo' ? '↶ Last audio edit undone.' : '↷ Audio edit restored.';
 		this.emit();
+		return true;
 	}
 
-	/** Moves playhead without changing project data. @param {number} seconds Timeline seconds. @returns {void} */
-	setPlayhead(seconds) {
-		this.selection.setPlayhead(seconds);
-		this.emit();
-	}
+	/** @param {string} message - User-visible state. */
+	setStatus(message) { this.status = String(message || 'Audio Editor ready.'); this.emit(); }
 
-	/** Changes horizontal zoom. @param {number} pixelsPerSecond Timeline scale. @returns {void} */
-	setZoom(pixelsPerSecond) {
-		this.selection.setZoom(pixelsPerSecond);
-		this.emit();
-	}
+	/** @param {string} trackId - Track. @param {string} clipId - Clip. */
+	selectClip(trackId, clipId) { this.selection.selectClip(trackId, clipId); this.emit(); }
 
-	/** Changes beat snapping. @param {number} gridBeats Grid in beats. @returns {void} */
+	/** @param {number} seconds - Timeline position. */
+	setPlayhead(seconds) { this.selection.setPlayhead(seconds); this.emit(); }
+
+	/** @param {number} pixelsPerSecond - Timeline zoom. */
+	setZoom(pixelsPerSecond) { this.selection.setZoom(pixelsPerSecond); this.emit(); }
+
+	/** @param {number} gridBeats - Musical snap interval. */
 	setGridBeats(gridBeats) {
 		this.selection.setGridBeats(gridBeats);
-		this.project = {
-			...this.project,
-			gridBeats: this.selection.gridBeats
-		};
+		this.project = { ...this.project, gridBeats: this.selection.gridBeats };
 		this.emit();
 	}
 
-	/** Stores transport state. @param {boolean} playing Playback flag. @returns {void} */
-	setPlaying(playing) {
-		this.playing = Boolean(playing);
-		this.emit();
-	}
+	/** @param {boolean} playing - Transport status. */
+	setPlaying(playing) { this.playing = Boolean(playing); this.emit(); }
 
-	/** Subscribes to editor changes. @param {Function} listener View callback. @returns {Function} Unsubscribe. */
-	subscribe(listener) {
-		this.listeners.add(listener);
-		return () => this.listeners.delete(listener);
-	}
+	/** @param {Function} listener - New project or display state. */
+	subscribe(listener) { this.listeners.add(listener); return () => this.listeners.delete(listener); }
 
-	emit() {
-		this.listeners.forEach((listener) => listener(this));
-	}
+	/** Notifies every attached Studio view. */
+	emit() { this.listeners.forEach(listener => listener(this)); }
 }
 
 export const multitrackStudioState = new MultitrackStudioDaas();

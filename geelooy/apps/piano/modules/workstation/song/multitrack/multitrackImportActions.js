@@ -3,8 +3,8 @@
 //Blessed is He
 /**
  * @module MultitrackImportActions
- * The Awtsmoos carries every sound into its next chosen moment;
- * Awtsmoos.com lays one selected batch end-to-end on one track.
+ * The Awtsmoos brings every sound into the unfolding musical day;
+ * Awtsmoos.com remembers imports so Undo may take them away.
  */
 import { importMultitrackAudioFile } from './multitrackImport.js';
 import {
@@ -13,11 +13,10 @@ import {
 } from './multitrackImportBatch.js';
 
 /**
- * Places one file-picker batch as consecutive editable clips on a single track.
- * Separate picker actions continue to create independently mixed tracks.
- * @param {FileList|File[]} files - Files in their supplied order.
- * @param {Object} state - Multitrack session.
- * @returns {Promise<Object[]>} Backward-compatible import records.
+ * Imports one file-picker batch as successive clips on one undoable track.
+ * @param {FileList|File[]} files - Files in supplied order.
+ * @param {Object} state - Live Studio editing state.
+ * @returns {Promise<Object[]>} Imported audio metadata and track records.
  */
 export async function importMultitrackFiles(files, state) {
 	const selections = Array.from(files || []);
@@ -32,15 +31,14 @@ export async function importMultitrackFiles(files, state) {
 		decoded.push(result);
 	}
 	const batch = composeSequentialAudioBatch(decoded);
-	state.project = {
+	state.setProject({
 		...state.project,
 		tracks: [...state.project.tracks, batch.track]
-	};
+	});
 	const lastClip = batch.track.clips.at(-1);
 	state.selection.selectClip(batch.track.id, lastClip.id);
 	state.setStatus(selections.length === 1
 		? `Imported ${decoded[0].metadata.name} · ${decoded[0].metadata.duration.toFixed(2)}s`
 		: `Imported ${selections.length} clips end-to-end on one track. Tap a clip to edit.`);
-	state.emit();
 	return batch.imported;
 }

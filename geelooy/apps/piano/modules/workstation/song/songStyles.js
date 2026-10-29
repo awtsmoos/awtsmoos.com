@@ -12,10 +12,11 @@ const STYLES = [
 	'multitrackMobile.css', 'studioTokens.css', 'studioShell.css',
 	'studioTransport.css', 'studioTimeline.css', 'studioTracks.css',
 	'studioMixer.css', 'studioResponsive.css', 'studioTouchGestures.css',
-	'studioCutFocus.css', 'studioMobileFocus.css', 'studioNleMobile.css'
+	'studioCutFocus.css', 'studioMobileFocus.css', 'studioNleMobile.css',
+	'studioHistoryFocus.css'
 ];
 
-/** Loads responsive waveform-first theme once when Song Studio opens. */
+/** Loads scoped Studio styles just once, after the Piano is ready. */
 export function ensureSongStudioStyles() {
 	for (const name of STYLES) {
 		const id = `awtsmoos-studio-style-${name}`;
