@@ -3,18 +3,19 @@
 //Blessed is He
 /**
  * @module RecordingSaveDecisionPanel
- * The Awtsmoos presents each finished song to its maker's voice;
- * Awtsmoos.com offers Save or Trash without an accidental choice.
+ * The Awtsmoos offers each finished song to its maker's voice;
+ * Awtsmoos.com keeps Save and Trash accessible without an accidental choice.
  */
+import { createDecisionFocus } from './saveDecisionFocus.js';
 
-/** @param {string} tag - HTML element. @param {string} text - Safe visible text. */
+/** @param {string} tag - HTML element. @param {string} text - Safe text. */
 function element(tag, text = '') {
 	const node = document.createElement(tag);
 	node.textContent = text;
 	return node;
 }
 
-/** @param {Object} handlers - Save and Trash button actions. @returns {Object} Panel render controls. */
+/** @param {Object} handlers - Save and Trash actions. @returns {Object} Modal controller. */
 export function createSaveDecisionPanel({ onSave, onTrash }) {
 	const stylesheet = element('link');
 	stylesheet.rel = 'stylesheet';
@@ -50,11 +51,12 @@ export function createSaveDecisionPanel({ onSave, onTrash }) {
 	dialog.append(heading, explanation, filename, preview, message, actions);
 	backdrop.appendChild(dialog);
 	document.body.appendChild(backdrop);
+	const focus = createDecisionFocus(dialog, save);
 	let previewUrl = null;
 	save.addEventListener('click', onSave);
 	trash.addEventListener('click', onTrash);
 
-	/** @param {Object|null} recording - Pending file or null. @param {number} count - Queue length. */
+	/** @param {Object|null} recording - Pending file or null. @param {number} count - Number awaiting choice. */
 	function show(recording, count) {
 		preview.querySelector('audio, video')?.pause();
 		preview.replaceChildren();
@@ -63,6 +65,7 @@ export function createSaveDecisionPanel({ onSave, onTrash }) {
 			previewUrl = null;
 		}
 		backdrop.hidden = !recording;
+		focus.setOpen(Boolean(recording));
 		if (!recording) {
 			return;
 		}
