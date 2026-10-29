@@ -1,0 +1,71 @@
+/* B"H — The Awtsmoos grants the waveform the stage and the undo keys a quiet perch. */
+.multitrack-editor .multitrack-heading {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 7px;
+	flex-wrap: wrap;
+}
+.multitrack-history-tools {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	margin-inline-start: auto;
+}
+.multitrack-history-button {
+	min-height: 33px;
+	min-width: 65px;
+	padding: 5px 8px;
+	border: 1px solid #4b7da4;
+	border-radius: 8px;
+	background: #173854;
+	color: #e4f6ff;
+	font-size: .77rem;
+	font-weight: 650;
+	touch-action: manipulation;
+	cursor: pointer;
+}
+.multitrack-history-button:disabled {
+	opacity: .36;
+	cursor: default;
+}
+.multitrack-editor .multitrack-ruler {
+	cursor: crosshair;
+	touch-action: manipulation;
+	min-height: 33px;
+}
+.multitrack-editor .multitrack-extra-grid .multitrack-navigation {
+	grid-column: 1 / -1;
+	width: 100%;
+}
+@media (max-width: 720px), (pointer: coarse) {
+	.multitrack-editor .multitrack-heading {
+		padding: 2px 1px 4px;
+		flex-wrap: nowrap;
+	}
+	.multitrack-editor .multitrack-heading strong {
+		white-space: nowrap;
+		font-size: .88rem;
+	}
+	.multitrack-editor .multitrack-heading > span { display: none; }
+	.multitrack-history-button {
+		min-width: 54px;
+		min-height: 34px;
+		padding: 5px;
+		font-size: .68rem;
+	}
+	.multitrack-editor .multitrack-toolbar { gap: 5px; }
+	.multitrack-editor .multitrack-essential-tools .multitrack-tool {
+		min-height: 39px;
+		padding: 5px 2px;
+		font-size: .75rem;
+	}
+	.multitrack-editor .multitrack-edit-preferences {
+		min-height: 37px;
+		padding: 4px 7px;
+	}
+	.multitrack-editor .multitrack-extra-tools summary {
+		min-height: 35px;
+		padding: 6px 9px;
+	}
+}

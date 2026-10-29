@@ -2,14 +2,14 @@
 //Boruch Hashem
 //Blessed is He
 /** @module MobileStudioNavigationTests
- * The Awtsmoos keeps time and the controls small; the music shall be seen.
+ * The Awtsmoos brings mobile music near and folds extra buttons away.
  */
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createMultitrackToolbarDom } from '../modules/workstation/song/multitrack/multitrackToolbarDom.js';
 import { fitMultitrackSong, seekMultitrackSong } from '../modules/workstation/song/multitrack/multitrackTimelineOperations.js';
 
-/** @returns {Object} Simple phone timeline. */
+/** @returns {Object} A long song in a narrow phone. */
 function example() {
 	const state = {
 		project: { tracks: [{ clips: [{ timelineStart: 0, duration: 96 }] }] },
@@ -21,11 +21,11 @@ function example() {
 	return { state, dom: { root: {}, viewport: { clientWidth: 390, scrollLeft: 0 } } };
 }
 
-test('Fit shows a long take on a phone', () => {
+test('Fit shows the recording inside a phone width', () => {
 	const old = globalThis.getComputedStyle;
 	globalThis.getComputedStyle = () => ({ getPropertyValue: () => '102px' });
 	try {
-		const { dom, state } = example();
+		const { state, dom } = example();
 		fitMultitrackSong(dom, state);
 		assert.ok(state.selection.pixelsPerSecond < 3);
 		assert.ok(state.selection.pixelsPerSecond > .4);
@@ -33,11 +33,11 @@ test('Fit shows a long take on a phone', () => {
 	} finally { globalThis.getComputedStyle = old; }
 });
 
-test('Exact time seeks and clamps the song', () => {
+test('Playhead time seeks to an exact position and clamps', () => {
 	const old = globalThis.getComputedStyle;
 	globalThis.getComputedStyle = () => ({ getPropertyValue: () => '102px' });
 	try {
-		const { dom, state } = example();
+		const { state, dom } = example();
 		seekMultitrackSong(dom, state, 48.25);
 		assert.equal(state.selection.playheadSeconds, 48.25);
 		assert.ok(dom.viewport.scrollLeft > 0);
@@ -48,7 +48,7 @@ test('Exact time seeks and clamps the song', () => {
 	} finally { globalThis.getComputedStyle = old; }
 });
 
-/** @param {string} tagName - Simulated DOM element. */
+/** @param {string} tagName - Fake node tag. */
 function fakeElement(tagName) {
 	return {
 		tagName, children: [], attributes: {}, dataset: {}, style: {},
@@ -59,7 +59,7 @@ function fakeElement(tagName) {
 	};
 }
 
-test('Four essential buttons, one transport, Snap and default ripple delete', () => {
+test('Only four primary actions, Snap visible, large time controls retractable', () => {
 	const old = globalThis.document;
 	globalThis.document = { createElement: fakeElement, createTextNode: text => ({ text }) };
 	try {
@@ -67,10 +67,11 @@ test('Four essential buttons, one transport, Snap and default ripple delete', ()
 		assert.equal(view.root.children[0].children.length, 4);
 		assert.equal(view.buttons.size, 11);
 		assert.equal(view.buttons.has('stop'), false);
-		assert.equal(view.root.children[3].tagName, 'details');
+		assert.equal(view.root.children[2].tagName, 'details');
 		assert.equal(view.rippleCheckbox.checked, true);
 		assert.equal(view.snapSelect.value, '0.25');
 		assert.equal(view.overview.type, 'range');
 		assert.equal(view.playheadInput.type, 'number');
+		assert.equal(view.root.children[1].className, 'multitrack-edit-preferences');
 	} finally { globalThis.document = old; }
 });

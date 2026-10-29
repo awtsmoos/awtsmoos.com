@@ -4,12 +4,14 @@
 /**
  * @module MultitrackWorkstation
  * The Awtsmoos opens every sound beneath a moving light;
- * Awtsmoos.com binds each touch and navigates every musical sight.
+ * Awtsmoos.com binds each gesture to an honest memory and sight.
  */
 import { bindMultitrackPointerEvents } from './multitrackPointerEvents.js';
 import { renderMultitrackProject } from './multitrackRender.js';
 import { bindMultitrackPlayheadTicker } from './multitrackPlayheadTicker.js';
 import { bindMultitrackScrollbar } from './multitrackScrollbar.js';
+import { bindMultitrackRulerSeek } from './multitrackRulerSeek.js';
+import { bindMultitrackHistoryControls } from './multitrackHistoryControls.js';
 import { multitrackStudioState } from './multitrackState.js';
 import { createMultitrackTimelineDom } from './multitrackTimelineDom.js';
 import { bindMultitrackToolbarEvents } from './multitrackToolbarEvents.js';
@@ -24,13 +26,15 @@ export function initMultitrackWorkstation(songDom, songState) {
 	const editorRoom = songDom.editor.closest('.song-studio-editor-room');
 	songDom.panel.insertBefore(dom.root, editorRoom);
 	bindMultitrackPointerEvents(dom, multitrackStudioState);
-	bindMultitrackTrackEvents(dom, multitrackStudioState, (error) =>
+	bindMultitrackRulerSeek(dom, multitrackStudioState);
+	bindMultitrackTrackEvents(dom, multitrackStudioState, error =>
 		multitrackStudioState.setStatus(error?.message || 'Audio action failed.')
 	);
 	bindMultitrackToolbarEvents(dom, multitrackStudioState, {
 		get ratchetSettings() { return { ...songState.ratchet }; }
 	});
 	bindMultitrackScrollbar(dom);
+	bindMultitrackHistoryControls(dom, multitrackStudioState);
 	multitrackStudioState.subscribe(() => renderMultitrackProject(dom, multitrackStudioState));
 	bindMultitrackPlayheadTicker(dom, multitrackStudioState);
 	renderMultitrackProject(dom, multitrackStudioState);
