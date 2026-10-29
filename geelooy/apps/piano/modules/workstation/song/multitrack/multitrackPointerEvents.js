@@ -3,17 +3,18 @@
 //Blessed is He
 /**
  * @module MultitrackPointerEvents
- * The Awtsmoos knows a tap from the hand that moves a song;
- * Awtsmoos.com lets a second touch release what was held along.
+ * The Awtsmoos measures every finger by the sound beneath the hand;
+ * Awtsmoos.com keeps seeking, moving and trimming in one truthful land.
  */
 import { findMultitrackClip } from './multitrackProject.js';
 import { replaceMultitrackClip } from './multitrackProjectEdits.js';
 import { multitrackPixelsToSeconds, multitrackPointerToLaneSeconds } from './multitrackPointerMath.js';
 import { transformMultitrackGestureClip } from './multitrackGestureTransform.js';
 import { renderMultitrackGestureClip } from './multitrackRender.js';
+import { seekMultitrackAudio } from './multitrackSeekTransport.js';
 import { beginMultitrackGesture, updateMultitrackTouchGesture, finishMultitrackGesture } from './multitrackTouchGesture.js';
 
-/** @param {Object} dom - Editor. @param {Object} state - Audio project. */
+/** @param {Object} dom - Editor viewport. @param {Object} state - Source project. */
 export function bindMultitrackPointerEvents(dom, state) {
 	let gesture = null;
 	dom.tracks.addEventListener('pointerdown', event => {
@@ -44,7 +45,7 @@ export function bindMultitrackPointerEvents(dom, state) {
 			if (completed.wasSelected) state.selection.clearSelection();
 			else state.selection.selectClip(completed.trackId, completed.originClip.id);
 			const lane = completed.element.closest('.multitrack-lane');
-			if (lane) state.selection.setPlayhead(multitrackPointerToLaneSeconds(
+			if (lane) void seekMultitrackAudio(dom, state, multitrackPointerToLaneSeconds(
 				{ clientX: completed.originX }, lane, state.selection.pixelsPerSecond));
 		}
 		state.emit();
@@ -52,7 +53,7 @@ export function bindMultitrackPointerEvents(dom, state) {
 	for (const name of ['pointerup', 'pointercancel', 'lostpointercapture']) {
 		dom.tracks.addEventListener(name, finish);
 	}
-	dom.tracks.addEventListener('click', event => handleEmptySpace(event, state));
+	dom.tracks.addEventListener('click', event => handleEmptySpace(event, state, dom));
 	dom.viewport.addEventListener('click', event => {
 		if (event.target.closest('.multitrack-clip,.multitrack-track-header,.multitrack-ruler')) return;
 		if (event.target.closest('.multitrack-lane')) return;
@@ -61,7 +62,7 @@ export function bindMultitrackPointerEvents(dom, state) {
 	});
 }
 
-/** @param {PointerEvent} event - Press. @param {Object} state - Editor. @param {Object} dom - Timeline. */
+/** @param {PointerEvent} event - Finger down. @param {Object} state - Studio. @param {Object} dom - Viewport. */
 function beginClipPointer(event, state, dom) {
 	const node = event.target.closest('[data-multitrack-gesture]');
 	const element = event.target.closest('.multitrack-clip');
@@ -80,7 +81,7 @@ function beginClipPointer(event, state, dom) {
 	});
 }
 
-/** @param {PointerEvent} event - Move. @param {Object} gesture - Drag. @param {Object} state - Editor. */
+/** @param {PointerEvent} event - Drag motion. @param {Object} gesture - Snapshot. @param {Object} state - Studio. */
 function moveClipPointer(event, gesture, state) {
 	const seconds = multitrackPixelsToSeconds(event.clientX - gesture.originX,
 		state.selection.pixelsPerSecond);
@@ -89,14 +90,14 @@ function moveClipPointer(event, gesture, state) {
 	renderMultitrackGestureClip(gesture.element, clip, state.selection.pixelsPerSecond);
 }
 
-/** @param {Object} state - Editor. @param {Object} frame - Prior clip selection. */
+/** @param {Object} state - Studio. @param {Object} frame - Selection snapshot. */
 function restoreSelection(state, frame) {
 	if (frame.clipId) state.selection.selectClip(frame.trackId, frame.clipId);
 	else if (frame.trackId) state.selection.selectTrack(frame.trackId);
 	else state.selection.clearSelection();
 }
 
-/** @param {HTMLElement} element - Selected clip. */
+/** @param {HTMLElement} element - Clip, visually selected without rerender. */
 function showImmediateSelection(element) {
 	const previous = element.parentElement?.querySelector('.multitrack-clip-selected');
 	previous?.classList.remove('multitrack-clip-selected');
@@ -105,13 +106,12 @@ function showImmediateSelection(element) {
 	element.setAttribute('aria-selected', 'true');
 }
 
-/** @param {PointerEvent} event - Empty lane tap. @param {Object} state - Editor. */
-function handleEmptySpace(event, state) {
+/** @param {MouseEvent} event - Empty lane click. @param {Object} state - Studio. @param {Object} dom - Viewport. */
+function handleEmptySpace(event, state, dom) {
 	if (event.target.closest('.multitrack-clip,.multitrack-track-header')) return;
 	const lane = event.target.closest('.multitrack-lane');
 	if (!lane) return;
 	state.selection.clearSelection();
-	state.selection.setPlayhead(multitrackPointerToLaneSeconds(event, lane,
-		state.selection.pixelsPerSecond));
-	state.emit();
+	void seekMultitrackAudio(dom, state, multitrackPointerToLaneSeconds(
+		event, lane, state.selection.pixelsPerSecond));
 }

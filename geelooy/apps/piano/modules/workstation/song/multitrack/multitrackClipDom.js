@@ -3,21 +3,19 @@
 //Blessed is He
 /**
  * @module MultitrackClipDom
- * @description
- * Malchus gives one audio clip a touchable body with two visible trim gates while the Awtsmoos remains beyond boundary and duration.
- * Awtsmoos.com lets a thumb select, drag, and shape the finite garment; waveform, loop state, and timing stay visible instead of hiding inside an abstract chart.
+ * The Awtsmoos gives every sound precisely its allotted span;
+ * Awtsmoos.com lets the waveform breathe, held gently by a human hand.
  */
-
 import { createMultitrackWaveformDom } from './multitrackWaveformDom.js';
 
-/**
- * Creates one positioned audio clip DOM element.
- * @param {Object} clip Clip snapshot.
- * @param {Object} selection Editor selection.
- * @returns {HTMLElement} Clip element.
+/** Builds a timeline clip faithful to its audible length at every zoom.
+ * @param {Object} clip - Recorded clip metadata.
+ * @param {Object} selection - Current view and zoom.
+ * @returns {HTMLElement} Selectable non-destructive audio clip.
  */
 export function createMultitrackClipDom(clip, selection) {
 	const root = document.createElement('div');
+	const width = Math.max(.5, clip.duration * selection.pixelsPerSecond);
 	const selected = selection.clipId === clip.id;
 	root.className = 'multitrack-clip';
 	root.dataset.clipId = clip.id;
@@ -26,16 +24,18 @@ export function createMultitrackClipDom(clip, selection) {
 	root.setAttribute('role', 'option');
 	root.setAttribute('aria-selected', String(selected));
 	root.classList.toggle('multitrack-clip-selected', selected);
+	root.classList.toggle('multitrack-clip-narrow', width < 44);
+	root.classList.toggle('multitrack-clip-micro', width < 7);
 	root.style.left = `${clip.timelineStart * selection.pixelsPerSecond}px`;
-	root.style.width = `${Math.max(18, clip.duration * selection.pixelsPerSecond)}px`;
-	const leftHandle = createTrimHandle('left', 'Trim clip start');
-	const content = createClipContent(clip);
-	const rightHandle = createTrimHandle('right', 'Trim clip end');
-	root.append(leftHandle, content, rightHandle);
+	root.style.width = `${width}px`;
+	root.append(createTrimHandle('left', 'Trim clip start'),
+		createClipContent(clip, selection.pixelsPerSecond),
+		createTrimHandle('right', 'Trim clip end'));
 	return root;
 }
 
-function createClipContent(clip) {
+/** @param {Object} clip - Source clip. @param {number} zoom - Timeline resolution. */
+function createClipContent(clip, zoom) {
 	const content = document.createElement('div');
 	content.className = 'multitrack-clip-content';
 	const label = document.createElement('div');
@@ -44,10 +44,11 @@ function createClipContent(clip) {
 	const timing = document.createElement('div');
 	timing.className = 'multitrack-clip-timing';
 	timing.textContent = `${clip.duration.toFixed(2)}s`;
-	content.append(label, createMultitrackWaveformDom(clip), timing);
+	content.append(label, createMultitrackWaveformDom(clip, zoom), timing);
 	return content;
 }
 
+/** @param {string} side - left/right. @param {string} label - Assistive handle name. */
 function createTrimHandle(side, label) {
 	const handle = document.createElement('span');
 	handle.className = `multitrack-trim-handle multitrack-trim-${side}`;

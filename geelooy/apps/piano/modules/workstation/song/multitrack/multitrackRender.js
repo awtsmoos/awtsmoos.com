@@ -3,14 +3,14 @@
 //Blessed is He
 /**
  * @module MultitrackRender
- * The Awtsmoos reveals each playing wave across the moving measure;
- * Awtsmoos.com keeps its toolbars small and its audio the treasure.
+ * The Awtsmoos gives ruler and playhead one origin upon the same scale;
+ * Awtsmoos.com stops pretending little fragments are longer than their tale.
  */
 import { createMultitrackTrackDom } from './multitrackTrackDom.js';
 import { songDuration } from './multitrackTimelineOperations.js';
 import { updateMultitrackScrollbar } from './multitrackScrollbar.js';
 
-/** @param {Object} dom - Editing surface. @param {Object} state - Mutable editor state. */
+/** @param {Object} dom - Editing surface. @param {Object} state - Editor state. */
 export function renderMultitrackProject(dom, state) {
 	const seconds = songDuration(state);
 	const scale = state.selection.pixelsPerSecond;
@@ -44,37 +44,40 @@ export function renderMultitrackProject(dom, state) {
 	if (dom.horizontalScroll) requestAnimationFrame(() => updateMultitrackScrollbar(dom));
 }
 
-/** @param {HTMLElement} element - Gesture element. @param {Object} clip - Timeline clip. @param {number} scale - Timeline zoom. */
+/** @param {HTMLElement} element - Active clip. @param {Object} clip - Updated placement. @param {number} scale - Zoom. */
 export function renderMultitrackGestureClip(element, clip, scale) {
+	const width = Math.max(.5, clip.duration * scale);
 	element.style.left = `${clip.timelineStart * scale}px`;
-	element.style.width = `${Math.max(18, clip.duration * scale)}px`;
+	element.style.width = `${width}px`;
+	element.classList.toggle('multitrack-clip-narrow', width < 44);
+	element.classList.toggle('multitrack-clip-micro', width < 7);
 	const timing = element.querySelector('.multitrack-clip-timing');
 	if (timing) timing.textContent = `${clip.duration.toFixed(2)}s`;
 }
 
-/** @param {HTMLElement} ruler - Timeline ruler. @param {number} seconds - Width. @param {number} scale - Zoom. */
+/** @param {HTMLElement} ruler - Time ruler. @param {number} seconds - Duration. @param {number} scale - Zoom. */
 function renderRuler(ruler, seconds, scale) {
 	ruler.replaceChildren();
 	const every = scale > 80 ? 1 : scale > 30 ? 2 : scale > 12 ? 5 : 10;
 	for (let second = 0; second <= seconds && ruler.childElementCount < 240; second += every) {
 		const mark = document.createElement('span');
 		mark.className = 'multitrack-ruler-mark';
-		mark.style.left = `${second * scale}px`;
+		mark.style.left = `calc(var(--multitrack-header-width) + ${second * scale}px)`;
 		mark.textContent = formatTime(second);
 		ruler.appendChild(mark);
 	}
 }
 
-/** @param {Object} dom - Toolbar buttons. @param {Object} state - Playback state. */
+/** @param {Object} dom - Transport buttons. @param {Object} state - Playback status. */
 function renderTransportButtons(dom, state) {
 	const play = dom.buttons.get('play');
 	if (!play) return;
 	play.disabled = !state.playing && state.project.tracks.length === 0;
 	play.textContent = state.playing ? '■ Stop' : '▶ Play';
-	play.setAttribute('aria-label', state.playing ? 'Stop multitrack playback' : 'Play multitrack audio');
+	play.setAttribute('aria-label', state.playing ? 'Stop audio playback' : 'Play edited song');
 }
 
-/** @param {number} seconds - Song time. @returns {string} Label. */
+/** @param {number} seconds - Song time. @returns {string} Readable ruler label. */
 function formatTime(seconds) {
 	return seconds >= 60 ? `${Math.floor(seconds / 60)}:${String(Math.floor(seconds % 60)).padStart(2, '0')}` : `${Math.floor(seconds)}s`;
 }

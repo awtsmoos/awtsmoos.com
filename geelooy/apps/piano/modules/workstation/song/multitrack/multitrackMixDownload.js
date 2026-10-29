@@ -3,45 +3,51 @@
 //Blessed is He
 /**
  * @module MultitrackMixDownload
- * The Awtsmoos gives the edited performance a home beyond the screen;
- * Awtsmoos.com downloads sound itself, not a note-text that has been seen.
+ * The Awtsmoos gathers the edited song into an honest finished file;
+ * Awtsmoos.com reports each encoding measure along the sacred mile.
  */
 import { multitrackStudioState } from './multitrackState.js';
 import { renderMultitrackOffline } from './multitrackOfflineMix.js';
 import { encodeMultitrackWav } from './multitrackWavEncode.js';
 import { encodeMultitrackWebm } from './multitrackWebmEncode.js';
+import { updateMultitrackExportProgress } from './multitrackExportProgress.js';
 
 let busy = false;
 
-/** Renders and downloads the actual edited arrangement as WAV or WebM.
- * @param {'wav'|'webm'} format - Target encoding.
- * @param {Object} state - Current editor project.
- * @returns {Promise<Blob>} Real playable audio file.
+/** Creates a playable mix, reporting stage progress and WebM real-time completion.
+ * @param {'wav'|'webm'} format - Target audio codec.
+ * @param {Object} state - Current editor.
+ * @returns {Promise<Blob>} Actual downloadable sound bytes.
  */
 export async function downloadMultitrackMix(format = 'wav', state = multitrackStudioState) {
-	if (busy) throw new Error('An audio export is already in progress.');
-	if (format !== 'wav' && format !== 'webm') throw new Error('Unknown audio format.');
+	if (busy) throw new Error('A previous audio export is still running.');
+	if (!['wav', 'webm'].includes(format)) throw new Error('Unsupported audio export format.');
 	busy = true;
+	const progress = (percent, text) => updateMultitrackExportProgress(percent, text, state);
 	try {
-		state.setStatus(`Rendering your full edited song as ${format.toUpperCase()}…`);
+		progress(0, 'Preparing edited audio clips');
 		const audio = await renderMultitrackOffline(state.project);
-		if (format === 'webm') state.setStatus('Encoding WebM audio in real time…');
-		const blob = format === 'wav' ? encodeMultitrackWav(audio) : await encodeMultitrackWebm(audio);
-		if (blob.size < 100) throw new Error('Exported file has no playable audio data.');
+		progress(35, 'Mixed every clip and track');
+		const blob = format === 'wav'
+			? encodeMultitrackWav(audio)
+			: await encodeMultitrackWebm(audio, fraction => progress(35 + fraction * 64,
+				`WebM encoding · ${Math.round(fraction * 100)}% of audio processed`));
+		if (blob.size < 100) throw new Error('No playable audio data was produced.');
+		progress(99, 'Saving edited mix to your device');
 		const title = String(state.project?.title || 'Awtsmoos-Mix')
 			.replace(/[^\p{L}\p{N} ._-]/gu, '').trim().slice(0, 70) || 'Awtsmoos-Mix';
 		downloadAudioBlob(blob, `${title}-Mix.${format}`);
-		state.setStatus(`Downloaded edited ${format.toUpperCase()} mix · ${(blob.size / 1048576).toFixed(1)} MB.`);
+		progress(100, `${format.toUpperCase()} downloaded · ${(blob.size / 1048576).toFixed(2)} MB`);
 		return blob;
 	} catch (error) {
-		state.setStatus(`Export failed: ${error?.message || 'Unknown audio error'}`);
+		state.setStatus(`Audio export failed: ${error?.message || 'Unknown error'}`);
 		throw error;
 	} finally {
 		busy = false;
 	}
 }
 
-/** @param {Blob} blob - Encoded audio. @param {string} filename - Safe download name. */
+/** @param {Blob} blob - Sound file. @param {string} filename - File name. */
 function downloadAudioBlob(blob, filename) {
 	const url = URL.createObjectURL(blob);
 	const anchor = document.createElement('a');

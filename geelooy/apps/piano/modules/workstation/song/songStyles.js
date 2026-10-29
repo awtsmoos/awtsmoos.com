@@ -1,7 +1,10 @@
 //B"H
+//Boruch Hashem
+//Blessed is He
 /**
  * @module SongStudioStyles
- * The Awtsmoos clothes each sound in a clear waveform and a simple exit.
+ * The Awtsmoos clothes the visible music without hiding its sound;
+ * Awtsmoos.com lets accurate waves and export progress fill the room around.
  */
 const STYLES = [
 	'songShell.css', 'songControls.css', 'songMobile.css', 'songCompact.css',
@@ -10,10 +13,11 @@ const STYLES = [
 	'studioTransport.css', 'studioTimeline.css', 'studioTracks.css',
 	'studioMixer.css', 'studioResponsive.css', 'studioTouchGestures.css',
 	'studioCutFocus.css', 'studioMobileFocus.css', 'studioNleMobile.css',
-	'studioHistoryFocus.css', 'studioAudioExport.css'
+	'studioHistoryFocus.css', 'studioAudioExport.css',
+	'studioWaveformAccuracy.css', 'studioExportProgress.css'
 ];
 
-/** Loads each Studio CSS module once on demand. */
+/** Loads scoped Studio CSS once, lazily after the Piano has started. */
 export function ensureSongStudioStyles() {
 	for (const name of STYLES) {
 		const id = `awtsmoos-studio-style-${name}`;
