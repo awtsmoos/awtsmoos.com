@@ -3,22 +3,15 @@
 //Blessed is He
 /**
  * @module MultitrackToolbarEvents
- * @description
- * Yesod listens once for the large mobile toolbar while the Awtsmoos remains beyond tap, file chooser, and event queue.
- * Awtsmoos.com turns each finite gesture into one explicit domain action, surfacing errors in the timeline instead of hiding them in a console view.
+ * The Awtsmoos hears the player's taps through the corridors of time;
+ * Awtsmoos.com turns each edit into a deliberate act.
  */
-
 import { importMultitrackFiles } from './multitrackImportActions.js';
 import { runMultitrackToolbarAction } from './multitrackToolbarActions.js';
+import { fitMultitrackSong, seekMultitrackSong } from './multitrackTimelineOperations.js';
+import { toggleMultitrackPunchIn } from './multitrackPunchIn.js';
 
-/**
- * Binds import, edit, transport, zoom, and snap toolbar controls.
- *
- * @param {Object} dom Timeline DOM registry.
- * @param {Object} state Multitrack editor state.
- * @param {Object} context Shared Song Studio context.
- * @returns {void}
- */
+/** @param {Object} dom - Editor. @param {Object} state - Session. @param {Object} context - Transport. */
 export function bindMultitrackToolbarEvents(dom, state, context = {}) {
 	dom.buttons.forEach((button, action) => {
 		button.addEventListener('click', async () => {
@@ -27,28 +20,30 @@ export function bindMultitrackToolbarEvents(dom, state, context = {}) {
 				dom.fileInput.click();
 				return;
 			}
-			await safelyRun(
-				() => runMultitrackToolbarAction(action, state, context),
-				state
-			);
+			await safelyRun(async () => {
+				if (action === 'fit') fitMultitrackSong(dom, state);
+				else if (action === 'punch') await toggleMultitrackPunchIn(state, button);
+				else await runMultitrackToolbarAction(action, state, context);
+			}, state);
 		});
 	});
 	dom.fileInput.addEventListener('change', async () => {
-		await safelyRun(
-			() => importMultitrackFiles(dom.fileInput.files, state),
-			state
-		);
+		await safelyRun(() => importMultitrackFiles(dom.fileInput.files, state), state);
 	});
 	dom.snapSelect.addEventListener('change', () => {
 		state.setGridBeats(Number(dom.snapSelect.value));
-		state.setStatus(
-			state.selection.gridBeats > 0
-				? `Snap grid · ${state.selection.gridBeats} beat`
-				: 'Snap disabled · free timing'
-		);
+		state.setStatus(state.selection.gridBeats > 0
+			? `Snap grid · ${state.selection.gridBeats} beat` : 'Snap disabled · free timing');
+	});
+	dom.playheadInput.addEventListener('change', () => {
+		seekMultitrackSong(dom, state, Number(dom.playheadInput.value));
+	});
+	dom.overview.addEventListener('input', () => {
+		seekMultitrackSong(dom, state, Number(dom.overview.value));
 	});
 }
 
+/** @param {Function} action - Editor operation. @param {Object} state - Status. */
 async function safelyRun(action, state) {
 	try {
 		await action();

@@ -3,94 +3,81 @@
 //Blessed is He
 /**
  * @module MultitrackPointerEvents
- * @description
- * Yesod gives touch, pen, and mouse one gesture covenant while the Awtsmoos remains beyond pointer and movement.
- * Awtsmoos.com captures one finger through move or trim, paints immediate selection, and seals project truth only when the finite gesture is done.
+ * The Awtsmoos receives both the mouse and the finger as one gift;
+ * Awtsmoos.com lets a tap select, a swipe pan, and a hold drag or trim.
  */
-
 import { findMultitrackClip } from './multitrackProject.js';
 import { replaceMultitrackClip } from './multitrackProjectEdits.js';
-import {
-	multitrackPixelsToSeconds,
-	multitrackPointerToLaneSeconds
-} from './multitrackPointerMath.js';
+import { multitrackPixelsToSeconds, multitrackPointerToLaneSeconds } from './multitrackPointerMath.js';
 import { transformMultitrackGestureClip } from './multitrackGestureTransform.js';
 import { renderMultitrackGestureClip } from './multitrackRender.js';
+import {
+	beginMultitrackGesture,
+	updateMultitrackTouchGesture,
+	finishMultitrackGesture
+} from './multitrackTouchGesture.js';
 
-/**
- * Binds mobile-safe clip move/trim gestures and empty-lane playhead taps.
- *
- * @param {Object} dom Timeline DOM registry.
- * @param {Object} state Multitrack editor state.
- * @returns {void}
- */
+/** @param {Object} dom - Editor DOM. @param {Object} state - Project state. */
 export function bindMultitrackPointerEvents(dom, state) {
 	let gesture = null;
 	dom.tracks.addEventListener('pointerdown', (event) => {
-		gesture = beginGesture(event, state);
-		if (!gesture) {
-			return;
-		}
+		if (gesture || (event.pointerType === 'mouse' && event.button !== 0)) return;
+		gesture = beginClipPointer(event, state, dom);
+		if (!gesture) return;
 		gesture.element.setPointerCapture(event.pointerId);
 		event.preventDefault();
 	});
 	dom.tracks.addEventListener('pointermove', (event) => {
-		if (!gesture || gesture.pointerId !== event.pointerId) {
-			return;
+		if (!gesture || gesture.pointerId !== event.pointerId) return;
+		if (updateMultitrackTouchGesture(gesture, event)) {
+			moveClipPointer(event, gesture, state);
 		}
-		continueGesture(event, gesture, state);
 		event.preventDefault();
 	});
 	const finish = (event) => {
-		if (!gesture || gesture.pointerId !== event.pointerId) {
-			return;
-		}
+		if (!gesture || gesture.pointerId !== event.pointerId) return;
+		const completed = gesture;
 		gesture = null;
+		finishMultitrackGesture(completed);
 		state.emit();
 	};
-	dom.tracks.addEventListener('pointerup', finish);
-	dom.tracks.addEventListener('pointercancel', finish);
-	dom.tracks.addEventListener('lostpointercapture', finish);
+	for (const name of ['pointerup', 'pointercancel', 'lostpointercapture']) {
+		dom.tracks.addEventListener(name, finish);
+	}
 	dom.tracks.addEventListener('click', (event) => handleLaneTap(event, state));
 }
 
-function beginGesture(event, state) {
+/** @param {PointerEvent} event - Press. @param {Object} state - Editor. @param {Object} dom - Visible timeline. */
+function beginClipPointer(event, state, dom) {
 	const gestureNode = event.target.closest('[data-multitrack-gesture]');
 	const element = event.target.closest('.multitrack-clip');
 	const track = event.target.closest('.multitrack-track');
-	if (!gestureNode || !element || !track) {
-		return null;
-	}
+	if (!gestureNode || !element || !track) return null;
 	const match = findMultitrackClip(state.project, element.dataset.clipId);
-	if (!match) {
-		return null;
-	}
+	if (!match) return null;
 	state.selection.selectClip(track.dataset.trackId, match.clip.id);
-	showImmediateSelection(element, state);
-	return {
-		pointerId: event.pointerId,
+	showImmediateSelection(element);
+	return beginMultitrackGesture(event, {
 		mode: gestureNode.dataset.multitrackGesture,
 		element,
-		originX: event.clientX,
+		viewport: dom.viewport,
 		originClip: { ...match.clip }
-	};
+	});
 }
 
-function continueGesture(event, gesture, state) {
+/** @param {PointerEvent} event - Move. @param {Object} gesture - Active gesture. @param {Object} state - Editor. */
+function moveClipPointer(event, gesture, state) {
 	const seconds = multitrackPixelsToSeconds(
 		event.clientX - gesture.originX,
 		state.selection.pixelsPerSecond
 	);
 	const clip = transformMultitrackGestureClip(gesture, seconds, state);
 	state.project = replaceMultitrackClip(state.project, clip);
-	renderMultitrackGestureClip(
-		gesture.element,
-		clip,
-		state.selection.pixelsPerSecond
-	);
+	renderMultitrackGestureClip(gesture.element, clip, state.selection.pixelsPerSecond);
 }
 
-function showImmediateSelection(element, state) {
+/** @param {HTMLElement} element - Newly selected clip. */
+function showImmediateSelection(element) {
 	const previous = element.parentElement?.querySelector('.multitrack-clip-selected');
 	previous?.classList.remove('multitrack-clip-selected');
 	previous?.setAttribute('aria-selected', 'false');
@@ -98,18 +85,11 @@ function showImmediateSelection(element, state) {
 	element.setAttribute('aria-selected', 'true');
 }
 
+/** @param {PointerEvent} event - Empty lane tap. @param {Object} state - Editor. */
 function handleLaneTap(event, state) {
-	if (event.target.closest('.multitrack-clip, .multitrack-track-header')) {
-		return;
-	}
+	if (event.target.closest('.multitrack-clip,.multitrack-track-header')) return;
 	const lane = event.target.closest('.multitrack-lane');
-	if (!lane) {
-		return;
-	}
+	if (!lane) return;
 	state.selection.selectTrack(lane.dataset.trackId);
-	state.setPlayhead(multitrackPointerToLaneSeconds(
-		event,
-		lane,
-		state.selection.pixelsPerSecond
-	));
+	state.setPlayhead(multitrackPointerToLaneSeconds(event, lane, state.selection.pixelsPerSecond));
 }

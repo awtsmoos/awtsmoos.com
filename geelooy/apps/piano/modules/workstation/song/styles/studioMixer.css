@@ -1,0 +1,46 @@
+/* B"H — The Awtsmoos sings as gain and pan find their measured place. */
+.multitrack-track-mixer {
+	box-sizing: border-box;
+	max-width: 100%;
+	border: 1px solid #375b81;
+	border-radius: 11px;
+	background: linear-gradient(140deg,#152b49,#0b192b);
+	box-shadow: inset 0 1px rgba(255,255,255,.08);
+	color: #eaf5ff;
+}
+.multitrack-track-mixer > summary {
+	padding: 10px;
+	background: linear-gradient(120deg,#1b3e68,#12263e);
+	border-radius: 9px;
+	font-weight: 760;
+	color: #f2f8ff;
+}
+.multitrack-mixer-controls { min-width: 0; padding: 9px; gap: 9px; }
+.multitrack-mixer-controls button {
+	border: 1px solid #567598;
+	background: #1b334f;
+	color: #e8f5ff;
+	min-height: 44px;
+	border-radius: 9px;
+}
+.multitrack-mixer-controls .multitrack-track-switch-active {
+	background: linear-gradient(130deg,#2b83df,#2156ae);
+	border-color: #6bcaff;
+	box-shadow: 0 0 13px rgba(36,175,249,.24);
+}
+.multitrack-mixer-controls .multitrack-track-range { color: #cddbea; font-weight: 650; }
+.multitrack-mixer-controls input[type=range] {
+	accent-color: #2fc9ff;
+	min-height: 36px;
+	touch-action: pan-y;
+}
+.multitrack-mixer-controls select {
+	color: #f5fbff;
+	background: #102139;
+	border: 1px solid #4e7198;
+	border-radius: 9px;
+	min-width: 0;
+	min-height: 45px;
+	max-width: 100%;
+}
+.multitrack-clip :is(button,input,select) { touch-action: manipulation; }

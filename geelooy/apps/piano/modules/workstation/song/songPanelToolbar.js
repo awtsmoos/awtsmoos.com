@@ -3,24 +3,26 @@
 //Blessed is He
 /**
  * @module SongPanelToolbar
- * @description
- * Netzach gives the Song Studio its doors of action—record, play, transform, restore, and carry the score between files.
- * The Awtsmoos is beyond action and rest; Awtsmoos.com lets each finite button become a clear invitation, never a hidden test.
+ * The Awtsmoos grants the singer their first three actions at hand;
+ * Awtsmoos.com folds the rarer tools until they are commanded.
  */
-
 import { createSongButton } from './songPanelControls.js';
 
-/**
- * Builds the Song Studio toolbar and hidden local-file chooser.
- *
- * @returns {{root:HTMLElement,buttons:Map<string,HTMLButtonElement>,fileInput:HTMLInputElement}}
- * Toolbar view.
- */
+/** @returns {Object} Compact recording controls and retractable transformations. */
 export function createSongToolbar() {
 	const root = document.createElement('div');
 	root.className = 'song-studio-toolbar';
+	const always = document.createElement('div');
+	always.className = 'song-studio-essential-toolbar';
+	const extra = document.createElement('details');
+	extra.className = 'song-studio-advanced-toolbar';
+	const summary = document.createElement('summary');
+	summary.textContent = 'More Song tools · upload, download, remix, normalize';
+	const extraGrid = document.createElement('div');
+	extraGrid.className = 'song-studio-advanced-grid';
+	extra.append(summary, extraGrid);
 	const buttons = new Map();
-	toolbarSpecifications().forEach((specification) => {
+	for (const specification of toolbarSpecifications()) {
 		const button = createSongButton(
 			`song-action-button ${specification.className || ''}`.trim(),
 			specification.text,
@@ -28,17 +30,18 @@ export function createSongToolbar() {
 		);
 		button.dataset.songAction = specification.action;
 		buttons.set(specification.action, button);
-		root.appendChild(button);
-	});
+		(['record', 'play', 'stop'].includes(specification.action) ? always : extraGrid).appendChild(button);
+	}
 	const fileInput = document.createElement('input');
 	fileInput.type = 'file';
 	fileInput.accept = '.txt,.awtsong,text/plain';
 	fileInput.className = 'song-studio-file-input';
-	fileInput.setAttribute('aria-label', 'Upload Song text file');
-	root.appendChild(fileInput);
+	fileInput.setAttribute('aria-label', 'Upload Song text');
+	root.append(always, extra, fileInput);
 	return { root, buttons, fileInput };
 }
 
+/** @returns {Object[]} Actions with explanatory accessibility names. */
 function toolbarSpecifications() {
 	return [
 		{ action: 'record', text: '● Record', label: 'Record timed Song take', className: 'song-action-primary' },
@@ -46,8 +49,8 @@ function toolbarSpecifications() {
 		{ action: 'stop', text: '■ Stop', label: 'Stop Song playback or recording' },
 		{ action: 'upload', text: '↑ Upload', label: 'Upload Song text file' },
 		{ action: 'download', text: '↓ Download', label: 'Download Song text file' },
-		{ action: 'normalize', text: '⌁ Normalize', label: 'Normalize and quantize timing' },
-		{ action: 'remix', text: '⚡ Remix', label: 'Generate selected remix style', className: 'song-action-remix' },
-		{ action: 'restore', text: '↶ Raw', label: 'Restore untouched raw take' }
+		{ action: 'normalize', text: '⌁ Normalize', label: 'Normalize timing' },
+		{ action: 'remix', text: '⚡ Remix', label: 'Remix recorded notes', className: 'song-action-remix' },
+		{ action: 'restore', text: '↶ Raw', label: 'Restore raw recording' }
 	];
 }

@@ -1,0 +1,36 @@
+/* B"H — The Awtsmoos colors each quiet stage, every moment anew. */
+.song-studio-panel, .multitrack-editor {
+	--studio-void: #050d19;
+	--studio-backdrop: #081524;
+	--studio-panel: #102038;
+	--studio-panel-raised: #152942;
+	--studio-panel-soft: #172337;
+	--studio-field: #0c1929;
+	--studio-outline: #355173;
+	--studio-outline-bright: #4775a2;
+	--studio-text: #f2f8ff;
+	--studio-muted: #b8c8dd;
+	--studio-blue: #168cfa;
+	--studio-blue-bright: #38b6ff;
+	--studio-cyan: #39e1ea;
+	--studio-purple: #aa4dff;
+	--studio-magenta: #fa53df;
+	--studio-red: #ff3757;
+	--studio-gold: #ffd453;
+	--studio-green: #27d8ac;
+	--studio-radius: 14px;
+	--studio-shadow: 0 14px 36px rgba(0, 3, 12, .48);
+	color: var(--studio-text);
+	color-scheme: dark;
+	font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+}
+.song-studio-panel :is(button, input, select, summary):focus-visible,
+.multitrack-editor :is(button, input, select, summary):focus-visible {
+	outline: 3px solid var(--studio-cyan);
+	outline-offset: 2px;
+}
+.song-studio-panel button,
+.multitrack-editor button {
+	-webkit-tap-highlight-color: transparent;
+	touch-action: manipulation;
+}

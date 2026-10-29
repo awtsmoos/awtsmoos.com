@@ -2,32 +2,41 @@
 //Boruch Hashem
 //Blessed is He
 /**
- * @module SongStyles
- * @description
- * Malchus clothes Song Studio and its multitrack world in small style-vessels while the Awtsmoos remains beyond color, width, and screen.
- * Awtsmoos.com loads each garment once, so desktop and phone may share one palace without a monolithic stylesheet throne.
+ * @module SongStudioStyles
+ * The Awtsmoos gives every voice its color on a dark and legible stage;
+ * Awtsmoos.com dresses the real controls without changing the music's page.
  */
 
-const STYLE_URLS = [
-	'./modules/workstation/song/styles/songShell.css',
-	'./modules/workstation/song/styles/songControls.css',
-	'./modules/workstation/song/styles/songMobile.css',
-	'./modules/workstation/song/styles/multitrackShell.css',
-	'./modules/workstation/song/styles/multitrackTimeline.css',
-	'./modules/workstation/song/styles/multitrackClips.css',
-	'./modules/workstation/song/styles/multitrackMobile.css'
+const STYLES = [
+	'songShell.css',
+	'songControls.css',
+	'songMobile.css',
+	'songCompact.css',
+	'multitrackShell.css',
+	'multitrackTimeline.css',
+	'multitrackClips.css',
+	'multitrackMobile.css',
+	'studioTokens.css',
+	'studioShell.css',
+	'studioTransport.css',
+	'studioTimeline.css',
+	'studioTracks.css',
+	'studioMixer.css',
+	'studioResponsive.css',
+	'studioTouchGestures.css'
 ];
 
-/** Ensures every Song Studio stylesheet is linked exactly once. @returns {void} */
+/** Installs the scoped studio theme after its responsive functional layout CSS. */
 export function ensureSongStudioStyles() {
-	STYLE_URLS.forEach((href) => {
-		if (document.querySelector(`link[data-song-style="${href}"]`)) {
-			return;
+	for (const name of STYLES) {
+		const id = `awtsmoos-studio-style-${name}`;
+		if (document.getElementById(id)) {
+			continue;
 		}
-		const link = document.createElement('link');
-		link.rel = 'stylesheet';
-		link.href = href;
-		link.dataset.songStyle = href;
-		document.head.appendChild(link);
-	});
+		const stylesheet = document.createElement('link');
+		stylesheet.id = id;
+		stylesheet.rel = 'stylesheet';
+		stylesheet.href = new URL(`./styles/${name}`, import.meta.url).href;
+		document.head.appendChild(stylesheet);
+	}
 }

@@ -3,20 +3,20 @@
 //Blessed is He
 /**
  * @module RecordingSaveDecisionPanel
- * The Awtsmoos offers each finished song to its maker's voice;
- * Awtsmoos.com keeps Save and Trash accessible without an accidental choice.
+ * The Awtsmoos lets a finished take enter the studio through a new door;
+ * Awtsmoos.com gives Save, Edit, and Trash as choices to explore.
  */
 import { createDecisionFocus } from './saveDecisionFocus.js';
 
-/** @param {string} tag - HTML element. @param {string} text - Safe text. */
-function element(tag, text = '') {
+/** @param {string} tag - Element type. @param {string} content - Safe label. */
+function element(tag, content = '') {
 	const node = document.createElement(tag);
-	node.textContent = text;
+	node.textContent = content;
 	return node;
 }
 
-/** @param {Object} handlers - Save and Trash actions. @returns {Object} Modal controller. */
-export function createSaveDecisionPanel({ onSave, onTrash }) {
+/** @param {Object} handlers - Completed recording actions. @returns {Object} Modal view. */
+export function createSaveDecisionPanel({ onSave, onTrash, onEdit }) {
 	const stylesheet = element('link');
 	stylesheet.rel = 'stylesheet';
 	stylesheet.href = new URL('./saveDecisionStyles.css', import.meta.url).href;
@@ -31,49 +31,41 @@ export function createSaveDecisionPanel({ onSave, onTrash }) {
 	dialog.setAttribute('aria-labelledby', 'awtsmoos-save-title');
 	const heading = element('h2', 'Recording finished');
 	heading.id = 'awtsmoos-save-title';
-	const explanation = element('p', 'Save this recording to your device or send it to Trash.');
+	const explanation = element('p', 'Save this recording, edit audio in Studio, or discard it.');
 	const filename = element('strong');
 	filename.className = 'awtsmoos-save-filename';
 	const preview = element('div');
 	preview.className = 'awtsmoos-save-preview';
-	const message = element('p', 'This recording stays until you choose.');
+	const message = element('p');
 	message.className = 'awtsmoos-save-message';
 	message.setAttribute('aria-live', 'polite');
 	const actions = element('div');
 	actions.className = 'awtsmoos-save-actions';
-	const save = element('button', 'Save to device');
-	save.type = 'button';
-	save.className = 'awtsmoos-save-confirm';
-	const trash = element('button', 'Trash recording');
-	trash.type = 'button';
-	trash.className = 'awtsmoos-save-trash';
-	actions.append(save, trash);
+	const save = createAction('Save to device', 'awtsmoos-save-confirm', onSave);
+	const edit = createAction('✂ Edit in Studio', 'awtsmoos-save-edit', onEdit);
+	const trash = createAction('Trash recording', 'awtsmoos-save-trash', onTrash);
+	actions.append(save, edit, trash);
 	dialog.append(heading, explanation, filename, preview, message, actions);
 	backdrop.appendChild(dialog);
 	document.body.appendChild(backdrop);
 	const focus = createDecisionFocus(dialog, save);
 	let previewUrl = null;
-	save.addEventListener('click', onSave);
-	trash.addEventListener('click', onTrash);
 
-	/** @param {Object|null} recording - Pending file or null. @param {number} count - Number awaiting choice. */
+	/** @param {Object|null} recording - Pending take. @param {number} count - Queue size. */
 	function show(recording, count) {
 		preview.querySelector('audio, video')?.pause();
 		preview.replaceChildren();
-		if (previewUrl) {
-			URL.revokeObjectURL(previewUrl);
-			previewUrl = null;
-		}
+		if (previewUrl) URL.revokeObjectURL(previewUrl);
+		previewUrl = null;
 		backdrop.hidden = !recording;
 		focus.setOpen(Boolean(recording));
-		if (!recording) {
-			return;
-		}
+		if (!recording) return;
 		filename.textContent = recording.filename;
 		message.textContent = count > 1
-			? `${count} recordings await your choice. This is the first.`
-			: 'Keep this page open until you choose Save or Trash.';
+			? `${count} recordings pending. Choose what to do with this one.`
+			: 'Keep this page open until you choose an action.';
 		const kind = recording.kind || recording.blob.type.split('/')[0];
+		edit.hidden = kind !== 'audio';
 		let media = null;
 		if (kind === 'audio' || kind === 'video') {
 			media = element(kind);
@@ -81,7 +73,7 @@ export function createSaveDecisionPanel({ onSave, onTrash }) {
 			media.preload = 'metadata';
 		} else if (kind === 'image') {
 			media = element('img');
-			media.alt = 'Preview of the recorded sheet music';
+			media.alt = 'Preview of the recorded music sheet';
 		}
 		if (media) {
 			previewUrl = URL.createObjectURL(recording.blob);
@@ -92,8 +84,21 @@ export function createSaveDecisionPanel({ onSave, onTrash }) {
 	}
 	return {
 		show,
-		showError(text) {
-			message.textContent = text;
+		showError(text) { message.textContent = text; },
+		setBusy(busy) {
+			save.disabled = busy;
+			trash.disabled = busy;
+			edit.disabled = busy;
+			if (busy) message.textContent = 'Importing recording into Song Studio…';
 		}
 	};
+}
+
+/** @returns {HTMLButtonElement} One labeled action. */
+function createAction(label, className, callback) {
+	const button = element('button', label);
+	button.type = 'button';
+	button.className = className;
+	button.addEventListener('click', callback);
+	return button;
 }

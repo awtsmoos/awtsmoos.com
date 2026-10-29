@@ -1,0 +1,43 @@
+/* B"H — The Awtsmoos places every finger on a clear and movable waveform. */
+.multitrack-clip {
+	touch-action: none;
+	user-select: none;
+	-webkit-user-select: none;
+	cursor: grab;
+}
+.multitrack-clip.multitrack-clip-dragging {
+	cursor: grabbing;
+	outline: 3px solid var(--studio-gold, #ffd453);
+	box-shadow: 0 0 20px rgba(255, 212, 83, .38);
+	filter: brightness(1.14);
+}
+.multitrack-trim-handle {
+	touch-action: none;
+	width: 20px;
+	z-index: 5;
+	background: rgba(247, 252, 255, .18);
+	border-inline: 2px solid rgba(238, 251, 255, .66);
+}
+.multitrack-trim-left { border-radius: 9px 0 0 9px; }
+.multitrack-trim-right { border-radius: 0 9px 9px 0; }
+.multitrack-viewport {
+	overscroll-behavior-x: contain;
+	-webkit-overflow-scrolling: touch;
+}
+.multitrack-ruler { touch-action: pan-y; }
+@media (pointer: coarse) {
+	.multitrack-trim-handle { width: 24px; }
+	.multitrack-clip-content { padding-inline: 27px; }
+	.multitrack-clip { min-height: 76px; }
+	.multitrack-clip:after {
+		content: 'Hold to move · drag edges to trim';
+		position: absolute;
+		left: 25px;
+		right: 25px;
+		bottom: 3px;
+		font-size: 9px;
+		color: rgba(255,255,255,.84);
+		text-align: center;
+		pointer-events: none;
+	}
+}

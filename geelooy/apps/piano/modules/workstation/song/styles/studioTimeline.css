@@ -1,0 +1,69 @@
+/* B"H — The Awtsmoos sets time ablaze as a line through every waveform. */
+.multitrack-navigation {
+	padding: 10px;
+	gap: 11px;
+	border: 1px solid rgba(63,98,141,.55);
+	border-radius: 13px;
+	background: linear-gradient(135deg,#0b192c,#102843);
+}
+.multitrack-navigation label {
+	color: #c4d6e8;
+	font-weight: 650;
+}
+.multitrack-time-input {
+	color: #f6fbff;
+	background: #07111e;
+	border: 1px solid #5581ab;
+	border-radius: 9px;
+	font-variant-numeric: tabular-nums;
+	font-weight: 760;
+}
+.multitrack-overview {
+	accent-color: #3ac5fa;
+	cursor: grab;
+	background: repeating-linear-gradient(90deg,rgba(29,139,228,.20) 0 4px,
+		rgba(164,80,244,.21) 4px 8px,transparent 8px 13px);
+	border-radius: 7px;
+}
+.multitrack-viewport {
+	min-width: 0;
+	max-width: 100%;
+	border: 1px solid #29496a;
+	border-radius: 13px;
+	background-color: #060d18;
+	background-image: linear-gradient(90deg,rgba(52,112,165,.12) 1px,transparent 1px);
+	background-size: 80px 100%;
+	scrollbar-color: #4d719b #0d1b2d;
+	overscroll-behavior-x: contain;
+}
+.multitrack-ruler {
+	box-sizing: border-box;
+	min-height: 35px;
+	background: linear-gradient(#0a192b,#111f34);
+	border-bottom: 1px solid #2b4b6f;
+	cursor: crosshair;
+	touch-action: pan-y;
+}
+.multitrack-ruler-mark {
+	color: #bdcce1;
+	font-size: 11px;
+	font-variant-numeric: tabular-nums;
+	text-shadow: 0 1px 2px black;
+}
+.multitrack-playhead {
+	z-index: 6;
+	width: 2px;
+	border-left: 2px solid #ff3858;
+	box-shadow: 0 0 12px 2px rgba(255,47,82,.55);
+	pointer-events: none;
+}
+.multitrack-playhead::before {
+	content: "";
+	position: absolute;
+	top: -1px;
+	left: -7px;
+	border-left: 8px solid transparent;
+	border-right: 8px solid transparent;
+	border-top: 12px solid #ff4562;
+	filter: drop-shadow(0 0 5px #fd3759);
+}

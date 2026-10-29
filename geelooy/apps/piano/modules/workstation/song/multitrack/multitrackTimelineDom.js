@@ -3,14 +3,12 @@
 //Blessed is He
 /**
  * @module MultitrackTimelineDom
- * @description
- * Malchus assembles toolbar, ruler, playhead, and lanes into one scrollable editor while the Awtsmoos remains beyond space and sequence.
- * Awtsmoos.com gives the phone a wide musical world inside a controlled viewport, so fingers may travel in time without forcing the whole page to wander.
+ * The Awtsmoos spreads song through the hours;
+ * Awtsmoos.com keeps controls beside a scrolling waveform.
  */
-
 import { createMultitrackToolbarDom } from './multitrackToolbarDom.js';
 
-/** Builds the generic multitrack editor shell without rendering project tracks. @returns {Object} Timeline DOM registry. */
+/** @returns {Object} Scrollable timeline and accessible tools. */
 export function createMultitrackTimelineDom() {
 	const root = document.createElement('section');
 	root.className = 'multitrack-editor';
@@ -24,6 +22,7 @@ export function createMultitrackTimelineDom() {
 	timeline.className = 'multitrack-timeline';
 	const ruler = document.createElement('div');
 	ruler.className = 'multitrack-ruler';
+	ruler.setAttribute('aria-label', 'Drag to choose playhead time');
 	const tracks = document.createElement('div');
 	tracks.className = 'multitrack-tracks';
 	const playhead = document.createElement('div');
@@ -36,26 +35,21 @@ export function createMultitrackTimelineDom() {
 	status.setAttribute('aria-live', 'polite');
 	root.append(heading, toolbar.root, viewport, status);
 	return {
-		root,
-		viewport,
-		timeline,
-		ruler,
-		tracks,
-		playhead,
-		status,
-		buttons: toolbar.buttons,
-		snapSelect: toolbar.snapSelect,
-		fileInput: toolbar.fileInput
+		root, viewport, timeline, ruler, tracks, playhead, status,
+		buttons: toolbar.buttons, snapSelect: toolbar.snapSelect,
+		fileInput: toolbar.fileInput,
+		playheadInput: toolbar.playheadInput, overview: toolbar.overview
 	};
 }
 
+/** @returns {HTMLElement} Editor title and editing hint. */
 function createHeading() {
 	const heading = document.createElement('div');
 	heading.className = 'multitrack-heading';
 	const title = document.createElement('strong');
 	title.textContent = '🎛 Multitrack Audio Editor';
-	const help = document.createElement('span');
-	help.textContent = 'tap · drag · trim · split · layer · remix';
-	heading.append(title, help);
+	const hint = document.createElement('span');
+	hint.textContent = 'Select · scrub · split · trim handles';
+	heading.append(title, hint);
 	return heading;
 }

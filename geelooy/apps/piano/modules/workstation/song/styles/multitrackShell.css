@@ -1,82 +1,77 @@
-/* @tunnel-grandfather: legacy/admin/game CSS — selectors are stable and page-scoped; registry conflicts are cross-page false positives; ID selectors intentional and working; refactor risk exceeds value. W3 2026-10-08. */
-/* B"H
-Boruch Hashem
-Blessed is He
-The Awtsmoos is beyond lane and toolbar; Awtsmoos.com gives the generic audio editor a dark mobile vessel where every action can remain near.
-*/
+/* B"H — Boruch Hashem, Blessed is He.
+ * The Awtsmoos keeps each editing control within the musician's hand;
+ * Awtsmoos.com gives actions a foldable space, not a hidden overflow band.
+ */
 .multitrack-editor {
-	--multitrack-header-width: 146px;
+	--multitrack-header-width: 112px;
 	display: flex;
 	flex-direction: column;
-	gap: 9px;
+	gap: 10px;
+	min-width: 0;
 	padding: 11px;
-	border: 1px solid rgba(116, 219, 255, .16);
+	border: 1px solid rgba(116,219,255,.16);
 	border-radius: 14px;
-	background: rgba(255, 255, 255, .04);
+	background: rgba(255,255,255,.04);
+	color: #f5fbff;
 }
 .multitrack-heading {
 	display: flex;
 	align-items: baseline;
 	justify-content: space-between;
-	gap: 10px;
-}
-.multitrack-heading strong {
-	font-size: .98rem;
-
-  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
-.multitrack-heading span {
-	font-size: .75rem;
-	opacity: .64;
-
-  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
-.multitrack-toolbar {
-	display: grid;
-	grid-template-columns: repeat(6, minmax(82px, 1fr));
-	gap: 7px;
-	overflow-x: auto;
-	padding-bottom: 2px;
-	scrollbar-width: thin;
-}
-.multitrack-tool,
-.multitrack-snap select {
-	min-height: 44px;
-	box-sizing: border-box;
-	border: 1px solid rgba(255, 255, 255, .12);
-	border-radius: 9px;
-	color: #f5fbff;
-	background: rgba(255, 255, 255, .075);
-	font-weight: 700;
-}
-.multitrack-tool {
-	padding: 7px 9px;
-	white-space: nowrap;
-}
-.multitrack-tool-primary {
-	background: rgba(0, 123, 255, .76);
-}
-.multitrack-tool-remix {
-	background: rgba(113, 51, 196, .86);
-}
-.multitrack-tool:disabled {
-	opacity: .42;
-}
-.multitrack-snap {
-	display: grid;
-	grid-template-columns: auto 1fr;
-	align-items: center;
+	flex-wrap: wrap;
 	gap: 5px;
-	min-width: 110px;
-	font-size: .72rem;
 }
-.multitrack-snap select {
-	min-width: 68px;
+.multitrack-heading strong { font-size: 1rem; color: #f5fbff; }
+.multitrack-heading span { font-size: .75rem; color: #c6d1dd; }
+.multitrack-toolbar { display: grid; gap: 9px; min-width: 0; }
+.multitrack-essential-tools,
+.multitrack-extra-grid {
+	display: grid;
+	grid-template-columns: repeat(3,minmax(0,1fr));
+	gap: 7px;
+}
+.multitrack-extra-tools { min-width: 0; }
+.multitrack-extra-tools summary,
+.multitrack-track-mixer summary {
+	cursor: pointer;
+	min-height: 38px;
+	padding: 8px;
+	box-sizing: border-box;
+	border: 1px solid #566176;
+	border-radius: 9px;
+	background: #262b37;
+	color: #f5fbff;
+}
+.multitrack-extra-grid { padding-top: 8px; }
+.multitrack-tool, .multitrack-snap select {
+	box-sizing: border-box;
+	min-width: 0;
+	min-height: 43px;
+	padding: 7px;
+	border: 1px solid #4f5669;
+	border-radius: 8px;
+	background: #292d38;
+	color: #f5fbff;
+	font-weight: 700;
+	font-size: .83rem;
+	white-space: normal;
+}
+.multitrack-tool-primary { background: #0968c4; }
+.multitrack-tool:disabled { opacity: .45; }
+.multitrack-snap { display: flex; gap: 5px; align-items: center; }
+.multitrack-navigation { display: grid; grid-template-columns: minmax(95px,1fr) 2fr; gap: 10px; }
+.multitrack-navigation label { display: grid; gap: 3px; font-size: .78rem; min-width: 0; }
+.multitrack-time-input {
+	box-sizing: border-box;
+	min-width: 0;
+	width: 100%;
+	min-height: 43px;
 	padding: 5px;
+	border-radius: 7px;
+	border: 1px solid #6b809a;
+	background: #131921;
+	color: white;
 }
-.multitrack-file-input {
-	display: none;
-}
-.multitrack-status {
-	min-height: 20px;
-	font-size: .76rem;
-	opacity: .82;
-}
+.multitrack-overview { width: 100%; min-height: 42px; accent-color: #5bb4f2; }
+.multitrack-file-input { display: none; }
+.multitrack-status { min-height: 20px; color: #e1effc; font-size: .8rem; }
