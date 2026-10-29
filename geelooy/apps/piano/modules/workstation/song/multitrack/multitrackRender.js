@@ -3,13 +3,13 @@
 //Blessed is He
 /**
  * @module MultitrackRender
- * The Awtsmoos reveals the whole performance through a little screen;
- * Awtsmoos.com renders every measure and remembers what the player means.
+ * The Awtsmoos lets every track flow within one bright time;
+ * Awtsmoos.com keeps the sound controls outside the waveform line.
  */
 import { createMultitrackTrackDom } from './multitrackTrackDom.js';
 import { songDuration } from './multitrackTimelineOperations.js';
 
-/** @param {Object} dom - Editor. @param {Object} state - Track state. */
+/** @param {Object} dom - Editor registry. @param {Object} state - Project state. */
 export function renderMultitrackProject(dom, state) {
 	const seconds = songDuration(state);
 	const scale = state.selection.pixelsPerSecond;
@@ -17,11 +17,18 @@ export function renderMultitrackProject(dom, state) {
 	dom.timeline.style.width = `calc(var(--multitrack-header-width) + ${width}px)`;
 	renderRuler(dom.ruler, seconds, scale);
 	dom.tracks.replaceChildren();
-	state.project.tracks.forEach((track) => {
+	dom.inspectorList.replaceChildren();
+	for (const track of state.project.tracks) {
 		const view = createMultitrackTrackDom(track, state.selection, width);
 		dom.tracks.appendChild(view.root);
-	});
-	dom.playhead.style.left = `calc(var(--multitrack-header-width) + ${state.selection.playheadSeconds * scale}px)`;
+		const row = document.createElement('div');
+		row.className = 'multitrack-track-settings';
+		row.dataset.trackId = track.id;
+		row.appendChild(view.mixer);
+		dom.inspectorList.appendChild(row);
+	}
+	dom.playhead.style.left =
+		`calc(var(--multitrack-header-width) + ${state.selection.playheadSeconds * scale}px)`;
 	dom.status.textContent = state.status;
 	dom.snapSelect.value = String(state.selection.gridBeats);
 	if (document.activeElement !== dom.playheadInput) {
@@ -34,7 +41,7 @@ export function renderMultitrackProject(dom, state) {
 	renderTransportButtons(dom, state);
 }
 
-/** @param {HTMLElement} element - Clip. @param {Object} clip - Audio metadata. @param {number} scale - Pixels per second. */
+/** @param {HTMLElement} element - Moving clip. @param {Object} clip - Timing. @param {number} scale - Zoom. */
 export function renderMultitrackGestureClip(element, clip, scale) {
 	element.style.left = `${clip.timelineStart * scale}px`;
 	element.style.width = `${Math.max(18, clip.duration * scale)}px`;
@@ -55,7 +62,7 @@ function renderRuler(root, seconds, scale) {
 	}
 }
 
-/** @param {Object} dom - Controls. @param {Object} state - Playback status. */
+/** @param {Object} dom - Transport. @param {Object} state - Playback. */
 function renderTransportButtons(dom, state) {
 	const play = dom.buttons.get('play');
 	const stop = dom.buttons.get('stop');
@@ -63,7 +70,7 @@ function renderTransportButtons(dom, state) {
 	if (stop) stop.disabled = !state.playing;
 }
 
-/** @param {number} seconds - Timestamp. @returns {string} Friendly duration. */
+/** @param {number} seconds - Seconds. @returns {string} Formatted time. */
 function formatTime(seconds) {
 	const whole = Math.floor(seconds);
 	const minutes = Math.floor(whole / 60);

@@ -3,26 +3,32 @@
 //Blessed is He
 /**
  * @module MultitrackTimelineDom
- * The Awtsmoos reveals the cut at the moment and place of choice;
- * Awtsmoos.com shows the result beside the waveform, in a readable voice.
+ * The Awtsmoos lets one great melody occupy the useful space;
+ * Awtsmoos.com folds the mixing desk away from the playing place.
  */
 import { createMultitrackToolbarDom } from './multitrackToolbarDom.js';
 
-/** @returns {Object} Touch-friendly audio editor with nearby cut feedback. */
+/** @returns {Object} A timeline with its mixer safely outside the scrolling lanes. */
 export function createMultitrackTimelineDom() {
 	const root = document.createElement('section');
 	root.className = 'multitrack-editor';
-	const heading = createHeading();
+	const heading = document.createElement('div');
+	heading.className = 'multitrack-heading';
+	const title = document.createElement('strong');
+	title.textContent = '🎛 Audio Editor';
+	const hint = document.createElement('span');
+	hint.textContent = 'Tap to select · hold to move · pull edges to trim';
+	heading.append(title, hint);
 	const toolbar = createMultitrackToolbarDom();
 	const viewport = document.createElement('div');
 	viewport.className = 'multitrack-viewport';
 	viewport.tabIndex = 0;
-	viewport.setAttribute('aria-label', 'Scrollable multitrack audio timeline');
+	viewport.setAttribute('aria-label', 'Scroll through audio tracks and time');
 	const timeline = document.createElement('div');
 	timeline.className = 'multitrack-timeline';
 	const ruler = document.createElement('div');
 	ruler.className = 'multitrack-ruler';
-	ruler.setAttribute('aria-label', 'Drag to place the cut marker');
+	ruler.setAttribute('aria-label', 'Drag ruler to position playhead');
 	const tracks = document.createElement('div');
 	tracks.className = 'multitrack-tracks';
 	const playhead = document.createElement('div');
@@ -33,23 +39,20 @@ export function createMultitrackTimelineDom() {
 	const status = document.createElement('output');
 	status.className = 'multitrack-status';
 	status.setAttribute('aria-live', 'polite');
-	root.append(heading, toolbar.root, status, viewport);
+	const inspector = document.createElement('details');
+	inspector.className = 'multitrack-inspector-drawer';
+	const summary = document.createElement('summary');
+	summary.textContent = '⚙ Track settings';
+	summary.setAttribute('aria-label', 'Expand track mixers and editing controls');
+	const inspectorList = document.createElement('div');
+	inspectorList.className = 'multitrack-inspector-list';
+	inspector.append(summary, inspectorList);
+	root.append(heading, toolbar.root, status, viewport, inspector);
 	return {
 		root, viewport, timeline, ruler, tracks, playhead, status,
+		inspector, inspectorList,
 		buttons: toolbar.buttons, snapSelect: toolbar.snapSelect,
 		fileInput: toolbar.fileInput, playheadInput: toolbar.playheadInput,
 		overview: toolbar.overview
 	};
-}
-
-/** @returns {HTMLElement} Compact editor title with a single useful gesture hint. */
-function createHeading() {
-	const heading = document.createElement('div');
-	heading.className = 'multitrack-heading';
-	const title = document.createElement('strong');
-	title.textContent = '🎛 Audio Editor';
-	const hint = document.createElement('span');
-	hint.textContent = 'Tap sound to set cut · hold to move · drag edges to trim';
-	heading.append(title,hint);
-	return heading;
 }

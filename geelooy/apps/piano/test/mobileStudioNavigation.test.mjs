@@ -3,15 +3,15 @@
 //Blessed is He
 /**
  * @module MobileStudioNavigationTests
- * The Awtsmoos lets every second of a long take reach the singer's eyes;
- * Awtsmoos.com keeps touch controls and exact cuts beneath the skies.
+ * The Awtsmoos makes the waveform larger while its controls grow few;
+ * Awtsmoos.com lets the chosen second remain precise and true.
  */
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createMultitrackToolbarDom } from '../modules/workstation/song/multitrack/multitrackToolbarDom.js';
 import { fitMultitrackSong, seekMultitrackSong } from '../modules/workstation/song/multitrack/multitrackTimelineOperations.js';
 
-/** @returns {Object} A phone-sized editor state without playback hardware. */
+/** @returns {Object} Phone editor state without sound hardware. */
 function example() {
 	const state = {
 		project: { tracks: [{ clips: [{ timelineStart: 0, duration: 96 }] }] },
@@ -24,8 +24,8 @@ function example() {
 	return { state, dom };
 }
 
-test('Fit song navigates a 96-second take within the phone width', () => {
-	const previous = globalThis.getComputedStyle;
+test('Fit makes a 96-second take visible inside the phone width', () => {
+	const original = globalThis.getComputedStyle;
 	globalThis.getComputedStyle = () => ({ getPropertyValue: () => '102px' });
 	try {
 		const { dom, state } = example();
@@ -33,11 +33,11 @@ test('Fit song navigates a 96-second take within the phone width', () => {
 		assert.ok(state.selection.pixelsPerSecond < 3);
 		assert.ok(state.selection.pixelsPerSecond > .4);
 		assert.match(state.status, /100.0s/);
-	} finally { globalThis.getComputedStyle = previous; }
+	} finally { globalThis.getComputedStyle = original; }
 });
 
-test('Playhead clamps negative time and times beyond the recording', () => {
-	const previous = globalThis.getComputedStyle;
+test('Exact playhead clamps outside values and scrolls to the cut', () => {
+	const original = globalThis.getComputedStyle;
 	globalThis.getComputedStyle = () => ({ getPropertyValue: () => '102px' });
 	try {
 		const { dom, state } = example();
@@ -48,13 +48,13 @@ test('Playhead clamps negative time and times beyond the recording', () => {
 		assert.equal(state.selection.playheadSeconds, 0);
 		seekMultitrackSong(dom, state, 200);
 		assert.equal(state.selection.playheadSeconds, 100);
-	} finally { globalThis.getComputedStyle = previous; }
+	} finally { globalThis.getComputedStyle = original; }
 });
 
-/** @returns {Object} DOM element mock with data attributes and real child ordering. */
-function fakeElement(tag) {
+/** @returns {Object} Minimal DOM stand-in that retains child order. */
+function fakeElement(tagName) {
 	return {
-		tagName: tag,
+		tagName,
 		children: [],
 		attributes: {},
 		dataset: {},
@@ -66,17 +66,19 @@ function fakeElement(tag) {
 	};
 }
 
-test('Mobile toolbar mounts six actions, navigation inputs, and folded extras', () => {
-	const previous = globalThis.document;
+test('Phone toolbar keeps four primary actions, exact time and folded tools', () => {
+	const original = globalThis.document;
 	globalThis.document = { createElement: fakeElement };
 	try {
 		const view = createMultitrackToolbarDom();
 		assert.equal(view.root.className, 'multitrack-toolbar');
-		assert.equal(view.root.children[0].className, 'multitrack-essential-tools');
-		assert.equal(view.root.children[0].children.length, 6);
+		const primary = view.root.children[0];
+		assert.equal(primary.className, 'multitrack-essential-tools');
+		assert.equal(primary.children.length, 4);
 		assert.equal(view.buttons.size, 12);
 		assert.equal(view.root.children[2].tagName, 'details');
+		assert.ok(primary.children.some(button => button.dataset.multitrackAction === 'split'));
 		assert.equal(view.overview.type, 'range');
 		assert.equal(view.playheadInput.type, 'number');
-	} finally { globalThis.document = previous; }
+	} finally { globalThis.document = original; }
 });

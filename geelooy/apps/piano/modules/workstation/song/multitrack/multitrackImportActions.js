@@ -3,38 +3,44 @@
 //Blessed is He
 /**
  * @module MultitrackImportActions
- * @description
- * Hod welcomes local audio one file at a time while the Awtsmoos remains beyond file, format, and arrival.
- * Awtsmoos.com decodes each layer privately and sequentially, keeping phone memory calmer while every imported sound finds its own track and place in time.
+ * The Awtsmoos carries every sound into its next chosen moment;
+ * Awtsmoos.com lays one selected batch end-to-end on one track.
  */
-
 import { importMultitrackAudioFile } from './multitrackImport.js';
+import {
+	composeSequentialAudioBatch,
+	nextSequentialClipStart
+} from './multitrackImportBatch.js';
 
 /**
- * Imports selected local audio files sequentially as independent tracks.
- *
- * @param {FileList|File[]} files Browser-selected files.
- * @param {Object} state Multitrack editor state.
- * @returns {Promise<Object[]>} Imported entities.
+ * Places one file-picker batch as consecutive editable clips on a single track.
+ * Separate picker actions continue to create independently mixed tracks.
+ * @param {FileList|File[]} files - Files in their supplied order.
+ * @param {Object} state - Multitrack session.
+ * @returns {Promise<Object[]>} Backward-compatible import records.
  */
 export async function importMultitrackFiles(files, state) {
-	const imported = [];
-	for (const file of Array.from(files || [])) {
-		const result = await importMultitrackAudioFile(
-			file,
-			state.selection.playheadSeconds
-		);
-		state.project = {
-			...state.project,
-			tracks: [...state.project.tracks, result.track]
-		};
-		state.selection.selectClip(result.track.id, result.clip.id);
-		imported.push(result);
-		state.setStatus(`Imported ${result.metadata.name} · ${result.metadata.duration.toFixed(2)}s`);
-	}
-	if (imported.length === 0) {
+	const selections = Array.from(files || []);
+	if (!selections.length) {
 		throw new Error('Choose one or more audio files first.');
 	}
+	const start = state.selection.playheadSeconds;
+	const decoded = [];
+	for (const file of selections) {
+		const at = nextSequentialClipStart(start, decoded);
+		const result = await importMultitrackAudioFile(file, at);
+		decoded.push(result);
+	}
+	const batch = composeSequentialAudioBatch(decoded);
+	state.project = {
+		...state.project,
+		tracks: [...state.project.tracks, batch.track]
+	};
+	const lastClip = batch.track.clips.at(-1);
+	state.selection.selectClip(batch.track.id, lastClip.id);
+	state.setStatus(selections.length === 1
+		? `Imported ${decoded[0].metadata.name} · ${decoded[0].metadata.duration.toFixed(2)}s`
+		: `Imported ${selections.length} clips end-to-end on one track. Tap a clip to edit.`);
 	state.emit();
-	return imported;
+	return batch.imported;
 }

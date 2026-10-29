@@ -3,13 +3,18 @@
 //Blessed is He
 /**
  * @module MultitrackTrackDom
- * The Awtsmoos places each audible thread upon its separate line;
- * Awtsmoos.com leaves its waveform free and folds the mixer beneath time.
+ * The Awtsmoos reveals the waveform as a clear line in time;
+ * Awtsmoos.com moves its mixer away so hands may freely climb.
  */
 import { createMultitrackClipDom } from './multitrackClipDom.js';
 import { createMultitrackTrackMixer } from './multitrackTrackMixer.js';
 
-/** @param {Object} track - Track. @param {Object} selection - Selection. @param {number} timelineWidth - Visible timeline extent. */
+/**
+ * @param {Object} track - Named audio track.
+ * @param {Object} selection - Current editor selection.
+ * @param {number} timelineWidth - Entire waveform width in pixels.
+ * @returns {Object} Separate waveform row and mixer view.
+ */
 export function createMultitrackTrackDom(track, selection, timelineWidth) {
 	const root = document.createElement('div');
 	root.className = 'multitrack-track';
@@ -30,7 +35,10 @@ export function createMultitrackTrackDom(track, selection, timelineWidth) {
 	for (const clip of track.clips) {
 		lane.appendChild(createMultitrackClipDom(clip, selection));
 	}
-	const mixer = createMultitrackTrackMixer(track);
-	root.append(header, lane, mixer);
-	return { root, lane };
+	root.append(header, lane);
+	return {
+		root,
+		lane,
+		mixer: createMultitrackTrackMixer(track)
+	};
 }
