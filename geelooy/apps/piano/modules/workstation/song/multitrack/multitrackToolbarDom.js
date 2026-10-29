@@ -1,11 +1,14 @@
 //B"H
+//Boruch Hashem
+//Blessed is He
 /**
  * @module MultitrackToolbarDom
- * The Awtsmoos lets the finished song leave the studio as a living wave.
+ * The Awtsmoos grants the finished music a short and honest way outside;
+ * Awtsmoos.com keeps the waveform in sight and lets the tools reside.
  */
 import { createTimelineNavigation } from './multitrackTimelineNavigation.js';
 
-/** Creates the compact mobile editing and download toolbar. */
+/** @returns {Object} Small mobile editor toolbar with visible WAV and WebM exports. */
 export function createMultitrackToolbarDom() {
 	const root = document.createElement('div');
 	root.className = 'multitrack-toolbar';
@@ -14,7 +17,7 @@ export function createMultitrackToolbarDom() {
 	const advanced = document.createElement('details');
 	advanced.className = 'multitrack-extra-tools';
 	const summary = document.createElement('summary');
-	summary.textContent = 'More · WebM · Record · Zoom';
+	summary.textContent = 'More · Record · Zoom';
 	const advancedGrid = document.createElement('div');
 	advancedGrid.className = 'multitrack-extra-grid';
 	advanced.append(summary, advancedGrid);
@@ -27,7 +30,8 @@ export function createMultitrackToolbarDom() {
 		button.textContent = text;
 		button.setAttribute('aria-label', label);
 		buttons.set(action, button);
-		(['import', 'play', 'split', 'delete', 'downloadWav'].includes(action) ? essentials : advancedGrid).appendChild(button);
+		(['import', 'play', 'split', 'delete', 'downloadWav', 'downloadWebm'].includes(action)
+			? essentials : advancedGrid).appendChild(button);
 	}
 	const navigation = createTimelineNavigation();
 	advancedGrid.appendChild(navigation.root);
@@ -53,15 +57,15 @@ export function createMultitrackToolbarDom() {
 		fileInput, playheadInput: navigation.playheadInput, overview: navigation.overview };
 }
 
-/** @returns {Array[]} Primary edit and advanced actions. */
+/** @returns {Array[]} Accessible primary and advanced actions. */
 function specifications() {
 	return [
 		['import', '＋ Add', 'Import audio clips'],
 		['play', '▶ Play', 'Play or stop edited audio'],
 		['split', '✂ Cut', 'Cut at playhead'],
 		['delete', '⌫ Delete', 'Delete selected audio'],
-		['downloadWav', '↓ Download WAV mix', 'Download full edited song as WAV audio'],
-		['downloadWebm', '↓ WebM audio', 'Convert edited song to WebM audio'],
+		['downloadWav', '↓ WAV · full quality', 'Download finished song as WAV audio'],
+		['downloadWebm', '↓ WebM · compact', 'Fast compressed WebM/Opus audio download'],
 		['punch', '● Record', 'Record from playhead'],
 		['fit', '⇤ Fit', 'Fit song around playhead'],
 		['duplicate', '⧉ Copy', 'Duplicate clip'],
@@ -72,7 +76,7 @@ function specifications() {
 	];
 }
 
-/** @returns {Object} Musical grid selector. */
+/** @returns {Object} Musical grid control. */
 function createSnapSelect() {
 	const root = document.createElement('label');
 	root.className = 'multitrack-snap';

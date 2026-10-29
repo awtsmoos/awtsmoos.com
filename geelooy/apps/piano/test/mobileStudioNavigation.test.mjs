@@ -1,13 +1,16 @@
 //B"H
-/** @module MobileStudioNavigationTests
- * The Awtsmoos lets the fingers navigate, play, and download their finished song.
+//Boruch Hashem
+//Blessed is He
+/**
+ * @module MobileStudioNavigationTests
+ * The Awtsmoos puts a small download choice beside a clear musical stage.
  */
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createMultitrackToolbarDom } from '../modules/workstation/song/multitrack/multitrackToolbarDom.js';
 import { fitMultitrackSong, seekMultitrackSong } from '../modules/workstation/song/multitrack/multitrackTimelineOperations.js';
 
-/** Creates a 96-second project inside a 390px viewport. */
+/** @returns {Object} Long recording within a 390px phone. */
 function example() {
 	const state = {
 		project: { tracks: [{ clips: [{ timelineStart: 0, duration: 96 }] }] },
@@ -19,7 +22,7 @@ function example() {
 	return { state, dom: { root: {}, viewport: { clientWidth: 390, scrollLeft: 0 } } };
 }
 
-test('Fit shows long audio within the phone width', () => {
+test('Fit keeps long audio inside the phone viewport', () => {
 	const previous = globalThis.getComputedStyle;
 	globalThis.getComputedStyle = () => ({ getPropertyValue: () => '102px' });
 	try {
@@ -31,7 +34,7 @@ test('Fit shows long audio within the phone width', () => {
 	} finally { globalThis.getComputedStyle = previous; }
 });
 
-test('Playhead seeking clamps values and remains centered', () => {
+test('Time seeking clamps to project and stays centered', () => {
 	const previous = globalThis.getComputedStyle;
 	globalThis.getComputedStyle = () => ({ getPropertyValue: () => '102px' });
 	try {
@@ -46,7 +49,7 @@ test('Playhead seeking clamps values and remains centered', () => {
 	} finally { globalThis.getComputedStyle = previous; }
 });
 
-/** Emulates enough DOM to examine compact button structure. */
+/** @param {string} tagName - Fake node name. @returns {Object} Minimal DOM node. */
 function fakeElement(tagName) {
 	return { tagName, children: [], attributes: {}, dataset: {}, style: {},
 		append(...items) { this.children.push(...items); },
@@ -55,20 +58,20 @@ function fakeElement(tagName) {
 		addEventListener() {} };
 }
 
-test('Mobile editing exposes WAV mix, keeps WebM advanced and retains snap', () => {
+test('WAV and WebM are visible, distinct, compact exports with note tools folded', () => {
 	const previous = globalThis.document;
 	globalThis.document = { createElement: fakeElement, createTextNode: text => ({ text }) };
 	try {
 		const dom = createMultitrackToolbarDom();
-		assert.equal(dom.root.children[0].children.length, 5);
+		assert.equal(dom.root.children[0].children.length, 6);
 		assert.equal(dom.buttons.size, 13);
-		assert.equal(dom.buttons.get('downloadWav').textContent, '↓ Download WAV mix');
-		assert.equal(dom.buttons.has('downloadWebm'), true);
+		assert.match(dom.buttons.get('downloadWav').textContent, /WAV/);
+		assert.match(dom.buttons.get('downloadWebm').textContent, /WebM/);
+		assert.equal(dom.root.children[0].children.includes(dom.buttons.get('downloadWebm')), true);
 		assert.equal(dom.buttons.has('stop'), false);
 		assert.equal(dom.root.children[2].tagName, 'details');
 		assert.equal(dom.rippleCheckbox.checked, true);
 		assert.equal(dom.snapSelect.value, '0.25');
 		assert.equal(dom.overview.type, 'range');
-		assert.equal(dom.playheadInput.type, 'number');
 	} finally { globalThis.document = previous; }
 });

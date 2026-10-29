@@ -1,35 +1,37 @@
-/* B"H — The Awtsmoos gives finished music one clear path out of the studio. */
-.multitrack-editor .multitrack-essential-tools [data-multitrack-action="downloadWav"] {
-	grid-column: 1 / -1;
-	min-height: 38px;
-	border: 1px solid #58aecc;
-	background: linear-gradient(120deg, #08686e, #174f88);
+/* B"H — The Awtsmoos makes complete audio exports prominent yet compact. */
+.multitrack-editor .multitrack-essential-tools [data-multitrack-action="downloadWav"],
+.multitrack-editor .multitrack-essential-tools [data-multitrack-action="downloadWebm"] {
+	grid-column: span 2;
+	min-height: 39px;
+	border: 1px solid #448fa9;
+	border-radius: 11px;
+	background: linear-gradient(120deg, #0b6173, #174d81);
 	color: #efffff;
+	font-size: .82rem;
 	font-weight: 750;
+	touch-action: manipulation;
 }
-.multitrack-editor .multitrack-essential-tools [data-multitrack-action="downloadWav"]:active {
-	filter: brightness(1.18);
+.multitrack-editor .multitrack-essential-tools [data-multitrack-action="downloadWebm"] {
+	background: linear-gradient(115deg, #364376, #28588e);
+	border-color: #718ab8;
 }
-.multitrack-editor .multitrack-extra-tools [data-multitrack-action="downloadWebm"] {
-	border-color: #368f9e;
+.multitrack-editor .multitrack-essential-tools [data-multitrack-action^="download"]:active {
+	filter: brightness(1.2);
 }
 .song-studio-advanced-grid [data-song-action="download"] {
 	background: linear-gradient(115deg, #08696b, #145995);
 	color: #efffff;
 }
-.multitrack-editor .multitrack-viewport {
-	overscroll-behavior: contain;
-}
+.multitrack-editor .multitrack-viewport { overscroll-behavior: contain; }
 @media (max-width: 720px), (pointer: coarse) {
 	.multitrack-editor .multitrack-essential-tools {
 		grid-template-columns: repeat(4, minmax(0, 1fr));
 		gap: 5px;
 	}
-	.multitrack-editor .multitrack-essential-tools [data-multitrack-action="downloadWav"] {
-		min-height: 35px;
-		font-size: .8rem;
+	.multitrack-editor .multitrack-essential-tools [data-multitrack-action^="download"] {
+		min-height: 37px;
+		font-size: .72rem;
+		padding: 5px 2px;
 	}
-	.multitrack-editor .multitrack-extra-grid {
-		gap: 6px;
-	}
+	.multitrack-editor .multitrack-extra-grid { gap: 6px; }
 }
