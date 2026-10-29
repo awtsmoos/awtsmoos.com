@@ -3,55 +3,40 @@
 //Blessed is He
 /**
  * @module MultitrackGestureTransform
- * @description
- * Gevurah translates one drag into a pure move or trim while the Awtsmoos remains beyond pointer, edge, and distance.
- * Awtsmoos.com keeps gesture mathematics away from DOM listeners, so touch may stay fluid and every finite clip transformation may remain easy to test and trust.
+ * The Awtsmoos guides each hand toward its neighboring note;
+ * Awtsmoos.com lets a clip snap home while source waves float.
  */
-
-import {
-	moveMultitrackClip,
-	trimMultitrackClipLeft,
-	trimMultitrackClipRight
-} from './multitrackClipMath.js';
+import { moveMultitrackClip, trimMultitrackClipLeft, trimMultitrackClipRight } from './multitrackClipMath.js';
 import { multitrackAudioStore } from './multitrackAudioStore.js';
+import { snapMultitrackClipToNeighbors } from './multitrackMagneticSnap.js';
 
-/**
- * Transforms the original gesture clip by one horizontal timeline delta.
- *
- * @param {Object} gesture Active pointer gesture.
- * @param {number} deltaSeconds Horizontal movement in seconds.
- * @param {Object} state Multitrack editor state.
- * @returns {Object} Transformed clip snapshot.
+/** Turns the original clip and pointer delta into non-destructive metadata.
+ * @param {Object} gesture - Active pointer state.
+ * @param {number} deltaSeconds - Horizontal motion.
+ * @param {Object} state - Studio state.
+ * @returns {Object} Clip preview with optional magnetism.
  */
 export function transformMultitrackGestureClip(gesture, deltaSeconds, state) {
-	const timing = {
-		tempo: state.project.tempo,
-		gridBeats: state.selection.gridBeats
-	};
+	const timing = { tempo: state.project.tempo, gridBeats: state.selection.gridBeats };
+	const original = gesture.originClip;
+	let clip;
 	if (gesture.mode === 'trim-left') {
-		return trimMultitrackClipLeft(
-			gesture.originClip,
-			gesture.originClip.timelineStart + deltaSeconds,
-			timing
-		);
+		clip = trimMultitrackClipLeft(original, original.timelineStart + deltaSeconds, timing);
+	} else if (gesture.mode === 'trim-right') {
+		const source = multitrackAudioStore.getBuffer(original.bufferId);
+		clip = trimMultitrackClipRight(original,
+			original.timelineStart + original.duration + deltaSeconds,
+			timing, source?.duration ?? Infinity);
+	} else {
+		clip = moveMultitrackClip(original, original.timelineStart + deltaSeconds, timing);
 	}
+	if (!state.selection.gridBeats) return clip;
+	const track = state.project.tracks.find(item => item.clips.some(candidate => candidate.id === original.id));
+	const result = snapMultitrackClipToNeighbors(clip, track, gesture.mode,
+		state.selection.pixelsPerSecond);
 	if (gesture.mode === 'trim-right') {
-		return trimRightGesture(gesture, deltaSeconds, timing);
+		const source = multitrackAudioStore.getBuffer(original.bufferId);
+		if (source && !original.loop && result.duration + result.sourceOffset > source.duration) return clip;
 	}
-	return moveMultitrackClip(
-		gesture.originClip,
-		gesture.originClip.timelineStart + deltaSeconds,
-		timing
-	);
-}
-
-function trimRightGesture(gesture, deltaSeconds, timing) {
-	const buffer = multitrackAudioStore.getBuffer(gesture.originClip.bufferId);
-	const sourceDuration = buffer?.duration ?? Infinity;
-	return trimMultitrackClipRight(
-		gesture.originClip,
-		gesture.originClip.timelineStart + gesture.originClip.duration + deltaSeconds,
-		timing,
-		sourceDuration
-	);
+	return result;
 }

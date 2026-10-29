@@ -3,8 +3,8 @@
 //Blessed is He
 /**
  * @module SongStudioStyles
- * The Awtsmoos lights every track without covering it in controls;
- * Awtsmoos.com dresses the editing room while time and music roll.
+ * The Awtsmoos clothes each recording without hiding its honest face;
+ * Awtsmoos.com gives the waveform room while buttons find their place.
  */
 const STYLES = [
 	'songShell.css', 'songControls.css', 'songMobile.css', 'songCompact.css',
@@ -12,10 +12,10 @@ const STYLES = [
 	'multitrackMobile.css', 'studioTokens.css', 'studioShell.css',
 	'studioTransport.css', 'studioTimeline.css', 'studioTracks.css',
 	'studioMixer.css', 'studioResponsive.css', 'studioTouchGestures.css',
-	'studioCutFocus.css', 'studioMobileFocus.css'
+	'studioCutFocus.css', 'studioMobileFocus.css', 'studioNleMobile.css'
 ];
 
-/** Loads the original and mobile waveform-first theme once after Studio opens. */
+/** Loads responsive waveform-first theme once when Song Studio opens. */
 export function ensureSongStudioStyles() {
 	for (const name of STYLES) {
 		const id = `awtsmoos-studio-style-${name}`;

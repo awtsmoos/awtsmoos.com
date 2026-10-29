@@ -1,17 +1,15 @@
 //B"H
 //Boruch Hashem
 //Blessed is He
-/**
- * @module MobileStudioNavigationTests
- * The Awtsmoos makes the waveform larger while its controls grow few;
- * Awtsmoos.com lets the chosen second remain precise and true.
+/** @module MobileStudioNavigationTests
+ * The Awtsmoos keeps time and the controls small; the music shall be seen.
  */
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createMultitrackToolbarDom } from '../modules/workstation/song/multitrack/multitrackToolbarDom.js';
 import { fitMultitrackSong, seekMultitrackSong } from '../modules/workstation/song/multitrack/multitrackTimelineOperations.js';
 
-/** @returns {Object} Phone editor state without sound hardware. */
+/** @returns {Object} Simple phone timeline. */
 function example() {
 	const state = {
 		project: { tracks: [{ clips: [{ timelineStart: 0, duration: 96 }] }] },
@@ -20,12 +18,11 @@ function example() {
 		setPlayhead(value) { this.selection.playheadSeconds = value; },
 		setStatus(value) { this.status = value; }
 	};
-	const dom = { root: {}, viewport: { clientWidth: 390, scrollLeft: 0 } };
-	return { state, dom };
+	return { state, dom: { root: {}, viewport: { clientWidth: 390, scrollLeft: 0 } } };
 }
 
-test('Fit makes a 96-second take visible inside the phone width', () => {
-	const original = globalThis.getComputedStyle;
+test('Fit shows a long take on a phone', () => {
+	const old = globalThis.getComputedStyle;
 	globalThis.getComputedStyle = () => ({ getPropertyValue: () => '102px' });
 	try {
 		const { dom, state } = example();
@@ -33,11 +30,11 @@ test('Fit makes a 96-second take visible inside the phone width', () => {
 		assert.ok(state.selection.pixelsPerSecond < 3);
 		assert.ok(state.selection.pixelsPerSecond > .4);
 		assert.match(state.status, /100.0s/);
-	} finally { globalThis.getComputedStyle = original; }
+	} finally { globalThis.getComputedStyle = old; }
 });
 
-test('Exact playhead clamps outside values and scrolls to the cut', () => {
-	const original = globalThis.getComputedStyle;
+test('Exact time seeks and clamps the song', () => {
+	const old = globalThis.getComputedStyle;
 	globalThis.getComputedStyle = () => ({ getPropertyValue: () => '102px' });
 	try {
 		const { dom, state } = example();
@@ -48,17 +45,13 @@ test('Exact playhead clamps outside values and scrolls to the cut', () => {
 		assert.equal(state.selection.playheadSeconds, 0);
 		seekMultitrackSong(dom, state, 200);
 		assert.equal(state.selection.playheadSeconds, 100);
-	} finally { globalThis.getComputedStyle = original; }
+	} finally { globalThis.getComputedStyle = old; }
 });
 
-/** @returns {Object} Minimal DOM stand-in that retains child order. */
+/** @param {string} tagName - Simulated DOM element. */
 function fakeElement(tagName) {
 	return {
-		tagName,
-		children: [],
-		attributes: {},
-		dataset: {},
-		style: {},
+		tagName, children: [], attributes: {}, dataset: {}, style: {},
 		append(...nodes) { this.children.push(...nodes); },
 		appendChild(node) { this.children.push(node); },
 		setAttribute(name, value) { this.attributes[name] = value; },
@@ -66,19 +59,18 @@ function fakeElement(tagName) {
 	};
 }
 
-test('Phone toolbar keeps four primary actions, exact time and folded tools', () => {
-	const original = globalThis.document;
-	globalThis.document = { createElement: fakeElement };
+test('Four essential buttons, one transport, Snap and default ripple delete', () => {
+	const old = globalThis.document;
+	globalThis.document = { createElement: fakeElement, createTextNode: text => ({ text }) };
 	try {
 		const view = createMultitrackToolbarDom();
-		assert.equal(view.root.className, 'multitrack-toolbar');
-		const primary = view.root.children[0];
-		assert.equal(primary.className, 'multitrack-essential-tools');
-		assert.equal(primary.children.length, 4);
-		assert.equal(view.buttons.size, 12);
-		assert.equal(view.root.children[2].tagName, 'details');
-		assert.ok(primary.children.some(button => button.dataset.multitrackAction === 'split'));
+		assert.equal(view.root.children[0].children.length, 4);
+		assert.equal(view.buttons.size, 11);
+		assert.equal(view.buttons.has('stop'), false);
+		assert.equal(view.root.children[3].tagName, 'details');
+		assert.equal(view.rippleCheckbox.checked, true);
+		assert.equal(view.snapSelect.value, '0.25');
 		assert.equal(view.overview.type, 'range');
 		assert.equal(view.playheadInput.type, 'number');
-	} finally { globalThis.document = original; }
+	} finally { globalThis.document = old; }
 });

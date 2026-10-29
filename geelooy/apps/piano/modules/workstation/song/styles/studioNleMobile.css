@@ -1,0 +1,110 @@
+/* B"H — The Awtsmoos gives the sound all the room while its tools serve quietly. */
+.multitrack-horizontal-navigation {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	box-sizing: border-box;
+	width: 100%;
+	min-height: 36px;
+	padding: 5px 10px;
+	border: 1px solid #304d68;
+	border-radius: 11px;
+	background: #0b1b2c;
+	font-size: .74rem;
+	color: #b9d5ea;
+}
+.multitrack-horizontal-navigation span { white-space: nowrap; }
+.multitrack-horizontal-navigation input[type="range"] {
+	flex: 1;
+	min-width: 0;
+	min-height: 28px;
+	margin: 0;
+	accent-color: #58c8f3;
+	touch-action: pan-x;
+	cursor: ew-resize;
+}
+.multitrack-horizontal-navigation input:disabled { opacity: .35; }
+.multitrack-edit-preferences {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	gap: 7px;
+	padding: 5px 9px;
+	border: 1px solid #304b69;
+	border-radius: 10px;
+	background: #10233c;
+}
+.multitrack-edit-preferences .multitrack-snap {
+	display: flex;
+	align-items: center;
+	gap: 7px;
+	margin: 0;
+	font-size: .79rem;
+}
+.multitrack-edit-preferences select {
+	min-height: 30px;
+	padding: 2px 7px;
+	border-radius: 7px;
+	color: #fff;
+	background: #22334b;
+}
+.multitrack-ripple-toggle {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+	font-size: .78rem;
+	white-space: nowrap;
+	color: #e3eef9;
+}
+.multitrack-ripple-toggle input {
+	width: 18px;
+	height: 18px;
+	accent-color: #49c1f2;
+}
+.multitrack-editor .multitrack-clip::after {
+	content: none !important;
+	display: none !important;
+}
+.multitrack-editor .multitrack-clip-content {
+	display: grid;
+	grid-template-rows: 14px minmax(0, 1fr);
+	gap: 2px;
+	padding: 4px 21px 5px;
+}
+.multitrack-editor .multitrack-clip-label {
+	min-height: 12px;
+	font-size: .61rem;
+	line-height: 1;
+	font-weight: 650;
+	color: #edfaff;
+}
+.multitrack-editor .multitrack-clip-timing { display: none; }
+.multitrack-editor .multitrack-waveform {
+	display: flex;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+	min-height: 0;
+	gap: .5px;
+	pointer-events: none;
+}
+.multitrack-editor .multitrack-waveform-bar {
+	flex: 1 1 0;
+	min-width: 0;
+	background: #c7f3ff;
+}
+.multitrack-editor .multitrack-trim-handle {
+	width: 18px;
+	background: rgba(218, 245, 255, .09);
+	border-inline: 2px solid rgba(230, 248, 255, .76);
+}
+@media (max-width: 720px), (pointer: coarse) {
+	.multitrack-editor .multitrack-tool {
+		font-size: .74rem;
+		min-height: 41px;
+	}
+	.multitrack-editor .multitrack-trim-handle { width: 20px; }
+	.multitrack-editor .multitrack-clip-content { padding-inline: 23px; }
+	.multitrack-horizontal-navigation { position: relative; z-index: 3; }
+}

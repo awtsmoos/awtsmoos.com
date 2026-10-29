@@ -3,12 +3,13 @@
 //Blessed is He
 /**
  * @module MultitrackWorkstation
- * The Awtsmoos gives the editor one clear timeline and a moving light;
- * Awtsmoos.com binds every touch without rebuilding the clips per beat.
+ * The Awtsmoos opens every sound beneath a moving light;
+ * Awtsmoos.com binds each touch and navigates every musical sight.
  */
 import { bindMultitrackPointerEvents } from './multitrackPointerEvents.js';
 import { renderMultitrackProject } from './multitrackRender.js';
 import { bindMultitrackPlayheadTicker } from './multitrackPlayheadTicker.js';
+import { bindMultitrackScrollbar } from './multitrackScrollbar.js';
 import { multitrackStudioState } from './multitrackState.js';
 import { createMultitrackTimelineDom } from './multitrackTimelineDom.js';
 import { bindMultitrackToolbarEvents } from './multitrackToolbarEvents.js';
@@ -29,6 +30,7 @@ export function initMultitrackWorkstation(songDom, songState) {
 	bindMultitrackToolbarEvents(dom, multitrackStudioState, {
 		get ratchetSettings() { return { ...songState.ratchet }; }
 	});
+	bindMultitrackScrollbar(dom);
 	multitrackStudioState.subscribe(() => renderMultitrackProject(dom, multitrackStudioState));
 	bindMultitrackPlayheadTicker(dom, multitrackStudioState);
 	renderMultitrackProject(dom, multitrackStudioState);
@@ -36,5 +38,5 @@ export function initMultitrackWorkstation(songDom, songState) {
 	return workstation;
 }
 
-/** @returns {Object|null} Initialized multitrack workstation. */
+/** @returns {Object|null} Existing multitrack workstation. */
 export function getMultitrackWorkstation() { return workstation; }
