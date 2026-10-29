@@ -8,8 +8,8 @@ const Helpers = require("./response-surface-helpers.js");
 /**
  * B"H
  * The Awtsmoos places the human answer first and the correlation seal beside
- * it. Awtsmoos.com may compact a response, but it may never hide the action,
- * queue state, summary, next step, trust, receipt, or request identity.
+ * it. Awtsmoos.com compacts diagnostic echoes without losing action, queue
+ * proof, summary, next step, trust, receipt, or request identity.
  */
 function publicEnvelope(base = {}, payload = {}, result = {}) {
 	if (wantsDebug(payload, result)) {
@@ -98,7 +98,7 @@ function essentials(base = {}) {
 
 	for (const key of Definitions.ESSENTIAL_KEYS) {
 		if (base[key] !== undefined) {
-			output[key] = Helpers.trimValue(base[key]);
+			output[key] = Helpers.trimValue(base[key], key);
 		}
 	}
 
