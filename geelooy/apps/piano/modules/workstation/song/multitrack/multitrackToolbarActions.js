@@ -3,24 +3,19 @@
 //Blessed is He
 /**
  * @module MultitrackToolbarActions
- * @description
- * Malchus gives explicit toolbar commands one small routing table while the Awtsmoos remains beyond command and transformation.
- * Awtsmoos.com keeps edit actions separate from event listeners, so Split, Copy, Ratchet, Repeat, Delete, Zoom, and Snap remain clear and testable.
+ * The Awtsmoos grants each real edit a name and visible result;
+ * Awtsmoos.com keeps the proven transport intact while Cut becomes simple.
  */
-
 import {
 	deleteSelectedMultitrackClip,
-	duplicateSelectedMultitrackClip,
-	splitSelectedMultitrackClip
+	duplicateSelectedMultitrackClip
 } from './multitrackClipActions.js';
 import { applySelectedMultitrackRatchetDrop } from './multitrackRatchetActions.js';
 import { repeatSelectedMultitrackClip } from './multitrackRepeatActions.js';
-import {
-	playMultitrackProject,
-	stopMultitrackProject
-} from './multitrackTransportActions.js';
+import { playMultitrackProject, stopMultitrackProject } from './multitrackTransportActions.js';
+import { cutMultitrackAtPlayhead } from './multitrackAutoSplit.js';
 
-/** Runs one named toolbar action. @param {string} action Action id. @param {Object} state Editor state. @param {Object} context Shared UI context. @returns {Promise<void>} Resolves after async transport if needed. */
+/** @param {string} action - Button action. @param {Object} state - Studio. @param {Object} context - Remix parameters. */
 export async function runMultitrackToolbarAction(action, state, context = {}) {
 	switch (action) {
 		case 'play':
@@ -29,13 +24,14 @@ export async function runMultitrackToolbarAction(action, state, context = {}) {
 		case 'stop':
 			stopMultitrackProject(state);
 			return;
-		case 'split':
-			splitSelectedMultitrackClip(state);
-			state.setStatus('Split selected clip at the playhead.');
-			return;
+		case 'split': {
+			const { pieces, message } = cutMultitrackAtPlayhead(state);
+			state.setStatus(message);
+			return pieces;
+		}
 		case 'duplicate':
 			duplicateSelectedMultitrackClip(state);
-			state.setStatus('Duplicated selected clip.');
+			state.setStatus('Copied selected clip.');
 			return;
 		case 'repeat':
 			repeatSelectedMultitrackClip(state, 4);
@@ -53,5 +49,7 @@ export async function runMultitrackToolbarAction(action, state, context = {}) {
 		case 'zoomIn':
 			state.setZoom(state.selection.pixelsPerSecond * 1.35);
 			return;
+		default:
+			throw new Error(`Unknown audio editor command: ${action}`);
 	}
 }

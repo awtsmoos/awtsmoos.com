@@ -3,12 +3,12 @@
 //Blessed is He
 /**
  * @module MultitrackTimelineDom
- * The Awtsmoos spreads song through the hours;
- * Awtsmoos.com keeps controls beside a scrolling waveform.
+ * The Awtsmoos reveals the cut at the moment and place of choice;
+ * Awtsmoos.com shows the result beside the waveform, in a readable voice.
  */
 import { createMultitrackToolbarDom } from './multitrackToolbarDom.js';
 
-/** @returns {Object} Scrollable timeline and accessible tools. */
+/** @returns {Object} Touch-friendly audio editor with nearby cut feedback. */
 export function createMultitrackTimelineDom() {
 	const root = document.createElement('section');
 	root.className = 'multitrack-editor';
@@ -17,12 +17,12 @@ export function createMultitrackTimelineDom() {
 	const viewport = document.createElement('div');
 	viewport.className = 'multitrack-viewport';
 	viewport.tabIndex = 0;
-	viewport.setAttribute('aria-label', 'Multitrack audio timeline');
+	viewport.setAttribute('aria-label', 'Scrollable multitrack audio timeline');
 	const timeline = document.createElement('div');
 	timeline.className = 'multitrack-timeline';
 	const ruler = document.createElement('div');
 	ruler.className = 'multitrack-ruler';
-	ruler.setAttribute('aria-label', 'Drag to choose playhead time');
+	ruler.setAttribute('aria-label', 'Drag to place the cut marker');
 	const tracks = document.createElement('div');
 	tracks.className = 'multitrack-tracks';
 	const playhead = document.createElement('div');
@@ -33,23 +33,23 @@ export function createMultitrackTimelineDom() {
 	const status = document.createElement('output');
 	status.className = 'multitrack-status';
 	status.setAttribute('aria-live', 'polite');
-	root.append(heading, toolbar.root, viewport, status);
+	root.append(heading, toolbar.root, status, viewport);
 	return {
 		root, viewport, timeline, ruler, tracks, playhead, status,
 		buttons: toolbar.buttons, snapSelect: toolbar.snapSelect,
-		fileInput: toolbar.fileInput,
-		playheadInput: toolbar.playheadInput, overview: toolbar.overview
+		fileInput: toolbar.fileInput, playheadInput: toolbar.playheadInput,
+		overview: toolbar.overview
 	};
 }
 
-/** @returns {HTMLElement} Editor title and editing hint. */
+/** @returns {HTMLElement} Compact editor title with a single useful gesture hint. */
 function createHeading() {
 	const heading = document.createElement('div');
 	heading.className = 'multitrack-heading';
 	const title = document.createElement('strong');
-	title.textContent = '🎛 Multitrack Audio Editor';
+	title.textContent = '🎛 Audio Editor';
 	const hint = document.createElement('span');
-	hint.textContent = 'Select · scrub · split · trim handles';
-	heading.append(title, hint);
+	hint.textContent = 'Tap sound to set cut · hold to move · drag edges to trim';
+	heading.append(title,hint);
 	return heading;
 }
