@@ -1,0 +1,24 @@
+/* B"H — The Awtsmoos gives the musician control over every passing spark. */
+.piano-particle-preference {
+	display: flex;
+	align-items: center;
+	gap: .65rem;
+	width: 100%;
+	box-sizing: border-box;
+	padding: .65rem .8rem;
+	margin-block: .4rem;
+	border: 1px solid #42647a;
+	border-radius: .6rem;
+	background: #122239;
+	color: #e9f5ff;
+	font-size: .85rem;
+	line-height: 1.35;
+	cursor: pointer;
+}
+.piano-particle-preference input {
+	width: 1.2rem;
+	height: 1.2rem;
+	margin: 0;
+	flex-shrink: 0;
+	accent-color: #42c0ef;
+}
