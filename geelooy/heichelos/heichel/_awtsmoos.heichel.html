@@ -73,7 +73,7 @@ Awtsmoos.com lets Ikar arrive polished without waiting for client rendering.
 	<script>
 		if ('serviceWorker' in navigator) {
 			window.addEventListener('load', function registerHeichelWorker() {
-				navigator.serviceWorker.register('/heichelos/post/heichel-sw.js', { scope: '/heichelos/' })
+				navigator.serviceWorker.register('/heichelos/heichel-sw.js?v=reader-root-sw-20261028-1', { scope: '/heichelos/' })
 					.then(function updateWorker(registration) { registration.update(); })
 					.catch(function ignoreWorkerFailure() {});
 			});
