@@ -1,14 +1,11 @@
 //B"H
-//Boruch Hashem
-//Blessed is He
 /**
  * @module MultitrackToolbarDom
- * The Awtsmoos grants the audio the broadest view beneath the skies;
- * Awtsmoos.com folds the seconds and the slider until the need shall rise.
+ * The Awtsmoos lets the finished song leave the studio as a living wave.
  */
 import { createTimelineNavigation } from './multitrackTimelineNavigation.js';
 
-/** @returns {Object} A mobile-first edit toolbar with retractable secondary tools. */
+/** Creates the compact mobile editing and download toolbar. */
 export function createMultitrackToolbarDom() {
 	const root = document.createElement('div');
 	root.className = 'multitrack-toolbar';
@@ -17,20 +14,20 @@ export function createMultitrackToolbarDom() {
 	const advanced = document.createElement('details');
 	advanced.className = 'multitrack-extra-tools';
 	const summary = document.createElement('summary');
-	summary.textContent = 'More · Time · Record · Zoom';
+	summary.textContent = 'More · WebM · Record · Zoom';
 	const advancedGrid = document.createElement('div');
 	advancedGrid.className = 'multitrack-extra-grid';
 	advanced.append(summary, advancedGrid);
 	const buttons = new Map();
-	for (const [action, label, description] of toolbarSpecs()) {
+	for (const [action, text, label] of specifications()) {
 		const button = document.createElement('button');
 		button.type = 'button';
 		button.dataset.multitrackAction = action;
 		button.className = `multitrack-tool ${action === 'import' ? 'multitrack-tool-primary' : ''}`;
-		button.textContent = label;
-		button.setAttribute('aria-label', description);
+		button.textContent = text;
+		button.setAttribute('aria-label', label);
 		buttons.set(action, button);
-		(['import', 'play', 'split', 'delete'].includes(action) ? essentials : advancedGrid).appendChild(button);
+		(['import', 'play', 'split', 'delete', 'downloadWav'].includes(action) ? essentials : advancedGrid).appendChild(button);
 	}
 	const navigation = createTimelineNavigation();
 	advancedGrid.appendChild(navigation.root);
@@ -43,7 +40,7 @@ export function createMultitrackToolbarDom() {
 	const checkbox = document.createElement('input');
 	checkbox.type = 'checkbox';
 	checkbox.checked = true;
-	checkbox.setAttribute('aria-label', 'Close the gap when deleting audio');
+	checkbox.setAttribute('aria-label', 'Close gaps when deleting audio');
 	ripple.append(checkbox, document.createTextNode(' Close gaps'));
 	preferences.appendChild(ripple);
 	const fileInput = document.createElement('input');
@@ -52,30 +49,30 @@ export function createMultitrackToolbarDom() {
 	fileInput.multiple = true;
 	fileInput.className = 'multitrack-file-input';
 	root.append(essentials, preferences, advanced, fileInput);
-	return {
-		root, buttons, snapSelect: snap.select, rippleCheckbox: checkbox, fileInput,
-		playheadInput: navigation.playheadInput, overview: navigation.overview
-	};
+	return { root, buttons, snapSelect: snap.select, rippleCheckbox: checkbox,
+		fileInput, playheadInput: navigation.playheadInput, overview: navigation.overview };
 }
 
-/** @returns {Array[]} Editor actions with accessibility descriptions. */
-function toolbarSpecs() {
+/** @returns {Array[]} Primary edit and advanced actions. */
+function specifications() {
 	return [
-		['import', '＋ Add', 'Import audio files into one sequential track'],
-		['play', '▶ Play', 'Play or stop multitrack audio'],
-		['split', '✂ Cut', 'Split audio under the playhead'],
-		['delete', '⌫ Delete', 'Delete selected clip and close gap'],
-		['punch', '● Record', 'Record new audio from playhead'],
-		['fit', '⇤ Fit', 'Fit the song to phone width'],
-		['duplicate', '⧉ Copy', 'Duplicate selected clip'],
-		['repeat', '↻ Repeat', 'Repeat selected clip four times'],
-		['ratchet', '⚡ Ratchet', 'Apply rhythmic ratchet'],
-		['zoomOut', '− Zoom', 'Zoom out'],
-		['zoomIn', '+ Zoom', 'Zoom in']
+		['import', '＋ Add', 'Import audio clips'],
+		['play', '▶ Play', 'Play or stop edited audio'],
+		['split', '✂ Cut', 'Cut at playhead'],
+		['delete', '⌫ Delete', 'Delete selected audio'],
+		['downloadWav', '↓ Download WAV mix', 'Download full edited song as WAV audio'],
+		['downloadWebm', '↓ WebM audio', 'Convert edited song to WebM audio'],
+		['punch', '● Record', 'Record from playhead'],
+		['fit', '⇤ Fit', 'Fit song around playhead'],
+		['duplicate', '⧉ Copy', 'Duplicate clip'],
+		['repeat', '↻ Repeat', 'Repeat clip four times'],
+		['ratchet', '⚡ Ratchet', 'Ratchet audio'],
+		['zoomOut', '− Zoom', 'Zoom out around playhead'],
+		['zoomIn', '+ Zoom', 'Zoom in around playhead']
 	];
 }
 
-/** @returns {Object} Always-visible musical beat and magnetic snap selector. */
+/** @returns {Object} Musical grid selector. */
 function createSnapSelect() {
 	const root = document.createElement('label');
 	root.className = 'multitrack-snap';

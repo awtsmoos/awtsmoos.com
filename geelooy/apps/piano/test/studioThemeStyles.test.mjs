@@ -1,8 +1,6 @@
 //B"H
-//Boruch Hashem
-//Blessed is He
 /** @module StudioThemeStylesTests
- * The Awtsmoos lets the mobile Studio reveal each waveform beneath small controls.
+ * The Awtsmoos grants every waveform its proper clothing and finished audio its exit.
  */
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -14,11 +12,11 @@ const names = [
 	'studioTimeline.css', 'studioTracks.css', 'studioMixer.css',
 	'studioResponsive.css', 'studioTouchGestures.css',
 	'studioCutFocus.css', 'studioMobileFocus.css', 'studioNleMobile.css',
-	'studioHistoryFocus.css'
+	'studioHistoryFocus.css', 'studioAudioExport.css'
 ];
 
-test('Studio loads its 20 styles exactly once, including compact edit history', () => {
-	const previousDocument = globalThis.document;
+test('Studio loads 21 stylesheet modules exactly once', () => {
+	const previous = globalThis.document;
 	const added = [];
 	const elements = new Map();
 	globalThis.document = {
@@ -29,29 +27,29 @@ test('Studio loads its 20 styles exactly once, including compact edit history', 
 	try {
 		ensureSongStudioStyles();
 		ensureSongStudioStyles();
-		assert.equal(added.length, 20);
-		assert.deepEqual(added.slice(-12).map(node => node.href.split('/').pop()), names);
+		assert.equal(added.length, 21);
+		assert.deepEqual(added.slice(-13).map(node => node.href.split('/').pop()), names);
 		assert.ok(added.every(node => node.rel === 'stylesheet'));
-	} finally { globalThis.document = previousDocument; }
+	} finally { globalThis.document = previous; }
 });
 
-test('all scoped Studio styles remain small files', () => {
+test('Every Studio theme source stays small and scoped', () => {
 	for (const name of names) {
-		const source = fs.readFileSync(
+		const css = fs.readFileSync(
 			new URL(`../modules/workstation/song/styles/${name}`, import.meta.url), 'utf8');
-		assert.ok(source.trim().length > 60);
-		assert.ok(source.split('\n').length <= 121);
-		assert.match(source, /song-studio|multitrack|--studio-/);
+		assert.ok(css.trim().length > 60);
+		assert.ok(css.split('\n').length <= 121);
+		assert.match(css, /song-studio|multitrack|--studio-/);
 	}
 });
 
-test('new Undo and Redo controls retain the touch-friendly ruler', () => {
-	const load = name => fs.readFileSync(
+test('The theme supports playback, trim and direct WAV export', () => {
+	const read = name => fs.readFileSync(
 		new URL(`../modules/workstation/song/styles/${name}`, import.meta.url), 'utf8');
-	assert.match(load('studioTokens.css'), /--studio-blue:\s*#168cfa/);
-	assert.match(load('studioTransport.css'), /min-height:\s*49px/);
-	assert.match(load('studioTouchGestures.css'), /touch-action:\s*none/);
-	assert.match(load('studioNleMobile.css'), /multitrack-waveform/);
-	assert.match(load('studioHistoryFocus.css'), /multitrack-history-button/);
-	assert.match(load('studioHistoryFocus.css'), /multitrack-ruler/);
+	assert.match(read('studioTokens.css'), /--studio-blue:\s*#168cfa/);
+	assert.match(read('studioTransport.css'), /min-height:\s*49px/);
+	assert.match(read('studioTouchGestures.css'), /touch-action:\s*none/);
+	assert.match(read('studioNleMobile.css'), /multitrack-waveform/);
+	assert.match(read('studioHistoryFocus.css'), /multitrack-history-button/);
+	assert.match(read('studioAudioExport.css'), /downloadWav/);
 });

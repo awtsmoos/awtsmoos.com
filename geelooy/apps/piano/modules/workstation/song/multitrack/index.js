@@ -1,16 +1,14 @@
 //B"H
-//Boruch Hashem
-//Blessed is He
 /**
  * @module MultitrackWorkstation
- * The Awtsmoos opens every sound beneath a moving light;
- * Awtsmoos.com binds each gesture to an honest memory and sight.
+ * The Awtsmoos keeps each instrument visible as pinch and playback flow.
  */
 import { bindMultitrackPointerEvents } from './multitrackPointerEvents.js';
 import { renderMultitrackProject } from './multitrackRender.js';
 import { bindMultitrackPlayheadTicker } from './multitrackPlayheadTicker.js';
 import { bindMultitrackScrollbar } from './multitrackScrollbar.js';
 import { bindMultitrackRulerSeek } from './multitrackRulerSeek.js';
+import { bindMultitrackPinchZoom } from './multitrackPinchZoom.js';
 import { bindMultitrackHistoryControls } from './multitrackHistoryControls.js';
 import { multitrackStudioState } from './multitrackState.js';
 import { createMultitrackTimelineDom } from './multitrackTimelineDom.js';
@@ -19,7 +17,7 @@ import { bindMultitrackTrackEvents } from './multitrackTrackEvents.js';
 
 let workstation = null;
 
-/** @param {Object} songDom - Song Studio DOM. @param {Object} songState - Note controller. */
+/** Mounts the complete audio editor with recording, zoom and download controls. */
 export function initMultitrackWorkstation(songDom, songState) {
 	if (workstation) return workstation;
 	const dom = createMultitrackTimelineDom();
@@ -27,9 +25,9 @@ export function initMultitrackWorkstation(songDom, songState) {
 	songDom.panel.insertBefore(dom.root, editorRoom);
 	bindMultitrackPointerEvents(dom, multitrackStudioState);
 	bindMultitrackRulerSeek(dom, multitrackStudioState);
+	bindMultitrackPinchZoom(dom, multitrackStudioState);
 	bindMultitrackTrackEvents(dom, multitrackStudioState, error =>
-		multitrackStudioState.setStatus(error?.message || 'Audio action failed.')
-	);
+		multitrackStudioState.setStatus(error?.message || 'Audio action failed.'));
 	bindMultitrackToolbarEvents(dom, multitrackStudioState, {
 		get ratchetSettings() { return { ...songState.ratchet }; }
 	});
@@ -42,5 +40,5 @@ export function initMultitrackWorkstation(songDom, songState) {
 	return workstation;
 }
 
-/** @returns {Object|null} Existing multitrack workstation. */
+/** @returns {Object|null} Current Studio instance. */
 export function getMultitrackWorkstation() { return workstation; }

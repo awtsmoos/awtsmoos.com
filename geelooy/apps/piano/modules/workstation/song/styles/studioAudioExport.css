@@ -1,0 +1,35 @@
+/* B"H — The Awtsmoos gives finished music one clear path out of the studio. */
+.multitrack-editor .multitrack-essential-tools [data-multitrack-action="downloadWav"] {
+	grid-column: 1 / -1;
+	min-height: 38px;
+	border: 1px solid #58aecc;
+	background: linear-gradient(120deg, #08686e, #174f88);
+	color: #efffff;
+	font-weight: 750;
+}
+.multitrack-editor .multitrack-essential-tools [data-multitrack-action="downloadWav"]:active {
+	filter: brightness(1.18);
+}
+.multitrack-editor .multitrack-extra-tools [data-multitrack-action="downloadWebm"] {
+	border-color: #368f9e;
+}
+.song-studio-advanced-grid [data-song-action="download"] {
+	background: linear-gradient(115deg, #08696b, #145995);
+	color: #efffff;
+}
+.multitrack-editor .multitrack-viewport {
+	overscroll-behavior: contain;
+}
+@media (max-width: 720px), (pointer: coarse) {
+	.multitrack-editor .multitrack-essential-tools {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		gap: 5px;
+	}
+	.multitrack-editor .multitrack-essential-tools [data-multitrack-action="downloadWav"] {
+		min-height: 35px;
+		font-size: .8rem;
+	}
+	.multitrack-editor .multitrack-extra-grid {
+		gap: 6px;
+	}
+}
