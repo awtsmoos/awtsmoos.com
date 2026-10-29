@@ -3,13 +3,13 @@
 //Blessed is He
 /**
  * @module PianoLiveEffectParticles
- * The Awtsmoos grants every spark a gentle moment, never endless work;
- * Awtsmoos.com keeps a strict upper bound so sounds need never shirk.
+ * The Awtsmoos keeps each star only long enough to bless the show;
+ * Awtsmoos.com returns its DOM to silence and lets the sound still flow.
  */
 let liveLayer = null;
-const MAX_VISIBLE_PARTICLES = 42;
+const MAX_VISIBLE_PARTICLES = 24;
 
-/** @returns {HTMLElement} Shared short-lived, non-interactive effect layer. */
+/** @returns {HTMLElement} Reusable non-interactive animation layer. */
 export function ensureLiveEffectLayer() {
 	if (liveLayer?.isConnected) return liveLayer;
 	liveLayer = document.createElement('div');
@@ -19,27 +19,32 @@ export function ensureLiveEffectLayer() {
 	return liveLayer;
 }
 
-/** Creates one bounded animation, disposing oldest effects before allocating more.
- * @param {HTMLElement} root - Shared effect layer.
- * @param {number} x - Screen position.
- * @param {number} y - Screen position.
- * @param {string} text - Symbol.
- * @param {string} kind - Type of spark.
+/** Creates one bounded, automatically disposed animation.
+ * @param {HTMLElement} root - Particle parent.
+ * @param {number} x - Screen X.
+ * @param {number} y - Screen Y.
+ * @param {string} text - Effect symbol.
+ * @param {string} kind - CSS effect category.
  */
 export function addLiveEffectParticle(root, x, y, text, kind) {
 	if (!root?.isConnected) return;
-	while (root.childElementCount >= MAX_VISIBLE_PARTICLES) {
+	if (root.childElementCount >= MAX_VISIBLE_PARTICLES) {
 		root.firstElementChild?.remove();
 	}
 	const particle = document.createElement('span');
 	const angle = Math.random() * Math.PI * 2;
-	const speed = 45 + Math.random() * 120;
+	const speed = 45 + Math.random() * 90;
 	particle.className = `live-effect-particle ${kind}`;
 	particle.textContent = text;
 	particle.style.left = `${x}px`;
 	particle.style.top = `${y}px`;
 	particle.style.setProperty('--dx', `${Math.cos(angle) * speed}px`);
-	particle.style.setProperty('--dy', `${Math.sin(angle) * speed - 80}px`);
+	particle.style.setProperty('--dy', `${Math.sin(angle) * speed - 65}px`);
 	root.appendChild(particle);
-	setTimeout(() => particle.remove(), 1100);
+	setTimeout(() => particle.remove(), 980);
+}
+
+/** Removes any on-screen effects immediately when the player chooses Off. */
+export function clearLiveEffectParticles() {
+	liveLayer?.replaceChildren();
 }

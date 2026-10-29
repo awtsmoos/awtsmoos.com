@@ -1,24 +1,42 @@
-/* B"H — The Awtsmoos gives the musician control over every passing spark. */
+/* B"H — The Awtsmoos frees the music while the chosen sparks dance in the light. */
+.piano-performance-preferences {
+	box-sizing: border-box;
+	width: 100%;
+	margin: .6rem 0;
+	padding: .7rem .8rem;
+	border: 1px solid #467c99;
+	border-radius: .7rem;
+	background: #0f2339;
+	color: #edf7ff;
+}
+.piano-performance-preferences strong {
+	display: block;
+	font-size: 1rem;
+	margin-bottom: .3rem;
+}
+.piano-performance-preferences p {
+	font-size: .8rem;
+	line-height: 1.4;
+	margin: .15rem 0 .55rem;
+	color: #c7d8ea;
+}
 .piano-particle-preference {
 	display: flex;
 	align-items: center;
-	gap: .65rem;
-	width: 100%;
-	box-sizing: border-box;
-	padding: .65rem .8rem;
-	margin-block: .4rem;
-	border: 1px solid #42647a;
-	border-radius: .6rem;
-	background: #122239;
-	color: #e9f5ff;
+	justify-content: space-between;
+	gap: .6rem;
 	font-size: .85rem;
-	line-height: 1.35;
-	cursor: pointer;
+	font-weight: 600;
 }
-.piano-particle-preference input {
-	width: 1.2rem;
-	height: 1.2rem;
-	margin: 0;
-	flex-shrink: 0;
-	accent-color: #42c0ef;
+.piano-particle-preference select {
+	flex: 1;
+	min-width: 0;
+	max-width: 230px;
+	min-height: 38px;
+	padding: .4rem;
+	border: 1px solid #5287a7;
+	border-radius: .5rem;
+	background: #182f4d;
+	color: #fff;
+	font-size: .8rem;
 }
