@@ -3,15 +3,16 @@
 //Blessed is He
 /**
  * @module MultitrackToolbarEvents
- * The Awtsmoos hears the player's taps through the corridors of time;
- * Awtsmoos.com turns each edit into a deliberate act.
+ * The Awtsmoos lets the touch return sound to the second it truly chose;
+ * Awtsmoos.com leaves the waveform still while its playhead flows.
  */
 import { importMultitrackFiles } from './multitrackImportActions.js';
 import { runMultitrackToolbarAction } from './multitrackToolbarActions.js';
-import { fitMultitrackSong, seekMultitrackSong } from './multitrackTimelineOperations.js';
+import { fitMultitrackSong } from './multitrackTimelineOperations.js';
 import { toggleMultitrackPunchIn } from './multitrackPunchIn.js';
+import { bindMultitrackScrubActions } from './multitrackScrubActions.js';
 
-/** @param {Object} dom - Editor. @param {Object} state - Session. @param {Object} context - Transport. */
+/** @param {Object} dom - Editor. @param {Object} state - Song state. @param {Object} context - Tools. */
 export function bindMultitrackToolbarEvents(dom, state, context = {}) {
 	dom.buttons.forEach((button, action) => {
 		button.addEventListener('click', async () => {
@@ -35,19 +36,17 @@ export function bindMultitrackToolbarEvents(dom, state, context = {}) {
 		state.setStatus(state.selection.gridBeats > 0
 			? `Snap grid · ${state.selection.gridBeats} beat` : 'Snap disabled · free timing');
 	});
-	dom.playheadInput.addEventListener('change', () => {
-		seekMultitrackSong(dom, state, Number(dom.playheadInput.value));
-	});
-	dom.overview.addEventListener('input', () => {
-		seekMultitrackSong(dom, state, Number(dom.overview.value));
+	bindMultitrackScrubActions(dom, state, (error) => {
+		state.setStatus(`Multitrack: ${error?.message || 'Could not seek audio'}`);
 	});
 }
 
-/** @param {Function} action - Editor operation. @param {Object} state - Status. */
+/** @param {Function} action - Audio operation. @param {Object} state - Errors. */
 async function safelyRun(action, state) {
 	try {
 		await action();
 	} catch (error) {
+		console.error('Multitrack audio action failed', error);
 		state.setStatus(`Multitrack: ${error?.message || 'Unknown editor error'}`);
 	}
 }

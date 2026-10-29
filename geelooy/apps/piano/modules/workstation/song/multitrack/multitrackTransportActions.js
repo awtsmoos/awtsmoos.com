@@ -3,35 +3,34 @@
 //Blessed is He
 /**
  * @module MultitrackTransportActions
- * @description
- * Netzach carries the layered mix from the current playhead while the Awtsmoos remains beyond transport, clock, and simultaneous sound.
- * Awtsmoos.com keeps Play and Stop explicit, rebuilding disposable audio vessels each time so one audition never leaks into the next rhyme.
+ * The Awtsmoos gives the song a moving voice and a place to rest;
+ * Awtsmoos.com remembers where music stopped for the next request.
  */
-
 import { multitrackPlayback } from './multitrackPlayback.js';
 
-/** Starts multitrack playback from current playhead. @param {Object} state Editor state. @returns {Promise<boolean>} Whether playback started. */
+/** @param {Object} state - Editor state. @returns {Promise<boolean>} Whether playing started. */
 export async function playMultitrackProject(state) {
 	const started = await multitrackPlayback.play(
 		state.project,
 		state.selection.playheadSeconds,
 		(transport) => {
 			state.playing = transport.playing;
+			if (!transport.playing) state.selection.setPlayhead(transport.offsetSeconds);
 			state.status = transport.playing
 				? `Playing mix from ${transport.offsetSeconds.toFixed(2)}s`
 				: 'Multitrack playback finished.';
 			state.emit();
 		}
 	);
-	if (!started) {
-		state.setStatus('Nothing audible exists after the current playhead.');
-	}
+	if (!started) state.setStatus('Nothing audible exists after the current playhead.');
 	return started;
 }
 
-/** Stops the multitrack transport and preserves edit state. @param {Object} state Editor state. @returns {void} */
+/** @param {Object} state - Editor, retaining current playback position. */
 export function stopMultitrackProject(state) {
+	const stoppedAt = multitrackPlayback.getPosition();
 	multitrackPlayback.stop(false);
+	state.selection.setPlayhead(stoppedAt);
 	state.playing = false;
-	state.setStatus('Multitrack stopped · edits and playhead preserved.');
+	state.setStatus(`Stopped at ${stoppedAt.toFixed(2)}s · press Play to continue.`);
 }

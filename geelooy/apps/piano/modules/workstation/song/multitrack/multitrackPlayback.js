@@ -3,111 +3,107 @@
 //Blessed is He
 /**
  * @module MultitrackPlayback
- * @description
- * Netzach guards Play and Stop while the scheduler places finite clips upon the clock; the Awtsmoos remains beyond duration and transport.
- * Awtsmoos.com keeps this coordinator lean, so every temporary voice can enter clean, leave clean, and never become an orphaned machine.
+ * The Awtsmoos renews each instant while voices cross their measure;
+ * Awtsmoos.com reads the real audio clock, not an illusion of time.
  */
-
 import { AudioState } from '../../../audio.js';
 import { multitrackAudioStore } from './multitrackAudioStore.js';
 import { scheduleMultitrackProject } from './multitrackPlaybackSchedule.js';
 import { multitrackProjectDuration } from './multitrackProject.js';
 
-/** Coordinates Web Audio playback for the complete multitrack project. */
+/** Coordinates Web Audio sources, timers and truthful playback position. */
 export class MultitrackPlaybackNetzach {
 	constructor(dependencies = {}) {
 		this.audioStore = dependencies.audioStore || multitrackAudioStore;
-		this.setTimer = dependencies.setTimer || setTimeout;
-		this.clearTimer = dependencies.clearTimer || clearTimeout;
+		this.setTimer = dependencies.setTimer || ((callback, delay) => setTimeout(callback, delay));
+		this.clearTimer = dependencies.clearTimer || ((identifier) => clearTimeout(identifier));
 		this.voices = [];
 		this.outputs = [];
 		this.finishTimer = null;
 		this.playing = false;
 		this.stateListener = null;
+		this.context = null;
+		this.clockStart = 0;
+		this.startPosition = 0;
+		this.position = 0;
+		this.endPosition = 0;
 	}
 
-	/**
-	 * Starts project playback at one timeline position.
-	 *
-	 * @param {Object} project Multitrack project.
-	 * @param {number} offsetSeconds Timeline start.
-	 * @param {Function|null} onState State callback.
-	 * @returns {Promise<boolean>} Whether playback started.
-	 */
+	/** @param {Object} project - Song. @param {number} offsetSeconds - Start time. @param {Function|null} onState - Listener. */
 	async play(project, offsetSeconds = 0, onState = null) {
 		this.stop(false);
 		this.stateListener = onState;
 		const context = AudioState.context;
 		if (!context || !AudioState.masterGain) {
-			throw new Error('Start the Piano audio engine before playing multitrack audio.');
+			throw new Error('Start the Piano audio engine before playing audio.');
 		}
-		if (context.state === 'suspended') {
-			await context.resume();
-		}
+		if (context.state === 'suspended') await context.resume();
 		const offset = Math.max(0, Number(offsetSeconds) || 0);
 		const duration = multitrackProjectDuration(project);
+		this.position = offset;
 		if (offset >= duration) {
 			this.emit(false, offset);
 			return false;
 		}
 		const runtime = scheduleMultitrackProject({
-			project,
-			context,
-			destination: AudioState.masterGain,
-			offset,
-			audioStore: this.audioStore
+			project, context, destination: AudioState.masterGain,
+			offset, audioStore: this.audioStore
 		});
 		this.voices = runtime.voices;
 		this.outputs = runtime.outputs;
+		this.context = context;
+		this.clockStart = context.currentTime;
+		this.startPosition = offset;
+		this.endPosition = duration;
 		this.playing = this.voices.length > 0;
 		this.emit(this.playing, offset);
-		if (this.playing) {
-			this.armNaturalFinish(duration - offset);
-		}
+		if (this.playing) this.armNaturalFinish(duration - offset);
 		return this.playing;
 	}
 
-	/**
-	 * Stops all scheduled sources and clears temporary track nodes.
-	 *
-	 * @param {boolean} notify Whether to emit stopped state.
-	 * @returns {void}
-	 */
+	/** @returns {number} Precise position driven by Web Audio time. */
+	getPosition() {
+		if (!this.playing || !this.context) return this.position;
+		return Math.min(this.endPosition, this.startPosition +
+			Math.max(0, this.context.currentTime - this.clockStart));
+	}
+
+	/** @param {boolean} notify - Notify transport subscriber. */
 	stop(notify = true) {
+		this.position = this.getPosition();
 		this.clearNaturalFinish();
-		this.voices.forEach((voice) => voice?.stop());
+		this.voices.forEach((voice) => {
+			try { voice?.stop(); } catch (error) { console.warn('Stopping audio source', error); }
+		});
 		this.outputs.forEach((output) => output.disconnect());
 		this.voices = [];
 		this.outputs = [];
 		this.playing = false;
-		if (notify) {
-			this.emit(false, 0);
-		}
+		this.context = null;
+		if (notify) this.emit(false, this.position);
 	}
 
-	/** Returns transport state. @returns {boolean} Whether sources are scheduled. */
-	isPlaying() {
-		return this.playing;
-	}
+	/** @returns {boolean} True while audio is playing. */
+	isPlaying() { return this.playing; }
 
+	/** @param {number} seconds - Remaining duration. */
 	armNaturalFinish(seconds) {
 		this.finishTimer = this.setTimer(() => {
 			this.stop(false);
-			this.emit(false, 0);
+			this.position = this.endPosition;
+			this.emit(false, this.position);
 		}, Math.max(0, seconds * 1000 + 40));
 	}
 
+	/** Clears scheduled finish without calling unbound native browser methods. */
 	clearNaturalFinish() {
-		if (this.finishTimer === null) {
-			return;
-		}
+		if (this.finishTimer === null) return;
 		this.clearTimer(this.finishTimer);
 		this.finishTimer = null;
 	}
 
-	emit(playing, offsetSeconds) {
-		this.stateListener?.({ playing, offsetSeconds });
-	}
+	/** @param {boolean} playing - Transport flag. @param {number} offsetSeconds - Song time. */
+	emit(playing, offsetSeconds) { this.stateListener?.({ playing, offsetSeconds }); }
 }
 
 export const multitrackPlayback = new MultitrackPlaybackNetzach();
