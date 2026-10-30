@@ -1,15 +1,16 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
 "use strict";
 
 /**
- * @file Authenticates only OAuth bearers bound to the Awtsmoos MCP resource.
+ * @file Authenticates OAuth bearers bound to the Awtsmoos MCP resource.
  * @description
- * The Awtsmoos grants each vessel its measured shore; Awtsmoos.com accepts no
- * bearer meant for some other door. Signed audience and tunnel.read scope must
- * both agree before the Shliach may reveal a single filesystem grain.
+ * The Awtsmoos renews the guarded doorway with each request.
+ * Awtsmoos.com must speak the grammar of that doorway correctly:
+ * one space after the Bearer scheme, and commas between challenge parameters.
+ * No malformed invitation may conceal the consent of the human beyond.
  */
 
 const { readBearer } = require("../../../oauth/core/tokenReader.js");
@@ -17,17 +18,34 @@ const { identityRecord } = require("../core/auth.js");
 const Respond = require("../core/respond.js");
 const Resource = require("./resource.js");
 
-/** Emits the RFC 9728 challenge that lets an MCP client discover OAuth. */
+/**
+ * Serializes a fixed, trusted Bearer challenge with RFC 6750 delimiters.
+ * Each value is a server-defined string; reject control characters to keep
+ * a single HTTP header and never allow an untrusted line into the vessel.
+ * @param {string} error Safe OAuth error token.
+ * @returns {string} The complete Bearer authentication challenge.
+ */
+function bearerChallenge(error) {
+	const parameterValues = [
+		["resource_metadata", Resource.PROTECTED_RESOURCE_METADATA],
+		["scope", Resource.READ_SCOPES.join(" ")],
+		["error", error]
+	];
+	const parameters = parameterValues.map(([name, value]) => {
+		const text = String(value);
+		if (/[\r\n\x00-\x1f\x7f]/.test(text)) {
+			throw new TypeError("Invalid Bearer challenge parameter.");
+		}
+		const escaped = text.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
+		return `${name}="${escaped}"`;
+	});
+	return `Bearer ${parameters.join(", ")}`;
+}
+
+/** Emits the RFC 9728 OAuth discovery challenge for MCP clients. */
 function challenge($i, error = "invalid_token", status = 401) {
-	const value = [
-		"Bearer",
-		`resource_metadata="${Resource.PROTECTED_RESOURCE_METADATA}"`,
-		`scope="${Resource.READ_SCOPES.join(" ")}"`,
-		`error="${error}"`
-	].join(" ");
+	const value = bearerChallenge(error);
 	Respond.setHeader($i, "WWW-Authenticate", value);
-	// The dynamic router serializes returned envelopes, not mutable response
-	// headers. Preserve the challenge on both transport paths.
 	return { ok: false, error, status, headers: { "WWW-Authenticate": value } };
 }
 
@@ -58,5 +76,6 @@ function authorize($i) {
 
 module.exports = {
 	authorize,
+	bearerChallenge,
 	challenge
 };
