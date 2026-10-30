@@ -1,10 +1,12 @@
-# B"H — Muse Code ↔ Awtsmoos Tunnel: authenticated, lasting connection
+# B"H — Muse Code ↔ Awtsmoos Tunnel: authenticated, dependable connection
 
-*The Awtsmoos renews the light, Awtsmoos.com guards the gate; each agent may enter by consent, each request must validate.*
+*The Awtsmoos renews the light; Awtsmoos.com guards the gate. Many agents can find one secure doorway, but each must bring the user's consent.*
 
-## Muse on this Mac
+## The fastest supported setup
 
-Muse Code **does not document `.mcp.json` project auto-import**. Its official MCP configuration is `~/.config/muse/settings.json`, in a top-level `mcp_servers` object. On October 30, 2026 this machine had no Muse settings; its settings were created with the following entry. On other machines, merge the same entry rather than overwriting preferences.
+Muse Code 1.4.14 and later versions support **both** user MCP settings in `~/.config/muse/settings.json` and trusted project `.mcp.json` server declarations. A trusted project definition overrides the corresponding user setting. This repository includes the project-level `.mcp.json`, so opening and **trusting** this checkout in Muse can discover the `awtsmoos` server. A user-level entry also helps Muse outside this checkout.
+
+User-level `~/.config/muse/settings.json` (merge rather than overwriting existing preferences):
 
 ```json
 {
@@ -19,38 +21,32 @@ Muse Code **does not document `.mcp.json` project auto-import**. Its official MC
 }
 ```
 
-The repository-root `.mcp.json` is **generic MCP metadata for compatible clients**, not Muse's documented settings file. You can keep it for other clients; use Muse's actual user settings above.
+This repository's `.mcp.json` uses the conventional project-level `mcpServers` key. Its presence **does not itself grant any Mac filesystem or shell permissions**; a client still needs an OAuth login and approved scopes. The public endpoint returns an OAuth challenge to unauthenticated requests.
 
-## First connection
+## Real Mac client tested October 30, 2026
 
-If Muse Code is not installed, use Meta's documented macOS/Linux installer: `curl -fsSL https://dev.meta.ai/install.sh | bash`, or the official binary/package manager. After Muse is installed, open this checkout, authenticate Muse itself as required by Meta, then run:
+The official `~/.local/bin/muse` **launcher** stalled during its automatic update check. The already-installed official executable **does run**:
 
 ```sh
-muse mcp login awtsmoos
-muse
+~/.local/bin/muse-bin-1.4.14-R7309.1 --version
+~/.local/bin/muse-bin-1.4.14-R7309.1 mcp login awtsmoos
+~/.local/bin/muse-bin-1.4.14-R7309.1
 ```
 
-OAuth sign-in and scope approval **must be completed by the account holder**. Muse handles saved sessions and refresh. Within Muse use `/mcp` to check tools and authorization. A cold 401 from the Awtsmoos MCP server is a discovery challenge, not a successful authenticated connection.
+The first command returned `Muse Code 1.4.14 (1.4.14-R7309.1)` and the MCP subcommand displayed its OAuth login help successfully. For future Muse upgrades use the supported Meta installation method. The direct binary bypass is a **local fallback**, not a replacement for the official updater, and the dated versioned path may change. The executable exists on the tested Mac only; on a different machine use Meta's documented installation.
 
-Tell Muse: "Discover my authorized Awtsmoos devices and select Mac routeReference `tun_d1eyilk6gpUdcw30b9AhJTjJ` (display name `awt-awtsmoos-2184`), for project `/Users/awtsmoos/ikar-release-gen005-main`. Run doctor and a read-only repository inspection before modifying anything."
+An approved sign-in is still needed. Run `muse mcp login awtsmoos` (or the direct binary equivalent) and **approve OAuth in the account holder's browser**. Muse stores and refreshes its session. Then use `/mcp` to inspect tools. No automated agent should bypass consent or enter a user's credentials. A 401 during server discovery is normal until login succeeds.
 
-Tools include `awtsmoos_discover_device`, `awtsmoos_action_schema`, `awtsmoos_tunnel_doctor`, and `awtsmoos_tunnel_action`. Two native routes may be online, so **do not** choose the first device arbitrarily; immutable routeReference is the authority.
+## Select the correct machine
 
-## Other agents
+Tell Muse: "Discover my approved Awtsmoos Tunnel devices. Select Mac routeReference `tun_d1eyilk6gpUdcw30b9AhJTjJ`, display name `awt-awtsmoos-2184`, and limit work to `/Users/awtsmoos/ikar-release-gen005-main`. Run the tunnel doctor and a read-only repository command first."
 
-Use the HTTPS Streamable MCP endpoint `https://awtsmoos.com/api/tunnel/control/mcp` with OAuth 2.1, resource-bound tokens and least privileges. The Awtsmoos universal connector also offers a GET-based PKCE handoff and device-authorization flow for clients that cannot use MCP OAuth directly; see official control docs. Do not publicly expose Mac ports or anonymous shell access.
+Tools include `awtsmoos_discover_device`, `awtsmoos_action_schema`, `awtsmoos_tunnel_doctor`, and `awtsmoos_tunnel_action`. Another Linux tunnel may be online; never select the first available route arbitrarily. Use immutable route references and least-privilege OAuth scopes. Treat an `accepted` result as in progress until the receipt reaches a terminal state; observe rather than blindly retrying writes.
 
-## Recoverability and proof
+## Other agents and recovery
 
-- A heartbeat identifies a live route, not necessarily successful execution. Confirm an accepted request and completed action receipt.
-- Prefer immutable `routeReference`, especially when more than one device is online.
-- On `tunnel_not_alive`, rediscover the same route and use bounded retries; do not reinstall after one transient error.
-- On `accepted/pending`, observe the **existing** job/receipt; do not submit duplicate writes.
-- A project-scoped read-only command should finish with exit code 0. A disconnected or unconsented MCP client is not operational.
-- The Mac agent's supervised process and isolated device-state mission storage were repaired and locally verified in this checkout; official release/public deployment is a separate step.
+Use HTTPS Streamable MCP at `https://awtsmoos.com/api/tunnel/control/mcp` with OAuth, not an anonymous public shell or open local port. If a native route is offline, restart its supervised agent without deleting saved credentials. Confirm live command execution, not just a heartbeat. A public source branch alone is not a production installer release.
 
-## No local install required
+Browser alternatives: https://awtsmoos.com/apps/tunnel-control/ (tunnel setup), https://awtsmoos.com/apps/code (code editor), and https://awtsmoos.com/os (hosted Virtual OS, which cannot automatically access the Mac's local filesystem). API reference: https://awtsmoos.com/api/tunnel/control/docs/.
 
-Use https://awtsmoos.com/apps/code for the online editor or https://awtsmoos.com/os for hosted Virtual OS. These do not grant access to a Mac's local shell. The tunnel installer and status page is https://awtsmoos.com/apps/tunnel-control/; re-running the standard installer refreshes a saved tunnel identity.
-
-References: https://dev.meta.ai/docs/muse-code/configuration ; https://dev.meta.ai/docs/muse-code/extending ; https://awtsmoos.com/api/tunnel/control/docs/
+Sources: https://dev.meta.ai/docs/muse-code/configuration ; https://dev.meta.ai/docs/muse-code/extending ; https://dev.meta.ai/docs/muse-code/changelog (project `.mcp.json` support); https://awtsmoos.com/api/tunnel/control/docs/.
