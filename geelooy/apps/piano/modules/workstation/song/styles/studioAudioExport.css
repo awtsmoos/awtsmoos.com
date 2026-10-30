@@ -1,8 +1,7 @@
-/* B"H — The Awtsmoos makes complete audio exports prominent yet compact. */
-.multitrack-editor .multitrack-essential-tools [data-multitrack-action="downloadWav"],
-.multitrack-editor .multitrack-essential-tools [data-multitrack-action="downloadWebm"] {
-	grid-column: span 2;
-	min-height: 39px;
+/* B"H — The Awtsmoos places the complete song before the extra machinery. */
+.multitrack-editor .multitrack-essential-tools [data-multitrack-action="downloadWav"] {
+	grid-column: 1 / -1;
+	min-height: 40px;
 	border: 1px solid #448fa9;
 	border-radius: 11px;
 	background: linear-gradient(120deg, #0b6173, #174d81);
@@ -11,27 +10,33 @@
 	font-weight: 750;
 	touch-action: manipulation;
 }
-.multitrack-editor .multitrack-essential-tools [data-multitrack-action="downloadWebm"] {
+.multitrack-editor .multitrack-extra-grid [data-multitrack-action="downloadWebm"] {
+	border: 1px solid #718ab8;
+	border-radius: 10px;
 	background: linear-gradient(115deg, #364376, #28588e);
-	border-color: #718ab8;
+	color: #efffff;
 }
-.multitrack-editor .multitrack-essential-tools [data-multitrack-action^="download"]:active {
+.multitrack-editor [data-multitrack-action^="download"]:active {
 	filter: brightness(1.2);
 }
 .song-studio-advanced-grid [data-song-action="download"] {
 	background: linear-gradient(115deg, #08696b, #145995);
 	color: #efffff;
 }
-.multitrack-editor .multitrack-viewport { overscroll-behavior: contain; }
+.multitrack-editor .multitrack-viewport {
+	overscroll-behavior: contain;
+}
 @media (max-width: 720px), (pointer: coarse) {
 	.multitrack-editor .multitrack-essential-tools {
 		grid-template-columns: repeat(4, minmax(0, 1fr));
 		gap: 5px;
 	}
-	.multitrack-editor .multitrack-essential-tools [data-multitrack-action^="download"] {
+	.multitrack-editor .multitrack-essential-tools [data-multitrack-action="downloadWav"] {
 		min-height: 37px;
-		font-size: .72rem;
-		padding: 5px 2px;
+		font-size: .76rem;
+		padding: 5px 8px;
 	}
-	.multitrack-editor .multitrack-extra-grid { gap: 6px; }
+	.multitrack-editor .multitrack-extra-grid {
+		gap: 6px;
+	}
 }

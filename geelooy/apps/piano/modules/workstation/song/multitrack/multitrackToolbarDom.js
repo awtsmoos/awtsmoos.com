@@ -3,12 +3,12 @@
 //Blessed is He
 /**
  * @module MultitrackToolbarDom
- * The Awtsmoos grants the finished music a short and honest way outside;
- * Awtsmoos.com keeps the waveform in sight and lets the tools reside.
+ * The Awtsmoos gives the musician the music first, with every extra tool nearby;
+ * Awtsmoos.com puts WAV in plain sight and hides optional conversion till asked why.
  */
 import { createTimelineNavigation } from './multitrackTimelineNavigation.js';
 
-/** @returns {Object} Small mobile editor toolbar with visible WAV and WebM exports. */
+/** @returns {Object} Compact audio editor toolbar with one prominent WAV export. */
 export function createMultitrackToolbarDom() {
 	const root = document.createElement('div');
 	root.className = 'multitrack-toolbar';
@@ -17,7 +17,7 @@ export function createMultitrackToolbarDom() {
 	const advanced = document.createElement('details');
 	advanced.className = 'multitrack-extra-tools';
 	const summary = document.createElement('summary');
-	summary.textContent = 'More · Record · Zoom';
+	summary.textContent = 'More · WebM · Record · Zoom';
 	const advancedGrid = document.createElement('div');
 	advancedGrid.className = 'multitrack-extra-grid';
 	advanced.append(summary, advancedGrid);
@@ -30,7 +30,7 @@ export function createMultitrackToolbarDom() {
 		button.textContent = text;
 		button.setAttribute('aria-label', label);
 		buttons.set(action, button);
-		(['import', 'play', 'split', 'delete', 'downloadWav', 'downloadWebm'].includes(action)
+		(['import', 'play', 'split', 'delete', 'downloadWav'].includes(action)
 			? essentials : advancedGrid).appendChild(button);
 	}
 	const navigation = createTimelineNavigation();
@@ -38,7 +38,7 @@ export function createMultitrackToolbarDom() {
 	const preferences = document.createElement('div');
 	preferences.className = 'multitrack-edit-preferences';
 	const snap = createSnapSelect();
-	preferences.append(snap.root);
+	preferences.appendChild(snap.root);
 	const ripple = document.createElement('label');
 	ripple.className = 'multitrack-ripple-toggle';
 	const checkbox = document.createElement('input');
@@ -57,15 +57,15 @@ export function createMultitrackToolbarDom() {
 		fileInput, playheadInput: navigation.playheadInput, overview: navigation.overview };
 }
 
-/** @returns {Array[]} Accessible primary and advanced actions. */
+/** @returns {Array[]} Accessible editor actions. */
 function specifications() {
 	return [
 		['import', '＋ Add', 'Import audio clips'],
 		['play', '▶ Play', 'Play or stop edited audio'],
 		['split', '✂ Cut', 'Cut at playhead'],
 		['delete', '⌫ Delete', 'Delete selected audio'],
-		['downloadWav', '↓ WAV · full quality', 'Download finished song as WAV audio'],
-		['downloadWebm', '↓ WebM · compact', 'Fast compressed WebM/Opus audio download'],
+		['downloadWav', '↓ Download finished WAV', 'Download finished song as WAV audio'],
+		['downloadWebm', '↓ WebM · compact', 'Optional compressed WebM/Opus audio download'],
 		['punch', '● Record', 'Record from playhead'],
 		['fit', '⇤ Fit', 'Fit song around playhead'],
 		['duplicate', '⧉ Copy', 'Duplicate clip'],
@@ -76,7 +76,7 @@ function specifications() {
 	];
 }
 
-/** @returns {Object} Musical grid control. */
+/** @returns {Object} Musical snap selector. */
 function createSnapSelect() {
 	const root = document.createElement('label');
 	root.className = 'multitrack-snap';

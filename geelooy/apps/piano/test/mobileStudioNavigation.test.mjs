@@ -3,7 +3,8 @@
 //Blessed is He
 /**
  * @module MobileStudioNavigationTests
- * The Awtsmoos puts a small download choice beside a clear musical stage.
+ * The Awtsmoos makes the waveform the center and keeps the optional controls folded;
+ * Awtsmoos.com keeps WAV in reach while every note and track remains beholden.
  */
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -58,16 +59,18 @@ function fakeElement(tagName) {
 		addEventListener() {} };
 }
 
-test('WAV and WebM are visible, distinct, compact exports with note tools folded', () => {
+test('WAV stays visible and WebM is available inside collapsed mobile tools', () => {
 	const previous = globalThis.document;
 	globalThis.document = { createElement: fakeElement, createTextNode: text => ({ text }) };
 	try {
 		const dom = createMultitrackToolbarDom();
-		assert.equal(dom.root.children[0].children.length, 6);
+		assert.equal(dom.root.children[0].children.length, 5);
 		assert.equal(dom.buttons.size, 13);
 		assert.match(dom.buttons.get('downloadWav').textContent, /WAV/);
 		assert.match(dom.buttons.get('downloadWebm').textContent, /WebM/);
-		assert.equal(dom.root.children[0].children.includes(dom.buttons.get('downloadWebm')), true);
+		assert.equal(dom.root.children[0].children.includes(dom.buttons.get('downloadWav')), true);
+		assert.equal(dom.root.children[0].children.includes(dom.buttons.get('downloadWebm')), false);
+		assert.equal(dom.root.children[2].children[1].children.includes(dom.buttons.get('downloadWebm')), true);
 		assert.equal(dom.buttons.has('stop'), false);
 		assert.equal(dom.root.children[2].tagName, 'details');
 		assert.equal(dom.rippleCheckbox.checked, true);
