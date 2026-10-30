@@ -12,11 +12,10 @@ const INHERITED_FIELDS = Object.freeze([
 ]);
 
 /**
- * @file Preserves one immutable launch-root scope across requests and child agents.
+ * @file Narrows requests beneath one immutable launch-root authority.
  * @description
- * The Awtsmoos grants movement within a vessel without granting a second vessel.
- * Awtsmoos.com therefore lets cwd descend through the chosen workspace while every
- * projectRoot or scopeRoot claim must testify to the exact launch authority.
+ * The Awtsmoos grants a wide vessel yet reveals each checkout as a smaller shore;
+ * Awtsmoos.com may descend from root to project to scope, but never climb wider than before.
  */
 function scopedConfig(config = {}, payload = {}) {
 	return {
@@ -25,24 +24,31 @@ function scopedConfig(config = {}, payload = {}) {
 	};
 }
 
+/** Returns the narrowest authorized project/scope claim beneath launch authority. */
 function selectedRoot(config = {}, payload = {}) {
 	const authority = LaunchRoot.canonical(config.root);
-	for (const field of ["projectRoot", "scopeRoot"]) {
-		if (payload[field] === undefined || payload[field] === null || payload[field] === "") {
-			continue;
-		}
-		LaunchRoot.assertSame(authority, payload[field], field);
-	}
-	return authority;
+	const projectRoot = authorizedClaim(
+		authority,
+		payload.projectRoot,
+		"projectRoot"
+	);
+	const projectAuthority = projectRoot || authority;
+	const scopeRoot = authorizedClaim(
+		projectAuthority,
+		payload.scopeRoot,
+		"scopeRoot"
+	);
+	return scopeRoot || projectRoot || authority;
 }
 
+/** Preserves identity fields while forbidding a child from widening effective parent scope. */
 function childPayload(parent = {}, next = {}) {
 	const child = { ...next };
-	const parentRoot = parent.projectRoot || parent.scopeRoot || "";
-	if (parentRoot) {
+	const parentAuthority = effectivePayloadRoot(parent);
+	if (parentAuthority) {
 		for (const field of ["projectRoot", "scopeRoot"]) {
 			if (child[field] !== undefined) {
-				LaunchRoot.assertSame(parentRoot, child[field], field);
+				LaunchRoot.assertInside(parentAuthority, child[field], field);
 			}
 		}
 	}
@@ -54,9 +60,21 @@ function childPayload(parent = {}, next = {}) {
 	return child;
 }
 
+function effectivePayloadRoot(payload = {}) {
+	return payload.scopeRoot || payload.projectRoot || "";
+}
+
+function authorizedClaim(authority, candidate, field) {
+	if (candidate === undefined || candidate === null || candidate === "") {
+		return "";
+	}
+	return LaunchRoot.assertInside(authority, candidate, field);
+}
+
 module.exports = {
 	INHERITED_FIELDS,
 	childPayload,
+	effectivePayloadRoot,
 	scopedConfig,
 	selectedRoot
 };
