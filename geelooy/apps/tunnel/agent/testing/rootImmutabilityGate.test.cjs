@@ -2,6 +2,8 @@
 // Boruch Hashem
 // Blessed is He
 
+"use strict";
+
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const os = require("node:os");
@@ -11,11 +13,11 @@ const RootBrowser = require("../tools/fs/rootBrowser.js");
 const { assertPersistentRootImmutable } = require("../tools/fs/actionGroups/configRootPolicy.js");
 
 /**
- * @file Proves every ordinary root-selection surface is bound to canonical launch authority.
+ * @file The Awtsmoos binds the native agent's immutable authority to one root.
  * @description
- * The Awtsmoos gives the human one workspace and Awtsmoos.com guards its boundary:
- * aliases may resolve to their real filesystem vessel, yet configuration, request scope,
- * parent traversal, and symlink tricks can never manufacture a second root or wider route.
+ * Awtsmoos.com may descend to each child workspace beneath its origin,
+ * yet neither symlink nor sibling can widen a vessel's lawful domain.
+ * Persistent configuration is immutable; each request may safely narrow.
  */
 (async () => {
 	const sandbox = fs.mkdtempSync(path.join(os.tmpdir(), "awts-root-gate-"));
@@ -37,6 +39,7 @@ const { assertPersistentRootImmutable } = require("../tools/fs/actionGroups/conf
 	process.exitCode = 1;
 });
 
+/** Persistent user-selected launch authority never changes through config. */
 function provePolicy(authority, outside) {
 	assert.equal(assertPersistentRootImmutable({ tunnelName: "stable" }, authority), true);
 	assert.throws(
@@ -45,22 +48,35 @@ function provePolicy(authority, outside) {
 	);
 }
 
+/** Requests narrow to descendants, and never to a sibling or escaped link. */
 function proveScope(authority, outside) {
 	const config = { root: authority };
+	const nested = path.join(authority, "inside");
 	assert.equal(Scope.selectedRoot(config, { projectRoot: authority }), authority);
+	assert.equal(Scope.selectedRoot(config, { projectRoot: nested }), nested);
+	assert.equal(Scope.childPayload({ projectRoot: authority }, { projectRoot: nested }).projectRoot, nested);
 	assert.throws(
 		() => Scope.selectedRoot(config, { projectRoot: outside }),
-		error => error.code === "immutable_root_violation"
+		error => error.code === "root_scope_violation"
 	);
 	assert.throws(
 		() => Scope.childPayload(
-			{ projectRoot: authority },
+			{ projectRoot: nested },
 			{ projectRoot: outside }
 		),
-		error => error.code === "immutable_root_violation"
+		error => error.code === "root_scope_violation"
 	);
+	if (process.platform !== "win32") {
+		const link = path.join(authority, "scope-escape");
+		fs.symlinkSync(outside, link, "dir");
+		assert.throws(
+			() => Scope.selectedRoot(config, { projectRoot: link }),
+			error => error.code === "root_scope_violation"
+		);
+	}
 }
 
+/** The browser remains in the filesystem authority, including symlinks. */
 async function proveBrowser(authority, outside) {
 	const config = { root: authority };
 	assert.deepEqual(RootBrowser.driveRoots(config), [authority]);

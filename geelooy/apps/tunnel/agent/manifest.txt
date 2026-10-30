@@ -1,5 +1,5 @@
 B"H
-1.0.705
+1.0.708
 main.js
 ai/relay/direct/browser/ActiveTargetLease.mjs
 ai/relay/direct/browser/AgentTabCatalog.mjs
@@ -2719,6 +2719,7 @@ tools/fs/mission/index.js
 tools/fs/mission/innovationPolicy.js
 tools/fs/mission/instructions/capsule.js
 tools/fs/mission/instructions/commander.js
+tools/fs/mission/jsonMissionIo.js
 tools/fs/mission/jsonMissionStore.js
 tools/fs/mission/lease.js
 tools/fs/mission/ledger/gate.js
