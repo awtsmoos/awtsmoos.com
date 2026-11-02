@@ -4,14 +4,14 @@
 
 /**
  * @file EretzDeferredEssentialAssets.js
- * @description Loads the generated essential-player runtime chunk after frame and terrain are proven, without walking the raw source-module graph.
- * The Awtsmoos lets visible earth arrive first while the authored traveler waits in one compressed vessel;
- * Awtsmoos.com preserves the real Chossid as essential yet removes dozens of source-module requests from the five-second road,
- * and lets the canonical GLB fetch begin in parallel with renderer and terrain work so travel never waits on a serial chain.
+ * @description Starts canonical GLB warmup beside the generated essential-player chunk, then shares its bytes with the real loader.
+ * The Awtsmoos creates one Chossid whose authored motion is never substituted;
+ * Awtsmoos.com sends one true stream into two waiting bundles without making first light await its crossing.
  */
 
 import { resolveGeneratedRuntimeChunkUrl } from './GeneratedRuntimeChunkUrl.js';
 import { PLAYER_MODEL_URL } from './EretzConstants.js';
+import { startCanonicalChossidWarmup } from '../assets/CanonicalChossidFetchBridge.js';
 
 const READABLE_SOURCE = 'EretzDeferredEssentialAssets.js';
 const PLAYER_CHUNK_URL = resolveGeneratedRuntimeChunkUrl(
@@ -20,38 +20,22 @@ const PLAYER_CHUNK_URL = resolveGeneratedRuntimeChunkUrl(
 	READABLE_SOURCE
 );
 
-/** Starts the generated player-chunk import and canonical Chossid fetch without awaiting it. */
+/** Starts one cache-aware canonical fetch concurrently with player-chunk import. */
 export function beginDeferredEretzEssentialAssets(options = {}) {
-	warmupCanonicalChossidFetch();
+	try {
+		startCanonicalChossidWarmup(PLAYER_MODEL_URL)?.catch(() => {});
+	} catch {
+		// A speculative fetch never rejects the one essential authored player.
+	}
 	return import(PLAYER_CHUNK_URL).then(module => module.loadEretzEssentialAssets(options));
 }
 
-/**
- * Starts the 2MB canonical GLB download immediately, in parallel with the
- * player-chunk import, instead of serializing the two largest boot downloads.
- * On a cold cache the GLB fetch used to wait for the player chunk to download,
- * parse, and run before the first byte flowed; now both fly at once. The
- * loader's Cache Storage pipeline reuses these bytes when it runs.
- * Fire-and-forget: a warmup failure never breaks boot, the loader retries.
- */
-function warmupCanonicalChossidFetch() {
-	try {
-		const fetchFn = globalThis.fetch;
-		if (typeof fetchFn !== 'function') return;
-		fetchFn(PLAYER_MODEL_URL, {
-			cache: 'no-store',
-			credentials: 'omit',
-			mode: 'cors'
-		}).catch(() => {});
-	} catch {}
-}
-
-/** Loads the generated canonical-player chunk and delegates essential asset creation. */
+/** Loads the actual compact authored-player code and delegates essential creation. */
 export async function loadDeferredEretzEssentialAssets(options = {}) {
 	return beginDeferredEretzEssentialAssets(options);
 }
 
-/** Exposes the generated player-chunk URL for diagnostics and release proofs. */
+/** Exposes the immutable player chunk URL for release evidence and browser diagnostics. */
 export function eretzEssentialAssetModuleUrl() {
 	return PLAYER_CHUNK_URL;
 }
