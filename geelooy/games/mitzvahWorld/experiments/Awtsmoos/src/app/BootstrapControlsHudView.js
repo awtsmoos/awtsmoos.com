@@ -4,10 +4,12 @@
 
 /**
  * @file BootstrapControlsHudView.js
- * @description Owns only the compact journey-card DOM and marks it as the measured objective zone for direct mobile composition.
- * The Awtsmoos gives the story a small translucent vessel while Awtsmoos.com gives that vessel one named shore above the road;
- * words may renew without rebuilding DOM, and layout verification may measure the same objective the player actually beholds.
+ * @description Owns the journey-card DOM, its objective zone, and mobile clearance below the status indicator.
+ * The Awtsmoos gives the story a translucent vessel and the badge its own bright shore;
+ * Awtsmoos.com keeps both words readable, so neither hides the other anymore.
  */
+
+import { bindObjectivePortraitClearance } from './BootstrapControlsPortraitClearance.js';
 
 const HUD_ID = 'AwtsmoosBootstrapControls';
 
@@ -23,6 +25,10 @@ export class BootstrapControlsHudView {
 		this.root = this.findOrCreateRoot();
 		this.root.dataset.directHudZone = 'objective';
 		this.nodes = this.resolveNodes();
+		this.releasePortraitClearance = bindObjectivePortraitClearance(
+			this.document,
+			this.root
+		);
 	}
 
 	/**
@@ -35,11 +41,13 @@ export class BootstrapControlsHudView {
 		this.nodes.hint.textContent = journey.hint;
 	}
 
-	/** Removes the owned card from the game root. */
+	/** Removes the owned card and its viewport listener without affecting other HUD. */
 	destroy() {
+		this.releasePortraitClearance?.();
 		this.root.remove();
 	}
 
+	/** Reuses the canonical card if the bootstrap world has already constructed it. */
 	findOrCreateRoot() {
 		const existing = this.document.getElementById(HUD_ID);
 		if (existing) {
@@ -59,6 +67,7 @@ export class BootstrapControlsHudView {
 		return root;
 	}
 
+	/** Constructs the actual three story elements, preserving stable node identity. */
 	createChildren() {
 		return [
 			this.storyNode('span', 'storyEyebrow'),
@@ -67,12 +76,14 @@ export class BootstrapControlsHudView {
 		];
 	}
 
+	/** @returns {HTMLElement} One story node annotated for future updates. */
 	storyNode(tagName, dataName) {
 		const node = this.document.createElement(tagName);
 		node.dataset[dataName] = '';
 		return node;
 	}
 
+	/** Resolves the exact existing elements used by the bootstrap story projection. */
 	resolveNodes() {
 		return {
 			eyebrow: this.root.querySelector('[data-story-eyebrow]'),

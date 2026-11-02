@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowVegetationDistribution.js
- * @description Distributes quality-budgeted ecological cells from one deterministic meadow seed.
- * The Awtsmoos scatters wet-bank blossom, dry restraint, and fertile abundance without sameness;
- * Awtsmoos.com preserves paths, spacing, quadrants, playable bounds, and explicit density budgets.
+ * @description Places grass in real shared-engine ecological stands while preserving player and river clearance.
+ * The Awtsmoos joins meadow center, flower edge and river shore in light;
+ * Awtsmoos.com keeps every path walkable and every mobile draw budget right.
  */
 
 import {
@@ -22,26 +22,28 @@ import {
 import { minimalMeadowRiverSample } from './MinimalMeadowRiverPath.js';
 import { createMinimalMeadowVegetationCellProfile } from './MinimalMeadowVegetationCellProfile.js';
 import { minimalMeadowVegetationBudget } from './MinimalMeadowVegetationQualityBudget.js';
+import {
+	createMinimalMeadowProceduralPatchField,
+	enrichMinimalMeadowPatchProfile
+} from './MinimalMeadowProceduralPatchField.js';
 
 const CELL_EXTENT = 4.5;
 
+/** Uses the shared procedural engine only for unanchored meadow foliage positions. */
 export function createMinimalMeadowVegetationDistribution(terrain, options = {}) {
 	const budget = minimalMeadowVegetationBudget(options);
 	const cells = [];
 	const context = { ...options, budget };
+	const field = createMinimalMeadowProceduralPatchField(
+		MINIMAL_MEADOW_PLAYABLE_HALF_SIZE,
+		options
+	);
 	appendAnchors(cells, terrain, context);
 	appendRiverBanks(cells, terrain, budget.riverCells, context);
 	for (let attempt = 0; attempt < 2800 && cells.length < budget.cells; attempt += 1) {
-		appendCell(
-			cells,
-			terrain,
-			coordinate(attempt, 71),
-			coordinate(attempt, 79),
-			attempt + 500,
-			'seeded-meadow',
-			'vegetation',
-			context
-		);
+		const candidate = field.sample();
+		appendCell(cells, terrain, candidate.x, candidate.z, attempt + 500,
+			'seeded-meadow', 'vegetation', context, candidate);
 	}
 	return cells.slice(0, budget.cells).map((cell, index) => Object.freeze({
 		...cell,
@@ -50,6 +52,7 @@ export function createMinimalMeadowVegetationDistribution(terrain, options = {})
 	}));
 }
 
+/** Quadrant anchors are authored gameplay landmarks, not randomized patch centers. */
 function appendAnchors(cells, terrain, options) {
 	for (let index = 0; index < MINIMAL_MEADOW_VEGETATION_ANCHORS.length; index += 1) {
 		const anchor = MINIMAL_MEADOW_VEGETATION_ANCHORS[index];
@@ -58,6 +61,7 @@ function appendAnchors(cells, terrain, options) {
 	}
 }
 
+/** The native river corridor continues to host its own wet vegetation. */
 function appendRiverBanks(cells, terrain, count, options) {
 	for (let index = 0; index < count; index += 1) {
 		const t = 0.06 + index / Math.max(1, count - 1) * 0.86;
@@ -80,14 +84,16 @@ function appendRiverBanks(cells, terrain, count, options) {
 	}
 }
 
-function appendCell(cells, terrain, x, z, key, source, role, options) {
+/** Rejects roads, bounds, dense collisions and unsuitable biome before adding patch detail. */
+function appendCell(cells, terrain, x, z, key, source, role, options, candidate = null) {
 	if (!insidePlayableCell(x, z) || !minimalMeadowPopulationAllows(x, z, role)) return;
 	const spacing = options.mobile ? 6.2 : 4.9;
 	if (!minimalMeadowHasSpacing(cells, x, z, spacing)) return;
 	const profile = createMinimalMeadowVegetationCellProfile(terrain, x, z, key, options);
 	if (!profile) return;
+	const vegetation = enrichMinimalMeadowPatchProfile(profile, candidate, options.budget);
 	cells.push({
-		...profile,
+		...vegetation,
 		source,
 		x,
 		y: terrain.heightAt(x, z),
@@ -98,10 +104,6 @@ function appendCell(cells, terrain, x, z, key, source, role, options) {
 function insidePlayableCell(x, z) {
 	return Math.abs(x) + CELL_EXTENT <= MINIMAL_MEADOW_PLAYABLE_HALF_SIZE
 		&& Math.abs(z) + CELL_EXTENT <= MINIMAL_MEADOW_PLAYABLE_HALF_SIZE;
-}
-
-function coordinate(index, salt) {
-	return (unit(index, salt) * 2 - 1) * MINIMAL_MEADOW_PLAYABLE_HALF_SIZE;
 }
 
 function unit(index, salt) {

@@ -4,20 +4,23 @@
 
 /**
  * @file EretzCinematicLandscape.js
- * @description Mounts only the existing procedural sky, atmospheric mountains, and animated water for the simple world after movement is already available.
- * The Awtsmoos reveals distant ridge, living current, and encompassing heaven without summoning a second civilization;
- * Awtsmoos.com lets three visual vessels deepen the meadow while actors, quests, ecology, and districts remain behind their own unopened gates.
+ * @description Reveals true sky, river, mountains and elected forest concurrently after first-play.
+ * The Awtsmoos awakes the forest before the winding river is fully drawn;
+ * Awtsmoos.com holds the traveler's controls as scenery joins the dawn.
  */
 
+import { installEretzCinematicBotany } from './EretzCinematicBotany.js';
+import {
+	bindEretzCinematicLandscapeUpdates,
+	mountEretzCinematicGroup
+} from './EretzCinematicLandscapeActivation.js';
 import { MinimalMeadowMountainSystem } from './MinimalMeadowMountainSystem.js';
 import { installMinimalMeadowSky } from './MinimalMeadowSky.js';
 import { MinimalMeadowWaterSystem } from './MinimalMeadowWaterSystem.js';
 
-/** Schedules the visual-only landscape once and degrades without rejecting gameplay. */
+/** Schedules elected optional scenery once, after the player has already moved. */
 export function scheduleEretzCinematicLandscape(runtime, dependencies = {}) {
-	if (runtime.cinematicLandscapePromise) {
-		return runtime.cinematicLandscapePromise;
-	}
+	if (runtime.cinematicLandscapePromise) return runtime.cinematicLandscapePromise;
 	runtime.cinematicLandscapeStage = 'scheduled';
 	runtime.cinematicLandscapePromise = Promise.resolve()
 		.then(() => installEretzCinematicLandscape(runtime, dependencies))
@@ -25,59 +28,72 @@ export function scheduleEretzCinematicLandscape(runtime, dependencies = {}) {
 	return runtime.cinematicLandscapePromise;
 }
 
-/** Mounts sky, mountains, and water while preserving any previous world update owner. */
+/** Begins botanical life independent of potentially slower mountain and water imports. */
 export async function installEretzCinematicLandscape(runtime, dependencies = {}) {
 	if (runtime.cinematicLandscape) return runtime.cinematicLandscape;
+	if (runtime.destroyed) return degradedReceipt(runtime, new Error('RUNTIME_DESTROYED'));
 	runtime.cinematicLandscapeStage = 'installing';
-	const installSky = dependencies.installSky || installMinimalMeadowSky;
-	const createMountains = dependencies.createMountains
-		|| (value => MinimalMeadowMountainSystem.create(value));
-	const createWater = dependencies.createWater
-		|| (value => MinimalMeadowWaterSystem.create(value));
-	runtime.sky = runtime.sky || installSky(
-		runtime.scene,
-		runtime.camera,
-		runtime.qualityProfile?.quality || 'high'
-	);
-	runtime.mountains = await createMountains(runtime);
-	mountGroup(runtime.scene, runtime.mountains?.group);
-	runtime.water = await createWater(runtime);
-	mountGroup(runtime.scene, runtime.water?.group);
-	bindCinematicLandscapeUpdate(runtime);
+	bindEretzCinematicLandscapeUpdates(runtime);
+	const skyFactory = dependencies.installSky || installMinimalMeadowSky;
+	const mountainFactory = dependencies.createMountains
+		|| (world => MinimalMeadowMountainSystem.create(world));
+	const waterFactory = dependencies.createWater
+		|| (world => MinimalMeadowWaterSystem.create(world));
+	const botanyFactory = dependencies.installBotany || installEretzCinematicBotany;
+	const botanicalTask = dependencies.cinematicBotanyEnabled === true
+		? optionalTask('botany', () => botanyFactory(runtime, dependencies.botanyDependencies || {}))
+		: Promise.resolve(Object.freeze({ status: 'disabled-by-world-profile' }));
+	const mountainTask = optionalTask('mountains', async () => {
+		runtime.mountains = runtime.mountains || await mountainFactory(runtime);
+		if (!runtime.destroyed) mountEretzCinematicGroup(runtime.scene, runtime.mountains?.group);
+		return Boolean(runtime.mountains?.group);
+	});
+	const waterTask = optionalTask('water', async () => {
+		runtime.water = runtime.water || await waterFactory(runtime);
+		if (!runtime.destroyed) mountEretzCinematicGroup(runtime.scene, runtime.water?.group);
+		return Boolean(runtime.water?.group);
+	});
+	const skyTask = optionalTask('sky', () => {
+		runtime.sky = runtime.sky || skyFactory(
+			runtime.scene,
+			runtime.camera,
+			runtime.qualityProfile?.quality || 'high'
+		);
+		return Boolean(runtime.sky?.group);
+	});
+	const [botany, mountains, water, sky] = await Promise.all([
+		botanicalTask, mountainTask, waterTask, skyTask
+	]);
+	const status = [botany, mountains, water, sky].every(task =>
+		task.status === 'ready' || task.status === 'disabled-by-world-profile')
+		? 'ready' : 'degraded';
 	const receipt = Object.freeze({
-		mountains: Boolean(runtime.mountains?.group),
-		sky: Boolean(runtime.sky?.group),
-		status: 'ready',
-		water: Boolean(runtime.water?.group)
+		botany: botany.value?.status || botany.status,
+		mountains: mountains.value === true,
+		sky: sky.value === true,
+		status,
+		water: water.value === true
 	});
 	runtime.cinematicLandscape = receipt;
-	runtime.cinematicLandscapeStage = 'ready';
+	runtime.cinematicLandscapeStage = status;
 	return receipt;
 }
 
-/** Preserves prior update ownership and adds only visual-system cadence. */
-function bindCinematicLandscapeUpdate(runtime) {
-	if (runtime.cinematicLandscapeUpdate) return;
-	const previousUpdate = runtime.updateWorldSystems;
-	const update = deltaSeconds => {
-		previousUpdate?.(deltaSeconds);
-		runtime.sky?.update?.();
-		runtime.water?.update?.(deltaSeconds);
-	};
-	runtime.cinematicLandscapePreviousUpdate = previousUpdate;
-	runtime.cinematicLandscapeUpdate = update;
-	runtime.updateWorldSystems = update;
+/** An absent group, thrown error or failed optional system is never recorded as ready. */
+async function optionalTask(name, operation) {
+	try {
+		const value = await operation();
+		const healthy = value !== false && value != null
+			&& value?.status !== 'degraded' && value?.status !== 'disabled-by-world-profile';
+		return Object.freeze({ name, status: healthy ? 'ready' : 'degraded', value });
+	} catch (error) {
+		return Object.freeze({ name, status: 'degraded', message: error?.message || String(error) });
+	}
 }
 
-function mountGroup(scene, group) {
-	if (group && group.parent !== scene) scene?.add?.(group);
-}
-
+/** Optional failures never invalidate a player whose control was already proved. */
 function degradedReceipt(runtime, error) {
 	runtime.cinematicLandscapeError = error;
 	runtime.cinematicLandscapeStage = 'degraded';
-	return Object.freeze({
-		message: error?.message || String(error),
-		status: 'degraded'
-	});
+	return Object.freeze({ message: error?.message || String(error), status: 'degraded' });
 }

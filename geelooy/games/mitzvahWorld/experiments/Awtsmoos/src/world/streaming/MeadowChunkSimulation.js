@@ -1,100 +1,110 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file MeadowChunkSimulation.js
- * @description Compact, five-hertz meadow state with closed-form catch-up.
- * The Awtsmoos renews the grass each instant with light;
- * Awtsmoos.com keeps unloaded meadows mathematically bright.
- * Seed-derived relaxation composes across render frame rates.
+ * @description Keeps one deterministic five-hertz meadow record with analytical unloaded catch-up.
+ * The Awtsmoos renews wind and grass beyond the camera's finite sight;
+ * Awtsmoos.com stores only seed and state, then restores elapsed meadow life by measured light.
  */
 
+import { freezeMeadowState } from './MeadowChunkCompatibility.js';
+import {
+	grassTarget,
+	hash01,
+	moistureBase,
+	windCyclesPerSecond
+} from './MeadowChunkDeterminism.js';
+
+export { grassTarget, hash01, moistureBase } from './MeadowChunkDeterminism.js';
 export const MEADOW_MUTATION_KEY = 'meadow';
 export const MEADOW_SIM_HZ = 5;
 export const MEADOW_SIM_DT = 1 / MEADOW_SIM_HZ;
 
 const TAU_GRASS_SECONDS = 30;
 const TAU_MOISTURE_SECONDS = 120;
-const TAU_GROWTH_SECONDS = 60;
+const TAU_DISTURBANCE_SECONDS = 4;
 
-/** Builds one immutable, JSON-safe chunk state from a deterministic seed. */
-export function createMeadowState(seed, simTimeSeconds = 0) {
-	return Object.freeze({
-		grass: grassTarget(seed),
-		growth: 0,
-		lastSimTime: finiteSeconds(simTimeSeconds),
-		moisture: moistureBase(seed)
+/** Builds one immutable JSON-safe chunk record from a deterministic seed. */
+export function createMeadowState(seed, timeSeconds = 0) {
+	const canonicalSeed = seed >>> 0;
+	return freezeMeadowState({
+		grass: grassTarget(canonicalSeed),
+		grassDisturbance: 0,
+		lastUpdateTime: finiteSeconds(timeSeconds),
+		moisture: moistureBase(canonicalSeed),
+		seed: canonicalSeed,
+		windPhase: hash01(canonicalSeed, 'meadow:wind-phase')
 	});
 }
 
-/** Retrieves the compact mutation without serializing a scene object. */
+/** Retrieves a compact mutation without serializing scene or render objects. */
 export function meadowStateOf(record, worldChunkMutation) {
 	const state = worldChunkMutation(record, MEADOW_MUTATION_KEY);
-	return state && typeof state === 'object' ? state : null;
+	return state && typeof state === 'object' ? normalizeMeadowState(state, state.seed) : null;
 }
 
-/** Advances by elapsed simulation time; subdivision never changes the result. */
+/** Normalizes old persisted records into the Chapter 3 canonical meadow schema. */
+export function normalizeMeadowState(state = {}, fallbackSeed = 0) {
+	const seed = Number.isFinite(Number(state.seed)) ? Number(state.seed) >>> 0 : fallbackSeed >>> 0;
+	return freezeMeadowState({
+		grass: clampUnit(state.grass ?? grassTarget(seed)),
+		grassDisturbance: clampUnit(state.grassDisturbance ?? state.growth ?? 0),
+		lastUpdateTime: finiteSeconds(state.lastUpdateTime ?? state.lastSimTime ?? 0),
+		moisture: clampUnit(state.moisture ?? moistureBase(seed)),
+		seed,
+		windPhase: wrapPhase(state.windPhase ?? hash01(seed, 'meadow:wind-phase'))
+	});
+}
+
+/** Advances scalar meadow state analytically, so absent frame ticks never need replay. */
 export function advanceMeadowState(state, seed, dtSeconds) {
+	const current = normalizeMeadowState(state, seed);
 	const dt = Math.max(0, Number(dtSeconds) || 0);
-	if (dt === 0) {
-		return state;
-	}
-	const grassGoal = grassTarget(seed);
-	const moistureGoal = moistureBase(seed);
-	return Object.freeze({
-		grass: clampUnit(grassGoal + (state.grass - grassGoal) * Math.exp(-dt / TAU_GRASS_SECONDS)),
-		growth: clampSigned(state.growth * Math.exp(-dt / TAU_GROWTH_SECONDS)),
-		lastSimTime: state.lastSimTime + dt,
-		moisture: clampUnit(moistureGoal + (state.moisture - moistureGoal) * Math.exp(-dt / TAU_MOISTURE_SECONDS))
+	if (dt === 0) return current;
+	const grassGoal = grassTarget(current.seed);
+	const moistureGoal = moistureBase(current.seed);
+	return freezeMeadowState({
+		grass: relax(current.grass, grassGoal, dt, TAU_GRASS_SECONDS),
+		grassDisturbance: clampUnit(current.grassDisturbance * Math.exp(-dt / TAU_DISTURBANCE_SECONDS)),
+		lastUpdateTime: current.lastUpdateTime + dt,
+		moisture: relax(current.moisture, moistureGoal, dt, TAU_MOISTURE_SECONDS),
+		seed: current.seed,
+		windPhase: wrapPhase(current.windPhase + windCyclesPerSecond(current.seed) * dt)
 	});
 }
 
-/** Catches up unloaded land without replaying absent simulation ticks. */
+/** Catches up unloaded land in constant time from its persisted last-update timestamp. */
 export function catchUpMeadowState(state, seed, nowSeconds) {
-	const now = finiteSeconds(nowSeconds);
-	const gap = Math.max(0, now - state.lastSimTime);
-	return advanceMeadowState(state, seed, gap);
+	const current = normalizeMeadowState(state, seed);
+	const gap = Math.max(0, finiteSeconds(nowSeconds) - current.lastUpdateTime);
+	return advanceMeadowState(current, current.seed, gap);
 }
 
-/** Applies a bounded footfall/grazing disturbance that decays in time. */
+/** Adds bounded trampling/grazing disturbance without touching render allocations. */
 export function disturbMeadowState(state, amount) {
-	return Object.freeze({
-		...state,
-		growth: clampSigned(state.growth + (Number(amount) || 0))
+	const current = normalizeMeadowState(state, state?.seed);
+	return freezeMeadowState({
+		...current,
+		grassDisturbance: clampUnit(current.grassDisturbance + Math.max(0, Number(amount) || 0))
 	});
 }
 
-/** Derives reproducible grass cover from the world seed. */
-export function grassTarget(seed) {
-	return 0.45 + 0.4 * hash01(seed, 'meadow:grass-target');
-}
-
-/** Derives reproducible soil moisture from the world seed. */
-export function moistureBase(seed) {
-	return 0.3 + 0.5 * hash01(seed, 'meadow:moisture-base');
-}
-
-/** Returns a stable [0, 1) FNV-1a fingerprint of a seed and salt. */
-export function hash01(seed, salt) {
-	let hash = 2166136261;
-	const value = `${seed >>> 0}|${salt}`;
-	for (let index = 0; index < value.length; index += 1) {
-		hash ^= value.charCodeAt(index);
-		hash = Math.imul(hash, 16777619);
-	}
-	return (hash >>> 0) / 4294967296;
+function relax(value, target, dt, tau) {
+	return clampUnit(target + (value - target) * Math.exp(-dt / tau));
 }
 
 function clampUnit(value) {
 	return Math.max(0, Math.min(1, Number(value) || 0));
 }
 
-function clampSigned(value) {
-	return Math.max(-1, Math.min(1, Number(value) || 0));
+function wrapPhase(value) {
+	const phase = Number(value) || 0;
+	return ((phase % 1) + 1) % 1;
 }
 
 function finiteSeconds(value) {
-	const seconds = Number(value) || 0;
-	return Number.isFinite(seconds) ? seconds : 0;
+	const seconds = Number(value);
+	return Number.isFinite(seconds) ? Math.max(0, seconds) : 0;
 }

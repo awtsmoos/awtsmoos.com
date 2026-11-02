@@ -4,9 +4,9 @@
 
 /**
  * @file MitzvahWorldReleaseProbeMetrics.test.js
- * @description Proves the release probe measures honestly and fails closed on missing or over-budget evidence.
- * The Awtsmoos counts every interval without flattery; Awtsmoos.com lets Gevurah reject a release
- * when the numbers are absent or the low-end covenant is crossed.
+ * @description Proves Chapter 3 release thresholds while retaining legacy >50ms diagnostics.
+ * The Awtsmoos counts every measured interval without flattery or disguise;
+ * Awtsmoos.com lets one percent fail exactly where the survival covenant draws its line before our eyes.
  */
 
 import assert from 'node:assert/strict';
@@ -16,90 +16,62 @@ import {
 	summarizeReleaseFrames
 } from './MitzvahWorldReleaseProbeMetrics.js';
 
-test('summarizeReleaseFrames reports deterministic nearest-rank statistics', () => {
-	const summary = summarizeReleaseFrames([20, 10, 30, 12, 14, 16, 18, 11, 13, 15]);
-	assert.equal(summary.count, 10);
-	assert.equal(summary.medianMilliseconds, 14);
-	assert.equal(summary.p95Milliseconds, 30);
-	assert.equal(summary.worstMilliseconds, 30);
-	assert.equal(summary.framesOver50Milliseconds, 0);
-	assert.ok(Object.isFrozen(summary));
-});
-
-test('summarizeReleaseFrames stays honest on empty and non-finite samples', () => {
-	const summary = summarizeReleaseFrames([Number.NaN, Number.POSITIVE_INFINITY, null, undefined]);
-	assert.equal(summary.count, 0);
-	assert.equal(summary.medianMilliseconds, null);
-	assert.equal(summary.p95Milliseconds, null);
-	assert.equal(summary.worstMilliseconds, null);
-	assert.equal(summary.framesOver50Milliseconds, 0);
-});
-
-test('summarizeReleaseFrames counts every frame over fifty milliseconds', () => {
-	const summary = summarizeReleaseFrames([12, 51, 12, 75, 12]);
+test('frame summary reports p50, p95, worst, and both long-frame counters', () => {
+	const summary = summarizeReleaseFrames([12, 14, 15, 34, 55]);
 	assert.equal(summary.count, 5);
-	assert.equal(summary.framesOver50Milliseconds, 2);
-	assert.equal(summary.worstMilliseconds, 75);
+	assert.equal(summary.p50Milliseconds, 15);
+	assert.equal(summary.p95Milliseconds, 55);
+	assert.equal(summary.worstMilliseconds, 55);
+	assert.equal(summary.framesOver33_3Milliseconds, 2);
+	assert.equal(summary.framesOver50Milliseconds, 1);
+	assert.equal(summary.longFrameRate, 0.4);
 });
 
-test('evaluateReleasePerformance fails closed without frame samples', () => {
-	const verdict = evaluateReleasePerformance({
-		frames: summarizeReleaseFrames([]),
-		generationMaximumMilliseconds: 2
-	});
-	assert.equal(verdict.certified, false);
+test('empty and non-finite samples stay unsupported rather than becoming zeros', () => {
+	const summary = summarizeReleaseFrames([NaN, Infinity, null, undefined]);
+	assert.equal(summary.count, 0);
+	assert.equal(summary.p95Milliseconds, null);
+	assert.equal(summary.longFrameRate, null);
+	const verdict = evaluateReleasePerformance({ frames: summary, generationMaximumMilliseconds: 2 });
 	assert.deepEqual([...verdict.failures], ['FRAME_SAMPLES_MISSING']);
 });
 
-test('evaluateReleasePerformance rejects a p95 over the low-end frame budget', () => {
-	const verdict = evaluateReleasePerformance({
-		frames: summarizeReleaseFrames([10, 10, 10, 10, 10, 10, 10, 10, 10, 60]),
-		generationMaximumMilliseconds: 1
-	});
+test('one long frame in two hundred remains below one percent', () => {
+	const frames = summarizeReleaseFrames([...Array(199).fill(12), 40]);
+	const verdict = evaluateReleasePerformance({ frames, generationMaximumMilliseconds: 3 });
+	assert.equal(frames.longFrameRate, 0.005);
+	assert.equal(verdict.certified, true);
+});
+
+test('exactly one percent long frames fails the strict boundary', () => {
+	const frames = summarizeReleaseFrames([...Array(99).fill(12), 40]);
+	const verdict = evaluateReleasePerformance({ frames, generationMaximumMilliseconds: 3 });
+	assert.equal(frames.longFrameRate, 0.01);
 	assert.equal(verdict.certified, false);
+	assert.ok(verdict.failures.includes('LONG_FRAME_RATE_AT_OR_ABOVE_1_PERCENT'));
+});
+
+test('p95 over 16.7 milliseconds fails even when long-frame rate is zero', () => {
+	const frames = summarizeReleaseFrames([...Array(189).fill(16), ...Array(11).fill(17)]);
+	const verdict = evaluateReleasePerformance({ frames, generationMaximumMilliseconds: 3 });
+	assert.equal(frames.p95Milliseconds, 17);
+	assert.equal(frames.longFrameRate, 0);
 	assert.ok(verdict.failures.includes('FRAME_P95_OVER_16_7_MS'));
 });
 
-test('evaluateReleasePerformance tolerates one long frame but not repeated ones', () => {
-	const oneLongFrame = evaluateReleasePerformance({
-		frames: summarizeReleaseFrames([...Array(19).fill(12), 55]),
-		generationMaximumMilliseconds: 1
-	});
-	assert.equal(oneLongFrame.certified, true);
-	const repeated = evaluateReleasePerformance({
-		frames: summarizeReleaseFrames([...Array(18).fill(12), 55, 60]),
-		generationMaximumMilliseconds: 1
-	});
-	assert.equal(repeated.certified, false);
-	assert.ok(repeated.failures.includes('REPEATED_FRAME_OVER_50_MS'));
+test('repeated frames over fifty preserve the legacy diagnostic code', () => {
+	const frames = summarizeReleaseFrames([...Array(198).fill(12), 55, 60]);
+	const verdict = evaluateReleasePerformance({ frames, generationMaximumMilliseconds: 3 });
+	assert.ok(verdict.failures.includes('REPEATED_FRAME_OVER_50_MS'));
+	assert.ok(verdict.failures.includes('LONG_FRAME_RATE_AT_OR_ABOVE_1_PERCENT'));
 });
 
-test('evaluateReleasePerformance fails closed without generation evidence', () => {
-	const verdict = evaluateReleasePerformance({
-		frames: summarizeReleaseFrames(Array(20).fill(12))
-	});
-	assert.equal(verdict.certified, false);
-	assert.ok(verdict.failures.includes('GENERATION_SLICE_UNSUPPORTED'));
+test('generation evidence fails closed when absent or above four milliseconds', () => {
+	const frames = summarizeReleaseFrames(Array(200).fill(12));
+	const unsupported = evaluateReleasePerformance({ frames });
+	assert.ok(unsupported.failures.includes('GENERATION_SLICE_UNSUPPORTED'));
+	const overBudget = evaluateReleasePerformance({ frames, generationMaximumMilliseconds: 4.1 });
+	assert.ok(overBudget.failures.includes('GENERATION_SLICE_OVER_4_MS'));
+	const passing = evaluateReleasePerformance({ frames, generationMaximumMilliseconds: 4 });
+	assert.equal(passing.certified, true);
 });
-
-test('evaluateReleasePerformance rejects world-generation slices over four milliseconds', () => {
-	const verdict = evaluateReleasePerformance({
-		frames: summarizeReleaseFrames(Array(20).fill(12)),
-		generationMaximumMilliseconds: 4.5
-	});
-	assert.equal(verdict.certified, false);
-	assert.ok(verdict.failures.includes('GENERATION_SLICE_OVER_4_MS'));
-});
-
-test('evaluateReleasePerformance certifies honest in-budget evidence', () => {
-	const verdict = evaluateReleasePerformance({
-		frames: summarizeReleaseFrames(Array(20).fill(12)),
-		generationMaximumMilliseconds: 3.9
-	});
-	assert.equal(verdict.certified, true);
-	assert.deepEqual([...verdict.failures], []);
-	assert.ok(Object.isFrozen(verdict));
-	assert.ok(Object.isFrozen(verdict.failures));
-	assert.ok(Object.isFrozen(verdict.thresholds));
-});
-

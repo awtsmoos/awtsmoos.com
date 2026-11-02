@@ -4,20 +4,21 @@
 
 /**
  * @file EretzPostPlayableActivation.js
- * @description Hydrates full control systems only after strict playable publication, then continues visual and optional promotion.
- * The Awtsmoos lets the Chossid walk before richer garments descend;
- * Awtsmoos.com upgrades the same living runtime after truth is proven, never replacing the traveler who already moves.
+ * @description Protects real first control before elected scenic post-play continuation.
+ * The Awtsmoos brings the traveler to life before his meadows awaken;
+ * Awtsmoos.com lets no optional forest replace the first honest step taken.
  */
 
 import { resolveDeferredAppModuleUrl } from './DeferredAppModuleUrl.js';
 import { resolveGeneratedRuntimeChunkUrl } from './GeneratedRuntimeChunkUrl.js';
+import { scheduleEretzPostPlayableContinuation } from './EretzPostPlayableScheduling.js';
 
 const READABLE_SOURCE = 'EretzPostPlayableActivation.js';
 const POST_CONTROL_URL = generated('mitzvah-world-post-control.compact.js');
 const POST_PLAYABLE_URL = deferred('EretzPostPlayablePriority.js');
 const VISUAL_SEQUENCE_URL = deferred('EretzVisualPromotionSequence.js');
 
-/** Installs one idempotent continuation that runs only after strict playable publication. */
+/** Installs one idempotent continuation after strict playable publication. */
 export function installEretzPostPlayableActivation(core, options, boot, environment) {
 	let activated = false;
 	core.diagnostics.activatePostPlayable = () => {
@@ -32,7 +33,7 @@ export function installEretzPostPlayableActivation(core, options, boot, environm
 	return core.diagnostics;
 }
 
-/** Upgrades the exact first-control runtime after readiness without revoking already-working movement. */
+/** Hydrates richer controls without replacing already working movement. */
 function startPostControlHydration(core, options, boot) {
 	const diagnostics = core.diagnostics;
 	diagnostics.postControlHydrationStage = 'loading-module';
@@ -54,16 +55,13 @@ function startPostControlHydration(core, options, boot) {
 	diagnostics.postControlHydrationPromise = promise;
 }
 
+/** Starts original visual promotion independently, preserving its failure receipt. */
 function startVisualPromotion(core, options, boot, environment) {
 	const diagnostics = core.diagnostics;
 	diagnostics.rendererPolicyStage = 'loading-sequence';
 	const promise = import(VISUAL_SEQUENCE_URL)
 		.then(module => module.startEretzVisualPromotionSequence(
-			diagnostics,
-			environment,
-			boot,
-			options,
-			core.foundation
+			diagnostics, environment, boot, options, core.foundation
 		))
 		.then(result => {
 			diagnostics.rendererPolicyStage = 'ready';
@@ -78,21 +76,27 @@ function startVisualPromotion(core, options, boot, environment) {
 	return promise;
 }
 
+/** Only opt-in Lush Meadow skips visual completion, and only after a browser frame. */
 function startPostPlayable(core, options, boot, environment, visualPromise) {
 	const diagnostics = core.diagnostics;
-	diagnostics.postPlayablePriorityStage = 'waiting-for-required-visuals';
-	const coordinator = Promise.resolve(visualPromise)
-		.then(() => {
+	diagnostics.postPlayablePriorityStage = options.worldExperience?.cinematicBotany === true
+		? 'waiting-for-first-frame' : 'waiting-for-required-visuals';
+	const coordinator = scheduleEretzPostPlayableContinuation({
+		environment,
+		visualPromise,
+		worldExperience: options.worldExperience,
+		start: async () => {
 			diagnostics.postPlayablePriorityStage = 'loading-module';
-			return import(POST_PLAYABLE_URL);
-		})
-		.then(module => module.startEretzPostPlayablePriority({ boot, core, environment, options }))
-		.catch(error => degradePostPlayable(diagnostics, error));
+			const module = await import(POST_PLAYABLE_URL);
+			return module.startEretzPostPlayablePriority({ boot, core, environment, options });
+		}
+	}).catch(error => degradePostPlayable(diagnostics, error));
 	diagnostics.postPlayablePriorityPromise = coordinator;
 	diagnostics.enrichmentPromise = coordinator.then(receipt => receipt?.districts ?? null);
 	diagnostics.deferredEnrichmentPromise = coordinator.then(receipt => receipt?.enrichment ?? null);
 }
 
+/** Optional scenic failures cannot revoke the real first-control frame. */
 function degradePostPlayable(diagnostics, error) {
 	diagnostics.postPlayablePriorityError = error;
 	diagnostics.postPlayablePriorityStage = 'degraded';

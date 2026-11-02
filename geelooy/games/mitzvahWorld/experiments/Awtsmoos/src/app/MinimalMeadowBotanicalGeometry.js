@@ -4,36 +4,25 @@
 
 /**
  * @file MinimalMeadowBotanicalGeometry.js
- * @description Appends colored segmented blades, leaves, layered petals, centers, and seed heads.
- * The Awtsmoos reveals botanical intricacy through two finite meshes;
- * Awtsmoos.com preserves deterministic shape, terrain contact, UV continuity, RGBA truth, and bounds.
+ * @description Shares real folded blades with grounded flower heads and species petals.
+ * The Awtsmoos blooms through stalk, petal, root and seed each passing hour;
+ * Awtsmoos.com keeps one batched world, yet lets every blade show its power.
  */
 
+import { appendMinimalMeadowBladeSurface } from './MinimalMeadowBotanicalBladeGeometry.js';
+
+/** Adds a tapered blade with an optional raised midrib to real geometry buffers. */
 export function appendMinimalMeadowBlade(target, options) {
-	const segments = Math.max(2, Math.min(4, options.segments || 3));
-	const sideX = Math.cos(options.angle) * options.width;
-	const sideZ = Math.sin(options.angle) * options.width;
-	let previousLeft = [options.x - sideX, options.y, options.z - sideZ];
-	let previousRight = [options.x + sideX, options.y, options.z + sideZ];
-	for (let segment = 1; segment <= segments; segment += 1) {
-		const t = segment / segments;
-		const taper = Math.max(0.08, 1 - t * 0.86);
-		const bend = options.bend * t * t;
-		const centerX = options.x + Math.cos(options.angle + Math.PI / 2) * bend;
-		const centerZ = options.z + Math.sin(options.angle + Math.PI / 2) * bend;
-		const left = [centerX - sideX * taper, options.y + options.height * t, centerZ - sideZ * taper];
-		const right = [centerX + sideX * taper, options.y + options.height * t, centerZ + sideZ * taper];
-		appendFace(target, [previousLeft, previousRight, right, left], options.color);
-		previousLeft = left;
-		previousRight = right;
-	}
+	return appendMinimalMeadowBladeSurface(target, options);
 }
 
+/** Two rooted leaves retain the established botanical species silhouette. */
 export function appendMinimalMeadowLeafPair(target, options) {
-	appendBlade(target, options, options.angle + 0.72, 0.42, options.leafColor);
-	appendBlade(target, options, options.angle - 0.72, 0.5, options.leafColor);
+	appendLeaf(target, options, options.angle + 0.72, 0.42);
+	appendLeaf(target, options, options.angle - 0.72, 0.5);
 }
 
+/** Builds the original species-driven multi-layer blossom without billboards. */
 export function appendMinimalMeadowFlower(target, options) {
 	const layers = Math.max(1, options.layers || 1);
 	for (let layer = 0; layer < layers; layer += 1) {
@@ -48,6 +37,7 @@ export function appendMinimalMeadowFlower(target, options) {
 	appendCenter(target, options);
 }
 
+/** Seeds five mature flower head points around a tinted central disc. */
 export function appendMinimalMeadowSeedHead(target, options) {
 	for (let index = 0; index < 5; index += 1) {
 		const angle = options.rotation + index * Math.PI * 2 / 5;
@@ -55,10 +45,18 @@ export function appendMinimalMeadowSeedHead(target, options) {
 	}
 }
 
-function appendBlade(target, options, angle, heightScale, color) {
+function appendLeaf(target, options, angle, heightScale) {
 	appendMinimalMeadowBlade(target, {
-		angle, bend: options.radius * 0.42, color, height: options.height * heightScale,
-		segments: 2, width: options.radius * 0.22, x: options.x, y: options.y, z: options.z
+		angle,
+		bend: options.radius * 0.42,
+		color: options.leafColor,
+		folded: true,
+		height: options.height * heightScale,
+		segments: 2,
+		width: options.radius * 0.22,
+		x: options.x,
+		y: options.y,
+		z: options.z
 	});
 }
 

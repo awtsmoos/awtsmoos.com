@@ -4,9 +4,9 @@
 
 /**
  * @file WorldQualityProfile.js
- * @description Preserves world layers while limiting pixel workload on mobile GPUs.
- * The Awtsmoos does not remove a tree because the glass is small;
- * Awtsmoos.com keeps the village alive while making each GPU's burden fall.
+ * @description Resolves explicit world quality while a sparse survival vessel protects first-control frame time.
+ * The Awtsmoos renews the whole meadow while finite glass must carry only what it can bear;
+ * Awtsmoos.com gives survival one honest vessel, then lets richer garments return when budgets declare.
  */
 
 const LIMITED_HARDWARE_DPR = 1.0;
@@ -14,7 +14,10 @@ const MOBILE_DPR = 1.25;
 const DESKTOP_DPR = 1.5;
 const PRESERVED_DISTANCE = 520;
 const PRESERVED_MODELS = 11;
+const SURVIVAL_DISTANCE = 220;
+const SURVIVAL_MODELS = 1;
 const PROFILES = Object.freeze({
+	survival: profile('survival', 1.0, SURVIVAL_DISTANCE, SURVIVAL_MODELS, 'survival-baseline'),
 	low: profile('low', 1.25, PRESERVED_DISTANCE, PRESERVED_MODELS, 'explicit-low'),
 	medium: profile('medium', DESKTOP_DPR, PRESERVED_DISTANCE, PRESERVED_MODELS, 'explicit-medium'),
 	high: profile('high', DESKTOP_DPR, PRESERVED_DISTANCE, PRESERVED_MODELS, 'full-quality-default'),
@@ -22,7 +25,7 @@ const PROFILES = Object.freeze({
 });
 const VALID_QUALITIES = new Set(Object.keys(PROFILES));
 
-/** Resolves the same authored world independently from each hardware-aware framebuffer. */
+/** Resolves authored quality independently from each hardware-aware framebuffer. */
 export function resolveWorldQuality(options = {}, environment = globalThis) {
 	const explicit = explicitQuality(options, environment);
 	const selected = explicit || 'high';
@@ -37,7 +40,7 @@ export function resolveWorldQuality(options = {}, environment = globalThis) {
 	};
 }
 
-/** Returns a static authored tier before physical display restrictions apply. */
+/** Returns one static authored tier before physical display restrictions apply. */
 export function worldQualityProfile(quality) {
 	if (!VALID_QUALITIES.has(quality)) {
 		throw new Error(`Unknown world quality: ${quality}`);
@@ -45,13 +48,11 @@ export function worldQualityProfile(quality) {
 	return { ...PROFILES[quality] };
 }
 
-/** Caps pixels alone; it never removes trees, NPCs, missions, or world layers. */
+/** Caps framebuffer pixels without silently selecting a different world quality. */
 export function resolveDeviceDprCap(environment = globalThis) {
 	const navigator = environment.navigator || {};
-	const limitedMemory = finitePositive(navigator.deviceMemory)
-		&& Number(navigator.deviceMemory) <= 4;
-	const limitedCpu = finitePositive(navigator.hardwareConcurrency)
-		&& Number(navigator.hardwareConcurrency) <= 4;
+	const limitedMemory = finitePositive(navigator.deviceMemory) && Number(navigator.deviceMemory) <= 4;
+	const limitedCpu = finitePositive(navigator.hardwareConcurrency) && Number(navigator.hardwareConcurrency) <= 4;
 	if (limitedMemory || limitedCpu) {
 		return Object.freeze({ maxDpr: LIMITED_HARDWARE_DPR, reason: 'limited-hardware' });
 	}
@@ -76,26 +77,20 @@ function finitePositive(value) {
 	return Number.isFinite(Number(value)) && Number(value) > 0;
 }
 
-/** Freezes each policy level to protect the authored world from accidental edits. */
+/** Freezes each policy level so later runtime code cannot mutate the selected covenant. */
 function profile(quality, maxDpr, renderDistance, modelLimit, reason) {
-	return Object.freeze({
-		maxDpr,
-		modelLimit,
-		quality,
-		reason,
-		renderDistance
-	});
+	return Object.freeze({ maxDpr, modelLimit, quality, reason, renderDistance });
 }
 
-/** Sun-shadow tiers preserve depth while budgeting expensive shadow work. */
 const QUALITY_SHADOW_TIERS = Object.freeze({
+	survival: 'off',
 	cinematic: 'near',
 	high: 'near',
 	low: 'far',
 	medium: 'mid'
 });
 
-/** Maps a world quality id to the existing shadow-tier covenant. */
+/** Maps quality to the existing shadow-budget covenant, with survival explicitly dark to shadow maps. */
 export function shadowTierForWorldQuality(quality) {
 	return QUALITY_SHADOW_TIERS[quality] || 'mid';
 }
