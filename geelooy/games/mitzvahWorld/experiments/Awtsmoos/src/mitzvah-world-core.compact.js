@@ -2847,7 +2847,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.resetTreeToBase = resetTreeToBase;
-	const __awtsmoosDefault_1w2urep = {
+	const __awtsmoosDefault_1d1vsuh = {
 		Bone,
 		BufferAttribute,
 		BufferGeometry,
@@ -2860,7 +2860,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		Scene,
 		Vector3
 	};
-	__exports.default = __awtsmoosDefault_1w2urep;
+	__exports.default = __awtsmoosDefault_1d1vsuh;
 }
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/math/Aabb.js ----
