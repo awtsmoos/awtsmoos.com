@@ -1,5 +1,5 @@
 B"H
-1.0.708
+1.0.709
 main.js
 ai/relay/direct/browser/ActiveTargetLease.mjs
 ai/relay/direct/browser/AgentTabCatalog.mjs
@@ -1178,6 +1178,7 @@ lib/connection-vessel/parent-consumer-recovery-values.js
 lib/connection-vessel/parent-consumer-recovery.js
 lib/connection-vessel/parent-consumer-repair-ledger-state.js
 lib/connection-vessel/parent-consumer-repair-ledger.js
+lib/connection-vessel/parent-consumer-stuck-work.js
 lib/connection-vessel/parent-execution-health.js
 lib/connection-vessel/parent-repair-identity.js
 lib/connection-vessel/parent-watchdog-assessment.js
