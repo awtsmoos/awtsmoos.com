@@ -32,6 +32,9 @@ export class LauncherFilter {
 	}
 
 	apply() {
+		// Re-query tiles every keystroke: the constellation renderer may mount tiles after this filter connects.
+		this.tileElements = [...this.rootElement.querySelectorAll("[data-world-link]")];
+		this.sectionElements = [...this.rootElement.querySelectorAll("[data-constellation-group]")];
 		const query = normalizeSearchText(this.inputElement?.value ?? "");
 		this.prepareSearchState(Boolean(query));
 		let visibleCount = 0;
