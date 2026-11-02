@@ -15,9 +15,15 @@ const pointer = {
 	y: 0
 };
 let activePointerId = null;
+const keysDown = new Set();
 
 export function getPointerState() {
 	return pointer;
+}
+
+/** Live set of keyboard keys currently held (event.key values). */
+export function getKeysDown() {
+	return keysDown;
 }
 
 /** Clears movement after release, cancellation, or focus loss. */
@@ -93,5 +99,13 @@ export function setupControls(canvas, onGameStart, onTikkun) {
 	});
 	window.addEventListener('blur', () => {
 		clearPointer(canvas);
+		keysDown.clear();
+	});
+	window.addEventListener('keydown', event => {
+		if (event.target?.closest?.('input, textarea, select, [contenteditable="true"]')) return;
+		keysDown.add(event.key.length === 1 ? event.key.toLowerCase() : event.key);
+	});
+	window.addEventListener('keyup', event => {
+		keysDown.delete(event.key.length === 1 ? event.key.toLowerCase() : event.key);
 	});
 }

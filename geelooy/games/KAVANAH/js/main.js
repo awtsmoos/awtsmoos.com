@@ -43,8 +43,14 @@ function handleCanvasIntent(x, y) {
 
 /** Advance one live frame, update Four Worlds UI, and keep drawing alive while paused or terminal. */
 function gameLoop() {
-	if (State.getGameState() === 'playing' && session.active && !session.paused) {
-		stepKavanahGameplay(canvas, finishGame);
+	try {
+		if (State.getGameState() === 'playing' && session.active && !session.paused) {
+			stepKavanahGameplay(canvas, finishGame);
+		}
+	} catch (error) {
+		// A single bad frame must never kill the whole loop (which would freeze
+		// the world with no feedback while the canvas keeps painting).
+		console.error('[kavanah] frame error:', error);
 	}
 	const ascension = State.getAscension();
 	view.showPhase(worldPhaseForAscension(ascension), ascension);

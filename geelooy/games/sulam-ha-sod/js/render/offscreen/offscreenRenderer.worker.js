@@ -33,7 +33,8 @@ function initRenderer(canvas, nextViewport) {
 
 /** @param {object} snapshot structured render world */
 function drawSnapshot(snapshot) {
-  if (!renderer || !snapshot) return;
+  if (!snapshot) { self.postMessage({ type: 'error', message: 'empty snapshot' }); return; }
+  if (!renderer) { self.postMessage({ type: 'error', message: 'renderer not ready' }); return; }
   viewport = saneViewport(snapshot.viewport || viewport);
   const world = hydrateWorld(snapshot);
   renderer.draw(world);

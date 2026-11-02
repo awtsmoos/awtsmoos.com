@@ -22,6 +22,14 @@ export function driveBots(state) {
 		if (bot.human || bot.dead || bot.hidden || bot.respawnTimer) {
 			continue;
 		}
-		bot.input = botCommand(bot, state);
+		try {
+			const command = botCommand(bot, state);
+			// A bot that yields no command must never freeze the loop or
+			// leave a stale input; fall back to neutral so it stays live.
+			bot.input = command || { x: 0, y: 0 };
+		} catch (error) {
+			console.error('[sefira-clash] bot command failed:', error);
+			bot.input = { x: 0, y: 0 };
+		}
 	}
 }

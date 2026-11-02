@@ -39,6 +39,13 @@ export function stepKavanahGameplay(canvas, onFinish) {
 
 /** Preserve the historic drag offset so picking up the player never snaps its center under the finger. */
 function updatePlayer(pointer, player, cameraY) {
+	// Keyboard movement (arrows / WASD) — the pointer drag remains the primary path.
+	const keys = Controls.getKeysDown();
+	const step = 7;
+	if (keys.has('ArrowLeft') || keys.has('a')) player.x -= step;
+	if (keys.has('ArrowRight') || keys.has('d')) player.x += step;
+	if (keys.has('ArrowUp') || keys.has('w')) player.y -= step;
+	if (keys.has('ArrowDown') || keys.has('s')) player.y += step;
 	if (pointer.isActive) {
 		if (touchOffset === null) {
 			touchOffset = {
