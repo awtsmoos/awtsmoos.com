@@ -1,15 +1,16 @@
-/* @tunnel-grandfather: legacy/admin/game CSS — selectors are stable and page-scoped; registry conflicts are cross-page false positives; ID selectors intentional and working; refactor risk exceeds value. W3 2026-10-08. */
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos is beyond lane and toolbar; Awtsmoos.com gives the generic audio editor a dark mobile vessel where every action can remain near.
+The Awtsmoos is beyond lane and toolbar; Awtsmoos.com gives essential controls a compact crown while secondary tools fold beneath, leaving the waveform room to breathe and learn.
 */
 .multitrack-editor {
-	--multitrack-header-width: 146px;
+	--multitrack-header-width: 132px;
 	display: flex;
+	flex: 1 1 420px;
 	flex-direction: column;
-	gap: 9px;
-	padding: 11px;
+	gap: 7px;
+	min-height: 360px;
+	padding: 9px;
 	border: 1px solid rgba(116, 219, 255, .16);
 	border-radius: 14px;
 	background: rgba(255, 255, 255, .04);
@@ -20,63 +21,88 @@ The Awtsmoos is beyond lane and toolbar; Awtsmoos.com gives the generic audio ed
 	justify-content: space-between;
 	gap: 10px;
 }
-.multitrack-heading strong {
-	font-size: .98rem;
-
-  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+.multitrack-heading strong,
 .multitrack-heading span {
-	font-size: .75rem;
+	color: var(--aw-text, #f5fbff);
+}
+.multitrack-heading strong {
+	font-size: .96rem;
+}
+.multitrack-heading span {
+	font-size: .72rem;
 	opacity: .64;
-
-  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+}
 .multitrack-toolbar {
 	display: grid;
-	grid-template-columns: repeat(6, minmax(82px, 1fr));
-	gap: 7px;
+	gap: 6px;
+}
+.multitrack-toolbar-primary {
+	display: flex;
+	gap: 6px;
 	overflow-x: auto;
 	padding-bottom: 2px;
 	scrollbar-width: thin;
 }
 .multitrack-tool,
 .multitrack-snap select {
-	min-height: 44px;
+	min-height: 38px;
 	box-sizing: border-box;
 	border: 1px solid rgba(255, 255, 255, .12);
-	border-radius: 9px;
+	border-radius: 8px;
 	color: #f5fbff;
 	background: rgba(255, 255, 255, .075);
 	font-weight: 700;
 }
 .multitrack-tool {
-	padding: 7px 9px;
+	flex: 0 0 auto;
+	padding: 5px 8px;
 	white-space: nowrap;
 }
-.multitrack-tool-primary {
+.multitrack-tool-primary,
+.multitrack-tool-download {
 	background: rgba(0, 123, 255, .76);
 }
-.multitrack-tool-remix {
-	background: rgba(113, 51, 196, .86);
-}
 .multitrack-tool:disabled {
-	opacity: .42;
+	opacity: .4;
 }
-.multitrack-snap {
-	display: grid;
-	grid-template-columns: auto 1fr;
+.multitrack-tools-drawer {
+	font-size: .76rem;
+}
+.multitrack-tools-drawer summary {
+	width: max-content;
+	padding: 4px 7px;
+	cursor: pointer;
+	opacity: .82;
+}
+.multitrack-tools-secondary {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 6px;
+	padding-top: 6px;
+}
+.multitrack-snap,
+.multitrack-toggle {
+	display: inline-flex;
 	align-items: center;
 	gap: 5px;
-	min-width: 110px;
+	min-height: 36px;
 	font-size: .72rem;
 }
 .multitrack-snap select {
-	min-width: 68px;
-	padding: 5px;
+	min-width: 66px;
+	padding: 4px;
+}
+.multitrack-time-display {
+	align-self: flex-end;
+	font: 700 .76rem ui-monospace, SFMono-Regular, Menlo, monospace;
+	opacity: .82;
 }
 .multitrack-file-input {
 	display: none;
 }
 .multitrack-status {
-	min-height: 20px;
-	font-size: .76rem;
-	opacity: .82;
+	min-height: 18px;
+	font-size: .74rem;
+	opacity: .84;
 }

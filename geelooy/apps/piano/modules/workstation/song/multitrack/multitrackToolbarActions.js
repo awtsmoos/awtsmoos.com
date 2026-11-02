@@ -4,8 +4,8 @@
 /**
  * @module MultitrackToolbarActions
  * @description
- * Malchus gives explicit toolbar commands one small routing table while the Awtsmoos remains beyond command and transformation.
- * Awtsmoos.com keeps edit actions separate from event listeners, so Split, Copy, Ratchet, Repeat, Delete, Zoom, and Snap remain clear and testable.
+ * Malchus routes explicit editor commands while the Awtsmoos remains beyond command, export, and transformation.
+ * Awtsmoos.com keeps transport, history, edits, zoom, and audio download out of DOM listeners, so each finite action stays testable and clear in formation.
  */
 
 import {
@@ -13,21 +13,19 @@ import {
 	duplicateSelectedMultitrackClip,
 	splitSelectedMultitrackClip
 } from './multitrackClipActions.js';
+import {
+	downloadMultitrackWav,
+	downloadMultitrackWebm
+} from './multitrackExportActions.js';
 import { applySelectedMultitrackRatchetDrop } from './multitrackRatchetActions.js';
 import { repeatSelectedMultitrackClip } from './multitrackRepeatActions.js';
-import {
-	playMultitrackProject,
-	stopMultitrackProject
-} from './multitrackTransportActions.js';
+import { toggleMultitrackPlayback } from './multitrackTransportActions.js';
 
-/** Runs one named toolbar action. @param {string} action Action id. @param {Object} state Editor state. @param {Object} context Shared UI context. @returns {Promise<void>} Resolves after async transport if needed. */
+/** Runs one named toolbar action. */
 export async function runMultitrackToolbarAction(action, state, context = {}) {
 	switch (action) {
-		case 'play':
-			await playMultitrackProject(state);
-			return;
-		case 'stop':
-			stopMultitrackProject(state);
+		case 'play-toggle':
+			await toggleMultitrackPlayback(state);
 			return;
 		case 'split':
 			splitSelectedMultitrackClip(state);
@@ -45,13 +43,28 @@ export async function runMultitrackToolbarAction(action, state, context = {}) {
 			return;
 		case 'delete':
 			deleteSelectedMultitrackClip(state);
-			state.setStatus('Deleted selected clip.');
+			state.setStatus(state.rippleDeleteEnabled ? 'Deleted clip · gap closed.' : 'Deleted clip · gap preserved.');
+			return;
+		case 'undo':
+			state.undo();
+			return;
+		case 'redo':
+			state.redo();
 			return;
 		case 'zoomOut':
-			state.setZoom(state.selection.pixelsPerSecond / 1.35);
+			context.viewportController?.zoomBy(1 / 1.35);
 			return;
 		case 'zoomIn':
-			state.setZoom(state.selection.pixelsPerSecond * 1.35);
+			context.viewportController?.zoomBy(1.35);
+			return;
+		case 'fit':
+			context.viewportController?.fit();
+			return;
+		case 'download-wav':
+			await downloadMultitrackWav(state);
+			return;
+		case 'download-webm':
+			await downloadMultitrackWebm(state);
 			return;
 	}
 }

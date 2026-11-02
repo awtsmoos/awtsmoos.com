@@ -4,54 +4,91 @@
 /**
  * @module MultitrackGestureTransform
  * @description
- * Gevurah translates one drag into a pure move or trim while the Awtsmoos remains beyond pointer, edge, and distance.
- * Awtsmoos.com keeps gesture mathematics away from DOM listeners, so touch may stay fluid and every finite clip transformation may remain easy to test and trust.
+ * Gevurah turns one drag into move or trim while Yesod lets nearby edges meet; the Awtsmoos remains beyond pointer and distance.
+ * Awtsmoos.com composes beat-grid and magnetic snapping in pure transforms, so touch remains fluid and every gesture stays testable.
  */
 
+import { multitrackAudioStore } from './multitrackAudioStore.js';
 import {
 	moveMultitrackClip,
 	trimMultitrackClipLeft,
 	trimMultitrackClipRight
 } from './multitrackClipMath.js';
-import { multitrackAudioStore } from './multitrackAudioStore.js';
+import {
+	snapMultitrackClipStart,
+	snapMultitrackEdgeTime
+} from './multitrackSnapMath.js';
 
-/**
- * Transforms the original gesture clip by one horizontal timeline delta.
- *
- * @param {Object} gesture Active pointer gesture.
- * @param {number} deltaSeconds Horizontal movement in seconds.
- * @param {Object} state Multitrack editor state.
- * @returns {Object} Transformed clip snapshot.
- */
+/** Transforms one original clip by a horizontal gesture delta. */
 export function transformMultitrackGestureClip(gesture, deltaSeconds, state) {
-	const timing = {
-		tempo: state.project.tempo,
-		gridBeats: state.selection.gridBeats
-	};
 	if (gesture.mode === 'trim-left') {
-		return trimMultitrackClipLeft(
-			gesture.originClip,
-			gesture.originClip.timelineStart + deltaSeconds,
-			timing
-		);
+		return transformLeftTrim(gesture, deltaSeconds, state);
 	}
 	if (gesture.mode === 'trim-right') {
-		return trimRightGesture(gesture, deltaSeconds, timing);
+		return transformRightTrim(gesture, deltaSeconds, state);
 	}
-	return moveMultitrackClip(
+	return transformMove(gesture, deltaSeconds, state);
+}
+
+function transformMove(gesture, deltaSeconds, state) {
+	const timing = beatTiming(state);
+	const moved = moveMultitrackClip(
 		gesture.originClip,
 		gesture.originClip.timelineStart + deltaSeconds,
 		timing
 	);
+	const start = snapMultitrackClipStart({
+		project: state.project,
+		clip: moved,
+		start: moved.timelineStart,
+		playheadSeconds: state.selection.playheadSeconds,
+		pixelsPerSecond: state.selection.pixelsPerSecond,
+		enabled: state.magneticSnapEnabled
+	});
+	return moveMultitrackClip(gesture.originClip, start, noGridTiming(state));
 }
 
-function trimRightGesture(gesture, deltaSeconds, timing) {
-	const buffer = multitrackAudioStore.getBuffer(gesture.originClip.bufferId);
-	const sourceDuration = buffer?.duration ?? Infinity;
+function transformLeftTrim(gesture, deltaSeconds, state) {
+	const trimmed = trimMultitrackClipLeft(
+		gesture.originClip,
+		gesture.originClip.timelineStart + deltaSeconds,
+		beatTiming(state)
+	);
+	const start = snapMultitrackEdgeTime({
+		project: state.project,
+		clipId: trimmed.id,
+		time: trimmed.timelineStart,
+		playheadSeconds: state.selection.playheadSeconds,
+		pixelsPerSecond: state.selection.pixelsPerSecond,
+		enabled: state.magneticSnapEnabled
+	});
+	return trimMultitrackClipLeft(gesture.originClip, start, noGridTiming(state));
+}
+
+function transformRightTrim(gesture, deltaSeconds, state) {
+	const sourceDuration = multitrackAudioStore.getBuffer(gesture.originClip.bufferId)?.duration ?? Infinity;
+	const end = gesture.originClip.timelineStart + gesture.originClip.duration + deltaSeconds;
+	const trimmed = trimMultitrackClipRight(gesture.originClip, end, beatTiming(state), sourceDuration);
+	const snappedEnd = snapMultitrackEdgeTime({
+		project: state.project,
+		clipId: trimmed.id,
+		time: trimmed.timelineStart + trimmed.duration,
+		playheadSeconds: state.selection.playheadSeconds,
+		pixelsPerSecond: state.selection.pixelsPerSecond,
+		enabled: state.magneticSnapEnabled
+	});
 	return trimMultitrackClipRight(
 		gesture.originClip,
-		gesture.originClip.timelineStart + gesture.originClip.duration + deltaSeconds,
-		timing,
+		snappedEnd,
+		noGridTiming(state),
 		sourceDuration
 	);
+}
+
+function beatTiming(state) {
+	return { tempo: state.project.tempo, gridBeats: state.selection.gridBeats };
+}
+
+function noGridTiming(state) {
+	return { tempo: state.project.tempo, gridBeats: 0 };
 }

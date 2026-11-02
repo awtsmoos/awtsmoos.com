@@ -4,33 +4,21 @@
 /**
  * @module SongPanelView
  * @description
- * Hod reflects Song Studio state into visible controls without owning the transformations that created that state.
- * The Awtsmoos is beyond display and hiddenness; Awtsmoos.com lets each finite view mirror truth with clarity, so action and appearance never blur in uncertainty.
+ * Hod reflects Song note state into finite controls while the Awtsmoos remains beyond display, transport, and hiddenness.
+ * Awtsmoos.com gives one note Play/Stop button the visible truth of its context, while folded note text never steals focus from the audio editor.
  */
 
-/**
- * Opens or closes the floating Song Studio panel.
- *
- * @param {Object} dom Song Studio DOM registry.
- * @param {boolean} open Desired visibility.
- * @returns {void}
- */
+/** Opens or closes the floating Song Studio panel. */
 export function setSongPanelOpen(dom, open) {
 	dom.panel.classList.toggle('song-studio-hidden', !open);
 	dom.launcher.classList.toggle('song-studio-launcher-active', open);
 	dom.launcher.setAttribute('aria-expanded', String(open));
 	if (open) {
-		dom.editor.focus({ preventScroll: true });
+		dom.closeButton.focus({ preventScroll: true });
 	}
 }
 
-/**
- * Renders the canonical current document and all editable control values.
- *
- * @param {Object} dom Song Studio DOM registry.
- * @param {Object} state Song Studio state.
- * @returns {void}
- */
+/** Renders the canonical current note document and editable control values. */
 export function renderSongDocument(dom, state) {
 	dom.editor.value = state.editorText;
 	setField(dom, 'tempo', state.tempo);
@@ -46,34 +34,25 @@ export function renderSongDocument(dom, state) {
 	renderSongStatus(dom, state);
 }
 
-/**
- * Renders transport state without replacing editor text.
- *
- * @param {Object} dom Song Studio DOM registry.
- * @param {Object} state Song Studio state.
- * @param {Object} transport Playback/capture flags.
- * @returns {void}
- */
+/** Renders Song note transport without replacing editor text. */
 export function renderSongTransport(dom, state, transport = {}) {
 	const capturing = Boolean(transport.capturing);
 	const playing = Boolean(transport.playing);
 	const recordButton = dom.buttons.get('record');
-	const playButton = dom.buttons.get('play');
-	const stopButton = dom.buttons.get('stop');
+	const playButton = dom.buttons.get('play-toggle');
 	if (recordButton) {
 		recordButton.textContent = capturing ? '■ Finish Take' : '● Record';
 		recordButton.classList.toggle('song-action-recording', capturing);
 	}
 	if (playButton) {
-		playButton.disabled = capturing || playing;
-	}
-	if (stopButton) {
-		stopButton.disabled = !capturing && !playing;
+		playButton.disabled = capturing;
+		playButton.textContent = playing ? '■ Stop Notes' : '▶ Play Notes';
+		playButton.setAttribute('aria-label', playing ? 'Stop Song note playback' : 'Play Song note sequence');
 	}
 	renderSongStatus(dom, state);
 }
 
-/** Updates only the accessible status line. @param {Object} dom Song Studio DOM. @param {Object} state Song Studio state. @returns {void} */
+/** Updates only the accessible Song status line. */
 export function renderSongStatus(dom, state) {
 	dom.status.textContent = state.status;
 }

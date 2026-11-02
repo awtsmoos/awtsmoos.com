@@ -4,18 +4,22 @@
 /**
  * @module MultitrackTimelineDom
  * @description
- * Malchus assembles toolbar, ruler, playhead, and lanes into one scrollable editor while the Awtsmoos remains beyond space and sequence.
- * Awtsmoos.com gives the phone a wide musical world inside a controlled viewport, so fingers may travel in time without forcing the whole page to wander.
+ * Malchus assembles compact controls, live time, ruler, playhead, and lanes while the Awtsmoos remains beyond space and sequence.
+ * Awtsmoos.com gives the phone a broad musical world inside one scrollable vessel, so waveform territory grows while secondary controls fold away in peace.
  */
 
 import { createMultitrackToolbarDom } from './multitrackToolbarDom.js';
 
-/** Builds the generic multitrack editor shell without rendering project tracks. @returns {Object} Timeline DOM registry. */
+/** Builds the generic multitrack editor shell without rendering project tracks. */
 export function createMultitrackTimelineDom() {
 	const root = document.createElement('section');
 	root.className = 'multitrack-editor';
 	const heading = createHeading();
 	const toolbar = createMultitrackToolbarDom();
+	const timeDisplay = document.createElement('output');
+	timeDisplay.className = 'multitrack-time-display';
+	timeDisplay.setAttribute('aria-label', 'Current playhead time');
+	timeDisplay.textContent = '0:00.00';
 	const viewport = document.createElement('div');
 	viewport.className = 'multitrack-viewport';
 	viewport.tabIndex = 0;
@@ -34,7 +38,7 @@ export function createMultitrackTimelineDom() {
 	const status = document.createElement('output');
 	status.className = 'multitrack-status';
 	status.setAttribute('aria-live', 'polite');
-	root.append(heading, toolbar.root, viewport, status);
+	root.append(heading, toolbar.root, timeDisplay, viewport, status);
 	return {
 		root,
 		viewport,
@@ -42,9 +46,12 @@ export function createMultitrackTimelineDom() {
 		ruler,
 		tracks,
 		playhead,
+		timeDisplay,
 		status,
 		buttons: toolbar.buttons,
 		snapSelect: toolbar.snapSelect,
+		rippleInput: toolbar.rippleInput,
+		magnetInput: toolbar.magnetInput,
 		fileInput: toolbar.fileInput
 	};
 }
@@ -53,9 +60,9 @@ function createHeading() {
 	const heading = document.createElement('div');
 	heading.className = 'multitrack-heading';
 	const title = document.createElement('strong');
-	title.textContent = '🎛 Multitrack Audio Editor';
+	title.textContent = '🎛 Song Studio';
 	const help = document.createElement('span');
-	help.textContent = 'tap · drag · trim · split · layer · remix';
+	help.textContent = 'tap ruler to seek · pinch timeline to zoom';
 	heading.append(title, help);
 	return heading;
 }

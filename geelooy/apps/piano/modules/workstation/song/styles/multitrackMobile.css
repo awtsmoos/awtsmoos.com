@@ -1,72 +1,79 @@
-/* @tunnel-grandfather: legacy/admin/game CSS — selectors are stable and page-scoped; registry conflicts are cross-page false positives; ID selectors intentional and working; refactor risk exceeds value. W3 2026-10-08. */
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos is beyond hand and screen; Awtsmoos.com enlarges every mobile gesture vessel so split, drag, trim, and mix can remain precise and seen.
+The Awtsmoos is beyond hand and screen; Awtsmoos.com gives the narrow phone mostly waveform and timeline, with compact controls above and generous invisible trim gates between.
 */
 @media (max-width: 720px), (pointer: coarse) {
 	.multitrack-editor {
-		--multitrack-header-width: 118px;
-		padding: 8px;
+		--multitrack-header-width: 108px;
+		min-height: 58dvh;
+		padding: 6px;
 	}
 	.multitrack-heading span {
 		display: none;
-	
-	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
-	.multitrack-toolbar {
-		grid-template-columns: repeat(5, minmax(94px, 1fr));
+	}
+	.multitrack-toolbar-primary {
 		scroll-snap-type: x proximity;
 	}
-	.multitrack-tool,
-	.multitrack-snap select {
-		min-height: 48px;
-		font-size: .86rem;
+	.multitrack-tool {
+		min-height: 42px;
+		font-size: .8rem;
 		scroll-snap-align: start;
 	}
-	.multitrack-viewport {
-		max-height: 52dvh;
+	.multitrack-tools-secondary {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
-	.multitrack-track {
-		min-height: 116px;
+	.multitrack-tools-secondary .multitrack-tool {
+		width: 100%;
+	}
+	.multitrack-snap,
+	.multitrack-toggle {
+		min-height: 42px;
+	}
+	.multitrack-viewport {
+		flex: 1 1 54dvh;
+		min-height: 48dvh;
+		max-height: 72dvh;
+	}
+	.multitrack-track,
+	.multitrack-lane {
+		min-height: 112px;
 	}
 	.multitrack-track-header {
 		padding: 5px;
 	}
 	.multitrack-track-name {
-		min-height: 38px;
-		font-size: 14px;
+		min-height: 36px;
+		font-size: 13px;
 	}
 	.multitrack-track-switch {
-		min-height: 38px;
-	}
-	.multitrack-lane {
-		min-height: 116px;
+		min-height: 34px;
 	}
 	.multitrack-clip {
-		top: 10px;
-		height: 94px;
+		top: 9px;
+		height: 92px;
 	}
 	.multitrack-trim-handle {
 		width: 18px;
 	}
-	.multitrack-trim-handle::before {
-		position: absolute;
-		content: '';
-		top: -4px;
-		bottom: -4px;
-		left: -13px;
-		right: -13px;
+	.multitrack-trim-left {
+		left: -9px;
 	}
-	.multitrack-clip-content {
-		padding-inline: 20px;
+	.multitrack-trim-right {
+		right: -9px;
+	}
+	.multitrack-clip-body {
+		padding-inline: 9px;
 	}
 }
 @media (max-width: 390px) {
 	.multitrack-editor {
-		--multitrack-header-width: 104px;
+		--multitrack-header-width: 96px;
+		border-radius: 10px;
 	}
-	.multitrack-toolbar {
-		grid-template-columns: repeat(5, minmax(88px, 1fr));
+	.multitrack-heading strong {
+		font-size: .88rem;
 	}
 	.multitrack-track-range {
 		grid-template-columns: 1fr;
@@ -74,6 +81,5 @@ The Awtsmoos is beyond hand and screen; Awtsmoos.com enlarges every mobile gestu
 	}
 	.multitrack-track-range span {
 		display: none;
-	
-	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+	}
 }

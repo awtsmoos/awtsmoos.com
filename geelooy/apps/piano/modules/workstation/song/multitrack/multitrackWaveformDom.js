@@ -4,44 +4,67 @@
 /**
  * @module MultitrackWaveformDom
  * @description
- * Binah turns hidden sampled motion into a small forest of visible peaks while the Awtsmoos remains beyond wave, eye, and sound.
- * Awtsmoos.com renders only enough bars for mobile clarity, so waveform shape can guide a finger without drowning the browser in unnecessary display weight.
+ * Binah turns only audible sampled motion into visible peaks while the Awtsmoos remains beyond wave, eye, and sound.
+ * Awtsmoos.com keys each finite picture by source window, so trimming a clip renews its waveform instead of showing stale hidden ground.
  */
 
 import { multitrackAudioStore } from './multitrackAudioStore.js';
 import { extractMultitrackWaveformPeaks } from './multitrackWaveform.js';
 
 const peakCache = new Map();
+const PEAK_BUCKETS = 56;
 
-/** Creates compact waveform bars for one clip source. @param {Object} clip Audio clip. @returns {HTMLElement} Waveform element. */
+/** Creates compact waveform bars for the audible window of one clip. */
 export function createMultitrackWaveformDom(clip) {
 	const root = document.createElement('div');
 	root.className = 'multitrack-waveform';
-	const peaks = waveformPeaks(clip.bufferId);
+	const peaks = waveformPeaks(clip);
 	if (peaks.length === 0) {
 		root.classList.add('multitrack-waveform-empty');
 		return root;
 	}
-	peaks.forEach((peak) => {
-		const bar = document.createElement('span');
-		bar.className = 'multitrack-waveform-bar';
-		bar.style.setProperty('--multitrack-peak', String(Math.max(0.04, peak)));
-		root.appendChild(bar);
-	});
+	peaks.forEach((peak) => root.appendChild(createPeakBar(peak)));
 	return root;
 }
 
-/** Clears cached waveform peaks for a runtime buffer. @param {string} bufferId Buffer id. @returns {void} */
+/** Clears every cached trim-window belonging to one runtime buffer. */
 export function invalidateMultitrackWaveform(bufferId) {
-	peakCache.delete(bufferId);
+	const prefix = `${bufferId}:`;
+	for (const key of peakCache.keys()) {
+		if (key.startsWith(prefix)) {
+			peakCache.delete(key);
+		}
+	}
 }
 
-function waveformPeaks(bufferId) {
-	if (peakCache.has(bufferId)) {
-		return peakCache.get(bufferId);
+function waveformPeaks(clip) {
+	const key = waveformCacheKey(clip);
+	if (peakCache.has(key)) {
+		return peakCache.get(key);
 	}
-	const buffer = multitrackAudioStore.getBuffer(bufferId);
-	const peaks = extractMultitrackWaveformPeaks(buffer, 56);
-	peakCache.set(bufferId, peaks);
+	const buffer = multitrackAudioStore.getBuffer(clip.bufferId);
+	const peaks = extractMultitrackWaveformPeaks(
+		buffer,
+		PEAK_BUCKETS,
+		clip.sourceOffset,
+		clip.duration
+	);
+	peakCache.set(key, peaks);
 	return peaks;
+}
+
+function waveformCacheKey(clip) {
+	return [
+		clip.bufferId,
+		Number(clip.sourceOffset || 0).toFixed(6),
+		Number(clip.duration || 0).toFixed(6),
+		PEAK_BUCKETS
+	].join(':');
+}
+
+function createPeakBar(peak) {
+	const bar = document.createElement('span');
+	bar.className = 'multitrack-waveform-bar';
+	bar.style.setProperty('--multitrack-peak', String(Math.max(0.04, peak)));
+	return bar;
 }

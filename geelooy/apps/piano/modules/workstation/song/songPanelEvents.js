@@ -4,8 +4,8 @@
 /**
  * @module SongPanelEvents
  * @description
- * Yesod joins visible Song Studio gestures to their proper domains while the Awtsmoos remains beyond click, touch, and intention.
- * Awtsmoos.com keeps each button narrow in duty, so errors become visible and every creative path stays clear in beauty.
+ * Yesod joins visible Song note gestures to narrow domains while the Awtsmoos remains beyond click, touch, and intention.
+ * Awtsmoos.com keeps note-text import/export explicitly named and gives playback one toggle, so no finite button blurs audio rendering with editable notation.
  */
 
 import { bindSongFieldEvents } from './songPanelFieldEvents.js';
@@ -16,12 +16,11 @@ import {
 } from './songPanelDocumentActions.js';
 import {
 	chooseSongFile,
-	exportSongFile,
+	exportEditableSongNoteText,
 	importSongFile
 } from './songPanelFileActions.js';
 import {
-	playSongDocument,
-	stopSongTransport,
+	toggleSongPlayback,
 	toggleSongRecording
 } from './songPanelTransportActions.js';
 import {
@@ -29,12 +28,7 @@ import {
 	setSongPanelOpen
 } from './songPanelView.js';
 
-/**
- * Binds all Song Studio shell events after DOM construction.
- * @param {Object} dom Song Studio DOM registry.
- * @param {Object} state Song Studio state.
- * @returns {void}
- */
+/** Binds all Song Studio shell events after DOM construction. */
 export function bindSongPanelEvents(dom, state) {
 	bindVisibility(dom);
 	bindSongFieldEvents(dom, state, () => renderSongDocument(dom, state));
@@ -51,19 +45,18 @@ function bindVisibility(dom) {
 
 function bindActions(dom, state) {
 	bindAction(dom, 'record', () => toggleSongRecording(state, dom), state);
-	bindAction(dom, 'play', () => playSongDocument(state, dom), state);
-	bindAction(dom, 'stop', () => stopSongTransport(state, dom), state);
-	bindAction(dom, 'upload', () => chooseSongFile(dom), state);
-	bindAction(dom, 'download', () => exportSongFile(state, dom), state);
+	bindAction(dom, 'play-toggle', () => toggleSongPlayback(state, dom), state);
+	bindAction(dom, 'upload-note', () => chooseSongFile(dom), state);
+	bindAction(dom, 'export-note-text', () => exportEditableSongNoteText(state, dom), state);
 	bindAction(dom, 'normalize', () => normalizeSongDocument(state, dom), state);
 	bindAction(dom, 'remix', () => remixSongDocument(state, dom), state);
 	bindAction(dom, 'restore', () => restoreRawSongDocument(state, dom), state);
 }
 
 function bindAction(dom, name, action, state) {
-	dom.buttons.get(name)?.addEventListener('click', () => {
+	dom.buttons.get(name)?.addEventListener('click', async () => {
 		try {
-			action();
+			await action();
 		} catch (error) {
 			showSongError(dom, state, error);
 		}

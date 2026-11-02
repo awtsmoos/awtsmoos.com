@@ -3,31 +3,29 @@
 //Blessed is He
 /**
  * @module MultitrackTrackDom
- * The Awtsmoos brings each lane to life, with knobs beside its rhyme;
- * Awtsmoos.com lets us copy, color, balance, split and move in time.
+ * @description
+ * Malchus keeps track identity, Mute, and Solo visible while the Awtsmoos remains beyond control and concealment.
+ * Awtsmoos.com folds gain, pan, tone, copy, normalize, and delete into an advanced vessel, so narrow screens give the waveform more revelation.
  */
+
 import { createMultitrackClipDom } from './multitrackClipDom.js';
 import { MULTITRACK_TONES } from './multitrackTrackTone.js';
 
-/** @param {Object} track - Audio track. @param {Object} selection - Active clip. @param {number} timelineWidth - Display width. */
+/** Creates one sticky track header and its scrollable clip lane. */
 export function createMultitrackTrackDom(track, selection, timelineWidth) {
 	const root = document.createElement('div');
 	root.className = 'multitrack-track';
 	root.dataset.trackId = track.id;
-	const header = createTrackHeader(track);
 	const lane = document.createElement('div');
 	lane.className = 'multitrack-lane';
 	lane.dataset.trackId = track.id;
 	lane.style.width = `${timelineWidth}px`;
 	lane.setAttribute('role', 'listbox');
-	track.clips.forEach((clip) => {
-		lane.appendChild(createMultitrackClipDom(clip, selection));
-	});
-	root.append(header, lane);
+	track.clips.forEach((clip) => lane.appendChild(createMultitrackClipDom(clip, selection)));
+	root.append(createTrackHeader(track), lane);
 	return { root, lane };
 }
 
-/** @param {Object} track - Track values. @returns {HTMLElement} Interactive header. */
 function createTrackHeader(track) {
 	const root = document.createElement('div');
 	root.className = 'multitrack-track-header';
@@ -36,23 +34,39 @@ function createTrackHeader(track) {
 	name.value = track.name;
 	name.dataset.trackControl = 'name';
 	name.setAttribute('aria-label', `${track.name} track name`);
-	const switches = document.createElement('div');
-	switches.className = 'multitrack-track-switches';
-	switches.append(
+	const essentials = document.createElement('div');
+	essentials.className = 'multitrack-track-switches multitrack-track-essentials';
+	essentials.append(
 		createSwitch('mute', 'M', track.muted, 'Mute track'),
-		createSwitch('solo', 'S', track.solo, 'Solo track'),
+		createSwitch('solo', 'S', track.solo, 'Solo track')
+	);
+	const advanced = createAdvancedTrackControls(track);
+	root.append(name, essentials, advanced);
+	return root;
+}
+
+function createAdvancedTrackControls(track) {
+	const details = document.createElement('details');
+	details.className = 'multitrack-track-advanced';
+	const summary = document.createElement('summary');
+	summary.textContent = 'Mix';
+	const actions = document.createElement('div');
+	actions.className = 'multitrack-track-switches';
+	actions.append(
 		createSwitch('duplicate-track', '⧉', false, 'Duplicate this track'),
 		createSwitch('normalize-track', 'Norm', false, 'Normalize track level'),
 		createSwitch('delete-track', '×', false, 'Delete track')
 	);
-	root.append(name, switches);
-	root.append(createRange('gain', 'Gain', track.gain, 0, 2, 0.05));
-	root.append(createRange('pan', 'Pan', track.pan, -1, 1, 0.05));
-	root.append(createToneSelector(track));
-	return root;
+	details.append(
+		summary,
+		actions,
+		createRange('gain', 'Gain', track.gain, 0, 2, 0.05),
+		createRange('pan', 'Pan', track.pan, -1, 1, 0.05),
+		createToneSelector(track)
+	);
+	return details;
 }
 
-/** @param {string} action - Control key. @param {string} text - Icon. @param {boolean} active - Selected. @param {string} label - Description. */
 function createSwitch(action, text, active, label) {
 	const button = document.createElement('button');
 	button.type = 'button';
@@ -65,38 +79,32 @@ function createSwitch(action, text, active, label) {
 	return button;
 }
 
-/** @param {string} action - Key. @param {string} title - Caption. @param {number} value - Setting. @param {number} min - Lower bound. @param {number} max - Upper bound. @param {number} step - Resolution. */
 function createRange(action, title, value, min, max, step) {
 	const label = document.createElement('label');
 	label.className = 'multitrack-track-range';
 	const text = document.createElement('span');
 	text.textContent = title;
 	const input = document.createElement('input');
-	input.type = 'range';
-	input.min = String(min);
-	input.max = String(max);
-	input.step = String(step);
-	input.value = String(value);
+	Object.assign(input, {
+		type: 'range',
+		min: String(min),
+		max: String(max),
+		step: String(step),
+		value: String(value)
+	});
 	input.dataset.trackControl = action;
 	label.append(text, input);
 	return label;
 }
 
-/** @param {Object} track - Current color. @returns {HTMLElement} Accessible timbre selector. */
 function createToneSelector(track) {
 	const label = document.createElement('label');
 	label.className = 'multitrack-track-range';
 	const caption = document.createElement('span');
-	caption.textContent = 'Sound color';
+	caption.textContent = 'Tone';
 	const select = document.createElement('select');
 	select.dataset.trackControl = 'instrument-color';
-	select.setAttribute('aria-label', `${track.name} audio sound color`);
-	MULTITRACK_TONES.forEach((tone) => {
-		const option = document.createElement('option');
-		option.value = tone.id;
-		option.textContent = tone.name;
-		select.appendChild(option);
-	});
+	MULTITRACK_TONES.forEach((tone) => select.appendChild(new Option(tone.name, tone.id)));
 	select.value = track.instrumentColor || 'original';
 	label.append(caption, select);
 	return label;

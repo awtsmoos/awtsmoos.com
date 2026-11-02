@@ -4,18 +4,13 @@
 /**
  * @module MultitrackClipDom
  * @description
- * Malchus gives one audio clip a touchable body with two visible trim gates while the Awtsmoos remains beyond boundary and duration.
- * Awtsmoos.com lets a thumb select, drag, and shape the finite garment; waveform, loop state, and timing stay visible instead of hiding inside an abstract chart.
+ * Malchus gives one audio clip its truthful finite width while the Awtsmoos remains beyond boundary and duration.
+ * Awtsmoos.com separates visible waveform from generous trim hit-gates, so a tiny fragment stays tiny yet a fingertip may still shape it with precision.
  */
 
 import { createMultitrackWaveformDom } from './multitrackWaveformDom.js';
 
-/**
- * Creates one positioned audio clip DOM element.
- * @param {Object} clip Clip snapshot.
- * @param {Object} selection Editor selection.
- * @returns {HTMLElement} Clip element.
- */
+/** Creates one truthfully positioned audio clip with accessible trim handles. */
 export function createMultitrackClipDom(clip, selection) {
 	const root = document.createElement('div');
 	const selected = selection.clipId === clip.id;
@@ -27,25 +22,27 @@ export function createMultitrackClipDom(clip, selection) {
 	root.setAttribute('aria-selected', String(selected));
 	root.classList.toggle('multitrack-clip-selected', selected);
 	root.style.left = `${clip.timelineStart * selection.pixelsPerSecond}px`;
-	root.style.width = `${Math.max(18, clip.duration * selection.pixelsPerSecond)}px`;
-	const leftHandle = createTrimHandle('left', 'Trim clip start');
-	const content = createClipContent(clip);
-	const rightHandle = createTrimHandle('right', 'Trim clip end');
-	root.append(leftHandle, content, rightHandle);
+	root.style.width = `${Math.max(0, clip.duration * selection.pixelsPerSecond)}px`;
+	const body = createClipBody(clip);
+	root.append(
+		createTrimHandle('left', 'Trim clip start'),
+		body,
+		createTrimHandle('right', 'Trim clip end')
+	);
 	return root;
 }
 
-function createClipContent(clip) {
-	const content = document.createElement('div');
-	content.className = 'multitrack-clip-content';
+function createClipBody(clip) {
+	const body = document.createElement('div');
+	body.className = 'multitrack-clip-body';
 	const label = document.createElement('div');
 	label.className = 'multitrack-clip-label';
 	label.textContent = `${clip.loop ? '↻ ' : ''}${clip.name}`;
 	const timing = document.createElement('div');
 	timing.className = 'multitrack-clip-timing';
 	timing.textContent = `${clip.duration.toFixed(2)}s`;
-	content.append(label, createMultitrackWaveformDom(clip), timing);
-	return content;
+	body.append(label, createMultitrackWaveformDom(clip), timing);
+	return body;
 }
 
 function createTrimHandle(side, label) {

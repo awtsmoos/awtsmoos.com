@@ -4,76 +4,105 @@
 /**
  * @module MultitrackToolbarDom
  * @description
- * Malchus gives the timeline large touchable doors for import, transport, split, duplicate, repeat, ratchet, delete, zoom, and snap.
- * The Awtsmoos is beyond every button; Awtsmoos.com lets each action remain explicit and kind, so a thumb can edit quickly without destructive gestures hidden behind.
+ * Malchus gives essential edits a compact first row and secondary tools a folded vessel while the Awtsmoos remains beyond button and hierarchy.
+ * Awtsmoos.com lets Download WAV, Play, Split, Delete, history, and zoom stay near the thumb, while remix and alternate formats wait without stealing waveform territory.
  */
 
-/** Builds the mobile-first multitrack toolbar. @returns {Object} Toolbar registry. */
+/** Builds the compact mobile-first multitrack toolbar and secondary tool drawer. */
 export function createMultitrackToolbarDom() {
 	const root = document.createElement('div');
 	root.className = 'multitrack-toolbar';
+	const primary = document.createElement('div');
+	primary.className = 'multitrack-toolbar-primary';
 	const buttons = new Map();
-	buttonSpecs().forEach((spec) => {
-		const button = document.createElement('button');
-		button.type = 'button';
-		button.className = `multitrack-tool ${spec.className || ''}`.trim();
-		button.dataset.multitrackAction = spec.action;
-		button.textContent = spec.text;
-		button.setAttribute('aria-label', spec.label);
-		buttons.set(spec.action, button);
-		root.appendChild(button);
-	});
-	const snap = createSnapSelect();
-	root.appendChild(snap.root);
+	primarySpecs().forEach((spec) => primary.appendChild(createButton(spec, buttons)));
+	const drawer = createSecondaryDrawer(buttons);
 	const fileInput = document.createElement('input');
 	fileInput.type = 'file';
 	fileInput.accept = 'audio/*';
 	fileInput.multiple = true;
 	fileInput.className = 'multitrack-file-input';
 	fileInput.setAttribute('aria-label', 'Import audio layers');
-	root.appendChild(fileInput);
+	root.append(primary, drawer.root, fileInput);
 	return {
 		root,
 		buttons,
-		snapSelect: snap.select,
+		snapSelect: drawer.snapSelect,
+		rippleInput: drawer.rippleInput,
+		magnetInput: drawer.magnetInput,
 		fileInput
 	};
 }
 
-function buttonSpecs() {
+function primarySpecs() {
 	return [
-		{ action: 'import', text: '＋ Audio', label: 'Import audio layer', className: 'multitrack-tool-primary' },
-		{ action: 'play', text: '▶ Play', label: 'Play multitrack mix' },
-		{ action: 'stop', text: '■ Stop', label: 'Stop multitrack mix' },
-		{ action: 'split', text: '✂ Split', label: 'Split selected clip at playhead' },
-		{ action: 'duplicate', text: '⧉ Copy', label: 'Duplicate selected clip' },
-		{ action: 'repeat', text: '↻ Repeat ×4', label: 'Repeat selected clip four times' },
-		{ action: 'ratchet', text: '⚡ Ratchet Drop', label: 'Create shrinking repeat build and drop', className: 'multitrack-tool-remix' },
-		{ action: 'delete', text: '⌫ Delete', label: 'Delete selected clip' },
-		{ action: 'zoomOut', text: '−', label: 'Zoom timeline out' },
-		{ action: 'zoomIn', text: '+', label: 'Zoom timeline in' }
+		['import', '＋ Audio', 'Import audio layer', 'multitrack-tool-primary'],
+		['play-toggle', '▶ Play', 'Play multitrack mix'],
+		['split', '✂ Split', 'Split selected clip at playhead'],
+		['delete', '⌫ Delete', 'Delete selected clip'],
+		['download-wav', '↓ Download WAV', 'Download finished song as WAV', 'multitrack-tool-download'],
+		['undo', '↶', 'Undo last edit'],
+		['redo', '↷', 'Redo last edit'],
+		['zoomOut', '−', 'Zoom timeline out'],
+		['zoomIn', '+', 'Zoom timeline in'],
+		['fit', 'Fit', 'Fit complete song in timeline']
 	];
+}
+
+function createSecondaryDrawer(buttons) {
+	const root = document.createElement('details');
+	root.className = 'multitrack-tools-drawer';
+	const summary = document.createElement('summary');
+	summary.textContent = 'More tools';
+	const body = document.createElement('div');
+	body.className = 'multitrack-tools-secondary';
+	[
+		['duplicate', '⧉ Copy', 'Duplicate selected clip'],
+		['repeat', '↻ Repeat ×4', 'Repeat selected clip four times'],
+		['ratchet', '⚡ Ratchet Drop', 'Create shrinking repeat build and drop'],
+		['download-webm', '↓ Download WebM Audio', 'Download finished song as WebM audio']
+	].forEach((spec) => body.appendChild(createButton(spec, buttons)));
+	const snap = createSnapSelect();
+	const ripple = createToggle('Ripple delete', true);
+	const magnet = createToggle('Magnetic snap', true);
+	body.append(snap.root, ripple.root, magnet.root);
+	root.append(summary, body);
+	return {
+		root,
+		snapSelect: snap.select,
+		rippleInput: ripple.input,
+		magnetInput: magnet.input
+	};
+}
+
+function createButton([action, text, label, className = ''], buttons) {
+	const button = document.createElement('button');
+	button.type = 'button';
+	button.className = `multitrack-tool ${className}`.trim();
+	button.dataset.multitrackAction = action;
+	button.textContent = text;
+	button.setAttribute('aria-label', label);
+	buttons.set(action, button);
+	return button;
 }
 
 function createSnapSelect() {
 	const root = document.createElement('label');
 	root.className = 'multitrack-snap';
-	const label = document.createElement('span');
-	label.textContent = 'Snap';
+	root.appendChild(Object.assign(document.createElement('span'), { textContent: 'Beat snap' }));
 	const select = document.createElement('select');
-	[
-		['0', 'Off'],
-		['1', '1/4'],
-		['0.5', '1/8'],
-		['0.25', '1/16'],
-		['0.125', '1/32']
-	].forEach(([value, text]) => {
-		const option = document.createElement('option');
-		option.value = value;
-		option.textContent = text;
-		select.appendChild(option);
-	});
-	select.value = '0.25';
-	root.append(label, select);
+	[['0', 'Off'], ['1', '1/4'], ['0.5', '1/8'], ['0.25', '1/16'], ['0.125', '1/32']]
+		.forEach(([value, text]) => select.appendChild(new Option(text, value)));
+	root.appendChild(select);
 	return { root, select };
+}
+
+function createToggle(text, checked) {
+	const root = document.createElement('label');
+	root.className = 'multitrack-toggle';
+	const input = document.createElement('input');
+	input.type = 'checkbox';
+	input.checked = checked;
+	root.append(input, document.createTextNode(text));
+	return { root, input };
 }
