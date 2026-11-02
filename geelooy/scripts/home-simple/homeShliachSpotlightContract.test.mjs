@@ -1,12 +1,13 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file homeShliachSpotlightContract.test.mjs
- * @description Guards the synchronized Home doorway to the actual Awtsmoos Shliach and its resilient public branding.
- * The Awtsmoos sends one Shliach through many vessels; Awtsmoos.com therefore proves the real GPT link,
- * honest capability copy, canonical public emblem, local image fallback, and final text fallback all remain present.
+ * @description Guards Home's doorway to the Awtsmoos Shliach and its verified public branding path.
+ *
+ * The Awtsmoos sends one Shliach through many vessels, with truth stronger than a vanished file;
+ * Awtsmoos.com serves the public emblem first, then falls back to readable text with grace and style.
  */
 
 import test from "node:test";
@@ -18,7 +19,8 @@ import { fileURLToPath } from "node:url";
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const GPT_ID = "g-6a03feea8398819192067ae3dbfa449c-awtsmoos-shliach-agent";
 const PUBLIC_LOGO = "file_000000001aa071f5afcedcf09919246e.png";
-const LOCAL_FALLBACK = "/resources/branding/awtsmoos-shliach-agent.png";
+const DEAD_DRIVE_FALLBACK = "/drive/assets/awtsmoos-shliach-logo.png";
+const DEAD_RESOURCE_FALLBACK = "/resources/branding/awtsmoos-shliach-agent.png";
 
 function source(name) {
 	return fs.readFileSync(path.join(HERE, name), "utf8");
@@ -35,12 +37,13 @@ test("Home boots the real Awtsmoos Shliach spotlight", () => {
 	assert.match(content, /Explore the Shliach world/);
 });
 
-test("Home keeps public, local, and text branding fallbacks", () => {
+test("Home keeps the public emblem and direct text fallback", () => {
 	const content = source("ShliachSpotlightContent.js");
 	assert.match(content, new RegExp(PUBLIC_LOGO.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
-	assert.match(content, new RegExp(LOCAL_FALLBACK.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
-	assert.match(content, /usingFallback = true/);
+	assert.equal(content.includes(DEAD_DRIVE_FALLBACK), false);
+	assert.equal(content.includes(DEAD_RESOURCE_FALLBACK), false);
 	assert.match(content, /mediaState = "missing"/);
+	assert.match(content, /image\.hidden = true/);
 	assert.match(content, /fallback\.hidden = false/);
 	assert.match(content, /Awtsmoos Shliach/);
 });

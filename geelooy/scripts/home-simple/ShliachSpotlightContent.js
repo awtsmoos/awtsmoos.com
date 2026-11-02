@@ -19,7 +19,6 @@ export { element } from "./ShliachSpotlightElements.js";
 export const SHLIACH_URL = "https://chatgpt.com/g/g-6a03feea8398819192067ae3dbfa449c-awtsmoos-shliach-agent";
 export const SHLIACH_PAGE = "/Shliach/";
 export const SHLIACH_IMAGE = "https://awtsmoos.com/api/social/drive/public/awtsmoos/file_000000001aa071f5afcedcf09919246e.png?v=c9428e4217";
-const SHLIACH_IMAGE_FALLBACK = "/drive/assets/awtsmoos-shliach-logo.png";
 const SHLIACH_DESCRIPTION = [
 	"The Awtsmoos Shliach is the dedicated ChatGPT agent for creating and operating Awtsmoos projects.",
 	"Tell it what you want to make; when your account or Tunnel grants the needed capabilities,",
@@ -48,14 +47,10 @@ export function buildShliachImageLink(documentRoot) {
 	image.loading = "lazy";
 	image.decoding = "async";
 	const fallback = buildMediaFallback(documentRoot);
-	let usingFallback = false;
 	image.addEventListener("load", () => revealMedia(link, fallback));
 	image.addEventListener("error", () => {
-		if (!usingFallback) {
-			usingFallback = true;
-			image.src = SHLIACH_IMAGE_FALLBACK;
-			return;
-		}
+		// The cached fallback file is not deployed (404), so go straight to
+		// the text fallback instead of flashing a broken-image icon.
 		link.dataset.mediaState = "missing";
 		image.hidden = true;
 		fallback.hidden = false;
