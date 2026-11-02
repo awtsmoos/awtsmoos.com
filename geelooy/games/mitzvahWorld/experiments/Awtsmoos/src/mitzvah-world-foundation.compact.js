@@ -3635,7 +3635,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.resetTreeToBase = resetTreeToBase;
-	const __awtsmoosDefault_26ck0r = {
+	const __awtsmoosDefault_3se0m4 = {
 		Bone,
 		BufferAttribute,
 		BufferGeometry,
@@ -3649,7 +3649,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		Scene,
 		Vector3
 	};
-	__exports.default = __awtsmoosDefault_26ck0r;
+	__exports.default = __awtsmoosDefault_3se0m4;
 }
 
 // ---- libs/awtsmoos-procedural-core/src/adapters/native/runtime.js ----
@@ -9334,15 +9334,15 @@ const __awtsmoosModule_0 = Object.create(null);
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapVisibleWorld.js ----
 {
 	const __exports = __awtsmoosModule_20;
-	//B"H
-	//Boruch Hashem
-	//Blessed is He
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
 
 	/**
 	 * @file BootstrapVisibleWorld.js
-	 * @description Builds the immediate bounded meadow as a deeper asymmetric valley using the same shared geometry family.
-	 * The Awtsmoos renews one field and six hills into layered distance without multiplying their substance;
-	 * Awtsmoos.com keeps every silhouette ready for lawful remote material hydration and truthful first-play presence.
+	 * @description Builds either the authentic rich valley or survival's single textured first-control field.
+	 * The Awtsmoos grants each hill its future without demanding its weight at the first step;
+	 * Awtsmoos.com reveals one shared meadow in survival while richer light remains lovingly kept.
 	 */
 
 	const createNativeMeshFromGeometry = __awtsmoosModule_21.createNativeMeshFromGeometry;
@@ -9367,16 +9367,14 @@ const __awtsmoosModule_0 = Object.create(null);
 	]);
 
 	/**
-	 * Creates the bounded first-play valley while preserving later remote-material identity.
-	 * Procedural grass and stone textures are bound immediately (generated once, cached);
-	 * the remote upgrade path keeps working on top of them.
-	 * @param {object} [options={}] Optional { textureSeed } to reseed the procedural ground.
-	 * @returns {object} Core-owned group containing one field and twelve hill tiers.
+	 * Creates the first-play field, optionally leaving all ornamental hills and stone texture unallocated.
+	 * @param {object} [options={}] Optional textureSeed and explicit fieldOnly survival contract.
+	 * @returns {object} Core-owned group with one essential field or the original thirteen meshes.
 	 */
 	function createBootstrapVisibleWorld(options = {}) {
 		const seed = Number.isFinite(options.textureSeed) ? options.textureSeed : undefined;
+		const fieldOnly = options.fieldOnly === true;
 		const grass = seed === undefined ? getProceduralTexture('grass') : getProceduralTexture('grass', seed);
-		const stone = seed === undefined ? getProceduralTexture('stone') : getProceduralTexture('stone', seed);
 		const group = createNativeWorldGroup({
 			name: 'Awtsmoos_minimal_shared_meadow'
 		});
@@ -9384,21 +9382,24 @@ const __awtsmoosModule_0 = Object.create(null);
 			mapImage: grass,
 			mapRepeat: [28, 30]
 		});
-		for (const [index, hill] of HILLS.entries()) {
-			addHill(group, index, hill, grass, stone);
+		if (!fieldOnly) {
+			const stone = seed === undefined ? getProceduralTexture('stone') : getProceduralTexture('stone', seed);
+			for (const [index, hill] of HILLS.entries()) {
+				addHill(group, index, hill, grass, stone);
+			}
 		}
 		group.userData = {
 			bootstrapTerrain: true,
 			meshCount: group.children.length,
 			proceduralGroundTextures: true,
-			visualMode: 'cinematic-bootstrap-remote-upgrade'
+			visualMode: fieldOnly ? 'survival-single-field' : 'cinematic-bootstrap-remote-upgrade'
 		};
 		return group;
 	}
 
 
 	__exports.createBootstrapVisibleWorld = createBootstrapVisibleWorld;
-	/** Adds one two-tier hill without changing mesh topology or semantic hydration roles. */
+	/** Adds one two-tier hill only to the unchanged rich/default authored meadow. */
 	function addHill(group, index, [x, y, z, width, height, depth], grass, stone) {
 		const far = index > 3;
 		const color = far ? COLORS.farHill : COLORS.hill;
@@ -9411,15 +9412,14 @@ const __awtsmoosModule_0 = Object.create(null);
 	}
 
 	/**
-	 * Adds one first-play box through Core while retaining the explicit fallback-visible exception.
+	 * Builds one portable Core-owned cube with a semantic material preserved for remote hydration.
 	 * @param {object} group Parent hierarchy.
 	 * @param {string} name Stable part name.
-	 * @param {number[]} position Local XYZ translation.
-	 * @param {number[]} scale Local XYZ scale.
-	 * @param {number[]} color Bootstrap color factor.
-	 * @param {string} semanticRole Later remote-material role.
-	 * @param {object} [texture={}] Optional { mapImage, mapRepeat } bound immediately.
-	 * @returns {void}
+	 * @param {number[]} position XYZ.
+	 * @param {number[]} scale XYZ.
+	 * @param {number[]} color RGBA bootstrap tint.
+	 * @param {string} semanticRole Future authored texture role.
+	 * @param {object} [texture={}] Optional shared map image and tiling.
 	 */
 	function addBox(group, name, position, scale, color, semanticRole, texture = {}) {
 		const material = createBootstrapImmediateMaterial(`meadow-${name}`, color, {
@@ -16963,19 +16963,20 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	/**
 	 * @file BootstrapTerrainPackage.js
-	 * @description Creates visible golden-valley earth while survival can refuse optional procedural meadow geometry before allocation.
-	 * The Awtsmoos reveals green earth before distant richness must descend;
-	 * Awtsmoos.com lets one shared texture carry survival while richer blades may later extend.
+	 * @description Creates the essential field immediately and keeps survival free of optional hills, stone and meadow blades.
+	 * The Awtsmoos gives a standing place beneath the traveler before the valley unfolds;
+	 * Awtsmoos.com reveals a single seeded earth in survival while every rich vista keeps its golden folds.
 	 */
 
 	const createBootstrapTerrainHydration = __awtsmoosModule_14.createBootstrapTerrainHydration;
 	const createBootstrapVisibleWorld = __awtsmoosModule_20.createBootstrapVisibleWorld;
 	const attachMeadowProceduralLayer = __awtsmoosModule_106.attachMeadowProceduralLayer;
 
-	/** Creates the bootstrap terrain package with optional procedural-meadow attachment. */
+	/** Builds textured spawn terrain without allocating ornamental land in survival quality. */
 	function createBootstrapTerrainPackage(options = {}) {
-		const group = createBootstrapVisibleWorld();
-		const proceduralMeadowEnabled = options.enableProceduralMeadow !== false;
+		const survival = options.survival === true;
+		const group = createBootstrapVisibleWorld({ fieldOnly: survival });
+		const proceduralMeadowEnabled = !survival && options.enableProceduralMeadow !== false;
 		if (proceduralMeadowEnabled) {
 			try {
 				attachMeadowProceduralLayer(group, options.meadowProcedural || {});
@@ -16993,7 +16994,7 @@ const __awtsmoosModule_0 = Object.create(null);
 			heightAt: () => 0,
 			materialDiagnostics: {
 				materials: group.userData.meshCount,
-				mode: proceduralMeadowEnabled ? 'colored-bootstrap' : 'survival-texture-only'
+				mode: survival ? 'survival-single-field' : 'colored-bootstrap'
 			},
 			roadStats: { colliders: 0, status: 'visible-path' },
 			signTexturePromise: Promise.resolve({ status: 'dormant' }),
@@ -17008,7 +17009,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.createBootstrapTerrainPackage = createBootstrapTerrainPackage;
-	/** Records whether optional meadow geometry joined the otherwise shared bootstrap ground. */
+	/** Reports only allocated geometry and the selected texture-only quality. */
 	function createStats(group, forest, proceduralMeadowEnabled) {
 		return {
 			bootstrap: true,
@@ -17017,7 +17018,7 @@ const __awtsmoosModule_0 = Object.create(null);
 			groundSampler: 'bootstrap-flat-ground',
 			meshCount: group.userData.meshCount,
 			proceduralMeadowEnabled,
-			quality: proceduralMeadowEnabled ? 'visible-bootstrap' : 'survival-texture-only',
+			quality: group.userData.visualMode === 'survival-single-field' ? 'survival-texture-only' : 'visible-bootstrap',
 			renderDpr: 1,
 			terrainPreparation: { mode: 'golden-valley-bootstrap', steps: 1 }
 		};
@@ -17079,9 +17080,9 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	/**
 	 * @file BootstrapWorldFoundation.js
-	 * @description Joins visible valley, collision, ground, one bootstrap chunk, and scene while honoring survival allocation limits.
-	 * The Awtsmoos gathers what movement needs before every distant garment is shown;
-	 * Awtsmoos.com lets survival keep textured earth while optional meadow geometry remains unknown.
+	 * @description Preserves essential terrain, collision and one chunk while selecting sparse survival creation at the source.
+	 * The Awtsmoos renews the field beneath the traveler before distant horizons are born;
+	 * Awtsmoos.com carries no ornamental hills into survival's first control morn.
 	 */
 
 	const isSurvivalQuality = __awtsmoosModule_8.isSurvivalQuality;
@@ -17090,10 +17091,10 @@ const __awtsmoosModule_0 = Object.create(null);
 	const createBootstrapFlatGround = __awtsmoosModule_12.createBootstrapFlatGround;
 	const createBootstrapTerrainPackage = __awtsmoosModule_13.createBootstrapTerrainPackage;
 
-	/** Creates the first-control world without allocating procedural meadow geometry in survival. */
+	/** Builds the minimal spawn foundation; only optional land creation differs in survival. */
 	function createBootstrapWorldFoundation(services) {
 		const survival = isSurvivalQuality(services?.renderer?.qualityProfile);
-		const terrain = createBootstrapTerrainPackage({ enableProceduralMeadow: !survival });
+		const terrain = createBootstrapTerrainPackage({ enableProceduralMeadow: !survival, survival });
 		const mainOctree = createBootstrapCollisionWorld();
 		const collisionQuery = mainOctree;
 		const groundContracts = createBootstrapFlatGround(collisionQuery);
@@ -19218,7 +19219,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.resetTreeToBase = resetTreeToBase;
-	const __awtsmoosDefault_1d1vsuh = {
+	const __awtsmoosDefault_1t561yg = {
 		Bone,
 		BufferAttribute,
 		BufferGeometry,
@@ -19231,7 +19232,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		Scene,
 		Vector3
 	};
-	__exports.default = __awtsmoosDefault_1d1vsuh;
+	__exports.default = __awtsmoosDefault_1t561yg;
 }
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/math/Vec3.js ----
