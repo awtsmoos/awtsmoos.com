@@ -78,6 +78,7 @@ export class ComposerController {
 			this.review.open();
 		});
 		document.getElementById('previewButton').addEventListener('click', () => {
+		document.querySelector('.previewColumn')?.classList.remove('is-dismissed');
 			document.body.classList.toggle('previewFocused');
 		});
 		document.getElementById('clearDraftButton').addEventListener('click', () => {

@@ -49,7 +49,7 @@ every card degrades gracefully to its poster with a "coming soon" mark.
 		<section class="films-hero" aria-labelledby="films-title">
 			<div class="films-hero-glow" aria-hidden="true"></div>
 			<p class="films-eyebrow">B&Prime;H · Hemshech תרס״ו · Samach Vov</p>
-			<h1 id="films-title">Five Films of <span class="films-title-he" lang="he">המשך תרס״ו</span></h1>
+			<h1 id="films-title">Five Films of <span class="films-title-he" lang="he" dir="rtl">המשך תרס״ו</span></h1>
 			<p class="films-lede">The Rebbe Rashab&rsquo;s first five maamarim &mdash; from Rosh Hashanah to Shmini Atzeres &mdash; told in three minutes each: cosmic scenes, original narration, and the deepest ideas of Chassidus made vivid.</p>
 			<div class="films-hero-actions">
 				<button class="films-play-featured" type="button" data-play-film="0">
@@ -183,6 +183,12 @@ every card degrades gracefully to its poster with a "coming soon" mark.
 		var modalFallback = modal.querySelector('[data-modal-fallback]');
 		var note = document.querySelector('[data-availability-note]');
 		var cards = Array.prototype.slice.call(document.querySelectorAll('.film-card'));
+		// Posters may not exist yet: hide broken images so cards degrade to the Coming-soon badge.
+		Array.prototype.slice.call(document.querySelectorAll('.film-card-poster')).forEach(function(img) {
+			var hide = function() { img.hidden = true; };
+			if (img.complete && img.naturalWidth === 0) hide();
+			else img.addEventListener('error', hide);
+		});
 		var availability = {};
 
 		function checkOne(card) {

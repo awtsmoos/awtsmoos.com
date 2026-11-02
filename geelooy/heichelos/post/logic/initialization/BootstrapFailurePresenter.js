@@ -25,8 +25,11 @@ export class MalchusBootstrapFailurePresenter {
 	 * @returns {string} Human-readable failure message.
 	 */
 	reveal(malchusViewport, ohrError) {
-		const ohrMessage = ohrError?.message
+		const rawMessage = ohrError?.message
 			?? String(ohrError ?? 'Unknown reader bootstrap failure.');
+		const ohrMessage = rawMessage.startsWith('READER_CLIENT_POST_MISSING')
+			? 'This post could not be found. It may have been moved or not yet published.'
+		: rawMessage;
 		const malchusBody = this.document?.body;
 
 		if (malchusBody?.dataset) {
