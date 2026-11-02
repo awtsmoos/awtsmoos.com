@@ -4,78 +4,116 @@
 /**
  * @module MultitrackClipEnvelope
  * @description
- * Chesed lets a clip rise and Gevurah lets it rest, while the Awtsmoos is beyond every measured gain and second.
- * Awtsmoos.com gives live playback and finished export one shared envelope, so the same finite fade is heard wherever the song is revealed.
+ * Tiferes lets finite gain rise and release while the Awtsmoos remains beyond loudness, boundary, and clock.
+ * Awtsmoos.com schedules the same truthful envelope from every seek point, so a partial fade keeps moving instead of freezing in time.
  */
 
-/**
- * Normalizes edge fades so they fit inside one audible clip without overlap.
- * @param {number} fadeIn - Requested fade-in seconds.
- * @param {number} fadeOut - Requested fade-out seconds.
- * @param {number} duration - Audible clip duration.
- * @returns {{fadeIn:number,fadeOut:number}} Safe fade pair.
- */
-export function normalizeMultitrackClipFades(fadeIn, fadeOut, duration) {
-	const safeDuration = Math.max(0, finite(duration, 0));
-	const safeFadeIn = clamp(fadeIn, 0, safeDuration);
-	const safeFadeOut = clamp(fadeOut, 0, Math.max(0, safeDuration - safeFadeIn));
+import {
+	multitrackClipEnvelopeDuration,
+	readMultitrackClipEnvelopeOffsets
+} from './multitrackClipEnvelopeSegments.js';
+
+/** Normalizes edge fades against the full envelope lineage represented by a clip segment. */
+export function normalizeMultitrackClipFades(
+	fadeIn,
+	fadeOut,
+	duration,
+	fadeInOffset = 0,
+	fadeOutOffset = 0
+) {
+	const envelopeDuration = Math.max(
+		0,
+		finite(duration) + nonnegative(fadeInOffset) + nonnegative(fadeOutOffset)
+	);
+	const safeFadeIn = clamp(fadeIn, 0, envelopeDuration);
+	const safeFadeOut = clamp(fadeOut, 0, Math.max(0, envelopeDuration - safeFadeIn));
 	return { fadeIn: safeFadeIn, fadeOut: safeFadeOut };
 }
 
-/**
- * Returns the clip gain at one local audible second.
- * @param {Object} clip - Canonical clip metadata.
- * @param {number} elapsed - Seconds from the clip's audible left edge.
- * @returns {number} Linear gain including clip gain and fades.
- */
-export function multitrackClipEnvelopeGain(clip, elapsed) {
-	const duration = Math.max(0, finite(clip?.duration, 0));
-	const { fadeIn, fadeOut } = normalizeMultitrackClipFades(clip?.fadeIn, clip?.fadeOut, duration);
-	const gain = clamp(clip?.gain, 0, 2);
-	const local = clamp(elapsed, 0, duration);
-	if (fadeIn > 0 && local < fadeIn) {
-		return gain * (local / fadeIn);
+/** Returns the clip gain at one local audible second, including lineage-preserved fades. */
+export function multitrackClipEnvelopeGain(clip, elapsedSeconds) {
+	const duration = Math.max(0, finite(clip?.duration));
+	const offsets = readMultitrackClipEnvelopeOffsets(clip);
+	const envelopeDuration = multitrackClipEnvelopeDuration(clip);
+	const { fadeIn, fadeOut } = normalizeMultitrackClipFades(
+		clip?.fadeIn,
+		clip?.fadeOut,
+		duration,
+		offsets.fadeInOffset,
+		offsets.fadeOutOffset
+	);
+	const local = clamp(elapsedSeconds, 0, duration);
+	const envelopeTime = offsets.fadeInOffset + local;
+	const gain = clamp(clip?.gain ?? 1, 0, 2);
+	if (fadeIn > 0 && envelopeTime < fadeIn) {
+		return gain * envelopeTime / fadeIn;
 	}
-	const fadeOutStart = duration - fadeOut;
-	if (fadeOut > 0 && local > fadeOutStart) {
-		return gain * ((duration - local) / fadeOut);
+	const fadeOutStart = envelopeDuration - fadeOut;
+	if (fadeOut > 0 && envelopeTime > fadeOutStart) {
+		return gain * (envelopeDuration - envelopeTime) / fadeOut;
 	}
 	return gain;
 }
 
-/**
- * Schedules the same clip envelope for live and OfflineAudioContext voices.
- * @param {AudioParam} parameter - Gain AudioParam.
- * @param {Object} clip - Canonical clip metadata.
- * @param {number} when - Audio-context start time.
- * @param {number} elapsed - Local clip offset already elapsed.
- * @param {number} playableDuration - Remaining scheduled voice duration.
- */
-export function scheduleMultitrackClipEnvelope(parameter, clip, when, elapsed, playableDuration) {
-	const duration = Math.max(0, finite(clip?.duration, 0));
-	const start = clamp(elapsed, 0, duration);
-	const end = clamp(start + Math.max(0, finite(playableDuration, 0)), start, duration);
-	const { fadeIn, fadeOut } = normalizeMultitrackClipFades(clip?.fadeIn, clip?.fadeOut, duration);
-	const gain = clamp(clip?.gain, 0, 2);
+/** Schedules sample-accurate gain automation for any playable sub-range of one clip. */
+export function scheduleMultitrackClipEnvelope(
+	parameter,
+	clip,
+	when,
+	elapsedSeconds,
+	playableDuration
+) {
+	const duration = Math.max(0, finite(clip?.duration));
+	const offsets = readMultitrackClipEnvelopeOffsets(clip);
+	const { fadeIn, fadeOut } = normalizeMultitrackClipFades(
+		clip?.fadeIn,
+		clip?.fadeOut,
+		duration,
+		offsets.fadeInOffset,
+		offsets.fadeOutOffset
+	);
+	const start = clamp(elapsedSeconds, 0, duration);
+	const end = clamp(start + Math.max(0, finite(playableDuration)), start, duration);
 	parameter.cancelScheduledValues(when);
 	parameter.setValueAtTime(multitrackClipEnvelopeGain(clip, start), when);
-	if (fadeIn > start && fadeIn < end) {
-		parameter.linearRampToValueAtTime(gain, when + fadeIn - start);
+	if (!(end > start)) {
+		return;
 	}
-	const fadeOutStart = duration - fadeOut;
-	if (fadeOut > 0 && fadeOutStart > start && fadeOutStart < end) {
-		parameter.setValueAtTime(gain, when + fadeOutStart - start);
+	let cursor = start;
+	const fadeInEnd = fadeIn - offsets.fadeInOffset;
+	if (fadeIn > 0 && fadeInEnd > start) {
+		cursor = Math.min(end, fadeInEnd);
+		rampToLocalTime(parameter, clip, when, start, cursor);
 	}
-	if (fadeOut > 0 && end > fadeOutStart) {
-		parameter.linearRampToValueAtTime(multitrackClipEnvelopeGain(clip, end), when + end - start);
+	const fadeOutStart = duration + offsets.fadeOutOffset - fadeOut;
+	if (fadeOut > 0 && fadeOutStart > cursor && fadeOutStart < end) {
+		cursor = fadeOutStart;
+		parameter.setValueAtTime(
+			multitrackClipEnvelopeGain(clip, cursor),
+			when + cursor - start
+		);
+	}
+	if (fadeOut > 0 && end > fadeOutStart && end > cursor) {
+		rampToLocalTime(parameter, clip, when, start, end);
 	}
 }
 
-function finite(value, fallback) {
+function rampToLocalTime(parameter, clip, when, start, localTime) {
+	parameter.linearRampToValueAtTime(
+		multitrackClipEnvelopeGain(clip, localTime),
+		when + localTime - start
+	);
+}
+
+function nonnegative(value) {
+	return Math.max(0, finite(value));
+}
+
+function finite(value) {
 	const number = Number(value);
-	return Number.isFinite(number) ? number : fallback;
+	return Number.isFinite(number) ? number : 0;
 }
 
 function clamp(value, minimum, maximum) {
-	return Math.max(minimum, Math.min(maximum, finite(value, minimum)));
+	return Math.max(minimum, Math.min(maximum, finite(value)));
 }

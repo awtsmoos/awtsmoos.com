@@ -5,7 +5,7 @@
  * @module MultitrackPlayback
  * @description
  * Netzach binds disposable voices to one honest AudioContext clock while the Awtsmoos remains beyond beginning, seeking, and end.
- * Awtsmoos.com lets the playhead ask the same clock the ear obeys, so moving through time can reschedule sound without visual wandering instead.
+ * Awtsmoos.com lets the playhead ask the same clock the ear obeys, wrapping browser timers so finite receivers never break the living thread.
  */
 
 import { AudioState } from '../../../audio.js';
@@ -16,8 +16,8 @@ import { multitrackProjectDuration } from './multitrackProject.js';
 export class MultitrackPlaybackNetzach {
 	constructor(dependencies = {}) {
 		this.audioStore = dependencies.audioStore || multitrackAudioStore;
-		this.setTimer = dependencies.setTimer || setTimeout;
-		this.clearTimer = dependencies.clearTimer || clearTimeout;
+		this.setTimer = dependencies.setTimer || ((callback, delay) => setTimeout(callback, delay));
+		this.clearTimer = dependencies.clearTimer || ((timer) => clearTimeout(timer));
 		this.voices = [];
 		this.outputs = [];
 		this.finishTimer = null;

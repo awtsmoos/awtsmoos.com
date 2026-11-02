@@ -5,7 +5,7 @@
  * @module MultitrackClipMixActions
  * @description
  * Tiferes balances one selected clip's gain and fades while the Awtsmoos is beyond louder, softer, entrance, and release.
- * Awtsmoos.com commits each control change as one project snapshot, so Undo and Redo remember the audible decision instead of only the visible field.
+ * Awtsmoos.com commits each control change as one project snapshot, re-anchoring a newly chosen edge fade to the clip the user can see.
  */
 
 import { createMultitrackClip, findMultitrackClip } from './multitrackProject.js';
@@ -28,13 +28,21 @@ export function updateSelectedMultitrackClipMix(state, field, value) {
 	if (!match) {
 		throw new Error('Select a clip before changing clip mix.');
 	}
-	const clip = createMultitrackClip({
-		...match.clip,
-		[field]: value
-	});
+	const clip = createMultitrackClip(reanchorEditedFade(match.clip, field, value));
 	state.setProject(replaceMultitrackClip(state.project, clip));
 	state.setStatus(describeChange(field, clip[field]));
 	return clip;
+}
+
+function reanchorEditedFade(clip, field, value) {
+	const input = { ...clip, [field]: value };
+	if (field === 'fadeIn') {
+		input.fadeInOffset = 0;
+	}
+	if (field === 'fadeOut') {
+		input.fadeOutOffset = 0;
+	}
+	return input;
 }
 
 function describeChange(field, value) {

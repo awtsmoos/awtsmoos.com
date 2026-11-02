@@ -5,7 +5,7 @@
  * @module MultitrackClipMixDom
  * @description
  * Malchus gives a selected clip three small vessels for gain and fades while the Awtsmoos remains beyond every number and field.
- * Awtsmoos.com keeps these controls folded with secondary tools, preserving the broad waveform kingdom on narrow screens.
+ * Awtsmoos.com keeps these controls folded with secondary tools, preserving inherited fade truth without crowding the narrow waveform kingdom.
  */
 
 import { findMultitrackClip } from './multitrackProject.js';
@@ -47,7 +47,7 @@ export function syncMultitrackClipMixDom(root, state) {
 		input.disabled = !clip;
 		input.value = clip ? String(clip[field]) : '';
 		if (clip && field !== 'gain') {
-			input.max = String(clip.duration);
+			input.max = String(Math.max(clip.duration, Number(clip[field]) || 0));
 		}
 	});
 }

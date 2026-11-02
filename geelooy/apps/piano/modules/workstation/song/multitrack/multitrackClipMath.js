@@ -5,9 +5,14 @@
  * @module MultitrackClipMath
  * @description
  * Gevurah trims and divides finite regions while the Awtsmoos keeps the source sound whole beneath each measured line.
- * Awtsmoos.com moves metadata rather than samples, preserving gain and edge fades through every lawful clip transformation in time.
+ * Awtsmoos.com moves metadata rather than samples, preserving gain and inherited envelope time through every lawful clip transformation.
  */
 
+import {
+	splitMultitrackClipEnvelope,
+	trimMultitrackClipEnvelopeLeft,
+	trimMultitrackClipEnvelopeRight
+} from './multitrackClipEnvelopeSegments.js';
 import { createMultitrackClip } from './multitrackProject.js';
 
 const MINIMUM_CLIP_SECONDS = 0.001;
@@ -32,7 +37,7 @@ export function moveMultitrackClip(clip, timelineStart, timing = {}) {
 	};
 }
 
-/** Trims or restores the left edge while keeping canonical fade lengths valid. */
+/** Trims or restores the left edge while preserving the inherited envelope segment. */
 export function trimMultitrackClipLeft(clip, newStart, timing = {}) {
 	const snapped = snapMultitrackTime(newStart, timing.tempo, timing.gridBeats);
 	const earliestStart = Math.max(0, clip.timelineStart - clip.sourceOffset);
@@ -41,51 +46,55 @@ export function trimMultitrackClipLeft(clip, newStart, timing = {}) {
 	const delta = start - clip.timelineStart;
 	return createMultitrackClip({
 		...clip,
+		...trimMultitrackClipEnvelopeLeft(clip, delta),
 		timelineStart: start,
 		sourceOffset: clip.sourceOffset + delta,
 		duration: Math.max(MINIMUM_CLIP_SECONDS, clip.duration - delta)
 	});
 }
 
-/** Trims or restores the right edge within available source audio. */
+/** Trims or restores the right edge while preserving the inherited envelope segment. */
 export function trimMultitrackClipRight(clip, newEnd, timing = {}, sourceDuration = Infinity) {
 	const snapped = snapMultitrackTime(newEnd, timing.tempo, timing.gridBeats);
 	const available = Math.max(MINIMUM_CLIP_SECONDS, sourceDuration - clip.sourceOffset);
 	const requested = snapped - clip.timelineStart;
+	const duration = clamp(requested, MINIMUM_CLIP_SECONDS, available);
 	return createMultitrackClip({
 		...clip,
-		duration: clamp(requested, MINIMUM_CLIP_SECONDS, available)
+		...trimMultitrackClipEnvelopeRight(clip, duration),
+		duration
 	});
 }
 
-/** Splits one clip at a strict interior time while retaining only original outer-edge fades. */
+/** Splits one clip into exact subsegments of the original audible envelope. */
 export function splitMultitrackClip(clip, splitTime) {
 	const offset = Number(splitTime) - clip.timelineStart;
 	if (!(offset > MINIMUM_CLIP_SECONDS && offset < clip.duration - MINIMUM_CLIP_SECONDS)) {
 		throw new Error('Split point must be inside the selected clip.');
 	}
+	const envelope = splitMultitrackClipEnvelope(clip, offset);
 	const left = createMultitrackClip({
 		...clip,
+		...envelope.left,
 		id: undefined,
 		name: `${clip.name} A`,
 		duration: offset,
-		fadeOut: 0,
 		loop: false
 	});
 	const right = createMultitrackClip({
 		...clip,
+		...envelope.right,
 		id: undefined,
 		name: `${clip.name} B`,
 		timelineStart: clip.timelineStart + offset,
 		sourceOffset: clip.sourceOffset + offset,
 		duration: clip.duration - offset,
-		fadeIn: 0,
 		loop: false
 	});
 	return [left, right];
 }
 
-/** Duplicates a clip with gain, fades, trim, loop, and duration intact. */
+/** Duplicates a clip with gain, fades, lineage, trim, loop, and duration intact. */
 export function duplicateMultitrackClip(clip, start = null) {
 	return createMultitrackClip({
 		...clip,

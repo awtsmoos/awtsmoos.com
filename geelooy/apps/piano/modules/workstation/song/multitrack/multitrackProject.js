@@ -9,6 +9,7 @@
  */
 
 import { normalizeMultitrackClipFades } from './multitrackClipEnvelope.js';
+import { readMultitrackClipEnvelopeOffsets } from './multitrackClipEnvelopeSegments.js';
 import { createMultitrackId } from './multitrackIds.js';
 
 /** @param {Object} input - Project values. @returns {Object} Project snapshot. */
@@ -39,7 +40,14 @@ export function createMultitrackTrack(input = {}) {
 /** @param {Object} input - Clip region. @returns {Object} Non-destructive clip. */
 export function createMultitrackClip(input = {}) {
 	const duration = positive(input.duration, 0.001);
-	const fades = normalizeMultitrackClipFades(input.fadeIn, input.fadeOut, duration);
+	const offsets = readMultitrackClipEnvelopeOffsets(input);
+	const fades = normalizeMultitrackClipFades(
+		input.fadeIn,
+		input.fadeOut,
+		duration,
+		offsets.fadeInOffset,
+		offsets.fadeOutOffset
+	);
 	return {
 		id: input.id || createMultitrackId('clip'),
 		name: String(input.name || 'Audio Clip'),
@@ -50,6 +58,8 @@ export function createMultitrackClip(input = {}) {
 		gain: clamp(input.gain ?? 1, 0, 2),
 		fadeIn: fades.fadeIn,
 		fadeOut: fades.fadeOut,
+		fadeInOffset: offsets.fadeInOffset,
+		fadeOutOffset: offsets.fadeOutOffset,
 		loop: Boolean(input.loop)
 	};
 }

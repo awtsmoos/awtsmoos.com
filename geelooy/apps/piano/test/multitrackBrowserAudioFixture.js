@@ -10,8 +10,12 @@
 
 import { createMultitrackProject } from '../modules/workstation/song/multitrack/multitrackProject.js';
 import { renderMultitrackProjectMix } from '../modules/workstation/song/multitrack/multitrackExportRenderer.js';
-import { encodeMultitrackWav } from '../modules/workstation/song/multitrack/multitrackWavEncoder.js';
 import { decodeAndValidateMultitrackWav } from '../modules/workstation/song/multitrack/multitrackExportValidation.js';
+import { encodeMultitrackWav } from '../modules/workstation/song/multitrack/multitrackWavEncoder.js';
+import {
+	inspectBrowserWavHeader,
+	requireSupportedBrowserWavHeader
+} from './multitrackBrowserWavHeader.js';
 
 /** Makes one real in-browser mix, decodes its final WAV bytes, and verifies edited samples. */
 export async function runBrowserAudioFixture() {
@@ -43,37 +47,44 @@ export async function runBrowserAudioFixture() {
 			}
 		]
 	});
-	const rendered = await renderMultitrackProjectMix(project, {
-		audioStore: { getBuffer: () => buffer },
-		sampleRate
-	});
-	const bytes = encodeMultitrackWav(rendered);
-	const decoded = await decodeAndValidateMultitrackWav(bytes, 0.6);
-	const samples = rendered.getChannelData(0);
-	const quietRms = rmsWindow(samples, sampleRate, 0, 0.08);
-	const fadeInRms = rmsWindow(samples, sampleRate, 0.105, 0.125);
-	const middleRms = rmsWindow(samples, sampleRate, 0.3, 0.4);
-	const fadeOutRms = rmsWindow(samples, sampleRate, 0.575, 0.595);
-	await context.close();
-	if (quietRms > 0.0001 || middleRms < 0.05 || decoded.peak < 0.05) {
-		throw new Error(`Actual WAV audio failed sample proof: quiet=${quietRms}, middle=${middleRms}`);
+	try {
+		const rendered = await renderMultitrackProjectMix(project, {
+			audioStore: { getBuffer: () => buffer },
+			sampleRate
+		});
+		const bytes = encodeMultitrackWav(rendered);
+		const header = inspectBrowserWavHeader(bytes);
+		requireSupportedBrowserWavHeader(header);
+		const decoded = await decodeAndValidateMultitrackWav(bytes, 0.6);
+		const samples = rendered.getChannelData(0);
+		const quietRms = rmsWindow(samples, sampleRate, 0, 0.08);
+		const fadeInRms = rmsWindow(samples, sampleRate, 0.105, 0.125);
+		const middleRms = rmsWindow(samples, sampleRate, 0.3, 0.4);
+		const fadeOutRms = rmsWindow(samples, sampleRate, 0.575, 0.595);
+		if (quietRms > 0.0001 || middleRms < 0.05 || decoded.peak < 0.05) {
+			throw new Error(`Actual WAV audio failed sample proof: quiet=${quietRms}, middle=${middleRms}`);
+		}
+		if (!(fadeInRms < middleRms * 0.35 && fadeOutRms < middleRms * 0.35)) {
+			throw new Error(`Fades missing from rendered WAV: in=${fadeInRms}, mid=${middleRms}, out=${fadeOutRms}`);
+		}
+		return {
+			passed: true,
+			duration: decoded.duration,
+			channels: decoded.channels,
+			sampleRate: decoded.sampleRate,
+			frames: decoded.frames,
+			peak: decoded.peak,
+			quietRms,
+			fadeInRms,
+			middleRms,
+			fadeOutRms,
+			wavBytes: bytes.byteLength,
+			header,
+			userAgent: navigator.userAgent
+		};
+	} finally {
+		await context.close();
 	}
-	if (!(fadeInRms < middleRms * 0.35 && fadeOutRms < middleRms * 0.35)) {
-		throw new Error(`Fades missing from rendered WAV: in=${fadeInRms}, mid=${middleRms}, out=${fadeOutRms}`);
-	}
-	return {
-		passed: true,
-		duration: decoded.duration,
-		channels: decoded.channels,
-		frames: decoded.frames,
-		peak: decoded.peak,
-		quietRms,
-		fadeInRms,
-		middleRms,
-		fadeOutRms,
-		wavBytes: bytes.byteLength,
-		userAgent: navigator.userAgent
-	};
 }
 
 function createSineBuffer(context, sampleRate) {
