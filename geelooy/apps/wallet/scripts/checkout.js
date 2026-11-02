@@ -84,6 +84,13 @@ export async function processCheckoutReturn() {
  * @returns {Promise<boolean>}
  * 	True when browser navigation was initiated.
  */
+/** Maps technical checkout failures to human copy. */
+function checkoutErrorCopy(error) {
+	const code = String(error || "");
+	if (code.includes("paypal_client_id")) return "Purchases are paused while the store finishes its payment setup. Your balance is unaffected.";
+	return `Could not create checkout: ${error || "unknown error"}`;
+}
+
 export async function startPayPalCheckout(dollars) {
 	setCheckoutStatus("Creating a secure PayPal order…");
 	const result = await postWalletJson(
@@ -92,8 +99,7 @@ export async function startPayPalCheckout(dollars) {
 	);
 
 	if (!result.ok) {
-		setCheckoutStatus(
-			`Could not create checkout: ${result.error || "unknown error"}`,
+		setCheckoutStatus(checkoutErrorCopy(result.error),
 			"error"
 		);
 		return false;

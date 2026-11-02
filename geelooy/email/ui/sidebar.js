@@ -103,6 +103,6 @@ function updateSenderCategory(category) {
 
 function openThread(thread, displayName) {
 	FX.playSound?.('hover');
-	switchChat(uiRef, thread.correspondent, displayName);
+	switchChat(uiRef, thread.correspondent || thread.from || thread.to, displayName);
 	renderThreadList();
 }

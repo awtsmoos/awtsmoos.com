@@ -63,7 +63,8 @@ function senderItems(ui, group, onOpen) {
 
 export function renderThread(ui, thread, onOpen, parent = ui.getHtml('threadList')) {
 	const displayName = formatHandle(thread.correspondent || thread.from || thread.to || 'Unknown');
-	const active = state.activeThread === thread.correspondent;
+	const threadId = thread.correspondent || thread.from || thread.to;
+const active = threadId && state.activeThread === threadId;
 	const unread = Boolean(thread.unread || thread.isUnread || thread.read === false);
 	const subject = thread.subject || thread.title || 'Message';
 	ui.html({

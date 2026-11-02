@@ -24,6 +24,7 @@ import { chatState } from './state.js';
 export async function switchThread(ui, threadId, displayName, options = {}) {
 	const messages = ui.getHtml('msgContainer');
 	if (!messages || !threadId) {
+		console.warn("switchThread: cannot open thread; missing msgContainer or threadId", { hasMessages: Boolean(messages), threadId });
 		return;
 	}
 	if (options.updateHistory !== false) {
