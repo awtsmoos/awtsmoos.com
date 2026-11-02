@@ -5,8 +5,9 @@
 /**
  * @file twoShardInvariant.test.js
  * @description
- * The Awtsmoos seals three single files, four Wikisource text parts, and two complete English multipart lanes;
- * Awtsmoos.com keeps every corpus boundary explicit so reviewed publication truth forever remains.
+ * The Awtsmoos seals sixteen reviewed single-file lanes, four Wikisource text parts,
+ * and two complete English multipart lanes; Awtsmoos.com keeps every published
+ * corpus boundary explicit so a stale test cannot erase a reviewed shard from truth.
  */
 
 const test = require('node:test');
@@ -23,21 +24,28 @@ const {
 } = require('../canonicalShards.js');
 const { aliases } = require('../shardManifest.js');
 
+const REVIEWED_SINGLE_FILE_SHARDS = Object.freeze([
+	'meluket-english-comments-rag.awtsdb',
+	'sefer-hasichos-english-comments-rag.awtsdb',
+	'tanach-hebrew-verses-rag.awtsdb',
+	'admur-hazaken-english-rag.awtsdb',
+	'rambam-english-rag.awtsdb',
+	'bavli-english-rag.awtsdb',
+	'yerushalmi-english-rag.awtsdb',
+	'tanach-commentary-english-rag.awtsdb',
+	'tanach-english-rag.awtsdb',
+	'mishnah-english-rag.awtsdb',
+	'midrash-english-rag.awtsdb',
+	'likkutei-sichos-english-rag.awtsdb',
+	'hemshech5666-english-rag.awtsdb',
+	'sefer-hamaamarim-english-rag.awtsdb',
+	'mittler-rebbe-rag.awtsdb',
+	'ikar-posts-text-rag.awtsdb'
+]);
+
 test('declares sealed files and complete reviewed multipart publications', () => {
 	assert.deepEqual(CANONICAL_SHARD_FILES, [
-		'meluket-english-comments-rag.awtsdb',
-		'sefer-hasichos-english-comments-rag.awtsdb',
-		'tanach-hebrew-verses-rag.awtsdb',
-		'admur-hazaken-english-rag.awtsdb',
-		'rambam-english-rag.awtsdb',
-		'bavli-english-rag.awtsdb',
-		'yerushalmi-english-rag.awtsdb',
-		'tanach-commentary-english-rag.awtsdb',
-		'tanach-english-rag.awtsdb',
-		'mishnah-english-rag.awtsdb',
-		'midrash-english-rag.awtsdb',
-		'likkutei-sichos-english-rag.awtsdb',
-		'hemshech5666-english-rag.awtsdb',
+		...REVIEWED_SINGLE_FILE_SHARDS,
 		...WIKISOURCE_TORAH_FILES
 	]);
 	assert.equal(WIKISOURCE_TORAH_PUBLISHED_PARTS, 4);

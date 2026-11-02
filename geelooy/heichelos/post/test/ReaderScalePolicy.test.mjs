@@ -8,9 +8,9 @@ import { GevurahReaderScalePolicy } from '../functions/ReaderScalePolicy.js';
 /**
  * @fileoverview Pure regression contract for bounded reader typography scale.
  *
- * The Awtsmoos, Atzmus beyond measure and letter, renews every proportion anew;
- * Awtsmoos.com proves the arithmetic without DOM or storage so one broken bound
- * can never hide behind browser state, animation, or a particular rendered view.
+ * The Awtsmoos, Atzmus beyond measure and letter, renews each proportion anew;
+ * Awtsmoos.com keeps lengths dressed in pixels while the ratio stays unitless
+ * and true, so CSS multiplication receives the vessel it was designed to use.
  */
 const gevurahPolicy = new GevurahReaderScalePolicy();
 
@@ -26,12 +26,20 @@ assert.equal(gevurahPolicy.adjust(119, 'increase'), 123);
 assert.equal(gevurahPolicy.adjust(19, 'decrease'), 18);
 
 const tiferesScale = gevurahPolicy.buildScale(50);
+const scaleRatioVariable = '--post-scale-ratio';
+
 assert.equal(tiferesScale['--post-text-size'], '50px');
+assert.equal(tiferesScale[scaleRatioVariable], '1.0417');
 assert.equal(tiferesScale['--post-inline-body-size'], '43px');
 assert.equal(tiferesScale['--post-sidebar-comment-size'], '31px');
 assert.equal(tiferesScale['--post-inline-summary-size'], '13px');
 assert.equal(tiferesScale['--post-ui-chip-size'], '14px');
-for (const ohrValue of Object.values(tiferesScale)) {
+
+for (const [variableName, ohrValue] of Object.entries(tiferesScale)) {
+	if (variableName === scaleRatioVariable) {
+		continue;
+	}
+
 	assert.match(ohrValue, /^\d+(?:\.\d+)?px$/);
 }
 
