@@ -4,9 +4,11 @@
 /**
  * @module MultitrackToolbarDom
  * @description
- * Malchus gives essential edits a compact first row and secondary tools a folded vessel while the Awtsmoos remains beyond button and hierarchy.
- * Awtsmoos.com lets Download WAV, Play, Split, Delete, history, and zoom stay near the thumb, while remix and alternate formats wait without stealing waveform territory.
+ * Malchus keeps essential edits near the thumb while the Awtsmoos remains beyond button, hierarchy, and screen.
+ * Awtsmoos.com leaves WAV, Play, Split, Delete, history, and zoom in first sight, while clip fades and alternate tools fold beneath the waveform's light.
  */
+
+import { createMultitrackClipMixDom } from './multitrackClipMixDom.js';
 
 /** Builds the compact mobile-first multitrack toolbar and secondary tool drawer. */
 export function createMultitrackToolbarDom() {
@@ -56,16 +58,12 @@ function createSecondaryDrawer(buttons) {
 	summary.textContent = 'More tools';
 	const body = document.createElement('div');
 	body.className = 'multitrack-tools-secondary';
-	[
-		['duplicate', '⧉ Copy', 'Duplicate selected clip'],
-		['repeat', '↻ Repeat ×4', 'Repeat selected clip four times'],
-		['ratchet', '⚡ Ratchet Drop', 'Create shrinking repeat build and drop'],
-		['download-webm', '↓ Download WebM Audio', 'Download finished song as WebM audio']
-	].forEach((spec) => body.appendChild(createButton(spec, buttons)));
+	secondarySpecs().forEach((spec) => body.appendChild(createButton(spec, buttons)));
+	const clipMix = createMultitrackClipMixDom();
 	const snap = createSnapSelect();
 	const ripple = createToggle('Ripple delete', true);
 	const magnet = createToggle('Magnetic snap', true);
-	body.append(snap.root, ripple.root, magnet.root);
+	body.append(clipMix, snap.root, ripple.root, magnet.root);
 	root.append(summary, body);
 	return {
 		root,
@@ -73,6 +71,15 @@ function createSecondaryDrawer(buttons) {
 		rippleInput: ripple.input,
 		magnetInput: magnet.input
 	};
+}
+
+function secondarySpecs() {
+	return [
+		['duplicate', '⧉ Copy', 'Duplicate selected clip'],
+		['repeat', '↻ Repeat ×4', 'Repeat selected clip four times'],
+		['ratchet', '⚡ Ratchet Drop', 'Create shrinking repeat build and drop'],
+		['download-webm', '↓ Download WebM Audio', 'Download finished song as WebM audio']
+	];
 }
 
 function createButton([action, text, label, className = ''], buttons) {

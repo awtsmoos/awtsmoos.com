@@ -4,8 +4,8 @@
 /**
  * @module MultitrackPointerEvents
  * @description
- * Yesod gives touch, pen, and mouse one clip-edit covenant while the Awtsmoos remains beyond pointer and movement.
- * Awtsmoos.com previews many finite drag frames but remembers only one completed edit, while cancellation restores both project and selection without residue.
+ * Yesod gives mouse, pen, and one finger a clip-edit covenant while the Awtsmoos remains beyond pointer, trim, movement, and capture.
+ * Awtsmoos.com restores a pending edit when a second finger claims pinch, so zoom never leaves a false drag or history shadow behind its rapture.
  */
 
 import { restoreHistorySelection } from './multitrackHistory.js';
@@ -13,11 +13,16 @@ import { findMultitrackClip } from './multitrackProject.js';
 import { replaceMultitrackClip } from './multitrackProjectEdits.js';
 import { transformMultitrackGestureClip } from './multitrackGestureTransform.js';
 import { renderMultitrackGestureClip } from './multitrackRender.js';
+import { multitrackTouchSession } from './multitrackTouchSession.js';
 
 /** Binds clip selection, move, and trim gestures without owning timeline seeking. */
 export function bindMultitrackPointerEvents(dom, state) {
 	let gesture = null;
+	multitrackTouchSession.onPinch(() => cancelGesture());
 	dom.tracks.addEventListener('pointerdown', (event) => {
+		if (event.pointerType === 'touch' && multitrackTouchSession.hasActiveTouch()) {
+			return;
+		}
 		gesture = beginGesture(event, state);
 		if (!gesture) {
 			return;
@@ -26,7 +31,7 @@ export function bindMultitrackPointerEvents(dom, state) {
 		event.preventDefault();
 	});
 	dom.tracks.addEventListener('pointermove', (event) => {
-		if (gesture?.pointerId !== event.pointerId) {
+		if (gesture?.pointerId !== event.pointerId || multitrackTouchSession.isPinching()) {
 			return;
 		}
 		continueGesture(event, gesture, state);
@@ -35,17 +40,25 @@ export function bindMultitrackPointerEvents(dom, state) {
 	dom.tracks.addEventListener('pointerup', (event) => finishGesture(event, false));
 	dom.tracks.addEventListener('pointercancel', (event) => finishGesture(event, true));
 
+	function cancelGesture() {
+		if (!gesture) {
+			return;
+		}
+		state.project = gesture.originProject;
+		restoreHistorySelection(state.selection, gesture.originSelection);
+		gesture = null;
+		state.emit();
+	}
+
 	function finishGesture(event, cancelled) {
 		if (gesture?.pointerId !== event.pointerId) {
 			return;
 		}
 		if (cancelled) {
-			state.project = gesture.originProject;
-			restoreHistorySelection(state.selection, gesture.originSelection);
-			state.emit();
-		} else {
-			state.commitPreview(gesture.originProject, gesture.originSelection);
+			cancelGesture();
+			return;
 		}
+		state.commitPreview(gesture.originProject, gesture.originSelection);
 		gesture = null;
 	}
 }

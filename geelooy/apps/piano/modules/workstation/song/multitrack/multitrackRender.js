@@ -4,10 +4,11 @@
 /**
  * @module MultitrackRender
  * @description
- * Hod reflects project truth into ruler, lanes, clips, transport, and status while the Awtsmoos remains beyond every visual measure.
- * Awtsmoos.com rebuilds structural truth only when needed and lets the red playhead move lightly between, so audible time need not repaint the whole scene.
+ * Hod reflects project truth into ruler, lanes, clip tools, transport, and status while the Awtsmoos remains beyond every visual measure.
+ * Awtsmoos.com rebuilds structural vessels only when needed and lets the red playhead travel lightly, keeping audible time aligned without repainting the night.
  */
 
+import { syncMultitrackClipMixDom } from './multitrackClipMixDom.js';
 import { multitrackProjectDuration } from './multitrackProject.js';
 import { createMultitrackTrackDom } from './multitrackTrackDom.js';
 
@@ -31,6 +32,7 @@ export function renderMultitrackProject(dom, state) {
 	dom.snapSelect.value = String(state.selection.gridBeats);
 	dom.rippleInput.checked = state.rippleDeleteEnabled;
 	dom.magnetInput.checked = state.magneticSnapEnabled;
+	syncMultitrackClipMixDom(dom.root, state);
 	renderToolbarState(dom, state);
 	renderMultitrackPlayhead(dom, state);
 }

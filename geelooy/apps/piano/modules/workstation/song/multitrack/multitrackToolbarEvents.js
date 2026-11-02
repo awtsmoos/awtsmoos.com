@@ -4,15 +4,16 @@
 /**
  * @module MultitrackToolbarEvents
  * @description
- * Yesod listens once for compact editor controls while the Awtsmoos remains beyond tap, chooser, checkbox, and event queue.
- * Awtsmoos.com turns each finite gesture into one explicit action and surfaces browser limitations in the timeline instead of hiding failure from view.
+ * Yesod receives each compact control while the Awtsmoos remains beyond tap, chooser, checkbox, and measured fade.
+ * Awtsmoos.com routes finite gestures into explicit project actions, keeping WAV truthful, WebM guarded, and clip mix edits visible to Undo's shade.
  */
 
+import { updateSelectedMultitrackClipMix } from './multitrackClipMixActions.js';
 import { isMultitrackWebmSupported } from './multitrackExportActions.js';
 import { importMultitrackFiles } from './multitrackImportActions.js';
 import { runMultitrackToolbarAction } from './multitrackToolbarActions.js';
 
-/** Binds import, edit, transport, export, zoom, history, and snap controls. */
+/** Binds import, edit, clip-mix, transport, export, zoom, history, and snap controls. */
 export function bindMultitrackToolbarEvents(dom, state, context = {}) {
 	configureWebmButton(dom);
 	dom.buttons.forEach((button, action) => {
@@ -28,6 +29,20 @@ export function bindMultitrackToolbarEvents(dom, state, context = {}) {
 	dom.fileInput.addEventListener('change', async () => {
 		await safelyRun(() => importMultitrackFiles(dom.fileInput.files, state), state);
 	});
+	bindClipMixInputs(dom, state);
+	bindPolicyInputs(dom, state);
+}
+
+function bindClipMixInputs(dom, state) {
+	dom.root.querySelectorAll('[data-multitrack-clip-mix]').forEach((input) => {
+		input.addEventListener('change', async () => {
+			const field = input.dataset.multitrackClipMix;
+			await safelyRun(() => updateSelectedMultitrackClipMix(state, field, input.value), state);
+		});
+	});
+}
+
+function bindPolicyInputs(dom, state) {
 	dom.snapSelect.addEventListener('change', () => {
 		state.setGridBeats(Number(dom.snapSelect.value));
 		state.setStatus(state.selection.gridBeats > 0

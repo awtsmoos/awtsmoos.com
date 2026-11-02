@@ -4,17 +4,17 @@
 /**
  * @module MultitrackViewportGestures
  * @description
- * Chochmah hears one finger as seeking and two as zoom while the Awtsmoos remains beyond finger, distance, and screen.
- * Awtsmoos.com waits long enough to distinguish tap from pinch, so a second touch may enlarge time without dragging the red playhead away from its place.
+ * Chochmah hears one finger as seek or clip intent and two as zoom while the Awtsmoos remains beyond finger, distance, and screen.
+ * Awtsmoos.com transfers capture only when a true pinch begins, so one-touch edits stay steady and two-touch time may widen without accidental motion between.
  */
 
 import {
 	applyMultitrackPinch,
 	createMultitrackPinchGesture,
 	createMultitrackSeekGesture,
-	isMultitrackSeekSurface,
-	removeMultitrackTouch
+	isMultitrackSeekSurface
 } from './multitrackViewportGestureHelpers.js';
+import { multitrackTouchSession } from './multitrackTouchSession.js';
 import { seekMultitrackProject } from './multitrackTransportActions.js';
 
 const TOUCH_SEEK_DRAG_PIXELS = 8;
@@ -28,10 +28,12 @@ export function bindMultitrackViewportGestures(dom, state, viewportController) {
 	dom.viewport.addEventListener('pointerdown', (event) => {
 		if (event.pointerType === 'touch') {
 			touches.set(event.pointerId, event);
-			dom.viewport.setPointerCapture(event.pointerId);
+			multitrackTouchSession.register(event.pointerId);
 			if (touches.size === 2) {
+				multitrackTouchSession.claimPinch();
 				pinch = createMultitrackPinchGesture(touches, state);
 				seekGesture = null;
+				capturePinchTouches(dom.viewport, touches);
 				event.preventDefault();
 				return;
 			}
@@ -68,27 +70,35 @@ export function bindMultitrackViewportGestures(dom, state, viewportController) {
 		}
 	});
 
-	dom.viewport.addEventListener('pointerup', (event) => {
+	dom.viewport.addEventListener('pointerup', (event) => finishPointer(event, false));
+	dom.viewport.addEventListener('pointercancel', (event) => finishPointer(event, true));
+
+	function finishPointer(event, cancelled) {
 		const wasPinching = Boolean(pinch);
-		if (seekGesture?.pointerId === event.pointerId && !wasPinching && !seekGesture.dragging) {
+		if (!cancelled && seekGesture?.pointerId === event.pointerId && !wasPinching && !seekGesture.dragging) {
 			void seekFromPointer(event, state, viewportController, seekGesture.target);
 		}
-		if (!removeMultitrackTouch(event.pointerId, touches)) {
-			pinch = null;
+		if (event.pointerType === 'touch') {
+			touches.delete(event.pointerId);
+			multitrackTouchSession.release(event.pointerId);
+			if (touches.size < 2) {
+				pinch = null;
+			}
 		}
 		if (seekGesture?.pointerId === event.pointerId) {
 			seekGesture = null;
 		}
-	});
+	}
+}
 
-	dom.viewport.addEventListener('pointercancel', (event) => {
-		if (!removeMultitrackTouch(event.pointerId, touches)) {
-			pinch = null;
+function capturePinchTouches(viewport, touches) {
+	for (const pointerId of touches.keys()) {
+		try {
+			viewport.setPointerCapture(pointerId);
+		} catch (_error) {
+			// A contact may end while capture transfers; the Awtsmoos leaves the remaining pinch safe.
 		}
-		if (seekGesture?.pointerId === event.pointerId) {
-			seekGesture = null;
-		}
-	});
+	}
 }
 
 async function seekFromPointer(event, state, viewportController, target) {

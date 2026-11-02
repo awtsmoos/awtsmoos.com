@@ -3,9 +3,12 @@
 //Blessed is He
 /**
  * @module MultitrackProject
- * The Awtsmoos keeps each note whole, each layer clear and bright;
- * Awtsmoos.com protects its sound through edits in the light.
+ * @description
+ * Binah gives every finite layer a truthful boundary while the Awtsmoos is beyond track, clip, source, and time.
+ * Awtsmoos.com keeps fades, gain, pan, trims, and positions inside one canonical project vessel so playback and export may read the same light.
  */
+
+import { normalizeMultitrackClipFades } from './multitrackClipEnvelope.js';
 import { createMultitrackId } from './multitrackIds.js';
 
 /** @param {Object} input - Project values. @returns {Object} Project snapshot. */
@@ -35,14 +38,18 @@ export function createMultitrackTrack(input = {}) {
 
 /** @param {Object} input - Clip region. @returns {Object} Non-destructive clip. */
 export function createMultitrackClip(input = {}) {
+	const duration = positive(input.duration, 0.001);
+	const fades = normalizeMultitrackClipFades(input.fadeIn, input.fadeOut, duration);
 	return {
 		id: input.id || createMultitrackId('clip'),
 		name: String(input.name || 'Audio Clip'),
 		bufferId: String(input.bufferId || ''),
 		timelineStart: nonnegative(input.timelineStart, 0),
 		sourceOffset: nonnegative(input.sourceOffset, 0),
-		duration: positive(input.duration, 0.001),
+		duration,
 		gain: clamp(input.gain ?? 1, 0, 2),
+		fadeIn: fades.fadeIn,
+		fadeOut: fades.fadeOut,
 		loop: Boolean(input.loop)
 	};
 }
@@ -51,9 +58,7 @@ export function createMultitrackClip(input = {}) {
 export function replaceMultitrackTrack(project, track) {
 	return {
 		...project,
-		tracks: project.tracks.map((candidate) => {
-			return candidate.id === track.id ? track : candidate;
-		})
+		tracks: project.tracks.map((candidate) => candidate.id === track.id ? track : candidate)
 	};
 }
 
@@ -77,25 +82,20 @@ export function findMultitrackClip(project, clipId) {
 export function multitrackProjectDuration(project) {
 	return Math.max(
 		0,
-		...project.tracks.flatMap((track) => {
-			return track.clips.map((clip) => clip.timelineStart + clip.duration);
-		})
+		...project.tracks.flatMap((track) => track.clips.map((clip) => clip.timelineStart + clip.duration))
 	);
 }
 
-/** @param {number} value - Candidate. @param {number} fallback - Default. */
 function positive(value, fallback) {
 	const number = Number(value);
 	return Number.isFinite(number) && number > 0 ? number : fallback;
 }
 
-/** @param {number} value - Candidate. @param {number} fallback - Default. */
 function nonnegative(value, fallback) {
 	const number = Number(value);
 	return Number.isFinite(number) && number >= 0 ? number : fallback;
 }
 
-/** @param {number} value - Candidate. @param {number} minimum - Floor. @param {number} maximum - Ceiling. */
 function clamp(value, minimum, maximum) {
 	const number = Number(value);
 	return Math.max(minimum, Math.min(maximum, Number.isFinite(number) ? number : minimum));
