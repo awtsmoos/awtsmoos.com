@@ -55,7 +55,7 @@ function createSummaryEntries(summary) {
 		['Unresolved', String(summary.unresolvedConstraints.length)],
 		['Compile · local', formatDuration(summary.compileDurationMs)],
 		['Primitives', String(summary.primitiveCount)],
-		['Pipeline support', formatPipelineCounts(summary.pipelineCounts)]
+		['Stages', formatStageCounts(summary.pipelineCounts)]
 	];
 }
 
@@ -94,11 +94,8 @@ function formatDuration(value) {
 }
 
 /** @private */
-function formatPipelineCounts(counts) {
-	return [
-		`N${counts.native}`,
-		`P${counts.partial}`,
-		`G${counts.delegated}`,
-		`D${counts.deferred}`
-	].join(' · ');
+function formatStageCounts(counts) {
+	return Object.entries(counts ?? {})
+		.map(([status, count]) => `${count} ${status}`)
+		.join(' · ') || 'none';
 }

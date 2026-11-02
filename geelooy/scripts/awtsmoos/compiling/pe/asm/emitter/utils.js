@@ -6,6 +6,18 @@ Biezrash Hashem
 import { MOD, makeModRM, makeSIB } from '../opcodes.js';
 
 /**
+ * Converts an immediate operand value (number or BigInt) to its low 32 bits
+ * as an explicit number. B"H: a BigInt immediate must never mix with number
+ * bitwise operators (throws 'Cannot mix BigInt and other types'); mask as
+ * BigInt first, then convert explicitly.
+ * @param {number|bigint} val - Immediate value.
+ * @returns {number} Low 32 bits of the immediate as a number.
+ */
+export function immToUint32(val) {
+    return Number(BigInt(val) & 0xFFFFFFFFn);
+}
+
+/**
  * Emits the ModRM, SIB, and Displacement bytes for a memory operand.
  * @param {Object} memOp - The memory operand structure {base, index, disp, scale}.
  * @param {number} regCode - The register code (0-7) to go in the 'reg' field of ModRM.

@@ -38,7 +38,7 @@ export function createDemoLifecycleSummary(
 			tiferesPlan.compilerChain.accepted.map((item) => item.compilerId)
 		),
 		unresolvedConstraints: Object.freeze(unresolvedConstraints),
-		pipelineCounts: countPipelineSupport(chochmahExplanation.pipeline.stages),
+		pipelineCounts: countPipelineStages(chochmahExplanation.pipeline.stages),
 		executionComplete: malchusResult.execution.executionComplete,
 		cacheState: resolveCacheState(malchusResult.cache),
 		contentHash: malchusResult.identity.contentHash,
@@ -49,17 +49,11 @@ export function createDemoLifecycleSummary(
 }
 
 /** @private */
-function countPipelineSupport(tiferesStages) {
-	const counts = {
-		native: 0,
-		partial: 0,
-		delegated: 0,
-		deferred: 0
-	};
-	for (const stage of tiferesStages) {
-		if (Object.hasOwn(counts, stage.support)) {
-			counts[stage.support] += 1;
-		}
+function countPipelineStages(tiferesStages) {
+	const counts = {};
+	for (const stage of tiferesStages ?? []) {
+		const status = stage?.status ?? 'unknown';
+		counts[status] = (counts[status] ?? 0) + 1;
 	}
 	return Object.freeze(counts);
 }

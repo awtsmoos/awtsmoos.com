@@ -103,6 +103,7 @@ export class SceneCommandController {
 		try {
 			const evidence = await this.api.execute(commandId, parameters, { source: 'human' });
 			this.statusWriter?.(successMessage);
+			this.refresh();
 			return evidence;
 		} catch (error) {
 			this.statusWriter?.(error?.message || String(error));

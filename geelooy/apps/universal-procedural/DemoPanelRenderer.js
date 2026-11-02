@@ -29,7 +29,7 @@ export function renderDemoEvidence(
 		['selected', selectedCompilerIds(binahPlan)],
 		['channels', binahPlan.request.required.join(', ') || 'none'],
 		['quality', binahPlan.request.quality],
-		['budget', JSON.stringify(binahPlan.request.budget)]
+		['budget', formatBudget(binahPlan.request.budget)]
 	]);
 	renderRows(
 		chochmahView.constraints,
@@ -95,6 +95,15 @@ function createStatusPill(label, value) {
 /** @private */
 function selectedCompilerIds(plan) {
 	return plan.compilerChain.accepted.map((item) => item.compilerId).join(', ') || 'none';
+}
+
+/** @private */
+function formatBudget(budget) {
+	if (!budget || typeof budget !== 'object') return 'none';
+	const parts = Object.entries(budget).map(([key, value]) =>
+		`${key}: ${typeof value === 'number' ? value.toLocaleString('en-US') : String(value)}`
+	);
+	return parts.join(' · ') || 'none';
 }
 
 /** @private */

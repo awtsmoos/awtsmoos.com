@@ -100,7 +100,9 @@ function tabOverview(WorkOS, mission, ov) {
   else html += '<div class="grid tight">' + agents.map(function (a) {
     var ag = a.agent || {};
     var name = ag.name || a.agentId || "agent";
-    var cw = a.currentWork || "";
+    var cwRaw = a.currentWork;
+    // B"H: currentWork may be a work entity object; render its string field
+    var cw = typeof cwRaw === 'string' ? cwRaw : (cwRaw && (cwRaw.attrs?.name || cwRaw.attrs?.title || cwRaw.name || cwRaw.title || cwRaw.id)) || "";
     return '<div class="agent-row">' + avatar(name, "sm") +
       '<div class="who"><b>' + esc(name) + "</b>" +
       (cw ? "<span>" + esc(trunc(cw, 70)) + "</span>" : '<span class="faint">idle</span>') + "</div>" +

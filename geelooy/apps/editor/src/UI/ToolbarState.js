@@ -27,7 +27,7 @@ export function revealObjectSelectionState(reshimuSelection) {
 	const hasSelection = reshimuSelection.misparSelected > 0;
 	const hasMultiple = reshimuSelection.misparSelected > 1;
 	return {
-		exportGlb: { disabled: reshimuSelection.misparSelected !== 1 },
+		exportGlb: { disabled: false },
 		delete: { disabled: !hasSelection },
 		group: { disabled: !hasMultiple },
 		ungroup: { disabled: !reshimuSelection.hasParent },
