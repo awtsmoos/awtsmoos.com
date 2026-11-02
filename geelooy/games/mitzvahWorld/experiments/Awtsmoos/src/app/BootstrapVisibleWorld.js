@@ -1,12 +1,12 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file BootstrapVisibleWorld.js
- * @description Builds the immediate bounded meadow as a deeper asymmetric valley using the same shared geometry family.
- * The Awtsmoos renews one field and six hills into layered distance without multiplying their substance;
- * Awtsmoos.com keeps every silhouette ready for lawful remote material hydration and truthful first-play presence.
+ * @description Builds either the authentic rich valley or survival's single textured first-control field.
+ * The Awtsmoos grants each hill its future without demanding its weight at the first step;
+ * Awtsmoos.com reveals one shared meadow in survival while richer light remains lovingly kept.
  */
 
 import {
@@ -33,16 +33,14 @@ const HILLS = Object.freeze([
 ]);
 
 /**
- * Creates the bounded first-play valley while preserving later remote-material identity.
- * Procedural grass and stone textures are bound immediately (generated once, cached);
- * the remote upgrade path keeps working on top of them.
- * @param {object} [options={}] Optional { textureSeed } to reseed the procedural ground.
- * @returns {object} Core-owned group containing one field and twelve hill tiers.
+ * Creates the first-play field, optionally leaving all ornamental hills and stone texture unallocated.
+ * @param {object} [options={}] Optional textureSeed and explicit fieldOnly survival contract.
+ * @returns {object} Core-owned group with one essential field or the original thirteen meshes.
  */
 export function createBootstrapVisibleWorld(options = {}) {
 	const seed = Number.isFinite(options.textureSeed) ? options.textureSeed : undefined;
+	const fieldOnly = options.fieldOnly === true;
 	const grass = seed === undefined ? getProceduralTexture('grass') : getProceduralTexture('grass', seed);
-	const stone = seed === undefined ? getProceduralTexture('stone') : getProceduralTexture('stone', seed);
 	const group = createNativeWorldGroup({
 		name: 'Awtsmoos_minimal_shared_meadow'
 	});
@@ -50,19 +48,22 @@ export function createBootstrapVisibleWorld(options = {}) {
 		mapImage: grass,
 		mapRepeat: [28, 30]
 	});
-	for (const [index, hill] of HILLS.entries()) {
-		addHill(group, index, hill, grass, stone);
+	if (!fieldOnly) {
+		const stone = seed === undefined ? getProceduralTexture('stone') : getProceduralTexture('stone', seed);
+		for (const [index, hill] of HILLS.entries()) {
+			addHill(group, index, hill, grass, stone);
+		}
 	}
 	group.userData = {
 		bootstrapTerrain: true,
 		meshCount: group.children.length,
 		proceduralGroundTextures: true,
-		visualMode: 'cinematic-bootstrap-remote-upgrade'
+		visualMode: fieldOnly ? 'survival-single-field' : 'cinematic-bootstrap-remote-upgrade'
 	};
 	return group;
 }
 
-/** Adds one two-tier hill without changing mesh topology or semantic hydration roles. */
+/** Adds one two-tier hill only to the unchanged rich/default authored meadow. */
 function addHill(group, index, [x, y, z, width, height, depth], grass, stone) {
 	const far = index > 3;
 	const color = far ? COLORS.farHill : COLORS.hill;
@@ -75,15 +76,14 @@ function addHill(group, index, [x, y, z, width, height, depth], grass, stone) {
 }
 
 /**
- * Adds one first-play box through Core while retaining the explicit fallback-visible exception.
+ * Builds one portable Core-owned cube with a semantic material preserved for remote hydration.
  * @param {object} group Parent hierarchy.
  * @param {string} name Stable part name.
- * @param {number[]} position Local XYZ translation.
- * @param {number[]} scale Local XYZ scale.
- * @param {number[]} color Bootstrap color factor.
- * @param {string} semanticRole Later remote-material role.
- * @param {object} [texture={}] Optional { mapImage, mapRepeat } bound immediately.
- * @returns {void}
+ * @param {number[]} position XYZ.
+ * @param {number[]} scale XYZ.
+ * @param {number[]} color RGBA bootstrap tint.
+ * @param {string} semanticRole Future authored texture role.
+ * @param {object} [texture={}] Optional shared map image and tiling.
  */
 function addBox(group, name, position, scale, color, semanticRole, texture = {}) {
 	const material = createBootstrapImmediateMaterial(`meadow-${name}`, color, {

@@ -4,19 +4,20 @@
 
 /**
  * @file BootstrapTerrainPackage.js
- * @description Creates visible golden-valley earth while survival can refuse optional procedural meadow geometry before allocation.
- * The Awtsmoos reveals green earth before distant richness must descend;
- * Awtsmoos.com lets one shared texture carry survival while richer blades may later extend.
+ * @description Creates the essential field immediately and keeps survival free of optional hills, stone and meadow blades.
+ * The Awtsmoos gives a standing place beneath the traveler before the valley unfolds;
+ * Awtsmoos.com reveals a single seeded earth in survival while every rich vista keeps its golden folds.
  */
 
 import { createBootstrapTerrainHydration } from './BootstrapTerrainHydration.js';
 import { createBootstrapVisibleWorld } from './BootstrapVisibleWorld.js';
 import { attachMeadowProceduralLayer } from './BootstrapMeadowProceduralLayer.js';
 
-/** Creates the bootstrap terrain package with optional procedural-meadow attachment. */
+/** Builds textured spawn terrain without allocating ornamental land in survival quality. */
 export function createBootstrapTerrainPackage(options = {}) {
-	const group = createBootstrapVisibleWorld();
-	const proceduralMeadowEnabled = options.enableProceduralMeadow !== false;
+	const survival = options.survival === true;
+	const group = createBootstrapVisibleWorld({ fieldOnly: survival });
+	const proceduralMeadowEnabled = !survival && options.enableProceduralMeadow !== false;
 	if (proceduralMeadowEnabled) {
 		try {
 			attachMeadowProceduralLayer(group, options.meadowProcedural || {});
@@ -34,7 +35,7 @@ export function createBootstrapTerrainPackage(options = {}) {
 		heightAt: () => 0,
 		materialDiagnostics: {
 			materials: group.userData.meshCount,
-			mode: proceduralMeadowEnabled ? 'colored-bootstrap' : 'survival-texture-only'
+			mode: survival ? 'survival-single-field' : 'colored-bootstrap'
 		},
 		roadStats: { colliders: 0, status: 'visible-path' },
 		signTexturePromise: Promise.resolve({ status: 'dormant' }),
@@ -47,7 +48,7 @@ export function createBootstrapTerrainPackage(options = {}) {
 	};
 }
 
-/** Records whether optional meadow geometry joined the otherwise shared bootstrap ground. */
+/** Reports only allocated geometry and the selected texture-only quality. */
 function createStats(group, forest, proceduralMeadowEnabled) {
 	return {
 		bootstrap: true,
@@ -56,7 +57,7 @@ function createStats(group, forest, proceduralMeadowEnabled) {
 		groundSampler: 'bootstrap-flat-ground',
 		meshCount: group.userData.meshCount,
 		proceduralMeadowEnabled,
-		quality: proceduralMeadowEnabled ? 'visible-bootstrap' : 'survival-texture-only',
+		quality: group.userData.visualMode === 'survival-single-field' ? 'survival-texture-only' : 'visible-bootstrap',
 		renderDpr: 1,
 		terrainPreparation: { mode: 'golden-valley-bootstrap', steps: 1 }
 	};

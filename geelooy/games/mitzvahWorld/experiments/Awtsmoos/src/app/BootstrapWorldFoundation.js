@@ -4,9 +4,9 @@
 
 /**
  * @file BootstrapWorldFoundation.js
- * @description Joins visible valley, collision, ground, one bootstrap chunk, and scene while honoring survival allocation limits.
- * The Awtsmoos gathers what movement needs before every distant garment is shown;
- * Awtsmoos.com lets survival keep textured earth while optional meadow geometry remains unknown.
+ * @description Preserves essential terrain, collision and one chunk while selecting sparse survival creation at the source.
+ * The Awtsmoos renews the field beneath the traveler before distant horizons are born;
+ * Awtsmoos.com carries no ornamental hills into survival's first control morn.
  */
 
 import { isSurvivalQuality } from '../performance/SurvivalQualityPolicy.js';
@@ -15,10 +15,10 @@ import { createBootstrapCollisionWorld } from './BootstrapCollisionWorld.js';
 import { createBootstrapFlatGround } from './BootstrapFlatGround.js';
 import { createBootstrapTerrainPackage } from './BootstrapTerrainPackage.js?v=20260723-visible-02';
 
-/** Creates the first-control world without allocating procedural meadow geometry in survival. */
+/** Builds the minimal spawn foundation; only optional land creation differs in survival. */
 export function createBootstrapWorldFoundation(services) {
 	const survival = isSurvivalQuality(services?.renderer?.qualityProfile);
-	const terrain = createBootstrapTerrainPackage({ enableProceduralMeadow: !survival });
+	const terrain = createBootstrapTerrainPackage({ enableProceduralMeadow: !survival, survival });
 	const mainOctree = createBootstrapCollisionWorld();
 	const collisionQuery = mainOctree;
 	const groundContracts = createBootstrapFlatGround(collisionQuery);
