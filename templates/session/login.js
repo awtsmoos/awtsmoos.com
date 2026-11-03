@@ -50,7 +50,7 @@ async function handleLogin(request, post, secret) {
 		await recordFailure(loginPath, attempts, now);
 		return {
 			status: "error",
-			message: user ? "The password does not match." : "No user with that username was found."
+			message: "Invalid username or password."
 		};
 	}
 
