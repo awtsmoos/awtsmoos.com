@@ -16,9 +16,7 @@ import { remoteModelUrl } from './RemoteModelCatalog.js';
  */
 
 export const LOCAL_MATERIAL_ORIGIN = REMOTE_TEXTURE_ROOT.replace(/\/$/, '');
-export const LOCAL_FLOWER_MODEL_URL = remoteModelUrl(
-	'reference-world/Flower_4_Clump.glb'
-);
+export const LOCAL_FLOWER_MODEL_URL = null; // Procedural by owner design: no external flower GLB.
 
 export function localMaterialFilename(relativePath) {
 	const canonicalPath = normalizePath(relativePath);
@@ -34,7 +32,8 @@ export function localMaterialFilename(relativePath) {
 export function localPublicAssetUrl(relativePath) {
 	const canonicalPath = normalizePath(relativePath);
 	if (/\.glb$/i.test(canonicalPath)) {
-		return remoteModelUrl(modelIdentity(canonicalPath));
+		const identity = modelIdentity(canonicalPath);
+		return identity ? remoteModelUrl(identity) : null;
 	}
 	return remoteTexturePathUrl(canonicalPath);
 }
@@ -45,7 +44,7 @@ export function normalizeLocalMaterialSourcePath(relativePath) {
 
 function modelIdentity(path) {
 	if (path.endsWith('Flower_4_Clump.glb')) {
-		return 'reference-world/Flower_4_Clump.glb';
+		return null;
 	}
 	if (path.endsWith('chossid.glb')) return 'player/chossid.glb';
 	throw new Error(`Unknown remote model source path: ${path}`);

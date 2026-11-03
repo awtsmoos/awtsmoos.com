@@ -21,7 +21,21 @@ export function presentMitzvahWorldEssentialFailure(environment, milestone) {
 		return;
 	}
 	const panel = document.getElementById(FAILURE_ID) || createPanel(document);
-	panel.textContent = failureMessage(milestone);
+	panel.textContent = '';
+	const message = document.createElement('div');
+	message.textContent = failureMessage(milestone);
+	panel.appendChild(message);
+	if (milestone.failureMessage) {
+		const plain = document.createElement('div');
+		plain.textContent = milestone.failureMessage;
+		panel.appendChild(plain);
+	}
+	const retry = document.createElement('button');
+	retry.type = 'button';
+	retry.textContent = 'Try again';
+	retry.style.cssText = 'margin-top:8px;padding:6px 12px;border-radius:8px;border:1px solid #ffb4a8;background:#2a1212;color:#fff;font:600 13px system-ui,sans-serif;cursor:pointer';
+	retry.addEventListener('click', () => environment.location?.reload?.());
+	panel.appendChild(retry);
 }
 
 /** Creates the small failure vessel only when proof actually fails. */
@@ -51,7 +65,11 @@ function failureMessage(milestone) {
 	const url = milestone.resourceUrl || 'no resource URL';
 	const stage = milestone.importerStage || 'runtime';
 	const status = milestone.resourceStatus ?? 'unknown status';
-	return `Essential boot failed: ${milestone.label}. ${milestone.failureCode}; ${Math.round(milestone.elapsedMilliseconds)} ms; ${url}; ${status}; ${stage}.`;
+	const detail = `${milestone.failureCode}; ${Math.round(milestone.elapsedMilliseconds)} ms; ${url}; ${status}; ${stage}.`;
+	if (milestone.failureCode === 'CANONICAL_CHOSSID_GLB_LOAD_FAILED') {
+		return `The Chossid model (chossid.glb) could not be loaded, so the world cannot start yet. ${detail}`;
+	}
+	return `Essential boot failed: ${milestone.label}. ${detail}`;
 }
 
 /**

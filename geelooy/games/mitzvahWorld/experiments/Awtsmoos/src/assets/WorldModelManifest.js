@@ -9,7 +9,7 @@
  * excludes every structural tree because the canonical deep procedural forest alone owns trunk, branch, canopy, and species.
  */
 
-import { remoteModelRecord } from './RemoteModelCatalog.js';
+// B"H: owner design — chossid.glb is the only external GLB; every model below is procedural.
 
 export const WORLD_MODEL_MANIFEST = Object.freeze({
 	'flower-clump': model('Flower_4_Clump.glb', 'flora', false, 4),
@@ -57,24 +57,26 @@ export function worldModelManifestEvidence() {
 	return Object.freeze({
 		bytes: definitions.reduce((sum, item) => sum + item.bytes, 0),
 		models: definitions.length,
-		remoteOnly: definitions.every(item => item.url.startsWith('/games/mitzvahWorld/build/generated/assets/')),
+		proceduralOnly: definitions.every(item => item.source === 'procedural'),
+		remoteOnly: false,
 		structuralTreeAuthority: 'awtsmoos-procedural-core',
 		structuralTreeModels: 0
 	});
 }
 
 function model(file, role, animated, maximumInstances, clips = []) {
-	const record = remoteModelRecord(`reference-world/${file}`);
+	// Procedural by design: no remote GLB record exists for this identity.
 	return Object.freeze({
 		animated,
-		bytes: record.bytes,
+		bytes: 0,
 		clips: Object.freeze(clips),
 		file,
 		maximumInstances,
-		provenance: 'Authenticated Awtsmoos Drive upload; source license metadata not located',
+		provenance: 'Procedural (owner design: chossid.glb is the only external GLB model)',
 		role,
-		sha256: record.sha256,
-		url: record.url
+		sha256: null,
+		source: 'procedural',
+		url: null
 	});
 }
 

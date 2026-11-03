@@ -2,12 +2,9 @@
 // Boruch Hashem
 // Blessed is He
 
-import { remoteModelUrl } from './RemoteModelCatalog.js';
 import { exactMaterialUrl } from './PublicMaterialResolver.js';
 
-const FLOWER_MODEL_URL = remoteModelUrl(
-	'reference-world/Flower_4_Clump.glb'
-);
+const FLOWER_MODEL_URL = null; // Procedural by owner design: no external flower GLB.
 const FLOWER_SOURCE_IDENTITIES = Object.freeze({
 	blue: 'botanical:flower-blue',
 	white: 'botanical:flower-white',

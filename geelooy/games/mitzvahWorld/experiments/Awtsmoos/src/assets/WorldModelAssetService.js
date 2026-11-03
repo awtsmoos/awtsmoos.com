@@ -30,7 +30,7 @@ export async function loadWorldModelAssets(foundation, options = {}) {
 export class WorldModelAssetService {
 	constructor(records) {
 		this.records = records;
-		this.failures = records.filter(record => !record.ok);
+		this.failures = records.filter(record => !record.ok && !record.procedural);
 		this.players = records.filter(record => record.player).map(record => record.player);
 	}
 
@@ -42,6 +42,7 @@ export class WorldModelAssetService {
 		return {
 			animated: this.players.length,
 			failed: this.failures.map(record => ({ error: record.error, modelId: record.modelId })),
+			procedural: this.records.filter(record => record.procedural).length,
 			loaded: this.records.filter(record => record.ok).length,
 			requested: this.records.length
 		};
@@ -50,6 +51,9 @@ export class WorldModelAssetService {
 
 async function loadPlacement(foundation, placement, index) {
 	const definition = worldModelDefinition(placement.modelId);
+	if (!definition?.url) {
+		return { error: 'procedural-source', modelId: placement.modelId, ok: false, player: null, procedural: true };
+	}
 	try {
 		const gltf = await loadIsolatedGltf(definition.url, `world-${placement.modelId}-${index}`);
 		const model = gltf.scene;

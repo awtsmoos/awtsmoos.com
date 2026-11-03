@@ -23,6 +23,10 @@ export async function hydrateBootstrapDistrictNature(group, definition, options 
 			records.push(failedRecord(placement.modelId, 'unknown-model'));
 			continue;
 		}
+		if (!model.url) {
+			records.push(proceduralRecord(placement.modelId));
+			continue;
+		}
 		try {
 			const gltf = await load(
 				model.url,
@@ -77,13 +81,18 @@ function successRecord(scene, modelId) {
 	};
 }
 
+function proceduralRecord(modelId) {
+	return { error: 'procedural-source', loaded: false, modelId, procedural: true, sourceUrl: null };
+}
+
 function failedRecord(modelId, error) {
 	return { error, loaded: false, modelId, sourceUrl: null };
 }
 
 function summarize(records, requested) {
 	return {
-		failed: records.filter(record => !record.loaded).length,
+		failed: records.filter(record => !record.loaded && !record.procedural).length,
+		procedural: records.filter(record => record.procedural).length,
 		loaded: records.filter(record => record.loaded).length,
 		records,
 		requested,

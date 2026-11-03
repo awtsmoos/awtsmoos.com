@@ -2,7 +2,6 @@
 // Boruch Hashem
 // Blessed is He
 
-import { remoteModelUrl } from './RemoteModelCatalog.js';
 import { publicMaterialUrl } from './PublicMaterialOrigin.js';
 
 const HALF_QUALITY = new Set(['low', 'medium', 'half']);
@@ -51,7 +50,7 @@ export function exactMaterialUrl(relativePath) {
 }
 
 export function flowerModelUrl() {
-	return remoteModelUrl('reference-world/Flower_4_Clump.glb');
+	return null; // Procedural by owner design: no external flower GLB.
 }
 
 export function fullMaterialPath(name, extension = 'png') {

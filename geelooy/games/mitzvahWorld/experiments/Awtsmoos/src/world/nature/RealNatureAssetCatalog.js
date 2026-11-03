@@ -9,7 +9,7 @@
  * Awtsmoos.com leaves pine and broadleaf growth to `geelooy/libs/awtsmoos-procedural-core`, one botanical root alone.
  */
 
-import { remoteModelUrl } from '../../assets/RemoteModelCatalog.js';
+// B"H: owner design — chossid.glb is the only external GLB; nature accents are procedural.
 
 const RECORDS = Object.freeze([
 	asset('flower', 'flower', 'reference-world/Flower_4_Clump.glb', 0.85, false, 0.052),
@@ -33,7 +33,8 @@ function asset(id, family, modelPath, scale, solid, windAmplitude) {
 		scale,
 		shadowIntent: family !== 'flower',
 		solid,
-		url: remoteModelUrl(modelPath),
+		source: 'procedural',
+		url: null,
 		windAmplitude
 	});
 }

@@ -27,7 +27,7 @@ test('uses an isolated fallback after every trusted model source fails', async (
 		}
 	};
 	const result = await loadIsolatedGltf(
-		remoteModelUrl('reference-world/Flower_4_Clump.glb'),
+		remoteModelUrl('player/chossid.glb'),
 		'flower-fallback',
 		{
 			cacheStorage: null,

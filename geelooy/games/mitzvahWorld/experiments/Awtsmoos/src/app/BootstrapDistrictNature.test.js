@@ -12,7 +12,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { Group } from '../../../light-three-gltf/tiny-runtime.js';
-import { remoteModelUrl } from '../assets/RemoteModelCatalog.js';
 import { hydrateBootstrapDistrictNature } from './BootstrapDistrictNature.js';
 
 const MODEL_IDENTITIES = Object.freeze({
@@ -38,7 +37,7 @@ test('adds successful Drive flora and records failed siblings', async () => {
 		},
 		worldModelDefinition: modelId => ({
 			role: 'flora',
-			url: remoteModelUrl(MODEL_IDENTITIES[modelId])
+			url: `https://example.test/models/${modelId}.glb`
 		})
 	});
 	assert.equal(group.children.length, 1);

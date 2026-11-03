@@ -62,6 +62,10 @@ export class MitzvahWorldEssentialLedger {
 		const record = this.requireRecord(name);
 		if (isEssentialTerminal(record.status)) return this.snapshot();
 		const now = readMitzvahWorldEssentialTime(this.environment);
+		if (!details.resourceUrl) {
+			const donor = [...this.records.values()].find(candidate => candidate !== record && candidate.resourceUrl);
+			if (donor) details = { ...details, resourceStatus: details.resourceStatus ?? donor.resourceStatus ?? null, resourceUrl: donor.resourceUrl };
+		}
 		applyEssentialDetails(record, details);
 		record.status = details.status || 'failed';
 		record.failureCode = details.failureCode || 'ESSENTIAL_BOOT_FAILURE';
