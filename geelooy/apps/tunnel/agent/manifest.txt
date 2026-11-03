@@ -1,5 +1,5 @@
 B"H
-1.0.705
+1.0.710
 main.js
 ai/relay/direct/browser/ActiveTargetLease.mjs
 ai/relay/direct/browser/AgentTabCatalog.mjs
@@ -1178,6 +1178,7 @@ lib/connection-vessel/parent-consumer-recovery-values.js
 lib/connection-vessel/parent-consumer-recovery.js
 lib/connection-vessel/parent-consumer-repair-ledger-state.js
 lib/connection-vessel/parent-consumer-repair-ledger.js
+lib/connection-vessel/parent-consumer-stuck-work.js
 lib/connection-vessel/parent-execution-health.js
 lib/connection-vessel/parent-repair-identity.js
 lib/connection-vessel/parent-watchdog-assessment.js
@@ -2330,9 +2331,6 @@ tools/fs/binaryArtifactHttpClient.js
 tools/fs/binaryArtifactOrigin.js
 tools/fs/binaryArtifactRangeHttpClient.js
 tools/fs/binaryArtifactUploader.js
-tools/fs/binaryArtifactDownloadWriter.js
-tools/fs/binaryArtifactRangeHttpClient.js
-tools/fs/binaryArtifactDownloader.js
 tools/fs/bulkPage.js
 tools/fs/bulkRead.js
 tools/fs/bulkReadExecution.js
@@ -2722,6 +2720,7 @@ tools/fs/mission/index.js
 tools/fs/mission/innovationPolicy.js
 tools/fs/mission/instructions/capsule.js
 tools/fs/mission/instructions/commander.js
+tools/fs/mission/jsonMissionIo.js
 tools/fs/mission/jsonMissionStore.js
 tools/fs/mission/lease.js
 tools/fs/mission/ledger/gate.js
@@ -2951,10 +2950,15 @@ tools/fs/preview/deps.js
 tools/fs/preview/detect.js
 tools/fs/preview/guidance.js
 tools/fs/preview/httpProbe.js
+tools/fs/preview/leaseUrl.js
 tools/fs/preview/localServerAction.js
 tools/fs/preview/payload.js
 tools/fs/preview/policy.js
 tools/fs/preview/publicProbe.js
+tools/fs/preview/registeredRead.js
+tools/fs/preview/registeredReadResult.js
+tools/fs/preview/registeredReadTransport.js
+tools/fs/preview/sourceSelect.js
 tools/fs/preview/url.js
 tools/fs/previewRegistry.js
 tools/fs/projectInfo.js
@@ -3010,9 +3014,13 @@ tools/fs/semantic/scopeEdit.js
 tools/fs/semantic/scopeOutline.js
 tools/fs/semantic/walk.js
 tools/fs/staticServerControl.js
+tools/fs/staticServerFileHandle.js
 tools/fs/staticServerHttp.js
 tools/fs/staticServerLifecycle.js
+tools/fs/staticServerMime.js
+tools/fs/staticServerPath.js
 tools/fs/staticServerPresentation.js
+tools/fs/staticServerRange.js
 tools/fs/staticServerRegistry.js
 tools/fs/staticServers.js
 tools/fs/symbolOutline.js
