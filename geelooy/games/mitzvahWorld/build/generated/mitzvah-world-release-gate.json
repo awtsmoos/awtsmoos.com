@@ -1,5 +1,5 @@
 {
-	"certified": false,
+	"certified": true,
 	"custody": {
 		"artifacts": {
 			"index.html": {
@@ -95,53 +95,32 @@
 				"sha256": "632d94c4225546aa57db7b75b3f6819c4cc95343b4b7add5ada44688f8722942"
 			}
 		},
-		"certified": false,
-		"commit": "7ada543cc2a3387ed3c201cdace0e18a72a025fd",
-		"dirtyEntries": [
-			"M geelooy/games/mitzvahWorld/build/generated/mitzvah-world-core.json",
-			"M geelooy/games/mitzvahWorld/build/generated/mitzvah-world-foundation.json",
-			"M geelooy/games/mitzvahWorld/build/generated/mitzvah-world-optional.json",
-			"M geelooy/games/mitzvahWorld/build/generated/mitzvah-world-player.json",
-			"M geelooy/games/mitzvahWorld/build/generated/mitzvah-world-post-control.json",
-			"M geelooy/games/mitzvahWorld/build/generated/mitzvah-world-presentation.json",
-			"M geelooy/games/mitzvahWorld/build/generated/mitzvah-world-world-a.json",
-			"M geelooy/games/mitzvahWorld/build/generated/mitzvah-world-world.json",
-			"M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world-core.compact.js",
-			"M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world-foundation.compact.js",
-			"M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world-optional.compact.js",
-			"M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world-optional.compact.js.br",
-			"M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world-player.compact.js",
-			"M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world-post-control.compact.js",
-			"M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world-presentation.compact.js",
-			"M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world-presentation.compact.js.br",
-			"M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world-world-a.compact.js",
-			"M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world-world.compact.js",
-			"M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world-world.compact.js.br",
-			"M geelooy/games/mitzvahWorld/index.html"
-		],
-		"failureCode": "RELEASE_SOURCE_TREE_DIRTY",
+		"certified": true,
+		"commit": "9b68a4009f6cc3e5ff24594424e79fe97dfdb171",
+		"dirtyEntries": [],
+		"failureCode": null,
 		"graphSha256": "cceb69ea6db5e197864260550f6bf951e95f2ca0ab6f0e2169f68ff5bb1d21a1",
 		"releaseId": "cceb69ea6db5e197864260550f6bf951e95f2ca0ab6f0e2169f68ff5bb1d21a1",
 		"version": 1
 	},
-	"failureCode": "RELEASE_SOURCE_TREE_DIRTY",
+	"failureCode": null,
 	"stages": [
 		{
-			"elapsedMilliseconds": 3817,
+			"elapsedMilliseconds": 3095,
 			"label": "css-build",
 			"status": "pass"
 		},
 		{
-			"elapsedMilliseconds": 472474,
+			"elapsedMilliseconds": 424500,
 			"label": "js-and-essential-assets-build",
 			"status": "pass"
 		},
 		{
-			"elapsedMilliseconds": 5768,
+			"elapsedMilliseconds": 5531,
 			"label": "release-unit-gates",
 			"status": "pass"
 		}
 	],
 	"version": 1,
-	"generatedAt": "2026-11-03T18:16:29.156Z"
+	"generatedAt": "2026-11-03T18:23:56.238Z"
 }
