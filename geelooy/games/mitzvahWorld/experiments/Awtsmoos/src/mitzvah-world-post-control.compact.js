@@ -3092,10 +3092,14 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * @description Restores and persists the real Blank Meadow teaching quest without rich boss systems.
 	 * The Awtsmoos is beyond every remembered step; Awtsmoos.com carries one honest finite thread,
 	 * preserving unowned boss, Daas, reward, claim, and accessibility vessels while quest and recovery proceed.
+	 * Recovery witnesses are throttled to one write per second: a burst of recoveries describes one
+	 * fall, and the record is rebuilt from living quest and recovery state whenever it is written.
 	 */
 
 	const MinimalMeadowTeachingQuestRuntime = __awtsmoosModule_23.MinimalMeadowTeachingQuestRuntime;
 	const MinimalMeadowVerticalSlicePersistence = __awtsmoosModule_24.MinimalMeadowVerticalSlicePersistence;
+
+	const RECOVERY_SAVE_THROTTLE_MS = 1000;
 
 	class BootstrapVerticalSliceContinuity {
 		constructor(runtime, environment = globalThis) {
@@ -3103,6 +3107,7 @@ const __awtsmoosModule_0 = Object.create(null);
 			this.persistence = new MinimalMeadowVerticalSlicePersistence(environment);
 			this.record = this.persistence.load();
 			this.lastSave = null;
+			this.lastRecoverySaveAt = 0;
 			runtime.teachingQuest = new MinimalMeadowTeachingQuestRuntime(
 				runtime,
 				this.record.quest
@@ -3122,6 +3127,11 @@ const __awtsmoosModule_0 = Object.create(null);
 		}
 
 		save(reason = 'state-change') {
+			if (reason === 'recovery') {
+				const now = Date.now();
+				if (now - this.lastRecoverySaveAt < RECOVERY_SAVE_THROTTLE_MS) return true;
+				this.lastRecoverySaveAt = now;
+			}
 			const record = this.persistence.save({
 				...this.record,
 				quest: this.runtime.teachingQuest?.snapshot?.() || this.record.quest,
@@ -3437,33 +3447,45 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * @file MinimalMeadowMovementRecovery.js
 	 * @description Recovers the traveler relative to the actual local walkable support instead of one meaningless global abyss number.
 	 * The Awtsmoos sustains each foot upon the earth beneath it; Awtsmoos.com remembers only lawful grounded footing
-	 * and restores a traveler as soon as visible position sinks materially beneath terrain, threshold, room, tread, or landing.
+	 * and restores a traveler sunk materially beneath terrain, threshold, room, tread, or landing — while touching
+	 * the world's edge stays ordinary walking, never a fall: the border is rested upon, not recovered from.
 	 */
 
 	const minimalMeadowGroundReceipt = __awtsmoosModule_28.minimalMeadowGroundReceipt;
 
 	const WORLD_LIMIT = 510;
-	const BELOW_SUPPORT_TOLERANCE = 1.25;
-	const SAFE_SUPPORT_TOLERANCE = 0.8;
+	const BELOW_SUPPORT_TOLERANCE = 1.25, SAFE_SUPPORT_TOLERANCE = 0.8;
 
 	class MinimalMeadowMovementRecovery {
 		constructor(runtime, state) {
 			this.runtime = runtime;
 			this.safe = snapshot(state, supportHeight(runtime, state));
 			this.recoveries = 0;
+			this.boundaryClamps = 0;
 			this.lastReason = null;
 		}
 
 		beforeStep(state) {
+			this.clampToWorldBounds(state);
 			const reason = recoveryReason(this.runtime, state);
 			return reason ? this.restore(state, reason) : false;
 		}
 
 		afterStep(state) {
+			this.clampToWorldBounds(state);
 			const reason = recoveryReason(this.runtime, state);
 			if (reason) return this.restore(state, reason);
 			if (safeFooting(this.runtime, state)) this.checkpoint(state);
 			return false;
+		}
+
+		clampToWorldBounds(state) {
+			const x = clampAxis(state.x);
+			const z = clampAxis(state.z);
+			if (x === state.x && z === state.z) return;
+			state.x = x;
+			state.z = z;
+			this.boundaryClamps += 1;
 		}
 
 		checkpoint(state) {
@@ -3481,15 +3503,9 @@ const __awtsmoosModule_0 = Object.create(null);
 
 		restore(state, reason = 'movement-recovery') {
 			Object.assign(state, {
-				facing: this.safe.facing,
-				groundY: this.safe.y,
-				grounded: true,
-				renderY: this.safe.y,
-				travelFacing: this.safe.facing,
-				velY: 0,
-				x: this.safe.x,
-				y: this.safe.y,
-				z: this.safe.z
+				facing: this.safe.facing, groundY: this.safe.y, grounded: true,
+				renderY: this.safe.y, travelFacing: this.safe.facing, velY: 0,
+				x: this.safe.x, y: this.safe.y, z: this.safe.z
 			});
 			this.runtime.model?.position?.set?.(this.safe.x, this.safe.y, this.safe.z);
 			this.runtime.cameraRig?.update?.(this.runtime.camera, state, this.runtime.mainOctree, 0);
@@ -3501,7 +3517,10 @@ const __awtsmoosModule_0 = Object.create(null);
 		}
 
 		diagnostics() {
-			return Object.freeze({ lastReason: this.lastReason, recoveries: this.recoveries, safe: { ...this.safe } });
+			return Object.freeze({
+				boundaryClamps: this.boundaryClamps, lastReason: this.lastReason,
+				recoveries: this.recoveries, safe: { ...this.safe }
+			});
 		}
 	}
 
@@ -3515,6 +3534,11 @@ const __awtsmoosModule_0 = Object.create(null);
 		return null;
 	}
 
+	function clampAxis(value) {
+		if (!Number.isFinite(value)) return value;
+		return Math.min(WORLD_LIMIT, Math.max(-WORLD_LIMIT, value));
+	}
+
 	function safeFooting(runtime, state) {
 		if (!state.grounded || !withinWorld(state)) return false;
 		const support = supportHeight(runtime, state);
@@ -3523,8 +3547,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	function withinWorld(state) {
 		return [state.x, state.renderY, state.z].every(Number.isFinite)
-			&& Math.abs(state.x) <= WORLD_LIMIT
-			&& Math.abs(state.z) <= WORLD_LIMIT;
+			&& Math.abs(state.x) <= WORLD_LIMIT && Math.abs(state.z) <= WORLD_LIMIT;
 	}
 
 	function supportHeight(runtime, state) {
@@ -3533,8 +3556,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	function snapshot(state, support) {
 		return Object.freeze({
-			facing: Number(state.facing || 0),
-			x: Number(state.x || 0),
+			facing: Number(state.facing || 0), x: Number(state.x || 0),
 			y: Number.isFinite(support) ? support : Number(state.renderY ?? state.y ?? 0),
 			z: Number(state.z || 0)
 		});
@@ -5126,7 +5148,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.resetTreeToBase = resetTreeToBase;
-	const __awtsmoosDefault_96zbx = {
+	const __awtsmoosDefault_bnuuyr = {
 		Bone,
 		BufferAttribute,
 		BufferGeometry,
@@ -5139,7 +5161,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		Scene,
 		Vector3
 	};
-	__exports.default = __awtsmoosDefault_96zbx;
+	__exports.default = __awtsmoosDefault_bnuuyr;
 }
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-gltf-accessors.js ----
@@ -30030,7 +30052,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.resetTreeToBase = resetTreeToBase;
-	const __awtsmoosDefault_1g5gchz = {
+	const __awtsmoosDefault_1emgba9 = {
 		Bone,
 		BufferAttribute,
 		BufferGeometry,
@@ -30044,7 +30066,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		Scene,
 		Vector3
 	};
-	__exports.default = __awtsmoosDefault_1g5gchz;
+	__exports.default = __awtsmoosDefault_1emgba9;
 }
 
 // ---- libs/awtsmoos-procedural-core/src/adapters/native/runtime.js ----
@@ -43581,12 +43603,12 @@ const __awtsmoosModule_0 = Object.create(null);
 	const loadTinyGlb = loadTinyGltf;
 
 	__exports.loadTinyGlb = loadTinyGlb;
-	const __awtsmoosDefault_8xt7gs = {
+	const __awtsmoosDefault_oy3caa = {
 		loadTinyGltf,
 		loadTinyGlb,
 		loadTinyGltfBuffer
 	};
-	__exports.default = __awtsmoosDefault_8xt7gs;
+	__exports.default = __awtsmoosDefault_oy3caa;
 }
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteModelCatalog.js ----

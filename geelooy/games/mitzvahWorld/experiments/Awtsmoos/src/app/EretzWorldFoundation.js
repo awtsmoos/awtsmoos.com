@@ -10,6 +10,7 @@
  */
 
 import { beginDeferredEretzEssentialAssets } from './EretzDeferredEssentialAssets.js';
+import { forwardEssentialBootProgress } from './EretzLaunchBootProgress.js';
 import { prepareEretzFoundationWebGlPhase } from './EretzFoundationWebGlPhase.js';
 import { attachEretzFoundationVisualHydration } from './EretzFoundationVisualHydration.js';
 import { beginEretzLushRendererPrewarm } from './EretzLushRendererPrewarm.js';
@@ -26,9 +27,10 @@ export async function createEretzWorldFoundation(hosts, options = {}) {
 	if (!qualityProfile) throw new Error('Eretz foundation requires a quality profile.');
 	const environment = options.environment || globalThis;
 	// The player import/GLB decode begins independently of the synchronous WebGL boot.
+	// Its boot milestones also rearm the launch stall gate while the await is silent.
 	const essentialAssetsPromise = beginDeferredEretzEssentialAssets({
 		...options,
-		boot: options.boot,
+		boot: forwardEssentialBootProgress(options, environment),
 		environment,
 		quality: qualityProfile.quality
 	});
