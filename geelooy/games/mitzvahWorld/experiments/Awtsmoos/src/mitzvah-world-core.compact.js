@@ -140,23 +140,25 @@ const __awtsmoosModule_58 = Object.create(null);
 
 const __awtsmoosModule_57 = Object.create(null);
 
+const __awtsmoosModule_62 = Object.create(null);
+
 const __awtsmoosModule_61 = Object.create(null);
 
 const __awtsmoosModule_60 = Object.create(null);
 
-const __awtsmoosModule_62 = Object.create(null);
-
 const __awtsmoosModule_63 = Object.create(null);
-
-const __awtsmoosModule_54 = Object.create(null);
 
 const __awtsmoosModule_64 = Object.create(null);
 
+const __awtsmoosModule_54 = Object.create(null);
+
 const __awtsmoosModule_65 = Object.create(null);
+
+const __awtsmoosModule_66 = Object.create(null);
 
 const __awtsmoosModule_53 = Object.create(null);
 
-const __awtsmoosModule_66 = Object.create(null);
+const __awtsmoosModule_67 = Object.create(null);
 
 const __awtsmoosModule_0 = Object.create(null);
 
@@ -2849,7 +2851,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.resetTreeToBase = resetTreeToBase;
-	const __awtsmoosDefault_14jh0o8 = {
+	const __awtsmoosDefault_1hhvjrb = {
 		Bone,
 		BufferAttribute,
 		BufferGeometry,
@@ -2862,7 +2864,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		Scene,
 		Vector3
 	};
-	__exports.default = __awtsmoosDefault_14jh0o8;
+	__exports.default = __awtsmoosDefault_1hhvjrb;
 }
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/math/Aabb.js ----
@@ -4060,7 +4062,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * that is still revealing truthful progress, while one outer horizon keeps first play bounded.
 	 * Each milestone carries its own stage-specific deadline instead of one fixed wait: local work (entry,
 	 * renderer context, terrain, movement) must land in seconds, while the authored Chossid GLB keeps a longer
-	 * network-honest horizon.
+	 * network-honest horizon. Terrain and the Chossid are launch-gated: only a world launch can produce them,
+	 * so at their deadlines a registered witness may testify about the launch — in flight, or not yet requested.
 	 */
 
 	const ESSENTIAL_BOOT_TIMEOUT_MS = 30000;
@@ -4099,8 +4102,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	const ESSENTIAL_MILESTONE_CATALOG = Object.freeze([
 		definition(ESSENTIAL_MILESTONES.ENTRY_MODULE_EXECUTED, 'Entry module executed', [], ENTRY_DEADLINE_MS),
 		definition(ESSENTIAL_MILESTONES.RENDERER_FIRST_FRAME, 'Renderer produced first frame', [ESSENTIAL_MILESTONES.ENTRY_MODULE_EXECUTED], RENDERER_FIRST_FRAME_DEADLINE_MS),
-		definition(ESSENTIAL_MILESTONES.SPAWN_TERRAIN_EXISTS, 'Spawn terrain exists', [ESSENTIAL_MILESTONES.ENTRY_MODULE_EXECUTED], SPAWN_TERRAIN_DEADLINE_MS),
-		definition(ESSENTIAL_MILESTONES.CANONICAL_CHOSSID_DECODED, 'Canonical chossid.glb decoded', [ESSENTIAL_MILESTONES.ENTRY_MODULE_EXECUTED], CANONICAL_CHOSSID_DEADLINE_MS),
+		definition(ESSENTIAL_MILESTONES.SPAWN_TERRAIN_EXISTS, 'Spawn terrain exists', [ESSENTIAL_MILESTONES.ENTRY_MODULE_EXECUTED], SPAWN_TERRAIN_DEADLINE_MS, true),
+		definition(ESSENTIAL_MILESTONES.CANONICAL_CHOSSID_DECODED, 'Canonical chossid.glb decoded', [ESSENTIAL_MILESTONES.ENTRY_MODULE_EXECUTED], CANONICAL_CHOSSID_DEADLINE_MS, true),
 		definition(
 			ESSENTIAL_MILESTONES.PLAYER_MOVEMENT_ENABLED,
 			'Player movement enabled',
@@ -4116,10 +4119,11 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	__exports.ESSENTIAL_MILESTONE_CATALOG = ESSENTIAL_MILESTONE_CATALOG;
 	/** Creates one immutable milestone covenant. */
-	function definition(name, label, dependencies, timeoutMilliseconds = ESSENTIAL_BOOT_TIMEOUT_MS) {
+	function definition(name, label, dependencies, timeoutMilliseconds = ESSENTIAL_BOOT_TIMEOUT_MS, launchGated = false) {
 		return Object.freeze({
 			dependencies: Object.freeze([...dependencies]),
 			label,
+			launchGated,
 			name,
 			timeoutFailureCode: `ESSENTIAL_${toFailureToken(name)}_TIMEOUT`,
 			timeoutMilliseconds
@@ -4371,7 +4375,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldEssentialWatchdog.js ----
 {
-	const __exports = __awtsmoosModule_61;
+	const __exports = __awtsmoosModule_62;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -4432,6 +4436,104 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldEssentialLaunchProof.js ----
+{
+	const __exports = __awtsmoosModule_61;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file MitzvahWorldEssentialLaunchProof.js
+	 * @description Lets a launch-gated fact be judged by the launch's own testimony at its silence deadline.
+	 * The Awtsmoos does not condemn earth that was never asked to rise; Awtsmoos.com therefore asks, at the
+	 * exact deadline of terrain or the Chossid, what is true of the only crossing that can produce them:
+	 * a launch in flight inside its own progress law renews the fact with the crossing's witnessed stage,
+	 * a living chooser testifies that first play was never requested, and anything else — a settled launch,
+	 * an exhausted stall law, a vanished chooser, a throwing or counterfeit witness — leaves the honest
+	 * silence verdict standing under its original name. The whole first-play hard horizon seals every
+	 * in-flight testimony: no crossing, however lively, testifies past it.
+	 */
+
+	const applyEssentialDetails = __awtsmoosModule_59.applyEssentialDetails;
+	const touchEssentialRecord = __awtsmoosModule_58.touchEssentialRecord;
+	const essentialHardTimeoutReached = __awtsmoosModule_62.essentialHardTimeoutReached;
+
+	/**
+	 * Asks the registered launch witness whether a governed world crossing is still in flight.
+	 * The testimony is believed only while the crossing's latest truthful progress sits inside its
+	 * own stall budget and before the hard horizon; acceptance renews the fact from that evidence
+	 * exactly once for this deadline and records the proof in the fact's own diagnostics.
+	 * @param {object} ledger Essential ledger whose watchdog reached the deadline.
+	 * @param {object} record Overdue launch-gated milestone record under judgement.
+	 * @param {number} nowMilliseconds Current essential time.
+	 * @returns {boolean} True only when truthful in-flight testimony renewed the fact.
+	 */
+	function attemptEssentialLaunchProof(ledger, record, nowMilliseconds) {
+		if (!record.launchGated || typeof ledger.launchWitness !== 'function') return false;
+		if (essentialHardTimeoutReached(nowMilliseconds, ledger.startedAtMilliseconds)) return false;
+		const testimony = callWitness(ledger.launchWitness);
+		if (!testimony || typeof testimony.importerStage !== 'string' || !testimony.importerStage) return false;
+		const progressedAt = testimony.lastProgressAtMilliseconds;
+		const stallBudget = testimony.stallBudgetMilliseconds;
+		if (!Number.isFinite(progressedAt) || !Number.isFinite(stallBudget) || stallBudget <= 0) return false;
+		if (progressedAt < (record.startedAtMilliseconds ?? 0) || progressedAt > nowMilliseconds) return false;
+		if (nowMilliseconds - progressedAt > stallBudget) return false;
+		acceptTestimony(ledger, record, nowMilliseconds, {
+			importerStage: testimony.importerStage,
+			resourceStatus: 'launch-in-flight'
+		}, 'launchProofCount');
+		return true;
+	}
+
+
+	__exports.attemptEssentialLaunchProof = attemptEssentialLaunchProof;
+	/**
+	 * Asks the registered menu witness whether the world chooser is still the live surface.
+	 * Its testimony — first play not yet requested — is the one state in which a launch-gated
+	 * fact's silence is not evidence against it, so acceptance renews the fact with the chooser's
+	 * stage. With renew false the testimony is only read, never consumed: the hard-horizon
+	 * judgement asks whether every still-active fact is covered before it disarms in peace.
+	 * @param {object} ledger Essential ledger whose watchdog is judging.
+	 * @param {object} record Launch-gated milestone record under judgement.
+	 * @param {number} nowMilliseconds Current essential time.
+	 * @param {boolean} [renew] Whether acceptance may renew the fact's silence clock.
+	 * @returns {boolean} True only when a living chooser truthfully covers the fact.
+	 */
+	function attemptEssentialMenuProof(ledger, record, nowMilliseconds, renew = true) {
+		if (!record.launchGated || typeof ledger.menuWitness !== 'function') return false;
+		const testimony = callWitness(ledger.menuWitness);
+		if (!testimony || typeof testimony.importerStage !== 'string' || !testimony.importerStage) return false;
+		if (!renew) return true;
+		acceptTestimony(ledger, record, nowMilliseconds, {
+			importerStage: testimony.importerStage,
+			resourceStatus: testimony.resourceStatus || 'chooser-live'
+		}, 'menuProofCount');
+		return true;
+	}
+
+
+	__exports.attemptEssentialMenuProof = attemptEssentialMenuProof;
+	/** Invokes a witness defensively: a throwing or empty testimony is no testimony. */
+	function callWitness(witness) {
+		try {
+			const testimony = witness();
+			return testimony && typeof testimony === 'object' ? testimony : null;
+		} catch {
+			return null;
+		}
+	}
+
+	/** Renews one fact from accepted testimony and rearms the watchdog for its siblings. */
+	function acceptTestimony(ledger, record, nowMilliseconds, details, counterField) {
+		applyEssentialDetails(record, details);
+		touchEssentialRecord(record, nowMilliseconds);
+		record[counterField] = (record[counterField] || 0) + 1;
+		ledger.rearmWatchdog(nowMilliseconds);
+	}
+
+}
+
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldEssentialFrameProof.js ----
 {
 	const __exports = __awtsmoosModule_60;
@@ -4441,24 +4543,28 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	/**
 	 * @file MitzvahWorldEssentialFrameProof.js
-	 * @description Resolves an essential watchdog deadline: first the active frame proof, then the honest failure.
-	 * The Awtsmoos does not merely watch for light; Awtsmoos.com, at the exact deadline of the first-frame
-	 * covenant, asks the registered vessel to produce one genuine frame on demand — so a renderer that can
-	 * render passes in any visibility state, while a vessel that produces nothing still fails by name.
+	 * @description Resolves an essential watchdog deadline: first the active proofs, then the honest failure.
+	 * The Awtsmoos does not merely watch for light; Awtsmoos.com, at the exact deadline of a covenant,
+	 * asks for the guarded reality itself — the first-frame vessel must produce one genuine frame, and a
+	 * launch-gated fact must be covered by its launch's truthful testimony (a crossing in flight, or a
+	 * chooser still awaiting the player's word) — so whatever can honestly testify passes, while a vessel
+	 * that produces nothing still fails by name, and the whole first-play hard horizon seals the rest.
 	 */
 
 	const ESSENTIAL_HARD_TIMEOUT_CODE = __awtsmoosModule_57.ESSENTIAL_HARD_TIMEOUT_CODE;
 	const timeoutDetails = __awtsmoosModule_57.timeoutDetails;
+	const attemptEssentialLaunchProof = __awtsmoosModule_61.attemptEssentialLaunchProof;
+	const attemptEssentialMenuProof = __awtsmoosModule_61.attemptEssentialMenuProof;
 	const ESSENTIAL_MILESTONES = __awtsmoosModule_56.ESSENTIAL_MILESTONES;
-	const firstActiveEssentialRecord = __awtsmoosModule_58.firstActiveEssentialRecord;
 	const firstTimedOutEssentialRecord = __awtsmoosModule_58.firstTimedOutEssentialRecord;
 	const touchEssentialRecord = __awtsmoosModule_58.touchEssentialRecord;
-	const essentialHardTimeoutReached = __awtsmoosModule_61.essentialHardTimeoutReached;
+	const essentialHardTimeoutReached = __awtsmoosModule_62.essentialHardTimeoutReached;
 
 	/**
-	 * Settles one watchdog firing for the ledger: an overdue fact first receives its one active
-	 * proof attempt when it is the first-frame fact; failing that, the silence is named exactly
-	 * as before, and the whole first-play hard horizon still bounds every active sibling.
+	 * Settles one watchdog firing for the ledger: an overdue fact first receives its active proof
+	 * attempts (frame proof for the first-frame fact, launch/menu testimony for launch-gated facts);
+	 * failing those, the silence is named exactly as before, and the whole first-play hard horizon
+	 * still bounds every active sibling that no living chooser honestly covers.
 	 * @param {object} ledger Essential ledger whose watchdog fired.
 	 * @param {number} nowMilliseconds Current essential time.
 	 * @returns {object} The ledger's published snapshot after the settlement.
@@ -4467,11 +4573,15 @@ const __awtsmoosModule_0 = Object.create(null);
 		const overdue = firstTimedOutEssentialRecord(ledger.records, nowMilliseconds);
 		if (overdue) {
 			if (attemptEssentialFrameProof(ledger, overdue, nowMilliseconds)) return ledger.publish();
+			if (attemptEssentialLaunchProof(ledger, overdue, nowMilliseconds)) return ledger.publish();
+			if (attemptEssentialMenuProof(ledger, overdue, nowMilliseconds)) return ledger.publish();
 			return ledger.fail(overdue.name, timeoutDetails(overdue, {}, overdue.timeoutFailureCode, nowMilliseconds));
 		}
 		if (essentialHardTimeoutReached(nowMilliseconds, ledger.startedAtMilliseconds)) {
-			const record = firstActiveEssentialRecord(ledger.records);
-			if (record) return ledger.fail(record.name, timeoutDetails(record, {}, ESSENTIAL_HARD_TIMEOUT_CODE, nowMilliseconds));
+			const exposed = firstExposedEssentialRecord(ledger, nowMilliseconds);
+			if (exposed) return ledger.fail(exposed.name, timeoutDetails(exposed, {}, ESSENTIAL_HARD_TIMEOUT_CODE, nowMilliseconds));
+			ledger.cancelWatchdog();
+			return ledger.publish();
 		}
 		ledger.rearmWatchdog(nowMilliseconds);
 		return ledger.publish();
@@ -4479,6 +4589,24 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.resolveEssentialWatchdogTimeout = resolveEssentialWatchdogTimeout;
+	/**
+	 * Finds the first still-active fact the hard horizon may honestly condemn: one no living
+	 * chooser covers. When every active fact is launch-gated and menu-covered — the chooser
+	 * idling past the horizon with first play never requested — there is nothing to condemn,
+	 * and the caller disarms instead of naming a failure that never began.
+	 * @param {object} ledger Essential ledger under hard-horizon judgement.
+	 * @param {number} nowMilliseconds Current essential time.
+	 * @returns {object|null} The first exposed active record, or null when all are covered.
+	 */
+	function firstExposedEssentialRecord(ledger, nowMilliseconds) {
+		for (const record of ledger.records.values()) {
+			if (record.status !== 'pending' || record.startedAtMilliseconds === null) continue;
+			if (attemptEssentialMenuProof(ledger, record, nowMilliseconds, false)) continue;
+			return record;
+		}
+		return null;
+	}
+
 	/**
 	 * Makes the single permitted active attempt when the first-frame fact reaches its deadline.
 	 * The prover is invoked synchronously and at most once per ledger; it must return truthful
@@ -4511,7 +4639,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldEssentialFailurePresenter.js ----
 {
-	const __exports = __awtsmoosModule_62;
+	const __exports = __awtsmoosModule_63;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -4606,7 +4734,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldEssentialSnapshot.js ----
 {
-	const __exports = __awtsmoosModule_63;
+	const __exports = __awtsmoosModule_64;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -4673,10 +4801,10 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	/**
 	 * @file MitzvahWorldEssentialLedger.js
-	 * @description Owns five essential facts while one watchdog observes each fact's silence and the whole first-play horizon.
-	 * The Awtsmoos joins dependency to dependency without mistaking active revelation for delay;
-	 * Awtsmoos.com refreshes only the fact that truly progressed while every silent sibling keeps its own finite night.
-	 * A silence timeout names missing evidence, never a broken vessel: the real proof may still arrive late.
+	 * @description Owns five essential facts while one watchdog observes each fact's silence and the whole horizon.
+	 * The Awtsmoos joins dependency to dependency without mistaking revelation for delay; Awtsmoos.com refreshes only
+	 * the fact that truly progressed while every silent sibling keeps its own finite night. A silence timeout names missing
+	 * evidence, never a broken vessel: the real proof may still arrive late, and witnesses may testify at a deadline.
 	 */
 
 	const readMitzvahWorldEssentialTime = __awtsmoosModule_55.readMitzvahWorldEssentialTime;
@@ -4685,24 +4813,24 @@ const __awtsmoosModule_0 = Object.create(null);
 	const essentialDependencyFailure = __awtsmoosModule_57.essentialDependencyFailure;
 	const ESSENTIAL_MILESTONE_CATALOG = __awtsmoosModule_56.ESSENTIAL_MILESTONE_CATALOG;
 	const resolveEssentialWatchdogTimeout = __awtsmoosModule_60.resolveEssentialWatchdogTimeout;
-	const dismissMitzvahWorldEssentialFailure = __awtsmoosModule_62.dismissMitzvahWorldEssentialFailure;
-	const presentMitzvahWorldEssentialFailure = __awtsmoosModule_62.presentMitzvahWorldEssentialFailure;
+	const dismissMitzvahWorldEssentialFailure = __awtsmoosModule_63.dismissMitzvahWorldEssentialFailure;
+	const presentMitzvahWorldEssentialFailure = __awtsmoosModule_63.presentMitzvahWorldEssentialFailure;
 	const applyEssentialDetails = __awtsmoosModule_59.applyEssentialDetails;
 	const clearEssentialFailure = __awtsmoosModule_59.clearEssentialFailure;
 	const createEssentialRecord = __awtsmoosModule_59.createEssentialRecord;
 	const isEssentialTerminal = __awtsmoosModule_59.isEssentialTerminal;
-	const createMitzvahWorldEssentialSnapshot = __awtsmoosModule_63.createMitzvahWorldEssentialSnapshot;
+	const createMitzvahWorldEssentialSnapshot = __awtsmoosModule_64.createMitzvahWorldEssentialSnapshot;
 	const activateReadyEssentialRecords = __awtsmoosModule_58.activateReadyEssentialRecords;
 	const touchEssentialRecord = __awtsmoosModule_58.touchEssentialRecord;
-	const MitzvahWorldEssentialWatchdog = __awtsmoosModule_61.MitzvahWorldEssentialWatchdog;
+	const MitzvahWorldEssentialWatchdog = __awtsmoosModule_62.MitzvahWorldEssentialWatchdog;
 
 	class MitzvahWorldEssentialLedger {
 		constructor(environment) {
 			this.environment = environment;
 			this.startedAtMilliseconds = readMitzvahWorldEssentialTime(environment);
 			this.records = new Map(ESSENTIAL_MILESTONE_CATALOG.map(item => [item.name, createEssentialRecord(item)]));
-			this.frameProver = null;
-			this.frameProofAttempted = false;
+			this.frameProver = null; this.frameProofAttempted = false;
+			this.launchWitness = this.menuWitness = null;
 			activateReadyEssentialRecords(this.records, this.startedAtMilliseconds);
 			this.watchdog = new MitzvahWorldEssentialWatchdog(environment, this.startedAtMilliseconds, () => this.timeout());
 			this.rearmWatchdog(this.startedAtMilliseconds);
@@ -4801,7 +4929,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldWebGlCapabilityGate.js ----
 {
-	const __exports = __awtsmoosModule_64;
+	const __exports = __awtsmoosModule_65;
 	//B"H
 	//Boruch Hashem
 	//Blessed is He
@@ -4953,7 +5081,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldBootStateMachine.js ----
 {
-	const __exports = __awtsmoosModule_65;
+	const __exports = __awtsmoosModule_66;
 	//B"H
 	//Boruch Hashem
 	//Blessed is He
@@ -5160,17 +5288,17 @@ const __awtsmoosModule_0 = Object.create(null);
 	/**
 	 * @file MitzvahWorldEssentialBoot.js
 	 * @description Publishes one environment-owned essential ledger across source modules and independently compiled runtime chunks.
-	 * The Awtsmoos is one while many vessels reveal His light; Awtsmoos.com lets the five facts testify into one shared Malchus whose silence clocks renew with real progress and whose outer first-play horizon stays finite.
+	 * The Awtsmoos is one while many vessels reveal His light; Awtsmoos.com lets the five facts testify into one shared Malchus whose silence clocks renew with real progress, whose witnesses testify at deadlines, and whose outer first-play horizon stays finite.
 	 */
 
 	const MitzvahWorldEssentialLedger = __awtsmoosModule_54.MitzvahWorldEssentialLedger;
-	const dismissMitzvahWorldEssentialFailure = __awtsmoosModule_62.dismissMitzvahWorldEssentialFailure;
+	const dismissMitzvahWorldEssentialFailure = __awtsmoosModule_63.dismissMitzvahWorldEssentialFailure;
 	const CATALOG_MILESTONES = __awtsmoosModule_56.ESSENTIAL_MILESTONES;
-	const probeMitzvahWorldWebGlCapability = __awtsmoosModule_64.probeMitzvahWorldWebGlCapability;
-	const readMitzvahWorldWebGlCapability = __awtsmoosModule_64.readMitzvahWorldWebGlCapability;
-	const rememberMitzvahWorldWebGlCapability = __awtsmoosModule_64.rememberMitzvahWorldWebGlCapability;
-	const WEBGL_UNAVAILABLE_CODE = __awtsmoosModule_64.WEBGL_UNAVAILABLE_CODE;
-	const transitionMitzvahWorldBootState = __awtsmoosModule_65.transitionMitzvahWorldBootState;
+	const probeMitzvahWorldWebGlCapability = __awtsmoosModule_65.probeMitzvahWorldWebGlCapability;
+	const readMitzvahWorldWebGlCapability = __awtsmoosModule_65.readMitzvahWorldWebGlCapability;
+	const rememberMitzvahWorldWebGlCapability = __awtsmoosModule_65.rememberMitzvahWorldWebGlCapability;
+	const WEBGL_UNAVAILABLE_CODE = __awtsmoosModule_65.WEBGL_UNAVAILABLE_CODE;
+	const transitionMitzvahWorldBootState = __awtsmoosModule_66.transitionMitzvahWorldBootState;
 	__exports.ESSENTIAL_MILESTONES = __awtsmoosModule_56.ESSENTIAL_MILESTONES;
 
 	const LEDGER_KEY = 'AwtsmoosMitzvahWorldEssentialLedgerInternal';
@@ -5194,11 +5322,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		previous?.cancelWatchdog?.();
 		dismissMitzvahWorldEssentialFailure(environment);
 		installLedger(environment, new MitzvahWorldEssentialLedger(environment));
-		return completeMitzvahWorldEssentialMilestone(
-			environment,
-			CATALOG_MILESTONES.ENTRY_MODULE_EXECUTED,
-			entryEvidence
-		);
+		return completeMitzvahWorldEssentialMilestone(environment, CATALOG_MILESTONES.ENTRY_MODULE_EXECUTED, entryEvidence);
 	}
 
 
@@ -5218,27 +5342,15 @@ const __awtsmoosModule_0 = Object.create(null);
 		const ledger = new MitzvahWorldEssentialLedger(environment);
 		installLedger(environment, ledger);
 		ledger.fail(CATALOG_MILESTONES.RENDERER_FIRST_FRAME, {
-			failureCode: WEBGL_UNAVAILABLE_CODE,
-			failureMessage: capability.message,
-			importerStage: 'webgl-capability-probe',
-			resourceStatus: capability.reason || 'context-unavailable',
-			resourceUrl: environment.location?.href || 'unknown'
+			failureCode: WEBGL_UNAVAILABLE_CODE, failureMessage: capability.message, importerStage: 'webgl-capability-probe',
+			resourceStatus: capability.reason || 'context-unavailable', resourceUrl: environment.location?.href || 'unknown'
 		});
-		transitionMitzvahWorldBootState(environment, environment?.document, 'failed', {
-			code: WEBGL_UNAVAILABLE_CODE,
-			message: capability.message,
-			stage: 'webgl-capability-probe'
-		});
-		throw Object.assign(new Error(capability.message), {
-			code: WEBGL_UNAVAILABLE_CODE,
-			name: 'WebGlCapabilityError'
-		});
+		transitionMitzvahWorldBootState(environment, environment?.document, 'failed', { code: WEBGL_UNAVAILABLE_CODE, message: capability.message, stage: 'webgl-capability-probe' });
+		throw Object.assign(new Error(capability.message), { code: WEBGL_UNAVAILABLE_CODE, name: 'WebGlCapabilityError' });
 	}
 
 	function installLedger(environment, ledger) {
-		Object.defineProperty(environment, LEDGER_KEY, {
-			configurable: true, enumerable: false, value: ledger, writable: false
-		});
+		Object.defineProperty(environment, LEDGER_KEY, { configurable: true, enumerable: false, value: ledger, writable: false });
 	}
 
 	function readEntryEvidence(previous) {
@@ -5252,16 +5364,35 @@ const __awtsmoosModule_0 = Object.create(null);
 		return evidence;
 	}
 
+	/** Arms a witness on the already-living ledger only; a registration never creates a gate by itself. */
+	function registerWitness(environment, witness, field) {
+		const ledger = environment?.[LEDGER_KEY];
+		if (!ledger || typeof witness !== 'function') return null;
+		ledger[field] = witness;
+		return ledger.snapshot();
+	}
+
 	/** Arms the already-living ledger with a first-frame prover; never creates a gate by itself. */
 	function registerMitzvahWorldEssentialFrameProver(environment, prover) {
-		const ledger = environment?.[LEDGER_KEY];
-		if (!ledger || typeof prover !== 'function') return null;
-		ledger.frameProver = prover;
-		return ledger.snapshot();
+		return registerWitness(environment, prover, 'frameProver');
 	}
 
 
 	__exports.registerMitzvahWorldEssentialFrameProver = registerMitzvahWorldEssentialFrameProver;
+	/** Arms the already-living ledger with a launch-crossing witness; never creates a gate by itself. */
+	function registerMitzvahWorldEssentialLaunchWitness(environment, witness) {
+		return registerWitness(environment, witness, 'launchWitness');
+	}
+
+
+	__exports.registerMitzvahWorldEssentialLaunchWitness = registerMitzvahWorldEssentialLaunchWitness;
+	/** Arms the already-living ledger with a world-chooser witness; never creates a gate by itself. */
+	function registerMitzvahWorldEssentialMenuWitness(environment, witness) {
+		return registerWitness(environment, witness, 'menuWitness');
+	}
+
+
+	__exports.registerMitzvahWorldEssentialMenuWitness = registerMitzvahWorldEssentialMenuWitness;
 	function updateMitzvahWorldEssentialMilestone(environment, name, details = {}) {
 		return initializeMitzvahWorldEssentialBoot(environment).update(name, details);
 	}
@@ -5290,7 +5421,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldStartupMilestones.js ----
 {
-	const __exports = __awtsmoosModule_66;
+	const __exports = __awtsmoosModule_67;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -5434,7 +5565,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	const attachEretzWorldExperience = __awtsmoosModule_51.attachEretzWorldExperience;
 	const ESSENTIAL_MILESTONES = __awtsmoosModule_53.ESSENTIAL_MILESTONES;
 	const completeMitzvahWorldEssentialMilestone = __awtsmoosModule_53.completeMitzvahWorldEssentialMilestone;
-	const markMitzvahWorldStartupMilestone = __awtsmoosModule_66.markMitzvahWorldStartupMilestone;
+	const markMitzvahWorldStartupMilestone = __awtsmoosModule_67.markMitzvahWorldStartupMilestone;
 
 	/** Builds, visibly primes, and certifies the real player movement runtime before post-control systems. */
 	function assembleBootstrapEssentialPrime(

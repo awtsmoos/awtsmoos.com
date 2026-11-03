@@ -6862,7 +6862,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.resetTreeToBase = resetTreeToBase;
-	const __awtsmoosDefault_14jh0o8 = {
+	const __awtsmoosDefault_1hhvjrb = {
 		Bone,
 		BufferAttribute,
 		BufferGeometry,
@@ -6875,7 +6875,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		Scene,
 		Vector3
 	};
-	__exports.default = __awtsmoosDefault_14jh0o8;
+	__exports.default = __awtsmoosDefault_1hhvjrb;
 }
 
 // ---- libs/awtsmoos-procedural-core/src/core/worldBuilding/CinematicEnvironmentPresets.js ----
@@ -8366,7 +8366,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.resetTreeToBase = resetTreeToBase;
-	const __awtsmoosDefault_mg2ijg = {
+	const __awtsmoosDefault_1wx0obh = {
 		Bone,
 		BufferAttribute,
 		BufferGeometry,
@@ -8380,7 +8380,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		Scene,
 		Vector3
 	};
-	__exports.default = __awtsmoosDefault_mg2ijg;
+	__exports.default = __awtsmoosDefault_1wx0obh;
 }
 
 // ---- libs/awtsmoos-procedural-core/src/adapters/native/runtime.js ----
