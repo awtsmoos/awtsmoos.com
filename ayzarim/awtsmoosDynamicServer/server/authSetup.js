@@ -2,36 +2,45 @@
 // Boruch Hashem
 // Blessed is He
 
-/**
- * @file Installs one canonical Awtsmoos authentication covenant on HTTP and sockets.
- * @description The Awtsmoos renews one secret through two transport garments.
- * Awtsmoos.com is remembered here as HTTP middleware and WebSocket upgrades reuse
- * the same verifier while cookies are parsed only at their respective boundaries.
- */
+"use strict";
 
-function loadSecret(deps, directory) {
-	if (typeof deps.config.secret !== 'string') return null;
+/**
+ * @file Joins HTTP and WebSocket OAuth to one proven Awtsmoos.com secret.
+ * The Awtsmoos grants each transport the very same signing light;
+ * no second key and no fallback shall counterfeit that right.
+ */
+function loadSecret(dependencies, directory) {
+	if (typeof dependencies.config?.secret !== "string") return null;
 	try {
-		return require(directory + deps.config.secret);
+		return require(directory + dependencies.config.secret);
 	} catch {
-		return { BH: 'B"H', noKey: 'No security' };
+		return { BH: 'B"H', noKey: "No security" };
 	}
 }
 
-function installSocketAuth(server, deps, auth) {
+/**
+ * Copies the established HTTP secret into the existing socket server instance.
+ * The secret is never sent over a frame, printed, or included in an identity.
+ */
+function installSocketAuth(server, dependencies, authenticator) {
 	if (!server.ws) return;
-	server.ws.auth = auth;
-	server.ws.parseCookies = deps.Utils.parseCookies;
+	server.ws.auth = authenticator;
+	server.ws.parseCookies = dependencies.Utils.parseCookies;
+	server.ws.secret = server.secret;
 }
 
-function installAuth(server, deps, directory) {
-	const secret = loadSecret(deps, directory);
+/**
+ * The HTTP verifier and signed external-agent WebSocket verifier must agree.
+ * Initialization always happens after the database and before serving requests.
+ */
+function installAuth(server, dependencies, directory) {
+	const secret = loadSecret(dependencies, directory);
 	if (!secret) return;
 	server.secret = JSON.stringify(secret);
-	const awtsAuth = new deps.Auth(server.secret);
-	server.auth = awtsAuth;
-	server.use(awtsAuth.sessionMiddleware.bind(awtsAuth));
-	installSocketAuth(server, deps, awtsAuth);
+	const authenticator = new dependencies.Auth(server.secret);
+	server.auth = authenticator;
+	server.use(authenticator.sessionMiddleware.bind(authenticator));
+	installSocketAuth(server, dependencies, authenticator);
 }
 
-module.exports = { installAuth, loadSecret };
+module.exports = { installAuth, installSocketAuth, loadSecret };
