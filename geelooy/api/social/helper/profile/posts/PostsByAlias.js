@@ -1,23 +1,18 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 /**
  * @module PostsByAlias
  * @description
- * The Awtsmoos lets three historical discovery ages converge without becoming three social truths; Awtsmoos.com orchestrates
- * packed census, legacy submissions, and Heichel scans, then sorts one authored collection while keeping engagement unguessed.
+ * The Awtsmoos lets three historical discovery ages converge without summoning the whole social ocean;
+ * Awtsmoos.com reads one alias through its bounded packed index, then preserves legacy submissions and Heichel fallbacks.
  *
- * B"H 2026-10-21 (Worker N — latency): each strategy collected SERIALLY — one
- * awaited full post read per coordinate, in sequence (measured: @meiri, 51
- * posts, 11–17s through this path because a sub-limit result runs all three
- * strategies). Collection now runs in bounded parallel batches (16 wide).
- * Semantics preserved: strategy order (packed -> submitted -> heichels),
- * early stop when the limit fills, heichel/post dedupe (each batch is
- * pre-deduped by key and checked against the shared seen set before any
- * await, so no duplicate can slip through a parallel batch), and the final
- * deterministic sortPosts ordering.
+ * B"H 2026-10-21: fallback collection runs in bounded parallel batches rather than serial per-post reads.
+ * B"H 2026-11-02: packed collection now uses the alias materialization plus canonical allPosts validation instead of
+ * building the global grouped all-post cache for a single profile request.
  */
-const { allPosts } = require('../../packed/allPostsIndex.js');
+
+const { postsByAliasIndex } = require('../../packed/postsByAliasIndex.js');
 const { ownedHeichelIds, relevantHeichelIds } = require('../heichelos.js');
 const {
 	mergeIds,
@@ -36,7 +31,6 @@ function sortPosts(posts = []) {
 	});
 }
 
-// Runs add() over items in parallel batches; returns true when the limit filled.
 async function collectBatches({ items, limit, posts, seen, keyOf, add }) {
 	for (let start = 0; start < items.length; start += BATCH) {
 		const batch = [];
@@ -56,10 +50,12 @@ async function collectBatches({ items, limit, posts, seen, keyOf, add }) {
 }
 
 async function collectPacked({ $i, aliasId, limit, posts, seen }) {
-	const packedList = [...allPosts({ $i, aliasId, limit })];
+	const packedList = await postsByAliasIndex({ $i, aliasId, limit });
 	return collectBatches({
 		items: packedList,
-		limit, posts, seen,
+		limit,
+		posts,
+		seen,
 		keyOf: packed => packed ? `${packed.heichelId}/${packed.postId}` : null,
 		add: packed => addPackedPost({ $i, aliasId, packed, posts, seen })
 	});
@@ -69,8 +65,10 @@ async function collectSubmitted({ $i, aliasId, limit, posts, seen }) {
 	const coordinates = await submittedPostCoordinates($i, aliasId);
 	return collectBatches({
 		items: coordinates,
-		limit, posts, seen,
-		keyOf: c => `${c.heichelId}/${c.postId}`,
+		limit,
+		posts,
+		seen,
+		keyOf: coordinate => `${coordinate.heichelId}/${coordinate.postId}`,
 		add: coordinate => addPostIfAuthored({
 			$i,
 			aliasId,
@@ -89,15 +87,22 @@ async function collectHeichels({ $i, aliasId, limit, posts, seen }) {
 	);
 	const coordinates = [];
 	for (const heichelId of heichelIds) {
-		for (const postId of await postIds($i, heichelId)) {
-			coordinates.push({ heichelId, postId });
-		}
+		for (const postId of await postIds($i, heichelId)) coordinates.push({ heichelId, postId });
 	}
 	return collectBatches({
 		items: coordinates,
-		limit, posts, seen,
-		keyOf: c => `${c.heichelId}/${c.postId}`,
-		add: c => addPostIfAuthored({ $i, aliasId, heichelId: c.heichelId, postId: c.postId, posts, seen })
+		limit,
+		posts,
+		seen,
+		keyOf: coordinate => `${coordinate.heichelId}/${coordinate.postId}`,
+		add: coordinate => addPostIfAuthored({
+			$i,
+			aliasId,
+			heichelId: coordinate.heichelId,
+			postId: coordinate.postId,
+			posts,
+			seen
+		})
 	});
 }
 
