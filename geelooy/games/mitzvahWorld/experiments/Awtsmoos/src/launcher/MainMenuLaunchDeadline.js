@@ -7,9 +7,11 @@
  * @description Distinguishes a silent world-entry stall from a slower device that is still crossing real launch stages.
  * The Awtsmoos renews the measured gate whenever truthful progress appears; Awtsmoos.com grants mobile decoding
  * enough room to breathe while one immutable outer horizon prevents endless wandering from masquerading as life.
+ * The stall budget is exported because the essential gate's launch witness testifies under this same law:
+ * one number judges the crossing's silence in both houses, so the two gates can never quietly disagree.
  */
 
-const DEFAULT_STALL_TIMEOUT_MS = 30000;
+export const DEFAULT_STALL_TIMEOUT_MS = 30000;
 const DEFAULT_HARD_TIMEOUT_MS = 90000;
 
 /** Creates one progress-rearmable stall timer and one immutable whole-launch timer. */

@@ -5,7 +5,7 @@
 /**
  * @file MitzvahWorldEssentialBoot.js
  * @description Publishes one environment-owned essential ledger across source modules and independently compiled runtime chunks.
- * The Awtsmoos is one while many vessels reveal His light; Awtsmoos.com lets the five facts testify into one shared Malchus whose silence clocks renew with real progress and whose outer first-play horizon stays finite.
+ * The Awtsmoos is one while many vessels reveal His light; Awtsmoos.com lets the five facts testify into one shared Malchus whose silence clocks renew with real progress, whose witnesses testify at deadlines, and whose outer first-play horizon stays finite.
  */
 
 import { MitzvahWorldEssentialLedger } from './MitzvahWorldEssentialLedger.js';
@@ -39,11 +39,7 @@ export function restartMitzvahWorldEssentialBoot(environment = globalThis) {
 	previous?.cancelWatchdog?.();
 	dismissMitzvahWorldEssentialFailure(environment);
 	installLedger(environment, new MitzvahWorldEssentialLedger(environment));
-	return completeMitzvahWorldEssentialMilestone(
-		environment,
-		CATALOG_MILESTONES.ENTRY_MODULE_EXECUTED,
-		entryEvidence
-	);
+	return completeMitzvahWorldEssentialMilestone(environment, CATALOG_MILESTONES.ENTRY_MODULE_EXECUTED, entryEvidence);
 }
 
 /**
@@ -61,27 +57,15 @@ function gateWebGlCapabilityBeforeLedger(environment) {
 	const ledger = new MitzvahWorldEssentialLedger(environment);
 	installLedger(environment, ledger);
 	ledger.fail(CATALOG_MILESTONES.RENDERER_FIRST_FRAME, {
-		failureCode: WEBGL_UNAVAILABLE_CODE,
-		failureMessage: capability.message,
-		importerStage: 'webgl-capability-probe',
-		resourceStatus: capability.reason || 'context-unavailable',
-		resourceUrl: environment.location?.href || 'unknown'
+		failureCode: WEBGL_UNAVAILABLE_CODE, failureMessage: capability.message, importerStage: 'webgl-capability-probe',
+		resourceStatus: capability.reason || 'context-unavailable', resourceUrl: environment.location?.href || 'unknown'
 	});
-	transitionMitzvahWorldBootState(environment, environment?.document, 'failed', {
-		code: WEBGL_UNAVAILABLE_CODE,
-		message: capability.message,
-		stage: 'webgl-capability-probe'
-	});
-	throw Object.assign(new Error(capability.message), {
-		code: WEBGL_UNAVAILABLE_CODE,
-		name: 'WebGlCapabilityError'
-	});
+	transitionMitzvahWorldBootState(environment, environment?.document, 'failed', { code: WEBGL_UNAVAILABLE_CODE, message: capability.message, stage: 'webgl-capability-probe' });
+	throw Object.assign(new Error(capability.message), { code: WEBGL_UNAVAILABLE_CODE, name: 'WebGlCapabilityError' });
 }
 
 function installLedger(environment, ledger) {
-	Object.defineProperty(environment, LEDGER_KEY, {
-		configurable: true, enumerable: false, value: ledger, writable: false
-	});
+	Object.defineProperty(environment, LEDGER_KEY, { configurable: true, enumerable: false, value: ledger, writable: false });
 }
 
 function readEntryEvidence(previous) {
@@ -95,12 +79,27 @@ function readEntryEvidence(previous) {
 	return evidence;
 }
 
+/** Arms a witness on the already-living ledger only; a registration never creates a gate by itself. */
+function registerWitness(environment, witness, field) {
+	const ledger = environment?.[LEDGER_KEY];
+	if (!ledger || typeof witness !== 'function') return null;
+	ledger[field] = witness;
+	return ledger.snapshot();
+}
+
 /** Arms the already-living ledger with a first-frame prover; never creates a gate by itself. */
 export function registerMitzvahWorldEssentialFrameProver(environment, prover) {
-	const ledger = environment?.[LEDGER_KEY];
-	if (!ledger || typeof prover !== 'function') return null;
-	ledger.frameProver = prover;
-	return ledger.snapshot();
+	return registerWitness(environment, prover, 'frameProver');
+}
+
+/** Arms the already-living ledger with a launch-crossing witness; never creates a gate by itself. */
+export function registerMitzvahWorldEssentialLaunchWitness(environment, witness) {
+	return registerWitness(environment, witness, 'launchWitness');
+}
+
+/** Arms the already-living ledger with a world-chooser witness; never creates a gate by itself. */
+export function registerMitzvahWorldEssentialMenuWitness(environment, witness) {
+	return registerWitness(environment, witness, 'menuWitness');
 }
 
 export function updateMitzvahWorldEssentialMilestone(environment, name, details = {}) {

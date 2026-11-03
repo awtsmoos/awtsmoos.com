@@ -51,7 +51,7 @@ export function showMainMenu(hosts, handlers = {}, options = {}) {
 	document.body.appendChild(menu);
 	render();
 	void loadMainMenuPopulation(menu, state, options, render);
-	scheduleMainMenuWebGlPrewarm(hosts.canvas, options.environment || globalThis);
+	scheduleMainMenuWebGlPrewarm(hosts.canvas, options.environment || globalThis, menu);
 	return menu;
 }
 
