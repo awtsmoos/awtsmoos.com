@@ -12,6 +12,7 @@
 import { BAVLI_TITLES_BY_ID } from './torahBavliTitleRegistry.js?v=torah-bilingual-004';
 import { TANACH_TITLES_BY_ID } from './torahTanachTitleRegistry.js?v=torah-bilingual-003';
 import { LEGACY_WORK_TITLES_BY_ID } from './torahLegacyWorkTitleRegistry.js?v=torah-bilingual-003';
+import { MISHNAH_TITLES_BY_HEBREW } from './torahMishnahTitleRegistry.js';
 
 const BY_ID = Object.freeze({
 	root: pair('שורש', 'Root'),
@@ -30,6 +31,7 @@ const BY_ID = Object.freeze({
 });
 
 const BY_HEBREW = Object.freeze({
+	...MISHNAH_TITLES_BY_HEBREW,
 	'תורה אור': 'Torah Or',
 	'תורה אור (חב"ד)': 'Torah Or (Chabad)',
 	'תניא': 'Tanya',
