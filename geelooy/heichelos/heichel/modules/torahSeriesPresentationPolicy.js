@@ -16,7 +16,12 @@ const BLESSING_HEADER = /^\s*B["”']H\s*(?:\r?\n|\s+)/u;
 
 /** Removes a standalone leading B"H marker from display description only. */
 export function publicTorahDescription(value = '') {
-	return String(value || '').replace(BLESSING_HEADER, '').trim();
+	const cleaned = String(value || '').replace(BLESSING_HEADER, '').trim();
+	// B"H QA fix P5 (2026-11-03): legacy writes persisted the literal
+	// strings "undefined"/"null" as descriptions (59 of 63 Mishnah
+	// tractates) - never let a stored sentinel pose as real copy.
+	if (/^(undefined|null)$/i.test(cleaned)) return '';
+	return cleaned;
 }
 
 /**
