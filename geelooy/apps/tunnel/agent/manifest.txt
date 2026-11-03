@@ -1,5 +1,5 @@
 B"H
-1.0.710
+1.0.711
 main.js
 ai/relay/direct/browser/ActiveTargetLease.mjs
 ai/relay/direct/browser/AgentTabCatalog.mjs
@@ -334,6 +334,7 @@ ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/fs/v3/storeState.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/fs/v3/transactions.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/fs/v3/VirtualFs.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/fs/v3/write.js
+ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/fs/v3/writeMany.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/graph/algo.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/graph/algo/analysis.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/graph/algo/path.js
@@ -602,9 +603,11 @@ ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/freeRangeCoalescing.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/freeRangeSelection.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/freeRangeValidation.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/freeSpaceOps.js
+ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/freeSpaceStats.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/index.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/modes.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/pendingFreeList.js
+ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/rangeTrust.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/reachableComplement.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/retiredRangeUnion.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/retirementQueue.js
