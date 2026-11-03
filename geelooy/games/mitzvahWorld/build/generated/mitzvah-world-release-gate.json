@@ -96,7 +96,7 @@
 			}
 		},
 		"certified": true,
-		"commit": "ccf16901c8e8bb70c23fa957779a1539dbfb1b21",
+		"commit": "d12d34ad6490c5d2538002d089f880fdc66ca3dd",
 		"dirtyEntries": [],
 		"failureCode": null,
 		"graphSha256": "02c8bfac110d3f30c46369a5f1541da9550fafd7a7ab521ea62ce8ac3e4499be",
@@ -106,21 +106,21 @@
 	"failureCode": null,
 	"stages": [
 		{
-			"elapsedMilliseconds": 936,
+			"elapsedMilliseconds": 769,
 			"label": "css-build",
 			"status": "pass"
 		},
 		{
-			"elapsedMilliseconds": 149900,
+			"elapsedMilliseconds": 135670,
 			"label": "js-and-essential-assets-build",
 			"status": "pass"
 		},
 		{
-			"elapsedMilliseconds": 2928,
+			"elapsedMilliseconds": 2755,
 			"label": "release-unit-gates",
 			"status": "pass"
 		}
 	],
 	"version": 1,
-	"generatedAt": "2026-11-03T04:47:15.195Z"
+	"generatedAt": "2026-11-03T04:59:45.714Z"
 }
