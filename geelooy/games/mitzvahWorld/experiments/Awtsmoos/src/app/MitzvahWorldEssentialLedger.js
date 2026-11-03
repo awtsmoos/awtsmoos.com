@@ -4,10 +4,10 @@
 
 /**
  * @file MitzvahWorldEssentialLedger.js
- * @description Owns five essential facts while one watchdog observes each fact's silence and the whole first-play horizon.
- * The Awtsmoos joins dependency to dependency without mistaking active revelation for delay;
- * Awtsmoos.com refreshes only the fact that truly progressed while every silent sibling keeps its own finite night.
- * A silence timeout names missing evidence, never a broken vessel: the real proof may still arrive late.
+ * @description Owns five essential facts while one watchdog observes each fact's silence and the whole horizon.
+ * The Awtsmoos joins dependency to dependency without mistaking revelation for delay; Awtsmoos.com refreshes only
+ * the fact that truly progressed while every silent sibling keeps its own finite night. A silence timeout names missing
+ * evidence, never a broken vessel: the real proof may still arrive late, and witnesses may testify at a deadline.
  */
 
 import { readMitzvahWorldEssentialTime } from './MitzvahWorldEssentialClock.js';
@@ -25,8 +25,8 @@ export class MitzvahWorldEssentialLedger {
 		this.environment = environment;
 		this.startedAtMilliseconds = readMitzvahWorldEssentialTime(environment);
 		this.records = new Map(ESSENTIAL_MILESTONE_CATALOG.map(item => [item.name, createEssentialRecord(item)]));
-		this.frameProver = null;
-		this.frameProofAttempted = false;
+		this.frameProver = null; this.frameProofAttempted = false;
+		this.launchWitness = this.menuWitness = null;
 		activateReadyEssentialRecords(this.records, this.startedAtMilliseconds);
 		this.watchdog = new MitzvahWorldEssentialWatchdog(environment, this.startedAtMilliseconds, () => this.timeout());
 		this.rearmWatchdog(this.startedAtMilliseconds);
