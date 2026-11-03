@@ -1,0 +1,94 @@
+=== STUDIO JOB START Tue Nov  3 00:26:48 PST 2026 ===
+file:///Users/awtsmoos/work/studio-movie-fix-20261103/geelooy/apps/animator/tools/build-bundle.mjs:88
+	if (next === html) throw new Error('index.html bundle stamp not found; refusing to leave a stale freshness covenant.');
+	                         ^
+
+Error: index.html bundle stamp not found; refusing to leave a stale freshness covenant.
+    at stampIndex (file:///Users/awtsmoos/work/studio-movie-fix-20261103/geelooy/apps/animator/tools/build-bundle.mjs:88:27)
+    at async file:///Users/awtsmoos/work/studio-movie-fix-20261103/geelooy/apps/animator/tools/build-bundle.mjs:109:15
+
+Node.js v24.17.0
+--- bundle count:
+      51
+src/bundle/main.js?v=f0660602d6
+--- animator sharedMovie tests:
+ℹ tests 17
+ℹ pass 17
+ℹ fail 0
+ℹ skipped 0
+--- editor tests:
+ℹ tests 37
+ℹ pass 36
+ℹ fail 1
+ℹ skipped 0
+--- git status:
+ M geelooy/apps/animator/index.html
+ D geelooy/apps/animator/src/bundle/AnimatorAgentInstaller-UZKLILV2.js
+ D geelooy/apps/animator/src/bundle/AnimatorCoreBootstrap-T233LYZT.js
+ D geelooy/apps/animator/src/bundle/AnimatorExtensionInstaller-UL5HXHKY.js
+ D geelooy/apps/animator/src/bundle/AppUI-UMB4E7FY.js
+ D geelooy/apps/animator/src/bundle/BootRectifier-DEEGUDXM.js
+ D geelooy/apps/animator/src/bundle/CameraControls-AJU3DFB7.js
+ D geelooy/apps/animator/src/bundle/CartoonStudioPanel-TO6H4PAS.js
+ D geelooy/apps/animator/src/bundle/CharacterCustomizerPanel-EWS4JYJY.js
+ D geelooy/apps/animator/src/bundle/CoreStyleLoader-PQ2OC3EL.js
+ D geelooy/apps/animator/src/bundle/DebugSystem-MX56BAND.js
+ D geelooy/apps/animator/src/bundle/DiegeticEditor-M5T5AYG4.js
+ D geelooy/apps/animator/src/bundle/HierarchyResolver-LLF7436T.js
+ D geelooy/apps/animator/src/bundle/NLESystem-D7RUE4NN.js
+ D geelooy/apps/animator/src/bundle/NLETimelineCompatibilityBridge-SU55WOUZ.js
+ D geelooy/apps/animator/src/bundle/RuachInterface-X4US2UPE.js
+ D geelooy/apps/animator/src/bundle/SelectionBridge-7AWG2TLE.js
+ D geelooy/apps/animator/src/bundle/StudioWorkspaceController-4BSQ5PGI.js
+ D geelooy/apps/animator/src/bundle/ToastManager-SEG5ZWLT.js
+ D geelooy/apps/animator/src/bundle/TooltipManager-4PTMIIDG.js
+ D geelooy/apps/animator/src/bundle/Workspace-QGPX2WGU.js
+ D geelooy/apps/animator/src/bundle/chunk-2SNL72VD.js
+ D geelooy/apps/animator/src/bundle/chunk-3WKNX2CU.js
+ D geelooy/apps/animator/src/bundle/chunk-4YYG6WCH.js
+ D geelooy/apps/animator/src/bundle/chunk-7FVMHNVQ.js
+ D geelooy/apps/animator/src/bundle/chunk-7LCIY6YZ.js
+ D geelooy/apps/animator/src/bundle/chunk-AMHP7GVL.js
+ D geelooy/apps/animator/src/bundle/chunk-BQ7OI5EY.js
+ D geelooy/apps/animator/src/bundle/chunk-CUHU3QUR.js
+ D geelooy/apps/animator/src/bundle/chunk-DAZ4KD6W.js
+ D geelooy/apps/animator/src/bundle/chunk-FI7SQSWT.js
+ D geelooy/apps/animator/src/bundle/chunk-HSICWLTY.js
+ D geelooy/apps/animator/src/bundle/chunk-KVEXN3FZ.js
+ D geelooy/apps/animator/src/bundle/chunk-KWMVLFZE.js
+ D geelooy/apps/animator/src/bundle/chunk-MXBVZYNQ.js
+ D geelooy/apps/animator/src/bundle/chunk-NX2SINSE.js
+ D geelooy/apps/animator/src/bundle/chunk-OFXOI2WT.js
+ D geelooy/apps/animator/src/bundle/chunk-OZKTYCWM.js
+ D geelooy/apps/animator/src/bundle/chunk-PLQ65VNZ.js
+ D geelooy/apps/animator/src/bundle/chunk-PRBMO776.js
+ D geelooy/apps/animator/src/bundle/chunk-RSUYPJM7.js
+ D geelooy/apps/animator/src/bundle/chunk-SG3YAWUZ.js
+ D geelooy/apps/animator/src/bundle/chunk-SGVN242B.js
+ D geelooy/apps/animator/src/bundle/chunk-T7AZ3XVJ.js
+ D geelooy/apps/animator/src/bundle/chunk-VK4E3CHA.js
+ D geelooy/apps/animator/src/bundle/chunk-VQIBN3CM.js
+ D geelooy/apps/animator/src/bundle/chunk-W7EDTJYF.js
+ D geelooy/apps/animator/src/bundle/chunk-WE5UQCWV.js
+ D geelooy/apps/animator/src/bundle/chunk-X5VXXD5Y.js
+ D geelooy/apps/animator/src/bundle/chunk-ZVSV6AYA.js
+ D geelooy/apps/animator/src/bundle/installMovieAi-DTWBBNJL.js
+ M geelooy/apps/animator/src/bundle/main.js
+ M geelooy/apps/animator/src/sharedMovie/installMovieAi.js
+ M geelooy/apps/editor/index.html
+?? geelooy/apps/animator/src/bundle/AnimatorAgentInstaller-ZJDYNDZW.js
+?? geelooy/apps/animator/src/bundle/AnimatorCoreBootstrap-GHUKEVPL.js
+?? geelooy/apps/animator/src/bundle/AnimatorExtensionInstaller-POWIBYOE.js
+?? geelooy/apps/animator/src/bundle/AppUI-LPTGFK2G.js
+?? geelooy/apps/animator/src/bundle/BootRectifier-S4GW663X.js
+?? geelooy/apps/animator/src/bundle/CameraControls-IKSZB4JN.js
+?? geelooy/apps/animator/src/bundle/CartoonStudioPanel-D4AZLFB6.js
+?? geelooy/apps/animator/src/bundle/CharacterCustomizerPanel-BMB4TTXO.js
+?? geelooy/apps/animator/src/bundle/CoreStyleLoader-4U42UDQY.js
+?? geelooy/apps/animator/src/bundle/DebugSystem-EF545HZU.js
+?? geelooy/apps/animator/src/bundle/DiegeticEditor-PBQN2JPQ.js
+?? geelooy/apps/animator/src/bundle/HierarchyResolver-3FDFH3HV.js
+?? geelooy/apps/animator/src/bundle/NLESystem-VRAM725J.js
+?? geelooy/apps/animator/src/bundle/NLETimelineCompatibilityBridge-NJQ4HH5S.js
+?? geelooy/apps/animator/src/bundle/RuachInterface-7IOCWEDV.js
+?? geelooy/apps/animator/src/bundle/SelectionBridge-6WUHHJYA.js
