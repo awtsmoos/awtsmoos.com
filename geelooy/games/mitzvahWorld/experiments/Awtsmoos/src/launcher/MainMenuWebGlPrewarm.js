@@ -9,10 +9,15 @@
  * while the later renderer still receives the identical real context and remains the sole judge of essential WebGL truth.
  * The warmup also arms the essential gate with a first-frame prover on this same canvas, so when the
  * first-frame deadline arrives the gate can drive one genuine frame on demand instead of condemning
- * a healthy renderer merely because no world launch has painted yet.
+ * a healthy renderer merely because no world launch has painted yet. And while a menu vessel is
+ * given, it arms the gate's chooser witness too: the facts only a launch can produce are then judged
+ * as awaiting the player's selection for exactly as long as the chooser truly stands in the page.
  */
 
-import { registerMitzvahWorldEssentialFrameProver } from '../app/MitzvahWorldEssentialBoot.js';
+import {
+	registerMitzvahWorldEssentialFrameProver,
+	registerMitzvahWorldEssentialMenuWitness
+} from '../app/MitzvahWorldEssentialBoot.js';
 import { proveMainMenuWebGlFirstFrame } from './MainMenuWebGlFirstFrameProof.js';
 
 export const MAIN_MENU_WEBGL_CONTEXT_OPTIONS = Object.freeze({
@@ -25,8 +30,9 @@ const RECEIPT_KEY = 'AwtsmoosMitzvahWorldWebGlPrewarm';
 const ACTIVE_STATES = new Set(['scheduled', 'warming', 'ready']);
 
 /** Schedules one real WebGL context warmup after the menu has an opportunity to paint. */
-export function scheduleMainMenuWebGlPrewarm(canvas, environment = globalThis) {
+export function scheduleMainMenuWebGlPrewarm(canvas, environment = globalThis, menuElement = null) {
 	registerEssentialFrameProof(canvas, environment);
+	registerEssentialMenuWitness(menuElement, environment);
 	const existing = environment?.[RECEIPT_KEY];
 	if (existing && ACTIVE_STATES.has(existing.status)) return existing;
 	const receipt = {
@@ -58,6 +64,23 @@ function registerEssentialFrameProof(canvas, environment) {
 			return proveMainMenuWebGlFirstFrame(canvas, environment);
 		});
 	} catch { /* the gate keeps its honest timeout when no prover can be armed */ }
+}
+
+/**
+ * Arms the living essential ledger with a witness bound to this exact chooser vessel.
+ * The witness testifies only while the vessel is connected to the page — the precise
+ * span in which first play has genuinely not been requested — and falls silent the
+ * moment the chooser is removed, whatever later surface inherits the ledger.
+ */
+function registerEssentialMenuWitness(menuElement, environment) {
+	if (!menuElement) return;
+	try {
+		registerMitzvahWorldEssentialMenuWitness(environment, () => {
+			return menuElement.isConnected === true
+				? { importerStage: 'main-menu-awaiting-selection', resourceStatus: 'chooser-live-no-launch-requested' }
+				: null;
+		});
+	} catch { /* the gate keeps its honest timeout when no witness can be armed */ }
 }
 
 function warmContext(canvas, environment, receipt) {

@@ -7,17 +7,23 @@
  * @description Runs one finite world-entry transaction with progress-aware stall detection and exact failure evidence.
  * The Awtsmoos gives every doorway a measure without confusing slowness with death; Awtsmoos.com renews the stall gate
  * when a real threshold is crossed, while one outer horizon still names a launch that truly cannot arrive.
+ * The same crossing also arms the essential gate's launch witness, so the facts only this launch can
+ * produce are judged by its witnessed progress instead of by a silence clock it cannot hear.
  */
 
 import { restartMitzvahWorldEssentialBoot } from '../app/MitzvahWorldEssentialBoot.js';
 import { createMainMenuLaunchDeadline } from './MainMenuLaunchDeadline.js';
+import { armMainMenuLaunchWitness } from './MainMenuLaunchWitness.js';
 
 export function runMainMenuLaunch(handler, selection, options = {}) {
 	restartWorldEntryEssentialGate(options.environment || globalThis);
+	const witness = armMainMenuLaunchWitness(options.environment || globalThis, options);
 	const evidence = createLaunchEvidence();
-	const bounded = () => runBoundedHandler(handler, selection, options, evidence);
+	const bounded = () => runBoundedHandler(handler, selection, options, evidence, witness);
 	const paintTask = createLaunchPaintTask(options);
-	return paintTask ? paintTask.then(bounded) : bounded();
+	const launched = paintTask ? paintTask.then(bounded) : bounded();
+	launched.then(witness.settle, witness.settle);
+	return launched;
 }
 
 function restartWorldEntryEssentialGate(environment) {
@@ -40,7 +46,7 @@ export function createLaunchPaintTask(options = {}) {
 	return new Promise(resolve => schedule(resolve, delayMs));
 }
 
-function runBoundedHandler(handler, selection, options, evidence) {
+function runBoundedHandler(handler, selection, options, evidence, witness) {
 	const signal = options.signal;
 	return new Promise((resolve, reject) => {
 		let settled = false;
@@ -71,7 +77,7 @@ function runBoundedHandler(handler, selection, options, evidence) {
 				`World entry exceeded the ${milliseconds} ms hard limit.`
 			)
 		});
-		const observedSelection = observeSelectionProgress(selection, evidence, deadline.progress);
+		const observedSelection = observeSelectionProgress(selection, evidence, deadline.progress, witness);
 		Promise.resolve()
 			.then(() => handler(observedSelection))
 			.then(finish(resolve), rejectWithEvidence);
@@ -82,7 +88,7 @@ function createLaunchEvidence() {
 	return { stage: 'world-entry-handler', url: 'unreported' };
 }
 
-function observeSelectionProgress(selection = {}, evidence, onProgress) {
+function observeSelectionProgress(selection = {}, evidence, onProgress, witness) {
 	const forward = selection.onProgress;
 	return {
 		...selection,
@@ -91,6 +97,7 @@ function observeSelectionProgress(selection = {}, evidence, onProgress) {
 				if (detail.stage) evidence.stage = String(detail.stage);
 				if (detail.url) evidence.url = String(detail.url);
 			}
+			witness?.noteProgress(detail);
 			onProgress?.();
 			forward?.(detail);
 		}
