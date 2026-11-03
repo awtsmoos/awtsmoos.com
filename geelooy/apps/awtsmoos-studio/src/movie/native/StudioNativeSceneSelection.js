@@ -15,14 +15,16 @@ const STRUCTURAL_KINDS = new Set([
 	'water3d',
 	'camera',
 	'light3d',
-	'character3d'
+	'character3d',
+	'model3d'
 ]);
 
 const VISIBLE_KINDS = new Set([
 	'world3d',
 	'terrain3d',
 	'water3d',
-	'character3d'
+	'character3d',
+	'model3d'
 ]);
 
 /** Resolve the canonical scene active at the current movie time. */

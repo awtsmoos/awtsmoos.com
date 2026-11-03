@@ -16,6 +16,7 @@ import {
 	gevurahIssue,
 	isPositiveNumber
 } from './MovieValidationIssue.js';
+import { validateMovieRenderModes } from '../render/MovieRenderModes.js';
 
 /** Validate one canonical movie and preserve the historical result shape. */
 export function gevurahValidateMovie(orMovie) {
@@ -30,6 +31,7 @@ export function gevurahValidateMovie(orMovie) {
 		ohrIssues.push(gevurahIssue('DURATION', 'duration', 'Movie duration must be positive.'));
 	}
 	ohrIssues.push(...validateFormat(orMovie?.format));
+	ohrIssues.push(...validateMovieRenderModes(orMovie));
 	const keliScenes = Array.isArray(orMovie?.scenes) ? orMovie.scenes : [];
 	if (keliScenes.length === 0) {
 		ohrIssues.push(gevurahIssue('SCENES', 'scenes', 'Movie must explicitly declare at least one scene.'));

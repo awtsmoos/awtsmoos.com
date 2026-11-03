@@ -5,6 +5,7 @@
 import { UI } from '../../../../libs/AwtsmoosUI/src/index.js';
 import { createStudioAiDirector } from './StudioAiDirector.js';
 import { createStudioFederationControls } from './StudioFederationControls.js';
+import { createStudioGeneratePanel } from './StudioGeneratePanel.js';
 import { createStudioPanelFrame } from './StudioPanelFrame.js';
 
 /**
@@ -19,6 +20,7 @@ export function createStudioInspectorPanel() {
 		UI.div(
 			{ class: 'aw-ui-stack' },
 			createStudioAiDirector(),
+			createStudioGeneratePanel(),
 			createStudioFederationControls(),
 			UI.h3({ text: 'Canonical Movie JSON' }),
 			UI.textarea({

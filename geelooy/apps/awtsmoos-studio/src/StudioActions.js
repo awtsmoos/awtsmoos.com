@@ -9,6 +9,7 @@
 import { createStudioAudioActions } from './actions/StudioAudioActions.js';
 import { createStudioEditorUiActions } from './actions/StudioEditorUiActions.js';
 import { createStudioExportActions } from './actions/StudioExportActions.js';
+import { createStudioGenerateActions } from './actions/StudioGenerateActions.js';
 import { createStudioHistoryActions } from './actions/StudioHistoryActions.js';
 import { createStudioKeyframeActions } from './actions/StudioKeyframeActions.js';
 import { createStudioLayerMutationActions } from './actions/StudioLayerMutationActions.js';
@@ -23,6 +24,7 @@ import { createStudioWorkspaceActions } from './actions/StudioWorkspaceActions.j
 export function createStudioActions(session) {
 	return {
 		...createStudioAudioActions(session), ...createStudioEditorUiActions(), ...createStudioExportActions(session),
+		...createStudioGenerateActions(session),
 		...createStudioHistoryActions(session), ...createStudioKeyframeActions(session), ...createStudioLayerMutationActions(session),
 		...createStudioPrimaryIntentActions(), ...createStudioProjectActions(session), ...createStudioSceneActions(session),
 		...createStudioTimelineActions(session), ...createStudioTimelineEditActions(session), ...createStudioTransformActions(session),

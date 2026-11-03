@@ -12,3 +12,6 @@ export * from "./CanvasWorldPainter.js";
 export * from "./CanvasGraphicPainter.js";
 export * from "./CanvasCharacterPainter.js";
 export * from "./CanvasParticlePainter.js";
+export * from "./CinematicGrade.js";
+export * from "./PhotoImageCache.js";
+export * from "./PhotoCompositor.js";

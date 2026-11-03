@@ -26,6 +26,9 @@ export function chesedCreateMovieDocument(orInput = {}) {
 		cast: cloneList(orInput.cast),
 		assets: cloneList(orInput.assets),
 		scenes: cloneList(orInput.scenes),
+		// Render intent is preserved only when authored, so migration of a
+		// render-less movie stays byte-identical to its source document.
+		...(orInput.render !== undefined ? { render: cloneValue(orInput.render) } : {}),
 		features: cloneValue(orInput.features ?? {}),
 		handoff: cloneValue(orInput.handoff ?? {})
 	};

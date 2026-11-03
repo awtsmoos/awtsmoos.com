@@ -7,6 +7,7 @@
  * @description Keeps portable Canvas2D as full 2D/fallback rendering while Hybrid may request only transparent screen overlays above native WebGL depth.
  * The Awtsmoos renews depth and sign in one frame while Awtsmoos.com lets each vessel reveal only the light entrusted to its layer;
  * portable paint remains export-ready and complete, yet Hybrid clears its ground so the native world can shine beneath without a counterfeit player.
+ * When the shared render graph finds photographs, the portable vessel becomes the photo compositor: plates, placed images, captions, and the declared cinematic grade.
  */
 
 import { MovieLayerKind } from '../../../shared/movie/MovieKinds.js';
@@ -14,6 +15,13 @@ import { paintCharacterLayer } from '../../../shared/movie/runtime/CanvasCharact
 import { paintGraphicLayer } from '../../../shared/movie/runtime/CanvasGraphicPainter.js';
 import { paintParticleLayer } from '../../../shared/movie/runtime/CanvasParticlePainter.js';
 import { sampleMovieFrame } from '../../../shared/movie/runtime/MovieSceneSampler.js';
+import { buildFramePlan } from '../../../shared/movie/render/RenderGraph.js';
+import { PhotoCompositor } from '../../../shared/movie/runtime/PhotoCompositor.js';
+import { applyCinematicGrade } from '../../../shared/movie/runtime/CinematicGrade.js';
+import {
+	movieImageSources,
+	sharedPhotoImageCache
+} from '../../../shared/movie/runtime/PhotoImageCache.js';
 import { beginStudioLayerEffects, endStudioLayerEffects } from '../effects/StudioLayerEffectContext.js';
 import { isStudioWorldLayer, studioLayerDepth } from '../spatial/StudioLayerDepth.js';
 import { paintStudioProjectedLayer } from '../spatial/StudioProjectedLayerPainter.js';
@@ -25,6 +33,7 @@ export class StudioMovieRenderer {
 		if (!canvas?.getContext) throw new TypeError('StudioMovieRenderer requires a canvas element');
 		this.canvas = canvas;
 		this.context = canvas.getContext('2d');
+		this.photoCompositor = null;
 	}
 
 	render(movie, time = 0, options = {}) {
@@ -38,9 +47,25 @@ export class StudioMovieRenderer {
 			paintTransition(this.context, frame, viewport);
 			return frame;
 		}
+		const plan = framePlanFor(movie, time);
+		if (plan && isPhotographicFrame(plan, frame)) {
+			this.compositor().paint(this.context, movie, plan, frame, viewport);
+			paintTransition(this.context, frame, viewport);
+			return frame;
+		}
 		this.paintFullFrame(frame, viewport);
+		if (plan && movie?.render && plan.grade?.enabled) {
+			applyCinematicGrade(this.context, viewport, plan.grade, plan.frameIndex);
+		}
 		paintTransition(this.context, frame, viewport);
 		return frame;
+	}
+
+	compositor() {
+		if (!this.photoCompositor) {
+			this.photoCompositor = new PhotoCompositor({ imageCache: sharedPhotoImageCache });
+		}
+		return this.photoCompositor;
 	}
 
 	prepareViewport(movie) {
@@ -92,6 +117,27 @@ export class StudioMovieRenderer {
 		paintParticleLayer(this.context, layer, frame, viewport);
 		paintCharacterLayer(this.context, layer, frame, viewport);
 	}
+}
+
+/** Build the shared frame plan defensively and warm the photo cache when a frame is photographic. */
+function framePlanFor(movie, time) {
+	try {
+		const plan = buildFramePlan(movie, time);
+		if (plan?.background?.kind === 'image') {
+			void sharedPhotoImageCache.ensure(plan.background.src);
+		}
+		for (const source of movieImageSources(movie)) {
+			void sharedPhotoImageCache.ensure(source);
+		}
+		return plan;
+	} catch {
+		return null;
+	}
+}
+
+function isPhotographicFrame(plan, frame) {
+	return plan.background?.kind === 'image' ||
+		(frame.layers || []).some(layer => layer.kind === MovieLayerKind.IMAGE);
 }
 
 function paintTransition(context, frame, viewport) {
