@@ -1,17 +1,27 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
 "use strict";
 const { oauth } = require("../docs/catalog.js");
+const { protocol } = require("./clientWebSocketProtocol.js");
 
 /**
- * The Awtsmoos honors both the legacy and the genuine binary way;
- * Awtsmoos.com discloses each authenticated door by day.
+ * @file The Awtsmoos.com external-agent manifest prefers genuine raw WebSocket.
+ * The Awtsmoos gives the agent a stream of original bytes;
+ * the GET fallback remains when a client cannot enter that gate.
  */
 function transferBody() {
 	return {
-		preferred: { transport: "websocket", operations: transferOperations() },
+		preferred: {
+			transport: "websocket",
+			endpoint: "wss://awtsmoos.com/api/tunnel/ws",
+			clientHello: "CLIENT_HELLO",
+			rawBinaryFrameOpcode: 2,
+			scopes: { upload: "tunnel.write", download: "tunnel.read" },
+			operations: transferOperations()
+		},
+		clientWebSocket: protocol(),
 		rawBinary: {
 			transport: "https-put-binary",
 			scope: "tunnel.admin",
@@ -32,25 +42,22 @@ function transferBody() {
 			defaultReadBytesPerRequest: oauth.limits.getFallbackReadBytes
 		},
 		deviceBridge: oauth.deviceTransferEndpoint,
-		sharedReceipt: "Legacy GET and WebSocket share a destination transferId; binary artifact sessions are separate.",
+		sharedReceipt: "Client WebSocket upload receipts use the BinaryArtifactVault; legacy GET transfer sessions remain a separate fallback.",
 		postAllowed: false,
 		limits: oauth.limits,
-		resumeRule: "Query durable nextOffset after an uncertain chunk acknowledgment."
+		resumeRule: "On socket loss, resend CLIENT_HELLO and CLIENT_UPLOAD_BEGIN with the same transferId; use the returned nextOffset."
 	};
 }
 
-/** The published generic action schema stays stable while capabilities grow. */
+/** Existing device actions are preserved beside the new client socket protocol. */
 function transferOperations() {
 	return [
-		"fileTransferSourceInfo",
-		"fileTransferSourceProof",
-		"fileTransferReadChunk",
-		"fileTransferUploadBinary",
-		"fileTransferCreate",
-		"fileTransferStatus",
-		"fileTransferWriteChunk",
-		"fileTransferCommit",
-		"fileTransferCancel"
+		"CLIENT_HELLO", "CLIENT_UPLOAD_BEGIN", "CLIENT_UPLOAD_COMMIT",
+		"CLIENT_DOWNLOAD_BEGIN", "CLIENT_DOWNLOAD_ACK",
+		"fileTransferSourceInfo", "fileTransferSourceProof",
+		"fileTransferReadChunk", "fileTransferUploadBinary",
+		"fileTransferCreate", "fileTransferStatus", "fileTransferWriteChunk",
+		"fileTransferCommit", "fileTransferCancel"
 	];
 }
 
