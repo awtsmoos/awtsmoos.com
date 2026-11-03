@@ -1,5 +1,5 @@
 {
-	"certified": false,
+	"certified": true,
 	"custody": {
 		"artifacts": {
 			"index.html": {
@@ -95,54 +95,32 @@
 				"sha256": "632d94c4225546aa57db7b75b3f6819c4cc95343b4b7add5ada44688f8722942"
 			}
 		},
-		"certified": false,
-		"commit": "6010983fd4b7a23fc76b52d61d1fe00a60e60b6e",
-		"dirtyEntries": [
-			"M geelooy/games/mitzvahWorld/build/generated/mitzvah-world-core.json",
-			"M geelooy/games/mitzvahWorld/build/generated/mitzvah-world-foundation.json",
-			"M geelooy/games/mitzvahWorld/build/generated/mitzvah-world-optional.json",
-			"M geelooy/games/mitzvahWorld/build/generated/mitzvah-world-player.json",
-			"M geelooy/games/mitzvahWorld/build/generated/mitzvah-world-post-control.json",
-			"M geelooy/games/mitzvahWorld/build/generated/mitzvah-world-presentation.json",
-			"M geelooy/games/mitzvahWorld/build/generated/mitzvah-world-release-gate.json",
-			"M geelooy/games/mitzvahWorld/build/generated/mitzvah-world-world-a.json",
-			"M geelooy/games/mitzvahWorld/build/generated/mitzvah-world-world.json",
-			"M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world-core.compact.js",
-			"M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world-foundation.compact.js",
-			"M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world-optional.compact.js",
-			"M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world-optional.compact.js.br",
-			"M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world-player.compact.js",
-			"M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world-post-control.compact.js",
-			"M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world-presentation.compact.js",
-			"M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world-presentation.compact.js.br",
-			"M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world-world-a.compact.js",
-			"M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world-world.compact.js",
-			"M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world-world.compact.js.br",
-			"M geelooy/games/mitzvahWorld/index.html"
-		],
-		"failureCode": "RELEASE_SOURCE_TREE_DIRTY",
+		"certified": true,
+		"commit": "93548f59369b94561e9afd36b660b119ff8548fd",
+		"dirtyEntries": [],
+		"failureCode": null,
 		"graphSha256": "97547ed35fdba66744723643c0005e861b16e2e36423a6af5f25774987318a8e",
 		"releaseId": "97547ed35fdba66744723643c0005e861b16e2e36423a6af5f25774987318a8e",
 		"version": 1
 	},
-	"failureCode": "RELEASE_SOURCE_TREE_DIRTY",
+	"failureCode": null,
 	"stages": [
 		{
-			"elapsedMilliseconds": 3209,
+			"elapsedMilliseconds": 4186,
 			"label": "css-build",
 			"status": "pass"
 		},
 		{
-			"elapsedMilliseconds": 546391,
+			"elapsedMilliseconds": 451094,
 			"label": "js-and-essential-assets-build",
 			"status": "pass"
 		},
 		{
-			"elapsedMilliseconds": 14053,
+			"elapsedMilliseconds": 5429,
 			"label": "release-unit-gates",
 			"status": "pass"
 		}
 	],
 	"version": 1,
-	"generatedAt": "2026-11-03T08:33:40.373Z"
+	"generatedAt": "2026-11-03T09:23:19.178Z"
 }
