@@ -31,6 +31,7 @@ export class GpuTextureCache {
 		this.boundTextures = new Map([[0, this.defaultTexture]]);
 		this.anisotropy = gl.getExtension('EXT_texture_filter_anisotropic')
 			|| gl.getExtension('WEBKIT_EXT_texture_filter_anisotropic');
+		this.maximumAnisotropy = null;
 		this.stats = createGpuTextureStats();
 	}
 
@@ -117,7 +118,15 @@ export class GpuTextureCache {
 	applyAnisotropy(material) {
 		if (!this.anisotropy || material?.anisotropy === false) return;
 		const gl = this.gl;
-		const maximum = gl.getParameter(this.anisotropy.MAX_TEXTURE_MAX_ANISOTROPY_EXT) || 4;
+		// B"H: the context-wide anisotropy ceiling never changes after context
+		// creation, so it is asked once and remembered. Repeating the query on
+		// every upload stalls the graphics pipeline on a constant answer.
+		if (this.maximumAnisotropy === null) {
+			this.maximumAnisotropy = gl.getParameter(
+				this.anisotropy.MAX_TEXTURE_MAX_ANISOTROPY_EXT
+			) || 4;
+		}
+		const maximum = this.maximumAnisotropy;
 		const requested = material?.anisotropy === true ? 4 : Number(material?.anisotropy || 2);
 		gl.texParameterf(
 			gl.TEXTURE_2D,

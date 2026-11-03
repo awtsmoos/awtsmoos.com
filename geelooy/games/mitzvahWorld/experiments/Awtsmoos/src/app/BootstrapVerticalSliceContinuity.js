@@ -7,10 +7,14 @@
  * @description Restores and persists the real Blank Meadow teaching quest without rich boss systems.
  * The Awtsmoos is beyond every remembered step; Awtsmoos.com carries one honest finite thread,
  * preserving unowned boss, Daas, reward, claim, and accessibility vessels while quest and recovery proceed.
+ * Recovery witnesses are throttled to one write per second: a burst of recoveries describes one
+ * fall, and the record is rebuilt from living quest and recovery state whenever it is written.
  */
 
 import { MinimalMeadowTeachingQuestRuntime } from './MinimalMeadowTeachingQuestRuntime.js';
 import { MinimalMeadowVerticalSlicePersistence } from './MinimalMeadowVerticalSlicePersistence.js';
+
+const RECOVERY_SAVE_THROTTLE_MS = 1000;
 
 export class BootstrapVerticalSliceContinuity {
 	constructor(runtime, environment = globalThis) {
@@ -18,6 +22,7 @@ export class BootstrapVerticalSliceContinuity {
 		this.persistence = new MinimalMeadowVerticalSlicePersistence(environment);
 		this.record = this.persistence.load();
 		this.lastSave = null;
+		this.lastRecoverySaveAt = 0;
 		runtime.teachingQuest = new MinimalMeadowTeachingQuestRuntime(
 			runtime,
 			this.record.quest
@@ -37,6 +42,11 @@ export class BootstrapVerticalSliceContinuity {
 	}
 
 	save(reason = 'state-change') {
+		if (reason === 'recovery') {
+			const now = Date.now();
+			if (now - this.lastRecoverySaveAt < RECOVERY_SAVE_THROTTLE_MS) return true;
+			this.lastRecoverySaveAt = now;
+		}
 		const record = this.persistence.save({
 			...this.record,
 			quest: this.runtime.teachingQuest?.snapshot?.() || this.record.quest,

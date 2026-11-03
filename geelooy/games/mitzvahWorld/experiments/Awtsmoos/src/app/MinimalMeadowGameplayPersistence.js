@@ -7,6 +7,7 @@
  * @description Restores once, rebinds after rich hydration, coalesces writes, and flushes stable state.
  * The Awtsmoos recreates all continuity without being bound by memory; Awtsmoos.com keeps
  * position, checkpoint, stats, inventory, consumables, loot claims, and vertical memory joined.
+ * Event saves are truly coalesced: a burst of mutations becomes one write, rebuilt from living state.
  */
 
 import { MINIMAL_MEADOW_PERSISTENCE_EVENTS } from './MinimalMeadowGameplayPersistenceEvents.js';
@@ -19,7 +20,7 @@ import {
 	storeMinimalMeadowGameplaySave
 } from './MinimalMeadowGameplaySaveStorage.js';
 
-const AUTO_SAVE_SECONDS = 2;
+const AUTO_SAVE_SECONDS = 2, WRITE_COALESCE_SECONDS = 1;
 
 export class MinimalMeadowGameplayPersistence {
 	constructor(runtime, coreMechanics, environment = globalThis) {
@@ -28,6 +29,8 @@ export class MinimalMeadowGameplayPersistence {
 		this.environment = environment;
 		this.storage = environment.localStorage;
 		this.elapsed = 0;
+		this.sinceWrite = WRITE_COALESCE_SECONDS;
+		this.pendingReason = null;
 		const loaded = loadMinimalMeadowGameplaySave(this.storage);
 		this.lastSave = loaded.record;
 		this.source = loaded.source;
@@ -44,13 +47,31 @@ export class MinimalMeadowGameplayPersistence {
 	}
 
 	update(deltaSeconds) {
-		this.elapsed += Math.max(0, Number(deltaSeconds) || 0);
+		const delta = Math.max(0, Number(deltaSeconds) || 0);
+		this.elapsed += delta;
+		this.sinceWrite += delta;
+		if (this.pendingReason && this.sinceWrite >= WRITE_COALESCE_SECONDS) {
+			const reason = this.pendingReason;
+			this.pendingReason = null;
+			this.writeSave(reason);
+		}
 		if (this.elapsed < AUTO_SAVE_SECONDS) return false;
 		this.elapsed = 0;
 		return this.save('interval');
 	}
 
 	save(reason = 'manual') {
+		if (reason === 'pagehide' || reason === 'destroy') return this.writeSave(reason);
+		if (this.sinceWrite < WRITE_COALESCE_SECONDS) {
+			this.pendingReason = reason;
+			return Object.freeze({ coalesced: true, reason, stored: false });
+		}
+		return this.writeSave(reason);
+	}
+
+	writeSave(reason) {
+		this.pendingReason = null;
+		this.sinceWrite = 0;
 		const record = createMinimalMeadowGameplaySave(this.runtime, this.coreMechanics);
 		const stored = storeMinimalMeadowGameplaySave(this.storage, record);
 		if (stored) this.lastSave = record;
@@ -62,15 +83,10 @@ export class MinimalMeadowGameplayPersistence {
 	restore(mode = 'full') {
 		if (!this.lastSave) return false;
 		const restored = applyMinimalMeadowGameplaySave(
-			this.runtime,
-			this.coreMechanics,
-			this.lastSave,
-			mode
+			this.runtime, this.coreMechanics, this.lastSave, mode
 		);
 		this.runtime.bus.emit('gameplay:restore-receipt', {
-			mode,
-			restored,
-			source: this.source
+			mode, restored, source: this.source
 		});
 		return restored;
 	}
@@ -97,8 +113,8 @@ export class MinimalMeadowGameplayPersistence {
 
 	bindInventory() {
 		this.inventoryUnsubscribe?.();
-		this.inventoryUnsubscribe = this.runtime.inventory?.onChange?.(() => {
-			this.save('inventory-change');
-		}) || null;
+		this.inventoryUnsubscribe = this.runtime.inventory?.onChange?.(
+			() => this.save('inventory-change')
+		) || null;
 	}
 }
