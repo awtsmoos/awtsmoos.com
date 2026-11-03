@@ -1,0 +1,7 @@
+B"H — Boruch Hashem — Blessed is He
+# New phase II: Gevurah — exact observation covenant
+The Awtsmoos knows each accepted worker's name; to send a new mutation would be an unforgivable same.
+
+Twenty safeguards: (1) mint controlRequestId before initial send; (2) derive request identity from trusted scheduler helper; (3) request only allowed native `files` action; (4) preserve same owner and tunnel route; (5) preserve exact nonce; (6) durable acceptance receipt; (7) observe via retryAction; (8) requestedAction stays `files`; (9) no originalPayload on retries, so already-accepted work cannot be redispatched; (10) positive `tunnelRequestPending` is not completion; (11) fail on invalid retry; (12) fail on invalid device receipt; (13) fail on timeout (no fabricated final state); (14) clamp polling interval 100–1000ms; (15) avoid indefinite server waiter; (16) handle no pending token without resubmit; (17) don't leak exceptions/paths; (18) test initial pending -> pending -> terminal; (19) test 100+ pending -> timeout; (20) test no device replay via call count.
+
+Potential retry-edge: canonical durable handler uses RetryRequest.describe plus expected action; test with synthetic relay that distinguishes action=files and action=retryAction, not a remote fake. Preserve old error propagation except sanitize client-facing errors. Adapt failed network poll to a bounded retry only with same ID and NEVER with a new operation. Can separately ship a user-side resilient Python runner based on receipts rather than unbounded `commandWait` later.
