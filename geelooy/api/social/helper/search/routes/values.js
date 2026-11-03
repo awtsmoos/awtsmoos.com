@@ -57,9 +57,11 @@ function requestedStrategy(values = {}) {
 // Vector lanes open multipart HNSW indexes and embed the query before the
 // first byte of ranking; the 8s default public deadline deterministically
 // killed the two largest English semantic lanes in multi-lane fan-out.
-// Vector strategy therefore owns a larger bounded public clock (30s max);
-// the search UI already waits 45s for semantic answers.
-const VECTOR_LIBRARY_MAX_MS = 30000;
+// The shipped search UI aborts a semantic request at 16s, so the public
+// vector clock must close inside that window with margin to spare: 12s.
+// Lanes that cannot finish inside it are reported honestly by the merge,
+// never silently waited on past the visitor's own deadline.
+const VECTOR_LIBRARY_MAX_MS = 12000;
 
 function libraryOptions(context, overrides = {}) {
 	const values = data(context);
