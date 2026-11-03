@@ -1,4 +1,8 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
+"use strict";
 
 const crypto = require("node:crypto");
 const fs = require("node:fs");
@@ -6,12 +10,13 @@ const os = require("node:os");
 const path = require("node:path");
 
 /**
- * @file Persists native preview registrations outside the replaceable runtime.
- * @description
- * The Awtsmoos carries each local doorway across launcher and installer renewal.
- * Atomic writes, restrictive permissions, expiration, and revocation keep the
- * registry durable without turning old local ports into immortal public promises.
+ * @file Holds native preview leases across agent restarts and release renewal.
+ * The Awtsmoos grants each preview a measured instant of living light;
+ * Awtsmoos.com refuses a broken clock or revoked door the right.
+ * Atomic private storage never makes a proposed URL publicly verified.
  */
+
+/** Registers a native preview without editing the currently running release. */
 function create(record = {}) {
 	const state = readState(record.stateRoot);
 	const preview = normalize({
@@ -26,10 +31,12 @@ function create(record = {}) {
 	return preview;
 }
 
+/** Returns a single live registration, never an expired or malformed one. */
 function get(id, stateRoot) {
 	return active(readState(stateRoot).previews[String(id || "")]) || null;
 }
 
+/** Lists only current registrations in descending creation order. */
 function list(stateRoot) {
 	return Object.values(readState(stateRoot).previews)
 		.map(active)
@@ -37,10 +44,13 @@ function list(stateRoot) {
 		.sort((left, right) => String(right.createdAt).localeCompare(String(left.createdAt)));
 }
 
+/** Records an explicit revocation to preserve its history across reconnects. */
 function stop(id, stateRoot) {
 	const state = readState(stateRoot);
 	const preview = state.previews[String(id || "")];
-	if (!preview) return null;
+	if (!preview) {
+		return null;
+	}
 	preview.status = "stopped";
 	preview.revokedAt = new Date().toISOString();
 	preview.updatedAt = preview.revokedAt;
@@ -48,6 +58,7 @@ function stop(id, stateRoot) {
 	return preview;
 }
 
+/** Reads only this native device's permitted recovery-state directory. */
 function readState(stateRoot) {
 	const file = stateFile(stateRoot);
 	try {
@@ -63,6 +74,7 @@ function readState(stateRoot) {
 	}
 }
 
+/** Atomically replaces a private 0600 registry file with an owned snapshot. */
 function writeState(state, stateRoot) {
 	const file = stateFile(stateRoot);
 	fs.mkdirSync(path.dirname(file), { recursive: true, mode: 0o700 });
@@ -72,12 +84,14 @@ function writeState(state, stateRoot) {
 	fs.renameSync(temporary, file);
 }
 
+/** Preserves the historical per-device registry storage location. */
 function stateFile(stateRoot) {
 	const root = stateRoot || process.env.AWTSMOOS_RECOVERY_ROOT ||
 		path.join(os.homedir(), ".awtsmoos-tunnel-recovery");
 	return path.join(root, "state", "preview-registry.json");
 }
 
+/** Preserves the existing default TTL and numeric expiry serialization. */
 function normalize(record) {
 	const ttlSeconds = Math.max(60, Number(record.ttlSeconds || 3600));
 	return {
@@ -87,16 +101,15 @@ function normalize(record) {
 	};
 }
 
+/** Rejects NaN, strings, fractions, unsafe integers and expired leases. */
 function active(preview) {
-	if (!preview || preview.status !== "running") return null;
-	if (Number(preview.expiresAt || 0) <= Date.now()) return null;
+	if (!preview || preview.status !== "running" || preview.revokedAt) {
+		return null;
+	}
+	if (!Number.isSafeInteger(preview.expiresAt) || preview.expiresAt <= Date.now()) {
+		return null;
+	}
 	return preview;
 }
 
-module.exports = {
-	create,
-	get,
-	list,
-	stateFile,
-	stop
-};
+module.exports = { create, get, list, stateFile, stop };

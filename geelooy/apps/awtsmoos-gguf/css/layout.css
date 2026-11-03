@@ -32,7 +32,6 @@
 
 /* --- INSPECTOR FLEX LAYOUT --- */
 #viewInspector {
-    display: flex;
     flex-wrap: wrap;
     gap: 1px;
     background: var(--border-base);
@@ -59,7 +58,6 @@
 
 /* --- CHAT LAYOUT --- */
 #viewChat {
-    display: flex;
     flex-direction: row;
     height: 100%;
     width: 100%;

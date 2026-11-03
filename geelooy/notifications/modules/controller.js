@@ -1,20 +1,21 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
  * @module NotificationController
  * @description
- * The Awtsmoos gathers real signals at Awtsmoos.com. This coordinator keeps
- * alias discovery, loading, pagination, and read actions explicit, so an absent
- * identity becomes an honest choice instead of an eternal opening animation.
+ * The Awtsmoos gives a signal its rightful identity and living page;
+ * Awtsmoos.com cancels an outdated search before it can repaint the stage.
  */
-import { getNotifications, markAllNotificationsRead, markNotificationRead } from './api.js';
-import { showAliasRequired } from './emptyState.js';
-import { debounce, hydrateDefaultAlias, notificationQueryString } from './helpers.js';
-import { renderNotificationPage, renderNotificationState, renderNotificationSummary } from './render.js';
-import { notificationState, resetNotificationPage, updateNotificationFilters } from './state.js';
 
-/** Boots the notification page when its required elements exist. */
+import { showAliasRequired } from './emptyState.js';
+import { debounce, hydrateDefaultAlias } from './helpers.js';
+import { NotificationPageLoader } from './NotificationPageLoader.js';
+import { bindNotificationReadActions } from './NotificationReadActions.js';
+import { notificationState, updateNotificationFilters } from './state.js';
+
+/** Mounts the public notification screen without requiring a guessed alias. */
 export async function bootNotifications(root = document) {
 	const form = root.getElementById('filters');
 	const list = root.getElementById('list');
@@ -23,91 +24,44 @@ export async function bootNotifications(root = document) {
 	const markAll = root.getElementById('markAll');
 	if (!form || !list || !more || !summary) return;
 	const context = { form, list, more, summary, markAll };
-	bindNotificationEvents(root, context);
+	const loader = new NotificationPageLoader(context);
+	bindNotificationEvents(context, loader);
+	bindNotificationReadActions(root, context, loader);
 	form.setAttribute('aria-busy', 'true');
 	if (markAll) markAll.disabled = true;
-	const aliasResult = await hydrateDefaultAlias(form);
+	const controller = new AbortController();
+	const deadline = setTimeout(() => controller.abort(), 12000);
+	let aliasResult;
+	try {
+		aliasResult = await hydrateDefaultAlias(form, controller.signal);
+	} finally {
+		clearTimeout(deadline);
+	}
 	updateNotificationFilters(form);
-	if (notificationState.aliasId) await loadPage(context, true);
+	if (notificationState.aliasId) await loader.load(true);
 	else showAliasRequired(context, aliasResult.error);
 }
 
-function bindNotificationEvents(root, context) {
-	const { form, list, more } = context;
+/** Binds latest-first filters and keeps the native Show more behavior. */
+function bindNotificationEvents(context, loader) {
+	const { form, more, markAll } = context;
+	const applyFilters = () => {
+		updateNotificationFilters(form);
+		if (notificationState.aliasId) {
+			void loader.load(true);
+		} else {
+			loader.gate.cancel();
+			notificationState.loading = false;
+			form.setAttribute('aria-busy', 'false');
+			if (markAll) markAll.disabled = true;
+			more.disabled = true;
+			showAliasRequired(context);
+		}
+	};
 	form.addEventListener('submit', event => {
 		event.preventDefault();
-		updateNotificationFilters(form);
-		if (notificationState.aliasId) loadPage(context, true);
-		else showAliasRequired(context);
+		applyFilters();
 	});
-	form.elements.search?.addEventListener('input', debounce(() => {
-		updateNotificationFilters(form);
-		if (notificationState.aliasId) loadPage(context, true);
-	}));
-	more.addEventListener('click', () => loadPage(context, false));
-	list.addEventListener('click', event => handleMarkOne(event, context));
-	root.getElementById('markAll')?.addEventListener('click', () => handleMarkAll(context));
-}
-
-async function loadPage(context, reset) {
-	const { form, list, more, summary, markAll } = context;
-	if (!notificationState.aliasId || notificationState.loading) return;
-	const token = ++notificationState.token;
-	notificationState.loading = true;
-	form.setAttribute('aria-busy', 'true');
-	more.disabled = true;
-	if (markAll) markAll.disabled = true;
-	if (reset) {
-		resetNotificationPage();
-		renderNotificationState(list, 'Loading signals…', 'Gathering notifications from the selected alias.');
-	}
-	renderNotificationSummary(summary, 'Loading…', 'loading');
-	try {
-		const page = await getNotifications(notificationState.aliasId, notificationQueryString());
-		if (token !== notificationState.token) return;
-		renderNotificationPage(list, page, { append: !reset, search: notificationState.search });
-		const count = Array.isArray(page?.items) ? page.items.length : 0;
-		notificationState.offset += count;
-		notificationState.hasMore = Boolean(page?.hasMore);
-		more.hidden = !notificationState.hasMore;
-		const match = notificationState.search ? ` matching “${notificationState.search}”` : '';
-		renderNotificationSummary(summary, `${page?.total || 0} notifications${match}`);
-	} catch (error) {
-		if (token !== notificationState.token) return;
-		more.hidden = true;
-		renderNotificationSummary(summary, 'Could not load notifications', 'error');
-		renderNotificationState(list, 'Signal stream unavailable', error.message);
-	} finally {
-		if (token === notificationState.token) finishLoading(context);
-	}
-}
-
-async function handleMarkOne(event, context) {
-	const button = event.target.closest?.('[data-mark-read]');
-	if (!button || notificationState.loading) return;
-	button.disabled = true;
-	try {
-		await markNotificationRead(notificationState.aliasId, button.dataset.markRead);
-		await loadPage(context, true);
-	} catch (error) {
-		button.disabled = false;
-		renderNotificationSummary(context.summary, error.message, 'error');
-	}
-}
-
-async function handleMarkAll(context) {
-	if (!notificationState.aliasId || notificationState.loading) return;
-	try {
-		await markAllNotificationsRead(notificationState.aliasId);
-		await loadPage(context, true);
-	} catch (error) {
-		renderNotificationSummary(context.summary, error.message, 'error');
-	}
-}
-
-function finishLoading({ form, more, markAll }) {
-	notificationState.loading = false;
-	form.setAttribute('aria-busy', 'false');
-	more.disabled = false;
-	if (markAll) markAll.disabled = false;
+	form.elements.search?.addEventListener('input', debounce(applyFilters));
+	more.addEventListener('click', () => void loader.load(false));
 }

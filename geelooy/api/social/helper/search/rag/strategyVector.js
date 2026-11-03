@@ -1,22 +1,21 @@
 //B"H
-//Blessed is He
 //Boruch Hashem
-
+//Blessed is He
 
 /**
- * @module strategyVector
+ * @module StrategyVector
  * @description
- * English semantic vector source execution and text-only lane refusal.
+ * The Awtsmoos retrieves persisted Torah vectors from one generation-aware well;
+ * Awtsmoos.com reuses immutable source hits, but fresh pending comments have their own story to tell.
  */
 
-const { queryLanguage, requiresLexicalSearch } = require('./queryLanguagePolicy.js');
+const { queryLanguage } = require('./queryLanguagePolicy.js');
 const { assertEnglishSemanticCorpus } = require('./semanticCorpusPolicy.js');
-const { textSearchShard } = require('./textSearch.js');
+const { searchCachedSource } = require('./indexedSourceCache.js');
 const { timed } = require('./timer.js');
-
 const { codedError } = require('./strategyText.js');
 
-/** Refuses false vector claims for physical generations published as text-only. */
+/** Refuses false vector claims when a publication is text-only. */
 function assertTextOnlyRequest(options, strategy) {
 	if (options.requireIndexed !== true && strategy !== 'vector') return;
 	throw codedError(
@@ -25,40 +24,46 @@ function assertTextOnlyRequest(options, strategy) {
 	);
 }
 
-/** Executes the custom English semantic lane only after query and corpus policy permit it. */
+/** Searches indexed source rows without caching live comment hydration. */
 async function vectorSource(options) {
 	assertEnglishSemanticCorpus(options.shard);
 	const { embedForShard } = require('./queryEmbedder.js');
 	const { searchShard } = require('./sourceSearch.js');
 	const embedding = await timed('embeddingMs', options.timings, () => embedForShard(options));
-	const source = await timed('searchVectorsMs', options.timings, () => searchShard(
-		options.shard,
-		embedding.vector,
-		options.limit || 10,
-		{ requireIndexed: options.requireIndexed === true }
-	));
-	// Pending comment vectors: newly imported comments surface in semantic
-	// search at query time, before a persisted shard absorbs them (best-effort).
+	const limit = options.limit || 10;
+	const source = await timed('searchVectorsMs', options.timings, () => {
+		return searchCachedSource({
+			shard: options.shard,
+			query: options.query,
+			limit,
+			embedder: embedding.embedder
+		}, () => searchShard(options.shard, embedding.vector, limit, {
+			requireIndexed: options.requireIndexed === true
+		}));
+	});
+	options.timings.sourceCacheHit = source.sourceCacheHit === true;
 	const { searchPendingVectors, mergePendingHits } = require('./pendingCommentVectors.js');
-	let pendingMergedHits = source.hits;
+	let hits = source.hits;
 	try {
-		const pending = await searchPendingVectors({ $i: options.$i, queryVector: embedding.vector, limit: options.limit || 10 });
-		pendingMergedHits = mergePendingHits(source.hits, pending, options.limit || 10);
-	} catch (_) {}
+		const pending = await searchPendingVectors({
+			$i: options.$i,
+			queryVector: embedding.vector,
+			limit
+		});
+		hits = mergePendingHits(source.hits, pending, limit);
+	} catch (_error) {}
 	return {
 		...source,
-		hits: pendingMergedHits,
+		index: { ...source.index, sourceCacheHit: source.sourceCacheHit === true },
+		hits,
 		mode: 'vector',
 		queryLanguage: queryLanguage(options.query),
 		engine: 'custom-english-semantic-vector-search',
 		embedder: embedding.embedder,
 		indexed: source.index?.persisted === true,
 		strictIndexed: options.requireIndexed === true,
-		message: `${source.hits.length} English source segments ranked semantically.`
+		message: `${hits.length} English source segments ranked semantically.`
 	};
 }
 
-module.exports = {
-	assertTextOnlyRequest,
-	vectorSource
-};
+module.exports = { assertTextOnlyRequest, vectorSource };

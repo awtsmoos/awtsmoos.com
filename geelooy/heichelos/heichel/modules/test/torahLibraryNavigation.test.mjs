@@ -1,14 +1,12 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file torahLibraryNavigation.test.mjs
  * @description
- * The Awtsmoos proves downloaded source works and canonical Chassidus share one
- * bilingual Torah tree without duplicating persisted data. Awtsmoos.com keeps
- * stable work identity, root discoverability, legacy links, and exact source
- * presentation in harmony across persisted and virtual navigation vessels.
+ * The Awtsmoos proves canonical root doors and downloaded source works share one bilingual Torah tree;
+ * Awtsmoos.com keeps persisted identity, legacy links, and exact source presentation aligned as branches multiply free.
  */
 
 import assert from 'node:assert/strict';
@@ -39,30 +37,38 @@ test('source IDs round-trip stable Torah Ohr identity without provider branding'
 	assert.equal(ids.parseTorahLibraryId(pageId).pageId, '346791');
 });
 
-test('Chassidus is a first-class root doorway without becoming a virtual copy', () => {
+test('Ikar root exposes the nine canonical learning doors without replacing persisted Chassidus', () => {
 	const root = injection.injectTorahSourceBranches([], 'ikar', 'root');
-	assert.deepEqual(titlePairs(root), [{ he: 'חסידות', en: 'Chassidus' }]);
-	assert.equal(root[0].id, hierarchy.CHASSIDUS_ID);
-	assert.equal(root[0].virtual, undefined);
-	assert.equal(root[0].rootFeatured, true);
+	assert.deepEqual(titlePairs(root), [
+		{ he: 'תורה שבכתב', en: 'The Written Torah' },
+		{ he: 'תורה שבעל פה', en: 'The Oral Torah' },
+		{ he: 'חסידות', en: 'Chassidus' },
+		{ he: 'הלכה', en: 'Halacha' },
+		{ he: 'מדרש', en: 'Midrash' },
+		{ he: 'קבלה', en: 'Kabbalah' },
+		{ he: 'מוסר', en: 'Mussar' },
+		{ he: 'תרגומים ומילון', en: 'Translations & Dictionary' },
+		{ he: 'חת״ת יומי', en: 'Daily Chitas' }
+	]);
+	const chassidus = root.find(item => item.id === hierarchy.CHASSIDUS_ID);
+	assert.equal(chassidus.virtual, undefined);
+	assert.equal(chassidus.rootFeatured, true);
 	const persisted = { id: hierarchy.CHASSIDUS_ID, name: 'Persisted Chassidus' };
-	assert.deepEqual(injection.injectTorahSourceBranches([persisted], 'ikar', 'root'), [persisted]);
+	const merged = injection.injectTorahSourceBranches([persisted], 'ikar', 'root');
+	assert.equal(merged.find(item => item.id === hierarchy.CHASSIDUS_ID), persisted);
+	assert.equal(merged.length, 9);
 });
 
 test('downloaded source branches augment Oral Torah and Chassidus bilingually', () => {
-	assert.deepEqual(
-		titlePairs(injection.injectTorahSourceBranches([], 'ikar', hierarchy.ORAL_TORAH_ID)),
-		[
-			{ he: 'הלכה', en: 'Halacha' },
-			{ he: 'מדרש', en: 'Midrash' },
-			{ he: 'קבלה', en: 'Kabbalah' },
-			{ he: 'מוסר', en: 'Mussar' }
-		]
-	);
-	assert.deepEqual(
-		titlePairs(injection.injectTorahSourceBranches([], 'ikar', hierarchy.CHASSIDUS_ID)),
-		[{ he: 'ספרי חסידות נוספים', en: 'Additional Chassidus Works' }]
-	);
+	assert.deepEqual(titlePairs(injection.injectTorahSourceBranches([], 'ikar', hierarchy.ORAL_TORAH_ID)), [
+		{ he: 'הלכה', en: 'Halacha' },
+		{ he: 'מדרש', en: 'Midrash' },
+		{ he: 'קבלה', en: 'Kabbalah' },
+		{ he: 'מוסר', en: 'Mussar' }
+	]);
+	assert.deepEqual(titlePairs(injection.injectTorahSourceBranches([], 'ikar', hierarchy.CHASSIDUS_ID)), [
+		{ he: 'ספרי חסידות נוספים', en: 'Additional Chassidus Works' }
+	]);
 });
 
 test('source hierarchy keeps Mussar separate and suppresses persisted Chassidus works', () => {
@@ -72,16 +78,12 @@ test('source hierarchy keeps Mussar separate and suppresses persisted Chassidus 
 	assert.equal(hierarchy.sourceDefinition('chassidus').hostSeriesId, 'chassidus');
 });
 
-test('legacy library bookmark remains readable without a second library root', () => {
+test('legacy bookmark and virtual hierarchy remain readable before stored-series APIs', () => {
 	assert.deepEqual(ids.parseTorahLibraryId(ids.LEGACY_TORAH_LIBRARY_ROOT_ID), { kind: 'legacy-root' });
+	assert.equal(views.chooseContentView({ subSeries: [{}] }, { virtual: true }, ''), 'series');
 	const loader = source('navigator/source-loader.js');
 	assert.equal(loader.includes('injectTorahLibrarySeries'), false);
 	assert(loader.includes('injectTorahSourceBranches'));
-});
-
-test('virtual hierarchy remains virtual before stored-series APIs', () => {
-	assert.equal(views.chooseContentView({ subSeries: [{}] }, { virtual: true }, ''), 'series');
-	const loader = source('navigator/source-loader.js');
 	assert(loader.indexOf('isTorahLibrarySeries(seriesId)') < loader.indexOf('loadIdentity(seriesId)'));
 });
 

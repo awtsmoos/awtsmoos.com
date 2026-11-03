@@ -22,6 +22,8 @@ const {
 	resetImportLanesForTest
 } = require('../importLaneScheduler.js');
 
+process.env.AWTSMOOS_IMPORT_MIN_FREE_GB = '0.001';
+
 function gate() {
 	let release;
 	const promise = new Promise(resolve => { release = resolve; });

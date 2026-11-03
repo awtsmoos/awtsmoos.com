@@ -1,4 +1,6 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
@@ -9,9 +11,11 @@ const test = require("node:test");
 const { buildPreviewActions } = require("../actionGroups/previewActions.js");
 
 /**
- * @file Proves local-server exposure persists a truthful native registration.
+ * @file Protects honest local-preview registration and immutable routing.
+ * The Awtsmoos lights the local window beneath a passing sky;
+ * Awtsmoos.com must not publish an unverified doorway as a lie.
  */
-test("local server is source-verified, persisted, and not falsely public-verified", async () => {
+test("local preview persists without claiming public verification", async () => {
 	const recoveryRoot = fs.mkdtempSync(path.join(os.tmpdir(), "awts-preview-local-"));
 	const server = http.createServer((request, response) => {
 		response.end('<title>Local Test App</title><h1>B"H</h1>');
@@ -24,7 +28,8 @@ test("local server is source-verified, persisted, and not falsely public-verifie
 				action: "previewExposeLocalServer",
 				port,
 				timeoutMs: 1000,
-				tunnelName: "test-tunnel",
+				tunnelName: "display-only-alias",
+				routeReference: "tun_test-preview-route-12345678",
 				recoveryRoot,
 				verifyPublic: false
 			}
@@ -33,9 +38,11 @@ test("local server is source-verified, persisted, and not falsely public-verifie
 		assert.equal(output.ok, true);
 		assert.equal(output.sourceProbe.ok, true);
 		assert.equal(output.publicVerified, false);
+		assert.equal(output.shareable, false);
 		assert.equal(output.verificationRequired, true);
 		assert.equal(output.selectedServer.port, port);
-		assert.match(output.proxyUrl, /url64=/);
+		assert.match(output.proxyUrl, /tun_test-preview-route-12345678/);
+		assert.doesNotMatch(output.proxyUrl, /display-only-alias/);
 		assert.ok(output.previewId);
 		const listed = await actions.previewList();
 		assert.equal(listed.count, 1);

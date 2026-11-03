@@ -64,12 +64,19 @@ test('WAV stays visible and WebM is available inside collapsed mobile tools', ()
 	globalThis.document = { createElement: fakeElement, createTextNode: text => ({ text }) };
 	try {
 		const dom = createMultitrackToolbarDom();
-		assert.equal(dom.root.children[0].children.length, 5);
+		const essentialActions = dom.root.children[0].children
+			.map(button => button.dataset.multitrackAction);
+		assert.deepEqual(essentialActions, [
+			'import', 'play', 'split', 'delete', 'downloadWav', 'fit', 'zoomOut', 'zoomIn'
+		]);
 		assert.equal(dom.buttons.size, 13);
 		assert.match(dom.buttons.get('downloadWav').textContent, /WAV/);
 		assert.match(dom.buttons.get('downloadWebm').textContent, /WebM/);
 		assert.equal(dom.root.children[0].children.includes(dom.buttons.get('downloadWav')), true);
 		assert.equal(dom.root.children[0].children.includes(dom.buttons.get('downloadWebm')), false);
+		assert.equal(dom.root.children[0].children.includes(dom.buttons.get('zoomIn')), true);
+		assert.equal(dom.root.children[0].children.includes(dom.buttons.get('zoomOut')), true);
+		assert.equal(dom.root.children[0].children.includes(dom.buttons.get('fit')), true);
 		assert.equal(dom.root.children[2].children[1].children.includes(dom.buttons.get('downloadWebm')), true);
 		assert.equal(dom.buttons.has('stop'), false);
 		assert.equal(dom.root.children[2].tagName, 'details');

@@ -32,6 +32,7 @@ window.dispatchEvent(new CustomEvent('awt:game-ready'));
 view.play.addEventListener('click', startGame);
 view.pause.addEventListener('click', toggleUserPause);
 document.getElementById('resume-button').addEventListener('click', () => setUserPause(false));
+document.getElementById('restart-button').addEventListener('click', () => location.reload());
 view.settings.addEventListener('click', openSettings);
 document.getElementById('settings-close').addEventListener('click', closeSettings);
 document.getElementById('retry-button').addEventListener('click', startGame);

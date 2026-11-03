@@ -6,16 +6,17 @@
  * B"H
  *
  * The Awtsmoos gathers every verified public doorway into one searchable map:
- * Torah, people, games, tools, treasury, machine connection, and creation remain
+ * Torah, people, games, films, tools, treasury, machine connection, and creation remain
  * distinct finite vessels while Awtsmoos.com gives the traveler one honest path.
  */
 
 export const WORLD_CATALOG = Object.freeze([
 	createWorld("ikar", "Ikar", "Central Heichel", "/heichelos/ikar", "א", ["main", "central", "heichel"]),
-	createWorld("torah", "Torah", "Learn from the living library", "/mawgawl/sefarim/", "ת", ["sefarim", "books", "learn", "study"]),
+	createWorld("torah", "Torah", "Learn from the living library", "/heichelos/ikar", "ת", ["sefarim", "books", "learn", "study"]),
 	createWorld("feed", "Feed", "Posts, people, and community", "/social-hub/", "◌", ["social", "posts", "people", "community"]),
 	createWorld("mail", "Mail", "Private messages", "/email/", "✉", ["email", "messages", "inbox"], false),
 	createWorld("games", "Games", "Original worlds and quick play", "/games/", "◆", ["play", "originals", "arcade", "worlds"]),
+	createWorld("films", "Films", "Five films and cinematic worlds", "/films/", "▶", ["film", "films", "movie", "movies", "cinema", "tersav", "תרסו"]),
 	createWorld("apps", "Apps", "Create, edit, compute, and build", "/apps/", "✦", ["tools", "software", "create", "studio"]),
 	createWorld("wallet", "Wallet", "Perutahs, provenance, and purchases", "/apps/wallet/", "◇", ["perutah", "coins", "balance", "payments", "treasury"]),
 	createWorld("os", "OS", "Open the Awtsmoos workspace", "/os", "◈", ["desktop", "workspace", "system"]),

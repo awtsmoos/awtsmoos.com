@@ -45,7 +45,8 @@ function bindGlobalButtons() {
 	};
 	aiButton.onclick = event => {
 		event.stopPropagation();
-		void ensureFeatureStyles("ai").then(() => handleAction("open-generic-ai-chat"));
+		// B"H: open the chat even if the optional style bundle fails to load
+		void ensureFeatureStyles("ai").catch(() => {}).then(() => handleAction("open-generic-ai-chat"));
 	};
 	refreshButton.onclick = event => {
 		event.stopPropagation();

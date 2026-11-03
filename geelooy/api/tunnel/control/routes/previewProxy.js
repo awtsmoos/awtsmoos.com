@@ -2,35 +2,52 @@
 // Boruch Hashem
 // Blessed is He
 
+"use strict";
+
 const { authorizePreviewProxy } = require("./previewProxyPolicy.js");
 const Response = require("./previewProxyResponse.js");
 const Retry = require("./previewProxyRetry.js");
+const Safety = require("./previewRequestSafety.js");
+const Transport = require("./previewTextTransport.js");
+const Lease = require("./previewLeaseAuthority.js");
 
 /**
- * @file Proxies authorized local servers without duplicating uncertain mutations.
- * @description
- * The Awtsmoos binds method, body, route, and receipt as one deed. Awtsmoos.com
- * retries only idempotent reads and preserves exact response bytes for media, ranges,
- * APIs, downloads, and ordinary pages.
+ * @file Guards text previews by account, real native lease and exact source.
+ * The Awtsmoos appoints each local window its own faithful light;
+ * Awtsmoos.com denies every unrelated port, even in the same night.
+ * Only authenticated, registered, current text previews may be relayed.
  */
 async function previewProxy(context, variables = {}) {
 	const reference = String(variables.tunnelName || "").trim();
 	const authority = authorizePreviewProxy(context, reference);
-	if (!authority.ok) return Response.failure(authority.error, authority.status);
-	const request = tunnelRequest(context);
+	if (!authority.ok) {
+		return blocked(context, authority);
+	}
+	const admission = Safety.assess(context);
+	if (!admission.ok) {
+		return blocked(context, admission);
+	}
+	const registration = await Lease.verify(context, authority, admission);
+	if (!registration.ok) {
+		return blocked(context, registration);
+	}
+	const request = tunnelRequest(context, admission);
 	const attempts = [];
 	const maximum = Retry.attemptsFor(request.method);
 	for (let attempt = 1; attempt <= maximum; attempt += 1) {
-		const result = await attemptRequest(context, authority, request, attempts, attempt);
+		const result = await attemptRequest(
+			context, authority, request, attempts, attempt, maximum
+		);
 		if (result.done) {
 			return result.value;
 		}
 		await delay(150 * attempt);
 	}
-	return Response.failure("preview_proxy_failed", 502, attempts);
+	return blocked(context, { error: "preview_proxy_failed", status: 502, attempts });
 }
 
-async function attemptRequest(context, authority, request, attempts, attempt) {
+/** Dispatches the approved native read only after current lease proof. */
+async function attemptRequest(context, authority, request, attempts, attempt, maximum) {
 	try {
 		const result = await context.ws.sendTunnelRequest(
 			authority.ownerAccountId,
@@ -39,6 +56,10 @@ async function attemptRequest(context, authority, request, attempts, attempt) {
 			35000
 		);
 		if (result?.ok !== false) {
+			const safe = Safety.assessResponse(result || {});
+			if (!safe.ok) {
+				return { done: true, value: blocked(context, safe) };
+			}
 			return {
 				done: true,
 				value: Response.proxyResponse(context, result || {}, {
@@ -47,55 +68,42 @@ async function attemptRequest(context, authority, request, attempts, attempt) {
 				})
 			};
 		}
-		return classifyFailure(result.error, attempts, attempt, request.method);
+		return classifyFailure(context, result.error, attempts, attempt, maximum);
 	} catch (error) {
-		return classifyFailure(error?.message, attempts, attempt, request.method);
+		return classifyFailure(context, error?.message, attempts, attempt, maximum);
 	}
 }
 
-function classifyFailure(error, attempts, attempt, requestMethod) {
+/** Reports failed safe-read attempts without misrepresenting delivery. */
+function classifyFailure(context, error, attempts, attempt, maximum) {
 	const message = String(error || "preview_proxy_failed");
 	attempts.push({ attempt, error: message });
-	const retry = Retry.mayRetry(requestMethod) && Response.retryable(message) && attempt < 3;
+	const retry = Response.retryable(message) && attempt < maximum;
 	return retry
 		? { done: false }
-		: { done: true, value: Response.failure(message, 502, attempts) };
+		: { done: true, value: blocked(context, {
+			error: message,
+			status: 502,
+			attempts
+		}) };
 }
 
-function tunnelRequest(context) {
-	const method = Retry.method(context.request?.method);
-	return {
-		action: "httpRequest",
-		url: proxyUrl(context),
-		method,
-		headers: Response.safeHeaders(context.request?.headers),
-		body: requestBody(context),
-		responseBodyMode: "base64",
-		maxChars: 16 * 1024 * 1024,
-		timeoutMs: 30000
-	};
+/** Builds bounded native text requests with no ambient cookies. */
+function tunnelRequest(context, admission = Safety.assess(context)) {
+	return Transport.make(context, admission);
 }
 
-function proxyUrl(context) {
-	const query = context.paramKinds?.GET || context.$_GET || {};
-	// Native previews encode the loopback URL as url64. Previously the
-	// generated link silently fell back to '/', sending the wrong target.
-	if (query.url64) {
-		const encoded = String(query.url64);
-		if (encoded.length > 4096 || !/^[A-Za-z0-9+/_=-]+$/.test(encoded)) return "/";
-		try {
-			const decoded = Buffer.from(encoded, "base64").toString("utf8");
-			return /^https?:\/\//i.test(decoded) ? decoded : "/";
-		} catch { return "/"; }
+/** Sets the real outgoing HTTP status for any refusal. */
+function blocked(context, denial) {
+	const response = context.response || context.res;
+	if (response) {
+		response.statusCode = denial.status || 502;
+		response.setHeader?.("cache-control", "no-store");
 	}
-	return query.url || query.path || "/";
+	return Response.failure(denial.error, denial.status || 502, denial.attempts);
 }
 
-function requestBody(context) {
-	if (context.request?.rawBody !== undefined) return context.request.rawBody;
-	return context.paramKinds?.POST || context.$_POST || null;
-}
-
+/** Backs off bounded, replay-safe reads only. */
 function delay(milliseconds) {
 	return new Promise(resolve => setTimeout(resolve, milliseconds));
 }

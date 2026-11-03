@@ -21,12 +21,18 @@ import { TetrisView } from './ui/view.js';
  * - Session startup failure is projected through the normal result/recovery surface rather than leaving an inert board.
  * - Returning to the menu always terminates the active Worker and releases its listeners.
  */
-const view = new TetrisView(document);
-const reporter = new TetrisResultReporter(globalThis);
+let view = null;
+let reporter = null;
 let session = null;
 let selectedMode = 'single';
 
-bindApplication();
+try {
+	view = new TetrisView(document);
+	reporter = new TetrisResultReporter(globalThis);
+	bindApplication();
+} catch (error) {
+	showBootFailure(error);
+}
 window.dispatchEvent(new CustomEvent('awtsmoos:game-ready'));
 
 function bindApplication() {
@@ -66,6 +72,36 @@ function returnToMenu() {
 function disposeSession() {
 	session?.dispose();
 	session = null;
+}
+
+/**
+ * Projects a boot failure visibly instead of leaving the mode chooser as
+ * dead disabled buttons. A module-graph or DOM failure before
+ * bindApplication() runs would otherwise trap the player on an inert menu
+ * with no feedback and no recovery path.
+ */
+function showBootFailure(error) {
+	try {
+		const menu = document.getElementById('main-menu');
+		const grid = menu ? menu.querySelector('.mode-grid') : null;
+		const message = document.createElement('p');
+		message.className = 'boot-failure';
+		message.setAttribute('role', 'alert');
+		message.textContent = 'Tikkun could not start. Reload the page to try again.';
+		const reload = document.createElement('button');
+		reload.type = 'button';
+		reload.className = 'boot-reload';
+		reload.textContent = 'Reload';
+		reload.addEventListener('click', () => location.reload());
+		if (grid) {
+			grid.replaceWith(message, reload);
+		} else if (menu) {
+			menu.append(message, reload);
+		}
+	} catch (recoveryError) {
+		void recoveryError;
+	}
+	console.error('[tetris] boot failed:', error);
 }
 
 function normalizeMode(mode) {

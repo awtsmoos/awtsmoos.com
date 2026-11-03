@@ -1,4 +1,4 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
@@ -6,10 +6,10 @@
 
 /**
  * @file Composition root for the hosted Awtsmoos OS action surface.
- * @description
- * The Awtsmoos gathers filesystem, analysis, quality, workflow, runtime, and transport
- * vessels without hiding their distinct laws in one giant repeated map. Awtsmoos.com
- * keeps recursive dispatch narrow and visible, so hundreds of deeds pass one gate in rhyme.
+ * The Awtsmoos gathers every deed but never disguises an absent light;
+ * Awtsmoos.com cannot call a virtual binary transfer right.
+ * Supported actions pass through their original authorized families;
+ * unsupported byte transfers fail closed until storage can verify them.
  */
 const { actions: documentedActions } = require("../../docs/actions.js");
 const { buildInstructionActions } = require("./instructionActionFamily.js");
@@ -23,6 +23,7 @@ const { supportAction } = require("./supportActions.js");
 const { gitClone } = require("./githubCloneAction.js");
 const { gitCloneStatus } = require("./githubCloneStatus.js");
 const { buildTransportActions } = require("./transportActionFamily.js");
+const { guardHostedBinaryAction } = require("./virtualBinaryActionGuard.js");
 const {
 	isVirtualWebsiteMissionAction,
 	rejectVirtualWebsiteMission
@@ -30,15 +31,18 @@ const {
 const { buildWorkflowActions } = require("./workflowActionFamily.js");
 
 /**
- * Dispatches one hosted OS action through explicit action families and stable fallbacks.
- *
- * @param {object} $i Authenticated Awtsmoos request context.
- * @param {string} userId Authenticated user identity.
- * @param {object} [payload={}] Public action payload.
- * @returns {Promise<object>} JSON-ready action result.
+ * Routes one hosted action without manufacturing success for missing bytes.
+ * @param {object} $i - Authenticated request context.
+ * @param {string} userId - Authorized owner of hosted storage.
+ * @param {object} [payload={}] - Requested action and its arguments.
+ * @returns {Promise<object>} A real action result or an explicit refusal.
  */
 async function dispatchOsFs($i, userId, payload = {}) {
 	const action = payload.action || "list";
+	const binaryRefusal = guardHostedBinaryAction(action);
+	if (binaryRefusal) {
+		return binaryRefusal;
+	}
 	if (isVirtualWebsiteMissionAction(action)) {
 		return rejectVirtualWebsiteMission(action, payload);
 	}
@@ -55,13 +59,12 @@ async function dispatchOsFs($i, userId, payload = {}) {
 }
 
 /**
- * Composes independent action families while preserving one public dispatcher contract.
- *
- * @param {object} $i Authenticated Awtsmoos request context.
- * @param {string} userId Authenticated user identity.
- * @param {object} payload Public action payload.
- * @param {Function} dispatch Recursive dispatcher.
- * @returns {object} Action-name to handler map.
+ * Preserves all existing action families and delegated tool contracts.
+ * @param {object} $i - Authenticated runtime request context.
+ * @param {string} userId - Owner identity.
+ * @param {object} payload - Action parameters.
+ * @param {Function} dispatch - Recursive authorized dispatcher.
+ * @returns {object} Exact handlers for existing hosted capabilities.
  */
 function buildActionSurface($i, userId, payload, dispatch) {
 	return {
@@ -79,6 +82,7 @@ function buildActionSurface($i, userId, payload, dispatch) {
 	};
 }
 
+/** Reports unsupported commands without falsely claiming an execution. */
 function unsupportedAction(action, actions) {
 	return {
 		ok: false,

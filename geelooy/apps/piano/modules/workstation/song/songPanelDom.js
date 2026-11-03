@@ -4,8 +4,8 @@
 /**
  * @module SongPanelDom
  * @description
- * Malchus gathers toolbar, score, controls, ratchet room, and status into one visible studio while the Awtsmoos remains beyond every assembled form.
- * Awtsmoos.com lets the many vessels become one welcoming palace, where a phone-sized doorway can still reveal an enormous creative space.
+ * Malchus gathers the audio-first studio while the Awtsmoos remains beyond every assembled panel, text room, and setting.
+ * Awtsmoos.com leaves note text and remix controls folded until asked, so the multitrack waveform receives the phone-sized palace instead of a crowded corner.
  */
 
 import { createSongBasicPanel } from './songBasicPanel.js';
@@ -13,12 +13,7 @@ import { createSongButton } from './songPanelControls.js';
 import { createSongToolbar } from './songPanelToolbar.js';
 import { createRatchetPanel } from './songRatchetPanel.js';
 
-/**
- * Builds Song Studio launcher and floating panel DOM without binding behavior.
- *
- * @param {Object} state Song Studio state.
- * @returns {Object} Song Studio DOM registry.
- */
+/** Builds Song Studio launcher and floating panel DOM without binding behavior. */
 export function createSongPanelDom(state) {
 	const launcher = createLauncher();
 	const panel = document.createElement('section');
@@ -29,17 +24,9 @@ export function createSongPanelDom(state) {
 	const editor = createEditor(state.editorText);
 	const basic = createSongBasicPanel(state);
 	const ratchet = createRatchetPanel(state);
+	const settings = createSettingsDrawer(basic.root, ratchet.root);
 	const status = createStatus(state.status);
-	const controlStack = document.createElement('div');
-	controlStack.className = 'song-studio-control-stack';
-	controlStack.append(basic.root, ratchet.root);
-	panel.append(
-		header.root,
-		toolbar.root,
-		editor.root,
-		controlStack,
-		status
-	);
+	panel.append(header.root, toolbar.root, editor.root, settings.root, status);
 	return {
 		launcher,
 		panel,
@@ -56,7 +43,7 @@ function createLauncher() {
 	const launcher = createSongButton(
 		'song-studio-launcher',
 		'🎚 Song Studio',
-		'Open Song Studio and Remix Editor'
+		'Open Song Studio audio editor'
 	);
 	launcher.dataset.workstation = 'song-studio';
 	return launcher;
@@ -67,29 +54,36 @@ function createHeader() {
 	root.className = 'song-studio-header';
 	const title = document.createElement('div');
 	title.className = 'song-studio-heading';
-	title.innerHTML = '<strong>🎚 Song Studio</strong><span>record · edit text · normalize · remix · drop</span>';
-	const closeButton = createSongButton(
-		'song-studio-close',
-		'×',
-		'Close Song Studio'
-	);
+	title.innerHTML = '<strong>🎚 Song Studio</strong><span>record · arrange audio · edit · export</span>';
+	const closeButton = createSongButton('song-studio-close', '×', 'Close Song Studio');
 	root.append(title, closeButton);
 	return { root, closeButton };
 }
 
 function createEditor(text) {
-	const root = document.createElement('label');
+	const root = document.createElement('details');
 	root.className = 'song-studio-editor-room';
-	const label = document.createElement('span');
-	label.className = 'song-studio-section-title';
-	label.innerHTML = '<strong>📝 Timed Song Text</strong><span>start · duration · note · velocity</span>';
+	const summary = document.createElement('summary');
+	summary.innerHTML = '<strong>📝 Editable Note Text</strong><span> timed note metadata</span>';
 	const textarea = document.createElement('textarea');
 	textarea.className = 'song-studio-editor';
 	textarea.value = text;
 	textarea.spellcheck = false;
-	textarea.setAttribute('aria-label', 'Editable timed Song text');
-	root.append(label, textarea);
+	textarea.setAttribute('aria-label', 'Editable timed Song note text');
+	root.append(summary, textarea);
 	return { root, textarea };
+}
+
+function createSettingsDrawer(basic, ratchet) {
+	const root = document.createElement('details');
+	root.className = 'song-studio-settings-drawer';
+	const summary = document.createElement('summary');
+	summary.textContent = 'Recording / remix settings';
+	const stack = document.createElement('div');
+	stack.className = 'song-studio-control-stack';
+	stack.append(basic, ratchet);
+	root.append(summary, stack);
+	return { root };
 }
 
 function createStatus(text) {
@@ -102,8 +96,6 @@ function createStatus(text) {
 
 function mergeFieldMaps(...maps) {
 	const result = new Map();
-	maps.forEach((map) => {
-		map.forEach((value, key) => result.set(key, value));
-	});
+	maps.forEach((map) => map.forEach((value, key) => result.set(key, value)));
 	return result;
 }

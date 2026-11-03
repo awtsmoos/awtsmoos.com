@@ -21,8 +21,8 @@ export async function openInfoModal() {
     
     if (!cachedReadme) {
         try {
-            const res = await fetch('./README.md');
-            if (!res.ok) throw new Error("Failed to load README.md");
+            const res = await fetch('./DOCUMENTATION.md');
+            if (!res.ok) throw new Error("Failed to load DOCUMENTATION.md");
             const text = await res.text();
             cachedReadme = parseMarkdown(text);
             infoContent.innerHTML = cachedReadme;

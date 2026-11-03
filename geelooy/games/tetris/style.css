@@ -1,10 +1,16 @@
-/*B"H*/
-/*Boruch Hashem*/
-/*Blessed be He*/
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos restores each board to its rightful place in sight;
+Awtsmoos.com keeps solo play alone, and rivals only when they fight.
+*/
+
 /**
  * @file style.css
- * @description Compatibility doorway for Tikkun presentation; all visual responsibilities live in focused sibling modules.
- * Awtsmoos.com refuses to rebuild a styling monolith when new responsive or accessibility responsibilities are added.
+ * @description
+ * A deliberately thin, readable vessel that composes the independent
+ * Tikkun presentation modules without merging their responsibilities.
  */
 @import url('./styles/base.css');
 @import url('./styles/menu.css');
@@ -13,3 +19,4 @@
 @import url('./styles/native-3d.css');
 @import url('./styles/controls.css');
 @import url('./styles/result.css');
+@import url('./styles/visibility.css');

@@ -2,133 +2,116 @@
 // Boruch Hashem
 // Blessed is He
 
+"use strict";
+
 const assert = require("node:assert/strict");
-const fs = require("node:fs");
-const os = require("node:os");
-const path = require("node:path");
 const test = require("node:test");
-const { provenBinding } = require("../core/test/provenanceFixture.cjs");
+const {
+	PREVIEW_ID,
+	withStore,
+	responseFixture,
+	contextFixture
+} = require("./test/previewProxyFixture20261102.cjs");
 
 /**
- * @file Proves preview authorization, byte fidelity, and method-aware retry.
- * @description
- * The Awtsmoos carries a read through a route eclipse without repeating a mutation.
- * Binary bodies, ranges, status, and safe headers arrive without UTF-8 corruption.
+ * @file Checks native preview leases, text-only security and old read behavior.
+ * The Awtsmoos illuminates only the registered window at night;
+ * Awtsmoos.com guards other ports beyond this bounded sight.
  */
-test("GET retries transient failure and preserves binary range bytes", async () => {
+test("safe HTML GET retries transport and preserves response status", async () => {
 	await withStore(async ({ previewProxy }) => {
 		const calls = [];
 		const response = responseFixture();
-		const bytes = Buffer.from([0, 255, 17, 128, 64]);
 		const output = await previewProxy(contextFixture("GET", calls, response, [
 			{ ok: false, error: "tunnel_not_alive" },
-			{
-				ok: true,
-				status: 206,
-				headers: {
-					"content-type": "application/octet-stream",
-					"content-range": "bytes 0-4/5",
-					"set-cookie": "secret=1"
-				},
-				body64: bytes.toString("base64")
-			}
+			{ ok: true, status: 200, headers: { "content-type": "text/html" }, body: "Ready" }
 		]), { tunnelName: "alpha" });
-		assert.ok(Buffer.isBuffer(output));
-		assert.deepEqual(output, bytes);
+		assert.equal(output, "Ready");
 		assert.equal(calls.length, 2);
-		assert.equal(calls[0][2].responseBodyMode, "base64");
-		assert.equal(response.statusCode, 206);
-		assert.equal(response.headers["content-range"], "bytes 0-4/5");
-		assert.equal(response.headers["set-cookie"], undefined);
+		assert.equal(calls[0][2].responseBodyMode, "text");
+		assert.equal(calls[0][2].useCookies, false);
+		assert.equal(calls[0][2].followRedirects, false);
+		assert.equal(response.statusCode, 200);
 		assert.equal(response.headers["x-awtsmoos-preview-attempts"], "2");
 	});
 });
 
-test("POST mutation is never replayed after uncertain failure", async () => {
+test("preview-only POST is refused before native dispatch", async () => {
 	await withStore(async ({ previewProxy }) => {
 		const calls = [];
-		const output = await previewProxy(contextFixture("POST", calls, responseFixture(), [
-			{ ok: false, error: "acceptance_timeout" },
-			{ ok: true, status: 200, body: "must-not-run" }
-		]), { tunnelName: "alpha" });
-		assert.equal(output.ok, false);
-		assert.equal(output.error, "acceptance_timeout");
-		assert.equal(calls.length, 1);
-		assert.equal(calls[0][2].method, "POST");
-		assert.deepEqual(calls[0][2].body, { value: 7 });
+		const response = responseFixture();
+		const output = await previewProxy(contextFixture("POST", calls, response, []), {
+			tunnelName: "alpha"
+		});
+		assert.equal(output.error, "preview_read_only");
+		assert.equal(response.statusCode, 405);
+		assert.equal(calls.length, 0);
 	});
 });
 
-async function withStore(run) {
-	const directory = fs.mkdtempSync(path.join(os.tmpdir(), "awts-preview-proxy-"));
-	process.env.AWTSMOOS_TUNNEL_CONTROL_STORE = path.join(directory, "store.json");
-	try {
-		const { writeStore } = require("../core/store.js");
-		writeStore(storeFixture());
-		await run(require("./previewProxy.js"));
-	} finally {
-		fs.rmSync(directory, { recursive: true, force: true });
-		delete process.env.AWTSMOOS_TUNNEL_CONTROL_STORE;
-	}
-}
+test("screenshot cannot enter the legacy text transport", async () => {
+	await withStore(async ({ previewProxy }) => {
+		const calls = [];
+		const context = contextFixture("GET", calls, responseFixture(), []);
+		context.paramKinds.GET.path = "/mac-desktop.png";
+		const output = await previewProxy(context, { tunnelName: "alpha" });
+		assert.equal(output.error, "binary_asset_publication_required");
+		assert.equal(calls.length, 0);
+	});
+});
 
-function storeFixture() {
-	return {
-		tunnelBindings: {
-			tun_a: provenBinding({
-				tunnelId: "tun_a",
-				tunnelName: "alpha",
-				deviceId: "device-a",
-				ownerAccountId: "account-a"
-			})
-		},
-		tunnelGrants: {},
-		tunnelPairings: {},
-		tunnelAudit: []
-	};
-}
+test("unexpected binary envelope is rejected without decoding", async () => {
+	await withStore(async ({ previewProxy }) => {
+		const calls = [];
+		const output = await previewProxy(contextFixture("GET", calls, responseFixture(), [
+			{ ok: true, status: 200, body64: "synthetic-forbidden-data" }
+		]), { tunnelName: "alpha" });
+		assert.equal(output.error, "binary_asset_publication_required");
+		assert.equal(calls.length, 1);
+	});
+});
 
-function responseFixture() {
-	return {
-		statusCode: 200,
-		headers: {},
-		setHeader(name, value) {
-			this.headers[String(name).toLowerCase()] = String(value);
-		}
-	};
-}
+test("URL64 routing metadata still resolves registered local HTML", async () => {
+	await withStore(async ({ previewProxy }) => {
+		const calls = [];
+		const url = "http://127.0.0.1:48888/app/index.html";
+		const context = contextFixture("GET", calls, responseFixture(), [
+			{ ok: true, status: 200, body: "PREVIEW_MARKER" }
+		]);
+		context.paramKinds.GET = {
+			url64: Buffer.from(url).toString("base64"),
+			previewId: PREVIEW_ID
+		};
+		const output = await previewProxy(context, { tunnelName: "alpha" });
+		assert.equal(output, "PREVIEW_MARKER");
+		assert.equal(calls[0][2].url, url);
+		assert.equal(calls[0][2].responseBodyMode, "text");
+	});
+});
 
-function contextFixture(method, calls, response, results) {
-	return {
-		request: {
-			method,
-			headers: { cookie: "secret", range: "bytes=0-4" },
-			rawBody: method === "POST" ? { value: 7 } : undefined,
-			user: {
-				authorized: true,
-				info: { userId: "account-a", accountId: "account-a" }
-			}
-		},
-		response,
-		paramKinds: { GET: { path: "/asset.bin" }, POST: { value: 7 } },
-		ws: {
-			async sendTunnelRequest(...argumentsList) {
-				calls.push(argumentsList);
-				return results.shift();
-			}
-		}
-	};
-}
+test("native transport failure sets real HTTP 502 instead of false 200", async () => {
+	await withStore(async ({ previewProxy }) => {
+		const calls = [];
+		const response = responseFixture();
+		const output = await previewProxy(contextFixture("GET", calls, response, [
+			{ ok: false, error: "permission_denied" }
+		]), { tunnelName: "alpha" });
+		assert.equal(output.error, "permission_denied");
+		assert.equal(response.statusCode, 502);
+		assert.equal(response.headers["cache-control"], "no-store");
+		assert.equal(calls.length, 1);
+	});
+});
 
-test("native url64 preview link decodes the exact local-server address", async () => {
- await withStore(async ({previewProxy}) => {
-  const calls=[];
-  const url='http://127.0.0.1:48888/my/page?x=1';
-  const ctx=contextFixture('GET',calls,responseFixture(),[{ok:true,status:200,body:'PREVIEW_MARKER'}]);
-  ctx.paramKinds.GET={url64:Buffer.from(url,'utf8').toString('base64')};
-  const output=await previewProxy(ctx,{tunnelName:'alpha'});
-  assert.equal(output,'PREVIEW_MARKER');
-  assert.equal(calls[0][2].url,url);
-  assert.equal(calls[0][2].responseBodyMode,'base64');
- });
+test("native 302 redirect is refused rather than exposed to browser", async () => {
+	await withStore(async ({ previewProxy }) => {
+		const calls = [];
+		const response = responseFixture();
+		const output = await previewProxy(contextFixture("GET", calls, response, [
+			{ ok: true, status: 302, headers: { location: "/private" }, body64: "" }
+		]), { tunnelName: "alpha" });
+		assert.equal(output.error, "preview_redirect_not_followed");
+		assert.equal(response.statusCode, 409);
+		assert.equal(calls.length, 1);
+	});
 });

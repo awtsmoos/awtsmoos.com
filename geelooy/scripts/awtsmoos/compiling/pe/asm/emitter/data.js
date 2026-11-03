@@ -5,7 +5,7 @@ Biezrash Hashem
 */
 import { OPCODES, PREFIXES, makeModRM, MOD } from '../opcodes.js';
 import { parseOperand } from './operands.js';
-import { emitMemBytes } from './utils.js';
+import { emitMemBytes, immToUint32 } from './utils.js';
 
 export function emitData(code, mnemonic, args, dataSymbols) {
     const op1 = parseOperand(args[0], dataSymbols);
@@ -42,16 +42,16 @@ export function emitData(code, mnemonic, args, dataSymbols) {
             if (size === 8) {
                 if (rex) code.addBytes([rex]);
                 code.addBytes([OPCODES.MOV_R8_IMM8_BASE + (op1.val & 7)]);
-                code.addBytes([op2.val & 0xFF]);
+                code.addBytes([immToUint32(op2.val) & 0xFF]);
             } else if (size === 16) {
                 code.addBytes([PREFIXES.OS_OVERRIDE]);
                 if (rex) code.addBytes([rex]);
                 code.addBytes([OPCODES.MOV_R32_IMM32_BASE + (op1.val & 7)]);
-                code.addBytes([op2.val & 0xFF, (op2.val >> 8) & 0xFF]);
+                code.addBytes([immToUint32(op2.val) & 0xFF, (immToUint32(op2.val) >> 8) & 0xFF]);
             } else if (size === 32) {
                 if (rex) code.addBytes([rex]); // Usually not needed for R32, clears high 32
                 code.addBytes([OPCODES.MOV_R32_IMM32_BASE + (op1.val & 7)]);
-                code.add32(op2.val);
+                code.add32(immToUint32(op2.val));
             } else { // 64
                 if (rex) code.addBytes([rex]);
                 code.addBytes([OPCODES.MOV_R64_IMM64_BASE + (op1.val & 7)]);
@@ -75,22 +75,22 @@ export function emitData(code, mnemonic, args, dataSymbols) {
                 code.addBytes([OPCODES.MOV_RM8_IMM8]);
                 const bytes = emitMemBytes(op1, 0); 
                 code.addBytes(bytes);
-                code.addBytes([op2.val & 0xFF]);
+                code.addBytes([immToUint32(op2.val) & 0xFF]);
             } else if (size === 16) {
                 code.addBytes([OPCODES.MOV_RM_IMM32]);
                 const bytes = emitMemBytes(op1, 0); 
                 code.addBytes(bytes);
-                code.addBytes([op2.val & 0xFF, (op2.val >> 8) & 0xFF]);
+                code.addBytes([immToUint32(op2.val) & 0xFF, (immToUint32(op2.val) >> 8) & 0xFF]);
             } else if (size === 32) {
                 code.addBytes([OPCODES.MOV_RM_IMM32]);
                 const bytes = emitMemBytes(op1, 0); 
                 code.addBytes(bytes);
-                code.add32(op2.val);
+                code.add32(immToUint32(op2.val));
             } else { // 64
                 code.addBytes([OPCODES.MOV_RM_IMM32]); // Sign-extended 32-bit imm to 64-bit mem
                 const bytes = emitMemBytes(op1, 0); 
                 code.addBytes(bytes);
-                code.add32(op2.val); // Limitation: Can only write 32-bit immediate to 64-bit mem
+                code.add32(immToUint32(op2.val)); // Limitation: Can only write 32-bit immediate to 64-bit mem
             }
         }
         

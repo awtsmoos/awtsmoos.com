@@ -21,8 +21,11 @@ export function mountMovieDataDock(options = {}) {
 	const appId = options.appId || 'shared';
 	const appName = options.appName || 'Movie';
 	const root = document.createElement('section');
-	root.className = 'awtsmoos-movie-director movie-director-shell';
+	root.className = 'awtsmoos-movie-director movie-director-shell is-collapsed';
 	root.dataset.awtsmoosMovieDirector = appId;
+	// B"H: critical fallback paint if the canonical stylesheet fails to load
+	root.style.background = '#101418';
+	root.style.color = '#f5fbff';
 	root.innerHTML = markup(appName);
 	document.body.append(root);
 	const statusNode = root.querySelector('[data-movie-status]');
@@ -62,7 +65,7 @@ function showPanel(root, name) {
 
 function markup(appName) {
 	const tabs = PANELS.map(name => `<button type="button" role="tab" data-movie-tab="${name}">${label(name)}</button>`).join('');
-	return `<header class="movie-director-header"><div><strong>Movie Data Studio</strong><small>${escapeHtml(appName)}</small></div><button type="button" data-movie-collapse>Hide</button></header><div class="movie-director-body"><nav class="movie-director-tabs" role="tablist">${tabs}</nav><main class="movie-director-panels"><section data-panel="data"><div data-movie-data-host></div><div data-movie-patch-host></div></section><section data-panel="storyboard"></section><section data-panel="timeline"></section><section data-panel="canvas"></section><section data-panel="export"></section></main><output class="movie-director-status" data-movie-status aria-live="polite">Ready for canonical movie data.</output></div>`;
+	return `<header class="movie-director-header"><div><strong>Movie Data Studio</strong><small>${escapeHtml(appName)}</small></div><button type="button" data-movie-collapse>Show</button></header><div class="movie-director-body"><nav class="movie-director-tabs" role="tablist">${tabs}</nav><main class="movie-director-panels"><section data-panel="data"><div data-movie-data-host></div><div data-movie-patch-host></div></section><section data-panel="storyboard"></section><section data-panel="timeline"></section><section data-panel="canvas"></section><section data-panel="export"></section></main><output class="movie-director-status" data-movie-status aria-live="polite">Ready for canonical movie data.</output></div>`;
 }
 
 function label(name) {

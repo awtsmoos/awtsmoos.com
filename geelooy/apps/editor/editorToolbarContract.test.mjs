@@ -44,14 +44,14 @@ test("pure history and selection policy preserves exact operation rules", () => 
 		undo: { disabled: false }, redo: { disabled: true }
 	});
 	const ohrNone = revealObjectSelectionState({ misparSelected: 0, isSingleMesh: false, hasParent: false, isInEditMode: false, canSubdivide: false });
-	assert.equal(ohrNone.exportGlb.disabled, true);
+	assert.equal(ohrNone.exportGlb.disabled, false); // Export GLB stays enabled; the click handler guides selection
 	assert.equal(ohrNone.delete.disabled, true);
 	const ohrOne = revealObjectSelectionState({ misparSelected: 1, isSingleMesh: true, hasParent: true, isInEditMode: false, canSubdivide: false });
 	assert.equal(ohrOne.exportGlb.disabled, false);
 	assert.equal(ohrOne.ungroup.disabled, false);
 	assert.equal(ohrOne.toggleEditMode.disabled, false);
 	const ohrMany = revealObjectSelectionState({ misparSelected: 2, isSingleMesh: false, hasParent: false, isInEditMode: false, canSubdivide: false });
-	assert.equal(ohrMany.exportGlb.disabled, true);
+	assert.equal(ohrMany.exportGlb.disabled, false); // Export GLB stays enabled; the click handler guides selection
 	assert.equal(ohrMany.group.disabled, false);
 	const ohrEdit = revealObjectSelectionState({ misparSelected: 0, isSingleMesh: false, hasParent: false, isInEditMode: true, canSubdivide: true });
 	assert.equal(ohrEdit.toggleEditMode.disabled, false);

@@ -5,8 +5,8 @@
 /**
  * @file runJobWorkers.js
  * @description
- * The Awtsmoos gathers many cooperative sparks into one terminal truth;
- * Awtsmoos.com drains checkpoints before the final seal and leaves background repair uncouth no ruth.
+ * The Awtsmoos gathers cooperative sparks into one terminal truth and then loosens what is safely sealed;
+ * Awtsmoos.com preserves recovery context when durable state cannot land, and releases input only after truth is revealed.
  */
 
 const { runWorker } = require('./runJobWorkerLoop.js');
@@ -16,6 +16,7 @@ const { saveJobState } = require('./jobState.js');
 const { awaitCheckpoint } = require('./jobCheckpointWriter.js');
 const { setJob } = require('./jobStore.js');
 const { clearJobWatchdog } = require('./jobWatchdog.js');
+const { releaseTerminalJobPayload } = require('./terminalJobPayload.js');
 
 /** Finish counters, timestamps, durable state, and observability after workers settle. */
 function finalizeJob($i, job) {
@@ -24,7 +25,7 @@ function finalizeJob($i, job) {
 	job.durationMs = job.startedAt ? job.finishedAt - job.startedAt : null;
 	job.updatedAt = job.finishedAt;
 	setJob(job);
-	saveJobState($i, job);
+	const persisted = saveJobState($i, job);
 	appendJobLog($i, {
 		jobId: job.id,
 		event: job.status,
@@ -38,6 +39,7 @@ function finalizeJob($i, job) {
 		preHashed: job.preHashed,
 		preHashMismatches: job.preHashMismatches
 	});
+	return persisted;
 }
 
 /** Launch post-terminal maintenance without extending the import lane lifetime. */
@@ -51,7 +53,7 @@ function launchBackgroundMaintenance(routes, $i, job) {
 	}
 }
 
-/** Execute cooperative workers, settle checkpoints, then persist one terminal state. */
+/** Execute workers, persist terminal truth, launch repair, then release safely sealed input. */
 async function runWorkers(ctx) {
 	const { routes, $i, job, WORKERS } = ctx;
 	try {
@@ -64,8 +66,9 @@ async function runWorkers(ctx) {
 		job.errors.push({ message: error.message, stack: error.stack });
 	}
 	await awaitCheckpoint(job);
-	finalizeJob($i, job);
+	const persisted = finalizeJob($i, job);
 	launchBackgroundMaintenance(routes, $i, job);
+	if (persisted) releaseTerminalJobPayload(job);
 }
 
 module.exports = {

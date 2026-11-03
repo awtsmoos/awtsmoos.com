@@ -29,7 +29,7 @@ export const OHR_TOOLBAR_SECTIONS = Object.freeze({
 		sealKliControl({ key: "create", id: "btn-create", kind: "button", label: "Add", title: "Shift+A", action: "create" }),
 		sealKliControl({ key: "primitive", id: "select-primitive", kind: "select", options: KELIM_PRIMITIVES }),
 		sealKliControl({ key: "loadGlb", id: "btn-load-glb", kind: "button", label: "Load GLB", action: "loadGlb" }),
-		sealKliControl({ key: "exportGlb", id: "btn-export-glb", kind: "button", label: "Export GLB", disabled: true, action: "exportGlb" }),
+		sealKliControl({ key: "exportGlb", id: "btn-export-glb", kind: "button", label: "Export GLB", title: "Export the selected object as GLB", action: "exportGlb" }),
 		SOF_SEPARATOR,
 		sealKliControl({ key: "group", id: "btn-group", kind: "button", label: "Parent", title: "Ctrl+P", disabled: true, action: "group" }),
 		sealKliControl({ key: "ungroup", id: "btn-ungroup", kind: "button", label: "Unparent", title: "Alt+P", disabled: true, action: "ungroup" }),

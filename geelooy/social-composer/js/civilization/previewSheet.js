@@ -23,6 +23,7 @@ export function syncPreviewSheet() {
 		sheet.setAttribute('aria-hidden', 'false');
 		return;
 	}
+	if (sheet.classList.contains('is-dismissed')) return;
 	const hidden = !sheet.classList.contains('is-open');
 	sheet.inert = hidden;
 	sheet.setAttribute('aria-hidden', hidden ? 'true' : 'false');
@@ -36,6 +37,7 @@ export function openPreviewSheet(event) {
 		sheet.scrollIntoView({ behavior: 'smooth', block: 'start' });
 		return;
 	}
+	sheet.classList.remove('is-dismissed');
 	previewInvoker = event?.currentTarget || document.activeElement;
 	sheet.classList.add('is-open');
 	document.body.classList.add('preview-sheet-open');
@@ -47,9 +49,10 @@ export function openPreviewSheet(event) {
 /** Closes mobile preview and restores the invoking control when possible. */
 export function closePreviewSheet() {
 	const sheet = document.querySelector('.previewColumn');
-	if (!sheet?.classList.contains('is-open')) return;
+	if (!sheet) return;
 	sheet.classList.remove('is-open');
-	document.body.classList.remove('preview-sheet-open');
+	sheet.classList.add('is-dismissed');
+	document.body.classList.remove('preview-sheet-open', 'previewFocused');
 	syncPreviewSheet();
 	previewInvoker?.focus?.();
 }

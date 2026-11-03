@@ -54,6 +54,9 @@
 .previewColumn {
 	min-width: 0;
 }
+.previewColumn.is-dismissed {
+	display: none;
+}
 .previewSticky {
 	position: sticky;
 	top: var(--space-4);

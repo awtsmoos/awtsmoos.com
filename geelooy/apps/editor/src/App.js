@@ -173,7 +173,10 @@ class App {
     
      exportSelectedGLB() {
         const selectedObjects = this.objectManager.getSelectedObjects();
-        if (selectedObjects.length !== 1) { return; }
+        if (selectedObjects.length !== 1) {
+            this.showEditorNotice('Select exactly one object to export it as a GLB file.');
+            return;
+        }
         const objectToExport = selectedObjects[0];
 
         const clone = objectToExport.clone();
@@ -220,6 +223,7 @@ class App {
             },
             (error) => {
                 console.error('An error happened during GLB export:', error);
+                this.showEditorNotice('GLB export failed. See the console for details.');
             },
             options
         );
@@ -307,6 +311,19 @@ class App {
         link.click();
         URL.revokeObjectURL(url);
         document.body.removeChild(link);
+    }
+
+    /**
+     * Show a brief user-visible notice over the editor canvas.
+     * @param {string} message Text to display.
+     */
+    showEditorNotice(message) {
+        const notice = document.createElement('div');
+        notice.textContent = message;
+        notice.setAttribute('role', 'status');
+        notice.style.cssText = 'position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#1c1c22;color:#fff;padding:10px 16px;border-radius:8px;font-size:14px;z-index:9999;box-shadow:0 2px 12px rgba(0,0,0,.4);max-width:80vw;text-align:center;';
+        document.body.appendChild(notice);
+        setTimeout(() => notice.remove(), 3500);
     }
 
     setupOrbitGizmo() {

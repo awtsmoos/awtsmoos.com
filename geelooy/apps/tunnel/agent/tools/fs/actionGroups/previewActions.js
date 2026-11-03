@@ -4,6 +4,7 @@ const Dependencies = require("../preview/deps.js");
 const LocalServer = require("../preview/localServerAction.js");
 const Registry = require("../previewRegistry.js");
 const Result = require("../preview/actionResult.js");
+const RegisteredRead = require("../preview/registeredRead.js");
 
 /**
  * @file Exposes durable native preview actions with truthful readiness states.
@@ -24,6 +25,9 @@ function buildPreviewActions(context = {}) {
 		async previewList() {
 			const previews = Registry.list(payload.recoveryRoot);
 			return Result.expose("previewList", { ok: true, previews, count: previews.length });
+		},
+		async previewReadRegistered() {
+			return Result.expose("previewReadRegistered", await RegisteredRead.readRegistered(payload));
 		},
 		async previewRevoke() {
 			const previewId = payload.previewId || payload.id || "";

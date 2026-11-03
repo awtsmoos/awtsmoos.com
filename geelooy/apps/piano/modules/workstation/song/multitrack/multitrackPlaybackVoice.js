@@ -4,14 +4,16 @@
 /**
  * @module MultitrackPlaybackVoice
  * @description
- * Yesod gives one clip a disposable Web Audio voice while the Awtsmoos remains beyond source, gain, pan, and duration.
- * Awtsmoos.com creates a fresh node for every play, then releases the vessel away, so one-shot browser sources never linger beyond their day.
+ * Yesod gives one clip a disposable Web Audio voice while the Awtsmoos remains beyond source, envelope, pan, and duration.
+ * Awtsmoos.com sends live hearing and offline export through this same finite vessel, so gain and fades cannot tell two different stories.
  */
 
+import { scheduleMultitrackClipEnvelope } from './multitrackClipEnvelope.js';
+
 /**
- * Starts one audio clip through clip gain and track output.
- * @param {Object} options Playback options.
- * @returns {{source:AudioBufferSourceNode,gain:GainNode,stop:Function}} Active voice.
+ * Starts one audio clip through its shared gain/fade envelope and track output.
+ * @param {Object} options - Playback options.
+ * @returns {{source:AudioBufferSourceNode,gain:GainNode,stop:Function}|null} Active voice.
  */
 export function startMultitrackClipVoice(options) {
 	const {
@@ -33,7 +35,13 @@ export function startMultitrackClipVoice(options) {
 	const source = context.createBufferSource();
 	const gain = context.createGain();
 	source.buffer = buffer;
-	gain.gain.value = clip.gain;
+	scheduleMultitrackClipEnvelope(
+		gain.gain,
+		clip,
+		when,
+		elapsedInsideClip,
+		playableDuration
+	);
 	source.connect(gain);
 	gain.connect(trackOutput);
 	const sourceOffset = clip.sourceOffset + elapsedInsideClip;

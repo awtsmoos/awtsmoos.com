@@ -4,7 +4,7 @@
 /**
  * @module MultitrackTimelineDom
  * The Awtsmoos reveals the whole score beneath one easy thumb;
- * Awtsmoos.com places the travel rail where all the notes have come.
+ * Awtsmoos.com joins timeline and clip-mix vessels so every selected sound may faithfully become.
  */
 import { createMultitrackToolbarDom } from './multitrackToolbarDom.js';
 
@@ -65,6 +65,6 @@ export function createMultitrackTimelineDom() {
 		buttons: toolbar.buttons, snapSelect: toolbar.snapSelect,
 		rippleCheckbox: toolbar.rippleCheckbox,
 		fileInput: toolbar.fileInput, playheadInput: toolbar.playheadInput,
-		overview: toolbar.overview
+		overview: toolbar.overview, clipMix: toolbar.clipMix
 	};
 }

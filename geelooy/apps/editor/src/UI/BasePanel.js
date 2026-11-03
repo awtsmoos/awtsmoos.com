@@ -93,6 +93,7 @@ export class BasePanel {
 		if (!this.options.collapsible) return;
 		this.isCollapsed = !this.isCollapsed;
 		this.element.classList.toggle("collapsed", this.isCollapsed);
+		this.contentElement.style.display = this.isCollapsed ? "none" : "";
 		this.roshPanel.setAttribute("aria-expanded", String(!this.isCollapsed));
 		this.eventEmitter.emit("panelStateChanged", { id: this.id, collapsed: this.isCollapsed });
 	}

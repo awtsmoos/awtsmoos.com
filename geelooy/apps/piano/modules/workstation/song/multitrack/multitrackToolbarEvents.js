@@ -1,8 +1,12 @@
 //B"H
+//Boruch Hashem
+//Blessed is He
 /**
  * @module MultitrackToolbarEvents
- * The Awtsmoos lets the mix leave as sound while zoom attends the chosen note.
+ * The Awtsmoos lets the mix leave as sound while each chosen clip may softly rise and fall;
+ * Awtsmoos.com keeps every finite control inside one history, one scheduler, and one truthful call.
  */
+import { updateSelectedMultitrackClipMix } from './multitrackClipMixActions.js';
 import { importMultitrackFiles } from './multitrackImportActions.js';
 import { runMultitrackToolbarAction } from './multitrackToolbarActions.js';
 import { fitMultitrackSong } from './multitrackTimelineOperations.js';
@@ -11,7 +15,7 @@ import { downloadMultitrackMix } from './multitrackMixDownload.js';
 import { toggleMultitrackPunchIn } from './multitrackPunchIn.js';
 import { bindMultitrackScrubActions } from './multitrackScrubActions.js';
 
-/** Wires a single playing transport and a separate audio download path. */
+/** Wires one playing transport, clip mix, and separate audio download paths. */
 export function bindMultitrackToolbarEvents(dom, state, context = {}) {
 	dom.buttons.forEach((button, action) => {
 		button.addEventListener('click', async () => {
@@ -29,13 +33,26 @@ export function bindMultitrackToolbarEvents(dom, state, context = {}) {
 					const ratio = action === 'zoomIn' ? 1.35 : 1 / 1.35;
 					zoomAtPlayhead(dom, state, state.selection.pixelsPerSecond * ratio);
 				} else {
-					await runMultitrackToolbarAction(action === 'play' && state.playing ? 'stop' : action, state, context);
+					await runMultitrackToolbarAction(
+						action === 'play' && state.playing ? 'stop' : action,
+						state,
+						context
+					);
 				}
 			}, state);
 		});
 	});
 	dom.fileInput.addEventListener('change', async () => {
 		await safelyRun(() => importMultitrackFiles(dom.fileInput.files, state), state);
+	});
+	dom.clipMix.addEventListener('change', async (event) => {
+		const field = event.target?.dataset?.multitrackClipMix;
+		if (!field) return;
+		await safelyRun(() => updateSelectedMultitrackClipMix(
+			state,
+			field,
+			Number(event.target.value)
+		), state);
 	});
 	dom.snapSelect.addEventListener('change', () => {
 		state.setGridBeats(Number(dom.snapSelect.value));
@@ -51,8 +68,9 @@ export function bindMultitrackToolbarEvents(dom, state, context = {}) {
 
 /** Reports errors from rendering, downloading and other async tools. */
 async function safelyRun(action, state) {
-	try { await action(); }
-	catch (error) {
+	try {
+		await action();
+	} catch (error) {
 		console.error('Multitrack audio action failed', error);
 		state.setStatus(`Multitrack: ${error?.message || 'Unknown editor error'}`);
 	}

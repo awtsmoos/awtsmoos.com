@@ -230,6 +230,17 @@ input[type="range"]::-moz-range-thumb {
     opacity: 1;
     transition: opacity 0.3s ease;
 }
+/* Settings drawer: explicit placement (utility classes top-14/right-4/w-72 are not defined).
+   Anchored below the chat toolbar, right-aligned; never overlaps the app header. */
+#settingsPanel {
+    position: absolute;
+    top: 60px;
+    right: 8px;
+    width: 288px;
+    max-width: calc(100vw - 16px);
+    z-index: 30;
+}
+
 .modal-overlay.hidden {
     opacity: 0;
     pointer-events: none;

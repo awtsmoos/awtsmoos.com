@@ -4,8 +4,8 @@
 /**
  * @module SongPanelTransportActions
  * @description
- * Netzach carries recording and playback through time while Malchus reflects their state and Yesod preserves the raw take.
- * The Awtsmoos is beyond beginning and ending; Awtsmoos.com lets every finite transport door open, sing, and close without confusing source with echo.
+ * Netzach carries recording and note playback through finite time while the Awtsmoos remains beyond beginning, stopping, and sound.
+ * Awtsmoos.com gives this note context one Play/Stop doorway, so duplicated transport buttons no longer crowd the editor around.
  */
 
 import { songCapture } from './songCapture.js';
@@ -16,13 +16,7 @@ import {
 	renderSongTransport
 } from './songPanelView.js';
 
-/**
- * Starts a fresh timed Song recording, or finishes the current take when already recording.
- *
- * @param {Object} state Song Studio state.
- * @param {Object} dom Song Studio DOM registry.
- * @returns {Object|null} Finished raw Song when stopping, otherwise null.
- */
+/** Starts or finishes a timed Song recording. */
 export function toggleSongRecording(state, dom) {
 	if (songCapture.isCapturing()) {
 		return finishSongRecording(state, dom);
@@ -35,33 +29,33 @@ export function toggleSongRecording(state, dom) {
 		grid: state.grid
 	});
 	state.setStatus('Recording timed Song… play the keyboard, touch keys, or MIDI controller.');
-	renderSongTransport(dom, state, {
-		capturing: true,
-		playing: false
-	});
+	renderSongTransport(dom, state, { capturing: true, playing: false });
 	return null;
 }
 
-/**
- * Plays the current editable Song document through the existing synth engine.
- *
- * @param {Object} state Song Studio state.
- * @param {Object} dom Song Studio DOM registry.
- * @returns {boolean} Whether playback started.
- */
-export function playSongDocument(state, dom) {
+/** Toggles note playback through one Play/Stop control. */
+export function toggleSongPlayback(state, dom) {
 	if (songCapture.isCapturing()) {
-		state.setStatus('Finish the recording before playback.');
+		state.setStatus('Finish the recording before note playback.');
 		renderSongTransport(dom, state, { capturing: true, playing: false });
 		return false;
 	}
+	if (songPlayback.isPlaying()) {
+		songPlayback.stop(false);
+		state.setStatus('Song note playback stopped.');
+		renderSongTransport(dom, state, { capturing: false, playing: false });
+		return false;
+	}
+	return playSongDocument(state, dom);
+}
+
+/** Plays the current editable Song note document through the synth engine. */
+export function playSongDocument(state, dom) {
 	const song = readSongEditorDocument(state, dom);
 	const started = songPlayback.play(song, (transport) => {
-		state.setStatus(
-			transport.playing
-				? `Playing · ${transport.elapsedSeconds.toFixed(2)}s`
-				: 'Playback finished.'
-		);
+		state.setStatus(transport.playing
+			? `Playing notes · ${transport.elapsedSeconds.toFixed(2)}s`
+			: 'Song note playback finished.');
 		renderSongTransport(dom, state, {
 			capturing: false,
 			playing: transport.playing
@@ -74,13 +68,7 @@ export function playSongDocument(state, dom) {
 	return started;
 }
 
-/**
- * Stops whichever Song transport is currently active.
- *
- * @param {Object} state Song Studio state.
- * @param {Object} dom Song Studio DOM registry.
- * @returns {void}
- */
+/** Stops whichever Song-note transport is active. */
 export function stopSongTransport(state, dom) {
 	if (songCapture.isCapturing()) {
 		finishSongRecording(state, dom);

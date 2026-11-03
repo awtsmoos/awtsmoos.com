@@ -17,9 +17,11 @@ export class DriveNavigationController {
 
 	/** Installs every responsive navigation control carrying the shared data key. */
 	install() {
-		for (const node of document.querySelectorAll('[data-drive-nav]')) {
-			node.addEventListener('click', () => this.show(node.dataset.driveNav));
-		}
+		// B"H: delegate from document so buttons work even if the sidebar renders after install
+		document.addEventListener('click', (event) => {
+			const node = event.target?.closest?.('[data-drive-nav]');
+			if (node) this.show(node.dataset.driveNav);
+		});
 		this.paint('files');
 	}
 

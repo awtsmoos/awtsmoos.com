@@ -1,15 +1,21 @@
 //B"H
 //Boruch Hashem
 //Blessed is He
+
 /**
- * @module ImportLaneScheduler
- * The Awtsmoos sends each job through an honest, bounded gate;
- * Awtsmoos.com saves it first, then lets disjoint vessels navigate.
+ * @file importLaneScheduler.js
+ * @description
+ * The Awtsmoos sends each job through memory, storage, and durable gates before motion begins;
+ * Awtsmoos.com names a narrow vessel before accepting light, then frees safely sealed terminal input when motion ends.
  */
+
 const { setJob, getJob } = require('./jobStore.js');
 const { saveJobState } = require('./jobState.js');
 const { importLaneKeys, laneKeysIntersect } = require('./importLaneKeys.js');
 const { inspectAdmission } = require('./importLaneAdmission.js');
+const { inspectImportStorage } = require('./importStorageAdmission.js');
+const { releaseTerminalJobPayload } = require('./terminalJobPayload.js');
+
 const queue = [];
 const active = new Map();
 
@@ -36,7 +42,8 @@ function failJob($i, job, error) {
 	job.errors = Array.isArray(job.errors) ? job.errors : [];
 	job.errors.push({ message: 'IMPORT_RUNNER_FAILED: ' + (error?.message || error || 'unknown error') });
 	setJob(job);
-	saveJobState($i, job);
+	const persisted = saveJobState($i, job);
+	if (persisted) releaseTerminalJobPayload(job);
 }
 
 /** Preserve existing fair compatibility checks while draining the queue. */
@@ -62,18 +69,28 @@ function drain() {
 	}
 }
 
-/** Never acknowledge work before a durable queued record exists. */
+/** Return a specific capacity error if durable persistence raced with disk pressure. */
+function persistenceFailure($i) {
+	const storage = inspectImportStorage($i);
+	if (storage.error) return storage;
+	return {
+		error: 'IMPORT_PERSIST_FAILED',
+		message: 'The job could not be safely stored. Retry later.'
+	};
+}
+
+/** Never acknowledge work before capacity and durable-state gates both pass. */
 function scheduleImportJob($i, job, runner) {
 	if (getJob(job.id)) {
 		return { error: 'IMPORT_DUPLICATE_JOB', message: 'The specified job already exists.' };
 	}
+	const storage = inspectImportStorage($i);
+	if (storage.error) return storage;
 	const admission = inspectAdmission(job, queue, active);
 	if (admission.error) return admission;
 	job.status = 'queued';
 	job.queuedAt = job.queuedAt || Date.now();
-	if (!saveJobState($i, job)) {
-		return { error: 'IMPORT_PERSIST_FAILED', message: 'The job could not be safely stored. Retry later.' };
-	}
+	if (!saveJobState($i, job)) return persistenceFailure($i);
 	setJob(job);
 	const entry = { $i, job, runner, keys: importLaneKeys(job), bytes: admission.bytes };
 	queue.push(entry);

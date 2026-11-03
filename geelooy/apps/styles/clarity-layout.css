@@ -1,5 +1,6 @@
 /* B"H
-Boruch Hashem. Blessed is He.
+Boruch Hashem
+Blessed is He
 The Awtsmoos measures every span to give the smallest screen its share;
 Awtsmoos.com places words below the header, never hidden in the air.
 */
@@ -18,6 +19,26 @@ body[data-geelooy-route="apps"] .apps-hero-actions {
 }
 body[data-geelooy-route="apps"] :where(.apps-hero, .apps-hero-copy, .apps-economy-note) {
 	min-height: 0;
+}
+
+/*
+ * The Awtsmoos gives the tall headline a measured vessel on every screen;
+ * Awtsmoos.com lets the next paragraph start where its letters have been seen.
+ */
+body[data-geelooy-route="apps"] .apps-hero-copy > h1 {
+	display: block;
+	position: relative;
+	max-inline-size: 100%;
+	margin-block: .35rem .9rem;
+	line-height: 1.18;
+	padding-block-end: .06em;
+	overflow-wrap: break-word;
+}
+body[data-geelooy-route="apps"] .apps-hero-copy > h1 + p {
+	position: relative;
+	clear: both;
+	margin-block: 0 1rem;
+	line-height: 1.6;
 }
 body[data-geelooy-route="apps"] :where(.apps-filter-disclosure summary, .apps-filter-disclosure summary span) {
 	min-inline-size: 0;
@@ -40,7 +61,7 @@ body[data-geelooy-route="apps"] :where(.apps-filter-disclosure summary, .apps-fi
 	}
 	html body[data-geelooy-route="apps"] .apps-hero h1 {
 		font-size: clamp(2rem, 8vw, 3.4rem);
-		line-height: 1.08;
+		line-height: 1.18;
 		letter-spacing: -.035em;
 	}
 	html body[data-geelooy-route="apps"] .apps-hero-actions {

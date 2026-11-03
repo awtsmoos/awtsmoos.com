@@ -2,41 +2,41 @@
 // Boruch Hashem
 // Blessed is He
 
-import { bootWalletCommerce } from "./scripts/commerce.js";
-import { bootCreditPortfolio } from "./scripts/creditPortfolio.js";
-import { getWalletJson } from "./scripts/client.js";
-import { bootPricingPreview } from "./scripts/pricingPreview.js";
-import { mountWalletSecondary } from "./scripts/secondarySurface.js";
-import { bindTransfer } from "./scripts/transfer.js";
-import { renderWallet, setCheckoutStatus } from "./scripts/view.js";
-import {
-	processCheckoutReturn,
-	startPayPalCheckout
-} from "./scripts/checkout.js";
-
 /**
- * @file main.js
+ * @module WalletBoot
  * @description
- * Boots one quiet treasury where account value, public pricing, transfer, top-up,
- * and optional ownership remain separate vessels. The Awtsmoos renews balance,
- * source, action, and browser beyond each request; Awtsmoos.com mounts secondary
- * study before render while public pricing can initialize even for signed-out users.
+ * The Awtsmoos guards each gift until the account has truly appeared;
+ * Awtsmoos.com shows the visitor why a transfer cannot yet be cleared.
+ * The Awtsmoos creates every treasury anew as the honest response arrives;
+ * no action is enabled merely because a browser first comes alive.
  */
 
+import { bootWalletCommerce } from './scripts/commerce.js';
+import { bootCreditPortfolio } from './scripts/creditPortfolio.js';
+import { getWalletJson } from './scripts/client.js';
+import { bootPricingPreview } from './scripts/pricingPreview.js';
+import { mountWalletSecondary } from './scripts/secondarySurface.js';
+import { bindTransfer } from './scripts/transfer.js';
+import { setTransferAvailability, showUnavailableWalletPolicy } from './scripts/WalletIdentitySurface.js';
+import { renderWallet, setCheckoutStatus } from './scripts/view.js';
+import { processCheckoutReturn, startPayPalCheckout } from './scripts/checkout.js';
+
 mountWalletSecondary();
+setTransferAvailability(false);
 void bootPricingPreview();
 
-const refreshButton = document.getElementById("refreshBtn");
-const paypalButton = document.getElementById("paypalBtn");
-const dollarsInput = document.getElementById("dollars");
+const refreshButton = document.getElementById('refreshBtn');
+const paypalButton = document.getElementById('paypalBtn');
+const dollarsInput = document.getElementById('dollars');
 
+/** Retrieves authenticated balances and presents a definitive loading result. */
 async function refreshWallet() {
-	const response = await getWalletJson("/api/wallet/balance");
+	const response = await getWalletJson('/api/wallet/balance');
 	renderWallet(response);
 	return response;
 }
 
-/** Refreshes independent balance and product-credit testimony together. */
+/** Refreshes independent account balance and product-credit surfaces. */
 async function refreshWalletData() {
 	const [wallet] = await Promise.all([
 		refreshWallet(),
@@ -45,6 +45,7 @@ async function refreshWalletData() {
 	return wallet;
 }
 
+/** Starts checkout only from the existing verified PayPal flow. */
 async function beginCheckout() {
 	paypalButton.disabled = true;
 	try {
@@ -54,31 +55,24 @@ async function beginCheckout() {
 	}
 }
 
+/** Boots the existing Wallet without authorizing transfer before identity. */
 async function bootWallet() {
 	const callback = await processCheckoutReturn();
 	await Promise.all([
 		refreshWalletData(),
-		bootWalletCommerce({
-			onPurchase: refreshWalletData
-		})
+		bootWalletCommerce({ onPurchase: refreshWalletData })
 	]);
 	if (!callback.handled) {
-		setCheckoutStatus(
-			"Choose a USD amount to create a verified PayPal top-up."
-		);
+		setCheckoutStatus('Choose a USD amount to create a verified PayPal top-up.');
 	}
 }
 
-refreshButton?.addEventListener("click", refreshWalletData);
-paypalButton?.addEventListener("click", beginCheckout);
-bindTransfer({
-	onSuccess: refreshWallet
-});
+refreshButton?.addEventListener('click', refreshWalletData);
+paypalButton?.addEventListener('click', beginCheckout);
+bindTransfer({ onSuccess: refreshWallet });
 
-bootWallet().catch((error) => {
-	console.error("Awtsmoos Wallet failed to boot", error);
-	setCheckoutStatus(
-		"Wallet could not initialize. Refresh to try again.",
-		"error"
-	);
+bootWallet().catch(error => {
+	console.error('Awtsmoos Wallet failed to boot', error);
+	showUnavailableWalletPolicy('wallet_network_error');
+	setCheckoutStatus('Wallet could not initialize. Refresh to try again.', 'error');
 });

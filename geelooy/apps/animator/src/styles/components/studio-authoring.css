@@ -10,6 +10,9 @@
 	display: grid;
 	align-content: start;
 	gap: 10px;
+	/* B"H: keep AI panel interactive above overlapping workspace chrome */
+	position: relative;
+	z-index: 5;
 }
 
 .aw-studio-create-section {

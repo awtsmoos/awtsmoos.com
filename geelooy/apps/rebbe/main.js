@@ -10,6 +10,7 @@ import { createSearchResultHandlers } from './controllers/search-results.js';
 import { initStudio, closeStudio } from './modules/studio/index.js';
 import { initViz } from './viz.js';
 import { runBootSequence } from './ui/boot.js';
+import { toggleTerminal } from './view.js';
 import { runPlaylistStressTest } from './modules/playlist/stress.js';
 
 const playlistSession = { id: null, shuffle: false, loop: 'off', source: [] };
@@ -30,7 +31,7 @@ export async function init() {
   Render.initUI(callbacks);
   Render.initPlaylists(callbacks);
   exposePlaylistStressTest();
-  document.getElementById('btn-term-toggle')?.addEventListener('click', () => Render.toggleTerminal());
+  document.getElementById('btn-term-toggle')?.addEventListener('click', () => toggleTerminal());
   bindAudioCallbacks();
   await bootArchive();
 }

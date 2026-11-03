@@ -1,181 +1,65 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
+
 /**
  * @module PostManifest
  * @description
- * The Awtsmoos reveals title, native Chitas context, media, rich documents, Torah sections, and navigation as one stream;
- * Awtsmoos.com keeps every ordinary post intact while the sixth Chitas crown names its focused Torah day without phantom fields unseen.
- *
- * Meluket posts carry their Hebrew in `hebrew_text_raw` (not `content`) and their
- * sections as nested HTML strings in `dayuh.sections`. When the structured
- * renderer produces no visible text, the Hebrew fallback below guarantees the
- * reader still sees the teaching instead of a blank page.
+ * The Awtsmoos reveals canonical teaching through rich, structured, units, or safe plain vessels in order;
+ * Awtsmoos.com keeps the coordinator small while each fallback preserves readable Torah at the reader border.
  */
 
-import { appendHTML, makeNavBars } from '/heichelos/post/postFunctions.js?v=canonical-post-links-002';
+import { makeNavBars } from '/heichelos/post/postFunctions.js?v=canonical-post-links-002';
 import { interpretPostDayuh } from '/heichelos/post/logic/scribe.js';
 import { prepareStructuredPost } from '/heichelos/post/logic/scribe/PostSectionSource.js';
 import { renderUnitsPost } from '/heichelos/post/logic/initialization/UnitsManifest.js?v=units-002';
 import { renderRootDocument } from '/heichelos/post/ui/RichRootDocument.js?v=rich-social-document-001';
 import { renderChitasMasthead } from '../chitas/masthead.js?v=native-chitas-006';
+import { appendPublicPlainContent } from './PublicPlainContent.js?v=public-content-001';
+import {
+	appendHebrewTextFallback,
+	appendRootAssets,
+	appendTitle,
+	renderMode,
+	viewportHasVisibleText
+} from './PostManifestElements.js?v=post-elements-001';
 
-function readablePostTitle(post) {
-	return post?.title || post?.identity?.title || '';
-}
-
-function appendTitle(viewport, post) {
-	const titleText = readablePostTitle(post);
-	if (!titleText || post?.dayuh?.meta?.chitas) {
-		return;
-	}
-	const title = document.createElement('h1');
-	title.className = 'awtsmoos-post-title';
-	title.textContent = titleText;
-	viewport.append(title);
-	document.title = `${titleText} | Awtsmoos`;
-}
-
-function updateDocumentTitle(post) {
-	const titleText = readablePostTitle(post);
-	if (!titleText) {
-		return;
-	}
-	document.title = `${titleText} | Awtsmoos`;
-}
-
-function safeRemoteUrl(value) {
-	try {
-		const url = new URL(String(value), location.origin);
-		return ['https:', 'http:'].includes(url.protocol) ? url.href : '';
-	} catch {
-		return '';
-	}
-}
-
-function appendVideoAsset(viewport, asset, index) {
-	const source = safeRemoteUrl(asset?.publicPath);
-	if (!source) {
-		return;
-	}
-	const figure = document.createElement('figure');
-	figure.className = 'awtsmoos-post-video-asset';
-	figure.dataset.assetIndex = String(index);
-	const video = document.createElement('video');
-	video.className = 'awtsmoos-post-video';
-	video.controls = true;
-	video.preload = 'metadata';
-	video.playsInline = true;
-	video.src = source;
-	video.setAttribute('aria-label', asset.alt || asset.caption || 'Post video');
-	figure.append(video);
-	if (asset.caption) {
-		const caption = document.createElement('figcaption');
-		caption.textContent = asset.caption;
-		figure.append(caption);
-	}
-	viewport.append(figure);
-}
-
-function appendRootAssets(viewport, post) {
-	const assets = Array.isArray(post?.rootAssets) ? post.rootAssets : [];
-	assets.forEach((asset, index) => {
-		if (asset?.type === 'video') {
-			appendVideoAsset(viewport, asset, index);
-		}
-	});
-}
-
-function appendPlainFallback(viewport, content) {
-	const vessel = document.createElement('div');
-	vessel.className = 'awtsmoos-plain-post-content';
-	appendHTML(content, vessel);
-	viewport.append(vessel);
-}
-
-/**
- * Renders `hebrew_text_raw` as readable paragraphs when the structured
- * renderer leaves the viewport empty. Converts `[cup]...[/cup]` markers to
- * bold and splits the text at punctuation so it does not render as one
- * unbroken blob. The source data is untouched; this is display-only.
- * @param {HTMLElement} viewport Reader viewport receiving the Hebrew.
- * @param {object} post Post API payload.
- * @returns {boolean} True when Hebrew text was rendered.
- */
-function appendHebrewTextFallback(viewport, post) {
-	const hebrew = post?.hebrew_text_raw;
-	if (typeof hebrew !== 'string' || !hebrew.trim()) {
-		return false;
-	}
-	let html = hebrew
-		.replace(/\[cup\]/g, '<b>')
-		.replace(/\[\/cup\]/g, '</b>');
-	const parts = html.split(/(?<=[.,:;])\s+/);
-	const vessel = document.createElement('div');
-	vessel.className = 'awtsmoos-hebrew-text-fallback';
-	vessel.dir = 'rtl';
-	vessel.lang = 'he';
-	for (const part of parts) {
-		if (!part.trim()) continue;
-		const p = document.createElement('p');
-		p.innerHTML = part;
-		vessel.append(p);
-	}
-	viewport.append(vessel);
-	return vessel.childElementCount > 0;
-}
-
-/**
- * True when the viewport holds real readable text (not just chrome).
- * @param {HTMLElement} viewport Reader viewport to inspect.
- * @returns {boolean} True when meaningful text is present.
- */
-function viewportHasVisibleText(viewport) {
-	if (!viewport) return false;
-	const text = (viewport.textContent || '').replace(/\s+/g, ' ').trim();
-	return text.length > 40;
-}
-
-function renderMode({ richRoot, structured, units }) {
-	if (richRoot && structured) {
-		return 'rich-root+structured-sections';
-	}
-	if (richRoot) {
-		return 'rich-root-document';
-	}
-	if (units) {
-		return 'units-manifest';
-	}
-	return structured ? 'structured-sections' : 'plain-fallback';
-}
-
-export async function manifestPost(viewport, post, series, postIndex) {
-	if (!viewport) {
-		return 'missing-viewport';
-	}
-	viewport.innerHTML = '';
-	renderChitasMasthead(viewport, post);
-	appendTitle(viewport, post);
-	updateDocumentTitle(post);
-	appendRootAssets(viewport, post);
+async function manifestPrimaryContent(viewport, post) {
 	const richRoot = renderRootDocument(viewport, post?.rootDocument);
 	const structuredPost = prepareStructuredPost(post);
 	let unitsRendered = false;
 	if (structuredPost) {
 		await interpretPostDayuh(structuredPost);
 	} else if (!richRoot && Array.isArray(post?.units) && post.units.length) {
-		// B"H — units-shaped posts (Bavli dafim) carry their teaching in
-		// `units`, not `sections`; manifest them canonically (UnitsManifest).
 		unitsRendered = renderUnitsPost(viewport, post);
-		if (!unitsRendered && post?.content) {
-			appendPlainFallback(viewport, post.content);
-		}
+		if (!unitsRendered && post?.content) appendPublicPlainContent(viewport, post.content);
 	} else if (!richRoot && post?.content) {
-		appendPlainFallback(viewport, post.content);
+		appendPublicPlainContent(viewport, post.content);
 	}
-	if (!viewportHasVisibleText(viewport)) {
-		appendHebrewTextFallback(viewport, post);
-	}
+	return {
+		richRoot,
+		structured: Boolean(structuredPost),
+		units: unitsRendered
+	};
+}
+
+/**
+ * Manifests one authoritative post without allowing unsafe legacy content to replace the reader shell.
+ *
+ * @param {HTMLElement} viewport Canonical post viewport.
+ * @param {object} post Post API payload.
+ * @param {object} series Parent series metadata.
+ * @param {number|string} postIndex Ordered series position.
+ * @returns {Promise<string>} Render-mode label for reader diagnostics.
+ */
+export async function manifestPost(viewport, post, series, postIndex) {
+	if (!viewport) return 'missing-viewport';
+	viewport.innerHTML = '';
+	renderChitasMasthead(viewport, post);
+	appendTitle(viewport, post);
+	appendRootAssets(viewport, post);
+	const mode = await manifestPrimaryContent(viewport, post);
+	if (!viewportHasVisibleText(viewport)) appendHebrewTextFallback(viewport, post);
 	viewport.append(makeNavBars(post, series, postIndex));
-	return renderMode({ richRoot, structured: Boolean(structuredPost), units: unitsRendered });
+	return renderMode(mode);
 }

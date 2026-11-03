@@ -1,23 +1,30 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
+
 /**
- * @file PublicDiscovery.js
- * @description The Awtsmoos lets one calm public stream reveal living context while deeper query machinery remains concealed;
- * Awtsmoos.com keeps discovery visual, cancellable, accessible, and truthful without hand-written stale counters in the field.
+ * @module PublicDiscovery
+ * @description
+ * The Awtsmoos gives each new selection its own bright place in the day;
+ * Awtsmoos.com refuses to let an older feed repaint the newer way.
+ * The latest question is the living one, whose returned words deserve the sun.
  */
+
 import { installSocialExperience } from '../../../shared/social/SocialExperienceInstaller.js';
 import { renderPublicFeedCard } from './PublicFeedCard.js';
 import { BinahPublicDiscoveryLoader } from './PublicDiscoveryLoader.js';
 import { PublicDiscoveryView } from './PublicDiscoveryView.js';
+import { createLatestDiscoveryRequest } from './LatestDiscoveryRequest.js';
 import { readFeedDensity, writeFeedDensity } from './feed/FeedPreferences.js';
 
 export class PublicDiscovery {
+	/** Creates the public feed with guarded asynchronous request generations. */
 	constructor({ root, api, state, profile, operations }) {
 		Object.assign(this, { root, api, state, profile, operations });
 		this.mode = 'latest';
 		this.density = readFeedDensity();
 		this.experience = null;
+		this.latestRequest = createLatestDiscoveryRequest();
 		this.loader = new BinahPublicDiscoveryLoader({ api, state, operations });
 		this.view = new PublicDiscoveryView(root, {
 			onMode: mode => void this.load(mode),
@@ -27,7 +34,7 @@ export class PublicDiscovery {
 		this.operations.subscribe(event => this.renderOperation(event));
 	}
 
-	/** Installs the ambient surface, mounts controls, and loads the initial discovery mode. */
+	/** Installs the public surface and loads the current default mode. */
 	async initialize() {
 		this.experience = installSocialExperience(this.root, { ambient: true });
 		this.view.mount(this.density);
@@ -36,21 +43,27 @@ export class PublicDiscovery {
 		await this.load('latest');
 	}
 
-	/** Loads one mode through the canonical operation coordinator and ignores superseded aborts. */
+	/**
+	 * Loads only the latest chosen mode; stale results cannot replace a newer feed.
+	 * @param {string} mode - Latest, trending, questions, or answers.
+	 * @returns {Promise<void>} Completion of the request when still current.
+	 */
 	async load(mode = 'latest') {
+		const requestNumber = this.latestRequest.start();
 		this.mode = mode;
 		this.view.renderMode(mode);
 		try {
 			const items = await this.loader.load(mode);
+			if (!this.latestRequest.isCurrent(requestNumber)) return;
 			this.renderItems(Array.isArray(items) ? items : []);
 		} catch (error) {
-			if (error?.name === 'AbortError') return;
+			if (!this.latestRequest.isCurrent(requestNumber) || error?.name === 'AbortError') return;
 			this.view.list.replaceChildren();
-			this.view.status.textContent = 'Public feed is temporarily unavailable. Profile lookup still works.';
+			this.view.status.textContent = 'Public feed is temporarily unavailable. Try another mode or open a public profile.';
 		}
 	}
 
-	/** Renders one immutable public result set using the existing canonical card renderer. */
+	/** Renders the verified current public results with existing feed cards. */
 	renderItems(items) {
 		this.view.list.replaceChildren();
 		this.view.renderDensity(this.density);
@@ -65,7 +78,7 @@ export class PublicDiscovery {
 		this.view.status.textContent = `${items.length} public ${noun} shown.`;
 	}
 
-	/** Mirrors operation lifecycle into accessible busy/status semantics without locking mode switching. */
+	/** Mirrors operation lifecycle into accessibility status without locking mode changes. */
 	renderOperation({ operationKey, state }) {
 		if (operationKey !== 'public-discovery' || !this.view.section) return;
 		const busy = state.phase === 'loading';
@@ -74,23 +87,23 @@ export class PublicDiscovery {
 		if (busy) this.view.status.textContent = 'Loading living social context…';
 	}
 
-	/** Persists and renders the user's compact/comfortable discovery density. */
+	/** Stores compact or comfortable feed density, then updates the view. */
 	setDensity(value) {
 		this.density = writeFeedDensity(value);
 		this.view.renderDensity(this.density);
 	}
 
-	/** Opens one alias in the existing verified profile surface. */
+	/** Opens a selected public alias without requiring a private account. */
 	async openProfile(aliasId) {
 		if (aliasId) await this.profile.openAlias(aliasId, true);
 	}
 
-	/** Renders identity-dependent home state from the canonical SocialHubState snapshot. */
+	/** Mirrors the current canonical identity snapshot to the home surface. */
 	render(snapshot) {
 		this.setIdentityState(Boolean(snapshot.identity.aliasId));
 	}
 
-	/** Marks whether the home surface is operating with an active alias. */
+	/** Marks whether an active alias is currently verified. */
 	setIdentityState(active) {
 		const home = this.root.querySelector('[data-panel="home"]');
 		if (home) home.dataset.identityActive = String(active);

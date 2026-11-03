@@ -6,15 +6,15 @@
  * @file runJobWorkersHarness.cjs
  * @description
  * The Awtsmoos gives tests a quiet vessel where worker truth may be seen;
- * Awtsmoos.com replaces only outer dependencies while finalization stays real and clean.
+ * Awtsmoos.com replaces only declared outer dependencies while finalization stays focused and clean.
  */
 
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
 
-/** Install deterministic worker dependencies before loading the runner module. */
-function loadControlledRunner() {
+/** Install deterministic worker dependencies before loading a fresh runner module. */
+function loadControlledRunner(overrides = {}) {
 	const replacements = {
 		'../processOnePost.js': {
 			processOnePost: async context => {
@@ -28,13 +28,16 @@ function loadControlledRunner() {
 			heapTooHigh: () => false,
 			systemMemLow: () => false
 		},
-		'../eventLoopMonitor.js': { shedNow: () => false }
+		'../eventLoopMonitor.js': { shedNow: () => false },
+		...overrides
 	};
 	for (const [name, exports] of Object.entries(replacements)) {
 		const filename = require.resolve(name);
 		require.cache[filename] = { id: filename, filename, loaded: true, exports };
 	}
-	return require('../runJobWorkers.js').runWorkers;
+	const runnerFilename = require.resolve('../runJobWorkers.js');
+	delete require.cache[runnerFilename];
+	return require(runnerFilename).runWorkers;
 }
 
 /** Create one isolated realistic runner context and temporary persistence root. */

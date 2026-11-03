@@ -44,13 +44,24 @@ export class AdaptiveRenderer {
   /** @param {object} world active render world */
   draw(world) {
     if (this.mode !== 'worker') { this.fallback.draw(world); this.camera = this.fallback.camera; this.metrics = this.fallback.metrics; return; }
-    const snapshot = toRenderSnapshot(world, this.readViewport());
-    if (this.inFlight) { this.pendingSnapshot = snapshot; return; }
-    this.sendSnapshot(snapshot);
+    // Watchdog: if the worker stops answering, unstick inFlight so the
+    // canvas keeps receiving frames instead of freezing on the first one.
+    // A stuck worker otherwise leaves the player visibly frozen at spawn
+    // while the main-thread loop (and HUD timer) keeps running.
+    const now = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
+    if (this.inFlight) {
+      if (now - (this.lastSendAt || 0) > 2000) this.inFlight = false;
+      else { this.pendingSnapshot = toRenderSnapshot(world, this.readViewport()); return; }
+    }
+    this.sendSnapshot(toRenderSnapshot(world, this.readViewport()));
   }
 
   /** @param {object} snapshot structured render world */
-  sendSnapshot(snapshot) { this.inFlight = true; this.post('draw', { snapshot }); }
+  sendSnapshot(snapshot) {
+    this.inFlight = true;
+    this.lastSendAt = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
+    this.post('draw', { snapshot });
+  }
 
   /** @param {string} reason fallback reason */
   useFallback(reason) {

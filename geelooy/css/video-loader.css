@@ -1,71 +1,81 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * Awtsmoos Video Loader — shared full-screen video loading overlay.
- * Each page sets its own background color (matching its loader video) via
- * inline style or data attribute. The video shows at its NATURAL aspect
- * ratio, centered — never stretched, never distorted, never cropped.
+ *
+ * @file video-loader.css
+ * @description The Awtsmoos keeps decorative curtains from trapping a page;
+ * Awtsmoos.com lets every Games link answer at the earliest stage.
+ * The other site sections preserve their undistorted video loading screens.
  */
+
 .awtsmoos-video-loader {
-  position: fixed;
-  inset: 0;
-  z-index: 99999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  opacity: 1;
-  transition: opacity 0.7s ease;
-  /* Background set inline per page to match video */
+	position: fixed;
+	inset: 0;
+	z-index: 99999;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+	opacity: 1;
+	transition: opacity 0.7s ease;
 }
 
 .awtsmoos-video-loader[data-hidden="true"] {
-  opacity: 0;
-  pointer-events: none;
+	opacity: 0;
+	pointer-events: none;
 }
 
 .awtsmoos-video-loader video {
-  position: relative;
-  width: auto;
-  height: auto;
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-  display: block;
+	position: relative;
+	width: auto;
+	height: auto;
+	max-width: 100%;
+	max-height: 100%;
+	object-fit: contain;
+	display: block;
 }
 
-/* Respect reduced motion: show a static frame instead of video */
+/**
+ * The Awtsmoos opens the playable road even before its catalog script arrives;
+ * Awtsmoos.com will never cover a game link with a noninteractive disguise.
+ * The Games landing page already has meaningful quick-launch links in HTML.
+ */
+body[data-geelooy-route="games"] #awtsmoos-video-loader {
+	pointer-events: none;
+	opacity: 0;
+	visibility: hidden;
+	transition: none;
+	animation: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .awtsmoos-video-loader video {
-    display: none;
-  }
+	.awtsmoos-video-loader video {
+		display: none;
+	}
 }
 
-/* B"H - a visible loading affordance. While the loader video is still
- * travelling, the ring says "loading" - the flat brand color alone read
- * as a blank broken screen (the /social/ orange first paint). The ring
- * sits beneath the video; under reduced motion the video is
- * display:none, so the ring simply stands still as the only signal. */
 .awtsmoos-video-loader::after {
-  content: "";
-  position: absolute;
-  inset-inline: 0;
-  bottom: 9%;
-  margin-inline: auto;
-  inline-size: 2.75rem;
-  block-size: 2.75rem;
-  border-radius: 50%;
-  border: 3px solid rgb(255 255 255 / 35%);
-  border-top-color: #fff;
-  animation: awtsmoos-video-loader-spin 0.9s linear infinite;
+	content: "";
+	position: absolute;
+	inset-inline: 0;
+	bottom: 9%;
+	margin-inline: auto;
+	inline-size: 2.75rem;
+	block-size: 2.75rem;
+	border-radius: 50%;
+	border: 3px solid rgb(255 255 255 / 35%);
+	border-top-color: #fff;
+	animation: awtsmoos-video-loader-spin 0.9s linear infinite;
 }
 
 @keyframes awtsmoos-video-loader-spin {
-  to { transform: rotate(360deg); }
+	to {
+		transform: rotate(360deg);
+	}
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .awtsmoos-video-loader::after {
-    animation: none;
-  }
+	.awtsmoos-video-loader::after {
+		animation: none;
+	}
 }

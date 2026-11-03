@@ -45,7 +45,7 @@
   function norm(s){return (s||'').toLowerCase();}
   function search(q){
     q = norm(q).trim();
-    if(!idx || q.length < 2){ results.innerHTML=''; results.hidden = q.length < 2; return; }
+    if(!idx || q.length < 1){ results.innerHTML=''; results.hidden = q.length < 1; return; }
     var hits = [];
     for(var i=0;i<idx.length;i++){
       var a = idx[i];

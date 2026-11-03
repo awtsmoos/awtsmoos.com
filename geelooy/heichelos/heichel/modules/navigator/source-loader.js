@@ -5,39 +5,27 @@
 /**
  * @module NavigatorSourceLoader
  * @description
- * The Awtsmoos lets persisted Torah, native Chitas, source-backed leaves, and
- * language tools share one truthful navigation breath. Persisted identity and
- * collections now travel concurrently instead of forming a serial waterfall.
+ * The Awtsmoos lets persisted Torah, native Chitas, source-backed leaves, and language tools share one truthful navigation breath;
+ * Awtsmoos.com keeps public presentation clean while storage identity and parallel loading remain untouched beneath the tree.
  */
 
 import { appState } from '../state.js';
 import * as api from '../api.js';
 import { isChitasSeries } from '../chitas/constants.js?v=native-chitas-003';
-import {
-	injectChitasGrouping,
-	loadChitasVirtualSeries
-} from '../chitas/virtual-series.js?v=native-chitas-003';
+import { injectChitasGrouping, loadChitasVirtualSeries } from '../chitas/virtual-series.js?v=native-chitas-003';
 import { annotateTranslationState } from '../living-path/translation-context.js';
 import { annotateTorahHostSummaries } from '../torahHostSummary.js?v=torah-tree-006';
 import { isTorahLibrarySeries } from '../torahLibraryIds.js?v=torah-tree-006';
 import { injectTorahSourceBranches } from '../torahSourceInjection.js?v=torah-tree-006';
 import { loadTorahLibraryVirtualSeries } from '../torahLibraryVirtualSeries.js?v=torah-tree-006';
-import {
-	injectTranslationHub,
-	isTranslationHubSeries
-} from '../translationHubIds.js?v=language-tools-003';
+import { publicTorahSeriesItems } from '../torahSeriesPresentationPolicy.js?v=torah-series-policy-001';
+import { injectTranslationHub, isTranslationHubSeries } from '../translationHubIds.js?v=language-tools-003';
 import { translationHubCard } from '../translationHubPresentation.js?v=language-tools-003';
 import { loadTranslationHubVirtualSeries } from '../translationHubVirtualSeries.js?v=language-tools-003';
 import { normalizeCollection } from './content-normalizer.js';
 import { loadOptionalTranslations } from './translation-loader.js?v=heichel-mobile-011';
 
-/**
- * Loads the exact source vessel for a persisted or virtual series identity.
- * Persisted identity and collections begin together because neither depends on
- * the other's result; this removes one full network round from cold navigation.
- * @param {string} seriesId Stable series or virtual Torah identity.
- * @returns {Promise<object>} Breadcrumb, series data, and normalized content.
- */
+/** Loads the exact source vessel for a persisted or virtual series identity. */
 export async function loadSource(seriesId) {
 	if (isChitasSeries(seriesId)) return loadChitasVirtualSeries();
 	if (isTorahLibrarySeries(seriesId)) return loadTorahLibraryVirtualSeries(seriesId);
@@ -46,35 +34,22 @@ export async function loadSource(seriesId) {
 		loadIdentity(seriesId),
 		loadCollections(seriesId)
 	]);
-	return {
-		breadcrumb: identity.breadcrumb,
-		seriesData: identity.seriesData,
-		content
-	};
+	return { breadcrumb: identity.breadcrumb, seriesData: identity.seriesData, content };
 }
 
-/** Loads breadcrumb and series metadata concurrently. */
 async function loadIdentity(seriesId) {
 	const [breadcrumb, seriesData] = await Promise.all([
 		api.getBreadcrumb(appState.heichelId, seriesId),
 		api.getSeriesDetails(appState.heichelId, seriesId)
 	]);
-	if (!seriesData) {
-		throw new Error(`The series “${seriesId}” is unavailable.`);
-	}
+	if (!seriesData) throw new Error(`The series “${seriesId}” is unavailable.`);
 	return { breadcrumb, seriesData };
 }
 
 function augmentSubSeries(series, seriesId) {
-	const truthfulHosts = annotateTorahHostSummaries(
-		series,
-		appState.heichelId
-	);
-	const sourceIntegrated = injectTorahSourceBranches(
-		truthfulHosts,
-		appState.heichelId,
-		seriesId
-	);
+	const publicSeries = publicTorahSeriesItems(series, seriesId);
+	const truthfulHosts = annotateTorahHostSummaries(publicSeries, appState.heichelId);
+	const sourceIntegrated = injectTorahSourceBranches(truthfulHosts, appState.heichelId, seriesId);
 	return injectTranslationHub(
 		sourceIntegrated,
 		appState.heichelId,
@@ -83,7 +58,7 @@ function augmentSubSeries(series, seriesId) {
 	);
 }
 
-/** Loads the independent persisted collections in one bounded parallel wave. */
+/** Loads independent persisted collections in one bounded parallel wave. */
 async function loadCollections(seriesId) {
 	const [postsRaw, subSeriesRaw, groupingsRaw, translations] = await Promise.all([
 		api.getPostDetails(appState.heichelId, seriesId),
@@ -91,14 +66,8 @@ async function loadCollections(seriesId) {
 		api.getAlternateGroupDetails(appState.heichelId, seriesId),
 		loadOptionalTranslations(appState.heichelId, seriesId)
 	]);
-	const posts = annotateTranslationState(
-		normalizeCollection(postsRaw),
-		translations
-	);
-	const subSeries = augmentSubSeries(
-		normalizeCollection(subSeriesRaw),
-		seriesId
-	);
+	const posts = annotateTranslationState(normalizeCollection(postsRaw), translations);
+	const subSeries = augmentSubSeries(normalizeCollection(subSeriesRaw), seriesId);
 	const groupings = injectChitasGrouping(
 		normalizeCollection(groupingsRaw),
 		appState.heichelId,

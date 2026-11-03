@@ -5,7 +5,7 @@ Biezrash Hashem
 */
 import { OPCODES, PREFIXES, makeModRM, MOD } from '../opcodes.js';
 import { parseOperand } from './operands.js';
-import { emitMemBytes } from './utils.js';
+import { emitMemBytes, immToUint32 } from './utils.js';
 
 export function emitMath(code, mnemonic, args, dataSymbols) {
     const op1 = parseOperand(args[0], dataSymbols);
@@ -49,7 +49,7 @@ export function emitMath(code, mnemonic, args, dataSymbols) {
         if (op1.type === 'reg' && op2.type === 'imm') {
             const rex = PREFIXES.REX_W | (op1.val >= 8 ? PREFIXES.REX_B : 0);
             const modRM = makeModRM(MOD.DIRECT, digit, op1.val & 7);
-            code.addBytes([rex, 0xC1, modRM, op2.val & 0xFF]);
+            code.addBytes([rex, 0xC1, modRM, immToUint32(op2.val) & 0xFF]);
         } else {
             throw new Error(`${mnemonic} only supports Reg, Imm`);
         }
@@ -109,10 +109,10 @@ export function emitMath(code, mnemonic, args, dataSymbols) {
              
              // Check if imm8 fits (6B)
              if (op2.val >= -128 && op2.val <= 127) {
-                 code.addBytes([rex, 0x6B, modRM, op2.val & 0xFF]);
+                 code.addBytes([rex, 0x6B, modRM, immToUint32(op2.val) & 0xFF]);
              } else {
                  code.addBytes([rex, 0x69, modRM]);
-                 code.add32(op2.val);
+                 code.add32(immToUint32(op2.val));
              }
         }
         // IMUL Reg, Mem
@@ -160,7 +160,7 @@ export function emitMath(code, mnemonic, args, dataSymbols) {
             const modRM = makeModRM(MOD.DIRECT, 0, op1.val & 7);
             if (rex) code.addBytes([rex]);
             code.addBytes([OPCODES.TEST_RM64_IMM32, modRM]);
-            code.add32(op2.val);
+            code.add32(immToUint32(op2.val));
         }
         else {
             throw new Error("TEST only supports Reg, Reg or Reg, Imm");
@@ -190,10 +190,10 @@ export function emitMath(code, mnemonic, args, dataSymbols) {
         const rex = PREFIXES.REX_W | (op1.val >= 8 ? PREFIXES.REX_B : 0);
         const modRM = makeModRM(MOD.DIRECT, digit, op1.val & 7);
         if (op2.val >= -128 && op2.val <= 127) {
-            code.addBytes([rex, 0x83, modRM, op2.val & 0xFF]);
+            code.addBytes([rex, 0x83, modRM, immToUint32(op2.val) & 0xFF]);
         } else {
             code.addBytes([rex, 0x81, modRM]);
-            code.add32(op2.val);
+            code.add32(immToUint32(op2.val));
         }
     } 
     // 3. Reg, Mem (DST=Reg, SRC=Mem) -> Use R_RM opcode

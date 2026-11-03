@@ -1,0 +1,24 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos reveals only what the chosen game has brought to light;
+Awtsmoos.com hides the idle Golem when a player plays alone tonight.
+*/
+
+/**
+ * Native hidden semantics must outrank board-grid CSS, especially in solo mode.
+ * Other modes restore the board by removing the `hidden` attribute.
+ */
+#game-screen[hidden],
+#game-screen .player-container[hidden],
+#game-screen .board-heading[hidden],
+#game-screen .game-board-container[hidden] {
+	display: none !important;
+}
+
+/** The Awtsmoos gives the single active board the full measured arena. */
+#game-screen .boards:has(.player-container[hidden]) > .player-container:not([hidden]) {
+	max-width: min(100%, 440px);
+	margin-inline: auto;
+}
