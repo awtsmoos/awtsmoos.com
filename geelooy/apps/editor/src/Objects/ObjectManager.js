@@ -30,6 +30,7 @@ export class ObjectManager {
         this.eventEmitter.on('ungroupSelectedRequest', this.ungroupSelectedObjectFromParent.bind(this));
         this.eventEmitter.on('toggleMultipleSelection', this.handleToggleMultipleSelection.bind(this));
         this.eventEmitter.on('objectClicked', this.handleObjectClicked.bind(this));
+        this.eventEmitter.on('objectRenameRequest', this.handleRenameRequest.bind(this));
         this.eventEmitter.on('canvasClicked', this.handleCanvasClicked.bind(this));
         this.eventEmitter.on('focusSelectedRequest', this.focusSelected.bind(this));
 
@@ -242,18 +243,27 @@ export class ObjectManager {
 
     handleToggleMultipleSelection(enabled) { this.multipleSelectionEnabled = enabled; }
     
-    /** Handles clicks detected on objects in the viewport or tree. */
-    handleObjectClicked({ object: objectToSelect, shiftKey }) {
+    /**
+     * Handles clicks detected on objects in the viewport or tree.
+     * Accepts the historical `{ object, shiftKey }` payload, a bare scene object
+     * (older emitters), and `{ selectOnly: true }` requests — hierarchy clicks are
+     * select-only: they always land on an exclusive selection and never toggle an
+     * already-selected object back off.
+     */
+    handleObjectClicked(payload) {
+        const objectToSelect = payload?.object
+            ?? (payload && typeof payload === 'object' && 'uuid' in payload ? payload : null);
+        const shiftKey = Boolean(payload?.shiftKey);
+        const selectOnly = Boolean(payload?.selectOnly);
         if (!objectToSelect || !this.objects.has(objectToSelect.uuid) || !objectToSelect.userData?.isSelectable) {
-            if (!shiftKey && !this.multipleSelectionEnabled) this.clearSelection();
+            if (!shiftKey && !selectOnly && !this.multipleSelectionEnabled) this.clearSelection();
             return;
         }
 
         const uuid = objectToSelect.uuid;
-        const objRef = this.objects.get(uuid);
         const isSelected = this.selectedObjectUUIDs.has(uuid);
-        
-        const isMultiSelect = shiftKey || this.multipleSelectionEnabled;
+
+        const isMultiSelect = !selectOnly && (shiftKey || this.multipleSelectionEnabled);
 
         if (isMultiSelect) {
             if (isSelected) {
@@ -265,6 +275,39 @@ export class ObjectManager {
             // Exclusive selection
             this.selectObject(uuid, true);
         }
+    }
+
+    /** Handles a rename request emitted by the hierarchy (or any other surface). */
+    handleRenameRequest({ uuid, name } = {}) {
+        this.renameObject(uuid, name);
+    }
+
+    /**
+     * Rename one scene object. The name is trimmed, must be non-empty, and is made
+     * unique against the other scene objects (the historical unique-name rule), so
+     * name-based lookups and GLB track naming stay unambiguous; future GLB exports
+     * read the object's current name, so a rename is safe for them.
+     * @param {string} uuid Object UUID.
+     * @param {string} requestedName Desired new name.
+     * @returns {object|null} The renamed object, or null when the request was rejected.
+     */
+    renameObject(uuid, requestedName) {
+        const object = this.objects.get(uuid);
+        const trimmedName = String(requestedName ?? '').trim();
+        if (!object || !trimmedName) return null;
+        if (object.name === trimmedName) return object;
+
+        let finalName = trimmedName;
+        const clash = this.getObjectByName(trimmedName);
+        if (clash && clash !== object) {
+            finalName = Utils.generateUniqueName(trimmedName, (name) => this.getObjectByName(name));
+        }
+
+        const previousName = object.name;
+        object.name = finalName;
+        this.eventEmitter.emit('objectRenamed', { object, name: finalName, previousName });
+        this.eventEmitter.emit('sceneGraphChanged');
+        return object;
     }
 
     /** Handles clicks on the canvas background. */

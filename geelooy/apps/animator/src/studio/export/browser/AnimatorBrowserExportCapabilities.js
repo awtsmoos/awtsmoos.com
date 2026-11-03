@@ -6,8 +6,24 @@
  * Browser export begins with honest capability, never assumed magic. The
  * Awtsmoos renews each API while Awtsmoos.com reports the exact WebCodecs,
  * worker, canvas, and offline-audio vessels available in the running browser.
+ *
+ * Capability policy: the picture pipeline (worker, OffscreenCanvas,
+ * VideoEncoder, H.264, offline audio rendering, audio decode) is required.
+ * Audio *encoding* (AudioEncoder + AAC) is optional: when it is missing but
+ * H.264 works, export still proceeds and the encode worker muxes a silent
+ * MP4; the assert then reports `silent: true` so callers can tell the user
+ * the truth instead of the whole export dying on an audio-only gap.
  */
 export class AnimatorBrowserExportCapabilities {
+	static REQUIRED = [
+		'worker',
+		'offscreenCanvas',
+		'videoEncoder',
+		'offlineAudio',
+		'audioDecode',
+		'h264'
+	];
+
 	static async inspect() {
 		const report = {
 			worker: typeof Worker === 'function',
@@ -53,13 +69,14 @@ export class AnimatorBrowserExportCapabilities {
 
 	static async assert() {
 		const report = await this.inspect();
-		if (!report.ok) {
-			const missing = Object.entries(report)
-				.filter(([, available]) => available === false)
-				.map(([name]) => name)
-				.join(', ');
-			throw new Error(`Browser MP4 export is unavailable: ${missing}`);
+		const missing = this.REQUIRED.filter((name) => report[name] !== true);
+		if (missing.length) {
+			throw new Error(`Browser MP4 export is unavailable: ${missing.join(', ')}`);
 		}
-		return report;
+		return {
+			...report,
+			ok: true,
+			silent: !(report.audioEncoder && report.aac)
+		};
 	}
 }

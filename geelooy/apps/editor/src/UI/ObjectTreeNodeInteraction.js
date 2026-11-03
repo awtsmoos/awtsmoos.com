@@ -3,7 +3,8 @@
 // Blessed is He
 /**
  * The Awtsmoos lets hierarchy interaction flow through one small covenant while rendering remains pure and scene policy remains elsewhere.
- * Awtsmoos.com keeps selection, keyboard activation, and disclosure mutation in a focused vessel whose every side effect is named and visible.
+ * Awtsmoos.com keeps selection, keyboard activation, disclosure mutation, and inline renaming in a focused vessel whose every side effect is named and visible.
+ * Hierarchy selection is select-only: a tree click names its object plainly and never borrows the viewport's toggle semantics.
  */
 import { HTML } from "../Core/HTML.js";
 import { revealEtzNode, toggleEtzCollapsed } from "./ObjectTreeSemantics.js";
@@ -21,11 +22,18 @@ export class YesodObjectTreeNodeInteraction {
 	}
 
 	/**
-	 * Emit the historical object-selection request without coupling hierarchy interaction to ObjectManager.
+	 * Emit a select-only selection request: the payload names the object in the
+	 * shared `{ object, shiftKey }` shape and marks the click as hierarchy-born,
+	 * so ObjectManager selects it exclusively instead of toggling or clearing.
 	 * @param {object} kliObject Scene object selected through pointer or keyboard revelation.
 	 */
 	revealSelection(kliObject) {
-		this.ohrEmitter.emit("objectClicked", kliObject);
+		this.ohrEmitter.emit("objectClicked", {
+			object: kliObject,
+			shiftKey: false,
+			selectOnly: true,
+			origin: "tree"
+		});
 	}
 
 	/**
@@ -37,6 +45,69 @@ export class YesodObjectTreeNodeInteraction {
 		if (ohrKey.key !== "Enter" && ohrKey.key !== " ") return;
 		ohrKey.preventDefault();
 		this.revealSelection(kliObject);
+	}
+
+	/**
+	 * Begin inline renaming: the row's name span becomes a text input holding the
+	 * current name. Enter or blur commits, Escape cancels and restores the label.
+	 * @param {HTMLElement} kliRow The tree row element (`.tree-item-header`).
+	 * @param {object} kliObject Scene object represented by the row.
+	 */
+	beginRename(kliRow, kliObject) {
+		const kliName = kliRow?.querySelector?.(".item-name");
+		if (!kliName || kliName.querySelector("input")) return;
+		const shemCurrent = kliObject.name || "";
+		const kliInput = HTML.create({
+			tag: "input",
+			class: "item-name-editor",
+			attrs: { type: "text", "aria-label": `Rename ${shemCurrent}` }
+		});
+		kliInput.value = shemCurrent;
+		HTML.clear(kliName);
+		HTML.add(kliName, kliInput);
+		kliInput.focus();
+		kliInput.select();
+		let nivraSettled = false;
+		const shaliachCommit = () => {
+			if (nivraSettled) return;
+			nivraSettled = true;
+			this.commitRename(kliObject, kliInput.value, shemCurrent);
+		};
+		const shaliachCancel = () => {
+			if (nivraSettled) return;
+			nivraSettled = true;
+			kliName.textContent = shemCurrent;
+		};
+		kliInput.addEventListener("keydown", ohrKey => {
+			ohrKey.stopPropagation();
+			if (ohrKey.key === "Enter") {
+				ohrKey.preventDefault();
+				shaliachCommit();
+			} else if (ohrKey.key === "Escape") {
+				ohrKey.preventDefault();
+				shaliachCancel();
+			}
+		});
+		kliInput.addEventListener("click", ohrClick => ohrClick.stopPropagation());
+		kliInput.addEventListener("dblclick", ohrClick => ohrClick.stopPropagation());
+		kliInput.addEventListener("blur", shaliachCommit);
+	}
+
+	/**
+	 * Commit an inline rename through the shared rename request event; ObjectManager
+	 * owns trimming, emptiness, and uniqueness. An unchanged or empty name simply
+	 * rebuilds the tree so the original label returns.
+	 * @param {object} kliObject Scene object being renamed.
+	 * @param {string} shemRequested Name typed into the editor input.
+	 * @param {string} shemCurrent Name before editing began.
+	 */
+	commitRename(kliObject, shemRequested, shemCurrent) {
+		const shemTrimmed = String(shemRequested ?? "").trim();
+		if (!shemTrimmed || shemTrimmed === shemCurrent) {
+			this.ohrEmitter.emit("sceneGraphChanged");
+			return;
+		}
+		this.ohrEmitter.emit("objectRenameRequest", { uuid: kliObject.uuid, name: shemTrimmed });
 	}
 
 	/**

@@ -63,6 +63,7 @@ export class SodObjectTreeNodeView {
 			],
 			on: {
 				click: () => this.yesodInteraction.revealSelection(ohrNode.kliObject),
+				dblclick: ohrEvent => this.yesodInteraction.beginRename(ohrEvent.currentTarget, ohrNode.kliObject),
 				keydown: ohrKey => this.yesodInteraction.receiveSelectionKey(ohrKey, ohrNode.kliObject)
 			}
 		});

@@ -72,6 +72,11 @@ export class PropertiesPanel extends BasePanel {
 			const kelimFields = ohrGroup.fields.map(ohrField => this.createField(ohrField));
 			HTML.add(this.contentElement, this.tiferesFieldView.createGroup(ohrGroup.title, kelimFields));
 		}
+		// Fields are built with descriptor-time values; sync once against the live
+		// object so a first selection never shows blanks or stale numbers (the
+		// synchronizer itself still guards focused inputs and empty values).
+		this.malchusSync.sync(this.currentObject);
+		this.syncKeyframeButtons();
 		this.contentElement.scrollTop = reshimuScroll;
 	}
 

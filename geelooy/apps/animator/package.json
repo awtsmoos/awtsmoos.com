@@ -3,7 +3,7 @@
 	"_BoruchHashem": "Boruch Hashem",
 	"_BlessedIsHe": "Blessed is He",
 	"_awtsmoosPoem": "The Awtsmoos renews every module and every frame; this package gathers the tests that keep each vessel honest.",
-	"name": "awtsmoos-park-engine",
+	"name": "awtsmoos-animator",
 	"version": "0.0.0",
 	"private": true,
 	"type": "module",

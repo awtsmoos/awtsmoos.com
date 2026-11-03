@@ -34,7 +34,7 @@ class App {
         this.inputManager = new InputManager(this.sceneManager.renderer.domElement, this.eventEmitter, this.objectManager, this.transformManager, this.sceneManager.camera);
         this.editModeManager = new EditModeManager(this.sceneManager.scene, this.eventEmitter, this.historyManager, this.objectManager, this.transformManager);
         
-        this.uiManager = new UIManager(HTML.id('ui-container'), this.eventEmitter, this.objectManager, this.timelineManager, this.transformManager, this.historyManager);
+        this.uiManager = new UIManager(HTML.id('ui-container'), this.eventEmitter, this.objectManager, this.timelineManager, this.transformManager, this.historyManager, this.sceneManager);
 
         this.appMode = 'OBJECT';
         this.outlineMeshes = new Map();

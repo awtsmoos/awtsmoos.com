@@ -6,6 +6,7 @@
  * Awtsmoos.com preserves the historical UIManager API while revealing a smaller data-driven inner architecture.
  */
 import { HTML } from "../Core/HTML.js";
+import { MovieJsonPanel } from "./MovieJsonPanel.js";
 import { ObjectTreePanel } from "./ObjectTreePanel.js";
 import { PropertiesPanel } from "./PropertiesPanel.js";
 import { TimelinePanel } from "./TimelinePanel.js";
@@ -22,14 +23,16 @@ export class UIManager {
 	 * @param {object} netzachTimelineManager Existing animation/timeline service.
 	 * @param {object} gevurahTransformManager Existing transform service retained for compatibility.
 	 * @param {object} chochmahHistoryManager Existing undo/redo history service.
+	 * @param {object} [yesodSceneManager] Existing scene service used by the Movie JSON panel.
 	 */
-	constructor(kliContainer, ohrEmitter, olamObjectManager, netzachTimelineManager, gevurahTransformManager, chochmahHistoryManager) {
+	constructor(kliContainer, ohrEmitter, olamObjectManager, netzachTimelineManager, gevurahTransformManager, chochmahHistoryManager, yesodSceneManager = null) {
 		this.container = kliContainer;
 		this.eventEmitter = ohrEmitter;
 		this.objectManager = olamObjectManager;
 		this.timelineManager = netzachTimelineManager;
 		this.transformManager = gevurahTransformManager;
 		this.historyManager = chochmahHistoryManager;
+		this.sceneManager = yesodSceneManager;
 		this.kelim = {};
 		this.panels = this.kelim;
 		this.sodMobileCoordinator = null;
@@ -47,7 +50,8 @@ export class UIManager {
 	}
 
 	/**
-	 * Rebuild the generated toolbar and three advanced panels in the same order as the historical implementation.
+	 * Rebuild the generated toolbar and the advanced panels in the same order as the historical implementation,
+	 * with the Movie JSON panel revealed last so its boot-time scene restore lands on a complete panel graph.
 	 */
 	revealKelim() {
 		HTML.clear(this.container);
@@ -55,7 +59,8 @@ export class UIManager {
 		this.kelim.objectTree = new ObjectTreePanel(this.eventEmitter, this.objectManager);
 		this.kelim.properties = new PropertiesPanel(this.eventEmitter, this.objectManager, this.timelineManager, this.historyManager);
 		this.kelim.timeline = new TimelinePanel(this.eventEmitter, this.timelineManager);
-		for (const kliPanel of [this.kelim.toolbar, this.kelim.objectTree, this.kelim.properties, this.kelim.timeline]) {
+		this.kelim.movieJson = new MovieJsonPanel(this.eventEmitter, this.objectManager, this.timelineManager, this.sceneManager);
+		for (const kliPanel of [this.kelim.toolbar, this.kelim.objectTree, this.kelim.properties, this.kelim.timeline, this.kelim.movieJson]) {
 			HTML.add(this.container, kliPanel.getElement());
 		}
 	}
