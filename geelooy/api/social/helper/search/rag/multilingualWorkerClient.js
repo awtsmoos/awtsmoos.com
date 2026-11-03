@@ -19,6 +19,7 @@ const {
 	QUERY_TIMEOUT_MS,
 	READY_TIMEOUT_MS,
 	codedError,
+	readinessWaitMs,
 	waitForWorker
 } = require('./multilingualWorkerDeadline.js');
 
@@ -94,7 +95,8 @@ async function waitForReady(timeoutMs = READY_TIMEOUT_MS) {
 }
 
 async function requestVector(query, timeoutMs = QUERY_TIMEOUT_MS) {
-	await waitForReady();
+	const waitMs = readinessWaitMs(workerStatus().state);
+	if (waitMs > 0) await waitForReady(waitMs);
 	const id = String(++sequence);
 	return new Promise((resolve, reject) => {
 		const timer = setTimeout(() => {

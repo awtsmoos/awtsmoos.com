@@ -91,6 +91,21 @@ function resetRagStartupWarmup() {
 	bgeWarmup = null;
 }
 
+/**
+ * The one public truth about semantic readiness, shared by the capabilities
+ * snapshot and the readiness route so the two can never disagree again:
+ * ready means the e5 query worker itself reports ready in this process.
+ */
+function semanticReadiness() {
+	const semantic = workerStatus();
+	return {
+		ok: semantic.state === 'ready',
+		corpusWarmed: Boolean(startupState),
+		semantic,
+		bge: bgeWorkerStatus()
+	};
+}
+
 module.exports = {
 	CONFIGURATION_FILE,
 	REPOSITORY_ROOT,
@@ -99,6 +114,7 @@ module.exports = {
 	configuredRoot,
 	resetRagStartupWarmup,
 	rootFromInterface,
+	semanticReadiness,
 	warmRagCommentSource,
 	warmRagCorpus,
 	workerStatus

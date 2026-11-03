@@ -47,6 +47,8 @@ function verseHit(verse, rank) {
 			bookTitle: verse.bookTitle,
 			chapter: verse.chapter,
 			verse: verse.verse,
+			verseStart: verse.verse,
+			verseEnd: verse.verse,
 			readerUrl: verse.readerUrl,
 			sourceHref: verse.readerUrl,
 			sourceLabel: 'Tanach',

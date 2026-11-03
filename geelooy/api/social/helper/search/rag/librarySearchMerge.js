@@ -16,6 +16,7 @@ const {
 const {
 	allLibrariesShard,
 	laneTimings,
+	rankedMergeHits,
 	roundRobinHits
 } = require('./librarySearchMergeHelpers.js');
 const {
@@ -61,7 +62,7 @@ function mergeLaneSearches({ lanes, limit, query, settled, totalMs }) {
 		if (!areBoundedLaneFailures(settled)) throw firstLaneFailure(settled);
 		return emptyLaneSearchResult({ failures, lanes, query, totalMs });
 	}
-	const hits = roundRobinHits(
+	const hits = rankedMergeHits(
 		successes.map(result => result.hits),
 		limit
 	);

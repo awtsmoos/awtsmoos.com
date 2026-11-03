@@ -31,6 +31,10 @@ const {
 	laneSearchOptions,
 	settleLibraryLanes
 } = require('./librarySearchPlanner.js');
+const {
+	readLibraryResponse,
+	rememberLibraryResponse
+} = require('./libraryResponseCache.js');
 
 /** Gives unknown canonical-work discovery only time still owned by this request. */
 async function boundedCatalogHits(options, limit, timeoutMs = CANONICAL_CATALOG_WAIT_MS) {
@@ -63,6 +67,11 @@ async function librarySearch(options = {}) {
 	}
 	const lanes = await availableShards({ $i: options.$i });
 	if (!lanes.length) return ragSearch(options);
+	const cached = readLibraryResponse(options, lanes);
+	if (cached) {
+		if (cached.value.index) cached.value.index.responseCacheHit = true;
+		return cached.value;
+	}
 	const catalogWait = Math.min(
 		CANONICAL_CATALOG_WAIT_MS,
 		remainingLibraryMs(deadlineAt)
@@ -79,7 +88,9 @@ async function librarySearch(options = {}) {
 			settled,
 			totalMs: Date.now() - startedAt
 		});
-		return promoteNavigationHits(merged, workHits, limit);
+		const result = promoteNavigationHits(merged, workHits, limit);
+		rememberLibraryResponse(options, lanes, result);
+		return result;
 	} catch (error) {
 		if (!workHits.length) throw error;
 		return canonicalNavigationResult(options.query, workHits, startedAt, limit);

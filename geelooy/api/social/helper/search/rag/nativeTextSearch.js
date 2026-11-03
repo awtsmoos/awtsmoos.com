@@ -9,6 +9,10 @@
  * The Awtsmoos asks persisted Unicode token postings for a bounded candidate
  * constellation, then applies the existing Torah relevance law only to those
  * rows. No JSON mirror, corpus scan, or vector payload enters public results.
+ * Candidate generation unions only content-token postings: English function
+ * words ("the", "of", ...) have enormous posting lists and carry no topical
+ * evidence, so letting them seed the bounded `match: 'any'` union once let a
+ * lone stopword match crowd out real candidates and surface as junk.
  */
 
 const corpusReader = require('../../../../../../ayzarim/DosDB/aiSearch/vectorCorpus/reader.js');
@@ -17,7 +21,7 @@ const {
 } = require('../../../../../../ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/search/boundedQuery.js');
 const { publicHit } = require('./resultShape.js');
 const { openShardSession } = require('./shardStore.js');
-const { relevance } = require('./textRelevance.js');
+const { contentTokens, relevance } = require('./textRelevance.js');
 
 const UNAVAILABLE_CODES = new Set([
 	'AWTSMOOS_DB_SEARCH_INDEX_INVALID',
@@ -52,6 +56,21 @@ function rankedHits(session, rows, state) {
 }
 
 /**
+ * Builds the candidate-generation query from content tokens only. The full
+ * original query text is still used for relevance/phrase scoring; this string
+ * only decides which postings seed the bounded candidate union. Returns null
+ * when the query has tokens but none of them carry evidence (a function-word
+ * only query), meaning no posting should be opened at all.
+ */
+function candidateQueryText(state) {
+	const queryTokens = Array.isArray(state.queryTokens) ? state.queryTokens : [];
+	if (!queryTokens.length) return state.queryText;
+	const content = contentTokens(queryTokens);
+	if (!content.length) return null;
+	return content.join(' ');
+}
+
+/**
  * Searches one immutable physical shard through persisted native postings.
  * @returns {object|null} Null only when this generation has no native text index yet.
  */
@@ -59,10 +78,23 @@ function searchNativeTextPart(part, state) {
 	let session;
 	try {
 		session = openShardSession(part);
+		const candidateQuery = candidateQueryText(state);
+		if (candidateQuery === null) {
+			return {
+				hits: [],
+				totalRows: Number(part.count || session.list.length || 0),
+				scannedRows: 0,
+				invalidRows: 0,
+				scanComplete: true,
+				truncated: false,
+				source: 'awtsmoos-db-text-index',
+				seedPostingCount: 0
+			};
+		}
 		const result = runBoundedIndexed(
 			session.database.search,
 			session.list,
-			state.queryText,
+			candidateQuery,
 			{
 				match: 'any',
 				maxCandidates: state.candidateBudget,
@@ -86,6 +118,7 @@ function searchNativeTextPart(part, state) {
 }
 
 module.exports = {
+	candidateQueryText,
 	nativeUnavailable,
 	rankedHits,
 	searchNativeTextPart

@@ -15,7 +15,7 @@ const { EXACT_EXCLUSIONS } = require('../corpusSearchPolicy.js');
 const { ROOTS } = require('../exactHebrewShape.js');
 const { availableShards } = require('../rag/shards.js');
 const { publicShard } = require('../rag/resultShape.js');
-const { workerStatus } = require('../rag/ragStartupWarmup.js');
+const { semanticReadiness, workerStatus } = require('../rag/ragStartupWarmup.js');
 const { requestInterface } = require('./requestSnapshot.js');
 const { safe } = require('./safe.js');
 
@@ -39,6 +39,7 @@ function semanticSnapshot(shards) {
 	const stored = eligible.filter(shard => shard.storedVectors === true);
 	return {
 		worker: workerStatus(),
+		readiness: semanticReadiness(),
 		indexedLanes: indexed,
 		storedVectorLanes: stored,
 		indexedCount: indexed.length,

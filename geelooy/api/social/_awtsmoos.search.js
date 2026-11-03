@@ -78,11 +78,35 @@ function warmSearchRoutesSafely(context = {}) {
 	return searchReadiness;
 }
 
-/** Adds current semantic-worker state to the last explicit readiness result. */
+/**
+ * Reports readiness from the single semantic truth: an explicit corpus
+ * warmup result when one exists, otherwise the live worker state itself —
+ * so this route can never claim "not warmed" while the worker is ready
+ * (the split-brain the capabilities snapshot once showed).
+ */
 function currentSearchReadiness() {
 	try {
-		const { workerStatus } = require('./helper/search/rag/ragStartupWarmup.js');
-		return { ...searchReadiness, semantic: workerStatus() };
+		const { semanticReadiness } = require('./helper/search/rag/ragStartupWarmup.js');
+		const readiness = semanticReadiness();
+		if (searchReadiness.ok) {
+			return {
+				...searchReadiness,
+				semantic: readiness.semantic,
+				bge: readiness.bge,
+				corpusWarmed: readiness.corpusWarmed
+			};
+		}
+		if (readiness.ok) {
+			return {
+				ok: true,
+				code: 'SEARCH_READY',
+				message: 'Semantic search worker is warmed and ready.',
+				semantic: readiness.semantic,
+				bge: readiness.bge,
+				corpusWarmed: readiness.corpusWarmed
+			};
+		}
+		return { ...searchReadiness, semantic: readiness.semantic };
 	} catch {
 		return searchReadiness;
 	}

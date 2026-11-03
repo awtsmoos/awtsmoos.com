@@ -24,6 +24,11 @@ const {
 	lexicalLaneOrder,
 	settleLexicalEnrichment
 } = require('./libraryLexicalPlanner.js');
+const {
+	laneBlock,
+	recordLaneFailure,
+	recordLaneSuccess
+} = require('./laneCircuitBreaker.js');
 
 /** Gives text-only baseline lanes a cheaper scan without overriding explicit callers. */
 function laneSearchOptions(lane, options, timeoutMs) {
@@ -42,13 +47,31 @@ function laneSearchOptions(lane, options, timeoutMs) {
 	};
 }
 
-/** Searches one published lane beneath one explicit phase deadline. */
-function boundedLaneSearch(lane, options, timeoutMs) {
-	return withLaneDeadline(
-		() => ragSearch(laneSearchOptions(lane, options, timeoutMs)),
-		lane.id,
-		timeoutMs
-	);
+/**
+ * Searches one published lane beneath one explicit phase deadline. A lane
+ * whose circuit is open after recent deterministic failures is skipped and
+ * reported as a lane failure instead of re-paying spawn/timeout costs.
+ */
+async function boundedLaneSearch(lane, options, timeoutMs) {
+	const blocked = laneBlock(lane.id);
+	if (blocked) {
+		throw Object.assign(new Error(blocked.message), {
+			code: blocked.code,
+			laneId: lane.id
+		});
+	}
+	try {
+		const result = await withLaneDeadline(
+			() => ragSearch(laneSearchOptions(lane, options, timeoutMs)),
+			lane.id,
+			timeoutMs
+		);
+		recordLaneSuccess(lane.id);
+		return result;
+	} catch (error) {
+		recordLaneFailure(lane.id, error);
+		throw error;
+	}
 }
 
 /** Settles independent lanes concurrently while preserving their original ordering. */
