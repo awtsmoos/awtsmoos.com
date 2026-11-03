@@ -1,10 +1,10 @@
 {
-	"certified": true,
+	"certified": false,
 	"custody": {
 		"artifacts": {
 			"index.html": {
 				"bytes": 5718,
-				"sha256": "57cb1b2029e447a152e0e91a5ca2e2232df51254f3502a4bc3d6f3f38f32ed09"
+				"sha256": "ff0d5f6eafea9436728c9096b1184786ddc8516a436467d4344d37d07575e6e5"
 			},
 			"styles/generated/mitzvah-world.production.css": {
 				"bytes": 115241,
@@ -19,32 +19,32 @@
 				"sha256": "896a6c90a3c1a7b90ca58e5e2a61ba1e9f27658a6b525e15cb201458d6f34240"
 			},
 			"experiments/Awtsmoos/src/mitzvah-world-foundation.compact.js": {
-				"bytes": 1554509,
-				"sha256": "bd6e2156ac33e5a5d7c9ba80d506f953f277f2f24b972dd804e07cec3f4f416c"
+				"bytes": 1557034,
+				"sha256": "f1516cb14c0a3d5e6b8a816f896809ea86122a948d5c5405588615354bc1ae45"
 			},
 			"experiments/Awtsmoos/src/mitzvah-world-player.compact.js": {
-				"bytes": 214521,
-				"sha256": "48bdad0c3b4bf464426ad539042ff46acc40e48c8664406cc023bde7e97054c5"
+				"bytes": 214523,
+				"sha256": "2aea7167bebccc4e11103b81f36fdac5f6c978937147c27f9ce7c3abb8817721"
 			},
 			"experiments/Awtsmoos/src/mitzvah-world-core.compact.js": {
-				"bytes": 183032,
-				"sha256": "3628182ba2806f7210d3a074f50abe9b8d651311807dba420dee0f739523b16d"
+				"bytes": 183034,
+				"sha256": "ddf6ce9f412afbc7e155c623c846bd4014ec7de24a5723c6b8ad61ca0dcb0491"
 			},
 			"experiments/Awtsmoos/src/mitzvah-world-post-control.compact.js": {
-				"bytes": 2251736,
-				"sha256": "2c83174cb63b26e76a3c021f4154ac01a5896a4f105cc9e9587577e3ff72f746"
+				"bytes": 2252741,
+				"sha256": "ed19322044c8946ab2d0f70494605d0009c761d552f96d73391538985671b00e"
 			},
 			"experiments/Awtsmoos/src/mitzvah-world-presentation.compact.js": {
-				"bytes": 1685887,
-				"sha256": "118cefe4e7578e63854a8de1a8db41ca57e40f046342570729b5b5e0cfc8bda9"
+				"bytes": 1685889,
+				"sha256": "f140e173d9e712b037f2eb9a830257b3496576010f7c7da939a3131909fae715"
 			},
 			"experiments/Awtsmoos/src/mitzvah-world-world.compact.js": {
 				"bytes": 3712634,
-				"sha256": "b6848cf786f73ba3b9b8b63d640fe0ca26b135078bce82b4d6cd2e6fc73a468a"
+				"sha256": "a0bbcedd176717eda6258683ff6530e692786822124122ceef63dd06854ac76b"
 			},
 			"experiments/Awtsmoos/src/mitzvah-world-optional.compact.js": {
-				"bytes": 1441869,
-				"sha256": "2406ac96fceeeb399d1f49226b071f33e0daaef1bde8916520321ac938360c7c"
+				"bytes": 1441871,
+				"sha256": "06abe09b5c7a92fa5c119ebfd1b5d855015f2101093660a054d8ff7594c7d72d"
 			},
 			"build/generated/mitzvah-world-js.json": {
 				"bytes": 812,
@@ -52,31 +52,31 @@
 			},
 			"build/generated/mitzvah-world-foundation.json": {
 				"bytes": 801,
-				"sha256": "10a13ae6c777bd4f91ae6a140bc21d9376600f8961552f5ad7ba26a731e636e1"
+				"sha256": "9a0f04059d13540d6746c9d83f851c4dbd9e0eb5409ad2c8ce91abbaaf372dbd"
 			},
 			"build/generated/mitzvah-world-player.json": {
 				"bytes": 798,
-				"sha256": "b3cf21461640d889b6bd5eab702f6ba0ff02061f7b4ff4b4f106e16bf34b5a7a"
+				"sha256": "81169839dd3c88b8a822a1f2e429d1cd80ef41df9ea0f58b1b4bfa1a7da89e52"
 			},
 			"build/generated/mitzvah-world-core.json": {
 				"bytes": 802,
-				"sha256": "313a3fe74ae08d738f75b2d5130a5f94e3135e8429eefa90a836e4464f58a49e"
+				"sha256": "5dff6c643207d800a2b8c44b233eb86007f0e4ab96f07277caef61f5ff534a7a"
 			},
 			"build/generated/mitzvah-world-post-control.json": {
 				"bytes": 812,
-				"sha256": "32da815c50eb6cfc5d70c7997ba9c68fa00d13310b9876ac7275b7a0b53a4b28"
+				"sha256": "415eb26d2565dfb819bcecfaa652f70cf6f57116ba09a152eed68e5ba5f0d267"
 			},
 			"build/generated/mitzvah-world-presentation.json": {
 				"bytes": 814,
-				"sha256": "a8ed381e1257297d6ba6347473b090506f7111186daa1d83adbc39d849e33a3a"
+				"sha256": "f8e3d3ef15c2db9bef38f6da61d524cd6524b98ef92583e36104d19bc39895c1"
 			},
 			"build/generated/mitzvah-world-world.json": {
 				"bytes": 822,
-				"sha256": "13cfc6b6149a580618191d38e911d989b96ee270a7f6e47956cc5382830c44ce"
+				"sha256": "0b853bca51d1e75b4c7aeb11b1d2b43f8f38f510fa36abc724b91eb5545a9cdb"
 			},
 			"build/generated/mitzvah-world-optional.json": {
 				"bytes": 806,
-				"sha256": "2c5d1de31b44b7aec6e314237dff8d784f1b87ab2676e802d6e992ae2d1b2228"
+				"sha256": "88c461a6f25ea5acc84ac471d797a2edccf233814fd1c56f5ff609848a626d28"
 			},
 			"build/generated/mitzvah-world-essential-assets.json": {
 				"bytes": 1055,
@@ -95,32 +95,53 @@
 				"sha256": "632d94c4225546aa57db7b75b3f6819c4cc95343b4b7add5ada44688f8722942"
 			}
 		},
-		"certified": true,
-		"commit": "93548f59369b94561e9afd36b660b119ff8548fd",
-		"dirtyEntries": [],
-		"failureCode": null,
-		"graphSha256": "97547ed35fdba66744723643c0005e861b16e2e36423a6af5f25774987318a8e",
-		"releaseId": "97547ed35fdba66744723643c0005e861b16e2e36423a6af5f25774987318a8e",
+		"certified": false,
+		"commit": "06f9acdfa81ee2de8094ef3700117bd7a8647177",
+		"dirtyEntries": [
+			"M geelooy/games/mitzvahWorld/build/generated/mitzvah-world-core.json",
+			"M geelooy/games/mitzvahWorld/build/generated/mitzvah-world-foundation.json",
+			"M geelooy/games/mitzvahWorld/build/generated/mitzvah-world-optional.json",
+			"M geelooy/games/mitzvahWorld/build/generated/mitzvah-world-player.json",
+			"M geelooy/games/mitzvahWorld/build/generated/mitzvah-world-post-control.json",
+			"M geelooy/games/mitzvahWorld/build/generated/mitzvah-world-presentation.json",
+			"M geelooy/games/mitzvahWorld/build/generated/mitzvah-world-world-a.json",
+			"M geelooy/games/mitzvahWorld/build/generated/mitzvah-world-world.json",
+			"M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world-core.compact.js",
+			"M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world-foundation.compact.js",
+			"M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world-optional.compact.js",
+			"M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world-optional.compact.js.br",
+			"M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world-player.compact.js",
+			"M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world-post-control.compact.js",
+			"M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world-presentation.compact.js",
+			"M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world-presentation.compact.js.br",
+			"M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world-world-a.compact.js",
+			"M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world-world.compact.js",
+			"M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world-world.compact.js.br",
+			"M geelooy/games/mitzvahWorld/index.html"
+		],
+		"failureCode": "RELEASE_SOURCE_TREE_DIRTY",
+		"graphSha256": "a11a0b42ba17c50a1585ff00d46546532ec2db211b39624eece1724287e89294",
+		"releaseId": "a11a0b42ba17c50a1585ff00d46546532ec2db211b39624eece1724287e89294",
 		"version": 1
 	},
-	"failureCode": null,
+	"failureCode": "RELEASE_SOURCE_TREE_DIRTY",
 	"stages": [
 		{
-			"elapsedMilliseconds": 4186,
+			"elapsedMilliseconds": 2814,
 			"label": "css-build",
 			"status": "pass"
 		},
 		{
-			"elapsedMilliseconds": 451094,
+			"elapsedMilliseconds": 350838,
 			"label": "js-and-essential-assets-build",
 			"status": "pass"
 		},
 		{
-			"elapsedMilliseconds": 5429,
+			"elapsedMilliseconds": 4831,
 			"label": "release-unit-gates",
 			"status": "pass"
 		}
 	],
 	"version": 1,
-	"generatedAt": "2026-11-03T09:23:19.178Z"
+	"generatedAt": "2026-11-03T14:11:44.195Z"
 }
