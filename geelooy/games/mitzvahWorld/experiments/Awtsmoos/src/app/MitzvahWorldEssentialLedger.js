@@ -7,22 +7,26 @@
  * @description Owns five essential facts while one watchdog observes each fact's silence and the whole first-play horizon.
  * The Awtsmoos joins dependency to dependency without mistaking active revelation for delay;
  * Awtsmoos.com refreshes only the fact that truly progressed while every silent sibling keeps its own finite night.
+ * A silence timeout names missing evidence, never a broken vessel: the real proof may still arrive late.
  */
 
 import { readMitzvahWorldEssentialTime } from './MitzvahWorldEssentialClock.js';
-import { essentialDeadlineFailure, essentialDependencyFailure, timeoutDetails } from './MitzvahWorldEssentialDeadlinePolicy.js';
+import { ESSENTIAL_HARD_TIMEOUT_CODE, essentialDeadlineFailure, essentialDependencyFailure } from './MitzvahWorldEssentialDeadlinePolicy.js';
 import { ESSENTIAL_MILESTONE_CATALOG } from './MitzvahWorldEssentialMilestoneCatalog.js';
-import { presentMitzvahWorldEssentialFailure } from './MitzvahWorldEssentialFailurePresenter.js';
-import { applyEssentialDetails, createEssentialRecord, isEssentialTerminal } from './MitzvahWorldEssentialRecord.js';
+import { resolveEssentialWatchdogTimeout } from './MitzvahWorldEssentialFrameProof.js';
+import { dismissMitzvahWorldEssentialFailure, presentMitzvahWorldEssentialFailure } from './MitzvahWorldEssentialFailurePresenter.js';
+import { applyEssentialDetails, clearEssentialFailure, createEssentialRecord, isEssentialTerminal } from './MitzvahWorldEssentialRecord.js';
 import { createMitzvahWorldEssentialSnapshot } from './MitzvahWorldEssentialSnapshot.js';
-import { activateReadyEssentialRecords, firstActiveEssentialRecord, firstTimedOutEssentialRecord, touchEssentialRecord } from './MitzvahWorldEssentialTiming.js';
-import { MitzvahWorldEssentialWatchdog, essentialHardTimeoutReached } from './MitzvahWorldEssentialWatchdog.js';
+import { activateReadyEssentialRecords, touchEssentialRecord } from './MitzvahWorldEssentialTiming.js';
+import { MitzvahWorldEssentialWatchdog } from './MitzvahWorldEssentialWatchdog.js';
 
 export class MitzvahWorldEssentialLedger {
 	constructor(environment) {
 		this.environment = environment;
 		this.startedAtMilliseconds = readMitzvahWorldEssentialTime(environment);
 		this.records = new Map(ESSENTIAL_MILESTONE_CATALOG.map(item => [item.name, createEssentialRecord(item)]));
+		this.frameProver = null;
+		this.frameProofAttempted = false;
 		activateReadyEssentialRecords(this.records, this.startedAtMilliseconds);
 		this.watchdog = new MitzvahWorldEssentialWatchdog(environment, this.startedAtMilliseconds, () => this.timeout());
 		this.rearmWatchdog(this.startedAtMilliseconds);
@@ -42,20 +46,26 @@ export class MitzvahWorldEssentialLedger {
 
 	complete(name, details = {}) {
 		const record = this.requireRecord(name);
-		if (isEssentialTerminal(record.status)) return this.snapshot();
+		const reviving = record.status === 'timed-out' && record.failureCode !== ESSENTIAL_HARD_TIMEOUT_CODE;
+		if (isEssentialTerminal(record.status) && !reviving) return this.snapshot();
 		const missing = record.dependencies.find(dependency => this.records.get(dependency)?.status !== 'complete');
 		if (missing) return this.fail(name, essentialDependencyFailure(details, missing));
 		const now = readMitzvahWorldEssentialTime(this.environment);
-		const failure = essentialDeadlineFailure(record, now, this.startedAtMilliseconds, details);
-		if (failure) return this.fail(name, failure);
+		if (!reviving) {
+			const failure = essentialDeadlineFailure(record, now, this.startedAtMilliseconds, details);
+			if (failure) return this.fail(name, failure);
+		}
 		applyEssentialDetails(record, details);
 		record.lastProgressAtMilliseconds = now;
 		record.status = 'complete';
 		record.completedAtMilliseconds = now;
 		record.elapsedMilliseconds = now - record.startedAtMilliseconds;
+		if (reviving) clearEssentialFailure(record);
 		activateReadyEssentialRecords(this.records, now);
 		this.rearmWatchdog(now);
-		return this.publish();
+		const snapshot = this.publish();
+		if (reviving && !snapshot.stalledMilestone) dismissMitzvahWorldEssentialFailure(this.environment);
+		return snapshot;
 	}
 
 	fail(name, details = {}) {
@@ -79,15 +89,7 @@ export class MitzvahWorldEssentialLedger {
 	}
 
 	timeout() {
-		const now = readMitzvahWorldEssentialTime(this.environment);
-		const overdue = firstTimedOutEssentialRecord(this.records, now);
-		if (overdue) return this.fail(overdue.name, timeoutDetails(overdue, {}, overdue.timeoutFailureCode, now));
-		if (essentialHardTimeoutReached(now, this.startedAtMilliseconds)) {
-			const record = firstActiveEssentialRecord(this.records);
-			if (record) return this.fail(record.name, timeoutDetails(record, {}, 'ESSENTIAL_FIRST_PLAY_HARD_TIMEOUT', now));
-		}
-		this.rearmWatchdog(now);
-		return this.publish();
+		return resolveEssentialWatchdogTimeout(this, readMitzvahWorldEssentialTime(this.environment));
 	}
 
 	cancelWatchdog() {

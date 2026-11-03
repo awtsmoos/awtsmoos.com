@@ -11,6 +11,8 @@
 
 import {
 	CACHED_GL_METHODS,
+	commitGlStateDecision,
+	createGlStateDecision,
 	createGlStateModel,
 	decideGlStateCall
 } from './tiny-gl-state-model.js';
@@ -36,6 +38,7 @@ function captureOriginalMethods(gl) {
 
 function createCacheController(gl, originalMethods) {
 	const cache = {
+		decision: createGlStateDecision(),
 		state: createGlStateModel(),
 		stats: createStats(),
 		invalidate() {
@@ -64,6 +67,7 @@ function installCachedMethods(gl, cache, originalMethods) {
 			const methodStats = cache.stats.methods[methodName];
 			methodStats.calls += 1;
 			const decision = decideGlStateCall(
+				cache.decision,
 				methodName,
 				argumentsList,
 				cache.state,
@@ -74,7 +78,7 @@ function installCachedMethods(gl, cache, originalMethods) {
 				return undefined;
 			}
 			const result = originalMethod.apply(this, argumentsList);
-			decision.commit();
+			commitGlStateDecision(decision);
 			return result;
 		};
 	}

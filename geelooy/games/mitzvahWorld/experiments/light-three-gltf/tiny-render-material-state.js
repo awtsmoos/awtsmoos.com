@@ -7,6 +7,16 @@
  * @description Detects exact shader and surface-state continuity between adjacent draws, including living vegetation state.
  * The Awtsmoos renews every color, current, gust, and side without confusion; Awtsmoos.com compares
  * all visible per-draw truths so grass receives fresh motion while stable walls avoid redundant GPU uploads.
+ *
+ * The comparison vessels are two reusable snapshot objects owned by the state:
+ * each draw writes its truths into the candidate vessel and, only when an upload
+ * is truly owed, copies them into the stored vessel that `previous` names. No
+ * per-draw snapshot allocation reaches the garbage collector, while every field
+ * compared is exactly the field the historic allocating snapshot compared, so
+ * upload/skip decisions are identical by construction. `previous` is a living
+ * vessel (its contents advance on the next upload), never a frozen record.
+ * A vessel is born by writing the empty-mesh snapshot, so its shape and field
+ * order are the snapshot's own by construction.
  */
 
 import {
@@ -25,6 +35,8 @@ export class RenderMaterialState {
 		this.previous = null;
 		this.skips = 0;
 		this.uploads = 0;
+		this.candidate = createSnapshotVessel();
+		this.stored = createSnapshotVessel();
 	}
 
 	beginFrame(stats) {
@@ -34,13 +46,14 @@ export class RenderMaterialState {
 	}
 
 	needsUpload(mesh, buffers) {
-		const next = snapshot(mesh, buffers);
-		if (sameSnapshot(this.previous, next)) {
+		writeSnapshot(this.candidate, mesh, buffers);
+		if (this.previous && sameSnapshot(this.previous, this.candidate)) {
 			this.skips += 1;
 			this.frameStats.materialStateSkips += 1;
 			return false;
 		}
-		this.previous = next;
+		copySnapshot(this.stored, this.candidate);
+		this.previous = this.stored;
 		this.uploads += 1;
 		this.frameStats.materialStateUploads += 1;
 		return true;
@@ -48,38 +61,50 @@ export class RenderMaterialState {
 }
 
 export function renderMaterialSnapshot(mesh, buffers = {}) {
-	return snapshot(mesh, buffers);
+	const vessel = createSnapshotVessel();
+	writeSnapshot(vessel, mesh, buffers);
+	return vessel;
 }
 
-function snapshot(mesh, buffers) {
+function createSnapshotVessel() {
+	return writeSnapshot({}, {}, { mode: 4 });
+}
+
+function writeSnapshot(target, mesh, buffers) {
 	const material = mesh.material || {};
 	const color = material.color || [0.75, 0.70, 0.62, 1];
 	const grass = mesh.userData?.AwtsmoosYardGrass || {};
 	const mode = materialModeCode(mesh);
-	return {
-		alphaCutoff: material.alphaCutoff ?? 0.5,
-		alphaMode: alphaModeCode(material),
-		color0: color[0] ?? 0.75,
-		color1: color[1] ?? 0.70,
-		color2: color[2] ?? 0.62,
-		color3: material.opacity ?? color[3] ?? 1,
-		cullBackfaces: shouldCullBackfaces(mesh) ? 1 : 0,
-		emissive: material.emissiveStrength ?? 1.8,
-		grassDirectionX: grass.windDirectionX ?? 0.72,
-		grassDirectionZ: grass.windDirectionZ ?? 0.69,
-		grassFlutter: grass.windFlutter ?? 0,
-		grassGust: grass.windGust ?? 0.5,
-		grassReaction: grass.playerReaction ?? 0,
-		grassReactive: grass.reactsToPlayer ? 1 : 0,
-		grassRadius: grass.interactionRadius ?? 2.2,
-		grassWetness: grass.wetness ?? 0,
-		grassWind: grass.windStrength ?? (mode === 2 ? 0.055 : 0),
-		lit: isLitMode(buffers.mode) ? 1 : 0,
-		mode,
-		pointSize: pointSizeForMode(buffers.mode),
-		waterMode: waterModeCode(mesh),
-		windMode: mode === 2 ? 1 : 0
-	};
+	target.alphaCutoff = material.alphaCutoff ?? 0.5;
+	target.alphaMode = alphaModeCode(material);
+	target.color0 = color[0] ?? 0.75;
+	target.color1 = color[1] ?? 0.70;
+	target.color2 = color[2] ?? 0.62;
+	target.color3 = material.opacity ?? color[3] ?? 1;
+	target.cullBackfaces = shouldCullBackfaces(mesh) ? 1 : 0;
+	target.emissive = material.emissiveStrength ?? 1.8;
+	target.grassDirectionX = grass.windDirectionX ?? 0.72;
+	target.grassDirectionZ = grass.windDirectionZ ?? 0.69;
+	target.grassFlutter = grass.windFlutter ?? 0;
+	target.grassGust = grass.windGust ?? 0.5;
+	target.grassReaction = grass.playerReaction ?? 0;
+	target.grassReactive = grass.reactsToPlayer ? 1 : 0;
+	target.grassRadius = grass.interactionRadius ?? 2.2;
+	target.grassWetness = grass.wetness ?? 0;
+	target.grassWind = grass.windStrength ?? (mode === 2 ? 0.055 : 0);
+	target.lit = isLitMode(buffers.mode) ? 1 : 0;
+	target.mode = mode;
+	target.pointSize = pointSizeForMode(buffers.mode);
+	target.waterMode = waterModeCode(mesh);
+	target.windMode = mode === 2 ? 1 : 0;
+	return target;
+}
+
+function copySnapshot(target, source) {
+	for (const key of Object.keys(source)) {
+		target[key] = source[key];
+	}
+	return target;
 }
 
 function sameSnapshot(left, right) {
