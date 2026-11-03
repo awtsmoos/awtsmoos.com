@@ -44,6 +44,40 @@ export class StudioTransformDragController {
 		store.set('status', `${selection.layer.id} · ${tool} ${this.drag.axis.toUpperCase()} gizmo active.`);
 	}
 
+	/**
+	 * Begin a drag from the stage body itself (not a gizmo handle). With the
+	 * move tool active and a layer selected, dragging the canvas moves that
+	 * layer in x/y. Movement previews live in the store without touching
+	 * history; exactly one history entry is recorded when the drag ends, so
+	 * the committed JSON transform always matches what the hand did.
+	 */
+	beginBody(event, store) {
+		if (store.get('activeTool') !== 'move') return;
+		const selection = cloneStudioSelection(store.get('movie'), store.get('selectedSceneId'), store.get('selectedLayerId'));
+		if (!selection.layer) return;
+		event.preventDefault();
+		const windowKli = event.currentTarget.ownerDocument.defaultView;
+		this.drag = {
+			axis: 'xy',
+			body: true,
+			movie: selection.movie,
+			layerId: selection.layer.id,
+			sceneId: selection.scene?.id,
+			startX: event.clientX,
+			startY: event.clientY,
+			startTransform: { ...defaultTransform(), ...(selection.layer.transform || {}) },
+			store,
+			tool: 'move',
+			windowKli,
+			moved: false
+		};
+		this.moveListener = moveEvent => this.move(moveEvent);
+		this.endListener = () => this.end();
+		windowKli.addEventListener('pointermove', this.moveListener);
+		windowKli.addEventListener('pointerup', this.endListener, { once: true });
+		store.set('status', `${selection.layer.id} · move drag active.`);
+	}
+
 	move(event) {
 		if (!this.drag) return;
 		const deltaX = event.clientX - this.drag.startX;
@@ -51,6 +85,18 @@ export class StudioTransformDragController {
 		const selection = cloneStudioSelection(this.drag.movie, this.drag.sceneId, this.drag.layerId);
 		if (!selection.layer) return this.end();
 		selection.layer.transform = this.transformForDelta(deltaX, deltaY);
+		if (this.drag.body) {
+			this.drag.movie = selection.movie;
+			this.drag.moved = true;
+			const transform = selection.layer.transform;
+			this.drag.store.update(state => {
+				state.movie = selection.movie;
+				state.jsonDraft = JSON.stringify(selection.movie, null, 2);
+				state.status = `${selection.layer.id} · move x ${roundDragValue(transform.x)}, y ${roundDragValue(transform.y)}.`;
+			});
+			this.session.runtime.render(selection.movie, this.drag.store.get('playhead') || 0);
+			return;
+		}
 		commitStudioEditorMovie(this.session, this.drag.store, selection.movie, {
 			selectedLayerId: selection.layer.id,
 			status: `${selection.layer.id} · ${this.drag.tool} ${this.drag.axis.toUpperCase()}.`
@@ -60,6 +106,11 @@ export class StudioTransformDragController {
 	transformForDelta(deltaX, deltaY) {
 		const transform = { ...this.drag.startTransform };
 		const axis = this.drag.axis;
+		if (this.drag.tool === 'move' && axis === 'xy') {
+			transform.x = this.drag.startTransform.x + deltaX / 180;
+			transform.y = this.drag.startTransform.y - deltaY / 180;
+			return transform;
+		}
 		if (this.drag.tool === 'move') {
 			const delta = axis === 'x' ? deltaX / 180 : axis === 'y' ? -deltaY / 180 : (deltaX - deltaY) / 260;
 			transform[axis] = this.drag.startTransform[axis] + delta;
@@ -78,9 +129,23 @@ export class StudioTransformDragController {
 
 	end() {
 		if (!this.drag) return;
-		this.drag.windowKli.removeEventListener('pointermove', this.moveListener);
+		const drag = this.drag;
+		drag.windowKli.removeEventListener('pointermove', this.moveListener);
 		this.drag = null;
 		this.moveListener = null;
 		this.endListener = null;
+		if (drag.body && drag.moved) {
+			const selection = cloneStudioSelection(drag.movie, drag.sceneId, drag.layerId);
+			const transform = selection.layer?.transform || drag.startTransform;
+			commitStudioEditorMovie(this.session, drag.store, drag.movie, {
+				selectedLayerId: drag.layerId,
+				historyLabel: 'Object moved.',
+				status: `${drag.layerId} · moved to x ${roundDragValue(transform.x)}, y ${roundDragValue(transform.y)}.`
+			});
+		}
 	}
+}
+
+function roundDragValue(value) {
+	return Math.round(Number(value || 0) * 1000) / 1000;
 }

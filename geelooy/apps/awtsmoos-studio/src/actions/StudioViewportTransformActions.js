@@ -15,6 +15,9 @@ export function createStudioViewportTransformActions(session) {
 	return {
 		beginViewportTransformDrag({ event, store }) {
 			controller.begin(event, store);
+		},
+		beginViewportBodyDrag({ event, store }) {
+			controller.beginBody(event, store);
 		}
 	};
 }

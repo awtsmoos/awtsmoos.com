@@ -27,6 +27,30 @@ export function describeStudioSharedMovieCapabilities() {
 	return allMovieCapabilities();
 }
 
+/**
+ * Lift the title into Studio's top-level movie.title holder and mirror it back
+ * into canonical metadata.title. The shared factory keeps only metadata.title,
+ * while Studio state, the header, and project storage all read movie.title —
+ * without this lift a loaded movie's title never reaches the header. The lift
+ * is applied by the session when a movie enters the editor, NOT inside
+ * normalizeStudioSharedMovie: project storage round-trips must stay canonical.
+ */
+export function liftStudioMovieTitle(movie, document = movie) {
+	const title = firstStudioTitle(movie?.title, document?.title, document?.metadata?.title, movie?.metadata?.title);
+	if (!title) return movie;
+	movie.title = title;
+	movie.metadata = { ...(movie.metadata || {}), title };
+	return movie;
+}
+
+function firstStudioTitle(...candidates) {
+	for (const candidate of candidates) {
+		const title = String(candidate ?? '').trim();
+		if (title) return title;
+	}
+	return '';
+}
+
 function formatValidationIssue(issue) {
 	const path = issue?.path || 'movie';
 	const message = issue?.message || String(issue || 'invalid movie');

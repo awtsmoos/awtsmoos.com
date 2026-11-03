@@ -11,6 +11,7 @@ import { createStudioShowcaseMovie } from './StudioShowcaseMovie.js';
 import { describeStudioTemplates } from './projects/StudioTemplateCatalog.js';
 export function createStudioState() {
 	const movie = createStudioShowcaseMovie();
+	if (!movie.title && movie.metadata?.title) movie.title = movie.metadata.title;
 	const firstScene = movie.scenes[0] || null;
 	return {
 		workspace: 'Story', workspaceMode: 'scene', primaryIntent: null,

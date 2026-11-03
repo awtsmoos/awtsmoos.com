@@ -60,7 +60,7 @@ export function renameStudioScene(movie, sceneId, name) {
 export function resizeStudioScene(movie, sceneId, duration) {
 	const scene = movie.scenes.find(item => item.id === sceneId);
 	if (!scene) return null;
-	scene.duration = Math.max(0.1, Number(duration || scene.duration || 1));
+	scene.duration = roundStudioSeconds(Math.max(0.1, Number(duration || scene.duration || 1)));
 	clampStudioSceneLayers(scene);
 	reflowStudioMovieScenes(movie);
 	return scene.id;
@@ -69,13 +69,23 @@ export function resizeStudioScene(movie, sceneId, duration) {
 export function reflowStudioMovieScenes(movie) {
 	let cursor = 0;
 	for (const scene of movie.scenes || []) {
-		scene.start = cursor;
-		scene.duration = Math.max(0.1, Number(scene.duration || 1));
+		scene.duration = roundStudioSeconds(Math.max(0.1, Number(scene.duration || 1)));
+		scene.start = roundStudioSeconds(cursor);
 		clampStudioSceneLayers(scene);
-		cursor += scene.duration;
+		cursor = roundStudioSeconds(cursor + scene.duration);
 	}
-	movie.duration = Math.max(0.1, cursor);
+	movie.duration = Math.max(0.1, roundStudioSeconds(cursor));
 	return movie;
+}
+
+/**
+ * Round one time value to whole milliseconds. Durations are rounded first
+ * and every start and the movie duration are derived from those rounded
+ * values, so accumulation sums stay exact to the millisecond instead of
+ * serializing binary-float artifacts (for example 10.100000381469728).
+ */
+export function roundStudioSeconds(value) {
+	return Math.round(Number(value || 0) * 1000) / 1000;
 }
 
 function freshScene(source, movie, name, copyLayers) {

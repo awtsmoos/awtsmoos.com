@@ -12,7 +12,7 @@
 import { StudioLazyAiDirector } from '../loading/StudioLazyAiDirector.js';
 import { StudioAudioAssetStore } from '../media/StudioAudioAssetStore.js';
 import { StudioProjectController } from '../projects/StudioProjectController.js';
-import { normalizeStudioSharedMovie } from '../StudioSharedMovieContract.js';
+import { liftStudioMovieTitle, normalizeStudioSharedMovie } from '../StudioSharedMovieContract.js';
 import { StudioAudioRuntime } from './audio/StudioAudioRuntime.js';
 import { StudioCanvasRuntime } from './StudioCanvasRuntime.js';
 import { projectStudioLoadedMovie } from './StudioMovieSessionState.js';
@@ -33,14 +33,35 @@ export class StudioMovieSession {
 		this.project = new StudioProjectController(store.get('movie'));
 		this.director = new StudioLazyAiDirector();
 		this.unsubscribe = null;
+		this.restoredOnBoot = false;
 	}
 
 	mount() {
 		this.unsubscribe = this.store.subscribe(() => {
 			queueMicrotask(() => this.rebind());
 		});
-		this.rebind();
+		this.restoredOnBoot = this.restoreStoredMovie();
+		if (!this.restoredOnBoot) this.rebind();
 		return this;
+	}
+
+	/**
+	 * Restore the latest locally recovered movie instead of silently reseeding
+	 * the showcase. Recovery is written on every committed edit and load, so
+	 * its presence is the explicit signal that real work exists to restore;
+	 * with no recovery stored, the seeded showcase stays untouched.
+	 */
+	restoreStoredMovie() {
+		try {
+			if (!this.project.hasRecovery()) return false;
+			const movie = this.project.recover();
+			if (!movie?.scenes?.length) return false;
+			this.loadMovie(movie, 'Recovered your last Studio session — work in progress was restored.', { dirty: true });
+			return true;
+		} catch (error) {
+			this.store.set('status', `Saved recovery could not be restored: ${error.message}`);
+			return false;
+		}
 	}
 
 	rebind() {
@@ -80,6 +101,7 @@ export class StudioMovieSession {
 
 	loadMovie(movie, status, options = {}) {
 		this.playback.pause(false);
+		liftStudioMovieTitle(movie);
 		const loaded = this.project.reset(movie, { recover: options.recover !== false });
 		projectStudioLoadedMovie(this.store, loaded, this.project, status, options);
 		return loaded;

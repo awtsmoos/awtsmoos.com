@@ -33,7 +33,8 @@ export function createStudioViewportPanel() {
 				width: 640,
 				height: 360,
 				'data-studio-canvas': 'true',
-				'aria-label': 'Awtsmoos Studio movie overlay viewport'
+				'aria-label': 'Awtsmoos Studio movie overlay viewport',
+				$on: { pointerdown: 'beginViewportBodyDrag' }
 			}),
 			createStudioViewportHud(),
 			createStudioTransformGizmo(),

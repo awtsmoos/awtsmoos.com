@@ -53,10 +53,12 @@ export class AwtsmoosStudioApp {
 	publishCoreCapabilities() {
 		const capabilities = describeStudioCoreCapabilities();
 		this.store.set('capabilities', capabilities);
-		this.store.set(
-			'status',
-			'Core Studio ready · advanced editor, AI, federation, export, and Pro Tools load only when requested.'
-		);
+		if (!this.session.restoredOnBoot) {
+			this.store.set(
+				'status',
+				'Core Studio ready · advanced editor, AI, federation, export, and Pro Tools load only when requested.'
+			);
+		}
 		return capabilities;
 	}
 
