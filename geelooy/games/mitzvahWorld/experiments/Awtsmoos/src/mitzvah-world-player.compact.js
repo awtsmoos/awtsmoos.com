@@ -108,57 +108,61 @@ const __awtsmoosModule_44 = Object.create(null);
 
 const __awtsmoosModule_46 = Object.create(null);
 
+const __awtsmoosModule_47 = Object.create(null);
+
+const __awtsmoosModule_48 = Object.create(null);
+
 const __awtsmoosModule_45 = Object.create(null);
 
 const __awtsmoosModule_41 = Object.create(null);
 
-const __awtsmoosModule_47 = Object.create(null);
+const __awtsmoosModule_49 = Object.create(null);
 
 const __awtsmoosModule_33 = Object.create(null);
 
 const __awtsmoosModule_3 = Object.create(null);
 
-const __awtsmoosModule_49 = Object.create(null);
+const __awtsmoosModule_51 = Object.create(null);
 
-const __awtsmoosModule_48 = Object.create(null);
-
-const __awtsmoosModule_54 = Object.create(null);
-
-const __awtsmoosModule_53 = Object.create(null);
-
-const __awtsmoosModule_57 = Object.create(null);
+const __awtsmoosModule_50 = Object.create(null);
 
 const __awtsmoosModule_56 = Object.create(null);
 
 const __awtsmoosModule_55 = Object.create(null);
 
-const __awtsmoosModule_58 = Object.create(null);
-
 const __awtsmoosModule_59 = Object.create(null);
 
-const __awtsmoosModule_60 = Object.create(null);
+const __awtsmoosModule_58 = Object.create(null);
 
-const __awtsmoosModule_52 = Object.create(null);
+const __awtsmoosModule_57 = Object.create(null);
+
+const __awtsmoosModule_60 = Object.create(null);
 
 const __awtsmoosModule_61 = Object.create(null);
 
 const __awtsmoosModule_62 = Object.create(null);
 
-const __awtsmoosModule_51 = Object.create(null);
+const __awtsmoosModule_54 = Object.create(null);
 
 const __awtsmoosModule_63 = Object.create(null);
 
-const __awtsmoosModule_50 = Object.create(null);
+const __awtsmoosModule_64 = Object.create(null);
 
-const __awtsmoosModule_2 = Object.create(null);
+const __awtsmoosModule_53 = Object.create(null);
 
 const __awtsmoosModule_65 = Object.create(null);
 
+const __awtsmoosModule_52 = Object.create(null);
+
+const __awtsmoosModule_2 = Object.create(null);
+
 const __awtsmoosModule_67 = Object.create(null);
 
-const __awtsmoosModule_66 = Object.create(null);
+const __awtsmoosModule_69 = Object.create(null);
 
-const __awtsmoosModule_64 = Object.create(null);
+const __awtsmoosModule_68 = Object.create(null);
+
+const __awtsmoosModule_66 = Object.create(null);
 
 const __awtsmoosModule_0 = Object.create(null);
 
@@ -3475,92 +3479,146 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteModelResponseCache.js ----
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/CanonicalChossidFetchBridge.js ----
 {
-	const __exports = __awtsmoosModule_45;
+	const __exports = __awtsmoosModule_47;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
 
 	/**
-	 * @file RemoteModelResponseCache.js
-	 * @description Fetches verified GLBs with bounded retry while delegating optional browser persistence to a non-authoritative cache vessel.
-	 * The Awtsmoos gives the living form before its remembered vessel; Awtsmoos.com lets cache serve the download rather than judge it,
-	 * so privacy mode, quota pressure, or rejected Cache.put calls can never erase a successfully fetched Chossid.
+	 * @file CanonicalChossidFetchBridge.js
+	 * @description Shares one bounded canonical GLB download across independent entry and player bundles.
+	 * The Awtsmoos creates one traveler from one true source; each finite bundle may receive the same living bytes,
+	 * but no discarded second river is permitted to delay the first step.
 	 */
 
 	const openModelResponseCache = __awtsmoosModule_46.openModelResponseCache;
-	const persistModelResponse = __awtsmoosModule_46.persistModelResponse;
 	const readModelResponseCache = __awtsmoosModule_46.readModelResponseCache;
 
-	const REMOTE_MODEL_CACHE_NAME = 'awtsmoos-mitzvah-world-remote-models-v1';
+	const SHARED_KEY = Symbol.for('awtsmoos.mitzvahWorld.canonicalChossidWarmup.v1');
+	const CACHE_NAME = 'awtsmoos-mitzvah-world-remote-models-v1';
+	const MODEL_BYTES = 2027368;
+	const GLB_MAGIC = 0x46546c67;
+	const CACHE_WAIT_MS = 1200;
+	const FETCH_WAIT_MS = 30000;
 
-	__exports.REMOTE_MODEL_CACHE_NAME = REMOTE_MODEL_CACHE_NAME;
+	/** Starts one canonical warmup without blocking the renderer or player-chunk import. */
+	function startCanonicalChossidWarmup(url, dependencies = {}) {
+		const fetchFunction = dependencies.fetchFunction || globalThis.fetch;
+		if (typeof fetchFunction !== 'function' || !String(url).endsWith('/chossid.glb')) return null;
+		const current = globalThis[SHARED_KEY];
+		if (current?.url === url) return current.promise;
+		const entry = { url, promise: null };
+		const promise = loadCanonicalBytes(url, fetchFunction, dependencies);
+		entry.promise = promise;
+		globalThis[SHARED_KEY] = entry;
+		promise.catch(() => {
+			if (globalThis[SHARED_KEY] === entry) delete globalThis[SHARED_KEY];
+		});
+		return promise;
+	}
+
+
+	__exports.startCanonicalChossidWarmup = startCanonicalChossidWarmup;
+	/** Claims the prefetched bytes once; otherwise the original model cache retains authority. */
+	function takeCanonicalChossidWarmup(url) {
+		const entry = globalThis[SHARED_KEY];
+		if (!entry || entry.url !== url) return null;
+		delete globalThis[SHARED_KEY];
+		return entry.promise;
+	}
+
+
+	__exports.takeCanonicalChossidWarmup = takeCanonicalChossidWarmup;
+	/** Clears only this dedicated session bridge, for lifecycle/tests. */
+	function clearCanonicalChossidWarmup() {
+		delete globalThis[SHARED_KEY];
+	}
+
+
+	__exports.clearCanonicalChossidWarmup = clearCanonicalChossidWarmup;
+	async function loadCanonicalBytes(url, fetchFunction, dependencies) {
+		const cacheStorage = Object.hasOwn(dependencies, 'cacheStorage')
+			? dependencies.cacheStorage : globalThis.caches;
+		const cached = await Promise.race([
+			cachedBytes(cacheStorage, url),
+			new Promise(resolve => setTimeout(() => resolve(null), CACHE_WAIT_MS))
+		]);
+		if (cached) return cached;
+		const controller = new AbortController();
+		const timeout = setTimeout(() => controller.abort(), FETCH_WAIT_MS);
+		try {
+			const response = await fetchFunction(url, {
+				cache: 'no-store', credentials: 'omit', mode: 'cors', signal: controller.signal
+			});
+			return await verifiedGlbBytes(response);
+		} finally {
+			clearTimeout(timeout);
+		}
+	}
+
+	async function cachedBytes(storage, url) {
+		const cache = await openModelResponseCache(storage, CACHE_NAME);
+		const response = await readModelResponseCache(cache, url);
+		if (!response) return null;
+		try {
+			return await verifiedGlbBytes(response);
+		} catch {
+			return null;
+		}
+	}
+
+	async function verifiedGlbBytes(response) {
+		if (!response?.ok) throw new Error(`canonical-chossid-http:${response?.status}`);
+		const bytes = await response.arrayBuffer();
+		if (bytes.byteLength !== MODEL_BYTES || new DataView(bytes).getUint32(0, true) !== GLB_MAGIC
+			|| new DataView(bytes).getUint32(8, true) !== bytes.byteLength) {
+			throw new Error('canonical-chossid-invalid-glb');
+		}
+		return bytes;
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteModelFetchRetry.js ----
+{
+	const __exports = __awtsmoosModule_48;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file RemoteModelFetchRetry.js
+	 * @description Preserves the exact trusted remote-GLB fetch, retry, and abort policy outside model-cache orchestration.
+	 * The Awtsmoos sends a truthful byte by guarded roads; Awtsmoos.com retries a broken path without
+	 * permitting uncertain memory to overrule the living canonical source.
+	 */
+
 	const RETRYABLE_STATUS = new Set([429, 502, 503, 504]);
 
-	async function cachedModelResponse(url, options = {}) {
-		const fetchFunction = options.fetchFunction || globalThis.fetch;
-		if (typeof fetchFunction !== 'function') {
-			throw new Error('Remote model fetch is unavailable.');
-		}
-		const cacheStorage = Object.hasOwn(options, 'cacheStorage')
-			? options.cacheStorage
-			: globalThis.caches;
-		const cache = await openModelResponseCache(
-			cacheStorage,
-			options.cacheName || REMOTE_MODEL_CACHE_NAME
-		);
-		const reportCacheError = receipt => options.onCacheError?.(receipt);
-		const cached = await readModelResponseCache(cache, url, reportCacheError);
-		if (cached) return { response: cached, source: 'cache-storage' };
-		const response = await fetchWithRetry(url, fetchFunction, options);
-		if (response?.ok && isGlbResponse(response)) {
-			await persistModelResponse(cache, url, response, reportCacheError);
-		}
-		return { response, source: 'network' };
-	}
-
-
-	__exports.cachedModelResponse = cachedModelResponse;
-	function isGlbResponse(response) {
-		const type = response?.headers?.get?.('content-type')?.toLowerCase() || '';
-		return type === 'model/gltf-binary' || type === 'application/octet-stream';
-	}
-
-
-	__exports.isGlbResponse = isGlbResponse;
-	async function fetchWithRetry(url, fetchFunction, options) {
+	/** Performs original bounded transient retries without restoring the browser HTTP cache. */
+	async function fetchModelWithRetry(url, fetchFunction, options = {}) {
 		const retries = nonnegative(options.transientRetries, 2);
 		for (let attempt = 0; attempt <= retries; attempt += 1) {
 			assertNotAborted(options.signal);
-			const response = await fetchFunction(url, fetchOptions(options.signal));
-			if (!RETRYABLE_STATUS.has(response?.status) || attempt === retries) {
-				return response;
-			}
-			const delayMs = retryDelay(response, options, attempt);
-			options.onRetry?.({
-				attempt: attempt + 1,
-				delayMs,
-				status: response.status,
-				url
+			const response = await fetchFunction(url, {
+				cache: 'no-store',
+				credentials: 'omit',
+				mode: 'cors',
+				signal: options.signal
 			});
-			await waitForRetry(delayMs, options);
+			if (!RETRYABLE_STATUS.has(response?.status) || attempt === retries) return response;
+			const delayMs = retryDelay(response, options, attempt);
+			options.onRetry?.({ attempt: attempt + 1, delayMs, status: response.status, url });
+			await (options.waitFunction || defaultWait)(delayMs, options.signal);
 		}
 		throw new Error('Remote model retry loop ended unexpectedly.');
 	}
 
-	function fetchOptions(signal) {
-		return {
-			// B"H 2026-10-13: 'no-store' bypasses the HTTP cache entirely. The Cache
-			// Storage API (persistModelResponse) already handles model caching; the
-			// HTTP cache layer proved unreliable (hung on cache MISS in Chrome).
-			cache: 'no-store',
-			credentials: 'omit',
-			mode: 'cors',
-			signal
-		};
-	}
 
+	__exports.fetchModelWithRetry = fetchModelWithRetry;
+	/** Computes original Retry-After delay bounded by one caller-defined maximum. */
 	function retryDelay(response, options, attempt) {
 		const retryAfter = String(response?.headers?.get?.('retry-after') || '').trim();
 		const seconds = Number(retryAfter);
@@ -3571,11 +3629,6 @@ const __awtsmoosModule_0 = Object.create(null);
 			positive(options.maximumRetryAfterMs, 65000),
 			Math.max(0, Math.round(requested))
 		);
-	}
-
-	function waitForRetry(milliseconds, options) {
-		const waitFunction = options.waitFunction || defaultWait;
-		return waitFunction(milliseconds, options.signal);
 	}
 
 	function defaultWait(milliseconds, signal) {
@@ -3589,9 +3642,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	}
 
 	function assertNotAborted(signal) {
-		if (signal?.aborted) {
-			throw signal.reason || new DOMException('Aborted', 'AbortError');
-		}
+		if (signal?.aborted) throw signal.reason || new DOMException('Aborted', 'AbortError');
 	}
 
 	function nonnegative(value, fallback) {
@@ -3603,6 +3654,77 @@ const __awtsmoosModule_0 = Object.create(null);
 		const number = Number(value);
 		return Number.isFinite(number) && number > 0 ? number : fallback;
 	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteModelResponseCache.js ----
+{
+	const __exports = __awtsmoosModule_45;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file RemoteModelResponseCache.js
+	 * @description Reuses the authenticated canonical warmup and keeps remote cache/retry authoritative on failure.
+	 * The Awtsmoos carries one real Chossid across two bundle horizons; Awtsmoos.com never mistakes
+	 * a speculative promise for truth, returning to verified source bytes whenever it falls away.
+	 */
+
+	const openModelResponseCache = __awtsmoosModule_46.openModelResponseCache;
+	const persistModelResponse = __awtsmoosModule_46.persistModelResponse;
+	const readModelResponseCache = __awtsmoosModule_46.readModelResponseCache;
+	const isTrustedReleaseModelUrl = __awtsmoosModule_44.isTrustedReleaseModelUrl;
+	const takeCanonicalChossidWarmup = __awtsmoosModule_47.takeCanonicalChossidWarmup;
+	const fetchModelWithRetry = __awtsmoosModule_48.fetchModelWithRetry;
+
+	const REMOTE_MODEL_CACHE_NAME = 'awtsmoos-mitzvah-world-remote-models-v1';
+
+
+	__exports.REMOTE_MODEL_CACHE_NAME = REMOTE_MODEL_CACHE_NAME;
+	/** Reads optional Cache Storage and claims a shared canonical fetch, falling back to old bounded retries. */
+	async function cachedModelResponse(url, options = {}) {
+		const fetchFunction = options.fetchFunction || globalThis.fetch;
+		if (typeof fetchFunction !== 'function') throw new Error('Remote model fetch is unavailable.');
+		const cacheStorage = Object.hasOwn(options, 'cacheStorage')
+			? options.cacheStorage : globalThis.caches;
+		const cache = await openModelResponseCache(
+			cacheStorage,
+			options.cacheName || REMOTE_MODEL_CACHE_NAME
+		);
+		const reportCacheError = receipt => options.onCacheError?.(receipt);
+		const warmup = isTrustedReleaseModelUrl(url) ? takeCanonicalChossidWarmup(url) : null;
+		if (warmup) {
+			try {
+				const bytes = await warmup;
+				if (options.signal?.aborted) throw options.signal.reason || new Error('model-fetch-aborted');
+				const response = new Response(bytes, {
+					headers: { 'content-type': 'model/gltf-binary', 'content-length': String(bytes.byteLength) }
+				});
+				await persistModelResponse(cache, url, response, reportCacheError);
+				return { response, source: 'canonical-warmup' };
+			} catch {
+				// The canonical loader must retry independently when the speculative road fails.
+			}
+		}
+		const cached = await readModelResponseCache(cache, url, reportCacheError);
+		if (cached) return { response: cached, source: 'cache-storage' };
+		const response = await fetchModelWithRetry(url, fetchFunction, options);
+		if (response?.ok && isGlbResponse(response)) {
+			await persistModelResponse(cache, url, response, reportCacheError);
+		}
+		return { response, source: 'network' };
+	}
+
+
+	__exports.cachedModelResponse = cachedModelResponse;
+	/** Preserves the existing trusted binary content-type policy. */
+	function isGlbResponse(response) {
+		const type = response?.headers?.get?.('content-type')?.toLowerCase() || '';
+		return type === 'model/gltf-binary' || type === 'application/octet-stream';
+	}
+
+	__exports.isGlbResponse = isGlbResponse;
 
 }
 
@@ -3742,7 +3864,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/ModelAssetTrust.js ----
 {
-	const __exports = __awtsmoosModule_47;
+	const __exports = __awtsmoosModule_49;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -3786,7 +3908,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	const loadTinyGltfBuffer = __awtsmoosModule_34.loadTinyGltfBuffer;
 	const fetchAssetBuffer = __awtsmoosModule_41.fetchAssetBuffer;
-	const trustedModelResourceUrl = __awtsmoosModule_47.trustedModelResourceUrl;
+	const trustedModelResourceUrl = __awtsmoosModule_49.trustedModelResourceUrl;
 
 	const templates = new Map();
 	const pending = new Map();
@@ -3848,7 +3970,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	__exports.clearModelTemplateCache = clearModelTemplateCache;
 	/** Preserves the historical trusted-resource export. */
-	__exports.trustedModelResourceUrl = __awtsmoosModule_47.trustedModelResourceUrl;
+	__exports.trustedModelResourceUrl = __awtsmoosModule_49.trustedModelResourceUrl;
 
 	/** Rejects if the GLB parse does not settle within timeoutMs, so boot fails fast instead of hanging. */
 	function withParseTimeout(parsePromise, timeoutMs, resourceUrl) {
@@ -4029,7 +4151,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/ChossidOutfitPalette.js ----
 {
-	const __exports = __awtsmoosModule_49;
+	const __exports = __awtsmoosModule_51;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -4196,7 +4318,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/ChossidSurfaceDetail.js ----
 {
-	const __exports = __awtsmoosModule_48;
+	const __exports = __awtsmoosModule_50;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -4212,7 +4334,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * changes are needed. Fully procedural, deterministic, zero network.
 	 */
 
-	const chossidMaterialRole = __awtsmoosModule_49.chossidMaterialRole;
+	const chossidMaterialRole = __awtsmoosModule_51.chossidMaterialRole;
 
 	const CREVICE_CELL_SIZE = 0.045;
 	const MIN_SHADE = 0.7;
@@ -4364,7 +4486,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldEssentialMilestoneCatalog.js ----
 {
-	const __exports = __awtsmoosModule_54;
+	const __exports = __awtsmoosModule_56;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -4450,7 +4572,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldEssentialClock.js ----
 {
-	const __exports = __awtsmoosModule_53;
+	const __exports = __awtsmoosModule_55;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -4462,7 +4584,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * never confusing one fixed wall-clock guess with the living progress of a slower browser.
 	 */
 
-	const ESSENTIAL_BOOT_TIMEOUT_MS = __awtsmoosModule_54.ESSENTIAL_BOOT_TIMEOUT_MS;
+	const ESSENTIAL_BOOT_TIMEOUT_MS = __awtsmoosModule_56.ESSENTIAL_BOOT_TIMEOUT_MS;
 
 	function scheduleMitzvahWorldEssentialTimeout(environment, callback, delayMilliseconds = ESSENTIAL_BOOT_TIMEOUT_MS) {
 		const schedule = environment?.setTimeout?.bind(environment) || setTimeout;
@@ -4490,7 +4612,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldEssentialRecord.js ----
 {
-	const __exports = __awtsmoosModule_57;
+	const __exports = __awtsmoosModule_59;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -4545,7 +4667,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldEssentialTiming.js ----
 {
-	const __exports = __awtsmoosModule_56;
+	const __exports = __awtsmoosModule_58;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -4557,7 +4679,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com therefore measures each active fact from its latest witnessed progress, never from stale wall-clock memory.
 	 */
 
-	const essentialDependenciesComplete = __awtsmoosModule_57.essentialDependenciesComplete;
+	const essentialDependenciesComplete = __awtsmoosModule_59.essentialDependenciesComplete;
 
 	function activateReadyEssentialRecords(records, currentTime) {
 		const activated = [];
@@ -4617,7 +4739,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldEssentialDeadlinePolicy.js ----
 {
-	const __exports = __awtsmoosModule_55;
+	const __exports = __awtsmoosModule_57;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -4629,8 +4751,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * from the outer hard horizon so diagnostics never confuse local stillness with total first-play exhaustion.
 	 */
 
-	const ESSENTIAL_HARD_TIMEOUT_MS = __awtsmoosModule_54.ESSENTIAL_HARD_TIMEOUT_MS;
-	const essentialRecordTimedOut = __awtsmoosModule_56.essentialRecordTimedOut;
+	const ESSENTIAL_HARD_TIMEOUT_MS = __awtsmoosModule_56.ESSENTIAL_HARD_TIMEOUT_MS;
+	const essentialRecordTimedOut = __awtsmoosModule_58.essentialRecordTimedOut;
 
 	function essentialDependencyFailure(details, missing) {
 		return {
@@ -4674,7 +4796,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldEssentialFailurePresenter.js ----
 {
-	const __exports = __awtsmoosModule_58;
+	const __exports = __awtsmoosModule_60;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -4751,7 +4873,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldEssentialSnapshot.js ----
 {
-	const __exports = __awtsmoosModule_59;
+	const __exports = __awtsmoosModule_61;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -4763,8 +4885,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com shows queued facts at zero, active facts aging, and terminal facts sealed where their evidence has been.
 	 */
 
-	const essentialElapsedMilliseconds = __awtsmoosModule_56.essentialElapsedMilliseconds;
-	const firstActiveEssentialRecord = __awtsmoosModule_56.firstActiveEssentialRecord;
+	const essentialElapsedMilliseconds = __awtsmoosModule_58.essentialElapsedMilliseconds;
+	const firstActiveEssentialRecord = __awtsmoosModule_58.firstActiveEssentialRecord;
 
 	/** Builds one immutable public receipt from the internal milestone map. */
 	function createMitzvahWorldEssentialSnapshot(records, startedAtMilliseconds, environment) {
@@ -4811,15 +4933,15 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldEssentialWatchdog.js ----
 {
-	const __exports = __awtsmoosModule_60;
+	const __exports = __awtsmoosModule_62;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
 
-	const ESSENTIAL_HARD_TIMEOUT_MS = __awtsmoosModule_54.ESSENTIAL_HARD_TIMEOUT_MS;
-	const cancelMitzvahWorldEssentialTimeout = __awtsmoosModule_53.cancelMitzvahWorldEssentialTimeout;
-	const readMitzvahWorldEssentialTime = __awtsmoosModule_53.readMitzvahWorldEssentialTime;
-	const scheduleMitzvahWorldEssentialTimeout = __awtsmoosModule_53.scheduleMitzvahWorldEssentialTimeout;
+	const ESSENTIAL_HARD_TIMEOUT_MS = __awtsmoosModule_56.ESSENTIAL_HARD_TIMEOUT_MS;
+	const cancelMitzvahWorldEssentialTimeout = __awtsmoosModule_55.cancelMitzvahWorldEssentialTimeout;
+	const readMitzvahWorldEssentialTime = __awtsmoosModule_55.readMitzvahWorldEssentialTime;
+	const scheduleMitzvahWorldEssentialTimeout = __awtsmoosModule_55.scheduleMitzvahWorldEssentialTimeout;
 
 	/**
 	 * @file MitzvahWorldEssentialWatchdog.js
@@ -4874,7 +4996,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldEssentialLedger.js ----
 {
-	const __exports = __awtsmoosModule_52;
+	const __exports = __awtsmoosModule_54;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -4886,22 +5008,22 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com refreshes only the fact that truly progressed while every silent sibling keeps its own finite night.
 	 */
 
-	const readMitzvahWorldEssentialTime = __awtsmoosModule_53.readMitzvahWorldEssentialTime;
-	const essentialDeadlineFailure = __awtsmoosModule_55.essentialDeadlineFailure;
-	const essentialDependencyFailure = __awtsmoosModule_55.essentialDependencyFailure;
-	const timeoutDetails = __awtsmoosModule_55.timeoutDetails;
-	const ESSENTIAL_MILESTONE_CATALOG = __awtsmoosModule_54.ESSENTIAL_MILESTONE_CATALOG;
-	const presentMitzvahWorldEssentialFailure = __awtsmoosModule_58.presentMitzvahWorldEssentialFailure;
-	const applyEssentialDetails = __awtsmoosModule_57.applyEssentialDetails;
-	const createEssentialRecord = __awtsmoosModule_57.createEssentialRecord;
-	const isEssentialTerminal = __awtsmoosModule_57.isEssentialTerminal;
-	const createMitzvahWorldEssentialSnapshot = __awtsmoosModule_59.createMitzvahWorldEssentialSnapshot;
-	const activateReadyEssentialRecords = __awtsmoosModule_56.activateReadyEssentialRecords;
-	const firstActiveEssentialRecord = __awtsmoosModule_56.firstActiveEssentialRecord;
-	const firstTimedOutEssentialRecord = __awtsmoosModule_56.firstTimedOutEssentialRecord;
-	const touchEssentialRecord = __awtsmoosModule_56.touchEssentialRecord;
-	const MitzvahWorldEssentialWatchdog = __awtsmoosModule_60.MitzvahWorldEssentialWatchdog;
-	const essentialHardTimeoutReached = __awtsmoosModule_60.essentialHardTimeoutReached;
+	const readMitzvahWorldEssentialTime = __awtsmoosModule_55.readMitzvahWorldEssentialTime;
+	const essentialDeadlineFailure = __awtsmoosModule_57.essentialDeadlineFailure;
+	const essentialDependencyFailure = __awtsmoosModule_57.essentialDependencyFailure;
+	const timeoutDetails = __awtsmoosModule_57.timeoutDetails;
+	const ESSENTIAL_MILESTONE_CATALOG = __awtsmoosModule_56.ESSENTIAL_MILESTONE_CATALOG;
+	const presentMitzvahWorldEssentialFailure = __awtsmoosModule_60.presentMitzvahWorldEssentialFailure;
+	const applyEssentialDetails = __awtsmoosModule_59.applyEssentialDetails;
+	const createEssentialRecord = __awtsmoosModule_59.createEssentialRecord;
+	const isEssentialTerminal = __awtsmoosModule_59.isEssentialTerminal;
+	const createMitzvahWorldEssentialSnapshot = __awtsmoosModule_61.createMitzvahWorldEssentialSnapshot;
+	const activateReadyEssentialRecords = __awtsmoosModule_58.activateReadyEssentialRecords;
+	const firstActiveEssentialRecord = __awtsmoosModule_58.firstActiveEssentialRecord;
+	const firstTimedOutEssentialRecord = __awtsmoosModule_58.firstTimedOutEssentialRecord;
+	const touchEssentialRecord = __awtsmoosModule_58.touchEssentialRecord;
+	const MitzvahWorldEssentialWatchdog = __awtsmoosModule_62.MitzvahWorldEssentialWatchdog;
+	const essentialHardTimeoutReached = __awtsmoosModule_62.essentialHardTimeoutReached;
 
 	class MitzvahWorldEssentialLedger {
 		constructor(environment) {
@@ -5004,7 +5126,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldWebGlCapabilityGate.js ----
 {
-	const __exports = __awtsmoosModule_61;
+	const __exports = __awtsmoosModule_63;
 	//B"H
 	//Boruch Hashem
 	//Blessed is He
@@ -5156,7 +5278,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldBootStateMachine.js ----
 {
-	const __exports = __awtsmoosModule_62;
+	const __exports = __awtsmoosModule_64;
 	//B"H
 	//Boruch Hashem
 	//Blessed is He
@@ -5355,7 +5477,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldEssentialBoot.js ----
 {
-	const __exports = __awtsmoosModule_51;
+	const __exports = __awtsmoosModule_53;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -5367,15 +5489,15 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * testify into one shared Malchus whose silence clocks renew with real progress and whose outer first-play horizon stays finite.
 	 */
 
-	const MitzvahWorldEssentialLedger = __awtsmoosModule_52.MitzvahWorldEssentialLedger;
-	const dismissMitzvahWorldEssentialFailure = __awtsmoosModule_58.dismissMitzvahWorldEssentialFailure;
-	const CATALOG_MILESTONES = __awtsmoosModule_54.ESSENTIAL_MILESTONES;
-	const probeMitzvahWorldWebGlCapability = __awtsmoosModule_61.probeMitzvahWorldWebGlCapability;
-	const readMitzvahWorldWebGlCapability = __awtsmoosModule_61.readMitzvahWorldWebGlCapability;
-	const rememberMitzvahWorldWebGlCapability = __awtsmoosModule_61.rememberMitzvahWorldWebGlCapability;
-	const WEBGL_UNAVAILABLE_CODE = __awtsmoosModule_61.WEBGL_UNAVAILABLE_CODE;
-	const transitionMitzvahWorldBootState = __awtsmoosModule_62.transitionMitzvahWorldBootState;
-	__exports.ESSENTIAL_MILESTONES = __awtsmoosModule_54.ESSENTIAL_MILESTONES;
+	const MitzvahWorldEssentialLedger = __awtsmoosModule_54.MitzvahWorldEssentialLedger;
+	const dismissMitzvahWorldEssentialFailure = __awtsmoosModule_60.dismissMitzvahWorldEssentialFailure;
+	const CATALOG_MILESTONES = __awtsmoosModule_56.ESSENTIAL_MILESTONES;
+	const probeMitzvahWorldWebGlCapability = __awtsmoosModule_63.probeMitzvahWorldWebGlCapability;
+	const readMitzvahWorldWebGlCapability = __awtsmoosModule_63.readMitzvahWorldWebGlCapability;
+	const rememberMitzvahWorldWebGlCapability = __awtsmoosModule_63.rememberMitzvahWorldWebGlCapability;
+	const WEBGL_UNAVAILABLE_CODE = __awtsmoosModule_63.WEBGL_UNAVAILABLE_CODE;
+	const transitionMitzvahWorldBootState = __awtsmoosModule_64.transitionMitzvahWorldBootState;
+	__exports.ESSENTIAL_MILESTONES = __awtsmoosModule_56.ESSENTIAL_MILESTONES;
 
 	const LEDGER_KEY = 'AwtsmoosMitzvahWorldEssentialLedgerInternal';
 	const RESTART_ENTRY_STAGE = 'world-launch-restart';
@@ -5487,7 +5609,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzConstants.js ----
 {
-	const __exports = __awtsmoosModule_63;
+	const __exports = __awtsmoosModule_65;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -5539,7 +5661,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldCanonicalChossidTiming.js ----
 {
-	const __exports = __awtsmoosModule_50;
+	const __exports = __awtsmoosModule_52;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -5551,9 +5673,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * reveal their measured spans so optimization follows witnessed time instead of guesses dressed as speed.
 	 */
 
-	const ESSENTIAL_MILESTONES = __awtsmoosModule_51.ESSENTIAL_MILESTONES;
-	const updateMitzvahWorldEssentialMilestone = __awtsmoosModule_51.updateMitzvahWorldEssentialMilestone;
-	const PLAYER_MODEL_URL = __awtsmoosModule_63.PLAYER_MODEL_URL;
+	const ESSENTIAL_MILESTONES = __awtsmoosModule_53.ESSENTIAL_MILESTONES;
+	const updateMitzvahWorldEssentialMilestone = __awtsmoosModule_53.updateMitzvahWorldEssentialMilestone;
+	const PLAYER_MODEL_URL = __awtsmoosModule_65.PLAYER_MODEL_URL;
 
 	const GLOBAL_NAME = 'AwtsmoosMitzvahWorldCanonicalChossidTiming';
 
@@ -5641,18 +5763,18 @@ const __awtsmoosModule_0 = Object.create(null);
 	 */
 
 	const loadIsolatedGltf = __awtsmoosModule_3.loadIsolatedGltf;
-	const bakeChossidSurfaceDetail = __awtsmoosModule_48.bakeChossidSurfaceDetail;
-	const applyChossidOutfit = __awtsmoosModule_49.applyChossidOutfit;
-	const chossidMaterialResolver = __awtsmoosModule_49.chossidMaterialResolver;
-	const playerChossidOutfit = __awtsmoosModule_49.playerChossidOutfit;
-	const beginCanonicalChossidTiming = __awtsmoosModule_50.beginCanonicalChossidTiming;
-	const completeCanonicalChossidTiming = __awtsmoosModule_50.completeCanonicalChossidTiming;
-	const recordCanonicalChossidStage = __awtsmoosModule_50.recordCanonicalChossidStage;
-	const PLAYER_MODEL_URL = __awtsmoosModule_63.PLAYER_MODEL_URL;
-	const completeMitzvahWorldEssentialMilestone = __awtsmoosModule_51.completeMitzvahWorldEssentialMilestone;
-	const ESSENTIAL_MILESTONES = __awtsmoosModule_51.ESSENTIAL_MILESTONES;
-	const failMitzvahWorldEssentialMilestone = __awtsmoosModule_51.failMitzvahWorldEssentialMilestone;
-	const updateMitzvahWorldEssentialMilestone = __awtsmoosModule_51.updateMitzvahWorldEssentialMilestone;
+	const bakeChossidSurfaceDetail = __awtsmoosModule_50.bakeChossidSurfaceDetail;
+	const applyChossidOutfit = __awtsmoosModule_51.applyChossidOutfit;
+	const chossidMaterialResolver = __awtsmoosModule_51.chossidMaterialResolver;
+	const playerChossidOutfit = __awtsmoosModule_51.playerChossidOutfit;
+	const beginCanonicalChossidTiming = __awtsmoosModule_52.beginCanonicalChossidTiming;
+	const completeCanonicalChossidTiming = __awtsmoosModule_52.completeCanonicalChossidTiming;
+	const recordCanonicalChossidStage = __awtsmoosModule_52.recordCanonicalChossidStage;
+	const PLAYER_MODEL_URL = __awtsmoosModule_65.PLAYER_MODEL_URL;
+	const completeMitzvahWorldEssentialMilestone = __awtsmoosModule_53.completeMitzvahWorldEssentialMilestone;
+	const ESSENTIAL_MILESTONES = __awtsmoosModule_53.ESSENTIAL_MILESTONES;
+	const failMitzvahWorldEssentialMilestone = __awtsmoosModule_53.failMitzvahWorldEssentialMilestone;
+	const updateMitzvahWorldEssentialMilestone = __awtsmoosModule_53.updateMitzvahWorldEssentialMilestone;
 
 	/** Loads the canonical player GLB with no fallback factory and validates visible animation-bearing identity. */
 	async function loadEretzEssentialPlayerGlb(options = {}) {
@@ -5766,7 +5888,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzDeferredHydrationState.js ----
 {
-	const __exports = __awtsmoosModule_65;
+	const __exports = __awtsmoosModule_67;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -5829,7 +5951,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/DeferredAppModuleUrl.js ----
 {
-	const __exports = __awtsmoosModule_67;
+	const __exports = __awtsmoosModule_69;
 	//B"H
 	//Boruch Hashem
 	//Blessed is He
@@ -5867,7 +5989,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzEssentialHydrationUrls.js ----
 {
-	const __exports = __awtsmoosModule_66;
+	const __exports = __awtsmoosModule_68;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -5879,7 +6001,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * so playable earth arrives with speed while later beauty crosses the same truthful path when its appointed light is kindled.
 	 */
 
-	const resolveDeferredAppModuleUrl = __awtsmoosModule_67.resolveDeferredAppModuleUrl;
+	const resolveDeferredAppModuleUrl = __awtsmoosModule_69.resolveDeferredAppModuleUrl;
 
 	const SOURCE_FILE_NAME = 'EretzEssentialHydrationUrls.js';
 	const MATERIAL_SPECIFIER = 'EretzAssetLoader.js?v=20260722-rich-assets-01';
@@ -5920,7 +6042,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzEssentialHydrationState.js ----
 {
-	const __exports = __awtsmoosModule_64;
+	const __exports = __awtsmoosModule_66;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -5932,10 +6054,10 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com names the idle state canonical-stable, so diagnostics agree with the GLB-only covenant in every route.
 	 */
 
-	const createDeferredHydrationState = __awtsmoosModule_65.createDeferredHydrationState;
-	const essentialActorLoaderUrl = __awtsmoosModule_66.essentialActorLoaderUrl;
-	const essentialActorProfilesUrl = __awtsmoosModule_66.essentialActorProfilesUrl;
-	const essentialMaterialHydrationUrl = __awtsmoosModule_66.essentialMaterialHydrationUrl;
+	const createDeferredHydrationState = __awtsmoosModule_67.createDeferredHydrationState;
+	const essentialActorLoaderUrl = __awtsmoosModule_68.essentialActorLoaderUrl;
+	const essentialActorProfilesUrl = __awtsmoosModule_68.essentialActorProfilesUrl;
+	const essentialMaterialHydrationUrl = __awtsmoosModule_68.essentialMaterialHydrationUrl;
 
 	function createEssentialActorHydration(options = {}, dependencies = {}) {
 		const enabled = options.streamCanonicalActors === true;
@@ -6016,8 +6138,8 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	const createEssentialAssetRecord = __awtsmoosModule_1.createEssentialAssetRecord;
 	const loadEretzEssentialPlayerGlb = __awtsmoosModule_2.loadEretzEssentialPlayerGlb;
-	const createEssentialActorHydration = __awtsmoosModule_64.createEssentialActorHydration;
-	const createEssentialMaterialHydration = __awtsmoosModule_64.createEssentialMaterialHydration;
+	const createEssentialActorHydration = __awtsmoosModule_66.createEssentialActorHydration;
+	const createEssentialMaterialHydration = __awtsmoosModule_66.createEssentialMaterialHydration;
 
 	/**
 	 * Loads the canonical player before first gameplay while preserving later NPC/material enrichment.
