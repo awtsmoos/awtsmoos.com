@@ -66,7 +66,7 @@ async function searchFlatShard(shard, queryVector, limit) {
 			index + 1
 		)),
 		totalRows,
-		source: 'f32-exact-cosine-bounded-legacy',
+		source: 'f32-exact-cosine-bounded-persisted',
 		index: {
 			persisted: true,
 			indexType: 'flat-f32-bounded-legacy',

@@ -13,6 +13,7 @@ const { parentPort } = require('node:worker_threads');
 const { searchShard } = require('./sourceSearch.js');
 const { openShardSession } = require('./shardStore.js');
 const { probeVectorIndex } = require('./searchCacheWarmupProbe.js');
+const { serializablePayload } = require('./indexedSourceCache.js');
 
 /** Executes one physical part's search or warmup wholly off the HTTP event loop. */
 async function handleTask(task) {
@@ -34,7 +35,11 @@ async function handleTask(task) {
 parentPort.on('message', async task => {
 	try {
 		const result = await handleTask(task);
-		parentPort.postMessage({ id: task.id, result });
+		// Shard rows may carry live lazy-resolve handles (functions) on
+		// non-compact records; a worker postMessage cannot clone those and
+		// would destroy an otherwise successful search. Post the same
+		// serializable payload shape the indexed-source cache guarantees.
+		parentPort.postMessage({ id: task.id, result: serializablePayload(result) });
 	} catch (error) {
 		parentPort.postMessage({
 			id: task.id,
