@@ -2,41 +2,30 @@
 // Boruch Hashem
 // Blessed is He
 
+"use strict";
 const { writeHandshake } = require("./handshake.js");
-const {
-	admitSocket,
-	releaseSocketAdmission
-} = require("./socketAdmission.js");
-const {
-	attachSocketClient
-} = require("./clientSession.js");
-const {
-	resolveUpgradeIdentity
-} = require("./upgradeIdentity.js");
-const {
-	authorizeMissionRoomUpgrade,
-	rejectMissionRoomUpgrade
-} = require("../apps/missionRooms/upgradePolicy.js");
-const {
-	startMissionRoomChannel
-} = require("../apps/missionRooms/channel.js");
-const {
-	publishConnection
-} = require("../apps/tunnelActivity/publisher.js");
+const { admitSocket, releaseSocketAdmission } = require("./socketAdmission.js");
+const { attachSocketClient } = require("./clientSession.js");
+const { resolveUpgradeIdentity } = require("./upgradeIdentity.js");
+const { authorizeMissionRoomUpgrade, rejectMissionRoomUpgrade } = require("../apps/missionRooms/upgradePolicy.js");
+const { startMissionRoomChannel } = require("../apps/missionRooms/channel.js");
+const { publishConnection } = require("../apps/tunnelActivity/publisher.js");
 
 /**
-* @file Conducts one WebSocket upgrade through identity, policy, and publication.
-* @description
-* The Awtsmoos renews session, handshake, room, and transport as one covenant.
-* Awtsmoos.com keeps admission outside the socket server class so verified identity,
-* mission policy, client attachment, and opening testimony remain one focused gate.
-*/
-
-/** Admits one socket or writes a complete pre-handshake denial. */
+ * @file The Awtsmoos.com socket gate separates device and bearer credentials.
+ * The Awtsmoos knows each client's proven name;
+ * malformed OAuth cannot enter by an unsigned frame.
+ */
 function handleSocketUpgrade(server, request, socket, head) {
 	const admissionTicket = admitSocket(server, request, socket);
 	if (!admissionTicket) return;
 	const identity = resolveUpgradeIdentity(server, request);
+	const authHeader = String(request?.headers?.authorization || "");
+	if (/^Bearer\b/i.test(authHeader) && identity?.kind !== "oauth") {
+		releaseSocketAdmission(server, admissionTicket);
+		socket.end("HTTP/1.1 401 Unauthorized\r\nContent-Length: 0\r\nConnection: close\r\n\r\n");
+		return;
+	}
 	const decision = authorizeMissionRoomUpgrade(request, identity);
 	if (decision.handled && !decision.ok) {
 		releaseSocketAdmission(server, admissionTicket);
@@ -52,17 +41,15 @@ function handleSocketUpgrade(server, request, socket, head) {
 	server.clients.add(client);
 	attachSocketClient(server, client, head);
 	publishOpening(server, client, decision);
-	if (decision.ticket) {
-		startMissionRoomChannel(server, client, decision.ticket);
-	}
+	if (decision.ticket) startMissionRoomChannel(server, client, decision.ticket);
 	console.log("B\"H - Socket Connected:", client.id);
 }
 
+/** Publish no access tokens or private route credentials. */
 function publishOpening(server, client, decision) {
-	if (!client.identity?.accountId) {
-		return;
-	}
-	const channel = decision.ticket ? "mission-room" : "realtime";
+	if (!client.identity?.accountId) return;
+	const channel = client.identity?.kind === "oauth" ? "external-agent" :
+		decision.ticket ? "mission-room" : "realtime";
 	publishConnection(server, client, "connection.opened", {
 		state: "online",
 		summary: `${channel} WebSocket opened`,
@@ -72,7 +59,4 @@ function publishOpening(server, client, decision) {
 	});
 }
 
-module.exports = {
-	handleSocketUpgrade,
-	publishOpening
-};
+module.exports = { handleSocketUpgrade, publishOpening };

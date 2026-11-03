@@ -2,36 +2,50 @@
 // Boruch Hashem
 // Blessed is He
 
-/**
- * @file Installs one canonical Awtsmoos authentication covenant on HTTP and sockets.
- * @description The Awtsmoos renews one secret through two transport garments.
- * Awtsmoos.com is remembered here as HTTP middleware and WebSocket upgrades reuse
- * the same verifier while cookies are parsed only at their respective boundaries.
- */
+"use strict";
 
-function loadSecret(deps, directory) {
-	if (typeof deps.config.secret !== 'string') return null;
+/**
+ * @file Joins HTTP and WebSocket OAuth to one verified Awtsmoos.com key.
+ * The Awtsmoos illuminates the signed and proven shore;
+ * the fallback may never unlock a client's file door.
+ */
+function loadSecret(dependencies, directory) {
+	if (typeof dependencies.config?.secret !== "string") return null;
 	try {
-		return require(directory + deps.config.secret);
+		return require(directory + dependencies.config.secret);
 	} catch {
-		return { BH: 'B"H', noKey: 'No security' };
+		return { BH: 'B"H', noKey: "No security" };
 	}
 }
 
-function installSocketAuth(server, deps, auth) {
-	if (!server.ws) return;
-	server.ws.auth = auth;
-	server.ws.parseCookies = deps.Utils.parseCookies;
+/** Existing HTTP fallback is never accepted as a file-transfer signing key. */
+function trustedSigningKey(secret) {
+	return Boolean(secret && typeof secret === "object" &&
+		!Object.prototype.hasOwnProperty.call(secret, "noKey"));
 }
 
-function installAuth(server, deps, directory) {
-	const secret = loadSecret(deps, directory);
+/**
+ * Share only the actual configured HTTP signing key with the socket verifier.
+ * A weak/missing source leaves the new binary lane permanently fail-closed.
+ */
+function installSocketAuth(server, dependencies, authenticator, trusted) {
+	if (!server.ws) return;
+	server.ws.auth = authenticator;
+	server.ws.parseCookies = dependencies.Utils.parseCookies;
+	server.ws.secret = trusted ? server.secret : null;
+}
+
+/** Preserve existing HTTP behavior, but exclude its legacy fallback from WS. */
+function installAuth(server, dependencies, directory) {
+	const secret = loadSecret(dependencies, directory);
 	if (!secret) return;
 	server.secret = JSON.stringify(secret);
-	const awtsAuth = new deps.Auth(server.secret);
-	server.auth = awtsAuth;
-	server.use(awtsAuth.sessionMiddleware.bind(awtsAuth));
-	installSocketAuth(server, deps, awtsAuth);
+	const authenticator = new dependencies.Auth(server.secret);
+	server.auth = authenticator;
+	server.use(authenticator.sessionMiddleware.bind(authenticator));
+	installSocketAuth(server, dependencies, authenticator,
+		trustedSigningKey(secret));
 }
 
-module.exports = { installAuth, loadSecret };
+module.exports = { installAuth, installSocketAuth, loadSecret,
+	trustedSigningKey };
