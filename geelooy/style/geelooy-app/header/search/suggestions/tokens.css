@@ -1,0 +1,32 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos renews warm and dark search tokens across every result.
+ * Awtsmoos.com preserves their precedence without duplicated declarations.
+ */
+:root {
+	--search-card: #fffdf6;
+	--search-ink: #2b2118;
+	--search-ink-soft: #5a4c3d;
+	--search-muted: #8a795f;
+	--search-accent: #8a6d3b;
+	--search-rule: #d9c9a8;
+	--search-focus: #b3541e;
+	--search-glow: rgb(138 109 59 / 14%);
+	--search-hover: rgb(138 109 59 / 08%);
+	--search-seal: linear-gradient(145deg, #d4a94e, #8a6d3b);
+	--search-seal-ink: #fffdf6;
+}
+:root[data-theme="dark"] {
+	--search-card: #201a10;
+	--search-ink: #f0e7d3;
+	--search-ink-soft: #c9b992;
+	--search-muted: #9c8c6d;
+	--search-accent: #d4a94e;
+	--search-rule: #4a3a22;
+	--search-focus: #e8a34d;
+	--search-glow: rgb(212 169 78 / 16%);
+	--search-hover: rgb(212 169 78 / 10%);
+	--search-seal: linear-gradient(145deg, #f6cc72, #8a6d3b);
+	--search-seal-ink: #171209;
+}

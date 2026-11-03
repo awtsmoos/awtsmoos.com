@@ -1,0 +1,87 @@
+/* B"H — Boruch Hashem, Blessed is He.
+ * The Awtsmoos gives each instrument a warm, quiet place to shine;
+ * Awtsmoos.com lets a hand arrange the layers line by line.
+ */
+.piano-ensemble {
+	box-sizing: border-box;
+	width: min(100%, 62rem);
+	margin: .5rem auto;
+	padding: .65rem .8rem;
+	border: 1px solid #846d49;
+	border-radius: 14px;
+	background: #26221d;
+	color: #fff4e0;
+	font: 500 .9rem/1.4 system-ui, sans-serif;
+}
+.piano-ensemble summary {
+	cursor: pointer;
+	font-weight: 750;
+	font-size: .95rem;
+	padding: .3rem .15rem;
+}
+.piano-ensemble p, .piano-ensemble small {
+	color: #dbcdb6;
+	margin: .65rem 0;
+}
+.piano-ensemble-presets {
+	display: flex;
+	gap: .4rem;
+	flex-wrap: wrap;
+	margin: .6rem 0;
+}
+.piano-ensemble button, .piano-ensemble select {
+	box-sizing: border-box;
+	border: 1px solid #8b775b;
+	border-radius: 9px;
+	background: #3d3227;
+	color: #fff4df;
+	font: inherit;
+	padding: .45rem .6rem;
+	min-height: 36px;
+}
+.piano-ensemble button:disabled {
+	opacity: .45;
+	cursor: not-allowed;
+}
+.piano-ensemble button:focus-visible, .piano-ensemble select:focus-visible,
+.piano-ensemble input:focus-visible {
+	outline: 2px solid #f2cb82;
+	outline-offset: 2px;
+}
+.piano-ensemble-intensity {
+	display: flex;
+	align-items: center;
+	gap: .65rem;
+	margin-block: .6rem;
+}
+.piano-ensemble input[type="range"] {
+	accent-color: #e8c485;
+	width: min(11rem, 100%);
+}
+.piano-ensemble input[type="checkbox"] {
+	accent-color: #dbb36e;
+	width: 1.15rem;
+	height: 1.15rem;
+}
+.piano-ensemble-row {
+	display: flex;
+	align-items: center;
+	gap: .45rem;
+	flex-wrap: wrap;
+	padding: .5rem 0;
+	border-top: 1px solid #5b4c3b;
+}
+.piano-ensemble-row > select:first-of-type {
+	flex: 1 1 12rem;
+	min-width: 0;
+}
+.piano-ensemble-row label {
+	display: flex;
+	align-items: center;
+	gap: .4rem;
+}
+@media (max-width: 440px) {
+	.piano-ensemble { margin: .3rem 0; padding: .55rem; }
+	.piano-ensemble-row label { width: 100%; }
+	.piano-ensemble-row input[type="range"] { flex: 1; }
+}

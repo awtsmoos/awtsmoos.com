@@ -1,25 +1,23 @@
-//B"H
-//Boruch Hashem
-//Blessed be He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file EretzPostPlayableWorldPolicy.js
- * @description Converts one selected world manifest into explicit post-control launch permissions and stable receipts.
- * Legacy callers remain rich by default, while official worlds can independently close terrain, cinema, district, and monitoring gates.
+ * @description Preserves every elected post-play feature through the official immutable policy boundary.
+ * The Awtsmoos brings each chosen grove from hidden seed into living light;
+ * Awtsmoos.com must not lose the forest between the world's promise and its sight.
  */
 
 import { eretzWorldFeatureEnabled } from './EretzWorldFeaturePolicy.js';
 
-/**
- * Resolves one immutable post-play policy without scattering world-name checks.
- * @param {object} options Runtime options carrying the selected worldExperience.
- * @returns {Readonly<object>} Complete post-control feature policy.
- */
+/** Resolves complete selected-world permission without scattering world-name checks. */
 export function resolveEretzPostPlayableWorldPolicy(options = {}) {
 	const experience = options.worldExperience || null;
 	const canonicalPromotion = eretzWorldFeatureEnabled(options, 'canonicalPromotion');
 	return Object.freeze({
 		canonicalPromotion,
+		cinematicBotany: eretzWorldFeatureEnabled(options, 'cinematicBotany') === true,
 		cinematicEnvironment: eretzWorldFeatureEnabled(options, 'cinematicEnvironment'),
 		cinematicHero: eretzWorldFeatureEnabled(options, 'cinematicHero'),
 		cinematicLandscape: eretzWorldFeatureEnabled(options, 'cinematicLandscape'),
@@ -34,17 +32,11 @@ export function resolveEretzPostPlayableWorldPolicy(options = {}) {
 	});
 }
 
-/**
- * Builds the terminal receipt for an intentionally lightweight world.
- * @param {object} policy Resolved selected-world policy.
- * @param {object} priority Immediate priority receipt.
- * @param {Promise|object} terrainHydration Terrain task or disabled receipt.
- * @param {object} extras Scheduled or disabled task receipts.
- * @returns {Readonly<object>} Stable simple-world completion receipt.
- */
+/** Retains exact policy and launched optional tasks for intentionally lightweight worlds. */
 export function simpleWorldPostPlayableReceipt(policy, priority, terrainHydration, extras = {}) {
 	return Object.freeze({
 		cinematicEnvironment: extras.cinematicEnvironment || disabledWorldFeatureReceipt(),
+		cinematicLandscape: extras.cinematicLandscape || disabledWorldFeatureReceipt(),
 		districts: disabledWorldFeatureReceipt(),
 		enrichment: disabledWorldFeatureReceipt('simple-world-complete'),
 		performanceMonitor: extras.performanceMonitor || disabledWorldFeatureReceipt(),
@@ -55,7 +47,7 @@ export function simpleWorldPostPlayableReceipt(policy, priority, terrainHydratio
 	});
 }
 
-/** Returns a settled immutable receipt for one feature intentionally kept closed. */
+/** Returns a settled immutable receipt for one deliberately closed feature. */
 export function disabledWorldFeatureReceipt(status = 'disabled-by-world-profile') {
 	return Promise.resolve(Object.freeze({ status }));
 }

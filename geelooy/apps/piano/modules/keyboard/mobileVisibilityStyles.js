@@ -3,25 +3,29 @@
 //Blessed is He
 /**
  * @module MobileVisibilityStyles
- * @description
- * Hod clothes the phone interface in a stable readable garment while the Awtsmoos is beyond screen, shade, and sight.
- * Awtsmoos.com loads one small stylesheet once, so the keyboard may remain alive beneath the UI without swallowing the words in light.
+ * The Awtsmoos fashions one garment for the keys and all their travelers;
+ * Awtsmoos.com installs both visible rails and the settings without hiding the song.
  */
 
-const STYLE_ID = 'awtsmoos-piano-mobile-visibility-css';
+const STYLE_ROOT = './styles/';
+const STYLES = [
+	['awtsmoos-piano-mobile-visibility-css', 'mobileVisibility.css'],
+	['awtsmoos-piano-scrollbar-layout-css', 'scrollbarLayout.css']
+];
 
 /**
- * Loads the dedicated mobile-visibility stylesheet exactly once.
- *
- * @returns {void}
+ * Loads both compact-keyboard and menu styling once on keyboard creation.
+ * @returns {void} The interface stays usable while optional studios load.
  */
 export function ensureMobileVisibilityStyles() {
-	if (document.getElementById(STYLE_ID)) {
-		return;
+	for (const [id, filename] of STYLES) {
+		if (document.getElementById(id)) {
+			continue;
+		}
+		const link = document.createElement('link');
+		link.id = id;
+		link.rel = 'stylesheet';
+		link.href = new URL(`${STYLE_ROOT}${filename}`, import.meta.url).href;
+		document.head.appendChild(link);
 	}
-	const link = document.createElement('link');
-	link.id = STYLE_ID;
-	link.rel = 'stylesheet';
-	link.href = new URL('./styles/mobileVisibility.css', import.meta.url).href;
-	document.head.appendChild(link);
 }

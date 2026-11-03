@@ -3,9 +3,9 @@
 // Blessed is He
 
 /**
- * @file Builds an instant legal PGN timeline and enriches every played move with shared deterministic semantics.
- * The Awtsmoos turns written notation into lawful positions and then reveals one meaning-stream through every frame;
- * Awtsmoos.com lets camera, cinema, and coaching receive that shared light without reparsing the game.
+ * @file Builds an instant legal PGN timeline and carries normalized move timing into every semantic replay frame.
+ * The Awtsmoos turns notation into lawful position while each measured instant remains joined to its move;
+ * Awtsmoos.com lets camera, cinema, and coaching share one replay truth instead of parsing clocks anew.
  */
 import { parseFen, STARTING_FEN, toFen } from "../model/fen.js";
 import { applyMove } from "../rules/apply.js";
@@ -15,20 +15,31 @@ import { resolveSan } from "./san.js";
 import { tokenizePgn } from "./tokenize.js";
 
 /**
- * Parses PGN into frozen legal frames with immutable MoveEvents.
- * @param {string} text PGN source.
- * @returns {Readonly<{tags:object,sans:Array<string>,frames:ReadonlyArray<object>}>} Replay timeline.
+ * Parses PGN-compatible text into frozen legal frames, structured moves, and immutable MoveEvents.
+ * @param {string} text PGN or PGN-compatible LGB source.
+ * @returns {Readonly<{tags:object,sans:ReadonlyArray<string>,moves:ReadonlyArray<object>,frames:ReadonlyArray<object>}>} Replay timeline.
  */
 export function parsePgnInstant(text) {
-	const { tags, sans } = tokenizePgn(text);
+	const { tags, sans, moves } = tokenizePgn(text);
 	let position = parseFen(tags.FEN || STARTING_FEN);
-	const rawFrames = [freezeFrame(position, null, "", 0)];
-	for (const [index, san] of sans.entries()) {
-		const move = resolveSan(position, san);
+	const rawFrames = [freezeFrame(position, null, "", 0, null)];
+	for (const [index, moveRecord] of moves.entries()) {
+		const move = resolveSan(position, moveRecord.san);
 		position = applyMove(position, move);
-		rawFrames.push(freezeFrame(position, move, san, index + 1));
+		rawFrames.push(freezeFrame(
+			position,
+			move,
+			moveRecord.san,
+			index + 1,
+			moveRecord.timing
+		));
 	}
-	return Object.freeze({ tags, sans, frames: attachReplayEvents(rawFrames) });
+	return Object.freeze({
+		tags,
+		sans,
+		moves,
+		frames: attachReplayEvents(rawFrames)
+	});
 }
 
 /**
@@ -37,9 +48,10 @@ export function parsePgnInstant(text) {
  * @param {object|null} move Applied move.
  * @param {string} san SAN token.
  * @param {number} ply Half-move number.
+ * @param {object|null} timing Normalized timing annotation.
  * @returns {Readonly<object>} Base replay frame.
  */
-function freezeFrame(position, move, san, ply) {
+function freezeFrame(position, move, san, ply, timing) {
 	const status = positionStatus(position);
 	return Object.freeze({
 		position: Object.freeze({ ...position, board: Object.freeze([...position.board]) }),
@@ -47,6 +59,7 @@ function freezeFrame(position, move, san, ply) {
 		move: move ? Object.freeze({ ...move }) : null,
 		san,
 		ply,
+		timing,
 		check: status.check,
 		mate: status.mate,
 		stalemate: status.stalemate

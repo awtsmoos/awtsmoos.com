@@ -38,7 +38,7 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/reader-visual-stability.css?v=reader-visual-001">
 	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/reader-containment-fix.css?v=reader-containment-20261028-2">
 	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/reader-mobile-rescue.css?v=reader-mobile-rescue-20261028-2">
-	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/reader-pair-selection.css?v=reader-pairs-20261028-2">
+	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/reader-pair-selection.css?v=reader-pairs-20261028-3">
 	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/reader-info-navigation.css?v=reader-info-nested-20261028-1">
 	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/reader-info-submenus.css?v=reader-smooth-20261028-1">
 	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/reader-settings-coherence.css?v=reader-settings-20261028-1">
@@ -105,6 +105,8 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 				registerScript.defer = true;
 				document.head.appendChild(registerScript);
 				import('/heichelos/post/logic/initialization/ReaderInfoNavigation.js?v=reader-smooth-20261028-1').catch(() => {});
+				import('/heichelos/post/logic/initialization/ReaderUniqueFootnotes.js?v=reader-fnids-20261028-1').catch(() => {});
+				import('/heichelos/post/logic/initialization/ReaderServiceWorkerBoot.js?v=reader-worker-20261028-2').catch(() => {});
 				import('/heichelos/post/logic/initialization/ReaderSectionHighlight.js?v=reader-smooth-20261028-1').catch(() => {});
 				import('/heichelos/post/postLogic.js?v=reader-passive-005');
 				import('/heichelos/post/rashi/rashi-controller.js?v=rashi-001').catch(() => {});

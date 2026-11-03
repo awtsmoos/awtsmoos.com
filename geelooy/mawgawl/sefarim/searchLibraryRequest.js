@@ -1,13 +1,14 @@
-//B"H
-//Boruch Hashem
-//Blessed be He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
-	* @module SearchLibraryRequest
-	* @description
-	* The Awtsmoos lets literal and semantic Library searches carry different finite runtime needs without changing their public doorway;
-	* Awtsmoos.com keeps broad lane omission truthful while semantic embedding receives enough time to finish instead of dying at twenty seconds.
-	*/
+ * @module SearchLibraryRequest
+ * @description
+ * The Awtsmoos gives each finite request a measured window to be heard;
+ * Awtsmoos.com keeps search bounded, so a stalled semantic engine cannot hide the word.
+ * A delayed vector may gracefully yield to text, with the method named outright.
+ */
 
 import {
 	isSemanticStrategy,
@@ -15,13 +16,13 @@ import {
 } from './searchStrategy.js';
 
 export const TEXT_REQUEST_TIMEOUT_MS = 20000;
-export const SEMANTIC_REQUEST_TIMEOUT_MS = 45000;
+export const SEMANTIC_REQUEST_TIMEOUT_MS = 16000;
 
 /**
-	* Builds one finite Library-search URL and chooses a timeout appropriate to ranking mode.
-	* @param {object} options Query controls, result limit, lane, and linked-comment policy.
-	* @returns {{url:string,strategy:string,timeoutMs:number}} Immutable request description.
-	*/
+ * Builds a Library request with distinct literal and semantic deadlines.
+ * @param {object} options - Query, lane, strategy, limits, and linked comments.
+ * @returns {{url:string,strategy:string,timeoutMs:number}} Immutable request controls.
+ */
 export function buildLibrarySearchRequest({
 	query,
 	lane = '',
@@ -37,10 +38,12 @@ export function buildLibrarySearchRequest({
 		comments: String(comments),
 		strategy: normalizedStrategy
 	});
+
 	if (lane) parameters.set('lane', lane);
 	if (isSemanticStrategy(normalizedStrategy)) {
 		parameters.set('requireIndexed', 'true');
 	}
+
 	return {
 		url: `/api/social/search/library/query?${parameters}`,
 		strategy: normalizedStrategy,

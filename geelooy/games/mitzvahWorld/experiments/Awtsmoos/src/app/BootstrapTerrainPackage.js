@@ -4,27 +4,28 @@
 
 /**
  * @file BootstrapTerrainPackage.js
- * @description Creates visible golden-valley earth with deferred canonical remote hydration and no provisional tree authority.
- * The Awtsmoos reveals green ground before distant images and deep forest arrive, then clothes that same journey;
- * Awtsmoos.com preserves collision and geometry while keeping bootstrap forest dormant until canonical promotion is ready.
+ * @description Creates visible golden-valley earth while survival can refuse optional procedural meadow geometry before allocation.
+ * The Awtsmoos reveals green earth before distant richness must descend;
+ * Awtsmoos.com lets one shared texture carry survival while richer blades may later extend.
  */
 
-import {
-	createBootstrapTerrainHydration
-} from './BootstrapTerrainHydration.js';
+import { createBootstrapTerrainHydration } from './BootstrapTerrainHydration.js';
 import { createBootstrapVisibleWorld } from './BootstrapVisibleWorld.js';
 import { attachMeadowProceduralLayer } from './BootstrapMeadowProceduralLayer.js';
 
+/** Creates the bootstrap terrain package with optional procedural-meadow attachment. */
 export function createBootstrapTerrainPackage(options = {}) {
 	const group = createBootstrapVisibleWorld();
-	try {
-		attachMeadowProceduralLayer(group, options.meadowProcedural || {});
-	} catch {}
+	const proceduralMeadowEnabled = options.enableProceduralMeadow !== false;
+	if (proceduralMeadowEnabled) {
+		try {
+			attachMeadowProceduralLayer(group, options.meadowProcedural || {});
+		} catch {}
+	}
 	const forest = createForestState();
 	const textLandmark = createLandmarkState();
-	const stats = createStats(group, forest);
+	const stats = createStats(group, forest, proceduralMeadowEnabled);
 	const hydration = createBootstrapTerrainHydration(group, stats, options.importer);
-	const worldMetadata = createWorldMetadata(stats, forest, textLandmark);
 	return {
 		colliders: [],
 		deferredTerrainContext: terrainContext(forest, textLandmark),
@@ -33,7 +34,7 @@ export function createBootstrapTerrainPackage(options = {}) {
 		heightAt: () => 0,
 		materialDiagnostics: {
 			materials: group.userData.meshCount,
-			mode: 'colored-bootstrap'
+			mode: proceduralMeadowEnabled ? 'colored-bootstrap' : 'survival-texture-only'
 		},
 		roadStats: { colliders: 0, status: 'visible-path' },
 		signTexturePromise: Promise.resolve({ status: 'dormant' }),
@@ -41,27 +42,23 @@ export function createBootstrapTerrainPackage(options = {}) {
 		stats,
 		textLandmark,
 		textureHydration: hydration,
-		village: {
-			definitions: [],
-			stats: { status: 'visible-bootstrap-gate' }
-		},
-		worldMetadata
+		village: { definitions: [], stats: { status: 'visible-bootstrap-gate' } },
+		worldMetadata: createWorldMetadata(stats, forest, textLandmark)
 	};
 }
 
-function createStats(group, forest) {
+/** Records whether optional meadow geometry joined the otherwise shared bootstrap ground. */
+function createStats(group, forest, proceduralMeadowEnabled) {
 	return {
 		bootstrap: true,
 		deferredTerrainEnrichment: 'canonical-remote-scheduled',
 		forestStats: forest.stats,
 		groundSampler: 'bootstrap-flat-ground',
 		meshCount: group.userData.meshCount,
-		quality: 'visible-bootstrap',
+		proceduralMeadowEnabled,
+		quality: proceduralMeadowEnabled ? 'visible-bootstrap' : 'survival-texture-only',
 		renderDpr: 1,
-		terrainPreparation: {
-			mode: 'golden-valley-bootstrap',
-			steps: 1
-		}
+		terrainPreparation: { mode: 'golden-valley-bootstrap', steps: 1 }
 	};
 }
 
@@ -71,7 +68,7 @@ function createWorldMetadata(stats, forest, textLandmark) {
 		deferredTerrainEnrichment: true,
 		forest: forest.stats,
 		houses: [],
-		quality: 'visible-bootstrap',
+		quality: stats.quality,
 		stairLayouts: [],
 		terrainGridSteps: 0,
 		terrainPreparation: stats.terrainPreparation,
@@ -107,8 +104,5 @@ function createForestState() {
 }
 
 function createLandmarkState() {
-	return {
-		start: () => Promise.resolve(null),
-		stats: { status: 'visible-bootstrap-summit' }
-	};
+	return { start: () => Promise.resolve(null), stats: { status: 'visible-bootstrap-summit' } };
 }

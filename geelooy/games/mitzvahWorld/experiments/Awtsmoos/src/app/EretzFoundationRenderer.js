@@ -1,25 +1,32 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file EretzFoundationRenderer.js
- * @description Builds a minimal golden-hour WebGL survival renderer without startup shadows.
- * The Awtsmoos renews the player and sun in one instant of light;
- * Awtsmoos.com gives movement first, then richer scenery in sight.
+ * @description Builds the first-control renderer and installs the explicit survival bootstrap vessel when requested.
+ * The Awtsmoos renews player, sun, and earth in one instant of light;
+ * Awtsmoos.com lets survival omit ornament while the canonical traveler remains in sight.
  */
 
 import { REFERENCE_GOLDEN_HOUR } from '../world/lighting/ReferenceGoldenHourPreset.js';
 import { ShadowBudgetController } from '../render/ShadowBudgetController.js';
+import { isSurvivalQuality } from '../performance/SurvivalQualityPolicy.js';
 import { createMinimalMeadowRenderer } from './MinimalMeadowRenderer.js';
+import { SurvivalBootstrapColorRenderer } from './SurvivalBootstrapColorRenderer.js';
 
 const GOLDEN_HOUR_ENVIRONMENT = referenceEnvironment(REFERENCE_GOLDEN_HOUR);
 const shadowBudgets = new ShadowBudgetController();
 
-/** Creates essential atmosphere while disabling shadow-map generation at first control. */
+/** Creates essential atmosphere while survival blocks optional bootstrap GPU layers before first render. */
 export function createEretzFoundationRenderer(canvas, qualityProfile) {
 	const renderer = createMinimalMeadowRenderer(canvas);
 	const renderDistance = qualityProfile.renderDistance;
+	renderer.qualityProfile = Object.freeze({ ...qualityProfile });
+	if (isSurvivalQuality(qualityProfile)) {
+		renderer.bootstrapRenderer?.dispose?.();
+		renderer.bootstrapRenderer = new SurvivalBootstrapColorRenderer(renderer.gl, renderer.bootstrapStats);
+	}
 	renderer.options ||= {};
 	renderer.options.culling = true;
 	renderer.options.defaultRenderDistance = renderDistance;

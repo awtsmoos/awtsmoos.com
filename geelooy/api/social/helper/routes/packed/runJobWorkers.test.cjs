@@ -5,78 +5,44 @@
 /**
  * @file runJobWorkers.test.cjs
  * @description
- * The Awtsmoos seals the last truthful state after every earlier echo has flown;
- * Awtsmoos.com proves delayed checkpoints cannot erase completion, and worker failure is known.
+ * The Awtsmoos seals terminal truth only after every earlier checkpoint finishes its flight;
+ * Awtsmoos.com waits on semantic state, not one guessed event-loop turn, so the race is tested right.
  */
 
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
-const os = require('node:os');
-const path = require('node:path');
 const test = require('node:test');
+const {
+	loadControlledRunner,
+	makeRunnerFixture,
+	stateFilename
+} = require('./test/runJobWorkersHarness.cjs');
 
-/** Replace worker dependencies only inside this isolated test process. */
-function loadControlledRunner() {
-	const replacements = {
-		'./processOnePost.js': {
-			processOnePost: async context => {
-				if (context.forceFailure) throw new Error('synthetic post failure');
-				context.job.postsDone++;
-			}
-		},
-		'./runJobBatch.js': { flushPackedBatch: async () => {} },
-		'./jobLog.js': { appendJobLog() {} },
-		'./serverHealth.js': {
-			heapTooHigh: () => false,
-			systemMemLow: () => false
-		},
-		'./eventLoopMonitor.js': { shedNow: () => false }
-	};
-	for (const [name, exports] of Object.entries(replacements)) {
-		const fileName = require.resolve(name);
-		require.cache[fileName] = {
-			id: fileName,
-			filename: fileName,
-			loaded: true,
-			exports
-		};
+/** Wait boundedly until the worker reaches a semantic state. */
+async function waitUntil(predicate, message, turns = 200) {
+	for (let turn = 0; turn < turns; turn++) {
+		if (predicate()) return;
+		await new Promise(resolve => setImmediate(resolve));
 	}
-	return require('./runJobWorkers.js').runWorkers;
+	throw new Error(message);
 }
 
-function makeContext(directory, count = 25) {
-	const spec = {
-		heichelId: 'test',
-		posts: Array.from({ length: count }, (_, index) => ({ postId: 'post-' + index }))
-	};
-	const job = {
-		id: 'postimport_test_' + Date.now(),
-		status: 'running',
-		dryRun: true,
-		isAdmin: true,
-		startedAt: Date.now(),
-		lastWorkerHeartbeatAt: Date.now(),
-		postsDone: 0,
-		errors: [],
-		doneHashes: {},
-		backlinkQueue: new Map(),
-		seriesAdds: new Map(),
-		spec
-	};
-	return {
-		job,
-		spec,
-		$i: { db: { directory } },
-		routes: {},
-		WORKERS: 1,
-		nextPost: 0
-	};
+/** Fill counters expected by terminal-state serialization. */
+function prepareFixture(count) {
+	const fixture = makeRunnerFixture(count);
+	const { job } = fixture.context;
+	job.totalPosts = count;
+	job.wrote = 0;
+	job.updated = 0;
+	job.skipped = 0;
+	job.failed = 0;
+	job.preHashed = 0;
+	job.preHashMismatches = 0;
+	return fixture;
 }
-
-const runWorkers = loadControlledRunner();
 
 test('delayed checkpoint cannot overwrite persisted done status', async () => {
-	const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'awt-checkpoint-race-'));
+	const fixture = prepareFixture(25);
 	const originalRename = fs.promises.rename;
 	let releaseRename;
 	let enteredRename;
@@ -91,52 +57,44 @@ test('delayed checkpoint cannot overwrite persisted done status', async () => {
 		}
 		return originalRename(from, to);
 	};
+	const runWorkers = loadControlledRunner();
 	try {
-		const context = makeContext(directory);
-		const running = runWorkers(context);
+		const running = runWorkers(fixture.context);
 		await Promise.race([
 			enteredGate,
-			new Promise((_, reject) => {
-				setTimeout(() => reject(new Error('checkpoint did not start')), 4000);
-			})
+			new Promise((_, reject) => setTimeout(
+				() => reject(new Error('checkpoint did not start')),
+				4000
+			))
 		]);
-		await new Promise(resolve => setImmediate(resolve));
-		assert.equal(context.job.status, 'done');
-		assert.equal(context.job.finishedAt, undefined);
+		await waitUntil(
+			() => fixture.context.job.status === 'done',
+			'workers did not reach terminal done state'
+		);
+		assert.equal(fixture.context.job.finishedAt, undefined);
 		releaseRename();
 		await running;
-		const fileName = path.join(
-			directory,
-			'socialPacked',
-			'post-import-jobs',
-			context.job.id + '.json'
-		);
-		const persisted = JSON.parse(fs.readFileSync(fileName, 'utf8'));
+		const persisted = JSON.parse(fs.readFileSync(stateFilename(fixture), 'utf8'));
 		assert.equal(persisted.status, 'done');
 		assert.equal(persisted.postsDone, 25);
 		assert.equal(interceptCount, 1);
 	} finally {
 		releaseRename();
 		fs.promises.rename = originalRename;
-		fs.rmSync(directory, { recursive: true, force: true });
+		fs.rmSync(fixture.directory, { recursive: true, force: true });
 	}
 });
 
 test('worker exceptions persist failed terminal status', async () => {
-	const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'awt-checkpoint-failed-'));
+	const fixture = prepareFixture(1);
+	fixture.context.forceFailure = true;
+	const runWorkers = loadControlledRunner();
 	try {
-		const context = makeContext(directory, 1);
-		context.forceFailure = true;
-		await runWorkers(context);
-		const fileName = path.join(
-			directory,
-			'socialPacked',
-			'post-import-jobs',
-			context.job.id + '.json'
-		);
-		assert.equal(JSON.parse(fs.readFileSync(fileName, 'utf8')).status, 'failed');
-		assert.match(context.job.errors[0].message, /synthetic post failure/);
+		await runWorkers(fixture.context);
+		const persisted = JSON.parse(fs.readFileSync(stateFilename(fixture), 'utf8'));
+		assert.equal(persisted.status, 'failed');
+		assert.match(fixture.context.job.errors[0].message, /synthetic post failure/);
 	} finally {
-		fs.rmSync(directory, { recursive: true, force: true });
+		fs.rmSync(fixture.directory, { recursive: true, force: true });
 	}
 });

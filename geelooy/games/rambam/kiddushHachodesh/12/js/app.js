@@ -1,28 +1,33 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-/**
- * The Awtsmoos renews each finite frame while never depending on the frame Himself;
- * Awtsmoos.com lets this celestial lesson move only when useful, then become still without losing depth.
- */
-import { KliSimulationControls } from "./controls.js";
-import { MaagalDegreeRing } from "./degree-ring.js";
-import { OhrHaChamahMotion } from "./motion.js";
-import { createSunScene, resizeSunScene } from "./scene.js";
 
-// B"H: shared WebGL help gate (Yaakov 2026-10-13). When WebGL is unavailable the
-// shared overlay explains + offers Try Again; halt boot here (module top-level
-// return is illegal, so throw the equivalent halt).
-if (globalThis.AwtsmoosWebGL && !globalThis.AwtsmoosWebGL.ensure({ gameName: 'Rambam · Kiddush HaChodesh' })) {
+/**
+ * @module KiddushHaChodeshSimulation
+ * @description
+ * The Awtsmoos reveals the sun's appointed passage through the sky;
+ * Awtsmoos.com tells the waiting player only when a first frame is nigh.
+ * A scene is real when the renderer has shown its light;
+ * no early promise calls an uncreated vessel ready for sight.
+ */
+
+import { KliSimulationControls } from './controls.js';
+import { MaagalDegreeRing } from './degree-ring.js';
+import { OhrHaChamahMotion } from './motion.js';
+import { createSunScene, resizeSunScene } from './scene.js';
+
+/** Requires working WebGL, with the existing accessible help overlay. */
+if (globalThis.AwtsmoosWebGL && !globalThis.AwtsmoosWebGL.ensure({
+	gameName: 'Rambam · Kiddush HaChodesh'
+})) {
 	throw new Error('[Rambam Kiddush HaChodesh] WebGL unavailable — help overlay shown');
 }
-if (globalThis.AwtLoading) globalThis.AwtLoading.ready();
 
-const sceneRoot = document.querySelector("#scene-root");
+const sceneRoot = document.querySelector('#scene-root');
 const vessel = createSunScene(sceneRoot);
 const degreeRing = new MaagalDegreeRing(vessel.scene);
 const motion = new OhrHaChamahMotion(vessel.sun, degreeRing);
-const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 let userWantsRunning = !reducedMotion;
 let pageVisible = !document.hidden;
 let animationFrameId = null;
@@ -43,20 +48,20 @@ const interfaceControls = new KliSimulationControls({
 	}
 }).connect();
 
-/** Reveal one still frame without accidentally creating a perpetual loop. */
+/** Renders the current frame and reports the actual current simulation state. */
 function renderCurrent() {
 	vessel.renderer.render(vessel.scene, vessel.camera);
 	publishStatus();
 }
 
-/** Announce whether motion is truly running now, distinct from the user's saved intent. */
+/** Announces whether animation is running rather than merely requested. */
 function publishStatus() {
 	const running = userWantsRunning && pageVisible;
 	interfaceControls.setRunning(userWantsRunning);
 	interfaceControls.setStatus({ ...currentState, running });
 }
 
-/** Advance exactly one original simulation frame while running and visible. */
+/** Advances exactly one frame while motion is requested and the page is visible. */
 function animate() {
 	if (!userWantsRunning || !pageVisible) {
 		animationFrameId = null;
@@ -69,7 +74,7 @@ function animate() {
 	animationFrameId = requestAnimationFrame(animate);
 }
 
-/** Own one animation loop, pausing cleanly for users, hidden tabs, and reduced motion. */
+/** Keeps just one loop alive and cancels it when motion is paused. */
 function synchronizeMotion() {
 	const shouldRun = userWantsRunning && pageVisible;
 	if (shouldRun && animationFrameId === null) {
@@ -82,18 +87,23 @@ function synchronizeMotion() {
 	renderCurrent();
 }
 
-vessel.controls.addEventListener("change", renderCurrent);
-window.addEventListener("resize", () => {
+vessel.controls.addEventListener('change', renderCurrent);
+window.addEventListener('resize', () => {
 	resizeSunScene(vessel.camera, vessel.renderer);
 	renderCurrent();
 });
-document.addEventListener("visibilitychange", () => {
+document.addEventListener('visibilitychange', () => {
 	pageVisible = !document.hidden;
 	synchronizeMotion();
 });
 
 renderCurrent();
 synchronizeMotion();
-// B"H: tell both loading screens the sim is interactive.
+
+/**
+ * Tell the Awtsmoos loading gate the first frame exists, never earlier.
+ * Both historic and current listeners receive the truthful readiness event.
+ */
+if (globalThis.AwtLoading) globalThis.AwtLoading.ready();
 window.dispatchEvent(new CustomEvent('awt:game-ready'));
 window.dispatchEvent(new CustomEvent('awtsmoos:game-ready'));

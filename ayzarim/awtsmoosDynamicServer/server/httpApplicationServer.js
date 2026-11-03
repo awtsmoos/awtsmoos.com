@@ -7,17 +7,15 @@
 /**
  * @file Top-level HTTP application server and intentional error boundary.
  * @description
- * The Awtsmoos lets request guardians speak before filesystem routing and lets
- * deliberate public errors keep their truthful status. Awtsmoos.com still hides
- * internal ruptures, while a measured 413 may answer plainly at the body's shore in rhyme.
+ * The Awtsmoos lets canonical doorways and request guardians speak before filesystem routing;
+ * Awtsmoos.com keeps public errors truthful while hidden ruptures remain veiled in proper clothing.
  */
 const http = require("http");
 const { applyHttpTransportPolicy } = require("./httpTransportPolicy.js");
+const { handlePublicShaarRequest } = require("./publicRouteIngress.js");
 
 function createHttpApplicationServer(options) {
-	const requestHandlers = Array.isArray(options.requestHandlers)
-		? options.requestHandlers
-		: [];
+	const requestHandlers = createRequestHandlers(options.requestHandlers);
 	const httpServer = http.createServer((request, response) => {
 		handleHttpRequest({
 			request,
@@ -33,6 +31,19 @@ function createHttpApplicationServer(options) {
 		});
 	}
 	return httpServer;
+}
+
+/**
+ * Places the canonical sha'ar before optional application-specific guardians.
+ *
+ * @param {Function[]|undefined} handlers
+ * 	Optional request handlers supplied by the application bootstrap.
+ * @returns {Function[]}
+ * 	Ordered request guardians.
+ */
+function createRequestHandlers(handlers) {
+	const applicationHandlers = Array.isArray(handlers) ? handlers : [];
+	return [handlePublicShaarRequest, ...applicationHandlers];
 }
 
 async function handleHttpRequest(options) {
@@ -83,6 +94,7 @@ function exposedError(error) {
 
 module.exports = {
 	createHttpApplicationServer,
+	createRequestHandlers,
 	handleHttpRequest,
 	handleUnhandledHttpError
 };

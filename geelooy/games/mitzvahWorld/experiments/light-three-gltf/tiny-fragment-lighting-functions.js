@@ -4,21 +4,23 @@
 
 /**
  * @file tiny-fragment-lighting-functions.js
- * @description Preserves realistic bounded sky fill and shadows, lifting unreadable ambient mids.
- * The Awtsmoos illuminates even the valley hidden from the sun;
- * Awtsmoos.com keeps every faithful shadow without making darkness one.
+ * @description Physically motivated daylight, sky/earth bounce, and contrast-preserving filmic exposure.
+ * The Awtsmoos reveals a coat in shade beneath a shining sky;
+ * Awtsmoos.com lets reflected daylight reach its fabric, so its folds do not die.
+ * These lights illuminate real albedo and roughness; they never make surfaces emissive.
  */
 
 import { fragmentWaterLightingFunctions } from './tiny-fragment-water-lighting-functions.js';
 
 export const fragmentLightingFunctions = `
 vec3 litSurface(vec3 albedo,vec3 normal){
-	vec3 sun=uSunDirection;
+	vec3 sun=normalize(uSunDirection);
 	vec3 viewDirection=normalize(uCameraPosition-vWorld);
 	vec3 halfDirection=normalize(sun+viewDirection);
-	float direct=max(dot(normal,sun),0.0);
-	float wrapped=max((dot(normal,sun)+0.28)/1.28,0.0);
-	float skyFacing=normal.y*0.5+0.5;
+	float sunFacing=dot(normal,sun);
+	float direct=max(sunFacing,0.0);
+	float wrapped=max((sunFacing+0.28)/1.28,0.0);
+	float skyFacing=clamp(normal.y*0.5+0.5,0.0,1.0);
 	float horizonFacing=1.0-abs(normal.y);
 	float roughness=clamp(uRoughness,0.03,1.0);
 	float metalness=clamp(uMetalness,0.0,1.0);
@@ -26,27 +28,29 @@ vec3 litSurface(vec3 albedo,vec3 normal){
 	float highlightBase=max(dot(normal,halfDirection),0.0);
 	float highlight=pow(highlightBase,specPower)*direct;
 	float viewDot=max(dot(normal,viewDirection),0.0);
-	float fresnel=0.04+(1.0-0.04)*pow(1.0-viewDot,5.0);
+	float fresnel=0.04+0.96*pow(1.0-viewDot,5.0);
 	vec3 specTint=mix(vec3(1.0),albedo,metalness);
 	float specEnergy=mix(0.55,1.35,1.0-roughness);
-	vec3 specular=uSunColor*highlight*fresnel*specEnergy*specTint;
-	vec3 diffuseAlbedo=mix(albedo,vec3(0.0),metalness);
-	vec3 coolSky=vec3(0.27,0.42,0.62)*skyFacing;
-	vec3 earthBounce=vec3(0.30,0.19,0.09)*(1.0-skyFacing);
-	vec3 horizonFill=vec3(0.20,0.14,0.09)*horizonFacing;
 	float shadow=shadowOcclusion(vWorld,normal);
-	vec3 sunlight=uSunColor*(direct*0.96+wrapped*0.18)*shadow;
-	specular*=shadow;
-	/* Shadowed ground gets readable ambient fill; direct sun still casts shadows. */
-	vec3 daylightAmbient=max(uAmbient,vec3(0.28,0.30,0.32));
-	vec3 diffuse=diffuseAlbedo*(daylightAmbient+coolSky*0.40+earthBounce*0.22+horizonFill*0.15+sunlight);
-	vec3 environment=vec3(0.0);
+	vec3 sunlight=uSunColor*(direct*1.04+wrapped*0.22)*shadow;
+	vec3 directSpecular=uSunColor*highlight*fresnel*specEnergy*specTint*shadow;
+	vec3 diffuseAlbedo=mix(albedo,vec3(0.0),metalness);
+	/* An open blue sky still illuminates clothing and terrain when they face away from the sun. */
+	vec3 coolSky=vec3(0.39,0.54,0.76)*skyFacing;
+	vec3 earthBounce=vec3(0.43,0.31,0.19)*(1.0-skyFacing);
+	vec3 horizonFill=vec3(0.31,0.27,0.23)*horizonFacing;
+	vec3 daylightAmbient=max(uAmbient,vec3(0.66,0.72,0.80));
+	vec3 irradiance=daylightAmbient+coolSky*0.72+earthBounce*0.43+horizonFill*0.34+sunlight;
+	vec3 diffuse=diffuseAlbedo*irradiance;
+	/* Rough black fabric reflects some sky light as a dielectric, not as emissive color. */
+	vec3 skyReflection=vec3(0.34,0.46,0.61)*mix(0.10,0.30,1.0-roughness)*fresnel;
+	vec3 environment=skyReflection*specTint;
 	float envStrength=(1.0-roughness)*(1.0-roughness);
 	if(envStrength>0.01){
 		vec3 reflectDirection=reflect(-viewDirection,normal);
-		environment=skySurface(reflectDirection)*envStrength*fresnel*mix(0.35,1.0,metalness);
+		environment+=skySurface(reflectDirection)*envStrength*fresnel*mix(0.35,1.0,metalness);
 	}
-	return diffuse+specular+environment;
+	return diffuse+directSpecular+environment;
 }
 ${fragmentWaterLightingFunctions}
 vec3 toneMap(vec3 color){

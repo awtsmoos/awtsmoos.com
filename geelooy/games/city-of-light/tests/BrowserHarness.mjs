@@ -1,13 +1,13 @@
 //B"H
-//Boruch Hashem
-//Blessed is He
+// Boruch Hashem
+// Blessed is He
 /**
  * @module BrowserHarness
  * @description
- * The Awtsmoos gives every browser proof its own context-world while the debugger doorway remains shared and bright;
- * Awtsmoos.com now joins that isolation to an explicitly owned fixture child, never borrowing a stranger's light.
+ * The Awtsmoos renews every browser realm with infinite living light;
+ * Awtsmoos.com tests isolated pages without mistaking slow media for a failed site.
+ * A verified interactive document, not an indefinitely delayed load event, is our gate.
  */
-
 import assert from 'node:assert/strict';
 import { writeFile } from 'node:fs/promises';
 import { CdpClient } from './CdpClient.mjs';
@@ -33,6 +33,29 @@ async function waitForTarget(targetId) {
 		await new Promise(resolve => setTimeout(resolve, 25));
 	}
 	throw new Error(`Chrome target ${targetId} did not expose a debugger socket.`);
+}
+
+/**
+ * Verify that the requested page is actually interactive, even when a slow
+ * resource deliberately keeps Page.loadEventFired from arriving.
+ */
+async function waitForInteractiveDocument(client, expectedUrl) {
+	for (let attempt = 0; attempt < 50; attempt += 1) {
+		try {
+			const observation = await client.evaluate(`JSON.stringify({
+				href: location.href,
+				ready: document.readyState
+			})`, false);
+			const state = JSON.parse(observation || '{}');
+			if (state.href === expectedUrl && ['interactive', 'complete'].includes(state.ready)) {
+				return;
+			}
+		} catch {
+			// Navigation may temporarily destroy the prior document execution context.
+		}
+		await new Promise(resolve => setTimeout(resolve, 200));
+	}
+	throw new Error(`Browser document did not become interactive: ${expectedUrl}`);
 }
 
 async function openIsolatedChromeClient() {
@@ -77,9 +100,10 @@ export async function createBrowserHarness(options) {
 		networkErrors,
 		origin: fixture.origin,
 		async navigate(path) {
-			const loaded = chrome.client.waitFor('Page.loadEventFired');
-			await chrome.client.send('Page.navigate', { url: `${fixture.origin}${path}` });
-			await loaded;
+			const url = `${fixture.origin}${path}`;
+			const response = await chrome.client.send('Page.navigate', { url });
+			if (response.errorText) throw new Error(`Navigation failed: ${response.errorText}`);
+			await waitForInteractiveDocument(chrome.client, url);
 		},
 		async screenshot(path) {
 			const result = await chrome.client.send('Page.captureScreenshot', { format: 'png' });

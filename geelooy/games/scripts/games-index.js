@@ -1,22 +1,25 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
- * @file games-index.js
- * @description Serves as the Keser composition root for the Games hub's data-driven retractable Storefront.
- * The Awtsmoos is beyond every root while Awtsmoos.com lets one tiny entry gather catalog, policy, markup, and view;
- * deeper modules can grow without cluttering the visible page or hiding runtime ownership from future developers too.
- *
- * B"H 2026-10-13: Yaakov's law — this page must NEVER stay stuck on "Loading catalog...".
- * Static imports that fail kill the whole module silently (failures bypass try/catch),
- * so we use dynamic imports: every failure is caught and the catalog still renders.
+ * @module GamesCatalogEntry
+ * @description
+ * The Awtsmoos brings every playable path into a visible place;
+ * Awtsmoos.com gives the visitor real links before the scripts finish their race.
+ * Rich storefront imports retain their full beauty when they can arrive;
+ * a bounded, safe emergency catalog keeps slower networks alive.
  */
 
-async function revealKeserGamesStorefront() {
+export const GAMES_FALLBACK_DELAY_MS = 3500;
+let storefrontMounted = false;
+
+/** Mounts the original full-featured Games storefront when all imports load. */
+async function revealFullStorefront() {
 	const [
-		CHOCHMAH_CATALOG,
-		GEVURAH_CATALOG_STATE,
-		MALCHUS_CATALOG_MARKUP,
+		catalog,
+		catalogState,
+		catalogMarkup,
 		{ BinahStorefrontDomContract },
 		{ StorefrontView }
 	] = await Promise.all([
@@ -26,72 +29,80 @@ async function revealKeserGamesStorefront() {
 		import('./storefront/contracts/BinahStorefrontDomContract.js'),
 		import('./storefront/StorefrontView.js')
 	]);
-	const binahDom = new BinahStorefrontDomContract(document).read();
-	const tiferesStorefront = new StorefrontView(
-		binahDom,
-		CHOCHMAH_CATALOG,
-		GEVURAH_CATALOG_STATE,
-		MALCHUS_CATALOG_MARKUP
-	);
-	tiferesStorefront.mount();
-	return tiferesStorefront;
+	const contract = new BinahStorefrontDomContract(document).read();
+	const storefront = new StorefrontView(contract, catalog, catalogState, catalogMarkup);
+	storefront.mount();
+	storefrontMounted = true;
+	return storefront;
 }
 
 /**
- * Last-resort fallback: if even the catalog data fails, render the games
- * as plain links so the page is never blank. B"H the catalog is static
- * data — this should never be needed, but Yaakov's law is absolute.
+ * Supplies two functional static paths even if every JavaScript import stalls.
+ * This does not assume catalog metadata, external URLs, or account identity.
  */
-async function revealMalchusBareCatalog() {
+function revealEmergencyLinks() {
+	if (storefrontMounted) return;
+	const section = document.getElementById('gamesCatalog');
+	if (!section || section.querySelector('.gameCard, [data-game-card]')) return;
+	const emergency = [
+		['Play Temple Runner', './mitzvahWorld/templeRunner/'],
+		['Party Challenge', './party/']
+	];
+	const fragment = document.createDocumentFragment();
+	for (const [title, href] of emergency) {
+		const link = document.createElement('a');
+		link.className = 'gameCard';
+		link.href = href;
+		link.textContent = title;
+		fragment.append(link);
+	}
+	section.replaceChildren(fragment);
+	const status = document.getElementById('catalogStatus');
+	if (status) status.textContent = 'Full catalog is loading. These games are ready to open.';
+}
+
+/** Converts real catalog data to safe DOM nodes when interactive UI fails. */
+async function revealBareCatalog() {
+	revealEmergencyLinks();
 	try {
-		const catalog = await import('./catalog/index.mjs');
-		const games = catalog.GAMES || [];
-		const section = document.getElementById('gamesCatalog');
-		const count = document.getElementById('gameCount');
-		const status = document.getElementById('catalogStatus');
-		if (count) count.textContent = `${games.length} games`;
-		if (status) status.textContent = '';
-		if (section) {
-			section.innerHTML = games.map(g => {
-				const title = String(g.title || g.id || 'Game').replace(/</g, '&lt;');
-				const href = String(g.href || `./${g.id}/`).replace(/"/g, '&quot;');
-				const desc = String(g.description || '').replace(/</g, '&lt;');
-				return `<a class="gameCard" href="${href}"><strong>${title}</strong>${desc ? `<span>${desc}</span>` : ''}</a>`;
-			}).join('');
-		}
+		const [catalog, { renderBareGames }] = await Promise.all([
+			import('./catalog/index.mjs'),
+			import('./catalog/BareGamesFallback.js')
+		]);
+		if (!storefrontMounted) renderBareGames(document, catalog.GAMES || []);
 	} catch {
-		const section = document.getElementById('gamesCatalog');
-		if (section) section.innerHTML = '<p class="loadingState">The game catalog could not load. <a href="./mitzvahWorld/templeRunner/">Play Temple Runner</a> or <a href="./party/">Party Challenge</a>.</p>';
+		revealEmergencyLinks();
 	}
 }
 
-async function revealMalchusStorefrontFailure(gevurahFailure) {
+/** Preserves the legacy failure view for genuinely empty public catalogs. */
+async function revealStorefrontFailure(error) {
 	try {
 		const { StorefrontFailureView } = await import('./storefront/StorefrontFailureView.js');
 		const { BinahStorefrontDomContract } = await import('./storefront/contracts/BinahStorefrontDomContract.js');
-		const binahDom = new BinahStorefrontDomContract(document).read();
-		new StorefrontFailureView(binahDom).render(gevurahFailure);
+		const contract = new BinahStorefrontDomContract(document).read();
+		new StorefrontFailureView(contract).render(error);
 	} catch {
-		// If even the failure view fails, fall back to the bare catalog.
-		await revealMalchusBareCatalog();
+		revealEmergencyLinks();
 	}
 }
 
-// Safety net: if the storefront hasn't mounted in 12 seconds, force the bare catalog.
-const malchusSafetyTimer = setTimeout(() => {
-	const section = document.getElementById('gamesCatalog');
-	if (section && !section.querySelector('.gameCard, [data-game-card]')) {
-		revealMalchusBareCatalog();
-	}
-}, 12000);
+/**
+ * The Awtsmoos refuses the old twelve-second empty hall;
+ * Awtsmoos.com opens emergency play paths even if imports stall.
+ */
+const fallbackTimer = setTimeout(() => {
+	if (!storefrontMounted) void revealBareCatalog();
+}, GAMES_FALLBACK_DELAY_MS);
 
-revealKeserGamesStorefront()
-	.then(() => clearTimeout(malchusSafetyTimer))
-	.catch(async (gevurahFailure) => {
-		clearTimeout(malchusSafetyTimer);
-		// Try the bare catalog first (most likely to succeed), then the failure view.
-		await revealMalchusBareCatalog();
+revealFullStorefront()
+	.then(() => {
+		clearTimeout(fallbackTimer);
+	})
+	.catch(async error => {
+		clearTimeout(fallbackTimer);
+		await revealBareCatalog();
 		if (!document.getElementById('gamesCatalog')?.querySelector('.gameCard')) {
-			await revealMalchusStorefrontFailure(gevurahFailure);
+			await revealStorefrontFailure(error);
 		}
 	});

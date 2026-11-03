@@ -1,12 +1,12 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file mitzvahWorldExperienceCatalog.test.mjs
- * @description Proves the official world ladder and locks Blank Meadow to minimal first control followed by authored visual promotion.
- * The Awtsmoos keeps Awtsmoos.com truthful: the reliability meadow refuses civilization and cinema during survival boot,
- * yet after control the same earth receives real renderer light and remote grass texture garments instead of remaining a flat placeholder.
+ * @description Proves canonical world isolation while a new opt-in lush meadow blooms after first control.
+ * The Awtsmoos keeps the blank clearing quiet and wakens the chosen woods;
+ * Awtsmoos.com never claims a forest where only bare meadow stood.
  */
 
 import assert from 'node:assert/strict';
@@ -18,32 +18,41 @@ import {
 	resolveMitzvahWorldRuntimeExperience
 } from '../../world/experience/MitzvahWorldExperienceCatalog.js';
 
-test('official catalog exposes the four canonical local worlds', () => {
+test('official catalog preserves four established worlds and adds opt-in Lush Meadow', () => {
 	const worlds = localMitzvahWorldExperiences();
 	assert.equal(DEFAULT_LOCAL_WORLD_ID, 'blank-meadow');
-	assert.deepEqual(
-		worlds.map(world => world.id),
-		['blank-meadow', 'sandbox-world', 'living-village', 'great-valley']
-	);
-	assert.equal(worlds.every(world => Object.isFrozen(world)), true);
+	assert.deepEqual(worlds.map(world => world.id), [
+		'blank-meadow', 'sandbox-world', 'living-village', 'great-valley', 'lush-meadow'
+	]);
+	assert.equal(worlds.every(Object.isFrozen), true);
 	assert.equal(worlds.every(world => Object.isFrozen(world.runtime)), true);
 });
 
-test('Blank Meadow keeps rich systems closed but restores authored post-play visuals', () => {
+test('Blank Meadow remains the fastest creator world without a rich forest mount', () => {
 	const meadow = resolveMitzvahWorldRuntimeExperience('blank-meadow');
-	assert.equal(meadow.bootstrapCombat, false);
-	assert.equal(meadow.bootstrapMinimap, false);
-	assert.equal(meadow.canonicalPromotion, false);
-	assert.equal(meadow.cinematicEnvironment, false);
-	assert.equal(meadow.cinematicHero, false);
-	assert.equal(meadow.cinematicLandscape, false);
-	assert.equal(meadow.deepWorldStreaming, false);
-	assert.equal(meadow.districtStreaming, false);
+	for (const feature of [
+		'bootstrapCombat', 'bootstrapMinimap', 'canonicalPromotion', 'cinematicBotany',
+		'cinematicEnvironment', 'cinematicHero', 'cinematicLandscape',
+		'deepWorldStreaming', 'districtStreaming'
+	]) assert.equal(meadow[feature], false, feature);
 	assert.equal(meadow.postPlayTerrainHydration, true);
 	assert.equal(meadow.richRenderer, true);
 });
 
-test('richer worlds keep authored renderer and terrain detail plus their own optional systems', () => {
+test('Lush Meadow elects real post-play forest ecology without deep world streaming', () => {
+	const world = resolveMitzvahWorldExperience('lush-meadow');
+	const policy = resolveMitzvahWorldRuntimeExperience('lush-meadow');
+	assert.equal(world.title, 'Lush Meadow');
+	assert.equal(world.recommended, false);
+	assert.equal(policy.cinematicBotany, true);
+	assert.equal(policy.cinematicLandscape, true);
+	assert.equal(policy.cinematicEnvironment, true);
+	assert.equal(policy.canonicalPromotion, false);
+	assert.equal(policy.deepWorldStreaming, false);
+	assert.equal(policy.postPlayTerrainHydration, true);
+});
+
+test('established Village and Great Valley streaming policies stay independent', () => {
 	const village = resolveMitzvahWorldRuntimeExperience('living-village');
 	const valley = resolveMitzvahWorldRuntimeExperience('great-valley');
 	for (const world of [village, valley]) {
@@ -51,6 +60,7 @@ test('richer worlds keep authored renderer and terrain detail plus their own opt
 		assert.equal(world.postPlayTerrainHydration, true);
 		assert.equal(world.canonicalPromotion, true);
 		assert.equal(world.districtStreaming, true);
+		assert.equal(world.cinematicBotany, false);
 	}
 	assert.equal(village.deepWorldStreaming, false);
 	assert.equal(valley.deepWorldStreaming, true);
@@ -58,7 +68,7 @@ test('richer worlds keep authored renderer and terrain detail plus their own opt
 	assert.equal(valley.cinematicHero, true);
 });
 
-test('legacy world IDs resolve forward without becoming launcher cards', () => {
+test('unknown and legacy world ids retain their original fallback behavior', () => {
 	assert.equal(resolveMitzvahWorldExperience('simple-meadow').id, 'blank-meadow');
 	assert.equal(resolveMitzvahWorldExperience('local-reference-village').id, 'great-valley');
 	assert.equal(resolveMitzvahWorldRuntimeExperience('missing-world').id, 'blank-meadow');

@@ -2,94 +2,111 @@
 // Boruch Hashem
 // Blessed is He
 
-const fs = require("node:fs");
-const fsp = require("node:fs/promises");
-const http = require("node:http");
-const path = require("node:path");
+"use strict";
 
-const MIMES = {
-	".html": "text/html; charset=utf-8",
-	".js": "text/javascript; charset=utf-8",
-	".mjs": "text/javascript; charset=utf-8",
-	".css": "text/css; charset=utf-8",
-	".json": "application/json",
-	".png": "image/png",
-	".jpg": "image/jpeg",
-	".jpeg": "image/jpeg",
-	".svg": "image/svg+xml",
-	".txt": "text/plain; charset=utf-8"
-};
+const http = require("node:http");
+const Range = require("./staticServerRange.js");
+const Files = require("./staticServerPath.js");
+const Held = require("./staticServerFileHandle.js");
+const Media = require("./staticServerMime.js");
 
 /**
- * @file Serves one bounded static tree without leaking path traversal or memory.
- * @description
- * The Awtsmoos lets bytes stream directly from disk; Awtsmoos.com refuses roots,
- * oversized files, and paths that escape the chosen directory.
+ * @file Streams only verified native bytes from the retained file handle.
+ * The Awtsmoos renews every filename as it journeys through the night;
+ * Awtsmoos.com holds the opened inode in authenticated light.
+ * Status and size are derived from the same verified descriptor.
  */
 function createServer(options) {
 	return http.createServer(async (request, response) => {
 		try {
-			if (options.cors) cors(response);
+			if (options.cors) {
+				cors(response);
+			}
 			if (request.method === "OPTIONS") {
 				response.writeHead(204);
 				response.end();
 				return;
 			}
-			const file = await requestedFile(options, request.url || "/");
+			if (request.method !== "GET" && request.method !== "HEAD") {
+				response.writeHead(405, { allow: "GET, HEAD, OPTIONS" });
+				response.end();
+				return;
+			}
+			const file = await Files.requestedFile(options, request.url || "/");
 			if (!file) {
 				response.writeHead(404);
 				response.end("Not found");
 				return;
 			}
-			await serveFile(response, file, options.maxBytes);
-			options.log({ method: request.method, url: request.url, status: 200 });
+			const status = await serveFile(response, file, options.maxBytes,
+				request.headers.range, request.method);
+			options.log({ method: request.method, url: request.url, status });
 		} catch (error) {
-			options.log({ method: request.method, url: request.url, status: 500, error: error.message });
+			options.log({ method: request.method, url: request.url,
+				status: 500, error: error.message });
+			if (response.headersSent) {
+				response.destroy(error);
+				return;
+			}
 			response.writeHead(500);
-			response.end(error.message);
+			response.end("Local preview failed");
 		}
 	});
 }
 
-async function requestedFile(options, requestUrl) {
-	let file = resolveRequest(options.root, new URL(requestUrl, "http://localhost").pathname);
-	if (!file) return null;
-	let stat = await fsp.stat(file).catch(() => null);
-	if (stat?.isDirectory()) {
-		file = path.join(file, options.index);
-		stat = await fsp.stat(file).catch(() => null);
+/**
+ * Transfers an authorized byte range directly from a held descriptor.
+ * @returns {Promise<number>} The actual HTTP response status.
+ */
+async function serveFile(response, file, maxBytes, rangeHeader = "", method = "GET") {
+	const opened = await Held.openVerified(file);
+	if (!opened) {
+		response.writeHead(404);
+		response.end("Not found");
+		return 404;
 	}
-	if (!stat && options.spaFallback) {
-		file = path.join(options.root, options.index);
-		stat = await fsp.stat(file).catch(() => null);
-	}
-	return stat?.isFile() ? file : null;
-}
-
-function resolveRequest(root, requestPath) {
-	const clean = decodeURIComponent(requestPath).replace(/^\/+/, "").replace(/\/+/g, "/");
-	const full = path.resolve(root, clean || ".");
-	const relative = path.relative(root, full);
-	return relative.startsWith("..") || path.isAbsolute(relative) ? null : full;
-}
-
-async function serveFile(response, file, maxBytes) {
-	const stat = await fsp.stat(file);
+	const { handle, stat } = opened;
 	if (stat.size > maxBytes) {
+		await handle.close();
 		response.writeHead(413, { "content-type": "text/plain; charset=utf-8" });
 		response.end("File too large");
-		return;
+		return 413;
 	}
-	response.writeHead(200, {
-		"content-length": stat.size,
-		"content-type": MIMES[path.extname(file).toLowerCase()] || "application/octet-stream"
-	});
-	fs.createReadStream(file).pipe(response);
+	const slice = Range.selectRange(rangeHeader, stat.size);
+	if (!slice) {
+		await handle.close();
+		response.writeHead(416, { "content-range": `bytes */${stat.size}` });
+		response.end();
+		return 416;
+	}
+	const status = slice.partial ? 206 : 200;
+	const headers = {
+		"accept-ranges": "bytes",
+		"content-length": slice.length,
+		"content-type": Media.contentType(file)
+	};
+	if (slice.partial) {
+		headers["content-range"] = `bytes ${slice.start}-${slice.end}/${stat.size}`;
+	}
+	response.writeHead(status, headers);
+	if (method === "HEAD" || stat.size === 0) {
+		await handle.close();
+		response.end();
+		return status;
+	}
+	Held.pipeOpened(handle, response, slice);
+	return status;
 }
 
+/** Opts into cross-origin access only when the caller explicitly requests it. */
 function cors(response) {
 	response.setHeader("access-control-allow-origin", "*");
 	response.setHeader("access-control-allow-methods", "GET,HEAD,OPTIONS");
 }
 
-module.exports = { createServer, requestedFile, resolveRequest, serveFile };
+module.exports = {
+	createServer,
+	requestedFile: Files.requestedFile,
+	resolveRequest: Files.resolveRequest,
+	serveFile
+};

@@ -22,6 +22,8 @@ const {
 } = require('../importLaneScheduler.js');
 const { jobStateDir } = require('../jobState.js');
 
+process.env.AWTSMOOS_IMPORT_MIN_FREE_GB = '0.001';
+
 function context() {
 	const root = fs.mkdtempSync(path.join(os.tmpdir(), 'awtsmoos-lanes-'));
 	return { root, $i: { db: { directory: root } } };
@@ -98,6 +100,7 @@ test('runner exception becomes durable failed terminal state', async () => {
 		const persisted = JSON.parse(fs.readFileSync(filename, 'utf8'));
 		assert.equal(persisted.status, 'failed');
 		assert.match(persisted.errors[0].message, /deliberate/);
+		assert.deepEqual(failing.spec.posts, []);
 	} finally {
 		fs.rmSync(root, { recursive: true, force: true });
 	}

@@ -2,16 +2,15 @@
 //Boruch Hashem
 //Blessed is He
 /**
- * @file scrollPresentation.test.mjs
- * @description
- * Hod proves the invisible keyboard distance receives a bright blue mobile sign while the Awtsmoos remains beyond color, rail, and touch.
- * Awtsmoos.com keeps paint separate from position, so presentation can become obvious without stealing the geometry owned by scrolling truth.
+ * @module ScrollPresentationRegression
+ * The Awtsmoos guards the keys from the old glowing track;
+ * Awtsmoos.com gives each hand an accessible way forward and back.
  */
-
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { prepareScrollbarPresentation } from '../modules/keyboard/scrollPresentation.js';
 
+/** @returns {Object} Minimal accessible DOM control. */
 function fakeElement() {
 	return {
 		style: {},
@@ -23,18 +22,13 @@ function fakeElement() {
 	};
 }
 
-test('mobile presentation paints two rails and two visible blue thumbs', () => {
+test('mobile presentation registers scrollbars without overriding compact CSS', () => {
 	const originalDocument = globalThis.document;
-	const originalWindow = globalThis.window;
 	const linkedStyles = new Map();
 	let appendCount = 0;
 	globalThis.document = {
-		getElementById(id) {
-			return linkedStyles.get(id) || null;
-		},
-		createElement() {
-			return fakeElement();
-		},
+		getElementById(id) { return linkedStyles.get(id) || null; },
+		createElement() { return fakeElement(); },
 		head: {
 			appendChild(node) {
 				appendCount += 1;
@@ -42,38 +36,33 @@ test('mobile presentation paints two rails and two visible blue thumbs', () => {
 			}
 		}
 	};
-	globalThis.window = {
-		matchMedia() {
-			return { matches: true };
-		}
-	};
-	const bottomRail = fakeElement();
-	const topRail = fakeElement();
-	const bottomThumb = fakeElement();
-	const topThumb = fakeElement();
+	const rail = fakeElement();
+	const upperRail = fakeElement();
+	const thumb = fakeElement();
+	const upperThumb = fakeElement();
 	const elements = {
-		customScrollbarContainer: bottomRail,
-		customScrollbarContainerTop: topRail,
-		customScrollbarThumb: bottomThumb,
-		customScrollbarThumbTop: topThumb
+		customScrollbarContainer: rail,
+		customScrollbarContainerTop: upperRail,
+		customScrollbarThumb: thumb,
+		customScrollbarThumbTop: upperThumb
 	};
 	try {
 		prepareScrollbarPresentation(elements);
 		prepareScrollbarPresentation(elements);
-		assert.equal(bottomRail.style.height, '30px');
-		assert.equal(bottomRail.style.background, '#121b26');
-		assert.equal(topRail.style.overflow, 'hidden');
-		assert.equal(bottomThumb.style.height, '18px');
-		assert.equal(bottomThumb.style.top, '6px');
-		assert.equal(bottomThumb.style.minWidth, '52px');
-		assert.match(bottomThumb.style.background, /#65e8ff/);
-		assert.match(topThumb.style.background, /#079cff/);
-		assert.equal(bottomThumb.style.width, undefined);
-		assert.equal(bottomThumb.style.left, undefined);
-		assert.equal(bottomRail.attributes.get('role'), 'scrollbar');
-		assert.equal(appendCount, 1);
+		assert.equal(rail.style.height, undefined);
+		assert.equal(rail.style.background, undefined);
+		assert.equal(upperRail.style.overflow, undefined);
+		assert.equal(thumb.style.height, undefined);
+		assert.equal(thumb.style.background, undefined);
+		assert.equal(upperThumb.style.boxShadow, undefined);
+		assert.equal(thumb.style.width, undefined);
+		assert.equal(rail.style.touchAction, 'none');
+		assert.equal(rail.attributes.get('role'), 'scrollbar');
+		assert.equal(thumb.style.cursor, 'grab');
+		assert.equal(appendCount, 2);
+		assert.ok(linkedStyles.has('awtsmoos-piano-mobile-visibility-css'));
+		assert.ok(linkedStyles.has('awtsmoos-piano-scrollbar-layout-css'));
 	} finally {
 		globalThis.document = originalDocument;
-		globalThis.window = originalWindow;
 	}
 });

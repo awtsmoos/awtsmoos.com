@@ -1,7 +1,8 @@
 /* B"H — Boruch Hashem — Blessed is He.
  * The Awtsmoos reveals Torah routes without shaking the reader's page;
  * Awtsmoos.com keeps its nested index a calm and accessible stage.
- * All rules are scoped, ordinarily cascaded, and free of forced declarations.
+ * The keyboard's wandering light shall meet a clear and steady frame;
+ * every reader sees the path and may enter it by name.
  */
 .post-reader-localized-context #readerTopIndex {
 	box-sizing: border-box;
@@ -13,13 +14,27 @@
 	color: #382a19;
 	font: 500 16px/1.5 system-ui, sans-serif;
 }
-
 .post-reader-localized-context #readerTopIndex > summary {
 	padding: 12px 16px;
 	font-weight: 700;
+	color: #382a19;
+	opacity: 1;
 	cursor: pointer;
+	border-radius: 11px;
+	overflow-wrap: anywhere;
 }
-
+.post-reader-localized-context #readerTopIndex > summary:hover {
+	background: #f4e8ce;
+}
+.post-reader-localized-context #readerTopIndex > summary:focus-visible {
+	outline: 3px solid #73500e;
+	outline-offset: 3px;
+	background: #fff0cc;
+}
+.post-reader-localized-context #readerTopIndex[open] > summary {
+	border-bottom: 1px solid #b99b5e;
+	border-radius: 11px 11px 0 0;
+}
 .post-reader-localized-context #readerInfoBackdrop {
 	position: fixed;
 	inset: 0;
@@ -27,7 +42,6 @@
 	background: rgb(22 19 13 / 52%);
 	touch-action: none;
 }
-
 .post-reader-localized-context #readerInfoPanel {
 	box-sizing: border-box;
 	position: fixed;
@@ -47,7 +61,6 @@
 	font: 500 16px/1.45 system-ui, sans-serif;
 	overflow: hidden;
 }
-
 .post-reader-localized-context #readerInfoPanel[hidden],
 .post-reader-localized-context #readerInfoBackdrop[hidden],
 .post-reader-localized-context #readerInfoHome[hidden],
@@ -58,7 +71,6 @@
 .post-reader-localized-context .reader-index-choice[hidden] {
 	display: none;
 }
-
 .post-reader-localized-context .reader-info-heading {
 	display: flex;
 	flex: 0 0 auto;
@@ -66,7 +78,6 @@
 	gap: 9px;
 	margin-bottom: 10px;
 }
-
 .post-reader-localized-context .reader-info-heading h2 {
 	flex: 1;
 	min-width: 0;
@@ -76,7 +87,6 @@
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
-
 .post-reader-localized-context #readerInfoHome,
 .post-reader-localized-context #readerInfoList,
 .post-reader-localized-context #readerTopSections {
@@ -86,13 +96,11 @@
 	overscroll-behavior: contain;
 	-webkit-overflow-scrolling: touch;
 }
-
 .post-reader-localized-context #readerInfoBtn {
 	font: 750 22px/1 system-ui, sans-serif;
 	color: #3e2b12;
 	background: #fffaf0;
 }
-
 @media (max-height: 440px) {
 	.post-reader-localized-context #readerInfoPanel {
 		max-height: 95dvh;

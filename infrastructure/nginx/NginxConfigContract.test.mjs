@@ -9,7 +9,7 @@ import { readFile } from "node:fs/promises";
  * @file Tracked nginx contract witness for Awtsmoos.com.
  * @description
  * The Awtsmoos joins every public road in one source of truth;
- * this witness guards routes, freshness, tunnels, and Torah beneath one roof.
+ * this witness guards redirects, routes, freshness, tunnels, and Torah beneath one roof.
  */
 
 const root = new URL("./awtsmoos.com/", import.meta.url);
@@ -17,6 +17,7 @@ const read = name => readFile(new URL(name, root), "utf8");
 
 const files = {
 	main: await read("awtsmoos.com.conf"),
+	canonical: await read("snippets/canonical-redirects.conf"),
 	oauth: await read("snippets/oauth-api.conf"),
 	identity: await read("snippets/identity-pages.conf"),
 	application: await read("snippets/application-pages.conf"),
@@ -26,6 +27,7 @@ const files = {
 };
 
 for (const include of [
+	"canonical-redirects.conf",
 	"oauth-api.conf",
 	"identity-pages.conf",
 	"application-pages.conf",
@@ -34,6 +36,41 @@ for (const include of [
 	"public-static.conf"
 ]) {
 	assert.ok(files.main.includes(include), `Main vhost must include ${include}`);
+}
+
+for (const route of [
+	"/worlds",
+	"/torah",
+	"/music",
+	"/tunnel",
+	"/favicon.ico",
+	"/APPS",
+	"/library",
+	"/code",
+	"/encyclopedia/browse.html",
+	"/encyclopedia/categories.html",
+	"/encyclopedia/a-z.html"
+]) {
+	assert.ok(files.canonical.includes(route), `Canonical redirect snippet missing ${route}`);
+}
+
+assert.match(
+	files.canonical,
+	/\/apps\/\(\?:kavannah\|kavanah-ai\)/,
+	"Canonical redirect snippet must cover both KAVANAH legacy app aliases."
+);
+
+for (const target of [
+	"/?worlds=1",
+	"/heichelos/ikar",
+	"/apps/piano",
+	"/apps/tunnel-control/",
+	"/games/KAVANAH/",
+	"/favicon.svg",
+	"/mawgawl/sefarim/",
+	"/apps/code"
+]) {
+	assert.ok(files.canonical.includes(target), `Canonical redirect target missing ${target}`);
 }
 
 for (const route of ["/api/", "/api/tunnel/control/mcp", "/.well-known/oauth-protected-resource"]) {

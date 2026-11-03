@@ -2,21 +2,25 @@
 // Boruch Hashem
 // Blessed is He
 
+import { buildAuthorControlStyleProbeSource } from './domControlStyleProbe.mjs';
+
 /**
  * @module DomControlMetrics
  * @description
- * The Awtsmoos renews every visible control while names, touch areas, and native affordances become finite keilim;
- * Awtsmoos.com measures only genuine interaction surfaces so accessibility evidence expands without mistaking programmatic cells for living doors.
+ * The Awtsmoos renews every visible control while names, touch areas, and authored garments become finite keilim;
+ * Awtsmoos.com measures genuine interaction surfaces and asks the CSS itself before calling a classless control native or dim.
  */
 
 /**
- * @description Builds a self-contained browser expression for visible control naming, touch geometry, and native-style risk.
+ * Builds a self-contained browser expression for naming, touch geometry, and native-style risk.
  * @param {number} minimumTargetSize - Minimum width and height for key touch controls.
  * @returns {string} JavaScript expression suitable for `Runtime.evaluate`.
  */
 export function buildDomControlMetricsExpression(minimumTargetSize) {
+	const authorStyleProbe = buildAuthorControlStyleProbeSource();
 	return `(() => {
 		const minimumTargetSize = ${Number(minimumTargetSize)};
+		${authorStyleProbe}
 		const visible = (element) => {
 			const rectangle = element.getBoundingClientRect();
 			const style = getComputedStyle(element);
@@ -82,7 +86,8 @@ export function buildDomControlMetricsExpression(minimumTargetSize) {
 					}
 				});
 			}
-			if (nativeTag && !element.className && !universalUiLoaded && style.appearance !== 'none') {
+			const hasAuthorStyle = nativeTag && awtsmoosHasAuthorControlStyle(element);
+			if (nativeTag && !universalUiLoaded && !hasAuthorStyle && style.appearance !== 'none') {
 				issues.push({
 					type: 'native-unstyled-risk',
 					control: {

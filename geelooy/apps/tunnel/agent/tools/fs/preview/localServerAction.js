@@ -1,21 +1,27 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
+"use strict";
 
 const Dependencies = require("./deps.js");
 const SourceProbe = require("./httpProbe.js");
 const PublicProbe = require("./publicProbe.js");
 const Registry = require("../previewRegistry.js");
+const LeaseUrl = require("./leaseUrl.js");
+const Source = require("./sourceSelect.js");
 
 /**
- * @file Creates one durable local-server preview registration.
- * @description
- * The Awtsmoos distinguishes the local flame, its public doorway, and the witness
- * who actually crossed that doorway. A preview is recorded before public probing so
- * reconnects and launcher renewal cannot erase its ownership testimony.
+ * @file Registers the exact native source before suggesting a public URL.
+ * The Awtsmoos gives each flame its appointed and authorized light;
+ * Awtsmoos.com names no shareable doorway without proving the sight.
  */
 async function expose(payload = {}) {
-	const detected = explicit(payload) ? [] : await Dependencies.Detect.detect(payload);
-	const selected = explicit(payload) || choose(payload, detected);
-	const sourceUrl = source(payload, selected);
+	const detected = Source.explicit(payload)
+		? []
+		: await Dependencies.Detect.detect(payload);
+	const selected = Source.explicit(payload) || Source.choose(payload, detected);
+	const sourceUrl = Source.source(payload, selected);
 	const allowed = Boolean(sourceUrl) && Dependencies.Policy.localServerAllowed(payload);
 	const sourceProbe = allowed
 		? await SourceProbe.request(sourceUrl, payload.previewProbeTimeoutMs)
@@ -29,10 +35,15 @@ async function expose(payload = {}) {
 		}),
 		payload
 	);
-	const publicUrl = sourceUrl ? Dependencies.Url.proxyUrl(payload, sourceUrl) : "";
+	const previewId = sourceProbe.ok ? LeaseUrl.createId() : "";
+	const base = sourceUrl && previewId
+		? Dependencies.Url.proxyUrl(payload, sourceUrl)
+		: "";
+	const publicUrl = LeaseUrl.withId(base, previewId);
 	const registration = sourceProbe.ok
 		? Registry.create({
 			...preview,
+			id: previewId,
 			sourceUrl,
 			publicUrl,
 			stateRoot: payload.recoveryRoot,
@@ -40,9 +51,11 @@ async function expose(payload = {}) {
 		})
 		: null;
 	const publicProbe = await verifyPublic(payload, publicUrl, sourceProbe);
-	return result(payload, preview, detected, selected, sourceProbe, publicProbe, registration, publicUrl);
+	return result(payload, preview, detected, selected, sourceProbe,
+		publicProbe, registration, publicUrl);
 }
 
+/** Requires actual remote readback before treating any URL as shareable. */
 async function verifyPublic(payload, publicUrl, sourceProbe) {
 	if (!sourceProbe.ok || !publicUrl || payload.verifyPublic === false) {
 		return { ok: false, verified: false, error: "public_preview_not_verified" };
@@ -55,6 +68,7 @@ async function verifyPublic(payload, publicUrl, sourceProbe) {
 	});
 }
 
+/** Separates local source readiness from independently proven public access. */
 function result(payload, preview, detected, selected, sourceProbe, publicProbe, registration, publicUrl) {
 	const ok = Boolean(registration && sourceProbe.ok);
 	return {
@@ -83,30 +97,4 @@ function result(payload, preview, detected, selected, sourceProbe, publicProbe, 
 	};
 }
 
-function explicit(payload) {
-	if (payload.url) return {
-		url: payload.url,
-		port: payload.port || Number((String(payload.url).match(/:(\d+)/) || [])[1]) || null,
-		manual: true
-	};
-	if (payload.port) return {
-		url: `http://127.0.0.1:${payload.port}${payload.proxyPath || "/"}`,
-		port: payload.port,
-		manual: true
-	};
-	return null;
-}
-
-function choose(payload, detected) {
-	if (payload.port) return detected.find(server => Number(server.port) === Number(payload.port)) || null;
-	return detected[0] || null;
-}
-
-function source(payload, selected) {
-	return payload.url || selected?.url || "";
-}
-
-module.exports = {
-	expose,
-	explicit
-};
+module.exports = { expose, explicit: Source.explicit };

@@ -4,9 +4,9 @@
 
 /**
  * @file EretzStagedRuntime.js
- * @description Loads foundation first, then only the minimal canonical-player movement prime needed for first control.
- * The Awtsmoos gives the essential traveler first passage through the narrow gate;
- * Awtsmoos.com lets rich animation, combat, HUD, and abundance wait until the Chossid can already walk.
+ * @description Hydrates the canonical world and prepares real movement code concurrently, with actual control proof still required.
+ * The Awtsmoos holds the traveler and the path in one renewing light;
+ * Awtsmoos.com opens the movement gate while the meadow forms, not after the meadow leaves the gate out of sight.
  */
 
 import { resolveDeferredAppModuleUrl } from './DeferredAppModuleUrl.js';
@@ -21,10 +21,25 @@ const READABLE_SOURCE = 'EretzStagedRuntime.js';
 const FOUNDATION_CHUNK_URL = generated('mitzvah-world-foundation.compact.js');
 const CORE_CHUNK_URL = generated('mitzvah-world-core.compact.js');
 
-/** Creates the playable runtime with movement proof ahead of every post-control system. */
+/**
+ * Begins the real core module's loading alongside terrain and GLB hydration.
+ * Wrapping errors avoids an unhandled rejection during long foundation startup;
+ * the real failure is rethrown at the ordinary required core boundary.
+ */
+function beginMovementCoreImport() {
+	return import(CORE_CHUNK_URL).then(
+		module => ({ module, error: null }),
+		error => ({ module: null, error })
+	);
+}
+
+/** Creates one authentic first-control world before richer subsystems are mounted. */
 export async function createStagedEretzRuntime(hosts, options = {}, boot) {
 	const environment = options.environment || globalThis;
 	const document = environment.document || globalThis.document;
+	const startedAt = environment.performance?.now?.() ?? Date.now();
+	const movementCorePromise = beginMovementCoreImport();
+
 	boot.begin('quality-profile');
 	reportLaunchProgress(options, 'Choosing a responsive world quality…', 0.03, {
 		stage: 'quality-profile-module',
@@ -53,8 +68,17 @@ export async function createStagedEretzRuntime(hosts, options = {}, boot) {
 		url: CORE_CHUNK_URL
 	});
 	transitionMitzvahWorldBootState(environment, document, 'world-loading', null);
-	const coreModule = await import(CORE_CHUNK_URL);
-	const core = coreModule.assembleBootstrapEssentialPrime(foundation, options, qualityProfile, boot);
+	const coreReceipt = await movementCorePromise;
+	if (coreReceipt.error) throw coreReceipt.error;
+	throwIfLaunchAborted(options.signal);
+	const core = coreReceipt.module.assembleBootstrapEssentialPrime(
+		foundation,
+		options,
+		qualityProfile,
+		boot
+	);
+	const completedAt = environment.performance?.now?.() ?? Date.now();
+	core.runtime.essentialAssemblyMilliseconds = Math.max(0, completedAt - startedAt);
 	return {
 		...core,
 		foundation,

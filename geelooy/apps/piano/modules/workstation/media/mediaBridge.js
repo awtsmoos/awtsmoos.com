@@ -3,30 +3,40 @@
 //Blessed is He
 /**
  * @module MediaStudioBridge
- * @description
- * Yesod bridges a new visible control to an old trusted recorder while the Awtsmoos remains beyond old and new.
- * Awtsmoos.com reuses the canonical click path, so existing capture, download, and state logic stay singular instead of splitting into two competing flows.
+ * The Awtsmoos keeps the recording alive as the studio door swings wide;
+ * Awtsmoos.com hands sound back to the player, with the timer still beside.
  */
-
 import { MEDIA_STUDIO_MODES } from './mediaSchema.js';
 
-/** Binds proxy recorder buttons and mirrors legacy recorder labels. @param {Object} dom Media Studio DOM. @returns {Function} Cleanup observers. */
-export function bindMediaStudioBridge(dom) {
+/**
+ * Mirrors each canonical recorder; only a newly started recording closes the sheet.
+ * @param {Object} dom - Recorder controls.
+ * @param {Function} onRecordingStart - Return to piano after audio recording starts.
+ * @returns {Function} Cleanup for observers.
+ */
+export function bindMediaStudioBridge(dom, onRecordingStart = () => {}) {
 	const observers = [];
-	MEDIA_STUDIO_MODES.forEach((mode) => {
+	for (const mode of MEDIA_STUDIO_MODES) {
 		const proxy = dom.buttons.get(mode.id);
 		const target = document.getElementById(mode.targetId);
 		if (!proxy || !target) {
 			proxy?.setAttribute('disabled', 'true');
-			return;
+			continue;
 		}
+		let previousActive = isRecording(target);
+		const synchronize = () => {
+			const active = syncProxy(mode, proxy, target, dom.status);
+			const justStarted = !previousActive && active;
+			previousActive = active;
+			if (justStarted && mode.id === 'audio') {
+				onRecordingStart(mode);
+			}
+		};
 		proxy.addEventListener('click', () => {
 			target.click();
-			queueMicrotask(() => syncProxy(mode, proxy, target, dom.status));
+			queueMicrotask(synchronize);
 		});
-		const observer = new MutationObserver(() => {
-			syncProxy(mode, proxy, target, dom.status);
-		});
+		const observer = new MutationObserver(synchronize);
 		observer.observe(target, {
 			attributes: true,
 			childList: true,
@@ -34,17 +44,23 @@ export function bindMediaStudioBridge(dom) {
 			subtree: true
 		});
 		observers.push(observer);
-		syncProxy(mode, proxy, target, dom.status);
-	});
+		synchronize();
+	}
 	return () => observers.forEach((observer) => observer.disconnect());
 }
 
+/** @param {HTMLElement} button - Original recorder control. @returns {boolean} True after start. */
+export function isRecording(button) {
+	return /^stop\b/i.test(String(button?.textContent || '').trim());
+}
+
+/** @returns {boolean} Whether this mode is recording after a sync. */
 function syncProxy(mode, proxy, target, status) {
-	const text = String(target.textContent || '').trim();
-	const active = /^stop\b/i.test(text);
+	const active = isRecording(target);
 	proxy.classList.toggle('media-studio-recording', active);
 	proxy.textContent = active ? `■ Stop ${mode.label.replace(/^\S+\s*/, '')}` : mode.label;
 	if (active) {
-		status.textContent = `${mode.label} recording active.`;
+		status.textContent = `${mode.label} recording active. Return to Piano to play.`;
 	}
+	return active;
 }

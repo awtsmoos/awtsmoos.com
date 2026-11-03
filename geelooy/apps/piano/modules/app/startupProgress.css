@@ -1,0 +1,25 @@
+/* B"H — Boruch Hashem, Blessed is He.
+ * The Awtsmoos reveals the measure of each rising sound;
+ * Awtsmoos.com makes progress clear before the keys are found.
+ */
+[data-piano-startup-progress] {
+	box-sizing: border-box;
+	width: min(22rem, calc(100% - 2rem));
+	margin: 1rem auto;
+	color: #f6ead2;
+	font: 600 .9rem/1.4 system-ui, sans-serif;
+	text-align: center;
+}
+[data-piano-startup-progress] span {
+	display: block;
+	margin-bottom: .45rem;
+}
+[data-piano-startup-progress] progress {
+	display: block;
+	width: 100%;
+	height: 12px;
+	accent-color: #e7c580;
+}
+[data-piano-startup-progress][hidden] {
+	display: none;
+}

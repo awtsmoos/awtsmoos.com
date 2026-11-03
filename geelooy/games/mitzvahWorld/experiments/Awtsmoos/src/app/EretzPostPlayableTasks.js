@@ -1,11 +1,12 @@
-//B"H
-//Boruch Hashem
-//Blessed be He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file EretzPostPlayableTasks.js
- * @description Builds post-control optional task receipts from one selected-world feature policy.
- * Disabled systems return explicit receipts and are never invoked, making Blank Meadow mechanically small rather than cosmetically simple.
+ * @description Schedules only features elected by the selected playable world.
+ * The Awtsmoos awakens every forest in its own appointed time;
+ * Awtsmoos.com keeps the empty meadow free until the player chooses its chime.
  */
 
 import { startEretzBootstrapTerrainBridge } from './EretzBootstrapTerrainBridge.js';
@@ -14,13 +15,7 @@ import { scheduleEretzCinematicHeroPresentation } from './EretzCinematicHeroPres
 import { scheduleEretzCinematicLandscape } from './EretzCinematicLandscape.js';
 import { scheduleMinimalMeadowPerformanceMonitor } from './MinimalMeadowPerformanceHydration.js';
 
-/**
- * Creates all independently gated post-play tasks.
- * @param {object} context Live Eretz runtime context.
- * @param {object} policy Resolved immutable world policy.
- * @param {object} dependencies Optional scheduler substitutions for tests.
- * @returns {object} Terrain task, public diagnostic promises, and task receipts.
- */
+/** Constructs independent, policy-gated post-control task receipts. */
 export function createEretzPostPlayableTasks(context, policy, dependencies = {}) {
 	const { core, environment } = context;
 	const { diagnostics, runtime } = core;
@@ -39,12 +34,11 @@ export function createEretzPostPlayableTasks(context, policy, dependencies = {})
 		? environmentTask(runtime, environment)
 		: disabledEretzWorldTask('cinematic-environment');
 	const cinematicLandscape = policy.cinematicLandscape
-		? landscape(runtime)
+		? landscape(runtime, { cinematicBotanyEnabled: policy.cinematicBotany === true })
 		: disabledEretzWorldTask('cinematic-landscape');
 	const cinematicHero = policy.cinematicHero
 		? hero(runtime, environment)
 		: disabledEretzWorldTask('cinematic-hero');
-
 	return {
 		diagnostics: {
 			cinematicEnvironmentPromise: cinematicEnvironment,
@@ -62,11 +56,7 @@ export function createEretzPostPlayableTasks(context, policy, dependencies = {})
 	};
 }
 
-/**
- * Returns a resolved immutable receipt for deliberately disabled optional work.
- * @param {string} system Stable system identifier used by diagnostics and tests.
- * @returns {Promise<Readonly<object>>} Disabled-task receipt.
- */
+/** Reports a deliberately closed optional system without invoking its initializer. */
 export function disabledEretzWorldTask(system) {
 	return Promise.resolve(Object.freeze({
 		status: 'disabled-by-world-profile',

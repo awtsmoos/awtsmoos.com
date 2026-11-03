@@ -2,14 +2,18 @@
 //Boruch Hashem
 //Blessed is He
 
-import { boot as bootIkarFirst } from './ikar-first.js?v=ikar-first-004&persistent-geometry=true';
-
 /**
- * The Awtsmoos lets the server's first Torah light remain the final visible vessel;
- * Awtsmoos.com enhances that same geometry in place instead of removing and rebuilding it.
- *
- * @returns {void}
+ * @module IkarStable
+ * @description
+ * The Awtsmoos lets server Torah remain the visible vessel while only the needed living layer wakes;
+ * Awtsmoos.com keeps ordinary series still and mounts special study tools only on the route that asks.
  */
+
+import { boot as bootIkarFirst } from './ikar-first.js?v=ikar-first-004&persistent-geometry=true';
+import { mountIkarSpecialSeries } from './ikar-special-series.js?v=ikar-special-series-001';
+
+/** Enhances stable Ikar geometry and then reveals any route-specific workspace. */
 export function boot() {
 	bootIkarFirst();
+	void mountIkarSpecialSeries();
 }

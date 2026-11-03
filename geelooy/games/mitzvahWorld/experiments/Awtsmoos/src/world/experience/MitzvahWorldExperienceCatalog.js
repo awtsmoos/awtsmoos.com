@@ -1,24 +1,22 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file MitzvahWorldExperienceCatalog.js
- * @description Publishes the official local-world ladder and preserves legacy world IDs as aliases.
- * Blank Meadow remains the measured first-control vessel, yet after movement is available the Awtsmoos lets
- * Awtsmoos.com clothe the real Chossid and earth in their authored renderer and remote grass textures without
- * awakening civilization, cinema, district streaming, or deep-world systems.
+ * @description Retains all established world modes and adds optional quality-aware cinematic ecology.
+ * The Awtsmoos holds the quiet clearing and living forest in one continuous light;
+ * Awtsmoos.com keeps the fast creator world safe while the rich world brings delight.
  */
 
 import { createMitzvahWorldFeaturePolicy } from './MitzvahWorldFeaturePolicy.js';
+import { createMitzvahWorldLushMeadowDefinition } from './MitzvahWorldLushMeadowDefinition.js';
 
 export const DEFAULT_LOCAL_WORLD_ID = 'blank-meadow';
-
 const WORLD_ALIASES = Object.freeze({
 	'local-reference-village': 'great-valley',
 	'simple-meadow': 'blank-meadow'
 });
-
 const BLANK_MEADOW_SURVIVAL_POLICY = Object.freeze({
 	bootstrapMinimap: false,
 	postPlayTerrainHydration: true,
@@ -82,33 +80,29 @@ const LOCAL_EXPERIENCES = Object.freeze([
 		}),
 		tags: ['valley', 'mountains', 'waterfalls', 'streaming'],
 		title: 'Great Valley'
-	})
+	}),
+	worldExperience(createMitzvahWorldLushMeadowDefinition())
 ]);
 
-/** Returns the ordered official local worlds shown by the launcher. */
+/** Returns the immutable official local world catalog in launcher order. */
 export function localMitzvahWorldExperiences() {
 	return LOCAL_EXPERIENCES;
 }
 
-/** Resolves official and legacy IDs to one current world definition. */
+/** Resolves valid and legacy aliases without changing the canonical default. */
 export function resolveMitzvahWorldExperience(worldId) {
 	const requested = String(worldId || '').trim();
 	const canonicalId = WORLD_ALIASES[requested] || requested;
-	return LOCAL_EXPERIENCES.find(world => world.id === canonicalId)
-		|| LOCAL_EXPERIENCES[0];
+	return LOCAL_EXPERIENCES.find(world => world.id === canonicalId) || LOCAL_EXPERIENCES[0];
 }
 
-/** Returns the compact immutable runtime policy for the selected local experience. */
+/** Returns the selected frozen feature vocabulary for the world runtime. */
 export function resolveMitzvahWorldRuntimeExperience(worldId) {
 	const experience = resolveMitzvahWorldExperience(worldId);
-	return Object.freeze({
-		...experience.runtime,
-		id: experience.id,
-		title: experience.title
-	});
+	return Object.freeze({ ...experience.runtime, id: experience.id, title: experience.title });
 }
 
-/** Freezes one player-visible experience and its complete runtime contract. */
+/** Normalizes one player-visible local world definition. */
 function worldExperience(definition) {
 	return Object.freeze({
 		...definition,

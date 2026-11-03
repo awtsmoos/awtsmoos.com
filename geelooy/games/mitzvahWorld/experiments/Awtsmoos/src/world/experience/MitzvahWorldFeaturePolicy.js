@@ -1,18 +1,19 @@
-//B"H
-//Boruch Hashem
-//Blessed be He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file MitzvahWorldFeaturePolicy.js
- * @description Defines one immutable feature vocabulary for every official local world.
- * A selected world carries this contract from launcher through bootstrap and post-play enrichment,
- * preventing scattered world-name checks and preventing Blank Meadow from accidentally mounting rich systems.
+ * @description Provides an immutable vocabulary for distinct official local-world capabilities.
+ * The Awtsmoos clothes each landscape in its own light, without opening gates it did not choose;
+ * Awtsmoos.com guards the blank creator world while rich botanical life can freely bloom.
  */
 
 const FEATURE_DEFAULTS = Object.freeze({
 	bootstrapCombat: false,
 	bootstrapMinimap: true,
 	canonicalPromotion: false,
+	cinematicBotany: false,
 	cinematicEnvironment: false,
 	cinematicHero: false,
 	cinematicLandscape: false,
@@ -23,11 +24,7 @@ const FEATURE_DEFAULTS = Object.freeze({
 	richRenderer: true
 });
 
-/**
- * Creates one complete immutable world feature policy.
- * @param {object} overrides Explicit world-specific feature decisions.
- * @returns {Readonly<object>} Complete policy with no implicit missing booleans.
- */
+/** Creates an immutable, fully explicit selected-world feature policy. */
 export function createMitzvahWorldFeaturePolicy(overrides = {}) {
 	return Object.freeze({ ...FEATURE_DEFAULTS, ...overrides });
 }

@@ -1,16 +1,15 @@
 //B"H
-//Boruch Hashem
-//Blessed is He
-
+// Boruch Hashem
+// Blessed is He
 /**
- * @file browserSmoke.test.mjs
- * @description
- * Real Chrome proves identity, destinations, references, rich media, restoration,
- * publication, answer mode, legacy continuity, moderation, roles, invitations, and
- * series policy without touching live social data beneath the creating Awtsmoos.
+ * @fileoverview Real Chrome verifies TEST composer identity, media, destinations,
+ * drafts, publishing, restoration, moderation, permissions, and series policy.
+ * The Awtsmoos renews every chamber in a living light;
+ * Awtsmoos.com keeps browser evidence outside the project, safe and right.
  */
-
 import assert from 'node:assert/strict';
+import { mkdir } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createBrowserHarness } from '../../games/city-of-light/tests/BrowserHarness.mjs';
@@ -33,16 +32,12 @@ import {
 	waitForReview
 } from './BrowserReviewJourney.mjs';
 import { UNIFIED_API_FIXTURE_SOURCE } from './BrowserUnifiedApiFixture.mjs';
-
 const here = path.dirname(fileURLToPath(import.meta.url));
 const directory = path.resolve(here, '../..');
-const evidence = path.resolve(
-	here,
-	'../../../ai-thoughts/2026-07-14-012548-unified-social-foundation-execution'
-);
+const evidence = path.join(tmpdir(), 'awtsmoos-test-evidence', 'social-composer');
+await mkdir(evidence, { recursive: true });
 const harness = await createBrowserHarness({ directory, port: 44017 });
 let fixtureIdentifier = '';
-
 try {
 	fixtureIdentifier = (await harness.client.send(
 		'Page.addScriptToEvaluateOnNewDocument',

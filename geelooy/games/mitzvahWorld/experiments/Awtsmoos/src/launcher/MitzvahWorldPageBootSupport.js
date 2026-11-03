@@ -1,33 +1,47 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file MitzvahWorldPageBootSupport.js
- * @description Keeps release receipts and essential-stage waiting outside the page orchestration vessel.
- * The Awtsmoos measures every threshold while Awtsmoos.com keeps the launcher clear and bright;
- * finite receipts name the road, but only real readiness opens gameplay into light.
+ * @description Gives the complete world enough finite time for its *real* individually gated asset and movement proofs.
+ * The Awtsmoos renews each leaf before a traveler walks in light;
+ * Awtsmoos.com cannot demand an entire meadow inside the doorway's brief first night.
  */
+
 import { awaitMitzvahWorldEssentialStage } from './MitzvahWorldEssentialDeadline.js';
 import {
 	MITZVAH_WORLD_RELEASE_ID,
 	createMitzvahWorldReleaseReceipt
 } from './MitzvahWorldReleaseIdentity.js';
 
-const ESSENTIAL_BOOT_TIMEOUT_MS = 10000;
+const MODULE_IMPORT_DEADLINE_MS = 10000;
+const COMPLETE_WORLD_DEADLINE_MS = 75000;
 
-/** Awaits one essential launcher stage without converting timeout into playable success. */
+/**
+ * The launcher module is one import; the world route encompasses multiple bounded proofs.
+ * Individual essential milestones still have their own strict deadlines and observable failure reasons.
+ * @param {string} stage Current stage identifier.
+ * @returns {number} Finite, stage-appropriate deadline in milliseconds.
+ */
+export function resolveMitzvahWorldPageStageDeadline(stage) {
+	return stage === 'launcher-route'
+		? COMPLETE_WORLD_DEADLINE_MS
+		: MODULE_IMPORT_DEADLINE_MS;
+}
+
+/** Waits for actual stage work, and never publishes success merely because a deadline passed. */
 export function awaitMitzvahWorldPageEssential(factory, stage, route, getDetail) {
 	return awaitMitzvahWorldEssentialStage(factory, {
 		getDetail,
 		releaseId: MITZVAH_WORLD_RELEASE_ID,
 		route: route || 'menu',
 		stage,
-		timeoutMs: ESSENTIAL_BOOT_TIMEOUT_MS
+		timeoutMs: resolveMitzvahWorldPageStageDeadline(stage)
 	});
 }
 
-/** Normalizes textual launcher progress for both overlay and durable release receipts. */
+/** Turns progress into text that remains useful through loading and failure reports. */
 export function describeMitzvahWorldPageProgress(update) {
 	if (typeof update === 'string') return update;
 	return update?.message || update?.stage || 'Launcher work is in progress.';

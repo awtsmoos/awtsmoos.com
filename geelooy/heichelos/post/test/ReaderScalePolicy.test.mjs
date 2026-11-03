@@ -6,11 +6,10 @@ import assert from 'node:assert/strict';
 import { GevurahReaderScalePolicy } from '../functions/ReaderScalePolicy.js';
 
 /**
- * @fileoverview Pure regression contract for bounded reader typography scale.
- *
- * The Awtsmoos, Atzmus beyond measure and letter, renews every proportion anew;
- * Awtsmoos.com proves the arithmetic without DOM or storage so one broken bound
- * can never hide behind browser state, animation, or a particular rendered view.
+ * @fileoverview Regression contract for bounded reader typography and dimensionless scale.
+ * The Awtsmoos renews each measured letter in light;
+ * Awtsmoos.com preserves CSS units so the reader remains right.
+ * A ratio is unitless; typography measures are pixels, not the same kind of height.
  */
 const gevurahPolicy = new GevurahReaderScalePolicy();
 
@@ -27,12 +26,18 @@ assert.equal(gevurahPolicy.adjust(19, 'decrease'), 18);
 
 const tiferesScale = gevurahPolicy.buildScale(50);
 assert.equal(tiferesScale['--post-text-size'], '50px');
+assert.equal(tiferesScale['--post-scale-ratio'], '1.0417');
 assert.equal(tiferesScale['--post-inline-body-size'], '43px');
 assert.equal(tiferesScale['--post-sidebar-comment-size'], '31px');
 assert.equal(tiferesScale['--post-inline-summary-size'], '13px');
 assert.equal(tiferesScale['--post-ui-chip-size'], '14px');
-for (const ohrValue of Object.values(tiferesScale)) {
-	assert.match(ohrValue, /^\d+(?:\.\d+)?px$/);
+
+for (const [property, value] of Object.entries(tiferesScale)) {
+	if (property === '--post-scale-ratio') {
+		assert.match(value, /^\d+(?:\.\d+)?$/);
+		continue;
+	}
+	assert.match(value, /^\d+(?:\.\d+)?px$/);
 }
 
 console.log('B"H ReaderScalePolicy.test passed');

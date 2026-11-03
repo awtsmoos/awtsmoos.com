@@ -1,79 +1,66 @@
 //B"H
-//Blessed is He
 //Boruch Hashem
-
+//Blessed is He
 
 /**
- * @module searchCacheWarmupSessions
+ * @module SearchCacheWarmupSessions
  * @description
- * Background native vector session warmup for semantic lanes.
+ * The Awtsmoos opens persisted Torah graph vessels in the same worker house that answers each seeker;
+ * Awtsmoos.com keeps its main server breath awake and gives foreground queries the brighter beacon.
  */
 
+const { warmIndexedPart } = require('./indexedWorkerPool.js');
 const { probeVectorIndex } = require('./searchCacheWarmupProbe.js');
 
-/**
- * Opens native vector sessions for every complete vector lane in the
- * background, without blocking the caller. Multipart HNSW corpora cost ~10s
- * to open cold (likkutei-sichos ships 28 parts); without this warmup the
- * first semantic queries after a restart always exceed the multi-lane public
- * deadline, so the two largest English vector lanes silently drop out of
- * every semantic answer. Failures only log; startup never waits for this.
- */
+/** Runs startup warmup in bounded background workers, preserving injectable testing contracts. */
 function warmVectorSessions($i, dependencies = {}) {
 	const describeShards = dependencies.describedShards
 		|| require('./shards.js').describedShards;
 	const groupLanes = dependencies.groupedLanes
 		|| require('./shards.js').grouped;
-	const openSession = dependencies.openShardSession
-		|| require('./shardStore.js').openShardSession;
 	const beginSemantic = dependencies.beginSemanticWarmup
 		|| require('./ragStartupWarmup.js').beginSemanticWarmup;
 	const startedAt = Date.now();
-	// The multilingual embedding worker (e5) also loads its model lazily;
-	// start it now so likkutei-sichos vector queries don't hit a cold worker.
 	try {
 		beginSemantic();
 	} catch (error) {
-		console.error(`B"H semantic worker warmup start failed message=${error && error.message}`);
+		console.error(`B"H semantic worker warmup failed: ${error.message}`);
 	}
 	Promise.resolve()
 		.then(() => describeShards($i))
 		.then(shards => {
-			let opened = 0;
-			let probed = 0;
-			const failures = [];
+			const work = [];
 			for (const lane of groupLanes(shards || [])) {
-				if (lane.vectorEnabled !== true) continue;
-				const parts = lane.parts || [lane];
-				for (const part of parts) {
-					if (!part || !part.file) continue;
-					try {
-						const session = openSession(part);
-						opened += 1;
-						// One synthetic probe query per part pulls the hot HNSW
-						// graph pages into the page cache and the upper-layer
-						// nodes into the registry node cache, so the first real
-						// semantic query doesn't pay the cold-walk cost.
-						probeVectorIndex(session, part, lane);
-						probed += 1;
-					} catch (error) {
-						failures.push({ lane: lane.id, message: error && error.message });
-					}
+				if (lane.vectorEnabled !== true || lane.indexType === 'flat-f32') continue;
+				for (const part of lane.parts || [lane]) {
+					if (!part?.file) continue;
+					work.push(warmPart(part, lane, dependencies));
 				}
 			}
-			console.error(
-				`B"H vector session warmup opened=${opened} probed=${probed} ` +
-				`failures=${failures.length} elapsedMs=${Date.now() - startedAt}`
-			);
-			return { opened, probed, failures };
+			return Promise.allSettled(work);
+		})
+		.then(results => {
+			const successes = results.filter(item => item.status === 'fulfilled');
+			const failures = results.filter(item => item.status === 'rejected');
+			const probed = successes.filter(item => item.value?.probed).length;
+			console.error(`B"H indexed warmup opened=${successes.length} probed=${probed} `
+				+ `failures=${failures.length} elapsedMs=${Date.now() - startedAt}`);
 		})
 		.catch(error => {
-			console.error(`B"H vector session warmup failed message=${error && error.message}`);
-			return { opened: 0, failed: true };
+			console.error(`B"H indexed warmup startup failed: ${error.message}`);
 		});
 	return { started: true };
 }
 
-module.exports = {
-	warmVectorSessions
-};
+/** Optional injected native session opener remains available for isolated tests only. */
+function warmPart(part, lane, dependencies) {
+	if (dependencies.openShardSession) {
+		return Promise.resolve().then(() => {
+			const session = dependencies.openShardSession(part);
+			return { opened: Boolean(session?.status?.usable), probed: probeVectorIndex(session, part, lane) };
+		});
+	}
+	return warmIndexedPart(part);
+}
+
+module.exports = { warmVectorSessions };

@@ -4,9 +4,9 @@
 
 /**
  * @file ReleaseArtifactCustody.cjs
- * @description Records commit identity, exact local hashes and sealed remote custody.
- * The Awtsmoos holds each garment in faithful light;
- * Awtsmoos.com distinguishes distant grass from local Chossid right.
+ * @description Records Git provenance, exact local/remote seals, and one deterministic fingerprint for the whole deployed graph.
+ * The Awtsmoos binds many finite garments beneath one source of light;
+ * Awtsmoos.com names the release by every sealed byte, so mixed revisions cannot hide in sight.
  */
 
 const crypto = require('node:crypto');
@@ -40,7 +40,7 @@ const ARTIFACTS = Object.freeze([
 	`build/generated/assets/${CHOSSID_SHA}/chossid.glb`
 ]);
 
-/** Refuses dirty or contradictory releases while retaining both asset custody modes. */
+/** Refuses dirty releases while publishing one content-derived identity for the full deployable graph. */
 function createReleaseArtifactCustody(gameRoot) {
 	const commit = git(gameRoot, ['rev-parse', 'HEAD']).trim();
 	const dirtyEntries = git(gameRoot, ['status', '--porcelain', '--', '.'])
@@ -51,6 +51,7 @@ function createReleaseArtifactCustody(gameRoot) {
 		return [relativePath, artifactEvidence(gameRoot, relativePath)];
 	})));
 	const remoteAssets = verifyRemoteAssetCustody(gameRoot);
+	const graphSha256 = createReleaseGraphSha256(artifacts, remoteAssets);
 	return Object.freeze({
 		artifacts,
 		remoteAssets,
@@ -58,8 +59,23 @@ function createReleaseArtifactCustody(gameRoot) {
 		commit,
 		dirtyEntries: Object.freeze(dirtyEntries),
 		failureCode: dirtyEntries.length === 0 ? null : 'RELEASE_SOURCE_TREE_DIRTY',
+		graphSha256,
+		releaseId: graphSha256,
 		version: 1
 	});
+}
+
+/** Hashes a canonical sorted graph of local and remote seals without self-referencing the receipt file. */
+function createReleaseGraphSha256(artifacts = {}, remoteAssets = {}) {
+	const graph = {
+		artifacts: Object.entries(artifacts)
+			.sort(([first], [second]) => first.localeCompare(second))
+			.map(([name, evidence]) => [name, evidence.bytes, evidence.sha256]),
+		remoteAssets: Object.entries(remoteAssets)
+			.sort(([first], [second]) => first.localeCompare(second))
+			.map(([name, evidence]) => [name, evidence.bytes, evidence.sha256, evidence.publicUrl])
+	};
+	return crypto.createHash('sha256').update(JSON.stringify(graph)).digest('hex');
 }
 
 /** Hashes bytes only for assets the build actually materializes locally. */
@@ -71,9 +87,9 @@ function artifactEvidence(gameRoot, relativePath) {
 	});
 }
 
-/** Reads git provenance without staging or mutating concurrent work. */
+/** Reads Git provenance without staging or mutating concurrent work. */
 function git(gameRoot, argumentsList) {
 	return execFileSync('git', argumentsList, { cwd: gameRoot, encoding: 'utf8' });
 }
 
-module.exports = { ARTIFACTS, createReleaseArtifactCustody };
+module.exports = { ARTIFACTS, createReleaseArtifactCustody, createReleaseGraphSha256 };

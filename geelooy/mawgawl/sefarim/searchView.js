@@ -6,7 +6,7 @@
  * @module LivingLibraryView
  * @description
  * The Awtsmoos lets successful search light enter one clear vessel, source after source in sight;
- * Awtsmoos.com keeps failure in its own Gevurah boundary so result rendering stays truthful and bright.
+ * Awtsmoos.com keeps waiting inline and navigable, never hiding the whole page behind a darkened night.
  */
 
 import { mergeCommentHits } from './commentMerge.js';
@@ -50,7 +50,7 @@ export function renderSearch({ search, results, status, query }) {
 }
 
 /**
- * Synchronizes submit availability, busy semantics, and visible search state.
+ * Synchronizes submit availability and busy semantics without blocking navigation.
  *
  * @param {HTMLFormElement} form Search form whose controls reflect activity.
  * @param {boolean} searching Whether a search request is currently active.
@@ -63,6 +63,7 @@ export function setSearching(form, searching) {
 
 	form.classList.toggle('searching', searching);
 	form.setAttribute('aria-busy', String(searching));
+	suppressBlockingSearchOverlay();
 
 	const button = form.querySelector('button[type="submit"]');
 	if (!button) {
@@ -74,18 +75,25 @@ export function setSearching(form, searching) {
 	if (label) {
 		label.textContent = searching ? 'Searching…' : 'Search';
 	}
+}
 
+/**
+ * Keeps the legacy full-screen loader inert so slow semantic searches never cover navigation.
+ * The inline button and status copy remain the truthful busy indicators.
+ *
+ * @returns {void}
+ */
+function suppressBlockingSearchOverlay() {
 	const overlay = document.getElementById('searchLoadingOverlay');
-	if (overlay) {
-		overlay.hidden = !searching;
-		const video = overlay.querySelector('video');
-		if (video) {
-			if (searching) {
-				video.play().catch(() => {});
-			} else {
-				video.pause();
-			}
-		}
+	if (!overlay) {
+		return;
+	}
+
+	overlay.hidden = true;
+	overlay.setAttribute('aria-hidden', 'true');
+	const video = overlay.querySelector('video');
+	if (video && !video.paused) {
+		video.pause();
 	}
 }
 

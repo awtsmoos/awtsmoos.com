@@ -1,16 +1,17 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file EretzVisualPromotionSequence.js
- * @description Starts required authored meadow visuals directly after control while release versioning remains owned by the deferred resolver.
- * The Awtsmoos lets Awtsmoos.com clothe earth and traveler without making either await distant systems: terrain hydration begins,
- * one browser frame returns to movement, and the rich renderer then awakens beneath the same playable-meadow cache covenant.
+ * @description Promotes optional terrain and renderer visuals only when the selected world and quality permit them.
+ * The Awtsmoos clothes earth after movement without making movement owe the garment a debt;
+ * Awtsmoos.com lets survival remain sparse while richer worlds may awaken after the first-control covenant is met.
  */
 
 import { startEretzBootstrapTerrainBridge } from './EretzBootstrapTerrainBridge.js';
 import { resolveDeferredAppModuleUrl } from './DeferredAppModuleUrl.js';
+import { eretzWorldFeatureEnabled } from './EretzWorldFeaturePolicy.js';
 
 const RENDERER_POLICY_URL = resolveDeferredAppModuleUrl(
 	'EretzRendererWorldPolicy.js',
@@ -18,7 +19,7 @@ const RENDERER_POLICY_URL = resolveDeferredAppModuleUrl(
 	'EretzVisualPromotionSequence.js'
 );
 
-/** Starts required simple-world terrain work before renderer promotion without awaiting broad post-play coordination. */
+/** Starts optional simple-world terrain work before renderer promotion when policy explicitly permits it. */
 export async function startEretzVisualPromotionSequence(
 	diagnostics,
 	environment,
@@ -36,25 +37,18 @@ export async function startEretzVisualPromotionSequence(
 	diagnostics.rendererPolicyStage = 'loading-policy';
 	const loadPolicy = dependencies.loadPolicy || (() => import(RENDERER_POLICY_URL));
 	const module = await loadPolicy();
-	return module.startEretzRendererByWorldPolicy(
-		diagnostics,
-		environment,
-		boot,
-		options
-	);
+	return module.startEretzRendererByWorldPolicy(diagnostics, environment, boot, options);
 }
 
-/** Returns true only for lightweight worlds that promote authored earth and renderer after control. */
+/** Returns true only when post-play terrain and rich renderer are enabled while canonical promotion is disabled. */
 export function shouldSerializeEretzVisualPromotion(options = {}) {
-	const world = options.worldExperience || {};
-	return world.postPlayTerrainHydration === true
-		&& world.richRenderer !== false
-		&& world.canonicalPromotion === false;
+	return eretzWorldFeatureEnabled(options, 'postPlayTerrainHydration', false)
+		&& eretzWorldFeatureEnabled(options, 'richRenderer', true)
+		&& !eretzWorldFeatureEnabled(options, 'canonicalPromotion', true);
 }
 
 function startVisualTerrainHydration(foundation, diagnostics, dependencies) {
-	const startTerrain = dependencies.startTerrainHydration
-		|| startEretzBootstrapTerrainBridge;
+	const startTerrain = dependencies.startTerrainHydration || startEretzBootstrapTerrainBridge;
 	try {
 		return startTerrain(foundation, diagnostics);
 	} catch (error) {

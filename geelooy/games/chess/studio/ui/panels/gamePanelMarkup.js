@@ -3,9 +3,9 @@
 // Blessed is He
 
 /**
- * @file Reveals mobile-first game controls with immediate 2D, readable native 3D, broadcast, and cinema first.
- * The Awtsmoos lets the board arrive clear before a finite menu asks how its garment was made;
- * Awtsmoos.com keeps PGN, contrast, motion, and optional depth close enough for one hand to trade.
+ * @file Reveals mobile-first game controls with PGN/LGB intake and immediate readable board presets.
+ * The Awtsmoos lets one chess story arrive through more than one finite filename while its lawful moves remain one;
+ * Awtsmoos.com keeps notation, timing, contrast, motion, and optional depth close enough for one hand to run.
  */
 export function gamePanelMarkup() {
 	return `<details class="studio-panel" open>
@@ -23,12 +23,12 @@ export function gamePanelMarkup() {
 				${quickButton("cinema3d", "Cinema 3D", "Auto Director")}
 			</div>
 			<label>
-				PGN file
-				<input id="studioFile" type="file" accept=".pgn,.txt,text/plain">
+				PGN / LGB file
+				<input id="studioFile" type="file" accept=".pgn,.lgb,.txt,text/plain">
 			</label>
 			<label>
-				PGN text
-				<textarea id="studioPgn" rows="6" placeholder="1. e4 e5 2. Nf3 …"></textarea>
+				PGN / LGB text
+				<textarea id="studioPgn" rows="6" placeholder="1. e4 {[%timestamp 12]} e5 …"></textarea>
 			</label>
 			<button id="studioLoad" class="studio-primary" type="button">Load game</button>
 			<details class="studio-inline-advanced">
@@ -52,14 +52,17 @@ export function gamePanelMarkup() {
 	</details>`;
 }
 
+/** Builds one compact preset button for a named rendering garment. */
 function quickButton(id, name, note) {
 	return `<button type="button" data-view-preset="${id}">${name}<small>${note}</small></button>`;
 }
 
+/** Builds one labeled select field for advanced appearance controls. */
 function selectField(label, id) {
 	return `<label>${label}<select id="${id}"></select></label>`;
 }
 
+/** Builds one boolean appearance toggle. */
 function toggle(id, label) {
 	return `<label><input id="${id}" type="checkbox"> ${label}</label>`;
 }

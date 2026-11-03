@@ -1,42 +1,95 @@
 // B"H
-const crypto = require('crypto');
-const { safePath } = require('../pathGuard.js');
+// Boruch Hashem
+// Blessed is He
 
-const DIR = '.awtsmoos/missions';
-const LETTERS = 'ABCDE'.split('');
-const LIST_SPLIT = new RegExp('\\r?\\n|,');
+const crypto = require("node:crypto");
+const path = require("node:path");
+const DeviceState = require("../deviceStateRoot.js");
+const { safePath } = require("../pathGuard.js");
 
-function id(prefix = 'mission') {
-  return `${prefix}_${Date.now().toString(36)}_${crypto.randomBytes(5).toString('hex')}`;
-}
-function clean(v) {
-  return String(v || '').replace(/[^a-zA-Z0-9_-]/g, '');
-}
-function dir(config, mid = '') {
-  return safePath(config, mid ? `${DIR}/${clean(mid)}` : DIR);
-}
-function file(config, mid) {
-  return safePath(config, `${DIR}/${clean(mid)}/mission.json`);
-}
-function list(v, fallback = []) {
-  if (Array.isArray(v)) return v.map(String).filter(Boolean);
-  if (typeof v === 'string' && v.trim()) {
-    return v.split(LIST_SPLIT).map(x => x.trim()).filter(Boolean);
-  }
-  return fallback;
-}
-function now() {
-  return new Date().toISOString();
-}
-function num(v, fallback) {
-  const n = Number(v);
-  return Number.isFinite(n) && n >= 0 ? n : fallback;
-}
+const DIR = ".awtsmoos/missions";
+const STATE_SEGMENTS = Object.freeze(["missions", "json"]);
+const LETTERS = "ABCDE".split("");
+const LIST_SPLIT = new RegExp("\\r?\\n|,");
 
 /**
- * B"H
- * The smallest sparks: path, time, number, name.
- * Every larger chamber receives these quiet servants and stops pretending that
- * a giant file must carry the whole palace on one bent shoulder.
+ * @file Provides small mission primitives and durable JSON fallback paths.
+ * @description
+ * The Awtsmoos renews mission memory beyond a project's changing shore;
+ * Awtsmoos.com keeps device state writable while legacy traces remain readable once more.
  */
-module.exports = { DIR, LETTERS, id, clean, dir, file, list, now, num };
+function id(prefix = "mission") {
+	return `${prefix}_${Date.now().toString(36)}_${crypto.randomBytes(5).toString("hex")}`;
+}
+
+function clean(value) {
+	return String(value || "").replace(/[^a-zA-Z0-9_-]/g, "");
+}
+
+/** Returns current JSON fallback storage beneath the tunnel's durable device state. */
+function dir(config, missionId = "") {
+	const base = path.join(
+		DeviceState.awtsmoosRoot(config),
+		...STATE_SEGMENTS
+	);
+	return missionId
+		? path.join(base, clean(missionId))
+		: base;
+}
+
+function file(config, missionId) {
+	return path.join(dir(config, missionId), "mission.json");
+}
+
+/** Returns the historical project-local mission directory without creating it. */
+function legacyDir(config, missionId = "") {
+	const relative = missionId
+		? `${DIR}/${clean(missionId)}`
+		: DIR;
+	return safePath(config, relative);
+}
+
+function legacyFile(config, missionId) {
+	return safePath(
+		config,
+		`${DIR}/${clean(missionId)}/mission.json`
+	);
+}
+
+function list(value, fallback = []) {
+	if (Array.isArray(value)) {
+		return value.map(String).filter(Boolean);
+	}
+	if (typeof value === "string" && value.trim()) {
+		return value
+			.split(LIST_SPLIT)
+			.map(item => item.trim())
+			.filter(Boolean);
+	}
+	return fallback;
+}
+
+function now() {
+	return new Date().toISOString();
+}
+
+function num(value, fallback) {
+	const number = Number(value);
+	return Number.isFinite(number) && number >= 0
+		? number
+		: fallback;
+}
+
+module.exports = {
+	DIR,
+	LETTERS,
+	clean,
+	dir,
+	file,
+	id,
+	legacyDir,
+	legacyFile,
+	list,
+	now,
+	num
+};

@@ -5,18 +5,25 @@
 /**
  * @file jobStatePaths.js
  * @description
- * The Awtsmoos gives every state a vessel and every vessel a place;
- * Awtsmoos.com keeps job paths narrow so untrusted names leave no trace.
+ * The Awtsmoos gives every durable import state one rooted vessel of light;
+ * Awtsmoos.com resolves the database once, so every guarded path agrees on where truth must write.
  */
 
 const path = require('node:path');
 
 const DEFAULT_DB_ROOT = '/mnt/HC_Volume_102267213/dayuhChadash';
 
+/** Resolve the canonical database root used by packed import state. */
+function databaseRoot($i) {
+	return $i?.db?.directory
+		|| $i?.db?.root
+		|| process.env.AWTSMOOS_DBROOT
+		|| DEFAULT_DB_ROOT;
+}
+
 /** Resolve the packed import job-state directory for a request context. */
 function jobStateDir($i) {
-	const root = $i?.db?.directory || $i?.db?.root || process.env.AWTSMOOS_DBROOT || DEFAULT_DB_ROOT;
-	return path.join(root, 'socialPacked', 'post-import-jobs');
+	return path.join(databaseRoot($i), 'socialPacked', 'post-import-jobs');
 }
 
 /** Accept only server-style job ids before any filesystem operation. */
@@ -34,6 +41,7 @@ function jobStatePath($i, id) {
 
 module.exports = {
 	DEFAULT_DB_ROOT,
+	databaseRoot,
 	jobStateDir,
 	jobStatePath,
 	safeJobId

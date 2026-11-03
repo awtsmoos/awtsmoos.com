@@ -4,18 +4,21 @@
 
 /**
  * @file BootstrapWorldFoundation.js
- * @description Joins visible valley, open collision, ground, chunks, and scene for first control.
- * The Awtsmoos gathers only what movement needs; Awtsmoos.com returns truthful diagnostics while
- * authored districts, octrees, texture families, and rich sky remain outside the critical path.
+ * @description Joins visible valley, collision, ground, one bootstrap chunk, and scene while honoring survival allocation limits.
+ * The Awtsmoos gathers what movement needs before every distant garment is shown;
+ * Awtsmoos.com lets survival keep textured earth while optional meadow geometry remains unknown.
  */
 
+import { isSurvivalQuality } from '../performance/SurvivalQualityPolicy.js';
 import { createBootstrapChunkRuntime } from './BootstrapChunkRuntime.js';
 import { createBootstrapCollisionWorld } from './BootstrapCollisionWorld.js';
 import { createBootstrapFlatGround } from './BootstrapFlatGround.js';
 import { createBootstrapTerrainPackage } from './BootstrapTerrainPackage.js?v=20260723-visible-02';
 
+/** Creates the first-control world without allocating procedural meadow geometry in survival. */
 export function createBootstrapWorldFoundation(services) {
-	const terrain = createBootstrapTerrainPackage();
+	const survival = isSurvivalQuality(services?.renderer?.qualityProfile);
+	const terrain = createBootstrapTerrainPackage({ enableProceduralMeadow: !survival });
 	const mainOctree = createBootstrapCollisionWorld();
 	const collisionQuery = mainOctree;
 	const groundContracts = createBootstrapFlatGround(collisionQuery);
@@ -34,7 +37,7 @@ export function createBootstrapWorldFoundation(services) {
 		mainOctree,
 		materialCanonicalization: {
 			canonicalized: 0,
-			mode: 'visible-bootstrap'
+			mode: survival ? 'survival-texture-only' : 'visible-bootstrap'
 		},
 		obstacles: {
 			assets: {},

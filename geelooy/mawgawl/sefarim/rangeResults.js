@@ -1,28 +1,28 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
  * @module LivingLibraryRangeCard
  * @description
- * The Awtsmoos lets every truthful library preview point back to its exact reader coordinate;
- * Awtsmoos.com keeps relevance, comments, and direct source doors together instead of ending search at a dead card.
+ * The Awtsmoos gives the seeker a source and never feigns a number;
+ * Awtsmoos.com lets an unnamed verse rest, not send a reader into slumber.
+ * Rich excerpts and source links remain intact beneath the honest heading.
  */
+
 import { clean, safeFragment } from './safeMarkup.js';
 import { appendComments } from './rangeComments.js';
 import { postDestination } from './exactDestination.js';
 import { appendSourceActions } from './resultSourceActions.js';
+import { verseRangeLabel } from './VerseRangeLabel.js';
 
+/** Gives nonnegative percentages without inventing relevance over 100%. */
 function percent(hit) {
 	const number = Number(hit.percent ?? Number(hit.score || 0) * 100);
 	return Number.isFinite(number) ? Math.max(0, Math.min(100, number)) : 0;
 }
 
-function rangeLabel(row) {
-	const start = row.verseStart ?? row.verseSection ?? '?';
-	const end = row.verseEnd ?? start;
-	return String(start) === String(end) ? `Verse ${start}` : `Verses ${start}–${end}`;
-}
-
+/** Describes segment position, source metadata and available comments. */
 function segmentMeta(row, shown) {
 	const segment = Number(row.subChunkIndex ?? row.qIndex ?? 0) + 1;
 	const total = Number(row.subChunkCount || 1);
@@ -31,10 +31,12 @@ function segmentMeta(row, shown) {
 	return `${source} · segment ${segment} of ${total} · ${dimensions || 'stored'} dimensions · ${shown} comments available`;
 }
 
+/** Keeps the existing accessible card structure and comment disclosure. */
 function cardTemplate() {
 	return '<header class="resultTop"><span class="rank"></span><div><p class="eyebrow"></p><h2></h2></div><strong class="score"></strong></header><div class="meter"><i></i></div><p class="rangePreview"></p><div class="rangeMeta"></div><div class="resultActions" hidden></div><details class="commentMenu"><summary><span class="openLabel"></span><span class="closeLabel">Hide comments ↑</span></summary><div class="commentList"></div></details>';
 }
 
+/** Adds existing canonical post and subsection links without fictional verse IDs. */
 function appendPostActions(card, row) {
 	const actions = card.querySelector('.resultActions');
 	appendSourceActions(actions, {
@@ -46,10 +48,11 @@ function appendPostActions(card, row) {
 }
 
 /**
- * @param {object} hit Normalized search hit.
- * @param {number} index Zero-based visible rank.
- * @param {boolean} openComments Whether comments begin expanded.
- * @returns {HTMLElement} Rendered result article.
+ * Builds a complete search card with an honest verse or section label.
+ * @param {object} hit - Normalized search match.
+ * @param {number} index - Zero-based visible rank.
+ * @param {boolean} openComments - Whether comments are expanded initially.
+ * @returns {HTMLElement} Accessible result article with source links.
  */
 export function rangeCard(hit, index, openComments = false) {
 	const row = hit.row || {};
@@ -60,11 +63,10 @@ export function rangeCard(hit, index, openComments = false) {
 	const card = document.createElement('article');
 	card.className = 'result range-result mi-fade-up';
 	card.style.setProperty('--relevance', `${relevance}%`);
-	/* B"H 2026-10-13 — stagger index drives the shared mi-fade-up entrance. */
 	card.style.setProperty('--mi-i', String(Math.max(0, index || 0)));
 	card.innerHTML = cardTemplate();
 	card.querySelector('.rank').textContent = index + 1;
-	card.querySelector('.eyebrow').textContent = `${clean(row.sourceLabel || row.seriesId)} · ${rangeLabel(row)}`;
+	card.querySelector('.eyebrow').textContent = `${clean(row.sourceLabel || row.seriesId)} · ${verseRangeLabel(row)}`;
 	card.querySelector('h2').textContent = clean(row.title || row.postId || 'Source segment');
 	card.querySelector('.score').textContent = `${relevance.toFixed(1)}% relevant`;
 	card.querySelector('.rangePreview').append(safeFragment(row.displayText || row.text || 'Matching source text'));
@@ -75,8 +77,6 @@ export function rangeCard(hit, index, openComments = false) {
 	commentMenu.open = openComments && comments.length > 0;
 	commentMenu.hidden = comments.length === 0;
 	card.querySelector('.openLabel').textContent = `Source comments (${comments.length})`;
-	if (comments.length) {
-		appendComments(card.querySelector('.commentList'), comments, row);
-	}
+	if (comments.length) appendComments(card.querySelector('.commentList'), comments, row);
 	return card;
 }

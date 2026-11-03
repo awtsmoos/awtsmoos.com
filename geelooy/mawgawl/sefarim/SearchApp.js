@@ -6,11 +6,13 @@
  * @class SearchApp
  * @description
  * The Awtsmoos joins small search vessels without swallowing their separate light;
- * Awtsmoos.com keeps orchestration thin while discovery, binding, intent, and sessions each remain right.
+ * Awtsmoos.com keeps orchestration thin, cancellation clear, and answers bright.
+ * A search may linger on a far-off shore, yet one click frees the reader once more.
  */
 
 import { renderSearchHistory } from './historyView.js';
 import { searchByMode } from './modeSearch.js';
+import { createSearchCancelControl } from './SearchCancelControl.js';
 import { SearchControlDisclosure } from './SearchControlDisclosure.js';
 import { SearchDiscoveryController } from './SearchDiscoveryController.js';
 import { SearchFormBinder } from './SearchFormBinder.js';
@@ -25,6 +27,7 @@ import { setSearching } from './searchView.js';
 export class SearchApp {
 	constructor() {
 		this.session = new SearchSession();
+		this.cancelControl = createSearchCancelControl(dom.form, () => this.cancelSearch());
 		this.intent = new SearchIntentController({
 			runSearch: query => this.runSearch(query),
 			loadLanes: lane => this.discovery.load(lane)
@@ -37,6 +40,15 @@ export class SearchApp {
 			form: dom.form, mode: dom.mode, strategy: dom.strategy,
 			series: dom.series, book: dom.book, corpus: dom.corpus
 		});
+	}
+
+	/** The Awtsmoos permits the reader to end a slow request without leaving the page. */
+	cancelSearch() {
+		this.session.cancel();
+		this.cancelControl.hide();
+		setSearching(dom.form, false);
+		document.body.dataset.searchActive = 'false';
+		dom.status.textContent = 'Search cancelled. Refine your question or search again.';
 	}
 
 	renderHistory(entries = readSearchHistory()) {
@@ -63,6 +75,7 @@ export class SearchApp {
 		document.body.dataset.searchActive = 'true';
 		this.intent.prepareMode(query);
 		setSearching(dom.form, true);
+		this.cancelControl.show();
 		dom.results.replaceChildren();
 		const state = this.state(query);
 		replaceSearchLocation(state);
@@ -74,7 +87,11 @@ export class SearchApp {
 				renderSearchError({ error, results: dom.results, status: dom.status });
 			}
 		} finally {
-			if (this.session.isCurrent(signal)) setSearching(dom.form, false);
+			if (this.session.isCurrent(signal)) {
+				this.cancelControl.hide();
+				setSearching(dom.form, false);
+				document.body.dataset.searchActive = 'false';
+			}
 		}
 	}
 

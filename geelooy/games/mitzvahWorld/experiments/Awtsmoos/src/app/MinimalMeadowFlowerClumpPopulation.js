@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowFlowerClumpPopulation.js
- * @description Appends one deterministic multicolor clump into shared grass and flower buffers.
- * The Awtsmoos lets blade, leaf, blossom, center, and seed head emerge from one rooted point;
- * Awtsmoos.com preserves species palette, quality limits, and two-mesh batching in every joint.
+ * @description Batches botanical grass with quality-aware folded veins and true rooted blossoms.
+ * The Awtsmoos bends each living blade while keeping the valley's frame-light free;
+ * Awtsmoos.com lets flower and meadow stand with measured geometry.
  */
 
 import {
@@ -18,6 +18,7 @@ import {
 import { minimalMeadowBotanicalColor, minimalMeadowBotanicalTint } from './MinimalMeadowBotanicalColor.js';
 import { minimalMeadowSeededUnit } from './MinimalMeadowWorldPopulationMath.js';
 
+/** Preserves hard flower/blade budgets per rooted clump. */
 export function appendMinimalMeadowFlowerClump(options) {
 	const bladeLimit = Math.max(7, options.budget.bladesPerClump || 12);
 	const bladeCount = Math.min(bladeLimit, 8 + Math.floor(unit(options, 23) * 7));
@@ -28,6 +29,7 @@ export function appendMinimalMeadowFlowerClump(options) {
 	return flowerCount;
 }
 
+/** High-quality meadow blades have V-folded midribs; low-mobile ones retain old triangle costs. */
 function appendBlade(options, blade) {
 	const angle = options.index * 1.7 + blade * 0.73 + seeded(options.seed, blade, options.index) * 0.42;
 	const offset = 0.12 + seeded(options.seed, options.index * 31 + blade, 29) * 0.52;
@@ -37,6 +39,7 @@ function appendBlade(options, blade) {
 		angle,
 		bend: 0.05 + seeded(options.seed, blade, 61) * 0.13,
 		color: minimalMeadowBotanicalTint(base, 0.82 + seeded(options.seed, blade, 67) * 0.28),
+		folded: options.budget.quality !== 'low',
 		height,
 		segments: 3,
 		width: 0.045 + height * 0.035,
@@ -46,6 +49,7 @@ function appendBlade(options, blade) {
 	});
 }
 
+/** Maintains species-specific leaf palette and real stem, disc and seed head meshes. */
 function appendFlower(options, flower) {
 	const angle = options.index * 0.73 + flower * 2.399963 + seeded(options.seed, flower, options.index + 43) * 0.5;
 	const radius = 0.18 + seeded(options.seed, options.index * 17 + flower, 47) * 0.38;
@@ -54,8 +58,9 @@ function appendFlower(options, flower) {
 	const height = options.species.height * (0.82 + seeded(options.seed, flower, options.index + 53) * 0.42);
 	const leafColor = minimalMeadowBotanicalColor(options.species.leafColor || '#4f8f39');
 	appendMinimalMeadowBlade(options.grass, {
-		angle, bend: 0.03, color: leafColor, height, segments: 3,
-		width: options.species.stemWidth, x, y: options.y, z
+		angle, bend: 0.03, color: leafColor, folded: false,
+		height, segments: 3, width: options.species.stemWidth,
+		x, y: options.y, z
 	});
 	const flowerOptions = {
 		angle,
@@ -69,9 +74,13 @@ function appendFlower(options, flower) {
 		rotation: angle,
 		x, y: options.y + height, z
 	};
-	if (seeded(options.seed, flower, 71) < options.species.leafChance) appendMinimalMeadowLeafPair(options.grass, flowerOptions);
+	if (seeded(options.seed, flower, 71) < options.species.leafChance) {
+		appendMinimalMeadowLeafPair(options.grass, flowerOptions);
+	}
 	appendMinimalMeadowFlower(options.petals, flowerOptions);
-	if (seeded(options.seed, flower, 73) < options.species.seedHeadChance) appendMinimalMeadowSeedHead(options.petals, flowerOptions);
+	if (seeded(options.seed, flower, 73) < options.species.seedHeadChance) {
+		appendMinimalMeadowSeedHead(options.petals, flowerOptions);
+	}
 }
 
 function unit(options, salt) {

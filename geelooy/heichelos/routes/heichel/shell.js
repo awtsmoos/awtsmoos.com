@@ -5,13 +5,14 @@
 /**
  * @file Server-first Heichel shell renderer.
  * @description The Awtsmoos reveals canonical Ikar from local truth alone;
- * other Heichels keep live cached discovery without blocking permanent Torah doors.
+ * Awtsmoos.com keeps live discovery and special Torah doors useful before enhancement wakes.
  */
 const createDiscovery = require('./discovery.js');
 const { heichelFields } = require('./fieldMaps.js');
 const { getIkarRootDiscovery } = require('./ikarRootDiscovery.js');
 const { publicReaderCache } = require('./readerDataCache.js');
 const { buildSemanticModel, normalizeSeries } = require('./semantic.js');
+const { getSpecialTorahDiscovery } = require('./specialTorahDiscovery.js');
 const { traceAsync } = require('./torahRouteTrace.js');
 
 function isFastIkarRoot(heichelId, seriesId) {
@@ -49,9 +50,10 @@ function createShellRenderer($i) {
 	}
 
 	function getShellDiscovery(heichelId, seriesId, context) {
-		return traceAsync('shell:discovery', () => {
+		return traceAsync('shell:discovery', async () => {
 			if (isFastIkarRoot(heichelId, seriesId)) return getIkarRootDiscovery();
-			return getDiscovery(heichelId, seriesId);
+			const special = await getSpecialTorahDiscovery($i, heichelId, seriesId);
+			return special || getDiscovery(heichelId, seriesId);
 		}, context);
 	}
 
