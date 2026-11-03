@@ -43,7 +43,7 @@ async function authenticate(elements, form, url, registering, closeMenu) {
 		});
 		const body = await response.text();
 		if (!responseSucceeded(response, body, registering)) {
-			throw new Error('The account server rejected this request.');
+			throw new Error(serverMessageFromBody(body) || 'The account server rejected this request.');
 		}
 		passwordInput.value = '';
 		if (registering) {
@@ -84,6 +84,15 @@ function responseSucceeded(response, body, registering) {
 	const normalized = body.toLowerCase();
 	if (normalized.includes('success') || normalized.includes('logged in')) return true;
 	return registering && (normalized.includes('account created') || normalized.includes('registered'));
+}
+
+/** Surfaces the auth message the server rendered into its response page, when present. */
+function serverMessageFromBody(body) {
+	const match = String(body || '').match(/id="serverMessage"[^>]*>([\s\S]*?)<\/div>/);
+	if (!match) return '';
+	const text = match[1].replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+	if (!text || text.startsWith('Please fill out the form')) return '';
+	return text;
 }
 
 function swapForms(hiddenForm, shownForm) {

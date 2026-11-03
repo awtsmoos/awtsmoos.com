@@ -21,7 +21,6 @@ function cleanUsername(value) {
 function cleanPassword(value) {
 	var password = String(value || "");
 	if (!password) return { ok: false, message: "Please enter a password." };
-	if (password.length < 8) return { ok: false, message: "Password must be at least 8 characters." };
 	if (password.length > 256) return { ok: false, message: "Password is too long." };
 	return { ok: true, password };
 }
