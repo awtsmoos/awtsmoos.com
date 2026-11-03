@@ -50,13 +50,13 @@
 	.multitrack-editor .multitrack-heading > span { display: none; }
 	.multitrack-history-button {
 		min-width: 54px;
-		min-height: 34px;
+		min-height: 40px;
 		padding: 5px;
 		font-size: .68rem;
 	}
 	.multitrack-editor .multitrack-toolbar { gap: 5px; }
 	.multitrack-editor .multitrack-essential-tools .multitrack-tool {
-		min-height: 39px;
+		min-height: 44px;
 		padding: 5px 2px;
 		font-size: .75rem;
 	}

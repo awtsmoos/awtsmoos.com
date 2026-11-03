@@ -4,11 +4,16 @@
 /**
  * @module MultitrackToolbarDom
  * The Awtsmoos gives the musician the music first, with every extra tool nearby;
- * Awtsmoos.com puts WAV in plain sight and hides optional conversion till asked why.
+ * Awtsmoos.com keeps WAV and zoom in sight while clip color and optional tools wait in the hidden sky.
  */
+import { createMultitrackClipMixDom } from './multitrackClipMixDom.js';
 import { createTimelineNavigation } from './multitrackTimelineNavigation.js';
 
-/** @returns {Object} Compact audio editor toolbar with one prominent WAV export. */
+const ESSENTIAL_ACTIONS = new Set([
+	'import', 'play', 'split', 'delete', 'downloadWav', 'fit', 'zoomOut', 'zoomIn'
+]);
+
+/** @returns {Object} Compact audio editor toolbar with prominent WAV and zoom controls. */
 export function createMultitrackToolbarDom() {
 	const root = document.createElement('div');
 	root.className = 'multitrack-toolbar';
@@ -17,7 +22,7 @@ export function createMultitrackToolbarDom() {
 	const advanced = document.createElement('details');
 	advanced.className = 'multitrack-extra-tools';
 	const summary = document.createElement('summary');
-	summary.textContent = 'More · WebM · Record · Zoom';
+	summary.textContent = 'More · Clip mix · WebM · Record';
 	const advancedGrid = document.createElement('div');
 	advancedGrid.className = 'multitrack-extra-grid';
 	advanced.append(summary, advancedGrid);
@@ -30,11 +35,11 @@ export function createMultitrackToolbarDom() {
 		button.textContent = text;
 		button.setAttribute('aria-label', label);
 		buttons.set(action, button);
-		(['import', 'play', 'split', 'delete', 'downloadWav'].includes(action)
-			? essentials : advancedGrid).appendChild(button);
+		(ESSENTIAL_ACTIONS.has(action) ? essentials : advancedGrid).appendChild(button);
 	}
 	const navigation = createTimelineNavigation();
-	advancedGrid.appendChild(navigation.root);
+	const clipMix = createMultitrackClipMixDom();
+	advancedGrid.append(navigation.root, clipMix);
 	const preferences = document.createElement('div');
 	preferences.className = 'multitrack-edit-preferences';
 	const snap = createSnapSelect();
@@ -53,11 +58,12 @@ export function createMultitrackToolbarDom() {
 	fileInput.multiple = true;
 	fileInput.className = 'multitrack-file-input';
 	root.append(essentials, preferences, advanced, fileInput);
-	return { root, buttons, snapSelect: snap.select, rippleCheckbox: checkbox,
-		fileInput, playheadInput: navigation.playheadInput, overview: navigation.overview };
+	return {
+		root, buttons, snapSelect: snap.select, rippleCheckbox: checkbox,
+		fileInput, playheadInput: navigation.playheadInput, overview: navigation.overview, clipMix
+	};
 }
 
-/** @returns {Array[]} Accessible editor actions. */
 function specifications() {
 	return [
 		['import', '＋ Add', 'Import audio clips'],
@@ -65,18 +71,17 @@ function specifications() {
 		['split', '✂ Cut', 'Cut at playhead'],
 		['delete', '⌫ Delete', 'Delete selected audio'],
 		['downloadWav', '↓ Download finished WAV', 'Download finished song as WAV audio'],
+		['fit', '⇤ Fit', 'Fit song around playhead'],
+		['zoomOut', '− Zoom', 'Zoom out around playhead'],
+		['zoomIn', '+ Zoom', 'Zoom in around playhead'],
 		['downloadWebm', '↓ WebM · compact', 'Optional compressed WebM/Opus audio download'],
 		['punch', '● Record', 'Record from playhead'],
-		['fit', '⇤ Fit', 'Fit song around playhead'],
 		['duplicate', '⧉ Copy', 'Duplicate clip'],
 		['repeat', '↻ Repeat', 'Repeat clip four times'],
-		['ratchet', '⚡ Ratchet', 'Ratchet audio'],
-		['zoomOut', '− Zoom', 'Zoom out around playhead'],
-		['zoomIn', '+ Zoom', 'Zoom in around playhead']
+		['ratchet', '⚡ Ratchet', 'Ratchet audio']
 	];
 }
 
-/** @returns {Object} Musical snap selector. */
 function createSnapSelect() {
 	const root = document.createElement('label');
 	root.className = 'multitrack-snap';

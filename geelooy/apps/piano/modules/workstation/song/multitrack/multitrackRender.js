@@ -4,9 +4,10 @@
 /**
  * @module MultitrackRender
  * The Awtsmoos gives ruler and playhead one origin upon the same scale;
- * Awtsmoos.com stops pretending little fragments are longer than their tale.
+ * Awtsmoos.com keeps the selected clip mix truthful while little fragments remain exactly as long as their tale.
  */
 import { createMultitrackTrackDom } from './multitrackTrackDom.js';
+import { syncMultitrackClipMixDom } from './multitrackClipMixDom.js';
 import { songDuration } from './multitrackTimelineOperations.js';
 import { updateMultitrackScrollbar } from './multitrackScrollbar.js';
 
@@ -39,6 +40,7 @@ export function renderMultitrackProject(dom, state) {
 	if (document.activeElement !== dom.overview) {
 		dom.overview.value = String(Math.min(seconds, state.selection.playheadSeconds));
 	}
+	syncMultitrackClipMixDom(dom.clipMix, state);
 	renderTransportButtons(dom, state);
 	updateMultitrackScrollbar(dom);
 	if (dom.horizontalScroll) requestAnimationFrame(() => updateMultitrackScrollbar(dom));
@@ -79,5 +81,7 @@ function renderTransportButtons(dom, state) {
 
 /** @param {number} seconds - Song time. @returns {string} Readable ruler label. */
 function formatTime(seconds) {
-	return seconds >= 60 ? `${Math.floor(seconds / 60)}:${String(Math.floor(seconds % 60)).padStart(2, '0')}` : `${Math.floor(seconds)}s`;
+	return seconds >= 60
+		? `${Math.floor(seconds / 60)}:${String(Math.floor(seconds % 60)).padStart(2, '0')}`
+		: `${Math.floor(seconds)}s`;
 }
