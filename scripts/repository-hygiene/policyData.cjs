@@ -44,6 +44,7 @@ const MEDIA_EXTENSIONS = new Set([
 const APPROVED_MEDIA_PREFIXES = [
 	'geelooy/apps/code/assets/',
 	'geelooy/games/seven-mitzvos/assets/models/reference-world/',
+	'geelooy/games/mitzvahWorld/icons/',
 	'geelooy/scripts/awtsmoos/MerkavaExecutor/'
 ];
 const MITZVAH_COMPACT_ROOT = 'geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/';
