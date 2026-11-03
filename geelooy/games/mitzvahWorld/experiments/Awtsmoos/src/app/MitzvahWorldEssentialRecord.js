@@ -32,6 +32,13 @@ export function applyEssentialDetails(record, details = {}) {
 	if ('resourceUrl' in details) record.resourceUrl = details.resourceUrl ?? null;
 }
 
+/** Erases a silence verdict once the genuine proof has completed the fact it named. */
+export function clearEssentialFailure(record) {
+	record.failureCode = null;
+	record.failureMessage = null;
+	record.failedAtMilliseconds = null;
+}
+
 export function isEssentialTerminal(status) {
 	return status === 'complete' || status === 'failed' || status === 'timed-out';
 }

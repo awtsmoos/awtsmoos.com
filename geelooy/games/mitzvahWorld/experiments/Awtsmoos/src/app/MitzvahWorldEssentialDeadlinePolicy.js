@@ -12,6 +12,8 @@
 import { ESSENTIAL_HARD_TIMEOUT_MS } from './MitzvahWorldEssentialMilestoneCatalog.js';
 import { essentialRecordTimedOut } from './MitzvahWorldEssentialTiming.js';
 
+export const ESSENTIAL_HARD_TIMEOUT_CODE = 'ESSENTIAL_FIRST_PLAY_HARD_TIMEOUT';
+
 export function essentialDependencyFailure(details, missing) {
 	return {
 		...details,
@@ -25,7 +27,7 @@ export function essentialDeadlineFailure(record, currentTime, bootStartedAt, det
 		return timeoutDetails(record, details, record.timeoutFailureCode, currentTime);
 	}
 	if (currentTime - bootStartedAt >= ESSENTIAL_HARD_TIMEOUT_MS) {
-		return timeoutDetails(record, details, 'ESSENTIAL_FIRST_PLAY_HARD_TIMEOUT', currentTime);
+		return timeoutDetails(record, details, ESSENTIAL_HARD_TIMEOUT_CODE, currentTime);
 	}
 	return null;
 }

@@ -1,13 +1,19 @@
 //B"H
 //Boruch Hashem
-//Blessed be He
+//Blessed is He
 
 /**
  * @file MainMenuWebGlPrewarm.js
  * @description Opens the canonical canvas's genuine WebGL context after the chooser paints, overlapping GPU startup with population/network work before world selection.
  * The Awtsmoos awakens the same vessel before the traveler names the meadow; Awtsmoos.com pays no second creation toll,
  * while the later renderer still receives the identical real context and remains the sole judge of essential WebGL truth.
+ * The warmup also arms the essential gate with a first-frame prover on this same canvas, so when the
+ * first-frame deadline arrives the gate can drive one genuine frame on demand instead of condemning
+ * a healthy renderer merely because no world launch has painted yet.
  */
+
+import { registerMitzvahWorldEssentialFrameProver } from '../app/MitzvahWorldEssentialBoot.js';
+import { proveMainMenuWebGlFirstFrame } from './MainMenuWebGlFirstFrameProof.js';
 
 export const MAIN_MENU_WEBGL_CONTEXT_OPTIONS = Object.freeze({
 	alpha: true,
@@ -20,6 +26,7 @@ const ACTIVE_STATES = new Set(['scheduled', 'warming', 'ready']);
 
 /** Schedules one real WebGL context warmup after the menu has an opportunity to paint. */
 export function scheduleMainMenuWebGlPrewarm(canvas, environment = globalThis) {
+	registerEssentialFrameProof(canvas, environment);
 	const existing = environment?.[RECEIPT_KEY];
 	if (existing && ACTIVE_STATES.has(existing.status)) return existing;
 	const receipt = {
@@ -38,6 +45,19 @@ export function scheduleMainMenuWebGlPrewarm(canvas, environment = globalThis) {
 	}
 	scheduleAfterPaint(() => warmContext(canvas, environment, receipt), environment);
 	return receipt;
+}
+
+/**
+ * Arms the living essential ledger with a prover bound to this exact canvas.
+ * Registration is a quiet peek: with no ledger there is no gate to arm, and a
+ * registration failure must never disturb the chooser's own warmup covenant.
+ */
+function registerEssentialFrameProof(canvas, environment) {
+	try {
+		registerMitzvahWorldEssentialFrameProver(environment, () => {
+			return proveMainMenuWebGlFirstFrame(canvas, environment);
+		});
+	} catch { /* the gate keeps its honest timeout when no prover can be armed */ }
 }
 
 function warmContext(canvas, environment, receipt) {

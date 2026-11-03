@@ -5,8 +5,7 @@
 /**
  * @file MitzvahWorldEssentialBoot.js
  * @description Publishes one environment-owned essential ledger across source modules and independently compiled runtime chunks.
- * The Awtsmoos is one while many vessels reveal His light; Awtsmoos.com lets entry, renderer, terrain, Chossid, and movement
- * testify into one shared Malchus whose silence clocks renew with real progress and whose outer first-play horizon stays finite.
+ * The Awtsmoos is one while many vessels reveal His light; Awtsmoos.com lets the five facts testify into one shared Malchus whose silence clocks renew with real progress and whose outer first-play horizon stays finite.
  */
 
 import { MitzvahWorldEssentialLedger } from './MitzvahWorldEssentialLedger.js';
@@ -73,18 +72,15 @@ function gateWebGlCapabilityBeforeLedger(environment) {
 		message: capability.message,
 		stage: 'webgl-capability-probe'
 	});
-	const error = new Error(capability.message);
-	error.name = 'WebGlCapabilityError';
-	error.code = WEBGL_UNAVAILABLE_CODE;
-	throw error;
+	throw Object.assign(new Error(capability.message), {
+		code: WEBGL_UNAVAILABLE_CODE,
+		name: 'WebGlCapabilityError'
+	});
 }
 
 function installLedger(environment, ledger) {
 	Object.defineProperty(environment, LEDGER_KEY, {
-		configurable: true,
-		enumerable: false,
-		value: ledger,
-		writable: false
+		configurable: true, enumerable: false, value: ledger, writable: false
 	});
 }
 
@@ -92,11 +88,19 @@ function readEntryEvidence(previous) {
 	const record = previous?.records?.get?.(CATALOG_MILESTONES.ENTRY_MODULE_EXECUTED);
 	if (!record || record.status !== 'complete') return null;
 	const evidence = {};
-	if (record.importerStage != null) evidence.importerStage = record.importerStage;
-	if (record.resourceUrl != null) evidence.resourceUrl = record.resourceUrl;
-	if (record.resourceStatus != null) evidence.resourceStatus = record.resourceStatus;
+	for (const key of ['importerStage', 'resourceUrl', 'resourceStatus']) {
+		if (record[key] != null) evidence[key] = record[key];
+	}
 	if (Object.keys(evidence).length === 0) evidence.importerStage = RESTART_ENTRY_STAGE;
 	return evidence;
+}
+
+/** Arms the already-living ledger with a first-frame prover; never creates a gate by itself. */
+export function registerMitzvahWorldEssentialFrameProver(environment, prover) {
+	const ledger = environment?.[LEDGER_KEY];
+	if (!ledger || typeof prover !== 'function') return null;
+	ledger.frameProver = prover;
+	return ledger.snapshot();
 }
 
 export function updateMitzvahWorldEssentialMilestone(environment, name, details = {}) {
